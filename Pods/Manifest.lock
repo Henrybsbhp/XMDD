@@ -1,0 +1,83 @@
+PODS:
+  - AFNetworking (2.5.2):
+    - AFNetworking/NSURLConnection (= 2.5.2)
+    - AFNetworking/NSURLSession (= 2.5.2)
+    - AFNetworking/Reachability (= 2.5.2)
+    - AFNetworking/Security (= 2.5.2)
+    - AFNetworking/Serialization (= 2.5.2)
+    - AFNetworking/UIKit (= 2.5.2)
+  - AFNetworking/NSURLConnection (2.5.2):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.5.2):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.5.2)
+  - AFNetworking/Security (2.5.2)
+  - AFNetworking/Serialization (2.5.2)
+  - AFNetworking/UIKit (2.5.2):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - AFNetworking2-RACExtensions (0.0.1):
+    - AFNetworking (~> 2.0)
+    - ReactiveCocoa (~> 2.0)
+  - cdebug (0.1.1)
+  - ckkit (0.0.1)
+  - FoundationExtension (0.60):
+    - cdebug (~> 0.1)
+    - FoundationExtension/AddressBookExtension (= 0.60)
+    - FoundationExtension/CocoaExtension (= 0.60)
+    - FoundationExtension/FoundationExtension (= 0.60)
+    - FoundationExtension/UIKitExtension (= 0.60)
+  - FoundationExtension/AddressBookExtension (0.60):
+    - cdebug (~> 0.1)
+    - FoundationExtension/FoundationExtension
+  - FoundationExtension/FoundationExtension (0.60):
+    - cdebug (~> 0.1)
+  - FoundationExtension/UIKitExtension (0.60):
+    - cdebug (~> 0.1)
+    - FoundationExtension/FoundationExtension
+  - IQKeyboardManager (3.2.0.3)
+  - Masonry (0.6.1)
+  - ReactiveCocoa (2.3.1):
+    - ReactiveCocoa/UI (= 2.3.1)
+  - ReactiveCocoa/Core (2.3.1):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.3.1)
+  - ReactiveCocoa/UI (2.3.1):
+    - ReactiveCocoa/Core
+  - SFHFKeychainUtils (0.0.1)
+
+DEPENDENCIES:
+  - AFNetworking (~> 2.0)
+  - AFNetworking2-RACExtensions (~> 0.0.1)
+  - ckkit (from `ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git`)
+  - FoundationExtension (~> 0.60)
+  - IQKeyboardManager (~> 3.2.0.3)
+  - Masonry (~> 0.6.1)
+  - ReactiveCocoa (~> 2.3.1)
+  - SFHFKeychainUtils (~> 0.0.1)
+
+EXTERNAL SOURCES:
+  ckkit:
+    :git: ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git
+
+CHECKOUT OPTIONS:
+  ckkit:
+    :commit: d62804170c75cfdce24f1ca9839bb3340093c21f
+    :git: ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git
+
+SPEC CHECKSUMS:
+  AFNetworking: fefbce9660acb17f48ae0011292d4da0f457bf36
+  AFNetworking2-RACExtensions: 7da57313a9cdd9d32b4ed17ea35d59dfd084df83
+  cdebug: 32bf88e54d22ad187b23122872b3977e5d0c1bde
+  ckkit: 2e8dad1e80be7be6caf85c194043762a2765c33c
+  FoundationExtension: 76157113e6486ad95ea2be32a06f0d3f48172d56
+  IQKeyboardManager: 7b071d1284b47b1c0c19891a042c2c65f118fa85
+  Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
+  ReactiveCocoa: 334468a83b2c5f669f7cfb9a084415ee23219b4f
+  SFHFKeychainUtils: 9576b411a79a058f4d5381ace6f3242b9a62e664
+
+COCOAPODS: 0.35.0

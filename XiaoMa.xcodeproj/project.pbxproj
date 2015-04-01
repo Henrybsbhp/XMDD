@@ -1,0 +1,535 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		06380E56572F1DCE6105BE83 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B54A6CD3F3426144CC6768CC /* libPods.a */; };
+		1883D8F31ACB99AC002A4D19 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1883D8F11ACB99AC002A4D19 /* LaunchScreen.xib */; };
+		1883D8FF1ACB99AC002A4D19 /* XiaoMaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D8FE1ACB99AC002A4D19 /* XiaoMaTests.m */; };
+		1883D9101ACBBE30002A4D19 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D90F1ACBBE30002A4D19 /* main.m */; };
+		1883D9141ACBBE5E002A4D19 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1883D9131ACBBE5E002A4D19 /* Images.xcassets */; };
+		1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D9181ACBC2E0002A4D19 /* AppDelegate.m */; };
+		1883D91D1ACBC2F0002A4D19 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D91C1ACBC2F0002A4D19 /* ViewController.m */; };
+		1883D9221ACBC418002A4D19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1883D9201ACBC418002A4D19 /* Main.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1883D8F91ACB99AC002A4D19 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1883D8D71ACB99AC002A4D19 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1883D8DE1ACB99AC002A4D19;
+			remoteInfo = XiaoMa;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1883D8DF1ACB99AC002A4D19 /* XiaoMa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XiaoMa.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1883D8F21ACB99AC002A4D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		1883D8F81ACB99AC002A4D19 /* XiaoMaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XiaoMaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1883D8FD1ACB99AC002A4D19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1883D8FE1ACB99AC002A4D19 /* XiaoMaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XiaoMaTests.m; sourceTree = "<group>"; };
+		1883D90F1ACBBE30002A4D19 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Misc/main.m; sourceTree = "<group>"; };
+		1883D9131ACBBE5E002A4D19 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		1883D9171ACBC2E0002A4D19 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Class/AppDelegate.h; sourceTree = "<group>"; };
+		1883D9181ACBC2E0002A4D19 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Class/AppDelegate.m; sourceTree = "<group>"; };
+		1883D91B1ACBC2F0002A4D19 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = Class/ViewController.h; sourceTree = "<group>"; };
+		1883D91C1ACBC2F0002A4D19 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = Class/ViewController.m; sourceTree = "<group>"; };
+		1883D9211ACBC418002A4D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = XiaoMa/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
+		1883D9231ACBC4A9002A4D19 /* XiaoMa.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = XiaoMa.h; path = Class/XiaoMa.h; sourceTree = "<group>"; };
+		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		B54A6CD3F3426144CC6768CC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA94042FD235B5154105FE58 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1883D8DC1ACB99AC002A4D19 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06380E56572F1DCE6105BE83 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1883D8F51ACB99AC002A4D19 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1883D8D61ACB99AC002A4D19 = {
+			isa = PBXGroup;
+			children = (
+				1883D8E11ACB99AC002A4D19 /* XiaoMa */,
+				1883D8FB1ACB99AC002A4D19 /* XiaoMaTests */,
+				1883D8E01ACB99AC002A4D19 /* Products */,
+				C5BD8500918CA8D253037804 /* Pods */,
+				C8447CD201C36C94165168FF /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		1883D8E01ACB99AC002A4D19 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1883D8DF1ACB99AC002A4D19 /* XiaoMa.app */,
+				1883D8F81ACB99AC002A4D19 /* XiaoMaTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1883D8E11ACB99AC002A4D19 /* XiaoMa */ = {
+			isa = PBXGroup;
+			children = (
+				1883D91E1ACBC2F5002A4D19 /* Network */,
+				1883D91A1ACBC2E4002A4D19 /* View */,
+				1883D9161ACBBE7A002A4D19 /* Singleton */,
+				1883D9121ACBBE5E002A4D19 /* Resource */,
+				1883D8E21ACB99AC002A4D19 /* Supporting Files */,
+			);
+			path = XiaoMa;
+			sourceTree = "<group>";
+		};
+		1883D8E21ACB99AC002A4D19 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1883D90F1ACBBE30002A4D19 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1883D8FB1ACB99AC002A4D19 /* XiaoMaTests */ = {
+			isa = PBXGroup;
+			children = (
+				1883D8FE1ACB99AC002A4D19 /* XiaoMaTests.m */,
+				1883D8FC1ACB99AC002A4D19 /* Supporting Files */,
+			);
+			path = XiaoMaTests;
+			sourceTree = "<group>";
+		};
+		1883D8FC1ACB99AC002A4D19 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1883D8FD1ACB99AC002A4D19 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1883D9121ACBBE5E002A4D19 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				1883D9151ACBBE68002A4D19 /* Storyboard */,
+				1883D9131ACBBE5E002A4D19 /* Images.xcassets */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		1883D9151ACBBE68002A4D19 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				1883D9201ACBC418002A4D19 /* Main.storyboard */,
+				1883D8F11ACB99AC002A4D19 /* LaunchScreen.xib */,
+			);
+			name = Storyboard;
+			sourceTree = "<group>";
+		};
+		1883D9161ACBBE7A002A4D19 /* Singleton */ = {
+			isa = PBXGroup;
+			children = (
+				1883D9171ACBC2E0002A4D19 /* AppDelegate.h */,
+				1883D9181ACBC2E0002A4D19 /* AppDelegate.m */,
+				1883D9231ACBC4A9002A4D19 /* XiaoMa.h */,
+			);
+			name = Singleton;
+			sourceTree = "<group>";
+		};
+		1883D91A1ACBC2E4002A4D19 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1883D91B1ACBC2F0002A4D19 /* ViewController.h */,
+				1883D91C1ACBC2F0002A4D19 /* ViewController.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		1883D91E1ACBC2F5002A4D19 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Network;
+			sourceTree = "<group>";
+		};
+		C5BD8500918CA8D253037804 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */,
+				CA94042FD235B5154105FE58 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		C8447CD201C36C94165168FF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B54A6CD3F3426144CC6768CC /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1883D8DE1ACB99AC002A4D19 /* XiaoMa */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1883D9021ACB99AC002A4D19 /* Build configuration list for PBXNativeTarget "XiaoMa" */;
+			buildPhases = (
+				CD8A2DC7E0FE392AD26DEF18 /* Check Pods Manifest.lock */,
+				1883D8DB1ACB99AC002A4D19 /* Sources */,
+				1883D8DC1ACB99AC002A4D19 /* Frameworks */,
+				1883D8DD1ACB99AC002A4D19 /* Resources */,
+				A104FC05B6EB7D321E22B017 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = XiaoMa;
+			productName = XiaoMa;
+			productReference = 1883D8DF1ACB99AC002A4D19 /* XiaoMa.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1883D8F71ACB99AC002A4D19 /* XiaoMaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1883D9051ACB99AC002A4D19 /* Build configuration list for PBXNativeTarget "XiaoMaTests" */;
+			buildPhases = (
+				1883D8F41ACB99AC002A4D19 /* Sources */,
+				1883D8F51ACB99AC002A4D19 /* Frameworks */,
+				1883D8F61ACB99AC002A4D19 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1883D8FA1ACB99AC002A4D19 /* PBXTargetDependency */,
+			);
+			name = XiaoMaTests;
+			productName = XiaoMaTests;
+			productReference = 1883D8F81ACB99AC002A4D19 /* XiaoMaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1883D8D71ACB99AC002A4D19 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0620;
+				ORGANIZATIONNAME = jiangjunchen;
+				TargetAttributes = {
+					1883D8DE1ACB99AC002A4D19 = {
+						CreatedOnToolsVersion = 6.2;
+					};
+					1883D8F71ACB99AC002A4D19 = {
+						CreatedOnToolsVersion = 6.2;
+						TestTargetID = 1883D8DE1ACB99AC002A4D19;
+					};
+				};
+			};
+			buildConfigurationList = 1883D8DA1ACB99AC002A4D19 /* Build configuration list for PBXProject "XiaoMa" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1883D8D61ACB99AC002A4D19;
+			productRefGroup = 1883D8E01ACB99AC002A4D19 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1883D8DE1ACB99AC002A4D19 /* XiaoMa */,
+				1883D8F71ACB99AC002A4D19 /* XiaoMaTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1883D8DD1ACB99AC002A4D19 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1883D9221ACBC418002A4D19 /* Main.storyboard in Resources */,
+				1883D8F31ACB99AC002A4D19 /* LaunchScreen.xib in Resources */,
+				1883D9141ACBBE5E002A4D19 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1883D8F61ACB99AC002A4D19 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A104FC05B6EB7D321E22B017 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CD8A2DC7E0FE392AD26DEF18 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1883D8DB1ACB99AC002A4D19 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1883D91D1ACBC2F0002A4D19 /* ViewController.m in Sources */,
+				1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */,
+				1883D9101ACBBE30002A4D19 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1883D8F41ACB99AC002A4D19 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1883D8FF1ACB99AC002A4D19 /* XiaoMaTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1883D8FA1ACB99AC002A4D19 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1883D8DE1ACB99AC002A4D19 /* XiaoMa */;
+			targetProxy = 1883D8F91ACB99AC002A4D19 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1883D8F11ACB99AC002A4D19 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1883D8F21ACB99AC002A4D19 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		1883D9201ACBC418002A4D19 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1883D9211ACBC418002A4D19 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1883D9001ACB99AC002A4D19 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		1883D9011ACB99AC002A4D19 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1883D9031ACB99AC002A4D19 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = XiaoMa/Misc/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		1883D9041ACB99AC002A4D19 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA94042FD235B5154105FE58 /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = XiaoMa/Misc/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		1883D9061ACB99AC002A4D19 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = XiaoMaTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XiaoMa.app/XiaoMa";
+			};
+			name = Debug;
+		};
+		1883D9071ACB99AC002A4D19 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = XiaoMaTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XiaoMa.app/XiaoMa";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1883D8DA1ACB99AC002A4D19 /* Build configuration list for PBXProject "XiaoMa" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1883D9001ACB99AC002A4D19 /* Debug */,
+				1883D9011ACB99AC002A4D19 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1883D9021ACB99AC002A4D19 /* Build configuration list for PBXNativeTarget "XiaoMa" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1883D9031ACB99AC002A4D19 /* Debug */,
+				1883D9041ACB99AC002A4D19 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1883D9051ACB99AC002A4D19 /* Build configuration list for PBXNativeTarget "XiaoMaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1883D9061ACB99AC002A4D19 /* Debug */,
+				1883D9071ACB99AC002A4D19 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1883D8D71ACB99AC002A4D19 /* Project object */;
+}
