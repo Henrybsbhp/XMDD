@@ -8,13 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		06380E56572F1DCE6105BE83 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B54A6CD3F3426144CC6768CC /* libPods.a */; };
+		187532D31ACCDEEF004CB777 /* HomePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 187532D21ACCDEEF004CB777 /* HomePageVC.m */; };
 		1883D8F31ACB99AC002A4D19 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1883D8F11ACB99AC002A4D19 /* LaunchScreen.xib */; };
 		1883D8FF1ACB99AC002A4D19 /* XiaoMaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D8FE1ACB99AC002A4D19 /* XiaoMaTests.m */; };
 		1883D9101ACBBE30002A4D19 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D90F1ACBBE30002A4D19 /* main.m */; };
 		1883D9141ACBBE5E002A4D19 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1883D9131ACBBE5E002A4D19 /* Images.xcassets */; };
 		1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D9181ACBC2E0002A4D19 /* AppDelegate.m */; };
-		1883D91D1ACBC2F0002A4D19 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D91C1ACBC2F0002A4D19 /* ViewController.m */; };
 		1883D9221ACBC418002A4D19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1883D9201ACBC418002A4D19 /* Main.storyboard */; };
+		1883D9271ACCD6C0002A4D19 /* MainTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D9261ACCD6C0002A4D19 /* MainTabBarVC.m */; };
+		1883D9331ACCDA8B002A4D19 /* DefaultStyleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D9321ACCDA8B002A4D19 /* DefaultStyleModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +30,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		187532D01ACCDD58004CB777 /* Contants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Contants.h; path = Class/Contants.h; sourceTree = "<group>"; };
+		187532D11ACCDEEF004CB777 /* HomePageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageVC.h; sourceTree = "<group>"; };
+		187532D21ACCDEEF004CB777 /* HomePageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageVC.m; sourceTree = "<group>"; };
 		1883D8DF1ACB99AC002A4D19 /* XiaoMa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XiaoMa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1883D8F21ACB99AC002A4D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		1883D8F81ACB99AC002A4D19 /* XiaoMaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XiaoMaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -37,10 +42,12 @@
 		1883D9131ACBBE5E002A4D19 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1883D9171ACBC2E0002A4D19 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Class/AppDelegate.h; sourceTree = "<group>"; };
 		1883D9181ACBC2E0002A4D19 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Class/AppDelegate.m; sourceTree = "<group>"; };
-		1883D91B1ACBC2F0002A4D19 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = Class/ViewController.h; sourceTree = "<group>"; };
-		1883D91C1ACBC2F0002A4D19 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = Class/ViewController.m; sourceTree = "<group>"; };
 		1883D9211ACBC418002A4D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = XiaoMa/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
 		1883D9231ACBC4A9002A4D19 /* XiaoMa.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = XiaoMa.h; path = Class/XiaoMa.h; sourceTree = "<group>"; };
+		1883D9251ACCD6C0002A4D19 /* MainTabBarVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTabBarVC.h; sourceTree = "<group>"; };
+		1883D9261ACCD6C0002A4D19 /* MainTabBarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabBarVC.m; sourceTree = "<group>"; };
+		1883D9311ACCDA8B002A4D19 /* DefaultStyleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultStyleModel.h; path = Class/DefaultStyleModel.h; sourceTree = "<group>"; };
+		1883D9321ACCDA8B002A4D19 /* DefaultStyleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultStyleModel.m; path = Class/DefaultStyleModel.m; sourceTree = "<group>"; };
 		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		B54A6CD3F3426144CC6768CC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA94042FD235B5154105FE58 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -88,6 +95,7 @@
 		1883D8E11ACB99AC002A4D19 /* XiaoMa */ = {
 			isa = PBXGroup;
 			children = (
+				1883D9301ACCDA7A002A4D19 /* Model */,
 				1883D91E1ACBC2F5002A4D19 /* Network */,
 				1883D91A1ACBC2E4002A4D19 /* View */,
 				1883D9161ACBBE7A002A4D19 /* Singleton */,
@@ -146,6 +154,7 @@
 				1883D9171ACBC2E0002A4D19 /* AppDelegate.h */,
 				1883D9181ACBC2E0002A4D19 /* AppDelegate.m */,
 				1883D9231ACBC4A9002A4D19 /* XiaoMa.h */,
+				187532D01ACCDD58004CB777 /* Contants.h */,
 			);
 			name = Singleton;
 			sourceTree = "<group>";
@@ -153,10 +162,11 @@
 		1883D91A1ACBC2E4002A4D19 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				1883D91B1ACBC2F0002A4D19 /* ViewController.h */,
-				1883D91C1ACBC2F0002A4D19 /* ViewController.m */,
+				1883D9281ACCD80F002A4D19 /* Home */,
+				1883D9241ACCD689002A4D19 /* MainTab */,
 			);
 			name = View;
+			path = Class;
 			sourceTree = "<group>";
 		};
 		1883D91E1ACBC2F5002A4D19 /* Network */ = {
@@ -164,6 +174,33 @@
 			children = (
 			);
 			name = Network;
+			sourceTree = "<group>";
+		};
+		1883D9241ACCD689002A4D19 /* MainTab */ = {
+			isa = PBXGroup;
+			children = (
+				1883D9251ACCD6C0002A4D19 /* MainTabBarVC.h */,
+				1883D9261ACCD6C0002A4D19 /* MainTabBarVC.m */,
+			);
+			name = MainTab;
+			sourceTree = "<group>";
+		};
+		1883D9281ACCD80F002A4D19 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				187532D11ACCDEEF004CB777 /* HomePageVC.h */,
+				187532D21ACCDEEF004CB777 /* HomePageVC.m */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		1883D9301ACCDA7A002A4D19 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1883D9311ACCDA8B002A4D19 /* DefaultStyleModel.h */,
+				1883D9321ACCDA8B002A4D19 /* DefaultStyleModel.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		C5BD8500918CA8D253037804 /* Pods */ = {
@@ -318,9 +355,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1883D91D1ACBC2F0002A4D19 /* ViewController.m in Sources */,
 				1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */,
+				1883D9331ACCDA8B002A4D19 /* DefaultStyleModel.m in Sources */,
+				187532D31ACCDEEF004CB777 /* HomePageVC.m in Sources */,
 				1883D9101ACBBE30002A4D19 /* main.m in Sources */,
+				1883D9271ACCD6C0002A4D19 /* MainTabBarVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
