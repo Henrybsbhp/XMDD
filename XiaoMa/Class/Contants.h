@@ -9,6 +9,8 @@
 #ifndef XiaoMa_Contants_h
 #define XiaoMa_Contants_h
 
-#define kDefTintColor   1
+#define kDefTintColor   HEXCOLOR(@"#15ac1f")
+#define kDefLineColor   HEXCOLOR(@"#e0e0e0")
+#define gAppMgr     [AppManager sharedManager]
 
 #endif

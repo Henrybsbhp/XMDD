@@ -8,6 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		06380E56572F1DCE6105BE83 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B54A6CD3F3426144CC6768CC /* libPods.a */; };
+		1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4951ACD3B0900BBCC96 /* NSBundle+SYPaginator.m */; };
+		1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4971ACD3B0900BBCC96 /* SYPageControl.m */; };
+		1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4991ACD3B0900BBCC96 /* SYPageView.m */; };
+		1816F4A51ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1816F49B1ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist */; };
+		1816F4A61ACD3B0900BBCC96 /* SYPaginatorScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F49D1ACD3B0900BBCC96 /* SYPaginatorScrollView.m */; };
+		1816F4A71ACD3B0900BBCC96 /* SYPaginatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F49F1ACD3B0900BBCC96 /* SYPaginatorView.m */; };
+		1816F4A81ACD3B0900BBCC96 /* SYPaginatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4A11ACD3B0900BBCC96 /* SYPaginatorViewController.m */; };
+		1816F4AC1ACE74C000BBCC96 /* Carwash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1816F4AA1ACE74C000BBCC96 /* Carwash.storyboard */; };
+		1816F4B01ACE75FB00BBCC96 /* CarWashTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4AF1ACE75FB00BBCC96 /* CarWashTableVC.m */; };
+		1816F4B41ACE767200BBCC96 /* UIStoryboard+Expansion.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4B31ACE767200BBCC96 /* UIStoryboard+Expansion.m */; };
+		1816F4B81AD36D9E00BBCC96 /* JTRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4B71AD36D9E00BBCC96 /* JTRatingView.m */; };
+		1816F4BD1AD3A8AD00BBCC96 /* JTNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4BC1AD3A8AD00BBCC96 /* JTNavigationController.m */; };
+		184E40C31AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C21AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m */; };
+		184E40C61AD3B58F00EFC3A6 /* UIView+Layer.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C51AD3B58F00EFC3A6 /* UIView+Layer.m */; };
+		184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C91AD3B6DC00EFC3A6 /* JTTableViewCell.m */; };
+		184E40CE1AD3BBB600EFC3A6 /* ShopDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40CD1AD3BBB600EFC3A6 /* ShopDetailVC.m */; };
+		184E40D21AD3D01B00EFC3A6 /* JTShop.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40D11AD3D01B00EFC3A6 /* JTShop.m */; };
 		187532D31ACCDEEF004CB777 /* HomePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 187532D21ACCDEEF004CB777 /* HomePageVC.m */; };
 		1883D8F31ACB99AC002A4D19 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1883D8F11ACB99AC002A4D19 /* LaunchScreen.xib */; };
 		1883D8FF1ACB99AC002A4D19 /* XiaoMaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D8FE1ACB99AC002A4D19 /* XiaoMaTests.m */; };
@@ -17,6 +34,14 @@
 		1883D9221ACBC418002A4D19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1883D9201ACBC418002A4D19 /* Main.storyboard */; };
 		1883D9271ACCD6C0002A4D19 /* MainTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D9261ACCD6C0002A4D19 /* MainTabBarVC.m */; };
 		1883D9331ACCDA8B002A4D19 /* DefaultStyleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D9321ACCDA8B002A4D19 /* DefaultStyleModel.m */; };
+		189B30AF1AD4D661001D7288 /* JTLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30AC1AD4D661001D7288 /* JTLabel.m */; };
+		189B30B01AD4D661001D7288 /* JTTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30AE1AD4D661001D7288 /* JTTableViewController.m */; };
+		189B30B31AD4F7AC001D7288 /* UIView+CustomForXIB.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30B21AD4F7AC001D7288 /* UIView+CustomForXIB.m */; };
+		189B30B71AD50627001D7288 /* PayForWashCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30B61AD50627001D7288 /* PayForWashCarVC.m */; };
+		189B30BA1AD51EF2001D7288 /* JTUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30B91AD51EF2001D7288 /* JTUser.m */; };
+		189B30BD1AD524EC001D7288 /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30BC1AD524EC001D7288 /* AppManager.m */; };
+		189B30C01AD62E57001D7288 /* PaymentSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30BF1AD62E57001D7288 /* PaymentSuccessVC.m */; };
+		189B30C31AD64310001D7288 /* ChooseCarwashTicketVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30C21AD64310001D7288 /* ChooseCarwashTicketVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +55,39 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1816F4941ACD3B0900BBCC96 /* NSBundle+SYPaginator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+SYPaginator.h"; sourceTree = "<group>"; };
+		1816F4951ACD3B0900BBCC96 /* NSBundle+SYPaginator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+SYPaginator.m"; sourceTree = "<group>"; };
+		1816F4961ACD3B0900BBCC96 /* SYPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPageControl.h; sourceTree = "<group>"; };
+		1816F4971ACD3B0900BBCC96 /* SYPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPageControl.m; sourceTree = "<group>"; };
+		1816F4981ACD3B0900BBCC96 /* SYPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPageView.h; sourceTree = "<group>"; };
+		1816F4991ACD3B0900BBCC96 /* SYPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPageView.m; sourceTree = "<group>"; };
+		1816F49A1ACD3B0900BBCC96 /* SYPaginator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPaginator.h; sourceTree = "<group>"; };
+		1816F49B1ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SYPaginatorResources-Info.plist"; sourceTree = "<group>"; };
+		1816F49C1ACD3B0900BBCC96 /* SYPaginatorScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPaginatorScrollView.h; sourceTree = "<group>"; };
+		1816F49D1ACD3B0900BBCC96 /* SYPaginatorScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPaginatorScrollView.m; sourceTree = "<group>"; };
+		1816F49E1ACD3B0900BBCC96 /* SYPaginatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPaginatorView.h; sourceTree = "<group>"; };
+		1816F49F1ACD3B0900BBCC96 /* SYPaginatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPaginatorView.m; sourceTree = "<group>"; };
+		1816F4A01ACD3B0900BBCC96 /* SYPaginatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPaginatorViewController.h; sourceTree = "<group>"; };
+		1816F4A11ACD3B0900BBCC96 /* SYPaginatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPaginatorViewController.m; sourceTree = "<group>"; };
+		1816F4AB1ACE74C000BBCC96 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = XiaoMa/Base.lproj/Carwash.storyboard; sourceTree = SOURCE_ROOT; };
+		1816F4AE1ACE75FB00BBCC96 /* CarWashTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarWashTableVC.h; sourceTree = "<group>"; };
+		1816F4AF1ACE75FB00BBCC96 /* CarWashTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarWashTableVC.m; sourceTree = "<group>"; };
+		1816F4B21ACE767200BBCC96 /* UIStoryboard+Expansion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIStoryboard+Expansion.h"; path = "Class/UIStoryboard+Expansion.h"; sourceTree = "<group>"; };
+		1816F4B31ACE767200BBCC96 /* UIStoryboard+Expansion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIStoryboard+Expansion.m"; path = "Class/UIStoryboard+Expansion.m"; sourceTree = "<group>"; };
+		1816F4B61AD36D9E00BBCC96 /* JTRatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTRatingView.h; path = Class/JTRatingView.h; sourceTree = "<group>"; };
+		1816F4B71AD36D9E00BBCC96 /* JTRatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTRatingView.m; path = Class/JTRatingView.m; sourceTree = "<group>"; };
+		1816F4BB1AD3A8AD00BBCC96 /* JTNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTNavigationController.h; path = Class/JTNavigationController.h; sourceTree = "<group>"; };
+		1816F4BC1AD3A8AD00BBCC96 /* JTNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTNavigationController.m; path = Class/JTNavigationController.m; sourceTree = "<group>"; };
+		184E40C11AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIBarButtonItem+CustomStyle.h"; path = "Class/UIBarButtonItem+CustomStyle.h"; sourceTree = "<group>"; };
+		184E40C21AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIBarButtonItem+CustomStyle.m"; path = "Class/UIBarButtonItem+CustomStyle.m"; sourceTree = "<group>"; };
+		184E40C41AD3B58F00EFC3A6 /* UIView+Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Layer.h"; path = "Class/UIView+Layer.h"; sourceTree = "<group>"; };
+		184E40C51AD3B58F00EFC3A6 /* UIView+Layer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Layer.m"; path = "Class/UIView+Layer.m"; sourceTree = "<group>"; };
+		184E40C81AD3B6DC00EFC3A6 /* JTTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTTableViewCell.h; path = Class/JTTableViewCell.h; sourceTree = "<group>"; };
+		184E40C91AD3B6DC00EFC3A6 /* JTTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTTableViewCell.m; path = Class/JTTableViewCell.m; sourceTree = "<group>"; };
+		184E40CC1AD3BBB600EFC3A6 /* ShopDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopDetailVC.h; sourceTree = "<group>"; };
+		184E40CD1AD3BBB600EFC3A6 /* ShopDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailVC.m; sourceTree = "<group>"; };
+		184E40D01AD3D01B00EFC3A6 /* JTShop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTShop.h; path = Class/JTShop.h; sourceTree = "<group>"; };
+		184E40D11AD3D01B00EFC3A6 /* JTShop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTShop.m; path = Class/JTShop.m; sourceTree = "<group>"; };
 		187532D01ACCDD58004CB777 /* Contants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Contants.h; path = Class/Contants.h; sourceTree = "<group>"; };
 		187532D11ACCDEEF004CB777 /* HomePageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageVC.h; sourceTree = "<group>"; };
 		187532D21ACCDEEF004CB777 /* HomePageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageVC.m; sourceTree = "<group>"; };
@@ -48,6 +106,22 @@
 		1883D9261ACCD6C0002A4D19 /* MainTabBarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabBarVC.m; sourceTree = "<group>"; };
 		1883D9311ACCDA8B002A4D19 /* DefaultStyleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultStyleModel.h; path = Class/DefaultStyleModel.h; sourceTree = "<group>"; };
 		1883D9321ACCDA8B002A4D19 /* DefaultStyleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultStyleModel.m; path = Class/DefaultStyleModel.m; sourceTree = "<group>"; };
+		189B30AB1AD4D661001D7288 /* JTLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTLabel.h; path = Class/JTLabel.h; sourceTree = "<group>"; };
+		189B30AC1AD4D661001D7288 /* JTLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTLabel.m; path = Class/JTLabel.m; sourceTree = "<group>"; };
+		189B30AD1AD4D661001D7288 /* JTTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTTableViewController.h; path = Class/JTTableViewController.h; sourceTree = "<group>"; };
+		189B30AE1AD4D661001D7288 /* JTTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTTableViewController.m; path = Class/JTTableViewController.m; sourceTree = "<group>"; };
+		189B30B11AD4F7AC001D7288 /* UIView+CustomForXIB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+CustomForXIB.h"; path = "Class/UIView+CustomForXIB.h"; sourceTree = "<group>"; };
+		189B30B21AD4F7AC001D7288 /* UIView+CustomForXIB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+CustomForXIB.m"; path = "Class/UIView+CustomForXIB.m"; sourceTree = "<group>"; };
+		189B30B51AD50627001D7288 /* PayForWashCarVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayForWashCarVC.h; sourceTree = "<group>"; };
+		189B30B61AD50627001D7288 /* PayForWashCarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayForWashCarVC.m; sourceTree = "<group>"; };
+		189B30B81AD51EF2001D7288 /* JTUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTUser.h; path = Class/JTUser.h; sourceTree = "<group>"; };
+		189B30B91AD51EF2001D7288 /* JTUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTUser.m; path = Class/JTUser.m; sourceTree = "<group>"; };
+		189B30BB1AD524EC001D7288 /* AppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppManager.h; path = Class/AppManager.h; sourceTree = "<group>"; };
+		189B30BC1AD524EC001D7288 /* AppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppManager.m; path = Class/AppManager.m; sourceTree = "<group>"; };
+		189B30BE1AD62E57001D7288 /* PaymentSuccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentSuccessVC.h; sourceTree = "<group>"; };
+		189B30BF1AD62E57001D7288 /* PaymentSuccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentSuccessVC.m; sourceTree = "<group>"; };
+		189B30C11AD64310001D7288 /* ChooseCarwashTicketVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseCarwashTicketVC.h; sourceTree = "<group>"; };
+		189B30C21AD64310001D7288 /* ChooseCarwashTicketVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseCarwashTicketVC.m; sourceTree = "<group>"; };
 		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		B54A6CD3F3426144CC6768CC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA94042FD235B5154105FE58 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -72,6 +146,119 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				1816F4931ACD3B0900BBCC96 /* SYPaginator */,
+			);
+			path = Vendor;
+			sourceTree = "<group>";
+		};
+		1816F4931ACD3B0900BBCC96 /* SYPaginator */ = {
+			isa = PBXGroup;
+			children = (
+				1816F4941ACD3B0900BBCC96 /* NSBundle+SYPaginator.h */,
+				1816F4951ACD3B0900BBCC96 /* NSBundle+SYPaginator.m */,
+				1816F4961ACD3B0900BBCC96 /* SYPageControl.h */,
+				1816F4971ACD3B0900BBCC96 /* SYPageControl.m */,
+				1816F4981ACD3B0900BBCC96 /* SYPageView.h */,
+				1816F4991ACD3B0900BBCC96 /* SYPageView.m */,
+				1816F49A1ACD3B0900BBCC96 /* SYPaginator.h */,
+				1816F49B1ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist */,
+				1816F49C1ACD3B0900BBCC96 /* SYPaginatorScrollView.h */,
+				1816F49D1ACD3B0900BBCC96 /* SYPaginatorScrollView.m */,
+				1816F49E1ACD3B0900BBCC96 /* SYPaginatorView.h */,
+				1816F49F1ACD3B0900BBCC96 /* SYPaginatorView.m */,
+				1816F4A01ACD3B0900BBCC96 /* SYPaginatorViewController.h */,
+				1816F4A11ACD3B0900BBCC96 /* SYPaginatorViewController.m */,
+			);
+			path = SYPaginator;
+			sourceTree = "<group>";
+		};
+		1816F4AD1ACE75C900BBCC96 /* CarWash */ = {
+			isa = PBXGroup;
+			children = (
+				1816F4AE1ACE75FB00BBCC96 /* CarWashTableVC.h */,
+				1816F4AF1ACE75FB00BBCC96 /* CarWashTableVC.m */,
+				184E40CB1AD3BB9500EFC3A6 /* Shop */,
+				189B30B41AD505D6001D7288 /* Pay */,
+			);
+			name = CarWash;
+			sourceTree = "<group>";
+		};
+		1816F4B11ACE762900BBCC96 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				189B30B11AD4F7AC001D7288 /* UIView+CustomForXIB.h */,
+				189B30B21AD4F7AC001D7288 /* UIView+CustomForXIB.m */,
+				184E40C41AD3B58F00EFC3A6 /* UIView+Layer.h */,
+				184E40C51AD3B58F00EFC3A6 /* UIView+Layer.m */,
+				1816F4B21ACE767200BBCC96 /* UIStoryboard+Expansion.h */,
+				1816F4B31ACE767200BBCC96 /* UIStoryboard+Expansion.m */,
+			);
+			name = Category;
+			sourceTree = "<group>";
+		};
+		1816F4B51AD36D5100BBCC96 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				189B30AA1AD4D62C001D7288 /* TableAutoHeight */,
+				184E40C71AD3B6C700EFC3A6 /* Cell */,
+				1816F4BA1AD3A88F00BBCC96 /* Navigation */,
+				1816F4B91AD3A88300BBCC96 /* RatingView */,
+			);
+			name = Component;
+			sourceTree = "<group>";
+		};
+		1816F4B91AD3A88300BBCC96 /* RatingView */ = {
+			isa = PBXGroup;
+			children = (
+				1816F4B61AD36D9E00BBCC96 /* JTRatingView.h */,
+				1816F4B71AD36D9E00BBCC96 /* JTRatingView.m */,
+			);
+			name = RatingView;
+			sourceTree = "<group>";
+		};
+		1816F4BA1AD3A88F00BBCC96 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				1816F4BB1AD3A8AD00BBCC96 /* JTNavigationController.h */,
+				1816F4BC1AD3A8AD00BBCC96 /* JTNavigationController.m */,
+				184E40C11AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.h */,
+				184E40C21AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m */,
+			);
+			name = Navigation;
+			sourceTree = "<group>";
+		};
+		184E40C71AD3B6C700EFC3A6 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				184E40C81AD3B6DC00EFC3A6 /* JTTableViewCell.h */,
+				184E40C91AD3B6DC00EFC3A6 /* JTTableViewCell.m */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
+		184E40CB1AD3BB9500EFC3A6 /* Shop */ = {
+			isa = PBXGroup;
+			children = (
+				184E40CC1AD3BBB600EFC3A6 /* ShopDetailVC.h */,
+				184E40CD1AD3BBB600EFC3A6 /* ShopDetailVC.m */,
+			);
+			name = Shop;
+			sourceTree = "<group>";
+		};
+		184E40CF1AD3CFF300EFC3A6 /* Dataset */ = {
+			isa = PBXGroup;
+			children = (
+				184E40D01AD3D01B00EFC3A6 /* JTShop.h */,
+				184E40D11AD3D01B00EFC3A6 /* JTShop.m */,
+				189B30B81AD51EF2001D7288 /* JTUser.h */,
+				189B30B91AD51EF2001D7288 /* JTUser.m */,
+			);
+			name = Dataset;
+			sourceTree = "<group>";
+		};
 		1883D8D61ACB99AC002A4D19 = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +282,9 @@
 		1883D8E11ACB99AC002A4D19 /* XiaoMa */ = {
 			isa = PBXGroup;
 			children = (
+				1816F4B51AD36D5100BBCC96 /* Component */,
+				1816F4B11ACE762900BBCC96 /* Category */,
+				1816F4921ACD3AFE00BBCC96 /* Vendor */,
 				1883D9301ACCDA7A002A4D19 /* Model */,
 				1883D91E1ACBC2F5002A4D19 /* Network */,
 				1883D91A1ACBC2E4002A4D19 /* View */,
@@ -144,6 +334,7 @@
 			children = (
 				1883D9201ACBC418002A4D19 /* Main.storyboard */,
 				1883D8F11ACB99AC002A4D19 /* LaunchScreen.xib */,
+				1816F4AA1ACE74C000BBCC96 /* Carwash.storyboard */,
 			);
 			name = Storyboard;
 			sourceTree = "<group>";
@@ -153,6 +344,8 @@
 			children = (
 				1883D9171ACBC2E0002A4D19 /* AppDelegate.h */,
 				1883D9181ACBC2E0002A4D19 /* AppDelegate.m */,
+				189B30BB1AD524EC001D7288 /* AppManager.h */,
+				189B30BC1AD524EC001D7288 /* AppManager.m */,
 				1883D9231ACBC4A9002A4D19 /* XiaoMa.h */,
 				187532D01ACCDD58004CB777 /* Contants.h */,
 			);
@@ -162,6 +355,7 @@
 		1883D91A1ACBC2E4002A4D19 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				1816F4AD1ACE75C900BBCC96 /* CarWash */,
 				1883D9281ACCD80F002A4D19 /* Home */,
 				1883D9241ACCD689002A4D19 /* MainTab */,
 			);
@@ -197,10 +391,35 @@
 		1883D9301ACCDA7A002A4D19 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				184E40CF1AD3CFF300EFC3A6 /* Dataset */,
 				1883D9311ACCDA8B002A4D19 /* DefaultStyleModel.h */,
 				1883D9321ACCDA8B002A4D19 /* DefaultStyleModel.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		189B30AA1AD4D62C001D7288 /* TableAutoHeight */ = {
+			isa = PBXGroup;
+			children = (
+				189B30AB1AD4D661001D7288 /* JTLabel.h */,
+				189B30AC1AD4D661001D7288 /* JTLabel.m */,
+				189B30AD1AD4D661001D7288 /* JTTableViewController.h */,
+				189B30AE1AD4D661001D7288 /* JTTableViewController.m */,
+			);
+			name = TableAutoHeight;
+			sourceTree = "<group>";
+		};
+		189B30B41AD505D6001D7288 /* Pay */ = {
+			isa = PBXGroup;
+			children = (
+				189B30B51AD50627001D7288 /* PayForWashCarVC.h */,
+				189B30B61AD50627001D7288 /* PayForWashCarVC.m */,
+				189B30C11AD64310001D7288 /* ChooseCarwashTicketVC.h */,
+				189B30C21AD64310001D7288 /* ChooseCarwashTicketVC.m */,
+				189B30BE1AD62E57001D7288 /* PaymentSuccessVC.h */,
+				189B30BF1AD62E57001D7288 /* PaymentSuccessVC.m */,
+			);
+			name = Pay;
 			sourceTree = "<group>";
 		};
 		C5BD8500918CA8D253037804 /* Pods */ = {
@@ -304,7 +523,9 @@
 			files = (
 				1883D9221ACBC418002A4D19 /* Main.storyboard in Resources */,
 				1883D8F31ACB99AC002A4D19 /* LaunchScreen.xib in Resources */,
+				1816F4A51ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist in Resources */,
 				1883D9141ACBBE5E002A4D19 /* Images.xcassets in Resources */,
+				1816F4AC1ACE74C000BBCC96 /* Carwash.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,10 +576,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1816F4A71ACD3B0900BBCC96 /* SYPaginatorView.m in Sources */,
+				1816F4BD1AD3A8AD00BBCC96 /* JTNavigationController.m in Sources */,
+				1816F4B01ACE75FB00BBCC96 /* CarWashTableVC.m in Sources */,
+				1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */,
 				1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */,
+				189B30BD1AD524EC001D7288 /* AppManager.m in Sources */,
+				184E40CE1AD3BBB600EFC3A6 /* ShopDetailVC.m in Sources */,
+				184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */,
+				189B30C01AD62E57001D7288 /* PaymentSuccessVC.m in Sources */,
+				189B30B01AD4D661001D7288 /* JTTableViewController.m in Sources */,
 				1883D9331ACCDA8B002A4D19 /* DefaultStyleModel.m in Sources */,
+				189B30BA1AD51EF2001D7288 /* JTUser.m in Sources */,
+				1816F4B41ACE767200BBCC96 /* UIStoryboard+Expansion.m in Sources */,
+				189B30B31AD4F7AC001D7288 /* UIView+CustomForXIB.m in Sources */,
+				1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */,
+				1816F4B81AD36D9E00BBCC96 /* JTRatingView.m in Sources */,
 				187532D31ACCDEEF004CB777 /* HomePageVC.m in Sources */,
 				1883D9101ACBBE30002A4D19 /* main.m in Sources */,
+				189B30B71AD50627001D7288 /* PayForWashCarVC.m in Sources */,
+				184E40C61AD3B58F00EFC3A6 /* UIView+Layer.m in Sources */,
+				189B30AF1AD4D661001D7288 /* JTLabel.m in Sources */,
+				1816F4A81ACD3B0900BBCC96 /* SYPaginatorViewController.m in Sources */,
+				184E40D21AD3D01B00EFC3A6 /* JTShop.m in Sources */,
+				1816F4A61ACD3B0900BBCC96 /* SYPaginatorScrollView.m in Sources */,
+				184E40C31AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m in Sources */,
+				189B30C31AD64310001D7288 /* ChooseCarwashTicketVC.m in Sources */,
+				1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */,
 				1883D9271ACCD6C0002A4D19 /* MainTabBarVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -382,6 +626,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		1816F4AA1ACE74C000BBCC96 /* Carwash.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1816F4AB1ACE74C000BBCC96 /* Base */,
+			);
+			name = Carwash.storyboard;
+			sourceTree = "<group>";
+		};
 		1883D8F11ACB99AC002A4D19 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
