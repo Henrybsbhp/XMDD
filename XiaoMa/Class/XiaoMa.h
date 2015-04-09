@@ -11,6 +11,17 @@
 
 #import <CKKit.h>
 #import <ReactiveCocoa.h>
+#import <RACEXTScope.h>
+#import <FoundationExtension.h> 
+#import <UIKitExtension.h>
+#import "UIStoryboard+Expansion.h"
+
+//单例
+#import "AppManager.h"
+
+#import "JTNavigationController.h"
+#import "JTTableViewCell.h"
+
 #import "Contants.h"
 
 #endif
