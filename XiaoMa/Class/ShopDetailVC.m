@@ -33,7 +33,7 @@
 {
     JTShop *shop = [JTShop new];
     shop.title = @"神州洗车";
-    shop.logoUrl = @"tmp_ad";
+    shop.logoUrl = @"tmp_1";
     shop.allowABC = @YES;
     shop.allowTicket = @YES;
     shop.rating = @4.0;
@@ -65,14 +65,14 @@
     JTShopComment *comment1 = [JTShopComment new];
     comment1.userName = @"超能陆战队";
     comment1.time = @"2015.01.05";
-    comment1.avatarUrl = @"tmp_ad";
+    comment1.avatarUrl = @"tmp_a1";
     comment1.rating = @4;
     comment1.content = @"第一次过来洗车，洗的很干净。老板服务态度很好";
     
     JTShopComment *comment2 = [JTShopComment new];
     comment2.userName = @"陈大白";
     comment2.time = @"2015.01.02";
-    comment2.avatarUrl = @"tmp_ad1";
+    comment2.avatarUrl = @"tmp_a2";
     comment2.rating = @5;
     comment2.content = @"洗的很仔细嘛，就给好评了";
     shop.comments = @[comment1, comment2];
@@ -192,14 +192,14 @@
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1003];
     UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
-    UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
+    UILabel *timeL = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
     
     logoV.image = [UIImage imageNamed:shop.logoUrl];
     titleL.text = shop.title;
     ratingV.ratingValue = [shop.rating integerValue];
     ratingL.text = [NSString stringWithFormat:@"%@分", shop.rating];
-    addrL.text = shop.address;
+    timeL.text = [NSString stringWithFormat:@"营业时间：%@-%@", shop.openTime, shop.closeTime];
     distantL.text = [NSString stringWithFormat:@"%@km", shop.distance];
     
     return cell;
