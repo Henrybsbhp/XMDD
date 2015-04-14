@@ -144,6 +144,9 @@
     if (!imgV.superview) {
         [self addSubview:imgV];
     }
+    else {
+        [self bringSubviewToFront:imgV];
+    }
 }
 
 ///截图

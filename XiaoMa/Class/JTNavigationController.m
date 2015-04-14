@@ -19,8 +19,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationBar.translucent = NO;
+
     if (IOSVersionGreaterThanOrEqualTo(@"7.0")) {
+        self.navigationBar.translucent = NO;
         self.interactivePopGestureRecognizer.enabled = YES;
     }
 }
