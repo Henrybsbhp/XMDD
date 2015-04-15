@@ -205,51 +205,5 @@
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/ShopDetailVC.m"
-            timestampString = "450760460.423314"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
-            landmarkName = "-tableView:numberOfRowsInSection:"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ShopDetailVC tableView:numberOfRowsInSection:]"
-                  moduleName = "XiaoMa"
-                  urlString = "file:///Users/jt/Documents/xmdd_ios/XiaoMa/Class/ShopDetailVC.m"
-                  timestampString = "450760512.978871"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "131"
-                  endingLineNumber = "131"
-                  offsetFromSymbolStart = "76">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ShopDetailVC tableView:numberOfRowsInSection:]"
-                  moduleName = "XiaoMa"
-                  urlString = "file:///Users/jt/Documents/xmdd_ios/XiaoMa/Class/ShopDetailVC.m"
-                  timestampString = "450760512.979485"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "131"
-                  endingLineNumber = "131"
-                  offsetFromSymbolStart = "223">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
