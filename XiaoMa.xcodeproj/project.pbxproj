@@ -57,6 +57,20 @@
 		6BC2209C1AD7AAF300A4310E /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2209B1AD7AAF300A4310E /* NetworkManager.m */; };
 		6BC2209F1AD7AC9D00A4310E /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2209E1AD7AC9D00A4310E /* NSString+MD5.m */; };
 		6BC220A21AD7B22300A4310E /* AFHTTPRequestOperationManager+ReactiveCocoa.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC220A11AD7B22300A4310E /* AFHTTPRequestOperationManager+ReactiveCocoa.m */; };
+		189B30C71AD664D7001D7288 /* InsuranceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30C61AD664D7001D7288 /* InsuranceVC.m */; };
+		189B30CA1AD664F5001D7288 /* Insurance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 189B30C81AD664F5001D7288 /* Insurance.storyboard */; };
+		189B30CD1AD762B1001D7288 /* EnquiryInsuranceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30CC1AD762B1001D7288 /* EnquiryInsuranceVC.m */; };
+		189B30D41AD799AF001D7288 /* RACSignal+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30D31AD799AF001D7288 /* RACSignal+Extension.m */; };
+		189B30FF1AD7A85A001D7288 /* Common.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 189B30FD1AD7A85A001D7288 /* Common.storyboard */; };
+		189B31031AD7A935001D7288 /* DatePackerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B31021AD7A935001D7288 /* DatePackerVC.m */; };
+		189B31061AD7B7F5001D7288 /* UIView+Shake.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B31051AD7B7F5001D7288 /* UIView+Shake.m */; };
+		189B31091AD7C5B3001D7288 /* InsuranceDirectSellingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B31081AD7C5B3001D7288 /* InsuranceDirectSellingVC.m */; };
+		189B310C1ADA499C001D7288 /* EnquiryResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B310B1ADA499C001D7288 /* EnquiryResultVC.m */; };
+		189B31101ADA597D001D7288 /* UploadInfomationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B310F1ADA597D001D7288 /* UploadInfomationVC.m */; };
+		189B31141ADB60AE001D7288 /* JGActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B31131ADB60AD001D7288 /* JGActionSheet.m */; };
+		189B31161ADBDF07001D7288 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 189B31151ADBDF07001D7288 /* MobileCoreServices.framework */; };
+		189B311A1ADBEBE8001D7288 /* PolicyInfomationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B31191ADBEBE8001D7288 /* PolicyInfomationVC.m */; };
+		189B311D1ADBEFDF001D7288 /* policy.json in Resources */ = {isa = PBXBuildFile; fileRef = 189B311C1ADBEFDF001D7288 /* policy.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +151,30 @@
 		189B30BF1AD62E57001D7288 /* PaymentSuccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentSuccessVC.m; sourceTree = "<group>"; };
 		189B30C11AD64310001D7288 /* ChooseCarwashTicketVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseCarwashTicketVC.h; sourceTree = "<group>"; };
 		189B30C21AD64310001D7288 /* ChooseCarwashTicketVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseCarwashTicketVC.m; sourceTree = "<group>"; };
+		189B30C51AD664D7001D7288 /* InsuranceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceVC.h; sourceTree = "<group>"; };
+		189B30C61AD664D7001D7288 /* InsuranceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceVC.m; sourceTree = "<group>"; };
+		189B30C91AD664F5001D7288 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = XiaoMa/Base.lproj/Insurance.storyboard; sourceTree = SOURCE_ROOT; };
+		189B30CB1AD762B1001D7288 /* EnquiryInsuranceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnquiryInsuranceVC.h; sourceTree = "<group>"; };
+		189B30CC1AD762B1001D7288 /* EnquiryInsuranceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnquiryInsuranceVC.m; sourceTree = "<group>"; };
+		189B30D21AD799AF001D7288 /* RACSignal+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "RACSignal+Extension.h"; path = "Class/RACSignal+Extension.h"; sourceTree = "<group>"; };
+		189B30D31AD799AF001D7288 /* RACSignal+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RACSignal+Extension.m"; path = "Class/RACSignal+Extension.m"; sourceTree = "<group>"; };
+		189B30FE1AD7A85A001D7288 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = XiaoMa/Base.lproj/Common.storyboard; sourceTree = SOURCE_ROOT; };
+		189B31011AD7A935001D7288 /* DatePackerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePackerVC.h; sourceTree = "<group>"; };
+		189B31021AD7A935001D7288 /* DatePackerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePackerVC.m; sourceTree = "<group>"; };
+		189B31041AD7B7F5001D7288 /* UIView+Shake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Shake.h"; path = "Class/UIView+Shake.h"; sourceTree = "<group>"; };
+		189B31051AD7B7F5001D7288 /* UIView+Shake.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Shake.m"; path = "Class/UIView+Shake.m"; sourceTree = "<group>"; };
+		189B31071AD7C5B3001D7288 /* InsuranceDirectSellingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceDirectSellingVC.h; sourceTree = "<group>"; };
+		189B31081AD7C5B3001D7288 /* InsuranceDirectSellingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceDirectSellingVC.m; sourceTree = "<group>"; };
+		189B310A1ADA499C001D7288 /* EnquiryResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnquiryResultVC.h; sourceTree = "<group>"; };
+		189B310B1ADA499C001D7288 /* EnquiryResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnquiryResultVC.m; sourceTree = "<group>"; };
+		189B310E1ADA597D001D7288 /* UploadInfomationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadInfomationVC.h; sourceTree = "<group>"; };
+		189B310F1ADA597D001D7288 /* UploadInfomationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadInfomationVC.m; sourceTree = "<group>"; };
+		189B31121ADB60AD001D7288 /* JGActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JGActionSheet.h; sourceTree = "<group>"; };
+		189B31131ADB60AD001D7288 /* JGActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JGActionSheet.m; sourceTree = "<group>"; };
+		189B31151ADBDF07001D7288 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		189B31181ADBEBE8001D7288 /* PolicyInfomationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PolicyInfomationVC.h; sourceTree = "<group>"; };
+		189B31191ADBEBE8001D7288 /* PolicyInfomationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PolicyInfomationVC.m; sourceTree = "<group>"; };
+		189B311C1ADBEFDF001D7288 /* policy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = policy.json; sourceTree = "<group>"; };
 		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6BBAB8AB1ADB6A8A00EC342F /* AuthByVcodeOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AuthByVcodeOp.h; path = Class/AuthByVcodeOp.h; sourceTree = "<group>"; };
 		6BBAB8AC1ADB6A8A00EC342F /* AuthByVcodeOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AuthByVcodeOp.m; path = Class/AuthByVcodeOp.m; sourceTree = "<group>"; };
@@ -178,6 +216,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				189B31161ADBDF07001D7288 /* MobileCoreServices.framework in Frameworks */,
 				06380E56572F1DCE6105BE83 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -196,6 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				6BBAB8B71ADBC21600EC342F /* DESConverUtil */,
+				189B31111ADB60AD001D7288 /* JGActionSheet */,
 				1816F4931ACD3B0900BBCC96 /* SYPaginator */,
 			);
 			path = Vendor;
@@ -240,6 +280,10 @@
 				6BC2209E1AD7AC9D00A4310E /* NSString+MD5.m */,
 				6BC220971AD7804800A4310E /* NSMutableDictionary+AddParams.h */,
 				6BC220981AD7804800A4310E /* NSMutableDictionary+AddParams.m */,
+				189B31041AD7B7F5001D7288 /* UIView+Shake.h */,
+				189B31051AD7B7F5001D7288 /* UIView+Shake.m */,
+				189B30D21AD799AF001D7288 /* RACSignal+Extension.h */,
+				189B30D31AD799AF001D7288 /* RACSignal+Extension.m */,
 				189B30B11AD4F7AC001D7288 /* UIView+CustomForXIB.h */,
 				189B30B21AD4F7AC001D7288 /* UIView+CustomForXIB.m */,
 				184E40C41AD3B58F00EFC3A6 /* UIView+Layer.h */,
@@ -253,6 +297,7 @@
 		1816F4B51AD36D5100BBCC96 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				189B30CE1AD782C1001D7288 /* SignalSupport */,
 				189B30AA1AD4D62C001D7288 /* TableAutoHeight */,
 				184E40C71AD3B6C700EFC3A6 /* Cell */,
 				1816F4BA1AD3A88F00BBCC96 /* Navigation */,
@@ -375,6 +420,7 @@
 		1883D9121ACBBE5E002A4D19 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				189B311B1ADBEFCC001D7288 /* JSON */,
 				1883D9151ACBBE68002A4D19 /* Storyboard */,
 				1883D9131ACBBE5E002A4D19 /* Images.xcassets */,
 			);
@@ -387,6 +433,8 @@
 				1883D9201ACBC418002A4D19 /* Main.storyboard */,
 				1883D8F11ACB99AC002A4D19 /* LaunchScreen.xib */,
 				1816F4AA1ACE74C000BBCC96 /* Carwash.storyboard */,
+				189B30C81AD664F5001D7288 /* Insurance.storyboard */,
+				189B30FD1AD7A85A001D7288 /* Common.storyboard */,
 			);
 			name = Storyboard;
 			sourceTree = "<group>";
@@ -407,6 +455,8 @@
 		1883D91A1ACBC2E4002A4D19 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				189B31001AD7A921001D7288 /* Common */,
+				189B30C41AD6649A001D7288 /* Insurance */,
 				1816F4AD1ACE75C900BBCC96 /* CarWash */,
 				1883D9281ACCD80F002A4D19 /* Home */,
 				1883D9241ACCD689002A4D19 /* MainTab */,
@@ -521,6 +571,74 @@
 				6BBAB8C61ADD1ED900EC342F /* GetShopByDistanceOp.m */,
 			);
 			name = Op;
+            sourceTree = "<group>";
+        };
+		189B30C41AD6649A001D7288 /* Insurance */ = {
+			isa = PBXGroup;
+			children = (
+				189B31171ADBEBA0001D7288 /* DirectSelling */,
+				189B310D1ADA5911001D7288 /* Enquiry */,
+				189B30C51AD664D7001D7288 /* InsuranceVC.h */,
+				189B30C61AD664D7001D7288 /* InsuranceVC.m */,
+			);
+			name = Insurance;
+			sourceTree = "<group>";
+		};
+		189B30CE1AD782C1001D7288 /* SignalSupport */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = SignalSupport;
+			sourceTree = "<group>";
+		};
+		189B31001AD7A921001D7288 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				189B31011AD7A935001D7288 /* DatePackerVC.h */,
+				189B31021AD7A935001D7288 /* DatePackerVC.m */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		189B310D1ADA5911001D7288 /* Enquiry */ = {
+			isa = PBXGroup;
+			children = (
+				189B30CB1AD762B1001D7288 /* EnquiryInsuranceVC.h */,
+				189B30CC1AD762B1001D7288 /* EnquiryInsuranceVC.m */,
+				189B310A1ADA499C001D7288 /* EnquiryResultVC.h */,
+				189B310B1ADA499C001D7288 /* EnquiryResultVC.m */,
+				189B310E1ADA597D001D7288 /* UploadInfomationVC.h */,
+				189B310F1ADA597D001D7288 /* UploadInfomationVC.m */,
+			);
+			name = Enquiry;
+			sourceTree = "<group>";
+		};
+		189B31111ADB60AD001D7288 /* JGActionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				189B31121ADB60AD001D7288 /* JGActionSheet.h */,
+				189B31131ADB60AD001D7288 /* JGActionSheet.m */,
+			);
+			path = JGActionSheet;
+			sourceTree = "<group>";
+		};
+		189B31171ADBEBA0001D7288 /* DirectSelling */ = {
+			isa = PBXGroup;
+			children = (
+				189B31071AD7C5B3001D7288 /* InsuranceDirectSellingVC.h */,
+				189B31081AD7C5B3001D7288 /* InsuranceDirectSellingVC.m */,
+				189B31181ADBEBE8001D7288 /* PolicyInfomationVC.h */,
+				189B31191ADBEBE8001D7288 /* PolicyInfomationVC.m */,
+			);
+			name = DirectSelling;
+			sourceTree = "<group>";
+		};
+		189B311B1ADBEFCC001D7288 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				189B311C1ADBEFDF001D7288 /* policy.json */,
+			);
+			path = JSON;
 			sourceTree = "<group>";
 		};
 		C5BD8500918CA8D253037804 /* Pods */ = {
@@ -535,6 +653,7 @@
 		C8447CD201C36C94165168FF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				189B31151ADBDF07001D7288 /* MobileCoreServices.framework */,
 				B54A6CD3F3426144CC6768CC /* libPods.a */,
 			);
 			name = Frameworks;
@@ -623,7 +742,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1883D9221ACBC418002A4D19 /* Main.storyboard in Resources */,
+				189B30CA1AD664F5001D7288 /* Insurance.storyboard in Resources */,
 				1883D8F31ACB99AC002A4D19 /* LaunchScreen.xib in Resources */,
+				189B311D1ADBEFDF001D7288 /* policy.json in Resources */,
+				189B30FF1AD7A85A001D7288 /* Common.storyboard in Resources */,
 				1816F4A51ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist in Resources */,
 				1883D9141ACBBE5E002A4D19 /* Images.xcassets in Resources */,
 				1816F4AC1ACE74C000BBCC96 /* Carwash.storyboard in Resources */,
@@ -679,18 +801,22 @@
 			files = (
 				1816F4A71ACD3B0900BBCC96 /* SYPaginatorView.m in Sources */,
 				6BC220991AD7804800A4310E /* NSMutableDictionary+AddParams.m in Sources */,
+				189B31101ADA597D001D7288 /* UploadInfomationVC.m in Sources */,
 				1816F4BD1AD3A8AD00BBCC96 /* JTNavigationController.m in Sources */,
 				1816F4B01ACE75FB00BBCC96 /* CarWashTableVC.m in Sources */,
 				1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */,
 				1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */,
 				189B30BD1AD524EC001D7288 /* AppManager.m in Sources */,
 				6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */,
+				189B30D41AD799AF001D7288 /* RACSignal+Extension.m in Sources */,
 				184E40CE1AD3BBB600EFC3A6 /* ShopDetailVC.m in Sources */,
 				184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */,
+				189B31091AD7C5B3001D7288 /* InsuranceDirectSellingVC.m in Sources */,
 				189B30C01AD62E57001D7288 /* PaymentSuccessVC.m in Sources */,
 				6BBAB8B31ADB777500EC342F /* GetVcodeOp.m in Sources */,
 				6BC220A21AD7B22300A4310E /* AFHTTPRequestOperationManager+ReactiveCocoa.m in Sources */,
 				6BBAB8B01ADB754500EC342F /* GetTokenOp.m in Sources */,
+				189B30CD1AD762B1001D7288 /* EnquiryInsuranceVC.m in Sources */,
 				189B30B01AD4D661001D7288 /* JTTableViewController.m in Sources */,
 				1883D9331ACCDA8B002A4D19 /* DefaultStyleModel.m in Sources */,
 				189B30BA1AD51EF2001D7288 /* JTUser.m in Sources */,
@@ -699,6 +825,7 @@
 				1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */,
 				6BBAB8BF1ADBC21600EC342F /* ConverUtil.m in Sources */,
 				1816F4B81AD36D9E00BBCC96 /* JTRatingView.m in Sources */,
+				189B311A1ADBEBE8001D7288 /* PolicyInfomationVC.m in Sources */,
 				187532D31ACCDEEF004CB777 /* HomePageVC.m in Sources */,
 				6BC2209F1AD7AC9D00A4310E /* NSString+MD5.m in Sources */,
 				1883D9101ACBBE30002A4D19 /* main.m in Sources */,
@@ -709,9 +836,13 @@
 				6BC220961AD7801C00A4310E /* BaseOp.m in Sources */,
 				6BC2209C1AD7AAF300A4310E /* NetworkManager.m in Sources */,
 				184E40C61AD3B58F00EFC3A6 /* UIView+Layer.m in Sources */,
+				189B310C1ADA499C001D7288 /* EnquiryResultVC.m in Sources */,
+				189B31031AD7A935001D7288 /* DatePackerVC.m in Sources */,
 				189B30AF1AD4D661001D7288 /* JTLabel.m in Sources */,
 				6BBAB8C41ADCBD1400EC342F /* GetShopByRangeOp.m in Sources */,
+				189B31061AD7B7F5001D7288 /* UIView+Shake.m in Sources */,
 				1816F4A81ACD3B0900BBCC96 /* SYPaginatorViewController.m in Sources */,
+				189B31141ADB60AE001D7288 /* JGActionSheet.m in Sources */,
 				184E40D21AD3D01B00EFC3A6 /* JTShop.m in Sources */,
 				1816F4A61ACD3B0900BBCC96 /* SYPaginatorScrollView.m in Sources */,
 				184E40C31AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m in Sources */,
@@ -719,6 +850,7 @@
 				189B30C31AD64310001D7288 /* ChooseCarwashTicketVC.m in Sources */,
 				6BBAB8C71ADD1ED900EC342F /* GetShopByDistanceOp.m in Sources */,
 				1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */,
+				189B30C71AD664D7001D7288 /* InsuranceVC.m in Sources */,
 				1883D9271ACCD6C0002A4D19 /* MainTabBarVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -765,6 +897,22 @@
 				1883D9211ACBC418002A4D19 /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		189B30C81AD664F5001D7288 /* Insurance.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				189B30C91AD664F5001D7288 /* Base */,
+			);
+			name = Insurance.storyboard;
+			sourceTree = "<group>";
+		};
+		189B30FD1AD7A85A001D7288 /* Common.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				189B30FE1AD7A85A001D7288 /* Base */,
+			);
+			name = Common.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -852,10 +1000,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: fang wei (KXBH2Y68BE)";
 				INFOPLIST_FILE = XiaoMa/Misc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "7ce6c275-fbb9-4c39-8f3b-8cb6ebc2590e";
 			};
 			name = Debug;
 		};
@@ -865,10 +1015,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Suzhou Longtang Information and Technology Co.,Ltd";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Suzhou Longtang Information and Technology Co.,Ltd";
 				INFOPLIST_FILE = XiaoMa/Misc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "5c663493-e5d0-4217-aed1-968a373e7675";
 			};
 			name = Release;
 		};

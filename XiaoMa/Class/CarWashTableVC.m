@@ -77,6 +77,18 @@
 - (void)reloadDatasource
 {
     self.datasource = self.datasource2;
+
+//    self.datasource = @[@{@"title":@"神州洗车",@"logo":@"tmp_1",@"rating":@4.0,@"addr":@"西湖区黄龙路1号沃尔玛超市二楼",
+//                          @"distance":@0.77,@"integral":@10000,@"oldPrice":@35,@"newPrice":@20},
+//                        @{@"title":@"兴旺洗车冲洗店",@"logo":@"tmp_2",@"rating":@3.0,@"addr":@"河东路23号河东社区附近",
+//                          @"distance":@0.98,@"integral":@20000,@"oldPrice":@35,@"newPrice":@20},
+//                        @{@"title":@"小小洗车",@"logo":@"tmp_3",@"rating":@3.0,@"addr":@"文三路232",
+//                          @"distance":@0.98,@"integral":@15000,@"oldPrice":@30,@"newPrice":@15},
+//                        @{@"title":@"同福汽车美容",@"logo":@"tmp_4.jpg",@"rating":@3.0,@"addr":@"上塘路绍兴路口",
+//                          @"distance":@0.98,@"integral":@10000,@"oldPrice":@40,@"newPrice":@23},
+//                        @{@"title":@"洛门洗车装潢",@"logo":@"tmp_5.jpg",@"rating":@3.0,@"addr":@"文一路物美超市附近",
+//                          @"distance":@0.98,@"integral":@10000,@"oldPrice":@20,@"newPrice":@15}];
+
     [self.tableView reloadData];
 }
 #pragma mark - Action

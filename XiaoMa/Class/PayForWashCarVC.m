@@ -23,7 +23,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 49, 0);
     [self setupCheckBoxHelper];
     [self setupBottomView];
     [self reloadDatasource];

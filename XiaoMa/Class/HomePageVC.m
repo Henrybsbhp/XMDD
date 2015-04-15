@@ -39,10 +39,24 @@
 
 - (void)setupScrollView
 {
+    //天气视图
+    [self.weatherView removeFromSuperview];
+    [self.scrollView addSubview:self.weatherView];
+    @weakify(self);
+    [self.weatherView mas_makeConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.top.equalTo(self.scrollView);
+        make.left.equalTo(self.scrollView);
+        make.right.equalTo(self.scrollView);
+        make.width.equalTo(self.scrollView);
+    }];
+    
     UIView *container = [UIView new];
     [self.scrollView addSubview:container];
     [container mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.scrollView);
+        @strongify(self);
+        make.top.equalTo(self.weatherView.mas_bottom);
+        make.left.equalTo(self.scrollView);
         make.width.equalTo(self.scrollView);
     }];
     //广告
@@ -91,7 +105,7 @@
     //底部
     [self setupBottomViewWithUpper:btn4];
     
-    [container mas_makeConstraints:^(MASConstraintMaker *make) {
+    [container mas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(btn4).offset(47+2);
     }];
 }
@@ -179,7 +193,8 @@
 
 - (void)actionInsurance:(id)sender
 {
-    
+    UIViewController *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionRescue:(id)sender
