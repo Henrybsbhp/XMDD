@@ -42,21 +42,6 @@
 		189B30BD1AD524EC001D7288 /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30BC1AD524EC001D7288 /* AppManager.m */; };
 		189B30C01AD62E57001D7288 /* PaymentSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30BF1AD62E57001D7288 /* PaymentSuccessVC.m */; };
 		189B30C31AD64310001D7288 /* ChooseCarwashTicketVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30C21AD64310001D7288 /* ChooseCarwashTicketVC.m */; };
-		6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8AC1ADB6A8A00EC342F /* AuthByVcodeOp.m */; };
-		6BBAB8B01ADB754500EC342F /* GetTokenOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8AF1ADB754500EC342F /* GetTokenOp.m */; };
-		6BBAB8B31ADB777500EC342F /* GetVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8B21ADB777500EC342F /* GetVcodeOp.m */; };
-		6BBAB8B61ADBC12D00EC342F /* UpdatePwdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8B51ADBC12D00EC342F /* UpdatePwdOp.m */; };
-		6BBAB8BF1ADBC21600EC342F /* ConverUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8B91ADBC21600EC342F /* ConverUtil.m */; };
-		6BBAB8C01ADBC21600EC342F /* DesUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8BB1ADBC21600EC342F /* DesUtil.m */; };
-		6BBAB8C11ADBC21600EC342F /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8BD1ADBC21600EC342F /* GTMBase64.m */; };
-		6BBAB8C41ADCBD1400EC342F /* GetShopByRangeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8C31ADCBD1400EC342F /* GetShopByRangeOp.m */; };
-		6BBAB8C71ADD1ED900EC342F /* GetShopByDistanceOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8C61ADD1ED900EC342F /* GetShopByDistanceOp.m */; };
-		6BBAB8CE1ADE059300EC342F /* DistanceCalcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8CD1ADE059300EC342F /* DistanceCalcHelper.m */; };
-		6BC220961AD7801C00A4310E /* BaseOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC220951AD7801C00A4310E /* BaseOp.m */; };
-		6BC220991AD7804800A4310E /* NSMutableDictionary+AddParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC220981AD7804800A4310E /* NSMutableDictionary+AddParams.m */; };
-		6BC2209C1AD7AAF300A4310E /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2209B1AD7AAF300A4310E /* NetworkManager.m */; };
-		6BC2209F1AD7AC9D00A4310E /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2209E1AD7AC9D00A4310E /* NSString+MD5.m */; };
-		6BC220A21AD7B22300A4310E /* AFHTTPRequestOperationManager+ReactiveCocoa.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC220A11AD7B22300A4310E /* AFHTTPRequestOperationManager+ReactiveCocoa.m */; };
 		189B30C71AD664D7001D7288 /* InsuranceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30C61AD664D7001D7288 /* InsuranceVC.m */; };
 		189B30CA1AD664F5001D7288 /* Insurance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 189B30C81AD664F5001D7288 /* Insurance.storyboard */; };
 		189B30CD1AD762B1001D7288 /* EnquiryInsuranceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30CC1AD762B1001D7288 /* EnquiryInsuranceVC.m */; };
@@ -71,6 +56,23 @@
 		189B31161ADBDF07001D7288 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 189B31151ADBDF07001D7288 /* MobileCoreServices.framework */; };
 		189B311A1ADBEBE8001D7288 /* PolicyInfomationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B31191ADBEBE8001D7288 /* PolicyInfomationVC.m */; };
 		189B311D1ADBEFDF001D7288 /* policy.json in Resources */ = {isa = PBXBuildFile; fileRef = 189B311C1ADBEFDF001D7288 /* policy.json */; };
+		6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8AC1ADB6A8A00EC342F /* AuthByVcodeOp.m */; };
+		6BBAB8B01ADB754500EC342F /* GetTokenOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8AF1ADB754500EC342F /* GetTokenOp.m */; };
+		6BBAB8B31ADB777500EC342F /* GetVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8B21ADB777500EC342F /* GetVcodeOp.m */; };
+		6BBAB8B61ADBC12D00EC342F /* UpdatePwdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8B51ADBC12D00EC342F /* UpdatePwdOp.m */; };
+		6BBAB8BF1ADBC21600EC342F /* ConverUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8B91ADBC21600EC342F /* ConverUtil.m */; };
+		6BBAB8C01ADBC21600EC342F /* DesUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8BB1ADBC21600EC342F /* DesUtil.m */; };
+		6BBAB8C11ADBC21600EC342F /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8BD1ADBC21600EC342F /* GTMBase64.m */; };
+		6BBAB8C41ADCBD1400EC342F /* GetShopByRangeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8C31ADCBD1400EC342F /* GetShopByRangeOp.m */; };
+		6BBAB8C71ADD1ED900EC342F /* GetShopByDistanceOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8C61ADD1ED900EC342F /* GetShopByDistanceOp.m */; };
+		6BBAB8CE1ADE059300EC342F /* DistanceCalcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8CD1ADE059300EC342F /* DistanceCalcHelper.m */; };
+		6BBAB8D11ADE30F900EC342F /* GetShopRatesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8D01ADE30F900EC342F /* GetShopRatesOp.m */; };
+		6BBAB8D41ADE3CBC00EC342F /* NSDate+DateForText.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8D31ADE3CBC00EC342F /* NSDate+DateForText.m */; };
+		6BC220961AD7801C00A4310E /* BaseOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC220951AD7801C00A4310E /* BaseOp.m */; };
+		6BC220991AD7804800A4310E /* NSMutableDictionary+AddParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC220981AD7804800A4310E /* NSMutableDictionary+AddParams.m */; };
+		6BC2209C1AD7AAF300A4310E /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2209B1AD7AAF300A4310E /* NetworkManager.m */; };
+		6BC2209F1AD7AC9D00A4310E /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2209E1AD7AC9D00A4310E /* NSString+MD5.m */; };
+		6BC220A21AD7B22300A4310E /* AFHTTPRequestOperationManager+ReactiveCocoa.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC220A11AD7B22300A4310E /* AFHTTPRequestOperationManager+ReactiveCocoa.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -197,6 +199,10 @@
 		6BBAB8C61ADD1ED900EC342F /* GetShopByDistanceOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetShopByDistanceOp.m; path = Class/GetShopByDistanceOp.m; sourceTree = "<group>"; };
 		6BBAB8CC1ADE059300EC342F /* DistanceCalcHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DistanceCalcHelper.h; path = Class/DistanceCalcHelper.h; sourceTree = "<group>"; };
 		6BBAB8CD1ADE059300EC342F /* DistanceCalcHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DistanceCalcHelper.m; path = Class/DistanceCalcHelper.m; sourceTree = "<group>"; };
+		6BBAB8CF1ADE30F900EC342F /* GetShopRatesOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShopRatesOp.h; path = Class/GetShopRatesOp.h; sourceTree = "<group>"; };
+		6BBAB8D01ADE30F900EC342F /* GetShopRatesOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetShopRatesOp.m; path = Class/GetShopRatesOp.m; sourceTree = "<group>"; };
+		6BBAB8D21ADE3CBC00EC342F /* NSDate+DateForText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+DateForText.h"; path = "Class/NSDate+DateForText.h"; sourceTree = "<group>"; };
+		6BBAB8D31ADE3CBC00EC342F /* NSDate+DateForText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+DateForText.m"; path = "Class/NSDate+DateForText.m"; sourceTree = "<group>"; };
 		6BC220941AD7801C00A4310E /* BaseOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseOp.h; path = Class/BaseOp.h; sourceTree = "<group>"; };
 		6BC220951AD7801C00A4310E /* BaseOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseOp.m; path = Class/BaseOp.m; sourceTree = "<group>"; };
 		6BC220971AD7804800A4310E /* NSMutableDictionary+AddParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableDictionary+AddParams.h"; path = "Class/NSMutableDictionary+AddParams.h"; sourceTree = "<group>"; };
@@ -276,6 +282,8 @@
 		1816F4B11ACE762900BBCC96 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				6BBAB8D21ADE3CBC00EC342F /* NSDate+DateForText.h */,
+				6BBAB8D31ADE3CBC00EC342F /* NSDate+DateForText.m */,
 				6BC2209D1AD7AC9D00A4310E /* NSString+MD5.h */,
 				6BC2209E1AD7AC9D00A4310E /* NSString+MD5.m */,
 				6BC220971AD7804800A4310E /* NSMutableDictionary+AddParams.h */,
@@ -529,50 +537,6 @@
 			name = Pay;
 			sourceTree = "<group>";
 		};
-		6BBAB8B71ADBC21600EC342F /* DESConverUtil */ = {
-			isa = PBXGroup;
-			children = (
-				6BBAB8B81ADBC21600EC342F /* ConverUtil.h */,
-				6BBAB8B91ADBC21600EC342F /* ConverUtil.m */,
-				6BBAB8BA1ADBC21600EC342F /* DesUtil.h */,
-				6BBAB8BB1ADBC21600EC342F /* DesUtil.m */,
-				6BBAB8BC1ADBC21600EC342F /* GTMBase64.h */,
-				6BBAB8BD1ADBC21600EC342F /* GTMBase64.m */,
-				6BBAB8BE1ADBC21600EC342F /* GTMDefines.h */,
-			);
-			path = DESConverUtil;
-			sourceTree = "<group>";
-		};
-		6BBAB8C81ADD351800EC342F /* Helper */ = {
-			isa = PBXGroup;
-			children = (
-				6BBAB8CC1ADE059300EC342F /* DistanceCalcHelper.h */,
-				6BBAB8CD1ADE059300EC342F /* DistanceCalcHelper.m */,
-			);
-			name = Helper;
-			sourceTree = "<group>";
-		};
-		6BC220931AD7800D00A4310E /* Op */ = {
-			isa = PBXGroup;
-			children = (
-				6BC220941AD7801C00A4310E /* BaseOp.h */,
-				6BC220951AD7801C00A4310E /* BaseOp.m */,
-				6BBAB8AB1ADB6A8A00EC342F /* AuthByVcodeOp.h */,
-				6BBAB8AC1ADB6A8A00EC342F /* AuthByVcodeOp.m */,
-				6BBAB8AE1ADB754500EC342F /* GetTokenOp.h */,
-				6BBAB8AF1ADB754500EC342F /* GetTokenOp.m */,
-				6BBAB8B11ADB777500EC342F /* GetVcodeOp.h */,
-				6BBAB8B21ADB777500EC342F /* GetVcodeOp.m */,
-				6BBAB8B41ADBC12D00EC342F /* UpdatePwdOp.h */,
-				6BBAB8B51ADBC12D00EC342F /* UpdatePwdOp.m */,
-				6BBAB8C21ADCBD1400EC342F /* GetShopByRangeOp.h */,
-				6BBAB8C31ADCBD1400EC342F /* GetShopByRangeOp.m */,
-				6BBAB8C51ADD1ED900EC342F /* GetShopByDistanceOp.h */,
-				6BBAB8C61ADD1ED900EC342F /* GetShopByDistanceOp.m */,
-			);
-			name = Op;
-            sourceTree = "<group>";
-        };
 		189B30C41AD6649A001D7288 /* Insurance */ = {
 			isa = PBXGroup;
 			children = (
@@ -639,6 +603,52 @@
 				189B311C1ADBEFDF001D7288 /* policy.json */,
 			);
 			path = JSON;
+			sourceTree = "<group>";
+		};
+		6BBAB8B71ADBC21600EC342F /* DESConverUtil */ = {
+			isa = PBXGroup;
+			children = (
+				6BBAB8B81ADBC21600EC342F /* ConverUtil.h */,
+				6BBAB8B91ADBC21600EC342F /* ConverUtil.m */,
+				6BBAB8BA1ADBC21600EC342F /* DesUtil.h */,
+				6BBAB8BB1ADBC21600EC342F /* DesUtil.m */,
+				6BBAB8BC1ADBC21600EC342F /* GTMBase64.h */,
+				6BBAB8BD1ADBC21600EC342F /* GTMBase64.m */,
+				6BBAB8BE1ADBC21600EC342F /* GTMDefines.h */,
+			);
+			path = DESConverUtil;
+			sourceTree = "<group>";
+		};
+		6BBAB8C81ADD351800EC342F /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				6BBAB8CC1ADE059300EC342F /* DistanceCalcHelper.h */,
+				6BBAB8CD1ADE059300EC342F /* DistanceCalcHelper.m */,
+			);
+			name = Helper;
+			sourceTree = "<group>";
+		};
+		6BC220931AD7800D00A4310E /* Op */ = {
+			isa = PBXGroup;
+			children = (
+				6BC220941AD7801C00A4310E /* BaseOp.h */,
+				6BC220951AD7801C00A4310E /* BaseOp.m */,
+				6BBAB8AB1ADB6A8A00EC342F /* AuthByVcodeOp.h */,
+				6BBAB8AC1ADB6A8A00EC342F /* AuthByVcodeOp.m */,
+				6BBAB8AE1ADB754500EC342F /* GetTokenOp.h */,
+				6BBAB8AF1ADB754500EC342F /* GetTokenOp.m */,
+				6BBAB8B11ADB777500EC342F /* GetVcodeOp.h */,
+				6BBAB8B21ADB777500EC342F /* GetVcodeOp.m */,
+				6BBAB8B41ADBC12D00EC342F /* UpdatePwdOp.h */,
+				6BBAB8B51ADBC12D00EC342F /* UpdatePwdOp.m */,
+				6BBAB8C21ADCBD1400EC342F /* GetShopByRangeOp.h */,
+				6BBAB8C31ADCBD1400EC342F /* GetShopByRangeOp.m */,
+				6BBAB8C51ADD1ED900EC342F /* GetShopByDistanceOp.h */,
+				6BBAB8C61ADD1ED900EC342F /* GetShopByDistanceOp.m */,
+				6BBAB8CF1ADE30F900EC342F /* GetShopRatesOp.h */,
+				6BBAB8D01ADE30F900EC342F /* GetShopRatesOp.m */,
+			);
+			name = Op;
 			sourceTree = "<group>";
 		};
 		C5BD8500918CA8D253037804 /* Pods */ = {
@@ -800,6 +810,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1816F4A71ACD3B0900BBCC96 /* SYPaginatorView.m in Sources */,
+				6BBAB8D41ADE3CBC00EC342F /* NSDate+DateForText.m in Sources */,
 				6BC220991AD7804800A4310E /* NSMutableDictionary+AddParams.m in Sources */,
 				189B31101ADA597D001D7288 /* UploadInfomationVC.m in Sources */,
 				1816F4BD1AD3A8AD00BBCC96 /* JTNavigationController.m in Sources */,
@@ -814,6 +825,7 @@
 				189B31091AD7C5B3001D7288 /* InsuranceDirectSellingVC.m in Sources */,
 				189B30C01AD62E57001D7288 /* PaymentSuccessVC.m in Sources */,
 				6BBAB8B31ADB777500EC342F /* GetVcodeOp.m in Sources */,
+				6BBAB8D11ADE30F900EC342F /* GetShopRatesOp.m in Sources */,
 				6BC220A21AD7B22300A4310E /* AFHTTPRequestOperationManager+ReactiveCocoa.m in Sources */,
 				6BBAB8B01ADB754500EC342F /* GetTokenOp.m in Sources */,
 				189B30CD1AD762B1001D7288 /* EnquiryInsuranceVC.m in Sources */,

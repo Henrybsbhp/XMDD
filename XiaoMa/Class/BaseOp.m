@@ -98,17 +98,16 @@ static int32_t g_requestVid = 1;
         self.rsp_statusCode = error.code;
         self.rsp_error = error;
         
-//        DebugLog(@"〓〓〓〓〓〓〓〓 error:%@\n"
-//                 "method:%@ (id: %@)\n"
-//                 "code:  %ld", error.userInfo[NSLocalizedDescriptionKey], self.req_method, @(self.req_id), (long)error.code);
-//        
-//        DebugLog(@"\n\n=====================Begin %@(id: %@) Error Detail==============================\n%@", self.req_method, @(self.req_id), error);
-//        DebugLog(@"=====================Endof %@(id: %@) Error Detail==============================\n\n", self.req_method, @(self.req_id));
+        NSLog(@"〓〓〓〓〓〓〓〓 error:%@\n"
+                 "method:%@ (id: %@)\n"
+                 "code:  %ld", error.userInfo[NSLocalizedDescriptionKey], self.req_method, @(self.req_id), (long)error.code);
+        NSLog(@"\n\n=====================Begin %@(id: %@) Error Detail==============================\n%@", self.req_method, @(self.req_id), error);
+        NSLog(@"=====================Endof %@(id: %@) Error Detail==============================\n\n", self.req_method, @(self.req_id));
         
-//        if (gNetworkMgr.catchErrorHandler)
-//        {
-//            return gNetworkMgr.catchErrorHandler(self, error);
-//        }
+        if (gNetworkMgr.catchErrorHandler)
+        {
+            return gNetworkMgr.catchErrorHandler(self, error);
+        }
         return [RACSignal error:error];
     }] replay];
     

@@ -12,6 +12,7 @@
 #import "PaymentSuccessVC.h"
 #import "ChooseCarwashTicketVC.h"
 
+
 @interface PayForWashCarVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -26,6 +27,8 @@
     [self setupCheckBoxHelper];
     [self setupBottomView];
     [self reloadDatasource];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
