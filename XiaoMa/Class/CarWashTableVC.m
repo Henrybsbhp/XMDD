@@ -13,6 +13,9 @@
 #import "SYPaginator.h"
 #import "UIView+Layer.h"
 #import "ShopDetailVC.h"
+#import "JTShop.h"
+#import "DistanceCalcHelper.h"
+
 
 @interface CarWashTableVC ()<SYPaginatorViewDataSource, SYPaginatorViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *searchView;
@@ -73,16 +76,19 @@
 
 - (void)reloadDatasource
 {
-    self.datasource = @[@{@"title":@"神州洗车",@"logo":@"tmp_1",@"rating":@4.0,@"addr":@"西湖区黄龙路1号沃尔玛超市二楼",
-                          @"distance":@0.77,@"integral":@10000,@"oldPrice":@35,@"newPrice":@20},
-                        @{@"title":@"兴旺洗车冲洗店",@"logo":@"tmp_2",@"rating":@3.0,@"addr":@"河东路23号河东社区附近",
-                          @"distance":@0.98,@"integral":@20000,@"oldPrice":@35,@"newPrice":@20},
-                        @{@"title":@"小小洗车",@"logo":@"tmp_3",@"rating":@3.0,@"addr":@"文三路232",
-                          @"distance":@0.98,@"integral":@15000,@"oldPrice":@30,@"newPrice":@15},
-                        @{@"title":@"同福汽车美容",@"logo":@"tmp_4.jpg",@"rating":@3.0,@"addr":@"上塘路绍兴路口",
-                          @"distance":@0.98,@"integral":@10000,@"oldPrice":@40,@"newPrice":@23},
-                        @{@"title":@"洛门洗车装潢",@"logo":@"tmp_5.jpg",@"rating":@3.0,@"addr":@"文一路物美超市附近",
-                          @"distance":@0.98,@"integral":@10000,@"oldPrice":@20,@"newPrice":@15}];
+    self.datasource = self.datasource2;
+
+//    self.datasource = @[@{@"title":@"神州洗车",@"logo":@"tmp_1",@"rating":@4.0,@"addr":@"西湖区黄龙路1号沃尔玛超市二楼",
+//                          @"distance":@0.77,@"integral":@10000,@"oldPrice":@35,@"newPrice":@20},
+//                        @{@"title":@"兴旺洗车冲洗店",@"logo":@"tmp_2",@"rating":@3.0,@"addr":@"河东路23号河东社区附近",
+//                          @"distance":@0.98,@"integral":@20000,@"oldPrice":@35,@"newPrice":@20},
+//                        @{@"title":@"小小洗车",@"logo":@"tmp_3",@"rating":@3.0,@"addr":@"文三路232",
+//                          @"distance":@0.98,@"integral":@15000,@"oldPrice":@30,@"newPrice":@15},
+//                        @{@"title":@"同福汽车美容",@"logo":@"tmp_4.jpg",@"rating":@3.0,@"addr":@"上塘路绍兴路口",
+//                          @"distance":@0.98,@"integral":@10000,@"oldPrice":@40,@"newPrice":@23},
+//                        @{@"title":@"洛门洗车装潢",@"logo":@"tmp_5.jpg",@"rating":@3.0,@"addr":@"文一路物美超市附近",
+//                          @"distance":@0.98,@"integral":@10000,@"oldPrice":@20,@"newPrice":@15}];
+
     [self.tableView reloadData];
 }
 #pragma mark - Action
@@ -131,7 +137,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];
-    NSDictionary *item = [self.datasource safetyObjectAtIndex:indexPath.row];
+    JTShop *shop = [self.datasource safetyObjectAtIndex:indexPath.row];
     //row 0
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
@@ -139,19 +145,49 @@
     UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
-    logoV.image = [UIImage imageNamed:item[@"logo"]];
-    titleL.text = item[@"title"];
-    ratingV.ratingValue = [item[@"rating"] floatValue];
-    ratingL.text = [NSString stringWithFormat:@"%@分", item[@"rating"]];
-    addrL.text = item[@"addr"];
-    distantL.text = [NSString stringWithFormat:@"%@km", item[@"distance"]];
+    logoV.image = [UIImage imageNamed:@"tmp_ad"];
+    titleL.text = shop.shopName;
+    ratingV.ratingValue = shop.shopRate;
+    ratingL.text = [NSString stringWithFormat:@"%.2f分", shop.shopRate];
+    addrL.text = shop.shopAddress;
+    
+    double myLat = 30.254189;
+    double myLng = 120.189234;
+    double shopLat = shop.shopLatitude;
+    double shopLng = shop.shopLongitude;
+    NSString * disStr = [DistanceCalcHelper getDistanceStrLatA:myLat lngA:myLng latB:shopLat lngB:shopLng];
+    distantL.text = disStr;
     //row 1
     UILabel *washTypeL = (UILabel *)[cell.contentView viewWithTag:2001];
     UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:2002];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
-    washTypeL.text = @"普洗：普通车";
-    integralL.text = [NSString stringWithFormat:@"%@分", item[@"integral"]];
-    priceL.attributedText = [self priceStringWithOldPrice:item[@"oldPrice"] curPrice:item[@"newPrice"]];
+    
+    JTShopService * service;
+    for (JTShopService * s in shop.shopServiceArray)
+    {
+        if (s.shopServiceType == ShopServiceCarWash)
+        {
+            service = s;
+            break;
+        }
+    }
+    
+
+    washTypeL.text = service.serviceName;
+    NSArray * rates = service.chargeArray;
+    ChargeContent * cc;
+    for (ChargeContent * tcc in rates)
+    {
+        if (tcc.chargeChannelType == ChargeChannelABCIntegral )
+        {
+            cc = tcc;
+            break;
+        }
+    }
+    
+    integralL.text = [NSString stringWithFormat:@"%.0f分",cc.amount];
+    priceL.attributedText = [self priceStringWithOldPrice:@(service.origprice) curPrice:@(service.contractprice)];
+    
     //row 2
     UIButton *guideB = (UIButton *)[cell.contentView viewWithTag:3001];
     UIButton *phoneB = (UIButton *)[cell.contentView viewWithTag:3002];
@@ -171,6 +207,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
+    vc.shop = [self.datasource safetyObjectAtIndex:indexPath.section];
     [self.navigationController pushViewController:vc animated:YES];
 }
 #pragma mark - Utility

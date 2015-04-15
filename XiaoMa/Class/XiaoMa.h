@@ -19,6 +19,7 @@
 
 //单例
 #import "AppManager.h"
+#import "NetworkManager.h"
 #import "DefaultStyleModel.h"
 
 #import "JTNavigationController.h"
@@ -26,5 +27,7 @@
 #import "RACSignal+Extension.h"
 
 #import "Contants.h"
+
+#import "BaseOp.h"
 
 #endif

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--洗车-->
@@ -73,8 +73,8 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="神州洗车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2RF-fy-amI">
-                                            <rect key="frame" x="82" y="13" width="64" height="19.5"/>
-                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                            <rect key="frame" x="82" y="13" width="64" height="20"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" white="0.16484557109557102" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -103,7 +103,7 @@
                                                 <constraint firstAttribute="height" constant="8" id="Pex-Ln-NPT"/>
                                             </constraints>
                                         </view>
-                                        <view userInteractionEnabled="NO" tag="1003" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="baE-Bt-RNw" customClass="JTRatingView">
+                                        <view userInteractionEnabled="NO" tag="1003" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="baE-Bt-RNw" customClass="JTRatingView">
                                             <rect key="frame" x="82" y="37" width="80" height="20"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
@@ -111,7 +111,7 @@
                                                 <constraint firstAttribute="height" constant="20" id="g9x-YW-xZ1"/>
                                             </constraints>
                                         </view>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4.0分" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lTE-FB-Cfm">
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="4.0分" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lTE-FB-Cfm">
                                             <rect key="frame" x="176" y="35" width="32" height="16"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -163,7 +163,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="2003" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dRF-Wp-1hs">
-                                            <rect key="frame" x="99" y="109" width="485.5" height="21.5"/>
+                                            <rect key="frame" x="99" y="109" width="486" height="22"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="highlightedColor" red="0.97647058823529409" green="0.22745098039215686" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -277,12 +277,12 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="神州洗车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eiz-Vr-xx6">
-                                            <rect key="frame" x="82" y="13" width="64" height="19.5"/>
-                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                            <rect key="frame" x="82" y="13" width="64" height="20"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" white="0.1648455711" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <view userInteractionEnabled="NO" tag="1003" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="riW-EZ-Uq3" customClass="JTRatingView">
+                                        <view userInteractionEnabled="NO" tag="1003" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="riW-EZ-Uq3" customClass="JTRatingView">
                                             <rect key="frame" x="82" y="37" width="80" height="20"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
@@ -290,7 +290,7 @@
                                                 <constraint firstAttribute="width" constant="80" id="fXg-fs-t0P"/>
                                             </constraints>
                                         </view>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4.0分" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F8T-Ml-8fD">
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="4.0分" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F8T-Ml-8fD">
                                             <rect key="frame" x="176" y="35" width="32" height="16"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -358,7 +358,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" tag="1002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cqp-QX-tD4">
-                                            <rect key="frame" x="529" y="4" width="66" height="35.5"/>
+                                            <rect key="frame" x="529" y="4" width="66" height="36"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="66" id="RoD-sB-3Ea"/>
                                             </constraints>
@@ -395,7 +395,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" tag="1002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="08T-Vf-55c">
-                                            <rect key="frame" x="529" y="4" width="66" height="35.5"/>
+                                            <rect key="frame" x="529" y="4" width="66" height="36"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="66" id="XXk-cf-KPk"/>
                                             </constraints>
@@ -424,27 +424,27 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rul-9P-jRy" id="4x0-h6-gQr">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="普洗：普通车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uF8-ta-mWc">
-                                            <rect key="frame" x="12" y="14" width="576" height="16.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="普洗：普通车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uF8-ta-mWc">
+                                            <rect key="frame" x="12" y="14" width="576" height="17"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" white="0.1481959712" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" tag="1002" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nb_abc" translatesAutoresizingMaskIntoConstraints="NO" id="JYW-mt-AOb">
-                                            <rect key="frame" x="12" y="38.5" width="15" height="14"/>
+                                        <imageView userInteractionEnabled="NO" tag="1002" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="nb_abc" translatesAutoresizingMaskIntoConstraints="NO" id="JYW-mt-AOb">
+                                            <rect key="frame" x="12" y="39" width="15" height="14"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="15" id="kF1-Hy-I5h"/>
                                                 <constraint firstAttribute="height" constant="14" id="kcO-uI-EBW"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10000分" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yp1-c5-VEV">
-                                            <rect key="frame" x="35" y="36.5" width="54" height="17"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="10000分" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yp1-c5-VEV">
+                                            <rect key="frame" x="35" y="37" width="54" height="17"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" red="0.1764705882" green="0.71372549019999998" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1004" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1YM-io-R9k">
-                                            <rect key="frame" x="99" y="30.5" width="485.5" height="21.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1004" contentMode="left" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1YM-io-R9k">
+                                            <rect key="frame" x="99" y="31" width="486" height="22"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="highlightedColor" red="0.97647058819999999" green="0.2274509804" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -463,8 +463,8 @@
                                                 <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#BCI_5,5,5,5"/>
                                             </userDefinedRuntimeAttributes>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1005" contentMode="left" horizontalHuggingPriority="251" text="普洗：普通车" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XNR-XG-l3W" customClass="JTLabel">
-                                            <rect key="frame" x="12" y="60.5" width="494" height="27.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1005" contentMode="left" horizontalHuggingPriority="251" misplaced="YES" text="普洗：普通车" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XNR-XG-l3W" customClass="JTLabel">
+                                            <rect key="frame" x="12" y="61" width="494" height="28"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" white="0.1481959712" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -500,7 +500,7 @@
                                         <button opaque="NO" tag="1001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Svp-ic-c6i">
                                             <rect key="frame" x="12" y="4" width="576" height="36"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <state key="normal" title="查看更多服务&gt;">
+                                            <state key="normal" title="查看更多服务>">
                                                 <color key="titleColor" red="0.1058823529" green="0.71764705880000002" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </state>
@@ -521,7 +521,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="商户评价 ( 20 )" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="40I-90-v3Q">
-                                            <rect key="frame" x="12" y="0.0" width="576" height="35.5"/>
+                                            <rect key="frame" x="12" y="0.0" width="576" height="36"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -547,8 +547,8 @@
                                                 <constraint firstAttribute="height" constant="35" id="HfQ-8q-qFD"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" verticalHuggingPriority="251" text="神州洗车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BZS-4e-iCK">
-                                            <rect key="frame" x="59" y="14" width="446.5" height="17"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" verticalHuggingPriority="251" misplaced="YES" text="神州洗车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BZS-4e-iCK">
+                                            <rect key="frame" x="59" y="14" width="447" height="17"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" white="0.1648455711" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -562,13 +562,13 @@
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2015.01.01" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9vb-vo-pyX">
-                                            <rect key="frame" x="515" y="14" width="72.5" height="17"/>
+                                            <rect key="frame" x="515" y="14" width="73" height="17"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1005" contentMode="left" horizontalHuggingPriority="251" text="第一次过来洗车" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FQq-sr-5Hq" customClass="JTLabel">
-                                            <rect key="frame" x="59" y="58" width="529" height="36.5"/>
+                                            <rect key="frame" x="59" y="58" width="529" height="37"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" white="0.1481959712" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -640,8 +640,8 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="神州洗车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I4M-0L-imi">
-                                                    <rect key="frame" x="82" y="18" width="506" height="19.5"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                                    <rect key="frame" x="82" y="18" width="506" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" white="0.1648455711" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -677,7 +677,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P7z-xg-grY">
-                                                    <rect key="frame" x="522" y="4" width="66" height="35.5"/>
+                                                    <rect key="frame" x="522" y="4" width="66" height="36"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <state key="normal" title=" 1000分" image="nb_abc">
                                                         <color key="titleColor" red="0.1058823529" green="0.71764705880000002" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -721,7 +721,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" tag="1003" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cm_arrow_r" translatesAutoresizingMaskIntoConstraints="NO" id="30J-6z-lLA">
-                                                    <rect key="frame" x="577" y="14.5" width="9" height="15"/>
+                                                    <rect key="frame" x="577" y="15" width="9" height="15"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="9" id="Flx-0w-wpr"/>
                                                         <constraint firstAttribute="height" constant="15" id="ONz-NN-Ksw"/>
@@ -890,7 +890,7 @@
                                                         <constraint firstAttribute="height" constant="66" id="W1W-gm-7XE"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="免费洗车一次" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hb9-7T-nje">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" misplaced="YES" text="免费洗车一次" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hb9-7T-nje">
                                                     <rect key="frame" x="24" y="4" width="473" height="34"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -902,14 +902,14 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="有效期：2014.05.01 - 2014.12.31" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kLf-xB-tja">
-                                                    <rect key="frame" x="24" y="52.5" width="473" height="14.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="有效期：2014.05.01 - 2014.12.31" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kLf-xB-tja">
+                                                    <rect key="frame" x="24" y="53" width="473" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="使用说明：仅限7座以下非运营轿车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="USy-eX-MRw">
-                                                    <rect key="frame" x="24" y="38" width="473" height="14.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="使用说明：仅限7座以下非运营轿车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="USy-eX-MRw">
+                                                    <rect key="frame" x="24" y="38" width="473" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -977,26 +977,26 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cw_success" translatesAutoresizingMaskIntoConstraints="NO" id="KCA-Ol-F73">
-                                <rect key="frame" x="269" y="159.5" width="61" height="61"/>
+                                <rect key="frame" x="269" y="160" width="61" height="61"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="61" id="clb-M1-bBz"/>
                                     <constraint firstAttribute="width" constant="61" id="pAI-gw-lcR"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="支付成功!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SuS-kw-wbC">
-                                <rect key="frame" x="10" y="233.5" width="580" height="21.5"/>
+                                <rect key="frame" x="10" y="234" width="580" height="22"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <color key="textColor" red="0.10196078431372549" green="0.63137254901960782" blue="0.086274509803921567" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我完成了0元洗车，赶快去告诉好友吧！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Tc-T2-Ojo">
-                                <rect key="frame" x="10" y="274.5" width="580" height="18"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="我完成了0元洗车，赶快去告诉好友吧！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Tc-T2-Ojo">
+                                <rect key="frame" x="10" y="275" width="580" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="0.1481959712" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="60h-WR-4jT">
-                                <rect key="frame" x="218" y="326.5" width="164" height="36"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="60h-WR-4jT">
+                                <rect key="frame" x="218" y="327" width="164" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="164" id="aKu-7h-71K"/>
                                     <constraint firstAttribute="height" constant="36" id="ky6-tY-caS"/>

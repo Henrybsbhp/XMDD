@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "JTTableViewController.h"
+#import "JTShop.h"
 
 @interface ShopDetailVC : JTTableViewController
-@property (nonatomic, strong) NSString *shopID;
+
+@property (nonatomic, strong)JTShop * shop;
+
 @end
