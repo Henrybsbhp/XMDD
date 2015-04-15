@@ -8,7 +8,48 @@
 
 #import "JTShop.h"
 
+@implementation ChargeContent
+
++ (instancetype)chargeContentWithJSONResponse:(NSDictionary *)rsp
+{
+    if (!rsp)
+    {
+        return nil;
+    }
+    ChargeContent * content = [[ChargeContent alloc] init];
+    content.amount = [rsp floatParamForName:@"amount"];
+    content.chargeChannelType = (ChargeChannelType)[rsp integerParamForName:@"channel"];
+    return content;
+}
+
+@end
+
 @implementation JTShopService
+
++ (instancetype)shopServiceWithJSONResponse:(NSDictionary *)rsp
+{
+    if (!rsp)
+    {
+        return nil;
+    }
+    JTShopService * service = [[JTShopService alloc] init];
+    service.serviceID = [NSString stringWithFormat:@"%@",rsp[@"serviceid"]];
+    service.serviceName = [rsp stringParamFroName:@"name"];
+    service.serviceDescription = [rsp stringParamFroName:@"description"];
+    service.shopServiceType = (ShopServiceType)[rsp integerParamForName:@"category"];
+    NSArray * array = rsp[@"rates"];
+    NSMutableArray * t = [NSMutableArray array];
+    for (NSDictionary * dict in array)
+    {
+        [t addObject:[ChargeContent chargeContentWithJSONResponse:dict]];
+        
+    }
+    service.chargeArray = [NSArray arrayWithArray:t];
+    service.contractprice = [rsp floatParamForName:@"contractprice"];
+    service.origprice = [rsp floatParamForName:@"origprice"];
+    
+    return service;
+}
 
 @end
 
@@ -17,5 +58,34 @@
 @end
 
 @implementation JTShop
+
++ (instancetype)shopWithJSONResponse:(NSDictionary *)rsp
+{
+    if (!rsp)
+    {
+        return nil;
+    }
+    JTShop * shop = [[JTShop alloc] init];
+    shop.shopID  = [NSString stringWithFormat:@"%@",rsp[@"shopid"]];
+    shop.shopName = rsp[@"name"];
+    shop.picArray = rsp[@"pics"];
+    shop.shopRate = [rsp floatParamForName:@"rate"];
+    shop.shopAddress = rsp[@"address"];
+    shop.shopLongitude = [rsp doubleParamForName:@"longitude"];
+    shop.shopLatitude = [rsp doubleParamForName:@"latitude"];
+    shop.shopPhone = rsp[@"phone"];
+    shop.openHour = rsp[@"openhour"];
+    shop.closeHour = rsp[@"closehour"];
+    shop.txnumber = [rsp integerParamForName:@"txnumber"];
+    NSArray * array = rsp[@"services"];
+    NSMutableArray * t = [NSMutableArray array];
+    for (NSDictionary * dict in array)
+    {
+        [t addObject:[JTShopService shopServiceWithJSONResponse:dict]];
+    }
+    shop.shopServiceArray = [NSArray arrayWithArray:t];
+    shop.allowABC = [rsp boolParamForName:@"abcbanksupport"];
+    return shop;
+}
 
 @end

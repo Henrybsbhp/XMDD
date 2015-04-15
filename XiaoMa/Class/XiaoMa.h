@@ -18,10 +18,13 @@
 
 //单例
 #import "AppManager.h"
+#import "NetworkManager.h"
 
 #import "JTNavigationController.h"
 #import "JTTableViewCell.h"
 
 #import "Contants.h"
+
+#import "BaseOp.h"
 
 #endif

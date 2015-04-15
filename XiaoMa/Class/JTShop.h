@@ -7,13 +7,51 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NSMutableDictionary+AddParams.h"
+
+typedef enum : NSUInteger {
+    ShopServiceCarWash = 1,
+    ShopServiceRescue,
+    ShopServiceAgency,
+} ShopServiceType;
+
+typedef enum : NSUInteger {
+    ChargeChannelInstallments,
+    ChargeChannelAlipay,
+    ChargeChannelWechat,
+    ChargeChannelABCCarWashAmount,
+    ChargeChannelABCIntegral,
+    ChargeChannelCoupon
+} ChargeChannelType;
+
+@interface ChargeContent : NSObject
+///支付渠道
+@property (nonatomic)ChargeChannelType chargeChannelType;
+///支付额
+@property (nonatomic)CGFloat amount;
+
++ (instancetype)chargeContentWithJSONResponse:(NSDictionary *)rsp;
+
+@end
 
 @interface JTShopService : NSObject
-@property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSNumber *oldPrice;
-@property (nonatomic, strong) NSNumber *curPrice;
-@property (nonatomic, strong) NSNumber *abcIntegral;
-@property (nonatomic, strong) NSString *intro;
+///服务id
+@property (nonatomic,copy)NSString * serviceID;
+///服务姓名
+@property (nonatomic,copy)NSString * serviceName;
+///服务描述
+@property (nonatomic,copy)NSString * serviceDescription;
+///服务类型
+@property (nonatomic)ShopServiceType  shopServiceType;
+///服务收费[ChargeContent]
+@property (nonatomic,strong)NSArray * chargeArray;
+///合约价
+@property (nonatomic)CGFloat contractprice;
+///原价
+@property (nonatomic)CGFloat origprice;
+
++ (instancetype)shopServiceWithJSONResponse:(NSDictionary *)rsp;
+
 @end
 
 @interface JTShopComment : NSObject
@@ -26,20 +64,34 @@
 @end
 
 @interface JTShop : NSObject
-@property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSString *logoUrl;
-@property (nonatomic, strong) NSString *address;
-@property (nonatomic, strong) NSNumber *longitude;
-@property (nonatomic, strong) NSNumber *latitude;
-@property (nonatomic, strong) NSNumber *rating;
-@property (nonatomic, strong) NSString *openTime;
-@property (nonatomic, strong) NSString *closeTime;
-@property (nonatomic, strong) NSNumber *distance;
-@property (nonatomic, strong) NSString *phoneNumber;
-@property (nonatomic, strong) NSArray *services;
-@property (nonatomic, strong) NSArray *comments;
-///允许使用优惠券
-@property (nonatomic, strong) NSNumber *allowTicket;
+///商户id
+@property (nonatomic,copy)NSString * shopID;
+///商户名称
+@property (nonatomic,copy)NSString * shopName;
+///商户图片
+@property (nonatomic,strong)NSArray * picArray;
+///商户评级
+@property (nonatomic)CGFloat shopRate;
+///地址
+@property (nonatomic,copy)NSString * shopAddress;
+///精度
+@property (nonatomic)double shopLongitude;
+///纬度
+@property (nonatomic)double shopLatitude;
+///电话
+@property (nonatomic,copy)NSString * shopPhone;
+///开门时间
+@property (nonatomic,copy)NSString * openHour;
+///关门时间
+@property (nonatomic,copy)NSString * closeHour;
+///已完成单数
+@property (nonatomic)NSInteger txnumber;
+///商户服务[JTShopService]
+@property (nonatomic,strong)NSArray * shopServiceArray;
 ///允许使用农行卡
-@property (nonatomic, strong) NSNumber *allowABC;
+@property (nonatomic)BOOL allowABC;
+///商户服务[JTShopComment]
+@property (nonatomic,strong)NSArray * shopCommentArray;
+
++ (instancetype)shopWithJSONResponse:(NSDictionary *)rsp;
 @end

@@ -8,6 +8,11 @@
 
 #import "AppDelegate.h"
 #import "DefaultStyleModel.h"
+#import <AFNetworking.h>
+#import "AuthByVcodeOp.h"
+#import "GetTokenOp.h"
+#import "GetVcodeOp.h"
+#import "GetShopByRangeOp.h"
 
 @interface AppDelegate ()
 
@@ -19,6 +24,23 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [DefaultStyleModel setupDefaultStyle];
+    
+    GetTokenOp * op = [GetTokenOp operation];
+    op.phone = @"13958064824";
+    [[op rac_postRequest] subscribeNext:^(GetTokenOp * op) {
+        
+        gNetworkMgr.token = op.token;
+        
+        GetVcodeOp * op2 = [GetVcodeOp operation];
+        op2.phone = @"13958064824";
+        op2.token = gNetworkMgr.token;
+        op2.type = @"3";
+        
+        [[op2 rac_postRequest] subscribeNext:^(GetVcodeOp * op2) {
+            
+        }];
+    }];
+    
     return YES;
 }
 

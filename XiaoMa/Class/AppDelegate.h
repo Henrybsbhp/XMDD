@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "XiaoMa.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

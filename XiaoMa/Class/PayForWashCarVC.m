@@ -53,7 +53,7 @@
                                                                    attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14],
                                                                                 NSForegroundColorAttributeName:HEXCOLOR(@"#fb4209")}];
     [str appendAttributedString:attrStr1];
-    NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%@", self.service.curPrice]
+    NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%@", self.service.serviceName]
                                                                    attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:19],
                                                                                 NSForegroundColorAttributeName:HEXCOLOR(@"#fb4209")}];
     [str appendAttributedString:attrStr2];
@@ -184,9 +184,9 @@
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1003];
     
-    logoV.image = [UIImage imageNamed:self.shop.logoUrl];
-    titleL.text = self.shop.title;
-    addrL.text = self.shop.address;
+    logoV.image = [UIImage imageNamed:[self.shop.picArray safetyObjectAtIndex:0]];
+    titleL.text = self.shop.shopName;
+    addrL.text = self.shop.shopAddress;
     
     return cell;
 }
@@ -198,13 +198,23 @@
     UIButton *additionB = (UIButton *)[cell.contentView viewWithTag:1002];
     
     if (indexPath.row == 1) {
-        titleL.text = [NSString stringWithFormat:@"服务项目：%@", self.service.title];
+        titleL.text = [NSString stringWithFormat:@"服务项目：%@", self.service.serviceName];
         additionB.hidden = YES;
     }
     else if (indexPath.row == 2) {
-        titleL.text = [NSString stringWithFormat:@"项目价格：%@", self.service.curPrice];
-        additionB.hidden = !self.service.abcIntegral;
-        [additionB setTitle:[NSString stringWithFormat:@" %@分", self.service.abcIntegral] forState:UIControlStateNormal];
+        titleL.text = [NSString stringWithFormat:@"项目价格：%.2f", self.service.contractprice];
+        NSArray * rates = self.service.chargeArray;
+        ChargeContent * cc;
+        for (ChargeContent * tcc in rates)
+        {
+            if (cc.chargeChannelType == ChargeChannelABCIntegral)
+            {
+                cc = tcc;
+                break;
+            }
+        }
+        additionB.hidden = !cc;
+        [additionB setTitle:[NSString stringWithFormat:@" %.0f分", cc.amount]forState:UIControlStateNormal];
     }
     else if (indexPath.row == 3) {
         titleL.text = [NSString stringWithFormat:@"我的车辆：%@", gAppMgr.myUser.numberPlate];

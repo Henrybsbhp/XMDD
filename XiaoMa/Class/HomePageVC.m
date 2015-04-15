@@ -11,6 +11,12 @@
 #import "XiaoMa.h"
 #import "SYPaginator.h"
 
+#import "AuthByVcodeOp.h"
+#import "NSString+MD5.h"
+#import "UpdatePwdOp.h"
+#import "GetShopByDistanceOp.h"
+#import "CarWashTableVC.h"
+
 @interface HomePageVC ()<UIScrollViewDelegate, SYPaginatorViewDataSource, SYPaginatorViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *bgView;
 @property (weak, nonatomic) IBOutlet UIView *weatherView;
@@ -18,6 +24,7 @@
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) SYPaginatorView *adView;
 
+@property (nonatomic,strong)IBOutlet UITextField * textFeild;
 @end
 
 @implementation HomePageVC
@@ -26,6 +33,8 @@
 {
     [super viewDidLoad];
     [self setupScrollView];
+    
+    
 }
 
 - (void)setupScrollView
@@ -130,7 +139,21 @@
 #pragma mark - Action
 - (IBAction)actionCallCenter:(id)sender
 {
-    
+    AuthByVcodeOp * op = [AuthByVcodeOp operation];
+    op.skey = [[self.textFeild.text md5] substringToIndex:10];
+    op.token = gNetworkMgr.token;
+    [[op rac_postRequest] subscribeNext:^(AuthByVcodeOp * op) {
+        
+        gNetworkMgr.skey = op.skey;
+        
+        UpdatePwdOp * pwdOp = [UpdatePwdOp operation];
+        pwdOp.theNewPwd = @"123456";
+        pwdOp.skey = gNetworkMgr.skey;
+        [[pwdOp rac_postRequest] subscribeNext:^(UpdatePwdOp * pwdOp) {
+            
+            NSLog(@"UPDATE PWD SUCCESS");
+        }];
+    }];
 }
 
 - (IBAction)actionChooseCity:(id)sender
@@ -140,8 +163,18 @@
 
 - (void)actionWashCar:(id)sender
 {
-    UIViewController *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
-    [self.navigationController pushViewController:vc animated:YES];
+    GetShopByDistanceOp * getShopByDistanceOp = [GetShopByDistanceOp operation];
+    getShopByDistanceOp.longitude = 120.189234;
+    getShopByDistanceOp.latitude = 30.254189;
+    [[[getShopByDistanceOp rac_postRequest] initially:^{
+        
+        
+
+    }] subscribeNext:^(GetShopByDistanceOp * op) {
+        CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
+        vc.datasource2 = op.rsp_shopArray;
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
 }
 
 - (void)actionInsurance:(id)sender
