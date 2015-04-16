@@ -13,5 +13,6 @@
 #define kDefLineColor   HEXCOLOR(@"#e0e0e0")
 #define gAppMgr     [AppManager sharedManager]
 #define gNetworkMgr [NetworkManager sharedManager]
+#define gAlipayHelper       ([AlipayHelper sharedHelper])
 
 #endif

@@ -71,10 +71,29 @@
 #pragma mark - Action
 - (IBAction)actionPay:(id)sender
 {
-    PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
-    vc.originVC = self.originVC;
-    [self.navigationController pushViewController:vc animated:YES];
+    [SVProgressHUD showWithStatus:@"订单生成成功,正在跳转到支付宝平台进行支付" duration:2.0f];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+//        [self requestPay:@"123" andPrice:0.01
+//          andProductName:@"123" andDescription:@"蒙牛乳业" andTime:@"201312311111"];
+    });
 }
+
+//- (void)requestPay:(NSString *)orderId andPrice:(CGFloat)price
+//    andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time
+//{
+//    [gAlipayHelper payOrdWithTradeNo:orderId andProductName:name andProductDescription:desc andPrice:price];
+//    
+//    [gAlipayHelper.rac_alipayResultSignal subscribeNext:^(id x) {
+//        
+//        PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
+//        vc.originVC = self.originVC;
+//        [self.navigationController pushViewController:vc animated:YES];
+//    } error:^(NSError *error) {
+//        
+//    }];
+//}
+
 
 #pragma mark - Table view data source
 

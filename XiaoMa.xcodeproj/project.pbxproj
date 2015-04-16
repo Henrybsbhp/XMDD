@@ -68,6 +68,9 @@
 		6BBAB8CE1ADE059300EC342F /* DistanceCalcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8CD1ADE059300EC342F /* DistanceCalcHelper.m */; };
 		6BBAB8D11ADE30F900EC342F /* GetShopRatesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8D01ADE30F900EC342F /* GetShopRatesOp.m */; };
 		6BBAB8D41ADE3CBC00EC342F /* NSDate+DateForText.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8D31ADE3CBC00EC342F /* NSDate+DateForText.m */; };
+		6BBAB9521ADE6ACB00EC342F /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6BBAB94F1ADE6ACB00EC342F /* SVProgressHUD.bundle */; };
+		6BBAB9531ADE6ACB00EC342F /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB9511ADE6ACB00EC342F /* SVProgressHUD.m */; };
+		6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB9781ADE77E500EC342F /* GetUserResourcesOp.m */; };
 		6BC220961AD7801C00A4310E /* BaseOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC220951AD7801C00A4310E /* BaseOp.m */; };
 		6BC220991AD7804800A4310E /* NSMutableDictionary+AddParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC220981AD7804800A4310E /* NSMutableDictionary+AddParams.m */; };
 		6BC2209C1AD7AAF300A4310E /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2209B1AD7AAF300A4310E /* NetworkManager.m */; };
@@ -203,6 +206,12 @@
 		6BBAB8D01ADE30F900EC342F /* GetShopRatesOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetShopRatesOp.m; path = Class/GetShopRatesOp.m; sourceTree = "<group>"; };
 		6BBAB8D21ADE3CBC00EC342F /* NSDate+DateForText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+DateForText.h"; path = "Class/NSDate+DateForText.h"; sourceTree = "<group>"; };
 		6BBAB8D31ADE3CBC00EC342F /* NSDate+DateForText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+DateForText.m"; path = "Class/NSDate+DateForText.m"; sourceTree = "<group>"; };
+		6BBAB94F1ADE6ACB00EC342F /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
+		6BBAB9501ADE6ACB00EC342F /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		6BBAB9511ADE6ACB00EC342F /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
+		6BBAB9591ADE724300EC342F /* AlipayConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlipayConfig.h; sourceTree = "<group>"; };
+		6BBAB9771ADE77E500EC342F /* GetUserResourcesOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserResourcesOp.h; path = Class/GetUserResourcesOp.h; sourceTree = "<group>"; };
+		6BBAB9781ADE77E500EC342F /* GetUserResourcesOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserResourcesOp.m; path = Class/GetUserResourcesOp.m; sourceTree = "<group>"; };
 		6BC220941AD7801C00A4310E /* BaseOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseOp.h; path = Class/BaseOp.h; sourceTree = "<group>"; };
 		6BC220951AD7801C00A4310E /* BaseOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseOp.m; path = Class/BaseOp.m; sourceTree = "<group>"; };
 		6BC220971AD7804800A4310E /* NSMutableDictionary+AddParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableDictionary+AddParams.h"; path = "Class/NSMutableDictionary+AddParams.h"; sourceTree = "<group>"; };
@@ -240,6 +249,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				6BBAB94E1ADE6ACB00EC342F /* SVProgressHUD */,
 				6BBAB8B71ADBC21600EC342F /* DESConverUtil */,
 				189B31111ADB60AD001D7288 /* JGActionSheet */,
 				1816F4931ACD3B0900BBCC96 /* SYPaginator */,
@@ -428,6 +438,7 @@
 		1883D9121ACBBE5E002A4D19 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				6BBAB9581ADE724300EC342F /* Other */,
 				189B311B1ADBEFCC001D7288 /* JSON */,
 				1883D9151ACBBE68002A4D19 /* Storyboard */,
 				1883D9131ACBBE5E002A4D19 /* Images.xcassets */,
@@ -628,6 +639,24 @@
 			name = Helper;
 			sourceTree = "<group>";
 		};
+		6BBAB94E1ADE6ACB00EC342F /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				6BBAB94F1ADE6ACB00EC342F /* SVProgressHUD.bundle */,
+				6BBAB9501ADE6ACB00EC342F /* SVProgressHUD.h */,
+				6BBAB9511ADE6ACB00EC342F /* SVProgressHUD.m */,
+			);
+			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
+		6BBAB9581ADE724300EC342F /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				6BBAB9591ADE724300EC342F /* AlipayConfig.h */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
 		6BC220931AD7800D00A4310E /* Op */ = {
 			isa = PBXGroup;
 			children = (
@@ -647,6 +676,8 @@
 				6BBAB8C61ADD1ED900EC342F /* GetShopByDistanceOp.m */,
 				6BBAB8CF1ADE30F900EC342F /* GetShopRatesOp.h */,
 				6BBAB8D01ADE30F900EC342F /* GetShopRatesOp.m */,
+				6BBAB9771ADE77E500EC342F /* GetUserResourcesOp.h */,
+				6BBAB9781ADE77E500EC342F /* GetUserResourcesOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -755,6 +786,7 @@
 				189B30CA1AD664F5001D7288 /* Insurance.storyboard in Resources */,
 				1883D8F31ACB99AC002A4D19 /* LaunchScreen.xib in Resources */,
 				189B311D1ADBEFDF001D7288 /* policy.json in Resources */,
+				6BBAB9521ADE6ACB00EC342F /* SVProgressHUD.bundle in Resources */,
 				189B30FF1AD7A85A001D7288 /* Common.storyboard in Resources */,
 				1816F4A51ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist in Resources */,
 				1883D9141ACBBE5E002A4D19 /* Images.xcassets in Resources */,
@@ -855,11 +887,13 @@
 				189B31061AD7B7F5001D7288 /* UIView+Shake.m in Sources */,
 				1816F4A81ACD3B0900BBCC96 /* SYPaginatorViewController.m in Sources */,
 				189B31141ADB60AE001D7288 /* JGActionSheet.m in Sources */,
+				6BBAB9531ADE6ACB00EC342F /* SVProgressHUD.m in Sources */,
 				184E40D21AD3D01B00EFC3A6 /* JTShop.m in Sources */,
 				1816F4A61ACD3B0900BBCC96 /* SYPaginatorScrollView.m in Sources */,
 				184E40C31AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m in Sources */,
 				6BBAB8C01ADBC21600EC342F /* DesUtil.m in Sources */,
 				189B30C31AD64310001D7288 /* ChooseCarwashTicketVC.m in Sources */,
+				6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */,
 				6BBAB8C71ADD1ED900EC342F /* GetShopByDistanceOp.m in Sources */,
 				1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */,
 				189B30C71AD664D7001D7288 /* InsuranceVC.m in Sources */,
@@ -1013,9 +1047,35 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: fang wei (KXBH2Y68BE)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK",
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking2-RACExtensions\"",
+					"\"${PODS_ROOT}/Headers/Public/FoundationExtension\"",
+					"\"${PODS_ROOT}/Headers/Public/FoundationExtension/AddressBookExtension\"",
+					"\"${PODS_ROOT}/Headers/Public/FoundationExtension/UIKitExtension\"",
+					"\"${PODS_ROOT}/Headers/Public/IQKeyboardManager\"",
+					"\"${PODS_ROOT}/Headers/Public/MZAppearance\"",
+					"\"${PODS_ROOT}/Headers/Public/MZFormSheetController\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa\"",
+					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa/ReactiveCocoa\"",
+					"\"${PODS_ROOT}/Headers/Public/SFHFKeychainUtils\"",
+					"\"${PODS_ROOT}/Headers/Public/cdebug\"",
+					"\"${PODS_ROOT}/Headers/Public/ckkit\"",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK",
+				);
 				INFOPLIST_FILE = XiaoMa/Misc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7ce6c275-fbb9-4c39-8f3b-8cb6ebc2590e";
 			};
@@ -1029,9 +1089,35 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Suzhou Longtang Information and Technology Co.,Ltd";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Suzhou Longtang Information and Technology Co.,Ltd";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK",
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking2-RACExtensions\"",
+					"\"${PODS_ROOT}/Headers/Public/FoundationExtension\"",
+					"\"${PODS_ROOT}/Headers/Public/FoundationExtension/AddressBookExtension\"",
+					"\"${PODS_ROOT}/Headers/Public/FoundationExtension/UIKitExtension\"",
+					"\"${PODS_ROOT}/Headers/Public/IQKeyboardManager\"",
+					"\"${PODS_ROOT}/Headers/Public/MZAppearance\"",
+					"\"${PODS_ROOT}/Headers/Public/MZFormSheetController\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa\"",
+					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa/ReactiveCocoa\"",
+					"\"${PODS_ROOT}/Headers/Public/SFHFKeychainUtils\"",
+					"\"${PODS_ROOT}/Headers/Public/cdebug\"",
+					"\"${PODS_ROOT}/Headers/Public/ckkit\"",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK",
+				);
 				INFOPLIST_FILE = XiaoMa/Misc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "5c663493-e5d0-4217-aed1-968a373e7675";
 			};

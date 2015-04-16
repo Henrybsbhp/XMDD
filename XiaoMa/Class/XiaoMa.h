@@ -16,6 +16,7 @@
 #import <UIKitExtension.h>
 #import "UIStoryboard+Expansion.h"
 #import <MZFormSheetController.h>
+#import "SVProgressHUD.h"
 
 //单例
 #import "AppManager.h"
