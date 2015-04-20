@@ -276,7 +276,7 @@
 
 - (void)requestCarWashShopList
 {
-    GetShopByDistanceOp * getShopByDistanceOp = [GetShopByDistanceOp operation];
+    GetShopByDistanceOp * getShopByDistanceOp = [GetShopByDistanceOp new];
     getShopByDistanceOp.longitude = 120.189234;
     getShopByDistanceOp.latitude = 30.254189;
     getShopByDistanceOp.pageno = self.currentPageIndex;
@@ -321,7 +321,7 @@
         return;
     }
     
-    GetShopByDistanceOp * getShopByDistanceOp = [GetShopByDistanceOp operation];
+    GetShopByDistanceOp * getShopByDistanceOp = [GetShopByDistanceOp new];
     getShopByDistanceOp.longitude = 120.189234;
     getShopByDistanceOp.latitude = 30.254189;
     getShopByDistanceOp.pageno = self.currentPageIndex + 1;

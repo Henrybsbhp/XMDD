@@ -71,8 +71,7 @@
 		189B31161ADBDF07001D7288 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 189B31151ADBDF07001D7288 /* MobileCoreServices.framework */; };
 		189B311A1ADBEBE8001D7288 /* PolicyInfomationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B31191ADBEBE8001D7288 /* PolicyInfomationVC.m */; };
 		189B311D1ADBEFDF001D7288 /* policy.json in Resources */ = {isa = PBXBuildFile; fileRef = 189B311C1ADBEFDF001D7288 /* policy.json */; };
-<<<<<<< HEAD
-=======
+
 		6B086BA11AE3184D00659DB7 /* GetShopByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */; };
 		6BB884B11AE0B3FE00EBD8F4 /* hz.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 6BB884B01AE0B3FE00EBD8F4 /* hz.gpx */; };
 		6BB884BA1AE0BB9600EBD8F4 /* JTHeadRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884B51AE0BB9600EBD8F4 /* JTHeadRefreshView.m */; };
@@ -89,7 +88,7 @@
 		6BB884D71AE0F31700EBD8F4 /* HKCoupon.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884D61AE0F31700EBD8F4 /* HKCoupon.m */; };
 		6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884D91AE0F3CC00EBD8F4 /* HKMyCar.m */; };
 		6BB884DD1AE0FE7500EBD8F4 /* GetUserCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884DC1AE0FE7500EBD8F4 /* GetUserCarOp.m */; };
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
+
 		6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8AC1ADB6A8A00EC342F /* AuthByVcodeOp.m */; };
 		6BBAB8B01ADB754500EC342F /* GetTokenOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8AF1ADB754500EC342F /* GetTokenOp.m */; };
 		6BBAB8B31ADB777500EC342F /* GetVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8B21ADB777500EC342F /* GetVcodeOp.m */; };
@@ -110,8 +109,7 @@
 		6BC2209C1AD7AAF300A4310E /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2209B1AD7AAF300A4310E /* NetworkManager.m */; };
 		6BC2209F1AD7AC9D00A4310E /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2209E1AD7AC9D00A4310E /* NSString+MD5.m */; };
 		6BC220A21AD7B22300A4310E /* AFHTTPRequestOperationManager+ReactiveCocoa.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC220A11AD7B22300A4310E /* AFHTTPRequestOperationManager+ReactiveCocoa.m */; };
-<<<<<<< HEAD
-=======
+
 		6BC3B60F1ADF52CB001016A0 /* BaseMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B60E1ADF52CB001016A0 /* BaseMapViewController.m */; };
 		6BC3B6121ADF6205001016A0 /* MapHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B6111ADF6205001016A0 /* MapHelper.m */; };
 		6BC3B6151ADF69B5001016A0 /* CarWashNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B6141ADF69B5001016A0 /* CarWashNavigationViewController.m */; };
@@ -140,7 +138,7 @@
 		6BEA56D21AE24DCE000D19C1 /* openssl_wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BB1AE24DCE000D19C1 /* openssl_wrapper.m */; };
 		6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BD1AE24DCE000D19C1 /* RSADataSigner.m */; };
 		6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BF1AE24DCE000D19C1 /* RSADataVerifier.m */; };
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
+
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -503,16 +501,13 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
 				1853DEDA1AE3DB6B00C39175 /* SVProgressHUD */,
 				1853DEB11AE0A26700C39175 /* DebugLog */,
-=======
 				6BEA56491AE24DCD000D19C1 /* AlipaySDK */,
 				6BB884C91AE0BC6A00EBD8F4 /* MONActivityIndicatorView */,
 				6BB884CD1AE0BC6A00EBD8F4 /* TYMActivityIndicatorView */,
 				6BB884BD1AE0BC3000EBD8F4 /* SlimeRefresh */,
 				6BBAB94E1ADE6ACB00EC342F /* SVProgressHUD */,
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
 				6BBAB8B71ADBC21600EC342F /* DESConverUtil */,
 				189B31111ADB60AD001D7288 /* JGActionSheet */,
 				1816F4931ACD3B0900BBCC96 /* SYPaginator */,
@@ -580,12 +575,9 @@
 		1816F4B51AD36D5100BBCC96 /* Component */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
 				1853DEC51AE0EF8B00C39175 /* ProgressHUD */,
-=======
 				6BB884B31AE0BB9600EBD8F4 /* TableView */,
 				6BC3B6161ADF92CF001016A0 /* Other */,
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
 				189B30CE1AD782C1001D7288 /* SignalSupport */,
 				189B30AA1AD4D62C001D7288 /* TableAutoHeight */,
 				184E40C71AD3B6C700EFC3A6 /* Cell */,
@@ -953,8 +945,6 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
-<<<<<<< HEAD
-=======
 		6BB884B31AE0BB9600EBD8F4 /* TableView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1003,7 +993,6 @@
 			path = TYMActivityIndicatorView;
 			sourceTree = "<group>";
 		};
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
 		6BBAB8B71ADBC21600EC342F /* DESConverUtil */ = {
 			isa = PBXGroup;
 			children = (
@@ -1027,8 +1016,6 @@
 			name = Helper;
 			sourceTree = "<group>";
 		};
-<<<<<<< HEAD
-=======
 		6BBAB94E1ADE6ACB00EC342F /* SVProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -1048,17 +1035,13 @@
 			path = Other;
 			sourceTree = "<group>";
 		};
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
 		6BC220931AD7800D00A4310E /* Op */ = {
 			isa = PBXGroup;
 			children = (
 				6BC220941AD7801C00A4310E /* BaseOp.h */,
 				6BC220951AD7801C00A4310E /* BaseOp.m */,
-<<<<<<< HEAD
 				1853DEB51AE0B92400C39175 /* AuthByPwdOp.h */,
 				1853DEB61AE0B92400C39175 /* AuthByPwdOp.m */,
-=======
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
 				6BBAB8AB1ADB6A8A00EC342F /* AuthByVcodeOp.h */,
 				6BBAB8AC1ADB6A8A00EC342F /* AuthByVcodeOp.m */,
 				6BBAB8AE1ADB754500EC342F /* GetTokenOp.h */,
@@ -1071,8 +1054,6 @@
 				6BBAB8C31ADCBD1400EC342F /* GetShopByRangeOp.m */,
 				6BBAB8C51ADD1ED900EC342F /* GetShopByDistanceOp.h */,
 				6BBAB8C61ADD1ED900EC342F /* GetShopByDistanceOp.m */,
-<<<<<<< HEAD
-=======
 				6BBAB8CF1ADE30F900EC342F /* GetShopRatesOp.h */,
 				6BBAB8D01ADE30F900EC342F /* GetShopRatesOp.m */,
 				6BBAB9771ADE77E500EC342F /* GetUserResourcesOp.h */,
@@ -1083,13 +1064,11 @@
 				6BEA56441AE2488C000D19C1 /* CheckoutServiceOrderOp.m */,
 				6B086B9F1AE3184D00659DB7 /* GetShopByNameOp.h */,
 				6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */,
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
 			);
 			name = Op;
 			sourceTree = "<group>";
 		};
-<<<<<<< HEAD
-=======
+
 		6BC3B6161ADF92CF001016A0 /* Other */ = {
 			isa = PBXGroup;
 			children = (
@@ -1247,7 +1226,6 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
 		C5BD8500918CA8D253037804 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1357,11 +1335,8 @@
 				6BBAB9521ADE6ACB00EC342F /* SVProgressHUD.bundle in Resources */,
 				6BB884B11AE0B3FE00EBD8F4 /* hz.gpx in Resources */,
 				189B30FF1AD7A85A001D7288 /* Common.storyboard in Resources */,
-<<<<<<< HEAD
 				1853DEDE1AE3DB6B00C39175 /* SVProgressHUD.bundle in Resources */,
-=======
 				6BB884D11AE0BC6A00EBD8F4 /* .gitkeep in Resources */,
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
 				1816F4A51ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist in Resources */,
 				6BB884D31AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.bundle in Resources */,
 				1883D9141ACBBE5E002A4D19 /* Images.xcassets in Resources */,
@@ -1455,11 +1430,8 @@
 				6BBAB8D11ADE30F900EC342F /* GetShopRatesOp.m in Sources */,
 				6BC220A21AD7B22300A4310E /* AFHTTPRequestOperationManager+ReactiveCocoa.m in Sources */,
 				6BBAB8B01ADB754500EC342F /* GetTokenOp.m in Sources */,
-<<<<<<< HEAD
 				1853DECB1AE0F72500C39175 /* RegisterVC.m in Sources */,
-=======
 				6BEA56481AE24D34000D19C1 /* AlipayHelper.m in Sources */,
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
 				189B30CD1AD762B1001D7288 /* EnquiryInsuranceVC.m in Sources */,
 				6BEA56C91AE24DCE000D19C1 /* SBJsonParser.m in Sources */,
 				189B30B01AD4D661001D7288 /* JTTableViewController.m in Sources */,
@@ -1482,13 +1454,10 @@
 				1883D9101ACBBE30002A4D19 /* main.m in Sources */,
 				189B30B71AD50627001D7288 /* PayForWashCarVC.m in Sources */,
 				6BBAB8B61ADBC12D00EC342F /* UpdatePwdOp.m in Sources */,
-<<<<<<< HEAD
 				1853DED41AE2A0BD00C39175 /* VcodeLoginVC.m in Sources */,
-=======
 				6BB884C81AE0BC3000EBD8F4 /* SRSlimeView.m in Sources */,
 				6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */,
 				6BC3B60F1ADF52CB001016A0 /* BaseMapViewController.m in Sources */,
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
 				6BBAB8C11ADBC21600EC342F /* GTMBase64.m in Sources */,
 				6BBAB8CE1ADE059300EC342F /* DistanceCalcHelper.m in Sources */,
 				6BEA56C21AE24DCE000D19C1 /* AlixPayOrder.m in Sources */,
