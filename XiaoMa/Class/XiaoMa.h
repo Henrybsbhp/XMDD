@@ -16,8 +16,11 @@
 #import <UIKitExtension.h>
 #import "UIStoryboard+Expansion.h"
 #import <MZFormSheetController.h>
+#import "DebugFormat.h"
 
 //单例
+#import "HKToast.h"
+#import "AppDelegate.h"
 #import "AppManager.h"
 #import "NetworkManager.h"
 #import "DefaultStyleModel.h"
@@ -29,5 +32,6 @@
 #import "Contants.h"
 
 #import "BaseOp.h"
+#import "LoginViewModel.h"
 
 #endif

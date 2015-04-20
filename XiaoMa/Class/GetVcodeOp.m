@@ -15,11 +15,16 @@
     self.req_method = @"/vcode/get";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params addParam:self.phone forName:@"phone"];
-    [params addParam:self.token forName:@"token"];
-    [params addParam:self.type forName:@"type"];
+    [params addParam:self.req_phone forName:@"phone"];
+    [params addParam:self.req_token forName:@"token"];
+    [params addParam:@(self.req_type) forName:@"type"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
+}
+
+- (id)returnSimulateResponse
+{
+    return @{@"rc":@0};
 }
 
 @end

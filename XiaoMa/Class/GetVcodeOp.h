@@ -11,12 +11,11 @@
 @interface GetVcodeOp : BaseOp
 
 ///手机号码
-@property (nonatomic,copy)NSString * phone;
+@property (nonatomic,strong) NSString *req_phone;
+
+@property (nonatomic,strong) NSString *req_token;
 
 ///会话令牌
-@property (nonatomic,copy)NSString * token;
-
-///会话令牌
-@property (nonatomic,copy)NSString * type;
+@property (nonatomic,assign) NSInteger req_type;
 
 @end

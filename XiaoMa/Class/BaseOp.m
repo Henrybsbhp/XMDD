@@ -26,32 +26,11 @@ static int32_t g_requestVid = 1;
 - (instancetype)init
 {
     self = [super init];
-    
-
     if (self) {
-//#ifdef DEBUG
-//        self.simulateResponse = gNetworkMgr.simulateResponse;
-//        self.simulateResponseDelay = gNetworkMgr.simulateResponseDelay;
-//        
-//        // 设置部分类全局打开模拟
-//        NSArray * simulatedOps = @[//@"GetShangpinlbOp", //在这里增加需要模拟的网络请求
-//                                   //@"GetLeimulbOp",
-//                                   //@"GetShangpinpjlbOp",
-//                                   //@"GetShangpinOp"
-//                                   ];
-//        if ([simulatedOps containsObject:[self.class name]]) {
-//            self.simulateResponse = YES;
-//        }
-//#else
-//        self.simulateResponse = NO;
-//#endif
+        _simulateResponse = gNetworkMgr.simulateResponse;
+        _simulateResponseDelay = gNetworkMgr.simulateResponseDelay;
     }
     return self;
-}
-
-+ (instancetype)operation
-{
-    return [[self alloc] init];
 }
 
 - (void)increaseRequistIDs
@@ -68,24 +47,24 @@ static int32_t g_requestVid = 1;
         params = [self addSecurityParamsFrom:params];
     }
     
-//    if (self.simulateResponse) {
-//        DebugLog(@"%@模拟 %@\nmethod:%@ (id:%d)\nParams:%@",
-//                 kReqPrefix, client.endpointURL,self.req_method, self.req_id, params);
-//        return [self rac_simulateResponse];
-//    }
+    if (self.simulateResponse) {
+        DebugLog(@"%@模拟 %@\nmethod:%@ (id:%d)\nParams:%@",
+                 kReqPrefix, manager.baseURL, self.req_method, self.req_id, params);
+        return [self rac_simulateResponse];
+    }
     
     AFHTTPRequestOperation *af_op;
     RACSignal *sig = [[[[manager rac_invokeMethod:self.req_method parameters:params requestId:@(self.req_id) operation:&af_op] map:^id(RACTuple *tuple) {
         
         AFHTTPRequestOperation *op = tuple.first;
         self.rsp_statusCode = op.response.statusCode;
-        self.rsp_Code = [tuple.second integerValue];
         self.rsp_error = nil;
         self.response = op.response;
-        id rsp = [self filterNSNullForParentObject:nil addNewObject:tuple.third withKey:nil fromOldObject:nil];
+        id rsp = [self filterNSNullForParentObject:nil addNewObject:tuple.second withKey:nil fromOldObject:nil];
         
-        if (self.rsp_Code == 0)
+        if (self.rsp_code == 0)
         {
+            [self parseDefaultResponseObject:rsp];
             if ([self respondsToSelector:@selector(parseResponseObject:)]) {
                 
                 return [self parseResponseObject:rsp];
@@ -98,17 +77,17 @@ static int32_t g_requestVid = 1;
         self.rsp_statusCode = error.code;
         self.rsp_error = error;
         
-//        DebugLog(@"〓〓〓〓〓〓〓〓 error:%@\n"
-//                 "method:%@ (id: %@)\n"
-//                 "code:  %ld", error.userInfo[NSLocalizedDescriptionKey], self.req_method, @(self.req_id), (long)error.code);
-//        
-//        DebugLog(@"\n\n=====================Begin %@(id: %@) Error Detail==============================\n%@", self.req_method, @(self.req_id), error);
-//        DebugLog(@"=====================Endof %@(id: %@) Error Detail==============================\n\n", self.req_method, @(self.req_id));
+        DebugLog(@"〓〓〓〓〓〓〓〓 error:%@\n"
+                 "method:%@ (id: %@)\n"
+                 "code:  %ld", error.userInfo[NSLocalizedDescriptionKey], self.req_method, @(self.req_id), (long)error.code);
         
-//        if (gNetworkMgr.catchErrorHandler)
-//        {
-//            return gNetworkMgr.catchErrorHandler(self, error);
-//        }
+        DebugLog(@"\n\n=====================Begin %@(id: %@) Error Detail==============================\n%@", self.req_method, @(self.req_id), error);
+        DebugLog(@"=====================Endof %@(id: %@) Error Detail==============================\n\n", self.req_method, @(self.req_id));
+        
+        if (gNetworkMgr.catchErrorHandler)
+        {
+            return gNetworkMgr.catchErrorHandler(self, error);
+        }
         return [RACSignal error:error];
     }] replay];
     
@@ -146,6 +125,14 @@ static int32_t g_requestVid = 1;
     }];
 }
 
+#pragma mark - Parse
+- (void)parseDefaultResponseObject:(id)obj
+{
+    if ([obj isKindOfClass:[NSDictionary class]]) {
+        self.rsp_code = [[(NSDictionary *)obj objectForKey:@"rc"] integerValue];
+    }
+}
+
 #pragma mark - Simulation
 - (RACSignal *)rac_simulateResponse
 {
@@ -154,19 +141,27 @@ static int32_t g_requestVid = 1;
         
         if ([self respondsToSelector:@selector(returnSimulateResponse)]) {
             id rsp = [self returnSimulateResponse];
-//            DebugLog(@"%@模拟\nmethod:%@ (id:%d)\nresponse:%@", kRspPrefix, self.req_method, self.req_id, rsp);
+            DebugLog(@"%@模拟\nmethod:%@ (id:%d)\nresponse:%@", kRspPrefix, self.req_method, self.req_id, rsp);
             if ([rsp isKindOfClass:[NSError class]]) {
                 return [RACSignal error:rsp];
             }
             rsp = [self filterNSNullForParentObject:nil addNewObject:rsp withKey:nil fromOldObject:nil];
+            id rstObj;
+            if (rsp) {
+                [self parseDefaultResponseObject:rsp];
+                rstObj = self;
+            }
             if ([self respondsToSelector:@selector(parseResponseObject:)]) {
-                return [RACSignal return:[self parseResponseObject:rsp]];
+                rstObj = [self parseResponseObject:rsp];
+            }
+            if (rstObj) {
+                return [RACSignal return:rstObj];
             }
         }
         return [RACSignal error:[NSError errorWithDomain:@"没有定义模拟数据" code:0 userInfo:nil]];
     }] doError:^(NSError *error) {
         
-//        DebugLog(@"%@模拟 method:%@ (id:%d):\n%@", kErrPrefix, self.req_method, self.req_id, error);
+        DebugLog(@"%@模拟 method:%@ (id:%d):\n%@", kErrPrefix, self.req_method, self.req_id, error);
     }] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 

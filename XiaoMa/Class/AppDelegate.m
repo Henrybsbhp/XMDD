@@ -7,15 +7,18 @@
 //
 
 #import "AppDelegate.h"
+#import "XiaoMa.h"
 #import "DefaultStyleModel.h"
 #import <AFNetworking.h>
+#import <CocoaLumberjack.h>
 #import "AuthByVcodeOp.h"
 #import "GetTokenOp.h"
 #import "GetVcodeOp.h"
+#import "HKCatchErrorModel.h"
 #import "GetShopByRangeOp.h"
 
 @interface AppDelegate ()
-
+@property (nonatomic, strong) DDFileLogger *fileLogger;
 @end
 
 @implementation AppDelegate
@@ -23,25 +26,49 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    //设置日志系统
+    [self setupLogger];
+    //设置错误处理
+    [HKCatchErrorModel catchNetworkingError];
+    //设置默认UI样式
     [DefaultStyleModel setupDefaultStyle];
     
-    GetTokenOp * op = [GetTokenOp operation];
-    op.phone = @"13958064824";
-    [[op rac_postRequest] subscribeNext:^(GetTokenOp * op) {
-        
-        gNetworkMgr.token = op.token;
-        
-        GetVcodeOp * op2 = [GetVcodeOp operation];
-        op2.phone = @"13958064824";
-        op2.token = gNetworkMgr.token;
-        op2.type = @"3";
-        
-        [[op2 rac_postRequest] subscribeNext:^(GetVcodeOp * op2) {
-            
-        }];
-    }];
+//    GetTokenOp * op = [GetTokenOp operation];
+//    op.phone = @"13958064824";
+//    [[op rac_postRequest] subscribeNext:^(GetTokenOp * op) {
+//        
+//        gNetworkMgr.token = op.token;
+//        
+//        GetVcodeOp * op2 = [GetVcodeOp operation];
+//        op2.phone = @"13958064824";
+//        op2.token = gNetworkMgr.token;
+//        op2.type = @"3";
+//        
+//        [[op2 rac_postRequest] subscribeNext:^(GetVcodeOp * op2) {
+//            
+//        }];
+//    }];
     
     return YES;
+}
+
+#pragma mark - Initialize
+- (void)setupLogger
+{
+    DebugFormat *formatter = [[DebugFormat alloc] init];
+    
+    [[DDTTYLogger sharedInstance] setLogFormatter:formatter];
+    
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    
+    self.fileLogger = [[DDFileLogger alloc] init];
+    self.fileLogger.logFileManager.maximumNumberOfLogFiles = 100;
+    self.fileLogger.maximumFileSize = 5 * 1024 * 1024;
+    //fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
+    [self.fileLogger setLogFormatter:formatter];
+    [DDLog addLogger:self.fileLogger];
+    
+    [DDLog addLogger:[DDASLLogger sharedInstance]];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
