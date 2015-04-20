@@ -38,8 +38,6 @@
 		1853DECE1AE100CA00C39175 /* HKSMSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853DECD1AE100CA00C39175 /* HKSMSModel.m */; };
 		1853DED11AE2971500C39175 /* ResetPasswordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853DED01AE2971500C39175 /* ResetPasswordVC.m */; };
 		1853DED41AE2A0BD00C39175 /* VcodeLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853DED31AE2A0BD00C39175 /* VcodeLoginVC.m */; };
-		1853DEDE1AE3DB6B00C39175 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1853DEDB1AE3DB6B00C39175 /* SVProgressHUD.bundle */; };
-		1853DEDF1AE3DB6B00C39175 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853DEDD1AE3DB6B00C39175 /* SVProgressHUD.m */; };
 		187532D31ACCDEEF004CB777 /* HomePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 187532D21ACCDEEF004CB777 /* HomePageVC.m */; };
 		1883D8F31ACB99AC002A4D19 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1883D8F11ACB99AC002A4D19 /* LaunchScreen.xib */; };
 		1883D8FF1ACB99AC002A4D19 /* XiaoMaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D8FE1ACB99AC002A4D19 /* XiaoMaTests.m */; };
@@ -71,7 +69,8 @@
 		189B31161ADBDF07001D7288 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 189B31151ADBDF07001D7288 /* MobileCoreServices.framework */; };
 		189B311A1ADBEBE8001D7288 /* PolicyInfomationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B31191ADBEBE8001D7288 /* PolicyInfomationVC.m */; };
 		189B311D1ADBEFDF001D7288 /* policy.json in Resources */ = {isa = PBXBuildFile; fileRef = 189B311C1ADBEFDF001D7288 /* policy.json */; };
-
+		18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */; };
+		18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */; };
 		6B086BA11AE3184D00659DB7 /* GetShopByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */; };
 		6BB884B11AE0B3FE00EBD8F4 /* hz.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 6BB884B01AE0B3FE00EBD8F4 /* hz.gpx */; };
 		6BB884BA1AE0BB9600EBD8F4 /* JTHeadRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884B51AE0BB9600EBD8F4 /* JTHeadRefreshView.m */; };
@@ -88,7 +87,6 @@
 		6BB884D71AE0F31700EBD8F4 /* HKCoupon.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884D61AE0F31700EBD8F4 /* HKCoupon.m */; };
 		6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884D91AE0F3CC00EBD8F4 /* HKMyCar.m */; };
 		6BB884DD1AE0FE7500EBD8F4 /* GetUserCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884DC1AE0FE7500EBD8F4 /* GetUserCarOp.m */; };
-
 		6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8AC1ADB6A8A00EC342F /* AuthByVcodeOp.m */; };
 		6BBAB8B01ADB754500EC342F /* GetTokenOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8AF1ADB754500EC342F /* GetTokenOp.m */; };
 		6BBAB8B31ADB777500EC342F /* GetVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8B21ADB777500EC342F /* GetVcodeOp.m */; };
@@ -101,15 +99,12 @@
 		6BBAB8CE1ADE059300EC342F /* DistanceCalcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8CD1ADE059300EC342F /* DistanceCalcHelper.m */; };
 		6BBAB8D11ADE30F900EC342F /* GetShopRatesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8D01ADE30F900EC342F /* GetShopRatesOp.m */; };
 		6BBAB8D41ADE3CBC00EC342F /* NSDate+DateForText.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8D31ADE3CBC00EC342F /* NSDate+DateForText.m */; };
-		6BBAB9521ADE6ACB00EC342F /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6BBAB94F1ADE6ACB00EC342F /* SVProgressHUD.bundle */; };
-		6BBAB9531ADE6ACB00EC342F /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB9511ADE6ACB00EC342F /* SVProgressHUD.m */; };
 		6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB9781ADE77E500EC342F /* GetUserResourcesOp.m */; };
 		6BC220961AD7801C00A4310E /* BaseOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC220951AD7801C00A4310E /* BaseOp.m */; };
 		6BC220991AD7804800A4310E /* NSMutableDictionary+AddParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC220981AD7804800A4310E /* NSMutableDictionary+AddParams.m */; };
 		6BC2209C1AD7AAF300A4310E /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2209B1AD7AAF300A4310E /* NetworkManager.m */; };
 		6BC2209F1AD7AC9D00A4310E /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2209E1AD7AC9D00A4310E /* NSString+MD5.m */; };
 		6BC220A21AD7B22300A4310E /* AFHTTPRequestOperationManager+ReactiveCocoa.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC220A11AD7B22300A4310E /* AFHTTPRequestOperationManager+ReactiveCocoa.m */; };
-
 		6BC3B60F1ADF52CB001016A0 /* BaseMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B60E1ADF52CB001016A0 /* BaseMapViewController.m */; };
 		6BC3B6121ADF6205001016A0 /* MapHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B6111ADF6205001016A0 /* MapHelper.m */; };
 		6BC3B6151ADF69B5001016A0 /* CarWashNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B6141ADF69B5001016A0 /* CarWashNavigationViewController.m */; };
@@ -138,7 +133,6 @@
 		6BEA56D21AE24DCE000D19C1 /* openssl_wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BB1AE24DCE000D19C1 /* openssl_wrapper.m */; };
 		6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BD1AE24DCE000D19C1 /* RSADataSigner.m */; };
 		6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BF1AE24DCE000D19C1 /* RSADataVerifier.m */; };
-
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -210,9 +204,6 @@
 		1853DED01AE2971500C39175 /* ResetPasswordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetPasswordVC.m; sourceTree = "<group>"; };
 		1853DED21AE2A0BD00C39175 /* VcodeLoginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VcodeLoginVC.h; sourceTree = "<group>"; };
 		1853DED31AE2A0BD00C39175 /* VcodeLoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VcodeLoginVC.m; sourceTree = "<group>"; };
-		1853DEDB1AE3DB6B00C39175 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
-		1853DEDC1AE3DB6B00C39175 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
-		1853DEDD1AE3DB6B00C39175 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		187532D01ACCDD58004CB777 /* Contants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Contants.h; path = Class/Contants.h; sourceTree = "<group>"; };
 		187532D11ACCDEEF004CB777 /* HomePageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageVC.h; sourceTree = "<group>"; };
 		187532D21ACCDEEF004CB777 /* HomePageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageVC.m; sourceTree = "<group>"; };
@@ -271,6 +262,9 @@
 		189B31181ADBEBE8001D7288 /* PolicyInfomationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PolicyInfomationVC.h; sourceTree = "<group>"; };
 		189B31191ADBEBE8001D7288 /* PolicyInfomationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PolicyInfomationVC.m; sourceTree = "<group>"; };
 		189B311C1ADBEFDF001D7288 /* policy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = policy.json; sourceTree = "<group>"; };
+		18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
+		18A377F21AE4AB4B0031A574 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6B086B9F1AE3184D00659DB7 /* GetShopByNameOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShopByNameOp.h; path = Class/GetShopByNameOp.h; sourceTree = "<group>"; };
 		6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetShopByNameOp.m; path = Class/GetShopByNameOp.m; sourceTree = "<group>"; };
@@ -326,9 +320,6 @@
 		6BBAB8D01ADE30F900EC342F /* GetShopRatesOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetShopRatesOp.m; path = Class/GetShopRatesOp.m; sourceTree = "<group>"; };
 		6BBAB8D21ADE3CBC00EC342F /* NSDate+DateForText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+DateForText.h"; path = "Class/NSDate+DateForText.h"; sourceTree = "<group>"; };
 		6BBAB8D31ADE3CBC00EC342F /* NSDate+DateForText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+DateForText.m"; path = "Class/NSDate+DateForText.m"; sourceTree = "<group>"; };
-		6BBAB94F1ADE6ACB00EC342F /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
-		6BBAB9501ADE6ACB00EC342F /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
-		6BBAB9511ADE6ACB00EC342F /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		6BBAB9591ADE724300EC342F /* AlipayConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlipayConfig.h; sourceTree = "<group>"; };
 		6BBAB9771ADE77E500EC342F /* GetUserResourcesOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserResourcesOp.h; path = Class/GetUserResourcesOp.h; sourceTree = "<group>"; };
 		6BBAB9781ADE77E500EC342F /* GetUserResourcesOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserResourcesOp.m; path = Class/GetUserResourcesOp.m; sourceTree = "<group>"; };
@@ -501,13 +492,12 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				1853DEDA1AE3DB6B00C39175 /* SVProgressHUD */,
+				18A377F01AE4AB4B0031A574 /* SVProgressHUD */,
 				1853DEB11AE0A26700C39175 /* DebugLog */,
 				6BEA56491AE24DCD000D19C1 /* AlipaySDK */,
 				6BB884C91AE0BC6A00EBD8F4 /* MONActivityIndicatorView */,
 				6BB884CD1AE0BC6A00EBD8F4 /* TYMActivityIndicatorView */,
 				6BB884BD1AE0BC3000EBD8F4 /* SlimeRefresh */,
-				6BBAB94E1ADE6ACB00EC342F /* SVProgressHUD */,
 				6BBAB8B71ADBC21600EC342F /* DESConverUtil */,
 				189B31111ADB60AD001D7288 /* JGActionSheet */,
 				1816F4931ACD3B0900BBCC96 /* SYPaginator */,
@@ -673,16 +663,6 @@
 				1853DEC71AE0EFD200C39175 /* HKToast.m */,
 			);
 			name = ProgressHUD;
-			sourceTree = "<group>";
-		};
-		1853DEDA1AE3DB6B00C39175 /* SVProgressHUD */ = {
-			isa = PBXGroup;
-			children = (
-				1853DEDB1AE3DB6B00C39175 /* SVProgressHUD.bundle */,
-				1853DEDC1AE3DB6B00C39175 /* SVProgressHUD.h */,
-				1853DEDD1AE3DB6B00C39175 /* SVProgressHUD.m */,
-			);
-			path = SVProgressHUD;
 			sourceTree = "<group>";
 		};
 		1883D8D61ACB99AC002A4D19 = {
@@ -945,6 +925,16 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
+		18A377F01AE4AB4B0031A574 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */,
+				18A377F21AE4AB4B0031A574 /* SVProgressHUD.h */,
+				18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */,
+			);
+			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
 		6BB884B31AE0BB9600EBD8F4 /* TableView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1016,16 +1006,6 @@
 			name = Helper;
 			sourceTree = "<group>";
 		};
-		6BBAB94E1ADE6ACB00EC342F /* SVProgressHUD */ = {
-			isa = PBXGroup;
-			children = (
-				6BBAB94F1ADE6ACB00EC342F /* SVProgressHUD.bundle */,
-				6BBAB9501ADE6ACB00EC342F /* SVProgressHUD.h */,
-				6BBAB9511ADE6ACB00EC342F /* SVProgressHUD.m */,
-			);
-			path = SVProgressHUD;
-			sourceTree = "<group>";
-		};
 		6BBAB9581ADE724300EC342F /* Other */ = {
 			isa = PBXGroup;
 			children = (
@@ -1068,7 +1048,6 @@
 			name = Op;
 			sourceTree = "<group>";
 		};
-
 		6BC3B6161ADF92CF001016A0 /* Other */ = {
 			isa = PBXGroup;
 			children = (
@@ -1332,13 +1311,12 @@
 				189B30CA1AD664F5001D7288 /* Insurance.storyboard in Resources */,
 				1883D8F31ACB99AC002A4D19 /* LaunchScreen.xib in Resources */,
 				189B311D1ADBEFDF001D7288 /* policy.json in Resources */,
-				6BBAB9521ADE6ACB00EC342F /* SVProgressHUD.bundle in Resources */,
 				6BB884B11AE0B3FE00EBD8F4 /* hz.gpx in Resources */,
 				189B30FF1AD7A85A001D7288 /* Common.storyboard in Resources */,
-				1853DEDE1AE3DB6B00C39175 /* SVProgressHUD.bundle in Resources */,
 				6BB884D11AE0BC6A00EBD8F4 /* .gitkeep in Resources */,
 				1816F4A51ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist in Resources */,
 				6BB884D31AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.bundle in Resources */,
+				18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */,
 				1883D9141ACBBE5E002A4D19 /* Images.xcassets in Resources */,
 				6BB884C51AE0BC3000EBD8F4 /* sr_refresh.png in Resources */,
 				1816F4AC1ACE74C000BBCC96 /* Carwash.storyboard in Resources */,
@@ -1402,6 +1380,7 @@
 				6BB884D21AE0BC6A00EBD8F4 /* MONActivityIndicatorView.m in Sources */,
 				6BB884DD1AE0FE7500EBD8F4 /* GetUserCarOp.m in Sources */,
 				6BEA56CE1AE24DCE000D19C1 /* DataSigner.m in Sources */,
+				18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */,
 				1816F4BD1AD3A8AD00BBCC96 /* JTNavigationController.m in Sources */,
 				1816F4B01ACE75FB00BBCC96 /* CarWashTableVC.m in Sources */,
 				1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */,
@@ -1476,12 +1455,10 @@
 				6BC3B61C1ADF9334001016A0 /* LineDashPolyline.m in Sources */,
 				6BBAB8C41ADCBD1400EC342F /* GetShopByRangeOp.m in Sources */,
 				189B31061AD7B7F5001D7288 /* UIView+Shake.m in Sources */,
-				1853DEDF1AE3DB6B00C39175 /* SVProgressHUD.m in Sources */,
 				1816F4A81ACD3B0900BBCC96 /* SYPaginatorViewController.m in Sources */,
 				189B31141ADB60AE001D7288 /* JGActionSheet.m in Sources */,
 				6BEA56451AE2488C000D19C1 /* CheckoutServiceOrderOp.m in Sources */,
 				6BC3B6151ADF69B5001016A0 /* CarWashNavigationViewController.m in Sources */,
-				6BBAB9531ADE6ACB00EC342F /* SVProgressHUD.m in Sources */,
 				6BEA56D01AE24DCE000D19C1 /* MD5DataSigner.m in Sources */,
 				184E40D21AD3D01B00EFC3A6 /* JTShop.m in Sources */,
 				1816F4A61ACD3B0900BBCC96 /* SYPaginatorScrollView.m in Sources */,
