@@ -46,8 +46,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-<<<<<<< HEAD
-=======
 ## AMap2DMap
 
 Copyright © 2014 AutoNavi. All Rights Reserved.
@@ -58,16 +56,11 @@ Copyright © 2014 AutoNavi. All Rights Reserved.
 Copyright © 2014 AutoNavi. All Rights Reserved.
 
 
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
 ## CocoaLumberjack
 
 Software License Agreement (BSD License)
 
-<<<<<<< HEAD
 Copyright (c) 2010-2015, Deusty, LLC
-=======
-Copyright (c) 2010, Deusty, LLC
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
 All rights reserved.
 
 Redistribution and use of this software in source and binary forms,

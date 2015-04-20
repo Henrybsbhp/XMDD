@@ -23,13 +23,9 @@ NSString * const SVProgressHUDWillAppearNotification = @"SVProgressHUDWillAppear
 NSString * const SVProgressHUDDidAppearNotification = @"SVProgressHUDDidAppearNotification";
 
 NSString * const SVProgressHUDStatusUserInfoKey = @"SVProgressHUDStatusUserInfoKey";
-<<<<<<< HEAD
 NSInteger ActivityViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
 CGFloat DefaultHUDWidth     = 54;
 CGFloat DefaultHUDHeight    = 54;
-=======
-
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
 #if SV_IPHONE_OS_VERSION >= 70000
 CGFloat SVProgressHUDRingRadius = 14;
 CGFloat SVProgressHUDRingThickness = 1;
@@ -123,11 +119,7 @@ CGFloat SVProgressHUDRingThickness = 4;
 }
 
 + (void)showWithStatus:(NSString *)status {
-<<<<<<< HEAD
     [[self sharedView] showProgress:-1 status:status maskType:SVProgressHUDMaskTypeClear];
-=======
-    [[self sharedView] showProgress:-1 status:status maskType:SVProgressHUDMaskTypeNone];
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
 }
 
 + (void)showOnlyStatus:(NSString *)status duration:(NSTimeInterval)duration
@@ -269,34 +261,22 @@ CGFloat SVProgressHUDRingThickness = 4;
     CGRect labelRect = CGRectZero;
     
     NSString *string = self.stringLabel.text;
-<<<<<<< HEAD
     if (string.length == 0) {
         hudWidth = DefaultHUDWidth;
         hudHeight = DefaultHUDHeight;
     }
-=======
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
     // False if it's text-only
     BOOL imageUsed = (self.imageView.image) || (self.imageView.hidden);
     
     if(string) {
         CGSize constraintSize = CGSizeMake(200, 300);
 #if SV_IPHONE_OS_VERSION >= 70000
-<<<<<<< HEAD
         CGRect stringRect = [string boundingRectWithSize:constraintSize options:0 attributes:@{NSFontAttributeName: self.stringLabel.font} context:NULL];
         stringWidth = stringRect.size.width+10;
         stringHeight = stringRect.size.height;
 #else
         CGSize stringSize =  [string sizeWithFont:self.stringLabel.font constrainedToSize:constraintSize];
         stringWidth = stringSize.width+10;
-=======
-        CGRect stringRect = [string boundingRectWithSize:constraintSize options:(NSStringDrawingUsesFontLeading|NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName: self.stringLabel.font} context:NULL];
-        stringWidth = stringRect.size.width;
-        stringHeight = stringRect.size.height;
-#else
-        CGSize stringSize = [string sizeWithFont:self.stringLabel.font constrainedToSize:constraintSize];
-        stringWidth = stringSize.width;
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
         stringHeight = stringSize.height;
 #endif
 
@@ -753,12 +733,8 @@ CGFloat SVProgressHUDRingThickness = 4;
 #pragma mark - Getters
 
 - (NSTimeInterval)displayDurationForString:(NSString*)string {
-<<<<<<< HEAD
 //    return MIN((float)string.length*0.06 + 0.3, 5.0);
     return MIN((float)string.length*0.1 + 0.3, 5.0);
-=======
-    return MIN((float)string.length*0.06 + 0.3, 5.0);
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
 }
 
 - (BOOL)isClear { // used for iOS 7
@@ -844,11 +820,7 @@ CGFloat SVProgressHUDRingThickness = 4;
 
 - (UIActivityIndicatorView *)spinnerView {
     if (spinnerView == nil) {
-<<<<<<< HEAD
         spinnerView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:ActivityViewStyle];
-=======
-        spinnerView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
 		spinnerView.hidesWhenStopped = YES;
 		spinnerView.bounds = CGRectMake(0, 0, 37, 37);
         

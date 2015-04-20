@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 #import "XiaoMa.h"
 #import "DefaultStyleModel.h"
-<<<<<<< HEAD
 #import <AFNetworking.h>
 #import <CocoaLumberjack.h>
 #import "AuthByVcodeOp.h"
@@ -17,19 +16,13 @@
 #import "GetVcodeOp.h"
 #import "HKCatchErrorModel.h"
 #import "GetShopByRangeOp.h"
-
-@interface AppDelegate ()
-@property (nonatomic, strong) DDFileLogger *fileLogger;
-=======
 #import "MapHelper.h"
 #import "GetTokenOp.h"
 #import "GetVcodeOp.h"
 #import "AlipayHelper.h"
 
 @interface AppDelegate ()
-
-
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
+@property (nonatomic, strong) DDFileLogger *fileLogger;
 @end
 
 @implementation AppDelegate
@@ -44,43 +37,9 @@
     //设置默认UI样式
     [DefaultStyleModel setupDefaultStyle];
     
-<<<<<<< HEAD
-//    GetTokenOp * op = [GetTokenOp operation];
-//    op.phone = @"13958064824";
-//    [[op rac_postRequest] subscribeNext:^(GetTokenOp * op) {
-//        
-//        gNetworkMgr.token = op.token;
-//        
-//        GetVcodeOp * op2 = [GetVcodeOp operation];
-//        op2.phone = @"13958064824";
-//        op2.token = gNetworkMgr.token;
-//        op2.type = @"3";
-//        
-//        [[op2 rac_postRequest] subscribeNext:^(GetVcodeOp * op2) {
-//            
-//        }];
-//    }];
-=======
     [gMapHelper setupMapApi];
     [gMapHelper setupMAMap];
-    
-    GetTokenOp * op = [GetTokenOp operation];
-    op.phone = @"13958064824";
-    [[op rac_postRequest] subscribeNext:^(GetTokenOp * op) {
         
-        gNetworkMgr.token = op.token;
-        
-        GetVcodeOp * op2 = [GetVcodeOp operation];
-        op2.phone = @"13958064824";
-        op2.token = gNetworkMgr.token;
-        op2.type = @"3";
-        
-        [[op2 rac_postRequest] subscribeNext:^(GetVcodeOp * op2) {
-            
-        }];
-    }];
->>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
-    
     return YES;
 }
 
