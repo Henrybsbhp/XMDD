@@ -7,7 +7,8 @@
 //
 
 #import "DistanceCalcHelper.h"
-#import <math.h>
+#import <CoreLocation/CLLocation.h>
+#import <UIKit/UIKit.h>
 
 @implementation DistanceCalcHelper
 
@@ -19,27 +20,13 @@
                      lngB:(double)lngB
 {
     
-    double radLat1 =  [DistanceCalcHelper rad:latA];
+    CLLocation *orig= [[CLLocation alloc] initWithLatitude:latA  longitude:lngA];
+    CLLocation* dist= [[CLLocation alloc] initWithLatitude:latB longitude:lngB];
     
-    double radLat2 = [DistanceCalcHelper rad:latB];
-    
-    double a = radLat1 - radLat2;
-    double b = [DistanceCalcHelper rad:lngA] - [DistanceCalcHelper rad:lngB];
-    
-    double s = 2 * sin(sqrt(pow(sin(a / 2), 2)
-                            + cos(radLat1) * cos(radLat2)
-                            * pow(sin(b / 2), 2)));
-    s = s * EARTH_RADIUS;
-    s = s*1000;
-    double c = (round((s))/10)*10 /1000.0;
-    
-    return c;
+    CLLocationDistance meters = [orig distanceFromLocation:dist];
+    return meters;
 }
 
-+ (double)rad:(double)d
-{
-    return d * M_PI / 180.0;
-}
 
 + (NSString *)getDistanceStrLatA:(double)latA
                          lngA:(double)lngA
@@ -54,8 +41,8 @@
     }
     else
     {
-        NSInteger distanceInt = distance / 1000;
-        distanceStr = [NSString stringWithFormat:@"%ld千米",distanceInt];
+        CGFloat distanceInt = distance / 1000;
+        distanceStr = [NSString stringWithFormat:@"%0.2f千米",distanceInt];
     }
     return distanceStr;
 }

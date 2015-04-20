@@ -7,6 +7,7 @@
 //
 
 #import "JTShop.h"
+#import "NSDate+DateForText.h"
 
 @implementation ChargeContent
 
@@ -54,6 +55,22 @@
 @end
 
 @implementation JTShopComment
+
++ (instancetype)shopCommentWithJSONResponse:(NSDictionary *)rsp
+{
+    if (!rsp)
+    {
+        return nil;
+    }
+    JTShopComment * comment = [[JTShopComment alloc] init];
+    comment.nickname = [rsp stringParamFroName:@"nickname"];
+    comment.avatarUrl = [rsp stringParamFroName:@"avatarUrl"];
+    comment.rate = [rsp integerParamForName:@"rate"];
+    comment.comment = [rsp stringParamFroName:@"comment"];
+    comment.time = [NSDate dateWithD8Text:[NSString stringWithFormat:@"%@",rsp[@"time"]]];
+    
+    return comment;
+}
 
 @end
 

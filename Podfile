@@ -10,4 +10,10 @@ pod 'IQKeyboardManager', '~> 3.2.0.3'
 pod 'SFHFKeychainUtils', '~> 0.0.1'
 pod 'Masonry', '~> 0.6.1'
 pod 'MZFormSheetController','2.4.1'
+<<<<<<< HEAD
 pod 'CocoaLumberjack', '~> 2.0.0'
+=======
+pod 'CocoaLumberjack','1.9.1'
+pod 'AMap2DMap', '2.4.2'
+pod 'AMapSearch', '2.4.1'
+>>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56

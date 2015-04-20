@@ -16,7 +16,12 @@
 #import <UIKitExtension.h>
 #import "UIStoryboard+Expansion.h"
 #import <MZFormSheetController.h>
+<<<<<<< HEAD
 #import "DebugFormat.h"
+=======
+#import "SVProgressHUD.h"
+#import <Masonry.h>
+>>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
 
 //单例
 #import "HKToast.h"
@@ -24,6 +29,7 @@
 #import "AppManager.h"
 #import "NetworkManager.h"
 #import "DefaultStyleModel.h"
+#import "MapHelper.h"
 
 #import "JTNavigationController.h"
 #import "JTTableViewCell.h"

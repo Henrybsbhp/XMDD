@@ -77,6 +77,7 @@ static int32_t g_requestVid = 1;
         self.rsp_statusCode = error.code;
         self.rsp_error = error;
         
+<<<<<<< HEAD
         DebugLog(@"〓〓〓〓〓〓〓〓 error:%@\n"
                  "method:%@ (id: %@)\n"
                  "code:  %ld", error.userInfo[NSLocalizedDescriptionKey], self.req_method, @(self.req_id), (long)error.code);
@@ -84,6 +85,14 @@ static int32_t g_requestVid = 1;
         DebugLog(@"\n\n=====================Begin %@(id: %@) Error Detail==============================\n%@", self.req_method, @(self.req_id), error);
         DebugLog(@"=====================Endof %@(id: %@) Error Detail==============================\n\n", self.req_method, @(self.req_id));
         
+=======
+        NSLog(@"〓〓〓〓〓〓〓〓 error:%@\n"
+                 "method:%@ (id: %@)\n"
+                 "code:  %ld", error.userInfo[NSLocalizedDescriptionKey], self.req_method, @(self.req_id), (long)error.code);
+        NSLog(@"\n\n=====================Begin %@(id: %@) Error Detail==============================\n%@", self.req_method, @(self.req_id), error);
+        NSLog(@"=====================Endof %@(id: %@) Error Detail==============================\n\n", self.req_method, @(self.req_id));
+        
+>>>>>>> 1d764f58f03a8f1935e7764c56bf5fb6816b0a56
         if (gNetworkMgr.catchErrorHandler)
         {
             return gNetworkMgr.catchErrorHandler(self, error);
