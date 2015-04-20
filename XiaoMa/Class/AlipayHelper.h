@@ -8,6 +8,18 @@
 
 #import <Foundation/Foundation.h>
 #import <ReactiveCocoa.h>
+#import "alipayConfig.h"
+//#import "AlixLibService.h"
+#import "DataSigner.h"
+#import "AlixPayResult.h"
+#import "DataVerifier.h"
+#import "AlixPayOrder.h"
+#import <AlipaySDK/AlipaySDK.h>
+#import "DataSigner.h"
+#import "AlixPayOrder.h"
+#import "XiaoMa.h"
+#import "AlipayHelper.h"
+#import "AlixPayResult.h"
 
 @interface AlipayHelper : NSObject
 {

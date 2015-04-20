@@ -11,24 +11,41 @@
 #import "UIView+Layer.h"
 #import "PaymentSuccessVC.h"
 #import "ChooseCarwashTicketVC.h"
+#import "GetUserResourcesOp.h"
+#import "GetUserCarOp.h"
+#import "HKCoupon.h"
+#import "HKMyCar.h"
+#import "AlipayHelper.h"
+#import "CheckoutServiceOrderOp.h"
+#import "NSDate+DateForText.h"
+
 
 
 @interface PayForWashCarVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) NSArray *paymentTypeList;
 @property (nonatomic, strong) CKSegmentHelper *checkBoxHelper;
+
+@property (nonatomic,strong)HKMyCar *car;
 @end
 
 @implementation PayForWashCarVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self setupCheckBoxHelper];
     [self setupBottomView];
-    [self reloadDatasource];
     
-    
+    if (gAppMgr.myUser.carArray.count)
+    {
+        self.car = [gAppMgr.myUser getDefaultCar];
+    }
+    else
+    {
+        [self requestGetUserCar];
+    }
+    [self requestGetUserResource];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -62,37 +79,65 @@
     label.attributedText = str;
 }
 
-- (void)reloadDatasource
-{
-    self.paymentTypeList = [gAppMgr.myUser paymentTypes];
-    [self.tableView reloadData];
-}
+//- (void)reloadDatasource
+//{
+//    self.paymentTypeList = [gAppMgr.myUser paymentTypes];
+//    [self.tableView reloadData];
+//}
 
 #pragma mark - Action
 - (IBAction)actionPay:(id)sender
 {
-    [SVProgressHUD showWithStatus:@"订单生成成功,正在跳转到支付宝平台进行支付" duration:2.0f];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    
+    CheckoutServiceOrderOp * op = [CheckoutServiceOrderOp operation];
+    op.serviceid = self.service.serviceID;
+    op.licencenumber = [gAppMgr.myUser getDefaultCar].licencenumber;
+    op.cid = @"";
+    op.paychannel = ChargeChannelAlipay;
+    [[[op rac_postRequest] initially:^{
         
-//        [self requestPay:@"123" andPrice:0.01
-//          andProductName:@"123" andDescription:@"蒙牛乳业" andTime:@"201312311111"];
-    });
+        [SVProgressHUD showWithStatus:@"订单生成中..."];
+    }] subscribeNext:^(CheckoutServiceOrderOp * op) {
+        
+    
+        if (op.rsp_Code == 0)
+        {
+            [SVProgressHUD showWithStatus:@"订单生成成功,正在跳转到支付宝平台进行支付" duration:2.0f];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                NSString * submitTime = [[NSDate date] dateFormatForDT8];
+                NSString * info = [NSString stringWithFormat:@"%@",self.shop.shopName];
+                [self requestPay:op.rsp_orderid andPrice:op.rsp_price
+                  andProductName:info andDescription:@"小马达达" andTime:submitTime];
+            });
+        }
+        else
+        {
+            [SVProgressHUD showErrorWithStatus:@"订单生成失败"];
+        }
+    } error:^(NSError *error) {
+        
+        [SVProgressHUD showErrorWithStatus:@"订单生成失败"];
+    }];
+    
+    
+    
 }
 
-//- (void)requestPay:(NSString *)orderId andPrice:(CGFloat)price
-//    andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time
-//{
-//    [gAlipayHelper payOrdWithTradeNo:orderId andProductName:name andProductDescription:desc andPrice:price];
-//    
-//    [gAlipayHelper.rac_alipayResultSignal subscribeNext:^(id x) {
-//        
-//        PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
-//        vc.originVC = self.originVC;
-//        [self.navigationController pushViewController:vc animated:YES];
-//    } error:^(NSError *error) {
-//        
-//    }];
-//}
+- (void)requestPay:(NSString *)orderId andPrice:(CGFloat)price
+    andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time
+{
+    [gAlipayHelper payOrdWithTradeNo:orderId andProductName:name andProductDescription:desc andPrice:price];
+    
+    [gAlipayHelper.rac_alipayResultSignal subscribeNext:^(id x) {
+        
+        PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
+        vc.originVC = self.originVC;
+        [self.navigationController pushViewController:vc animated:YES];
+    } error:^(NSError *error) {
+        
+    }];
+}
 
 
 #pragma mark - Table view data source
@@ -119,7 +164,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
     CGFloat height = CGFLOAT_MIN;
-    if (section == 1 && self.paymentTypeList.count > 0) {
+    if (section == 1) {
         height = 33;
     }
     else if (section == 2) {
@@ -148,7 +193,7 @@
         count = 4;
     }
     else if (section == 1) {
-        count = self.paymentTypeList.count;
+        count = 3;
     }
     else if (section == 2) {
         count = 2;
@@ -185,15 +230,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1) {
+    if (indexPath.section == 1 && indexPath.row == 0) {
         //点击查看优惠券
-        RACTuple *paymentType = [self.paymentTypeList safetyObjectAtIndex:indexPath.row];
-        NSInteger type = [paymentType.first integerValue];
-        if (type == PaymentTypeCarwashTicket) {
             ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
             vc.originVC = self.originVC;
             [self.navigationController pushViewController:vc animated:YES];
-        }
     }
 }
 
@@ -238,8 +279,17 @@
         [additionB setTitle:[NSString stringWithFormat:@" %.0f分", cc.amount]forState:UIControlStateNormal];
     }
     else if (indexPath.row == 3) {
-        titleL.text = [NSString stringWithFormat:@"我的车辆：%@", gAppMgr.myUser.numberPlate];
-        additionB.hidden = YES;
+        
+        if (self.car.licencenumber.length)
+        {
+            titleL.text = [NSString stringWithFormat:@"我的车辆：%@", gAppMgr.myUser.numberPlate];
+            additionB.hidden = YES;
+        }
+        else
+        {
+            titleL.text = [NSString stringWithFormat:@"我的车辆："];
+            additionB.hidden = YES;
+        }
     }
 
     return cell;
@@ -252,19 +302,17 @@
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:1002];
     UIImageView *arrow = (UIImageView *)[cell.contentView viewWithTag:1003];
     
-    RACTuple *paymentType = [self.paymentTypeList safetyObjectAtIndex:indexPath.row];
-    NSInteger type = [paymentType.first integerValue];
-    NSNumber *value = paymentType.second;
-    if (type == PaymentTypeCarwashTicket) {
-        label.text = [NSString stringWithFormat:@"免费洗车券：%@张", value];
+    if (indexPath.row == 0) {
+        label.text = [NSString stringWithFormat:@"免费洗车券：%d张", gAppMgr.myUser.carwashTicketsCount];
         arrow.hidden = NO;
     }
-    else if (type == PaymentTypeABCBankCarwashTimes) {
-        label.text = [NSString stringWithFormat:@"农行卡免费洗车次数：%@次", value];
+    else if (indexPath.row == 1) {
+        label.text = [NSString stringWithFormat:@"农行卡免费洗车次数：%d次", gAppMgr.myUser.abcCarwashTimesCount];
         arrow.hidden = YES;
     }
-    else if (type == PaymentTypeABCBankIntegral) {
-        label.text = [NSString stringWithFormat:@"农行卡积分：%@分", value];
+    else
+    {
+        label.text = [NSString stringWithFormat:@"农行卡积分：%d分", gAppMgr.myUser.abcIntegral];
         arrow.hidden = YES;
     }
     @weakify(self);
@@ -305,6 +353,40 @@
     }];
     
     return cell;
+}
+
+#pragma mark - Utility
+- (void)requestGetUserResource
+{
+    GetUserResourcesOp * op = [GetUserResourcesOp operation];
+    [[[op rac_postRequest] initially:^{
+        
+    }] subscribeNext:^(GetUserResourcesOp * op) {
+        
+        gAppMgr.myUser.abcCarwashTimesCount = op.rsp_freewashes;
+        gAppMgr.myUser.abcIntegral = op.rsp_bankIntegral;
+        gAppMgr.myUser.carwashTicketsCount = op.rsp_coupons.count;
+        
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+    } error:^(NSError *error) {
+        
+    }];
+}
+
+- (void)requestGetUserCar
+{
+    GetUserCarOp * op = [GetUserCarOp operation];
+    [[[op rac_postRequest] initially:^{
+        
+    }] subscribeNext:^(GetUserCarOp * op) {
+        
+        gAppMgr.myUser.carArray = op.rsp_carArray;
+        self.car = [gAppMgr.myUser getDefaultCar];
+        NSIndexPath *reloadIndexPath = [NSIndexPath indexPathForRow:3 inSection:0];
+        [self.tableView reloadRowsAtIndexPaths:@[reloadIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+    } error:^(NSError *error) {
+        
+    }];
 }
 
 @end

@@ -8,14 +8,13 @@
 
 #import "AppDelegate.h"
 #import "DefaultStyleModel.h"
-#import <AFNetworking.h>
-#import "AuthByVcodeOp.h"
+#import "MapHelper.h"
 #import "GetTokenOp.h"
 #import "GetVcodeOp.h"
-#import "GetShopByRangeOp.h"
-
+#import "AlipayHelper.h"
 
 @interface AppDelegate ()
+
 
 @end
 
@@ -25,6 +24,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [DefaultStyleModel setupDefaultStyle];
+    
+    [gMapHelper setupMapApi];
+    [gMapHelper setupMAMap];
     
     GetTokenOp * op = [GetTokenOp operation];
     op.phone = @"13958064824";
@@ -67,55 +69,62 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-//#pragma mark - 支付宝
-//- (void)handleURL:(NSURL *)url
-//{
-//    AlixPayResult* result = [self handleOpenURL:url];
-//    
-//    if (result && result.statusCode == 9000)
-//    {
-//        /*
-//         *用公钥验证签名 严格验证请使用result.resultString与result.signString验签
-//         */
-//        
-//        //交易成功
-//        //            NSString* key = @"签约帐户后获取到的支付宝公钥";
-//        //			id<DataVerifier> verifier;
-//        //            verifier = CreateRSADataVerifier(key);
-//        //
-//        //			if ([verifier verifyString:result.resultString withSign:result.signString])
-//        //            {
-//        //                //验证签名成功，交易结果无篡改
-//        //			}
-//        //            RACSubject * sub = [RACSubject subject];
-//        
-//        
-//        [gAlipayHelper.rac_alipayResultSignal sendNext:@"9000"];
-//    }
-//    else
-//    {
-//        [gAlipayHelper.rac_alipayResultSignal sendError:[NSError errorWithDomain:result.statusMessage code:result.statusCode userInfo:nil]];
-//    }
-//}
-//
-//
-//- (AlixPayResult *)resultFromURL:(NSURL *)url {
-//    NSString * query = [[url query] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//#if ! __has_feature(objc_arc)
-//    return [[[AlixPayResult alloc] initWithString:query] autorelease];
-//#else
-//    return [[AlixPayResult alloc] initWithString:query];
-//#endif
-//}
-//
-//- (AlixPayResult *)handleOpenURL:(NSURL *)url {
-//    AlixPayResult * result = nil;
-//    
-//    if (url != nil && [[url host] compare:@"safepay"] == 0) {
-//        result = [self resultFromURL:url];
-//    }
-//    
-//    return result;
-//}
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    [self handleURL:url];
+    return YES;
+}
+
+
+#pragma mark - 支付宝
+- (void)handleURL:(NSURL *)url
+{
+    AlixPayResult* result = [self handleOpenURL:url];
+    
+    if (result && result.statusCode == 9000)
+    {
+        /*
+         *用公钥验证签名 严格验证请使用result.resultString与result.signString验签
+         */
+        
+        //交易成功
+        //            NSString* key = @"签约帐户后获取到的支付宝公钥";
+        //			id<DataVerifier> verifier;
+        //            verifier = CreateRSADataVerifier(key);
+        //
+        //			if ([verifier verifyString:result.resultString withSign:result.signString])
+        //            {
+        //                //验证签名成功，交易结果无篡改
+        //			}
+        //            RACSubject * sub = [RACSubject subject];
+        
+        
+        [gAlipayHelper.rac_alipayResultSignal sendNext:@"9000"];
+    }
+    else
+    {
+        [gAlipayHelper.rac_alipayResultSignal sendError:[NSError errorWithDomain:result.statusMessage code:result.statusCode userInfo:nil]];
+    }
+}
+
+
+- (AlixPayResult *)resultFromURL:(NSURL *)url {
+    NSString * query = [[url query] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+#if ! __has_feature(objc_arc)
+    return [[[AlixPayResult alloc] initWithString:query] autorelease];
+#else
+    return [[AlixPayResult alloc] initWithString:query];
+#endif
+}
+
+- (AlixPayResult *)handleOpenURL:(NSURL *)url {
+    AlixPayResult * result = nil;
+    
+    if (url != nil && [[url host] compare:@"safepay"] == 0) {
+        result = [self resultFromURL:url];
+    }
+    
+    return result;
+}
 
 @end

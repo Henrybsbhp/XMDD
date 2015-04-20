@@ -10,6 +10,7 @@
 #import "XiaoMa.h"
 
 @interface PaymentSuccessVC ()
+
 @property (weak, nonatomic) IBOutlet UILabel *subLabel;
 
 @end

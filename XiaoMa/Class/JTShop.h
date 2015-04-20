@@ -9,20 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "NSMutableDictionary+AddParams.h"
 
-typedef enum : NSUInteger {
-    ShopServiceCarWash = 1,
-    ShopServiceRescue,
-    ShopServiceAgency,
-} ShopServiceType;
 
-typedef enum : NSUInteger {
-    ChargeChannelInstallments,
-    ChargeChannelAlipay,
-    ChargeChannelWechat,
-    ChargeChannelABCCarWashAmount,
-    ChargeChannelABCIntegral,
-    ChargeChannelCoupon
-} ChargeChannelType;
 
 @interface ChargeContent : NSObject
 ///支付渠道

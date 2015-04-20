@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HKMyCar.h"
 
 typedef enum : NSInteger {
     PaymentTypeCarwashTicket = 0,
@@ -18,12 +19,16 @@ typedef enum : NSInteger {
 @property (nonatomic, strong) NSString *userName;
 @property (nonatomic, strong) NSString *userID;
 @property (nonatomic, strong) NSString *avatarUrl;
-@property (nonatomic, strong) NSNumber *carwashTicketsCount;
-@property (nonatomic, strong) NSNumber *abcCarwashTimesCount;
-@property (nonatomic, strong) NSNumber *abcIntegral;
+@property (nonatomic) NSInteger carwashTicketsCount;
+@property (nonatomic) NSInteger abcCarwashTimesCount;
+@property (nonatomic) NSInteger abcIntegral;
 @property (nonatomic, strong) NSString *numberPlate;
 
-///(listof RACTuple(paymentType, value))
-- (NSArray *)paymentTypes;
+@property (nonatomic, strong)NSArray * carArray;
+
+@property (nonatomic, strong)NSArray * couponArray;
+
+
+- (HKMyCar *)getDefaultCar;
 
 @end

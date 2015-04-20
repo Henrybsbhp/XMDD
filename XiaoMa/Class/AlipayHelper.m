@@ -7,24 +7,13 @@
 //
 
 #import "AlipayHelper.h"
-#import "alipayConfig.h"
-//#import "AlixLibService.h"
-//#import "DataSigner.h"
-//#import "AlixPayResult.h"
-//#import "DataVerifier.h"
-//#import "AlixPayOrder.h"
-#import <AlipaySDK/AlipaySDK.h>
-#import "DataSigner.h"
-#import "AlixPayOrder.h"
-#import "XiaoMa.h"
-#import "AlipayHelper.h"
-#import "AlixPayResult.h"
+
 
 #define AlipayCallbackDefaultUrlForDebug   @"http://hybris-sit-cloud.chinacloudapp.cn/alipay/notifyController"
 #define AlipayCallbackDefaultUrlForRelease   @"http://occ.mall.mengniu.com.cn/alipay/notifyController"
 
 
-#define HTAlipayScheme @"cn.com.mengniu.happinessTrain.alipay"
+#define XMDDAlipayScheme @"com.huika.xmdd.alipay"
 
 @implementation AlipayHelper
 
@@ -97,7 +86,7 @@
         orderString = [NSString stringWithFormat:@"%@&sign=\"%@\"&sign_type=\"%@\"",
                        orderInfo, signedStr, @"RSA"];
         
-        [[AlipaySDK defaultService] payOrder:orderString fromScheme:HTAlipayScheme callback:^(NSDictionary *resultDic) {
+        [[AlipaySDK defaultService] payOrder:orderString fromScheme:XMDDAlipayScheme callback:^(NSDictionary *resultDic) {
             
             int resultCode = [resultDic[@"resultStatus"] intValue];
             NSString * resultMsg = resultDic[@"result"];

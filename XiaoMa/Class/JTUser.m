@@ -11,20 +11,23 @@
 
 @implementation JTUser
 
-- (NSArray *)paymentTypes
+- (HKMyCar *)getDefaultCar
 {
-    NSMutableArray *types = [NSMutableArray array];
-    if (self.carwashTicketsCount.integerValue > 0) {
-        [types safetyAddObject:RACTuplePack(@(PaymentTypeCarwashTicket), self.carwashTicketsCount)];
+    for (HKMyCar * car in self.carArray)
+    {
+        if (car.isDefault)
+        {
+            return car;
+        }
     }
-    if (self.abcCarwashTimesCount.integerValue > 0) {
-        [types safetyAddObject:RACTuplePack(@(PaymentTypeABCBankCarwashTimes), self.abcCarwashTimesCount)];
+    if (self.carArray.count)
+    {
+        return [self.carArray safetyObjectAtIndex:0];
     }
-    if (self.abcIntegral.integerValue > 0) {
-        [types safetyAddObject:RACTuplePack(@(PaymentTypeABCBankIntegral), self.abcIntegral)];
+    else
+    {
+        return nil;
     }
-    
-    return types;
 }
 
 @end

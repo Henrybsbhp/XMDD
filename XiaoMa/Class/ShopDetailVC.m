@@ -15,6 +15,7 @@
 #import "DistanceCalcHelper.h"
 #import "NSDate+DateForText.h"
 #import "GetShopRatesOp.h"
+#import "CarWashNavigationViewController.h"
 
 #define kDefaultServieCount     2
 
@@ -206,6 +207,44 @@
 {
     JTTableViewCell *jtcell = (JTTableViewCell *)cell;
     [jtcell prepareCellForTableView:tableView atIndexPath:indexPath];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.section == 0)
+    {
+        if (indexPath.row == 1)
+        {
+            CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
+            vc.shop = self.shop;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        else if (indexPath.row == 2)
+        {
+            if (self.shop.shopPhone.length == 0)
+            {
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
+                [av show];
+                return ;
+            }
+            
+            NSString * info = [NSString stringWithFormat:@"%@电话：\n%@",self.shop.shopName,self.shop.shopPhone];
+            UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:info delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];
+            [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNum) {
+                
+                NSInteger index = [indexNum integerValue];
+                if (index == 1)
+                {
+                    NSString * urlStr = [NSString stringWithFormat:@"tel://%@",self.shop.shopPhone];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
+                }
+            }];
+            [av show];
+
+        }
+    }
 }
 
 #pragma mark - TableViewCell

@@ -10,7 +10,5 @@
 
 @interface CarWashTableVC : UITableViewController
 
-@property (nonatomic, strong) NSArray *datasource2;
-
 
 @end
