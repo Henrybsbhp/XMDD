@@ -160,13 +160,13 @@
         
         gNetworkMgr.skey = op.skey;
         
-        UpdatePwdOp * pwdOp = [UpdatePwdOp operation];
-        pwdOp.theNewPwd = @"123456";
-        pwdOp.skey = gNetworkMgr.skey;
-        [[pwdOp rac_postRequest] subscribeNext:^(UpdatePwdOp * pwdOp) {
-            
-            NSLog(@"UPDATE PWD SUCCESS");
-        }];
+//        UpdatePwdOp * pwdOp = [UpdatePwdOp operation];
+//        pwdOp.theNewPwd = @"123456";
+//        pwdOp.skey = gNetworkMgr.skey;
+//        [[pwdOp rac_postRequest] subscribeNext:^(UpdatePwdOp * pwdOp) {
+//            
+//            NSLog(@"UPDATE PWD SUCCESS");
+//        }];
     }];
 }
 
@@ -177,18 +177,8 @@
 
 - (void)actionWashCar:(id)sender
 {
-    GetShopByDistanceOp * getShopByDistanceOp = [GetShopByDistanceOp operation];
-    getShopByDistanceOp.longitude = 120.189234;
-    getShopByDistanceOp.latitude = 30.254189;
-    [[[getShopByDistanceOp rac_postRequest] initially:^{
-        
-        
-
-    }] subscribeNext:^(GetShopByDistanceOp * op) {
-        CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
-        vc.datasource2 = op.rsp_shopArray;
-        [self.navigationController pushViewController:vc animated:YES];
-    }];
+    CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionInsurance:(id)sender

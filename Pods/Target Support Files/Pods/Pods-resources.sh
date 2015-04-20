@@ -47,7 +47,8 @@ install_resource()
       ;;
   esac
 }
-          install_resource "IQKeyboardManager/IQKeyBoardManager/Resources/IQKeyboardManager.bundle"
+          install_resource "AMap2DMap/MAMapKit.framework/Versions/2.4.2.19ad4bb/Resources/AMap.bundle"
+                    install_resource "IQKeyboardManager/IQKeyBoardManager/Resources/IQKeyboardManager.bundle"
                     install_resource "ckkit/Classes/CKCategory/CKCategory.h"
                     install_resource "ckkit/Classes/CKCategory/NSArray+Encoding.h"
                     install_resource "ckkit/Classes/CKCategory/NSArray+Encoding.m"

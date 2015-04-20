@@ -23,8 +23,15 @@ PODS:
   - AFNetworking2-RACExtensions (0.0.1):
     - AFNetworking (~> 2.0)
     - ReactiveCocoa (~> 2.0)
+  - AMap2DMap (2.4.2)
+  - AMapSearch (2.4.1)
   - cdebug (0.1.1)
   - ckkit (0.0.1)
+  - CocoaLumberjack (1.9.1):
+    - CocoaLumberjack/Extensions (= 1.9.1)
+  - CocoaLumberjack/Core (1.9.1)
+  - CocoaLumberjack/Extensions (1.9.1):
+    - CocoaLumberjack/Core
   - FoundationExtension (0.60):
     - cdebug (~> 0.1)
     - FoundationExtension/AddressBookExtension (= 0.60)
@@ -59,7 +66,10 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - AFNetworking2-RACExtensions (~> 0.0.1)
+  - AMap2DMap (= 2.4.2)
+  - AMapSearch (= 2.4.1)
   - ckkit (from `ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git`)
+  - CocoaLumberjack (= 1.9.1)
   - FoundationExtension (~> 0.60)
   - IQKeyboardManager (~> 3.2.0.3)
   - Masonry (~> 0.6.1)
@@ -79,8 +89,11 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: fefbce9660acb17f48ae0011292d4da0f457bf36
   AFNetworking2-RACExtensions: 7da57313a9cdd9d32b4ed17ea35d59dfd084df83
+  AMap2DMap: 6f19f93b3410c8105c34ef93dd9dbb537f7ea897
+  AMapSearch: e48c562fc7713f7e5f719863a15141a847e16c04
   cdebug: 32bf88e54d22ad187b23122872b3977e5d0c1bde
   ckkit: 2e8dad1e80be7be6caf85c194043762a2765c33c
+  CocoaLumberjack: e9b828e64142be63c1c130517b33aa5e235d2413
   FoundationExtension: 76157113e6486ad95ea2be32a06f0d3f48172d56
   IQKeyboardManager: 7b071d1284b47b1c0c19891a042c2c65f118fa85
   Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa

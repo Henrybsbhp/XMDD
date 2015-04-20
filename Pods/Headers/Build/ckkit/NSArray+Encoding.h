@@ -1,0 +1,1 @@
+../../../ckkit/Classes/CKCategory/NSArray+Encoding.h

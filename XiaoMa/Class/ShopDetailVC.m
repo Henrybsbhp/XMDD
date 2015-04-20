@@ -13,6 +13,9 @@
 #import "JTRatingView.h"
 #import "PayForWashCarVC.h"
 #import "DistanceCalcHelper.h"
+#import "NSDate+DateForText.h"
+#import "GetShopRatesOp.h"
+#import "CarWashNavigationViewController.h"
 
 #define kDefaultServieCount     2
 
@@ -28,6 +31,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self requestShopComments];
 }
 
 
@@ -84,6 +88,19 @@
 //    [self.tableView reloadData];
 //}
 #pragma mark - Action
+- (void)requestShopComments
+{
+    GetShopRatesOp * op = [GetShopRatesOp operation];
+    op.shopId = self.shop.shopID;
+    op.pageno = 1;
+    [[op rac_postRequest] subscribeNext:^(GetShopRatesOp * op) {
+        
+        self.shop.shopCommentArray = op.rsp_shopCommentArray;
+        [self.tableView reloadData];
+    }];
+}
+
+
 - (IBAction)actionMap:(id)sender
 {
     
@@ -192,6 +209,44 @@
     [jtcell prepareCellForTableView:tableView atIndexPath:indexPath];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.section == 0)
+    {
+        if (indexPath.row == 1)
+        {
+            CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
+            vc.shop = self.shop;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        else if (indexPath.row == 2)
+        {
+            if (self.shop.shopPhone.length == 0)
+            {
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
+                [av show];
+                return ;
+            }
+            
+            NSString * info = [NSString stringWithFormat:@"%@电话：\n%@",self.shop.shopName,self.shop.shopPhone];
+            UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:info delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];
+            [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNum) {
+                
+                NSInteger index = [indexNum integerValue];
+                if (index == 1)
+                {
+                    NSString * urlStr = [NSString stringWithFormat:@"tel://%@",self.shop.shopPhone];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
+                }
+            }];
+            [av show];
+
+        }
+    }
+}
+
 #pragma mark - TableViewCell
 - (UITableViewCell *)shopTitleCellAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -264,6 +319,7 @@
     titleL.text = service.serviceName;
     iconV.hidden = !cc;
     integralL.hidden = !cc;
+    integralL.text = [NSString stringWithFormat:@"%.0f分", cc.amount];
     [priceL mas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(cc ? iconV : titleL);
     }];
@@ -314,11 +370,12 @@
     UILabel *contentL = (UILabel *)[cell.contentView viewWithTag:1005];
     
     JTShopComment *comment = [self.shop.shopCommentArray safetyObjectAtIndex:indexPath.row - 1];
-    avatarV.image = [UIImage imageNamed:comment.avatarUrl];
-    nameL.text = comment.userName;
-    timeL.text = comment.time;
-    ratingV.ratingValue = [comment.rating integerValue];
-    contentL.text = comment.content;
+//    avatarV.image = [UIImage imageNamed:comment.avatarUrl];
+    avatarV.image = [UIImage imageNamed:@"tmp_a1"];
+    nameL.text = comment.nickname;
+    timeL.text = [comment.time dateFormatForLongText];
+    ratingV.ratingValue = comment.rate;
+    contentL.text = comment.comment;
     
     return cell;
 }

@@ -15,7 +15,6 @@
                      latB:(double)latB
                      lngB:(double)lngB;
 
-+ (double)rad:(double)d;
 
 + (NSString *)getDistanceStrLatA:(double)latA
                             lngA:(double)lngA

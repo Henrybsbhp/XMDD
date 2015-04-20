@@ -9,7 +9,7 @@
         <scene sceneID="Hwh-Ys-XO5">
             <objects>
                 <tableViewController storyboardIdentifier="CarWashTableVC" hidesBottomBarWhenPushed="YES" id="KKX-Hf-lA9" customClass="CarWashTableVC" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="185" sectionHeaderHeight="22" sectionFooterHeight="22" id="7rJ-lk-een">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="185" sectionHeaderHeight="22" sectionFooterHeight="22" id="7rJ-lk-een" customClass="JTTableView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.95908411609999999" alpha="1" colorSpace="calibratedWhite"/>
@@ -248,6 +248,7 @@
                         <outlet property="headerView" destination="jen-0P-T7q" id="qAk-4r-JzR"/>
                         <outlet property="searchField" destination="13r-Ty-5H6" id="3qe-3a-2qg"/>
                         <outlet property="searchView" destination="cLu-7b-1u8" id="6q2-TG-wl8"/>
+                        <outlet property="tableView" destination="7rJ-lk-een" id="72S-o1-7A4"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FK1-Ka-Lwu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1034,6 +1035,23 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eGt-rO-dq5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2138" y="359"/>
+        </scene>
+        <!--Base Map View Controller-->
+        <scene sceneID="HbE-R1-qxn">
+            <objects>
+                <viewController storyboardIdentifier="CarWashNavigationViewController" id="j5Q-Kt-hW8" customClass="BaseMapViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5AG-bv-Bdy"/>
+                        <viewControllerLayoutGuide type="bottom" id="6w4-NK-8HC"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Eye-GU-n3O">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="q97-8J-nSX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
     <resources>

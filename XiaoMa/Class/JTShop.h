@@ -9,20 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "NSMutableDictionary+AddParams.h"
 
-typedef enum : NSUInteger {
-    ShopServiceCarWash = 1,
-    ShopServiceRescue,
-    ShopServiceAgency,
-} ShopServiceType;
 
-typedef enum : NSUInteger {
-    ChargeChannelInstallments,
-    ChargeChannelAlipay,
-    ChargeChannelWechat,
-    ChargeChannelABCCarWashAmount,
-    ChargeChannelABCIntegral,
-    ChargeChannelCoupon
-} ChargeChannelType;
 
 @interface ChargeContent : NSObject
 ///支付渠道
@@ -55,12 +42,19 @@ typedef enum : NSUInteger {
 @end
 
 @interface JTShopComment : NSObject
+///昵称
+@property (nonatomic, strong) NSString *nickname;
+///头像URL
 @property (nonatomic, strong) NSString *avatarUrl;
-@property (nonatomic, strong) NSString *userID;
-@property (nonatomic, strong) NSString *userName;
-@property (nonatomic, strong) NSNumber *rating;
-@property (nonatomic, strong) NSString *time;
-@property (nonatomic, strong) NSString *content;
+///评分
+@property (nonatomic) NSInteger rate;
+///评价
+@property (nonatomic, strong) NSString *comment;
+///评价时间
+@property (nonatomic, strong) NSDate *time;
+
++ (instancetype)shopCommentWithJSONResponse:(NSDictionary *)rsp;
+
 @end
 
 @interface JTShop : NSObject

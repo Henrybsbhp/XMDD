@@ -15,6 +15,10 @@
 #import "ShopDetailVC.h"
 #import "JTShop.h"
 #import "DistanceCalcHelper.h"
+#import "BaseMapViewController.h"
+#import "CarWashNavigationViewController.h"
+#import "JTTableView.h"
+#import "GetShopByDistanceOp.h"
 
 
 @interface CarWashTableVC ()<SYPaginatorViewDataSource, SYPaginatorViewDelegate>
@@ -22,16 +26,33 @@
 @property (weak, nonatomic) IBOutlet UITextField *searchField;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic, strong) SYPaginatorView *adView;
+
 @property (nonatomic, strong) NSArray *datasource;
+
+@property (strong, nonatomic) IBOutlet JTTableView *tableView;
+
+/// 每页数量
+@property (nonatomic, assign) NSUInteger pageAmount;
+///列表下面是否还有商品
+@property (nonatomic, assign) BOOL isRemain;
+///当前页码索引
+@property (nonatomic, assign) NSUInteger currentPageIndex;
 @end
 
 @implementation CarWashTableVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.isRemain = YES;
+    self.pageAmount = 10;
+    self.currentPageIndex = 1;
+    
     [self setupSearchView];
     [self setupADView];
-    [self reloadDatasource];
+    [self setupTableView];
+    
+    [self requestCarWashShopList];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,6 +60,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Setup UI
 - (void)setupSearchView
 {
     UIImage *bg = [UIImage imageNamed:@"nb_search_bg"];
@@ -74,23 +96,12 @@
     self.headerView.frame = rect;
 }
 
-- (void)reloadDatasource
+
+- (void)setupTableView
 {
-    self.datasource = self.datasource2;
-
-//    self.datasource = @[@{@"title":@"神州洗车",@"logo":@"tmp_1",@"rating":@4.0,@"addr":@"西湖区黄龙路1号沃尔玛超市二楼",
-//                          @"distance":@0.77,@"integral":@10000,@"oldPrice":@35,@"newPrice":@20},
-//                        @{@"title":@"兴旺洗车冲洗店",@"logo":@"tmp_2",@"rating":@3.0,@"addr":@"河东路23号河东社区附近",
-//                          @"distance":@0.98,@"integral":@20000,@"oldPrice":@35,@"newPrice":@20},
-//                        @{@"title":@"小小洗车",@"logo":@"tmp_3",@"rating":@3.0,@"addr":@"文三路232",
-//                          @"distance":@0.98,@"integral":@15000,@"oldPrice":@30,@"newPrice":@15},
-//                        @{@"title":@"同福汽车美容",@"logo":@"tmp_4.jpg",@"rating":@3.0,@"addr":@"上塘路绍兴路口",
-//                          @"distance":@0.98,@"integral":@10000,@"oldPrice":@40,@"newPrice":@23},
-//                        @{@"title":@"洛门洗车装潢",@"logo":@"tmp_5.jpg",@"rating":@3.0,@"addr":@"文一路物美超市附近",
-//                          @"distance":@0.98,@"integral":@10000,@"oldPrice":@20,@"newPrice":@15}];
-
-    [self.tableView reloadData];
+    self.tableView.showBottomLoadingView = YES;
 }
+
 #pragma mark - Action
 - (IBAction)actionMap:(id)sender
 {
@@ -192,6 +203,36 @@
     UIButton *guideB = (UIButton *)[cell.contentView viewWithTag:3001];
     UIButton *phoneB = (UIButton *)[cell.contentView viewWithTag:3002];
     
+    [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
+        vc.shop = shop;
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    
+    [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        if (shop.shopPhone.length == 0)
+        {
+            UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
+            [av show];
+            return ;
+        }
+        
+        NSString * info = [NSString stringWithFormat:@"%@电话：\n%@",shop.shopName,shop.shopPhone];
+        UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:info delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];
+        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNum) {
+            
+            NSInteger index = [indexNum integerValue];
+            if (index == 1)
+            {
+                NSString * urlStr = [NSString stringWithFormat:@"tel://%@",shop.shopPhone];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
+            }
+        }];
+        [av show];
+    }];
+    
 
     return cell;
 }
@@ -202,6 +243,11 @@
     [cell.contentView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:mask];
     [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(0, 0, 8, 0) forDirectionMask:mask];
     [cell.contentView showBorderLineWithDirectionMask:mask];
+    
+    if (self.datasource.count-1 <= indexPath.row && self.isRemain)
+    {
+        [self requestMoreCarWashShopList];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -225,6 +271,88 @@
     [str appendAttributedString:attrStr1];
     [str appendAttributedString:attrStr2];
     return str;
+}
+
+
+- (void)requestCarWashShopList
+{
+    GetShopByDistanceOp * getShopByDistanceOp = [GetShopByDistanceOp operation];
+    getShopByDistanceOp.longitude = 120.189234;
+    getShopByDistanceOp.latitude = 30.254189;
+    getShopByDistanceOp.pageno = self.currentPageIndex;
+    [[[getShopByDistanceOp rac_postRequest] initially:^{
+        
+        [SVProgressHUD showWithStatus:@"Loading"];
+        
+    }] subscribeNext:^(GetShopByDistanceOp * op) {
+        
+        [SVProgressHUD dismiss];
+        self.datasource = op.rsp_shopArray;
+        if (self.datasource.count == 0)
+        {
+            
+        }
+        else
+        {
+            if (self.datasource.count >= self.pageAmount)
+            {
+                self.isRemain = YES;
+            }
+            else
+            {
+                self.isRemain = NO;
+            }
+            if (!self.isRemain)
+            {
+                [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+            }
+            [self.tableView reloadData];
+        }
+    } error:^(NSError *error) {
+        
+        [SVProgressHUD showErrorWithStatus:@"error"];
+    }];
+
+}
+- (void)requestMoreCarWashShopList
+{
+    if ([self.tableView.bottomLoadingView isActivityAnimating])
+    {
+        return;
+    }
+    
+    GetShopByDistanceOp * getShopByDistanceOp = [GetShopByDistanceOp operation];
+    getShopByDistanceOp.longitude = 120.189234;
+    getShopByDistanceOp.latitude = 30.254189;
+    getShopByDistanceOp.pageno = self.currentPageIndex + 1;
+    [[[getShopByDistanceOp rac_postRequest] initially:^{
+        
+        [self.tableView.bottomLoadingView hideIndicatorText];
+        [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
+    }] subscribeNext:^(GetShopByDistanceOp * op) {
+        
+        [self.tableView.bottomLoadingView stopActivityAnimation];
+        if (op.rsp_shopArray.count >= self.pageAmount)
+        {
+            self.isRemain = YES;
+        }
+        else
+        {
+            self.isRemain = NO;
+        }
+        if (!self.isRemain)
+        {
+            [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+        }
+        NSMutableArray * tArray = [NSMutableArray arrayWithArray:self.datasource];
+        [tArray addObjectsFromArray:op.rsp_shopArray];
+        self.datasource = [NSArray arrayWithArray:tArray];
+        [self.tableView reloadData];
+        
+    } error:^(NSError *error) {
+        
+        [SVProgressHUD showErrorWithStatus:@"error"];
+    }];
 }
 
 @end
