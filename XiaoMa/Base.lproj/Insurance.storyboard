@@ -649,8 +649,8 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="rIW-Yd-RVi"/>
                                                     <exclude reference="69b-ZQ-QYl"/>
+                                                    <exclude reference="rIW-Yd-RVi"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
