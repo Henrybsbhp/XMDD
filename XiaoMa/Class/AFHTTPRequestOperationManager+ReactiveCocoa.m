@@ -38,8 +38,7 @@
         if (!error)
         {
             NSLog(@"█ ▉ ▇ ▆ ▅ ▄ ▃ ▂ Response Json : \n %@ \n",jsonObject);
-            NSObject * rc = [jsonObject objectForKey:@"rc"];
-            [signal sendNext:RACTuplePack(operation,rc,jsonObject)];
+            [signal sendNext:RACTuplePack(operation,jsonObject)];
             [signal sendCompleted];
         }
         else

@@ -45,5 +45,17 @@
     return self;
 }
 
+- (id)returnSimulateResponse {
+    return @{@"shops":
+                 @[@{@"shopid":@123,
+                    @"name":@"蚂蚁洗车",
+                    @"pics":@[@"temp_1"],
+                    @"rate":@4.0,
+                    @"address":@"文三路232号",
+                    @"phone":@"10086",
+                    @"services":@[@{@"serviceid":@123,
+                                    @"name":@"洗车",
+                                    @"description":@"hahahahaha"}]}]};
+}
 
 @end

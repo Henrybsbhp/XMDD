@@ -329,11 +329,13 @@
     @weakify(self);
     [[[payB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
-        PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
-        vc.originVC = self;
-        vc.shop = self.shop;
-        vc.service = service;
-        [self.navigationController pushViewController:vc animated:YES];
+        if([LoginViewModel loginIfNeededForTargetViewController:self]) {
+            PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
+            vc.originVC = self;
+            vc.shop = self.shop;
+            vc.service = service;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }];
     
     return cell;

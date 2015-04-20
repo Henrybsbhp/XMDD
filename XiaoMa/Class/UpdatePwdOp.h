@@ -11,6 +11,6 @@
 @interface UpdatePwdOp : BaseOp
 
 ///新密码
-@property (nonatomic,copy)NSString * theNewPwd;
+@property (nonatomic,copy)NSString * req_newPwd;
 
 @end
