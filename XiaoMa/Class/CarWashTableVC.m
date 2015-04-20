@@ -189,7 +189,7 @@
     ChargeContent * cc;
     for (ChargeContent * tcc in rates)
     {
-        if (tcc.chargeChannelType == ChargeChannelABCIntegral )
+        if (tcc.paymentChannelType == PaymentChannelABCIntegral )
         {
             cc = tcc;
             break;
@@ -253,7 +253,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
-    vc.shop = [self.datasource safetyObjectAtIndex:indexPath.section];
+    vc.shop = [self.datasource safetyObjectAtIndex:indexPath.row];
     [self.navigationController pushViewController:vc animated:YES];
 }
 #pragma mark - Utility

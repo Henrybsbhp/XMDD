@@ -212,27 +212,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "451042837.822663"
+            timestampString = "451191558.02752"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "347"
-            endingLineNumber = "347"
-            landmarkName = "-paymentModeCellAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "451042837.822663"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "351"
-            endingLineNumber = "351"
+            startingLineNumber = "417"
+            endingLineNumber = "417"
             landmarkName = "-paymentModeCellAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -324,11 +308,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "451042837.822663"
+            timestampString = "451191558.02752"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
+            startingLineNumber = "194"
+            endingLineNumber = "194"
             landmarkName = "-requestPay:andPrice:andProductName:andDescription:andTime:"
             landmarkType = "5">
          </BreakpointContent>
@@ -340,13 +324,107 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "451042837.822663"
+            timestampString = "451191558.02752"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "198"
+            endingLineNumber = "198"
             landmarkName = "-requestPay:andPrice:andProductName:andDescription:andTime:"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XiaoMa/Class/PayForWashCarVC.m"
+            timestampString = "451191558.02752"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "401"
+            endingLineNumber = "401"
+            landmarkName = "-paymentModeCellAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XiaoMa/Class/PayForWashCarVC.m"
+            timestampString = "451191558.02752"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "383"
+            endingLineNumber = "383"
+            landmarkName = "-paymentTypeCellAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XiaoMa/Class/PayForWashCarVC.m"
+            timestampString = "451191558.02752"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "423"
+            endingLineNumber = "423"
+            landmarkName = "-paymentModeCellAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XiaoMa/Class/ShopDetailVC.h"
+            timestampString = "451191620.104883"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
+            landmarkName = "shop"
+            landmarkType = "19">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ShopDetailVC shop]"
+                  moduleName = "XiaoMa"
+                  urlString = "file:///Users/jt/Documents/xmdd_ios/Xiaoma/Class/ShopDetailVC.h"
+                  timestampString = "451191687.788873"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "15"
+                  endingLineNumber = "15"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ShopDetailVC setShop:]"
+                  moduleName = "XiaoMa"
+                  urlString = "file:///Users/jt/Documents/xmdd_ios/Xiaoma/Class/ShopDetailVC.h"
+                  timestampString = "451191687.789259"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "15"
+                  endingLineNumber = "15"
+                  offsetFromSymbolStart = "20">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

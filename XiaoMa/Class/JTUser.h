@@ -9,11 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "HKMyCar.h"
 
-typedef enum : NSInteger {
-    PaymentTypeCarwashTicket = 0,
-    PaymentTypeABCBankCarwashTimes,
-    PaymentTypeABCBankIntegral
-}PaymentType;
 
 @interface JTUser : NSObject
 @property (nonatomic, strong) NSString *userName;

@@ -18,13 +18,13 @@ typedef enum : NSUInteger {
 
 /// 支付渠道
 typedef enum : NSUInteger {
-    ChargeChannelInstallments,
-    ChargeChannelAlipay,
-    ChargeChannelWechat,
-    ChargeChannelABCCarWashAmount,
-    ChargeChannelABCIntegral,
-    ChargeChannelCoupon
-} ChargeChannelType;
+    PaymentChannelInstallments,
+    PaymentChannelAlipay,
+    PaymentChannelWechat,
+    PaymentChannelABCCarWashAmount,
+    PaymentChannelABCIntegral,
+    PaymentChannelCoupon
+} PaymentChannelType;
 
 #define kDefTintColor   HEXCOLOR(@"#15ac1f")
 #define kDefLineColor   HEXCOLOR(@"#e0e0e0")

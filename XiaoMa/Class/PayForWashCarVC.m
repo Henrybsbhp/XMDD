@@ -27,6 +27,11 @@
 @property (nonatomic, strong) CKSegmentHelper *checkBoxHelper;
 
 @property (nonatomic,strong)HKMyCar *car;
+
+/// 是否添加车辆（请求我的车辆成功，且无车辆）
+@property (nonatomic)BOOL needAppendCarFlag;
+
+@property (nonatomic)PaymentChannelType paymentType;
 @end
 
 @implementation PayForWashCarVC
@@ -88,18 +93,81 @@
 #pragma mark - Action
 - (IBAction)actionPay:(id)sender
 {
+    if (self.needAppendCarFlag)
+    {
+        [SVProgressHUD showWithStatus:@"您没有车辆信息，请添加一辆车"];
+        return;
+    }
+    if (self.paymentType == PaymentChannelCoupon)
+    {
+        if (gAppMgr.myUser.couponArray.count == 0)
+        {
+            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您目前没有优惠劵，可能导致提交失败，请选择其他方式支付" delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:@"继续提交", nil];
+            [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
+                
+                NSInteger index = [num integerValue];
+                if (index == 1)
+                {
+                    [self checkout];
+                }
+            }];
+            [av show];
+        }
+    }
+    else if (self.paymentType == PaymentChannelABCCarWashAmount)
+    {
+        if (gAppMgr.myUser.abcCarwashTimesCount == 0)
+        {
+            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您目前没有免费洗车次数，可能导致提交失败，请选择其他方式支付" delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:@"继续提交", nil];
+            [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
+                
+                NSInteger index = [num integerValue];
+                if (index == 1)
+                {
+                    [self checkout];
+                }
+            }];
+            [av show];
+        }
+    }
+   else if (self.paymentType == PaymentChannelABCIntegral)
+    {
+        if (gAppMgr.myUser.abcIntegral < 1)/// @fq 积分不够
+        {
+            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您目前积分不够，可能导致提交失败，请选择其他方式支付" delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:@"继续提交", nil];
+            [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
+                
+                NSInteger index = [num integerValue];
+                if (index == 1)
+                {
+                    [self checkout];
+                }
+            }];
+            [av show];
+        }
+    }
     
+    else // 支付宝或微信
+    {
+        [self checkout];
+    }
+    
+}
+
+
+- (void)checkout
+{
     CheckoutServiceOrderOp * op = [CheckoutServiceOrderOp operation];
     op.serviceid = self.service.serviceID;
     op.licencenumber = [gAppMgr.myUser getDefaultCar].licencenumber;
     op.cid = @"";
-    op.paychannel = ChargeChannelAlipay;
+    op.paychannel = self.paymentType;
     [[[op rac_postRequest] initially:^{
         
         [SVProgressHUD showWithStatus:@"订单生成中..."];
     }] subscribeNext:^(CheckoutServiceOrderOp * op) {
         
-    
+        
         if (op.rsp_Code == 0)
         {
             [SVProgressHUD showWithStatus:@"订单生成成功,正在跳转到支付宝平台进行支付" duration:2.0f];
@@ -119,9 +187,6 @@
         
         [SVProgressHUD showErrorWithStatus:@"订单生成失败"];
     }];
-    
-    
-    
 }
 
 - (void)requestPay:(NSString *)orderId andPrice:(CGFloat)price
@@ -269,7 +334,7 @@
         ChargeContent * cc;
         for (ChargeContent * tcc in rates)
         {
-            if (cc.chargeChannelType == ChargeChannelABCIntegral)
+            if (cc.paymentChannelType == PaymentChannelABCIntegral)
             {
                 cc = tcc;
                 break;
@@ -303,17 +368,15 @@
     UIImageView *arrow = (UIImageView *)[cell.contentView viewWithTag:1003];
     
     if (indexPath.row == 0) {
-        label.text = [NSString stringWithFormat:@"免费洗车券：%d张", gAppMgr.myUser.carwashTicketsCount];
+        label.text = [NSString stringWithFormat:@"免费洗车券：%ld张", (long)gAppMgr.myUser.carwashTicketsCount];
         arrow.hidden = NO;
     }
     else if (indexPath.row == 1) {
-        label.text = [NSString stringWithFormat:@"农行卡免费洗车次数：%d次", gAppMgr.myUser.abcCarwashTimesCount];
-        arrow.hidden = YES;
+        label.text = [NSString stringWithFormat:@"农行卡免费洗车次数：%ld次", (long)gAppMgr.myUser.abcCarwashTimesCount];
     }
     else
     {
-        label.text = [NSString stringWithFormat:@"农行卡积分：%d分", gAppMgr.myUser.abcIntegral];
-        arrow.hidden = YES;
+        label.text = [NSString stringWithFormat:@"农行卡积分：%ld分", (long)gAppMgr.myUser.abcIntegral];
     }
     @weakify(self);
     [self.checkBoxHelper addItem:box forGroupName:@"PaymentType" withChangedBlock:^(id item, BOOL selected) {
@@ -322,6 +385,18 @@
     [[[box rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
         [self.checkBoxHelper selectItem:box forGroupName:@"PaymentType"];
+        if (indexPath.row == 0)
+        {
+            self.paymentType = PaymentChannelCoupon;
+        }
+        else if (indexPath.row == 1)
+        {
+            self.paymentType = PaymentChannelABCCarWashAmount;
+        }
+        else
+        {
+            self.paymentType = PaymentChannelABCIntegral;
+        }
     }];
 
     
@@ -343,14 +418,27 @@
         titleL.text = @"微信支付";
     }
     @weakify(self);
-    [self.checkBoxHelper addItem:boxB forGroupName:@"PaymentMode" withChangedBlock:^(id item, BOOL selected) {
+    [self.checkBoxHelper addItem:boxB forGroupName:@"PaymentType" withChangedBlock:^(id item, BOOL selected) {
         boxB.selected = selected;
     }];
 
     [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
-        [self.checkBoxHelper selectItem:boxB forGroupName:@"PaymentMode"];
+        [self.checkBoxHelper selectItem:boxB forGroupName:@"PaymentType"];
+        if (indexPath.row == 0)
+        {
+            self.paymentType = PaymentChannelAlipay;
+        }
+        else
+        {
+            self.paymentType = PaymentChannelWechat;
+        }
     }];
+    
+    if (indexPath.row == 0)
+    {
+        [self.checkBoxHelper selectItem:boxB forGroupName:@"PaymentType"];
+    }
     
     return cell;
 }
@@ -380,10 +468,20 @@
         
     }] subscribeNext:^(GetUserCarOp * op) {
         
-        gAppMgr.myUser.carArray = op.rsp_carArray;
-        self.car = [gAppMgr.myUser getDefaultCar];
-        NSIndexPath *reloadIndexPath = [NSIndexPath indexPathForRow:3 inSection:0];
-        [self.tableView reloadRowsAtIndexPaths:@[reloadIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+        if (op.rsp_Code == 0)
+        {
+            if (op.rsp_carArray.count)
+            {
+                gAppMgr.myUser.carArray = op.rsp_carArray;
+                self.car = [gAppMgr.myUser getDefaultCar];
+                NSIndexPath *reloadIndexPath = [NSIndexPath indexPathForRow:3 inSection:0];
+                [self.tableView reloadRowsAtIndexPaths:@[reloadIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+            }
+            else
+            {
+                self.needAppendCarFlag = YES;
+            }
+        }
     } error:^(NSError *error) {
         
     }];

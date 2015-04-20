@@ -20,7 +20,7 @@
 @property (nonatomic,copy)NSString * cid;
 
 ///支付渠道
-@property (nonatomic)ChargeChannelType  paychannel;
+@property (nonatomic)PaymentChannelType  paychannel;
 
 ///订单id
 @property (nonatomic,copy)NSString * rsp_orderid;

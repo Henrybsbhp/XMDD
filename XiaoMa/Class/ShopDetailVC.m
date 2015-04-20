@@ -310,7 +310,7 @@
     ChargeContent * cc;
     for (ChargeContent * tcc in service.chargeArray)
     {
-        if (tcc.chargeChannelType == ChargeChannelABCIntegral )
+        if (tcc.paymentChannelType == PaymentChannelABCIntegral )
         {
             cc = tcc;
             break;
