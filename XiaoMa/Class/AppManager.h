@@ -12,5 +12,6 @@
 @interface AppManager : NSObject
 @property (nonatomic, strong) JTUser *myUser;
 + (AppManager *)sharedManager;
+- (void)resetWithAccount:(NSString *)account;
 
 @end

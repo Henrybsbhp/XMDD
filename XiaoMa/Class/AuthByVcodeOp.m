@@ -10,14 +10,24 @@
 
 @implementation AuthByVcodeOp
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.simulateResponse = YES;
+    }
+    return self;
+}
+
 - (RACSignal *)rac_postRequest
 {
     self.req_method = @"/auth/by-vcode";
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    
-    
-    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
+    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:nil security:YES];
+}
+
+- (id)returnSimulateResponse
+{
+    return @{@"rc":@0};
 }
 
 @end

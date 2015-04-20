@@ -25,10 +25,12 @@ static NetworkManager *g_networkManager;
 {
     self = [super init];
     if (self) {
-        self.simulateResponseDelay = 1;
-        
-        [self resetWithAppID:nil apiServer:ApiBaseUrl];
-        
+        self.simulateResponse = NO;
+        self.simulateResponseDelay = 0.2;
+        _apiServer = ApiBaseUrl;
+        NSURL * url = [NSURL URLWithString:_apiServer];
+        _apiManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
+        _apiManager.requestSerializer = [AFJSONRequestSerializer serializer];
     }
     return self;
 }
@@ -41,17 +43,6 @@ static NetworkManager *g_networkManager;
     {
         self.catchErrorHandler(op, error);
     }
-}
-
-- (void)resetWithAppID:(NSString *)appid apiServer:(NSString *)apiServer
-{
-    _appID = appid;
-    _apiServer = apiServer;
-    
-    NSURL * url = [NSURL URLWithString:apiServer];
-    _apiManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
-    _apiManager.requestSerializer = [AFJSONRequestSerializer serializer];
-//    _mediaClient = [[AFHTTPRequestOperationManager alloc] init];
 }
 
 @end
