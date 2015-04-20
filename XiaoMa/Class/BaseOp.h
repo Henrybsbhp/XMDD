@@ -45,17 +45,16 @@
 /// 响应code
 @property (nonatomic, assign) NSInteger rsp_statusCode;
 /// 响应错误
-@property (nonatomic) NSError *rsp_error;
+@property (nonatomic, assign) NSError *rsp_error;
 /// 业务code
-@property (nonatomic) NSInteger rsp_Code;
+@property (nonatomic, assign) NSInteger rsp_code;
 
 
 @property (nonatomic, weak, readonly) RACSignal *rac_curSignal;
 
-+ (instancetype)operation;
-
-
 - (RACSignal *)rac_invokeWithRPCClient:(AFHTTPRequestOperationManager *)manager params:(id)params security:(BOOL)security;
+
++ (instancetype)operation;
 
 + (void)cancelAllCurrentClassOpsInClient:(AFHTTPRequestOperationManager *)client;
 

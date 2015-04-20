@@ -11,6 +11,8 @@
 @interface GetTokenOp : BaseOp
 
 ///手机号码
-@property (nonatomic,copy)NSString * phone;
+@property (nonatomic,copy)NSString *req_phone;
+@property (nonatomic, strong) NSString *rsp_expires;
+@property (nonatomic, strong) NSString *rsp_token;
 
 @end

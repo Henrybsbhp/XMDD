@@ -27,9 +27,7 @@
 #pragma mark- 全局网络参数
 @property (nonatomic, strong) NSString *skey;       //密码
 @property (nonatomic, strong) NSString *token;      //会话令牌
-@property (nonatomic, strong) NSString * account;   //账号
 @property (nonatomic, strong) NSString * bindingMobile;
-@property (nonatomic, strong, readonly) NSString *appID;      //客户端识别码 2001
 @property (nonatomic, strong, readonly) NSString *apiServer;
 @property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *apiManager;
 

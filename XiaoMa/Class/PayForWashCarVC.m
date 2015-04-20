@@ -167,8 +167,7 @@
         [SVProgressHUD showWithStatus:@"订单生成中..."];
     }] subscribeNext:^(CheckoutServiceOrderOp * op) {
         
-        
-        if (op.rsp_Code == 0)
+        if (op.rsp_code == 0)
         {
             [SVProgressHUD showWithStatus:@"订单生成成功,正在跳转到支付宝平台进行支付" duration:2.0f];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -468,7 +467,7 @@
         
     }] subscribeNext:^(GetUserCarOp * op) {
         
-        if (op.rsp_Code == 0)
+        if (op.rsp_code == 0)
         {
             if (op.rsp_carArray.count)
             {
