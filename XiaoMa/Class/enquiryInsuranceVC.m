@@ -14,6 +14,7 @@
 #import "EnquiryResultVC.h"
 
 @interface EnquiryInsuranceVC ()<UITableViewDataSource, UITableViewDelegate>
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 ///新车未上牌的一个标志
 @property (nonatomic, assign) BOOL noPlateNumber;

@@ -10,6 +10,7 @@
 #import <Masonry.h>
 #import "XiaoMa.h"
 #import "SYPaginator.h"
+#import "MultiMediaManager.h"
 
 #import "AuthByVcodeOp.h"
 #import "NSString+MD5.h"
@@ -17,6 +18,11 @@
 #import "GetShopByDistanceOp.h"
 #import "CarWashTableVC.h"
 #import "HKLoginModel.h"
+#import "GetSystemTipsOp.h"
+#import "GetSystemPromotionOp.h"
+
+static NSInteger rotationIndex = 0;
+
 
 @interface HomePageVC ()<UIScrollViewDelegate, SYPaginatorViewDataSource, SYPaginatorViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *bgView;
@@ -37,6 +43,22 @@
     [self autoLogin];
     //设置主页的滚动视图
     [self setupScrollView];
+    
+    [gAppMgr loadLastLocationAndWeather];
+    [gAppMgr loadLastAdvertiseInfo];
+    
+    [self.adView reloadData];
+    [self rotationTableHeaderView];
+    
+    [self getWeatherInfo];
+    [self requestHomePageAd];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self setupWeatherView:gAppMgr.temperaturepic andTemperature:gAppMgr.temperature andTemperaturetip:gAppMgr.temperaturetip andRestriction:gAppMgr.restriction];
 }
 
 - (void)autoLogin
@@ -164,6 +186,43 @@
         make.edges.equalTo(bottomView);
     }];
 }
+
+- (void)setupNavigationLeftBar:(NSString *)city
+{
+    if (city.length)
+    {
+        UIBarButtonItem *cityBtn =
+        [[UIBarButtonItem alloc] initWithTitle:city style:UIBarButtonItemStyleDone target:self action:nil];
+        self.navigationItem.leftBarButtonItem = cityBtn;
+    }
+    else
+    {
+        UIBarButtonItem *retrybtn =
+        [[UIBarButtonItem alloc] initWithTitle:@"点击重试" style:UIBarButtonItemStyleDone target:self action:@selector(getWeatherInfo)];
+        self.navigationItem.leftBarButtonItem = retrybtn;
+    }
+}
+
+- (void)setupNavigationRightBar
+{
+    
+}
+
+- (void)setupWeatherView:(NSString *)picName andTemperature:(NSString *)temp andTemperaturetip:(NSString *)tip
+          andRestriction:(NSString *)restriction
+{
+    UIImageView * weatherImage = (UIImageView *)[self.weatherView searchViewWithTag:20201];
+    UILabel * tempLb = (UILabel *)[self.weatherView searchViewWithTag:20202];
+    UILabel * restrictionLb = (UILabel *)[self.weatherView searchViewWithTag:20204];
+    UILabel * tipLb = (UILabel *)[self.weatherView searchViewWithTag:20206];
+    
+    weatherImage.image = [UIImage imageNamed:picName];
+    tempLb.text = temp;
+    restrictionLb.text = restriction;
+    tipLb.text = tip;
+}
+
+
 #pragma mark - Action
 - (IBAction)actionCallCenter:(id)sender
 {
@@ -204,6 +263,22 @@
     
 }
 
+- (void)rotationTableHeaderView
+{
+    //    每隔6秒滚动宣传栏
+    [[RACSignal interval:6 onScheduler:[RACScheduler mainThreadScheduler]] subscribeNext:^(id x) {
+        
+        /// 重置i
+        NSInteger count = gAppMgr.homepageAdvertiseArray.count;
+        if(count == 0 || count == 1)
+        {
+            return ;
+        }
+        rotationIndex = rotationIndex == count - 1 ? 0 : rotationIndex + 1;
+        [self.adView setCurrentPageIndex:rotationIndex animated:YES];
+    }];
+}
+
 #pragma mark - Utility
 - (UIButton *)functionalButtonWithImageName:(NSString *)imgName action:(SEL)action inContainer:(UIView *)container
 {
@@ -220,10 +295,138 @@
     return btn;
 }
 
+
+- (void)getWeatherInfo
+{
+    [[[gMapHelper rac_getInvertGeoInfo] initially:^{
+        
+        [self setupNavigationLeftBar:@"定位中..."];
+    }] subscribeNext:^(AMapReGeocode * getInfo) {
+        
+        [self setupNavigationLeftBar:getInfo.addressComponent.city];
+        [self requestWeather:getInfo.addressComponent.province
+                     andCity:getInfo.addressComponent.city
+                 andDistrict:getInfo.addressComponent.district];
+        
+        /// 内存缓存地址信息
+        gAppMgr.province = getInfo.addressComponent.province;
+        gAppMgr.city = getInfo.addressComponent.city;
+        gAppMgr.district = getInfo.addressComponent.district;
+        /// 硬盘缓存地址信息
+        [gAppMgr saveInfo:getInfo.addressComponent.province forKey:Province];
+        [gAppMgr saveInfo:getInfo.addressComponent.city forKey:City];
+        [gAppMgr saveInfo:getInfo.addressComponent.district forKey:District];
+        NSString * dateStr = [[NSDate date] dateFormatForDT15];
+        [gAppMgr saveInfo:dateStr forKey:LastLocationTime];
+        
+    } error:^(NSError *error) {
+        
+        switch (error.code) {
+            case kCLErrorDenied:
+            {
+                if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+                {
+                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置进行操作" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往设置", nil];
+                    
+                    [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
+                        
+                        if ([x integerValue] == 1)
+                        {
+                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                        }
+                    }];
+                    [av show];
+                }
+                else
+                {
+                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置进行操作" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
+                    
+                    [av show];
+                }
+                break;
+            }
+            case 7001:
+            {
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"城市定位失败,请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                
+                [av show];
+            }
+            default:
+            {
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"定位失败，请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                
+                [av show];
+                break;
+            }
+        }
+
+    }];
+}
+
+- (void)requestWeather:(NSString *)p andCity:(NSString *)c andDistrict:(NSString *)d
+{
+    GetSystemTipsOp * op = [GetSystemTipsOp operation];
+    op.province = p;
+    op.city = c;
+    op.district = d;
+    [[[op rac_postRequest] initially:^{
+        
+        
+    }] subscribeNext:^(GetSystemTipsOp * op) {
+        
+        if(op.rsp_code == 0)
+        {
+            [self setupWeatherView:op.rsp_temperaturepic andTemperature:op.rsp_temperature andTemperaturetip:op.rsp_temperaturetip andRestriction:op.rsp_restriction];
+            
+            gAppMgr.temperature = op.rsp_temperature;
+            gAppMgr.temperaturepic = op.rsp_temperaturepic;
+            gAppMgr.temperaturetip = op.rsp_temperaturetip;
+            gAppMgr.restriction = op.rsp_restriction;
+            
+            [gAppMgr saveInfo:op.rsp_temperature forKey:Temperature];
+            [gAppMgr saveInfo:op.rsp_temperaturepic forKey:Temperaturepic];
+            [gAppMgr saveInfo:op.rsp_temperaturetip forKey:Temperaturetip];
+            [gAppMgr saveInfo:op.rsp_restriction forKey:Restriction];
+            NSString * dateStr = [[NSDate date] dateFormatForDT15];
+            [gAppMgr saveInfo:dateStr forKey:LastWeatherTime];
+        }
+        else
+        {
+            [SVProgressHUD showErrorWithStatus:@"天气接口OK，但是rspcode!=0..."];
+        }
+    } error:^(NSError *error) {
+        
+        [SVProgressHUD showErrorWithStatus:@"天气获取失败..."];
+    }];
+}
+
+
+- (void)requestHomePageAd
+{
+    GetSystemPromotionOp * op = [GetSystemPromotionOp operation];
+    op.type = AdvertisementHomePage;
+    [[[op rac_postRequest] initially:^{
+        
+    }] subscribeNext:^(GetSystemPromotionOp * op) {
+        
+        if (op.rsp_code == 0)
+        {
+            gAppMgr.homepageAdvertiseArray = op.rsp_advertisementArray;
+            [self.adView reloadData];
+            
+            [gAppMgr saveInfo:op.rsp_advertisementArray forKey:HomepageAdvertise];
+        }
+    } error:^(NSError *error) {
+        
+    }];
+}
+
+
+
 #pragma mark - SYPaginatorViewDelegate
 - (NSInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView
 {
-    return 3;
+    return gAppMgr.homepageAdvertiseArray.count ? gAppMgr.homepageAdvertiseArray.count : 1;
 }
 
 - (SYPageView *)paginatorView:(SYPaginatorView *)paginatorView viewForPageAtIndex:(NSInteger)pageIndex
@@ -237,12 +440,22 @@
         [pageView addSubview:imgV];
     }
     UIImageView *imgV = (UIImageView *)[pageView viewWithTag:1001];
-    imgV.image = [UIImage imageNamed:@"tmp_ad"];
+    HKAdvertisement * ad = [gAppMgr.homepageAdvertiseArray safetyObjectAtIndex:pageIndex];
+    if(ad.adPic.length)
+    {
+        RAC(imgV, image) = [gMediaMgr rac_getPictureForUrl:ad.adPic
+                                             withDefaultPic:@"tmp_ad"];
+    }
+    else
+    {
+        imgV.image = [UIImage imageNamed:@"tmp_ad"];
+    }
     return pageView;
 }
 
 - (void)paginatorView:(SYPaginatorView *)paginatorView didScrollToPageAtIndex:(NSInteger)pageIndex
 {
+    
 }
 
 

@@ -20,7 +20,7 @@
 //    #define ApiBaseUrl @"http://192.168.0.103:8282/paa/rest/api"
     #define ApiBaseUrl @"http://183.129.253.170:18282/paa/rest/api"
 #else
-//    #define ApiBaseUrl @"http://192.168.1.140:8081/paa/rest/api"
+    #define ApiBaseUrl @"http://183.129.253.170:18282/paa/rest/api"
 #endif
 
 
@@ -30,6 +30,7 @@
 @property (nonatomic, strong) NSString * bindingMobile;
 @property (nonatomic, strong, readonly) NSString *apiServer;
 @property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *apiManager;
+@property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *mediaClient;
 
 ///是否开启模拟数据回执 (Default is NO)
 @property (nonatomic, assign) BOOL simulateResponse;

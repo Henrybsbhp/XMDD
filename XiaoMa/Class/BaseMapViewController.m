@@ -26,6 +26,22 @@
     [self initSearch];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.mapView.delegate = self;
+    self.search.delegate = self;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    self.mapView.delegate = nil;
+    self.search.delegate = nil;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -35,11 +51,9 @@
 
 - (void)initMapView
 {
-    self.mapView = gMapHelper.mapView;
+    self.mapView = [[MAMapView alloc] init];
     
     self.mapView.frame = self.view.bounds;
-    
-    self.mapView.delegate = self;
     
     [self.view addSubview:self.mapView];
     
@@ -50,8 +64,7 @@
 
 - (void)initSearch
 {
-    self.search = gMapHelper.searchApi;
-    self.search.delegate = self;
+    self.search = [[AMapSearchAPI alloc] initWithSearchKey:AMapKey Delegate:self];
 }
 
 - (void)initBaseNavigationBar

@@ -8,8 +8,6 @@
 
 #import "MapHelper.h"
 
-#define AMapKey @"8b0b664d2df333201514aacb8e1551bc"
-
 @interface MapHelper()
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
@@ -29,15 +27,28 @@
     return g_mapManager;
 }
 
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self)
+    {
+        _rac_userLocationResultSignal = [RACSubject subject];
+        _rac_invertGeoResultSignal = [RACSubject subject];
+    }
+    return self;
+}
+
 - (void)setupMapApi
 {
     [MAMapServices sharedServices].apiKey = AMapKey;
-    self.searchApi = [[AMapSearchAPI alloc] initWithSearchKey:AMapKey Delegate:nil];
+    self.searchApi = [[AMapSearchAPI alloc] initWithSearchKey:AMapKey Delegate:self];
 }
 
 - (void)setupMAMap
 {
     self.mapView = [[MAMapView alloc] init];
+    self.mapView.delegate = self;
     
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0)
     {
@@ -45,5 +56,83 @@
         [self.locationManager requestAlwaysAuthorization];
     }
 }
+
+- (void)startLocation
+{
+    self.mapView.showsUserLocation = YES;
+//    self.mapView.userTrackingMode = MAUserTrackingModeFollow;
+}
+
+- (void)stopLocation
+{
+    self.mapView.showsUserLocation = NO;
+//    self.mapView.userTrackingMode = MAUserTrackingModeNone;
+}
+
+- (void)invertGeo:(CLLocationCoordinate2D)coordiate
+{
+    AMapReGeocodeSearchRequest * regeo = [[AMapReGeocodeSearchRequest alloc] init];
+    regeo.location = [AMapGeoPoint locationWithLatitude:coordiate.latitude longitude:coordiate.longitude];
+    
+    [self.searchApi AMapReGoecodeSearch:regeo];
+}
+
+- (RACSignal *)rac_getInvertGeoInfo
+{
+    RACSignal * signal;
+    [self startLocation];
+    signal = [self.rac_userLocationResultSignal map:^id(MAUserLocation *userLocation) {
+        return userLocation;
+    }];
+    
+    signal = [[[[signal flattenMap:^RACStream *(MAUserLocation *userLocation) {
+        
+        [self invertGeo:userLocation.coordinate];
+        return self.rac_invertGeoResultSignal;
+    }] catch:^RACSignal *(NSError *error) {
+        
+        return [RACSignal error:error];
+    }] flattenMap:^RACStream *(AMapReGeocode * regeoCode) {
+        
+        return [RACSignal return:regeoCode];
+    }] catch:^RACSignal *(NSError *error) {
+        
+        return [RACSignal error:error];
+    }];
+    
+    return signal;
+}
+
+- (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation
+{
+    self.coordinate = userLocation.coordinate;
+    [self.rac_userLocationResultSignal sendNext:userLocation];
+    [self stopLocation];
+}
+
+- (void)mapView:(MAMapView *)mapView didFailToLocateUserWithError:(NSError *)error
+{
+    [self.rac_userLocationResultSignal sendError:error];
+    [self stopLocation];
+}
+
+- (void)onReGeocodeSearchDone:(AMapReGeocodeSearchRequest *)request response:(AMapReGeocodeSearchResponse *)response
+{
+    AMapReGeocode * regeoCode = response.regeocode;
+    if (regeoCode)
+    {
+        self.province = regeoCode.addressComponent.province;
+        self.city = regeoCode.addressComponent.city;
+        self.district = regeoCode.addressComponent.district;
+        [self.rac_invertGeoResultSignal sendNext:regeoCode];
+    }
+    else
+    {
+        NSError *error = [NSError errorWithDomain:@"获取城市信息失败" code:7001 userInfo:nil];
+        [self.rac_invertGeoResultSignal sendError:error];
+    }
+}
+
+
 
 @end

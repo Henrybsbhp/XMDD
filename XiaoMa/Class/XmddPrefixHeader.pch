@@ -12,7 +12,14 @@
 #import <UIKit/UIKit.h>
 
 #import <CKKit.h>
+#import <ReactiveCocoa.h>
+
+#import "AppManager.h"
+#import "MultiMediaManager.h"
 
 #import "Contants.h"
+
+#import "UIView+Base.h"
+#import "NSDate+DateForText.h"
 
 #endif
