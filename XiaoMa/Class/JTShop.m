@@ -19,7 +19,7 @@
     }
     ChargeContent * content = [[ChargeContent alloc] init];
     content.amount = [rsp floatParamForName:@"amount"];
-    content.chargeChannelType = (ChargeChannelType)[rsp integerParamForName:@"channel"];
+    content.paymentChannelType = (PaymentChannelType)[rsp integerParamForName:@"channel"];
     return content;
 }
 

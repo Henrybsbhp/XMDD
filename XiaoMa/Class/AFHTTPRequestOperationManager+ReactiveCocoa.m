@@ -7,6 +7,7 @@
 //
 
 #import "AFHTTPRequestOperationManager+ReactiveCocoa.h"
+#import "NetworkManager.h"
 
 @implementation AFHTTPRequestOperationManager (ReactiveCocoa)
 

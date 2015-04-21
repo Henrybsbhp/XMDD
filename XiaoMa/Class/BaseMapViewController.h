@@ -12,7 +12,7 @@
 
 @interface BaseMapViewController : UIViewController<MAMapViewDelegate,AMapSearchDelegate>
 
-@property (weak, nonatomic) MAMapView *mapView;
+@property (strong, nonatomic) MAMapView *mapView;
 
 @property (nonatomic, strong) AMapSearchAPI *search;
 

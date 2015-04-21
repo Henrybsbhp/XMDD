@@ -9,8 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <AMapSearchKit/AMapSearchAPI.h>
 #import <MAMapKit/MAMapKit.h>
+#import "XiaoMa.h"
 
-@interface MapHelper : NSObject
+#define AMapKey @"8b0b664d2df333201514aacb8e1551bc"
+
+@interface MapHelper : NSObject<MAMapViewDelegate,AMapSearchDelegate>
 
 + (MapHelper *)sharedHelper;
 
@@ -20,5 +23,23 @@
 
 @property (nonatomic, strong) AMapSearchAPI *searchApi;
 @property (nonatomic, strong) MAMapView *mapView;
+
+/// 当前位置
+@property (nonatomic)CLLocationCoordinate2D coordinate;
+
+@property (nonatomic,copy)NSString * province;
+@property (nonatomic,copy)NSString * city;
+@property (nonatomic,copy)NSString * district;
+
+/// 定位结果信号
+@property (nonatomic, strong)RACSubject * rac_userLocationResultSignal;
+/// 反地理编码结果信号
+@property (nonatomic, strong)RACSubject * rac_invertGeoResultSignal;
+
+- (void)startLocation;
+
+- (void)stopLocation;
+
+- (RACSignal *)rac_getInvertGeoInfo;
 
 @end

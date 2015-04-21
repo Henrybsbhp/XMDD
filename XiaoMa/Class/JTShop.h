@@ -13,7 +13,7 @@
 
 @interface ChargeContent : NSObject
 ///支付渠道
-@property (nonatomic)ChargeChannelType chargeChannelType;
+@property (nonatomic)PaymentChannelType paymentChannelType;
 ///支付额
 @property (nonatomic)CGFloat amount;
 

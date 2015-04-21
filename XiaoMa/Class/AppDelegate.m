@@ -20,6 +20,10 @@
 #import "GetTokenOp.h"
 #import "GetVcodeOp.h"
 #import "AlipayHelper.h"
+#import "GetSystemTipsOp.h"
+
+//#define RequestWeatherInfoInterval 60 * 10
+#define RequestWeatherInfoInterval 5
 
 @interface AppDelegate ()
 @property (nonatomic, strong) DDFileLogger *fileLogger;
@@ -39,6 +43,7 @@
     
     [gMapHelper setupMapApi];
     [gMapHelper setupMAMap];
+    
         
     return YES;
 }
@@ -73,7 +78,14 @@
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    
+    ///如果距上次定位时间超过10分钟，则首页呈现的时候，重新定位
+    NSDate * lastLocationTime = [NSDate dateWithText:[gAppMgr getInfo:LastLocationTime]];
+    NSTimeInterval timeInterval = [lastLocationTime timeIntervalSinceNow];
+    if (abs(timeInterval) > RequestWeatherInfoInterval)
+    {
+        [self getLocation];
+    }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -141,5 +153,113 @@
     
     return result;
 }
+
+#pragma mark - Utilities
+- (void)requestStaticPromotion
+{}
+
+- (void)requestAd
+{}
+
+- (void)requestUpdateInfo
+{
+    
+}
+
+- (void)getLocation
+{
+    [[[gMapHelper rac_getInvertGeoInfo] initially:^{
+        
+    }] subscribeNext:^(AMapReGeocode * getInfo) {
+        
+        if (!([getInfo.addressComponent.province isEqualToString:gAppMgr.province] &&
+            [getInfo.addressComponent.city isEqualToString:gAppMgr.city] &&
+            [getInfo.addressComponent.district isEqualToString:gAppMgr.district]))
+        {
+            [self requestWeather:getInfo.addressComponent.province andCity:getInfo.addressComponent.city andDistrict:getInfo.addressComponent.district];
+        }
+        
+        /// 内存缓存地址信息
+        gAppMgr.province = getInfo.addressComponent.province;
+        gAppMgr.city = getInfo.addressComponent.city;
+        gAppMgr.district = getInfo.addressComponent.district;
+        /// 硬盘缓存地址信息
+        [gAppMgr saveInfo:getInfo.addressComponent.province forKey:Province];
+        [gAppMgr saveInfo:getInfo.addressComponent.city forKey:City];
+        [gAppMgr saveInfo:getInfo.addressComponent.district forKey:District];
+        NSString * dateStr = [[NSDate date] dateFormatForDT15];
+        [gAppMgr saveInfo:dateStr forKey:LastLocationTime];
+        
+    } error:^(NSError *error) {
+        
+        switch (error.code) {
+            case kCLErrorDenied:
+            {
+                if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+                {
+                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置进行操作" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往设置", nil];
+                    
+                    [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
+                        
+                        if ([x integerValue] == 1)
+                        {
+                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                        }
+                    }];
+                    [av show];
+                }
+                else
+                {
+                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置进行操作" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
+                    
+                    [av show];
+                }
+                break;
+            }
+            case 7001:
+            {
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"城市定位失败,请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                
+                [av show];
+            }
+            default:
+            {
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"定位失败，请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                
+                [av show];
+                break;
+            }
+        }
+        
+    }];
+}
+
+- (void)requestWeather:(NSString *)p andCity:(NSString *)c andDistrict:(NSString *)d
+{
+    GetSystemTipsOp * op = [GetSystemTipsOp operation];
+    op.province = p;
+    op.city = c;
+    op.district = d;
+    [[op rac_postRequest] subscribeNext:^(GetSystemTipsOp * op) {
+        
+        if(op.rsp_code == 0)
+        {
+            gAppMgr.temperature = op.rsp_temperature;
+            gAppMgr.temperaturepic = op.rsp_temperaturepic;
+            gAppMgr.temperaturetip = op.rsp_temperaturetip;
+            gAppMgr.restriction = op.rsp_restriction;
+            
+            [gAppMgr saveInfo:op.rsp_temperature forKey:Temperature];
+            [gAppMgr saveInfo:op.rsp_temperaturepic forKey:Temperaturepic];
+            [gAppMgr saveInfo:op.rsp_temperaturetip forKey:Temperaturetip];
+            [gAppMgr saveInfo:op.rsp_restriction forKey:Restriction];
+            NSString * dateStr = [[NSDate date] dateFormatForDT15];
+            [gAppMgr saveInfo:dateStr forKey:LastWeatherTime];
+        }
+    }];
+}
+
+
+
 
 @end

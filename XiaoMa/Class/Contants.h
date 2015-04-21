@@ -18,13 +18,27 @@ typedef enum : NSUInteger {
 
 /// 支付渠道
 typedef enum : NSUInteger {
-    ChargeChannelInstallments,
-    ChargeChannelAlipay,
-    ChargeChannelWechat,
-    ChargeChannelABCCarWashAmount,
-    ChargeChannelABCIntegral,
-    ChargeChannelCoupon
-} ChargeChannelType;
+    PaymentChannelInstallments,
+    PaymentChannelAlipay,
+    PaymentChannelWechat,
+    PaymentChannelABCCarWashAmount,
+    PaymentChannelABCIntegral,
+    PaymentChannelCoupon
+} PaymentChannelType;
+
+/// 支付渠道
+//1-首页广告
+//2-洗车广告
+//3-银行卡绑定页广告
+//10-APP滑动广告
+//20：活动类
+typedef enum : NSUInteger {
+    AdvertisementHomePage = 1,
+    AdvertisementCarWash = 2,
+    AdvertisementBankCardBinding = 3,
+    AdvertisementAppSlide = 10,
+    AdvertisementTypeActivities = 20
+} AdvertisementType;
 
 #define kDefTintColor   HEXCOLOR(@"#15ac1f")
 #define kDefLineColor   HEXCOLOR(@"#e0e0e0")
@@ -36,11 +50,12 @@ typedef enum : NSUInteger {
 
 //单例别名
 #define gAppMgr     [AppManager sharedManager]
-#define  gAppDelegate       ((AppDelegate *)[UIApplication sharedApplication].delegate)
+#define gAppDelegate       ((AppDelegate *)[UIApplication sharedApplication].delegate)
 #define gNetworkMgr [NetworkManager sharedManager]
 #define gToast      [HKToast sharedTosast]
 #define gAlipayHelper       ([AlipayHelper sharedHelper])
 #define gMapHelper ([MapHelper sharedHelper])
+#define gMediaMgr           ([MultiMediaManager sharedManager])
 
 #define mainStoryboard [UIStoryboard storyboardWithName:@"Main" bundle:nil]
 #define carWashStoryboard [UIStoryboard storyboardWithName:@"Carwash" bundle:nil]
