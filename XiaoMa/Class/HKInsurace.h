@@ -25,9 +25,13 @@
 
 @interface HKInsurace : NSObject
 
+@property (nonatomic,copy)NSString * insuraceName;
+
 /// 保险总价
 @property (nonatomic)CGFloat premium;
 /// 保险内容<SubInsurace>
 @property (nonatomic)NSArray * subInsuraceArray;
+
++ (instancetype)insuraceWithJSONResponse:(NSDictionary *)rsp;
 
 @end

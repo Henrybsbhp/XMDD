@@ -27,6 +27,6 @@
 
 @property (nonatomic,strong)NSString * phone;
 
-//@property (nonatomic)
+@property (nonatomic,strong)NSArray * rsp_insuraceArray;
 
 @end
