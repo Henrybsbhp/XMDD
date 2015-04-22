@@ -12,6 +12,7 @@
 #import "DatePackerVC.h"
 #import "UIView+Shake.h"
 #import "EnquiryResultVC.h"
+#import "GetInsuranceCalculatorOp.h"
 
 @interface EnquiryInsuranceVC ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -67,6 +68,14 @@
     if ([self shakeIfNeededAtRow:3]) {
         return;
     }
+    
+    GetInsuranceCalculatorOp * op = [GetInsuranceCalculatorOp operation];
+    op.city = self.city;
+    op.licencenumber = self.plateNumber;
+    op.registered = !self.noPlateNumber;
+    op.purchaseprice = self.price;
+    op.purchasedate = self.carryTime;
+    
     EnquiryResultVC *vc = [UIStoryboard vcWithId:@"EnquiryResultVC" inStoryboard:@"Insurance"];
     [self.navigationController pushViewController:vc animated:YES];
 }

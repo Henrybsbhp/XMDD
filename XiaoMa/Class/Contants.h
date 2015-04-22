@@ -40,6 +40,8 @@ typedef enum : NSUInteger {
     AdvertisementTypeActivities = 20
 } AdvertisementType;
 
+#define IOSAPPID 2001
+
 #define kDefTintColor   HEXCOLOR(@"#15ac1f")
 #define kDefLineColor   HEXCOLOR(@"#e0e0e0")
 

@@ -88,4 +88,21 @@
 //    return value;
 }
 
+
+- (void)startUpdatingWithURLString:(NSString *)strurl
+{
+    if (strurl.length == 0)
+    {
+        strurl = @"";
+    }
+    NSURL *url = [NSURL URLWithString:strurl];
+    if ([[UIApplication sharedApplication] canOpenURL:url])
+    {
+        [[UIApplication sharedApplication] openURL:url];
+    }
+    else
+    {
+//        DebugLog(@"can not update client version with url:%@", strurl);
+    }
+}
 @end

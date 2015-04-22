@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "JTUser.h"
 #import "TMCache.h"
+#import "ClientInfo.h"
+#import "DeviceInfo.h"
 
 #define Province @"Province"
 #define City @"City"
@@ -24,6 +26,8 @@
 @interface AppManager : NSObject
 
 @property (nonatomic,strong) JTUser *myUser;
+@property(nonatomic,strong)DeviceInfo * deviceInfo;
+@property(nonatomic,strong)ClientInfo * clientInfo;
 
 + (AppManager *)sharedManager;
 
@@ -58,4 +62,7 @@
 
 - (NSString *)getInfo:(NSString *)key;
 
+
+///版本升级
+- (void)startUpdatingWithURLString:(NSString *)strurl;
 @end

@@ -11,16 +11,13 @@
 #import "DefaultStyleModel.h"
 #import <AFNetworking.h>
 #import <CocoaLumberjack.h>
-#import "AuthByVcodeOp.h"
-#import "GetTokenOp.h"
-#import "GetVcodeOp.h"
 #import "HKCatchErrorModel.h"
-#import "GetShopByRangeOp.h"
 #import "MapHelper.h"
-#import "GetTokenOp.h"
-#import "GetVcodeOp.h"
 #import "AlipayHelper.h"
 #import "GetSystemTipsOp.h"
+#import "GetSystemVersionOp.h"
+#import "ClientInfo.h"
+#import "DeviceInfo.h"
 
 //#define RequestWeatherInfoInterval 60 * 10
 #define RequestWeatherInfoInterval 5
@@ -44,6 +41,7 @@
     [gMapHelper setupMapApi];
     [gMapHelper setupMAMap];
     
+    [self setupVersionUpdating];
         
     return YES;
 }
@@ -79,7 +77,6 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     
-    ///如果距上次定位时间超过10分钟，则首页呈现的时候，重新定位
     NSDate * lastLocationTime = [NSDate dateWithText:[gAppMgr getInfo:LastLocationTime]];
     NSTimeInterval timeInterval = [lastLocationTime timeIntervalSinceNow];
     if (abs(timeInterval) > RequestWeatherInfoInterval)
@@ -257,6 +254,67 @@
             [gAppMgr saveInfo:dateStr forKey:LastWeatherTime];
         }
     }];
+}
+
+- (void)setupVersionUpdating
+{
+    NSString * version = gAppMgr.clientInfo.clientVersion;
+    NSString * OSVersion = gAppMgr.deviceInfo.osVersion;
+    GetSystemVersionOp * op = [GetSystemVersionOp operation];
+    op.appid = IOSAPPID;
+    op.version = version;
+    op.os = [NSString stringWithFormat:@"iOS %@",OSVersion];
+    [[op rac_postRequest] subscribeNext:^(GetSystemVersionOp * op) {
+        
+        [SVProgressHUD dismiss];
+        if (op.rsp_code == 0)
+        {
+            if (op.rsp_version.length)
+            {
+                if(![op.rsp_version isEqualToString:version])
+                {
+                    if (op.rsp_mandatory)
+                    {
+                        gAppMgr.clientInfo.forceUpdateUrl = op.rsp_link;
+                        gAppMgr.clientInfo.forceUpdateContent = op.rsp_updateinfo;
+                        gAppMgr.clientInfo.forceUpdateVersion = op.rsp_version;
+                        UIAlertView * av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"有新的版本可以更新：%@",op.rsp_version] message:op.rsp_updateinfo delegate:self cancelButtonTitle:@"前去更新" otherButtonTitles:nil];
+                        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNumber) {
+                            [gAppMgr startUpdatingWithURLString:op.rsp_link];
+                        }];
+                        [av show];
+                    }
+                    else
+                    {
+                        UIAlertView * av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"有新的版本可以更新：%@",op.rsp_version] message:op.rsp_updateinfo  delegate:self cancelButtonTitle:@"忽略" otherButtonTitles:@"前去更新",nil];
+                        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNumber) {
+                            if ([indexNumber intValue] == 1) {
+                                [gAppMgr startUpdatingWithURLString:op.rsp_link];
+                            }
+                        }];
+                        [av show];
+                    }
+                }
+            }
+        }
+    }];
+}
+
+
+- (void)checkVersionUpdating
+{
+    if (gAppMgr.clientInfo.forceUpdateUrl.length)
+    {
+        UIAlertView * av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"有新的版本可以更新：%@",gAppMgr.clientInfo.forceUpdateVersion]
+                                                      message:gAppMgr.clientInfo.forceUpdateContent
+                                                     delegate:self
+                                            cancelButtonTitle:@"前去更新"
+                                            otherButtonTitles:nil];
+        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNumber) {
+            [gAppMgr startUpdatingWithURLString:gAppMgr.clientInfo.forceUpdateUrl];
+        }];
+        [av show];
+    }
 }
 
 
