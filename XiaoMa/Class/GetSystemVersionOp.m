@@ -12,7 +12,7 @@
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"getUpdateInfo";
+    self.req_method = @"/system/version/get";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:@(self.appid) forName:@"appcode"];

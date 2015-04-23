@@ -345,7 +345,7 @@ static NSInteger rotationIndex = 0;
                 }
                 break;
             }
-            case 7001:
+            case LocationFail:
             {
                 UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"城市定位失败,请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
                 

@@ -18,7 +18,7 @@ typedef enum : NSUInteger {
 
 /// 支付渠道
 typedef enum : NSUInteger {
-    PaymentChannelInstallments,
+    PaymentChannelInstallments = 1,
     PaymentChannelAlipay,
     PaymentChannelWechat,
     PaymentChannelABCCarWashAmount,
@@ -51,16 +51,23 @@ typedef enum : NSUInteger {
 #define kErrPrefix      @"〓〓〓〓〓"
 
 //单例别名
-#define gAppMgr     [AppManager sharedManager]
 #define gAppDelegate       ((AppDelegate *)[UIApplication sharedApplication].delegate)
+#define gAppMgr     [AppManager sharedManager]
 #define gNetworkMgr [NetworkManager sharedManager]
 #define gToast      [HKToast sharedTosast]
 #define gAlipayHelper       ([AlipayHelper sharedHelper])
+#define gWechatHelper       ([WeChatHelper sharedHelper])
 #define gMapHelper ([MapHelper sharedHelper])
-#define gMediaMgr           ([MultiMediaManager sharedManager])
+#define gMediaMgr  ([MultiMediaManager sharedManager])
 
 #define mainStoryboard [UIStoryboard storyboardWithName:@"Main" bundle:nil]
 #define carWashStoryboard [UIStoryboard storyboardWithName:@"Carwash" bundle:nil]
 #define commonStoryboard [UIStoryboard storyboardWithName:@"Common" bundle:nil]
+
+
+
+#define LocationFail 7001
+#define WechatPayFail 7002
+
 
 #endif

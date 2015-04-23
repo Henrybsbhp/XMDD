@@ -16,8 +16,10 @@
 #import "HKCoupon.h"
 #import "HKMyCar.h"
 #import "AlipayHelper.h"
+#import "WeChatHelper.h"
 #import "CheckoutServiceOrderOp.h"
 #import "NSDate+DateForText.h"
+
 
 
 
@@ -41,6 +43,8 @@
     
     [self setupCheckBoxHelper];
     [self setupBottomView];
+    
+    self.paymentType = PaymentChannelAlipay;
     
     if (gAppMgr.myUser.carArray.count)
     {
@@ -95,7 +99,7 @@
 {
     if (self.needAppendCarFlag)
     {
-        [SVProgressHUD showWithStatus:@"您没有车辆信息，请添加一辆车"];
+        [SVProgressHUD showErrorWithStatus:@"您没有车辆信息，请添加一辆车"];
         return;
     }
     if (self.paymentType == PaymentChannelCoupon)
@@ -108,7 +112,7 @@
                 NSInteger index = [num integerValue];
                 if (index == 1)
                 {
-                    [self checkout];
+                    [self requestCheckout];
                 }
             }];
             [av show];
@@ -124,7 +128,7 @@
                 NSInteger index = [num integerValue];
                 if (index == 1)
                 {
-                    [self checkout];
+                    [self requestCheckout];
                 }
             }];
             [av show];
@@ -140,7 +144,7 @@
                 NSInteger index = [num integerValue];
                 if (index == 1)
                 {
-                    [self checkout];
+                    [self requestCheckout];
                 }
             }];
             [av show];
@@ -149,51 +153,34 @@
     
     else // 支付宝或微信
     {
-        [self checkout];
+        [self requestCheckout];
     }
     
 }
 
 
-- (void)checkout
-{
-    CheckoutServiceOrderOp * op = [CheckoutServiceOrderOp operation];
-    op.serviceid = self.service.serviceID;
-    op.licencenumber = [gAppMgr.myUser getDefaultCar].licencenumber;
-    op.cid = @"";
-    op.paychannel = self.paymentType;
-    [[[op rac_postRequest] initially:^{
-        
-        [SVProgressHUD showWithStatus:@"订单生成中..."];
-    }] subscribeNext:^(CheckoutServiceOrderOp * op) {
-        
-        if (op.rsp_code == 0)
-        {
-            [SVProgressHUD showWithStatus:@"订单生成成功,正在跳转到支付宝平台进行支付" duration:2.0f];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                
-                NSString * submitTime = [[NSDate date] dateFormatForDT8];
-                NSString * info = [NSString stringWithFormat:@"%@",self.shop.shopName];
-                [self requestPay:op.rsp_orderid andPrice:op.rsp_price
-                  andProductName:info andDescription:@"小马达达" andTime:submitTime];
-            });
-        }
-        else
-        {
-            [SVProgressHUD showErrorWithStatus:@"订单生成失败"];
-        }
-    } error:^(NSError *error) {
-        
-        [SVProgressHUD showErrorWithStatus:@"订单生成失败"];
-    }];
-}
 
-- (void)requestPay:(NSString *)orderId andPrice:(CGFloat)price
+- (void)requestAliPay:(NSString *)orderId andPrice:(CGFloat)price
     andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time
 {
     [gAlipayHelper payOrdWithTradeNo:orderId andProductName:name andProductDescription:desc andPrice:price];
     
     [gAlipayHelper.rac_alipayResultSignal subscribeNext:^(id x) {
+        
+        PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
+        vc.originVC = self.originVC;
+        [self.navigationController pushViewController:vc animated:YES];
+    } error:^(NSError *error) {
+        
+    }];
+}
+
+- (void)requestWechatPay:(NSString *)orderId andPrice:(CGFloat)price
+       andProductName:(NSString *)name andTime:(NSString *)time
+{
+    [gWechatHelper payOrdWithTradeNo:orderId andProductName:name andPrice:price];
+    
+    [gWechatHelper.rac_wechatResultSignal subscribeNext:^(id x) {
         
         PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
         vc.originVC = self.originVC;
@@ -346,7 +333,7 @@
         
         if (self.car.licencenumber.length)
         {
-            titleL.text = [NSString stringWithFormat:@"我的车辆：%@", gAppMgr.myUser.numberPlate];
+            titleL.text = [NSString stringWithFormat:@"我的车辆：%@", self.car.licencenumber];
             additionB.hidden = YES;
         }
         else
@@ -485,5 +472,53 @@
         
     }];
 }
+
+- (void)requestCheckout
+{
+    CheckoutServiceOrderOp * op = [CheckoutServiceOrderOp operation];
+    op.serviceid = self.service.serviceID;
+    op.licencenumber = [gAppMgr.myUser getDefaultCar].licencenumber;
+    op.cid = @"";
+    op.paychannel = self.paymentType;
+    [[[op rac_postRequest] initially:^{
+        
+        [SVProgressHUD showWithStatus:@"订单生成中..."];
+    }] subscribeNext:^(CheckoutServiceOrderOp * op) {
+        
+        if (op.rsp_code == 0)
+        {
+            if (op.paychannel == PaymentChannelAlipay)
+            {
+                [SVProgressHUD showWithStatus:@"订单生成成功,正在跳转到支付宝平台进行支付" duration:2.0f];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    
+                    NSString * submitTime = [[NSDate date] dateFormatForDT8];
+                    NSString * info = [NSString stringWithFormat:@"%@",self.shop.shopName];
+                    [self requestAliPay:op.rsp_orderid andPrice:op.rsp_price
+                      andProductName:info andDescription:@"小马达达" andTime:submitTime];
+                });
+            }
+            else if (op.paychannel == PaymentChannelWechat)
+            {
+                [SVProgressHUD showWithStatus:@"订单生成成功,正在跳转到微信平台进行支付" duration:2.0f];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    
+                    NSString * submitTime = [[NSDate date] dateFormatForDT8];
+                    NSString * info = [NSString stringWithFormat:@"%@",self.shop.shopName];
+                    [self requestWechatPay:op.rsp_orderid andPrice:op.rsp_price
+                      andProductName:info andTime:submitTime];
+                });
+            }
+        }
+        else
+        {
+            [SVProgressHUD showErrorWithStatus:@"订单生成失败"];
+        }
+    } error:^(NSError *error) {
+        
+        [SVProgressHUD showErrorWithStatus:@"订单生成失败"];
+    }];
+}
+
 
 @end

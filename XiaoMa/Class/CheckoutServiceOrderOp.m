@@ -20,15 +20,15 @@
     [params addParam:self.cid forName:@"cid"];
     [params addParam:@(self.paychannel) forName:@"paychannel"];
     
-    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
+    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
 - (instancetype)parseResponseObject:(id)rspObj
 {
     if ([rspObj isKindOfClass:[NSDictionary class]])
     {
-        self.rsp_orderid = rspObj[@"orderid"];
-        self.rsp_price = [rspObj floatParamForName:@"price"];
+        self.rsp_orderid = rspObj[@"tradeid"];
+        self.rsp_price = [rspObj floatParamForName:@"total"];
     }
     else
     {
