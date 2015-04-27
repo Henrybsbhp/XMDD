@@ -14,6 +14,9 @@
 ///险种名称
 @property (nonatomic,copy)NSString * coveragerName;
 
+///险种金额
+@property (nonatomic, strong) NSString *coveragerValue;
+
 ///保险金额
 @property (nonatomic)CGFloat sum;
 

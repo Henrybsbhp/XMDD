@@ -25,6 +25,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)reloadWithPolicys:(NSArray *)policys
+{
+    _policys = policys;
+    [self.tableView reloadData];
+}
+#pragma mark - Action
 - (IBAction)actionUploadInfomation:(id)sender
 {
     UploadInfomationVC *vc = [UIStoryboard vcWithId:@"UploadInfomationVC" inStoryboard:@"Insurance"];

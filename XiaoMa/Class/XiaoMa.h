@@ -32,7 +32,7 @@
 #import "JTTableViewCell.h"
 #import "RACSignal+Extension.h"
 
-#import "Contants.h"
+#import "Constants.h"
 
 #import "BaseOp.h"
 #import "LoginViewModel.h"

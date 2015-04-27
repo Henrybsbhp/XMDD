@@ -9,11 +9,15 @@
 #import "PolicyInfomationVC.h"
 #import "XiaoMa.h"
 #import "UIView+Layer.h"
+#import "PayForPolicyVC.h"
 #import <Masonry.h>
 
-@interface PolicyInfomationVC ()
+@interface PolicyInfomationVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UIView *containerView;
+@property (nonatomic, strong) NSArray *titles;
+@property (nonatomic, strong) NSArray *coveragers;
 @property (nonatomic, strong) NSArray *datasource;
 @end
 
@@ -30,153 +34,115 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidLayoutSubviews
-{
-    for (UILabel *label in self.containerView.subviews) {
-        [label layoutBorderLineIfNeeded];
-    }
-}
-
 - (void)reloadDatasource
 {
-    NSArray *group1 = @[@[@"被保险人", @"李美美"],
-                      @[@"车牌号码", @"浙A12345"],
-                      @[@"证件号码", @"33013224354323425"],
-                      @[@"保险公司", @"人保"],
-                      @[@"保险期限", @"2013.01.01-2016.01.01"],
-                      @[@"保费总额", @"￥4500"]];
-    group1.customTag = 1;
-    NSArray *group2 = @[@[@"承保险种", @"保险金额/责任限额（元）"],
-                       @[@"机动车车损险", @"359,555.00"],
-                       @[@"车上乘客责任险", @"10,000.00/座*4座"],
-                       @[@"第三者责任保险", @"500,000.00"],
-                       @[@"不计免赔率", @"10,000.00/座*1座"],
-                       @[@"交强险", @"950.00"],
-                       @[@"车船税",@"360.00"]];
-    group2.customTag = 2;
-    self.datasource = @[group1, group2];
-    [self refreshScrollView];
+    GetInsuranceByChannelOp *op = self.insuranceOp;
+    self.titles = @[RACTuplePack(@"被保险人：", op.rsp_policyholder),
+                    RACTuplePack(@"车牌号码：", op.rsp_licencenumber),
+                    RACTuplePack(@"证件号码：", op.rsp_idnumber),
+                    RACTuplePack(@"保险公司：", op.rsp_inscomp),
+                    RACTuplePack(@"保险期限：", op.rsp_insperiod),
+                    RACTuplePack(@"保费总额：", op.rsp_totalpay)];
+    
+    SubInsurace *head = [SubInsurace new];
+    head.coveragerName = @"承保险种";
+    head.coveragerValue = @"保险金额/责任限额（元）";
+    NSMutableArray *coveragers = [NSMutableArray arrayWithObject:head];
+    [coveragers safetyAddObjectsFromArray:self.insuranceOp.rsp_policy.subInsuraceArray];
+    self.coveragers = coveragers;
+    [self.tableView reloadData];
 }
-
-- (void)refreshScrollView
-{
-    [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    UIView *container = [UIView new];
-    [self.scrollView addSubview:container];
-    @weakify(self);
-    [container mas_makeConstraints:^(MASConstraintMaker *make) {
-        @strongify(self);
-        make.top.equalTo(self.scrollView);
-        make.left.equalTo(self.scrollView);
-        make.width.equalTo(self.scrollView);
-    }];
-    UIView *upperView = container;
-    for (NSArray *group in self.datasource) {
-        if (group.customTag == 1) {
-            upperView = [self layoutTag1Group:group withContainer:container upperView:upperView];
-        }
-        if (group.customTag == 2) {
-            upperView = [self layoutTag2Group:group withContainer:container upperView:upperView];
-        }
-    }
-    [container mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(upperView).offset(10);
-    }];
-    self.containerView = container;
-}
-
-- (UIView *)layoutTag1Group:(NSArray *)group withContainer:(UIView *)container upperView:(UIView *)upperView
-{
-    for (NSArray *item in group) {
-        UILabel *leftL = [UILabel new];
-        leftL.font = [UIFont systemFontOfSize:14];
-        leftL.text = [NSString stringWithFormat:@"%@: ", [item safetyObjectAtIndex:0]];
-        UILabel *rightL = [UILabel new];
-        rightL.font = [UIFont systemFontOfSize:14];
-        rightL.text = [item safetyObjectAtIndex:1];
-        [container addSubview:leftL];
-        [container addSubview:rightL];
-        [leftL mas_makeConstraints:^(MASConstraintMaker *make) {
-            if ([upperView isEqual:container]) {
-                make.top.equalTo(upperView.mas_top).offset(14);
-            }
-            else {
-                make.top.equalTo(upperView.mas_bottom).offset(10);
-            }
-            make.left.equalTo(container).offset(12);
-        }];
-        [rightL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(leftL);
-            make.left.equalTo(leftL.mas_right).offset(0);
-            make.right.equalTo(container.mas_right).offset(-12);
-        }];
-        upperView = leftL;
-    }
-    return upperView;
-}
-
-- (UIView *)layoutTag2Group:(NSArray *)group withContainer:(UIView *)container upperView:(UIView *)upperView
-{
-    for (int i = 0; i < group.count; i++) {
-        NSArray *item = [group objectAtIndex:i];
-        NSInteger lineMask;
-        UILabel *leftL = [[UILabel alloc] initWithFrame:CGRectZero];
-        leftL.font = [UIFont systemFontOfSize:14];
-        leftL.textAlignment = NSTextAlignmentCenter;
-        leftL.textColor = [UIColor darkGrayColor];
-        leftL.text = [item safetyObjectAtIndex:0];
-        if (i == 0) {
-            leftL.backgroundColor = HEXCOLOR(@"#eaeaea");
-            lineMask = CKViewBorderDirectionTop | CKViewBorderDirectionLeft |
-            CKViewBorderDirectionBottom | CKViewBorderDirectionRight;
-        }
-        else {
-            leftL.backgroundColor = HEXCOLOR(@"#f7f7f7");
-            lineMask = CKViewBorderDirectionLeft | CKViewBorderDirectionRight | CKViewBorderDirectionBottom;
-        }
-        [leftL setBorderLineColor:kDefLineColor forDirectionMask:lineMask];
-        [leftL showBorderLineWithDirectionMask:lineMask];
-        [container addSubview:leftL];
-        [leftL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(upperView.mas_bottom).offset(i == 0 ? 14 : 0);
-            make.left.equalTo(container).offset(12);
-            make.height.mas_equalTo(30);
-            make.width.mas_equalTo(126);
-        }];
-        
-        UILabel *rightL = [[UILabel alloc] initWithFrame:CGRectZero];
-        rightL.font = [UIFont systemFontOfSize:14];
-        rightL.textAlignment = NSTextAlignmentCenter;
-        rightL.textColor = [UIColor darkGrayColor];
-        rightL.text = [item safetyObjectAtIndex:1];
-        if (i == 0) {
-            rightL.backgroundColor = HEXCOLOR(@"#eaeaea");
-            lineMask = CKViewBorderDirectionRight | CKViewBorderDirectionBottom | CKViewBorderDirectionTop;
-        }
-        else {
-            rightL.backgroundColor = HEXCOLOR(@"#f7f7f7");
-            lineMask = CKViewBorderDirectionRight | CKViewBorderDirectionBottom;
-        }
-        [rightL setBorderLineColor:kDefLineColor forDirectionMask:lineMask];
-        [rightL showBorderLineWithDirectionMask:lineMask];
-        [container addSubview:rightL];
-        [rightL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(leftL);
-            make.left.equalTo(leftL.mas_right);
-            make.height.mas_equalTo(30);
-            make.right.equalTo(container).offset(-12);
-        }];
-        upperView = leftL;
-    }
-    return upperView;
-}
-
 
 #pragma mark - Action
 - (IBAction)actionNext:(id)sender
 {
-    
+    PayForPolicyVC *vc = [UIStoryboard vcWithId:@"PayForPolicyVC" inStoryboard:@"Insurance"];
+    vc.insuranceOp = self.insuranceOp;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
+#pragma mark - UITableViewDelegate and dataoource
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 5;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (section == 1) {
+        return 10;
+    }
+    return CGFLOAT_MIN;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        return 26;
+    }
+    return 30;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return self.titles.count;
+    }
+    return self.coveragers.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        return [self titleCellAtIndexPath:indexPath];
+    }
+    return [self gridCellAtIndexPath:indexPath];
+}
+
+- (UITableViewCell *)titleCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"TitleCell" forIndexPath:indexPath];
+    RACTuple *tuple = [self.titles safetyObjectAtIndex:indexPath.row];
+    UILabel *leftL = (UILabel *)[cell.contentView viewWithTag:1001];
+    UILabel *rightL = (UILabel *)[cell.contentView viewWithTag:1002];
+    leftL.text = tuple.first;
+    rightL.text = tuple.second;
+    return cell;
+}
+
+- (UITableViewCell *)gridCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"GridCell" forIndexPath:indexPath];
+    SubInsurace *item = [self.coveragers safetyObjectAtIndex:indexPath.row];
+    UILabel *leftL = (UILabel *)[cell.contentView viewWithTag:1001];
+    UILabel *rightL = (UILabel *)[cell.contentView viewWithTag:1002];
+    leftL.text = item.coveragerName;
+    rightL.text = item.coveragerValue;
+    NSInteger leftLineMask, rightLineMask;
+    if (indexPath.row == 0) {
+        leftL.backgroundColor  = HEXCOLOR(@"#eaeaea");
+        rightL.backgroundColor = HEXCOLOR(@"#eaeaea");
+        leftLineMask = CKViewBorderDirectionTop | CKViewBorderDirectionLeft |
+                        CKViewBorderDirectionBottom | CKViewBorderDirectionRight;
+        rightLineMask = CKViewBorderDirectionRight | CKViewBorderDirectionBottom | CKViewBorderDirectionTop;
+    }
+    else {
+        leftL.backgroundColor  = HEXCOLOR(@"#f7f7f7");
+        rightL.backgroundColor = HEXCOLOR(@"#f7f7f7");
+        leftLineMask = CKViewBorderDirectionLeft | CKViewBorderDirectionRight | CKViewBorderDirectionBottom;
+        rightLineMask = CKViewBorderDirectionRight | CKViewBorderDirectionBottom;
+    }
+    [leftL setBorderLineColor:kDefLineColor forDirectionMask:leftLineMask];
+    [leftL showBorderLineWithDirectionMask:leftLineMask];
+    [rightL setBorderLineColor:kDefLineColor forDirectionMask:rightLineMask];
+    [rightL showBorderLineWithDirectionMask:rightLineMask];
+    
+    return cell;
+}
 
 @end

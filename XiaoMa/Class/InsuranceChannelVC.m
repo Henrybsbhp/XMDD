@@ -6,12 +6,13 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "InsuranceDirectSellingVC.h"
+#import "InsuranceChannelVC.h"
 #import "PolicyInfomationVC.h"
 #import "XiaoMa.h"
 #import "UIView+Shake.h"
+#import "GetInsuranceByChannelOp.h"
 
-@interface InsuranceDirectSellingVC ()<UITableViewDataSource, UITableViewDelegate>
+@interface InsuranceChannelVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 ///渠道号
 @property (nonatomic, strong) NSString *channelCode;
@@ -21,7 +22,7 @@
 @property (nonatomic, strong) NSString *frameNumber;
 @end
 
-@implementation InsuranceDirectSellingVC
+@implementation InsuranceChannelVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -45,8 +46,23 @@
     if ([self shakeIfNeededAtRow:2]) {
         return;
     }
-    PolicyInfomationVC *vc = [UIStoryboard vcWithId:@"PolicyInfomationVC" inStoryboard:@"Insurance"];
-    [self.navigationController pushViewController:vc animated:YES];
+
+    GetInsuranceByChannelOp *op = [GetInsuranceByChannelOp new];
+    op.req_channel = [self textInCellAtRow:0];
+    op.req_idnumber = [self textInCellAtRow:1];
+    op.req_licencenumber = [self textInCellAtRow:2];
+    @weakify(self);
+    [[[op rac_postRequest] initially:^{
+        [gToast showingWithText:@"正在查询..."];
+    }] subscribeNext:^(GetInsuranceByChannelOp *rstOp) {
+        @strongify(self);
+        [gToast dismiss];
+        PolicyInfomationVC *vc = [UIStoryboard vcWithId:@"PolicyInfomationVC" inStoryboard:@"Insurance"];
+        vc.insuranceOp = rstOp;
+        [self.navigationController pushViewController:vc animated:YES];
+    } error:^(NSError *error) {
+        [gToast showError:error.domain];
+    }];
 }
 
 #pragma mark - UITableViewDelegate and datasource
@@ -119,6 +135,13 @@
         return YES;
     }
     return NO;
+}
+
+- (NSString *)textInCellAtRow:(NSInteger)row
+{
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+    UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
+    return field.text;
 }
 
 

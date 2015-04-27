@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface EnquiryResultVC : UITableViewController
-
+@property (nonatomic, strong, readonly) NSArray *policys;
+- (void)reloadWithPolicys:(NSArray *)policys;
 @end

@@ -17,7 +17,7 @@
 #import "AppManager.h"
 #import "MultiMediaManager.h"
 
-#import "Contants.h"
+#import "Constants.h"
 
 #import "UIView+Base.h"
 #import "NSDate+DateForText.h"

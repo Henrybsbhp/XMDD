@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface InsuranceDirectSellingVC : UIViewController
+@interface InsuranceChannelVC : UIViewController
 
 @end
