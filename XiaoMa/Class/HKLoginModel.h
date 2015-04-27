@@ -14,6 +14,8 @@
 - (RACSignal *)rac_loginWithAccount:(NSString *)account password:(NSString *)password;
 ///短信验证码登录(sendNext:(ValidateToken *))
 - (RACSignal *)rac_loginWithAccount:(NSString *)account validCode:(NSString *)vCode;
+///注册/修改密码
+- (RACSignal *)rac_registWithAccount:(NSString *)accound validCode:(NSString *)vCode newPassword:(NSString *)pwd;
 ///自动登录(成功：发送登录的用户账号，失败：
 - (RACSignal *)rac_autoLoginWithoutNetworking;
 ///重登(setNext:ValidateToken *)

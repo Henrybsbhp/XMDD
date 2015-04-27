@@ -18,6 +18,7 @@
 #import "GetSystemVersionOp.h"
 #import "ClientInfo.h"
 #import "DeviceInfo.h"
+#import "UpdatePwdOp.h"
 
 //#define RequestWeatherInfoInterval 60 * 10
 #define RequestWeatherInfoInterval 5
@@ -42,7 +43,15 @@
     [gMapHelper setupMAMap];
     
     [self setupVersionUpdating];
-        
+//    UpdatePwdOp *op = [UpdatePwdOp new];
+//    op.skey = @"107030ca68";
+//    op.req_newPwd = @"123456";
+//    [[op rac_postRequest] subscribeNext:^(id x) {
+//       
+//    } error:^(NSError *error) {
+//        
+//    }];
+    
     return YES;
 }
 

@@ -72,7 +72,6 @@
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         GetInsuranceCalculatorOp * op = [GetInsuranceCalculatorOp operation];
         op.req_city = self.city;
-        op.req_phone = gAppMgr.myUser.userID;
         op.req_licencenumber = self.plateNumber;
         op.req_registered = !self.noPlateNumber;
         op.req_purchaseprice = self.price;

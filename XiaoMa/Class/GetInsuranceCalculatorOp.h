@@ -25,8 +25,6 @@
 ///购置日期
 @property (nonatomic,strong)NSDate * req_purchasedate;
 
-@property (nonatomic,strong)NSString * req_phone;
-
 @property (nonatomic,strong)NSArray * rsp_insuraceArray;
 
 @end

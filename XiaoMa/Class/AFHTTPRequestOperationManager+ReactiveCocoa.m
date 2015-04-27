@@ -82,7 +82,7 @@
     payload[@"id"] = [requestId description];
     
     NSString * urlStr = [NSString stringWithFormat:@"%@%@",ApiBaseUrl,method];
-    
+    NSData *data = [NSJSONSerialization dataWithJSONObject:payload options:0 error:nil];
     return [self.requestSerializer requestWithMethod:@"POST" URLString:urlStr parameters:payload error:nil];
     
 //    return [self.requestSerializer requestWithMethod:@"POST" URLString:[self.endpointURL absoluteString] parameters:payload error:nil];

@@ -13,4 +13,5 @@
 ///新密码
 @property (nonatomic,copy)NSString * req_newPwd;
 
+- (NSString *)encryptPassword:(NSString *)pwd;
 @end

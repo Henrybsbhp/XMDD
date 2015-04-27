@@ -284,7 +284,7 @@ GTM_INLINE NSUInteger GuessDecodedLength(NSUInteger srcLen) {
                                 padded:YES];
   if (converted) {
     result = [[NSString alloc] initWithData:converted
-                                    encoding:NSASCIIStringEncoding] ;
+                                    encoding:NSASCIIStringEncoding];
   }
   return result;
 }

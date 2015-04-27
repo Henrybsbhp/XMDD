@@ -27,6 +27,7 @@
 #import "NetworkManager.h"
 #import "DefaultStyleModel.h"
 #import "MapHelper.h"
+#import "MultiMediaManager.h"
 
 #import "JTNavigationController.h"
 #import "JTTableViewCell.h"
@@ -37,4 +38,6 @@
 #import "BaseOp.h"
 #import "LoginViewModel.h"
 
+#import "UIView+Base.h"
+#import "NSDate+DateForText.h"
 #endif

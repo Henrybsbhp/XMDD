@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "NSMutableDictionary+AddParams.h"
 #import "XiaoMa.h"
-#import <AFNetworking.h>
 
 @protocol BaseOpDelegate <NSObject>
 

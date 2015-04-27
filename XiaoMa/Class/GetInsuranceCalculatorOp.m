@@ -22,9 +22,8 @@
     [params addParam:@(self.req_registered) forName:@"registered"];
     [params addParam:@(self.req_purchaseprice) forName:@"purchaseprice"];
     [params addParam:[self.req_purchasedate dateFormatForDT8]  forName:@"purchasedate"];
-    [params addParam:self.req_phone forName:@"phone"];
     
-    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
+    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
 - (instancetype)parseResponseObject:(id)rspObj
