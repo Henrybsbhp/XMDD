@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 /// 险种
-@interface SubInsurace : NSObject
+@interface SubInsurance : NSObject
 
 ///险种名称
 @property (nonatomic,copy)NSString * coveragerName;
@@ -23,15 +23,15 @@
 @end
 
 
-@interface HKInsurace : NSObject
+@interface HKInsurance : NSObject
 
-@property (nonatomic,copy)NSString * insuraceName;
+@property (nonatomic,copy)NSString * insuranceName;
 
 /// 保险总价
 @property (nonatomic)CGFloat premium;
 /// 保险内容<SubInsurace>
-@property (nonatomic)NSArray * subInsuraceArray;
+@property (nonatomic)NSArray * subInsuranceArray;
 
-+ (instancetype)insuraceWithJSONResponse:(NSDictionary *)rsp;
++ (instancetype)insuranceWithJSONResponse:(NSDictionary *)rsp;
 
 @end

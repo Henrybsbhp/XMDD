@@ -128,7 +128,7 @@
     }
     else
     {
-        NSError *error = [NSError errorWithDomain:@"获取城市信息失败" code:7001 userInfo:nil];
+        NSError *error = [NSError errorWithDomain:@"获取城市信息失败" code:LocationFail userInfo:nil];
         [self.rac_invertGeoResultSignal sendError:error];
     }
 }

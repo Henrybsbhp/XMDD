@@ -10,6 +10,7 @@
 #import "PolicyInfomationVC.h"
 #import "XiaoMa.h"
 #import "UIView+Shake.h"
+#import "GetInsuranceByChannel.h"
 
 @interface InsuranceDirectSellingVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -45,8 +46,37 @@
     if ([self shakeIfNeededAtRow:2]) {
         return;
     }
-    PolicyInfomationVC *vc = [UIStoryboard vcWithId:@"PolicyInfomationVC" inStoryboard:@"Insurance"];
-    [self.navigationController pushViewController:vc animated:YES];
+    
+    [self requestGetInsuranceByChannel];
+}
+
+- (void)requestGetInsuranceByChannel
+{
+    GetInsuranceByChannel * op = [GetInsuranceByChannel operation];
+    op.channel = self.channelCode;
+    op.idnumber = self.IDNumber;
+    op.licencenumber = self.frameNumber;
+    [[[op rac_postRequest] initially:^{
+        
+        [SVProgressHUD showWithStatus:@"保险查询中..."];
+    }] subscribeNext:^(GetInsuranceByChannel * op) {
+        
+        PolicyInfomationVC *vc = [UIStoryboard vcWithId:@"PolicyInfomationVC" inStoryboard:@"Insurance"];
+        [self.navigationController pushViewController:vc animated:YES];
+        if (op.rsp_code == 0)
+        {
+            [SVProgressHUD dismiss];
+            PolicyInfomationVC *vc = [UIStoryboard vcWithId:@"PolicyInfomationVC" inStoryboard:@"Insurance"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        else
+        {
+            [SVProgressHUD showErrorWithStatus:@"查询失败"];
+        }
+
+    } error:^(NSError *error) {
+        [SVProgressHUD showErrorWithStatus:@"查询失败"];
+    }];
 }
 
 #pragma mark - UITableViewDelegate and datasource

@@ -81,7 +81,7 @@ static int32_t g_requestVid = 1;
                  "method:%@ (id: %@)\n"
                  "code:  %ld", error.userInfo[NSLocalizedDescriptionKey], self.req_method, @(self.req_id), (long)error.code);
         
-        DebugLog(@"\n\n=====================Begin %@(id: %@) Error Detail==============================\n%@", self.req_method, @(self.req_id), error);
+        DebugLog(@"\n\n=====================Begin %@(id: %@) Error Detail==============================\n", self.req_method, @(self.req_id));
         DebugLog(@"=====================Endof %@(id: %@) Error Detail==============================\n\n", self.req_method, @(self.req_id));
         
         if (gNetworkMgr.catchErrorHandler)
@@ -208,15 +208,15 @@ static int32_t g_requestVid = 1;
     
     NSArray * sortedParamsKeys = [paramsKeys sortedArrayUsingSelector:@selector(compare:)];
     
-    NSMutableString *rawvkey = [NSMutableString string];
+    NSString *rawvkey = @"";
 
     for (NSString * key in sortedParamsKeys)
     {
-        [rawvkey safetyAppendString:[NSString stringWithFormat:@"%@=%@&",key,[paramsDict stringParamFroName:key]]];
+        rawvkey = [NSString stringWithFormat:@"%@%@=%@&",rawvkey,key,[paramsDict stringParamFroName:key]];
     }
     if ([sortedParamsKeys count])
     {
-        [rawvkey substringToIndex:rawvkey.length-2];
+        rawvkey = [rawvkey substringToIndex:rawvkey.length-1];
     }
     NSString * vkey = [[NSString stringWithFormat:@"%@%@",rawvkey,skey] md5];
     _vkey = vkey;

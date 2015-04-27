@@ -8,13 +8,13 @@
 
 #import "GetInsuranceCalculatorOp.h"
 #import "NSDate+DateForText.h"
-#import "HKInsurace.h"
+#import "HKInsurance.h"
 
 @implementation GetInsuranceCalculatorOp
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"getUpdateInfo";
+    self.req_method = @"/insurance/calculator/get";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:self.city forName:@"city"];
@@ -37,8 +37,8 @@
         for (NSObject * obj in quotes)
         {
             NSDictionary * dict2 = (NSDictionary *)obj;
-            HKInsurace * ins = [HKInsurace insuraceWithJSONResponse:dict2[@"policy"]];
-            ins.insuraceName = dict2[@"name"];
+            HKInsurance * ins = [HKInsurance insuranceWithJSONResponse:dict2[@"policy"]];
+            ins.insuranceName = dict2[@"name"];
             [tarray addObject:ins];
         }
         self.rsp_insuraceArray = [NSArray arrayWithArray:tarray];

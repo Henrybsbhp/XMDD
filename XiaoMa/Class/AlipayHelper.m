@@ -12,7 +12,6 @@
 #define AlipayCallbackDefaultUrlForDebug   @"http://hybris-sit-cloud.chinacloudapp.cn/alipay/notifyController"
 #define AlipayCallbackDefaultUrlForRelease   @"http://occ.mall.mengniu.com.cn/alipay/notifyController"
 
-
 #define XMDDAlipayScheme @"com.huika.xmdd.alipay"
 
 @implementation AlipayHelper

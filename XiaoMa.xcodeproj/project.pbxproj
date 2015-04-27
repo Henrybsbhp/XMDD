@@ -108,6 +108,13 @@
 		6BBAB8D11ADE30F900EC342F /* GetShopRatesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8D01ADE30F900EC342F /* GetShopRatesOp.m */; };
 		6BBAB8D41ADE3CBC00EC342F /* NSDate+DateForText.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8D31ADE3CBC00EC342F /* NSDate+DateForText.m */; };
 		6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB9781ADE77E500EC342F /* GetUserResourcesOp.m */; };
+		6BBB82491AE7401400850D0C /* GetInsuranceByChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB82481AE7401400850D0C /* GetInsuranceByChannel.m */; };
+		6BBB824F1AE7757100850D0C /* NearbyShopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB824E1AE7757100850D0C /* NearbyShopsViewController.m */; };
+		6BBB825C1AE79FE100850D0C /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBB82581AE79FE100850D0C /* libWeChatSDK.a */; };
+		6BBB825D1AE79FE100850D0C /* read_me.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6BBB82591AE79FE100850D0C /* read_me.txt */; };
+		6BBB825F1AE7A0CF00850D0C /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBB825E1AE7A0CF00850D0C /* libsqlite3.dylib */; };
+		6BBB82611AE7A0D700850D0C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBB82601AE7A0D700850D0C /* libz.dylib */; };
+		6BBB82631AE7A0E000850D0C /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBB82621AE7A0E000850D0C /* libc++.dylib */; };
 		6BC220961AD7801C00A4310E /* BaseOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC220951AD7801C00A4310E /* BaseOp.m */; };
 		6BC220991AD7804800A4310E /* NSMutableDictionary+AddParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC220981AD7804800A4310E /* NSMutableDictionary+AddParams.m */; };
 		6BC2209C1AD7AAF300A4310E /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2209B1AD7AAF300A4310E /* NetworkManager.m */; };
@@ -118,9 +125,13 @@
 		6BC3B6151ADF69B5001016A0 /* CarWashNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B6141ADF69B5001016A0 /* CarWashNavigationViewController.m */; };
 		6BC3B6191ADF92E7001016A0 /* CommonUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B6181ADF92E7001016A0 /* CommonUtility.m */; };
 		6BC3B61C1ADF9334001016A0 /* LineDashPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B61B1ADF9334001016A0 /* LineDashPolyline.m */; };
+		6BD7AE5B1AE8927C00BEF30E /* WeChatHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */; };
+		6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5D1AE8A64B00BEF30E /* ApiXml.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5F1AE8A64B00BEF30E /* payRequsestHandler.mm */; };
+		6BD7AE641AE8A64B00BEF30E /* WXUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE611AE8A64B00BEF30E /* WXUtil.mm */; };
 		6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD4E1AE6232C00A69875 /* HKAdvertisement.m */; };
 		6BE2BD521AE62B1600A69875 /* GetInsuranceCalculatorOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD511AE62B1600A69875 /* GetInsuranceCalculatorOp.m */; };
-		6BE2BD581AE62CDF00A69875 /* HKInsurace.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD571AE62CDF00A69875 /* HKInsurace.m */; };
+		6BE2BD581AE62CDF00A69875 /* HKInsurance.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD571AE62CDF00A69875 /* HKInsurance.m */; };
 		6BE2BD5B1AE6305600A69875 /* GetSystemPromotionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD5A1AE6305600A69875 /* GetSystemPromotionOp.m */; };
 		6BE2BD5E1AE63F9F00A69875 /* MultiMediaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD5D1AE63F9F00A69875 /* MultiMediaManager.m */; };
 		6BE2BD611AE6408500A69875 /* DownloadOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD601AE6408500A69875 /* DownloadOp.m */; };
@@ -353,6 +364,17 @@
 		6BBAB9591ADE724300EC342F /* AlipayConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlipayConfig.h; sourceTree = "<group>"; };
 		6BBAB9771ADE77E500EC342F /* GetUserResourcesOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserResourcesOp.h; path = Class/GetUserResourcesOp.h; sourceTree = "<group>"; };
 		6BBAB9781ADE77E500EC342F /* GetUserResourcesOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserResourcesOp.m; path = Class/GetUserResourcesOp.m; sourceTree = "<group>"; };
+		6BBB82471AE7401400850D0C /* GetInsuranceByChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetInsuranceByChannel.h; path = Class/GetInsuranceByChannel.h; sourceTree = "<group>"; };
+		6BBB82481AE7401400850D0C /* GetInsuranceByChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetInsuranceByChannel.m; path = Class/GetInsuranceByChannel.m; sourceTree = "<group>"; };
+		6BBB824D1AE7757100850D0C /* NearbyShopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyShopsViewController.h; sourceTree = "<group>"; };
+		6BBB824E1AE7757100850D0C /* NearbyShopsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyShopsViewController.m; sourceTree = "<group>"; };
+		6BBB82581AE79FE100850D0C /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		6BBB82591AE79FE100850D0C /* read_me.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = read_me.txt; sourceTree = "<group>"; };
+		6BBB825A1AE79FE100850D0C /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		6BBB825B1AE79FE100850D0C /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		6BBB825E1AE7A0CF00850D0C /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		6BBB82601AE7A0D700850D0C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		6BBB82621AE7A0E000850D0C /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		6BC220941AD7801C00A4310E /* BaseOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseOp.h; path = Class/BaseOp.h; sourceTree = "<group>"; };
 		6BC220951AD7801C00A4310E /* BaseOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseOp.m; path = Class/BaseOp.m; sourceTree = "<group>"; };
 		6BC220971AD7804800A4310E /* NSMutableDictionary+AddParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableDictionary+AddParams.h"; path = "Class/NSMutableDictionary+AddParams.h"; sourceTree = "<group>"; };
@@ -373,12 +395,20 @@
 		6BC3B6181ADF92E7001016A0 /* CommonUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommonUtility.m; path = Class/CommonUtility.m; sourceTree = "<group>"; };
 		6BC3B61A1ADF9334001016A0 /* LineDashPolyline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LineDashPolyline.h; path = Class/LineDashPolyline.h; sourceTree = "<group>"; };
 		6BC3B61B1ADF9334001016A0 /* LineDashPolyline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LineDashPolyline.m; path = Class/LineDashPolyline.m; sourceTree = "<group>"; };
+		6BD7AE591AE8927C00BEF30E /* WeChatHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeChatHelper.h; path = Class/WeChatHelper.h; sourceTree = "<group>"; };
+		6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeChatHelper.m; path = Class/WeChatHelper.m; sourceTree = "<group>"; };
+		6BD7AE5C1AE8A64B00BEF30E /* ApiXml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiXml.h; sourceTree = "<group>"; };
+		6BD7AE5D1AE8A64B00BEF30E /* ApiXml.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ApiXml.mm; sourceTree = "<group>"; };
+		6BD7AE5E1AE8A64B00BEF30E /* payRequsestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = payRequsestHandler.h; sourceTree = "<group>"; };
+		6BD7AE5F1AE8A64B00BEF30E /* payRequsestHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = payRequsestHandler.mm; sourceTree = "<group>"; };
+		6BD7AE601AE8A64B00BEF30E /* WXUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXUtil.h; sourceTree = "<group>"; };
+		6BD7AE611AE8A64B00BEF30E /* WXUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WXUtil.mm; sourceTree = "<group>"; };
 		6BE2BD4D1AE6232C00A69875 /* HKAdvertisement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKAdvertisement.h; path = Class/HKAdvertisement.h; sourceTree = "<group>"; };
 		6BE2BD4E1AE6232C00A69875 /* HKAdvertisement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKAdvertisement.m; path = Class/HKAdvertisement.m; sourceTree = "<group>"; };
 		6BE2BD501AE62B1600A69875 /* GetInsuranceCalculatorOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetInsuranceCalculatorOp.h; path = Class/GetInsuranceCalculatorOp.h; sourceTree = "<group>"; };
 		6BE2BD511AE62B1600A69875 /* GetInsuranceCalculatorOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetInsuranceCalculatorOp.m; path = Class/GetInsuranceCalculatorOp.m; sourceTree = "<group>"; };
-		6BE2BD561AE62CDF00A69875 /* HKInsurace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKInsurace.h; path = Class/HKInsurace.h; sourceTree = "<group>"; };
-		6BE2BD571AE62CDF00A69875 /* HKInsurace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKInsurace.m; path = Class/HKInsurace.m; sourceTree = "<group>"; };
+		6BE2BD561AE62CDF00A69875 /* HKInsurance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKInsurance.h; path = Class/HKInsurance.h; sourceTree = "<group>"; };
+		6BE2BD571AE62CDF00A69875 /* HKInsurance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKInsurance.m; path = Class/HKInsurance.m; sourceTree = "<group>"; };
 		6BE2BD591AE6305600A69875 /* GetSystemPromotionOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemPromotionOp.h; path = Class/GetSystemPromotionOp.h; sourceTree = "<group>"; };
 		6BE2BD5A1AE6305600A69875 /* GetSystemPromotionOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemPromotionOp.m; path = Class/GetSystemPromotionOp.m; sourceTree = "<group>"; };
 		6BE2BD5C1AE63F9F00A69875 /* MultiMediaManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MultiMediaManager.h; path = Class/MultiMediaManager.h; sourceTree = "<group>"; };
@@ -513,8 +543,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BBB82631AE7A0E000850D0C /* libc++.dylib in Frameworks */,
+				6BBB82611AE7A0D700850D0C /* libz.dylib in Frameworks */,
+				6BBB825F1AE7A0CF00850D0C /* libsqlite3.dylib in Frameworks */,
 				6BEA56CC1AE24DCE000D19C1 /* libssl.a in Frameworks */,
 				189B31161ADBDF07001D7288 /* MobileCoreServices.framework in Frameworks */,
+				6BBB825C1AE79FE100850D0C /* libWeChatSDK.a in Frameworks */,
 				06380E56572F1DCE6105BE83 /* libPods.a in Frameworks */,
 				6BEA56CB1AE24DCE000D19C1 /* libcrypto.a in Frameworks */,
 				6BEA56C11AE24DCE000D19C1 /* AlipaySDK.framework in Frameworks */,
@@ -534,6 +568,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				6BBB82571AE79FE100850D0C /* WeChatSDK.5 */,
 				6B086BA81AE4F46900659DB7 /* TMCache */,
 				18A377F01AE4AB4B0031A574 /* SVProgressHUD */,
 				1853DEB11AE0A26700C39175 /* DebugLog */,
@@ -578,6 +613,8 @@
 				189B30B41AD505D6001D7288 /* Pay */,
 				6BC3B6131ADF69B5001016A0 /* CarWashNavigationViewController.h */,
 				6BC3B6141ADF69B5001016A0 /* CarWashNavigationViewController.m */,
+				6BBB824D1AE7757100850D0C /* NearbyShopsViewController.h */,
+				6BBB824E1AE7757100850D0C /* NearbyShopsViewController.m */,
 			);
 			name = CarWash;
 			sourceTree = "<group>";
@@ -677,8 +714,8 @@
 				6BB884D91AE0F3CC00EBD8F4 /* HKMyCar.m */,
 				6BE2BD4D1AE6232C00A69875 /* HKAdvertisement.h */,
 				6BE2BD4E1AE6232C00A69875 /* HKAdvertisement.m */,
-				6BE2BD561AE62CDF00A69875 /* HKInsurace.h */,
-				6BE2BD571AE62CDF00A69875 /* HKInsurace.m */,
+				6BE2BD561AE62CDF00A69875 /* HKInsurance.h */,
+				6BE2BD571AE62CDF00A69875 /* HKInsurance.m */,
 			);
 			name = Dataset;
 			sourceTree = "<group>";
@@ -820,6 +857,8 @@
 				187532D01ACCDD58004CB777 /* Contants.h */,
 				6BC3B6101ADF6205001016A0 /* MapHelper.h */,
 				6BC3B6111ADF6205001016A0 /* MapHelper.m */,
+				6BD7AE591AE8927C00BEF30E /* WeChatHelper.h */,
+				6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */,
 			);
 			name = Singleton;
 			sourceTree = "<group>";
@@ -1083,6 +1122,23 @@
 			path = Other;
 			sourceTree = "<group>";
 		};
+		6BBB82571AE79FE100850D0C /* WeChatSDK.5 */ = {
+			isa = PBXGroup;
+			children = (
+				6BD7AE5C1AE8A64B00BEF30E /* ApiXml.h */,
+				6BD7AE5D1AE8A64B00BEF30E /* ApiXml.mm */,
+				6BD7AE5E1AE8A64B00BEF30E /* payRequsestHandler.h */,
+				6BD7AE5F1AE8A64B00BEF30E /* payRequsestHandler.mm */,
+				6BD7AE601AE8A64B00BEF30E /* WXUtil.h */,
+				6BD7AE611AE8A64B00BEF30E /* WXUtil.mm */,
+				6BBB82581AE79FE100850D0C /* libWeChatSDK.a */,
+				6BBB82591AE79FE100850D0C /* read_me.txt */,
+				6BBB825A1AE79FE100850D0C /* WXApi.h */,
+				6BBB825B1AE79FE100850D0C /* WXApiObject.h */,
+			);
+			path = WeChatSDK.5;
+			sourceTree = "<group>";
+		};
 		6BC220931AD7800D00A4310E /* Op */ = {
 			isa = PBXGroup;
 			children = (
@@ -1122,6 +1178,8 @@
 				6BE2BD5A1AE6305600A69875 /* GetSystemPromotionOp.m */,
 				6BAF30161AE67CC800E35E08 /* GetSystemVersionOp.h */,
 				6BAF30171AE67CC800E35E08 /* GetSystemVersionOp.m */,
+				6BBB82471AE7401400850D0C /* GetInsuranceByChannel.h */,
+				6BBB82481AE7401400850D0C /* GetInsuranceByChannel.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -1295,6 +1353,9 @@
 		C8447CD201C36C94165168FF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6BBB82621AE7A0E000850D0C /* libc++.dylib */,
+				6BBB82601AE7A0D700850D0C /* libz.dylib */,
+				6BBB825E1AE7A0CF00850D0C /* libsqlite3.dylib */,
 				189B31151ADBDF07001D7288 /* MobileCoreServices.framework */,
 				B54A6CD3F3426144CC6768CC /* libPods.a */,
 			);
@@ -1387,6 +1448,7 @@
 				1883D9221ACBC418002A4D19 /* Main.storyboard in Resources */,
 				6BB884C61AE0BC3000EBD8F4 /* sr_refresh@2x.png in Resources */,
 				189B30CA1AD664F5001D7288 /* Insurance.storyboard in Resources */,
+				6BBB825D1AE79FE100850D0C /* read_me.txt in Resources */,
 				1883D8F31ACB99AC002A4D19 /* LaunchScreen.xib in Resources */,
 				189B311D1ADBEFDF001D7288 /* policy.json in Resources */,
 				6BB884B11AE0B3FE00EBD8F4 /* hz.gpx in Resources */,
@@ -1473,6 +1535,7 @@
 				6BB884BB1AE0BB9600EBD8F4 /* JTTableView.m in Sources */,
 				6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */,
 				6B086BB01AE4F46900659DB7 /* TMDiskCache.m in Sources */,
+				6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */,
 				6BB884C71AE0BC3000EBD8F4 /* SRRefreshView.m in Sources */,
 				6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */,
 				6BC3B6191ADF92E7001016A0 /* CommonUtility.m in Sources */,
@@ -1481,6 +1544,8 @@
 				189B30D41AD799AF001D7288 /* RACSignal+Extension.m in Sources */,
 				1853DEB71AE0B92400C39175 /* AuthByPwdOp.m in Sources */,
 				1853DEBE1AE0E66B00C39175 /* LoginVC.m in Sources */,
+				6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */,
+				6BD7AE641AE8A64B00BEF30E /* WXUtil.mm in Sources */,
 				184E40CE1AD3BBB600EFC3A6 /* ShopDetailVC.m in Sources */,
 				6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */,
 				6B086BA11AE3184D00659DB7 /* GetShopByNameOp.m in Sources */,
@@ -1504,11 +1569,12 @@
 				189B30BA1AD51EF2001D7288 /* JTUser.m in Sources */,
 				1816F4B41ACE767200BBCC96 /* UIStoryboard+Expansion.m in Sources */,
 				6BEA56CA1AE24DCE000D19C1 /* SBJsonWriter.m in Sources */,
-				6BE2BD581AE62CDF00A69875 /* HKInsurace.m in Sources */,
+				6BE2BD581AE62CDF00A69875 /* HKInsurance.m in Sources */,
 				6B086BA71AE4F03800659DB7 /* UIView+Base.m in Sources */,
 				6BEA56D11AE24DCE000D19C1 /* NSDataEx.m in Sources */,
 				189B30B31AD4F7AC001D7288 /* UIView+CustomForXIB.m in Sources */,
 				6BEA56C81AE24DCE000D19C1 /* SBJsonBase.m in Sources */,
+				6BBB82491AE7401400850D0C /* GetInsuranceByChannel.m in Sources */,
 				6BEA56C71AE24DCE000D19C1 /* SBJSON.m in Sources */,
 				1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */,
 				6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */,
@@ -1531,6 +1597,7 @@
 				1853DEAD1AE0A0B700C39175 /* HKCatchErrorModel.m in Sources */,
 				6BC2209C1AD7AAF300A4310E /* NetworkManager.m in Sources */,
 				184E40C61AD3B58F00EFC3A6 /* UIView+Layer.m in Sources */,
+				6BBB824F1AE7757100850D0C /* NearbyShopsViewController.m in Sources */,
 				6BEA56C31AE24DCE000D19C1 /* AlixPayResult.m in Sources */,
 				189B310C1ADA499C001D7288 /* EnquiryResultVC.m in Sources */,
 				6BEA56CF1AE24DCE000D19C1 /* DataVerifier.m in Sources */,
@@ -1543,6 +1610,7 @@
 				6BAF30181AE67CC800E35E08 /* GetSystemVersionOp.m in Sources */,
 				6BE2BD611AE6408500A69875 /* DownloadOp.m in Sources */,
 				6BBAB8C41ADCBD1400EC342F /* GetShopByRangeOp.m in Sources */,
+				6BD7AE5B1AE8927C00BEF30E /* WeChatHelper.m in Sources */,
 				189B31061AD7B7F5001D7288 /* UIView+Shake.m in Sources */,
 				1816F4A81ACD3B0900BBCC96 /* SYPaginatorViewController.m in Sources */,
 				189B31141ADB60AE001D7288 /* JGActionSheet.m in Sources */,
@@ -1753,7 +1821,9 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/WeChatSDK.5",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -1796,6 +1866,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/WeChatSDK.5",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "acad25f3-906d-4006-81e2-348e306dcb49";

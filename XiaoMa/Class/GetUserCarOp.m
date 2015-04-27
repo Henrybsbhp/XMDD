@@ -17,19 +17,18 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
-    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
+    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
 - (instancetype)parseResponseObject:(id)rspObj
 {
     if ([rspObj isKindOfClass:[NSDictionary class]])
     {
-        NSArray * cars = (NSArray *)rspObj[@"car"];
-        NSMutableArray * tArray = [[NSMutableArray alloc] init];
+        NSArray * cars = (NSArray *)rspObj[@"cars"];
+        NSMutableArray * tArray = [NSMutableArray array];
         for (NSDictionary * dict in cars)
         {
-            NSDictionary * detailDict = dict[@"cardetail"];
-            HKMyCar * car = [HKMyCar carWithJSONResponse:detailDict];
+            HKMyCar * car = [HKMyCar carWithJSONResponse:dict];
             car.carId = dict[@"carid"];
             [tArray addObject:car];
         }
