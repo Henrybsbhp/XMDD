@@ -17,7 +17,7 @@
 @property (nonatomic,copy)NSString * req_licencenumber;
 
 ///是否上牌
-@property (nonatomic)BOOL req_registered;
+@property (nonatomic, assign) NSInteger req_registered;
 
 ///购置价格
 @property (nonatomic)CGFloat req_purchaseprice;
@@ -26,5 +26,6 @@
 @property (nonatomic,strong)NSDate * req_purchasedate;
 
 @property (nonatomic,strong)NSArray * rsp_insuraceArray;
+@property (nonatomic, strong) NSString *rsp_calculatorID;
 
 @end

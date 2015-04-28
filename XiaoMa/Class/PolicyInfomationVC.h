@@ -11,4 +11,5 @@
 
 @interface PolicyInfomationVC : UIViewController
 @property (nonatomic, strong) GetInsuranceByChannelOp *insuranceOp;
+@property (nonatomic, strong) HKInsurance *policy;
 @end

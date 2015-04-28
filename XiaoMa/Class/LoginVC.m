@@ -69,6 +69,7 @@
     if ([self sharkCellIfErrorAtIndex:1]) {
         return;
     }
+    [self.view endEditing:YES];
     NSString *ad = [self textAtIndex:0];
     NSString *pwd = [self textAtIndex:1];
     @weakify(self);

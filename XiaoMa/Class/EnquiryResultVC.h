@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface EnquiryResultVC : UITableViewController
-@property (nonatomic, strong, readonly) NSArray *policys;
-- (void)reloadWithPolicys:(NSArray *)policys;
+@property (nonatomic, strong, readonly) NSArray *insurances;
+@property (nonatomic, strong, readonly) NSString *calculatorID;
+
+- (void)reloadWithInsurance:(NSArray *)insurances calculatorID:(NSString *)cid;
+
 @end

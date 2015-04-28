@@ -31,7 +31,7 @@ static NetworkManager *g_networkManager;
         NSURL * url = [NSURL URLWithString:_apiServer];
         _apiManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
         _apiManager.requestSerializer = [AFJSONRequestSerializer serializer];
-        _mediaClient = [[AFHTTPRequestOperationManager alloc] init];
+        _mediaClient = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
     }
     return self;
 }

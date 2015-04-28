@@ -8,7 +8,7 @@
 
 #import "GetInsuranceCalculatorOp.h"
 #import "NSDate+DateForText.h"
-#import "HKInsurace.h"
+#import "HKInsurance.h"
 
 @implementation GetInsuranceCalculatorOp
 
@@ -31,13 +31,14 @@
     if([rspObj isKindOfClass:[NSDictionary class]])
     {
         NSDictionary * dict = (NSDictionary *)rspObj;
+        self.rsp_calculatorID = dict[@"cid"];
         NSArray * quotes = dict[@"quotes"];
         NSMutableArray * tarray = [NSMutableArray array];
         for (NSObject * obj in quotes)
         {
             NSDictionary * dict2 = (NSDictionary *)obj;
-            HKInsurace * ins = [HKInsurace insuraceWithJSONResponse:dict2[@"policy"]];
-            ins.insuraceName = dict2[@"name"];
+            HKInsurance * ins = [HKInsurance insuranceWithJSONResponse:dict2[@"policy"]];
+            ins.insuranceName = dict2[@"name"];
             [tarray addObject:ins];
         }
         self.rsp_insuraceArray = [NSArray arrayWithArray:tarray];

@@ -7,7 +7,7 @@
 //
 
 #import "BaseOp.h"
-#import "HKInsurace.h"
+#import "HKInsurance.h"
 
 @interface GetInsuranceByChannelOp : BaseOp
 @property (nonatomic, strong) NSString *req_channel;
@@ -20,7 +20,7 @@
 @property (nonatomic, strong) NSString *rsp_licencenumber;
 @property (nonatomic, strong) NSString *rsp_insperiod;
 @property (nonatomic, strong) NSString *rsp_contactnumber;
-@property (nonatomic, strong) HKInsurace *rsp_policy;
+@property (nonatomic, strong) HKInsurance *rsp_policy;
 @property (nonatomic, strong) NSString *rsp_orderid;
 @property (nonatomic, strong) NSString *rsp_status;
 @property (nonatomic, strong) NSString *rsp_totalpay;

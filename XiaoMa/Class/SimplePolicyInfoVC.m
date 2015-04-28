@@ -1,25 +1,20 @@
 //
-//  PolicyInfomationVC.m
+//  SimplePolicyInfoVC.m
 //  XiaoMa
 //
-//  Created by jiangjunchen on 15/4/13.
+//  Created by jiangjunchen on 15/4/27.
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "PolicyInfomationVC.h"
-#import "XiaoMa.h"
+#import "SimplePolicyInfoVC.h"
 #import "UIView+Layer.h"
-#import "PayForPolicyVC.h"
-#import <Masonry.h>
 
-@interface PolicyInfomationVC ()<UITableViewDataSource, UITableViewDelegate>
+@interface SimplePolicyInfoVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) UIView *containerView;
-@property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) NSArray *coveragers;
 @end
 
-@implementation PolicyInfomationVC
+@implementation SimplePolicyInfoVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -38,91 +33,40 @@
     head.coveragerName = @"承保险种";
     head.coveragerValue = @"保险金额/责任限额（元）";
     NSMutableArray *coveragers = [NSMutableArray arrayWithObject:head];
-    
-    if (self.insuranceOp) {
-        GetInsuranceByChannelOp *op = self.insuranceOp;
-        self.titles = @[RACTuplePack(@"被保险人：", op.rsp_policyholder),
-                        RACTuplePack(@"车牌号码：", op.rsp_licencenumber),
-                        RACTuplePack(@"证件号码：", op.rsp_idnumber),
-                        RACTuplePack(@"保险公司：", op.rsp_inscomp),
-                        RACTuplePack(@"保险期限：", op.rsp_insperiod),
-                        RACTuplePack(@"保费总额：", op.rsp_totalpay)];
-        [coveragers safetyAddObjectsFromArray:self.insuranceOp.rsp_policy.subInsuranceArray];
-    }
-    else {
-        [coveragers safetyAddObjectsFromArray:self.policy.subInsuranceArray];
-    }
-    
+    [coveragers safetyAddObjectsFromArray:self.policy.subInsuranceArray];
     self.coveragers = coveragers;
     [self.tableView reloadData];
 }
 
-#pragma mark - Action
-- (IBAction)actionNext:(id)sender
-{
-    PayForPolicyVC *vc = [UIStoryboard vcWithId:@"PayForPolicyVC" inStoryboard:@"Insurance"];
-    vc.insuranceOp = self.insuranceOp;
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
 #pragma mark - UITableViewDelegate and dataoource
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 5;
+    return 15;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 1) {
-        return 10;
-    }
-    return CGFLOAT_MIN;
+    return 10;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        return 26;
-    }
     return 30;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return self.titles.count;
-    }
     return self.coveragers.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        return [self titleCellAtIndexPath:indexPath];
-    }
-    return [self gridCellAtIndexPath:indexPath];
-}
-
-- (UITableViewCell *)titleCellAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"TitleCell" forIndexPath:indexPath];
-    RACTuple *tuple = [self.titles safetyObjectAtIndex:indexPath.row];
-    UILabel *leftL = (UILabel *)[cell.contentView viewWithTag:1001];
-    UILabel *rightL = (UILabel *)[cell.contentView viewWithTag:1002];
-    leftL.text = tuple.first;
-    rightL.text = tuple.second;
-    return cell;
-}
-
-- (UITableViewCell *)gridCellAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"GridCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GridCell" forIndexPath:indexPath];
     SubInsurance *item = [self.coveragers safetyObjectAtIndex:indexPath.row];
     UILabel *leftL = (UILabel *)[cell.contentView viewWithTag:1001];
     UILabel *rightL = (UILabel *)[cell.contentView viewWithTag:1002];
@@ -133,7 +77,7 @@
         leftL.backgroundColor  = HEXCOLOR(@"#eaeaea");
         rightL.backgroundColor = HEXCOLOR(@"#eaeaea");
         leftLineMask = CKViewBorderDirectionTop | CKViewBorderDirectionLeft |
-                        CKViewBorderDirectionBottom | CKViewBorderDirectionRight;
+        CKViewBorderDirectionBottom | CKViewBorderDirectionRight;
         rightLineMask = CKViewBorderDirectionRight | CKViewBorderDirectionBottom | CKViewBorderDirectionTop;
     }
     else {

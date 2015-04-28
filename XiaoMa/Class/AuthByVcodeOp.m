@@ -14,7 +14,7 @@
 {
     self = [super init];
     if (self) {
-//        self.simulateResponse = YES;
+
     }
     return self;
 }

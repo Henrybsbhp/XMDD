@@ -14,16 +14,17 @@
 #import "HKCatchErrorModel.h"
 #import "MapHelper.h"
 #import "AlipayHelper.h"
+#import "WeChatHelper.h"
 #import "GetSystemTipsOp.h"
 #import "GetSystemVersionOp.h"
 #import "ClientInfo.h"
 #import "DeviceInfo.h"
-#import "UpdatePwdOp.h"
+#import "WXApi.h"
 
 //#define RequestWeatherInfoInterval 60 * 10
 #define RequestWeatherInfoInterval 5
 
-@interface AppDelegate ()
+@interface AppDelegate ()<WXApiDelegate>
 @property (nonatomic, strong) DDFileLogger *fileLogger;
 @end
 
@@ -42,16 +43,10 @@
     [gMapHelper setupMapApi];
     [gMapHelper setupMAMap];
     
-    [self setupVersionUpdating];
-//    UpdatePwdOp *op = [UpdatePwdOp new];
-//    op.skey = @"107030ca68";
-//    op.req_newPwd = @"123456";
-//    [[op rac_postRequest] subscribeNext:^(id x) {
-//       
-//    } error:^(NSError *error) {
-//        
-//    }];
+    [WXApi registerApp:@"wxf346d7a6113bbbf9"];
     
+    [self setupVersionUpdating];
+
     return YES;
 }
 
@@ -104,7 +99,11 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
+    /// 支付宝回调处理
     [self handleURL:url];
+    
+    /// 微信回调处理
+    [WXApi handleOpenURL:url delegate:self];
     return YES;
 }
 
@@ -113,6 +112,9 @@
 - (void)handleURL:(NSURL *)url
 {
     AlixPayResult* result = [self handleOpenURL:url];
+    
+    if(!result)
+        return;
     
     if (result && result.statusCode == 9000)
     {
@@ -158,6 +160,27 @@
     }
     
     return result;
+}
+
+#pragma mark - 微信
+- (void)onResp:(BaseResp *)resp
+{
+    if ([resp isKindOfClass:[PayResp class]])
+    {
+        PayResp * payResp = (PayResp *)resp;
+        if (payResp.errCode == WXSuccess)
+        {
+            [gWechatHelper.rac_wechatResultSignal sendNext:@"9000"];
+        }
+        else if (payResp.errCode == WXErrCodeUserCancel)
+        {
+            [gWechatHelper.rac_wechatResultSignal sendError:[NSError errorWithDomain:@"用户点击取消并返回" code:payResp.errCode userInfo:nil]];
+        }
+        else
+        {
+            [gWechatHelper.rac_wechatResultSignal sendError:[NSError errorWithDomain:@"请求失败" code:payResp.errCode userInfo:nil]];
+        }
+    }
 }
 
 #pragma mark - Utilities
@@ -222,7 +245,7 @@
                 }
                 break;
             }
-            case 7001:
+            case LocationFail:
             {
                 UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"城市定位失败,请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
                 

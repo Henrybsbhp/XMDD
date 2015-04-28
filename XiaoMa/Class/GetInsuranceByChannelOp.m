@@ -34,7 +34,7 @@
     self.rsp_orderid = dict[@"orderid"];
     self.rsp_status = dict[@"status"];
     self.rsp_totalpay = dict[@"totalpay"];
-    self.rsp_policy = [HKInsurace insuraceWithJSONResponse:dict[@"policy"]];
+    self.rsp_policy = [HKInsurance insuranceWithJSONResponse:dict[@"policy"]];
     return self;
     
 }

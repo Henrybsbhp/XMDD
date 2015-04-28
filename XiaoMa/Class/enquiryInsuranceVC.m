@@ -13,6 +13,7 @@
 #import "UIView+Shake.h"
 #import "EnquiryResultVC.h"
 #import "GetInsuranceCalculatorOp.h"
+#import "NSDate+DateForText.h"
 
 @interface EnquiryInsuranceVC ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -73,7 +74,7 @@
         GetInsuranceCalculatorOp * op = [GetInsuranceCalculatorOp operation];
         op.req_city = self.city;
         op.req_licencenumber = self.plateNumber;
-        op.req_registered = !self.noPlateNumber;
+        op.req_registered = self.noPlateNumber ? 2 : 1;
         op.req_purchaseprice = self.price;
         op.req_purchasedate = self.carryTime;
         @weakify(self);
@@ -83,7 +84,7 @@
             @strongify(self);
             EnquiryResultVC *vc = [UIStoryboard vcWithId:@"EnquiryResultVC" inStoryboard:@"Insurance"];
             [self.navigationController pushViewController:vc animated:YES];
-            [vc reloadWithPolicys:rspOp.rsp_insuraceArray];
+            [vc reloadWithInsurance:rspOp.rsp_insuraceArray calculatorID:rspOp.rsp_calculatorID];
             [gToast dismiss];
         } error:^(NSError *error) {
             [gToast showError:error.domain];

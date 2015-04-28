@@ -51,17 +51,6 @@ typedef enum : NSInteger {
     }];
 }
 
-///注册/修改密码
-//- (RACSignal *)rac_registWithAccount:(NSString *)accound validCode:(NSString *)vCode newPassword:(NSString *)pwd
-//{
-//    [[self rac_loginWithAccount:accound password:vCode] catch:^RACSignal *(NSError *error) {
-//        //token失效
-//        if (error.code == -2001 || error.code == -2002) {
-//            <#statements#>
-//        }
-//    }];
-//}
-
 + (NSDictionary *)nearlyLoginInfo
 {
     return [[NSUserDefaults standardUserDefaults] objectForKey:kNealyLoginInfoKey];

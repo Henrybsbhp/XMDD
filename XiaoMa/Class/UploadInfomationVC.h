@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface UploadInfomationVC : UITableViewController
-
+@property (nonatomic, strong) NSString *calculateID;
 @end
