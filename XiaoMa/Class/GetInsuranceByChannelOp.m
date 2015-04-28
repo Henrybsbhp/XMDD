@@ -19,7 +19,7 @@
     [params addParam:self.req_licencenumber forName:@"licencenumber"];
     [params addParam:self.req_idnumber forName:@"idnumber"];
 
-    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
+    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
 - (instancetype)parseResponseObject:(id)rspObj

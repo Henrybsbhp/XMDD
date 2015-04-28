@@ -28,6 +28,7 @@
 #import "DefaultStyleModel.h"
 #import "MapHelper.h"
 #import "MultiMediaManager.h"
+#import "WeChatHelper.h"
 
 #import "JTNavigationController.h"
 #import "JTTableViewCell.h"

@@ -41,6 +41,8 @@ typedef enum : NSUInteger {
 } AdvertisementType;
 
 #define IOSAPPID 2001
+#define BaiduMapUrl @"baidumap://map/"
+#define AMapUrl  @"iosamap://"
 
 #define kDefTintColor   HEXCOLOR(@"#15ac1f")
 #define kDefLineColor   HEXCOLOR(@"#e0e0e0")
@@ -49,6 +51,12 @@ typedef enum : NSUInteger {
 #define kRspPrefix      @"█ ▇ ▆ ▅ ▄ ▃ ▂"
 #define kReqPrefix      @"▂ ▃ ▄ ▅ ▆ ▇ █"
 #define kErrPrefix      @"〓〓〓〓〓"
+
+#define MapZoomLevel 12.0000
+
+#define AppleNavigationStr @"苹果导航"
+#define BaiduNavigationStr @"百度导航"
+#define AMapNavigationStr @"高德导航"
 
 //单例别名
 #define gAppDelegate       ((AppDelegate *)[UIApplication sharedApplication].delegate)

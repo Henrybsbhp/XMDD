@@ -253,7 +253,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FK1-Ka-Lwu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="243" y="359"/>
+            <point key="canvasLocation" x="125" y="923"/>
         </scene>
         <!--商户详情-->
         <scene sceneID="mnk-5a-lmG">
@@ -609,7 +609,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iY8-aF-wb0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="867" y="359"/>
+            <point key="canvasLocation" x="785" y="923"/>
         </scene>
         <!--支付确认-->
         <scene sceneID="9yJ-rd-Lxf">
@@ -1054,52 +1054,48 @@
             </objects>
         </scene>
         <!--Nearby Shops View Controller-->
-        <scene sceneID="hMh-lE-0SF">
+        <scene sceneID="YBy-3f-Yr9">
             <objects>
-                <viewController storyboardIdentifier="NearbyShopsViewController" id="LJC-xT-5ph" customClass="NearbyShopsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NearbyShopsViewController" id="kqG-xA-ogM" customClass="NearbyShopsViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="BTh-Vb-bLc"/>
-                        <viewControllerLayoutGuide type="bottom" id="gj4-ig-xFZ"/>
+                        <viewControllerLayoutGuide type="top" id="e7B-aV-Moo"/>
+                        <viewControllerLayoutGuide type="bottom" id="EMd-YO-pJ4"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="IxI-56-jtc">
+                    <view key="view" contentMode="scaleToFill" id="40m-cX-oXi">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MXD-T3-b4S">
-                                <rect key="frame" x="0.0" y="505" width="600" height="95"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="95" id="JOb-Pp-J32"/>
-                                </constraints>
-                            </scrollView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dED-fd-Baj" customClass="MAMapView">
-                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oxj-5L-gOT" customClass="MAMapView">
+                                <rect key="frame" x="0.0" y="20" width="600" height="485"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ayp-7s-drM">
+                                <rect key="frame" x="0.0" y="495" width="600" height="105"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="105" id="HTv-tW-T6W"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="dED-fd-Baj" firstAttribute="leading" secondItem="IxI-56-jtc" secondAttribute="leading" id="3Zj-5z-C4h"/>
-                            <constraint firstItem="dED-fd-Baj" firstAttribute="bottom" secondItem="MXD-T3-b4S" secondAttribute="top" constant="95" id="9Oj-hz-YDD"/>
-                            <constraint firstItem="gj4-ig-xFZ" firstAttribute="top" secondItem="MXD-T3-b4S" secondAttribute="bottom" id="Upg-js-GBO"/>
-                            <constraint firstAttribute="trailing" secondItem="dED-fd-Baj" secondAttribute="trailing" id="aIK-1E-8VI"/>
-                            <constraint firstItem="gj4-ig-xFZ" firstAttribute="top" secondItem="dED-fd-Baj" secondAttribute="bottom" id="bxP-WT-kHi"/>
-                            <constraint firstItem="dED-fd-Baj" firstAttribute="top" secondItem="BTh-Vb-bLc" secondAttribute="bottom" id="fRY-vm-pQ9"/>
-                            <constraint firstItem="MXD-T3-b4S" firstAttribute="leading" secondItem="IxI-56-jtc" secondAttribute="leading" id="o4l-FY-9TO"/>
-                            <constraint firstAttribute="trailing" secondItem="MXD-T3-b4S" secondAttribute="trailing" id="yxD-v4-t1r"/>
+                            <constraint firstItem="EMd-YO-pJ4" firstAttribute="top" secondItem="oxj-5L-gOT" secondAttribute="bottom" constant="95" id="9WA-d4-TYK"/>
+                            <constraint firstItem="oxj-5L-gOT" firstAttribute="leading" secondItem="40m-cX-oXi" secondAttribute="leading" id="9cR-RQ-eia"/>
+                            <constraint firstItem="EMd-YO-pJ4" firstAttribute="top" secondItem="ayp-7s-drM" secondAttribute="bottom" id="Kng-Zg-4pi"/>
+                            <constraint firstItem="oxj-5L-gOT" firstAttribute="top" secondItem="e7B-aV-Moo" secondAttribute="bottom" id="PYP-4C-iVo"/>
+                            <constraint firstAttribute="trailing" secondItem="oxj-5L-gOT" secondAttribute="trailing" id="oh7-xN-fsl"/>
+                            <constraint firstAttribute="trailing" secondItem="ayp-7s-drM" secondAttribute="trailing" id="raK-b8-VuX"/>
+                            <constraint firstItem="ayp-7s-drM" firstAttribute="leading" secondItem="40m-cX-oXi" secondAttribute="leading" id="svO-wv-ri2"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="bxP-WT-kHi"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
-                        <outlet property="bottomScrollView" destination="MXD-T3-b4S" id="biA-dt-APZ"/>
-                        <outlet property="mapView" destination="dED-fd-Baj" id="9zP-Kl-9rY"/>
+                        <outlet property="bottomScrollView" destination="ayp-7s-drM" id="Hkq-Jo-6oF"/>
+                        <outlet property="mapView" destination="oxj-5L-gOT" id="eIo-4B-Eo3"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="pf8-q9-Qkj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ToN-oP-d47" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="140" y="-546"/>
         </scene>
     </scenes>
     <resources>

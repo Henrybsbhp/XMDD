@@ -40,16 +40,16 @@
 // 账号帐户资料
 //更改商户把相关参数后可测试
 
-#define APP_ID          @"wxf346d7a6113bbbf9"               //APPID
-#define APP_SECRET      @"03cdb23781343412055c579103dedf9f" //appsecret
-//商户号，填写商户对应参数
-#define MCH_ID          @"1238430202"
-//商户API密钥，填写相应参数
-#define PARTNER_ID      @"X1XDBAfEgd2CaYc9dYcyTwrXpmK5JzFx"
-//支付结果回调页面
-#define NOTIFY_URL      @"http://wxpay.weixin.qq.com/pub_v2/pay/notify.v2.php"
-//获取服务器端支付数据地址（商户自定义）
-#define SP_URL          @"http://wxpay.weixin.qq.com/pub_v2/app/app_pay.php"
+//#define APP_ID          @"wxf346d7a6113bbbf9"               //APPID
+//#define APP_SECRET      @"03cdb23781343412055c579103dedf9f" //appsecret
+////商户号，填写商户对应参数
+//#define MCH_ID          @"1238430202"
+////商户API密钥，填写相应参数
+//#define PARTNER_ID      @"X1XDBAfEgd2CaYc9dYcyTwrXpmK5JzFx"
+////支付结果回调页面
+//#define NOTIFY_URL      @"http://wxpay.weixin.qq.com/pub_v2/pay/notify.v2.php"
+////获取服务器端支付数据地址（商户自定义）
+//#define SP_URL          @"http://wxpay.weixin.qq.com/pub_v2/app/app_pay.php"
 
 
 @interface payRequsestHandler : NSObject{
@@ -75,6 +75,7 @@
 //提交预支付
 -(NSString *)sendPrepay:(NSMutableDictionary *)prePayParams;
 //签名实例测试
-- ( NSMutableDictionary *)sendPay_demo;
+
+- ( NSMutableDictionary *)sendPayWithTradeNo:(NSString *)TradeNO andProductName:(NSString *)pName andPrice:(float_t)price;
 
 @end

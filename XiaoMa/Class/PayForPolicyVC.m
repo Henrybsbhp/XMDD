@@ -10,6 +10,8 @@
 #import "XiaoMa.h"
 #import "UIView+Layer.h"
 #import "UpdateInsuranceOrderOp.h"
+#import "AlipayHelper.h"
+#import "WeChatHelper.h"
 
 @interface PayForPolicyVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -71,15 +73,46 @@
         [gToast showText:@"请填写完整的邮寄地址"];
         return;
     }
-    if (self.payOp.req_paychannel == PaymentChannelInstallments) {
-        
-    }
-    else if (self.payOp.req_paychannel == PaymentChannelAlipay) {
-        
-    }
-    else if (self.payOp.req_paychannel == PaymentChannelWechat) {
-        
-    }
+    @weakify(self);
+    [[[self.payOp rac_postRequest] initially:^{
+        [gToast showingWithText:@"选择支付方式..."];
+    }] subscribeNext:^(id x) {
+        @strongify(self);
+        [gToast dismiss];
+        if (self.payOp.req_paychannel == PaymentChannelInstallments) {
+            
+        }
+        else if (self.payOp.req_paychannel == PaymentChannelAlipay) {
+            [self requestAliPay:self.insuranceOp.rsp_orderid andPrice:self.insuranceOp.rsp_policy.premium];
+        }
+        else if (self.payOp.req_paychannel == PaymentChannelWechat) {
+            [self requestWechatPay:self.insuranceOp.rsp_orderid andPrice:self.insuranceOp.rsp_policy.premium];
+        }
+
+    } error:^(NSError *error) {
+        [gToast showError:error.domain];
+    }];
+}
+
+#pragma mark - Pay
+- (void)requestAliPay:(NSString *)orderId andPrice:(CGFloat)price
+{
+    [gAlipayHelper payOrdWithTradeNo:orderId andProductName:@"保险" andProductDescription:@"渠道保险购买" andPrice:price];
+    [gAlipayHelper.rac_alipayResultSignal subscribeNext:^(id x) {
+        [gToast showSuccess:@"支付成功"];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    } error:^(NSError *error) {
+    }];
+}
+
+- (void)requestWechatPay:(NSString *)orderId andPrice:(CGFloat)price
+{
+    [gWechatHelper payOrdWithTradeNo:orderId andProductName:@"保险" andPrice:price];
+    [gWechatHelper.rac_wechatResultSignal subscribeNext:^(id x) {
+        [gToast showSuccess:@"支付成功"];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    } error:^(NSError *error) {
+    }];
 }
 
 #pragma mark - UITableViewDelegate and datasource

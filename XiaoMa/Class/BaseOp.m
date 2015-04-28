@@ -214,7 +214,7 @@ static int32_t g_requestVid = 1;
 
     for (NSString * key in sortedParamsKeys)
     {
-        rawvkey = [NSString stringWithFormat:@"%@%@=%@&",rawvkey,key,[paramsDict stringParamFroName:key]];
+        rawvkey = [NSString stringWithFormat:@"%@%@=%@&",rawvkey,key,[paramsDict stringParamFroName:key] ? [paramsDict stringParamFroName:key] : @""];
     }
     if ([sortedParamsKeys count])
     {
