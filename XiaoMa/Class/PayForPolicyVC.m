@@ -10,6 +10,7 @@
 #import "XiaoMa.h"
 #import "UIView+Layer.h"
 #import "UpdateInsuranceOrderOp.h"
+#import "PayResultForInstallmentsVC.h"
 #import "AlipayHelper.h"
 #import "WeChatHelper.h"
 
@@ -80,7 +81,8 @@
         @strongify(self);
         [gToast dismiss];
         if (self.payOp.req_paychannel == PaymentChannelInstallments) {
-            
+            PayResultForInstallmentsVC *vc = [UIStoryboard vcWithId:@"PayResultForInstallmentsVC" inStoryboard:@"Insurance"];
+            [self.navigationController pushViewController:vc animated:YES];
         }
         else if (self.payOp.req_paychannel == PaymentChannelAlipay) {
             [self requestAliPay:self.insuranceOp.rsp_orderid andPrice:self.insuranceOp.rsp_policy.premium];
