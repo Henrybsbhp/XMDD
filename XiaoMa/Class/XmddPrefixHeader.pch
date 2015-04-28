@@ -10,19 +10,7 @@
 #define XiaoMa_XmddPrefixHeader_pch
 
 #import <UIKit/UIKit.h>
+#import "XiaoMa.h"
 
-#import <CKKit.h>
-#import <ReactiveCocoa.h>
-#import "DebugFormat.h"
-#import <Masonry.h>
-
-#import "AppManager.h"
-#import "WeChatHelper.h"
-#import "MultiMediaManager.h"
-
-#import "Contants.h"
-
-#import "UIView+Base.h"
-#import "NSDate+DateForText.h"
 
 #endif

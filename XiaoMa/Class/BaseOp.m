@@ -54,24 +54,24 @@ static int32_t g_requestVid = 1;
     }
     
     AFHTTPRequestOperation *af_op;
-    RACSignal *sig = [[[[manager rac_invokeMethod:self.req_method parameters:params requestId:@(self.req_id) operation:&af_op] map:^id(RACTuple *tuple) {
-        
+    RACSignal *sig = [[[[manager rac_invokeMethod:self.req_method parameters:params requestId:@(self.req_id) operation:&af_op] flattenMap:^RACStream *(RACTuple *tuple) {
+
         AFHTTPRequestOperation *op = tuple.first;
         self.rsp_statusCode = op.response.statusCode;
         self.rsp_error = nil;
         self.response = op.response;
         id rsp = [self filterNSNullForParentObject:nil addNewObject:tuple.second withKey:nil fromOldObject:nil];
-        
-        if (self.rsp_code == 0)
-        {
-            [self parseDefaultResponseObject:rsp];
-            if ([self respondsToSelector:@selector(parseResponseObject:)]) {
-                
-                return [self parseResponseObject:rsp];
-            }
+        id rst = [self parseDefaultResponseObject:rsp];
+        if ([rst isKindOfClass:[NSError class]]) {
+            return [RACSignal error:rst];
         }
-        
-        return self;
+        if ([self respondsToSelector:@selector(parseResponseObject:)]) {
+            rst = [self parseResponseObject:rsp];
+        }
+        if ([rst isKindOfClass:[NSError class]]) {
+            return [RACSignal error:rst];
+        }
+        return [RACSignal return:rst];
     }] catch:^RACSignal *(NSError *error) {
         
         self.rsp_statusCode = error.code;
@@ -80,10 +80,6 @@ static int32_t g_requestVid = 1;
         DebugLog(@"〓〓〓〓〓〓〓〓 error:%@\n"
                  "method:%@ (id: %@)\n"
                  "code:  %ld", error.userInfo[NSLocalizedDescriptionKey], self.req_method, @(self.req_id), (long)error.code);
-        
-        DebugLog(@"\n\n=====================Begin %@(id: %@) Error Detail==============================\n", self.req_method, @(self.req_id));
-        DebugLog(@"=====================Endof %@(id: %@) Error Detail==============================\n\n", self.req_method, @(self.req_id));
-        
         if (gNetworkMgr.catchErrorHandler)
         {
             return gNetworkMgr.catchErrorHandler(self, error);
@@ -131,11 +127,15 @@ static int32_t g_requestVid = 1;
 }
 
 #pragma mark - Parse
-- (void)parseDefaultResponseObject:(id)obj
+- (id)parseDefaultResponseObject:(id)obj
 {
     if ([obj isKindOfClass:[NSDictionary class]]) {
         self.rsp_code = [[(NSDictionary *)obj objectForKey:@"rc"] integerValue];
+        if (self.rsp_code != 0) {
+            return [NSError errorWithDomain:@"请求失败" code:self.rsp_code userInfo:nil];
+        }
     }
+    return self;
 }
 
 #pragma mark - Simulation
@@ -153,8 +153,10 @@ static int32_t g_requestVid = 1;
             rsp = [self filterNSNullForParentObject:nil addNewObject:rsp withKey:nil fromOldObject:nil];
             id rstObj;
             if (rsp) {
-                [self parseDefaultResponseObject:rsp];
-                rstObj = self;
+                rstObj = [self parseDefaultResponseObject:rsp];
+            }
+            if ([rstObj isKindOfClass:[NSError class]]) {
+                return [RACSignal error:rstObj];
             }
             if ([self respondsToSelector:@selector(parseResponseObject:)]) {
                 rstObj = [self parseResponseObject:rsp];

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <AFNetworking.h>
 #import "XiaoMa.h"
+#import "UpdatePwdOp.h"
 
 @class BaseOp;
 
@@ -16,8 +17,7 @@
 
 #ifdef DEBUG
 //    联调
-//    #define ApiBaseUrl @"http://192.168.1.132:8081/paa/rest/api"
-//    #define ApiBaseUrl @"http://192.168.0.103:8282/paa/rest/api"
+//    #define ApiBaseUrl @"http://192.168.1.117:8081/paa/rest/api"
     #define ApiBaseUrl @"http://183.129.253.170:18282/paa/rest/api"
 #else
     #define ApiBaseUrl @"http://183.129.253.170:18282/paa/rest/api"

@@ -15,7 +15,7 @@
 {
     self = [super init];
     if (self) {
-        self.simulateResponse = YES;
+//        self.simulateResponse = YES;
     }
     return self;
 }
@@ -25,8 +25,8 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:[self encryptPassword:self.req_newPwd] forName:@"newpwd"];
-    
-    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
+    NSLog(@"params = %@", params);
+    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
 - (NSString *)encryptPassword:(NSString *)pwd
