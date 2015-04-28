@@ -44,6 +44,7 @@
 		187CC9591AEE4034004D1F28 /* SimplePolicyInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 187CC9581AEE4034004D1F28 /* SimplePolicyInfoVC.m */; };
 		187CC95C1AEF2023004D1F28 /* UploadFileOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 187CC95B1AEF2023004D1F28 /* UploadFileOp.m */; };
 		187CC95F1AEF6A89004D1F28 /* UpdateInsuranceCalculateOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 187CC95E1AEF6A89004D1F28 /* UpdateInsuranceCalculateOp.m */; };
+		187CC9621AEF896C004D1F28 /* PayResultForInstallmentsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 187CC9611AEF896C004D1F28 /* PayResultForInstallmentsVC.m */; };
 		1883D8F31ACB99AC002A4D19 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1883D8F11ACB99AC002A4D19 /* LaunchScreen.xib */; };
 		1883D8FF1ACB99AC002A4D19 /* XiaoMaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D8FE1ACB99AC002A4D19 /* XiaoMaTests.m */; };
 		1883D9101ACBBE30002A4D19 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D90F1ACBBE30002A4D19 /* main.m */; };
@@ -253,6 +254,8 @@
 		187CC95B1AEF2023004D1F28 /* UploadFileOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadFileOp.m; path = Class/UploadFileOp.m; sourceTree = "<group>"; };
 		187CC95D1AEF6A89004D1F28 /* UpdateInsuranceCalculateOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateInsuranceCalculateOp.h; path = Class/UpdateInsuranceCalculateOp.h; sourceTree = "<group>"; };
 		187CC95E1AEF6A89004D1F28 /* UpdateInsuranceCalculateOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateInsuranceCalculateOp.m; path = Class/UpdateInsuranceCalculateOp.m; sourceTree = "<group>"; };
+		187CC9601AEF896C004D1F28 /* PayResultForInstallmentsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayResultForInstallmentsVC.h; sourceTree = "<group>"; };
+		187CC9611AEF896C004D1F28 /* PayResultForInstallmentsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayResultForInstallmentsVC.m; sourceTree = "<group>"; };
 		1883D8DF1ACB99AC002A4D19 /* XiaoMa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XiaoMa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1883D8F21ACB99AC002A4D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		1883D8F81ACB99AC002A4D19 /* XiaoMaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XiaoMaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1046,6 +1049,8 @@
 				189B31191ADBEBE8001D7288 /* PolicyInfomationVC.m */,
 				18863FA61AE9D39A005BF4ED /* PayForPolicyVC.h */,
 				18863FA71AE9D39A005BF4ED /* PayForPolicyVC.m */,
+				187CC9601AEF896C004D1F28 /* PayResultForInstallmentsVC.h */,
+				187CC9611AEF896C004D1F28 /* PayResultForInstallmentsVC.m */,
 				18863FA31AE8ECFB005BF4ED /* GridLabel.h */,
 				18863FA41AE8ECFB005BF4ED /* GridLabel.m */,
 			);
@@ -1680,6 +1685,7 @@
 				187CC95C1AEF2023004D1F28 /* UploadFileOp.m in Sources */,
 				187CC9551AEDD0D1004D1F28 /* CommonPackerVC.m in Sources */,
 				6BD7AE5B1AE8927C00BEF30E /* WeChatHelper.m in Sources */,
+				187CC9621AEF896C004D1F28 /* PayResultForInstallmentsVC.m in Sources */,
 				189B31061AD7B7F5001D7288 /* UIView+Shake.m in Sources */,
 				18863FA81AE9D39A005BF4ED /* PayForPolicyVC.m in Sources */,
 				1816F4A81ACD3B0900BBCC96 /* SYPaginatorViewController.m in Sources */,
