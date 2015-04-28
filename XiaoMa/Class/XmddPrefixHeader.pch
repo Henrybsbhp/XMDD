@@ -14,8 +14,10 @@
 #import <CKKit.h>
 #import <ReactiveCocoa.h>
 #import "DebugFormat.h"
+#import <Masonry.h>
 
 #import "AppManager.h"
+#import "WeChatHelper.h"
 #import "MultiMediaManager.h"
 
 #import "Contants.h"

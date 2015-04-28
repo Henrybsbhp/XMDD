@@ -9,8 +9,8 @@
 #import "AlipayHelper.h"
 
 
-#define AlipayCallbackDefaultUrlForDebug   @"http://hybris-sit-cloud.chinacloudapp.cn/alipay/notifyController"
-#define AlipayCallbackDefaultUrlForRelease   @"http://occ.mall.mengniu.com.cn/alipay/notifyController"
+#define AlipayCallbackDefaultUrlForDebug   @"http://183.129.253.170:18282/paa/alipaynotify"
+#define AlipayCallbackDefaultUrlForRelease   @"http://183.129.253.170:18282/paa/alipaynotify"
 
 #define XMDDAlipayScheme @"com.huika.xmdd.alipay"
 
@@ -129,15 +129,14 @@
             id<DataVerifier> verifier;
             verifier = CreateRSADataVerifier(key);
             
-//            if ([verifier verifyString:result.resultString withSign:result.signString])
-//            {
-//                //验证签名成功，交易结果无篡改
-//                [self.rac_alipayResultSignal sendNext:@"9000"];
-//            }
-//            else
+            if ([verifier verifyString:result.resultString withSign:result.signString])
             {
+                [gAlipayHelper.rac_alipayResultSignal sendNext:@"9000"];
                 //验证签名成功，交易结果无篡改
-                [self.rac_alipayResultSignal sendNext:@"9000"];
+            }
+            else
+            {
+                [gAlipayHelper.rac_alipayResultSignal sendError:[NSError errorWithDomain:@"验证签名失败，交易结果被篡改" code:8999 userInfo:nil]];
             }
         }
         else

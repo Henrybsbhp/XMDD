@@ -97,11 +97,11 @@
 #pragma mark - Action
 - (IBAction)actionPay:(id)sender
 {
-    if (self.needAppendCarFlag)
-    {
-        [SVProgressHUD showErrorWithStatus:@"您没有车辆信息，请添加一辆车"];
-        return;
-    }
+//    if (self.needAppendCarFlag)
+//    {
+//        [SVProgressHUD showErrorWithStatus:@"您没有车辆信息，请添加一辆车"];
+//        return;
+//    }
     if (self.paymentType == PaymentChannelCoupon)
     {
         if (gAppMgr.myUser.couponArray.count == 0)
@@ -477,7 +477,7 @@
 {
     CheckoutServiceOrderOp * op = [CheckoutServiceOrderOp operation];
     op.serviceid = self.service.serviceID;
-    op.licencenumber = [gAppMgr.myUser getDefaultCar].licencenumber;
+    op.licencenumber = [gAppMgr.myUser getDefaultCar].licencenumber ? [gAppMgr.myUser getDefaultCar].licencenumber : @"";
     op.cid = @"";
     op.paychannel = self.paymentType;
     [[[op rac_postRequest] initially:^{
