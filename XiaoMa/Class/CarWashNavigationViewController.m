@@ -10,11 +10,7 @@
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-#define ZoomLevel 12
 
-#define AppleNavigationStr @"苹果导航"
-#define BaiduNavigationStr @"百度导航"
-#define AMapNavigationStr @"高德导航"
 
 @interface CarWashNavigationViewController ()<UIActionSheetDelegate>
 
@@ -37,9 +33,12 @@
     self.endCoordinate = CLLocationCoordinate2DMake(self.shop.shopLatitude, self.shop.shopLongitude);
     self.cancelIndex = 1;
     
-    self.mapView.showsUserLocation = YES;
-    self.mapView.userTrackingMode = MAUserTrackingModeFollow;
-    [self addDefaultAnnotations];
+    CKAsyncMainQueue(^{
+        self.mapView.showsUserLocation = YES;
+        self.mapView.userTrackingMode = MAUserTrackingModeFollow;
+        [self setCenter];
+        [self addDefaultAnnotations];
+    });
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -64,8 +63,14 @@
     
     [self.mapView addAnnotation:destinationAnnotation];
     
-    [self.mapView setCenterCoordinate:destinationAnnotation.coordinate animated:YES];
-    [self.mapView setZoomLevel:ZoomLevel animated:YES];
+//    [self.mapView setCenterCoordinate:destinationAnnotation.coordinate animated:YES];
+//    [self.mapView setZoomLevel:ZoomLevel animated:YES];
+}
+
+- (void)setCenter
+{
+    [self.mapView setZoomLevel:MapZoomLevel animated:YES];
+    [self.mapView setCenterCoordinate:CLLocationCoordinate2DMake(self.shop.shopLatitude, self.shop.shopLongitude) animated:YES];
 }
 
 - (void)handleSingleTap:(UITapGestureRecognizer *)theSingleTap

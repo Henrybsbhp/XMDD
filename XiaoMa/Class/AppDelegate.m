@@ -48,6 +48,7 @@
     [WXApi registerApp:@"wxf346d7a6113bbbf9"];
     
     [self setupVersionUpdating];
+//    [self ]
     
 //    GetTokenOp * op = [GetTokenOp operation];
 //    op.req_phone = @"13958064824";
@@ -142,18 +143,19 @@
          */
         
         //交易成功
-        //            NSString* key = @"签约帐户后获取到的支付宝公钥";
-        //			id<DataVerifier> verifier;
-        //            verifier = CreateRSADataVerifier(key);
-        //
-        //			if ([verifier verifyString:result.resultString withSign:result.signString])
-        //            {
-        //                //验证签名成功，交易结果无篡改
-        //			}
-        //            RACSubject * sub = [RACSubject subject];
+        NSString* key = AlipayPubKey;
+        id<DataVerifier> verifier;
+        verifier = CreateRSADataVerifier(key);
         
-        
-        [gAlipayHelper.rac_alipayResultSignal sendNext:@"9000"];
+        if ([verifier verifyString:result.resultString withSign:result.signString])
+        {
+            [gAlipayHelper.rac_alipayResultSignal sendNext:@"9000"];
+            //验证签名成功，交易结果无篡改
+        }
+        else
+        {
+            [gAlipayHelper.rac_alipayResultSignal sendError:[NSError errorWithDomain:@"验证签名失败，交易结果被篡改" code:8999 userInfo:nil]];
+        }
     }
     else
     {

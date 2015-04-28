@@ -7,11 +7,29 @@
 //
 
 #import "NearbyShopsViewController.h"
+#import "GetShopByRangeOp.h"
+#import "JTShop.h"
+#import "MapBottomView.h"
+#import "ShopDetailVC.h"
+#import "SYPaginator.h"
+#import "AddUserFavoriteOp.h"
+#import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
 
-@interface NearbyShopsViewController ()
+@interface NearbyShopsViewController ()<UIActionSheetDelegate,SYPaginatorViewDataSource, SYPaginatorViewDelegate>
 
 @property (weak, nonatomic) IBOutlet MAMapView *mapView;
-@property (weak, nonatomic) IBOutlet UIScrollView *bottomScrollView;
+@property (weak, nonatomic) IBOutlet UIView *bottomScrollView;
+@property (nonatomic, strong) SYPaginatorView *bottomSYView;
+
+@property (nonatomic)CLLocationCoordinate2D userCoordinate;
+@property (nonatomic)BOOL needRequestNearbyShop;
+
+@property (nonatomic,strong)NSArray * nearbyShopArray;
+
+@property (nonatomic)BOOL exsitBaiduMap;
+@property (nonatomic)BOOL exsitAMap;
+@property (nonatomic)NSInteger cancelIndex;
 
 @end
 
@@ -19,7 +37,35 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self setupNavigationBar];
+    [self setupMapView];
+    
+    if (gMapHelper.coordinate.latitude != 0)
+    {
+        [self setCenter:gMapHelper.coordinate];
+    }
+    
+    [self setupSYViewInContainer:self.bottomScrollView];
+    [self.bottomSYView reloadData];
+    
+    self.mapView.showsUserLocation = YES;
+    
+    self.needRequestNearbyShop = YES;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    self.mapView.delegate = self;
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    self.mapView.delegate = nil;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -27,10 +73,434 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc
+{
+    DebugLog(@"NearbyShopsViewController dealloc");
+}
+
 #pragma mark - UI
 - (void)setupNavigationBar
 {
+    self.navigationItem.title = @"附近门店";
+    
+    UIImage *img = [UIImage imageNamed:@"cm_nav_back"];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain
+                                                            target:self action:@selector(returnAction)];
+    [self.navigationItem setLeftBarButtonItem:item animated:YES];
+}
+
+- (void)setupMapView
+{
+    @weakify(self);
+    self.mapView.frame = self.view.bounds;
+    
+    [self.mapView mas_makeConstraints:^(MASConstraintMaker *make) {
+        @strongify(self)
+        make.edges.equalTo(self.view).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
+    }];
+}
+
+- (void)setupSYViewInContainer:(UIView *)container
+{
+    CGFloat width = CGRectGetWidth(self.view.frame);
+    CGFloat height = 95;
+    SYPaginatorView *syView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+    
+    syView.pageControl.hidden = YES;
+    syView.delegate = self;
+    syView.dataSource = self;
+    syView.pageGapWidth = 0;
+    syView.backgroundColor = [UIColor clearColor];
+    [container addSubview:syView];
+    self.bottomSYView = syView;
+    [syView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(container).with.offset(0);
+        make.right.equalTo(container).with.offset(0);
+        make.top.equalTo(container).with.offset(5);
+        make.height.mas_equalTo(height);
+    }];
+    self.bottomSYView.currentPageIndex = 0;
+}
+
+
+#pragma mark - Action
+
+- (void)returnAction
+{
+    if (self.type == 0)
+    {
+        
+        self.tabBarController.selectedIndex = 0;
+        
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+- (void)navigationAction:(JTShop *)shop
+{
+    self.exsitBaiduMap = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:BaiduMapUrl]];
+    self.exsitAMap = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:AMapUrl]];
+    UIActionSheet * sheet;
+    if (self.exsitBaiduMap)
+    {
+        if (self.exsitAMap)
+        {
+            sheet = [[UIActionSheet alloc] initWithTitle:@"请选择导航软件" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:AppleNavigationStr,BaiduNavigationStr,AMapNavigationStr,nil];
+            self.cancelIndex = 3;
+        }
+        else
+        {
+            sheet = [[UIActionSheet alloc] initWithTitle:@"请选择导航软件" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:AppleNavigationStr,BaiduNavigationStr,nil];
+            self.cancelIndex = 2;
+        }
+    }
+    else
+    {
+        if (self.exsitAMap)
+        {
+            sheet = [[UIActionSheet alloc] initWithTitle:@"请选择导航软件" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:AppleNavigationStr,AMapNavigationStr,nil];
+            self.cancelIndex = 2;
+        }
+        else
+        {
+            sheet = [[UIActionSheet alloc] initWithTitle:@"请选择导航软件" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:AppleNavigationStr,nil];
+            self.cancelIndex = 1;
+        }
+    }
+    
+    sheet.customObject = shop;
+    [sheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == self.cancelIndex)
+    {
+        return;
+    }
+    if (!actionSheet.customObject || ![actionSheet.customObject isKindOfClass:[JTShop class]])
+    {
+        return;
+    }
+    
+    JTShop * shop = actionSheet.customObject;
+    NSString * baiduUrlString = [[NSString stringWithFormat:@"baidumap://map/direction?mode=driving&origin=latlng:%f,%f|name:我的位置&destination=latlng:%f,%f|name:%@&zoom=10&src=小马达达",self.userCoordinate.latitude,self.userCoordinate.longitude,shop.shopLatitude,shop.shopLongitude,shop.shopName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *amapUrlString = [[NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=%@&lat=%f&lon=%f&dev=1&style=2&poiname=%@",@"小马达达", @"com.huika.xmdd",shop.shopLatitude, shop.shopLongitude,shop.shopName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    if (buttonIndex == 0)
+    {
+        
+        MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
+        MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:CLLocationCoordinate2DMake(shop.shopLatitude, shop.shopLongitude) addressDictionary:nil]];
+        toLocation.name = shop.shopName;
+        
+        [MKMapItem openMapsWithItems:@[currentLocation, toLocation]
+                       launchOptions:@{MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,MKLaunchOptionsShowsTrafficKey: [NSNumber numberWithBool:YES]}];
+    }
+    else if (buttonIndex == 1)
+    {
+        if (self.exsitBaiduMap)
+        {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:baiduUrlString]];
+        }
+        else
+        {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:amapUrlString]];
+            
+        }
+    }
+    else
+    {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:amapUrlString]];
+    }
+}
+
+
+
+#pragma mark - Utility
+- (void)requestNearbyShops:(CLLocationCoordinate2D)coordinate andRange:(NSInteger)range
+{
+    GetShopByRangeOp * op = [GetShopByRangeOp operation];
+    op.longitude = coordinate.longitude;
+    op.latitude = coordinate.latitude;
+    op.range = range;
+    [[[op rac_postRequest] initially:^{
+        
+    }] subscribeNext:^(GetShopByRangeOp * op) {
+        
+        if (op.rsp_code == 0)
+        {
+            self.nearbyShopArray = op.rsp_shopArray;
+            [self highlightMapViewWithIndex:0];
+            [self.bottomSYView reloadData];
+            if (self.nearbyShopArray.count)
+            {
+                JTShop * shop = [self.nearbyShopArray firstObject];
+                CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(shop.shopLatitude, shop.shopLongitude);
+                [self setCenter:coordinate];
+            }
+            self.bottomSYView.currentPageIndex = 0;
+        }
+    } error:^(NSError *error) {
+        
+        
+    }];
+}
+
+
+- (void)requestAddFavorite:(NSString *)shopid
+{
+    AddUserFavoriteOp * op = [AddUserFavoriteOp operation];
+    op.shopid = shopid;
+    [[[op rac_postRequest] initially:^{
+        
+        [SVProgressHUD showWithStatus:@"add..."];
+    }] subscribeNext:^(AddUserFavoriteOp * op) {
+        
+        if (op.rsp_code == 0)
+        {
+            [SVProgressHUD showSuccessWithStatus:@"收藏成功"];
+        }
+        else if (op.rsp_code == 7001)
+        {
+            [SVProgressHUD  showErrorWithStatus:@"该店铺不存在"];
+        }
+        else if (op.rsp_code == 7002)
+        {
+            [SVProgressHUD  showErrorWithStatus:@"该店铺已收藏"];
+        }
+        else
+        {
+            [SVProgressHUD  showErrorWithStatus:@"收藏失败"];
+        }
+    } error:^(NSError *error) {
+        
+        [SVProgressHUD  showErrorWithStatus:@"收藏失败"];
+    }];
+}
+
+- (void)setCenter:(CLLocationCoordinate2D)co
+{
+    [self.mapView setZoomLevel:MapZoomLevel animated:YES];
+    [self.mapView setCenterCoordinate:co animated:YES];
+}
+
+- (void)highlightMapViewWithIndex:(NSInteger)index
+{
+    [self.mapView removeAnnotations:self.mapView.annotations];
+    for (NSInteger  i = 0; i < self.nearbyShopArray.count; i++)
+    {
+        JTShop * shop = [self.nearbyShopArray safetyObjectAtIndex:i];
+        MAPointAnnotation *destinationAnnotation = [[MAPointAnnotation alloc] init];
+        destinationAnnotation.coordinate = CLLocationCoordinate2DMake(shop.shopLatitude, shop.shopLongitude);
+        destinationAnnotation.title = shop.shopName;
+        destinationAnnotation.customObject = shop;
+        
+        destinationAnnotation.customTag = index == i ? 1 : 0;
+        
+        [self.mapView addAnnotation:destinationAnnotation];
+    }
+    
+    
+//        JTShop * shop = [self.nearbyShopArray safetyObjectAtIndex:index];
+//        for (MAAnnotationView * v in  self.mapView.annotations)
+//        {
+//            v.image = [UIImage imageNamed:@"shop_pin"];
+//            if ([v.customObject isKindOfClass:[JTShop class]])
+//            {
+//                JTShop * s  = (JTShop *)v.customObject;
+//                if ([shop.shopID isEqualToString:s.shopID])
+//                {
+//                    v.image = [UIImage imageNamed:@"high_shop_pin"];
+//                }
+//                else
+//                {
+//                    v.image = [UIImage imageNamed:@"shop_pin"];
+//                }
+//            }
+//        }
+}
+
+#pragma mark - MAMapViewDelegate
+- (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation
+{
+    if ([annotation isKindOfClass:[MAPointAnnotation class]])
+    {
+        static NSString *navigationCellIdentifier = @"navigationCellIdentifier";
+        
+        MAAnnotationView *poiAnnotationView = (MAAnnotationView*)[self.mapView dequeueReusableAnnotationViewWithIdentifier:navigationCellIdentifier];
+        MAPointAnnotation *pointAnnotation = (MAPointAnnotation *)annotation;
+        if (poiAnnotationView == nil)
+        {
+            poiAnnotationView = [[MAAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:navigationCellIdentifier];
+        }
+        
+        poiAnnotationView.canShowCallout = YES;
+        poiAnnotationView.image = pointAnnotation.customTag ? [UIImage imageNamed:@"high_shop_pin"] : [UIImage imageNamed:@"shop_pin"];
+        
+        
+        return poiAnnotationView;
+    }
+    
+    return nil;
+}
+
+- (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation;
+{
+    self.userCoordinate = userLocation.coordinate;
+    if (self.needRequestNearbyShop)
+    {
+        [self requestNearbyShops:self.userCoordinate andRange:1];
+        [self setCenter:self.userCoordinate];
+        self.needRequestNearbyShop = NO;
+    }
+}
+
+- (void)mapView:(MAMapView *)mapView didFailToLocateUserWithError:(NSError *)error
+{
     
 }
+
+- (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view
+{
+    if ([view.annotation isKindOfClass:[MAPointAnnotation class]])
+    {
+        MAPointAnnotation * annotation = (MAPointAnnotation *)view.annotation;
+        if ([annotation.customObject isKindOfClass:[JTShop class]])
+        {
+            JTShop * shop  = (JTShop *)annotation.customObject;
+            
+            for (NSInteger i = 0 ; i < self.nearbyShopArray.count; i++)
+            {
+                JTShop * s = [self.nearbyShopArray safetyObjectAtIndex:i];
+                if ([shop.shopID isEqualToString:s.shopID])
+                {
+                    [self highlightMapViewWithIndex:i];
+                    
+                    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(shop.shopLatitude, shop.shopLongitude);
+                    [self.mapView setCenterCoordinate:coordinate animated:YES];
+                    [self.bottomSYView setCurrentPageIndex:i animated:YES];
+                    return;
+                }
+            }
+        }
+    }
+}
+
+#pragma mark - SYPaginatorViewDelegate
+- (NSInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView
+{
+    return self.nearbyShopArray.count;
+}
+
+- (SYPageView *)paginatorView:(SYPaginatorView *)paginatorView viewForPageAtIndex:(NSInteger)pageIndex
+{
+    SYPageView *pageView = [paginatorView dequeueReusablePageWithIdentifier:@"pageView"];
+    
+    MapBottomView * mapBottomView;
+    if (!pageView) {
+        pageView = [[SYPageView alloc] initWithReuseIdentifier:@"pageView"];
+        pageView.backgroundColor = [UIColor clearColor];
+        
+        NSArray *nibArray = [[NSBundle mainBundle] loadNibNamed:@"MapBottomView" owner:self options:nil];
+        MapBottomView *bottomView = nibArray[0];
+        CGRect rect = pageView.bounds;
+        rect.size.width = rect.size.width - 10;
+        rect.origin.x = 5;
+        bottomView.frame = rect;
+//        mapBottomView.autoresizingMask = UIViewAutoresizingFlexibleAll;
+        bottomView.tag = 1001;
+        bottomView.backgroundColor = [UIColor whiteColor];
+        bottomView.borderWidth = 1.0f;
+        bottomView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        bottomView.layer.cornerRadius = 5.0f;
+        
+        [pageView addSubview:bottomView];
+    }
+    
+    mapBottomView = (MapBottomView *)[pageView searchViewWithTag:1001];
+    if (!mapBottomView)
+    {
+        NSArray *nibArray = [[NSBundle mainBundle] loadNibNamed:@"MapBottomView" owner:self options:nil];
+        mapBottomView = nibArray[0];
+        CGRect rect = pageView.bounds;
+        rect.size.width = rect.size.width - 10;
+        rect.origin.x = 5;
+        mapBottomView.frame = rect;
+        //        mapBottomView.autoresizingMask = UIViewAutoresizingFlexibleAll;
+        mapBottomView.tag = 1001;
+        mapBottomView.backgroundColor = [UIColor whiteColor];
+        mapBottomView.borderWidth = 1.0f;
+        mapBottomView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        mapBottomView.layer.cornerRadius = 5.0f;
+        
+        [pageView addSubview:mapBottomView];
+    }
+    
+    
+    JTShop * shop = [self.nearbyShopArray safetyObjectAtIndex:pageIndex];
+    
+    mapBottomView.titleLb.text = shop.shopName;
+    mapBottomView.addressLb.text = shop.shopAddress;
+    
+    @weakify(self)
+    [[[mapBottomView.detailBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
+        
+        ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
+        vc.shop = shop;
+        
+        @strongify(self)
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    
+    [[mapBottomView.phoneBtm rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        if (shop.shopPhone.length == 0)
+        {
+            UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
+            [av show];
+            return ;
+        }
+        
+        NSString * info = [NSString stringWithFormat:@"%@电话：\n%@",shop.shopName,shop.shopPhone];
+        UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:info delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];
+        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNum) {
+            
+            NSInteger index = [indexNum integerValue];
+            if (index == 1)
+            {
+                NSString * urlStr = [NSString stringWithFormat:@"tel://%@",shop.shopPhone];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
+            }
+        }];
+        [av show];
+    }];
+    
+    [[mapBottomView.collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        @strongify(self)
+        [self requestAddFavorite:shop.shopID];
+    }];
+    
+    [[mapBottomView.navigationBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        @strongify(self)
+        [self navigationAction:shop];
+    }];
+
+    return pageView;
+}
+
+- (void)paginatorView:(SYPaginatorView *)paginatorView didScrollToPageAtIndex:(NSInteger)pageIndex
+{
+    [self highlightMapViewWithIndex:pageIndex];
+
+    JTShop * shop = [self.nearbyShopArray safetyObjectAtIndex:pageIndex];
+    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(shop.shopLatitude, shop.shopLongitude);
+    [self.mapView setCenterCoordinate:coordinate animated:YES];
+}
+
+
 
 @end

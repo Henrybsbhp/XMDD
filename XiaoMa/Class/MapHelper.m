@@ -77,6 +77,16 @@
     [self.searchApi AMapReGoecodeSearch:regeo];
 }
 
+- (RACSignal *)rac_getUserLocation
+{
+    RACSignal * signal;
+    [self startLocation];
+    signal = [self.rac_userLocationResultSignal map:^id(MAUserLocation *userLocation) {
+        return userLocation;
+    }];
+    return signal;
+}
+
 - (RACSignal *)rac_getInvertGeoInfo
 {
     RACSignal * signal;
@@ -106,7 +116,7 @@
 - (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation
 {
     self.coordinate = userLocation.coordinate;
-    [self.rac_userLocationResultSignal sendNext:userLocation];
+    [self.rac_userLocationResultSignal sendNext:userLocation] ;
     [self stopLocation];
 }
 

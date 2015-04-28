@@ -21,6 +21,8 @@
 #import "GetSystemTipsOp.h"
 #import "GetSystemPromotionOp.h"
 
+#define WeatherRefreshTimeInterval 60 * 30
+
 static NSInteger rotationIndex = 0;
 
 
@@ -298,7 +300,7 @@ static NSInteger rotationIndex = 0;
 
 - (void)getWeatherInfo
 {
-    [[[gMapHelper rac_getInvertGeoInfo] initially:^{
+    [[[[gMapHelper rac_getInvertGeoInfo] throttle:WeatherRefreshTimeInterval] initially:^{
         
         [self setupNavigationLeftBar:@"定位中..."];
     }] subscribeNext:^(AMapReGeocode * getInfo) {
@@ -321,6 +323,7 @@ static NSInteger rotationIndex = 0;
         
     } error:^(NSError *error) {
         
+        [self setupNavigationLeftBar:@"失败"];
         switch (error.code) {
             case kCLErrorDenied:
             {

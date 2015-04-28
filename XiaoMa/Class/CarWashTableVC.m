@@ -19,6 +19,7 @@
 #import "CarWashNavigationViewController.h"
 #import "JTTableView.h"
 #import "GetShopByDistanceOp.h"
+#import "NearbyShopsViewController.h"
 
 
 @interface CarWashTableVC ()<SYPaginatorViewDataSource, SYPaginatorViewDelegate>
@@ -58,6 +59,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc
+{
+    DebugLog(@"CarWashTableVC Dealloc");
 }
 
 #pragma mark - Setup UI
@@ -105,7 +111,8 @@
 #pragma mark - Action
 - (IBAction)actionMap:(id)sender
 {
-    
+    NearbyShopsViewController * nearbyShopView = [carWashStoryboard instantiateViewControllerWithIdentifier:@"NearbyShopsViewController"];
+    [self.navigationController pushViewController:nearbyShopView animated:YES];
 }
 
 
@@ -162,8 +169,8 @@
     ratingL.text = [NSString stringWithFormat:@"%.2f分", shop.shopRate];
     addrL.text = shop.shopAddress;
     
-    double myLat = 30.254189;
-    double myLng = 120.189234;
+    double myLat = gMapHelper.coordinate.latitude;
+    double myLng = gMapHelper.coordinate.longitude;
     double shopLat = shop.shopLatitude;
     double shopLng = shop.shopLongitude;
     NSString * disStr = [DistanceCalcHelper getDistanceStrLatA:myLat lngA:myLng latB:shopLat lngB:shopLng];
@@ -203,8 +210,10 @@
     UIButton *guideB = (UIButton *)[cell.contentView viewWithTag:3001];
     UIButton *phoneB = (UIButton *)[cell.contentView viewWithTag:3002];
     
+    @weakify(self)
     [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        @strongify(self)
         CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
         vc.shop = shop;
         [self.navigationController pushViewController:vc animated:YES];
@@ -256,6 +265,8 @@
     vc.shop = [self.datasource safetyObjectAtIndex:indexPath.row];
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+
 #pragma mark - Utility
 - (NSAttributedString *)priceStringWithOldPrice:(NSNumber *)price1 curPrice:(NSNumber *)price2
 {
@@ -276,44 +287,53 @@
 
 - (void)requestCarWashShopList
 {
-    GetShopByDistanceOp * getShopByDistanceOp = [GetShopByDistanceOp new];
-    getShopByDistanceOp.longitude = 120.189234;
-    getShopByDistanceOp.latitude = 30.254189;
-    getShopByDistanceOp.pageno = self.currentPageIndex;
-    [[[getShopByDistanceOp rac_postRequest] initially:^{
+    @weakify(self)
+    [[[[gMapHelper rac_getUserLocation] take:1] initially:^{
         
         [SVProgressHUD showWithStatus:@"Loading"];
-        
-    }] subscribeNext:^(GetShopByDistanceOp * op) {
-        
-        [SVProgressHUD dismiss];
-        self.datasource = op.rsp_shopArray;
-        if (self.datasource.count == 0)
-        {
+    }] subscribeNext:^(MAUserLocation *userLocation) {
+    
+        @strongify(self)
+        GetShopByDistanceOp * getShopByDistanceOp = [GetShopByDistanceOp new];
+        getShopByDistanceOp.longitude = userLocation.coordinate.longitude;
+        getShopByDistanceOp.latitude = userLocation.coordinate.latitude;
+        getShopByDistanceOp.pageno = self.currentPageIndex;
+        [[[getShopByDistanceOp rac_postRequest] initially:^{
             
-        }
-        else
-        {
-            if (self.datasource.count >= self.pageAmount)
+            [SVProgressHUD showWithStatus:@"Loading"];
+            
+        }] subscribeNext:^(GetShopByDistanceOp * op) {
+            
+            [SVProgressHUD dismiss];
+            self.datasource = op.rsp_shopArray;
+            if (self.datasource.count == 0)
             {
-                self.isRemain = YES;
+                
             }
             else
             {
-                self.isRemain = NO;
+                if (self.datasource.count >= self.pageAmount)
+                {
+                    self.isRemain = YES;
+                }
+                else
+                {
+                    self.isRemain = NO;
+                }
+                if (!self.isRemain)
+                {
+                    [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+                }
+                [self.tableView reloadData];
             }
-            if (!self.isRemain)
-            {
-                [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
-            }
-            [self.tableView reloadData];
-        }
-    } error:^(NSError *error) {
-        
-        [SVProgressHUD showErrorWithStatus:@"error"];
+        } error:^(NSError *error) {
+            
+            [SVProgressHUD showErrorWithStatus:@"error"];
+        }];
     }];
-
 }
+
+
 - (void)requestMoreCarWashShopList
 {
     if ([self.tableView.bottomLoadingView isActivityAnimating])
