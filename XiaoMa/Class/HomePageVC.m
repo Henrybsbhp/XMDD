@@ -300,7 +300,7 @@ static NSInteger rotationIndex = 0;
 
 - (void)getWeatherInfo
 {
-    [[[[gMapHelper rac_getInvertGeoInfo] throttle:WeatherRefreshTimeInterval] initially:^{
+    [[[[gMapHelper rac_getInvertGeoInfo] take:1] initially:^{
         
         [self setupNavigationLeftBar:@"定位中..."];
     }] subscribeNext:^(AMapReGeocode * getInfo) {
