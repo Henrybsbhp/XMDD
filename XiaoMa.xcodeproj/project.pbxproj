@@ -81,6 +81,7 @@
 		6BAF301D1AE6947F00E35E08 /* ClientInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301A1AE6947F00E35E08 /* ClientInfo.m */; };
 		6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301C1AE6947F00E35E08 /* DeviceInfo.m */; };
 		6BB61B981AEE85E8004F39AA /* AddUserFavoriteOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB61B971AEE85E8004F39AA /* AddUserFavoriteOp.m */; };
+		6BB61B9A1AEF5350004F39AA /* MapBottomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BB61B991AEF5350004F39AA /* MapBottomView.xib */; };
 		6BB884B11AE0B3FE00EBD8F4 /* hz.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 6BB884B01AE0B3FE00EBD8F4 /* hz.gpx */; };
 		6BB884BA1AE0BB9600EBD8F4 /* JTHeadRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884B51AE0BB9600EBD8F4 /* JTHeadRefreshView.m */; };
 		6BB884BB1AE0BB9600EBD8F4 /* JTTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884B71AE0BB9600EBD8F4 /* JTTableView.m */; };
@@ -131,7 +132,6 @@
 		6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5F1AE8A64B00BEF30E /* payRequsestHandler.mm */; };
 		6BD7AE641AE8A64B00BEF30E /* WXUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE611AE8A64B00BEF30E /* WXUtil.mm */; };
 		6BD7AE681AE9F63900BEF30E /* MapBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE671AE9F63900BEF30E /* MapBottomView.m */; };
-		6BD7AE6A1AE9F6BF00BEF30E /* MapBottomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BD7AE691AE9F6BF00BEF30E /* MapBottomView.xib */; };
 		6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD4E1AE6232C00A69875 /* HKAdvertisement.m */; };
 		6BE2BD521AE62B1600A69875 /* GetInsuranceCalculatorOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD511AE62B1600A69875 /* GetInsuranceCalculatorOp.m */; };
 		6BE2BD581AE62CDF00A69875 /* HKInsurance.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD571AE62CDF00A69875 /* HKInsurance.m */; };
@@ -314,6 +314,7 @@
 		6BAF301C1AE6947F00E35E08 /* DeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceInfo.m; path = Class/DeviceInfo.m; sourceTree = "<group>"; };
 		6BB61B961AEE85E8004F39AA /* AddUserFavoriteOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddUserFavoriteOp.h; path = Class/AddUserFavoriteOp.h; sourceTree = "<group>"; };
 		6BB61B971AEE85E8004F39AA /* AddUserFavoriteOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddUserFavoriteOp.m; path = Class/AddUserFavoriteOp.m; sourceTree = "<group>"; };
+		6BB61B991AEF5350004F39AA /* MapBottomView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MapBottomView.xib; path = Class/MapBottomView.xib; sourceTree = "<group>"; };
 		6BB884B01AE0B3FE00EBD8F4 /* hz.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = hz.gpx; sourceTree = "<group>"; };
 		6BB884B21AE0B40800EBD8F4 /* XmddPrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XmddPrefixHeader.pch; path = Class/XmddPrefixHeader.pch; sourceTree = "<group>"; };
 		6BB884B41AE0BB9600EBD8F4 /* JTHeadRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTHeadRefreshView.h; sourceTree = "<group>"; };
@@ -410,7 +411,6 @@
 		6BD7AE611AE8A64B00BEF30E /* WXUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WXUtil.mm; sourceTree = "<group>"; };
 		6BD7AE661AE9F63900BEF30E /* MapBottomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapBottomView.h; path = Class/MapBottomView.h; sourceTree = "<group>"; };
 		6BD7AE671AE9F63900BEF30E /* MapBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapBottomView.m; path = Class/MapBottomView.m; sourceTree = "<group>"; };
-		6BD7AE691AE9F6BF00BEF30E /* MapBottomView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapBottomView.xib; sourceTree = "<group>"; };
 		6BE2BD4D1AE6232C00A69875 /* HKAdvertisement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKAdvertisement.h; path = Class/HKAdvertisement.h; sourceTree = "<group>"; };
 		6BE2BD4E1AE6232C00A69875 /* HKAdvertisement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKAdvertisement.m; path = Class/HKAdvertisement.m; sourceTree = "<group>"; };
 		6BE2BD501AE62B1600A69875 /* GetInsuranceCalculatorOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetInsuranceCalculatorOp.h; path = Class/GetInsuranceCalculatorOp.h; sourceTree = "<group>"; };
@@ -1209,9 +1209,9 @@
 		6BD7AE651AE9EEDE00BEF30E /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				6BB61B991AEF5350004F39AA /* MapBottomView.xib */,
 				6BD7AE661AE9F63900BEF30E /* MapBottomView.h */,
 				6BD7AE671AE9F63900BEF30E /* MapBottomView.m */,
-				6BD7AE691AE9F6BF00BEF30E /* MapBottomView.xib */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -1465,7 +1465,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BD7AE6A1AE9F6BF00BEF30E /* MapBottomView.xib in Resources */,
+				6BB61B9A1AEF5350004F39AA /* MapBottomView.xib in Resources */,
 				6BEA56C01AE24DCE000D19C1 /* AlipaySDK.bundle in Resources */,
 				1883D9221ACBC418002A4D19 /* Main.storyboard in Resources */,
 				6BB884C61AE0BC3000EBD8F4 /* sr_refresh@2x.png in Resources */,
