@@ -18,6 +18,8 @@
 
 #import "AppManager.h"
 #import "WeChatHelper.h"
+#import "AlipayHelper.h"
+#import "MapHelper.h"
 #import "MultiMediaManager.h"
 
 #import "Contants.h"

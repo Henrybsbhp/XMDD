@@ -112,6 +112,7 @@
 - (IBAction)actionMap:(id)sender
 {
     NearbyShopsViewController * nearbyShopView = [carWashStoryboard instantiateViewControllerWithIdentifier:@"NearbyShopsViewController"];
+    nearbyShopView.type = 1;
     [self.navigationController pushViewController:nearbyShopView animated:YES];
 }
 

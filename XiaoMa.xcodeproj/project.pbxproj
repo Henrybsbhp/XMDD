@@ -82,6 +82,10 @@
 		6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301C1AE6947F00E35E08 /* DeviceInfo.m */; };
 		6BB61B981AEE85E8004F39AA /* AddUserFavoriteOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB61B971AEE85E8004F39AA /* AddUserFavoriteOp.m */; };
 		6BB61B9A1AEF5350004F39AA /* MapBottomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BB61B991AEF5350004F39AA /* MapBottomView.xib */; };
+		6BB61B9C1AEF587E004F39AA /* Other.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BB61B9B1AEF587E004F39AA /* Other.storyboard */; };
+		6BB61BA01AEF6969004F39AA /* RescueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB61B9F1AEF6969004F39AA /* RescueViewController.m */; };
+		6BB61BA31AEF7CAE004F39AA /* NSString+RectSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB61BA21AEF7CAE004F39AA /* NSString+RectSize.m */; };
+		6BB61BA61AEF8B34004F39AA /* ServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB61BA51AEF8B34004F39AA /* ServiceViewController.m */; };
 		6BB884B11AE0B3FE00EBD8F4 /* hz.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 6BB884B01AE0B3FE00EBD8F4 /* hz.gpx */; };
 		6BB884BA1AE0BB9600EBD8F4 /* JTHeadRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884B51AE0BB9600EBD8F4 /* JTHeadRefreshView.m */; };
 		6BB884BB1AE0BB9600EBD8F4 /* JTTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884B71AE0BB9600EBD8F4 /* JTTableView.m */; };
@@ -315,6 +319,13 @@
 		6BB61B961AEE85E8004F39AA /* AddUserFavoriteOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddUserFavoriteOp.h; path = Class/AddUserFavoriteOp.h; sourceTree = "<group>"; };
 		6BB61B971AEE85E8004F39AA /* AddUserFavoriteOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddUserFavoriteOp.m; path = Class/AddUserFavoriteOp.m; sourceTree = "<group>"; };
 		6BB61B991AEF5350004F39AA /* MapBottomView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MapBottomView.xib; path = Class/MapBottomView.xib; sourceTree = "<group>"; };
+		6BB61B9B1AEF587E004F39AA /* Other.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Other.storyboard; sourceTree = "<group>"; };
+		6BB61B9E1AEF6969004F39AA /* RescueViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescueViewController.h; sourceTree = "<group>"; };
+		6BB61B9F1AEF6969004F39AA /* RescueViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescueViewController.m; sourceTree = "<group>"; };
+		6BB61BA11AEF7CAE004F39AA /* NSString+RectSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+RectSize.h"; path = "Class/NSString+RectSize.h"; sourceTree = "<group>"; };
+		6BB61BA21AEF7CAE004F39AA /* NSString+RectSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+RectSize.m"; path = "Class/NSString+RectSize.m"; sourceTree = "<group>"; };
+		6BB61BA41AEF8B34004F39AA /* ServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceViewController.h; sourceTree = "<group>"; };
+		6BB61BA51AEF8B34004F39AA /* ServiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceViewController.m; sourceTree = "<group>"; };
 		6BB884B01AE0B3FE00EBD8F4 /* hz.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = hz.gpx; sourceTree = "<group>"; };
 		6BB884B21AE0B40800EBD8F4 /* XmddPrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XmddPrefixHeader.pch; path = Class/XmddPrefixHeader.pch; sourceTree = "<group>"; };
 		6BB884B41AE0BB9600EBD8F4 /* JTHeadRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTHeadRefreshView.h; sourceTree = "<group>"; };
@@ -630,6 +641,8 @@
 		1816F4B11ACE762900BBCC96 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				6BB61BA11AEF7CAE004F39AA /* NSString+RectSize.h */,
+				6BB61BA21AEF7CAE004F39AA /* NSString+RectSize.m */,
 				6B086BA51AE4F03800659DB7 /* UIView+Base.h */,
 				6B086BA61AE4F03800659DB7 /* UIView+Base.m */,
 				6BBAB8D21ADE3CBC00EC342F /* NSDate+DateForText.h */,
@@ -847,6 +860,7 @@
 				189B30C81AD664F5001D7288 /* Insurance.storyboard */,
 				189B30FD1AD7A85A001D7288 /* Common.storyboard */,
 				1853DEBF1AE0E69000C39175 /* Login.storyboard */,
+				6BB61B9B1AEF587E004F39AA /* Other.storyboard */,
 			);
 			name = Storyboard;
 			sourceTree = "<group>";
@@ -875,6 +889,7 @@
 		1883D91A1ACBC2E4002A4D19 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6BB61B9D1AEF6851004F39AA /* Other */,
 				1853DEBB1AE0E60800C39175 /* Login */,
 				189B31001AD7A921001D7288 /* Common */,
 				189B30C41AD6649A001D7288 /* Insurance */,
@@ -1049,6 +1064,17 @@
 				6B086BAE1AE4F46900659DB7 /* TMMemoryCache.m */,
 			);
 			path = TMCache;
+			sourceTree = "<group>";
+		};
+		6BB61B9D1AEF6851004F39AA /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				6BB61B9E1AEF6969004F39AA /* RescueViewController.h */,
+				6BB61B9F1AEF6969004F39AA /* RescueViewController.m */,
+				6BB61BA41AEF8B34004F39AA /* ServiceViewController.h */,
+				6BB61BA51AEF8B34004F39AA /* ServiceViewController.m */,
+			);
+			name = Other;
 			sourceTree = "<group>";
 		};
 		6BB884B31AE0BB9600EBD8F4 /* TableView */ = {
@@ -1481,6 +1507,7 @@
 				18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */,
 				1883D9141ACBBE5E002A4D19 /* Images.xcassets in Resources */,
 				6BB884C51AE0BC3000EBD8F4 /* sr_refresh.png in Resources */,
+				6BB61B9C1AEF587E004F39AA /* Other.storyboard in Resources */,
 				1816F4AC1ACE74C000BBCC96 /* Carwash.storyboard in Resources */,
 				1853DEC11AE0E69000C39175 /* Login.storyboard in Resources */,
 			);
@@ -1559,6 +1586,7 @@
 				6B086BB01AE4F46900659DB7 /* TMDiskCache.m in Sources */,
 				6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */,
 				6BB884C71AE0BC3000EBD8F4 /* SRRefreshView.m in Sources */,
+				6BB61BA31AEF7CAE004F39AA /* NSString+RectSize.m in Sources */,
 				6BD7AE681AE9F63900BEF30E /* MapBottomView.m in Sources */,
 				6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */,
 				6BC3B6191ADF92E7001016A0 /* CommonUtility.m in Sources */,
@@ -1576,6 +1604,7 @@
 				189B31091AD7C5B3001D7288 /* InsuranceDirectSellingVC.m in Sources */,
 				1853DEBA1AE0BAA400C39175 /* HKConvertModel.m in Sources */,
 				189B30C01AD62E57001D7288 /* PaymentSuccessVC.m in Sources */,
+				6BB61BA61AEF8B34004F39AA /* ServiceViewController.m in Sources */,
 				6BBAB8B31ADB777500EC342F /* GetVcodeOp.m in Sources */,
 				6BEA56CD1AE24DCE000D19C1 /* base64.m in Sources */,
 				6BBAB8D11ADE30F900EC342F /* GetShopRatesOp.m in Sources */,
@@ -1636,6 +1665,7 @@
 				6BBAB8C41ADCBD1400EC342F /* GetShopByRangeOp.m in Sources */,
 				6BD7AE5B1AE8927C00BEF30E /* WeChatHelper.m in Sources */,
 				189B31061AD7B7F5001D7288 /* UIView+Shake.m in Sources */,
+				6BB61BA01AEF6969004F39AA /* RescueViewController.m in Sources */,
 				1816F4A81ACD3B0900BBCC96 /* SYPaginatorViewController.m in Sources */,
 				189B31141ADB60AE001D7288 /* JGActionSheet.m in Sources */,
 				6BEA56451AE2488C000D19C1 /* CheckoutServiceOrderOp.m in Sources */,
@@ -1815,7 +1845,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
@@ -1849,7 +1879,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "196d27f9-1ec8-41c8-9b2d-22fc8e3c1da9";
 			};
 			name = Debug;
 		};
@@ -1859,8 +1889,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Suzhou Longtang Information and Technology Co.,Ltd";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Suzhou Longtang Information and Technology Co.,Ltd";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
@@ -1893,7 +1923,7 @@
 					"$(PROJECT_DIR)/XiaoMa/Vendor/WeChatSDK.5",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "acad25f3-906d-4006-81e2-348e306dcb49";
+				PROVISIONING_PROFILE = "267af5e7-8e71-4650-bbd1-d98198e5dc36";
 			};
 			name = Release;
 		};

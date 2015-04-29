@@ -5,25 +5,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
-        <!--附近-->
-        <scene sceneID="wDU-AL-Cvk">
-            <objects>
-                <viewController restorationIdentifier="NearbyShopsViewController" storyboardIdentifier="NearbyShopsViewController" title="附近" id="mqm-Pc-REY" customClass="NearbyShopsViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="bcr-TM-f0C"/>
-                        <viewControllerLayoutGuide type="bottom" id="IKf-Q3-CZB"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="yYw-p6-F4E">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="附近" id="bcW-gd-F4k"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="FqC-RQ-IvW" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="322" y="251"/>
-        </scene>
         <!--我的-->
         <scene sceneID="QCI-vf-Ceq">
             <objects>
@@ -303,7 +284,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4qm-p5-mwm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="965" y="251"/>
+            <point key="canvasLocation" x="322" y="257"/>
         </scene>
     </scenes>
     <resources>
