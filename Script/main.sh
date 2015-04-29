@@ -1,19 +1,14 @@
 ##################################################################################
 
-# adhoc－o2o对应的信息
+# adhoc－xmdd对应的信息
 #adhoc_provisioning_id='b17331be-33bd-4493-9294-cc5e4384c2ee'
-adhoc_provisioning_id='14b5b4a1-e3c7-4b22-84d3-8e84edd30a5e'
-adhoc_code_sign_id='iPhone Distribution: INNER MONGOLIA MENGNIU DAIRY (GROUP)CO.,LTD (6TN59WE9PF)'
+adhoc_provisioning_id='267af5e7-8e71-4650-bbd1-d98198e5dc36'
+adhoc_code_sign_id='iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)'
 
-# appstore－o2o对应的信息
+# appstore－xmdd对应的信息
 #appstore_provisioning_id='a2a738ce-17bb-4752-882d-96c2857f9244'
-appstore_provisioning_id='074109cd-8a15-41e6-a160-ca6ae66f56d8'
-appstore_code_sign_id='iPhone Distribution: INNER MONGOLIA MENGNIU DAIRY (GROUP)CO.,LTD (6TN59WE9PF)'
-
-# development－o2o对应的信息
-# provisioning_id='28d5701a-fa63-4278-9225-1d5cf4e0f5f6'
-# code_sign_id='iPhone Developer: chen xiaofei (C8GG95AV9S)'
-
+appstore_provisioning_id='267af5e7-8e71-4650-bbd1-d98198e5dc36'
+appstore_code_sign_id='iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)'
 
 #############################################################í#####################
 #脚本目录
@@ -26,11 +21,11 @@ cd ..
 # 根目录
 root_path=$(pwd)
 echo "root_path :"$root_path
-cd $root_path"/ios-mno2oapp"
+cd $root_path"/xmdd_ios"
 
 # 项目目录
 project_path=$(pwd)
-project_pbxproj_path=$project_path"/HappyTrain.xcodeproj/project.pbxproj"
+project_pbxproj_path=$project_path"/XiaoMa.xcodeproj/project.pbxproj"
 echo "project_pbxproj_path : "$project_pbxproj_path
 # echo $project_pbxproj_path
 
@@ -43,8 +38,8 @@ else
 	exit 1
 fi
 # git pull
-sh $project_path"/Script/plist_replace.sh" $project_path"/HappyTrain/Config/Info.plist"
-bundleVersion=$(/usr/libexec/PlistBuddy -c "print CFBundleVersion" $project_path"/HappyTrain/Config/Info.plist")
+sh $project_path"/Script/plist_replace.sh" $project_path"/XiaoMa/Misc/Info.plist"
+bundleVersion=$(/usr/libexec/PlistBuddy -c "print CFBundleVersion" $project_path"/XiaoMa/Misc/Info.plist")
 # git add . && git commit -a -m "change version" && git push
 if git add . ; then
 	if git commit -a -m "change version";then
@@ -81,17 +76,17 @@ echo "**************finish replace pbxproj file**************"
 echo "**************begin building1**************"
 echo $project_path
 cd $project_path
-security unlock-keychain -p "123456" ~/Library/Keychains/login.keychain
+security unlock-keychain -p ${1} ~/Library/Keychains/login.keychain
 
 # 先clean
-xcodebuild -project HappyTrain.xcodeproj clean 
+xcodebuild -project XiaoMa.xcodeproj clean 
 
 # build
-xcworkspace_name="HappyTrain.xcworkspace"
-scheme_name="HappyTrain"
+xcworkspace_name="XiaoMa.xcworkspace"
+scheme_name="XiaoMa"
 configuration_type="Release"
-build_dir=$root_path"/build/ios-mno2oapp-"$bundleVersion
-ipa_name="ios-mno2oapp-"$bundleVersion".ipa"
+build_dir=$root_path"/build/ios-xmdd-"$bundleVersion
+ipa_name="ios-xmdd-"$bundleVersion".ipa"
 
 aaa="xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $configuration_type CONFIGURATION_BUILD_DIR=$build_dir ONLY_ACTIVE_ARCH=NO"
 echo $aaa
@@ -100,7 +95,7 @@ xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $con
 # archieve
 archieve_dir=$root_path"/ipa"
 
-xcrun -sdk iphoneos PackageApplication -v $build_dir"/HappyTrain.app" -o $archieve_dir"/"$ipa_name
+xcrun -sdk iphoneos PackageApplication -v $build_dir"/XiaoMa.app" -o $archieve_dir"/"$ipa_name
 
 echo "**************finish building1**************"
 
@@ -118,17 +113,17 @@ echo "**************finish replace pbxproj file**************"
 echo "**************begin building1**************"
 echo $project_path
 cd $project_path
-security unlock-keychain -p "123456" ~/Library/Keychains/login.keychain
+security unlock-keychain -p ${1} ~/Library/Keychains/login.keychain
 
 # 先clean
-xcodebuild -project HappyTrain.xcodeproj clean 
+xcodebuild -project XiaoMa.xcodeproj clean 
 
 # build
-xcworkspace_name="HappyTrain.xcworkspace"
-scheme_name="HappyTrain"
+xcworkspace_name="XiaoMa.xcworkspace"
+scheme_name="XiaoMa"
 configuration_type="Release"
-build_dir=$root_path"/build/ios-mno2oapp-adhoc-"$bundleVersion
-ipa_name="ios-mno2oapp-adhoc-"$bundleVersion".ipa"
+build_dir=$root_path"/build/ios-xmdd-adhoc-"$bundleVersion
+ipa_name="ios-xmdd-adhoc-"$bundleVersion".ipa"
 
 aaa="xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $configuration_type CONFIGURATION_BUILD_DIR=$build_dir ONLY_ACTIVE_ARCH=NO"
 xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $configuration_type CONFIGURATION_BUILD_DIR=$build_dir ONLY_ACTIVE_ARCH=NO
@@ -136,7 +131,7 @@ xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $con
 # archieve
 archieve_dir=$root_path"/ipa"
 
-xcrun -sdk iphoneos PackageApplication -v $build_dir"/HappyTrain.app" -o $archieve_dir"/"$ipa_name
+xcrun -sdk iphoneos PackageApplication -v $build_dir"/XiaoMa.app" -o $archieve_dir"/"$ipa_name
 
 echo "**************finish building 2**************"
 
@@ -153,17 +148,17 @@ echo "**************finish replace pbxproj file**************"
 echo "**************begin building 3**************"
 echo $project_path
 cd $project_path
-security unlock-keychain -p "123456" ~/Library/Keychains/login.keychain
+security unlock-keychain -p ${1} ~/Library/Keychains/login.keychain
 
 # 先clean
-xcodebuild -project HappyTrain.xcodeproj clean 
+xcodebuild -project XiaoMa.xcodeproj clean 
 
 # build
-xcworkspace_name="HappyTrain.xcworkspace"
-scheme_name="HappyTrain"
+xcworkspace_name="XiaoMa.xcworkspace"
+scheme_name="XiaoMa"
 configuration_type="Debug"
-build_dir=$root_path"/build/ios-mno2oapp-adhoc-d-"$bundleVersion
-ipa_name="ios-mno2oapp-adhoc-d-"$bundleVersion".ipa"
+build_dir=$root_path"/build/ios-xmdd-adhoc-d-"$bundleVersion
+ipa_name="ios-xmdd-adhoc-d-"$bundleVersion".ipa"
 
 aaa="xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $configuration_type CONFIGURATION_BUILD_DIR=$build_dir ONLY_ACTIVE_ARCH=NO"
 xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $configuration_type CONFIGURATION_BUILD_DIR=$build_dir ONLY_ACTIVE_ARCH=NO
@@ -171,6 +166,6 @@ xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $con
 # archieve
 archieve_dir=$root_path"/ipa"
 
-xcrun -sdk iphoneos PackageApplication -v $build_dir"/HappyTrain.app" -o $archieve_dir"/"$ipa_name
+xcrun -sdk iphoneos PackageApplication -v $build_dir"/XiaoMa.app" -o $archieve_dir"/"$ipa_name
 
 echo "**************finish building 3**************"
