@@ -42,6 +42,7 @@ fi
 echo "**************update Version**************"
 sh $project_path"/Script/plist_replace.sh" $project_path"/XiaoMa/Misc/Info.plist"
 bundleVersion=$(/usr/libexec/PlistBuddy -c "print CFBundleVersion" $project_path"/XiaoMa/Misc/Info.plist")
+echo bundleVersion
 # git add . && git commit -a -m "change version" && git push
 if git add . ; then
 	if git commit -a -m "change version";then
