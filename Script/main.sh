@@ -37,7 +37,9 @@ else
 	echo "git pull error"
 	exit 1
 fi
-# git pull
+
+
+echo "**************update Version**************"
 sh $project_path"/Script/plist_replace.sh" $project_path"/XiaoMa/Misc/Info.plist"
 bundleVersion=$(/usr/libexec/PlistBuddy -c "print CFBundleVersion" $project_path"/XiaoMa/Misc/Info.plist")
 # git add . && git commit -a -m "change version" && git push
