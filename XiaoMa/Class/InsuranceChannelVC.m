@@ -6,13 +6,13 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "InsuranceDirectSellingVC.h"
+#import "InsuranceChannelVC.h"
 #import "PolicyInfomationVC.h"
 #import "XiaoMa.h"
 #import "UIView+Shake.h"
-#import "GetInsuranceByChannel.h"
+#import "GetInsuranceByChannelOp.h"
 
-@interface InsuranceDirectSellingVC ()<UITableViewDataSource, UITableViewDelegate>
+@interface InsuranceChannelVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 ///渠道号
 @property (nonatomic, strong) NSString *channelCode;
@@ -22,7 +22,7 @@
 @property (nonatomic, strong) NSString *frameNumber;
 @end
 
-@implementation InsuranceDirectSellingVC
+@implementation InsuranceChannelVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -46,36 +46,22 @@
     if ([self shakeIfNeededAtRow:2]) {
         return;
     }
-    
-    [self requestGetInsuranceByChannel];
-}
 
-- (void)requestGetInsuranceByChannel
-{
-    GetInsuranceByChannel * op = [GetInsuranceByChannel operation];
-    op.channel = self.channelCode;
-    op.idnumber = self.IDNumber;
-    op.licencenumber = self.frameNumber;
+    GetInsuranceByChannelOp *op = [GetInsuranceByChannelOp new];
+    op.req_channel = [self textInCellAtRow:0];
+    op.req_idnumber = [self textInCellAtRow:1];
+    op.req_licencenumber = [self textInCellAtRow:2];
+    @weakify(self);
     [[[op rac_postRequest] initially:^{
-        
-        [SVProgressHUD showWithStatus:@"保险查询中..."];
-    }] subscribeNext:^(GetInsuranceByChannel * op) {
-        
+        [gToast showingWithText:@"正在查询..."];
+    }] subscribeNext:^(GetInsuranceByChannelOp *rstOp) {
+        @strongify(self);
+        [gToast dismiss];
         PolicyInfomationVC *vc = [UIStoryboard vcWithId:@"PolicyInfomationVC" inStoryboard:@"Insurance"];
+        vc.insuranceOp = rstOp;
         [self.navigationController pushViewController:vc animated:YES];
-        if (op.rsp_code == 0)
-        {
-            [SVProgressHUD dismiss];
-            PolicyInfomationVC *vc = [UIStoryboard vcWithId:@"PolicyInfomationVC" inStoryboard:@"Insurance"];
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-        else
-        {
-            [SVProgressHUD showErrorWithStatus:@"查询失败"];
-        }
-
     } error:^(NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"查询失败"];
+        [gToast showError:error.domain];
     }];
 }
 
@@ -149,6 +135,13 @@
         return YES;
     }
     return NO;
+}
+
+- (NSString *)textInCellAtRow:(NSInteger)row
+{
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+    UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
+    return field.text;
 }
 
 

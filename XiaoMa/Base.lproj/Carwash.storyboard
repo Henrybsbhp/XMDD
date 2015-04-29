@@ -86,7 +86,7 @@
                                                 <constraint firstAttribute="width" constant="1" id="Qsk-f3-EZj"/>
                                             </constraints>
                                         </imageView>
-                                        <button opaque="NO" tag="3001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qPx-hF-9cN">
+                                        <button opaque="NO" tag="3001" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qPx-hF-9cN">
                                             <rect key="frame" x="5" y="145" width="290" height="27"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <inset key="titleEdgeInsets" minX="9" minY="0.0" maxX="0.0" maxY="0.0"/>

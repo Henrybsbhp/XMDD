@@ -19,8 +19,6 @@
 #import "GetSystemVersionOp.h"
 #import "ClientInfo.h"
 #import "DeviceInfo.h"
-#import "GetTokenOp.h"
-#import "GetVcodeOp.h"
 #import "WXApi.h"
 
 //#define RequestWeatherInfoInterval 60 * 10
@@ -48,25 +46,7 @@
     [WXApi registerApp:@"wxf346d7a6113bbbf9"];
     
     [self setupVersionUpdating];
-//    [self ]
-    
-//    GetTokenOp * op = [GetTokenOp operation];
-//    op.req_phone = @"13958064824";
-//    [[op rac_postRequest] subscribeNext:^(GetTokenOp * op) {
-//        
-//        gNetworkMgr.token = op.rsp_token;
-//        
-//        GetVcodeOp * op2 = [GetVcodeOp operation];
-//        op2.req_phone = @"13958064824";
-//        op2.req_token = gNetworkMgr.token;
-//        op2.req_type = 1;
-//        
-//        [[op2 rac_postRequest] subscribeNext:^(GetVcodeOp * op2) {
-//            
-//        }];
-//    }];
 
-        
     return YES;
 }
 

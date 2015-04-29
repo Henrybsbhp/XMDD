@@ -27,7 +27,7 @@
 ///价格
 @property (nonatomic, assign) NSUInteger price;
 ///提车时间
-@property (nonatomic, strong) NSString *carryTimeStr;
+@property (nonatomic, strong) NSString *strCarryTime;
 @property (nonatomic, strong) NSDate *carryTime;
 
 @end
@@ -50,8 +50,8 @@
     NSDate *date = [NSDate date];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy年MM月"];
-    self.carryTimeStr = [dateFormatter stringFromDate:date];
-    
+    self.carryTime = date;
+    self.strCarryTime = [dateFormatter stringFromDate:date];
     [self.tableView reloadData];
 }
 
@@ -70,39 +70,26 @@
     if ([self shakeIfNeededAtRow:3]) {
         return;
     }
-    
-    [self requestInsuranceEnquiry];
-}
-
-- (void)requestInsuranceEnquiry
-{
-    GetInsuranceCalculatorOp * op = [GetInsuranceCalculatorOp operation];
-    op.city = self.city;
-    op.licencenumber = self.plateNumber;
-    op.registered = !self.noPlateNumber;
-    op.purchaseprice = self.price;
-    op.purchasedate = self.carryTime;
-    [[[op rac_postRequest] initially:^{
-        
-        [SVProgressHUD showWithStatus:@"保险询价中..."];
-    }] subscribeNext:^(GetInsuranceCalculatorOp * op){
-        
-        
-        if (op.rsp_code == 0)
-        {
-            [SVProgressHUD dismiss];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        GetInsuranceCalculatorOp * op = [GetInsuranceCalculatorOp operation];
+        op.req_city = self.city;
+        op.req_licencenumber = self.plateNumber;
+        op.req_registered = self.noPlateNumber ? 2 : 1;
+        op.req_purchaseprice = self.price;
+        op.req_purchasedate = self.carryTime;
+        @weakify(self);
+        [[[op rac_postRequest] initially:^{
+            [gToast showingWithText:@"正在查询..."];
+        }] subscribeNext:^(GetInsuranceCalculatorOp *rspOp) {
+            @strongify(self);
             EnquiryResultVC *vc = [UIStoryboard vcWithId:@"EnquiryResultVC" inStoryboard:@"Insurance"];
             [self.navigationController pushViewController:vc animated:YES];
-        }
-        else
-        {
-            [SVProgressHUD showErrorWithStatus:@"询价失败"];
-        }
-    } error:^(NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"询价失败"];
-    }];
-    
-    
+            [vc reloadWithInsurance:rspOp.rsp_insuraceArray calculatorID:rspOp.rsp_calculatorID];
+            [gToast dismiss];
+        } error:^(NSError *error) {
+            [gToast showError:error.domain];
+        }];
+    }
 }
 
 #pragma mark - UITableViewDelegate and datasource
@@ -216,7 +203,7 @@
 - (void)setupCarryTimeCell:(UITableViewCell *)cell
 {
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
-    [[RACObserve(self, carryTimeStr) takeUntilForCell:cell] subscribeNext:^(id x) {
+    [[RACObserve(self, strCarryTime) takeUntilForCell:cell] subscribeNext:^(id x) {
         field.text = x;
     }];
 }
@@ -237,7 +224,7 @@
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy年MM月"];
-    NSDate *date = [dateFormatter dateFromString:self.carryTimeStr];
+    NSDate *date = [dateFormatter dateFromString:self.strCarryTime];
     DatePackerVC *vc = [UIStoryboard vcWithId:@"DatePackerVC" inStoryboard:@"Common"];
     CGSize size = CGSizeMake(CGRectGetWidth(self.view.frame), 280);
     MZFormSheetController *sheet = [DefaultStyleModel bottomAppearSheetCtrlWithSize:size
@@ -255,7 +242,7 @@
  
         @strongify(vc);
          self.carryTime = vc.datePicker.date;
-         self.carryTimeStr = [dateFormatter stringFromDate:vc.datePicker.date];
+        self.strCarryTime = [dateFormatter stringFromDate:vc.datePicker.date];
     }];
 }
 

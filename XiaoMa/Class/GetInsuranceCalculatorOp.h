@@ -11,22 +11,21 @@
 @interface GetInsuranceCalculatorOp : BaseOp
 
 ///城市
-@property (nonatomic,copy)NSString * city;
+@property (nonatomic,copy)NSString * req_city;
 
 ///车牌
-@property (nonatomic,copy)NSString * licencenumber;
+@property (nonatomic,copy)NSString * req_licencenumber;
 
 ///是否上牌
-@property (nonatomic)BOOL registered;
+@property (nonatomic, assign) NSInteger req_registered;
 
 ///购置价格
-@property (nonatomic)CGFloat purchaseprice;
+@property (nonatomic)CGFloat req_purchaseprice;
 
 ///购置日期
-@property (nonatomic,strong)NSDate * purchasedate;
-
-@property (nonatomic,strong)NSString * phone;
+@property (nonatomic,strong)NSDate * req_purchasedate;
 
 @property (nonatomic,strong)NSArray * rsp_insuraceArray;
+@property (nonatomic, strong) NSString *rsp_calculatorID;
 
 @end

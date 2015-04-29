@@ -17,14 +17,13 @@
     self.req_method = @"/insurance/calculator/get";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params addParam:self.city forName:@"city"];
-    [params addParam:self.licencenumber forName:@"licencenumber"];
-    [params addParam:@(self.registered) forName:@"registered"];
-    [params addParam:@(self.purchaseprice) forName:@"purchaseprice"];
-    [params addParam:[self.purchasedate dateFormatForDT8]  forName:@"purchasedate"];
-    [params addParam:self.phone forName:@"phone"];
+    [params addParam:self.req_city forName:@"city"];
+    [params addParam:self.req_licencenumber forName:@"licencenumber"];
+    [params addParam:@(self.req_registered) forName:@"registered"];
+    [params addParam:@(self.req_purchaseprice) forName:@"purchaseprice"];
+    [params addParam:[self.req_purchasedate dateFormatForDT8]  forName:@"purchasedate"];
     
-    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
+    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
 - (instancetype)parseResponseObject:(id)rspObj
@@ -32,6 +31,7 @@
     if([rspObj isKindOfClass:[NSDictionary class]])
     {
         NSDictionary * dict = (NSDictionary *)rspObj;
+        self.rsp_calculatorID = dict[@"cid"];
         NSArray * quotes = dict[@"quotes"];
         NSMutableArray * tarray = [NSMutableArray array];
         for (NSObject * obj in quotes)

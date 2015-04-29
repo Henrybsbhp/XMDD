@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GetInsuranceByChannelOp.h"
 
 @interface PolicyInfomationVC : UIViewController
-
+@property (nonatomic, strong) GetInsuranceByChannelOp *insuranceOp;
+@property (nonatomic, strong) HKInsurance *policy;
 @end

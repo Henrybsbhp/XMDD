@@ -38,9 +38,7 @@
     if ([self sharkCellIfErrorAtIndex:0]) {
         return;
     }
-    [[self.smsModel rac_handleVcodeButtonClick:sender withVcodeType:3 phone:[self textAtIndex:0]] subscribeNext:^(GetVcodeOp *op) {
-        gNetworkMgr.token = op.req_token;
-    } error:^(NSError *error) {
+    [[self.smsModel rac_handleVcodeButtonClick:sender withVcodeType:3 phone:[self textAtIndex:0]] subscribeError:^(NSError *error) {
         [gToast showError:@"获取验证码失败了！"];
     }];
 }

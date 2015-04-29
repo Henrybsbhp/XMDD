@@ -11,20 +11,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import <CKKit.h>
-#import <ReactiveCocoa.h>
-#import "DebugFormat.h"
-#import <Masonry.h>
+#import "XiaoMa.h"
 
-#import "AppManager.h"
-#import "WeChatHelper.h"
-#import "AlipayHelper.h"
-#import "MapHelper.h"
-#import "MultiMediaManager.h"
-
-#import "Contants.h"
-
-#import "UIView+Base.h"
-#import "NSDate+DateForText.h"
 
 #endif

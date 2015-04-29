@@ -40,14 +40,15 @@
         return;
     }
     JTUser *user = [JTUser new];
-    //TODO:临时数据
-    user.userID = @"123456";
-    user.userName = @"陈大白";
-    user.avatarUrl = @"tmp_a1";
-    user.carwashTicketsCount = 2;
-    user.abcCarwashTimesCount = 4;
-    user.abcIntegral = 40000;
-    user.numberPlate = @"浙A12345";
+    user.userID = account;
+//    //TODO:临时数据
+//    user.userID = @"123456";
+//    user.userName = @"陈大白";
+//    user.avatarUrl = @"tmp_a1";
+//    user.carwashTicketsCount = 2;
+//    user.abcCarwashTimesCount = 4;
+//    user.abcIntegral = 40000;
+//    user.numberPlate = @"浙A12345";
     self.myUser = user;
 }
 

@@ -19,7 +19,7 @@
     NSMutableURLRequest *req = [self requestWithMethod:method parameters:parameters requestId:requestId];
     
     NSString *str = [[NSString alloc] initWithData:req.HTTPBody encoding:NSUTF8StringEncoding];
-    NSLog(@"▂ ▃ ▄ ▅ ▆ ▇ █ ▉ Request = %@\ndata = %@", req.URL, str);
+    DebugLog(@"▂ ▃ ▄ ▅ ▆ ▇ █ ▉ Request = %@\ndata = %@", req.URL, str);
     
     AFHTTPRequestOperation * op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
 //    op.responseSerializer = [AFJSONRequestSerializer serializer];
@@ -29,7 +29,7 @@
         
         NSString *unicodeObj = [NSString stringWithUTF8Data:responseObject];
         NSString *chineseObj = [self unicodeToChinese:unicodeObj];
-        NSLog(@"█ ▉ ▇ ▆ ▅ ▄ ▃ ▂ Response = %@\nmethod = %@ (id: %@)\ndata = %@", req.URL, method, requestId, chineseObj);
+        DebugLog(@"█ ▉ ▇ ▆ ▅ ▄ ▃ ▂ Response = %@\nmethod = %@ (id: %@)\ndata = %@", req.URL, method, requestId, chineseObj);
         
         NSDictionary *jsonObject =  [NSJSONSerialization
                                   JSONObjectWithData:responseObject
@@ -38,7 +38,7 @@
         
         if (!error)
         {
-            NSLog(@"█ ▉ ▇ ▆ ▅ ▄ ▃ ▂ Response Json : \n %@ \n",jsonObject);
+//            NSLog(@"█ ▉ ▇ ▆ ▅ ▄ ▃ ▂ Response Json : \n %@ \n",jsonObject);
             [signal sendNext:RACTuplePack(operation,jsonObject)];
             [signal sendCompleted];
         }
@@ -82,7 +82,7 @@
     payload[@"id"] = [requestId description];
     
     NSString * urlStr = [NSString stringWithFormat:@"%@%@",ApiBaseUrl,method];
-    
+    NSData *data = [NSJSONSerialization dataWithJSONObject:payload options:0 error:nil];
     return [self.requestSerializer requestWithMethod:@"POST" URLString:urlStr parameters:payload error:nil];
     
 //    return [self.requestSerializer requestWithMethod:@"POST" URLString:[self.endpointURL absoluteString] parameters:payload error:nil];
