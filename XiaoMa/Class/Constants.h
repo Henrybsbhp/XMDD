@@ -67,6 +67,7 @@ typedef enum : NSUInteger {
 #define gWechatHelper       ([WeChatHelper sharedHelper])
 #define gMapHelper ([MapHelper sharedHelper])
 #define gMediaMgr  ([MultiMediaManager sharedManager])
+#define gPhoneHelper  ([PhoneHelper sharedHelper])
 
 #define mainStoryboard [UIStoryboard storyboardWithName:@"Main" bundle:nil]
 #define carWashStoryboard [UIStoryboard storyboardWithName:@"Carwash" bundle:nil]

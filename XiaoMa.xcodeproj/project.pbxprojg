@@ -1933,7 +1933,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "196d27f9-1ec8-41c8-9b2d-22fc8e3c1da9";
+				PROVISIONING_PROFILE = "267af5e7-8e71-4650-bbd1-d98198e5dc36";
 			};
 			name = Debug;
 		};
@@ -1977,7 +1977,7 @@
 					"$(PROJECT_DIR)/XiaoMa/Vendor/WeChatSDK.5",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "267af5e7-8e71-4650-bbd1-d98198e5dc36";
 			};
 			name = Release;
 		};
