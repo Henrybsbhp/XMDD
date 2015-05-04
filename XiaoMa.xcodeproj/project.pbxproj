@@ -66,7 +66,6 @@
 		189B30C31AD64310001D7288 /* ChooseCarwashTicketVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30C21AD64310001D7288 /* ChooseCarwashTicketVC.m */; };
 		189B30C71AD664D7001D7288 /* InsuranceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30C61AD664D7001D7288 /* InsuranceVC.m */; };
 		189B30CA1AD664F5001D7288 /* Insurance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 189B30C81AD664F5001D7288 /* Insurance.storyboard */; };
-		189B30CD1AD762B1001D7288 /* EnquiryInsuranceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30CC1AD762B1001D7288 /* EnquiryInsuranceVC.m */; };
 		189B30D41AD799AF001D7288 /* RACSignal+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30D31AD799AF001D7288 /* RACSignal+Extension.m */; };
 		189B30FF1AD7A85A001D7288 /* Common.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 189B30FD1AD7A85A001D7288 /* Common.storyboard */; };
 		189B31031AD7A935001D7288 /* DatePackerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B31021AD7A935001D7288 /* DatePackerVC.m */; };
@@ -175,6 +174,7 @@
 		6BEA56D21AE24DCE000D19C1 /* openssl_wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BB1AE24DCE000D19C1 /* openssl_wrapper.m */; };
 		6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BD1AE24DCE000D19C1 /* RSADataSigner.m */; };
 		6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BF1AE24DCE000D19C1 /* RSADataVerifier.m */; };
+		C2FB0B9B1AF756AD001A196C /* enquiryInsuranceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C2FB0B9A1AF756AD001A196C /* enquiryInsuranceVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -301,8 +301,6 @@
 		189B30C51AD664D7001D7288 /* InsuranceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceVC.h; sourceTree = "<group>"; };
 		189B30C61AD664D7001D7288 /* InsuranceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceVC.m; sourceTree = "<group>"; };
 		189B30C91AD664F5001D7288 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = XiaoMa/Base.lproj/Insurance.storyboard; sourceTree = SOURCE_ROOT; };
-		189B30CB1AD762B1001D7288 /* EnquiryInsuranceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnquiryInsuranceVC.h; sourceTree = "<group>"; };
-		189B30CC1AD762B1001D7288 /* EnquiryInsuranceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnquiryInsuranceVC.m; sourceTree = "<group>"; };
 		189B30D21AD799AF001D7288 /* RACSignal+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "RACSignal+Extension.h"; path = "Class/RACSignal+Extension.h"; sourceTree = "<group>"; };
 		189B30D31AD799AF001D7288 /* RACSignal+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RACSignal+Extension.m"; path = "Class/RACSignal+Extension.m"; sourceTree = "<group>"; };
 		189B30FE1AD7A85A001D7288 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = XiaoMa/Base.lproj/Common.storyboard; sourceTree = SOURCE_ROOT; };
@@ -584,6 +582,8 @@
 		6BEA56BE1AE24DCE000D19C1 /* RSADataVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSADataVerifier.h; sourceTree = "<group>"; };
 		6BEA56BF1AE24DCE000D19C1 /* RSADataVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataVerifier.m; sourceTree = "<group>"; };
 		B54A6CD3F3426144CC6768CC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2FB0B991AF756AD001A196C /* enquiryInsuranceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = enquiryInsuranceVC.h; sourceTree = "<group>"; };
+		C2FB0B9A1AF756AD001A196C /* enquiryInsuranceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = enquiryInsuranceVC.m; sourceTree = "<group>"; };
 		CA94042FD235B5154105FE58 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1039,8 +1039,8 @@
 		189B310D1ADA5911001D7288 /* Enquiry */ = {
 			isa = PBXGroup;
 			children = (
-				189B30CB1AD762B1001D7288 /* EnquiryInsuranceVC.h */,
-				189B30CC1AD762B1001D7288 /* EnquiryInsuranceVC.m */,
+				C2FB0B991AF756AD001A196C /* enquiryInsuranceVC.h */,
+				C2FB0B9A1AF756AD001A196C /* enquiryInsuranceVC.m */,
 				189B310A1ADA499C001D7288 /* EnquiryResultVC.h */,
 				189B310B1ADA499C001D7288 /* EnquiryResultVC.m */,
 				187CC9571AEE4034004D1F28 /* SimplePolicyInfoVC.h */,
@@ -1667,7 +1667,6 @@
 				6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */,
 				1853DECB1AE0F72500C39175 /* RegisterVC.m in Sources */,
 				6BEA56481AE24D34000D19C1 /* AlipayHelper.m in Sources */,
-				189B30CD1AD762B1001D7288 /* EnquiryInsuranceVC.m in Sources */,
 				6BEA56C91AE24DCE000D19C1 /* SBJsonParser.m in Sources */,
 				189B30B01AD4D661001D7288 /* JTTableViewController.m in Sources */,
 				1853DED11AE2971500C39175 /* ResetPasswordVC.m in Sources */,
@@ -1742,6 +1741,7 @@
 				6BBAB8C71ADD1ED900EC342F /* GetShopByDistanceOp.m in Sources */,
 				1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */,
 				6BB884D41AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.m in Sources */,
+				C2FB0B9B1AF756AD001A196C /* enquiryInsuranceVC.m in Sources */,
 				6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */,
 				189B30C71AD664D7001D7288 /* InsuranceVC.m in Sources */,
 				6BEA56C51AE24DCE000D19C1 /* NSObject+SBJSON.m in Sources */,
@@ -1910,7 +1910,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
 				);
-				GCC_PREFIX_HEADER = Xiaoma/Class/XmddPrefixHeader.pch;
+				GCC_PREFIX_HEADER = XiaoMa/Class/XmddPrefixHeader.pch;
 				HEADER_SEARCH_PATHS = (
 					"\"${PODS_ROOT}/Headers/Public\"",
 					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
@@ -1955,7 +1955,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
 				);
-				GCC_PREFIX_HEADER = Xiaoma/Class/XmddPrefixHeader.pch;
+				GCC_PREFIX_HEADER = XiaoMa/Class/XmddPrefixHeader.pch;
 				HEADER_SEARCH_PATHS = (
 					"\"${PODS_ROOT}/Headers/Public\"",
 					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
