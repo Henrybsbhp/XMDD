@@ -17,9 +17,11 @@
 #import "UpdatePwdOp.h"
 #import "GetShopByDistanceOp.h"
 #import "CarWashTableVC.h"
+#import "RescueViewController.h"
 #import "HKLoginModel.h"
 #import "GetSystemTipsOp.h"
 #import "GetSystemPromotionOp.h"
+#import "ServiceViewController.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 
@@ -130,7 +132,7 @@ static NSInteger rotationIndex = 0;
         make.height.equalTo(btn3.mas_width).multipliedBy(165.0f/332.0f);
     }];
     //申请代办
-    UIButton *btn4 = [self functionalButtonWithImageName:@"hp_commission" action:@selector(actionRescue:) inContainer:container];
+    UIButton *btn4 = [self functionalButtonWithImageName:@"hp_commission" action:@selector(actionCommission:) inContainer:container];
     @weakify(btn4);
     [btn4 mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(btn4);
@@ -218,6 +220,11 @@ static NSInteger rotationIndex = 0;
     UILabel * restrictionLb = (UILabel *)[self.weatherView searchViewWithTag:20204];
     UILabel * tipLb = (UILabel *)[self.weatherView searchViewWithTag:20206];
     
+    NSArray * tArray = [picName componentsSeparatedByString:@"/"];
+    if (tArray.count)
+    {
+        picName = [tArray lastObject];
+    }
     weatherImage.image = [UIImage imageNamed:picName];
     tempLb.text = temp;
     restrictionLb.text = restriction;
@@ -257,12 +264,16 @@ static NSInteger rotationIndex = 0;
 
 - (void)actionRescue:(id)sender
 {
-    
+    UIViewController *vc = [UIStoryboard vcWithId:@"RescueViewController" inStoryboard:@"Main"];
+//    RescueViewController * vc = [otherStoryboard instantiateViewControllerWithIdentifier:@"RescueViewController"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionCommission:(id)sender
 {
-    
+    ServiceViewController * vc = [otherStoryboard instantiateViewControllerWithIdentifier:@"ServiceViewController"];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)rotationTableHeaderView

@@ -27,10 +27,6 @@
 
 @property (nonatomic,strong)NSArray * nearbyShopArray;
 
-@property (nonatomic)BOOL exsitBaiduMap;
-@property (nonatomic)BOOL exsitAMap;
-@property (nonatomic)NSInteger cancelIndex;
-
 @end
 
 @implementation NearbyShopsViewController
@@ -129,90 +125,11 @@
 {
     if (self.type == 0)
     {
-        
         self.tabBarController.selectedIndex = 0;
-        
     }
     else
     {
         [self.navigationController popViewControllerAnimated:YES];
-    }
-}
-- (void)navigationAction:(JTShop *)shop
-{
-    self.exsitBaiduMap = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:BaiduMapUrl]];
-    self.exsitAMap = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:AMapUrl]];
-    UIActionSheet * sheet;
-    if (self.exsitBaiduMap)
-    {
-        if (self.exsitAMap)
-        {
-            sheet = [[UIActionSheet alloc] initWithTitle:@"请选择导航软件" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:AppleNavigationStr,BaiduNavigationStr,AMapNavigationStr,nil];
-            self.cancelIndex = 3;
-        }
-        else
-        {
-            sheet = [[UIActionSheet alloc] initWithTitle:@"请选择导航软件" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:AppleNavigationStr,BaiduNavigationStr,nil];
-            self.cancelIndex = 2;
-        }
-    }
-    else
-    {
-        if (self.exsitAMap)
-        {
-            sheet = [[UIActionSheet alloc] initWithTitle:@"请选择导航软件" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:AppleNavigationStr,AMapNavigationStr,nil];
-            self.cancelIndex = 2;
-        }
-        else
-        {
-            sheet = [[UIActionSheet alloc] initWithTitle:@"请选择导航软件" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:AppleNavigationStr,nil];
-            self.cancelIndex = 1;
-        }
-    }
-    
-    sheet.customObject = shop;
-    [sheet showInView:self.view];
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == self.cancelIndex)
-    {
-        return;
-    }
-    if (!actionSheet.customObject || ![actionSheet.customObject isKindOfClass:[JTShop class]])
-    {
-        return;
-    }
-    
-    JTShop * shop = actionSheet.customObject;
-    NSString * baiduUrlString = [[NSString stringWithFormat:@"baidumap://map/direction?mode=driving&origin=latlng:%f,%f|name:我的位置&destination=latlng:%f,%f|name:%@&zoom=10&src=小马达达",self.userCoordinate.latitude,self.userCoordinate.longitude,shop.shopLatitude,shop.shopLongitude,shop.shopName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSString *amapUrlString = [[NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=%@&lat=%f&lon=%f&dev=1&style=2&poiname=%@",@"小马达达", @"com.huika.xmdd",shop.shopLatitude, shop.shopLongitude,shop.shopName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    if (buttonIndex == 0)
-    {
-        
-        MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
-        MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:CLLocationCoordinate2DMake(shop.shopLatitude, shop.shopLongitude) addressDictionary:nil]];
-        toLocation.name = shop.shopName;
-        
-        [MKMapItem openMapsWithItems:@[currentLocation, toLocation]
-                       launchOptions:@{MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,MKLaunchOptionsShowsTrafficKey: [NSNumber numberWithBool:YES]}];
-    }
-    else if (buttonIndex == 1)
-    {
-        if (self.exsitBaiduMap)
-        {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:baiduUrlString]];
-        }
-        else
-        {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:amapUrlString]];
-            
-        }
-    }
-    else
-    {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:amapUrlString]];
     }
 }
 
@@ -454,7 +371,7 @@
         [self.navigationController pushViewController:vc animated:YES];
     }];
     
-    [[mapBottomView.phoneBtm rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+    [[[mapBottomView.phoneBtm rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
         if (shop.shopPhone.length == 0)
         {
@@ -464,29 +381,20 @@
         }
         
         NSString * info = [NSString stringWithFormat:@"%@电话：\n%@",shop.shopName,shop.shopPhone];
-        UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:info delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];
-        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNum) {
-            
-            NSInteger index = [indexNum integerValue];
-            if (index == 1)
-            {
-                NSString * urlStr = [NSString stringWithFormat:@"tel://%@",shop.shopPhone];
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
-            }
-        }];
-        [av show];
+        [gPhoneHelper makePhone:shop.shopPhone andInfo:info];
     }];
     
-    [[mapBottomView.collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+    [[[mapBottomView.collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
         @strongify(self)
         [self requestAddFavorite:shop.shopID];
     }];
     
-    [[mapBottomView.navigationBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+    [[[mapBottomView.navigationBtn rac_signalForControlEvents:UIControlEventTouchUpInside]  takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
         @strongify(self)
-        [self navigationAction:shop];
+        
+        [gPhoneHelper navigationRedirectThireMap:shop andUserLocation:self.userCoordinate andView:self.view];
     }];
 
     return pageView;

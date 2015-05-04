@@ -32,6 +32,8 @@
 
 @property (strong, nonatomic) IBOutlet JTTableView *tableView;
 
+@property (nonatomic)CLLocationCoordinate2D  userCoordinate;
+
 /// 每页数量
 @property (nonatomic, assign) NSUInteger pageAmount;
 ///列表下面是否还有商品
@@ -112,6 +114,7 @@
 - (IBAction)actionMap:(id)sender
 {
     NearbyShopsViewController * nearbyShopView = [carWashStoryboard instantiateViewControllerWithIdentifier:@"NearbyShopsViewController"];
+    nearbyShopView.type = 1;
     [self.navigationController pushViewController:nearbyShopView animated:YES];
 }
 
@@ -166,7 +169,7 @@
     logoV.image = [UIImage imageNamed:@"tmp_ad"];
     titleL.text = shop.shopName;
     ratingV.ratingValue = shop.shopRate;
-    ratingL.text = [NSString stringWithFormat:@"%.2f分", shop.shopRate];
+    ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
     addrL.text = shop.shopAddress;
     
     double myLat = gMapHelper.coordinate.latitude;
@@ -214,9 +217,7 @@
     [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
-        CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
-        vc.shop = shop;
-        [self.navigationController pushViewController:vc animated:YES];
+        [gPhoneHelper navigationRedirectThireMap:shop andUserLocation:self.userCoordinate andView:self.view];
     }];
     
     [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -229,17 +230,7 @@
         }
         
         NSString * info = [NSString stringWithFormat:@"%@电话：\n%@",shop.shopName,shop.shopPhone];
-        UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:info delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];
-        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNum) {
-            
-            NSInteger index = [indexNum integerValue];
-            if (index == 1)
-            {
-                NSString * urlStr = [NSString stringWithFormat:@"tel://%@",shop.shopPhone];
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
-            }
-        }];
-        [av show];
+        [gPhoneHelper makePhone:shop.shopPhone andInfo:info];
     }];
     
 
@@ -294,6 +285,7 @@
     }] subscribeNext:^(MAUserLocation *userLocation) {
     
         @strongify(self)
+        self.userCoordinate = userLocation.coordinate;
         GetShopByDistanceOp * getShopByDistanceOp = [GetShopByDistanceOp new];
         getShopByDistanceOp.longitude = userLocation.coordinate.longitude;
         getShopByDistanceOp.latitude = userLocation.coordinate.latitude;

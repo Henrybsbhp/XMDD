@@ -52,6 +52,8 @@
 
 @property (nonatomic,strong)NSArray * homepageAdvertiseArray;
 
+//@property
+
 
 ///获取上次的定位地址和天气信息
 - (void)loadLastLocationAndWeather;
