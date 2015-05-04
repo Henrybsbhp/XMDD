@@ -103,7 +103,9 @@
 
 - (IBAction)actionMap:(id)sender
 {
-    
+    CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
+    vc.shop = self.shop;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Table view data source
@@ -178,7 +180,7 @@
         {
             if (self.serviceExpanded)
             {
-                cell = [self shopMoreServiceCellAtIndexPath:indexPath];
+                cell = [self shopServiceCellAtIndexPath:indexPath];
             }
             else
             {
@@ -217,9 +219,7 @@
     {
         if (indexPath.row == 1)
         {
-            CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
-            vc.shop = self.shop;
-            [self.navigationController pushViewController:vc animated:YES];
+            [gPhoneHelper navigationRedirectThireMap:self.shop andUserLocation:gMapHelper.coordinate andView:self.view];
         }
         else if (indexPath.row == 2)
         {
@@ -231,18 +231,7 @@
             }
             
             NSString * info = [NSString stringWithFormat:@"%@电话：\n%@",self.shop.shopName,self.shop.shopPhone];
-            UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:info delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];
-            [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNum) {
-                
-                NSInteger index = [indexNum integerValue];
-                if (index == 1)
-                {
-                    NSString * urlStr = [NSString stringWithFormat:@"tel://%@",self.shop.shopPhone];
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
-                }
-            }];
-            [av show];
-
+            [gPhoneHelper makePhone:self.shop.shopPhone andInfo:info];
         }
     }
 }
@@ -265,8 +254,8 @@
     ratingL.text = [NSString stringWithFormat:@"%0.2f分", shop.shopRate];
     businessHoursLb.text = [NSString stringWithFormat:@"营业时间：%@ - %@",self.shop.openHour,self.shop.closeHour];
     
-    double myLat = 30.254189;
-    double myLng = 120.189234;
+    double myLat = gMapHelper.coordinate.latitude;
+    double myLng = gMapHelper.coordinate.longitude;
     double shopLat = shop.shopLatitude;
     double shopLng = shop.shopLongitude;
     NSString * disStr = [DistanceCalcHelper getDistanceStrLatA:myLat lngA:myLng latB:shopLat lngB:shopLng];
@@ -281,6 +270,13 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"AddrCell"];
     UILabel *label = (UILabel*)[cell.contentView viewWithTag:1001];
     UIButton *btn = (UIButton*)[cell.contentView viewWithTag:1002];
+    
+    @weakify(self)
+    [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+       
+        @strongify(self)
+        [gPhoneHelper navigationRedirectThireMap:self.shop andUserLocation:gMapHelper.coordinate andView:self.view];
+    }];
     
     label.text = self.shop.shopAddress;
     return cell;
