@@ -22,18 +22,17 @@
         return nil;
     }
     HKInsurance * insurance = [[HKInsurance alloc] init];
-    insurance.premium= [rsp floatParamForName:@"premium"];
+    insurance.premium= [rsp floatParamForName:@"totalfee"];
     NSArray * coverages = rsp[@"coverages"];
     NSMutableArray * tarray = [NSMutableArray array];
     for (NSDictionary * dict in coverages)
     {
         SubInsurance * subIns = [[SubInsurance alloc] init];
-        subIns.coveragerName = dict[@"coverage"];
-        subIns.fee = [rsp floatParamForName:@"fee"];
-        subIns.sum = [rsp floatParamForName:@"sum"];
+        subIns.coveragerName = dict[@"name"];
+        subIns.coveragerValue = dict[@"value"];
         [tarray addObject:subIns];
     }
-    insurance.subInsuranceArray = [NSArray arrayWithArray:tarray];
+    insurance.subInsuranceArray = tarray;
     return insurance;
 }
 
