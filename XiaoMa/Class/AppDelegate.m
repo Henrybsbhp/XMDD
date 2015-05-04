@@ -21,8 +21,8 @@
 #import "DeviceInfo.h"
 #import "WXApi.h"
 
-//#define RequestWeatherInfoInterval 60 * 10
-#define RequestWeatherInfoInterval 5
+#define RequestWeatherInfoInterval 60 * 10
+//#define RequestWeatherInfoInterval 5
 
 @interface AppDelegate ()<WXApiDelegate>
 @property (nonatomic, strong) DDFileLogger *fileLogger;
