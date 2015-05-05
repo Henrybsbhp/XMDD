@@ -253,6 +253,7 @@ static NSInteger rotationIndex = 0;
 - (void)actionWashCar:(id)sender
 {
     CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
+    vc.type = 1 ;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

@@ -10,5 +10,7 @@
 
 @interface CarWashTableVC : UITableViewController
 
+@property (nonatomic)NSInteger type;
+
 
 @end
