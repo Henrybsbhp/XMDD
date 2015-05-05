@@ -52,6 +52,8 @@
     self.myUser = user;
 }
 
+
+#pragma mark - 数据存取
 - (void)loadLastLocationAndWeather
 {
     self.province = [self getInfo:Province];
@@ -67,6 +69,17 @@
 {
     self.homepageAdvertiseArray = [self.promptionCache objectForKey:HomepageAdvertise];
     return self.homepageAdvertiseArray;
+}
+
+- (NSArray *)loadSearchHistory
+{
+    self.searchHistoryArray = [self.promptionCache objectForKey:SearchHistory];
+    return self.searchHistoryArray;
+}
+
+- (void)cleanSearchHistory
+{
+    [self.promptionCache removeObjectForKey:SearchHistory];
 }
 
 - (void)saveInfo:(id <NSCoding>)value forKey:(NSString *)key
@@ -90,6 +103,8 @@
 }
 
 
+
+#pragma mark - 升级相关
 - (void)startUpdatingWithURLString:(NSString *)strurl
 {
     if (strurl.length == 0)
@@ -103,7 +118,7 @@
     }
     else
     {
-//        DebugLog(@"can not update client version with url:%@", strurl);
+        DebugLog(@"can not update client version with url:%@", strurl);
     }
 }
 @end

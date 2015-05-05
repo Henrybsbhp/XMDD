@@ -20,6 +20,7 @@
 #import "JTTableView.h"
 #import "GetShopByDistanceOp.h"
 #import "NearbyShopsViewController.h"
+#import "SearchViewController.h"
 
 
 @interface CarWashTableVC ()<SYPaginatorViewDataSource, SYPaginatorViewDelegate>
@@ -79,6 +80,16 @@
     imgV.contentMode = UIViewContentModeCenter;
     self.searchField.leftView = imgV;
     self.searchField.leftViewMode = UITextFieldViewModeAlways;
+    
+    [[self.searchField rac_newTextChannel] subscribeNext:^(id x) {
+        
+        SearchViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    
+    [[self.searchField rac_textSignal] subscribeNext:^(id x) {
+        
+    }];
 }
 
 - (void)setupADView
@@ -114,7 +125,8 @@
 - (IBAction)actionMap:(id)sender
 {
     NearbyShopsViewController * nearbyShopView = [carWashStoryboard instantiateViewControllerWithIdentifier:@"NearbyShopsViewController"];
-    nearbyShopView.type = 1;
+    nearbyShopView.type = self.type;
+    nearbyShopView.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:nearbyShopView animated:YES];
 }
 
@@ -166,7 +178,9 @@
     UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
-    logoV.image = [UIImage imageNamed:@"tmp_ad"];
+    
+    RAC(logoV, image) = [gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
+                                        withDefaultPic:@"tmp_ad"];
     titleL.text = shop.shopName;
     ratingV.ratingValue = shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];

@@ -22,10 +22,11 @@
 #define Temperaturepic @"Temperaturepic"
 #define LastWeatherTime @"LastWeatherTime"
 #define HomepageAdvertise @"HomepageAdvertise"
+#define SearchHistory   @"SearchHistory"
 
 @interface AppManager : NSObject
 
-@property (nonatomic,strong) JTUser *myUser;
+@property (nonatomic,strong)JTUser *myUser;
 @property(nonatomic,strong)DeviceInfo * deviceInfo;
 @property(nonatomic,strong)ClientInfo * clientInfo;
 
@@ -52,13 +53,18 @@
 
 @property (nonatomic,strong)NSArray * homepageAdvertiseArray;
 
-//@property
+@property (nonatomic,strong)NSArray * searchHistoryArray;
+
 
 
 ///获取上次的定位地址和天气信息
 - (void)loadLastLocationAndWeather;
 ///获取上次的广告信息
 - (NSArray *)loadLastAdvertiseInfo;
+///获取搜索历史
+- (NSArray *)loadSearchHistory;
+- (void)cleanSearchHistory;
+
 
 - (void)saveInfo:(id <NSCoding>)value forKey:(NSString *)key;
 
