@@ -1,18 +1,18 @@
 //
-//  AddUserFavoriteOp.m
+//  DeleteUserFavoriteOp.m
 //  XiaoMa
 //
-//  Created by jt on 15-4-27.
+//  Created by jt on 15-5-4.
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "AddUserFavoriteOp.h"
+#import "DeleteUserFavoriteOp.h"
 
-@implementation AddUserFavoriteOp
+@implementation DeleteUserFavoriteOp
 
-- (RACSignal *)rac_postRequest
+-(RACSignal *)rac_postRequest
 {
-    self.req_method = @"/user/favorite/add";
+    self.req_method = @"/user/favorite/delete";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:self.shopid forName:@"shopid"];
@@ -24,15 +24,13 @@
 {
     if([rspObj isKindOfClass:[NSDictionary class]])
     {
-//        NSDictionary * dict = (NSDictionary *)rspObj;
+        //        NSDictionary * dict = (NSDictionary *)rspObj;
     }
     else
     {
-        NSAssert(NO, @"AddUserFavoriteOp parse error~~");
+        NSAssert(NO, @"DeleteUserFavoriteOp parse error~~");
     }
     return self;
-    
 }
-
 
 @end

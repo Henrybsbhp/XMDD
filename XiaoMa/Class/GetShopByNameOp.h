@@ -20,7 +20,7 @@
 //@property (nonatomic)
 
 ///排序方式	1-评级降序（默认）
-@property (nonatomic)BOOL orderby;
+@property (nonatomic)NSInteger orderby;
 
 @property (nonatomic,strong)NSArray * rsp_shopArray;
 

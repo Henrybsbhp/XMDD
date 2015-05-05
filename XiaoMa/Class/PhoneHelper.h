@@ -15,6 +15,7 @@
 
 @property (nonatomic)BOOL exsitBaiduMap;
 @property (nonatomic)BOOL exsitAMap;
+@property (nonatomic)BOOL exsitWechat;
 
 + (PhoneHelper *)sharedHelper;
 

@@ -123,14 +123,14 @@
 
 - (void)returnAction
 {
-    if (self.type == 0)
-    {
-        self.tabBarController.selectedIndex = 0;
-    }
-    else
-    {
+//    if (self.type == 0)
+//    {
+//        self.tabBarController.selectedIndex = 0;
+//    }
+//    else
+//    {
         [self.navigationController popViewControllerAnimated:YES];
-    }
+//    }
 }
 
 
