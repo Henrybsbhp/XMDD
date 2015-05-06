@@ -40,9 +40,19 @@
 				<string>wxf346d7a6113bbbf9</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>AMapBackUrl</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>amap.huika.xmdd</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0.0.0003</string>
+	<string>1.0.0.0004</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>

@@ -54,6 +54,8 @@ typedef enum : NSUInteger {
 
 #define MapZoomLevel 12.0000
 
+#define PageAmount 10
+
 #define AppleNavigationStr @"苹果导航"
 #define BaiduNavigationStr @"百度导航"
 #define AMapNavigationStr @"高德导航"

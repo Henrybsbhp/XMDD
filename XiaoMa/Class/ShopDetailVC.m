@@ -16,6 +16,8 @@
 #import "NSDate+DateForText.h"
 #import "GetShopRatesOp.h"
 #import "CarWashNavigationViewController.h"
+#import "NearbyShopsViewController.h"
+#import "CommentListViewController.h"
 
 #define kDefaultServieCount     2
 
@@ -35,58 +37,11 @@
 }
 
 
-//- (void)reloadDatasource
-//{
-//    JTShop *shop = [JTShop new];
-//    shop.title = @"神州洗车";
-//    shop.logoUrl = @"tmp_1";
-//    shop.allowABC = @YES;
-//    shop.allowTicket = @YES;
-//    shop.rating = @4.0;
-//    shop.openTime = @"8:00";
-//    shop.closeTime = @"18:00";
-//    shop.distance = @7.7;
-//    shop.address = @"西湖区黄龙路1号沃尔玛超市二楼";
-//    shop.phoneNumber = @"0571-88908888";
-//
-//    JTShopService *service1 = [JTShopService new];
-//    service1.title = @"普洗：普通车";
-//    service1.abcIntegral = @10000;
-//    service1.oldPrice = @35;
-//    service1.curPrice = @20;
-//    service1.intro = @"车外冲洗，喷洒清洗剂，长枪冲水，车内清洗，擦干。";
-//    
-//    JTShopService *service2 = [JTShopService new];
-//    service2.title = @"喷漆";
-//    service2.intro = @"全车清洗，喷漆，打蜡。";
-//    service2.curPrice = @180;
-//    
-//    JTShopService *service3 = [JTShopService new];
-//    service3.title = @"保养";
-//    service3.intro = @"更换机油机滤、刹车片、火花塞、电瓶、轮胎、雨刮等。";
-//    service3.curPrice = @180;
-//    
-//    shop.services = @[service1, service2, service3];
-//    
-//    JTShopComment *comment1 = [JTShopComment new];
-//    comment1.userName = @"超能陆战队";
-//    comment1.time = @"2015.01.05";
-//    comment1.avatarUrl = @"tmp_a1";
-//    comment1.rating = @4;
-//    comment1.content = @"第一次过来洗车，洗的很干净。老板服务态度很好";
-//    
-//    JTShopComment *comment2 = [JTShopComment new];
-//    comment2.userName = @"陈大白";
-//    comment2.time = @"2015.01.02";
-//    comment2.avatarUrl = @"tmp_a2";
-//    comment2.rating = @5;
-//    comment2.content = @"洗的很仔细嘛，就给好评了";
-//    shop.comments = @[comment1, comment2];
-//    
-//    self.serviceExpanded = (!self.serviceExpanded  && shop.services.count > 2) ? NO : YES;
-//    self.shop = shop;
-//    [self.tableView reloadData];
-//}
+- (void)dealloc
+{
+    DebugLog(@"ShopDetailVC Dealloc");
+}
+
 #pragma mark - Action
 - (void)requestShopComments
 {
@@ -96,7 +51,10 @@
     [[op rac_postRequest] subscribeNext:^(GetShopRatesOp * op) {
         
         self.shop.shopCommentArray = op.rsp_shopCommentArray;
-        [self.tableView reloadData];
+        
+        NSIndexSet *indexSet= [[NSIndexSet alloc] initWithIndex:1];
+        
+        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
     }];
 }
 
@@ -119,7 +77,7 @@
         else if (indexPath.row == 1 || indexPath.row == 2) {
             height = 44;
         }
-        else if (indexPath.row < 3+self.shop.shopServiceArray.count) {
+        else if (indexPath.row < 3 + self.shop.shopServiceArray.count) {
             height = [super tableView:tableView heightForRowAtIndexPath:indexPath];
         }
         else {
@@ -131,7 +89,14 @@
             height = 36;
         }
         else {
-            height = [super tableView:tableView heightForRowAtIndexPath:indexPath];
+            if (self.shop.shopCommentArray.count)
+            {
+                height = [super tableView:tableView heightForRowAtIndexPath:indexPath];
+            }
+            else
+            {
+                height = 45;
+            }
         }
     }
     return height;
@@ -149,7 +114,7 @@
         count = self.serviceExpanded ? 3 + self.shop.shopServiceArray.count : ((3+MIN(kDefaultServieCount, self.shop.shopServiceArray.count)) + (self.shop.shopServiceArray.count > kDefaultServieCount ? 1 : 0));
     }
     else if (section == 1){
-        count = 1+self.shop.shopCommentArray.count;
+        count = 1+ (self.shop.shopCommentArray.count ? self.shop.shopCommentArray.count : 1);
     }
     return count;
 }
@@ -198,7 +163,14 @@
             cell = [self shopCommentTitleCellAtIndexPath:indexPath];
         }
         else {
-            cell = [self shopCommentCellAtIndexPath:indexPath];
+            if (self.shop.shopCommentArray.count)
+            {
+                cell = [self shopCommentCellAtIndexPath:indexPath];
+            }
+            else
+            {
+                cell = [self shopNoCommentCellAtIndexPath:indexPath];
+            }
         }
     }
     
@@ -234,6 +206,13 @@
             [gPhoneHelper makePhone:self.shop.shopPhone andInfo:info];
         }
     }
+    else
+    {
+        CommentListViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"CommentListViewController"];
+        vc.shopid = self.shop.shopID;
+        vc.commentArray = self.shop.shopCommentArray;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 #pragma mark - TableViewCell
@@ -248,7 +227,29 @@
     UILabel *businessHoursLb = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
     
-    logoV.image = [UIImage imageNamed:@"tmp_ad"];
+
+    UITapGestureRecognizer * gesture = logoV.customObject;
+    if (!gesture)
+    {
+        UITapGestureRecognizer *ge = [[UITapGestureRecognizer alloc] init];
+        [logoV addGestureRecognizer:ge];
+        logoV.userInteractionEnabled = YES;
+        logoV.customObject = ge;
+    }
+    gesture = logoV.customObject;
+    [[[gesture rac_gestureSignal] takeUntilForCell:cell] subscribeNext:^(id x) {
+        
+        [self showImages:0];
+    }];
+    
+    
+    
+    
+    [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
+                                         withDefaultPic:@"tmp_ad"] subscribeNext:^(UIImage * img) {
+      
+        logoV.image = img;
+    }];
     titleL.text = shop.shopName;
     ratingV.ratingValue = (NSInteger)shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%0.2f分", shop.shopRate];
@@ -287,6 +288,21 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PhoneNumberCell"];
     UILabel *label = (UILabel*)[cell.contentView viewWithTag:1001];
     UIButton *btn = (UIButton*)[cell.contentView viewWithTag:1002];
+    
+    @weakify(self)
+    [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        @strongify(self)
+        if (self.shop.shopPhone.length == 0)
+        {
+            UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
+            [av show];
+            return ;
+        }
+        
+        NSString * info = [NSString stringWithFormat:@"%@电话：\n%@",self.shop.shopName,self.shop.shopPhone];
+        [gPhoneHelper makePhone:self.shop.shopPhone andInfo:info];
+    }];
     
     label.text = [NSString stringWithFormat:@"联系电话：%@", self.shop.shopPhone];
     return cell;
@@ -370,10 +386,17 @@
     JTShopComment *comment = [self.shop.shopCommentArray safetyObjectAtIndex:indexPath.row - 1];
 //    avatarV.image = [UIImage imageNamed:comment.avatarUrl];
     avatarV.image = [UIImage imageNamed:@"tmp_a1"];
-    nameL.text = comment.nickname;
+    nameL.text = comment.nickname.length ? comment.nickname : @"无昵称用户";
     timeL.text = [comment.time dateFormatForYYYYMMddHHmm];
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
+    
+    return cell;
+}
+
+- (UITableViewCell *)shopNoCommentCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"NoCommentCell"];
     
     return cell;
 }
@@ -398,4 +421,60 @@
     return str;
 }
 
+- (void)showImages:(NSInteger)rotationIndex
+{
+    UIWindow * window = [UIApplication sharedApplication].keyWindow;
+    UIScrollView * backgroundView= [[UIScrollView alloc]
+                                    initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    backgroundView.backgroundColor = [UIColor clearColor];
+    backgroundView.alpha = 0;
+    [backgroundView setContentSize:CGSizeMake([UIScreen mainScreen].bounds.size.width * self.shop.picArray.count, [UIScreen mainScreen].bounds.size.height)];
+    backgroundView.pagingEnabled = YES;
+    
+    CGRect frame = backgroundView.frame;
+    frame.origin.x = frame.size.width * rotationIndex;
+    frame.origin.y = 0;
+    [backgroundView scrollRectToVisible:frame animated:YES];
+    
+    for (NSInteger i = 0;i < self.shop.picArray.count;i++)
+    {
+        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectZero];
+        NSString * imageUrl = [self.shop.picArray safetyObjectAtIndex:i];
+        [[gMediaMgr rac_getPictureForUrl:imageUrl withDefaultPic:@"default"] subscribeNext:^(UIImage * image) {
+            
+            CGRect frame = CGRectMake(i*[UIScreen mainScreen].bounds.size.width,
+                                      ([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2,
+                                      [UIScreen mainScreen].bounds.size.width,
+                                      image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width);
+            imageView.frame = frame;
+            [imageView setImage:image];
+        } error:^(NSError *error) {
+            
+            [imageView setImage:[UIImage imageNamed:@"default"]];
+        }];
+        
+        imageView.tag = i;
+        [backgroundView addSubview:imageView];
+    }
+    
+    [window addSubview:backgroundView];
+    
+    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImage:)];
+    [backgroundView addGestureRecognizer: tap];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        backgroundView.alpha=1;
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
+-(void)hideImage:(UITapGestureRecognizer*)tap{
+    UIView *backgroundView=tap.view;
+    [UIView animateWithDuration:0.3 animations:^{
+        backgroundView.alpha=0;
+    } completion:^(BOOL finished) {
+        [backgroundView removeFromSuperview];
+    }];
+}
 @end

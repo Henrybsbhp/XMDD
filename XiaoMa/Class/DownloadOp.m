@@ -30,9 +30,10 @@
     op.customObject = self;
     self.af_operation = op;
     
-    return [[[[[gNetworkMgr.mediaClient rac_enqueueHTTPRequestOperation:op] map:^id(NSData *data) {
+    return [[[[[gNetworkMgr.mediaClient rac_enqueueHTTPRequestOperation:op] map:^id(RACTuple *tuple) {
         
-        self.rsp_data = data;
+        
+        self.rsp_data = tuple.second;
         return self;
     }] doNext:^(id x) {
         

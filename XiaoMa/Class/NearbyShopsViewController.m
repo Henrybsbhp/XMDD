@@ -20,6 +20,8 @@
 
 @property (weak, nonatomic) IBOutlet MAMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIView *bottomScrollView;
+@property (weak, nonatomic) IBOutlet UIButton *locationMeBtn;
+
 @property (nonatomic, strong) SYPaginatorView *bottomSYView;
 
 @property (nonatomic)CLLocationCoordinate2D userCoordinate;
@@ -36,6 +38,7 @@
     
     [self setupNavigationBar];
     [self setupMapView];
+    [self setupLocationMe];
     
     if (gMapHelper.coordinate.latitude != 0)
     {
@@ -96,6 +99,7 @@
     }];
 }
 
+
 - (void)setupSYViewInContainer:(UIView *)container
 {
     CGFloat width = CGRectGetWidth(self.view.frame);
@@ -118,19 +122,29 @@
     self.bottomSYView.currentPageIndex = 0;
 }
 
+- (void)setupLocationMe
+{
+    @weakify(self)
+    [[self.locationMeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+       
+        @strongify(self)
+        [self.mapView setCenterCoordinate:self.mapView.userLocation.coordinate animated:YES];
+    }];
+}
+
 
 #pragma mark - Action
 
 - (void)returnAction
 {
-    if (self.type == 0)
-    {
-        self.tabBarController.selectedIndex = 0;
-    }
-    else
-    {
+//    if (self.type == 0)
+//    {
+//        self.tabBarController.selectedIndex = 0;
+//    }
+//    else
+//    {
         [self.navigationController popViewControllerAnimated:YES];
-    }
+//    }
 }
 
 
@@ -179,11 +193,13 @@
         {
             [SVProgressHUD showSuccessWithStatus:@"收藏成功"];
         }
-        else if (op.rsp_code == 7001)
+    } error:^(NSError *error) {
+        
+        if (error.code == 7001)
         {
             [SVProgressHUD  showErrorWithStatus:@"该店铺不存在"];
         }
-        else if (op.rsp_code == 7002)
+        else if (error.code == 7002)
         {
             [SVProgressHUD  showErrorWithStatus:@"该店铺已收藏"];
         }
@@ -191,9 +207,6 @@
         {
             [SVProgressHUD  showErrorWithStatus:@"收藏失败"];
         }
-    } error:^(NSError *error) {
-        
-        [SVProgressHUD  showErrorWithStatus:@"收藏失败"];
     }];
 }
 

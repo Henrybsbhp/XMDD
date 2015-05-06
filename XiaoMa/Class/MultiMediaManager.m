@@ -39,6 +39,11 @@ static MultiMediaManager *g_mediaManager;
         cacheKey = [cacheKey substringFromIndex:urlKey.length - 239];
     }
     
+    if (cacheKey.length == 0)
+    {
+        return [RACSignal return:[UIImage imageNamed:picName]];
+    }
+    
     //
     RACScheduler *sch = [RACScheduler schedulerWithPriority:RACSchedulerPriorityHigh];
     RACSignal *signal = [RACSignal startEagerlyWithScheduler:sch block:^(id<RACSubscriber> subscriber) {
