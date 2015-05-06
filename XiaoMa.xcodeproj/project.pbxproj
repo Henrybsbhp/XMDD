@@ -179,6 +179,8 @@
 		6BEA56D21AE24DCE000D19C1 /* openssl_wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BB1AE24DCE000D19C1 /* openssl_wrapper.m */; };
 		6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BD1AE24DCE000D19C1 /* RSADataSigner.m */; };
 		6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BF1AE24DCE000D19C1 /* RSADataVerifier.m */; };
+		C23FCAB81AF8B8C900E04BEB /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C23FCAB71AF8B8C900E04BEB /* TencentOpenAPI.framework */; };
+		C26489B41AF8A70A00F1E318 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C26489B31AF8A70A00F1E318 /* libiconv.dylib */; };
 		C2FB0B9B1AF756AD001A196C /* enquiryInsuranceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C2FB0B9A1AF756AD001A196C /* enquiryInsuranceVC.m */; };
 /* End PBXBuildFile section */
 
@@ -597,6 +599,8 @@
 		6BEA56BE1AE24DCE000D19C1 /* RSADataVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSADataVerifier.h; sourceTree = "<group>"; };
 		6BEA56BF1AE24DCE000D19C1 /* RSADataVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataVerifier.m; sourceTree = "<group>"; };
 		B54A6CD3F3426144CC6768CC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C23FCAB71AF8B8C900E04BEB /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = ../QQSDK/TencentOpenAPI.framework; sourceTree = "<group>"; };
+		C26489B31AF8A70A00F1E318 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		C2FB0B991AF756AD001A196C /* enquiryInsuranceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = enquiryInsuranceVC.h; sourceTree = "<group>"; };
 		C2FB0B9A1AF756AD001A196C /* enquiryInsuranceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = enquiryInsuranceVC.m; sourceTree = "<group>"; };
 		CA94042FD235B5154105FE58 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -607,6 +611,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C23FCAB81AF8B8C900E04BEB /* TencentOpenAPI.framework in Frameworks */,
+				C26489B41AF8A70A00F1E318 /* libiconv.dylib in Frameworks */,
 				6BBB82631AE7A0E000850D0C /* libc++.dylib in Frameworks */,
 				6BBB82611AE7A0D700850D0C /* libz.dylib in Frameworks */,
 				6BBB825F1AE7A0CF00850D0C /* libsqlite3.dylib in Frameworks */,
@@ -632,6 +638,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				C26489B21AF8A6B600F1E318 /* QQSDK */,
 				6BBB82571AE79FE100850D0C /* WeChatSDK.5 */,
 				6B086BA81AE4F46900659DB7 /* TMCache */,
 				18A377F01AE4AB4B0031A574 /* SVProgressHUD */,
@@ -1463,6 +1470,15 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
+		C26489B21AF8A6B600F1E318 /* QQSDK */ = {
+			isa = PBXGroup;
+			children = (
+				C23FCAB71AF8B8C900E04BEB /* TencentOpenAPI.framework */,
+			);
+			name = QQSDK;
+			path = TMCache;
+			sourceTree = "<group>";
+		};
 		C5BD8500918CA8D253037804 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1475,6 +1491,7 @@
 		C8447CD201C36C94165168FF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C26489B31AF8A70A00F1E318 /* libiconv.dylib */,
 				6BBB82621AE7A0E000850D0C /* libc++.dylib */,
 				6BBB82601AE7A0D700850D0C /* libz.dylib */,
 				6BBB825E1AE7A0CF00850D0C /* libsqlite3.dylib */,
@@ -1939,6 +1956,9 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/TMCache",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
 				);
 				GCC_PREFIX_HEADER = XiaoMa/Class/XmddPrefixHeader.pch;
 				HEADER_SEARCH_PATHS = (
@@ -1958,6 +1978,7 @@
 					"\"${PODS_ROOT}/Headers/Public/cdebug\"",
 					"\"${PODS_ROOT}/Headers/Public/ckkit\"",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
 				);
 				INFOPLIST_FILE = XiaoMa/Misc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -1966,8 +1987,55 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/WeChatSDK.5",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
 				);
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"Pods-AFNetworking\"",
+					"-l\"Pods-AFNetworking2-RACExtensions\"",
+					"-l\"Pods-AMap2DMap\"",
+					"-l\"Pods-AMapSearch\"",
+					"-l\"Pods-CocoaLumberjack\"",
+					"-l\"Pods-FoundationExtension\"",
+					"-l\"Pods-IQKeyboardManager\"",
+					"-l\"Pods-MZAppearance\"",
+					"-l\"Pods-MZFormSheetController\"",
+					"-l\"Pods-Masonry\"",
+					"-l\"Pods-ReactiveCocoa\"",
+					"-l\"Pods-SFHFKeychainUtils\"",
+					"-l\"Pods-cdebug\"",
+					"-l\"Pods-ckkit\"",
+					"-l\"stdc++.6.0.9\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AMapSearchKit\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AddressBook\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"MAMapKit\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-fobjc-arc",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "196d27f9-1ec8-41c8-9b2d-22fc8e3c1da9";
 			};
@@ -1984,6 +2052,9 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/TMCache",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
 				);
 				GCC_PREFIX_HEADER = XiaoMa/Class/XmddPrefixHeader.pch;
 				HEADER_SEARCH_PATHS = (
@@ -2003,6 +2074,7 @@
 					"\"${PODS_ROOT}/Headers/Public/cdebug\"",
 					"\"${PODS_ROOT}/Headers/Public/ckkit\"",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
 				);
 				INFOPLIST_FILE = XiaoMa/Misc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -2011,6 +2083,53 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/WeChatSDK.5",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"Pods-AFNetworking\"",
+					"-l\"Pods-AFNetworking2-RACExtensions\"",
+					"-l\"Pods-AMap2DMap\"",
+					"-l\"Pods-AMapSearch\"",
+					"-l\"Pods-CocoaLumberjack\"",
+					"-l\"Pods-FoundationExtension\"",
+					"-l\"Pods-IQKeyboardManager\"",
+					"-l\"Pods-MZAppearance\"",
+					"-l\"Pods-MZFormSheetController\"",
+					"-l\"Pods-Masonry\"",
+					"-l\"Pods-ReactiveCocoa\"",
+					"-l\"Pods-SFHFKeychainUtils\"",
+					"-l\"Pods-cdebug\"",
+					"-l\"Pods-ckkit\"",
+					"-l\"stdc++.6.0.9\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AMapSearchKit\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AddressBook\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"MAMapKit\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "267af5e7-8e71-4650-bbd1-d98198e5dc36";
