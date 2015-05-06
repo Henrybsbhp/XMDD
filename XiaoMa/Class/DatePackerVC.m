@@ -43,4 +43,32 @@
     self.ensureItem.tintColor = tintColor;
 }
 
+///弹出日期选择器(next:NSData* error:【表示取消选取】)
++ (RACSignal *)rac_presentPackerVCInView:(UIView *)view withSelectedDate:(NSDate *)date
+{
+    DatePackerVC *vc = [UIStoryboard vcWithId:@"DatePackerVC" inStoryboard:@"Common"];
+    CGSize size = CGSizeMake(CGRectGetWidth(view.frame), 280);
+    MZFormSheetController *sheet = [DefaultStyleModel bottomAppearSheetCtrlWithSize:size
+                                                                     viewController:vc
+                                                                         targetView:view];
+    sheet.shouldDismissOnBackgroundViewTap = NO;
+    [sheet presentAnimated:YES completionHandler:nil];
+    vc.datePicker.date = date;
+    vc.datePicker.maximumDate = [NSDate date];
+    [vc setupWithTintColor:kDefTintColor];
+    
+    RACSubject *subject = [RACSubject subject];
+    @weakify(vc);
+    [[[vc rac_signalForSelector:@selector(actionEnsure:)] take:1] subscribeNext:^(id x) {
+        @strongify(vc);
+        [subject sendNext:vc.datePicker.date];
+        [subject sendCompleted];
+    }];
+
+    [[[vc rac_signalForSelector:@selector(actionCancel:)] take:1] subscribeNext:^(id x) {
+        [subject sendError:[NSError errorWithDomain:@"cancel" code:0 userInfo:nil]];
+    }];
+    return subject;
+}
+
 @end

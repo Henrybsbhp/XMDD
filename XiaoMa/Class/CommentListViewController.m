@@ -157,7 +157,7 @@
     //    avatarV.image = [UIImage imageNamed:comment.avatarUrl];
     avatarV.image = [UIImage imageNamed:@"tmp_a1"];
     nameL.text = comment.nickname.length ? comment.nickname : @"无昵称用户";
-    timeL.text = [comment.time dateFormatForLongText];
+    timeL.text = [comment.time dateFormatForYYYYMMddHHmm];
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
     

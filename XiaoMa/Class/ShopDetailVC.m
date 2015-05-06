@@ -370,7 +370,7 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CommentTitleCell"];
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:1001];
-    label.text = [NSString stringWithFormat:@"商户评价 ( %d )", (NSInteger)self.shop.shopCommentArray.count];
+    label.text = [NSString stringWithFormat:@"商户评价 ( %d )", (int)self.shop.shopCommentArray.count];
     return cell;
 }
 
@@ -387,7 +387,7 @@
 //    avatarV.image = [UIImage imageNamed:comment.avatarUrl];
     avatarV.image = [UIImage imageNamed:@"tmp_a1"];
     nameL.text = comment.nickname.length ? comment.nickname : @"无昵称用户";
-    timeL.text = [comment.time dateFormatForLongText];
+    timeL.text = [comment.time dateFormatForYYYYMMddHHmm];
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
     

@@ -14,9 +14,12 @@
 @property (nonatomic, strong) NSString *userName;
 @property (nonatomic, strong) NSString *userID;
 @property (nonatomic, strong) NSString *avatarUrl;
-@property (nonatomic) NSInteger carwashTicketsCount;
-@property (nonatomic) NSInteger abcCarwashTimesCount;
-@property (nonatomic) NSInteger abcIntegral;
+@property (nonatomic, assign) NSInteger carwashTicketsCount;
+@property (nonatomic, assign) NSInteger abcCarwashesCount;
+@property (nonatomic, assign) NSInteger abcIntegral;
+///性别 （1-男 2-女）
+@property (nonatomic, assign) NSInteger sex;
+@property (nonatomic, strong) NSDate *birthday;
 @property (nonatomic, strong) NSString *numberPlate;
 
 @property (nonatomic, strong)NSArray * carArray;

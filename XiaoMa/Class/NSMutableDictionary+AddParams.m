@@ -55,7 +55,13 @@ static char s_firstparamKey;
 {
     return [[self paramForName:name] boolValue];
 }
-- (NSString *)stringParamFroName:(NSString *)name
+
+- (NSNumber *)numberParamForName:(NSString *)name
+{
+    return (NSNumber *)[self paramForName:name];
+}
+
+- (NSString *)stringParamForName:(NSString *)name
 {
     return (NSString *)[self paramForName:name];
 }
