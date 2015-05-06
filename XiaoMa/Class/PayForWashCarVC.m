@@ -84,7 +84,7 @@
                                                                    attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14],
                                                                                 NSForegroundColorAttributeName:HEXCOLOR(@"#fb4209")}];
     [str appendAttributedString:attrStr1];
-    NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%@", self.service.serviceName]
+    NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%.2f", self.service.contractprice]
                                                                    attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:19],
                                                                                 NSForegroundColorAttributeName:HEXCOLOR(@"#fb4209")}];
     [str appendAttributedString:attrStr2];
@@ -123,7 +123,7 @@
     }
     else if (self.paymentType == PaymentChannelABCCarWashAmount)
     {
-        if (gAppMgr.myUser.abcCarwashTimesCount == 0)
+        if (gAppMgr.myUser.abcCarwashesCount == 0)
         {
             UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您目前没有免费洗车次数，可能导致提交失败，请选择其他方式支付" delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:@"继续提交", nil];
             [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
@@ -259,7 +259,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1 && indexPath.row == 0) {
+    if (indexPath.section == 1 && indexPath.row == 1) {
         //点击查看优惠券
             ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
             vc.originVC = self.originVC;
@@ -294,7 +294,7 @@
         additionB.hidden = YES;
     }
     else if (indexPath.row == 2) {
-        titleL.text = [NSString stringWithFormat:@"项目价格：%.2f", self.service.contractprice];
+        titleL.text = [NSString stringWithFormat:@"项目价格：￥%.2f", self.service.contractprice];
         NSArray * rates = self.service.chargeArray;
         ChargeContent * cc;
         for (ChargeContent * tcc in rates)
@@ -337,7 +337,7 @@
         arrow.hidden = NO;
     }
     else if (indexPath.row == 2) {
-        label.text = [NSString stringWithFormat:@"农行卡免费洗车次数：%ld次", (long)gAppMgr.myUser.abcCarwashTimesCount];
+        label.text = [NSString stringWithFormat:@"农行卡免费洗车次数：%ld次", (long)gAppMgr.myUser.abcCarwashesCount];
     }
     else
     {
@@ -420,6 +420,7 @@
 - (UITableViewCell *)OtherInfoCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"OtherInfoCell"];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
@@ -431,7 +432,7 @@
         
     }] subscribeNext:^(GetUserResourcesOp * op) {
         
-        gAppMgr.myUser.abcCarwashTimesCount = op.rsp_freewashes;
+        gAppMgr.myUser.abcCarwashesCount = op.rsp_freewashes;
         gAppMgr.myUser.abcIntegral = op.rsp_bankIntegral;
         gAppMgr.myUser.carwashTicketsCount = op.rsp_coupons.count;
         

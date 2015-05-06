@@ -16,7 +16,8 @@
 - (double)doubleParamForName:(NSString *)name;
 - (int)intParamForName:(NSString *)name;
 - (BOOL)boolParamForName:(NSString *)name;
-- (NSString *)stringParamFroName:(NSString *)name;
+- (NSString *)stringParamForName:(NSString *)name;
+- (NSNumber *)numberParamForName:(NSString *)name;
 
 @end
 

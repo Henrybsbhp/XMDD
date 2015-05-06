@@ -47,11 +47,8 @@
 - (void)reloadDatasource
 {
     //提车时间
-    NSDate *date = [NSDate date];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy年MM月"];
-    self.carryTime = date;
-    self.strCarryTime = [dateFormatter stringFromDate:date];
+    self.carryTime = [NSDate date];
+    self.strCarryTime = [self.carryTime dateFormatForYYMM];
     [self.tableView reloadData];
 }
 
@@ -222,27 +219,9 @@
 
 - (void)pickDate
 {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy年MM月"];
-    NSDate *date = [dateFormatter dateFromString:self.strCarryTime];
-    DatePackerVC *vc = [UIStoryboard vcWithId:@"DatePackerVC" inStoryboard:@"Common"];
-    CGSize size = CGSizeMake(CGRectGetWidth(self.view.frame), 280);
-    MZFormSheetController *sheet = [DefaultStyleModel bottomAppearSheetCtrlWithSize:size
-                                                                     viewController:vc
-                                                                         targetView:self.navigationController.view];
-    sheet.shouldDismissOnBackgroundViewTap = NO;
-    [sheet presentAnimated:YES completionHandler:nil];
-    vc.datePicker.date = date;
-    vc.datePicker.maximumDate = [NSDate date];
-
-    [vc setupWithTintColor:kDefTintColor];
-    
-    @weakify(vc);
-     [[[vc rac_signalForSelector:@selector(actionEnsure:)] take:1] subscribeNext:^(id x) {
- 
-        @strongify(vc);
-         self.carryTime = vc.datePicker.date;
-        self.strCarryTime = [dateFormatter stringFromDate:vc.datePicker.date];
+    [[DatePackerVC rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.carryTime] subscribeNext:^(NSDate *date) {
+        self.carryTime = date;
+        self.strCarryTime = [date dateFormatForYYMM];
     }];
 }
 

@@ -19,6 +19,8 @@
 @property (nonatomic)CLLocationCoordinate2D startCoordinate;
 @property (nonatomic)CLLocationCoordinate2D endCoordinate;
 
+@property (strong, nonatomic) UIButton *locationMeBtn;
+
 @end
 
 @implementation CarWashNavigationViewController
@@ -37,6 +39,7 @@
         [self setCenter:self.endCoordinate];
         [self addDefaultAnnotations];
         [self setupBottomView];
+        [self setupLocationMe];
     });
 }
 
@@ -75,6 +78,7 @@
     
     mapBottomView.titleLb.text = self.shop.shopName;
     mapBottomView.addressLb.text = self.shop.shopAddress;
+    mapBottomView.detailBtn.hidden = YES;
     
     @weakify(self)
     [[mapBottomView.detailBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -87,6 +91,7 @@
     
     [[mapBottomView.phoneBtm rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        @strongify(self)
         if (self.shop.shopPhone.length == 0)
         {
             UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
@@ -129,6 +134,21 @@
 {
     [self.mapView setZoomLevel:MapZoomLevel animated:YES];
     [self.mapView setCenterCoordinate:co animated:YES];
+}
+
+- (void)setupLocationMe
+{
+    CGRect rect = CGRectMake(5, self.view.frame.size.height - 100 - 30 - 5, 30, 30);
+    self.locationMeBtn = [[UIButton alloc] initWithFrame:rect];
+    [self.locationMeBtn setBackgroundImage:[UIImage imageNamed:@"location_me"] forState:UIControlStateNormal];
+    [self.view addSubview:self.locationMeBtn];
+    
+    @weakify(self)
+    [[self.locationMeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        @strongify(self)
+        [self.mapView setCenterCoordinate:self.mapView.userLocation.coordinate animated:YES];
+    }];
 }
 
 #pragma mark - Utitily

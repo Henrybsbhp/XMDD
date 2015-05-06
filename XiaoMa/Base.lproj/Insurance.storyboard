@@ -472,7 +472,7 @@
                                             </userDefinedRuntimeAttributes>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="测试方案" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pyq-WL-zA2">
-                                            <rect key="frame" x="7" y="9" width="40" height="20"/>
+                                            <rect key="frame" x="9" y="10" width="40" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="Dxr-sU-M8O"/>
                                                 <constraint firstAttribute="width" constant="40" id="cyT-Dl-oii"/>
@@ -503,13 +503,13 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
-                                        <constraint firstItem="Pyq-WL-zA2" firstAttribute="leading" secondItem="lUb-YN-HIA" secondAttribute="leading" constant="-5" id="0ac-vM-J0k"/>
+                                        <constraint firstItem="Pyq-WL-zA2" firstAttribute="leading" secondItem="lUb-YN-HIA" secondAttribute="leading" constant="-3" id="0ac-vM-J0k"/>
                                         <constraint firstItem="rzI-A4-XvA" firstAttribute="bottom" secondItem="buc-NM-ZsD" secondAttribute="bottom" constant="1" id="49z-zb-K8A"/>
                                         <constraint firstItem="s4t-ST-r0I" firstAttribute="bottom" secondItem="lUb-YN-HIA" secondAttribute="bottom" constant="-8" id="Ahc-zs-AR2"/>
                                         <constraint firstItem="lUb-YN-HIA" firstAttribute="leading" secondItem="buc-NM-ZsD" secondAttribute="leading" constant="-18" id="BkT-4l-VIj"/>
                                         <constraint firstAttribute="bottom" secondItem="lUb-YN-HIA" secondAttribute="bottom" constant="5" id="ENe-Lk-PvG"/>
                                         <constraint firstItem="rzI-A4-XvA" firstAttribute="trailing" secondItem="lUb-YN-HIA" secondAttribute="trailing" constant="-8" id="HCn-z3-cYa"/>
-                                        <constraint firstItem="Pyq-WL-zA2" firstAttribute="top" secondItem="lUb-YN-HIA" secondAttribute="top" constant="4" id="JQD-kr-sC7"/>
+                                        <constraint firstItem="Pyq-WL-zA2" firstAttribute="top" secondItem="lUb-YN-HIA" secondAttribute="top" constant="5" id="JQD-kr-sC7"/>
                                         <constraint firstItem="rzI-A4-XvA" firstAttribute="leading" secondItem="buc-NM-ZsD" secondAttribute="trailing" id="KiK-Cw-Y3j"/>
                                         <constraint firstItem="s4t-ST-r0I" firstAttribute="trailing" secondItem="lUb-YN-HIA" secondAttribute="trailing" constant="-10" id="NRp-yh-uiK"/>
                                         <constraint firstItem="lUb-YN-HIA" firstAttribute="top" secondItem="bXI-Mb-qTX" secondAttribute="top" constant="5" id="Trv-BW-fMa"/>
@@ -679,7 +679,7 @@
                                         <constraint firstAttribute="height" constant="44" id="tKN-OQ-7k4"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                    <state key="normal" title="上传" backgroundImage="cm_bg1">
+                                    <state key="normal" title="提 交" backgroundImage="cm_bg1">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </state>

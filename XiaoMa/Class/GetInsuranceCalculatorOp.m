@@ -34,11 +34,10 @@
         self.rsp_calculatorID = dict[@"cid"];
         NSArray * quotes = dict[@"quotes"];
         NSMutableArray * tarray = [NSMutableArray array];
-        for (NSObject * obj in quotes)
+        for (NSDictionary *quoteDict in quotes)
         {
-            NSDictionary * dict2 = (NSDictionary *)obj;
-            HKInsurance * ins = [HKInsurance insuranceWithJSONResponse:dict2[@"policy"]];
-            ins.insuranceName = dict2[@"name"];
+            HKInsurance * ins = [HKInsurance insuranceWithJSONResponse:quoteDict];
+            ins.insuranceName = quoteDict[@"name"];
             [tarray addObject:ins];
         }
         self.rsp_insuraceArray = [NSArray arrayWithArray:tarray];

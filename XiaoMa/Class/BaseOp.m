@@ -121,7 +121,6 @@ static int32_t g_requestVid = 1;
 {
     NSArray *oplist = client.operationQueue.operations;
     return [oplist arrayByMapFilteringOperator:^id(NSOperation *obj) {
-        
         return [obj.customObject isMemberOfClass:self] ? obj.customObject : nil;
     }];
 }
@@ -214,7 +213,7 @@ static int32_t g_requestVid = 1;
 
     for (NSString * key in sortedParamsKeys)
     {
-        rawvkey = [NSString stringWithFormat:@"%@%@=%@&",rawvkey,key,[paramsDict stringParamFroName:key] ? [paramsDict stringParamFroName:key] : @""];
+        rawvkey = [NSString stringWithFormat:@"%@%@=%@&",rawvkey,key,[paramsDict stringParamForName:key] ? [paramsDict stringParamForName:key] : @""];
     }
     if ([sortedParamsKeys count])
     {

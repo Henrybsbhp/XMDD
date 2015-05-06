@@ -16,6 +16,8 @@
 #import "NSDate+DateForText.h"
 #import "GetShopRatesOp.h"
 #import "CarWashNavigationViewController.h"
+#import "NearbyShopsViewController.h"
+#import "CommentListViewController.h"
 
 #define kDefaultServieCount     2
 
@@ -34,6 +36,11 @@
     [self requestShopComments];
 }
 
+
+- (void)dealloc
+{
+    DebugLog(@"ShopDetailVC Dealloc");
+}
 
 #pragma mark - Action
 - (void)requestShopComments
@@ -70,7 +77,7 @@
         else if (indexPath.row == 1 || indexPath.row == 2) {
             height = 44;
         }
-        else if (indexPath.row < 3+self.shop.shopServiceArray.count) {
+        else if (indexPath.row < 3 + self.shop.shopServiceArray.count) {
             height = [super tableView:tableView heightForRowAtIndexPath:indexPath];
         }
         else {
@@ -199,6 +206,13 @@
             [gPhoneHelper makePhone:self.shop.shopPhone andInfo:info];
         }
     }
+    else
+    {
+        CommentListViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"CommentListViewController"];
+        vc.shopid = self.shop.shopID;
+        vc.commentArray = self.shop.shopCommentArray;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 #pragma mark - TableViewCell
@@ -213,8 +227,29 @@
     UILabel *businessHoursLb = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
     
-    RAC(logoV, image) = [gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                                         withDefaultPic:@"tmp_ad"];
+
+    UITapGestureRecognizer * gesture = logoV.customObject;
+    if (!gesture)
+    {
+        UITapGestureRecognizer *ge = [[UITapGestureRecognizer alloc] init];
+        [logoV addGestureRecognizer:ge];
+        logoV.userInteractionEnabled = YES;
+        logoV.customObject = ge;
+    }
+    gesture = logoV.customObject;
+    [[[gesture rac_gestureSignal] takeUntilForCell:cell] subscribeNext:^(id x) {
+        
+        [self showImages:0];
+    }];
+    
+    
+    
+    
+    [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
+                                         withDefaultPic:@"tmp_ad"] subscribeNext:^(UIImage * img) {
+      
+        logoV.image = img;
+    }];
     titleL.text = shop.shopName;
     ratingV.ratingValue = (NSInteger)shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%0.2f分", shop.shopRate];
@@ -335,7 +370,7 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CommentTitleCell"];
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:1001];
-    label.text = [NSString stringWithFormat:@"商户评价 ( %d )", (NSInteger)self.shop.shopCommentArray.count];
+    label.text = [NSString stringWithFormat:@"商户评价 ( %d )", (int)self.shop.shopCommentArray.count];
     return cell;
 }
 
@@ -352,7 +387,7 @@
 //    avatarV.image = [UIImage imageNamed:comment.avatarUrl];
     avatarV.image = [UIImage imageNamed:@"tmp_a1"];
     nameL.text = comment.nickname.length ? comment.nickname : @"无昵称用户";
-    timeL.text = [comment.time dateFormatForLongText];
+    timeL.text = [comment.time dateFormatForYYYYMMddHHmm];
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
     
@@ -386,4 +421,60 @@
     return str;
 }
 
+- (void)showImages:(NSInteger)rotationIndex
+{
+    UIWindow * window = [UIApplication sharedApplication].keyWindow;
+    UIScrollView * backgroundView= [[UIScrollView alloc]
+                                    initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    backgroundView.backgroundColor = [UIColor clearColor];
+    backgroundView.alpha = 0;
+    [backgroundView setContentSize:CGSizeMake([UIScreen mainScreen].bounds.size.width * self.shop.picArray.count, [UIScreen mainScreen].bounds.size.height)];
+    backgroundView.pagingEnabled = YES;
+    
+    CGRect frame = backgroundView.frame;
+    frame.origin.x = frame.size.width * rotationIndex;
+    frame.origin.y = 0;
+    [backgroundView scrollRectToVisible:frame animated:YES];
+    
+    for (NSInteger i = 0;i < self.shop.picArray.count;i++)
+    {
+        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectZero];
+        NSString * imageUrl = [self.shop.picArray safetyObjectAtIndex:i];
+        [[gMediaMgr rac_getPictureForUrl:imageUrl withDefaultPic:@"default"] subscribeNext:^(UIImage * image) {
+            
+            CGRect frame = CGRectMake(i*[UIScreen mainScreen].bounds.size.width,
+                                      ([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2,
+                                      [UIScreen mainScreen].bounds.size.width,
+                                      image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width);
+            imageView.frame = frame;
+            [imageView setImage:image];
+        } error:^(NSError *error) {
+            
+            [imageView setImage:[UIImage imageNamed:@"default"]];
+        }];
+        
+        imageView.tag = i;
+        [backgroundView addSubview:imageView];
+    }
+    
+    [window addSubview:backgroundView];
+    
+    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImage:)];
+    [backgroundView addGestureRecognizer: tap];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        backgroundView.alpha=1;
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
+-(void)hideImage:(UITapGestureRecognizer*)tap{
+    UIView *backgroundView=tap.view;
+    [UIView animateWithDuration:0.3 animations:^{
+        backgroundView.alpha=0;
+    } completion:^(BOOL finished) {
+        [backgroundView removeFromSuperview];
+    }];
+}
 @end
