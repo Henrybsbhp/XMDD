@@ -10,10 +10,10 @@
 #import "NSMutableDictionary+AddParams.h"
 
 
-@interface HKMyCar : NSObject
+@interface HKMyCar : NSObject<NSCopying>
 
 ///车id
-@property (nonatomic,copy)NSString * carId;
+@property (nonatomic,copy)NSNumber *carId;
 
 ///车牌号码
 @property (nonatomic,copy)NSString * licencenumber;
@@ -43,7 +43,6 @@
 @property (nonatomic)BOOL isDefault;
 
 + (instancetype)carWithJSONResponse:(NSDictionary *)rsp;
-
-
+- (NSDictionary *)jsonDictForCarInfo;
 
 @end

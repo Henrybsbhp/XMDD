@@ -66,7 +66,7 @@ typedef enum : NSUInteger {
 #define gAlipayHelper       ([AlipayHelper sharedHelper])
 #define gWechatHelper       ([WeChatHelper sharedHelper])
 #define gMapHelper ([MapHelper sharedHelper])
-#define gMediaMgr  ([MultiMediaManager sharedManager])
+#define gMediaMgr  ([[AppManager sharedManager] mediaMgr])
 #define gPhoneHelper  ([PhoneHelper sharedHelper])
 
 #define mainStoryboard [UIStoryboard storyboardWithName:@"Main" bundle:nil]
@@ -77,6 +77,9 @@ typedef enum : NSUInteger {
 
 #define LocationFail 7001
 #define WechatPayFail 7002
+
+//通知定义
+#define kNotifyRefreshMyCarList     @"com.xmdd.RefreshMyCarList"
 
 
 #endif

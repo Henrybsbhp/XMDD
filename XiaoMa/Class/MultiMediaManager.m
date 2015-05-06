@@ -20,23 +20,10 @@
 
 static MultiMediaManager *g_mediaManager;
 
-+ (instancetype)sharedManager
-{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^ {
-        g_mediaManager = [[MultiMediaManager alloc] init];
-    });
-    return g_mediaManager;
-}
-
-- (instancetype)init
+- (instancetype)initWithPicCache:(TMCache *)cache
 {
     self = [super init];
-    if (self)
-    {
-        TMCache *cache = [[TMCache alloc] initWithName:kPicCacheName];
-        cache.diskCache.byteLimit = 200 * 1024 * 1024; // 200M
-        cache.diskCache.ageLimit = 24 * 60 * 60 * 2;// 两天
+    if (self) {
         _picCache = cache;
     }
     return self;

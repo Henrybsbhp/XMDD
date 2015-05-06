@@ -120,7 +120,7 @@
     }
     else if (self.paymentType == PaymentChannelABCCarWashAmount)
     {
-        if (gAppMgr.myUser.abcCarwashTimesCount == 0)
+        if (gAppMgr.myUser.abcCarwashesCount == 0)
         {
             UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您目前没有免费洗车次数，可能导致提交失败，请选择其他方式支付" delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:@"继续提交", nil];
             [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
@@ -358,7 +358,7 @@
         arrow.hidden = NO;
     }
     else if (indexPath.row == 1) {
-        label.text = [NSString stringWithFormat:@"农行卡免费洗车次数：%ld次", (long)gAppMgr.myUser.abcCarwashTimesCount];
+        label.text = [NSString stringWithFormat:@"农行卡免费洗车次数：%ld次", (long)gAppMgr.myUser.abcCarwashesCount];
     }
     else
     {
@@ -437,7 +437,7 @@
         
     }] subscribeNext:^(GetUserResourcesOp * op) {
         
-        gAppMgr.myUser.abcCarwashTimesCount = op.rsp_freewashes;
+        gAppMgr.myUser.abcCarwashesCount = op.rsp_freewashes;
         gAppMgr.myUser.abcIntegral = op.rsp_bankIntegral;
         gAppMgr.myUser.carwashTicketsCount = op.rsp_coupons.count;
         

@@ -29,10 +29,9 @@
         for (NSDictionary * dict in cars)
         {
             HKMyCar * car = [HKMyCar carWithJSONResponse:dict];
-            car.carId = dict[@"carid"];
             [tArray addObject:car];
         }
-        self.rsp_carArray = [NSArray arrayWithArray:tArray];
+        self.rsp_carArray = tArray;
     }
     else
     {

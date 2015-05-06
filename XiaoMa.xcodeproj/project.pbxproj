@@ -78,6 +78,14 @@
 		189B31161ADBDF07001D7288 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 189B31151ADBDF07001D7288 /* MobileCoreServices.framework */; };
 		189B311A1ADBEBE8001D7288 /* PolicyInfomationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B31191ADBEBE8001D7288 /* PolicyInfomationVC.m */; };
 		189B311D1ADBEFDF001D7288 /* policy.json in Resources */ = {isa = PBXBuildFile; fileRef = 189B311C1ADBEFDF001D7288 /* policy.json */; };
+		189B394C1AF71C3900B83F1B /* MineVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B394B1AF71C3900B83F1B /* MineVC.m */; };
+		189B394F1AF8576600B83F1B /* GetUserBaseInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B394E1AF8576600B83F1B /* GetUserBaseInfoOp.m */; };
+		189B39521AF877E100B83F1B /* MyCarListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B39511AF877E100B83F1B /* MyCarListVC.m */; };
+		189B39551AF898A400B83F1B /* Mine.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 189B39531AF898A400B83F1B /* Mine.storyboard */; };
+		189B395B1AF9A9E500B83F1B /* EditMyCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B395A1AF9A9E500B83F1B /* EditMyCarVC.m */; };
+		189B395E1AF9D9F700B83F1B /* UpdateCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B395D1AF9D9F700B83F1B /* UpdateCarOp.m */; };
+		189B39611AF9DD3B00B83F1B /* AddCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B39601AF9DD3B00B83F1B /* AddCarOp.m */; };
+		189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B39631AF9E32400B83F1B /* DeleteCarOp.m */; };
 		18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */; };
 		18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */; };
 		6B086BA11AE3184D00659DB7 /* GetShopByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */; };
@@ -322,6 +330,21 @@
 		189B31181ADBEBE8001D7288 /* PolicyInfomationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PolicyInfomationVC.h; sourceTree = "<group>"; };
 		189B31191ADBEBE8001D7288 /* PolicyInfomationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PolicyInfomationVC.m; sourceTree = "<group>"; };
 		189B311C1ADBEFDF001D7288 /* policy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = policy.json; sourceTree = "<group>"; };
+		189B394A1AF71C3900B83F1B /* MineVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineVC.h; sourceTree = "<group>"; };
+		189B394B1AF71C3900B83F1B /* MineVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineVC.m; sourceTree = "<group>"; };
+		189B394D1AF8576600B83F1B /* GetUserBaseInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserBaseInfoOp.h; path = Class/GetUserBaseInfoOp.h; sourceTree = "<group>"; };
+		189B394E1AF8576600B83F1B /* GetUserBaseInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserBaseInfoOp.m; path = Class/GetUserBaseInfoOp.m; sourceTree = "<group>"; };
+		189B39501AF877E100B83F1B /* MyCarListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCarListVC.h; sourceTree = "<group>"; };
+		189B39511AF877E100B83F1B /* MyCarListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCarListVC.m; sourceTree = "<group>"; };
+		189B39541AF898A400B83F1B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = XiaoMa/Base.lproj/Mine.storyboard; sourceTree = SOURCE_ROOT; };
+		189B39591AF9A9E500B83F1B /* EditMyCarVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditMyCarVC.h; sourceTree = "<group>"; };
+		189B395A1AF9A9E500B83F1B /* EditMyCarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditMyCarVC.m; sourceTree = "<group>"; };
+		189B395C1AF9D9F700B83F1B /* UpdateCarOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateCarOp.h; path = Class/UpdateCarOp.h; sourceTree = "<group>"; };
+		189B395D1AF9D9F700B83F1B /* UpdateCarOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateCarOp.m; path = Class/UpdateCarOp.m; sourceTree = "<group>"; };
+		189B395F1AF9DD3B00B83F1B /* AddCarOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddCarOp.h; path = Class/AddCarOp.h; sourceTree = "<group>"; };
+		189B39601AF9DD3B00B83F1B /* AddCarOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddCarOp.m; path = Class/AddCarOp.m; sourceTree = "<group>"; };
+		189B39621AF9E32400B83F1B /* DeleteCarOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteCarOp.h; path = Class/DeleteCarOp.h; sourceTree = "<group>"; };
+		189B39631AF9E32400B83F1B /* DeleteCarOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteCarOp.m; path = Class/DeleteCarOp.m; sourceTree = "<group>"; };
 		18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		18A377F21AE4AB4B0031A574 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
@@ -885,6 +908,7 @@
 			isa = PBXGroup;
 			children = (
 				1883D9201ACBC418002A4D19 /* Main.storyboard */,
+				189B39531AF898A400B83F1B /* Mine.storyboard */,
 				1883D8F11ACB99AC002A4D19 /* LaunchScreen.xib */,
 				1816F4AA1ACE74C000BBCC96 /* Carwash.storyboard */,
 				189B30C81AD664F5001D7288 /* Insurance.storyboard */,
@@ -921,6 +945,7 @@
 		1883D91A1ACBC2E4002A4D19 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				189B39491AF71C2200B83F1B /* Mine */,
 				6BB61B9D1AEF6851004F39AA /* Other */,
 				1853DEBB1AE0E60800C39175 /* Login */,
 				189B31001AD7A921001D7288 /* Common */,
@@ -1085,6 +1110,19 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
+		189B39491AF71C2200B83F1B /* Mine */ = {
+			isa = PBXGroup;
+			children = (
+				189B394A1AF71C3900B83F1B /* MineVC.h */,
+				189B394B1AF71C3900B83F1B /* MineVC.m */,
+				189B39501AF877E100B83F1B /* MyCarListVC.h */,
+				189B39511AF877E100B83F1B /* MyCarListVC.m */,
+				189B39591AF9A9E500B83F1B /* EditMyCarVC.h */,
+				189B395A1AF9A9E500B83F1B /* EditMyCarVC.m */,
+			);
+			name = Mine;
+			sourceTree = "<group>";
+		};
 		18A377F01AE4AB4B0031A574 /* SVProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -1243,8 +1281,16 @@
 				6BBAB8D01ADE30F900EC342F /* GetShopRatesOp.m */,
 				6BBAB9771ADE77E500EC342F /* GetUserResourcesOp.h */,
 				6BBAB9781ADE77E500EC342F /* GetUserResourcesOp.m */,
+				189B394D1AF8576600B83F1B /* GetUserBaseInfoOp.h */,
+				189B394E1AF8576600B83F1B /* GetUserBaseInfoOp.m */,
 				6BB884DB1AE0FE7500EBD8F4 /* GetUserCarOp.h */,
 				6BB884DC1AE0FE7500EBD8F4 /* GetUserCarOp.m */,
+				189B395C1AF9D9F700B83F1B /* UpdateCarOp.h */,
+				189B395D1AF9D9F700B83F1B /* UpdateCarOp.m */,
+				189B395F1AF9DD3B00B83F1B /* AddCarOp.h */,
+				189B39601AF9DD3B00B83F1B /* AddCarOp.m */,
+				189B39621AF9E32400B83F1B /* DeleteCarOp.h */,
+				189B39631AF9E32400B83F1B /* DeleteCarOp.m */,
 				6BEA56431AE2488C000D19C1 /* CheckoutServiceOrderOp.h */,
 				6BEA56441AE2488C000D19C1 /* CheckoutServiceOrderOp.m */,
 				6B086B9F1AE3184D00659DB7 /* GetShopByNameOp.h */,
@@ -1548,6 +1594,7 @@
 				189B30CA1AD664F5001D7288 /* Insurance.storyboard in Resources */,
 				6BBB825D1AE79FE100850D0C /* read_me.txt in Resources */,
 				1883D8F31ACB99AC002A4D19 /* LaunchScreen.xib in Resources */,
+				189B39551AF898A400B83F1B /* Mine.storyboard in Resources */,
 				189B311D1ADBEFDF001D7288 /* policy.json in Resources */,
 				6BB884B11AE0B3FE00EBD8F4 /* hz.gpx in Resources */,
 				189B30FF1AD7A85A001D7288 /* Common.storyboard in Resources */,
@@ -1628,6 +1675,7 @@
 				6BE2BD5B1AE6305600A69875 /* GetSystemPromotionOp.m in Sources */,
 				187CC9591AEE4034004D1F28 /* SimplePolicyInfoVC.m in Sources */,
 				6BE2BD521AE62B1600A69875 /* GetInsuranceCalculatorOp.m in Sources */,
+				189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */,
 				1853DECE1AE100CA00C39175 /* HKSMSModel.m in Sources */,
 				1853DEC41AE0EC1600C39175 /* LoginViewModel.m in Sources */,
 				1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */,
@@ -1642,7 +1690,9 @@
 				6BD7AE681AE9F63900BEF30E /* MapBottomView.m in Sources */,
 				6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */,
 				6BC3B6191ADF92E7001016A0 /* CommonUtility.m in Sources */,
+				189B395E1AF9D9F700B83F1B /* UpdateCarOp.m in Sources */,
 				6BB884BA1AE0BB9600EBD8F4 /* JTHeadRefreshView.m in Sources */,
+				189B394C1AF71C3900B83F1B /* MineVC.m in Sources */,
 				6BEA56C61AE24DCE000D19C1 /* NSString+SBJSON.m in Sources */,
 				189B30D41AD799AF001D7288 /* RACSignal+Extension.m in Sources */,
 				1853DEB71AE0B92400C39175 /* AuthByPwdOp.m in Sources */,
@@ -1654,6 +1704,7 @@
 				6B086BA11AE3184D00659DB7 /* GetShopByNameOp.m in Sources */,
 				184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */,
 				189B31091AD7C5B3001D7288 /* InsuranceChannelVC.m in Sources */,
+				189B39611AF9DD3B00B83F1B /* AddCarOp.m in Sources */,
 				1853DEBA1AE0BAA400C39175 /* HKConvertModel.m in Sources */,
 				189B30C01AD62E57001D7288 /* PaymentSuccessVC.m in Sources */,
 				6BB61BA61AEF8B34004F39AA /* ServiceViewController.m in Sources */,
@@ -1670,6 +1721,7 @@
 				189B30CD1AD762B1001D7288 /* EnquiryInsuranceVC.m in Sources */,
 				6BEA56C91AE24DCE000D19C1 /* SBJsonParser.m in Sources */,
 				189B30B01AD4D661001D7288 /* JTTableViewController.m in Sources */,
+				189B395B1AF9A9E500B83F1B /* EditMyCarVC.m in Sources */,
 				1853DED11AE2971500C39175 /* ResetPasswordVC.m in Sources */,
 				1883D9331ACCDA8B002A4D19 /* DefaultStyleModel.m in Sources */,
 				189B30BA1AD51EF2001D7288 /* JTUser.m in Sources */,
@@ -1716,6 +1768,7 @@
 				6BC3B61C1ADF9334001016A0 /* LineDashPolyline.m in Sources */,
 				6BAF30181AE67CC800E35E08 /* GetSystemVersionOp.m in Sources */,
 				6BE2BD611AE6408500A69875 /* DownloadOp.m in Sources */,
+				189B39521AF877E100B83F1B /* MyCarListVC.m in Sources */,
 				6BBAB8C41ADCBD1400EC342F /* GetShopByRangeOp.m in Sources */,
 				187CC95C1AEF2023004D1F28 /* UploadFileOp.m in Sources */,
 				187CC9551AEDD0D1004D1F28 /* CommonPackerVC.m in Sources */,
@@ -1743,6 +1796,7 @@
 				1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */,
 				6BB884D41AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.m in Sources */,
 				6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */,
+				189B394F1AF8576600B83F1B /* GetUserBaseInfoOp.m in Sources */,
 				189B30C71AD664D7001D7288 /* InsuranceVC.m in Sources */,
 				6BEA56C51AE24DCE000D19C1 /* NSObject+SBJSON.m in Sources */,
 				6BE2BD5E1AE63F9F00A69875 /* MultiMediaManager.m in Sources */,
@@ -1818,6 +1872,14 @@
 				189B30FE1AD7A85A001D7288 /* Base */,
 			);
 			name = Common.storyboard;
+			sourceTree = "<group>";
+		};
+		189B39531AF898A400B83F1B /* Mine.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				189B39541AF898A400B83F1B /* Base */,
+			);
+			name = Mine.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
