@@ -20,6 +20,8 @@
 
 @property (weak, nonatomic) IBOutlet MAMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIView *bottomScrollView;
+@property (weak, nonatomic) IBOutlet UIButton *locationMeBtn;
+
 @property (nonatomic, strong) SYPaginatorView *bottomSYView;
 
 @property (nonatomic)CLLocationCoordinate2D userCoordinate;
@@ -36,6 +38,7 @@
     
     [self setupNavigationBar];
     [self setupMapView];
+    [self setupLocationMe];
     
     if (gMapHelper.coordinate.latitude != 0)
     {
@@ -90,13 +93,12 @@
     @weakify(self);
     self.mapView.frame = self.view.bounds;
     
-    
-    
     [self.mapView mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self)
         make.edges.equalTo(self.view).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
 }
+
 
 - (void)setupSYViewInContainer:(UIView *)container
 {
@@ -118,6 +120,16 @@
         make.height.mas_equalTo(height);
     }];
     self.bottomSYView.currentPageIndex = 0;
+}
+
+- (void)setupLocationMe
+{
+    @weakify(self)
+    [[self.locationMeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+       
+        @strongify(self)
+        [self.mapView setCenterCoordinate:self.mapView.userLocation.coordinate animated:YES];
+    }];
 }
 
 
