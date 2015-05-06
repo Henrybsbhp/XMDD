@@ -8,6 +8,8 @@
 
 #import "AppManager.h"
 
+#define kSharedCacheName    @"AppInfoManager_dataCache"
+
 @implementation AppManager
 
 + (AppManager *)sharedManager
@@ -25,7 +27,14 @@
     self = [super init];
     if (self)
     {
-        TMCache *cache = [[TMCache alloc] initWithName:@"PromptionCache"];
+        //  常用数据缓存（用于缓存用户使用造成的数据，可手动清除）
+        TMCache *cache = [[TMCache alloc] initWithName:kSharedCacheName];
+        cache.diskCache.byteLimit = 512 * 1024 * 1024;
+        _dataCache = cache;
+        //多媒体管理器
+        _mediaMgr = [[MultiMediaManager alloc] initWithPicCache:_dataCache];
+        
+        cache = [[TMCache alloc] initWithName:@"PromptionCache"];
         cache.diskCache.byteLimit = 200 * 1024 * 1024; // 200M
         _promptionCache = cache;
     }

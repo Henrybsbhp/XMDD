@@ -39,7 +39,10 @@
         [self.contentView setBorderLineInsets:UIEdgeInsetsZero forDirectionMask:CKViewBorderDirectionBottom];
     }
     //上边线
-    mask |= self.currentIndexPath.row == 0 ? CKViewBorderDirectionTop : 0;
+    if (self.currentIndexPath.row == 0 && self.hiddenTopSeparatorLine == NO) {
+        mask |= CKViewBorderDirectionTop;
+    }
+//    mask |= self.currentIndexPath.row == 0 ? CKViewBorderDirectionTop : 0;
     [self.contentView setBorderLineInsets:UIEdgeInsetsMake(self.customSeparatorInset.top, 0, 0, 0)
                          forDirectionMask:CKViewBorderDirectionTop];
     [self.contentView showBorderLineWithDirectionMask:mask];

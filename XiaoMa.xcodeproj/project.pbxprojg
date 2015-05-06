@@ -111,6 +111,8 @@
 		6BB884D71AE0F31700EBD8F4 /* HKCoupon.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884D61AE0F31700EBD8F4 /* HKCoupon.m */; };
 		6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884D91AE0F3CC00EBD8F4 /* HKMyCar.m */; };
 		6BB884DD1AE0FE7500EBD8F4 /* GetUserCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884DC1AE0FE7500EBD8F4 /* GetUserCarOp.m */; };
+		6BB9D76E1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB9D76D1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m */; };
+		6BB9D7711AF7054B00F7F3F8 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB9D7701AF7054B00F7F3F8 /* SearchViewController.m */; };
 		6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8AC1ADB6A8A00EC342F /* AuthByVcodeOp.m */; };
 		6BBAB8B01ADB754500EC342F /* GetTokenOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8AF1ADB754500EC342F /* GetTokenOp.m */; };
 		6BBAB8B31ADB777500EC342F /* GetVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8B21ADB777500EC342F /* GetVcodeOp.m */; };
@@ -152,6 +154,9 @@
 		6BE2BD5B1AE6305600A69875 /* GetSystemPromotionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD5A1AE6305600A69875 /* GetSystemPromotionOp.m */; };
 		6BE2BD5E1AE63F9F00A69875 /* MultiMediaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD5D1AE63F9F00A69875 /* MultiMediaManager.m */; };
 		6BE2BD611AE6408500A69875 /* DownloadOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD601AE6408500A69875 /* DownloadOp.m */; };
+		6BE4CE311AF217BC008E1C19 /* GetUserCouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4CE301AF217BC008E1C19 /* GetUserCouponOp.m */; };
+		6BE4CE341AF21ACA008E1C19 /* AddUserCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4CE331AF21ACA008E1C19 /* AddUserCarOp.m */; };
+		6BE4CE371AF220A0008E1C19 /* GetUserFavoriteOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4CE361AF220A0008E1C19 /* GetUserFavoriteOp.m */; };
 		6BEA56451AE2488C000D19C1 /* CheckoutServiceOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56441AE2488C000D19C1 /* CheckoutServiceOrderOp.m */; };
 		6BEA56481AE24D34000D19C1 /* AlipayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56471AE24D34000D19C1 /* AlipayHelper.m */; };
 		6BEA56C01AE24DCE000D19C1 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6BEA564A1AE24DCD000D19C1 /* AlipaySDK.bundle */; };
@@ -383,6 +388,10 @@
 		6BB884D91AE0F3CC00EBD8F4 /* HKMyCar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKMyCar.m; path = Class/HKMyCar.m; sourceTree = "<group>"; };
 		6BB884DB1AE0FE7500EBD8F4 /* GetUserCarOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserCarOp.h; path = Class/GetUserCarOp.h; sourceTree = "<group>"; };
 		6BB884DC1AE0FE7500EBD8F4 /* GetUserCarOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserCarOp.m; path = Class/GetUserCarOp.m; sourceTree = "<group>"; };
+		6BB9D76C1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteUserFavoriteOp.h; path = Class/DeleteUserFavoriteOp.h; sourceTree = "<group>"; };
+		6BB9D76D1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteUserFavoriteOp.m; path = Class/DeleteUserFavoriteOp.m; sourceTree = "<group>"; };
+		6BB9D76F1AF7054B00F7F3F8 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		6BB9D7701AF7054B00F7F3F8 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		6BBAB8AB1ADB6A8A00EC342F /* AuthByVcodeOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AuthByVcodeOp.h; path = Class/AuthByVcodeOp.h; sourceTree = "<group>"; };
 		6BBAB8AC1ADB6A8A00EC342F /* AuthByVcodeOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AuthByVcodeOp.m; path = Class/AuthByVcodeOp.m; sourceTree = "<group>"; };
 		6BBAB8AE1ADB754500EC342F /* GetTokenOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetTokenOp.h; path = Class/GetTokenOp.h; sourceTree = "<group>"; };
@@ -464,6 +473,12 @@
 		6BE2BD5D1AE63F9F00A69875 /* MultiMediaManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MultiMediaManager.m; path = Class/MultiMediaManager.m; sourceTree = "<group>"; };
 		6BE2BD5F1AE6408500A69875 /* DownloadOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadOp.h; path = Class/DownloadOp.h; sourceTree = "<group>"; };
 		6BE2BD601AE6408500A69875 /* DownloadOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DownloadOp.m; path = Class/DownloadOp.m; sourceTree = "<group>"; };
+		6BE4CE2F1AF217BC008E1C19 /* GetUserCouponOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserCouponOp.h; path = Class/GetUserCouponOp.h; sourceTree = "<group>"; };
+		6BE4CE301AF217BC008E1C19 /* GetUserCouponOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserCouponOp.m; path = Class/GetUserCouponOp.m; sourceTree = "<group>"; };
+		6BE4CE321AF21ACA008E1C19 /* AddUserCarOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddUserCarOp.h; path = Class/AddUserCarOp.h; sourceTree = "<group>"; };
+		6BE4CE331AF21ACA008E1C19 /* AddUserCarOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddUserCarOp.m; path = Class/AddUserCarOp.m; sourceTree = "<group>"; };
+		6BE4CE351AF220A0008E1C19 /* GetUserFavoriteOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserFavoriteOp.h; path = Class/GetUserFavoriteOp.h; sourceTree = "<group>"; };
+		6BE4CE361AF220A0008E1C19 /* GetUserFavoriteOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserFavoriteOp.m; path = Class/GetUserFavoriteOp.m; sourceTree = "<group>"; };
 		6BEA56431AE2488C000D19C1 /* CheckoutServiceOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckoutServiceOrderOp.h; path = Class/CheckoutServiceOrderOp.h; sourceTree = "<group>"; };
 		6BEA56441AE2488C000D19C1 /* CheckoutServiceOrderOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckoutServiceOrderOp.m; path = Class/CheckoutServiceOrderOp.m; sourceTree = "<group>"; };
 		6BEA56461AE24D34000D19C1 /* AlipayHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlipayHelper.h; path = Class/AlipayHelper.h; sourceTree = "<group>"; };
@@ -664,6 +679,8 @@
 				6BC3B6141ADF69B5001016A0 /* CarWashNavigationViewController.m */,
 				6BBB824D1AE7757100850D0C /* NearbyShopsViewController.h */,
 				6BBB824E1AE7757100850D0C /* NearbyShopsViewController.m */,
+				6BB9D76F1AF7054B00F7F3F8 /* SearchViewController.h */,
+				6BB9D7701AF7054B00F7F3F8 /* SearchViewController.m */,
 			);
 			name = CarWash;
 			sourceTree = "<group>";
@@ -1267,6 +1284,14 @@
 				6BBB82481AE7401400850D0C /* GetInsuranceByChannel.m */,
 				6BB61B961AEE85E8004F39AA /* AddUserFavoriteOp.h */,
 				6BB61B971AEE85E8004F39AA /* AddUserFavoriteOp.m */,
+				6BE4CE2F1AF217BC008E1C19 /* GetUserCouponOp.h */,
+				6BE4CE301AF217BC008E1C19 /* GetUserCouponOp.m */,
+				6BE4CE321AF21ACA008E1C19 /* AddUserCarOp.h */,
+				6BE4CE331AF21ACA008E1C19 /* AddUserCarOp.m */,
+				6BE4CE351AF220A0008E1C19 /* GetUserFavoriteOp.h */,
+				6BE4CE361AF220A0008E1C19 /* GetUserFavoriteOp.m */,
+				6BB9D76C1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.h */,
+				6BB9D76D1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -1632,6 +1657,7 @@
 				1853DEC41AE0EC1600C39175 /* LoginViewModel.m in Sources */,
 				1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */,
 				189B30BD1AD524EC001D7288 /* AppManager.m in Sources */,
+				6BB9D7711AF7054B00F7F3F8 /* SearchViewController.m in Sources */,
 				6BAF301D1AE6947F00E35E08 /* ClientInfo.m in Sources */,
 				6BB884BB1AE0BB9600EBD8F4 /* JTTableView.m in Sources */,
 				6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */,
@@ -1665,6 +1691,7 @@
 				6B747A651AF08C7B00106BFD /* PhoneHelper.m in Sources */,
 				18863FA51AE8ECFB005BF4ED /* GridLabel.m in Sources */,
 				6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */,
+				6BB9D76E1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m in Sources */,
 				1853DECB1AE0F72500C39175 /* RegisterVC.m in Sources */,
 				6BEA56481AE24D34000D19C1 /* AlipayHelper.m in Sources */,
 				189B30CD1AD762B1001D7288 /* EnquiryInsuranceVC.m in Sources */,
@@ -1672,6 +1699,7 @@
 				189B30B01AD4D661001D7288 /* JTTableViewController.m in Sources */,
 				1853DED11AE2971500C39175 /* ResetPasswordVC.m in Sources */,
 				1883D9331ACCDA8B002A4D19 /* DefaultStyleModel.m in Sources */,
+				6BE4CE311AF217BC008E1C19 /* GetUserCouponOp.m in Sources */,
 				189B30BA1AD51EF2001D7288 /* JTUser.m in Sources */,
 				1816F4B41ACE767200BBCC96 /* UIStoryboard+Expansion.m in Sources */,
 				6BEA56CA1AE24DCE000D19C1 /* SBJsonWriter.m in Sources */,
@@ -1681,6 +1709,7 @@
 				189B30B31AD4F7AC001D7288 /* UIView+CustomForXIB.m in Sources */,
 				6BEA56C81AE24DCE000D19C1 /* SBJsonBase.m in Sources */,
 				6BBB82491AE7401400850D0C /* GetInsuranceByChannel.m in Sources */,
+				6BE4CE371AF220A0008E1C19 /* GetUserFavoriteOp.m in Sources */,
 				6BEA56C71AE24DCE000D19C1 /* SBJSON.m in Sources */,
 				1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */,
 				6BB61B981AEE85E8004F39AA /* AddUserFavoriteOp.m in Sources */,
@@ -1742,6 +1771,7 @@
 				6BBAB8C71ADD1ED900EC342F /* GetShopByDistanceOp.m in Sources */,
 				1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */,
 				6BB884D41AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.m in Sources */,
+				6BE4CE341AF21ACA008E1C19 /* AddUserCarOp.m in Sources */,
 				6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */,
 				189B30C71AD664D7001D7288 /* InsuranceVC.m in Sources */,
 				6BEA56C51AE24DCE000D19C1 /* NSObject+SBJSON.m in Sources */,

@@ -77,7 +77,7 @@
     return dateText;
 }
 
-- (NSString *)dateFormatForShortText
+- (NSString *)dateFormatForYYMMdd
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy年MM月dd日"];
@@ -85,10 +85,18 @@
     return dateToString;
 }
 
-- (NSString *)dateFormatForLongText
+- (NSString *)dateFormatForYYYYMMddHHmm
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy年MM月dd日 HH:mm"];
+    NSString *dateToString = [dateFormatter stringFromDate:self];
+    return dateToString;
+}
+
+- (NSString *)dateFormatForYYMM
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy年MM月"];
     NSString *dateToString = [dateFormatter stringFromDate:self];
     return dateToString;
 }
@@ -125,10 +133,10 @@
     return dateToString;
 }
 
-+ (NSString *)dateFormatForLongTextWithD15:(NSString *)text
++ (NSString *)dateFormatForYYYYMMddHHmmWithD15:(NSString *)text
 {
     NSDate * date = [NSDate dateWithText:text];
-    NSString * longText = [date dateFormatForLongText];
+    NSString * longText = [date dateFormatForYYYYMMddHHmm];
     return longText;
 }
 

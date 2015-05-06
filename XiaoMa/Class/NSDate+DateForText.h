@@ -16,11 +16,13 @@
 /// 时间格式化(MM月dd日 HH:mm)
 - (NSString *)dateFormatForText;
 /// 时间格式化(yyyy年MM月dd日 HH:mm)
-- (NSString *)dateFormatForLongText;
+- (NSString *)dateFormatForYYYYMMddHHmm;
 /// 时间格式化(yyyy年MM月dd日)
-- (NSString *)dateFormatForShortText;
+- (NSString *)dateFormatForYYMMdd;
+/// 时间格式化(yyyy年MM月)
+- (NSString *)dateFormatForYYMM;
 /// D15时间格式化(yyyy年MM月dd日)
-+ (NSString *)dateFormatForLongTextWithD15:(NSString *)text;
++ (NSString *)dateFormatForYYYYMMddHHmmWithD15:(NSString *)text;
 ///参照时间(mm:ss)
 - (NSString *)dateFormatForRefrenceText;
 - (NSString *)dateFormatForDT15;

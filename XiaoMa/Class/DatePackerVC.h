@@ -23,4 +23,7 @@ typedef enum : NSUInteger {
 - (IBAction)actionEnsure:(id)sender;
 - (void)setupWithTintColor:(UIColor *)tintColor;
 
+///弹出日期选择器
++ (RACSignal *)rac_presentPackerVCInView:(UIView *)view withSelectedDate:(NSDate *)date;
+
 @end

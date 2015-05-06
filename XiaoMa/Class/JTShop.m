@@ -35,8 +35,8 @@
     }
     JTShopService * service = [[JTShopService alloc] init];
     service.serviceID = [NSString stringWithFormat:@"%@",rsp[@"serviceid"]];
-    service.serviceName = [rsp stringParamFroName:@"name"];
-    service.serviceDescription = [rsp stringParamFroName:@"description"];
+    service.serviceName = [rsp stringParamForName:@"name"];
+    service.serviceDescription = [rsp stringParamForName:@"description"];
     service.shopServiceType = (ShopServiceType)[rsp integerParamForName:@"category"];
     NSArray * array = rsp[@"rates"];
     NSMutableArray * t = [NSMutableArray array];
@@ -63,10 +63,10 @@
         return nil;
     }
     JTShopComment * comment = [[JTShopComment alloc] init];
-    comment.nickname = [rsp stringParamFroName:@"nickname"];
-    comment.avatarUrl = [rsp stringParamFroName:@"avatarUrl"];
+    comment.nickname = [rsp stringParamForName:@"nickname"];
+    comment.avatarUrl = [rsp stringParamForName:@"avatarUrl"];
     comment.rate = [rsp integerParamForName:@"rate"];
-    comment.comment = [rsp stringParamFroName:@"comment"];
+    comment.comment = [rsp stringParamForName:@"comment"];
     comment.time = [NSDate dateWithD8Text:[NSString stringWithFormat:@"%@",rsp[@"time"]]];
     
     return comment;

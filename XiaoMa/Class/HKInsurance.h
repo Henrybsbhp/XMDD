@@ -17,12 +17,6 @@
 ///险种金额
 @property (nonatomic, strong) NSString *coveragerValue;
 
-///保险金额
-@property (nonatomic)CGFloat sum;
-
-///保险费用
-@property (nonatomic)CGFloat fee;
-
 @end
 
 

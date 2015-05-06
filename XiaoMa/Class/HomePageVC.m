@@ -10,8 +10,6 @@
 #import <Masonry.h>
 #import "XiaoMa.h"
 #import "SYPaginator.h"
-#import "MultiMediaManager.h"
-
 #import "AuthByVcodeOp.h"
 #import "NSString+MD5.h"
 #import "UpdatePwdOp.h"
@@ -513,8 +511,9 @@ static NSInteger rotationIndex = 0;
     HKAdvertisement * ad = [gAppMgr.homepageAdvertiseArray safetyObjectAtIndex:pageIndex];
     if(ad.adPic.length)
     {
-        RAC(imgV, image) = [gMediaMgr rac_getPictureForUrl:ad.adPic
-                                             withDefaultPic:@"tmp_ad"];
+        [[gMediaMgr rac_getPictureForUrl:ad.adPic withDefaultPic:@"tmp_ad"] subscribeNext:^(id x) {
+            imgV.image = x;
+        }];
     }
     else
     {
