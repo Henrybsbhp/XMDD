@@ -294,16 +294,16 @@
                                                 <constraint firstAttribute="height" constant="58" id="nNW-GN-TSa"/>
                                             </constraints>
                                         </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="r5A-Rf-fpj">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="r5A-Rf-fpj">
                                             <rect key="frame" x="12" y="81" width="576" height="1"/>
-                                            <color key="backgroundColor" white="0.88" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="1" id="grh-AD-AP8"/>
                                             </constraints>
                                         </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ERp-L2-VTZ">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="ERp-L2-VTZ">
                                             <rect key="frame" x="12" y="140" width="576" height="1"/>
-                                            <color key="backgroundColor" white="0.88" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="1" id="VeP-hh-YKn"/>
                                             </constraints>
@@ -493,6 +493,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Horizontaline" width="621" height="1"/>
         <image name="hp_callcenter" width="26" height="34"/>
         <image name="hp_weather" width="28" height="22"/>
         <image name="nb_abc" width="15" height="14"/>

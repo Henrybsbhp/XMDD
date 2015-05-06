@@ -75,6 +75,7 @@
     
     mapBottomView.titleLb.text = self.shop.shopName;
     mapBottomView.addressLb.text = self.shop.shopAddress;
+    mapBottomView.detailBtn.hidden = YES;
     
     @weakify(self)
     [[mapBottomView.detailBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {

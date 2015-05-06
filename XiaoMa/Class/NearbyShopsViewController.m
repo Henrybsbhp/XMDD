@@ -90,6 +90,8 @@
     @weakify(self);
     self.mapView.frame = self.view.bounds;
     
+    
+    
     [self.mapView mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self)
         make.edges.equalTo(self.view).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
@@ -179,11 +181,13 @@
         {
             [SVProgressHUD showSuccessWithStatus:@"收藏成功"];
         }
-        else if (op.rsp_code == 7001)
+    } error:^(NSError *error) {
+        
+        if (error.code == 7001)
         {
             [SVProgressHUD  showErrorWithStatus:@"该店铺不存在"];
         }
-        else if (op.rsp_code == 7002)
+        else if (error.code == 7002)
         {
             [SVProgressHUD  showErrorWithStatus:@"该店铺已收藏"];
         }
@@ -191,9 +195,6 @@
         {
             [SVProgressHUD  showErrorWithStatus:@"收藏失败"];
         }
-    } error:^(NSError *error) {
-        
-        [SVProgressHUD  showErrorWithStatus:@"收藏失败"];
     }];
 }
 

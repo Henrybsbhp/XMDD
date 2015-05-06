@@ -86,7 +86,7 @@
         }
         
         NSString * baiduUrlString = [[NSString stringWithFormat:@"baidumap://map/direction?mode=driving&origin=latlng:%f,%f|name:我的位置&destination=latlng:%f,%f|name:%@&zoom=10&src=小马达达",userCoordinate.latitude,userCoordinate.longitude,shop.shopLatitude,shop.shopLongitude,shop.shopName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSString *amapUrlString = [[NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=%@&lat=%f&lon=%f&dev=1&style=2&poiname=%@",@"小马达达", @"com.huika.xmdd",shop.shopLatitude, shop.shopLongitude,shop.shopName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *amapUrlString = [[NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=%@&lat=%f&lon=%f&dev=1&style=2&poiname=%@&backScheme=amap.huika.xmdd",@"小马达达", @"com.huika.xmdd",shop.shopLatitude, shop.shopLongitude,shop.shopName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         if (buttonIndex == 0)
         {
             
