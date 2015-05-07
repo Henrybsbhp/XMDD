@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface ChooseCarwashTicketVC : UIViewController
+
 @property (nonatomic, weak) UIViewController *originVC;
+
+@property (nonatomic,copy)NSString * couponId;
+
 @end

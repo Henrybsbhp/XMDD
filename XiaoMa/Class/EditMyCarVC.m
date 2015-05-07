@@ -145,7 +145,7 @@
 {
     //购车时间
     if (indexPath.row == 1) {
-        [[DatePackerVC rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.curCar.purchasedate]
+        [[DatePackerVC rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.curCar.purchasedate ? self.curCar.purchasedate : [NSDate date]]
          subscribeNext:^(NSDate *date) {
              self.curCar.purchasedate = date;
         }];

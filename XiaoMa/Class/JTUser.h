@@ -29,4 +29,6 @@
 
 - (HKMyCar *)getDefaultCar;
 
+- (RACSignal *)rac_requestGetUserCar;
+
 @end

@@ -19,6 +19,8 @@
 - (NSString *)dateFormatForYYYYMMddHHmm;
 /// 时间格式化(yyyy年MM月dd日)
 - (NSString *)dateFormatForYYMMdd;
+/// 时间格式化(yyyy.MM.dd)
+- (NSString *)dateFormatForYYMMdd2;
 /// 时间格式化(yyyy年MM月)
 - (NSString *)dateFormatForYYMM;
 /// D15时间格式化(yyyy年MM月dd日)

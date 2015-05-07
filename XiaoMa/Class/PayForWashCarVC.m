@@ -19,6 +19,8 @@
 #import "WeChatHelper.h"
 #import "CheckoutServiceOrderOp.h"
 #import "NSDate+DateForText.h"
+#import "UIView+Layer.h"
+
 
 
 
@@ -28,14 +30,14 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) CKSegmentHelper *checkBoxHelper;
 
-@property (nonatomic,strong)HKMyCar *car;
-
 @property (nonatomic)BOOL isLoadingResourse;
 
 /// 是否添加车辆（请求我的车辆成功，且无车辆）
 @property (nonatomic)BOOL needAppendCarFlag;
 
 @property (nonatomic)PaymentChannelType paymentType;
+
+@property (nonatomic,copy)NSString * couponId;
 @end
 
 @implementation PayForWashCarVC
@@ -48,21 +50,31 @@
     
     self.paymentType = PaymentChannelAlipay;
     
-    if (gAppMgr.myUser.carArray.count)
-    {
-        self.car = [gAppMgr.myUser getDefaultCar];
-    }
-    else
+    /// 进入此页面，要么有车辆信息，要么车辆信息获取失败（）
+    if (!gAppMgr.myUser.carArray)
     {
         [self requestGetUserCar];
     }
+
     self.isLoadingResourse = YES;
     [self requestGetUserResource];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+//    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc
+{
+    DebugLog(@"PayForWashCarVC dealloc");
 }
 
 - (void)setupCheckBoxHelper
@@ -153,7 +165,6 @@
             [av show];
         }
     }
-    
     else // 支付宝或微信
     {
         [self requestCheckout];
@@ -184,6 +195,14 @@
         if (indexPath.row == 0)
         {
             height = 35;
+        }
+        else if (indexPath.row == 1 || indexPath.row == 2)
+        {
+            height = 55;
+        }
+        else
+        {
+            height = 44;
         }
     }
     return height;
@@ -254,16 +273,46 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     JTTableViewCell *jtcell = (JTTableViewCell *)cell;
-    [jtcell prepareCellForTableView:tableView atIndexPath:indexPath];
+    
+    if ((indexPath.section == 1 && indexPath.row == 0) || (indexPath.section == 2 && indexPath.row == 0))
+    {
+        [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(-1, 0, 0, 0) forDirectionMask:CKViewBorderDirectionBottom];
+        [cell.contentView showBorderLineWithDirectionMask:CKViewBorderDirectionBottom];
+        [cell.contentView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:CKViewBorderDirectionBottom];
+    }
+    else
+    {
+        jtcell.customSeparatorInset = UIEdgeInsetsMake(-1, 8, 0, 8);
+        [jtcell prepareCellForTableView:tableView atIndexPath:indexPath];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1 && indexPath.row == 1) {
+    if (indexPath.section == 1) {
+        if (indexPath.row == 1)
+        {
         //点击查看优惠券
             ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
             vc.originVC = self.originVC;
+            vc.couponId = self.couponId;
             [self.navigationController pushViewController:vc animated:YES];
+            
+//            self.paymentType = PaymentChannelCoupon;
+        }
+        else if (indexPath.row == 2)
+        {
+            self.paymentType = PaymentChannelABCCarWashAmount;
+        }
+        else
+        {
+            self.paymentType = PaymentChannelABCIntegral;
+        }
+        
+        ///取消支付宝，微信勾选
+        [self.checkBoxHelper cancelSelectedForGroupName:@"PaymentType"];
+        NSIndexSet *indexSet= [[NSIndexSet alloc] initWithIndex:1];
+        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
     }
 }
 
@@ -310,9 +359,9 @@
     }
     else if (indexPath.row == 3) {
         
-        if (self.car.licencenumber.length)
+        if (self.defaultCar.licencenumber.length)
         {
-            titleL.text = [NSString stringWithFormat:@"我的车辆：%@", self.car.licencenumber];
+            titleL.text = [NSString stringWithFormat:@"我的车辆：%@", self.defaultCar.licencenumber];
             additionB.hidden = YES;
         }
         else
@@ -328,43 +377,62 @@
 - (UITableViewCell *)paymentTypeCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentTypeCell"];
-    UIButton *box = (UIButton *)[cell.contentView viewWithTag:1001];
+    if (indexPath.row == 3)
+    {
+        cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentTypeCellB"];
+    }
+//    UIButton *box = (UIButton *)[cell.contentView viewWithTag:1001];
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:1002];
     UIImageView *arrow = (UIImageView *)[cell.contentView viewWithTag:1003];
+    UILabel *dateLb = (UILabel *)[cell.contentView viewWithTag:1004];
+    UILabel *statusLb = (UILabel *)[cell.contentView viewWithTag:1005];
     
     if (indexPath.row == 1) {
         label.text = [NSString stringWithFormat:@"免费洗车券：%ld张", (long)gAppMgr.myUser.carwashTicketsCount];
         arrow.hidden = NO;
+        dateLb.text = [NSString stringWithFormat:@"有效期：%@ - %@",[[NSDate date] dateFormatForYYMMdd2],[[NSDate date] dateFormatForYYMMdd2]];
+        
+        if (self.paymentType == PaymentChannelCoupon)
+        {
+            statusLb.text = @"已选中";
+            statusLb.textColor = HEXCOLOR(@"#fb4209");
+        }
+        else
+        {
+            statusLb.text = @"未使用";
+            statusLb.textColor = HEXCOLOR(@"#aaaaaa");
+        }
     }
     else if (indexPath.row == 2) {
         label.text = [NSString stringWithFormat:@"农行卡免费洗车次数：%ld次", (long)gAppMgr.myUser.abcCarwashesCount];
+        dateLb.text = [NSString stringWithFormat:@"有效期：%@ - %@",[[NSDate date] dateFormatForYYMMdd2],[[NSDate date] dateFormatForYYMMdd2]];
+        
+        if (self.paymentType == PaymentChannelABCCarWashAmount)
+        {
+            statusLb.text = @"已选中";
+            statusLb.textColor = HEXCOLOR(@"#fb4209");
+        }
+        else
+        {
+            statusLb.text = @"未使用";
+            statusLb.textColor = HEXCOLOR(@"#aaaaaa");
+        }
     }
     else
     {
         label.text = [NSString stringWithFormat:@"农行卡积分：%ld分", (long)gAppMgr.myUser.abcIntegral];
-    }
-    @weakify(self);
-    [self.checkBoxHelper addItem:box forGroupName:@"PaymentType" withChangedBlock:^(id item, BOOL selected) {
-        box.selected = selected;
-    }];
-    [[[box rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        @strongify(self);
-        [self.checkBoxHelper selectItem:box forGroupName:@"PaymentType"];
-        if (indexPath.row == 1)
+        
+        if (self.paymentType == PaymentChannelABCIntegral)
         {
-            self.paymentType = PaymentChannelCoupon;
-        }
-        else if (indexPath.row == 2)
-        {
-            self.paymentType = PaymentChannelABCCarWashAmount;
+            statusLb.text = @"已选中";
+            statusLb.textColor = HEXCOLOR(@"#fb4209");
         }
         else
         {
-            self.paymentType = PaymentChannelABCIntegral;
+            statusLb.text = @"未使用";
+            statusLb.textColor = HEXCOLOR(@"#aaaaaa");
         }
-    }];
-
-    
+    }
     return cell;
 }
 
@@ -389,18 +457,39 @@
 
     [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
-        [self.checkBoxHelper selectItem:boxB forGroupName:@"PaymentType"];
-        if (indexPath.row == 1)
+        
+        if (self.paymentType == PaymentChannelABCCarWashAmount ||
+            self.paymentType == PaymentChannelABCIntegral ||
+            self.paymentType == PaymentChannelCoupon)
         {
-            self.paymentType = PaymentChannelAlipay;
-        }
-        else
-        {
-            self.paymentType = PaymentChannelWechat;
+            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您已选择优惠方式支付，是否切换至第三方平台支付" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
+                
+                NSInteger index = [num integerValue];
+                if (index == 1)
+                {
+                    [self.checkBoxHelper selectItem:boxB forGroupName:@"PaymentType"];
+                    if (indexPath.row == 1)
+                    {
+                        self.paymentType = PaymentChannelAlipay;
+                    }
+                    else
+                    {
+                        self.paymentType = PaymentChannelWechat;
+                    }
+                }
+                self.couponId = nil;
+                [self.tableView reloadData];
+            }];
+            [av show];
         }
     }];
     
-    if (indexPath.row == 0)
+    if (indexPath.row == 1 && self.paymentType == PaymentChannelAlipay)
+    {
+        [self.checkBoxHelper selectItem:boxB forGroupName:@"PaymentType"];
+    }
+    if (indexPath.row == 2 && self.paymentType == PaymentChannelWechat)
     {
         [self.checkBoxHelper selectItem:boxB forGroupName:@"PaymentType"];
     }
@@ -447,27 +536,14 @@
 
 - (void)requestGetUserCar
 {
-    GetUserCarOp * op = [GetUserCarOp operation];
-    [[[op rac_postRequest] initially:^{
+    [[gAppMgr.myUser rac_requestGetUserCar] subscribeNext:^(NSArray * array) {
         
-    }] subscribeNext:^(GetUserCarOp * op) {
-        
-        if (op.rsp_code == 0)
+        if (array.count)
         {
-            if (op.rsp_carArray.count)
-            {
-                gAppMgr.myUser.carArray = op.rsp_carArray;
-                self.car = [gAppMgr.myUser getDefaultCar];
-                NSIndexPath *reloadIndexPath = [NSIndexPath indexPathForRow:3 inSection:0];
-                [self.tableView reloadRowsAtIndexPaths:@[reloadIndexPath] withRowAnimation:UITableViewRowAnimationNone];
-            }
-            else
-            {
-                self.needAppendCarFlag = YES;
-            }
+            self.defaultCar = [gAppMgr.myUser getDefaultCar];
+            NSIndexPath *reloadIndexPath = [NSIndexPath indexPathForRow:3 inSection:0];
+            [self.tableView reloadRowsAtIndexPaths:@[reloadIndexPath] withRowAnimation:UITableViewRowAnimationNone];
         }
-    } error:^(NSError *error) {
-        
     }];
 }
 
@@ -554,5 +630,19 @@
     }];
 }
 
+- (void)setCouponId:(NSString *)couponId
+{
+    _couponId = couponId;
+}
+
+- (void)setPaymentType:(PaymentChannelType)paymentType
+{
+    _paymentType = paymentType;
+}
+
+- (void)tableViewReloadData
+{
+    [self.tableView reloadData];
+}
 
 @end
