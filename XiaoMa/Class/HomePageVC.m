@@ -20,6 +20,7 @@
 #import "GetSystemTipsOp.h"
 #import "GetSystemPromotionOp.h"
 #import "ServiceViewController.h"
+#import "JTUser.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 
@@ -72,6 +73,11 @@ static NSInteger rotationIndex = 0;
     //再次登陆成功后会自动重发这个http请求，不需要人工干预
     [[loginModel rac_autoLoginWithoutNetworking] subscribeNext:^(NSString *account) {
         [gAppMgr resetWithAccount:account];
+        
+        // 获取用户车辆
+        [[gAppMgr.myUser rac_requestGetUserCar] subscribeNext:^(id x) {
+            
+        }];
     }];
 }
 
@@ -333,7 +339,7 @@ static NSInteger rotationIndex = 0;
         
     } error:^(NSError *error) {
         
-        [self setupNavigationLeftBar:@"失败"];
+        [self setupNavigationLeftBar:nil];
         switch (error.code) {
             case kCLErrorDenied:
             {

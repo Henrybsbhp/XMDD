@@ -16,7 +16,7 @@ typedef enum : NSUInteger {
     ShopServiceAgency,
 } ShopServiceType;
 
-/// 支付渠道
+/// 支付渠道 0不要用（0表示没有选择支付渠道）
 typedef enum : NSUInteger {
     PaymentChannelInstallments = 1,
     PaymentChannelAlipay,
@@ -52,7 +52,7 @@ typedef enum : NSUInteger {
 #define kReqPrefix      @"▂ ▃ ▄ ▅ ▆ ▇ █"
 #define kErrPrefix      @"〓〓〓〓〓"
 
-#define MapZoomLevel 12.0000
+#define MapZoomLevel 15.0000
 
 #define PageAmount 10
 

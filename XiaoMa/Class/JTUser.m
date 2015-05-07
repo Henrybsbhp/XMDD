@@ -8,6 +8,7 @@
 
 #import "JTUser.h"
 #import "XiaoMa.h"
+#import "GetUserCarOp.h"
 
 @implementation JTUser
 
@@ -28,6 +29,30 @@
     {
         return nil;
     }
+}
+
+- (RACSignal *)rac_requestGetUserCar
+{
+    RACSignal * signal;
+    GetUserCarOp * op = [GetUserCarOp operation];
+    signal = [[[op rac_postRequest] flattenMap:^RACStream *(GetUserCarOp * op) {
+        
+        if (op.rsp_code == 0)
+        {
+            self.carArray = op.rsp_carArray;
+            [self getDefaultCar];
+            return [RACSignal return:op.rsp_carArray];
+        }
+        else
+        {
+            NSError * error = [NSError errorWithDomain:op.rsp_errorMsg code:op.rsp_code userInfo:nil];
+            return [RACSignal error:error];
+        }
+    }]catch:^RACSignal *(NSError *error) {
+        
+        return [RACSignal error:error];
+    }];
+    return signal;
 }
 
 @end
