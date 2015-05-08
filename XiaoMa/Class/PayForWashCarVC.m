@@ -304,15 +304,16 @@
         {
             self.paymentType = PaymentChannelABCCarWashAmount;
         }
-        else
+        else if (indexPath.row == 3)
         {
             self.paymentType = PaymentChannelABCIntegral;
         }
         
         ///取消支付宝，微信勾选
-        [self.checkBoxHelper cancelSelectedForGroupName:@"PaymentType"];
-        NSIndexSet *indexSet= [[NSIndexSet alloc] initWithIndex:1];
-        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+//        [self.checkBoxHelper cancelSelectedForGroupName:@"PaymentType"];
+//        NSIndexSet *indexSet= [[NSIndexSet alloc] initWithIndex:1];
+//        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView reloadData];
     }
 }
 
@@ -381,7 +382,7 @@
     {
         cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentTypeCellB"];
     }
-//    UIButton *box = (UIButton *)[cell.contentView viewWithTag:1001];
+    UIButton *boxB = (UIButton *)[cell.contentView viewWithTag:1001];
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:1002];
     UIImageView *arrow = (UIImageView *)[cell.contentView viewWithTag:1003];
     UILabel *dateLb = (UILabel *)[cell.contentView viewWithTag:1004];
@@ -396,11 +397,13 @@
         {
             statusLb.text = @"已选中";
             statusLb.textColor = HEXCOLOR(@"#fb4209");
+            statusLb.hidden = NO;
         }
         else
         {
             statusLb.text = @"未使用";
             statusLb.textColor = HEXCOLOR(@"#aaaaaa");
+            statusLb.hidden = YES;
         }
     }
     else if (indexPath.row == 2) {
@@ -411,11 +414,13 @@
         {
             statusLb.text = @"已选中";
             statusLb.textColor = HEXCOLOR(@"#fb4209");
+            statusLb.hidden = NO;
         }
         else
         {
             statusLb.text = @"未使用";
             statusLb.textColor = HEXCOLOR(@"#aaaaaa");
+            statusLb.hidden = YES;
         }
     }
     else
@@ -426,13 +431,59 @@
         {
             statusLb.text = @"已选中";
             statusLb.textColor = HEXCOLOR(@"#fb4209");
+            statusLb.hidden = NO;
         }
         else
         {
             statusLb.text = @"未使用";
             statusLb.textColor = HEXCOLOR(@"#aaaaaa");
+            statusLb.hidden = YES;
         }
     }
+    
+    if (indexPath.row == 1 && self.paymentType == PaymentChannelCoupon)
+    {
+        [self.checkBoxHelper selectItem:boxB forGroupName:@"PaymentType"];
+    }
+    if (indexPath.row == 2 && self.paymentType == PaymentChannelABCCarWashAmount)
+    {
+        [self.checkBoxHelper selectItem:boxB forGroupName:@"PaymentType"];
+    }
+    if (indexPath.row == 3 && self.paymentType == PaymentChannelABCIntegral)
+    {
+        [self.checkBoxHelper selectItem:boxB forGroupName:@"PaymentType"];
+    }
+    
+    @weakify(self);
+    [self.checkBoxHelper addItem:boxB forGroupName:@"PaymentType" withChangedBlock:^(id item, BOOL selected) {
+        boxB.selected = selected;
+    }];
+    [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.checkBoxHelper selectItem:boxB forGroupName:@"PaymentType"];
+        if (indexPath.row == 1)
+        {
+            self.paymentType = PaymentChannelCoupon;
+            if (!self.couponId.length)
+            {
+                ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
+                vc.originVC = self.originVC;
+                vc.couponId = self.couponId;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        }
+        else if (indexPath.row == 2)
+        {
+            self.paymentType = PaymentChannelABCCarWashAmount;
+        }
+        else if (indexPath.row == 3)
+        {
+            self.paymentType = PaymentChannelABCIntegral;
+        }
+        
+        [self.tableView reloadData];
+    }];
+
     return cell;
 }
 
@@ -482,6 +533,10 @@
                 [self.tableView reloadData];
             }];
             [av show];
+        }
+        else
+        {
+            [self.checkBoxHelper selectItem:boxB forGroupName:@"PaymentType"];
         }
     }];
     
