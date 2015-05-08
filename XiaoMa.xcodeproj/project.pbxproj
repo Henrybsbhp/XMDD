@@ -2081,7 +2081,7 @@
 					"$(PROJECT_DIR)/XiaoMa/Vendor/WeChatSDK.5",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "267af5e7-8e71-4650-bbd1-d98198e5dc36";
+				PROVISIONING_PROFILE = "f0b32fa7-6ec2-460c-a09d-dcec716eb8f1";
 			};
 			name = Release;
 		};

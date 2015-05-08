@@ -859,8 +859,20 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YVz-K3-GOq" id="uTM-dg-HgP">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <button opaque="NO" tag="1001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wwR-YW-VMt">
+                                                    <rect key="frame" x="5" y="2" width="40" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="40" id="4b8-6j-h4i"/>
+                                                        <constraint firstAttribute="height" constant="40" id="O6q-K7-ux3"/>
+                                                    </constraints>
+                                                    <state key="normal" image="cw_box">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <state key="selected" image="cw_box1"/>
+                                                    <state key="highlighted" image="cw_box1"/>
+                                                </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="农行卡积分" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AU1-7s-xSC">
-                                                    <rect key="frame" x="16" y="14" width="70" height="16"/>
+                                                    <rect key="frame" x="45" y="14" width="70" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.19607843137254902" green="0.19607843137254902" blue="0.19607843137254902" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -882,6 +894,8 @@
                                             <constraints>
                                                 <constraint firstItem="30J-6z-lLA" firstAttribute="leading" secondItem="AU1-7s-xSC" secondAttribute="trailing" constant="4" id="43T-wn-kxZ"/>
                                                 <constraint firstAttribute="centerY" secondItem="idk-4T-7QR" secondAttribute="centerY" id="7du-OK-jYn"/>
+                                                <constraint firstAttribute="centerY" secondItem="wwR-YW-VMt" secondAttribute="centerY" id="AYG-o9-dGr"/>
+                                                <constraint firstItem="wwR-YW-VMt" firstAttribute="leading" secondItem="uTM-dg-HgP" secondAttribute="leading" constant="5" id="FBn-1x-ZyV"/>
                                                 <constraint firstItem="30J-6z-lLA" firstAttribute="leading" secondItem="idk-4T-7QR" secondAttribute="trailing" constant="5" id="a0w-YV-v0X"/>
                                                 <constraint firstItem="AU1-7s-xSC" firstAttribute="top" secondItem="uTM-dg-HgP" secondAttribute="top" constant="14" id="ec1-MW-8we"/>
                                                 <constraint firstItem="AU1-7s-xSC" firstAttribute="leading" secondItem="uTM-dg-HgP" secondAttribute="leadingMargin" constant="8" id="iFa-yo-hsU"/>
@@ -889,9 +903,11 @@
                                                 <constraint firstAttribute="bottom" secondItem="AU1-7s-xSC" secondAttribute="bottom" constant="14" id="n49-1o-Jpy"/>
                                                 <constraint firstItem="AU1-7s-xSC" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="idk-4T-7QR" secondAttribute="leading" constant="-10" id="sC7-Z0-FFf"/>
                                                 <constraint firstAttribute="trailing" secondItem="30J-6z-lLA" secondAttribute="trailing" constant="14" id="syq-3d-aqD"/>
+                                                <constraint firstItem="AU1-7s-xSC" firstAttribute="leading" secondItem="wwR-YW-VMt" secondAttribute="trailing" id="ycd-u2-kfk"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
+                                                    <exclude reference="iFa-yo-hsU"/>
                                                     <exclude reference="43T-wn-kxZ"/>
                                                 </mask>
                                             </variation>
@@ -903,8 +919,20 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ny5-A3-0gj" id="7rc-X4-bAJ">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <button opaque="NO" tag="1001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gcX-yp-MQC">
+                                                    <rect key="frame" x="5" y="8" width="40" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="40" id="2QM-sV-2Kd"/>
+                                                        <constraint firstAttribute="height" constant="40" id="JxR-Zd-Icz"/>
+                                                    </constraints>
+                                                    <state key="normal" image="cw_box">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <state key="selected" image="cw_box1"/>
+                                                    <state key="highlighted" image="cw_box1"/>
+                                                </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="洗车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K0u-2t-fMj">
-                                                    <rect key="frame" x="16" y="8" width="28" height="17"/>
+                                                    <rect key="frame" x="45" y="8" width="28" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -923,7 +951,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="有效期" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CF9-bV-wF3">
-                                                    <rect key="frame" x="16" y="33" width="36" height="15"/>
+                                                    <rect key="frame" x="45" y="33" width="36" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -932,6 +960,9 @@
                                             <constraints>
                                                 <constraint firstItem="CF9-bV-wF3" firstAttribute="top" secondItem="K0u-2t-fMj" secondAttribute="bottom" constant="8" id="8aM-sl-SM5"/>
                                                 <constraint firstAttribute="centerY" secondItem="M5c-rt-hdM" secondAttribute="centerY" id="K2Y-lt-jBp"/>
+                                                <constraint firstItem="K0u-2t-fMj" firstAttribute="leading" secondItem="gcX-yp-MQC" secondAttribute="trailing" id="PID-wZ-aTw"/>
+                                                <constraint firstAttribute="centerY" secondItem="gcX-yp-MQC" secondAttribute="centerY" id="RbM-Qp-0tt"/>
+                                                <constraint firstItem="gcX-yp-MQC" firstAttribute="leading" secondItem="7rc-X4-bAJ" secondAttribute="leading" constant="5" id="XfW-4R-xkC"/>
                                                 <constraint firstItem="K0u-2t-fMj" firstAttribute="leading" secondItem="CF9-bV-wF3" secondAttribute="leading" id="YJr-e1-zIn"/>
                                                 <constraint firstItem="K0u-2t-fMj" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="IIh-uN-wHI" secondAttribute="leading" constant="-4" id="eZO-uu-Hr6"/>
                                                 <constraint firstItem="K0u-2t-fMj" firstAttribute="leading" secondItem="7rc-X4-bAJ" secondAttribute="leadingMargin" constant="8" id="kMz-ng-HG0"/>
@@ -944,6 +975,7 @@
                                             <variation key="default">
                                                 <mask key="constraints">
                                                     <exclude reference="eZO-uu-Hr6"/>
+                                                    <exclude reference="kMz-ng-HG0"/>
                                                     <exclude reference="sea-1l-Iqh"/>
                                                 </mask>
                                             </variation>
