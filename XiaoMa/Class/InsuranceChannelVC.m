@@ -48,9 +48,9 @@
     }
 
     GetInsuranceByChannelOp *op = [GetInsuranceByChannelOp new];
-    op.req_channel = [self textInCellAtRow:0];
-    op.req_idnumber = [self textInCellAtRow:1];
-    op.req_licencenumber = [self textInCellAtRow:2];
+    op.req_channel = [self textInCellAtRow:0];//@"60001";
+    op.req_idnumber = [self textInCellAtRow:1];//@"2147483647";
+    op.req_licencenumber = [self textInCellAtRow:2];//@"浙AJMDN2"; 
     @weakify(self);
     [[[op rac_postRequest] initially:^{
         [gToast showingWithText:@"正在查询..."];
@@ -106,8 +106,8 @@
         }];
     }
     else if (indexPath.row == 2) {
-        label.text = @"车架号";
-        field.placeholder = @"请填写车架号后六位";
+        label.text = @"车牌号码";
+        field.placeholder = @"新车请填写车架号后6位";
         field.text = self.frameNumber;
         [[field rac_newTextChannel] subscribeNext:^(id x) {
             @strongify(self);

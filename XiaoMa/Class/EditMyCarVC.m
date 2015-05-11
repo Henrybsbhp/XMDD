@@ -11,7 +11,7 @@
 #import "AddCarOp.h"
 #import "UpdateCarOp.h"
 #import "DeleteCarOp.h"
-#import "DatePackerVC.h"
+#import "DatePickerVC.h"
 
 @interface EditMyCarVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -145,14 +145,14 @@
 {
     //购车时间
     if (indexPath.row == 1) {
-        [[DatePackerVC rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.curCar.purchasedate ? self.curCar.purchasedate : [NSDate date]]
+        [[DatePickerVC rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.curCar.purchasedate ? self.curCar.purchasedate : [NSDate date]]
          subscribeNext:^(NSDate *date) {
              self.curCar.purchasedate = date;
         }];
     }
     //保险到期日
     else if (indexPath.row == 6) {
-        [[DatePackerVC rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.curCar.insexipiredate]
+        [[DatePickerVC rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.curCar.insexipiredate]
          subscribeNext:^(NSDate *date) {
              self.curCar.insexipiredate = date;
          }];
