@@ -11,6 +11,7 @@
 #import "XiaoMa.h"
 #import "JGActionSheet.h"
 #import "UploadFileOp.h"
+#import "WebVC.h"
 #import "UpdateInsuranceCalculateOp.h"
 
 @interface UploadInfomationVC ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
@@ -38,7 +39,8 @@
 #pragma mark - Action
 - (IBAction)actionHelp:(id)sender
 {
-    
+    WebVC *vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)actionUpload:(id)sender
@@ -75,7 +77,12 @@
         UIAlertView *alert = [[UIAlertView alloc] initNoticeWithTitle:@"上传成功" message:@"小马达达客户人员会尽快和您联系" cancelButtonTitle:@"确定"];
         [alert show];
         [[alert rac_buttonClickedSignal] subscribeNext:^(id x) {
-            [self.navigationController popViewControllerAnimated:YES];
+            if (self.originVC) {
+                [self.navigationController popToViewController:self.originVC animated:YES];
+            }
+            else {
+                [self.navigationController popViewControllerAnimated:YES];
+            }
         }];
     } error:^(NSError *error) {
         [gToast showError:error.domain];

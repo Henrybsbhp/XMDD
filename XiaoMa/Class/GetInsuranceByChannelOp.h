@@ -24,4 +24,5 @@
 @property (nonatomic, strong) NSString *rsp_orderid;
 @property (nonatomic, strong) NSString *rsp_status;
 @property (nonatomic, strong) NSString *rsp_totalpay;
+@property (nonatomic, strong) NSString *rsp_deliveryaddress;
 @end

@@ -10,4 +10,5 @@
 
 @interface UploadInfomationVC : UITableViewController
 @property (nonatomic, strong) NSString *calculateID;
+@property (nonatomic, weak) UIViewController *originVC;
 @end

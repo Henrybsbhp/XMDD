@@ -13,7 +13,7 @@ typedef enum : NSUInteger {
     PickerTypeDate,
 } PickerType;
 
-@interface DatePackerVC : UIViewController
+@interface DatePickerVC : UIViewController
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelItem;

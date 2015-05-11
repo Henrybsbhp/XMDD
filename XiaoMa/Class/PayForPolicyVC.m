@@ -13,6 +13,7 @@
 #import "PayResultForInstallmentsVC.h"
 #import "AlipayHelper.h"
 #import "WeChatHelper.h"
+#import "WebVC.h"
 
 @interface PayForPolicyVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -28,9 +29,6 @@
     // Do any additional setup after loading the view.
     [self setupCheckBoxHelper];
     [self setupBottomView];
-    self.payOp = [UpdateInsuranceOrderOp new];
-    self.payOp.req_paychannel = PaymentChannelInstallments;
-    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,6 +64,14 @@
     label.attributedText = str;
 }
 
+- (void)reloadWithInsuranceOp:(GetInsuranceByChannelOp *)op
+{
+    _insuranceOp = op;
+    self.payOp = [UpdateInsuranceOrderOp new];
+    self.payOp.req_paychannel = PaymentChannelInstallments;
+    self.payOp.req_deliveryaddress = op.rsp_deliveryaddress;
+    [self.tableView reloadData];
+}
 #pragma mark - Action
 - (IBAction)actionPay:(id)sender
 {
@@ -81,7 +87,10 @@
         @strongify(self);
         [gToast dismiss];
         if (self.payOp.req_paychannel == PaymentChannelInstallments) {
-            PayResultForInstallmentsVC *vc = [UIStoryboard vcWithId:@"PayResultForInstallmentsVC" inStoryboard:@"Insurance"];
+            WebVC *vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
+            vc.originVC = [self.navigationController.viewControllers safetyObjectAtIndex:0];
+            vc.title = @"分期付款";
+//            PayResultForInstallmentsVC *vc = [UIStoryboard vcWithId:@"PayResultForInstallmentsVC" inStoryboard:@"Insurance"];
             [self.navigationController pushViewController:vc animated:YES];
         }
         else if (self.payOp.req_paychannel == PaymentChannelAlipay) {
@@ -99,22 +108,34 @@
 #pragma mark - Pay
 - (void)requestAliPay:(NSString *)orderId andPrice:(CGFloat)price
 {
+    @weakify(self);
     [gAlipayHelper payOrdWithTradeNo:orderId andProductName:@"保险" andProductDescription:@"渠道保险购买" andPrice:price];
     [gAlipayHelper.rac_alipayResultSignal subscribeNext:^(id x) {
+        @strongify(self);
         [gToast showSuccess:@"支付成功"];
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self gotoPaySuccessVC];
     } error:^(NSError *error) {
     }];
 }
 
 - (void)requestWechatPay:(NSString *)orderId andPrice:(CGFloat)price
 {
+    @weakify(self);
     [gWechatHelper payOrdWithTradeNo:orderId andProductName:@"保险" andPrice:price];
     [gWechatHelper.rac_wechatResultSignal subscribeNext:^(id x) {
+        @strongify(self);
         [gToast showSuccess:@"支付成功"];
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self gotoPaySuccessVC];
     } error:^(NSError *error) {
     }];
+}
+
+- (void)gotoPaySuccessVC
+{
+    WebVC *vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
+    vc.originVC = [self.navigationController.viewControllers safetyObjectAtIndex:0];
+    vc.title = @"支付成功";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - UITableViewDelegate and datasource
@@ -173,6 +194,15 @@
                            NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle)};
     NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:@"什么是分期付款?" attributes:attr];
     [helpBtn setAttributedTitle:attrStr forState:UIControlStateNormal];
+    
+    @weakify(self);
+    [[[helpBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+     subscribeNext:^(id x) {
+         @strongify(self);
+         WebVC *vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
+         vc.title = @"什么是分期付款?";
+         [self.navigationController pushViewController:vc animated:YES];
+    }];
     
     cell.customSeparatorInset = UIEdgeInsetsZero;
     return cell;
