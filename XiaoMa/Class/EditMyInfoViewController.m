@@ -56,6 +56,8 @@
     
     self.textFeild.placeholder = self.placeholder;
     self.textFeild.clearButtonMode = UITextFieldViewModeWhileEditing;
+    
+    [self.textFeild becomeFirstResponder];
 }
 
 

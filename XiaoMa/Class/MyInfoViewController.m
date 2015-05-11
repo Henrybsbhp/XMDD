@@ -34,7 +34,7 @@
     
     if (!gAppMgr.myUser)
     {
-        //        [self requestUserInfo];
+                [self requestUserInfo];
     }
     else
     {
