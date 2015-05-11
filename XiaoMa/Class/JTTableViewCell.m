@@ -49,6 +49,7 @@
     [self.contentView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:mask];
 }
 
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];

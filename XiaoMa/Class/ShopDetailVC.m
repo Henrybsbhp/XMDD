@@ -18,6 +18,7 @@
 #import "CarWashNavigationViewController.h"
 #import "NearbyShopsViewController.h"
 #import "CommentListViewController.h"
+#import "EditMyCarVC.h"
 
 #define kDefaultServieCount     2
 
@@ -66,7 +67,7 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-#pragma mark - Table view data source
+#pragma mark - TableView data source
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat height = 0;
@@ -237,8 +238,8 @@
         logoV.customObject = ge;
     }
     gesture = logoV.customObject;
-    [[[gesture rac_gestureSignal] takeUntilForCell:cell] subscribeNext:^(id x) {
-        
+    [[[gesture rac_gestureSignal] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+    
         [self showImages:0];
     }];
     
@@ -342,11 +343,31 @@
     [[[payB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
         if([LoginViewModel loginIfNeededForTargetViewController:self]) {
-            PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
-            vc.originVC = self;
-            vc.shop = self.shop;
-            vc.service = service;
-            [self.navigationController pushViewController:vc animated:YES];
+            
+            if (gAppMgr.myUser.carArray == nil || gAppMgr.myUser.carArray.count > 0)
+            {
+                PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
+                vc.originVC = self;
+                vc.shop = self.shop;
+                vc.service = service;
+                vc.defaultCar = [gAppMgr.myUser getDefaultCar];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+            else
+            {
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您尚未添加车辆，请添加一辆" delegate:nil cancelButtonTitle:@"残忍拒绝" otherButtonTitles:@"前往添加", nil];
+                [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
+                    
+                    NSInteger index = [num integerValue];
+                    if (index == 1)
+                    {
+                        EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
+                        [self.navigationController pushViewController:vc animated:YES];
+                        [vc reloadWithOriginCar:nil];
+                    }
+                }];
+                [av show];
+            }
         }
     }];
     
@@ -426,7 +447,7 @@
     UIWindow * window = [UIApplication sharedApplication].keyWindow;
     UIScrollView * backgroundView= [[UIScrollView alloc]
                                     initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
-    backgroundView.backgroundColor = [UIColor clearColor];
+    backgroundView.backgroundColor = [UIColor colorWithHex:@"#0000000" alpha:0.6f];
     backgroundView.alpha = 0;
     [backgroundView setContentSize:CGSizeMake([UIScreen mainScreen].bounds.size.width * self.shop.picArray.count, [UIScreen mainScreen].bounds.size.height)];
     backgroundView.pagingEnabled = YES;
@@ -440,7 +461,7 @@
     {
         UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectZero];
         NSString * imageUrl = [self.shop.picArray safetyObjectAtIndex:i];
-        [[gMediaMgr rac_getPictureForUrl:imageUrl withDefaultPic:@"default"] subscribeNext:^(UIImage * image) {
+        [[gMediaMgr rac_getPictureForUrl:imageUrl withDefaultPic:@"tmp_ad"] subscribeNext:^(UIImage * image) {
             
             CGRect frame = CGRectMake(i*[UIScreen mainScreen].bounds.size.width,
                                       ([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2,
@@ -450,7 +471,7 @@
             [imageView setImage:image];
         } error:^(NSError *error) {
             
-            [imageView setImage:[UIImage imageNamed:@"default"]];
+            [imageView setImage:[UIImage imageNamed:@"tmp_ad"]];
         }];
         
         imageView.tag = i;

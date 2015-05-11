@@ -9,8 +9,19 @@
 #import <UIKit/UIKit.h>
 #import "JTShop.h"
 
+@class HKMyCar;
+
 @interface PayForWashCarVC : UIViewController
+
 @property (nonatomic, strong) JTShopService *service;
 @property (nonatomic, strong) JTShop *shop;
+@property (nonatomic, strong) HKMyCar * defaultCar;
 @property (nonatomic, weak) UIViewController *originVC;
+
+- (void)setCouponId:(NSString *)couponId;
+
+- (void)setPaymentType:(PaymentChannelType)paymentType;
+
+- (void)tableViewReloadData;
+
 @end
