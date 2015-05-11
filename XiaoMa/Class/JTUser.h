@@ -17,6 +17,8 @@
 @property (nonatomic, assign) NSInteger carwashTicketsCount;
 @property (nonatomic, assign) NSInteger abcCarwashesCount;
 @property (nonatomic, assign) NSInteger abcIntegral;
+/// 手机号码
+@property (nonatomic, copy)NSString * phoneNumber;
 ///性别 （1-男 2-女）
 @property (nonatomic, assign) NSInteger sex;
 @property (nonatomic, strong) NSDate *birthday;
@@ -25,6 +27,8 @@
 @property (nonatomic, strong)NSArray * carArray;
 
 @property (nonatomic, strong)NSArray * couponArray;
+
+@property (nonatomic,strong)UIImage * avatar;
 
 
 - (HKMyCar *)getDefaultCar;
