@@ -9,7 +9,7 @@
 #import "EnquiryInsuranceVC.h"
 #import "XiaoMa.h"
 #import <Masonry.h>
-#import "DatePackerVC.h"
+#import "DatePickerVC.h"
 #import "UIView+Shake.h"
 #import "EnquiryResultVC.h"
 #import "GetInsuranceCalculatorOp.h"
@@ -219,7 +219,7 @@
 
 - (void)pickDate
 {
-    [[DatePackerVC rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.carryTime] subscribeNext:^(NSDate *date) {
+    [[DatePickerVC rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.carryTime] subscribeNext:^(NSDate *date) {
         self.carryTime = date;
         self.strCarryTime = [date dateFormatForYYMM];
     }];

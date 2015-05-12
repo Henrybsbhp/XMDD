@@ -28,6 +28,7 @@
     self.rsp_freewashes = [dict integerParamForName:@"freewashes"];
     self.rsp_bankcredit = [dict integerParamForName:@"bankcredit"];
     self.rsp_nickName = [dict stringParamForName:@"nickname"];
+    self.rsp_phone = [dict stringParamForName:@"phone"];
     self.rsp_avatar = [dict stringParamForName:@"avatar"];
     self.rsp_sex = [dict integerParamForName:@"sex"];
     self.rsp_birthday = [NSDate dateWithD8Text:[dict stringParamForName:@"birthday"]];
@@ -48,6 +49,7 @@
     }
     sig = [sig doNext:^(GetUserBaseInfoOp *op) {
         gAppMgr.myUser.userName = op.rsp_nickName;
+        gAppMgr.myUser.phoneNumber = op.rsp_phone;
         gAppMgr.myUser.avatarUrl = op.rsp_avatar;
         gAppMgr.myUser.carwashTicketsCount = op.rsp_vcc;
         gAppMgr.myUser.abcCarwashesCount = op.rsp_freewashes;

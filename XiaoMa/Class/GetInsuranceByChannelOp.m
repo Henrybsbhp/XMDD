@@ -27,13 +27,14 @@
     NSDictionary *dict = rspObj;
     self.rsp_policyholder = dict[@"policyholder"];
     self.rsp_inscomp = dict[@"inscomp"];
-    self.rsp_idnumber = dict[@"idnumber"];
+    self.rsp_idnumber = dict[@"idcard"];
     self.rsp_licencenumber = dict[@"licencenumber"];
     self.rsp_insperiod = dict[@"insperiod"];
     self.rsp_contactnumber = dict[@"contactnumber"];
     self.rsp_orderid = dict[@"orderid"];
     self.rsp_status = dict[@"status"];
     self.rsp_totalpay = dict[@"totalpay"];
+    self.rsp_deliveryaddress = dict[@"deliveryaddress"];
     self.rsp_policy = [HKInsurance insuranceWithJSONResponse:dict[@"policy"]];
     return self;
     

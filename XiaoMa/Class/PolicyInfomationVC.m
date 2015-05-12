@@ -46,7 +46,7 @@
                         RACTuplePack(@"证件号码：", op.rsp_idnumber),
                         RACTuplePack(@"保险公司：", op.rsp_inscomp),
                         RACTuplePack(@"保险期限：", op.rsp_insperiod),
-                        RACTuplePack(@"保费总额：", op.rsp_totalpay)];
+                        RACTuplePack(@"保费总额：", [op.rsp_totalpay description])];
         [coveragers safetyAddObjectsFromArray:self.insuranceOp.rsp_policy.subInsuranceArray];
     }
     else {
@@ -61,10 +61,14 @@
 - (IBAction)actionNext:(id)sender
 {
     PayForPolicyVC *vc = [UIStoryboard vcWithId:@"PayForPolicyVC" inStoryboard:@"Insurance"];
-    vc.insuranceOp = self.insuranceOp;
     [self.navigationController pushViewController:vc animated:YES];
+    [vc reloadWithInsuranceOp:self.insuranceOp];
 }
 
+- (IBAction)actionMakeCall:(id)sender
+{
+    [gPhoneHelper makePhone:self.insuranceOp.rsp_contactnumber andInfo:self.insuranceOp.rsp_contactnumber];
+}
 #pragma mark - UITableViewDelegate and dataoource
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

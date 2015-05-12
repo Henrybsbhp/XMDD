@@ -11,6 +11,8 @@
 
 @interface PayForPolicyVC : UIViewController
 
-@property (nonatomic, strong) GetInsuranceByChannelOp *insuranceOp;
+@property (nonatomic, strong, readonly) GetInsuranceByChannelOp *insuranceOp;
+
+- (void)reloadWithInsuranceOp:(GetInsuranceByChannelOp *)op;
 
 @end

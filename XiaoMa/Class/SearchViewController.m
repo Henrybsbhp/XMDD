@@ -109,7 +109,7 @@
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, width - 120, 36)];
     self.searchBar.barStyle = UIBarStyleDefault;
     self.searchBar.delegate = self;
-    [self.searchBar setPlaceholder:@"找商品"];
+    [self.searchBar setPlaceholder:@"找店铺"];
     [self.searchBar setBackgroundColor:[UIColor clearColor]];
     
     UIView * subview = [self.searchBar.subviews safetyObjectAtIndex:0];

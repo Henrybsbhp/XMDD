@@ -45,6 +45,8 @@
 @property (nonatomic, assign) NSInteger rsp_statusCode;
 /// 响应错误
 @property (nonatomic, assign) NSError *rsp_error;
+/// 响应错误
+@property (nonatomic, copy) NSString *rsp_errorMsg;
 /// 业务code
 @property (nonatomic, assign) NSInteger rsp_code;
 

@@ -6,14 +6,14 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "DatePackerVC.h"
+#import "DatePickerVC.h"
 #import "XiaoMa.h"
 
-@interface DatePackerVC ()
+@interface DatePickerVC ()
 
 @end
 
-@implementation DatePackerVC
+@implementation DatePickerVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -46,14 +46,16 @@
 ///弹出日期选择器(next:NSData* error:【表示取消选取】)
 + (RACSignal *)rac_presentPackerVCInView:(UIView *)view withSelectedDate:(NSDate *)date
 {
-    DatePackerVC *vc = [UIStoryboard vcWithId:@"DatePackerVC" inStoryboard:@"Common"];
+    DatePickerVC *vc = [UIStoryboard vcWithId:@"DatePickerVC" inStoryboard:@"Common"];
     CGSize size = CGSizeMake(CGRectGetWidth(view.frame), 280);
     MZFormSheetController *sheet = [DefaultStyleModel bottomAppearSheetCtrlWithSize:size
                                                                      viewController:vc
                                                                          targetView:view];
     sheet.shouldDismissOnBackgroundViewTap = NO;
     [sheet presentAnimated:YES completionHandler:nil];
-    vc.datePicker.date = date;
+    if (date) {
+        vc.datePicker.date = date;
+    }
     vc.datePicker.maximumDate = [NSDate date];
     [vc setupWithTintColor:kDefTintColor];
     
