@@ -310,20 +310,26 @@
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nb_ticket" translatesAutoresizingMaskIntoConstraints="NO" id="5J6-g4-E57">
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nb_ticket" translatesAutoresizingMaskIntoConstraints="NO" id="5J6-g4-E57">
                                             <rect key="frame" x="152" y="16" width="15" height="14"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="14" id="OeR-20-y6W"/>
                                                 <constraint firstAttribute="width" constant="15" id="eKs-J2-FBC"/>
                                             </constraints>
                                         </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nb_abc" translatesAutoresizingMaskIntoConstraints="NO" id="Cer-KA-8g4">
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nb_abc" translatesAutoresizingMaskIntoConstraints="NO" id="Cer-KA-8g4">
                                             <rect key="frame" x="171" y="16" width="15" height="14"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="14" id="SaI-uw-O9g"/>
                                                 <constraint firstAttribute="width" constant="15" id="Wnt-8I-6D1"/>
                                             </constraints>
                                         </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0wD-XM-QSY">
+                                            <rect key="frame" x="540" y="8" width="46" height="30"/>
+                                            <state key="normal" title="Button">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="Uq2-p5-7af" secondAttribute="trailing" constant="14" id="4Sh-JN-2h4"/>
@@ -999,10 +1005,10 @@
                                                         <constraint firstAttribute="height" constant="40" id="0jk-7U-lyE"/>
                                                         <constraint firstAttribute="width" constant="40" id="5hi-cr-Z7e"/>
                                                     </constraints>
-                                                    <state key="normal" image="cw_box">
+                                                    <state key="normal" image="cw_box2">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
-                                                    <state key="selected" image="cw_box1"/>
+                                                    <state key="selected" image="cw_box3"/>
                                                     <state key="highlighted" image="cw_box1"/>
                                                 </button>
                                                 <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MHZ-jn-56M">
@@ -1115,6 +1121,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="0.95908411609999999" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="sectionIndexBackgroundColor" white="0.95908411609999999" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="f1w-Fp-skP">
+                                    <rect key="frame" x="0.0" y="208" width="600" height="5"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TicketCell" rowHeight="84" id="qgd-rh-wXf" customClass="JTTableViewCell">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -1707,6 +1718,8 @@
         <image name="cm_bg" width="17" height="24"/>
         <image name="cw_box" width="16" height="16"/>
         <image name="cw_box1" width="16" height="16"/>
+        <image name="cw_box2" width="17" height="17"/>
+        <image name="cw_box3" width="17" height="17"/>
         <image name="cw_btn_bg" width="34" height="33"/>
         <image name="cw_guide" width="19" height="17"/>
         <image name="cw_phone" width="19" height="17"/>
