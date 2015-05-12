@@ -21,9 +21,7 @@
     NSMutableArray *usedCoupon;//已使用
 }
 
-@property (weak, nonatomic) IBOutlet UINavigationItem *navBarItem;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *SegmentedControl;
 
 - (IBAction)selectSegmented:(id)sender;
 
@@ -34,8 +32,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
-    [self.navBarItem setLeftBarButtonItem:back animated:YES];
+    //将SegmentedControl添加到Navigationbar
+    UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 30)];
+    NSArray *segmentedArray = [[NSArray alloc]initWithObjects:@"未使用",@"已使用",nil];
+    UISegmentedControl *segmentedControl =[[UISegmentedControl alloc]initWithItems:segmentedArray];
+    segmentedControl.frame = CGRectMake(0, 0, 150, 30);
+    segmentedControl.selectedSegmentIndex=0;
+    segmentedControl.tintColor = RGBCOLOR(68, 187, 92);
+    [view addSubview:segmentedControl];
+    self.navigationItem.titleView = segmentedControl;
+    [segmentedControl addTarget:self action:@selector(selectSegmented:) forControlEvents:UIControlEventValueChanged];
+    self.navigationController.navigationItem.titleView = view;
+    
     whichSeg = 0;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -44,10 +52,6 @@
     timeoutCoupon = [[NSMutableArray alloc] init];
     usedCoupon = [[NSMutableArray alloc] init];
     [self requestValidCoupon:2 pageno:1];
-}
-
--(void)actionBack:(id)sender{
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Load Coupon
@@ -140,8 +144,9 @@
 }
 
 #pragma mark - segmented
-- (IBAction)selectSegmented:(id)sender {
-    whichSeg = self.SegmentedControl.selectedSegmentIndex;
+- (void)selectSegmented:(id)sender {
+    UISegmentedControl * segment=sender;
+    whichSeg = segment.selectedSegmentIndex;
     if (whichSeg == 1 && !allLoad) {
         allLoad = YES;
         [self requestUsedCoupon:1 pageno:1];
