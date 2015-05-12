@@ -11,6 +11,7 @@
 #import "GetUserBaseInfoOp.h"
 #import "MyCarListVC.h"
 #import "MyInfoViewController.h"
+#import "AboutViewController.h"
 
 
 @interface MineVC ()<UITableViewDataSource, UITableViewDelegate>
@@ -148,10 +149,7 @@
     UILabel *rightTitleL = (UILabel *)[cell.contentView viewWithTag:2001];
     UIButton *rightBtn = (UIButton *)[cell.contentView viewWithTag:2002];
     
-    [[RACObserve(gAppMgr.myUser, carwashTicketsCount) takeUntilForCell:cell] subscribeNext:^(NSNumber *x) {
-        int count = [x intValue];
-        leftTitleL.text = count > 0 ? [NSString stringWithFormat:@"优惠券 %@", x] : @"优惠券";
-    }];
+    leftTitleL.text = @"优惠券";
     return cell;
 }
 
@@ -207,6 +205,13 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
     }
+    
+    if (indexPath.section == 3)
+    {
+        AboutViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+
 }
 
 @end
