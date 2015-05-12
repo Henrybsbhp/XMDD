@@ -10,4 +10,21 @@
 
 @implementation GetInsuranceOrderListOp
 
+- (RACSignal *)rac_postRequest
+{
+    self.req_method = @"/user/order/insurance/get";
+    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:nil security:YES];
+}
+
+- (instancetype)parseResponseObject:(id)rspObj
+{
+    NSDictionary *dict = rspObj;
+    NSMutableArray *orderArray = [NSMutableArray array];
+    for (NSDictionary *orderDict in dict[@"orders"]) {
+        HKInsuranceOrder *order = [HKInsuranceOrder orderWithJSONResponse:orderDict];
+        [orderArray safetyAddObject:order];
+    }
+    self.rsp_orders = orderArray;
+    return self;
+}
 @end

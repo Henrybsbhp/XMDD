@@ -10,6 +10,7 @@
 #import "XiaoMa.h"
 #import "GetUserBaseInfoOp.h"
 #import "MyCarListVC.h"
+#import "MyOrderListVC.h"
 
 @interface MineVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -173,6 +174,12 @@
     if (indexPath.section == 1) {
         if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
             MyCarListVC *vc = [UIStoryboard vcWithId:@"MyCarListVC" inStoryboard:@"Mine"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
+    else if (indexPath.section == 2 && indexPath.row == 0) {
+        if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+            MyOrderListVC *vc = [UIStoryboard vcWithId:@"MyOrderListVC" inStoryboard:@"Mine"];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }

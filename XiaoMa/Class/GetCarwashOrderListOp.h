@@ -7,7 +7,10 @@
 //
 
 #import "BaseOp.h"
+#import "HKServiceOrder.h"
 
 @interface GetCarwashOrderListOp : BaseOp
+
+@property (nonatomic, strong) NSArray *rsp_orders;
 
 @end

@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface CarwashOrderViewModel : NSObject
+@interface CarwashOrderViewModel : NSObject<UITableViewDataSource, UITableViewDelegate>
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSArray *orders;
+@property (nonatomic, weak) UIViewController *targetVC;
+- (void)reloadData;
 
 @end

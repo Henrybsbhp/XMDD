@@ -45,4 +45,5 @@
 + (instancetype)carWithJSONResponse:(NSDictionary *)rsp;
 - (NSDictionary *)jsonDictForCarInfo;
 
+
 @end

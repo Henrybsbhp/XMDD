@@ -7,7 +7,10 @@
 //
 
 #import "BaseOp.h"
+#import "HKInsuranceOrder.h"
 
 @interface GetInsuranceOrderListOp : BaseOp
+
+@property (nonatomic, strong) NSArray *rsp_orders;
 
 @end

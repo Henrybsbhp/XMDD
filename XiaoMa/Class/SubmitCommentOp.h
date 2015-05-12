@@ -9,5 +9,7 @@
 #import "BaseOp.h"
 
 @interface SubmitCommentOp : BaseOp
-
+@property (nonatomic, strong) NSNumber *req_orderid;
+@property (nonatomic, assign) CGFloat req_rating;
+@property (nonatomic, strong) NSString *req_comment;
 @end
