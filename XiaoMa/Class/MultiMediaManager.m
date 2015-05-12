@@ -46,17 +46,17 @@ static MultiMediaManager *g_mediaManager;
     
     //
     RACScheduler *sch = [RACScheduler schedulerWithPriority:RACSchedulerPriorityHigh];
-    RACSignal *signal = [RACSignal startEagerlyWithScheduler:sch block:^(id<RACSubscriber> subscriber) {
+    RACSignal *signal = [[RACSignal startEagerlyWithScheduler:sch block:^(id<RACSubscriber> subscriber) {
         
 
         UIImage *img = [self.picCache imageForKey:cacheKey];
         [subscriber sendNext:img];
         [subscriber sendCompleted];
-    }];
-    
+    }] replay];
+
     signal = [signal flattenMap:^RACStream *(UIImage *img) {
     
-        RACSignal * cacheSignal ;
+        RACSignal * defaultSignal ;
         
         if (img)
         {
@@ -64,7 +64,9 @@ static MultiMediaManager *g_mediaManager;
         }
         else
         {
-            cacheSignal = [RACSignal return:[UIImage imageNamed:picName]];
+            /// @fq 
+            UIImage * image = [UIImage imageNamed:picName];
+            defaultSignal = [RACSignal return:image];
         }
         
         RACSignal * downloadOpSig = [DownloadOp firstDownloadOpInClientForReqURI:urlKey].rac_curSignal;
@@ -93,10 +95,10 @@ static MultiMediaManager *g_mediaManager;
         
         if (!downloadOpSig)
         {
-            return cacheSignal;
+            return defaultSignal;
         }
         
-        return [cacheSignal merge:downloadOpSig];
+        return [defaultSignal merge:downloadOpSig];
     }];
     
     return [signal deliverOn:[RACScheduler mainThreadScheduler]];

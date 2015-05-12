@@ -16,7 +16,6 @@
 @interface ChooseCarwashTicketVC ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic,strong) NSArray *couponArray;
 
 @end
 
@@ -24,11 +23,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    [self reloadDatasource];
+
     [self setupNavigationBar];
     
-    
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -50,7 +48,7 @@
     {
         PayForWashCarVC  * payVc = (PayForWashCarVC *)vc;
         [payVc setCouponId:self.couponId];
-        if (self.couponId.length)
+        if (self.couponId)
         {
             [payVc setPaymentType:PaymentChannelCoupon];
         }
@@ -63,32 +61,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)reloadDatasource
-{
-    HKCoupon * coupon = [[HKCoupon alloc] init];
-    coupon.couponId = @"c1235756475";
-    coupon.couponName = @"达达洗车店洗车卷";
-    coupon.couponAmount = 1;
-    coupon.couponDescription = @"免费洗车一次";
-    coupon.used = NO;
-    coupon.valid = YES;
-    coupon.validsince = [NSDate date];
-    coupon.validthrough = [NSDate date];
-    coupon.conponType = CouponTypeCarWash;
-    
-    HKCoupon * coupon2 = [[HKCoupon alloc] init];
-    coupon2.couponId = @"c1235756478";
-    coupon2.couponName = @"哈哈洗车店洗车卷";
-    coupon2.couponAmount = 1;
-    coupon2.couponDescription = @"免费洗车一次";
-    coupon2.used = NO;
-    coupon2.valid = YES;
-    coupon2.validsince = [NSDate date];
-    coupon2.validthrough = [NSDate date];
-    coupon2.conponType = CouponTypeCarWash;
-    self.couponArray = @[coupon, coupon2];
-    [self.tableView reloadData];
-}
 #pragma mark - Table view data source
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -132,7 +104,7 @@
     vaildTimeLb.text = [NSString stringWithFormat:@"有效期：%@ - %@",[coupon.validsince dateFormatForYYMMdd2],[coupon.validthrough dateFormatForYYMMdd2]];
     noteLb.text = [NSString stringWithFormat:@"使用说明：%@", coupon.couponDescription];
     
-    if ([self.couponId isEqualToString:coupon.couponId])
+    if ([self.couponId isEqualToNumber:coupon.couponId])
     {
         shadowView.hidden = NO;
         selectedView.hidden = NO;
@@ -149,7 +121,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HKCoupon * coupon = [self.couponArray safetyObjectAtIndex:indexPath.row];
-    self.couponId = [self.couponId isEqualToString:coupon.couponId] ? nil : coupon.couponId;
+    self.couponId = [self.couponId isEqualToNumber:coupon.couponId] ? nil : coupon.couponId;
     [self.tableView reloadData];
 }
 

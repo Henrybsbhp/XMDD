@@ -34,7 +34,7 @@
 
 - (void)reloadDatasource
 {
-    self.commentBtn.hidden = !self.order.ratetime;
+    self.commentBtn.hidden = self.order.ratetime;
     
     JTShopService *service = [self.order currentService];
     NSString *strprice = [NSString stringWithFormat:@"￥%d",(int)service.contractprice];

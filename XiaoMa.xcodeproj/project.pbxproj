@@ -149,6 +149,7 @@
 		6BBAB8D11ADE30F900EC342F /* GetShopRatesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8D01ADE30F900EC342F /* GetShopRatesOp.m */; };
 		6BBAB8D41ADE3CBC00EC342F /* NSDate+DateForText.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8D31ADE3CBC00EC342F /* NSDate+DateForText.m */; };
 		6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB9781ADE77E500EC342F /* GetUserResourcesOp.m */; };
+		6BBB083D1B01F8A30002C349 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB083C1B01F8A30002C349 /* AboutViewController.m */; };
 		6BBB82491AE7401400850D0C /* GetInsuranceByChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB82481AE7401400850D0C /* GetInsuranceByChannel.m */; };
 		6BBB824F1AE7757100850D0C /* NearbyShopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB824E1AE7757100850D0C /* NearbyShopsViewController.m */; };
 		6BBB825C1AE79FE100850D0C /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBB82581AE79FE100850D0C /* libWeChatSDK.a */; };
@@ -495,6 +496,8 @@
 		6BBAB9591ADE724300EC342F /* AlipayConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlipayConfig.h; sourceTree = "<group>"; };
 		6BBAB9771ADE77E500EC342F /* GetUserResourcesOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserResourcesOp.h; path = Class/GetUserResourcesOp.h; sourceTree = "<group>"; };
 		6BBAB9781ADE77E500EC342F /* GetUserResourcesOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserResourcesOp.m; path = Class/GetUserResourcesOp.m; sourceTree = "<group>"; };
+		6BBB083B1B01F8A30002C349 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		6BBB083C1B01F8A30002C349 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		6BBB82471AE7401400850D0C /* GetInsuranceByChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetInsuranceByChannel.h; path = Class/GetInsuranceByChannel.h; sourceTree = "<group>"; };
 		6BBB82481AE7401400850D0C /* GetInsuranceByChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetInsuranceByChannel.m; path = Class/GetInsuranceByChannel.m; sourceTree = "<group>"; };
 		6BBB824D1AE7757100850D0C /* NearbyShopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyShopsViewController.h; sourceTree = "<group>"; };
@@ -1248,6 +1251,8 @@
 				6BBF7D9F1B004A7A00E45967 /* MyInfoViewController.m */,
 				6BBF7DA11B008B1000E45967 /* EditMyInfoViewController.h */,
 				6BBF7DA21B008B1000E45967 /* EditMyInfoViewController.m */,
+				6BBB083B1B01F8A30002C349 /* AboutViewController.h */,
+				6BBB083C1B01F8A30002C349 /* AboutViewController.m */,
 			);
 			name = Mine;
 			sourceTree = "<group>";
@@ -1964,6 +1969,7 @@
 				187CC9621AEF896C004D1F28 /* PayResultForInstallmentsVC.m in Sources */,
 				189B31061AD7B7F5001D7288 /* UIView+Shake.m in Sources */,
 				6BB61BA01AEF6969004F39AA /* RescueViewController.m in Sources */,
+				6BBB083D1B01F8A30002C349 /* AboutViewController.m in Sources */,
 				18863FA81AE9D39A005BF4ED /* PayForPolicyVC.m in Sources */,
 				1816F4A81ACD3B0900BBCC96 /* SYPaginatorViewController.m in Sources */,
 				189B31141ADB60AE001D7288 /* JGActionSheet.m in Sources */,
@@ -2243,7 +2249,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "196d27f9-1ec8-41c8-9b2d-22fc8e3c1da9";
+				PROVISIONING_PROFILE = "b1bf30fe-6def-4542-bca9-d19b34c1d54b";
 			};
 			name = Debug;
 		};
@@ -2338,7 +2344,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f0b32fa7-6ec2-460c-a09d-dcec716eb8f1";
+				PROVISIONING_PROFILE = "8ad728f1-02bd-4a05-965a-f5439a1aefa2";
 			};
 			name = Release;
 		};

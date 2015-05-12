@@ -12,6 +12,8 @@
 
 @property (nonatomic, weak) UIViewController *originVC;
 
-@property (nonatomic,copy)NSString * couponId;
+@property (nonatomic,strong)NSNumber * couponId;
+
+@property (nonatomic,strong)NSArray * couponArray;
 
 @end
