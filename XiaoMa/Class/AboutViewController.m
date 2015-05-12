@@ -23,14 +23,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.datasource = @[@{@"title":@"去给小马达达评分",@"acton":^(void){
-        NSLog(@"aaa");
+    self.datasource = @[@{@"title":@"去给小马达达评分",@"action":^(void){
+        
+        [self rateOurApp];
     }},
-                        @{@"title":@"用户服务协议",@"acton":^(void){}},
-                        @{@"title":@"版本检测更新",@"acton":^(void){}},
-                        @{@"title":@"查看欢迎页",@"acton":^(void){}},
-                        @{@"title":@"意见反馈",@"acton":^(void){}},
-                        @{@"title":@"客服电话4002313143",@"acton":^(void){}}];
+                        @{@"title":@"用户服务协议",@"action":^(void){
+                            
+    }},
+                        @{@"title":@"查看欢迎页",@"action":^(void){}},
+                        
+                        @{@"title":@"意见反馈",@"action":^(void){}},
+                        
+                        @{@"title":@"客服电话4002313143",@"action":^(void){
+        
+         [self callCustomerService];
+    }}];
+    
+#ifdef DEBUG
+    NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
+#else
+     NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+#endif
+    self.versionLb.text = version;
 
 }
 
@@ -63,10 +77,25 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NSDictionary * dict = [self.datasource safetyObjectAtIndex:indexPath.row];
-//    typedef void(^MyBlock)(void);
-//    MyBlock area = dict[@"aciont"];
-//    area();
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSDictionary * dict = [self.datasource safetyObjectAtIndex:indexPath.row];
+    typedef void(^MyBlock)(void);
+    MyBlock area = dict[@"action"];
+    area();
+}
+
+#pragma mark - Utilitly
+- (void)rateOurApp
+{
+//    NSString *url = [NSString stringWithFormat:@""];
+//    [[UIApplication sharedApplication] openURL: [NSURL URLWithString:url]];
+//    
+//    DebugLog(@"Opening URL for Remarks: %@", url);
+}
+
+- (void)callCustomerService
+{
+    [gPhoneHelper makePhone:@"4002313143" andInfo:@"呼叫客服"];
 }
 
 @end
