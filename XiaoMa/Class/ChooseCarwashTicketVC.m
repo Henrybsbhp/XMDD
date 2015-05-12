@@ -27,6 +27,8 @@
     [self setupNavigationBar];
     
     [self.tableView reloadData];
+    
+    [self setupGetMoreBtn];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,6 +40,34 @@
 {
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
     self.navigationItem.leftBarButtonItem = back;
+}
+
+- (void)setupGetMoreBtn
+{
+    UIView *bottomView = [UIView new];
+    UIButton *getMoreBtn = [UIButton new];
+    [getMoreBtn setBackgroundColor:[UIColor orangeColor]];
+    [getMoreBtn setTitle:@"如何获取更多优惠劵" forState:UIControlStateNormal];
+    [getMoreBtn setFont:[UIFont systemFontOfSize:14]];
+    getMoreBtn.cornerRadius = 5.0f;
+    [getMoreBtn.layer setMasksToBounds:YES];
+    [[getMoreBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+    }];
+    [bottomView addSubview:getMoreBtn];
+    [self.tableView addSubview:bottomView];
+    
+    [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(44);
+        make.width.mas_equalTo(200);
+        make.centerX.mas_equalTo(self.tableView.mas_centerX);
+        make.top.equalTo(self.tableView.tableFooterView.mas_bottom).priorityMedium();
+        make.bottom.greaterThanOrEqualTo(self.view).offset(-10).priorityHigh();
+    }];
+    
+    [getMoreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(bottomView);
+    }];
 }
 
 - (void)actionBack
@@ -124,6 +154,8 @@
     self.couponId = [self.couponId isEqualToNumber:coupon.couponId] ? nil : coupon.couponId;
     [self.tableView reloadData];
 }
+
+
 
 
 @end

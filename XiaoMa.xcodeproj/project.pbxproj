@@ -150,6 +150,11 @@
 		6BBAB8D41ADE3CBC00EC342F /* NSDate+DateForText.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8D31ADE3CBC00EC342F /* NSDate+DateForText.m */; };
 		6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB9781ADE77E500EC342F /* GetUserResourcesOp.m */; };
 		6BBB083D1B01F8A30002C349 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB083C1B01F8A30002C349 /* AboutViewController.m */; };
+		6BBB084B1B021EA90002C349 /* ComOpenThreadOTScreenshotHelperSwizzleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB08401B021EA90002C349 /* ComOpenThreadOTScreenshotHelperSwizzleHelper.m */; };
+		6BBB084C1B021EA90002C349 /* JTCaptureScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB08421B021EA90002C349 /* JTCaptureScreen.m */; };
+		6BBB084D1B021EA90002C349 /* JTLogModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB08441B021EA90002C349 /* JTLogModel.m */; };
+		6BBB08501B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB084A1B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m */; };
+		6BBB08531B021F440002C349 /* LogAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB08521B021F440002C349 /* LogAlertView.m */; };
 		6BBB82491AE7401400850D0C /* GetInsuranceByChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB82481AE7401400850D0C /* GetInsuranceByChannel.m */; };
 		6BBB824F1AE7757100850D0C /* NearbyShopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB824E1AE7757100850D0C /* NearbyShopsViewController.m */; };
 		6BBB825C1AE79FE100850D0C /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBB82581AE79FE100850D0C /* libWeChatSDK.a */; };
@@ -498,6 +503,16 @@
 		6BBAB9781ADE77E500EC342F /* GetUserResourcesOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserResourcesOp.m; path = Class/GetUserResourcesOp.m; sourceTree = "<group>"; };
 		6BBB083B1B01F8A30002C349 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		6BBB083C1B01F8A30002C349 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		6BBB083F1B021EA90002C349 /* ComOpenThreadOTScreenshotHelperSwizzleHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComOpenThreadOTScreenshotHelperSwizzleHelper.h; sourceTree = "<group>"; };
+		6BBB08401B021EA90002C349 /* ComOpenThreadOTScreenshotHelperSwizzleHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComOpenThreadOTScreenshotHelperSwizzleHelper.m; sourceTree = "<group>"; };
+		6BBB08411B021EA90002C349 /* JTCaptureScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTCaptureScreen.h; sourceTree = "<group>"; };
+		6BBB08421B021EA90002C349 /* JTCaptureScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTCaptureScreen.m; sourceTree = "<group>"; };
+		6BBB08431B021EA90002C349 /* JTLogModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTLogModel.h; sourceTree = "<group>"; };
+		6BBB08441B021EA90002C349 /* JTLogModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTLogModel.m; sourceTree = "<group>"; };
+		6BBB08491B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.h"; sourceTree = "<group>"; };
+		6BBB084A1B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m"; sourceTree = "<group>"; };
+		6BBB08511B021F440002C349 /* LogAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogAlertView.h; sourceTree = "<group>"; };
+		6BBB08521B021F440002C349 /* LogAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogAlertView.m; sourceTree = "<group>"; };
 		6BBB82471AE7401400850D0C /* GetInsuranceByChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetInsuranceByChannel.h; path = Class/GetInsuranceByChannel.h; sourceTree = "<group>"; };
 		6BBB82481AE7401400850D0C /* GetInsuranceByChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetInsuranceByChannel.m; path = Class/GetInsuranceByChannel.m; sourceTree = "<group>"; };
 		6BBB824D1AE7757100850D0C /* NearbyShopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyShopsViewController.h; sourceTree = "<group>"; };
@@ -1367,6 +1382,7 @@
 		6BBAB8C81ADD351800EC342F /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				6BBB083E1B021EA90002C349 /* JTCatureScreen */,
 				6BBAB8CC1ADE059300EC342F /* DistanceCalcHelper.h */,
 				6BBAB8CD1ADE059300EC342F /* DistanceCalcHelper.m */,
 			);
@@ -1380,6 +1396,24 @@
 				6BBAB9591ADE724300EC342F /* AlipayConfig.h */,
 			);
 			path = Other;
+			sourceTree = "<group>";
+		};
+		6BBB083E1B021EA90002C349 /* JTCatureScreen */ = {
+			isa = PBXGroup;
+			children = (
+				6BBB08511B021F440002C349 /* LogAlertView.h */,
+				6BBB08521B021F440002C349 /* LogAlertView.m */,
+				6BBB083F1B021EA90002C349 /* ComOpenThreadOTScreenshotHelperSwizzleHelper.h */,
+				6BBB08401B021EA90002C349 /* ComOpenThreadOTScreenshotHelperSwizzleHelper.m */,
+				6BBB08411B021EA90002C349 /* JTCaptureScreen.h */,
+				6BBB08421B021EA90002C349 /* JTCaptureScreen.m */,
+				6BBB08431B021EA90002C349 /* JTLogModel.h */,
+				6BBB08441B021EA90002C349 /* JTLogModel.m */,
+				6BBB08491B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.h */,
+				6BBB084A1B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m */,
+			);
+			name = JTCatureScreen;
+			path = Class/JTCatureScreen;
 			sourceTree = "<group>";
 		};
 		6BBB82571AE79FE100850D0C /* WeChatSDK.5 */ = {
@@ -1840,6 +1874,7 @@
 				186984F81B0098FB000A182A /* HKInsuranceOrder.m in Sources */,
 				6BB884DD1AE0FE7500EBD8F4 /* GetUserCarOp.m in Sources */,
 				6BEA56CE1AE24DCE000D19C1 /* DataSigner.m in Sources */,
+				6BBB084C1B021EA90002C349 /* JTCaptureScreen.m in Sources */,
 				18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */,
 				1816F4BD1AD3A8AD00BBCC96 /* JTNavigationController.m in Sources */,
 				1816F4B01ACE75FB00BBCC96 /* CarWashTableVC.m in Sources */,
@@ -1871,10 +1906,13 @@
 				6BB884BA1AE0BB9600EBD8F4 /* JTHeadRefreshView.m in Sources */,
 				189B394C1AF71C3900B83F1B /* MineVC.m in Sources */,
 				189B39661AF9FDDF00B83F1B /* EnquiryInsuranceVC.m in Sources */,
+				6BBB084B1B021EA90002C349 /* ComOpenThreadOTScreenshotHelperSwizzleHelper.m in Sources */,
 				6BEA56C61AE24DCE000D19C1 /* NSString+SBJSON.m in Sources */,
 				189B30D41AD799AF001D7288 /* RACSignal+Extension.m in Sources */,
+				6BBB08531B021F440002C349 /* LogAlertView.m in Sources */,
 				1853DEB71AE0B92400C39175 /* AuthByPwdOp.m in Sources */,
 				1853DEBE1AE0E66B00C39175 /* LoginVC.m in Sources */,
+				6BBB08501B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m in Sources */,
 				C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */,
 				6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */,
 				6BD7AE641AE8A64B00BEF30E /* WXUtil.mm in Sources */,
@@ -1898,6 +1936,7 @@
 				18863FA51AE8ECFB005BF4ED /* GridLabel.m in Sources */,
 				189B396A1AFB062200B83F1B /* BuyInsuranceOnlineVC.m in Sources */,
 				6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */,
+				6BBB084D1B021EA90002C349 /* JTLogModel.m in Sources */,
 				6BB9D76E1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m in Sources */,
 				1853DECB1AE0F72500C39175 /* RegisterVC.m in Sources */,
 				6BEA56481AE24D34000D19C1 /* AlipayHelper.m in Sources */,

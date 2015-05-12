@@ -113,7 +113,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 2) {
-        return 3;
+        return 2;
     }
     return 1;
 }
@@ -171,15 +171,15 @@
             iconV.image = [UIImage imageNamed:@"me_order"];
             titleL.text = @"订单";
         }
+//        else if (indexPath.row == 1) {
+//            iconV.image = [UIImage imageNamed:@"me_bank"];
+//            titleL.text = @"银行卡";
+//            [[RACObserve(gAppMgr.myUser, abcCarwashesCount) takeUntilForCell:cell] subscribeNext:^(NSNumber *x) {
+//                int count = [x intValue];
+//                subTitleL.text = count > 0 ? [NSString stringWithFormat:@"免费洗车%d次", count] : nil;
+//            }];
+//        }
         else if (indexPath.row == 1) {
-            iconV.image = [UIImage imageNamed:@"me_bank"];
-            titleL.text = @"银行卡";
-            [[RACObserve(gAppMgr.myUser, abcCarwashesCount) takeUntilForCell:cell] subscribeNext:^(NSNumber *x) {
-                int count = [x intValue];
-                subTitleL.text = count > 0 ? [NSString stringWithFormat:@"免费洗车%d次", count] : nil;
-            }];
-        }
-        else if (indexPath.row == 2) {
             iconV.image = [UIImage imageNamed:@"me_collect"];
             titleL.text = @"收藏";
         }
