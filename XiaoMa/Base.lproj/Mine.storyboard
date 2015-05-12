@@ -481,7 +481,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="zKm-Ef-Pvz" firstAttribute="top" secondItem="gxm-Hl-2Uu" secondAttribute="bottom" id="LY2-Dv-re4"/>
+                            <constraint firstItem="zKm-Ef-Pvz" firstAttribute="bottom" secondItem="gxm-Hl-2Uu" secondAttribute="bottom" id="LY2-Dv-re4"/>
                             <constraint firstItem="gxm-Hl-2Uu" firstAttribute="top" secondItem="M8k-hi-dvr" secondAttribute="topMargin" id="QpN-VH-Auw"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gxm-Hl-2Uu" secondAttribute="trailing" constant="-16" id="bIy-Dr-SOd"/>
                             <constraint firstItem="gxm-Hl-2Uu" firstAttribute="leading" secondItem="M8k-hi-dvr" secondAttribute="leadingMargin" constant="-16" id="llH-yJ-C6d"/>
