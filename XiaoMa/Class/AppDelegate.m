@@ -20,11 +20,15 @@
 #import "ClientInfo.h"
 #import "DeviceInfo.h"
 #import "WXApi.h"
+#import <TencentOpenAPI.framework/Headers/TencentOAuth.h>
 
 #define RequestWeatherInfoInterval 60 * 10
 //#define RequestWeatherInfoInterval 5
 
-@interface AppDelegate ()<WXApiDelegate>
+@interface AppDelegate ()<WXApiDelegate,TencentSessionDelegate>
+{
+    TencentOAuth *oauth;
+}
 @property (nonatomic, strong) DDFileLogger *fileLogger;
 @end
 
@@ -44,6 +48,11 @@
     [gMapHelper setupMAMap];
     
     [WXApi registerApp:@"wxf346d7a6113bbbf9"];
+    
+    //QQ接口调用授权
+    NSString *appid = @"1104617282";
+    oauth = [[TencentOAuth alloc] initWithAppId:appid
+                                    andDelegate:self];
     
     [self setupVersionUpdating];
 
@@ -107,6 +116,21 @@
     return YES;
 }
 
+#pragma mark - QQ
+- (void)tencentDidLogin
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"loginSuccessed" object:self];
+}
+
+- (void)tencentDidNotLogin:(BOOL)cancelled
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"loginFailed" object:self];
+}
+
+- (void)tencentDidNotNetWork
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"loginFailed" object:self];
+}
 
 #pragma mark - 支付宝
 - (void)handleURL:(NSURL *)url

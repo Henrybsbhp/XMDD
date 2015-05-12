@@ -243,7 +243,7 @@
             return ;
         }
         
-        NSString * info = [NSString stringWithFormat:@"%@电话：\n%@",shop.shopName,shop.shopPhone];
+        NSString * info = [NSString stringWithFormat:@"%@",shop.shopPhone];
         [gPhoneHelper makePhone:shop.shopPhone andInfo:info];
     }];
     

@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>zh_CN</string>
+	<key>CFBundleDisplayName</key>
+	<string>小马达达</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -44,9 +46,11 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>AMapBackUrl</string>
+			<string>QQCallBackUrl</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>tencent1104617282</string>
+				<string>AMapBackUrl</string>
 				<string>amap.huika.xmdd</string>
 			</array>
 		</dict>

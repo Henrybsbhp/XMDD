@@ -203,7 +203,7 @@
                 return ;
             }
             
-            NSString * info = [NSString stringWithFormat:@"%@电话：\n%@",self.shop.shopName,self.shop.shopPhone];
+            NSString * info = [NSString stringWithFormat:@"%@",self.shop.shopPhone];
             [gPhoneHelper makePhone:self.shop.shopPhone andInfo:info];
         }
     }
@@ -301,7 +301,7 @@
             return ;
         }
         
-        NSString * info = [NSString stringWithFormat:@"%@电话：\n%@",self.shop.shopName,self.shop.shopPhone];
+        NSString * info = [NSString stringWithFormat:@"%@",self.shop.shopPhone];
         [gPhoneHelper makePhone:self.shop.shopPhone andInfo:info];
     }];
     
