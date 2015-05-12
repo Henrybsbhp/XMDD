@@ -18,7 +18,7 @@
 @property (nonatomic, strong) HKMyCar * defaultCar;
 @property (nonatomic, weak) UIViewController *originVC;
 
-- (void)setCouponId:(NSString *)couponId;
+- (void)setCouponId:(NSNumber *)couponId;
 
 - (void)setPaymentType:(PaymentChannelType)paymentType;
 

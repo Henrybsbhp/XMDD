@@ -49,7 +49,7 @@
     [super viewDidLoad];
     
     self.isRemain = YES;
-    self.pageAmount = 10;
+    self.pageAmount = PageAmount;
     self.currentPageIndex = 1;
     
     [self setupSearchView];
@@ -179,8 +179,10 @@
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
     
-    RAC(logoV, image) = [gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                                        withDefaultPic:@"tmp_ad"];
+    [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
+                                        withDefaultPic:@"tmp_ad"] subscribeNext:^(UIImage * image) {
+        logoV.image = image;
+    }];;
     titleL.text = shop.shopName;
     ratingV.ratingValue = shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
