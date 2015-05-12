@@ -18,7 +18,7 @@ typedef enum : NSUInteger {
 @interface HKCoupon : NSObject
 
 ///优惠劵Id
-@property (nonatomic,copy)NSString * couponId;
+@property (nonatomic,strong)NSNumber * couponId;
 
 ///优惠券名称
 @property (nonatomic,copy)NSString * couponName;

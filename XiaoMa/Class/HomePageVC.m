@@ -45,15 +45,15 @@ static NSInteger rotationIndex = 0;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [gAppMgr loadLastLocationAndWeather];
+    [gAppMgr loadLastAdvertiseInfo];
+    
     //自动登陆
     [self autoLogin];
     //设置主页的滚动视图
     [self setupScrollView];
     
-    [gAppMgr loadLastLocationAndWeather];
-    [gAppMgr loadLastAdvertiseInfo];
-    
-    [self.adView reloadData];
     [self rotationTableHeaderView];
     
     [self getWeatherInfo];
@@ -489,7 +489,9 @@ static NSInteger rotationIndex = 0;
         if (op.rsp_code == 0)
         {
             gAppMgr.homepageAdvertiseArray = op.rsp_advertisementArray;
+            
             [self.adView reloadData];
+            self.adView.currentPageIndex = 0;
             
             [gAppMgr saveInfo:op.rsp_advertisementArray forKey:HomepageAdvertise];
         }
@@ -503,7 +505,8 @@ static NSInteger rotationIndex = 0;
 #pragma mark - SYPaginatorViewDelegate
 - (NSInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView
 {
-    return gAppMgr.homepageAdvertiseArray.count ? gAppMgr.homepageAdvertiseArray.count : 1;
+    NSInteger ii = gAppMgr.homepageAdvertiseArray.count ? gAppMgr.homepageAdvertiseArray.count : 1;
+    return ii ;
 }
 
 - (SYPageView *)paginatorView:(SYPaginatorView *)paginatorView viewForPageAtIndex:(NSInteger)pageIndex
@@ -518,16 +521,11 @@ static NSInteger rotationIndex = 0;
     }
     UIImageView *imgV = (UIImageView *)[pageView viewWithTag:1001];
     HKAdvertisement * ad = [gAppMgr.homepageAdvertiseArray safetyObjectAtIndex:pageIndex];
-    if(ad.adPic.length)
-    {
-        [[gMediaMgr rac_getPictureForUrl:ad.adPic withDefaultPic:@"tmp_ad"] subscribeNext:^(id x) {
+//    imgV.image = [UIImage imageNamed:@"hp_bottom"];
+    [[gMediaMgr rac_getPictureForUrl:ad.adPic withDefaultPic:@"hp_bottom"] subscribeNext:^(id x) {
             imgV.image = x;
-        }];
-    }
-    else
-    {
-        imgV.image = [UIImage imageNamed:@"tmp_ad"];
-    }
+    }];
+    
     return pageView;
 }
 

@@ -14,21 +14,26 @@
 @property (nonatomic, strong) NSString *userName;
 @property (nonatomic, strong) NSString *userID;
 @property (nonatomic, strong) NSString *avatarUrl;
-@property (nonatomic, assign) NSInteger carwashTicketsCount;
-@property (nonatomic, assign) NSInteger abcCarwashesCount;
-@property (nonatomic, assign) NSInteger abcIntegral;
 /// 手机号码
 @property (nonatomic, copy)NSString * phoneNumber;
 ///性别 （1-男 2-女）
 @property (nonatomic, assign) NSInteger sex;
 @property (nonatomic, strong) NSDate *birthday;
+///车牌
 @property (nonatomic, strong) NSString *numberPlate;
-
+/// 爱车
 @property (nonatomic, strong)NSArray * carArray;
-
-@property (nonatomic, strong)NSArray * couponArray;
-
+/// 头像
 @property (nonatomic,strong)UIImage * avatar;
+
+///洗车次数
+@property (nonatomic, assign) NSInteger abcCarwashesCount;
+///积分
+@property (nonatomic, assign) NSInteger abcIntegral;
+/// 可用优惠劵
+@property (nonatomic, strong)NSArray * validCarwashArray;
+/// 所有优惠劵
+@property (nonatomic, strong)NSArray * carwashArray;
 
 
 - (HKMyCar *)getDefaultCar;
