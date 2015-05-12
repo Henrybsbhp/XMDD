@@ -72,7 +72,8 @@
     //查看详情
     detailB.backgroundColor = indexPath.row == 0 ? HEXCOLOR(@"#6B77AD") : indexPath.row == 1 ? HEXCOLOR(@"#7EB929") : HEXCOLOR(@"#FDAE0C");
     @weakify(self);
-    [[detailB rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+    [[[detailB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+     subscribeNext:^(id x) {
         @strongify(self);
         SimplePolicyInfoVC *vc = [UIStoryboard vcWithId:@"SimplePolicyInfoVC" inStoryboard:@"Insurance"];
         vc.policy = ins;

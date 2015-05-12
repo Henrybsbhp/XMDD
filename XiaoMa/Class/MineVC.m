@@ -10,10 +10,10 @@
 #import "XiaoMa.h"
 #import "GetUserBaseInfoOp.h"
 #import "MyCarListVC.h"
+#import "MyOrderListVC.h"
 #import "MyCouponVC.h"
 #import "MyInfoViewController.h"
 #import "AboutViewController.h"
-
 
 @interface MineVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -42,14 +42,14 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 - (void)setupBgView
@@ -207,13 +207,17 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
     }
-    
-    if (indexPath.section == 3)
+    else if (indexPath.section == 2 && indexPath.row == 0) {
+        if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+            MyOrderListVC *vc = [UIStoryboard vcWithId:@"MyOrderListVC" inStoryboard:@"Mine"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
+    else if (indexPath.section == 3)
     {
         AboutViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
         [self.navigationController pushViewController:vc animated:YES];
     }
-
 }
 
 -(void)pushToTickets

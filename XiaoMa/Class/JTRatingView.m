@@ -7,6 +7,7 @@
 //
 
 #import "JTRatingView.h"
+#import <ReactiveCocoa.h>
 #import <CKKit.h>
 
 #define kJTNormalRatingImage    @"nb_star"
@@ -16,6 +17,9 @@
 #define kJTRatingMaxCount       5
 #define kJTRatingImageBaseTag   100000
 
+@interface JTRatingView ()
+@property (nonatomic, strong) RACSubject *rac_subject;
+@end
 @implementation JTRatingView
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -45,9 +49,11 @@
     _imgWidth = 13;
     _imgHeight = 12;
     _imgSpacing = 3;
+    _normalImageName = kJTNormalRatingImage;
+    _highlightImageName = kJTHighlightRatingImage;
     for (int i = 0; i < kJTRatingMaxCount; i++)
     {
-        UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kJTNormalRatingImage]];
+        UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:_normalImageName]];
         imgV.tag = kJTRatingImageBaseTag + i;
         [self addSubview:imgV];
     }
@@ -56,10 +62,11 @@
 - (void)resetImageViewFrames
 {
     CGFloat x = kJTRatingViewMargin;
+    CGFloat y = MAX(kJTRatingViewMargin, floor((self.frame.size.height-_imgHeight)/2));
     for (int i = 0; i < kJTRatingMaxCount; i++)
     {
         UIImageView *imgV = (UIImageView *)[self viewWithTag:kJTRatingImageBaseTag + i];
-        imgV.frame = CGRectMake(x, kJTRatingViewMargin, _imgWidth, _imgHeight);
+        imgV.frame = CGRectMake(x, y, _imgWidth, _imgHeight);
         x += _imgWidth + _imgSpacing;
     }
 }
@@ -87,11 +94,11 @@
         UIImageView *imgV = (UIImageView *)[self viewWithTag:kJTRatingImageBaseTag + i];
         if (i >= v)
         {
-            imgV.image = [UIImage imageNamed:kJTNormalRatingImage];
+            imgV.image = [UIImage imageNamed:_normalImageName];
         }
         else
         {
-            imgV.image = [UIImage imageNamed:kJTHighlightRatingImage];
+            imgV.image = [UIImage imageNamed:_highlightImageName];
         }
     }
 }
@@ -107,6 +114,12 @@
     CGPoint pt = [[touches anyObject] locationInView:self];
     CGFloat value = (pt.x - kJTRatingViewMargin + _imgSpacing) / (_imgSpacing + _imgWidth);
     [self setRatingValue:value];
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    [self resetImageViewFrames];
 }
 
 @end

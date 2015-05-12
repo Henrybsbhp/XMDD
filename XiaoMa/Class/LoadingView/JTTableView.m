@@ -92,7 +92,7 @@
 {
     if ([self.delegate respondsToSelector:@selector(tableViewDidStartRefresh:)])
     {
-        [self.delegate tableViewDidStartRefresh:self];
+        [(id<JTTableViewDelegate>)self.delegate tableViewDidStartRefresh:self];
     }
 }
 

@@ -23,7 +23,7 @@
 
 @interface JTShopService : NSObject
 ///服务id
-@property (nonatomic,copy)NSString * serviceID;
+@property (nonatomic,strong)NSNumber * serviceID;
 ///服务姓名
 @property (nonatomic,copy)NSString * serviceName;
 ///服务描述
