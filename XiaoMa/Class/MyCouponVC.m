@@ -1,17 +1,17 @@
 //
-//  MyDiscountVC.m
+//  MyCouponVC.m
 //  XiaoMa
 //
 //  Created by Yawei Liu on 15/5/8.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Copyright (c) 2015年 Hangzhou Huika Tech.. All rights reserved.
 //
 
-#import "MyDiscountVC.h"
+#import "MyCouponVC.h"
 #import "UIBarButtonItem+CustomStyle.h"
 #import "GetUserCouponOp.h"
 #import "HKCoupon.h"
 
-@interface MyDiscountVC ()<UITableViewDelegate,UITableViewDataSource>
+@interface MyCouponVC ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSInteger whichSeg;
     NSArray *unused;//未使用
@@ -29,7 +29,7 @@
 
 @end
 
-@implementation MyDiscountVC
+@implementation MyCouponVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];

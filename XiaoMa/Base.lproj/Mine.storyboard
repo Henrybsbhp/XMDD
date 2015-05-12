@@ -391,7 +391,7 @@
         <!--优惠券-->
         <scene sceneID="8AU-n9-5tj">
             <objects>
-                <viewController storyboardIdentifier="MyDiscountVC" title="优惠券" hidesBottomBarWhenPushed="YES" id="ivg-HO-jEb" customClass="MyDiscountVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MyCouponVC" title="优惠券" hidesBottomBarWhenPushed="YES" id="ivg-HO-jEb" customClass="MyCouponVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="pA0-Kh-WKp"/>
                         <viewControllerLayoutGuide type="bottom" id="zKm-Ef-Pvz"/>

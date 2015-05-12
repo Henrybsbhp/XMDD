@@ -189,7 +189,7 @@
 		6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BD1AE24DCE000D19C1 /* RSADataSigner.m */; };
 		6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BF1AE24DCE000D19C1 /* RSADataVerifier.m */; };
 		C23FCAB81AF8B8C900E04BEB /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C23FCAB71AF8B8C900E04BEB /* TencentOpenAPI.framework */; };
-		C25DF9761AFCA7D3009C4041 /* MyDiscountVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C25DF9751AFCA7D3009C4041 /* MyDiscountVC.m */; };
+		C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */; };
 		C26489B41AF8A70A00F1E318 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C26489B31AF8A70A00F1E318 /* libiconv.dylib */; };
 		C2FB0B9B1AF756AD001A196C /* enquiryInsuranceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C2FB0B9A1AF756AD001A196C /* enquiryInsuranceVC.m */; };
 /* End PBXBuildFile section */
@@ -627,8 +627,8 @@
 		6BEA56BF1AE24DCE000D19C1 /* RSADataVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataVerifier.m; sourceTree = "<group>"; };
 		B54A6CD3F3426144CC6768CC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C23FCAB71AF8B8C900E04BEB /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = ../QQSDK/TencentOpenAPI.framework; sourceTree = "<group>"; };
-		C25DF9741AFCA7D3009C4041 /* MyDiscountVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDiscountVC.h; sourceTree = "<group>"; };
-		C25DF9751AFCA7D3009C4041 /* MyDiscountVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDiscountVC.m; sourceTree = "<group>"; };
+		C25DF9741AFCA7D3009C4041 /* MyCouponVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCouponVC.h; sourceTree = "<group>"; };
+		C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCouponVC.m; sourceTree = "<group>"; };
 		C26489B31AF8A70A00F1E318 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		C2FB0B991AF756AD001A196C /* enquiryInsuranceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = enquiryInsuranceVC.h; sourceTree = "<group>"; };
 		C2FB0B9A1AF756AD001A196C /* enquiryInsuranceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = enquiryInsuranceVC.m; sourceTree = "<group>"; };
@@ -1151,8 +1151,8 @@
 				189B39511AF877E100B83F1B /* MyCarListVC.m */,
 				189B39591AF9A9E500B83F1B /* EditMyCarVC.h */,
 				189B395A1AF9A9E500B83F1B /* EditMyCarVC.m */,
-				C25DF9741AFCA7D3009C4041 /* MyDiscountVC.h */,
-				C25DF9751AFCA7D3009C4041 /* MyDiscountVC.m */,
+				C25DF9741AFCA7D3009C4041 /* MyCouponVC.h */,
+				C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */,
 			);
 			name = Mine;
 			sourceTree = "<group>";
@@ -1750,7 +1750,7 @@
 				189B30D41AD799AF001D7288 /* RACSignal+Extension.m in Sources */,
 				1853DEB71AE0B92400C39175 /* AuthByPwdOp.m in Sources */,
 				1853DEBE1AE0E66B00C39175 /* LoginVC.m in Sources */,
-				C25DF9761AFCA7D3009C4041 /* MyDiscountVC.m in Sources */,
+				C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */,
 				6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */,
 				6BD7AE641AE8A64B00BEF30E /* WXUtil.mm in Sources */,
 				184E40CE1AD3BBB600EFC3A6 /* ShopDetailVC.m in Sources */,

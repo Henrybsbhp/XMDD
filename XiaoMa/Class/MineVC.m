@@ -10,7 +10,7 @@
 #import "XiaoMa.h"
 #import "GetUserBaseInfoOp.h"
 #import "MyCarListVC.h"
-#import "MyDiscountVC.h"
+#import "MyCouponVC.h"
 
 @interface MineVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -182,7 +182,7 @@
 
 -(void)pushToTickets
 {
-    MyDiscountVC *vc = [UIStoryboard vcWithId:@"MyDiscountVC" inStoryboard:@"Mine"];
+    MyCouponVC *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
