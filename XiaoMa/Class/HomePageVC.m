@@ -20,6 +20,7 @@
 #import "GetSystemTipsOp.h"
 #import "GetSystemPromotionOp.h"
 #import "ServiceViewController.h"
+#import <AFNetworking2-RACExtensions/AFHTTPRequestOperationManager+RACSupport.h>
 
 #import <TencentOpenAPI.framework/Headers/QQApiInterface.h>
 #import <TencentOpenAPI.framework/Headers/QQApiInterfaceObject.h>
@@ -244,19 +245,22 @@ static NSInteger rotationIndex = 0;
 //        gNetworkMgr.skey = op.skey;
 //
 //    }];
-    //分享跳转URL
-    NSString *url = @"http://www.baidu.com/";
-    //分享图预览图URL地址
-    NSString *previewImageUrl = @"";
-    QQApiNewsObject *newsObj = [QQApiNewsObject
-                                objectWithURL:[NSURL URLWithString:url]
-                                title: @"分享标题"
-                                description:@"这是分享的描述"
-                                previewImageURL:[NSURL URLWithString:previewImageUrl]];
-    SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
-    //将内容分享到qq
-    QQApiSendResultCode sent = [QQApiInterface sendReq:req];
-    [self handleSendResult:sent];
+
+    
+//    //分享跳转URL
+//    NSString *url = @"http://www.baidu.com/";
+//    //分享图预览图URL地址
+//    NSString *previewImageUrl = @"";
+//    QQApiNewsObject *newsObj = [QQApiNewsObject
+//                                objectWithURL:[NSURL URLWithString:url]
+//                                title: @"分享标题"
+//                                description:@"这是分享的描述"
+//                                previewImageURL:[NSURL URLWithString:previewImageUrl]];
+//    SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
+//    //将内容分享到qq
+//    QQApiSendResultCode sent = [QQApiInterface sendReq:req];
+//    [self handleSendResult:sent];
+    
 }
 
 - (void)handleSendResult:(QQApiSendResultCode)sendResult

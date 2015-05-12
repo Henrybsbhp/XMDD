@@ -10,6 +10,7 @@
 #import "XiaoMa.h"
 #import "GetUserBaseInfoOp.h"
 #import "MyCarListVC.h"
+#import "MyDiscountVC.h"
 
 @interface MineVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -114,6 +115,7 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"TopCell" forIndexPath:indexPath];
     UILabel *leftTitleL = (UILabel *)[cell.contentView viewWithTag:1001];
     UIButton *leftBtn = (UIButton *)[cell.contentView viewWithTag:1002];
+    [leftBtn addTarget:self action:@selector(pushToTickets) forControlEvents:UIControlEventTouchUpInside];
     UILabel *rightTitleL = (UILabel *)[cell.contentView viewWithTag:2001];
     UIButton *rightBtn = (UIButton *)[cell.contentView viewWithTag:2002];
     
@@ -176,6 +178,12 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
     }
+}
+
+-(void)pushToTickets
+{
+    MyDiscountVC *vc = [UIStoryboard vcWithId:@"MyDiscountVC" inStoryboard:@"Mine"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

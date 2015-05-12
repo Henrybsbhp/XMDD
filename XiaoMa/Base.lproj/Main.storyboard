@@ -726,6 +726,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Horizontaline" width="621" height="1"/>
         <image name="cm_arrow_r" width="9" height="15"/>
         <image name="cm_arrow_r2" width="9" height="15"/>
         <image name="cm_avatar" width="59" height="59"/>
@@ -734,9 +735,6 @@
         <image name="me_bg" width="668" height="552"/>
         <image name="me_message" width="33" height="33"/>
         <image name="me_ticket" width="33" height="33"/>
-        <image name="Horizontaline" width="621" height="1"/>
-        <image name="hp_callcenter" width="26" height="34"/>
-        <image name="hp_weather" width="28" height="22"/>
         <image name="nb_abc" width="15" height="14"/>
         <image name="nb_guide" width="14" height="13"/>
         <image name="nb_map" width="40" height="22"/>
