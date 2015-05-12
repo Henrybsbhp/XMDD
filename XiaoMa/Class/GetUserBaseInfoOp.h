@@ -17,6 +17,8 @@
 @property (nonatomic, assign) NSInteger rsp_bankcredit;
 ///昵称
 @property (nonatomic, strong) NSString *rsp_nickName;
+///电话
+@property (nonatomic, strong) NSString *rsp_phone;
 ///头像
 @property (nonatomic, strong) NSString *rsp_avatar;
 ///性别(1-男，2-女)

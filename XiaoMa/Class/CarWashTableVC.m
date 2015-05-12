@@ -267,6 +267,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
+    vc.hidesBottomBarWhenPushed = YES;
     vc.shop = [self.datasource safetyObjectAtIndex:indexPath.row];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -336,6 +337,10 @@
             
             [SVProgressHUD showErrorWithStatus:@"error"];
         }];
+    } error:^(NSError *error) {
+        
+        [SVProgressHUD showErrorWithStatus:@"定位失败"];
+        [self.navigationController popViewControllerAnimated:YES];
     }];
 }
 

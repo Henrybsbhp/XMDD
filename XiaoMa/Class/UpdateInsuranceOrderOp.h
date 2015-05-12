@@ -12,4 +12,6 @@
 @property (nonatomic, strong) NSString *req_deliveryaddress;
 @property (nonatomic, assign) int req_paychannel;
 @property (nonatomic, strong) NSString *req_orderid;
+@property (nonatomic, strong) NSString *rsp_tradeno;
+@property (nonatomic, assign) CGFloat rsp_premium;
 @end

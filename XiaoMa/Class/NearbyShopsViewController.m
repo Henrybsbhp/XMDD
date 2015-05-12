@@ -15,6 +15,10 @@
 #import "AddUserFavoriteOp.h"
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
+#import "DistanceCalcHelper.h"
+
+/// 超过2km
+#define RequestDistance 2000
 
 @interface NearbyShopsViewController ()<UIActionSheetDelegate,SYPaginatorViewDataSource, SYPaginatorViewDelegate>
 
@@ -28,6 +32,11 @@
 @property (nonatomic)BOOL needRequestNearbyShop;
 
 @property (nonatomic,strong)NSArray * nearbyShopArray;
+
+@property (nonatomic,strong)RACSubject * requestSignal;
+
+/// 上次请求数据定位点，超过一定范围，再去请求
+@property (nonatomic)CLLocationCoordinate2D lastRequestCorrdinate;
 
 @end
 
@@ -51,21 +60,35 @@
     self.mapView.showsUserLocation = YES;
     
     self.needRequestNearbyShop = YES;
+    
+    self.requestSignal = [RACSubject subject];
+    @weakify(self)
+    [self.requestSignal subscribeNext:^(MAMapView *mapView) {
+        
+        @strongify(self)
+        CLLocationCoordinate2D coordinate = mapView.centerCoordinate;
+        if ([DistanceCalcHelper getDistanceLatA:coordinate.latitude lngA:coordinate.longitude latB:self.lastRequestCorrdinate.latitude lngB:self.lastRequestCorrdinate.longitude] > RequestDistance)
+        {
+            [self requestNearbyShops:mapView.centerCoordinate andRange:1];
+        }
+    }];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
+    [super viewWillAppear:animated];
     
     self.mapView.delegate = self;
 }
 
-- (void)viewDidDisappear:(BOOL)animated
+
+- (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewDidDisappear:animated];
+    [super viewWillDisappear:animated];
     
     self.mapView.delegate = nil;
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -152,6 +175,8 @@
 #pragma mark - Utility
 - (void)requestNearbyShops:(CLLocationCoordinate2D)coordinate andRange:(NSInteger)range
 {
+    self.lastRequestCorrdinate = coordinate;
+    
     GetShopByRangeOp * op = [GetShopByRangeOp operation];
     op.longitude = coordinate.longitude;
     op.latitude = coordinate.latitude;
@@ -316,6 +341,11 @@
             }
         }
     }
+}
+
+- (void)mapView:(MAMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+{
+    [self.requestSignal sendNext:mapView];
 }
 
 #pragma mark - SYPaginatorViewDelegate

@@ -8,6 +8,7 @@
 
 #import "InsuranceVC.h"
 #import "XiaoMa.h"
+#import "BuyInsuranceOnlineVC.h"
 
 @interface InsuranceVC ()
 
@@ -28,6 +29,12 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)actionBuyInsuraceOline:(id)sender {
+    BuyInsuranceOnlineVC *vc = [UIStoryboard vcWithId:@"BuyInsuranceOnlineVC" inStoryboard:@"Insurance"];
+    vc.originVC = self;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - UITableViewDelegate and datasource
