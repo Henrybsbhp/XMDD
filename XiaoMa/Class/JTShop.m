@@ -34,7 +34,7 @@
         return nil;
     }
     JTShopService * service = [[JTShopService alloc] init];
-    service.serviceID = [NSString stringWithFormat:@"%@",rsp[@"serviceid"]];
+    service.serviceID = rsp[@"serviceid"];
     service.serviceName = [rsp stringParamForName:@"name"];
     service.serviceDescription = [rsp stringParamForName:@"description"];
     service.shopServiceType = (ShopServiceType)[rsp integerParamForName:@"category"];

@@ -27,9 +27,11 @@
 + (NSString *)dateFormatForYYYYMMddHHmmWithD15:(NSString *)text;
 ///参照时间(mm:ss)
 - (NSString *)dateFormatForRefrenceText;
++ (NSDate *)dateWithUTS:(NSNumber*)uts;
 - (NSString *)dateFormatForDT15;
 - (NSString *)dateFormatForDT8;
 + (NSDate *)dateWithD8Text:(NSString *)text;
++ (NSDate *)dateWithD14Text:(NSString *)text;
 + (NSDate *)dateWithText:(NSString *)text;
 
 ///参照时间(mm:ss)
