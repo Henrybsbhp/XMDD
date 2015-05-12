@@ -11,6 +11,8 @@
 #import "GetUserBaseInfoOp.h"
 #import "MyCarListVC.h"
 #import "MyOrderListVC.h"
+#import "MyCouponVC.h"
+#import "MyInfoViewController.h"
 
 @interface MineVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -30,13 +32,23 @@
     [self observeUserInfo];
 }
 
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 - (void)setupBgView
@@ -45,6 +57,24 @@
     [self.bgView mas_updateConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.top.equalTo(self.view.mas_top).offset(0);
+    }];
+    
+    UITapGestureRecognizer * gesture = [[UITapGestureRecognizer alloc] init];
+    [self.bgView addGestureRecognizer:gesture];
+    self.bgView.userInteractionEnabled = YES;
+    [[gesture rac_gestureSignal] subscribeNext:^(id x) {
+        
+        MyInfoViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"MyInfoViewController"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    
+    [[RACObserve(gAppMgr.myUser, avatar) distinctUntilChanged] subscribeNext:^(UIImage * avatar) {
+        
+        self.avatarView.image = avatar;
+    }];
+    [[RACObserve(gAppMgr.myUser, userName) distinctUntilChanged] subscribeNext:^(NSString * name) {
+        
+        self.nameLabel.text = name;
     }];
 }
 
@@ -62,7 +92,8 @@
     [[GetUserBaseInfoOp rac_fetchUserBaseInfo] subscribeNext:^(GetUserBaseInfoOp *op) {
         [[gMediaMgr rac_getPictureForUrl:gAppMgr.myUser.avatarUrl withDefaultPic:@"cm_avatar"]
          subscribeNext:^(id x) {
-            self.avatarView.image = x;
+//            self.avatarView.image = x;
+             gAppMgr.myUser.avatar = x;
         }];
         self.nameLabel.text = gAppMgr.myUser ? (gAppMgr.myUser.userName ? gAppMgr.myUser.userName : @"——") : @"未登录";
         self.accountLabel.text = gAppMgr.myUser.userID ? gAppMgr.myUser.userID : @"——";
@@ -115,6 +146,7 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"TopCell" forIndexPath:indexPath];
     UILabel *leftTitleL = (UILabel *)[cell.contentView viewWithTag:1001];
     UIButton *leftBtn = (UIButton *)[cell.contentView viewWithTag:1002];
+    [leftBtn addTarget:self action:@selector(pushToTickets) forControlEvents:UIControlEventTouchUpInside];
     UILabel *rightTitleL = (UILabel *)[cell.contentView viewWithTag:2001];
     UIButton *rightBtn = (UIButton *)[cell.contentView viewWithTag:2002];
     
@@ -183,6 +215,12 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
     }
+}
+
+-(void)pushToTickets
+{
+    MyCouponVC *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

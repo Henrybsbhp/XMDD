@@ -19,7 +19,7 @@
     [params addParam:@(self.used) forName:@"user"];
     [params addParam:self.pageno ? @(self.pageno):@(1) forName:@"pageno"];
     
-    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
+    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
 

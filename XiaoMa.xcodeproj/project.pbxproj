@@ -50,6 +50,7 @@
 		186984FE1B00E277000A182A /* InsuranceOrderDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 186984FD1B00E277000A182A /* InsuranceOrderDetailVC.m */; };
 		186985011B01A731000A182A /* CarwashOrderCommentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 186985001B01A731000A182A /* CarwashOrderCommentVC.m */; };
 		186985041B01CC2C000A182A /* SubmitCommentOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186985031B01CC2C000A182A /* SubmitCommentOp.m */; };
+		1869850E1B022323000A182A /* UIScrollView+RefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1869850D1B022323000A182A /* UIScrollView+RefreshView.m */; };
 		18746B181AEA1BB300D93696 /* UpdateInsuranceOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18746B171AEA1BB300D93696 /* UpdateInsuranceOrderOp.m */; };
 		187532D31ACCDEEF004CB777 /* HomePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 187532D21ACCDEEF004CB777 /* HomePageVC.m */; };
 		187CC9551AEDD0D1004D1F28 /* CommonPackerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 187CC9541AEDD0D1004D1F28 /* CommonPackerVC.m */; };
@@ -155,6 +156,10 @@
 		6BBB825F1AE7A0CF00850D0C /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBB825E1AE7A0CF00850D0C /* libsqlite3.dylib */; };
 		6BBB82611AE7A0D700850D0C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBB82601AE7A0D700850D0C /* libz.dylib */; };
 		6BBB82631AE7A0E000850D0C /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBB82621AE7A0E000850D0C /* libc++.dylib */; };
+		6BBF7DA01B004A7A00E45967 /* MyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF7D9F1B004A7A00E45967 /* MyInfoViewController.m */; };
+		6BBF7DA31B008B1000E45967 /* EditMyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF7DA21B008B1000E45967 /* EditMyInfoViewController.m */; };
+		6BBF7DA61B00A78900E45967 /* UpdateUserInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF7DA51B00A78900E45967 /* UpdateUserInfoOp.m */; };
+		6BBF7DA91B00C9C200E45967 /* UIImage+Utilities.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF7DA81B00C9C200E45967 /* UIImage+Utilities.mm */; };
 		6BC220961AD7801C00A4310E /* BaseOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC220951AD7801C00A4310E /* BaseOp.m */; };
 		6BC220991AD7804800A4310E /* NSMutableDictionary+AddParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC220981AD7804800A4310E /* NSMutableDictionary+AddParams.m */; };
 		6BC2209C1AD7AAF300A4310E /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2209B1AD7AAF300A4310E /* NetworkManager.m */; };
@@ -202,6 +207,9 @@
 		6BEA56D21AE24DCE000D19C1 /* openssl_wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BB1AE24DCE000D19C1 /* openssl_wrapper.m */; };
 		6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BD1AE24DCE000D19C1 /* RSADataSigner.m */; };
 		6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BF1AE24DCE000D19C1 /* RSADataVerifier.m */; };
+		C23FCAB81AF8B8C900E04BEB /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C23FCAB71AF8B8C900E04BEB /* TencentOpenAPI.framework */; };
+		C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */; };
+		C26489B41AF8A70A00F1E318 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C26489B31AF8A70A00F1E318 /* libiconv.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -297,6 +305,8 @@
 		186985001B01A731000A182A /* CarwashOrderCommentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarwashOrderCommentVC.m; sourceTree = "<group>"; };
 		186985021B01CC2C000A182A /* SubmitCommentOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubmitCommentOp.h; path = Class/SubmitCommentOp.h; sourceTree = "<group>"; };
 		186985031B01CC2C000A182A /* SubmitCommentOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SubmitCommentOp.m; path = Class/SubmitCommentOp.m; sourceTree = "<group>"; };
+		1869850C1B022323000A182A /* UIScrollView+RefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+RefreshView.h"; sourceTree = "<group>"; };
+		1869850D1B022323000A182A /* UIScrollView+RefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+RefreshView.m"; sourceTree = "<group>"; };
 		18746B161AEA1BB300D93696 /* UpdateInsuranceOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateInsuranceOrderOp.h; path = Class/UpdateInsuranceOrderOp.h; sourceTree = "<group>"; };
 		18746B171AEA1BB300D93696 /* UpdateInsuranceOrderOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateInsuranceOrderOp.m; path = Class/UpdateInsuranceOrderOp.m; sourceTree = "<group>"; };
 		187532D01ACCDD58004CB777 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = Class/Constants.h; sourceTree = "<group>"; };
@@ -496,6 +506,14 @@
 		6BBB825E1AE7A0CF00850D0C /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		6BBB82601AE7A0D700850D0C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		6BBB82621AE7A0E000850D0C /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		6BBF7D9E1B004A7A00E45967 /* MyInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyInfoViewController.h; sourceTree = "<group>"; };
+		6BBF7D9F1B004A7A00E45967 /* MyInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyInfoViewController.m; sourceTree = "<group>"; };
+		6BBF7DA11B008B1000E45967 /* EditMyInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditMyInfoViewController.h; sourceTree = "<group>"; };
+		6BBF7DA21B008B1000E45967 /* EditMyInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditMyInfoViewController.m; sourceTree = "<group>"; };
+		6BBF7DA41B00A78900E45967 /* UpdateUserInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateUserInfoOp.h; path = Class/UpdateUserInfoOp.h; sourceTree = "<group>"; };
+		6BBF7DA51B00A78900E45967 /* UpdateUserInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateUserInfoOp.m; path = Class/UpdateUserInfoOp.m; sourceTree = "<group>"; };
+		6BBF7DA71B00C9C200E45967 /* UIImage+Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+Utilities.h"; path = "Class/UIImage+Utilities.h"; sourceTree = "<group>"; };
+		6BBF7DA81B00C9C200E45967 /* UIImage+Utilities.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "UIImage+Utilities.mm"; path = "Class/UIImage+Utilities.mm"; sourceTree = "<group>"; };
 		6BC220941AD7801C00A4310E /* BaseOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseOp.h; path = Class/BaseOp.h; sourceTree = "<group>"; };
 		6BC220951AD7801C00A4310E /* BaseOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseOp.m; path = Class/BaseOp.m; sourceTree = "<group>"; };
 		6BC220971AD7804800A4310E /* NSMutableDictionary+AddParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableDictionary+AddParams.h"; path = "Class/NSMutableDictionary+AddParams.h"; sourceTree = "<group>"; };
@@ -664,6 +682,10 @@
 		6BEA56BE1AE24DCE000D19C1 /* RSADataVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSADataVerifier.h; sourceTree = "<group>"; };
 		6BEA56BF1AE24DCE000D19C1 /* RSADataVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataVerifier.m; sourceTree = "<group>"; };
 		B54A6CD3F3426144CC6768CC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C23FCAB71AF8B8C900E04BEB /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = ../QQSDK/TencentOpenAPI.framework; sourceTree = "<group>"; };
+		C25DF9741AFCA7D3009C4041 /* MyCouponVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCouponVC.h; sourceTree = "<group>"; };
+		C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCouponVC.m; sourceTree = "<group>"; };
+		C26489B31AF8A70A00F1E318 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		CA94042FD235B5154105FE58 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -672,6 +694,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C23FCAB81AF8B8C900E04BEB /* TencentOpenAPI.framework in Frameworks */,
+				C26489B41AF8A70A00F1E318 /* libiconv.dylib in Frameworks */,
 				6BBB82631AE7A0E000850D0C /* libc++.dylib in Frameworks */,
 				6BBB82611AE7A0D700850D0C /* libz.dylib in Frameworks */,
 				6BBB825F1AE7A0CF00850D0C /* libsqlite3.dylib in Frameworks */,
@@ -697,6 +721,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				C26489B21AF8A6B600F1E318 /* QQSDK */,
 				6BBB82571AE79FE100850D0C /* WeChatSDK.5 */,
 				6B086BA81AE4F46900659DB7 /* TMCache */,
 				18A377F01AE4AB4B0031A574 /* SVProgressHUD */,
@@ -755,6 +780,8 @@
 		1816F4B11ACE762900BBCC96 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				6BBF7DA71B00C9C200E45967 /* UIImage+Utilities.h */,
+				6BBF7DA81B00C9C200E45967 /* UIImage+Utilities.mm */,
 				6BB61BA11AEF7CAE004F39AA /* NSString+RectSize.h */,
 				6BB61BA21AEF7CAE004F39AA /* NSString+RectSize.m */,
 				6B086BA51AE4F03800659DB7 /* UIView+Base.h */,
@@ -784,7 +811,7 @@
 			children = (
 				6BD7AE651AE9EEDE00BEF30E /* Map */,
 				1853DEC51AE0EF8B00C39175 /* ProgressHUD */,
-				6BB884B31AE0BB9600EBD8F4 /* TableView */,
+				6BB884B31AE0BB9600EBD8F4 /* LoadingView */,
 				6BC3B6161ADF92CF001016A0 /* Other */,
 				189B30CE1AD782C1001D7288 /* SignalSupport */,
 				189B30AA1AD4D62C001D7288 /* TableAutoHeight */,
@@ -917,10 +944,6 @@
 		186984EC1B005FCE000A182A /* MyCar */ = {
 			isa = PBXGroup;
 			children = (
-				189B39501AF877E100B83F1B /* MyCarListVC.h */,
-				189B39511AF877E100B83F1B /* MyCarListVC.m */,
-				189B39591AF9A9E500B83F1B /* EditMyCarVC.h */,
-				189B395A1AF9A9E500B83F1B /* EditMyCarVC.m */,
 			);
 			name = MyCar;
 			sourceTree = "<group>";
@@ -1215,6 +1238,16 @@
 				189B394A1AF71C3900B83F1B /* MineVC.h */,
 				189B394B1AF71C3900B83F1B /* MineVC.m */,
 				186984E21B00571C000A182A /* Order */,
+				189B39501AF877E100B83F1B /* MyCarListVC.h */,
+				189B39511AF877E100B83F1B /* MyCarListVC.m */,
+				189B39591AF9A9E500B83F1B /* EditMyCarVC.h */,
+				189B395A1AF9A9E500B83F1B /* EditMyCarVC.m */,
+				C25DF9741AFCA7D3009C4041 /* MyCouponVC.h */,
+				C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */,
+				6BBF7D9E1B004A7A00E45967 /* MyInfoViewController.h */,
+				6BBF7D9F1B004A7A00E45967 /* MyInfoViewController.m */,
+				6BBF7DA11B008B1000E45967 /* EditMyInfoViewController.h */,
+				6BBF7DA21B008B1000E45967 /* EditMyInfoViewController.m */,
 			);
 			name = Mine;
 			sourceTree = "<group>";
@@ -1262,9 +1295,11 @@
 			name = Other;
 			sourceTree = "<group>";
 		};
-		6BB884B31AE0BB9600EBD8F4 /* TableView */ = {
+		6BB884B31AE0BB9600EBD8F4 /* LoadingView */ = {
 			isa = PBXGroup;
 			children = (
+				1869850C1B022323000A182A /* UIScrollView+RefreshView.h */,
+				1869850D1B022323000A182A /* UIScrollView+RefreshView.m */,
 				6BB884B41AE0BB9600EBD8F4 /* JTHeadRefreshView.h */,
 				6BB884B51AE0BB9600EBD8F4 /* JTHeadRefreshView.m */,
 				6BB884B61AE0BB9600EBD8F4 /* JTTableView.h */,
@@ -1272,8 +1307,8 @@
 				6BB884B81AE0BB9600EBD8F4 /* UIView+JTLoadingView.h */,
 				6BB884B91AE0BB9600EBD8F4 /* UIView+JTLoadingView.m */,
 			);
-			name = TableView;
-			path = Class/TableView;
+			name = LoadingView;
+			path = Class/LoadingView;
 			sourceTree = "<group>";
 		};
 		6BB884BD1AE0BC3000EBD8F4 /* SlimeRefresh */ = {
@@ -1432,6 +1467,8 @@
 				6BE4CE361AF220A0008E1C19 /* GetUserFavoriteOp.m */,
 				6BB9D76C1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.h */,
 				6BB9D76D1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m */,
+				6BBF7DA41B00A78900E45967 /* UpdateUserInfoOp.h */,
+				6BBF7DA51B00A78900E45967 /* UpdateUserInfoOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -1603,6 +1640,15 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
+		C26489B21AF8A6B600F1E318 /* QQSDK */ = {
+			isa = PBXGroup;
+			children = (
+				C23FCAB71AF8B8C900E04BEB /* TencentOpenAPI.framework */,
+			);
+			name = QQSDK;
+			path = TMCache;
+			sourceTree = "<group>";
+		};
 		C5BD8500918CA8D253037804 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1615,6 +1661,7 @@
 		C8447CD201C36C94165168FF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C26489B31AF8A70A00F1E318 /* libiconv.dylib */,
 				6BBB82621AE7A0E000850D0C /* libc++.dylib */,
 				6BBB82601AE7A0D700850D0C /* libz.dylib */,
 				6BBB825E1AE7A0CF00850D0C /* libsqlite3.dylib */,
@@ -1823,6 +1870,7 @@
 				189B30D41AD799AF001D7288 /* RACSignal+Extension.m in Sources */,
 				1853DEB71AE0B92400C39175 /* AuthByPwdOp.m in Sources */,
 				1853DEBE1AE0E66B00C39175 /* LoginVC.m in Sources */,
+				C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */,
 				6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */,
 				6BD7AE641AE8A64B00BEF30E /* WXUtil.mm in Sources */,
 				184E40CE1AD3BBB600EFC3A6 /* ShopDetailVC.m in Sources */,
@@ -1855,6 +1903,7 @@
 				1883D9331ACCDA8B002A4D19 /* DefaultStyleModel.m in Sources */,
 				6BE4CE311AF217BC008E1C19 /* GetUserCouponOp.m in Sources */,
 				189B30BA1AD51EF2001D7288 /* JTUser.m in Sources */,
+				1869850E1B022323000A182A /* UIScrollView+RefreshView.m in Sources */,
 				6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */,
 				1816F4B41ACE767200BBCC96 /* UIStoryboard+Expansion.m in Sources */,
 				186984F21B007FAB000A182A /* HKServiceOrder.m in Sources */,
@@ -1877,9 +1926,11 @@
 				187532D31ACCDEEF004CB777 /* HomePageVC.m in Sources */,
 				6BC2209F1AD7AC9D00A4310E /* NSString+MD5.m in Sources */,
 				1883D9101ACBBE30002A4D19 /* main.m in Sources */,
+				6BBF7DA31B008B1000E45967 /* EditMyInfoViewController.m in Sources */,
 				189B30B71AD50627001D7288 /* PayForWashCarVC.m in Sources */,
 				6BBAB8B61ADBC12D00EC342F /* UpdatePwdOp.m in Sources */,
 				1853DED41AE2A0BD00C39175 /* VcodeLoginVC.m in Sources */,
+				6BBF7DA91B00C9C200E45967 /* UIImage+Utilities.mm in Sources */,
 				6BB884C81AE0BC3000EBD8F4 /* SRSlimeView.m in Sources */,
 				6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */,
 				6BC3B60F1ADF52CB001016A0 /* BaseMapViewController.m in Sources */,
@@ -1898,6 +1949,7 @@
 				6BB884BC1AE0BB9600EBD8F4 /* UIView+JTLoadingView.m in Sources */,
 				6BB884D71AE0F31700EBD8F4 /* HKCoupon.m in Sources */,
 				6BC3B6121ADF6205001016A0 /* MapHelper.m in Sources */,
+				6BBF7DA01B004A7A00E45967 /* MyInfoViewController.m in Sources */,
 				189B31031AD7A935001D7288 /* DatePickerVC.m in Sources */,
 				186984E81B005A86000A182A /* CarwashOrderViewModel.m in Sources */,
 				189B30AF1AD4D661001D7288 /* JTLabel.m in Sources */,
@@ -1927,6 +1979,7 @@
 				18863FA21AE8A316005BF4ED /* GetInsuranceByChannelOp.m in Sources */,
 				6BBAB8C01ADBC21600EC342F /* DesUtil.m in Sources */,
 				189B30C31AD64310001D7288 /* ChooseCarwashTicketVC.m in Sources */,
+				6BBF7DA61B00A78900E45967 /* UpdateUserInfoOp.m in Sources */,
 				6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */,
 				6BBAB8C71ADD1ED900EC342F /* GetShopByDistanceOp.m in Sources */,
 				1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */,
@@ -2109,8 +2162,11 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/TMCache",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
 				);
-				GCC_PREFIX_HEADER = Xiaoma/Class/XmddPrefixHeader.pch;
+				GCC_PREFIX_HEADER = XiaoMa/Class/XmddPrefixHeader.pch;
 				HEADER_SEARCH_PATHS = (
 					"\"${PODS_ROOT}/Headers/Public\"",
 					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
@@ -2128,6 +2184,7 @@
 					"\"${PODS_ROOT}/Headers/Public/cdebug\"",
 					"\"${PODS_ROOT}/Headers/Public/ckkit\"",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
 				);
 				INFOPLIST_FILE = XiaoMa/Misc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -2136,8 +2193,55 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/WeChatSDK.5",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
 				);
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"Pods-AFNetworking\"",
+					"-l\"Pods-AFNetworking2-RACExtensions\"",
+					"-l\"Pods-AMap2DMap\"",
+					"-l\"Pods-AMapSearch\"",
+					"-l\"Pods-CocoaLumberjack\"",
+					"-l\"Pods-FoundationExtension\"",
+					"-l\"Pods-IQKeyboardManager\"",
+					"-l\"Pods-MZAppearance\"",
+					"-l\"Pods-MZFormSheetController\"",
+					"-l\"Pods-Masonry\"",
+					"-l\"Pods-ReactiveCocoa\"",
+					"-l\"Pods-SFHFKeychainUtils\"",
+					"-l\"Pods-cdebug\"",
+					"-l\"Pods-ckkit\"",
+					"-l\"stdc++.6.0.9\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AMapSearchKit\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AddressBook\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"MAMapKit\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-fobjc-arc",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "196d27f9-1ec8-41c8-9b2d-22fc8e3c1da9";
 			};
@@ -2154,8 +2258,11 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/TMCache",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
 				);
-				GCC_PREFIX_HEADER = Xiaoma/Class/XmddPrefixHeader.pch;
+				GCC_PREFIX_HEADER = XiaoMa/Class/XmddPrefixHeader.pch;
 				HEADER_SEARCH_PATHS = (
 					"\"${PODS_ROOT}/Headers/Public\"",
 					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
@@ -2173,6 +2280,7 @@
 					"\"${PODS_ROOT}/Headers/Public/cdebug\"",
 					"\"${PODS_ROOT}/Headers/Public/ckkit\"",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
 				);
 				INFOPLIST_FILE = XiaoMa/Misc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -2181,6 +2289,53 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/WeChatSDK.5",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"Pods-AFNetworking\"",
+					"-l\"Pods-AFNetworking2-RACExtensions\"",
+					"-l\"Pods-AMap2DMap\"",
+					"-l\"Pods-AMapSearch\"",
+					"-l\"Pods-CocoaLumberjack\"",
+					"-l\"Pods-FoundationExtension\"",
+					"-l\"Pods-IQKeyboardManager\"",
+					"-l\"Pods-MZAppearance\"",
+					"-l\"Pods-MZFormSheetController\"",
+					"-l\"Pods-Masonry\"",
+					"-l\"Pods-ReactiveCocoa\"",
+					"-l\"Pods-SFHFKeychainUtils\"",
+					"-l\"Pods-cdebug\"",
+					"-l\"Pods-ckkit\"",
+					"-l\"stdc++.6.0.9\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AMapSearchKit\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AddressBook\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"MAMapKit\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "f0b32fa7-6ec2-460c-a09d-dcec716eb8f1";

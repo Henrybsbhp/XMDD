@@ -75,6 +75,7 @@ typedef enum : NSUInteger {
 #define carWashStoryboard [UIStoryboard storyboardWithName:@"Carwash" bundle:nil]
 #define commonStoryboard [UIStoryboard storyboardWithName:@"Common" bundle:nil]
 #define otherStoryboard [UIStoryboard storyboardWithName:@"Other" bundle:nil]
+#define mineStoryboard [UIStoryboard storyboardWithName:@"Mine" bundle:nil]
 
 
 #define LocationFail 7001
