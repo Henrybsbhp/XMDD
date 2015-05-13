@@ -11,7 +11,7 @@
 @interface CheckoutServiceOrderOp : BaseOp
 
 ///
-@property (nonatomic,copy)NSString * serviceid;
+@property (nonatomic,copy)NSNumber *serviceid;
 
 ///车牌
 @property (nonatomic,copy)NSString * licencenumber;

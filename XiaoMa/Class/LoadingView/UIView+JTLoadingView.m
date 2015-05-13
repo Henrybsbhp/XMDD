@@ -77,7 +77,7 @@ static char sActivityIndicatorView;
     }
 }
 
-- (void)showIndicatorTextWith:(NSString *)text clickBlock:(void(^)(void))block
+- (void)showIndicatorTextWith:(NSString *)text clickBlock:(void(^)(UIButton *sender))block
 {
     BOOL isAnimating = [self isActivityAnimating];
     CGFloat y = isAnimating ? CGRectGetMaxY(self.activityIndicatorView.frame) : self.indicatorPoistionY-18;
@@ -85,7 +85,13 @@ static char sActivityIndicatorView;
     [self.indicatorTextButton setTitle:text forState:UIControlStateNormal];
     //    [self.indicatorTextButton sizeToFit];
     self.indicatorTextButton.hidden = NO;
-    self.indicatorTextButton.customActionBlock = block;
+    @weakify(self);
+    [self.indicatorTextButton setCustomActionBlock:^{
+        if (block) {
+            @strongify(self);
+            block(self.indicatorTextButton);
+        }
+    }];
     [self bringSubviewToFront:self.indicatorTextButton];
 }
 
