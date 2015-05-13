@@ -154,6 +154,24 @@
     return [format dateFromString:text];
 }
 
++ (NSDate *)dateWithUTS:(NSNumber*)uts
+{
+    if (!uts || uts.longLongValue == 0) {
+        return nil;
+    }
+    return [NSDate dateWithTimeIntervalSince1970:(NSTimeInterval)(uts.longLongValue/1000.0)];
+}
+
++ (NSDate *)dateWithD14Text:(NSString *)text
+{
+    if (text.length == 0) {
+        return nil;
+    }
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"yyyyMMddhhmmss"];
+    return [format dateFromString:text];
+}
+
 + (NSDate *)dateWithText:(NSString *)text
 {
     NSDateFormatter *format = [[NSDateFormatter alloc] init];

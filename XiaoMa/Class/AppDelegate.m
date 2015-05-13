@@ -21,6 +21,7 @@
 #import "DeviceInfo.h"
 #import "WXApi.h"
 #import <TencentOpenAPI.framework/Headers/TencentOAuth.h>
+#import "JTLogModel.h"
 
 #define RequestWeatherInfoInterval 60 * 10
 //#define RequestWeatherInfoInterval 5
@@ -30,6 +31,9 @@
     TencentOAuth *oauth;
 }
 @property (nonatomic, strong) DDFileLogger *fileLogger;
+
+/// 日志
+@property (nonatomic,strong)JTLogModel * logModel;
 @end
 
 @implementation AppDelegate
@@ -374,7 +378,29 @@
     }
 }
 
-
+#pragma mark - 日志
+#pragma mark - UIResponser
+- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+#ifdef DEBUG
+    if (motion != UIEventSubtypeMotionShake)
+        return;
+    if (!self.logModel)
+    {
+        self.logModel = [[JTLogModel alloc] init];
+    }
+    else
+    {
+        if (self.logModel.islogViewAppear)
+        {
+            return;
+        }
+    }
+    self.logModel.userid = gNetworkMgr.bindingMobile ? gNetworkMgr.bindingMobile : @"10086";
+    self.logModel.appname = @"com.huika.xmdd";
+    [self.logModel addToScreen];
+#endif
+}
 
 
 @end

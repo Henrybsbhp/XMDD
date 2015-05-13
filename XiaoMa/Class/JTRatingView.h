@@ -10,13 +10,13 @@
 
 @interface JTRatingView : UIView
 @property (nonatomic, assign) CGFloat ratingValue;
-///(default is 29)
 @property (nonatomic, assign) CGFloat imgWidth;
-///(default is 28)
 @property (nonatomic, assign) CGFloat imgHeight;
-///(default is 5)
 @property (nonatomic, assign) CGFloat imgSpacing;
+@property (nonatomic, strong) NSString *normalImageName;
+@property (nonatomic, strong) NSString *highlightImageName;
 
 - (void)resetImageViewFrames;
 - (void)sizeToFit;
+
 @end

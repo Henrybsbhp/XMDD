@@ -55,7 +55,6 @@
     self.navigationController.navigationItem.titleView = view;
     
     whichSeg = 0;
-    self.tableView.showBottomLoadingView = YES;
     
     self.isRemain = YES;
     self.pageAmount = 10;
@@ -66,22 +65,48 @@
     validCoupon = [[NSMutableArray alloc] init];
     timeoutCoupon = [[NSMutableArray alloc] init];
     usedCoupon = [[NSMutableArray alloc] init];
+    self.tableView.showBottomLoadingView = YES;
+    [self setupGetMoreBtn];
     [self requestValidCoupon:2 pageno:self.currentPageIndexForUnused];
 }
+
+- (void)setupGetMoreBtn
+{
+    UIView *bottomView = [UIView new];
+    UIButton *getMoreBtn = [UIButton new];
+    [getMoreBtn setBackgroundColor:[UIColor orangeColor]];
+    [getMoreBtn setTitle:@"如何获取更多优惠劵" forState:UIControlStateNormal];
+    [getMoreBtn setFont:[UIFont systemFontOfSize:14]];
+    getMoreBtn.cornerRadius = 5.0f;
+    [getMoreBtn.layer setMasksToBounds:YES];
+    [[getMoreBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        //按钮点击获取更多优惠券事件
+    }];
+    [bottomView addSubview:getMoreBtn];
+    [self.tableView addSubview:bottomView];
+    [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(44);
+        make.width.mas_equalTo(200);
+        make.centerX.mas_equalTo(self.tableView.mas_centerX);
+        make.top.equalTo(self.tableView.tableFooterView.mas_bottom).priorityMedium();
+        make.bottom.greaterThanOrEqualTo(self.view).offset(-10).priorityHigh();
+    }];
+    [getMoreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(bottomView);
+    }];
+}
+
 
 #pragma mark - Load Coupon
 - (void)requestValidCoupon:(NSInteger)used pageno:(NSInteger)pageno
 {
-    if ([self.tableView.bottomLoadingView isActivityAnimating])
-    {
-        return;
-    }
     self.currentPageIndexForUnused = self.currentPageIndexForUnused + 1;
     GetUserCouponOp * op = [GetUserCouponOp operation];
     op.used = used;
     op.pageno = pageno;
     [[[op rac_postRequest] initially:^{
         [SVProgressHUD showWithStatus:@"Loading..."];
+        
         [self.tableView.bottomLoadingView hideIndicatorText];
         [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
     }] subscribeNext:^(GetUserCouponOp * op) {
@@ -103,7 +128,6 @@
         else
         {
             //没有优惠券时的页面
-            [self handleData];//测试数据
         }
         [self sortCoupon];
         [SVProgressHUD dismiss];
@@ -125,27 +149,31 @@
 
 - (void)requestUsedCoupon:(NSInteger)used pageno:(NSInteger)pageno
 {
-    if ([self.tableView.bottomLoadingView isActivityAnimating])
-    {
-        return;
-    }
     self.currentPageIndexForUsed = self.currentPageIndexForUsed + 1;
     GetUserCouponOp * op = [GetUserCouponOp operation];
     op.used = used;
     op.pageno = pageno;
     [[[op rac_postRequest] initially:^{
         [SVProgressHUD showWithStatus:@"Loading..."];
-        [self.tableView.bottomLoadingView hideIndicatorText];
-        [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
     }] subscribeNext:^(GetUserCouponOp * op) {
         if (op.rsp_couponsArray.count)
         {
             [usedCoupon addObjectsFromArray:op.rsp_couponsArray];
-            [self handleData];
+            if (usedCoupon.count >= self.pageAmount){
+                self.isRemain = YES;
+            }
+            else{
+                self.isRemain = NO;
+            }
+            if (!self.isRemain){
+                [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+            }
+            [self.tableView reloadData];
         }
         else
         {
             //没有优惠券时的页面
+            self.isRemain = NO;
             [self.tableView reloadData];
         }
         [SVProgressHUD dismiss];
@@ -157,43 +185,60 @@
 -(void)handleData
 {
     //以下是测试数据
-    HKCoupon *testDate1 = [[HKCoupon alloc]init];
-    testDate1.couponName = @"这是个有效优惠券哟";
-    testDate1.couponDescription = @"此处是测试优惠券的描述哟";
-    testDate1.used = NO;
-    testDate1.valid = YES;
+    
+    //模拟数据时的点点点
+    [self.tableView.bottomLoadingView hideIndicatorText];
+    [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
     NSDate *now = [NSDate date];
-    testDate1.validsince = now;
-    [validCoupon addObject:testDate1];
-    HKCoupon *testDate2 = [[HKCoupon alloc]init];
-    testDate2.couponName = @"这是个过期优惠券哟";
-    testDate2.couponDescription = @"此处是测试优惠券的描述哟";
-    testDate2.used = NO;
-    testDate2.valid = NO;
-    testDate2.validsince = now;
-    [timeoutCoupon addObject:testDate2];
-    HKCoupon *testDate3 = [[HKCoupon alloc]init];
-    testDate3.couponName = @"这是个已使用优惠券哟";
-    testDate3.couponDescription = @"此处是测试优惠券的描述哟";
-    testDate3.used = YES;
-    testDate3.valid = YES;
-    testDate3.validsince = now;
-    [usedCoupon addObject:testDate3];
+    for (int i=0; i<12; i++) {
+        HKCoupon *testDate1 = [[HKCoupon alloc]init];
+        testDate1.couponName = @"这是个有效优惠券哟";
+        testDate1.couponDescription = @"此处是测试优惠券的描述哟";
+        testDate1.used = NO;
+        testDate1.valid = YES;
+        testDate1.validsince = now;
+        [validCoupon addObject:testDate1];
+        [unused addObject:testDate1];
+    }
+//    HKCoupon *testDate2 = [[HKCoupon alloc]init];
+//    testDate2.couponName = @"这是个过期优惠券哟";
+//    testDate2.couponDescription = @"此处是测试优惠券的描述哟";
+//    testDate2.used = NO;
+//    testDate2.valid = NO;
+//    testDate2.validsince = now;
+//    [timeoutCoupon addObject:testDate2];
+    for (int i=0; i<12; i++) {
+        HKCoupon *testDate3 = [[HKCoupon alloc]init];
+        testDate3.couponName = @"这是个已使用优惠券哟";
+        testDate3.couponDescription = @"此处是测试优惠券的描述哟";
+        testDate3.used = YES;
+        testDate3.valid = YES;
+        testDate3.validsince = now;
+        [usedCoupon addObject:testDate3];
+    }
     
     [self.tableView reloadData];
+
+    self.tableView.contentSize=CGSizeMake(self.tableView.contentSize.width, self.tableView.contentSize.height+54);
 }
 
 #pragma mark - segmented
 - (void)selectSegmented:(id)sender {
     UISegmentedControl * segment=sender;
     whichSeg = segment.selectedSegmentIndex;
-    if (whichSeg == 1 && !allLoad) {
-        allLoad = YES;
-        [self requestUsedCoupon:1 pageno:1];
-    }
     if (allLoad) {
         [self.tableView reloadData];
+        self.tableView.contentSize=CGSizeMake(self.tableView.contentSize.width, self.tableView.contentSize.height+54);
     }
+    else if (whichSeg == 1) {
+        allLoad = YES;
+        //[self requestUsedCoupon:1 pageno:1];
+        
+        //测试操作
+        [self.tableView reloadData];
+        self.tableView.contentSize = CGSizeMake(self.tableView.contentSize.width, self.tableView.contentSize.height+54);
+    }
+    
     self.isRemain = YES;
 }
 
@@ -206,6 +251,8 @@
         return 1;
 }
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    //模拟数据时的点点点消失
+    [self.tableView.bottomLoadingView stopActivityAnimation];
     return section == 0 ? nil : @"下列优惠券已过期";
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -273,12 +320,13 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%d",self.currentPageIndexForUnused);
     if (whichSeg == 0 && unused.count-1 <= indexPath.row && self.isRemain) {
-        [self requestValidCoupon:2 pageno:self.currentPageIndexForUnused];
+        [self handleData];
+        //[self requestValidCoupon:2 pageno:self.currentPageIndexForUnused];
     }
     if (whichSeg == 1 && usedCoupon.count-1 <= indexPath.row && self.isRemain) {
-        [self requestUsedCoupon:1 pageno:self.currentPageIndexForUsed];
+        [self handleData];
+        //[self requestUsedCoupon:1 pageno:self.currentPageIndexForUsed];
     }
 }
 

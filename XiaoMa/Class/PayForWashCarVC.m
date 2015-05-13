@@ -37,7 +37,10 @@
 
 @property (nonatomic)PaymentChannelType paymentType;
 
-@property (nonatomic,copy)NSString * couponId;
+@property (nonatomic,strong)NSNumber * couponId;
+
+@property (nonatomic,strong)NSDictionary * tbStructure;
+
 @end
 
 @implementation PayForWashCarVC
@@ -63,13 +66,10 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-//    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)dealloc
@@ -112,14 +112,9 @@
 #pragma mark - Action
 - (IBAction)actionPay:(id)sender
 {
-    if (self.needAppendCarFlag)
-    {
-        [SVProgressHUD showErrorWithStatus:@"您没有车辆信息，请添加一辆车"];
-        return;
-    }
     if (self.paymentType == PaymentChannelCoupon)
     {
-        if (gAppMgr.myUser.couponArray.count == 0)
+        if (gAppMgr.myUser.validCarwashArray.count == 0)
         {
             UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您目前没有优惠劵，可能导致提交失败，请选择其他方式支付" delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:@"继续提交", nil];
             [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
@@ -227,7 +222,7 @@
         count = 4;
     }
     else if (section == 1) {
-        count = 4;
+        count = 2;
     }
     else if (section == 2) {
         count = 3 - (gPhoneHelper.exsitWechat ? 1:0);
@@ -296,6 +291,7 @@
             ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
             vc.originVC = self.originVC;
             vc.couponId = self.couponId;
+            vc.couponArray = gAppMgr.myUser.validCarwashArray;
             [self.navigationController pushViewController:vc animated:YES];
             
 //            self.paymentType = PaymentChannelCoupon;
@@ -310,9 +306,6 @@
         }
         
         ///取消支付宝，微信勾选
-//        [self.checkBoxHelper cancelSelectedForGroupName:@"PaymentType"];
-//        NSIndexSet *indexSet= [[NSIndexSet alloc] initWithIndex:1];
-//        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
         [self.tableView reloadData];
     }
 }
@@ -389,7 +382,7 @@
     UILabel *statusLb = (UILabel *)[cell.contentView viewWithTag:1005];
     
     if (indexPath.row == 1) {
-        label.text = [NSString stringWithFormat:@"免费洗车券：%ld张", (long)gAppMgr.myUser.carwashTicketsCount];
+        label.text = [NSString stringWithFormat:@"免费洗车券：%ld张", (long)gAppMgr.myUser.validCarwashArray.count];
         arrow.hidden = NO;
         dateLb.text = [NSString stringWithFormat:@"有效期：%@ - %@",[[NSDate date] dateFormatForYYMMdd2],[[NSDate date] dateFormatForYYMMdd2]];
         
@@ -454,21 +447,24 @@
         [self.checkBoxHelper selectItem:boxB forGroupName:@"PaymentType"];
     }
     
+    
+    // checkBox 点击处理
     @weakify(self);
     [self.checkBoxHelper addItem:boxB forGroupName:@"PaymentType" withChangedBlock:^(id item, BOOL selected) {
         boxB.selected = selected;
     }];
     [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
-        [self.checkBoxHelper selectItem:boxB forGroupName:@"PaymentType"];
         if (indexPath.row == 1)
         {
+            if (gAppMgr)
             self.paymentType = PaymentChannelCoupon;
-            if (!self.couponId.length)
+            if (!self.couponId)
             {
                 ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
                 vc.originVC = self.originVC;
                 vc.couponId = self.couponId;
+                vc.couponArray = gAppMgr.myUser.validCarwashArray;
                 [self.navigationController pushViewController:vc animated:YES];
             }
         }
@@ -480,6 +476,7 @@
         {
             self.paymentType = PaymentChannelABCIntegral;
         }
+        [self.checkBoxHelper selectItem:boxB forGroupName:@"PaymentType"];
         
         [self.tableView reloadData];
     }];
@@ -513,26 +510,17 @@
             self.paymentType == PaymentChannelABCIntegral ||
             self.paymentType == PaymentChannelCoupon)
         {
-            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您已选择优惠方式支付，是否切换至第三方平台支付" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
-                
-                NSInteger index = [num integerValue];
-                if (index == 1)
-                {
-                    [self.checkBoxHelper selectItem:boxB forGroupName:@"PaymentType"];
-                    if (indexPath.row == 1)
-                    {
-                        self.paymentType = PaymentChannelAlipay;
-                    }
-                    else
-                    {
-                        self.paymentType = PaymentChannelWechat;
-                    }
-                }
-                self.couponId = nil;
-                [self.tableView reloadData];
-            }];
-            [av show];
+            [self.checkBoxHelper selectItem:boxB forGroupName:@"PaymentType"];
+            if (indexPath.row == 1)
+            {
+                self.paymentType = PaymentChannelAlipay;
+            }
+            else
+            {
+                self.paymentType = PaymentChannelWechat;
+            }
+            
+            [self.tableView reloadData];
         }
         else
         {
@@ -578,7 +566,7 @@
         
         gAppMgr.myUser.abcCarwashesCount = op.rsp_freewashes;
         gAppMgr.myUser.abcIntegral = op.rsp_bankIntegral;
-        gAppMgr.myUser.carwashTicketsCount = op.rsp_coupons.count;
+        gAppMgr.myUser.validCarwashArray = op.rsp_coupons;
         
         self.isLoadingResourse = NO;
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
@@ -685,7 +673,7 @@
     }];
 }
 
-- (void)setCouponId:(NSString *)couponId
+- (void)setCouponId:(NSNumber *)couponId
 {
     _couponId = couponId;
 }
