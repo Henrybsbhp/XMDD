@@ -327,16 +327,16 @@ static NSInteger rotationIndex = 0;
 
 - (void)actionRescue:(id)sender
 {
-    UIViewController *vc = [UIStoryboard vcWithId:@"RescueViewController" inStoryboard:@"Main"];
-//    RescueViewController * vc = [otherStoryboard instantiateViewControllerWithIdentifier:@"RescueViewController"];
-    [self.navigationController pushViewController:vc animated:YES];
+//    UIViewController *vc = [UIStoryboard vcWithId:@"RescueViewController" inStoryboard:@"Main"];
+////    RescueViewController * vc = [otherStoryboard instantiateViewControllerWithIdentifier:@"RescueViewController"];
+//    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionCommission:(id)sender
 {
-    ServiceViewController * vc = [otherStoryboard instantiateViewControllerWithIdentifier:@"ServiceViewController"];
-    vc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:vc animated:YES];
+//    ServiceViewController * vc = [otherStoryboard instantiateViewControllerWithIdentifier:@"ServiceViewController"];
+//    vc.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)rotationTableHeaderView
