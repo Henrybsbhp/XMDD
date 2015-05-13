@@ -7,19 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "JTHeadRefreshView.h"
 #import "UIView+JTLoadingView.h"
 
 @class JTTableView;
 @protocol JTTableViewDelegate;
 
-@interface JTTableView : UITableView <SRRefreshDelegate>
-@property (nonatomic, strong) JTHeadRefreshView *headRefreshView;
+@interface JTTableView : UITableView
 @property (nonatomic, strong) UIView *bottomLoadingView;
-// REV @jiangjunchen name confuse
-//@property (nonatomic, assign) id <JTTableViewDelegate> delegate;
-///(Default is NO)
-@property (nonatomic, assign) BOOL showHeadRefreshView;
 ///(Default is NO)
 @property (nonatomic, assign) BOOL showBottomLoadingView;
 

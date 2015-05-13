@@ -34,6 +34,8 @@
 #import "JTNavigationController.h"
 #import "JTTableViewCell.h"
 #import "RACSignal+Extension.h"
+#import "UIScrollView+RefreshView.h"
+#import "JTTableView.h"
 
 #import "Constants.h"
 

@@ -11,8 +11,8 @@
 #import "EditMyCarVC.h"
 #import "XiaoMa.h"
 
-@interface MyCarListVC ()<UITableViewDataSource, UITableViewDelegate>
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@interface MyCarListVC ()<UITableViewDataSource, UITableViewDelegate,JTTableViewDelegate>
+@property (weak, nonatomic) IBOutlet JTTableView *tableView;
 @property (nonatomic, strong) NSArray *carList;
 @end
 
@@ -21,6 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self.tableView.refreshView addTarget:self action:@selector(reloadDatasource) forControlEvents:UIControlEventValueChanged];
     [self setupSignals];
     [self reloadDatasource];
 }
@@ -44,15 +45,14 @@
 - (void)reloadDatasource
 {
     GetUserCarOp *op = [GetUserCarOp new];
-    @weakify(self);
-    [[[op rac_postRequest] initially:^{
-        [gToast showingWithText:@"Loading..."];
+    [[[[op rac_postRequest] deliverOn:[RACScheduler mainThreadScheduler]] initially:^{
+        [self.tableView.refreshView beginRefreshing];
     }] subscribeNext:^(GetUserCarOp *rspOp) {
-        @strongify(self);
-        [gToast dismiss];
+        [self.tableView.refreshView endRefreshing];
         self.carList = rspOp.rsp_carArray;
         [self.tableView reloadData];
     } error:^(NSError *error) {
+        [self.tableView.refreshView endRefreshing];
         [gToast showError:error.domain];
     }];
 }
@@ -66,6 +66,11 @@
 }
 
 #pragma mark - UITableViewDelegate
+- (void)tableViewDidStartRefresh:(JTTableView *)tableView
+{
+    [self reloadDatasource];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 10;
