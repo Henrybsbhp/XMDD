@@ -10,20 +10,30 @@
 #import "UIBarButtonItem+CustomStyle.h"
 #import "GetUserCouponOp.h"
 #import "HKCoupon.h"
+#import "JTTableView.h"
 
 @interface MyCouponVC ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSInteger whichSeg;
-    NSArray *unused;//未使用
+    NSMutableArray *unused;//未使用
     NSMutableArray *validCoupon;//有效
     NSMutableArray *timeoutCoupon;//过期
     BOOL allLoad;
     NSMutableArray *usedCoupon;//已使用
 }
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet JTTableView *tableView;
 
-- (IBAction)selectSegmented:(id)sender;
+/// 每页数量
+@property (nonatomic, assign) NSUInteger pageAmount;
+///列表下面是否还有商品
+@property (nonatomic, assign) BOOL isRemain;
+///未使用优惠券当前页码索引
+@property (nonatomic, assign) NSUInteger currentPageIndexForUnused;
+///已使用优惠券当前页码索引
+@property (nonatomic, assign) NSUInteger currentPageIndexForUsed;
+
+- (void)selectSegmented:(id)sender;
 
 @end
 
@@ -45,34 +55,57 @@
     self.navigationController.navigationItem.titleView = view;
     
     whichSeg = 0;
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
+    self.tableView.showBottomLoadingView = YES;
     
+    self.isRemain = YES;
+    self.pageAmount = 10;
+    self.currentPageIndexForUnused = 1;
+    self.currentPageIndexForUsed = 1;
+    
+    unused = [[NSMutableArray alloc] init];
     validCoupon = [[NSMutableArray alloc] init];
     timeoutCoupon = [[NSMutableArray alloc] init];
     usedCoupon = [[NSMutableArray alloc] init];
-    [self requestValidCoupon:2 pageno:1];
+    [self requestValidCoupon:2 pageno:self.currentPageIndexForUnused];
 }
 
 #pragma mark - Load Coupon
 - (void)requestValidCoupon:(NSInteger)used pageno:(NSInteger)pageno
 {
+    if ([self.tableView.bottomLoadingView isActivityAnimating])
+    {
+        return;
+    }
+    self.currentPageIndexForUnused = self.currentPageIndexForUnused + 1;
     GetUserCouponOp * op = [GetUserCouponOp operation];
     op.used = used;
     op.pageno = pageno;
     [[[op rac_postRequest] initially:^{
         [SVProgressHUD showWithStatus:@"Loading..."];
+        [self.tableView.bottomLoadingView hideIndicatorText];
+        [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
     }] subscribeNext:^(GetUserCouponOp * op) {
+        [self.tableView.bottomLoadingView stopActivityAnimation];
         if (op.rsp_couponsArray.count != 0)
         {
-            unused = op.rsp_couponsArray;
-            [self sortCoupon];
+            [unused addObjectsFromArray:op.rsp_couponsArray];
+            if (unused.count >= self.pageAmount){
+                self.isRemain = YES;
+            }
+            else{
+                self.isRemain = NO;
+            }
+            if (!self.isRemain){
+                [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+            }
+            [self.tableView reloadData];
         }
         else
         {
             //没有优惠券时的页面
             [self handleData];//测试数据
         }
+        [self sortCoupon];
         [SVProgressHUD dismiss];
     } error:^(NSError *error) {
         [SVProgressHUD  showErrorWithStatus:@"获取优惠券信息失败"];
@@ -92,15 +125,22 @@
 
 - (void)requestUsedCoupon:(NSInteger)used pageno:(NSInteger)pageno
 {
+    if ([self.tableView.bottomLoadingView isActivityAnimating])
+    {
+        return;
+    }
+    self.currentPageIndexForUsed = self.currentPageIndexForUsed + 1;
     GetUserCouponOp * op = [GetUserCouponOp operation];
     op.used = used;
     op.pageno = pageno;
     [[[op rac_postRequest] initially:^{
         [SVProgressHUD showWithStatus:@"Loading..."];
+        [self.tableView.bottomLoadingView hideIndicatorText];
+        [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
     }] subscribeNext:^(GetUserCouponOp * op) {
         if (op.rsp_couponsArray.count)
         {
-            [usedCoupon addObjectsFromArray:nil];
+            [usedCoupon addObjectsFromArray:op.rsp_couponsArray];
             [self handleData];
         }
         else
@@ -151,7 +191,10 @@
         allLoad = YES;
         [self requestUsedCoupon:1 pageno:1];
     }
-    [self.tableView reloadData];
+    if (allLoad) {
+        [self.tableView reloadData];
+    }
+    self.isRemain = YES;
 }
 
 #pragma mark - Table view data source
@@ -227,6 +270,18 @@
     }
     return cell;
 }
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"%d",self.currentPageIndexForUnused);
+    if (whichSeg == 0 && unused.count-1 <= indexPath.row && self.isRemain) {
+        [self requestValidCoupon:2 pageno:self.currentPageIndexForUnused];
+    }
+    if (whichSeg == 1 && usedCoupon.count-1 <= indexPath.row && self.isRemain) {
+        [self requestUsedCoupon:1 pageno:self.currentPageIndexForUsed];
+    }
+}
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
