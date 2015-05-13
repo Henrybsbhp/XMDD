@@ -11,8 +11,8 @@
 @interface InsranceOrderViewModel : NSObject<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *orders;
-@property (nonatomic, weak) UIViewController *targetVC;
+@property (nonatomic, weak, readonly) UIViewController *targetVC;
 
 - (void)reloadData;
-
+- (void)resetWithTargetVC:(UIViewController *)targetVC;
 @end
