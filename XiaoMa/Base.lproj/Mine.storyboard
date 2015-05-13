@@ -1915,7 +1915,6 @@
         <image name="cm_arrow_r" width="9" height="15"/>
         <image name="cm_white" width="1" height="1"/>
         <image name="cw_ticket_bg" width="27" height="74"/>
-        <image name="logo" width="70" height="70"/>
         <image name="me_btn_bg1" width="12" height="26"/>
         <image name="me_btn_bg3" width="1" height="2"/>
     </resources>
