@@ -240,7 +240,10 @@
     gesture = logoV.customObject;
     [[[gesture rac_gestureSignal] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
     
-        [self showImages:0];
+        if (self.shop.picArray.count)
+        {
+            [self showImages:0];
+        }
     }];
     
     
