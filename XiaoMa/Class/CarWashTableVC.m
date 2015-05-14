@@ -25,6 +25,7 @@
 #import "HKAdvertisement.h"
 
 
+
 @interface CarWashTableVC ()<SYPaginatorViewDataSource, SYPaginatorViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *searchView;
 @property (weak, nonatomic) IBOutlet UITextField *searchField;
@@ -227,6 +228,7 @@
     UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
+
     
     [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
                                         withDefaultPic:@"tmp_ad"] subscribeNext:^(UIImage * image) {
@@ -237,8 +239,8 @@
     ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
     addrL.text = shop.shopAddress;
     
-    double myLat = gMapHelper.coordinate.latitude;
-    double myLng = gMapHelper.coordinate.longitude;
+    double myLat = self.userCoordinate.latitude;
+    double myLng = self.userCoordinate.longitude;
     double shopLat = shop.shopLatitude;
     double shopLng = shop.shopLongitude;
     NSString * disStr = [DistanceCalcHelper getDistanceStrLatA:myLat lngA:myLng latB:shopLat lngB:shopLng];
@@ -297,6 +299,8 @@
         NSString * info = [NSString stringWithFormat:@"%@",shop.shopPhone];
         [gPhoneHelper makePhone:shop.shopPhone andInfo:info];
     }];
+    
+    
     
 
     return cell;
@@ -404,8 +408,8 @@
     }
     
     GetShopByDistanceOp * getShopByDistanceOp = [GetShopByDistanceOp new];
-    getShopByDistanceOp.longitude = 120.189234;
-    getShopByDistanceOp.latitude = 30.254189;
+    getShopByDistanceOp.longitude = self.userCoordinate.longitude;
+    getShopByDistanceOp.latitude = self.userCoordinate.latitude;
     getShopByDistanceOp.pageno = self.currentPageIndex + 1;
     [[[getShopByDistanceOp rac_postRequest] initially:^{
         
@@ -436,5 +440,7 @@
         [SVProgressHUD showErrorWithStatus:@"error"];
     }];
 }
+
+
 
 @end

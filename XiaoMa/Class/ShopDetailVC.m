@@ -19,6 +19,7 @@
 #import "NearbyShopsViewController.h"
 #import "CommentListViewController.h"
 #import "EditMyCarVC.h"
+#import "AddUserFavoriteOp.h"
 
 #define kDefaultServieCount     2
 
@@ -26,6 +27,8 @@
 
 /// 服务列表展开
 @property (nonatomic, assign) BOOL serviceExpanded;
+/// 是否已收藏标签
+@property (nonatomic)BOOL favorite;
 
 @end
 
@@ -56,6 +59,38 @@
         NSIndexSet *indexSet= [[NSIndexSet alloc] initWithIndex:1];
         
         [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+    }];
+}
+
+- (void)requestAddUserFavorite:(UIButton *)btn
+{
+    AddUserFavoriteOp * op = [AddUserFavoriteOp operation];
+    op.shopid = self.shop.shopID;
+    [[[op rac_postRequest] initially:^{
+        
+        [SVProgressHUD showWithStatus:@"add..."];
+    }] subscribeNext:^(AddUserFavoriteOp * op) {
+        
+        [SVProgressHUD showSuccessWithStatus:@"收藏成功"];
+        self.favorite = YES;
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        
+    } error:^(NSError *error) {
+        
+        self.favorite = NO;
+        if (error.code == 7001)
+        {
+            [SVProgressHUD  showErrorWithStatus:@"该店铺不存在"];
+        }
+        else if (error.code == 7002)
+        {
+            [SVProgressHUD  showErrorWithStatus:@"该店铺已收藏"];
+        }
+        else
+        {
+            [SVProgressHUD  showErrorWithStatus:@"收藏失败"];
+        }
     }];
 }
 
@@ -227,6 +262,7 @@
     UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *businessHoursLb = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
+    UIButton *collectBtn = (UIButton *)[cell.contentView viewWithTag:1007];
     
 
     UITapGestureRecognizer * gesture = logoV.customObject;
@@ -246,9 +282,14 @@
         }
     }];
     
+    @weakify(self)
+    [[[collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        [self requestAddUserFavorite:collectBtn];
+    }];
     
-    
-    
+
     [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
                                          withDefaultPic:@"shop_default"] subscribeNext:^(UIImage * img) {
       
@@ -266,6 +307,9 @@
     NSString * disStr = [DistanceCalcHelper getDistanceStrLatA:myLat lngA:myLng latB:shopLat lngB:shopLng];
     distantL.text = disStr;
 
+    NSString * btnImageName = self.favorite ? @"collected" : @"collect";
+    [collectBtn setImage:[UIImage imageNamed: btnImageName]
+                 forState:UIControlStateNormal];
     
     return cell;
 }
