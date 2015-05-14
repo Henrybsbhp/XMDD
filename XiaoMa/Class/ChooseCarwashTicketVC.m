@@ -12,6 +12,7 @@
 #import "HKCoupon.h"
 #import "PayForWashCarVC.h"
 #import "UIBarButtonItem+CustomStyle.h"
+#import "WebVC.h"
 
 @interface ChooseCarwashTicketVC ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -46,13 +47,17 @@
 {
     UIView *bottomView = [UIView new];
     UIButton *getMoreBtn = [UIButton new];
-    [getMoreBtn setBackgroundColor:[UIColor orangeColor]];
+    [getMoreBtn setBackgroundColor:[UIColor colorWithHex:@"#ffb20c" alpha:1.0f]];
     [getMoreBtn setTitle:@"如何获取更多优惠劵" forState:UIControlStateNormal];
     [getMoreBtn setFont:[UIFont systemFontOfSize:14]];
     getMoreBtn.cornerRadius = 5.0f;
     [getMoreBtn.layer setMasksToBounds:YES];
     [[getMoreBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+        vc.title = @"获取更多";
+        vc.url = @"";
+        [self.navigationController pushViewController:vc animated:YES];
     }];
     [bottomView addSubview:getMoreBtn];
     [self.tableView addSubview:bottomView];
@@ -61,7 +66,7 @@
         make.height.mas_equalTo(44);
         make.width.mas_equalTo(200);
         make.centerX.mas_equalTo(self.tableView.mas_centerX);
-        make.top.equalTo(self.tableView.tableFooterView.mas_bottom).priorityMedium();
+        make.bottom.equalTo(self.tableView.tableFooterView.mas_bottom).offset(-10).priorityMedium();
         make.bottom.greaterThanOrEqualTo(self.view).offset(-10).priorityHigh();
     }];
     
@@ -153,6 +158,11 @@
     HKCoupon * coupon = [self.couponArray safetyObjectAtIndex:indexPath.row];
     self.couponId = [self.couponId isEqualToNumber:coupon.couponId] ? nil : coupon.couponId;
     [self.tableView reloadData];
+    
+    if (self.couponId)
+    {
+        [self actionBack];
+    }
 }
 
 

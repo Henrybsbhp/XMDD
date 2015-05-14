@@ -115,7 +115,7 @@
         count = self.serviceExpanded ? 3 + self.shop.shopServiceArray.count : ((3+MIN(kDefaultServieCount, self.shop.shopServiceArray.count)) + (self.shop.shopServiceArray.count > kDefaultServieCount ? 1 : 0));
     }
     else if (section == 1){
-        count = 1+ (self.shop.shopCommentArray.count ? self.shop.shopCommentArray.count : 1);
+        count = 1 + (self.shop.shopCommentArray.count ? MIN(self.shop.shopCommentArray.count, 5) : 1);
     }
     return count;
 }
@@ -150,7 +150,7 @@
             }
             else
             {
-                if (indexPath.row < 3+kDefaultServieCount ) {
+                if (indexPath.row < 3 + kDefaultServieCount ) {
                     cell = [self shopServiceCellAtIndexPath:indexPath];
                 }
                 else {
@@ -250,7 +250,7 @@
     
     
     [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                                         withDefaultPic:@"tmp_ad"] subscribeNext:^(UIImage * img) {
+                                         withDefaultPic:@"shop_default"] subscribeNext:^(UIImage * img) {
       
         logoV.image = img;
     }];
@@ -323,22 +323,10 @@
     UIButton *payB = (UIButton*)[cell.contentView viewWithTag:1006];
     
     JTShopService *service = [self.shop.shopServiceArray safetyObjectAtIndex:indexPath.row - 3];
-    ChargeContent * cc;
-    for (ChargeContent * tcc in service.chargeArray)
-    {
-        if (tcc.paymentChannelType == PaymentChannelABCIntegral )
-        {
-            cc = tcc;
-            break;
-        }
-    }
-    titleL.text = service.serviceName;
-    iconV.hidden = !cc;
-    integralL.hidden = !cc;
-    integralL.text = [NSString stringWithFormat:@"%.0f分", cc.amount];
-    [priceL mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(cc ? iconV : titleL);
-    }];
+    ///暂无银行
+//    [priceL mas_updateConstraints:^(MASConstraintMaker *make) {
+//        make.bottom.equalTo(cc ? iconV : titleL);
+//    }];
     priceL.attributedText = [self priceStringWithOldPrice:@(service.origprice) curPrice:@(service.contractprice)];
     introL.text = service.serviceDescription;
     
@@ -408,12 +396,16 @@
     UILabel *contentL = (UILabel *)[cell.contentView viewWithTag:1005];
     
     JTShopComment *comment = [self.shop.shopCommentArray safetyObjectAtIndex:indexPath.row - 1];
-//    avatarV.image = [UIImage imageNamed:comment.avatarUrl];
     avatarV.image = [UIImage imageNamed:@"tmp_a1"];
     nameL.text = comment.nickname.length ? comment.nickname : @"无昵称用户";
-    timeL.text = [comment.time dateFormatForYYYYMMddHHmm];
+    timeL.text = [comment.time dateFormatForYYMMdd];
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
+    [[gMediaMgr rac_getPictureForUrl:comment.avatarUrl withDefaultPic:@
+     "avatar_default"] subscribeNext:^(id x) {
+        
+        avatarV.image = x;
+    }];
     
     return cell;
 }
@@ -450,6 +442,7 @@
     UIWindow * window = [UIApplication sharedApplication].keyWindow;
     UIScrollView * backgroundView= [[UIScrollView alloc]
                                     initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    backgroundView.showsHorizontalScrollIndicator = NO;
     backgroundView.backgroundColor = [UIColor colorWithHex:@"#0000000" alpha:0.6f];
     backgroundView.alpha = 0;
     [backgroundView setContentSize:CGSizeMake([UIScreen mainScreen].bounds.size.width * self.shop.picArray.count, [UIScreen mainScreen].bounds.size.height)];
@@ -464,7 +457,7 @@
     {
         UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectZero];
         NSString * imageUrl = [self.shop.picArray safetyObjectAtIndex:i];
-        [[gMediaMgr rac_getPictureForUrl:imageUrl withDefaultPic:@"tmp_ad"] subscribeNext:^(UIImage * image) {
+        [[gMediaMgr rac_getPictureForUrl:imageUrl withDefaultPic:@"shop_default"] subscribeNext:^(UIImage * image) {
             
             CGRect frame = CGRectMake(i*[UIScreen mainScreen].bounds.size.width,
                                       ([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2,

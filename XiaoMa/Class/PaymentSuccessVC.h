@@ -9,5 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface PaymentSuccessVC : UIViewController
+
 @property (nonatomic, weak) UIViewController *originVC;
+
+@property (nonatomic,copy)NSString * title;
+
+@property (nonatomic,copy)NSString * orderId;
 @end

@@ -21,6 +21,8 @@
 #import "GetShopByDistanceOp.h"
 #import "NearbyShopsViewController.h"
 #import "SearchViewController.h"
+#import "WebVC.h"
+#import "HKAdvertisement.h"
 
 
 @interface CarWashTableVC ()<SYPaginatorViewDataSource, SYPaginatorViewDelegate>
@@ -57,6 +59,8 @@
     [self setupTableView];
     
     [self requestCarWashShopList];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshAdView) name:CarwashAdvertiseNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -108,11 +112,32 @@
         make.top.equalTo(self.searchView.mas_bottom);
         make.height.mas_equalTo(height);
     }];
-    self.adView.currentPageIndex = 0;
-    
+
+    [self refreshAdView];
+}
+
+- (void)refreshAdView
+{
+    BOOL flag = gAdMgr.carwashAdvertiseArray.count;
+    CGFloat width = CGRectGetWidth(self.view.frame);
+    CGFloat height = 360.0f/1242.0f*width;
+    if (flag)
+    {
+        self.adView.hidden = NO;
+        
+        [self.adView reloadData];
+        self.adView.currentPageIndex = 0;
+    }
+    else
+    {
+        self.adView.hidden = YES;
+    }
     CGRect rect = self.headerView.frame;
-    rect.size.height += height;
+    rect.size.height = flag ? height + 45 : 45;
     self.headerView.frame = rect;
+    [self.tableView beginUpdates];
+    [self.tableView setTableHeaderView:self.headerView];
+    [self.tableView endUpdates];
 }
 
 
@@ -134,7 +159,7 @@
 #pragma mark - SYPaginatorViewDelegate
 - (NSInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView
 {
-    return 3;
+    return gAdMgr.carwashAdvertiseArray.count ? gAdMgr.carwashAdvertiseArray.count : 1;
 }
 
 - (SYPageView *)paginatorView:(SYPaginatorView *)paginatorView viewForPageAtIndex:(NSInteger)pageIndex
@@ -147,8 +172,32 @@
         imgV.tag = 1001;
         [pageView addSubview:imgV];
     }
-    UIImageView *imgV = (UIImageView *)[pageView viewWithTag:1001];
-    imgV.image = [UIImage imageNamed:@"tmp_ad1"];
+    UIImageView *imgV = (UIImageView *)[pageView searchViewWithTag:1001];
+    HKAdvertisement * ad = [gAdMgr.carwashAdvertiseArray safetyObjectAtIndex:pageIndex];
+    [[gMediaMgr rac_getPictureForUrl:ad.adPic withDefaultPic:@"hp_bottom"] subscribeNext:^(id x) {
+        imgV.image = x;
+    }];
+    
+    UITapGestureRecognizer * gesture = imgV.customObject;
+    if (!gesture)
+    {
+        UITapGestureRecognizer *ge = [[UITapGestureRecognizer alloc] init];
+        [imgV addGestureRecognizer:ge];
+        imgV.userInteractionEnabled = YES;
+        imgV.customObject = ge;
+    }
+    gesture = imgV.customObject;
+    [[[gesture rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
+        
+        if (ad.adLink.length)
+        {
+            WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+            vc.title = @"洗车广告";
+            vc.url = ad.adLink;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }];
+
     return pageView;
 }
 

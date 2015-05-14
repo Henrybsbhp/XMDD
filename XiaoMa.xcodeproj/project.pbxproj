@@ -130,6 +130,7 @@
 		6BB884D71AE0F31700EBD8F4 /* HKCoupon.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884D61AE0F31700EBD8F4 /* HKCoupon.m */; };
 		6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884D91AE0F3CC00EBD8F4 /* HKMyCar.m */; };
 		6BB884DD1AE0FE7500EBD8F4 /* GetUserCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884DC1AE0FE7500EBD8F4 /* GetUserCarOp.m */; };
+		6BB89CD11B043BFA00F3F61F /* AdvertisementManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB89CD01B043BFA00F3F61F /* AdvertisementManager.m */; };
 		6BB9D76E1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB9D76D1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m */; };
 		6BB9D7711AF7054B00F7F3F8 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB9D7701AF7054B00F7F3F8 /* SearchViewController.m */; };
 		6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8AC1ADB6A8A00EC342F /* AuthByVcodeOp.m */; };
@@ -458,6 +459,8 @@
 		6BB884D91AE0F3CC00EBD8F4 /* HKMyCar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKMyCar.m; path = Class/HKMyCar.m; sourceTree = "<group>"; };
 		6BB884DB1AE0FE7500EBD8F4 /* GetUserCarOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserCarOp.h; path = Class/GetUserCarOp.h; sourceTree = "<group>"; };
 		6BB884DC1AE0FE7500EBD8F4 /* GetUserCarOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserCarOp.m; path = Class/GetUserCarOp.m; sourceTree = "<group>"; };
+		6BB89CCF1B043BFA00F3F61F /* AdvertisementManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdvertisementManager.h; path = Class/AdvertisementManager.h; sourceTree = "<group>"; };
+		6BB89CD01B043BFA00F3F61F /* AdvertisementManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdvertisementManager.m; path = Class/AdvertisementManager.m; sourceTree = "<group>"; };
 		6BB9D76C1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteUserFavoriteOp.h; path = Class/DeleteUserFavoriteOp.h; sourceTree = "<group>"; };
 		6BB9D76D1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteUserFavoriteOp.m; path = Class/DeleteUserFavoriteOp.m; sourceTree = "<group>"; };
 		6BB9D76F1AF7054B00F7F3F8 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
@@ -1072,6 +1075,8 @@
 				6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */,
 				6B747A631AF08C7B00106BFD /* PhoneHelper.h */,
 				6B747A641AF08C7B00106BFD /* PhoneHelper.m */,
+				6BB89CCF1B043BFA00F3F61F /* AdvertisementManager.h */,
+				6BB89CD01B043BFA00F3F61F /* AdvertisementManager.m */,
 			);
 			name = Singleton;
 			sourceTree = "<group>";
@@ -1995,6 +2000,7 @@
 				187CC95F1AEF6A89004D1F28 /* UpdateInsuranceCalculateOp.m in Sources */,
 				6BEA56D01AE24DCE000D19C1 /* MD5DataSigner.m in Sources */,
 				184E40D21AD3D01B00EFC3A6 /* JTShop.m in Sources */,
+				6BB89CD11B043BFA00F3F61F /* AdvertisementManager.m in Sources */,
 				1816F4A61ACD3B0900BBCC96 /* SYPaginatorScrollView.m in Sources */,
 				1853DEC81AE0EFD200C39175 /* HKToast.m in Sources */,
 				6B086BAF1AE4F46900659DB7 /* TMCache.m in Sources */,

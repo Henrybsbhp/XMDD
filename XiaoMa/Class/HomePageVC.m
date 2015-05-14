@@ -24,6 +24,8 @@
 #import <TencentOpenAPI.framework/Headers/QQApiInterface.h>
 #import <TencentOpenAPI.framework/Headers/QQApiInterfaceObject.h>
 #import "JTUser.h"
+#import "WebVC.h"
+#import "AdvertisementManager.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 
@@ -47,7 +49,8 @@ static NSInteger rotationIndex = 0;
     [super viewDidLoad];
     
     [gAppMgr loadLastLocationAndWeather];
-    [gAppMgr loadLastAdvertiseInfo];
+    [gAdMgr loadLastAdvertiseInfo:AdvertisementHomePage];
+    [gAdMgr loadLastAdvertiseInfo:AdvertisementCarWash];
     
     //自动登陆
     [self autoLogin];
@@ -89,6 +92,7 @@ static NSInteger rotationIndex = 0;
     //天气视图
     [self.weatherView removeFromSuperview];
     [self.scrollView addSubview:self.weatherView];
+    
     @weakify(self);
     [self.weatherView mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
@@ -148,7 +152,7 @@ static NSInteger rotationIndex = 0;
         make.bottom.equalTo(btn2);
         make.height.equalTo(btn4.mas_width).multipliedBy(165.0f/332.0f);
     }];
-   
+    
     //底部
     [self setupBottomViewWithUpper:btn4];
     
@@ -236,35 +240,40 @@ static NSInteger rotationIndex = 0;
     tempLb.text = temp;
     restrictionLb.text = restriction;
     tipLb.text = tip;
+    
+    if(tipLb.text.length)
+    {
+        [self setupLineSpace:tipLb];
+    }
 }
 
 
 #pragma mark - Action
 - (IBAction)actionCallCenter:(id)sender
 {
-//    AuthByVcodeOp * op = [AuthByVcodeOp new];
-//    op.skey = [[self.textFeild.text md5] substringToIndex:10];
-//    op.token = gNetworkMgr.token;
-//    [[op rac_postRequest] subscribeNext:^(AuthByVcodeOp * op) {
-//        
-//        gNetworkMgr.skey = op.skey;
-//
-//    }];
-
+    //    AuthByVcodeOp * op = [AuthByVcodeOp new];
+    //    op.skey = [[self.textFeild.text md5] substringToIndex:10];
+    //    op.token = gNetworkMgr.token;
+    //    [[op rac_postRequest] subscribeNext:^(AuthByVcodeOp * op) {
+    //
+    //        gNetworkMgr.skey = op.skey;
+    //
+    //    }];
     
-//    //分享跳转URL
-//    NSString *url = @"http://www.baidu.com/";
-//    //分享图预览图URL地址
-//    NSString *previewImageUrl = @"";
-//    QQApiNewsObject *newsObj = [QQApiNewsObject
-//                                objectWithURL:[NSURL URLWithString:url]
-//                                title: @"分享标题"
-//                                description:@"这是分享的描述"
-//                                previewImageURL:[NSURL URLWithString:previewImageUrl]];
-//    SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
-//    //将内容分享到qq
-//    QQApiSendResultCode sent = [QQApiInterface sendReq:req];
-//    [self handleSendResult:sent];
+    
+    //    //分享跳转URL
+    //    NSString *url = @"http://www.baidu.com/";
+    //    //分享图预览图URL地址
+    //    NSString *previewImageUrl = @"";
+    //    QQApiNewsObject *newsObj = [QQApiNewsObject
+    //                                objectWithURL:[NSURL URLWithString:url]
+    //                                title: @"分享标题"
+    //                                description:@"这是分享的描述"
+    //                                previewImageURL:[NSURL URLWithString:previewImageUrl]];
+    //    SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
+    //    //将内容分享到qq
+    //    QQApiSendResultCode sent = [QQApiInterface sendReq:req];
+    //    [self handleSendResult:sent];
     
 }
 
@@ -327,16 +336,16 @@ static NSInteger rotationIndex = 0;
 
 - (void)actionRescue:(id)sender
 {
-    UIViewController *vc = [UIStoryboard vcWithId:@"RescueViewController" inStoryboard:@"Main"];
-//    RescueViewController * vc = [otherStoryboard instantiateViewControllerWithIdentifier:@"RescueViewController"];
-    [self.navigationController pushViewController:vc animated:YES];
+    //    UIViewController *vc = [UIStoryboard vcWithId:@"RescueViewController" inStoryboard:@"Main"];
+    ////    RescueViewController * vc = [otherStoryboard instantiateViewControllerWithIdentifier:@"RescueViewController"];
+    //    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionCommission:(id)sender
 {
-    ServiceViewController * vc = [otherStoryboard instantiateViewControllerWithIdentifier:@"ServiceViewController"];
-    vc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:vc animated:YES];
+    //    ServiceViewController * vc = [otherStoryboard instantiateViewControllerWithIdentifier:@"ServiceViewController"];
+    //    vc.hidesBottomBarWhenPushed = YES;
+    //    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)rotationTableHeaderView
@@ -345,7 +354,7 @@ static NSInteger rotationIndex = 0;
     [[RACSignal interval:6 onScheduler:[RACScheduler mainThreadScheduler]] subscribeNext:^(id x) {
         
         /// 重置i
-        NSInteger count = gAppMgr.homepageAdvertiseArray.count;
+        NSInteger count = gAdMgr.homepageAdvertiseArray.count;
         if(count == 0 || count == 1)
         {
             return ;
@@ -369,6 +378,18 @@ static NSInteger rotationIndex = 0;
     btn.layer.masksToBounds = YES;
     [container addSubview:btn];
     return btn;
+}
+
+- (void)setupLineSpace:(UILabel *)label
+{
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:label.text];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    
+    [paragraphStyle setLineSpacing:5];//调整行间距
+    
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [label.text length])];
+    label.attributedText = attributedString;
+    [label sizeToFit];
 }
 
 
@@ -436,7 +457,7 @@ static NSInteger rotationIndex = 0;
                 break;
             }
         }
-
+        
     }];
 }
 
@@ -480,23 +501,15 @@ static NSInteger rotationIndex = 0;
 
 - (void)requestHomePageAd
 {
-    GetSystemPromotionOp * op = [GetSystemPromotionOp operation];
-    op.type = AdvertisementHomePage;
-    [[[op rac_postRequest] initially:^{
+    [[gAdMgr rac_getAdvertisement:AdvertisementHomePage] subscribeNext:^(NSArray * array) {
         
-    }] subscribeNext:^(GetSystemPromotionOp * op) {
+        [self.adView reloadData];
+        self.adView.currentPageIndex = 0;
+    }];
+    
+    [[gAdMgr rac_getAdvertisement:AdvertisementCarWash] subscribeNext:^(NSArray * array) {
         
-        if (op.rsp_code == 0)
-        {
-            gAppMgr.homepageAdvertiseArray = op.rsp_advertisementArray;
-            
-            [self.adView reloadData];
-            self.adView.currentPageIndex = 0;
-            
-            [gAppMgr saveInfo:op.rsp_advertisementArray forKey:HomepageAdvertise];
-        }
-    } error:^(NSError *error) {
-        
+
     }];
 }
 
@@ -505,7 +518,7 @@ static NSInteger rotationIndex = 0;
 #pragma mark - SYPaginatorViewDelegate
 - (NSInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView
 {
-    NSInteger ii = gAppMgr.homepageAdvertiseArray.count ? gAppMgr.homepageAdvertiseArray.count : 1;
+    NSInteger ii = gAdMgr.homepageAdvertiseArray.count ? gAdMgr.homepageAdvertiseArray.count : 1;
     return ii ;
 }
 
@@ -520,11 +533,33 @@ static NSInteger rotationIndex = 0;
         [pageView addSubview:imgV];
     }
     UIImageView *imgV = (UIImageView *)[pageView viewWithTag:1001];
-    HKAdvertisement * ad = [gAppMgr.homepageAdvertiseArray safetyObjectAtIndex:pageIndex];
-//    imgV.image = [UIImage imageNamed:@"hp_bottom"];
+    HKAdvertisement * ad = [gAdMgr.homepageAdvertiseArray safetyObjectAtIndex:pageIndex];
+    //    imgV.image = [UIImage imageNamed:@"hp_bottom"];
     [[gMediaMgr rac_getPictureForUrl:ad.adPic withDefaultPic:@"hp_bottom"] subscribeNext:^(id x) {
-            imgV.image = x;
+        imgV.image = x;
     }];
+    
+    UITapGestureRecognizer * gesture = imgV.customObject;
+    if (!gesture)
+    {
+        UITapGestureRecognizer *ge = [[UITapGestureRecognizer alloc] init];
+        [imgV addGestureRecognizer:ge];
+        imgV.userInteractionEnabled = YES;
+        imgV.customObject = ge;
+    }
+    gesture = imgV.customObject;
+    [[[gesture rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
+        
+        if (ad.adLink.length)
+        {
+            WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+            vc.title = @"广告";
+            vc.url = ad.adLink;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }];
+    
+    
     
     return pageView;
 }

@@ -148,7 +148,6 @@
 //============================================================
 - ( NSMutableDictionary *)sendPayWithTradeNo:(NSString *)TradeNO andProductName:(NSString *)pName andPrice:(float_t)price
 {
-
     //订单标题，展示给用户
     NSString *order_name    = pName;
     //订单金额,单位（分）
