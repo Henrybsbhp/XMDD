@@ -30,6 +30,7 @@
 #import "MultiMediaManager.h"
 #import "WeChatHelper.h"
 #import "PhoneHelper.h"
+#import "AdvertisementManager.h"
 
 #import "JTNavigationController.h"
 #import "JTTableViewCell.h"

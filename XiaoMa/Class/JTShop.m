@@ -67,7 +67,7 @@
     comment.avatarUrl = [rsp stringParamForName:@"avatarUrl"];
     comment.rate = [rsp integerParamForName:@"rate"];
     comment.comment = [rsp stringParamForName:@"comment"];
-    comment.time = [NSDate dateWithD8Text:[NSString stringWithFormat:@"%@",rsp[@"time"]]];
+    comment.time = [NSDate dateWithUTS:rsp[@"time"]];
     
     return comment;
 }

@@ -74,11 +74,6 @@
     self.restriction = [self getInfo:Restriction];
 }
 
-- (NSArray *)loadLastAdvertiseInfo
-{
-    self.homepageAdvertiseArray = [self.promptionCache objectForKey:HomepageAdvertise];
-    return self.homepageAdvertiseArray;
-}
 
 - (NSArray *)loadSearchHistory
 {

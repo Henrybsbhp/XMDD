@@ -586,14 +586,14 @@
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1005" contentMode="left" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u81-2R-znO">
-                                            <rect key="frame" x="81" y="57" width="462" height="16"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1005" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u81-2R-znO">
+                                            <rect key="frame" x="81" y="57" width="33" height="16"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1006" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wgw-fl-IWu">
-                                            <rect key="frame" x="553" y="57" width="33" height="16"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1006" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" misplaced="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wgw-fl-IWu">
+                                            <rect key="frame" x="124" y="57" width="462" height="16"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -680,7 +680,7 @@
                                         <constraint firstItem="ERp-L2-VTZ" firstAttribute="leading" secondItem="nFe-uD-PWL" secondAttribute="leading" constant="12" id="h8v-Nw-yQa"/>
                                         <constraint firstItem="8eY-Ga-AIc" firstAttribute="top" secondItem="ERp-L2-VTZ" secondAttribute="bottom" constant="5" id="hAt-oq-jSG"/>
                                         <constraint firstAttribute="trailing" secondItem="8eY-Ga-AIc" secondAttribute="trailing" constant="5" id="i6a-uG-Qgc"/>
-                                        <constraint firstItem="Wgw-fl-IWu" firstAttribute="leading" secondItem="u81-2R-znO" secondAttribute="trailing" constant="10" id="iER-LY-Lbe"/>
+                                        <constraint firstItem="u81-2R-znO" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="Wgw-fl-IWu" secondAttribute="leading" constant="-10" id="iER-LY-Lbe"/>
                                         <constraint firstItem="s9F-NY-jZc" firstAttribute="leading" secondItem="9uG-eR-rho" secondAttribute="trailing" constant="12" id="jU1-Id-lH8"/>
                                         <constraint firstItem="r5A-Rf-fpj" firstAttribute="top" secondItem="nFe-uD-PWL" secondAttribute="top" constant="81" id="jeF-ch-t5b"/>
                                         <constraint firstItem="Wgw-fl-IWu" firstAttribute="centerY" secondItem="u81-2R-znO" secondAttribute="centerY" id="jeN-y2-U8o"/>
