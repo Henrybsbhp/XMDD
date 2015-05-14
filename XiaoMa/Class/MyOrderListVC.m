@@ -25,8 +25,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.carwashModel.targetVC = self;
-    self.insuranceModel.targetVC = self;
+    [self.carwashModel resetWithTargetVC:self];
+    [self.insuranceModel resetWithTargetVC:self];
     [self setupTopView];
 }
 

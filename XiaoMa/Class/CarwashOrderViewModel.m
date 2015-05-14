@@ -13,18 +13,23 @@
 
 @implementation CarwashOrderViewModel
 
+- (void)resetWithTargetVC:(UIViewController *)targetVC
+{
+    _targetVC = targetVC;
+    [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
+}
+
 - (void)reloadData
 {
-    @weakify(self);
     GetCarwashOrderListOp *op = [GetCarwashOrderListOp new];
     [[[op rac_postRequest] initially:^{
-        [gToast showingWithText:@"Loading..."];
+        [self.tableView.refreshView beginRefreshing];
     }] subscribeNext:^(GetCarwashOrderListOp *rspOp) {
-        @strongify(self);
-        [gToast dismiss];
+        [self.tableView.refreshView endRefreshing];
         self.orders = rspOp.rsp_orders;
         [self.tableView reloadData];
     } error:^(NSError *error) {
+        [self.tableView.refreshView endRefreshing];
         [gToast showError:error.domain];
     }];
 }

@@ -1,16 +1,14 @@
 //
 //  UIScrollView+RefreshView.h
-//  XiaoNiuClient
+//  XiaoMa
 //
-//  Created by jiangjunchen on 14-6-4.
-//  Copyright (c) 2014年 jiangjunchen. All rights reserved.
+//  Created by jiangjunchen on 15/5/13.
+//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import "JTHeadRefreshView.h"
+#import "ODRefreshControl.h"
 
-@interface UIScrollView (RefreshView)<SRRefreshDelegate>
-
-@property (nonatomic, strong) JTHeadRefreshView *refreshHeaderView;
-
+@interface UIScrollView (RefreshView)
+@property (nonatomic, strong) ODRefreshControl *refreshView;
 @end

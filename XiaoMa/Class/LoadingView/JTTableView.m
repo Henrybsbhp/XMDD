@@ -43,25 +43,6 @@
 }
 
 #pragma mark - Setter and getter
-- (void)setShowHeadRefreshView:(BOOL)showHeadRefreshView
-{
-    _showHeadRefreshView = showHeadRefreshView;
-    if (showHeadRefreshView)
-    {
-        if (!self.headRefreshView)
-        {
-            self.headRefreshView = [[JTHeadRefreshView alloc] init];
-            self.headRefreshView.delegate = self;
-            [self addSubview:self.headRefreshView];
-        }
-        self.headRefreshView.hidden = NO;
-    }
-    else
-    {
-        self.headRefreshView.hidden = YES;
-    }
-}
-
 - (void)setShowBottomLoadingView:(BOOL)showBottomLoadingView
 {
     _showBottomLoadingView = showBottomLoadingView;
@@ -87,13 +68,5 @@
     return [super touchesShouldCancelInContentView:view];
 }
 
-#pragma mark - SRRefreshDelegate
-- (void)slimeRefreshStartRefresh:(SRRefreshView *)refreshView
-{
-    if ([self.delegate respondsToSelector:@selector(tableViewDidStartRefresh:)])
-    {
-        [(id<JTTableViewDelegate>)self.delegate tableViewDidStartRefresh:self];
-    }
-}
 
 @end
