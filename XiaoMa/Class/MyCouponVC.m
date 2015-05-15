@@ -279,6 +279,8 @@
     UIImage * usableTicket = [usable resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
     UIImage * unavailable = [UIImage imageNamed:@"me_ticket_bg"];
     UIImage * unavailableTicket = [unavailable resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
+    UIImage * washForFree = [[UIImage imageNamed:@"cw_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#0ACDC0" alpha:1.0f]];
+    UIImage * washForFreeTichet = [washForFree resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
     //优惠名称
     UILabel *name = (UILabel *)[cell.contentView viewWithTag:1002];
     //优惠描述
@@ -292,13 +294,21 @@
     if (whichSeg == 0) {
         if (section == 0){
             status.text = @"有效";
-            backgroundImg.image = usableTicket;
             HKCoupon *couponDic = validCoupon[indexPath.row];
+            if (couponDic.conponType==0) {
+                backgroundImg.image = usableTicket;
+            }
+            else if (couponDic.conponType==1) {
+                backgroundImg.image = usableTicket;
+            }
+            else if (couponDic.conponType==2) {
+                backgroundImg.image = washForFreeTichet;
+            }
             name.text = couponDic.couponName;
             description.text = [NSString stringWithFormat:@"使用说明：%@",couponDic.couponDescription];
             validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",couponDic.validsince,couponDic.validthrough];
         }
-        else{
+        else {
             status.text = @"已过期";
             backgroundImg.image = unavailableTicket;
             HKCoupon *couponDic = timeoutCoupon[indexPath.row];
