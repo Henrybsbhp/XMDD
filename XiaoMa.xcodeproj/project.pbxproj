@@ -131,6 +131,7 @@
 		6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884D91AE0F3CC00EBD8F4 /* HKMyCar.m */; };
 		6BB884DD1AE0FE7500EBD8F4 /* GetUserCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884DC1AE0FE7500EBD8F4 /* GetUserCarOp.m */; };
 		6BB89CD11B043BFA00F3F61F /* AdvertisementManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB89CD01B043BFA00F3F61F /* AdvertisementManager.m */; };
+		6BB89CD41B04C23900F3F61F /* UploadLogOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB89CD31B04C23900F3F61F /* UploadLogOp.m */; };
 		6BB9D76E1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB9D76D1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m */; };
 		6BB9D7711AF7054B00F7F3F8 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB9D7701AF7054B00F7F3F8 /* SearchViewController.m */; };
 		6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8AC1ADB6A8A00EC342F /* AuthByVcodeOp.m */; };
@@ -461,6 +462,8 @@
 		6BB884DC1AE0FE7500EBD8F4 /* GetUserCarOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserCarOp.m; path = Class/GetUserCarOp.m; sourceTree = "<group>"; };
 		6BB89CCF1B043BFA00F3F61F /* AdvertisementManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdvertisementManager.h; path = Class/AdvertisementManager.h; sourceTree = "<group>"; };
 		6BB89CD01B043BFA00F3F61F /* AdvertisementManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdvertisementManager.m; path = Class/AdvertisementManager.m; sourceTree = "<group>"; };
+		6BB89CD21B04C23900F3F61F /* UploadLogOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UploadLogOp.h; path = Class/UploadLogOp.h; sourceTree = "<group>"; };
+		6BB89CD31B04C23900F3F61F /* UploadLogOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadLogOp.m; path = Class/UploadLogOp.m; sourceTree = "<group>"; };
 		6BB9D76C1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteUserFavoriteOp.h; path = Class/DeleteUserFavoriteOp.h; sourceTree = "<group>"; };
 		6BB9D76D1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteUserFavoriteOp.m; path = Class/DeleteUserFavoriteOp.m; sourceTree = "<group>"; };
 		6BB9D76F1AF7054B00F7F3F8 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
@@ -1495,6 +1498,8 @@
 				6BB9D76D1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m */,
 				6BBF7DA41B00A78900E45967 /* UpdateUserInfoOp.h */,
 				6BBF7DA51B00A78900E45967 /* UpdateUserInfoOp.m */,
+				6BB89CD21B04C23900F3F61F /* UploadLogOp.h */,
+				6BB89CD31B04C23900F3F61F /* UploadLogOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -1925,6 +1930,7 @@
 				1853DECB1AE0F72500C39175 /* RegisterVC.m in Sources */,
 				6BEA56481AE24D34000D19C1 /* AlipayHelper.m in Sources */,
 				6BEA56C91AE24DCE000D19C1 /* SBJsonParser.m in Sources */,
+				6BB89CD41B04C23900F3F61F /* UploadLogOp.m in Sources */,
 				189B30B01AD4D661001D7288 /* JTTableViewController.m in Sources */,
 				189B395B1AF9A9E500B83F1B /* EditMyCarVC.m in Sources */,
 				1853DED11AE2971500C39175 /* ResetPasswordVC.m in Sources */,
