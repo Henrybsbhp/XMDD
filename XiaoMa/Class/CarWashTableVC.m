@@ -231,7 +231,7 @@
 
     
     [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                                        withDefaultPic:@"tmp_ad"] subscribeNext:^(UIImage * image) {
+                                        withDefaultPic:@"shop_default"] subscribeNext:^(UIImage * image) {
         logoV.image = image;
     }];;
     titleL.text = shop.shopName;

@@ -313,7 +313,7 @@
                                                 <constraint firstAttribute="width" constant="15" id="Wnt-8I-6D1"/>
                                             </constraints>
                                         </imageView>
-                                        <button opaque="NO" tag="1007" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0wD-XM-QSY">
+                                        <button hidden="YES" opaque="NO" tag="1007" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0wD-XM-QSY">
                                             <rect key="frame" x="570" y="12" width="17" height="22"/>
                                             <state key="normal" image="collect">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -623,13 +623,7 @@
                             <outlet property="delegate" destination="dRk-2T-mmc" id="WeC-S4-n2X"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="商户详情" id="z5l-tN-gje">
-                        <barButtonItem key="rightBarButtonItem" image="nb_map" id="myw-DF-QHv">
-                            <connections>
-                                <action selector="actionMap:" destination="dRk-2T-mmc" id="FMS-kl-Cc7"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="商户详情" id="z5l-tN-gje"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iY8-aF-wb0" userLabel="First Responder" sceneMemberID="firstResponder"/>

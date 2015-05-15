@@ -301,4 +301,29 @@ typedef enum : NSInteger {
 
 }
 
+
++ (void)logout
+{
+    gNetworkMgr.token = nil;
+    gNetworkMgr.skey = nil;
+    [gAppMgr resetWithAccount:nil];
+//    gApplicationInfo.loginFlag = LoginStatusNone;
+    [HKLoginModel cleanPwdForAccount:gNetworkMgr.bindingMobile];
+}
+
++ (void)cleanPwdForAccount:(NSString *)accoun
+{
+    NSDictionary *loginInfo = [HKLoginModel nearlyLoginInfo];
+    NSString *account = loginInfo[@"account"];
+    LoginType type = [loginInfo[@"type"] integerValue];
+    
+    NSString *serverId = [NSString stringWithFormat:@"%@_%@", kKeychainServiceName, @(type)];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0),^{
+        
+        NSError * error;
+        [SFHFKeychainUtils deleteItemForUsername:account andServiceName:serverId error:&error];
+    });
+}
+
 @end
