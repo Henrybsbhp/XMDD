@@ -222,7 +222,7 @@
             if (self.resultArray.count == 0)
             {
                 self.tableView.showBottomLoadingView = YES;
-                [self.tableView.bottomLoadingView showIndicatorTextWith:@"没有商家"];
+                [self.tableView.bottomLoadingView showIndicatorTextWith:@"附近30公里内，没有您要找的商户"];
             }
             else
             {

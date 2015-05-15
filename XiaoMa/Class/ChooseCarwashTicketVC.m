@@ -49,7 +49,7 @@
     UIButton *getMoreBtn = [UIButton new];
     [getMoreBtn setBackgroundColor:[UIColor colorWithHex:@"#ffb20c" alpha:1.0f]];
     [getMoreBtn setTitle:@"如何获取更多优惠劵" forState:UIControlStateNormal];
-    [getMoreBtn setFont:[UIFont systemFontOfSize:14]];
+    [getMoreBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
     getMoreBtn.cornerRadius = 5.0f;
     [getMoreBtn.layer setMasksToBounds:YES];
     [[getMoreBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {

@@ -313,9 +313,9 @@
                                                 <constraint firstAttribute="width" constant="15" id="Wnt-8I-6D1"/>
                                             </constraints>
                                         </imageView>
-                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0wD-XM-QSY">
-                                            <rect key="frame" x="540" y="8" width="46" height="30"/>
-                                            <state key="normal" title="Button">
+                                        <button hidden="YES" opaque="NO" tag="1007" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0wD-XM-QSY">
+                                            <rect key="frame" x="570" y="12" width="17" height="22"/>
+                                            <state key="normal" image="collect">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
@@ -329,10 +329,13 @@
                                         <constraint firstItem="5J6-g4-E57" firstAttribute="centerY" secondItem="Cer-KA-8g4" secondAttribute="centerY" id="FIL-gJ-u0P"/>
                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Cer-KA-8g4" secondAttribute="trailing" constant="12" id="KcO-7x-kmJ"/>
                                         <constraint firstItem="WJ2-sW-1gX" firstAttribute="bottom" secondItem="Eqt-hA-LL9" secondAttribute="bottom" constant="2" id="Liv-ZY-Cuv"/>
+                                        <constraint firstItem="Eiz-Vr-xx6" firstAttribute="centerY" secondItem="0wD-XM-QSY" secondAttribute="centerY" id="NYE-AA-rW4"/>
                                         <constraint firstItem="WJ2-sW-1gX" firstAttribute="leading" secondItem="Eqt-hA-LL9" secondAttribute="trailing" constant="11" id="Q9c-1p-yUc"/>
                                         <constraint firstItem="Eqt-hA-LL9" firstAttribute="leading" secondItem="q7f-64-Zec" secondAttribute="leading" constant="12" id="Qgk-dq-mOD"/>
                                         <constraint firstItem="riW-EZ-Uq3" firstAttribute="leading" secondItem="Eqt-hA-LL9" secondAttribute="trailing" constant="12" id="Qzd-OU-neB"/>
                                         <constraint firstItem="5J6-g4-E57" firstAttribute="centerY" secondItem="Eiz-Vr-xx6" secondAttribute="centerY" id="Ryn-NG-uNd"/>
+                                        <constraint firstItem="0wD-XM-QSY" firstAttribute="top" secondItem="q7f-64-Zec" secondAttribute="top" constant="8" id="Sfk-Rm-BJc"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="0wD-XM-QSY" secondAttribute="trailing" constant="5" id="eMb-0q-UE8"/>
                                         <constraint firstItem="Eqt-hA-LL9" firstAttribute="top" secondItem="q7f-64-Zec" secondAttribute="top" constant="13" id="ggf-KZ-Mww"/>
                                         <constraint firstItem="F8T-Ml-8fD" firstAttribute="leading" secondItem="riW-EZ-Uq3" secondAttribute="trailing" constant="14" id="kyA-Vk-BjU"/>
                                         <constraint firstItem="Uq2-p5-7af" firstAttribute="leading" secondItem="WJ2-sW-1gX" secondAttribute="trailing" constant="10" id="nzq-fk-MG0"/>
@@ -340,6 +343,11 @@
                                         <constraint firstItem="riW-EZ-Uq3" firstAttribute="top" secondItem="Eiz-Vr-xx6" secondAttribute="bottom" constant="1" id="sFf-HP-2Si"/>
                                         <constraint firstItem="5J6-g4-E57" firstAttribute="leading" secondItem="Eiz-Vr-xx6" secondAttribute="trailing" constant="6" id="uGl-O9-lDt"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="Sfk-Rm-BJc"/>
+                                        </mask>
+                                    </variation>
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AddrCell" rowHeight="44" id="EUP-6u-Dbn" customClass="JTTableViewCell">
@@ -615,13 +623,7 @@
                             <outlet property="delegate" destination="dRk-2T-mmc" id="WeC-S4-n2X"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="商户详情" id="z5l-tN-gje">
-                        <barButtonItem key="rightBarButtonItem" image="nb_map" id="myw-DF-QHv">
-                            <connections>
-                                <action selector="actionMap:" destination="dRk-2T-mmc" id="FMS-kl-Cc7"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="商户详情" id="z5l-tN-gje"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iY8-aF-wb0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1739,6 +1741,7 @@
         <image name="Horizontaline" width="621" height="1"/>
         <image name="cm_arrow_r" width="9" height="15"/>
         <image name="cm_bg" width="17" height="24"/>
+        <image name="collect" width="17" height="15"/>
         <image name="cw_box" width="16" height="16"/>
         <image name="cw_box1" width="16" height="16"/>
         <image name="cw_box2" width="17" height="17"/>

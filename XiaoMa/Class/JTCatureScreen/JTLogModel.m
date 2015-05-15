@@ -80,7 +80,7 @@
     NSArray * array = @[data];
     UploadLogOp *op = [UploadLogOp new];
     op.req_fileType = @"txt";
-    op.req_fileName = [NSString stringWithFormat:@"%@_%@_%@",@"iOS",gNetworkMgr.bindingMobile,version];
+    op.req_fileName = [NSString stringWithFormat:@"xmdd.%@-%@-%@.txt",@"iOS",version,gNetworkMgr.bindingMobile];
     [op setFileArray:array withGetDataBlock:^NSData *(NSData * d) {
         return d;
     }];

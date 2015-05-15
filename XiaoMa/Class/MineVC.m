@@ -65,8 +65,11 @@
     self.bgView.userInteractionEnabled = YES;
     [[gesture rac_gestureSignal] subscribeNext:^(id x) {
         
-        MyInfoViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"MyInfoViewController"];
-        [self.navigationController pushViewController:vc animated:YES];
+        if([LoginViewModel loginIfNeededForTargetViewController:self])
+        {
+            MyInfoViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"MyInfoViewController"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }];
     
     [[RACObserve(gAppMgr.myUser, avatar) distinctUntilChanged] subscribeNext:^(UIImage * avatar) {
@@ -85,6 +88,10 @@
     [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(id x) {
         @strongify(self);
         [self reloadUserInfo];
+        
+        self.nameLabel.text = gAppMgr.myUser ? (gAppMgr.myUser.userName ? gAppMgr.myUser.userName : @"——") : @"未登录";
+        self.accountLabel.text = gAppMgr.myUser.userID ? gAppMgr.myUser.userID : @"——";
+        [self.tableView reloadData];
     }];
 }
 

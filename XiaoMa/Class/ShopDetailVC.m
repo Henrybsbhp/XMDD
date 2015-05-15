@@ -19,6 +19,8 @@
 #import "NearbyShopsViewController.h"
 #import "CommentListViewController.h"
 #import "EditMyCarVC.h"
+#import "AddUserFavoriteOp.h"
+
 
 #define kDefaultServieCount     2
 
@@ -26,6 +28,8 @@
 
 /// 服务列表展开
 @property (nonatomic, assign) BOOL serviceExpanded;
+/// 是否已收藏标签
+@property (nonatomic)BOOL favorite;
 
 @end
 
@@ -34,6 +38,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if([gAppMgr.myUser.favorites getFavoriteWithID:self.shop.shopID] == nil){
+        self.favorite = NO;
+    }
+    else {
+        self.favorite = YES;
+    }
+    
+    [self setupNavigationBar];
     [self requestShopComments];
 }
 
@@ -41,6 +54,68 @@
 - (void)dealloc
 {
     DebugLog(@"ShopDetailVC Dealloc");
+}
+
+#pragma mark - SetupUI
+- (void)setupNavigationBar
+{
+    UIButton * collectBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 17, 22)];
+    UIImage * image = [UIImage imageNamed:self.favorite ? @"collected" : @"collect"];
+    [collectBtn setImage:image forState:UIControlStateNormal];
+    
+    @weakify(self)
+    [[collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        @strongify(self)
+        
+        if ([LoginViewModel loginIfNeededForTargetViewController:self])
+        {
+            NSObject * obk = gAppMgr.myUser.favorites;
+            if (self.favorite)
+            {
+                [[[gAppMgr.myUser.favorites rac_removeFavorite:self.shop.shopID] initially:^{
+                    
+                    [SVProgressHUD showWithStatus:@"移除中..."];
+                }]  subscribeNext:^(id x) {
+                    
+                    [SVProgressHUD showSuccessWithStatus:@"移除成功"];
+                    
+                    self.favorite = NO;
+                    [collectBtn setImage:[UIImage imageNamed:@"collect"] forState:UIControlStateNormal];
+                } error:^(NSError *error) {
+                    
+                    [SVProgressHUD showErrorWithStatus:error.domain];
+                }];
+            }
+            else
+            {
+                [[[gAppMgr.myUser.favorites rac_addFavorite:self.shop] initially:^{
+                    
+                    [SVProgressHUD showWithStatus:@"添加中..."];
+                }]  subscribeNext:^(id x) {
+                    
+                    [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+                    
+                    self.favorite = YES;
+                    [collectBtn setImage:[UIImage imageNamed:@"collected"] forState:UIControlStateNormal];
+                } error:^(NSError *error) {
+                    
+                    if (error.code == 7002)
+                    {
+                        [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+                        self.favorite = YES;
+                        [collectBtn setImage:[UIImage imageNamed:@"collected"] forState:UIControlStateNormal];
+                    }
+                    else
+                    {
+                        [SVProgressHUD showErrorWithStatus:error.domain];
+                    }
+                }];
+            }
+        }
+    }];
+    UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithCustomView:collectBtn];
+    self.navigationItem.rightBarButtonItem = item;
 }
 
 #pragma mark - Action
@@ -56,6 +131,38 @@
         NSIndexSet *indexSet= [[NSIndexSet alloc] initWithIndex:1];
         
         [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+    }];
+}
+
+- (void)requestAddUserFavorite:(UIButton *)btn
+{
+    AddUserFavoriteOp * op = [AddUserFavoriteOp operation];
+    op.shopid = self.shop.shopID;
+    [[[op rac_postRequest] initially:^{
+        
+        [SVProgressHUD showWithStatus:@"add..."];
+    }] subscribeNext:^(AddUserFavoriteOp * op) {
+        
+        [SVProgressHUD showSuccessWithStatus:@"收藏成功"];
+        self.favorite = YES;
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        
+    } error:^(NSError *error) {
+        
+        self.favorite = NO;
+        if (error.code == 7001)
+        {
+            [SVProgressHUD  showErrorWithStatus:@"该店铺不存在"];
+        }
+        else if (error.code == 7002)
+        {
+            [SVProgressHUD  showErrorWithStatus:@"该店铺已收藏"];
+        }
+        else
+        {
+            [SVProgressHUD  showErrorWithStatus:@"收藏失败"];
+        }
     }];
 }
 
@@ -115,7 +222,7 @@
         count = self.serviceExpanded ? 3 + self.shop.shopServiceArray.count : ((3+MIN(kDefaultServieCount, self.shop.shopServiceArray.count)) + (self.shop.shopServiceArray.count > kDefaultServieCount ? 1 : 0));
     }
     else if (section == 1){
-        count = 1 + (self.shop.shopCommentArray.count ? MIN(self.shop.shopCommentArray.count, 5) : 1);
+        count = 1 + (self.shop.shopCommentArray.count ? self.shop.shopCommentArray.count : 1);
     }
     return count;
 }
@@ -227,8 +334,9 @@
     UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *businessHoursLb = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
+    UIButton *collectBtn = (UIButton *)[cell.contentView viewWithTag:1007];
     
-
+    
     UITapGestureRecognizer * gesture = logoV.customObject;
     if (!gesture)
     {
@@ -239,19 +347,24 @@
     }
     gesture = logoV.customObject;
     [[[gesture rac_gestureSignal] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-    
+        
         if (self.shop.picArray.count)
         {
             [self showImages:0];
         }
     }];
     
-    
+    @weakify(self)
+    [[[collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        [self requestAddUserFavorite:collectBtn];
+    }];
     
     
     [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                                         withDefaultPic:@"shop_default"] subscribeNext:^(UIImage * img) {
-      
+                      withDefaultPic:@"shop_default"] subscribeNext:^(UIImage * img) {
+        
         logoV.image = img;
     }];
     titleL.text = shop.shopName;
@@ -265,7 +378,10 @@
     double shopLng = shop.shopLongitude;
     NSString * disStr = [DistanceCalcHelper getDistanceStrLatA:myLat lngA:myLng latB:shopLat lngB:shopLng];
     distantL.text = disStr;
-
+    
+    NSString * btnImageName = self.favorite ? @"collected" : @"collect";
+    [collectBtn setImage:[UIImage imageNamed: btnImageName]
+                forState:UIControlStateNormal];
     
     return cell;
 }
@@ -278,7 +394,7 @@
     
     @weakify(self)
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-       
+        
         @strongify(self)
         [gPhoneHelper navigationRedirectThireMap:self.shop andUserLocation:gMapHelper.coordinate andView:self.view];
     }];
@@ -324,9 +440,9 @@
     
     JTShopService *service = [self.shop.shopServiceArray safetyObjectAtIndex:indexPath.row - 3];
     ///暂无银行
-//    [priceL mas_updateConstraints:^(MASConstraintMaker *make) {
-//        make.bottom.equalTo(cc ? iconV : titleL);
-//    }];
+    //    [priceL mas_updateConstraints:^(MASConstraintMaker *make) {
+    //        make.bottom.equalTo(cc ? iconV : titleL);
+    //    }];
     priceL.attributedText = [self priceStringWithOldPrice:@(service.origprice) curPrice:@(service.contractprice)];
     introL.text = service.serviceDescription;
     
@@ -402,7 +518,7 @@
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
     [[gMediaMgr rac_getPictureForUrl:comment.avatarUrl withDefaultPic:@
-     "avatar_default"] subscribeNext:^(id x) {
+      "avatar_default"] subscribeNext:^(id x) {
         
         avatarV.image = x;
     }];
