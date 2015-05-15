@@ -263,10 +263,10 @@ static NSInteger rotationIndex = 0;
         }
     }];
     
-    RAC(weatherImage, image) = [RACObserve(gAppMgr, temperaturepic) flattenMap:^RACStream *(id value) {
-        return [gAppMgr.mediaMgr rac_getPictureForUrl:value withDefaultPic:nil];
+    RAC(weatherImage, image) = [RACObserve(gAppMgr, temperaturepic) map:^id(id value) {
+        NSString * picName = [[value componentsSeparatedByString:@"/"] lastObject];
+        return [UIImage imageNamed:picName];
     }];
-    
 }
 
 
