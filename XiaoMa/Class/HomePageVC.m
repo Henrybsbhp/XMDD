@@ -52,7 +52,7 @@ static NSInteger rotationIndex = 0;
     [gAdMgr loadLastAdvertiseInfo:AdvertisementHomePage];
     [gAdMgr loadLastAdvertiseInfo:AdvertisementCarWash];
     
-    //自动登陆
+    //自动登录
     [self autoLogin];
     //设置主页的滚动视图
     [self setupScrollView];
@@ -74,9 +74,9 @@ static NSInteger rotationIndex = 0;
 {
     HKLoginModel *loginModel = [[HKLoginModel alloc] init];
     //**********开始自动登录****************
-    //该自动登陆为无网络自动登陆，会从上次的本地登陆状态中恢复，不需要联网
-    //之后调用的任何需要鉴权的http请求，如果发现上次的登陆状态失效，将会自动触发后台刷新token和重新登陆的机制。
-    //再次登陆成功后会自动重发这个http请求，不需要人工干预
+    //该自动登录为无网络自动登录，会从上次的本地登录状态中恢复，不需要联网
+    //之后调用的任何需要鉴权的http请求，如果发现上次的登录状态失效，将会自动触发后台刷新token和重新登录的机制。
+    //再次登录成功后会自动重发这个http请求，不需要人工干预
     [[loginModel rac_autoLoginWithoutNetworking] subscribeNext:^(NSString *account) {
         [gAppMgr resetWithAccount:account];
         
