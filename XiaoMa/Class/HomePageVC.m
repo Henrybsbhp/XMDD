@@ -52,7 +52,7 @@ static NSInteger rotationIndex = 0;
     [gAdMgr loadLastAdvertiseInfo:AdvertisementHomePage];
     [gAdMgr loadLastAdvertiseInfo:AdvertisementCarWash];
     
-    //自动登陆
+    //自动登录
     [self autoLogin];
     //设置主页的滚动视图
     [self setupScrollView];
@@ -61,22 +61,23 @@ static NSInteger rotationIndex = 0;
     
     [self getWeatherInfo];
     [self requestHomePageAd];
+    [self setupWeatherView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    [self setupWeatherView:gAppMgr.temperaturepic andTemperature:gAppMgr.temperature andTemperaturetip:gAppMgr.temperaturetip andRestriction:gAppMgr.restriction];
+//    [self setupWeatherView:gAppMgr.temperaturepic andTemperature:gAppMgr.temperature andTemperaturetip:gAppMgr.temperaturetip andRestriction:gAppMgr.restriction];
 }
 
 - (void)autoLogin
 {
     HKLoginModel *loginModel = [[HKLoginModel alloc] init];
     //**********开始自动登录****************
-    //该自动登陆为无网络自动登陆，会从上次的本地登陆状态中恢复，不需要联网
-    //之后调用的任何需要鉴权的http请求，如果发现上次的登陆状态失效，将会自动触发后台刷新token和重新登陆的机制。
-    //再次登陆成功后会自动重发这个http请求，不需要人工干预
+    //该自动登录为无网络自动登录，会从上次的本地登录状态中恢复，不需要联网
+    //之后调用的任何需要鉴权的http请求，如果发现上次的登录状态失效，将会自动触发后台刷新token和重新登录的机制。
+    //再次登录成功后会自动重发这个http请求，不需要人工干预
     [[loginModel rac_autoLoginWithoutNetworking] subscribeNext:^(NSString *account) {
         [gAppMgr resetWithAccount:account];
         
@@ -231,12 +232,8 @@ static NSInteger rotationIndex = 0;
     UILabel * restrictionLb = (UILabel *)[self.weatherView searchViewWithTag:20204];
     UILabel * tipLb = (UILabel *)[self.weatherView searchViewWithTag:20206];
     
-    NSArray * tArray = [picName componentsSeparatedByString:@"/"];
-    if (tArray.count)
-    {
-        picName = [tArray lastObject];
-    }
-    weatherImage.image = [UIImage imageNamed:picName];
+    RAC(weatherImage, image) = [gAppMgr.mediaMgr rac_getPictureForUrl:picName withDefaultPic:nil];
+    
     tempLb.text = temp;
     restrictionLb.text = restriction;
     tipLb.text = tip;
@@ -245,6 +242,31 @@ static NSInteger rotationIndex = 0;
     {
         [self setupLineSpace:tipLb];
     }
+}
+
+- (void)setupWeatherView
+{
+    UIImageView * weatherImage = (UIImageView *)[self.weatherView searchViewWithTag:20201];
+    UILabel * tempLb = (UILabel *)[self.weatherView searchViewWithTag:20202];
+    UILabel * restrictionLb = (UILabel *)[self.weatherView searchViewWithTag:20204];
+    UILabel * tipLb = (UILabel *)[self.weatherView searchViewWithTag:20206];
+    
+    RAC(tempLb, text) = RACObserve(gAppMgr, temperature);
+    RAC(restrictionLb, text) = RACObserve(gAppMgr, restriction);
+    
+    [RACObserve(gAppMgr, temperaturetip) subscribeNext:^(id x) {
+        tipLb.text = x;
+        
+        if(tipLb.text.length)
+        {
+            [self setupLineSpace:tipLb];
+        }
+    }];
+    
+    RAC(weatherImage, image) = [RACObserve(gAppMgr, temperaturepic) flattenMap:^RACStream *(id value) {
+        return [gAppMgr.mediaMgr rac_getPictureForUrl:value withDefaultPic:nil];
+    }];
+    
 }
 
 
@@ -474,7 +496,7 @@ static NSInteger rotationIndex = 0;
         
         if(op.rsp_code == 0)
         {
-            [self setupWeatherView:op.rsp_temperaturepic andTemperature:op.rsp_temperature andTemperaturetip:op.rsp_temperaturetip andRestriction:op.rsp_restriction];
+//            [self setupWeatherView:op.rsp_temperaturepic andTemperature:op.rsp_temperature andTemperaturetip:op.rsp_temperaturetip andRestriction:op.rsp_restriction];
             
             gAppMgr.temperature = op.rsp_temperature;
             gAppMgr.temperaturepic = op.rsp_temperaturepic;
