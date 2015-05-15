@@ -61,13 +61,14 @@ static NSInteger rotationIndex = 0;
     
     [self getWeatherInfo];
     [self requestHomePageAd];
+    [self setupWeatherView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    [self setupWeatherView:gAppMgr.temperaturepic andTemperature:gAppMgr.temperature andTemperaturetip:gAppMgr.temperaturetip andRestriction:gAppMgr.restriction];
+//    [self setupWeatherView:gAppMgr.temperaturepic andTemperature:gAppMgr.temperature andTemperaturetip:gAppMgr.temperaturetip andRestriction:gAppMgr.restriction];
 }
 
 - (void)autoLogin
@@ -241,6 +242,31 @@ static NSInteger rotationIndex = 0;
     {
         [self setupLineSpace:tipLb];
     }
+}
+
+- (void)setupWeatherView
+{
+    UIImageView * weatherImage = (UIImageView *)[self.weatherView searchViewWithTag:20201];
+    UILabel * tempLb = (UILabel *)[self.weatherView searchViewWithTag:20202];
+    UILabel * restrictionLb = (UILabel *)[self.weatherView searchViewWithTag:20204];
+    UILabel * tipLb = (UILabel *)[self.weatherView searchViewWithTag:20206];
+    
+    RAC(tempLb, text) = RACObserve(gAppMgr, temperature);
+    RAC(restrictionLb, text) = RACObserve(gAppMgr, restriction);
+    
+    [RACObserve(gAppMgr, temperaturetip) subscribeNext:^(id x) {
+        tipLb.text = x;
+        
+        if(tipLb.text.length)
+        {
+            [self setupLineSpace:tipLb];
+        }
+    }];
+    
+    RAC(weatherImage, image) = [RACObserve(gAppMgr, temperaturepic) flattenMap:^RACStream *(id value) {
+        return [gAppMgr.mediaMgr rac_getPictureForUrl:value withDefaultPic:nil];
+    }];
+    
 }
 
 
@@ -470,7 +496,7 @@ static NSInteger rotationIndex = 0;
         
         if(op.rsp_code == 0)
         {
-            [self setupWeatherView:op.rsp_temperaturepic andTemperature:op.rsp_temperature andTemperaturetip:op.rsp_temperaturetip andRestriction:op.rsp_restriction];
+//            [self setupWeatherView:op.rsp_temperaturepic andTemperature:op.rsp_temperature andTemperaturetip:op.rsp_temperaturetip andRestriction:op.rsp_restriction];
             
             gAppMgr.temperature = op.rsp_temperature;
             gAppMgr.temperaturepic = op.rsp_temperaturepic;
