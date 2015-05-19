@@ -177,4 +177,4 @@ echo "**************finish building 3**************"
 
 
 # 开始上传到蒲公英 并发布 使用python
-python pugongying.sh $archieve_dir"/"$ipa_name
+python project_path"/Script/pugongying.py" $archieve_dir"/"$ipa_name
