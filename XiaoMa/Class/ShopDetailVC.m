@@ -299,7 +299,10 @@
     {
         if (indexPath.row == 1)
         {
-            [gPhoneHelper navigationRedirectThireMap:self.shop andUserLocation:gMapHelper.coordinate andView:self.view];
+//            [gPhoneHelper navigationRedirectThireMap:self.shop andUserLocation:gMapHelper.coordinate andView:self.view];
+            CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
+            vc.shop = self.shop;
+            [self.navigationController pushViewController:vc animated:YES];
         }
         else if (indexPath.row == 2)
         {
@@ -451,6 +454,7 @@
         @strongify(self);
         if([LoginViewModel loginIfNeededForTargetViewController:self]) {
             
+            NSObject * aa = gAppMgr.myUser.carArray;
             if (gAppMgr.myUser.carArray == nil || gAppMgr.myUser.carArray.count > 0)
             {
                 PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
@@ -583,7 +587,7 @@
             [imageView setImage:image];
         } error:^(NSError *error) {
             
-            [imageView setImage:[UIImage imageNamed:@"tmp_ad"]];
+            [imageView setImage:[UIImage imageNamed:@"shop_default"]];
         }];
         
         imageView.tag = i;
