@@ -451,6 +451,7 @@
         @strongify(self);
         if([LoginViewModel loginIfNeededForTargetViewController:self]) {
             
+            NSObject * aa = gAppMgr.myUser.carArray;
             if (gAppMgr.myUser.carArray == nil || gAppMgr.myUser.carArray.count > 0)
             {
                 PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
@@ -583,7 +584,7 @@
             [imageView setImage:image];
         } error:^(NSError *error) {
             
-            [imageView setImage:[UIImage imageNamed:@"tmp_ad"]];
+            [imageView setImage:[UIImage imageNamed:@"shop_default"]];
         }];
         
         imageView.tag = i;

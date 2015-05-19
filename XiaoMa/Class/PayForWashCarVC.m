@@ -319,7 +319,7 @@
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1003];
     
     RAC(logoV, image) = [gMediaMgr rac_getPictureForUrl:[self.shop.picArray safetyObjectAtIndex:0]
-                                         withDefaultPic:@"tmp_ad"];
+                                         withDefaultPic:@"shop_default"];
     titleL.text = self.shop.shopName;
     addrL.text = self.shop.shopAddress;
     
