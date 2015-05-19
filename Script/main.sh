@@ -172,3 +172,9 @@ archieve_dir=$root_path"/ipa"
 xcrun -sdk iphoneos PackageApplication -v $build_dir"/XiaoMa.app" -o $archieve_dir"/"$ipa_name
 
 echo "**************finish building 3**************"
+
+
+
+
+# 开始上传到蒲公英 并发布 使用python
+python pugongying.sh $archieve_dir"/"$ipa_name
