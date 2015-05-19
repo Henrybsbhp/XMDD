@@ -66,7 +66,7 @@
     NSArray *nibArray = [[NSBundle mainBundle] loadNibNamed:@"MapBottomView" owner:self options:nil];
     MapBottomView *mapBottomView = nibArray[0];
     CGRect rect = CGRectMake(5, self.view.frame.size.height - 100, self.view.frame.size.width - 10, 95);
-    rect.size.width = rect.size.width - 10;
+    rect.size.width = rect.size.width;
     rect.origin.x = 5;
     mapBottomView.frame = rect;
     //        mapBottomView.autoresizingMask = UIViewAutoresizingFlexibleAll;
