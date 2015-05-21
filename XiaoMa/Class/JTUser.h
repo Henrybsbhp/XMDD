@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HKMyCar.h"
+#import "FavoriteModel.h"
 
 
 @interface JTUser : NSObject
@@ -34,6 +35,9 @@
 @property (nonatomic, strong)NSArray * validCarwashArray;
 /// 所有优惠劵
 @property (nonatomic, strong)NSArray * carwashArray;
+
+/// 收藏夹
+@property (nonatomic, strong) FavoriteModel * favorites;
 
 
 - (HKMyCar *)getDefaultCar;

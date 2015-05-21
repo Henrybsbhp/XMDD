@@ -66,7 +66,7 @@
     NSArray *nibArray = [[NSBundle mainBundle] loadNibNamed:@"MapBottomView" owner:self options:nil];
     MapBottomView *mapBottomView = nibArray[0];
     CGRect rect = CGRectMake(5, self.view.frame.size.height - 100, self.view.frame.size.width - 10, 95);
-    rect.size.width = rect.size.width - 10;
+    rect.size.width = rect.size.width;
     rect.origin.x = 5;
     mapBottomView.frame = rect;
     //        mapBottomView.autoresizingMask = UIViewAutoresizingFlexibleAll;
@@ -161,15 +161,15 @@
         [SVProgressHUD showWithStatus:@"add..."];
     }] subscribeNext:^(AddUserFavoriteOp * op) {
         
-        if (op.rsp_code == 0)
-        {
             [SVProgressHUD showSuccessWithStatus:@"收藏成功"];
-        }
-        else if (op.rsp_code == 7001)
+        
+    } error:^(NSError *error) {
+        
+        if (error.code == 7001)
         {
             [SVProgressHUD  showErrorWithStatus:@"该店铺不存在"];
         }
-        else if (op.rsp_code == 7002)
+        else if (error.code == 7002)
         {
             [SVProgressHUD  showErrorWithStatus:@"该店铺已收藏"];
         }
@@ -177,9 +177,6 @@
         {
             [SVProgressHUD  showErrorWithStatus:@"收藏失败"];
         }
-    } error:^(NSError *error) {
-        
-        [SVProgressHUD  showErrorWithStatus:@"收藏失败"];
     }];
 }
 

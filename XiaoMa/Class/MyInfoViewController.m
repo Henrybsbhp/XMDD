@@ -79,8 +79,7 @@
     [[logoutBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
 #pragma mark- warming
-        //        [self logoutAction];
-        [self.navigationController popViewControllerAnimated:YES];
+        [self logoutAction];
     }];
     
     [self.tableView reloadData];
@@ -95,8 +94,8 @@
 
 - (void)logoutAction
 {
-    //    [LoginModel logout];
-    gAppMgr.myUser = nil;
+    [HKLoginModel logout];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)requestModifyUserInfo:(ModifyType)type

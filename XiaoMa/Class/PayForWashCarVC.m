@@ -225,7 +225,7 @@
         count = 2;
     }
     else if (section == 2) {
-        count = 3 - (gPhoneHelper.exsitWechat ? 1:0);
+        count = 3 - (gPhoneHelper.exsitWechat ? 0:1);
     }
     return count;
 }
@@ -319,7 +319,7 @@
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1003];
     
     RAC(logoV, image) = [gMediaMgr rac_getPictureForUrl:[self.shop.picArray safetyObjectAtIndex:0]
-                                         withDefaultPic:@"tmp_ad"];
+                                         withDefaultPic:@"shop_default"];
     titleL.text = self.shop.shopName;
     addrL.text = self.shop.shopAddress;
     
@@ -510,22 +510,18 @@
             self.paymentType == PaymentChannelABCIntegral ||
             self.paymentType == PaymentChannelCoupon)
         {
-            [self.checkBoxHelper selectItem:boxB forGroupName:@"PaymentType"];
-            if (indexPath.row == 1)
-            {
-                self.paymentType = PaymentChannelAlipay;
-            }
-            else
-            {
-                self.paymentType = PaymentChannelWechat;
-            }
-            
             [self.tableView reloadData];
+        }
+        [self.checkBoxHelper selectItem:boxB forGroupName:@"PaymentType"];
+        if (indexPath.row == 1)
+        {
+            self.paymentType = PaymentChannelAlipay;
         }
         else
         {
-            [self.checkBoxHelper selectItem:boxB forGroupName:@"PaymentType"];
+            self.paymentType = PaymentChannelWechat;
         }
+
     }];
     
     if (indexPath.row == 1 && self.paymentType == PaymentChannelAlipay)
@@ -652,6 +648,7 @@
         
         PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
         vc.originVC = self.originVC;
+        vc.title = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
@@ -667,6 +664,7 @@
         
         PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
         vc.originVC = self.originVC;
+        vc.title = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         

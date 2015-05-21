@@ -35,14 +35,14 @@
 {
     NSString * distanceStr;
     double distance = [DistanceCalcHelper getDistanceLatA:latA lngA:lngA latB:latB lngB:lngB];
-    if (distance < 1000)
-    {
-        distanceStr = [NSString stringWithFormat:@"%ld米",(long)distance];
-    }
-    else
+//    if (distance < 1000)
+//    {
+//        distanceStr = [NSString stringWithFormat:@"%ld米",(long)distance];
+//    }
+//    else
     {
         CGFloat distanceInt = distance / 1000;
-        distanceStr = [NSString stringWithFormat:@"%0.2f千米",distanceInt];
+        distanceStr = [NSString stringWithFormat:@"%0.2fkm",distanceInt];
     }
     return distanceStr;
 }

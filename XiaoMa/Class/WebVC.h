@@ -10,4 +10,6 @@
 
 @interface WebVC : UIViewController
 @property (nonatomic, weak) UIViewController *originVC;
+
+@property (nonatomic,copy)NSString * url;
 @end

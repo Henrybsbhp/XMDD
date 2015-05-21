@@ -2,12 +2,12 @@
 
 # adhoc－xmdd对应的信息
 #adhoc_provisioning_id='b17331be-33bd-4493-9294-cc5e4384c2ee'
-adhoc_provisioning_id='267af5e7-8e71-4650-bbd1-d98198e5dc36'
+adhoc_provisioning_id='f026ccd8-f1a5-417d-b0fc-c05c2fa7e0b5'
 adhoc_code_sign_id='iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)'
 
 # appstore－xmdd对应的信息
 #appstore_provisioning_id='a2a738ce-17bb-4752-882d-96c2857f9244'
-appstore_provisioning_id='267af5e7-8e71-4650-bbd1-d98198e5dc36'
+appstore_provisioning_id='5cd20223-a14a-4639-bc86-0b0dd85e1adf'
 appstore_code_sign_id='iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)'
 
 #############################################################í#####################
@@ -172,3 +172,9 @@ archieve_dir=$root_path"/ipa"
 xcrun -sdk iphoneos PackageApplication -v $build_dir"/XiaoMa.app" -o $archieve_dir"/"$ipa_name
 
 echo "**************finish building 3**************"
+
+
+
+
+# 开始上传到蒲公英 并发布 使用python
+python $project_path"/Script/pugongying.py" $archieve_dir"/"$ipa_name

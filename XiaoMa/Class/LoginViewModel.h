@@ -15,7 +15,7 @@
 @property (nonatomic, readonly) RACSubject *rac_loginSuccess;
 
 - (void)dismissForTargetVC:(UIViewController *)targetVC forSucces:(BOOL)success;
-///判断是否登录，如果未登录直接进入登陆流程
+///判断是否登录，如果未登录直接进入登录流程
 + (BOOL)loginIfNeededForTargetViewController:(UIViewController *)targetVC;
 
 @end

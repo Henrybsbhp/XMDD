@@ -68,7 +68,7 @@
     NSString *vcode = [self textAtIndex:1];
     @weakify(self);
     [[[self.model.loginModel rac_loginWithAccount:ad validCode:vcode] initially:^{
-        [gToast showingWithText:@"正在登陆..."];
+        [gToast showingWithText:@"正在登录..."];
     }] subscribeNext:^(id x) {
         @strongify(self);
         [gToast dismiss];

@@ -11,6 +11,6 @@
 @interface DeleteUserFavoriteOp : BaseOp
 
 ///商户id
-@property (nonatomic,copy)NSString * shopid;
+@property (nonatomic,strong)NSArray * shopArray;
 
 @end

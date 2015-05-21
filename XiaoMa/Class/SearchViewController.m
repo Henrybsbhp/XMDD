@@ -47,6 +47,7 @@
     
     self.isRemain = YES;
     self.pageAmount = PageAmount;
+    self.currentPageIndex = 1;
     
     [self getSearchHistory];
 }
@@ -103,7 +104,7 @@
     self.searchBarBackgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(45, 4, width - 120, 36)];
 //    self.searchBarBackgroundView.image = [UIImage imageNamed:@"Navi_Search2"];
     self.searchBarBackgroundView.borderWidth = 1.0f;
-    self.searchBarBackgroundView.borderColor = [UIColor grayColor];
+    self.searchBarBackgroundView.borderColor = [UIColor lightGrayColor];
     self.searchBarBackgroundView.layer.cornerRadius = 4.0f;
     
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, width - 120, 36)];
@@ -140,7 +141,7 @@
 
 - (void)setupTableView
 {
-    self.tableView.backgroundColor = [UIColor colorWithHex:@"#fafaf0" alpha:1.0f];
+    self.tableView.backgroundColor = [UIColor colorWithHex:@"#f4f4f4" alpha:1.0f];
     self.tableView.showBottomLoadingView = NO;
 }
 
@@ -171,6 +172,10 @@
             }
         }
         [self.historyArray insertObject:self.searchBar.text atIndex:0];
+        if(self.historyArray.count > 15)
+        {
+            [self.historyArray removeLastObject];
+        }
         [gAppMgr saveInfo:self.historyArray forKey:SearchHistory];
     }
 }
@@ -217,7 +222,7 @@
             if (self.resultArray.count == 0)
             {
                 self.tableView.showBottomLoadingView = YES;
-                [self.tableView.bottomLoadingView showIndicatorTextWith:@"没有商家"];
+                [self.tableView.bottomLoadingView showIndicatorTextWith:@"附近30公里内，没有您要找的商户"];
             }
             else
             {
@@ -266,6 +271,7 @@
         [self.tableView.bottomLoadingView stopActivityAnimation];
         if(op.rsp_code == 0)
         {
+            self.currentPageIndex ++;
             if (op.rsp_shopArray.count >= self.pageAmount)
             {
                 self.isRemain = YES;
@@ -276,6 +282,7 @@
             }
             if (!self.isRemain)
             {
+                self.tableView.showBottomLoadingView = YES;
                 [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
             }
             
@@ -360,7 +367,7 @@
         UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
         
         RAC(logoV, image) = [gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                                             withDefaultPic:@"tmp_ad"];
+                                             withDefaultPic:@"shop_default"];
         titleL.text = shop.shopName;
         ratingV.ratingValue = shop.shopRate;
         ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
@@ -435,13 +442,14 @@
         if(indexPath.row == 0)
         {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HeadCell" forIndexPath:indexPath];
+            cell.backgroundColor = [UIColor colorWithHex:@"#f4f4f4" alpha:1.0f];
             return cell;
         }
         else if (indexPath.row == self.historyArray.count + 1)
         {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CleanCell" forIndexPath:indexPath];
             UILabel * lb = (UILabel *)[cell searchViewWithTag:20301];
-            lb.text = self.historyArray.count ? @"清空历史记录":@"无搜索记录";
+            lb.text = self.historyArray.count ? @"清空搜索历史":@"无搜索记录";
             return cell;
         }
         else
@@ -450,6 +458,9 @@
             
             UILabel * lb = (UILabel *)[cell searchViewWithTag:101];
             lb.text = [NSString stringWithFormat:@"%@",self.historyArray[indexPath.row-1]];
+            
+            UIImageView * line = (UIImageView *)[cell searchViewWithTag:102];
+            line.hidden = indexPath.row == self.historyArray.count;
             return cell;
         }
     }

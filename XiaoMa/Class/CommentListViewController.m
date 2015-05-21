@@ -83,6 +83,7 @@
         }
         if (!self.isRemain)
         {
+            self.tableView.showBottomLoadingView = YES;
             [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
         }
 
@@ -154,12 +155,16 @@
     UILabel *contentL = (UILabel *)[cell.contentView viewWithTag:1005];
     
     JTShopComment *comment = [self.commentArray safetyObjectAtIndex:indexPath.row];
-    //    avatarV.image = [UIImage imageNamed:comment.avatarUrl];
-    avatarV.image = [UIImage imageNamed:@"tmp_a1"];
     nameL.text = comment.nickname.length ? comment.nickname : @"无昵称用户";
-    timeL.text = [comment.time dateFormatForYYYYMMddHHmm];
+    timeL.text = [comment.time dateFormatForYYMMdd];
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
+    
+    [[gMediaMgr rac_getPictureForUrl:comment.avatarUrl withDefaultPic:@
+      "avatar_default"] subscribeNext:^(id x) {
+        
+        avatarV.image = x;
+    }];
     
     return cell;
 }

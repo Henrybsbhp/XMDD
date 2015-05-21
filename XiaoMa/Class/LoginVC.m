@@ -74,10 +74,10 @@
     NSString *pwd = [self textAtIndex:1];
     @weakify(self);
     [[[self.model.loginModel rac_loginWithAccount:ad password:pwd] initially:^{
-        [gToast showingWithText:@"正在登陆..."];
+        [gToast showingWithText:@"正在登录..."];
     }] subscribeNext:^(id x) {
         @strongify(self);
-        [gToast showSuccess:@"登陆成功"];
+        [gToast showSuccess:@"登录成功"];
         [self.model dismissForTargetVC:self forSucces:YES];
     } error:^(NSError *error) {
         [gToast showError:error.domain];
