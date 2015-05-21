@@ -10,7 +10,7 @@
 #import "XiaoMa.h"
 
 @interface DatePickerVC ()
-
+@property (nonatomic, strong) NSDate *maximumDate;
 @end
 
 @implementation DatePickerVC
@@ -43,31 +43,44 @@
     self.ensureItem.tintColor = tintColor;
 }
 
-///弹出日期选择器(next:NSData* error:【表示取消选取】)
-+ (RACSignal *)rac_presentPackerVCInView:(UIView *)view withSelectedDate:(NSDate *)date
++ (DatePickerVC *)datePickerVCWithMaximumDate:(NSDate *)date
 {
     DatePickerVC *vc = [UIStoryboard vcWithId:@"DatePickerVC" inStoryboard:@"Common"];
+    vc.maximumDate = date;
+    return vc;
+}
+
++ (RACSignal *)rac_presentPackerVCInView:(UIView *)view withSelectedDate:(NSDate *)date
+{
+    DatePickerVC *vc = [self datePickerVCWithMaximumDate:[NSDate date]];
+    return [vc rac_presentPackerVCInView:view withSelectedDate:date];
+}
+
+///弹出日期选择器(next:NSData* error:【表示取消选取】)
+- (RACSignal *)rac_presentPackerVCInView:(UIView *)view withSelectedDate:(NSDate *)date
+{
+    
     CGSize size = CGSizeMake(CGRectGetWidth(view.frame), 280);
     MZFormSheetController *sheet = [DefaultStyleModel bottomAppearSheetCtrlWithSize:size
-                                                                     viewController:vc
+                                                                     viewController:self
                                                                          targetView:view];
     sheet.shouldDismissOnBackgroundViewTap = NO;
     [sheet presentAnimated:YES completionHandler:nil];
     if (date) {
-        vc.datePicker.date = date;
+        self.datePicker.date = date;
     }
-    vc.datePicker.maximumDate = [NSDate date];
-    [vc setupWithTintColor:kDefTintColor];
+    self.datePicker.maximumDate = self.maximumDate;
+    [self setupWithTintColor:kDefTintColor];
     
     RACSubject *subject = [RACSubject subject];
-    @weakify(vc);
-    [[[vc rac_signalForSelector:@selector(actionEnsure:)] take:1] subscribeNext:^(id x) {
-        @strongify(vc);
-        [subject sendNext:vc.datePicker.date];
+    @weakify(self);
+    [[[self rac_signalForSelector:@selector(actionEnsure:)] take:1] subscribeNext:^(id x) {
+        @strongify(self);
+        [subject sendNext:self.datePicker.date];
         [subject sendCompleted];
     }];
 
-    [[[vc rac_signalForSelector:@selector(actionCancel:)] take:1] subscribeNext:^(id x) {
+    [[[self rac_signalForSelector:@selector(actionCancel:)] take:1] subscribeNext:^(id x) {
         [subject sendError:[NSError errorWithDomain:@"cancel" code:0 userInfo:nil]];
     }];
     return subject;

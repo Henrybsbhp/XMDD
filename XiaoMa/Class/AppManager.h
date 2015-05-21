@@ -12,6 +12,7 @@
 #import "ClientInfo.h"
 #import "DeviceInfo.h"
 #import "MultiMediaManager.h"
+#import "CoreDataManager.h"
 
 #define Province @"Province"
 #define City @"City"
@@ -27,6 +28,10 @@
 @interface AppManager : NSObject
 
 @property (nonatomic,strong)JTUser *myUser;
+///当前用户的coredata数据管理对象
+@property (nonatomic, strong) CoreDataManager *myDataMgr;
+///默认的coredata数据管理对象
+@property (nonatomic, strong) CoreDataManager *defDataMgr;
 @property(nonatomic,strong)DeviceInfo * deviceInfo;
 @property(nonatomic,strong)ClientInfo * clientInfo;
 ///常用数据缓存（可手动清除）

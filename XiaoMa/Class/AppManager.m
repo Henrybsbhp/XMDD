@@ -27,6 +27,9 @@
     self = [super init];
     if (self)
     {
+        // 默认的coredata数据管理对象
+        self.defDataMgr = [[CoreDataManager alloc] init];
+        [self.defDataMgr resetPersistentStoreAtDirPath:CKPathForDocument(nil)];
         //  常用数据缓存（用于缓存用户使用造成的数据，可手动清除）
         TMCache *cache = [[TMCache alloc] initWithName:kSharedCacheName];
         cache.diskCache.byteLimit = 512 * 1024 * 1024;
@@ -50,14 +53,6 @@
     }
     JTUser *user = [JTUser new];
     user.userID = account;
-//    //TODO:临时数据
-//    user.userID = @"123456";
-//    user.userName = @"陈大白";
-//    user.avatarUrl = @"tmp_a1";
-//    user.carwashTicketsCount = 2;
-//    user.abcCarwashTimesCount = 4;
-//    user.abcIntegral = 40000;
-//    user.numberPlate = @"浙A12345";
     self.myUser = user;
 }
 

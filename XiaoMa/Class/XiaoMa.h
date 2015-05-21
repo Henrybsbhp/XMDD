@@ -23,6 +23,7 @@
 //单例
 #import "HKToast.h"
 #import "AppDelegate.h"
+#import "CoreDataManager.h"
 #import "AppManager.h"
 #import "NetworkManager.h"
 #import "DefaultStyleModel.h"

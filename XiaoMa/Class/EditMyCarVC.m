@@ -12,18 +12,34 @@
 #import "UpdateCarOp.h"
 #import "DeleteCarOp.h"
 #import "DatePickerVC.h"
+#import "UIView+Shake.h"
+#import "PickerAutomobileBrandVC.h"
 
 @interface EditMyCarVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) HKMyCar *curCar;
 @property (nonatomic, assign) BOOL isEditingModel;
+@property (weak, nonatomic) IBOutlet UIView *headerView;
+@property (weak, nonatomic) IBOutlet UILabel *headerDescLabel;
+@property (weak, nonatomic) IBOutlet UIButton *headerUploadBtn;
 @end
 
 @implementation EditMyCarVC
+- (void)awakeFromNib {
+    self.model = [MyCarListVModel new];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    if (self.originCar.status == 0 || self.originCar.status == 3) {
+        [self.model setupUploadBtn:self.headerUploadBtn andDescLabel:self.headerDescLabel forStatus:self.originCar.status];
+    }
+    else {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+        view.backgroundColor = [UIColor clearColor];
+        self.tableView.tableHeaderView = view;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -49,6 +65,18 @@
 #pragma mark - Action
 - (IBAction)actionSave:(id)sender
 {
+    if ([self sharkCellIfErrorAtIndex:0 withData:self.curCar.licencenumber errorMsg:@"车牌号码不能为空"]) {
+        return;
+    }
+    if ([self sharkCellIfErrorAtIndex:1 withData:self.curCar.purchasedate errorMsg:@"购车时间不能为空"]) {
+        return;
+    }
+    if ([self sharkCellIfErrorAtIndex:2 withData:self.curCar.brand errorMsg:@"汽车品牌不能为空"]) {
+        return;
+    }
+    if ([self sharkCellIfErrorAtIndex:3 withData:self.curCar.model errorMsg:@"具体车系不能为空"]) {
+        return;
+    }
     @weakify(self);
     RACSignal *sig;
     if (self.isEditingModel) {
@@ -96,7 +124,20 @@
     }];
 }
 
-
+- (IBAction)actionUpload:(id)sender
+{
+    @weakify(self);
+    [[self.model rac_uploadDrivingLicenseWithTargetVC:self initially:^{
+        [gToast showingWithText:@"正在上传..."];
+    }] subscribeNext:^(NSString *url) {
+        @strongify(self);
+        [gToast showSuccess:@"上传成功!"];
+        self.curCar.licenceurl = url;
+        self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+    } error:^(NSError *error) {
+        [gToast showError:error.domain];
+    }];
+}
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -106,6 +147,11 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return CGFLOAT_MIN;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -143,6 +189,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self.view endEditing:YES];
     //购车时间
     if (indexPath.row == 1) {
         [[DatePickerVC rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.curCar.purchasedate ? self.curCar.purchasedate : [NSDate date]]
@@ -152,19 +199,27 @@
     }
     //保险到期日
     else if (indexPath.row == 6) {
-        [[DatePickerVC rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.curCar.insexipiredate]
+        DatePickerVC *vc = [DatePickerVC datePickerVCWithMaximumDate:nil];
+        [[vc rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.curCar.insexipiredate]
          subscribeNext:^(NSDate *date) {
              self.curCar.insexipiredate = date;
          }];
     }
-    //品牌车系
+    //汽车品牌
     else if (indexPath.row == 2) {
-        
+        PickerAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
+        vc.originVC = self;
+        vc.car = self.curCar;
+        [self.navigationController pushViewController:vc animated:YES];
     }
-    //具体车型
+    //具体车系
     else if (indexPath.row == 3) {
-        
+        PickerAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
+        vc.originVC = self;
+        vc.car = self.curCar;
+        [self.navigationController pushViewController:vc animated:YES];
     }
+
     else {
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
@@ -180,12 +235,25 @@
     JTTableViewCell *cell = (JTTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"Cell1" forIndexPath:indexPath];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
-    
-    field.userInteractionEnabled = YES;
+
     HKMyCar *car = self.curCar;
+    
+    field.delegate = (id<UITextFieldDelegate>)field;
+    field.userInteractionEnabled = YES;
+    field.keyboardType = UIKeyboardTypeDefault;
+    field.clearsOnBeginEditing = NO;
+    
     if (indexPath.row == 0) {
         titleL.attributedText = [self attrStrWithTitle:@"车牌号码" asterisk:YES];
         field.text = car.licencenumber;
+        
+        @weakify(field);
+        [[[field rac_signalForSelector:@selector(textFieldDidEndEditing:) fromProtocol:@protocol(UITextFieldDelegate)]
+          takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            @strongify(field);
+            field.text = [car.licencenumber uppercaseString];
+        }];
+        
         [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             car.licencenumber = x;
         }];
@@ -198,22 +266,42 @@
         field.userInteractionEnabled = NO;
     }
     else  if (indexPath.row  == 4) {
-        titleL.attributedText = [self attrStrWithTitle:@"整车价格" asterisk:NO];
+        titleL.attributedText = [self attrStrWithTitle:@"整车价格" mark:@"(万元)"];
+        field.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+        field.clearsOnBeginEditing = YES;
         field.text = [NSString stringWithFormat:@"%.2f", car.price];
+        @weakify(field);
+        [[[field rac_signalForSelector:@selector(textFieldDidEndEditing:) fromProtocol:@protocol(UITextFieldDelegate)] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            @strongify(field);
+            field.text = [NSString stringWithFormat:@"%.2f", car.price];
+        }];
         [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString *str) {
-            car.price = [str floatValue];
+            if (str.length > 0) {
+                car.price = [str floatValue];
+            }
         }];
     }
     else if (indexPath.row == 5) {
-        titleL.attributedText = [self attrStrWithTitle:@"当前里程" asterisk:NO];
-        field.text = [NSString stringWithFormat:@"%d公里", (int)car.odo];
+        titleL.attributedText = [self attrStrWithTitle:@"当前里程" mark:@"(公里)"];
+        field.keyboardType = UIKeyboardTypeNumberPad;
+        field.clearsOnBeginEditing = YES;
+        field.text = [NSString stringWithFormat:@"%d", (int)car.odo];
+        @weakify(field);
+        [[[field rac_signalForSelector:@selector(textFieldDidEndEditing:) fromProtocol:@protocol(UITextFieldDelegate)] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            @strongify(field);
+            field.text = [NSString stringWithFormat:@"%d", (int)(car.odo)];
+        }];
         [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString *str) {
-            car.odo = [str integerValue];
+            if (str.length > 0) {
+                car.odo = [str integerValue];
+            }
         }];
     }
     else if (indexPath.row == 6) {
         titleL.attributedText = [self attrStrWithTitle:@"保险到期日" asterisk:NO];
+        @weakify(field);
         [[RACObserve(car, insexipiredate) takeUntilForCell:cell] subscribeNext:^(NSDate *date) {
+            @strongify(field);
             field.text = [date dateFormatForYYMMdd];
         }];
         field.userInteractionEnabled = NO;
@@ -236,13 +324,13 @@
     UILabel *subTitleL = (UILabel *)[cell.contentView viewWithTag:1002];
     
     if (indexPath.row == 2) {
-        titleL.attributedText = [self attrStrWithTitle:@"品牌车系" asterisk:YES];
+        titleL.attributedText = [self attrStrWithTitle:@"爱车品牌" asterisk:YES];
         [[RACObserve(self.curCar, brand) takeUntilForCell:cell] subscribeNext:^(id x) {
             subTitleL.text = x;
         }];
     }
     else if (indexPath.row == 3) {
-        titleL.attributedText = [self attrStrWithTitle:@"具体车型" asterisk:YES];
+        titleL.attributedText = [self attrStrWithTitle:@"具体车系" asterisk:YES];
         [[RACObserve(self.curCar, model) takeUntilForCell:cell] subscribeNext:^(id x) {
             subTitleL.text = x;
         }];
@@ -268,6 +356,17 @@
 }
 
 #pragma mark - Utility
+- (BOOL)sharkCellIfErrorAtIndex:(NSInteger)index withData:(id)data errorMsg:(NSString *)msg
+{
+    if (!data || [data isKindOfClass:[NSString class]] ? [(NSString *)data length] == 0 : NO) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        [gToast showError:msg];
+        return YES;
+    }
+    return NO;
+}
+
 - (NSAttributedString *)attrStrWithTitle:(NSString *)title asterisk:(BOOL)asterisk
 {
     NSMutableAttributedString *attrStr = [NSMutableAttributedString attributedString];
@@ -280,4 +379,18 @@
     
     return attrStr;
 }
+
+- (NSAttributedString *)attrStrWithTitle:(NSString *)title mark:(NSString *)mark
+{
+    NSMutableAttributedString *attrStr = [NSMutableAttributedString attributedString];
+    NSAttributedString *titleStr = [[NSAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17],NSForegroundColorAttributeName:[UIColor darkTextColor]}];
+    [attrStr appendAttributedString:titleStr];
+    if (mark) {
+        NSAttributedString *asteriskStr = [[NSAttributedString alloc] initWithString:mark attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13],NSForegroundColorAttributeName:[UIColor darkTextColor]}];
+        [attrStr appendAttributedString:asteriskStr];
+    }
+    
+    return attrStr;
+}
+
 @end
