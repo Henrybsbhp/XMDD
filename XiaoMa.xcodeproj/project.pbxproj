@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		06380E56572F1DCE6105BE83 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B54A6CD3F3426144CC6768CC /* libPods.a */; };
+		18039AF51B0C5BCE00264059 /* GetAutomobileModelOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18039AF41B0C5BCE00264059 /* GetAutomobileModelOp.m */; };
 		1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4951ACD3B0900BBCC96 /* NSBundle+SYPaginator.m */; };
 		1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4971ACD3B0900BBCC96 /* SYPageControl.m */; };
 		1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4991ACD3B0900BBCC96 /* SYPageView.m */; };
@@ -25,6 +26,15 @@
 		184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C91AD3B6DC00EFC3A6 /* JTTableViewCell.m */; };
 		184E40CE1AD3BBB600EFC3A6 /* ShopDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40CD1AD3BBB600EFC3A6 /* ShopDetailVC.m */; };
 		184E40D21AD3D01B00EFC3A6 /* JTShop.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40D11AD3D01B00EFC3A6 /* JTShop.m */; };
+		1851F4181B0C1E5400241A01 /* PickerAutomobileBrandVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F4171B0C1E5400241A01 /* PickerAutomobileBrandVC.m */; };
+		1851F41B1B0C210D00241A01 /* GetAutomobileBrandOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F41A1B0C210D00241A01 /* GetAutomobileBrandOp.m */; };
+		1851F41E1B0C223A00241A01 /* HKAutoBrand.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F41D1B0C223A00241A01 /* HKAutoBrand.m */; };
+		1851F4211B0C268F00241A01 /* AutoInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F4201B0C268F00241A01 /* AutoInfoModel.m */; };
+		1851F4251B0C29BB00241A01 /* xmdd.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1851F4231B0C29BB00241A01 /* xmdd.xcdatamodeld */; };
+		1851F4281B0C2A4E00241A01 /* AutoBrand.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F4271B0C2A4E00241A01 /* AutoBrand.m */; };
+		1851F42B1B0C2C3500241A01 /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F42A1B0C2C3500241A01 /* CoreDataManager.m */; };
+		1851F42F1B0C304B00241A01 /* AutoBrand+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F42E1B0C304B00241A01 /* AutoBrand+Extension.m */; };
+		1851F4321B0C596600241A01 /* PickerAutoModelVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F4311B0C596600241A01 /* PickerAutoModelVC.m */; };
 		1853DEAD1AE0A0B700C39175 /* HKCatchErrorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853DEAC1AE0A0B700C39175 /* HKCatchErrorModel.m */; };
 		1853DEB01AE0A10C00C39175 /* HKLoginModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853DEAF1AE0A10C00C39175 /* HKLoginModel.m */; };
 		1853DEB41AE0A26700C39175 /* DebugFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853DEB31AE0A26700C39175 /* DebugFormat.m */; };
@@ -52,6 +62,7 @@
 		186985041B01CC2C000A182A /* SubmitCommentOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186985031B01CC2C000A182A /* SubmitCommentOp.m */; };
 		186985121B02E6CB000A182A /* ODRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 186985111B02E6CB000A182A /* ODRefreshControl.m */; };
 		186985151B02E7DB000A182A /* UIScrollView+RefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186985141B02E7DB000A182A /* UIScrollView+RefreshView.m */; };
+		1873710C1B0AD1D900B8CDCC /* MyCarListVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873710B1B0AD1D900B8CDCC /* MyCarListVModel.m */; };
 		18746B181AEA1BB300D93696 /* UpdateInsuranceOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18746B171AEA1BB300D93696 /* UpdateInsuranceOrderOp.m */; };
 		187532D31ACCDEEF004CB777 /* HomePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 187532D21ACCDEEF004CB777 /* HomePageVC.m */; };
 		187CC9551AEDD0D1004D1F28 /* CommonPackerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 187CC9541AEDD0D1004D1F28 /* CommonPackerVC.m */; };
@@ -234,6 +245,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		18039AF31B0C5BCE00264059 /* GetAutomobileModelOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetAutomobileModelOp.h; path = Class/GetAutomobileModelOp.h; sourceTree = "<group>"; };
+		18039AF41B0C5BCE00264059 /* GetAutomobileModelOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAutomobileModelOp.m; path = Class/GetAutomobileModelOp.m; sourceTree = "<group>"; };
 		1816F4941ACD3B0900BBCC96 /* NSBundle+SYPaginator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+SYPaginator.h"; sourceTree = "<group>"; };
 		1816F4951ACD3B0900BBCC96 /* NSBundle+SYPaginator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+SYPaginator.m"; sourceTree = "<group>"; };
 		1816F4961ACD3B0900BBCC96 /* SYPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPageControl.h; sourceTree = "<group>"; };
@@ -267,6 +280,23 @@
 		184E40CD1AD3BBB600EFC3A6 /* ShopDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailVC.m; sourceTree = "<group>"; };
 		184E40D01AD3D01B00EFC3A6 /* JTShop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTShop.h; path = Class/JTShop.h; sourceTree = "<group>"; };
 		184E40D11AD3D01B00EFC3A6 /* JTShop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTShop.m; path = Class/JTShop.m; sourceTree = "<group>"; };
+		1851F4161B0C1E5400241A01 /* PickerAutomobileBrandVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickerAutomobileBrandVC.h; sourceTree = "<group>"; };
+		1851F4171B0C1E5400241A01 /* PickerAutomobileBrandVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerAutomobileBrandVC.m; sourceTree = "<group>"; };
+		1851F4191B0C210D00241A01 /* GetAutomobileBrandOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetAutomobileBrandOp.h; path = Class/GetAutomobileBrandOp.h; sourceTree = "<group>"; };
+		1851F41A1B0C210D00241A01 /* GetAutomobileBrandOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAutomobileBrandOp.m; path = Class/GetAutomobileBrandOp.m; sourceTree = "<group>"; };
+		1851F41C1B0C223A00241A01 /* HKAutoBrand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKAutoBrand.h; path = Class/HKAutoBrand.h; sourceTree = "<group>"; };
+		1851F41D1B0C223A00241A01 /* HKAutoBrand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKAutoBrand.m; path = Class/HKAutoBrand.m; sourceTree = "<group>"; };
+		1851F41F1B0C268F00241A01 /* AutoInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AutoInfoModel.h; path = Class/AutoInfoModel.h; sourceTree = "<group>"; };
+		1851F4201B0C268F00241A01 /* AutoInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutoInfoModel.m; path = Class/AutoInfoModel.m; sourceTree = "<group>"; };
+		1851F4241B0C29BB00241A01 /* xmdd.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = xmdd.xcdatamodel; sourceTree = "<group>"; };
+		1851F4261B0C2A4E00241A01 /* AutoBrand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoBrand.h; sourceTree = "<group>"; };
+		1851F4271B0C2A4E00241A01 /* AutoBrand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoBrand.m; sourceTree = "<group>"; };
+		1851F4291B0C2C3500241A01 /* CoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataManager.h; path = Class/CoreDataManager.h; sourceTree = "<group>"; };
+		1851F42A1B0C2C3500241A01 /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataManager.m; path = Class/CoreDataManager.m; sourceTree = "<group>"; };
+		1851F42D1B0C304B00241A01 /* AutoBrand+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AutoBrand+Extension.h"; path = "Class/AutoBrand+Extension.h"; sourceTree = "<group>"; };
+		1851F42E1B0C304B00241A01 /* AutoBrand+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AutoBrand+Extension.m"; path = "Class/AutoBrand+Extension.m"; sourceTree = "<group>"; };
+		1851F4301B0C596600241A01 /* PickerAutoModelVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickerAutoModelVC.h; sourceTree = "<group>"; };
+		1851F4311B0C596600241A01 /* PickerAutoModelVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerAutoModelVC.m; sourceTree = "<group>"; };
 		1853DEAB1AE0A0B700C39175 /* HKCatchErrorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKCatchErrorModel.h; path = Class/HKCatchErrorModel.h; sourceTree = "<group>"; };
 		1853DEAC1AE0A0B700C39175 /* HKCatchErrorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKCatchErrorModel.m; path = Class/HKCatchErrorModel.m; sourceTree = "<group>"; };
 		1853DEAE1AE0A10C00C39175 /* HKLoginModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKLoginModel.h; path = Class/HKLoginModel.h; sourceTree = "<group>"; };
@@ -320,6 +350,8 @@
 		186985111B02E6CB000A182A /* ODRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODRefreshControl.m; sourceTree = "<group>"; };
 		186985131B02E7DB000A182A /* UIScrollView+RefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+RefreshView.h"; sourceTree = "<group>"; };
 		186985141B02E7DB000A182A /* UIScrollView+RefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+RefreshView.m"; sourceTree = "<group>"; };
+		1873710A1B0AD1D900B8CDCC /* MyCarListVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCarListVModel.h; sourceTree = "<group>"; };
+		1873710B1B0AD1D900B8CDCC /* MyCarListVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCarListVModel.m; sourceTree = "<group>"; };
 		18746B161AEA1BB300D93696 /* UpdateInsuranceOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateInsuranceOrderOp.h; path = Class/UpdateInsuranceOrderOp.h; sourceTree = "<group>"; };
 		18746B171AEA1BB300D93696 /* UpdateInsuranceOrderOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateInsuranceOrderOp.m; path = Class/UpdateInsuranceOrderOp.m; sourceTree = "<group>"; };
 		187532D01ACCDD58004CB777 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = Class/Constants.h; sourceTree = "<group>"; };
@@ -916,8 +948,29 @@
 				6BE2BD4E1AE6232C00A69875 /* HKAdvertisement.m */,
 				6BE2BD561AE62CDF00A69875 /* HKInsurance.h */,
 				6BE2BD571AE62CDF00A69875 /* HKInsurance.m */,
+				1851F41C1B0C223A00241A01 /* HKAutoBrand.h */,
+				1851F41D1B0C223A00241A01 /* HKAutoBrand.m */,
 			);
 			name = Dataset;
+			sourceTree = "<group>";
+		};
+		1851F4221B0C29A500241A01 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				1851F4261B0C2A4E00241A01 /* AutoBrand.h */,
+				1851F4271B0C2A4E00241A01 /* AutoBrand.m */,
+				1851F4231B0C29BB00241A01 /* xmdd.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		1851F42C1B0C302200241A01 /* ObjectManager */ = {
+			isa = PBXGroup;
+			children = (
+				1851F42D1B0C304B00241A01 /* AutoBrand+Extension.h */,
+				1851F42E1B0C304B00241A01 /* AutoBrand+Extension.m */,
+			);
+			name = ObjectManager;
 			sourceTree = "<group>";
 		};
 		1853DEB11AE0A26700C39175 /* DebugLog */ = {
@@ -977,6 +1030,16 @@
 		186984EC1B005FCE000A182A /* MyCar */ = {
 			isa = PBXGroup;
 			children = (
+				1873710A1B0AD1D900B8CDCC /* MyCarListVModel.h */,
+				1873710B1B0AD1D900B8CDCC /* MyCarListVModel.m */,
+				189B39501AF877E100B83F1B /* MyCarListVC.h */,
+				189B39511AF877E100B83F1B /* MyCarListVC.m */,
+				189B39591AF9A9E500B83F1B /* EditMyCarVC.h */,
+				189B395A1AF9A9E500B83F1B /* EditMyCarVC.m */,
+				1851F4161B0C1E5400241A01 /* PickerAutomobileBrandVC.h */,
+				1851F4171B0C1E5400241A01 /* PickerAutomobileBrandVC.m */,
+				1851F4301B0C596600241A01 /* PickerAutoModelVC.h */,
+				1851F4311B0C596600241A01 /* PickerAutoModelVC.m */,
 			);
 			name = MyCar;
 			sourceTree = "<group>";
@@ -1056,6 +1119,7 @@
 		1883D9121ACBBE5E002A4D19 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				1851F4221B0C29A500241A01 /* CoreData */,
 				6BBAB9581ADE724300EC342F /* Other */,
 				189B311B1ADBEFCC001D7288 /* JSON */,
 				1883D9151ACBBE68002A4D19 /* Storyboard */,
@@ -1082,6 +1146,8 @@
 		1883D9161ACBBE7A002A4D19 /* Singleton */ = {
 			isa = PBXGroup;
 			children = (
+				1851F4291B0C2C3500241A01 /* CoreDataManager.h */,
+				1851F42A1B0C2C3500241A01 /* CoreDataManager.m */,
 				6BE2BD5C1AE63F9F00A69875 /* MultiMediaManager.h */,
 				6BE2BD5D1AE63F9F00A69875 /* MultiMediaManager.m */,
 				6BEA56461AE24D34000D19C1 /* AlipayHelper.h */,
@@ -1153,6 +1219,7 @@
 		1883D9301ACCDA7A002A4D19 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1851F42C1B0C302200241A01 /* ObjectManager */,
 				6BBF75F11B05CA0800E11EBB /* BaseModel.m */,
 				6BBF75F21B05CA0800E11EBB /* FavoriteModel.h */,
 				6BBF75F31B05CA0800E11EBB /* FavoriteModel.m */,
@@ -1167,6 +1234,8 @@
 				1853DEB91AE0BAA400C39175 /* HKConvertModel.m */,
 				1853DECC1AE100CA00C39175 /* HKSMSModel.h */,
 				1853DECD1AE100CA00C39175 /* HKSMSModel.m */,
+				1851F41F1B0C268F00241A01 /* AutoInfoModel.h */,
+				1851F4201B0C268F00241A01 /* AutoInfoModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1284,13 +1353,9 @@
 			isa = PBXGroup;
 			children = (
 				186984EC1B005FCE000A182A /* MyCar */,
+				186984E21B00571C000A182A /* Order */,
 				189B394A1AF71C3900B83F1B /* MineVC.h */,
 				189B394B1AF71C3900B83F1B /* MineVC.m */,
-				186984E21B00571C000A182A /* Order */,
-				189B39501AF877E100B83F1B /* MyCarListVC.h */,
-				189B39511AF877E100B83F1B /* MyCarListVC.m */,
-				189B39591AF9A9E500B83F1B /* EditMyCarVC.h */,
-				189B395A1AF9A9E500B83F1B /* EditMyCarVC.m */,
 				C25DF9741AFCA7D3009C4041 /* MyCouponVC.h */,
 				C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */,
 				6BBF7D9E1B004A7A00E45967 /* MyInfoViewController.h */,
@@ -1501,6 +1566,10 @@
 				189B395D1AF9D9F700B83F1B /* UpdateCarOp.m */,
 				189B395F1AF9DD3B00B83F1B /* AddCarOp.h */,
 				189B39601AF9DD3B00B83F1B /* AddCarOp.m */,
+				1851F4191B0C210D00241A01 /* GetAutomobileBrandOp.h */,
+				1851F41A1B0C210D00241A01 /* GetAutomobileBrandOp.m */,
+				18039AF31B0C5BCE00264059 /* GetAutomobileModelOp.h */,
+				18039AF41B0C5BCE00264059 /* GetAutomobileModelOp.m */,
 				189B39621AF9E32400B83F1B /* DeleteCarOp.h */,
 				189B39631AF9E32400B83F1B /* DeleteCarOp.m */,
 				6BEA56431AE2488C000D19C1 /* CheckoutServiceOrderOp.h */,
@@ -1918,6 +1987,7 @@
 				1816F4BD1AD3A8AD00BBCC96 /* JTNavigationController.m in Sources */,
 				1816F4B01ACE75FB00BBCC96 /* CarWashTableVC.m in Sources */,
 				1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */,
+				1851F4281B0C2A4E00241A01 /* AutoBrand.m in Sources */,
 				1853DEB01AE0A10C00C39175 /* HKLoginModel.m in Sources */,
 				6BE2BD5B1AE6305600A69875 /* GetSystemPromotionOp.m in Sources */,
 				187CC9591AEE4034004D1F28 /* SimplePolicyInfoVC.m in Sources */,
@@ -1942,6 +2012,7 @@
 				6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */,
 				6BC3B6191ADF92E7001016A0 /* CommonUtility.m in Sources */,
 				189B395E1AF9D9F700B83F1B /* UpdateCarOp.m in Sources */,
+				1851F42B1B0C2C3500241A01 /* CoreDataManager.m in Sources */,
 				189B394C1AF71C3900B83F1B /* MineVC.m in Sources */,
 				189B39661AF9FDDF00B83F1B /* EnquiryInsuranceVC.m in Sources */,
 				6BBB084B1B021EA90002C349 /* ComOpenThreadOTScreenshotHelperSwizzleHelper.m in Sources */,
@@ -1954,6 +2025,8 @@
 				C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */,
 				6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */,
 				6BD7AE641AE8A64B00BEF30E /* WXUtil.mm in Sources */,
+				1851F4251B0C29BB00241A01 /* xmdd.xcdatamodeld in Sources */,
+				1851F4181B0C1E5400241A01 /* PickerAutomobileBrandVC.m in Sources */,
 				184E40CE1AD3BBB600EFC3A6 /* ShopDetailVC.m in Sources */,
 				6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */,
 				186985041B01CC2C000A182A /* SubmitCommentOp.m in Sources */,
@@ -1976,6 +2049,7 @@
 				6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */,
 				6BBB084D1B021EA90002C349 /* JTLogModel.m in Sources */,
 				6BB9D76E1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m in Sources */,
+				1873710C1B0AD1D900B8CDCC /* MyCarListVModel.m in Sources */,
 				1853DECB1AE0F72500C39175 /* RegisterVC.m in Sources */,
 				6BEA56481AE24D34000D19C1 /* AlipayHelper.m in Sources */,
 				6BEA56C91AE24DCE000D19C1 /* SBJsonParser.m in Sources */,
@@ -1988,6 +2062,7 @@
 				189B30BA1AD51EF2001D7288 /* JTUser.m in Sources */,
 				6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */,
 				1816F4B41ACE767200BBCC96 /* UIStoryboard+Expansion.m in Sources */,
+				1851F4211B0C268F00241A01 /* AutoInfoModel.m in Sources */,
 				186984F21B007FAB000A182A /* HKServiceOrder.m in Sources */,
 				6BEA56CA1AE24DCE000D19C1 /* SBJsonWriter.m in Sources */,
 				186984E51B0057A4000A182A /* MyOrderListVC.m in Sources */,
@@ -2017,6 +2092,7 @@
 				6BBF7DA91B00C9C200E45967 /* UIImage+Utilities.mm in Sources */,
 				6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */,
 				6BC3B60F1ADF52CB001016A0 /* BaseMapViewController.m in Sources */,
+				1851F42F1B0C304B00241A01 /* AutoBrand+Extension.m in Sources */,
 				6BBAB8C11ADBC21600EC342F /* GTMBase64.m in Sources */,
 				6BBAB8CE1ADE059300EC342F /* DistanceCalcHelper.m in Sources */,
 				6BEA56C21AE24DCE000D19C1 /* AlixPayOrder.m in Sources */,
@@ -2024,13 +2100,17 @@
 				6BC220961AD7801C00A4310E /* BaseOp.m in Sources */,
 				1853DEAD1AE0A0B700C39175 /* HKCatchErrorModel.m in Sources */,
 				6BC2209C1AD7AAF300A4310E /* NetworkManager.m in Sources */,
+				18039AF51B0C5BCE00264059 /* GetAutomobileModelOp.m in Sources */,
 				184E40C61AD3B58F00EFC3A6 /* UIView+Layer.m in Sources */,
 				6BBB824F1AE7757100850D0C /* NearbyShopsViewController.m in Sources */,
 				6BEA56C31AE24DCE000D19C1 /* AlixPayResult.m in Sources */,
+				1851F41B1B0C210D00241A01 /* GetAutomobileBrandOp.m in Sources */,
+				1851F4321B0C596600241A01 /* PickerAutoModelVC.m in Sources */,
 				189B310C1ADA499C001D7288 /* EnquiryResultVC.m in Sources */,
 				6BEA56CF1AE24DCE000D19C1 /* DataVerifier.m in Sources */,
 				6BB884BC1AE0BB9600EBD8F4 /* UIView+JTLoadingView.m in Sources */,
 				6BB884D71AE0F31700EBD8F4 /* HKCoupon.m in Sources */,
+				1851F41E1B0C223A00241A01 /* HKAutoBrand.m in Sources */,
 				6BC3B6121ADF6205001016A0 /* MapHelper.m in Sources */,
 				6BBF7DA01B004A7A00E45967 /* MyInfoViewController.m in Sources */,
 				189B31031AD7A935001D7288 /* DatePickerVC.m in Sources */,
@@ -2496,6 +2576,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		1851F4231B0C29BB00241A01 /* xmdd.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				1851F4241B0C29BB00241A01 /* xmdd.xcdatamodel */,
+			);
+			currentVersion = 1851F4241B0C29BB00241A01 /* xmdd.xcdatamodel */;
+			path = xmdd.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 1883D8D71ACB99AC002A4D19 /* Project object */;
 }

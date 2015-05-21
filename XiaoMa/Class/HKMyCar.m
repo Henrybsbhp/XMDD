@@ -25,8 +25,10 @@
     car.model = [rsp stringParamForName:@"model"];
     car.price = [rsp floatParamForName:@"price"];
     car.odo = [rsp integerParamForName:@"odo"];
-    car.inscomp = [rsp stringParamForName:@"valid"];
+    car.inscomp = [rsp stringParamForName:@"inscomp"];
+    car.status = [rsp integerParamForName:@"status"];
     car.insexipiredate = [NSDate dateWithD8Text:[rsp stringParamForName:@"insexipiredate"]];
+    car.licenceurl = [rsp stringParamForName:@"licenceurl"];
     car.isDefault = [rsp integerParamForName:@"isdefault"] == 1;
     return car;
 }
@@ -38,10 +40,11 @@
     [dict safetySetObject:[self.purchasedate dateFormatForDT8] forKey:@"purchasedate"];
     [dict safetySetObject:self.brand forKey:@"make"];
     [dict safetySetObject:self.model forKey:@"model"];
-    [dict safetySetObject:@(self.price) forKey:@"price"];
+    [dict safetySetObject:[NSString stringWithFormat:@"%.2f", self.price] forKey:@"price"];
     [dict safetySetObject:@(self.odo) forKey:@"odo"];
-    [dict safetySetObject:self.inscomp forKey:@"valid"];
+    [dict safetySetObject:self.inscomp forKey:@"inscomp"];
     [dict safetySetObject:[self.insexipiredate dateFormatForDT8] forKey:@"insexipiredate"];
+    [dict safetySetObject:self.licenceurl forKey:@"licenceurl"];
     [dict safetySetObject:@(self.isDefault ? 1 : 2) forKey:@"isdefault"];
     return dict;
 }

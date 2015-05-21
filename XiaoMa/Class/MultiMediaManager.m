@@ -8,12 +8,12 @@
 
 #import "MultiMediaManager.h"
 #import "DownloadOp.h"
+#import <CKKit.h>
+#import "JGActionSheet.h"
 
 #define kPicCacheName    @"MultiMediaManager_PicCache"
 
-@interface MultiMediaManager()
-
-
+@interface MultiMediaManager()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @end
 
 @implementation MultiMediaManager
@@ -102,6 +102,86 @@ static MultiMediaManager *g_mediaManager;
     }];
     
     return [signal deliverOn:[RACScheduler mainThreadScheduler]];
+}
+
+- (RACSignal *)rac_pickPhotoInTargetVC:(UIViewController *)targetVC inView:(UIView *)view
+{
+    RACSubject *subject = [RACSubject new];
+    
+    JGActionSheetSection *section1 = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"拍照",@"从相册选择"]
+                                                                buttonStyle:JGActionSheetButtonStyleDefault];
+    JGActionSheetSection *section2 = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"取消"]
+                                                                buttonStyle:JGActionSheetButtonStyleCancel];
+    JGActionSheet *sheet = [JGActionSheet actionSheetWithSections:@[section1, section2]];
+    [sheet showInView:view animated:YES];
+    [sheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
+        [sheet dismissAnimated:YES];
+        if (indexPath.section != 0) {
+            [subject sendCompleted];
+        }
+        //拍照
+        else if (indexPath.row == 0)
+        {
+            if ([UIImagePickerController isFrontCameraAvailable])
+            {
+                UIImagePickerController *controller = [[UIImagePickerController alloc] init];
+                controller.customObject = subject;
+                controller.delegate = self;
+                controller.allowsEditing = NO;
+                controller.sourceType = UIImagePickerControllerSourceTypeCamera;
+                controller.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+                NSMutableArray *mediaTypes = [[NSMutableArray alloc] init];
+                [mediaTypes addObject:(__bridge NSString *)kUTTypeImage];
+                controller.mediaTypes = mediaTypes;
+                [targetVC presentViewController:controller animated:YES completion:nil];
+            }
+            else
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"该设备不支持拍照" message:nil delegate:nil
+                                                      cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+                [subject sendCompleted];
+            }
+        }
+        // 从相册中选取
+        else if (indexPath.row == 1)
+        {
+            if ([UIImagePickerController isPhotoLibraryAvailable])
+            {
+                UIImagePickerController *controller = [[UIImagePickerController alloc] init];
+                controller.customObject = subject;
+                controller.delegate = self;
+                controller.allowsEditing = NO;
+                controller.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                NSMutableArray *mediaTypes = [[NSMutableArray alloc] init];
+                [mediaTypes addObject:(__bridge NSString *)kUTTypeImage];
+                controller.mediaTypes = mediaTypes;
+                [targetVC presentViewController:controller animated:YES completion:nil];
+            }
+            else {
+                [subject sendCompleted];
+            }
+        }
+    }];
+    return subject;
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    UIImage *img = [info objectForKey:UIImagePickerControllerOriginalImage];
+    UIImage *compressedImg = [img compressImageWithPixelSize:CGSizeMake(1024, 1024)];
+    RACSubject *subject = picker.customObject;
+    [subject sendNext:compressedImg];
+    [subject sendCompleted];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    RACSubject *subject = picker.customObject;
+    [subject sendCompleted];
 }
 
 @end
