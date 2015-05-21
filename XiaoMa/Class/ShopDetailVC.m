@@ -39,6 +39,14 @@
 {
     [super viewDidLoad];
     
+    [self setupNavigationBar];
+    [self requestShopComments];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
     if([gAppMgr.myUser.favorites getFavoriteWithID:self.shop.shopID] == nil){
         self.favorite = NO;
     }
@@ -47,9 +55,7 @@
     }
     
     [self setupNavigationBar];
-    [self requestShopComments];
 }
-
 
 - (void)dealloc
 {
@@ -59,8 +65,9 @@
 #pragma mark - SetupUI
 - (void)setupNavigationBar
 {
-    UIButton * collectBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 17, 22)];
+    UIButton * collectBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 23)];
     UIImage * image = [UIImage imageNamed:self.favorite ? @"collected" : @"collect"];
+    
     [collectBtn setImage:image forState:UIControlStateNormal];
     
     @weakify(self)
@@ -70,7 +77,6 @@
         
         if ([LoginViewModel loginIfNeededForTargetViewController:self])
         {
-            NSObject * obk = gAppMgr.myUser.favorites;
             if (self.favorite)
             {
                 [[[gAppMgr.myUser.favorites rac_removeFavorite:self.shop.shopID] initially:^{
@@ -302,6 +308,7 @@
 //            [gPhoneHelper navigationRedirectThireMap:self.shop andUserLocation:gMapHelper.coordinate andView:self.view];
             CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
             vc.shop = self.shop;
+            vc.favorite = self.favorite;
             [self.navigationController pushViewController:vc animated:YES];
         }
         else if (indexPath.row == 2)
@@ -382,10 +389,6 @@
     NSString * disStr = [DistanceCalcHelper getDistanceStrLatA:myLat lngA:myLng latB:shopLat lngB:shopLng];
     distantL.text = disStr;
     
-    NSString * btnImageName = self.favorite ? @"collected" : @"collect";
-    [collectBtn setImage:[UIImage imageNamed: btnImageName]
-                forState:UIControlStateNormal];
-    
     return cell;
 }
 
@@ -399,7 +402,12 @@
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
-        [gPhoneHelper navigationRedirectThireMap:self.shop andUserLocation:gMapHelper.coordinate andView:self.view];
+//        [gPhoneHelper navigationRedirectThireMap:self.shop andUserLocation:gMapHelper.coordinate andView:self.view];
+        CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
+        vc.shop = self.shop;
+        vc.favorite = self.favorite;
+        [self.navigationController pushViewController:vc animated:YES];
+
     }];
     
     label.text = self.shop.shopAddress;
@@ -454,7 +462,6 @@
         @strongify(self);
         if([LoginViewModel loginIfNeededForTargetViewController:self]) {
             
-            NSObject * aa = gAppMgr.myUser.carArray;
             if (gAppMgr.myUser.carArray == nil || gAppMgr.myUser.carArray.count > 0)
             {
                 PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
@@ -516,7 +523,6 @@
     UILabel *contentL = (UILabel *)[cell.contentView viewWithTag:1005];
     
     JTShopComment *comment = [self.shop.shopCommentArray safetyObjectAtIndex:indexPath.row - 1];
-    avatarV.image = [UIImage imageNamed:@"tmp_a1"];
     nameL.text = comment.nickname.length ? comment.nickname : @"无昵称用户";
     timeL.text = [comment.time dateFormatForYYMMdd];
     ratingV.ratingValue = comment.rate;

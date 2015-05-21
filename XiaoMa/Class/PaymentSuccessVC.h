@@ -12,7 +12,7 @@
 
 @property (nonatomic, weak) UIViewController *originVC;
 
-@property (nonatomic,copy)NSString * title;
+@property (nonatomic,copy)NSString * subtitle;
 
-@property (nonatomic,copy)NSString * orderId;
+@property (nonatomic,strong)NSNumber * orderId;
 @end

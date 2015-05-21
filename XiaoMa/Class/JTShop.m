@@ -64,7 +64,7 @@
     }
     JTShopComment * comment = [[JTShopComment alloc] init];
     comment.nickname = [rsp stringParamForName:@"nickname"];
-    comment.avatarUrl = [rsp stringParamForName:@"avatarUrl"];
+    comment.avatarUrl = [rsp stringParamForName:@"avatar"];
     comment.rate = [rsp integerParamForName:@"rate"];
     comment.comment = [rsp stringParamForName:@"comment"];
     comment.time = [NSDate dateWithUTS:rsp[@"time"]];

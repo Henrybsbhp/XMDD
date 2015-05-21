@@ -607,7 +607,7 @@
                     
                     NSString * submitTime = [[NSDate date] dateFormatForDT8];
                     NSString * info = [NSString stringWithFormat:@"%@",self.shop.shopName];
-                    [self requestAliPay:op.rsp_orderid andPrice:op.rsp_price
+                    [self requestAliPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
                       andProductName:info andDescription:@"小马达达" andTime:submitTime];
                 });
             }
@@ -618,7 +618,7 @@
                     
                     NSString * submitTime = [[NSDate date] dateFormatForDT8];
                     NSString * info = [NSString stringWithFormat:@"%@",self.shop.shopName];
-                    [self requestWechatPay:op.rsp_orderid andPrice:op.rsp_price
+                    [self requestWechatPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
                       andProductName:info andTime:submitTime];
                 });
             }
@@ -639,32 +639,35 @@
     }];
 }
 
-- (void)requestAliPay:(NSString *)orderId andPrice:(CGFloat)price
-       andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time
+- (void)requestAliPay:(NSNumber *)orderId andTradeId:(NSString *)tradeId
+             andPrice:(CGFloat)price andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time
 {
-    [gAlipayHelper payOrdWithTradeNo:orderId andProductName:name andProductDescription:desc andPrice:price];
+    [gAlipayHelper payOrdWithTradeNo:tradeId andProductName:name andProductDescription:desc andPrice:price];
     
     [gAlipayHelper.rac_alipayResultSignal subscribeNext:^(id x) {
         
         PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
         vc.originVC = self.originVC;
-        vc.title = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
+        vc.subtitle = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
+        vc.orderId = orderId;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
     }];
 }
 
-- (void)requestWechatPay:(NSString *)orderId andPrice:(CGFloat)price
-          andProductName:(NSString *)name andTime:(NSString *)time
+- (void)requestWechatPay:(NSNumber *)orderId andTradeId:(NSString *)tradeId
+                andPrice:(CGFloat)price andProductName:(NSString *)name
+                 andTime:(NSString *)time
 {
-    [gWechatHelper payOrdWithTradeNo:orderId andProductName:name andPrice:price];
+    [gWechatHelper payOrdWithTradeNo:tradeId andProductName:name andPrice:price];
     
     [gWechatHelper.rac_wechatResultSignal subscribeNext:^(id x) {
         
         PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
         vc.originVC = self.originVC;
-        vc.title = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
+        vc.orderId = orderId;
+        vc.subtitle = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         

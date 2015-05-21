@@ -159,7 +159,7 @@
     //================================
     srand( (unsigned)time(0) );
     NSString *noncestr  = [NSString stringWithFormat:@"%d", rand()];
-    NSString *orderno   = [NSString stringWithFormat:@"%ld",time(0)];
+    NSString *orderno   = TradeNO;
     NSMutableDictionary *packageParams = [NSMutableDictionary dictionary];
     
     [packageParams setObject: appid             forKey:@"appid"];       //开放平台appid

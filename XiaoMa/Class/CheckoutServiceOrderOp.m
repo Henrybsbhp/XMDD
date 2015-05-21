@@ -27,8 +27,9 @@
 {
     if ([rspObj isKindOfClass:[NSDictionary class]])
     {
-        self.rsp_orderid = rspObj[@"tradeid"];
+        self.rsp_tradeId = rspObj[@"tradeid"];
         self.rsp_price = [rspObj floatParamForName:@"total"];
+        self.rsp_orderid = rspObj[@"orderid"];
     }
     else
     {

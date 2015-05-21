@@ -160,12 +160,17 @@
 		6BBB825F1AE7A0CF00850D0C /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBB825E1AE7A0CF00850D0C /* libsqlite3.dylib */; };
 		6BBB82611AE7A0D700850D0C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBB82601AE7A0D700850D0C /* libz.dylib */; };
 		6BBB82631AE7A0E000850D0C /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBB82621AE7A0E000850D0C /* libc++.dylib */; };
+		6BBC4A281B0C8236003F3081 /* SocialShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC4A271B0C8236003F3081 /* SocialShareView.m */; };
+		6BBC4A2C1B0C8495003F3081 /* SocialShareView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BBC4A2B1B0C8495003F3081 /* SocialShareView.xib */; };
+		6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC4A2E1B0C8F87003F3081 /* SocialShareViewController.m */; };
 		6BBF75F41B05CA0800E11EBB /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF75F11B05CA0800E11EBB /* BaseModel.m */; };
 		6BBF75F51B05CA0800E11EBB /* FavoriteModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF75F31B05CA0800E11EBB /* FavoriteModel.m */; };
 		6BBF7DA01B004A7A00E45967 /* MyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF7D9F1B004A7A00E45967 /* MyInfoViewController.m */; };
 		6BBF7DA31B008B1000E45967 /* EditMyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF7DA21B008B1000E45967 /* EditMyInfoViewController.m */; };
 		6BBF7DA61B00A78900E45967 /* UpdateUserInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF7DA51B00A78900E45967 /* UpdateUserInfoOp.m */; };
 		6BBF7DA91B00C9C200E45967 /* UIImage+Utilities.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF7DA81B00C9C200E45967 /* UIImage+Utilities.mm */; };
+		6BBFBC411B0D8E57000D3CA3 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBFBC3E1B0D8E57000D3CA3 /* libWeiboSDK.a */; };
+		6BBFBC421B0D8E57000D3CA3 /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6BBFBC3F1B0D8E57000D3CA3 /* WeiboSDK.bundle */; };
 		6BC220961AD7801C00A4310E /* BaseOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC220951AD7801C00A4310E /* BaseOp.m */; };
 		6BC220991AD7804800A4310E /* NSMutableDictionary+AddParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC220981AD7804800A4310E /* NSMutableDictionary+AddParams.m */; };
 		6BC2209C1AD7AAF300A4310E /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2209B1AD7AAF300A4310E /* NetworkManager.m */; };
@@ -521,6 +526,11 @@
 		6BBB825E1AE7A0CF00850D0C /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		6BBB82601AE7A0D700850D0C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		6BBB82621AE7A0E000850D0C /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		6BBC4A261B0C8236003F3081 /* SocialShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SocialShareView.h; path = Class/SocialShareView.h; sourceTree = "<group>"; };
+		6BBC4A271B0C8236003F3081 /* SocialShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SocialShareView.m; path = Class/SocialShareView.m; sourceTree = "<group>"; };
+		6BBC4A2B1B0C8495003F3081 /* SocialShareView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SocialShareView.xib; path = Class/SocialShareView.xib; sourceTree = "<group>"; };
+		6BBC4A2D1B0C8F87003F3081 /* SocialShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialShareViewController.h; sourceTree = "<group>"; };
+		6BBC4A2E1B0C8F87003F3081 /* SocialShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocialShareViewController.m; sourceTree = "<group>"; };
 		6BBF75F11B05CA0800E11EBB /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseModel.m; path = Class/BaseModel.m; sourceTree = "<group>"; };
 		6BBF75F21B05CA0800E11EBB /* FavoriteModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FavoriteModel.h; path = Class/FavoriteModel.h; sourceTree = "<group>"; };
 		6BBF75F31B05CA0800E11EBB /* FavoriteModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FavoriteModel.m; path = Class/FavoriteModel.m; sourceTree = "<group>"; };
@@ -532,6 +542,9 @@
 		6BBF7DA51B00A78900E45967 /* UpdateUserInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateUserInfoOp.m; path = Class/UpdateUserInfoOp.m; sourceTree = "<group>"; };
 		6BBF7DA71B00C9C200E45967 /* UIImage+Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+Utilities.h"; path = "Class/UIImage+Utilities.h"; sourceTree = "<group>"; };
 		6BBF7DA81B00C9C200E45967 /* UIImage+Utilities.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "UIImage+Utilities.mm"; path = "Class/UIImage+Utilities.mm"; sourceTree = "<group>"; };
+		6BBFBC3E1B0D8E57000D3CA3 /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
+		6BBFBC3F1B0D8E57000D3CA3 /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WeiboSDK.bundle; sourceTree = "<group>"; };
+		6BBFBC401B0D8E57000D3CA3 /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
 		6BC220941AD7801C00A4310E /* BaseOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseOp.h; path = Class/BaseOp.h; sourceTree = "<group>"; };
 		6BC220951AD7801C00A4310E /* BaseOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseOp.m; path = Class/BaseOp.m; sourceTree = "<group>"; };
 		6BC220971AD7804800A4310E /* NSMutableDictionary+AddParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableDictionary+AddParams.h"; path = "Class/NSMutableDictionary+AddParams.h"; sourceTree = "<group>"; };
@@ -719,6 +732,7 @@
 				6BBB825F1AE7A0CF00850D0C /* libsqlite3.dylib in Frameworks */,
 				6BEA56CC1AE24DCE000D19C1 /* libssl.a in Frameworks */,
 				189B31161ADBDF07001D7288 /* MobileCoreServices.framework in Frameworks */,
+				6BBFBC411B0D8E57000D3CA3 /* libWeiboSDK.a in Frameworks */,
 				6BBB825C1AE79FE100850D0C /* libWeChatSDK.a in Frameworks */,
 				06380E56572F1DCE6105BE83 /* libPods.a in Frameworks */,
 				6BEA56CB1AE24DCE000D19C1 /* libcrypto.a in Frameworks */,
@@ -739,6 +753,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				6BBFBC3C1B0D8E57000D3CA3 /* WeiboShareSDK */,
 				1869850F1B02E6CB000A182A /* ODRefreshControl */,
 				C26489B21AF8A6B600F1E318 /* QQSDK */,
 				6BBB82571AE79FE100850D0C /* WeChatSDK.5 */,
@@ -1210,6 +1225,8 @@
 				6BC3B60E1ADF52CB001016A0 /* BaseMapViewController.m */,
 				186984DF1AFF976A000A182A /* WebVC.h */,
 				186984E01AFF976A000A182A /* WebVC.m */,
+				6BBC4A2D1B0C8F87003F3081 /* SocialShareViewController.h */,
+				6BBC4A2E1B0C8F87003F3081 /* SocialShareViewController.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -1431,6 +1448,24 @@
 			path = WeChatSDK.5;
 			sourceTree = "<group>";
 		};
+		6BBFBC3C1B0D8E57000D3CA3 /* WeiboShareSDK */ = {
+			isa = PBXGroup;
+			children = (
+				6BBFBC3D1B0D8E57000D3CA3 /* libWeiboSDK */,
+			);
+			path = WeiboShareSDK;
+			sourceTree = "<group>";
+		};
+		6BBFBC3D1B0D8E57000D3CA3 /* libWeiboSDK */ = {
+			isa = PBXGroup;
+			children = (
+				6BBFBC3E1B0D8E57000D3CA3 /* libWeiboSDK.a */,
+				6BBFBC3F1B0D8E57000D3CA3 /* WeiboSDK.bundle */,
+				6BBFBC401B0D8E57000D3CA3 /* WeiboSDK.h */,
+			);
+			path = libWeiboSDK;
+			sourceTree = "<group>";
+		};
 		6BC220931AD7800D00A4310E /* Op */ = {
 			isa = PBXGroup;
 			children = (
@@ -1526,9 +1561,12 @@
 		6BD7AE651AE9EEDE00BEF30E /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				6BBC4A2B1B0C8495003F3081 /* SocialShareView.xib */,
 				6BB61B991AEF5350004F39AA /* MapBottomView.xib */,
 				6BD7AE661AE9F63900BEF30E /* MapBottomView.h */,
 				6BD7AE671AE9F63900BEF30E /* MapBottomView.m */,
+				6BBC4A261B0C8236003F3081 /* SocialShareView.h */,
+				6BBC4A271B0C8236003F3081 /* SocialShareView.m */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -1799,6 +1837,7 @@
 				6BBB825D1AE79FE100850D0C /* read_me.txt in Resources */,
 				1883D8F31ACB99AC002A4D19 /* LaunchScreen.xib in Resources */,
 				189B39551AF898A400B83F1B /* Mine.storyboard in Resources */,
+				6BBFBC421B0D8E57000D3CA3 /* WeiboSDK.bundle in Resources */,
 				189B311D1ADBEFDF001D7288 /* policy.json in Resources */,
 				6BB884B11AE0B3FE00EBD8F4 /* hz.gpx in Resources */,
 				189B30FF1AD7A85A001D7288 /* Common.storyboard in Resources */,
@@ -1810,6 +1849,7 @@
 				6BB61B9C1AEF587E004F39AA /* Other.storyboard in Resources */,
 				1816F4AC1ACE74C000BBCC96 /* Carwash.storyboard in Resources */,
 				1853DEC11AE0E69000C39175 /* Login.storyboard in Resources */,
+				6BBC4A2C1B0C8495003F3081 /* SocialShareView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1973,6 +2013,7 @@
 				189B30B71AD50627001D7288 /* PayForWashCarVC.m in Sources */,
 				6BBAB8B61ADBC12D00EC342F /* UpdatePwdOp.m in Sources */,
 				1853DED41AE2A0BD00C39175 /* VcodeLoginVC.m in Sources */,
+				6BBC4A281B0C8236003F3081 /* SocialShareView.m in Sources */,
 				6BBF7DA91B00C9C200E45967 /* UIImage+Utilities.mm in Sources */,
 				6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */,
 				6BC3B60F1ADF52CB001016A0 /* BaseMapViewController.m in Sources */,
@@ -2028,6 +2069,7 @@
 				6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */,
 				6BBAB8C71ADD1ED900EC342F /* GetShopByDistanceOp.m in Sources */,
 				1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */,
+				6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */,
 				6BB884D41AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.m in Sources */,
 				6BE4CE341AF21ACA008E1C19 /* AddUserCarOp.m in Sources */,
 				6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */,
@@ -2239,6 +2281,7 @@
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/WeChatSDK.5",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/WeiboShareSDK/libWeiboSDK",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -2335,6 +2378,7 @@
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/WeChatSDK.5",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
+					"$(PROJECT_DIR)/XiaoMa/Vendor/WeiboShareSDK/libWeiboSDK",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

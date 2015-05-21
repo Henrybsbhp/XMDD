@@ -229,8 +229,11 @@
 
 -(void)pushToTickets
 {
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        
     MyCouponVC *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
     [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 @end
