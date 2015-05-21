@@ -165,7 +165,7 @@
                 break;
             case 3:
                 titleL.text = @"整车价格";
-                subTitleL.text = [NSString stringWithFormat:@"%.2f元", car.price];
+                subTitleL.text = [NSString stringWithFormat:@"%.2f万元", car.price];
                 break;
             case 4:
                 titleL.text = @"当前里程";

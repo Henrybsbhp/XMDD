@@ -379,8 +379,8 @@
                                                                 <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#BCI_9,5,9,5"/>
                                                             </userDefinedRuntimeAttributes>
                                                         </button>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="3001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="上传行驶证开通审核，即可享受价值400元的大礼包" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Q0-q6-xkh">
-                                                            <rect key="frame" x="13" y="16" width="437" height="16"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="3001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="上传行驶证开通审核，即可享受价值400元的大礼包" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Q0-q6-xkh">
+                                                            <rect key="frame" x="12" y="15" width="443" height="16"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                             <color key="textColor" red="0.99215686270000003" green="0.87363107169999998" blue="0.76468252950000004" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -498,7 +498,7 @@
                                                 <constraint firstAttribute="width" constant="104" id="RS4-Gu-rCU"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" title="一键上传" backgroundImage="A19A9AAA-4955-4FFC-A235-E0602AD139BC">
+                                            <state key="normal" title="一键上传" backgroundImage="250E62DD-CA7E-45EE-A2B0-6BC5B5C06D48">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </state>
@@ -2508,7 +2508,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="A19A9AAA-4955-4FFC-A235-E0602AD139BC" width="22" height="30">
+        <image name="250E62DD-CA7E-45EE-A2B0-6BC5B5C06D48" width="22" height="30">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

@@ -40,7 +40,7 @@
     [dict safetySetObject:[self.purchasedate dateFormatForDT8] forKey:@"purchasedate"];
     [dict safetySetObject:self.brand forKey:@"make"];
     [dict safetySetObject:self.model forKey:@"model"];
-    [dict safetySetObject:@(self.price) forKey:@"price"];
+    [dict safetySetObject:[NSString stringWithFormat:@"%.2f", self.price] forKey:@"price"];
     [dict safetySetObject:@(self.odo) forKey:@"odo"];
     [dict safetySetObject:self.inscomp forKey:@"inscomp"];
     [dict safetySetObject:[self.insexipiredate dateFormatForDT8] forKey:@"insexipiredate"];
