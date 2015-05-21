@@ -474,7 +474,7 @@
                     {
                         EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
                         [self.navigationController pushViewController:vc animated:YES];
-                        [vc reloadWithOriginCar:nil];
+
                     }
                 }];
                 [av show];

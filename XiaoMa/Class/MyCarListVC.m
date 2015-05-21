@@ -69,7 +69,6 @@
 {
     EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
     [self.navigationController pushViewController:vc animated:YES];
-    [vc reloadWithOriginCar:nil];
 }
 
 - (void)uploadDrivingLicenceAtIndexPath:(NSIndexPath *)indexPath
@@ -191,7 +190,7 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
+    vc.originCar = [self.carList safetyObjectAtIndex:indexPath.section];
     [self.navigationController pushViewController:vc animated:YES];
-    [vc reloadWithOriginCar:[self.carList safetyObjectAtIndex:indexPath.section]];
 }
 @end

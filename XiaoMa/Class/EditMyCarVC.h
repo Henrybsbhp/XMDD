@@ -12,9 +12,7 @@
 
 @interface EditMyCarVC : UIViewController
 
-@property (nonatomic, strong, readonly) HKMyCar *originCar;
+@property (nonatomic, strong) HKMyCar *originCar;
 @property (nonatomic, strong) MyCarListVModel *model;
-
-- (void)reloadWithOriginCar:(HKMyCar *)originCar;
 
 @end
