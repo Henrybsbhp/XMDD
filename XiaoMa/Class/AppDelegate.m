@@ -210,6 +210,10 @@
             [gWechatHelper.rac_wechatResultSignal sendError:[NSError errorWithDomain:@"请求失败" code:payResp.errCode userInfo:nil]];
         }
     }
+    if ([resp isKindOfClass:[SendMessageToWXResp class]])
+    {
+        [gWechatHelper.rac_wechatResultSignal sendNext:@"dismiss"];
+    }
 }
 
 #pragma mark - Utilities

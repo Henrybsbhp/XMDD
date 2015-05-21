@@ -329,7 +329,7 @@
             for (NSInteger i = 0 ; i < self.nearbyShopArray.count; i++)
             {
                 JTShop * s = [self.nearbyShopArray safetyObjectAtIndex:i];
-                if ([shop.shopID isEqualToString:s.shopID])
+                if ([shop.shopID isEqualToNumber:s.shopID])
                 {
                     [self highlightMapViewWithIndex:i];
                     
@@ -401,6 +401,11 @@
     
     JTShop * shop = [self.nearbyShopArray safetyObjectAtIndex:pageIndex];
     
+    BOOL favorite = [gAppMgr.myUser.favorites getFavoriteWithID:shop.shopID] ? YES : NO;
+    UIImage * image = [UIImage imageNamed:favorite ? @"nb_collected" : @"nb_collection"];
+    [mapBottomView.collectBtn setImage:image forState:UIControlStateNormal];
+
+    
     mapBottomView.titleLb.text = shop.shopName;
     mapBottomView.addressLb.text = shop.shopAddress;
     
@@ -430,7 +435,47 @@
     [[[mapBottomView.collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
         @strongify(self)
-        [self requestAddFavorite:shop.shopID];
+        if ([LoginViewModel loginIfNeededForTargetViewController:self])
+        {
+            if ([gAppMgr.myUser.favorites getFavoriteWithID:shop.shopID])
+            {
+                [[[gAppMgr.myUser.favorites rac_removeFavorite:shop.shopID] initially:^{
+                    
+                    [SVProgressHUD showWithStatus:@"移除中..."];
+                }]  subscribeNext:^(id x) {
+                    
+                    [SVProgressHUD showSuccessWithStatus:@"移除成功"];
+                    
+                    [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collection"] forState:UIControlStateNormal];
+                } error:^(NSError *error) {
+                    
+                    [SVProgressHUD showErrorWithStatus:error.domain];
+                }];
+            }
+            else
+            {
+                [[[gAppMgr.myUser.favorites rac_addFavorite:shop] initially:^{
+                    
+                    [SVProgressHUD showWithStatus:@"添加中..."];
+                }]  subscribeNext:^(id x) {
+                    
+                    [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+                    
+                    [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected"] forState:UIControlStateNormal];
+                } error:^(NSError *error) {
+                    
+                    if (error.code == 7002)
+                    {
+                        [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+                        [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected"] forState:UIControlStateNormal];
+                    }
+                    else
+                    {
+                        [SVProgressHUD showErrorWithStatus:error.domain];
+                    }
+                }];
+            }
+        }
     }];
     
     [[[mapBottomView.navigationBtn rac_signalForControlEvents:UIControlEventTouchUpInside]  takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {

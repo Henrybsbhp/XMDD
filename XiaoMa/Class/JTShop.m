@@ -64,7 +64,7 @@
     }
     JTShopComment * comment = [[JTShopComment alloc] init];
     comment.nickname = [rsp stringParamForName:@"nickname"];
-    comment.avatarUrl = [rsp stringParamForName:@"avatarUrl"];
+    comment.avatarUrl = [rsp stringParamForName:@"avatar"];
     comment.rate = [rsp integerParamForName:@"rate"];
     comment.comment = [rsp stringParamForName:@"comment"];
     comment.time = [NSDate dateWithUTS:rsp[@"time"]];
@@ -78,12 +78,12 @@
 
 + (instancetype)shopWithJSONResponse:(NSDictionary *)rsp
 {
-    if (!rsp)
+    if ((!rsp) && ([rsp isKindOfClass:[NSDictionary class]]))
     {
         return nil;
     }
     JTShop * shop = [[JTShop alloc] init];
-    shop.shopID  = [NSString stringWithFormat:@"%@",rsp[@"shopid"]];
+    shop.shopID  = rsp[@"shopid"];
     shop.shopName = rsp[@"name"];
     shop.picArray = rsp[@"pics"];
     shop.shopRate = [rsp floatParamForName:@"rate"];

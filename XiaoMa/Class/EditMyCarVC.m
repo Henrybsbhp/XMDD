@@ -14,6 +14,8 @@
 #import "DatePickerVC.h"
 #import "UIView+Shake.h"
 #import "PickerAutomobileBrandVC.h"
+#import "MyCarsModel.h"
+
 
 @interface EditMyCarVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -92,26 +94,53 @@
     @weakify(self);
     RACSignal *sig;
     if (self.isEditingModel) {
-        UpdateCarOp *op = [UpdateCarOp new];
-        op.req_car = self.curCar;
-        sig = [op rac_postRequest];
+//        UpdateCarOp *op = [UpdateCarOp new];
+//        op.req_car = self.curCar;
+//        sig = [op rac_postRequest];
+        [[[gAppMgr.myUser.carModel rac_updateCars:self.curCar] initially:^{
+            
+            [gToast showingWithText:@"正在保存..."];
+        }] subscribeNext:^(id x) {
+            
+            @strongify(self);
+            [gToast showSuccess:@"保存成功!"];
+            [self postCustomNotificationName:kNotifyRefreshMyCarList object:nil];
+            [self.navigationController popViewControllerAnimated:YES];
+        } error:^(NSError *error) {
+            
+            [gToast showError:error.domain];
+        }];
     }
     else {
-        AddCarOp *op = [AddCarOp new];
-        op.req_car = self.curCar;
-        sig = [op rac_postRequest];
+//        AddCarOp *op = [AddCarOp new];
+//        op.req_car = self.curCar;
+//        sig = [op rac_postRequest];
+        
+        [[[gAppMgr.myUser.carModel rac_addCars:self.curCar] initially:^{
+            
+            [gToast showingWithText:@"正在保存..."];
+        }] subscribeNext:^(id x) {
+            
+            @strongify(self);
+            [gToast showSuccess:@"保存成功!"];
+            [self postCustomNotificationName:kNotifyRefreshMyCarList object:nil];
+            [self.navigationController popViewControllerAnimated:YES];
+        } error:^(NSError *error) {
+            
+            [gToast showError:error.domain];
+        }];
     }
     
-    [[sig initially:^{
-        [gToast showingWithText:@"正在保存..."];
-    }] subscribeNext:^(id x) {
-        @strongify(self);
-        [gToast showSuccess:@"保存成功!"];
-        [self postCustomNotificationName:kNotifyRefreshMyCarList object:nil];
-        [self.navigationController popViewControllerAnimated:YES];
-    } error:^(NSError *error) {
-        [gToast showError:error.domain];
-    }];
+//    [[sig initially:^{
+//        [gToast showingWithText:@"正在保存..."];
+//    }] subscribeNext:^(id x) {
+//        @strongify(self);
+//        [gToast showSuccess:@"保存成功!"];
+//        [self postCustomNotificationName:kNotifyRefreshMyCarList object:nil];
+//        [self.navigationController popViewControllerAnimated:YES];
+//    } error:^(NSError *error) {
+//        [gToast showError:error.domain];
+//    }];
 }
 
 - (IBAction)actionDelete:(id)sender
@@ -121,19 +150,33 @@
         [self.navigationController popViewControllerAnimated:YES];
         return;
     }
-    @weakify(self);
-    DeleteCarOp *op = [DeleteCarOp new];
-    op.req_carid = self.curCar.carId;
-    [[[op rac_postRequest] initially:^{
+//    @weakify(self);
+//    DeleteCarOp *op = [DeleteCarOp new];
+//    op.req_carid = self.curCar.carId;
+//    [[[op rac_postRequest] initially:^{
+//        [gToast showingWithText:@"正在删除..."];
+//    }] subscribeNext:^(id x) {
+//        @strongify(self);
+//        [gToast showSuccess:@"删除成功!"];
+//        [self postCustomNotificationName:kNotifyRefreshMyCarList object:nil];
+//        [self.navigationController popViewControllerAnimated:YES];
+//    } error:^(NSError *error) {
+//        [gToast showError:error.domain];
+//    }];
+    
+    [[[gAppMgr.myUser.carModel rac_removeCar:self.curCar.carId] initially:^{
+        
         [gToast showingWithText:@"正在删除..."];
     }] subscribeNext:^(id x) {
-        @strongify(self);
+        
         [gToast showSuccess:@"删除成功!"];
         [self postCustomNotificationName:kNotifyRefreshMyCarList object:nil];
         [self.navigationController popViewControllerAnimated:YES];
     } error:^(NSError *error) {
+        
         [gToast showError:error.domain];
     }];
+
 }
 
 - (IBAction)actionUpload:(id)sender

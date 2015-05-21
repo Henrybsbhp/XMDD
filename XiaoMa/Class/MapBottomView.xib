@@ -137,7 +137,7 @@
         </view>
     </objects>
     <resources>
-        <image name="nb_collection" width="12" height="12"/>
+        <image name="nb_collection" width="13" height="13"/>
         <image name="nb_guide" width="14" height="13"/>
         <image name="nb_phone" width="14" height="13"/>
     </resources>

@@ -23,8 +23,11 @@
 @property (nonatomic)PaymentChannelType  paychannel;
 
 ///订单id
-@property (nonatomic,copy)NSString * rsp_orderid;
+@property (nonatomic,strong)NSNumber * rsp_orderid;
 
 ///价格
 @property (nonatomic)CGFloat rsp_price;
+
+///交易id，用于提交给第三方支付平台
+@property (nonatomic)NSString * rsp_tradeId;
 @end

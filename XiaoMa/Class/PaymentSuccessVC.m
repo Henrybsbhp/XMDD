@@ -10,6 +10,7 @@
 #import "XiaoMa.h"
 #import "CarwashOrderCommentVC.h"
 #import "HKServiceOrder.h"
+#import "SocialShareViewController.h"
 
 @interface PaymentSuccessVC ()
 
@@ -22,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.subLabel.text = self.title;
+    self.subLabel.text = self.subtitle;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -41,14 +42,38 @@
 }
 - (IBAction)shareAction:(id)sender {
     
+    SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+    vc.tt = @"小马达达－一分洗车，十分满意";
+    vc.subtitle = @"我完成了洗车，你也来试试吧";
+    vc.image = [UIImage imageNamed:@"logo"];
+    vc.urlStr = @"http://www.xiaomadada.com";
+    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+    sheet.shouldCenterVertically = YES;
+    [sheet presentAnimated:YES completionHandler:nil];
     
+    [gWechatHelper.rac_wechatResultSignal subscribeNext:^(NSString * info) {
+        
+        if ([info isEqualToString:@"dismiss"])
+        {
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }
+    }];
+    
+    [vc.rac_dismissSignal subscribeNext:^(id x) {
+        
+        [sheet dismissAnimated:YES completionHandler:nil];
+    }];
+
+    
+    [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        [sheet dismissAnimated:YES completionHandler:nil];
+    }];
 }
 - (IBAction)commentAction:(id)sender {
     
     CarwashOrderCommentVC *vc = [UIStoryboard vcWithId:@"CarwashOrderCommentVC" inStoryboard:@"Mine"];
-    HKServiceOrder * order = [[HKServiceOrder alloc] init];
-    order.orderid = self.orderId;
-    vc.order = order;
+    vc.order = self.order;
     [vc setCustomActionBlock:^{
         [self.navigationController popToRootViewControllerAnimated:YES];
     }];
