@@ -81,9 +81,9 @@ static NSInteger rotationIndex = 0;
         [gAppMgr resetWithAccount:account];
         
         // 获取用户车辆
-        [[gAppMgr.myUser rac_requestGetUserCar] subscribeNext:^(id x) {
-            
-        }];
+//        [[gAppMgr.myUser.carModel rac_updateModel] subscribeNext:^(id x) {
+//            
+//        }];
     }];
 }
 

@@ -133,6 +133,7 @@
     [[op rac_postRequest] subscribeNext:^(GetShopRatesOp * op) {
         
         self.shop.shopCommentArray = op.rsp_shopCommentArray;
+        self.shop.commentNumber = op.rsp_totalNum;
         
         NSIndexSet *indexSet= [[NSIndexSet alloc] initWithIndex:1];
         
@@ -326,10 +327,13 @@
     }
     else
     {
-        CommentListViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"CommentListViewController"];
-        vc.shopid = self.shop.shopID;
-        vc.commentArray = self.shop.shopCommentArray;
-        [self.navigationController pushViewController:vc animated:YES];
+        if (self.shop.shopCommentArray.count)
+        {
+            CommentListViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"CommentListViewController"];
+            vc.shopid = self.shop.shopID;
+            vc.commentArray = self.shop.shopCommentArray;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }
 }
 
@@ -462,27 +466,23 @@
         @strongify(self);
         if([LoginViewModel loginIfNeededForTargetViewController:self]) {
             
-            if (gAppMgr.myUser.carArray == nil || gAppMgr.myUser.carArray.count > 0)
+            if (gAppMgr.myUser.carModel.carsArray == nil || gAppMgr.myUser.carModel.carsArray.count > 0)
             {
                 PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
                 vc.originVC = self;
                 vc.shop = self.shop;
                 vc.service = service;
-                vc.defaultCar = [gAppMgr.myUser getDefaultCar];
+                vc.defaultCar = [gAppMgr.myUser.carModel getDefaultCar];
                 [self.navigationController pushViewController:vc animated:YES];
             }
             else
             {
-                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您尚未添加车辆，请添加一辆" delegate:nil cancelButtonTitle:@"残忍拒绝" otherButtonTitles:@"前往添加", nil];
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您尚未添加车辆，请添加一辆" delegate:nil cancelButtonTitle:@"前往添加" otherButtonTitles: nil];
                 [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
                     
-                    NSInteger index = [num integerValue];
-                    if (index == 1)
-                    {
-                        EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
-                        [self.navigationController pushViewController:vc animated:YES];
-                        [vc reloadWithOriginCar:nil];
-                    }
+                    EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
+                    [self.navigationController pushViewController:vc animated:YES];
+                    [vc reloadWithOriginCar:nil];
                 }];
                 [av show];
             }
@@ -509,7 +509,7 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CommentTitleCell"];
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:1001];
-    label.text = [NSString stringWithFormat:@"商户评价 ( %d )", (int)self.shop.shopCommentArray.count];
+    label.text = [NSString stringWithFormat:@"商户评价 ( %d )", (int)self.shop.commentNumber];
     return cell;
 }
 

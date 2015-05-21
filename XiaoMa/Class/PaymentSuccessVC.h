@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HKServiceOrder.h"
 
 @interface PaymentSuccessVC : UIViewController
 
@@ -14,5 +15,5 @@
 
 @property (nonatomic,copy)NSString * subtitle;
 
-@property (nonatomic,strong)NSNumber * orderId;
+@property (nonatomic,strong)HKServiceOrder * order;
 @end

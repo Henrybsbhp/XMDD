@@ -60,9 +60,7 @@
 - (IBAction)commentAction:(id)sender {
     
     CarwashOrderCommentVC *vc = [UIStoryboard vcWithId:@"CarwashOrderCommentVC" inStoryboard:@"Mine"];
-    HKServiceOrder * order = [[HKServiceOrder alloc] init];
-    order.orderid = self.orderId;
-    vc.order = order;
+    vc.order = self.order;
     [vc setCustomActionBlock:^{
         [self.navigationController popToRootViewControllerAnimated:YES];
     }];

@@ -533,10 +533,18 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="全部评价>" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BfB-15-ecl">
+                                            <rect key="frame" x="522" y="9" width="65" height="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.1058823529" green="0.71764705880000002" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="40I-90-v3Q" secondAttribute="bottom" id="7ES-tE-397"/>
                                         <constraint firstItem="40I-90-v3Q" firstAttribute="leading" secondItem="f3m-Lv-tPF" secondAttribute="leading" constant="12" id="7qF-fw-3yA"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="BfB-15-ecl" secondAttribute="trailing" constant="5" id="PaL-fh-7em"/>
+                                        <constraint firstAttribute="centerY" secondItem="BfB-15-ecl" secondAttribute="centerY" id="SKo-j5-dFc"/>
                                         <constraint firstItem="40I-90-v3Q" firstAttribute="top" secondItem="f3m-Lv-tPF" secondAttribute="top" id="ZO3-kU-x3n"/>
                                         <constraint firstAttribute="trailing" secondItem="40I-90-v3Q" secondAttribute="trailing" constant="12" id="nuv-fB-CMQ"/>
                                     </constraints>
@@ -604,7 +612,7 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uXF-Nf-JRz" id="jjp-xJ-ya0">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="暂无评价" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1fQ-cT-HyY">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="该商户暂无评价" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1fQ-cT-HyY">
                                             <rect key="frame" x="272" y="17" width="56" height="17"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>

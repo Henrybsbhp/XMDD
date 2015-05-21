@@ -10,6 +10,6 @@
 
 @interface AddUserFavoriteOp : BaseOp
 
-@property (nonatomic,strong)NSString * shopid;
+@property (nonatomic,strong)NSNumber * shopid;
 
 @end

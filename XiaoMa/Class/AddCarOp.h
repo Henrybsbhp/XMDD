@@ -12,4 +12,6 @@
 
 @property (nonatomic,strong) HKMyCar *req_car;
 
+@property (nonatomic,strong) NSNumber *rsp_carId;
+
 @end

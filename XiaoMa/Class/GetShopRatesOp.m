@@ -26,6 +26,7 @@
 {
     if ([rspObj isKindOfClass:[NSDictionary class]])
     {
+        self.rsp_totalNum =  [rspObj integerParamForName:@"totalnumber"];
         NSArray * shops = (NSArray *)rspObj[@"rates"];
         NSMutableArray * tArray = [[NSMutableArray alloc] init];
         for (NSDictionary * dict in shops)

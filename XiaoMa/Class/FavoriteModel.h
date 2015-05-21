@@ -14,7 +14,7 @@
 @property (nonatomic, readonly, getter=getFavoritesArray) NSArray * favoritesArray;
 
 - (RACSignal *)rac_addFavorite: (JTShop *) shop;
-- (RACSignal *)rac_removeFavorite: (NSString *) shopid;
-- (JTShop *) getFavoriteWithID: (NSString *) shopid;
+- (RACSignal *)rac_removeFavorite: (NSNumber *) shopid;
+- (JTShop *) getFavoriteWithID: (NSNumber *) shopid;
 
 @end
