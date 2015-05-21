@@ -80,6 +80,11 @@
 		18863FA21AE8A316005BF4ED /* GetInsuranceByChannelOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18863FA11AE8A316005BF4ED /* GetInsuranceByChannelOp.m */; };
 		18863FA51AE8ECFB005BF4ED /* GridLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18863FA41AE8ECFB005BF4ED /* GridLabel.m */; };
 		18863FA81AE9D39A005BF4ED /* PayForPolicyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18863FA71AE9D39A005BF4ED /* PayForPolicyVC.m */; };
+		189371191B0DA6C00030FDE1 /* MessageListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189371181B0DA6C00030FDE1 /* MessageListVC.m */; };
+		1893711C1B0DAC8D0030FDE1 /* GetMessageOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1893711B1B0DAC8D0030FDE1 /* GetMessageOp.m */; };
+		1893711F1B0DAD290030FDE1 /* HKMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1893711E1B0DAD290030FDE1 /* HKMessage.m */; };
+		189371221B0E046E0030FDE1 /* JTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 189371211B0E046E0030FDE1 /* JTAttributedLabel.m */; };
+		1893712B1B0E0D460030FDE1 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 189371281B0E0D460030FDE1 /* TTTAttributedLabel.m */; };
 		189B30AF1AD4D661001D7288 /* JTLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30AC1AD4D661001D7288 /* JTLabel.m */; };
 		189B30B01AD4D661001D7288 /* JTTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30AE1AD4D661001D7288 /* JTTableViewController.m */; };
 		189B30B31AD4F7AC001D7288 /* UIView+CustomForXIB.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30B21AD4F7AC001D7288 /* UIView+CustomForXIB.m */; };
@@ -387,6 +392,16 @@
 		18863FA41AE8ECFB005BF4ED /* GridLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridLabel.m; sourceTree = "<group>"; };
 		18863FA61AE9D39A005BF4ED /* PayForPolicyVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayForPolicyVC.h; sourceTree = "<group>"; };
 		18863FA71AE9D39A005BF4ED /* PayForPolicyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayForPolicyVC.m; sourceTree = "<group>"; };
+		189371171B0DA6C00030FDE1 /* MessageListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageListVC.h; sourceTree = "<group>"; };
+		189371181B0DA6C00030FDE1 /* MessageListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageListVC.m; sourceTree = "<group>"; };
+		1893711A1B0DAC8D0030FDE1 /* GetMessageOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetMessageOp.h; path = Class/GetMessageOp.h; sourceTree = "<group>"; };
+		1893711B1B0DAC8D0030FDE1 /* GetMessageOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetMessageOp.m; path = Class/GetMessageOp.m; sourceTree = "<group>"; };
+		1893711D1B0DAD290030FDE1 /* HKMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKMessage.h; path = Class/HKMessage.h; sourceTree = "<group>"; };
+		1893711E1B0DAD290030FDE1 /* HKMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKMessage.m; path = Class/HKMessage.m; sourceTree = "<group>"; };
+		189371201B0E046E0030FDE1 /* JTAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTAttributedLabel.h; path = Class/JTAttributedLabel.h; sourceTree = "<group>"; };
+		189371211B0E046E0030FDE1 /* JTAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTAttributedLabel.m; path = Class/JTAttributedLabel.m; sourceTree = "<group>"; };
+		189371271B0E0D460030FDE1 /* TTTAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTAttributedLabel.h; sourceTree = "<group>"; };
+		189371281B0E0D460030FDE1 /* TTTAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTAttributedLabel.m; sourceTree = "<group>"; };
 		189B30AB1AD4D661001D7288 /* JTLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTLabel.h; path = Class/JTLabel.h; sourceTree = "<group>"; };
 		189B30AC1AD4D661001D7288 /* JTLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTLabel.m; path = Class/JTLabel.m; sourceTree = "<group>"; };
 		189B30AD1AD4D661001D7288 /* JTTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTTableViewController.h; path = Class/JTTableViewController.h; sourceTree = "<group>"; };
@@ -786,6 +801,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				189371231B0E0D460030FDE1 /* TTTAttributedLabel */,
 				6BBFBC3C1B0D8E57000D3CA3 /* WeiboShareSDK */,
 				1869850F1B02E6CB000A182A /* ODRefreshControl */,
 				C26489B21AF8A6B600F1E318 /* QQSDK */,
@@ -951,6 +967,8 @@
 				6BE2BD571AE62CDF00A69875 /* HKInsurance.m */,
 				1851F41C1B0C223A00241A01 /* HKAutoBrand.h */,
 				1851F41D1B0C223A00241A01 /* HKAutoBrand.m */,
+				1893711D1B0DAD290030FDE1 /* HKMessage.h */,
+				1893711E1B0DAD290030FDE1 /* HKMessage.m */,
 			);
 			name = Dataset;
 			sourceTree = "<group>";
@@ -1242,6 +1260,32 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		189371161B0DA69B0030FDE1 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				189371171B0DA6C00030FDE1 /* MessageListVC.h */,
+				189371181B0DA6C00030FDE1 /* MessageListVC.m */,
+			);
+			name = Message;
+			sourceTree = "<group>";
+		};
+		189371231B0E0D460030FDE1 /* TTTAttributedLabel */ = {
+			isa = PBXGroup;
+			children = (
+				189371261B0E0D460030FDE1 /* TTTAttributedLabel */,
+			);
+			path = TTTAttributedLabel;
+			sourceTree = "<group>";
+		};
+		189371261B0E0D460030FDE1 /* TTTAttributedLabel */ = {
+			isa = PBXGroup;
+			children = (
+				189371271B0E0D460030FDE1 /* TTTAttributedLabel.h */,
+				189371281B0E0D460030FDE1 /* TTTAttributedLabel.m */,
+			);
+			path = TTTAttributedLabel;
+			sourceTree = "<group>";
+		};
 		189B30AA1AD4D62C001D7288 /* TableAutoHeight */ = {
 			isa = PBXGroup;
 			children = (
@@ -1249,6 +1293,8 @@
 				189B30AC1AD4D661001D7288 /* JTLabel.m */,
 				189B30AD1AD4D661001D7288 /* JTTableViewController.h */,
 				189B30AE1AD4D661001D7288 /* JTTableViewController.m */,
+				189371201B0E046E0030FDE1 /* JTAttributedLabel.h */,
+				189371211B0E046E0030FDE1 /* JTAttributedLabel.m */,
 			);
 			name = TableAutoHeight;
 			sourceTree = "<group>";
@@ -1354,6 +1400,7 @@
 		189B39491AF71C2200B83F1B /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				189371161B0DA69B0030FDE1 /* Message */,
 				186984EC1B005FCE000A182A /* MyCar */,
 				186984E21B00571C000A182A /* Order */,
 				189B394A1AF71C3900B83F1B /* MineVC.h */,
@@ -1606,6 +1653,8 @@
 				6BE4CE301AF217BC008E1C19 /* GetUserCouponOp.m */,
 				6BE4CE321AF21ACA008E1C19 /* AddUserCarOp.h */,
 				6BE4CE331AF21ACA008E1C19 /* AddUserCarOp.m */,
+				1893711A1B0DAC8D0030FDE1 /* GetMessageOp.h */,
+				1893711B1B0DAC8D0030FDE1 /* GetMessageOp.m */,
 				6BE4CE351AF220A0008E1C19 /* GetUserFavoriteOp.h */,
 				6BE4CE361AF220A0008E1C19 /* GetUserFavoriteOp.m */,
 				6BB9D76C1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.h */,
@@ -1983,6 +2032,7 @@
 				186984F81B0098FB000A182A /* HKInsuranceOrder.m in Sources */,
 				6BB884DD1AE0FE7500EBD8F4 /* GetUserCarOp.m in Sources */,
 				6BEA56CE1AE24DCE000D19C1 /* DataSigner.m in Sources */,
+				1893711C1B0DAC8D0030FDE1 /* GetMessageOp.m in Sources */,
 				6BBB084C1B021EA90002C349 /* JTCaptureScreen.m in Sources */,
 				18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */,
 				1816F4BD1AD3A8AD00BBCC96 /* JTNavigationController.m in Sources */,
@@ -2036,11 +2086,13 @@
 				184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */,
 				189B31091AD7C5B3001D7288 /* InsuranceChannelVC.m in Sources */,
 				189B39611AF9DD3B00B83F1B /* AddCarOp.m in Sources */,
+				189371191B0DA6C00030FDE1 /* MessageListVC.m in Sources */,
 				1853DEBA1AE0BAA400C39175 /* HKConvertModel.m in Sources */,
 				189B30C01AD62E57001D7288 /* PaymentSuccessVC.m in Sources */,
 				6BB61BA61AEF8B34004F39AA /* ServiceViewController.m in Sources */,
 				6BBAB8B31ADB777500EC342F /* GetVcodeOp.m in Sources */,
 				6BEA56CD1AE24DCE000D19C1 /* base64.m in Sources */,
+				1893711F1B0DAD290030FDE1 /* HKMessage.m in Sources */,
 				6BBAB8D11ADE30F900EC342F /* GetShopRatesOp.m in Sources */,
 				6BC220A21AD7B22300A4310E /* AFHTTPRequestOperationManager+ReactiveCocoa.m in Sources */,
 				186984EB1B005A94000A182A /* InsranceOrderViewModel.m in Sources */,
@@ -2103,6 +2155,7 @@
 				1853DEAD1AE0A0B700C39175 /* HKCatchErrorModel.m in Sources */,
 				6BC2209C1AD7AAF300A4310E /* NetworkManager.m in Sources */,
 				18039AF51B0C5BCE00264059 /* GetAutomobileModelOp.m in Sources */,
+				189371221B0E046E0030FDE1 /* JTAttributedLabel.m in Sources */,
 				184E40C61AD3B58F00EFC3A6 /* UIView+Layer.m in Sources */,
 				6BBB824F1AE7757100850D0C /* NearbyShopsViewController.m in Sources */,
 				6BEA56C31AE24DCE000D19C1 /* AlixPayResult.m in Sources */,
@@ -2111,6 +2164,7 @@
 				189B310C1ADA499C001D7288 /* EnquiryResultVC.m in Sources */,
 				6BEA56CF1AE24DCE000D19C1 /* DataVerifier.m in Sources */,
 				6BB884BC1AE0BB9600EBD8F4 /* UIView+JTLoadingView.m in Sources */,
+				1893712B1B0E0D460030FDE1 /* TTTAttributedLabel.m in Sources */,
 				6BB884D71AE0F31700EBD8F4 /* HKCoupon.m in Sources */,
 				1851F41E1B0C223A00241A01 /* HKAutoBrand.m in Sources */,
 				6BC3B6121ADF6205001016A0 /* MapHelper.m in Sources */,

@@ -479,10 +479,9 @@
             {
                 UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您尚未添加车辆，请添加一辆" delegate:nil cancelButtonTitle:@"前往添加" otherButtonTitles: nil];
                 [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
-                    
+
                     EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
                     [self.navigationController pushViewController:vc animated:YES];
-                    [vc reloadWithOriginCar:nil];
                 }];
                 [av show];
             }

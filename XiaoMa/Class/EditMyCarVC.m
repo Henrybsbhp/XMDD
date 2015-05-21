@@ -22,6 +22,7 @@
 @property (nonatomic, strong) HKMyCar *curCar;
 @property (nonatomic, assign) BOOL isEditingModel;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
+@property (weak, nonatomic) IBOutlet UIToolbar *bottomBar;
 @property (weak, nonatomic) IBOutlet UILabel *headerDescLabel;
 @property (weak, nonatomic) IBOutlet UIButton *headerUploadBtn;
 @end
@@ -42,6 +43,20 @@
         view.backgroundColor = [UIColor clearColor];
         self.tableView.tableHeaderView = view;
     }
+    [self setupNavigationBar];
+    
+    if (self.originCar) {
+        _curCar = [self.originCar copy];
+        _isEditingModel = YES;
+    }
+    else {
+        _curCar = [HKMyCar new];
+        _isEditingModel = NO;
+    }
+    if (!_isEditingModel) {
+        [self.bottomBar removeFromSuperview];
+    }
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -49,23 +64,20 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)reloadWithOriginCar:(HKMyCar *)originCar
+- (void)setupNavigationBar
 {
-    _originCar = originCar;
-    if (originCar) {
-        _curCar = [originCar copy];
-        _isEditingModel = YES;
-    }
-    else {
-        _curCar = [HKMyCar new];
-        _isEditingModel = NO;
-    }
-    [self.tableView reloadData];
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain
+                                                             target:self action:@selector(actionSave:)];
+    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain
+                                                            target:self action:@selector(actionBack:)];
+    left.tintColor = HEXCOLOR(@"#262626");
+    self.navigationItem.leftBarButtonItem = left;
+    self.navigationItem.rightBarButtonItem = right;
 }
 
 
 #pragma mark - Action
-- (IBAction)actionSave:(id)sender
+- (void)actionSave:(id)sender
 {
     if ([self sharkCellIfErrorAtIndex:0 withData:self.curCar.licencenumber errorMsg:@"车牌号码不能为空"]) {
         return;

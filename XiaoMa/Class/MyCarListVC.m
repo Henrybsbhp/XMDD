@@ -53,12 +53,15 @@
 {
     GetUserCarOp *op = [GetUserCarOp new];
     [[[[op rac_postRequest] deliverOn:[RACScheduler mainThreadScheduler]] initially:^{
+        
         [self.tableView.refreshView beginRefreshing];
     }] subscribeNext:^(GetUserCarOp *rspOp) {
+        
         [self.tableView.refreshView endRefreshing];
         self.carList = rspOp.rsp_carArray;
         [self.tableView reloadData];
     } error:^(NSError *error) {
+        
         [self.tableView.refreshView endRefreshing];
         [gToast showError:error.domain];
     }];
@@ -69,7 +72,6 @@
 {
     EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
     [self.navigationController pushViewController:vc animated:YES];
-    [vc reloadWithOriginCar:nil];
 }
 
 - (void)uploadDrivingLicenceAtIndexPath:(NSIndexPath *)indexPath
@@ -77,8 +79,10 @@
     HKMyCar *car = [self.carList safetyObjectAtIndex:indexPath.section];
     @weakify(self);
     [[[self.model rac_uploadDrivingLicenseWithTargetVC:self initially:^{
+        
         [gToast showingWithText:@"正在上传..."];
     }] flattenMap:^RACStream *(NSString *url) {
+        
         NSString *oldurl = car.licenceurl;
         car.licenceurl = url;
         UpdateCarOp *op = [UpdateCarOp new];
@@ -88,6 +92,7 @@
             return [RACSignal error:error];
         }];
     }] subscribeNext:^(id x) {
+        
         @strongify(self);
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
         UILabel *bottomL = (UILabel *)[cell.contentView viewWithTag:3001];
@@ -95,16 +100,12 @@
         [self.model setupUploadBtn:bottomB andDescLabel:bottomL forStatus:1];
         [gToast showSuccess:@"上传行驶证成功!"];
     } error:^(NSError *error) {
+        
         [gToast showError:error.domain];
     }];
 }
 
 #pragma mark - UITableViewDelegate
-- (void)tableViewDidStartRefresh:(JTTableView *)tableView
-{
-    [self reloadDatasource];
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 10;
@@ -191,7 +192,7 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
+    vc.originCar = [self.carList safetyObjectAtIndex:indexPath.section];
     [self.navigationController pushViewController:vc animated:YES];
-    [vc reloadWithOriginCar:[self.carList safetyObjectAtIndex:indexPath.section]];
 }
 @end
