@@ -13,4 +13,7 @@
 
 @property (nonatomic,strong)JTShop * shop;
 
+/// 是否已收藏标签
+@property (nonatomic)BOOL favorite;
+
 @end

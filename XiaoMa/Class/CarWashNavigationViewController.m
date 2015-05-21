@@ -80,6 +80,9 @@
     mapBottomView.addressLb.text = self.shop.shopAddress;
     mapBottomView.detailBtn.hidden = YES;
     
+    UIImage * image = [UIImage imageNamed:self.favorite ? @"nb_collected" : @"nb_collection"];
+    [mapBottomView.collectBtn setImage:image forState:UIControlStateNormal];
+    
     @weakify(self)
     [[mapBottomView.detailBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
@@ -105,8 +108,50 @@
     
     [[mapBottomView.collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        @strongify(self)
-        [self requestAddFavorite:self.shop.shopID];
+        if ([LoginViewModel loginIfNeededForTargetViewController:self])
+        {
+            if (self.favorite)
+            {
+                [[[gAppMgr.myUser.favorites rac_removeFavorite:self.shop.shopID] initially:^{
+                    
+                    [SVProgressHUD showWithStatus:@"移除中..."];
+                }]  subscribeNext:^(id x) {
+                    
+                    [SVProgressHUD showSuccessWithStatus:@"移除成功"];
+                    
+                    self.favorite = NO;
+                    [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collection"] forState:UIControlStateNormal];
+                } error:^(NSError *error) {
+                    
+                    [SVProgressHUD showErrorWithStatus:error.domain];
+                }];
+            }
+            else
+            {
+                [[[gAppMgr.myUser.favorites rac_addFavorite:self.shop] initially:^{
+                    
+                    [SVProgressHUD showWithStatus:@"添加中..."];
+                }]  subscribeNext:^(id x) {
+                    
+                    [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+                    
+                    self.favorite = YES;
+                    [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected"] forState:UIControlStateNormal];
+                } error:^(NSError *error) {
+                    
+                    if (error.code == 7002)
+                    {
+                        [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+                        self.favorite = YES;
+                        [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected"] forState:UIControlStateNormal];
+                    }
+                    else
+                    {
+                        [SVProgressHUD showErrorWithStatus:error.domain];
+                    }
+                }];
+            }
+        }
     }];
     
     [[mapBottomView.navigationBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {

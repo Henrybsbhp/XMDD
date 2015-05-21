@@ -20,6 +20,7 @@
 #import "CheckoutServiceOrderOp.h"
 #import "NSDate+DateForText.h"
 #import "UIView+Layer.h"
+#import "MyCarsModel.h"
 
 
 
@@ -54,7 +55,7 @@
     self.paymentType = PaymentChannelAlipay;
     
     /// 进入此页面，要么有车辆信息，要么车辆信息获取失败（）
-    if (!gAppMgr.myUser.carArray)
+    if (!gAppMgr.myUser.carModel.carsArray)
     {
         [self requestGetUserCar];
     }
@@ -575,11 +576,11 @@
 
 - (void)requestGetUserCar
 {
-    [[gAppMgr.myUser rac_requestGetUserCar] subscribeNext:^(NSArray * array) {
+    [[gAppMgr.myUser.carModel rac_updateModel] subscribeNext:^(NSArray * array) {
         
         if (array.count)
         {
-            self.defaultCar = [gAppMgr.myUser getDefaultCar];
+            self.defaultCar = [gAppMgr.myUser.carModel getDefaultCar];
             NSIndexPath *reloadIndexPath = [NSIndexPath indexPathForRow:3 inSection:0];
             [self.tableView reloadRowsAtIndexPaths:@[reloadIndexPath] withRowAnimation:UITableViewRowAnimationNone];
         }
@@ -590,7 +591,7 @@
 {
     CheckoutServiceOrderOp * op = [CheckoutServiceOrderOp operation];
     op.serviceid = self.service.serviceID;
-    op.licencenumber = [gAppMgr.myUser getDefaultCar].licencenumber ? [gAppMgr.myUser getDefaultCar].licencenumber : @"";
+    op.licencenumber = [gAppMgr.myUser.carModel getDefaultCar].licencenumber ? [gAppMgr.myUser.carModel getDefaultCar].licencenumber : @"";
     op.cid = @"";
     op.paychannel = self.paymentType;
     [[[op rac_postRequest] initially:^{
@@ -607,7 +608,7 @@
                     
                     NSString * submitTime = [[NSDate date] dateFormatForDT8];
                     NSString * info = [NSString stringWithFormat:@"%@",self.shop.shopName];
-                    [self requestAliPay:op.rsp_orderid andPrice:op.rsp_price
+                    [self requestAliPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
                       andProductName:info andDescription:@"小马达达" andTime:submitTime];
                 });
             }
@@ -617,8 +618,8 @@
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     
                     NSString * submitTime = [[NSDate date] dateFormatForDT8];
-                    NSString * info = [NSString stringWithFormat:@"%@",self.shop.shopName];
-                    [self requestWechatPay:op.rsp_orderid andPrice:op.rsp_price
+                    NSString * info = [NSString stringWithFormat:@"%@-%@",self.service.serviceName,self.shop.shopName];
+                    [self requestWechatPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
                       andProductName:info andTime:submitTime];
                 });
             }
@@ -626,6 +627,11 @@
             {
                 PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
                 vc.originVC = self.originVC;
+                HKServiceOrder * order = [[HKServiceOrder alloc] init];
+                order.orderid = op.rsp_orderid;
+                order.shop = self.shop;
+                order.serviceid = self.service.serviceID;
+                vc.order = order;
                 [self.navigationController pushViewController:vc animated:YES];
             }
         }
@@ -639,32 +645,43 @@
     }];
 }
 
-- (void)requestAliPay:(NSString *)orderId andPrice:(CGFloat)price
-       andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time
+- (void)requestAliPay:(NSNumber *)orderId andTradeId:(NSString *)tradeId
+             andPrice:(CGFloat)price andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time
 {
-    [gAlipayHelper payOrdWithTradeNo:orderId andProductName:name andProductDescription:desc andPrice:price];
+    [gAlipayHelper payOrdWithTradeNo:tradeId andProductName:name andProductDescription:desc andPrice:price];
     
     [gAlipayHelper.rac_alipayResultSignal subscribeNext:^(id x) {
         
         PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
         vc.originVC = self.originVC;
-        vc.title = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
+        vc.subtitle = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
+        HKServiceOrder * order = [[HKServiceOrder alloc] init];
+        order.orderid = orderId;
+        order.serviceid = self.service.serviceID;
+        order.shop = self.shop;
+        vc.order = order;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
     }];
 }
 
-- (void)requestWechatPay:(NSString *)orderId andPrice:(CGFloat)price
-          andProductName:(NSString *)name andTime:(NSString *)time
+- (void)requestWechatPay:(NSNumber *)orderId andTradeId:(NSString *)tradeId
+                andPrice:(CGFloat)price andProductName:(NSString *)name
+                 andTime:(NSString *)time
 {
-    [gWechatHelper payOrdWithTradeNo:orderId andProductName:name andPrice:price];
+    [gWechatHelper payOrdWithTradeNo:tradeId andProductName:name andPrice:price];
     
     [gWechatHelper.rac_wechatResultSignal subscribeNext:^(id x) {
         
         PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
         vc.originVC = self.originVC;
-        vc.title = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
+        vc.subtitle = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
+        HKServiceOrder * order = [[HKServiceOrder alloc] init];
+        order.orderid = orderId;
+        order.serviceid = self.service.serviceID;
+        order.shop = self.shop;
+        vc.order = order;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         

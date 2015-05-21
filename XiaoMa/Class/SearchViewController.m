@@ -206,12 +206,13 @@
 #pragma mark - Utility
 - (void)searchShops
 {
+    NSString * searchInfo = self.searchBar.text;
+    searchInfo = [self.searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     GetShopByNameOp * op = [GetShopByNameOp operation];
-    op.shopName = self.searchBar.text;
+    op.shopName = searchInfo;
     op.pageno = self.currentPageIndex;
     op.orderby = 1;
     [[[op rac_postRequest] initially:^{
-        
         
     }] subscribeNext:^(GetShopByNameOp * op) {
         
@@ -257,8 +258,10 @@
         return;
     }
     
+    NSString * searchInfo = self.searchBar.text;
+    searchInfo = [self.searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     GetShopByNameOp * op = [GetShopByNameOp operation];
-    op.shopName = self.searchBar.text;
+    op.shopName = searchInfo;
     op.pageno = self.currentPageIndex+1;
     op.orderby = 1;
     
