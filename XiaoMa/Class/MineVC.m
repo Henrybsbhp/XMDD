@@ -14,6 +14,7 @@
 #import "MyCouponVC.h"
 #import "MyInfoViewController.h"
 #import "AboutViewController.h"
+#import "MessageListVC.h"
 
 @interface MineVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -108,6 +109,20 @@
         [self.tableView reloadData];
     }];
 }
+
+#pragma mark - Action
+-(void)actionPushToTickets
+{
+    MyCouponVC *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionPushToMessages
+{
+    MessageListVC *vc = [UIStoryboard vcWithId:@"MessageListVC" inStoryboard:@"Mine"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark - Table view data source
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
@@ -152,13 +167,22 @@
 - (UITableViewCell *)topCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"TopCell" forIndexPath:indexPath];
-    UILabel *leftTitleL = (UILabel *)[cell.contentView viewWithTag:1001];
+//    UILabel *leftTitleL = (UILabel *)[cell.contentView viewWithTag:1001];
     UIButton *leftBtn = (UIButton *)[cell.contentView viewWithTag:1002];
-    [leftBtn addTarget:self action:@selector(pushToTickets) forControlEvents:UIControlEventTouchUpInside];
-    UILabel *rightTitleL = (UILabel *)[cell.contentView viewWithTag:2001];
+//    UILabel *rightTitleL = (UILabel *)[cell.contentView viewWithTag:2001];
     UIButton *rightBtn = (UIButton *)[cell.contentView viewWithTag:2002];
+
+//    leftTitleL.text = @"优惠券";
+    @weakify(self);
+    [[[leftBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
+        [self actionPushToTickets];
+    }];
     
-    leftTitleL.text = @"优惠券";
+    [[[rightBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
+        [self actionPushToMessages];
+    }];
     return cell;
 }
 
@@ -225,12 +249,6 @@
         AboutViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
         [self.navigationController pushViewController:vc animated:YES];
     }
-}
-
--(void)pushToTickets
-{
-    MyCouponVC *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
-    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end
