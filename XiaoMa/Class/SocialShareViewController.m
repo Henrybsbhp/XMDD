@@ -19,6 +19,16 @@
 
 @implementation SocialShareViewController
 
+- (instancetype)init
+{
+    self  = [super init];
+    if (self)
+    {
+        _rac_dismissSignal = [RACSubject subject];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -174,6 +184,7 @@
 - (void)onResp:(BaseResp *)resp
 {
     NSString * msg = @"";
+    [_rac_dismissSignal sendNext:@"dismiss"];
     if([resp isKindOfClass:[SendMessageToWXResp class]])
     {
         if (resp.errCode == WXSuccess)
