@@ -43,13 +43,26 @@
 - (IBAction)shareAction:(id)sender {
     
     SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-    vc.tt = @"tt";
-    vc.subtitle = @"subtt";
-    vc.image = [UIImage imageNamed:@"wechat_logo"];
-    vc.urlStr = @"http://www.baidu.com";
+    vc.tt = @"小马达达－一分洗车，十分满意";
+    vc.subtitle = @"我完成了洗车，你也来试试吧";
+    vc.image = [UIImage imageNamed:@"logo"];
+    vc.urlStr = @"http://www.xiaomadada.com";
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
     sheet.shouldCenterVertically = YES;
     [sheet presentAnimated:YES completionHandler:nil];
+    
+    [gWechatHelper.rac_wechatResultSignal subscribeNext:^(NSString * info) {
+        
+        if ([info isEqualToString:@"dismiss"])
+        {
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }
+    }];
+    
+    [vc.rac_dismissSignal subscribeNext:^(id x) {
+        
+        [sheet dismissAnimated:YES completionHandler:nil];
+    }];
 
     
     [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {

@@ -212,8 +212,7 @@
     }
     if ([resp isKindOfClass:[SendMessageToWXResp class]])
     {
-       
-        [gWechatHelper.rac_wechatResultSignal sendNext:@"9000"];
+        [gWechatHelper.rac_wechatResultSignal sendNext:@"dismiss"];
     }
 }
 
