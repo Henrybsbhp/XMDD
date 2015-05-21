@@ -45,7 +45,8 @@ typedef enum : NSUInteger {
 #define AMapUrl  @"iosamap://"
 
 #define kDefTintColor   HEXCOLOR(@"#15ac1f")
-#define kDefLineColor   HEXCOLOR(@"#e0e0e0")
+#define kDefLineColor   HEXCOLOR(@"#ebebeb")
+#define kDarkLineColor   HEXCOLOR(@"#e0e0e0")
 
 //字符串定义
 #define kRspPrefix      @"█ ▇ ▆ ▅ ▄ ▃ ▂"

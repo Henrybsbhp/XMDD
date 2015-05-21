@@ -146,9 +146,9 @@
         leftLineMask = CKViewBorderDirectionLeft | CKViewBorderDirectionRight | CKViewBorderDirectionBottom;
         rightLineMask = CKViewBorderDirectionRight | CKViewBorderDirectionBottom;
     }
-    [leftL setBorderLineColor:kDefLineColor forDirectionMask:leftLineMask];
+    [leftL setBorderLineColor:kDarkLineColor forDirectionMask:leftLineMask];
     [leftL showBorderLineWithDirectionMask:leftLineMask];
-    [rightL setBorderLineColor:kDefLineColor forDirectionMask:rightLineMask];
+    [rightL setBorderLineColor:kDarkLineColor forDirectionMask:rightLineMask];
     [rightL showBorderLineWithDirectionMask:rightLineMask];
     
     return cell;

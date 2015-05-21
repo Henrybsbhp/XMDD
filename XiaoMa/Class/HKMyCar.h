@@ -33,8 +33,14 @@
 ///行驶里程
 @property (nonatomic)NSInteger odo;
 
+///行驶证审核状态(1待审核,2审核通过,3审核失败,0无图片)
+@property (nonatomic, assign) NSInteger status;
+
 ///保险公司
 @property (nonatomic,copy)NSString * inscomp;
+
+///行驶证url
+@property (nonatomic, strong) NSString *licenceurl;
 
 ///保险到期日
 @property (nonatomic,strong)NSDate * insexipiredate;

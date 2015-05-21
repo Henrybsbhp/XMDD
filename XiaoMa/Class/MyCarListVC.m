@@ -10,13 +10,20 @@
 #import "GetUserCarOp.h"
 #import "EditMyCarVC.h"
 #import "XiaoMa.h"
+#import "MyCarListVModel.h"
+#import "UpdateCarOp.h"
 
 @interface MyCarListVC ()<UITableViewDataSource, UITableViewDelegate,JTTableViewDelegate>
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
 @property (nonatomic, strong) NSArray *carList;
+@property (nonatomic, strong) MyCarListVModel *model;
 @end
 
 @implementation MyCarListVC
+
+- (void)awakeFromNib {
+    self.model = [MyCarListVModel new];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -65,6 +72,33 @@
     [vc reloadWithOriginCar:nil];
 }
 
+- (void)uploadDrivingLicenceAtIndexPath:(NSIndexPath *)indexPath
+{
+    HKMyCar *car = [self.carList safetyObjectAtIndex:indexPath.section];
+    @weakify(self);
+    [[[self.model rac_uploadDrivingLicenseWithTargetVC:self initially:^{
+        [gToast showingWithText:@"正在上传..."];
+    }] flattenMap:^RACStream *(NSString *url) {
+        NSString *oldurl = car.licenceurl;
+        car.licenceurl = url;
+        UpdateCarOp *op = [UpdateCarOp new];
+        op.req_car = car;
+        return [[op rac_postRequest] catch:^RACSignal *(NSError *error) {
+            car.licenceurl = oldurl;
+            return [RACSignal error:error];
+        }];
+    }] subscribeNext:^(id x) {
+        @strongify(self);
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        UILabel *bottomL = (UILabel *)[cell.contentView viewWithTag:3001];
+        UIButton *bottomB = (UIButton *)[cell.contentView viewWithTag:3002];
+        [self.model setupUploadBtn:bottomB andDescLabel:bottomL forStatus:1];
+        [gToast showSuccess:@"上传行驶证成功!"];
+    } error:^(NSError *error) {
+        [gToast showError:error.domain];
+    }];
+}
+
 #pragma mark - UITableViewDelegate
 - (void)tableViewDidStartRefresh:(JTTableView *)tableView
 {
@@ -78,12 +112,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return CGFLOAT_MIN;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 8;
+    return 1;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -93,60 +127,64 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    JTTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
-    UILabel *subTitleL = (UILabel *)[cell.contentView viewWithTag:1002];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     HKMyCar *car = [self.carList safetyObjectAtIndex:indexPath.section];
-    titleL.font = [UIFont systemFontOfSize:17];
-    subTitleL.textColor = [UIColor darkTextColor];
-    switch (indexPath.row) {
-        case 0:
-            titleL.font = [UIFont boldSystemFontOfSize:19];
-            titleL.text = car.licencenumber;
-            subTitleL.textColor = kDefTintColor;
-            subTitleL.text = car.isDefault ? @"[默认]" : nil;
-            break;
-        case 1:
-            titleL.text = @"购车时间";
-            subTitleL.text = [car.purchasedate dateFormatForYYMM];
-            break;
-        case 2:
-            titleL.text = @"品牌车系";
-            subTitleL.text = car.brand;
-            break;
-        case 3:
-            titleL.text = @"具体车型";
-            subTitleL.text = car.model;
-            break;
-        case 4:
-            titleL.text = @"整车价格";
-            subTitleL.text = [NSString stringWithFormat:@"%.2f元", car.price];
-            break;
-        case 5:
-            titleL.text = @"当前里程";
-            subTitleL.text = [NSString stringWithFormat:@"%d公里", (int)car.odo];
-            break;
-        case 6:
-            titleL.text = @"保险到期日";
-            subTitleL.text = [car.insexipiredate dateFormatForYYMM];
-            break;
-        case 7:
-            titleL.text = @"保险公司";
-            subTitleL.text = car.inscomp;
-            break;
-        default:
-            break;
+    UIButton *licenseB = (UIButton *)[cell.contentView viewWithTag:1001];
+    UIButton *isDefalutB = (UIButton *)[cell.contentView viewWithTag:4001];
+    UILabel *bottomL = (UILabel *)[cell.contentView viewWithTag:3001];
+    UIButton *bottomB = (UIButton *)[cell.contentView viewWithTag:3002];
+    
+    MyCarListVModel *model = self.model;
+    [model setupUploadBtn:bottomB andDescLabel:bottomL forStatus:car.status];
+    //一键上传行驶证
+    @weakify(self);
+    [[[bottomB rac_signalForControlEvents:UIControlEventTouchUpInside]
+      takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
+        [self uploadDrivingLicenceAtIndexPath:indexPath];
+    }];
+    
+    [licenseB setTitle:car.licencenumber forState:UIControlStateNormal];
+    isDefalutB.hidden = !car.isDefault;
+    for (int i = 0; i < 7; i++) {
+        int tag = 2001+2*i;
+        UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:tag];
+        UILabel *subTitleL = (UILabel *)[cell.contentView viewWithTag:tag+1];
+        switch (i) {
+            case 0:
+                titleL.text = @"购车时间";
+                subTitleL.text = [car.purchasedate dateFormatForYYMM];
+                break;
+            case 1:
+                titleL.text = @"爱车品牌";
+                subTitleL.text = car.brand;
+                break;
+            case 2:
+                titleL.text = @"具体车系";
+                subTitleL.text = car.model;
+                break;
+            case 3:
+                titleL.text = @"整车价格";
+                subTitleL.text = [NSString stringWithFormat:@"%.2f元", car.price];
+                break;
+            case 4:
+                titleL.text = @"当前里程";
+                subTitleL.text = [NSString stringWithFormat:@"%d公里", (int)car.odo];
+                break;
+            case 5:
+                titleL.text = @"保险到期日";
+                subTitleL.text = [car.insexipiredate dateFormatForYYMM];
+                break;
+            case 6:
+                titleL.text = @"保险公司";
+                subTitleL.text = car.inscomp;
+                break;
+            default:
+                break;
+        }
     }
     
-    cell.customSeparatorInset = UIEdgeInsetsZero;
     return cell;
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if ([cell isKindOfClass:[JTTableViewCell class]]) {
-        [(JTTableViewCell *)cell prepareCellForTableView:tableView atIndexPath:indexPath];
-    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

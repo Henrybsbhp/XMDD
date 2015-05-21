@@ -25,5 +25,7 @@ typedef enum : NSUInteger {
 
 ///弹出日期选择器
 + (RACSignal *)rac_presentPackerVCInView:(UIView *)view withSelectedDate:(NSDate *)date;
++ (DatePickerVC *)datePickerVCWithMaximumDate:(NSDate *)date;
+- (RACSignal *)rac_presentPackerVCInView:(UIView *)view withSelectedDate:(NSDate *)date;
 
 @end

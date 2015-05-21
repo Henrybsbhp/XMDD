@@ -43,9 +43,13 @@
                     RACTuplePack(@"保险公司：", self.order.inscomp),
                     RACTuplePack(@"保险期限：", self.order.validperiod),
                     RACTuplePack(@"保费总额：", strprice)];
-    [coveragers safetyAddObjectsFromArray:self.order.policy.subInsuranceArray];
-    self.coveragers = coveragers;
-
+    if (self.order.policy.subInsuranceArray.count > 0) {
+        [coveragers safetyAddObjectsFromArray:self.order.policy.subInsuranceArray];
+        self.coveragers = coveragers;
+    }
+    else {
+        self.coveragers = nil;
+    }
     [self.tableView reloadData];
 }
 
@@ -130,9 +134,9 @@
         leftLineMask = CKViewBorderDirectionLeft | CKViewBorderDirectionRight | CKViewBorderDirectionBottom;
         rightLineMask = CKViewBorderDirectionRight | CKViewBorderDirectionBottom;
     }
-    [leftL setBorderLineColor:kDefLineColor forDirectionMask:leftLineMask];
+    [leftL setBorderLineColor:kDarkLineColor forDirectionMask:leftLineMask];
     [leftL showBorderLineWithDirectionMask:leftLineMask];
-    [rightL setBorderLineColor:kDefLineColor forDirectionMask:rightLineMask];
+    [rightL setBorderLineColor:kDarkLineColor forDirectionMask:rightLineMask];
     [rightL showBorderLineWithDirectionMask:rightLineMask];
     
     return cell;
