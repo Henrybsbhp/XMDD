@@ -51,20 +51,11 @@
     sheet.shouldCenterVertically = YES;
     [sheet presentAnimated:YES completionHandler:nil];
     
-    [gWechatHelper.rac_wechatResultSignal subscribeNext:^(NSString * info) {
-        
-        if ([info isEqualToString:@"dismiss"])
-        {
-            [sheet dismissAnimated:YES completionHandler:nil];
-        }
-    }];
-    
-    [vc.rac_dismissSignal subscribeNext:^(id x) {
+    [vc setFinishAction:^{
         
         [sheet dismissAnimated:YES completionHandler:nil];
     }];
 
-    
     [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [sheet dismissAnimated:YES completionHandler:nil];

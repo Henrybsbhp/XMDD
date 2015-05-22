@@ -85,11 +85,21 @@
     imgV.contentMode = UIViewContentModeCenter;
     self.searchField.leftView = imgV;
     self.searchField.leftViewMode = UITextFieldViewModeAlways;
+    [self.searchField resignFirstResponder];
+    self.searchField.enabled = NO;
     
-    [[self.searchField rac_newTextChannel] subscribeNext:^(id x) {
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] init];
+    [self.searchView addGestureRecognizer:tap];
+    [[tap rac_gestureSignal] subscribeNext:^(id x) {
         
         SearchViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
         [self.navigationController pushViewController:vc animated:YES];
+    }];
+    
+    [[self.searchField rac_newTextChannel] subscribeNext:^(id x) {
+        
+        
+        
     }];
     
     [[self.searchField rac_textSignal] subscribeNext:^(id x) {
@@ -235,7 +245,7 @@
         logoV.image = image;
     }];;
     titleL.text = shop.shopName;
-    ratingV.ratingValue = shop.shopRate;
+    ratingV.ratingValue = (NSInteger)shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
     addrL.text = shop.shopAddress;
     

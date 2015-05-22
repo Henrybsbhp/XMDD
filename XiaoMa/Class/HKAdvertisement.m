@@ -20,8 +20,8 @@
     advertisement.adPic = rsp[@"pic"];
     advertisement.adDescription = rsp[@"desc"];
     advertisement.adLink = rsp[@"link"];
-    advertisement.validStart = [NSDate dateWithD8Text:[NSString stringWithFormat:@"%@",rsp[@"validstart"]]];
-    advertisement.validEnd = [NSDate dateWithD8Text:[NSString stringWithFormat:@"%@",rsp[@"validend"]]];
+    advertisement.validStart = [NSDate dateWithD14Text:[NSString stringWithFormat:@"%@",rsp[@"validstart"]]];
+    advertisement.validEnd = [NSDate dateWithD14Text:[NSString stringWithFormat:@"%@",rsp[@"validend"]]];
     advertisement.weight = [rsp integerParamForName:@"weight"];
     return advertisement;
 }
