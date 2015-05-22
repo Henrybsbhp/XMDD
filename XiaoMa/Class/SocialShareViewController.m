@@ -11,9 +11,11 @@
 #import <TencentOpenAPI.framework/Headers/QQApiInterface.h>
 #import <TencentOpenAPI.framework/Headers/QQApiInterfaceObject.h>
 
+typedef void(^FinishBlock)(void);
+
 @interface SocialShareViewController ()
 
-
+@property (nonatomic,weak)FinishBlock block;
 
 @end
 
@@ -35,21 +37,37 @@
     [[_wechatBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [self shareWechat];
+        if (self.finishAction)
+        {
+            self.finishAction();
+        }
     }];
     
     [[_timelineBrn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [self shareTimeline];
+        if (self.finishAction)
+        {
+            self.finishAction();
+        }
     }];
     
     [[_weiboBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [self shareWeibo];
+        if (self.finishAction)
+        {
+            self.finishAction();
+        }
     }];
     
     [[_qqBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [self shareQQ];
+        if (self.finishAction)
+        {
+            self.finishAction();
+        }
     }];
 }
 
@@ -66,66 +84,40 @@
 
 - (void)shareWechat
 {
-    [self shareToWeChatSessionWithTitle:self.tt
-                               andDescription:self.subtitle andImage:self.image andUrl:self.urlStr];
+    [self shareToWeChat:WXSceneSession withTitle:self.tt
+         andDescription:self.subtitle andImage:self.image andUrl:self.urlStr];
 }
 
 - (void)shareTimeline
 {
-    [self shareToWeChatTimelineWithTitle:self.tt
-                                andDescription:self.subtitle andImage:self.image andUrl:self.urlStr];
+    [self shareToWeChat:WXSceneTimeline withTitle:self.tt
+         andDescription:self.subtitle andImage:self.image andUrl:self.urlStr];
 }
 
 - (void)shareWeibo
 {
-    [self shareToWeiboWithTitle:self.tt
-                       andDescription:self.subtitle andImage:self.image andUrl:self.urlStr];
+    WBMessageObject *message = [WBMessageObject message];
+    
+    WBImageObject *image = [WBImageObject object];
+    image.imageData = UIImagePNGRepresentation(self.image);
+    message.imageObject = image;
+    message.text = [NSString stringWithFormat:@"%@ %@",self.tt ,self.urlStr];
+    
+    WBSendMessageToWeiboRequest * request = [WBSendMessageToWeiboRequest requestWithMessage:message];
+    request.shouldOpenWeiboAppInstallPageIfNotInstalled = NO;
+    [WeiboSDK sendRequest:request];
 }
 
 - (void)shareQQ
 {
-    //分享跳转URL
-    NSString *url = self.urlStr;
-    //分享图预览图URL地址
-    NSString *previewImageUrl = @"";
-    QQApiNewsObject *newsObj = [QQApiNewsObject
-                                objectWithURL:[NSURL URLWithString:url]
-                                title: self.tt
-                                description:self.subtitle
-                                previewImageURL:[NSURL URLWithString:previewImageUrl]];
+    QQApiNewsObject *newsObj;
+    newsObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:self.urlStr] title:self.tt description:self.subtitle previewImageData:UIImageJPEGRepresentation(self.image, 1.0)];
+
     SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
-    //将内容分享到qq
     QQApiSendResultCode sent = [QQApiInterface sendReq:req];
     [self handleSendResult:sent];
 }
 
-- (void)shareToWeChatSessionWithTitle:(NSString *)title
-                       andDescription:(NSString *)desc
-                             andImage:(UIImage *)img
-                               andUrl:(NSString *)url
-{
-    
-    [self shareToWeChat:WXSceneSession withTitle:title
-         andDescription:desc andImage:img andUrl:url];
-}
-
-- (void)shareToWeChatTimelineWithTitle:(NSString *)title
-                        andDescription:(NSString *)desc
-                              andImage:(UIImage *)img
-                                andUrl:(NSString *)url
-{
-    [self shareToWeChat:WXSceneTimeline withTitle:title
-         andDescription:desc andImage:img andUrl:url];
-}
-
-- (void)shareToWeiboWithTitle:(NSString *)title
-               andDescription:(NSString *)desc
-                     andImage:(UIImage *)img
-                       andUrl:(NSString *)url
-{
-    [self shareWeiboWithTitle:title andDescription:desc
-                     andImage:img andUrl:url];
-}
 
 
 - (void)shareToWeChat:(NSInteger)scene
@@ -151,29 +143,6 @@
     
     [WXApi sendReq:req];
 }
-
-- (void)shareWeiboWithTitle:(NSString *)title andDescription:(NSString *)desc
-                   andImage:(UIImage *)img andUrl:(NSString *)url
-{
-    WBMessageObject *message = [WBMessageObject message];
-    
-    WBImageObject *image = [WBImageObject object];
-    image.imageData = UIImagePNGRepresentation(img);
-    message.imageObject = image;
-    message.text = [NSString stringWithFormat:@"%@ %@",@"随叫随到，好东西，只和你分享! ",url];
-    //    WBWebpageObject *webpage = [WBWebpageObject object];
-    //    webpage.objectID = @"jiao_weibo_share";
-    //    webpage.title = title;
-    //    webpage.description = desc;
-    //    webpage.thumbnailData = UIImagePNGRepresentation(img);
-    //    webpage.webpageUrl = @"http://t.cn/RPMcJCg";
-    //    message.mediaObject = webpage;
-    
-    WBSendMessageToWeiboRequest * request = [WBSendMessageToWeiboRequest requestWithMessage:message];
-    request.shouldOpenWeiboAppInstallPageIfNotInstalled = NO;
-    [WeiboSDK sendRequest:request];
-}
-
 
 #pragma mark - WeChat Delegate
 - (void)onReq:(BaseReq *)req
@@ -297,6 +266,7 @@
 
 
 
+#pragma mark - QQ
 - (void)handleSendResult:(QQApiSendResultCode)sendResult
 {
     switch (sendResult)

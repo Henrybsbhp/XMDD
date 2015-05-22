@@ -15,6 +15,9 @@
 
 @interface SocialShareViewController : UIViewController<WXApiDelegate,WeiboSDKDelegate>
 
+/// 完成登录后的操作
+@property (strong, nonatomic)void(^finishAction)(void);
+
 @property (weak, nonatomic) IBOutlet UIButton *wechatBtn;
 @property (weak, nonatomic) IBOutlet UIButton *timelineBrn;
 @property (weak, nonatomic) IBOutlet UIButton *weiboBtn;

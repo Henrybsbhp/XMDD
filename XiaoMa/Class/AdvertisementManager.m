@@ -48,14 +48,24 @@
     op.type = type;
     signal = [[op rac_postRequest] flattenMap:^RACStream *(GetSystemPromotionOp * op) {
         
+        NSArray * filterArray = [op.rsp_advertisementArray arrayByFilteringOperator:^BOOL(HKAdvertisement * ad) {
+            
+            return [NSDate isDateValidWithBegin:ad.validStart andEnd:ad.validEnd];
+        }];
+        
+        NSArray * sortedArray = [filterArray sortedArrayUsingComparator:^NSComparisonResult(HKAdvertisement * ad1, HKAdvertisement * ad2) {
+            
+            return ad1.weight > ad2.weight;
+        }];
+
         if (type == AdvertisementHomePage)
         {
-            self.homepageAdvertiseArray = op.rsp_advertisementArray;
+            self.homepageAdvertiseArray = sortedArray;
             [self saveInfo:op.rsp_advertisementArray forKey:HomepageAdvertise];
         }
         else if (type == AdvertisementCarWash)
         {
-            self.carwashAdvertiseArray = op.rsp_advertisementArray;
+            self.carwashAdvertiseArray = sortedArray;
             [self saveInfo:op.rsp_advertisementArray forKey:CarwashAdvertise];
             [[NSNotificationCenter defaultCenter] postNotificationName:CarwashAdvertiseNotification object:nil];
         }

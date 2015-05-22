@@ -16,7 +16,7 @@
     self.req_method = @"/user/resource/coupon/get/by-page";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params addParam:@(self.used) forName:@"user"];
+    [params addParam:@(self.used) forName:@"used"];
     [params addParam:self.pageno ? @(self.pageno):@(1) forName:@"pageno"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
