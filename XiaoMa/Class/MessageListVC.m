@@ -10,10 +10,10 @@
 #import "GetMessageOp.h"
 #import "TTTAttributedLabel.h"
 
-@interface MessageListVC ()
+@interface MessageListVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) NSMutableArray *msgList;
 @property (nonatomic, assign) long long curMsgTime;
-@property (strong, nonatomic) IBOutlet JTTableView *jt_tableView;
+@property (strong, nonatomic) IBOutlet JTTableView *tableView;
 @property (nonatomic, assign) BOOL isRemain;
 @end
 
@@ -23,7 +23,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setupTableView];
-    [self reloadDatasource];
+    CKAsyncMainQueue(^{
+        [self reloadDatasource];
+    });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,8 +35,8 @@
 
 - (void)setupTableView
 {
-    [self.jt_tableView setShowBottomLoadingView:YES];
     [self.tableView.refreshView addTarget:self action:@selector(reloadDatasource) forControlEvents:UIControlEventValueChanged];
+    [self.tableView setShowBottomLoadingView:YES];
 }
 
 - (void)reloadDatasource
@@ -50,30 +52,31 @@
     [[[op rac_postRequest] initially:^{
         
         if (timetag == 0) {
-            [self.jt_tableView.refreshView beginRefreshing];
+            [self.tableView.refreshView beginRefreshing];
         }
         else {
-            [self.jt_tableView.bottomLoadingView startActivityAnimation];
+            [self.tableView.bottomLoadingView startActivityAnimation];
         }
     }] subscribeNext:^(GetMessageOp *rspOp) {
-        [self.jt_tableView.refreshView endRefreshing];
-        [self.jt_tableView stopActivityAnimation];
+        
+        [self.tableView.refreshView endRefreshing];
+        [self.tableView stopActivityAnimation];
         if (timetag == 0) {
             self.msgList = [NSMutableArray array];
         }
         [self.msgList safetyAddObjectsFromArray:rspOp.rsp_msgs];
         self.curMsgTime = [[self.msgList lastObject] msgtime];
         if (rspOp.rsp_msgs.count < PageAmount) {
-            [self.jt_tableView.bottomLoadingView showIndicatorTextWith:@"没有更多消息了"];
+            [self.tableView.bottomLoadingView showIndicatorTextWith:@"没有更多消息了"];
             self.isRemain = NO;
         }
         [self.tableView reloadData];
     } error:^(NSError *error) {
         
-        [self.jt_tableView.refreshView endRefreshing];
-        [self.jt_tableView.bottomLoadingView stopActivityAnimation];
+        [self.tableView.refreshView endRefreshing];
+        [self.tableView.bottomLoadingView stopActivityAnimation];
         @weakify(self);
-        [self.jt_tableView.bottomLoadingView showIndicatorTextWith:@"刷新失败了，点击重试" clickBlock:^(UIButton *sender) {
+        [self.tableView.bottomLoadingView showIndicatorTextWith:@"刷新失败了，点击重试" clickBlock:^(UIButton *sender) {
             @strongify(self);
             [self loadDatasourceWithTimetag:timetag];
         }];
@@ -85,22 +88,19 @@
     HKMessage *msg = [self.msgList safetyObjectAtIndex:indexPath.section];
     NSRange range = NSMakeRange(0, 0);
     CGSize size = [TTTAttributedLabel sizeThatFitsAttributedString:[self attrStrForMessage:msg linkRange:&range]
-                                                   withConstraints:CGSizeMake(self.tableView.frame.size.width - 54, 10000)
+                                                   withConstraints:CGSizeMake(self.tableView.frame.size.width-54, 10000)
                                             limitedToNumberOfLines:0];
-    return MAX(size.height+26,65);
+    return MAX(65, size.height+26);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return CGFLOAT_MIN;
-    }
-    return 10;
+    return 20;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 10;
+    return CGFLOAT_MIN;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -120,6 +120,8 @@
     TTTAttributedLabel *label = (TTTAttributedLabel *)[cell.contentView viewWithTag:1001];
     
     label.delegate = (id<TTTAttributedLabelDelegate>)label;
+    label.linkAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
+                             NSForegroundColorAttributeName:HEXCOLOR(@"#386fcd")};
    
     NSRange range = NSMakeRange(0, 0);
     NSAttributedString *str = [self attrStrForMessage:msg linkRange:&range];
@@ -150,7 +152,7 @@
 
 - (void)loadMoreMessages
 {
-    if ([self.jt_tableView.bottomLoadingView isActivityAnimating])
+    if ([self.tableView.bottomLoadingView isActivityAnimating])
     {
         return;
     }
@@ -161,14 +163,14 @@
 - (NSAttributedString *)attrStrForMessage:(HKMessage *)msg linkRange:(NSRange *)range
 {
     NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
-    NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:[UIColor darkTextColor]};
-    NSAttributedString *str1 = [[NSAttributedString alloc] initWithString:msg.content attributes:attr1];
+    NSDictionary *attr = @{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:[UIColor darkTextColor]};
+    NSAttributedString *str1 = [[NSAttributedString alloc] initWithString:msg.content attributes:attr];
     [str appendAttributedString:str1];
     (*range).location = [str length];
-    
+
     if (msg.msgtype == 2) {
-        NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:HEXCOLOR(@"#386fcd")};
-        NSAttributedString *str2 = [[NSAttributedString alloc] initWithString:@" 点击分享" attributes:attr2];
+//        NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:HEXCOLOR(@"#386fcd")};
+        NSAttributedString *str2 = [[NSAttributedString alloc] initWithString:@" 点击分享" attributes:attr];
         (*range).length = [str2 length];
         [str appendAttributedString:str2];
     }

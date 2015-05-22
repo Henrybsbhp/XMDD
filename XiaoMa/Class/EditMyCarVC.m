@@ -35,28 +35,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    if (self.originCar.status == 0 || self.originCar.status == 3) {
-        [self.model setupUploadBtn:self.headerUploadBtn andDescLabel:self.headerDescLabel forStatus:self.originCar.status];
-    }
-    else {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
-        view.backgroundColor = [UIColor clearColor];
-        self.tableView.tableHeaderView = view;
-    }
     [self setupNavigationBar];
-    
-    if (self.originCar) {
-        _curCar = [self.originCar copy];
-        _isEditingModel = YES;
-    }
-    else {
-        _curCar = [HKMyCar new];
-        _isEditingModel = NO;
-    }
-    if (!_isEditingModel) {
-        [self.bottomBar removeFromSuperview];
-    }
-    [self.tableView reloadData];
+    [self setupTableView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -75,7 +55,32 @@
     self.navigationItem.rightBarButtonItem = right;
 }
 
-
+- (void)setupTableView
+{
+    if (self.originCar.status == 0 || self.originCar.status == 3) {
+        [self.model setupUploadBtn:self.headerUploadBtn andDescLabel:self.headerDescLabel forStatus:self.originCar.status];
+    }
+    else {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+        view.backgroundColor = [UIColor clearColor];
+        self.tableView.tableHeaderView = view;
+    }
+    
+    if (self.originCar) {
+        _curCar = [self.originCar copy];
+        _isEditingModel = YES;
+    }
+    else {
+        _curCar = [HKMyCar new];
+        _isEditingModel = NO;
+    }
+    
+    if (!_isEditingModel) {
+        [self.bottomBar removeFromSuperview];
+    }
+    
+    [self.tableView reloadData];
+}
 #pragma mark - Action
 - (void)actionSave:(id)sender
 {
