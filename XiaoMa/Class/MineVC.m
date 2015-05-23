@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *avatarView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *accountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *PlaceholdLabel;
 
 @end
 
@@ -49,8 +50,10 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    //如果当前视图的导航条没有发生跳转，则不做处理
+    if (![self.navigationController.topViewController isEqual:self]) {
+        [self.navigationController setNavigationBarHidden:NO animated:animated];
+    }
 }
 
 - (void)setupBgView
@@ -90,8 +93,11 @@
         @strongify(self);
         [self reloadUserInfo];
         
-        self.nameLabel.text = gAppMgr.myUser ? (gAppMgr.myUser.userName ? gAppMgr.myUser.userName : @"——") : @"未登录";
-        self.accountLabel.text = gAppMgr.myUser.userID ? gAppMgr.myUser.userID : @"——";
+        self.nameLabel.text = gAppMgr.myUser.userName;
+        self.nameLabel.hidden = !gAppMgr.myUser;
+        self.accountLabel.text = gAppMgr.myUser.userID;
+        self.accountLabel.hidden = !gAppMgr.myUser;
+        self.PlaceholdLabel.hidden = gAppMgr.myUser;
         [self.tableView reloadData];
     }];
 }
@@ -122,8 +128,10 @@
 
 - (void)actionPushToMessages
 {
-    MessageListVC *vc = [UIStoryboard vcWithId:@"MessageListVC" inStoryboard:@"Mine"];
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        MessageListVC *vc = [UIStoryboard vcWithId:@"MessageListVC" inStoryboard:@"Mine"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 #pragma mark - Table view data source

@@ -53,12 +53,7 @@
     [self setupBottomView];
     
     self.paymentType = PaymentChannelAlipay;
-    
-    /// 进入此页面，要么有车辆信息，要么车辆信息获取失败（）
-    if (!gAppMgr.myUser.carModel.carsArray)
-    {
-        [self requestGetUserCar];
-    }
+    [self requestGetUserCar];
 
     self.isLoadingResourse = YES;
     [self requestGetUserResource];
@@ -103,12 +98,6 @@
     [str appendAttributedString:attrStr2];
     label.attributedText = str;
 }
-
-//- (void)reloadDatasource
-//{
-//    self.paymentTypeList = [gAppMgr.myUser paymentTypes];
-//    [self.tableView reloadData];
-//}
 
 #pragma mark - Action
 - (IBAction)actionPay:(id)sender
@@ -353,17 +342,11 @@
         [additionB setTitle:[NSString stringWithFormat:@" %.0f分", cc.amount]forState:UIControlStateNormal];
     }
     else if (indexPath.row == 3) {
-        
-        if (self.defaultCar.licencenumber.length)
-        {
-            titleL.text = [NSString stringWithFormat:@"我的车辆：%@", self.defaultCar.licencenumber];
-            additionB.hidden = YES;
-        }
-        else
-        {
-            titleL.text = [NSString stringWithFormat:@"我的车辆："];
-            additionB.hidden = YES;
-        }
+        additionB.hidden = YES;
+        [[RACObserve(self, defaultCar) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(HKMyCar *car) {
+            titleL.text = [NSString stringWithFormat:@"我的车辆：%@", car.licencenumber ? car.licencenumber : @""];
+        }];
+
     }
 
     return cell;
@@ -576,14 +559,8 @@
 
 - (void)requestGetUserCar
 {
-    [[gAppMgr.myUser.carModel rac_updateModel] subscribeNext:^(NSArray * array) {
-        
-        if (array.count)
-        {
-            self.defaultCar = [gAppMgr.myUser.carModel getDefaultCar];
-            NSIndexPath *reloadIndexPath = [NSIndexPath indexPathForRow:3 inSection:0];
-            [self.tableView reloadRowsAtIndexPaths:@[reloadIndexPath] withRowAnimation:UITableViewRowAnimationNone];
-        }
+    [[gAppMgr.myUser.carModel rac_getDefaultCar] subscribeNext:^(id x) {
+        self.defaultCar = x;
     }];
 }
 
@@ -591,7 +568,7 @@
 {
     CheckoutServiceOrderOp * op = [CheckoutServiceOrderOp operation];
     op.serviceid = self.service.serviceID;
-    op.licencenumber = [gAppMgr.myUser.carModel getDefaultCar].licencenumber ? [gAppMgr.myUser.carModel getDefaultCar].licencenumber : @"";
+    op.licencenumber = self.defaultCar.licencenumber ? self.defaultCar.licencenumber : @"";
     op.cid = @"";
     op.paychannel = self.paymentType;
     [[[op rac_postRequest] initially:^{
