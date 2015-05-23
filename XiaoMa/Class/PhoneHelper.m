@@ -35,9 +35,13 @@
     self = [super init];
     if (self)
     {
-        self.exsitBaiduMap = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:BaiduMapUrl]];
-        self.exsitAMap = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:AMapUrl]];
-        self.exsitWechat = [WXApi isWXAppInstalled];
+//        self.exsitBaiduMap = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:BaiduMapUrl]];
+//        self.exsitAMap = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:AMapUrl]];
+//        self.exsitWechat = [WXApi isWXAppInstalled];
+        // 使用canOpenURL可能会被拒绝，先用默认安装表示
+        self.exsitBaiduMap = YES;
+        self.exsitAMap = YES;
+        self.exsitWechat = YES;
     }
     return self;
 }

@@ -23,7 +23,7 @@
 
 @interface WeChatHelper : NSObject
 
-///// 微信支付结果信号
+/// 微信支付结果信号 9000,dismiss,
 @property (nonatomic,strong)RACSubject * rac_wechatResultSignal;
 
 + (instancetype)sharedHelper;

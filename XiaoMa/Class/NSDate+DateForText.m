@@ -191,6 +191,20 @@
 //    NSString *dateToString = [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceReferenceDate:refrenceTime]];
 //    return dateToString;
 }
+
++ (BOOL)isDateValidWithBegin:(NSDate *)beginDate andEnd:(NSDate *)endDate
+{
+    NSDate * now = [NSDate date];
+    if ([now earlierDate:beginDate])
+    {
+        return NO;
+    }
+    if ([now laterDate:endDate])
+    {
+        return NO;
+    }
+    return YES;
+}
 @end
 
 @implementation NSString (DateForText)

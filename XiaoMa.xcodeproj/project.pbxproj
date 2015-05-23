@@ -126,6 +126,7 @@
 		6B086BAF1AE4F46900659DB7 /* TMCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BAA1AE4F46900659DB7 /* TMCache.m */; };
 		6B086BB01AE4F46900659DB7 /* TMDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BAC1AE4F46900659DB7 /* TMDiskCache.m */; };
 		6B086BB11AE4F46900659DB7 /* TMMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BAE1AE4F46900659DB7 /* TMMemoryCache.m */; };
+		6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B343C351B0EFFAF0036AED9 /* ShareUserCouponOp.m */; };
 		6B747A651AF08C7B00106BFD /* PhoneHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B747A641AF08C7B00106BFD /* PhoneHelper.m */; };
 		6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B82588F1AF8B37100D5D800 /* CommentListViewController.m */; };
 		6BAF30181AE67CC800E35E08 /* GetSystemVersionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF30171AE67CC800E35E08 /* GetSystemVersionOp.m */; };
@@ -482,6 +483,8 @@
 		6B086BAC1AE4F46900659DB7 /* TMDiskCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMDiskCache.m; sourceTree = "<group>"; };
 		6B086BAD1AE4F46900659DB7 /* TMMemoryCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMMemoryCache.h; sourceTree = "<group>"; };
 		6B086BAE1AE4F46900659DB7 /* TMMemoryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMMemoryCache.m; sourceTree = "<group>"; };
+		6B343C341B0EFFAF0036AED9 /* ShareUserCouponOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareUserCouponOp.h; path = Class/ShareUserCouponOp.h; sourceTree = "<group>"; };
+		6B343C351B0EFFAF0036AED9 /* ShareUserCouponOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShareUserCouponOp.m; path = Class/ShareUserCouponOp.m; sourceTree = "<group>"; };
 		6B747A631AF08C7B00106BFD /* PhoneHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhoneHelper.h; path = Class/PhoneHelper.h; sourceTree = "<group>"; };
 		6B747A641AF08C7B00106BFD /* PhoneHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhoneHelper.m; path = Class/PhoneHelper.m; sourceTree = "<group>"; };
 		6B82588E1AF8B37100D5D800 /* CommentListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentListViewController.h; sourceTree = "<group>"; };
@@ -1675,6 +1678,8 @@
 				6BBF7DA51B00A78900E45967 /* UpdateUserInfoOp.m */,
 				6BB89CD21B04C23900F3F61F /* UploadLogOp.h */,
 				6BB89CD31B04C23900F3F61F /* UploadLogOp.m */,
+				6B343C341B0EFFAF0036AED9 /* ShareUserCouponOp.h */,
+				6B343C351B0EFFAF0036AED9 /* ShareUserCouponOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -2153,6 +2158,7 @@
 				6BC2209F1AD7AC9D00A4310E /* NSString+MD5.m in Sources */,
 				1883D9101ACBBE30002A4D19 /* main.m in Sources */,
 				6BBF7DA31B008B1000E45967 /* EditMyInfoViewController.m in Sources */,
+				6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */,
 				189B30B71AD50627001D7288 /* PayForWashCarVC.m in Sources */,
 				6BBAB8B61ADBC12D00EC342F /* UpdatePwdOp.m in Sources */,
 				1853DED41AE2A0BD00C39175 /* VcodeLoginVC.m in Sources */,
@@ -2568,7 +2574,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f026ccd8-f1a5-417d-b0fc-c05c2fa7e0b5";
+				PROVISIONING_PROFILE = "5cd20223-a14a-4639-bc86-0b0dd85e1adf";
 			};
 			name = Release;
 		};

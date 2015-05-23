@@ -11,6 +11,9 @@
 #import "GetUserCouponOp.h"
 #import "HKCoupon.h"
 #import "JTTableView.h"
+#import "ShareUserCouponOp.h"
+#import "SocialShareViewController.h"
+#import "DownloadOp.h"
 
 @interface MyCouponVC ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -76,7 +79,7 @@
     UIButton *getMoreBtn = [UIButton new];
     [getMoreBtn setBackgroundColor:[UIColor orangeColor]];
     [getMoreBtn setTitle:@"如何获取更多优惠劵" forState:UIControlStateNormal];
-    [getMoreBtn setFont:[UIFont systemFontOfSize:14]];
+    [getMoreBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
     getMoreBtn.cornerRadius = 5.0f;
     [getMoreBtn.layer setMasksToBounds:YES];
     [[getMoreBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -117,7 +120,8 @@
             if (unused.count >= self.pageAmount){
                 self.isRemain = YES;
             }
-            else{
+            else
+            {
                 self.isRemain = NO;
             }
             if (!self.isRemain){
@@ -133,6 +137,40 @@
         [SVProgressHUD dismiss];
     } error:^(NSError *error) {
         [SVProgressHUD  showErrorWithStatus:@"获取优惠券信息失败"];
+    }];
+}
+
+- (void)requestShareCoupon:(NSNumber *)cid
+{
+    ShareUserCouponOp * op = [ShareUserCouponOp operation];
+    op.cid = cid;
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showText:@"..."];
+    }] subscribeNext:^(ShareUserCouponOp * sop) {
+        
+        DownloadOp * op = [[DownloadOp alloc] init];
+        op.req_uri = sop.rsp_picUrl;
+        [[op rac_getRequest] subscribeNext:^(DownloadOp *op) {
+            
+            [gToast dismiss];
+            NSObject * obj = [UIImage imageWithData: op.rsp_data];
+            if (obj && [obj isKindOfClass:[UIImage class]])
+            {
+                [self shareAction:sop andImage:(UIImage *)obj];
+            }
+            else
+            {
+                [self shareAction:sop andImage:nil];
+            }
+        } error:^(NSError *error) {
+            
+            [gToast dismiss];
+            [self shareAction:sop andImage:nil];
+        }];
+    } error:^(NSError *error) {
+        
+        [gToast showError:@"无法分享"];
     }];
 }
 
@@ -221,6 +259,30 @@
 
     self.tableView.contentSize=CGSizeMake(self.tableView.contentSize.width, self.tableView.contentSize.height+54);
 }
+
+#pragma mark - Utilitly
+- (void)shareAction:(ShareUserCouponOp *)op andImage:(UIImage *)image
+{
+    SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+    vc.tt = op.rsp_title;
+    vc.subtitle = op.rsp_content;
+    vc.image = image ? image :[UIImage imageNamed:@"logo"];
+    vc.urlStr = op.rsp_linkUrl;
+    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+    sheet.shouldCenterVertically = YES;
+    [sheet presentAnimated:YES completionHandler:nil];
+    
+    [vc setFinishAction:^{
+        
+        [sheet dismissAnimated:YES completionHandler:nil];
+    }];
+    
+    [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        [sheet dismissAnimated:YES completionHandler:nil];
+    }];
+}
+
 
 #pragma mark - segmented
 - (void)selectSegmented:(id)sender {
@@ -333,7 +395,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
