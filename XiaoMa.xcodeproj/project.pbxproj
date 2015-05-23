@@ -203,6 +203,8 @@
 		6BCA5F401B102A3700E1E630 /* HKCouponPkg.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F3F1B102A3700E1E630 /* HKCouponPkg.m */; };
 		6BCA5F431B102D5700E1E630 /* GetUserCouponPkg.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F421B102D5700E1E630 /* GetUserCouponPkg.m */; };
 		6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F451B1031EC00E1E630 /* GainCouponPkgOp.m */; };
+		6BCA5F491B104AB300E1E630 /* CouponPkgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F481B104AB300E1E630 /* CouponPkgViewController.m */; };
+		6BCA5F4C1B104B5100E1E630 /* MyCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F4B1B104B5100E1E630 /* MyCollectionViewController.m */; };
 		6BD7AE5B1AE8927C00BEF30E /* WeChatHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */; };
 		6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5D1AE8A64B00BEF30E /* ApiXml.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5F1AE8A64B00BEF30E /* payRequsestHandler.mm */; };
@@ -632,6 +634,10 @@
 		6BCA5F421B102D5700E1E630 /* GetUserCouponPkg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserCouponPkg.m; path = Class/GetUserCouponPkg.m; sourceTree = "<group>"; };
 		6BCA5F441B1031EC00E1E630 /* GainCouponPkgOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GainCouponPkgOp.h; path = Class/GainCouponPkgOp.h; sourceTree = "<group>"; };
 		6BCA5F451B1031EC00E1E630 /* GainCouponPkgOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GainCouponPkgOp.m; path = Class/GainCouponPkgOp.m; sourceTree = "<group>"; };
+		6BCA5F471B104AB300E1E630 /* CouponPkgViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponPkgViewController.h; sourceTree = "<group>"; };
+		6BCA5F481B104AB300E1E630 /* CouponPkgViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponPkgViewController.m; sourceTree = "<group>"; };
+		6BCA5F4A1B104B5100E1E630 /* MyCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectionViewController.h; sourceTree = "<group>"; };
+		6BCA5F4B1B104B5100E1E630 /* MyCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionViewController.m; sourceTree = "<group>"; };
 		6BD7AE591AE8927C00BEF30E /* WeChatHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeChatHelper.h; path = Class/WeChatHelper.h; sourceTree = "<group>"; };
 		6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeChatHelper.m; path = Class/WeChatHelper.m; sourceTree = "<group>"; };
 		6BD7AE5C1AE8A64B00BEF30E /* ApiXml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiXml.h; sourceTree = "<group>"; };
@@ -1439,6 +1445,10 @@
 				6BBF7DA21B008B1000E45967 /* EditMyInfoViewController.m */,
 				6BBB083B1B01F8A30002C349 /* AboutViewController.h */,
 				6BBB083C1B01F8A30002C349 /* AboutViewController.m */,
+				6BCA5F471B104AB300E1E630 /* CouponPkgViewController.h */,
+				6BCA5F481B104AB300E1E630 /* CouponPkgViewController.m */,
+				6BCA5F4A1B104B5100E1E630 /* MyCollectionViewController.h */,
+				6BCA5F4B1B104B5100E1E630 /* MyCollectionViewController.m */,
 			);
 			name = Mine;
 			sourceTree = "<group>";
@@ -2109,6 +2119,7 @@
 				1853DEBE1AE0E66B00C39175 /* LoginVC.m in Sources */,
 				6BBB08501B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m in Sources */,
 				C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */,
+				6BCA5F491B104AB300E1E630 /* CouponPkgViewController.m in Sources */,
 				6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */,
 				6BD7AE641AE8A64B00BEF30E /* WXUtil.mm in Sources */,
 				1851F4251B0C29BB00241A01 /* xmdd.xcdatamodeld in Sources */,
@@ -2200,6 +2211,7 @@
 				1851F41B1B0C210D00241A01 /* GetAutomobileBrandOp.m in Sources */,
 				1851F4321B0C596600241A01 /* PickerAutoModelVC.m in Sources */,
 				189B310C1ADA499C001D7288 /* EnquiryResultVC.m in Sources */,
+				6BCA5F4C1B104B5100E1E630 /* MyCollectionViewController.m in Sources */,
 				6BEA56CF1AE24DCE000D19C1 /* DataVerifier.m in Sources */,
 				6BB884BC1AE0BB9600EBD8F4 /* UIView+JTLoadingView.m in Sources */,
 				1893712B1B0E0D460030FDE1 /* TTTAttributedLabel.m in Sources */,
