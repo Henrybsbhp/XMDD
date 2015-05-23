@@ -466,13 +466,12 @@
         @strongify(self);
         if([LoginViewModel loginIfNeededForTargetViewController:self]) {
             
-            if (gAppMgr.myUser.carModel.carsArray == nil || gAppMgr.myUser.carModel.carsArray.count > 0)
+            if (gAppMgr.myUser.carModel.carArray == nil || gAppMgr.myUser.carModel.carArray.count > 0)
             {
                 PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
                 vc.originVC = self;
                 vc.shop = self.shop;
                 vc.service = service;
-                vc.defaultCar = [gAppMgr.myUser.carModel getDefaultCar];
                 [self.navigationController pushViewController:vc animated:YES];
             }
             else

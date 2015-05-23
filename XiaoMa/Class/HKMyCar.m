@@ -62,6 +62,7 @@
     car.inscomp = _inscomp;
     car.insexipiredate = _insexipiredate;
     car.isDefault = _isDefault;
+    car.status  =_status;
     return car;
 }
 

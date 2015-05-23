@@ -46,6 +46,7 @@
 
 - (void)resetWithAccount:(NSString *)account
 {
+    [self.myUser.carModel removeAllObservers];
     if (!account)
     {
         self.myUser = nil;

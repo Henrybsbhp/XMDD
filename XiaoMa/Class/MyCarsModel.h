@@ -6,19 +6,21 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "BaseModel.h"
+#import "CacheModel.h"
 #import "HKMyCar.h"
+#import "JTQueue.h"
 
-@interface MyCarsModel : BaseModel
+///CacheData为JTQueue对象
+@interface MyCarsModel : CacheModel
 
-@property (nonatomic, readonly, getter=getFavoritesArray) NSArray * carsArray;
 
+- (RACSignal *)rac_addCar:(HKMyCar *)car;
+- (RACSignal *)rac_updateCar:(HKMyCar *)car;
+- (RACSignal *)rac_removeCarByID:(NSNumber *)carId;
+- (HKMyCar *) getCarByID:(NSNumber *)carId;
 
-- (RACSignal *)rac_addCars: (HKMyCar *) car;
-- (RACSignal *)rac_updateCars:(HKMyCar *)car;
-- (RACSignal *)rac_removeCar: (NSNumber *) carId;
-- (HKMyCar *) getCarWithID: (NSNumber *) carId;
-
-- (HKMyCar *)getDefaultCar;
+- (RACSignal *)rac_getDefaultCar;
+- (HKMyCar *)getDefalutCar;
+- (NSArray *)carArray;
 
 @end
