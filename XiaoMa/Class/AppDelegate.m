@@ -409,7 +409,7 @@
             return;
         }
     }
-    self.logModel.userid = gNetworkMgr.bindingMobile ? gNetworkMgr.bindingMobile : @"10086";
+    self.logModel.userid = gAppMgr.myUser.userID ? gAppMgr.myUser.userID : @"00000000000";
     self.logModel.appname = @"com.huika.xmdd";
     [self.logModel addToScreen];
 #endif
