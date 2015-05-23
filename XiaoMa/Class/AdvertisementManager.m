@@ -12,7 +12,11 @@
 #define HomepageAdvertise @"HomepageAdvertise"
 #define CarwashAdvertise @"CarwashAdvertise"
 #define InsuranceAdvertise @"InsuranceAdvertise"
+
+///每12小时更新广告内容
 #define kUpdateAdTimeInterval       60*60*12
+///每5秒钟滚动广告
+#define kScrollAdTimeInterval       5
 
 @interface AdvertisementManager()
 
@@ -75,7 +79,6 @@
     return signal;
 }
 
-#pragma mark - 获取上次
 - (NSArray *)loadLastAdvertiseInfo:(AdvertisementType)type
 {
     NSString * key = [self keyForAdType:type];
@@ -110,6 +113,11 @@
         signal = [signal concat:[self rac_getAdvertisement:type]];
     }
     return signal;
+}
+
+- (RACSignal *)rac_scrollTimerSignal
+{
+    return [RACSignal interval:kScrollAdTimeInterval onScheduler:[RACScheduler scheduler]];
 }
 
 #pragma mark - Utility

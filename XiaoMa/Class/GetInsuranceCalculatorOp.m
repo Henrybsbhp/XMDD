@@ -17,11 +17,11 @@
     self.req_method = @"/insurance/calculator/get";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params addParam:self.req_city forName:@"city"];
-    [params addParam:self.req_licencenumber forName:@"licencenumber"];
-    [params addParam:@(self.req_registered) forName:@"registered"];
-    [params addParam:@(self.req_purchaseprice) forName:@"purchaseprice"];
-    [params addParam:[self.req_purchasedate dateFormatForDT8]  forName:@"purchasedate"];
+    [params safetySetObject:self.req_city forKey:@"city"];
+    [params safetySetObject:self.req_licencenumber forKey:@"licencenumber"];
+    [params safetySetObject:@(self.req_registered) forKey:@"registered"];
+    [params safetySetObject:self.req_purchaseprice forKey:@"purchaseprice"];
+    [params safetySetObject:[self.req_purchasedate dateFormatForDT8]  forKey:@"purchasedate"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }

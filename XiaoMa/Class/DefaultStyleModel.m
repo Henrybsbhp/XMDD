@@ -33,6 +33,8 @@
 {
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:size viewController:vc];
     sheet.cornerRadius = 0;
+    sheet.shadowRadius = 0;
+    sheet.shadowOpacity = 0;
     sheet.transitionStyle = MZFormSheetTransitionStyleSlideFromBottom;
     sheet.shouldDismissOnBackgroundViewTap = YES;
     [MZFormSheetController sharedBackgroundWindow].backgroundBlurEffect = NO;

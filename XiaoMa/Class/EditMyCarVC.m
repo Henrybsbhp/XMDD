@@ -295,6 +295,7 @@
             @strongify(field);
             field.text = [NSString stringWithFormat:@"%.2f", car.price];
         }];
+        
         [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString *str) {
             if (str.length > 0) {
                 car.price = [str floatValue];

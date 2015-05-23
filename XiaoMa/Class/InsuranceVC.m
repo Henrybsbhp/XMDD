@@ -10,9 +10,12 @@
 #import "XiaoMa.h"
 #import "BuyInsuranceOnlineVC.h"
 #import "SYPaginator.h"
+#import "HKAdvertisement.h"
+#import "WebVC.h"
 
 @interface InsuranceVC ()<SYPaginatorViewDataSource,SYPaginatorViewDelegate>
 @property (nonatomic, strong) SYPaginatorView *adView;
+@property (nonatomic, strong) NSArray *adList;
 @end
 
 @implementation InsuranceVC
@@ -38,10 +41,31 @@
     adView.dataSource = self;
     adView.pageGapWidth = 0;
     self.adView = adView;
-    self.adView.currentPageIndex = 0;
+    [self reloadAds];
+    
+    [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
+        NSInteger index = adView.currentPageIndex + 1;
+        if (index > self.adList.count-1) {
+            index = 0;
+        }
+        adView.currentPageIndex = index;
+    }];
 }
 
-
+- (void)reloadAds
+{
+    [[gAdMgr rac_fetchAdListByType:AdvertisementInsurance] subscribeNext:^(NSArray *ads) {
+        self.adList = ads;
+        if (self.adList.count > 0) {
+            self.tableView.tableHeaderView = self.adView;
+            [self.adView reloadDataRemovingCurrentPage:YES];
+            self.adView.currentPageIndex = 0;
+        }
+        else {
+            self.tableView.tableHeaderView = nil;
+        }
+    }];
+}
 #pragma mark - Action
 - (IBAction)actionBuyInsuraceOline:(id)sender {
     BuyInsuranceOnlineVC *vc = [UIStoryboard vcWithId:@"BuyInsuranceOnlineVC" inStoryboard:@"Insurance"];
@@ -71,5 +95,52 @@
 {
     return 10;
 }
+
+#pragma mark - SYPaginatorViewDelegate
+- (NSInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView
+{
+    return self.adList.count;
+}
+
+- (SYPageView *)paginatorView:(SYPaginatorView *)paginatorView viewForPageAtIndex:(NSInteger)pageIndex
+{
+    SYPageView *pageView = [paginatorView dequeueReusablePageWithIdentifier:@"pageView"];
+    if (!pageView) {
+        pageView = [[SYPageView alloc] initWithReuseIdentifier:@"pageView"];
+        UIImageView *imgV = [[UIImageView alloc] initWithFrame:pageView.bounds];
+        imgV.autoresizingMask = UIViewAutoresizingFlexibleAll;
+        imgV.tag = 1001;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] init];
+        [imgV addGestureRecognizer:tap];
+        imgV.userInteractionEnabled = YES;
+        imgV.customObject = tap;
+        
+        [pageView addSubview:imgV];
+    }
+    UIImageView *imgV = (UIImageView *)[pageView viewWithTag:1001];
+    HKAdvertisement * ad = [self.adList safetyObjectAtIndex:pageIndex];
+    [[gMediaMgr rac_getPictureForUrl:ad.adPic withDefaultPic:@"hp_bottom"] subscribeNext:^(id x) {
+        imgV.image = x;
+    }];
+    
+    UITapGestureRecognizer *tap = imgV.customObject;
+    [[[tap rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
+        
+        if (ad.adLink.length > 0) {
+            WebVC * vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
+            vc.title = @"广告";
+            vc.url = ad.adLink;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }];
+    
+    return pageView;
+}
+
+- (void)paginatorView:(SYPaginatorView *)paginatorView didScrollToPageAtIndex:(NSInteger)pageIndex
+{
+    
+}
+
 
 @end
