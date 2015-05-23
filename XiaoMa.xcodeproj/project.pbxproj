@@ -200,6 +200,11 @@
 		6BC3B6151ADF69B5001016A0 /* CarWashNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B6141ADF69B5001016A0 /* CarWashNavigationViewController.m */; };
 		6BC3B6191ADF92E7001016A0 /* CommonUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B6181ADF92E7001016A0 /* CommonUtility.m */; };
 		6BC3B61C1ADF9334001016A0 /* LineDashPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B61B1ADF9334001016A0 /* LineDashPolyline.m */; };
+		6BCA5F401B102A3700E1E630 /* HKCouponPkg.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F3F1B102A3700E1E630 /* HKCouponPkg.m */; };
+		6BCA5F431B102D5700E1E630 /* GetUserCouponPkg.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F421B102D5700E1E630 /* GetUserCouponPkg.m */; };
+		6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F451B1031EC00E1E630 /* GainCouponPkgOp.m */; };
+		6BCA5F491B104AB300E1E630 /* CouponPkgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F481B104AB300E1E630 /* CouponPkgViewController.m */; };
+		6BCA5F4C1B104B5100E1E630 /* MyCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F4B1B104B5100E1E630 /* MyCollectionViewController.m */; };
 		6BD7AE5B1AE8927C00BEF30E /* WeChatHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */; };
 		6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5D1AE8A64B00BEF30E /* ApiXml.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5F1AE8A64B00BEF30E /* payRequsestHandler.mm */; };
@@ -623,6 +628,16 @@
 		6BC3B6181ADF92E7001016A0 /* CommonUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommonUtility.m; path = Class/CommonUtility.m; sourceTree = "<group>"; };
 		6BC3B61A1ADF9334001016A0 /* LineDashPolyline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LineDashPolyline.h; path = Class/LineDashPolyline.h; sourceTree = "<group>"; };
 		6BC3B61B1ADF9334001016A0 /* LineDashPolyline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LineDashPolyline.m; path = Class/LineDashPolyline.m; sourceTree = "<group>"; };
+		6BCA5F3E1B102A3700E1E630 /* HKCouponPkg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKCouponPkg.h; path = Class/HKCouponPkg.h; sourceTree = "<group>"; };
+		6BCA5F3F1B102A3700E1E630 /* HKCouponPkg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKCouponPkg.m; path = Class/HKCouponPkg.m; sourceTree = "<group>"; };
+		6BCA5F411B102D5700E1E630 /* GetUserCouponPkg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserCouponPkg.h; path = Class/GetUserCouponPkg.h; sourceTree = "<group>"; };
+		6BCA5F421B102D5700E1E630 /* GetUserCouponPkg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserCouponPkg.m; path = Class/GetUserCouponPkg.m; sourceTree = "<group>"; };
+		6BCA5F441B1031EC00E1E630 /* GainCouponPkgOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GainCouponPkgOp.h; path = Class/GainCouponPkgOp.h; sourceTree = "<group>"; };
+		6BCA5F451B1031EC00E1E630 /* GainCouponPkgOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GainCouponPkgOp.m; path = Class/GainCouponPkgOp.m; sourceTree = "<group>"; };
+		6BCA5F471B104AB300E1E630 /* CouponPkgViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponPkgViewController.h; sourceTree = "<group>"; };
+		6BCA5F481B104AB300E1E630 /* CouponPkgViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponPkgViewController.m; sourceTree = "<group>"; };
+		6BCA5F4A1B104B5100E1E630 /* MyCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectionViewController.h; sourceTree = "<group>"; };
+		6BCA5F4B1B104B5100E1E630 /* MyCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionViewController.m; sourceTree = "<group>"; };
 		6BD7AE591AE8927C00BEF30E /* WeChatHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeChatHelper.h; path = Class/WeChatHelper.h; sourceTree = "<group>"; };
 		6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeChatHelper.m; path = Class/WeChatHelper.m; sourceTree = "<group>"; };
 		6BD7AE5C1AE8A64B00BEF30E /* ApiXml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiXml.h; sourceTree = "<group>"; };
@@ -979,6 +994,8 @@
 				1851F41D1B0C223A00241A01 /* HKAutoBrand.m */,
 				1893711D1B0DAD290030FDE1 /* HKMessage.h */,
 				1893711E1B0DAD290030FDE1 /* HKMessage.m */,
+				6BCA5F3E1B102A3700E1E630 /* HKCouponPkg.h */,
+				6BCA5F3F1B102A3700E1E630 /* HKCouponPkg.m */,
 			);
 			name = Dataset;
 			sourceTree = "<group>";
@@ -1428,6 +1445,10 @@
 				6BBF7DA21B008B1000E45967 /* EditMyInfoViewController.m */,
 				6BBB083B1B01F8A30002C349 /* AboutViewController.h */,
 				6BBB083C1B01F8A30002C349 /* AboutViewController.m */,
+				6BCA5F471B104AB300E1E630 /* CouponPkgViewController.h */,
+				6BCA5F481B104AB300E1E630 /* CouponPkgViewController.m */,
+				6BCA5F4A1B104B5100E1E630 /* MyCollectionViewController.h */,
+				6BCA5F4B1B104B5100E1E630 /* MyCollectionViewController.m */,
 			);
 			name = Mine;
 			sourceTree = "<group>";
@@ -1680,6 +1701,10 @@
 				6BB89CD31B04C23900F3F61F /* UploadLogOp.m */,
 				6B343C341B0EFFAF0036AED9 /* ShareUserCouponOp.h */,
 				6B343C351B0EFFAF0036AED9 /* ShareUserCouponOp.m */,
+				6BCA5F411B102D5700E1E630 /* GetUserCouponPkg.h */,
+				6BCA5F421B102D5700E1E630 /* GetUserCouponPkg.m */,
+				6BCA5F441B1031EC00E1E630 /* GainCouponPkgOp.h */,
+				6BCA5F451B1031EC00E1E630 /* GainCouponPkgOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -2064,6 +2089,7 @@
 				6BE2BD521AE62B1600A69875 /* GetInsuranceCalculatorOp.m in Sources */,
 				189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */,
 				186984F51B0098A2000A182A /* GetInsuranceOrderListOp.m in Sources */,
+				6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */,
 				1853DECE1AE100CA00C39175 /* HKSMSModel.m in Sources */,
 				1853DEC41AE0EC1600C39175 /* LoginViewModel.m in Sources */,
 				1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */,
@@ -2093,6 +2119,7 @@
 				1853DEBE1AE0E66B00C39175 /* LoginVC.m in Sources */,
 				6BBB08501B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m in Sources */,
 				C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */,
+				6BCA5F491B104AB300E1E630 /* CouponPkgViewController.m in Sources */,
 				6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */,
 				6BD7AE641AE8A64B00BEF30E /* WXUtil.mm in Sources */,
 				1851F4251B0C29BB00241A01 /* xmdd.xcdatamodeld in Sources */,
@@ -2126,6 +2153,7 @@
 				6BEA56481AE24D34000D19C1 /* AlipayHelper.m in Sources */,
 				6BEA56C91AE24DCE000D19C1 /* SBJsonParser.m in Sources */,
 				6BB89CD41B04C23900F3F61F /* UploadLogOp.m in Sources */,
+				6BCA5F401B102A3700E1E630 /* HKCouponPkg.m in Sources */,
 				189B30B01AD4D661001D7288 /* JTTableViewController.m in Sources */,
 				189B395B1AF9A9E500B83F1B /* EditMyCarVC.m in Sources */,
 				1853DED11AE2971500C39175 /* ResetPasswordVC.m in Sources */,
@@ -2144,6 +2172,7 @@
 				189B30B31AD4F7AC001D7288 /* UIView+CustomForXIB.m in Sources */,
 				186985151B02E7DB000A182A /* UIScrollView+RefreshView.m in Sources */,
 				6BEA56C81AE24DCE000D19C1 /* SBJsonBase.m in Sources */,
+				6BCA5F431B102D5700E1E630 /* GetUserCouponPkg.m in Sources */,
 				6BBB82491AE7401400850D0C /* GetInsuranceByChannel.m in Sources */,
 				6BE4CE371AF220A0008E1C19 /* GetUserFavoriteOp.m in Sources */,
 				6BEA56C71AE24DCE000D19C1 /* SBJSON.m in Sources */,
@@ -2182,6 +2211,7 @@
 				1851F41B1B0C210D00241A01 /* GetAutomobileBrandOp.m in Sources */,
 				1851F4321B0C596600241A01 /* PickerAutoModelVC.m in Sources */,
 				189B310C1ADA499C001D7288 /* EnquiryResultVC.m in Sources */,
+				6BCA5F4C1B104B5100E1E630 /* MyCollectionViewController.m in Sources */,
 				6BEA56CF1AE24DCE000D19C1 /* DataVerifier.m in Sources */,
 				6BB884BC1AE0BB9600EBD8F4 /* UIView+JTLoadingView.m in Sources */,
 				1893712B1B0E0D460030FDE1 /* TTTAttributedLabel.m in Sources */,
