@@ -37,6 +37,7 @@ typedef enum : NSUInteger {
     AdvertisementCarWash = 2,
     AdvertisementBankCardBinding = 3,
     AdvertisementAppSlide = 10,
+    AdvertisementInsurance = 11,
     AdvertisementTypeActivities = 20
 } AdvertisementType;
 

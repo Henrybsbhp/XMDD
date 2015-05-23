@@ -108,19 +108,13 @@ static MultiMediaManager *g_mediaManager;
 {
     RACSubject *subject = [RACSubject new];
     
-    JGActionSheetSection *section1 = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"拍照",@"从相册选择"]
-                                                                buttonStyle:JGActionSheetButtonStyleDefault];
-    JGActionSheetSection *section2 = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"取消"]
-                                                                buttonStyle:JGActionSheetButtonStyleCancel];
-    JGActionSheet *sheet = [JGActionSheet actionSheetWithSections:@[section1, section2]];
-    [sheet showInView:view animated:YES];
-    [sheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
-        [sheet dismissAnimated:YES];
-        if (indexPath.section != 0) {
-            [subject sendCompleted];
-        }
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选取照片" delegate:nil cancelButtonTitle:@"取消"
+                                         destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"从相册选择", nil];
+    [sheet showInView:view];
+    [[sheet rac_buttonClickedSignal] subscribeNext:^(NSNumber *x) {
+        NSInteger index = [x integerValue];
         //拍照
-        else if (indexPath.row == 0)
+        if (index == 0)
         {
             if ([UIImagePickerController isFrontCameraAvailable])
             {
@@ -144,7 +138,7 @@ static MultiMediaManager *g_mediaManager;
             }
         }
         // 从相册中选取
-        else if (indexPath.row == 1)
+        else if (index == 1)
         {
             if ([UIImagePickerController isPhotoLibraryAvailable])
             {

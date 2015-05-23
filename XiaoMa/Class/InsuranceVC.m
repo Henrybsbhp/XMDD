@@ -9,21 +9,19 @@
 #import "InsuranceVC.h"
 #import "XiaoMa.h"
 #import "BuyInsuranceOnlineVC.h"
+#import "SYPaginator.h"
 
-@interface InsuranceVC ()
-
+@interface InsuranceVC ()<SYPaginatorViewDataSource,SYPaginatorViewDelegate>
+@property (nonatomic, strong) SYPaginatorView *adView;
 @end
 
 @implementation InsuranceVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    CKAsyncMainQueue(^{
+        [self setupADView];
+    });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -31,6 +29,20 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)setupADView
+{
+    CGFloat width = CGRectGetWidth(self.view.frame);
+    CGFloat height = width*360.0/1242.0;
+    SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+    adView.delegate = self;
+    adView.dataSource = self;
+    adView.pageGapWidth = 0;
+    self.adView = adView;
+    self.adView.currentPageIndex = 0;
+}
+
+
+#pragma mark - Action
 - (IBAction)actionBuyInsuraceOline:(id)sender {
     BuyInsuranceOnlineVC *vc = [UIStoryboard vcWithId:@"BuyInsuranceOnlineVC" inStoryboard:@"Insurance"];
     vc.originVC = self;
@@ -52,7 +64,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return CGFLOAT_MIN;
+    return 8;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section

@@ -9,10 +9,15 @@
 #import "AdvertisementManager.h"
 #import "GetSystemPromotionOp.h"
 
+#define HomepageAdvertise @"HomepageAdvertise"
+#define CarwashAdvertise @"CarwashAdvertise"
+#define InsuranceAdvertise @"InsuranceAdvertise"
+#define kUpdateAdTimeInterval       60*60*12
+
 @interface AdvertisementManager()
 
 @property (nonatomic, strong, readonly) TMCache *adCache;
-
+@property (nonatomic, strong) NSMutableDictionary *timeInfo;
 @end
 
 @implementation AdvertisementManager
@@ -36,6 +41,7 @@
         TMCache *cache = [[TMCache alloc] initWithName:@"AdvertisementCache"];
         cache.diskCache.byteLimit = 200 * 1024 * 1024; // 200M
         _adCache = cache;
+        _timeInfo = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -46,32 +52,25 @@
     RACSignal * signal;
     GetSystemPromotionOp * op = [GetSystemPromotionOp operation];
     op.type = type;
-    signal = [[op rac_postRequest] flattenMap:^RACStream *(GetSystemPromotionOp * op) {
+    signal = [[op rac_postRequest] map:^id(GetSystemPromotionOp *op) {
         
-        NSArray * filterArray = [op.rsp_advertisementArray arrayByFilteringOperator:^BOOL(HKAdvertisement * ad) {
-            
-            return [NSDate isDateValidWithBegin:ad.validStart andEnd:ad.validEnd];
-        }];
+        NSString *key = [self keyForAdType:type];
+        [self saveInfo:op.rsp_advertisementArray forKey:key];
+        [self.timeInfo setObject:@([[NSDate date] timeIntervalSince1970]) forKey:key];
         
-        NSArray * sortedArray = [filterArray sortedArrayUsingComparator:^NSComparisonResult(HKAdvertisement * ad1, HKAdvertisement * ad2) {
-            
-            return ad1.weight > ad2.weight;
-        }];
-
+        NSArray *sortedArray = [self filterAndSortAdList:op.rsp_advertisementArray];
+        
         if (type == AdvertisementHomePage)
         {
             self.homepageAdvertiseArray = sortedArray;
-            [self saveInfo:op.rsp_advertisementArray forKey:HomepageAdvertise];
         }
         else if (type == AdvertisementCarWash)
         {
             self.carwashAdvertiseArray = sortedArray;
-            [self saveInfo:op.rsp_advertisementArray forKey:CarwashAdvertise];
             [[NSNotificationCenter defaultCenter] postNotificationName:CarwashAdvertiseNotification object:nil];
         }
-        
-        
-        return [RACSignal return:op.rsp_advertisementArray];
+
+        return sortedArray;
     }];
     return signal;
 }
@@ -79,15 +78,7 @@
 #pragma mark - 获取上次
 - (NSArray *)loadLastAdvertiseInfo:(AdvertisementType)type
 {
-    NSString * key;
-    if (type == AdvertisementHomePage)
-    {
-        key = HomepageAdvertise;
-    }
-    else if (type == AdvertisementCarWash)
-    {
-        key = CarwashAdvertise;
-    }
+    NSString * key = [self keyForAdType:type];
     NSArray * array = [self.adCache objectForKey:key];
     if (type == AdvertisementHomePage)
     {
@@ -101,9 +92,48 @@
     return array;
 }
 
+- (RACSignal *)rac_fetchAdListByType:(AdvertisementType)type
+{
+    NSString *key = [self keyForAdType:type];
+    RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        
+        NSArray *ads = [self.adCache objectForKey:key];
+        [subscriber sendNext:[self filterAndSortAdList:ads]];
+        [subscriber sendCompleted];
+        return nil;
+    }];
+    
+    NSTimeInterval timetag = [(NSNumber *)[self.timeInfo objectForKey:key] doubleValue];
+    NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
+    //超过时间间隔,则更新该广告信息
+    if (timetag+kUpdateAdTimeInterval < now) {
+        signal = [signal concat:[self rac_getAdvertisement:type]];
+    }
+    return signal;
+}
 
+#pragma mark - Utility
+- (NSArray *)filterAndSortAdList:(NSArray *)ads
+{
+    NSArray * filterArray = [ads arrayByFilteringOperator:^BOOL(HKAdvertisement * ad) {
+        
+        return [NSDate isDateValidWithBegin:ad.validStart andEnd:ad.validEnd];
+    }];
+    
+    NSArray * sortedArray = [filterArray sortedArrayUsingComparator:^NSComparisonResult(HKAdvertisement * ad1, HKAdvertisement * ad2) {
+        
+        return ad1.weight > ad2.weight;
+    }];
+    return sortedArray;
+}
+
+- (NSString *)keyForAdType:(AdvertisementType)type
+{
+    return [NSString stringWithFormat:@"com.huike.xmdd.ad.type.%d", (int)type];
+}
 
 #pragma mark - 数据存取
+
 - (void)saveInfo:(id <NSCoding>)value forKey:(NSString *)key
 {
     CKAsyncHighQueue(^{
