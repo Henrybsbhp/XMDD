@@ -99,53 +99,25 @@
     @weakify(self);
     RACSignal *sig;
     if (self.isEditingModel) {
-//        UpdateCarOp *op = [UpdateCarOp new];
-//        op.req_car = self.curCar;
-//        sig = [op rac_postRequest];
-        [[[gAppMgr.myUser.carModel rac_updateCars:self.curCar] initially:^{
-            
-            [gToast showingWithText:@"正在保存..."];
-        }] subscribeNext:^(id x) {
-            
-            @strongify(self);
-            [gToast showSuccess:@"保存成功!"];
-            [self postCustomNotificationName:kNotifyRefreshMyCarList object:nil];
-            [self.navigationController popViewControllerAnimated:YES];
-        } error:^(NSError *error) {
-            
-            [gToast showError:error.domain];
-        }];
+        sig = [gAppMgr.myUser.carModel rac_updateCar:self.curCar];
     }
     else {
-//        AddCarOp *op = [AddCarOp new];
-//        op.req_car = self.curCar;
-//        sig = [op rac_postRequest];
-        
-        [[[gAppMgr.myUser.carModel rac_addCars:self.curCar] initially:^{
-            
-            [gToast showingWithText:@"正在保存..."];
-        }] subscribeNext:^(id x) {
-            
-            @strongify(self);
-            [gToast showSuccess:@"保存成功!"];
-            [self postCustomNotificationName:kNotifyRefreshMyCarList object:nil];
-            [self.navigationController popViewControllerAnimated:YES];
-        } error:^(NSError *error) {
-            
-            [gToast showError:error.domain];
-        }];
+        sig = [gAppMgr.myUser.carModel rac_addCar:self.curCar];
     }
     
-//    [[sig initially:^{
-//        [gToast showingWithText:@"正在保存..."];
-//    }] subscribeNext:^(id x) {
-//        @strongify(self);
-//        [gToast showSuccess:@"保存成功!"];
-//        [self postCustomNotificationName:kNotifyRefreshMyCarList object:nil];
-//        [self.navigationController popViewControllerAnimated:YES];
-//    } error:^(NSError *error) {
-//        [gToast showError:error.domain];
-//    }];
+    [[sig initially:^{
+        
+        [gToast showingWithText:@"正在保存..."];
+    }] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        [gToast showSuccess:@"保存成功!"];
+        [self.navigationController popViewControllerAnimated:YES];
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain];
+    }];
+
 }
 
 - (IBAction)actionDelete:(id)sender
@@ -155,27 +127,12 @@
         [self.navigationController popViewControllerAnimated:YES];
         return;
     }
-//    @weakify(self);
-//    DeleteCarOp *op = [DeleteCarOp new];
-//    op.req_carid = self.curCar.carId;
-//    [[[op rac_postRequest] initially:^{
-//        [gToast showingWithText:@"正在删除..."];
-//    }] subscribeNext:^(id x) {
-//        @strongify(self);
-//        [gToast showSuccess:@"删除成功!"];
-//        [self postCustomNotificationName:kNotifyRefreshMyCarList object:nil];
-//        [self.navigationController popViewControllerAnimated:YES];
-//    } error:^(NSError *error) {
-//        [gToast showError:error.domain];
-//    }];
-    
-    [[[gAppMgr.myUser.carModel rac_removeCar:self.curCar.carId] initially:^{
+    [[[gAppMgr.myUser.carModel rac_removeCarByID:self.curCar.carId] initially:^{
         
         [gToast showingWithText:@"正在删除..."];
     }] subscribeNext:^(id x) {
         
         [gToast showSuccess:@"删除成功!"];
-        [self postCustomNotificationName:kNotifyRefreshMyCarList object:nil];
         [self.navigationController popViewControllerAnimated:YES];
     } error:^(NSError *error) {
         
@@ -295,6 +252,7 @@
     JTTableViewCell *cell = (JTTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"Cell1" forIndexPath:indexPath];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
+    UILabel *unitL = (UILabel *)[cell.contentView viewWithTag:1003];
 
     HKMyCar *car = self.curCar;
     
@@ -306,7 +264,7 @@
     if (indexPath.row == 0) {
         titleL.attributedText = [self attrStrWithTitle:@"车牌号码" asterisk:YES];
         field.text = car.licencenumber;
-        
+        unitL.text = nil;
         @weakify(field);
         [[[field rac_signalForSelector:@selector(textFieldDidEndEditing:) fromProtocol:@protocol(UITextFieldDelegate)]
           takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -319,6 +277,7 @@
         }];
     }
     else  if (indexPath.row  == 1) {
+        unitL.text = nil;
         titleL.attributedText = [self attrStrWithTitle:@"购车时间" asterisk:YES];
         [[RACObserve(car, purchasedate) takeUntilForCell:cell] subscribeNext:^(NSDate *date) {
             field.text = [date dateFormatForYYMMdd];
@@ -326,7 +285,8 @@
         field.userInteractionEnabled = NO;
     }
     else  if (indexPath.row  == 4) {
-        titleL.attributedText = [self attrStrWithTitle:@"整车价格" mark:@"(万元)"];
+        unitL.text = @"万元";
+        titleL.attributedText = [self attrStrWithTitle:@"整车价格" asterisk:NO];
         field.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
         field.clearsOnBeginEditing = YES;
         field.text = [NSString stringWithFormat:@"%.2f", car.price];
@@ -342,7 +302,8 @@
         }];
     }
     else if (indexPath.row == 5) {
-        titleL.attributedText = [self attrStrWithTitle:@"当前里程" mark:@"(公里)"];
+        unitL.text = @"公里";
+        titleL.attributedText = [self attrStrWithTitle:@"当前里程" asterisk:NO];
         field.keyboardType = UIKeyboardTypeNumberPad;
         field.clearsOnBeginEditing = YES;
         field.text = [NSString stringWithFormat:@"%d", (int)car.odo];
@@ -358,6 +319,7 @@
         }];
     }
     else if (indexPath.row == 6) {
+        unitL.text = nil;
         titleL.attributedText = [self attrStrWithTitle:@"保险到期日" asterisk:NO];
         @weakify(field);
         [[RACObserve(car, insexipiredate) takeUntilForCell:cell] subscribeNext:^(NSDate *date) {
@@ -367,6 +329,7 @@
         field.userInteractionEnabled = NO;
     }
     else if (indexPath.row == 7) {
+        unitL.text = nil;
         titleL.attributedText = [self attrStrWithTitle:@"保险公司" asterisk:NO];
         field.text = car.inscomp;
         [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString *str) {

@@ -103,7 +103,7 @@ static char sActivityIndicatorView;
 
 - (void)startActivityAnimation
 {
-    [self startActivityAnimationWithType:TYMActivityIndicatorType];
+    [self startActivityAnimationWithType:MONActivityIndicatorType];
 }
 
 - (void)startActivityAnimationWithType:(ActivityIndicatorType)type

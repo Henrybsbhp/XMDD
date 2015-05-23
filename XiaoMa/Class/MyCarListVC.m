@@ -7,11 +7,9 @@
 //
 
 #import "MyCarListVC.h"
-#import "GetUserCarOp.h"
 #import "EditMyCarVC.h"
 #import "XiaoMa.h"
 #import "MyCarListVModel.h"
-#import "UpdateCarOp.h"
 
 @interface MyCarListVC ()<UITableViewDataSource, UITableViewDelegate,JTTableViewDelegate>
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
@@ -28,9 +26,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self.tableView.refreshView addTarget:self action:@selector(reloadDatasource) forControlEvents:UIControlEventValueChanged];
+    [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
     [self setupSignals];
-    [self reloadDatasource];
+    [self reloadDataIfNeeded];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,21 +42,39 @@
 
 - (void)setupSignals
 {
-    [self listenNotificationByName:kNotifyRefreshMyCarList withNotifyBlock:^(NSNotification *note, id weakSelf) {
-        [weakSelf reloadDatasource];
+    [RACObserve(gAppMgr, myUser) subscribeNext:^(JTUser *user) {
+        [[user.carModel rac_observeDataWithDoRequest:^{
+            
+            [self.tableView.refreshView beginRefreshing];
+        }] subscribeNext:^(JTQueue *queue) {
+            
+            [self.tableView.refreshView endRefreshing];
+            self.carList = [queue allObjects];
+            [self.tableView reloadData];
+        }];
     }];
 }
 
-- (void)reloadDatasource
+#pragma mark - Reload datas
+- (void)reloadDataIfNeeded
 {
-    GetUserCarOp *op = [GetUserCarOp new];
-    [[[[op rac_postRequest] deliverOn:[RACScheduler mainThreadScheduler]] initially:^{
+    [self reloadDataFromSignal:[gAppMgr.myUser.carModel rac_fetchDataIfNeeded]];
+}
+
+- (void)reloadData
+{
+    [self reloadDataFromSignal:[gAppMgr.myUser.carModel rac_fetchData]];
+}
+
+- (void)reloadDataFromSignal:(RACSignal *)signal
+{
+    [[signal initially:^{
         
         [self.tableView.refreshView beginRefreshing];
-    }] subscribeNext:^(GetUserCarOp *rspOp) {
+    }] subscribeNext:^(JTQueue *queue) {
         
         [self.tableView.refreshView endRefreshing];
-        self.carList = rspOp.rsp_carArray;
+        self.carList = [queue allObjects];
         [self.tableView reloadData];
     } error:^(NSError *error) {
         
@@ -77,17 +93,17 @@
 - (void)uploadDrivingLicenceAtIndexPath:(NSIndexPath *)indexPath
 {
     HKMyCar *car = [self.carList safetyObjectAtIndex:indexPath.section];
+    
     @weakify(self);
     [[[self.model rac_uploadDrivingLicenseWithTargetVC:self initially:^{
         
         [gToast showingWithText:@"正在上传..."];
     }] flattenMap:^RACStream *(NSString *url) {
-        
+
+        //更新行驶证的url，如果更新失败，重置为原来的行驶证url
         NSString *oldurl = car.licenceurl;
         car.licenceurl = url;
-        UpdateCarOp *op = [UpdateCarOp new];
-        op.req_car = car;
-        return [[op rac_postRequest] catch:^RACSignal *(NSError *error) {
+        return [[gAppMgr.myUser.carModel rac_updateCar:car] catch:^RACSignal *(NSError *error) {
             car.licenceurl = oldurl;
             return [RACSignal error:error];
         }];

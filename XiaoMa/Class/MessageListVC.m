@@ -60,7 +60,7 @@
     }] subscribeNext:^(GetMessageOp *rspOp) {
         
         [self.tableView.refreshView endRefreshing];
-        [self.tableView stopActivityAnimation];
+        [self.tableView.bottomLoadingView stopActivityAnimation];
         if (timetag == 0) {
             self.msgList = [NSMutableArray array];
         }
@@ -69,6 +69,9 @@
         if (rspOp.rsp_msgs.count < PageAmount) {
             [self.tableView.bottomLoadingView showIndicatorTextWith:@"没有更多消息了"];
             self.isRemain = NO;
+        }
+        else {
+            self.isRemain = YES;
         }
         [self.tableView reloadData];
     } error:^(NSError *error) {
@@ -140,7 +143,7 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section >= self.msgList.count-1 && self.isRemain) {
+    if (self.msgList.count-1 <= indexPath.section && self.isRemain) {
         [self loadMoreMessages];
     }
 }
