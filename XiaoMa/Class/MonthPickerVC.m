@@ -37,8 +37,6 @@
 + (MonthPickerVC *)monthPickerVC
 {
     MonthPickerVC *vc = [UIStoryboard vcWithId:@"MonthPickerVC" inStoryboard:@"Common"];
-    vc.pickerView.maximumYear = @2100;
-    vc.pickerView.minimumYear = @1900;
     return vc;
 }
 
@@ -57,6 +55,9 @@
                                                                          targetView:view];
     sheet.shouldDismissOnBackgroundViewTap = NO;
     [sheet presentAnimated:YES completionHandler:nil];
+    self.pickerView.maximumYear = @2100;
+    self.pickerView.minimumYear = @1900;
+    self.pickerView.yearFirst = YES;
     if (date) {
         self.pickerView.date = date;
     }

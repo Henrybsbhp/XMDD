@@ -136,7 +136,9 @@
 
 -(NSArray *)monthStrings
 {
-    return [[NSDateFormatter alloc] init].monthSymbols;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.locale = [[NSLocale alloc]initWithLocaleIdentifier:@"zh-Hans"];
+    return formatter.monthSymbols;
 }
 
 -(void)setYearFirst:(BOOL)yearFirst
