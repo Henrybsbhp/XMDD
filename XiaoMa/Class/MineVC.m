@@ -15,6 +15,8 @@
 #import "MyInfoViewController.h"
 #import "AboutViewController.h"
 #import "MessageListVC.h"
+#import "MyCollectionViewController.h"
+#import "CouponPkgViewController.h"
 
 @interface MineVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -252,6 +254,13 @@
     else if (indexPath.section == 2 && indexPath.row == 0) {
         if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
             MyOrderListVC *vc = [UIStoryboard vcWithId:@"MyOrderListVC" inStoryboard:@"Mine"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
+    else if (indexPath.section == 2 && indexPath.row == 1)
+    {
+        if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+            MyCollectionViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"MyCollectionViewController"];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }

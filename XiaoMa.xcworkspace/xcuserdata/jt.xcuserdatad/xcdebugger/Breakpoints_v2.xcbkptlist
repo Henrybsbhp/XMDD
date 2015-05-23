@@ -580,11 +580,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/MineVC.m"
-            timestampString = "453356058.96271"
+            timestampString = "454063701.115194"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
             landmarkName = "-setupBgView"
             landmarkType = "5">
          </BreakpointContent>
@@ -864,12 +864,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/MineVC.m"
-            timestampString = "453356058.96271"
+            timestampString = "454063701.115194"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
-            landmarkName = "-reloadUserInfo"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "-observeUserInfo"
             landmarkType = "5">
             <Locations>
                <Location
@@ -910,11 +910,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/MineVC.m"
-            timestampString = "453356058.96271"
+            timestampString = "454063701.115194"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
             landmarkName = "-reloadUserInfo"
             landmarkType = "5">
          </BreakpointContent>
@@ -926,11 +926,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/MineVC.m"
-            timestampString = "453356058.96271"
+            timestampString = "454063701.115194"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
             landmarkName = "-observeUserInfo"
             landmarkType = "5">
          </BreakpointContent>
