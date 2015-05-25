@@ -8,7 +8,7 @@
 
 #import "BaseOp.h"
 
-@interface GetUserCouponPkg : BaseOp
+@interface GetUserCouponPkgOp : BaseOp
 
 /// 礼包数组
 @property (nonatomic,strong)NSArray * rsp_pkgArray;

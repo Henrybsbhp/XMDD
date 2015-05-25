@@ -24,7 +24,7 @@
     NSMutableArray * t = [NSMutableArray array];
     for (NSDictionary * dict in array)
     {
-        [t addObject:[HKCoupon couponWithJSONResponse:dict]];
+        [t addObject:dict];
     }
     pkg.couponsArray = [NSArray arrayWithArray:t];
     return pkg;

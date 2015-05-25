@@ -6,10 +6,11 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "GetUserCouponPkg.h"
+#import "GetUserCouponPkgOp.h"
 #import "HKCouponPkg.h"
 
-@implementation GetUserCouponPkg
+@implementation GetUserCouponPkgOp
+
 
 - (RACSignal *)rac_postRequest
 {

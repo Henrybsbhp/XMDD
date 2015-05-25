@@ -202,7 +202,7 @@
 		6BC3B6191ADF92E7001016A0 /* CommonUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B6181ADF92E7001016A0 /* CommonUtility.m */; };
 		6BC3B61C1ADF9334001016A0 /* LineDashPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B61B1ADF9334001016A0 /* LineDashPolyline.m */; };
 		6BCA5F401B102A3700E1E630 /* HKCouponPkg.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F3F1B102A3700E1E630 /* HKCouponPkg.m */; };
-		6BCA5F431B102D5700E1E630 /* GetUserCouponPkg.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F421B102D5700E1E630 /* GetUserCouponPkg.m */; };
+		6BCA5F431B102D5700E1E630 /* GetUserCouponPkgOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F421B102D5700E1E630 /* GetUserCouponPkgOp.m */; };
 		6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F451B1031EC00E1E630 /* GainCouponPkgOp.m */; };
 		6BCA5F491B104AB300E1E630 /* CouponPkgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F481B104AB300E1E630 /* CouponPkgViewController.m */; };
 		6BCA5F4C1B104B5100E1E630 /* MyCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F4B1B104B5100E1E630 /* MyCollectionViewController.m */; };
@@ -633,8 +633,8 @@
 		6BC3B61B1ADF9334001016A0 /* LineDashPolyline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LineDashPolyline.m; path = Class/LineDashPolyline.m; sourceTree = "<group>"; };
 		6BCA5F3E1B102A3700E1E630 /* HKCouponPkg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKCouponPkg.h; path = Class/HKCouponPkg.h; sourceTree = "<group>"; };
 		6BCA5F3F1B102A3700E1E630 /* HKCouponPkg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKCouponPkg.m; path = Class/HKCouponPkg.m; sourceTree = "<group>"; };
-		6BCA5F411B102D5700E1E630 /* GetUserCouponPkg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserCouponPkg.h; path = Class/GetUserCouponPkg.h; sourceTree = "<group>"; };
-		6BCA5F421B102D5700E1E630 /* GetUserCouponPkg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserCouponPkg.m; path = Class/GetUserCouponPkg.m; sourceTree = "<group>"; };
+		6BCA5F411B102D5700E1E630 /* GetUserCouponPkgOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserCouponPkgOp.h; path = Class/GetUserCouponPkgOp.h; sourceTree = "<group>"; };
+		6BCA5F421B102D5700E1E630 /* GetUserCouponPkgOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserCouponPkgOp.m; path = Class/GetUserCouponPkgOp.m; sourceTree = "<group>"; };
 		6BCA5F441B1031EC00E1E630 /* GainCouponPkgOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GainCouponPkgOp.h; path = Class/GainCouponPkgOp.h; sourceTree = "<group>"; };
 		6BCA5F451B1031EC00E1E630 /* GainCouponPkgOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GainCouponPkgOp.m; path = Class/GainCouponPkgOp.m; sourceTree = "<group>"; };
 		6BCA5F471B104AB300E1E630 /* CouponPkgViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponPkgViewController.h; sourceTree = "<group>"; };
@@ -1714,8 +1714,8 @@
 				6BB89CD31B04C23900F3F61F /* UploadLogOp.m */,
 				6B343C341B0EFFAF0036AED9 /* ShareUserCouponOp.h */,
 				6B343C351B0EFFAF0036AED9 /* ShareUserCouponOp.m */,
-				6BCA5F411B102D5700E1E630 /* GetUserCouponPkg.h */,
-				6BCA5F421B102D5700E1E630 /* GetUserCouponPkg.m */,
+				6BCA5F411B102D5700E1E630 /* GetUserCouponPkgOp.h */,
+				6BCA5F421B102D5700E1E630 /* GetUserCouponPkgOp.m */,
 				6BCA5F441B1031EC00E1E630 /* GainCouponPkgOp.h */,
 				6BCA5F451B1031EC00E1E630 /* GainCouponPkgOp.m */,
 			);
@@ -2185,7 +2185,7 @@
 				189B30B31AD4F7AC001D7288 /* UIView+CustomForXIB.m in Sources */,
 				186985151B02E7DB000A182A /* UIScrollView+RefreshView.m in Sources */,
 				6BEA56C81AE24DCE000D19C1 /* SBJsonBase.m in Sources */,
-				6BCA5F431B102D5700E1E630 /* GetUserCouponPkg.m in Sources */,
+				6BCA5F431B102D5700E1E630 /* GetUserCouponPkgOp.m in Sources */,
 				6BBB82491AE7401400850D0C /* GetInsuranceByChannel.m in Sources */,
 				6BE4CE371AF220A0008E1C19 /* GetUserFavoriteOp.m in Sources */,
 				6BEA56C71AE24DCE000D19C1 /* SBJSON.m in Sources */,
