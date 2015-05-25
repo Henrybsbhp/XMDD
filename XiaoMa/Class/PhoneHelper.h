@@ -19,7 +19,7 @@
 
 + (PhoneHelper *)sharedHelper;
 
-- (void)navigationRedirectThireMap:(JTShop *)shop andUserLocation:(CLLocationCoordinate2D)userCoordinate andView:(UIView *)view;
+- (void)navigationRedirectThirdMap:(JTShop *)shop andUserLocation:(CLLocationCoordinate2D)userCoordinate andView:(UIView *)view;
 
 
 - (void)makePhone:(NSString *)phoneNumber andInfo:(NSString *)info;

@@ -482,7 +482,7 @@
         
         @strongify(self)
         
-        [gPhoneHelper navigationRedirectThireMap:shop andUserLocation:self.userCoordinate andView:self.view];
+        [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.view];
     }];
 
     return pageView;
