@@ -1125,36 +1125,6 @@
             endingLineNumber = "101"
             landmarkName = "-rac_removeCar:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__29-[MyCarsModel rac_removeCar:]_block_invoke"
-                  moduleName = "XiaoMa"
-                  urlString = "file:///Users/jt/Documents/xmdd_ios/XiaoMa/Class/MyCarsModel.m"
-                  timestampString = "453976203.268065"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "101"
-                  endingLineNumber = "101"
-                  offsetFromSymbolStart = "88">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__29-[MyCarsModel rac_removeCar:]_block_invoke_2"
-                  moduleName = "XiaoMa"
-                  urlString = "file:///Users/jt/Documents/xmdd_ios/XiaoMa/Class/MyCarsModel.m"
-                  timestampString = "453976203.268245"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "101"
-                  endingLineNumber = "101"
-                  offsetFromSymbolStart = "44">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1171,6 +1141,36 @@
             endingLineNumber = "93"
             landmarkName = "-rac_removeCar:"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__32-[MyCarsModel rac_getDefaultCar]_block_invoke"
+                  moduleName = "XiaoMa"
+                  urlString = "file:///Users/jt/Documents/xmdd_ios/XiaoMa/Class/MyCarsModel.m"
+                  timestampString = "454214869.868371"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "93"
+                  endingLineNumber = "93"
+                  offsetFromSymbolStart = "138">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__32-[MyCarsModel rac_getDefaultCar]_block_invoke"
+                  moduleName = "XiaoMa"
+                  urlString = "file:///Users/jt/Documents/xmdd_ios/XiaoMa/Class/MyCarsModel.m"
+                  timestampString = "454214869.868768"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "93"
+                  endingLineNumber = "93"
+                  offsetFromSymbolStart = "168">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1551,6 +1551,36 @@
             endingLineNumber = "154"
             landmarkName = "-requestShareCoupon:"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__33-[MyCouponVC requestShareCoupon:]_block_invoke_2"
+                  moduleName = "XiaoMa"
+                  urlString = "file:///Users/jt/Documents/xmdd_ios/XiaoMa/Class/MyCouponVC.m"
+                  timestampString = "454214869.922064"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "154"
+                  endingLineNumber = "154"
+                  offsetFromSymbolStart = "198">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__33-[MyCouponVC requestShareCoupon:]_block_invoke_3"
+                  moduleName = "XiaoMa"
+                  urlString = "file:///Users/jt/Documents/xmdd_ios/XiaoMa/Class/MyCouponVC.m"
+                  timestampString = "454214869.922416"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "154"
+                  endingLineNumber = "154"
+                  offsetFromSymbolStart = "52">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1567,6 +1597,84 @@
             endingLineNumber = "175"
             landmarkName = "-requestShareCoupon:"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XiaoMa/Class/MyCollectionViewController.m"
+            timestampString = "454214638.346027"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "325"
+            endingLineNumber = "325"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XiaoMa/Class/MyCollectionViewController.m"
+            timestampString = "454214638.346027"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
+            landmarkName = "-refreshCheckBox"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XiaoMa/Class/MyCollectionViewController.m"
+            timestampString = "454214638.346027"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
+            landmarkName = "-requestDeleteFavorites"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MyCollectionViewController requestDeleteFavorites]"
+                  moduleName = "XiaoMa"
+                  urlString = "file:///Users/jt/Documents/xmdd_ios/XiaoMa/Class/MyCollectionViewController.m"
+                  timestampString = "454214869.930259"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "204"
+                  endingLineNumber = "204"
+                  offsetFromSymbolStart = "217">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__52-[MyCollectionViewController requestDeleteFavorites]_block_invoke188"
+                  moduleName = "XiaoMa"
+                  urlString = "file:///Users/jt/Documents/xmdd_ios/XiaoMa/Class/MyCollectionViewController.m"
+                  timestampString = "454214869.930645"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "206"
+                  endingLineNumber = "206"
+                  offsetFromSymbolStart = "23">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

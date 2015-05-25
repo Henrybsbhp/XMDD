@@ -12,6 +12,8 @@
 #import "JTShop.h"
 #import "JTRatingView.h"
 #import "ShopDetailVC.h"
+#import "DeleteUserFavoriteOp.h"
+#import "UIView+Layer.h"
 
 
 @interface MyCollectionViewController ()
@@ -36,6 +38,7 @@
     [self setupNavigationBar];
     [self setupRAC];
     [self initUI];
+    [self refreshBottomView];
     
     self.selectSet = [[NSMutableIndexSet alloc] init];
 }
@@ -56,7 +59,7 @@
 {
     [super viewWillDisappear:animated];
     
-    [SVProgressHUD dismiss];
+    [gToast dismiss];
 }
 
 - (void)dealloc
@@ -92,6 +95,27 @@
     self.navigationItem.rightBarButtonItem = rightBtn;
 }
 
+- (void)refreshBottomView
+{
+    CGFloat offsetY = 0;
+    if (self.isEditing)
+    {
+        offsetY = -45;
+    }
+    else
+    {
+        offsetY = 0;
+    }
+    [UIView animateWithDuration:0.5f animations:^{
+        
+        [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+            
+            make.top.mas_equalTo(self.view.mas_bottom).offset(offsetY);
+            make.height.mas_equalTo(45);
+        }];
+    }];
+}
+
 - (void)refreshCheckBox
 {
     if(self.selectSet.count == gAppMgr.myUser.favorites.favoritesArray.count)
@@ -106,8 +130,10 @@
 
 - (void)setupRAC
 {
+    @weakify(self)
     [[self.allSelectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        @strongify(self)
         [self.selectSet removeAllIndexes];
         if (self.selectSet.count == gAppMgr.myUser.favorites.favoritesArray.count)
         {
@@ -121,9 +147,18 @@
         [self refreshCheckBox];
     }];
     
+    
     [[self.deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        
+        @strongify(self)
+        if (self.selectSet.count)
+        {
+            [self requestDeleteFavorites];
+        }
+        else
+        {
+            [gToast showError:@"请选择一家商户进行删除"];
+        }
     }];
 }
 
@@ -132,6 +167,9 @@
 - (void)editActions:(id)sender
 {
     self.isEditing = !self.isEditing;
+    
+    [self refreshBottomView];
+    
     [self.navigationItem.rightBarButtonItem setTitle:(self.isEditing ? @"完成":@"编辑")];
     [self.tableView reloadData];
 }
@@ -154,9 +192,32 @@
     return str;
 }
 
+- (void)requestDeleteFavorites
+{
+    NSMutableArray * array = [NSMutableArray array];
+    [self.selectSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        
+        JTShop * shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:idx];
+        [array addObject:shop.shopID];
+    }];
+    
+    [[[gAppMgr.myUser.favorites rac_removeFavorite:array] initially:^{
+        
+        [gToast showText:@"移除中..."];
+    }] subscribeNext:^(id x) {
+        
+        [gToast showText:@"移除成功！"];
+        
+        [self.selectSet removeAllIndexes];
+        [self editActions:nil];
+    } error:^(NSError *error) {
+        
+        [gToast showError:@"移除失败！"];
+    }];
+}
+
 
 #pragma mark - Table view data source
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
@@ -165,12 +226,17 @@
     return [gAppMgr.myUser.favorites.favoritesArray count];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 185.0f;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (!self.isEditing)
     {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];
-        JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.row];
+        JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray  safetyObjectAtIndex:indexPath.row];
         //row 0
         UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
         UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
@@ -247,7 +313,7 @@
     }
     else
     {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"EditShopCell" forIndexPath:indexPath];
         JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.row];
         //row 0
         UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
@@ -358,10 +424,13 @@
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGFLOAT_MIN;
-    
+    NSInteger mask = indexPath.row == 0 ? CKViewBorderDirectionBottom : CKViewBorderDirectionBottom | CKViewBorderDirectionTop;
+    [cell.contentView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:mask];
+    [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(0, 0, 8, 0) forDirectionMask:mask];
+    [cell.contentView showBorderLineWithDirectionMask:mask];
 }
+
 
 @end
