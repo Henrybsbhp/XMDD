@@ -20,7 +20,7 @@
 @property (nonatomic, assign) NSInteger req_registered;
 
 ///购置价格
-@property (nonatomic)CGFloat req_purchaseprice;
+@property (nonatomic, strong) NSString *req_purchaseprice;
 
 ///购置日期
 @property (nonatomic,strong)NSDate * req_purchasedate;

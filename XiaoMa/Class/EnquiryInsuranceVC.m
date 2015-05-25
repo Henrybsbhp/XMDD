@@ -9,7 +9,7 @@
 #import "EnquiryInsuranceVC.h"
 #import "XiaoMa.h"
 #import <Masonry.h>
-#import "DatePickerVC.h"
+#import "MonthPickerVC.h"
 #import "UIView+Shake.h"
 #import "EnquiryResultVC.h"
 #import "GetInsuranceCalculatorOp.h"
@@ -25,10 +25,13 @@
 ///城市
 @property (nonatomic, strong) NSString *city;
 ///价格
-@property (nonatomic, assign) NSUInteger price;
+@property (nonatomic, strong) NSString *price;
 ///提车时间
 @property (nonatomic, strong) NSString *strCarryTime;
 @property (nonatomic, strong) NSDate *carryTime;
+@property (strong, nonatomic) IBOutlet UIView *headerView;
+@property (weak, nonatomic) IBOutlet UIView *headerContainerView;
+@property (nonatomic, strong) NSArray *carList;
 
 @end
 
@@ -36,7 +39,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self reloadDatasource];
+    CKAsyncMainQueue(^{
+        [self setupHeaderView];
+        [self reloadDatasource];
+    });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,29 +50,55 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)setupHeaderView
+{
+    [RACObserve(gAppMgr, myUser) subscribeNext:^(id x) {
+        self.tableView.tableHeaderView = nil;
+        self.headerView.frame = CGRectMake(0, 0, self.view.frame.size.width, 80);
+        self.tableView.tableHeaderView = self.headerView;
+        [self reloadHeaderView];
+    }];
+}
+
+- (void)reloadHeaderView
+{
+    [[[gAppMgr.myUser.carModel rac_fetchDataIfNeeded] initially:^{
+        [self.headerContainerView hideIndicatorText];
+        [self.headerContainerView startActivityAnimationWithType:UIActivityIndicatorType];
+    }] subscribeNext:^(NSArray *carList) {
+        [self.headerContainerView stopActivityAnimation];
+        self.carList = carList;
+//        [self reloadHeaderView];
+    } error:^(NSError *error) {
+        @weakify(self);
+        [self.headerContainerView stopActivityAnimation];
+        [self.headerContainerView showIndicatorTextWith:@"获取我的爱车失败，点击重试" clickBlock:^(UIButton *sender) {
+            @strongify(self);
+            [self reloadHeaderView];
+        }];
+    }];
+
+}
+
 - (void)reloadDatasource
 {
     //提车时间
-    self.carryTime = [NSDate date];
-    self.strCarryTime = [self.carryTime dateFormatForYYMM];
+    self.city = gMapHelper.city;
     [self.tableView reloadData];
 }
 
 #pragma mark - Action
 - (IBAction)actionEnquiry:(id)sender
 {
-    if ([self shakeIfNeededAtRow:0]) {
-        return;
-    }
+    // 检测车牌
     if ([self shakeIfNeededAtRow:1]) {
         return;
     }
+    //购车价格
     if ([self shakeIfNeededAtRow:2]) {
         return;
     }
-    if ([self shakeIfNeededAtRow:3]) {
-        return;
-    }
+
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         GetInsuranceCalculatorOp * op = [GetInsuranceCalculatorOp operation];
         op.req_city = self.city;
@@ -147,6 +179,14 @@
         [self.view endEditing:YES];
         [self pickDate];
     }
+    else {
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
+        if ([field isKindOfClass:[UITextField class]] && field.userInteractionEnabled == YES) {
+            [field becomeFirstResponder];
+        }
+
+    }
 }
 
 #pragma mark - TableCell
@@ -164,11 +204,27 @@
 - (void)setupPriceCell:(UITableViewCell *)cell
 {
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
-    field.text = self.price > 0 ? [NSString stringWithFormat:@"%d", (int)self.price] : @"";
+    field.text = self.price;
+    if (!field.delegate) {
+        field.delegate = (id<UITextFieldDelegate>)field;
+    }
     @weakify(self);
-    [[[field rac_textSignal] distinctUntilChanged] subscribeNext:^(id x) {
+    @weakify(field);
+    //end editing
+    [[[field rac_signalForSelector:@selector(textFieldDidEndEditing:) fromProtocol:@protocol(UITextFieldDelegate)]
+      takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(RACTuple *tuple) {
+        @strongify(field);
         @strongify(self);
-        self.price = [x floatValue];
+        [field setValue:self.price forKey:@"text"];
+    }];
+    
+    //text did changed
+    [[field rac_textSignal] subscribeNext:^(NSString *text) {
+        
+        @strongify(self);
+        if (text.length > 0) {
+            self.price = [NSString stringWithFormat:@"%.2f", [text floatValue]];
+        }
     }];
 }
 
@@ -211,7 +267,7 @@
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
     if (field.text.length == 0) {
-        [field shake];
+        [cell.contentView shake];
         return YES;
     }
     return NO;
@@ -219,7 +275,7 @@
 
 - (void)pickDate
 {
-    [[DatePickerVC rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.carryTime] subscribeNext:^(NSDate *date) {
+    [[MonthPickerVC rac_presentPickerVCInView:self.navigationController.view withSelectedDate:self.carryTime] subscribeNext:^(NSDate *date) {
         self.carryTime = date;
         self.strCarryTime = [date dateFormatForYYMM];
     }];
