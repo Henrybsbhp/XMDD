@@ -29,6 +29,9 @@
 ///提车时间
 @property (nonatomic, strong) NSString *strCarryTime;
 @property (nonatomic, strong) NSDate *carryTime;
+@property (strong, nonatomic) IBOutlet UIView *headerView;
+@property (weak, nonatomic) IBOutlet UIView *headerContainerView;
+@property (nonatomic, strong) NSArray *carList;
 
 @end
 
@@ -36,12 +39,45 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self reloadDatasource];
+    CKAsyncMainQueue(^{
+        [self setupHeaderView];
+        [self reloadDatasource];
+    });
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setupHeaderView
+{
+    [RACObserve(gAppMgr, myUser) subscribeNext:^(id x) {
+        self.tableView.tableHeaderView = nil;
+        self.headerView.frame = CGRectMake(0, 0, self.view.frame.size.width, 80);
+        self.tableView.tableHeaderView = self.headerView;
+        [self reloadHeaderView];
+    }];
+}
+
+- (void)reloadHeaderView
+{
+    [[[gAppMgr.myUser.carModel rac_fetchDataIfNeeded] initially:^{
+        [self.headerContainerView hideIndicatorText];
+        [self.headerContainerView startActivityAnimationWithType:UIActivityIndicatorType];
+    }] subscribeNext:^(NSArray *carList) {
+        [self.headerContainerView stopActivityAnimation];
+        self.carList = carList;
+//        [self reloadHeaderView];
+    } error:^(NSError *error) {
+        @weakify(self);
+        [self.headerContainerView stopActivityAnimation];
+        [self.headerContainerView showIndicatorTextWith:@"获取我的爱车失败，点击重试" clickBlock:^(UIButton *sender) {
+            @strongify(self);
+            [self reloadHeaderView];
+        }];
+    }];
+
 }
 
 - (void)reloadDatasource
