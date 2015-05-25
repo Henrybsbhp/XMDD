@@ -70,17 +70,20 @@
     
 }
 
-- (RACSignal *) rac_removeFavorite:(NSNumber *)shopid
+- (RACSignal *) rac_removeFavorite:(NSArray *)shopArray
 {
     DeleteUserFavoriteOp * op = [DeleteUserFavoriteOp operation];
-    op.shopArray = @[shopid];
+    op.shopArray = shopArray;
     
     return [[op rac_postRequest] doNext:^(DeleteUserFavoriteOp * removeOp) {
         
         // 修改现有的Array
-        _favoritesArray = [_favoritesArray arrayByFilteringOperator:^BOOL(JTShop * shop) {
-            return ![shop.shopID isEqualToNumber:shopid];
-        }];
+        for (NSNumber * shopId in shopArray)
+        {
+            _favoritesArray = [_favoritesArray arrayByFilteringOperator:^BOOL(JTShop * shop) {
+                return ![shop.shopID isEqualToNumber:shopId];
+            }];
+        }
         
         [self updateModelWithData:_favoritesArray];
     }];
