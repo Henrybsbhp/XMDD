@@ -12,7 +12,8 @@
 
 typedef enum : NSUInteger {
     TYMActivityIndicatorType,
-    MONActivityIndicatorType
+    MONActivityIndicatorType,
+    UIActivityIndicatorType
 } ActivityIndicatorType;
 
 @interface UIView (JTLoadingView)<MONActivityIndicatorViewDelegate>

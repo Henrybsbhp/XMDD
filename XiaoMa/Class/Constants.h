@@ -37,6 +37,7 @@ typedef enum : NSUInteger {
     AdvertisementCarWash = 2,
     AdvertisementBankCardBinding = 3,
     AdvertisementAppSlide = 10,
+    AdvertisementInsurance = 11,
     AdvertisementTypeActivities = 20
 } AdvertisementType;
 
@@ -57,9 +58,9 @@ typedef enum : NSUInteger {
 
 #define PageAmount 10
 
-#define AppleNavigationStr @"苹果导航"
-#define BaiduNavigationStr @"百度导航"
-#define AMapNavigationStr @"高德导航"
+#define AppleNavigationStr @"苹果地图"
+#define BaiduNavigationStr @"百度地图"
+#define AMapNavigationStr @"高德地图"
 
 //单例别名
 #define gAppDelegate       ((AppDelegate *)[UIApplication sharedApplication].delegate)

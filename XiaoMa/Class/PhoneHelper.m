@@ -11,13 +11,6 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 
-@interface PhoneHelper ()
-
-@property (nonatomic)NSInteger cancelIndex;
-
-@end
-
-
 @implementation PhoneHelper
 
 + (PhoneHelper *)sharedHelper
@@ -46,75 +39,53 @@
     return self;
 }
 
-- (void)navigationRedirectThireMap:(JTShop *)shop andUserLocation:(CLLocationCoordinate2D)userCoordinate andView:(UIView *)view;
+- (void)navigationRedirectThirdMap:(JTShop *)shop andUserLocation:(CLLocationCoordinate2D)userCoordinate andView:(UIView *)view;
 {
-    self.cancelIndex = 1;
-    
-    UIActionSheet * sheet;
+    // 添加苹果自带导航
+    UIActionSheet * sheet = [[UIActionSheet alloc] initWithTitle:@"请选择导航软件"
+                                                        delegate:nil
+                                               cancelButtonTitle:@"取消"
+                                          destructiveButtonTitle:nil
+                                               otherButtonTitles:AppleNavigationStr,nil];
+
+    // 添加百度导航
     if (self.exsitBaiduMap)
     {
-        if (self.exsitAMap)
-        {
-            sheet = [[UIActionSheet alloc] initWithTitle:@"请选择导航软件" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:AppleNavigationStr,BaiduNavigationStr,AMapNavigationStr,nil];
-            self.cancelIndex = 3;
-        }
-        else
-        {
-            sheet = [[UIActionSheet alloc] initWithTitle:@"请选择导航软件" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:AppleNavigationStr,BaiduNavigationStr,nil];
-            self.cancelIndex = 2;
-        }
+        [sheet addButtonWithTitle:BaiduNavigationStr];
     }
-    else
+
+    // 添加高德导航
+    if (self.exsitAMap)
     {
-        if (self.exsitAMap)
-        {
-            sheet = [[UIActionSheet alloc] initWithTitle:@"请选择导航软件" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:AppleNavigationStr,AMapNavigationStr,nil];
-            self.cancelIndex = 2;
-        }
-        else
-        {
-            sheet = [[UIActionSheet alloc] initWithTitle:@"请选择导航软件" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:AppleNavigationStr,nil];
-            self.cancelIndex = 1;
-        }
+        [sheet addButtonWithTitle:AMapNavigationStr];
     }
-    
+
+
     [sheet showInView:view];
     
     [[sheet rac_buttonClickedSignal] subscribeNext:^(NSNumber * index) {
+        NSString * title = [sheet buttonTitleAtIndex:[index integerValue]];
         
-        NSInteger buttonIndex = [index integerValue];
-        
-        if (buttonIndex == self.cancelIndex)
+        // 如果点击了苹果导航
+        if ([title equalByCaseInsensitive: AppleNavigationStr])
         {
-            return;
-        }
-        
-        NSString * baiduUrlString = [[NSString stringWithFormat:@"baidumap://map/direction?mode=driving&origin=latlng:%f,%f|name:我的位置&destination=latlng:%f,%f|name:%@&zoom=10&src=小马达达",userCoordinate.latitude,userCoordinate.longitude,shop.shopLatitude,shop.shopLongitude,shop.shopName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSString *amapUrlString = [[NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=%@&lat=%f&lon=%f&dev=1&style=2&poiname=%@&backScheme=amap.huika.xmdd",@"小马达达", @"com.huika.xmdd",shop.shopLatitude, shop.shopLongitude,shop.shopName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        if (buttonIndex == 0)
-        {
-            
             MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
             MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:CLLocationCoordinate2DMake(shop.shopLatitude, shop.shopLongitude) addressDictionary:nil]];
             toLocation.name = shop.shopName;
             
             [MKMapItem openMapsWithItems:@[currentLocation, toLocation]
                            launchOptions:@{MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,MKLaunchOptionsShowsTrafficKey: [NSNumber numberWithBool:YES]}];
-        }
-        else if (buttonIndex == 1)
+        } // 如果点击了百度导航
+        else if ([title equalByCaseInsensitive: BaiduNavigationStr])
         {
-            if (self.exsitBaiduMap)
-            {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:baiduUrlString]];
-            }
-            else
-            {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:amapUrlString]];
-                
-            }
-        }
-        else
+            NSString * baiduUrlString = [[NSString stringWithFormat:@"baidumap://map/direction?mode=driving&origin=latlng:%f,%f|name:我的位置&destination=latlng:%f,%f|name:%@&zoom=10&src=小马达达",userCoordinate.latitude,userCoordinate.longitude,shop.shopLatitude,shop.shopLongitude,shop.shopName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:baiduUrlString]];
+        }// 如果点击了高德导航
+        else if ([title equalByCaseInsensitive: AMapNavigationStr])
         {
+            NSString *amapUrlString = [[NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=%@&lat=%f&lon=%f&dev=1&style=2&poiname=%@&backScheme=amap.huika.xmdd",@"小马达达", @"com.huika.xmdd",shop.shopLatitude, shop.shopLongitude,shop.shopName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:amapUrlString]];
         }
     }];

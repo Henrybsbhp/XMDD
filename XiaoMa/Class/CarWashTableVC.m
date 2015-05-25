@@ -40,7 +40,7 @@
 
 /// 每页数量
 @property (nonatomic, assign) NSUInteger pageAmount;
-///列表下面是否还有商品
+///列表下面是否还有商户
 @property (nonatomic, assign) BOOL isRemain;
 ///当前页码索引
 @property (nonatomic, assign) NSUInteger currentPageIndex;
@@ -90,8 +90,11 @@
     
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] init];
     [self.searchView addGestureRecognizer:tap];
+
+    @weakify(self)
     [[tap rac_gestureSignal] subscribeNext:^(id x) {
         
+        @strongify(self)
         SearchViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
         [self.navigationController pushViewController:vc animated:YES];
     }];
@@ -109,6 +112,10 @@
 
 - (void)setupADView
 {
+    if (gAdMgr.carwashAdvertiseArray.count <= 0) {
+        return;
+    }
+    
     CGFloat width = CGRectGetWidth(self.view.frame);
     CGFloat height = 360.0f/1242.0f*width;
     SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
@@ -231,7 +238,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];
     JTShop *shop = [self.datasource safetyObjectAtIndex:indexPath.row];
-    //row 0
+    //row 0  缩略图、名称、评分、地址、距离等
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1003];
@@ -240,10 +247,11 @@
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
 
     
-    [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                                        withDefaultPic:@"shop_default"] subscribeNext:^(UIImage * image) {
+    [[[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
+                                        withDefaultPic:@"shop_default"] takeUntilForCell:cell] subscribeNext:^(UIImage * image) {
         logoV.image = image;
-    }];;
+    }];
+    
     titleL.text = shop.shopName;
     ratingV.ratingValue = (NSInteger)shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
@@ -255,33 +263,23 @@
     double shopLng = shop.shopLongitude;
     NSString * disStr = [DistanceCalcHelper getDistanceStrLatA:myLat lngA:myLng latB:shopLat lngB:shopLng];
     distantL.text = disStr;
-    //row 1
+
+    //row 1 洗车服务与价格
     UILabel *washTypeL = (UILabel *)[cell.contentView viewWithTag:2001];
     UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:2002];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
     
-    JTShopService * service;
-    for (JTShopService * s in shop.shopServiceArray)
-    {
-        if (s.shopServiceType == ShopServiceCarWash)
-        {
-            service = s;
-            break;
-        }
-    }
     
+    
+    JTShopService * service = [shop.shopServiceArray firstObjectByFilteringOperator:^BOOL(JTShopService * s) {
+        return s.shopServiceType == ShopServiceCarWash;
+    }];
 
     washTypeL.text = service.serviceName;
-    NSArray * rates = service.chargeArray;
-    ChargeContent * cc;
-    for (ChargeContent * tcc in rates)
-    {
-        if (tcc.paymentChannelType == PaymentChannelABCIntegral )
-        {
-            cc = tcc;
-            break;
-        }
-    }
+
+    ChargeContent * cc = [service.chargeArray firstObjectByFilteringOperator:^BOOL(ChargeContent * tcc) {
+        return tcc.paymentChannelType == PaymentChannelABCIntegral;
+    }];
     
     integralL.text = [NSString stringWithFormat:@"%.0f分",cc.amount];
     priceL.attributedText = [self priceStringWithOldPrice:@(service.origprice) curPrice:@(service.contractprice)];
@@ -294,7 +292,7 @@
     [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
-        [gPhoneHelper navigationRedirectThireMap:shop andUserLocation:self.userCoordinate andView:self.view];
+        [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.view];
     }];
     
     [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -311,8 +309,6 @@
     }];
     
     
-    
-
     return cell;
 }
 

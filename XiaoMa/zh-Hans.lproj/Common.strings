@@ -1,0 +1,27 @@
+
+/* Class = "UILabel"; text = "朋友圈"; ObjectID = "6cH-EG-JkO"; */
+"6cH-EG-JkO.text" = "朋友圈";
+
+/* Class = "UIBarButtonItem"; title = "取消"; ObjectID = "81w-WL-QUF"; */
+"81w-WL-QUF.title" = "取消";
+
+/* Class = "UIBarButtonItem"; title = "取消"; ObjectID = "DgD-4U-6fw"; */
+"DgD-4U-6fw.title" = "取消";
+
+/* Class = "UILabel"; text = "微博"; ObjectID = "Dr1-mk-2se"; */
+"Dr1-mk-2se.text" = "微博";
+
+/* Class = "UIBarButtonItem"; title = "确定"; ObjectID = "Mea-0u-MrP"; */
+"Mea-0u-MrP.title" = "确定";
+
+/* Class = "UILabel"; text = "QQ"; ObjectID = "bwj-57-pYu"; */
+"bwj-57-pYu.text" = "QQ";
+
+/* Class = "UILabel"; text = "微信好友"; ObjectID = "gr8-S3-fue"; */
+"gr8-S3-fue.text" = "微信好友";
+
+/* Class = "UIBarButtonItem"; title = "确定"; ObjectID = "ow8-r4-8Et"; */
+"ow8-r4-8Et.title" = "确定";
+
+/* Class = "UILabel"; text = "分享到"; ObjectID = "oxB-ym-Fgx"; */
+"oxB-ym-Fgx.text" = "分享到";

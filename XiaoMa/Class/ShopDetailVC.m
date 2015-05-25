@@ -306,7 +306,7 @@
     {
         if (indexPath.row == 1)
         {
-//            [gPhoneHelper navigationRedirectThireMap:self.shop andUserLocation:gMapHelper.coordinate andView:self.view];
+//            [gPhoneHelper navigationRedirectThirdMap:self.shop andUserLocation:gMapHelper.coordinate andView:self.view];
             CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
             vc.shop = self.shop;
             vc.favorite = self.favorite;
@@ -406,7 +406,7 @@
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
-//        [gPhoneHelper navigationRedirectThireMap:self.shop andUserLocation:gMapHelper.coordinate andView:self.view];
+//        [gPhoneHelper navigationRedirectThirdMap:self.shop andUserLocation:gMapHelper.coordinate andView:self.view];
         CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
         vc.shop = self.shop;
         vc.favorite = self.favorite;
