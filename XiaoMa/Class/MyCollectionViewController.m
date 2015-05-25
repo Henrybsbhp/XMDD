@@ -14,6 +14,7 @@
 #import "ShopDetailVC.h"
 #import "DeleteUserFavoriteOp.h"
 #import "UIView+Layer.h"
+#import "PhoneHelper.h"
 
 
 @interface MyCollectionViewController ()
@@ -293,7 +294,8 @@
         [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
             @strongify(self)
-            [gPhoneHelper navigationRedirectThireMap:shop andUserLocation:gMapHelper.coordinate andView:self.view];
+            [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:gMapHelper.coordinate andView:self.view];
+            
         }];
         
         [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -371,7 +373,7 @@
         [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
             @strongify(self)
-            [gPhoneHelper navigationRedirectThireMap:shop andUserLocation:gMapHelper.coordinate andView:self.view];
+            [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:gMapHelper.coordinate andView:self.view];
         }];
         
         [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
