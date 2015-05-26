@@ -27,6 +27,7 @@
 #import "SocialShareViewController.h"
 #import "RescureViewController.h"
 #import "CommissionViewController.h"
+#import "UIImage+Utilities.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 
@@ -518,10 +519,13 @@ static NSInteger rotationIndex = 0;
 //        imgV.image = x;
 //    }];
     [[gMediaMgr rac_getPictureForUrl:ad.adPic withDefaultPic:@"hp_bottom"] subscribeNext:^(id x) {
-        
-        imgV.image = x;
+        UIImage * image = x;
+        if (image.size.width > (imgV.frame.size.width * 2)) {
+            image = [image compressImageWithPointSize:imgV.frame.size];
+        }
+        imgV.image = image;
     }];
-    
+//
     UITapGestureRecognizer * gesture = imgV.customObject;
     if (!gesture)
     {
