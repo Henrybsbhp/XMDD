@@ -55,7 +55,7 @@ static MultiMediaManager *g_mediaManager;
     RACSignal *signal = [[RACSignal startEagerlyWithScheduler:sch block:^(id<RACSubscriber> subscriber) {
         
 
-        UIImage *img = [self.picCache imageForKey:cacheKey];
+        UIImage *img = [UIImage imageWithData:[self.picCache objectForKey:cacheKey]];
         [subscriber sendNext:img];
         [subscriber sendCompleted];
     }] replay];
@@ -90,8 +90,7 @@ static MultiMediaManager *g_mediaManager;
             if (op.rsp_data)
             {
                 img = [UIImage imageWithData:op.rsp_data];
-                [self.picCache setImage:img forKey:cacheKey];
-                
+                [self.picCache setObject:op.rsp_data forKey:cacheKey block:nil];
             }
             return img;
             
