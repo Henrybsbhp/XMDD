@@ -151,6 +151,10 @@
 		6BB884DD1AE0FE7500EBD8F4 /* GetUserCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB884DC1AE0FE7500EBD8F4 /* GetUserCarOp.m */; };
 		6BB89CD11B043BFA00F3F61F /* AdvertisementManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB89CD01B043BFA00F3F61F /* AdvertisementManager.m */; };
 		6BB89CD41B04C23900F3F61F /* UploadLogOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB89CD31B04C23900F3F61F /* UploadLogOp.m */; };
+		6BB8CB841B141350007B61B5 /* Rescue.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BB8CB831B141350007B61B5 /* Rescue.storyboard */; };
+		6BB8CB861B14135E007B61B5 /* Commission.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BB8CB851B14135E007B61B5 /* Commission.storyboard */; };
+		6BB8CB8B1B1416B0007B61B5 /* CommissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB8CB8A1B1416B0007B61B5 /* CommissionViewController.m */; };
+		6BB8CB8E1B1416BB007B61B5 /* RescureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB8CB8D1B1416BB007B61B5 /* RescureViewController.m */; };
 		6BB9D76E1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB9D76D1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m */; };
 		6BB9D7711AF7054B00F7F3F8 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB9D7701AF7054B00F7F3F8 /* SearchViewController.m */; };
 		6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBAB8AC1ADB6A8A00EC342F /* AuthByVcodeOp.m */; };
@@ -535,6 +539,12 @@
 		6BB89CD01B043BFA00F3F61F /* AdvertisementManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdvertisementManager.m; path = Class/AdvertisementManager.m; sourceTree = "<group>"; };
 		6BB89CD21B04C23900F3F61F /* UploadLogOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UploadLogOp.h; path = Class/UploadLogOp.h; sourceTree = "<group>"; };
 		6BB89CD31B04C23900F3F61F /* UploadLogOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadLogOp.m; path = Class/UploadLogOp.m; sourceTree = "<group>"; };
+		6BB8CB831B141350007B61B5 /* Rescue.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Rescue.storyboard; sourceTree = "<group>"; };
+		6BB8CB851B14135E007B61B5 /* Commission.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Commission.storyboard; sourceTree = "<group>"; };
+		6BB8CB891B1416B0007B61B5 /* CommissionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommissionViewController.h; sourceTree = "<group>"; };
+		6BB8CB8A1B1416B0007B61B5 /* CommissionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommissionViewController.m; sourceTree = "<group>"; };
+		6BB8CB8C1B1416BB007B61B5 /* RescureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescureViewController.h; sourceTree = "<group>"; };
+		6BB8CB8D1B1416BB007B61B5 /* RescureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescureViewController.m; sourceTree = "<group>"; };
 		6BB9D76C1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteUserFavoriteOp.h; path = Class/DeleteUserFavoriteOp.h; sourceTree = "<group>"; };
 		6BB9D76D1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteUserFavoriteOp.m; path = Class/DeleteUserFavoriteOp.m; sourceTree = "<group>"; };
 		6BB9D76F1AF7054B00F7F3F8 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
@@ -661,7 +671,6 @@
 		6BE2BD5A1AE6305600A69875 /* GetSystemPromotionOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemPromotionOp.m; path = Class/GetSystemPromotionOp.m; sourceTree = "<group>"; };
 		6BE2BD5C1AE63F9F00A69875 /* MultiMediaManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MultiMediaManager.h; path = Class/MultiMediaManager.h; sourceTree = "<group>"; };
 		6BE2BD5D1AE63F9F00A69875 /* MultiMediaManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MultiMediaManager.m; path = Class/MultiMediaManager.m; sourceTree = "<group>"; };
-		6BE2BD5F1AE6408500A69875 /* DownloadOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadOp.h; path = Class/DownloadOp.h; sourceTree = "<group>"; };
 		6BE2BD601AE6408500A69875 /* DownloadOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DownloadOp.m; path = Class/DownloadOp.m; sourceTree = "<group>"; };
 		6BE4CE2F1AF217BC008E1C19 /* GetUserCouponOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserCouponOp.h; path = Class/GetUserCouponOp.h; sourceTree = "<group>"; };
 		6BE4CE301AF217BC008E1C19 /* GetUserCouponOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserCouponOp.m; path = Class/GetUserCouponOp.m; sourceTree = "<group>"; };
@@ -1188,6 +1197,8 @@
 				189B30FD1AD7A85A001D7288 /* Common.storyboard */,
 				1853DEBF1AE0E69000C39175 /* Login.storyboard */,
 				6BB61B9B1AEF587E004F39AA /* Other.storyboard */,
+				6BB8CB831B141350007B61B5 /* Rescue.storyboard */,
+				6BB8CB851B14135E007B61B5 /* Commission.storyboard */,
 			);
 			name = Storyboard;
 			sourceTree = "<group>";
@@ -1222,6 +1233,8 @@
 		1883D91A1ACBC2E4002A4D19 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6BB8CB881B14147F007B61B5 /* Commission */,
+				6BB8CB871B141474007B61B5 /* Rescure */,
 				189B39491AF71C2200B83F1B /* Mine */,
 				6BB61B9D1AEF6851004F39AA /* Other */,
 				1853DEBB1AE0E60800C39175 /* Login */,
@@ -1543,6 +1556,24 @@
 			path = TYMActivityIndicatorView;
 			sourceTree = "<group>";
 		};
+		6BB8CB871B141474007B61B5 /* Rescure */ = {
+			isa = PBXGroup;
+			children = (
+				6BB8CB8C1B1416BB007B61B5 /* RescureViewController.h */,
+				6BB8CB8D1B1416BB007B61B5 /* RescureViewController.m */,
+			);
+			name = Rescure;
+			sourceTree = "<group>";
+		};
+		6BB8CB881B14147F007B61B5 /* Commission */ = {
+			isa = PBXGroup;
+			children = (
+				6BB8CB891B1416B0007B61B5 /* CommissionViewController.h */,
+				6BB8CB8A1B1416B0007B61B5 /* CommissionViewController.m */,
+			);
+			name = Commission;
+			sourceTree = "<group>";
+		};
 		6BBAB8B71ADBC21600EC342F /* DESConverUtil */ = {
 			isa = PBXGroup;
 			children = (
@@ -1632,7 +1663,6 @@
 		6BC220931AD7800D00A4310E /* Op */ = {
 			isa = PBXGroup;
 			children = (
-				6BE2BD5F1AE6408500A69875 /* DownloadOp.h */,
 				6BE2BD601AE6408500A69875 /* DownloadOp.m */,
 				6BC220941AD7801C00A4310E /* BaseOp.h */,
 				6BC220951AD7801C00A4310E /* BaseOp.m */,
@@ -2012,6 +2042,8 @@
 				6BBB825D1AE79FE100850D0C /* read_me.txt in Resources */,
 				189B39551AF898A400B83F1B /* Mine.storyboard in Resources */,
 				6BBFBC421B0D8E57000D3CA3 /* WeiboSDK.bundle in Resources */,
+				6BB8CB861B14135E007B61B5 /* Commission.storyboard in Resources */,
+				6BB8CB841B141350007B61B5 /* Rescue.storyboard in Resources */,
 				189B311D1ADBEFDF001D7288 /* policy.json in Resources */,
 				6BB884B11AE0B3FE00EBD8F4 /* hz.gpx in Resources */,
 				189B30FF1AD7A85A001D7288 /* Common.storyboard in Resources */,
@@ -2204,6 +2236,7 @@
 				189B30B71AD50627001D7288 /* PayForWashCarVC.m in Sources */,
 				6BBAB8B61ADBC12D00EC342F /* UpdatePwdOp.m in Sources */,
 				1853DED41AE2A0BD00C39175 /* VcodeLoginVC.m in Sources */,
+				6BB8CB8B1B1416B0007B61B5 /* CommissionViewController.m in Sources */,
 				6BBC4A281B0C8236003F3081 /* SocialShareView.m in Sources */,
 				6BBF7DA91B00C9C200E45967 /* UIImage+Utilities.mm in Sources */,
 				6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */,
@@ -2270,6 +2303,7 @@
 				1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */,
 				6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */,
 				6BB884D41AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.m in Sources */,
+				6BB8CB8E1B1416BB007B61B5 /* RescureViewController.m in Sources */,
 				189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */,
 				6BE4CE341AF21ACA008E1C19 /* AddUserCarOp.m in Sources */,
 				6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */,

@@ -88,6 +88,22 @@
     }];
 }
 
+- (void)refreshAvatarView
+{
+    if (gAppMgr.myUser.avatarUrl.length)
+    {
+    [[gMediaMgr rac_getPictureForUrl:gAppMgr.myUser.avatarUrl withDefaultPic:@"cm_avatar"] subscribeNext:^(UIImage * image) {
+        
+        gAppMgr.myUser.avatar = image;
+        self.avatarView.image = image;
+    }];
+    }
+    else
+    {
+        self.avatarView.image = [UIImage imageNamed:@"cm_avatar"];
+    }
+}
+
 - (void)observeUserInfo
 {
     @weakify(self);
@@ -95,11 +111,13 @@
         @strongify(self);
         [self reloadUserInfo];
         
+        JTUser * user = gAppMgr.myUser;
         self.nameLabel.text = gAppMgr.myUser.userName;
         self.nameLabel.hidden = !gAppMgr.myUser;
         self.accountLabel.text = gAppMgr.myUser.userID;
         self.accountLabel.hidden = !gAppMgr.myUser;
-        self.PlaceholdLabel.hidden = gAppMgr.myUser;
+        self.PlaceholdLabel.hidden = gAppMgr.myUser ? YES : NO;
+        [self refreshAvatarView];
         [self.tableView reloadData];
     }];
 }
@@ -107,11 +125,7 @@
 - (void)reloadUserInfo
 {
     [[GetUserBaseInfoOp rac_fetchUserBaseInfo] subscribeNext:^(GetUserBaseInfoOp *op) {
-        [[gMediaMgr rac_getPictureForUrl:gAppMgr.myUser.avatarUrl withDefaultPic:@"cm_avatar"]
-         subscribeNext:^(id x) {
-//            self.avatarView.image = x;
-             gAppMgr.myUser.avatar = x;
-        }];
+        [self refreshAvatarView];
         self.nameLabel.text = gAppMgr.myUser ? (gAppMgr.myUser.userName ? gAppMgr.myUser.userName : @"——") : @"未登录";
         self.accountLabel.text = gAppMgr.myUser.userID ? gAppMgr.myUser.userID : @"——";
         [self.tableView reloadData];

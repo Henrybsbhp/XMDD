@@ -73,7 +73,7 @@
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string></string>
-	<key>NSLocationWhenInUseDescription</key>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>

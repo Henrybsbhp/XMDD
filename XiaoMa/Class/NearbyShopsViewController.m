@@ -49,7 +49,7 @@
     [self setupMapView];
     [self setupLocationMe];
     
-    if (gMapHelper.coordinate.latitude != 0)
+    if (gMapHelper.coordinate.latitude != 0 || gMapHelper.coordinate.longitude != 0)
     {
         [self setCenter:gMapHelper.coordinate];
     }
@@ -304,6 +304,7 @@
 - (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation;
 {
     self.userCoordinate = userLocation.coordinate;
+    gMapHelper.coordinate = userLocation.coordinate;
     if (self.needRequestNearbyShop)
     {
         [self requestNearbyShops:self.userCoordinate andRange:1];
