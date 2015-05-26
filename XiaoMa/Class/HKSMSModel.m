@@ -73,6 +73,7 @@
         NSString *title = [NSString stringWithFormat:@"剩余%d秒", [x intValue]];
         [btn setTitle:title forState:UIControlStateDisabled];
     } error:^(NSError *error) {
+        btn.enabled = YES;
         [subject sendError:error];
     } completed:^{
         [btn setTitle:originTitle forState:UIControlStateNormal];

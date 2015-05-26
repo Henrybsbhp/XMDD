@@ -377,7 +377,7 @@
     
     
     [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                      withDefaultPic:@"shop_default"] subscribeNext:^(UIImage * img) {
+                      withDefaultPic:@"cm_shop"] subscribeNext:^(UIImage * img) {
         
         logoV.image = img;
     }];
@@ -581,7 +581,7 @@
     {
         UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectZero];
         NSString * imageUrl = [self.shop.picArray safetyObjectAtIndex:i];
-        [[gMediaMgr rac_getPictureForUrl:imageUrl withDefaultPic:@"shop_default"] subscribeNext:^(UIImage * image) {
+        [[gMediaMgr rac_getPictureForUrl:imageUrl withDefaultPic:@"cm_shop"] subscribeNext:^(UIImage * image) {
             
             CGRect frame = CGRectMake(i*[UIScreen mainScreen].bounds.size.width,
                                       ([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2,
@@ -591,7 +591,7 @@
             [imageView setImage:image];
         } error:^(NSError *error) {
             
-            [imageView setImage:[UIImage imageNamed:@"shop_default"]];
+            [imageView setImage:[UIImage imageNamed:@"cm_shop"]];
         }];
         
         imageView.tag = i;
