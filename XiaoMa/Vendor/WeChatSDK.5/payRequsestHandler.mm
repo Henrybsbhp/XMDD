@@ -148,7 +148,6 @@
 //============================================================
 - ( NSMutableDictionary *)sendPayWithTradeNo:(NSString *)TradeNO andProductName:(NSString *)pName andPrice:(float_t)price
 {
-
     //订单标题，展示给用户
     NSString *order_name    = pName;
     //订单金额,单位（分）
@@ -160,7 +159,7 @@
     //================================
     srand( (unsigned)time(0) );
     NSString *noncestr  = [NSString stringWithFormat:@"%d", rand()];
-    NSString *orderno   = [NSString stringWithFormat:@"%ld",time(0)];
+    NSString *orderno   = TradeNO;
     NSMutableDictionary *packageParams = [NSMutableDictionary dictionary];
     
     [packageParams setObject: appid             forKey:@"appid"];       //开放平台appid

@@ -8,6 +8,9 @@
 
 #import "PaymentSuccessVC.h"
 #import "XiaoMa.h"
+#import "CarwashOrderCommentVC.h"
+#import "HKServiceOrder.h"
+#import "SocialShareViewController.h"
 
 @interface PaymentSuccessVC ()
 
@@ -19,12 +22,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    self.subLabel.text = self.subtitle;
 }
 
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)actionBack:(id)sender
@@ -36,14 +40,35 @@
         [super actionBack:sender];
     }
 }
-/*
-#pragma mark - Navigation
+- (IBAction)shareAction:(id)sender {
+    
+    SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+    vc.tt = @"小马达达－一分洗车，十分满意";
+    vc.subtitle = @"我完成了洗车，你也来试试吧";
+    vc.image = [UIImage imageNamed:@"logo"];
+    vc.urlStr = @"http://www.xiaomadada.com";
+    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+    sheet.shouldCenterVertically = YES;
+    [sheet presentAnimated:YES completionHandler:nil];
+    
+    [vc setFinishAction:^{
+        
+        [sheet dismissAnimated:YES completionHandler:nil];
+    }];
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        [sheet dismissAnimated:YES completionHandler:nil];
+    }];
 }
-*/
+- (IBAction)commentAction:(id)sender {
+    
+    CarwashOrderCommentVC *vc = [UIStoryboard vcWithId:@"CarwashOrderCommentVC" inStoryboard:@"Mine"];
+    vc.order = self.order;
+    [vc setCustomActionBlock:^{
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 @end

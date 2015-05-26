@@ -66,7 +66,7 @@
     NSArray *nibArray = [[NSBundle mainBundle] loadNibNamed:@"MapBottomView" owner:self options:nil];
     MapBottomView *mapBottomView = nibArray[0];
     CGRect rect = CGRectMake(5, self.view.frame.size.height - 100, self.view.frame.size.width - 10, 95);
-    rect.size.width = rect.size.width - 10;
+    rect.size.width = rect.size.width;
     rect.origin.x = 5;
     mapBottomView.frame = rect;
     //        mapBottomView.autoresizingMask = UIViewAutoresizingFlexibleAll;
@@ -79,6 +79,9 @@
     mapBottomView.titleLb.text = self.shop.shopName;
     mapBottomView.addressLb.text = self.shop.shopAddress;
     mapBottomView.detailBtn.hidden = YES;
+    
+    UIImage * image = [UIImage imageNamed:self.favorite ? @"nb_collected" : @"nb_collection"];
+    [mapBottomView.collectBtn setImage:image forState:UIControlStateNormal];
     
     @weakify(self)
     [[mapBottomView.detailBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -105,14 +108,56 @@
     
     [[mapBottomView.collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        @strongify(self)
-        [self requestAddFavorite:self.shop.shopID];
+        if ([LoginViewModel loginIfNeededForTargetViewController:self])
+        {
+            if (self.favorite)
+            {
+                [[[gAppMgr.myUser.favorites rac_removeFavorite:@[self.shop.shopID]] initially:^{
+                    
+                    [SVProgressHUD showWithStatus:@"移除中..."];
+                }]  subscribeNext:^(id x) {
+                    
+                    [SVProgressHUD showSuccessWithStatus:@"移除成功"];
+                    
+                    self.favorite = NO;
+                    [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collection"] forState:UIControlStateNormal];
+                } error:^(NSError *error) {
+                    
+                    [SVProgressHUD showErrorWithStatus:error.domain];
+                }];
+            }
+            else
+            {
+                [[[gAppMgr.myUser.favorites rac_addFavorite:self.shop] initially:^{
+                    
+                    [SVProgressHUD showWithStatus:@"添加中..."];
+                }]  subscribeNext:^(id x) {
+                    
+                    [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+                    
+                    self.favorite = YES;
+                    [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected"] forState:UIControlStateNormal];
+                } error:^(NSError *error) {
+                    
+                    if (error.code == 7002)
+                    {
+                        [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+                        self.favorite = YES;
+                        [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected"] forState:UIControlStateNormal];
+                    }
+                    else
+                    {
+                        [SVProgressHUD showErrorWithStatus:error.domain];
+                    }
+                }];
+            }
+        }
     }];
     
     [[mapBottomView.navigationBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         @strongify(self)
-        [gPhoneHelper navigationRedirectThireMap:self.shop andUserLocation:self.startCoordinate andView:self.view];
+        [gPhoneHelper navigationRedirectThirdMap:self.shop andUserLocation:self.startCoordinate andView:self.view];
         
     }];
 
@@ -152,7 +197,7 @@
 }
 
 #pragma mark - Utitily
-- (void)requestAddFavorite:(NSString *)shopid
+- (void)requestAddFavorite:(NSNumber *)shopid
 {
     AddUserFavoriteOp * op = [AddUserFavoriteOp operation];
     op.shopid = shopid;
@@ -161,15 +206,15 @@
         [SVProgressHUD showWithStatus:@"add..."];
     }] subscribeNext:^(AddUserFavoriteOp * op) {
         
-        if (op.rsp_code == 0)
-        {
             [SVProgressHUD showSuccessWithStatus:@"收藏成功"];
-        }
-        else if (op.rsp_code == 7001)
+        
+    } error:^(NSError *error) {
+        
+        if (error.code == 7001)
         {
             [SVProgressHUD  showErrorWithStatus:@"该店铺不存在"];
         }
-        else if (op.rsp_code == 7002)
+        else if (error.code == 7002)
         {
             [SVProgressHUD  showErrorWithStatus:@"该店铺已收藏"];
         }
@@ -177,9 +222,6 @@
         {
             [SVProgressHUD  showErrorWithStatus:@"收藏失败"];
         }
-    } error:^(NSError *error) {
-        
-        [SVProgressHUD  showErrorWithStatus:@"收藏失败"];
     }];
 }
 
@@ -211,8 +253,7 @@
 - (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation;
 {
     self.startCoordinate = userLocation.location.coordinate;
-    
-    
+    gMapHelper.coordinate = userLocation.location.coordinate;
 }
 
 - (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view

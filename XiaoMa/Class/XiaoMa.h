@@ -23,6 +23,7 @@
 //单例
 #import "HKToast.h"
 #import "AppDelegate.h"
+#import "CoreDataManager.h"
 #import "AppManager.h"
 #import "NetworkManager.h"
 #import "DefaultStyleModel.h"
@@ -30,6 +31,7 @@
 #import "MultiMediaManager.h"
 #import "WeChatHelper.h"
 #import "PhoneHelper.h"
+#import "AdvertisementManager.h"
 
 #import "JTNavigationController.h"
 #import "JTTableViewCell.h"
@@ -43,6 +45,7 @@
 #import "LoginViewModel.h"
 
 #import "UIView+Base.h"
+#import "UIView+DefaultEmptyView.h"
 #import "NSDate+DateForText.h"
 
 #endif

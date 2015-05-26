@@ -12,6 +12,7 @@
 #import "ClientInfo.h"
 #import "DeviceInfo.h"
 #import "MultiMediaManager.h"
+#import "CoreDataManager.h"
 
 #define Province @"Province"
 #define City @"City"
@@ -22,12 +23,15 @@
 #define Temperaturetip @"Temperaturetip"
 #define Temperaturepic @"Temperaturepic"
 #define LastWeatherTime @"LastWeatherTime"
-#define HomepageAdvertise @"HomepageAdvertise"
 #define SearchHistory   @"SearchHistory"
 
 @interface AppManager : NSObject
 
 @property (nonatomic,strong)JTUser *myUser;
+///当前用户的coredata数据管理对象
+@property (nonatomic, strong) CoreDataManager *myDataMgr;
+///默认的coredata数据管理对象
+@property (nonatomic, strong) CoreDataManager *defDataMgr;
 @property(nonatomic,strong)DeviceInfo * deviceInfo;
 @property(nonatomic,strong)ClientInfo * clientInfo;
 ///常用数据缓存（可手动清除）
@@ -55,16 +59,12 @@
 @property (nonatomic,copy)NSString *temperaturetip;
 @property (nonatomic,copy)NSString *temperaturepic;
 
-@property (nonatomic,strong)NSArray * homepageAdvertiseArray;
-
 @property (nonatomic,strong)NSArray * searchHistoryArray;
 
 
 
 ///获取上次的定位地址和天气信息
 - (void)loadLastLocationAndWeather;
-///获取上次的广告信息
-- (NSArray *)loadLastAdvertiseInfo;
 ///获取搜索历史
 - (NSArray *)loadSearchHistory;
 - (void)cleanSearchHistory;

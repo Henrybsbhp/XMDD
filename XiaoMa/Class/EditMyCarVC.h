@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "HKMyCar.h"
+#import "MyCarListVModel.h"
 
 @interface EditMyCarVC : UIViewController
 
-@property (nonatomic, strong, readonly) HKMyCar *originCar;
-
-- (void)reloadWithOriginCar:(HKMyCar *)originCar;
+@property (nonatomic, strong) HKMyCar *originCar;
+@property (nonatomic, strong) MyCarListVModel *model;
 
 @end

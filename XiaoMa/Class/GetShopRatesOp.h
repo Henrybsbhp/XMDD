@@ -16,6 +16,9 @@
 ///分页数
 @property (nonatomic)NSInteger pageno;
 
+///评价总数
+@property (nonatomic)NSInteger rsp_totalNum;
+
 @property (nonatomic,strong)NSArray * rsp_shopCommentArray;
 
 @end

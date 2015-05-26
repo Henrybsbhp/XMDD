@@ -37,6 +37,7 @@ typedef enum : NSUInteger {
     AdvertisementCarWash = 2,
     AdvertisementBankCardBinding = 3,
     AdvertisementAppSlide = 10,
+    AdvertisementInsurance = 11,
     AdvertisementTypeActivities = 20
 } AdvertisementType;
 
@@ -45,7 +46,8 @@ typedef enum : NSUInteger {
 #define AMapUrl  @"iosamap://"
 
 #define kDefTintColor   HEXCOLOR(@"#15ac1f")
-#define kDefLineColor   HEXCOLOR(@"#e0e0e0")
+#define kDefLineColor   HEXCOLOR(@"#ebebeb")
+#define kDarkLineColor   HEXCOLOR(@"#e0e0e0")
 
 //字符串定义
 #define kRspPrefix      @"█ ▇ ▆ ▅ ▄ ▃ ▂"
@@ -56,9 +58,9 @@ typedef enum : NSUInteger {
 
 #define PageAmount 10
 
-#define AppleNavigationStr @"苹果导航"
-#define BaiduNavigationStr @"百度导航"
-#define AMapNavigationStr @"高德导航"
+#define AppleNavigationStr @"苹果地图"
+#define BaiduNavigationStr @"百度地图"
+#define AMapNavigationStr @"高德地图"
 
 //单例别名
 #define gAppDelegate       ((AppDelegate *)[UIApplication sharedApplication].delegate)
@@ -70,19 +72,22 @@ typedef enum : NSUInteger {
 #define gMapHelper ([MapHelper sharedHelper])
 #define gMediaMgr  ([[AppManager sharedManager] mediaMgr])
 #define gPhoneHelper  ([PhoneHelper sharedHelper])
+#define gAdMgr [AdvertisementManager sharedManager]
 
 #define mainStoryboard [UIStoryboard storyboardWithName:@"Main" bundle:nil]
 #define carWashStoryboard [UIStoryboard storyboardWithName:@"Carwash" bundle:nil]
 #define commonStoryboard [UIStoryboard storyboardWithName:@"Common" bundle:nil]
 #define otherStoryboard [UIStoryboard storyboardWithName:@"Other" bundle:nil]
 #define mineStoryboard [UIStoryboard storyboardWithName:@"Mine" bundle:nil]
+#define rescueStoryboard [UIStoryboard storyboardWithName:@"Rescue" bundle:nil]
+#define commissionStoryboard [UIStoryboard storyboardWithName:@"Commission" bundle:nil]
 
 
 #define LocationFail 7001
 #define WechatPayFail 7002
 
 //通知定义
-#define kNotifyRefreshMyCarList     @"com.xmdd.RefreshMyCarList"
-
+#define kNotifyRefreshMyCarList             @"com.huika.xmdd.RefreshMyCarList"
+#define kNotifyRefreshMyCarwashOrders       @"com.huika.xmdd.RefreshMyCarwashOrders"
 
 #endif

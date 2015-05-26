@@ -21,6 +21,9 @@
 #import "GetShopByDistanceOp.h"
 #import "NearbyShopsViewController.h"
 #import "SearchViewController.h"
+#import "WebVC.h"
+#import "HKAdvertisement.h"
+
 
 
 @interface CarWashTableVC ()<SYPaginatorViewDataSource, SYPaginatorViewDelegate>
@@ -37,7 +40,7 @@
 
 /// 每页数量
 @property (nonatomic, assign) NSUInteger pageAmount;
-///列表下面是否还有商品
+///列表下面是否还有商户
 @property (nonatomic, assign) BOOL isRemain;
 ///当前页码索引
 @property (nonatomic, assign) NSUInteger currentPageIndex;
@@ -57,6 +60,8 @@
     [self setupTableView];
     
     [self requestCarWashShopList];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshAdView) name:CarwashAdvertiseNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -80,11 +85,24 @@
     imgV.contentMode = UIViewContentModeCenter;
     self.searchField.leftView = imgV;
     self.searchField.leftViewMode = UITextFieldViewModeAlways;
+    [self.searchField resignFirstResponder];
+    self.searchField.enabled = NO;
+    
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] init];
+    [self.searchView addGestureRecognizer:tap];
+
+    @weakify(self)
+    [[tap rac_gestureSignal] subscribeNext:^(id x) {
+        
+        @strongify(self)
+        SearchViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
     
     [[self.searchField rac_newTextChannel] subscribeNext:^(id x) {
         
-        SearchViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
-        [self.navigationController pushViewController:vc animated:YES];
+        
+        
     }];
     
     [[self.searchField rac_textSignal] subscribeNext:^(id x) {
@@ -94,6 +112,10 @@
 
 - (void)setupADView
 {
+    if (gAdMgr.carwashAdvertiseArray.count <= 0) {
+        return;
+    }
+    
     CGFloat width = CGRectGetWidth(self.view.frame);
     CGFloat height = 360.0f/1242.0f*width;
     SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
@@ -108,11 +130,32 @@
         make.top.equalTo(self.searchView.mas_bottom);
         make.height.mas_equalTo(height);
     }];
-    self.adView.currentPageIndex = 0;
-    
+
+    [self refreshAdView];
+}
+
+- (void)refreshAdView
+{
+    BOOL flag = gAdMgr.carwashAdvertiseArray.count;
+    CGFloat width = CGRectGetWidth(self.view.frame);
+    CGFloat height = 360.0f/1242.0f*width;
+    if (flag)
+    {
+        self.adView.hidden = NO;
+        
+        [self.adView reloadData];
+        self.adView.currentPageIndex = 0;
+    }
+    else
+    {
+        self.adView.hidden = YES;
+    }
     CGRect rect = self.headerView.frame;
-    rect.size.height += height;
+    rect.size.height = flag ? height + 45 : 45;
     self.headerView.frame = rect;
+    [self.tableView beginUpdates];
+    [self.tableView setTableHeaderView:self.headerView];
+    [self.tableView endUpdates];
 }
 
 
@@ -134,7 +177,7 @@
 #pragma mark - SYPaginatorViewDelegate
 - (NSInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView
 {
-    return 3;
+    return gAdMgr.carwashAdvertiseArray.count ? gAdMgr.carwashAdvertiseArray.count : 1;
 }
 
 - (SYPageView *)paginatorView:(SYPaginatorView *)paginatorView viewForPageAtIndex:(NSInteger)pageIndex
@@ -147,8 +190,32 @@
         imgV.tag = 1001;
         [pageView addSubview:imgV];
     }
-    UIImageView *imgV = (UIImageView *)[pageView viewWithTag:1001];
-    imgV.image = [UIImage imageNamed:@"tmp_ad1"];
+    UIImageView *imgV = (UIImageView *)[pageView searchViewWithTag:1001];
+    HKAdvertisement * ad = [gAdMgr.carwashAdvertiseArray safetyObjectAtIndex:pageIndex];
+    [[gMediaMgr rac_getPictureForUrl:ad.adPic withDefaultPic:@"hp_bottom"] subscribeNext:^(id x) {
+        imgV.image = x;
+    }];
+    
+    UITapGestureRecognizer * gesture = imgV.customObject;
+    if (!gesture)
+    {
+        UITapGestureRecognizer *ge = [[UITapGestureRecognizer alloc] init];
+        [imgV addGestureRecognizer:ge];
+        imgV.userInteractionEnabled = YES;
+        imgV.customObject = ge;
+    }
+    gesture = imgV.customObject;
+    [[[gesture rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
+        
+        if (ad.adLink.length)
+        {
+            WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+            vc.title = @"洗车广告";
+            vc.url = ad.adLink;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }];
+
     return pageView;
 }
 
@@ -171,56 +238,48 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];
     JTShop *shop = [self.datasource safetyObjectAtIndex:indexPath.row];
-    //row 0
+    //row 0  缩略图、名称、评分、地址、距离等
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1003];
     UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
+
     
-    [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                                        withDefaultPic:@"tmp_ad"] subscribeNext:^(UIImage * image) {
+    [[[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
+                                        withDefaultPic:@"cm_shop"] takeUntilForCell:cell] subscribeNext:^(UIImage * image) {
         logoV.image = image;
-    }];;
+    }];
+    
     titleL.text = shop.shopName;
-    ratingV.ratingValue = shop.shopRate;
+    ratingV.ratingValue = (NSInteger)shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
     addrL.text = shop.shopAddress;
     
-    double myLat = gMapHelper.coordinate.latitude;
-    double myLng = gMapHelper.coordinate.longitude;
+    double myLat = self.userCoordinate.latitude;
+    double myLng = self.userCoordinate.longitude;
     double shopLat = shop.shopLatitude;
     double shopLng = shop.shopLongitude;
     NSString * disStr = [DistanceCalcHelper getDistanceStrLatA:myLat lngA:myLng latB:shopLat lngB:shopLng];
     distantL.text = disStr;
-    //row 1
+
+    //row 1 洗车服务与价格
     UILabel *washTypeL = (UILabel *)[cell.contentView viewWithTag:2001];
     UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:2002];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
     
-    JTShopService * service;
-    for (JTShopService * s in shop.shopServiceArray)
-    {
-        if (s.shopServiceType == ShopServiceCarWash)
-        {
-            service = s;
-            break;
-        }
-    }
     
+    
+    JTShopService * service = [shop.shopServiceArray firstObjectByFilteringOperator:^BOOL(JTShopService * s) {
+        return s.shopServiceType == ShopServiceCarWash;
+    }];
 
     washTypeL.text = service.serviceName;
-    NSArray * rates = service.chargeArray;
-    ChargeContent * cc;
-    for (ChargeContent * tcc in rates)
-    {
-        if (tcc.paymentChannelType == PaymentChannelABCIntegral )
-        {
-            cc = tcc;
-            break;
-        }
-    }
+
+    ChargeContent * cc = [service.chargeArray firstObjectByFilteringOperator:^BOOL(ChargeContent * tcc) {
+        return tcc.paymentChannelType == PaymentChannelABCIntegral;
+    }];
     
     integralL.text = [NSString stringWithFormat:@"%.0f分",cc.amount];
     priceL.attributedText = [self priceStringWithOldPrice:@(service.origprice) curPrice:@(service.contractprice)];
@@ -233,7 +292,7 @@
     [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
-        [gPhoneHelper navigationRedirectThireMap:shop andUserLocation:self.userCoordinate andView:self.view];
+        [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.view];
     }];
     
     [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -249,7 +308,7 @@
         [gPhoneHelper makePhone:shop.shopPhone andInfo:info];
     }];
     
-
+    
     return cell;
 }
 
@@ -355,8 +414,8 @@
     }
     
     GetShopByDistanceOp * getShopByDistanceOp = [GetShopByDistanceOp new];
-    getShopByDistanceOp.longitude = 120.189234;
-    getShopByDistanceOp.latitude = 30.254189;
+    getShopByDistanceOp.longitude = self.userCoordinate.longitude;
+    getShopByDistanceOp.latitude = self.userCoordinate.latitude;
     getShopByDistanceOp.pageno = self.currentPageIndex + 1;
     [[[getShopByDistanceOp rac_postRequest] initially:^{
         
@@ -387,5 +446,7 @@
         [SVProgressHUD showErrorWithStatus:@"error"];
     }];
 }
+
+
 
 @end

@@ -19,9 +19,13 @@
 //    联调
 //    #define ApiBaseUrl @"http://192.168.1.117:8081/paa/rest/api"
     #define ApiBaseUrl @"http://183.129.253.170:18282/paa/rest/api"
+    #define LogUploadUrl @"http://192.168.0.103:8282/log/upload"
 #else
     #define ApiBaseUrl @"http://183.129.253.170:18282/paa/rest/api"
+    #define LogUploadUrl @"http://183.129.253.170:18282/log/upload"
 #endif
+
+
 
 
 #pragma mark- 全局网络参数
@@ -31,6 +35,7 @@
 @property (nonatomic, strong, readonly) NSString *apiServer;
 @property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *apiManager;
 @property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *mediaClient;
+@property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *logClient;
 
 ///是否开启模拟数据回执 (Default is NO)
 @property (nonatomic, assign) BOOL simulateResponse;

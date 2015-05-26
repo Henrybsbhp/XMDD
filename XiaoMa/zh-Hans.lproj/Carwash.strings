@@ -1,0 +1,210 @@
+
+/* Class = "UINavigationItem"; title = "支付成功"; ObjectID = "06h-X7-QZx"; */
+"06h-X7-QZx.title" = "支付成功";
+
+/* Class = "UIButton"; normalTitle = "电话"; ObjectID = "08T-Vf-55c"; */
+"08T-Vf-55c.normalTitle" = "电话";
+
+/* Class = "UITextField"; placeholder = "输入关键字搜索"; ObjectID = "13r-Ty-5H6"; */
+"13r-Ty-5H6.placeholder" = "输入关键字搜索";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "1YM-io-R9k"; */
+"1YM-io-R9k.text" = "Label";
+
+/* Class = "UILabel"; text = "该商户暂无评价"; ObjectID = "1fQ-cT-HyY"; */
+"1fQ-cT-HyY.text" = "该商户暂无评价";
+
+/* Class = "UILabel"; text = "神州洗车"; ObjectID = "2RF-fy-amI"; */
+"2RF-fy-amI.text" = "神州洗车";
+
+/* Class = "UILabel"; text = "王老鸡"; ObjectID = "2le-LR-jXr"; */
+"2le-LR-jXr.text" = "王老鸡";
+
+/* Class = "UILabel"; text = "清空搜索记录"; ObjectID = "3v4-Ej-TcX"; */
+"3v4-Ej-TcX.text" = "清空搜索记录";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "3yt-Fj-TBA"; */
+"3yt-Fj-TBA.text" = "Label";
+
+/* Class = "UILabel"; text = "商户评价 ( 20 )"; ObjectID = "40I-90-v3Q"; */
+"40I-90-v3Q.text" = "商户评价 ( 20 )";
+
+/* Class = "UINavigationItem"; title = "支付确认"; ObjectID = "56g-WV-qGo"; */
+"56g-WV-qGo.title" = "支付确认";
+
+/* Class = "UILabel"; text = "神州洗车"; ObjectID = "5AP-HN-Jr5"; */
+"5AP-HN-Jr5.text" = "神州洗车";
+
+/* Class = "UIButton"; normalTitle = "告诉好友"; ObjectID = "60h-WR-4jT"; */
+"60h-WR-4jT.normalTitle" = "告诉好友";
+
+/* Class = "UINavigationItem"; title = "选择优惠券"; ObjectID = "6Me-aa-GmL"; */
+"6Me-aa-GmL.title" = "选择优惠券";
+
+/* Class = "UILabel"; text = "我完成了0元洗车，赶快去告诉好友吧！"; ObjectID = "9Tc-T2-Ojo"; */
+"9Tc-T2-Ojo.text" = "我完成了0元洗车，赶快去告诉好友吧！";
+
+/* Class = "UILabel"; text = "2015.01.01"; ObjectID = "9im-sa-PHW"; */
+"9im-sa-PHW.text" = "2015.01.01";
+
+/* Class = "UILabel"; text = "2015.01.01"; ObjectID = "9vb-vo-pyX"; */
+"9vb-vo-pyX.text" = "2015.01.01";
+
+/* Class = "UILabel"; text = "农行卡积分"; ObjectID = "AU1-7s-xSC"; */
+"AU1-7s-xSC.text" = "农行卡积分";
+
+/* Class = "UILabel"; text = "神州洗车"; ObjectID = "BZS-4e-iCK"; */
+"BZS-4e-iCK.text" = "神州洗车";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Bac-h4-TQT"; */
+"Bac-h4-TQT.text" = "Label";
+
+/* Class = "UILabel"; text = "全部评价>"; ObjectID = "BfB-15-ecl"; */
+"BfB-15-ecl.text" = "全部评价>";
+
+/* Class = "UILabel"; text = "有效期"; ObjectID = "CF9-bV-wF3"; */
+"CF9-bV-wF3.text" = "有效期";
+
+/* Class = "UILabel"; text = "第一次过来洗车"; ObjectID = "CaV-SI-uiY"; */
+"CaV-SI-uiY.text" = "第一次过来洗车";
+
+/* Class = "UIButton"; normalTitle = "前去评价"; ObjectID = "Cg6-Wq-3BG"; */
+"Cg6-Wq-3BG.normalTitle" = "前去评价";
+
+/* Class = "UIButton"; normalTitle = "导航"; ObjectID = "Cqp-QX-tD4"; */
+"Cqp-QX-tD4.normalTitle" = "导航";
+
+/* Class = "UILabel"; text = "神州洗车"; ObjectID = "Eiz-Vr-xx6"; */
+"Eiz-Vr-xx6.text" = "神州洗车";
+
+/* Class = "UILabel"; text = "4.0分"; ObjectID = "F8T-Ml-8fD"; */
+"F8T-Ml-8fD.text" = "4.0分";
+
+/* Class = "UILabel"; text = "第一次过来洗车"; ObjectID = "FQq-sr-5Hq"; */
+"FQq-sr-5Hq.text" = "第一次过来洗车";
+
+/* Class = "UILabel"; text = "4.0分"; ObjectID = "I15-aG-Bdl"; */
+"I15-aG-Bdl.text" = "4.0分";
+
+/* Class = "UILabel"; text = "神州洗车"; ObjectID = "I4M-0L-imi"; */
+"I4M-0L-imi.text" = "神州洗车";
+
+/* Class = "UILabel"; text = "洗车"; ObjectID = "K0u-2t-fMj"; */
+"K0u-2t-fMj.text" = "洗车";
+
+/* Class = "UIButton"; normalTitle = "支付"; ObjectID = "KCZ-V5-omT"; */
+"KCZ-V5-omT.normalTitle" = "支付";
+
+/* Class = "UILabel"; text = "神州洗车"; ObjectID = "LyR-3u-jtU"; */
+"LyR-3u-jtU.text" = "神州洗车";
+
+/* Class = "UILabel"; text = "已使用"; ObjectID = "M5c-rt-hdM"; */
+"M5c-rt-hdM.text" = "已使用";
+
+/* Class = "UILabel"; text = "使用优惠券（各优惠券不得同享）"; ObjectID = "NHm-cS-pqa"; */
+"NHm-cS-pqa.text" = "使用优惠券（各优惠券不得同享）";
+
+/* Class = "UIButton"; normalTitle = " 1000分"; ObjectID = "P7z-xg-grY"; */
+"P7z-xg-grY.normalTitle" = " 1000分";
+
+/* Class = "UIButton"; normalTitle = "支付"; ObjectID = "QnQ-J8-E3S"; */
+"QnQ-J8-E3S.normalTitle" = "支付";
+
+/* Class = "UILabel"; text = "支付成功!"; ObjectID = "SuS-kw-wbC"; */
+"SuS-kw-wbC.text" = "支付成功!";
+
+/* Class = "UIButton"; normalTitle = "查看更多服务>"; ObjectID = "Svp-ic-c6i"; */
+"Svp-ic-c6i.normalTitle" = "查看更多服务>";
+
+/* Class = "UILabel"; text = "使用说明：仅限7座以下非运营轿车"; ObjectID = "USy-eX-MRw"; */
+"USy-eX-MRw.text" = "使用说明：仅限7座以下非运营轿车";
+
+/* Class = "UIButton"; normalTitle = "电话"; ObjectID = "Uct-b7-BA5"; */
+"Uct-b7-BA5.normalTitle" = "电话";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Uq2-p5-7af"; */
+"Uq2-p5-7af.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "VjD-BJ-eao"; */
+"VjD-BJ-eao.text" = "Label";
+
+/* Class = "UILabel"; text = "有效"; ObjectID = "Vp7-aX-Ifu"; */
+"Vp7-aX-Ifu.text" = "有效";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "W0w-U7-Naq"; */
+"W0w-U7-Naq.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "W5e-Vt-cQ8"; */
+"W5e-Vt-cQ8.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "WJ2-sW-1gX"; */
+"WJ2-sW-1gX.text" = "Label";
+
+/* Class = "UILabel"; text = "普洗：普通车"; ObjectID = "XNR-XG-l3W"; */
+"XNR-XG-l3W.text" = "普洗：普通车";
+
+/* Class = "UILabel"; text = "搜索历史"; ObjectID = "ZUp-Uu-jig"; */
+"ZUp-Uu-jig.text" = "搜索历史";
+
+/* Class = "UILabel"; text = "普洗：普通车"; ObjectID = "Zcd-ja-MeP"; */
+"Zcd-ja-MeP.text" = "普洗：普通车";
+
+/* Class = "UILabel"; text = "普洗：普通车"; ObjectID = "a3U-jh-nBw"; */
+"a3U-jh-nBw.text" = "普洗：普通车";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "cK1-QB-QeI"; */
+"cK1-QB-QeI.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "dRF-Wp-1hs"; */
+"dRF-Wp-1hs.text" = "Label";
+
+/* Class = "UINavigationItem"; title = "洗车"; ObjectID = "dtK-du-h2e"; */
+"dtK-du-h2e.title" = "洗车";
+
+/* Class = "UILabel"; text = "其他支付方式"; ObjectID = "eLY-Vc-dfF"; */
+"eLY-Vc-dfF.text" = "其他支付方式";
+
+/* Class = "UINavigationItem"; title = "评价列表"; ObjectID = "gl0-tZ-Kpr"; */
+"gl0-tZ-Kpr.title" = "评价列表";
+
+/* Class = "UILabel"; text = "总计："; ObjectID = "hAN-Af-RGR"; */
+"hAN-Af-RGR.text" = "总计：";
+
+/* Class = "UILabel"; text = "免费洗车一次"; ObjectID = "hb9-7T-nje"; */
+"hb9-7T-nje.text" = "免费洗车一次";
+
+/* Class = "UILabel"; text = "已使用"; ObjectID = "idk-4T-7QR"; */
+"idk-4T-7QR.text" = "已使用";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "jfV-QJ-s3C"; */
+"jfV-QJ-s3C.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "导航"; ObjectID = "k9I-is-698"; */
+"k9I-is-698.normalTitle" = "导航";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "kJ9-gR-f0X"; */
+"kJ9-gR-f0X.text" = "Label";
+
+/* Class = "UILabel"; text = "有效期：2014.05.01 - 2014.12.31"; ObjectID = "kLf-xB-tja"; */
+"kLf-xB-tja.text" = "有效期：2014.05.01 - 2014.12.31";
+
+/* Class = "UILabel"; text = "4.0分"; ObjectID = "lTE-FB-Cfm"; */
+"lTE-FB-Cfm.text" = "4.0分";
+
+/* Class = "UIButton"; normalTitle = "导航"; ObjectID = "qPx-hF-9cN"; */
+"qPx-hF-9cN.normalTitle" = "导航";
+
+/* Class = "UIButton"; normalTitle = "电话"; ObjectID = "rNF-Im-C2j"; */
+"rNF-Im-C2j.normalTitle" = "电话";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "rob-hE-mbf"; */
+"rob-hE-mbf.text" = "Label";
+
+/* Class = "UILabel"; text = "普洗：普通车"; ObjectID = "uF8-ta-mWc"; */
+"uF8-ta-mWc.text" = "普洗：普通车";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "xmq-CW-S1O"; */
+"xmq-CW-S1O.text" = "Label";
+
+/* Class = "UINavigationItem"; title = "商户详情"; ObjectID = "z5l-tN-gje"; */
+"z5l-tN-gje.title" = "商户详情";

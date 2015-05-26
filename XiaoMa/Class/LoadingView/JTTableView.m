@@ -9,39 +9,6 @@
 
 @implementation JTTableView
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self)
-    {
-        // Initialization code
-        [self commInit];
-    }
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self)
-    {
-        [self commInit];
-    }
-    return self;
-}
-
-- (void)commInit
-{
-    //  上拉刷新视图
-//    self.headRefreshView = [[JTHeadRefreshView alloc] init];
-//    self.headRefreshView.delegate = self;
-//    [self addSubview:self.headRefreshView];
-//
-////    //  上拉加载视图
-//    self.bottomLoadingView = [[JTLoadingView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-//    [self setTableFooterView:self.bottomLoadingView];
-}
-
 #pragma mark - Setter and getter
 - (void)setShowBottomLoadingView:(BOOL)showBottomLoadingView
 {

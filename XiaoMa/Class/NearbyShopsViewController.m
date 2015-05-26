@@ -37,6 +37,8 @@
 
 /// 上次请求数据定位点，超过一定范围，再去请求
 @property (nonatomic)CLLocationCoordinate2D lastRequestCorrdinate;
+/// 是否自动滑动地图
+@property (nonatomic)BOOL isAutoRegionChanging;
 
 @end
 
@@ -49,7 +51,7 @@
     [self setupMapView];
     [self setupLocationMe];
     
-    if (gMapHelper.coordinate.latitude != 0)
+    if (gMapHelper.coordinate.latitude != 0 || gMapHelper.coordinate.longitude != 0)
     {
         [self setCenter:gMapHelper.coordinate];
     }
@@ -160,14 +162,7 @@
 
 - (void)returnAction
 {
-//    if (self.type == 0)
-//    {
-//        self.tabBarController.selectedIndex = 0;
-//    }
-//    else
-//    {
-        [self.navigationController popViewControllerAnimated:YES];
-//    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
@@ -190,12 +185,12 @@
             self.nearbyShopArray = op.rsp_shopArray;
             [self highlightMapViewWithIndex:0];
             [self.bottomSYView reloadData];
-            if (self.nearbyShopArray.count)
-            {
-                JTShop * shop = [self.nearbyShopArray firstObject];
-                CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(shop.shopLatitude, shop.shopLongitude);
-                [self setCenter:coordinate];
-            }
+//            if (self.nearbyShopArray.count)
+//            {
+//                JTShop * shop = [self.nearbyShopArray firstObject];
+//                CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(shop.shopLatitude, shop.shopLongitude);
+//                [self setCenter:coordinate];
+//            }
             self.bottomSYView.currentPageIndex = 0;
         }
     } error:^(NSError *error) {
@@ -205,35 +200,6 @@
 }
 
 
-- (void)requestAddFavorite:(NSString *)shopid
-{
-    AddUserFavoriteOp * op = [AddUserFavoriteOp operation];
-    op.shopid = shopid;
-    [[[op rac_postRequest] initially:^{
-        
-        [SVProgressHUD showWithStatus:@"add..."];
-    }] subscribeNext:^(AddUserFavoriteOp * op) {
-        
-        if (op.rsp_code == 0)
-        {
-            [SVProgressHUD showSuccessWithStatus:@"收藏成功"];
-        }
-    } error:^(NSError *error) {
-        
-        if (error.code == 7001)
-        {
-            [SVProgressHUD  showErrorWithStatus:@"该店铺不存在"];
-        }
-        else if (error.code == 7002)
-        {
-            [SVProgressHUD  showErrorWithStatus:@"该店铺已收藏"];
-        }
-        else
-        {
-            [SVProgressHUD  showErrorWithStatus:@"收藏失败"];
-        }
-    }];
-}
 
 - (void)setCenter:(CLLocationCoordinate2D)co
 {
@@ -304,6 +270,7 @@
 - (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation;
 {
     self.userCoordinate = userLocation.coordinate;
+    gMapHelper.coordinate = userLocation.coordinate;
     if (self.needRequestNearbyShop)
     {
         [self requestNearbyShops:self.userCoordinate andRange:1];
@@ -329,13 +296,14 @@
             for (NSInteger i = 0 ; i < self.nearbyShopArray.count; i++)
             {
                 JTShop * s = [self.nearbyShopArray safetyObjectAtIndex:i];
-                if ([shop.shopID isEqualToString:s.shopID])
+                if ([shop.shopID isEqualToNumber:s.shopID])
                 {
                     [self highlightMapViewWithIndex:i];
                     
                     CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(shop.shopLatitude, shop.shopLongitude);
                     [self.mapView setCenterCoordinate:coordinate animated:YES];
                     [self.bottomSYView setCurrentPageIndex:i animated:YES];
+                    self.isAutoRegionChanging = YES;
                     return;
                 }
             }
@@ -345,7 +313,11 @@
 
 - (void)mapView:(MAMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
-    [self.requestSignal sendNext:mapView];
+    if (!self.isAutoRegionChanging)
+    {
+        [self.requestSignal sendNext:mapView];
+    }
+    self.isAutoRegionChanging = NO;
 }
 
 #pragma mark - SYPaginatorViewDelegate
@@ -401,6 +373,11 @@
     
     JTShop * shop = [self.nearbyShopArray safetyObjectAtIndex:pageIndex];
     
+    BOOL favorite = [gAppMgr.myUser.favorites getFavoriteWithID:shop.shopID] ? YES : NO;
+    UIImage * image = [UIImage imageNamed:favorite ? @"nb_collected" : @"nb_collection"];
+    [mapBottomView.collectBtn setImage:image forState:UIControlStateNormal];
+
+    
     mapBottomView.titleLb.text = shop.shopName;
     mapBottomView.addressLb.text = shop.shopAddress;
     
@@ -430,14 +407,54 @@
     [[[mapBottomView.collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
         @strongify(self)
-        [self requestAddFavorite:shop.shopID];
+        if ([LoginViewModel loginIfNeededForTargetViewController:self])
+        {
+            if ([gAppMgr.myUser.favorites getFavoriteWithID:shop.shopID])
+            {
+                [[[gAppMgr.myUser.favorites rac_removeFavorite:@[shop.shopID]] initially:^{
+                    
+                    [SVProgressHUD showWithStatus:@"移除中..."];
+                }]  subscribeNext:^(id x) {
+                    
+                    [SVProgressHUD showSuccessWithStatus:@"移除成功"];
+                    
+                    [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collection"] forState:UIControlStateNormal];
+                } error:^(NSError *error) {
+                    
+                    [SVProgressHUD showErrorWithStatus:error.domain];
+                }];
+            }
+            else
+            {
+                [[[gAppMgr.myUser.favorites rac_addFavorite:shop] initially:^{
+                    
+                    [SVProgressHUD showWithStatus:@"添加中..."];
+                }]  subscribeNext:^(id x) {
+                    
+                    [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+                    
+                    [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected"] forState:UIControlStateNormal];
+                } error:^(NSError *error) {
+                    
+                    if (error.code == 7002)
+                    {
+                        [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+                        [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected"] forState:UIControlStateNormal];
+                    }
+                    else
+                    {
+                        [SVProgressHUD showErrorWithStatus:error.domain];
+                    }
+                }];
+            }
+        }
     }];
     
     [[[mapBottomView.navigationBtn rac_signalForControlEvents:UIControlEventTouchUpInside]  takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
         @strongify(self)
         
-        [gPhoneHelper navigationRedirectThireMap:shop andUserLocation:self.userCoordinate andView:self.view];
+        [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.view];
     }];
 
     return pageView;
@@ -445,6 +462,7 @@
 
 - (void)paginatorView:(SYPaginatorView *)paginatorView didScrollToPageAtIndex:(NSInteger)pageIndex
 {
+    self.isAutoRegionChanging = YES;
     [self highlightMapViewWithIndex:pageIndex];
 
     JTShop * shop = [self.nearbyShopArray safetyObjectAtIndex:pageIndex];

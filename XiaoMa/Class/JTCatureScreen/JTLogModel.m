@@ -7,7 +7,7 @@
 //
 
 #import "JTLogModel.h"
-//#import "UploadLogOp.h"
+#import "UploadLogOp.h"
 
 @interface JTLogModel()
 
@@ -75,6 +75,24 @@
     {
         return;
     }
+
+    NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
+    NSArray * array = @[data];
+    UploadLogOp *op = [UploadLogOp new];
+    op.req_fileType = @"txt";
+    op.req_fileName = [NSString stringWithFormat:@"xmdd.%@-%@-%@.txt",@"iOS",version, self.userid];
+    [op setFileArray:array withGetDataBlock:^NSData *(NSData * d) {
+        return d;
+    }];
+    
+    [[[op rac_postRequest] initially:^{
+        [gToast showingWithText:@"正在上传..."];
+    }] subscribeNext:^(id x) {
+        [gToast showSuccess:@"上传成功"];
+        
+    } error:^(NSError *error) {
+        [gToast showError:error.domain];
+    }];
 
     
 //    UploadLogOp * op = [[UploadLogOp alloc] init];

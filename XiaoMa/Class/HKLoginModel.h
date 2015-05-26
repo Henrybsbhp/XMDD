@@ -20,4 +20,7 @@
 - (RACSignal *)rac_retryLoginFastWithOldToken:(NSString *)token;
 - (RACSignal *)rac_retryLogin;
 
++ (void)logout;
++ (void)cleanPwdForAccount:(NSString *)account;
+
 @end

@@ -36,6 +36,8 @@
 
 ///参照时间(mm:ss)
 + (NSString *)dateFormatStringForRefrenceTimeInteval:(NSTimeInterval)refrenceTime;
+
++ (BOOL)isDateValidWithBegin:(NSDate * )beginDate andEnd:(NSDate *)endDate;
 @end
 
 @interface NSString (DateForText)

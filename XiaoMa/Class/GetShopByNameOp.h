@@ -13,6 +13,12 @@
 ///商户名称
 @property (nonatomic,copy)NSString * shopName;
 
+///精度
+@property (nonatomic)double longitude;
+
+///纬度
+@property (nonatomic)double latitude;
+
 ///分页数
 @property (nonatomic)NSInteger pageno;
 

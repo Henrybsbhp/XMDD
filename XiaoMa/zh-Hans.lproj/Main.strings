@@ -1,0 +1,96 @@
+
+/* Class = "UITabBarItem"; title = "附近"; ObjectID = "0fT-Ra-4IG"; */
+"0fT-Ra-4IG.title" = "附近";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "27v-pb-u1s"; */
+"27v-pb-u1s.text" = "Label";
+
+/* Class = "UILabel"; text = "--"; ObjectID = "2XV-i2-ruY"; */
+"2XV-i2-ruY.text" = "--";
+
+/* Class = "UITextField"; placeholder = "输入关键字搜索"; ObjectID = "7be-JE-e7h"; */
+"7be-JE-e7h.placeholder" = "输入关键字搜索";
+
+/* Class = "UITabBarItem"; title = "首页"; ObjectID = "8po-hQ-M7B"; */
+"8po-hQ-M7B.title" = "首页";
+
+/* Class = "UILabel"; text = "神州洗车"; ObjectID = "BT6-K8-Akg"; */
+"BT6-K8-Akg.text" = "神州洗车";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "FnJ-Ya-9dl"; */
+"FnJ-Ya-9dl.text" = "Label";
+
+/* Class = "UINavigationController"; title = "我的"; ObjectID = "GVC-kB-wxZ"; */
+"GVC-kB-wxZ.title" = "我的";
+
+/* Class = "UILabel"; text = "普洗：普通车"; ObjectID = "Gwe-st-gjv"; */
+"Gwe-st-gjv.text" = "普洗：普通车";
+
+/* Class = "UINavigationItem"; title = "小马达达"; ObjectID = "LNP-uS-6P0"; */
+"LNP-uS-6P0.title" = "小马达达";
+
+/* Class = "UILabel"; text = "尾号 4 和 6"; ObjectID = "SM0-7b-Tmo"; */
+"SM0-7b-Tmo.text" = "尾号 4 和 6";
+
+/* Class = "UIButton"; normalTitle = "导航"; ObjectID = "TKo-Iz-Tcb"; */
+"TKo-Iz-Tcb.normalTitle" = "导航";
+
+/* Class = "UIViewController"; title = "我的"; ObjectID = "V2u-eJ-eQG"; */
+"V2u-eJ-eQG.title" = "我的";
+
+/* Class = "UILabel"; text = "消息"; ObjectID = "WzY-a9-rXD"; */
+"WzY-a9-rXD.text" = "消息";
+
+/* Class = "UILabel"; text = "Hello"; ObjectID = "YRs-vF-4aI"; */
+"YRs-vF-4aI.text" = "Hello";
+
+/* Class = "UILabel"; text = "未来一周都是晴天"; ObjectID = "a1L-wN-mOr"; */
+"a1L-wN-mOr.text" = "未来一周都是晴天";
+
+/* Class = "UILabel"; text = "4.0分"; ObjectID = "abf-lf-rPj"; */
+"abf-lf-rPj.text" = "4.0分";
+
+/* Class = "UILabel"; text = "优惠券"; ObjectID = "b3x-f8-57d"; */
+"b3x-f8-57d.text" = "优惠券";
+
+/* Class = "UINavigationController"; title = "附近"; ObjectID = "eox-vS-3Yl"; */
+"eox-vS-3Yl.title" = "附近";
+
+/* Class = "UITabBarItem"; title = "我的"; ObjectID = "fQD-bC-vum"; */
+"fQD-bC-vum.title" = "我的";
+
+/* Class = "UIButton"; normalTitle = "电话"; ObjectID = "feP-D4-8sQ"; */
+"feP-D4-8sQ.normalTitle" = "电话";
+
+/* Class = "UINavigationItem"; title = "附近"; ObjectID = "iQf-kI-TlW"; */
+"iQf-kI-TlW.title" = "附近";
+
+/* Class = "UILabel"; text = "点击登录"; ObjectID = "j7k-Mx-5gk"; */
+"j7k-Mx-5gk.text" = "点击登录";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "kEi-ek-gA1"; */
+"kEi-ek-gA1.text" = "Label";
+
+/* Class = "UILabel"; text = "今日限行:"; ObjectID = "khe-4n-xeF"; */
+"khe-4n-xeF.text" = "今日限行:";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "mKL-le-sDk"; */
+"mKL-le-sDk.text" = "Label";
+
+/* Class = "UIBarButtonItem"; title = "杭州"; ObjectID = "mwN-Zb-TOb"; */
+"mwN-Zb-TOb.title" = "杭州";
+
+/* Class = "UIViewController"; title = "首页"; ObjectID = "o8e-Uo-uaL"; */
+"o8e-Uo-uaL.title" = "首页";
+
+/* Class = "UILabel"; text = "10-15℃"; ObjectID = "r8W-Gh-kiq"; */
+"r8W-Gh-kiq.text" = "10-15℃";
+
+/* Class = "UILabel"; text = "洗车指数：非常适洗车！"; ObjectID = "sCX-71-dGI"; */
+"sCX-71-dGI.text" = "洗车指数：非常适洗车！";
+
+/* Class = "UINavigationController"; title = "首页"; ObjectID = "set-AC-AWQ"; */
+"set-AC-AWQ.title" = "首页";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "sfs-lG-UYU"; */
+"sfs-lG-UYU.text" = "Label";

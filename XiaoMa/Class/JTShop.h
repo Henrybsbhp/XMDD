@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "NSMutableDictionary+AddParams.h"
+#import "Constants.h"
 
 
 
@@ -59,7 +60,7 @@
 
 @interface JTShop : NSObject
 ///商户id
-@property (nonatomic,copy)NSString * shopID;
+@property (nonatomic,strong)NSNumber * shopID;
 ///商户名称
 @property (nonatomic,copy)NSString * shopName;
 ///商户图片
@@ -80,6 +81,8 @@
 @property (nonatomic,copy)NSString * closeHour;
 ///已完成单数
 @property (nonatomic)NSInteger txnumber;
+///评价数
+@property (nonatomic)NSInteger commentNumber;
 ///商户服务[JTShopService]
 @property (nonatomic,strong)NSArray * shopServiceArray;
 ///允许使用农行卡

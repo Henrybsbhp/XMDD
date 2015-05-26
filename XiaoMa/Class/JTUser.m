@@ -12,48 +12,17 @@
 
 @implementation JTUser
 
-- (HKMyCar *)getDefaultCar
+- (instancetype)init
 {
-    for (HKMyCar * car in self.carArray)
+    self = [super init];
+    if (self)
     {
-        if (car.isDefault)
-        {
-            return car;
-        }
+        _favorites = [[FavoriteModel alloc] init];
+        _carModel = [[MyCarsModel alloc] init];
     }
-    if (self.carArray.count)
-    {
-        return [self.carArray safetyObjectAtIndex:0];
-    }
-    else
-    {
-        return nil;
-    }
+    return self;
 }
 
-- (RACSignal *)rac_requestGetUserCar
-{
-    RACSignal * signal;
-    GetUserCarOp * op = [GetUserCarOp operation];
-    signal = [[[op rac_postRequest] flattenMap:^RACStream *(GetUserCarOp * op) {
-        
-        if (op.rsp_code == 0)
-        {
-            self.carArray = op.rsp_carArray;
-            [self getDefaultCar];
-            return [RACSignal return:op.rsp_carArray];
-        }
-        else
-        {
-            NSError * error = [NSError errorWithDomain:op.rsp_errorMsg code:op.rsp_code userInfo:nil];
-            return [RACSignal error:error];
-        }
-    }]catch:^RACSignal *(NSError *error) {
-        
-        return [RACSignal error:error];
-    }];
-    return signal;
-}
 
 @end
 

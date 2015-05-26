@@ -83,6 +83,7 @@ static char sActivityIndicatorView;
     CGFloat y = isAnimating ? CGRectGetMaxY(self.activityIndicatorView.frame) : self.indicatorPoistionY-18;
     self.indicatorTextButton.frame = CGRectMake(0, y, self.frame.size.width, 36);
     [self.indicatorTextButton setTitle:text forState:UIControlStateNormal];
+    [self.indicatorTextButton.titleLabel setFont:[UIFont systemFontOfSize:14]];
     //    [self.indicatorTextButton sizeToFit];
     self.indicatorTextButton.hidden = NO;
     @weakify(self);
@@ -102,7 +103,7 @@ static char sActivityIndicatorView;
 
 - (void)startActivityAnimation
 {
-    [self startActivityAnimationWithType:TYMActivityIndicatorType];
+    [self startActivityAnimationWithType:MONActivityIndicatorType];
 }
 
 - (void)startActivityAnimationWithType:(ActivityIndicatorType)type
@@ -124,7 +125,7 @@ static char sActivityIndicatorView;
         
         [(MONActivityIndicatorView *)self.activityIndicatorView startAnimating];
     }
-    else
+    else if (type == TYMActivityIndicatorType)
     {
         if (![self.activityIndicatorView isKindOfClass:[TYMActivityIndicatorView class]])
         {
@@ -140,6 +141,20 @@ static char sActivityIndicatorView;
         }
         [(TYMActivityIndicatorView *)self.activityIndicatorView startAnimating];
     }
+    else
+    {
+        if (![self.activityIndicatorView isKindOfClass:[UIActivityIndicatorView class]])
+        {
+            [self.activityIndicatorView removeFromSuperview];
+            UIActivityIndicatorView *view = [[UIActivityIndicatorView alloc]
+                                             initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            view.hidesWhenStopped = YES;
+            view.hidden = YES;
+            [self addSubview:view];
+            self.activityIndicatorView = view;
+        }
+        [(UIActivityIndicatorView *)self.activityIndicatorView startAnimating];
+    }
     self.activityIndicatorView.center = CGPointMake(self.frame.size.width/2, self.indicatorPoistionY);
     [self bringSubviewToFront:self.activityIndicatorView];
 }
@@ -154,6 +169,9 @@ static char sActivityIndicatorView;
     {
         [(MONActivityIndicatorView *)self.activityIndicatorView stopAnimating];
     }
+    else {
+        [(UIActivityIndicatorView *)self.activityIndicatorView stopAnimating];
+    }
 }
 
 - (BOOL)isActivityAnimating
@@ -166,6 +184,9 @@ static char sActivityIndicatorView;
     else if ([self.activityIndicatorView isKindOfClass:[MONActivityIndicatorView class]])
     {
         isAnimating = [(MONActivityIndicatorView *)self.activityIndicatorView isAnimating];
+    }
+    else {
+        isAnimating = [(UIActivityIndicatorView *)self.activityIndicatorView isAnimating];
     }
     return isAnimating;
 }

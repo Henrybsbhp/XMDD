@@ -14,6 +14,9 @@
 #import "MyCouponVC.h"
 #import "MyInfoViewController.h"
 #import "AboutViewController.h"
+#import "MessageListVC.h"
+#import "MyCollectionViewController.h"
+#import "CouponPkgViewController.h"
 
 @interface MineVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -22,7 +25,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *avatarView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *accountLabel;
-
+@property (weak, nonatomic) IBOutlet UILabel *PlaceholdLabel;
+@property (nonatomic, assign) BOOL isViewAppearing;
 @end
 
 @implementation MineVC
@@ -42,14 +46,28 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+    self.isViewAppearing = YES;
     [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.isViewAppearing = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    //如果当前视图的导航条没有发生跳转，则不做处理
+    if (![self.navigationController.topViewController isEqual:self]) {
+        //如果当前视图的viewWillAppear和viewWillDisappear的间隔太短会导致navigationBar隐藏显示不正常
+        //所以此时应该禁止navigationBar的动画,并在主线程中进行
+        if (self.isViewAppearing) {
+            CKAsyncMainQueue(^{
+                [self.navigationController setNavigationBarHidden:NO animated:NO];
+            });
+        }
+    }
 }
 
 - (void)setupBgView
@@ -65,42 +83,84 @@
     self.bgView.userInteractionEnabled = YES;
     [[gesture rac_gestureSignal] subscribeNext:^(id x) {
         
-        MyInfoViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"MyInfoViewController"];
-        [self.navigationController pushViewController:vc animated:YES];
+        if([LoginViewModel loginIfNeededForTargetViewController:self])
+        {
+            MyInfoViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"MyInfoViewController"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }];
-    
-    [[RACObserve(gAppMgr.myUser, avatar) distinctUntilChanged] subscribeNext:^(UIImage * avatar) {
-        
-        self.avatarView.image = avatar;
-    }];
-    [[RACObserve(gAppMgr.myUser, userName) distinctUntilChanged] subscribeNext:^(NSString * name) {
-        
-        self.nameLabel.text = name;
-    }];
+}
+
+- (void)refreshAvatarView
+{
+    if (gAppMgr.myUser.avatarUrl.length)
+    {
+        [[gMediaMgr rac_getPictureForUrl:gAppMgr.myUser.avatarUrl withDefaultPic:@"cm_avatar"] subscribeNext:^(UIImage * image) {
+            
+            gAppMgr.myUser.avatar = image;
+            self.avatarView.image = image;
+        }];
+    }
+    else
+    {
+        self.avatarView.image = [UIImage imageNamed:@"cm_avatar"];
+    }
 }
 
 - (void)observeUserInfo
 {
     @weakify(self);
-    [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(id x) {
+    [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(JTUser *user) {
+        
         @strongify(self);
+        if (!user) {
+            self.avatarView.image = [UIImage imageNamed:@"cm_avatar"];
+            self.nameLabel.hidden = YES;
+            self.accountLabel.hidden = YES;
+            self.PlaceholdLabel.hidden = NO;
+        }
+        else {
+            self.PlaceholdLabel.hidden = YES;
+            self.nameLabel.hidden = NO;
+            self.accountLabel.hidden = NO;
+            RAC(self.nameLabel, text) = RACObserve(user, userName);
+            RAC(self.accountLabel, text) = RACObserve(user, userID);
+            RAC(self.avatarView, image) = [[RACObserve(user, avatarUrl) distinctUntilChanged] flattenMap:^RACStream *(NSString *url) {
+                return [gMediaMgr rac_getPictureForUrl:url withDefaultPic:@"cm_avatar"];
+            }];
+        }
+
         [self reloadUserInfo];
+
     }];
 }
 
 - (void)reloadUserInfo
 {
     [[GetUserBaseInfoOp rac_fetchUserBaseInfo] subscribeNext:^(GetUserBaseInfoOp *op) {
-        [[gMediaMgr rac_getPictureForUrl:gAppMgr.myUser.avatarUrl withDefaultPic:@"cm_avatar"]
-         subscribeNext:^(id x) {
-//            self.avatarView.image = x;
-             gAppMgr.myUser.avatar = x;
-        }];
-        self.nameLabel.text = gAppMgr.myUser ? (gAppMgr.myUser.userName ? gAppMgr.myUser.userName : @"——") : @"未登录";
-        self.accountLabel.text = gAppMgr.myUser.userID ? gAppMgr.myUser.userID : @"——";
+
         [self.tableView reloadData];
     }];
 }
+
+#pragma mark - Action
+-(void)actionPushToTickets
+{
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        
+        MyCouponVC *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
+- (void)actionPushToMessages
+{
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        MessageListVC *vc = [UIStoryboard vcWithId:@"MessageListVC" inStoryboard:@"Mine"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
 #pragma mark - Table view data source
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
@@ -113,7 +173,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 2) {
-        return 2;
+        return 3;
     }
     return 1;
 }
@@ -145,13 +205,22 @@
 - (UITableViewCell *)topCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"TopCell" forIndexPath:indexPath];
-    UILabel *leftTitleL = (UILabel *)[cell.contentView viewWithTag:1001];
+//    UILabel *leftTitleL = (UILabel *)[cell.contentView viewWithTag:1001];
     UIButton *leftBtn = (UIButton *)[cell.contentView viewWithTag:1002];
-    [leftBtn addTarget:self action:@selector(pushToTickets) forControlEvents:UIControlEventTouchUpInside];
-    UILabel *rightTitleL = (UILabel *)[cell.contentView viewWithTag:2001];
+//    UILabel *rightTitleL = (UILabel *)[cell.contentView viewWithTag:2001];
     UIButton *rightBtn = (UIButton *)[cell.contentView viewWithTag:2002];
+
+//    leftTitleL.text = @"优惠券";
+    @weakify(self);
+    [[[leftBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
+        [self actionPushToTickets];
+    }];
     
-    leftTitleL.text = @"优惠券";
+    [[[rightBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
+        [self actionPushToMessages];
+    }];
     return cell;
 }
 
@@ -171,15 +240,11 @@
             iconV.image = [UIImage imageNamed:@"me_order"];
             titleL.text = @"订单";
         }
-//        else if (indexPath.row == 1) {
-//            iconV.image = [UIImage imageNamed:@"me_bank"];
-//            titleL.text = @"银行卡";
-//            [[RACObserve(gAppMgr.myUser, abcCarwashesCount) takeUntilForCell:cell] subscribeNext:^(NSNumber *x) {
-//                int count = [x intValue];
-//                subTitleL.text = count > 0 ? [NSString stringWithFormat:@"免费洗车%d次", count] : nil;
-//            }];
-//        }
         else if (indexPath.row == 1) {
+            iconV.image = [UIImage imageNamed:@"me_collect"];
+            titleL.text = @"礼包";
+        }
+        else if (indexPath.row == 2) {
             iconV.image = [UIImage imageNamed:@"me_collect"];
             titleL.text = @"收藏";
         }
@@ -213,6 +278,20 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
     }
+    else if (indexPath.section == 2 && indexPath.row == 1)
+    {
+        if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+            CouponPkgViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"CouponPkgViewController"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
+    else if (indexPath.section == 2 && indexPath.row == 2)
+    {
+        if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+            MyCollectionViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"MyCollectionViewController"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
     else if (indexPath.section == 3)
     {
         AboutViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
@@ -220,10 +299,5 @@
     }
 }
 
--(void)pushToTickets
-{
-    MyCouponVC *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
-    [self.navigationController pushViewController:vc animated:YES];
-}
 
 @end

@@ -8,7 +8,7 @@
 
 #import "EnquiryResultVC.h"
 #import "XiaoMa.h"
-#import "UploadInfomationVC.h"
+#import "SubmitInsuranceInfoVC.h"
 #import "SimplePolicyInfoVC.h"
 #import "HKInsurance.h"
 
@@ -32,12 +32,20 @@
     _insurances = insurances;
     _calculatorID = cid;
     [self.tableView reloadData];
+    CKAsyncMainQueue(^{
+        CGFloat height = [UIScreen mainScreen].bounds.size.height <= 480 ? 100 : 160;
+        self.tableView.tableFooterView.frame = CGRectMake(0, 0, self.view.frame.size.width, height);
+        //这么写是因为直接设置footerView的frame是不启作用的（苹果bug？），需要重新赋值一下
+        self.tableView.tableFooterView = self.tableView.tableFooterView;
+    });
 }
 #pragma mark - Action
 - (IBAction)actionUploadInfomation:(id)sender
 {
-    UploadInfomationVC *vc = [UIStoryboard vcWithId:@"UploadInfomationVC" inStoryboard:@"Insurance"];
+    SubmitInsuranceInfoVC *vc = [UIStoryboard vcWithId:@"SubmitInsuranceInfoVC" inStoryboard:@"Insurance"];
     vc.calculateID = self.calculatorID;
+    vc.car = self.car;
+    vc.shouldUpdateCar = self.shouldUpdateCar;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

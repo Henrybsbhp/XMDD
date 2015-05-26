@@ -18,4 +18,10 @@
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
+- (instancetype)parseResponseObject:(id)rspObj
+{
+    self.rsp_carId = rspObj[@"carid"];
+    return self;
+}
+
 @end

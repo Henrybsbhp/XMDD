@@ -34,7 +34,7 @@
                         
                         @{@"title":@"意见反馈",@"action":^(void){}},
                         
-                        @{@"title":@"客服电话4002313143",@"action":^(void){
+                        @{@"title":@"客服电话4007111111",@"action":^(void){
         
          [self callCustomerService];
     }}];
@@ -47,6 +47,12 @@
     self.versionLb.text = version;
 
 }
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -95,7 +101,7 @@
 
 - (void)callCustomerService
 {
-    [gPhoneHelper makePhone:@"4002313143" andInfo:@"呼叫客服"];
+    [gPhoneHelper makePhone:@"4007111111" andInfo:@"呼叫客服"];
 }
 
 @end

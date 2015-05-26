@@ -20,6 +20,7 @@
 #import "ClientInfo.h"
 #import "DeviceInfo.h"
 #import "WXApi.h"
+#import "WeiboSDK.h"
 #import <TencentOpenAPI.framework/Headers/TencentOAuth.h>
 #import "JTLogModel.h"
 
@@ -27,9 +28,7 @@
 //#define RequestWeatherInfoInterval 5
 
 @interface AppDelegate ()<WXApiDelegate,TencentSessionDelegate>
-{
-    TencentOAuth *oauth;
-}
+
 @property (nonatomic, strong) DDFileLogger *fileLogger;
 
 /// 日志
@@ -51,12 +50,22 @@
     [gMapHelper setupMapApi];
     [gMapHelper setupMAMap];
     
-    [WXApi registerApp:@"wxf346d7a6113bbbf9"];
-    
+    //微信授权
+    if (![WXApi registerApp:@"wxf346d7a6113bbbf9"])
+    {
+        DebugLog(@"Wechat register Failed");
+    }
+    //微博授权
+    if (![WeiboSDK registerApp:@"2789804503"])
+    {
+        DebugLog(@"Weibo register Failed");
+    }
     //QQ接口调用授权
-    NSString *appid = @"1104617282";
-    oauth = [[TencentOAuth alloc] initWithAppId:appid
-                                    andDelegate:self];
+    if (![[TencentOAuth alloc] initWithAppId:@"1104617282"
+                                    andDelegate:self])
+    {
+        DebugLog(@"QQ register Failed");
+    }
     
     [self setupVersionUpdating];
 
@@ -209,6 +218,10 @@
         {
             [gWechatHelper.rac_wechatResultSignal sendError:[NSError errorWithDomain:@"请求失败" code:payResp.errCode userInfo:nil]];
         }
+    }
+    if ([resp isKindOfClass:[SendMessageToWXResp class]])
+    {
+        [gWechatHelper.rac_wechatResultSignal sendNext:@"dismiss"];
     }
 }
 
@@ -396,7 +409,7 @@
             return;
         }
     }
-    self.logModel.userid = gNetworkMgr.bindingMobile ? gNetworkMgr.bindingMobile : @"10086";
+    self.logModel.userid = gAppMgr.myUser.userID ? gAppMgr.myUser.userID : @"00000000000";
     self.logModel.appname = @"com.huika.xmdd";
     [self.logModel addToScreen];
 #endif

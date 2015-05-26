@@ -18,6 +18,7 @@ typedef enum : NSUInteger {
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *ensureItem;
+@property (nonatomic, strong) NSDate *maximumDate;
 
 - (IBAction)actionCancel:(id)sender;
 - (IBAction)actionEnsure:(id)sender;
@@ -25,5 +26,7 @@ typedef enum : NSUInteger {
 
 ///弹出日期选择器
 + (RACSignal *)rac_presentPackerVCInView:(UIView *)view withSelectedDate:(NSDate *)date;
++ (DatePickerVC *)datePickerVCWithMaximumDate:(NSDate *)date;
+- (RACSignal *)rac_presentPackerVCInView:(UIView *)view withSelectedDate:(NSDate *)date;
 
 @end
