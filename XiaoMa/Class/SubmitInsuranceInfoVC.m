@@ -50,11 +50,9 @@
             return ;
         }
         self.pickedPhotoUrl = url;
-        [[gAppMgr.mediaMgr rac_getPictureForUrl:url withDefaultPic:nil] subscribeNext:^(id x) {
-            if (x) {
-                self.pickedPhoto = x;
-            }
-            x = x ? x : [UIImage imageNamed:@"cm_img_fail"];
+        [[gAppMgr.mediaMgr rac_getPictureForUrl:url withDefaultPic:@"cm_defpic" errorPic:@"cm_defpic_fail"] subscribeNext:^(UIImage *x) {
+            
+            self.pickedPhoto = x;
             self.pickedPhotoView.image = x;
             self.defaultPhotoView.hidden = YES;
         }];
@@ -168,6 +166,7 @@
         return;
     }
     
+    [self.view endEditing:YES];
     RACSignal *signal;
     //获取行驶证url
     if (self.pickedPhotoUrl.length == 0) {

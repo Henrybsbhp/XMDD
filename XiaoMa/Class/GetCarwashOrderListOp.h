@@ -11,6 +11,7 @@
 
 @interface GetCarwashOrderListOp : BaseOp
 
+@property (nonatomic, assign) long long req_tradetime;
 @property (nonatomic, strong) NSArray *rsp_orders;
 
 @end

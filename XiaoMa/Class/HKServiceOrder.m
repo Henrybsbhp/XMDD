@@ -27,6 +27,7 @@
     order.rating = [rsp floatParamForName:@"rating"];
     order.comment = rsp[@"comment"];
     order.ratetime = [NSDate dateWithUTS:rsp[@"ratetime"]];
+    order.tradetime = [rsp[@"tradetime"] longLongValue];
     return order;
 }
 

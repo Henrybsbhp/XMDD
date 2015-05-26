@@ -18,6 +18,7 @@ typedef enum : NSUInteger {
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *ensureItem;
+@property (nonatomic, strong) NSDate *maximumDate;
 
 - (IBAction)actionCancel:(id)sender;
 - (IBAction)actionEnsure:(id)sender;

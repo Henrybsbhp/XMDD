@@ -21,6 +21,7 @@
 		1816F4B41ACE767200BBCC96 /* UIStoryboard+Expansion.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4B31ACE767200BBCC96 /* UIStoryboard+Expansion.m */; };
 		1816F4B81AD36D9E00BBCC96 /* JTRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4B71AD36D9E00BBCC96 /* JTRatingView.m */; };
 		1816F4BD1AD3A8AD00BBCC96 /* JTNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4BC1AD3A8AD00BBCC96 /* JTNavigationController.m */; };
+		181F6D901B1436CA00D38555 /* UIView+DefaultEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D8F1B1436CA00D38555 /* UIView+DefaultEmptyView.m */; };
 		184E40C31AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C21AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m */; };
 		184E40C61AD3B58F00EFC3A6 /* UIView+Layer.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C51AD3B58F00EFC3A6 /* UIView+Layer.m */; };
 		184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C91AD3B6DC00EFC3A6 /* JTTableViewCell.m */; };
@@ -298,6 +299,8 @@
 		1816F4B71AD36D9E00BBCC96 /* JTRatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTRatingView.m; path = Class/JTRatingView.m; sourceTree = "<group>"; };
 		1816F4BB1AD3A8AD00BBCC96 /* JTNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTNavigationController.h; path = Class/JTNavigationController.h; sourceTree = "<group>"; };
 		1816F4BC1AD3A8AD00BBCC96 /* JTNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTNavigationController.m; path = Class/JTNavigationController.m; sourceTree = "<group>"; };
+		181F6D8E1B1436CA00D38555 /* UIView+DefaultEmptyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+DefaultEmptyView.h"; path = "Class/UIView+DefaultEmptyView.h"; sourceTree = "<group>"; };
+		181F6D8F1B1436CA00D38555 /* UIView+DefaultEmptyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+DefaultEmptyView.m"; path = "Class/UIView+DefaultEmptyView.m"; sourceTree = "<group>"; };
 		184E40C11AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIBarButtonItem+CustomStyle.h"; path = "Class/UIBarButtonItem+CustomStyle.h"; sourceTree = "<group>"; };
 		184E40C21AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIBarButtonItem+CustomStyle.m"; path = "Class/UIBarButtonItem+CustomStyle.m"; sourceTree = "<group>"; };
 		184E40C41AD3B58F00EFC3A6 /* UIView+Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Layer.h"; path = "Class/UIView+Layer.h"; sourceTree = "<group>"; };
@@ -957,6 +960,7 @@
 		1816F4B51AD36D5100BBCC96 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				181F6D8D1B14369B00D38555 /* DefaultEmptyView */,
 				6BD7AE651AE9EEDE00BEF30E /* Map */,
 				1853DEC51AE0EF8B00C39175 /* ProgressHUD */,
 				6BB884B31AE0BB9600EBD8F4 /* LoadingView */,
@@ -988,6 +992,15 @@
 				184E40C21AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m */,
 			);
 			name = Navigation;
+			sourceTree = "<group>";
+		};
+		181F6D8D1B14369B00D38555 /* DefaultEmptyView */ = {
+			isa = PBXGroup;
+			children = (
+				181F6D8E1B1436CA00D38555 /* UIView+DefaultEmptyView.h */,
+				181F6D8F1B1436CA00D38555 /* UIView+DefaultEmptyView.m */,
+			);
+			name = DefaultEmptyView;
 			sourceTree = "<group>";
 		};
 		184E40C71AD3B6C700EFC3A6 /* Cell */ = {
@@ -2384,6 +2397,7 @@
 				6BBF7DA61B00A78900E45967 /* UpdateUserInfoOp.m in Sources */,
 				6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */,
 				18B2C7391B13076B007FB0C7 /* UIImage+PECrop.m in Sources */,
+				181F6D901B1436CA00D38555 /* UIView+DefaultEmptyView.m in Sources */,
 				6BBAB8C71ADD1ED900EC342F /* GetShopByDistanceOp.m in Sources */,
 				1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */,
 				6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */,

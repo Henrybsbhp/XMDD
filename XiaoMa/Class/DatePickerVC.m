@@ -10,7 +10,6 @@
 #import "XiaoMa.h"
 
 @interface DatePickerVC ()
-@property (nonatomic, strong) NSDate *maximumDate;
 @end
 
 @implementation DatePickerVC

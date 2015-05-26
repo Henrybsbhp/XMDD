@@ -574,9 +574,14 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="ceg-gp-33m"/>
                                         </constraints>
-                                        <state key="normal" title="电话咨询">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                        <state key="normal" title="电话咨询" backgroundImage="ins_btn_bg2">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#BCI_5,5,5,5"/>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="actionMakeCall:" destination="LLl-Gr-zZw" eventType="touchUpInside" id="RM0-Md-292"/>
                                         </connections>
@@ -586,9 +591,14 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="9As-g7-9ZV"/>
                                         </constraints>
-                                        <state key="normal" title="我感兴趣">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                        <state key="normal" title="我感兴趣" backgroundImage="ins_btn_bg3">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#BCI_5,5,5,5"/>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="actionInterested:" destination="LLl-Gr-zZw" eventType="touchUpInside" id="Usg-Kb-hY2"/>
                                         </connections>
@@ -1873,6 +1883,8 @@
         <image name="ins_box1" width="15" height="15"/>
         <image name="ins_btn_bg" width="24" height="42"/>
         <image name="ins_btn_bg1" width="24" height="42"/>
+        <image name="ins_btn_bg2" width="24" height="37"/>
+        <image name="ins_btn_bg3" width="24" height="37"/>
         <image name="ins_camera" width="96" height="96"/>
         <image name="ins_camera1" width="68" height="68"/>
         <image name="ins_camera2" width="68" height="68"/>
