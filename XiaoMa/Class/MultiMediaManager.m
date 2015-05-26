@@ -10,6 +10,7 @@
 #import "DownloadOp.h"
 #import <CKKit.h>
 #import "JGActionSheet.h"
+#import "UIImage+Utilities.h"
 
 #define kPicCacheName    @"MultiMediaManager_PicCache"
 
@@ -74,8 +75,9 @@ static MultiMediaManager *g_mediaManager;
             defaultSignal = [RACSignal return:image];
         }
         
-        RACSignal * downloadOpSig = [DownloadOp firstDownloadOpInClientForReqURI:urlKey].rac_curSignal;
-        if (!downloadOpSig)
+        DownloadOp * duplicateOp = [DownloadOp firstDownloadOpInClientForReqURI:urlKey];
+        RACSignal * downloadOpSig = duplicateOp.rac_curSignal;
+        if (!duplicateOp)
         {
             DownloadOp * op = [DownloadOp operation];
             op.req_uri = urlKey;
