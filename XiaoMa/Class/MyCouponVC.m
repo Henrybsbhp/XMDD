@@ -73,6 +73,11 @@
     [self requestValidCoupon:2 pageno:self.currentPageIndexForUnused];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+
 - (void)setupGetMoreBtn
 {
     UIView *bottomView = [UIView new];
