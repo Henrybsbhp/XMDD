@@ -248,7 +248,7 @@
 
     
     [[[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                                        withDefaultPic:@"shop_default"] takeUntilForCell:cell] subscribeNext:^(UIImage * image) {
+                                        withDefaultPic:@"cm_shop"] takeUntilForCell:cell] subscribeNext:^(UIImage * image) {
         logoV.image = image;
     }];
     

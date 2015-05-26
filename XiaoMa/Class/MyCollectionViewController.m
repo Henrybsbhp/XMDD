@@ -247,7 +247,7 @@
         
         
         [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                          withDefaultPic:@"shop_default"] subscribeNext:^(UIImage * image) {
+                          withDefaultPic:@"cm_shop"] subscribeNext:^(UIImage * image) {
             logoV.image = image;
         }];;
         titleL.text = shop.shopName;
@@ -326,7 +326,7 @@
         UIButton * checkBtn = (UIButton *)[cell searchViewWithTag:3003];
         
         [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                          withDefaultPic:@"shop_default"] subscribeNext:^(UIImage * image) {
+                          withDefaultPic:@"cm_shop"] subscribeNext:^(UIImage * image) {
             logoV.image = image;
         }];;
         titleL.text = shop.shopName;

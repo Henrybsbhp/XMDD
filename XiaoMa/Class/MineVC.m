@@ -92,11 +92,11 @@
 {
     if (gAppMgr.myUser.avatarUrl.length)
     {
-    [[gMediaMgr rac_getPictureForUrl:gAppMgr.myUser.avatarUrl withDefaultPic:@"cm_avatar"] subscribeNext:^(UIImage * image) {
-        
-        gAppMgr.myUser.avatar = image;
-        self.avatarView.image = image;
-    }];
+        [[gMediaMgr rac_getPictureForUrl:gAppMgr.myUser.avatarUrl withDefaultPic:@"cm_avatar"] subscribeNext:^(UIImage * image) {
+            
+            gAppMgr.myUser.avatar = image;
+            self.avatarView.image = image;
+        }];
     }
     else
     {

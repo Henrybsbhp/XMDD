@@ -264,10 +264,19 @@ static NSInteger rotationIndex = 0;
         }
     }];
     
-    RAC(weatherImage, image) = [RACObserve(gAppMgr, temperaturepic) map:^id(id value) {
-        NSString * picName = [[value componentsSeparatedByString:@"/"] lastObject];
-        return [UIImage imageNamed:picName];
-    }];
+    NSString * picName = @"";
+    NSArray * tArray = [gAppMgr.temperaturepic componentsSeparatedByString:@"/"];
+    if (tArray.count)
+    {
+        picName = [tArray lastObject];
+    }
+    weatherImage.image = [UIImage imageNamed:picName];
+    
+//    RAC(weatherImage, image) = [RACObserve(gAppMgr, temperaturepic) map:^id(id value) {
+//        NSLog(@"*****************");
+//        NSString * picName = [[value componentsSeparatedByString:@"/"] lastObject];
+//        return [UIImage imageNamed:picName];
+//    }];
 }
 
 
@@ -497,8 +506,12 @@ static NSInteger rotationIndex = 0;
     }
     UIImageView *imgV = (UIImageView *)[pageView viewWithTag:1001];
     HKAdvertisement * ad = [gAdMgr.homepageAdvertiseArray safetyObjectAtIndex:pageIndex];
-    //    imgV.image = [UIImage imageNamed:@"hp_bottom"];
+//    [[[gMediaMgr rac_getPictureForUrl:ad.adPic withDefaultPic:@"hp_bottom"] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
+//        
+//        imgV.image = x;
+//    }];
     [[gMediaMgr rac_getPictureForUrl:ad.adPic withDefaultPic:@"hp_bottom"] subscribeNext:^(id x) {
+        
         imgV.image = x;
     }];
     

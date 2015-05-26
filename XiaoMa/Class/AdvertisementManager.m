@@ -59,10 +59,9 @@
     signal = [[op rac_postRequest] map:^id(GetSystemPromotionOp *op) {
         
         NSString *key = [self keyForAdType:type];
+        NSArray *sortedArray = [self filterAndSortAdList:op.rsp_advertisementArray];
         [self saveInfo:op.rsp_advertisementArray forKey:key];
         [self.timeInfo setObject:@([[NSDate date] timeIntervalSince1970]) forKey:key];
-        
-        NSArray *sortedArray = [self filterAndSortAdList:op.rsp_advertisementArray];
         
         if (type == AdvertisementHomePage)
         {
@@ -83,13 +82,14 @@
 {
     NSString * key = [self keyForAdType:type];
     NSArray * array = [self.adCache objectForKey:key];
+    NSArray *sortedArray = [self filterAndSortAdList:array];
     if (type == AdvertisementHomePage)
     {
-        self.homepageAdvertiseArray = array;
+        self.homepageAdvertiseArray = sortedArray;
     }
     else if (type == AdvertisementCarWash)
     {
-        self.carwashAdvertiseArray = array;
+        self.carwashAdvertiseArray = sortedArray;
         [[NSNotificationCenter defaultCenter] postNotificationName:CarwashAdvertiseNotification object:nil];
     }
     return array;
