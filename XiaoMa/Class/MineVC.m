@@ -94,6 +94,22 @@
     }];
 }
 
+- (void)refreshAvatarView
+{
+    if (gAppMgr.myUser.avatarUrl.length)
+    {
+    [[gMediaMgr rac_getPictureForUrl:gAppMgr.myUser.avatarUrl withDefaultPic:@"cm_avatar"] subscribeNext:^(UIImage * image) {
+        
+        gAppMgr.myUser.avatar = image;
+        self.avatarView.image = image;
+    }];
+    }
+    else
+    {
+        self.avatarView.image = [UIImage imageNamed:@"cm_avatar"];
+    }
+}
+
 - (void)observeUserInfo
 {
     @weakify(self);
@@ -118,12 +134,14 @@
         }
 
         [self reloadUserInfo];
+
     }];
 }
 
 - (void)reloadUserInfo
 {
     [[GetUserBaseInfoOp rac_fetchUserBaseInfo] subscribeNext:^(GetUserBaseInfoOp *op) {
+
         [self.tableView reloadData];
     }];
 }
@@ -158,7 +176,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 2) {
-        return 2;
+        return 3;
     }
     return 1;
 }
@@ -225,15 +243,11 @@
             iconV.image = [UIImage imageNamed:@"me_order"];
             titleL.text = @"订单";
         }
-//        else if (indexPath.row == 1) {
-//            iconV.image = [UIImage imageNamed:@"me_bank"];
-//            titleL.text = @"银行卡";
-//            [[RACObserve(gAppMgr.myUser, abcCarwashesCount) takeUntilForCell:cell] subscribeNext:^(NSNumber *x) {
-//                int count = [x intValue];
-//                subTitleL.text = count > 0 ? [NSString stringWithFormat:@"免费洗车%d次", count] : nil;
-//            }];
-//        }
         else if (indexPath.row == 1) {
+            iconV.image = [UIImage imageNamed:@"me_collect"];
+            titleL.text = @"礼包";
+        }
+        else if (indexPath.row == 2) {
             iconV.image = [UIImage imageNamed:@"me_collect"];
             titleL.text = @"收藏";
         }
@@ -268,6 +282,13 @@
         }
     }
     else if (indexPath.section == 2 && indexPath.row == 1)
+    {
+        if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+            CouponPkgViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"CouponPkgViewController"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
+    else if (indexPath.section == 2 && indexPath.row == 2)
     {
         if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
             MyCollectionViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"MyCollectionViewController"];

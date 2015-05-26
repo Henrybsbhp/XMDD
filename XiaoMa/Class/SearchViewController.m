@@ -34,6 +34,8 @@
 ///当前页码索引
 @property (nonatomic, assign) NSUInteger currentPageIndex;
 
+@property (nonatomic)CLLocationCoordinate2D coordinate;
+
 @end
 
 @implementation SearchViewController
@@ -50,6 +52,7 @@
     self.currentPageIndex = 1;
     
     [self getSearchHistory];
+    [self getUserLocation];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -89,7 +92,7 @@
     searchBtn.cornerRadius = 5.0f;
     [searchBtn setBackgroundColor:[UIColor colorWithHex:@"#15ac1f" alpha:1.0f]];
     [searchBtn setTitle:@"搜索" forState:UIControlStateNormal];
-    [searchBtn setFont:[UIFont systemFontOfSize:12]];
+    searchBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     [[searchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [self search];
@@ -210,6 +213,8 @@
     searchInfo = [self.searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     GetShopByNameOp * op = [GetShopByNameOp operation];
     op.shopName = searchInfo;
+    op.longitude = self.coordinate.longitude;
+    op.latitude = self.coordinate.latitude;
     op.pageno = self.currentPageIndex;
     op.orderby = 1;
     [[[op rac_postRequest] initially:^{
@@ -301,6 +306,16 @@
     } error:^(NSError *error) {
         [self.tableView.bottomLoadingView showIndicatorTextWith:@"获取失败，再拉拉看"];
         
+    }];
+}
+
+- (void)getUserLocation
+{
+    [[[[gMapHelper rac_getUserLocation] take:1] initially:^{
+        
+    }] subscribeNext:^(MAUserLocation *userLocation) {
+        
+        self.coordinate = userLocation.location.coordinate;
     }];
 }
 

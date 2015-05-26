@@ -17,6 +17,8 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:self.shopName forName:@"name"];
+    [params addParam:@(self.longitude) forName:@"longitude"];
+    [params addParam:@(self.latitude) forName:@"latitude"];
     [params addParam:self.pageno ? @(self.pageno):@(1) forName:@"pageno"];
     //    [params addParam:@(self.typemask) forName:@"typemask"];
     [params addParam:@(self.orderby) forName:@"orderby"];
