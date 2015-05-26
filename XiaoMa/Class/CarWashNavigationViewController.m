@@ -112,7 +112,7 @@
         {
             if (self.favorite)
             {
-                [[[gAppMgr.myUser.favorites rac_removeFavorite:self.shop.shopID] initially:^{
+                [[[gAppMgr.myUser.favorites rac_removeFavorite:@[self.shop.shopID]] initially:^{
                     
                     [SVProgressHUD showWithStatus:@"移除中..."];
                 }]  subscribeNext:^(id x) {
@@ -197,7 +197,7 @@
 }
 
 #pragma mark - Utitily
-- (void)requestAddFavorite:(NSString *)shopid
+- (void)requestAddFavorite:(NSNumber *)shopid
 {
     AddUserFavoriteOp * op = [AddUserFavoriteOp operation];
     op.shopid = shopid;
@@ -253,8 +253,7 @@
 - (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation;
 {
     self.startCoordinate = userLocation.location.coordinate;
-    
-    
+    gMapHelper.coordinate = userLocation.location.coordinate;
 }
 
 - (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view

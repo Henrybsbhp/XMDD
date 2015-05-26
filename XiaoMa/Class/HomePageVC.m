@@ -25,6 +25,8 @@
 #import "WebVC.h"
 #import "AdvertisementManager.h"
 #import "SocialShareViewController.h"
+#import "RescureViewController.h"
+#import "CommissionViewController.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 
@@ -297,16 +299,16 @@ static NSInteger rotationIndex = 0;
 
 - (void)actionRescue:(id)sender
 {
-    //    UIViewController *vc = [UIStoryboard vcWithId:@"RescueViewController" inStoryboard:@"Main"];
-    ////    RescueViewController * vc = [otherStoryboard instantiateViewControllerWithIdentifier:@"RescueViewController"];
-    //    [self.navigationController pushViewController:vc animated:YES];
+    RescureViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureViewController"];
+    vc.urlStr = @"http://www.xiaomadada.com/apphtml/jiuyuan.html";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionCommission:(id)sender
 {
-    //    ServiceViewController * vc = [otherStoryboard instantiateViewControllerWithIdentifier:@"ServiceViewController"];
-    //    vc.hidesBottomBarWhenPushed = YES;
-    //    [self.navigationController pushViewController:vc animated:YES];
+    CommissionViewController *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionViewController"];
+    vc.urlStr = @"http://www.xiaomadada.com/apphtml/daiban.html";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)rotationTableHeaderView

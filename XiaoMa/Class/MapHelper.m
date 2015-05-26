@@ -53,7 +53,8 @@
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0)
     {
         self.locationManager = [[CLLocationManager alloc] init];
-        [self.locationManager requestAlwaysAuthorization];
+//        [self.locationManager requestAlwaysAuthorization];
+        [self.locationManager requestWhenInUseAuthorization];
     }
 }
 
