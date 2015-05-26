@@ -1750,11 +1750,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/MineVC.m"
-            timestampString = "454305306.318211"
+            timestampString = "454314050.736648"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
             landmarkName = "-observeUserInfo"
             landmarkType = "5">
          </BreakpointContent>
@@ -1766,12 +1766,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/MineVC.m"
-            timestampString = "454305306.318211"
+            timestampString = "454314050.736648"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
-            landmarkName = "-reloadUserInfo"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
+            landmarkName = "-observeUserInfo"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

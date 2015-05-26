@@ -35,8 +35,8 @@
 - (void)reloadDatasource
 {
     SubInsurance *head = [SubInsurance new];
-    head.coveragerName = @"承保险种";
-    head.coveragerValue = @"保险金额/责任限额（元）";
+    head.coveragerName = @"承保险种（保额）";
+    head.coveragerValue = @"保费（元）";
     NSMutableArray *coveragers = [NSMutableArray arrayWithObject:head];
     
     if (self.insuranceOp) {

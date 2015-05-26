@@ -111,7 +111,6 @@
         @strongify(self);
         [self reloadUserInfo];
         
-        JTUser * user = gAppMgr.myUser;
         self.nameLabel.text = gAppMgr.myUser.userName;
         self.nameLabel.hidden = !gAppMgr.myUser;
         self.accountLabel.text = gAppMgr.myUser.userID;
