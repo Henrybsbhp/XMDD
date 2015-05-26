@@ -22,7 +22,7 @@ from email.MIMEMultipart import MIMEMultipart
 import json
 
 ipa_name = sys.argv[1]
-
+version_info = sys.argv[2]
 
 #蒲公英应用上传地址
 url = 'http://www.pgyer.com/apiv1/app/upload'
@@ -98,7 +98,7 @@ def send_Email(json_result):
     appBuildVersion = json_result['data']['appBuildVersion']
     appShortcutUrl = json_result['data']['appShortcutUrl']
     #邮件接受者
-    mail_receiver = ['fq@jtang.cn','zhangmingming@ltang.cn','wyy@jtang.cn','jl@jtang.cn','wyy@jtang.cn','yjp@jtang.cn']
+    mail_receiver = ['fq@jtang.cn','zhangmingming@ltang.cn','wyy@jtang.cn','jl@jtang.cn','wyy@jtang.cn','yjp@jtang.cn','xujian@jtang.cn','zw@jtang.cn']
     #根据不同邮箱配置 host，user，和pwd
     mail_host = 'smtp.exmail.qq.com'
     mail_user = 'ci_server@jtang.cn'
@@ -107,7 +107,7 @@ def send_Email(json_result):
     
     msg = MIMEMultipart()
     
-    environsString = '<h3>小马达达本次打包相关信息</h3><p>'
+    environsString = '<h3>小马达达本次打包相关信息:' + version_info+ '</h3><p>'
     environsString += '<p>可从蒲公英网站在线安装 : ' + 'http://www.pgyer.com/' + str(appShortcutUrl) + '   密码 : ' + installPassword + '<p>'
     message = environsString
     body = MIMEText(message, _subtype='html', _charset='utf-8')
