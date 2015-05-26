@@ -22,7 +22,7 @@ from email.MIMEMultipart import MIMEMultipart
 import json
 
 ipa_name = sys.argv[1]
-version_info = sys.argv[2]
+# version_info = sys.argv[2]
 
 #蒲公英应用上传地址
 url = 'http://www.pgyer.com/apiv1/app/upload'
