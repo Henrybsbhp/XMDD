@@ -11,6 +11,7 @@
 #import "BuyInsuranceOnlineVC.h"
 #import "SYPaginator.h"
 #import "HKAdvertisement.h"
+#import "EnquiryInsuranceVC.h"
 #import "WebVC.h"
 
 @interface InsuranceVC ()<SYPaginatorViewDataSource,SYPaginatorViewDelegate>
@@ -73,6 +74,12 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (IBAction)actionEnquireInsurance:(id)sender {
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        EnquiryInsuranceVC *vc = [UIStoryboard vcWithId:@"EnquiryInsuranceVC" inStoryboard:@"Insurance"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
 #pragma mark - UITableViewDelegate and datasource
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {

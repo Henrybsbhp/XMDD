@@ -28,6 +28,16 @@
     // Dispose of any resources that can be recreated.
 }
 
+///我感兴趣
+- (IBAction)actionInterested:(id)sender {
+    
+}
+
+///电话咨询
+- (IBAction)actionMakeCall:(id)sender {
+    [gPhoneHelper makePhone:@"4007111111" andInfo:@"呼叫客服"];
+}
+
 - (IBAction)actionHelp:(id)sender
 {
     WebVC *vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];

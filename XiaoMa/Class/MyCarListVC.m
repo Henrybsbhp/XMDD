@@ -110,6 +110,7 @@
     }] subscribeNext:^(id x) {
         
         @strongify(self);
+        car.status = 1;
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
         UILabel *bottomL = (UILabel *)[cell.contentView viewWithTag:3001];
         UIButton *bottomB = (UIButton *)[cell.contentView viewWithTag:3002];

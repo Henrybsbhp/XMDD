@@ -116,14 +116,14 @@ static MultiMediaManager *g_mediaManager;
         //拍照
         if (index == 0)
         {
-            if ([UIImagePickerController isFrontCameraAvailable])
+            if ([UIImagePickerController isCameraAvailable])
             {
                 UIImagePickerController *controller = [[UIImagePickerController alloc] init];
                 controller.customObject = subject;
                 controller.delegate = self;
                 controller.allowsEditing = NO;
                 controller.sourceType = UIImagePickerControllerSourceTypeCamera;
-                controller.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+                controller.cameraDevice = UIImagePickerControllerCameraDeviceRear;
                 NSMutableArray *mediaTypes = [[NSMutableArray alloc] init];
                 [mediaTypes addObject:(__bridge NSString *)kUTTypeImage];
                 controller.mediaTypes = mediaTypes;

@@ -66,9 +66,8 @@
     [[[[op rac_postRequest] flattenMap:^RACStream *(UploadFileOp *uploadOp) {
         UpdateInsuranceCalculateOp *op = [UpdateInsuranceCalculateOp new];
         op.req_cid = self.calculateID;
-        op.req_idpic = [uploadOp.rsp_urlArray safetyObjectAtIndex:0];
+        op.req_idcard = [uploadOp.rsp_urlArray safetyObjectAtIndex:0];
         op.req_driverpic = [uploadOp.rsp_urlArray safetyObjectAtIndex:1];
-        op.req_drivercopypic = [uploadOp.rsp_urlArray safetyObjectAtIndex:2];
         return [op rac_postRequest];
     }] initially:^{
         [gToast showingWithText:@"正在上传..."];

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -498,7 +498,7 @@
                                                 <constraint firstAttribute="width" constant="104" id="RS4-Gu-rCU"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" title="一键上传" backgroundImage="F4AD6FF2-6027-4B59-A0DD-2530A837FA0E">
+                                            <state key="normal" title="一键上传" backgroundImage="A51E8242-742A-40A0-845D-D3AC3C9AC9C7">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </state>
@@ -3154,8 +3154,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Avatar_50" width="9" height="15"/>
-        <image name="F4AD6FF2-6027-4B59-A0DD-2530A837FA0E" width="22" height="30">
+        <image name="A51E8242-742A-40A0-845D-D3AC3C9AC9C7" width="22" height="30">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -3250,6 +3249,7 @@ AxQGFAsUGhQeFCUULRQ6FD8UQRRDFEgUUBRTFFgUYBRjFHUUeBR9AAAAAAAAAgEAAAAAAAAAQgAAAAAA
 AAAAAAAAAAAAFH8
 </mutableData>
         </image>
+        <image name="Avatar_50" width="9" height="15"/>
         <image name="Horizontaline" width="621" height="1"/>
         <image name="cm_arrow_r" width="9" height="15"/>
         <image name="cm_white" width="1" height="1"/>

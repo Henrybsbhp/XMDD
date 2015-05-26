@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HKMyCar.h"
 
 @interface EnquiryResultVC : UITableViewController
 @property (nonatomic, strong, readonly) NSArray *insurances;
 @property (nonatomic, strong, readonly) NSString *calculatorID;
+@property (nonatomic, strong) HKMyCar *car;
+@property (nonatomic, assign) BOOL shouldUpdateCar;
 
 - (void)reloadWithInsurance:(NSArray *)insurances calculatorID:(NSString *)cid;
 

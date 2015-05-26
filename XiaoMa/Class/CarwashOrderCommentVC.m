@@ -41,7 +41,7 @@
         JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:2001];
         UIAPlaceholderTextView *textV = (UIAPlaceholderTextView *)[cell.contentView viewWithTag:3001];
         self.commentOp.req_comment = textV.text;
-        self.commentOp.req_rating = ratingV.ratingValue;
+        self.commentOp.req_rating = round(ratingV.ratingValue);
     }
     [[[self.commentOp rac_postRequest] initially:^{
         [gToast showingWithText:@"Loading..."];

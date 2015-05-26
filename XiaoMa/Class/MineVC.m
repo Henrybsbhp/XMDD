@@ -99,7 +99,7 @@
         self.nameLabel.hidden = !gAppMgr.myUser;
         self.accountLabel.text = gAppMgr.myUser.userID;
         self.accountLabel.hidden = !gAppMgr.myUser;
-        self.PlaceholdLabel.hidden = gAppMgr.myUser;
+        self.PlaceholdLabel.hidden = (BOOL)(gAppMgr.myUser);
         [self.tableView reloadData];
     }];
 }

@@ -17,7 +17,7 @@
 #import "MyCarsModel.h"
 
 
-@interface EditMyCarVC ()<UITableViewDataSource,UITableViewDelegate>
+@interface EditMyCarVC ()<UITableViewDataSource,UITableViewDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) HKMyCar *curCar;
 @property (nonatomic, assign) BOOL isEditingModel;
@@ -150,6 +150,7 @@
         @strongify(self);
         [gToast showSuccess:@"上传成功!"];
         self.curCar.licenceurl = url;
+        self.curCar.status = 1;
         self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
     } error:^(NSError *error) {
         [gToast showError:error.domain];
@@ -206,9 +207,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.view endEditing:YES];
     //购车时间
     if (indexPath.row == 1) {
+        [self.view endEditing:YES];
         [[DatePickerVC rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.curCar.purchasedate ? self.curCar.purchasedate : [NSDate date]]
          subscribeNext:^(NSDate *date) {
              self.curCar.purchasedate = date;
@@ -216,6 +217,7 @@
     }
     //保险到期日
     else if (indexPath.row == 6) {
+        [self.view endEditing:YES];
         DatePickerVC *vc = [DatePickerVC datePickerVCWithMaximumDate:nil];
         [[vc rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.curCar.insexipiredate]
          subscribeNext:^(NSDate *date) {
@@ -224,6 +226,7 @@
     }
     //汽车品牌
     else if (indexPath.row == 2) {
+        [self.view endEditing:YES];
         PickerAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
         vc.originVC = self;
         vc.car = self.curCar;
@@ -231,6 +234,7 @@
     }
     //具体车系
     else if (indexPath.row == 3) {
+        [self.view endEditing:YES];
         PickerAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
         vc.originVC = self;
         vc.car = self.curCar;
@@ -256,22 +260,16 @@
 
     HKMyCar *car = self.curCar;
     
-    field.delegate = (id<UITextFieldDelegate>)field;
+    field.delegate = self;
     field.userInteractionEnabled = YES;
     field.keyboardType = UIKeyboardTypeDefault;
     field.clearsOnBeginEditing = NO;
-    
+    field.customObject = indexPath;
     if (indexPath.row == 0) {
         titleL.attributedText = [self attrStrWithTitle:@"车牌号码" asterisk:YES];
         field.text = car.licencenumber;
         unitL.text = nil;
-        @weakify(field);
-        [[[field rac_signalForSelector:@selector(textFieldDidEndEditing:) fromProtocol:@protocol(UITextFieldDelegate)]
-          takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            @strongify(field);
-            field.text = [car.licencenumber uppercaseString];
-        }];
-        
+
         [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             car.licencenumber = x;
         }];
@@ -290,12 +288,7 @@
         field.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
         field.clearsOnBeginEditing = YES;
         field.text = [NSString stringWithFormat:@"%.2f", car.price];
-        @weakify(field);
-        [[[field rac_signalForSelector:@selector(textFieldDidEndEditing:) fromProtocol:@protocol(UITextFieldDelegate)] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            @strongify(field);
-            field.text = [NSString stringWithFormat:@"%.2f", car.price];
-        }];
-        
+
         [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString *str) {
             if (str.length > 0) {
                 car.price = [str floatValue];
@@ -308,11 +301,7 @@
         field.keyboardType = UIKeyboardTypeNumberPad;
         field.clearsOnBeginEditing = YES;
         field.text = [NSString stringWithFormat:@"%d", (int)car.odo];
-        @weakify(field);
-        [[[field rac_signalForSelector:@selector(textFieldDidEndEditing:) fromProtocol:@protocol(UITextFieldDelegate)] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            @strongify(field);
-            field.text = [NSString stringWithFormat:@"%d", (int)(car.odo)];
-        }];
+
         [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString *str) {
             if (str.length > 0) {
                 car.odo = [str integerValue];
@@ -377,6 +366,22 @@
         self.curCar.isDefault = on;
     }];
     return cell;
+}
+
+#pragma mark - UITextFieldDelegate
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSIndexPath *indexPath = textField.customObject;
+    HKMyCar *car = self.curCar;
+    if (indexPath.row == 0) {
+        textField.text = [car.licencenumber uppercaseString];
+    }
+    else if (indexPath.row == 4) {
+        textField.text = [NSString stringWithFormat:@"%.2f", car.price];
+    }
+    else if (indexPath.row == 5) {
+        textField.text = [NSString stringWithFormat:@"%d", (int)(car.odo)];
+    }
 }
 
 #pragma mark - Utility

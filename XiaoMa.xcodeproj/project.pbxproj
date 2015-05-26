@@ -121,6 +121,16 @@
 		189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 189DD3FF1B10722700BA0A7F /* SRMonthPicker.m */; };
 		18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */; };
 		18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */; };
+		18B2C7241B1304ED007FB0C7 /* SubmitInsuranceInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2C7231B1304ED007FB0C7 /* SubmitInsuranceInfoVC.m */; };
+		18B2C7351B13076B007FB0C7 /* PECropRectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2C7281B13076B007FB0C7 /* PECropRectView.m */; };
+		18B2C7361B13076B007FB0C7 /* PECropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2C72A1B13076B007FB0C7 /* PECropView.m */; };
+		18B2C7371B13076B007FB0C7 /* PECropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2C72C1B13076B007FB0C7 /* PECropViewController.m */; };
+		18B2C7381B13076B007FB0C7 /* PEResizeControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2C72E1B13076B007FB0C7 /* PEResizeControl.m */; };
+		18B2C7391B13076B007FB0C7 /* UIImage+PECrop.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2C7301B13076B007FB0C7 /* UIImage+PECrop.m */; };
+		18B2C73A1B13076B007FB0C7 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 18B2C7311B13076B007FB0C7 /* LICENSE */; };
+		18B2C73B1B13076B007FB0C7 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 18B2C7321B13076B007FB0C7 /* README.md */; };
+		18B2C73C1B13076B007FB0C7 /* PEPhotoCropEditor.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18B2C7341B13076B007FB0C7 /* PEPhotoCropEditor.bundle */; };
+		18B2C7401B130A75007FB0C7 /* EditPictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2C73F1B130A75007FB0C7 /* EditPictureViewController.m */; };
 		6B086BA11AE3184D00659DB7 /* GetShopByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */; };
 		6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */; };
 		6B086BA71AE4F03800659DB7 /* UIView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA61AE4F03800659DB7 /* UIView+Base.m */; };
@@ -478,6 +488,23 @@
 		18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		18A377F21AE4AB4B0031A574 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
+		18B2C7221B1304ED007FB0C7 /* SubmitInsuranceInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubmitInsuranceInfoVC.h; sourceTree = "<group>"; };
+		18B2C7231B1304ED007FB0C7 /* SubmitInsuranceInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubmitInsuranceInfoVC.m; sourceTree = "<group>"; };
+		18B2C7271B13076B007FB0C7 /* PECropRectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PECropRectView.h; sourceTree = "<group>"; };
+		18B2C7281B13076B007FB0C7 /* PECropRectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PECropRectView.m; sourceTree = "<group>"; };
+		18B2C7291B13076B007FB0C7 /* PECropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PECropView.h; sourceTree = "<group>"; };
+		18B2C72A1B13076B007FB0C7 /* PECropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PECropView.m; sourceTree = "<group>"; };
+		18B2C72B1B13076B007FB0C7 /* PECropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PECropViewController.h; sourceTree = "<group>"; };
+		18B2C72C1B13076B007FB0C7 /* PECropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PECropViewController.m; sourceTree = "<group>"; };
+		18B2C72D1B13076B007FB0C7 /* PEResizeControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEResizeControl.h; sourceTree = "<group>"; };
+		18B2C72E1B13076B007FB0C7 /* PEResizeControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PEResizeControl.m; sourceTree = "<group>"; };
+		18B2C72F1B13076B007FB0C7 /* UIImage+PECrop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+PECrop.h"; sourceTree = "<group>"; };
+		18B2C7301B13076B007FB0C7 /* UIImage+PECrop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+PECrop.m"; sourceTree = "<group>"; };
+		18B2C7311B13076B007FB0C7 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		18B2C7321B13076B007FB0C7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		18B2C7341B13076B007FB0C7 /* PEPhotoCropEditor.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PEPhotoCropEditor.bundle; sourceTree = "<group>"; };
+		18B2C73E1B130A75007FB0C7 /* EditPictureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditPictureViewController.h; sourceTree = "<group>"; };
+		18B2C73F1B130A75007FB0C7 /* EditPictureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditPictureViewController.m; sourceTree = "<group>"; };
 		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6B086B9F1AE3184D00659DB7 /* GetShopByNameOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShopByNameOp.h; path = Class/GetShopByNameOp.h; sourceTree = "<group>"; };
 		6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetShopByNameOp.m; path = Class/GetShopByNameOp.m; sourceTree = "<group>"; };
@@ -829,6 +856,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				18B2C7251B13076B007FB0C7 /* PEPhotoCropEditor */,
 				189DD3FD1B10722700BA0A7F /* SRMonthPicker */,
 				189371231B0E0D460030FDE1 /* TTTAttributedLabel */,
 				6BBFBC3C1B0D8E57000D3CA3 /* WeiboShareSDK */,
@@ -1351,6 +1379,7 @@
 		189B30C41AD6649A001D7288 /* Insurance */ = {
 			isa = PBXGroup;
 			children = (
+				18B2C73D1B130A5F007FB0C7 /* SubView */,
 				189B39671AFB045800B83F1B /* BuyOnline */,
 				189B31171ADBEBA0001D7288 /* BuyByChannel */,
 				189B310D1ADA5911001D7288 /* Enquiry */,
@@ -1387,14 +1416,16 @@
 		189B310D1ADA5911001D7288 /* Enquiry */ = {
 			isa = PBXGroup;
 			children = (
-				189B39651AF9FDDF00B83F1B /* EnquiryInsuranceVC.m */,
 				189B30CB1AD762B1001D7288 /* EnquiryInsuranceVC.h */,
+				189B39651AF9FDDF00B83F1B /* EnquiryInsuranceVC.m */,
 				189B310A1ADA499C001D7288 /* EnquiryResultVC.h */,
 				189B310B1ADA499C001D7288 /* EnquiryResultVC.m */,
 				187CC9571AEE4034004D1F28 /* SimplePolicyInfoVC.h */,
 				187CC9581AEE4034004D1F28 /* SimplePolicyInfoVC.m */,
 				189B310E1ADA597D001D7288 /* UploadInfomationVC.h */,
 				189B310F1ADA597D001D7288 /* UploadInfomationVC.m */,
+				18B2C7221B1304ED007FB0C7 /* SubmitInsuranceInfoVC.h */,
+				18B2C7231B1304ED007FB0C7 /* SubmitInsuranceInfoVC.m */,
 			);
 			name = Enquiry;
 			sourceTree = "<group>";
@@ -1483,6 +1514,51 @@
 				18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */,
 			);
 			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
+		18B2C7251B13076B007FB0C7 /* PEPhotoCropEditor */ = {
+			isa = PBXGroup;
+			children = (
+				18B2C7261B13076B007FB0C7 /* Lib */,
+				18B2C7311B13076B007FB0C7 /* LICENSE */,
+				18B2C7321B13076B007FB0C7 /* README.md */,
+				18B2C7331B13076B007FB0C7 /* Resources */,
+			);
+			path = PEPhotoCropEditor;
+			sourceTree = "<group>";
+		};
+		18B2C7261B13076B007FB0C7 /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+				18B2C7271B13076B007FB0C7 /* PECropRectView.h */,
+				18B2C7281B13076B007FB0C7 /* PECropRectView.m */,
+				18B2C7291B13076B007FB0C7 /* PECropView.h */,
+				18B2C72A1B13076B007FB0C7 /* PECropView.m */,
+				18B2C72B1B13076B007FB0C7 /* PECropViewController.h */,
+				18B2C72C1B13076B007FB0C7 /* PECropViewController.m */,
+				18B2C72D1B13076B007FB0C7 /* PEResizeControl.h */,
+				18B2C72E1B13076B007FB0C7 /* PEResizeControl.m */,
+				18B2C72F1B13076B007FB0C7 /* UIImage+PECrop.h */,
+				18B2C7301B13076B007FB0C7 /* UIImage+PECrop.m */,
+			);
+			path = Lib;
+			sourceTree = "<group>";
+		};
+		18B2C7331B13076B007FB0C7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				18B2C7341B13076B007FB0C7 /* PEPhotoCropEditor.bundle */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		18B2C73D1B130A5F007FB0C7 /* SubView */ = {
+			isa = PBXGroup;
+			children = (
+				18B2C73E1B130A75007FB0C7 /* EditPictureViewController.h */,
+				18B2C73F1B130A75007FB0C7 /* EditPictureViewController.m */,
+			);
+			name = SubView;
 			sourceTree = "<group>";
 		};
 		6B086BA81AE4F46900659DB7 /* TMCache */ = {
@@ -2011,6 +2087,7 @@
 				189B30CA1AD664F5001D7288 /* Insurance.storyboard in Resources */,
 				6BBB825D1AE79FE100850D0C /* read_me.txt in Resources */,
 				189B39551AF898A400B83F1B /* Mine.storyboard in Resources */,
+				18B2C73C1B13076B007FB0C7 /* PEPhotoCropEditor.bundle in Resources */,
 				6BBFBC421B0D8E57000D3CA3 /* WeiboSDK.bundle in Resources */,
 				189B311D1ADBEFDF001D7288 /* policy.json in Resources */,
 				6BB884B11AE0B3FE00EBD8F4 /* hz.gpx in Resources */,
@@ -2019,6 +2096,7 @@
 				1816F4A51ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist in Resources */,
 				6BB884D31AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.bundle in Resources */,
 				18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */,
+				18B2C73A1B13076B007FB0C7 /* LICENSE in Resources */,
 				1883D9141ACBBE5E002A4D19 /* Images.xcassets in Resources */,
 				6BB61B9C1AEF587E004F39AA /* Other.storyboard in Resources */,
 				1816F4AC1ACE74C000BBCC96 /* Carwash.storyboard in Resources */,
@@ -2094,6 +2172,7 @@
 				1816F4B01ACE75FB00BBCC96 /* CarWashTableVC.m in Sources */,
 				1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */,
 				1851F4281B0C2A4E00241A01 /* AutoBrand.m in Sources */,
+				18B2C73B1B13076B007FB0C7 /* README.md in Sources */,
 				1853DEB01AE0A10C00C39175 /* HKLoginModel.m in Sources */,
 				6BE2BD5B1AE6305600A69875 /* GetSystemPromotionOp.m in Sources */,
 				187CC9591AEE4034004D1F28 /* SimplePolicyInfoVC.m in Sources */,
@@ -2122,6 +2201,7 @@
 				189B395E1AF9D9F700B83F1B /* UpdateCarOp.m in Sources */,
 				1851F42B1B0C2C3500241A01 /* CoreDataManager.m in Sources */,
 				189B394C1AF71C3900B83F1B /* MineVC.m in Sources */,
+				18B2C7351B13076B007FB0C7 /* PECropRectView.m in Sources */,
 				189B39661AF9FDDF00B83F1B /* EnquiryInsuranceVC.m in Sources */,
 				189371361B0F592F0030FDE1 /* JTQueue.m in Sources */,
 				6BBB084B1B021EA90002C349 /* ComOpenThreadOTScreenshotHelperSwizzleHelper.m in Sources */,
@@ -2157,9 +2237,12 @@
 				6BBAB8B01ADB754500EC342F /* GetTokenOp.m in Sources */,
 				6B747A651AF08C7B00106BFD /* PhoneHelper.m in Sources */,
 				18863FA51AE8ECFB005BF4ED /* GridLabel.m in Sources */,
+				18B2C7241B1304ED007FB0C7 /* SubmitInsuranceInfoVC.m in Sources */,
 				189B396A1AFB062200B83F1B /* BuyInsuranceOnlineVC.m in Sources */,
+				18B2C7371B13076B007FB0C7 /* PECropViewController.m in Sources */,
 				6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */,
 				6BBB084D1B021EA90002C349 /* JTLogModel.m in Sources */,
+				18B2C7401B130A75007FB0C7 /* EditPictureViewController.m in Sources */,
 				6BB9D76E1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m in Sources */,
 				1873710C1B0AD1D900B8CDCC /* MyCarListVModel.m in Sources */,
 				1853DECB1AE0F72500C39175 /* RegisterVC.m in Sources */,
@@ -2199,6 +2282,7 @@
 				187532D31ACCDEEF004CB777 /* HomePageVC.m in Sources */,
 				6BC2209F1AD7AC9D00A4310E /* NSString+MD5.m in Sources */,
 				1883D9101ACBBE30002A4D19 /* main.m in Sources */,
+				18B2C7381B13076B007FB0C7 /* PEResizeControl.m in Sources */,
 				6BBF7DA31B008B1000E45967 /* EditMyInfoViewController.m in Sources */,
 				6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */,
 				189B30B71AD50627001D7288 /* PayForWashCarVC.m in Sources */,
@@ -2266,9 +2350,11 @@
 				189B30C31AD64310001D7288 /* ChooseCarwashTicketVC.m in Sources */,
 				6BBF7DA61B00A78900E45967 /* UpdateUserInfoOp.m in Sources */,
 				6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */,
+				18B2C7391B13076B007FB0C7 /* UIImage+PECrop.m in Sources */,
 				6BBAB8C71ADD1ED900EC342F /* GetShopByDistanceOp.m in Sources */,
 				1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */,
 				6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */,
+				18B2C7361B13076B007FB0C7 /* PECropView.m in Sources */,
 				6BB884D41AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.m in Sources */,
 				189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */,
 				6BE4CE341AF21ACA008E1C19 /* AddUserCarOp.m in Sources */,
