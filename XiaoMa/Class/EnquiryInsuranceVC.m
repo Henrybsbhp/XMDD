@@ -32,13 +32,14 @@
 @property (weak, nonatomic) IBOutlet UIView *headerContainerView;
 @property (nonatomic, strong) CKSegmentHelper *plateSegHelper;
 @property (nonatomic, strong) UIButton *selectedPlateBtn;
-
+@property (nonatomic, strong) MonthPickerVC *datePickerVC;
 @end
 
 @implementation EnquiryInsuranceVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupDatePickerVC];
     CKAsyncMainQueue(^{
         [self setupHeaderView];
         [self reloadDatasource];
@@ -48,6 +49,12 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setupDatePickerVC
+{
+    self.datePickerVC = [MonthPickerVC monthPickerVC];
+    [self addChildViewController:self.datePickerVC];
 }
 
 - (void)setupHeaderView
@@ -421,7 +428,8 @@
 
 - (void)pickDate
 {
-    [[MonthPickerVC rac_presentPickerVCInView:self.navigationController.view withSelectedDate:self.carryTime] subscribeNext:^(NSDate *date) {
+    [[self.datePickerVC rac_presentPickerVCInView:self.navigationController.view withSelectedDate:self.carryTime]
+     subscribeNext:^(NSDate *date) {
         self.carryTime = date;
     }];
 }

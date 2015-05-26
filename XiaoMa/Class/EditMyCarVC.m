@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UIToolbar *bottomBar;
 @property (weak, nonatomic) IBOutlet UILabel *headerDescLabel;
 @property (weak, nonatomic) IBOutlet UIButton *headerUploadBtn;
+@property (nonatomic, strong) DatePickerVC *datePicker;
 @end
 
 @implementation EditMyCarVC
@@ -35,6 +36,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self setupDatePicker];
     [self setupNavigationBar];
     [self setupTableView];
 }
@@ -42,6 +44,12 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+//设置日期选择控件（主要是为了事先加载，优化性能）
+- (void)setupDatePicker
+{
+    self.datePicker = [DatePickerVC datePickerVCWithMaximumDate:nil];
 }
 
 - (void)setupNavigationBar
@@ -210,17 +218,25 @@
     //购车时间
     if (indexPath.row == 1) {
         [self.view endEditing:YES];
-        [[DatePickerVC rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.curCar.purchasedate ? self.curCar.purchasedate : [NSDate date]]
+        self.datePicker.maximumDate = [NSDate date];
+        
+        NSDate *selectedDate = self.curCar.purchasedate ? self.curCar.purchasedate : [NSDate date];
+        @weakify(self);
+        [[self.datePicker rac_presentPackerVCInView:self.navigationController.view withSelectedDate:selectedDate]
          subscribeNext:^(NSDate *date) {
+             @strongify(self);
              self.curCar.purchasedate = date;
         }];
     }
     //保险到期日
     else if (indexPath.row == 6) {
         [self.view endEditing:YES];
-        DatePickerVC *vc = [DatePickerVC datePickerVCWithMaximumDate:nil];
-        [[vc rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.curCar.insexipiredate]
+        @weakify(self);
+        self.datePicker.maximumDate = nil;
+        [[self.datePicker rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.curCar.insexipiredate]
          subscribeNext:^(NSDate *date) {
+             
+             @strongify(self);
              self.curCar.insexipiredate = date;
          }];
     }

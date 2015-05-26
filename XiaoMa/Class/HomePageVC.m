@@ -34,6 +34,7 @@ static NSInteger rotationIndex = 0;
 @interface HomePageVC ()<UIScrollViewDelegate, SYPaginatorViewDataSource, SYPaginatorViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *bgView;
 @property (weak, nonatomic) IBOutlet UIView *weatherView;
+@property (nonatomic, strong) UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) SYPaginatorView *adView;
@@ -53,7 +54,7 @@ static NSInteger rotationIndex = 0;
     
     //自动登录
     [self autoLogin];
-    //设置主页的滚动视图
+//    //设置主页的滚动视图
     [self setupScrollView];
     
     [self rotationTableHeaderView];
@@ -63,10 +64,13 @@ static NSInteger rotationIndex = 0;
     [self setupWeatherView];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
-    
+    [super viewDidAppear:animated];
+    CKAsyncMainQueue(^{
+        CGSize size = [self.containerView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, ceil(size.height));
+    });
 //    [self setupWeatherView:gAppMgr.temperaturepic andTemperature:gAppMgr.temperature andTemperaturetip:gAppMgr.temperaturetip andRestriction:gAppMgr.restriction];
 }
 
@@ -92,7 +96,7 @@ static NSInteger rotationIndex = 0;
     //天气视图
     [self.weatherView removeFromSuperview];
     [self.scrollView addSubview:self.weatherView];
-    
+
     @weakify(self);
     [self.weatherView mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
@@ -102,8 +106,10 @@ static NSInteger rotationIndex = 0;
         make.width.equalTo(self.scrollView);
     }];
     
-    UIView *container = [UIView new];
+    UIView *container = [[UIView alloc] initWithFrame:CGRectZero];
     [self.scrollView addSubview:container];
+    self.containerView = container;
+    
     [container mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.top.equalTo(self.weatherView.mas_bottom);
@@ -112,6 +118,7 @@ static NSInteger rotationIndex = 0;
     }];
     //广告
     [self setupADViewInContainer:container];
+
     //洗车
     UIButton *btn1 = [self functionalButtonWithImageName:@"hp_washcar" action:@selector(actionWashCar:) inContainer:container];
     @weakify(btn1);

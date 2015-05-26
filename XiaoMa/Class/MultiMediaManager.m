@@ -29,8 +29,13 @@ static MultiMediaManager *g_mediaManager;
     return self;
 }
 
+- (RACSignal *)rac_getPictureForUrl:(NSString *)urlKey withDefaultPic:(NSString *)picName
+{
+    return [self rac_getPictureForUrl:urlKey withDefaultPic:picName errorPic:picName];
+}
+
 /// 首先去缓存中查找，如果没有找到，就用DefaultPic替代，同时根据URL去网络下载，如果没有下载到，不再返回新的next。
-- (RACSignal *)rac_getPictureForUrl:(NSString *)urlKey withDefaultPic:(NSString *)picName;
+- (RACSignal *)rac_getPictureForUrl:(NSString *)urlKey withDefaultPic:(NSString *)defPicName errorPic:(NSString *)errPicName
 {
     /// tmcache url长度超过239，导致存取失败
     NSString * cacheKey = urlKey;
@@ -41,7 +46,7 @@ static MultiMediaManager *g_mediaManager;
     
     if (cacheKey.length == 0)
     {
-        return [RACSignal return:[UIImage imageNamed:picName]];
+        return [RACSignal return:[UIImage imageNamed:defPicName]];
     }
     
     //
@@ -65,7 +70,7 @@ static MultiMediaManager *g_mediaManager;
         else
         {
             /// @fq 
-            UIImage * image = [UIImage imageNamed:picName];
+            UIImage * image = [UIImage imageNamed:defPicName];
             defaultSignal = [RACSignal return:image];
         }
         
@@ -90,7 +95,8 @@ static MultiMediaManager *g_mediaManager;
             
         }] catch:^RACSignal *(NSError *error) {
             
-            return [RACSignal empty];
+            UIImage *img = [UIImage imageNamed:errPicName];
+            return [RACSignal return:img];
         }];
         
         if (!downloadOpSig)
