@@ -157,7 +157,7 @@
     [[mapBottomView.navigationBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         @strongify(self)
-        [gPhoneHelper navigationRedirectThireMap:self.shop andUserLocation:self.startCoordinate andView:self.view];
+        [gPhoneHelper navigationRedirectThirdMap:self.shop andUserLocation:self.startCoordinate andView:self.view];
         
     }];
 
