@@ -559,24 +559,72 @@
                         <viewControllerLayoutGuide type="bottom" id="DHv-pt-tGb"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Cys-fd-amS">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NiG-jb-deH">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="486"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Mx-c0-HZk">
+                                <rect key="frame" x="0.0" y="486" width="600" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rst-4g-ueI">
+                                        <rect key="frame" x="14" y="5" width="277" height="36"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="36" id="ceg-gp-33m"/>
+                                        </constraints>
+                                        <state key="normal" title="电话咨询">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="actionMakeCall:" destination="LLl-Gr-zZw" eventType="touchUpInside" id="RM0-Md-292"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NXe-xs-HCb">
+                                        <rect key="frame" x="309" y="7" width="277" height="36"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="36" id="9As-g7-9ZV"/>
+                                        </constraints>
+                                        <state key="normal" title="我感兴趣">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="actionInterested:" destination="LLl-Gr-zZw" eventType="touchUpInside" id="Usg-Kb-hY2"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="NXe-xs-HCb" secondAttribute="centerY" id="DX8-y6-yfn"/>
+                                    <constraint firstItem="rst-4g-ueI" firstAttribute="leading" secondItem="2Mx-c0-HZk" secondAttribute="leading" constant="14" id="IEn-Ol-vIy"/>
+                                    <constraint firstAttribute="height" constant="50" id="IWT-jE-1SI"/>
+                                    <constraint firstAttribute="centerY" secondItem="rst-4g-ueI" secondAttribute="centerY" constant="2" id="TUo-BX-5R0"/>
+                                    <constraint firstItem="NXe-xs-HCb" firstAttribute="width" secondItem="rst-4g-ueI" secondAttribute="width" id="ikf-nX-oda"/>
+                                    <constraint firstItem="NXe-xs-HCb" firstAttribute="leading" secondItem="rst-4g-ueI" secondAttribute="trailing" constant="18" id="wd5-HH-9GX"/>
+                                    <constraint firstAttribute="trailing" secondItem="NXe-xs-HCb" secondAttribute="trailing" constant="14" id="zEw-6d-Sjv"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="2Mx-c0-HZk" firstAttribute="leading" secondItem="Cys-fd-amS" secondAttribute="leading" id="Fmn-OD-hk9"/>
                             <constraint firstItem="NiG-jb-deH" firstAttribute="top" secondItem="Cys-fd-amS" secondAttribute="top" id="Lcl-U6-f1I"/>
                             <constraint firstItem="NiG-jb-deH" firstAttribute="leading" secondItem="Cys-fd-amS" secondAttribute="leading" id="RMZ-0J-er8"/>
                             <constraint firstAttribute="trailing" secondItem="NiG-jb-deH" secondAttribute="trailing" id="VVO-jb-gEZ"/>
+                            <constraint firstItem="DHv-pt-tGb" firstAttribute="top" secondItem="2Mx-c0-HZk" secondAttribute="bottom" id="Xfi-l1-Rwi"/>
                             <constraint firstItem="DHv-pt-tGb" firstAttribute="top" secondItem="NiG-jb-deH" secondAttribute="bottom" id="nDn-29-WSk"/>
+                            <constraint firstItem="2Mx-c0-HZk" firstAttribute="top" secondItem="NiG-jb-deH" secondAttribute="bottom" id="sQb-sm-5Ep"/>
+                            <constraint firstAttribute="trailing" secondItem="2Mx-c0-HZk" secondAttribute="trailing" id="tqt-Nc-5Pb"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="nDn-29-WSk"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="保险购买" id="TLH-TP-Zeq"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="webView" destination="NiG-jb-deH" id="9Qg-a5-iP7"/>
                     </connections>
