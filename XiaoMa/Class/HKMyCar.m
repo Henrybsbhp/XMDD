@@ -54,6 +54,7 @@
     HKMyCar *car = [[HKMyCar allocWithZone:zone] init];
     car.carId = _carId;
     car.licencenumber = _licencenumber;
+    car.licenceurl = _licenceurl;
     car.purchasedate = _purchasedate;
     car.brand = _brand;
     car.model = _model;

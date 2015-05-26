@@ -13,7 +13,12 @@
 - (RACSignal *)rac_postRequest
 {
     self.req_method = @"/user/order/service/get";
-    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:nil security:YES];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if (self.req_tradetime > 0) {
+        [params setObject:@(self.req_tradetime) forKey:@"tradetime"];
+    }
+
+    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
 - (instancetype)parseResponseObject:(id)rspObj

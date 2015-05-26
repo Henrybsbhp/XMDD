@@ -26,7 +26,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *accountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *PlaceholdLabel;
-
+@property (nonatomic, assign) BOOL isViewAppearing;
 @end
 
 @implementation MineVC
@@ -46,7 +46,13 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+    self.isViewAppearing = YES;
     [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.isViewAppearing = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -54,7 +60,13 @@
     [super viewWillDisappear:animated];
     //如果当前视图的导航条没有发生跳转，则不做处理
     if (![self.navigationController.topViewController isEqual:self]) {
-        [self.navigationController setNavigationBarHidden:NO animated:animated];
+        //如果当前视图的viewWillAppear和viewWillDisappear的间隔太短会导致navigationBar隐藏显示不正常
+        //所以此时应该禁止navigationBar的动画,并在主线程中进行
+        if (self.isViewAppearing) {
+            CKAsyncMainQueue(^{
+                [self.navigationController setNavigationBarHidden:NO animated:NO];
+            });
+        }
     }
 }
 
@@ -77,15 +89,6 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
     }];
-    
-    [[RACObserve(gAppMgr.myUser, avatar) distinctUntilChanged] subscribeNext:^(UIImage * avatar) {
-        
-        self.avatarView.image = avatar;
-    }];
-    [[RACObserve(gAppMgr.myUser, userName) distinctUntilChanged] subscribeNext:^(NSString * name) {
-        
-        self.nameLabel.text = name;
-    }];
 }
 
 - (void)refreshAvatarView
@@ -107,26 +110,35 @@
 - (void)observeUserInfo
 {
     @weakify(self);
-    [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(id x) {
-        @strongify(self);
-        [self reloadUserInfo];
+    [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(JTUser *user) {
         
-        self.nameLabel.text = gAppMgr.myUser.userName;
-        self.nameLabel.hidden = !gAppMgr.myUser;
-        self.accountLabel.text = gAppMgr.myUser.userID;
-        self.accountLabel.hidden = !gAppMgr.myUser;
-        self.PlaceholdLabel.hidden = gAppMgr.myUser ? YES : NO;
-        [self refreshAvatarView];
-        [self.tableView reloadData];
+        @strongify(self);
+        if (!user) {
+            self.avatarView.image = [UIImage imageNamed:@"cm_avatar"];
+            self.nameLabel.hidden = YES;
+            self.accountLabel.hidden = YES;
+            self.PlaceholdLabel.hidden = NO;
+        }
+        else {
+            self.PlaceholdLabel.hidden = YES;
+            self.nameLabel.hidden = NO;
+            self.accountLabel.hidden = NO;
+            RAC(self.nameLabel, text) = RACObserve(user, userName);
+            RAC(self.accountLabel, text) = RACObserve(user, userID);
+            RAC(self.avatarView, image) = [[RACObserve(user, avatarUrl) distinctUntilChanged] flattenMap:^RACStream *(NSString *url) {
+                return [gMediaMgr rac_getPictureForUrl:url withDefaultPic:@"cm_avatar"];
+            }];
+        }
+
+        [self reloadUserInfo];
+
     }];
 }
 
 - (void)reloadUserInfo
 {
     [[GetUserBaseInfoOp rac_fetchUserBaseInfo] subscribeNext:^(GetUserBaseInfoOp *op) {
-        [self refreshAvatarView];
-        self.nameLabel.text = gAppMgr.myUser ? (gAppMgr.myUser.userName ? gAppMgr.myUser.userName : @"——") : @"未登录";
-        self.accountLabel.text = gAppMgr.myUser.userID ? gAppMgr.myUser.userID : @"——";
+
         [self.tableView reloadData];
     }];
 }
@@ -286,5 +298,6 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
+
 
 @end

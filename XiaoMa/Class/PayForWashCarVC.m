@@ -602,6 +602,7 @@
             }
             else
             {
+                [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
                 PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
                 vc.originVC = self.originVC;
                 HKServiceOrder * order = [[HKServiceOrder alloc] init];
@@ -629,6 +630,7 @@
     
     [gAlipayHelper.rac_alipayResultSignal subscribeNext:^(id x) {
         
+        [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
         PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
         vc.originVC = self.originVC;
         vc.subtitle = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
@@ -651,6 +653,7 @@
     
     [gWechatHelper.rac_wechatResultSignal subscribeNext:^(id x) {
         
+        [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
         PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
         vc.originVC = self.originVC;
         vc.subtitle = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
