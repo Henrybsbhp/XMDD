@@ -79,7 +79,7 @@
         {
             if (self.favorite)
             {
-                [[[gAppMgr.myUser.favorites rac_removeFavorite:self.shop.shopID] initially:^{
+                [[[gAppMgr.myUser.favorites rac_removeFavorite:@[self.shop.shopID]] initially:^{
                     
                     [SVProgressHUD showWithStatus:@"移除中..."];
                 }]  subscribeNext:^(id x) {

@@ -11,7 +11,7 @@
 @interface CommentListViewController : JTTableViewController
 
 ///
-@property (nonatomic,copy)NSString * shopid;
+@property (nonatomic,strong)NSNumber * shopid;
 
 @property (nonatomic,strong)NSArray * commentArray;
 
