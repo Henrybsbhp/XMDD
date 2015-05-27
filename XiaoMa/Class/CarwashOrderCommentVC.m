@@ -83,7 +83,7 @@
     JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:2001];
     UIAPlaceholderTextView *textV = (UIAPlaceholderTextView *)[cell.contentView viewWithTag:3001];
     
-    [[[gAppMgr.mediaMgr rac_getPictureForUrl:[self.order.shop.picArray safetyObjectAtIndex:0] withDefaultPic:@"cm_shop"] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+    [[[gAppMgr.mediaMgr rac_getPictureForUrl:[self.order.shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         logoV.image = x;
     }];
     

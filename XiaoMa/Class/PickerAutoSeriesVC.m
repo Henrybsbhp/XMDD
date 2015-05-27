@@ -6,16 +6,16 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "PickerAutoModelVC.h"
+#import "PickerAutoSeriesVC.h"
 #import "GetAutomobileModelOp.h"
 
-@interface PickerAutoModelVC ()<UITableViewDelegate, UITableViewDataSource>
+@interface PickerAutoSeriesVC ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *seriesList;
 @end
 
-@implementation PickerAutoModelVC
+@implementation PickerAutoSeriesVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -73,12 +73,14 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSString *series = [self.seriesList safetyObjectAtIndex:indexPath.row];
-    self.car.model = series;
     if (self.originVC) {
         [self.navigationController popToViewController:self.originVC animated:YES];
     }
     else {
         [self.navigationController popViewControllerAnimated:YES];
+    }
+    if (self.completed) {
+        self.completed(self.brandName, series);
     }
 }
 

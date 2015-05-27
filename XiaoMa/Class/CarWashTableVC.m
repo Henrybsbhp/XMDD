@@ -192,7 +192,8 @@
     }
     UIImageView *imgV = (UIImageView *)[pageView searchViewWithTag:1001];
     HKAdvertisement * ad = [gAdMgr.carwashAdvertiseArray safetyObjectAtIndex:pageIndex];
-    [[gMediaMgr rac_getPictureForUrl:ad.adPic withDefaultPic:@"hp_bottom"] subscribeNext:^(id x) {
+    [[gMediaMgr rac_getPictureForUrl:ad.adPic withType:ImageURLTypeThumbnail defaultPic:@"hp_bottom" errorPic:@"hp_bottom"]
+     subscribeNext:^(id x) {
         imgV.image = x;
     }];
     
@@ -247,8 +248,7 @@
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
 
     
-    [[[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                                        withDefaultPic:@"cm_shop"] takeUntilForCell:cell] subscribeNext:^(UIImage * image) {
+    [[[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] takeUntilForCell:cell] subscribeNext:^(UIImage * image) {
         logoV.image = image;
     }];
     
