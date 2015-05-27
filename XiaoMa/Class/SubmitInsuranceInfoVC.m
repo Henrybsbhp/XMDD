@@ -50,7 +50,7 @@
             return ;
         }
         self.pickedPhotoUrl = url;
-        [[gAppMgr.mediaMgr rac_getPictureForUrl:url withDefaultPic:@"cm_defpic" errorPic:@"cm_defpic_fail"] subscribeNext:^(UIImage *x) {
+        [[gAppMgr.mediaMgr rac_getPictureForUrl:url withType:ImageURLTypeMedium defaultPic:@"cm_defpic" errorPic:@"cm_defpic_fail"] subscribeNext:^(UIImage *x) {
             
             self.pickedPhoto = x;
             self.pickedPhotoView.image = x;

@@ -33,7 +33,11 @@
         return YES;
     }
     return [super touchesShouldCancelInContentView:view];
+    
 }
 
-
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+}
 @end

@@ -250,8 +250,7 @@
         UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
         
         
-        [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                          withDefaultPic:@"cm_shop"] subscribeNext:^(UIImage * image) {
+        [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] subscribeNext:^(UIImage * image) {
             logoV.image = image;
         }];;
         titleL.text = shop.shopName;
@@ -329,8 +328,7 @@
         UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
         UIButton * checkBtn = (UIButton *)[cell searchViewWithTag:3003];
         
-        [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                          withDefaultPic:@"cm_shop"] subscribeNext:^(UIImage * image) {
+        [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] subscribeNext:^(UIImage * image) {
             logoV.image = image;
         }];;
         titleL.text = shop.shopName;

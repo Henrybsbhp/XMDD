@@ -35,6 +35,18 @@ static MultiMediaManager *g_mediaManager;
     return [self rac_getPictureForUrl:urlKey withDefaultPic:picName errorPic:picName];
 }
 
+- (RACSignal *)rac_getPictureForUrl:(NSString *)urlKey withType:(ImageURLType)type
+                         defaultPic:(NSString *)defPicName errorPic:(NSString *)errPicName
+{
+    if (type == ImageURLTypeThumbnail) {
+        urlKey = [urlKey append:@"?imageView2/1/w/128/h/128"];
+    }
+    else if (type == ImageURLTypeMedium) {
+        urlKey = [urlKey append:@"?imageView2/0/w/1024/h/1024"];
+    }
+    return [self rac_getPictureForUrl:urlKey withDefaultPic:defPicName errorPic:errPicName];
+}
+
 /// 首先去缓存中查找，如果没有找到，就用DefaultPic替代，同时根据URL去网络下载，如果没有下载到，不再返回新的next。
 - (RACSignal *)rac_getPictureForUrl:(NSString *)urlKey withDefaultPic:(NSString *)defPicName errorPic:(NSString *)errPicName
 {

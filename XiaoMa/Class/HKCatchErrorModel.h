@@ -10,6 +10,6 @@
 
 @interface HKCatchErrorModel : NSObject
 
-+ (void)catchNetworkingError;
+- (void)catchNetworkingError;
 
 @end
