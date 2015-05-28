@@ -8,11 +8,14 @@
 
 #import "RescueCouponViewController.h"
 #import "JTTableView.h"
+#import "HKCoupon.h"
+#import "GetUserCouponByTypeOp.h"
 
 @interface RescueCouponViewController ()
 
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
 
+@property (nonatomic,strong)NSArray * couponArray;
 
 @end
 
@@ -20,7 +23,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self requestCoupon];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -28,14 +32,69 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)requestCoupon
+{
+    GetUserCouponByTypeOp * op = [GetUserCouponByTypeOp operation];
+    op.type = CouponTypeRescue;
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showText:@"Loading"];
+    }] subscribeNext:^(GetUserCouponByTypeOp * op) {
+        
+        [gToast dismiss];
+        self.couponArray = op.rsp_couponsArray;
+        [self.tableView reloadData];
+    } error:^(NSError *error) {
+        
+        [gToast dismiss];
+    }];
 }
-*/
+
+#pragma mark - Table view data source
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 15;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 85;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    return self.couponArray.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TicketCell"];
+    
+    //背景图片
+    UIImage * bgImage = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#00BFFF" alpha:1.0f]];
+
+    
+    UIImageView * ticketBgView = (UIImageView *)[cell searchViewWithTag:1001];
+    //优惠名称
+    UILabel *name = (UILabel *)[cell.contentView viewWithTag:1002];
+    //优惠描述
+    UILabel *description = (UILabel *)[cell.contentView viewWithTag:103];
+    //优惠有效期
+    UILabel *validDate = (UILabel *)[cell.contentView viewWithTag:1004];
+    //状态
+    UIButton *status = (UIButton *)[cell.contentView viewWithTag:1005];
+    
+    [status setTitle:@"有效" forState:UIControlStateNormal];
+    
+    HKCoupon * coupon = [self.couponArray safetyObjectAtIndex:indexPath.row];
+    ticketBgView.image = bgImage;
+    name.text = coupon.couponName;
+    description.text = [NSString stringWithFormat:@"使用说明：%@",coupon.couponDescription];
+    validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",[coupon.validsince dateFormatForYYMMdd2],[coupon.validthrough dateFormatForYYMMdd2]];
+
+    
+    return cell;
+}
+
 
 @end

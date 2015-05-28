@@ -22,6 +22,14 @@
 		1816F4B81AD36D9E00BBCC96 /* JTRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4B71AD36D9E00BBCC96 /* JTRatingView.m */; };
 		1816F4BD1AD3A8AD00BBCC96 /* JTNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4BC1AD3A8AD00BBCC96 /* JTNavigationController.m */; };
 		181F6D901B1436CA00D38555 /* UIView+DefaultEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D8F1B1436CA00D38555 /* UIView+DefaultEmptyView.m */; };
+		181F6D931B15773600D38555 /* BeInterestedInInsuranceOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D921B15773600D38555 /* BeInterestedInInsuranceOp.m */; };
+		181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D961B15919900D38555 /* CXAlertBackgroundWindow.m */; };
+		181F6DA51B15919900D38555 /* CXAlertButtonContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D981B15919900D38555 /* CXAlertButtonContainerView.m */; };
+		181F6DA61B15919900D38555 /* CXAlertButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D9A1B15919900D38555 /* CXAlertButtonItem.m */; };
+		181F6DA71B15919900D38555 /* CXAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D9C1B15919900D38555 /* CXAlertView.m */; };
+		181F6DA81B15919900D38555 /* CXAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D9E1B15919900D38555 /* CXAlertViewController.m */; };
+		181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6DA01B15919900D38555 /* LFDisplayBridge.m */; };
+		181F6DAA1B15919900D38555 /* LFGlassView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6DA21B15919900D38555 /* LFGlassView.m */; };
 		184E40C31AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C21AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m */; };
 		184E40C61AD3B58F00EFC3A6 /* UIView+Layer.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C51AD3B58F00EFC3A6 /* UIView+Layer.m */; };
 		184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C91AD3B6DC00EFC3A6 /* JTTableViewCell.m */; };
@@ -35,7 +43,7 @@
 		1851F4281B0C2A4E00241A01 /* AutoBrand.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F4271B0C2A4E00241A01 /* AutoBrand.m */; };
 		1851F42B1B0C2C3500241A01 /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F42A1B0C2C3500241A01 /* CoreDataManager.m */; };
 		1851F42F1B0C304B00241A01 /* AutoBrand+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F42E1B0C304B00241A01 /* AutoBrand+Extension.m */; };
-		1851F4321B0C596600241A01 /* PickerAutoModelVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F4311B0C596600241A01 /* PickerAutoModelVC.m */; };
+		1851F4321B0C596600241A01 /* PickerAutoSeriesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F4311B0C596600241A01 /* PickerAutoSeriesVC.m */; };
 		1853DEAD1AE0A0B700C39175 /* HKCatchErrorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853DEAC1AE0A0B700C39175 /* HKCatchErrorModel.m */; };
 		1853DEB01AE0A10C00C39175 /* HKLoginModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853DEAF1AE0A10C00C39175 /* HKLoginModel.m */; };
 		1853DEB41AE0A26700C39175 /* DebugFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853DEB31AE0A26700C39175 /* DebugFormat.m */; };
@@ -222,6 +230,8 @@
 		6BCA5F491B104AB300E1E630 /* CouponPkgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F481B104AB300E1E630 /* CouponPkgViewController.m */; };
 		6BCA5F4C1B104B5100E1E630 /* MyCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F4B1B104B5100E1E630 /* MyCollectionViewController.m */; };
 		6BCF62441B15AF3E0064AE32 /* RescueCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF62431B15AF3E0064AE32 /* RescueCouponViewController.m */; };
+		6BCF62471B1737980064AE32 /* GetUserCouponByTypeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF62461B1737980064AE32 /* GetUserCouponByTypeOp.m */; };
+		6BCF624A1B1739E70064AE32 /* CommissionCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF62491B1739E70064AE32 /* CommissionCouponViewController.m */; };
 		6BD7AE5B1AE8927C00BEF30E /* WeChatHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */; };
 		6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5D1AE8A64B00BEF30E /* ApiXml.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5F1AE8A64B00BEF30E /* payRequsestHandler.mm */; };
@@ -302,6 +312,23 @@
 		1816F4BC1AD3A8AD00BBCC96 /* JTNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTNavigationController.m; path = Class/JTNavigationController.m; sourceTree = "<group>"; };
 		181F6D8E1B1436CA00D38555 /* UIView+DefaultEmptyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+DefaultEmptyView.h"; path = "Class/UIView+DefaultEmptyView.h"; sourceTree = "<group>"; };
 		181F6D8F1B1436CA00D38555 /* UIView+DefaultEmptyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+DefaultEmptyView.m"; path = "Class/UIView+DefaultEmptyView.m"; sourceTree = "<group>"; };
+		181F6D911B15773600D38555 /* BeInterestedInInsuranceOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BeInterestedInInsuranceOp.h; path = Class/BeInterestedInInsuranceOp.h; sourceTree = "<group>"; };
+		181F6D921B15773600D38555 /* BeInterestedInInsuranceOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BeInterestedInInsuranceOp.m; path = Class/BeInterestedInInsuranceOp.m; sourceTree = "<group>"; };
+		181F6D951B15919900D38555 /* CXAlertBackgroundWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXAlertBackgroundWindow.h; sourceTree = "<group>"; };
+		181F6D961B15919900D38555 /* CXAlertBackgroundWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXAlertBackgroundWindow.m; sourceTree = "<group>"; };
+		181F6D971B15919900D38555 /* CXAlertButtonContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXAlertButtonContainerView.h; sourceTree = "<group>"; };
+		181F6D981B15919900D38555 /* CXAlertButtonContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXAlertButtonContainerView.m; sourceTree = "<group>"; };
+		181F6D991B15919900D38555 /* CXAlertButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXAlertButtonItem.h; sourceTree = "<group>"; };
+		181F6D9A1B15919900D38555 /* CXAlertButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXAlertButtonItem.m; sourceTree = "<group>"; };
+		181F6D9B1B15919900D38555 /* CXAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXAlertView.h; sourceTree = "<group>"; };
+		181F6D9C1B15919900D38555 /* CXAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXAlertView.m; sourceTree = "<group>"; };
+		181F6D9D1B15919900D38555 /* CXAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXAlertViewController.h; sourceTree = "<group>"; };
+		181F6D9E1B15919900D38555 /* CXAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXAlertViewController.m; sourceTree = "<group>"; };
+		181F6D9F1B15919900D38555 /* LFDisplayBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFDisplayBridge.h; sourceTree = "<group>"; };
+		181F6DA01B15919900D38555 /* LFDisplayBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFDisplayBridge.m; sourceTree = "<group>"; };
+		181F6DA11B15919900D38555 /* LFGlassView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFGlassView.h; sourceTree = "<group>"; };
+		181F6DA21B15919900D38555 /* LFGlassView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFGlassView.m; sourceTree = "<group>"; };
+		181F6DA31B15919900D38555 /* LiveFrost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveFrost.h; sourceTree = "<group>"; };
 		184E40C11AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIBarButtonItem+CustomStyle.h"; path = "Class/UIBarButtonItem+CustomStyle.h"; sourceTree = "<group>"; };
 		184E40C21AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIBarButtonItem+CustomStyle.m"; path = "Class/UIBarButtonItem+CustomStyle.m"; sourceTree = "<group>"; };
 		184E40C41AD3B58F00EFC3A6 /* UIView+Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Layer.h"; path = "Class/UIView+Layer.h"; sourceTree = "<group>"; };
@@ -327,8 +354,8 @@
 		1851F42A1B0C2C3500241A01 /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataManager.m; path = Class/CoreDataManager.m; sourceTree = "<group>"; };
 		1851F42D1B0C304B00241A01 /* AutoBrand+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AutoBrand+Extension.h"; path = "Class/AutoBrand+Extension.h"; sourceTree = "<group>"; };
 		1851F42E1B0C304B00241A01 /* AutoBrand+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AutoBrand+Extension.m"; path = "Class/AutoBrand+Extension.m"; sourceTree = "<group>"; };
-		1851F4301B0C596600241A01 /* PickerAutoModelVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickerAutoModelVC.h; sourceTree = "<group>"; };
-		1851F4311B0C596600241A01 /* PickerAutoModelVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerAutoModelVC.m; sourceTree = "<group>"; };
+		1851F4301B0C596600241A01 /* PickerAutoSeriesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickerAutoSeriesVC.h; sourceTree = "<group>"; };
+		1851F4311B0C596600241A01 /* PickerAutoSeriesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerAutoSeriesVC.m; sourceTree = "<group>"; };
 		1853DEAB1AE0A0B700C39175 /* HKCatchErrorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKCatchErrorModel.h; path = Class/HKCatchErrorModel.h; sourceTree = "<group>"; };
 		1853DEAC1AE0A0B700C39175 /* HKCatchErrorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKCatchErrorModel.m; path = Class/HKCatchErrorModel.m; sourceTree = "<group>"; };
 		1853DEAE1AE0A10C00C39175 /* HKLoginModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKLoginModel.h; path = Class/HKLoginModel.h; sourceTree = "<group>"; };
@@ -684,6 +711,10 @@
 		6BCA5F4B1B104B5100E1E630 /* MyCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionViewController.m; sourceTree = "<group>"; };
 		6BCF62421B15AF3E0064AE32 /* RescueCouponViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescueCouponViewController.h; sourceTree = "<group>"; };
 		6BCF62431B15AF3E0064AE32 /* RescueCouponViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescueCouponViewController.m; sourceTree = "<group>"; };
+		6BCF62451B1737980064AE32 /* GetUserCouponByTypeOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserCouponByTypeOp.h; path = Class/GetUserCouponByTypeOp.h; sourceTree = "<group>"; };
+		6BCF62461B1737980064AE32 /* GetUserCouponByTypeOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserCouponByTypeOp.m; path = Class/GetUserCouponByTypeOp.m; sourceTree = "<group>"; };
+		6BCF62481B1739E70064AE32 /* CommissionCouponViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommissionCouponViewController.h; sourceTree = "<group>"; };
+		6BCF62491B1739E70064AE32 /* CommissionCouponViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommissionCouponViewController.m; sourceTree = "<group>"; };
 		6BD7AE591AE8927C00BEF30E /* WeChatHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeChatHelper.h; path = Class/WeChatHelper.h; sourceTree = "<group>"; };
 		6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeChatHelper.m; path = Class/WeChatHelper.m; sourceTree = "<group>"; };
 		6BD7AE5C1AE8A64B00BEF30E /* ApiXml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiXml.h; sourceTree = "<group>"; };
@@ -871,6 +902,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				181F6D941B15919900D38555 /* CXAlertView */,
 				18B2C7251B13076B007FB0C7 /* PEPhotoCropEditor */,
 				189DD3FD1B10722700BA0A7F /* SRMonthPicker */,
 				189371231B0E0D460030FDE1 /* TTTAttributedLabel */,
@@ -1004,6 +1036,29 @@
 				181F6D8F1B1436CA00D38555 /* UIView+DefaultEmptyView.m */,
 			);
 			name = DefaultEmptyView;
+			sourceTree = "<group>";
+		};
+		181F6D941B15919900D38555 /* CXAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				181F6D951B15919900D38555 /* CXAlertBackgroundWindow.h */,
+				181F6D961B15919900D38555 /* CXAlertBackgroundWindow.m */,
+				181F6D971B15919900D38555 /* CXAlertButtonContainerView.h */,
+				181F6D981B15919900D38555 /* CXAlertButtonContainerView.m */,
+				181F6D991B15919900D38555 /* CXAlertButtonItem.h */,
+				181F6D9A1B15919900D38555 /* CXAlertButtonItem.m */,
+				181F6D9B1B15919900D38555 /* CXAlertView.h */,
+				181F6D9C1B15919900D38555 /* CXAlertView.m */,
+				181F6D9D1B15919900D38555 /* CXAlertViewController.h */,
+				181F6D9E1B15919900D38555 /* CXAlertViewController.m */,
+				181F6D9F1B15919900D38555 /* LFDisplayBridge.h */,
+				181F6DA01B15919900D38555 /* LFDisplayBridge.m */,
+				181F6DA11B15919900D38555 /* LFGlassView.h */,
+				181F6DA21B15919900D38555 /* LFGlassView.m */,
+				181F6DA31B15919900D38555 /* LiveFrost.h */,
+			);
+			name = CXAlertView;
+			path = CXAlertView/CXAlertView;
 			sourceTree = "<group>";
 		};
 		184E40C71AD3B6C700EFC3A6 /* Cell */ = {
@@ -1141,8 +1196,8 @@
 				189B395A1AF9A9E500B83F1B /* EditMyCarVC.m */,
 				1851F4161B0C1E5400241A01 /* PickerAutomobileBrandVC.h */,
 				1851F4171B0C1E5400241A01 /* PickerAutomobileBrandVC.m */,
-				1851F4301B0C596600241A01 /* PickerAutoModelVC.h */,
-				1851F4311B0C596600241A01 /* PickerAutoModelVC.m */,
+				1851F4301B0C596600241A01 /* PickerAutoSeriesVC.h */,
+				1851F4311B0C596600241A01 /* PickerAutoSeriesVC.m */,
 			);
 			name = MyCar;
 			sourceTree = "<group>";
@@ -1664,6 +1719,8 @@
 			children = (
 				6BB8CB891B1416B0007B61B5 /* CommissionViewController.h */,
 				6BB8CB8A1B1416B0007B61B5 /* CommissionViewController.m */,
+				6BCF62481B1739E70064AE32 /* CommissionCouponViewController.h */,
+				6BCF62491B1739E70064AE32 /* CommissionCouponViewController.m */,
 			);
 			name = Commission;
 			sourceTree = "<group>";
@@ -1776,6 +1833,8 @@
 				6BBAB8C31ADCBD1400EC342F /* GetShopByRangeOp.m */,
 				6BBAB8C51ADD1ED900EC342F /* GetShopByDistanceOp.h */,
 				6BBAB8C61ADD1ED900EC342F /* GetShopByDistanceOp.m */,
+				181F6D911B15773600D38555 /* BeInterestedInInsuranceOp.h */,
+				181F6D921B15773600D38555 /* BeInterestedInInsuranceOp.m */,
 				6BBAB8CF1ADE30F900EC342F /* GetShopRatesOp.h */,
 				6BBAB8D01ADE30F900EC342F /* GetShopRatesOp.m */,
 				6BBAB9771ADE77E500EC342F /* GetUserResourcesOp.h */,
@@ -1842,6 +1901,8 @@
 				6BCA5F421B102D5700E1E630 /* GetUserCouponPkgOp.m */,
 				6BCA5F441B1031EC00E1E630 /* GainCouponPkgOp.h */,
 				6BCA5F451B1031EC00E1E630 /* GainCouponPkgOp.m */,
+				6BCF62451B1737980064AE32 /* GetUserCouponByTypeOp.h */,
+				6BCF62461B1737980064AE32 /* GetUserCouponByTypeOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -2234,11 +2295,13 @@
 				6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */,
 				1853DECE1AE100CA00C39175 /* HKSMSModel.m in Sources */,
 				1853DEC41AE0EC1600C39175 /* LoginViewModel.m in Sources */,
+				6BCF62471B1737980064AE32 /* GetUserCouponByTypeOp.m in Sources */,
 				1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */,
 				6BBF75F51B05CA0800E11EBB /* FavoriteModel.m in Sources */,
 				189B30BD1AD524EC001D7288 /* AppManager.m in Sources */,
 				6BB9D7711AF7054B00F7F3F8 /* SearchViewController.m in Sources */,
 				6BAF301D1AE6947F00E35E08 /* ClientInfo.m in Sources */,
+				181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */,
 				6BB884BB1AE0BB9600EBD8F4 /* JTTableView.m in Sources */,
 				6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */,
 				6B086BB01AE4F46900659DB7 /* TMDiskCache.m in Sources */,
@@ -2248,6 +2311,7 @@
 				6BBFBC451B0DD51E000D3CA3 /* MyCarsModel.m in Sources */,
 				6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */,
 				6BC3B6191ADF92E7001016A0 /* CommonUtility.m in Sources */,
+				181F6DA61B15919900D38555 /* CXAlertButtonItem.m in Sources */,
 				189B395E1AF9D9F700B83F1B /* UpdateCarOp.m in Sources */,
 				1851F42B1B0C2C3500241A01 /* CoreDataManager.m in Sources */,
 				189B394C1AF71C3900B83F1B /* MineVC.m in Sources */,
@@ -2269,6 +2333,7 @@
 				1851F4181B0C1E5400241A01 /* PickerAutomobileBrandVC.m in Sources */,
 				184E40CE1AD3BBB600EFC3A6 /* ShopDetailVC.m in Sources */,
 				6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */,
+				181F6DA81B15919900D38555 /* CXAlertViewController.m in Sources */,
 				186985041B01CC2C000A182A /* SubmitCommentOp.m in Sources */,
 				6B086BA11AE3184D00659DB7 /* GetShopByNameOp.m in Sources */,
 				184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */,
@@ -2306,6 +2371,7 @@
 				1883D9331ACCDA8B002A4D19 /* DefaultStyleModel.m in Sources */,
 				6BE4CE311AF217BC008E1C19 /* GetUserCouponOp.m in Sources */,
 				189B30BA1AD51EF2001D7288 /* JTUser.m in Sources */,
+				6BCF624A1B1739E70064AE32 /* CommissionCouponViewController.m in Sources */,
 				6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */,
 				1816F4B41ACE767200BBCC96 /* UIStoryboard+Expansion.m in Sources */,
 				1851F4211B0C268F00241A01 /* AutoInfoModel.m in Sources */,
@@ -2326,7 +2392,9 @@
 				6BB61B981AEE85E8004F39AA /* AddUserFavoriteOp.m in Sources */,
 				6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */,
 				6BBAB8BF1ADBC21600EC342F /* ConverUtil.m in Sources */,
+				181F6DA51B15919900D38555 /* CXAlertButtonContainerView.m in Sources */,
 				1816F4B81AD36D9E00BBCC96 /* JTRatingView.m in Sources */,
+				181F6DAA1B15919900D38555 /* LFGlassView.m in Sources */,
 				1893713A1B0F59420030FDE1 /* CacheModel.m in Sources */,
 				189B311A1ADBEBE8001D7288 /* PolicyInfomationVC.m in Sources */,
 				187532D31ACCDEEF004CB777 /* HomePageVC.m in Sources */,
@@ -2357,7 +2425,7 @@
 				6BBB824F1AE7757100850D0C /* NearbyShopsViewController.m in Sources */,
 				6BEA56C31AE24DCE000D19C1 /* AlixPayResult.m in Sources */,
 				1851F41B1B0C210D00241A01 /* GetAutomobileBrandOp.m in Sources */,
-				1851F4321B0C596600241A01 /* PickerAutoModelVC.m in Sources */,
+				1851F4321B0C596600241A01 /* PickerAutoSeriesVC.m in Sources */,
 				189B310C1ADA499C001D7288 /* EnquiryResultVC.m in Sources */,
 				6BCA5F4C1B104B5100E1E630 /* MyCollectionViewController.m in Sources */,
 				6BEA56CF1AE24DCE000D19C1 /* DataVerifier.m in Sources */,
@@ -2372,7 +2440,9 @@
 				189B30AF1AD4D661001D7288 /* JTLabel.m in Sources */,
 				6BC3B61C1ADF9334001016A0 /* LineDashPolyline.m in Sources */,
 				6BAF30181AE67CC800E35E08 /* GetSystemVersionOp.m in Sources */,
+				181F6D931B15773600D38555 /* BeInterestedInInsuranceOp.m in Sources */,
 				6BE2BD611AE6408500A69875 /* DownloadOp.m in Sources */,
+				181F6DA71B15919900D38555 /* CXAlertView.m in Sources */,
 				189B39521AF877E100B83F1B /* MyCarListVC.m in Sources */,
 				6BBAB8C41ADCBD1400EC342F /* GetShopByRangeOp.m in Sources */,
 				187CC95C1AEF2023004D1F28 /* UploadFileOp.m in Sources */,
@@ -2400,6 +2470,7 @@
 				6BBAB8C01ADBC21600EC342F /* DesUtil.m in Sources */,
 				189B30C31AD64310001D7288 /* ChooseCarwashTicketVC.m in Sources */,
 				6BBF7DA61B00A78900E45967 /* UpdateUserInfoOp.m in Sources */,
+				181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */,
 				6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */,
 				18B2C7391B13076B007FB0C7 /* UIImage+PECrop.m in Sources */,
 				181F6D901B1436CA00D38555 /* UIView+DefaultEmptyView.m in Sources */,

@@ -153,6 +153,8 @@
     UILabel *timeL = (UILabel *)[cell.contentView viewWithTag:1003];
     JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1004];
     UILabel *contentL = (UILabel *)[cell.contentView viewWithTag:1005];
+    avatarV.cornerRadius = 17.5f;
+    avatarV.layer.masksToBounds = YES;
     
     JTShopComment *comment = [self.commentArray safetyObjectAtIndex:indexPath.row];
     nameL.text = comment.nickname.length ? comment.nickname : @"无昵称用户";
@@ -160,8 +162,7 @@
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
     
-    [[gMediaMgr rac_getPictureForUrl:comment.avatarUrl withDefaultPic:@
-      "avatar_default"] subscribeNext:^(id x) {
+    [[gMediaMgr rac_getPictureForUrl:comment.avatarUrl withType:ImageURLTypeThumbnail defaultPic:@"avatar_default" errorPic:@"avatar_default"] subscribeNext:^(id x) {
         
         avatarV.image = x;
     }];

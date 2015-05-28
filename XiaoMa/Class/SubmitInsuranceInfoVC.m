@@ -50,7 +50,7 @@
             return ;
         }
         self.pickedPhotoUrl = url;
-        [[gAppMgr.mediaMgr rac_getPictureForUrl:url withDefaultPic:@"cm_defpic" errorPic:@"cm_defpic_fail"] subscribeNext:^(UIImage *x) {
+        [[gAppMgr.mediaMgr rac_getPictureForUrl:url withType:ImageURLTypeMedium defaultPic:@"cm_defpic" errorPic:@"cm_defpic_fail"] subscribeNext:^(UIImage *x) {
             
             self.pickedPhoto = x;
             self.pickedPhotoView.image = x;
@@ -204,18 +204,27 @@
         //添加车辆
         else if (self.shouldUpdateCar && self.car.carId == nil) {
             self.car.licenceurl = op.req_driverpic;
+            self.car.status = 1;
             sig = [[model rac_addCar:self.car] map:^id(id value) {
                 return @1;
             }];
         }
-        //更新车辆
-        else if (self.shouldUpdateCar || ![op.req_driverpic equalByCaseInsensitive:self.car.licenceurl]) {
+        //如果行驶证不一样切未审核，则更新车辆
+        else if (![op.req_driverpic equalByCaseInsensitive:self.car.licenceurl] &&
+                 self.car.status != 1 &&
+                 self.car.status != 2) {
             self.car.licenceurl = op.req_driverpic;
+            self.car.status = 1;
             sig = [[model rac_updateCar:self.car] map:^id(id value) {
                 return @2;
             }];
         }
-        
+        //更新车辆
+        else if (self.shouldUpdateCar) {
+            sig = [[model rac_updateCar:self.car] map:^id(id value) {
+                return @2;
+            }];
+        }
         if (sig) {
             return [sig catch:^RACSignal *(NSError *error) {
                 return [RACSignal return:@0];

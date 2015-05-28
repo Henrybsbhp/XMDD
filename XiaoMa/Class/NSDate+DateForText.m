@@ -168,7 +168,7 @@
         return nil;
     }
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"yyyyMMddhhmmss"];
+    [format setDateFormat:@"yyyyMMddHHmmss"];
     return [format dateFromString:text];
 }
 
@@ -195,11 +195,11 @@
 + (BOOL)isDateValidWithBegin:(NSDate *)beginDate andEnd:(NSDate *)endDate
 {
     NSDate * now = [NSDate date];
-    if ([now earlierDate:beginDate])
+    if (now == [now earlierDate:beginDate])
     {
         return NO;
     }
-    if ([now laterDate:endDate])
+    if (now == [now laterDate:endDate])
     {
         return NO;
     }

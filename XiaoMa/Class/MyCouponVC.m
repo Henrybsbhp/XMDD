@@ -153,6 +153,7 @@
     }] subscribeNext:^(GetUserCouponOp * op) {
         
         self.isLoadingUnusedCoupon = NO;
+        
         [self.tableView.bottomLoadingView stopActivityAnimation];
         
         if (op.rsp_couponsArray.count != 0)

@@ -11,7 +11,7 @@
 @interface GetShopRatesOp : BaseOp
 
 ///商户ID
-@property (nonatomic,copy)NSString * shopId;
+@property (nonatomic,strong)NSNumber * shopId;
 
 ///分页数
 @property (nonatomic)NSInteger pageno;

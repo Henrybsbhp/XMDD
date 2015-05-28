@@ -22,7 +22,9 @@
 - (RACSignal *)rac_postRequest
 {
     self.req_method = @"/auth/by-vcode";
-    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:nil security:YES];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params safetySetObject:self.req_deviceID forKey:@"deviceid"];
+    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
 - (id)returnSimulateResponse

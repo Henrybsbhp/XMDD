@@ -33,6 +33,7 @@
 
 /// 日志
 @property (nonatomic,strong)JTLogModel * logModel;
+@property (nonatomic, strong) HKCatchErrorModel *errorModel;
 @end
 
 @implementation AppDelegate
@@ -43,7 +44,7 @@
     //设置日志系统
     [self setupLogger];
     //设置错误处理
-    [HKCatchErrorModel catchNetworkingError];
+    [self setupErrorModel];
     //设置默认UI样式
     [DefaultStyleModel setupDefaultStyle];
     
@@ -89,6 +90,12 @@
     [DDLog addLogger:self.fileLogger];
     
     [DDLog addLogger:[DDASLLogger sharedInstance]];
+}
+
+- (void)setupErrorModel
+{
+    self.errorModel = [[HKCatchErrorModel alloc] init];
+    [self.errorModel catchNetworkingError];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -128,7 +128,7 @@
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1003];
     JTShop *shop = self.order.shop;
-    [[[gAppMgr.mediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0] withDefaultPic:@"cm_shop"] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+    [[[gAppMgr.mediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         logoV.image = x;
     }];
     titleL.text = shop.shopName;

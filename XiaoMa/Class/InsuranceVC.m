@@ -28,6 +28,11 @@
     });
 }
 
+- (void)dealloc
+{
+    
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -44,13 +49,17 @@
     self.adView = adView;
     [self reloadAds];
     
-    [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
+    @weakify(self);
+    RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
+        
+        @strongify(self);
         NSInteger index = adView.currentPageIndex + 1;
         if (index > self.adList.count-1) {
             index = 0;
         }
-        adView.currentPageIndex = index;
+        [adView setCurrentPageIndex:index animated:YES];
     }];
+    [[self rac_deallocDisposable] addDisposable:dis];
 }
 
 - (void)reloadAds
@@ -126,13 +135,16 @@
     }
     UIImageView *imgV = (UIImageView *)[pageView viewWithTag:1001];
     HKAdvertisement * ad = [self.adList safetyObjectAtIndex:pageIndex];
-    [[gMediaMgr rac_getPictureForUrl:ad.adPic withDefaultPic:@"hp_bottom"] subscribeNext:^(id x) {
+    [[gMediaMgr rac_getPictureForUrl:ad.adPic withType:ImageURLTypeMedium defaultPic:@"hp_bottom" errorPic:@"hp_bottom"]
+     subscribeNext:^(id x) {
         imgV.image = x;
     }];
     
     UITapGestureRecognizer *tap = imgV.customObject;
+    @weakify(self);
     [[[tap rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
+        @strongify(self);
         if (ad.adLink.length > 0) {
             WebVC * vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
             vc.title = @"广告";

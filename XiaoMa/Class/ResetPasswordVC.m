@@ -12,6 +12,7 @@
 #import "GetVcodeOp.h"
 #import "UpdatePwdOp.h"
 #import "GetTokenOp.h"
+#import "WebVC.h"
 
 @interface ResetPasswordVC ()
 @property (weak, nonatomic) IBOutlet UIButton *checkBox;
@@ -51,7 +52,10 @@
 
 - (IBAction)actionAgreement:(id)sender
 {
-    
+    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    vc.title = @"服务协议";
+    vc.url = @"http://www.xiaomadada.com/apphtml/license.html";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)actionRegister:(id)sender

@@ -10,6 +10,7 @@
 #import "HKSMSModel.h"
 #import "UIView+Shake.h"
 #import "GetVcodeOp.h"
+#import "WebVC.h"
 
 @interface VcodeLoginVC ()
 @property (weak, nonatomic) IBOutlet UIButton *checkBox;
@@ -52,7 +53,10 @@
 
 - (IBAction)actionAgreement:(id)sender
 {
-    
+    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    vc.title = @"服务协议";
+    vc.url = @"http://www.xiaomadada.com/apphtml/license.html";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)actionLogin:(id)sender

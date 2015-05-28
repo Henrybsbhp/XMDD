@@ -7,6 +7,7 @@
 //
 
 #import "CommissionViewController.h"
+#import "CommissionCouponViewController.h"
 
 @interface CommissionViewController ()
 @property (strong, nonatomic) IBOutlet UIWebView *webView;
@@ -18,6 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupNavigationBar];
     
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.urlStr]]];
     
@@ -30,6 +32,23 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"免费券" style:UIBarButtonItemStylePlain
+                                                             target:self action:@selector(actionNavigationToCoupon)];
+    [right setTitleTextAttributes:@{
+                                    NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:14.0]
+                                    } forState:UIControlStateNormal];
+    self.navigationItem.rightBarButtonItem = right;
+    
+}
+
+- (void)actionNavigationToCoupon
+{
+    CommissionCouponViewController * vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionCouponViewController"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 

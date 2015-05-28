@@ -153,7 +153,7 @@
         avaterImage.layer.cornerRadius = 25.0F;
         [avaterImage.layer setMasksToBounds:YES];
 //        avaterImage.image = self.avatar;
-        [[gMediaMgr rac_getPictureForUrl:gAppMgr.myUser.avatarUrl withDefaultPic:@"cm_avatar"] subscribeNext:^(UIImage * image) {
+        [[gMediaMgr rac_getPictureForUrl:gAppMgr.myUser.avatarUrl withType:ImageURLTypeMedium defaultPic:@"cm_avatar" errorPic:@"cm_avatar"] subscribeNext:^(UIImage * image) {
             
             self.avatar = image;
             avaterImage.image = self.avatar;
@@ -233,7 +233,7 @@
                     controller.delegate = self;
                     controller.allowsEditing = YES;
                     controller.sourceType = UIImagePickerControllerSourceTypeCamera;
-                    controller.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+                    controller.cameraDevice = UIImagePickerControllerCameraDeviceRear;
                     NSMutableArray *mediaTypes = [[NSMutableArray alloc] init];
                     [mediaTypes addObject:(__bridge NSString *)kUTTypeImage];
                     controller.mediaTypes = mediaTypes;

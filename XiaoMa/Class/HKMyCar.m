@@ -19,7 +19,7 @@
     }
     HKMyCar * car = [[HKMyCar alloc] init];
     car.carId = [rsp numberParamForName:@"carid"];
-    car.licencenumber= [rsp stringParamForName:@"licencenumber"];
+    car.licencenumber= [[rsp stringParamForName:@"licencenumber"] uppercaseString];
     car.purchasedate = [NSDate dateWithD8Text:[rsp stringParamForName:@"purchasedate"]];
     car.brand = [rsp stringParamForName:@"make"];
     car.model = [rsp stringParamForName:@"model"];
@@ -36,7 +36,7 @@
 - (NSDictionary *)jsonDictForCarInfo
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict safetySetObject:self.licencenumber forKey:@"licencenumber"];
+    [dict safetySetObject:[self.licencenumber uppercaseString] forKey:@"licencenumber"];
     [dict safetySetObject:[self.purchasedate dateFormatForDT8] forKey:@"purchasedate"];
     [dict safetySetObject:self.brand forKey:@"make"];
     [dict safetySetObject:self.model forKey:@"model"];

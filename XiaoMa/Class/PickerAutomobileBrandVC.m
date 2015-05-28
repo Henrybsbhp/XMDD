@@ -7,7 +7,7 @@
 //
 
 #import "PickerAutomobileBrandVC.h"
-#import "PickerAutoModelVC.h"
+#import "PickerAutoSeriesVC.h"
 #import "AutoInfoModel.h"
 
 @interface PickerAutomobileBrandVC ()<UITableViewDataSource,UITableViewDelegate, NSFetchedResultsControllerDelegate>
@@ -106,11 +106,11 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     AutoBrand *brand = [self.fetchCtrl objectAtIndexPath:indexPath];
-    self.car.brand = brand.name;
-    PickerAutoModelVC *vc = [UIStoryboard vcWithId:@"PickerAutoModelVC" inStoryboard:@"Mine"];
+    PickerAutoSeriesVC *vc = [UIStoryboard vcWithId:@"PickerAutoSeriesVC" inStoryboard:@"Mine"];
     vc.brandid = brand.brandid;
-    vc.car = self.car;
+    vc.brandName = brand.name;
     vc.originVC = self.originVC;
+    vc.completed = self.completed;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

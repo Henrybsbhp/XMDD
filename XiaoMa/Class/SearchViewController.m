@@ -385,7 +385,7 @@
         UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
         
         RAC(logoV, image) = [gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                                             withDefaultPic:@"cm_shop"];
+                                                   withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"];
         titleL.text = shop.shopName;
         ratingV.ratingValue = shop.shopRate;
         ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];

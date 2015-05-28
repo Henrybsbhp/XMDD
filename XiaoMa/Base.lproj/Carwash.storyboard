@@ -561,6 +561,9 @@
                                                 <constraint firstAttribute="width" constant="35" id="7Ef-Zi-RZy"/>
                                                 <constraint firstAttribute="height" constant="35" id="HfQ-8q-qFD"/>
                                             </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CR_17.5"/>
+                                            </userDefinedRuntimeAttributes>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="神州洗车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BZS-4e-iCK">
                                             <rect key="frame" x="59" y="14" width="451" height="16"/>
@@ -659,6 +662,9 @@
                                                 <constraint firstAttribute="height" constant="35" id="QFo-Ey-Gn4"/>
                                                 <constraint firstAttribute="width" constant="35" id="wYb-Uj-scC"/>
                                             </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CR_17.5"/>
+                                            </userDefinedRuntimeAttributes>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="神州洗车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LyR-3u-jtU">
                                             <rect key="frame" x="59" y="14" width="451" height="16"/>

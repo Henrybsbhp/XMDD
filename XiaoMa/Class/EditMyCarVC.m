@@ -95,6 +95,10 @@
     if ([self sharkCellIfErrorAtIndex:0 withData:self.curCar.licencenumber errorMsg:@"车牌号码不能为空"]) {
         return;
     }
+    if (![MyCarsModel verifiedLicenseNumberFrom:self.curCar.licencenumber]) {
+        [self sharkCellIfErrorAtIndex:0 withData:nil errorMsg:@"请输入正确的车牌号码"];
+        return;
+    }
     if ([self sharkCellIfErrorAtIndex:1 withData:self.curCar.purchasedate errorMsg:@"购车时间不能为空"]) {
         return;
     }
@@ -245,7 +249,10 @@
         [self.view endEditing:YES];
         PickerAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
         vc.originVC = self;
-        vc.car = self.curCar;
+        [vc setCompleted:^(NSString *brand, NSString *series) {
+            self.curCar.brand = brand;
+            self.curCar.model = series;
+        }];
         [self.navigationController pushViewController:vc animated:YES];
     }
     //具体车系
@@ -253,7 +260,10 @@
         [self.view endEditing:YES];
         PickerAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
         vc.originVC = self;
-        vc.car = self.curCar;
+        [vc setCompleted:^(NSString *brand, NSString *series) {
+            self.curCar.brand = brand;
+            self.curCar.model = series;
+        }];
         [self.navigationController pushViewController:vc animated:YES];
     }
 
@@ -287,7 +297,7 @@
         unitL.text = nil;
 
         [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            car.licencenumber = x;
+            car.licencenumber = [x uppercaseString];
         }];
     }
     else  if (indexPath.row  == 1) {
@@ -390,7 +400,7 @@
     NSIndexPath *indexPath = textField.customObject;
     HKMyCar *car = self.curCar;
     if (indexPath.row == 0) {
-        textField.text = [car.licencenumber uppercaseString];
+        textField.text = car.licencenumber;
     }
     else if (indexPath.row == 4) {
         textField.text = [NSString stringWithFormat:@"%.2f", car.price];

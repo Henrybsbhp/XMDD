@@ -132,6 +132,18 @@
     }];
 
     [self refreshAdView];
+    
+    @weakify(self);
+    RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
+
+        @strongify(self);
+        NSInteger index = [self.adView currentPageIndex] + 1;
+        if (index >= gAdMgr.carwashAdvertiseArray.count) {
+            index = 0;
+        }
+        [self.adView setCurrentPageIndex:index animated:YES];
+    }];
+    [[self rac_deallocDisposable] addDisposable:dis];
 }
 
 - (void)refreshAdView
@@ -177,7 +189,7 @@
 #pragma mark - SYPaginatorViewDelegate
 - (NSInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView
 {
-    return gAdMgr.carwashAdvertiseArray.count ? gAdMgr.carwashAdvertiseArray.count : 1;
+    return gAdMgr.carwashAdvertiseArray.count;
 }
 
 - (SYPageView *)paginatorView:(SYPaginatorView *)paginatorView viewForPageAtIndex:(NSInteger)pageIndex
@@ -192,7 +204,8 @@
     }
     UIImageView *imgV = (UIImageView *)[pageView searchViewWithTag:1001];
     HKAdvertisement * ad = [gAdMgr.carwashAdvertiseArray safetyObjectAtIndex:pageIndex];
-    [[gMediaMgr rac_getPictureForUrl:ad.adPic withDefaultPic:@"hp_bottom"] subscribeNext:^(id x) {
+    [[gMediaMgr rac_getPictureForUrl:ad.adPic withType:ImageURLTypeThumbnail defaultPic:@"hp_bottom" errorPic:@"hp_bottom"]
+     subscribeNext:^(id x) {
         imgV.image = x;
     }];
     
@@ -247,8 +260,7 @@
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
 
     
-    [[[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                                        withDefaultPic:@"cm_shop"] takeUntilForCell:cell] subscribeNext:^(UIImage * image) {
+    [[[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] takeUntilForCell:cell] subscribeNext:^(UIImage * image) {
         logoV.image = image;
     }];
     
