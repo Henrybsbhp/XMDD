@@ -176,6 +176,16 @@
     self.tableView.showBottomLoadingView = YES;
 }
 
+- (void)reloadData
+{
+    [self.tableView reloadData];
+    if (self.datasource.count == 0) {
+        [self.tableView showDefaultEmptyViewWithText:@"暂无商铺" boundsView:self.view];
+    }
+    else {
+        [self.tableView hideDefaultEmptyView];
+    }
+}
 #pragma mark - Action
 - (IBAction)actionMap:(id)sender
 {
@@ -404,7 +414,7 @@
                 {
                     [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
                 }
-                [self.tableView reloadData];
+                [self reloadData];
             }
         } error:^(NSError *error) {
             
@@ -451,7 +461,7 @@
         NSMutableArray * tArray = [NSMutableArray arrayWithArray:self.datasource];
         [tArray addObjectsFromArray:op.rsp_shopArray];
         self.datasource = [NSArray arrayWithArray:tArray];
-        [self.tableView reloadData];
+        [self reloadData];
         
     } error:^(NSError *error) {
         

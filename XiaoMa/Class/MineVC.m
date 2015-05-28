@@ -241,7 +241,7 @@
             titleL.text = @"订单";
         }
         else if (indexPath.row == 1) {
-            iconV.image = [UIImage imageNamed:@"me_collect"];
+            iconV.image = [UIImage imageNamed:@"me_pkg"];
             titleL.text = @"礼包";
         }
         else if (indexPath.row == 2) {

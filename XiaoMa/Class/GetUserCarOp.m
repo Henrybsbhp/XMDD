@@ -15,9 +15,7 @@
 {
     self.req_method = @"/user/car/get";
     
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    
-    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
+    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:nil security:YES];
 }
 
 - (instancetype)parseResponseObject:(id)rspObj

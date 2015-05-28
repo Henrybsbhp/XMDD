@@ -48,6 +48,9 @@
     vc.shouldUpdateCar = self.shouldUpdateCar;
     [self.navigationController pushViewController:vc animated:YES];
 }
+- (IBAction)actionGotoHome:(id)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 - (IBAction)actionMakeCall:(id)sender
 {

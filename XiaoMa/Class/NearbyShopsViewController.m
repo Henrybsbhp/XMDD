@@ -130,17 +130,17 @@
     CGFloat width = CGRectGetWidth(self.view.frame);
     CGFloat height = 95;
     SYPaginatorView *syView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-    
+    syView.clipsToBounds = NO;
     syView.pageControl.hidden = YES;
     syView.delegate = self;
     syView.dataSource = self;
-    syView.pageGapWidth = 0;
+    syView.pageGapWidth = 1;
     syView.backgroundColor = [UIColor clearColor];
     [container addSubview:syView];
     self.bottomSYView = syView;
     [syView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(container).with.offset(0);
-        make.right.equalTo(container).with.offset(0);
+        make.left.equalTo(container).offset(16);
+        make.right.equalTo(container).offset(-16);
         make.top.equalTo(container).with.offset(5);
         make.height.mas_equalTo(height);
     }];

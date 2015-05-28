@@ -42,6 +42,7 @@
     [self refreshBottomView];
     
     self.selectSet = [[NSMutableIndexSet alloc] init];
+    [self reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,7 +74,16 @@
     DebugLog(@"MyCollectionViewController dealloc");
 }
 
-
+- (void)reloadData
+{
+    [self.tableView reloadData];
+    if (gAppMgr.myUser.favorites.favoritesArray.count == 0) {
+        [self.tableView showDefaultEmptyViewWithText:@"暂无收藏" boundsView:self.view];
+    }
+    else {
+        [self.tableView hideDefaultEmptyView];
+    }
+}
 #pragma mark - SetupUI
 - (void)initUI
 {
@@ -148,7 +158,7 @@
         {
             [self.selectSet addIndex:i];
         }
-        [self.tableView reloadData];
+        [self reloadData];
         [self refreshCheckBox];
     }];
     
@@ -176,7 +186,7 @@
     [self refreshBottomView];
     
     [self.navigationItem.rightBarButtonItem setTitle:(self.isEditing ? @"完成":@"编辑")];
-    [self.tableView reloadData];
+    [self reloadData];
 }
 
 
