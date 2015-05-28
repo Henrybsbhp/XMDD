@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "JTShop.h"
+#import "HKCoupon.h"
 
 @class HKMyCar;
 
@@ -18,7 +19,10 @@
 @property (nonatomic, strong) HKMyCar * defaultCar;
 @property (nonatomic, weak) UIViewController *originVC;
 
-- (void)setCouponId:(NSNumber *)couponId;
+/// 为优惠劵选择服务
+@property (nonatomic)CouponType couponType;
+@property (nonatomic,strong)NSMutableArray * selectCarwashCoupouArray;
+@property (nonatomic,strong)NSMutableArray * selectCashCoupouArray;
 
 - (void)setPaymentType:(PaymentChannelType)paymentType;
 

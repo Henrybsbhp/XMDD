@@ -7,13 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HKCoupon.h"
 
 @interface ChooseCarwashTicketVC : UIViewController
 
 @property (nonatomic, weak) UIViewController *originVC;
 
-@property (nonatomic,strong)NSNumber * couponId;
-
 @property (nonatomic,strong)NSArray * couponArray;
+@property (nonatomic,strong)NSMutableArray * selectedCouponArray;
+
+@property (nonatomic)CouponType type;
+
+@property (nonatomic)CGFloat upperLimit;
 
 @end

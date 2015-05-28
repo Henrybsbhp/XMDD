@@ -280,11 +280,11 @@ static NSInteger rotationIndex = 0;
     }
     weatherImage.image = [UIImage imageNamed:picName];
     
-//    RAC(weatherImage, image) = [RACObserve(gAppMgr, temperaturepic) map:^id(id value) {
-//        NSLog(@"*****************");
-//        NSString * picName = [[value componentsSeparatedByString:@"/"] lastObject];
-//        return [UIImage imageNamed:picName];
-//    }];
+    RAC(weatherImage, image) = [[RACObserve(gAppMgr, temperaturepic)distinctUntilChanged] map:^id(id value) {
+
+        NSString * picName = [[value componentsSeparatedByString:@"/"] lastObject];
+        return [UIImage imageNamed:picName];
+    }];
 }
 
 

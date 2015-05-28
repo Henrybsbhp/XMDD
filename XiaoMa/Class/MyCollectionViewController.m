@@ -36,7 +36,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupNavigationBar];
+    if (gAppMgr.myUser.favorites.favoritesArray.count > 0)
+    {
+        [self setupNavigationBar];
+    }
     [self setupRAC];
     [self initUI];
     [self refreshBottomView];
@@ -149,11 +152,14 @@
     [[self.allSelectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         @strongify(self)
-        [self.selectSet removeAllIndexes];
         if (self.selectSet.count == gAppMgr.myUser.favorites.favoritesArray.count)
         {
+            [self.selectSet removeAllIndexes];
+            [self.tableView reloadData];
+            [self refreshCheckBox];
             return;
         }
+        [self.selectSet removeAllIndexes];
         for (NSInteger i = 0 ; i < gAppMgr.myUser.favorites.favoritesArray.count ; i++)
         {
             [self.selectSet addIndex:i];

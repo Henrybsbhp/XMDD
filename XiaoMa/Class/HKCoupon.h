@@ -17,6 +17,11 @@ typedef enum : NSUInteger {
     CouponTypeRescue//免费道路救援
 } CouponType;
 
+typedef enum : NSUInteger {
+    CouponUse = 1,//已使用
+    CouponUnuse//未使用
+} CouponUseType;
+
 @interface HKCoupon : NSObject
 
 ///优惠劵Id

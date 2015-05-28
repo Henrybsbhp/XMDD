@@ -80,7 +80,7 @@ static char sActivityIndicatorView;
 - (void)showIndicatorTextWith:(NSString *)text clickBlock:(void(^)(UIButton *sender))block
 {
     BOOL isAnimating = [self isActivityAnimating];
-    CGFloat y = isAnimating ? CGRectGetMaxY(self.activityIndicatorView.frame) : self.indicatorPoistionY-18;
+    CGFloat y = isAnimating ? CGRectGetMaxY(self.activityIndicatorView.frame) : self.indicatorPoistionY-25;
     self.indicatorTextButton.frame = CGRectMake(0, y, self.frame.size.width, 36);
     [self.indicatorTextButton setTitle:text forState:UIControlStateNormal];
     [self.indicatorTextButton.titleLabel setFont:[UIFont systemFontOfSize:14]];

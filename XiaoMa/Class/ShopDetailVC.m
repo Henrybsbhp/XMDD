@@ -79,7 +79,7 @@
         {
             if (self.favorite)
             {
-                [[[gAppMgr.myUser.favorites rac_removeFavorite:self.shop.shopID] initially:^{
+                [[[gAppMgr.myUser.favorites rac_removeFavorite:@[self.shop.shopID]] initially:^{
                     
                     [SVProgressHUD showWithStatus:@"移除中..."];
                 }]  subscribeNext:^(id x) {
@@ -520,6 +520,8 @@
     UILabel *timeL = (UILabel *)[cell.contentView viewWithTag:1003];
     JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1004];
     UILabel *contentL = (UILabel *)[cell.contentView viewWithTag:1005];
+    avatarV.cornerRadius = 17.5f;
+    avatarV.layer.masksToBounds = YES;
     
     JTShopComment *comment = [self.shop.shopCommentArray safetyObjectAtIndex:indexPath.row - 1];
     nameL.text = comment.nickname.length ? comment.nickname : @"无昵称用户";

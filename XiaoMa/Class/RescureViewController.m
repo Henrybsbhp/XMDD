@@ -7,6 +7,7 @@
 //
 
 #import "RescureViewController.h"
+#import "RescueCouponViewController.h"
 
 @interface RescureViewController ()
 
@@ -47,6 +48,7 @@
 
 - (void)actionNavigationToCoupon
 {
-    
+    RescueCouponViewController * vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueCouponViewController"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end

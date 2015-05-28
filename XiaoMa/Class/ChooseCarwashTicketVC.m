@@ -24,7 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     [self setupNavigationBar];
     
     [self.tableView reloadData];
@@ -82,14 +82,27 @@
     if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
     {
         PayForWashCarVC  * payVc = (PayForWashCarVC *)vc;
-        [payVc setCouponId:self.couponId];
-        if (self.couponId)
+        
+        if (self.selectedCouponArray.count)
         {
             [payVc setPaymentType:PaymentChannelCoupon];
+            if (self.type == CouponTypeCarWash)
+            {
+                [payVc setSelectCarwashCoupouArray:self.selectedCouponArray];
+                [payVc setCouponType:CouponTypeCarWash];
+            }
+            else if (self.type == CouponTypeCash)
+            {
+                [payVc setSelectCashCoupouArray:self.selectedCouponArray];
+                [payVc setCouponType:CouponTypeCash];
+            }
         }
         else
         {
-            [payVc setPaymentType:PaymentChannelAlipay];
+            if (payVc.couponType  == self.type)
+            {
+                [payVc setCouponType:0];
+            }
         }
         [payVc tableViewReloadData];
     }
@@ -117,29 +130,54 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TicketCell"];
     
-//    UIImageView * ticketBgView = (UIImageView *)[cell searchViewWithTag:101];
-    UILabel * nameLb = (UILabel *)[cell searchViewWithTag:103];
-    UILabel * statusLb = (UILabel *)[cell searchViewWithTag:104];
-    UILabel * vaildTimeLb = (UILabel *)[cell searchViewWithTag:105];
-    UILabel * noteLb = (UILabel *)[cell searchViewWithTag:106];
+    //背景图片
+    UIImage * carWashImage = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#00BFFF" alpha:1.0f]];
+    UIImage * cashImage = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#0ACDC0" alpha:1.0f]];
+    
+    UIImageView * ticketBgView = (UIImageView *)[cell searchViewWithTag:101];
+    //优惠名称
+    UILabel *name = (UILabel *)[cell.contentView viewWithTag:103];
+    //优惠描述
+    UILabel *description = (UILabel *)[cell.contentView viewWithTag:106];
+    //优惠有效期
+    UILabel *validDate = (UILabel *)[cell.contentView viewWithTag:105];
+    //状态
+    UILabel *status = (UILabel *)[cell.contentView viewWithTag:104];
+    
     UIImageView * shadowView = (UIImageView *)[cell searchViewWithTag:107];
     UIImageView * selectedView = (UIImageView *)[cell searchViewWithTag:108];
     
-//    UIImage * image = [shadowView.image imageByFilledWithColor:[UIColor colorWithHex:@"#000000" alpha:0.6f]];
-//    shadowView.image = image;
-    
-//    UIImage * couponGg = [[UIImage imageNamed:@"cw_ticket_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
-    UIImage * image = [[UIImage imageNamed:@"cw_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#000000" alpha:0.6f]];
+    UIImage * image = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#000000" alpha:0.6f]];
     UIImage * couponGg = [image resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
-    shadowView.image = couponGg;
+    shadowView.image = image;
+    
+    status.text = @"有效";
     
     HKCoupon * coupon = [self.couponArray safetyObjectAtIndex:indexPath.row];
-    nameLb.text = coupon.couponName;
-    statusLb.text = @"有效";
-    vaildTimeLb.text = [NSString stringWithFormat:@"有效期：%@ - %@",[coupon.validsince dateFormatForYYMMdd2],[coupon.validthrough dateFormatForYYMMdd2]];
-    noteLb.text = [NSString stringWithFormat:@"使用说明：%@", coupon.couponDescription];
+    if (coupon.conponType == CouponTypeCarWash)
+    {
+        ticketBgView.image = carWashImage;
+    }
+    else
+    {
+        ticketBgView.image = cashImage;
+    }
+    name.text = coupon.couponName;
+    description.text = [NSString stringWithFormat:@"使用说明：%@",coupon.couponDescription];
+    // @LYW 时间显示有误
+    validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",[coupon.validsince dateFormatForYYMMdd2],[coupon.validthrough dateFormatForYYMMdd2]];
     
-    if ([self.couponId isEqualToNumber:coupon.couponId])
+    BOOL flag  = NO;
+    for (HKCoupon * c in self.selectedCouponArray)
+    {
+        if ([c.couponId isEqualToNumber:coupon.couponId])
+        {
+            flag = YES;
+            break;
+        }
+    }
+    
+    if (flag)
     {
         shadowView.hidden = NO;
         selectedView.hidden = NO;
@@ -156,13 +194,40 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HKCoupon * coupon = [self.couponArray safetyObjectAtIndex:indexPath.row];
-    self.couponId = [self.couponId isEqualToNumber:coupon.couponId] ? nil : coupon.couponId;
-    [self.tableView reloadData];
-    
-    if (self.couponId)
+    if (self.type == CouponTypeCarWash)
     {
-        [self actionBack];
+        HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];
+        if ([c.couponId isEqualToNumber:coupon.couponId])
+        {
+            [self.selectedCouponArray removeAllObjects];
+        }
+        else
+        {
+            [self.selectedCouponArray removeAllObjects];
+            [self.selectedCouponArray addObject:coupon];
+        }
+         [self.tableView reloadData];
     }
+    else
+    {
+        CGFloat amount = 0;
+        for (HKCoupon * c in self.selectedCouponArray)
+        {
+            if ([c.couponId isEqualToNumber:coupon.couponId])
+            {
+                [self.selectedCouponArray safetyRemoveObject:c];
+                [self.tableView reloadData];
+                return;
+            }
+            amount = amount + c.couponAmount;
+        }
+        if (amount + coupon.couponAmount <= self.upperLimit)
+        {
+        [self.selectedCouponArray addObject:coupon];
+        [self.tableView reloadData];
+        }
+    }
+    
 }
 
 

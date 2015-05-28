@@ -8,6 +8,7 @@
 
 #import "AboutViewController.h"
 #import "JTTableView.h"
+#import "WebVC.h"
 
 @interface AboutViewController ()
 
@@ -28,7 +29,7 @@
         [self rateOurApp];
     }},
                         @{@"title":@"用户服务协议",@"action":^(void){
-                            
+        [self serviceAgreement];
     }},
                         @{@"title":@"查看欢迎页",@"action":^(void){}},
                         
@@ -97,6 +98,14 @@
 //    [[UIApplication sharedApplication] openURL: [NSURL URLWithString:url]];
 //    
 //    DebugLog(@"Opening URL for Remarks: %@", url);
+}
+
+- (void)serviceAgreement
+{
+    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    vc.title = @"服务协议";
+    vc.url = @"http://www.xiaomadada.com/apphtml/license.html";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)callCustomerService

@@ -233,7 +233,7 @@
                     controller.delegate = self;
                     controller.allowsEditing = YES;
                     controller.sourceType = UIImagePickerControllerSourceTypeCamera;
-                    controller.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+                    controller.cameraDevice = UIImagePickerControllerCameraDeviceRear;
                     NSMutableArray *mediaTypes = [[NSMutableArray alloc] init];
                     [mediaTypes addObject:(__bridge NSString *)kUTTypeImage];
                     controller.mediaTypes = mediaTypes;

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -498,7 +498,7 @@
                                                 <constraint firstAttribute="width" constant="104" id="RS4-Gu-rCU"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" title="一键上传" backgroundImage="892DA9FC-BDEC-4773-BE97-0EDBDE6A1150">
+                                            <state key="normal" title="一键上传" backgroundImage="89361FA5-2380-4808-B43C-DA823E8B27E0">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </state>
@@ -832,15 +832,20 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" allowsMultipleSelection="YES" rowHeight="85" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="gxm-Hl-2Uu" customClass="JTTableView">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="tkC-K4-Zea">
+                                    <rect key="frame" x="0.0" y="145" width="600" height="1"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TicketCell" rowHeight="85" id="8Gp-O7-QnP" customClass="JTTableViewCell">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8Gp-O7-QnP" id="kZO-yV-RrE">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="cw_ticket_bg" translatesAutoresizingMaskIntoConstraints="NO" id="t63-Kp-JoN">
-                                                    <rect key="frame" x="10" y="0.0" width="580" height="75"/>
+                                                <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cw_ticket_bg" translatesAutoresizingMaskIntoConstraints="NO" id="t63-Kp-JoN">
+                                                    <rect key="frame" x="10" y="0.0" width="580" height="74"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="74" id="tZo-vp-WSt"/>
                                                     </constraints>
@@ -856,13 +861,13 @@
                                                         <constraint firstAttribute="height" constant="66" id="eLR-hu-rP4"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" misplaced="YES" text="免费洗车一次" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Bv-Sh-bfl">
-                                                    <rect key="frame" x="24" y="4" width="473" height="34"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" text="免费洗车一次" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Bv-Sh-bfl">
+                                                    <rect key="frame" x="20" y="4" width="477" height="35"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" tag="1005" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gYC-ff-pLb">
+                                                <button opaque="NO" tag="1005" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gYC-ff-pLb">
                                                     <rect key="frame" x="514" y="4" width="68" height="66"/>
                                                     <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="17"/>
                                                     <state key="normal" title="有效">
@@ -870,14 +875,14 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="有效期：2014.05.01 - 2014.12.31" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oti-PB-Squ">
-                                                    <rect key="frame" x="24" y="53" width="473" height="15"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="有效期：2014.05.01 - 2014.12.31" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oti-PB-Squ">
+                                                    <rect key="frame" x="20" y="53" width="477" height="14"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="使用说明：仅限7座以下非运营轿车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wEo-OZ-jq1">
-                                                    <rect key="frame" x="24" y="38" width="473" height="15"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="使用说明：仅限7座以下非运营轿车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wEo-OZ-jq1">
+                                                    <rect key="frame" x="20" y="39" width="477" height="14"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -896,9 +901,9 @@
                                                 <constraint firstItem="fKg-JW-Sag" firstAttribute="leading" secondItem="Oti-PB-Squ" secondAttribute="trailing" constant="12" id="UJA-3O-Iop"/>
                                                 <constraint firstItem="Oti-PB-Squ" firstAttribute="bottom" secondItem="t63-Kp-JoN" secondAttribute="bottom" constant="-7" id="Uub-El-yU5"/>
                                                 <constraint firstItem="fKg-JW-Sag" firstAttribute="trailing" secondItem="t63-Kp-JoN" secondAttribute="trailing" constant="-80" id="VmL-lr-paR"/>
-                                                <constraint firstItem="9Bv-Sh-bfl" firstAttribute="leading" secondItem="t63-Kp-JoN" secondAttribute="leading" constant="14" id="Zom-85-gbr"/>
+                                                <constraint firstItem="9Bv-Sh-bfl" firstAttribute="leading" secondItem="t63-Kp-JoN" secondAttribute="leading" constant="10" id="Zom-85-gbr"/>
                                                 <constraint firstItem="fKg-JW-Sag" firstAttribute="leading" secondItem="9Bv-Sh-bfl" secondAttribute="trailing" constant="12" id="Zuk-qG-Dmk"/>
-                                                <constraint firstItem="Oti-PB-Squ" firstAttribute="leading" secondItem="t63-Kp-JoN" secondAttribute="leading" constant="14" id="fbU-Td-erq"/>
+                                                <constraint firstItem="Oti-PB-Squ" firstAttribute="leading" secondItem="t63-Kp-JoN" secondAttribute="leading" constant="10" id="fbU-Td-erq"/>
                                                 <constraint firstItem="Oti-PB-Squ" firstAttribute="top" secondItem="wEo-OZ-jq1" secondAttribute="bottom" id="gNU-1a-bqH"/>
                                                 <constraint firstItem="Oti-PB-Squ" firstAttribute="leading" secondItem="wEo-OZ-jq1" secondAttribute="leading" id="n4O-H5-MF2"/>
                                                 <constraint firstItem="t63-Kp-JoN" firstAttribute="leading" secondItem="kZO-yV-RrE" secondAttribute="leading" constant="10" id="qre-4b-p6e"/>
@@ -908,21 +913,21 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="ivg-HO-jEb" id="lGL-kY-PkK"/>
+                                    <outlet property="delegate" destination="ivg-HO-jEb" id="ghG-pn-Ago"/>
+                                </connections>
                             </tableView>
-                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cm_blank" translatesAutoresizingMaskIntoConstraints="NO" id="MjU-zz-Hgy">
-                                <rect key="frame" x="77" y="150" width="195" height="165"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="zKm-Ef-Pvz" firstAttribute="bottom" secondItem="gxm-Hl-2Uu" secondAttribute="bottom" id="LY2-Dv-re4"/>
-                            <constraint firstItem="gxm-Hl-2Uu" firstAttribute="top" secondItem="M8k-hi-dvr" secondAttribute="topMargin" id="QpN-VH-Auw"/>
+                            <constraint firstItem="gxm-Hl-2Uu" firstAttribute="top" secondItem="M8k-hi-dvr" secondAttribute="top" id="QpN-VH-Auw"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gxm-Hl-2Uu" secondAttribute="trailing" constant="-16" id="bIy-Dr-SOd"/>
                             <constraint firstItem="gxm-Hl-2Uu" firstAttribute="leading" secondItem="M8k-hi-dvr" secondAttribute="leadingMargin" constant="-16" id="llH-yJ-C6d"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="blankImg" destination="MjU-zz-Hgy" id="wOF-bt-aBy"/>
                         <outlet property="tableView" destination="gxm-Hl-2Uu" id="sOQ-U7-3it"/>
                     </connections>
                 </viewController>
@@ -1882,7 +1887,7 @@
             </objects>
             <point key="canvasLocation" x="1671" y="917"/>
         </scene>
-        <!--收藏-->
+        <!--我的收藏-->
         <scene sceneID="wXX-Yd-XgR">
             <objects>
                 <viewController storyboardIdentifier="MyCollectionViewController" hidesBottomBarWhenPushed="YES" id="Chs-Re-bLH" customClass="MyCollectionViewController" sceneMemberID="viewController">
@@ -2361,7 +2366,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="收藏" id="9sa-lB-bhl"/>
+                    <navigationItem key="navigationItem" title="我的收藏" id="9sa-lB-bhl"/>
                     <connections>
                         <outlet property="allSelectBtn" destination="Rqs-SJ-kqb" id="aOX-pZ-lWk"/>
                         <outlet property="bottomView" destination="SBu-Sk-dCs" id="8LH-PV-mJT"/>
@@ -3087,7 +3092,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="892DA9FC-BDEC-4773-BE97-0EDBDE6A1150" width="22" height="30">
+        <image name="89361FA5-2380-4808-B43C-DA823E8B27E0" width="22" height="30">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -3185,7 +3190,6 @@ AAAAAAAAAAAAFH8
         <image name="Avatar_50" width="9" height="15"/>
         <image name="Horizontaline" width="621" height="1"/>
         <image name="cm_arrow_r" width="9" height="15"/>
-        <image name="cm_blank" width="195" height="165"/>
         <image name="collect_check" width="25" height="25"/>
         <image name="collect_uncheck" width="25" height="25"/>
         <image name="cw_box" width="16" height="16"/>
