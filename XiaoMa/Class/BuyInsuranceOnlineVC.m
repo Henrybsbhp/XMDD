@@ -8,7 +8,10 @@
 
 #import "BuyInsuranceOnlineVC.h"
 #import "UploadInfomationVC.h"
+#import "BeInterestedInInsuranceOp.h"
 #import "WebVC.h"
+
+#define kInsuranceOlineUrl  @"http://www.xiaomadada.com/apphtml/paaindex.html"
 
 @interface BuyInsuranceOnlineVC ()
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
@@ -20,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self.webView reload];
+    [self reloadWebView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -28,14 +31,37 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)reloadWebView
+{
+    NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:kInsuranceOlineUrl]];
+    [self.webView loadRequest:req];
+}
+#pragma mark - Action
 ///我感兴趣
 - (IBAction)actionInterested:(id)sender {
-    
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        BeInterestedInInsuranceOp *op = [BeInterestedInInsuranceOp new];
+        [[[op rac_postRequest] initially:^{
+          
+            [gToast showingWithText:@"正在提交..."];
+        }] subscribeNext:^(id x) {
+            
+            [gToast showSuccess:@"提交成功!"];
+        } error:^(NSError *error) {
+            
+            if (error.code == 6001) {
+                [gToast showSuccess:@"提交成功!"];
+            }
+            else {
+                [gToast showError:error.domain];
+            }
+        }];
+    }
 }
 
 ///电话咨询
 - (IBAction)actionMakeCall:(id)sender {
-    [gPhoneHelper makePhone:@"4007111111" andInfo:@"呼叫客服"];
+    [gPhoneHelper makePhone:@"4007111111" andInfo:@"4007-111-111"];
 }
 
 - (IBAction)actionHelp:(id)sender

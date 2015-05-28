@@ -245,7 +245,10 @@
         [self.view endEditing:YES];
         PickerAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
         vc.originVC = self;
-        vc.car = self.curCar;
+        [vc setCompleted:^(NSString *brand, NSString *series) {
+            self.curCar.brand = brand;
+            self.curCar.model = series;
+        }];
         [self.navigationController pushViewController:vc animated:YES];
     }
     //具体车系
@@ -253,7 +256,10 @@
         [self.view endEditing:YES];
         PickerAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
         vc.originVC = self;
-        vc.car = self.curCar;
+        [vc setCompleted:^(NSString *brand, NSString *series) {
+            self.curCar.brand = brand;
+            self.curCar.model = series;
+        }];
         [self.navigationController pushViewController:vc animated:YES];
     }
 

@@ -59,18 +59,18 @@
         if (self.orders.count == 0) {
             self.isRemain = NO;
             [self.tableView.bottomLoadingView hideIndicatorText];
-            [self.tableView showDefaultEmptyViewWithImageName:@"cm_no_order" centerOffset:-60];
+            [self.tableView.superview showDefaultEmptyViewWithImageName:@"cm_no_order" centerOffset:-60];
         }
         //已经到底了
         else if (rspOp.rsp_orders.count < PageAmount) {
             [self.tableView.bottomLoadingView showIndicatorTextWith:@"没有更多订单了"];
             self.isRemain = NO;
-            [self.tableView hideDefaultEmptyView];
+            [self.tableView.superview hideDefaultEmptyView];
         }
         //底下还有订单
         else {
             self.isRemain = YES;
-            [self.tableView hideDefaultEmptyView];
+            [self.tableView.superview hideDefaultEmptyView];
         }
         [self.tableView reloadData];
     } error:^(NSError *error) {
@@ -139,8 +139,7 @@
     
     nameL.text = order.shop.shopName;
     stateL.text = @"交易成功";
-    [[[gAppMgr.mediaMgr rac_getPictureForUrl:[order.shop.picArray safetyObjectAtIndex:0]  withDefaultPic:@"cm_shop"]
-      takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+    [[[gAppMgr.mediaMgr rac_getPictureForUrl:[order.shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         iconV.image = x;
     }];
     JTShopService *service = [order currentService];

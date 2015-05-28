@@ -95,7 +95,7 @@
 {
     if (gAppMgr.myUser.avatarUrl.length)
     {
-        [[gMediaMgr rac_getPictureForUrl:gAppMgr.myUser.avatarUrl withDefaultPic:@"cm_avatar"] subscribeNext:^(UIImage * image) {
+        [[gMediaMgr rac_getPictureForUrl:gAppMgr.myUser.avatarUrl withType:ImageURLTypeMedium defaultPic:@"cm_avatar" errorPic:@"cm_avatar"] subscribeNext:^(UIImage * image) {
             
             gAppMgr.myUser.avatar = image;
             self.avatarView.image = image;
@@ -126,7 +126,7 @@
             RAC(self.nameLabel, text) = RACObserve(user, userName);
             RAC(self.accountLabel, text) = RACObserve(user, userID);
             RAC(self.avatarView, image) = [[RACObserve(user, avatarUrl) distinctUntilChanged] flattenMap:^RACStream *(NSString *url) {
-                return [gMediaMgr rac_getPictureForUrl:url withDefaultPic:@"cm_avatar"];
+                return [gMediaMgr rac_getPictureForUrl:url withType:ImageURLTypeMedium defaultPic:@"cm_avatar" errorPic:@"cm_avatar"];
             }];
         }
 

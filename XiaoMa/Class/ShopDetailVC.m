@@ -377,7 +377,8 @@
     
     
     [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                      withDefaultPic:@"cm_shop"] subscribeNext:^(UIImage * img) {
+                            withType:ImageURLTypeThumbnail
+                          defaultPic:@"cm_shop" errorPic:@"cm_shop"] subscribeNext:^(UIImage * img) {
         
         logoV.image = img;
     }];
@@ -525,9 +526,8 @@
     timeL.text = [comment.time dateFormatForYYMMdd];
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
-    [[gMediaMgr rac_getPictureForUrl:comment.avatarUrl withDefaultPic:@
-      "avatar_default"] subscribeNext:^(id x) {
-        
+    [[gMediaMgr rac_getPictureForUrl:comment.avatarUrl withType:ImageURLTypeThumbnail
+                          defaultPic:@"avatar_default" errorPic:@"avatar_default"] subscribeNext:^(id x) {
         avatarV.image = x;
     }];
     
@@ -581,7 +581,8 @@
     {
         UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectZero];
         NSString * imageUrl = [self.shop.picArray safetyObjectAtIndex:i];
-        [[gMediaMgr rac_getPictureForUrl:imageUrl withDefaultPic:@"cm_shop"] subscribeNext:^(UIImage * image) {
+        [[gMediaMgr rac_getPictureForUrl:imageUrl withType:ImageURLTypeMedium defaultPic:@"cm_shop" errorPic:@"cm_shop"]
+         subscribeNext:^(UIImage * image) {
             
             CGRect frame = CGRectMake(i*[UIScreen mainScreen].bounds.size.width,
                                       ([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2,

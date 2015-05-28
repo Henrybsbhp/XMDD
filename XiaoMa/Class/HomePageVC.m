@@ -518,7 +518,8 @@ static NSInteger rotationIndex = 0;
 //        
 //        imgV.image = x;
 //    }];
-    [[gMediaMgr rac_getPictureForUrl:ad.adPic withDefaultPic:@"hp_bottom"] subscribeNext:^(id x) {
+    [[gMediaMgr rac_getPictureForUrl:ad.adPic withType:ImageURLTypeMedium defaultPic:@"hp_bottom" errorPic:@"hp_bottom"]
+     subscribeNext:^(id x) {
         UIImage * image = x;
         if (image.size.width > (imgV.frame.size.width * 2)) {
             image = [image compressImageWithPointSize:imgV.frame.size];

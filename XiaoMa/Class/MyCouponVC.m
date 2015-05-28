@@ -121,6 +121,7 @@
         [self.tableView.bottomLoadingView hideIndicatorText];
         [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
     }] subscribeNext:^(GetUserCouponOp * op) {
+
         [self.tableView.bottomLoadingView stopActivityAnimation];
         if (op.rsp_couponsArray.count != 0)
         {
