@@ -55,6 +55,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OKX-3Q-nba">
                                                     <rect key="frame" x="300" y="0.0" width="300" height="151"/>
                                                     <state key="normal">
+                                                        <color key="titleColor" red="0.57647058823529407" green="0.57647058823529407" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
@@ -150,7 +151,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="750" text="选择爱车牌照" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="okn-tu-TEh">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="750" text="选择爱车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="okn-tu-TEh">
                                             <rect key="frame" x="14" y="11" width="572" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="highlightedColor"/>
@@ -543,7 +544,13 @@
                             <outlet property="delegate" destination="xAx-Mu-c5s" id="vfl-Ol-N0g"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="询价结果" id="hoV-NK-3lx"/>
+                    <navigationItem key="navigationItem" title="询价结果" id="hoV-NK-3lx">
+                        <barButtonItem key="rightBarButtonItem" title="首页" id="PLS-N4-DKy">
+                            <connections>
+                                <action selector="actionGotoHome:" destination="xAx-Mu-c5s" id="dtW-w5-oTP"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5h9-n2-4vp" userLabel="First Responder" sceneMemberID="firstResponder"/>

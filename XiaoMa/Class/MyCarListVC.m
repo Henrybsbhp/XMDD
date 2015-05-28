@@ -52,6 +52,12 @@
             [self.tableView.refreshView endRefreshing];
             self.carList = [queue allObjects];
             [self.tableView reloadData];
+            if (self.carList.count == 0) {
+                [self.tableView showDefaultEmptyViewWithText:@"暂无爱车,快去添加一辆吧" boundsView:self.view];
+            }
+            else {
+                [self.tableView hideDefaultEmptyView];
+            }
         }];
     }];
 }
@@ -77,6 +83,12 @@
         [self.tableView.refreshView endRefreshing];
         self.carList = [queue allObjects];
         [self.tableView reloadData];
+        if (self.carList.count == 0) {
+            [self.tableView showDefaultEmptyViewWithText:@"暂无爱车,快去添加一辆吧" boundsView:self.view];
+        }
+        else {
+            [self.tableView hideDefaultEmptyView];
+        }
     } error:^(NSError *error) {
         
         [self.tableView.refreshView endRefreshing];

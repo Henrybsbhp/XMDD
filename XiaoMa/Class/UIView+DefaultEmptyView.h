@@ -10,7 +10,11 @@
 
 @interface UIView (DefaultEmptyView)
 
-- (void)showDefaultEmptyViewWithImageName:(NSString *)imgName centerOffset:(CGFloat)offset;
+- (void)showDefaultEmptyViewWithText:(NSString *)text boundsView:(UIView *)boundsView;
+- (void)showDefaultEmptyViewWithText:(NSString *)text boundsView:(UIView *)boundsView centerOffset:(CGFloat)offset;
+- (void)showDefaultEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text
+                               boundsView:(UIView *)boundsView centerOffset:(CGFloat)offset;
 - (void)hideDefaultEmptyView;
+
 
 @end

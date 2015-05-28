@@ -36,6 +36,7 @@ typedef enum : NSInteger {
 {
     AuthByVcodeOp *op = [AuthByVcodeOp new];
     op.skey = [self skeyFromPassword:vCode];
+    op.req_deviceID = gAppMgr.deviceInfo.deviceID;
     return [[[self rac_commonValidateTokenOp:op account:account refreshToken:NO] catch:^RACSignal *(NSError *error) {
         
         if (error.code == 10301)

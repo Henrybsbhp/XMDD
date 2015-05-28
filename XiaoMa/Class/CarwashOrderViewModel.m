@@ -59,7 +59,7 @@
         if (self.orders.count == 0) {
             self.isRemain = NO;
             [self.tableView.bottomLoadingView hideIndicatorText];
-            [self.tableView.superview showDefaultEmptyViewWithImageName:@"cm_no_order" centerOffset:-60];
+            [self.tableView showDefaultEmptyViewWithText:@"暂无订单" boundsView:self.tableView.superview];
         }
         //已经到底了
         else if (rspOp.rsp_orders.count < PageAmount) {
