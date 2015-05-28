@@ -17,7 +17,7 @@
     {
         if (!self.bottomLoadingView)
         {
-            self.bottomLoadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+            self.bottomLoadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
         }
         [self setTableFooterView:self.bottomLoadingView];
     }

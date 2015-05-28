@@ -15,9 +15,10 @@
     self.req_method = @"/order/service/checkout";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    NSString * cid = [self.couponArray componentsJoinedByString:@","];
     [params addParam:self.serviceid forName:@"serviceid"];
     [params addParam:self.licencenumber forName:@"licencenumber"];
-    [params addParam:self.cid forName:@"cid"];
+    [params addParam:cid forName:@"cid"];
     [params addParam:@(self.paychannel) forName:@"paychannel"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];

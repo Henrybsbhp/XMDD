@@ -32,8 +32,10 @@
 @property (nonatomic, assign) NSInteger abcCarwashesCount;
 ///积分
 @property (nonatomic, assign) NSInteger abcIntegral;
-/// 可用优惠劵
-@property (nonatomic, strong)NSArray * validCarwashArray;
+/// 可用洗车券
+@property (nonatomic, strong)NSArray * validCarwashCouponArray;
+/// 可用现金券
+@property (nonatomic, strong)NSArray * validCashCouponArray;
 /// 所有优惠劵
 @property (nonatomic, strong)NSArray * carwashArray;
 

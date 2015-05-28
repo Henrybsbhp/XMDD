@@ -17,7 +17,7 @@
 @property (nonatomic,copy)NSString * licencenumber;
 
 ///优惠券ID
-@property (nonatomic,copy)NSString * cid;
+@property (nonatomic,strong)NSArray * couponArray;
 
 ///支付渠道
 @property (nonatomic)PaymentChannelType  paychannel;

@@ -221,6 +221,7 @@
 		6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F451B1031EC00E1E630 /* GainCouponPkgOp.m */; };
 		6BCA5F491B104AB300E1E630 /* CouponPkgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F481B104AB300E1E630 /* CouponPkgViewController.m */; };
 		6BCA5F4C1B104B5100E1E630 /* MyCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F4B1B104B5100E1E630 /* MyCollectionViewController.m */; };
+		6BCF62441B15AF3E0064AE32 /* RescueCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF62431B15AF3E0064AE32 /* RescueCouponViewController.m */; };
 		6BD7AE5B1AE8927C00BEF30E /* WeChatHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */; };
 		6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5D1AE8A64B00BEF30E /* ApiXml.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5F1AE8A64B00BEF30E /* payRequsestHandler.mm */; };
@@ -681,6 +682,8 @@
 		6BCA5F481B104AB300E1E630 /* CouponPkgViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponPkgViewController.m; sourceTree = "<group>"; };
 		6BCA5F4A1B104B5100E1E630 /* MyCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectionViewController.h; sourceTree = "<group>"; };
 		6BCA5F4B1B104B5100E1E630 /* MyCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionViewController.m; sourceTree = "<group>"; };
+		6BCF62421B15AF3E0064AE32 /* RescueCouponViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescueCouponViewController.h; sourceTree = "<group>"; };
+		6BCF62431B15AF3E0064AE32 /* RescueCouponViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescueCouponViewController.m; sourceTree = "<group>"; };
 		6BD7AE591AE8927C00BEF30E /* WeChatHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeChatHelper.h; path = Class/WeChatHelper.h; sourceTree = "<group>"; };
 		6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeChatHelper.m; path = Class/WeChatHelper.m; sourceTree = "<group>"; };
 		6BD7AE5C1AE8A64B00BEF30E /* ApiXml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiXml.h; sourceTree = "<group>"; };
@@ -1650,6 +1653,8 @@
 			children = (
 				6BB8CB8C1B1416BB007B61B5 /* RescureViewController.h */,
 				6BB8CB8D1B1416BB007B61B5 /* RescureViewController.m */,
+				6BCF62421B15AF3E0064AE32 /* RescueCouponViewController.h */,
+				6BCF62431B15AF3E0064AE32 /* RescueCouponViewController.m */,
 			);
 			name = Rescure;
 			sourceTree = "<group>";
@@ -2411,6 +2416,7 @@
 				189B394F1AF8576600B83F1B /* GetUserBaseInfoOp.m in Sources */,
 				189B30C71AD664D7001D7288 /* InsuranceVC.m in Sources */,
 				6BEA56C51AE24DCE000D19C1 /* NSObject+SBJSON.m in Sources */,
+				6BCF62441B15AF3E0064AE32 /* RescueCouponViewController.m in Sources */,
 				6BE2BD5E1AE63F9F00A69875 /* MultiMediaManager.m in Sources */,
 				6BEA56D21AE24DCE000D19C1 /* openssl_wrapper.m in Sources */,
 				1883D9271ACCD6C0002A4D19 /* MainTabBarVC.m in Sources */,

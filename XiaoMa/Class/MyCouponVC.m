@@ -14,27 +14,40 @@
 #import "ShareUserCouponOp.h"
 #import "SocialShareViewController.h"
 #import "DownloadOp.h"
+#import "NSDate+DateForText.h"
 
 @interface MyCouponVC ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSInteger whichSeg;
-    NSMutableArray *unused;//未使用
-    NSMutableArray *validCoupon;//有效
-    NSMutableArray *timeoutCoupon;//过期
+    NSMutableArray *unusedCouponArray;//未使用
+    NSMutableArray *validCouponArray;//有效
+    NSMutableArray *timeoutCouponArray;//过期
     BOOL allLoad;
-    NSMutableArray *usedCoupon;//已使用
+    NSMutableArray *usedCouponArray;//已使用
 }
 
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
+@property (weak, nonatomic) IBOutlet UIImageView *blankImg;
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
+@property (weak, nonatomic) IBOutlet UIButton *getMoreBtn;
+
 
 /// 每页数量
 @property (nonatomic, assign) NSUInteger pageAmount;
-///列表下面是否还有商品
-@property (nonatomic, assign) BOOL isRemain;
+
+///列表下面是否还有未使用的优惠劵
+@property (nonatomic, assign) BOOL isUnusedRemain;
+///列表下面是否还有使用的优惠劵
+@property (nonatomic, assign) BOOL isUsedRemain;
+///是否正在获取未使用的优惠劵
+@property (nonatomic, assign) BOOL isLoadingUnusedCoupon;
+///是否正在获取未使用的优惠劵
+@property (nonatomic, assign) BOOL isLoadingUsedCoupon;
 ///未使用优惠券当前页码索引
 @property (nonatomic, assign) NSUInteger currentPageIndexForUnused;
 ///已使用优惠券当前页码索引
 @property (nonatomic, assign) NSUInteger currentPageIndexForUsed;
+
 
 - (void)selectSegmented:(id)sender;
 
@@ -45,37 +58,44 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //将SegmentedControl添加到Navigationbar
-    UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 30)];
-    NSArray *segmentedArray = [[NSArray alloc]initWithObjects:@"未使用",@"已使用",nil];
-    UISegmentedControl *segmentedControl =[[UISegmentedControl alloc]initWithItems:segmentedArray];
-    segmentedControl.frame = CGRectMake(0, 0, 150, 30);
-    segmentedControl.selectedSegmentIndex=0;
-    segmentedControl.tintColor = RGBCOLOR(68, 187, 92);
-    [view addSubview:segmentedControl];
-    self.navigationItem.titleView = segmentedControl;
-    [segmentedControl addTarget:self action:@selector(selectSegmented:) forControlEvents:UIControlEventValueChanged];
-    self.navigationController.navigationItem.titleView = view;
+    [self setupUI];
+    [self setupGetMoreBtn];
     
     whichSeg = 0;
     
-    self.isRemain = YES;
+    self.isUnusedRemain = YES;
+    self.isUsedRemain = YES;
     self.pageAmount = 10;
     self.currentPageIndexForUnused = 1;
     self.currentPageIndexForUsed = 1;
     
-    unused = [[NSMutableArray alloc] init];
-    validCoupon = [[NSMutableArray alloc] init];
-    timeoutCoupon = [[NSMutableArray alloc] init];
-    usedCoupon = [[NSMutableArray alloc] init];
-    self.tableView.showBottomLoadingView = YES;
-    [self setupGetMoreBtn];
-    [self requestValidCoupon:2 pageno:self.currentPageIndexForUnused];
+    unusedCouponArray = [[NSMutableArray alloc] init];
+    validCouponArray = [[NSMutableArray alloc] init];
+    timeoutCouponArray = [[NSMutableArray alloc] init];
+    usedCouponArray = [[NSMutableArray alloc] init];
+
+    [self requestUnuseCoupon];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+
+#pragma mark - SetupUI
+- (void)setupUI
+{
+    //将SegmentedControl添加到Navigationbar
+    UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 30)];
+    NSArray *segmentedArray = [[NSArray alloc]initWithObjects:@"未使用",@"已使用",nil];
+    UISegmentedControl *segmentedControl =[[UISegmentedControl alloc]initWithItems:segmentedArray];
+    segmentedControl.frame = CGRectMake(0, 0, 150, 30);
+    segmentedControl.selectedSegmentIndex = 0;
+    segmentedControl.tintColor = RGBCOLOR(68, 187, 92);
+    [view addSubview:segmentedControl];
+    self.navigationItem.titleView = segmentedControl;
+    [segmentedControl addTarget:self action:@selector(selectSegmented:) forControlEvents:UIControlEventValueChanged];
+    self.navigationController.navigationItem.titleView = view;
 }
 
 - (void)setupGetMoreBtn
@@ -96,52 +116,147 @@
         make.height.mas_equalTo(44);
         make.width.mas_equalTo(200);
         make.centerX.mas_equalTo(self.tableView.mas_centerX);
-        make.top.equalTo(self.tableView.tableFooterView.mas_bottom).priorityMedium();
+        make.top.equalTo(self.tableView.tableFooterView.mas_bottom).offset(-10).priorityMedium();
         make.bottom.greaterThanOrEqualTo(self.view).offset(-10).priorityHigh();
     }];
     [getMoreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(bottomView);
     }];
+    
+    self.bottomView = bottomView;
+    self.getMoreBtn = getMoreBtn;
 }
 
 
 #pragma mark - Load Coupon
-- (void)requestValidCoupon:(NSInteger)used pageno:(NSInteger)pageno
+- (void)requestUnuseCoupon
 {
-    self.currentPageIndexForUnused = self.currentPageIndexForUnused + 1;
+//    @LYW 
+//    self.currentPageIndexForUnused = self.currentPageIndexForUnused + 1;
+    
+//    @LYW 需要判断是否正在加载
+    if (self.isLoadingUnusedCoupon)
+    {
+        return;
+    }
+    
     GetUserCouponOp * op = [GetUserCouponOp operation];
-    op.used = used;
-    op.pageno = pageno;
+    op.used = CouponUnuse;
+    op.pageno = self.currentPageIndexForUnused;
     [[[op rac_postRequest] initially:^{
-        [SVProgressHUD showWithStatus:@"Loading..."];
         
+        self.isLoadingUnusedCoupon = YES;
+        self.tableView.showBottomLoadingView = YES;
         [self.tableView.bottomLoadingView hideIndicatorText];
         [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
+        
     }] subscribeNext:^(GetUserCouponOp * op) {
+        
+        self.isLoadingUnusedCoupon = NO;
         [self.tableView.bottomLoadingView stopActivityAnimation];
+        
         if (op.rsp_couponsArray.count != 0)
         {
-            [unused addObjectsFromArray:op.rsp_couponsArray];
-            if (unused.count >= self.pageAmount){
-                self.isRemain = YES;
+            [unusedCouponArray addObjectsFromArray:op.rsp_couponsArray];
+            
+            if (op.rsp_couponsArray.count >= self.pageAmount )
+            {
+//                if (unusedCouponArray.count > 30)
+//                {
+//                    self.isUnusedRemain = NO;
+//                    [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+//                }
+//                else
+                    self.isUnusedRemain = YES;
             }
             else
             {
-                self.isRemain = NO;
-            }
-            if (!self.isRemain){
+                self.isUnusedRemain = NO;
                 [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
             }
-            [self.tableView reloadData];
         }
         else
         {
             //没有优惠券时的页面
+            self.isUnusedRemain = NO;
+            if (self.currentPageIndexForUnused == 1)
+            {}
+            else
+            {
+                [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+            }
         }
+        
+        self.currentPageIndexForUnused = self.currentPageIndexForUnused + 1;
+        
         [self sortCoupon];
         [SVProgressHUD dismiss];
     } error:^(NSError *error) {
-        [SVProgressHUD  showErrorWithStatus:@"获取优惠券信息失败"];
+        
+        self.isLoadingUnusedCoupon = NO;
+        [self.tableView.bottomLoadingView stopActivityAnimation];
+//        [SVProgressHUD  showErrorWithStatus:@"获取优惠券信息失败"];
+    }];
+}
+
+
+- (void)requestUsedCoupon
+{
+    if (self.isLoadingUsedCoupon)
+    {
+        return;
+    }
+    GetUserCouponOp * op = [GetUserCouponOp operation];
+    op.used = CouponUse;
+    op.pageno = self.currentPageIndexForUsed;
+    [[[op rac_postRequest] initially:^{
+        
+        
+        self.isLoadingUsedCoupon = YES;
+        self.tableView.showBottomLoadingView = YES;
+        [self.tableView.bottomLoadingView hideIndicatorText];
+        [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
+    }] subscribeNext:^(GetUserCouponOp * op) {
+        
+        self.isLoadingUsedCoupon = NO;
+        [self.tableView.bottomLoadingView stopActivityAnimation];
+        if (op.rsp_couponsArray.count)
+        {
+            self.blankImg.hidden = YES;
+            
+            [usedCouponArray addObjectsFromArray:op.rsp_couponsArray];
+            if (op.rsp_couponsArray.count >= self.pageAmount){
+                self.isUsedRemain = YES;
+            }
+            else
+            {
+                self.isUsedRemain = NO;
+                [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+            }
+
+            [self refreshTableView];
+        }
+        else
+        {
+            //没有优惠券时的页面
+            self.isUsedRemain = NO;
+            if (self.currentPageIndexForUsed == 1)
+            {
+                
+            }
+            else
+            {
+                [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+            }
+        }
+        
+        self.currentPageIndexForUsed = self.currentPageIndexForUsed + 1;
+        
+        [SVProgressHUD dismiss];
+    } error:^(NSError *error) {
+        
+        self.isLoadingUsedCoupon = NO;
+        [self.tableView.bottomLoadingView stopActivityAnimation];
     }];
 }
 
@@ -179,91 +294,9 @@
     }];
 }
 
--(void)sortCoupon
-{
-    for (HKCoupon *dic in unused) {
-        if(dic.valid)
-            [validCoupon addObject:dic];
-        else
-            [timeoutCoupon addObject:dic];
-    }
-    [self handleData];
-}
 
-- (void)requestUsedCoupon:(NSInteger)used pageno:(NSInteger)pageno
-{
-    self.currentPageIndexForUsed = self.currentPageIndexForUsed + 1;
-    GetUserCouponOp * op = [GetUserCouponOp operation];
-    op.used = used;
-    op.pageno = pageno;
-    [[[op rac_postRequest] initially:^{
-        [SVProgressHUD showWithStatus:@"Loading..."];
-    }] subscribeNext:^(GetUserCouponOp * op) {
-        if (op.rsp_couponsArray.count)
-        {
-            [usedCoupon addObjectsFromArray:op.rsp_couponsArray];
-            if (usedCoupon.count >= self.pageAmount){
-                self.isRemain = YES;
-            }
-            else{
-                self.isRemain = NO;
-            }
-            if (!self.isRemain){
-                [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
-            }
-            [self.tableView reloadData];
-        }
-        else
-        {
-            //没有优惠券时的页面
-            self.isRemain = NO;
-            [self.tableView reloadData];
-        }
-        [SVProgressHUD dismiss];
-    } error:^(NSError *error) {
-        [SVProgressHUD  showErrorWithStatus:@"获取优惠券信息失败"];
-    }];
-}
 
--(void)handleData
-{
-    //以下是测试数据
-    
-    //模拟数据时的点点点
-    [self.tableView.bottomLoadingView hideIndicatorText];
-    [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
-    NSDate *now = [NSDate date];
-    for (int i=0; i<12; i++) {
-        HKCoupon *testDate1 = [[HKCoupon alloc]init];
-        testDate1.couponName = @"这是个有效优惠券哟";
-        testDate1.couponDescription = @"此处是测试优惠券的描述哟";
-        testDate1.used = NO;
-        testDate1.valid = YES;
-        testDate1.validsince = now;
-        [validCoupon addObject:testDate1];
-        [unused addObject:testDate1];
-    }
-//    HKCoupon *testDate2 = [[HKCoupon alloc]init];
-//    testDate2.couponName = @"这是个过期优惠券哟";
-//    testDate2.couponDescription = @"此处是测试优惠券的描述哟";
-//    testDate2.used = NO;
-//    testDate2.valid = NO;
-//    testDate2.validsince = now;
-//    [timeoutCoupon addObject:testDate2];
-    for (int i=0; i<12; i++) {
-        HKCoupon *testDate3 = [[HKCoupon alloc]init];
-        testDate3.couponName = @"这是个已使用优惠券哟";
-        testDate3.couponDescription = @"此处是测试优惠券的描述哟";
-        testDate3.used = YES;
-        testDate3.valid = YES;
-        testDate3.validsince = now;
-        [usedCoupon addObject:testDate3];
-    }
-    
-    [self.tableView reloadData];
 
-    self.tableView.contentSize=CGSizeMake(self.tableView.contentSize.width, self.tableView.contentSize.height+54);
-}
 
 #pragma mark - Utilitly
 - (void)shareAction:(ShareUserCouponOp *)op andImage:(UIImage *)image
@@ -288,49 +321,140 @@
     }];
 }
 
+-(void)sortCoupon
+{
+//    @LYW 先要移除
+    [validCouponArray removeAllObjects];
+    [timeoutCouponArray removeAllObjects];
+    for (HKCoupon *dic in unusedCouponArray)
+    {
+        if(dic.valid)
+            [validCouponArray addObject:dic];
+        else
+            [timeoutCouponArray addObject:dic];
+    }
+    [self refreshTableView];
+}
+
+- (void)refreshTableView
+{
+    [self.tableView reloadData];
+     self.tableView.contentSize = CGSizeMake(self.tableView.contentSize.width, self.tableView.contentSize.height+55);
+    
+    [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(44);
+        make.width.mas_equalTo(200);
+        make.centerX.mas_equalTo(self.tableView.mas_centerX);
+        make.top.equalTo(self.tableView.tableFooterView.mas_bottom).offset(-10).priorityMedium();
+        make.bottom.greaterThanOrEqualTo(self.view).offset(-10).priorityHigh();
+    }];
+    
+    [self.getMoreBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.bottomView);
+    }];
+}
+
 
 #pragma mark - segmented
-- (void)selectSegmented:(id)sender {
+- (void)selectSegmented:(id)sender
+{
     UISegmentedControl * segment=sender;
     whichSeg = segment.selectedSegmentIndex;
-    if (allLoad) {
-        [self.tableView reloadData];
-        self.tableView.contentSize=CGSizeMake(self.tableView.contentSize.width, self.tableView.contentSize.height+54);
+//    if (allLoad) {
+//        if (whichSeg == 0 && unusedCouponArray.count == 0) {
+//            self.blankImg.hidden = NO;
+//        }
+//        else if (whichSeg == 0 && unusedCouponArray.count != 0) {
+//            self.blankImg.hidden = YES;
+//            [self.tableView reloadData];
+//            self.tableView.contentSize = CGSizeMake(self.tableView.contentSize.width, self.tableView.contentSize.height+54);
+//        }
+//        
+//        if (whichSeg == 1 && usedCouponArray.count == 0) {
+//            self.blankImg.hidden = NO;
+//        }
+//        else if (whichSeg == 1 && usedCouponArray.count != 0) {
+//            self.blankImg.hidden = YES;
+//            [self.tableView reloadData];
+//            self.tableView.contentSize=CGSizeMake(self.tableView.contentSize.width, self.tableView.contentSize.height+54);
+//        }
+//    }
+//    else if (whichSeg == 1) {
+//        allLoad = YES;
+//        [self requestUsedCoupon:1 pageno:1];
+//    }
+//    
+//    self.isRemain = YES;
+    if (whichSeg == 0)
+    {
+        if (!self.isUnusedRemain)
+        {
+            [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+        }
     }
-    else if (whichSeg == 1) {
-        allLoad = YES;
-        //[self requestUsedCoupon:1 pageno:1];
+    else
+    {
+        if (self.isUsedRemain && usedCouponArray.count == 0)
+        {
+            [self requestUsedCoupon];
+        }
+        else if (!self.isUsedRemain)
+        {
+            [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+        }
+    }
+    [self refreshTableView];
+}
+
+- (void)shareAction:(NSNumber *)cid
+{
+    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否分享本张优惠劵" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
         
-        //测试操作
-        [self.tableView reloadData];
-        self.tableView.contentSize = CGSizeMake(self.tableView.contentSize.width, self.tableView.contentSize.height+54);
-    }
-    
-    self.isRemain = YES;
+        NSInteger index = [number integerValue];
+        if (index == 1)
+        {
+            [self requestShareCoupon:cid];
+        }
+    }];
+    [av show];
 }
 
 #pragma mark - Table view data source
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (timeoutCoupon.count != 0)
-        return whichSeg == 0 ? 2 : 1;
+    if (whichSeg == 0)
+    {
+        NSInteger num = timeoutCouponArray.count ? 1 : 0 + validCouponArray.count ? 1 : 0;
+        return num;
+    }
     else
+    {
         return 1;
+    }
 }
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    //模拟数据时的点点点消失
-    [self.tableView.bottomLoadingView stopActivityAnimation];
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
     return section == 0 ? nil : @"下列优惠券已过期";
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return section == 0 ? 10 : 15;
+    CGFloat height = section == 0 ? (validCouponArray.count ? 0 : 10) : 15;
+    return height;
 }
+
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if(whichSeg == 0)
-        return section == 0 ? validCoupon.count : timeoutCoupon.count;
+    {
+        return section == 0 ? validCouponArray.count : timeoutCouponArray.count;
+    }
     else
-        return usedCoupon.count;
+    {
+        return usedCouponArray.count;
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -342,10 +466,16 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TicketCell"];
     //背景图片
     UIImageView *backgroundImg = (UIImageView *)[cell.contentView viewWithTag:1001];
-    UIImage * usable = [UIImage imageNamed:@"cw_ticket_bg"];
-    UIImage * usableTicket = [usable resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
-    UIImage * unavailable = [UIImage imageNamed:@"me_ticket_bg"];
-    UIImage * unavailableTicket = [unavailable resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
+    
+    UIImage * carWash = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#00BFFF" alpha:1.0f]];//type = 1
+    UIImage * rescue = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#0ACDC0" alpha:1.0f]];//type = 2,4
+    UIImage * agency = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#FFA54F" alpha:1.0f]];//type = 3,5
+    UIImage * unavailable = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#A7A7A7" alpha:1.0f]];//已过期
+    
+    //已使用
+    UIImage * used = [[UIImage imageNamed:@"cw_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#A7A7A7" alpha:1.0f]];//过期或已使用
+    UIImage * usableTicket = [used resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
+    
     //优惠名称
     UILabel *name = (UILabel *)[cell.contentView viewWithTag:1002];
     //优惠描述
@@ -353,47 +483,68 @@
     //优惠有效期
     UILabel *validDate = (UILabel *)[cell.contentView viewWithTag:1004];
     //状态
-    UILabel *status = (UILabel *)[cell.contentView viewWithTag:1005];
+    UIButton *status = (UIButton *)[cell.contentView viewWithTag:1005];
     
     NSUInteger section = [indexPath section];
     if (whichSeg == 0) {
         if (section == 0){
-            status.text = @"有效";
-            backgroundImg.image = usableTicket;
-            HKCoupon *couponDic = validCoupon[indexPath.row];
+            HKCoupon *couponDic = [validCouponArray safetyObjectAtIndex:indexPath.row];;
+            if (couponDic.conponType == 1) {
+                [status setTitle:@"分享" forState:UIControlStateNormal];
+//                @LYW
+//                [status addTarget:self action:@selector(shareAction) forControlEvents:UIControlEventTouchUpInside];
+                [[[status rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                    
+                    [self shareAction:couponDic.couponId];
+                }];
+                
+                backgroundImg.image = carWash;
+            }
+            else if (couponDic.conponType == 2 || couponDic.conponType == 4) {
+//               @LYW 重用
+                backgroundImg.image = rescue;
+                [status setTitle:@"有效" forState:UIControlStateNormal];
+            }
+            else {
+                backgroundImg.image = agency;
+                [status setTitle:@"有效" forState:UIControlStateNormal];
+            }
             name.text = couponDic.couponName;
             description.text = [NSString stringWithFormat:@"使用说明：%@",couponDic.couponDescription];
-            validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",couponDic.validsince,couponDic.validthrough];
+            // @LYW 时间显示有误
+            validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",[couponDic.validsince dateFormatForYYMMdd2],[couponDic.validthrough dateFormatForYYMMdd2]];
         }
-        else{
-            status.text = @"已过期";
-            backgroundImg.image = unavailableTicket;
-            HKCoupon *couponDic = timeoutCoupon[indexPath.row];
+        else {
+            [status setTitle:@"已过期" forState:UIControlStateNormal];
+            backgroundImg.image = unavailable;
+            HKCoupon *couponDic = [timeoutCouponArray safetyObjectAtIndex:indexPath.row];
             name.text = couponDic.couponName;
             description.text = [NSString stringWithFormat:@"使用说明：%@",couponDic.couponDescription];
-            validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",couponDic.validsince,couponDic.validthrough];
+            validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",[couponDic.validsince dateFormatForYYMMdd2],[couponDic.validthrough dateFormatForYYMMdd2]];
         }
     }
     else{
-        status.text = @"已使用";
-        backgroundImg.image = unavailableTicket;
-        HKCoupon *couponDic = usedCoupon[indexPath.row];
+        [status setTitle:@"已使用" forState:UIControlStateNormal];
+        backgroundImg.image = usableTicket;
+//        HKCoupon *couponDic = usedCoupon[indexPath.row];
+//        @LYW
+        HKCoupon * couponDic = [usedCouponArray safetyObjectAtIndex:indexPath.row];
         name.text = couponDic.couponName;
         description.text = [NSString stringWithFormat:@"使用说明：%@",couponDic.couponDescription];
-        validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",couponDic.validsince,couponDic.validthrough];
+        validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",[couponDic.validsince dateFormatForYYMMdd2],[couponDic.validthrough dateFormatForYYMMdd2]];
     }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (whichSeg == 0 && unused.count-1 <= indexPath.row && self.isRemain) {
-        [self handleData];
-        //[self requestValidCoupon:2 pageno:self.currentPageIndexForUnused];
+    if (whichSeg == 0 && unusedCouponArray.count-1 <= indexPath.row && self.isUnusedRemain)
+    {
+        [self requestUnuseCoupon];
     }
-    if (whichSeg == 1 && usedCoupon.count-1 <= indexPath.row && self.isRemain) {
-        [self handleData];
-        //[self requestUsedCoupon:1 pageno:self.currentPageIndexForUsed];
+    if (whichSeg == 1 && usedCouponArray.count-1 <= indexPath.row && self.isUsedRemain) {
+        //[self handleData];
+        [self requestUsedCoupon];
     }
 }
 
