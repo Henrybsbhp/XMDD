@@ -49,6 +49,8 @@ typedef enum : NSUInteger {
 #define kDefLineColor   HEXCOLOR(@"#ebebeb")
 #define kDarkLineColor   HEXCOLOR(@"#e0e0e0")
 
+#define kKeyChainBaseServer     @"com.huika.xmdd"
+
 //字符串定义
 #define kRspPrefix      @"█ ▇ ▆ ▅ ▄ ▃ ▂"
 #define kReqPrefix      @"▂ ▃ ▄ ▅ ▆ ▇ █"

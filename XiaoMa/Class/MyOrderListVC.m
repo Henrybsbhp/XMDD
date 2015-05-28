@@ -13,11 +13,7 @@
 
 @interface MyOrderListVC ()
 @property (nonatomic, strong) IBOutlet CarwashOrderViewModel *carwashModel;
-@property (nonatomic, strong) IBOutlet InsranceOrderViewModel *insuranceModel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIButton *carwashTabBtn;
-@property (weak, nonatomic) IBOutlet UIButton *insuranceTabBtn;
-@property (nonatomic, strong) CKSegmentHelper *segmentHelper;
 @end
 
 @implementation MyOrderListVC
@@ -26,8 +22,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self.carwashModel resetWithTargetVC:self];
-    [self.insuranceModel resetWithTargetVC:self];
-    [self setupTopView];
+    [self.carwashModel reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -40,44 +35,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setupTopView
-{
-    @weakify(self);
-    self.segmentHelper = [CKSegmentHelper new];
-    UIImage *img = [[UIImage imageNamed:@"me_btn_bg3"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 2, 0)];
-    [self.carwashTabBtn setBackgroundImage:img forState:UIControlStateSelected];
-    [self.segmentHelper addItem:self.carwashTabBtn forGroupName:@"TopView" withChangedBlock:^(UIButton *item, BOOL selected) {
-        @strongify(self);
-        item.selected = selected;
-        self.carwashModel.tableView.hidden = !selected;
-        if (selected && !self.carwashModel.orders) {
-            [self.carwashModel reloadData];
-        }
-    }];
-    
-    [self.insuranceTabBtn setBackgroundImage:img forState:UIControlStateSelected];
-    [self.segmentHelper addItem:self.insuranceTabBtn forGroupName:@"TopView" withChangedBlock:^(UIButton *item, BOOL selected) {
-        @strongify(self);
-        item.selected = selected;
-        self.insuranceModel.tableView.hidden = !selected;
-        if (selected && !self.insuranceModel.orders) {
-            [self.insuranceModel reloadData];
-        }
-    }];
-    [self.segmentHelper selectItem:self.carwashTabBtn];
-}
-
-#pragma mark - Action
-- (IBAction)actionCarwash:(id)sender
-{
-    [self.segmentHelper selectItem:self.carwashTabBtn];
-
-}
-
-- (IBAction)actionInsurance:(id)sender
-{
-    [self.segmentHelper selectItem:self.insuranceTabBtn];
-}
 /*
 #pragma mark - Navigation
 

@@ -40,6 +40,8 @@
         cache = [[TMCache alloc] initWithName:@"PromptionCache"];
         cache.diskCache.byteLimit = 200 * 1024 * 1024; // 200M
         _promptionCache = cache;
+        
+        _deviceInfo = [[DeviceInfo alloc] init];
     }
     return self;
 }

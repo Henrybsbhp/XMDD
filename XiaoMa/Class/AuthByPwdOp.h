@@ -9,5 +9,5 @@
 #import "BaseOp.h"
 
 @interface AuthByPwdOp : BaseOp
-
+@property (nonatomic, strong) NSString *req_deviceID;
 @end

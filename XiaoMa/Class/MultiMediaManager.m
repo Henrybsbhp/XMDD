@@ -66,7 +66,6 @@ static MultiMediaManager *g_mediaManager;
     RACScheduler *sch = [RACScheduler schedulerWithPriority:RACSchedulerPriorityHigh];
     RACSignal *signal = [[RACSignal startEagerlyWithScheduler:sch block:^(id<RACSubscriber> subscriber) {
         
-
         UIImage *img = [UIImage imageWithData:[self.picCache objectForKey:cacheKey]];
         [subscriber sendNext:img];
         [subscriber sendCompleted];

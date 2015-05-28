@@ -23,4 +23,6 @@
 - (HKMyCar *)getDefalutCar;
 - (NSArray *)carArray;
 
++ (NSString *)verifiedLicenseNumberFrom:(NSString *)licenseNumber;
+
 @end

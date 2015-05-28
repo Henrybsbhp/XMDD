@@ -32,7 +32,7 @@
 @property (nonatomic, strong) CoreDataManager *myDataMgr;
 ///默认的coredata数据管理对象
 @property (nonatomic, strong) CoreDataManager *defDataMgr;
-@property(nonatomic,strong)DeviceInfo * deviceInfo;
+@property(nonatomic,strong, readonly)DeviceInfo * deviceInfo;
 @property(nonatomic,strong)ClientInfo * clientInfo;
 ///常用数据缓存（可手动清除）
 @property (nonatomic, strong, readonly) TMCache *dataCache;

@@ -132,6 +132,18 @@
     }];
 
     [self refreshAdView];
+    
+    @weakify(self);
+    RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
+
+        @strongify(self);
+        NSInteger index = [self.adView currentPageIndex] + 1;
+        if (index >= gAdMgr.carwashAdvertiseArray.count) {
+            index = 0;
+        }
+        [self.adView setCurrentPageIndex:index animated:YES];
+    }];
+    [[self rac_deallocDisposable] addDisposable:dis];
 }
 
 - (void)refreshAdView
@@ -177,7 +189,7 @@
 #pragma mark - SYPaginatorViewDelegate
 - (NSInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView
 {
-    return gAdMgr.carwashAdvertiseArray.count ? gAdMgr.carwashAdvertiseArray.count : 1;
+    return gAdMgr.carwashAdvertiseArray.count;
 }
 
 - (SYPageView *)paginatorView:(SYPaginatorView *)paginatorView viewForPageAtIndex:(NSInteger)pageIndex

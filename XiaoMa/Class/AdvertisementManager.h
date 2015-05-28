@@ -29,4 +29,5 @@
 - (RACSignal *)rac_fetchAdListByType:(AdvertisementType)type;
 
 - (RACSignal *)rac_scrollTimerSignal;
+
 @end

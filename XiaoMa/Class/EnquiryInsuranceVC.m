@@ -157,9 +157,11 @@
 #pragma mark - Action
 - (IBAction)actionEnquiry:(id)sender
 {
-    // 检测车牌
+    // 检测车牌是否为空
     if ([self shakeIfNeededAtRow:1]) {
         return;
+    }
+    if (self) {
     }
     //购车价格
     if ([self shakeIfNeededAtRow:2]) {
@@ -306,7 +308,9 @@
 {
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
     UIButton *button = (UIButton *)[cell.contentView viewWithTag:1003];
-    
+
+    field.delegate = self;
+    field.customTag = 1;
     @weakify(self);
     [self.plateSegHelper addItem:button forGroupName:@"number" withChangedBlock:^(UIButton *item, BOOL selected) {
         
@@ -351,7 +355,7 @@
     
     [[[[field rac_newTextChannel] distinctUntilChanged] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
-        self->_plateNumber = x;
+        self->_plateNumber = [x uppercaseString];
         [self.plateSegHelper selectItem:nil forGroupName:@"number"];
     }];
 }
@@ -367,7 +371,14 @@
 #pragma mark - UITextFieldDelegate
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    textField.text  = self.price;
+    //车牌
+    if (textField.customTag == 1) {
+        textField.text = [textField.text uppercaseString];
+    }
+    //价格
+    else {
+        textField.text  = self.price;
+    }
 }
 
 #pragma mark - Private
@@ -413,6 +424,13 @@
         [self.view endEditing:YES];
     }];
     return btn;
+}
+
+- (void)shakeAndScrollToCellAtRow:(NSInteger)row message:(NSString *)msg
+{
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+    [cell.contentView shake];
+    [gToast showText:msg];
 }
 
 - (BOOL)shakeIfNeededAtRow:(NSInteger)row

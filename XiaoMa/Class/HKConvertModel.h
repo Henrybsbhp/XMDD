@@ -6,8 +6,9 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "BaseOp.h"
+#import <Foundation/Foundation.h>
 
-@interface HKConvertModel : BaseOp
+@interface HKConvertModel : NSObject
+
 
 @end
