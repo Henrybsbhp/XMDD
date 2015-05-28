@@ -168,7 +168,7 @@
         return nil;
     }
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"yyyyMMddhhmmss"];
+    [format setDateFormat:@"yyyyMMddHHmmss"];
     return [format dateFromString:text];
 }
 

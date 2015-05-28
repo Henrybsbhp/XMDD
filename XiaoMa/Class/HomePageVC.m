@@ -331,17 +331,15 @@ static NSInteger rotationIndex = 0;
 - (void)rotationTableHeaderView
 {
     //    每隔6秒滚动宣传栏
-    [[RACSignal interval:6 onScheduler:[RACScheduler mainThreadScheduler]] subscribeNext:^(id x) {
+    RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
         
-        /// 重置i
-        NSInteger count = gAdMgr.homepageAdvertiseArray.count;
-        if(count == 0 || count == 1)
-        {
-            return ;
+        NSInteger index = self.adView.currentPageIndex+1;
+        if (index >= gAdMgr.homepageAdvertiseArray.count) {
+            index = 0;
         }
-        rotationIndex = rotationIndex == count - 1 ? 0 : rotationIndex + 1;
-        [self.adView setCurrentPageIndex:rotationIndex animated:YES];
+        [self.adView setCurrentPageIndex:index animated:YES];
     }];
+    [[self rac_deallocDisposable] addDisposable:dis];
 }
 
 #pragma mark - Utility

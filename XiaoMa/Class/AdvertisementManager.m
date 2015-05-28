@@ -117,7 +117,8 @@
 
 - (RACSignal *)rac_scrollTimerSignal
 {
-    return [RACSignal interval:kScrollAdTimeInterval onScheduler:[RACScheduler scheduler]];
+    return [[RACSignal interval:kScrollAdTimeInterval onScheduler:[RACScheduler scheduler]]
+            deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
 #pragma mark - Utility

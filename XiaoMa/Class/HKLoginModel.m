@@ -26,6 +26,7 @@ typedef enum : NSInteger {
 {
     AuthByPwdOp *op = [AuthByPwdOp new];
     op.skey = [self skeyFromPassword:password];
+    op.req_deviceID = gAppMgr.deviceInfo.deviceID;
     return [[self rac_commonValidateTokenOp:op account:account refreshToken:YES] doNext:^(id x) {
         [gAppMgr resetWithAccount:account];
     }];
