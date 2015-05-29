@@ -1189,11 +1189,11 @@
                                                         <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CI_0,10,0,10"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" tag="108" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cw_success" translatesAutoresizingMaskIntoConstraints="NO" id="Bef-HZ-PMD">
-                                                    <rect key="frame" x="270" y="7" width="61" height="61"/>
+                                                <imageView userInteractionEnabled="NO" tag="108" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="cw_coupon_selected" translatesAutoresizingMaskIntoConstraints="NO" id="Bef-HZ-PMD">
+                                                    <rect key="frame" x="287" y="27" width="27" height="22"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="61" id="3sw-U0-dOw"/>
-                                                        <constraint firstAttribute="height" constant="61" id="SZQ-6m-NjF"/>
+                                                        <constraint firstAttribute="width" constant="27" id="3sw-U0-dOw"/>
+                                                        <constraint firstAttribute="height" constant="22" id="SZQ-6m-NjF"/>
                                                         <constraint firstAttribute="height" constant="74" id="oi5-HI-5xK"/>
                                                     </constraints>
                                                     <variation key="default">
@@ -1740,6 +1740,7 @@
         <image name="cw_box2" width="17" height="17"/>
         <image name="cw_box3" width="17" height="17"/>
         <image name="cw_btn_bg" width="34" height="33"/>
+        <image name="cw_coupon_selected" width="27" height="22"/>
         <image name="cw_guide" width="19" height="17"/>
         <image name="cw_phone" width="19" height="17"/>
         <image name="cw_success" width="60" height="61"/>
