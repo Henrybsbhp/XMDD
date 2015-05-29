@@ -196,7 +196,7 @@
         
         self.isLoadingUnusedCoupon = NO;
         [self.tableView.bottomLoadingView stopActivityAnimation];
-//        [SVProgressHUD  showErrorWithStatus:@"获取优惠券信息失败"];
+//        [gToast showError:@"获取优惠券信息失败"];
     }];
 }
 
