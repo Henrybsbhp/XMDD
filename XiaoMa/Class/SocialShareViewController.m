@@ -159,12 +159,12 @@ typedef void(^FinishBlock)(void);
         if (resp.errCode == WXSuccess)
         {
             msg = @"分享成功";
-            [SVProgressHUD showSuccessWithStatus:msg];
+            [gToast showSuccess:msg];
         }
         else if(resp.errCode == WXErrCodeCommon)
         {
             msg = @"分享失败，请重试";
-            [SVProgressHUD showSuccessWithStatus:msg];
+            [gToast showSuccess:msg];
         }
         else if(resp.errCode == WXErrCodeUserCancel)
         {
@@ -174,17 +174,17 @@ typedef void(^FinishBlock)(void);
         else if(resp.errCode == WXErrCodeSentFail)
         {
             msg = @"分享失败，请重试";
-            [SVProgressHUD showErrorWithStatus:msg];
+            [gToast showError:msg];
         }
         else if(resp.errCode == WXErrCodeAuthDeny)
         {
             msg = @"授权失败，请重试";
-            [SVProgressHUD showErrorWithStatus:msg];
+            [gToast showError:msg];
         }
         else if(resp.errCode == WXErrCodeUnsupport)
         {
             msg = @"内容微信不支持";
-            [SVProgressHUD showErrorWithStatus:msg];
+            [gToast showError:msg];
         }
     }
 }
@@ -199,37 +199,37 @@ typedef void(^FinishBlock)(void);
         if (response.statusCode == WeiboSDKResponseStatusCodeSuccess)
         {
             msg = @"分享成功";
-            [SVProgressHUD showSuccessWithStatus:msg];
+            [gToast showSuccess:msg];
         }
         else if(response.statusCode == WeiboSDKResponseStatusCodeUserCancel)
         {
             msg = @"支持一下，请不要取消";
-            [SVProgressHUD showErrorWithStatus:msg];
+            [gToast showError:msg];
         }
         else if(response.statusCode == WeiboSDKResponseStatusCodeSentFail)
         {
             msg = @"分享失败，请重试";
-            [SVProgressHUD showErrorWithStatus:msg];
+            [gToast showError:msg];
         }
         else if(response.statusCode == WeiboSDKResponseStatusCodeAuthDeny)
         {
             msg = @"授权失败，请重试";
-            [SVProgressHUD showErrorWithStatus:msg];
+            [gToast showError:msg];
         }
         else if(response.statusCode == WeiboSDKResponseStatusCodeUserCancelInstall)
         {
             //            msg = @"支持一下，不要取消";
-            //            [SVProgressHUD showErrorWithStatus:msg duration:1.0f];
+            //            [gToast showError:msg duration:1.0f];
         }
         else if(response.statusCode == WeiboSDKResponseStatusCodeUnsupport)
         {
             msg = @"内容微博不支持";
-            [SVProgressHUD showErrorWithStatus:msg];
+            [gToast showError:msg];
         }
         else if(response.statusCode == WeiboSDKResponseStatusCodeUnknown)
         {
             msg = @"分享失败，请重试";
-            [SVProgressHUD showErrorWithStatus:msg];
+            [gToast showError:msg];
         }
     }
 }

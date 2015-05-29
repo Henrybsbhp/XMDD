@@ -629,14 +629,14 @@
     
     [[[op rac_postRequest] initially:^{
         
-        [SVProgressHUD showWithStatus:@"订单生成中..."];
+        [gToast showingWithText:@"订单生成中..."];
     }] subscribeNext:^(CheckoutServiceOrderOp * op) {
         
         if (op.rsp_code == 0)
         {
             if (op.paychannel == PaymentChannelAlipay)
             {
-                [SVProgressHUD showWithStatus:@"订单生成成功,正在跳转到支付宝平台进行支付" duration:2.0f];
+                [gToast showText:@"订单生成成功,正在跳转到支付宝平台进行支付"];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     
                     NSString * submitTime = [[NSDate date] dateFormatForDT8];
@@ -647,7 +647,7 @@
             }
             else if (op.paychannel == PaymentChannelWechat)
             {
-                [SVProgressHUD showWithStatus:@"订单生成成功,正在跳转到微信平台进行支付" duration:2.0f];
+                [gToast showText:@"订单生成成功,正在跳转到微信平台进行支付"];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     
                     NSString * submitTime = [[NSDate date] dateFormatForDT8];
@@ -671,11 +671,11 @@
         }
         else
         {
-            [SVProgressHUD showErrorWithStatus:@"订单生成失败"];
+            [gToast showError:@"订单生成失败"];
         }
     } error:^(NSError *error) {
         
-        [SVProgressHUD showErrorWithStatus:@"订单生成失败"];
+        [gToast showError:@"订单生成失败"];
     }];
 }
 

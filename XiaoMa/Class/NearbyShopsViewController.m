@@ -411,39 +411,40 @@
         {
             if ([gAppMgr.myUser.favorites getFavoriteWithID:shop.shopID])
             {
-                [[[gAppMgr.myUser.favorites rac_removeFavorite:@[shop.shopID]] initially:^{
+                [[[[gAppMgr.myUser.favorites rac_removeFavorite:@[shop.shopID]] initially:^{
                     
-                    [SVProgressHUD showWithStatus:@"移除中..."];
-                }]  subscribeNext:^(id x) {
+                    [gToast showingWithText:@"移除中..."];
+                }] finally:^{
                     
-                    [SVProgressHUD showSuccessWithStatus:@"移除成功"];
+                    [gToast dismiss];
+                }] subscribeNext:^(id x) {
                     
                     [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collection"] forState:UIControlStateNormal];
                 } error:^(NSError *error) {
                     
-                    [SVProgressHUD showErrorWithStatus:error.domain];
+                    [gToast showError:error.domain];
                 }];
             }
             else
             {
-                [[[gAppMgr.myUser.favorites rac_addFavorite:shop] initially:^{
+                [[[[gAppMgr.myUser.favorites rac_addFavorite:shop] initially:^{
                     
-                    [SVProgressHUD showWithStatus:@"添加中..."];
-                }]  subscribeNext:^(id x) {
+                    [gToast showingWithText:@"添加中..."];
+                }] finally:^{
                     
-                    [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+                    [gToast dismiss];
+                }] subscribeNext:^(id x) {
                     
                     [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected"] forState:UIControlStateNormal];
                 } error:^(NSError *error) {
                     
                     if (error.code == 7002)
                     {
-                        [SVProgressHUD showSuccessWithStatus:@"添加成功"];
                         [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected"] forState:UIControlStateNormal];
                     }
                     else
                     {
-                        [SVProgressHUD showErrorWithStatus:error.domain];
+                        [gToast showError:error.domain];
                     }
                 }];
             }

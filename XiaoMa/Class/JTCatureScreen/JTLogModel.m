@@ -47,7 +47,7 @@
     [[self.logAlertView.okBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         if (self.prepareUploadLogIndex < 0)
         {
-            [SVProgressHUD showErrorWithStatus:@"请选择需要上传的日志"];
+            [gToast showError:@"请选择需要上传的日志"];
             return;
         }
         [self submitLog:data];
@@ -114,28 +114,28 @@
 //    RACSignal * uploadLogSignal = [op postRequest];
 //    
 //    [[uploadLogSignal initially:^{
-//        [SVProgressHUD showWithStatus:@"上传log..."];
+//        [gToast showingWithText:@"上传log..."];
 //    }] subscribeNext:^(id x) {
 //        
-//        [SVProgressHUD showWithStatus:@"上传img..."];
+//        [gToast showingWithText:@"上传img..."];
 //        [[[op2 postRequest] initially:^{
 //            
 //        }] subscribeNext:^(id x) {
 //            
-//            [SVProgressHUD showSuccessWithStatus:@"成功"];
+//            [gToast showError:@"成功"];
 //            self.prepareUploadLogIndex = -1;
 //            self.islogViewAppear = NO;
 //            [self.logAlertView removeFromSuperview];
 //        } error:^(NSError *error) {
 //            
-//            [SVProgressHUD showErrorWithStatus:@"失败，请重试"];
+//            [gToast showError:@"失败，请重试"];
 //            self.prepareUploadLogIndex = -1;
 //            self.islogViewAppear = NO;
 //            [self.logAlertView removeFromSuperview];
 //        }] ;
 //    } error:^(NSError *error) {
 //        
-//        [SVProgressHUD showErrorWithStatus:@"失败，请重试"];
+//        [gToast showError:@"失败，请重试"];
 //        self.prepareUploadLogIndex = -1;
 //        self.islogViewAppear = NO;
 //        [self.logAlertView removeFromSuperview];
