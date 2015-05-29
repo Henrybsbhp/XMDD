@@ -609,7 +609,6 @@
     else
     {
         NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxCashGroup];
-//        @fq
         for (NSInteger i = 0 ; i < array.count ; i++)
         {
             UIButton * btn = [array safetyObjectAtIndex:i];
@@ -628,7 +627,6 @@
         }
     }
     
-    return;
     [[[op rac_postRequest] initially:^{
         
         [SVProgressHUD showWithStatus:@"订单生成中..."];
