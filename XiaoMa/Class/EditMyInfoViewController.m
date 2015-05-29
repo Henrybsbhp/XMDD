@@ -55,6 +55,7 @@
     [self.bgView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:CKViewBorderDirectionBottom & CKViewBorderDirectionTop];
     
     self.textFeild.placeholder = self.placeholder;
+    self.textFeild.text = self.content;
     self.textFeild.clearButtonMode = UITextFieldViewModeWhileEditing;
     
     [self.textFeild becomeFirstResponder];
