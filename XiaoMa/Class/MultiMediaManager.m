@@ -30,99 +30,95 @@ static MultiMediaManager *g_mediaManager;
     return self;
 }
 
-- (RACSignal *)rac_getPictureForUrl:(NSString *)urlKey withDefaultPic:(NSString *)picName
+- (RACSignal *)rac_getPictureForUrl:(NSString *)url withType:(ImageURLType)type
+                           defaultPic:(NSString *)defName errorPic:(NSString *)errName
 {
-    return [self rac_getPictureForUrl:urlKey withDefaultPic:picName errorPic:picName];
+    return [[self rac_getPictureForUrl:url withType:type defaultPic:defName] catch:^RACSignal *(NSError *error) {
+        if (errName.length > 0) {
+            return [RACSignal return:[UIImage imageNamed:errName]];
+        }
+        return [RACSignal error:error];
+    }];
 }
 
-- (RACSignal *)rac_getPictureForUrl:(NSString *)urlKey withType:(ImageURLType)type
-                         defaultPic:(NSString *)defPicName errorPic:(NSString *)errPicName
+- (RACSignal *)rac_getPictureForUrl:(NSString *)url withType:(ImageURLType)type defaultPic:(NSString *)defName
 {
     if (type == ImageURLTypeThumbnail) {
-        urlKey = [urlKey append:@"?imageView2/1/w/128/h/128"];
+        url = [url append:@"?imageView2/1/w/128/h/128"];
     }
     else if (type == ImageURLTypeMedium) {
-        urlKey = [urlKey append:@"?imageView2/0/w/1024/h/1024"];
+        url = [url append:@"?imageView2/0/w/1024/h/1024"];
     }
-    return [self rac_getPictureForUrl:urlKey withDefaultPic:defPicName errorPic:errPicName];
+    return [self rac_getPictureForUrl:url defaultPic:defName];
 }
 
-/// 首先去缓存中查找，如果没有找到，就用DefaultPic替代，同时根据URL去网络下载，如果没有下载到，不再返回新的next。
-- (RACSignal *)rac_getPictureForUrl:(NSString *)urlKey withDefaultPic:(NSString *)defPicName errorPic:(NSString *)errPicName
+- (RACSignal *)rac_getPictureForUrl:(NSString *)url defaultPic:(NSString *)defName
 {
-    /// tmcache url长度超过239，导致存取失败
-    NSString * cacheKey = urlKey;
-    if (cacheKey.length > 239)
-    {
-        cacheKey = [cacheKey substringFromIndex:urlKey.length - 239];
-    }
-    
-    if (cacheKey.length == 0)
-    {
-        return [RACSignal return:[UIImage imageNamed:defPicName]];
-    }
-    
-    //
-    RACScheduler *sch = [RACScheduler schedulerWithPriority:RACSchedulerPriorityHigh];
-    RACSignal *signal = [[RACSignal startEagerlyWithScheduler:sch block:^(id<RACSubscriber> subscriber) {
-        
-        UIImage *img = [UIImage imageWithData:[self.picCache objectForKey:cacheKey]];
-        [subscriber sendNext:img];
-        [subscriber sendCompleted];
-    }] replay];
-
+    RACSignal *signal = [self rac_getImageFromCacheWithUrl:url];
+    //从网络获取image
     signal = [signal flattenMap:^RACStream *(UIImage *img) {
-    
-        RACSignal * defaultSignal ;
-        
-        if (img)
-        {
+
+        if (img) {
             return [RACSignal return:img];
         }
-        else
-        {
-            /// @fq 
-            UIImage * image = [UIImage imageNamed:defPicName];
-            defaultSignal = [RACSignal return:image];
-        }
-        
-        DownloadOp * duplicateOp = [DownloadOp firstDownloadOpInClientForReqURI:urlKey];
-        RACSignal * downloadOpSig = duplicateOp.rac_curSignal;
-        if (!duplicateOp)
-        {
-            DownloadOp * op = [DownloadOp operation];
-            op.req_uri = urlKey;
-            downloadOpSig = [op rac_getRequest];
-        }
-        
-        downloadOpSig = [[downloadOpSig map:^id(DownloadOp *op) {
-            
-            UIImage *img = nil;
-            if (op.rsp_data)
-            {
-                img = [UIImage imageWithData:op.rsp_data];
-                [self.picCache setObject:op.rsp_data forKey:cacheKey block:nil];
-            }
-            return img;
-            
-        }] catch:^RACSignal *(NSError *error) {
-            
-            UIImage *img = [UIImage imageNamed:errPicName];
-            return [RACSignal return:img];
+        RACSignal *sig = [[self rac_getImageFromWebWithUrl:url] filter:^BOOL(id value) {
+            return (BOOL)value;
         }];
-        
-        if (!downloadOpSig)
-        {
-            return defaultSignal;
+        if (defName.length > 0) {
+            sig = [sig merge:[RACSignal return:[UIImage imageNamed:defName]]];
         }
-        
-        return [defaultSignal merge:downloadOpSig];
+        return sig;
     }];
     
     return [signal deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
-- (RACSignal *)rac_pickPhotoInTargetVC:(UIViewController *)targetVC inView:(UIView *)view
+#pragma mark - Private Image Method
+- (RACSignal *)rac_getImageFromCacheWithUrl:(NSString *)url
+{
+    RACScheduler *sch = [RACScheduler schedulerWithPriority:RACSchedulerPriorityHigh];
+    //从本地缓存获取image
+    RACSignal *signal = [[RACSignal startEagerlyWithScheduler:sch block:^(id<RACSubscriber> subscriber) {
+        
+        UIImage *img = [self.picCache imageForKey:url];
+        [subscriber sendNext:img];
+        [subscriber sendCompleted];
+    }] replay];
+    return signal;
+}
+
+- (RACSignal *)rac_getImageFromWebWithUrl:(NSString *)url
+{
+    DownloadOp *curOp = [DownloadOp firstDownloadOpInClientForReqURI:url];
+    RACSignal * downloadSig = [curOp rac_curSignal];
+    if (!downloadSig)
+    {
+        DownloadOp * op = [DownloadOp operation];
+        op.req_uri = url;
+        downloadSig = [op rac_getRequest];
+    }
+    
+    return [downloadSig map:^id(DownloadOp *op) {
+        UIImage *img;
+        if (op.rsp_data) {
+            
+            [self.picCache.diskCache setFileData:op.rsp_data forKey:url];
+            img = [UIImage imageWithData:op.rsp_data];
+            [self.picCache.memoryCache setObject:img forKey:url];
+        }
+        return img;
+    }];
+}
+
+#pragma mark - ImagePicker
+- (RACSignal *)rac_pickPhotoInTargetVC:(UIViewController *)targetVC
+                                inView:(UIView *)view
+{
+    return [self rac_pickPhotoInTargetVC:targetVC inView:view initBlock:nil];
+}
+
+- (RACSignal *)rac_pickPhotoInTargetVC:(UIViewController *)targetVC
+                                inView:(UIView *)view initBlock:(void(^)(UIImagePickerController *picker))block
 {
     RACSubject *subject = [RACSubject new];
     
@@ -145,6 +141,9 @@ static MultiMediaManager *g_mediaManager;
                 NSMutableArray *mediaTypes = [[NSMutableArray alloc] init];
                 [mediaTypes addObject:(__bridge NSString *)kUTTypeImage];
                 controller.mediaTypes = mediaTypes;
+                if (block) {
+                    block(controller);
+                }
                 [targetVC presentViewController:controller animated:YES completion:nil];
             }
             else
@@ -168,6 +167,9 @@ static MultiMediaManager *g_mediaManager;
                 NSMutableArray *mediaTypes = [[NSMutableArray alloc] init];
                 [mediaTypes addObject:(__bridge NSString *)kUTTypeImage];
                 controller.mediaTypes = mediaTypes;
+                if (block) {
+                    block(controller);
+                }
                 [targetVC presentViewController:controller animated:YES completion:nil];
             }
             else {

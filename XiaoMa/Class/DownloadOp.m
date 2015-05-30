@@ -27,11 +27,8 @@
     NSURL *reqURL = [NSURL URLWithString:self.req_uri];
     NSURLRequest *req = [NSURLRequest requestWithURL:reqURL];
     AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
-    op.customObject = self;
-    self.af_operation = op;
     
-    return [[[[[gNetworkMgr.mediaClient rac_enqueueHTTPRequestOperation:op] map:^id(RACTuple *tuple) {
-        
+    RACSignal *sig = [[[[[gNetworkMgr.mediaClient rac_enqueueHTTPRequestOperation:op] map:^id(RACTuple *tuple) {
         
         self.rsp_data = tuple.second;
         return self;
@@ -42,6 +39,12 @@
         
         DebugLog(@"Download file error:%@,%@", self.req_uri, [error description]);
     }] replay];
+    
+    op.customObject = self;
+    self.af_operation = op;
+    self.rac_curSignal = sig;
+    
+    return sig;
 }
 
 + (instancetype)firstDownloadOpInClientForReqURI:(NSString *)req_uri

@@ -26,7 +26,7 @@
 /// 爱车
 @property (nonatomic, strong)NSArray * carArray;
 /// 头像
-@property (nonatomic,strong)UIImage * avatar;
+//@property (nonatomic,strong)UIImage * avatar;
 
 ///洗车次数
 @property (nonatomic, assign) NSInteger abcCarwashesCount;

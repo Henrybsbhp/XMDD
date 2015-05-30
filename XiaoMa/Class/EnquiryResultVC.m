@@ -78,7 +78,7 @@
     UIImage *bgImg = [UIImage imageNamed:[NSString stringWithFormat:@"ins_cell_bg%d", (int)(indexPath.row+1)]];
     bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(0, 75, 0, 1)];
     bgV.image = bgImg;
-    priceL.text = [NSString stringWithFormat:@"￥%d", (int)ins.premium];
+    priceL.text = [NSString stringWithFormat:@"￥%.2f", ins.premium];
     
     //查看详情
     detailB.backgroundColor = indexPath.row == 0 ? HEXCOLOR(@"#6B77AD") : indexPath.row == 1 ? HEXCOLOR(@"#7EB929") : HEXCOLOR(@"#FDAE0C");
