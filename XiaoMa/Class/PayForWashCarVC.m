@@ -34,6 +34,7 @@
 @property (nonatomic)BOOL isLoadingResourse;
 
 @property (nonatomic)PaymentChannelType paymentType;
+@property (nonatomic)PaymentPlatform platform;
 
 @property (nonatomic,strong)NSDictionary * tbStructure;
 
@@ -48,6 +49,7 @@
     [self setupBottomView];
     
     self.paymentType = PaymentChannelAlipay;
+    self.platform = PayWithAlipay;
     [self requestGetUserCar];
 
     self.isLoadingResourse = YES;
@@ -598,33 +600,59 @@
     {
         if (self.couponType == CouponTypeCarWash)
         {
-            op.couponArray = self.selectCarwashCoupouArray;
+            NSMutableArray * array = [NSMutableArray array];
+            for (HKCoupon * c in self.selectCarwashCoupouArray)
+            {
+                [array addObject:c.couponId];
+            }
+            op.couponArray = array;
         }
         else if (self.couponType == CouponTypeCash)
         {
-            op.couponArray = self.selectCashCoupouArray;
+            NSMutableArray * array = [NSMutableArray array];
+            for (HKCoupon * c in self.selectCashCoupouArray)
+            {
+                [array addObject:c.couponId];
+            }
+            op.couponArray = array;
         }
         op.paychannel = PaymentChannelCoupon;
     }
-    else
+ 
+    NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxCashGroup];
+    for (NSInteger i = 0 ; i < array.count ; i++)
     {
-        NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxCashGroup];
-        for (NSInteger i = 0 ; i < array.count ; i++)
+        UIButton * btn = [array safetyObjectAtIndex:i];
+        BOOL s = btn.selected;
+        if (s == YES)
         {
-            UIButton * btn = [array safetyObjectAtIndex:i];
-            BOOL s = btn.selected;
-            if (s == YES)
+            if (i == 0)
             {
-                if (i == 0)
+                
+                if (self.couponType > 0)
                 {
+                    op.platform = PayWithAlipay;
+                }
+                else
+                {
+                    op.platform = PayWithAlipay;
                     op.paychannel = PaymentChannelAlipay;
                 }
-                else if (i == 1)
+            }
+            else if (i == 1)
+            {
+                if (self.couponType > 0)
                 {
+                    op.platform = PayWithWechat;
+                }
+                else
+                {
+                    op.platform = PayWithWechat;
                     op.paychannel = PaymentChannelWechat;
                 }
             }
         }
+        
     }
     
     [[[op rac_postRequest] initially:^{
@@ -634,7 +662,9 @@
         
         if (op.rsp_code == 0)
         {
-            if (op.paychannel == PaymentChannelAlipay)
+            if (op.rsp_price)
+            {
+            if (op.platform == PayWithAlipay)
             {
                 [gToast showText:@"订单生成成功,正在跳转到支付宝平台进行支付"];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -645,7 +675,7 @@
                       andProductName:info andDescription:@"小马达达" andTime:submitTime];
                 });
             }
-            else if (op.paychannel == PaymentChannelWechat)
+            else if (op.platform == PayWithWechat)
             {
                 [gToast showText:@"订单生成成功,正在跳转到微信平台进行支付"];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -655,6 +685,7 @@
                     [self requestWechatPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
                       andProductName:info andTime:submitTime];
                 });
+            }
             }
             else
             {

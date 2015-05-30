@@ -25,7 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupNavigationBar];
+//    [self setupNavigationBar];
     
     [self.tableView reloadData];
     
@@ -35,6 +35,13 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self actionBack];
 }
 
 - (void)setupNavigationBar
@@ -78,7 +85,7 @@
 - (void)actionBack
 {
     NSArray * viewcontroller = self.navigationController.viewControllers;
-    UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 2];
+    UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 1];
     if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
     {
         PayForWashCarVC  * payVc = (PayForWashCarVC *)vc;
@@ -106,7 +113,7 @@
         }
         [payVc tableViewReloadData];
     }
-    [self.navigationController popViewControllerAnimated:YES];
+//    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Table view data source
