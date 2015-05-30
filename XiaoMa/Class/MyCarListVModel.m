@@ -49,7 +49,7 @@
 
 - (RACSignal *)rac_uploadDrivingLicenseWithTargetVC:(UIViewController *)targetVC initially:(void(^)(void))block
 {
-    RACSignal *signal = [[gAppMgr.mediaMgr rac_pickPhotoInTargetVC:targetVC inView:targetVC.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
+    RACSignal *signal = [[gAppMgr.mediaMgr rac_pickAndCropPhotoInTargetVC:targetVC inView:targetVC.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
         CKAsyncMainQueue(^{
             if (block) {
                 block();

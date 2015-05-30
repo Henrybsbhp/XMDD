@@ -16,6 +16,9 @@ typedef enum : NSInteger
     ImageURLTypeMedium,         //中图     1024*1024
 }ImageURLType;
 
+#define kImagePickerDelayDismiss @"$DelayDismiss"
+#define kImagePickerCompress  @"$Compress"
+
 @interface MultiMediaManager : NSObject
 
 ///图像缓存（可手动清除）
@@ -34,6 +37,6 @@ typedef enum : NSInteger
 - (RACSignal *)rac_pickPhotoInTargetVC:(UIViewController *)targetVC inView:(UIView *)view;
 - (RACSignal *)rac_pickPhotoInTargetVC:(UIViewController *)targetVC
                                 inView:(UIView *)view initBlock:(void(^)(UIImagePickerController *picker))block;
-
+- (RACSignal *)rac_pickAndCropPhotoInTargetVC:(UIViewController *)targetVC inView:(UIView *)view;
 
 @end
