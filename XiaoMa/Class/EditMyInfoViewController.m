@@ -67,6 +67,12 @@
     UpdateUserInfoOp * op = [UpdateUserInfoOp operation];
     if (self.type == ModifyNickname)
     {
+        
+        if (self.textFeild.text.length == 0)
+        {
+            [gToast showError:@"请输入正确昵称"];
+            return;
+        }
         op.nickname = self.textFeild.text;
     }
     

@@ -229,7 +229,7 @@
         count = self.serviceExpanded ? 3 + self.shop.shopServiceArray.count : ((3+MIN(kDefaultServieCount, self.shop.shopServiceArray.count)) + (self.shop.shopServiceArray.count > kDefaultServieCount ? 1 : 0));
     }
     else if (section == 1){
-        count = 1 + (self.shop.shopCommentArray.count ? self.shop.shopCommentArray.count : 1);
+        count = 1 + (self.shop.shopCommentArray.count ? MIN(self.shop.shopCommentArray.count,5) : 1);
     }
     return count;
 }

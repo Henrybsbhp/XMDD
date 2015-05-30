@@ -87,14 +87,14 @@
     op.pkgCode = self.pkgCodeTxtFeild.text;
     [[[op rac_postRequest] initially:^{
         
-        [gToast showText:@"获取中..."];
+        [gToast showText:@"领取中..."];
     }] subscribeNext:^(id x) {
         
-        [gToast showSuccess:@"获取成功"];
+        [gToast showSuccess:@"领取成功"];
         [self requestGetPkgs];
     } error:^(NSError *error) {
         
-        [gToast showSuccess:@"获取失败"];
+        [gToast showSuccess:error.description];
     }];
 }
 

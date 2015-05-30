@@ -386,12 +386,12 @@
         
         [gToast dismiss];
         
+        gAppMgr.myUser.avatarUrl = op.avatarUrl;
+        gAppMgr.myUser.avatar = self.avatar;
+        
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
         [picker dismissViewControllerAnimated:YES completion:nil];
-        
-        gAppMgr.myUser.avatarUrl = op.avatarUrl;
-        gAppMgr.myUser.avatar = self.avatar;
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
