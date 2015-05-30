@@ -23,6 +23,7 @@
 #import "SearchViewController.h"
 #import "WebVC.h"
 #import "HKAdvertisement.h"
+#import "UIView+DefaultEmptyView.h"
 
 
 
@@ -55,9 +56,11 @@
     [self setupADView];
     [self setupTableView];
     
-    [self requestCarWashShopList];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshAdView) name:CarwashAdvertiseNotification object:nil];
+    
+    [self.tableView.refreshView addTarget:self action:@selector(requestCarWashShopList) forControlEvents:UIControlEventValueChanged];
+    
+    [self requestCarWashShopList];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -383,7 +386,7 @@
     @weakify(self)
     [[[[gMapHelper rac_getUserLocation] take:1] initially:^{
         
-        [gToast showingWithText:@"加载中…" ];
+         [self.tableView.refreshView beginRefreshing];
     }] subscribeNext:^(MAUserLocation *userLocation) {
     
         @strongify(self)
@@ -394,19 +397,30 @@
         getShopByDistanceOp.pageno = self.currentPageIndex;
         [[[getShopByDistanceOp rac_postRequest] initially:^{
             
-            [gToast showingWithText:@"加载中…"];
+             [self.tableView.refreshView beginRefreshing];
             
         }] subscribeNext:^(GetShopByDistanceOp * op) {
             
             @strongify(self);
-            [SVProgressHUD dismiss];
+            [self.tableView.refreshView endRefreshing];
             self.datasource = op.rsp_shopArray;
-            if (self.datasource.count == 0)
+            
+            if (self.datasource.count >= self.pageAmount)
             {
-                
+                self.isRemain = YES;
             }
             else
             {
+<<<<<<< HEAD
+                self.isRemain = NO;
+            }
+            if (!self.isRemain)
+            {
+                [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+            }
+            [self reloadDataWithText:@"暂无商铺" error:nil];
+
+=======
                 if (self.datasource.count >= self.pageAmount)
                 {
                     self.isRemain = YES;
@@ -421,6 +435,7 @@
                 }
             }
             [self reloadDataWithText:@"暂无商铺" error:nil];
+>>>>>>> dev
         } error:^(NSError *error) {
             
             [gToast showError:@"获取商店列表失败"];
@@ -472,7 +487,7 @@
         
     } error:^(NSError *error) {
         
-        [gToast showError:@"获取商户列表失败"];
+        
     }];
 }
 

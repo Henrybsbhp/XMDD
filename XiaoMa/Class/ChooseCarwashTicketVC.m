@@ -25,11 +25,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    [self setupNavigationBar];
+    //    [self setupNavigationBar];
     
-    [self.tableView reloadData];
+    [self reloadData];
     
-    [self setupGetMoreBtn];
+    //    [self setupGetMoreBtn];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,6 +48,17 @@
 {
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
     self.navigationItem.leftBarButtonItem = back;
+}
+
+- (void)reloadData
+{
+    [self.tableView reloadData];
+    if (self.couponArray.count == 0) {
+        [self.tableView showDefaultEmptyViewWithText:@"暂无优惠券"];
+    }
+    else {
+        [self.tableView hideDefaultEmptyView];
+    }
 }
 
 - (void)setupGetMoreBtn
@@ -113,7 +124,7 @@
         }
         [payVc tableViewReloadData];
     }
-//    [self.navigationController popViewControllerAnimated:YES];
+    //    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Table view data source
@@ -123,7 +134,7 @@
 }
 
 //- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-//    
+//
 //    return @"使用优惠券支付";
 //}
 
@@ -213,7 +224,7 @@
             [self.selectedCouponArray removeAllObjects];
             [self.selectedCouponArray addObject:coupon];
         }
-         [self.tableView reloadData];
+        [self.tableView reloadData];
     }
     else
     {
@@ -230,8 +241,8 @@
         }
         if (amount + coupon.couponAmount <= self.upperLimit)
         {
-        [self.selectedCouponArray addObject:coupon];
-        [self.tableView reloadData];
+            [self.selectedCouponArray addObject:coupon];
+            [self.tableView reloadData];
         }
     }
     

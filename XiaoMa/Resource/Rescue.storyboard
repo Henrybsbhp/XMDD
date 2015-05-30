@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -56,7 +56,7 @@
             </objects>
             <point key="canvasLocation" x="383" y="184"/>
         </scene>
-        <!--专业救援-->
+        <!--查看救援券-->
         <scene sceneID="jrA-pf-cla">
             <objects>
                 <viewController storyboardIdentifier="RescueCouponViewController" id="eGD-wY-yqN" customClass="RescueCouponViewController" sceneMemberID="viewController">
@@ -166,7 +166,7 @@
                             <constraint firstAttribute="trailing" secondItem="pMk-z0-9Hs" secondAttribute="trailing" id="rA6-Wj-KUI"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="专业救援" id="I5r-ak-glk"/>
+                    <navigationItem key="navigationItem" title="查看救援券" id="I5r-ak-glk"/>
                     <connections>
                         <outlet property="tableView" destination="pMk-z0-9Hs" id="sWD-Ei-tIu"/>
                     </connections>

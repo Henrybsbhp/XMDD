@@ -94,7 +94,7 @@
         [self requestGetPkgs];
     } error:^(NSError *error) {
         
-        [gToast showSuccess:error.description];
+        [gToast showError:error.domain];
     }];
 }
 
