@@ -10,7 +10,7 @@
 
 
 #define AlipayCallbackDefaultUrlForDebug   @"http://183.129.253.170:18282/paa/alipaynotify"
-#define AlipayCallbackDefaultUrlForRelease   @"http://183.129.253.170:18282/paa/alipaynotify"
+#define AlipayCallbackDefaultUrlForRelease   @"http://api.xiaomadada.com:8282/paa/alipaynotify"
 
 #define XMDDAlipayScheme @"com.huika.xmdd.alipay"
 
