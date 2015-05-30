@@ -27,14 +27,10 @@
 
 
 @interface CarWashTableVC ()<SYPaginatorViewDataSource, SYPaginatorViewDelegate>
-@property (weak, nonatomic) IBOutlet UIView *searchView;
-@property (weak, nonatomic) IBOutlet UITextField *searchField;
-@property (strong, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic, strong) SYPaginatorView *adView;
 
 @property (nonatomic, strong) NSArray *datasource;
 
-@property (strong, nonatomic) IBOutlet JTTableView *tableView;
 
 @property (nonatomic)CLLocationCoordinate2D  userCoordinate;
 
@@ -423,8 +419,8 @@
                 {
                     [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
                 }
-                [self reloadDataWithText:@"暂无商铺" error:nil];
             }
+            [self reloadDataWithText:@"暂无商铺" error:nil];
         } error:^(NSError *error) {
             
             [gToast showError:@"获取商店列表失败"];
