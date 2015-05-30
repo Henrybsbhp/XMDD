@@ -14,10 +14,14 @@
 {
     self.req_method = @"/user/favorite/delete";
     
-    NSString * shopIdsStr = [self.shopArray componentsJoinedByString:@","];
+    NSString * shopIdsStr;
+    if (self.shopArray.count)
+    {
+        shopIdsStr = [self.shopArray componentsJoinedByString:@","];
+    }
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params addParam:shopIdsStr forName:@"shopid"];
+    [params addParam:shopIdsStr ? shopIdsStr : @"" forName:@"shopid"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
