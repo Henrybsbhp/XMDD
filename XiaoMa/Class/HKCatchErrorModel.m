@@ -43,7 +43,7 @@
     }
     else
     {
-//        [SVProgressHUD showErrorWithStatus:@"账号验证失败了，请重新登录"];
+//        [gToast showError:@"账号验证失败了，请重新登录"];
         return [RACSignal error:[NSError errorWithDomain:@"账号验证失败了，请重新登录" code:error.code userInfo:nil]];
     }
     HKLoginModel *loginModel = [[HKLoginModel alloc] init];

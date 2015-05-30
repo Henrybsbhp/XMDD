@@ -55,6 +55,7 @@
     [self.bgView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:CKViewBorderDirectionBottom & CKViewBorderDirectionTop];
     
     self.textFeild.placeholder = self.placeholder;
+    self.textFeild.text = self.content;
     self.textFeild.clearButtonMode = UITextFieldViewModeWhileEditing;
     
     [self.textFeild becomeFirstResponder];
@@ -72,10 +73,10 @@
     
     [[[op rac_postRequest] initially:^{
         
-        [SVProgressHUD showWithStatus:@"修改中…"];
+        [gToast showingWithText:@"修改中…"];
     }] subscribeNext:^(UpdateUserInfoOp * op) {
         
-        [SVProgressHUD showSuccessWithStatus:@"修改成功"];
+        [gToast showSuccess:@"修改成功"];
         
         if (self.type == ModifyNickname)
         {
@@ -84,7 +85,7 @@
         [self.navigationController popViewControllerAnimated:YES];
     } error:^(NSError *error) {
         
-        [SVProgressHUD showErrorWithStatus:@"修改失败，再试一次"];
+        [gToast showError:@"修改失败，再试一次"];
     }];
 }
 

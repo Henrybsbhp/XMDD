@@ -158,7 +158,7 @@
     
     JTShopComment *comment = [self.commentArray safetyObjectAtIndex:indexPath.row];
     nameL.text = comment.nickname.length ? comment.nickname : @"无昵称用户";
-    timeL.text = [comment.time dateFormatForYYMMdd];
+    timeL.text = [comment.time dateFormatForYYMMdd2];
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
     

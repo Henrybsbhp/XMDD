@@ -347,7 +347,7 @@
     op.os = [NSString stringWithFormat:@"iOS %@",OSVersion];
     [[op rac_postRequest] subscribeNext:^(GetSystemVersionOp * op) {
         
-        [SVProgressHUD dismiss];
+        [gToast dismiss];
         if (op.rsp_code == 0)
         {
             if (op.rsp_version.length)

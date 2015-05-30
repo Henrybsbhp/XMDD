@@ -126,16 +126,16 @@
     
     [[[op rac_postRequest] initially:^{
         
-        [SVProgressHUD showWithStatus:@"修改中…"];
+        [gToast showingWithText:@"修改中…"];
     }] subscribeNext:^(UpdateUserInfoOp * op) {
         
-        [SVProgressHUD showSuccessWithStatus:@"修改成功"];
+        [gToast showSuccess:@"修改成功"];
         gAppMgr.myUser.sex = self.sex != 0 ? self.sex : gAppMgr.myUser.sex;
         gAppMgr.myUser.birthday = self.birthday ? self.birthday:gAppMgr.myUser.birthday;
         [self.tableView reloadData];
 
     } error:^(NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"修改失败，再试一次"];
+        [gToast showError:@"修改失败，再试一次"];
         [self.tableView reloadData];
     }];
 }
@@ -291,7 +291,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return CGFLOAT_MIN;
+    return 10;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section

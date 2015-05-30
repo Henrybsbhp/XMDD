@@ -27,7 +27,7 @@
 
 - (void)showingWithText:(NSString *)test
 {
-    [SVProgressHUD showWithStatus:test];
+    [SVProgressHUD showWithStatus:test maskType:SVProgressHUDMaskTypeNone];
 }
 
 - (void)showSuccess:(NSString *)success

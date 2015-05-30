@@ -79,28 +79,30 @@
         {
             if (self.favorite)
             {
-                [[[gAppMgr.myUser.favorites rac_removeFavorite:@[self.shop.shopID]] initially:^{
+                [[[[gAppMgr.myUser.favorites rac_removeFavorite:@[self.shop.shopID]] initially:^{
                     
-                    [SVProgressHUD showWithStatus:@"移除中..."];
+                    [gToast showingWithText:@"移除中…"];
+                }]  finally:^{
+                    
+                    [SVProgressHUD dismiss];
                 }]  subscribeNext:^(id x) {
-                    
-                    [SVProgressHUD showSuccessWithStatus:@"移除成功"];
                     
                     self.favorite = NO;
                     [collectBtn setImage:[UIImage imageNamed:@"collect"] forState:UIControlStateNormal];
                 } error:^(NSError *error) {
                     
-                    [SVProgressHUD showErrorWithStatus:error.domain];
+                    [gToast showError:error.domain];
                 }];
             }
             else
             {
-                [[[gAppMgr.myUser.favorites rac_addFavorite:self.shop] initially:^{
+                [[[[gAppMgr.myUser.favorites rac_addFavorite:self.shop] initially:^{
                     
-                    [SVProgressHUD showWithStatus:@"添加中..."];
+                    [gToast showingWithText:@"添加中…"];
+                }]  finally:^{
+                    
+                    [SVProgressHUD dismiss];
                 }]  subscribeNext:^(id x) {
-                    
-                    [SVProgressHUD showSuccessWithStatus:@"添加成功"];
                     
                     self.favorite = YES;
                     [collectBtn setImage:[UIImage imageNamed:@"collected"] forState:UIControlStateNormal];
@@ -108,13 +110,12 @@
                     
                     if (error.code == 7002)
                     {
-                        [SVProgressHUD showSuccessWithStatus:@"添加成功"];
                         self.favorite = YES;
                         [collectBtn setImage:[UIImage imageNamed:@"collected"] forState:UIControlStateNormal];
                     }
                     else
                     {
-                        [SVProgressHUD showErrorWithStatus:error.domain];
+                        [gToast showError:error.domain];
                     }
                 }];
             }
@@ -145,12 +146,14 @@
 {
     AddUserFavoriteOp * op = [AddUserFavoriteOp operation];
     op.shopid = self.shop.shopID;
-    [[[op rac_postRequest] initially:^{
+    [[[[op rac_postRequest] initially:^{
         
-        [SVProgressHUD showWithStatus:@"add..."];
-    }] subscribeNext:^(AddUserFavoriteOp * op) {
+        [gToast showingWithText:@"收藏中…"];
+    }] finally:^{
         
-        [SVProgressHUD showSuccessWithStatus:@"收藏成功"];
+        [SVProgressHUD dismiss];
+    }]  subscribeNext:^(AddUserFavoriteOp * op) {
+        
         self.favorite = YES;
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
@@ -160,15 +163,15 @@
         self.favorite = NO;
         if (error.code == 7001)
         {
-            [SVProgressHUD  showErrorWithStatus:@"该店铺不存在"];
+            [gToast showError:@"该店铺不存在"];
         }
         else if (error.code == 7002)
         {
-            [SVProgressHUD  showErrorWithStatus:@"该店铺已收藏"];
+            [gToast showError:@"该店铺已收藏"];
         }
         else
         {
-            [SVProgressHUD  showErrorWithStatus:@"收藏失败"];
+            [gToast showError:@"收藏失败"];
         }
     }];
 }
@@ -236,7 +239,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return CGFLOAT_MIN;
+    return 9;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -525,7 +528,7 @@
     
     JTShopComment *comment = [self.shop.shopCommentArray safetyObjectAtIndex:indexPath.row - 1];
     nameL.text = comment.nickname.length ? comment.nickname : @"无昵称用户";
-    timeL.text = [comment.time dateFormatForYYMMdd];
+    timeL.text = [comment.time dateFormatForYYMMdd2];
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
     [[gMediaMgr rac_getPictureForUrl:comment.avatarUrl withType:ImageURLTypeThumbnail

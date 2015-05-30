@@ -468,11 +468,11 @@ static NSInteger rotationIndex = 0;
         }
         else
         {
-            [SVProgressHUD showErrorWithStatus:@"天气接口OK，但是rspcode!=0..."];
+            [gToast showError:@"天气获取失败"];
         }
     } error:^(NSError *error) {
         
-        [SVProgressHUD showErrorWithStatus:@"天气获取失败..."];
+        [gToast showError:@"天气获取失败"];
     }];
 }
 
