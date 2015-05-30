@@ -42,6 +42,7 @@
         _promptionCache = cache;
         
         _deviceInfo = [[DeviceInfo alloc] init];
+        _clientInfo = [[ClientInfo alloc] init];
     }
     return self;
 }

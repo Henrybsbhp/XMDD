@@ -153,7 +153,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "718"
             endingLineNumber = "718"
-            landmarkName = "-requestAliPay:andTradeId:andPrice:andProductName:andDescription:andTime:"
+            landmarkName = "-requestCheckout"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -249,7 +249,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "729"
             endingLineNumber = "729"
-            landmarkName = "-requestAliPay:andTradeId:andPrice:andProductName:andDescription:andTime:"
+            landmarkName = "-requestCheckout"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -265,7 +265,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "720"
             endingLineNumber = "720"
-            landmarkName = "-requestAliPay:andTradeId:andPrice:andProductName:andDescription:andTime:"
+            landmarkName = "-requestCheckout"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -595,7 +595,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "69"
             endingLineNumber = "69"
-            landmarkName = "-rac_getPictureForUrl:withDefaultPic:errorPic:"
+            landmarkName = "-rac_getPictureForUrl:defaultPic:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1319,7 +1319,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "74"
             endingLineNumber = "74"
-            landmarkName = "-rac_getPictureForUrl:withDefaultPic:errorPic:"
+            landmarkName = "-rac_getPictureForUrl:defaultPic:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1335,7 +1335,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "34"
             endingLineNumber = "34"
-            landmarkName = "-rac_getPictureForUrl:withDefaultPic:"
+            landmarkName = "-rac_getPictureForUrl:withType:defaultPic:errorPic:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1351,7 +1351,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "54"
             endingLineNumber = "54"
-            landmarkName = "-rac_getPictureForUrl:withDefaultPic:errorPic:"
+            landmarkName = "-rac_getPictureForUrl:defaultPic:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1399,7 +1399,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "612"
             endingLineNumber = "612"
-            landmarkName = "-requestCheckout"
+            landmarkName = "-requestGetUserResource"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1431,7 +1431,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "611"
             endingLineNumber = "611"
-            landmarkName = "-requestCheckout"
+            landmarkName = "-requestGetUserResource"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1511,7 +1511,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "716"
             endingLineNumber = "716"
-            landmarkName = "-requestAliPay:andTradeId:andPrice:andProductName:andDescription:andTime:"
+            landmarkName = "-requestCheckout"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1582,48 +1582,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/CommissionCouponViewController.m"
-            timestampString = "454653350.890001"
+            filePath = "XiaoMa/Class/ClientInfo.m"
+            timestampString = "454663790.40981"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
-            landmarkName = "-requestCoupon"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/RescueCouponViewController.m"
-            timestampString = "454653703.061804"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
-            landmarkName = "-requestCoupon"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/CommissionCouponViewController.m"
-            timestampString = "454653519.945084"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "-_inits"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

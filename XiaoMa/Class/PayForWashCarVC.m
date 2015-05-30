@@ -335,7 +335,7 @@
             earlierDate = [c.validsince earlierDate:earlierDate];
             laterDate = [c.validthrough laterDate:laterDate];
         }
-        dateLb.text = [NSString stringWithFormat:@"有效期：%@ - %@",[earlierDate dateFormatForYYMMdd2],[laterDate dateFormatForYYMMdd2]];
+        dateLb.text = [NSString stringWithFormat:@"有效期：%@ - %@",earlierDate ? [earlierDate dateFormatForYYMMdd2] : @"",laterDate ? [laterDate dateFormatForYYMMdd2] : @""];
         
         if (self.paymentType == PaymentChannelCoupon)
         {
@@ -370,7 +370,7 @@
             earlierDate = [c.validsince earlierDate:earlierDate];
             laterDate = [c.validthrough laterDate:laterDate];
         }
-        dateLb.text = [NSString stringWithFormat:@"有效期：%@ - %@",[earlierDate dateFormatForYYMMdd2],[laterDate dateFormatForYYMMdd2]];
+        dateLb.text = [NSString stringWithFormat:@"有效期：%@ - %@",earlierDate ? [earlierDate dateFormatForYYMMdd2] : @"",laterDate ? [laterDate dateFormatForYYMMdd2] : @""];
         
         if (self.couponType == CouponTypeCash)
         {
@@ -575,12 +575,9 @@
            
             if (c.conponType == CouponTypeCarWash)
             {
-                if ([c.validsince earlierDate:[NSDate date]] == c.validsince)
+                if (c.valid)
                 {
-                    if ([c.validthrough laterDate:[NSDate date]] == c.validthrough)
-                    {
                         return YES;
-                    }
                 }
             }
             return NO;
@@ -594,12 +591,9 @@
             
             if (c.conponType == CouponTypeCash)
             {
-                if ([c.validsince earlierDate:[NSDate date]] == c.validsince)
+                if (c.valid)
                 {
-                    if ([c.validthrough laterDate:[NSDate date]] == c.validthrough)
-                    {
-                        return YES;
-                    }
+                    return YES;
                 }
             }
             return NO;
