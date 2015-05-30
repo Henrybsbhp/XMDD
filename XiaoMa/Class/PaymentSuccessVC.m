@@ -65,9 +65,9 @@
     
     CarwashOrderCommentVC *vc = [UIStoryboard vcWithId:@"CarwashOrderCommentVC" inStoryboard:@"Mine"];
     vc.order = self.order;
-    [vc setCustomActionBlock:^{
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }];
+//    [vc setCustomActionBlock:^{
+//        [self.navigationController popToRootViewControllerAnimated:YES];
+//    }];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
