@@ -112,7 +112,7 @@
         if (sheetIndexPath.section != 0) {
             return ;
         }
-
+        
         //拍照
         if (sheetIndexPath.section == 0 && sheetIndexPath.row == 0)
         {
@@ -300,6 +300,11 @@
     self.pickedPhotoUrl = nil;
     self.pickedPhotoView.image = image;
     self.defaultPhotoView.hidden = YES;
+}
+
+- (void)cropViewControllerDidCancel:(PECropViewController *)controller
+{
+    [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - UINavigationControllerDelegate
