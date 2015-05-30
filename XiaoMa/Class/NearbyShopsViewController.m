@@ -182,7 +182,12 @@
         
         if (op.rsp_code == 0)
         {
-            self.nearbyShopArray = op.rsp_shopArray;
+            self.nearbyShopArray = [op.rsp_shopArray sortedArrayUsingComparator:^NSComparisonResult(JTShop * obj1, JTShop * obj2) {
+                
+                double distance1 = [DistanceCalcHelper getDistanceLatA:self.userCoordinate.latitude lngA:self.userCoordinate.latitude latB:obj1.shopLatitude lngB:obj1.shopLongitude];
+                double distance2 = [DistanceCalcHelper getDistanceLatA:self.userCoordinate.latitude lngA:self.userCoordinate.latitude latB:obj2.shopLatitude lngB:obj2.shopLongitude];
+                return distance1 < distance2;
+            }];
             [self highlightMapViewWithIndex:0];
             [self.bottomSYView reloadData];
 //            if (self.nearbyShopArray.count)
