@@ -69,7 +69,7 @@
     }
     
     [self setupVersionUpdating];
-
+    
     return YES;
 }
 

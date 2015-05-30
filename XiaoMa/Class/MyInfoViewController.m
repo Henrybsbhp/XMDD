@@ -14,14 +14,13 @@
 #import "GetUserBaseInfoOp.h"
 #import "UIImage+Utilities.h"
 #import "UploadFileOp.h"
+#import "DownloadOp.h"
 
 @interface MyInfoViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
-@property (nonatomic,strong) UIImage * avatar;
-
 @property (nonatomic)NSInteger sex;
 @property (nonatomic,strong)NSDate * birthday;
-
+@property (nonatomic, strong) UIImage *avatar;
 
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
 
@@ -43,6 +42,7 @@
         //            [self.table reloadData];
         //        }];
     }
+    [self setupSignals];
     [self setupTableView];
 }
 
@@ -70,7 +70,21 @@
     DebugLog(@"MyInfoViewController dealloc");
 }
 
-#pragma mark - SetupUI
+#pragma mark - Setup
+- (void)setupSignals
+{
+    @weakify(self);
+    RACDisposable *dis = [[[RACObserve(gAppMgr.myUser, avatarUrl) distinctUntilChanged] flattenMap:^RACStream *(id value) {
+        
+        return [gMediaMgr rac_getPictureForUrl:value withType:ImageURLTypeMedium defaultPic:nil errorPic:@"cm_avatar"];
+    }] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        self.avatar = x;
+    }];
+    [[self rac_deallocDisposable] addDisposable:dis];
+}
+
 - (void)setupTableView
 {
     UIButton * logoutBtn = (UIButton *)[self.tableView.tableFooterView searchViewWithTag:20801];
@@ -152,11 +166,9 @@
         UIImageView *avaterImage = (UIImageView*)[cell viewWithTag:1];
         avaterImage.layer.cornerRadius = 25.0F;
         [avaterImage.layer setMasksToBounds:YES];
-//        avaterImage.image = self.avatar;
-        [[gMediaMgr rac_getPictureForUrl:gAppMgr.myUser.avatarUrl withType:ImageURLTypeMedium defaultPic:@"cm_avatar" errorPic:@"cm_avatar"] subscribeNext:^(UIImage * image) {
-            
-            self.avatar = image;
-            avaterImage.image = self.avatar;
+
+        [[RACObserve(self, avatar) takeUntilForCell:cell] subscribeNext:^(id x) {
+            avaterImage.image = x;
         }];
         return cell;
     }
@@ -216,53 +228,14 @@
 {
     if (indexPath.row == 0)
     {
-        UIActionSheet *photoSheet = [[UIActionSheet alloc]initWithTitle:@"请选择类型" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"从相册中取", nil];
-        [photoSheet showInView:self.view];
-        [[photoSheet rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
+        @weakify(self);
+        [[gAppMgr.mediaMgr rac_pickPhotoInTargetVC:self inView:self.view initBlock:^(UIImagePickerController *picker) {
             
-            NSInteger btnIndex = [number integerValue];
-            if (btnIndex == 2)
-            {
-                return ;
-            }
-            else if (btnIndex == 0)
-            {
-                if ([UIImagePickerController isFrontCameraAvailable])
-                {
-                    UIImagePickerController *controller = [[UIImagePickerController alloc] init];
-                    controller.delegate = self;
-                    controller.allowsEditing = YES;
-                    controller.sourceType = UIImagePickerControllerSourceTypeCamera;
-                    controller.cameraDevice = UIImagePickerControllerCameraDeviceRear;
-                    NSMutableArray *mediaTypes = [[NSMutableArray alloc] init];
-                    [mediaTypes addObject:(__bridge NSString *)kUTTypeImage];
-                    controller.mediaTypes = mediaTypes;
-                    controller.customObject = indexPath;
-                    [self presentViewController:controller animated:YES completion:nil];
-                }
-                else
-                {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"该设备不支持拍照" message:nil delegate:nil
-                                                          cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                    [alert show];
-                }
-            }
-            // 从相册中选取
-            else if (btnIndex == 1)
-            {
-                if ([UIImagePickerController isPhotoLibraryAvailable])
-                {
-                    UIImagePickerController *controller = [[UIImagePickerController alloc] init];
-                    controller.delegate = self;
-                    controller.allowsEditing = YES;
-                    controller.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-                    NSMutableArray *mediaTypes = [[NSMutableArray alloc] init];
-                    [mediaTypes addObject:(__bridge NSString *)kUTTypeImage];
-                    controller.mediaTypes = mediaTypes;
-                    controller.customObject = indexPath;
-                    [self presentViewController:controller animated:YES completion:nil];
-                }
-            }
+            picker.allowsEditing = YES;
+        }] subscribeNext:^(id x) {
+            
+            @strongify(self);
+            [self pickerAvatar:x];
         }];
     }
     else if (indexPath.row == 1)
@@ -339,38 +312,12 @@
 }
 
 
-#pragma UIImagePickerController Delegate
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+#pragma mark - Private
+- (void)pickerAvatar:(UIImage *)avatar
 {
-    CGSize scaleSize;
-    //新的头像文件
-    UIImage *editedImage = info[UIImagePickerControllerEditedImage];
-    scaleSize = CGSizeMake(50, 50);
-    
-    UIImage *avatar;
-    NSData *data;
-    avatar = [editedImage scaleToSize:scaleSize];
-    data = UIImageJPEGRepresentation(avatar, 0.1f);
-    
-    /// 数据太大
-    if ([data length] >= 3030)
-    {
-        UIAlertView *alert = [[UIAlertView alloc]
-                              initWithTitle:@"警告"
-                              message:@"设置头像失败"
-                              delegate:nil
-                              cancelButtonTitle:@"关闭"
-                              otherButtonTitles:nil];
-        [alert show];
-        [picker dismissViewControllerAnimated:YES completion:nil];
-        return;
-    }
-    
-    self.avatar = avatar;
-    
     UploadFileOp *op = [UploadFileOp new];
     op.req_fileType = @"jpg";
-    [op setFileArray:@[self.avatar] withGetDataBlock:^NSData *(UIImage *img) {
+    [op setFileArray:@[avatar] withGetDataBlock:^NSData *(UIImage *img) {
         return UIImageJPEGRepresentation(img, 1.0);
     }];
     
@@ -385,26 +332,12 @@
     }] subscribeNext:^(UpdateUserInfoOp * op) {
         
         [gToast dismiss];
-        
+
         gAppMgr.myUser.avatarUrl = op.avatarUrl;
-        gAppMgr.myUser.avatar = self.avatar;
-        
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
-        [picker dismissViewControllerAnimated:YES completion:nil];
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
-        [picker dismissViewControllerAnimated:YES completion:nil];
-
     }];
-    
-    
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

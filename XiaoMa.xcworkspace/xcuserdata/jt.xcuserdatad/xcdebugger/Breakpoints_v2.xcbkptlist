@@ -711,7 +711,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "190"
             endingLineNumber = "190"
-            landmarkName = "-reloadData"
+            landmarkName = "-reloadDataWithText:error:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1173,7 +1173,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "210"
             endingLineNumber = "210"
-            landmarkName = "-requestDeleteFavorites"
+            landmarkName = "-priceStringWithOldPrice:curPrice:"
             landmarkType = "5">
             <Locations>
                <Location
@@ -1379,7 +1379,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "255"
             endingLineNumber = "255"
-            landmarkName = "-numberOfSectionsInTableView:"
+            landmarkName = "-paginatorView:viewForPageAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1812,6 +1812,22 @@
             startingLineNumber = "41"
             endingLineNumber = "41"
             landmarkName = "-rac_getPictureForUrl:withType:defaultPic:errorPic:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XiaoMa/Class/MyCollectionViewController.m"
+            timestampString = "454646269.837559"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
+            landmarkName = "-reloadData"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

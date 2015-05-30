@@ -8,6 +8,7 @@
 
 #import "AboutViewController.h"
 #import "JTTableView.h"
+#import "FeedbackVC.h"
 #import "WebVC.h"
 
 @interface AboutViewController ()
@@ -33,7 +34,9 @@
     }},
                         @{@"title":@"查看欢迎页",@"action":^(void){}},
                         
-                        @{@"title":@"意见反馈",@"action":^(void){}},
+                        @{@"title":@"意见反馈",@"action":^(void){
+                            [self gotoFeedback];
+                        }},
                         
                         @{@"title":@"客服电话4007111111",@"action":^(void){
         
@@ -111,6 +114,12 @@
 - (void)callCustomerService
 {
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"呼叫客服"];
+}
+
+- (void)gotoFeedback
+{
+    FeedbackVC *vc = [UIStoryboard vcWithId:@"FeedbackVC" inStoryboard:@"About"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

@@ -241,7 +241,7 @@ static NSInteger rotationIndex = 0;
     UILabel * restrictionLb = (UILabel *)[self.weatherView searchViewWithTag:20204];
     UILabel * tipLb = (UILabel *)[self.weatherView searchViewWithTag:20206];
     
-    RAC(weatherImage, image) = [gAppMgr.mediaMgr rac_getPictureForUrl:picName withDefaultPic:nil];
+    RAC(weatherImage, image) = [gAppMgr.mediaMgr rac_getPictureForUrl:picName withType:ImageURLTypeOrigin defaultPic:nil errorPic:nil];
     
     tempLb.text = temp;
     restrictionLb.text = restriction;

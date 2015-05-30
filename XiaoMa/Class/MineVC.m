@@ -97,7 +97,7 @@
     {
         [[gMediaMgr rac_getPictureForUrl:gAppMgr.myUser.avatarUrl withType:ImageURLTypeMedium defaultPic:@"cm_avatar" errorPic:@"cm_avatar"] subscribeNext:^(UIImage * image) {
             
-            gAppMgr.myUser.avatar = image;
+//            gAppMgr.myUser.avatar = image;
             self.avatarView.image = image;
         }];
     }
@@ -156,7 +156,7 @@
 - (void)actionPushToMessages
 {
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        MessageListVC *vc = [UIStoryboard vcWithId:@"MessageListVC" inStoryboard:@"Mine"];
+        MessageListVC *vc = [UIStoryboard vcWithId:@"MessageListVC" inStoryboard:@"Message"];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

@@ -30,7 +30,7 @@
 @interface CarWashTableVC ()<SYPaginatorViewDataSource, SYPaginatorViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *searchView;
 @property (weak, nonatomic) IBOutlet UITextField *searchField;
-@property (weak, nonatomic) IBOutlet UIView *headerView;
+@property (strong, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic, strong) SYPaginatorView *adView;
 
 @property (nonatomic, strong) NSArray *datasource;
@@ -104,8 +104,7 @@
     
     [[self.searchField rac_newTextChannel] subscribeNext:^(id x) {
         
-        
-        
+
     }];
     
     [[self.searchField rac_textSignal] subscribeNext:^(id x) {
@@ -179,11 +178,21 @@
     self.tableView.showBottomLoadingView = YES;
 }
 
-- (void)reloadData
+- (void)reloadDataWithText:(NSString *)text error:(NSError *)error
 {
+    if (error) {
+        self.datasource = nil;
+        text = text ? text : error.domain;
+        [self.tableView setTableHeaderView:nil];
+    }
+    else {
+        self.tableView.tableHeaderView = self.headerView;
+    }
+
     [self.tableView reloadData];
     if (self.datasource.count == 0) {
-        [self.tableView showDefaultEmptyViewWithText:@"暂无商铺" boundsView:self.view];
+        NSLog(@"frame = %@", NSStringFromCGRect(self.tableView.frame));
+        [self.tableView showDefaultEmptyViewWithText:text];
     }
     else {
         [self.tableView hideDefaultEmptyView];
@@ -295,7 +304,6 @@
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
     
     
-    
     JTShopService * service = [shop.shopServiceArray firstObjectByFilteringOperator:^BOOL(JTShopService * s) {
         return s.shopServiceType == ShopServiceCarWash;
     }];
@@ -397,6 +405,7 @@
             
         }] subscribeNext:^(GetShopByDistanceOp * op) {
             
+            @strongify(self);
             [self.tableView.refreshView endRefreshing];
             self.datasource = op.rsp_shopArray;
             
@@ -412,7 +421,7 @@
             {
                 [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
             }
-            [self reloadData];
+            [self reloadDataWithText:@"暂无商铺" error:nil];
 
         } error:^(NSError *error) {
             
@@ -420,7 +429,9 @@
         }];
     } error:^(NSError *error) {
         
-        [gToast showError:@"定位失败"];
+        @strongify(self);
+        [SVProgressHUD dismiss];
+        [self reloadDataWithText:@"定位失败" error:error];
         [self.navigationController popViewControllerAnimated:YES];
     }];
 }
@@ -459,7 +470,7 @@
         NSMutableArray * tArray = [NSMutableArray arrayWithArray:self.datasource];
         [tArray addObjectsFromArray:op.rsp_shopArray];
         self.datasource = [NSArray arrayWithArray:tArray];
-        [self reloadData];
+        [self reloadDataWithText:@"暂无商铺" error:nil];
         
     } error:^(NSError *error) {
         
