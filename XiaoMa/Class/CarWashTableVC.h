@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CarWashTableVC : UITableViewController
+@interface CarWashTableVC : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic)NSInteger type;
-
-
+@property (strong, nonatomic) IBOutlet JTTableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *searchView;
+@property (weak, nonatomic) IBOutlet UITextField *searchField;
+@property (strong, nonatomic) IBOutlet UIView *headerView;
 @end
