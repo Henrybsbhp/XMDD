@@ -247,7 +247,7 @@
         }
         else
         {
-            [SVProgressHUD showErrorWithStatus:@"获取失败"];
+            [gToast showError:@"获取失败"];
         }
     } error:^(NSError *error) {
         

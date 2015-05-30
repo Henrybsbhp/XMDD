@@ -379,7 +379,7 @@
     @weakify(self)
     [[[[gMapHelper rac_getUserLocation] take:1] initially:^{
         
-        [SVProgressHUD showWithStatus:@"Loading"];
+        [gToast showingWithText:@"加载中…" ];
     }] subscribeNext:^(MAUserLocation *userLocation) {
     
         @strongify(self)
@@ -390,7 +390,7 @@
         getShopByDistanceOp.pageno = self.currentPageIndex;
         [[[getShopByDistanceOp rac_postRequest] initially:^{
             
-            [SVProgressHUD showWithStatus:@"Loading"];
+            [gToast showingWithText:@"加载中…"];
             
         }] subscribeNext:^(GetShopByDistanceOp * op) {
             
@@ -418,11 +418,11 @@
             }
         } error:^(NSError *error) {
             
-            [SVProgressHUD showErrorWithStatus:@"error"];
+            [gToast showError:@"获取商店列表失败"];
         }];
     } error:^(NSError *error) {
         
-        [SVProgressHUD showErrorWithStatus:@"定位失败"];
+        [gToast showError:@"定位失败"];
         [self.navigationController popViewControllerAnimated:YES];
     }];
 }
@@ -465,7 +465,7 @@
         
     } error:^(NSError *error) {
         
-        [SVProgressHUD showErrorWithStatus:@"error"];
+        [gToast showError:@"获取商户列表失败"];
     }];
 }
 
