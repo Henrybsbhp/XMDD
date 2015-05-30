@@ -332,6 +332,7 @@
     }] subscribeNext:^(UpdateUserInfoOp * op) {
         
         [gToast dismiss];
+
         gAppMgr.myUser.avatarUrl = op.avatarUrl;
     } error:^(NSError *error) {
         

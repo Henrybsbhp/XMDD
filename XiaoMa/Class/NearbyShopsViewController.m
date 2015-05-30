@@ -57,7 +57,7 @@
     }
     
     [self setupSYViewInContainer:self.bottomScrollView];
-    [self.bottomSYView reloadData];
+//    [self.bottomSYView reloadData];
     
     self.mapView.showsUserLocation = YES;
     

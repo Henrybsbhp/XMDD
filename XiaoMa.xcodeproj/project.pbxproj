@@ -236,6 +236,8 @@
 		6BCF62441B15AF3E0064AE32 /* RescueCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF62431B15AF3E0064AE32 /* RescueCouponViewController.m */; };
 		6BCF62471B1737980064AE32 /* GetUserCouponByTypeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF62461B1737980064AE32 /* GetUserCouponByTypeOp.m */; };
 		6BCF624A1B1739E70064AE32 /* CommissionCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF62491B1739E70064AE32 /* CommissionCouponViewController.m */; };
+		6BCF62501B184AEF0064AE32 /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF624D1B184AEF0064AE32 /* NJKWebViewProgress.m */; };
+		6BCF62511B184AEF0064AE32 /* NJKWebViewProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF624F1B184AEF0064AE32 /* NJKWebViewProgressView.m */; };
 		6BD7AE5B1AE8927C00BEF30E /* WeChatHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */; };
 		6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5D1AE8A64B00BEF30E /* ApiXml.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5F1AE8A64B00BEF30E /* payRequsestHandler.mm */; };
@@ -726,6 +728,10 @@
 		6BCF62461B1737980064AE32 /* GetUserCouponByTypeOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserCouponByTypeOp.m; path = Class/GetUserCouponByTypeOp.m; sourceTree = "<group>"; };
 		6BCF62481B1739E70064AE32 /* CommissionCouponViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommissionCouponViewController.h; sourceTree = "<group>"; };
 		6BCF62491B1739E70064AE32 /* CommissionCouponViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommissionCouponViewController.m; sourceTree = "<group>"; };
+		6BCF624C1B184AEF0064AE32 /* NJKWebViewProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NJKWebViewProgress.h; sourceTree = "<group>"; };
+		6BCF624D1B184AEF0064AE32 /* NJKWebViewProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NJKWebViewProgress.m; sourceTree = "<group>"; };
+		6BCF624E1B184AEF0064AE32 /* NJKWebViewProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NJKWebViewProgressView.h; sourceTree = "<group>"; };
+		6BCF624F1B184AEF0064AE32 /* NJKWebViewProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NJKWebViewProgressView.m; sourceTree = "<group>"; };
 		6BD7AE591AE8927C00BEF30E /* WeChatHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeChatHelper.h; path = Class/WeChatHelper.h; sourceTree = "<group>"; };
 		6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeChatHelper.m; path = Class/WeChatHelper.m; sourceTree = "<group>"; };
 		6BD7AE5C1AE8A64B00BEF30E /* ApiXml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiXml.h; sourceTree = "<group>"; };
@@ -913,6 +919,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				6BCF624B1B184AEF0064AE32 /* NJKWebViewProgress */,
 				181F6D941B15919900D38555 /* CXAlertView */,
 				18B2C7251B13076B007FB0C7 /* PEPhotoCropEditor */,
 				189DD3FD1B10722700BA0A7F /* SRMonthPicker */,
@@ -1952,6 +1959,17 @@
 			name = Other;
 			sourceTree = "<group>";
 		};
+		6BCF624B1B184AEF0064AE32 /* NJKWebViewProgress */ = {
+			isa = PBXGroup;
+			children = (
+				6BCF624C1B184AEF0064AE32 /* NJKWebViewProgress.h */,
+				6BCF624D1B184AEF0064AE32 /* NJKWebViewProgress.m */,
+				6BCF624E1B184AEF0064AE32 /* NJKWebViewProgressView.h */,
+				6BCF624F1B184AEF0064AE32 /* NJKWebViewProgressView.m */,
+			);
+			path = NJKWebViewProgress;
+			sourceTree = "<group>";
+		};
 		6BD7AE651AE9EEDE00BEF30E /* Map */ = {
 			isa = PBXGroup;
 			children = (
@@ -2358,6 +2376,7 @@
 				6BBB084B1B021EA90002C349 /* ComOpenThreadOTScreenshotHelperSwizzleHelper.m in Sources */,
 				6BEA56C61AE24DCE000D19C1 /* NSString+SBJSON.m in Sources */,
 				189B30D41AD799AF001D7288 /* RACSignal+Extension.m in Sources */,
+				6BCF62511B184AEF0064AE32 /* NJKWebViewProgressView.m in Sources */,
 				6BBB08531B021F440002C349 /* LogAlertView.m in Sources */,
 				1853DEB71AE0B92400C39175 /* AuthByPwdOp.m in Sources */,
 				1853DEBE1AE0E66B00C39175 /* LoginVC.m in Sources */,
@@ -2441,6 +2460,7 @@
 				18B2C7381B13076B007FB0C7 /* PEResizeControl.m in Sources */,
 				6BBF7DA31B008B1000E45967 /* EditMyInfoViewController.m in Sources */,
 				6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */,
+				6BCF62501B184AEF0064AE32 /* NJKWebViewProgress.m in Sources */,
 				189B30B71AD50627001D7288 /* PayForWashCarVC.m in Sources */,
 				6BBAB8B61ADBC12D00EC342F /* UpdatePwdOp.m in Sources */,
 				1853DED41AE2A0BD00C39175 /* VcodeLoginVC.m in Sources */,
@@ -2836,6 +2856,7 @@
 					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/WeiboShareSDK/libWeiboSDK",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-l\"Pods-AFNetworking\"",
