@@ -127,7 +127,7 @@
     TTTAttributedLabel *label = (TTTAttributedLabel *)[cell.contentView viewWithTag:1001];
     UILabel *timeL = (UILabel *)[cell.contentView viewWithTag:2001];
     
-    timeL.text = [[NSDate dateWithTimeIntervalSince1970:msg.msgtime] textForDate];
+    timeL.text = [[NSDate dateWithTimeIntervalSince1970:msg.msgtime/1000] textForDate];
     label.text = msg.content;
     label.delegate = (id<TTTAttributedLabelDelegate>)label;
     label.linkAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
