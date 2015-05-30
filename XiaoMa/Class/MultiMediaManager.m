@@ -11,10 +11,12 @@
 #import <CKKit.h>
 #import "JGActionSheet.h"
 #import "UIImage+Utilities.h"
+#import "EditPictureViewController.h"
 
 #define kPicCacheName    @"MultiMediaManager_PicCache"
 
-@interface MultiMediaManager()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface MultiMediaManager()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, PECropViewControllerDelegate>
+@property (nonatomic, weak) UINavigationController *imgPickerNavCtrl;
 @end
 
 @implementation MultiMediaManager
@@ -111,16 +113,51 @@ static MultiMediaManager *g_mediaManager;
 }
 
 #pragma mark - ImagePicker
-- (RACSignal *)rac_pickPhotoInTargetVC:(UIViewController *)targetVC
-                                inView:(UIView *)view
+- (RACSignal *)rac_pickAndCropPhotoInTargetVC:(UIViewController *)targetVC inView:(UIView *)view
 {
-    return [self rac_pickPhotoInTargetVC:targetVC inView:view initBlock:nil];
+    RACSubject *subject = [RACSubject subject];
+    __block BOOL picked = NO;
+    
+    [[self rac_pickPhotoInTargetVC:targetVC inView:view initBlock:^(UIImagePickerController *picker) {
+       
+        picker.customInfo[kImagePickerDelayDismiss] = @YES;
+    }] subscribeNext:^(UIImage *img) {
+        
+        picked = YES;
+        EditPictureViewController *vc = [[EditPictureViewController alloc] init];
+        vc.delegate = self;
+        vc.image = img;
+        vc.customObject = subject;
+        CGFloat width = img.size.width;
+        CGFloat height = img.size.height;
+        CGFloat length = MIN(width, height);
+        vc.imageCropRect = CGRectMake((width - length) / 2,
+                                      (height - length) / 2,
+                                      length,
+                                      length);
+        [self.imgPickerNavCtrl pushViewController:vc animated:YES];
+    } error:^(NSError *error) {
+        [subject sendCompleted];
+    } completed:^{
+        if (!picked) {
+            [subject sendCompleted];
+        }
+    }];
+    return subject;
 }
 
 - (RACSignal *)rac_pickPhotoInTargetVC:(UIViewController *)targetVC
-                                inView:(UIView *)view initBlock:(void(^)(UIImagePickerController *picker))block
+                                inView:(UIView *)view
 {
-    RACSubject *subject = [RACSubject new];
+    return [self rac_pickPhotoInTargetVC:targetVC inView:view initBlock:^(UIImagePickerController *picker) {
+        picker.customInfo[kImagePickerCompress] = @YES;
+    }];
+}
+
+- (RACSignal *)rac_pickPhotoInTargetVC:(UIViewController *)targetVC
+                                inView:(UIView *)view initBlock:(void (^)(UIImagePickerController *))block
+{
+    RACSubject *subject = [RACSubject subject];
     
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选取照片" delegate:nil cancelButtonTitle:@"取消"
                                          destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"从相册选择", nil];
@@ -183,11 +220,19 @@ static MultiMediaManager *g_mediaManager;
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    [picker dismissViewControllerAnimated:YES completion:nil];
-    UIImage *img = [info objectForKey:UIImagePickerControllerOriginalImage];
-    UIImage *compressedImg = [img compressImageWithPixelSize:CGSizeMake(1024, 1024)];
+    BOOL editing = picker.allowsEditing;
+    BOOL compress = [picker.customInfo[kImagePickerCompress] boolValue];
+    BOOL delayDismiss = [picker.customInfo[kImagePickerDelayDismiss] boolValue];
+    if (!delayDismiss) {
+        [picker dismissViewControllerAnimated:YES completion:nil];
+    }
+    
+    UIImage *img = [info objectForKey:editing ? UIImagePickerControllerEditedImage : UIImagePickerControllerOriginalImage];
+    if (compress) {
+        img = [img compressImageWithPixelSize:CGSizeMake(1024, 1024)];
+    }
     RACSubject *subject = picker.customObject;
-    [subject sendNext:compressedImg];
+    [subject sendNext:img];
     [subject sendCompleted];
 }
 
@@ -196,6 +241,29 @@ static MultiMediaManager *g_mediaManager;
     [picker dismissViewControllerAnimated:YES completion:nil];
     RACSubject *subject = picker.customObject;
     [subject sendCompleted];
+}
+
+#pragma mark - PECropViewControllerDelegate
+- (void)cropViewController:(PECropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage
+{
+    RACSubject *subject = controller.customObject;
+    [controller dismissViewControllerAnimated:YES completion:nil];
+    UIImage *image = [EditPictureViewController generateImageByAddingWatermarkWith:croppedImage];
+    [subject sendNext:image];
+    [subject sendCompleted];
+}
+
+- (void)cropViewControllerDidCancel:(PECropViewController *)controller
+{
+    RACSubject *subject = controller.customObject;
+    [controller dismissViewControllerAnimated:YES completion:nil];
+    [subject sendCompleted];
+}
+
+#pragma mark - UINavigationControllerDelegate
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    self.imgPickerNavCtrl = navigationController;
 }
 
 @end
