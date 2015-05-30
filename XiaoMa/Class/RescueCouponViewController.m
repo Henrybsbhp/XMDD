@@ -44,6 +44,7 @@
         
         [self.tableView.refreshView endRefreshing];
         self.couponArray = op.rsp_couponsArray;
+        [self.tableView reloadData];
         if (self.couponArray.count == 0) {
             [self.tableView showDefaultEmptyViewWithText:@"暂无免费券"];
         }
@@ -85,7 +86,7 @@
     //优惠名称
     UILabel *name = (UILabel *)[cell.contentView viewWithTag:1002];
     //优惠描述
-    UILabel *description = (UILabel *)[cell.contentView viewWithTag:103];
+    UILabel *description = (UILabel *)[cell.contentView viewWithTag:1003];
     //优惠有效期
     UILabel *validDate = (UILabel *)[cell.contentView viewWithTag:1004];
     //状态

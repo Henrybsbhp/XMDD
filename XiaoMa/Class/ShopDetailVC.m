@@ -89,6 +89,13 @@
                     
                     self.favorite = NO;
                     [collectBtn setImage:[UIImage imageNamed:@"collect"] forState:UIControlStateNormal];
+                    NSArray * array = self.navigationController.viewControllers;
+                    UIViewController * vc = [array safetyObjectAtIndex:array.count - 2];
+                    if (vc && [vc isKindOfClass:[NearbyShopsViewController class]])
+                    {
+                        NearbyShopsViewController * nearbyVC = (NearbyShopsViewController *)vc;
+                        [nearbyVC reloadBottomView];
+                    }
                 } error:^(NSError *error) {
                     
                     [gToast showError:error.domain];
@@ -106,6 +113,13 @@
                     
                     self.favorite = YES;
                     [collectBtn setImage:[UIImage imageNamed:@"collected"] forState:UIControlStateNormal];
+                    NSArray * array = self.navigationController.viewControllers;
+                    UIViewController * vc = [array safetyObjectAtIndex:array.count - 2];
+                    if (vc && [vc isKindOfClass:[NearbyShopsViewController class]])
+                    {
+                        NearbyShopsViewController * nearbyVC = (NearbyShopsViewController *)vc;
+                        [nearbyVC reloadBottomView];
+                    }
                 } error:^(NSError *error) {
                     
                     if (error.code == 7002)

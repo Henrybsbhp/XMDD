@@ -64,7 +64,7 @@
     
     GetShopRatesOp * op = [GetShopRatesOp operation];
     op.shopId = self.shopid;
-    op.pageno = self.currentPageIndex + 1;
+    op.pageno = self.currentPageIndex;
     [[[op rac_postRequest] initially:^{
         
         [self.tableView.bottomLoadingView hideIndicatorText];
@@ -73,6 +73,7 @@
     }]  subscribeNext:^(GetShopRatesOp * op) {
         
         [self.tableView.bottomLoadingView stopActivityAnimation];
+        self.currentPageIndex = self.currentPageIndex + 1;
         if (op.rsp_shopCommentArray.count >= self.pageAmount)
         {
             self.isRemain = YES;

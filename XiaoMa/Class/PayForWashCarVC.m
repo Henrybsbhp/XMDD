@@ -327,7 +327,15 @@
     if (indexPath.row == 1) {
         label.text = [NSString stringWithFormat:@"洗车券：%ld张", (long)gAppMgr.myUser.validCarwashCouponArray.count];
         arrow.hidden = NO;
-        dateLb.text = [NSString stringWithFormat:@"有效期：%@ - %@",[[NSDate date] dateFormatForYYMMdd2],[[NSDate date] dateFormatForYYMMdd2]];
+        
+        NSDate * earlierDate;
+        NSDate * laterDate;
+        for (HKCoupon * c in gAppMgr.myUser.validCarwashCouponArray)
+        {
+            earlierDate = [c.validsince earlierDate:earlierDate];
+            laterDate = [c.validthrough laterDate:laterDate];
+        }
+        dateLb.text = [NSString stringWithFormat:@"有效期：%@ - %@",[earlierDate dateFormatForYYMMdd2],[laterDate dateFormatForYYMMdd2]];
         
         if (self.paymentType == PaymentChannelCoupon)
         {
@@ -354,7 +362,15 @@
     else if (indexPath.row == 2) {
         label.text = [NSString stringWithFormat:@"代金券：%ld张", (long)gAppMgr.myUser.validCashCouponArray.count];
         arrow.hidden = NO;
-        dateLb.text = [NSString stringWithFormat:@"有效期：%@ - %@",[[NSDate date] dateFormatForYYMMdd2],[[NSDate date] dateFormatForYYMMdd2]];
+        
+        NSDate * earlierDate;
+        NSDate * laterDate;
+        for (HKCoupon * c in gAppMgr.myUser.validCashCouponArray)
+        {
+            earlierDate = [c.validsince earlierDate:earlierDate];
+            laterDate = [c.validthrough laterDate:laterDate];
+        }
+        dateLb.text = [NSString stringWithFormat:@"有效期：%@ - %@",[earlierDate dateFormatForYYMMdd2],[laterDate dateFormatForYYMMdd2]];
         
         if (self.couponType == CouponTypeCash)
         {
@@ -557,7 +573,17 @@
         gAppMgr.myUser.abcIntegral = op.rsp_bankIntegral;
         NSArray * carwashfilterArray = [op.rsp_coupons arrayByFilteringOperator:^BOOL(HKCoupon * c) {
            
-            return c.conponType == CouponTypeCarWash;
+            if (c.conponType == CouponTypeCarWash)
+            {
+                if ([c.validsince earlierDate:[NSDate date]] == c.validsince)
+                {
+                    if ([c.validthrough laterDate:[NSDate date]] == c.validthrough)
+                    {
+                        return YES;
+                    }
+                }
+            }
+            return NO;
         }];
         gAppMgr.myUser.validCarwashCouponArray = [carwashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
             
@@ -566,7 +592,17 @@
         
         NSArray * cashfilterArray = [op.rsp_coupons arrayByFilteringOperator:^BOOL(HKCoupon * c) {
             
-            return c.conponType == CouponTypeCash;
+            if (c.conponType == CouponTypeCash)
+            {
+                if ([c.validsince earlierDate:[NSDate date]] == c.validsince)
+                {
+                    if ([c.validthrough laterDate:[NSDate date]] == c.validthrough)
+                    {
+                        return YES;
+                    }
+                }
+            }
+            return NO;
         }];
         gAppMgr.myUser.validCashCouponArray = [cashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
             

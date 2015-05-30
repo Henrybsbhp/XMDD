@@ -73,7 +73,7 @@
     validCouponArray = [[NSMutableArray alloc] init];
     timeoutCouponArray = [[NSMutableArray alloc] init];
     usedCouponArray = [[NSMutableArray alloc] init];
-
+    
     [self requestUnuseCoupon];
 }
 
@@ -102,6 +102,7 @@
 {
     UIView *bottomView = [UIView new];
     UIButton *getMoreBtn = [UIButton new];
+    getMoreBtn.frame = CGRectMake((self.view.frame.size.width - 200) / 2, self.view.frame.size.height - 55, 200, 44);
     [getMoreBtn setBackgroundColor:[UIColor orangeColor]];
     [getMoreBtn setTitle:@"如何获取更多优惠劵" forState:UIControlStateNormal];
     [getMoreBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
@@ -111,17 +112,17 @@
         //按钮点击获取更多优惠券事件
     }];
     [bottomView addSubview:getMoreBtn];
-    [self.tableView addSubview:bottomView];
-    [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(44);
-        make.width.mas_equalTo(200);
-        make.centerX.mas_equalTo(self.tableView.mas_centerX);
-        make.top.equalTo(self.tableView.tableFooterView.mas_bottom).offset(-10).priorityMedium();
-        make.bottom.greaterThanOrEqualTo(self.view).offset(-10).priorityHigh();
-    }];
-    [getMoreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(bottomView);
-    }];
+    //    [self.tableView addSubview:bottomView];
+    //    [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+    //        make.height.mas_equalTo(44);
+    //        make.width.mas_equalTo(200);
+    //        make.centerX.mas_equalTo(self.tableView.mas_centerX);
+    //        make.top.equalTo(self.tableView.tableFooterView.mas_bottom).offset(-10).priorityMedium();
+    //        make.bottom.greaterThanOrEqualTo(self.view).offset(-10).priorityHigh();
+    //    }];
+    //    [getMoreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    //        make.edges.equalTo(bottomView);
+    //    }];
     
     self.bottomView = bottomView;
     self.getMoreBtn = getMoreBtn;
@@ -131,10 +132,10 @@
 #pragma mark - Load Coupon
 - (void)requestUnuseCoupon
 {
-//    @LYW 
-//    self.currentPageIndexForUnused = self.currentPageIndexForUnused + 1;
+    //    @LYW
+    //    self.currentPageIndexForUnused = self.currentPageIndexForUnused + 1;
     
-//    @LYW 需要判断是否正在加载
+    //    @LYW 需要判断是否正在加载
     if (self.isLoadingUnusedCoupon)
     {
         return;
@@ -162,13 +163,13 @@
             
             if (op.rsp_couponsArray.count >= self.pageAmount )
             {
-//                if (unusedCouponArray.count > 30)
-//                {
-//                    self.isUnusedRemain = NO;
-//                    [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
-//                }
-//                else
-                    self.isUnusedRemain = YES;
+                //                if (unusedCouponArray.count > 30)
+                //                {
+                //                    self.isUnusedRemain = NO;
+                //                    [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+                //                }
+                //                else
+                self.isUnusedRemain = YES;
             }
             else
             {
@@ -184,19 +185,23 @@
             {}
             else
             {
-                [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+                if (unusedCouponArray.count)
+                {
+                    [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+                }
             }
         }
         
         self.currentPageIndexForUnused = self.currentPageIndexForUnused + 1;
-        
         [self sortCoupon];
-        [SVProgressHUD dismiss];
+        
+        
+        [self reloadDataWithText:@"暂无未使用优惠券" error:nil andDatasource:unusedCouponArray];
     } error:^(NSError *error) {
         
         self.isLoadingUnusedCoupon = NO;
         [self.tableView.bottomLoadingView stopActivityAnimation];
-//        [gToast showError:@"获取优惠券信息失败"];
+        //        [gToast showError:@"获取优惠券信息失败"];
     }];
 }
 
@@ -234,8 +239,8 @@
                 self.isUsedRemain = NO;
                 [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
             }
-
-            [self refreshTableView];
+            
+            //            [self refreshTableView];
         }
         else
         {
@@ -247,12 +252,15 @@
             }
             else
             {
-                [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+                if (usedCouponArray.count > 0)
+                {
+                    [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+                }
             }
         }
         
         self.currentPageIndexForUsed = self.currentPageIndexForUsed + 1;
-        
+        [self reloadDataWithText:@"暂无未使用优惠券" error:nil andDatasource:usedCouponArray];
         [SVProgressHUD dismiss];
     } error:^(NSError *error) {
         
@@ -324,7 +332,7 @@
 
 -(void)sortCoupon
 {
-//    @LYW 先要移除
+    //    @LYW 先要移除
     [validCouponArray removeAllObjects];
     [timeoutCouponArray removeAllObjects];
     for (HKCoupon *dic in unusedCouponArray)
@@ -334,26 +342,27 @@
         else
             [timeoutCouponArray addObject:dic];
     }
-    [self refreshTableView];
+    //    [self refreshTableView];
 }
 
 - (void)refreshTableView
 {
     [self.tableView reloadData];
-     self.tableView.contentSize = CGSizeMake(self.tableView.contentSize.width, self.tableView.contentSize.height+55);
-    
-    [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(44);
-        make.width.mas_equalTo(200);
-        make.centerX.mas_equalTo(self.tableView.mas_centerX);
-        make.top.equalTo(self.tableView.tableFooterView.mas_bottom).offset(-10).priorityMedium();
-        make.bottom.greaterThanOrEqualTo(self.view).offset(-10).priorityHigh();
-    }];
-    
-    [self.getMoreBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.bottomView);
-    }];
+    //     self.tableView.contentSize = CGSizeMake(self.tableView.contentSize.width, self.tableView.contentSize.height+55);
+    //
+    //    [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+    //        make.height.mas_equalTo(44);
+    //        make.width.mas_equalTo(200);
+    //        make.centerX.mas_equalTo(self.tableView.mas_centerX);
+    //        make.top.equalTo(self.tableView.tableFooterView.mas_bottom).offset(-10).priorityMedium();
+    //        make.bottom.greaterThanOrEqualTo(self.view).offset(-10).priorityHigh();
+    //    }];
+    //
+    //    [self.getMoreBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+    //        make.edges.equalTo(self.bottomView);
+    //    }];
 }
+
 
 
 #pragma mark - segmented
@@ -361,36 +370,24 @@
 {
     UISegmentedControl * segment=sender;
     whichSeg = segment.selectedSegmentIndex;
-//    if (allLoad) {
-//        if (whichSeg == 0 && unusedCouponArray.count == 0) {
-//            self.blankImg.hidden = NO;
-//        }
-//        else if (whichSeg == 0 && unusedCouponArray.count != 0) {
-//            self.blankImg.hidden = YES;
-//            [self.tableView reloadData];
-//            self.tableView.contentSize = CGSizeMake(self.tableView.contentSize.width, self.tableView.contentSize.height+54);
-//        }
-//        
-//        if (whichSeg == 1 && usedCouponArray.count == 0) {
-//            self.blankImg.hidden = NO;
-//        }
-//        else if (whichSeg == 1 && usedCouponArray.count != 0) {
-//            self.blankImg.hidden = YES;
-//            [self.tableView reloadData];
-//            self.tableView.contentSize=CGSizeMake(self.tableView.contentSize.width, self.tableView.contentSize.height+54);
-//        }
-//    }
-//    else if (whichSeg == 1) {
-//        allLoad = YES;
-//        [self requestUsedCoupon:1 pageno:1];
-//    }
-//    
-//    self.isRemain = YES;
+    
+    if (whichSeg == 0)
+    {
+        [self reloadDataWithText:@"无未使用优惠劵" error:nil andDatasource:unusedCouponArray];
+    }
+    else
+    {
+        [self reloadDataWithText:@"无已使用优惠劵" error:nil andDatasource:usedCouponArray];
+    }
     if (whichSeg == 0)
     {
         if (!self.isUnusedRemain)
         {
             [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+        }
+        else
+        {
+            [self.tableView.bottomLoadingView hideIndicatorText];
         }
     }
     else
@@ -399,12 +396,22 @@
         {
             [self requestUsedCoupon];
         }
-        else if (!self.isUsedRemain)
+        else if (!self.isUsedRemain && usedCouponArray.count)
         {
             [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
         }
     }
-    [self refreshTableView];
+}
+
+- (void)reloadDataWithText:(NSString *)text error:(NSError *)error andDatasource:(NSArray *)datasource
+{
+    [self.tableView reloadData];
+    if (datasource.count == 0) {
+        [self.tableView showDefaultEmptyViewWithText:text];
+    }
+    else {
+        [self.tableView hideDefaultEmptyView];
+    }
 }
 
 - (void)shareAction:(NSNumber *)cid
@@ -442,7 +449,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    CGFloat height = section == 0 ? (validCouponArray.count ? 0 : 10) : 15;
+//    @LYW CGFLOAT_MIN
+    CGFloat height = section == CGFLOAT_MIN ? (validCouponArray.count ? CGFLOAT_MIN : 10) : 15;
     return height;
 }
 
@@ -492,8 +500,8 @@
             HKCoupon *couponDic = [validCouponArray safetyObjectAtIndex:indexPath.row];;
             if (couponDic.conponType == 1) {
                 [status setTitle:@"分享" forState:UIControlStateNormal];
-//                @LYW
-//                [status addTarget:self action:@selector(shareAction) forControlEvents:UIControlEventTouchUpInside];
+                //                @LYW
+                //                [status addTarget:self action:@selector(shareAction) forControlEvents:UIControlEventTouchUpInside];
                 [[[status rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                     
                     [self shareAction:couponDic.couponId];
@@ -502,7 +510,7 @@
                 backgroundImg.image = carWash;
             }
             else if (couponDic.conponType == 2 || couponDic.conponType == 4) {
-//               @LYW 重用
+                //               @LYW 重用
                 backgroundImg.image = rescue;
                 [status setTitle:@"有效" forState:UIControlStateNormal];
             }
@@ -527,8 +535,8 @@
     else{
         [status setTitle:@"已使用" forState:UIControlStateNormal];
         backgroundImg.image = usableTicket;
-//        HKCoupon *couponDic = usedCoupon[indexPath.row];
-//        @LYW
+        //        HKCoupon *couponDic = usedCoupon[indexPath.row];
+        //        @LYW
         HKCoupon * couponDic = [usedCouponArray safetyObjectAtIndex:indexPath.row];
         name.text = couponDic.couponName;
         description.text = [NSString stringWithFormat:@"使用说明：%@",couponDic.couponDescription];
