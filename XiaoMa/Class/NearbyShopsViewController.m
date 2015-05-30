@@ -35,6 +35,8 @@
 
 @property (nonatomic,strong)RACSubject * requestSignal;
 
+@property (nonatomic)NSInteger  bottomIndex;
+
 /// 上次请求数据定位点，超过一定范围，再去请求
 @property (nonatomic)CLLocationCoordinate2D lastRequestCorrdinate;
 /// 是否自动滑动地图
@@ -82,6 +84,7 @@
     
     self.mapView.delegate = self;
 }
+
 
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -165,6 +168,11 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)reloadBottomView
+{
+    [self.bottomSYView reloadDataRemovingCurrentPage:YES];
+    self.bottomSYView.currentPageIndex = self.bottomIndex;
+}
 
 
 #pragma mark - Utility
@@ -184,9 +192,9 @@
         {
             self.nearbyShopArray = [op.rsp_shopArray sortedArrayUsingComparator:^NSComparisonResult(JTShop * obj1, JTShop * obj2) {
                 
-                double distance1 = [DistanceCalcHelper getDistanceLatA:self.userCoordinate.latitude lngA:self.userCoordinate.latitude latB:obj1.shopLatitude lngB:obj1.shopLongitude];
-                double distance2 = [DistanceCalcHelper getDistanceLatA:self.userCoordinate.latitude lngA:self.userCoordinate.latitude latB:obj2.shopLatitude lngB:obj2.shopLongitude];
-                return distance1 < distance2;
+                double distance1 = [DistanceCalcHelper getDistanceLatA:self.userCoordinate.latitude lngA:self.userCoordinate.longitude latB:obj1.shopLatitude lngB:obj1.shopLongitude];
+                double distance2 = [DistanceCalcHelper getDistanceLatA:self.userCoordinate.latitude lngA:self.userCoordinate.longitude latB:obj2.shopLatitude lngB:obj2.shopLongitude];
+                return distance1 > distance2;
             }];
             [self highlightMapViewWithIndex:0];
             [self.bottomSYView reloadData];
@@ -468,6 +476,7 @@
 
 - (void)paginatorView:(SYPaginatorView *)paginatorView didScrollToPageAtIndex:(NSInteger)pageIndex
 {
+    self.bottomIndex = pageIndex;
     self.isAutoRegionChanging = YES;
     [self highlightMapViewWithIndex:pageIndex];
 

@@ -14,4 +14,6 @@
 
 @property (nonatomic)NSInteger type;
 
+- (void)reloadBottomView;
+
 @end

@@ -449,7 +449,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    CGFloat height = section == 0 ? (validCouponArray.count ? 0 : 10) : 15;
+//    @LYW CGFLOAT_MIN
+    CGFloat height = section == CGFLOAT_MIN ? (validCouponArray.count ? CGFLOAT_MIN : 10) : 15;
     return height;
 }
 

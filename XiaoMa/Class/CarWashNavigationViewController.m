@@ -80,6 +80,17 @@
     mapBottomView.addressLb.text = self.shop.shopAddress;
     mapBottomView.detailBtn.hidden = YES;
     
+    
+    [mapBottomView.titleLb mas_updateConstraints:^(MASConstraintMaker *make) {
+        
+        make.width.equalTo(mapBottomView).offset(-20);
+    }];
+    
+    [mapBottomView.addressLb mas_updateConstraints:^(MASConstraintMaker *make) {
+        
+        make.width.equalTo(mapBottomView).offset(-20);
+    }];
+    
     UIImage * image = [UIImage imageNamed:self.favorite ? @"nb_collected" : @"nb_collection"];
     [mapBottomView.collectBtn setImage:image forState:UIControlStateNormal];
     
@@ -108,6 +119,7 @@
     
     [[mapBottomView.collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        @strongify(self)
         if ([LoginViewModel loginIfNeededForTargetViewController:self])
         {
             if (self.favorite)
@@ -199,35 +211,6 @@
 }
 
 #pragma mark - Utitily
-- (void)requestAddFavorite:(NSNumber *)shopid
-{
-    AddUserFavoriteOp * op = [AddUserFavoriteOp operation];
-    op.shopid = shopid;
-    [[[op rac_postRequest] initially:^{
-        
-        [gToast showingWithText:@"添加收藏…"];
-    }] subscribeNext:^(AddUserFavoriteOp * op) {
-        
-            [gToast showSuccess:@"收藏成功"];
-        
-    } error:^(NSError *error) {
-        
-        if (error.code == 7001)
-        {
-            [gToast showError:@"该店铺不存在"];
-        }
-        else if (error.code == 7002)
-        {
-            [gToast showError:@"该店铺已收藏"];
-        }
-        else
-        {
-            [gToast showError:@"收藏失败"];
-        }
-    }];
-}
-
-
 #pragma mark - MAMapViewDelegate
 - (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation
 {
