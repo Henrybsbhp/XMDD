@@ -53,7 +53,7 @@
             self.carList = [queue allObjects];
             [self.tableView reloadData];
             if (self.carList.count == 0) {
-                [self.tableView showDefaultEmptyViewWithText:@"暂无爱车,快去添加一辆吧" boundsView:self.view];
+                [self.tableView showDefaultEmptyViewWithText:@"暂无爱车,快去添加一辆吧"];
             }
             else {
                 [self.tableView hideDefaultEmptyView];
@@ -84,7 +84,7 @@
         self.carList = [queue allObjects];
         [self.tableView reloadData];
         if (self.carList.count == 0) {
-            [self.tableView showDefaultEmptyViewWithText:@"暂无爱车,快去添加一辆吧" boundsView:self.view];
+            [self.tableView showDefaultEmptyViewWithText:@"暂无爱车,快去添加一辆吧"];
         }
         else {
             [self.tableView hideDefaultEmptyView];

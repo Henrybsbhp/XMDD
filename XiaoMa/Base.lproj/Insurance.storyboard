@@ -515,9 +515,9 @@
                                                 <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CR_6"/>
                                             </userDefinedRuntimeAttributes>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="￥3806" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0WC-js-8X8">
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" misplaced="YES" text="￥3806" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0WC-js-8X8">
                                             <rect key="frame" x="97" y="39" width="383" height="29"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                             <color key="textColor" red="0.98431372549999996" green="0.25882352939999997" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -528,7 +528,7 @@
                                         <constraint firstItem="0WC-js-8X8" firstAttribute="leading" secondItem="1Rs-O6-ycG" secondAttribute="leading" constant="82" id="Cth-Ao-CZt"/>
                                         <constraint firstItem="1Rs-O6-ycG" firstAttribute="centerY" secondItem="76J-6U-YqG" secondAttribute="centerY" id="F2D-kP-Opi"/>
                                         <constraint firstItem="1Rs-O6-ycG" firstAttribute="top" secondItem="Ibn-Ok-ORG" secondAttribute="top" constant="5" id="MXz-D9-m2l"/>
-                                        <constraint firstItem="76J-6U-YqG" firstAttribute="leading" secondItem="0WC-js-8X8" secondAttribute="trailing" constant="8" id="QYX-iK-VLx"/>
+                                        <constraint firstItem="76J-6U-YqG" firstAttribute="leading" secondItem="0WC-js-8X8" secondAttribute="trailing" constant="1" id="QYX-iK-VLx"/>
                                         <constraint firstItem="76J-6U-YqG" firstAttribute="trailing" secondItem="1Rs-O6-ycG" secondAttribute="trailing" constant="-12" id="aNh-iC-0Vf"/>
                                         <constraint firstItem="1Rs-O6-ycG" firstAttribute="leading" secondItem="Ibn-Ok-ORG" secondAttribute="leading" constant="15" id="vw4-yu-jUs"/>
                                         <constraint firstAttribute="trailing" secondItem="1Rs-O6-ycG" secondAttribute="trailing" constant="15" id="wFP-ol-DpP"/>

@@ -10,14 +10,20 @@
 
 @interface WebVC ()
 @property (nonatomic, weak) IBOutlet UIWebView *webView;
+@property (nonatomic, strong) NSURLRequest *request;
 @end
 
 @implementation WebVC
 
+- (void)dealloc
+{
+    [[NSURLCache sharedURLCache] removeCachedResponseForRequest:self.request];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
+    self.request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
+    [self.webView loadRequest:self.request];
     // Do any additional setup after loading the view.
 }
 

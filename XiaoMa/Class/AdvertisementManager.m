@@ -131,7 +131,7 @@
     
     NSArray * sortedArray = [filterArray sortedArrayUsingComparator:^NSComparisonResult(HKAdvertisement * ad1, HKAdvertisement * ad2) {
         
-        return ad1.weight > ad2.weight;
+        return ad1.weight > ad2.weight ? NSOrderedAscending : (ad1.weight == ad2.weight ? NSOrderedSame : NSOrderedDescending);
     }];
     return sortedArray;
 }

@@ -51,7 +51,7 @@
 @property (nonatomic, assign) NSInteger rsp_code;
 
 
-@property (nonatomic, weak, readonly) RACSignal *rac_curSignal;
+@property (nonatomic, weak) RACSignal *rac_curSignal;
 
 - (RACSignal *)rac_invokeWithRPCClient:(AFHTTPRequestOperationManager *)manager params:(id)params security:(BOOL)security;
 

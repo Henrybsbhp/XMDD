@@ -23,9 +23,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setupTableView];
-    CKAsyncMainQueue(^{
-        [self reloadDatasource];
-    });
+    [self reloadDatasource];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,7 +53,8 @@
     GetMessageOp *op = [GetMessageOp new];
     op.req_msgtime = timetag;
     [[[op rac_postRequest] initially:^{
-        
+
+        [self.tableView.bottomLoadingView hideIndicatorText];
         if (timetag == 0) {
             [self.tableView.refreshView beginRefreshing];
         }
@@ -98,7 +97,7 @@
     CGSize size = [TTTAttributedLabel sizeThatFitsAttributedString:[self attrStrForMessage:msg linkRange:&range]
                                                    withConstraints:CGSizeMake(self.tableView.frame.size.width-54, 10000)
                                             limitedToNumberOfLines:0];
-    return MAX(65, size.height+26);
+    return MAX(85, size.height+46);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -126,7 +125,10 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     HKMessage *msg = [self.msgList safetyObjectAtIndex:indexPath.section];
     TTTAttributedLabel *label = (TTTAttributedLabel *)[cell.contentView viewWithTag:1001];
+    UILabel *timeL = (UILabel *)[cell.contentView viewWithTag:2001];
     
+    timeL.text = [[NSDate dateWithTimeIntervalSince1970:msg.msgtime] textForDate];
+    label.text = msg.content;
     label.delegate = (id<TTTAttributedLabelDelegate>)label;
     label.linkAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
                              NSForegroundColorAttributeName:HEXCOLOR(@"#386fcd")};
