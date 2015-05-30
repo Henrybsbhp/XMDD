@@ -58,6 +58,7 @@
 		1853DED11AE2971500C39175 /* ResetPasswordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853DED01AE2971500C39175 /* ResetPasswordVC.m */; };
 		1853DED41AE2A0BD00C39175 /* VcodeLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853DED31AE2A0BD00C39175 /* VcodeLoginVC.m */; };
 		185A527D1B185191003515CC /* Message.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 185A527B1B185191003515CC /* Message.storyboard */; };
+		185A52821B195C87003515CC /* NearbyShopListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 185A52811B195C87003515CC /* NearbyShopListVC.m */; };
 		186984E11AFF976A000A182A /* WebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 186984E01AFF976A000A182A /* WebVC.m */; };
 		186984E51B0057A4000A182A /* MyOrderListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 186984E41B0057A4000A182A /* MyOrderListVC.m */; };
 		186984E81B005A86000A182A /* CarwashOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186984E71B005A86000A182A /* CarwashOrderViewModel.m */; };
@@ -389,6 +390,8 @@
 		1853DED31AE2A0BD00C39175 /* VcodeLoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VcodeLoginVC.m; sourceTree = "<group>"; };
 		185A527C1B185191003515CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = XiaoMa/Base.lproj/Message.storyboard; sourceTree = SOURCE_ROOT; };
 		185A527E1B187EFA003515CC /* DownloadOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadOp.h; path = Class/DownloadOp.h; sourceTree = "<group>"; };
+		185A52801B195C87003515CC /* NearbyShopListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyShopListVC.h; sourceTree = "<group>"; };
+		185A52811B195C87003515CC /* NearbyShopListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyShopListVC.m; sourceTree = "<group>"; };
 		186984DF1AFF976A000A182A /* WebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebVC.h; sourceTree = "<group>"; };
 		186984E01AFF976A000A182A /* WebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebVC.m; sourceTree = "<group>"; };
 		186984E31B0057A4000A182A /* MyOrderListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderListVC.h; sourceTree = "<group>"; };
@@ -1184,6 +1187,15 @@
 			name = ProgressHUD;
 			sourceTree = "<group>";
 		};
+		185A527F1B195AA8003515CC /* Nearby */ = {
+			isa = PBXGroup;
+			children = (
+				185A52801B195C87003515CC /* NearbyShopListVC.h */,
+				185A52811B195C87003515CC /* NearbyShopListVC.m */,
+			);
+			name = Nearby;
+			sourceTree = "<group>";
+		};
 		186984E21B00571C000A182A /* Order */ = {
 			isa = PBXGroup;
 			children = (
@@ -1352,6 +1364,7 @@
 		1883D91A1ACBC2E4002A4D19 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				185A527F1B195AA8003515CC /* Nearby */,
 				6BB8CB881B14147F007B61B5 /* Commission */,
 				6BB8CB871B141474007B61B5 /* Rescure */,
 				189B39491AF71C2200B83F1B /* Mine */,
@@ -2326,6 +2339,7 @@
 				18746B181AEA1BB300D93696 /* UpdateInsuranceOrderOp.m in Sources */,
 				186985121B02E6CB000A182A /* ODRefreshControl.m in Sources */,
 				189B31101ADA597D001D7288 /* UploadInfomationVC.m in Sources */,
+				185A52821B195C87003515CC /* NearbyShopListVC.m in Sources */,
 				6BB884D21AE0BC6A00EBD8F4 /* MONActivityIndicatorView.m in Sources */,
 				186984F81B0098FB000A182A /* HKInsuranceOrder.m in Sources */,
 				6BB884DD1AE0FE7500EBD8F4 /* GetUserCarOp.m in Sources */,
