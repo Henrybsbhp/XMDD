@@ -411,7 +411,6 @@
             }
             else
             {
-<<<<<<< HEAD
                 self.isRemain = NO;
             }
             if (!self.isRemain)
@@ -419,23 +418,6 @@
                 [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
             }
             [self reloadDataWithText:@"暂无商铺" error:nil];
-
-=======
-                if (self.datasource.count >= self.pageAmount)
-                {
-                    self.isRemain = YES;
-                }
-                else
-                {
-                    self.isRemain = NO;
-                }
-                if (!self.isRemain)
-                {
-                    [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
-                }
-            }
-            [self reloadDataWithText:@"暂无商铺" error:nil];
->>>>>>> dev
         } error:^(NSError *error) {
             
             [gToast showError:@"获取商店列表失败"];
