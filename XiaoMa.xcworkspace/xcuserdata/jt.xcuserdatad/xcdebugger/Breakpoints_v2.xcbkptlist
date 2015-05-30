@@ -153,7 +153,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "718"
             endingLineNumber = "718"
-            landmarkName = "-requestCheckout"
+            landmarkName = "-requestAliPay:andTradeId:andPrice:andProductName:andDescription:andTime:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -249,7 +249,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "729"
             endingLineNumber = "729"
-            landmarkName = "-requestCheckout"
+            landmarkName = "-requestAliPay:andTradeId:andPrice:andProductName:andDescription:andTime:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -265,7 +265,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "720"
             endingLineNumber = "720"
-            landmarkName = "-requestCheckout"
+            landmarkName = "-requestAliPay:andTradeId:andPrice:andProductName:andDescription:andTime:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -296,9 +296,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "-setupADView"
-            landmarkType = "5">
+            endingLineNumber = "26">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -312,9 +310,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "-setupADView"
-            landmarkType = "5">
+            endingLineNumber = "26">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -630,9 +626,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "5">
+            endingLineNumber = "26">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -678,9 +672,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "-setupTableView"
-            landmarkType = "5">
+            endingLineNumber = "26">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -710,9 +702,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "-reloadDataWithText:error:"
-            landmarkType = "5">
+            endingLineNumber = "26">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1314,9 +1304,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "-paginatorView:didScrollToPageAtIndex:"
-            landmarkType = "5">
+            endingLineNumber = "26">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1411,7 +1399,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "612"
             endingLineNumber = "612"
-            landmarkName = "-requestGetUserResource"
+            landmarkName = "-requestCheckout"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1443,7 +1431,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "611"
             endingLineNumber = "611"
-            landmarkName = "-requestGetUserResource"
+            landmarkName = "-requestCheckout"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1523,7 +1511,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "716"
             endingLineNumber = "716"
-            landmarkName = "-requestCheckout"
+            landmarkName = "-requestAliPay:andTradeId:andPrice:andProductName:andDescription:andTime:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
