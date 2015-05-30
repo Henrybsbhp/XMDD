@@ -81,7 +81,7 @@
 {
     [self.tableView reloadData];
     if (gAppMgr.myUser.favorites.favoritesArray.count == 0) {
-        [self.tableView showDefaultEmptyViewWithText:@"暂无收藏" boundsView:self.view];
+        [self.tableView showDefaultEmptyViewWithText:@"暂无收藏"];
     }
     else {
         [self.tableView hideDefaultEmptyView];

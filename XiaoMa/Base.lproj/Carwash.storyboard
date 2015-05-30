@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -1376,7 +1377,7 @@
                         <viewControllerLayoutGuide type="top" id="e7B-aV-Moo"/>
                         <viewControllerLayoutGuide type="bottom" id="EMd-YO-pJ4"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="40m-cX-oXi">
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="40m-cX-oXi">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>

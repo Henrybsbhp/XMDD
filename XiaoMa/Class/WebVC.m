@@ -12,15 +12,23 @@
 
 @interface WebVC ()<NJKWebViewProgressDelegate,UIWebViewDelegate>
 @property (nonatomic, weak) IBOutlet UIWebView *webView;
+@property (nonatomic, strong) NSURLRequest *request;
 
 @property (nonatomic,strong)NJKWebViewProgress * progressProxy;
 @property (nonatomic,strong)NJKWebViewProgressView *progressView;
+
 @end
 
 @implementation WebVC
 
+- (void)dealloc
+{
+    [[NSURLCache sharedURLCache] removeCachedResponseForRequest:self.request];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
      [self setupProcessView];
     
      [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];

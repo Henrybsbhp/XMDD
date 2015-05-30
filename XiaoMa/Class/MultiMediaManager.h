@@ -23,16 +23,17 @@ typedef enum : NSInteger
 
 - (instancetype)initWithPicCache:(TMCache *)cache;
 
-/// 图片下载, 先去缓存中查询，如果没有查到就去网络上下载。注意：catch中查找可能返回nil，网络下载也可能返回nil。
-- (RACSignal *)rac_getPictureForUrl:(NSString *)urlKey withDefaultPic:(NSString *)picName;
-
-- (RACSignal *)rac_getPictureForUrl:(NSString *)urlKey withDefaultPic:(NSString *)defPicName errorPic:(NSString *)errPicName;
-
-- (RACSignal *)rac_getPictureForUrl:(NSString *)urlKey withType:(ImageURLType)type
+/// 图片下载, 先去缓存中查询，如果没有查到就去网络上下载。
+- (RACSignal *)rac_getPictureForUrl:(NSString *)url defaultPic:(NSString *)defName;
+/// 图片下载, 先去缓存中查询，如果没有查到就去网络上下载。
+- (RACSignal *)rac_getPictureForUrl:(NSString *)url withType:(ImageURLType)type defaultPic:(NSString *)defName;
+/// 图片下载, 先去缓存中查询，如果没有查到就去网络上下载。
+- (RACSignal *)rac_getPictureForUrl:(NSString *)url withType:(ImageURLType)type
                          defaultPic:(NSString *)defPicName errorPic:(NSString *)errPicName;
-
 ///拍照、从相册获取照片
 - (RACSignal *)rac_pickPhotoInTargetVC:(UIViewController *)targetVC inView:(UIView *)view;
+- (RACSignal *)rac_pickPhotoInTargetVC:(UIViewController *)targetVC
+                                inView:(UIView *)view initBlock:(void(^)(UIImagePickerController *picker))block;
 
 
 @end

@@ -15,22 +15,21 @@
 
 @implementation UIView (DefaultEmptyView)
 
-- (void)showDefaultEmptyViewWithText:(NSString *)text boundsView:(UIView *)boundsView
+- (void)showDefaultEmptyViewWithText:(NSString *)text
 {
-    [self showDefaultEmptyViewWithImageName:@"cm_blank" text:text boundsView:boundsView centerOffset:-20];
+    [self showDefaultEmptyViewWithImageName:@"cm_blank" text:text centerOffset:-20];
 }
 
-- (void)showDefaultEmptyViewWithText:(NSString *)text boundsView:(UIView *)boundsView centerOffset:(CGFloat)offset
+- (void)showDefaultEmptyViewWithText:(NSString *)text centerOffset:(CGFloat)offset
 {
-    [self showDefaultEmptyViewWithImageName:@"cm_blank" text:text boundsView:boundsView centerOffset:offset];
+    [self showDefaultEmptyViewWithImageName:@"cm_blank" text:text centerOffset:offset];
 }
 
-- (void)showDefaultEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text
-                               boundsView:(UIView *)boundsView centerOffset:(CGFloat)offset
+- (void)showDefaultEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text centerOffset:(CGFloat)offset
 {
     UIView *view = self.customInfo[kEmptyView];
     if (!view) {
-        view = [[UIView alloc] initWithFrame:CGRectZero];
+        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
         view.backgroundColor = [UIColor clearColor];
         view.userInteractionEnabled = NO;
         UIImageView *imgView =  [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -44,10 +43,12 @@
         self.customInfo[kEmptyView] = view;
         self.customInfo[kImgView] = imgView;;
         self.customInfo[kLabelView] = label;
-        [view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(320, 320));
-        }];
     }
+    
+    CKAsyncMainQueue(^{
+        view.center = CGPointMake(self.center.x, self.center.y+offset);
+    });
+
     UIImageView *imgView = self.customInfo[kImgView];
     UILabel *label = self.customInfo[kLabelView];
     
@@ -67,11 +68,11 @@
         make.top.equalTo(imgView.mas_bottom).offset(17);
     }];
     
-    [view mas_updateConstraints:^(MASConstraintMaker *make) {
-        
-        make.centerX.equalTo(boundsView.mas_centerX);
-        make.centerY.equalTo(self.mas_centerY).offset(offset);
-    }];
+//    [view mas_updateConstraints:^(MASConstraintMaker *make) {
+//        
+//        make.centerX.equalTo(boundsView.mas_centerX);
+//        make.centerY.equalTo(self.mas_centerY).offset(offset);
+//    }];
     
     view.hidden = NO;
     [self bringSubviewToFront:view];

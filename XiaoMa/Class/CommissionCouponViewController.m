@@ -21,6 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self.tableView.refreshView addTarget:self action:@selector(requestCoupon) forControlEvents:UIControlEventValueChanged];
     [self requestCoupon];
     // Do any additional setup after loading the view.
 }
@@ -36,15 +37,22 @@
     op.type = CouponTypeAgency;
     [[[op rac_postRequest] initially:^{
         
-        [gToast showText:@"Loading"];
+        [self.tableView.refreshView beginRefreshing];
     }] subscribeNext:^(GetUserCouponByTypeOp * op) {
         
-        [gToast dismiss];
+        [self.tableView.refreshView endRefreshing];
         self.couponArray = op.rsp_couponsArray;
         [self.tableView reloadData];
+        if (self.couponArray.count == 0) {
+            [self.tableView showDefaultEmptyViewWithText:@"暂无免费券"];
+        }
+        else {
+            [self.tableView hideDefaultEmptyView];
+        }
     } error:^(NSError *error) {
         
-        [gToast dismiss];
+        [self.tableView.refreshView endRefreshing];
+        [self.tableView showDefaultEmptyViewWithText:@"刷新失败"];
     }];
 }
 
