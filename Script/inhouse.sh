@@ -102,7 +102,7 @@ xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $con
 # archieve
 archieve_dir=$root_path"/ipa"
 
-xcrun -sdk iphoneos PackageApplication -v $build_dir"/XiaoMa.app" -o $archieve_dir"/"$ipa_name
+xcrun -sdk iphoneos PackageApplication -v $build_dir"/XiaoMa.app" -o $archieve_dir"/"$release_ipa_name
 
 echo "**************finish building adhoc-release**************"
 
@@ -137,7 +137,7 @@ xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $con
 # archieve
 archieve_dir=$root_path"/ipa"
 
-xcrun -sdk iphoneos PackageApplication -v $build_dir"/XiaoMa.app" -o $archieve_dir"/"$ipa_name
+xcrun -sdk iphoneos PackageApplication -v $build_dir"/XiaoMa.app" -o $archieve_dir"/"$debug_ipa_name
 
 echo "**************finish building adhoc-debug**************"
 
