@@ -571,6 +571,7 @@
 		6B086BAE1AE4F46900659DB7 /* TMMemoryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMMemoryCache.m; sourceTree = "<group>"; };
 		6B343C341B0EFFAF0036AED9 /* ShareUserCouponOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareUserCouponOp.h; path = Class/ShareUserCouponOp.h; sourceTree = "<group>"; };
 		6B343C351B0EFFAF0036AED9 /* ShareUserCouponOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShareUserCouponOp.m; path = Class/ShareUserCouponOp.m; sourceTree = "<group>"; };
+		6B65DF4F1B1BF99000E54948 /* XiaoMaConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XiaoMaConstants.h; sourceTree = "<group>"; };
 		6B747A631AF08C7B00106BFD /* PhoneHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhoneHelper.h; path = Class/PhoneHelper.h; sourceTree = "<group>"; };
 		6B747A641AF08C7B00106BFD /* PhoneHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhoneHelper.m; path = Class/PhoneHelper.m; sourceTree = "<group>"; };
 		6B82588E1AF8B37100D5D800 /* CommentListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentListViewController.h; sourceTree = "<group>"; };
@@ -1357,6 +1358,7 @@
 				6B747A641AF08C7B00106BFD /* PhoneHelper.m */,
 				6BB89CCF1B043BFA00F3F61F /* AdvertisementManager.h */,
 				6BB89CD01B043BFA00F3F61F /* AdvertisementManager.m */,
+				6B65DF4F1B1BF99000E54948 /* XiaoMaConstants.h */,
 			);
 			name = Singleton;
 			sourceTree = "<group>";
