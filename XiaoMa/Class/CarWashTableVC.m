@@ -397,7 +397,10 @@
         [[getShopByDistanceOp rac_postRequest] subscribeNext:^(GetShopByDistanceOp * op) {
             
             @strongify(self);
+            self.currentPageIndex = self.currentPageIndex + 1;
+            
             [self.tableView.refreshView endRefreshing];
+            
             self.datasource = op.rsp_shopArray;
             
             if (self.datasource.count >= self.pageAmount)
@@ -440,13 +443,14 @@
     GetShopByDistanceOp * getShopByDistanceOp = [GetShopByDistanceOp new];
     getShopByDistanceOp.longitude = self.userCoordinate.longitude;
     getShopByDistanceOp.latitude = self.userCoordinate.latitude;
-    getShopByDistanceOp.pageno = self.currentPageIndex + 1;
+    getShopByDistanceOp.pageno = self.currentPageIndex;
     [[[getShopByDistanceOp rac_postRequest] initially:^{
         
         [self.tableView.bottomLoadingView hideIndicatorText];
         [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
     }] subscribeNext:^(GetShopByDistanceOp * op) {
         
+        self.currentPageIndex = self.currentPageIndex + 1;
         [self.tableView.bottomLoadingView stopActivityAnimation];
         if (op.rsp_shopArray.count >= self.pageAmount)
         {

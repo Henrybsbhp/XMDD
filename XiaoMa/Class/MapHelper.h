@@ -11,7 +11,6 @@
 #import <MAMapKit/MAMapKit.h>
 #import "XiaoMa.h"
 
-#define AMapKey @"8b0b664d2df333201514aacb8e1551bc"
 //#define AMapKey @"0442b54d277405a2f29a42f773a137aa" //cn.jtang.xmdd
 
 @interface MapHelper : NSObject<MAMapViewDelegate,AMapSearchDelegate>

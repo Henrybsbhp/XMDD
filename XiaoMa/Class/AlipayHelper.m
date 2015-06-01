@@ -8,10 +8,6 @@
 
 #import "AlipayHelper.h"
 
-
-#define AlipayCallbackDefaultUrlForDebug   @"http://183.129.253.170:18282/paa/alipaynotify"
-#define AlipayCallbackDefaultUrlForRelease   @"http://183.129.253.170:18282/paa/alipaynotify"
-
 #define XMDDAlipayScheme @"com.huika.xmdd.alipay"
 
 @implementation AlipayHelper
@@ -61,17 +57,17 @@
     order.inputCharset = @"utf-8";
     order.itBPay = @"30m";
     order.showUrl = @"m.alipay.com";
+    order.notifyURL = ALIPAY_NOTIFY_URL;
     
 #ifdef DEBUG
     order.amount = [NSString stringWithFormat:@"%.2f",0.01]; //商品价格
 //    order.notifyURL = gApplicationInfo.userConfigInfo.alipayCallbackUrl.length ?
 //    gApplicationInfo.userConfigInfo.alipayCallbackUrl:AlipayCallbackDefaultUrlForDebug; //回调URL
-    order.notifyURL = AlipayCallbackDefaultUrlForDebug;
+    
 #else
     order.amount = [NSString stringWithFormat:@"%.2f",price]; //商品价格
 //    order.notifyURL =  gApplicationInfo.userConfigInfo.alipayCallbackUrl.length ?
 //    gApplicationInfo.userConfigInfo.alipayCallbackUrl :AlipayCallbackDefaultUrlForRelease;
-    order.notifyURL = AlipayCallbackDefaultUrlForRelease;
 #endif
 
     NSString *orderInfo = [order description];
