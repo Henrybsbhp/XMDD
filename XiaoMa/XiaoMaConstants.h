@@ -24,7 +24,7 @@
 ///微信相关
 
 #define WECHAT_APP_ID         @"wxf346d7a6113bbbf9"
-//#define WECHAT_APP_ID         @"wx5ac14355ce361cb5"(com.)
+//#define WECHAT_APP_ID         @"wx5ac14355ce361cb5"
 
 #define WECHAT_APP_SECRET      @"03cdb23781343412055c579103dedf9f"
 //商户号，填写商户对应参数

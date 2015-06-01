@@ -1,7 +1,7 @@
 ##################################################################################
 
 # inhouse－xmdd对应的信息
-adhoc_provisioning_id='edee1d9e-e87a-46f8-add7-c5388d0c6935'
+adhoc_provisioning_id='d80498c3-937b-401e-98aa-3e66f4699d8f'
 adhoc_code_sign_id='iPhone Distribution: Hangzhou Huika Technology Co., Ltd.'
 
 #############################################################í#####################
@@ -66,12 +66,15 @@ fi
 # 	echo "git add. error"
 # 	exit 1
 # fi
+
 echo "**************pull finish**************"
 
 #删除缓存。以前的终端编译会导致后面的编译失败
 user=$USER
 derivedData="/Users/"$user"/Library/Developer/Xcode/DerivedData"
 cd $derivedData && rm -rf *
+
+bundleVersion=$(/usr/libexec/PlistBuddy -c "print CFBundleVersion" $project_path"/XiaoMa/Misc/Info.plist")
 
 
 # build adhoc-release
