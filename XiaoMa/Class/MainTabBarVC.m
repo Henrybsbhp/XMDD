@@ -8,6 +8,7 @@
 
 #import "MainTabBarVC.h"
 #import "XiaoMa.h"
+#import "UIView+ShowDot.h"
 
 @interface MainTabBarVC ()<UITabBarControllerDelegate>
 
@@ -35,6 +36,25 @@
         UITabBarItem *item = self.tabBar.items[i];
         item.selectedImage = [UIImage imageNamed:selectedImages[i]];
     }
+    //"我的"
+    [[[RACObserve(gAppMgr, myUser) distinctUntilChanged] flattenMap:^RACStream *(JTUser *user) {
+        
+        if (user) {
+            return [RACObserve(user, hasNewMsg) distinctUntilChanged];
+        }
+        return [RACSignal return:@NO];
+    }] subscribeNext:^(NSNumber *hasmsg) {
+        
+        BOOL showDot = [hasmsg boolValue];
+        if (showDot) {
+            CGFloat x = ceilf(CGRectGetWidth(self.tabBar.frame)/6*5 + 6);
+            CGFloat y = 6;
+            [self.tabBar showDotWithOffset:CGPointMake(x, y)];
+        }
+        else {
+            [self.tabBar hideDot];
+        }
+    }];
 }
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController

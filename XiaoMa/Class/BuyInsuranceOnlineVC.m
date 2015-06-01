@@ -11,7 +11,7 @@
 #import "BeInterestedInInsuranceOp.h"
 #import "WebVC.h"
 
-#define kInsuranceOlineUrl  @"http://www.xiaomadada.com/apphtml/paaindex.html"
+#define kInsuranceOlineUrl  @"http://www.xiaomadada.com/apphtml/aichebao.html"
 
 @interface BuyInsuranceOnlineVC ()
 @property (weak, nonatomic) IBOutlet UIWebView *webView;

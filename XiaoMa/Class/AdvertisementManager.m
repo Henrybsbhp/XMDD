@@ -22,6 +22,7 @@
 
 @property (nonatomic, strong, readonly) TMCache *adCache;
 @property (nonatomic, strong) NSMutableDictionary *timeInfo;
+@property (nonatomic, strong) RACSignal *defScrollTimerSignal;
 @end
 
 @implementation AdvertisementManager
@@ -115,10 +116,15 @@
     return signal;
 }
 
+
+
 - (RACSignal *)rac_scrollTimerSignal
 {
-    return [[RACSignal interval:kScrollAdTimeInterval onScheduler:[RACScheduler scheduler]]
-            deliverOn:[RACScheduler mainThreadScheduler]];
+    if (!self.defScrollTimerSignal) {
+        self.defScrollTimerSignal = [[RACSignal interval:kScrollAdTimeInterval onScheduler:[RACScheduler scheduler]]
+                                     deliverOn:[RACScheduler mainThreadScheduler]];
+    }
+    return self.defScrollTimerSignal;
 }
 
 #pragma mark - Utility

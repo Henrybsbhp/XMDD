@@ -17,6 +17,8 @@
     if (!refreshView) {
         refreshView = [[ODRefreshControl alloc] initInScrollView:self];
         objc_setAssociatedObject(self, _cmd, refreshView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        [self addSubview:refreshView];
+//        [refreshView setColors:@[kDefTintColor]];
     }
     return refreshView;
 }

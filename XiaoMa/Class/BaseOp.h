@@ -49,7 +49,8 @@
 @property (nonatomic, copy) NSString *rsp_errorMsg;
 /// 业务code
 @property (nonatomic, assign) NSInteger rsp_code;
-
+/// 是否有新消息
+@property (nonatomic, assign) BOOL rsp_newmsg;
 
 @property (nonatomic, weak) RACSignal *rac_curSignal;
 

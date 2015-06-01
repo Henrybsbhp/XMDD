@@ -44,4 +44,8 @@
 
 @property (nonatomic, strong)MyCarsModel * carModel;
 
+#pragma mark - Status
+///有新消息
+@property (nonatomic, assign) BOOL hasNewMsg;
+
 @end
