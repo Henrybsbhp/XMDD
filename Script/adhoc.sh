@@ -143,4 +143,4 @@ echo "**************finish building adhoc-debug**************"
 # 开始上传到蒲公英 并发布 使用python
 python $project_path"/Script/pugongying4Release.py" $archieve_dir"/"$release_ipa_name $bundleVersion
 
-python $project_path"/Script/pugongying4Debug.py" $archieve_dir"/"$release_ipa_name $bundleVersion
+python $project_path"/Script/pugongying4Debug.py" $archieve_dir"/"$debug_ipa_name $bundleVersion
