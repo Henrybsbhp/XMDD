@@ -25,14 +25,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.datasource = @[@{@"title":@"去给小马达达评分",@"action":^(void){
-        
-        [self rateOurApp];
-    }},
-                        @{@"title":@"用户服务协议",@"action":^(void){
+    self.datasource = @[@{@"title":@"用户服务协议",@"action":^(void){
         [self serviceAgreement];
     }},
-                        @{@"title":@"查看欢迎页",@"action":^(void){}},
                         
                         @{@"title":@"意见反馈",@"action":^(void){
                             [self gotoFeedback];
