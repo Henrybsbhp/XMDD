@@ -224,6 +224,8 @@
         [self.searchBar resignFirstResponder];
         if (op.rsp_code == 0)
         {
+            self.currentPageIndex = self.currentPageIndex + 1;
+            
             self.resultArray = op.rsp_shopArray;
             if (self.resultArray.count == 0)
             {
@@ -267,7 +269,7 @@
     searchInfo = [self.searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     GetShopByNameOp * op = [GetShopByNameOp operation];
     op.shopName = searchInfo;
-    op.pageno = self.currentPageIndex+1;
+    op.pageno = self.currentPageIndex;
     op.orderby = 1;
     
     [[[op rac_postRequest] initially:^{
@@ -276,6 +278,7 @@
         [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
     }] subscribeNext:^(GetShopByNameOp * op) {
         
+        self.currentPageIndex = self.currentPageIndex + 1;
         [self.tableView.bottomLoadingView stopActivityAnimation];
         if(op.rsp_code == 0)
         {
