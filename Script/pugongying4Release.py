@@ -27,11 +27,11 @@ ipa_name = sys.argv[1]
 #蒲公英应用上传地址
 url = 'http://www.pgyer.com/apiv1/app/upload'
 #蒲公英提供的 用户Key
-uKey = 'bddca58541ad8db252594397356a8bd3'
+uKey = '98a50b2ac38c606abcaa414eba3e7796'
 #上传文件的文件名（这个可随便取，但一定要以 ipa 结尾）
 file_name = 'xmdd.ipa'
 #蒲公英提供的 API Key
-_api_key = 'c1607a030c162b0adc40415d5162572a'
+_api_key = '2b7fbfb6171bd74dce582377a1b42169'
 #安装应用时需要输入的密码，这个可不填
 installPassword = 'xiaoma'
 
@@ -107,7 +107,7 @@ def send_Email(json_result):
     
     msg = MIMEMultipart()
     
-    environsString = '<h3>小马达达本次打包相关信息:</h3><p>'
+    environsString = '<h3>小马达达本次打包相关信息: Release</h3><p>'
     environsString += '<p>可从蒲公英网站在线安装 : ' + 'http://www.pgyer.com/' + str(appShortcutUrl) + '   密码 : ' + installPassword + '<p>'
     message = environsString
     body = MIMEText(message, _subtype='html', _charset='utf-8')
