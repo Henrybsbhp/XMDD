@@ -17,6 +17,7 @@
 #import "MessageListVC.h"
 #import "MyCollectionViewController.h"
 #import "CouponPkgViewController.h"
+#import "UIView+ShowDot.h"
 
 @interface MineVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -207,10 +208,9 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"TopCell" forIndexPath:indexPath];
 //    UILabel *leftTitleL = (UILabel *)[cell.contentView viewWithTag:1001];
     UIButton *leftBtn = (UIButton *)[cell.contentView viewWithTag:1002];
-//    UILabel *rightTitleL = (UILabel *)[cell.contentView viewWithTag:2001];
+    UILabel *rightTitleL = (UILabel *)[cell.contentView viewWithTag:2001];
     UIButton *rightBtn = (UIButton *)[cell.contentView viewWithTag:2002];
-
-//    leftTitleL.text = @"优惠券";
+    
     @weakify(self);
     [[[leftBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
@@ -220,6 +220,23 @@
     [[[rightBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
         [self actionPushToMessages];
+    }];
+    
+    [[[[RACObserve(gAppMgr, myUser) distinctUntilChanged] flattenMap:^RACStream *(JTUser *user) {
+        
+        if (user) {
+            return [RACObserve(user, hasNewMsg) distinctUntilChanged];
+        }
+        return [RACSignal return:@NO];
+    }] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber *hasmsg) {
+        
+        BOOL showDot = [hasmsg boolValue];
+        if (showDot) {
+            [rightTitleL showDotWithOffset:CGPointMake(36, 0)];
+        }
+        else {
+            [rightTitleL hideDot];
+        }
     }];
     return cell;
 }

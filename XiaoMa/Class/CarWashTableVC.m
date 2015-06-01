@@ -29,7 +29,8 @@
 
 @interface CarWashTableVC ()<SYPaginatorViewDataSource, SYPaginatorViewDelegate>
 @property (nonatomic, strong) SYPaginatorView *adView;
-
+@property (nonatomic, strong) RACDisposable *rac_adDisposable;
+@property (nonatomic, strong) NSArray *adList;
 @property (nonatomic, strong) NSArray *datasource;
 
 
@@ -52,15 +53,16 @@
     self.pageAmount = PageAmount;
     self.currentPageIndex = 1;
     
-    [self setupSearchView];
-    [self setupADView];
-    [self setupTableView];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshAdView) name:CarwashAdvertiseNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAdList) name:CarwashAdvertiseNotification object:nil];
     
     [self.tableView.refreshView addTarget:self action:@selector(requestCarWashShopList) forControlEvents:UIControlEventValueChanged];
-    
-    [self requestCarWashShopList];
+
+    CKAsyncMainQueue(^{
+        [self setupSearchView];
+        [self setupTableView];
+        [self reloadAdList];
+        [self requestCarWashShopList];
+    });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -108,70 +110,64 @@
     }];
 }
 
-- (void)setupADView
+- (void)reloadAdList
 {
-    if (gAdMgr.carwashAdvertiseArray.count <= 0) {
-        return;
-    }
-    
-    CGFloat width = CGRectGetWidth(self.view.frame);
-    CGFloat height = 360.0f/1242.0f*width;
-    SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-    adView.delegate = self;
-    adView.dataSource = self;
-    adView.pageGapWidth = 0;
-    [self.headerView addSubview:adView];
-    self.adView = adView;
-    [adView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.headerView);
-        make.right.equalTo(self.headerView);
-        make.top.equalTo(self.searchView.mas_bottom);
-        make.height.mas_equalTo(height);
-    }];
-
-    [self refreshAdView];
-    
     @weakify(self);
-    RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
-
+    [[gAdMgr rac_fetchAdListByType:AdvertisementCarWash] subscribeNext:^(NSArray *ads) {
+        
         @strongify(self);
-        NSInteger index = [self.adView currentPageIndex] + 1;
-        if (index >= gAdMgr.carwashAdvertiseArray.count) {
-            index = 0;
-        }
-        [self.adView setCurrentPageIndex:index animated:YES];
+        self.adList = ads;
+        [self refreshAdView];
     }];
-    [[self rac_deallocDisposable] addDisposable:dis];
 }
 
 - (void)refreshAdView
 {
-    BOOL flag = gAdMgr.carwashAdvertiseArray.count;
-    CGFloat width = CGRectGetWidth(self.view.frame);
-    CGFloat height = 360.0f/1242.0f*width;
-    if (flag)
-    {
-        self.adView.hidden = NO;
-        
-        [self.adView reloadData];
+    if (self.adList.count > 0) {
+        CGFloat width = CGRectGetWidth(self.view.frame);
+        CGFloat height = 360.0f/1242.0f*width;
+        self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), height+45);
+        if (!self.adView) {
+            SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 45, width, height)];
+            adView.delegate = self;
+            adView.dataSource = self;
+            adView.pageGapWidth = 0;
+            self.adView = adView;
+        }
+        [self.headerView addSubview:self.adView];
+        [self.adView reloadDataRemovingCurrentPage:YES];
         self.adView.currentPageIndex = 0;
+        
+        //重置广告滚动的定时器
+        [self.rac_adDisposable dispose];
+        @weakify(self);
+        self.rac_adDisposable = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
+            
+            @strongify(self);
+            NSInteger index = [self.adView currentPageIndex] + 1;
+            if (index >= self.adList.count) {
+                index = 0;
+            }
+            [self.adView setCurrentPageIndex:index animated:YES];
+        }];
     }
-    else
-    {
-        self.adView.hidden = YES;
+    else {
+        self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), 45);
+        [self.adView removeFromSuperview];
+        
+        //清理广告的定时器
+        [self.rac_adDisposable dispose];
+        [[self rac_deallocDisposable] removeDisposable:self.rac_adDisposable];
     }
-    CGRect rect = self.headerView.frame;
-    rect.size.height = flag ? height + 45 : 45;
-    self.headerView.frame = rect;
-    [self.tableView beginUpdates];
+    
     [self.tableView setTableHeaderView:self.headerView];
-    [self.tableView endUpdates];
 }
 
 
 - (void)setupTableView
 {
     self.tableView.showBottomLoadingView = YES;
+    self.tableView.contentInset = UIEdgeInsetsZero;
 }
 
 - (void)reloadDataWithText:(NSString *)text error:(NSError *)error
@@ -182,12 +178,13 @@
         [self.tableView setTableHeaderView:nil];
     }
     else {
-        self.tableView.tableHeaderView = self.headerView;
+        if (!self.tableView.tableHeaderView) {
+            self.tableView.tableHeaderView = self.headerView;
+        }
     }
 
     [self.tableView reloadData];
     if (self.datasource.count == 0) {
-        NSLog(@"frame = %@", NSStringFromCGRect(self.tableView.frame));
         [self.tableView showDefaultEmptyViewWithText:text];
     }
     else {
@@ -222,7 +219,7 @@
     }
     UIImageView *imgV = (UIImageView *)[pageView searchViewWithTag:1001];
     HKAdvertisement * ad = [gAdMgr.carwashAdvertiseArray safetyObjectAtIndex:pageIndex];
-    [[gMediaMgr rac_getPictureForUrl:ad.adPic withType:ImageURLTypeThumbnail defaultPic:@"hp_bottom" errorPic:@"hp_bottom"]
+    [[gMediaMgr rac_getPictureForUrl:ad.adPic withType:ImageURLTypeMedium defaultPic:@"hp_bottom" errorPic:@"hp_bottom"]
      subscribeNext:^(id x) {
         imgV.image = x;
     }];
@@ -369,11 +366,13 @@
     NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
                             NSForegroundColorAttributeName:[UIColor lightGrayColor],
                             NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle)};
-    NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%@", price1] attributes:attr1];
+    NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:
+                                    [NSString stringWithFormat:@"￥%.2f", [price1 floatValue]] attributes:attr1];
     
     NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18],
                             NSForegroundColorAttributeName:HEXCOLOR(@"#f93a00")};
-    NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" ￥%@", price2] attributes:attr2];
+    NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:
+                                    [NSString stringWithFormat:@" ￥%.2f", [price2 floatValue]] attributes:attr2];
     NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
     [str appendAttributedString:attrStr1];
     [str appendAttributedString:attrStr2];
@@ -385,8 +384,8 @@
 {
     @weakify(self)
     [[[[gMapHelper rac_getUserLocation] take:1] initially:^{
-        
-         [self.tableView.refreshView beginRefreshing];
+
+        [self.tableView.refreshView beginRefreshing];
     }] subscribeNext:^(MAUserLocation *userLocation) {
     
         @strongify(self)
@@ -395,11 +394,7 @@
         getShopByDistanceOp.longitude = userLocation.coordinate.longitude;
         getShopByDistanceOp.latitude = userLocation.coordinate.latitude;
         getShopByDistanceOp.pageno = self.currentPageIndex;
-        [[[getShopByDistanceOp rac_postRequest] initially:^{
-            
-             [self.tableView.refreshView beginRefreshing];
-            
-        }] subscribeNext:^(GetShopByDistanceOp * op) {
+        [[getShopByDistanceOp rac_postRequest] subscribeNext:^(GetShopByDistanceOp * op) {
             
             @strongify(self);
             self.currentPageIndex = self.currentPageIndex + 1;
@@ -423,12 +418,15 @@
             [self reloadDataWithText:@"暂无商铺" error:nil];
         } error:^(NSError *error) {
             
+            @strongify(self);
             [gToast showError:@"获取商店列表失败"];
+            [self.tableView.refreshView endRefreshing];
         }];
     } error:^(NSError *error) {
         
         @strongify(self);
         [SVProgressHUD dismiss];
+        [self.tableView.refreshView endRefreshing];
         [self reloadDataWithText:@"定位失败" error:error];
         [self.navigationController popViewControllerAnimated:YES];
     }];

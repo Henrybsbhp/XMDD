@@ -130,6 +130,10 @@ static int32_t g_requestVid = 1;
 {
     if ([obj isKindOfClass:[NSDictionary class]]) {
         self.rsp_code = [[(NSDictionary *)obj objectForKey:@"rc"] integerValue];
+        self.rsp_newmsg = [[(NSDictionary *)obj objectForKey:@"newmsg"] boolValue];
+        if (self.rsp_newmsg) {
+            gAppMgr.myUser.hasNewMsg = YES;
+        }
         if (self.rsp_code != 0) {
             return [NSError errorWithDomain:@"请求失败" code:self.rsp_code userInfo:nil];
         }
