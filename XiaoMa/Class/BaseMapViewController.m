@@ -64,7 +64,7 @@
 
 - (void)initSearch
 {
-    self.search = [[AMapSearchAPI alloc] initWithSearchKey:AMapKey Delegate:self];
+    self.search = [[AMapSearchAPI alloc] initWithSearchKey:AMAP_API_ID Delegate:self];
 }
 
 - (void)initBaseNavigationBar

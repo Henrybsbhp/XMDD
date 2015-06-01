@@ -52,17 +52,17 @@
     [gMapHelper setupMAMap];
     
     //微信授权
-    if (![WXApi registerApp:@"wxf346d7a6113bbbf9"])
+    if (![WXApi registerApp:WECHAT_APP_ID])
     {
         DebugLog(@"Wechat register Failed");
     }
     //微博授权
-    if (![WeiboSDK registerApp:@"2789804503"])
+    if (![WeiboSDK registerApp:WEIBO_APP_ID])
     {
         DebugLog(@"Weibo register Failed");
     }
     //QQ接口调用授权
-    if (![[TencentOAuth alloc] initWithAppId:@"1104617282"
+    if (![[TencentOAuth alloc] initWithAppId:QQ_API_ID
                                     andDelegate:self])
     {
         DebugLog(@"QQ register Failed");
