@@ -29,6 +29,7 @@ git checkout dev
 if git pull ;then 
 	if git checkout inhouse_dev ;then
 		if git rebase dev;then
+			git push
 			echo "git rebase success"
 		else 
 			echo "git rebase error"
