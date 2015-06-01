@@ -37,7 +37,7 @@
 #ifdef DEBUG
     #define WECHAT_NOTIFY_URL      @"http://183.129.253.170:18282/paa/weichatpaynotify"
 #else
-    #define Wechat_NOTIFY_URL      @"http://api.xiaomadada.com:8282/paa/weichatpaynotify"
+    #define WECHAT_NOTIFY_URL      @"http://api.xiaomadada.com:8282/paa/weichatpaynotify"
 #endif
 
 //支付宝相关
