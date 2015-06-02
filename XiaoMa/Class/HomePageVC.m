@@ -59,12 +59,11 @@ static NSInteger rotationIndex = 0;
     [self autoLogin];
 //    //设置主页的滚动视图
     [self setupScrollView];
-    
+    [self setupWeatherView];
     [self rotationTableHeaderView];
     
-    [self getWeatherInfo];
-    [self requestHomePageAd];
-    [self setupWeatherView];
+    [self.scrollView.refreshView addTarget:self action:@selector(reloadDatasource) forControlEvents:UIControlEventValueChanged];
+    [self reloadDatasource];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -223,7 +222,7 @@ static NSInteger rotationIndex = 0;
     else
     {
         UIBarButtonItem *retrybtn =
-        [[UIBarButtonItem alloc] initWithTitle:@"点击重试" style:UIBarButtonItemStyleDone target:self action:@selector(getWeatherInfo)];
+        [[UIBarButtonItem alloc] initWithTitle:@"定位失败" style:UIBarButtonItemStyleDone target:self action:@selector(rac_getWeatherInfo)];
         self.navigationItem.leftBarButtonItem = retrybtn;
     }
 }
@@ -287,6 +286,21 @@ static NSInteger rotationIndex = 0;
     }];
 }
 
+- (void)reloadDatasource
+{
+    @weakify(self);
+    [[[[[self rac_getWeatherInfo] merge:[self rac_requestHomePageAd]] initially:^{
+      
+        @strongify(self);
+        [self.scrollView.refreshView beginRefreshing];
+    }] finally:^{
+        
+        @strongify(self);
+        [self.scrollView.refreshView endRefreshing];
+    }] subscribeNext:^(id x) {
+        
+    }];
+}
 
 #pragma mark - Action
 - (IBAction)actionCallCenter:(id)sender
@@ -371,12 +385,12 @@ static NSInteger rotationIndex = 0;
 }
 
 
-- (void)getWeatherInfo
+- (RACSignal *)rac_getWeatherInfo
 {
-    [[[[gMapHelper rac_getInvertGeoInfo] take:1] initially:^{
+    return [[[[[gMapHelper rac_getInvertGeoInfo] take:1] initially:^{
         
         [self setupNavigationLeftBar:@"定位中..."];
-    }] subscribeNext:^(AMapReGeocode * getInfo) {
+    }] doNext:^(AMapReGeocode * getInfo) {
         
         [self setupNavigationLeftBar:getInfo.addressComponent.city];
         [self requestWeather:getInfo.addressComponent.province
@@ -394,7 +408,7 @@ static NSInteger rotationIndex = 0;
         NSString * dateStr = [[NSDate date] dateFormatForDT15];
         [gAppMgr saveInfo:dateStr forKey:LastLocationTime];
         
-    } error:^(NSError *error) {
+    }] doError:^(NSError *error) {
         
         [self setupNavigationLeftBar:nil];
         switch (error.code) {
@@ -402,7 +416,7 @@ static NSInteger rotationIndex = 0;
             {
                 if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
                 {
-                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置进行操作" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往设置", nil];
+                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置打开,然后重启应用" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往设置", nil];
                     
                     [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
                         
@@ -415,7 +429,7 @@ static NSInteger rotationIndex = 0;
                 }
                 else
                 {
-                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置进行操作" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
+                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置打开，然后重启应用" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
                     
                     [av show];
                 }
@@ -477,18 +491,18 @@ static NSInteger rotationIndex = 0;
 }
 
 
-- (void)requestHomePageAd
+- (RACSignal *)rac_requestHomePageAd
 {
-    [[gAdMgr rac_getAdvertisement:AdvertisementHomePage] subscribeNext:^(NSArray * array) {
+    return [[gAdMgr rac_getAdvertisement:AdvertisementHomePage] doNext:^(NSArray * array) {
         
         [self.adView reloadData];
         self.adView.currentPageIndex = 0;
     }];
-    
-    [[gAdMgr rac_getAdvertisement:AdvertisementCarWash] subscribeNext:^(NSArray * array) {
-        
-
-    }];
+//
+//    [[gAdMgr rac_getAdvertisement:AdvertisementCarWash] subscribeNext:^(NSArray * array) {
+//        
+//
+//    }];
 }
 
 

@@ -46,9 +46,9 @@
     //创建支付签名对象
     payRequsestHandler *req = [payRequsestHandler alloc];
     //初始化支付签名对象
-    [req init:APP_ID mch_id:MCH_ID];
+    [req init:WECHAT_APP_ID mch_id:WECHAT_MCH_ID];
     //设置密钥
-    [req setKey:PARTNER_ID];
+    [req setKey:WECHAT_PARTNER_ID];
     
     //}}}
     

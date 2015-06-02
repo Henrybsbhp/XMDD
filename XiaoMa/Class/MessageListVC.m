@@ -67,6 +67,7 @@
         [self.tableView.bottomLoadingView stopActivityAnimation];
         if (timetag == 0) {
             self.msgList = [NSMutableArray array];
+            gAppMgr.myUser.hasNewMsg = NO;
         }
         [self.msgList safetyAddObjectsFromArray:rspOp.rsp_msgs];
         self.curMsgTime = [[self.msgList lastObject] msgtime];

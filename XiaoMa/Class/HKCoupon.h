@@ -30,8 +30,8 @@ typedef enum : NSUInteger {
 ///优惠券名称
 @property (nonatomic,copy)NSString * couponName;
 
-///数额 (Int更改为float解决问题7313)
-@property (nonatomic)float couponAmount;
+///数额
+@property (nonatomic)CGFloat couponAmount;
 
 ///优惠券描述
 @property (nonatomic,copy)NSString * couponDescription;

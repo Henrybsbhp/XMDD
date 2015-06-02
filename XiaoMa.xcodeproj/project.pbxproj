@@ -59,6 +59,8 @@
 		1853DED41AE2A0BD00C39175 /* VcodeLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853DED31AE2A0BD00C39175 /* VcodeLoginVC.m */; };
 		185A527D1B185191003515CC /* Message.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 185A527B1B185191003515CC /* Message.storyboard */; };
 		185A52821B195C87003515CC /* NearbyShopListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 185A52811B195C87003515CC /* NearbyShopListVC.m */; };
+		185A529C1B1C0DEC003515CC /* CarbonSwipeRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 185A52991B1C0DEC003515CC /* CarbonSwipeRefresh.m */; };
+		185A529D1B1C0DEC003515CC /* CarbonTabSwipeNavigation.m in Sources */ = {isa = PBXBuildFile; fileRef = 185A529B1B1C0DEC003515CC /* CarbonTabSwipeNavigation.m */; };
 		186984E11AFF976A000A182A /* WebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 186984E01AFF976A000A182A /* WebVC.m */; };
 		186984E51B0057A4000A182A /* MyOrderListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 186984E41B0057A4000A182A /* MyOrderListVC.m */; };
 		186984E81B005A86000A182A /* CarwashOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186984E71B005A86000A182A /* CarwashOrderViewModel.m */; };
@@ -88,6 +90,9 @@
 		1883D9221ACBC418002A4D19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1883D9201ACBC418002A4D19 /* Main.storyboard */; };
 		1883D9271ACCD6C0002A4D19 /* MainTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D9261ACCD6C0002A4D19 /* MainTabBarVC.m */; };
 		1883D9331ACCDA8B002A4D19 /* DefaultStyleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D9321ACCDA8B002A4D19 /* DefaultStyleModel.m */; };
+		1885F0C01B1C4DB40056D3BD /* UIView+ShowDot.m in Sources */ = {isa = PBXBuildFile; fileRef = 1885F0BF1B1C4DB40056D3BD /* UIView+ShowDot.m */; };
+		1885F0C31B1C50970056D3BD /* UIView+AddBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1885F0C21B1C50970056D3BD /* UIView+AddBadgeView.m */; };
+		1885F0C61B1C50C80056D3BD /* JTImageBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 1885F0C51B1C50C80056D3BD /* JTImageBadge.m */; };
 		18863FA21AE8A316005BF4ED /* GetInsuranceByChannelOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18863FA11AE8A316005BF4ED /* GetInsuranceByChannelOp.m */; };
 		18863FA51AE8ECFB005BF4ED /* GridLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18863FA41AE8ECFB005BF4ED /* GridLabel.m */; };
 		18863FA81AE9D39A005BF4ED /* PayForPolicyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18863FA71AE9D39A005BF4ED /* PayForPolicyVC.m */; };
@@ -392,6 +397,11 @@
 		185A527E1B187EFA003515CC /* DownloadOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadOp.h; path = Class/DownloadOp.h; sourceTree = "<group>"; };
 		185A52801B195C87003515CC /* NearbyShopListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyShopListVC.h; sourceTree = "<group>"; };
 		185A52811B195C87003515CC /* NearbyShopListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyShopListVC.m; sourceTree = "<group>"; };
+		185A52971B1C0DEC003515CC /* CarbonKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarbonKit.h; sourceTree = "<group>"; };
+		185A52981B1C0DEC003515CC /* CarbonSwipeRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarbonSwipeRefresh.h; sourceTree = "<group>"; };
+		185A52991B1C0DEC003515CC /* CarbonSwipeRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarbonSwipeRefresh.m; sourceTree = "<group>"; };
+		185A529A1B1C0DEC003515CC /* CarbonTabSwipeNavigation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarbonTabSwipeNavigation.h; sourceTree = "<group>"; };
+		185A529B1B1C0DEC003515CC /* CarbonTabSwipeNavigation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarbonTabSwipeNavigation.m; sourceTree = "<group>"; };
 		186984DF1AFF976A000A182A /* WebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebVC.h; sourceTree = "<group>"; };
 		186984E01AFF976A000A182A /* WebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebVC.m; sourceTree = "<group>"; };
 		186984E31B0057A4000A182A /* MyOrderListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderListVC.h; sourceTree = "<group>"; };
@@ -451,6 +461,12 @@
 		1883D9261ACCD6C0002A4D19 /* MainTabBarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabBarVC.m; sourceTree = "<group>"; };
 		1883D9311ACCDA8B002A4D19 /* DefaultStyleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultStyleModel.h; path = Class/DefaultStyleModel.h; sourceTree = "<group>"; };
 		1883D9321ACCDA8B002A4D19 /* DefaultStyleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultStyleModel.m; path = Class/DefaultStyleModel.m; sourceTree = "<group>"; };
+		1885F0BE1B1C4DB40056D3BD /* UIView+ShowDot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+ShowDot.h"; path = "Class/UIView+ShowDot.h"; sourceTree = "<group>"; };
+		1885F0BF1B1C4DB40056D3BD /* UIView+ShowDot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+ShowDot.m"; path = "Class/UIView+ShowDot.m"; sourceTree = "<group>"; };
+		1885F0C11B1C50970056D3BD /* UIView+AddBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+AddBadgeView.h"; path = "Class/UIView+AddBadgeView.h"; sourceTree = "<group>"; };
+		1885F0C21B1C50970056D3BD /* UIView+AddBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+AddBadgeView.m"; path = "Class/UIView+AddBadgeView.m"; sourceTree = "<group>"; };
+		1885F0C41B1C50C80056D3BD /* JTImageBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTImageBadge.h; path = Class/JTImageBadge.h; sourceTree = "<group>"; };
+		1885F0C51B1C50C80056D3BD /* JTImageBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTImageBadge.m; path = Class/JTImageBadge.m; sourceTree = "<group>"; };
 		18863FA01AE8A316005BF4ED /* GetInsuranceByChannelOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetInsuranceByChannelOp.h; path = Class/GetInsuranceByChannelOp.h; sourceTree = "<group>"; };
 		18863FA11AE8A316005BF4ED /* GetInsuranceByChannelOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetInsuranceByChannelOp.m; path = Class/GetInsuranceByChannelOp.m; sourceTree = "<group>"; };
 		18863FA31AE8ECFB005BF4ED /* GridLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridLabel.h; sourceTree = "<group>"; };
@@ -571,6 +587,7 @@
 		6B086BAE1AE4F46900659DB7 /* TMMemoryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMMemoryCache.m; sourceTree = "<group>"; };
 		6B343C341B0EFFAF0036AED9 /* ShareUserCouponOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareUserCouponOp.h; path = Class/ShareUserCouponOp.h; sourceTree = "<group>"; };
 		6B343C351B0EFFAF0036AED9 /* ShareUserCouponOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShareUserCouponOp.m; path = Class/ShareUserCouponOp.m; sourceTree = "<group>"; };
+		6B65DF4F1B1BF99000E54948 /* XiaoMaConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XiaoMaConstants.h; sourceTree = "<group>"; };
 		6B747A631AF08C7B00106BFD /* PhoneHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhoneHelper.h; path = Class/PhoneHelper.h; sourceTree = "<group>"; };
 		6B747A641AF08C7B00106BFD /* PhoneHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhoneHelper.m; path = Class/PhoneHelper.m; sourceTree = "<group>"; };
 		6B82588E1AF8B37100D5D800 /* CommentListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentListViewController.h; sourceTree = "<group>"; };
@@ -922,6 +939,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				185A52961B1C0DEC003515CC /* CarbonKit */,
 				6BCF624B1B184AEF0064AE32 /* NJKWebViewProgress */,
 				181F6D941B15919900D38555 /* CXAlertView */,
 				18B2C7251B13076B007FB0C7 /* PEPhotoCropEditor */,
@@ -1016,6 +1034,7 @@
 		1816F4B51AD36D5100BBCC96 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				1885F0BD1B1C4D940056D3BD /* Badge */,
 				181F6D8D1B14369B00D38555 /* DefaultEmptyView */,
 				6BD7AE651AE9EEDE00BEF30E /* Map */,
 				1853DEC51AE0EF8B00C39175 /* ProgressHUD */,
@@ -1196,6 +1215,19 @@
 			name = Nearby;
 			sourceTree = "<group>";
 		};
+		185A52961B1C0DEC003515CC /* CarbonKit */ = {
+			isa = PBXGroup;
+			children = (
+				185A52971B1C0DEC003515CC /* CarbonKit.h */,
+				185A52981B1C0DEC003515CC /* CarbonSwipeRefresh.h */,
+				185A52991B1C0DEC003515CC /* CarbonSwipeRefresh.m */,
+				185A529A1B1C0DEC003515CC /* CarbonTabSwipeNavigation.h */,
+				185A529B1B1C0DEC003515CC /* CarbonTabSwipeNavigation.m */,
+			);
+			name = CarbonKit;
+			path = CarbonKit/CarbonKit;
+			sourceTree = "<group>";
+		};
 		186984E21B00571C000A182A /* Order */ = {
 			isa = PBXGroup;
 			children = (
@@ -1357,6 +1389,7 @@
 				6B747A641AF08C7B00106BFD /* PhoneHelper.m */,
 				6BB89CCF1B043BFA00F3F61F /* AdvertisementManager.h */,
 				6BB89CD01B043BFA00F3F61F /* AdvertisementManager.m */,
+				6B65DF4F1B1BF99000E54948 /* XiaoMaConstants.h */,
 			);
 			name = Singleton;
 			sourceTree = "<group>";
@@ -1439,6 +1472,19 @@
 				6BBFBC441B0DD51E000D3CA3 /* MyCarsModel.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		1885F0BD1B1C4D940056D3BD /* Badge */ = {
+			isa = PBXGroup;
+			children = (
+				1885F0C41B1C50C80056D3BD /* JTImageBadge.h */,
+				1885F0C51B1C50C80056D3BD /* JTImageBadge.m */,
+				1885F0C11B1C50970056D3BD /* UIView+AddBadgeView.h */,
+				1885F0C21B1C50970056D3BD /* UIView+AddBadgeView.m */,
+				1885F0BE1B1C4DB40056D3BD /* UIView+ShowDot.h */,
+				1885F0BF1B1C4DB40056D3BD /* UIView+ShowDot.m */,
+			);
+			name = Badge;
 			sourceTree = "<group>";
 		};
 		189371161B0DA69B0030FDE1 /* Message */ = {
@@ -2224,6 +2270,7 @@
 				TargetAttributes = {
 					1883D8DE1ACB99AC002A4D19 = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 7A3B9332PS;
 					};
 					1883D8F71ACB99AC002A4D19 = {
 						CreatedOnToolsVersion = 6.2;
@@ -2415,6 +2462,7 @@
 				189B30C01AD62E57001D7288 /* PaymentSuccessVC.m in Sources */,
 				6BB61BA61AEF8B34004F39AA /* ServiceViewController.m in Sources */,
 				6BBAB8B31ADB777500EC342F /* GetVcodeOp.m in Sources */,
+				1885F0C01B1C4DB40056D3BD /* UIView+ShowDot.m in Sources */,
 				6BEA56CD1AE24DCE000D19C1 /* base64.m in Sources */,
 				1893711F1B0DAD290030FDE1 /* HKMessage.m in Sources */,
 				6BBAB8D11ADE30F900EC342F /* GetShopRatesOp.m in Sources */,
@@ -2463,6 +2511,8 @@
 				6BB61B981AEE85E8004F39AA /* AddUserFavoriteOp.m in Sources */,
 				6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */,
 				6BBAB8BF1ADBC21600EC342F /* ConverUtil.m in Sources */,
+				1885F0C61B1C50C80056D3BD /* JTImageBadge.m in Sources */,
+				185A529D1B1C0DEC003515CC /* CarbonTabSwipeNavigation.m in Sources */,
 				181F6DA51B15919900D38555 /* CXAlertButtonContainerView.m in Sources */,
 				1816F4B81AD36D9E00BBCC96 /* JTRatingView.m in Sources */,
 				181F6DAA1B15919900D38555 /* LFGlassView.m in Sources */,
@@ -2498,6 +2548,7 @@
 				6BEA56C31AE24DCE000D19C1 /* AlixPayResult.m in Sources */,
 				1851F41B1B0C210D00241A01 /* GetAutomobileBrandOp.m in Sources */,
 				1851F4321B0C596600241A01 /* PickerAutoSeriesVC.m in Sources */,
+				185A529C1B1C0DEC003515CC /* CarbonSwipeRefresh.m in Sources */,
 				189B310C1ADA499C001D7288 /* EnquiryResultVC.m in Sources */,
 				6BCA5F4C1B104B5100E1E630 /* MyCollectionViewController.m in Sources */,
 				6BEA56CF1AE24DCE000D19C1 /* DataVerifier.m in Sources */,
@@ -2538,6 +2589,7 @@
 				1853DEC81AE0EFD200C39175 /* HKToast.m in Sources */,
 				6B086BAF1AE4F46900659DB7 /* TMCache.m in Sources */,
 				184E40C31AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m in Sources */,
+				1885F0C31B1C50970056D3BD /* UIView+AddBadgeView.m in Sources */,
 				18863FA21AE8A316005BF4ED /* GetInsuranceByChannelOp.m in Sources */,
 				6BBAB8C01ADBC21600EC342F /* DesUtil.m in Sources */,
 				189B30C31AD64310001D7288 /* ChooseCarwashTicketVC.m in Sources */,

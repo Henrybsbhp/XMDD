@@ -326,7 +326,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="优惠券" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b3x-f8-57d">
-                                                    <rect key="frame" x="58" y="21" width="226" height="21"/>
+                                                    <rect key="frame" x="141" y="21" width="51" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -352,7 +352,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="2001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="消息" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WzY-a9-rXD">
-                                                    <rect key="frame" x="360" y="21" width="224" height="21"/>
+                                                    <rect key="frame" x="449" y="21" width="34" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -375,11 +375,9 @@
                                                 <constraint firstAttribute="bottom" secondItem="3at-Gn-DhE" secondAttribute="bottom" id="046-P3-9Fc"/>
                                                 <constraint firstItem="Ukm-gg-4sT" firstAttribute="leading" secondItem="Sg0-GN-cE2" secondAttribute="trailing" id="5uu-2g-oZL"/>
                                                 <constraint firstAttribute="bottom" secondItem="Sg0-GN-cE2" secondAttribute="bottom" id="8K4-Sw-tj7"/>
-                                                <constraint firstItem="WzY-a9-rXD" firstAttribute="leading" secondItem="snL-ts-4Ol" secondAttribute="trailing" constant="4" id="Abf-KM-s6R"/>
                                                 <constraint firstItem="snL-ts-4Ol" firstAttribute="leading" secondItem="Ukm-gg-4sT" secondAttribute="trailing" constant="22" id="C36-Io-Z37"/>
                                                 <constraint firstItem="ueo-yN-pyj" firstAttribute="centerY" secondItem="b3x-f8-57d" secondAttribute="centerY" id="C6n-lx-OTO"/>
                                                 <constraint firstItem="nGm-Q1-sF9" firstAttribute="top" secondItem="m6i-ZE-Eqn" secondAttribute="top" id="Dm8-rx-ZnW"/>
-                                                <constraint firstAttribute="trailing" secondItem="WzY-a9-rXD" secondAttribute="trailing" constant="16" id="KsG-kp-UHl"/>
                                                 <constraint firstAttribute="trailing" secondItem="nGm-Q1-sF9" secondAttribute="trailing" id="NeJ-D0-Lbi"/>
                                                 <constraint firstItem="b3x-f8-57d" firstAttribute="leading" secondItem="ueo-yN-pyj" secondAttribute="trailing" constant="4" id="VF6-dl-dzR"/>
                                                 <constraint firstItem="Ukm-gg-4sT" firstAttribute="leading" secondItem="b3x-f8-57d" secondAttribute="trailing" constant="16" id="Wn1-Jr-GmW"/>
@@ -389,6 +387,7 @@
                                                 <constraint firstItem="3at-Gn-DhE" firstAttribute="leading" secondItem="m6i-ZE-Eqn" secondAttribute="leading" id="dcA-s8-iLg"/>
                                                 <constraint firstAttribute="trailing" secondItem="3at-Gn-DhE" secondAttribute="trailing" id="e5c-MS-MXB"/>
                                                 <constraint firstAttribute="bottom" secondItem="Ukm-gg-4sT" secondAttribute="bottom" constant="8" id="eye-H6-0da"/>
+                                                <constraint firstItem="nGm-Q1-sF9" firstAttribute="centerX" secondItem="WzY-a9-rXD" secondAttribute="centerX" constant="-16" id="lRg-hB-Xo8"/>
                                                 <constraint firstItem="ueo-yN-pyj" firstAttribute="leading" secondItem="m6i-ZE-Eqn" secondAttribute="leading" constant="21" id="lZ0-4F-n27"/>
                                                 <constraint firstItem="Sg0-GN-cE2" firstAttribute="leading" secondItem="m6i-ZE-Eqn" secondAttribute="leading" id="mRC-6E-qMP"/>
                                                 <constraint firstItem="snL-ts-4Ol" firstAttribute="centerY" secondItem="WzY-a9-rXD" secondAttribute="centerY" id="oCC-EX-OaJ"/>
@@ -396,7 +395,14 @@
                                                 <constraint firstAttribute="centerY" secondItem="ueo-yN-pyj" secondAttribute="centerY" id="pzc-ri-G8Q"/>
                                                 <constraint firstItem="Ukm-gg-4sT" firstAttribute="top" secondItem="m6i-ZE-Eqn" secondAttribute="top" constant="8" id="q4v-kN-p4v"/>
                                                 <constraint firstItem="nGm-Q1-sF9" firstAttribute="leading" secondItem="Sg0-GN-cE2" secondAttribute="trailing" id="uFO-vG-IvK"/>
+                                                <constraint firstItem="b3x-f8-57d" firstAttribute="centerX" secondItem="Sg0-GN-cE2" secondAttribute="centerX" constant="16" id="zTd-2F-aDY"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="VF6-dl-dzR"/>
+                                                    <exclude reference="Wn1-Jr-GmW"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="NormalCell" id="pdc-lY-MWf" customClass="JTTableViewCell">
@@ -476,7 +482,7 @@
             </objects>
             <point key="canvasLocation" x="322" y="912"/>
         </scene>
-        <!--洗车-->
+        <!--附近-->
         <scene sceneID="8ft-b0-sbg">
             <objects>
                 <viewController storyboardIdentifier="CarWashTableVC" id="2Yo-4d-GLA" customClass="CarWashTableVC" sceneMemberID="viewController">
@@ -492,14 +498,14 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                                 <color key="backgroundColor" white="0.95908411609999999" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="dfZ-Ou-ha5">
-                                    <rect key="frame" x="0.0" y="64" width="600" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="45"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JrH-Pb-ezO">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="45"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="输入关键字搜索" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3zR-hr-etc">
-                                                    <rect key="frame" x="7" y="7" width="586" height="31"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="输入关键字搜索" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3zR-hr-etc">
+                                                    <rect key="frame" x="7" y="10" width="586" height="31"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="31" id="4LQ-bV-M1Q"/>
                                                     </constraints>
@@ -511,17 +517,29 @@
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="3zR-hr-etc" secondAttribute="trailing" constant="7" id="Bdf-jy-J5W"/>
                                                 <constraint firstAttribute="centerY" secondItem="3zR-hr-etc" secondAttribute="centerY" id="LmD-sB-H5C"/>
+                                                <constraint firstAttribute="height" constant="45" id="fG0-On-Ilh"/>
                                                 <constraint firstItem="3zR-hr-etc" firstAttribute="leading" secondItem="JrH-Pb-ezO" secondAttribute="leading" constant="7" id="fgY-i4-tCe"/>
                                                 <constraint firstAttribute="height" constant="45" id="pcN-G2-nIs"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="pcN-G2-nIs"/>
+                                                </mask>
+                                            </variation>
                                         </view>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="JrH-Pb-ezO" secondAttribute="trailing" id="AKM-hy-yZT"/>
                                         <constraint firstItem="JrH-Pb-ezO" firstAttribute="leading" secondItem="dfZ-Ou-ha5" secondAttribute="leading" id="Hwd-h1-EP5"/>
-                                        <constraint firstItem="JrH-Pb-ezO" firstAttribute="top" secondItem="dfZ-Ou-ha5" secondAttribute="top" id="KWx-d9-3j6"/>
+                                        <constraint firstItem="JrH-Pb-ezO" firstAttribute="top" secondItem="dfZ-Ou-ha5" secondAttribute="top" id="qp3-Je-WxK"/>
+                                        <constraint firstAttribute="bottom" secondItem="JrH-Pb-ezO" secondAttribute="bottom" id="tfd-Q2-ygr"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="tfd-Q2-ygr"/>
+                                        </mask>
+                                    </variation>
                                 </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ShopCell" rowHeight="185" id="Kcf-Se-2Qx" customClass="JTTableViewCell">
@@ -709,10 +727,16 @@
                             <constraint firstAttribute="trailing" secondItem="IZa-RK-OSL" secondAttribute="trailing" id="2oB-nr-Ene"/>
                             <constraint firstItem="Ypn-CZ-aQ5" firstAttribute="top" secondItem="IZa-RK-OSL" secondAttribute="bottom" id="Jfb-6A-qMc"/>
                             <constraint firstItem="IZa-RK-OSL" firstAttribute="leading" secondItem="PJU-uE-nJa" secondAttribute="leading" id="dnh-fQ-CUo"/>
+                            <constraint firstItem="IZa-RK-OSL" firstAttribute="top" secondItem="PHw-BR-NO6" secondAttribute="bottom" id="sLz-M9-XwS"/>
                             <constraint firstItem="IZa-RK-OSL" firstAttribute="top" secondItem="PJU-uE-nJa" secondAttribute="top" id="vii-X1-nOC"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="vii-X1-nOC"/>
+                            </mask>
+                        </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="洗车" id="uek-dE-TVH">
+                    <navigationItem key="navigationItem" title="附近" id="uek-dE-TVH">
                         <barButtonItem key="rightBarButtonItem" image="nb_map" id="uZ2-wI-KjP">
                             <connections>
                                 <action selector="actionMap:" destination="2Yo-4d-GLA" id="TZN-Up-sXs"/>

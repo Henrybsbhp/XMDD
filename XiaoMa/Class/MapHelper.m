@@ -41,8 +41,8 @@
 
 - (void)setupMapApi
 {
-    [MAMapServices sharedServices].apiKey = AMapKey;
-    self.searchApi = [[AMapSearchAPI alloc] initWithSearchKey:AMapKey Delegate:self];
+    [MAMapServices sharedServices].apiKey = AMAP_API_ID;
+    self.searchApi = [[AMapSearchAPI alloc] initWithSearchKey:AMAP_API_ID Delegate:self];
 }
 
 - (void)setupMAMap

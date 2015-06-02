@@ -94,7 +94,7 @@
                                                                    attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14],
                                                                                 NSForegroundColorAttributeName:HEXCOLOR(@"#fb4209")}];
     [str appendAttributedString:attrStr1];
-    NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%.2f", self.service.contractprice]
+    NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%.2f", self.service.origprice]
                                                                    attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:19],
                                                                                 NSForegroundColorAttributeName:HEXCOLOR(@"#fb4209")}];
     [str appendAttributedString:attrStr2];
@@ -233,7 +233,7 @@
             vc.type = CouponTypeCarWash;
             vc.selectedCouponArray = self.selectCarwashCoupouArray;
             vc.couponArray = gAppMgr.myUser.validCarwashCouponArray;
-            vc.upperLimit = self.service.contractprice;
+            vc.upperLimit = self.service.origprice;
             [self.navigationController pushViewController:vc animated:YES];
             
 //            self.paymentType = PaymentChannelCoupon;
@@ -245,7 +245,7 @@
             vc.type = CouponTypeCash;
             vc.selectedCouponArray = self.selectCashCoupouArray;
             vc.couponArray = gAppMgr.myUser.validCashCouponArray;
-            vc.upperLimit = self.service.contractprice;
+            vc.upperLimit = self.service.origprice;
             [self.navigationController pushViewController:vc animated:YES];
         }
 //        else if (indexPath.row == 2)
@@ -289,7 +289,7 @@
         additionB.hidden = YES;
     }
     else if (indexPath.row == 2) {
-        titleL.text = [NSString stringWithFormat:@"项目价格：￥%.2f", self.service.contractprice];
+        titleL.text = [NSString stringWithFormat:@"项目价格：￥%.2f", self.service.origprice];
         NSArray * rates = self.service.chargeArray;
         ChargeContent * cc;
         for (ChargeContent * tcc in rates)
@@ -435,7 +435,7 @@
                 vc.selectedCouponArray = self.selectCarwashCoupouArray;
                 vc.type = CouponTypeCarWash;
                 vc.couponArray = gAppMgr.myUser.validCarwashCouponArray;
-                vc.upperLimit = self.service.contractprice;
+                vc.upperLimit = self.service.origprice;
                 [self.navigationController pushViewController:vc animated:YES];
                  [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
             }
@@ -463,7 +463,7 @@
                 vc.selectedCouponArray = self.selectCashCoupouArray;
                 vc.type = CouponTypeCash;
                 vc.couponArray = gAppMgr.myUser.validCashCouponArray;
-                vc.upperLimit = self.service.contractprice;
+                vc.upperLimit = self.service.origprice;
                 [self.navigationController pushViewController:vc animated:YES];
                 [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
             }
@@ -694,31 +694,32 @@
         {
             if (op.rsp_price)
             {
-            if (op.platform == PayWithAlipay)
-            {
-                [gToast showText:@"订单生成成功,正在跳转到支付宝平台进行支付"];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    
-                    NSString * submitTime = [[NSDate date] dateFormatForDT8];
-                    NSString * info = [NSString stringWithFormat:@"%@",self.shop.shopName];
-                    [self requestAliPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
-                      andProductName:info andDescription:@"小马达达" andTime:submitTime];
-                });
-            }
-            else if (op.platform == PayWithWechat)
-            {
-                [gToast showText:@"订单生成成功,正在跳转到微信平台进行支付"];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    
-                    NSString * submitTime = [[NSDate date] dateFormatForDT8];
-                    NSString * info = [NSString stringWithFormat:@"%@-%@",self.service.serviceName,self.shop.shopName];
-                    [self requestWechatPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
-                      andProductName:info andTime:submitTime];
-                });
-            }
+                if (op.platform == PayWithAlipay)
+                {
+                    [gToast showText:@"订单生成成功,正在跳转到支付宝平台进行支付"];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        
+                        NSString * submitTime = [[NSDate date] dateFormatForDT8];
+                        NSString * info = [NSString stringWithFormat:@"%@",self.shop.shopName];
+                        [self requestAliPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
+                             andProductName:info andDescription:@"小马达达" andTime:submitTime];
+                    });
+                }
+                else if (op.platform == PayWithWechat)
+                {
+                    [gToast showText:@"订单生成成功,正在跳转到微信平台进行支付"];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        
+                        NSString * submitTime = [[NSDate date] dateFormatForDT8];
+                        NSString * info = [NSString stringWithFormat:@"%@-%@",self.service.serviceName,self.shop.shopName];
+                        [self requestWechatPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
+                                andProductName:info andTime:submitTime];
+                    });
+                }
             }
             else
             {
+                [gToast dismiss];
                 [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
                 PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
                 vc.originVC = self.originVC;
@@ -736,7 +737,15 @@
         }
     } error:^(NSError *error) {
         
-        [gToast showError:@"订单生成失败"];
+        if (error.code == 5003)
+        {
+            [gToast showError:@"您选择的优惠券无效"];
+        }
+        else
+        {
+            [gToast showError:@"订单生成失败"];
+        }
+        
     }];
 }
 
@@ -787,6 +796,8 @@
 
 - (void)selectDefaultCoupon
 {
+    [self.selectCarwashCoupouArray removeAllObjects];
+    [self.selectCashCoupouArray removeAllObjects];
     if (gAppMgr.myUser.validCarwashCouponArray.count)
     {
         self.couponType = CouponTypeCarWash;
@@ -796,27 +807,27 @@
     }
     if (gAppMgr.myUser.validCashCouponArray.count)
     {
-        self.couponType = CouponTypeCash;
         NSInteger amount = 0;
         for (NSInteger i = 0 ; i < gAppMgr.myUser.validCashCouponArray.count ; i++)
         {
             HKCoupon * coupon = [gAppMgr.myUser.validCashCouponArray safetyObjectAtIndex:i];
-            if (coupon.couponAmount < self.service.contractprice)
+            if (coupon.couponAmount < self.service.origprice)
             {
-                if (amount + coupon.couponAmount < self.service.contractprice)
+                if (amount + coupon.couponAmount < self.service.origprice)
                 {
                     amount = amount + coupon.couponAmount;
                     [self.selectCashCoupouArray addObject:coupon];
+                    self.couponType = CouponTypeCash;
                 }
             }
         }
-        return;
+        [self tableViewReloadData];
     }
 }
 
 - (void)refreshPriceLb
 {
-    CGFloat amount = self.service.contractprice;
+    CGFloat amount = self.service.origprice;
     if (self.couponType == CouponTypeCarWash)
     {
         HKCoupon * coupon = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
@@ -832,7 +843,7 @@
     }
     else
     {
-        amount = self.service.contractprice;
+        amount = self.service.origprice;
     }
     
     UILabel *label = (UILabel *)[self.bottomView viewWithTag:1001];
