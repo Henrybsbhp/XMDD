@@ -14,6 +14,9 @@
 
 @property (nonatomic, strong) NSNumber *orderid;
 @property (nonatomic, strong) NSNumber *serviceid;
+///服务名称
+@property (nonatomic, strong) NSString *serviceprice;
+@property (nonatomic, strong) NSString *servicename;
 @property (nonatomic, strong) JTShop *shop;
 @property (nonatomic, strong) NSString *licencenumber;
 @property (nonatomic, assign) PaymentChannelType paychannel;
@@ -24,6 +27,8 @@
 @property (nonatomic, assign) float rating;
 @property (nonatomic, strong) NSString *comment;
 @property (nonatomic, strong) NSDate *ratetime;
+///订单支付费用
+@property (nonatomic, assign) CGFloat fee;
 
 + (instancetype)orderWithJSONResponse:(NSDictionary *)rsp;
 - (JTShopService *)currentService;

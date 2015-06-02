@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		06380E56572F1DCE6105BE83 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B54A6CD3F3426144CC6768CC /* libPods.a */; };
 		18039AF51B0C5BCE00264059 /* GetAutomobileModelOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18039AF41B0C5BCE00264059 /* GetAutomobileModelOp.m */; };
+		18088D8B1B1DC921007438FC /* UsedCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18088D8A1B1DC921007438FC /* UsedCouponVModel.m */; };
+		18088D8E1B1DC938007438FC /* UnusedCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18088D8D1B1DC938007438FC /* UnusedCouponVModel.m */; };
 		1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4951ACD3B0900BBCC96 /* NSBundle+SYPaginator.m */; };
 		1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4971ACD3B0900BBCC96 /* SYPageControl.m */; };
 		1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4991ACD3B0900BBCC96 /* SYPageView.m */; };
@@ -299,6 +301,10 @@
 /* Begin PBXFileReference section */
 		18039AF31B0C5BCE00264059 /* GetAutomobileModelOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetAutomobileModelOp.h; path = Class/GetAutomobileModelOp.h; sourceTree = "<group>"; };
 		18039AF41B0C5BCE00264059 /* GetAutomobileModelOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAutomobileModelOp.m; path = Class/GetAutomobileModelOp.m; sourceTree = "<group>"; };
+		18088D891B1DC921007438FC /* UsedCouponVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsedCouponVModel.h; sourceTree = "<group>"; };
+		18088D8A1B1DC921007438FC /* UsedCouponVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsedCouponVModel.m; sourceTree = "<group>"; };
+		18088D8C1B1DC938007438FC /* UnusedCouponVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnusedCouponVModel.h; sourceTree = "<group>"; };
+		18088D8D1B1DC938007438FC /* UnusedCouponVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnusedCouponVModel.m; sourceTree = "<group>"; };
 		1816F4941ACD3B0900BBCC96 /* NSBundle+SYPaginator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+SYPaginator.h"; sourceTree = "<group>"; };
 		1816F4951ACD3B0900BBCC96 /* NSBundle+SYPaginator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+SYPaginator.m"; sourceTree = "<group>"; };
 		1816F4961ACD3B0900BBCC96 /* SYPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPageControl.h; sourceTree = "<group>"; };
@@ -936,6 +942,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		18088D881B1DC8AA007438FC /* Coupon */ = {
+			isa = PBXGroup;
+			children = (
+				C25DF9741AFCA7D3009C4041 /* MyCouponVC.h */,
+				C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */,
+				18088D891B1DC921007438FC /* UsedCouponVModel.h */,
+				18088D8A1B1DC921007438FC /* UsedCouponVModel.m */,
+				18088D8C1B1DC938007438FC /* UnusedCouponVModel.h */,
+				18088D8D1B1DC938007438FC /* UnusedCouponVModel.m */,
+			);
+			name = Coupon;
+			sourceTree = "<group>";
+		};
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
@@ -1630,14 +1649,13 @@
 		189B39491AF71C2200B83F1B /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				18088D881B1DC8AA007438FC /* Coupon */,
 				18C81CB81B17FE5800B0C292 /* About */,
 				189371161B0DA69B0030FDE1 /* Message */,
 				186984EC1B005FCE000A182A /* MyCar */,
 				186984E21B00571C000A182A /* Order */,
 				189B394A1AF71C3900B83F1B /* MineVC.h */,
 				189B394B1AF71C3900B83F1B /* MineVC.m */,
-				C25DF9741AFCA7D3009C4041 /* MyCouponVC.h */,
-				C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */,
 				6BBF7D9E1B004A7A00E45967 /* MyInfoViewController.h */,
 				6BBF7D9F1B004A7A00E45967 /* MyInfoViewController.m */,
 				6BBF7DA11B008B1000E45967 /* EditMyInfoViewController.h */,
@@ -2548,6 +2566,7 @@
 				6BEA56C31AE24DCE000D19C1 /* AlixPayResult.m in Sources */,
 				1851F41B1B0C210D00241A01 /* GetAutomobileBrandOp.m in Sources */,
 				1851F4321B0C596600241A01 /* PickerAutoSeriesVC.m in Sources */,
+				18088D8E1B1DC938007438FC /* UnusedCouponVModel.m in Sources */,
 				185A529C1B1C0DEC003515CC /* CarbonSwipeRefresh.m in Sources */,
 				189B310C1ADA499C001D7288 /* EnquiryResultVC.m in Sources */,
 				6BCA5F4C1B104B5100E1E630 /* MyCollectionViewController.m in Sources */,
@@ -2610,6 +2629,7 @@
 				186984EF1B007ED0000A182A /* GetCarwashOrderListOp.m in Sources */,
 				189B394F1AF8576600B83F1B /* GetUserBaseInfoOp.m in Sources */,
 				189B30C71AD664D7001D7288 /* InsuranceVC.m in Sources */,
+				18088D8B1B1DC921007438FC /* UsedCouponVModel.m in Sources */,
 				6BEA56C51AE24DCE000D19C1 /* NSObject+SBJSON.m in Sources */,
 				6BCF62441B15AF3E0064AE32 /* RescueCouponViewController.m in Sources */,
 				6BE2BD5E1AE63F9F00A69875 /* MultiMediaManager.m in Sources */,

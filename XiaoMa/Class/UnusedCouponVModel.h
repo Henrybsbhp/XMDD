@@ -7,7 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "JTTableView.h"
 
-@interface UnusedCouponVModel : NSObject
+@interface UnusedCouponVModel : NSObject<UITableViewDataSource,UITableViewDelegate>
+@property (nonatomic, weak) JTTableView *tableView;
 
+- (id)initWithTableView:(JTTableView *)tableView;
+- (void)reloadData;
 @end

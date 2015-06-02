@@ -15,4 +15,6 @@
 @property (weak, nonatomic) IBOutlet UIView *searchView;
 @property (weak, nonatomic) IBOutlet UITextField *searchField;
 @property (strong, nonatomic) IBOutlet UIView *headerView;
+///禁止广告
+@property (nonatomic, assign) BOOL forbidAD;
 @end

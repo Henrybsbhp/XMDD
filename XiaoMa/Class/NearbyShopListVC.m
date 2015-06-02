@@ -15,6 +15,8 @@
 @implementation NearbyShopListVC
 
 - (void)viewDidLoad {
+    
+    self.forbidAD = YES;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }

@@ -558,7 +558,7 @@
             </objects>
             <point key="canvasLocation" x="1837" y="-431"/>
         </scene>
-        <!--保险购买-->
+        <!--爱车宝-->
         <scene sceneID="MGE-Sf-eZD">
             <objects>
                 <viewController storyboardIdentifier="BuyInsuranceOnlineVC" id="LLl-Gr-zZw" customClass="BuyInsuranceOnlineVC" sceneMemberID="viewController">
@@ -641,7 +641,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="保险购买" id="TLH-TP-Zeq"/>
+                    <navigationItem key="navigationItem" title="爱车宝" id="TLH-TP-Zeq"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="webView" destination="NiG-jb-deH" id="9Qg-a5-iP7"/>

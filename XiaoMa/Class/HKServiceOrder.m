@@ -28,6 +28,9 @@
     order.comment = rsp[@"comment"];
     order.ratetime = [NSDate dateWithUTS:rsp[@"ratetime"]];
     order.tradetime = [rsp[@"tradetime"] longLongValue];
+    order.fee = [rsp[@"fee"] floatValue];
+    order.servicename = rsp[@"servicename"];
+    order.serviceprice = rsp[@"serviceprice"];
     return order;
 }
 

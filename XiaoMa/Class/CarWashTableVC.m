@@ -55,13 +55,13 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAdList) name:CarwashAdvertiseNotification object:nil];
     
-    [self.tableView.refreshView addTarget:self action:@selector(requestCarWashShopList) forControlEvents:UIControlEventValueChanged];
+    [self.tableView.refreshView addTarget:self action:@selector(reloadShopList) forControlEvents:UIControlEventValueChanged];
 
     CKAsyncMainQueue(^{
         [self setupSearchView];
         [self setupTableView];
         [self reloadAdList];
-        [self requestCarWashShopList];
+        [self reloadShopList];
     });
 }
 
@@ -112,6 +112,12 @@
 
 - (void)reloadAdList
 {
+    if (self.forbidAD) {
+        self.adList = nil;
+        [self refreshAdView];
+        return;
+    }
+
     @weakify(self);
     [[gAdMgr rac_fetchAdListByType:AdvertisementCarWash] subscribeNext:^(NSArray *ads) {
         
@@ -175,20 +181,18 @@
     if (error) {
         self.datasource = nil;
         text = text ? text : error.domain;
-        [self.tableView setTableHeaderView:nil];
-    }
-    else {
-        if (!self.tableView.tableHeaderView) {
-            self.tableView.tableHeaderView = self.headerView;
-        }
     }
 
     [self.tableView reloadData];
     if (self.datasource.count == 0) {
+        self.tableView.tableHeaderView = nil;
         [self.tableView showDefaultEmptyViewWithText:text];
     }
     else {
         [self.tableView hideDefaultEmptyView];
+        if (!self.tableView.tableHeaderView) {
+            self.tableView.tableHeaderView = self.headerView;
+        }
     }
 }
 #pragma mark - Action
@@ -383,6 +387,11 @@
     return str;
 }
 
+- (void)reloadShopList
+{
+    self.currentPageIndex = 0;
+    [self requestCarWashShopList];
+}
 
 - (void)requestCarWashShopList
 {
@@ -400,7 +409,7 @@
         getShopByDistanceOp.pageno = self.currentPageIndex;
         [[getShopByDistanceOp rac_postRequest] subscribeNext:^(GetShopByDistanceOp * op) {
             
-            @strongify(self);
+            @strongify(self);   
             self.currentPageIndex = self.currentPageIndex + 1;
             
             [self.tableView.refreshView endRefreshing];
@@ -415,9 +424,12 @@
             {
                 self.isRemain = NO;
             }
-            if (!self.isRemain)
+            if (!self.isRemain && self.datasource.count > 0)
             {
                 [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+            }
+            else {
+                [self.tableView.bottomLoadingView hideIndicatorText];
             }
             [self reloadDataWithText:@"暂无商铺" error:nil];
         } error:^(NSError *error) {
