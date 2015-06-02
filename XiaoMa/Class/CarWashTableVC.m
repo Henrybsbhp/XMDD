@@ -382,6 +382,7 @@
 
 - (void)requestCarWashShopList
 {
+    self.currentPageIndex = 1;
     @weakify(self)
     [[[[gMapHelper rac_getUserLocation] take:1] initially:^{
 

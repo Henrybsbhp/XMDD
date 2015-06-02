@@ -45,7 +45,7 @@
     [self refreshBottomView];
     
     self.selectSet = [[NSMutableIndexSet alloc] init];
-    [self reloadData];
+//    [self reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,6 +58,8 @@
     [super viewWillAppear:animated];
     
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+    
+    [self reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated

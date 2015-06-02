@@ -788,6 +788,8 @@
 
 - (void)selectDefaultCoupon
 {
+    [self.selectCarwashCoupouArray removeAllObjects];
+    [self.selectCashCoupouArray removeAllObjects];
     if (gAppMgr.myUser.validCarwashCouponArray.count)
     {
         self.couponType = CouponTypeCarWash;
@@ -797,7 +799,6 @@
     }
     if (gAppMgr.myUser.validCashCouponArray.count)
     {
-        self.couponType = CouponTypeCash;
         NSInteger amount = 0;
         for (NSInteger i = 0 ; i < gAppMgr.myUser.validCashCouponArray.count ; i++)
         {
@@ -808,10 +809,11 @@
                 {
                     amount = amount + coupon.couponAmount;
                     [self.selectCashCoupouArray addObject:coupon];
+                    self.couponType = CouponTypeCash;
                 }
             }
         }
-        return;
+        [self tableViewReloadData];
     }
 }
 

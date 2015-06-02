@@ -222,7 +222,7 @@ static NSInteger rotationIndex = 0;
     else
     {
         UIBarButtonItem *retrybtn =
-        [[UIBarButtonItem alloc] initWithTitle:@"点击重试" style:UIBarButtonItemStyleDone target:self action:@selector(getWeatherInfo)];
+        [[UIBarButtonItem alloc] initWithTitle:@"点击重试" style:UIBarButtonItemStyleDone target:self action:@selector(rac_getWeatherInfo)];
         self.navigationItem.leftBarButtonItem = retrybtn;
     }
 }
