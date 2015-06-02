@@ -19,14 +19,6 @@
 #import "UnusedCouponVModel.h"
 
 @interface MyCouponVC ()
-{
-    NSInteger whichSeg;
-    NSMutableArray *unusedCouponArray;//未使用
-    NSMutableArray *validCouponArray;//有效
-    NSMutableArray *timeoutCouponArray;//过期
-    BOOL allLoad;
-    NSMutableArray *usedCouponArray;//已使用
-}
 
 @property (weak, nonatomic) IBOutlet JTTableView *usedTableView;
 @property (weak, nonatomic) IBOutlet JTTableView *unusedTableView;
@@ -52,11 +44,9 @@
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
-
 #pragma mark - Action
 - (IBAction)actionGetMore:(id)sender
 {
-    
 }
 
 - (IBAction)actionSegmentChanged:(id)sender

@@ -21,7 +21,8 @@
 //    NSString *strURL = [kFileServerBaseURLString append:path];
 //    self.rsp_url = strURL;
     if (!self.req_uri) {
-        return nil;
+        //避免空信号，对应问题7303   FQ
+        return [RACSignal empty];
     }
     
     NSURL *reqURL = [NSURL URLWithString:self.req_uri];

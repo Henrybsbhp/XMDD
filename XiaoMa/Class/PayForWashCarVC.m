@@ -737,7 +737,15 @@
         }
     } error:^(NSError *error) {
         
-        [gToast showError:@"订单生成失败"];
+        if (error.code == 5003)
+        {
+            [gToast showError:@"您选择的优惠券无效"];
+        }
+        else
+        {
+            [gToast showError:@"订单生成失败"];
+        }
+        
     }];
 }
 
@@ -788,6 +796,8 @@
 
 - (void)selectDefaultCoupon
 {
+    [self.selectCarwashCoupouArray removeAllObjects];
+    [self.selectCashCoupouArray removeAllObjects];
     if (gAppMgr.myUser.validCarwashCouponArray.count)
     {
         self.couponType = CouponTypeCarWash;
@@ -797,7 +807,6 @@
     }
     if (gAppMgr.myUser.validCashCouponArray.count)
     {
-        self.couponType = CouponTypeCash;
         NSInteger amount = 0;
         for (NSInteger i = 0 ; i < gAppMgr.myUser.validCashCouponArray.count ; i++)
         {
@@ -808,10 +817,11 @@
                 {
                     amount = amount + coupon.couponAmount;
                     [self.selectCashCoupouArray addObject:coupon];
+                    self.couponType = CouponTypeCash;
                 }
             }
         }
-        return;
+        [self tableViewReloadData];
     }
 }
 
