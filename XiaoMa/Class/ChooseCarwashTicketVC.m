@@ -239,7 +239,7 @@
             }
             amount = amount + c.couponAmount;
         }
-        if (amount + coupon.couponAmount <= self.upperLimit)
+        if (amount + coupon.couponAmount < self.upperLimit)
         {
             [self.selectedCouponArray addObject:coupon];
             [self.tableView reloadData];

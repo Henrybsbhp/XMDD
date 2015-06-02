@@ -31,7 +31,7 @@ typedef enum : NSUInteger {
 @property (nonatomic,copy)NSString * couponName;
 
 ///数额
-@property (nonatomic)NSInteger couponAmount;
+@property (nonatomic)CGFloat couponAmount;
 
 ///优惠券描述
 @property (nonatomic,copy)NSString * couponDescription;

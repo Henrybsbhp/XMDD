@@ -42,7 +42,7 @@
     }
     
     self.pageAmount = PageAmount;
-    self.currentPageIndex = 1;
+    self.currentPageIndex = 2;
     
 //    [self.tableView reloadData];
 }
