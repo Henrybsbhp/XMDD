@@ -19,6 +19,7 @@
 
 @implementation UsedCouponVModel
 
+
 - (id)initWithTableView:(JTTableView *)tableView
 {
     self = [super init];
@@ -78,6 +79,7 @@
         [self refreshTableView];
     } error:^(NSError *error) {
         
+        @strongify(self);
         [self.tableView.bottomLoadingView stopActivityAnimation];
         [gToast showError:error.domain];
         [self refreshTableView];

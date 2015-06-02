@@ -85,6 +85,7 @@
         [self refreshTableView];
      } error:^(NSError *error) {
         
+         @strongify(self);
          [self.tableView.bottomLoadingView stopActivityAnimation];
          [gToast showError:error.domain];
          [self refreshTableView];
