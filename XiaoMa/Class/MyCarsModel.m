@@ -19,6 +19,18 @@
 @implementation MyCarsModel
 
 #pragma mark - Override
+- (instancetype)init
+{
+    self = [super init];
+    if (self)
+    {
+        [[self rac_fetchData] subscribeNext:^(id x) {
+            
+        }];
+    }
+    
+    return self;
+}
 - (JTQueue *)carCache
 {
     return self.cache;

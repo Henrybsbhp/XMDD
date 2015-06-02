@@ -40,7 +40,7 @@
     [super viewDidLoad];
     
     [self setupNavigationBar];
-    [self setupMyCarList];
+//    [self setupMyCarList];
     [self requestShopComments];
 }
 
