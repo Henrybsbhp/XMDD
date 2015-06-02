@@ -142,10 +142,10 @@
     [[[gAppMgr.mediaMgr rac_getPictureForUrl:[order.shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         iconV.image = x;
     }];
-    JTShopService *service = [order currentService];
-    serviceL.text = service.serviceName;
+    
+    serviceL.text = order.servicename;
     timeL.text = [order.txtime dateFormatForYYYYMMddHHmm];
-    priceL.text = [NSString stringWithFormat:@"￥%d", (int)(service.contractprice)];
+    priceL.text = [NSString stringWithFormat:@"￥%.2f", order.fee];
     paymentL.text = [order paymentForCurrentChannel];
     [bottomB setTitle:order.ratetime ? @"已评价" : @"去评价" forState:UIControlStateNormal];
     bottomB.enabled = !order.ratetime;

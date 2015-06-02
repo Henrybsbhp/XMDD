@@ -485,7 +485,7 @@
         <!--附近-->
         <scene sceneID="8ft-b0-sbg">
             <objects>
-                <viewController storyboardIdentifier="CarWashTableVC" id="2Yo-4d-GLA" customClass="CarWashTableVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NearbyShopListVC" id="2Yo-4d-GLA" customClass="NearbyShopListVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PHw-BR-NO6"/>
                         <viewControllerLayoutGuide type="bottom" id="Ypn-CZ-aQ5"/>

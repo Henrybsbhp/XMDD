@@ -44,13 +44,20 @@
         self.commentOp.req_rating = round(ratingV.ratingValue);
     }
     [[[self.commentOp rac_postRequest] initially:^{
+        
         [gToast showingWithText:@"Loading..."];
     }] subscribeNext:^(id x) {
+        
         @strongify(self);
-        [gToast dismiss];
-        [self.navigationController popViewControllerAnimated:YES];
-        if (self.customActionBlock) {
-            self.customActionBlock();
+        [gToast showSuccess:@"评价成功!"];
+        if (self.originVC) {
+            [self.navigationController popToViewController:self.originVC animated:YES];
+        }
+        else {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        if (self.commentSuccess) {
+            self.commentSuccess();
         }
     } error:^(NSError *error) {
         [gToast showError:error.domain];

@@ -36,10 +36,8 @@
 {
     self.commentBtn.hidden = self.order.ratetime;
     
-    JTShopService *service = [self.order currentService];
-    NSString *strprice = [NSString stringWithFormat:@"￥%d",(int)service.contractprice];
-    self.detailItems = @[RACTuplePack(@"服务项目：", service.serviceName),
-                         RACTuplePack(@"项目价格：", strprice),
+    self.detailItems = @[RACTuplePack(@"服务项目：", self.order.servicename),
+                         RACTuplePack(@"项目价格：", self.order.serviceprice),
                          RACTuplePack(@"我的车辆：", self.order.licencenumber),
                          RACTuplePack(@"支付方式：", [self.order paymentForCurrentChannel]),
                          RACTuplePack(@"支付时间：", [self.order.txtime dateFormatForYYYYMMddHHmm])];
@@ -59,11 +57,6 @@
 #pragma mark - UITableViewDelegate and UITableViewDatasource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
-        vc.shop = self.order.shop;
-        [self.navigationController pushViewController:vc animated:YES];
-    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

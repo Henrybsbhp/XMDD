@@ -11,4 +11,6 @@
 
 @interface CarwashOrderCommentVC : UIViewController
 @property (nonatomic, strong) HKServiceOrder *order;
+@property (nonatomic, weak) UIViewController *originVC;
+@property (nonatomic, copy) void (^commentSuccess)(void);
 @end

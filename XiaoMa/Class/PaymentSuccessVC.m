@@ -15,6 +15,7 @@
 @interface PaymentSuccessVC ()
 
 @property (weak, nonatomic) IBOutlet UILabel *subLabel;
+@property (weak, nonatomic) IBOutlet UIButton *commentBtn;
 
 @end
 
@@ -65,9 +66,13 @@
     
     CarwashOrderCommentVC *vc = [UIStoryboard vcWithId:@"CarwashOrderCommentVC" inStoryboard:@"Mine"];
     vc.order = self.order;
-//    [vc setCustomActionBlock:^{
-//        [self.navigationController popToRootViewControllerAnimated:YES];
-//    }];
+    @weakify(self);
+    [vc setCommentSuccess:^{
+        
+        @strongify(self);
+        [self.commentBtn setTitle:@"已评价" forState:UIControlStateNormal];
+        self.commentBtn.enabled = NO;
+    }];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

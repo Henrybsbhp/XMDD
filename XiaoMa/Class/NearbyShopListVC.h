@@ -9,5 +9,4 @@
 #import "CarWashTableVC.h"
 
 @interface NearbyShopListVC : CarWashTableVC
-
 @end

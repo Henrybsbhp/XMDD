@@ -27,7 +27,8 @@
         }
         //被抢登
         else if (code == -2003 && !self.alertView) {
-            [self gotoLoginViewWithAlertTitle:@"登出通知" msg:@"您的账号已经在其他设备登录,请重新登录后修改密码,确保帐号安全。"];
+            [HKLoginModel logout];
+            [self gotoRootViewWithAlertTitle:@"登出通知" msg:@"您的账号已经在其他设备登录,请重新登录后修改密码,确保帐号安全。"];
         }
         return [RACSignal error:error];
     }];
@@ -69,7 +70,7 @@
     [SVProgressHUD dismiss];
 }
 
-- (void)gotoLoginViewWithAlertTitle:(NSString *)title msg:(NSString *)msg
+- (void)gotoRootViewWithAlertTitle:(NSString *)title msg:(NSString *)msg
 {
     [self clearAllOperations];
     CXAlertView *alert = [[CXAlertView alloc] initWithTitle:title message:msg cancelButtonTitle:nil];
