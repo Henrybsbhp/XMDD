@@ -40,6 +40,7 @@
     [super viewDidLoad];
     
     [self setupNavigationBar];
+    [self setupMyCarList];
     [self requestShopComments];
 }
 
@@ -139,6 +140,13 @@
     self.navigationItem.rightBarButtonItem = item;
 }
 
+- (void)setupMyCarList
+{
+    [[gAppMgr.myUser.carModel rac_fetchDataIfNeeded] subscribeNext:^(id x) {
+        
+    }];
+}
+
 #pragma mark - Action
 - (void)requestShopComments
 {
@@ -196,6 +204,35 @@
     CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
     vc.shop = self.shop;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)gotoPaymentVCWithService:(JTShopService *)service
+{
+    //首先读取爱车缓存，个人爱车数组不为空或者数量大于0时跳转支付，否则跳转到添加爱车，对应问题7317  LYW
+    [[[gAppMgr.myUser.carModel rac_fetchDataIfNeeded] catch:^RACSignal *(NSError *error) {
+        
+        return [RACSignal return:nil];
+    }] subscribeNext:^(NSArray *carList) {
+        
+        if (carList.count > 0)
+        {
+            PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
+            vc.originVC = self;
+            vc.shop = self.shop;
+            vc.service = service;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        else
+        {
+            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您尚未添加车辆，请添加一辆" delegate:nil cancelButtonTitle:@"前往添加" otherButtonTitles: nil];
+            [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
+                
+                EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
+                [self.navigationController pushViewController:vc animated:YES];
+            }];
+            [av show];
+        }
+    }];
 }
 
 #pragma mark - TableView data source
@@ -481,28 +518,10 @@
     
     @weakify(self);
     [[[payB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
         @strongify(self);
         if([LoginViewModel loginIfNeededForTargetViewController:self]) {
-            
-            // 个人爱车数组不为空或者数量大于0时跳转支付，否则跳转到添加爱车，对应问题7317  LYW
-            if (gAppMgr.myUser.carModel.carArray != nil || gAppMgr.myUser.carModel.carArray.count > 0)
-            {
-                PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
-                vc.originVC = self;
-                vc.shop = self.shop;
-                vc.service = service;
-                [self.navigationController pushViewController:vc animated:YES];
-            }
-            else
-            {
-                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您尚未添加车辆，请添加一辆" delegate:nil cancelButtonTitle:@"前往添加" otherButtonTitles: nil];
-                [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
-
-                    EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
-                    [self.navigationController pushViewController:vc animated:YES];
-                }];
-                [av show];
-            }
+            [self gotoPaymentVCWithService:service];
         }
     }];
     

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -65,73 +65,6 @@
                         <sections>
                             <tableViewSection id="fUi-rt-l09">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="87" id="ErX-1v-p9c">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ErX-1v-p9c" id="a6B-5E-naN">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7yn-AN-LPG">
-                                                    <rect key="frame" x="0.0" y="12" width="600" height="60"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="联系方式：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7o0-mH-B6r">
-                                                            <rect key="frame" x="14" y="0.0" width="572" height="17"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q9v-tH-4gC">
-                                                            <rect key="frame" x="14" y="20" width="572" height="40"/>
-                                                            <subviews>
-                                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请填写手机号码" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="U7e-zP-IJs">
-                                                                    <rect key="frame" x="8" y="0.0" width="558" height="40"/>
-                                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="height" constant="40" id="093-aF-X4f"/>
-                                                                    </constraints>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                    <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
-                                                                    <variation key="default">
-                                                                        <mask key="constraints">
-                                                                            <exclude reference="093-aF-X4f"/>
-                                                                        </mask>
-                                                                    </variation>
-                                                                </textField>
-                                                            </subviews>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="40" id="07D-1G-Fkr"/>
-                                                                <constraint firstItem="U7e-zP-IJs" firstAttribute="leading" secondItem="q9v-tH-4gC" secondAttribute="leading" constant="8" id="QIf-r5-Pcp"/>
-                                                                <constraint firstItem="U7e-zP-IJs" firstAttribute="top" secondItem="q9v-tH-4gC" secondAttribute="top" id="Zau-SQ-2zu"/>
-                                                                <constraint firstAttribute="bottom" secondItem="U7e-zP-IJs" secondAttribute="bottom" id="fHp-Q2-DFq"/>
-                                                                <constraint firstAttribute="trailing" secondItem="U7e-zP-IJs" secondAttribute="trailing" constant="6" id="sYf-fd-GZZ"/>
-                                                            </constraints>
-                                                            <userDefinedRuntimeAttributes>
-                                                                <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#BW_1#BC_RGB(235,235,235)"/>
-                                                            </userDefinedRuntimeAttributes>
-                                                        </view>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="trailing" secondItem="q9v-tH-4gC" secondAttribute="trailing" constant="14" id="3Rk-S8-KQn"/>
-                                                        <constraint firstAttribute="bottom" secondItem="q9v-tH-4gC" secondAttribute="bottom" id="BuQ-OK-lsW"/>
-                                                        <constraint firstItem="7o0-mH-B6r" firstAttribute="leading" secondItem="7yn-AN-LPG" secondAttribute="leading" constant="14" id="H5J-CW-Wdh"/>
-                                                        <constraint firstItem="7o0-mH-B6r" firstAttribute="top" secondItem="7yn-AN-LPG" secondAttribute="top" id="MWZ-yg-uis"/>
-                                                        <constraint firstAttribute="trailing" secondItem="7o0-mH-B6r" secondAttribute="trailing" constant="14" id="P4v-y0-gVo"/>
-                                                        <constraint firstItem="q9v-tH-4gC" firstAttribute="top" secondItem="7o0-mH-B6r" secondAttribute="bottom" constant="3" id="UJ3-Qj-f3i"/>
-                                                        <constraint firstItem="q9v-tH-4gC" firstAttribute="leading" secondItem="7yn-AN-LPG" secondAttribute="leading" constant="14" id="kEX-SB-tqj"/>
-                                                    </constraints>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="7yn-AN-LPG" secondAttribute="bottom" constant="15" id="Y4W-t6-jii"/>
-                                                <constraint firstAttribute="trailing" secondItem="7yn-AN-LPG" secondAttribute="trailing" id="Z6W-k6-6Ds"/>
-                                                <constraint firstItem="7yn-AN-LPG" firstAttribute="leading" secondItem="a6B-5E-naN" secondAttribute="leading" id="toX-94-oee"/>
-                                                <constraint firstItem="7yn-AN-LPG" firstAttribute="top" secondItem="a6B-5E-naN" secondAttribute="top" constant="12" id="zsZ-z4-OwG"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="146" id="dAT-g6-Qo9">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dAT-g6-Qo9" id="jUa-gN-QgX">
@@ -169,7 +102,6 @@
                     <connections>
                         <outlet property="bottomButton" destination="yzV-mf-4eF" id="UUm-dJ-Rb0"/>
                         <outlet property="feedbackTextView" destination="NXV-2m-j5J" id="ssX-iD-chE"/>
-                        <outlet property="phoneTextField" destination="U7e-zP-IJs" id="enu-Kh-8tp"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ltc-Y9-2XH" userLabel="First Responder" sceneMemberID="firstResponder"/>
