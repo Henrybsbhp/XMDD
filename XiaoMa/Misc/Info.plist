@@ -50,8 +50,6 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>tencent1104617282</string>
-				<string>AMapBackUrl</string>
-				<string>amap.huika.xmdd</string>
 			</array>
 		</dict>
 		<dict>
