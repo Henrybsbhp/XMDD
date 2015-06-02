@@ -467,6 +467,8 @@
         self.datasource = [NSArray arrayWithArray:tArray];
         [self reloadDataWithText:@"暂无商铺" error:nil];
         
+        //不会无限加载?   LYW
+        self.currentPageIndex = self.currentPageIndex + 1;
     } error:^(NSError *error) {
         
         

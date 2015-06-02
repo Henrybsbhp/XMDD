@@ -484,7 +484,8 @@
         @strongify(self);
         if([LoginViewModel loginIfNeededForTargetViewController:self]) {
             
-            if (gAppMgr.myUser.carModel.carArray == nil || gAppMgr.myUser.carModel.carArray.count > 0)
+            // 个人爱车数组不为空或者数量大于0时跳转支付，否则跳转到添加爱车，对应问题7317  LYW
+            if (gAppMgr.myUser.carModel.carArray != nil || gAppMgr.myUser.carModel.carArray.count > 0)
             {
                 PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
                 vc.originVC = self;

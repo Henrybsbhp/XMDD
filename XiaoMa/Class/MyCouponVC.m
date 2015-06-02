@@ -22,14 +22,13 @@
     NSMutableArray *unusedCouponArray;//未使用
     NSMutableArray *validCouponArray;//有效
     NSMutableArray *timeoutCouponArray;//过期
-    BOOL allLoad;
     NSMutableArray *usedCouponArray;//已使用
 }
 
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
-@property (weak, nonatomic) IBOutlet UIImageView *blankImg;
-@property (weak, nonatomic) IBOutlet UIView *bottomView;
-@property (weak, nonatomic) IBOutlet UIButton *getMoreBtn;
+//关于“如何获取更多优惠券”的按钮因为存在问题，暂时隐藏了
+//@property (weak, nonatomic) IBOutlet UIView *bottomView;
+//@property (weak, nonatomic) IBOutlet UIButton *getMoreBtn;
 
 
 /// 每页数量
@@ -94,48 +93,37 @@
     segmentedControl.tintColor = RGBCOLOR(68, 187, 92);
     [view addSubview:segmentedControl];
     self.navigationItem.titleView = segmentedControl;
-    [segmentedControl addTarget:self action:@selector(selectSegmented:) forControlEvents:UIControlEventValueChanged];
+    [[segmentedControl rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
+        //切换事件
+        [self selectSegmented:x];
+    }];
     self.navigationController.navigationItem.titleView = view;
 }
 
 - (void)setupGetMoreBtn
 {
-    UIView *bottomView = [UIView new];
-    UIButton *getMoreBtn = [UIButton new];
-    getMoreBtn.frame = CGRectMake((self.view.frame.size.width - 200) / 2, self.view.frame.size.height - 55, 200, 44);
-    [getMoreBtn setBackgroundColor:[UIColor orangeColor]];
-    [getMoreBtn setTitle:@"如何获取更多优惠劵" forState:UIControlStateNormal];
-    [getMoreBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
-    getMoreBtn.cornerRadius = 5.0f;
-    [getMoreBtn.layer setMasksToBounds:YES];
-    [[getMoreBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        //按钮点击获取更多优惠券事件
-    }];
-    [bottomView addSubview:getMoreBtn];
-    //    [self.tableView addSubview:bottomView];
-    //    [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-    //        make.height.mas_equalTo(44);
-    //        make.width.mas_equalTo(200);
-    //        make.centerX.mas_equalTo(self.tableView.mas_centerX);
-    //        make.top.equalTo(self.tableView.tableFooterView.mas_bottom).offset(-10).priorityMedium();
-    //        make.bottom.greaterThanOrEqualTo(self.view).offset(-10).priorityHigh();
-    //    }];
-    //    [getMoreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-    //        make.edges.equalTo(bottomView);
-    //    }];
-    
-    self.bottomView = bottomView;
-    self.getMoreBtn = getMoreBtn;
+//    UIView *bottomView = [UIView new];
+//    UIButton *getMoreBtn = [UIButton new];
+//    getMoreBtn.frame = CGRectMake((self.view.frame.size.width - 200) / 2, self.view.frame.size.height - 55, 200, 44);
+//    [getMoreBtn setBackgroundColor:[UIColor orangeColor]];
+//    [getMoreBtn setTitle:@"如何获取更多优惠劵" forState:UIControlStateNormal];
+//    [getMoreBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
+//    getMoreBtn.cornerRadius = 5.0f;
+//    [getMoreBtn.layer setMasksToBounds:YES];
+//    [[getMoreBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+//        //按钮点击获取更多优惠券事件
+//    }];
+//    [bottomView addSubview:getMoreBtn];
+//    
+//    self.bottomView = bottomView;
+//    self.getMoreBtn = getMoreBtn;
 }
 
 
 #pragma mark - Load Coupon
 - (void)requestUnuseCoupon
 {
-    //    @LYW
-    //    self.currentPageIndexForUnused = self.currentPageIndexForUnused + 1;
-    
-    //    @LYW 需要判断是否正在加载
+    //判断是否正在加载
     if (self.isLoadingUnusedCoupon)
     {
         return;
@@ -163,12 +151,6 @@
             
             if (op.rsp_couponsArray.count >= self.pageAmount )
             {
-                //                if (unusedCouponArray.count > 30)
-                //                {
-                //                    self.isUnusedRemain = NO;
-                //                    [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
-                //                }
-                //                else
                 self.isUnusedRemain = YES;
             }
             else
@@ -228,8 +210,6 @@
         [self.tableView.bottomLoadingView stopActivityAnimation];
         if (op.rsp_couponsArray.count)
         {
-            self.blankImg.hidden = YES;
-            
             [usedCouponArray addObjectsFromArray:op.rsp_couponsArray];
             if (op.rsp_couponsArray.count >= self.pageAmount){
                 self.isUsedRemain = YES;
@@ -332,7 +312,7 @@
 
 -(void)sortCoupon
 {
-    //    @LYW 先要移除
+    //先要移除数组中已存在的优惠券
     [validCouponArray removeAllObjects];
     [timeoutCouponArray removeAllObjects];
     for (HKCoupon *dic in unusedCouponArray)
@@ -381,7 +361,8 @@
     }
     if (whichSeg == 0)
     {
-        if (!self.isUnusedRemain)
+        //没有优惠券时不显示“已经到底”
+        if (!self.isUnusedRemain && unusedCouponArray.count != 0)
         {
             [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
         }
@@ -396,9 +377,13 @@
         {
             [self requestUsedCoupon];
         }
-        else if (!self.isUsedRemain && usedCouponArray.count)
+        else if (!self.isUsedRemain && usedCouponArray.count != 0)
         {
             [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+        }
+        else
+        {
+            [self.tableView.bottomLoadingView hideIndicatorText];
         }
     }
 }
@@ -449,7 +434,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-//    @LYW CGFLOAT_MIN
+    //设置section的header高度
     CGFloat height = section == CGFLOAT_MIN ? (validCouponArray.count ? CGFLOAT_MIN : 10) : 15;
     return height;
 }
@@ -500,8 +485,6 @@
             HKCoupon *couponDic = [validCouponArray safetyObjectAtIndex:indexPath.row];;
             if (couponDic.conponType == 1) {
                 [status setTitle:@"分享" forState:UIControlStateNormal];
-                //                @LYW
-                //                [status addTarget:self action:@selector(shareAction) forControlEvents:UIControlEventTouchUpInside];
                 [[[status rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                     
                     [self shareAction:couponDic.couponId];
@@ -510,7 +493,6 @@
                 backgroundImg.image = carWash;
             }
             else if (couponDic.conponType == 2 || couponDic.conponType == 4) {
-                //               @LYW 重用
                 backgroundImg.image = rescue;
                 [status setTitle:@"有效" forState:UIControlStateNormal];
             }
@@ -520,7 +502,6 @@
             }
             name.text = couponDic.couponName;
             description.text = [NSString stringWithFormat:@"使用说明：%@",couponDic.couponDescription];
-            // @LYW 时间显示有误
             validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",[couponDic.validsince dateFormatForYYMMdd2],[couponDic.validthrough dateFormatForYYMMdd2]];
         }
         else {
@@ -551,8 +532,8 @@
     {
         [self requestUnuseCoupon];
     }
-    if (whichSeg == 1 && usedCouponArray.count-1 <= indexPath.row && self.isUsedRemain) {
-        //[self handleData];
+    if (whichSeg == 1 && usedCouponArray.count-1 <= indexPath.row && self.isUsedRemain)
+    {
         [self requestUsedCoupon];
     }
 }
