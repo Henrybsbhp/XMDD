@@ -11,7 +11,7 @@
 #import "FeedbackOp.h"
 
 @interface FeedbackVC ()
-@property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
+//@property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
 @property (weak, nonatomic) IBOutlet UIAPlaceholderTextView *feedbackTextView;
 @property (weak, nonatomic) IBOutlet UIButton *bottomButton;
 
@@ -28,31 +28,33 @@
     
     //设置反馈按钮
     @weakify(self);
-    [[[self.phoneTextField rac_textSignal] merge:[self.feedbackTextView rac_textSignal]] subscribeNext:^(NSString *x) {
+    [[self.feedbackTextView rac_textSignal] subscribeNext:^(NSString *x) {
         
         @strongify(self);
-        self.bottomButton.enabled = self.phoneTextField.text.length > 0 && self.feedbackTextView.text.length > 0;
+        self.bottomButton.enabled = self.feedbackTextView.text.length > 0 ;
     }];
 }
 
 
 - (IBAction)actionFeedback:(id)sender {
-    FeedbackOp *op = [FeedbackOp new];
-    op.req_contactinfo = self.phoneTextField.text;
-    op.req_feedback = self.feedbackTextView.text;
-    
-    @weakify(self);
-    [[[op rac_postRequest] initially:^{
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        FeedbackOp *op = [FeedbackOp new];
+        op.req_contactinfo = gAppMgr.myUser.userID;
+        op.req_feedback = self.feedbackTextView.text;
         
-        [gToast showingWithText:@"正在提交反馈..."];
-    }] subscribeNext:^(id x) {
-        
-        @strongify(self);
-        [gToast showSuccess:@"提交成功!"];
-        [self.navigationController popViewControllerAnimated:YES];
-    } error:^(NSError *error) {
-        [gToast showError:error.domain];
-    }];
+        @weakify(self);
+        [[[op rac_postRequest] initially:^{
+            
+            [gToast showingWithText:@"正在提交反馈..."];
+        }] subscribeNext:^(id x) {
+            
+            @strongify(self);
+            [gToast showSuccess:@"提交成功!"];
+            [self.navigationController popViewControllerAnimated:YES];
+        } error:^(NSError *error) {
+            [gToast showError:error.domain];
+        }];
+    }
 }
 
 @end
