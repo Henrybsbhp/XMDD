@@ -94,7 +94,7 @@
                                                                    attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14],
                                                                                 NSForegroundColorAttributeName:HEXCOLOR(@"#fb4209")}];
     [str appendAttributedString:attrStr1];
-    NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%.2f", self.service.contractprice]
+    NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%.2f", self.service.origprice]
                                                                    attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:19],
                                                                                 NSForegroundColorAttributeName:HEXCOLOR(@"#fb4209")}];
     [str appendAttributedString:attrStr2];
@@ -233,7 +233,7 @@
             vc.type = CouponTypeCarWash;
             vc.selectedCouponArray = self.selectCarwashCoupouArray;
             vc.couponArray = gAppMgr.myUser.validCarwashCouponArray;
-            vc.upperLimit = self.service.contractprice;
+            vc.upperLimit = self.service.origprice;
             [self.navigationController pushViewController:vc animated:YES];
             
 //            self.paymentType = PaymentChannelCoupon;
@@ -245,7 +245,7 @@
             vc.type = CouponTypeCash;
             vc.selectedCouponArray = self.selectCashCoupouArray;
             vc.couponArray = gAppMgr.myUser.validCashCouponArray;
-            vc.upperLimit = self.service.contractprice;
+            vc.upperLimit = self.service.origprice;
             [self.navigationController pushViewController:vc animated:YES];
         }
 //        else if (indexPath.row == 2)
@@ -289,7 +289,7 @@
         additionB.hidden = YES;
     }
     else if (indexPath.row == 2) {
-        titleL.text = [NSString stringWithFormat:@"项目价格：￥%.2f", self.service.contractprice];
+        titleL.text = [NSString stringWithFormat:@"项目价格：￥%.2f", self.service.origprice];
         NSArray * rates = self.service.chargeArray;
         ChargeContent * cc;
         for (ChargeContent * tcc in rates)
@@ -435,7 +435,7 @@
                 vc.selectedCouponArray = self.selectCarwashCoupouArray;
                 vc.type = CouponTypeCarWash;
                 vc.couponArray = gAppMgr.myUser.validCarwashCouponArray;
-                vc.upperLimit = self.service.contractprice;
+                vc.upperLimit = self.service.origprice;
                 [self.navigationController pushViewController:vc animated:YES];
                  [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
             }
@@ -463,7 +463,7 @@
                 vc.selectedCouponArray = self.selectCashCoupouArray;
                 vc.type = CouponTypeCash;
                 vc.couponArray = gAppMgr.myUser.validCashCouponArray;
-                vc.upperLimit = self.service.contractprice;
+                vc.upperLimit = self.service.origprice;
                 [self.navigationController pushViewController:vc animated:YES];
                 [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
             }
@@ -802,9 +802,9 @@
         for (NSInteger i = 0 ; i < gAppMgr.myUser.validCashCouponArray.count ; i++)
         {
             HKCoupon * coupon = [gAppMgr.myUser.validCashCouponArray safetyObjectAtIndex:i];
-            if (coupon.couponAmount < self.service.contractprice)
+            if (coupon.couponAmount < self.service.origprice)
             {
-                if (amount + coupon.couponAmount < self.service.contractprice)
+                if (amount + coupon.couponAmount < self.service.origprice)
                 {
                     amount = amount + coupon.couponAmount;
                     [self.selectCashCoupouArray addObject:coupon];
@@ -817,7 +817,7 @@
 
 - (void)refreshPriceLb
 {
-    CGFloat amount = self.service.contractprice;
+    CGFloat amount = self.service.origprice;
     if (self.couponType == CouponTypeCarWash)
     {
         HKCoupon * coupon = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
@@ -833,7 +833,7 @@
     }
     else
     {
-        amount = self.service.contractprice;
+        amount = self.service.origprice;
     }
     
     UILabel *label = (UILabel *)[self.bottomView viewWithTag:1001];
