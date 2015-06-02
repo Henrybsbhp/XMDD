@@ -56,7 +56,8 @@ typedef enum : NSUInteger {
 #define kReqPrefix      @"▂ ▃ ▄ ▅ ▆ ▇ █"
 #define kErrPrefix      @"〓〓〓〓〓"
 
-#define MapZoomLevel 15.0000
+// 如果是2D的话，可以设置为2.1，3.1，大于整数级，因为整数级别中只是缩放当前级别的图，不会去渲染更高等级的图。
+#define MapZoomLevel 15.1000
 
 #define PageAmount 10
 
