@@ -222,7 +222,7 @@ static NSInteger rotationIndex = 0;
     else
     {
         UIBarButtonItem *retrybtn =
-        [[UIBarButtonItem alloc] initWithTitle:@"点击重试" style:UIBarButtonItemStyleDone target:self action:@selector(rac_getWeatherInfo)];
+        [[UIBarButtonItem alloc] initWithTitle:@"定位失败" style:UIBarButtonItemStyleDone target:self action:@selector(rac_getWeatherInfo)];
         self.navigationItem.leftBarButtonItem = retrybtn;
     }
 }
@@ -416,7 +416,7 @@ static NSInteger rotationIndex = 0;
             {
                 if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
                 {
-                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置进行操作" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往设置", nil];
+                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置打开,然后重启应用" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往设置", nil];
                     
                     [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
                         
@@ -429,7 +429,7 @@ static NSInteger rotationIndex = 0;
                 }
                 else
                 {
-                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置进行操作" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
+                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置打开，然后重启应用" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
                     
                     [av show];
                 }

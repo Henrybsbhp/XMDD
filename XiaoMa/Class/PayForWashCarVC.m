@@ -737,7 +737,15 @@
         }
     } error:^(NSError *error) {
         
-        [gToast showError:@"订单生成失败"];
+        if (error.code == 5003)
+        {
+            [gToast showError:@"您选择的优惠券无效"];
+        }
+        else
+        {
+            [gToast showError:@"订单生成失败"];
+        }
+        
     }];
 }
 

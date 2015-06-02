@@ -20,7 +20,7 @@
     HKCoupon * coupon = [[HKCoupon alloc] init];
     coupon.couponId = rsp[@"cid"];
     coupon.couponName = rsp[@"name"];
-    coupon.couponAmount = [rsp integerParamForName:@"amount"];
+    coupon.couponAmount = [rsp floatParamForName:@"amount"];
     coupon.couponDescription = rsp[@"description"];
     coupon.used = [rsp boolParamForName:@"used"];
     coupon.valid = [rsp boolParamForName:@"valid"];

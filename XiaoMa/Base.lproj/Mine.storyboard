@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -498,7 +498,7 @@
                                                 <constraint firstAttribute="width" constant="104" id="RS4-Gu-rCU"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" title="一键上传" backgroundImage="7D67134F-2592-4958-8974-6B9BBE3AEB82">
+                                            <state key="normal" title="一键上传" backgroundImage="8E28733B-CC04-4064-A446-00F5C2440F7F">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </state>
@@ -2217,18 +2217,6 @@
                                                     </state>
                                                     <state key="selected" image="collect_check"/>
                                                 </button>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="YNY-sw-IZi">
-                                                    <rect key="frame" x="0.0" y="184" width="600" height="1"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="1" id="cAu-41-tYa"/>
-                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="nPh-8n-Uk7"/>
-                                                    </constraints>
-                                                    <variation key="default">
-                                                        <mask key="constraints">
-                                                            <exclude reference="nPh-8n-Uk7"/>
-                                                        </mask>
-                                                    </variation>
-                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="cZa-NF-DFk" secondAttribute="trailing" constant="12" id="0GZ-kg-koS"/>
@@ -2241,7 +2229,6 @@
                                                 <constraint firstItem="8KG-kf-hlt" firstAttribute="leading" secondItem="RQd-6Q-TyU" secondAttribute="leading" constant="12" id="KbS-0f-1ZJ"/>
                                                 <constraint firstAttribute="trailing" secondItem="iRz-VD-zcN" secondAttribute="trailing" id="LJj-g1-V51"/>
                                                 <constraint firstItem="asK-Pl-chP" firstAttribute="leading" secondItem="RQd-6Q-TyU" secondAttribute="leading" constant="5" id="M4I-Ho-GHM"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="YNY-sw-IZi" secondAttribute="trailing" constant="-8" id="MBi-rC-fPJ"/>
                                                 <constraint firstItem="8KG-kf-hlt" firstAttribute="top" secondItem="fiT-8r-xBM" secondAttribute="bottom" constant="58" id="N1b-eo-eTF"/>
                                                 <constraint firstItem="Bu5-LT-jtV" firstAttribute="top" secondItem="3Zf-Nd-6bo" secondAttribute="bottom" constant="2" id="OAp-PK-YOY"/>
                                                 <constraint firstItem="dR3-t6-WpZ" firstAttribute="top" secondItem="RQd-6Q-TyU" secondAttribute="top" id="PYh-W9-vMj"/>
@@ -2250,7 +2237,6 @@
                                                 <constraint firstItem="DcH-oE-lun" firstAttribute="centerY" secondItem="cZa-NF-DFk" secondAttribute="centerY" id="TDQ-fg-P6L"/>
                                                 <constraint firstItem="2VJ-n0-JKy" firstAttribute="leading" secondItem="A92-La-u6W" secondAttribute="trailing" priority="750" constant="5" id="TOG-rO-wI2"/>
                                                 <constraint firstItem="3Zf-Nd-6bo" firstAttribute="top" secondItem="NSj-we-sjy" secondAttribute="top" id="Tj1-TU-6NN"/>
-                                                <constraint firstAttribute="bottom" secondItem="YNY-sw-IZi" secondAttribute="bottom" id="Wmo-rG-8HN"/>
                                                 <constraint firstItem="2VJ-n0-JKy" firstAttribute="top" secondItem="8KG-kf-hlt" secondAttribute="bottom" constant="5" id="X1L-7N-uT6"/>
                                                 <constraint firstItem="DcH-oE-lun" firstAttribute="centerY" secondItem="3Zf-Nd-6bo" secondAttribute="centerY" id="Y1C-PL-cb8"/>
                                                 <constraint firstAttribute="centerX" secondItem="A92-La-u6W" secondAttribute="centerX" id="YZ0-xq-JQb"/>
@@ -2268,7 +2254,6 @@
                                                 <constraint firstItem="NSj-we-sjy" firstAttribute="leading" secondItem="RQd-6Q-TyU" secondAttribute="leading" constant="12" id="jfC-47-wDV"/>
                                                 <constraint firstAttribute="trailing" secondItem="OtD-9y-Dva" secondAttribute="trailing" constant="15" id="jxt-6j-9S4"/>
                                                 <constraint firstItem="iRz-VD-zcN" firstAttribute="top" secondItem="2VJ-n0-JKy" secondAttribute="bottom" constant="5" id="kvT-E3-61G"/>
-                                                <constraint firstItem="YNY-sw-IZi" firstAttribute="leading" secondItem="RQd-6Q-TyU" secondAttribute="leadingMargin" constant="-8" id="lWB-RA-5zZ"/>
                                                 <constraint firstItem="Bu5-LT-jtV" firstAttribute="centerY" secondItem="fKu-a3-QM9" secondAttribute="centerY" id="m7U-Ei-ei9"/>
                                                 <constraint firstItem="8KG-kf-hlt" firstAttribute="top" secondItem="asK-Pl-chP" secondAttribute="top" constant="-5" id="rbf-Ee-mPm"/>
                                                 <constraint firstItem="A92-La-u6W" firstAttribute="top" secondItem="8KG-kf-hlt" secondAttribute="top" constant="9" id="seK-xP-wlW"/>
@@ -2997,7 +2982,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="7D67134F-2592-4958-8974-6B9BBE3AEB82" width="22" height="30">
+        <image name="8E28733B-CC04-4064-A446-00F5C2440F7F" width="22" height="30">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
