@@ -19,5 +19,18 @@
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
+- (instancetype)parseResponseObject:(id)rspObj
+{
+    self.rsp_prompt = @"反馈成功，您的意见是我们宝贵的财富";
+    return self;
+}
+
+- (NSError *)mapError:(NSError *)error
+{
+    if (error.code == -1) {
+        error = [NSError errorWithDomain:@"反馈失败，请稍后再试" code:error.code userInfo:error.userInfo];
+    }
+    return error;
+}
 
 @end

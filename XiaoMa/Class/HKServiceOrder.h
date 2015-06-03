@@ -15,7 +15,7 @@
 @property (nonatomic, strong) NSNumber *orderid;
 @property (nonatomic, strong) NSNumber *serviceid;
 ///服务名称
-@property (nonatomic, strong) NSString *serviceprice;
+@property (nonatomic, assign) CGFloat serviceprice;
 @property (nonatomic, strong) NSString *servicename;
 @property (nonatomic, strong) JTShop *shop;
 @property (nonatomic, strong) NSString *licencenumber;

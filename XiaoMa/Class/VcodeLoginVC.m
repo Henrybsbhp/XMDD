@@ -41,7 +41,7 @@
      subscribeNext:^(GetVcodeOp *op) {
          gNetworkMgr.token = op.req_token;
     } error:^(NSError *error) {
-        [gToast showError:@"获取验证码失败了！"];
+        [gToast showError:error.domain];
     }];
 }
 

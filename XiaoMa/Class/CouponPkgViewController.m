@@ -87,7 +87,7 @@
     op.pkgCode = self.pkgCodeTxtFeild.text;
     [[[op rac_postRequest] initially:^{
         
-        [gToast showText:@"领取中..."];
+        [gToast showingWithText:@"领取中..."];
     }] subscribeNext:^(id x) {
         
         [gToast showSuccess:@"领取成功"];

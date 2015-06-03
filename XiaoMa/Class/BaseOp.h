@@ -16,6 +16,7 @@
 
 - (RACSignal *)rac_postRequest;
 - (RACSignal *)rac_getRequest;
+- (NSError *)mapError:(NSError *)error;
 - (instancetype)parseResponseObject:(id)rspObj;
 ///模拟接口返回 JSON对象 或 NSError
 - (id)returnSimulateResponse;
@@ -45,12 +46,12 @@
 @property (nonatomic, assign) NSInteger rsp_statusCode;
 /// 响应错误
 @property (nonatomic, assign) NSError *rsp_error;
-/// 响应错误
-@property (nonatomic, copy) NSString *rsp_errorMsg;
 /// 业务code
 @property (nonatomic, assign) NSInteger rsp_code;
+/// 附加提示语
+@property (nonatomic, strong) NSString *rsp_prompt;
 /// 是否有新消息
-@property (nonatomic, assign) BOOL rsp_newmsg;
+@property (nonatomic, assign) BOOL rsp_hasNewMsg;
 
 @property (nonatomic, weak) RACSignal *rac_curSignal;
 
