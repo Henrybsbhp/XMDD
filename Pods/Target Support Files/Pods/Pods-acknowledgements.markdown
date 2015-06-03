@@ -326,6 +326,11 @@ License
 This resources are included in proprietary sortware.
 
 
+## UMengAnalytics
+
+Copyright 2011 - 2015 UMeng.com. All rights reserved.
+
+
 ## cdebug
 
 Copyright (c) 2011, Jeong YunWon <jeong+cdebug@youknowone.org>

@@ -41,7 +41,7 @@ typedef enum : NSUInteger {
     AdvertisementTypeActivities = 20
 } AdvertisementType;
 
-#define IOSAPPID 2001
+#define IOSAPPID 1001
 #define BaiduMapUrl @"baidumap://map/"
 #define AMapUrl  @"iosamap://"
 

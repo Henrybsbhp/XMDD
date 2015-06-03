@@ -114,7 +114,8 @@
     {
         strurl = @"";
     }
-    NSURL *url = [NSURL URLWithString:strurl];
+    NSString * newUrl = [strurl stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSURL *url = [NSURL URLWithString:newUrl];
     if ([[UIApplication sharedApplication] canOpenURL:url])
     {
         [[UIApplication sharedApplication] openURL:url];
