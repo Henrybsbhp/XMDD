@@ -406,7 +406,7 @@
 #pragma mark - 友盟
 - (void)setupUmeng
 {
-    [MobClick startWithAppkey:@"551caa7ffd98c58318000347" reportPolicy:BATCH   channelId:@"iOS"];
+    [MobClick startWithAppkey:UMeng_API_ID reportPolicy:BATCH   channelId:@"iOS"];
 #ifdef DEBUG
     [MobClick setLogEnabled:YES];
 #else
