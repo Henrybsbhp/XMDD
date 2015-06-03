@@ -25,6 +25,7 @@
 #import "JTLogModel.h"
 #import <UMengAnalytics/MobClick.h>
 
+
 #define RequestWeatherInfoInterval 60 * 10
 //#define RequestWeatherInfoInterval 5
 
@@ -51,7 +52,7 @@
     
     [gMapHelper setupMapApi];
     [gMapHelper setupMAMap];
-//    [self setupUmeng];
+    [self setupUmeng];
     
     //微信授权
     if (![WXApi registerApp:WECHAT_APP_ID])
@@ -405,9 +406,7 @@
 #pragma mark - 友盟
 - (void)setupUmeng
 {
-    //Umeng
-    //@"54532730fd98c5c98e003eb4" 幸福动车
-    [MobClick startWithAppkey:@"54bce271fd98c5ca94000824" reportPolicy:BATCH   channelId:@"iOS"];
+    [MobClick startWithAppkey:@"551caa7ffd98c58318000347" reportPolicy:BATCH   channelId:@"iOS"];
 #ifdef DEBUG
     [MobClick setLogEnabled:YES];
 #else
