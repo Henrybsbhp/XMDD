@@ -690,7 +690,6 @@
         [gToast showingWithText:@"订单生成中..."];
     }] subscribeNext:^(CheckoutServiceOrderOp * op) {
  
-        [gToast dismiss];
         if (op.rsp_price)
         {
             if (op.platform == PayWithAlipay)
@@ -715,9 +714,13 @@
                             andProductName:info andTime:submitTime];
                 });
             }
+            else {
+                [gToast dismiss];
+            }
         }
         else
         {
+            [gToast dismiss];
             [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
             PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
             vc.originVC = self.originVC;
