@@ -17,6 +17,7 @@
 #import "NSDate+DateForText.h"
 #import "UsedCouponVModel.h"
 #import "UnusedCouponVModel.h"
+#import "WebVC.h"
 
 @interface MyCouponVC ()
 
@@ -48,6 +49,9 @@
 #pragma mark - Action
 - (IBAction)actionGetMore:(id)sender
 {
+    WebVC *vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
+    vc.url = @"http://www.xiaomadada.com/apphtml/morecoupon.html";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)actionSegmentChanged:(id)sender
