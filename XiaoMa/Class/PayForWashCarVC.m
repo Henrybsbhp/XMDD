@@ -807,7 +807,10 @@
             }
         }
         [self tableViewReloadData];
+        return;
     }
+    self.couponType = 0;
+    [self tableViewReloadData];
 }
 
 - (void)refreshPriceLb
