@@ -324,6 +324,9 @@
     [[[[op rac_postRequest] flattenMap:^RACStream *(UploadFileOp *uploadOp) {
         UpdateUserInfoOp * op = [UpdateUserInfoOp operation];
         op.avatarUrl = [uploadOp.rsp_urlArray safetyObjectAtIndex:0];
+        op.nickname = gAppMgr.myUser.userName;
+        op.sex = gAppMgr.myUser.sex;
+        op.birthday = gAppMgr.myUser.birthday;
         
         return [op rac_postRequest];
     }] initially:^{

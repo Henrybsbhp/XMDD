@@ -324,18 +324,24 @@
 
 - (NSAttributedString *)priceStringWithOldPrice:(NSNumber *)price1 curPrice:(NSNumber *)price2
 {
-    NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
-                            NSForegroundColorAttributeName:[UIColor lightGrayColor],
-                            NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle)};
-    NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%@", price1] attributes:attr1];
-    
-    NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18],
-                            NSForegroundColorAttributeName:HEXCOLOR(@"#f93a00")};
-    NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" ￥%@", price2] attributes:attr2];
-    NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
-    [str appendAttributedString:attrStr1];
-    [str appendAttributedString:attrStr2];
-    return str;
+        NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
+        if (price1) {
+            NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
+                                    NSForegroundColorAttributeName:[UIColor lightGrayColor],
+                                    NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle)};
+            NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:
+                                            [NSString stringWithFormat:@"￥%.2f", [price1 floatValue]] attributes:attr1];
+            [str appendAttributedString:attrStr1];
+        }
+        
+        if (price2) {
+            NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18],
+                                    NSForegroundColorAttributeName:HEXCOLOR(@"#f93a00")};
+            NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:
+                                            [NSString stringWithFormat:@" ￥%.2f", [price2 floatValue]] attributes:attr2];
+            [str appendAttributedString:attrStr2];
+        }
+        return str;
 }
 
 #pragma mark - UITableView Delegate & DataSource
@@ -429,7 +435,7 @@
         }
         
         integralL.text = [NSString stringWithFormat:@"%.0f分",cc.amount];
-        priceL.attributedText = [self priceStringWithOldPrice:@(service.origprice) curPrice:@(service.contractprice)];
+        priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
         
         //row 2
         UIButton *guideB = (UIButton *)[cell.contentView viewWithTag:3001];
