@@ -410,7 +410,7 @@
         getShopByDistanceOp.pageno = self.currentPageIndex;
         [[getShopByDistanceOp rac_postRequest] subscribeNext:^(GetShopByDistanceOp * op) {
             
-            @strongify(self);   
+            @strongify(self);
             self.currentPageIndex = self.currentPageIndex + 1;
             
             [self.tableView.refreshView endRefreshing];

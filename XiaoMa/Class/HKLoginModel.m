@@ -37,18 +37,7 @@ typedef enum : NSInteger {
     AuthByVcodeOp *op = [AuthByVcodeOp new];
     op.skey = [self skeyFromPassword:vCode];
     op.req_deviceID = gAppMgr.deviceInfo.deviceID;
-    return [[[self rac_commonValidateTokenOp:op account:account refreshToken:NO] catch:^RACSignal *(NSError *error) {
-        
-        if (error.code == 10301)
-        {
-            return [RACSignal error:[NSError errorWithDomain:@"验证码有误!再试试吧!" code:10301 userInfo:nil]];
-        }
-        else
-        {
-            return [RACSignal error:[NSError errorWithDomain:@"验证码有误!再试试吧!" code:error.code userInfo:nil]];
-        }
-        return [RACSignal error:error];
-    }] doNext:^(id x) {
+    return [[self rac_commonValidateTokenOp:op account:account refreshToken:NO] doNext:^(id x) {
         [gAppMgr resetWithAccount:account];
     }];
 }
@@ -256,48 +245,18 @@ typedef enum : NSInteger {
     }
     
     //验证token
-    signal = [[[signal flattenMap:^RACStream *(NSString *token) {
+    signal = [[signal flattenMap:^RACStream *(NSString *token) {
         
         validOp.token = token;
         return [validOp rac_postRequest];
-    }] catch:^RACSignal *(NSError *error) {
+    }] map:^(BaseOp *rstOp) {
         
-        return [RACSignal error:[NSError errorWithDomain:@"登录失败" code:error.code userInfo:nil]];
-    }] flattenMap:^RACStream *(BaseOp *rstOp) {
-        
-        NSInteger code = rstOp.rsp_code;
-        //  0-成功
-        if (code == 0)
-        {
-            gNetworkMgr.token = rstOp.token;
-            gNetworkMgr.skey = rstOp.skey;
-            LoginType type = [rstOp isKindOfClass:[AuthByPwdOp class]] ? LoginTypePassowrd : LoginTypeVCode;
-            [HKLoginModel saveSkey:rstOp.skey forAccount:account loginType:type];
-            return [RACSignal return:rstOp];
-        }
-        NSError *error;
-        if (code == 1001)
-        {
-            error = [NSError errorWithDomain:@"密码有误！再试试吧！" code:code userInfo:nil];
-        }
-        else if (code == 3001)
-        {
-            error = [NSError errorWithDomain:@"输错次数太多啦！请稍后再试吧！" code:code userInfo:nil];
-        }
-        else if (code == 4001)
-        {
-            error = [NSError errorWithDomain:@"验证码有误！再试试吧！" code:code userInfo:nil];
-        }
-        else if (code == 4002)
-        {
-            error = [NSError errorWithDomain:@"验证码已经过期啦！再试试吧！" code:code userInfo:nil];
-        }
-        else
-        {
-            error = [NSError errorWithDomain:@"登录失败！" code:0 userInfo:nil];
-        }
-        return [RACSignal error:error];
-    }];
+        gNetworkMgr.token = rstOp.token;
+        gNetworkMgr.skey = rstOp.skey;
+        LoginType type = [rstOp isKindOfClass:[AuthByPwdOp class]] ? LoginTypePassowrd : LoginTypeVCode;
+        [HKLoginModel saveSkey:rstOp.skey forAccount:account loginType:type];
+        return rstOp;
+     }];
     
     return [signal deliverOn:[RACScheduler mainThreadScheduler]];
 

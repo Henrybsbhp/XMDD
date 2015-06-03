@@ -43,7 +43,7 @@
 - (void)refreshTableView
 {
     if (self.usedCoupons.count == 0 && self.usedCoupons.count == 0) {
-        [self.tableView showDefaultEmptyViewWithText:@"暂无已使用优惠券"];
+        [self.tableView showDefaultEmptyViewWithText:@"您未使用过优惠券"];
     }
     else {
         [self.tableView hideDefaultEmptyView];
@@ -95,9 +95,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return CGFLOAT_MIN;
+    return 10;
 }
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.usedCoupons.count;

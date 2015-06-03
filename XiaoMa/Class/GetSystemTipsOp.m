@@ -39,4 +39,12 @@
     return self;
 }
 
+- (NSError *)mapError:(NSError *)error
+{
+    if (error.code == -1) {
+        error = [NSError errorWithDomain:@"小马哥被风沙迷了眼" code:error.code userInfo:error.userInfo];
+    }
+    return error;
+}
+
 @end

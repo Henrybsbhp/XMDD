@@ -45,12 +45,17 @@
           
             [gToast showingWithText:@"正在提交..."];
         }] subscribeNext:^(id x) {
-            
+
+            [gToast dismiss];
+            UIAlertView *alert = [[UIAlertView alloc] initNoticeWithTitle:@"收到啦，工作人员会为您详细介绍爱车宝哟" message:nil cancelButtonTitle:@"确定"];
+            [alert show];
             [gToast showSuccess:@"提交成功!"];
         } error:^(NSError *error) {
-            
+
             if (error.code == 6001) {
-                [gToast showSuccess:@"提交成功!"];
+                [gToast dismiss];
+                UIAlertView *alert = [[UIAlertView alloc] initNoticeWithTitle:@"收到啦，工作人员会为您详细介绍爱车宝哟" message:nil cancelButtonTitle:@"确定"];
+                [alert show];
             }
             else {
                 [gToast showError:error.domain];

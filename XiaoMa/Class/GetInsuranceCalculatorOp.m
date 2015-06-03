@@ -47,7 +47,14 @@
         NSAssert(NO, @"GetUpdateInfoOp parse error~~");
     }
     return self;
-    
+}
+
+- (NSError *)mapError:(NSError *)error
+{
+    if (error.code == -1) {
+        error = [NSError errorWithDomain:@"询价失败，请重试" code:error.code userInfo:error.userInfo];
+    }
+    return error;
 }
 
 

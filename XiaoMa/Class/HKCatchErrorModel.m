@@ -38,14 +38,11 @@
 - (RACSignal *)retryWithOp:(BaseOp *)op withError:(NSError *)error
 {
     NSInteger count = [[op associatedObjectForKey:@"hk_retryCount"] integerValue];
-    if (count < 2)
-    {
+    if (count < 2) {
         [op setAssociatedObject:@(++count) forKey:@"hk_retryCount"];
     }
-    else
-    {
-//        [gToast showError:@"账号验证失败了，请重新登录"];
-        return [RACSignal error:[NSError errorWithDomain:@"账号验证失败了，请重新登录" code:error.code userInfo:nil]];
+    else {
+        return [RACSignal error:error];
     }
     HKLoginModel *loginModel = [[HKLoginModel alloc] init];
     DebugLog(@"Retry Operation: %@ with id %@", op, @(op.req_id));
