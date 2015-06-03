@@ -50,7 +50,7 @@
 - (IBAction)actionGetMore:(id)sender
 {
     WebVC *vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
-    vc.url = @"http://www.xiaomadada.com/apphtml/morecoupon.html";
+    vc.url = @"http://www.xiaomadada.com/apphtml/couponpkg.html";
     [self.navigationController pushViewController:vc animated:YES];
 }
 

@@ -31,6 +31,9 @@
     ///高德地图相关
     #define AMAP_API_ID @"228479061fac2d7ff1b0b62531dc4841" //com.huika.xmdd.ent
 
+    ///友盟相关
+    #define UMeng_API_ID @"556ea0c867e58e5156001bee" //com.huika.xmdd.ent
+
 #else
 
     ///微信相关
@@ -52,6 +55,9 @@
     ///高德地图相关
     #define AMAP_API_ID @"8b0b664d2df333201514aacb8e1551bc"   //com.huika.xmdd
 
+    ///友盟相关
+    #define UMeng_API_ID @"551caa7ffd98c58318000347" //com.huika.xmdd
+
 #endif
 
 
@@ -59,8 +65,8 @@
 #ifdef DEBUG
 //    联调
 //    #define ApiBaseUrl @"http://192.168.1.117:8081/paa/rest/api" //华良联调
-    #define ApiBaseUrl @"http://api.xiaomadada.com:8282/paa/rest/api" //正式
-//    #define ApiBaseUrl @"http://183.129.253.170:18282/paa/rest/api" //测试
+//    #define ApiBaseUrl @"http://api.xiaomadada.com:8282/paa/rest/api" //正式
+    #define ApiBaseUrl @"http://183.129.253.170:18282/paa/rest/api" //测试
     #define LogUploadUrl @"http://183.129.253.170:8282/log/upload"
 #else
     #define ApiBaseUrl @"http://api.xiaomadada.com:8282/paa/rest/api" //正式
