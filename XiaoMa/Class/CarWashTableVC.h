@@ -17,4 +17,6 @@
 @property (strong, nonatomic) IBOutlet UIView *headerView;
 ///禁止广告
 @property (nonatomic, assign) BOOL forbidAD;
+///override
+- (void)reloadDataWithText:(NSString *)text error:(NSError *)error;
 @end

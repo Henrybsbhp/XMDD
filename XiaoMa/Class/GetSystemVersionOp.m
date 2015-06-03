@@ -32,14 +32,24 @@
         self.rsp_link =  [dict objectForKey:@"link"];
         self.rsp_updateinfo = [dict objectForKey:@"updateinfo"];
         self.rsp_mandatory = [dict boolParamForName:@"mandatory"];
+        self.rsp_prompt = @"当前已是最新版本";
     }
     else
     {
         NSAssert(NO, @"GetUpdateInfoOp parse error~~");
     }
     return self;
-    
 }
+
+- (NSError *)mapError:(NSError *)error
+{
+    if (error.code == -1) {
+        error = [NSError errorWithDomain:@"小马哥有点忙，过会儿试试吧" code:error.code userInfo:error.userInfo];
+    }
+    return error;
+}
+
+
 
 
 @end

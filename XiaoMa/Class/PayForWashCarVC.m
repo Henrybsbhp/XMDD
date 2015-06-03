@@ -689,63 +689,48 @@
         
         [gToast showingWithText:@"订单生成中..."];
     }] subscribeNext:^(CheckoutServiceOrderOp * op) {
-        
-        if (op.rsp_code == 0)
+ 
+        [gToast dismiss];
+        if (op.rsp_price)
         {
-            if (op.rsp_price)
+            if (op.platform == PayWithAlipay)
             {
-                if (op.platform == PayWithAlipay)
-                {
-                    [gToast showText:@"订单生成成功,正在跳转到支付宝平台进行支付"];
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        
-                        NSString * submitTime = [[NSDate date] dateFormatForDT8];
-                        NSString * info = [NSString stringWithFormat:@"%@",self.shop.shopName];
-                        [self requestAliPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
-                             andProductName:info andDescription:@"小马达达" andTime:submitTime];
-                    });
-                }
-                else if (op.platform == PayWithWechat)
-                {
-                    [gToast showText:@"订单生成成功,正在跳转到微信平台进行支付"];
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        
-                        NSString * submitTime = [[NSDate date] dateFormatForDT8];
-                        NSString * info = [NSString stringWithFormat:@"%@-%@",self.service.serviceName,self.shop.shopName];
-                        [self requestWechatPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
-                                andProductName:info andTime:submitTime];
-                    });
-                }
+                [gToast showText:@"订单生成成功,正在跳转到支付宝平台进行支付"];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    
+                    NSString * submitTime = [[NSDate date] dateFormatForDT8];
+                    NSString * info = [NSString stringWithFormat:@"%@",self.shop.shopName];
+                    [self requestAliPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
+                         andProductName:info andDescription:@"小马达达" andTime:submitTime];
+                });
             }
-            else
+            else if (op.platform == PayWithWechat)
             {
-                [gToast dismiss];
-                [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
-                PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
-                vc.originVC = self.originVC;
-                HKServiceOrder * order = [[HKServiceOrder alloc] init];
-                order.orderid = op.rsp_orderid;
-                order.shop = self.shop;
-                order.serviceid = self.service.serviceID;
-                vc.order = order;
-                [self.navigationController pushViewController:vc animated:YES];
+                [gToast showText:@"订单生成成功,正在跳转到微信平台进行支付"];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    
+                    NSString * submitTime = [[NSDate date] dateFormatForDT8];
+                    NSString * info = [NSString stringWithFormat:@"%@-%@",self.service.serviceName,self.shop.shopName];
+                    [self requestWechatPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
+                            andProductName:info andTime:submitTime];
+                });
             }
         }
         else
         {
-            [gToast showError:@"订单生成失败"];
+            [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
+            PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
+            vc.originVC = self.originVC;
+            HKServiceOrder * order = [[HKServiceOrder alloc] init];
+            order.orderid = op.rsp_orderid;
+            order.shop = self.shop;
+            order.serviceid = self.service.serviceID;
+            vc.order = order;
+            [self.navigationController pushViewController:vc animated:YES];
         }
     } error:^(NSError *error) {
-        
-        if (error.code == 5003)
-        {
-            [gToast showError:@"您选择的优惠券无效"];
-        }
-        else
-        {
-            [gToast showError:@"订单生成失败"];
-        }
-        
+
+        [gToast showError:error.domain];
     }];
 }
 

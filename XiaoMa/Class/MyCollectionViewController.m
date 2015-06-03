@@ -85,7 +85,7 @@
 {
     [self.tableView reloadData];
     if (gAppMgr.myUser.favorites.favoritesArray.count == 0) {
-        [self.tableView showDefaultEmptyViewWithText:@"暂无收藏"];
+        [self.tableView showDefaultEmptyViewWithText:@"您暂未收藏商户"];
     }
     else {
         [self.tableView hideDefaultEmptyView];
@@ -244,7 +244,8 @@
         [self editActions:nil];
     } error:^(NSError *error) {
         
-        [gToast showError:@"移除失败！"];
+        [gToast showError:error.domain];
+//        [gToast showError:@"移除失败！"];
     }];
 }
 

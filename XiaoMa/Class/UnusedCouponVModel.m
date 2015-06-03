@@ -48,7 +48,7 @@
 - (void)refreshTableView
 {
     if (self.validCoupons.count == 0 && self.overdueCoupons.count == 0) {
-        [self.tableView showDefaultEmptyViewWithText:@"暂无未使用优惠券"];
+        [self.tableView showDefaultEmptyViewWithText:@"暂无优惠券"];
     }
     else {
         [self.tableView hideDefaultEmptyView];
@@ -85,6 +85,8 @@
         [self refreshTableView];
      } error:^(NSError *error) {
         
+         @strongify(self);
+         [self.tableView.refreshView endRefreshing];
          [self.tableView.bottomLoadingView stopActivityAnimation];
          [gToast showError:error.domain];
          [self refreshTableView];
@@ -123,7 +125,7 @@
         }];
     } error:^(NSError *error) {
         
-        [gToast showError:@"无法分享"];
+        [gToast showError:error.domain];
     }];
 }
 
