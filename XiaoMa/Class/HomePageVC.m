@@ -530,7 +530,7 @@ static NSInteger rotationIndex = 0;
 //        
 //        imgV.image = x;
 //    }];
-    [[gMediaMgr rac_getPictureForUrl:ad.adPic withType:ImageURLTypeMedium defaultPic:@"hp_bottom" errorPic:@"hp_bottom"]
+    [[gMediaMgr rac_getPictureForUrl:ad.adPic withType:ImageURLTypeMedium defaultPic:@"ad_default" errorPic:@"ad_default"]
      subscribeNext:^(id x) {
         UIImage * image = x;
         if (image.size.width > (imgV.frame.size.width * 2)) {
@@ -555,6 +555,13 @@ static NSInteger rotationIndex = 0;
             WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
             vc.title = @"广告";
             vc.url = ad.adLink;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        else
+        {
+            WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+            vc.title = @"小马达达";
+            vc.url = XIAMMAWEB;
             [self.navigationController pushViewController:vc animated:YES];
         }
     }];

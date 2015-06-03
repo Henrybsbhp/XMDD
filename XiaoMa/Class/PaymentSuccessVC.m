@@ -47,7 +47,7 @@
     vc.tt = @"小马达达－一分洗车，十分满意";
     vc.subtitle = @"我完成了洗车，你也来试试吧";
     vc.image = [UIImage imageNamed:@"logo"];
-    vc.urlStr = @"http://www.xiaomadada.com";
+    vc.urlStr = XIAMMAWEB;
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
     sheet.shouldCenterVertically = YES;
     [sheet presentAnimated:YES completionHandler:nil];

@@ -41,9 +41,10 @@ typedef enum : NSUInteger {
     AdvertisementTypeActivities = 20
 } AdvertisementType;
 
-#define IOSAPPID 2001
+#define IOSAPPID 1001
 #define BaiduMapUrl @"baidumap://map/"
 #define AMapUrl  @"iosamap://"
+#define XIAMMAWEB @"http://www.xiaomadada.com"
 
 #define kDefTintColor   HEXCOLOR(@"#15ac1f")
 #define kDefLineColor   HEXCOLOR(@"#ebebeb")

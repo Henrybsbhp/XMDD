@@ -796,11 +796,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/AppDelegate.m"
-            timestampString = "454659391.264824"
+            timestampString = "454993714.105261"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
             landmarkName = "-handleOpenURL:"
             landmarkType = "5">
          </BreakpointContent>
@@ -865,23 +865,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "101"
             endingLineNumber = "101"
-            landmarkName = "-getDefalutCar"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/MyCarsModel.m"
-            timestampString = "453899614.066466"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "-rac_addCar:"
+            landmarkName = "-rac_getDefaultCar"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1244,9 +1228,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "510"
-            endingLineNumber = "510"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "5">
+            endingLineNumber = "510">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1421,7 +1403,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "43"
             endingLineNumber = "43"
-            landmarkName = "-shareAction:"
+            landmarkName = "-actionBack:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

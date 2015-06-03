@@ -2834,6 +2834,7 @@
 					"\"${PODS_ROOT}/Headers/Public/ckkit\"",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
+					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa\"",
 				);
 				INFOPLIST_FILE = XiaoMa/Misc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -2847,6 +2848,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
+					"$(inherited)",
 					"-ObjC",
 					"-l\"Pods-AFNetworking\"",
 					"-l\"Pods-AFNetworking2-RACExtensions\"",
@@ -2931,6 +2933,7 @@
 					"\"${PODS_ROOT}/Headers/Public/ckkit\"",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
+					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa\"",
 				);
 				INFOPLIST_FILE = XiaoMa/Misc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -2944,6 +2947,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
+					"$(inherited)",
 					"-ObjC",
 					"-l\"Pods-AFNetworking\"",
 					"-l\"Pods-AFNetworking2-RACExtensions\"",
