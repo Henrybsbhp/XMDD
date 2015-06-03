@@ -44,6 +44,7 @@ typedef enum : NSUInteger {
 #define IOSAPPID 1001
 #define BaiduMapUrl @"baidumap://map/"
 #define AMapUrl  @"iosamap://"
+#define XIAMMAWEB @"http://www.xiaomadada.com"
 
 #define kDefTintColor   HEXCOLOR(@"#15ac1f")
 #define kDefLineColor   HEXCOLOR(@"#ebebeb")
