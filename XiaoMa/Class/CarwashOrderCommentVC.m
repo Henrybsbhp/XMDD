@@ -50,6 +50,7 @@
         
         @strongify(self);
         [gToast showSuccess:@"评价成功!"];
+        self.order.ratetime = [NSDate date];
         if (self.originVC) {
             [self.navigationController popToViewController:self.originVC animated:YES];
         }
