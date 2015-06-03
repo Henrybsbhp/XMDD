@@ -64,4 +64,6 @@
 #define AMAP_API_ID @"8b0b664d2df333201514aacb8e1551bc"   //com.huika.xmdd
 //#define AMAP_API_ID @"228479061fac2d7ff1b0b62531dc4841" //com.huika.xmdd.ent
 
+#define UMeng_API_ID @"551caa7ffd98c58318000347" //com.huika.xmdd
+//#define UMeng_API_ID @"556ea0c867e58e5156001bee" //com.huika.xmdd.ent
 #endif
