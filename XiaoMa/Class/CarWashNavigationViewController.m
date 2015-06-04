@@ -228,6 +228,7 @@
         poiAnnotationView.canShowCallout = YES;
         
         poiAnnotationView.image = [UIImage imageNamed:@"high_shop_pin"];
+        poiAnnotationView.centerOffset = CGPointMake(0, -30);
         
         return poiAnnotationView;
     }

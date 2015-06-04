@@ -765,8 +765,10 @@
 {
     [gWechatHelper payOrdWithTradeNo:tradeId andProductName:name andPrice:price];
     
-    [gWechatHelper.rac_wechatResultSignal subscribeNext:^(id x) {
+    [gWechatHelper.rac_wechatResultSignal subscribeNext:^(NSString * info) {
         
+        if (![info isEqualToString:@"9000"])
+            return;
         [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
         PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
         vc.originVC = self.originVC;
