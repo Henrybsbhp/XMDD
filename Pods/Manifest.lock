@@ -212,7 +212,7 @@ DEPENDENCIES:
   - ckkit (from `ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git`)
   - CocoaLumberjack (= 2.0.0)
   - FoundationExtension (= 0.60)
-  - IQKeyboardManager (~> 3.2.0.3)
+  - IQKeyboardManager (= 3.2.0.3)
   - Masonry (= 0.6.1)
   - MZFormSheetController (= 2.4.1)
   - ReactiveCocoa (= 2.3.1)

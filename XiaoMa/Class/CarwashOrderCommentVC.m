@@ -40,7 +40,7 @@
     if (cell) {
         JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:2001];
         UIAPlaceholderTextView *textV = (UIAPlaceholderTextView *)[cell.contentView viewWithTag:3001];
-        self.commentOp.req_comment = textV.text;
+        self.commentOp.req_comment = [textV.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         self.commentOp.req_rating = round(ratingV.ratingValue);
     }
     [[[self.commentOp rac_postRequest] initially:^{
@@ -109,13 +109,6 @@
 
     textV.placeholderString = @"请您对本次服务给出客观评价";
     textV.text = self.commentOp.req_comment;
-    
-    @weakify(self);
-    [[cell rac_prepareForReuseSignal] subscribeNext:^(id x) {
-        @strongify(self);
-        self.commentOp.req_rating = self.commentOp.req_rating;
-        self.commentOp.req_comment = self.commentOp.req_comment;
-    }];
 
     return cell;
 }
