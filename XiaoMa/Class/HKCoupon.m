@@ -22,8 +22,8 @@
     coupon.couponName = rsp[@"name"];
     coupon.couponAmount = [rsp floatParamForName:@"amount"];
     coupon.couponDescription = rsp[@"description"];
-    coupon.used = [rsp boolParamForName:@"used"];
-    coupon.valid = [rsp boolParamForName:@"valid"];
+    coupon.used = [rsp intParamForName:@"used"] == 1;
+    coupon.valid = [rsp intParamForName:@"valid"] == 1;
     coupon.validsince = [NSDate dateWithD8Text:[NSString stringWithFormat:@"%@",rsp[@"validsince"]]];
     coupon.validthrough = [NSDate dateWithD8Text:[NSString stringWithFormat:@"%@",rsp[@"validthrough"]]];
     coupon.conponType = (CouponType)[rsp integerParamForName:@"type"];
