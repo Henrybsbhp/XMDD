@@ -52,6 +52,7 @@
     self.isRemain = YES;
     self.pageAmount = PageAmount;
     self.currentPageIndex = 1;
+    self.tableView.tableHeaderView = nil;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAdList) name:CarwashAdvertiseNotification object:nil];
     
@@ -437,7 +438,7 @@
         } error:^(NSError *error) {
             
             @strongify(self);
-            [gToast showError:@"获取商店列表失败"];
+            [gToast showError:error.domain];
             [self.tableView.refreshView endRefreshing];
         }];
     } error:^(NSError *error) {
