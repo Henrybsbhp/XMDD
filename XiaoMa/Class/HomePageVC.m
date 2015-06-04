@@ -285,9 +285,6 @@
 
 - (void)reloadDatasource
 {
-    [gMapHelper setupMapApi];
-    [gMapHelper setupMAMap];
-    
     @weakify(self);
     [[[[[self rac_getWeatherInfo] merge:[self rac_requestHomePageAd]] initially:^{
       
