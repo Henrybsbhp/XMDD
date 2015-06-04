@@ -74,14 +74,10 @@
         }
         [self.tableView reloadData];
     } error:^(NSError *error) {
-        
+
         [self.tableView.refreshView endRefreshing];
         [self.tableView.bottomLoadingView stopActivityAnimation];
-        @weakify(self);
-        [self.tableView.bottomLoadingView showIndicatorTextWith:@"刷新失败了，点击重试" clickBlock:^(UIButton *sender) {
-            @strongify(self);
-            [self loadDataWithTradetime:tradetime];
-        }];
+        [gToast showError:error.domain];
     }];
 }
 
@@ -147,8 +143,10 @@
     timeL.text = [order.txtime dateFormatForYYYYMMddHHmm];
     priceL.text = [NSString stringWithFormat:@"￥%.2f", order.fee];
     paymentL.text = [order paymentForCurrentChannel];
-    [bottomB setTitle:order.ratetime ? @"已评价" : @"去评价" forState:UIControlStateNormal];
-    bottomB.enabled = !order.ratetime;
+    [[RACObserve(order, ratetime) takeUntilForCell:cell] subscribeNext:^(id x) {
+        [bottomB setTitle:order.ratetime ? @"已评价" : @"去评价" forState:UIControlStateNormal];
+        bottomB.enabled = !order.ratetime;
+    }];
     @weakify(self);
     [[[bottomB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
@@ -156,14 +154,15 @@
         [self actionCommentForOrder:order];
     }];
     
-    
-    cell.separatorInset = UIEdgeInsetsZero;
+    cell.customSeparatorInset = UIEdgeInsetsMake(-1, 0, 0, 0);
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [(JTTableViewCell *)cell prepareCellForTableView:tableView atIndexPath:indexPath];
+    if ([cell isKindOfClass:[JTTableViewCell class]]) {
+        [(JTTableViewCell *)cell prepareCellForTableView:tableView atIndexPath:indexPath];        
+    }
     if (self.orders.count-1 <= indexPath.section && self.isRemain) {
         [self loadMoreData];
     }

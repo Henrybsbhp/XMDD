@@ -52,6 +52,7 @@
     self.isRemain = YES;
     self.pageAmount = PageAmount;
     self.currentPageIndex = 1;
+    self.tableView.tableHeaderView = nil;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAdList) name:CarwashAdvertiseNotification object:nil];
     
@@ -143,6 +144,7 @@
         [self.headerView addSubview:self.adView];
         [self.adView reloadDataRemovingCurrentPage:YES];
         self.adView.currentPageIndex = 0;
+        self.adView.pageControl.hidden = self.adList.count <= 1;
         
         //重置广告滚动的定时器
         [self.rac_adDisposable dispose];
@@ -165,8 +167,9 @@
         [self.rac_adDisposable dispose];
         [[self rac_deallocDisposable] removeDisposable:self.rac_adDisposable];
     }
-    
-    [self.tableView setTableHeaderView:self.headerView];
+    if (self.datasource.count > 0) {
+        [self.tableView setTableHeaderView:self.headerView];
+    }
 }
 
 
@@ -436,7 +439,7 @@
         } error:^(NSError *error) {
             
             @strongify(self);
-            [gToast showError:@"获取商店列表失败"];
+            [gToast showError:error.domain];
             [self.tableView.refreshView endRefreshing];
         }];
     } error:^(NSError *error) {

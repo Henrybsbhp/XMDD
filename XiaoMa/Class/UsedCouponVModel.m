@@ -73,7 +73,8 @@
         @strongify(self);
         [self.tableView.refreshView endRefreshing];
         [self.tableView.bottomLoadingView stopActivityAnimation];
-        
+
+        [self.usedCoupons safetyAddObjectsFromArray:op.rsp_couponsArray];
         self.isRemain = op.rsp_couponsArray.count >= PageAmount;
         self.curPageno = pageno;
         [self refreshTableView];

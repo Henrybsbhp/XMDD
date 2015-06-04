@@ -99,6 +99,11 @@
         
         [gToast showError:error.domain];
     }];
+    
+    //激活验证码的输入框
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
+    [field becomeFirstResponder];
 }
 
 #pragma mark - Private

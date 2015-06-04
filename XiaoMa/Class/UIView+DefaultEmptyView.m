@@ -35,9 +35,11 @@
         UIImageView *imgView =  [[UIImageView alloc] initWithFrame:CGRectZero];
         [view addSubview:imgView];
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+        label.backgroundColor = [UIColor clearColor];
         label.textColor = [UIColor lightGrayColor];
         label.textAlignment = NSTextAlignmentCenter;
         label.font = [UIFont boldSystemFontOfSize:17];
+        label.numberOfLines = 0;
         [view addSubview:label];
         [self addSubview:view];
         self.customInfo[kEmptyView] = view;

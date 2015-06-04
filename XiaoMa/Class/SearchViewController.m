@@ -109,6 +109,7 @@
     self.searchBarBackgroundView.borderWidth = 0.5f;
     self.searchBarBackgroundView.borderColor = [UIColor colorWithHex:@"#dadada" alpha:1.0f];
     self.searchBarBackgroundView.layer.cornerRadius = 4.0f;
+    self.searchBarBackgroundView.backgroundColor = [UIColor clearColor];
     
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, width - 120, 36)];
     self.searchBar.barStyle = UIBarStyleDefault;

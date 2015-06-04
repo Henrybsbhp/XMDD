@@ -42,6 +42,7 @@
         [op setAssociatedObject:@(++count) forKey:@"hk_retryCount"];
     }
     else {
+        [self gotoRootViewWithAlertTitle:@"登出通知" msg:@"您的本次登录已经失效了,请重新登录。"];
         return [RACSignal error:error];
     }
     HKLoginModel *loginModel = [[HKLoginModel alloc] init];

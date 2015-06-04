@@ -37,7 +37,8 @@
 
 - (void)showError:(NSString *)error
 {
-    [SVProgressHUD showErrorWithStatus:error];
+    [self showText:error];
+//    [SVProgressHUD showErrorWithStatus:error];
 }
 
 - (void)showText:(NSString *)text
@@ -58,7 +59,7 @@
 
 - (NSTimeInterval)displayDurationForString:(NSString*)string
 {
-    return MIN((float)string.length*0.1 + 0.3, 5.0);
+    return MAX(1.8, MIN((float)string.length*0.1 + 0.3, 5.0));
 }
 
 

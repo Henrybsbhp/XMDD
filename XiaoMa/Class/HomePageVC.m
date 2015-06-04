@@ -497,6 +497,7 @@
         
         [self.adView reloadData];
         self.adView.currentPageIndex = 0;
+        self.adView.pageControl.hidden = array.count <= 1;
     }];
 //
 //    [[gAdMgr rac_getAdvertisement:AdvertisementCarWash] subscribeNext:^(NSArray * array) {
