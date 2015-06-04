@@ -1419,35 +1419,35 @@ afterInheritingLabelAttributesAndConfiguringWithBlock:(NSMutableAttributedString
 }
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
-- (void)tintColorDidChange {
-    if (!self.inactiveLinkAttributes || [self.inactiveLinkAttributes count] == 0) {
-        return;
-    }
-
-    BOOL isInactive = (self.tintAdjustmentMode == UIViewTintAdjustmentModeDimmed);
-
-    NSMutableAttributedString *mutableAttributedString = [self.attributedText mutableCopy];
-    for (TTTAttributedLabelLink *link in self.linkModels) {
-        NSDictionary *attributesToRemove = isInactive ? link.attributes : link.inactiveAttributes;
-        NSDictionary *attributesToAdd = isInactive ? link.inactiveAttributes : link.attributes;
-        
-        [attributesToRemove enumerateKeysAndObjectsUsingBlock:^(NSString *name, __unused id value, __unused BOOL *stop) {
-            if (NSMaxRange(link.result.range) <= mutableAttributedString.length) {
-                [mutableAttributedString removeAttribute:name range:link.result.range];
-            }
-        }];
-
-        if (attributesToAdd) {
-            if (NSMaxRange(link.result.range) <= mutableAttributedString.length) {
-                [mutableAttributedString addAttributes:attributesToAdd range:link.result.range];
-            }
-        }
-    }
-
-    self.attributedText = mutableAttributedString;
-
-    [self setNeedsDisplay];
-}
+//- (void)tintColorDidChange {
+//    if (!self.inactiveLinkAttributes || [self.inactiveLinkAttributes count] == 0) {
+//        return;
+//    }
+//
+//    BOOL isInactive = (self.tintAdjustmentMode == UIViewTintAdjustmentModeDimmed);
+//
+//    NSMutableAttributedString *mutableAttributedString = [self.attributedText mutableCopy];
+//    for (TTTAttributedLabelLink *link in self.linkModels) {
+//        NSDictionary *attributesToRemove = isInactive ? link.attributes : link.inactiveAttributes;
+//        NSDictionary *attributesToAdd = isInactive ? link.inactiveAttributes : link.attributes;
+//        
+//        [attributesToRemove enumerateKeysAndObjectsUsingBlock:^(NSString *name, __unused id value, __unused BOOL *stop) {
+//            if (NSMaxRange(link.result.range) <= mutableAttributedString.length) {
+//                [mutableAttributedString removeAttribute:name range:link.result.range];
+//            }
+//        }];
+//
+//        if (attributesToAdd) {
+//            if (NSMaxRange(link.result.range) <= mutableAttributedString.length) {
+//                [mutableAttributedString addAttributes:attributesToAdd range:link.result.range];
+//            }
+//        }
+//    }
+//
+//    self.attributedText = mutableAttributedString;
+//
+//    [self setNeedsDisplay];
+//}
 #endif
 
 - (UIView *)hitTest:(CGPoint)point

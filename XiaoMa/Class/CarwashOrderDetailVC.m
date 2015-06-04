@@ -49,7 +49,7 @@
 {
     CarwashOrderCommentVC *vc = [UIStoryboard vcWithId:@"CarwashOrderCommentVC" inStoryboard:@"Mine"];
     vc.order = self.order;
-    [vc setCustomActionBlock:^{
+    [vc setCommentSuccess:^{
         [self reloadDatasource];
     }];
     [self.navigationController pushViewController:vc animated:YES];
@@ -109,7 +109,9 @@
     else {
         cell = [self detailCellAtIndexPath:indexPath];
     }
-    cell.separatorInset = UIEdgeInsetsZero;
+    if ([cell isKindOfClass:[JTTableViewCell class]]) {
+        ((JTTableViewCell *)cell).customSeparatorInset = UIEdgeInsetsMake(-1, 0, 0, 0);
+    }
     return cell;
 }
 
@@ -126,7 +128,7 @@
     }];
     titleL.text = shop.shopName;
     addrL.text = shop.shopAddress;
-    cell.customSeparatorInset = UIEdgeInsetsZero;
+
     return cell;
 }
 

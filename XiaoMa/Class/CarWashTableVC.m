@@ -165,8 +165,9 @@
         [self.rac_adDisposable dispose];
         [[self rac_deallocDisposable] removeDisposable:self.rac_adDisposable];
     }
-    
-    [self.tableView setTableHeaderView:self.headerView];
+    if (self.datasource.count > 0) {
+        [self.tableView setTableHeaderView:self.headerView];
+    }
 }
 
 
