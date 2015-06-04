@@ -47,14 +47,14 @@
         }] subscribeNext:^(id x) {
 
             [gToast dismiss];
-            UIAlertView *alert = [[UIAlertView alloc] initNoticeWithTitle:@"收到啦，工作人员会为您详细介绍爱车宝哟" message:nil cancelButtonTitle:@"确定"];
+            UIAlertView *alert = [[UIAlertView alloc] initNoticeWithTitle:@"收到啦～工作人员将于1个工作日内电话联系您，为您更详细的介绍爱车宝！" message:nil cancelButtonTitle:@"确定"];
             [alert show];
             [gToast showSuccess:@"提交成功!"];
         } error:^(NSError *error) {
 
             if (error.code == 6001) {
                 [gToast dismiss];
-                UIAlertView *alert = [[UIAlertView alloc] initNoticeWithTitle:@"收到啦，工作人员会为您详细介绍爱车宝哟" message:nil cancelButtonTitle:@"确定"];
+                UIAlertView *alert = [[UIAlertView alloc] initNoticeWithTitle:@"收到啦～工作人员将于1个工作日内电话联系您，为您更详细的介绍爱车宝！" message:nil cancelButtonTitle:@"确定"];
                 [alert show];
             }
             else {
