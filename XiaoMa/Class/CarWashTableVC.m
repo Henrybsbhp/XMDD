@@ -144,6 +144,7 @@
         [self.headerView addSubview:self.adView];
         [self.adView reloadDataRemovingCurrentPage:YES];
         self.adView.currentPageIndex = 0;
+        self.adView.pageControl.hidden = self.adList.count <= 1;
         
         //重置广告滚动的定时器
         [self.rac_adDisposable dispose];
