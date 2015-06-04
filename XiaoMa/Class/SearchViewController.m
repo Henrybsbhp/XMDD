@@ -106,14 +106,14 @@
     CGFloat width = CGRectGetWidth(self.view.frame);
     self.searchBarBackgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(45, 4, width - 120, 36)];
 //    self.searchBarBackgroundView.image = [UIImage imageNamed:@"Navi_Search2"];
-    self.searchBarBackgroundView.borderWidth = 1.0f;
-    self.searchBarBackgroundView.borderColor = [UIColor lightGrayColor];
+    self.searchBarBackgroundView.borderWidth = 0.5f;
+    self.searchBarBackgroundView.borderColor = [UIColor colorWithHex:@"#dadada" alpha:1.0f];
     self.searchBarBackgroundView.layer.cornerRadius = 4.0f;
     
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, width - 120, 36)];
     self.searchBar.barStyle = UIBarStyleDefault;
     self.searchBar.delegate = self;
-    [self.searchBar setPlaceholder:@"找店铺"];
+    [self.searchBar setPlaceholder:@"找商户"];
     [self.searchBar setBackgroundColor:[UIColor clearColor]];
     
     UIView * subview = [self.searchBar.subviews safetyObjectAtIndex:0];

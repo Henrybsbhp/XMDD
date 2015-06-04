@@ -99,9 +99,9 @@ typedef void(^FinishBlock)(void);
     WBMessageObject *message = [WBMessageObject message];
     
     WBImageObject *image = [WBImageObject object];
-    image.imageData = UIImagePNGRepresentation(self.image);
+    image.imageData = UIImagePNGRepresentation(self.webimage ? self.webimage : self.image);
     message.imageObject = image;
-    message.text = [NSString stringWithFormat:@"%@ %@",self.tt ,self.urlStr];
+    message.text = [NSString stringWithFormat:@"%@ \n %@ \n %@ ",self.tt,self.subtitle,self.urlStr];
     
     WBSendMessageToWeiboRequest * request = [WBSendMessageToWeiboRequest requestWithMessage:message];
     request.shouldOpenWeiboAppInstallPageIfNotInstalled = NO;

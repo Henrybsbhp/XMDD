@@ -115,7 +115,7 @@
     
     //已使用
     UIImage * used = [[UIImage imageNamed:@"cw_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#A7A7A7" alpha:1.0f]];//过期或已使用
-    UIImage * usableTicket = [used resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
+    UIImage * usableTicket = [used resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];
     
     //优惠名称
     UILabel *name = (UILabel *)[cell.contentView viewWithTag:1002];
@@ -125,6 +125,9 @@
     UILabel *validDate = (UILabel *)[cell.contentView viewWithTag:1004];
     //状态
     UIButton *status = (UIButton *)[cell.contentView viewWithTag:1005];
+    
+    UIImageView * lineImageView = (UIImageView *)[cell searchViewWithTag:102];
+    lineImageView.backgroundColor = [UIColor colorWithHex:@"#000000" alpha:0.1];
     
     [status setTitle:@"已使用" forState:UIControlStateNormal];
     backgroundImg.image = usableTicket;
