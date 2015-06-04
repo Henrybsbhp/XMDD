@@ -31,9 +31,6 @@
 
 #define WeatherRefreshTimeInterval 60 * 30
 
-static NSInteger rotationIndex = 0;
-
-
 @interface HomePageVC ()<UIScrollViewDelegate, SYPaginatorViewDataSource, SYPaginatorViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *bgView;
 @property (weak, nonatomic) IBOutlet UIView *weatherView;
@@ -288,6 +285,9 @@ static NSInteger rotationIndex = 0;
 
 - (void)reloadDatasource
 {
+    [gMapHelper setupMapApi];
+    [gMapHelper setupMAMap];
+    
     @weakify(self);
     [[[[[self rac_getWeatherInfo] merge:[self rac_requestHomePageAd]] initially:^{
       
@@ -306,7 +306,7 @@ static NSInteger rotationIndex = 0;
 - (IBAction)actionCallCenter:(id)sender
 {
     NSString * number = @"4007111111";
-    [gPhoneHelper makePhone:number andInfo:@"客服电话"];
+    [gPhoneHelper makePhone:number andInfo:@"客服电话：400-711-1111"];
 }
 
 
@@ -497,6 +497,7 @@ static NSInteger rotationIndex = 0;
         
         [self.adView reloadData];
         self.adView.currentPageIndex = 0;
+        self.adView.pageControl.hidden = array.count <= 1;
     }];
 //
 //    [[gAdMgr rac_getAdvertisement:AdvertisementCarWash] subscribeNext:^(NSArray * array) {

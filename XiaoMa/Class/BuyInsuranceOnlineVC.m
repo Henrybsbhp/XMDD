@@ -66,7 +66,7 @@
 
 ///电话咨询
 - (IBAction)actionMakeCall:(id)sender {
-    [gPhoneHelper makePhone:@"4007111111" andInfo:@"4007-111-111"];
+    [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：400-711-1111"];
 }
 
 - (IBAction)actionHelp:(id)sender

@@ -44,6 +44,8 @@
      NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 #endif
     self.versionLb.text = version;
+    
+    
 
 }
 - (void)viewWillAppear:(BOOL)animated

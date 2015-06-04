@@ -70,6 +70,7 @@
             self.tableView.tableHeaderView = self.adView;
             [self.adView reloadDataRemovingCurrentPage:YES];
             self.adView.currentPageIndex = 0;
+            self.adView.pageControl.hidden = self.adList.count <= 1;
         }
         else {
             self.tableView.tableHeaderView = nil;

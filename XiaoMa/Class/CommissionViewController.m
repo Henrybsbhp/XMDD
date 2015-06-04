@@ -38,7 +38,7 @@
     
     [[self.actionBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [gPhoneHelper makePhone:@"4007111111" andInfo:@"立刻申请代办"];
+        [gPhoneHelper makePhone:@"4007111111" andInfo:@"代办电话：400-711-1111"];
     }];
 }
 

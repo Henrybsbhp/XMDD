@@ -144,6 +144,7 @@
         [self.headerView addSubview:self.adView];
         [self.adView reloadDataRemovingCurrentPage:YES];
         self.adView.currentPageIndex = 0;
+        self.adView.pageControl.hidden = self.adList.count <= 1;
         
         //重置广告滚动的定时器
         [self.rac_adDisposable dispose];
@@ -447,7 +448,59 @@
         [SVProgressHUD dismiss];
         [self.tableView.refreshView endRefreshing];
         [self reloadDataWithText:@"定位失败" error:error];
-        [self.navigationController popViewControllerAnimated:YES];
+        
+        switch (error.code) {
+            case kCLErrorDenied:
+            {
+                if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+                {
+                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置打开,然后重启应用" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往设置", nil];
+                    
+                    [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
+                        
+                        if ([x integerValue] == 1)
+                        {
+                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                        }
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }];
+                    [av show];
+                }
+                else
+                {
+                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置打开，然后重启应用" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
+                    
+                    [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
+                        
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }];
+
+                    [av show];
+                }
+                break;
+            }
+            case LocationFail:
+            {
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"城市定位失败,请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
+                    
+                    [self.navigationController popViewControllerAnimated:YES];
+                }];
+                
+                [av show];
+            }
+            default:
+            {
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"定位失败，请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
+                    
+                    [self.navigationController popViewControllerAnimated:YES];
+                }];
+                
+                [av show];
+                break;
+            }
+        }
     }];
 }
 

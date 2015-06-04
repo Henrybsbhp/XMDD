@@ -33,7 +33,7 @@
     self = [super init];
     if (self)
     {
-        _rac_userLocationResultSignal = [RACReplaySubject replaySubjectWithCapacity:1];
+        _rac_userLocationResultSignal = [RACSubject subject];
         _rac_invertGeoResultSignal = [RACSubject subject];
     }
     return self;
