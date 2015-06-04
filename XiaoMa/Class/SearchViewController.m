@@ -216,7 +216,7 @@
     op.shopName = searchInfo;
     op.longitude = self.coordinate.longitude;
     op.latitude = self.coordinate.latitude;
-    op.pageno = self.currentPageIndex;
+    op.pageno = 1;
     op.orderby = 1;
     [[[op rac_postRequest] initially:^{
         
@@ -269,6 +269,8 @@
     NSString * searchInfo = self.searchBar.text;
     searchInfo = [self.searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     GetShopByNameOp * op = [GetShopByNameOp operation];
+    op.longitude = self.coordinate.longitude;
+    op.latitude = self.coordinate.latitude;
     op.shopName = searchInfo;
     op.pageno = self.currentPageIndex;
     op.orderby = 1;
