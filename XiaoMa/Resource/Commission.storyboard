@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -56,7 +56,7 @@
             </objects>
             <point key="canvasLocation" x="383" y="184"/>
         </scene>
-        <!--年检代办-->
+        <!--查看代办券-->
         <scene sceneID="hJ2-x1-FD3">
             <objects>
                 <viewController storyboardIdentifier="CommissionCouponViewController" id="2BB-Tv-BCG" customClass="CommissionCouponViewController" sceneMemberID="viewController">
@@ -92,9 +92,9 @@
                                                         <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CI_0,10,0,10"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hwr-Cz-vpN">
+                                                <imageView userInteractionEnabled="NO" tag="102" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hwr-Cz-vpN">
                                                     <rect key="frame" x="509" y="4" width="1" height="66"/>
-                                                    <color key="backgroundColor" white="0.88" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="66" id="CWU-h9-vEb"/>
                                                         <constraint firstAttribute="width" constant="1" id="xaS-eb-gtu"/>
@@ -166,7 +166,7 @@
                             <constraint firstItem="Uwz-Ue-jdT" firstAttribute="bottom" secondItem="BR8-5H-lUD" secondAttribute="bottom" id="fUt-51-mwc"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="年检代办" id="ZMw-Mw-qxW"/>
+                    <navigationItem key="navigationItem" title="查看代办券" id="ZMw-Mw-qxW"/>
                     <connections>
                         <outlet property="tableView" destination="BR8-5H-lUD" id="aEH-1B-9va"/>
                     </connections>

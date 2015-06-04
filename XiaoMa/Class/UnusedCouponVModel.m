@@ -220,10 +220,10 @@
     //背景图片
     UIImageView *backgroundImg = (UIImageView *)[cell.contentView viewWithTag:1001];
     
-    UIImage * carWash = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#00BFFF" alpha:1.0f]];//type = 1
-    UIImage * rescue = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#0ACDC0" alpha:1.0f]];//type = 2,4
-    UIImage * agency = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#FFA54F" alpha:1.0f]];//type = 3,5
-    UIImage * unavailable = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#A7A7A7" alpha:1.0f]];//已过期
+    UIImage * carWash = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#5fb8e2" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];//type = 1
+    UIImage * rescue = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#4bc4b3" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];//type = 2,4
+    UIImage * agency = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#f7b45d" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];//type = 3,5
+    UIImage * unavailable = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#d0d0d0" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];//已过期
     //优惠名称
     UILabel *name = (UILabel *)[cell.contentView viewWithTag:1002];
     //优惠描述

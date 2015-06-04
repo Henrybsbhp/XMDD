@@ -149,10 +149,11 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TicketCell"];
     
     //背景图片
-    UIImage * carWashImage = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#00BFFF" alpha:1.0f]];
-    UIImage * cashImage = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#0ACDC0" alpha:1.0f]];
+    UIImage * carWashImage = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#5fb8e2" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];
+    UIImage * cashImage = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#f54a4a" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];
     
     UIImageView * ticketBgView = (UIImageView *)[cell searchViewWithTag:101];
+    
     //优惠名称
     UILabel *name = (UILabel *)[cell.contentView viewWithTag:103];
     //优惠描述
@@ -165,9 +166,10 @@
     UIImageView * shadowView = (UIImageView *)[cell searchViewWithTag:107];
     UIImageView * selectedView = (UIImageView *)[cell searchViewWithTag:108];
     
+    
     UIImage * image = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#000000" alpha:0.6f]];
-    UIImage * couponGg = [image resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
-    shadowView.image = image;
+    UIImage * couponGg = [image resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];
+    shadowView.image = couponGg;
     
     status.text = @"有效";
     
