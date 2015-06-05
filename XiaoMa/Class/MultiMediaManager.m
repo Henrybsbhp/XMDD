@@ -121,6 +121,7 @@ static MultiMediaManager *g_mediaManager;
     [[self rac_pickPhotoInTargetVC:targetVC inView:view initBlock:^(UIImagePickerController *picker) {
        
         picker.customInfo[kImagePickerDelayDismiss] = @YES;
+        picker.customInfo[kImagePickerCompress] = @YES;
     }] subscribeNext:^(UIImage *img) {
         
         picked = YES;

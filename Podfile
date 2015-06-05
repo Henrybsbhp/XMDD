@@ -1,7 +1,7 @@
 platform :ios, '6.0'
 inhibit_all_warnings!
 
-pod 'ckkit', :git => "ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git"
+pod 'CKKit', :git => "ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git"
 pod 'AFNetworking', '2.5.4'
 pod 'ReactiveCocoa', '2.3.1'
 pod 'AFNetworking2-RACExtensions', '0.0.1'
@@ -13,5 +13,5 @@ pod 'MZFormSheetController','2.4.1'
 pod 'CocoaLumberjack', '2.0.0'
 pod 'AMap2DMap', '2.4.2'
 pod 'AMapSearch', '2.4.1'
-pod 'UI7Kit', '0.9.20'
+pod 'UI7Kit', '0.9.22'
 pod 'UMengAnalytics','3.5.8'
