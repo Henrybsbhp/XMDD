@@ -201,7 +201,7 @@
 {
     CGFloat height = 10;
     if (section == 1 && self.overdueCoupons.count > 0) {
-        height = 15;
+        height = 25;
     }
     return height;
 }
