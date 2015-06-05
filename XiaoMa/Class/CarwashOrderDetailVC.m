@@ -46,10 +46,10 @@
 
 - (void)reloadDatasource
 {
-    self.commentBtn.hidden = self.order.ratetime;
-    
+    self.commentBtn.hidden = (BOOL)self.order.ratetime;
+    NSString *strpirce = [NSString stringWithFormat:@"%.2f", self.order.serviceprice];
     self.detailItems = @[RACTuplePack(@"服务项目：", self.order.servicename),
-                         RACTuplePack(@"项目价格：", self.order.serviceprice),
+                         RACTuplePack(@"项目价格：", strpirce),
                          RACTuplePack(@"我的车辆：", self.order.licencenumber),
                          RACTuplePack(@"支付方式：", [self.order paymentForCurrentChannel]),
                          RACTuplePack(@"支付时间：", [self.order.txtime dateFormatForYYYYMMddHHmm])];
@@ -62,7 +62,7 @@
     [MobClick event:@"rp320-1"];
     CarwashOrderCommentVC *vc = [UIStoryboard vcWithId:@"CarwashOrderCommentVC" inStoryboard:@"Mine"];
     vc.order = self.order;
-    [vc setCustomActionBlock:^{
+    [vc setCommentSuccess:^{
         [self reloadDatasource];
     }];
     [self.navigationController pushViewController:vc animated:YES];
@@ -123,7 +123,9 @@
     else {
         cell = [self detailCellAtIndexPath:indexPath];
     }
-    cell.separatorInset = UIEdgeInsetsZero;
+    if ([cell isKindOfClass:[JTTableViewCell class]]) {
+        ((JTTableViewCell *)cell).customSeparatorInset = UIEdgeInsetsMake(-1, 0, 0, 0);
+    }
     return cell;
 }
 
@@ -140,7 +142,7 @@
     }];
     titleL.text = shop.shopName;
     addrL.text = shop.shopAddress;
-    cell.customSeparatorInset = UIEdgeInsetsZero;
+
     return cell;
 }
 

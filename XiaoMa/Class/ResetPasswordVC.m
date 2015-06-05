@@ -59,7 +59,7 @@
         return;
     }
     [[self.smsModel rac_handleVcodeButtonClick:sender withVcodeType:3 phone:[self textAtIndex:0]] subscribeError:^(NSError *error) {
-        [gToast showError:@"获取验证码失败了！"];
+        [gToast showError:error.domain];
     }];
 }
 
@@ -104,12 +104,7 @@
     [[[[self.model.loginModel rac_loginWithAccount:ad validCode:vcode] flattenMap:^RACStream *(id value) {
         UpdatePwdOp *op = [UpdatePwdOp new];
         op.req_newPwd = newpwd;
-        return [[op rac_postRequest] flattenMap:^RACStream *(UpdatePwdOp *rstOp) {
-            if (rstOp.rsp_code != 0) {
-                return [RACSignal error:[NSError errorWithDomain:@"设置新密码失败!" code:rstOp.rsp_code userInfo:nil]];
-            }
-            return [RACSignal return:rstOp];
-        }];
+        return [op rac_postRequest];
     }] initially:^{
         [gToast showingWithText:@"正在修改..."];
     }] subscribeNext:^(id x) {
@@ -124,6 +119,11 @@
             [gToast showError:error.domain];
         }
     }];
+    
+    //激活验证码的输入框
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
+    [field becomeFirstResponder];
 }
 
 #pragma mark - TextField

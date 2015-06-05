@@ -279,7 +279,7 @@
         iconV.image = [UIImage imageNamed:@"me_setting"];
         titleL.text = @"关于";
     }
-    cell.customSeparatorInset = UIEdgeInsetsMake(0, 12, 0, 0);
+    cell.customSeparatorInset = UIEdgeInsetsMake(-1, 12, 0, 0);
     return cell;
 }
 

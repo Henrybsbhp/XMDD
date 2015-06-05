@@ -120,10 +120,14 @@
     if (type == ModifySex)
     {
         op.sex = self.sex;
+        op.nickname = gAppMgr.myUser.userName;
+        op.birthday = gAppMgr.myUser.birthday;
     }
     if (type == ModifyBirthday)
     {
         op.birthday = self.birthday;
+        op.nickname = gAppMgr.myUser.userName;
+        op.sex = gAppMgr.myUser.sex;
     }
     
     [[[op rac_postRequest] initially:^{
@@ -331,6 +335,9 @@
     [[[[op rac_postRequest] flattenMap:^RACStream *(UploadFileOp *uploadOp) {
         UpdateUserInfoOp * op = [UpdateUserInfoOp operation];
         op.avatarUrl = [uploadOp.rsp_urlArray safetyObjectAtIndex:0];
+        op.nickname = gAppMgr.myUser.userName;
+        op.sex = gAppMgr.myUser.sex;
+        op.birthday = gAppMgr.myUser.birthday;
         
         return [op rac_postRequest];
     }] initially:^{

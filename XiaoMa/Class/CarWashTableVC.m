@@ -69,6 +69,7 @@
     self.isRemain = YES;
     self.pageAmount = PageAmount;
     self.currentPageIndex = 1;
+    self.tableView.tableHeaderView = nil;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAdList) name:CarwashAdvertiseNotification object:nil];
     
@@ -163,6 +164,7 @@
         [self.headerView addSubview:self.adView];
         [self.adView reloadDataRemovingCurrentPage:YES];
         self.adView.currentPageIndex = 0;
+        self.adView.pageControl.hidden = self.adList.count <= 1;
         
         //重置广告滚动的定时器
         [self.rac_adDisposable dispose];
@@ -185,8 +187,9 @@
         [self.rac_adDisposable dispose];
         [[self rac_deallocDisposable] removeDisposable:self.rac_adDisposable];
     }
-    
-    [self.tableView setTableHeaderView:self.headerView];
+    if (self.datasource.count > 0) {
+        [self.tableView setTableHeaderView:self.headerView];
+    }
 }
 
 
@@ -447,7 +450,7 @@
         getShopByDistanceOp.pageno = self.currentPageIndex;
         [[getShopByDistanceOp rac_postRequest] subscribeNext:^(GetShopByDistanceOp * op) {
             
-            @strongify(self);   
+            @strongify(self);
             self.currentPageIndex = self.currentPageIndex + 1;
             
             [self.tableView.refreshView endRefreshing];
@@ -473,7 +476,7 @@
         } error:^(NSError *error) {
             
             @strongify(self);
-            [gToast showError:@"获取商店列表失败"];
+            [gToast showError:error.domain];
             [self.tableView.refreshView endRefreshing];
         }];
     } error:^(NSError *error) {
@@ -482,7 +485,59 @@
         [SVProgressHUD dismiss];
         [self.tableView.refreshView endRefreshing];
         [self reloadDataWithText:@"定位失败" error:error];
-        [self.navigationController popViewControllerAnimated:YES];
+        
+        switch (error.code) {
+            case kCLErrorDenied:
+            {
+                if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+                {
+                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置打开,然后重启应用" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往设置", nil];
+                    
+                    [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
+                        
+                        if ([x integerValue] == 1)
+                        {
+                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                        }
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }];
+                    [av show];
+                }
+                else
+                {
+                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置打开，然后重启应用" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
+                    
+                    [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
+                        
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }];
+
+                    [av show];
+                }
+                break;
+            }
+            case LocationFail:
+            {
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"城市定位失败,请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
+                    
+                    [self.navigationController popViewControllerAnimated:YES];
+                }];
+                
+                [av show];
+            }
+            default:
+            {
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"定位失败，请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
+                    
+                    [self.navigationController popViewControllerAnimated:YES];
+                }];
+                
+                [av show];
+                break;
+            }
+        }
     }];
 }
 
@@ -523,8 +578,6 @@
         self.datasource = [NSArray arrayWithArray:tArray];
         [self reloadDataWithText:@"暂无商铺" error:nil];
         
-        //不会无限加载?   LYW
-        self.currentPageIndex = self.currentPageIndex + 1;
     } error:^(NSError *error) {
         
         

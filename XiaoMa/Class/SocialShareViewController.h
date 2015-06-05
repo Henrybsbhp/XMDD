@@ -28,6 +28,7 @@
 @property (nonatomic,copy)NSString * subtitle;
 @property (nonatomic,copy)NSString * urlStr;
 @property (nonatomic,strong)UIImage * image;
+@property (nonatomic,strong)UIImage * webimage;
 
 @property (nonatomic,strong)RACSubject * rac_dismissSignal;
 

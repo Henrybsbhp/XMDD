@@ -23,4 +23,12 @@
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
+- (NSError *)mapError:(NSError *)error
+{
+    if (error.code == -1) {
+        error = [NSError errorWithDomain:@"评论出错啦，请重试" code:error.code userInfo:error.userInfo];
+    }
+    return error;
+}
+
 @end

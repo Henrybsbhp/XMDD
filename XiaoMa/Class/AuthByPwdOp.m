@@ -18,4 +18,12 @@
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
+- (NSError *)mapError:(NSError *)error
+{
+    if (error.code == -1) {
+        error = [NSError errorWithDomain:@"密码重置失败，请重试" code:error.code userInfo:error.userInfo];
+    }
+    return error;
+}
+
 @end

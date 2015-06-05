@@ -46,12 +46,17 @@
           
             [gToast showingWithText:@"正在提交..."];
         }] subscribeNext:^(id x) {
-            
+
+            [gToast dismiss];
+            UIAlertView *alert = [[UIAlertView alloc] initNoticeWithTitle:@"收到啦～工作人员将于1个工作日内电话联系您，为您更详细的介绍爱车宝！" message:nil cancelButtonTitle:@"确定"];
+            [alert show];
             [gToast showSuccess:@"提交成功!"];
         } error:^(NSError *error) {
-            
+
             if (error.code == 6001) {
-                [gToast showSuccess:@"提交成功!"];
+                [gToast dismiss];
+                UIAlertView *alert = [[UIAlertView alloc] initNoticeWithTitle:@"收到啦～工作人员将于1个工作日内电话联系您，为您更详细的介绍爱车宝！" message:nil cancelButtonTitle:@"确定"];
+                [alert show];
             }
             else {
                 [gToast showError:error.domain];
@@ -63,7 +68,7 @@
 ///电话咨询
 - (IBAction)actionMakeCall:(id)sender {
     [MobClick event:@"rp123-1"];
-    [gPhoneHelper makePhone:@"4007111111" andInfo:@"4007-111-111"];
+    [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：400-711-1111"];
 }
 
 - (IBAction)actionHelp:(id)sender

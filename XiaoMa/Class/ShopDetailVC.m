@@ -175,14 +175,12 @@
 {
     AddUserFavoriteOp * op = [AddUserFavoriteOp operation];
     op.shopid = self.shop.shopID;
-    [[[[op rac_postRequest] initially:^{
+    [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"收藏中…"];
-    }] finally:^{
+    }] subscribeNext:^(AddUserFavoriteOp * op) {
         
-        [SVProgressHUD dismiss];
-    }]  subscribeNext:^(AddUserFavoriteOp * op) {
-        
+        [gToast dismiss];
         self.favorite = YES;
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
@@ -190,18 +188,7 @@
     } error:^(NSError *error) {
         
         self.favorite = NO;
-        if (error.code == 7001)
-        {
-            [gToast showError:@"该店铺不存在"];
-        }
-        else if (error.code == 7002)
-        {
-            [gToast showError:@"该店铺已收藏"];
-        }
-        else
-        {
-            [gToast showError:@"收藏失败"];
-        }
+        [gToast showError:error.domain];
     }];
 }
 

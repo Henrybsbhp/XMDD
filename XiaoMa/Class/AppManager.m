@@ -98,6 +98,22 @@
 //    {
 //        return nil;
 //    }
+//    __block NSString * value = nil;
+//    
+//    static dispatch_queue_t queue;
+//    static dispatch_once_t predicate;
+//    
+//    dispatch_once(&predicate, ^{
+//        queue = dispatch_queue_create("aaaaaaaaaaa", DISPATCH_QUEUE_SERIAL);
+//    });
+//    
+//    
+//    dispatch_sync(queue, ^{
+//        value = [self.promptionCache objectForKey:key];
+//    });
+//    
+//    return value;
+
 //    __block NSString * value;
 //    CKAsyncHighQueue(^{
         return [self.promptionCache objectForKey:key];

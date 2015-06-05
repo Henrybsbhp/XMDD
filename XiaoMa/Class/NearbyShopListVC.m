@@ -26,6 +26,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)reloadDataWithText:(NSString *)text error:(NSError *)error
+{
+    if (!error) {
+        text = @"附近暂无商户";
+    }
+    [super reloadDataWithText:text error:error];
+}
+
 /*
 #pragma mark - Navigation
 

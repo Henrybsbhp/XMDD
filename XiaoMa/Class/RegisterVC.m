@@ -60,7 +60,7 @@
     }
     [[self.smsModel rac_handleVcodeButtonClick:sender withVcodeType:3 phone:[self textAtIndex:0]]
      subscribeError:^(NSError *error) {
-        [gToast showError:@"获取验证码失败了！"];
+        [gToast showError:error.domain];
     }];
 }
 
@@ -103,26 +103,29 @@
     NSString *newpwd = [self textAtIndex:2];
     @weakify(self);
     [[[[self.model.loginModel rac_loginWithAccount:ad validCode:vcode] flattenMap:^RACStream *(id value) {
+
         UpdatePwdOp *op = [UpdatePwdOp new];
         op.req_newPwd = newpwd;
         return [[op rac_postRequest] catch:^RACSignal *(NSError *error) {
-            return [RACSignal error:[NSError errorWithDomain:@"注册成功，但设置密码失败了!" code:error.code userInfo:error.userInfo]];
+            return [RACSignal return:nil];
         }];
-
     }] initially:^{
+        
         [gToast showingWithText:@"正在注册..."];
     }] subscribeNext:^(id x) {
+        
         @strongify(self);
         [gToast dismiss];
         [self.model dismissForTargetVC:self forSucces:YES];
     } error:^(NSError *error) {
-        if (error.code == 0) {
-            [gToast showError:@"注册失败"];
-        }
-        else {
-            [gToast showError:error.domain];
-        }
+        
+        [gToast showError:error.domain];
     }];
+    
+    //激活验证码的输入框
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
+    [field becomeFirstResponder];
 }
 
 #pragma mark - TextField

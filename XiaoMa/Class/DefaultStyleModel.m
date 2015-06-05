@@ -9,6 +9,7 @@
 #import "DefaultStyleModel.h"
 #import <UIKit/UIKit.h>
 #import "XiaoMa.h"
+#import <IQKeyboardManager.h>
 
 @implementation DefaultStyleModel
 
@@ -24,6 +25,12 @@
     [[UINavigationBar appearance] setShadowImage:[UIImage imageNamed:@"cm_nav_shadow"]];
     //TableCell
     [JTTableViewCell appearance].customSeparatorInset = UIEdgeInsetsMake(-1, 12, 0, 12);
+    
+    //定制键盘样式
+    if (!IOSVersionGreaterThanOrEqualTo(@"7.0")) {
+        [IQKeyboardManager sharedManager].shouldShowTextFieldPlaceholder = NO;
+    }
+    
 }
 
 ///弹出视图（默认样式是从底部弹出）

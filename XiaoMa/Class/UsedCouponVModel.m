@@ -19,6 +19,7 @@
 
 @implementation UsedCouponVModel
 
+
 - (id)initWithTableView:(JTTableView *)tableView
 {
     self = [super init];
@@ -42,7 +43,7 @@
 - (void)refreshTableView
 {
     if (self.usedCoupons.count == 0 && self.usedCoupons.count == 0) {
-        [self.tableView showDefaultEmptyViewWithText:@"暂无已使用优惠券"];
+        [self.tableView showDefaultEmptyViewWithText:@"您未使用过优惠券"];
     }
     else {
         [self.tableView hideDefaultEmptyView];
@@ -72,12 +73,15 @@
         @strongify(self);
         [self.tableView.refreshView endRefreshing];
         [self.tableView.bottomLoadingView stopActivityAnimation];
-        
+
+        [self.usedCoupons safetyAddObjectsFromArray:op.rsp_couponsArray];
         self.isRemain = op.rsp_couponsArray.count >= PageAmount;
         self.curPageno = pageno;
         [self refreshTableView];
     } error:^(NSError *error) {
         
+        @strongify(self);
+        [self.tableView.refreshView endRefreshing];
         [self.tableView.bottomLoadingView stopActivityAnimation];
         [gToast showError:error.domain];
         [self refreshTableView];
@@ -93,9 +97,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return CGFLOAT_MIN;
+    return 10;
 }
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.usedCoupons.count;
@@ -112,8 +115,8 @@
     UIImageView *backgroundImg = (UIImageView *)[cell.contentView viewWithTag:1001];
     
     //已使用
-    UIImage * used = [[UIImage imageNamed:@"cw_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#A7A7A7" alpha:1.0f]];//过期或已使用
-    UIImage * usableTicket = [used resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
+    UIImage * used = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#d0d0d0" alpha:1.0f]];//过期或已使用
+    UIImage * usableTicket = [used resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];
     
     //优惠名称
     UILabel *name = (UILabel *)[cell.contentView viewWithTag:1002];
@@ -123,6 +126,9 @@
     UILabel *validDate = (UILabel *)[cell.contentView viewWithTag:1004];
     //状态
     UIButton *status = (UIButton *)[cell.contentView viewWithTag:1005];
+    
+    UIImageView * lineImageView = (UIImageView *)[cell searchViewWithTag:102];
+    lineImageView.backgroundColor = [UIColor colorWithHex:@"#000000" alpha:0.1];
     
     [status setTitle:@"已使用" forState:UIControlStateNormal];
     backgroundImg.image = usableTicket;

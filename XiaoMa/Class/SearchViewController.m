@@ -93,6 +93,7 @@
     searchBtn.cornerRadius = 5.0f;
     [searchBtn setBackgroundColor:[UIColor colorWithHex:@"#15ac1f" alpha:1.0f]];
     [searchBtn setTitle:@"搜索" forState:UIControlStateNormal];
+    [searchBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     searchBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     [[searchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
@@ -108,14 +109,15 @@
     CGFloat width = CGRectGetWidth(self.view.frame);
     self.searchBarBackgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(45, 4, width - 120, 36)];
 //    self.searchBarBackgroundView.image = [UIImage imageNamed:@"Navi_Search2"];
-    self.searchBarBackgroundView.borderWidth = 1.0f;
-    self.searchBarBackgroundView.borderColor = [UIColor lightGrayColor];
+    self.searchBarBackgroundView.borderWidth = 0.5f;
+    self.searchBarBackgroundView.borderColor = [UIColor colorWithHex:@"#dadada" alpha:1.0f];
     self.searchBarBackgroundView.layer.cornerRadius = 4.0f;
+    self.searchBarBackgroundView.backgroundColor = [UIColor clearColor];
     
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, width - 120, 36)];
     self.searchBar.barStyle = UIBarStyleDefault;
     self.searchBar.delegate = self;
-    [self.searchBar setPlaceholder:@"找店铺"];
+    [self.searchBar setPlaceholder:@"找商户"];
     [self.searchBar setBackgroundColor:[UIColor clearColor]];
     
     UIView * subview = [self.searchBar.subviews safetyObjectAtIndex:0];
@@ -124,6 +126,25 @@
         if ([subsubView isKindOfClass:NSClassFromString(@"UISearchBarBackground")])
         {
             [subsubView removeFromSuperview];
+        }
+    }
+    
+    if ([self.searchBar respondsToSelector:@selector(setBackgroundImage:forBarPosition:barMetrics:)])
+    {
+//        [self.searchBar setBackgroundImage:[UIImage imageNamed:@"Navi_Search2"] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    }
+    else
+    {
+//        [self.searchBar setBackgroundImage:[UIImage imageNamed:@"Navi_Search_iOS6"]];
+        [self.searchBar setTranslucent:YES];
+        for (UIView * subview in self.searchBar.subviews)
+        {
+            if ([subview isKindOfClass:[UISegmentedControl class]])
+            {
+                UISegmentedControl * ctrl = (UISegmentedControl *)subview;
+                [ctrl setBackgroundImage:[UIImage new] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+                ctrl.hidden = YES;
+            }
         }
     }
     
@@ -217,7 +238,7 @@
     op.shopName = searchInfo;
     op.longitude = self.coordinate.longitude;
     op.latitude = self.coordinate.latitude;
-    op.pageno = self.currentPageIndex;
+    op.pageno = 1;
     op.orderby = 1;
     [[[op rac_postRequest] initially:^{
         
@@ -232,7 +253,7 @@
             if (self.resultArray.count == 0)
             {
                 self.tableView.showBottomLoadingView = YES;
-                [self.tableView.bottomLoadingView showIndicatorTextWith:@"附近30公里内，没有您要找的商户"];
+                [self.tableView.bottomLoadingView showIndicatorTextWith:@"附近没有您要找的商户"];
             }
             else
             {
@@ -270,6 +291,8 @@
     NSString * searchInfo = self.searchBar.text;
     searchInfo = [self.searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     GetShopByNameOp * op = [GetShopByNameOp operation];
+    op.longitude = self.coordinate.longitude;
+    op.latitude = self.coordinate.latitude;
     op.shopName = searchInfo;
     op.pageno = self.currentPageIndex;
     op.orderby = 1;
@@ -326,18 +349,24 @@
 
 - (NSAttributedString *)priceStringWithOldPrice:(NSNumber *)price1 curPrice:(NSNumber *)price2
 {
-    NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
-                            NSForegroundColorAttributeName:[UIColor lightGrayColor],
-                            NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle)};
-    NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%@", price1] attributes:attr1];
-    
-    NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18],
-                            NSForegroundColorAttributeName:HEXCOLOR(@"#f93a00")};
-    NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" ￥%@", price2] attributes:attr2];
-    NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
-    [str appendAttributedString:attrStr1];
-    [str appendAttributedString:attrStr2];
-    return str;
+        NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
+        if (price1) {
+            NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
+                                    NSForegroundColorAttributeName:[UIColor lightGrayColor],
+                                    NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle)};
+            NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:
+                                            [NSString stringWithFormat:@"￥%.2f", [price1 floatValue]] attributes:attr1];
+            [str appendAttributedString:attrStr1];
+        }
+        
+        if (price2) {
+            NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18],
+                                    NSForegroundColorAttributeName:HEXCOLOR(@"#f93a00")};
+            NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:
+                                            [NSString stringWithFormat:@" ￥%.2f", [price2 floatValue]] attributes:attr2];
+            [str appendAttributedString:attrStr2];
+        }
+        return str;
 }
 
 #pragma mark - UITableView Delegate & DataSource
@@ -431,7 +460,7 @@
         }
         
         integralL.text = [NSString stringWithFormat:@"%.0f分",cc.amount];
-        priceL.attributedText = [self priceStringWithOldPrice:@(service.origprice) curPrice:@(service.contractprice)];
+        priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
         
         //row 2
         UIButton *guideB = (UIButton *)[cell.contentView viewWithTag:3001];

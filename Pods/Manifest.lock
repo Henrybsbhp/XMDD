@@ -26,7 +26,7 @@ PODS:
   - AMap2DMap (2.4.2)
   - AMapSearch (2.4.1)
   - cdebug (0.1.1)
-  - ckkit (0.0.1)
+  - CKKit (0.1.0)
   - CocoaLumberjack (2.0.0):
     - CocoaLumberjack/Default (= 2.0.0)
     - CocoaLumberjack/Extensions (= 2.0.0)
@@ -67,141 +67,11 @@ PODS:
     - ReactiveCocoa/Core
   - SevenSwitch (1.3.0)
   - SFHFKeychainUtils (0.0.1)
-  - UI7Kit (0.9.20):
-    - UI7Kit/All (= 0.9.20)
-  - UI7Kit/All (0.9.20):
-    - UI7Kit/UI7ActionSheet
-    - UI7Kit/UI7ActivityViewController
-    - UI7Kit/UI7AlertView
-    - UI7Kit/UI7BarButtonItem
-    - UI7Kit/UI7Button
-    - UI7Kit/UI7Color
-    - UI7Kit/UI7Font
-    - UI7Kit/UI7NavigationBar
-    - UI7Kit/UI7NavigationController
-    - UI7Kit/UI7PickerView
-    - UI7Kit/UI7PopoverController
-    - UI7Kit/UI7ProgressView
-    - UI7Kit/UI7SearchBar
-    - UI7Kit/UI7SegmentedControl
-    - UI7Kit/UI7Slider
-    - UI7Kit/UI7Stepper
-    - UI7Kit/UI7Switch/SevenSwitch
-    - UI7Kit/UI7TabBar
-    - UI7Kit/UI7TabBarController
-    - UI7Kit/UI7TabBarItem
-    - UI7Kit/UI7TableView
-    - UI7Kit/UI7TableViewCell
-    - UI7Kit/UI7TextField
-    - UI7Kit/UI7Toolbar
-    - UI7Kit/UI7View
-    - UI7Kit/UI7ViewController
-    - UI7Kit/UI7Window
-  - UI7Kit/Core (0.9.20):
+  - UI7Kit (0.9.22):
     - cdebug
-    - UI7Kit/UI7Color
-  - UI7Kit/UI7ActionSheet (0.9.20):
-    - UI7Kit/Core
-    - UI7Kit/UI7Color
-    - UI7Kit/UI7Font
-  - UI7Kit/UI7ActivityViewController (0.9.20):
-    - UI7Kit/Core
-    - UI7Kit/UI7Font
-  - UI7Kit/UI7AlertView (0.9.20):
-    - UI7Kit/Core
-    - UI7Kit/UI7Button
-    - UI7Kit/UI7Color
-    - UI7Kit/UI7Font
-  - UI7Kit/UI7BarButtonItem (0.9.20):
-    - UI7Kit/Core
-    - UI7Kit/UI7Font
-    - UIKitResources/UIButtonBar
-  - UI7Kit/UI7Button (0.9.20):
-    - UI7Kit/Core
-    - UI7Kit/UI7BarButtonItem
-    - UI7Kit/UI7Font
-    - UI7Kit/UI7View
-  - UI7Kit/UI7Color (0.9.20):
-    - FoundationExtension/UIKitExtension (~> 0.48)
-    - UIKitResources/UIAccessoryButton
-  - UI7Kit/UI7Font (0.9.20):
-    - UI7Kit/Core
-  - UI7Kit/UI7NavigationBar (0.9.20):
-    - UI7Kit/Core
-    - UI7Kit/UI7BarButtonItem
-    - UI7Kit/UI7Color
-    - UI7Kit/UI7Font
-  - UI7Kit/UI7NavigationController (0.9.20):
-    - UI7Kit/Core
-    - UI7Kit/UI7NavigationBar
-    - UI7Kit/UI7Toolbar
-  - UI7Kit/UI7PickerView (0.9.20):
-    - UI7Kit/Core
-    - UI7Kit/UI7Font
-    - UI7Kit/UI7TableView
-    - UI7Kit/UI7TableViewCell
-    - UI7Kit/UI7View
-  - UI7Kit/UI7PopoverController (0.9.20):
+    - FoundationExtension
     - GIKPopoverBackgroundView/Core
-    - UI7Kit/Core
-  - UI7Kit/UI7ProgressView (0.9.20):
-    - UI7Kit/Core
-    - UI7Kit/UI7Color
-    - UI7Kit/UI7View
-  - UI7Kit/UI7SearchBar (0.9.20):
-    - UI7Kit/Core
-    - UI7Kit/UI7Color
-  - UI7Kit/UI7SegmentedControl (0.9.20):
-    - UI7Kit/Core
-    - UI7Kit/UI7Font
-    - UI7Kit/UI7View
-  - UI7Kit/UI7Slider (0.9.20):
-    - UI7Kit/Core
-    - UI7Kit/UI7Color
-    - UI7Kit/UI7View
-  - UI7Kit/UI7Stepper (0.9.20):
-    - UI7Kit/Core
-    - UI7Kit/UI7View
-  - UI7Kit/UI7Switch/SevenSwitch (0.9.20):
     - SevenSwitch (~> 1.3.0)
-    - UI7Kit/Core
-  - UI7Kit/UI7TabBar (0.9.20):
-    - UI7Kit/Core
-    - UI7Kit/UI7Color
-    - UI7Kit/UI7Font
-    - UI7Kit/UI7View
-  - UI7Kit/UI7TabBarController (0.9.20):
-    - UI7Kit/Core
-  - UI7Kit/UI7TabBarItem (0.9.20):
-    - UI7Kit/Core
-    - UIKitResources/UITabBar
-  - UI7Kit/UI7TableView (0.9.20):
-    - UI7Kit/Core
-    - UI7Kit/UI7Color
-    - UI7Kit/UI7Font
-    - UI7Kit/UI7View
-  - UI7Kit/UI7TableViewCell (0.9.20):
-    - UI7Kit/Core
-    - UI7Kit/UI7Color
-    - UI7Kit/UI7Font
-    - UI7Kit/UI7View
-  - UI7Kit/UI7TextField (0.9.20):
-    - UI7Kit/Core
-  - UI7Kit/UI7Toolbar (0.9.20):
-    - UI7Kit/Core
-    - UI7Kit/UI7Color
-  - UI7Kit/UI7View (0.9.20):
-    - UI7Kit/Core
-  - UI7Kit/UI7ViewController (0.9.20):
-    - UI7Kit/Core
-    - UI7Kit/UI7BarButtonItem
-    - UI7Kit/UI7NavigationBar
-  - UI7Kit/UI7Window (0.9.20):
-    - UI7Kit/Core
-    - UI7Kit/UI7View
-  - UIKitResources/UIAccessoryButton (7.0)
-  - UIKitResources/UIButtonBar (7.0)
-  - UIKitResources/UITabBar (7.0)
   - UMengAnalytics (3.5.8)
 
 DEPENDENCIES:
@@ -209,24 +79,24 @@ DEPENDENCIES:
   - AFNetworking2-RACExtensions (= 0.0.1)
   - AMap2DMap (= 2.4.2)
   - AMapSearch (= 2.4.1)
-  - ckkit (from `ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git`)
+  - CKKit (from `ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git`)
   - CocoaLumberjack (= 2.0.0)
   - FoundationExtension (= 0.60)
-  - IQKeyboardManager (~> 3.2.0.3)
+  - IQKeyboardManager (= 3.2.0.3)
   - Masonry (= 0.6.1)
   - MZFormSheetController (= 2.4.1)
   - ReactiveCocoa (= 2.3.1)
   - SFHFKeychainUtils (= 0.0.1)
-  - UI7Kit (= 0.9.20)
+  - UI7Kit (= 0.9.22)
   - UMengAnalytics (= 3.5.8)
 
 EXTERNAL SOURCES:
-  ckkit:
+  CKKit:
     :git: ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git
 
 CHECKOUT OPTIONS:
-  ckkit:
-    :commit: d62804170c75cfdce24f1ca9839bb3340093c21f
+  CKKit:
+    :commit: ce946554561b67f067134ffdb165cd7974203f53
     :git: ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git
 
 SPEC CHECKSUMS:
@@ -235,7 +105,7 @@ SPEC CHECKSUMS:
   AMap2DMap: 6f19f93b3410c8105c34ef93dd9dbb537f7ea897
   AMapSearch: e48c562fc7713f7e5f719863a15141a847e16c04
   cdebug: 32bf88e54d22ad187b23122872b3977e5d0c1bde
-  ckkit: 2e8dad1e80be7be6caf85c194043762a2765c33c
+  CKKit: 81e829bb8d46b98ec0eaf0646e7c283e75e89c43
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   FoundationExtension: 76157113e6486ad95ea2be32a06f0d3f48172d56
   GIKPopoverBackgroundView: 9cde2752e608df4d1e35ebca12af762b9a7dca3e
@@ -246,8 +116,7 @@ SPEC CHECKSUMS:
   ReactiveCocoa: 334468a83b2c5f669f7cfb9a084415ee23219b4f
   SevenSwitch: 4faf7584ea9fcfa053ab0375353531c402ed2bf0
   SFHFKeychainUtils: 9576b411a79a058f4d5381ace6f3242b9a62e664
-  UI7Kit: 72cf62a1d21466dfb19156eed4ef24858b7cc72e
-  UIKitResources: d4cbfaf0ec7f95fa7825f6f0f73d6205be20e100
+  UI7Kit: a2be10b7ced09944b8d2dca5d373743665d29639
   UMengAnalytics: 020551718ba37da017bd85ac4c38ffba2774f3ce
 
-COCOAPODS: 0.35.0
+COCOAPODS: 0.37.2

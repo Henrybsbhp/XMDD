@@ -53,6 +53,7 @@
         textV.delegate=self;
         [textV resignFirstResponder];
         self.commentOp.req_comment = textV.text;
+        self.commentOp.req_comment = [textV.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         self.commentOp.req_rating = round(ratingV.ratingValue);
     }
     [[[self.commentOp rac_postRequest] initially:^{
@@ -62,6 +63,7 @@
         
         @strongify(self);
         [gToast showSuccess:@"评价成功!"];
+        self.order.ratetime = [NSDate date];
         if (self.originVC) {
             [self.navigationController popToViewController:self.originVC animated:YES];
         }
@@ -126,13 +128,6 @@
 
     textV.placeholderString = @"请您对本次服务给出客观评价";
     textV.text = self.commentOp.req_comment;
-    
-    @weakify(self);
-    [[cell rac_prepareForReuseSignal] subscribeNext:^(id x) {
-        @strongify(self);
-        self.commentOp.req_rating = self.commentOp.req_rating;
-        self.commentOp.req_comment = self.commentOp.req_comment;
-    }];
 
     return cell;
 }

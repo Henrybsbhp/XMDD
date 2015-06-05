@@ -252,7 +252,7 @@
 //                {
 //                    v.image = [UIImage imageNamed:@"shop_pin"];
 //                }
-//            }
+//            }x
 //        }
 }
 
@@ -272,7 +272,14 @@
         
         poiAnnotationView.canShowCallout = YES;
         poiAnnotationView.image = pointAnnotation.customTag ? [UIImage imageNamed:@"high_shop_pin"] : [UIImage imageNamed:@"shop_pin"];
-        
+        if (pointAnnotation.customTag)
+        {
+            poiAnnotationView.centerOffset = CGPointMake(0, -30);
+        }
+        else
+        {
+            poiAnnotationView.centerOffset = CGPointMake(0, -22);
+        }
         
         return poiAnnotationView;
     }
@@ -369,7 +376,7 @@
 //        mapBottomView.autoresizingMask = UIViewAutoresizingFlexibleAll;
         bottomView.tag = 1001;
         bottomView.backgroundColor = [UIColor whiteColor];
-        bottomView.borderWidth = 1.0f;
+        bottomView.borderWidth = 0.5f;
         bottomView.layer.borderColor = [UIColor lightGrayColor].CGColor;
         bottomView.layer.cornerRadius = 5.0f;
         

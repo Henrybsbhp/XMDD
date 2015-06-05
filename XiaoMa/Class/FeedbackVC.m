@@ -66,7 +66,7 @@
         }] subscribeNext:^(id x) {
             
             @strongify(self);
-            [gToast showSuccess:@"提交成功!"];
+            [gToast showSuccess:@"反馈成功，您的意见是我们宝贵的财富"];
             [self.navigationController popViewControllerAnimated:YES];
         } error:^(NSError *error) {
             [gToast showError:error.domain];

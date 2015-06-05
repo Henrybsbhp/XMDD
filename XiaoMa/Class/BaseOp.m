@@ -10,6 +10,8 @@
 #import "NSString+MD5.h"
 #import "AFHTTPRequestOperationManager+ReactiveCocoa.h"
 
+#define kDefErrorPormpt      @"网络不给力，请重试"
+
 @interface BaseOp()
 @property (nonatomic, strong) NSHTTPURLResponse *response;
 @end
@@ -17,8 +19,6 @@
 @implementation BaseOp
 @synthesize simulateResponse = _simulateResponse;
 @synthesize simulateResponseDelay = _simulateResponseDelay;
-
-
 
 static int32_t g_requestId = 1;
 static int32_t g_requestVid = 1;
@@ -54,7 +54,13 @@ static int32_t g_requestVid = 1;
     }
     
     AFHTTPRequestOperation *af_op;
-    RACSignal *sig = [[[[manager rac_invokeMethod:self.req_method parameters:params requestId:@(self.req_id) operation:&af_op] flattenMap:^RACStream *(RACTuple *tuple) {
+    RACSignal *sig = [manager rac_invokeMethod:self.req_method parameters:params requestId:@(self.req_id) operation:&af_op];
+    //捕获http的默认错误码
+    sig = [sig catch:^RACSignal *(NSError *error) {
+        return [RACSignal error:[NSError errorWithDomain:kDefErrorPormpt code:error.code userInfo:error.userInfo]];
+    }];
+    //返回业务数据以及解析业务层的错误码
+    sig = [sig flattenMap:^RACStream *(RACTuple *tuple) {
 
         AFHTTPRequestOperation *op = tuple.first;
         self.rsp_statusCode = op.response.statusCode;
@@ -72,8 +78,13 @@ static int32_t g_requestVid = 1;
             return [RACSignal error:rst];
         }
         return [RACSignal return:rst];
-    }] catch:^RACSignal *(NSError *error) {
+    }];
+    //对错误进行统一处理
+    sig = [[sig catch:^RACSignal *(NSError *error) {
         
+        if ([self respondsToSelector:@selector(mapError:)]) {
+            error = [self mapError:error];
+        }
         self.rsp_statusCode = error.code;
         self.rsp_error = error;
         
@@ -130,12 +141,16 @@ static int32_t g_requestVid = 1;
 {
     if ([obj isKindOfClass:[NSDictionary class]]) {
         self.rsp_code = [[(NSDictionary *)obj objectForKey:@"rc"] integerValue];
-        self.rsp_newmsg = [[(NSDictionary *)obj objectForKey:@"newmsg"] boolValue];
-        if (self.rsp_newmsg) {
+        self.rsp_prompt = [(NSDictionary *)obj objectForKey:@"error"];
+        self.rsp_hasNewMsg = [[(NSDictionary *)obj objectForKey:@"newmsg"] boolValue];
+
+        if (self.rsp_hasNewMsg) {
             gAppMgr.myUser.hasNewMsg = YES;
         }
+        
         if (self.rsp_code != 0) {
-            return [NSError errorWithDomain:@"请求失败" code:self.rsp_code userInfo:nil];
+
+            return [NSError errorWithDomain:self.rsp_prompt ? self.rsp_prompt : kDefErrorPormpt code:self.rsp_code userInfo:nil];
         }
     }
     return self;

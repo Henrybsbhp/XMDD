@@ -30,7 +30,7 @@
     order.tradetime = [rsp[@"tradetime"] longLongValue];
     order.fee = [rsp[@"fee"] floatValue];
     order.servicename = rsp[@"servicename"];
-    order.serviceprice = rsp[@"serviceprice"];
+    order.serviceprice = [rsp[@"serviceprice"] floatValue];
     return order;
 }
 

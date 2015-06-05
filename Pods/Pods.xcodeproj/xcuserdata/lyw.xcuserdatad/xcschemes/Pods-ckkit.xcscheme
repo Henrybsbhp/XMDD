@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "12F94C781FFFDF8DA43A8025"
-               BuildableName = "libPods-ckkit.a"
-               BlueprintName = "Pods-ckkit"
+               BlueprintIdentifier = "2773AECA2C8F6F38292A582F"
+               BuildableName = "libPods-CKKit.a"
+               BlueprintName = "Pods-CKKit"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,9 +42,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "12F94C781FFFDF8DA43A8025"
-            BuildableName = "libPods-ckkit.a"
-            BlueprintName = "Pods-ckkit"
+            BlueprintIdentifier = "2773AECA2C8F6F38292A582F"
+            BuildableName = "libPods-CKKit.a"
+            BlueprintName = "Pods-CKKit"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -60,9 +60,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "12F94C781FFFDF8DA43A8025"
-            BuildableName = "libPods-ckkit.a"
-            BlueprintName = "Pods-ckkit"
+            BlueprintIdentifier = "2773AECA2C8F6F38292A582F"
+            BuildableName = "libPods-CKKit.a"
+            BlueprintName = "Pods-CKKit"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

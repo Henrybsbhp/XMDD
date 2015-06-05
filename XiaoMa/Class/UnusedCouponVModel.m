@@ -48,7 +48,7 @@
 - (void)refreshTableView
 {
     if (self.validCoupons.count == 0 && self.overdueCoupons.count == 0) {
-        [self.tableView showDefaultEmptyViewWithText:@"暂无未使用优惠券"];
+        [self.tableView showDefaultEmptyViewWithText:@"暂无优惠券"];
     }
     else {
         [self.tableView hideDefaultEmptyView];
@@ -85,6 +85,8 @@
         [self refreshTableView];
      } error:^(NSError *error) {
         
+         @strongify(self);
+         [self.tableView.refreshView endRefreshing];
          [self.tableView.bottomLoadingView stopActivityAnimation];
          [gToast showError:error.domain];
          [self refreshTableView];
@@ -99,31 +101,35 @@
     op.cid = cid;
     [[[op rac_postRequest] initially:^{
         
-        [gToast showText:@"..."];
+        [gToast showingWithText:@"分享信息获取中..."];
     }] subscribeNext:^(ShareUserCouponOp * sop) {
         
-        DownloadOp * op = [[DownloadOp alloc] init];
-        op.req_uri = sop.rsp_picUrl;
-        [[op rac_getRequest] subscribeNext:^(DownloadOp *op) {
-            
-            [gToast dismiss];
-            NSObject * obj = [UIImage imageWithData: op.rsp_data];
-            if (obj && [obj isKindOfClass:[UIImage class]])
-            {
-                [self shareAction:sop andImage:(UIImage *)obj];
-            }
-            else
-            {
-                [self shareAction:sop andImage:nil];
-            }
-        } error:^(NSError *error) {
-            
-            [gToast dismiss];
-            [self shareAction:sop andImage:nil];
-        }];
+        [gToast dismiss];
+        [self shareAction:sop andImage:nil];
+        
+        
+//        DownloadOp * op = [[DownloadOp alloc] init];
+//        op.req_uri = sop.rsp_picUrl;
+//        [[op rac_getRequest] subscribeNext:^(DownloadOp *op) {
+//            
+//            [gToast dismiss];
+//            NSObject * obj = [UIImage imageWithData: op.rsp_data];
+//            if (obj && [obj isKindOfClass:[UIImage class]])
+//            {
+//                [self shareAction:sop andImage:(UIImage *)obj];
+//            }
+//            else
+//            {
+//                [self shareAction:sop andImage:nil];
+//            }
+//        } error:^(NSError *error) {
+//            
+//            [gToast dismiss];
+//            [self shareAction:sop andImage:nil];
+//        }];
     } error:^(NSError *error) {
         
-        [gToast showError:@"无法分享"];
+        [gToast showError:error.domain];
     }];
 }
 
@@ -136,10 +142,18 @@
         NSInteger index = [number integerValue];
         if (index == 1)
         {
+//    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否分享本张优惠劵" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+//    [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
+//        
+//        NSInteger index = [number integerValue];
+//        if (index == 1)
+//        {
             [self requestShareCoupon:cid];
+//        }
+//    }];
         }
+//    [av show];
     }];
-    [av show];
 }
 
 - (void)shareAction:(ShareUserCouponOp *)op andImage:(UIImage *)image
@@ -147,7 +161,8 @@
     SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
     vc.tt = op.rsp_title;
     vc.subtitle = op.rsp_content;
-    vc.image = image ? image :[UIImage imageNamed:@"logo"];
+    vc.image = [UIImage imageNamed:@"wechat_share_coupon"];
+    vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
     vc.urlStr = op.rsp_linkUrl;
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
     sheet.shouldCenterVertically = YES;
@@ -195,7 +210,7 @@
 {
     CGFloat height = 10;
     if (section == 1 && self.overdueCoupons.count > 0) {
-        height = 15;
+        height = 25;
     }
     return height;
 }
@@ -219,10 +234,11 @@
     //背景图片
     UIImageView *backgroundImg = (UIImageView *)[cell.contentView viewWithTag:1001];
     
-    UIImage * carWash = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#00BFFF" alpha:1.0f]];//type = 1
-    UIImage * rescue = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#0ACDC0" alpha:1.0f]];//type = 2,4
-    UIImage * agency = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#FFA54F" alpha:1.0f]];//type = 3,5
-    UIImage * unavailable = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#A7A7A7" alpha:1.0f]];//已过期
+    UIImage * carWash = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#5fb8e2" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];//type = 1
+    UIImage * cashImage = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#f54a4a" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];//type = 2
+    UIImage * rescue = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#4bc4b3" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];//type = 2,4
+    UIImage * agency = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#f7b45d" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];//type = 3,5
+    UIImage * unavailable = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#d0d0d0" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];//已过期
     //优惠名称
     UILabel *name = (UILabel *)[cell.contentView viewWithTag:1002];
     //优惠描述
@@ -235,7 +251,7 @@
     NSUInteger section = [indexPath section];
     if (section == 0){
         HKCoupon *couponDic = [self.validCoupons safetyObjectAtIndex:indexPath.row];;
-        if (couponDic.conponType == 1) {
+        if (couponDic.conponType == CouponTypeCarWash) {
             [status setTitle:@"分享" forState:UIControlStateNormal];
             [[[status rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 
@@ -244,9 +260,9 @@
             
             backgroundImg.image = carWash;
         }
-        else if (couponDic.conponType == 2 || couponDic.conponType == 4) {
+        else if (couponDic.conponType == CouponTypeCash || couponDic.conponType == CouponTypeInsurance) {
             //               @LYW 重用
-            backgroundImg.image = rescue;
+            backgroundImg.image = cashImage;
             [status setTitle:@"有效" forState:UIControlStateNormal];
             
             [[[status rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -254,7 +270,8 @@
                 [MobClick endEvent:@"rp304-4"];
             }];
         }
-        else {
+        else if (couponDic.conponType == CouponTypeAgency)
+        {
             backgroundImg.image = agency;
             [status setTitle:@"有效" forState:UIControlStateNormal];
             
@@ -262,6 +279,11 @@
                 
                 [MobClick endEvent:@"rp304-4"];
             }];
+        }
+        else if (couponDic.conponType == CouponTypeRescue)
+        {
+            backgroundImg.image = rescue;
+            [status setTitle:@"有效" forState:UIControlStateNormal];
         }
         name.text = couponDic.couponName;
         description.text = [NSString stringWithFormat:@"使用说明：%@",couponDic.couponDescription];
