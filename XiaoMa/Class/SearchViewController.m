@@ -92,6 +92,7 @@
     searchBtn.cornerRadius = 5.0f;
     [searchBtn setBackgroundColor:[UIColor colorWithHex:@"#15ac1f" alpha:1.0f]];
     [searchBtn setTitle:@"搜索" forState:UIControlStateNormal];
+    [searchBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     searchBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     [[searchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
@@ -123,6 +124,25 @@
         if ([subsubView isKindOfClass:NSClassFromString(@"UISearchBarBackground")])
         {
             [subsubView removeFromSuperview];
+        }
+    }
+    
+    if ([self.searchBar respondsToSelector:@selector(setBackgroundImage:forBarPosition:barMetrics:)])
+    {
+//        [self.searchBar setBackgroundImage:[UIImage imageNamed:@"Navi_Search2"] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    }
+    else
+    {
+//        [self.searchBar setBackgroundImage:[UIImage imageNamed:@"Navi_Search_iOS6"]];
+        [self.searchBar setTranslucent:YES];
+        for (UIView * subview in self.searchBar.subviews)
+        {
+            if ([subview isKindOfClass:[UISegmentedControl class]])
+            {
+                UISegmentedControl * ctrl = (UISegmentedControl *)subview;
+                [ctrl setBackgroundImage:[UIImage new] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+                ctrl.hidden = YES;
+            }
         }
     }
     
