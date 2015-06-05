@@ -90,7 +90,7 @@
         [gToast showingWithText:@"领取中..."];
     }] subscribeNext:^(id x) {
         
-        [gToast showSuccess:@"领取成功"];
+        [gToast showSuccess:@"领取成功，礼包将于5分钟内发送到您的账户，请注意查收"];
         [self requestGetPkgs];
     } error:^(NSError *error) {
         
