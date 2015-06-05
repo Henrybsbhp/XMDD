@@ -46,8 +46,8 @@
     [aCoder encodeObject:self.adPic forKey:@"pic"];
     [aCoder encodeObject:self.adDescription forKey:@"desc"];
     [aCoder encodeObject:self.adLink forKey:@"link"];
-    [aCoder encodeObject:[self.validStart dateFormatForDT8] forKey:@"shangpinxq"];
-    [aCoder encodeObject:[self.validEnd dateFormatForDT8]forKey:@"guige"];
+    [aCoder encodeObject:[self.validStart dateFormatForDT8] forKey:@"validstart"];
+    [aCoder encodeObject:[self.validEnd dateFormatForDT8]forKey:@"validend"];
     [aCoder encodeFloat:self.weight forKey:@"jiage"];
 }
 

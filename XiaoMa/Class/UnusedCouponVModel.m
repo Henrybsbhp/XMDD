@@ -101,28 +101,32 @@
     op.cid = cid;
     [[[op rac_postRequest] initially:^{
         
-        [gToast showText:@"..."];
+        [gToast showingWithText:@"分享信息获取中..."];
     }] subscribeNext:^(ShareUserCouponOp * sop) {
         
-        DownloadOp * op = [[DownloadOp alloc] init];
-        op.req_uri = sop.rsp_picUrl;
-        [[op rac_getRequest] subscribeNext:^(DownloadOp *op) {
-            
-            [gToast dismiss];
-            NSObject * obj = [UIImage imageWithData: op.rsp_data];
-            if (obj && [obj isKindOfClass:[UIImage class]])
-            {
-                [self shareAction:sop andImage:(UIImage *)obj];
-            }
-            else
-            {
-                [self shareAction:sop andImage:nil];
-            }
-        } error:^(NSError *error) {
-            
-            [gToast dismiss];
-            [self shareAction:sop andImage:nil];
-        }];
+        [gToast dismiss];
+        [self shareAction:sop andImage:nil];
+        
+        
+//        DownloadOp * op = [[DownloadOp alloc] init];
+//        op.req_uri = sop.rsp_picUrl;
+//        [[op rac_getRequest] subscribeNext:^(DownloadOp *op) {
+//            
+//            [gToast dismiss];
+//            NSObject * obj = [UIImage imageWithData: op.rsp_data];
+//            if (obj && [obj isKindOfClass:[UIImage class]])
+//            {
+//                [self shareAction:sop andImage:(UIImage *)obj];
+//            }
+//            else
+//            {
+//                [self shareAction:sop andImage:nil];
+//            }
+//        } error:^(NSError *error) {
+//            
+//            [gToast dismiss];
+//            [self shareAction:sop andImage:nil];
+//        }];
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
@@ -131,16 +135,16 @@
 
 - (void)shareAction:(NSNumber *)cid
 {
-    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否分享本张优惠劵" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
-        
-        NSInteger index = [number integerValue];
-        if (index == 1)
-        {
+//    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否分享本张优惠劵" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+//    [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
+//        
+//        NSInteger index = [number integerValue];
+//        if (index == 1)
+//        {
             [self requestShareCoupon:cid];
-        }
-    }];
-    [av show];
+//        }
+//    }];
+//    [av show];
 }
 
 - (void)shareAction:(ShareUserCouponOp *)op andImage:(UIImage *)image
@@ -148,7 +152,8 @@
     SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
     vc.tt = op.rsp_title;
     vc.subtitle = op.rsp_content;
-    vc.image = image ? image :[UIImage imageNamed:@"logo"];
+    vc.image = [UIImage imageNamed:@"wechat_share_coupon"];
+    vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
     vc.urlStr = op.rsp_linkUrl;
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
     sheet.shouldCenterVertically = YES;

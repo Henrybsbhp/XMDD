@@ -304,11 +304,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/SearchViewController.m"
-            timestampString = "455025290.348982"
+            timestampString = "455113324.244627"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "464"
-            endingLineNumber = "464"
+            startingLineNumber = "466"
+            endingLineNumber = "466"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -384,11 +384,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/SearchViewController.m"
-            timestampString = "455025290.348982"
+            timestampString = "455113324.244627"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "363"
-            endingLineNumber = "363"
+            startingLineNumber = "365"
+            endingLineNumber = "365"
             landmarkName = "-tableView:heightForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -927,8 +927,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "53"
             endingLineNumber = "53"
-            landmarkName = "-rac_getAdvertisement:"
-            landmarkType = "5">
+            landmarkName = "@implementation AdvertisementManager"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1550,16 +1550,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/SocialShareViewController.m"
-            timestampString = "455101885.559896"
+            filePath = "XiaoMa/Class/SearchViewController.m"
+            timestampString = "455111326.389574"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
-            landmarkName = "-shareWechat"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
+            landmarkName = "-search"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1569,13 +1569,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/SocialShareViewController.m"
-            timestampString = "455101906.374344"
+            filePath = "XiaoMa/Class/PaymentSuccessVC.m"
+            timestampString = "455163447.631482"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
-            landmarkName = "-shareToWeChat:withTitle:andDescription:andImage:andUrl:"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "-shareAction:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XiaoMa/Class/UnusedCouponVModel.m"
+            timestampString = "455165165.62953"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
+            landmarkName = "-shareAction:andImage:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
