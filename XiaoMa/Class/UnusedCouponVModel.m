@@ -226,6 +226,7 @@
     UIImageView *backgroundImg = (UIImageView *)[cell.contentView viewWithTag:1001];
     
     UIImage * carWash = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#5fb8e2" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];//type = 1
+    UIImage * cashImage = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#f54a4a" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];//type = 2
     UIImage * rescue = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#4bc4b3" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];//type = 2,4
     UIImage * agency = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#f7b45d" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];//type = 3,5
     UIImage * unavailable = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#d0d0d0" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];//已过期
@@ -241,7 +242,7 @@
     NSUInteger section = [indexPath section];
     if (section == 0){
         HKCoupon *couponDic = [self.validCoupons safetyObjectAtIndex:indexPath.row];;
-        if (couponDic.conponType == 1) {
+        if (couponDic.conponType == CouponTypeCarWash) {
             [status setTitle:@"分享" forState:UIControlStateNormal];
             [[[status rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 
@@ -250,13 +251,19 @@
             
             backgroundImg.image = carWash;
         }
-        else if (couponDic.conponType == 2 || couponDic.conponType == 4) {
+        else if (couponDic.conponType == CouponTypeCash || couponDic.conponType == CouponTypeInsurance) {
             //               @LYW 重用
-            backgroundImg.image = rescue;
+            backgroundImg.image = cashImage;
             [status setTitle:@"有效" forState:UIControlStateNormal];
         }
-        else {
+        else if (couponDic.conponType == CouponTypeAgency)
+        {
             backgroundImg.image = agency;
+            [status setTitle:@"有效" forState:UIControlStateNormal];
+        }
+        else if (couponDic.conponType == CouponTypeRescue)
+        {
+            backgroundImg.image = rescue;
             [status setTitle:@"有效" forState:UIControlStateNormal];
         }
         name.text = couponDic.couponName;
