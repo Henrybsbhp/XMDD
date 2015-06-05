@@ -58,6 +58,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp103"];
     
     UIView * view = self.navigationController.navigationBar;
     [view addSubview:self.searchBarBackgroundView];
@@ -65,10 +66,10 @@
     [self.searchBar becomeFirstResponder];
 }
 
-
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp103"];
     
     [self.searchBarBackgroundView removeFromSuperview];
 }
@@ -95,6 +96,7 @@
     searchBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     [[searchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp103-1"];
         [self search];
     }];
     UIBarButtonItem *searchBtnItem = [[UIBarButtonItem alloc] initWithCustomView:searchBtn];
@@ -500,6 +502,7 @@
     
     if (self.isSearching)
     {
+        [MobClick event:@"rp103-3"];
         JTShop * shop = [self.resultArray safetyObjectAtIndex:indexPath.row];
         ShopDetailVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ShopDetailVC"];
         vc.shop = shop;
@@ -514,6 +517,7 @@
         }
         if (indexPath.row == self.historyArray.count + 1)
         {
+            [MobClick event:@"rp103-2"];
             [self cleanHistory];
             return;
         }
@@ -538,6 +542,7 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    [MobClick event:@"rp103-4"];
     [self search];
 }
 

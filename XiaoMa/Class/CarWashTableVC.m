@@ -46,6 +46,23 @@
 
 @implementation CarWashTableVC
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (self.forbidAD)
+        [MobClick beginLogPageView:@"rp201"];
+    else
+        [MobClick beginLogPageView:@"rp102"];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    if (self.forbidAD)
+        [MobClick endLogPageView:@"rp201"];
+    else
+        [MobClick endLogPageView:@"rp102"];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -94,12 +111,15 @@
 
     @weakify(self)
     [[tap rac_gestureSignal] subscribeNext:^(id x) {
-        
+        if (self.forbidAD)
+            [MobClick event:@"rp201-2"];
+        else
+            [MobClick event:@"rp102-2"];
         @strongify(self)
         SearchViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
         [self.navigationController pushViewController:vc animated:YES];
     }];
-    
+    //LYW 下面两个方法是？
     [[self.searchField rac_newTextChannel] subscribeNext:^(id x) {
         
 
@@ -198,6 +218,10 @@
 #pragma mark - Action
 - (IBAction)actionMap:(id)sender
 {
+    if (self.forbidAD)
+        [MobClick event:@"rp201-1"];
+    else
+        [MobClick event:@"rp102-1"];
     NearbyShopsViewController * nearbyShopView = [carWashStoryboard instantiateViewControllerWithIdentifier:@"NearbyShopsViewController"];
     nearbyShopView.type = self.type;
     nearbyShopView.hidesBottomBarWhenPushed = YES;
@@ -239,6 +263,9 @@
     gesture = imgV.customObject;
     [[[gesture rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
+        NSString * eventstr = [NSString stringWithFormat:@"rp102-6.%ld", pageIndex];
+        [MobClick endEvent:eventstr];
+        //缺少默认广告？ LYW
         if (ad.adLink.length)
         {
             WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
@@ -320,13 +347,19 @@
     
     @weakify(self)
     [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
+        if (self.forbidAD)
+            [MobClick event:@"rp201-4"];
+        else
+            [MobClick event:@"rp102-4"];
         @strongify(self)
         [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.view];
     }];
     
     [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
+        if (self.forbidAD)
+            [MobClick event:@"rp201-5"];
+        else
+            [MobClick event:@"rp102-5"];
         if (shop.shopPhone.length == 0)
         {
             UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
@@ -357,6 +390,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.forbidAD)
+        [MobClick event:@"rp201-3"];
+    else
+        [MobClick event:@"rp102-3"];
     ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
     vc.hidesBottomBarWhenPushed = YES;
     vc.shop = [self.datasource safetyObjectAtIndex:indexPath.row];

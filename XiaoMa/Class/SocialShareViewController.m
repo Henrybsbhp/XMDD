@@ -36,6 +36,7 @@ typedef void(^FinishBlock)(void);
     
     [[_wechatBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp110-3"];
         [self shareWechat];
         if (self.finishAction)
         {
@@ -45,6 +46,7 @@ typedef void(^FinishBlock)(void);
     
     [[_timelineBrn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp110-4"];
         [self shareTimeline];
         if (self.finishAction)
         {
@@ -54,6 +56,7 @@ typedef void(^FinishBlock)(void);
     
     [[_weiboBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp110-5"];
         [self shareWeibo];
         if (self.finishAction)
         {
@@ -63,6 +66,7 @@ typedef void(^FinishBlock)(void);
     
     [[_qqBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp110-6"];
         [self shareQQ];
         if (self.finishAction)
         {

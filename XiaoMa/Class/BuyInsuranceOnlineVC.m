@@ -39,6 +39,7 @@
 #pragma mark - Action
 ///我感兴趣
 - (IBAction)actionInterested:(id)sender {
+    [MobClick event:@"rp123-2"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         BeInterestedInInsuranceOp *op = [BeInterestedInInsuranceOp new];
         [[[op rac_postRequest] initially:^{
@@ -61,6 +62,7 @@
 
 ///电话咨询
 - (IBAction)actionMakeCall:(id)sender {
+    [MobClick event:@"rp123-1"];
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"4007-111-111"];
 }
 

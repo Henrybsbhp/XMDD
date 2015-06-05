@@ -37,10 +37,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [MobClick beginEvent:@"rp109"];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     
+    [MobClick endEvent:@"rp109"];
     [self actionBack];
 }
 
@@ -166,7 +174,7 @@
     UIImageView * selectedView = (UIImageView *)[cell searchViewWithTag:108];
     
     UIImage * image = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#000000" alpha:0.6f]];
-    UIImage * couponGg = [image resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
+
     shadowView.image = image;
     
     status.text = @"有效";
@@ -182,7 +190,7 @@
     }
     name.text = coupon.couponName;
     description.text = [NSString stringWithFormat:@"使用说明：%@",coupon.couponDescription];
-    // @LYW 时间显示有误
+    
     validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",[coupon.validsince dateFormatForYYMMdd2],[coupon.validthrough dateFormatForYYMMdd2]];
     
     BOOL flag  = NO;
@@ -221,6 +229,7 @@
         }
         else
         {
+            [MobClick event:@"rp109-1"];
             [self.selectedCouponArray removeAllObjects];
             [self.selectedCouponArray addObject:coupon];
         }
@@ -241,6 +250,7 @@
         }
         if (amount + coupon.couponAmount < self.upperLimit)
         {
+            [MobClick event:@"rp109-1"];
             [self.selectedCouponArray addObject:coupon];
             [self.tableView reloadData];
         }

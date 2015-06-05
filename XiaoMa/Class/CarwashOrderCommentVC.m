@@ -10,7 +10,7 @@
 #import "JTRatingView.h"
 #import "SubmitCommentOp.h"
 
-@interface CarwashOrderCommentVC ()<UITableViewDelegate, UITableViewDataSource>
+@interface CarwashOrderCommentVC ()<UITextViewDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) SubmitCommentOp *commentOp;
 @end
@@ -31,15 +31,27 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp321"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [MobClick endEvent:@"rp321"];
+}
 
 #pragma mark - Action
 - (IBAction)actionComment:(id)sender
 {
+    [MobClick event:@"rp321-3"];
     @weakify(self);
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     if (cell) {
         JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:2001];
         UIAPlaceholderTextView *textV = (UIAPlaceholderTextView *)[cell.contentView viewWithTag:3001];
+        textV.delegate=self;
+        [textV resignFirstResponder];
         self.commentOp.req_comment = textV.text;
         self.commentOp.req_rating = round(ratingV.ratingValue);
     }
@@ -62,6 +74,12 @@
     } error:^(NSError *error) {
         [gToast showError:error.domain];
     }];
+}
+
+#pragma mark - UITextView
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    [MobClick event:@"rp321-2"];
 }
 
 #pragma mark - UITableViewDelegate and datasource

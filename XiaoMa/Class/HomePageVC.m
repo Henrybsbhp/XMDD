@@ -47,6 +47,17 @@ static NSInteger rotationIndex = 0;
 
 @implementation HomePageVC
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp101"];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp101"];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -225,6 +236,12 @@ static NSInteger rotationIndex = 0;
         [[UIBarButtonItem alloc] initWithTitle:@"定位失败" style:UIBarButtonItemStyleDone target:self action:@selector(rac_getWeatherInfo)];
         self.navigationItem.leftBarButtonItem = retrybtn;
     }
+    self.navigationItem.leftBarButtonItem.action=@selector(umeng);
+}
+
+- (void)umeng
+{
+    [MobClick event:@"rp101-1"];
 }
 
 - (void)setupNavigationRightBar
@@ -305,6 +322,7 @@ static NSInteger rotationIndex = 0;
 #pragma mark - Action
 - (IBAction)actionCallCenter:(id)sender
 {
+    [MobClick event:@"rp101-2"];
     NSString * number = @"4007111111";
     [gPhoneHelper makePhone:number andInfo:@"客服电话"];
 }
@@ -317,6 +335,7 @@ static NSInteger rotationIndex = 0;
 
 - (void)actionWashCar:(id)sender
 {
+    [MobClick event:@"rp101-3"];
     CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
     vc.type = 1 ;
     [self.navigationController pushViewController:vc animated:YES];
@@ -324,12 +343,14 @@ static NSInteger rotationIndex = 0;
 
 - (void)actionInsurance:(id)sender
 {
+    [MobClick event:@"rp101-4"];
     UIViewController *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionRescue:(id)sender
 {
+    [MobClick event:@"rp101-5"];
     RescureViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureViewController"];
     vc.urlStr = @"http://www.xiaomadada.com/apphtml/jiuyuan.html";
     [self.navigationController pushViewController:vc animated:YES];
@@ -337,6 +358,7 @@ static NSInteger rotationIndex = 0;
 
 - (void)actionCommission:(id)sender
 {
+    [MobClick event:@"rp101-6"];
     CommissionViewController *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionViewController"];
     vc.urlStr = @"http://www.xiaomadada.com/apphtml/daiban.html";
     [self.navigationController pushViewController:vc animated:YES];
@@ -387,6 +409,7 @@ static NSInteger rotationIndex = 0;
 
 - (RACSignal *)rac_getWeatherInfo
 {
+    
     return [[[[[gMapHelper rac_getInvertGeoInfo] take:1] initially:^{
         
         [self setupNavigationLeftBar:@"定位中..."];
@@ -549,7 +572,8 @@ static NSInteger rotationIndex = 0;
     }
     gesture = imgV.customObject;
     [[[gesture rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
-        
+        NSString * eventstr = [NSString stringWithFormat:@"rp101-10.%ld", pageIndex];
+        [MobClick endEvent:eventstr];
         if (ad.adLink.length)
         {
             WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];

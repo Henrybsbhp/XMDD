@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -201,6 +201,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="code" destination="thy-fZ-qWz" id="wfE-0M-z7R"/>
+                        <outlet property="num" destination="6Rn-db-XLI" id="fv1-10-IK5"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d0f-qa-W3P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -439,6 +443,9 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="checkBox" destination="DaG-wp-5bW" id="UIo-g5-LCk"/>
+                        <outlet property="code" destination="z4Z-bm-bfK" id="FJW-Ey-tKz"/>
+                        <outlet property="num" destination="f5j-cy-BxY" id="fQr-2D-Qms"/>
+                        <outlet property="pwd" destination="xNl-pv-Ukw" id="5Zu-Lc-2iy"/>
                         <outlet property="registBtn" destination="UVn-OR-04z" id="h1O-XW-LsM"/>
                         <outlet property="vcodeBtn" destination="yIx-qg-tgC" id="cjn-cn-249"/>
                     </connections>
@@ -689,6 +696,9 @@
                     <connections>
                         <outlet property="bottomBtn" destination="J8d-9y-NGd" id="mQF-m8-jfp"/>
                         <outlet property="checkBox" destination="ipl-0b-M7T" id="UjB-sP-7Bj"/>
+                        <outlet property="code" destination="SGr-OL-Ubk" id="f3n-KM-7bV"/>
+                        <outlet property="num" destination="718-AK-vY8" id="5ap-BE-4ja"/>
+                        <outlet property="pwd" destination="qpd-NI-wqQ" id="J1o-ZQ-mXi"/>
                         <outlet property="vcodeBtn" destination="Zba-Tk-fDY" id="Vxq-EV-grS"/>
                     </connections>
                 </tableViewController>
@@ -895,6 +905,8 @@
                     <connections>
                         <outlet property="bottomBtn" destination="0tu-J3-NHC" id="hIx-nG-g6b"/>
                         <outlet property="checkBox" destination="l7T-Xn-HEd" id="sli-AY-33p"/>
+                        <outlet property="code" destination="HWd-Oy-3C6" id="Ag8-Ev-QJ4"/>
+                        <outlet property="num" destination="34C-Oy-duD" id="3Ay-mf-lkB"/>
                         <outlet property="vcodeBtn" destination="SJK-4j-Xhc" id="lmE-7e-x2E"/>
                     </connections>
                 </tableViewController>

@@ -37,7 +37,7 @@
     [self.webView loadRequest:self.request];
     
     [[self.actionBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
+        [MobClick event:@"rp128-2"];
         [gPhoneHelper makePhone:@"4007111111" andInfo:@"立刻申请代办"];
     }];
 }
@@ -45,17 +45,16 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    [MobClick beginEvent:@"rp128"];
     [self.navigationController.navigationBar addSubview:_progressView];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
+    [MobClick endEvent:@"rp128"];
     [_progressView removeFromSuperview];
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -89,10 +88,12 @@
 
 - (void)actionNavigationToCoupon
 {
+    
+    [MobClick event:@"rp128-1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self])
     {
-    CommissionCouponViewController * vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionCouponViewController"];
-    [self.navigationController pushViewController:vc animated:YES];
+        CommissionCouponViewController * vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionCouponViewController"];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 

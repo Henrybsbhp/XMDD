@@ -38,7 +38,15 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [MobClick beginEvent:@"rp309"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [MobClick endEvent:@"rp309"];
 }
 
 - (void)setupSignals
@@ -99,6 +107,7 @@
 #pragma mark - Action
 - (IBAction)actionAddCar:(id)sender
 {
+    [MobClick event:@"rp309-1"];
     EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -171,6 +180,7 @@
     @weakify(self);
     [[[bottomB rac_signalForControlEvents:UIControlEventTouchUpInside]
       takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        [MobClick event:@"rp309-3"];
         @strongify(self);
         [self uploadDrivingLicenceAtIndexPath:indexPath];
     }];
@@ -220,6 +230,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [MobClick event:@"rp309-2"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
     vc.originCar = [self.carList safetyObjectAtIndex:indexPath.section];

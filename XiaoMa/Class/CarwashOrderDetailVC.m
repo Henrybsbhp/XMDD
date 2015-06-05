@@ -32,6 +32,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    [MobClick beginEvent:@"rp320"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endEvent:@"rp320"];
+}
+
 - (void)reloadDatasource
 {
     self.commentBtn.hidden = self.order.ratetime;
@@ -47,6 +59,7 @@
 #pragma mark - Action
 - (IBAction)actionComment:(id)sender
 {
+    [MobClick event:@"rp320-1"];
     CarwashOrderCommentVC *vc = [UIStoryboard vcWithId:@"CarwashOrderCommentVC" inStoryboard:@"Mine"];
     vc.order = self.order;
     [vc setCustomActionBlock:^{
@@ -57,6 +70,7 @@
 #pragma mark - UITableViewDelegate and UITableViewDatasource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [MobClick event:@"rp320-2"];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

@@ -152,6 +152,7 @@
     @weakify(self);
     [[[bottomB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp318-1"];
         @strongify(self);
         [self actionCommentForOrder:order];
     }];
@@ -171,6 +172,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [MobClick event:@"rp318-2"];
     CarwashOrderDetailVC *vc = [UIStoryboard vcWithId:@"CarwashOrderDetailVC" inStoryboard:@"Mine"];
     vc.order = [self.orders safetyObjectAtIndex:indexPath.section];
     [self.targetVC.navigationController pushViewController:vc animated:YES];

@@ -51,6 +51,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp115"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp115"];
+}
+
 - (void)setupDatePickerVC
 {
     self.datePickerVC = [MonthPickerVC monthPickerVC];
@@ -157,6 +169,7 @@
 #pragma mark - Action
 - (IBAction)actionEnquiry:(id)sender
 {
+    [MobClick event:@"rp115-7"];
     // 检测车牌是否为空
     if ([self shakeIfNeededAtRow:1]) {
         return;
@@ -266,7 +279,6 @@
         if ([field isKindOfClass:[UITextField class]] && field.userInteractionEnabled == YES) {
             [field becomeFirstResponder];
         }
-
     }
 }
 
@@ -274,6 +286,8 @@
 - (void)setupCityCell:(UITableViewCell *)cell
 {
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
+    field.delegate = self;
+    field.customTag = 0;
     field.text = self.city;
     @weakify(self);
     [[[field rac_textSignal] distinctUntilChanged] subscribeNext:^(id x) {
@@ -286,6 +300,7 @@
 {
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
     field.text = self.price;
+    field.customTag = 2;
     if (!field.delegate) {
         field.delegate = self;
     }
@@ -329,6 +344,7 @@
     [[[button rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(UIButton *btn) {
 
+         [MobClick event:@"rp115-4"];
          @strongify(self);
          id item = btn;
          //当取消选择新车未上牌时，先判断一下上次选择的汽车车牌是否和填写的车牌一致
@@ -363,12 +379,29 @@
 - (void)setupCarryTimeCell:(UITableViewCell *)cell
 {
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
+    field.customTag = 3;
     [[RACObserve(self, carryTime) takeUntilForCell:cell] subscribeNext:^(NSDate *time) {
         field.text = time ? [time dateFormatForYYMM] : nil;
     }];
 }
 
 #pragma mark - UITextFieldDelegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if (textField.customTag == 0) {
+        [MobClick event:@"rp115-2"];
+    }
+    else if (textField.customTag == 1) {
+        [MobClick event:@"rp115-3"];
+    }
+    else if (textField.customTag == 2) {
+        [MobClick event:@"rp115-5"];
+    }
+    else {
+        [MobClick event:@"rp115-6"];
+    }
+}
+
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     //车牌
@@ -376,7 +409,7 @@
         textField.text = [textField.text uppercaseString];
     }
     //价格
-    else {
+    if (textField.customTag == 2){
         textField.text  = self.price;
     }
 }
@@ -419,7 +452,7 @@
         }
     }];
     [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
+        [MobClick event:@"rp115-1"];
         [self.plateSegHelper selectItem:x];
         [self.view endEditing:YES];
     }];

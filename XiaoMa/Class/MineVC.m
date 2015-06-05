@@ -45,7 +45,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    
+    [MobClick beginLogPageView:@"rp301"];
     [super viewWillAppear:animated];
     self.isViewAppearing = YES;
     [self.navigationController setNavigationBarHidden:YES animated:animated];
@@ -59,6 +59,8 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp301"];
+    //下方代码什么意思？ LYW
     //如果当前视图的导航条没有发生跳转，则不做处理
     if (![self.navigationController.topViewController isEqual:self]) {
         //如果当前视图的viewWillAppear和viewWillDisappear的间隔太短会导致navigationBar隐藏显示不正常
@@ -86,8 +88,13 @@
         
         if([LoginViewModel loginIfNeededForTargetViewController:self])
         {
+            [MobClick event:@"rp301-9"];
             MyInfoViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"MyInfoViewController"];
             [self.navigationController pushViewController:vc animated:YES];
+        }
+        else
+        {
+            [MobClick event:@"rp301-1"];
         }
     }];
 }
@@ -147,6 +154,7 @@
 #pragma mark - Action
 -(void)actionPushToTickets
 {
+    [MobClick event:@"rp301-2"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         
         MyCouponVC *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
@@ -156,6 +164,7 @@
 
 - (void)actionPushToMessages
 {
+    [MobClick event:@"rp301-3"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         MessageListVC *vc = [UIStoryboard vcWithId:@"MessageListVC" inStoryboard:@"Message"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -284,12 +293,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 1) {
+        [MobClick event:@"rp301-4"];
         if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
             MyCarListVC *vc = [UIStoryboard vcWithId:@"MyCarListVC" inStoryboard:@"Mine"];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }
     else if (indexPath.section == 2 && indexPath.row == 0) {
+        [MobClick event:@"rp301-5"];
         if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
             MyOrderListVC *vc = [UIStoryboard vcWithId:@"MyOrderListVC" inStoryboard:@"Mine"];
             [self.navigationController pushViewController:vc animated:YES];
@@ -297,6 +308,7 @@
     }
     else if (indexPath.section == 2 && indexPath.row == 1)
     {
+        [MobClick event:@"rp301-6"];
         if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
             CouponPkgViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"CouponPkgViewController"];
             [self.navigationController pushViewController:vc animated:YES];
@@ -304,6 +316,7 @@
     }
     else if (indexPath.section == 2 && indexPath.row == 2)
     {
+        [MobClick event:@"rp301-7"];
         if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
             MyCollectionViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"MyCollectionViewController"];
             [self.navigationController pushViewController:vc animated:YES];
@@ -311,6 +324,7 @@
     }
     else if (indexPath.section == 3)
     {
+        [MobClick event:@"rp301-8"];
         AboutViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
         [self.navigationController pushViewController:vc animated:YES];
     }

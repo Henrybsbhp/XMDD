@@ -48,6 +48,7 @@
 {
     [super viewWillAppear:animated];
     
+    [MobClick beginLogPageView:@"rp105"];
     if([gAppMgr.myUser.favorites getFavoriteWithID:self.shop.shopID] == nil){
         self.favorite = NO;
     }
@@ -58,6 +59,11 @@
     [self setupNavigationBar];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp105"];
+}
 - (void)dealloc
 {
     DebugLog(@"ShopDetailVC Dealloc");
@@ -74,6 +80,7 @@
     @weakify(self)
     [[collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp105-1"];
         @strongify(self)
         
         if ([LoginViewModel loginIfNeededForTargetViewController:self])
@@ -201,6 +208,7 @@
 
 - (IBAction)actionMap:(id)sender
 {
+    [MobClick event:@"rp105-4"];
     CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
     vc.shop = self.shop;
     [self.navigationController pushViewController:vc animated:YES];
@@ -208,6 +216,7 @@
 
 - (void)gotoPaymentVCWithService:(JTShopService *)service
 {
+    [MobClick event:@"rp105-6"];
     //首先读取爱车缓存，个人爱车数组不为空或者数量大于0时跳转支付，否则跳转到添加爱车，对应问题7317  LYW
     [[[gAppMgr.myUser.carModel rac_fetchDataIfNeeded] catch:^RACSignal *(NSError *error) {
         
@@ -226,7 +235,7 @@
         {
             UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您尚未添加车辆，请添加一辆" delegate:nil cancelButtonTitle:@"前往添加" otherButtonTitles: nil];
             [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
-                
+                [MobClick event:@"rp104-9"];
                 EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
                 [self.navigationController pushViewController:vc animated:YES];
             }];
@@ -358,9 +367,15 @@
     
     if (indexPath.section == 0)
     {
+        if (indexPath.row == 0)
+        {
+            [MobClick event:@"rp105-2"];
+        }
         if (indexPath.row == 1)
         {
 //            [gPhoneHelper navigationRedirectThirdMap:self.shop andUserLocation:gMapHelper.coordinate andView:self.view];
+            
+            [MobClick event:@"rp105-3"];
             CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
             vc.shop = self.shop;
             vc.favorite = self.favorite;
@@ -368,6 +383,7 @@
         }
         else if (indexPath.row == 2)
         {
+            [MobClick event:@"rp105-5"];
             if (self.shop.shopPhone.length == 0)
             {
                 UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
@@ -383,6 +399,8 @@
     {
         if (self.shop.shopCommentArray.count)
         {
+            //下方评价列表是一体的，105-8和105-9无法区分  LYW
+            [MobClick event:@"rp105-8"];
             CommentListViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"CommentListViewController"];
             vc.shopid = self.shop.shopID;
             vc.commentArray = self.shop.shopCommentArray;
@@ -518,7 +536,7 @@
     
     @weakify(self);
     [[[payB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
+        [MobClick event:@"rp105-7"];
         @strongify(self);
         if([LoginViewModel loginIfNeededForTargetViewController:self]) {
             [self gotoPaymentVCWithService:service];
@@ -535,6 +553,7 @@
     @weakify(self);
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
+        
         self.serviceExpanded = YES;
         [self.tableView reloadData];
     }];

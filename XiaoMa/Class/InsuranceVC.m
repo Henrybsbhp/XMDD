@@ -38,6 +38,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp114"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp114"];
+}
+
 - (void)setupADView
 {
     CGFloat width = CGRectGetWidth(self.view.frame);
@@ -78,12 +90,14 @@
 }
 #pragma mark - Action
 - (IBAction)actionBuyInsuraceOline:(id)sender {
+    [MobClick event:@"rp114-2"];
     BuyInsuranceOnlineVC *vc = [UIStoryboard vcWithId:@"BuyInsuranceOnlineVC" inStoryboard:@"Insurance"];
     vc.originVC = self;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)actionEnquireInsurance:(id)sender {
+    [MobClick event:@"rp114-1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         EnquiryInsuranceVC *vc = [UIStoryboard vcWithId:@"EnquiryInsuranceVC" inStoryboard:@"Insurance"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -144,6 +158,8 @@
     @weakify(self);
     [[[tap rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
+        NSString * eventstr = [NSString stringWithFormat:@"rp114-3.%ld", pageIndex];
+        [MobClick endEvent:eventstr];
         @strongify(self);
         if (ad.adLink.length > 0) {
             WebVC * vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];

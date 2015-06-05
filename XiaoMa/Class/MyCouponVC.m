@@ -41,22 +41,34 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [MobClick beginEvent:@"rp304"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [MobClick endEvent:@"rp304"];
 }
 
 #pragma mark - Action
 - (IBAction)actionGetMore:(id)sender
 {
+    [MobClick event:@"rp304-6"];
 }
 
 - (IBAction)actionSegmentChanged:(id)sender
 {
     UISegmentedControl *segment = sender;
     if (segment.selectedSegmentIndex == 0) {
+        [MobClick event:@"rp304-1"];
         self.usedTableView.hidden = YES;
         [self.unusedTableView reloadData];
     }
     else {
+        [MobClick event:@"rp304-2"];
         self.usedTableView.hidden = NO;
         [self.usedTableView reloadData];
     }

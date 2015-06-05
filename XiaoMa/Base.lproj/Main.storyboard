@@ -10,7 +10,7 @@
         <scene sceneID="qkA-rT-bTB">
             <objects>
                 <navigationController title="首页" id="set-AC-AWQ" customClass="JTNavigationController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="首页" image="tab_home" id="8po-hQ-M7B">
+                    <tabBarItem key="tabBarItem" tag="7" title="首页" image="tab_home" id="8po-hQ-M7B">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-3"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="0W3-aR-tsx">
@@ -189,7 +189,7 @@
         <scene sceneID="rdn-8W-bjb">
             <objects>
                 <navigationController title="附近" id="eox-vS-3Yl" customClass="JTNavigationController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="附近" image="tab_nearby" id="0fT-Ra-4IG">
+                    <tabBarItem key="tabBarItem" tag="8" title="附近" image="tab_nearby" id="0fT-Ra-4IG">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-3"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="BCp-RH-2zk">
@@ -208,7 +208,7 @@
         <scene sceneID="17A-OG-jFU">
             <objects>
                 <navigationController title="我的" id="GVC-kB-wxZ" customClass="JTNavigationController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="我的" image="tab_mine" id="fQD-bC-vum">
+                    <tabBarItem key="tabBarItem" tag="9" title="我的" image="tab_mine" id="fQD-bC-vum">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-3"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Se6-Dh-pnv">

@@ -64,6 +64,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [MobClick beginEvent:@"rp108"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp108"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -104,6 +111,7 @@
 #pragma mark - Action
 - (IBAction)actionPay:(id)sender
 {
+    [MobClick event:@"rp108-7"];
     [self requestCheckout];
 }
 
@@ -228,6 +236,7 @@
         if (indexPath.row == 1)
         {
         //点击查看洗车券
+            [MobClick event:@"rp108-2"];
             ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
             vc.originVC = self.originVC;
             vc.type = CouponTypeCarWash;
@@ -240,6 +249,7 @@
         }
         else if (indexPath.row == 2)
         {
+            [MobClick event:@"rp108-4"];
             ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
             vc.originVC = self.originVC;
             vc.type = CouponTypeCash;
@@ -424,10 +434,11 @@
     }];
     [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
-        NSLog(@"click checkbox");
         @strongify(self);
         if (indexPath.row == 1)
         {
+            NSLog(@"click checkbox1");
+            [MobClick event:@"rp108-1"];
             if (!self.selectCarwashCoupouArray.count)
             {
                 ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
@@ -456,6 +467,8 @@
         }
         else if (indexPath.row == 2)
         {
+            NSLog(@"click checkbox2");
+            [MobClick event:@"rp108-3"];
             if (!self.selectCashCoupouArray.count)
             {
                 ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
@@ -519,7 +532,14 @@
 //        }
         
         [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCashGroup];
-        
+        if (indexPath.row == 1)
+        {
+            [MobClick event:@"rp108-5"];
+        }
+        else
+        {
+            [MobClick event:@"rp108-6"];
+        }
         if (self.couponType == 0)
         {
             if (indexPath.row == 1)

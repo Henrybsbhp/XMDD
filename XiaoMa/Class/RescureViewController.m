@@ -38,7 +38,7 @@
     [self.webView loadRequest:self.request];
     
     [[self.actionBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
+        [MobClick beginEvent:@"rp127-2"];
         [gPhoneHelper makePhone:@"4007111111" andInfo:@"立刻申请救援"];
     }];
 }
@@ -46,14 +46,14 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    [MobClick beginEvent:@"rp127"];
     [self.navigationController.navigationBar addSubview:_progressView];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
+    [MobClick endEvent:@"rp127"];
     [_progressView removeFromSuperview];
 }
 
@@ -89,6 +89,7 @@
 
 - (void)actionNavigationToCoupon
 {
+    [MobClick event:@"rp127-1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self])
     {
         RescueCouponViewController * vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueCouponViewController"];

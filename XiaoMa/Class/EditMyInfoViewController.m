@@ -27,10 +27,20 @@
     [self setupUI];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [MobClick beginEvent:@"rp305"];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     
+    [MobClick endEvent:@"rp305"];
+    //未找到取消按钮的点击事件
+    [MobClick event:@"rp305-1"];
     [SVProgressHUD dismiss];
 }
 
@@ -65,6 +75,7 @@
 #pragma mark - Action
 - (void)requestModifyUserInfo
 {
+    [MobClick event:@"rp305-2"];
     UpdateUserInfoOp * op = [UpdateUserInfoOp operation];
     if (self.type == ModifyNickname)
     {
@@ -97,6 +108,8 @@
 
 - (void)viewTap
 {
+    //进入页面默认响应textfield,需要在delegate写此事件的发送吗？  LYW
+    [MobClick event:@"rp305-3"];
     [self.textFeild becomeFirstResponder];
 }
 

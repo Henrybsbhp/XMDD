@@ -10,7 +10,7 @@
 #import <UIKitExtension.h>
 #import "FeedbackOp.h"
 
-@interface FeedbackVC ()
+@interface FeedbackVC () <UITextViewDelegate>
 //@property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
 @property (weak, nonatomic) IBOutlet UIAPlaceholderTextView *feedbackTextView;
 @property (weak, nonatomic) IBOutlet UIButton *bottomButton;
@@ -35,8 +35,25 @@
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginEvent:@"rp323"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endEvent:@"rp323"];
+}
+
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    [MobClick event:@"rp323-1"];
+}
 
 - (IBAction)actionFeedback:(id)sender {
+    [MobClick event:@"rp323-2"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         FeedbackOp *op = [FeedbackOp new];
         op.req_contactinfo = gAppMgr.myUser.userID;
