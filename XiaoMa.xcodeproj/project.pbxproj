@@ -2822,6 +2822,7 @@
 					"XMDDENT=0",
 				);
 				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
 					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
 					"\"${PODS_ROOT}/Headers/Public/AFNetworking2-RACExtensions\"",
@@ -2836,10 +2837,10 @@
 					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa/ReactiveCocoa\"",
 					"\"${PODS_ROOT}/Headers/Public/SFHFKeychainUtils\"",
 					"\"${PODS_ROOT}/Headers/Public/cdebug\"",
-					"\"${PODS_ROOT}/Headers/Public/ckkit\"",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
 					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
 				);
 				INFOPLIST_FILE = XiaoMa/Misc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -2857,8 +2858,6 @@
 					"-ObjC",
 					"-l\"Pods-AFNetworking\"",
 					"-l\"Pods-AFNetworking2-RACExtensions\"",
-					"-l\"Pods-AMap2DMap\"",
-					"-l\"Pods-AMapSearch\"",
 					"-l\"Pods-CocoaLumberjack\"",
 					"-l\"Pods-FoundationExtension\"",
 					"-l\"Pods-IQKeyboardManager\"",
@@ -2868,7 +2867,6 @@
 					"-l\"Pods-ReactiveCocoa\"",
 					"-l\"Pods-SFHFKeychainUtils\"",
 					"-l\"Pods-cdebug\"",
-					"-l\"Pods-ckkit\"",
 					"-l\"stdc++.6.0.9\"",
 					"-l\"z\"",
 					"-framework",
@@ -2926,6 +2924,7 @@
 					"XMDDENT=0",
 				);
 				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
 					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
 					"\"${PODS_ROOT}/Headers/Public/AFNetworking2-RACExtensions\"",
@@ -2940,10 +2939,10 @@
 					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa/ReactiveCocoa\"",
 					"\"${PODS_ROOT}/Headers/Public/SFHFKeychainUtils\"",
 					"\"${PODS_ROOT}/Headers/Public/cdebug\"",
-					"\"${PODS_ROOT}/Headers/Public/ckkit\"",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
 					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
 				);
 				INFOPLIST_FILE = XiaoMa/Misc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -2961,8 +2960,6 @@
 					"-ObjC",
 					"-l\"Pods-AFNetworking\"",
 					"-l\"Pods-AFNetworking2-RACExtensions\"",
-					"-l\"Pods-AMap2DMap\"",
-					"-l\"Pods-AMapSearch\"",
 					"-l\"Pods-CocoaLumberjack\"",
 					"-l\"Pods-FoundationExtension\"",
 					"-l\"Pods-IQKeyboardManager\"",
@@ -2972,7 +2969,6 @@
 					"-l\"Pods-ReactiveCocoa\"",
 					"-l\"Pods-SFHFKeychainUtils\"",
 					"-l\"Pods-cdebug\"",
-					"-l\"Pods-ckkit\"",
 					"-l\"stdc++.6.0.9\"",
 					"-l\"z\"",
 					"-framework",
