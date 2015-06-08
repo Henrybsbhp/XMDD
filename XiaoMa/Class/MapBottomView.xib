@@ -53,7 +53,7 @@
                         <constraint firstAttribute="height" constant="35" id="7CB-nP-ZsF"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <state key="normal" title="电话" image="nb_phone">
+                    <state key="normal" title="  电话" image="nb_phone">
                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -64,7 +64,7 @@
                         <constraint firstAttribute="height" constant="35" id="y21-f6-jcu"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <state key="normal" title="导航" image="nb_guide">
+                    <state key="normal" title="  导航" image="nb_guide">
                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -75,7 +75,7 @@
                         <constraint firstAttribute="height" constant="35" id="7Ny-8P-5sL"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <state key="normal" title="收藏" image="nb_collection">
+                    <state key="normal" title="  收藏" image="nb_collection">
                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>

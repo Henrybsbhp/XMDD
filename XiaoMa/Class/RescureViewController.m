@@ -26,6 +26,8 @@
 
 - (void)dealloc
 {
+        NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
+        DebugLog(deallocInfo);
     [[NSURLCache sharedURLCache] removeCachedResponseForRequest:self.request];
 }
 

@@ -51,6 +51,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
+}
+
 - (void)setupDatePickerVC
 {
     self.datePickerVC = [MonthPickerVC monthPickerVC];
@@ -59,7 +65,10 @@
 
 - (void)setupHeaderView
 {
+    @weakify(self)
     [RACObserve(gAppMgr, myUser) subscribeNext:^(id x) {
+        
+        @strongify(self)
         self.tableView.tableHeaderView = nil;
         [self.headerContainerView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
         self.headerView.frame = CGRectMake(0, 0, self.view.frame.size.width, 80);
@@ -70,8 +79,10 @@
 
 - (void)reloadHeaderView
 {
+    @weakify(self);
     self.plateSegHelper = [[CKSegmentHelper alloc] init];
     RACSignal *signal = [RACSignal return:nil];
+    
     if (gAppMgr.myUser.carModel) {
         signal = [[signal flattenMap:^RACStream *(id value) {
             return [gAppMgr.myUser.carModel rac_fetchDataIfNeeded];
@@ -79,8 +90,7 @@
             return [queue allObjects];
         }];
     }
-
-    @weakify(self);
+    
     [[signal initially:^{
         
         @strongify(self);
@@ -104,9 +114,10 @@
 
     } error:^(NSError *error) {
         
-        @weakify(self);
+       
         [self.headerContainerView stopActivityAnimation];
-        [self.headerContainerView showIndicatorTextWith:@"获取我的爱车失败，点击重试" clickBlock:^(UIButton *sender) {
+        [self.headerContainerView showIndicatorTextWith:@"获取我的爱车失败，点击重试" clickBlock:^(UIButton *sender)
+         {
             @strongify(self);
             [self reloadHeaderView];
         }];
@@ -115,6 +126,7 @@
 
 - (void)addPlateNumberButtonsToHeaderViewWithCarList:(NSArray *)carList
 {
+    @weakify(self);
     CGFloat spacing = floor((self.view.frame.size.width - 140*2)/3.2);
     UIButton *current;
     for (int i = 0; i < carList.count; i++) {
@@ -122,7 +134,6 @@
         current = [self createButtonWithCar:car index:i];
         [self.headerContainerView addSubview:current];
         id prev = [self.headerContainerView viewWithTag:2001+i-1];
-        @weakify(self);
         //左边的车牌
         if (i % 2 == 0) {
             prev = prev ? [(UIView *)prev mas_bottom] : self.headerContainerView.mas_top;
@@ -418,8 +429,10 @@
             }
         }
     }];
+    
     [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        @strongify(self)
         [self.plateSegHelper selectItem:x];
         [self.view endEditing:YES];
     }];
