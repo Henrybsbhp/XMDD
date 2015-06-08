@@ -32,6 +32,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
+}
+
 - (void)reloadDatasource
 {
     self.commentBtn.hidden = (BOOL)self.order.ratetime;

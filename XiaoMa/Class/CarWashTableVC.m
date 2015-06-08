@@ -240,8 +240,11 @@
         imgV.customObject = ge;
     }
     gesture = imgV.customObject;
+    
+    @weakify(self)
     [[[gesture rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
+        @strongify(self)
         if (ad.adLink.length)
         {
             WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];

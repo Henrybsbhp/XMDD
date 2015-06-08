@@ -46,6 +46,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
+}
+
 //设置日期选择控件（主要是为了事先加载，优化性能）
 - (void)setupDatePicker
 {
