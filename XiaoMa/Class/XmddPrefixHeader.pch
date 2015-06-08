@@ -1,0 +1,17 @@
+//
+//  XmddPrefixHeader.pch
+//  XiaoMa
+//
+//  Created by jt on 15-4-17.
+//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//
+
+#ifndef XiaoMa_XmddPrefixHeader_pch
+#define XiaoMa_XmddPrefixHeader_pch
+
+#import <UIKit/UIKit.h>
+
+#import "XiaoMa.h"
+
+
+#endif

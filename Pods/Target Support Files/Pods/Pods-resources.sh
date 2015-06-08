@@ -6,6 +6,14 @@ mkdir -p "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
 RESOURCES_TO_COPY=${PODS_ROOT}/resources-to-copy-${TARGETNAME}.txt
 > "$RESOURCES_TO_COPY"
 
+XCASSET_FILES=()
+
+realpath() {
+  DIRECTORY=$(cd "${1%/*}" && pwd)
+  FILENAME="${1##*/}"
+  echo "$DIRECTORY/$FILENAME"
+}
+
 install_resource()
 {
   case $1 in
@@ -36,6 +44,8 @@ install_resource()
       xcrun mapc "${PODS_ROOT}/$1" "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename "$1" .xcmappingmodel`.cdm"
       ;;
     *.xcassets)
+      ABSOLUTE_XCASSET_FILE=$(realpath "${PODS_ROOT}/$1")
+      XCASSET_FILES+=("$ABSOLUTE_XCASSET_FILE")
       ;;
     /*)
       echo "$1"
@@ -47,68 +57,64 @@ install_resource()
       ;;
   esac
 }
-          install_resource "IQKeyboardManager/IQKeyBoardManager/Resources/IQKeyboardManager.bundle"
-                    install_resource "ckkit/Classes/CKCategory/CKCategory.h"
-                    install_resource "ckkit/Classes/CKCategory/NSArray+Encoding.h"
-                    install_resource "ckkit/Classes/CKCategory/NSArray+Encoding.m"
-                    install_resource "ckkit/Classes/CKCategory/NSArray+Safety.h"
-                    install_resource "ckkit/Classes/CKCategory/NSArray+Safety.m"
-                    install_resource "ckkit/Classes/CKCategory/NSData+JSON.h"
-                    install_resource "ckkit/Classes/CKCategory/NSData+JSON.m"
-                    install_resource "ckkit/Classes/CKCategory/NSDictionary+Encoding.h"
-                    install_resource "ckkit/Classes/CKCategory/NSDictionary+Encoding.m"
-                    install_resource "ckkit/Classes/CKCategory/NSMutableDictionary+Safety.h"
-                    install_resource "ckkit/Classes/CKCategory/NSMutableDictionary+Safety.m"
-                    install_resource "ckkit/Classes/CKCategory/NSObject+AutoConvertValue.h"
-                    install_resource "ckkit/Classes/CKCategory/NSObject+AutoConvertValue.m"
-                    install_resource "ckkit/Classes/CKCategory/NSObject+Notify.h"
-                    install_resource "ckkit/Classes/CKCategory/NSObject+Notify.m"
-                    install_resource "ckkit/Classes/CKCategory/NSObject+Runtime.h"
-                    install_resource "ckkit/Classes/CKCategory/NSObject+Runtime.m"
-                    install_resource "ckkit/Classes/CKCategory/NSString+CKExpansion.h"
-                    install_resource "ckkit/Classes/CKCategory/NSString+CKExpansion.m"
-                    install_resource "ckkit/Classes/CKCategory/NSString+Compare.h"
-                    install_resource "ckkit/Classes/CKCategory/NSString+Compare.m"
-                    install_resource "ckkit/Classes/CKCategory/NSString+Path.h"
-                    install_resource "ckkit/Classes/CKCategory/NSString+Path.m"
-                    install_resource "ckkit/Classes/CKCategory/NSString+Safety.h"
-                    install_resource "ckkit/Classes/CKCategory/NSString+Safety.m"
-                    install_resource "ckkit/Classes/CKCategory/UIColor+ColorWithHexString.h"
-                    install_resource "ckkit/Classes/CKCategory/UIColor+ColorWithHexString.m"
-                    install_resource "ckkit/Classes/CKCategory/UIImage+Utility.h"
-                    install_resource "ckkit/Classes/CKCategory/UIImage+Utility.m"
-                    install_resource "ckkit/Classes/CKCategory/UIImagePickerController+Expansion.h"
-                    install_resource "ckkit/Classes/CKCategory/UIImagePickerController+Expansion.m"
-                    install_resource "ckkit/Classes/CKCategory/UIViewController+Coordinate.h"
-                    install_resource "ckkit/Classes/CKCategory/UIViewController+Coordinate.m"
-                    install_resource "ckkit/Classes/CKDataset/CKDataset.h"
-                    install_resource "ckkit/Classes/CKDataset/CKMap.h"
-                    install_resource "ckkit/Classes/CKDataset/CKMap.m"
-                    install_resource "ckkit/Classes/CKDataset/CKTreeNode.h"
-                    install_resource "ckkit/Classes/CKDataset/CKTreeNode.m"
-                    install_resource "ckkit/Classes/CKKit.h"
-                    install_resource "ckkit/Classes/CKUtility/CKMethods.h"
-                    install_resource "ckkit/Classes/CKUtility/CKMethods.m"
-                    install_resource "ckkit/Classes/CKUtility/CKPaths.h"
-                    install_resource "ckkit/Classes/CKUtility/CKPaths.m"
-                    install_resource "ckkit/Classes/CKUtility/CKSegmentHelper.h"
-                    install_resource "ckkit/Classes/CKUtility/CKSegmentHelper.m"
-                    install_resource "ckkit/Classes/CKUtility/CKUtility.h"
-                    install_resource "ckkit/Classes/CKView/CKShadowView.h"
-                    install_resource "ckkit/Classes/CKView/CKShadowView.m"
-                    install_resource "ckkit/Classes/CKView/CKView.h"
-                    install_resource "ckkit/Classes/CKCategory"
-                    install_resource "ckkit/Classes/CKDataset"
-                    install_resource "ckkit/Classes/CKUtility"
-                    install_resource "ckkit/Classes/CKView"
-          
+if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_resource "AMap2DMap/MAMapKit.framework/Versions/2.4.2.19ad4bb/Resources/AMap.bundle"
+  install_resource "IQKeyboardManager/IQKeyBoardManager/Resources/IQKeyboardManager.bundle"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowDown.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowDown@2x.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowDownRight.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowDownRight@2x.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowSide.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowSide@2x.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowSideBottom.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowSideBottom@2x.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowSideTop.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowSideTop@2x.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowUp.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowUp@2x.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowUpRight.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowUpRight@2x.png"
+  install_resource "UI7Kit/Resources/UI7NavigationBarBackButton.png"
+  install_resource "UI7Kit/Resources/UI7NavigationBarBackButton@2x.png"
+  install_resource "UI7Kit/Resources/UI7SliderThumb.png"
+  install_resource "UI7Kit/Resources/UI7SliderThumb@2x.png"
+  install_resource "UI7Kit/Resources/UITabBarMostRecentTemplate.png"
+  install_resource "UI7Kit/Resources/UITabBarMostRecentTemplate@2x.png"
+  install_resource "${BUILT_PRODUCTS_DIR}/CKKit.bundle"
+fi
+if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_resource "AMap2DMap/MAMapKit.framework/Versions/2.4.2.19ad4bb/Resources/AMap.bundle"
+  install_resource "IQKeyboardManager/IQKeyBoardManager/Resources/IQKeyboardManager.bundle"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowDown.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowDown@2x.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowDownRight.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowDownRight@2x.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowSide.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowSide@2x.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowSideBottom.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowSideBottom@2x.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowSideTop.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowSideTop@2x.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowUp.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowUp@2x.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowUpRight.png"
+  install_resource "UI7Kit/Resources/PopoverBackgroundArrowUpRight@2x.png"
+  install_resource "UI7Kit/Resources/UI7NavigationBarBackButton.png"
+  install_resource "UI7Kit/Resources/UI7NavigationBarBackButton@2x.png"
+  install_resource "UI7Kit/Resources/UI7SliderThumb.png"
+  install_resource "UI7Kit/Resources/UI7SliderThumb@2x.png"
+  install_resource "UI7Kit/Resources/UITabBarMostRecentTemplate.png"
+  install_resource "UI7Kit/Resources/UITabBarMostRecentTemplate@2x.png"
+  install_resource "${BUILT_PRODUCTS_DIR}/CKKit.bundle"
+fi
+
 rsync -avr --copy-links --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
 if [[ "${ACTION}" == "install" ]]; then
   rsync -avr --copy-links --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "${INSTALL_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
 fi
 rm -f "$RESOURCES_TO_COPY"
 
-if [[ -n "${WRAPPER_EXTENSION}" ]] && [ "`xcrun --find actool`" ] && [ `find . -name '*.xcassets' | wc -l` -ne 0 ]
+if [[ -n "${WRAPPER_EXTENSION}" ]] && [ "`xcrun --find actool`" ] && [ -n "$XCASSET_FILES" ]
 then
   case "${TARGETED_DEVICE_FAMILY}" in
     1,2)
@@ -124,5 +130,14 @@ then
       TARGET_DEVICE_ARGS="--target-device mac"
       ;;
   esac
-  find "${PWD}" -name "*.xcassets" -print0 | xargs -0 actool --output-format human-readable-text --notices --warnings --platform "${PLATFORM_NAME}" --minimum-deployment-target "${IPHONEOS_DEPLOYMENT_TARGET}" ${TARGET_DEVICE_ARGS} --compress-pngs --compile "${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
+
+  # Find all other xcassets (this unfortunately includes those of path pods and other targets).
+  OTHER_XCASSETS=$(find "$PWD" -iname "*.xcassets" -type d)
+  while read line; do
+    if [[ $line != "`realpath $PODS_ROOT`*" ]]; then
+      XCASSET_FILES+=("$line")
+    fi
+  done <<<"$OTHER_XCASSETS"
+
+  printf "%s\0" "${XCASSET_FILES[@]}" | xargs -0 xcrun actool --output-format human-readable-text --notices --warnings --platform "${PLATFORM_NAME}" --minimum-deployment-target "${IPHONEOS_DEPLOYMENT_TARGET}" ${TARGET_DEVICE_ARGS} --compress-pngs --compile "${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
 fi

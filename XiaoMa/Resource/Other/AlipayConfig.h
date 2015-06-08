@@ -1,0 +1,41 @@
+//
+//  alipayConfig.h
+//  HappyTrain
+//
+//  Created by jt on 14-10-23.
+//  Copyright (c) 2014年 jtang. All rights reserved.
+//
+
+//合作身份者id，以2088开头的16位纯数字
+//2088101921338918(jt)
+//2088111055254330(mn)
+#define PartnerID @"2088911299783041"
+//收款支付宝账号
+#define SellerID  @"2088911299783041"
+
+//安全校验码（MD5）密钥，以数字和字母组成的32位字符
+#define MD5_KEY @"ldkenb2rhxsjtiogkei9p066s3dr829o"
+
+
+
+//商户私钥，自助生成
+//#define PartnerPrivKey @"MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBALV5sHzN6jG9MHZC\
+//h3RDL3vto+XwnmLisFce6oYU3ZtBWW2Z17wnEPCCfAGHV4GtHwk11kDn/W5pFcvK\
+//3lnSyC9B5+5R0EF8duYPtqMFuJfC+j4VH8leW/sxQx6rNKqFnIiqeFj9lHKGdHxo\
+//16+BOP0E5GYEHwSh6XovrGxytfoNAgMBAAECgYAFcPGevFnSRfbnBNWk4cLRt21b\
+//npxRILTi19V2UbfXSN1SkPNL++vhGjh3n0Q7aiJtF0UmSw5pOhNiOeHy1YQVAbpu\
+//Twh8Xe9zZxdw8VacQtP6RXMLSeeV8ufK5o02ZpEOGlDvJ8W8u9WVTEcr50LfRnE5\
+//teaQ9K3CRcuFIp5UgQJBANuKXe9fCypf9M1B2w9IhQoaEyqFdUL9IUQxLc5XE0t9\
+//sEByNZAp7UeNMmJSbCc+Du26D8G9QzIoP0PazjxrWq0CQQDTnQFoM4mlGgZsr+x4\
+//QTl9C8xoaYH43NncsEGXaWMk01N69J6Ug5k7/vuddCw8Tj1Ce73yF+fWUn+jBPUX\
+//OWjhAkAAyz5NuE1FCPXMrDlLk9qPT8rT84maBWpSYc8lmOED+99gTElvTQeDo7oT\
+//6vJjLfFF4M9fxvxwOP8Jksf+JfE9AkBrHoQy0jvwJo9v/1Htwd6vDQTpKdeQOYPT\
+//MinR0phMcOlGSYPo3AD6nOWT29X0pQpfmDIb1bwXAuX3iK/klLwhAkA0rNG2mD1A\
+//HFr8cEmcyhZ1qQGkaKpb+tjKBCWZZROXOqOwOc8CWYsWDrPMQX+IKydvfD1b6LZo\
+//s84rl3pf0sQq"
+
+#define PartnerPrivKey @"MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEA1r88dOztRfHtSmfhbgzQ/LNh6Rwv9KBJB9q5SA3ql+HdJQlsvKrwXbUUCHzp0/nlSujLdFFZG2OYTtuIZsFA9wIDAQABAkEAmkPgg0JcJL3pL2U2fN76Fj4qnNHh5UJrlBfct9U/bADEtLrU6EhpMIl+b0kTww822glg0PVUDmwWKbOG4tRd+QIhAPTLO8DyD3bKN92bHxFcsqJX5X3Cmcnbk9ZmYjSXa7m7AiEA4JPhVeyxwB6JlsG35gbYBKdqzKgQe0+JWOszLD5U8/UCIAtItwds4RObvLmFZgg52q4rGRQT/VzVt1nhvFMqS7fzAiEApd7znvgsrT6g1vWLs104re9NpY04ZytuwXsul64OJwUCIDNeH4Y4msE4XZa8b/G7MWfUpDQOaTzxCDk9Q7c7ZCNn"
+
+
+//支付宝公钥
+#define AlipayPubKey   @"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB"

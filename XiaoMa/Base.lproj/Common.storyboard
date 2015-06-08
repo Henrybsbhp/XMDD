@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+    </dependencies>
+    <scenes>
+        <!--Date PickerVC-->
+        <scene sceneID="zKv-x6-Xf8">
+            <objects>
+                <viewController storyboardIdentifier="DatePickerVC" id="5lM-DM-CEO" customClass="DatePickerVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="URp-A3-mzx"/>
+                        <viewControllerLayoutGuide type="bottom" id="BHa-T2-fAk"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="tdy-js-ffU">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1G5-Gn-3rv">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <items>
+                                    <barButtonItem width="10" style="plain" systemItem="fixedSpace" id="2wo-NK-Wly"/>
+                                    <barButtonItem title="取消" id="DgD-4U-6fw">
+                                        <color key="tintColor" red="0.26274509800000001" green="0.64313725489999995" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <action selector="actionCancel:" destination="5lM-DM-CEO" id="mCf-WI-6XI"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="TwX-6P-68l"/>
+                                    <barButtonItem title="确定" id="Mea-0u-MrP">
+                                        <color key="tintColor" red="0.26274509800000001" green="0.64313725489999995" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <action selector="actionEnsure:" destination="5lM-DM-CEO" id="w2b-YV-rsY"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="10" style="plain" systemItem="fixedSpace" id="cbH-hk-0jM"/>
+                                </items>
+                            </toolbar>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="7rH-A6-1fD">
+                                <rect key="frame" x="0.0" y="44" width="320" height="162"/>
+                                <date key="date" timeIntervalSinceReferenceDate="445175246.17448097">
+                                    <!--2015-02-09 11:47:26 +0000-->
+                                </date>
+                                <locale key="locale" localeIdentifier="zh_CN"/>
+                            </datePicker>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="7rH-A6-1fD" secondAttribute="trailing" id="DUh-5l-Hum"/>
+                            <constraint firstItem="1G5-Gn-3rv" firstAttribute="leading" secondItem="tdy-js-ffU" secondAttribute="leading" id="SMa-n2-UZu"/>
+                            <constraint firstItem="7rH-A6-1fD" firstAttribute="top" secondItem="1G5-Gn-3rv" secondAttribute="bottom" id="cUM-Fe-DRL"/>
+                            <constraint firstItem="7rH-A6-1fD" firstAttribute="leading" secondItem="tdy-js-ffU" secondAttribute="leading" id="gAS-mZ-63J"/>
+                            <constraint firstAttribute="trailing" secondItem="1G5-Gn-3rv" secondAttribute="trailing" id="gNN-iv-6vJ"/>
+                            <constraint firstItem="1G5-Gn-3rv" firstAttribute="top" secondItem="URp-A3-mzx" secondAttribute="bottom" id="utd-fH-ORP"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="250"/>
+                    <connections>
+                        <outlet property="cancelItem" destination="DgD-4U-6fw" id="Y7J-KU-8vQ"/>
+                        <outlet property="datePicker" destination="7rH-A6-1fD" id="DfD-di-Egs"/>
+                        <outlet property="ensureItem" destination="Mea-0u-MrP" id="0NP-pX-y4H"/>
+                        <outlet property="toolBar" destination="1G5-Gn-3rv" id="xJ4-zH-6EK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hSJ-cK-7gN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="416" y="1117"/>
+        </scene>
+        <!--Month PickerVC-->
+        <scene sceneID="qek-8r-9jW">
+            <objects>
+                <viewController storyboardIdentifier="MonthPickerVC" id="pWc-qQ-Stb" customClass="MonthPickerVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fTc-yg-uvb"/>
+                        <viewControllerLayoutGuide type="bottom" id="A7t-kV-YCI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ESx-Tv-TqU">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hhw-HO-yWU">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <items>
+                                    <barButtonItem width="10" style="plain" systemItem="fixedSpace" id="IlU-wB-I47"/>
+                                    <barButtonItem title="取消" id="81w-WL-QUF">
+                                        <color key="tintColor" red="0.26274509800000001" green="0.64313725489999995" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <action selector="actionCancel:" destination="pWc-qQ-Stb" id="6Ph-gS-NJ0"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="12y-59-rbS"/>
+                                    <barButtonItem title="确定" id="ow8-r4-8Et">
+                                        <color key="tintColor" red="0.26274509800000001" green="0.64313725489999995" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <action selector="actionEnsure:" destination="pWc-qQ-Stb" id="qCs-gX-vih"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="10" style="plain" systemItem="fixedSpace" id="U8N-NN-0Mc"/>
+                                </items>
+                                <color key="tintColor" red="0.1960784314" green="0.64401223780000005" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                            </toolbar>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ug1-Zn-7Vt" customClass="SRMonthPicker">
+                                <rect key="frame" x="0.0" y="44" width="320" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="pWc-qQ-Stb" id="IAR-Zd-jLm"/>
+                                    <outlet property="delegate" destination="pWc-qQ-Stb" id="DdI-nz-sHx"/>
+                                </connections>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ug1-Zn-7Vt" firstAttribute="leading" secondItem="ESx-Tv-TqU" secondAttribute="leading" id="NP5-ZO-pbT"/>
+                            <constraint firstItem="Hhw-HO-yWU" firstAttribute="leading" secondItem="ESx-Tv-TqU" secondAttribute="leading" id="dCi-yn-SOB"/>
+                            <constraint firstAttribute="trailing" secondItem="ug1-Zn-7Vt" secondAttribute="trailing" id="gGd-rP-CBS"/>
+                            <constraint firstItem="ug1-Zn-7Vt" firstAttribute="top" secondItem="Hhw-HO-yWU" secondAttribute="bottom" id="gSO-gA-Y4q"/>
+                            <constraint firstItem="Hhw-HO-yWU" firstAttribute="top" secondItem="fTc-yg-uvb" secondAttribute="bottom" id="wHt-s9-1eu"/>
+                            <constraint firstAttribute="trailing" secondItem="Hhw-HO-yWU" secondAttribute="trailing" id="xCB-yQ-Kr3"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="250"/>
+                    <connections>
+                        <outlet property="pickerView" destination="ug1-Zn-7Vt" id="aJl-MH-Au5"/>
+                        <outlet property="toolBar" destination="Hhw-HO-yWU" id="eg8-Hg-0rD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xiz-bY-GFV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="806" y="1117"/>
+        </scene>
+        <!--WebVC-->
+        <scene sceneID="Uba-C9-baA">
+            <objects>
+                <viewController storyboardIdentifier="WebVC" hidesBottomBarWhenPushed="YES" id="d4o-55-8E1" customClass="WebVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="NtD-mu-AxL"/>
+                        <viewControllerLayoutGuide type="bottom" id="VAM-hK-YLp"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bUE-Qe-XGJ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gtq-La-1Ns">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="gtq-La-1Ns" secondAttribute="trailing" id="CVL-yV-Q5v"/>
+                            <constraint firstItem="VAM-hK-YLp" firstAttribute="bottom" secondItem="gtq-La-1Ns" secondAttribute="bottom" id="HIV-Yv-q40"/>
+                            <constraint firstItem="gtq-La-1Ns" firstAttribute="leading" secondItem="bUE-Qe-XGJ" secondAttribute="leading" id="amT-xZ-tDT"/>
+                            <constraint firstItem="gtq-La-1Ns" firstAttribute="top" secondItem="NtD-mu-AxL" secondAttribute="bottom" id="vgC-jb-zRe"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="gtq-La-1Ns" id="QTa-cs-pTI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="d9m-UJ-iRM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="556" y="1642"/>
+        </scene>
+        <!--Social Share View Controller-->
+        <scene sceneID="JX9-Tb-Nnt">
+            <objects>
+                <viewController storyboardIdentifier="SocialShareViewController" id="2qk-Gb-dUL" customClass="SocialShareViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eK9-ZL-eC6"/>
+                        <viewControllerLayoutGuide type="bottom" id="Xil-KC-fgV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wmd-Ny-P1r" customClass="SocialShareView">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LWm-w8-2al" userLabel="wechatfriend">
+                                <rect key="frame" x="92" y="60" width="37" height="37"/>
+                                <state key="normal" image="wechat_logo">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6co-Md-eFf" userLabel="timeline">
+                                <rect key="frame" x="217" y="60" width="37" height="37"/>
+                                <state key="normal" image="timeline_logo">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bCB-FY-MQy" userLabel="weibo">
+                                <rect key="frame" x="347" y="60" width="37" height="37"/>
+                                <state key="normal" image="weibo_logo">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZGu-xV-nx2" userLabel="qq">
+                                <rect key="frame" x="472" y="60" width="37" height="37"/>
+                                <state key="normal" image="qq_logo">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GSO-pY-EgS" userLabel="cancel">
+                                <rect key="frame" x="283" y="143" width="35" height="35"/>
+                                <state key="normal" image="cancel_social">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微信好友" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gr8-S3-fue">
+                                <rect key="frame" x="84" y="107" width="52" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="朋友圈" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6cH-EG-JkO">
+                                <rect key="frame" x="216" y="107" width="39" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微博" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dr1-mk-2se">
+                                <rect key="frame" x="352" y="107" width="26" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享到" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oxB-ym-Fgx">
+                                <rect key="frame" x="275" y="20" width="51" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.3294117647" green="0.3294117647" blue="0.3294117647" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="QQ" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bwj-57-pYu">
+                                <rect key="frame" x="480" y="107" width="21" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="LWm-w8-2al" firstAttribute="centerX" secondItem="gr8-S3-fue" secondAttribute="centerX" id="7RZ-XA-6S3"/>
+                            <constraint firstItem="6cH-EG-JkO" firstAttribute="centerX" secondItem="6co-Md-eFf" secondAttribute="centerX" id="EuA-eV-ybh"/>
+                            <constraint firstAttribute="centerX" secondItem="oxB-ym-Fgx" secondAttribute="centerX" id="FJ3-Nj-394"/>
+                            <constraint firstItem="ZGu-xV-nx2" firstAttribute="centerX" secondItem="bwj-57-pYu" secondAttribute="centerX" id="LLp-8R-fkr"/>
+                            <constraint firstItem="6cH-EG-JkO" firstAttribute="centerY" secondItem="gr8-S3-fue" secondAttribute="centerY" id="Pht-bH-9Jg"/>
+                            <constraint firstItem="oxB-ym-Fgx" firstAttribute="top" secondItem="wmd-Ny-P1r" secondAttribute="top" constant="20" id="QwC-NV-Dzz"/>
+                            <constraint firstItem="GSO-pY-EgS" firstAttribute="top" secondItem="gr8-S3-fue" secondAttribute="bottom" constant="20" id="RHO-aT-Nkd"/>
+                            <constraint firstAttribute="centerX" secondItem="GSO-pY-EgS" secondAttribute="centerX" id="Vbk-4h-DfZ"/>
+                            <constraint firstItem="LWm-w8-2al" firstAttribute="centerX" secondItem="wmd-Ny-P1r" secondAttribute="centerX" multiplier="2/5" constant="-10" id="Vel-55-ZUV"/>
+                            <constraint firstItem="LWm-w8-2al" firstAttribute="top" secondItem="wmd-Ny-P1r" secondAttribute="top" constant="60" id="VwW-vD-jTg"/>
+                            <constraint firstItem="6co-Md-eFf" firstAttribute="centerX" secondItem="wmd-Ny-P1r" secondAttribute="centerX" multiplier="4/5" constant="-5" id="WfC-zs-iDS"/>
+                            <constraint firstItem="LWm-w8-2al" firstAttribute="centerY" secondItem="6co-Md-eFf" secondAttribute="centerY" id="Zna-x2-Ry9"/>
+                            <constraint firstItem="Dr1-mk-2se" firstAttribute="centerY" secondItem="gr8-S3-fue" secondAttribute="centerY" id="a9k-4E-MKf"/>
+                            <constraint firstItem="gr8-S3-fue" firstAttribute="top" secondItem="LWm-w8-2al" secondAttribute="bottom" constant="10" id="bBe-vI-Raz"/>
+                            <constraint firstItem="ZGu-xV-nx2" firstAttribute="centerY" secondItem="LWm-w8-2al" secondAttribute="centerY" id="bNJ-Ag-Ofh"/>
+                            <constraint firstItem="bCB-FY-MQy" firstAttribute="centerX" secondItem="Dr1-mk-2se" secondAttribute="centerX" id="djb-gi-Ew1"/>
+                            <constraint firstItem="bCB-FY-MQy" firstAttribute="centerX" secondItem="wmd-Ny-P1r" secondAttribute="centerX" multiplier="6/5" constant="5" id="h7m-EJ-neH"/>
+                            <constraint firstItem="bCB-FY-MQy" firstAttribute="centerY" secondItem="LWm-w8-2al" secondAttribute="centerY" id="nyd-dB-7jO"/>
+                            <constraint firstItem="ZGu-xV-nx2" firstAttribute="centerX" secondItem="wmd-Ny-P1r" secondAttribute="centerX" multiplier="8/5" constant="10" id="oyo-QW-2JH"/>
+                            <constraint firstItem="bwj-57-pYu" firstAttribute="centerY" secondItem="gr8-S3-fue" secondAttribute="centerY" id="vKD-JX-eKB"/>
+                        </constraints>
+                        <connections>
+                            <outlet property="cancelBtn" destination="GSO-pY-EgS" id="Nin-TR-htm"/>
+                            <outlet property="qqBtn" destination="ZGu-xV-nx2" id="s2c-Kf-sAb"/>
+                            <outlet property="timelineBtn" destination="6co-Md-eFf" id="xpf-lW-eZb"/>
+                            <outlet property="wechatBtn" destination="LWm-w8-2al" id="i8F-3u-Hxp"/>
+                            <outlet property="weiboBtn" destination="bCB-FY-MQy" id="Nie-q2-1hU"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="cancelBtn" destination="GSO-pY-EgS" id="6V7-ky-sFN"/>
+                        <outlet property="qqBtn" destination="ZGu-xV-nx2" id="b8d-8c-w8V"/>
+                        <outlet property="timelineBrn" destination="6co-Md-eFf" id="Nft-H6-eGJ"/>
+                        <outlet property="wechatBtn" destination="LWm-w8-2al" id="085-Pc-2mI"/>
+                        <outlet property="weiboBtn" destination="bCB-FY-MQy" id="rEr-0b-3rJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6yK-CS-H04" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="cancel_social" width="35" height="35"/>
+        <image name="qq_logo" width="37" height="37"/>
+        <image name="timeline_logo" width="37" height="37"/>
+        <image name="wechat_logo" width="37" height="37"/>
+        <image name="weibo_logo" width="37" height="37"/>
+    </resources>
+</document>
