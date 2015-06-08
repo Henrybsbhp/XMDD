@@ -193,9 +193,9 @@
 #pragma mark - Action
 - (void)editActions:(id)sender
 {
-    if (self.isEditing)
+    if (self.isEditing && sender)
         [MobClick event:@"rp316-5"];
-    else
+    if (!self.isEditing)
         [MobClick event:@"rp316-1"];
     self.isEditing = !self.isEditing;
     

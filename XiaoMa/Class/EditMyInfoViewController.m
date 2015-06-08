@@ -10,7 +10,7 @@
 #import "UIView+Layer.h"
 #import "UpdateUserInfoOp.h"
 
-@interface EditMyInfoViewController ()
+@interface EditMyInfoViewController () <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLb;
 @property (weak, nonatomic) IBOutlet UITextField *textFeild;
@@ -40,7 +40,7 @@
     
     [MobClick endLogPageView:@"rp305"];
     //未找到取消按钮的点击事件
-    [MobClick event:@"rp305-1"];
+    //[MobClick event:@"rp305-1"];
     [SVProgressHUD dismiss];
 }
 
@@ -56,6 +56,8 @@
     self.navigationItem.rightBarButtonItem = commitBtn;
     
     self.navigationItem.title = self.naviTitle;
+    
+    self.textFeild.delegate = self;
 }
 
 - (void)setupUI
@@ -108,9 +110,12 @@
 
 - (void)viewTap
 {
-    //进入页面默认响应textfield,需要在delegate写此事件的发送吗？  LYW
-    [MobClick event:@"rp305-3"];
     [self.textFeild becomeFirstResponder];
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [MobClick event:@"rp305-3"];
 }
 
 @end

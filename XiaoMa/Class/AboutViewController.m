@@ -118,13 +118,13 @@
 
 - (void)callCustomerService
 {
-    [MobClick event:@"rp322-2"];
+    [MobClick event:@"rp322-3"];
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"呼叫客服"];
 }
 
 - (void)gotoFeedback
 {
-    [MobClick event:@"rp322-3"];
+    [MobClick event:@"rp322-2"];
     FeedbackVC *vc = [UIStoryboard vcWithId:@"FeedbackVC" inStoryboard:@"About"];
     [self.navigationController pushViewController:vc animated:YES];
 }

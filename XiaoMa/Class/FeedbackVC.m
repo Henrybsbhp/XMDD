@@ -23,6 +23,7 @@
     [super viewDidLoad];
 
     //设置textView
+    self.feedbackTextView.delegate = self;
     self.feedbackTextView.placeholderString = @"有什么建议或意见,欢迎您提供给我们,谢谢!";
     self.feedbackTextView.placeholderTextView.textColor = HEXCOLOR(@"#c5c5cb");
     
@@ -49,6 +50,7 @@
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
+    //首次编辑会执行两次？  LYW
     [MobClick event:@"rp323-1"];
 }
 

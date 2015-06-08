@@ -75,7 +75,7 @@
 #pragma mark - Textfield
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [MobClick endLogPageView:@"rp124-1"];
+    [MobClick event:@"rp124-1"];
 }
 
 #pragma mark - Action

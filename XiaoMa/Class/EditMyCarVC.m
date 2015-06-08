@@ -244,7 +244,7 @@
 {
     //购车时间
     if (indexPath.row == 1) {
-        [MobClick event:@"rp124-3"];
+        [MobClick event:@"rp312-3"];
         [self.view endEditing:YES];
         self.datePicker.maximumDate = [NSDate date];
         
@@ -258,7 +258,7 @@
     }
     //保险到期日
     else if (indexPath.row == 6) {
-        [MobClick event:@"rp124-8"];
+        [MobClick event:@"rp312-8"];
         [self.view endEditing:YES];
         @weakify(self);
         self.datePicker.maximumDate = nil;
@@ -271,7 +271,7 @@
     }
     //汽车品牌
     else if (indexPath.row == 2) {
-        [MobClick event:@"rp124-4"];
+        [MobClick event:@"rp312-4"];
         [self.view endEditing:YES];
         PickerAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
         vc.originVC = self;
@@ -283,7 +283,7 @@
     }
     //具体车系
     else if (indexPath.row == 3) {
-        [MobClick event:@"rp124-5"];
+        [MobClick event:@"rp312-5"];
         [self.view endEditing:YES];
         PickerAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
         vc.originVC = self;
@@ -414,7 +414,7 @@
     switchV.on = self.curCar.isDefault;
     @weakify(self);
     [[switchV rac_newOnChannel] subscribeNext:^(NSNumber *x) {
-        [MobClick event:@"rp124-10"];
+        [MobClick event:@"rp312-10"];
         @strongify(self);
         BOOL on = [x boolValue];
         self.curCar.isDefault = on;
@@ -428,16 +428,16 @@
 {
     NSIndexPath *indexPath = textField.customObject;
     if (indexPath.row == 0) {
-        [MobClick event:@"rp124-2"];
+        [MobClick event:@"rp312-2"];
     }
     else if (indexPath.row == 4) {
-        [MobClick event:@"rp124-6"];
+        [MobClick event:@"rp312-6"];
     }
     else if (indexPath.row == 5) {
-        [MobClick event:@"rp124-7"];
+        [MobClick event:@"rp312-7"];
     }
     else if (indexPath.row == 7) {
-        [MobClick event:@"rp124-9"];
+        [MobClick event:@"rp312-9"];
     }
 }
 

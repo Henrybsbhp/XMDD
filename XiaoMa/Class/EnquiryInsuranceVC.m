@@ -270,6 +270,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     //修改提车时间
     if (indexPath.row == 3) {
+        [MobClick event:@"rp115-6"];
         [self.view endEditing:YES];
         [self pickDate];
     }
@@ -396,9 +397,6 @@
     }
     else if (textField.customTag == 2) {
         [MobClick event:@"rp115-5"];
-    }
-    else {
-        [MobClick event:@"rp115-6"];
     }
 }
 

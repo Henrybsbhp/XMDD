@@ -469,12 +469,14 @@
         @weakify(self)
         [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
+            [MobClick event:@"rp201-4"];
             @strongify(self)
             [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:gMapHelper.coordinate andView:self.view];
         }];
         
         [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
+            [MobClick event:@"rp201-5"];
             if (shop.shopPhone.length == 0)
             {
                 UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
@@ -531,7 +533,8 @@
     
     if (self.isSearching)
     {
-        [MobClick event:@"rp103-3"];
+        //搜索到商户点击进入详情使用rp201-3，-4，-5同理。  LYW
+        [MobClick event:@"rp201-3"];
         JTShop * shop = [self.resultArray safetyObjectAtIndex:indexPath.row];
         ShopDetailVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ShopDetailVC"];
         vc.shop = shop;
@@ -550,6 +553,7 @@
             [self cleanHistory];
             return;
         }
+        [MobClick event:@"rp103-3"];
         NSString * content = [self.historyArray safetyObjectAtIndex:indexPath.row - 1];
         self.searchBar.text = content;
     }

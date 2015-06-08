@@ -203,8 +203,6 @@
 
 - (void)gotoPaymentVCWithService:(JTShopService *)service
 {
-    [MobClick event:@"rp105-6"];
-    //首先读取爱车缓存，个人爱车数组不为空或者数量大于0时跳转支付，否则跳转到添加爱车，对应问题7317  LYW
     [[[gAppMgr.myUser.carModel rac_fetchDataIfNeeded] catch:^RACSignal *(NSError *error) {
         
         return [RACSignal return:nil];
@@ -465,6 +463,7 @@
     @weakify(self)
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp105-4"];
         @strongify(self)
 //        [gPhoneHelper navigationRedirectThirdMap:self.shop andUserLocation:gMapHelper.coordinate andView:self.view];
         CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
@@ -523,7 +522,7 @@
     
     @weakify(self);
     [[[payB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        [MobClick event:@"rp105-7"];
+        [MobClick event:@"rp105-6"];
         @strongify(self);
         if([LoginViewModel loginIfNeededForTargetViewController:self]) {
             [self gotoPaymentVCWithService:service];
@@ -539,6 +538,7 @@
     UIButton *btn = (UIButton *)[cell.contentView viewWithTag:1001];
     @weakify(self);
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        [MobClick event:@"rp105-7"];
         @strongify(self);
         
         self.serviceExpanded = YES;
