@@ -267,7 +267,7 @@
     [[[gesture rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
         NSString * eventstr = [NSString stringWithFormat:@"rp102-6.%ld", pageIndex];
-        [MobClick endEvent:eventstr];
+        [MobClick endLogPageView:eventstr];
         //缺少默认广告？ LYW
         if (ad.adLink.length)
         {

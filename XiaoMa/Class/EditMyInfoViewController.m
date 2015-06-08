@@ -31,14 +31,14 @@
 {
     [super viewWillAppear:animated];
     
-    [MobClick beginEvent:@"rp305"];
+    [MobClick beginLogPageView:@"rp305"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     
-    [MobClick endEvent:@"rp305"];
+    [MobClick endLogPageView:@"rp305"];
     //未找到取消按钮的点击事件
     [MobClick event:@"rp305-1"];
     [SVProgressHUD dismiss];

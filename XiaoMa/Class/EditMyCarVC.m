@@ -50,13 +50,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [MobClick beginEvent:@"rp312"];
+    [MobClick beginLogPageView:@"rp312"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endEvent:@"rp312"];
+    [MobClick endLogPageView:@"rp312"];
 }
 
 //设置日期选择控件（主要是为了事先加载，优化性能）

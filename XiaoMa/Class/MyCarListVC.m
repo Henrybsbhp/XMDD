@@ -38,7 +38,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [MobClick beginEvent:@"rp309"];
+    [MobClick beginLogPageView:@"rp309"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
@@ -46,7 +46,7 @@
 {
     [super viewWillDisappear:animated];
     
-    [MobClick endEvent:@"rp309"];
+    [MobClick endLogPageView:@"rp309"];
 }
 
 - (void)setupSignals

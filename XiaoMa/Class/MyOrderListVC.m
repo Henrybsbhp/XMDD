@@ -27,7 +27,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [MobClick beginEvent:@"rp318"];
+    [MobClick beginLogPageView:@"rp318"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
@@ -35,7 +35,7 @@
 {
     [super viewWillDisappear:animated];
     
-    [MobClick endEvent:@"rp318"];
+    [MobClick endLogPageView:@"rp318"];
 }
 
 - (void)didReceiveMemoryWarning {

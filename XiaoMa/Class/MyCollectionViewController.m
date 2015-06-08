@@ -57,7 +57,7 @@
 {
     [super viewWillAppear:animated];
     
-    [MobClick beginEvent:@"rp316"];
+    [MobClick beginLogPageView:@"rp316"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     
     [self reloadData];
@@ -72,7 +72,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endEvent:@"rp316"];
+    [MobClick endLogPageView:@"rp316"];
     [gToast dismiss];
 }
 

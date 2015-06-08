@@ -44,7 +44,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [MobClick beginEvent:@"rp304"];
+    [MobClick beginLogPageView:@"rp304"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
@@ -52,7 +52,7 @@
 {
     [super viewWillDisappear:animated];
     
-    [MobClick endEvent:@"rp304"];
+    [MobClick endLogPageView:@"rp304"];
 }
 
 #pragma mark - Action

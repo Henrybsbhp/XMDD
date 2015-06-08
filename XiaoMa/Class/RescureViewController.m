@@ -38,7 +38,7 @@
     [self.webView loadRequest:self.request];
     
     [[self.actionBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        [MobClick beginEvent:@"rp127-2"];
+        [MobClick event:@"rp127-2"];
         
         [gPhoneHelper makePhone:@"4007111111" andInfo:@"救援电话：400-711-1111"];
     }];
@@ -47,14 +47,14 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [MobClick beginEvent:@"rp127"];
+    [MobClick beginLogPageView:@"rp127"];
     [self.navigationController.navigationBar addSubview:_progressView];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endEvent:@"rp127"];
+    [MobClick endLogPageView:@"rp127"];
     [_progressView removeFromSuperview];
 }
 

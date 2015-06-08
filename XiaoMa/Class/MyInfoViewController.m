@@ -54,7 +54,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [MobClick beginEvent:@"rp302"];
+    [MobClick beginLogPageView:@"rp302"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     [self.tableView reloadData];
 }
@@ -62,7 +62,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endEvent:@"rp302"];
+    [MobClick endLogPageView:@"rp302"];
     [SVProgressHUD dismiss];
 }
 

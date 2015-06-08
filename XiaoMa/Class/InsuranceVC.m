@@ -160,7 +160,7 @@
     [[[tap rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
         NSString * eventstr = [NSString stringWithFormat:@"rp114-3.%ld", pageIndex];
-        [MobClick endEvent:eventstr];
+        [MobClick endLogPageView:eventstr];
         @strongify(self);
         if (ad.adLink.length > 0) {
             WebVC * vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];

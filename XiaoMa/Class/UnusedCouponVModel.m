@@ -135,7 +135,7 @@
 
 - (void)shareAction:(NSNumber *)cid
 {
-    [MobClick endEvent:@"rp304-3"];
+    [MobClick endLogPageView:@"rp304-3"];
     UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否分享本张优惠劵" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
         
@@ -267,7 +267,7 @@
             
             [[[status rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 
-                [MobClick endEvent:@"rp304-4"];
+                [MobClick endLogPageView:@"rp304-4"];
             }];
         }
         else if (couponDic.conponType == CouponTypeAgency)
@@ -277,7 +277,7 @@
             
             [[[status rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 
-                [MobClick endEvent:@"rp304-4"];
+                [MobClick endLogPageView:@"rp304-4"];
             }];
         }
         else if (couponDic.conponType == CouponTypeRescue)
@@ -317,7 +317,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick endEvent:@"rp304-5"];
+    [MobClick endLogPageView:@"rp304-5"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

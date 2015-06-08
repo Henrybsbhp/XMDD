@@ -41,14 +41,14 @@
 {
     [super viewWillDisappear:animated];
     
-    [MobClick beginEvent:@"rp109"];
+    [MobClick beginLogPageView:@"rp109"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     
-    [MobClick endEvent:@"rp109"];
+    [MobClick endLogPageView:@"rp109"];
     [self actionBack];
 }
 

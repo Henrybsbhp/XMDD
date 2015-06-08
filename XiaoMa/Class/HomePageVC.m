@@ -571,7 +571,7 @@
     gesture = imgV.customObject;
     [[[gesture rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         NSString * eventstr = [NSString stringWithFormat:@"rp101-10.%ld", pageIndex];
-        [MobClick endEvent:eventstr];
+        [MobClick endLogPageView:eventstr];
         if (ad.adLink.length)
         {
             WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];

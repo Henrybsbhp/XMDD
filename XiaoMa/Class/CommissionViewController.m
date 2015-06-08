@@ -46,14 +46,14 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [MobClick beginEvent:@"rp128"];
+    [MobClick beginLogPageView:@"rp128"];
     [self.navigationController.navigationBar addSubview:_progressView];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endEvent:@"rp128"];
+    [MobClick endLogPageView:@"rp128"];
     [_progressView removeFromSuperview];
 }
 

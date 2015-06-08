@@ -35,7 +35,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [MobClick beginEvent:@"rp110"];
+    [MobClick beginLogPageView:@"rp110"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

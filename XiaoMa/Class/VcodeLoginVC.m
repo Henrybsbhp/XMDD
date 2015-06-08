@@ -38,13 +38,13 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [MobClick beginEvent:@"rp002"];
+    [MobClick beginLogPageView:@"rp002"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endEvent:@"rp002"];
+    [MobClick endLogPageView:@"rp002"];
 }
 
 #pragma mark - Action

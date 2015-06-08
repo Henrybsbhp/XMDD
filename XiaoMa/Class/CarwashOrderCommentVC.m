@@ -38,7 +38,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [MobClick endEvent:@"rp321"];
+    [MobClick endLogPageView:@"rp321"];
 }
 
 #pragma mark - Action

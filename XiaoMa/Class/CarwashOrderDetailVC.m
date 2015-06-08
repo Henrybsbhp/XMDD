@@ -35,13 +35,13 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    [MobClick beginEvent:@"rp320"];
+    [MobClick beginLogPageView:@"rp320"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endEvent:@"rp320"];
+    [MobClick endLogPageView:@"rp320"];
 }
 
 - (void)reloadDatasource
