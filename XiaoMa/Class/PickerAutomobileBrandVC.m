@@ -31,6 +31,12 @@
     [self reloadDatasource];
 }
 
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
+}
+
 - (void)reloadDatasource
 {
     NSError *error;

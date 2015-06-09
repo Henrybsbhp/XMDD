@@ -46,6 +46,12 @@
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
+}
+
 #pragma mark - Action
 - (IBAction)actionGetMore:(id)sender
 {

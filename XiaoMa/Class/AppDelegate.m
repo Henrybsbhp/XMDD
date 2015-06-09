@@ -113,12 +113,17 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     
-    NSDate * lastLocationTime = [NSDate dateWithText:[gAppMgr getInfo:LastLocationTime]];
-    NSTimeInterval timeInterval = [lastLocationTime timeIntervalSinceNow];
-    if (abs(timeInterval) > RequestWeatherInfoInterval)
-    {
-        [self getLocation];
-    }
+    CKAsyncDefaultQueue(^{
+        NSDate * lastLocationTime = [NSDate dateWithText:[gAppMgr getInfo:LastLocationTime]];
+        NSTimeInterval timeInterval = [lastLocationTime timeIntervalSinceNow];
+        if (abs(timeInterval) > RequestWeatherInfoInterval)
+        {
+            CKAsyncMainQueue(^{
+                    [self getLocation];
+            });
+        }
+    });
+
     [self checkVersionUpdating];
 }
 

@@ -23,4 +23,7 @@
                             latB:(double)latB
                             lngB:(double)lngB;
 
+/// 将火星坐标系转换为百度坐标系
++ (CLLocationCoordinate2D)GCJ2BAIDU:(CLLocationCoordinate2D)amapCoordinate;
+
 @end

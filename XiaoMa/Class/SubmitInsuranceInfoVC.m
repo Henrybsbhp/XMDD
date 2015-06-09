@@ -32,6 +32,11 @@
     [self reloadDrivingCard];
 }
 
+- (void)dealloc
+{
+    DebugLog(@"SubmitInsuranceInfoVC dealloc");
+}
+
 - (void)reloadDrivingCard
 {
     RACSignal *signal;
@@ -58,6 +63,9 @@
         }];
     }];
 }
+
+
+
 #pragma mark - Action
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
