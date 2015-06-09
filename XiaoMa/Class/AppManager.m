@@ -30,6 +30,7 @@
         // 默认的coredata数据管理对象
         self.defDataMgr = [[CoreDataManager alloc] init];
         [self.defDataMgr resetPersistentStoreAtDirPath:CKPathForDocument(nil)];
+        self.navModel = [[NavigationModel alloc] init];
         //  常用数据缓存（用于缓存用户使用造成的数据，可手动清除）
         TMCache *cache = [[TMCache alloc] initWithName:kSharedCacheName];
         cache.diskCache.byteLimit = 512 * 1024 * 1024;

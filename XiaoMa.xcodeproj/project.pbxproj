@@ -85,6 +85,9 @@
 		187CC95C1AEF2023004D1F28 /* UploadFileOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 187CC95B1AEF2023004D1F28 /* UploadFileOp.m */; };
 		187CC95F1AEF6A89004D1F28 /* UpdateInsuranceCalculateOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 187CC95E1AEF6A89004D1F28 /* UpdateInsuranceCalculateOp.m */; };
 		187CC9621AEF896C004D1F28 /* PayResultForInstallmentsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 187CC9611AEF896C004D1F28 /* PayResultForInstallmentsVC.m */; };
+		18804A9F1B2548AC00E7E764 /* NavigationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18804A9E1B2548AC00E7E764 /* NavigationModel.m */; };
+		18804AA21B25811E00E7E764 /* HKRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 18804AA11B25811E00E7E764 /* HKRefreshControl.m */; };
+		18804AA51B2679BB00E7E764 /* TestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18804AA41B2679BB00E7E764 /* TestVC.m */; };
 		1883D8FF1ACB99AC002A4D19 /* XiaoMaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D8FE1ACB99AC002A4D19 /* XiaoMaTests.m */; };
 		1883D9101ACBBE30002A4D19 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D90F1ACBBE30002A4D19 /* main.m */; };
 		1883D9141ACBBE5E002A4D19 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1883D9131ACBBE5E002A4D19 /* Images.xcassets */; };
@@ -453,6 +456,12 @@
 		187CC95E1AEF6A89004D1F28 /* UpdateInsuranceCalculateOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateInsuranceCalculateOp.m; path = Class/UpdateInsuranceCalculateOp.m; sourceTree = "<group>"; };
 		187CC9601AEF896C004D1F28 /* PayResultForInstallmentsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayResultForInstallmentsVC.h; sourceTree = "<group>"; };
 		187CC9611AEF896C004D1F28 /* PayResultForInstallmentsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayResultForInstallmentsVC.m; sourceTree = "<group>"; };
+		18804A9D1B2548AC00E7E764 /* NavigationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NavigationModel.h; path = Class/NavigationModel.h; sourceTree = "<group>"; };
+		18804A9E1B2548AC00E7E764 /* NavigationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NavigationModel.m; path = Class/NavigationModel.m; sourceTree = "<group>"; };
+		18804AA01B25811E00E7E764 /* HKRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKRefreshControl.h; sourceTree = "<group>"; };
+		18804AA11B25811E00E7E764 /* HKRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKRefreshControl.m; sourceTree = "<group>"; };
+		18804AA31B2679BB00E7E764 /* TestVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestVC.h; sourceTree = "<group>"; };
+		18804AA41B2679BB00E7E764 /* TestVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestVC.m; sourceTree = "<group>"; };
 		1883D8DF1ACB99AC002A4D19 /* XiaoMa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XiaoMa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1883D8F81ACB99AC002A4D19 /* XiaoMaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XiaoMaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1883D8FD1ACB99AC002A4D19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1427,6 +1436,8 @@
 				1816F4AD1ACE75C900BBCC96 /* CarWash */,
 				1883D9281ACCD80F002A4D19 /* Home */,
 				1883D9241ACCD689002A4D19 /* MainTab */,
+				18804AA31B2679BB00E7E764 /* TestVC.h */,
+				18804AA41B2679BB00E7E764 /* TestVC.m */,
 			);
 			name = View;
 			path = Class;
@@ -1489,6 +1500,8 @@
 				1851F4201B0C268F00241A01 /* AutoInfoModel.m */,
 				6BBFBC431B0DD51E000D3CA3 /* MyCarsModel.h */,
 				6BBFBC441B0DD51E000D3CA3 /* MyCarsModel.m */,
+				18804A9D1B2548AC00E7E764 /* NavigationModel.h */,
+				18804A9E1B2548AC00E7E764 /* NavigationModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1793,6 +1806,8 @@
 				6BB884B91AE0BB9600EBD8F4 /* UIView+JTLoadingView.m */,
 				186985131B02E7DB000A182A /* UIScrollView+RefreshView.h */,
 				186985141B02E7DB000A182A /* UIScrollView+RefreshView.m */,
+				18804AA01B25811E00E7E764 /* HKRefreshControl.h */,
+				18804AA11B25811E00E7E764 /* HKRefreshControl.m */,
 			);
 			name = LoadingView;
 			path = Class/LoadingView;
@@ -2521,6 +2536,7 @@
 				189B30B31AD4F7AC001D7288 /* UIView+CustomForXIB.m in Sources */,
 				186985151B02E7DB000A182A /* UIScrollView+RefreshView.m in Sources */,
 				6BEA56C81AE24DCE000D19C1 /* SBJsonBase.m in Sources */,
+				18804AA21B25811E00E7E764 /* HKRefreshControl.m in Sources */,
 				6BCA5F431B102D5700E1E630 /* GetUserCouponPkgOp.m in Sources */,
 				6BBB82491AE7401400850D0C /* GetInsuranceByChannel.m in Sources */,
 				6BE4CE371AF220A0008E1C19 /* GetUserFavoriteOp.m in Sources */,
@@ -2540,6 +2556,7 @@
 				6BC2209F1AD7AC9D00A4310E /* NSString+MD5.m in Sources */,
 				1883D9101ACBBE30002A4D19 /* main.m in Sources */,
 				18B2C7381B13076B007FB0C7 /* PEResizeControl.m in Sources */,
+				18804A9F1B2548AC00E7E764 /* NavigationModel.m in Sources */,
 				6BBF7DA31B008B1000E45967 /* EditMyInfoViewController.m in Sources */,
 				6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */,
 				6BCF62501B184AEF0064AE32 /* NJKWebViewProgress.m in Sources */,
@@ -2613,6 +2630,7 @@
 				6BBAB8C01ADBC21600EC342F /* DesUtil.m in Sources */,
 				189B30C31AD64310001D7288 /* ChooseCarwashTicketVC.m in Sources */,
 				6BBF7DA61B00A78900E45967 /* UpdateUserInfoOp.m in Sources */,
+				18804AA51B2679BB00E7E764 /* TestVC.m in Sources */,
 				181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */,
 				6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */,
 				18B2C7391B13076B007FB0C7 /* UIImage+PECrop.m in Sources */,
