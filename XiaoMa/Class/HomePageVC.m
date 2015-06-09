@@ -570,7 +570,7 @@
     }
     gesture = imgV.customObject;
     [[[gesture rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
-        NSString * eventstr = [NSString stringWithFormat:@"rp101-10.%ld", pageIndex];
+        NSString * eventstr = [NSString stringWithFormat:@"rp101-10_%ld", pageIndex];
         [MobClick event:eventstr];
         if (ad.adLink.length)
         {

@@ -354,7 +354,7 @@
     {
         if (indexPath.row == 0)
         {
-            [MobClick event:@"rp105-2"];
+            [MobClick event:@"rp105-9"];
         }
         if (indexPath.row == 1)
         {
@@ -384,7 +384,6 @@
     {
         if (self.shop.shopCommentArray.count)
         {
-            //下方评价列表是一体的，105-8和105-9无法区分  LYW
             [MobClick event:@"rp105-8"];
             CommentListViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"CommentListViewController"];
             vc.shopid = self.shop.shopID;
@@ -419,6 +418,7 @@
     gesture = logoV.customObject;
     [[[gesture rac_gestureSignal] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp105-2"];
         if (self.shop.picArray.count)
         {
             [self showImages:0];

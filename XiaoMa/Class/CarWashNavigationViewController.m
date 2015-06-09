@@ -46,7 +46,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    //使用“附近”的地图友盟事件    LYW
     [MobClick beginLogPageView:@"rp104"];
 }
 

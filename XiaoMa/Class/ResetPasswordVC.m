@@ -129,7 +129,6 @@
 #pragma mark - TextField
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    //textfield的事件发送  LYW
     if (textField == self.num) {
         [MobClick event:@"rp003-1"];
     }

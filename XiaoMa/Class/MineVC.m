@@ -60,7 +60,6 @@
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp301"];
-    //下方代码什么意思？ LYW
     //如果当前视图的导航条没有发生跳转，则不做处理
     if (![self.navigationController.topViewController isEqual:self]) {
         //如果当前视图的viewWillAppear和viewWillDisappear的间隔太短会导致navigationBar隐藏显示不正常

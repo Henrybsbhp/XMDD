@@ -69,7 +69,6 @@
 {
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain
                                                              target:self action:@selector(actionSave:)];
-    //actionBack自己重写了一下 LYW
     UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain
                                                             target:self action:@selector(actionBackMob)];
     left.tintColor = HEXCOLOR(@"#262626");

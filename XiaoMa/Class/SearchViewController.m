@@ -533,7 +533,6 @@
     
     if (self.isSearching)
     {
-        //搜索到商户点击进入详情使用rp201-3，-4，-5同理。  LYW
         [MobClick event:@"rp201-3"];
         JTShop * shop = [self.resultArray safetyObjectAtIndex:indexPath.row];
         ShopDetailVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ShopDetailVC"];
