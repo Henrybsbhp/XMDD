@@ -13,6 +13,7 @@
 #import "DeviceInfo.h"
 #import "MultiMediaManager.h"
 #import "CoreDataManager.h"
+#import "NavigationModel.h"
 
 #define Province @"Province"
 #define City @"City"
@@ -32,6 +33,7 @@
 @property (nonatomic, strong) CoreDataManager *myDataMgr;
 ///默认的coredata数据管理对象
 @property (nonatomic, strong) CoreDataManager *defDataMgr;
+@property (nonatomic, strong) NavigationModel *navModel;
 @property(nonatomic,strong, readonly)DeviceInfo * deviceInfo;
 @property(nonatomic,strong)ClientInfo * clientInfo;
 ///常用数据缓存（可手动清除）

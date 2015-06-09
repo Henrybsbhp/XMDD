@@ -769,7 +769,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "210"
             endingLineNumber = "210"
-            landmarkName = "-handleOpenURL:"
+            landmarkName = "-resultFromURL:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
