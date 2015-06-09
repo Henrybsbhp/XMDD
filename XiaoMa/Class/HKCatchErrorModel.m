@@ -74,7 +74,7 @@
     CXAlertView *alert = [[CXAlertView alloc] initWithTitle:title message:msg cancelButtonTitle:nil];
     [alert addButtonWithTitle:@"确定" type:0 handler:^(CXAlertView *alertView, CXAlertButtonItem *button) {
         [alertView dismiss];
-        [gAppDelegate.curNavCtrl popToRootViewControllerAnimated:YES];
+        [gAppMgr.navModel.curNavCtrl popToRootViewControllerAnimated:YES];
     }];
     self.alertView = alert;
     [alert show];
