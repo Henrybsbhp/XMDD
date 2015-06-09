@@ -49,6 +49,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
+}
+
 #pragma mark - SetupUI
 - (void)setupNavigationBar
 {

@@ -45,6 +45,11 @@
     [MobClick endLogPageView:@"rp124"];
 }
 
+- (void)dealloc
+{
+    DebugLog(@"SubmitInsuranceInfoVC dealloc");
+}
+
 - (void)reloadDrivingCard
 {
     RACSignal *signal;

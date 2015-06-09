@@ -44,6 +44,12 @@
     [MobClick endLogPageView:@"rp320"];
 }
 
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
+}
+
 - (void)reloadDatasource
 {
     self.commentBtn.hidden = (BOOL)self.order.ratetime;

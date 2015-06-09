@@ -54,6 +54,12 @@
     
 }
 
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ parse error~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
+}
+
 #pragma mark - Action
 - (void)requestMoreShopComments
 {

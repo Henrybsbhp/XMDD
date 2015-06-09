@@ -31,6 +31,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
+}
+
 - (void)requestCoupon
 {
     GetUserCouponByTypeOp * op = [GetUserCouponByTypeOp operation];

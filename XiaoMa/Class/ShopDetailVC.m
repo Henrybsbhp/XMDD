@@ -416,16 +416,18 @@
         logoV.customObject = ge;
     }
     gesture = logoV.customObject;
+    
+    @weakify(self)
     [[[gesture rac_gestureSignal] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         [MobClick event:@"rp105-2"];
+        @strongify(self)
         if (self.shop.picArray.count)
         {
             [self showImages:0];
         }
     }];
     
-    @weakify(self)
     [[[collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self);

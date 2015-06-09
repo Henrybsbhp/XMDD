@@ -62,6 +62,12 @@
     [MobClick endLogPageView:@"rp322"];
 }
 
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 

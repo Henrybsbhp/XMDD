@@ -91,10 +91,13 @@
     UIButton * logoutBtn = (UIButton *)[self.tableView.tableFooterView searchViewWithTag:20801];
     [logoutBtn.layer setMasksToBounds:YES];
     logoutBtn.layer.cornerRadius = 5.0f;
+    
+    @weakify(self)
     [[logoutBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [MobClick event:@"rp302-6"];
 #pragma mark- warming
+        @strongify(self)
         [self logoutAction];
     }];
     

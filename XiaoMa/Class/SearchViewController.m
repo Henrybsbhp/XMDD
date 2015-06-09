@@ -50,7 +50,7 @@
     self.isRemain = YES;
     self.pageAmount = PageAmount;
     self.currentPageIndex = 1;
-    
+//
     [self getSearchHistory];
     [self getUserLocation];
 }
@@ -95,9 +95,11 @@
     [searchBtn setTitle:@"搜索" forState:UIControlStateNormal];
     [searchBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     searchBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+    @weakify(self)
     [[searchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [MobClick event:@"rp103-1"];
+        @strongify(self)
         [self search];
     }];
     UIBarButtonItem *searchBtnItem = [[UIBarButtonItem alloc] initWithCustomView:searchBtn];

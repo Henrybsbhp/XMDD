@@ -44,6 +44,12 @@
     [MobClick endLogPageView:@"rp110"];
 }
 
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ parse error~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
+}
+
 - (void)actionBack:(id)sender
 {
     if (self.originVC) {

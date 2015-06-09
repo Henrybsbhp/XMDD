@@ -41,6 +41,13 @@
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp123"];
+
+}
+
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
 }
 
 - (void)reloadWebView

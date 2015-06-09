@@ -47,4 +47,14 @@
     return distanceStr;
 }
 
++ (CLLocationCoordinate2D)GCJ2BAIDU:(CLLocationCoordinate2D)amapCoordinate
+{
+    double x = amapCoordinate.longitude, y = amapCoordinate.latitude;
+    double z = sqrt(x * x + y * y) + 0.00002 * sin(y * M_PI);
+    double theta = atan2(y, x) + 0.000003 * cos(x * M_PI);
+    double bd_lon = z * cos(theta) + 0.0065;
+    double bd_lat = z * sin(theta) + 0.006;
+    return CLLocationCoordinate2DMake(bd_lat, bd_lon);
+}
+
 @end

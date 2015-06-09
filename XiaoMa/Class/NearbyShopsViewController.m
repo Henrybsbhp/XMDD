@@ -444,6 +444,12 @@
         @strongify(self)
         if ([LoginViewModel loginIfNeededForTargetViewController:self])
         {
+            CAKeyframeAnimation *k = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+            k.values = @[@(0.1),@(1.0),@(1.5)];
+            k.keyTimes = @[@(0.0),@(0.5),@(0.8),@(1.0)];
+            k.calculationMode = kCAAnimationLinear;
+            [mapBottomView.collectBtn.imageView.layer addAnimation:k forKey:@"SHOW"];
+            
             if ([gAppMgr.myUser.favorites getFavoriteWithID:shop.shopID])
             {
                 [[[[gAppMgr.myUser.favorites rac_removeFavorite:@[shop.shopID]] initially:^{

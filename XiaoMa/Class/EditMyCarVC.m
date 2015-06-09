@@ -58,6 +58,11 @@
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp312"];
 }
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
+}
 
 //设置日期选择控件（主要是为了事先加载，优化性能）
 - (void)setupDatePicker

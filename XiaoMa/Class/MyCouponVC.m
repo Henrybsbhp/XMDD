@@ -55,6 +55,12 @@
     [MobClick endLogPageView:@"rp304"];
 }
 
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
+}
+
 #pragma mark - Action
 - (IBAction)actionGetMore:(id)sender
 {

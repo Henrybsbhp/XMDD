@@ -31,6 +31,12 @@
     [self reloadDataIfNeeded];
 }
 
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -51,12 +57,15 @@
 
 - (void)setupSignals
 {
+    @weakify(self)
     [RACObserve(gAppMgr, myUser) subscribeNext:^(JTUser *user) {
         [[user.carModel rac_observeDataWithDoRequest:^{
             
+            @strongify(self)
             [self.tableView.refreshView beginRefreshing];
         }] subscribeNext:^(JTQueue *queue) {
             
+            @strongify(self)
             [self.tableView.refreshView endRefreshing];
             self.carList = [queue allObjects];
             [self.tableView reloadData];

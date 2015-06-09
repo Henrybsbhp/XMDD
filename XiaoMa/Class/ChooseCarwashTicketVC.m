@@ -52,6 +52,12 @@
     [self actionBack];
 }
 
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ parse error~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
+}
+
 - (void)setupNavigationBar
 {
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
