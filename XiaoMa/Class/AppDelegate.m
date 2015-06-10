@@ -423,6 +423,12 @@
     
     [MobClick startSession:nil];
     
+    //[self getDeviceIDForMob];
+}
+
+#pragma mark - 友盟实时监测，设备身份申请码获取
+- (NSString *)getDeviceIDForMob
+{
     Class cls = NSClassFromString(@"UMANUtil");
     SEL deviceIDSelector = @selector(openUDIDString);
     NSString *deviceID = nil;
@@ -432,8 +438,9 @@
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:@{@"oid" : deviceID}
                                                        options:NSJSONWritingPrettyPrinted
                                                          error:nil];
-    
-    NSLog(@"%@", [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
+    NSString * deviceIDStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSLog(@"%@", deviceIDStr);
+    return deviceIDStr;
 }
 
 #pragma mark - 日志
