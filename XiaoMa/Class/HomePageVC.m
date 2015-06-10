@@ -71,7 +71,9 @@
     [self rotationTableHeaderView];
     
     [self.scrollView.refreshView addTarget:self action:@selector(reloadDatasource) forControlEvents:UIControlEventValueChanged];
-    [self reloadDatasource];
+    CKAsyncMainQueue(^{
+        [self reloadDatasource];        
+    });
 }
 
 - (void)viewDidAppear:(BOOL)animated

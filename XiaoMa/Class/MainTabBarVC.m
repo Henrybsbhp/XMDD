@@ -21,7 +21,7 @@
     // Do any additional setup after loading the view.
     self.delegate = self;
     [self setupTabBar];
-    gAppDelegate.curNavCtrl = [self.viewControllers safetyObjectAtIndex:0];
+    gAppMgr.navModel.curNavCtrl = [self.viewControllers safetyObjectAtIndex:0];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,10 +63,10 @@
     [MobClick event:str];
     NSLog(@"%@",str);
     if ([viewController isKindOfClass:[UINavigationController class]]) {
-        gAppDelegate.curNavCtrl = (UINavigationController *)viewController;
+        gAppMgr.navModel.curNavCtrl = (UINavigationController *)viewController;
     }
     else {
-        gAppDelegate.curNavCtrl = viewController.navigationController;
+        gAppMgr.navModel.curNavCtrl = viewController.navigationController;
     }
 }
 

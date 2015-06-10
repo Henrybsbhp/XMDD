@@ -173,6 +173,10 @@
 {
     [MobClick event:@"rp324-1"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    HKMessage *msg = [self.msgList safetyObjectAtIndex:indexPath.row];
+    if (msg.ext1.length > 0) {
+        [gAppMgr.navModel pushToViewControllerByUrl:msg.ext1];
+    }
 }
 
 - (void)loadMoreMessages

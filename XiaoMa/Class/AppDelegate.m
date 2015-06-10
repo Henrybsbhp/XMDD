@@ -116,7 +116,7 @@
     CKAsyncDefaultQueue(^{
         NSDate * lastLocationTime = [NSDate dateWithText:[gAppMgr getInfo:LastLocationTime]];
         NSTimeInterval timeInterval = [lastLocationTime timeIntervalSinceNow];
-        if (abs(timeInterval) > RequestWeatherInfoInterval)
+        if (fabs(timeInterval) > RequestWeatherInfoInterval)
         {
             CKAsyncMainQueue(^{
                     [self getLocation];
