@@ -17,7 +17,7 @@
     if (!refreshView) {
         refreshView = [[HKRefreshControl alloc] initWithScrollView:self];
         objc_setAssociatedObject(self, _cmd, refreshView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        [self addSubview:refreshView];
+//        [self addSubview:refreshView];
 //        [refreshView setColors:@[kDefTintColor]];
     }
     return refreshView;

@@ -11,7 +11,7 @@
 #define kOpenHeight 80
 
 @interface HKRefreshControl ()
-@property (nonatomic, weak) UIScrollView *scrollView;
+@property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIImageView *bgImgView;
 @property (nonatomic, strong) UIImageView *imgView;
 @property (nonatomic, assign) BOOL insetsExpanded;
@@ -28,6 +28,16 @@
     [self.scrollView removeObserver:self forKeyPath:@"contentOffset"];
     [self.scrollView removeObserver:self forKeyPath:@"contentInset"];
     self.scrollView = nil;
+}
+
+- (void)willMoveToSuperview:(UIView *)newSuperview
+{
+    [super willMoveToSuperview:newSuperview];
+    if (!newSuperview) {
+        [self.scrollView removeObserver:self forKeyPath:@"contentOffset"];
+        [self.scrollView removeObserver:self forKeyPath:@"contentInset"];
+        self.scrollView = nil;
+    }
 }
 
 - (id)initWithScrollView:(UIScrollView *)scrollView
@@ -233,7 +243,7 @@
 - (void)setContentInset:(UIEdgeInsets)inset
 {
     self.ignoreInsets = YES;
-    [self.scrollView setValue:[NSValue valueWithUIEdgeInsets:inset] forKeyPath:@"contentInset"];
+    [self.scrollView setContentInset:inset];
 }
 
 @end
