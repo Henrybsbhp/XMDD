@@ -38,11 +38,14 @@
          [self callCustomerService];
     }}];
     
-#ifdef DEBUG
     NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
-#else
-     NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    
+#ifndef DEBUG
+    #if XMDDENT == 0
+    version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    #endif
 #endif
+    
     self.versionLb.text = version;
     
     
