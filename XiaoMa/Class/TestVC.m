@@ -18,8 +18,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.refreshView = [[HKRefreshControl alloc] initWithScrollView:self.tableView];
-    [self.refreshView addTarget:self action:@selector(actionRefresh:) forControlEvents:UIControlEventValueChanged];
-    [self.refreshView beginRefreshing];
+//    [self.refreshView addTarget:self action:@selector(actionRefresh:) forControlEvents:UIControlEventValueChanged];
+//    [self.refreshView beginRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -30,9 +30,9 @@
 #pragma mark - Action
 - (void)actionRefresh:(id)sender
 {
-    CKAfter(2, ^{
-        [self.refreshView endRefreshing];
-    });
+//    CKAfter(2, ^{
+//        [self.refreshView endRefreshing];
+//    });
 }
 
 #pragma mark - Table view data source
