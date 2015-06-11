@@ -54,7 +54,15 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [MobClick beginLogPageView:@"rp322"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp322"];
 }
 
 - (void)dealloc
@@ -62,7 +70,6 @@
     NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
     DebugLog(deallocInfo);
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -111,6 +118,7 @@
 
 - (void)serviceAgreement
 {
+    [MobClick event:@"rp322-1"];
     WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
     vc.title = @"服务协议";
     vc.url = @"http://www.xiaomadada.com/apphtml/license.html";
@@ -119,11 +127,13 @@
 
 - (void)callCustomerService
 {
+    [MobClick event:@"rp322-3"];
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"呼叫客服"];
 }
 
 - (void)gotoFeedback
 {
+    [MobClick event:@"rp322-2"];
     FeedbackVC *vc = [UIStoryboard vcWithId:@"FeedbackVC" inStoryboard:@"About"];
     [self.navigationController pushViewController:vc animated:YES];
 }

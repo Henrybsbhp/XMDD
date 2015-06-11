@@ -57,6 +57,7 @@
 {
     [super viewWillAppear:animated];
     
+    [MobClick beginLogPageView:@"rp316"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     
     [self reloadData];
@@ -65,14 +66,13 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
     [gAppMgr.myUser.favorites updateModelIfNeeded];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
+    [MobClick endLogPageView:@"rp316"];
     [gToast dismiss];
 }
 
@@ -155,6 +155,7 @@
     @weakify(self)
     [[self.allSelectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp316-8"];
         @strongify(self)
         if (self.selectSet.count == gAppMgr.myUser.favorites.favoritesArray.count)
         {
@@ -175,6 +176,7 @@
     
     [[self.deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp316-9"];
         @strongify(self)
         if (self.selectSet.count)
         {
@@ -191,6 +193,10 @@
 #pragma mark - Action
 - (void)editActions:(id)sender
 {
+    if (self.isEditing && sender)
+        [MobClick event:@"rp316-5"];
+    if (!self.isEditing)
+        [MobClick event:@"rp316-1"];
     self.isEditing = !self.isEditing;
     
     [self refreshBottomView];
@@ -324,6 +330,7 @@
         @weakify(self)
         [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
+            [MobClick event:@"rp316-3"];
             @strongify(self)
             [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:gMapHelper.coordinate andView:self.view];
             
@@ -331,6 +338,7 @@
         
         [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
+            [MobClick event:@"rp316-4"];
             if (shop.shopPhone.length == 0)
             {
                 UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
@@ -402,12 +410,14 @@
         @weakify(self)
         [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
+            [MobClick event:@"rp316-3"];
             @strongify(self)
             [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:gMapHelper.coordinate andView:self.view];
         }];
         
         [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
+            [MobClick event:@"rp316-4"];
             if (shop.shopPhone.length == 0)
             {
                 UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
@@ -423,6 +433,7 @@
         @weakify(checkBtn)
         [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
+            [MobClick event:@"rp316-7"];
             @strongify(checkBtn)
             if ([self.selectSet containsIndex:indexPath.row])
             {
@@ -448,6 +459,7 @@
     
     if (!self.isEditing)
     {
+        [MobClick event:@"rp316-2"];
         JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.row];
         ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
         vc.hidesBottomBarWhenPushed = YES;

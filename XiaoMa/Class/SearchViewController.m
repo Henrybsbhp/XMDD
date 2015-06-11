@@ -58,6 +58,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp103"];
     
     UIView * view = self.navigationController.navigationBar;
     [view addSubview:self.searchBarBackgroundView];
@@ -65,10 +66,10 @@
     [self.searchBar becomeFirstResponder];
 }
 
-
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp103"];
     
     [self.searchBarBackgroundView removeFromSuperview];
 }
@@ -97,6 +98,7 @@
     @weakify(self)
     [[searchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp103-1"];
         @strongify(self)
         [self search];
     }];
@@ -469,12 +471,14 @@
         @weakify(self)
         [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
+            [MobClick event:@"rp201-4"];
             @strongify(self)
             [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:gMapHelper.coordinate andView:self.view];
         }];
         
         [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
+            [MobClick event:@"rp201-5"];
             if (shop.shopPhone.length == 0)
             {
                 UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
@@ -531,6 +535,7 @@
     
     if (self.isSearching)
     {
+        [MobClick event:@"rp201-3"];
         JTShop * shop = [self.resultArray safetyObjectAtIndex:indexPath.row];
         ShopDetailVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ShopDetailVC"];
         vc.shop = shop;
@@ -545,9 +550,11 @@
         }
         if (indexPath.row == self.historyArray.count + 1)
         {
+            [MobClick event:@"rp103-2"];
             [self cleanHistory];
             return;
         }
+        [MobClick event:@"rp103-3"];
         NSString * content = [self.historyArray safetyObjectAtIndex:indexPath.row - 1];
         self.searchBar.text = content;
     }
@@ -569,6 +576,7 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    [MobClick event:@"rp103-4"];
     [self search];
 }
 

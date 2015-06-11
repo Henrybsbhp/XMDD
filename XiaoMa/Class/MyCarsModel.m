@@ -74,7 +74,7 @@
         [[self carCache] addObject:car forKey:car.carId];
         [self setDefaultCarIfNeeded:car];
         [self updateCache:[self carCache] refreshTime:NO];
-    }];
+    }]; 
 }
 
 - (RACSignal *)rac_removeCarByID:(NSNumber *)carId

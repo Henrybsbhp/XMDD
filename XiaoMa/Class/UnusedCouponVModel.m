@@ -135,16 +135,18 @@
 
 - (void)shareAction:(NSNumber *)cid
 {
+    [MobClick event:@"rp304-3"];
+    [self requestShareCoupon:cid];
 //    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否分享本张优惠劵" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+//    [av show];
 //    [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
 //        
 //        NSInteger index = [number integerValue];
 //        if (index == 1)
 //        {
-            [self requestShareCoupon:cid];
+//            [self requestShareCoupon:cid];
 //        }
 //    }];
-//    [av show];
 }
 
 - (void)shareAction:(ShareUserCouponOp *)op andImage:(UIImage *)image
@@ -160,12 +162,11 @@
     [sheet presentAnimated:YES completionHandler:nil];
     
     [vc setFinishAction:^{
-        
         [sheet dismissAnimated:YES completionHandler:nil];
     }];
     
     [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
+        [MobClick event:@"rp110-7"];
         [sheet dismissAnimated:YES completionHandler:nil];
     }];
 }
@@ -252,14 +253,23 @@
             backgroundImg.image = carWash;
         }
         else if (couponDic.conponType == CouponTypeCash || couponDic.conponType == CouponTypeInsurance) {
-            //               @LYW 重用
             backgroundImg.image = cashImage;
             [status setTitle:@"有效" forState:UIControlStateNormal];
+            
+            [[[status rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                
+                [MobClick event:@"rp304-4"];
+            }];
         }
         else if (couponDic.conponType == CouponTypeAgency)
         {
             backgroundImg.image = agency;
             [status setTitle:@"有效" forState:UIControlStateNormal];
+            
+            [[[status rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                
+                [MobClick event:@"rp304-4"];
+            }];
         }
         else if (couponDic.conponType == CouponTypeRescue)
         {
@@ -268,7 +278,6 @@
         }
         name.text = couponDic.couponName;
         description.text = [NSString stringWithFormat:@"使用说明：%@",couponDic.couponDescription];
-        // @LYW 时间显示有误
         validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",[couponDic.validsince dateFormatForYYMMdd2],[couponDic.validthrough dateFormatForYYMMdd2]];
     }
     else {
@@ -298,6 +307,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [MobClick event:@"rp304-5"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
