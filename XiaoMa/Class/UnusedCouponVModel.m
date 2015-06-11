@@ -136,17 +136,8 @@
 - (void)shareAction:(NSNumber *)cid
 {
     [MobClick event:@"rp304-3"];
+    
     [self requestShareCoupon:cid];
-//    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否分享本张优惠劵" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-//    [av show];
-//    [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
-//        
-//        NSInteger index = [number integerValue];
-//        if (index == 1)
-//        {
-//            [self requestShareCoupon:cid];
-//        }
-//    }];
 }
 
 - (void)shareAction:(ShareUserCouponOp *)op andImage:(UIImage *)image
