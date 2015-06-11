@@ -31,6 +31,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp123"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp123"];
+
+}
+
 - (void)dealloc
 {
     NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
@@ -45,6 +58,7 @@
 #pragma mark - Action
 ///我感兴趣
 - (IBAction)actionInterested:(id)sender {
+    [MobClick event:@"rp123-2"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         BeInterestedInInsuranceOp *op = [BeInterestedInInsuranceOp new];
         [[[op rac_postRequest] initially:^{
@@ -72,6 +86,7 @@
 
 ///电话咨询
 - (IBAction)actionMakeCall:(id)sender {
+    [MobClick event:@"rp123-1"];
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：400-711-1111"];
 }
 

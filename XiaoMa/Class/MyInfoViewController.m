@@ -54,6 +54,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp302"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     [self.tableView reloadData];
 }
@@ -61,7 +62,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
+    [MobClick endLogPageView:@"rp302"];
     [SVProgressHUD dismiss];
 }
 
@@ -94,6 +95,7 @@
     @weakify(self)
     [[logoutBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp302-6"];
 #pragma mark- warming
         @strongify(self)
         [self logoutAction];
@@ -235,6 +237,7 @@
 {
     if (indexPath.row == 0)
     {
+        [MobClick event:@"rp302-1"];
         @weakify(self);
         [[gAppMgr.mediaMgr rac_pickPhotoInTargetVC:self inView:self.view initBlock:^(UIImagePickerController *picker) {
             
@@ -247,6 +250,7 @@
     }
     else if (indexPath.row == 1)
     {
+        [MobClick event:@"rp302-2"];
         EditMyInfoViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"EditMyInfoViewController"];
         vc.naviTitle = @"修改昵称";
         vc.type = ModifyNickname;
@@ -257,6 +261,7 @@
     }
     else if (indexPath.row == 2)
     {
+        [MobClick event:@"rp302-3"];
         UIActionSheet * sexSheet = [[UIActionSheet alloc]initWithTitle:@"请选择性别" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"男", @"女", nil];
         [sexSheet showInView:self.view];
         [[sexSheet rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
@@ -276,6 +281,7 @@
     }
     else if (indexPath.row == 3)
     {
+        [MobClick event:@"rp302-4"];
         [[DatePickerVC rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.birthday]
          subscribeNext:^(NSDate *date) {
              self.birthday = date;
@@ -284,6 +290,7 @@
     }
     else if (indexPath.row == 4)
     {
+        [MobClick event:@"rp302-5"];
         if (!gAppMgr.myUser.phoneNumber.length)
         {
             //            EditMyInfoViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"EditMyInfoViewController"];

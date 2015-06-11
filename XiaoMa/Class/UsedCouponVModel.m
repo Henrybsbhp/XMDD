@@ -150,6 +150,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [MobClick event:@"rp304-5"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

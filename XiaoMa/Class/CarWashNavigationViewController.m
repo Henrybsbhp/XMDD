@@ -43,6 +43,18 @@
     });
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp104"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp104"];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -105,6 +117,7 @@
     
     [[mapBottomView.phoneBtm rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp104-4"];
         @strongify(self)
         if (self.shop.shopPhone.length == 0)
         {
@@ -118,6 +131,8 @@
     }];
     
     [[mapBottomView.collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        [MobClick event:@"rp104-3"];
     
         @strongify(self)
         if ([LoginViewModel loginIfNeededForTargetViewController:self])
@@ -176,6 +191,7 @@
     
     [[mapBottomView.navigationBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp104-5"];
         @strongify(self)
         [gPhoneHelper navigationRedirectThirdMap:self.shop andUserLocation:self.startCoordinate andView:self.view];
         
@@ -208,6 +224,7 @@
     [self.locationMeBtn setBackgroundImage:[UIImage imageNamed:@"location_me"] forState:UIControlStateNormal];
     [self.view addSubview:self.locationMeBtn];
     
+    [MobClick event:@"rp104-6"];
     @weakify(self)
     [[self.locationMeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
@@ -250,6 +267,13 @@
 
 - (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view
 {
-    
+    [MobClick event:@"rp104-1"];
 }
+
+- (void)mapView:(MAMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+{
+    //包括放大操作
+    [MobClick event:@"rp104-7"];
+}
+
 @end
