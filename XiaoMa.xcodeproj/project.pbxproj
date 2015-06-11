@@ -217,6 +217,9 @@
 		6BBB825F1AE7A0CF00850D0C /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBB825E1AE7A0CF00850D0C /* libsqlite3.dylib */; };
 		6BBB82611AE7A0D700850D0C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBB82601AE7A0D700850D0C /* libz.dylib */; };
 		6BBB82631AE7A0E000850D0C /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBB82621AE7A0E000850D0C /* libc++.dylib */; };
+		6BBBF54D1B291CCA00E1B809 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBBF54B1B291CCA00E1B809 /* Fabric.framework */; };
+		6BBBF54E1B291CCA00E1B809 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBBF54C1B291CCA00E1B809 /* Crashlytics.framework */; };
+		6BBBF5501B2937EB00E1B809 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BBBF54F1B2937EB00E1B809 /* Info.plist */; };
 		6BBC4A281B0C8236003F3081 /* SocialShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC4A271B0C8236003F3081 /* SocialShareView.m */; };
 		6BBC4A2C1B0C8495003F3081 /* SocialShareView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BBC4A2B1B0C8495003F3081 /* SocialShareView.xib */; };
 		6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC4A2E1B0C8F87003F3081 /* SocialShareViewController.m */; };
@@ -706,6 +709,9 @@
 		6BBB825E1AE7A0CF00850D0C /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		6BBB82601AE7A0D700850D0C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		6BBB82621AE7A0E000850D0C /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		6BBBF54B1B291CCA00E1B809 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		6BBBF54C1B291CCA00E1B809 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		6BBBF54F1B2937EB00E1B809 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Misc/Info.plist; sourceTree = "<group>"; };
 		6BBC4A261B0C8236003F3081 /* SocialShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SocialShareView.h; path = Class/SocialShareView.h; sourceTree = "<group>"; };
 		6BBC4A271B0C8236003F3081 /* SocialShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SocialShareView.m; path = Class/SocialShareView.m; sourceTree = "<group>"; };
 		6BBC4A2B1B0C8495003F3081 /* SocialShareView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SocialShareView.xib; path = Class/SocialShareView.xib; sourceTree = "<group>"; };
@@ -932,8 +938,10 @@
 				6BBB82611AE7A0D700850D0C /* libz.dylib in Frameworks */,
 				6BBB825F1AE7A0CF00850D0C /* libsqlite3.dylib in Frameworks */,
 				6BEA56CC1AE24DCE000D19C1 /* libssl.a in Frameworks */,
+				6BBBF54E1B291CCA00E1B809 /* Crashlytics.framework in Frameworks */,
 				189B31161ADBDF07001D7288 /* MobileCoreServices.framework in Frameworks */,
 				6BBFBC411B0D8E57000D3CA3 /* libWeiboSDK.a in Frameworks */,
+				6BBBF54D1B291CCA00E1B809 /* Fabric.framework in Frameworks */,
 				6BBB825C1AE79FE100850D0C /* libWeChatSDK.a in Frameworks */,
 				06380E56572F1DCE6105BE83 /* libPods.a in Frameworks */,
 				6BEA56CB1AE24DCE000D19C1 /* libcrypto.a in Frameworks */,
@@ -1341,6 +1349,7 @@
 		1883D8E21ACB99AC002A4D19 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6BBBF54F1B2937EB00E1B809 /* Info.plist */,
 				6BB884B21AE0B40800EBD8F4 /* XmddPrefixHeader.pch */,
 				1883D90F1ACBBE30002A4D19 /* main.m */,
 			);
@@ -2242,6 +2251,8 @@
 		C8447CD201C36C94165168FF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6BBBF54B1B291CCA00E1B809 /* Fabric.framework */,
+				6BBBF54C1B291CCA00E1B809 /* Crashlytics.framework */,
 				C26489B31AF8A70A00F1E318 /* libiconv.dylib */,
 				6BBB82621AE7A0E000850D0C /* libc++.dylib */,
 				6BBB82601AE7A0D700850D0C /* libz.dylib */,
@@ -2264,6 +2275,7 @@
 				1883D8DC1ACB99AC002A4D19 /* Frameworks */,
 				1883D8DD1ACB99AC002A4D19 /* Resources */,
 				A104FC05B6EB7D321E22B017 /* Copy Pods Resources */,
+				6BBBF54A1B291C1A00E1B809 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2347,6 +2359,7 @@
 				6BBFBC421B0D8E57000D3CA3 /* WeiboSDK.bundle in Resources */,
 				6BB8CB861B14135E007B61B5 /* Commission.storyboard in Resources */,
 				6BB8CB841B141350007B61B5 /* Rescue.storyboard in Resources */,
+				6BBBF5501B2937EB00E1B809 /* Info.plist in Resources */,
 				189B311D1ADBEFDF001D7288 /* policy.json in Resources */,
 				6BB884B11AE0B3FE00EBD8F4 /* hz.gpx in Resources */,
 				189B30FF1AD7A85A001D7288 /* Common.storyboard in Resources */,
@@ -2373,6 +2386,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		6BBBF54A1B291C1A00E1B809 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run e29387288292dbe0610a93205503a68cced0eedf 8b007cc7981b209f8eca8517bbe5c41c1d5d28f51eb7b5cff962d561ac638b24";
+		};
 		A104FC05B6EB7D321E22B017 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

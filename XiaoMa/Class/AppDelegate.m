@@ -24,6 +24,8 @@
 #import <TencentOpenAPI.framework/Headers/TencentOAuth.h>
 #import "JTLogModel.h"
 #import <UMengAnalytics/MobClick.h>
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 
 #define RequestWeatherInfoInterval 60 * 10
@@ -53,6 +55,7 @@
     [gMapHelper setupMapApi];
     [gMapHelper setupMAMap];
     [self setupUmeng];
+    [self setupCrashlytics];
     
     //微信授权
     if (![WXApi registerApp:WECHAT_APP_ID])
@@ -241,6 +244,28 @@
     }
 }
 
+#pragma mark - 友盟
+- (void)setupUmeng
+{
+    [MobClick startWithAppkey:UMeng_API_ID reportPolicy:BATCH   channelId:@"iOS"];
+#ifdef DEBUG
+    [MobClick setLogEnabled:YES];
+#else
+    [MobClick setLogEnabled:NO];
+#endif
+    
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    [MobClick setAppVersion:version];
+    
+    [MobClick startSession:nil];
+}
+
+#pragma mark - Crashlytics
+- (void)setupCrashlytics
+{
+    [Fabric with:@[CrashlyticsKit]];
+}
+
 #pragma mark - Utilities
 - (void)requestStaticPromotion
 {}
@@ -408,21 +433,7 @@
 }
 
 
-#pragma mark - 友盟
-- (void)setupUmeng
-{
-    [MobClick startWithAppkey:UMeng_API_ID reportPolicy:BATCH   channelId:@"iOS"];
-#ifdef DEBUG
-    [MobClick setLogEnabled:YES];
-#else
-    [MobClick setLogEnabled:NO];
-#endif
-    
-    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    [MobClick setAppVersion:version];
-    
-    [MobClick startSession:nil];
-}
+
 
 #pragma mark - 日志
 #pragma mark - UIResponser

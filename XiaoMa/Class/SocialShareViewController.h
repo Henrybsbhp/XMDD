@@ -17,6 +17,8 @@
 
 /// 完成登录后的操作
 @property (strong, nonatomic)void(^finishAction)(void);
+@property (strong, nonatomic)void(^beginAction)(void);
+
 
 @property (weak, nonatomic) IBOutlet UIButton *wechatBtn;
 @property (weak, nonatomic) IBOutlet UIButton *timelineBrn;
