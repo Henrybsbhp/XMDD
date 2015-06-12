@@ -232,18 +232,19 @@
         
         NSDate *selectedDate = self.curCar.purchasedate ? self.curCar.purchasedate : [NSDate date];
         @weakify(self);
-        [[self.datePicker rac_presentPackerVCInView:self.navigationController.view withSelectedDate:selectedDate]
+        [[self.datePicker rac_presentPickerVCInView:self.navigationController.view withSelectedDate:selectedDate]
          subscribeNext:^(NSDate *date) {
              @strongify(self);
              self.curCar.purchasedate = date;
         }];
     }
-    //保险到期日
+    //年检到期日
     else if (indexPath.row == 6) {
         [self.view endEditing:YES];
         @weakify(self);
         self.datePicker.maximumDate = nil;
-        [[self.datePicker rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.curCar.insexipiredate]
+        NSDate *date = self.curCar.insexipiredate ? self.curCar.insexipiredate : [NSDate date];
+        [[self.datePicker rac_presentPickerVCInView:self.navigationController.view withSelectedDate:date]
          subscribeNext:^(NSDate *date) {
              
              @strongify(self);
@@ -342,7 +343,7 @@
     }
     else if (indexPath.row == 6) {
         unitL.text = nil;
-        titleL.attributedText = [self attrStrWithTitle:@"保险到期日" asterisk:NO];
+        titleL.attributedText = [self attrStrWithTitle:@"年检到期日" asterisk:NO];
         @weakify(field);
         [[RACObserve(car, insexipiredate) takeUntilForCell:cell] subscribeNext:^(NSDate *date) {
             @strongify(field);
@@ -392,9 +393,9 @@
     titleL.text = @"设为默认车辆";
     switchV.on = self.curCar.isDefault;
     @weakify(self);
-    [[switchV rac_newOnChannel] subscribeNext:^(NSNumber *x) {
+    [[switchV rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(UISwitch *sw) {
         @strongify(self);
-        BOOL on = [x boolValue];
+        BOOL on = sw.on;
         self.curCar.isDefault = on;
     }];
     return cell;
