@@ -46,6 +46,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp312"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp312"];
+}
 - (void)dealloc
 {
     NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
@@ -63,7 +75,7 @@
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain
                                                              target:self action:@selector(actionSave:)];
     UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain
-                                                            target:self action:@selector(actionBack:)];
+                                                            target:self action:@selector(actionBackMob)];
     left.tintColor = HEXCOLOR(@"#262626");
     self.navigationItem.leftBarButtonItem = left;
     self.navigationItem.rightBarButtonItem = right;
@@ -98,6 +110,7 @@
 #pragma mark - Action
 - (void)actionSave:(id)sender
 {
+    [MobClick event:@"rp312-12"];
     if ([self sharkCellIfErrorAtIndex:0 withData:self.curCar.licencenumber errorMsg:@"车牌号码不能为空"]) {
         return;
     }
@@ -138,8 +151,15 @@
 
 }
 
+- (void) actionBackMob
+{
+    [MobClick event:@"312-13"];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (IBAction)actionDelete:(id)sender
 {
+    [MobClick event:@"rp312-11"];
     //添加模式,点击删除直接返回上一页
     if (!self.isEditingModel) {
         [self.navigationController popViewControllerAnimated:YES];
@@ -161,6 +181,7 @@
 
 - (IBAction)actionUpload:(id)sender
 {
+    [MobClick event:@"rp312-1"];
     @weakify(self);
     [[self.model rac_uploadDrivingLicenseWithTargetVC:self initially:^{
         [gToast showingWithText:@"正在上传..."];
@@ -227,6 +248,7 @@
 {
     //购车时间
     if (indexPath.row == 1) {
+        [MobClick event:@"rp312-3"];
         [self.view endEditing:YES];
         self.datePicker.maximumDate = [NSDate date];
         
@@ -240,6 +262,7 @@
     }
     //年检到期日
     else if (indexPath.row == 6) {
+        [MobClick event:@"rp312-8"];
         [self.view endEditing:YES];
         @weakify(self);
         self.datePicker.maximumDate = nil;
@@ -253,6 +276,7 @@
     }
     //汽车品牌
     else if (indexPath.row == 2) {
+        [MobClick event:@"rp312-4"];
         [self.view endEditing:YES];
         PickerAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
         vc.originVC = self;
@@ -264,6 +288,7 @@
     }
     //具体车系
     else if (indexPath.row == 3) {
+        [MobClick event:@"rp312-5"];
         [self.view endEditing:YES];
         PickerAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
         vc.originVC = self;
@@ -394,7 +419,9 @@
     switchV.on = self.curCar.isDefault;
     @weakify(self);
     [[switchV rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(UISwitch *sw) {
+
         @strongify(self);
+        [MobClick event:@"rp312-10"];
         BOOL on = sw.on;
         self.curCar.isDefault = on;
     }];
@@ -402,6 +429,24 @@
 }
 
 #pragma mark - UITextFieldDelegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    NSIndexPath *indexPath = textField.customObject;
+    if (indexPath.row == 0) {
+        [MobClick event:@"rp312-2"];
+    }
+    else if (indexPath.row == 4) {
+        [MobClick event:@"rp312-6"];
+    }
+    else if (indexPath.row == 5) {
+        [MobClick event:@"rp312-7"];
+    }
+    else if (indexPath.row == 7) {
+        [MobClick event:@"rp312-9"];
+    }
+}
+
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     NSIndexPath *indexPath = textField.customObject;

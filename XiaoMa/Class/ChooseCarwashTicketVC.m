@@ -37,10 +37,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [MobClick beginLogPageView:@"rp109"];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     
+    [MobClick endLogPageView:@"rp109"];
     [self actionBack];
 }
 
@@ -190,7 +198,7 @@
     }
     name.text = coupon.couponName;
     description.text = [NSString stringWithFormat:@"使用说明：%@",coupon.couponDescription];
-    // @LYW 时间显示有误
+    
     validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",[coupon.validsince dateFormatForYYMMdd2],[coupon.validthrough dateFormatForYYMMdd2]];
     
     BOOL flag  = NO;
@@ -229,6 +237,7 @@
         }
         else
         {
+            [MobClick event:@"rp109-1"];
             [self.selectedCouponArray removeAllObjects];
             [self.selectedCouponArray addObject:coupon];
         }
@@ -249,6 +258,7 @@
         }
         if (amount + coupon.couponAmount < self.upperLimit)
         {
+            [MobClick event:@"rp109-1"];
             [self.selectedCouponArray addObject:coupon];
             [self.tableView reloadData];
         }

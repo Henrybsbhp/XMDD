@@ -32,6 +32,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp116"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp116"];
+}
+
 - (void)reloadWithInsurance:(NSArray *)insurances calculatorID:(NSString *)cid
 {
     _insurances = insurances;
@@ -47,6 +59,7 @@
 #pragma mark - Action
 - (IBAction)actionUploadInfomation:(id)sender
 {
+    [MobClick event:@"rp116-4"];
     SubmitInsuranceInfoVC *vc = [UIStoryboard vcWithId:@"SubmitInsuranceInfoVC" inStoryboard:@"Insurance"];
     vc.calculateID = self.calculatorID;
     vc.car = self.car;
@@ -59,6 +72,7 @@
 
 - (IBAction)actionMakeCall:(id)sender
 {
+    [MobClick event:@"rp116-5"];
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"4007-111-111"];
 }
 #pragma mark - Table view data source
@@ -90,6 +104,15 @@
     @weakify(self);
     [[[detailB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
+        if (indexPath.row == 0) {
+            [MobClick event:@"rp116-1"];
+        }
+        if (indexPath.row == 1) {
+            [MobClick event:@"rp116-2"];
+        }
+        if (indexPath.row == 2) {
+            [MobClick event:@"rp116-3"];
+        }
         @strongify(self);
         SimplePolicyInfoVC *vc = [UIStoryboard vcWithId:@"SimplePolicyInfoVC" inStoryboard:@"Insurance"];
         vc.policy = ins;

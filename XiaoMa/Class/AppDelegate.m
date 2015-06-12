@@ -24,6 +24,8 @@
 #import <TencentOpenAPI.framework/Headers/TencentOAuth.h>
 #import "JTLogModel.h"
 #import <UMengAnalytics/MobClick.h>
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 
 #define RequestWeatherInfoInterval 60 * 10
@@ -53,6 +55,7 @@
     [gMapHelper setupMapApi];
     [gMapHelper setupMAMap];
     [self setupUmeng];
+    [self setupCrashlytics];
     
     //微信授权
     if (![WXApi registerApp:WECHAT_APP_ID])
@@ -241,6 +244,47 @@
     }
 }
 
+#pragma mark - 友盟
+- (void)setupUmeng
+{
+    [MobClick startWithAppkey:UMeng_API_ID reportPolicy:BATCH   channelId:@"iOS"];
+#ifdef DEBUG
+    [MobClick setLogEnabled:YES];
+#else
+    [MobClick setLogEnabled:NO];
+#endif
+    
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    [MobClick setAppVersion:version];
+    
+    [MobClick startSession:nil];
+    
+    //[self getDeviceIDForMob];
+}
+
+///友盟实时监测，设备身份申请码获取
+- (NSString *)getDeviceIDForMob
+{
+    Class cls = NSClassFromString(@"UMANUtil");
+    SEL deviceIDSelector = @selector(openUDIDString);
+    NSString *deviceID = nil;
+    if(cls && [cls respondsToSelector:deviceIDSelector]){
+        deviceID = [cls performSelector:deviceIDSelector];
+    }
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:@{@"oid" : deviceID}
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:nil];
+    NSString * deviceIDStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSLog(@"%@", deviceIDStr);
+    return deviceIDStr;
+}
+
+#pragma mark - Crashlytics
+- (void)setupCrashlytics
+{
+    [Fabric with:@[CrashlyticsKit]];
+}
+
 #pragma mark - Utilities
 - (void)requestStaticPromotion
 {}
@@ -407,22 +451,6 @@
     }
 }
 
-
-#pragma mark - 友盟
-- (void)setupUmeng
-{
-    [MobClick startWithAppkey:UMeng_API_ID reportPolicy:BATCH   channelId:@"iOS"];
-#ifdef DEBUG
-    [MobClick setLogEnabled:YES];
-#else
-    [MobClick setLogEnabled:NO];
-#endif
-    
-    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    [MobClick setAppVersion:version];
-    
-    [MobClick startSession:nil];
-}
 
 #pragma mark - 日志
 #pragma mark - UIResponser
