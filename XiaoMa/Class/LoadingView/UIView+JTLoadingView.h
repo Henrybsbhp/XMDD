@@ -13,7 +13,8 @@
 typedef enum : NSUInteger {
     TYMActivityIndicatorType,
     MONActivityIndicatorType,
-    UIActivityIndicatorType
+    UIActivityIndicatorType,
+    GifActivityIndicatorType
 } ActivityIndicatorType;
 
 @interface UIView (JTLoadingView)<MONActivityIndicatorViewDelegate>
@@ -36,4 +37,5 @@ typedef enum : NSUInteger {
 - (BOOL)isActivityAnimating;
 
 - (void)resetActivityPositions;
+
 @end

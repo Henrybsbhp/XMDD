@@ -88,6 +88,8 @@
 		18804A9F1B2548AC00E7E764 /* NavigationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18804A9E1B2548AC00E7E764 /* NavigationModel.m */; };
 		18804AA21B25811E00E7E764 /* HKRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 18804AA11B25811E00E7E764 /* HKRefreshControl.m */; };
 		18804AA51B2679BB00E7E764 /* TestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18804AA41B2679BB00E7E764 /* TestVC.m */; };
+		18804AAB1B27DD3C00E7E764 /* GifActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18804AAA1B27DD3C00E7E764 /* GifActivityIndicatorView.m */; };
+		18804AAE1B280E3C00E7E764 /* HKLoadingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18804AAD1B280E3C00E7E764 /* HKLoadingModel.m */; };
 		1883D8FF1ACB99AC002A4D19 /* XiaoMaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D8FE1ACB99AC002A4D19 /* XiaoMaTests.m */; };
 		1883D9101ACBBE30002A4D19 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D90F1ACBBE30002A4D19 /* main.m */; };
 		1883D9141ACBBE5E002A4D19 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1883D9131ACBBE5E002A4D19 /* Images.xcassets */; };
@@ -465,6 +467,10 @@
 		18804AA11B25811E00E7E764 /* HKRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKRefreshControl.m; sourceTree = "<group>"; };
 		18804AA31B2679BB00E7E764 /* TestVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestVC.h; sourceTree = "<group>"; };
 		18804AA41B2679BB00E7E764 /* TestVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestVC.m; sourceTree = "<group>"; };
+		18804AA91B27DD3C00E7E764 /* GifActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifActivityIndicatorView.h; sourceTree = "<group>"; };
+		18804AAA1B27DD3C00E7E764 /* GifActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GifActivityIndicatorView.m; sourceTree = "<group>"; };
+		18804AAC1B280E3C00E7E764 /* HKLoadingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKLoadingModel.h; path = Class/HKLoadingModel.h; sourceTree = "<group>"; };
+		18804AAD1B280E3C00E7E764 /* HKLoadingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKLoadingModel.m; path = Class/HKLoadingModel.m; sourceTree = "<group>"; };
 		1883D8DF1ACB99AC002A4D19 /* XiaoMa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XiaoMa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1883D8F81ACB99AC002A4D19 /* XiaoMaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XiaoMaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1883D8FD1ACB99AC002A4D19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1511,6 +1517,8 @@
 				6BBFBC441B0DD51E000D3CA3 /* MyCarsModel.m */,
 				18804A9D1B2548AC00E7E764 /* NavigationModel.h */,
 				18804A9E1B2548AC00E7E764 /* NavigationModel.m */,
+				18804AAC1B280E3C00E7E764 /* HKLoadingModel.h */,
+				18804AAD1B280E3C00E7E764 /* HKLoadingModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1813,6 +1821,8 @@
 				6BB884B71AE0BB9600EBD8F4 /* JTTableView.m */,
 				6BB884B81AE0BB9600EBD8F4 /* UIView+JTLoadingView.h */,
 				6BB884B91AE0BB9600EBD8F4 /* UIView+JTLoadingView.m */,
+				18804AA91B27DD3C00E7E764 /* GifActivityIndicatorView.h */,
+				18804AAA1B27DD3C00E7E764 /* GifActivityIndicatorView.m */,
 				186985131B02E7DB000A182A /* UIScrollView+RefreshView.h */,
 				186985141B02E7DB000A182A /* UIScrollView+RefreshView.m */,
 				18804AA01B25811E00E7E764 /* HKRefreshControl.h */,
@@ -2661,6 +2671,7 @@
 				6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */,
 				18B2C7391B13076B007FB0C7 /* UIImage+PECrop.m in Sources */,
 				181F6D901B1436CA00D38555 /* UIView+DefaultEmptyView.m in Sources */,
+				18804AAE1B280E3C00E7E764 /* HKLoadingModel.m in Sources */,
 				6BBAB8C71ADD1ED900EC342F /* GetShopByDistanceOp.m in Sources */,
 				1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */,
 				6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */,
@@ -2670,6 +2681,7 @@
 				189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */,
 				6BE4CE341AF21ACA008E1C19 /* AddUserCarOp.m in Sources */,
 				6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */,
+				18804AAB1B27DD3C00E7E764 /* GifActivityIndicatorView.m in Sources */,
 				186984EF1B007ED0000A182A /* GetCarwashOrderListOp.m in Sources */,
 				189B394F1AF8576600B83F1B /* GetUserBaseInfoOp.m in Sources */,
 				189B30C71AD664D7001D7288 /* InsuranceVC.m in Sources */,

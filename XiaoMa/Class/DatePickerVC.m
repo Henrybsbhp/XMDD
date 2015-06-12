@@ -49,14 +49,14 @@
     return vc;
 }
 
-+ (RACSignal *)rac_presentPackerVCInView:(UIView *)view withSelectedDate:(NSDate *)date
++ (RACSignal *)rac_presentPickerVCInView:(UIView *)view withSelectedDate:(NSDate *)date
 {
     DatePickerVC *vc = [self datePickerVCWithMaximumDate:[NSDate date]];
-    return [vc rac_presentPackerVCInView:view withSelectedDate:date];
+    return [vc rac_presentPickerVCInView:view withSelectedDate:date];
 }
 
 ///弹出日期选择器(next:NSData* error:【表示取消选取】)
-- (RACSignal *)rac_presentPackerVCInView:(UIView *)view withSelectedDate:(NSDate *)date
+- (RACSignal *)rac_presentPickerVCInView:(UIView *)view withSelectedDate:(NSDate *)date
 {
     
     CGSize size = CGSizeMake(CGRectGetWidth(view.frame), 280);

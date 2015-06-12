@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -498,7 +497,7 @@
                                                 <constraint firstAttribute="width" constant="104" id="RS4-Gu-rCU"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" title="一键上传" backgroundImage="7F78262D-9284-437A-B499-AB848DA10D1B">
+                                            <state key="normal" title="一键上传" backgroundImage="0D4DF3F3-A941-4834-B947-9E54024AD8A0">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </state>
@@ -861,7 +860,7 @@
                                                         <constraint firstAttribute="height" constant="66" id="eLR-hu-rP4"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" misplaced="YES" text="免费洗车一次" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Bv-Sh-bfl">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" text="免费洗车一次" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Bv-Sh-bfl">
                                                     <rect key="frame" x="20" y="4" width="487" height="35"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -881,7 +880,7 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="使用说明：仅限7座以下非运营轿车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wEo-OZ-jq1">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="使用说明：仅限7座以下非运营轿车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wEo-OZ-jq1">
                                                     <rect key="frame" x="20" y="39" width="477" height="14"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -974,7 +973,7 @@
                                                         <constraint firstAttribute="height" constant="66" id="bAg-TL-92y"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" misplaced="YES" text="免费洗车一次" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iJ5-ns-rU4">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" text="免费洗车一次" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iJ5-ns-rU4">
                                                     <rect key="frame" x="20" y="4" width="487" height="35"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -994,7 +993,7 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="使用说明：仅限7座以下非运营轿车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h6Y-CB-22p">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="使用说明：仅限7座以下非运营轿车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h6Y-CB-22p">
                                                     <rect key="frame" x="20" y="39" width="477" height="14"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1136,7 +1135,7 @@
                                                         <constraint firstAttribute="width" constant="50" id="wnG-5R-ACV"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="eD1-RL-MbN">
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="eD1-RL-MbN">
                                                     <rect key="frame" x="20" y="64" width="560" height="1"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="1" id="Jdk-hc-uT8"/>
@@ -1182,7 +1181,7 @@
                                                         <constraint firstAttribute="height" constant="15" id="agO-xZ-9pb"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="xvL-G4-HZG">
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="xvL-G4-HZG">
                                                     <rect key="frame" x="20" y="33" width="560" height="1"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="1" id="G7N-fJ-xsK"/>
@@ -1282,7 +1281,7 @@
                                                         <constraint firstAttribute="height" constant="15" id="RDp-FA-itX"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="LYy-ff-6JZ">
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="LYy-ff-6JZ">
                                                     <rect key="frame" x="20" y="33" width="560" height="1"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="1" id="jjJ-tA-vpN"/>
@@ -1674,8 +1673,8 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="FZF-9E-pto" id="aWy-0y-IHM"/>
-                                    <outlet property="delegate" destination="FZF-9E-pto" id="Rr5-ix-d0z"/>
+                                    <outlet property="dataSource" destination="UfN-yD-ewB" id="iPX-Q6-UE7"/>
+                                    <outlet property="delegate" destination="UfN-yD-ewB" id="r0Z-ry-Euy"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -1689,16 +1688,10 @@
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
-                        <outlet property="carwashModel" destination="FZF-9E-pto" id="5Y7-Mc-ZMJ"/>
                         <outlet property="tableView" destination="PUH-OF-0oc" id="65B-xR-S9h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NSd-dl-SvI" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <customObject id="FZF-9E-pto" customClass="CarwashOrderViewModel">
-                    <connections>
-                        <outlet property="tableView" destination="PUH-OF-0oc" id="6P5-rz-YKF"/>
-                    </connections>
-                </customObject>
             </objects>
             <point key="canvasLocation" x="-239" y="917"/>
         </scene>
@@ -3138,7 +3131,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="7F78262D-9284-437A-B499-AB848DA10D1B" width="22" height="30">
+        <image name="0D4DF3F3-A941-4834-B947-9E54024AD8A0" width="22" height="30">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

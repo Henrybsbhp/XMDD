@@ -282,7 +282,7 @@
     else if (indexPath.row == 3)
     {
         [MobClick event:@"rp302-4"];
-        [[DatePickerVC rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.birthday]
+        [[DatePickerVC rac_presentPickerVCInView:self.navigationController.view withSelectedDate:self.birthday]
          subscribeNext:^(NSDate *date) {
              self.birthday = date;
              [self requestModifyUserInfo:ModifyBirthday];
