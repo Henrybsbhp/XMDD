@@ -47,7 +47,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "352"
             endingLineNumber = "352"
-            landmarkName = "-paginatorView:viewForPageAtIndex:"
+            landmarkName = "-mapView:regionDidChangeAnimated:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -79,7 +79,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "499"
             endingLineNumber = "499"
-            landmarkName = "-paginatorView:didScrollToPageAtIndex:"
+            landmarkName = "-paginatorView:viewForPageAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -196,11 +196,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/HomePageVC.m"
-            timestampString = "455683427.875504"
+            timestampString = "456030055.297758"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
             landmarkName = "-setupNavigationLeftBar:"
             landmarkType = "5">
          </BreakpointContent>
@@ -522,22 +522,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/MyInfoViewController.m"
-            timestampString = "455444663.297004"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
-            landmarkName = "@implementation MyInfoViewController"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -558,11 +542,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/HomePageVC.m"
-            timestampString = "455683427.875504"
+            timestampString = "456030055.297758"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "436"
-            endingLineNumber = "436"
+            startingLineNumber = "489"
+            endingLineNumber = "489"
             landmarkName = "-rac_getWeatherInfo"
             landmarkType = "5">
          </BreakpointContent>
@@ -1082,12 +1066,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/HomePageVC.m"
-            timestampString = "455683427.875504"
+            timestampString = "456030055.297758"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "474"
-            endingLineNumber = "474"
-            landmarkName = "-requestWeather:andCity:andDistrict:"
+            startingLineNumber = "527"
+            endingLineNumber = "527"
+            landmarkName = "-rac_getWeatherInfo"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1098,11 +1082,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/HomePageVC.m"
-            timestampString = "455683427.875504"
+            timestampString = "456030055.297758"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "478"
-            endingLineNumber = "478"
+            startingLineNumber = "531"
+            endingLineNumber = "531"
             landmarkName = "-requestWeather:andCity:andDistrict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1353,7 +1337,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "226"
             endingLineNumber = "226"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1369,7 +1353,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "49"
             endingLineNumber = "49"
-            landmarkName = "-actionBack:"
+            landmarkName = "-dealloc"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1401,39 +1385,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "799"
             endingLineNumber = "799"
-            landmarkName = "-selectDefaultCoupon"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/HomePageVC.m"
-            timestampString = "455683427.875504"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "242"
-            endingLineNumber = "242"
-            landmarkName = "-setupWeatherView:andTemperature:andTemperaturetip:andRestriction:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/HomePageVC.m"
-            timestampString = "455683427.875504"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
-            landmarkName = "-setupWeatherView:andTemperature:andTemperaturetip:andRestriction:"
+            landmarkName = "-requestWechatPay:andTradeId:andPrice:andProductName:andTime:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1449,7 +1401,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "833"
             endingLineNumber = "833"
-            landmarkName = "-refreshPriceLb"
+            landmarkName = "-selectDefaultCoupon"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1483,20 +1435,6 @@
             endingLineNumber = "127"
             landmarkName = "-startUpdatingWithURLString:"
             landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "455101414.322741"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "888"
-            endingLineNumber = "888">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1543,7 +1481,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "56"
             endingLineNumber = "56"
-            landmarkName = "-shareAction:"
+            landmarkName = "-actionBack:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1591,7 +1529,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "75"
             endingLineNumber = "75"
-            landmarkName = "-dealloc"
+            landmarkName = "-didReceiveMemoryWarning"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1697,22 +1635,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/MyCouponVC.m"
-            timestampString = "455444692.496509"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "-dealloc"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/InsuranceChannelVC.m"
             timestampString = "455445529.972886"
             startingColumnNumber = "9223372036854775807"
@@ -1751,23 +1673,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "35"
             endingLineNumber = "35"
-            landmarkName = "-actionGetVCode:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/VcodeLoginVC.m"
-            timestampString = "455598079.233945"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
-            landmarkName = "-textAtIndex:"
+            landmarkName = "-didReceiveMemoryWarning"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1815,8 +1721,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "334"
             endingLineNumber = "334"
-            landmarkName = "-mapView:regionDidChangeAnimated:"
-            landmarkType = "5">
+            landmarkName = "@implementation NearbyShopsViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
