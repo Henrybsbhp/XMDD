@@ -10,6 +10,7 @@
 #import <objc/runtime.h>
 #import <CKKit.h>
 #import <UIKitExtension.h>
+#import "GifActivityIndicatorView.h"
 
 @implementation UIView (JTLoadingView)
 @dynamic activityIndicatorView;
@@ -80,7 +81,7 @@ static char sActivityIndicatorView;
 - (void)showIndicatorTextWith:(NSString *)text clickBlock:(void(^)(UIButton *sender))block
 {
     BOOL isAnimating = [self isActivityAnimating];
-    CGFloat y = isAnimating ? CGRectGetMaxY(self.activityIndicatorView.frame) : self.indicatorPoistionY-18;
+    CGFloat y = isAnimating ? CGRectGetMaxY(self.activityIndicatorView.frame) : self.indicatorPoistionY -18;
     self.indicatorTextButton.frame = CGRectMake(0, y, self.frame.size.width, 36);
     [self.indicatorTextButton setTitle:text forState:UIControlStateNormal];
     [self.indicatorTextButton.titleLabel setFont:[UIFont systemFontOfSize:14]];
@@ -141,7 +142,7 @@ static char sActivityIndicatorView;
         }
         [(TYMActivityIndicatorView *)self.activityIndicatorView startAnimating];
     }
-    else
+    else if (type == UIActivityIndicatorType)
     {
         if (![self.activityIndicatorView isKindOfClass:[UIActivityIndicatorView class]])
         {
@@ -154,6 +155,16 @@ static char sActivityIndicatorView;
             self.activityIndicatorView = view;
         }
         [(UIActivityIndicatorView *)self.activityIndicatorView startAnimating];
+    }
+    else {
+        if (![self.activityIndicatorView isKindOfClass:[GifActivityIndicatorView class]]) {
+            [self.activityIndicatorView removeFromSuperview];
+            GifActivityIndicatorView *view = [[GifActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 93, 93)];
+            view.hidden = YES;
+            [self addSubview:view];
+            self.activityIndicatorView = view;
+        }
+        [(GifActivityIndicatorView *)self.activityIndicatorView startAnimating];
     }
     self.activityIndicatorView.center = CGPointMake(self.frame.size.width/2, self.indicatorPoistionY);
     [self bringSubviewToFront:self.activityIndicatorView];
@@ -169,8 +180,11 @@ static char sActivityIndicatorView;
     {
         [(MONActivityIndicatorView *)self.activityIndicatorView stopAnimating];
     }
-    else {
+    else if ([self.activityIndicatorView isKindOfClass:[UIActivityIndicatorView class]]) {
         [(UIActivityIndicatorView *)self.activityIndicatorView stopAnimating];
+    }
+    else {
+        [(GifActivityIndicatorView *)self.activityIndicatorView stopAnimating];
     }
 }
 
@@ -195,7 +209,7 @@ static char sActivityIndicatorView;
 {
     self.activityIndicatorView.center = CGPointMake(self.frame.size.width/2, self.indicatorPoistionY);
     BOOL isAnimating = [self isActivityAnimating];
-    CGFloat y = isAnimating ? CGRectGetMaxY(self.activityIndicatorView.frame) : self.indicatorPoistionY-18;
+    CGFloat y = isAnimating ? CGRectGetMaxY(self.activityIndicatorView.frame) : CGRectGetMidY(self.bounds)-18;
     self.indicatorTextButton.frame = CGRectMake(0, y, self.frame.size.width, 36);
 }
 
