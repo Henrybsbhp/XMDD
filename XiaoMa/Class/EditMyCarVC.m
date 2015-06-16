@@ -98,6 +98,7 @@
     }
     else {
         _curCar = [HKMyCar new];
+        _curCar.isDefault = YES;
         _isEditingModel = NO;
     }
     

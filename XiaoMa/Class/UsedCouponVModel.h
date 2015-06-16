@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "JTTableView.h"
+#import "HKLoadingModel.h"
 
 @interface UsedCouponVModel : NSObject<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, weak) JTTableView *tableView;
+@property (nonatomic, strong) HKLoadingModel *loadingModel;
 
 - (id)initWithTableView:(JTTableView *)tableView;
-- (void)reloadData;
+
 @end

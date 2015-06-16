@@ -15,6 +15,13 @@ typedef enum : NSInteger
     HKDatasourceLoadingTypeLoadMore
 }HKDatasourceLoadingType;
 
+typedef enum : NSInteger
+{
+    HKLoadingAnimationTypeNone = 0,
+    HKLoadingAnimationTypeGif,
+    HKLoadingAnimationTypeRefresh
+}HKLoadingAnimationType;
+
 @protocol HKLoadingModelDelegate;
 
 @interface HKLoadingModel : NSObject
@@ -44,6 +51,7 @@ typedef enum : NSInteger
 - (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type;
 - (NSArray *)loadingModel:(HKLoadingModel *)model datasourceFromLoadedData:(NSArray *)data withType:(HKDatasourceLoadingType)type;
 - (BOOL)loadingModel:(HKLoadingModel *)model shouldLoadMoreDataWithIndexPath:(NSIndexPath *)indexPath;
+- (HKLoadingAnimationType)loadingAnimationTypeForTheFirstTimeWithLoadingModel:(HKLoadingModel *)model;
 
 @end
 
