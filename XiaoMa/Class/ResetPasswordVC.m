@@ -61,6 +61,10 @@
     [[self.smsModel rac_handleVcodeButtonClick:sender withVcodeType:3 phone:[self textAtIndex:0]] subscribeError:^(NSError *error) {
         [gToast showError:error.domain];
     }];
+    
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
+    [field becomeFirstResponder];
 }
 
 - (IBAction)actionCheck:(id)sender

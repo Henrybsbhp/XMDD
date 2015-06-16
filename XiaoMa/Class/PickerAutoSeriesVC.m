@@ -8,11 +8,12 @@
 
 #import "PickerAutoSeriesVC.h"
 #import "GetAutomobileModelOp.h"
+#import "HKLoadingModel.h"
 
-@interface PickerAutoSeriesVC ()<UITableViewDelegate, UITableViewDataSource>
+@interface PickerAutoSeriesVC ()<UITableViewDelegate, UITableViewDataSource, HKLoadingModelDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) NSArray *seriesList;
+@property (nonatomic, strong) HKLoadingModel *loadingModel;
 @end
 
 @implementation PickerAutoSeriesVC
@@ -20,8 +21,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self.tableView.refreshView addTarget:self action:@selector(reloadDatasource) forControlEvents:UIControlEventValueChanged];
-    [self reloadDatasource];
+    self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
+    [self.loadingModel loadDataForTheFirstTime];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -35,24 +36,29 @@
     DebugLog(deallocInfo);
 }
 
-- (void)reloadDatasource
+#pragma mark - HKLoadingModelDelegate
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
+{
+    return @"暂无车系信息";
+}
+
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type
+{
+    return @"获取车系信息失败，点击重试";
+}
+
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
 {
     GetAutomobileModelOp *op = [GetAutomobileModelOp new];
     op.req_brandid = self.brandid;
-    @weakify(self);
-    [[[op rac_postRequest] initially:^{
-        @strongify(self);
-        [self.tableView.refreshView beginRefreshing];
-    }] subscribeNext:^(GetAutomobileModelOp *rspOp) {
-        @strongify(self);
-        [self.tableView.refreshView endRefreshing];
-        self.seriesList = rspOp.rsp_seriesList;
-        [self.tableView reloadData];
-    } error:^(NSError *error) {
-        @strongify(self);
-        [self.tableView.refreshView endRefreshing];
-        [gToast showError:error.domain];
+    return [[op rac_postRequest] map:^id(GetAutomobileModelOp *rspOp) {
+        return rspOp.rsp_seriesList;
     }];
+}
+
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+{
+    [self.tableView reloadData];
 }
 
 #pragma mark - UITableViewDelegate And Dataousrce
@@ -63,22 +69,25 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.seriesList.count;
+    return self.loadingModel.datasource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
-    titleL.text = [self.seriesList safetyObjectAtIndex:indexPath.row];
+    titleL.text = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
     
+    if ([cell isKindOfClass:[JTTableViewCell class]]) {
+        [(JTTableViewCell *)cell setHiddenTopSeparatorLine:YES];
+    }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSString *series = [self.seriesList safetyObjectAtIndex:indexPath.row];
+    NSString *series = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
     if (self.originVC) {
         [self.navigationController popToViewController:self.originVC animated:YES];
     }
@@ -90,4 +99,10 @@
     }
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([cell isKindOfClass:[JTTableViewCell class]]) {
+        [(JTTableViewCell *)cell prepareCellForTableView:tableView atIndexPath:indexPath];
+    }
+}
 @end

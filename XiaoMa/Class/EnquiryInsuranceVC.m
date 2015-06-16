@@ -196,7 +196,7 @@
         HKMyCar *car = self.selectedPlateBtn.customInfo[@"car"];
         GetInsuranceCalculatorOp * op = [GetInsuranceCalculatorOp operation];
         op.req_city = self.city;
-        op.req_licencenumber = self.plateNumber;
+        op.req_licencenumber = self.noPlateNumber ? nil : self.plateNumber;
         op.req_registered = self.noPlateNumber ? 2 : 1;
         op.req_purchaseprice = self.price;
         op.req_purchasedate = self.carryTime;

@@ -39,6 +39,10 @@
 - (void)loadDataForTheFirstTime
 {
     RACSignal *signal;
+    HKLoadingAnimationType animationType = HKLoadingAnimationTypeGif;
+    if ([self.delegate respondsToSelector:@selector(loadingAnimationTypeForTheFirstTimeWithLoadingModel:)]) {
+        animationType = [self.delegate loadingAnimationTypeForTheFirstTimeWithLoadingModel:self];
+    }
     if ([self.delegate respondsToSelector:@selector(loadingModel:loadingDataSignalWithType:)]) {
         signal = [self.delegate loadingModel:self loadingDataSignalWithType:HKDatasourceLoadingTypeFirstTime];
     }
@@ -50,13 +54,23 @@
         _isLoading = YES;
         CKAsyncMainQueue(^{
             [self.targetView hideDefaultEmptyView];
-            [self.targetView startActivityAnimationWithType:GifActivityIndicatorType];
+            if (animationType == HKLoadingAnimationTypeGif) {
+                [self.targetView startActivityAnimationWithType:GifActivityIndicatorType];
+            }
+            else if (animationType == HKLoadingAnimationTypeRefresh && [self.targetView isKindOfClass:[UIScrollView class]]){
+                [[(UIScrollView *)self.targetView refreshView] beginRefreshing];
+            }
         });
     }] finally:^{
         
         _isLoading = NO;
         CKAsyncMainQueue(^{
-            [self.targetView stopActivityAnimation];
+            if (animationType == HKLoadingAnimationTypeGif) {
+                [self.targetView stopActivityAnimation];
+            }
+            else if (animationType == HKLoadingAnimationTypeRefresh && [self.targetView isKindOfClass:[UIScrollView class]]){
+                [[(UIScrollView *)self.targetView refreshView] endRefreshing];
+            }
         });
     }] subscribeNext:^(NSArray *data) {
         
@@ -82,17 +96,19 @@
             if ([self.delegate respondsToSelector:@selector(loadingModel:blankPromptingWithType:)]) {
                 blank = [self.delegate loadingModel:self blankPromptingWithType:HKDatasourceLoadingTypeFirstTime];
             }
-            @weakify(self);
-            [self.targetView showDefaultEmptyViewWithText:blank tapBlock:^{
-
-                @strongify(self);
-                if ([self.delegate respondsToSelector:@selector(loadingModel:didTappedForBlankPrompting:type:)]) {
-                    [self.delegate loadingModel:self didTappedForBlankPrompting:blank type:HKDatasourceLoadingTypeFirstTime];
-                }
-                else {
-                    [self loadDataForTheFirstTime];
-                }
-            }];
+            if (blank) {
+                @weakify(self);
+                [self.targetView showDefaultEmptyViewWithText:blank tapBlock:^{
+                    
+                    @strongify(self);
+                    if ([self.delegate respondsToSelector:@selector(loadingModel:didTappedForBlankPrompting:type:)]) {
+                        [self.delegate loadingModel:self didTappedForBlankPrompting:blank type:HKDatasourceLoadingTypeFirstTime];
+                    }
+                    else {
+                        [self loadDataForTheFirstTime];
+                    }
+                }];
+            }
         }
     } error:^(NSError *error) {
         
@@ -101,17 +117,19 @@
         if ([self.delegate respondsToSelector:@selector(loadingModel:errorPromptingWithType:)]) {
             errorPrompting = [self.delegate loadingModel:self errorPromptingWithType:HKDatasourceLoadingTypeFirstTime];
         }
-        @weakify(self);
-        [self.targetView showDefaultEmptyViewWithText:errorPrompting tapBlock:^{
-            
-            @strongify(self);
-            if ([self.delegate respondsToSelector:@selector(loadingModel:didTappedForErrorPrompting:type:)]) {
-                [self.delegate loadingModel:self didTappedForErrorPrompting:errorPrompting type:HKDatasourceLoadingTypeFirstTime];
-            }
-            else {
-                [self loadDataForTheFirstTime];
-            }
-        }];
+        if (errorPrompting) {
+            @weakify(self);
+            [self.targetView showDefaultEmptyViewWithText:errorPrompting tapBlock:^{
+                
+                @strongify(self);
+                if ([self.delegate respondsToSelector:@selector(loadingModel:didTappedForErrorPrompting:type:)]) {
+                    [self.delegate loadingModel:self didTappedForErrorPrompting:errorPrompting type:HKDatasourceLoadingTypeFirstTime];
+                }
+                else {
+                    [self loadDataForTheFirstTime];
+                }
+            }];
+        }
     }];
 }
 
@@ -162,17 +180,19 @@
             if ([self.delegate respondsToSelector:@selector(loadingModel:blankPromptingWithType:)]) {
                 blank = [self.delegate loadingModel:self blankPromptingWithType:HKDatasourceLoadingTypeReloadData];
             }
-            @weakify(self);
-            [self.targetView showDefaultEmptyViewWithText:blank tapBlock:^{
-                
-                @strongify(self);
-                if ([self.delegate respondsToSelector:@selector(loadingModel:didTappedForBlankPrompting:type:)]) {
-                    [self.delegate loadingModel:self didTappedForBlankPrompting:blank type:HKDatasourceLoadingTypeReloadData];
-                }
-                else {
-                    [self reloadData];
-                }
-            }];
+            if (blank) {
+                @weakify(self);
+                [self.targetView showDefaultEmptyViewWithText:blank tapBlock:^{
+                    
+                    @strongify(self);
+                    if ([self.delegate respondsToSelector:@selector(loadingModel:didTappedForBlankPrompting:type:)]) {
+                        [self.delegate loadingModel:self didTappedForBlankPrompting:blank type:HKDatasourceLoadingTypeReloadData];
+                    }
+                    else {
+                        [self reloadData];
+                    }
+                }];
+            }
         }
     } error:^(NSError *error) {
         
@@ -203,7 +223,7 @@
         _isRemain = data.count >= PageAmount;
 
         if ([self.delegate respondsToSelector:@selector(loadingModel:datasourceFromLoadedData:withType:)]) {
-            self.datasource = [self.delegate loadingModel:self datasourceFromLoadedData:data withType:HKDatasourceLoadingTypeReloadData];
+            self.datasource = [self.delegate loadingModel:self datasourceFromLoadedData:data withType:HKDatasourceLoadingTypeLoadMore];
         }
         else {
             [(NSMutableArray *)self.datasource safetyAddObjectsFromArray:data];

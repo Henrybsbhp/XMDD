@@ -39,11 +39,7 @@
 
 - (void)reloadDatasource
 {
-    NSError *error;
-    if ([self.fetchCtrl performFetch:&error]) {
-        [self.tableView reloadData];        
-    }
-
+    [self.fetchCtrl performFetch:nil];
     @weakify(self);
     [[[self.autoModel rac_updateAutoBrand] initially:^{
         @strongify(self);

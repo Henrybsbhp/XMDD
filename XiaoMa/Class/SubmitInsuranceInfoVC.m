@@ -123,7 +123,7 @@
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:14];
     label.textColor = [UIColor whiteColor];
-    label.text = @"所有上传资料均会加水印，小马达达保障您的安全！";
+    label.text = @"所有上传资料均会加水印，小马达达保障您的隐私安全！";
     
     [exampleView addSubview:imgV];
     [exampleView addSubview:label];
