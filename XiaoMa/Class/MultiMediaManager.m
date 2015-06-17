@@ -75,6 +75,46 @@ static MultiMediaManager *g_mediaManager;
     return [signal deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
+
+- (RACSignal *)rac_getPictureForSpecialFirstTime:(NSString *)url withType:(ImageURLType)type
+                         defaultPic:(NSString *)defName errorPic:(NSString *)errName
+{
+    if (type == ImageURLTypeThumbnail) {
+        url = [url append:@"?imageView2/1/w/128/h/128"];
+    }
+    else if (type == ImageURLTypeMedium) {
+        url = [url append:@"?imageView2/0/w/1024/h/1024"];
+    }
+    
+    return [[self rac_getPictureWithUrlForSpecialFirstTime:url  defaultPic:defName] catch:^RACSignal *(NSError *error) {
+        if (errName.length > 0) {
+            return [RACSignal return:[UIImage imageNamed:errName]];
+        }
+        return [RACSignal error:error];
+    }];
+}
+
+- (RACSignal *)rac_getPictureWithUrlForSpecialFirstTime:(NSString *)url defaultPic:(NSString *)defName
+{
+    RACSignal *signal = [self rac_getImageFromCacheWithUrl:url];
+    //从网络获取image
+    signal = [signal flattenMap:^RACStream *(UIImage *img) {
+        
+        if (img) {
+            return [RACSignal return:img];
+        }
+        RACSignal *sig = [[self rac_getImageFromWebWithUrl:url] filter:^BOOL(id value) {
+            return (BOOL)value;
+        }];
+        if (defName.length > 0) {
+            sig = [sig merge:[RACSignal return:@"loading"]];
+        }
+        return sig;
+    }];
+    
+    return [signal deliverOn:[RACScheduler mainThreadScheduler]];
+}
+
 #pragma mark - Private Image Method
 - (RACSignal *)rac_getImageFromCacheWithUrl:(NSString *)url
 {

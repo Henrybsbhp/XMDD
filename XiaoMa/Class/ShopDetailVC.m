@@ -630,23 +630,37 @@
     for (NSInteger i = 0;i < self.shop.picArray.count;i++)
     {
         UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectZero];
+        UIActivityIndicatorView * indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         NSString * imageUrl = [self.shop.picArray safetyObjectAtIndex:i];
-        [[gMediaMgr rac_getPictureForUrl:imageUrl withType:ImageURLTypeMedium defaultPic:@"cm_shop" errorPic:@"cm_shop"]
-         subscribeNext:^(UIImage * image) {
+        [[gMediaMgr rac_getPictureForSpecialFirstTime:imageUrl withType:ImageURLTypeMedium defaultPic:@"cm_shop" errorPic:@"cm_shop"]
+         subscribeNext:^(NSObject * obj) {
             
-            CGRect frame = CGRectMake(i*[UIScreen mainScreen].bounds.size.width,
-                                      ([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2,
-                                      [UIScreen mainScreen].bounds.size.width,
-                                      image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width);
-            imageView.frame = frame;
-            [imageView setImage:image];
+             if ([obj isKindOfClass:[UIImage class]])
+             {
+                 UIImage * image = (UIImage *)obj;
+                 CGRect frame = CGRectMake(i*[UIScreen mainScreen].bounds.size.width,
+                                           ([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2,
+                                           [UIScreen mainScreen].bounds.size.width,
+                                           image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width);
+                 imageView.frame = frame;
+                 [imageView setImage:image];
+                 indicator.animating = NO;
+                 indicator.hidden = YES;
+             }
+             else if ([obj isKindOfClass:[NSString class]])
+             {
+                 indicator.animating = YES;
+             }
         } error:^(NSError *error) {
             
             [imageView setImage:[UIImage imageNamed:@"cm_shop"]];
         }];
         
         imageView.tag = i;
+        [backgroundView addSubview:indicator];
         [backgroundView addSubview:imageView];
+        indicator.animating = YES;
+        indicator.center = backgroundView.center;
     }
     
     [window addSubview:backgroundView];
