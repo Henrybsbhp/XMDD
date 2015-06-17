@@ -38,7 +38,7 @@
     return @"您未使用过优惠券";
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
 {
     return @"获取已使用优惠券失败，点击重试";
 }
@@ -48,13 +48,13 @@
     if (type != HKDatasourceLoadingTypeLoadMore) {
         self.curPageno = 0;
     }
-    NSInteger pageno = self.curPageno+1;
-    model.customTag = pageno;
-    
+
     GetUserCouponOp * op = [GetUserCouponOp operation];
     op.used = 1;
-    op.pageno = pageno;
+    op.pageno = self.curPageno+1;
     return [[op rac_postRequest] map:^id(GetUserCouponOp *rspOp) {
+        
+        self.curPageno = self.curPageno+1;
         return rspOp.rsp_couponsArray;
     }];
 }
