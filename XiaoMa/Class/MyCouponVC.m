@@ -37,8 +37,10 @@
     
     self.usedModel = [[UsedCouponVModel alloc] initWithTableView:self.usedTableView];
     self.unusedModel = [[UnusedCouponVModel alloc] initWithTableView:self.unusedTableView];
-    [self.unusedModel reloadData];
-    [self.usedModel reloadData];
+    [self.usedModel.loadingModel loadDataForTheFirstTime];
+    [self.unusedModel.loadingModel loadDataForTheFirstTime];
+//    [self.unusedModel reloadData];
+//    [self.usedModel reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -76,12 +78,12 @@
     if (segment.selectedSegmentIndex == 0) {
         [MobClick event:@"rp304-1"];
         self.usedTableView.hidden = YES;
-        [self.unusedTableView reloadData];
+//        [self.unusedTableView reloadData];
     }
     else {
         [MobClick event:@"rp304-2"];
         self.usedTableView.hidden = NO;
-        [self.usedTableView reloadData];
+//        [self.usedTableView reloadData];
     }
 }
 

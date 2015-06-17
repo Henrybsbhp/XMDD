@@ -11,10 +11,9 @@
 #import "HKCoupon.h"
 #import "GetUserCouponOp.h"
 
-@interface UsedCouponVModel ()
-@property (nonatomic, strong) NSMutableArray *usedCoupons;
+@interface UsedCouponVModel ()<HKLoadingModelDelegate>
 @property (nonatomic, assign) NSInteger curPageno;
-@property (nonatomic, assign) BOOL isRemain;
+
 @end
 
 @implementation UsedCouponVModel
@@ -27,66 +26,43 @@
         self.tableView = tableView;
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
-        [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
+        self.tableView.showBottomLoadingView = YES;
+        self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
     }
     return self;
 }
 
-- (void)reloadData
+#pragma mark - HKLoadingModelDelegate
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
 {
-    self.curPageno = 0;
-    self.isRemain = NO;
-    self.usedCoupons = [NSMutableArray array];
-    [self requestUsedCoupons];
+    return @"您未使用过优惠券";
 }
 
-- (void)refreshTableView
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
 {
-    if (self.usedCoupons.count == 0 && self.usedCoupons.count == 0) {
-        [self.tableView showDefaultEmptyViewWithText:@"您未使用过优惠券"];
-    }
-    else {
-        [self.tableView hideDefaultEmptyView];
-    }
-    [self.tableView reloadData];
+    return @"获取已使用优惠券失败，点击重试";
 }
 
-- (void)requestUsedCoupons
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
 {
-    NSInteger pageno = self.curPageno+1;
+    if (type != HKDatasourceLoadingTypeLoadMore) {
+        self.curPageno = 0;
+    }
+
     GetUserCouponOp * op = [GetUserCouponOp operation];
     op.used = 1;
-    op.pageno = pageno;
-    @weakify(self);
-    [[[op rac_postRequest] initially:^{
+    op.pageno = self.curPageno+1;
+    return [[op rac_postRequest] map:^id(GetUserCouponOp *rspOp) {
         
-        @strongify(self);
-        [self.tableView.bottomLoadingView hideIndicatorText];
-        if (pageno == 1) {
-            [self.tableView.refreshView beginRefreshing];
-        }
-        else {
-            [self.tableView.bottomLoadingView startActivityAnimation];
-        }
-    }] subscribeNext:^(GetUserCouponOp * op) {
-        
-        @strongify(self);
-        [self.tableView.refreshView endRefreshing];
-        [self.tableView.bottomLoadingView stopActivityAnimation];
-
-        [self.usedCoupons safetyAddObjectsFromArray:op.rsp_couponsArray];
-        self.isRemain = op.rsp_couponsArray.count >= PageAmount;
-        self.curPageno = pageno;
-        [self refreshTableView];
-    } error:^(NSError *error) {
-        
-        @strongify(self);
-        [self.tableView.refreshView endRefreshing];
-        [self.tableView.bottomLoadingView stopActivityAnimation];
-        [gToast showError:error.domain];
-        [self refreshTableView];
+        self.curPageno = self.curPageno+1;
+        return rspOp.rsp_couponsArray;
     }];
-    
+}
+
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+{
+    self.curPageno = model.customTag;
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -101,7 +77,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.usedCoupons.count;
+    return self.loadingModel.datasource.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -133,7 +109,7 @@
     [status setTitle:@"已使用" forState:UIControlStateNormal];
     backgroundImg.image = usableTicket;
 
-    HKCoupon * couponDic = [self.usedCoupons safetyObjectAtIndex:indexPath.row];
+    HKCoupon * couponDic = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
     name.text = couponDic.couponName;
     description.text = [NSString stringWithFormat:@"使用说明：%@",couponDic.couponDescription];
     validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",[couponDic.validsince dateFormatForYYMMdd2],[couponDic.validthrough dateFormatForYYMMdd2]];
@@ -142,9 +118,7 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.isRemain && indexPath.row >= self.usedCoupons.count-1) {
-        [self requestUsedCoupons];
-    }
+    [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nest:YES promptView:self.tableView.bottomLoadingView];
 }
 
 

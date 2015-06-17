@@ -12,7 +12,7 @@
 #import "CXAlertView.h"
 
 @interface HKCatchErrorModel ()
-@property (nonatomic, strong) CXAlertView *alertView;
+@property (nonatomic, weak) CXAlertView *alertView;
 @end
 @implementation HKCatchErrorModel
 
@@ -21,9 +21,14 @@
     [gNetworkMgr setCatchErrorHandler:^RACSignal *(BaseOp *op, NSError *error) {
         
         NSInteger code = error.code;
-        //token失效或非法
-        if (code == -2001 || code == -2002) {
+        //token失效
+        if (code == -2001) {
             return [self retryWithOp:op withError:error];
+        }
+        //token非法
+        else if (code == -2002) {
+            [HKLoginModel logout];
+            [self gotoRootViewWithAlertTitle:@"登出通知" msg:@"您的本次登录已经失效了,请重新登录。"];
         }
         //被抢登
         else if (code == -2003 && !self.alertView) {
@@ -71,6 +76,9 @@
 - (void)gotoRootViewWithAlertTitle:(NSString *)title msg:(NSString *)msg
 {
     [self clearAllOperations];
+    if (self.alertView) {
+        return;
+    }
     CXAlertView *alert = [[CXAlertView alloc] initWithTitle:title message:msg cancelButtonTitle:nil];
     [alert addButtonWithTitle:@"确定" type:0 handler:^(CXAlertView *alertView, CXAlertButtonItem *button) {
         [alertView dismiss];

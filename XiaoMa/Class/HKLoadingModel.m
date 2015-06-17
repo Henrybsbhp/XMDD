@@ -45,7 +45,7 @@
     if (!signal) {
         signal = [RACSignal return:nil];
     }
-    [[[signal initially:^{
+    [[[[signal deliverOn:[RACScheduler mainThreadScheduler]] initially:^{
 
         _isLoading = YES;
         CKAsyncMainQueue(^{
@@ -97,9 +97,12 @@
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
+        if ([self.delegate respondsToSelector:@selector(loadingModel:didLoadingFailWithType:error:)]) {
+            [self.delegate loadingModel:self didLoadingFailWithType:HKDatasourceLoadingTypeFirstTime error:error];
+        }
         NSString *errorPrompting;
-        if ([self.delegate respondsToSelector:@selector(loadingModel:errorPromptingWithType:)]) {
-            errorPrompting = [self.delegate loadingModel:self errorPromptingWithType:HKDatasourceLoadingTypeFirstTime];
+        if ([self.delegate respondsToSelector:@selector(loadingModel:errorPromptingWithType:error:)]) {
+            errorPrompting = [self.delegate loadingModel:self errorPromptingWithType:HKDatasourceLoadingTypeFirstTime error:error];
         }
         @weakify(self);
         [self.targetView showDefaultEmptyViewWithText:errorPrompting tapBlock:^{
@@ -134,7 +137,7 @@
 
 - (void)reloadDataFromSignal:(RACSignal *)signal
 {
-    [[[signal initially:^{
+    [[[[signal deliverOn:[RACScheduler mainThreadScheduler]] initially:^{
         
         _isLoading = YES;
         [self.targetView hideDefaultEmptyView];
@@ -177,6 +180,9 @@
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
+        if ([self.delegate respondsToSelector:@selector(loadingModel:didLoadingFailWithType:error:)]) {
+            [self.delegate loadingModel:self didLoadingFailWithType:HKDatasourceLoadingTypeReloadData error:error];
+        }
     }];
 }
 
@@ -189,7 +195,7 @@
     if (!signal) {
         signal = [RACSignal return:nil];
     }
-    [[[signal initially:^{
+    [[[[signal deliverOn:[RACScheduler mainThreadScheduler]] initially:^{
         
         _isLoading = YES;
         [self.targetView hideDefaultEmptyView];
@@ -203,7 +209,7 @@
         _isRemain = data.count >= PageAmount;
 
         if ([self.delegate respondsToSelector:@selector(loadingModel:datasourceFromLoadedData:withType:)]) {
-            self.datasource = [self.delegate loadingModel:self datasourceFromLoadedData:data withType:HKDatasourceLoadingTypeReloadData];
+            self.datasource = [self.delegate loadingModel:self datasourceFromLoadedData:data withType:HKDatasourceLoadingTypeLoadMore];
         }
         else {
             [(NSMutableArray *)self.datasource safetyAddObjectsFromArray:data];
@@ -215,6 +221,9 @@
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
+        if ([self.delegate respondsToSelector:@selector(loadingModel:didLoadingFailWithType:error:)]) {
+            [self.delegate loadingModel:self didLoadingFailWithType:HKDatasourceLoadingTypeLoadMore error:error];
+        }
     }];
 }
 
