@@ -42,7 +42,7 @@
     return @"暂无车系信息";
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
 {
     return @"获取车系信息失败，点击重试";
 }

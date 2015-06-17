@@ -131,6 +131,7 @@
             self.nameLabel.hidden = YES;
             self.accountLabel.hidden = YES;
             self.PlaceholdLabel.hidden = NO;
+            [self.tableView reloadData];
         }
         else {
             self.PlaceholdLabel.hidden = YES;
@@ -141,10 +142,8 @@
             RAC(self.avatarView, image) = [[RACObserve(user, avatarUrl) distinctUntilChanged] flattenMap:^RACStream *(NSString *url) {
                 return [gMediaMgr rac_getPictureForUrl:url withType:ImageURLTypeMedium defaultPic:@"cm_avatar" errorPic:@"cm_avatar"];
             }];
+            [self reloadUserInfo];
         }
-
-        [self reloadUserInfo];
-
     }];
 }
 

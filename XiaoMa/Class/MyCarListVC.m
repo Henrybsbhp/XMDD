@@ -116,7 +116,7 @@
     return @"暂无爱车，快去添加一辆吧";
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
 {
     return @"获取爱车信息失败，点击重试";
 }

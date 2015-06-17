@@ -32,22 +32,10 @@
     DebugLog(deallocInfo);
 }
 
-- (void)reloadDataWithText:(NSString *)text error:(NSError *)error
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
 {
-    if (!error) {
-        text = @"附近暂无商户";
-    }
-    [super reloadDataWithText:text error:error];
+    return @"附近暂无商户";
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
