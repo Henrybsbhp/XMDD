@@ -39,4 +39,17 @@ typedef enum : NSInteger
                                 inView:(UIView *)view initBlock:(void(^)(UIImagePickerController *picker))block;
 - (RACSignal *)rac_pickAndCropPhotoInTargetVC:(UIViewController *)targetVC inView:(UIView *)view;
 
+/**
+ *  获取图片信号，第一次的信号返回NSString，用来标记一下。前端可用作风火轮提示
+ *
+ *  @param url     url
+ *  @param type    图片类型
+ *  @param defName 默认图片
+ *  @param errName 错误图片
+ *
+ *  @return 图片及NSString信号
+ */
+- (RACSignal *)rac_getPictureForSpecialFirstTime:(NSString *)url withType:(ImageURLType)type
+                                      defaultPic:(NSString *)defName errorPic:(NSString *)errName;
+
 @end
