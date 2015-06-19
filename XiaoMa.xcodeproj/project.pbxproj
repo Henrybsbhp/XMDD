@@ -210,6 +210,7 @@
 		6BBB084D1B021EA90002C349 /* JTLogModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB08441B021EA90002C349 /* JTLogModel.m */; };
 		6BBB08501B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB084A1B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m */; };
 		6BBB08531B021F440002C349 /* LogAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB08521B021F440002C349 /* LogAlertView.m */; };
+		6BBB4C3F1B32790B00C8052E /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB4C3E1B32790B00C8052E /* WelcomeViewController.m */; };
 		6BBB82491AE7401400850D0C /* GetInsuranceByChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB82481AE7401400850D0C /* GetInsuranceByChannel.m */; };
 		6BBB824F1AE7757100850D0C /* NearbyShopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB824E1AE7757100850D0C /* NearbyShopsViewController.m */; };
 		6BBB825C1AE79FE100850D0C /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBB82581AE79FE100850D0C /* libWeChatSDK.a */; };
@@ -703,6 +704,8 @@
 		6BBB084A1B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m"; sourceTree = "<group>"; };
 		6BBB08511B021F440002C349 /* LogAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogAlertView.h; sourceTree = "<group>"; };
 		6BBB08521B021F440002C349 /* LogAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogAlertView.m; sourceTree = "<group>"; };
+		6BBB4C3D1B32790B00C8052E /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
+		6BBB4C3E1B32790B00C8052E /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		6BBB82471AE7401400850D0C /* GetInsuranceByChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetInsuranceByChannel.h; path = Class/GetInsuranceByChannel.h; sourceTree = "<group>"; };
 		6BBB82481AE7401400850D0C /* GetInsuranceByChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetInsuranceByChannel.m; path = Class/GetInsuranceByChannel.m; sourceTree = "<group>"; };
 		6BBB824D1AE7757100850D0C /* NearbyShopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyShopsViewController.h; sourceTree = "<group>"; };
@@ -1494,6 +1497,8 @@
 			children = (
 				187532D11ACCDEEF004CB777 /* HomePageVC.h */,
 				187532D21ACCDEEF004CB777 /* HomePageVC.m */,
+				6BBB4C3D1B32790B00C8052E /* WelcomeViewController.h */,
+				6BBB4C3E1B32790B00C8052E /* WelcomeViewController.m */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -2515,6 +2520,7 @@
 				6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */,
 				6BB61BA31AEF7CAE004F39AA /* NSString+RectSize.m in Sources */,
 				6BD7AE681AE9F63900BEF30E /* MapBottomView.m in Sources */,
+				6BBB4C3F1B32790B00C8052E /* WelcomeViewController.m in Sources */,
 				6BBFBC451B0DD51E000D3CA3 /* MyCarsModel.m in Sources */,
 				6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */,
 				6BC3B6191ADF92E7001016A0 /* CommonUtility.m in Sources */,

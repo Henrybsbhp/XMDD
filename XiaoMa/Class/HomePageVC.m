@@ -31,6 +31,7 @@
 #import "CheckUserAwardOp.h"
 #import "GainAwardViewController.h"
 #import "GainedViewController.h"
+#import "WelcomeViewController.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 

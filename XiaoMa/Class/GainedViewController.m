@@ -98,7 +98,7 @@
     
     if (self.leftDay > 0)
     {
-        leftDayLb.text = [NSString stringWithFormat:@"您已领取礼券，%ld天后再来领取吧！",self.leftDay];
+        leftDayLb.text = [NSString stringWithFormat:@"您已领取礼券，%ld天后再来领取吧！",(long)self.leftDay];
     }
     else
     {
@@ -120,9 +120,6 @@
         @strongify(self)
         [self share];
     }];
-    
-    
-//    numLb.text = [NSString stringWithFormat:@"已有%ld人领取",(long)self.gainedNum];
     
     return cell;
 }
