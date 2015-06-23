@@ -280,8 +280,10 @@
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1003];
     
-    RAC(logoV, image) = [gMediaMgr rac_getPictureForUrl:[self.shop.picArray safetyObjectAtIndex:0]
-                                               withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"];
+    [[gMediaMgr rac_getPictureForUrl:[self.shop.picArray safetyObjectAtIndex:0]
+                                               withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] subscribeNext:^(id x) {
+        logoV.image = x;
+    }];
     titleL.text = self.shop.shopName;
     addrL.text = self.shop.shopAddress;
     

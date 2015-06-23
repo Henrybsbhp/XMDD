@@ -132,7 +132,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "454659391.264824"
+            timestampString = "456718305.290985"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "718"
@@ -196,12 +196,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/HomePageVC.m"
-            timestampString = "456030055.297758"
+            timestampString = "456391725.356319"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "247"
-            endingLineNumber = "247"
-            landmarkName = "-setupNavigationRightBar"
+            startingLineNumber = "250"
+            endingLineNumber = "250"
+            landmarkName = "-setupWeatherView:andTemperature:andTemperaturetip:andRestriction:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -228,7 +228,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "454659391.264824"
+            timestampString = "456718305.290985"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "729"
@@ -244,7 +244,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "454659391.264824"
+            timestampString = "456718305.290985"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "720"
@@ -432,11 +432,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "455101414.322741"
+            timestampString = "456718305.290985"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "914"
-            endingLineNumber = "914">
+            startingLineNumber = "904"
+            endingLineNumber = "904"
+            landmarkName = "@implementation PayForWashCarVC"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -494,7 +496,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "454659391.264824"
+            timestampString = "456718305.290985"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "356"
@@ -542,11 +544,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/HomePageVC.m"
-            timestampString = "456030055.297758"
+            timestampString = "456391725.356319"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "489"
-            endingLineNumber = "489"
+            startingLineNumber = "492"
+            endingLineNumber = "492"
             landmarkName = "-requestWeather:andCity:andDistrict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -737,7 +739,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "81"
             endingLineNumber = "81"
-            landmarkName = "-dealloc"
+            landmarkName = "-didReceiveMemoryWarning"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -748,11 +750,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/AppDelegate.m"
-            timestampString = "456045009.868897"
+            timestampString = "456395991.917726"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "216"
-            endingLineNumber = "216"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
             landmarkName = "-handleOpenURL:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1066,13 +1068,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/HomePageVC.m"
-            timestampString = "456030055.297758"
+            timestampString = "456391725.356319"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "527"
-            endingLineNumber = "527"
-            landmarkName = "-rac_requestHomePageAd"
-            landmarkType = "5">
+            startingLineNumber = "530"
+            endingLineNumber = "530"
+            landmarkName = "@implementation HomePageVC"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1082,13 +1084,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/HomePageVC.m"
-            timestampString = "456030055.297758"
+            timestampString = "456391725.356319"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "531"
-            endingLineNumber = "531"
-            landmarkName = "@implementation HomePageVC"
-            landmarkType = "3">
+            startingLineNumber = "534"
+            endingLineNumber = "534"
+            landmarkName = "-numberOfPagesForPaginatorView:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1147,22 +1149,6 @@
             timestampString = "454335577.203627"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "-rac_getPictureForUrl:withType:defaultPic:errorPic:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/MultiMediaManager.m"
-            timestampString = "454335577.203627"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
             startingLineNumber = "54"
             endingLineNumber = "54"
             landmarkName = "-rac_getPictureForUrl:withType:defaultPic:"
@@ -1190,7 +1176,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "454659391.264824"
+            timestampString = "456718305.290985"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "612"
@@ -1206,7 +1192,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "454659391.264824"
+            timestampString = "456718305.290985"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "411"
@@ -1222,7 +1208,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "454659391.264824"
+            timestampString = "456718305.290985"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "611"
@@ -1238,7 +1224,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "454659391.264824"
+            timestampString = "456718305.290985"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "428"
@@ -1254,7 +1240,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "454659391.264824"
+            timestampString = "456718305.290985"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "459"
@@ -1270,7 +1256,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "454659391.264824"
+            timestampString = "456718305.290985"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "339"
@@ -1315,22 +1301,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/MultiMediaManager.m"
-            timestampString = "454568775.794724"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
-            landmarkName = "-rac_getPictureForUrl:withType:defaultPic:errorPic:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/ChooseCarwashTicketVC.m"
             timestampString = "455439858.575345"
             startingColumnNumber = "9223372036854775807"
@@ -1360,27 +1330,11 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/ClientInfo.m"
-            timestampString = "454663790.40981"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
-            landmarkName = "-_inits"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "455101414.322741"
+            timestampString = "456718305.290985"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "799"
@@ -1396,7 +1350,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "455101414.322741"
+            timestampString = "456718305.290985"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "833"
@@ -1449,7 +1403,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "97"
             endingLineNumber = "97"
-            landmarkName = "-shareWeibo"
+            landmarkName = "-shareTimeline"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1524,11 +1478,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "455439590.762236"
+            timestampString = "456224489.8153"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "-didReceiveMemoryWarning"
             landmarkType = "5">
          </BreakpointContent>
@@ -1716,11 +1670,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/AppDelegate.m"
-            timestampString = "456045009.868897"
+            timestampString = "456395991.917726"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "463"
-            endingLineNumber = "463"
+            startingLineNumber = "507"
+            endingLineNumber = "507"
             landmarkName = "-motionBegan:withEvent:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1732,11 +1686,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/AppDelegate.m"
-            timestampString = "456045009.868897"
+            timestampString = "456395991.917726"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "456"
-            endingLineNumber = "456"
+            startingLineNumber = "500"
+            endingLineNumber = "500"
             landmarkName = "-motionBegan:withEvent:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1747,13 +1701,141 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/HomePageVC.m"
-            timestampString = "456139398.722469"
+            filePath = "XiaoMa/Class/GainAwardViewController.m"
+            timestampString = "456284848.245642"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "577"
-            endingLineNumber = "577"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
+            landmarkName = "-requestGainAward"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XiaoMa/Class/GainedViewController.m"
+            timestampString = "456284862.277462"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "-share"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XiaoMa/Class/WelcomeViewController.m"
+            timestampString = "456386530.812825"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "-paginatorView:viewForPageAtIndex:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XiaoMa/Class/PayForWashCarVC.m"
+            timestampString = "456397531.724355"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "276"
+            endingLineNumber = "276"
+            landmarkName = "-shopTitleCellAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XiaoMa/Class/LoadingView/HKRefreshControl.m"
+            timestampString = "456717628.439939"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "-willMoveToSuperview:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XiaoMa/Class/LoadingView/HKRefreshControl.m"
+            timestampString = "456717629.604976"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "-initWithScrollView:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XiaoMa/Class/LoadingView/HKRefreshControl.m"
+            timestampString = "456717632.202631"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "-beginRefreshing"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XiaoMa/Class/LoadingView/HKRefreshControl.m"
+            timestampString = "456717635.513699"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
+            landmarkName = "-endRefreshing"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XiaoMa/Class/LoadingView/HKRefreshControl.m"
+            timestampString = "456718165.217144"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
+            landmarkName = "-scrollView:contentInsetDidChanged:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
