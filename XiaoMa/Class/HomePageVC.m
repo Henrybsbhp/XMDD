@@ -28,6 +28,10 @@
 #import "RescureViewController.h"
 #import "CommissionViewController.h"
 #import "UIImage+Utilities.h"
+#import "CheckUserAwardOp.h"
+#import "GainAwardViewController.h"
+#import "GainedViewController.h"
+#import "WelcomeViewController.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 
@@ -108,6 +112,8 @@
     //天气视图
     [self.weatherView removeFromSuperview];
     [self.scrollView addSubview:self.weatherView];
+    
+    CGFloat deviceWidth = gAppMgr.deviceInfo.screenSize.width;
 
     @weakify(self);
     [self.weatherView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -133,22 +139,41 @@
 
     //洗车
     UIButton *btn1 = [self functionalButtonWithImageName:@"hp_washcar" action:@selector(actionWashCar:) inContainer:container];
-    @weakify(btn1);
+    //抢红包
+    UIButton *btn5 = [self functionalButtonWithImageName:@"hp_award" action:@selector(actionAward:) inContainer:container];
+    
+    [btn5 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.adView.mas_bottom).offset(11);
+        make.right.equalTo(container).offset(-11);
+        
+        if (deviceWidth <= 320)
+        {
+            make.width.equalTo(container.mas_width).multipliedBy(180.0/640);
+            make.height.equalTo(container.mas_width).multipliedBy(212.0/640);
+        }
+        else
+        {
+            make.width.equalTo(container.mas_width).multipliedBy(190.0/640);
+            make.height.equalTo(container.mas_width).multipliedBy(230.0/640);
+        }
+    }];
+    
     [btn1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        @strongify(btn1);
         make.top.equalTo(self.adView.mas_bottom).offset(11);
         make.left.equalTo(container).offset(11);
-        make.right.equalTo(container).offset(-11);
-        make.height.equalTo(btn1.mas_width).multipliedBy(212.0/590);
+        make.right.equalTo(btn5.mas_left).offset(-7);
+        make.height.equalTo(btn5);
     }];
+ 
     //保险
     UIButton *btn2 = [self functionalButtonWithImageName:@"hp_insurance" action:@selector(actionInsurance:) inContainer:container];
     @weakify(btn2);
     [btn2 mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(btn2);
         make.left.equalTo(btn1.mas_left);
+        make.right.equalTo(container.mas_centerX);
         make.top.equalTo(btn1.mas_bottom).offset(7);
-        make.width.equalTo(btn1.mas_width).multipliedBy(0.5);
+//        make.width.equalTo(btn1.mas_width).multipliedBy(0.5);
         make.height.equalTo(btn2.mas_width).multipliedBy(344.0f/346.0f);
     }];
     //专业救援
@@ -157,7 +182,7 @@
     [btn3 mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(btn3);
         make.left.equalTo(btn2.mas_right).offset(7);
-        make.right.equalTo(btn1.mas_right);
+        make.right.equalTo(container.mas_right).offset(-11);
         make.top.equalTo(btn1.mas_bottom).offset(7);
         make.height.equalTo(btn3.mas_width).multipliedBy(165.0f/332.0f);
     }];
@@ -361,6 +386,35 @@
     CommissionViewController *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionViewController"];
     vc.urlStr = @"http://www.xiaomadada.com/apphtml/daiban.html";
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionAward:(id)sender
+{
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+
+        CheckUserAwardOp * op = [CheckUserAwardOp operation];
+        [[[op rac_postRequest] initially:^{
+            
+            [gToast showIndicatorTextWith:@"检查zhong..."];
+        }] subscribeNext:^(CheckUserAwardOp * op) {
+            
+            if (op.rsp_leftday > 0)
+            {
+                GainedViewController * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"GainedViewController"];
+                vc.leftDay = op.rsp_leftday;
+                vc.amount = op.rsp_amount;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+            else
+            {
+                GainAwardViewController * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"GainAwardViewController"];
+                vc.gainedNum = op.rsp_total;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        } error:^(NSError *error) {
+            
+        }];
+    }
 }
 
 - (void)rotationTableHeaderView

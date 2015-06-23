@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lE9-IE-ktQ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lE9-IE-ktQ">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -165,10 +165,44 @@
             </objects>
             <point key="canvasLocation" x="322" y="-419"/>
         </scene>
+        <!--Welcome View Controller-->
+        <scene sceneID="rjC-EP-LKZ">
+            <objects>
+                <viewController storyboardIdentifier="WelcomeViewController" hidesBottomBarWhenPushed="YES" id="esT-L7-cdG" customClass="WelcomeViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0rL-A5-r1a"/>
+                        <viewControllerLayoutGuide type="bottom" id="4pG-f0-Xym"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="EVf-t7-35a">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GRb-ul-HRV" customClass="SYPaginatorView">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="GRb-ul-HRV" firstAttribute="leading" secondItem="EVf-t7-35a" secondAttribute="leading" id="2QC-V5-MsD"/>
+                            <constraint firstItem="4pG-f0-Xym" firstAttribute="bottom" secondItem="GRb-ul-HRV" secondAttribute="bottom" id="DIh-hl-Q4f"/>
+                            <constraint firstAttribute="trailing" secondItem="GRb-ul-HRV" secondAttribute="trailing" id="Kob-rQ-ytx"/>
+                            <constraint firstItem="GRb-ul-HRV" firstAttribute="top" secondItem="0rL-A5-r1a" secondAttribute="top" id="cyC-aH-Ofc"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="sypaginatorView" destination="GRb-ul-HRV" id="ZHS-QQ-Ggs"/>
+                        <outlet property="topConstraint" destination="cyC-aH-Ofc" id="9s6-ju-wsr"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tA9-tF-Huw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1029" y="-425"/>
+        </scene>
         <!--Main Tab BarVC-->
         <scene sceneID="iJm-GM-vBp">
             <objects>
-                <tabBarController id="lE9-IE-ktQ" customClass="MainTabBarVC" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainTabBarVC" id="lE9-IE-ktQ" customClass="MainTabBarVC" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="hBU-vk-3Vq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>

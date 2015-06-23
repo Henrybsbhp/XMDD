@@ -12,6 +12,8 @@
 
 @property (nonatomic, strong, readonly) NSString *clientVersion;
 
+@property (nonatomic, strong) NSString *lastClientVersion;
+
 /// 强制更新的版本
 @property (nonatomic, copy)NSString * forceUpdateVersion;
 /// 强制更新的链接
