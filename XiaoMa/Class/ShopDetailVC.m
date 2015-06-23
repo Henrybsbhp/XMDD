@@ -665,7 +665,7 @@
     
     [window addSubview:backgroundView];
     
-    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImage:)];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImage:)];
     [backgroundView addGestureRecognizer: tap];
     
     [UIView animateWithDuration:0.3 animations:^{

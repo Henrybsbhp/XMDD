@@ -29,6 +29,8 @@
 @interface PayForWashCarVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIButton *payBtn;
+
 @property (nonatomic, strong) CKSegmentHelper *checkBoxHelper;
 
 @property (nonatomic)BOOL isLoadingResourse;
@@ -114,10 +116,6 @@
     [MobClick event:@"rp108-7"];
     [self requestCheckout];
 }
-
-
-
-
 
 
 #pragma mark - Table view data source
@@ -861,18 +859,8 @@
         amount = self.service.origprice;
     }
     
-    UILabel *label = (UILabel *)[self.bottomView viewWithTag:1001];
-    NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
-    NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:@"总计："
-                                                                   attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14],
-                                                                                NSForegroundColorAttributeName:HEXCOLOR(@"#fb4209")}];
-    [str appendAttributedString:attrStr1];
-    NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%.2f", amount]
-                                                                   attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:19],
-                                                                                NSForegroundColorAttributeName:HEXCOLOR(@"#fb4209")}];
-    [str appendAttributedString:attrStr2];
-    label.attributedText = str;
-    
+    NSString * btnText = [NSString stringWithFormat:@"您只需支付%.2f元，现在支付",amount];
+    [self.payBtn setTitle:btnText forState:UIControlStateNormal];
 }
 
 - (void)setSelectCarwashCoupouArray:(NSMutableArray *)selectCarwashCoupouArray
