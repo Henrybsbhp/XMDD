@@ -212,6 +212,7 @@
 		6BBB084D1B021EA90002C349 /* JTLogModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB08441B021EA90002C349 /* JTLogModel.m */; };
 		6BBB08501B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB084A1B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m */; };
 		6BBB08531B021F440002C349 /* LogAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB08521B021F440002C349 /* LogAlertView.m */; };
+		6BBB4C3F1B32790B00C8052E /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB4C3E1B32790B00C8052E /* WelcomeViewController.m */; };
 		6BBB82491AE7401400850D0C /* GetInsuranceByChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB82481AE7401400850D0C /* GetInsuranceByChannel.m */; };
 		6BBB824F1AE7757100850D0C /* NearbyShopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBB824E1AE7757100850D0C /* NearbyShopsViewController.m */; };
 		6BBB825C1AE79FE100850D0C /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBB82581AE79FE100850D0C /* libWeChatSDK.a */; };
@@ -222,9 +223,14 @@
 		6BBBF54D1B291CCA00E1B809 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBBF54B1B291CCA00E1B809 /* Fabric.framework */; };
 		6BBBF54E1B291CCA00E1B809 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBBF54C1B291CCA00E1B809 /* Crashlytics.framework */; };
 		6BBBF5501B2937EB00E1B809 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BBBF54F1B2937EB00E1B809 /* Info.plist */; };
+		6BBBF5531B295CE400E1B809 /* CheckUserAwardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBBF5521B295CE400E1B809 /* CheckUserAwardOp.m */; };
+		6BBBF5561B295FD300E1B809 /* GainUserAwardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBBF5551B295FD300E1B809 /* GainUserAwardOp.m */; };
+		6BBBF5581B296AC900E1B809 /* Award.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BBBF5571B296AC900E1B809 /* Award.storyboard */; };
+		6BBBF55C1B296EE200E1B809 /* GainAwardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBBF55B1B296EE200E1B809 /* GainAwardViewController.m */; };
 		6BBC4A281B0C8236003F3081 /* SocialShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC4A271B0C8236003F3081 /* SocialShareView.m */; };
 		6BBC4A2C1B0C8495003F3081 /* SocialShareView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BBC4A2B1B0C8495003F3081 /* SocialShareView.xib */; };
 		6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC4A2E1B0C8F87003F3081 /* SocialShareViewController.m */; };
+		6BBEB70B1B2AB120004AD191 /* GainedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBEB70A1B2AB120004AD191 /* GainedViewController.m */; };
 		6BBF75F41B05CA0800E11EBB /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF75F11B05CA0800E11EBB /* BaseModel.m */; };
 		6BBF75F51B05CA0800E11EBB /* FavoriteModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF75F31B05CA0800E11EBB /* FavoriteModel.m */; };
 		6BBF7DA01B004A7A00E45967 /* MyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF7D9F1B004A7A00E45967 /* MyInfoViewController.m */; };
@@ -704,6 +710,8 @@
 		6BBB084A1B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m"; sourceTree = "<group>"; };
 		6BBB08511B021F440002C349 /* LogAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogAlertView.h; sourceTree = "<group>"; };
 		6BBB08521B021F440002C349 /* LogAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogAlertView.m; sourceTree = "<group>"; };
+		6BBB4C3D1B32790B00C8052E /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
+		6BBB4C3E1B32790B00C8052E /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		6BBB82471AE7401400850D0C /* GetInsuranceByChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetInsuranceByChannel.h; path = Class/GetInsuranceByChannel.h; sourceTree = "<group>"; };
 		6BBB82481AE7401400850D0C /* GetInsuranceByChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetInsuranceByChannel.m; path = Class/GetInsuranceByChannel.m; sourceTree = "<group>"; };
 		6BBB824D1AE7757100850D0C /* NearbyShopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyShopsViewController.h; sourceTree = "<group>"; };
@@ -718,11 +726,20 @@
 		6BBBF54B1B291CCA00E1B809 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		6BBBF54C1B291CCA00E1B809 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		6BBBF54F1B2937EB00E1B809 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Misc/Info.plist; sourceTree = "<group>"; };
+		6BBBF5511B295CE400E1B809 /* CheckUserAwardOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckUserAwardOp.h; path = Class/CheckUserAwardOp.h; sourceTree = "<group>"; };
+		6BBBF5521B295CE400E1B809 /* CheckUserAwardOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckUserAwardOp.m; path = Class/CheckUserAwardOp.m; sourceTree = "<group>"; };
+		6BBBF5541B295FD300E1B809 /* GainUserAwardOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GainUserAwardOp.h; path = Class/GainUserAwardOp.h; sourceTree = "<group>"; };
+		6BBBF5551B295FD300E1B809 /* GainUserAwardOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GainUserAwardOp.m; path = Class/GainUserAwardOp.m; sourceTree = "<group>"; };
+		6BBBF5571B296AC900E1B809 /* Award.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Award.storyboard; sourceTree = "<group>"; };
+		6BBBF55A1B296EE200E1B809 /* GainAwardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GainAwardViewController.h; sourceTree = "<group>"; };
+		6BBBF55B1B296EE200E1B809 /* GainAwardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GainAwardViewController.m; sourceTree = "<group>"; };
 		6BBC4A261B0C8236003F3081 /* SocialShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SocialShareView.h; path = Class/SocialShareView.h; sourceTree = "<group>"; };
 		6BBC4A271B0C8236003F3081 /* SocialShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SocialShareView.m; path = Class/SocialShareView.m; sourceTree = "<group>"; };
 		6BBC4A2B1B0C8495003F3081 /* SocialShareView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SocialShareView.xib; path = Class/SocialShareView.xib; sourceTree = "<group>"; };
 		6BBC4A2D1B0C8F87003F3081 /* SocialShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialShareViewController.h; sourceTree = "<group>"; };
 		6BBC4A2E1B0C8F87003F3081 /* SocialShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocialShareViewController.m; sourceTree = "<group>"; };
+		6BBEB7091B2AB120004AD191 /* GainedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GainedViewController.h; sourceTree = "<group>"; };
+		6BBEB70A1B2AB120004AD191 /* GainedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GainedViewController.m; sourceTree = "<group>"; };
 		6BBF75F11B05CA0800E11EBB /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseModel.m; path = Class/BaseModel.m; sourceTree = "<group>"; };
 		6BBF75F21B05CA0800E11EBB /* FavoriteModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FavoriteModel.h; path = Class/FavoriteModel.h; sourceTree = "<group>"; };
 		6BBF75F31B05CA0800E11EBB /* FavoriteModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FavoriteModel.m; path = Class/FavoriteModel.m; sourceTree = "<group>"; };
@@ -1405,6 +1422,7 @@
 				6BB61B9B1AEF587E004F39AA /* Other.storyboard */,
 				6BB8CB831B141350007B61B5 /* Rescue.storyboard */,
 				6BB8CB851B14135E007B61B5 /* Commission.storyboard */,
+				6BBBF5571B296AC900E1B809 /* Award.storyboard */,
 			);
 			name = Storyboard;
 			sourceTree = "<group>";
@@ -1440,6 +1458,7 @@
 		1883D91A1ACBC2E4002A4D19 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6BBBF5591B296EB700E1B809 /* Award */,
 				185A527F1B195AA8003515CC /* Nearby */,
 				6BB8CB881B14147F007B61B5 /* Commission */,
 				6BB8CB871B141474007B61B5 /* Rescure */,
@@ -1484,6 +1503,8 @@
 			children = (
 				187532D11ACCDEEF004CB777 /* HomePageVC.h */,
 				187532D21ACCDEEF004CB777 /* HomePageVC.m */,
+				6BBB4C3D1B32790B00C8052E /* WelcomeViewController.h */,
+				6BBB4C3E1B32790B00C8052E /* WelcomeViewController.m */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -1942,6 +1963,17 @@
 			path = WeChatSDK.5;
 			sourceTree = "<group>";
 		};
+		6BBBF5591B296EB700E1B809 /* Award */ = {
+			isa = PBXGroup;
+			children = (
+				6BBBF55A1B296EE200E1B809 /* GainAwardViewController.h */,
+				6BBBF55B1B296EE200E1B809 /* GainAwardViewController.m */,
+				6BBEB7091B2AB120004AD191 /* GainedViewController.h */,
+				6BBEB70A1B2AB120004AD191 /* GainedViewController.m */,
+			);
+			name = Award;
+			sourceTree = "<group>";
+		};
 		6BBFBC3C1B0D8E57000D3CA3 /* WeiboShareSDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -2055,6 +2087,10 @@
 				6BCA5F451B1031EC00E1E630 /* GainCouponPkgOp.m */,
 				6BCF62451B1737980064AE32 /* GetUserCouponByTypeOp.h */,
 				6BCF62461B1737980064AE32 /* GetUserCouponByTypeOp.m */,
+				6BBBF5511B295CE400E1B809 /* CheckUserAwardOp.h */,
+				6BBBF5521B295CE400E1B809 /* CheckUserAwardOp.m */,
+				6BBBF5541B295FD300E1B809 /* GainUserAwardOp.h */,
+				6BBBF5551B295FD300E1B809 /* GainUserAwardOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -2365,6 +2401,7 @@
 				6BBB825D1AE79FE100850D0C /* read_me.txt in Resources */,
 				189B39551AF898A400B83F1B /* Mine.storyboard in Resources */,
 				185A527D1B185191003515CC /* Message.storyboard in Resources */,
+				6BBBF5581B296AC900E1B809 /* Award.storyboard in Resources */,
 				18B2C73C1B13076B007FB0C7 /* PEPhotoCropEditor.bundle in Resources */,
 				6BBFBC421B0D8E57000D3CA3 /* WeiboSDK.bundle in Resources */,
 				6BB8CB861B14135E007B61B5 /* Commission.storyboard in Resources */,
@@ -2493,6 +2530,7 @@
 				6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */,
 				6BB61BA31AEF7CAE004F39AA /* NSString+RectSize.m in Sources */,
 				6BD7AE681AE9F63900BEF30E /* MapBottomView.m in Sources */,
+				6BBB4C3F1B32790B00C8052E /* WelcomeViewController.m in Sources */,
 				6BBFBC451B0DD51E000D3CA3 /* MyCarsModel.m in Sources */,
 				6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */,
 				6BC3B6191ADF92E7001016A0 /* CommonUtility.m in Sources */,
@@ -2518,6 +2556,7 @@
 				1851F4251B0C29BB00241A01 /* xmdd.xcdatamodeld in Sources */,
 				1851F4181B0C1E5400241A01 /* PickerAutomobileBrandVC.m in Sources */,
 				184E40CE1AD3BBB600EFC3A6 /* ShopDetailVC.m in Sources */,
+				6BBEB70B1B2AB120004AD191 /* GainedViewController.m in Sources */,
 				6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */,
 				181F6DA81B15919900D38555 /* CXAlertViewController.m in Sources */,
 				186985041B01CC2C000A182A /* SubmitCommentOp.m in Sources */,
@@ -2534,6 +2573,7 @@
 				1885F0C01B1C4DB40056D3BD /* UIView+ShowDot.m in Sources */,
 				6BEA56CD1AE24DCE000D19C1 /* base64.m in Sources */,
 				1893711F1B0DAD290030FDE1 /* HKMessage.m in Sources */,
+				6BBBF5561B295FD300E1B809 /* GainUserAwardOp.m in Sources */,
 				6BBAB8D11ADE30F900EC342F /* GetShopRatesOp.m in Sources */,
 				6BC220A21AD7B22300A4310E /* AFHTTPRequestOperationManager+ReactiveCocoa.m in Sources */,
 				186984EB1B005A94000A182A /* InsranceOrderViewModel.m in Sources */,
@@ -2637,6 +2677,7 @@
 				6BAF30181AE67CC800E35E08 /* GetSystemVersionOp.m in Sources */,
 				181F6D931B15773600D38555 /* BeInterestedInInsuranceOp.m in Sources */,
 				6BE2BD611AE6408500A69875 /* DownloadOp.m in Sources */,
+				6BBBF5531B295CE400E1B809 /* CheckUserAwardOp.m in Sources */,
 				181F6DA71B15919900D38555 /* CXAlertView.m in Sources */,
 				189B39521AF877E100B83F1B /* MyCarListVC.m in Sources */,
 				6BBAB8C41ADCBD1400EC342F /* GetShopByRangeOp.m in Sources */,
@@ -2650,6 +2691,7 @@
 				18863FA81AE9D39A005BF4ED /* PayForPolicyVC.m in Sources */,
 				1816F4A81ACD3B0900BBCC96 /* SYPaginatorViewController.m in Sources */,
 				189B31141ADB60AE001D7288 /* JGActionSheet.m in Sources */,
+				6BBBF55C1B296EE200E1B809 /* GainAwardViewController.m in Sources */,
 				6BEA56451AE2488C000D19C1 /* CheckoutServiceOrderOp.m in Sources */,
 				6BC3B6151ADF69B5001016A0 /* CarWashNavigationViewController.m in Sources */,
 				187CC95F1AEF6A89004D1F28 /* UpdateInsuranceCalculateOp.m in Sources */,

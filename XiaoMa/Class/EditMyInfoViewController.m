@@ -90,7 +90,7 @@
         
         if (self.textFeild.text.length == 0)
         {
-            [gToast showError:@"请输入正确昵称"];
+            [gToast showError:@"请输入昵称"];
             return;
         }
         op.nickname = self.textFeild.text;

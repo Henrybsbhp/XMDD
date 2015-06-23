@@ -29,6 +29,8 @@
 @interface PayForWashCarVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIButton *payBtn;
+
 @property (nonatomic, strong) CKSegmentHelper *checkBoxHelper;
 
 @property (nonatomic)BOOL isLoadingResourse;
@@ -112,12 +114,17 @@
 - (IBAction)actionPay:(id)sender
 {
     [MobClick event:@"rp108-7"];
-    [self requestCheckout];
+    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"支付确认" message:@"请务必到店享受服务，且与店员确认服务商家与软件当前支付商家一致后再付款，付完不退款" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+    [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
+        
+        NSInteger index = [number integerValue];
+        if (index == 1)
+        {
+            [self requestCheckout];
+        }
+    }];
+    [av show];
 }
-
-
-
-
 
 
 #pragma mark - Table view data source
@@ -280,8 +287,10 @@
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1003];
     
-    RAC(logoV, image) = [gMediaMgr rac_getPictureForUrl:[self.shop.picArray safetyObjectAtIndex:0]
-                                               withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"];
+    [[gMediaMgr rac_getPictureForUrl:[self.shop.picArray safetyObjectAtIndex:0]
+                                               withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] subscribeNext:^(id x) {
+        logoV.image = x;
+    }];
     titleL.text = self.shop.shopName;
     addrL.text = self.shop.shopAddress;
     
@@ -859,18 +868,8 @@
         amount = self.service.origprice;
     }
     
-    UILabel *label = (UILabel *)[self.bottomView viewWithTag:1001];
-    NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
-    NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:@"总计："
-                                                                   attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14],
-                                                                                NSForegroundColorAttributeName:HEXCOLOR(@"#fb4209")}];
-    [str appendAttributedString:attrStr1];
-    NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%.2f", amount]
-                                                                   attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:19],
-                                                                                NSForegroundColorAttributeName:HEXCOLOR(@"#fb4209")}];
-    [str appendAttributedString:attrStr2];
-    label.attributedText = str;
-    
+    NSString * btnText = [NSString stringWithFormat:@"您只需支付%.2f元，现在支付",amount];
+    [self.payBtn setTitle:btnText forState:UIControlStateNormal];
 }
 
 - (void)setSelectCarwashCoupouArray:(NSMutableArray *)selectCarwashCoupouArray

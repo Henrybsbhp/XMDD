@@ -27,6 +27,9 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
+#import "WelcomeViewController.h"
+#import "MainTabBarVC.h"
+
 
 #define RequestWeatherInfoInterval 60 * 10
 //#define RequestWeatherInfoInterval 5
@@ -76,8 +79,49 @@
     
     [self setupVersionUpdating];
     
+    [self setupFirstViewController];
+    
     return YES;
 }
+
+#pragma mark - Utilitly
+
+- (void)setupFirstViewController
+{
+    if ([gAppMgr.clientInfo.lastClientVersion compare:gAppMgr.clientInfo.clientVersion] == NSOrderedAscending)
+    {
+        [self setupRootViewController:@"WelcomeViewController"];
+    }
+    else
+    {
+        [self setupRootViewController:@"MainTabBarVC"];
+    }
+    
+}
+
+- (void)setupRootViewController:(NSString *)vcName
+{
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    if ([vcName isEqualToString:@"WelcomeViewController"])
+    {
+        WelcomeViewController * wc = [mainStoryboard instantiateViewControllerWithIdentifier:vcName];
+        [self.window setRootViewController:wc];
+    }
+    else
+    {
+        MainTabBarVC * mainTabVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"MainTabBarVC"];
+        [self.window setRootViewController:mainTabVC];
+    }
+    [self.window makeKeyAndVisible];
+}
+
+- (void)resetRootViewController:(UIViewController *)rootVC
+{
+    self.window.rootViewController = rootVC;
+    [self.window makeKeyAndVisible];
+}
+
 
 #pragma mark - Initialize
 - (void)setupLogger
