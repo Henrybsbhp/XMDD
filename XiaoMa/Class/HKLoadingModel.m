@@ -14,7 +14,7 @@
 #define kDebounchInterval       0.3
 
 @interface HKLoadingModel ()
-
+//@property (nonatomic, assign) BOOL loadingSuccessForTheFirstTime;
 @end
 
 @implementation HKLoadingModel
@@ -45,6 +45,11 @@
     if (!signal) {
         signal = [RACSignal return:nil];
     }
+    [self loadDataForTheFirstTimeFromSignal:signal];
+}
+
+- (void)loadDataForTheFirstTimeFromSignal:(RACSignal *)signal
+{
     [[[[signal deliverOn:[RACScheduler mainThreadScheduler]] initially:^{
 
         _isLoading = YES;
@@ -69,10 +74,13 @@
         }
         if (data.count > 0) {
             if ([self.targetView isKindOfClass:[UIScrollView class]]) {
+                //先移除所有事件
+                [[(UIScrollView *)self.targetView refreshView] removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
                 [[(UIScrollView *)self.targetView refreshView] addTarget:self
                                                                   action:@selector(reloadData)
                                                         forControlEvents:UIControlEventValueChanged];
             }
+//            self.loadingSuccessForTheFirstTime = YES;
             if ([self.delegate respondsToSelector:@selector(loadingModel:didLoadingSuccessWithType:)]) {
                 [self.delegate loadingModel:self didLoadingSuccessWithType:HKDatasourceLoadingTypeFirstTime];
             }
@@ -118,6 +126,8 @@
     }];
 }
 
+
+
 - (void)reloadData
 {
     RACSignal *signal;
@@ -132,7 +142,9 @@
 
 - (void)reloadDataWithDatasource:(NSArray *)datasource
 {
-    [self reloadDataFromSignal:[RACSignal return:datasource]];
+    if (self.datasource.count > 0 || datasource.count > 0) {
+        [self reloadDataFromSignal:[RACSignal return:datasource]];
+    }
 }
 
 - (void)reloadDataFromSignal:(RACSignal *)signal
@@ -141,6 +153,12 @@
         
         _isLoading = YES;
         [self.targetView hideDefaultEmptyView];
+        if ([self.targetView isKindOfClass:[UIScrollView class]]) {
+            UIControl *control = [(UIScrollView *)self.targetView refreshView];
+            if ([control actionsForTarget:self forControlEvent:UIControlEventValueChanged].count == 0) {
+                [control addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
+            }
+        }
     }] finally:^{
         
         _isLoading = NO;
