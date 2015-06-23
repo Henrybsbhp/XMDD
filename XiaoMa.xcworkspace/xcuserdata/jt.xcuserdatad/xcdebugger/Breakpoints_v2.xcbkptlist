@@ -132,15 +132,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-<<<<<<< HEAD
-            timestampString = "456718305.290985"
-=======
-            timestampString = "456224489.8153"
->>>>>>> fq_coupon
+            timestampString = "456737364.250716"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "716"
-            endingLineNumber = "716"
+            startingLineNumber = "727"
+            endingLineNumber = "727"
             landmarkName = "-requestCheckout"
             landmarkType = "5">
          </BreakpointContent>
@@ -205,11 +201,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "250"
             endingLineNumber = "250"
-<<<<<<< HEAD
-            landmarkName = "-setupWeatherView:andTemperature:andTemperaturetip:andRestriction:"
-=======
             landmarkName = "-setupNavigationLeftBar:"
->>>>>>> fq_coupon
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -236,15 +228,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-<<<<<<< HEAD
-            timestampString = "456718305.290985"
-=======
-            timestampString = "456224489.8153"
->>>>>>> fq_coupon
+            timestampString = "456737364.250716"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "727"
-            endingLineNumber = "727"
+            startingLineNumber = "738"
+            endingLineNumber = "738"
             landmarkName = "-requestCheckout"
             landmarkType = "5">
          </BreakpointContent>
@@ -256,15 +244,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-<<<<<<< HEAD
-            timestampString = "456718305.290985"
-=======
-            timestampString = "456224489.8153"
->>>>>>> fq_coupon
+            timestampString = "456737364.250716"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "718"
-            endingLineNumber = "718"
+            startingLineNumber = "729"
+            endingLineNumber = "729"
             landmarkName = "-requestCheckout"
             landmarkType = "5">
          </BreakpointContent>
@@ -448,21 +432,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-<<<<<<< HEAD
-            timestampString = "456718305.290985"
+            timestampString = "456737364.250716"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "904"
-            endingLineNumber = "904"
-            landmarkName = "@implementation PayForWashCarVC"
-            landmarkType = "3">
-=======
-            timestampString = "456224489.8153"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "902"
-            endingLineNumber = "902">
->>>>>>> fq_coupon
+            startingLineNumber = "913"
+            endingLineNumber = "913">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -520,15 +494,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-<<<<<<< HEAD
-            timestampString = "456718305.290985"
-=======
-            timestampString = "456224489.8153"
->>>>>>> fq_coupon
+            timestampString = "456737364.250716"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "354"
-            endingLineNumber = "354"
+            startingLineNumber = "365"
+            endingLineNumber = "365"
             landmarkName = "-paymentTypeCellAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -577,11 +547,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "492"
             endingLineNumber = "492"
-<<<<<<< HEAD
-            landmarkName = "-requestWeather:andCity:andDistrict:"
-=======
             landmarkName = "-rac_getWeatherInfo"
->>>>>>> fq_coupon
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1105,13 +1071,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "530"
             endingLineNumber = "530"
-<<<<<<< HEAD
-            landmarkName = "@implementation HomePageVC"
-            landmarkType = "3">
-=======
             landmarkName = "-rac_getWeatherInfo"
             landmarkType = "5">
->>>>>>> fq_coupon
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1126,11 +1087,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "534"
             endingLineNumber = "534"
-<<<<<<< HEAD
-            landmarkName = "-numberOfPagesForPaginatorView:"
-=======
             landmarkName = "-requestWeather:andCity:andDistrict:"
->>>>>>> fq_coupon
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1217,15 +1174,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-<<<<<<< HEAD
-            timestampString = "456718305.290985"
-=======
-            timestampString = "456224489.8153"
->>>>>>> fq_coupon
+            timestampString = "456737364.250716"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "610"
-            endingLineNumber = "610"
+            startingLineNumber = "621"
+            endingLineNumber = "621"
             landmarkName = "-requestGetUserResource"
             landmarkType = "5">
          </BreakpointContent>
@@ -1237,15 +1190,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-<<<<<<< HEAD
-            timestampString = "456718305.290985"
-=======
-            timestampString = "456224489.8153"
->>>>>>> fq_coupon
+            timestampString = "456737364.250716"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "409"
-            endingLineNumber = "409"
+            startingLineNumber = "420"
+            endingLineNumber = "420"
             landmarkName = "-paymentTypeCellAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1257,15 +1206,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-<<<<<<< HEAD
-            timestampString = "456718305.290985"
-=======
-            timestampString = "456224489.8153"
->>>>>>> fq_coupon
+            timestampString = "456737364.250716"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "609"
-            endingLineNumber = "609"
+            startingLineNumber = "620"
+            endingLineNumber = "620"
             landmarkName = "-requestGetUserResource"
             landmarkType = "5">
          </BreakpointContent>
@@ -1277,15 +1222,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-<<<<<<< HEAD
-            timestampString = "456718305.290985"
-=======
-            timestampString = "456224489.8153"
->>>>>>> fq_coupon
+            timestampString = "456737364.250716"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "426"
-            endingLineNumber = "426"
+            startingLineNumber = "437"
+            endingLineNumber = "437"
             landmarkName = "-paymentTypeCellAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1297,15 +1238,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-<<<<<<< HEAD
-            timestampString = "456718305.290985"
-=======
-            timestampString = "456224489.8153"
->>>>>>> fq_coupon
+            timestampString = "456737364.250716"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "457"
-            endingLineNumber = "457"
+            startingLineNumber = "468"
+            endingLineNumber = "468"
             landmarkName = "-paymentTypeCellAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1317,15 +1254,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-<<<<<<< HEAD
-            timestampString = "456718305.290985"
-=======
-            timestampString = "456224489.8153"
->>>>>>> fq_coupon
+            timestampString = "456737364.250716"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "337"
-            endingLineNumber = "337"
+            startingLineNumber = "348"
+            endingLineNumber = "348"
             landmarkName = "-paymentTypeCellAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1389,25 +1322,6 @@
             startingLineNumber = "49"
             endingLineNumber = "49"
             landmarkName = "-dealloc"
-<<<<<<< HEAD
-=======
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/ClientInfo.m"
-            timestampString = "454663790.40981"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
-            landmarkName = "-_inits"
->>>>>>> fq_coupon
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1418,19 +1332,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-<<<<<<< HEAD
-            timestampString = "456718305.290985"
+            timestampString = "456737364.250716"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "799"
-            endingLineNumber = "799"
-=======
-            timestampString = "456224489.8153"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "797"
-            endingLineNumber = "797"
->>>>>>> fq_coupon
+            startingLineNumber = "808"
+            endingLineNumber = "808"
             landmarkName = "-requestWechatPay:andTradeId:andPrice:andProductName:andTime:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1442,19 +1348,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-<<<<<<< HEAD
-            timestampString = "456718305.290985"
+            timestampString = "456737364.250716"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "833"
-            endingLineNumber = "833"
-=======
-            timestampString = "456224489.8153"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "831"
-            endingLineNumber = "831"
->>>>>>> fq_coupon
+            startingLineNumber = "842"
+            endingLineNumber = "842"
             landmarkName = "-selectDefaultCoupon"
             landmarkType = "5">
          </BreakpointContent>
@@ -1846,16 +1744,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-<<<<<<< HEAD
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "456397531.724355"
+            timestampString = "456737364.250716"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "276"
-            endingLineNumber = "276"
+            startingLineNumber = "285"
+            endingLineNumber = "285"
             landmarkName = "-shopTitleCellAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1921,18 +1818,6 @@
             startingLineNumber = "146"
             endingLineNumber = "146"
             landmarkName = "-endRefreshing"
-=======
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/ClientInfo.m"
-            timestampString = "456396029.205937"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
-            landmarkName = "-lastClientVersion"
->>>>>>> fq_coupon
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1942,7 +1827,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-<<<<<<< HEAD
             filePath = "XiaoMa/Class/LoadingView/HKRefreshControl.m"
             timestampString = "456718165.217144"
             startingColumnNumber = "9223372036854775807"
@@ -1950,15 +1834,22 @@
             startingLineNumber = "192"
             endingLineNumber = "192"
             landmarkName = "-scrollView:contentInsetDidChanged:"
-=======
-            filePath = "XiaoMa/Class/ClientInfo.m"
-            timestampString = "456396029.88795"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XiaoMa/Class/LoadingView/HKRefreshControl.m"
+            timestampString = "456719222.921673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
-            landmarkName = "-setLastClientVersion:"
->>>>>>> fq_coupon
+            startingLineNumber = "202"
+            endingLineNumber = "202"
+            landmarkName = "-scrollView:contentOffsetDidChanged:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

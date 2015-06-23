@@ -114,7 +114,16 @@
 - (IBAction)actionPay:(id)sender
 {
     [MobClick event:@"rp108-7"];
-    [self requestCheckout];
+    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"支付确认" message:@"请务必到店享受服务，且与店员确认服务商家与软件当前支付商家一致后再付款，付完不退款" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+    [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
+        
+        NSInteger index = [number integerValue];
+        if (index == 1)
+        {
+            [self requestCheckout];
+        }
+    }];
+    [av show];
 }
 
 
