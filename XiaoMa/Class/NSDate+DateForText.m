@@ -149,6 +149,9 @@
 
 + (NSDate *)dateWithD8Text:(NSString *)text
 {
+    if (text.length == 0) {
+        return nil;
+    }
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"yyyyMMdd"];
     return [format dateFromString:text];
@@ -174,6 +177,10 @@
 
 + (NSDate *)dateWithText:(NSString *)text
 {
+    if (text.length == 0) {
+        return nil;
+    }
+
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"yyyyMMdd'T'HHmmss"];
     return [format dateFromString:text];

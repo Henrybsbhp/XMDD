@@ -520,7 +520,7 @@
             shouldUpdate = YES;
             curCar.purchasedate = op.req_purchasedate;
         }
-        if (![op.req_purchaseprice equalByCaseInsensitive:[NSString stringWithFormat:@"%2f", car.price]]) {
+        if (![op.req_purchaseprice equalByCaseInsensitive:[NSString stringWithFormat:@"%.2f", car.price]]) {
             shouldUpdate = YES;
             curCar.price = [op.req_purchaseprice floatValue];
         }

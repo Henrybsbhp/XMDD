@@ -52,29 +52,15 @@
 
 - (void)reloadDrivingCard
 {
-    RACSignal *signal;
-    if (self.car.licenceurl > 0) {
-        signal = [RACSignal return:self.car.licenceurl];
-    }
-    else {
-        [[gAppMgr.myUser.carModel rac_getDefaultCar] map:^id(HKMyCar *car) {
-            return car.licenceurl;
-        }];
-    }
-
-    [signal subscribeNext:^(NSString *url) {
-
-        if (url.length == 0) {
-            return ;
-        }
-        self.pickedPhotoUrl = url;
-        [[gAppMgr.mediaMgr rac_getPictureForUrl:url withType:ImageURLTypeMedium defaultPic:@"cm_defpic" errorPic:@"cm_defpic_fail"] subscribeNext:^(UIImage *x) {
+    self.pickedPhotoUrl = self.car.licenceurl;
+    if (self.pickedPhotoUrl.length > 0) {
+        [[gAppMgr.mediaMgr rac_getPictureForUrl:self.pickedPhotoUrl withType:ImageURLTypeMedium defaultPic:@"cm_defpic" errorPic:@"cm_defpic_fail"] subscribeNext:^(UIImage *x) {
             
             self.pickedPhoto = x;
             self.pickedPhotoView.image = x;
             self.defaultPhotoView.hidden = YES;
         }];
-    }];
+    }
 }
 
 #pragma mark - Textfield
@@ -91,6 +77,10 @@
 - (IBAction)actionTakePhoto:(id)sender {
     
     [MobClick event:@"rp124-2"];
+    if (self.pickedPhotoUrl.length > 0) {
+        return;
+    }
+
     JGActionSheetSection *section1 = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"拍照",@"从相册选择"]
                                                                 buttonStyle:JGActionSheetButtonStyleDefault];
     JGActionSheetSection *section2 = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"取消"]
