@@ -11,6 +11,9 @@
 #import "GetVcodeOp.h"
 
 @interface HKSMSModel : NSObject
+@property (nonatomic, strong, readonly) NSMutableDictionary *tokenPool;
+
+- (instancetype)initWithTokenPool:(NSMutableDictionary *)tokenPool;
 
 ///获取短信验证码 如果获取短信验证码接口返回成功，每隔1秒发送剩余冷却时间(sendNext:NSNumber*:剩余冷却时间)
 - (RACSignal *)rac_getVcodeWithType:(NSInteger)type phone:(NSString *)phone;

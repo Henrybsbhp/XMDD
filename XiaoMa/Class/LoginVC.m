@@ -22,7 +22,7 @@
 @implementation LoginVC
 
 - (void)awakeFromNib {
-    self.model = [LoginViewModel new];
+    self.model = [[LoginViewModel alloc] init];
 }
 
 - (void)viewDidLoad {

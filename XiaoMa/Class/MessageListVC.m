@@ -192,17 +192,20 @@
 - (NSAttributedString *)attrStrForMessage:(HKMessage *)msg linkRange:(NSRange *)range
 {
     NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
-    NSDictionary *attr = @{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:[UIColor darkTextColor]};
+    NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
+    paragraph.lineSpacing = 5;
+    NSDictionary *attr = @{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:[UIColor darkTextColor],
+                           NSParagraphStyleAttributeName:paragraph};
     NSAttributedString *str1 = [[NSAttributedString alloc] initWithString:msg.content attributes:attr];
     [str appendAttributedString:str1];
     (*range).location = [str length];
 
-    if (msg.msgtype == 2) {
+//    if (msg.msgtype == 2) {
 //        NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:HEXCOLOR(@"#386fcd")};
-        NSAttributedString *str2 = [[NSAttributedString alloc] initWithString:@" 点击分享" attributes:attr];
-        (*range).length = [str2 length];
-        [str appendAttributedString:str2];
-    }
+//        NSAttributedString *str2 = [[NSAttributedString alloc] initWithString:@" 点击分享" attributes:attr];
+//        (*range).length = [str2 length];
+//        [str appendAttributedString:str2];
+//    }
     return str;
 }
 
