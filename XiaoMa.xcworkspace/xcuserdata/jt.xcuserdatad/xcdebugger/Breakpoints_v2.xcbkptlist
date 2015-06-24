@@ -304,11 +304,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/SearchViewController.m"
-            timestampString = "456806651.551124"
+            timestampString = "456809533.097631"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "490"
-            endingLineNumber = "490"
+            startingLineNumber = "498"
+            endingLineNumber = "498"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -320,11 +320,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/SearchViewController.m"
-            timestampString = "455443236.258343"
+            timestampString = "456808626.045591"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
             landmarkName = "-setupNavigationBar"
             landmarkType = "5">
          </BreakpointContent>
@@ -336,11 +336,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/SearchViewController.m"
-            timestampString = "455443236.258343"
+            timestampString = "456808626.045591"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
             landmarkName = "-setupSearchBar"
             landmarkType = "5">
          </BreakpointContent>
@@ -352,27 +352,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/SearchViewController.m"
-            timestampString = "455443236.258343"
+            timestampString = "456808626.045591"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
-            landmarkName = "-setupNavigationBar"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XiaoMa/Class/SearchViewController.m"
-            timestampString = "455443236.258343"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
             landmarkName = "-setupSearchBar"
             landmarkType = "5">
          </BreakpointContent>
@@ -384,12 +368,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/SearchViewController.m"
-            timestampString = "456806651.551124"
+            timestampString = "456808626.045591"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "389"
-            endingLineNumber = "389"
-            landmarkName = "-tableView:heightForRowAtIndexPath:"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "-setupSearchBar"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XiaoMa/Class/SearchViewController.m"
+            timestampString = "456809533.097631"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "397"
+            endingLineNumber = "397"
+            landmarkName = "-tableView:numberOfRowsInSection:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -542,11 +542,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/HomePageVC.m"
-            timestampString = "456806364.85354"
+            timestampString = "456808626.045591"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "494"
-            endingLineNumber = "494"
+            startingLineNumber = "492"
+            endingLineNumber = "492"
             landmarkName = "-rac_getWeatherInfo"
             landmarkType = "5">
          </BreakpointContent>
@@ -1066,11 +1066,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/HomePageVC.m"
-            timestampString = "456806364.85354"
+            timestampString = "456808626.045591"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "532"
-            endingLineNumber = "532"
+            startingLineNumber = "530"
+            endingLineNumber = "530"
             landmarkName = "-rac_getWeatherInfo"
             landmarkType = "5">
          </BreakpointContent>
@@ -1082,11 +1082,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/HomePageVC.m"
-            timestampString = "456806364.85354"
+            timestampString = "456808626.045591"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "536"
-            endingLineNumber = "536"
+            startingLineNumber = "534"
+            endingLineNumber = "534"
             landmarkName = "-requestWeather:andCity:andDistrict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1412,12 +1412,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/SearchViewController.m"
-            timestampString = "455443236.258343"
+            timestampString = "456808626.045591"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
-            landmarkName = "-navigationBackAction"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
+            landmarkName = "-search"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1460,12 +1460,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/SearchViewController.m"
-            timestampString = "456806651.551124"
+            timestampString = "456808626.045591"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "211"
-            endingLineNumber = "211"
-            landmarkName = "-search"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
+            landmarkName = "-cancelSearch"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
