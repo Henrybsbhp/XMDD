@@ -28,7 +28,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.smsModel = [HKSMSModel new];
+    self.smsModel = [[HKSMSModel alloc] initWithTokenPool:self.model.tokenPool];
     
     self.num.delegate = self;
     self.code.delegate = self;

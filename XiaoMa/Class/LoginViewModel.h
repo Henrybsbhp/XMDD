@@ -12,7 +12,8 @@
 
 @interface LoginViewModel : NSObject
 @property (nonatomic, strong) HKLoginModel *loginModel;
-@property (nonatomic, readonly) RACSubject *rac_loginSuccess;
+@property (nonatomic, strong) NSMutableDictionary *tokenPool;
+@property (nonatomic, strong, readonly) RACSubject *rac_loginSuccess;
 
 - (void)dismissForTargetVC:(UIViewController *)targetVC forSucces:(BOOL)success;
 ///判断是否登录，如果未登录直接进入登录流程

@@ -28,7 +28,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.smsModel = [HKSMSModel new];
+    self.smsModel = [[HKSMSModel alloc] initWithTokenPool:self.model.tokenPool];
     
     self.num.delegate = self;
     self.code.delegate = self;
@@ -58,7 +58,8 @@
     if ([self sharkCellIfErrorAtIndex:0]) {
         return;
     }
-    [[self.smsModel rac_handleVcodeButtonClick:sender withVcodeType:3 phone:[self textAtIndex:0]] subscribeError:^(NSError *error) {
+    [[self.smsModel rac_handleVcodeButtonClick:sender withVcodeType:3 phone:[self textAtIndex:0]]
+     subscribeError:^(NSError *error) {
         [gToast showError:error.domain];
     }];
     
