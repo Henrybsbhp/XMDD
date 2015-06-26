@@ -52,7 +52,7 @@
     
     self.paymentType = PaymentChannelAlipay;
     self.platform = PayWithAlipay;
-    [self requestGetUserCar];
+//    [self requestGetUserCar];
 
     self.isLoadingResourse = YES;
     [self requestGetUserResource];
@@ -643,12 +643,12 @@
     }];
 }
 
-- (void)requestGetUserCar
-{
-    [[gAppMgr.myUser.carModel rac_getDefaultCar] subscribeNext:^(id x) {
-        self.defaultCar = x;
-    }];
-}
+//- (void)requestGetUserCar
+//{
+//    [[gAppMgr.myUser.carModel rac_getDefaultCar] subscribeNext:^(id x) {
+//        self.defaultCar = x;
+//    }];
+//}
 
 - (void)requestCheckout
 {

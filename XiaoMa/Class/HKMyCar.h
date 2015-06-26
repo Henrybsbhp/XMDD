@@ -50,6 +50,7 @@
 
 + (instancetype)carWithJSONResponse:(NSDictionary *)rsp;
 - (NSDictionary *)jsonDictForCarInfo;
+- (BOOL)isCarInfoCompleted;
 
 
 @end

@@ -203,17 +203,18 @@
 
 - (void)gotoPaymentVCWithService:(JTShopService *)service
 {
-    [[[gAppMgr.myUser.carModel rac_fetchDataIfNeeded] catch:^RACSignal *(NSError *error) {
+    [[[gAppMgr.myUser.carModel rac_getDefaultCar] catch:^RACSignal *(NSError *error) {
         
         return [RACSignal return:nil];
-    }] subscribeNext:^(NSArray *carList) {
-        
-        if (carList.count > 0)
+    }] subscribeNext:^(HKMyCar *car) {
+
+        if (car && [car isCarInfoCompleted])
         {
             PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
             vc.originVC = self;
             vc.shop = self.shop;
             vc.service = service;
+            vc.defaultCar = car;
             [self.navigationController pushViewController:vc animated:YES];
         }
         else
