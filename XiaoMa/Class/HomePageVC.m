@@ -395,9 +395,10 @@
         CheckUserAwardOp * op = [CheckUserAwardOp operation];
         [[[op rac_postRequest] initially:^{
             
-            [gToast showIndicatorTextWith:@"检查zhong..."];
+            [gToast showingWithText:@""];
         }] subscribeNext:^(CheckUserAwardOp * op) {
             
+            [gToast dismiss];
             if (op.rsp_leftday > 0)
             {
                 GainedViewController * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"GainedViewController"];
