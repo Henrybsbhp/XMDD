@@ -67,4 +67,11 @@
     return car;
 }
 
+- (BOOL)isCarInfoCompleted
+{
+    if (self.carId && self.licencenumber.length > 0 && self.purchasedate && self.brand.length > 0 && self.model.length > 0) {
+        return YES;
+    }
+    return NO;
+}
 @end
