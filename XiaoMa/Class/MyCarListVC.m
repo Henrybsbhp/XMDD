@@ -31,6 +31,7 @@
     // Do any additional setup after loading the view.
     self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
     [self.loadingModel loadDataForTheFirstTime];
+    [self setupCarModel];
 }
 
 - (void)dealloc
@@ -142,13 +143,9 @@
 
 - (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
 {
-    if (type == HKDatasourceLoadingTypeFirstTime) {
-        [self setupCarModel];
-    }
-    else {
-        [self.tableView reloadData];
-    }
+    [self.tableView reloadData];
 }
+
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {

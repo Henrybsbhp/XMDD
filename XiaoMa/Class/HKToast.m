@@ -37,8 +37,13 @@
 
 - (void)showError:(NSString *)error
 {
-    [self showText:error];
-//    [SVProgressHUD showErrorWithStatus:error];
+    if (error.length == 0) {
+        [self dismiss];
+    }
+    else {
+        [self showText:error];
+        [SVProgressHUD showErrorWithStatus:error];
+    }
 }
 
 - (void)showText:(NSString *)text

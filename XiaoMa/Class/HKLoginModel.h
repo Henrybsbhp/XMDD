@@ -10,6 +10,8 @@
 @class RACSignal;
 
 @interface HKLoginModel : NSObject
+@property (nonatomic, strong) NSMutableDictionary *tokenPool;
+
 ///密码登录(sendNext:(ValidateToken *))
 - (RACSignal *)rac_loginWithAccount:(NSString *)account password:(NSString *)password;
 ///短信验证码登录(sendNext:(ValidateToken *))

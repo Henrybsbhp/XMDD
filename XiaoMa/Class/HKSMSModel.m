@@ -13,15 +13,26 @@
 #define kMaxVcodeInterval        60       //短信60秒冷却时间
 
 @implementation HKSMSModel
+
+- (instancetype)initWithTokenPool:(NSMutableDictionary *)tokenPool
+{
+    self = [super init];
+    if (self) {
+        _tokenPool = tokenPool;
+    }
+    return self;
+}
+
 ///获取短信验证码 如果获取短信验证码接口返回成功，每隔1秒发送剩余冷却时间(sendNext:NSNumber*:剩余冷却时间)
 - (RACSignal *)rac_getVcodeWithType:(NSInteger)type phone:(NSString *)phone
 {
     RACSignal *signal;
     //获取本地的token，如果本地没有token，则重新下载新token
-    NSString *token = gNetworkMgr.token;
+    NSString *token = self.tokenPool[phone]; //gNetworkMgr.token;
     @weakify(self);
     if (token.length == 0) {
         signal = [[self rac_getTokenWithAccount:phone] map:^id(GetTokenOp *rspOp) {
+            
             return rspOp.rsp_token;
         }];
     } else {
@@ -98,7 +109,13 @@
 {
     GetTokenOp *op = [GetTokenOp new];
     op.req_phone = account;
-    return [op rac_postRequest];
+
+    @weakify(self);
+    return [[op rac_postRequest] doNext:^(GetTokenOp *rspOp) {
+
+        @strongify(self);
+        [self.tokenPool safetySetObject:rspOp.rsp_token forKey:account];
+    }];
 }
 
 @end
