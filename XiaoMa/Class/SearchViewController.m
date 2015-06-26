@@ -186,7 +186,9 @@
 
 - (void)search
 {
-    if (self.searchBar.text.length)
+    NSString * searchInfo = self.searchBar.text;
+    searchInfo = [self.searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if (searchInfo.length)
     {
         self.isSearching = YES;
         
@@ -194,12 +196,12 @@
         
         for (NSString * keyword in self.historyArray)
         {
-            if ([keyword isEqualToString:self.searchBar.text])
+            if ([keyword isEqualToString:searchInfo])
             {
                 return;
             }
         }
-        [self.historyArray insertObject:self.searchBar.text atIndex:0];
+        [self.historyArray insertObject:searchInfo atIndex:0];
         if(self.historyArray.count > 15)
         {
             [self.historyArray removeLastObject];
@@ -255,7 +257,8 @@
             if (self.resultArray.count == 0)
             {
                 self.tableView.showBottomLoadingView = YES;
-                [self.tableView.bottomLoadingView showIndicatorTextWith:@"附近没有您要找的商户"];
+//                [self.tableView.bottomLoadingView showIndicatorTextWith:@"附近没有您要找的商户"];
+                [self.tableView showDefaultEmptyViewWithText:@"附近没有您要找的商户"];
             }
             else
             {
