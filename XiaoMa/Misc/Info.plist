@@ -62,6 +62,16 @@
 				<string>wb2789804503</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>AmapBackUrl</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>amap.huika.xmdd</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1.1.0.0023</string>
