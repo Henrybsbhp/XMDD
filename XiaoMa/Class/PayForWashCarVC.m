@@ -655,6 +655,7 @@
     CheckoutServiceOrderOp * op = [CheckoutServiceOrderOp operation];
     op.serviceid = self.service.serviceID;
     op.licencenumber = self.defaultCar.licencenumber ? self.defaultCar.licencenumber : @"";
+    op.carbrand = [self.defaultCar carSeriesDesc];
     if (self.couponType > 0)
     {
         if (self.couponType == CouponTypeCarWash)

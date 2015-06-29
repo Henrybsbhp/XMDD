@@ -60,10 +60,12 @@
         }
         return [RACSignal error:error];
     }];
+    
+    signal = [signal deliverOn:[RACScheduler mainThreadScheduler]];
     //获取短信验证码成功后，更新本地token
-    signal = [[signal doNext:^(GetVcodeOp *rspOp) {
-        gNetworkMgr.token = rspOp.req_token;
-    }] deliverOn:[RACScheduler mainThreadScheduler]];
+//    signal = [[signal doNext:^(GetVcodeOp *rspOp) {
+//        gNetworkMgr.token = rspOp.req_token;
+//    }] deliverOn:[RACScheduler mainThreadScheduler]];
     
     return signal;
 }
