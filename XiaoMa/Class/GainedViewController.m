@@ -151,7 +151,7 @@
     [MobClick event:@"rp110-1"];
     SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
     vc.tt = @"小马达达——周周礼券送不停!";
-    vc.subtitle = @"我完成了洗车，你也来试试吧";
+    vc.subtitle = @"我抢到了一张洗车代金券。小马达达，首单洗车只要1分钱！你也来试试吧！";
     vc.image = [UIImage imageNamed:@"wechat_share_carwash"];
     vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
     vc.urlStr = XIAMMAWEB;
