@@ -578,7 +578,7 @@
                                 <rect key="frame" x="0.0" y="486" width="600" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rst-4g-ueI">
-                                        <rect key="frame" x="14" y="5" width="277" height="36"/>
+                                        <rect key="frame" x="14" y="7" width="277" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="ceg-gp-33m"/>
                                         </constraints>
@@ -617,7 +617,7 @@
                                     <constraint firstAttribute="centerY" secondItem="NXe-xs-HCb" secondAttribute="centerY" id="DX8-y6-yfn"/>
                                     <constraint firstItem="rst-4g-ueI" firstAttribute="leading" secondItem="2Mx-c0-HZk" secondAttribute="leading" constant="14" id="IEn-Ol-vIy"/>
                                     <constraint firstAttribute="height" constant="50" id="IWT-jE-1SI"/>
-                                    <constraint firstAttribute="centerY" secondItem="rst-4g-ueI" secondAttribute="centerY" constant="2" id="TUo-BX-5R0"/>
+                                    <constraint firstAttribute="centerY" secondItem="rst-4g-ueI" secondAttribute="centerY" id="TUo-BX-5R0"/>
                                     <constraint firstItem="NXe-xs-HCb" firstAttribute="width" secondItem="rst-4g-ueI" secondAttribute="width" id="ikf-nX-oda"/>
                                     <constraint firstItem="NXe-xs-HCb" firstAttribute="leading" secondItem="rst-4g-ueI" secondAttribute="trailing" constant="18" id="wd5-HH-9GX"/>
                                     <constraint firstAttribute="trailing" secondItem="NXe-xs-HCb" secondAttribute="trailing" constant="14" id="zEw-6d-Sjv"/>
