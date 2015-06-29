@@ -24,6 +24,7 @@
     [params addParam:self.licencenumber forName:@"licencenumber"];
     [params addParam:cid ? cid : @"" forName:@"cid"];
     [params addParam:@(self.paychannel) forName:@"paychannel"];
+    [params addParam:self.carbrand forName:@"carbrand"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }

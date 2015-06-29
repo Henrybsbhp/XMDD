@@ -56,7 +56,7 @@
     }
     [[self.smsModel rac_handleVcodeButtonClick:sender withVcodeType:3 phone:[self textAtIndex:0]]
      subscribeNext:^(GetVcodeOp *op) {
-         gNetworkMgr.token = op.req_token;
+//         gNetworkMgr.token = op.req_token;
     } error:^(NSError *error) {
         [gToast showError:error.domain];
     }];

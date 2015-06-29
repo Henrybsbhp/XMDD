@@ -217,6 +217,17 @@
             vc.defaultCar = car;
             [self.navigationController pushViewController:vc animated:YES];
         }
+        else if (car) {
+            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您的爱车信息不完善，请先完善" delegate:nil
+                                                cancelButtonTitle:@"前往完善" otherButtonTitles: nil];
+            [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
+                [MobClick event:@"rp104-9"];
+                EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
+                vc.originCar = car;
+                [self.navigationController pushViewController:vc animated:YES];
+            }];
+            [av show];
+        }
         else
         {
             UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您尚未添加车辆，请添加一辆" delegate:nil cancelButtonTitle:@"前往添加" otherButtonTitles: nil];

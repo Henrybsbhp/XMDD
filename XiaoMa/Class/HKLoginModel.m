@@ -262,6 +262,14 @@ typedef enum : NSInteger {
         return rstOp;
      }];
     
+    @weakify(self);
+    signal = [signal doError:^(NSError *error) {
+        
+        @strongify(self);
+        //验证失败的时候需要从token池中移除掉当前token
+        [self.tokenPool removeObjectForKey:account];
+    }];
+    
     return [signal deliverOn:[RACScheduler mainThreadScheduler]];
 
 }
