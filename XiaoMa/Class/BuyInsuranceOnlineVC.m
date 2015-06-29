@@ -87,7 +87,7 @@
 ///电话咨询
 - (IBAction)actionMakeCall:(id)sender {
     [MobClick event:@"rp123-1"];
-    [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：400-711-1111"];
+    [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
 }
 
 - (IBAction)actionHelp:(id)sender
