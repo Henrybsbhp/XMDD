@@ -43,7 +43,6 @@
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) SYPaginatorView *adView;
 
-@property (nonatomic,strong)IBOutlet UITextField * textFeild;
 @end
 
 @implementation HomePageVC
@@ -299,9 +298,13 @@
     UILabel * tempLb = (UILabel *)[self.weatherView searchViewWithTag:20202];
     UILabel * restrictionLb = (UILabel *)[self.weatherView searchViewWithTag:20204];
     UILabel * tipLb = (UILabel *)[self.weatherView searchViewWithTag:20206];
+    UIView *rightContainerV = (UIView *)[self.weatherView searchViewWithTag:20200];
     
     RAC(tempLb, text) = RACObserve(gAppMgr, temperature);
-    RAC(restrictionLb, text) = RACObserve(gAppMgr, restriction);
+    [[RACObserve(gAppMgr, restriction) distinctUntilChanged] subscribeNext:^(NSString *text) {
+        rightContainerV.hidden = text.length == 0;
+        restrictionLb.text = text;
+    }];
     
     [RACObserve(gAppMgr, temperaturetip) subscribeNext:^(id x) {
         tipLb.text = x;

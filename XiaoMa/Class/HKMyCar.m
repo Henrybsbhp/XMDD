@@ -74,4 +74,17 @@
     }
     return NO;
 }
+
+- (NSString *)carSeriesDesc
+{
+    NSString *desc = self.brand;
+    if (desc) {
+        desc = [self.model hasPrefix:desc] ? self.model : [desc append:self.model];
+    }
+    else {
+        desc = self.model;
+    }
+    return desc;
+}
+
 @end

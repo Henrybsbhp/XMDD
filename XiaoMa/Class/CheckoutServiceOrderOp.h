@@ -21,6 +21,9 @@ typedef enum : NSUInteger {
 ///车牌
 @property (nonatomic,copy)NSString * licencenumber;
 
+///车型车系
+@property (nonatomic,strong) NSString *carbrand;
+
 ///优惠券ID
 @property (nonatomic,strong)NSArray * couponArray;
 
