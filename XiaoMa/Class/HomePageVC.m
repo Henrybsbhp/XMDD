@@ -351,7 +351,7 @@
 {
     [MobClick event:@"rp101-2"];
     NSString * number = @"4007111111";
-    [gPhoneHelper makePhone:number andInfo:@"客服电话：400-711-1111"];
+    [gPhoneHelper makePhone:number andInfo:@"客服电话：4007-111-111"];
 }
 
 
