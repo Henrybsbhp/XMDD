@@ -333,8 +333,23 @@
 - (void)reloadDatasource
 {
     @weakify(self);
-    [[[[[self rac_getWeatherInfo] merge:[self rac_requestHomePageAd]] initially:^{
-      
+//    [[[[[self rac_getWeatherInfo] merge:[self rac_requestHomePageAd]] initially:^{
+//      
+//        @strongify(self);
+//        [self.scrollView.refreshView beginRefreshing];
+//    }] finally:^{
+//        
+//        @strongify(self);
+//        [self.scrollView.refreshView endRefreshing];
+//    }] subscribeNext:^(id x) {
+//        
+//    }];
+
+    [[[[[[self rac_getWeatherInfo] catch:^RACSignal *(NSError *error) {
+        
+        return [RACSignal return:nil];
+    }] merge:[self rac_requestHomePageAd]] initially:^{
+        
         @strongify(self);
         [self.scrollView.refreshView beginRefreshing];
     }] finally:^{
@@ -344,6 +359,8 @@
     }] subscribeNext:^(id x) {
         
     }];
+    
+    
 }
 
 #pragma mark - Action

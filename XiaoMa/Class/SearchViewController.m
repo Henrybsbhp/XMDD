@@ -244,6 +244,9 @@
     op.latitude = self.coordinate.latitude;
     op.pageno = 1;
     op.orderby = 1;
+    
+    [self.tableView hideDefaultEmptyView];
+    
     [[[op rac_postRequest] initially:^{
         
     }] subscribeNext:^(GetShopByNameOp * op) {
@@ -586,6 +589,7 @@
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
     self.tableView.showBottomLoadingView = NO;
+    [self.tableView hideDefaultEmptyView];
 //    [self.tableView reloadData];
     
     return YES;
