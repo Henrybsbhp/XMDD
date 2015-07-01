@@ -32,6 +32,7 @@
 #import "GainAwardViewController.h"
 #import "GainedViewController.h"
 #import "WelcomeViewController.h"
+#import "CheckAwardViewController.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 
@@ -333,8 +334,23 @@
 - (void)reloadDatasource
 {
     @weakify(self);
-    [[[[[self rac_getWeatherInfo] merge:[self rac_requestHomePageAd]] initially:^{
-      
+//    [[[[[self rac_getWeatherInfo] merge:[self rac_requestHomePageAd]] initially:^{
+//      
+//        @strongify(self);
+//        [self.scrollView.refreshView beginRefreshing];
+//    }] finally:^{
+//        
+//        @strongify(self);
+//        [self.scrollView.refreshView endRefreshing];
+//    }] subscribeNext:^(id x) {
+//        
+//    }];
+
+    [[[[[[self rac_getWeatherInfo] catch:^RACSignal *(NSError *error) {
+        
+        return [RACSignal return:nil];
+    }] merge:[self rac_requestHomePageAd]] initially:^{
+        
         @strongify(self);
         [self.scrollView.refreshView beginRefreshing];
     }] finally:^{
@@ -344,6 +360,8 @@
     }] subscribeNext:^(id x) {
         
     }];
+    
+    
 }
 
 #pragma mark - Action
@@ -351,7 +369,7 @@
 {
     [MobClick event:@"rp101-2"];
     NSString * number = @"4007111111";
-    [gPhoneHelper makePhone:number andInfo:@"客服电话：400-711-1111"];
+    [gPhoneHelper makePhone:number andInfo:@"客服电话：4007-111-111"];
 }
 
 
@@ -395,29 +413,32 @@
 {
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
 
-        CheckUserAwardOp * op = [CheckUserAwardOp operation];
-        [[[op rac_postRequest] initially:^{
-            
-            [gToast showingWithText:@""];
-        }] subscribeNext:^(CheckUserAwardOp * op) {
-            
-            [gToast dismiss];
-            if (op.rsp_leftday > 0)
-            {
-                GainedViewController * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"GainedViewController"];
-                vc.leftDay = op.rsp_leftday;
-                vc.amount = op.rsp_amount;
-                [self.navigationController pushViewController:vc animated:YES];
-            }
-            else
-            {
-                GainAwardViewController * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"GainAwardViewController"];
-                vc.gainedNum = op.rsp_total;
-                [self.navigationController pushViewController:vc animated:YES];
-            }
-        } error:^(NSError *error) {
-            
-        }];
+//        CheckUserAwardOp * op = [CheckUserAwardOp operation];
+//        [[[op rac_postRequest] initially:^{
+//            
+//            [gToast showingWithText:@""];
+//        }] subscribeNext:^(CheckUserAwardOp * op) {
+//            
+//            [gToast dismiss];
+//            if (op.rsp_leftday > 0)
+//            {
+//                GainedViewController * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"GainedViewController"];
+//                vc.leftDay = op.rsp_leftday;
+//                vc.amount = op.rsp_amount;
+//                [self.navigationController pushViewController:vc animated:YES];
+//            }
+//            else
+//            {
+//                GainAwardViewController * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"GainAwardViewController"];
+//                vc.gainedNum = op.rsp_total;
+//                [self.navigationController pushViewController:vc animated:YES];
+//            }
+//        } error:^(NSError *error) {
+//
+//        }];
+        
+        CheckAwardViewController * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"CheckAwardViewController"];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 

@@ -29,6 +29,10 @@
         [self serviceAgreement];
     }},
                         
+                        @{@"title":@"前往评价",@"action":^(void){
+                            [self rateOurApp];
+                        }},
+                        
                         @{@"title":@"意见反馈",@"action":^(void){
                             [self gotoFeedback];
                         }},
@@ -110,10 +114,8 @@
 #pragma mark - Utilitly
 - (void)rateOurApp
 {
-//    NSString *url = [NSString stringWithFormat:@""];
-//    [[UIApplication sharedApplication] openURL: [NSURL URLWithString:url]];
-//    
-//    DebugLog(@"Opening URL for Remarks: %@", url);
+    NSString *url = [NSString stringWithFormat:@"https://itunes.apple.com/cn/app/xiao-ma-da-da-xi-che-zhi-yao1fen/id991665445&mt=8"];
+    [[UIApplication sharedApplication] openURL: [NSURL URLWithString:url]];
 }
 
 - (void)serviceAgreement

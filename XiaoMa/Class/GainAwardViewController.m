@@ -111,7 +111,7 @@
         
     } error:^(NSError *error) {
         
-        [gToast showError:@"失败拉，再抢一次..."];
+        [gToast showError:@"失败啦，再抢一次..."];
     }];
 }
 

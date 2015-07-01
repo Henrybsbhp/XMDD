@@ -334,6 +334,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3G7-uC-gW5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
+        <!--每周礼券-->
+        <scene sceneID="kRR-h1-sgL">
+            <objects>
+                <viewController storyboardIdentifier="CheckAwardViewController" hidesBottomBarWhenPushed="YES" id="J6v-4i-QK3" customClass="CheckAwardViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="GnY-QH-Ypf"/>
+                        <viewControllerLayoutGuide type="bottom" id="78R-dh-QQI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="oCd-ig-QL0">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="每周礼券" id="w2o-xU-S4l"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aYT-fS-Lg9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
     </scenes>
     <resources>
         <image name="award_bg_375" width="375" height="603"/>
