@@ -728,7 +728,7 @@
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     
                     NSString * submitTime = [[NSDate date] dateFormatForDT8];
-                    NSString * info = [NSString stringWithFormat:@"%@",self.shop.shopName];
+                    NSString * info = [NSString stringWithFormat:@"%@-%@",self.service.serviceName,self.shop.shopName];
                     [self requestAliPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
                          andProductName:info andDescription:@"小马达达" andTime:submitTime];
                 });

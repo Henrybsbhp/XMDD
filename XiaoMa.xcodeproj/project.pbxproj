@@ -169,6 +169,7 @@
 		6BAF30181AE67CC800E35E08 /* GetSystemVersionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF30171AE67CC800E35E08 /* GetSystemVersionOp.m */; };
 		6BAF301D1AE6947F00E35E08 /* ClientInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301A1AE6947F00E35E08 /* ClientInfo.m */; };
 		6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301C1AE6947F00E35E08 /* DeviceInfo.m */; };
+		6BB173101B437C1E00E8AE56 /* CheckAwardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB1730F1B437C1E00E8AE56 /* CheckAwardViewController.m */; };
 		6BB61B981AEE85E8004F39AA /* AddUserFavoriteOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB61B971AEE85E8004F39AA /* AddUserFavoriteOp.m */; };
 		6BB61B9A1AEF5350004F39AA /* MapBottomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BB61B991AEF5350004F39AA /* MapBottomView.xib */; };
 		6BB61B9C1AEF587E004F39AA /* Other.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BB61B9B1AEF587E004F39AA /* Other.storyboard */; };
@@ -628,6 +629,8 @@
 		6BAF301A1AE6947F00E35E08 /* ClientInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClientInfo.m; path = Class/ClientInfo.m; sourceTree = "<group>"; };
 		6BAF301B1AE6947F00E35E08 /* DeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceInfo.h; path = Class/DeviceInfo.h; sourceTree = "<group>"; };
 		6BAF301C1AE6947F00E35E08 /* DeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceInfo.m; path = Class/DeviceInfo.m; sourceTree = "<group>"; };
+		6BB1730E1B437C1E00E8AE56 /* CheckAwardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckAwardViewController.h; sourceTree = "<group>"; };
+		6BB1730F1B437C1E00E8AE56 /* CheckAwardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckAwardViewController.m; sourceTree = "<group>"; };
 		6BB61B961AEE85E8004F39AA /* AddUserFavoriteOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddUserFavoriteOp.h; path = Class/AddUserFavoriteOp.h; sourceTree = "<group>"; };
 		6BB61B971AEE85E8004F39AA /* AddUserFavoriteOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddUserFavoriteOp.m; path = Class/AddUserFavoriteOp.m; sourceTree = "<group>"; };
 		6BB61B991AEF5350004F39AA /* MapBottomView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MapBottomView.xib; path = Class/MapBottomView.xib; sourceTree = "<group>"; };
@@ -1970,6 +1973,8 @@
 				6BBBF55B1B296EE200E1B809 /* GainAwardViewController.m */,
 				6BBEB7091B2AB120004AD191 /* GainedViewController.h */,
 				6BBEB70A1B2AB120004AD191 /* GainedViewController.m */,
+				6BB1730E1B437C1E00E8AE56 /* CheckAwardViewController.h */,
+				6BB1730F1B437C1E00E8AE56 /* CheckAwardViewController.m */,
 			);
 			name = Award;
 			sourceTree = "<group>";
@@ -2568,6 +2573,7 @@
 				18C81CBF1B18403000B0C292 /* FeedbackOp.m in Sources */,
 				1853DEBA1AE0BAA400C39175 /* HKConvertModel.m in Sources */,
 				189B30C01AD62E57001D7288 /* PaymentSuccessVC.m in Sources */,
+				6BB173101B437C1E00E8AE56 /* CheckAwardViewController.m in Sources */,
 				6BB61BA61AEF8B34004F39AA /* ServiceViewController.m in Sources */,
 				6BBAB8B31ADB777500EC342F /* GetVcodeOp.m in Sources */,
 				1885F0C01B1C4DB40056D3BD /* UIView+ShowDot.m in Sources */,
