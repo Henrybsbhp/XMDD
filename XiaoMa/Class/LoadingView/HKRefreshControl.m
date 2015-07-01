@@ -137,7 +137,6 @@
             ka2.delegate = self;
             [ka2 setValue:@100 forKey:@"tag"];
             [self.imgView.layer addAnimation:ka2 forKey:@"bounds"];
-            
             [self sendActionsForControlEvents:UIControlEventValueChanged];
         }];
     });

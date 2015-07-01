@@ -139,8 +139,11 @@
             self.accountLabel.hidden = NO;
             RAC(self.nameLabel, text) = RACObserve(user, userName);
             RAC(self.accountLabel, text) = RACObserve(user, userID);
-            RAC(self.avatarView, image) = [[RACObserve(user, avatarUrl) distinctUntilChanged] flattenMap:^RACStream *(NSString *url) {
+            UIImageView *avatarView = self.avatarView;
+            [[[RACObserve(user, avatarUrl) distinctUntilChanged] flattenMap:^RACStream *(NSString *url) {
                 return [gMediaMgr rac_getPictureForUrl:url withType:ImageURLTypeMedium defaultPic:@"cm_avatar" errorPic:@"cm_avatar"];
+            }] subscribeNext:^(id x) {
+                avatarView.image = x;
             }];
             [self reloadUserInfo];
         }
