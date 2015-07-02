@@ -175,7 +175,7 @@
     UIButton *isDefalutB = (UIButton *)[cell.contentView viewWithTag:4001];
     UILabel *bottomL = (UILabel *)[cell.contentView viewWithTag:3001];
     UIButton *bottomB = (UIButton *)[cell.contentView viewWithTag:3002];
-    
+
     MyCarListVModel *model = self.model;
     [model setupUploadBtn:bottomB andDescLabel:bottomL forStatus:car.status];
     //一键上传行驶证

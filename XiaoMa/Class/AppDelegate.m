@@ -446,34 +446,29 @@
     [[op rac_postRequest] subscribeNext:^(GetSystemVersionOp * op) {
         
         [gToast dismiss];
-        if (op.rsp_code == 0)
+        if([version compare:op.rsp_version options:NSCaseInsensitiveSearch | NSNumericSearch] == NSOrderedAscending)
         {
-            if (op.rsp_version.length)
+            if (op.rsp_mandatory)
             {
-                if(![op.rsp_version isEqualToString:version])
-                {
-                    if (op.rsp_mandatory)
-                    {
-                        gAppMgr.clientInfo.forceUpdateUrl = op.rsp_link;
-                        gAppMgr.clientInfo.forceUpdateContent = op.rsp_updateinfo;
-                        gAppMgr.clientInfo.forceUpdateVersion = op.rsp_version;
-                        UIAlertView * av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"有新的版本可以更新：%@",op.rsp_version] message:op.rsp_updateinfo delegate:self cancelButtonTitle:@"前去更新" otherButtonTitles:nil];
-                        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNumber) {
-                            [gAppMgr startUpdatingWithURLString:op.rsp_link];
-                        }];
-                        [av show];
+                gAppMgr.clientInfo.forceUpdateUrl = op.rsp_link;
+                gAppMgr.clientInfo.forceUpdateContent = op.rsp_updateinfo;
+                gAppMgr.clientInfo.forceUpdateVersion = op.rsp_version;
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"有新的版本可以更新：%@",op.rsp_version] message:op.rsp_updateinfo delegate:self cancelButtonTitle:@"前去更新" otherButtonTitles:nil];
+                [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNumber) {
+                    [gAppMgr startUpdatingWithURLString:op.rsp_link];
+                }];
+                [av show];
+            }
+            else
+            {
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"有新的版本可以更新：%@",op.rsp_version] message:op.rsp_updateinfo  delegate:self cancelButtonTitle:@"忽略" otherButtonTitles:@"前去更新",nil];
+                [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNumber) {
+                    if ([indexNumber intValue] == 1) {
+                        [gAppMgr startUpdatingWithURLString:op.rsp_link];
                     }
-                    else
-                    {
-                        UIAlertView * av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"有新的版本可以更新：%@",op.rsp_version] message:op.rsp_updateinfo  delegate:self cancelButtonTitle:@"忽略" otherButtonTitles:@"前去更新",nil];
-                        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNumber) {
-                            if ([indexNumber intValue] == 1) {
-                                [gAppMgr startUpdatingWithURLString:op.rsp_link];
-                            }
-                        }];
-                        [av show];
-                    }
-                }
+                }];
+                [av show];
+                
             }
         }
     }];
