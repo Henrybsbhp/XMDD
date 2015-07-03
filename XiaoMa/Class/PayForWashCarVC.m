@@ -730,7 +730,7 @@
                     NSString * submitTime = [[NSDate date] dateFormatForDT8];
                     NSString * info = [NSString stringWithFormat:@"%@-%@",self.service.serviceName,self.shop.shopName];
                     [self requestAliPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
-                         andProductName:info andDescription:@"小马达达" andTime:submitTime];
+                         andProductName:info andDescription:info andTime:submitTime];
                 });
             }
             else if (op.platform == PayWithWechat)
