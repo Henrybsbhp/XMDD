@@ -58,6 +58,10 @@
 
 - (void)beginRefreshing
 {
+    [self beginRefreshingWithComplete:nil];
+}
+- (void)beginRefreshingWithComplete:(void(^)(void))complete
+{
     if (_refreshing) {
         return;
     }
@@ -137,7 +141,9 @@
             ka2.delegate = self;
             [ka2 setValue:@100 forKey:@"tag"];
             [self.imgView.layer addAnimation:ka2 forKey:@"bounds"];
-            [self sendActionsForControlEvents:UIControlEventValueChanged];
+            if (complete) {
+                complete();
+            }
         }];
     });
 }
@@ -202,7 +208,11 @@
     CGFloat offset = contentOffset.y+scrollView.contentInset.top;
     //被拉断了，开始刷新
     if (offset < -kOpenHeight && !_refreshing && !_isAnimating) {
-        [self beginRefreshing];
+        @weakify(self);
+        [self beginRefreshingWithComplete:^{
+            @strongify(self);
+            [self sendActionsForControlEvents:UIControlEventValueChanged];
+        }];
     }
     else if (offset < 0 && !_refreshing && !_isAnimating) {
         [self updateFrameWithHeight:fabs(offset) forRefresh:NO];

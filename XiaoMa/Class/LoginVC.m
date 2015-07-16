@@ -48,6 +48,7 @@
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp001"];
+    [self.view endEditing:YES];
 }
 
 - (void)actionBack:(id)sender {

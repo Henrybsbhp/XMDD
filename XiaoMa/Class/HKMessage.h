@@ -16,6 +16,8 @@
 @property (nonatomic, assign) NSInteger msgtype;
 ///扩展信息(根据msgtype不同，存不同的id)
 @property (nonatomic, strong) NSString *ext1;
+///描述消息跳转的url
+@property (nonatomic, strong) NSString *url;
 
 + (instancetype)messageWithJSONResponse:(NSDictionary *)rsp;
 @end

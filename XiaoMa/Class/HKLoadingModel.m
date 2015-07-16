@@ -31,11 +31,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    
-}
-
 - (void)loadDataForTheFirstTime
 {
     RACSignal *signal;

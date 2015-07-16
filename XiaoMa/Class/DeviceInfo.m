@@ -27,6 +27,8 @@
     
     _osVersion = [[UIDevice currentDevice] systemVersion];
     
+    NSDictionary* infoDict =[[NSBundle mainBundle] infoDictionary];
+    _appVersion = [infoDict objectForKey:@"CFBundleShortVersionString"];
     return self;
 }
 

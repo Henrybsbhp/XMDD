@@ -140,13 +140,11 @@
     HKMessage *msg = [self.msgList safetyObjectAtIndex:indexPath.section];
     TTTAttributedLabel *label = (TTTAttributedLabel *)[cell.contentView viewWithTag:1001];
     UILabel *timeL = (UILabel *)[cell.contentView viewWithTag:2001];
-    
     timeL.text = [[NSDate dateWithTimeIntervalSince1970:msg.msgtime/1000] textForDate];
     label.text = msg.content;
     label.delegate = (id<TTTAttributedLabelDelegate>)label;
     label.linkAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
                              NSForegroundColorAttributeName:HEXCOLOR(@"#386fcd")};
-   
     NSRange range = NSMakeRange(0, 0);
     NSAttributedString *str = [self attrStrForMessage:msg linkRange:&range];
     label.attributedText = str;
@@ -174,8 +172,8 @@
     [MobClick event:@"rp324-1"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     HKMessage *msg = [self.msgList safetyObjectAtIndex:indexPath.row];
-    if (msg.ext1.length > 0) {
-        [gAppMgr.navModel pushToViewControllerByUrl:msg.ext1];
+    if (msg.url.length > 0) {
+        [gAppMgr.navModel pushToViewControllerByUrl:msg.url];
     }
 }
 

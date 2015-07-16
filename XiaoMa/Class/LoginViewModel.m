@@ -16,18 +16,10 @@
 {
     self = [super init];
     if (self) {
-        _tokenPool = [NSMutableDictionary dictionary];
         _loginModel = [HKLoginModel new];
-        _loginModel.tokenPool = _tokenPool;
         _rac_loginSuccess = [RACSubject subject];
     }
     return self;
-}
-
-- (void)setTokenPool:(NSMutableDictionary *)tokenPool
-{
-    _tokenPool = tokenPool;
-    _loginModel.tokenPool = tokenPool;
 }
 
 - (void)dismissForTargetVC:(UIViewController *)targetVC forSucces:(BOOL)success
@@ -51,5 +43,4 @@
     [targetVC presentViewController:nav animated:YES completion:nil];
     return NO;
 }
-
 @end

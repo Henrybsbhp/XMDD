@@ -20,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
 @property (nonatomic, strong) HKSMSModel *smsModel;
 @property (weak, nonatomic) IBOutlet UITextField *num;
-@property (weak, nonatomic) IBOutlet UITextField *code;
+@property (weak, nonatomic) IBOutlet VCodeInputField *code;
 @property (weak, nonatomic) IBOutlet UITextField *pwd;
 @end
 
@@ -28,11 +28,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.smsModel = [[HKSMSModel alloc] initWithTokenPool:self.model.tokenPool];
+    self.smsModel = [[HKSMSModel alloc] init];
     
     self.num.delegate = self;
     self.code.delegate = self;
     self.pwd.delegate = self;
+    [self.smsModel setupVCodeInputField:self.code accountField:self.num forTargetVC:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,10 +56,10 @@
 - (IBAction)actionGetVCode:(id)sender
 {
     [MobClick event:@"rp003-2"];
-    if ([self sharkCellIfErrorAtIndex:0]) {
+    if ([self shakeCellIfErrorAtIndex:0]) {
         return;
     }
-    [[self.smsModel rac_handleVcodeButtonClick:sender withVcodeType:3 phone:[self textAtIndex:0]]
+    [[self.smsModel rac_handleVcodeButtonClick:sender vcodeInputField:self.code withVcodeType:3 phone:[self textAtIndex:0]]
      subscribeError:^(NSError *error) {
         [gToast showError:error.domain];
     }];
@@ -87,13 +88,13 @@
 - (IBAction)actionRegister:(id)sender
 {
     [MobClick event:@"rp003-6"];
-    if ([self sharkCellIfErrorAtIndex:0]) {
+    if ([self shakeCellIfErrorAtIndex:0]) {
         return;
     }
-    if ([self sharkCellIfErrorAtIndex:1]) {
+    if ([self shakeCellIfErrorAtIndex:1]) {
         return;
     }
-    if ([self sharkCellIfErrorAtIndex:2]) {
+    if ([self shakeCellIfErrorAtIndex:2]) {
         return;
     }
     NSString *pwd = [self textAtIndex:2];
@@ -153,7 +154,7 @@
     return field.text;
 }
 
-- (BOOL)sharkCellIfErrorAtIndex:(NSInteger)index
+- (BOOL)shakeCellIfErrorAtIndex:(NSInteger)index
 {
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];

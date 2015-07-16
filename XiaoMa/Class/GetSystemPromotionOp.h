@@ -12,6 +12,9 @@
 @interface GetSystemPromotionOp : BaseOp
 
 @property (nonatomic)AdvertisementType type;
+@property (nonatomic, copy) NSString *province;
+@property (nonatomic, copy) NSString *city;
+@property (nonatomic, copy) NSString *district;
 
 @property (nonatomic,strong)NSArray * rsp_advertisementArray;
 

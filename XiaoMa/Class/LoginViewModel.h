@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "HKLoginModel.h"
 #import "XiaoMa.h"
+#import "VCodeInputField.h"
 
 @interface LoginViewModel : NSObject
 @property (nonatomic, strong) HKLoginModel *loginModel;
-@property (nonatomic, strong) NSMutableDictionary *tokenPool;
 @property (nonatomic, strong, readonly) RACSubject *rac_loginSuccess;
 
 - (void)dismissForTargetVC:(UIViewController *)targetVC forSucces:(BOOL)success;

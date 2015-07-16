@@ -103,6 +103,12 @@
 		18863FA21AE8A316005BF4ED /* GetInsuranceByChannelOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18863FA11AE8A316005BF4ED /* GetInsuranceByChannelOp.m */; };
 		18863FA51AE8ECFB005BF4ED /* GridLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18863FA41AE8ECFB005BF4ED /* GridLabel.m */; };
 		18863FA81AE9D39A005BF4ED /* PayForPolicyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18863FA71AE9D39A005BF4ED /* PayForPolicyVC.m */; };
+		18895B2A1B4A136100928F62 /* CKBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18895B291B4A136100928F62 /* CKBaseModel.m */; };
+		18895B321B4CB52A00928F62 /* PushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18895B311B4CB52A00928F62 /* PushManager.m */; };
+		18895B361B4CB89000928F62 /* HKPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18895B351B4CB89000928F62 /* HKPushManager.m */; };
+		18895B391B4CB93800928F62 /* BindDeviceTokenOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18895B381B4CB93800928F62 /* BindDeviceTokenOp.m */; };
+		18895B3C1B4CF1D300928F62 /* LogoutOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18895B3B1B4CF1D300928F62 /* LogoutOp.m */; };
+		18895B3F1B4E69B700928F62 /* GetCarwashOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18895B3E1B4E69B600928F62 /* GetCarwashOrderOp.m */; };
 		189371191B0DA6C00030FDE1 /* MessageListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189371181B0DA6C00030FDE1 /* MessageListVC.m */; };
 		1893711C1B0DAC8D0030FDE1 /* GetMessageOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1893711B1B0DAC8D0030FDE1 /* GetMessageOp.m */; };
 		1893711F1B0DAD290030FDE1 /* HKMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1893711E1B0DAD290030FDE1 /* HKMessage.m */; };
@@ -157,6 +163,12 @@
 		18C81CB71B17FE4400B0C292 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18C81CB51B17FE4400B0C292 /* About.storyboard */; };
 		18C81CBC1B17FE7B00B0C292 /* FeedbackVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C81CBB1B17FE7B00B0C292 /* FeedbackVC.m */; };
 		18C81CBF1B18403000B0C292 /* FeedbackOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C81CBE1B18403000B0C292 /* FeedbackOp.m */; };
+		18D17F701B5390F400F66F04 /* VCodeInputField.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F6F1B5390F400F66F04 /* VCodeInputField.m */; };
+		18D17F731B53AFAC00F66F04 /* GetVoiceVCodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F721B53AFAC00F66F04 /* GetVoiceVCodeOp.m */; };
+		18D17F771B53B21E00F66F04 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F761B53B21E00F66F04 /* MBProgressHUD.m */; };
+		18D17F7A1B56557200F66F04 /* HKTokenPool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F791B56557200F66F04 /* HKTokenPool.m */; };
+		18D17F7D1B57407900F66F04 /* BindDeviceToken2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F7C1B57407900F66F04 /* BindDeviceToken2Op.m */; };
+		18D17F801B57782800F66F04 /* HKAddressComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F7F1B57782800F66F04 /* HKAddressComponent.m */; };
 		6B086BA11AE3184D00659DB7 /* GetShopByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */; };
 		6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */; };
 		6B086BA71AE4F03800659DB7 /* UIView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA61AE4F03800659DB7 /* UIView+Base.m */; };
@@ -504,6 +516,18 @@
 		18863FA41AE8ECFB005BF4ED /* GridLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridLabel.m; sourceTree = "<group>"; };
 		18863FA61AE9D39A005BF4ED /* PayForPolicyVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayForPolicyVC.h; sourceTree = "<group>"; };
 		18863FA71AE9D39A005BF4ED /* PayForPolicyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayForPolicyVC.m; sourceTree = "<group>"; };
+		18895B281B4A136100928F62 /* CKBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKBaseModel.h; path = Class/CKBaseModel.h; sourceTree = "<group>"; };
+		18895B291B4A136100928F62 /* CKBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKBaseModel.m; path = Class/CKBaseModel.m; sourceTree = "<group>"; };
+		18895B301B4CB52A00928F62 /* PushManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PushManager.h; path = Class/PushManager.h; sourceTree = "<group>"; };
+		18895B311B4CB52A00928F62 /* PushManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PushManager.m; path = Class/PushManager.m; sourceTree = "<group>"; };
+		18895B341B4CB89000928F62 /* HKPushManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKPushManager.h; path = Class/HKPushManager.h; sourceTree = "<group>"; };
+		18895B351B4CB89000928F62 /* HKPushManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKPushManager.m; path = Class/HKPushManager.m; sourceTree = "<group>"; };
+		18895B371B4CB93800928F62 /* BindDeviceTokenOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BindDeviceTokenOp.h; path = Class/BindDeviceTokenOp.h; sourceTree = "<group>"; };
+		18895B381B4CB93800928F62 /* BindDeviceTokenOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BindDeviceTokenOp.m; path = Class/BindDeviceTokenOp.m; sourceTree = "<group>"; };
+		18895B3A1B4CF1D300928F62 /* LogoutOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogoutOp.h; path = Class/LogoutOp.h; sourceTree = "<group>"; };
+		18895B3B1B4CF1D300928F62 /* LogoutOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LogoutOp.m; path = Class/LogoutOp.m; sourceTree = "<group>"; };
+		18895B3D1B4E69B600928F62 /* GetCarwashOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetCarwashOrderOp.h; path = Class/GetCarwashOrderOp.h; sourceTree = "<group>"; };
+		18895B3E1B4E69B600928F62 /* GetCarwashOrderOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetCarwashOrderOp.m; path = Class/GetCarwashOrderOp.m; sourceTree = "<group>"; };
 		189371171B0DA6C00030FDE1 /* MessageListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageListVC.h; sourceTree = "<group>"; };
 		189371181B0DA6C00030FDE1 /* MessageListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageListVC.m; sourceTree = "<group>"; };
 		1893711A1B0DAC8D0030FDE1 /* GetMessageOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetMessageOp.h; path = Class/GetMessageOp.h; sourceTree = "<group>"; };
@@ -603,6 +627,18 @@
 		18C81CBB1B17FE7B00B0C292 /* FeedbackVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackVC.m; sourceTree = "<group>"; };
 		18C81CBD1B18403000B0C292 /* FeedbackOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedbackOp.h; path = Class/FeedbackOp.h; sourceTree = "<group>"; };
 		18C81CBE1B18403000B0C292 /* FeedbackOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedbackOp.m; path = Class/FeedbackOp.m; sourceTree = "<group>"; };
+		18D17F6E1B5390F400F66F04 /* VCodeInputField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCodeInputField.h; sourceTree = "<group>"; };
+		18D17F6F1B5390F400F66F04 /* VCodeInputField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VCodeInputField.m; sourceTree = "<group>"; };
+		18D17F711B53AFAC00F66F04 /* GetVoiceVCodeOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetVoiceVCodeOp.h; path = Class/GetVoiceVCodeOp.h; sourceTree = "<group>"; };
+		18D17F721B53AFAC00F66F04 /* GetVoiceVCodeOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetVoiceVCodeOp.m; path = Class/GetVoiceVCodeOp.m; sourceTree = "<group>"; };
+		18D17F751B53B21E00F66F04 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		18D17F761B53B21E00F66F04 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		18D17F781B56557200F66F04 /* HKTokenPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKTokenPool.h; path = Class/HKTokenPool.h; sourceTree = "<group>"; };
+		18D17F791B56557200F66F04 /* HKTokenPool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKTokenPool.m; path = Class/HKTokenPool.m; sourceTree = "<group>"; };
+		18D17F7B1B57407900F66F04 /* BindDeviceToken2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BindDeviceToken2Op.h; path = Class/BindDeviceToken2Op.h; sourceTree = "<group>"; };
+		18D17F7C1B57407900F66F04 /* BindDeviceToken2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BindDeviceToken2Op.m; path = Class/BindDeviceToken2Op.m; sourceTree = "<group>"; };
+		18D17F7E1B57782800F66F04 /* HKAddressComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKAddressComponent.h; path = Class/HKAddressComponent.h; sourceTree = "<group>"; };
+		18D17F7F1B57782800F66F04 /* HKAddressComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKAddressComponent.m; path = Class/HKAddressComponent.m; sourceTree = "<group>"; };
 		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6B086B9F1AE3184D00659DB7 /* GetShopByNameOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShopByNameOp.h; path = Class/GetShopByNameOp.h; sourceTree = "<group>"; };
 		6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetShopByNameOp.m; path = Class/GetShopByNameOp.m; sourceTree = "<group>"; };
@@ -1001,6 +1037,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				18D17F741B53B21E00F66F04 /* MBProgressHUD */,
 				185A52961B1C0DEC003515CC /* CarbonKit */,
 				6BCF624B1B184AEF0064AE32 /* NJKWebViewProgress */,
 				181F6D941B15919900D38555 /* CXAlertView */,
@@ -1210,6 +1247,8 @@
 				1893711E1B0DAD290030FDE1 /* HKMessage.m */,
 				6BCA5F3E1B102A3700E1E630 /* HKCouponPkg.h */,
 				6BCA5F3F1B102A3700E1E630 /* HKCouponPkg.m */,
+				18D17F7E1B57782800F66F04 /* HKAddressComponent.h */,
+				18D17F7F1B57782800F66F04 /* HKAddressComponent.m */,
 			);
 			name = Dataset;
 			sourceTree = "<group>";
@@ -1245,6 +1284,7 @@
 		1853DEBB1AE0E60800C39175 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				18D17F6D1B5390CD00F66F04 /* SubView */,
 				1853DEBC1AE0E66B00C39175 /* LoginVC.h */,
 				1853DEBD1AE0E66B00C39175 /* LoginVC.m */,
 				1853DED21AE2A0BD00C39175 /* VcodeLoginVC.h */,
@@ -1515,34 +1555,18 @@
 		1883D9301ACCDA7A002A4D19 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				18895B2F1B4CB4F800928F62 /* Model */,
+				18895B2E1B4CB4D600928F62 /* Manager */,
 				189371381B0F59420030FDE1 /* CacheModel.h */,
 				189371391B0F59420030FDE1 /* CacheModel.m */,
 				189371341B0F592F0030FDE1 /* JTQueue.h */,
 				189371351B0F592F0030FDE1 /* JTQueue.m */,
 				1851F42C1B0C302200241A01 /* ObjectManager */,
+				184E40CF1AD3CFF300EFC3A6 /* Dataset */,
+				18895B281B4A136100928F62 /* CKBaseModel.h */,
+				18895B291B4A136100928F62 /* CKBaseModel.m */,
 				189371371B0F59420030FDE1 /* BaseModel.h */,
 				6BBF75F11B05CA0800E11EBB /* BaseModel.m */,
-				6BBF75F21B05CA0800E11EBB /* FavoriteModel.h */,
-				6BBF75F31B05CA0800E11EBB /* FavoriteModel.m */,
-				184E40CF1AD3CFF300EFC3A6 /* Dataset */,
-				1883D9311ACCDA8B002A4D19 /* DefaultStyleModel.h */,
-				1883D9321ACCDA8B002A4D19 /* DefaultStyleModel.m */,
-				1853DEAB1AE0A0B700C39175 /* HKCatchErrorModel.h */,
-				1853DEAC1AE0A0B700C39175 /* HKCatchErrorModel.m */,
-				1853DEAE1AE0A10C00C39175 /* HKLoginModel.h */,
-				1853DEAF1AE0A10C00C39175 /* HKLoginModel.m */,
-				1853DEB81AE0BAA400C39175 /* HKConvertModel.h */,
-				1853DEB91AE0BAA400C39175 /* HKConvertModel.m */,
-				1853DECC1AE100CA00C39175 /* HKSMSModel.h */,
-				1853DECD1AE100CA00C39175 /* HKSMSModel.m */,
-				1851F41F1B0C268F00241A01 /* AutoInfoModel.h */,
-				1851F4201B0C268F00241A01 /* AutoInfoModel.m */,
-				6BBFBC431B0DD51E000D3CA3 /* MyCarsModel.h */,
-				6BBFBC441B0DD51E000D3CA3 /* MyCarsModel.m */,
-				18804A9D1B2548AC00E7E764 /* NavigationModel.h */,
-				18804A9E1B2548AC00E7E764 /* NavigationModel.m */,
-				18804AAC1B280E3C00E7E764 /* HKLoadingModel.h */,
-				18804AAD1B280E3C00E7E764 /* HKLoadingModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1558,6 +1582,54 @@
 				1885F0BF1B1C4DB40056D3BD /* UIView+ShowDot.m */,
 			);
 			name = Badge;
+			sourceTree = "<group>";
+		};
+		18895B2E1B4CB4D600928F62 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				18895B331B4CB87900928F62 /* Super */,
+				1883D9311ACCDA8B002A4D19 /* DefaultStyleModel.h */,
+				1883D9321ACCDA8B002A4D19 /* DefaultStyleModel.m */,
+				1853DEAB1AE0A0B700C39175 /* HKCatchErrorModel.h */,
+				1853DEAC1AE0A0B700C39175 /* HKCatchErrorModel.m */,
+				1853DEAE1AE0A10C00C39175 /* HKLoginModel.h */,
+				1853DEAF1AE0A10C00C39175 /* HKLoginModel.m */,
+				1853DEB81AE0BAA400C39175 /* HKConvertModel.h */,
+				1853DEB91AE0BAA400C39175 /* HKConvertModel.m */,
+				1853DECC1AE100CA00C39175 /* HKSMSModel.h */,
+				1853DECD1AE100CA00C39175 /* HKSMSModel.m */,
+				1851F41F1B0C268F00241A01 /* AutoInfoModel.h */,
+				1851F4201B0C268F00241A01 /* AutoInfoModel.m */,
+				18804A9D1B2548AC00E7E764 /* NavigationModel.h */,
+				18804A9E1B2548AC00E7E764 /* NavigationModel.m */,
+				18804AAC1B280E3C00E7E764 /* HKLoadingModel.h */,
+				18804AAD1B280E3C00E7E764 /* HKLoadingModel.m */,
+				18895B341B4CB89000928F62 /* HKPushManager.h */,
+				18895B351B4CB89000928F62 /* HKPushManager.m */,
+				18D17F781B56557200F66F04 /* HKTokenPool.h */,
+				18D17F791B56557200F66F04 /* HKTokenPool.m */,
+			);
+			name = Manager;
+			sourceTree = "<group>";
+		};
+		18895B2F1B4CB4F800928F62 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6BBF75F21B05CA0800E11EBB /* FavoriteModel.h */,
+				6BBF75F31B05CA0800E11EBB /* FavoriteModel.m */,
+				6BBFBC431B0DD51E000D3CA3 /* MyCarsModel.h */,
+				6BBFBC441B0DD51E000D3CA3 /* MyCarsModel.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		18895B331B4CB87900928F62 /* Super */ = {
+			isa = PBXGroup;
+			children = (
+				18895B301B4CB52A00928F62 /* PushManager.h */,
+				18895B311B4CB52A00928F62 /* PushManager.m */,
+			);
+			name = Super;
 			sourceTree = "<group>";
 		};
 		189371161B0DA69B0030FDE1 /* Message */ = {
@@ -1814,6 +1886,24 @@
 			name = Feedback;
 			sourceTree = "<group>";
 		};
+		18D17F6D1B5390CD00F66F04 /* SubView */ = {
+			isa = PBXGroup;
+			children = (
+				18D17F6E1B5390F400F66F04 /* VCodeInputField.h */,
+				18D17F6F1B5390F400F66F04 /* VCodeInputField.m */,
+			);
+			name = SubView;
+			sourceTree = "<group>";
+		};
+		18D17F741B53B21E00F66F04 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				18D17F751B53B21E00F66F04 /* MBProgressHUD.h */,
+				18D17F761B53B21E00F66F04 /* MBProgressHUD.m */,
+			);
+			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
 		6B086BA81AE4F46900659DB7 /* TMCache */ = {
 			isa = PBXGroup;
 			children = (
@@ -2012,8 +2102,16 @@
 				6BBAB8AC1ADB6A8A00EC342F /* AuthByVcodeOp.m */,
 				6BBAB8AE1ADB754500EC342F /* GetTokenOp.h */,
 				6BBAB8AF1ADB754500EC342F /* GetTokenOp.m */,
+				18D17F711B53AFAC00F66F04 /* GetVoiceVCodeOp.h */,
+				18D17F721B53AFAC00F66F04 /* GetVoiceVCodeOp.m */,
+				18895B371B4CB93800928F62 /* BindDeviceTokenOp.h */,
+				18895B381B4CB93800928F62 /* BindDeviceTokenOp.m */,
+				18D17F7B1B57407900F66F04 /* BindDeviceToken2Op.h */,
+				18D17F7C1B57407900F66F04 /* BindDeviceToken2Op.m */,
 				6BBAB8B11ADB777500EC342F /* GetVcodeOp.h */,
 				6BBAB8B21ADB777500EC342F /* GetVcodeOp.m */,
+				18895B3A1B4CF1D300928F62 /* LogoutOp.h */,
+				18895B3B1B4CF1D300928F62 /* LogoutOp.m */,
 				6BBAB8B41ADBC12D00EC342F /* UpdatePwdOp.h */,
 				6BBAB8B51ADBC12D00EC342F /* UpdatePwdOp.m */,
 				6BBAB8C21ADCBD1400EC342F /* GetShopByRangeOp.h */,
@@ -2096,6 +2194,8 @@
 				6BBBF5521B295CE400E1B809 /* CheckUserAwardOp.m */,
 				6BBBF5541B295FD300E1B809 /* GainUserAwardOp.h */,
 				6BBBF5551B295FD300E1B809 /* GainUserAwardOp.m */,
+				18895B3D1B4E69B600928F62 /* GetCarwashOrderOp.h */,
+				18895B3E1B4E69B600928F62 /* GetCarwashOrderOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -2520,11 +2620,13 @@
 				189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */,
 				186984F51B0098A2000A182A /* GetInsuranceOrderListOp.m in Sources */,
 				6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */,
+				18D17F7D1B57407900F66F04 /* BindDeviceToken2Op.m in Sources */,
 				1853DECE1AE100CA00C39175 /* HKSMSModel.m in Sources */,
 				1853DEC41AE0EC1600C39175 /* LoginViewModel.m in Sources */,
 				6BCF62471B1737980064AE32 /* GetUserCouponByTypeOp.m in Sources */,
 				1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */,
 				6BBF75F51B05CA0800E11EBB /* FavoriteModel.m in Sources */,
+				18895B2A1B4A136100928F62 /* CKBaseModel.m in Sources */,
 				189B30BD1AD524EC001D7288 /* AppManager.m in Sources */,
 				6BB9D7711AF7054B00F7F3F8 /* SearchViewController.m in Sources */,
 				6BAF301D1AE6947F00E35E08 /* ClientInfo.m in Sources */,
@@ -2553,6 +2655,7 @@
 				6BBB08531B021F440002C349 /* LogAlertView.m in Sources */,
 				1853DEB71AE0B92400C39175 /* AuthByPwdOp.m in Sources */,
 				1853DEBE1AE0E66B00C39175 /* LoginVC.m in Sources */,
+				18895B3F1B4E69B700928F62 /* GetCarwashOrderOp.m in Sources */,
 				6BBB08501B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m in Sources */,
 				C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */,
 				6BCA5F491B104AB300E1E630 /* CouponPkgViewController.m in Sources */,
@@ -2560,6 +2663,7 @@
 				6BD7AE641AE8A64B00BEF30E /* WXUtil.mm in Sources */,
 				1851F4251B0C29BB00241A01 /* xmdd.xcdatamodeld in Sources */,
 				1851F4181B0C1E5400241A01 /* PickerAutomobileBrandVC.m in Sources */,
+				18D17F7A1B56557200F66F04 /* HKTokenPool.m in Sources */,
 				184E40CE1AD3BBB600EFC3A6 /* ShopDetailVC.m in Sources */,
 				6BBEB70B1B2AB120004AD191 /* GainedViewController.m in Sources */,
 				6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */,
@@ -2577,8 +2681,10 @@
 				6BB61BA61AEF8B34004F39AA /* ServiceViewController.m in Sources */,
 				6BBAB8B31ADB777500EC342F /* GetVcodeOp.m in Sources */,
 				1885F0C01B1C4DB40056D3BD /* UIView+ShowDot.m in Sources */,
+				18895B3C1B4CF1D300928F62 /* LogoutOp.m in Sources */,
 				6BEA56CD1AE24DCE000D19C1 /* base64.m in Sources */,
 				1893711F1B0DAD290030FDE1 /* HKMessage.m in Sources */,
+				18D17F731B53AFAC00F66F04 /* GetVoiceVCodeOp.m in Sources */,
 				6BBBF5561B295FD300E1B809 /* GainUserAwardOp.m in Sources */,
 				6BBAB8D11ADE30F900EC342F /* GetShopRatesOp.m in Sources */,
 				6BC220A21AD7B22300A4310E /* AFHTTPRequestOperationManager+ReactiveCocoa.m in Sources */,
@@ -2598,6 +2704,7 @@
 				6BEA56481AE24D34000D19C1 /* AlipayHelper.m in Sources */,
 				6BEA56C91AE24DCE000D19C1 /* SBJsonParser.m in Sources */,
 				6BB89CD41B04C23900F3F61F /* UploadLogOp.m in Sources */,
+				18895B321B4CB52A00928F62 /* PushManager.m in Sources */,
 				6BCA5F401B102A3700E1E630 /* HKCouponPkg.m in Sources */,
 				189B30B01AD4D661001D7288 /* JTTableViewController.m in Sources */,
 				189B395B1AF9A9E500B83F1B /* EditMyCarVC.m in Sources */,
@@ -2605,11 +2712,14 @@
 				1883D9331ACCDA8B002A4D19 /* DefaultStyleModel.m in Sources */,
 				6BE4CE311AF217BC008E1C19 /* GetUserCouponOp.m in Sources */,
 				189B30BA1AD51EF2001D7288 /* JTUser.m in Sources */,
+				18D17F701B5390F400F66F04 /* VCodeInputField.m in Sources */,
 				6BCF624A1B1739E70064AE32 /* CommissionCouponViewController.m in Sources */,
 				6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */,
 				1816F4B41ACE767200BBCC96 /* UIStoryboard+Expansion.m in Sources */,
+				18895B391B4CB93800928F62 /* BindDeviceTokenOp.m in Sources */,
 				1851F4211B0C268F00241A01 /* AutoInfoModel.m in Sources */,
 				186984F21B007FAB000A182A /* HKServiceOrder.m in Sources */,
+				18D17F801B57782800F66F04 /* HKAddressComponent.m in Sources */,
 				6BEA56CA1AE24DCE000D19C1 /* SBJsonWriter.m in Sources */,
 				186984E51B0057A4000A182A /* MyOrderListVC.m in Sources */,
 				6BE2BD581AE62CDF00A69875 /* HKInsurance.m in Sources */,
@@ -2649,6 +2759,7 @@
 				6BBC4A281B0C8236003F3081 /* SocialShareView.m in Sources */,
 				6BBF7DA91B00C9C200E45967 /* UIImage+Utilities.mm in Sources */,
 				6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */,
+				18895B361B4CB89000928F62 /* HKPushManager.m in Sources */,
 				6BC3B60F1ADF52CB001016A0 /* BaseMapViewController.m in Sources */,
 				1851F42F1B0C304B00241A01 /* AutoBrand+Extension.m in Sources */,
 				6BBAB8C11ADBC21600EC342F /* GTMBase64.m in Sources */,
@@ -2691,6 +2802,7 @@
 				187CC9551AEDD0D1004D1F28 /* MonthPickerVC.m in Sources */,
 				6BD7AE5B1AE8927C00BEF30E /* WeChatHelper.m in Sources */,
 				187CC9621AEF896C004D1F28 /* PayResultForInstallmentsVC.m in Sources */,
+				18D17F771B53B21E00F66F04 /* MBProgressHUD.m in Sources */,
 				189B31061AD7B7F5001D7288 /* UIView+Shake.m in Sources */,
 				6BB61BA01AEF6969004F39AA /* RescueViewController.m in Sources */,
 				6BBB083D1B01F8A30002C349 /* AboutViewController.m in Sources */,
