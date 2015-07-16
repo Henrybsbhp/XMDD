@@ -26,6 +26,9 @@ typedef enum : NSInteger
 
 - (instancetype)initWithPicCache:(TMCache *)cache;
 
+- (NSString *)urlWith:(NSString *)url imageType:(ImageURLType)type;
+///从本地缓存获取image
+- (RACSignal *)rac_getImageFromCacheWithUrl:(NSString *)url;
 /// 图片下载, 先去缓存中查询，如果没有查到就去网络上下载。
 - (RACSignal *)rac_getPictureForUrl:(NSString *)url defaultPic:(NSString *)defName;
 /// 图片下载, 先去缓存中查询，如果没有查到就去网络上下载。
@@ -38,7 +41,6 @@ typedef enum : NSInteger
 - (RACSignal *)rac_pickPhotoInTargetVC:(UIViewController *)targetVC
                                 inView:(UIView *)view initBlock:(void(^)(UIImagePickerController *picker))block;
 - (RACSignal *)rac_pickAndCropPhotoInTargetVC:(UIViewController *)targetVC inView:(UIView *)view;
-
 /**
  *  获取图片信号，第一次的信号返回NSString，用来标记一下。前端可用作风火轮提示
  *

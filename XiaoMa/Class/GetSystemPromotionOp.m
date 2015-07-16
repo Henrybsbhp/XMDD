@@ -16,6 +16,9 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:@(self.type) forName:@"type"];
+    [params addParam:self.province forName:@"province"];
+    [params addParam:self.city forName:@"city"];
+    [params addParam:self.district forName:@"district"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
 }

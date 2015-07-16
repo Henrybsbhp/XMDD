@@ -92,12 +92,13 @@
     return cell;
 }
 
-
-
 #pragma mark - Utilitly
 - (void)requestGainAward
 {
     GainUserAwardOp * op = [GainUserAwardOp operation];
+    op.req_province = gMapHelper.addrComponent.province;
+    op.req_city = gMapHelper.addrComponent.city;
+    op.req_district = gMapHelper.addrComponent.district;
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"抢红包啦..."];
@@ -111,7 +112,7 @@
         
     } error:^(NSError *error) {
         
-        [gToast showError:@"失败啦，再抢一次..."];
+        [gToast showError:error.domain];
     }];
 }
 

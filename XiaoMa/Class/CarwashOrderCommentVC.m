@@ -58,18 +58,20 @@
         UIAPlaceholderTextView *textV = (UIAPlaceholderTextView *)[cell.contentView viewWithTag:3001];
         textV.delegate=self;
         [textV resignFirstResponder];
-        self.commentOp.req_comment = textV.text;
+//        self.commentOp.req_comment = textV.text;
         self.commentOp.req_comment = [textV.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         self.commentOp.req_rating = round(ratingV.ratingValue);
     }
     [[[self.commentOp rac_postRequest] initially:^{
         
         [gToast showingWithText:@"Loading..."];
-    }] subscribeNext:^(id x) {
+    }] subscribeNext:^(SubmitCommentOp *rspOp) {
         
         @strongify(self);
         [gToast showSuccess:@"评价成功!"];
         self.order.ratetime = [NSDate date];
+        self.order.comment = rspOp.req_comment;
+        self.order.rating = rspOp.req_rating;
         if (self.originVC) {
             [self.navigationController popToViewController:self.originVC animated:YES];
         }

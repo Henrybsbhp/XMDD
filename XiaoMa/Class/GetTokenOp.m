@@ -16,7 +16,6 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:self.req_phone forName:@"phone"];
-
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
 }

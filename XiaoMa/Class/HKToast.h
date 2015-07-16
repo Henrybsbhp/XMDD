@@ -15,7 +15,10 @@
 - (void)showingWithText:(NSString *)test;
 - (void)showSuccess:(NSString *)success;
 - (void)showError:(NSString *)error;
+- (void)showError:(NSString *)error inView:(UIView *)view;
 - (void)showText:(NSString *)text;
+- (void)showText:(NSString *)text inView:(UIView *)view;
+- (void)dismissInView:(UIView *)view;
 - (void)dismiss;
 
 @end

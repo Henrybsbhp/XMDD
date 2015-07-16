@@ -66,16 +66,16 @@
 //    联调
 //    #define ApiBaseUrl @"http://192.168.1.117:8081/paa/rest/api" //华良联调
 //    #define ApiBaseUrl @"http://api.xiaomadada.com:8282/paa/rest/api" //正式
-    #define ApiBaseUrl @"http://183.129.253.170:18282/paa/rest/api" //测试
-    #define LogUploadUrl @"http://183.129.253.170:18282/log/upload"
+    #define ApiBaseUrl @"http://api.dev.xiaomadada.com:8282/paa/rest/api" //测试
+    #define LogUploadUrl @"http://api.dev.xiaomadada.com:8282/log/upload"
 #else
     #define ApiBaseUrl @"http://api.xiaomadada.com:8282/paa/rest/api" //正式
-    #define LogUploadUrl @"http://183.129.253.170:18282/log/upload"
+    #define LogUploadUrl @"http://api.dev.xiaomadada.com:8282/log/upload"
 #endif
 
 
 #ifdef DEBUG
-    #define WECHAT_NOTIFY_URL      @"http://183.129.253.170:18282/paa/weichatpaynotify"
+    #define WECHAT_NOTIFY_URL      @"http://api.dev.xiaomadada.com:8282/paa/weichatpaynotify"
 //    #define WECHAT_NOTIFY_URL      @"http://api.xiaomadada.com:8282/paa/weichatpaynotify"
 #else
     #define WECHAT_NOTIFY_URL      @"http://api.xiaomadada.com:8282/paa/weichatpaynotify"
@@ -83,7 +83,7 @@
 
 //支付宝相关
 #ifdef DEBUG
-    #define ALIPAY_NOTIFY_URL   @"http://183.129.253.170:18282/paa/alipaynotify"
+    #define ALIPAY_NOTIFY_URL   @"http://api.dev.xiaomadada.com:8282/paa/alipaynotify"
 //    #define ALIPAY_NOTIFY_URL   @"http://api.xiaomadada.com:8282/paa/alipaynotify"
 #else
     #define ALIPAY_NOTIFY_URL   @"http://api.xiaomadada.com:8282/paa/alipaynotify"

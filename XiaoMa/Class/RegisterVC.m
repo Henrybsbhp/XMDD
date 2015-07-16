@@ -20,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *registBtn;
 @property (nonatomic, strong) HKSMSModel *smsModel;
 @property (weak, nonatomic) IBOutlet UITextField *num;
-@property (weak, nonatomic) IBOutlet UITextField *code;
+@property (weak, nonatomic) IBOutlet VCodeInputField *code;
 @property (weak, nonatomic) IBOutlet UITextField *pwd;
 @end
 
@@ -28,11 +28,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.smsModel = [[HKSMSModel alloc] initWithTokenPool:self.model.tokenPool];
+    self.smsModel = [[HKSMSModel alloc] init];
     
     self.num.delegate = self;
     self.code.delegate = self;
     self.pwd.delegate = self;
+    [self.smsModel setupVCodeInputField:self.code accountField:self.num forTargetVC:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,7 +59,7 @@
     if ([self sharkCellIfErrorAtIndex:0]) {
         return;
     }
-    [[self.smsModel rac_handleVcodeButtonClick:sender withVcodeType:3 phone:[self textAtIndex:0]]
+    [[self.smsModel rac_handleVcodeButtonClick:sender vcodeInputField:self.code withVcodeType:3 phone:[self textAtIndex:0]]
      subscribeError:^(NSError *error) {
         [gToast showError:error.domain];
     }];

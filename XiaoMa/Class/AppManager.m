@@ -44,6 +44,8 @@
         
         _deviceInfo = [[DeviceInfo alloc] init];
         _clientInfo = [[ClientInfo alloc] init];
+        
+        _tokenPool = [[HKTokenPool alloc] init];
     }
     return self;
 }

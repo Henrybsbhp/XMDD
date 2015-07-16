@@ -30,6 +30,9 @@ typedef enum : NSUInteger {
 ///支付渠道
 @property (nonatomic)PaymentChannelType  paychannel;
 
+///经纬度
+@property (nonatomic, assign) CLLocationCoordinate2D coordinate;
+
 ///支付平台，这个不会用到接口中，只是做个储存
 @property (nonatomic)PaymentPlatform  platform;
 

@@ -25,6 +25,8 @@
     [params addParam:cid ? cid : @"" forName:@"cid"];
     [params addParam:@(self.paychannel) forName:@"paychannel"];
     [params addParam:self.carbrand forName:@"carbrand"];
+    [params addParam:@(self.coordinate.longitude) forName:@"longitude"];
+    [params addParam:@(self.coordinate.latitude) forName:@"latitude"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }

@@ -14,7 +14,8 @@
 @property (nonatomic, assign, readonly) CGSize screenSize;
 @property (nonatomic, assign, readonly) CGFloat screenScale;
 
-@property (nonatomic,copy,readonly)NSString * osVersion;
+@property (nonatomic, copy, readonly) NSString *appVersion;
+@property (nonatomic, copy, readonly) NSString *osVersion;
 //设备唯一标识
 @property (nonatomic, strong, readonly) NSString *deviceID;
 

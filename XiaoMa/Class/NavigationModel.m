@@ -8,6 +8,7 @@
 
 #import "NavigationModel.h"
 #import "WebVC.h"
+#import "CarwashOrderDetailVC.h"
 
 @implementation NavigationModel
 
@@ -17,11 +18,10 @@
     //是内部跳转链接(以xmdd://开头)
     if ([url hasPrefix:@"xmdd://"]) {
         NSDictionary *params = [self getActionParamsFromUrl:url];
-        NSString *name = params[@"name"];
-        NSString *itemid = params[@"id"];
+        NSString *name = params[@"t"];
+        NSString *value = params[@"id"];
         //优惠券
-        if ([@"coupon" equalByCaseInsensitive:name]) {
-            
+        if ([@"cp" equalByCaseInsensitive:name] && gAppMgr.myUser) {
             if (![self popToViewControllerIfNeededByIdentify:@"MyCouponVC"]) {
                 UIViewController *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
@@ -29,11 +29,21 @@
             flag = YES;
         }
         //订单详情
-        else if ([@"order" equalByCaseInsensitive:name]) {
-            
+        else if ([@"o" equalByCaseInsensitive:name] && gAppMgr.myUser) {
+            NSNumber *orderid = @([value integerValue]);
+            CarwashOrderDetailVC *vc = (CarwashOrderDetailVC *)[self viewControllerByIdentify:@"CarwashOrderDetailVC"];
+            if (vc && ([orderid isEqualToNumber:vc.order.orderid] || [orderid isEqualToNumber:vc.orderID])) {
+                [self.curNavCtrl popToViewController:vc animated:YES];
+            }
+            else {
+                vc = [UIStoryboard vcWithId:@"CarwashOrderDetailVC" inStoryboard:@"Mine"];
+                vc.orderID = orderid;
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+            flag = YES;
         }
         //订单列表
-        else if ([@"orderlist" equalByCaseInsensitive:name]) {
+        else if ([@"ol" equalByCaseInsensitive:name] && gAppMgr.myUser) {
             if (![self popToViewControllerIfNeededByIdentify:@"MyOrderListVC"]) {
                 UIViewController *vc = [UIStoryboard vcWithId:@"MyOrderListVC" inStoryboard:@"Mine"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
@@ -41,7 +51,7 @@
             flag = YES;
         }
         //礼包
-        else if ([@"couponpkg" equalByCaseInsensitive:name]) {
+        else if ([@"cpk" equalByCaseInsensitive:name] && gAppMgr.myUser) {
             if (![self popToViewControllerIfNeededByIdentify:@"CouponPkgViewController"]) {
                 UIViewController *vc = [UIStoryboard vcWithId:@"CouponPkgViewController" inStoryboard:@"Mine"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
@@ -49,7 +59,7 @@
             flag = YES;
         }
         //收藏列表
-        else if ([@"favoritelist" equalByCaseInsensitive:name]) {
+        else if ([@"fl" equalByCaseInsensitive:name] && gAppMgr.myUser) {
             if (![self popToViewControllerIfNeededByIdentify:@"MyCollectionViewController"]) {
                 UIViewController *vc = [UIStoryboard vcWithId:@"MyCollectionViewController" inStoryboard:@"Mine"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
@@ -57,11 +67,11 @@
             flag = YES;
         }
         //商店详情
-        else if ([@"shop" equalByCaseInsensitive:name]) {
+        else if ([@"sd" equalByCaseInsensitive:name]) {
 
         }
         //爱车列表
-        else if ([@"carlist" equalByCaseInsensitive:name]) {
+        else if ([@"cl" equalByCaseInsensitive:name] && gAppMgr.myUser) {
             if (![self popToViewControllerIfNeededByIdentify:@"MyCarListVC"]) {
                 UIViewController *vc = [UIStoryboard vcWithId:@"MyCarListVC" inStoryboard:@"Mine"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
@@ -82,7 +92,7 @@
 - (NSDictionary *)getActionParamsFromUrl:(NSString *)url
 {
     //用正则过滤出参数列表（如：@"name=jiang&code=4&age=25"）
-    NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:@"(?<=action\\?).*" options:0 error:nil];
+    NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:@"(?<=j\\?).*" options:0 error:nil];
     NSTextCheckingResult *rst = [regexp firstMatchInString:url options:0 range:NSMakeRange(0, url.length)];
     NSString *paramsString = [url substringWithRange:rst.range];
     NSArray *paramsArray = paramsString.length > 0 ? [paramsString componentsSeparatedByString:@"&"] : nil;
@@ -98,9 +108,7 @@
 
 - (BOOL)popToViewControllerIfNeededByIdentify:(NSString *)identify
 {
-    UIViewController *vc = [self.curNavCtrl.viewControllers firstObjectByFilteringOperator:^BOOL(NSObject *obj) {
-        return [obj isKindOfClass:[UIViewController class]];
-    }];
+    UIViewController *vc = [self viewControllerByIdentify:identify];
     if (vc) {
         [self.curNavCtrl popToViewController:vc animated:YES];
         return YES;
@@ -108,4 +116,11 @@
     return NO;
 }
 
+- (UIViewController *)viewControllerByIdentify:(NSString *)identify
+{
+    UIViewController *vc = [self.curNavCtrl.viewControllers firstObjectByFilteringOperator:^BOOL(NSObject *obj) {
+        return [obj isKindOfClass:[UIViewController class]];
+    }];
+    return vc;
+}
 @end
