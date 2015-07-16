@@ -169,6 +169,7 @@
 		18D17F7A1B56557200F66F04 /* HKTokenPool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F791B56557200F66F04 /* HKTokenPool.m */; };
 		18D17F7D1B57407900F66F04 /* BindDeviceToken2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F7C1B57407900F66F04 /* BindDeviceToken2Op.m */; };
 		18D17F801B57782800F66F04 /* HKAddressComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F7F1B57782800F66F04 /* HKAddressComponent.m */; };
+		18D17F831B57A3D000F66F04 /* HomePageVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F821B57A3D000F66F04 /* HomePageVModel.m */; };
 		6B086BA11AE3184D00659DB7 /* GetShopByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */; };
 		6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */; };
 		6B086BA71AE4F03800659DB7 /* UIView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA61AE4F03800659DB7 /* UIView+Base.m */; };
@@ -639,6 +640,8 @@
 		18D17F7C1B57407900F66F04 /* BindDeviceToken2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BindDeviceToken2Op.m; path = Class/BindDeviceToken2Op.m; sourceTree = "<group>"; };
 		18D17F7E1B57782800F66F04 /* HKAddressComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKAddressComponent.h; path = Class/HKAddressComponent.h; sourceTree = "<group>"; };
 		18D17F7F1B57782800F66F04 /* HKAddressComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKAddressComponent.m; path = Class/HKAddressComponent.m; sourceTree = "<group>"; };
+		18D17F811B57A3D000F66F04 /* HomePageVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageVModel.h; sourceTree = "<group>"; };
+		18D17F821B57A3D000F66F04 /* HomePageVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageVModel.m; sourceTree = "<group>"; };
 		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6B086B9F1AE3184D00659DB7 /* GetShopByNameOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShopByNameOp.h; path = Class/GetShopByNameOp.h; sourceTree = "<group>"; };
 		6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetShopByNameOp.m; path = Class/GetShopByNameOp.m; sourceTree = "<group>"; };
@@ -1548,6 +1551,8 @@
 				187532D21ACCDEEF004CB777 /* HomePageVC.m */,
 				6BBB4C3D1B32790B00C8052E /* WelcomeViewController.h */,
 				6BBB4C3E1B32790B00C8052E /* WelcomeViewController.m */,
+				18D17F811B57A3D000F66F04 /* HomePageVModel.h */,
+				18D17F821B57A3D000F66F04 /* HomePageVModel.m */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -2846,6 +2851,7 @@
 				189B394F1AF8576600B83F1B /* GetUserBaseInfoOp.m in Sources */,
 				189B30C71AD664D7001D7288 /* InsuranceVC.m in Sources */,
 				18088D8B1B1DC921007438FC /* UsedCouponVModel.m in Sources */,
+				18D17F831B57A3D000F66F04 /* HomePageVModel.m in Sources */,
 				6BEA56C51AE24DCE000D19C1 /* NSObject+SBJSON.m in Sources */,
 				6BCF62441B15AF3E0064AE32 /* RescueCouponViewController.m in Sources */,
 				6BE2BD5E1AE63F9F00A69875 /* MultiMediaManager.m in Sources */,

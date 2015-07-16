@@ -19,18 +19,31 @@
     return component;
 }
 
-- (BOOL)isEqualToAMapAddressComponent:(AMapAddressComponent *)component
++ (BOOL)isEqualAddrComponent:(HKAddressComponent *)ac1 otherAddrComponent:(HKAddressComponent *)ac2
 {
-    if ((!self.province && component.province) && ![self.province isEqualToString:component.province]) {
+    if ((!ac1.province && ac2.province) && ![ac1.province isEqualToString:ac2.province]) {
         return NO;
     }
-    if ((!self.city && component.city) && ![self.city isEqualToString:component.city]) {
+    if ((!ac1.city && ac2.city) && ![ac1.city isEqualToString:ac2.city]) {
         return NO;
     }
-    if ((!self.district && component.district) && ![self.district isEqualToString:component.district]) {
+    if ((!ac1.district && ac2.district) && ![ac1.district isEqualToString:ac2.district]) {
         return NO;
     }
+    return YES;
+}
 
++ (BOOL)isEqualAddrComponent:(HKAddressComponent *)ac1 AMapAddrComponent:(AMapAddressComponent *)ac2
+{
+    if ((!ac1.province && ac2.province) && ![ac1.province isEqualToString:ac2.province]) {
+        return NO;
+    }
+    if ((!ac1.city && ac2.city) && ![ac1.city isEqualToString:ac2.city]) {
+        return NO;
+    }
+    if ((!ac1.district && ac2.district) && ![ac1.district isEqualToString:ac2.district]) {
+        return NO;
+    }
     return YES;
 }
 
