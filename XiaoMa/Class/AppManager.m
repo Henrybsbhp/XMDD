@@ -11,6 +11,7 @@
 #define kSharedCacheName    @"AppInfoManager_dataCache"
 
 @implementation AppManager
+@synthesize addrComponent = _addrComponent;
 
 + (AppManager *)sharedManager
 {
@@ -63,11 +64,24 @@
     self.myUser = user;
 }
 
+#pragma mark - Setter And Getter
+- (void)setAddrComponent:(HKAddressComponent *)addrComponent
+{
+    _addrComponent = addrComponent;
+    [self.promptionCache setObject:addrComponent forKey:@"addrComponent"];
+}
+
+- (HKAddressComponent *)addrComponent
+{
+    if (!_addrComponent) {
+        _addrComponent = [self.promptionCache objectForKey:@"addrComponent"];
+    }
+    return _addrComponent;
+}
 
 #pragma mark - 数据存取
 - (void)loadLastLocationAndWeather
 {
-    self.province = [self getInfo:Province];
     self.city = [self getInfo:City];
     self.district = [self getInfo:District];
     self.temperature = [self getInfo:Temperature];
@@ -75,7 +89,6 @@
     self.temperaturetip = [self getInfo:Temperaturetip];
     self.restriction = [self getInfo:Restriction];
 }
-
 
 - (NSArray *)loadSearchHistory
 {
@@ -95,36 +108,10 @@
     });
 }
 
-- (NSString *)getInfo:(NSString *)key
+- (id)getInfo:(NSString *)key
 {
-//    if (!key.length)
-//    {
-//        return nil;
-//    }
-//    __block NSString * value = nil;
-//    
-//    static dispatch_queue_t queue;
-//    static dispatch_once_t predicate;
-//    
-//    dispatch_once(&predicate, ^{
-//        queue = dispatch_queue_create("aaaaaaaaaaa", DISPATCH_QUEUE_SERIAL);
-//    });
-//    
-//    
-//    dispatch_sync(queue, ^{
-//        value = [self.promptionCache objectForKey:key];
-//    });
-//    
-//    return value;
-
-//    __block NSString * value;
-//    CKAsyncHighQueue(^{
-        return [self.promptionCache objectForKey:key];
-//    });
-//    return value;
+    return [self.promptionCache objectForKey:key];
 }
-
-
 
 #pragma mark - 升级相关
 - (void)startUpdatingWithURLString:(NSString *)strurl

@@ -15,6 +15,7 @@
 #import "CoreDataManager.h"
 #import "NavigationModel.h"
 #import "HKTokenPool.h"
+#import "HKAddressComponent.h"
 
 #define Province @"Province"
 #define City @"City"
@@ -26,6 +27,7 @@
 #define Temperaturepic @"Temperaturepic"
 #define LastWeatherTime @"LastWeatherTime"
 #define SearchHistory   @"SearchHistory"
+#define AddrComonpent   @"AddrComonpent"
 
 @interface AppManager : NSObject
 
@@ -54,6 +56,7 @@
 
 @property (nonatomic)BOOL needRefreshWeather;
 
+@property (nonatomic, strong) HKAddressComponent *addrComponent;
 @property (nonatomic,copy)NSString *province;
 @property (nonatomic,copy)NSString *city;
 @property (nonatomic,copy)NSString *district;

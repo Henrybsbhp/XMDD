@@ -21,7 +21,7 @@
 @interface AdvertisementManager()
 
 @property (nonatomic, strong, readonly) TMCache *adCache;
-@property (nonatomic, strong) NSMutableDictionary *timeInfo;
+@property (nonatomic, strong) NSMutableDictionary *adInfo;
 @property (nonatomic, strong) RACSignal *defScrollTimerSignal;
 @end
 
@@ -46,7 +46,7 @@
         TMCache *cache = [[TMCache alloc] initWithName:@"AdvertisementCache"];
         cache.diskCache.byteLimit = 200 * 1024 * 1024; // 200M
         _adCache = cache;
-        _timeInfo = [NSMutableDictionary dictionary];
+        _adInfo = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -57,12 +57,17 @@
     RACSignal * signal;
     GetSystemPromotionOp * op = [GetSystemPromotionOp operation];
     op.type = type;
+    op.province = gAppMgr.addrComponent.province;
+    op.city = gAppMgr.addrComponent.city;
+    op.district = gAppMgr.addrComponent.district;
     signal = [[op rac_postRequest] map:^id(GetSystemPromotionOp *op) {
         
         NSString *key = [self keyForAdType:type];
         NSArray *sortedArray = [self filterAndSortAdList:op.rsp_advertisementArray];
         [self saveInfo:op.rsp_advertisementArray forKey:key];
-        [self.timeInfo setObject:@([[NSDate date] timeIntervalSince1970]) forKey:key];
+        [self.adInfo setObject:@([[NSDate date] timeIntervalSince1970]) forKey:key];
+        NSString *addrKey = [key append:@"_addrComponent"];
+        [self.adInfo safetySetObject:gAppMgr.addrComponent forKey:addrKey];
         
         if (type == AdvertisementHomePage)
         {
@@ -107,16 +112,21 @@
         return nil;
     }];
     
-    NSTimeInterval timetag = [(NSNumber *)[self.timeInfo objectForKey:key] doubleValue];
+    NSTimeInterval timetag = [(NSNumber *)[self.adInfo objectForKey:key] doubleValue];
     NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
     //超过时间间隔,则更新该广告信息
     if (timetag+kUpdateAdTimeInterval < now) {
         signal = [signal concat:[self rac_getAdvertisement:type]];
     }
+    else {
+        HKAddressComponent *ac = [self.adInfo objectForKey:[key append:@"_addrComponent"]];
+        if (![HKAddressComponent isEqualAddrComponent:ac otherAddrComponent:gAppMgr.addrComponent]) {
+            signal = [signal concat:[self rac_getAdvertisement:type]];
+        }
+    }
+    
     return signal;
 }
-
-
 
 - (RACSignal *)rac_scrollTimerSignal
 {
