@@ -362,9 +362,7 @@
 {}
 
 - (void)requestUpdateInfo
-{
-    
-}
+{}
 
 - (void)getLocation
 {

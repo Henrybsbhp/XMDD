@@ -121,7 +121,7 @@
     op.req_phone = account;
     op.req_token = [gAppMgr.tokenPool tokenForAccount:account];
     [[[[op rac_postRequest] initially:^{
-        [gToast showText:nil inView:targetVC.view];
+        [gToast showingWithText:nil inView:targetVC.view];
     }] finally:^{
     }] subscribeNext:^(id x) {
         [gToast dismissInView:targetVC.view];

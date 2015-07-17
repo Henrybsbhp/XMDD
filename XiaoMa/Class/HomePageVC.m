@@ -348,7 +348,7 @@
         }
     }];
     
-    [[[sig1 initially:^{
+    [[[[sig1 initially:^{
         @strongify(self);
         [self.scrollView.refreshView beginRefreshing];
     }] flattenMap:^RACStream *(AMapReGeocode *regeo) {
@@ -356,12 +356,11 @@
         RACSignal *sig2 = [self rac_getWeatherInfoWithReGeocode:regeo];
         RACSignal *sig3 = [self rac_getAdListWithReGeocode:regeo];
         return [sig2 merge:sig3];
+    }] finally:^{
+        @strongify(self);
+        [self.scrollView.refreshView endRefreshing];
     }] subscribeNext:^(id x) {
-        @strongify(self);
-        [self.scrollView.refreshView endRefreshing];
-    } error:^(NSError *error) {
-        @strongify(self);
-        [self.scrollView.refreshView endRefreshing];
+        
     }];
 }
 

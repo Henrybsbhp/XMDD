@@ -181,17 +181,20 @@
 - (IBAction)actionEnquiry:(id)sender
 {
     [MobClick event:@"rp115-7"];
+    
     // 检测车牌是否为空
-    if ([self shakeIfNeededAtRow:1]) {
+    BOOL isError = [self shakeIfNeededAtRow:1 filter:nil];
+    if (isError) {
         return;
-    }
-    if (self) {
     }
     //购车价格
-    if ([self shakeIfNeededAtRow:2]) {
+    isError = [self shakeIfNeededAtRow:2 filter:^BOOL(NSString *text) {
+        return [text floatValue] == 0;
+    }];
+    if (isError) {
         return;
     }
-
+    
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         HKMyCar *car = self.selectedPlateBtn.customInfo[@"car"];
         GetInsuranceCalculatorOp * op = [GetInsuranceCalculatorOp operation];
@@ -478,11 +481,15 @@
     [gToast showText:msg];
 }
 
-- (BOOL)shakeIfNeededAtRow:(NSInteger)row
+- (BOOL)shakeIfNeededAtRow:(NSInteger)row filter:(BOOL(^)(NSString *text))filter
 {
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
-    if (field.text.length == 0) {
+    BOOL shouldShake = field.text.length == 0;
+    if (filter) {
+        shouldShake = filter(field.text);
+    }
+    if (shouldShake) {
         [cell.contentView shake];
         return YES;
     }

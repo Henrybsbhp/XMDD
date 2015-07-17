@@ -32,7 +32,10 @@
 - (void)handleNofitication:(NSDictionary *)info forApplication:(UIApplication *)application
 {
     [super handleNofitication:info forApplication:application];
-    [gAppMgr.navModel pushToViewControllerByUrl:info[@"url"]];
+    //应用外推送
+    if (application.applicationState != UIApplicationStateActive) {
+        [gAppMgr.navModel pushToViewControllerByUrl:info[@"url"]];
+    }
 }
 
 #pragma mark - Public

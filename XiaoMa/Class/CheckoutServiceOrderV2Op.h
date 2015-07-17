@@ -1,8 +1,8 @@
 //
-//  CheckoutServiceOrderOp.h
+//  CheckoutServiceOrderV2Op.h
 //  XiaoMa
 //
-//  Created by jt on 15-4-18.
+//  Created by jiangjunchen on 15/7/17.
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
@@ -13,7 +13,7 @@ typedef enum : NSUInteger {
     PayWithWechat
 } PaymentPlatform;
 
-@interface CheckoutServiceOrderOp : BaseOp
+@interface CheckoutServiceOrderV2Op : BaseOp
 
 @property (nonatomic,copy)NSNumber *serviceid;
 
