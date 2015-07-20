@@ -59,30 +59,34 @@
 ///我感兴趣
 - (IBAction)actionInterested:(id)sender {
     [MobClick event:@"rp123-2"];
-    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        
-        BeInterestedInInsuranceOp *op = [BeInterestedInInsuranceOp new];
-        [[[op rac_postRequest] initially:^{
-          
-            [gToast showingWithText:@"正在提交..."];
-        }] subscribeNext:^(id x) {
-
-            [gToast dismiss];
-            UIAlertView *alert = [[UIAlertView alloc] initNoticeWithTitle:@"收到啦～工作人员将于1个工作日内电话联系您，为您更详细的介绍爱车宝！" message:nil cancelButtonTitle:@"确定"];
-            [alert show];
-            [gToast showSuccess:@"提交成功!"];
-        } error:^(NSError *error) {
-
-            if (error.code == 6001) {
-                [gToast dismiss];
-                UIAlertView *alert = [[UIAlertView alloc] initNoticeWithTitle:@"收到啦～工作人员将于1个工作日内电话联系您，为您更详细的介绍爱车宝！" message:nil cancelButtonTitle:@"确定"];
-                [alert show];
-            }
-            else {
-                [gToast showError:error.domain];
-            }
-        }];
+    if (![LoginViewModel loginIfNeededForTargetViewController:self]) {
+        return;
     }
+    NSString *msg = @"感谢您对爱车宝感兴趣，是否需要工作人员在1个工作日内电话联系您，为您更详细地介绍爱车宝？";
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:msg delegate:nil
+                                          cancelButtonTitle:@"算了吧" otherButtonTitles:@"必须的", nil];
+    [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
+        //我感兴趣
+        if ([number integerValue] == 1) {
+            BeInterestedInInsuranceOp *op = [BeInterestedInInsuranceOp new];
+            [[[op rac_postRequest] initially:^{
+                
+                [gToast showingWithText:@"正在提交..."];
+            }] subscribeNext:^(id x) {
+                
+                [gToast showText:@"收到啦～工作人员将于1个工作日内电话联系您，为您更详细的介绍爱车宝！"];
+            } error:^(NSError *error) {
+                
+                if (error.code == 6001) {
+                    [gToast showText:@"收到啦～工作人员将于1个工作日内电话联系您，为您更详细的介绍爱车宝！"];
+                }
+                else {
+                    [gToast showError:error.domain];
+                }
+            }];
+        }
+    }];
+    [alert show];
 }
 
 ///电话咨询

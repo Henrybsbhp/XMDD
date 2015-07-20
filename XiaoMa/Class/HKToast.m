@@ -43,7 +43,7 @@
     }
     else {
         [self showText:error];
-        [SVProgressHUD showErrorWithStatus:error];
+//        [SVProgressHUD showErrorWithStatus:error];
     }
 }
 
@@ -66,7 +66,7 @@
     [SVProgressHUD showOnlyStatus:text duration:[self displayDurationForString:text]];
 }
 
-- (void)showText:(NSString *)text inView:(UIView *)view
+- (void)showingWithText:(NSString *)text inView:(UIView *)view
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     hud.labelText = text;

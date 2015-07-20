@@ -10,7 +10,8 @@
 #import "NSMutableDictionary+AddParams.h"
 
 typedef enum : NSUInteger {
-    CouponTypeCarWash = 1,//1分钱洗车
+    CouponTypeNone = 0,
+    CouponTypeCarWash,//1分钱洗车
     CouponTypeCash,//现金抵扣
     CouponTypeAgency,//免费年检代办
     CouponTypeInsurance,//保险代金券
