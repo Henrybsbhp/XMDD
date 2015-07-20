@@ -68,7 +68,9 @@
     
     //自动登录
     [self autoLogin];
-//    //设置主页的滚动视图
+    //开启推送接收队列
+    gAppDelegate.pushMgr.notifyQueue.running = YES;
+    //设置主页的滚动视图
     [self setupScrollView];
     [self setupWeatherView];
     [self rotationTableHeaderView];

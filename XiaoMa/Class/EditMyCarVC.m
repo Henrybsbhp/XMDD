@@ -21,10 +21,9 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) HKMyCar *curCar;
 @property (nonatomic, assign) BOOL isEditingModel;
-@property (weak, nonatomic) IBOutlet UIView *headerView;
+@property (nonatomic, assign) BOOL showHeaderView;
 @property (weak, nonatomic) IBOutlet UIToolbar *bottomBar;
-@property (weak, nonatomic) IBOutlet UILabel *headerDescLabel;
-@property (weak, nonatomic) IBOutlet UIButton *headerUploadBtn;
+
 @property (nonatomic, strong) DatePickerVC *datePicker;
 @end
 
@@ -58,6 +57,7 @@
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp312"];
 }
+
 - (void)dealloc
 {
     NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
@@ -83,15 +83,8 @@
 
 - (void)setupTableView
 {
-    if (self.originCar.status == 0 || self.originCar.status == 3) {
-        [self.model setupUploadBtn:self.headerUploadBtn andDescLabel:self.headerDescLabel forStatus:self.originCar.status];
-    }
-    else {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
-        view.backgroundColor = [UIColor clearColor];
-        self.tableView.tableHeaderView = view;
-    }
-    
+    self.showHeaderView = self.originCar.status == 0 || self.originCar.status == 3;
+
     if (self.originCar) {
         _curCar = [self.originCar copy];
         _isEditingModel = YES;
@@ -191,7 +184,8 @@
         [gToast showSuccess:@"上传成功!"];
         self.curCar.licenceurl = url;
         self.curCar.status = 1;
-        self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+        self.showHeaderView = NO;
+        [self.tableView reloadData];
     } error:^(NSError *error) {
         [gToast showError:error.domain];
     }];
@@ -199,7 +193,10 @@
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 10;
+    if (section == 0) {
+        return 10;
+    }
+    return CGFLOAT_MIN;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -209,23 +206,33 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 0 && self.showHeaderView) {
+        return 84;
+    }
     return 44;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (section == 0 && self.showHeaderView) {
+        return 1;
+    }
     return self.curCar ? 9 : 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return self.showHeaderView ? 2 : 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    JTTableViewCell *cell;
-    if (indexPath.row == 2 || indexPath.row == 3) {
+    UITableViewCell *cell;
+
+    if (indexPath.section == 0 && self.showHeaderView) {
+        cell = [self cellForHeaderViewAtIndexPath:indexPath];
+    }
+    else if (indexPath.row == 2 || indexPath.row == 3) {
         cell = [self cellForType2AtIndexPath:indexPath];
     }
     else if (indexPath.row == 8) {
@@ -234,7 +241,9 @@
     else {
         cell = [self cellForType1AtIndexPath:indexPath];
     }
-    cell.customSeparatorInset = UIEdgeInsetsZero;
+    if ([cell isKindOfClass:[JTTableViewCell class]]) {
+        [(JTTableViewCell *)cell setCustomSeparatorInset:UIEdgeInsetsZero];
+    }
     return cell;
 }
 
@@ -310,6 +319,22 @@
  }
 
 #pragma mark - Cell
+- (UITableViewCell *)cellForHeaderViewAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"HeaderCell" forIndexPath:indexPath];
+    UILabel *descLabel = (UILabel *)[cell.contentView viewWithTag:1002];
+    UIButton *uploadBtn = (UIButton *)[cell.contentView viewWithTag:1003];
+    [self.model setupUploadBtn:uploadBtn andDescLabel:descLabel forStatus:self.originCar.status];
+    
+    @weakify(self);
+    [[[uploadBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
+        [self actionUpload:nil];
+    }];
+    
+    return cell;
+}
+
 - (JTTableViewCell *)cellForType1AtIndexPath:(NSIndexPath *)indexPath
 {
     JTTableViewCell *cell = (JTTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"Cell1" forIndexPath:indexPath];

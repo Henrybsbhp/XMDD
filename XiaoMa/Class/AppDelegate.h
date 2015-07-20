@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HKPushManager.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, strong) HKPushManager *pushMgr;
 
 - (void)resetRootViewController:(UIViewController *)rootVC;
 

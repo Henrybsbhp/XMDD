@@ -19,8 +19,18 @@
         _bindOp.req_osversion = [NSString stringWithFormat:@"iOS %@", gAppMgr.deviceInfo.osVersion];
         _bindOp.req_appversion = gAppMgr.deviceInfo.appVersion;
         _bindOp.req_deviceID = gAppMgr.deviceInfo.deviceID;
+        [self setupNotifyQueue];
     }
     return self;
+}
+
+- (void)setupNotifyQueue
+{
+    [self.notifyQueue setConsumeBlock:^RACSignal *(NSDictionary *info, id<NSCopying>key) {
+        
+        [gAppMgr.navModel pushToViewControllerByUrl:info[@"url"]];
+        return [RACSignal empty];
+    }];
 }
 
 #pragma mark - Override
@@ -32,7 +42,11 @@
 - (void)handleNofitication:(NSDictionary *)info forApplication:(UIApplication *)application
 {
     [super handleNofitication:info forApplication:application];
-    [gAppMgr.navModel pushToViewControllerByUrl:info[@"url"]];
+    //应用外推送
+    if (application.applicationState == UIApplicationStateActive) {
+        [self.notifyQueue removeAllObjects];
+        [self.notifyQueue addObject:info forKey:nil];
+    }
 }
 
 #pragma mark - Public
