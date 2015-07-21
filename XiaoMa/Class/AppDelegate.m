@@ -58,6 +58,7 @@
     [gMapHelper setupMAMap];
     [self setupUmeng];
     [self setupCrashlytics];
+    [self setupURLCache];
     //设置推送
     [self setupPushManagerWithOptions:launchOptions];
     //微信授权
@@ -136,6 +137,12 @@
 {
     self.errorModel = [[HKCatchErrorModel alloc] init];
     [self.errorModel catchNetworkingError];
+}
+
+- (void)setupURLCache
+{
+    NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:200*1024*1024 diskCapacity:0 diskPath:nil];
+    [NSURLCache setSharedURLCache:sharedCache];
 }
 
 - (void)setupPushManagerWithOptions:(NSDictionary *)launchOptions

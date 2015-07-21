@@ -360,7 +360,6 @@
         if (ad.adLink.length)
         {
             WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
-            vc.title = @"洗车广告";
             vc.url = ad.adLink;
             [self.navigationController pushViewController:vc animated:YES];
         }

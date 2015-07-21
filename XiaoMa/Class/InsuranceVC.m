@@ -164,7 +164,6 @@
         @strongify(self);
         if (ad.adLink.length > 0) {
             WebVC * vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
-            vc.title = @"广告";
             vc.url = ad.adLink;
             [self.navigationController pushViewController:vc animated:YES];
         }

@@ -13,17 +13,11 @@
 
 #define kInsuranceOlineUrl  @"http://www.xiaomadada.com/apphtml/aichebao.html"
 
-@interface BuyInsuranceOnlineVC ()
-@property (weak, nonatomic) IBOutlet UIWebView *webView;
-
-@end
-
 @implementation BuyInsuranceOnlineVC
 
 - (void)viewDidLoad {
+    self.url = kInsuranceOlineUrl;
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    [self reloadWebView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -50,11 +44,6 @@
     DebugLog(deallocInfo);
 }
 
-- (void)reloadWebView
-{
-    NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:kInsuranceOlineUrl]];
-    [self.webView loadRequest:req];
-}
 #pragma mark - Action
 ///我感兴趣
 - (IBAction)actionInterested:(id)sender {
@@ -63,7 +52,7 @@
         return;
     }
     NSString *msg = @"感谢您对爱车宝感兴趣，是否需要工作人员在1个工作日内电话联系您，为您更详细地介绍爱车宝？";
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:msg delegate:nil
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:msg delegate:nil
                                           cancelButtonTitle:@"算了吧" otherButtonTitles:@"必须的", nil];
     [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
         //我感兴趣
@@ -108,4 +97,5 @@
     vc.originVC = self.originVC;
     [self.navigationController pushViewController:vc animated:YES];
 }
+
 @end

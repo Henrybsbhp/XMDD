@@ -54,6 +54,9 @@
     }
     else {
         MBProgressHUD *hud = [MBProgressHUD HUDForView:view];
+        if (!hud) {
+            hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+        }
         hud.labelText = error;
         hud.margin = 10;
         hud.mode = MBProgressHUDModeText;

@@ -59,7 +59,6 @@
         case 414:
             height = 674;
             break;
-            
         default:
             height = 504;
             break;

@@ -43,7 +43,7 @@
 {
     [super handleNofitication:info forApplication:application];
     //应用外推送
-    if (application.applicationState == UIApplicationStateActive) {
+    if (application.applicationState != UIApplicationStateActive) {
         [self.notifyQueue removeAllObjects];
         [self.notifyQueue addObject:info forKey:nil];
     }

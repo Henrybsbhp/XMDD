@@ -155,7 +155,7 @@
         return;
     }
     if (self.isEditingModel) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您未保存信息，是否现在保存？" delegate:nil
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您未保存信息，是否现在保存？" delegate:nil
                                               cancelButtonTitle:@"算了" otherButtonTitles:@"保存", nil];
         [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
             if ([number integerValue] == 0) {
@@ -168,7 +168,7 @@
         [alert show];
     }
     else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您未保存行驶证，需填写相关必填项并点击“保存”后方能添加爱车。"
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您未保存行驶证，需填写相关必填项并点击“保存”后方能添加爱车。"
                                                        delegate:nil cancelButtonTitle:@"放弃添加" otherButtonTitles:@"继续添加", nil];
         [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
             if ([number integerValue] == 0) {
