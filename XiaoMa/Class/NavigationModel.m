@@ -119,7 +119,10 @@
 - (UIViewController *)viewControllerByIdentify:(NSString *)identify
 {
     UIViewController *vc = [self.curNavCtrl.viewControllers firstObjectByFilteringOperator:^BOOL(NSObject *obj) {
-        return [obj isKindOfClass:[UIViewController class]];
+        if ([obj isKindOfClass:[UIViewController class]]) {
+            return [[(UIViewController *)obj className] equalByCaseInsensitive:identify];
+        }
+        return NO;
     }];
     return vc;
 }

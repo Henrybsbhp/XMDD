@@ -42,8 +42,7 @@
     }
     [btn setTitle:title forState:UIControlStateNormal];
     UIImage *bgimg = [[UIImage imageNamed:bgName] resizableImageWithCapInsets:UIEdgeInsetsMake(9, 5, 9, 5)];
-    [btn setBackgroundImage:bgimg
-                   forState:UIControlStateNormal];
+    [btn setBackgroundImage:bgimg forState:UIControlStateNormal];
     label.text = desc;
 }
 

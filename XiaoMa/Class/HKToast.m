@@ -43,7 +43,7 @@
     }
     else {
         [self showText:error];
-        [SVProgressHUD showErrorWithStatus:error];
+//        [SVProgressHUD showErrorWithStatus:error];
     }
 }
 
@@ -54,6 +54,9 @@
     }
     else {
         MBProgressHUD *hud = [MBProgressHUD HUDForView:view];
+        if (!hud) {
+            hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+        }
         hud.labelText = error;
         hud.margin = 10;
         hud.mode = MBProgressHUDModeText;
@@ -66,7 +69,7 @@
     [SVProgressHUD showOnlyStatus:text duration:[self displayDurationForString:text]];
 }
 
-- (void)showText:(NSString *)text inView:(UIView *)view
+- (void)showingWithText:(NSString *)text inView:(UIView *)view
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     hud.labelText = text;

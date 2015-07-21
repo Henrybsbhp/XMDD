@@ -170,6 +170,7 @@
 		18D17F7D1B57407900F66F04 /* BindDeviceToken2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F7C1B57407900F66F04 /* BindDeviceToken2Op.m */; };
 		18D17F801B57782800F66F04 /* HKAddressComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F7F1B57782800F66F04 /* HKAddressComponent.m */; };
 		18D17F831B57A3D000F66F04 /* HomePageVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F821B57A3D000F66F04 /* HomePageVModel.m */; };
+		18D17F861B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F851B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m */; };
 		6B086BA11AE3184D00659DB7 /* GetShopByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */; };
 		6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */; };
 		6B086BA71AE4F03800659DB7 /* UIView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA61AE4F03800659DB7 /* UIView+Base.m */; };
@@ -642,6 +643,8 @@
 		18D17F7F1B57782800F66F04 /* HKAddressComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKAddressComponent.m; path = Class/HKAddressComponent.m; sourceTree = "<group>"; };
 		18D17F811B57A3D000F66F04 /* HomePageVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageVModel.h; sourceTree = "<group>"; };
 		18D17F821B57A3D000F66F04 /* HomePageVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageVModel.m; sourceTree = "<group>"; };
+		18D17F841B58D0B000F66F04 /* CheckoutServiceOrderV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckoutServiceOrderV2Op.h; path = Class/CheckoutServiceOrderV2Op.h; sourceTree = "<group>"; };
+		18D17F851B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckoutServiceOrderV2Op.m; path = Class/CheckoutServiceOrderV2Op.m; sourceTree = "<group>"; };
 		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6B086B9F1AE3184D00659DB7 /* GetShopByNameOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShopByNameOp.h; path = Class/GetShopByNameOp.h; sourceTree = "<group>"; };
 		6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetShopByNameOp.m; path = Class/GetShopByNameOp.m; sourceTree = "<group>"; };
@@ -2147,6 +2150,8 @@
 				189B39631AF9E32400B83F1B /* DeleteCarOp.m */,
 				6BEA56431AE2488C000D19C1 /* CheckoutServiceOrderOp.h */,
 				6BEA56441AE2488C000D19C1 /* CheckoutServiceOrderOp.m */,
+				18D17F841B58D0B000F66F04 /* CheckoutServiceOrderV2Op.h */,
+				18D17F851B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m */,
 				6B086B9F1AE3184D00659DB7 /* GetShopByNameOp.h */,
 				6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */,
 				6B086BA21AE4E19000659DB7 /* GetSystemTipsOp.h */,
@@ -2758,6 +2763,7 @@
 				6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */,
 				6BCF62501B184AEF0064AE32 /* NJKWebViewProgress.m in Sources */,
 				189B30B71AD50627001D7288 /* PayForWashCarVC.m in Sources */,
+				18D17F861B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m in Sources */,
 				6BBAB8B61ADBC12D00EC342F /* UpdatePwdOp.m in Sources */,
 				1853DED41AE2A0BD00C39175 /* VcodeLoginVC.m in Sources */,
 				6BB8CB8B1B1416B0007B61B5 /* CommissionViewController.m in Sources */,
@@ -3130,8 +3136,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/AlipaySDK/**",
@@ -3222,7 +3228,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f026ccd8-f1a5-417d-b0fc-c05c2fa7e0b5";
+				PROVISIONING_PROFILE = "5cd20223-a14a-4639-bc86-0b0dd85e1adf";
 			};
 			name = Release;
 		};
@@ -3240,6 +3246,7 @@
 				);
 				INFOPLIST_FILE = XiaoMaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XiaoMa.app/XiaoMa";
 			};
@@ -3255,6 +3262,7 @@
 				);
 				INFOPLIST_FILE = XiaoMaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XiaoMa.app/XiaoMa";
 			};

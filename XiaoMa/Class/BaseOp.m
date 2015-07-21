@@ -10,8 +10,6 @@
 #import "NSString+MD5.h"
 #import "AFHTTPRequestOperationManager+ReactiveCocoa.h"
 
-#define kDefErrorPormpt      @"网络不给力，请重试"
-
 @interface BaseOp()
 @property (nonatomic, strong) NSHTTPURLResponse *response;
 @end

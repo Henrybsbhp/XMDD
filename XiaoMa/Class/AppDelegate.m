@@ -26,11 +26,8 @@
 #import <UMengAnalytics/MobClick.h>
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
-
 #import "WelcomeViewController.h"
 #import "MainTabBarVC.h"
-#import "HKPushManager.h"
-
 
 #define RequestWeatherInfoInterval 60 * 10
 //#define RequestWeatherInfoInterval 5
@@ -42,7 +39,7 @@
 /// 日志
 @property (nonatomic,strong)JTLogModel * logModel;
 @property (nonatomic, strong) HKCatchErrorModel *errorModel;
-@property (nonatomic, strong) HKPushManager *pushMgr;
+
 @end
 
 @implementation AppDelegate
@@ -61,6 +58,7 @@
     [gMapHelper setupMAMap];
     [self setupUmeng];
     [self setupCrashlytics];
+    [self setupURLCache];
     //设置推送
     [self setupPushManagerWithOptions:launchOptions];
     //微信授权
@@ -98,24 +96,15 @@
     else
     {
         [self setupRootViewController:@"MainTabBarVC"];
+        self.pushMgr.notifyQueue.running = YES;
     }
 }
 
 - (void)setupRootViewController:(NSString *)vcName
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
-    if ([vcName isEqualToString:@"WelcomeViewController"])
-    {
-        WelcomeViewController * wc = [mainStoryboard instantiateViewControllerWithIdentifier:vcName];
-        [self.window setRootViewController:wc];
-    }
-    else
-    {
-        MainTabBarVC * mainTabVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"MainTabBarVC"];
-        [self.window setRootViewController:mainTabVC];
-    }
-    [self.window makeKeyAndVisible];
+    UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:vcName];
+    [self resetRootViewController:vc];
 }
 
 - (void)resetRootViewController:(UIViewController *)rootVC
@@ -148,6 +137,12 @@
 {
     self.errorModel = [[HKCatchErrorModel alloc] init];
     [self.errorModel catchNetworkingError];
+}
+
+- (void)setupURLCache
+{
+    NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:200*1024*1024 diskCapacity:0 diskPath:nil];
+    [NSURLCache setSharedURLCache:sharedCache];
 }
 
 - (void)setupPushManagerWithOptions:(NSDictionary *)launchOptions
@@ -362,9 +357,7 @@
 {}
 
 - (void)requestUpdateInfo
-{
-    
-}
+{}
 
 - (void)getLocation
 {

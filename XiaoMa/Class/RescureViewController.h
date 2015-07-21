@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WebVC.h"
 
-@interface RescureViewController : UIViewController
-
-@property (nonatomic,copy)NSString * urlStr;
+@interface RescureViewController : WebVC
 
 @end

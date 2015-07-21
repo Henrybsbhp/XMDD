@@ -68,7 +68,7 @@
     
     //自动登录
     [self autoLogin];
-//    //设置主页的滚动视图
+    //设置主页的滚动视图
     [self setupScrollView];
     [self setupWeatherView];
     [self rotationTableHeaderView];
@@ -86,7 +86,6 @@
         CGSize size = [self.containerView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
         self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, ceil(size.height));
     });
-//    [self setupWeatherView:gAppMgr.temperaturepic andTemperature:gAppMgr.temperature andTemperaturetip:gAppMgr.temperaturetip andRestriction:gAppMgr.restriction];
 }
 
 - (void)autoLogin
@@ -98,11 +97,8 @@
     //再次登录成功后会自动重发这个http请求，不需要人工干预
     [[loginModel rac_autoLoginWithoutNetworking] subscribeNext:^(NSString *account) {
         [gAppMgr resetWithAccount:account];
-        
-        // 获取用户车辆
-//        [[gAppMgr.myUser.carModel rac_updateModel] subscribeNext:^(id x) {
-//            
-//        }];
+        //开启推送接收队列
+        gAppDelegate.pushMgr.notifyQueue.running = YES;
     }];
 }
 
@@ -348,7 +344,7 @@
         }
     }];
     
-    [[[sig1 initially:^{
+    [[[[sig1 initially:^{
         @strongify(self);
         [self.scrollView.refreshView beginRefreshing];
     }] flattenMap:^RACStream *(AMapReGeocode *regeo) {
@@ -356,12 +352,11 @@
         RACSignal *sig2 = [self rac_getWeatherInfoWithReGeocode:regeo];
         RACSignal *sig3 = [self rac_getAdListWithReGeocode:regeo];
         return [sig2 merge:sig3];
+    }] finally:^{
+        @strongify(self);
+        [self.scrollView.refreshView endRefreshing];
     }] subscribeNext:^(id x) {
-        @strongify(self);
-        [self.scrollView.refreshView endRefreshing];
-    } error:^(NSError *error) {
-        @strongify(self);
-        [self.scrollView.refreshView endRefreshing];
+        
     }];
 }
 
@@ -481,7 +476,7 @@
 {
     [MobClick event:@"rp101-5"];
     RescureViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureViewController"];
-    vc.urlStr = @"http://www.xiaomadada.com/apphtml/jiuyuan.html";
+    vc.url = @"http://www.xiaomadada.com/apphtml/jiuyuan.html";
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -489,7 +484,7 @@
 {
     [MobClick event:@"rp101-6"];
     CommissionViewController *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionViewController"];
-    vc.urlStr = @"http://www.xiaomadada.com/apphtml/daiban.html";
+    vc.url = @"http://www.xiaomadada.com/apphtml/daiban.html";
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -615,7 +610,6 @@
         if (ad.adLink.length)
         {
             WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
-            vc.title = @"广告";
             vc.url = ad.adLink;
             [self.navigationController pushViewController:vc animated:YES];
         }

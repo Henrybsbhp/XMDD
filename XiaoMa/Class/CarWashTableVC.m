@@ -193,10 +193,12 @@
 #pragma mark - Action
 - (IBAction)actionMap:(id)sender
 {
-    if (self.forbidAD)
+    if (self.forbidAD) {
         [MobClick event:@"rp201-1"];
-    else
+    }
+    else {
         [MobClick event:@"rp102-1"];
+    }
     NearbyShopsViewController * nearbyShopView = [carWashStoryboard instantiateViewControllerWithIdentifier:@"NearbyShopsViewController"];
     nearbyShopView.type = self.type;
     nearbyShopView.hidesBottomBarWhenPushed = YES;
@@ -358,7 +360,6 @@
         if (ad.adLink.length)
         {
             WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
-            vc.title = @"洗车广告";
             vc.url = ad.adLink;
             [self.navigationController pushViewController:vc animated:YES];
         }
@@ -436,19 +437,26 @@
     
     @weakify(self)
     [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        if (self.forbidAD)
-            [MobClick event:@"rp201-4"];
-        else
-            [MobClick event:@"rp102-4"];
+        
         @strongify(self)
+        if (self.forbidAD) {
+            [MobClick event:@"rp201-4"];
+        }
+        else {
+            [MobClick event:@"rp102-4"];
+        }
         [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.view];
     }];
     
     [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        if (self.forbidAD)
+        
+        @strongify(self);
+        if (self.forbidAD) {
             [MobClick event:@"rp201-5"];
-        else
+        }
+        else {
             [MobClick event:@"rp102-5"];
+        }
         if (shop.shopPhone.length == 0)
         {
             UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];

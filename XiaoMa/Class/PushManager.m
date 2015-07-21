@@ -10,6 +10,15 @@
 
 @implementation PushManager
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _notifyQueue = [[JTQueue alloc] init];
+    }
+    return self;
+}
+
 - (void)registerDeviceToken:(NSData *)deviceToken
 {
     
