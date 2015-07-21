@@ -75,10 +75,6 @@
     [MobClick endLogPageView:@"rp108"];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
 - (void)dealloc
 {
     DebugLog(@"PayForWashCarVC dealloc");
