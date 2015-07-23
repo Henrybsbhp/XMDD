@@ -44,7 +44,6 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     //设置日志系统
@@ -56,8 +55,11 @@
     
     [gMapHelper setupMapApi];
     [gMapHelper setupMAMap];
+    //设置友盟
     [self setupUmeng];
+    //设置崩溃捕捉
     [self setupCrashlytics];
+    //设置url缓存
     [self setupURLCache];
     //设置推送
     [self setupPushManagerWithOptions:launchOptions];
@@ -79,42 +81,31 @@
     }
     
     [self setupVersionUpdating];
-    
-    [self setupFirstViewController];
+    [self setupRootView];
     
     return YES;
 }
 
-#pragma mark - Utilitly
-
-- (void)setupFirstViewController
-{
-        if ([gAppMgr.clientInfo.lastClientVersion compare:gAppMgr.clientInfo.clientVersion] == NSOrderedAscending)
-    {
-        [self setupRootViewController:@"WelcomeViewController"];
-    }
-    else
-    {
-        [self setupRootViewController:@"MainTabBarVC"];
-        self.pushMgr.notifyQueue.running = YES;
-    }
-}
-
-- (void)setupRootViewController:(NSString *)vcName
+#pragma mark - Initialize
+- (void)setupRootView
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:vcName];
+    UIViewController *vc;
+    if ([gAppMgr.deviceInfo firstAppearAtThisVersionForKey:@"$GuideView"]) {
+        vc = [UIStoryboard vcWithId:@"WelcomeViewController" inStoryboard:@"Main"];
+    }
+    else {
+        vc = [UIStoryboard vcWithId:@"MainTabBarVC" inStoryboard:@"Main"];
+    }
     [self resetRootViewController:vc];
 }
 
-- (void)resetRootViewController:(UIViewController *)rootVC
+- (void)resetRootViewController:(UIViewController *)vc
 {
-    self.window.rootViewController = rootVC;
+    self.window.rootViewController = vc;
     [self.window makeKeyAndVisible];
 }
 
-
-#pragma mark - Initialize
 - (void)setupLogger
 {
     DebugFormat *formatter = [[DebugFormat alloc] init];

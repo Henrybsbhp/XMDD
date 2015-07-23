@@ -454,7 +454,7 @@
         logoV.image = img;
     }];
     titleL.text = shop.shopName;
-    ratingV.ratingValue = (NSInteger)shop.shopRate;
+    ratingV.ratingValue = shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%0.1f分", shop.shopRate];
     businessHoursLb.text = [NSString stringWithFormat:@"营业时间：%@ - %@",self.shop.openHour,self.shop.closeHour];
     

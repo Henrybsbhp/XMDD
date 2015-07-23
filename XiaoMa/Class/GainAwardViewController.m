@@ -80,8 +80,11 @@
     NSString * imageName = [NSString stringWithFormat:@"award_bg_%ld",(long)deviceWidth];
     bgView.image = [UIImage imageNamed:imageName];
     
+    @weakify(self);
     [[[gainBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
+
+        @strongify(self);
+        [MobClick event:@"rp401-1"];
         [self requestGainAward];
     }];
     

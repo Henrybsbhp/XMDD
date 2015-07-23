@@ -111,6 +111,7 @@
     [[[checkCouponBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
+        [MobClick event:@"rp402-1"];
         MyCouponVC *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"MyCouponVC"];
         [self.navigationController pushViewController:vc animated:YES];
     }];
@@ -148,13 +149,13 @@
 
 - (void)share
 {
-    [MobClick event:@"rp110-1"];
+    [MobClick event:@"rp402-2"];
     SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-    vc.tt = @"小马达达——周周礼券送不停!";
-    vc.subtitle = @"我抢到了一张洗车代金券。小马达达，首单洗车只要1分钱！你也来试试吧！";
+    vc.tt = @"小马达达每周礼券送不停，洗车不用愁！";
+    vc.subtitle = [NSString stringWithFormat:@"我抢到了%d元洗车代金券，邀您来PK！每周都能领，快去试试手气吧！", (int)self.amount];
     vc.image = [UIImage imageNamed:@"wechat_share_carwash"];
     vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
-    vc.urlStr = XIAMMAWEB;
+    vc.urlStr = @"http://www.xiaomadada.com/apphtml/weeklycoupon.html";
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
     sheet.shouldCenterVertically = YES;
     [sheet presentAnimated:YES completionHandler:nil];

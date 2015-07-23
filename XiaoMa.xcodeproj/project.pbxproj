@@ -171,6 +171,11 @@
 		18D17F801B57782800F66F04 /* HKAddressComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F7F1B57782800F66F04 /* HKAddressComponent.m */; };
 		18D17F831B57A3D000F66F04 /* HomePageVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F821B57A3D000F66F04 /* HomePageVModel.m */; };
 		18D17F861B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F851B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m */; };
+		18F8135F1B5F308D005F49B0 /* HKVersionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F8135E1B5F308D005F49B0 /* HKVersionManager.m */; };
+		18F813681B5F3561005F49B0 /* CKNavigationController+Expansion.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F813631B5F3561005F49B0 /* CKNavigationController+Expansion.m */; };
+		18F813691B5F3561005F49B0 /* CKNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F813651B5F3561005F49B0 /* CKNavigationController.m */; };
+		18F8136A1B5F3561005F49B0 /* vertical_shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F813661B5F3561005F49B0 /* vertical_shadow.png */; };
+		18F8136B1B5F3561005F49B0 /* vertical_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F813671B5F3561005F49B0 /* vertical_shadow@2x.png */; };
 		6B086BA11AE3184D00659DB7 /* GetShopByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */; };
 		6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */; };
 		6B086BA71AE4F03800659DB7 /* UIView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA61AE4F03800659DB7 /* UIView+Base.m */; };
@@ -645,6 +650,14 @@
 		18D17F821B57A3D000F66F04 /* HomePageVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageVModel.m; sourceTree = "<group>"; };
 		18D17F841B58D0B000F66F04 /* CheckoutServiceOrderV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckoutServiceOrderV2Op.h; path = Class/CheckoutServiceOrderV2Op.h; sourceTree = "<group>"; };
 		18D17F851B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckoutServiceOrderV2Op.m; path = Class/CheckoutServiceOrderV2Op.m; sourceTree = "<group>"; };
+		18F8135D1B5F308D005F49B0 /* HKVersionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKVersionManager.h; path = Class/HKVersionManager.h; sourceTree = "<group>"; };
+		18F8135E1B5F308D005F49B0 /* HKVersionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKVersionManager.m; path = Class/HKVersionManager.m; sourceTree = "<group>"; };
+		18F813621B5F3561005F49B0 /* CKNavigationController+Expansion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CKNavigationController+Expansion.h"; sourceTree = "<group>"; };
+		18F813631B5F3561005F49B0 /* CKNavigationController+Expansion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CKNavigationController+Expansion.m"; sourceTree = "<group>"; };
+		18F813641B5F3561005F49B0 /* CKNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKNavigationController.h; sourceTree = "<group>"; };
+		18F813651B5F3561005F49B0 /* CKNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKNavigationController.m; sourceTree = "<group>"; };
+		18F813661B5F3561005F49B0 /* vertical_shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vertical_shadow.png; sourceTree = "<group>"; };
+		18F813671B5F3561005F49B0 /* vertical_shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vertical_shadow@2x.png"; sourceTree = "<group>"; };
 		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6B086B9F1AE3184D00659DB7 /* GetShopByNameOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShopByNameOp.h; path = Class/GetShopByNameOp.h; sourceTree = "<group>"; };
 		6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetShopByNameOp.m; path = Class/GetShopByNameOp.m; sourceTree = "<group>"; };
@@ -1043,6 +1056,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				18F813611B5F3561005F49B0 /* CKNavigationController */,
 				18D17F741B53B21E00F66F04 /* MBProgressHUD */,
 				185A52961B1C0DEC003515CC /* CarbonKit */,
 				6BCF624B1B184AEF0064AE32 /* NJKWebViewProgress */,
@@ -1616,6 +1630,8 @@
 				18895B351B4CB89000928F62 /* HKPushManager.m */,
 				18D17F781B56557200F66F04 /* HKTokenPool.h */,
 				18D17F791B56557200F66F04 /* HKTokenPool.m */,
+				18F8135D1B5F308D005F49B0 /* HKVersionManager.h */,
+				18F8135E1B5F308D005F49B0 /* HKVersionManager.m */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -1910,6 +1926,19 @@
 				18D17F761B53B21E00F66F04 /* MBProgressHUD.m */,
 			);
 			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		18F813611B5F3561005F49B0 /* CKNavigationController */ = {
+			isa = PBXGroup;
+			children = (
+				18F813621B5F3561005F49B0 /* CKNavigationController+Expansion.h */,
+				18F813631B5F3561005F49B0 /* CKNavigationController+Expansion.m */,
+				18F813641B5F3561005F49B0 /* CKNavigationController.h */,
+				18F813651B5F3561005F49B0 /* CKNavigationController.m */,
+				18F813661B5F3561005F49B0 /* vertical_shadow.png */,
+				18F813671B5F3561005F49B0 /* vertical_shadow@2x.png */,
+			);
+			path = CKNavigationController;
 			sourceTree = "<group>";
 		};
 		6B086BA81AE4F46900659DB7 /* TMCache */ = {
@@ -2521,10 +2550,12 @@
 				6BBFBC421B0D8E57000D3CA3 /* WeiboSDK.bundle in Resources */,
 				6BB8CB861B14135E007B61B5 /* Commission.storyboard in Resources */,
 				6BB8CB841B141350007B61B5 /* Rescue.storyboard in Resources */,
+				18F8136B1B5F3561005F49B0 /* vertical_shadow@2x.png in Resources */,
 				6BBBF5501B2937EB00E1B809 /* Info.plist in Resources */,
 				189B311D1ADBEFDF001D7288 /* policy.json in Resources */,
 				6BB884B11AE0B3FE00EBD8F4 /* hz.gpx in Resources */,
 				189B30FF1AD7A85A001D7288 /* Common.storyboard in Resources */,
+				18F8136A1B5F3561005F49B0 /* vertical_shadow.png in Resources */,
 				6BB884D11AE0BC6A00EBD8F4 /* .gitkeep in Resources */,
 				1816F4A51ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist in Resources */,
 				6BB884D31AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.bundle in Resources */,
@@ -2757,6 +2788,7 @@
 				187532D31ACCDEEF004CB777 /* HomePageVC.m in Sources */,
 				6BC2209F1AD7AC9D00A4310E /* NSString+MD5.m in Sources */,
 				1883D9101ACBBE30002A4D19 /* main.m in Sources */,
+				18F813681B5F3561005F49B0 /* CKNavigationController+Expansion.m in Sources */,
 				18B2C7381B13076B007FB0C7 /* PEResizeControl.m in Sources */,
 				18804A9F1B2548AC00E7E764 /* NavigationModel.m in Sources */,
 				6BBF7DA31B008B1000E45967 /* EditMyInfoViewController.m in Sources */,
@@ -2805,6 +2837,7 @@
 				6BAF30181AE67CC800E35E08 /* GetSystemVersionOp.m in Sources */,
 				181F6D931B15773600D38555 /* BeInterestedInInsuranceOp.m in Sources */,
 				6BE2BD611AE6408500A69875 /* DownloadOp.m in Sources */,
+				18F8135F1B5F308D005F49B0 /* HKVersionManager.m in Sources */,
 				6BBBF5531B295CE400E1B809 /* CheckUserAwardOp.m in Sources */,
 				181F6DA71B15919900D38555 /* CXAlertView.m in Sources */,
 				189B39521AF877E100B83F1B /* MyCarListVC.m in Sources */,
@@ -2852,6 +2885,7 @@
 				189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */,
 				6BE4CE341AF21ACA008E1C19 /* AddUserCarOp.m in Sources */,
 				6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */,
+				18F813691B5F3561005F49B0 /* CKNavigationController.m in Sources */,
 				18804AAB1B27DD3C00E7E764 /* GifActivityIndicatorView.m in Sources */,
 				186984EF1B007ED0000A182A /* GetCarwashOrderListOp.m in Sources */,
 				189B394F1AF8576600B83F1B /* GetUserBaseInfoOp.m in Sources */,

@@ -150,7 +150,7 @@
     }
     UIImageView *imgV = (UIImageView *)[pageView viewWithTag:1001];
     HKAdvertisement * ad = [self.adList safetyObjectAtIndex:pageIndex];
-    [[gMediaMgr rac_getPictureForUrl:ad.adPic withType:ImageURLTypeMedium defaultPic:@"hp_bottom" errorPic:@"hp_bottom"]
+    [[gMediaMgr rac_getPictureForUrl:ad.adPic withType:ImageURLTypeMedium defaultPic:@"ad_default" errorPic:@"ad_default"]
      subscribeNext:^(id x) {
         imgV.image = x;
     }];

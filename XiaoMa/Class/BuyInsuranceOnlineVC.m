@@ -57,6 +57,7 @@
     [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
         //我感兴趣
         if ([number integerValue] == 1) {
+            [MobClick event:@"rp123-4"];
             BeInterestedInInsuranceOp *op = [BeInterestedInInsuranceOp new];
             [[[op rac_postRequest] initially:^{
                 
@@ -73,6 +74,10 @@
                     [gToast showError:error.domain];
                 }
             }];
+        }
+        //算了
+        else {
+            [MobClick event:@"rp123-3"];
         }
     }];
     [alert show];
