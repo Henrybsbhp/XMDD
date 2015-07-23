@@ -490,32 +490,8 @@
 
 - (void)actionAward:(id)sender
 {
+    [MobClick event:@"rp101-11"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-
-//        CheckUserAwardOp * op = [CheckUserAwardOp operation];
-//        [[[op rac_postRequest] initially:^{
-//            
-//            [gToast showingWithText:@""];
-//        }] subscribeNext:^(CheckUserAwardOp * op) {
-//            
-//            [gToast dismiss];
-//            if (op.rsp_leftday > 0)
-//            {
-//                GainedViewController * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"GainedViewController"];
-//                vc.leftDay = op.rsp_leftday;
-//                vc.amount = op.rsp_amount;
-//                [self.navigationController pushViewController:vc animated:YES];
-//            }
-//            else
-//            {
-//                GainAwardViewController * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"GainAwardViewController"];
-//                vc.gainedNum = op.rsp_total;
-//                [self.navigationController pushViewController:vc animated:YES];
-//            }
-//        } error:^(NSError *error) {
-//
-//        }];
-        
         CheckAwardViewController * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"CheckAwardViewController"];
         [self.navigationController pushViewController:vc animated:YES];
     }

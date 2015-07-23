@@ -10,6 +10,7 @@
 #import "XiaoMa.h"
 #import "HKLoginModel.h"
 #import "CXAlertView.h"
+#import "LoginVC.h"
 
 @interface HKCatchErrorModel ()
 @property (nonatomic, weak) CXAlertView *alertView;
@@ -78,13 +79,20 @@
 - (void)gotoRootViewWithAlertTitle:(NSString *)title msg:(NSString *)msg
 {
     [self clearAllOperations];
+    //已经有个对话框在显示，或者用户已经退出登录，则直接返回
     if (self.alertView) {
         return;
     }
     CXAlertView *alert = [[CXAlertView alloc] initWithTitle:title message:msg cancelButtonTitle:nil];
     [alert addButtonWithTitle:@"确定" type:0 handler:^(CXAlertView *alertView, CXAlertButtonItem *button) {
         [alertView dismiss];
-        [gAppMgr.navModel.curNavCtrl popToRootViewControllerAnimated:YES];
+        //已经在登录页面了，则忽略
+        if (gAppDelegate.loginVC) {
+            return ;
+        }
+        UIViewController *orginVC = [gAppMgr.navModel.curNavCtrl.viewControllers safetyObjectAtIndex:0];
+        [LoginViewModel loginIfNeededForTargetViewController:gAppMgr.navModel.curNavCtrl originVC:orginVC];
+//        [gAppMgr.navModel.curNavCtrl popToRootViewControllerAnimated:YES];
     }];
     self.alertView = alert;
     [alert show];

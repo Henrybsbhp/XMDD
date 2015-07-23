@@ -18,5 +18,6 @@
 - (RACSignal *)rac_getVcodeWithType:(NSInteger)type phone:(NSString *)phone;
 - (RACSignal *)rac_handleVcodeButtonClick:(UIButton *)btn vcodeInputField:(VCodeInputField *)field
                             withVcodeType:(NSInteger)type phone:(NSString *)phone;
-- (void)setupVCodeInputField:(VCodeInputField *)field accountField:(UITextField *)adField forTargetVC:(UIViewController *)targetVC;
+- (void)setupVCodeInputField:(VCodeInputField *)field accountField:(UITextField *)adField
+                 forTargetVC:(UIViewController *)targetVC mobEvents:(NSArray *)events;
 @end

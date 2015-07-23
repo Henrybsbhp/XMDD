@@ -158,10 +158,14 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您未保存信息，是否现在保存？" delegate:nil
                                               cancelButtonTitle:@"算了" otherButtonTitles:@"保存", nil];
         [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
+            //算了n
             if ([number integerValue] == 0) {
+                [MobClick event:@"rp312-14"];
                 [self.navigationController popViewControllerAnimated:YES];
             }
+            //保存
             else {
+                [MobClick event:@"rp312-15"];
                 [self actionSave:nil];
             }
         }];
@@ -171,8 +175,14 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您未保存行驶证，需填写相关必填项并点击“保存”后方能添加爱车。"
                                                        delegate:nil cancelButtonTitle:@"放弃添加" otherButtonTitles:@"继续添加", nil];
         [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
+            //放弃
             if ([number integerValue] == 0) {
+                [MobClick event:@"rp312-16"];
                 [self.navigationController popViewControllerAnimated:YES];
+            }
+            //继续
+            else {
+                [MobClick event:@"rp312-17"];
             }
         }];
         [alert show];

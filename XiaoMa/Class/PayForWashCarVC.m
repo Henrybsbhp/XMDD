@@ -777,7 +777,12 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您不在该商户服务范围内，请刷新或者到店后洗完车后再支付或者原价支付。"
                                                        delegate:nil cancelButtonTitle:@"放弃支付" otherButtonTitles:@"原价支付", nil];
         [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
-            if ([number integerValue] == 1) {
+            //放弃支付
+            if ([number integerValue] == 0) {
+                [MobClick event:@"rp108-8"];
+            }
+            else if ([number integerValue] == 1) {
+                [MobClick event:@"rp108-9"];
                 [self requestCheckoutWithCouponType:CouponTypeNone ];
             }
         }];

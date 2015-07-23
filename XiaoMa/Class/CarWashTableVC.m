@@ -286,7 +286,7 @@
     }
     
     @weakify(self);
-    return [[[[gMapHelper rac_getUserLocation] take:1] catch:^RACSignal *(NSError *error) {
+    return [[[gMapHelper rac_getUserLocation] catch:^RACSignal *(NSError *error) {
         
         NSError *mappedError = [NSError errorWithDomain:error.domain code:error.code userInfo:nil];
         mappedError.customTag = 1;
@@ -401,7 +401,7 @@
     }];
     
     titleL.text = shop.shopName;
-    ratingV.ratingValue = (NSInteger)shop.shopRate;
+    ratingV.ratingValue = shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
     addrL.text = shop.shopAddress;
     
