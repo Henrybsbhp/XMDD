@@ -67,7 +67,8 @@
     vc.subtitle = @"我完成了洗车，你也来试试吧";
     vc.image = [UIImage imageNamed:@"wechat_share_carwash"];
     vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
-    vc.urlStr = XIAMMAWEB;
+//    vc.urlStr = XIAMMAWEB;
+    vc.urlStr = @"http://www.xiaomadada.com/apphtml/share001.html";
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
     sheet.shouldCenterVertically = YES;
     [sheet presentAnimated:YES completionHandler:nil];

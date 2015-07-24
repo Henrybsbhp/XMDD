@@ -18,6 +18,9 @@
     [params addParam:self.req_deviceToken forName:@"devicetoken"];
     [params addParam:self.req_appversion forName:@"appversion"];
     [params addParam:self.req_osversion forName:@"osversion"];
+    [params safetySetObject:self.req_province forKey:@"province"];
+    [params safetySetObject:self.req_city forKey:@"city"];
+    [params safetySetObject:self.req_district forKey:@"district"];
     [params addParam:self.req_province forName:@"province"];
     [params addParam:self.req_city forName:@"city"];
     [params addParam:self.req_district forName:@"district"];

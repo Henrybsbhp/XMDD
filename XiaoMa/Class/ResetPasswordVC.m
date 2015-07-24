@@ -33,7 +33,8 @@
     self.num.delegate = self;
     self.code.delegate = self;
     self.pwd.delegate = self;
-    [self.smsModel setupVCodeInputField:self.code accountField:self.num forTargetVC:self];
+    NSArray *mobEvents = @[@"rp003-8",@"rp003-9",@"rp003-10"];
+    [self.smsModel setupVCodeInputField:self.code accountField:self.num forTargetVC:self mobEvents:mobEvents];
 }
 
 - (void)didReceiveMemoryWarning {

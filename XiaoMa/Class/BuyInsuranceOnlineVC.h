@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WebVC.h"
 
-@interface BuyInsuranceOnlineVC : UIViewController
-@property (nonatomic, weak) UIViewController *originVC;
+@interface BuyInsuranceOnlineVC : WebVC
 @end

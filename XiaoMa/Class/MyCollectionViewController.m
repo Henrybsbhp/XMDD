@@ -288,7 +288,7 @@
             logoV.image = image;
         }];;
         titleL.text = shop.shopName;
-        ratingV.ratingValue = (NSInteger)shop.shopRate;
+        ratingV.ratingValue = shop.shopRate;
         ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
         addrL.text = shop.shopAddress;
         
@@ -368,7 +368,7 @@
             logoV.image = image;
         }];;
         titleL.text = shop.shopName;
-        ratingV.ratingValue = (NSInteger)shop.shopRate;
+        ratingV.ratingValue = shop.shopRate;
         ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
         addrL.text = shop.shopAddress;
         

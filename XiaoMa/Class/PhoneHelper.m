@@ -42,25 +42,23 @@
 
 - (void)navigationRedirectThirdMap:(JTShop *)shop andUserLocation:(CLLocationCoordinate2D)userCoordinate andView:(UIView *)view;
 {
+    UIActionSheet * sheet = [[UIActionSheet alloc] init];
+    sheet.title = @"请选择导航软件";
+    NSInteger cancelIndex = 1;
     // 添加苹果自带导航
-    UIActionSheet * sheet = [[UIActionSheet alloc] initWithTitle:@"请选择导航软件"
-                                                        delegate:nil
-                                               cancelButtonTitle:@"取消"
-                                          destructiveButtonTitle:nil
-                                               otherButtonTitles:AppleNavigationStr,nil];
-
+    [sheet addButtonWithTitle:AppleNavigationStr];
     // 添加百度导航
-    if (self.exsitBaiduMap)
-    {
+    if (self.exsitBaiduMap) {
         [sheet addButtonWithTitle:BaiduNavigationStr];
+        cancelIndex++;
     }
-
     // 添加高德导航
-    if (self.exsitAMap)
-    {
+    if (self.exsitAMap) {
         [sheet addButtonWithTitle:AMapNavigationStr];
+        cancelIndex++;
     }
-
+    [sheet addButtonWithTitle:@"取消"];
+    sheet.cancelButtonIndex = cancelIndex;
 
     [sheet showInView:view];
     

@@ -21,11 +21,11 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) HKMyCar *curCar;
 @property (nonatomic, assign) BOOL isEditingModel;
-@property (weak, nonatomic) IBOutlet UIView *headerView;
+@property (nonatomic, assign) BOOL showHeaderView;
 @property (weak, nonatomic) IBOutlet UIToolbar *bottomBar;
-@property (weak, nonatomic) IBOutlet UILabel *headerDescLabel;
-@property (weak, nonatomic) IBOutlet UIButton *headerUploadBtn;
+
 @property (nonatomic, strong) DatePickerVC *datePicker;
+@property (nonatomic, assign) BOOL isDrivingLicenseNeedSave;
 @end
 
 @implementation EditMyCarVC
@@ -58,6 +58,7 @@
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp312"];
 }
+
 - (void)dealloc
 {
     NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
@@ -75,7 +76,7 @@
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain
                                                              target:self action:@selector(actionSave:)];
     UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain
-                                                            target:self action:@selector(actionBackMob)];
+                                                            target:self action:@selector(actionCancel:)];
     left.tintColor = HEXCOLOR(@"#262626");
     self.navigationItem.leftBarButtonItem = left;
     self.navigationItem.rightBarButtonItem = right;
@@ -83,15 +84,8 @@
 
 - (void)setupTableView
 {
-    if (self.originCar.status == 0 || self.originCar.status == 3) {
-        [self.model setupUploadBtn:self.headerUploadBtn andDescLabel:self.headerDescLabel forStatus:self.originCar.status];
-    }
-    else {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
-        view.backgroundColor = [UIColor clearColor];
-        self.tableView.tableHeaderView = view;
-    }
-    
+    self.showHeaderView = self.originCar.status == 0 || self.originCar.status == 3;
+
     if (self.originCar) {
         _curCar = [self.originCar copy];
         _isEditingModel = YES;
@@ -144,6 +138,7 @@
         
         @strongify(self);
         [gToast showSuccess:@"保存成功!"];
+        self.isDrivingLicenseNeedSave = NO;
         [self.navigationController popViewControllerAnimated:YES];
     } error:^(NSError *error) {
         
@@ -152,10 +147,46 @@
 
 }
 
-- (void) actionBackMob
+- (void) actionCancel:(id)sender
 {
     [MobClick event:@"312-13"];
-    [self.navigationController popViewControllerAnimated:YES];
+    if (!self.isDrivingLicenseNeedSave) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    if (self.isEditingModel) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您未保存信息，是否现在保存？" delegate:nil
+                                              cancelButtonTitle:@"算了" otherButtonTitles:@"保存", nil];
+        [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
+            //算了n
+            if ([number integerValue] == 0) {
+                [MobClick event:@"rp312-14"];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+            //保存
+            else {
+                [MobClick event:@"rp312-15"];
+                [self actionSave:nil];
+            }
+        }];
+        [alert show];
+    }
+    else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您未保存行驶证，需填写相关必填项并点击“保存”后方能添加爱车。"
+                                                       delegate:nil cancelButtonTitle:@"放弃添加" otherButtonTitles:@"继续添加", nil];
+        [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
+            //放弃
+            if ([number integerValue] == 0) {
+                [MobClick event:@"rp312-16"];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+            //继续
+            else {
+                [MobClick event:@"rp312-17"];
+            }
+        }];
+        [alert show];
+    }
 }
 
 - (IBAction)actionDelete:(id)sender
@@ -191,7 +222,9 @@
         [gToast showSuccess:@"上传成功!"];
         self.curCar.licenceurl = url;
         self.curCar.status = 1;
-        self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+        self.showHeaderView = NO;
+        self.isDrivingLicenseNeedSave = YES;
+        [self.tableView reloadData];
     } error:^(NSError *error) {
         [gToast showError:error.domain];
     }];
@@ -199,7 +232,10 @@
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 10;
+    if (section == 0) {
+        return 10;
+    }
+    return CGFLOAT_MIN;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -209,23 +245,33 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 0 && self.showHeaderView) {
+        return 84;
+    }
     return 44;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (section == 0 && self.showHeaderView) {
+        return 1;
+    }
     return self.curCar ? 9 : 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return self.showHeaderView ? 2 : 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    JTTableViewCell *cell;
-    if (indexPath.row == 2 || indexPath.row == 3) {
+    UITableViewCell *cell;
+
+    if (indexPath.section == 0 && self.showHeaderView) {
+        cell = [self cellForHeaderViewAtIndexPath:indexPath];
+    }
+    else if (indexPath.row == 2 || indexPath.row == 3) {
         cell = [self cellForType2AtIndexPath:indexPath];
     }
     else if (indexPath.row == 8) {
@@ -234,7 +280,9 @@
     else {
         cell = [self cellForType1AtIndexPath:indexPath];
     }
-    cell.customSeparatorInset = UIEdgeInsetsZero;
+    if ([cell isKindOfClass:[JTTableViewCell class]]) {
+        [(JTTableViewCell *)cell setCustomSeparatorInset:UIEdgeInsetsZero];
+    }
     return cell;
 }
 
@@ -310,6 +358,22 @@
  }
 
 #pragma mark - Cell
+- (UITableViewCell *)cellForHeaderViewAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"HeaderCell" forIndexPath:indexPath];
+    UILabel *descLabel = (UILabel *)[cell.contentView viewWithTag:1002];
+    UIButton *uploadBtn = (UIButton *)[cell.contentView viewWithTag:1003];
+    [self.model setupUploadBtn:uploadBtn andDescLabel:descLabel forStatus:self.originCar.status];
+    
+    @weakify(self);
+    [[[uploadBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
+        [self actionUpload:nil];
+    }];
+    
+    return cell;
+}
+
 - (JTTableViewCell *)cellForType1AtIndexPath:(NSIndexPath *)indexPath
 {
     JTTableViewCell *cell = (JTTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"Cell1" forIndexPath:indexPath];

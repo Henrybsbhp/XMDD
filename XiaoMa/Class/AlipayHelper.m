@@ -60,7 +60,8 @@
     order.notifyURL = ALIPAY_NOTIFY_URL;
     
 #ifdef DEBUG
-    order.amount = [NSString stringWithFormat:@"%.2f",0.01]; //商品价格
+//    order.amount = [NSString stringWithFormat:@"%.2f",0.01]; //商品价格
+    order.amount = [NSString stringWithFormat:@"%.2f",price]; //商品价格
 //    order.notifyURL = gApplicationInfo.userConfigInfo.alipayCallbackUrl.length ?
 //    gApplicationInfo.userConfigInfo.alipayCallbackUrl:AlipayCallbackDefaultUrlForDebug; //回调URL
     

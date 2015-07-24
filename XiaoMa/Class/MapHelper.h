@@ -29,11 +29,6 @@
 
 @property (nonatomic, strong) HKAddressComponent *addrComponent;
 
-/// 定位结果信号
-@property (nonatomic, strong)RACSubject * rac_userLocationResultSignal;
-/// 反地理编码结果信号
-@property (nonatomic, strong)RACSubject * rac_invertGeoResultSignal;
-
 - (void)startLocation;
 
 - (void)stopLocation;

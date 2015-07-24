@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "JTQueue.h"
 @protocol PushManagerDelegate <NSObject>
 @optional
 - (void)registerDeviceToken:(NSData *)deviceToken;
@@ -14,7 +15,7 @@
 @end
 
 @interface PushManager : NSObject<PushManagerDelegate>
-
+@property (nonatomic, strong) JTQueue *notifyQueue;
 - (void)setupWithOptions:(NSDictionary *)launchOptions;
 
 @end

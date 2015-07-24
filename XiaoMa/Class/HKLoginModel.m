@@ -289,7 +289,6 @@ typedef enum : NSInteger {
     gNetworkMgr.token = nil;
     gNetworkMgr.skey = nil;
     [gAppMgr resetWithAccount:nil];
-//    gApplicationInfo.loginFlag = LoginStatusNone;
     [HKLoginModel cleanPwdForAccount:gNetworkMgr.bindingMobile];
 }
 

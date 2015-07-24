@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WebVC.h"
 
-@interface CommissionViewController : UIViewController
-
-@property (nonatomic,copy)NSString * urlStr;
+@interface CommissionViewController : WebVC
 
 @end

@@ -68,11 +68,11 @@
     }] flattenMap:^RACStream *(id value) {
         [subject sendNext:value];
         [subject sendCompleted];
+        [field showRightViewAfterInterval:kVCodePromptInteval];
         return [self rac_timeCountDown:kMaxVcodeInterval];
     }] subscribeNext:^(id x) {
         NSString *title = [NSString stringWithFormat:@"剩余%d秒", [x intValue]];
         [btn setTitle:title forState:UIControlStateDisabled];
-        [field showRightViewAfterInterval:kVCodePromptInteval];
     } error:^(NSError *error) {
         btn.enabled = YES;
         [subject sendError:error];
@@ -94,20 +94,27 @@
 }
 
 #pragma mark - VcodeInputField
-- (void)setupVCodeInputField:(VCodeInputField *)field accountField:(UITextField *)adField forTargetVC:(UIViewController *)targetVC
+- (void)setupVCodeInputField:(VCodeInputField *)field accountField:(UITextField *)adField
+                 forTargetVC:(UIViewController *)targetVC mobEvents:(NSArray *)events
 {
     @weakify(field);
     [[[field.rightButton rac_signalForControlEvents:UIControlEventTouchUpInside]
       takeUntil:[targetVC rac_signalForSelector:@selector(didReceiveMemoryWarning)]] subscribeNext:^(id x) {
         @strongify(field);
+        [MobClick event:[events safetyObjectAtIndex:0]];
 //        [targetVC.view endEditing:YES];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
                                                         message:@"验证码将以语音的形式通知到您,请注意接听电话。是否现在发送语音验证码?"
                                                        delegate:nil cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
         [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
             NSInteger index = [number integerValue];
+            //否
+            if (index == 0) {
+                [MobClick event:[events safetyObjectAtIndex:1]];
+            }
             //“是”,将请求服务器发出一个语音验证码的请求
-            if (index == 1) {
+            else {
+                [MobClick event:[events safetyObjectAtIndex:2]];
                 [self getVoiceVCodeWithVCodeInputField:field account:adField.text targetVC:targetVC];
             }
         }];
@@ -121,7 +128,7 @@
     op.req_phone = account;
     op.req_token = [gAppMgr.tokenPool tokenForAccount:account];
     [[[[op rac_postRequest] initially:^{
-        [gToast showText:nil inView:targetVC.view];
+        [gToast showingWithText:nil inView:targetVC.view];
     }] finally:^{
     }] subscribeNext:^(id x) {
         [gToast dismissInView:targetVC.view];
