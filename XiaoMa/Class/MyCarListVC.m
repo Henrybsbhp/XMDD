@@ -14,7 +14,6 @@
 
 @interface MyCarListVC ()<UITableViewDataSource, UITableViewDelegate,JTTableViewDelegate, HKLoadingModelDelegate>
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
-@property (nonatomic, strong) NSArray *carList;
 @property (nonatomic, strong) MyCarListVModel *model;
 @property (nonatomic, strong) HKLoadingModel *loadingModel;
 
@@ -81,7 +80,7 @@
 
 - (void)uploadDrivingLicenceAtIndexPath:(NSIndexPath *)indexPath
 {
-    HKMyCar *car = [self.carList safetyObjectAtIndex:indexPath.section];
+    HKMyCar *car = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     
     @weakify(self);
     [[[self.model rac_uploadDrivingLicenseWithTargetVC:self initially:^{

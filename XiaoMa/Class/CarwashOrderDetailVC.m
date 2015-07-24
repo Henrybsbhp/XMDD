@@ -13,22 +13,26 @@
 #import "CarwashOrderCommentVC.h"
 #import "NSString+RectSize.h"
 #import "JTRatingView.h"
+#import "HKLoadingModel.h"
+#import "GetCarwashOrderOp.h"
 
-
-@interface CarwashOrderDetailVC ()<UITableViewDelegate, UITableViewDataSource>
+@interface CarwashOrderDetailVC ()<UITableViewDelegate, UITableViewDataSource, HKLoadingModelDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *detailItems;
 @property (weak, nonatomic) IBOutlet UIButton *commentBtn;
-
+@property (nonatomic, strong) HKLoadingModel *loadingModel;
 @end
 
 @implementation CarwashOrderDetailVC
+- (void)awakeFromNib
+{
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     CKAsyncMainQueue(^{
-        [self reloadDatasource];
+        [self loadOrderInfo];
     });
 }
 
@@ -55,7 +59,18 @@
     DebugLog(deallocInfo);
 }
 
-- (void)reloadDatasource
+- (void)loadOrderInfo
+{
+    if (self.order) {
+        [self reloadTableView];
+    }
+    else {
+        self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
+        [self.loadingModel loadDataForTheFirstTime];
+    }
+}
+
+- (void)reloadTableView
 {
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -78,7 +93,7 @@
     CarwashOrderCommentVC *vc = [UIStoryboard vcWithId:@"CarwashOrderCommentVC" inStoryboard:@"Mine"];
     vc.order = self.order;
     [vc setCommentSuccess:^{
-        [self reloadDatasource];
+        [self reloadTableView];
     }];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -236,6 +251,29 @@
     }];
     
     return cell;
+}
+
+#pragma mark - HKLoadingModelDelegate
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+{
+    return @"获取订单信息失败，点击重试";
+}
+
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+{
+    GetCarwashOrderOp *op = [GetCarwashOrderOp operation];
+    op.req_orderid = self.orderID;
+    @weakify(self);
+    return [[op rac_postRequest] map:^id(GetCarwashOrderOp *op) {
+        @strongify(self);
+        self.order = op.rsp_order;
+        return op.rsp_order;
+    }];
+}
+
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+{
+    [self.tableView reloadData];
 }
 
 @end

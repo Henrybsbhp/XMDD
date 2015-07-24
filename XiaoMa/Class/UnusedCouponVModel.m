@@ -102,6 +102,7 @@
         datasource = [NSMutableArray array];
         [datasource addObject:[NSMutableArray array]];
     }
+    
     NSMutableArray *array1 = [datasource safetyObjectAtIndex:0];
     NSMutableArray *array2 = [datasource safetyObjectAtIndex:1];
     for (HKCoupon *cpn in data)
@@ -203,7 +204,7 @@
     if (section == 0){
 //        HKCoupon *couponDic = section [self.validCoupons safetyObjectAtIndex:indexPath.row];;
         if (couponDic.conponType == CouponTypeCarWash) {
-            [status setTitle:@"分享" forState:UIControlStateNormal];
+            [status setTitle:@"转赠" forState:UIControlStateNormal];
             [[[status rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 
                 [self shareAction:couponDic.couponId];

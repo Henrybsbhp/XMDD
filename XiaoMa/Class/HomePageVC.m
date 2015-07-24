@@ -43,7 +43,6 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) SYPaginatorView *adView;
-
 @end
 
 @implementation HomePageVC
@@ -62,7 +61,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     [gAppMgr loadLastLocationAndWeather];
     [gAdMgr loadLastAdvertiseInfo:AdvertisementHomePage];
     [gAdMgr loadLastAdvertiseInfo:AdvertisementCarWash];
@@ -76,7 +75,7 @@
     
     [self.scrollView.refreshView addTarget:self action:@selector(reloadDatasource) forControlEvents:UIControlEventValueChanged];
     CKAsyncMainQueue(^{
-        [self reloadDatasource];        
+        [self reloadDatasource];
     });
 }
 
@@ -334,34 +333,119 @@
 - (void)reloadDatasource
 {
     @weakify(self);
-//    [[[[[self rac_getWeatherInfo] merge:[self rac_requestHomePageAd]] initially:^{
-//      
-//        @strongify(self);
-//        [self.scrollView.refreshView beginRefreshing];
-//    }] finally:^{60003410
-//        
-//        @strongify(self);
-//        [self.scrollView.refreshView endRefreshing];
-//    }] subscribeNext:^(id x) {
-//        
-//    }];
-
-    [[[[[[self rac_getWeatherInfo] catch:^RACSignal *(NSError *error) {
-        
-        return [RACSignal return:nil];
-    }] merge:[self rac_requestHomePageAd]] initially:^{
-        
+    RACSignal *sig1 = [[[[[gMapHelper rac_getInvertGeoInfo] take:1] initially:^{
         @strongify(self);
-        [self.scrollView.refreshView beginRefreshing];
-    }] finally:^{
-        
+        [self setupNavigationLeftBar:@"定位中..."];
+    }] doError:^(NSError *error) {
         @strongify(self);
-        [self.scrollView.refreshView endRefreshing];
-    }] subscribeNext:^(id x) {
-        
+        [self setupNavigationLeftBar:nil];
+        [self handleGPSError:error];
+    }] doNext:^(AMapReGeocode *regeo) {
+        @strongify(self);
+        [self setupNavigationLeftBar:regeo.addressComponent.city];
+        if (![HKAddressComponent isEqualAddrComponent:gAppMgr.addrComponent AMapAddrComponent:regeo.addressComponent]) {
+            gAppMgr.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
+        }
     }];
     
-    
+    [[[sig1 initially:^{
+        @strongify(self);
+        [self.scrollView.refreshView beginRefreshing];
+    }] flattenMap:^RACStream *(AMapReGeocode *regeo) {
+        @strongify(self);
+        RACSignal *sig2 = [self rac_getWeatherInfoWithReGeocode:regeo];
+        RACSignal *sig3 = [self rac_getAdListWithReGeocode:regeo];
+        return [sig2 merge:sig3];
+    }] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.scrollView.refreshView endRefreshing];
+    } error:^(NSError *error) {
+        @strongify(self);
+        [self.scrollView.refreshView endRefreshing];
+    }];
+}
+
+- (RACSignal *)rac_getWeatherInfoWithReGeocode:(AMapReGeocode *)regeo
+{
+    GetSystemTipsOp * op = [GetSystemTipsOp operation];
+    op.province = regeo.addressComponent.province;
+    op.city = regeo.addressComponent.city;
+    op.district = regeo.addressComponent.district;
+    return [[[[op rac_postRequest] doNext:^(GetSystemTipsOp * op) {
+        
+        gAppMgr.temperature = op.rsp_temperature;
+        gAppMgr.temperaturepic = op.rsp_temperaturepic;
+        gAppMgr.temperaturetip = op.rsp_temperaturetip;
+        gAppMgr.restriction = op.rsp_restriction;
+        
+        [gAppMgr saveInfo:op.rsp_temperature forKey:Temperature];
+        [gAppMgr saveInfo:op.rsp_temperaturepic forKey:Temperaturepic];
+        [gAppMgr saveInfo:op.rsp_temperaturetip forKey:Temperaturetip];
+        [gAppMgr saveInfo:op.rsp_restriction forKey:Restriction];
+        NSString * dateStr = [[NSDate date] dateFormatForDT15];
+        [gAppMgr saveInfo:dateStr forKey:LastWeatherTime];
+    }] doError:^(NSError *error) {
+        
+        [gToast showError:@"天气获取失败"];
+    }] catch:^RACSignal *(NSError *error) {
+        
+        return [RACSignal empty];
+    }];
+}
+
+- (RACSignal *)rac_getAdListWithReGeocode:(AMapReGeocode *)regeo
+{
+    return [[[gAdMgr rac_getAdvertisement:AdvertisementHomePage] doNext:^(NSArray * array) {
+        
+        [self.adView reloadData];
+        self.adView.currentPageIndex = 0;
+        self.adView.pageControl.hidden = array.count <= 1;
+    }] catch:^RACSignal *(NSError *error) {
+        
+        return [RACSignal empty];
+    }];
+}
+
+- (void)handleGPSError:(NSError *)error
+{
+    switch (error.code) {
+        case kCLErrorDenied:
+        {
+            if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+            {
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置打开,然后重启应用" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往设置", nil];
+                
+                [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
+                    
+                    if ([x integerValue] == 1)
+                    {
+                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                    }
+                }];
+                [av show];
+            }
+            else
+            {
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置打开，然后重启应用" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
+                
+                [av show];
+            }
+            break;
+        }
+        case LocationFail:
+        {
+            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"城市定位失败,请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            
+            [av show];
+        }
+        default:
+        {
+            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"定位失败，请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            
+            [av show];
+            break;
+        }
+    }
 }
 
 #pragma mark - Action
@@ -484,131 +568,6 @@
     [label sizeToFit];
 }
 
-
-- (RACSignal *)rac_getWeatherInfo
-{
-    
-    return [[[[[gMapHelper rac_getInvertGeoInfo] take:1] initially:^{
-        
-        [self setupNavigationLeftBar:@"定位中..."];
-    }] doNext:^(AMapReGeocode * getInfo) {
-        
-        [self setupNavigationLeftBar:getInfo.addressComponent.city];
-        [self requestWeather:getInfo.addressComponent.province
-                     andCity:getInfo.addressComponent.city
-                 andDistrict:getInfo.addressComponent.district];
-        
-        /// 内存缓存地址信息
-        gAppMgr.province = getInfo.addressComponent.province;
-        gAppMgr.city = getInfo.addressComponent.city;
-        gAppMgr.district = getInfo.addressComponent.district;
-        /// 硬盘缓存地址信息
-        [gAppMgr saveInfo:getInfo.addressComponent.province forKey:Province];
-        [gAppMgr saveInfo:getInfo.addressComponent.city forKey:City];
-        [gAppMgr saveInfo:getInfo.addressComponent.district forKey:District];
-        NSString * dateStr = [[NSDate date] dateFormatForDT15];
-        [gAppMgr saveInfo:dateStr forKey:LastLocationTime];
-        
-    }] doError:^(NSError *error) {
-        
-        [self setupNavigationLeftBar:nil];
-        switch (error.code) {
-            case kCLErrorDenied:
-            {
-                if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
-                {
-                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置打开,然后重启应用" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往设置", nil];
-                    
-                    [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
-                        
-                        if ([x integerValue] == 1)
-                        {
-                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-                        }
-                    }];
-                    [av show];
-                }
-                else
-                {
-                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置打开，然后重启应用" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
-                    
-                    [av show];
-                }
-                break;
-            }
-            case LocationFail:
-            {
-                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"城市定位失败,请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                
-                [av show];
-            }
-            default:
-            {
-                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"定位失败，请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                
-                [av show];
-                break;
-            }
-        }
-        
-    }];
-}
-
-- (void)requestWeather:(NSString *)p andCity:(NSString *)c andDistrict:(NSString *)d
-{
-    GetSystemTipsOp * op = [GetSystemTipsOp operation];
-    op.province = p;
-    op.city = c;
-    op.district = d;
-    [[[op rac_postRequest] initially:^{
-        
-        
-    }] subscribeNext:^(GetSystemTipsOp * op) {
-        
-        if(op.rsp_code == 0)
-        {
-//            [self setupWeatherView:op.rsp_temperaturepic andTemperature:op.rsp_temperature andTemperaturetip:op.rsp_temperaturetip andRestriction:op.rsp_restriction];
-            
-            gAppMgr.temperature = op.rsp_temperature;
-            gAppMgr.temperaturepic = op.rsp_temperaturepic;
-            gAppMgr.temperaturetip = op.rsp_temperaturetip;
-            gAppMgr.restriction = op.rsp_restriction;
-            
-            [gAppMgr saveInfo:op.rsp_temperature forKey:Temperature];
-            [gAppMgr saveInfo:op.rsp_temperaturepic forKey:Temperaturepic];
-            [gAppMgr saveInfo:op.rsp_temperaturetip forKey:Temperaturetip];
-            [gAppMgr saveInfo:op.rsp_restriction forKey:Restriction];
-            NSString * dateStr = [[NSDate date] dateFormatForDT15];
-            [gAppMgr saveInfo:dateStr forKey:LastWeatherTime];
-        }
-        else
-        {
-            [gToast showError:@"天气获取失败"];
-        }
-    } error:^(NSError *error) {
-        
-        [gToast showError:@"天气获取失败"];
-    }];
-}
-
-
-- (RACSignal *)rac_requestHomePageAd
-{
-    return [[gAdMgr rac_getAdvertisement:AdvertisementHomePage] doNext:^(NSArray * array) {
-        
-        [self.adView reloadData];
-        self.adView.currentPageIndex = 0;
-        self.adView.pageControl.hidden = array.count <= 1;
-    }];
-//
-//    [[gAdMgr rac_getAdvertisement:AdvertisementCarWash] subscribeNext:^(NSArray * array) {
-//        
-//
-//    }];
-}
-
-
-
 #pragma mark - SYPaginatorViewDelegate
 - (NSInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView
 {
@@ -668,8 +627,6 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
     }];
-    
-    
     
     return pageView;
 }

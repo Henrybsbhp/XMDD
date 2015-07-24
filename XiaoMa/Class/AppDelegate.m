@@ -29,6 +29,7 @@
 
 #import "WelcomeViewController.h"
 #import "MainTabBarVC.h"
+#import "HKPushManager.h"
 
 
 #define RequestWeatherInfoInterval 60 * 10
@@ -41,6 +42,7 @@
 /// 日志
 @property (nonatomic,strong)JTLogModel * logModel;
 @property (nonatomic, strong) HKCatchErrorModel *errorModel;
+@property (nonatomic, strong) HKPushManager *pushMgr;
 @end
 
 @implementation AppDelegate
@@ -59,7 +61,8 @@
     [gMapHelper setupMAMap];
     [self setupUmeng];
     [self setupCrashlytics];
-    
+    //设置推送
+    [self setupPushManagerWithOptions:launchOptions];
     //微信授权
     if (![WXApi registerApp:WECHAT_APP_ID])
     {
@@ -88,7 +91,7 @@
 
 - (void)setupFirstViewController
 {
-    if ([gAppMgr.clientInfo.lastClientVersion compare:gAppMgr.clientInfo.clientVersion] == NSOrderedAscending)
+        if ([gAppMgr.clientInfo.lastClientVersion compare:gAppMgr.clientInfo.clientVersion] == NSOrderedAscending)
     {
         [self setupRootViewController:@"WelcomeViewController"];
     }
@@ -96,7 +99,6 @@
     {
         [self setupRootViewController:@"MainTabBarVC"];
     }
-    
 }
 
 - (void)setupRootViewController:(NSString *)vcName
@@ -148,6 +150,13 @@
     [self.errorModel catchNetworkingError];
 }
 
+- (void)setupPushManagerWithOptions:(NSDictionary *)launchOptions
+{
+    self.pushMgr = [[HKPushManager alloc] init];
+    [self.pushMgr setupWithOptions:launchOptions];
+    [self.pushMgr autoBindDeviceTokenInBackground];
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -190,6 +199,21 @@
     /// 微信回调处理
     [WXApi handleOpenURL:url delegate:self];
     return YES;
+}
+
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
+{
+    [application registerForRemoteNotifications];
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    [self.pushMgr registerDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    [self.pushMgr handleNofitication:userInfo forApplication:application];
 }
 
 #pragma mark - QQ
@@ -291,6 +315,7 @@
 #pragma mark - 友盟
 - (void)setupUmeng
 {
+    [MobClick setCrashReportEnabled:NO];
     [MobClick startWithAppkey:UMeng_API_ID reportPolicy:BATCH   channelId:@"iOS"];
     [MobClick setCrashReportEnabled:NO];
 #ifdef DEBUG

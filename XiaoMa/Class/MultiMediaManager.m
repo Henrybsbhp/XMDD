@@ -75,6 +75,16 @@ static MultiMediaManager *g_mediaManager;
     return [signal deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
+- (NSString *)urlWith:(NSString *)url imageType:(ImageURLType)type
+{
+    if (type == ImageURLTypeThumbnail) {
+        url = [url append:@"?imageView2/1/w/128/h/128"];
+    }
+    else if (type == ImageURLTypeMedium) {
+        url = [url append:@"?imageView2/0/w/1024/h/1024"];
+    }
+    return url;
+}
 
 - (RACSignal *)rac_getPictureForSpecialFirstTime:(NSString *)url withType:(ImageURLType)type
                          defaultPic:(NSString *)defName errorPic:(NSString *)errName
@@ -116,10 +126,10 @@ static MultiMediaManager *g_mediaManager;
 }
 
 #pragma mark - Private Image Method
+///从本地缓存获取image
 - (RACSignal *)rac_getImageFromCacheWithUrl:(NSString *)url
 {
     RACScheduler *sch = [RACScheduler schedulerWithPriority:RACSchedulerPriorityHigh];
-    //从本地缓存获取image
     RACSignal *signal = [[RACSignal startEagerlyWithScheduler:sch block:^(id<RACSubscriber> subscriber) {
         
         UIImage *img = [self.picCache imageForKey:url];
@@ -143,7 +153,6 @@ static MultiMediaManager *g_mediaManager;
     return [downloadSig map:^id(DownloadOp *op) {
         UIImage *img;
         if (op.rsp_data) {
-            
             [self.picCache.diskCache setFileData:op.rsp_data forKey:url];
             img = [UIImage imageWithData:op.rsp_data];
             [self.picCache.memoryCache setObject:img forKey:url];

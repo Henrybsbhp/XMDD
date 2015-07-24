@@ -8,6 +8,7 @@
 
 #import "HKToast.h"
 #import "SVProgressHUD.h"
+#import "MBProgressHUD.h"
 #import "XiaoMa.h"
 
 @interface HKToast ()
@@ -46,9 +47,34 @@
     }
 }
 
+- (void)showError:(NSString *)error inView:(UIView *)view
+{
+    if (error.length == 0) {
+        [self dismissInView:view];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD HUDForView:view];
+        hud.labelText = error;
+        hud.margin = 10;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:[self displayDurationForString:error]];
+    }
+}
+
 - (void)showText:(NSString *)text
 {
     [SVProgressHUD showOnlyStatus:text duration:[self displayDurationForString:text]];
+}
+
+- (void)showText:(NSString *)text inView:(UIView *)view
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.labelText = text;
+}
+
+- (void)dismissInView:(UIView *)view
+{
+    [MBProgressHUD hideAllHUDsForView:view animated:YES];
 }
 
 - (void)dismiss

@@ -22,6 +22,7 @@
     msg.msgtime = [rsp[@"msgtime"] longLongValue];
     msg.msgtype = [rsp[@"msgtype"] integerValue];
     msg.ext1 = rsp[@"ext1"];
+    msg.url = rsp[@"url"];
 
     return msg;
 }

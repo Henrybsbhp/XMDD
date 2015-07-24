@@ -35,6 +35,7 @@
     {
         _rac_userLocationResultSignal = [RACSubject subject];
         _rac_invertGeoResultSignal = [RACSubject subject];
+        [self fetchAddressComponetDict];
     }
     return self;
 }
@@ -132,9 +133,10 @@
     AMapReGeocode * regeoCode = response.regeocode;
     if (regeoCode)
     {
-        self.province = regeoCode.addressComponent.province;
-        self.city = regeoCode.addressComponent.city;
-        self.district = regeoCode.addressComponent.district;
+        [self saveAddressComponent:regeoCode.addressComponent];
+//        self.province = regeoCode.addressComponent.province;
+//        self.city = regeoCode.addressComponent.city;
+//        self.district = regeoCode.addressComponent.district;
         [self.rac_invertGeoResultSignal sendNext:regeoCode];
     }
     else
@@ -144,6 +146,24 @@
     }
 }
 
+#pragma mark - Utility
+- (void)saveAddressComponent:(AMapAddressComponent *)componet
+{
+    if (![HKAddressComponent isEqualAddrComponent:self.addrComponent AMapAddrComponent:componet]) {
+        HKAddressComponent *hkcomponent = [HKAddressComponent addressComponentWith:componet];
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:hkcomponent];
+        [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"HKAddressComponent"];
+        self.addrComponent = hkcomponent;
+    }
+}
 
+- (void)fetchAddressComponetDict
+{
+     NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"HKAddressComponent"];
+    if (data) {
+        self.addrComponent = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    }
+}
 
 @end
+

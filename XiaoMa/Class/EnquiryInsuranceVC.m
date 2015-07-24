@@ -173,7 +173,7 @@
 - (void)reloadDatasource
 {
     //提车时间
-    self.city = gMapHelper.city;
+    self.city = gMapHelper.addrComponent.city;
     [self.tableView reloadData];
 }
 

@@ -12,10 +12,9 @@
 
 ///手机号码
 @property (nonatomic,strong) NSString *req_phone;
-
+///会话令牌
 @property (nonatomic,strong) NSString *req_token;
 
-///会话令牌
 @property (nonatomic,assign) NSInteger req_type;
 
 @end

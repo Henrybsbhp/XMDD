@@ -84,7 +84,8 @@
         cell = [self.tableView dequeueReusableCellWithIdentifier:@"RescueCellA"];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         UILabel * lb = (UILabel *)[cell searchViewWithTag:30101];
-        lb.text = [NSString stringWithFormat:@"%@%@%@",gMapHelper.province,gMapHelper.city,gMapHelper.district];
+        lb.text = [NSString stringWithFormat:@"%@%@%@",
+                   gMapHelper.addrComponent.province,gMapHelper.addrComponent.city,gMapHelper.addrComponent.district];
     }
     else if (indexPath.row == 1)
     {

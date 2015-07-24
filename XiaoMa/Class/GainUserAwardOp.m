@@ -13,8 +13,11 @@
 - (RACSignal *)rac_postRequest
 {
     self.req_method = @"/user/award/gain";
-    
-    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:nil security:YES];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params addParam:self.req_province forName:@"province"];
+    [params addParam:self.req_city forName:@"city"];
+    [params addParam:self.req_district forName:@"district"];
+    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
 - (instancetype)parseResponseObject:(id)rspObj
