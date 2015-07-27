@@ -89,9 +89,10 @@ static int32_t g_requestVid = 1;
         DebugLog(@"〓〓〓〓〓〓〓〓 error:%@\n"
                  "method:%@ (id: %@)\n"
                  "code:  %ld", error.userInfo[NSLocalizedDescriptionKey], self.req_method, @(self.req_id), (long)error.code);
-        if (gNetworkMgr.catchErrorHandler)
-        {
-            return gNetworkMgr.catchErrorHandler(self, error);
+        if ([self respondsToSelector:@selector(shouldHandleDefaultError)]) {
+            if ([self shouldHandleDefaultError] && gNetworkMgr.catchErrorHandler) {
+                return gNetworkMgr.catchErrorHandler(self, error);
+            }
         }
         return [RACSignal error:error];
     }] replay];
@@ -103,6 +104,10 @@ static int32_t g_requestVid = 1;
     return sig;
 }
 
+- (BOOL)shouldHandleDefaultError
+{
+    return YES;
+}
 
 - (void)cancel
 {

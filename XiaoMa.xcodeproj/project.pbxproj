@@ -171,6 +171,7 @@
 		18D17F801B57782800F66F04 /* HKAddressComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F7F1B57782800F66F04 /* HKAddressComponent.m */; };
 		18D17F831B57A3D000F66F04 /* HomePageVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F821B57A3D000F66F04 /* HomePageVModel.m */; };
 		18D17F861B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F851B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m */; };
+		18D62B3F1B60EBF800E3FDB2 /* 90_0.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */; };
 		18F8135F1B5F308D005F49B0 /* HKVersionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F8135E1B5F308D005F49B0 /* HKVersionManager.m */; };
 		18F813681B5F3561005F49B0 /* CKNavigationController+Expansion.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F813631B5F3561005F49B0 /* CKNavigationController+Expansion.m */; };
 		18F813691B5F3561005F49B0 /* CKNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F813651B5F3561005F49B0 /* CKNavigationController.m */; };
@@ -650,6 +651,7 @@
 		18D17F821B57A3D000F66F04 /* HomePageVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageVModel.m; sourceTree = "<group>"; };
 		18D17F841B58D0B000F66F04 /* CheckoutServiceOrderV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckoutServiceOrderV2Op.h; path = Class/CheckoutServiceOrderV2Op.h; sourceTree = "<group>"; };
 		18D17F851B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckoutServiceOrderV2Op.m; path = Class/CheckoutServiceOrderV2Op.m; sourceTree = "<group>"; };
+		18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 90_0.gpx; sourceTree = "<group>"; };
 		18F8135D1B5F308D005F49B0 /* HKVersionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKVersionManager.h; path = Class/HKVersionManager.h; sourceTree = "<group>"; };
 		18F8135E1B5F308D005F49B0 /* HKVersionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKVersionManager.m; path = Class/HKVersionManager.m; sourceTree = "<group>"; };
 		18F813621B5F3561005F49B0 /* CKNavigationController+Expansion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CKNavigationController+Expansion.h"; sourceTree = "<group>"; };
@@ -2053,6 +2055,7 @@
 			isa = PBXGroup;
 			children = (
 				6BB884B01AE0B3FE00EBD8F4 /* hz.gpx */,
+				18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */,
 				6BBAB9591ADE724300EC342F /* AlipayConfig.h */,
 			);
 			path = Other;
@@ -2564,6 +2567,7 @@
 				1883D9141ACBBE5E002A4D19 /* Images.xcassets in Resources */,
 				6BB61B9C1AEF587E004F39AA /* Other.storyboard in Resources */,
 				1816F4AC1ACE74C000BBCC96 /* Carwash.storyboard in Resources */,
+				18D62B3F1B60EBF800E3FDB2 /* 90_0.gpx in Resources */,
 				1853DEC11AE0E69000C39175 /* Login.storyboard in Resources */,
 				6BBC4A2C1B0C8495003F3081 /* SocialShareView.xib in Resources */,
 			);
@@ -3262,7 +3266,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e21a7301-2ad1-40ab-b7ec-356774a7ba3a";
+				PROVISIONING_PROFILE = "49d4298a-4b37-4e47-990c-a2b9eb8e6baa";
 			};
 			name = Release;
 		};

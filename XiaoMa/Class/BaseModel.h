@@ -43,7 +43,6 @@
 /// 此属性控制当前模型是否启用，如果设为NO，所有数据均输出nil。
 @property (nonatomic) BOOL enable;
 
-
 #pragma 数据更新方法
 /// 强制刷新model
 - (RACSignal *) rac_updateModel;
