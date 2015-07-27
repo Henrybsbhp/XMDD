@@ -61,6 +61,7 @@
     @weakify(self);
     [[[[sig1 merge:sig2] skip:1] flattenMap:^RACStream *(id value) {
         @strongify(self);
+        self.bindOp.token = gNetworkMgr.token;
         return [self.bindOp rac_postRequest];
     }] subscribeNext:^(BindDeviceTokenOp *rspOp) {
         DebugLog(@"Bind device token success!(deviceToken:%@ user:%@ deviceID:%@)",
