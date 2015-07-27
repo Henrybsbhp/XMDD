@@ -16,4 +16,9 @@
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:nil security:YES];
 }
 
+- (BOOL)shouldHandleDefaultError
+{
+    return NO;
+}
+
 @end
