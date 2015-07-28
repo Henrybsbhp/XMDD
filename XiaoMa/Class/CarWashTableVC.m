@@ -112,7 +112,6 @@
     }];
     //LYW 下面两个方法是？
     [[self.searchField rac_newTextChannel] subscribeNext:^(id x) {
-        
 
     }];
     
