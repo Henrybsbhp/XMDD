@@ -96,18 +96,16 @@
     
     signal = [signal flattenMap:^RACStream *(MAUserLocation *userLocation) {
 
-        RACSignal *geoSig = [[[self rac_signalForSelector:@selector(onReGeocodeSearchDone:response:)
-                                           fromProtocol:@protocol(AMapSearchDelegate)] flattenMap:^RACStream *(RACTuple *tuple) {
+        RACSignal *geoSig = [[self rac_signalForSelector:@selector(onReGeocodeSearchDone:response:)
+                                           fromProtocol:@protocol(AMapSearchDelegate)] map:^id(RACTuple *tuple) {
             AMapReGeocodeSearchResponse * rsp = tuple.second;
-            AMapReGeocode *regeocode = rsp.regeocode;
-            if (regeocode) {
-                return [RACSignal return:regeocode];
-            }
-            NSError *error = [NSError errorWithDomain:@"获取城市信息失败" code:LocationFail userInfo:nil];
-            return [RACSignal error:error];
-        }] take:1];
+            return rsp.regeocode;
+        }];
+        RACSignal *errSig = [[self rac_signalForSelector:@selector(searchRequest:didFailWithError:) fromProtocol:@protocol(AMapSearchDelegate)] flattenMap:^RACStream *(RACTuple *tuple) {
+            return [RACSignal error:tuple.second];
+        }];
         [self invertGeo:userLocation.location.coordinate];
-        return geoSig;
+        return [[geoSig merge:errSig] take:1];
     }];
     return signal;
 }
@@ -117,8 +115,12 @@
 {
 }
 
-#pragma mark - AMapSearchDelegate
 - (void)mapView:(MAMapView *)mapView didFailToLocateUserWithError:(NSError *)error
+{
+}
+
+#pragma mark - AMapSearchDelegate
+- (void)searchRequest:(id)request didFailWithError:(NSError *)error
 {
 }
 

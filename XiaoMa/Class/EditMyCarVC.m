@@ -531,7 +531,7 @@
 - (BOOL)sharkCellIfErrorAtIndex:(NSInteger)index withData:(id)data errorMsg:(NSString *)msg
 {
     if (!data || [data isKindOfClass:[NSString class]] ? [(NSString *)data length] == 0 : NO) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:1];
         [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
         [gToast showError:msg];
         return YES;
