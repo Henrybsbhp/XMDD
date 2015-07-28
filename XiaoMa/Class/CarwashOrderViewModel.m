@@ -12,73 +12,61 @@
 #import "CarwashOrderDetailVC.h"
 #import "CarwashOrderCommentVC.h"
 
-@interface CarwashOrderViewModel ()
+@interface CarwashOrderViewModel ()<HKLoadingModelDelegate>
+
 @property (nonatomic, assign) long long curTradetime;
-@property (nonatomic, assign) BOOL isRemain;
+
 @end
 @implementation CarwashOrderViewModel
+
+- (id)initWithTableView:(JTTableView *)tableView
+{
+    self = [super init];
+    if (self) {
+        self.tableView = tableView;
+        self.tableView.delegate = self;
+        self.tableView.dataSource = self;
+        self.tableView.showBottomLoadingView = YES;
+        self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
+    }
+    return self;
+}
 
 - (void)resetWithTargetVC:(UIViewController *)targetVC
 {
     _targetVC = targetVC;
-    [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
-    [self.tableView setShowBottomLoadingView:YES];
-    [self listenNotificationByName:kNotifyRefreshMyCarList withNotifyBlock:^(NSNotification *note, id weakSelf) {
-        [weakSelf reloadData];
+//    [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
+}
+
+#pragma mark - HKLoadingModelDelegate
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
+{
+    return @"暂无洗车订单";
+}
+
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+{
+    return @"获取洗车订单失败，点击重试";
+}
+
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+{
+    if (type != HKDatasourceLoadingTypeLoadMore) {
+        self.curTradetime = 0;
+    }
+    
+    GetCarwashOrderListOp * op = [GetCarwashOrderListOp operation];
+    op.req_tradetime = self.curTradetime;
+    return [[op rac_postRequest] map:^id(GetCarwashOrderListOp *rspOp) {
+        return rspOp.rsp_orders;
     }];
 }
 
-- (void)reloadData
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
 {
-    self.isRemain = YES;
-    [self loadDataWithTradetime:0];
-}
-
-- (void)loadDataWithTradetime:(long long)tradetime
-{
-    GetCarwashOrderListOp *op = [GetCarwashOrderListOp new];
-    op.req_tradetime = tradetime;
-    [[[op rac_postRequest] initially:^{
-        
-        if (tradetime == 0) {
-            [self.tableView.refreshView beginRefreshing];
-        }
-        else {
-            [self.tableView.bottomLoadingView startActivityAnimation];
-        }
-    }] subscribeNext:^(GetCarwashOrderListOp *rspOp) {
-
-        [self.tableView.refreshView endRefreshing];
-        [self.tableView.bottomLoadingView stopActivityAnimation];
-        if (tradetime == 0) {
-            self.orders = [NSMutableArray array];
-        }
-        [self.orders safetyAddObjectsFromArray:rspOp.rsp_orders];
-        self.curTradetime = [[self.orders lastObject] tradetime];
-        //订单列表为空
-        if (self.orders.count == 0) {
-            self.isRemain = NO;
-            [self.tableView.bottomLoadingView hideIndicatorText];
-            [self.tableView showDefaultEmptyViewWithText:@"暂无订单"];
-        }
-        //已经到底了
-        else if (rspOp.rsp_orders.count < PageAmount) {
-            [self.tableView.bottomLoadingView showIndicatorTextWith:@"没有更多订单了"];
-            self.isRemain = NO;
-            [self.tableView.superview hideDefaultEmptyView];
-        }
-        //底下还有订单
-        else {
-            self.isRemain = YES;
-            [self.tableView.superview hideDefaultEmptyView];
-        }
-        [self.tableView reloadData];
-    } error:^(NSError *error) {
-
-        [self.tableView.refreshView endRefreshing];
-        [self.tableView.bottomLoadingView stopActivityAnimation];
-        [gToast showError:error.domain];
-    }];
+    HKServiceOrder * hkmodel = [model.datasource lastObject];
+    self.curTradetime = hkmodel.tradetime;
+    [self.tableView reloadData];
 }
 
 #pragma mark - Action
@@ -87,7 +75,7 @@
     CarwashOrderCommentVC *vc = [UIStoryboard vcWithId:@"CarwashOrderCommentVC" inStoryboard:@"Mine"];
     vc.order = order;
     [vc setCustomActionBlock:^{
-        [self reloadData];
+        //[self.tableView.refreshView beginRefreshing];
     }];
     [self.targetVC.navigationController pushViewController:vc animated:YES];
 }
@@ -96,7 +84,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.orders.count;
+    return self.loadingModel.datasource.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -106,7 +94,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 180;
+    return 162;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -131,7 +119,7 @@
     UILabel *paymentL = (UILabel *)[cell.contentView viewWithTag:3003];
     UIButton *bottomB = (UIButton *)[cell.contentView viewWithTag:4001];
     
-    HKServiceOrder *order = [self.orders safetyObjectAtIndex:indexPath.section];
+    HKServiceOrder *order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     
     nameL.text = order.shop.shopName;
     stateL.text = @"交易成功";
@@ -164,27 +152,15 @@
     if ([cell isKindOfClass:[JTTableViewCell class]]) {
         [(JTTableViewCell *)cell prepareCellForTableView:tableView atIndexPath:indexPath];        
     }
-    if (self.orders.count-1 <= indexPath.section && self.isRemain) {
-        [self loadMoreData];
-    }
+    [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nest:NO promptView:self.tableView.bottomLoadingView];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [MobClick event:@"rp318-2"];
     CarwashOrderDetailVC *vc = [UIStoryboard vcWithId:@"CarwashOrderDetailVC" inStoryboard:@"Mine"];
-    vc.order = [self.orders safetyObjectAtIndex:indexPath.section];
+    vc.order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     [self.targetVC.navigationController pushViewController:vc animated:YES];
 }
-
-- (void)loadMoreData
-{
-    if ([self.tableView.bottomLoadingView isActivityAnimating])
-    {
-        return;
-    }
-    [self loadDataWithTradetime:self.curTradetime];
-}
-
 
 @end

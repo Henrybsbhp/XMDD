@@ -177,6 +177,7 @@
 		18F813691B5F3561005F49B0 /* CKNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F813651B5F3561005F49B0 /* CKNavigationController.m */; };
 		18F8136A1B5F3561005F49B0 /* vertical_shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F813661B5F3561005F49B0 /* vertical_shadow.png */; };
 		18F8136B1B5F3561005F49B0 /* vertical_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F813671B5F3561005F49B0 /* vertical_shadow@2x.png */; };
+		50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE7C911B6716B500675887 /* SelectScrollView.m */; };
 		6B086BA11AE3184D00659DB7 /* GetShopByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */; };
 		6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */; };
 		6B086BA71AE4F03800659DB7 /* UIView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA61AE4F03800659DB7 /* UIView+Base.m */; };
@@ -660,6 +661,8 @@
 		18F813651B5F3561005F49B0 /* CKNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKNavigationController.m; sourceTree = "<group>"; };
 		18F813661B5F3561005F49B0 /* vertical_shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vertical_shadow.png; sourceTree = "<group>"; };
 		18F813671B5F3561005F49B0 /* vertical_shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vertical_shadow@2x.png"; sourceTree = "<group>"; };
+		50BE7C901B6716B500675887 /* SelectScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectScrollView.h; path = Class/SelectScrollView.h; sourceTree = "<group>"; };
+		50BE7C911B6716B500675887 /* SelectScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectScrollView.m; path = Class/SelectScrollView.m; sourceTree = "<group>"; };
 		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6B086B9F1AE3184D00659DB7 /* GetShopByNameOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShopByNameOp.h; path = Class/GetShopByNameOp.h; sourceTree = "<group>"; };
 		6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetShopByNameOp.m; path = Class/GetShopByNameOp.m; sourceTree = "<group>"; };
@@ -1155,6 +1158,7 @@
 		1816F4B51AD36D5100BBCC96 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				50BE7C8F1B6715B400675887 /* SelectScrollView */,
 				1885F0BD1B1C4D940056D3BD /* Badge */,
 				181F6D8D1B14369B00D38555 /* DefaultEmptyView */,
 				6BD7AE651AE9EEDE00BEF30E /* Map */,
@@ -1941,6 +1945,15 @@
 				18F813671B5F3561005F49B0 /* vertical_shadow@2x.png */,
 			);
 			path = CKNavigationController;
+			sourceTree = "<group>";
+		};
+		50BE7C8F1B6715B400675887 /* SelectScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				50BE7C901B6716B500675887 /* SelectScrollView.h */,
+				50BE7C911B6716B500675887 /* SelectScrollView.m */,
+			);
+			name = SelectScrollView;
 			sourceTree = "<group>";
 		};
 		6B086BA81AE4F46900659DB7 /* TMCache */ = {
@@ -2810,6 +2823,7 @@
 				6BC3B60F1ADF52CB001016A0 /* BaseMapViewController.m in Sources */,
 				1851F42F1B0C304B00241A01 /* AutoBrand+Extension.m in Sources */,
 				6BBAB8C11ADBC21600EC342F /* GTMBase64.m in Sources */,
+				50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */,
 				6BBAB8CE1ADE059300EC342F /* DistanceCalcHelper.m in Sources */,
 				6BEA56C21AE24DCE000D19C1 /* AlixPayOrder.m in Sources */,
 				186984E11AFF976A000A182A /* WebVC.m in Sources */,
