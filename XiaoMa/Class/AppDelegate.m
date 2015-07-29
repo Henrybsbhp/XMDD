@@ -303,6 +303,7 @@
 {
     [MobClick setCrashReportEnabled:NO];
     [MobClick startWithAppkey:UMeng_API_ID reportPolicy:BATCH   channelId:@"iOS"];
+    [MobClick setCrashReportEnabled:NO];
 #ifdef DEBUG
     [MobClick setLogEnabled:YES];
 #else

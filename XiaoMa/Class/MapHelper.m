@@ -83,10 +83,13 @@
                                           fromProtocol:@protocol(MAMapViewDelegate)] flattenMap:^RACStream *(RACTuple *tuple) {
         return [RACSignal error:tuple.second];
     }];
-    return [[[[updateSig merge:errorSig] take:1] initially:^{
+    return [[[[[updateSig merge:errorSig] take:1] initially:^{
         [self startLocation];
     }] finally:^{
         [self stopLocation];
+    }] doNext:^(MAUserLocation * l) {
+        
+        self.coordinate = l.coordinate;
     }];
 }
 

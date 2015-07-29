@@ -531,6 +531,7 @@
     //    [priceL mas_updateConstraints:^(MASConstraintMaker *make) {
     //        make.bottom.equalTo(cc ? iconV : titleL);
     //    }];
+    titleL.text = service.serviceName;
     priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
     introL.text = service.serviceDescription;
     
