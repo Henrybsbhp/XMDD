@@ -13,7 +13,7 @@
 #import "LoginVC.h"
 
 @interface HKCatchErrorModel ()
-@property (nonatomic, weak) CXAlertView *alertView;
+@property (nonatomic, weak) UIAlertView *alertView;
 @end
 @implementation HKCatchErrorModel
 
@@ -83,16 +83,17 @@
     if (self.alertView) {
         return;
     }
-    CXAlertView *alert = [[CXAlertView alloc] initWithTitle:title message:msg cancelButtonTitle:nil];
-    [alert addButtonWithTitle:@"确定" type:0 handler:^(CXAlertView *alertView, CXAlertButtonItem *button) {
-        [alertView dismiss];
-        //已经在登录页面了，则忽略
-        if (gAppDelegate.loginVC) {
-            return ;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+//    CXAlertView *alert = [[CXAlertView alloc] initWithTitle:title message:msg cancelButtonTitle:nil];
+    [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *index) {
+        if (index.integerValue == 0) {
+            //已经在登录页面了，则忽略
+            if (gAppDelegate.loginVC) {
+                return ;
+            }
+            UIViewController *orginVC = [gAppMgr.navModel.curNavCtrl.viewControllers safetyObjectAtIndex:0];
+            [LoginViewModel loginIfNeededForTargetViewController:gAppMgr.navModel.curNavCtrl originVC:orginVC];
         }
-        UIViewController *orginVC = [gAppMgr.navModel.curNavCtrl.viewControllers safetyObjectAtIndex:0];
-        [LoginViewModel loginIfNeededForTargetViewController:gAppMgr.navModel.curNavCtrl originVC:orginVC];
-//        [gAppMgr.navModel.curNavCtrl popToRootViewControllerAnimated:YES];
     }];
     self.alertView = alert;
     [alert show];
