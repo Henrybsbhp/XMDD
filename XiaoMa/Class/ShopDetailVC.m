@@ -76,25 +76,24 @@
     UIImage * image = [UIImage imageNamed:self.favorite ? @"collected" : @"collect"];
     
     [collectBtn setImage:image forState:UIControlStateNormal];
-    
-    @weakify(self)
+
+    @weakify(self);
     [[collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [MobClick event:@"rp105-1"];
-        @strongify(self)
-        
+        @strongify(self);
         if ([LoginViewModel loginIfNeededForTargetViewController:self])
         {
             if (self.favorite)
             {
-                [[[[gAppMgr.myUser.favorites rac_removeFavorite:@[self.shop.shopID]] initially:^{
+                @weakify(self);
+                [[[gAppMgr.myUser.favorites rac_removeFavorite:@[self.shop.shopID]] initially:^{
                     
                     [gToast showingWithText:@"移除中…"];
-                }]  finally:^{
+                }] subscribeNext:^(id x) {
                     
-                    [SVProgressHUD dismiss];
-                }]  subscribeNext:^(id x) {
-                    
+                    @strongify(self);
+                    [gToast dismiss];
                     self.favorite = NO;
                     [collectBtn setImage:[UIImage imageNamed:@"collect"] forState:UIControlStateNormal];
                     NSArray * array = self.navigationController.viewControllers;
@@ -111,14 +110,14 @@
             }
             else
             {
-                [[[[gAppMgr.myUser.favorites rac_addFavorite:self.shop] initially:^{
+                @weakify(self);
+                [[[gAppMgr.myUser.favorites rac_addFavorite:self.shop] initially:^{
                     
                     [gToast showingWithText:@"添加中…"];
-                }]  finally:^{
+                }] subscribeNext:^(id x) {
                     
-                    [SVProgressHUD dismiss];
-                }]  subscribeNext:^(id x) {
-                    
+                    @strongify(self);
+                    [gToast dismiss];
                     self.favorite = YES;
                     [collectBtn setImage:[UIImage imageNamed:@"collected"] forState:UIControlStateNormal];
                     NSArray * array = self.navigationController.viewControllers;
@@ -130,13 +129,14 @@
                     }
                 } error:^(NSError *error) {
                     
+                    @strongify(self);
                     if (error.code == 7002)
                     {
                         self.favorite = YES;
                         [collectBtn setImage:[UIImage imageNamed:@"collected"] forState:UIControlStateNormal];
+                        [gToast dismiss];
                     }
-                    else
-                    {
+                    else {
                         [gToast showError:error.domain];
                     }
                 }];

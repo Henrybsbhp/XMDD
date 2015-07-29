@@ -144,7 +144,7 @@
         [self.tableView reloadData];
 
     } error:^(NSError *error) {
-        [gToast showError:@"修改失败，再试一次"];
+        [gToast showError:error.domain];
         [self.tableView reloadData];
     }];
 }
@@ -349,7 +349,6 @@
     }] subscribeNext:^(UpdateUserInfoOp * op) {
         
         [gToast dismiss];
-
         gAppMgr.myUser.avatarUrl = op.avatarUrl;
     } error:^(NSError *error) {
         
