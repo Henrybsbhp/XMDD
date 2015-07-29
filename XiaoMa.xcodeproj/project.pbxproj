@@ -146,7 +146,7 @@
 		189B39611AF9DD3B00B83F1B /* AddCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B39601AF9DD3B00B83F1B /* AddCarOp.m */; };
 		189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B39631AF9E32400B83F1B /* DeleteCarOp.m */; };
 		189B39661AF9FDDF00B83F1B /* EnquiryInsuranceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B39651AF9FDDF00B83F1B /* EnquiryInsuranceVC.m */; };
-		189B396A1AFB062200B83F1B /* BuyInsuranceOnlineVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B39691AFB062200B83F1B /* BuyInsuranceOnlineVC.m */; };
+		189B396A1AFB062200B83F1B /* AiCheBaoInsuranceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B39691AFB062200B83F1B /* AiCheBaoInsuranceVC.m */; };
 		189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 189DD3FF1B10722700BA0A7F /* SRMonthPicker.m */; };
 		18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */; };
 		18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */; };
@@ -606,8 +606,8 @@
 		189B39621AF9E32400B83F1B /* DeleteCarOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteCarOp.h; path = Class/DeleteCarOp.h; sourceTree = "<group>"; };
 		189B39631AF9E32400B83F1B /* DeleteCarOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteCarOp.m; path = Class/DeleteCarOp.m; sourceTree = "<group>"; };
 		189B39651AF9FDDF00B83F1B /* EnquiryInsuranceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnquiryInsuranceVC.m; sourceTree = "<group>"; };
-		189B39681AFB062200B83F1B /* BuyInsuranceOnlineVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyInsuranceOnlineVC.h; sourceTree = "<group>"; };
-		189B39691AFB062200B83F1B /* BuyInsuranceOnlineVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyInsuranceOnlineVC.m; sourceTree = "<group>"; };
+		189B39681AFB062200B83F1B /* AiCheBaoInsuranceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiCheBaoInsuranceVC.h; sourceTree = "<group>"; };
+		189B39691AFB062200B83F1B /* AiCheBaoInsuranceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AiCheBaoInsuranceVC.m; sourceTree = "<group>"; };
 		189DD3FE1B10722700BA0A7F /* SRMonthPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRMonthPicker.h; sourceTree = "<group>"; };
 		189DD3FF1B10722700BA0A7F /* SRMonthPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRMonthPicker.m; sourceTree = "<group>"; };
 		18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
@@ -1825,8 +1825,8 @@
 		189B39671AFB045800B83F1B /* BuyOnline */ = {
 			isa = PBXGroup;
 			children = (
-				189B39681AFB062200B83F1B /* BuyInsuranceOnlineVC.h */,
-				189B39691AFB062200B83F1B /* BuyInsuranceOnlineVC.m */,
+				189B39681AFB062200B83F1B /* AiCheBaoInsuranceVC.h */,
+				189B39691AFB062200B83F1B /* AiCheBaoInsuranceVC.m */,
 			);
 			name = BuyOnline;
 			sourceTree = "<group>";
@@ -2738,7 +2738,7 @@
 				6B747A651AF08C7B00106BFD /* PhoneHelper.m in Sources */,
 				18863FA51AE8ECFB005BF4ED /* GridLabel.m in Sources */,
 				18B2C7241B1304ED007FB0C7 /* SubmitInsuranceInfoVC.m in Sources */,
-				189B396A1AFB062200B83F1B /* BuyInsuranceOnlineVC.m in Sources */,
+				189B396A1AFB062200B83F1B /* AiCheBaoInsuranceVC.m in Sources */,
 				18B2C7371B13076B007FB0C7 /* PECropViewController.m in Sources */,
 				6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */,
 				6BBB084D1B021EA90002C349 /* JTLogModel.m in Sources */,

@@ -6,14 +6,14 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "BuyInsuranceOnlineVC.h"
+#import "AiCheBaoInsuranceVC.h"
 #import "UploadInfomationVC.h"
 #import "BeInterestedInInsuranceOp.h"
 #import "WebVC.h"
 
 #define kInsuranceOlineUrl  @"http://www.xiaomadada.com/apphtml/aichebao.html"
 
-@implementation BuyInsuranceOnlineVC
+@implementation AiCheBaoInsuranceVC
 
 - (void)viewDidLoad {
     self.url = kInsuranceOlineUrl;
