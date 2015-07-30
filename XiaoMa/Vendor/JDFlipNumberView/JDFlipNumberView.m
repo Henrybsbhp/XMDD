@@ -506,7 +506,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
         for (i = count - 2; i < count ; i++)
         {
             JDFlipNumberDigitView* view = self.digitViews[i];
-            view.frame = CGRectMake(round(xpos), 0, floor(xWidth - 10), floor(frameSize.height - 10));
+            view.frame = CGRectMake(round(xpos), 0, floor(xWidth - 15), floor(frameSize.height - 15));
             xpos = floor(CGRectGetMaxX(view.frame)+margin);
         }
         xpos -= margin;
@@ -525,7 +525,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
             JDFlipNumberDigitView* view = self.digitViews[i];
 //            view.frame = CGRectOffset(view.frame, centerOffset.x, centerOffset.y);
             CGRect temp = view.frame;
-            temp.origin.x = temp.origin.x + centerOffset.x;
+            temp.origin.x = temp.origin.x + centerOffset.x + 2;
             temp.origin.y = rect.origin.y;
             view.frame = temp;
         }

@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+@interface Insurance : SubInsurance
+
+@end
+
 /// 险种
 @interface SubInsurance : NSObject
 

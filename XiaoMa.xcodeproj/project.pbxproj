@@ -296,6 +296,7 @@
 		6BDD6E281B67615C0060CFD0 /* UIView+JDFlipImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E201B67615C0060CFD0 /* UIView+JDFlipImageView.m */; };
 		6BDD6E2B1B6762C50060CFD0 /* InsuranceDetailPlanVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E2A1B6762C50060CFD0 /* InsuranceDetailPlanVC.m */; };
 		6BDD6E2E1B68B9AE0060CFD0 /* HKFlipDecimalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E2D1B68B9AE0060CFD0 /* HKFlipDecimalView.m */; };
+		6BDD6E311B69D5B30060CFD0 /* InsuranceCalcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E301B69D5B30060CFD0 /* InsuranceCalcHelper.m */; };
 		6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD4E1AE6232C00A69875 /* HKAdvertisement.m */; };
 		6BE2BD521AE62B1600A69875 /* GetInsuranceCalculatorOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD511AE62B1600A69875 /* GetInsuranceCalculatorOp.m */; };
 		6BE2BD581AE62CDF00A69875 /* HKInsurance.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD571AE62CDF00A69875 /* HKInsurance.m */; };
@@ -895,6 +896,8 @@
 		6BDD6E2A1B6762C50060CFD0 /* InsuranceDetailPlanVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceDetailPlanVC.m; sourceTree = "<group>"; };
 		6BDD6E2C1B68B9AE0060CFD0 /* HKFlipDecimalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKFlipDecimalView.h; sourceTree = "<group>"; };
 		6BDD6E2D1B68B9AE0060CFD0 /* HKFlipDecimalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKFlipDecimalView.m; sourceTree = "<group>"; };
+		6BDD6E2F1B69D5B30060CFD0 /* InsuranceCalcHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InsuranceCalcHelper.h; path = Class/InsuranceCalcHelper.h; sourceTree = "<group>"; };
+		6BDD6E301B69D5B30060CFD0 /* InsuranceCalcHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsuranceCalcHelper.m; path = Class/InsuranceCalcHelper.m; sourceTree = "<group>"; };
 		6BE2BD4D1AE6232C00A69875 /* HKAdvertisement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKAdvertisement.h; path = Class/HKAdvertisement.h; sourceTree = "<group>"; };
 		6BE2BD4E1AE6232C00A69875 /* HKAdvertisement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKAdvertisement.m; path = Class/HKAdvertisement.m; sourceTree = "<group>"; };
 		6BE2BD501AE62B1600A69875 /* GetInsuranceCalculatorOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetInsuranceCalculatorOp.h; path = Class/GetInsuranceCalculatorOp.h; sourceTree = "<group>"; };
@@ -2079,6 +2082,8 @@
 				6BBB083E1B021EA90002C349 /* JTCatureScreen */,
 				6BBAB8CC1ADE059300EC342F /* DistanceCalcHelper.h */,
 				6BBAB8CD1ADE059300EC342F /* DistanceCalcHelper.m */,
+				6BDD6E2F1B69D5B30060CFD0 /* InsuranceCalcHelper.h */,
+				6BDD6E301B69D5B30060CFD0 /* InsuranceCalcHelper.m */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -2813,6 +2818,7 @@
 				6BB89CD41B04C23900F3F61F /* UploadLogOp.m in Sources */,
 				18895B321B4CB52A00928F62 /* PushManager.m in Sources */,
 				6BCA5F401B102A3700E1E630 /* HKCouponPkg.m in Sources */,
+				6BDD6E311B69D5B30060CFD0 /* InsuranceCalcHelper.m in Sources */,
 				189B30B01AD4D661001D7288 /* JTTableViewController.m in Sources */,
 				189B395B1AF9A9E500B83F1B /* EditMyCarVC.m in Sources */,
 				1853DED11AE2971500C39175 /* ResetPasswordVC.m in Sources */,
