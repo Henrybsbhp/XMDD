@@ -56,6 +56,23 @@
     return signal;
 }
 
+- (BOOL)countDownIfNeededForVcodeButton:(UIButton *)vbtn
+{
+    NSTimeInterval interval = [[NSDate date] timeIntervalSince1970] - gAppMgr.vcodeCoolingTimeForLogin;
+    if (interval < kMaxVcodeInterval) {
+        NSString *originTitle = [vbtn titleForState:UIControlStateNormal];
+        vbtn.enabled = NO;
+        [[self rac_timeCountDown:kMaxVcodeInterval - interval] subscribeNext:^(id x) {
+            NSString *title = [NSString stringWithFormat:@"剩余%d秒", [x intValue]];
+            [vbtn setTitle:title forState:UIControlStateDisabled];
+        } completed:^{
+            [vbtn setTitle:originTitle forState:UIControlStateNormal];
+            vbtn.enabled = YES;
+        }];
+        return NO;
+    }
+    return YES;
+}
 
 - (RACSignal *)rac_handleVcodeButtonClick:(UIButton *)btn vcodeInputField:(VCodeInputField *)field
                             withVcodeType:(NSInteger)type phone:(NSString *)phone
@@ -69,6 +86,7 @@
         [subject sendNext:value];
         [subject sendCompleted];
         [field showRightViewAfterInterval:kVCodePromptInteval];
+        gAppMgr.vcodeCoolingTimeForLogin = [[NSDate date] timeIntervalSince1970];
         return [self rac_timeCountDown:kMaxVcodeInterval];
     }] subscribeNext:^(id x) {
         NSString *title = [NSString stringWithFormat:@"剩余%d秒", [x intValue]];

@@ -84,7 +84,6 @@
         return;
     }
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-//    CXAlertView *alert = [[CXAlertView alloc] initWithTitle:title message:msg cancelButtonTitle:nil];
     [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *index) {
         if (index.integerValue == 0) {
             //已经在登录页面了，则忽略

@@ -34,6 +34,7 @@
     self.code.delegate = self;
     self.pwd.delegate = self;
     NSArray *mobArray = @[@"rp004-8",@"rp004-9",@"rp004-10"];
+    [self.smsModel countDownIfNeededForVcodeButton:self.vcodeBtn];
     [self.smsModel setupVCodeInputField:self.code accountField:self.num forTargetVC:self mobEvents:mobArray];
 }
 
