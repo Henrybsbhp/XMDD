@@ -44,6 +44,9 @@
 @property (nonatomic, strong, readonly) TMCache *dataCache;
 @property (nonatomic, strong) MultiMediaManager *mediaMgr;
 
+#pragma mark - 时间戳相关
+@property (nonatomic, assign) NSTimeInterval vcodeCoolingTimeForLogin;
+
 + (AppManager *)sharedManager;
 
 - (void)resetWithAccount:(NSString *)account;
