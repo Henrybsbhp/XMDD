@@ -172,6 +172,7 @@
 		18D17F831B57A3D000F66F04 /* HomePageVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F821B57A3D000F66F04 /* HomePageVModel.m */; };
 		18D17F861B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F851B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m */; };
 		18D62B3F1B60EBF800E3FDB2 /* 90_0.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */; };
+		18E7565A1B69D696001B0869 /* InsuranceOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E756591B69D696001B0869 /* InsuranceOrderVC.m */; };
 		18F8135F1B5F308D005F49B0 /* HKVersionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F8135E1B5F308D005F49B0 /* HKVersionManager.m */; };
 		18F813681B5F3561005F49B0 /* CKNavigationController+Expansion.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F813631B5F3561005F49B0 /* CKNavigationController+Expansion.m */; };
 		18F813691B5F3561005F49B0 /* CKNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F813651B5F3561005F49B0 /* CKNavigationController.m */; };
@@ -653,6 +654,8 @@
 		18D17F841B58D0B000F66F04 /* CheckoutServiceOrderV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckoutServiceOrderV2Op.h; path = Class/CheckoutServiceOrderV2Op.h; sourceTree = "<group>"; };
 		18D17F851B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckoutServiceOrderV2Op.m; path = Class/CheckoutServiceOrderV2Op.m; sourceTree = "<group>"; };
 		18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 90_0.gpx; sourceTree = "<group>"; };
+		18E756581B69D696001B0869 /* InsuranceOrderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceOrderVC.h; sourceTree = "<group>"; };
+		18E756591B69D696001B0869 /* InsuranceOrderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceOrderVC.m; sourceTree = "<group>"; };
 		18F8135D1B5F308D005F49B0 /* HKVersionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKVersionManager.h; path = Class/HKVersionManager.h; sourceTree = "<group>"; };
 		18F8135E1B5F308D005F49B0 /* HKVersionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKVersionManager.m; path = Class/HKVersionManager.m; sourceTree = "<group>"; };
 		18F813621B5F3561005F49B0 /* CKNavigationController+Expansion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CKNavigationController+Expansion.h"; sourceTree = "<group>"; };
@@ -1717,9 +1720,10 @@
 		189B30C41AD6649A001D7288 /* Insurance */ = {
 			isa = PBXGroup;
 			children = (
+				18E756571B69D675001B0869 /* Order */,
 				18B2C73D1B130A5F007FB0C7 /* SubView */,
-				189B39671AFB045800B83F1B /* BuyOnline */,
-				189B31171ADBEBA0001D7288 /* BuyByChannel */,
+				189B39671AFB045800B83F1B /* AiCheBao */,
+				189B31171ADBEBA0001D7288 /* DirectSelling */,
 				189B310D1ADA5911001D7288 /* Enquiry */,
 				189B30C51AD664D7001D7288 /* InsuranceVC.h */,
 				189B30C61AD664D7001D7288 /* InsuranceVC.m */,
@@ -1777,7 +1781,7 @@
 			path = JGActionSheet;
 			sourceTree = "<group>";
 		};
-		189B31171ADBEBA0001D7288 /* BuyByChannel */ = {
+		189B31171ADBEBA0001D7288 /* DirectSelling */ = {
 			isa = PBXGroup;
 			children = (
 				189B31071AD7C5B3001D7288 /* InsuranceChannelVC.h */,
@@ -1791,7 +1795,7 @@
 				18863FA31AE8ECFB005BF4ED /* GridLabel.h */,
 				18863FA41AE8ECFB005BF4ED /* GridLabel.m */,
 			);
-			name = BuyByChannel;
+			name = DirectSelling;
 			sourceTree = "<group>";
 		};
 		189B311B1ADBEFCC001D7288 /* JSON */ = {
@@ -1826,13 +1830,13 @@
 			name = Mine;
 			sourceTree = "<group>";
 		};
-		189B39671AFB045800B83F1B /* BuyOnline */ = {
+		189B39671AFB045800B83F1B /* AiCheBao */ = {
 			isa = PBXGroup;
 			children = (
 				189B39681AFB062200B83F1B /* AiCheBaoInsuranceVC.h */,
 				189B39691AFB062200B83F1B /* AiCheBaoInsuranceVC.m */,
 			);
-			name = BuyOnline;
+			name = AiCheBao;
 			sourceTree = "<group>";
 		};
 		189DD3FD1B10722700BA0A7F /* SRMonthPicker */ = {
@@ -1932,6 +1936,15 @@
 				18D17F761B53B21E00F66F04 /* MBProgressHUD.m */,
 			);
 			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		18E756571B69D675001B0869 /* Order */ = {
+			isa = PBXGroup;
+			children = (
+				18E756581B69D696001B0869 /* InsuranceOrderVC.h */,
+				18E756591B69D696001B0869 /* InsuranceOrderVC.m */,
+			);
+			name = Order;
 			sourceTree = "<group>";
 		};
 		18F813611B5F3561005F49B0 /* CKNavigationController */ = {
@@ -2760,6 +2773,7 @@
 				1873710C1B0AD1D900B8CDCC /* MyCarListVModel.m in Sources */,
 				1853DECB1AE0F72500C39175 /* RegisterVC.m in Sources */,
 				6BEA56481AE24D34000D19C1 /* AlipayHelper.m in Sources */,
+				18E7565A1B69D696001B0869 /* InsuranceOrderVC.m in Sources */,
 				6BEA56C91AE24DCE000D19C1 /* SBJsonParser.m in Sources */,
 				6BB89CD41B04C23900F3F61F /* UploadLogOp.m in Sources */,
 				18895B321B4CB52A00928F62 /* PushManager.m in Sources */,
