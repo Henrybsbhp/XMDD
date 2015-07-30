@@ -11,40 +11,70 @@
 #import "GetInsuranceOrderListOp.h"
 #import "InsuranceOrderDetailVC.h"
 
+@interface InsranceOrderViewModel ()<HKLoadingModelDelegate>
+
+@property (nonatomic, assign) long long curTradetime;
+
+@end
+
 @implementation InsranceOrderViewModel
+
+- (id)initWithTableView:(JTTableView *)tableView
+{
+    self = [super init];
+    if (self) {
+        self.tableView = tableView;
+        self.tableView.delegate = self;
+        self.tableView.dataSource = self;
+        self.tableView.showBottomLoadingView = YES;
+        self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
+    }
+    return self;
+}
 
 - (void)resetWithTargetVC:(UIViewController *)targetVC
 {
     _targetVC = targetVC;
-    [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
+    //    [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
 }
 
-- (void)reloadData
+#pragma mark - HKLoadingModelDelegate
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
 {
-    GetInsuranceOrderListOp *op = [GetInsuranceOrderListOp new];
-    [[[op rac_postRequest] initially:^{
-        [self.tableView.refreshView beginRefreshing];
-    }] subscribeNext:^(GetInsuranceOrderListOp *rspOp) {
-        [self.tableView.refreshView endRefreshing];
-        self.orders = rspOp.rsp_orders;
-        [self.tableView reloadData];
-    } error:^(NSError *error) {
-        [self.tableView.refreshView endRefreshing];
-        [gToast showError:error.domain];
+    return @"暂无保险订单";
+}
+
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+{
+    return @"获取保险订单失败，点击重试";
+}
+
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+{
+    if (type != HKDatasourceLoadingTypeLoadMore) {
+        self.curTradetime = 0;
+    }
+    
+    GetInsuranceOrderListOp * op = [GetInsuranceOrderListOp operation];
+    //op.req_tradetime = self.curTradetime;
+    return [[op rac_postRequest] map:^id(GetInsuranceOrderListOp *rspOp) {
+        return rspOp.rsp_orders;
     }];
 }
 
-#pragma mark - UITableViewDelegate and UITableViewDatasource
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
 {
-    InsuranceOrderDetailVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderDetailVC" inStoryboard:@"Mine"];
-    vc.order = [self.orders safetyObjectAtIndex:indexPath.section];
-    [self.targetVC.navigationController pushViewController:vc animated:YES];
+    HKInsuranceOrder * hkmodel = [model.datasource lastObject];
+    //self.curTradetime = hkmodel.tradetime;
+    [self.tableView reloadData];
 }
+
+#pragma mark - UITableViewDelegate and UITableViewDatasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.orders.count;
+    //return 1;
+    return self.loadingModel.datasource.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -54,7 +84,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 180;
+    return 152;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -72,20 +102,26 @@
     JTTableViewCell *cell = (JTTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"InsuranceCell" forIndexPath:indexPath];
     UILabel *nameL = (UILabel *)[cell.contentView viewWithTag:1001];
     UILabel *stateL = (UILabel *)[cell.contentView viewWithTag:1002];
-    UILabel *contentL = (UILabel *)[cell.contentView viewWithTag:2001];
-    UILabel *timeL = (UILabel *)[cell.contentView viewWithTag:2002];
+    UILabel *contentL = (UILabel *)[cell.contentView viewWithTag:2002];
+    UILabel *timeL = (UILabel *)[cell.contentView viewWithTag:2003];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:3002];
-    UILabel *paymentL = (UILabel *)[cell.contentView viewWithTag:3003];
     UIButton *bottomB = (UIButton *)[cell.contentView viewWithTag:4001];
     
-    HKInsuranceOrder *order = [self.orders safetyObjectAtIndex:indexPath.section];
+    nameL.text = @"太平保险";
+    stateL.text = @"保单受理中";
+    contentL.text = @"购买三年保险一份";
+    timeL.text = @"2015.09.01 09:00";
+    priceL.text = @"￥1234564";
+    [bottomB setTitle:@"买好了123" forState:UIControlStateNormal];
     
-    nameL.text = [order descForCurrentInstype];
-    stateL.text = [order descForCurrentStatus];
-    contentL.text = [order generateContent];
-    timeL.text = [order.lstupdatetime dateFormatForYYYYMMddHHmm];
-    priceL.text = [NSString stringWithFormat:@"￥%d", (int)(order.policy.premium)];
-    paymentL.text = [order paymentForCurrentChannel];
+//    HKInsuranceOrder *order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+//    
+//    nameL.text = [order descForCurrentInstype];
+//    stateL.text = [order descForCurrentStatus];
+//    contentL.text = [order generateContent];
+//    timeL.text = [order.lstupdatetime dateFormatForYYYYMMddHHmm];
+//    priceL.text = [NSString stringWithFormat:@"￥%d", (int)(order.policy.premium)];
+//    paymentL.text = [order paymentForCurrentChannel];
 
     cell.separatorInset = UIEdgeInsetsZero;
     return cell;
@@ -94,6 +130,14 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [(JTTableViewCell *)cell prepareCellForTableView:tableView atIndexPath:indexPath];
+    [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nest:NO promptView:self.tableView.bottomLoadingView];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    InsuranceOrderDetailVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderDetailVC" inStoryboard:@"Mine"];
+    vc.order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+    [self.targetVC.navigationController pushViewController:vc animated:YES];
 }
 
 @end
