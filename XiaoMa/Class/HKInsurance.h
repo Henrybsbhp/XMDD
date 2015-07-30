@@ -15,7 +15,14 @@
 @property (nonatomic,copy)NSString * coveragerName;
 
 ///险种金额
-@property (nonatomic, strong) NSString *coveragerValue;
+@property (nonatomic,strong) NSString *coveragerValue;
+///险种金额
+@property (nonatomic) CGFloat coveragerPrice;
+
+/// 保险内容<SubInsurace>
+@property (nonatomic)NSArray * subInsuranceArray;
+
+@property (nonatomic)NSInteger type;
 
 @end
 

@@ -29,33 +29,35 @@
 {
     [super viewDidLoad];
     
-    HKInsurance * i1 = [[HKInsurance alloc] init];
-    i1.insuranceName = @"车损险";
-    i1.premium = 2900.12;
+    SubInsurance * i1 = [[SubInsurance alloc] init];
+    i1.coveragerName = @"车损险";
+    i1.coveragerPrice = 2900.12;
     i1.customTag = 1;
+    i1.type = 1;
     
-    HKInsurance * i2 = [[HKInsurance alloc] init];
-    i2.insuranceName = @"车船税";
-    i2.premium = 390.00;
+    SubInsurance * i2 = [[SubInsurance alloc] init];
+    i2.coveragerName = @"车船税";
+    i2.coveragerPrice = 390.00;
     i2.customTag = 1;
-
+    i2.type = 1;
     
-    HKInsurance * i3 = [[HKInsurance alloc] init];
-    i3.insuranceName = @"玻璃险";
-    i3.premium = 300.12;
+    SubInsurance * i3 = [[SubInsurance alloc] init];
+    i3.coveragerName = @"玻璃险";
+    i3.coveragerPrice = 300.12;
     i3.customTag = 1;
-
+    i3.type = 1;
     
-    HKInsurance * i4 = [[HKInsurance alloc] init];
-    i4.insuranceName = @"交强险";
-    i4.premium = 480.96;
+    SubInsurance * i4 = [[SubInsurance alloc] init];
+    i4.coveragerName = @"交强险";
+    i4.coveragerPrice = 480.96;
     i4.customTag = 1;
-
+    i4.type = 1;
     
-    HKInsurance * i5 = [[HKInsurance alloc] init];
-    i5.insuranceName = @"啦啦拉拉险";
-    i5.premium = 600.67;
+    SubInsurance * i5 = [[SubInsurance alloc] init];
+    i5.coveragerName = @"第三方责任险";
+    i5.coveragerPrice = 600.67;
     i5.customTag = 1;
+    i5.type = 2;
 
     self.insuranceArry = @[i1,i2,i3,i4,i5];
     
@@ -72,10 +74,10 @@
 - (void)calcTotalPrice
 {
     self.totalPrice = 0;
-    for (HKInsurance * i in  self.insuranceArry)
+    for (SubInsurance * i in  self.insuranceArry)
     {
         BOOL select = i.customTag;
-        CGFloat price = i.premium;
+        CGFloat price = i.coveragerPrice;
         if (select)
         {
             self.totalPrice = self.totalPrice + price;
@@ -156,29 +158,55 @@
     }
     else
     {
-        cell = [self.tableView dequeueReusableCellWithIdentifier:@"InsuranceTypeA"];
-        
-        HKInsurance * insurace = [self.insuranceArry safetyObjectAtIndex:indexPath.row - 2];
-        
-        UIButton *boxBtn = (UIButton *)[cell searchViewWithTag:101];
-        UILabel *insuranceNameLb = (UILabel *)[cell searchViewWithTag:102];
-        UILabel *priceLb = (UILabel *)[cell searchViewWithTag:104];
-        
-        insuranceNameLb.text = insurace.insuranceName;
-        priceLb.text = [NSString stringWithFormat:@"%.2f",insurace.premium];
-        
-        boxBtn.selected = insurace.customTag;
-        @weakify(boxBtn);
-        [[[boxBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        SubInsurance * insurace = [self.insuranceArry safetyObjectAtIndex:indexPath.row - 2];
+        if (insurace.type == 1)
+        {
+            cell = [self.tableView dequeueReusableCellWithIdentifier:@"InsuranceTypeA"];
             
-            @strongify(boxBtn);
-            BOOL flag = boxBtn.selected;
-            [boxBtn setSelected:!flag];
-            insurace.customTag = !flag;
+            UIButton *boxBtn = (UIButton *)[cell searchViewWithTag:101];
+            UILabel *insuranceNameLb = (UILabel *)[cell searchViewWithTag:102];
+            UILabel *priceLb = (UILabel *)[cell searchViewWithTag:104];
             
-            [self calcTotalPrice];
-            [self animateToTargetValue:(int)self.totalPrice];
-        }];
+            insuranceNameLb.text = insurace.coveragerName;
+            priceLb.text = [NSString stringWithFormat:@"%.2f",insurace.coveragerPrice];
+            
+            boxBtn.selected = insurace.customTag;
+            @weakify(boxBtn);
+            [[[boxBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                
+                @strongify(boxBtn);
+                BOOL flag = boxBtn.selected;
+                [boxBtn setSelected:!flag];
+                insurace.customTag = !flag;
+                
+                [self calcTotalPrice];
+                [self animateToTargetValue:(int)self.totalPrice];
+            }];
+        }
+        else
+        {
+            cell = [self.tableView dequeueReusableCellWithIdentifier:@"InsuranceTypeB"];
+            
+            UIButton *boxBtn = (UIButton *)[cell searchViewWithTag:101];
+            UILabel *insuranceNameLb = (UILabel *)[cell searchViewWithTag:102];
+            UILabel *priceLb = (UILabel *)[cell searchViewWithTag:104];
+            
+            insuranceNameLb.text = insurace.coveragerName;
+            priceLb.text = [NSString stringWithFormat:@"%.2f",insurace.coveragerPrice];
+            
+            boxBtn.selected = insurace.customTag;
+            @weakify(boxBtn);
+            [[[boxBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                
+                @strongify(boxBtn);
+                BOOL flag = boxBtn.selected;
+                [boxBtn setSelected:!flag];
+                insurace.customTag = !flag;
+                
+                [self calcTotalPrice];
+                [self animateToTargetValue:(int)self.totalPrice];
+            }];
+        }
     }
     
     return cell;

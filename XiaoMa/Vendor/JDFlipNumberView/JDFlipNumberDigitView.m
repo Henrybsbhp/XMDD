@@ -201,7 +201,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationState) {
 
     // update animation type
     self.animationType = animationType;
-	BOOL animated = (animationType != JDFlipAnimationTypeNone);
+	BOOL animated = NO;
     
     // save new value
     _value = newValue;

@@ -498,20 +498,36 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
         xWidth = firstDigit.frame.size.width;
         margin = [self marginForWidth:xWidth];
         
-		for (i = 0; i < count; i++) {
+		for (i = 0; i < count - 2; i++) {
 			JDFlipNumberDigitView* view = self.digitViews[i];
 			view.frame = CGRectMake(round(xpos), 0, floor(xWidth), floor(frameSize.height));
             xpos = floor(CGRectGetMaxX(view.frame)+margin);
 		}
+        for (i = count - 2; i < count ; i++)
+        {
+            JDFlipNumberDigitView* view = self.digitViews[i];
+            view.frame = CGRectMake(round(xpos), 0, floor(xWidth - 10), floor(frameSize.height - 10));
+            xpos = floor(CGRectGetMaxX(view.frame)+margin);
+        }
         xpos -= margin;
         
         // center views in superview
         CGPoint centerOffset = CGPointMake(xpos, firstDigit.frame.size.height);
         centerOffset.x = floor((self.bounds.size.width - centerOffset.x)/2.0);
         centerOffset.y = floor((self.bounds.size.height - centerOffset.y)/2.0);
-        for (NSInteger i=0; i<count; i++) {
+        CGRect rect ;
+        for (NSInteger i=0; i<count-2; i++) {
 			JDFlipNumberDigitView* view = self.digitViews[i];
             view.frame = CGRectOffset(view.frame, centerOffset.x, centerOffset.y);
+            rect = view.frame;
+        }
+        for (NSInteger i=count-2; i<count; i++) {
+            JDFlipNumberDigitView* view = self.digitViews[i];
+//            view.frame = CGRectOffset(view.frame, centerOffset.x, centerOffset.y);
+            CGRect temp = view.frame;
+            temp.origin.x = temp.origin.x + centerOffset.x;
+            temp.origin.y = rect.origin.y;
+            view.frame = temp;
         }
         
         // stop upscaling, so sizeToFit works properly
