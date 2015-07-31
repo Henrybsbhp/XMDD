@@ -81,7 +81,12 @@ typedef enum : NSInteger
     else if (indexPath.row == 2) {
         return 10+(self.coverages.count+1)*30;
     }
-    return 88;
+    return 90;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return CGFLOAT_MIN;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -90,7 +95,7 @@ typedef enum : NSInteger
         return [self headerCellAtIndexPath:indexPath];
     }
     else if (indexPath.row == 1) {
-        return [self itemUnderCellAtIndexPath:indexPath];
+        return [self itemUponCellAtIndexPath:indexPath];
     }
     return [self itemUnderCellAtIndexPath:indexPath];
 }
