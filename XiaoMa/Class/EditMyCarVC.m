@@ -144,7 +144,6 @@
         
         [gToast showError:error.domain];
     }];
-
 }
 
 - (void) actionCancel:(id)sender
@@ -531,7 +530,7 @@
 - (BOOL)sharkCellIfErrorAtIndex:(NSInteger)index withData:(id)data errorMsg:(NSString *)msg
 {
     if (!data || [data isKindOfClass:[NSString class]] ? [(NSString *)data length] == 0 : NO) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:1];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:self.showHeaderView ? 1 : 0];
         [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
         [gToast showError:msg];
         return YES;

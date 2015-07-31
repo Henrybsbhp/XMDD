@@ -16,6 +16,8 @@
 
 @property (nonatomic, copy, readonly) NSString *appVersion;
 @property (nonatomic, copy, readonly) NSString *osVersion;
+///设备型号
+@property (nonatomic, copy, readonly) NSString *deviceModel;
 ///设备唯一标识
 @property (nonatomic, strong, readonly) NSString *deviceID;
 

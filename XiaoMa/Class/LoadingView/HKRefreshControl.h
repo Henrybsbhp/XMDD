@@ -14,5 +14,6 @@
 - (id)initWithScrollView:(UIScrollView *)scrollView;
 - (void)beginRefreshing;
 - (void)endRefreshing;
+- (void)restartAnimatingIfNeeded;
 
 @end
