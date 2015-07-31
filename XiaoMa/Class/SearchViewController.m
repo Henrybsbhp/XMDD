@@ -26,6 +26,7 @@
 @property (nonatomic,strong)NSArray * resultArray;
 
 @property (nonatomic)BOOL isSearching;
+@property (nonatomic)BOOL isLoading;
 
 /// 每页数量
 @property (nonatomic, assign) NSUInteger pageAmount;
@@ -192,7 +193,10 @@
     {
         self.isSearching = YES;
         
-        [self searchShops];
+        if (!self.isLoading)
+        {
+            [self searchShops];
+        }
         
         for (NSString * keyword in self.historyArray)
         {
@@ -246,28 +250,33 @@
     op.orderby = 1;
     
     [self.tableView hideDefaultEmptyView];
+    self.isLoading = YES;
     
     [[[op rac_postRequest] initially:^{
         
     }] subscribeNext:^(GetShopByNameOp * op) {
         
+        self.isLoading = NO;
         [self.searchBar resignFirstResponder];
         if (op.rsp_code == 0)
         {
+            self.isSearching = YES;
             self.currentPageIndex = self.currentPageIndex + 1;
             
             self.resultArray = op.rsp_shopArray;
             if (self.resultArray.count == 0)
             {
                 self.tableView.showBottomLoadingView = YES;
-//                [self.tableView.bottomLoadingView showIndicatorTextWith:@"附近没有您要找的商户"];
+                [self.tableView.bottomLoadingView hideIndicatorText];
                 [self.tableView showDefaultEmptyViewWithText:@"附近没有您要找的商户"];
             }
             else
             {
+                [self.tableView hideDefaultEmptyView];
                 if (op.rsp_shopArray.count >= self.pageAmount)
                 {
                     self.isRemain = YES;
+                    [self.tableView.bottomLoadingView hideIndicatorText];
                 }
                 else
                 {
@@ -284,6 +293,7 @@
         }
     } error:^(NSError *error) {
         
+        self.isLoading = NO;
         [self.searchBar becomeFirstResponder];
     }];
 
@@ -309,13 +319,16 @@
         
         [self.tableView.bottomLoadingView hideIndicatorText];
         [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
+        self.isLoading = YES;
     }] subscribeNext:^(GetShopByNameOp * op) {
         
         self.currentPageIndex = self.currentPageIndex + 1;
         [self.tableView.bottomLoadingView stopActivityAnimation];
+        self.isLoading = NO;
         if(op.rsp_code == 0)
         {
             self.currentPageIndex ++;
+            [self.tableView hideDefaultEmptyView];
             if (op.rsp_shopArray.count >= self.pageAmount)
             {
                 self.isRemain = YES;
@@ -340,6 +353,7 @@
             [self.tableView.bottomLoadingView showIndicatorTextWith:@"获取失败，再拉拉看"];
         }
     } error:^(NSError *error) {
+        self.isLoading = NO;
         [self.tableView.bottomLoadingView showIndicatorTextWith:@"获取失败，再拉拉看"];
         
     }];
@@ -426,8 +440,10 @@
         UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
         UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
         
-        RAC(logoV, image) = [gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                                                   withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"];
+        [[[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
+                               withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            logoV.image = x;
+        }];
         titleL.text = shop.shopName;
         ratingV.ratingValue = shop.shopRate;
         ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
@@ -583,14 +599,19 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [MobClick event:@"rp103-4"];
-    [self search];
+        [self search];
 }
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
     self.tableView.showBottomLoadingView = NO;
     [self.tableView hideDefaultEmptyView];
-//    [self.tableView reloadData];
+    if (!self.searchBar.text.length)
+    {
+        self.isSearching = NO;
+        [self.tableView reloadData];
+        self.tableView.showBottomLoadingView = NO;
+    }
     
     return YES;
 }
