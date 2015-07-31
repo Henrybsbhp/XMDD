@@ -53,6 +53,10 @@
                 }
                 
                 self.statusCode = [[jsonMemo objectForKey:@"ResultStatus"] intValue];
+                if (self.statusCode == 0)
+                {
+                    self.statusCode = [[jsonMemo objectForKey:@"resultStatus"] intValue];
+                }
                 self.statusMessage = [jsonMemo objectForKey:@"memo"];
                 if (self.statusCode != 9000) {
                     break;

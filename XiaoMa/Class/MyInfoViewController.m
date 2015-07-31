@@ -20,7 +20,7 @@
 
 @property (nonatomic)NSInteger sex;
 @property (nonatomic,strong)NSDate * birthday;
-@property (nonatomic, strong) UIImage *avatar;
+@property (nonatomic,strong) UIImage *avatar;
 
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
 
@@ -31,17 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if (!gAppMgr.myUser)
-    {
-                [self requestUserInfo];
-    }
-    else
-    {
-        //        [[gUserInfoMgr rac_getUserInfo:YES] subscribeNext:^(UserInfo * userInfo) {
-        //
-        //            [self.table reloadData];
-        //        }];
-    }
+    [self requestUserInfo];
     [self setupSignals];
     [self setupTableView];
 }
@@ -335,7 +325,7 @@
         return UIImageJPEGRepresentation(img, 1.0);
     }];
     
-    [[[[op rac_postRequest] flattenMap:^RACStream *(UploadFileOp *uploadOp) {
+    [[[[[op rac_postRequest] flattenMap:^RACStream *(UploadFileOp *uploadOp) {
         UpdateUserInfoOp * op = [UpdateUserInfoOp operation];
         op.avatarUrl = [uploadOp.rsp_urlArray safetyObjectAtIndex:0];
         op.nickname = gAppMgr.myUser.userName;
@@ -343,6 +333,14 @@
         op.birthday = gAppMgr.myUser.birthday;
         
         return [op rac_postRequest];
+    }] catch:^RACSignal *(NSError *error) {
+        
+        NSError * err = error;
+        if (error.code == -1009)
+        {
+            err = [NSError errorWithDomain:kDefErrorPormpt code:error.code userInfo:error.userInfo];
+        }
+        return [RACSignal error:err];
     }] initially:^{
         
         [gToast showingWithText:@"正在上传..."];

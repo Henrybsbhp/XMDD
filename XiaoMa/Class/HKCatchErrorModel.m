@@ -35,7 +35,7 @@
         //被抢登
         else if (code == -2003 && !self.alertView) {
             [HKLoginModel logout];
-            [self gotoRootViewWithAlertTitle:@"登出通知" msg:@"您的账号已经在其他设备登录,请重新登录后修改密码,确保帐号安全。"];
+            [self gotoRootViewWithAlertTitle:@"登出通知" msg:@"您的账号已经在其他设备登录,请重新登录后修改密码,确保账号安全。"];
             error = [NSError errorWithDomain:@"" code:error.code userInfo:nil];
         }
         return [RACSignal error:error];
