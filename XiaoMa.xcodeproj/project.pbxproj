@@ -186,6 +186,7 @@
 		6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B343C351B0EFFAF0036AED9 /* ShareUserCouponOp.m */; };
 		6B747A651AF08C7B00106BFD /* PhoneHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B747A641AF08C7B00106BFD /* PhoneHelper.m */; };
 		6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B82588F1AF8B37100D5D800 /* CommentListViewController.m */; };
+		6B978BFA1B6B643A00A6E7C6 /* HKCoverage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B978BF91B6B643A00A6E7C6 /* HKCoverage.m */; };
 		6BAF30181AE67CC800E35E08 /* GetSystemVersionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF30171AE67CC800E35E08 /* GetSystemVersionOp.m */; };
 		6BAF301D1AE6947F00E35E08 /* ClientInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301A1AE6947F00E35E08 /* ClientInfo.m */; };
 		6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301C1AE6947F00E35E08 /* DeviceInfo.m */; };
@@ -690,6 +691,8 @@
 		6B747A641AF08C7B00106BFD /* PhoneHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhoneHelper.m; path = Class/PhoneHelper.m; sourceTree = "<group>"; };
 		6B82588E1AF8B37100D5D800 /* CommentListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentListViewController.h; sourceTree = "<group>"; };
 		6B82588F1AF8B37100D5D800 /* CommentListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentListViewController.m; sourceTree = "<group>"; };
+		6B978BF81B6B643A00A6E7C6 /* HKCoverage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKCoverage.h; path = Class/HKCoverage.h; sourceTree = "<group>"; };
+		6B978BF91B6B643A00A6E7C6 /* HKCoverage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKCoverage.m; path = Class/HKCoverage.m; sourceTree = "<group>"; };
 		6BAF30161AE67CC800E35E08 /* GetSystemVersionOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemVersionOp.h; path = Class/GetSystemVersionOp.h; sourceTree = "<group>"; };
 		6BAF30171AE67CC800E35E08 /* GetSystemVersionOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemVersionOp.m; path = Class/GetSystemVersionOp.m; sourceTree = "<group>"; };
 		6BAF30191AE6947F00E35E08 /* ClientInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClientInfo.h; path = Class/ClientInfo.h; sourceTree = "<group>"; };
@@ -1301,6 +1304,8 @@
 				6BCA5F3F1B102A3700E1E630 /* HKCouponPkg.m */,
 				18D17F7E1B57782800F66F04 /* HKAddressComponent.h */,
 				18D17F7F1B57782800F66F04 /* HKAddressComponent.m */,
+				6B978BF81B6B643A00A6E7C6 /* HKCoverage.h */,
+				6B978BF91B6B643A00A6E7C6 /* HKCoverage.m */,
 			);
 			name = Dataset;
 			sourceTree = "<group>";
@@ -2712,6 +2717,7 @@
 				1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */,
 				18C81CBC1B17FE7B00B0C292 /* FeedbackVC.m in Sources */,
 				1851F4281B0C2A4E00241A01 /* AutoBrand.m in Sources */,
+				6B978BFA1B6B643A00A6E7C6 /* HKCoverage.m in Sources */,
 				18B2C73B1B13076B007FB0C7 /* README.md in Sources */,
 				1853DEB01AE0A10C00C39175 /* HKLoginModel.m in Sources */,
 				6BE2BD5B1AE6305600A69875 /* GetSystemPromotionOp.m in Sources */,
