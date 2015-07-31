@@ -240,13 +240,14 @@
 #pragma mark - Utility
 - (void)searchShops
 {
+    self.currentPageIndex = 1;
     NSString * searchInfo = self.searchBar.text;
     searchInfo = [self.searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     GetShopByNameOp * op = [GetShopByNameOp operation];
     op.shopName = searchInfo;
     op.longitude = self.coordinate.longitude;
     op.latitude = self.coordinate.latitude;
-    op.pageno = 1;
+    op.pageno = self.currentPageIndex;
     op.orderby = 1;
     
     [self.tableView hideDefaultEmptyView];
@@ -294,7 +295,14 @@
     } error:^(NSError *error) {
         
         self.isLoading = NO;
-        [self.searchBar becomeFirstResponder];
+        self.resultArray = nil;
+        @weakify(self);
+        [self.tableView showDefaultEmptyViewWithText:error.domain tapBlock:^{
+            
+            @strongify(self);
+            [self searchShops];
+        }];
+        [self.tableView reloadData];
     }];
 
 }
@@ -327,7 +335,6 @@
         self.isLoading = NO;
         if(op.rsp_code == 0)
         {
-            self.currentPageIndex ++;
             [self.tableView hideDefaultEmptyView];
             if (op.rsp_shopArray.count >= self.pageAmount)
             {
@@ -354,6 +361,8 @@
         }
     } error:^(NSError *error) {
         self.isLoading = NO;
+        self.tableView.showBottomLoadingView = YES;
+        [self.tableView.bottomLoadingView stopActivityAnimation];
         [self.tableView.bottomLoadingView showIndicatorTextWith:@"获取失败，再拉拉看"];
         
     }];
@@ -599,7 +608,7 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [MobClick event:@"rp103-4"];
-        [self search];
+    [self search];
 }
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
@@ -627,6 +636,7 @@
         {
             self.isSearching = NO;
             [self.tableView reloadData];
+            [self.tableView hideDefaultEmptyView];
             self.tableView.showBottomLoadingView = NO;
         }
     }

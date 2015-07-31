@@ -64,8 +64,15 @@
         }
         DebugLog(@"%@ Upload file success:%@ \ndata={%@}", kRspPrefix, url, dict);
         return self;
-    }] doError:^(NSError *error) {
+    }] catch:^RACSignal *(NSError *error) {
+        
         DebugLog(@"%@ Upload file error:%@,%@", kErrPrefix, url, error);
+        NSError * err = error;
+        if (error.code == -1009 || error.code == -1005)
+        {
+            err = [NSError errorWithDomain:kDefErrorPormpt code:error.code userInfo:error.userInfo];
+        }
+        return [RACSignal error:err];
     }] replay];
     
     return signal;
