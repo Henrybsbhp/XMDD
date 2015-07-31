@@ -128,7 +128,7 @@ typedef enum : NSInteger
     UIView *containerV = [cell.contentView viewWithTag:1000];
     //清除label
     [containerV.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    UIView *uponV;
+    id uponV = containerV;
     for (NSArray *item in self.titles) {
         UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         leftLabel.textColor = HEXCOLOR(@"#8b9e83");
@@ -140,19 +140,23 @@ typedef enum : NSInteger
         rightLabel.textColor = HEXCOLOR(@"#000000");
         rightLabel.font = [UIFont systemFontOfSize:14];
         rightLabel.text = [item safetyObjectAtIndex:1];
+        rightLabel.textAlignment = NSTextAlignmentRight;
         [containerV addSubview:rightLabel];
 
-        uponV = containerV;
         [leftLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(uponV).offset(4);
+            make.top.equalTo(uponV);
             make.left.equalTo(containerV);
+            make.height.mas_equalTo(22);
         }];
         [rightLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
         [rightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(leftLabel);
-            make.left.equalTo(leftLabel);
+            make.left.equalTo(leftLabel.mas_right);
             make.right.equalTo(containerV);
+            make.height.mas_equalTo(22);
         }];
+        
+        uponV = leftLabel.mas_bottom;
     }
     return cell;
 }

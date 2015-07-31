@@ -2063,6 +2063,9 @@
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ins_bg_upon" translatesAutoresizingMaskIntoConstraints="NO" id="50F-yw-htj">
                                                     <rect key="frame" x="12" y="0.0" width="296" height="160"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CI_9,14,23,14"/>
+                                                    </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <view tag="1000" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lxc-m6-3DU">
                                                     <rect key="frame" x="26" y="13" width="268" height="121"/>
@@ -2103,12 +2106,12 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ins_bg_under" translatesAutoresizingMaskIntoConstraints="NO" id="lfy-oP-div">
                                                     <rect key="frame" x="12" y="0.0" width="296" height="95"/>
                                                     <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CI_0,5,9,5"/>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CI_0,5,10,5"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <view tag="1000" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j7U-8s-q6O">
                                                     <rect key="frame" x="22" y="2" width="272" height="103"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
                                             <constraints>
@@ -2133,14 +2136,14 @@
                             </tableView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yQ6-kL-IEI">
                                 <rect key="frame" x="0.0" y="460" width="320" height="44"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.95908411609999999" alpha="1" colorSpace="calibratedWhite"/>
                                 <items/>
                                 <color key="barTintColor" white="0.95908411609999999" alpha="1" colorSpace="calibratedWhite"/>
                             </toolbar>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ddh-Mi-q7U">
-                                <rect key="frame" x="14" y="463" width="292" height="38"/>
+                                <rect key="frame" x="14" y="465" width="292" height="34"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="38" id="wVi-NL-tah"/>
+                                    <constraint firstAttribute="height" constant="34" id="wVi-NL-tah"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="去支付">
