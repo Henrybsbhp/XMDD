@@ -336,10 +336,10 @@
     }] catch:^RACSignal *(NSError *error) {
         
         NSError * err = error;
-        if (error.code == -1009)
-        {
-            err = [NSError errorWithDomain:kDefErrorPormpt code:error.code userInfo:error.userInfo];
-        }
+//        if (error.code == -1009 || error.code == -1005)
+//        {
+//            err = [NSError errorWithDomain:kDefErrorPormpt code:error.code userInfo:error.userInfo];
+//        }
         return [RACSignal error:err];
     }] initially:^{
         
