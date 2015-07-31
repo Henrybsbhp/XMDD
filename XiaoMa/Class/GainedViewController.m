@@ -46,6 +46,16 @@
 
 #pragma mark - Table view data source
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return CGFLOAT_MIN;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return CGFLOAT_MIN;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
     return 1;
@@ -88,6 +98,7 @@
     UILabel * amountLb = (UILabel *)[cell searchViewWithTag:20302];
     UIButton * checkCouponBtn = (UIButton *)[cell searchViewWithTag:104];
     UIButton * shareBtn = (UIButton *)[cell searchViewWithTag:105];
+    UILabel * noteLb = (UILabel *)[cell searchViewWithTag:106];
     
     NSInteger deviceWidth = (NSInteger)[[UIScreen mainScreen] bounds].size.width;
     NSString * imageName = [NSString stringWithFormat:@"award_bg_%ld",(long)deviceWidth];
