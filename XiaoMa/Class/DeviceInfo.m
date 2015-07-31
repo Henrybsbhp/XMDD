@@ -26,6 +26,7 @@
     _screenScale = [[UIScreen mainScreen] scale];
     
     _osVersion = [[UIDevice currentDevice] systemVersion];
+    _deviceModel = [[UIDevice currentDevice] model];
     
     NSDictionary* infoDict =[[NSBundle mainBundle] infoDictionary];
     _appVersion = [infoDict objectForKey:@"CFBundleShortVersionString"];
