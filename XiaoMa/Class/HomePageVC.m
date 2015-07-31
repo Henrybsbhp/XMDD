@@ -51,7 +51,9 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp101"];
+    [self.scrollView restartRefreshViewAnimatingWhenRefreshing];
 }
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
