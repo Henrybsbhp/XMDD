@@ -62,15 +62,15 @@
         vc.amount = op.rsp_amount;
         [self addChildViewController:vc];
         [self.view addSubview:vc.view];
-//        [self.navigationController pushViewController:vc animated:YES];
+        vc.view.frame = self.view.bounds;
     }
     else
     {
         GainAwardViewController * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"GainAwardViewController"];
         vc.gainedNum = op.rsp_total;
         [self addChildViewController:vc];
-         [self.view addSubview:vc.view];
-//        [self.navigationController pushViewController:vc animated:YES];
+        [self.view addSubview:vc.view];
+        vc.view.frame = self.view.bounds;
     }
 
 }
