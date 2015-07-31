@@ -7,6 +7,7 @@
 //
 
 #import "InsuranceOrderVC.h"
+#import "UIView+Layer.h"
 
 typedef enum : NSInteger
 {
@@ -27,10 +28,10 @@ typedef enum : NSInteger
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setupBottomButton];
+    [self reloadWithOrderStatus:InsuranceOrderStatusWaiting];
 }
 
-- (void)setupBottomButton
+- (void)resetBottomButton
 {
     NSString *bgName;
     if (self.orderStatus == InsuranceOrderStatusWaiting) {
@@ -46,9 +47,24 @@ typedef enum : NSInteger
 #pragma mark - Load
 - (void)reloadWithOrderStatus:(InsuranceOrderStatus)status
 {
+    self.orderStatus = status;
+    self.titles = @[@[@"被保险人",@"李美美"],
+                    @[@"保险公司",@"太平保险"],
+                    @[@"证件号码",@"330100101001010011"],
+                    @[@"投保车辆",@"浙A12345"],
+                    @[@"共计保费",@"￥4500.00"],
+                    @[@"保险期限",@"2015.06.01-2016.06.01"]];
+    self.coverages = @[@[@"机动车损失险",@"359555.00"],
+                       @[@"车上乘客责任险",@"1000.00/座*4座"],
+                       @[@"第三责任险",@"500000.00"],
+                       @[@"不计免赔险",@"1000.00/座*1座"],
+                       @[@"交强险",@"950.00"]];
+    [self resetBottomButton];
+    [self.tableView reloadData];
 }
 #pragma mark - Action
 - (IBAction)actionPay:(id)sender {
+    
 }
 
 #pragma mark - UITableViewDelegate
@@ -143,46 +159,46 @@ typedef enum : NSInteger
     //清除label
     [containerV.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     //第一行（标题）
+    UILabel *leftL;
+    UILabel *rightL;
     if (self.coverages.count > 0) {
-        UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        leftLabel.textColor = HEXCOLOR(@"#444b54");
-        leftLabel.font = [UIFont systemFontOfSize:14];
-        leftLabel.text = @"承保险种";
-        
-        UILabel *rightLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        rightLabel.textColor = HEXCOLOR(@"444b54");
-        rightLabel.font = [UIFont systemFontOfSize:14];
-        rightLabel.text = @"保险金额 / 责任限额(元)";
-        [containerV addSubview:leftLabel];
-        [containerV addSubview:rightLabel];
-        
-        [leftLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(containerV);
-            make.left.equalTo(containerV);
-            make.height.mas_equalTo(30);
-        }];
-        [rightLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
-        [rightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(containerV);
-            make.left.equalTo(leftLabel);
-            make.height.mas_equalTo(30);
-            make.right.equalTo(containerV);
-        }];
+        leftL = [self baseCoverageLabelForRight:NO uponView:containerV leftView:containerV containerView:containerV];
+        leftL.textColor = HEXCOLOR(@"#444b54");
+        leftL.text = @"承保险种";
+        leftL.backgroundColor = HEXCOLOR(@"#dae7f7");
+        rightL = [self baseCoverageLabelForRight:YES uponView:containerV leftView:leftL containerView:containerV];
+        rightL.textColor = HEXCOLOR(@"#444b54");
+        rightL.text = @"保险金额 / 责任限额(元)";
+        rightL.backgroundColor = HEXCOLOR(@"#dae7f7");
     }
     for (NSArray *item in self.coverages) {
-        UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        leftLabel.textColor = HEXCOLOR(@"#8b9e83");
-        leftLabel.font = [UIFont systemFontOfSize:14];
-        leftLabel.text = [item safetyObjectAtIndex:0];
-        [containerV addSubview:leftLabel];
-        
-        UILabel *rightLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        rightLabel.textColor = HEXCOLOR(@"#000000");
-        rightLabel.font = [UIFont systemFontOfSize:14];
-        rightLabel.text = [item safetyObjectAtIndex:1];
-        [containerV addSubview:rightLabel];
+        leftL = [self baseCoverageLabelForRight:NO uponView:leftL leftView:containerV containerView:containerV];
+        leftL.text = [item safetyObjectAtIndex:0];
+        rightL = [self baseCoverageLabelForRight:YES uponView:rightL leftView:leftL containerView:containerV];
+        rightL.text = [item safetyObjectAtIndex:1];
     }
     return cell;
+}
+
+- (UILabel *)baseCoverageLabelForRight:(BOOL)right uponView:(UIView *)uponV leftView:(UIView *)leftV containerView:(UIView *)containerV
+{
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.font = [UIFont systemFontOfSize:14];
+    label.backgroundColor = HEXCOLOR(@"#f1f7fd");
+    label.textColor = HEXCOLOR(@"#8b9e83");
+    [label setBorderLineColor:HEXCOLOR(@"#ccdbef") forDirectionMask:CKViewBorderDirectionAll];
+    [containerV addSubview:label];
+    
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(uponV);
+        make.left.equalTo(leftV);
+        make.height.mas_equalTo(30);
+        if (right) {
+            make.right.equalTo(containerV);
+        }
+    }];
+    
+    return label;
 }
 
 @end

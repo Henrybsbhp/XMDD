@@ -1748,18 +1748,18 @@
                                                     <rect key="frame" x="23" y="18" width="64" height="46"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" tag="10011" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ins_bg_left2" highlightedImage="ins_bg_left1" translatesAutoresizingMaskIntoConstraints="NO" id="yOU-ap-gmp">
-                                                            <rect key="frame" x="0.0" y="0.0" width="32" height="31"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="32" height="30"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="31" id="YRN-2r-U52"/>
+                                                                <constraint firstAttribute="height" constant="30" id="YRN-2r-U52"/>
                                                             </constraints>
                                                             <userDefinedRuntimeAttributes>
-                                                                <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CI_0,13,0,6#HCI_0,13,0,6"/>
+                                                                <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CI_0,13,0,7#HCI_0,13,0,7"/>
                                                             </userDefinedRuntimeAttributes>
                                                         </imageView>
                                                         <imageView userInteractionEnabled="NO" tag="10012" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ins_bg_right2" highlightedImage="ins_bg_right1" translatesAutoresizingMaskIntoConstraints="NO" id="QOa-oo-CyN">
-                                                            <rect key="frame" x="32" y="0.0" width="32" height="31"/>
+                                                            <rect key="frame" x="32" y="0.0" width="32" height="30"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="31" id="Mu8-AI-qJO"/>
+                                                                <constraint firstAttribute="height" constant="30" id="Mu8-AI-qJO"/>
                                                             </constraints>
                                                         </imageView>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6m9-WS-1u1">
@@ -1841,8 +1841,8 @@
                                                 <view tag="1003" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rto-xz-7xc">
                                                     <rect key="frame" x="128" y="18" width="64" height="46"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" tag="10031" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ins_bg_left2" highlightedImage="ins_bg_left1" translatesAutoresizingMaskIntoConstraints="NO" id="2uf-sT-zsa">
-                                                            <rect key="frame" x="0.0" y="0.0" width="32" height="31"/>
+                                                        <imageView userInteractionEnabled="NO" tag="10031" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="ins_bg_left2" highlightedImage="ins_bg_left1" translatesAutoresizingMaskIntoConstraints="NO" id="2uf-sT-zsa">
+                                                            <rect key="frame" x="0.0" y="0.0" width="32" height="30"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="31" id="RoB-gB-01B"/>
                                                             </constraints>
@@ -1850,8 +1850,8 @@
                                                                 <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CI_0,13,0,6#HCI_0,13,0,6"/>
                                                             </userDefinedRuntimeAttributes>
                                                         </imageView>
-                                                        <imageView userInteractionEnabled="NO" tag="10032" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ins_bg_right2" highlightedImage="ins_bg_right1" translatesAutoresizingMaskIntoConstraints="NO" id="Bha-f8-VjW">
-                                                            <rect key="frame" x="32" y="0.0" width="32" height="31"/>
+                                                        <imageView userInteractionEnabled="NO" tag="10032" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="ins_bg_right2" highlightedImage="ins_bg_right1" translatesAutoresizingMaskIntoConstraints="NO" id="Bha-f8-VjW">
+                                                            <rect key="frame" x="32" y="0.0" width="32" height="30"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="31" id="kWR-xP-m6S"/>
                                                             </constraints>
@@ -1935,8 +1935,8 @@
                                                 <view tag="1004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WVF-hT-YB7">
                                                     <rect key="frame" x="233" y="18" width="64" height="46"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" tag="10051" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ins_bg_left2" highlightedImage="ins_bg_left1" translatesAutoresizingMaskIntoConstraints="NO" id="awx-CA-zcs">
-                                                            <rect key="frame" x="0.0" y="0.0" width="32" height="31"/>
+                                                        <imageView userInteractionEnabled="NO" tag="10051" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="ins_bg_left2" highlightedImage="ins_bg_left1" translatesAutoresizingMaskIntoConstraints="NO" id="awx-CA-zcs">
+                                                            <rect key="frame" x="0.0" y="0.0" width="32" height="30"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="31" id="dMr-Fh-4Sj"/>
                                                             </constraints>
@@ -1944,8 +1944,8 @@
                                                                 <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CI_0,13,0,6#HCI_0,13,0,6"/>
                                                             </userDefinedRuntimeAttributes>
                                                         </imageView>
-                                                        <imageView userInteractionEnabled="NO" tag="10052" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ins_bg_right2" highlightedImage="ins_bg_right1" translatesAutoresizingMaskIntoConstraints="NO" id="S3y-YH-LA8">
-                                                            <rect key="frame" x="32" y="0.0" width="32" height="31"/>
+                                                        <imageView userInteractionEnabled="NO" tag="10052" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="ins_bg_right2" highlightedImage="ins_bg_right1" translatesAutoresizingMaskIntoConstraints="NO" id="S3y-YH-LA8">
+                                                            <rect key="frame" x="32" y="0.0" width="32" height="30"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="31" id="TTw-xb-TWs"/>
                                                             </constraints>
