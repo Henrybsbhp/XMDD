@@ -1917,38 +1917,6 @@
             endingLineNumber = "349"
             landmarkName = "-pickerAvatar:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__37-[MyInfoViewController pickerAvatar:]_block_invoke_3"
-                  moduleName = "XiaoMa"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jt/Documents/xmdd_ios/XiaoMa/Class/MyInfoViewController.m"
-                  timestampString = "460019902.761578"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "349"
-                  endingLineNumber = "349"
-                  offsetFromSymbolStart = "108">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__37-[MyInfoViewController pickerAvatar:]_block_invoke_4"
-                  moduleName = "XiaoMa"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jt/Documents/xmdd_ios/XiaoMa/Class/MyInfoViewController.m"
-                  timestampString = "460019902.761804"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "349"
-                  endingLineNumber = "349"
-                  offsetFromSymbolStart = "56">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

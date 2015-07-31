@@ -33,7 +33,7 @@ typedef enum : NSUInteger {
     InsuranceTypeContractualTerms//特约条款
 } InsuranceType;
 
-@interface HKCoverages : NSObject
+@interface HKCoverage : NSObject
 
 @property (nonatomic,copy)NSString * coverageName;
 
@@ -49,4 +49,4 @@ typedef enum : NSUInteger {
  */
 @property (nonatomic)NSArray * params;
 
-- (CGFloat)calcInsurancePrice;
+@end

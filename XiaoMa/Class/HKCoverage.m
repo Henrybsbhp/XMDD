@@ -10,6 +10,5 @@
 
 @implementation HKCoverage
 
-- 
 
 @end

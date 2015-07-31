@@ -188,6 +188,7 @@
 		6B747A651AF08C7B00106BFD /* PhoneHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B747A641AF08C7B00106BFD /* PhoneHelper.m */; };
 		6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B82588F1AF8B37100D5D800 /* CommentListViewController.m */; };
 		6B978BFA1B6B643A00A6E7C6 /* HKCoverage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B978BF91B6B643A00A6E7C6 /* HKCoverage.m */; };
+		6B978BFD1B6B68AA00A6E7C6 /* InsuranceCalcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B978BFC1B6B68AA00A6E7C6 /* InsuranceCalcHelper.m */; };
 		6BAF30181AE67CC800E35E08 /* GetSystemVersionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF30171AE67CC800E35E08 /* GetSystemVersionOp.m */; };
 		6BAF301D1AE6947F00E35E08 /* ClientInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301A1AE6947F00E35E08 /* ClientInfo.m */; };
 		6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301C1AE6947F00E35E08 /* DeviceInfo.m */; };
@@ -696,6 +697,8 @@
 		6B82588F1AF8B37100D5D800 /* CommentListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentListViewController.m; sourceTree = "<group>"; };
 		6B978BF81B6B643A00A6E7C6 /* HKCoverage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKCoverage.h; path = Class/HKCoverage.h; sourceTree = "<group>"; };
 		6B978BF91B6B643A00A6E7C6 /* HKCoverage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKCoverage.m; path = Class/HKCoverage.m; sourceTree = "<group>"; };
+		6B978BFB1B6B68AA00A6E7C6 /* InsuranceCalcHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InsuranceCalcHelper.h; path = Class/InsuranceCalcHelper.h; sourceTree = "<group>"; };
+		6B978BFC1B6B68AA00A6E7C6 /* InsuranceCalcHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsuranceCalcHelper.m; path = Class/InsuranceCalcHelper.m; sourceTree = "<group>"; };
 		6BAF30161AE67CC800E35E08 /* GetSystemVersionOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemVersionOp.h; path = Class/GetSystemVersionOp.h; sourceTree = "<group>"; };
 		6BAF30171AE67CC800E35E08 /* GetSystemVersionOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemVersionOp.m; path = Class/GetSystemVersionOp.m; sourceTree = "<group>"; };
 		6BAF30191AE6947F00E35E08 /* ClientInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClientInfo.h; path = Class/ClientInfo.h; sourceTree = "<group>"; };
@@ -2097,6 +2100,8 @@
 				6BBB083E1B021EA90002C349 /* JTCatureScreen */,
 				6BBAB8CC1ADE059300EC342F /* DistanceCalcHelper.h */,
 				6BBAB8CD1ADE059300EC342F /* DistanceCalcHelper.m */,
+				6B978BFB1B6B68AA00A6E7C6 /* InsuranceCalcHelper.h */,
+				6B978BFC1B6B68AA00A6E7C6 /* InsuranceCalcHelper.m */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -2711,6 +2716,7 @@
 				1853DEB41AE0A26700C39175 /* DebugFormat.m in Sources */,
 				1816F4A71ACD3B0900BBCC96 /* SYPaginatorView.m in Sources */,
 				186984FB1B00CC50000A182A /* CarwashOrderDetailVC.m in Sources */,
+				6B978BFD1B6B68AA00A6E7C6 /* InsuranceCalcHelper.m in Sources */,
 				6BEA56C41AE24DCE000D19C1 /* APAuthV2Info.m in Sources */,
 				6BBAB8D41ADE3CBC00EC342F /* NSDate+DateForText.m in Sources */,
 				6BC220991AD7804800A4310E /* NSMutableDictionary+AddParams.m in Sources */,
