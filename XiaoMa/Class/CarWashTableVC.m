@@ -287,7 +287,7 @@
     @weakify(self);
     return [[[gMapHelper rac_getUserLocation] catch:^RACSignal *(NSError *error) {
         
-        NSError *mappedError = [NSError errorWithDomain:error.domain code:error.code userInfo:nil];
+        NSError *mappedError = [NSError errorWithDomain:@"" code:error.code userInfo:nil];
         mappedError.customTag = 1;
         return [RACSignal error:mappedError];
     }] flattenMap:^RACStream *(MAUserLocation *userLocation) {
