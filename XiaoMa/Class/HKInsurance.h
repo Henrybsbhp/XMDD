@@ -18,13 +18,6 @@
 
 ///险种金额
 @property (nonatomic,strong) NSString *coveragerValue;
-///险种金额
-@property (nonatomic) CGFloat coveragerPrice;
-
-/// 保险内容<SubInsurace>
-@property (nonatomic)NSArray * subInsuranceArray;
-
-@property (nonatomic)NSInteger type;
 
 @end
 
@@ -75,13 +68,18 @@ typedef enum : NSUInteger {
 
 @interface Insurance : SubInsurance
 
-@property (nonatomic,copy)NSString * insuranceName;
-
 @property (nonatomic)InsuranceCategory insCategory;
 
 /**
  *  是否包含不计免赔
  */
 @property (nonatomic)BOOL isContainExcludingDeductible;
+
+/**
+ *  相关参数,<NSDictory>
+ */
+@property (nonatomic)NSArray * params;
+
+- (CGFloat)calcInsurancePrice;
 
 @end
