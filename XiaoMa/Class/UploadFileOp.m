@@ -55,6 +55,12 @@
         return [gNetworkMgr.mediaClient rac_enqueueHTTPRequestOperation:op];
     }];
     
+    signal = [signal catch:^RACSignal *(NSError *error) {
+        
+        NSError *err = [NSError errorWithDomain:kDefErrorPormpt code:error.code userInfo:error.userInfo];
+        return [RACSignal error:err];
+    }];
+    
     signal = [[[signal map:^id(RACTuple *tuple) {
         NSData *data = tuple.second;
         NSDictionary *dict;
@@ -64,15 +70,9 @@
         }
         DebugLog(@"%@ Upload file success:%@ \ndata={%@}", kRspPrefix, url, dict);
         return self;
-    }] catch:^RACSignal *(NSError *error) {
+    }] doError:^(NSError *error) {
         
         DebugLog(@"%@ Upload file error:%@,%@", kErrPrefix, url, error);
-        NSError * err = error;
-        if (error.code == -1009 || error.code == -1005)
-        {
-            err = [NSError errorWithDomain:kDefErrorPormpt code:error.code userInfo:error.userInfo];
-        }
-        return [RACSignal error:err];
     }] replay];
     
     return signal;
