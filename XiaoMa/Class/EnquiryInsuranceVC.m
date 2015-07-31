@@ -213,6 +213,9 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return 8;
+    }
     return CGFLOAT_MIN;
 }
 
@@ -227,7 +230,7 @@
             return CGFLOAT_MIN;
         }
         NSInteger rowNumber = ceil(self.carList.count / 2.0);
-        return MAX(80, rowNumber*(35+10)+12 + 32);
+        return MAX(72, rowNumber*(35+10)+4 + 32);
     }
     return 44;
 }
@@ -284,7 +287,10 @@
 - (UITableViewCell *)headerCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"HeaderCell" forIndexPath:indexPath];
+    UIView *bgView = [cell.contentView viewWithTag:1000];
     UIView *containerView = [cell.contentView viewWithTag:1001];
+    bgView.clipsToBounds = YES;
+    bgView.layer.masksToBounds = YES;
     [containerView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     //正在加载
     [[RACObserve(self, isLoadingCars) takeUntilForCell:cell] subscribeNext:^(NSNumber *x) {
