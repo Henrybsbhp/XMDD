@@ -7,11 +7,13 @@
 //
 
 #import "InsuranceResultVC.h"
+#import "DrawingBoardView.h"
+#import "AnimationBoardView.h"
 
 @interface InsuranceResultVC ()
 
 @property (assign, nonatomic) InsuranceResult insuranceResultType;
-@property (weak, nonatomic) IBOutlet UIView *drawView;
+@property (weak, nonatomic) IBOutlet DrawingBoardView *drawView;
 @property (weak, nonatomic) IBOutlet UILabel *resultLabel;
 @property (weak, nonatomic) IBOutlet UILabel *failureContentLabel;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
@@ -35,13 +37,20 @@
         NSString * content = @"工作人员将尽快联系您，为您办理相关保险事宜，请保持手机畅通，谢谢您的信任，请耐心等待！";
         self.failureContentLabel.attributedText = [self setLabelContent:content];
         self.shareButton.hidden = YES;
+        
+        AnimationBoardView *animationView = [[AnimationBoardView alloc] init];
+        [animationView successAnimation];
+        [self.drawView addSubview:animationView];
+        
     }
     else if (self.insuranceResultType == PaySuccess) {
         self.resultLabel.text = @"恭喜，支付成功 ！";
-        self.resultLabel.textColor = [UIColor colorWithHex:@"#2db637" alpha:1.0f];
+        self.resultLabel.textColor = [UIColor colorWithHex:@"#20ab2a" alpha:1.0f];
         self.failureContentLabel.hidden = YES;
         self.shareButton.layer.masksToBounds = YES;
         self.shareButton.layer.cornerRadius = 11;
+        
+        [self.drawView drawSuccess];
     }
     else {
         self.resultLabel.text = @"支付失败 ！";
@@ -49,6 +58,8 @@
         NSString * content = @"失败原因：请检查网络！";
         self.failureContentLabel.attributedText = [self setLabelContent:content];
         self.shareButton.hidden = YES;
+        
+        [self.drawView drawFailure];
     }
 }
 
