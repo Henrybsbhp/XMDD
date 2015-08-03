@@ -8,6 +8,7 @@
 
 #import "InsuranceOrderVC.h"
 #import "UIView+Layer.h"
+#import "BorderLineLabel.h"
 
 typedef enum : NSInteger
 {
@@ -34,15 +35,23 @@ typedef enum : NSInteger
 - (void)resetBottomButton
 {
     NSString *bgName;
+    SEL action;
+    NSString *title;
     if (self.orderStatus == InsuranceOrderStatusWaiting) {
         bgName = @"ins_btn_bg4";
+        title = @"去支付";
+        action = @selector(actionPay:);
     }
     else {
         bgName = @"ins_btn_bg5";
+        title = @"联系客服";
+        action = @selector(actionMakeCall:);
     }
     UIImage *bg = [[UIImage imageNamed:bgName] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
     [self.bottomButton setBackgroundImage:bg forState:UIControlStateNormal];
-
+    [self.bottomButton setTitle:title forState:UIControlStateNormal];
+    [self.bottomButton removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
+    [self.bottomButton addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
 }
 #pragma mark - Load
 - (void)reloadWithOrderStatus:(InsuranceOrderStatus)status
@@ -63,7 +72,11 @@ typedef enum : NSInteger
     [self.tableView reloadData];
 }
 #pragma mark - Action
-- (IBAction)actionPay:(id)sender {
+- (void)actionPay:(id)sender {
+    
+}
+
+- (void)actionMakeCall:(id)sender {
     
 }
 
@@ -76,12 +89,12 @@ typedef enum : NSInteger
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 1) {
-        return 9+22+8+self.titles.count*18;
+        return 9+22+8+self.titles.count*22;
     }
     else if (indexPath.row == 2) {
-        return 10+(self.coverages.count+1)*30;
+        return 20+17+(self.coverages.count+1)*30;
     }
-    return 90;
+    return 96;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -100,6 +113,10 @@ typedef enum : NSInteger
     return [self itemUnderCellAtIndexPath:indexPath];
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+}
+
 #pragma mark - About Cell
 - (UITableViewCell *)headerCellAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -107,8 +124,8 @@ typedef enum : NSInteger
     UIImageView *line1 = (UIImageView *)[cell.contentView viewWithTag:1002];
     UIImageView *line2 = (UIImageView *)[cell.contentView viewWithTag:1004];
     [self resetStepViewInCell:cell highlight:(self.orderStatus == InsuranceOrderStatusWaiting) baseTag:10010];
-    [self resetStepViewInCell:cell highlight:(self.orderStatus == InsuranceOrderStatusPaid) baseTag:30010];
-    [self resetStepViewInCell:cell highlight:(self.orderStatus == InsuranceOrderStatusComplete) baseTag:50010];
+    [self resetStepViewInCell:cell highlight:(self.orderStatus == InsuranceOrderStatusPaid) baseTag:10030];
+    [self resetStepViewInCell:cell highlight:(self.orderStatus == InsuranceOrderStatusComplete) baseTag:10050];
     line1.highlighted = self.orderStatus != InsuranceOrderStatusComplete;
     line2.highlighted = self.orderStatus != InsuranceOrderStatusWaiting;
     return cell;
@@ -131,7 +148,7 @@ typedef enum : NSInteger
     id uponV = containerV;
     for (NSArray *item in self.titles) {
         UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        leftLabel.textColor = HEXCOLOR(@"#8b9e83");
+        leftLabel.textColor = HEXCOLOR(@"#8b9eb3");
         leftLabel.font = [UIFont systemFontOfSize:14];
         leftLabel.text = [item safetyObjectAtIndex:0];
         [containerV addSubview:leftLabel];
@@ -171,17 +188,19 @@ typedef enum : NSInteger
     UILabel *leftL;
     UILabel *rightL;
     if (self.coverages.count > 0) {
-        leftL = [self baseCoverageLabelForRight:NO uponView:containerV leftView:containerV containerView:containerV];
+        leftL = [self baseCoverageLabelForRight:NO uponView:nil leftView:nil containerView:containerV];
         leftL.textColor = HEXCOLOR(@"#444b54");
         leftL.text = @"承保险种";
         leftL.backgroundColor = HEXCOLOR(@"#dae7f7");
-        rightL = [self baseCoverageLabelForRight:YES uponView:containerV leftView:leftL containerView:containerV];
+        [leftL showBorderLineWithDirectionMask:CKViewBorderDirectionLeft | CKViewBorderDirectionBottom | CKViewBorderDirectionTop];
+        rightL = [self baseCoverageLabelForRight:YES uponView:nil leftView:leftL containerView:containerV];
         rightL.textColor = HEXCOLOR(@"#444b54");
         rightL.text = @"保险金额 / 责任限额(元)";
         rightL.backgroundColor = HEXCOLOR(@"#dae7f7");
+        [rightL showBorderLineWithDirectionMask:CKViewBorderDirectionAll];
     }
     for (NSArray *item in self.coverages) {
-        leftL = [self baseCoverageLabelForRight:NO uponView:leftL leftView:containerV containerView:containerV];
+        leftL = [self baseCoverageLabelForRight:NO uponView:leftL leftView:nil containerView:containerV];
         leftL.text = [item safetyObjectAtIndex:0];
         rightL = [self baseCoverageLabelForRight:YES uponView:rightL leftView:leftL containerView:containerV];
         rightL.text = [item safetyObjectAtIndex:1];
@@ -191,22 +210,28 @@ typedef enum : NSInteger
 
 - (UILabel *)baseCoverageLabelForRight:(BOOL)right uponView:(UIView *)uponV leftView:(UIView *)leftV containerView:(UIView *)containerV
 {
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    BorderLineLabel *label = [[BorderLineLabel alloc] initWithFrame:CGRectZero];
     label.font = [UIFont systemFontOfSize:14];
     label.backgroundColor = HEXCOLOR(@"#f1f7fd");
-    label.textColor = HEXCOLOR(@"#8b9e83");
+    label.textColor = HEXCOLOR(@"#8b9eb3");
     [label setBorderLineColor:HEXCOLOR(@"#ccdbef") forDirectionMask:CKViewBorderDirectionAll];
+    label.textAlignment = NSTextAlignmentCenter;
     [containerV addSubview:label];
     
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(uponV);
-        make.left.equalTo(leftV);
+        make.top.equalTo(uponV ? uponV.mas_bottom : containerV);
+        make.left.equalTo(leftV ? leftV.mas_right : containerV);
         make.height.mas_equalTo(30);
         if (right) {
             make.right.equalTo(containerV);
         }
+        if (leftV) {
+            make.width.equalTo(leftV.mas_width).multipliedBy(4.0/3.0);
+        }
     }];
-    
+    NSInteger mask = CKViewBorderDirectionLeft | CKViewBorderDirectionBottom;
+    mask |= right ? CKViewBorderDirectionRight : 0;
+    [label showBorderLineWithDirectionMask:mask];
     return label;
 }
 

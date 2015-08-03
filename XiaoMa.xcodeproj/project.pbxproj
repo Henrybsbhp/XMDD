@@ -178,6 +178,8 @@
 		18F813691B5F3561005F49B0 /* CKNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F813651B5F3561005F49B0 /* CKNavigationController.m */; };
 		18F8136A1B5F3561005F49B0 /* vertical_shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F813661B5F3561005F49B0 /* vertical_shadow.png */; };
 		18F8136B1B5F3561005F49B0 /* vertical_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F813671B5F3561005F49B0 /* vertical_shadow@2x.png */; };
+		18F93CD41B6F044D000325DD /* BorderLineLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F93CD31B6F044D000325DD /* BorderLineLabel.m */; };
+		18F93CD71B6F0A4A000325DD /* DashLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F93CD61B6F0A4A000325DD /* DashLine.m */; };
 		50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE7C911B6716B500675887 /* SelectScrollView.m */; };
 		6B086BA11AE3184D00659DB7 /* GetShopByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */; };
 		6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */; };
@@ -664,6 +666,10 @@
 		18F813651B5F3561005F49B0 /* CKNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKNavigationController.m; sourceTree = "<group>"; };
 		18F813661B5F3561005F49B0 /* vertical_shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vertical_shadow.png; sourceTree = "<group>"; };
 		18F813671B5F3561005F49B0 /* vertical_shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vertical_shadow@2x.png"; sourceTree = "<group>"; };
+		18F93CD21B6F044D000325DD /* BorderLineLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BorderLineLabel.h; path = Class/BorderLineLabel.h; sourceTree = "<group>"; };
+		18F93CD31B6F044D000325DD /* BorderLineLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BorderLineLabel.m; path = Class/BorderLineLabel.m; sourceTree = "<group>"; };
+		18F93CD51B6F0A4A000325DD /* DashLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashLine.h; path = Class/DashLine.h; sourceTree = "<group>"; };
+		18F93CD61B6F0A4A000325DD /* DashLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DashLine.m; path = Class/DashLine.m; sourceTree = "<group>"; };
 		50BE7C901B6716B500675887 /* SelectScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectScrollView.h; path = Class/SelectScrollView.h; sourceTree = "<group>"; };
 		50BE7C911B6716B500675887 /* SelectScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectScrollView.m; path = Class/SelectScrollView.m; sourceTree = "<group>"; };
 		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1161,6 +1167,7 @@
 		1816F4B51AD36D5100BBCC96 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				18F93CD11B6F043C000325DD /* Label */,
 				50BE7C8F1B6715B400675887 /* SelectScrollView */,
 				1885F0BD1B1C4D940056D3BD /* Badge */,
 				181F6D8D1B14369B00D38555 /* DefaultEmptyView */,
@@ -1960,6 +1967,17 @@
 			path = CKNavigationController;
 			sourceTree = "<group>";
 		};
+		18F93CD11B6F043C000325DD /* Label */ = {
+			isa = PBXGroup;
+			children = (
+				18F93CD21B6F044D000325DD /* BorderLineLabel.h */,
+				18F93CD31B6F044D000325DD /* BorderLineLabel.m */,
+				18F93CD51B6F0A4A000325DD /* DashLine.h */,
+				18F93CD61B6F0A4A000325DD /* DashLine.m */,
+			);
+			name = Label;
+			sourceTree = "<group>";
+		};
 		50BE7C8F1B6715B400675887 /* SelectScrollView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2688,6 +2706,7 @@
 				186985011B01A731000A182A /* CarwashOrderCommentVC.m in Sources */,
 				186984FE1B00E277000A182A /* InsuranceOrderDetailVC.m in Sources */,
 				6BE2BD521AE62B1600A69875 /* GetInsuranceCalculatorOp.m in Sources */,
+				18F93CD71B6F0A4A000325DD /* DashLine.m in Sources */,
 				189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */,
 				186984F51B0098A2000A182A /* GetInsuranceOrderListOp.m in Sources */,
 				6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */,
@@ -2906,6 +2925,7 @@
 				181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */,
 				6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */,
 				18B2C7391B13076B007FB0C7 /* UIImage+PECrop.m in Sources */,
+				18F93CD41B6F044D000325DD /* BorderLineLabel.m in Sources */,
 				181F6D901B1436CA00D38555 /* UIView+DefaultEmptyView.m in Sources */,
 				18804AAE1B280E3C00E7E764 /* HKLoadingModel.m in Sources */,
 				6BBAB8C71ADD1ED900EC342F /* GetShopByDistanceOp.m in Sources */,
