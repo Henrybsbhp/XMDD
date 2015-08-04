@@ -122,18 +122,20 @@
             dict.customFlag = NO;
         }
         
-        //计算金额
+        
         NSObject * obj = [c.params safetyObjectAtIndex:index];
         obj.customFlag = YES;
+        
+        //计算金额
         [self calcTotalPrice];
         [self animateToTargetValue:(int)self.totalPrice];
         //刷新cell
         NSInteger i = [self.insuranceArry indexOfObject:c];
-        NSIndexPath *indexPath1 = [NSIndexPath indexPathForRow:i + 2 inSection:0];
+        NSIndexPath *indexPath1 = [NSIndexPath indexPathForRow:i + 1 inSection:0];
         NSArray * refreshArray ;
         if (c.customFlag && c.isContainExcludingDeductible)
         {
-            NSIndexPath *indexPath2 = [NSIndexPath indexPathForRow:i + 3 inSection:0];
+            NSIndexPath *indexPath2 = [NSIndexPath indexPathForRow:i + 2 inSection:0];
             refreshArray = @[indexPath1,indexPath2];
         }
         else
