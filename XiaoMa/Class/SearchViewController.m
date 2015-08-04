@@ -13,6 +13,7 @@
 #import "JTRatingView.h"
 #import "DistanceCalcHelper.h"
 #import "GetShopByNameOp.h"
+#import "UIView+Layer.h"
 
 @interface SearchViewController ()
 
@@ -448,6 +449,7 @@
         UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
         UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
         UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
+        UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
         
         [[[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
                                withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -457,6 +459,8 @@
         ratingV.ratingValue = shop.shopRate;
         ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
         addrL.text = shop.shopAddress;
+        
+        [statusL makeCornerRadius:3];
         
         double myLat = gMapHelper.coordinate.latitude;
         double myLng = gMapHelper.coordinate.longitude;

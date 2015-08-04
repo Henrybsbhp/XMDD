@@ -158,7 +158,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="2003" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cS9-tp-ZoB">
-                                                    <rect key="frame" x="540.5" y="93.5" width="44.5" height="21.5"/>
+                                                    <rect key="frame" x="540" y="93" width="44.5" height="21.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" red="0.97647058819999999" green="0.2274509804" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -173,6 +173,17 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1007" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="营业中" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d97-D3-Cle">
+                                                    <rect key="frame" x="544" y="35" width="42" height="17"/>
+                                                    <color key="backgroundColor" red="0.13447576736087913" green="0.671875" blue="0.13140508063196188" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="17" id="1L0-YR-lDD"/>
+                                                        <constraint firstAttribute="width" constant="42" id="iKg-sx-iil"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="11"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="zVi-P6-dIR" firstAttribute="leading" secondItem="zsG-eG-kJa" secondAttribute="trailing" constant="11" id="40a-mP-IdU"/>
@@ -190,6 +201,7 @@
                                                 <constraint firstItem="1Je-9E-rfR" firstAttribute="top" secondItem="QfZ-9D-QN3" secondAttribute="bottom" constant="16" id="JOl-Tv-QaG"/>
                                                 <constraint firstItem="QfZ-9D-QN3" firstAttribute="leading" secondItem="NJh-jG-cFJ" secondAttribute="leading" constant="12" id="JSL-mQ-fbx"/>
                                                 <constraint firstItem="zsG-eG-kJa" firstAttribute="leading" secondItem="NJh-jG-cFJ" secondAttribute="leading" constant="12" id="JrO-g3-4O4"/>
+                                                <constraint firstAttribute="trailing" secondItem="d97-D3-Cle" secondAttribute="trailing" constant="14" id="K5K-Br-7BO"/>
                                                 <constraint firstItem="aKn-eC-WGy" firstAttribute="leading" secondItem="NJh-jG-cFJ" secondAttribute="leading" id="KCl-MT-LO8"/>
                                                 <constraint firstItem="E1H-iB-t4w" firstAttribute="centerY" secondItem="Tdu-FI-jfb" secondAttribute="centerY" id="Kf4-sa-BJs"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="b38-Jd-Lkl" secondAttribute="trailing" constant="12" id="NQ9-4p-BYf"/>
@@ -198,6 +210,7 @@
                                                 <constraint firstItem="etJ-j1-SM3" firstAttribute="centerY" secondItem="zVi-P6-dIR" secondAttribute="centerY" id="Rge-0u-49H"/>
                                                 <constraint firstItem="zVi-P6-dIR" firstAttribute="bottom" secondItem="zsG-eG-kJa" secondAttribute="bottom" constant="2" id="Uhc-9A-Jfv"/>
                                                 <constraint firstItem="b38-Jd-Lkl" firstAttribute="leading" secondItem="Lsb-gt-BIK" secondAttribute="trailing" constant="4" id="UyC-xh-Gxu"/>
+                                                <constraint firstItem="d97-D3-Cle" firstAttribute="top" secondItem="Tdu-FI-jfb" secondAttribute="bottom" constant="-16" id="XdO-CY-zST"/>
                                                 <constraint firstItem="QfZ-9D-QN3" firstAttribute="top" secondItem="NJh-jG-cFJ" secondAttribute="top" constant="81" id="YT8-LJ-r64"/>
                                                 <constraint firstAttribute="bottom" secondItem="aKn-eC-WGy" secondAttribute="bottom" id="bG5-O3-UuM"/>
                                                 <constraint firstItem="aKn-eC-WGy" firstAttribute="top" secondItem="JDz-wI-O8B" secondAttribute="bottom" constant="5" id="egq-DD-gZ6"/>
@@ -1691,8 +1704,20 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1007" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="营业中" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U0I-Mj-vLA">
+                                                    <rect key="frame" x="544" y="37" width="42" height="17"/>
+                                                    <color key="backgroundColor" red="0.1344757674" green="0.671875" blue="0.1314050806" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="17" id="YSN-Zs-FKt"/>
+                                                        <constraint firstAttribute="width" constant="42" id="lgr-ES-fci"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="11"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="U0I-Mj-vLA" firstAttribute="top" secondItem="I15-aG-Bdl" secondAttribute="bottom" constant="-14" id="0Ot-de-h1n"/>
                                                 <constraint firstItem="BkN-3K-13X" firstAttribute="top" secondItem="rNF-Im-C2j" secondAttribute="bottom" constant="5" id="22i-xn-Ehc"/>
                                                 <constraint firstItem="a3U-jh-nBw" firstAttribute="leading" secondItem="JgD-oD-7ux" secondAttribute="leading" constant="12" id="2Xm-AO-ZXB"/>
                                                 <constraint firstItem="rNF-Im-C2j" firstAttribute="leading" secondItem="Cyy-L0-epg" secondAttribute="trailing" priority="750" constant="5" id="3Aw-Aj-Kjc"/>
@@ -1700,6 +1725,7 @@
                                                 <constraint firstItem="5AP-HN-Jr5" firstAttribute="leading" secondItem="jyB-ho-WBy" secondAttribute="trailing" constant="12" id="EJR-rV-dqM"/>
                                                 <constraint firstAttribute="trailing" secondItem="FFf-gP-iXD" secondAttribute="trailing" constant="12" id="FWC-56-QcQ"/>
                                                 <constraint firstItem="FFf-gP-iXD" firstAttribute="top" secondItem="JgD-oD-7ux" secondAttribute="top" constant="81" id="GFt-78-yDw"/>
+                                                <constraint firstAttribute="trailing" secondItem="U0I-Mj-vLA" secondAttribute="trailing" constant="14" id="I5w-dn-eej"/>
                                                 <constraint firstItem="jyB-ho-WBy" firstAttribute="top" secondItem="JgD-oD-7ux" secondAttribute="top" constant="13" id="J9u-88-dS8"/>
                                                 <constraint firstItem="5AP-HN-Jr5" firstAttribute="top" secondItem="jyB-ho-WBy" secondAttribute="top" id="KTO-Cp-SDO"/>
                                                 <constraint firstItem="ucm-rQ-4mG" firstAttribute="leading" secondItem="gDc-md-Yua" secondAttribute="trailing" constant="4" id="Nr8-os-z2o"/>

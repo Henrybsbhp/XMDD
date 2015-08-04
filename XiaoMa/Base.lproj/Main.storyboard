@@ -733,6 +733,17 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1007" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="营业中" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ddr-uS-4Ay">
+                                                    <rect key="frame" x="544" y="37" width="42" height="17"/>
+                                                    <color key="backgroundColor" red="0.1344757674" green="0.671875" blue="0.1314050806" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="42" id="8jv-aw-hPa"/>
+                                                        <constraint firstAttribute="height" constant="17" id="ID5-Pi-WsG"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="11"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="XfA-HO-knU" firstAttribute="leading" secondItem="98Y-jA-4iE" secondAttribute="leading" constant="12" id="027-XN-15u"/>
@@ -749,6 +760,7 @@
                                                 <constraint firstItem="Ueh-kZ-boa" firstAttribute="leading" secondItem="Jai-jP-Yjo" secondAttribute="trailing" constant="6" id="Gca-j3-FyK"/>
                                                 <constraint firstItem="HIU-FK-Odg" firstAttribute="top" secondItem="ofS-Ci-phA" secondAttribute="top" constant="9" id="LgG-60-eXs"/>
                                                 <constraint firstItem="nht-Vd-qg7" firstAttribute="top" secondItem="ofS-Ci-phA" secondAttribute="bottom" constant="5" id="Mgx-ud-pCg"/>
+                                                <constraint firstItem="Ddr-uS-4Ay" firstAttribute="top" secondItem="NzM-MZ-oW5" secondAttribute="bottom" constant="-14" id="OKV-6v-yQF"/>
                                                 <constraint firstItem="aGP-G1-ryB" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="b20-VF-3uU" secondAttribute="leading" constant="-10" id="Uh5-2n-dww"/>
                                                 <constraint firstItem="b6K-vo-yaf" firstAttribute="leading" secondItem="98Y-jA-4iE" secondAttribute="leading" constant="12" id="Y65-Qr-gof"/>
                                                 <constraint firstItem="b6K-vo-yaf" firstAttribute="centerY" secondItem="98Y-jA-4iE" secondAttribute="centerY" id="Yla-n8-81h"/>
@@ -772,6 +784,7 @@
                                                 <constraint firstItem="1ib-qy-4dz" firstAttribute="top" secondItem="Jai-jP-Yjo" secondAttribute="bottom" constant="2" id="nTG-0B-t7M"/>
                                                 <constraint firstItem="ofS-Ci-phA" firstAttribute="top" secondItem="gmV-9s-llS" secondAttribute="top" constant="-5" id="okM-3h-8kk"/>
                                                 <constraint firstItem="NzM-MZ-oW5" firstAttribute="leading" secondItem="1ib-qy-4dz" secondAttribute="trailing" constant="14" id="sD6-1H-jBq"/>
+                                                <constraint firstAttribute="trailing" secondItem="Ddr-uS-4Ay" secondAttribute="trailing" constant="14" id="srM-cd-4Hf"/>
                                                 <constraint firstItem="HBo-HQ-A74" firstAttribute="leading" secondItem="98Y-jA-4iE" secondAttribute="leading" constant="12" id="sth-3C-e1A"/>
                                                 <constraint firstItem="HIU-FK-Odg" firstAttribute="leading" secondItem="gmV-9s-llS" secondAttribute="trailing" priority="750" constant="5" id="waR-BE-wDv"/>
                                                 <constraint firstAttribute="trailing" secondItem="nht-Vd-qg7" secondAttribute="trailing" constant="5" id="waS-Ra-LMY"/>

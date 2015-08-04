@@ -24,6 +24,7 @@
 #import "WebVC.h"
 #import "HKAdvertisement.h"
 #import "UIView+DefaultEmptyView.h"
+#import "NSDate+DateForText.h"
 
 
 
@@ -385,13 +386,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];
     JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
-    //row 0  缩略图、名称、评分、地址、距离等
+    //row 0  缩略图、名称、评分、地址、距离、营业状况等
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1003];
     UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
+    UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
 
     
     [[[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] takeUntilForCell:cell] subscribeNext:^(UIImage * image) {
@@ -402,6 +404,11 @@
     ratingV.ratingValue = shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
     addrL.text = shop.shopAddress;
+    
+    [statusL makeCornerRadius:3];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    DebugLog(@"!!!!%@___%@", shop.shopName,[formatter dateFromString:shop.openHour]);
     
     double myLat = self.userCoordinate.latitude;
     double myLng = self.userCoordinate.longitude;
@@ -414,7 +421,6 @@
     UILabel *washTypeL = (UILabel *)[cell.contentView viewWithTag:2001];
     UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:2002];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
-    
     
     JTShopService * service = [shop.shopServiceArray firstObjectByFilteringOperator:^BOOL(JTShopService * s) {
         return s.shopServiceType == ShopServiceCarWash;
@@ -494,6 +500,13 @@
 
 
 #pragma mark - Utility
+
+-(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
+{
+    NSDate * nowDate = [NSDate date];
+    return false;
+}
+
 - (NSAttributedString *)priceStringWithOldPrice:(NSNumber *)price1 curPrice:(NSNumber *)price2
 {
     NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
