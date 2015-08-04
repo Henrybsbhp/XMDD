@@ -405,7 +405,7 @@
 {
     if (self.isSearching)
     {
-        return 185;
+        return 180;
     }
     else
     {

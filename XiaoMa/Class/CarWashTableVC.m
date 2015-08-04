@@ -110,7 +110,6 @@
         SearchViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
         [self.navigationController pushViewController:vc animated:YES];
     }];
-    //LYW 下面两个方法是？
     [[self.searchField rac_newTextChannel] subscribeNext:^(id x) {
 
     }];
