@@ -34,21 +34,22 @@ typedef enum : NSInteger
 
 - (void)resetBottomButton
 {
-    NSString *bgName;
+    UIColor *bgColor;
     SEL action;
     NSString *title;
     if (self.orderStatus == InsuranceOrderStatusWaiting) {
-        bgName = @"ins_btn_bg4";
+        bgColor = HEXCOLOR(@"#ff5a00");
         title = @"去支付";
         action = @selector(actionPay:);
     }
     else {
-        bgName = @"ins_btn_bg5";
+        bgColor = HEXCOLOR(@"#23ac2d");
         title = @"联系客服";
         action = @selector(actionMakeCall:);
     }
-    UIImage *bg = [[UIImage imageNamed:bgName] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
-    [self.bottomButton setBackgroundImage:bg forState:UIControlStateNormal];
+    [self.bottomButton setBackgroundColor:bgColor];
+    self.bottomButton.layer.cornerRadius = 5.0;
+    self.bottomButton.layer.masksToBounds = YES;
     [self.bottomButton setTitle:title forState:UIControlStateNormal];
     [self.bottomButton removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
     [self.bottomButton addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
