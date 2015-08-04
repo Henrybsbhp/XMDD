@@ -13,6 +13,7 @@
 #import "HKAdvertisement.h"
 #import "EnquiryInsuranceVC.h"
 #import "WebVC.h"
+#import "InsuranceResultVC.h"
 
 @interface InsuranceVC ()<SYPaginatorViewDataSource,SYPaginatorViewDelegate>
 @property (nonatomic, strong) SYPaginatorView *adView;
@@ -92,9 +93,14 @@
 #pragma mark - Action
 - (IBAction)actionBuyInsuraceOline:(id)sender {
     [MobClick event:@"rp114-2"];
-    BuyInsuranceOnlineVC *vc = [UIStoryboard vcWithId:@"BuyInsuranceOnlineVC" inStoryboard:@"Insurance"];
-    vc.originVC = self;
-    [self.navigationController pushViewController:vc animated:YES];
+//    BuyInsuranceOnlineVC *vc = [UIStoryboard vcWithId:@"BuyInsuranceOnlineVC" inStoryboard:@"Insurance"];
+//    vc.originVC = self;
+//    [self.navigationController pushViewController:vc animated:YES];
+    
+    //支付成功失败弹出框测试，注释了爱车宝的网页页面，需要时请替换     LYW
+    InsuranceResultVC *resultVC = [UIStoryboard vcWithId:@"InsuranceResultVC" inStoryboard:@"Insurance"];
+    [resultVC setResultType:(arc4random() % 3)];
+    [self.navigationController pushViewController:resultVC animated:YES];
 }
 
 - (IBAction)actionEnquireInsurance:(id)sender {
