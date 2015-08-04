@@ -444,7 +444,7 @@ CGFloat SVProgressHUDRingThickness = 4;
     
     if(notification) {
         SVProgressHUD *__weak weakSelf=self;
-        [UIView animateWithDuration:animationDuration 
+        [UIView animateWithDuration:animationDuration
                               delay:0 
                             options:UIViewAnimationOptionAllowUserInteraction 
                          animations:^{

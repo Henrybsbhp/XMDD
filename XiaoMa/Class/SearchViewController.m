@@ -13,6 +13,7 @@
 #import "JTRatingView.h"
 #import "DistanceCalcHelper.h"
 #import "GetShopByNameOp.h"
+#import "UIView+Layer.h"
 
 @interface SearchViewController ()
 
@@ -378,6 +379,21 @@
     }];
 }
 
+-(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    
+    NSDate * nowDate = [NSDate date];
+    NSString * transStr = [formatter stringFromDate:nowDate];
+    NSDate * transDate = [formatter dateFromString:transStr];
+    
+    NSDate * beginDate = [formatter dateFromString:openHourStr];
+    NSDate * endDate = [formatter dateFromString:closeHourStr];
+    
+    return (transDate == [transDate earlierDate:beginDate]) || (transDate == [transDate laterDate:endDate]) ? NO : YES;
+}
+
 - (NSAttributedString *)priceStringWithOldPrice:(NSNumber *)price1 curPrice:(NSNumber *)price2
 {
         NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
@@ -405,7 +421,7 @@
 {
     if (self.isSearching)
     {
-        return 185;
+        return 180;
     }
     else
     {
@@ -448,6 +464,7 @@
         UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
         UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
         UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
+        UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
         
         [[[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
                                withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -457,6 +474,16 @@
         ratingV.ratingValue = shop.shopRate;
         ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
         addrL.text = shop.shopAddress;
+        
+        [statusL makeCornerRadius:3];
+        if ([self isBetween:shop.openHour and:shop.closeHour]) {
+            statusL.text = @"营业中";
+            statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
+        }
+        else {
+            statusL.text = @"已休息";
+            statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
+        }
         
         double myLat = gMapHelper.coordinate.latitude;
         double myLng = gMapHelper.coordinate.longitude;
