@@ -61,7 +61,7 @@
     if ([self shakeCellIfErrorAtIndex:0]) {
         return;
     }
-    [[self.smsModel rac_handleVcodeButtonClick:sender vcodeInputField:self.code withVcodeType:3 phone:[self textAtIndex:0]]
+    [[self.smsModel rac_handleVcodeButtonClick:sender vcodeInputField:self.code withVcodeType:2 phone:[self textAtIndex:0]]
      subscribeError:^(NSError *error) {
         [gToast showError:error.domain];
     }];
