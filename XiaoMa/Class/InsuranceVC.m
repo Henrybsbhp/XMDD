@@ -13,6 +13,7 @@
 #import "HKAdvertisement.h"
 #import "EnquiryInsuranceVC.h"
 #import "WebVC.h"
+#import "InsuranceResultVC.h"
 
 @interface InsuranceVC ()<SYPaginatorViewDataSource,SYPaginatorViewDelegate>
 @property (nonatomic, strong) SYPaginatorView *adView;
@@ -96,6 +97,10 @@
         EnquiryInsuranceVC *vc = [UIStoryboard vcWithId:@"EnquiryInsuranceVC" inStoryboard:@"Insurance"];
         [self.navigationController pushViewController:vc animated:YES];
     }
+//    //支付成功失败弹出框测试，注释了爱车宝的网页页面，需要时请替换     LYW
+//    InsuranceResultVC *resultVC = [UIStoryboard vcWithId:@"InsuranceResultVC" inStoryboard:@"Insurance"];
+//    [resultVC setResultType:(arc4random() % 3)];
+//    [self.navigationController pushViewController:resultVC animated:YES];
 }
 
 - (void)actionInsuranceDirectSelling {
@@ -124,7 +129,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     //保险询价
     if (indexPath.row == 0) {
-        [self actionInsuraceEnquiry];
+         [self actionInsuraceEnquiry];
     }
     //车险直销
     else if (indexPath.row == 1) {
