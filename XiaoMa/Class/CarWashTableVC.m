@@ -406,9 +406,14 @@
     addrL.text = shop.shopAddress;
     
     [statusL makeCornerRadius:3];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"HH:mm"];
-    DebugLog(@"!!!!%@___%@", shop.shopName,[formatter dateFromString:shop.openHour]);
+    if ([self isBetween:shop.openHour and:shop.closeHour]) {
+        statusL.text = @"营业中";
+        statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
+    }
+    else {
+        statusL.text = @"已休息";
+        statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
+    }
     
     double myLat = self.userCoordinate.latitude;
     double myLng = self.userCoordinate.longitude;
@@ -503,8 +508,17 @@
 
 -(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
 {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    
     NSDate * nowDate = [NSDate date];
-    return false;
+    NSString * transStr = [formatter stringFromDate:nowDate];
+    NSDate * transDate = [formatter dateFromString:transStr];
+    
+    NSDate * beginDate = [formatter dateFromString:openHourStr];
+    NSDate * endDate = [formatter dateFromString:closeHourStr];
+    
+    return (transDate == [transDate earlierDate:beginDate]) || (transDate == [transDate laterDate:endDate]) ? NO : YES;
 }
 
 - (NSAttributedString *)priceStringWithOldPrice:(NSNumber *)price1 curPrice:(NSNumber *)price2
