@@ -14,10 +14,19 @@
 @property (nonatomic)CGFloat carPrice;
 
 /**
- *  是否进口车
+ *  折扣率<NSNumber(险种id)，NSNumber（折扣率）>
  */
-@property (nonatomic)BOOL isImportedCar;
+@property (nonatomic,strong)NSDictionary * discountRateDict;
 
+
+
+/**
+ *  险种价格计算
+ *
+ *  @param converage 险种
+ *
+ *  @return 险种价格
+ */
 - (CGFloat)calcInsurancePrice:(HKCoverage *)converage;
 
 @end

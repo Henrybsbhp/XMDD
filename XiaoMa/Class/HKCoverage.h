@@ -40,13 +40,15 @@ typedef enum : NSUInteger {
 @property (nonatomic)InsuranceCategory insCategory;
 
 /**
- *  是否包含不计免赔
+ *  是否包含不计免赔,为了增加customFlag，做成number
  */
-@property (nonatomic)BOOL isContainExcludingDeductible;
+@property (nonatomic)NSNumber * isContainExcludingDeductible;
 
 /**
  *  相关参数,<NSDictory>
  */
 @property (nonatomic)NSArray * params;
+
+- (instancetype)initWithCategory:(InsuranceCategory)category;
 
 @end
