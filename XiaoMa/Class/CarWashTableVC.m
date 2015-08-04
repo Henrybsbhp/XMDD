@@ -24,6 +24,7 @@
 #import "WebVC.h"
 #import "HKAdvertisement.h"
 #import "UIView+DefaultEmptyView.h"
+#import "NSDate+DateForText.h"
 
 
 
@@ -110,7 +111,6 @@
         SearchViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
         [self.navigationController pushViewController:vc animated:YES];
     }];
-    //LYW 下面两个方法是？
     [[self.searchField rac_newTextChannel] subscribeNext:^(id x) {
 
     }];
@@ -386,13 +386,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];
     JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
-    //row 0  缩略图、名称、评分、地址、距离等
+    //row 0  缩略图、名称、评分、地址、距离、营业状况等
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1003];
     UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
+    UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
 
     
     [[[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] takeUntilForCell:cell] subscribeNext:^(UIImage * image) {
@@ -403,6 +404,16 @@
     ratingV.ratingValue = shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
     addrL.text = shop.shopAddress;
+    
+    [statusL makeCornerRadius:3];
+    if ([self isBetween:shop.openHour and:shop.closeHour]) {
+        statusL.text = @"营业中";
+        statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
+    }
+    else {
+        statusL.text = @"已休息";
+        statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
+    }
     
     double myLat = self.userCoordinate.latitude;
     double myLng = self.userCoordinate.longitude;
@@ -415,7 +426,6 @@
     UILabel *washTypeL = (UILabel *)[cell.contentView viewWithTag:2001];
     UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:2002];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
-    
     
     JTShopService * service = [shop.shopServiceArray firstObjectByFilteringOperator:^BOOL(JTShopService * s) {
         return s.shopServiceType == ShopServiceCarWash;
@@ -495,6 +505,22 @@
 
 
 #pragma mark - Utility
+
+-(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    
+    NSDate * nowDate = [NSDate date];
+    NSString * transStr = [formatter stringFromDate:nowDate];
+    NSDate * transDate = [formatter dateFromString:transStr];
+    
+    NSDate * beginDate = [formatter dateFromString:openHourStr];
+    NSDate * endDate = [formatter dateFromString:closeHourStr];
+    
+    return (transDate == [transDate earlierDate:beginDate]) || (transDate == [transDate laterDate:endDate]) ? NO : YES;
+}
+
 - (NSAttributedString *)priceStringWithOldPrice:(NSNumber *)price1 curPrice:(NSNumber *)price2
 {
     NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
