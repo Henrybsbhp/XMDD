@@ -62,8 +62,9 @@
 
 - (void)setupFlipNumberView
 {
-    self.flipNumberView.digitCount = 5;
-    [self animateToTargetValue:(int)self.totalPrice];
+    self.flipNumberView.isDecimal = YES;
+    self.flipNumberView.digitCount = 6;
+    [self animateToTargetValue:(NSInteger)(self.totalPrice * 100)];
 }
 
 - (void)animateToTargetValue:(NSInteger)targetValue;
@@ -128,7 +129,7 @@
         
         //计算金额
         [self calcTotalPrice];
-        [self animateToTargetValue:(int)self.totalPrice];
+        [self animateToTargetValue:(NSInteger)(self.totalPrice * 100)];
         //刷新cell
         NSInteger i = [self.insuranceArry indexOfObject:c];
         NSIndexPath *indexPath1 = [NSIndexPath indexPathForRow:i + 1 inSection:0];
@@ -243,7 +244,7 @@
                 }
                 
                 [self calcTotalPrice];
-                [self animateToTargetValue:(int)self.totalPrice];
+                [self animateToTargetValue:(NSInteger)(self.totalPrice * 100)];
             }];
         }
         else if (coverage.insCategory == InsuranceThirdPartyLiability ||
@@ -309,7 +310,7 @@
                 }
                 
                 [self calcTotalPrice];
-                [self animateToTargetValue:(int)self.totalPrice];
+                [self animateToTargetValue:(NSInteger)(self.totalPrice * 100)];
             }];
         }
         else
@@ -334,7 +335,7 @@
                 coverage.customFlag = !flag;
                 
                 [self calcTotalPrice];
-                [self animateToTargetValue:(int)self.totalPrice];
+                [self animateToTargetValue:(NSInteger)(self.totalPrice * 100)];
             }];
         }
     }

@@ -21,6 +21,7 @@ typedef void(^JDFlipAnimationCompletionBlock)(BOOL finished);
 @property (nonatomic, assign) BOOL reverseFlippingDisabled;
 @property (nonatomic, assign) NSUInteger zDistance;
 @property (nonatomic, assign) NSUInteger digitCount;
+@property (nonatomic)BOOL isDecimal;
 
 - (id)initWithDigitCount:(NSUInteger)digitCount;
 - (id)initWithDigitCount:(NSUInteger)digitCount

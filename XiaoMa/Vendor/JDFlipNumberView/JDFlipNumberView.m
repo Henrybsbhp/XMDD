@@ -23,6 +23,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 @interface JDFlipNumberView ()
 @property (nonatomic, copy) NSString *imageBundleName;
 @property (nonatomic, strong) NSArray *digitViews;
+@property (nonatomic, strong) UIImageView * pointView;
 @property (nonatomic, assign) JDFlipAnimationType animationType;
 
 @property (nonatomic, strong) NSTimer *animationTimer;
@@ -243,6 +244,12 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
         view = [[JDFlipNumberDigitView alloc] initWithImageBundle:self.imageBundleName];
         [self addSubview:view];
         [digitViews addObject:view];
+    }
+    if (self.isDecimal)
+    {
+        UIImageView * pointView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"point"]];
+        [self addSubview:pointView];
+        self.pointView = pointView;
     }
     self.digitViews = [digitViews copy];
     
@@ -485,29 +492,42 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
 		NSUInteger i, count = self.digitViews.count;
         NSUInteger margin = [self marginForWidth:frameSize.width];
         NSUInteger xWidth = ((frameSize.width-margin*(count-1))/count);
+        CGFloat pointWidth = xWidth / 6;
         
         // allow upscaling for layout
 		for (i = 0; i < count; i++) {
-			JDFlipNumberDigitView* view = self.digitViews[i];
+			JDFlipNumberDigitView* view = [self.digitViews safetyObjectAtIndex:i];
             view.upscalingAllowed = YES;
         }
         
         // apply calculated size to first digitView & update to actual sizes
-        JDFlipNumberDigitView *firstDigit = self.digitViews[0];
+        JDFlipNumberDigitView *firstDigit = [self.digitViews safetyObjectAtIndex:0];
         firstDigit.frame = CGRectMake(0, 0, floor(xWidth), floor(frameSize.height));
         xWidth = firstDigit.frame.size.width;
         margin = [self marginForWidth:xWidth];
         
-		for (i = 0; i < count - 2; i++) {
-			JDFlipNumberDigitView* view = self.digitViews[i];
-			view.frame = CGRectMake(round(xpos), 0, floor(xWidth), floor(frameSize.height));
-            xpos = floor(CGRectGetMaxX(view.frame)+margin);
-		}
-        for (i = count - 2; i < count ; i++)
+        //设为位置
+        if (self.isDecimal)
         {
-            JDFlipNumberDigitView* view = self.digitViews[i];
-            view.frame = CGRectMake(round(xpos), 0, floor(xWidth - 15), floor(frameSize.height - 15));
-            xpos = floor(CGRectGetMaxX(view.frame)+margin);
+            for (i = 0; i < count - 2; i++) {
+                JDFlipNumberDigitView* view = [self.digitViews safetyObjectAtIndex:i];
+                view.frame = CGRectMake(round(xpos), 0, floor(xWidth), floor(frameSize.height));
+                xpos = floor(CGRectGetMaxX(view.frame)+margin);
+            }
+            for (i = count - 2; i < count ; i++)
+            {
+                JDFlipNumberDigitView* view = [self.digitViews safetyObjectAtIndex:i];
+                view.frame = CGRectMake(round(xpos), 0, floor(xWidth - 15), floor(frameSize.height - 15));
+                xpos = floor(CGRectGetMaxX(view.frame)+margin);
+            }
+        }
+        else
+        {
+            for (i = 0; i < count; i++) {
+                JDFlipNumberDigitView* view = [self.digitViews safetyObjectAtIndex:i];
+                view.frame = CGRectMake(round(xpos), 0, floor(xWidth), floor(frameSize.height));
+                xpos = floor(CGRectGetMaxX(view.frame)+margin);
+            }
         }
         xpos -= margin;
         
@@ -515,19 +535,42 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
         CGPoint centerOffset = CGPointMake(xpos, firstDigit.frame.size.height);
         centerOffset.x = floor((self.bounds.size.width - centerOffset.x)/2.0);
         centerOffset.y = floor((self.bounds.size.height - centerOffset.y)/2.0);
-        CGRect rect ;
-        for (NSInteger i=0; i<count-2; i++) {
-			JDFlipNumberDigitView* view = self.digitViews[i];
-            view.frame = CGRectOffset(view.frame, centerOffset.x, centerOffset.y);
-            rect = view.frame;
+        CGRect lastIntegerRect;
+        
+        //设置offset
+        if (self.isDecimal)
+        {
+            for (NSInteger i=0; i<count-2; i++) {
+                JDFlipNumberDigitView* view = self.digitViews[i];
+                view.frame = CGRectOffset(view.frame, centerOffset.x, centerOffset.y);
+                lastIntegerRect = view.frame;
+            }
+            for (NSInteger i=count-2; i<count; i++) {
+                JDFlipNumberDigitView* view = self.digitViews[i];
+                //            view.frame = CGRectOffset(view.frame, centerOffset.x, centerOffset.y);
+                CGRect temp = view.frame;
+                temp.origin.x = temp.origin.x + centerOffset.x + 2 + pointWidth;
+                temp.origin.y = CGRectGetMaxY(firstDigit.frame) - CGRectGetHeight(temp);
+                view.frame = temp;
+            }
         }
-        for (NSInteger i=count-2; i<count; i++) {
+        else
+        {
+            for (NSInteger i=0; i<count; i++) {
             JDFlipNumberDigitView* view = self.digitViews[i];
-//            view.frame = CGRectOffset(view.frame, centerOffset.x, centerOffset.y);
-            CGRect temp = view.frame;
-            temp.origin.x = temp.origin.x + centerOffset.x + 2;
-            temp.origin.y = rect.origin.y;
-            view.frame = temp;
+            view.frame = CGRectOffset(view.frame, centerOffset.x, centerOffset.y);
+            }
+        }
+        
+        if (self.isDecimal)
+        {
+            CGFloat x = CGRectGetMaxX(lastIntegerRect) + margin;
+            CGFloat y = CGRectGetMaxY(firstDigit.frame) - pointWidth;
+            self.pointView.frame = CGRectMake(x, y, pointWidth, pointWidth);
+        }
+        else
+        {
+            self.pointView.frame = CGRectZero;
         }
         
         // stop upscaling, so sizeToFit works properly

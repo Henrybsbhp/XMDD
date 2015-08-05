@@ -72,16 +72,16 @@
             }
                 
             case InsuranceCarSeatInsuranceOfDriver:{
-                self.coverageName = @"车上人员座位险(司机)";
-                NSDictionary * d = @{@"key":@"1 万元/座",@"value":@(10000)};
+                self.coverageName = @"司机座位责任险";
+                NSDictionary * d = @{@"key":@"1万元",@"value":@(10000)};
                 d.customFlag = YES;
                 self.params = @[d,
-                                @{@"key":@"2 万元/座",@"value":@(20000)},
-                                @{@"key":@"3 万元/座",@"value":@(30000)},
-                                @{@"key":@"4 万元/座",@"value":@(40000)},
-                                @{@"key":@"5 万元/座",@"value":@(50000)},
-                                @{@"key":@"10 万元/座",@"value":@(100000)},
-                                @{@"key":@"20 万元/座",@"value":@(200000)}
+                                @{@"key":@"2万元",@"value":@(20000)},
+                                @{@"key":@"3万元",@"value":@(30000)},
+                                @{@"key":@"4万元",@"value":@(40000)},
+                                @{@"key":@"5万元",@"value":@(50000)},
+                                @{@"key":@"10万元",@"value":@(100000)},
+                                @{@"key":@"20万元",@"value":@(200000)}
                                 ];
                 self.isContainExcludingDeductible = @(1);
                 HKCoverage * subCoverage = [[HKCoverage alloc] initWithCategory:InsuranceExcludingDeductible4CarSeatInsuranceOfDriver];
@@ -92,16 +92,16 @@
             }
                 
             case InsuranceCarSeatInsuranceOfPassenger:{
-                self.coverageName = @"车上人员座位险(乘客)";
-                NSDictionary * d = @{@"key":@"1 万元/座",@"value":@(10000)};
+                self.coverageName = @"乘客座位责任险 ";
+                NSDictionary * d = @{@"key":@"1万元",@"value":@(10000)};
                 d.customFlag = YES;
                 self.params = @[d,
-                                @{@"key":@"2 万元/座",@"value":@(20000)},
-                                @{@"key":@"3 万元/座",@"value":@(30000)},
-                                @{@"key":@"4 万元/座",@"value":@(40000)},
-                                @{@"key":@"5 万元/座",@"value":@(50000)},
-                                @{@"key":@"10 万元/座",@"value":@(100000)},
-                                @{@"key":@"20 万元/座",@"value":@(200000)}
+                                @{@"key":@"2万元",@"value":@(20000)},
+                                @{@"key":@"3万元",@"value":@(30000)},
+                                @{@"key":@"4万元",@"value":@(40000)},
+                                @{@"key":@"5万元",@"value":@(50000)},
+                                @{@"key":@"10万元",@"value":@(100000)},
+                                @{@"key":@"20万元",@"value":@(200000)}
                                 ];
                 self.isContainExcludingDeductible = @(1);
                 HKCoverage * subCoverage = [[HKCoverage alloc] initWithCategory:InsuranceExcludingDeductible4CarSeatInsuranceOfPassenger];
@@ -144,11 +144,11 @@
                 break;
             }
             case InsuranceExcludingDeductible4CarSeatInsuranceOfDriver:{
-                self.coverageName = @"车上责任险(司机)不计免赔";
+                self.coverageName = @"司机座位责任险 不计免赔";
                 break;
             }
             case InsuranceExcludingDeductible4CarSeatInsuranceOfPassenger:{
-                self.coverageName = @"车上责任险(乘客)不计免赔";
+                self.coverageName = @"乘客座位责任险 不计免赔";
                 break;
             }
             case InsuranceExcludingDeductible4WholeCarStolen:{
