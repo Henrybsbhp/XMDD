@@ -58,7 +58,7 @@
     if ([self sharkCellIfErrorAtIndex:0]) {
         return;
     }
-    [[self.smsModel rac_handleVcodeButtonClick:sender vcodeInputField:self.code withVcodeType:3 phone:[self textAtIndex:0]]
+    [[self.smsModel rac_handleVcodeButtonClick:sender vcodeInputField:self.code withVcodeType:1 phone:[self textAtIndex:0]]
      subscribeNext:^(GetVcodeOp *op) {
          
     } error:^(NSError *error) {
