@@ -20,12 +20,14 @@
 #import "CommentListViewController.h"
 #import "EditMyCarVC.h"
 #import "AddUserFavoriteOp.h"
+#import "UIView+Layer.h"
 
 
 #define kDefaultServieCount     2
 
 @interface ShopDetailVC ()
 
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 /// 服务列表展开
 @property (nonatomic, assign) BOOL serviceExpanded;
 /// 是否已收藏标签
@@ -38,15 +40,23 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        self.tableView.estimatedRowHeight = 44;
+        self.tableView.rowHeight = UITableViewAutomaticDimension;
+    }
     
     [self setupNavigationBar];
-//    [self setupMyCarList];
     [self requestShopComments];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+    
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
     
     [MobClick beginLogPageView:@"rp105"];
     if([gAppMgr.myUser.favorites getFavoriteWithID:self.shop.shopID] == nil){
@@ -55,7 +65,6 @@
     else {
         self.favorite = YES;
     }
-    
     [self setupNavigationBar];
 }
 
@@ -63,6 +72,7 @@
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp105"];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 - (void)dealloc
 {
@@ -70,6 +80,11 @@
 }
 
 #pragma mark - SetupUI
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)setupNavigationBar
 {
     UIButton * collectBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 23)];
@@ -145,6 +160,8 @@
     }];
     UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithCustomView:collectBtn];
     self.navigationItem.rightBarButtonItem = item;
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
 - (void)setupMyCarList
@@ -253,7 +270,17 @@
             height = 44;
         }
         else if (indexPath.row < 3 + self.shop.shopServiceArray.count) {
-            height = [super tableView:tableView heightForRowAtIndexPath:indexPath];
+            if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+            {
+                return UITableViewAutomaticDimension;
+            }
+            
+            UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+            [cell layoutIfNeeded];
+            [cell setNeedsUpdateConstraints];
+            [cell updateConstraintsIfNeeded];
+            CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+            height = ceil(size.height+1);
         }
         else {
             height = 44;
@@ -266,7 +293,17 @@
         else {
             if (self.shop.shopCommentArray.count)
             {
-                height = [super tableView:tableView heightForRowAtIndexPath:indexPath];
+                if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+                {
+                    return UITableViewAutomaticDimension;
+                }
+                
+                UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+                [cell layoutIfNeeded];
+                [cell setNeedsUpdateConstraints];
+                [cell updateConstraintsIfNeeded];
+                CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+                height = ceil(size.height+1);
             }
             else
             {
@@ -296,12 +333,22 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 9;
+    return section == 0 ? 165 : 9;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 9;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return [self addSectionHeadView];
+    }
+    else {
+        return nil;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -410,53 +457,36 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ShopTitleCell"];
     JTShop *shop = self.shop;
-    UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
+    
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1003];
     UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *businessHoursLb = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
     UIButton *collectBtn = (UIButton *)[cell.contentView viewWithTag:1007];
-    
-    
-    UITapGestureRecognizer * gesture = logoV.customObject;
-    if (!gesture)
-    {
-        UITapGestureRecognizer *ge = [[UITapGestureRecognizer alloc] init];
-        [logoV addGestureRecognizer:ge];
-        logoV.userInteractionEnabled = YES;
-        logoV.customObject = ge;
-    }
-    gesture = logoV.customObject;
+    UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1008];
     
     @weakify(self)
-    [[[gesture rac_gestureSignal] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
-        [MobClick event:@"rp105-2"];
-        @strongify(self)
-        if (self.shop.picArray.count)
-        {
-            [self showImages:0];
-        }
-    }];
-    
     [[[collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self);
         [self requestAddUserFavorite:collectBtn];
     }];
     
-    
-    [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                            withType:ImageURLTypeThumbnail
-                          defaultPic:@"cm_shop" errorPic:@"cm_shop"] subscribeNext:^(UIImage * img) {
-        
-        logoV.image = img;
-    }];
     titleL.text = shop.shopName;
     ratingV.ratingValue = shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%0.1f分", shop.shopRate];
     businessHoursLb.text = [NSString stringWithFormat:@"营业时间：%@ - %@",self.shop.openHour,self.shop.closeHour];
+    
+    [statusL makeCornerRadius:3];
+    if ([self isBetween:shop.openHour and:shop.closeHour]) {
+        statusL.text = @"营业中";
+        statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
+    }
+    else {
+        statusL.text = @"已休息";
+        statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
+    }
     
     double myLat = gMapHelper.coordinate.latitude;
     double myLng = gMapHelper.coordinate.longitude;
@@ -602,6 +632,70 @@
 }
 
 #pragma mark - Utility
+-(UIView *) addSectionHeadView
+{
+    UIView * sectionHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 165)];
+    UIImageView * imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 165)];
+    imgView.clipsToBounds = YES;
+    imgView.contentMode = UIViewContentModeScaleAspectFill;
+    
+    JTShop *shop = self.shop;
+    [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
+                            withType:ImageURLTypeDetail
+                          defaultPic:@"cm_shop" errorPic:@"cm_shop"] subscribeNext:^(UIImage * img) {
+        
+        imgView.image = img;
+    }];
+    UITapGestureRecognizer * gesture = imgView.customObject;
+    if (!gesture)
+    {
+        UITapGestureRecognizer *ge = [[UITapGestureRecognizer alloc] init];
+        [imgView addGestureRecognizer:ge];
+        imgView.userInteractionEnabled = YES;
+        imgView.customObject = ge;
+    }
+    gesture = imgView.customObject;
+    
+    @weakify(self)
+    [[gesture rac_gestureSignal] subscribeNext:^(id x) {
+        
+        [MobClick event:@"rp105-2"];
+        @strongify(self)
+        if (self.shop.picArray.count)
+        {
+            [self showImages:0];
+        }
+    }];
+    
+    [sectionHeadView addSubview:imgView];
+    
+    UILabel * countLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 58, 132, 70, 23)];
+    countLabel.text = [NSString stringWithFormat:@"%d张", (int)shop.picArray.count];
+    countLabel.font = [UIFont systemFontOfSize:15];
+    countLabel.textColor = [UIColor colorWithHex:@"#ffffff" alpha:0.7];
+    countLabel.textAlignment = NSTextAlignmentCenter;
+    countLabel.backgroundColor = [UIColor colorWithHex:@"#000000" alpha:0.5];
+    [countLabel makeCornerRadius:13];
+    [sectionHeadView addSubview:countLabel];
+    
+    return sectionHeadView;
+}
+
+-(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    
+    NSDate * nowDate = [NSDate date];
+    NSString * transStr = [formatter stringFromDate:nowDate];
+    NSDate * transDate = [formatter dateFromString:transStr];
+    
+    NSDate * beginDate = [formatter dateFromString:openHourStr];
+    NSDate * endDate = [formatter dateFromString:closeHourStr];
+    
+    return (transDate == [transDate earlierDate:beginDate]) || (transDate == [transDate laterDate:endDate]) ? NO : YES;
+}
+
 - (NSAttributedString *)priceStringWithOldPrice:(NSNumber *)price1 curPrice:(NSNumber *)price2
 {
     NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
