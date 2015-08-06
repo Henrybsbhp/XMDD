@@ -169,10 +169,7 @@
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
     
-    [[gMediaMgr rac_getPictureForUrl:comment.avatarUrl withType:ImageURLTypeThumbnail defaultPic:@"avatar_default" errorPic:@"avatar_default"] subscribeNext:^(id x) {
-        
-        avatarV.image = x;
-    }];
+    [avatarV setImageByUrl:comment.avatarUrl withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
     
     return cell;
 }

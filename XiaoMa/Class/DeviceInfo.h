@@ -15,6 +15,7 @@
 @property (nonatomic, assign, readonly) CGFloat screenScale;
 
 @property (nonatomic, copy, readonly) NSString *appVersion;
+@property (nonatomic, copy, readonly) NSString *appLongVersion;
 @property (nonatomic, copy, readonly) NSString *osVersion;
 ///设备型号
 @property (nonatomic, copy, readonly) NSString *deviceModel;

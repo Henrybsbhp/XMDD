@@ -32,6 +32,7 @@ typedef enum : NSInteger {
     AuthByPwdOp *op = [AuthByPwdOp new];
     op.skey = [self skeyFromPassword:password];
     op.req_deviceID = gAppMgr.deviceInfo.deviceID;
+    op.req_appVersion = gAppMgr.deviceInfo.appLongVersion;
     return [[self rac_commonValidateTokenOp:op account:account token:nil] doNext:^(id x) {
         [gAppMgr resetWithAccount:account];
     }];
@@ -42,6 +43,7 @@ typedef enum : NSInteger {
     AuthByVcodeOp *op = [AuthByVcodeOp new];
     op.skey = [self skeyFromPassword:vCode];
     op.req_deviceID = gAppMgr.deviceInfo.deviceID;
+    op.req_appVersion = gAppMgr.deviceInfo.appLongVersion;
     NSString *token = [gAppMgr.tokenPool tokenForAccount:account];
     return [[self rac_commonValidateTokenOp:op account:account token:token] doNext:^(id x) {
         [gAppMgr resetWithAccount:account];

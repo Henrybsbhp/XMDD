@@ -277,9 +277,7 @@
     UILabel * tempLb = (UILabel *)[self.weatherView searchViewWithTag:20202];
     UILabel * restrictionLb = (UILabel *)[self.weatherView searchViewWithTag:20204];
     UILabel * tipLb = (UILabel *)[self.weatherView searchViewWithTag:20206];
-    [[gAppMgr.mediaMgr rac_getPictureForUrl:picName withType:ImageURLTypeOrigin defaultPic:nil errorPic:nil] subscribeNext:^(id x) {
-        weatherImage.image = x;
-    }];
+    [weatherImage setImageByUrl:picName withType:ImageURLTypeOrigin defImage:nil errorImage:nil];
     
     tempLb.text = temp;
     restrictionLb.text = restriction;
@@ -560,19 +558,17 @@
     }
     UIImageView *imgV = (UIImageView *)[pageView viewWithTag:1001];
     HKAdvertisement * ad = [gAdMgr.homepageAdvertiseArray safetyObjectAtIndex:pageIndex];
-//    [[[gMediaMgr rac_getPictureForUrl:ad.adPic withDefaultPic:@"hp_bottom"] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
-//        
-//        imgV.image = x;
-//    }];
-    [[gMediaMgr rac_getPictureForUrl:ad.adPic withType:ImageURLTypeMedium defaultPic:@"ad_default" errorPic:@"ad_default"]
+    
+    [[[gMediaMgr rac_getImageByUrl:ad.adPic withType:ImageURLTypeMedium defaultPic:@"ad_default" errorPic:@"ad_default"]
+     takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]]
      subscribeNext:^(id x) {
-        UIImage * image = x;
+        UIImage *image = x;
         if (image.size.width > (imgV.frame.size.width * 2)) {
             image = [image compressImageWithPointSize:imgV.frame.size];
         }
         imgV.image = image;
     }];
-//
+
     UITapGestureRecognizer * gesture = imgV.customObject;
     if (!gesture)
     {

@@ -465,11 +465,8 @@
         UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
         UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
         UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
-        
-        [[[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                               withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            logoV.image = x;
-        }];
+
+        [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
         titleL.text = shop.shopName;
         ratingV.ratingValue = shop.shopRate;
         ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];

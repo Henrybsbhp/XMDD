@@ -1,18 +1,15 @@
 #import "TMDiskCache.h"
+#import "TMCacheBackgroundTaskManager.h"
+
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0
+#import <UIKit/UIKit.h>
+#endif
 
 #define TMDiskCacheError(error) if (error) { NSLog(@"%@ (%d) ERROR: %@", \
                                     [[NSString stringWithUTF8String:__FILE__] lastPathComponent], \
                                     __LINE__, [error localizedDescription]); }
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0
-    #define TMCacheStartBackgroundTask() UIBackgroundTaskIdentifier taskID = UIBackgroundTaskInvalid; \
-            taskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{ \
-            [[UIApplication sharedApplication] endBackgroundTask:taskID]; }];
-    #define TMCacheEndBackgroundTask() [[UIApplication sharedApplication] endBackgroundTask:taskID];
-#else
-    #define TMCacheStartBackgroundTask()
-    #define TMCacheEndBackgroundTask()
-#endif
+static id <TMCacheBackgroundTaskManager> TMCacheBackgroundTaskManager;
 
 NSString * const TMDiskCachePrefix = @"com.tumblr.TMDiskCache";
 NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
@@ -40,6 +37,11 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
 
 - (instancetype)initWithName:(NSString *)name
 {
+    return [self initWithName:name rootPath:[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0]];
+}
+
+- (instancetype)initWithName:(NSString *)name rootPath:(NSString *)rootPath
+{
     if (!name)
         return nil;
 
@@ -61,9 +63,8 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
         _dates = [[NSMutableDictionary alloc] init];
         _sizes = [[NSMutableDictionary alloc] init];
 
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
         NSString *pathComponent = [[NSString alloc] initWithFormat:@"%@.%@", TMDiskCachePrefix, _name];
-        _cacheURL = [NSURL fileURLWithPathComponents:@[ [paths objectAtIndex:0], pathComponent ]];
+        _cacheURL = [NSURL fileURLWithPathComponents:@[ rootPath, pathComponent ]];
 
         __weak TMDiskCache *weakSelf = self;
 
@@ -150,6 +151,78 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
     return (__bridge_transfer NSString *)unescapedString;
 }
 
+#pragma mark - Private Trash Methods -
+
++ (dispatch_queue_t)sharedTrashQueue
+{
+    static dispatch_queue_t trashQueue;
+    static dispatch_once_t predicate;
+    
+    dispatch_once(&predicate, ^{
+        NSString *queueName = [[NSString alloc] initWithFormat:@"%@.trash", TMDiskCachePrefix];
+        trashQueue = dispatch_queue_create([queueName UTF8String], DISPATCH_QUEUE_SERIAL);
+        dispatch_set_target_queue(trashQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0));
+    });
+    
+    return trashQueue;
+}
+
++ (NSURL *)sharedTrashURL
+{
+    static NSURL *sharedTrashURL;
+    static dispatch_once_t predicate;
+    
+    dispatch_once(&predicate, ^{
+        sharedTrashURL = [[[NSURL alloc] initFileURLWithPath:NSTemporaryDirectory()] URLByAppendingPathComponent:TMDiskCachePrefix isDirectory:YES];
+        
+        if (![[NSFileManager defaultManager] fileExistsAtPath:[sharedTrashURL path]]) {
+            NSError *error = nil;
+            [[NSFileManager defaultManager] createDirectoryAtURL:sharedTrashURL
+                                     withIntermediateDirectories:YES
+                                                      attributes:nil
+                                                           error:&error];
+            TMDiskCacheError(error);
+        }
+    });
+    
+    return sharedTrashURL;
+}
+
++(BOOL)moveItemAtURLToTrash:(NSURL *)itemURL
+{
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[itemURL path]])
+        return NO;
+
+    NSError *error = nil;
+    NSString *uniqueString = [[NSProcessInfo processInfo] globallyUniqueString];
+    NSURL *uniqueTrashURL = [[TMDiskCache sharedTrashURL] URLByAppendingPathComponent:uniqueString];
+    BOOL moved = [[NSFileManager defaultManager] moveItemAtURL:itemURL toURL:uniqueTrashURL error:&error];
+    TMDiskCacheError(error);
+    return moved;
+}
+
++ (void)emptyTrash
+{
+    UIBackgroundTaskIdentifier taskID = [TMCacheBackgroundTaskManager beginBackgroundTask];
+    
+    dispatch_async([self sharedTrashQueue], ^{        
+        NSError *error = nil;
+        NSArray *trashedItems = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[self sharedTrashURL]
+                                                              includingPropertiesForKeys:nil
+                                                                                 options:0
+                                                                                   error:&error];
+        TMDiskCacheError(error);
+
+        for (NSURL *trashedItemURL in trashedItems) {
+            NSError *error = nil;
+            [[NSFileManager defaultManager] removeItemAtURL:trashedItemURL error:&error];
+            TMDiskCacheError(error);
+        }
+        
+        [TMCacheBackgroundTaskManager endBackgroundTask:taskID];
+    });
+}
+
 #pragma mark - Private Queue Methods -
 
 - (BOOL)createCacheDirectory
@@ -187,7 +260,7 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
         TMDiskCacheError(error);
 
         NSDate *date = [dictionary objectForKey:NSURLContentModificationDateKey];
-        if (date)
+        if (date && key)
             [_dates setObject:date forKey:key];
 
         NSNumber *fileSize = [dictionary objectForKey:NSURLTotalFileAllocatedSizeKey];
@@ -203,14 +276,22 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
 
 - (BOOL)setFileModificationDate:(NSDate *)date forURL:(NSURL *)fileURL
 {
+    if (!date || !fileURL) {
+        return NO;
+    }
+    
     NSError *error = nil;
     BOOL success = [[NSFileManager defaultManager] setAttributes:@{ NSFileModificationDate: date }
                                                     ofItemAtPath:[fileURL path]
                                                            error:&error];
     TMDiskCacheError(error);
 
-    if (success)
-        [_dates setObject:date forKey:[self keyForEncodedFileURL:fileURL]];
+    if (success) {
+        NSString *key = [self keyForEncodedFileURL:fileURL];
+        if (key) {
+            [_dates setObject:date forKey:key];
+        }
+    }
 
     return success;
 }
@@ -224,12 +305,11 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
     if (_willRemoveObjectBlock)
         _willRemoveObjectBlock(self, key, nil, fileURL);
 
-    NSError *error = nil;
-    BOOL removed = [[NSFileManager defaultManager] removeItemAtURL:fileURL error:&error];
-    TMDiskCacheError(error);
-
-    if (!removed)
+    BOOL trashed = [TMDiskCache moveItemAtURLToTrash:fileURL];
+    if (!trashed)
         return NO;
+    
+    [TMDiskCache emptyTrash];
 
     NSNumber *byteSize = [_sizes objectForKey:key];
     if (byteSize)
@@ -328,7 +408,15 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
         id <NSCoding> object = nil;
 
         if ([[NSFileManager defaultManager] fileExistsAtPath:[fileURL path]]) {
-            object = [NSKeyedUnarchiver unarchiveObjectWithFile:[fileURL path]];
+            @try {
+                object = [NSKeyedUnarchiver unarchiveObjectWithFile:[fileURL path]];
+            }
+            @catch (NSException *exception) {
+                NSError *error = nil;
+                [[NSFileManager defaultManager] removeItemAtPath:[fileURL path] error:&error];
+                TMDiskCacheError(error);
+            }
+
             [strongSelf setFileModificationDate:now forURL:fileURL];
         }
 
@@ -351,8 +439,8 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
             return;
 
         NSURL *fileURL = [strongSelf encodedFileURLForKey:key];
-        NSString *path = [fileURL path];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[fileURL path]]) {
             [strongSelf setFileModificationDate:now forURL:fileURL];
         } else {
             fileURL = nil;
@@ -369,14 +457,14 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
     if (!key || !object)
         return;
 
-    TMCacheStartBackgroundTask();
+    UIBackgroundTaskIdentifier taskID = [TMCacheBackgroundTaskManager beginBackgroundTask];
 
     __weak TMDiskCache *weakSelf = self;
 
     dispatch_async(_queue, ^{
         TMDiskCache *strongSelf = weakSelf;
         if (!strongSelf) {
-            TMCacheEndBackgroundTask();
+            [TMCacheBackgroundTaskManager endBackgroundTask:taskID];
             return;
         }
 
@@ -385,19 +473,23 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
         if (strongSelf->_willAddObjectBlock)
             strongSelf->_willAddObjectBlock(strongSelf, key, object, fileURL);
 
-        NSError *error = nil;
         BOOL written = [NSKeyedArchiver archiveRootObject:object toFile:[fileURL path]];
-        TMDiskCacheError(error);
 
         if (written) {
             [strongSelf setFileModificationDate:now forURL:fileURL];
 
-            error = nil;
+            NSError *error = nil;
             NSDictionary *values = [fileURL resourceValuesForKeys:@[ NSURLTotalFileAllocatedSizeKey ] error:&error];
             TMDiskCacheError(error);
 
             NSNumber *diskFileSize = [values objectForKey:NSURLTotalFileAllocatedSizeKey];
             if (diskFileSize) {
+                NSNumber *oldEntry = [strongSelf->_sizes objectForKey:key];
+                
+                if ([oldEntry isKindOfClass:[NSNumber class]]){
+                    strongSelf.byteCount = strongSelf->_byteCount - [oldEntry unsignedIntegerValue];
+                }
+                
                 [strongSelf->_sizes setObject:diskFileSize forKey:key];
                 strongSelf.byteCount = strongSelf->_byteCount + [diskFileSize unsignedIntegerValue]; // atomic
             }
@@ -414,7 +506,7 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
         if (block)
             block(strongSelf, key, object, fileURL);
 
-        TMCacheEndBackgroundTask();
+        [TMCacheBackgroundTaskManager endBackgroundTask:taskID];
     });
 }
 
@@ -423,14 +515,14 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
     if (!key)
         return;
 
-    TMCacheStartBackgroundTask();
+    UIBackgroundTaskIdentifier taskID = [TMCacheBackgroundTaskManager beginBackgroundTask];
 
     __weak TMDiskCache *weakSelf = self;
 
     dispatch_async(_queue, ^{
         TMDiskCache *strongSelf = weakSelf;
         if (!strongSelf) {
-            TMCacheEndBackgroundTask();
+            [TMCacheBackgroundTaskManager endBackgroundTask:taskID];
             return;
         }
 
@@ -440,7 +532,7 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
         if (block)
             block(strongSelf, key, nil, fileURL);
 
-        TMCacheEndBackgroundTask();
+        [TMCacheBackgroundTaskManager endBackgroundTask:taskID];
     });
 }
 
@@ -451,14 +543,14 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
         return;
     }
 
-    TMCacheStartBackgroundTask();
+    UIBackgroundTaskIdentifier taskID = [TMCacheBackgroundTaskManager beginBackgroundTask];
     
     __weak TMDiskCache *weakSelf = self;
     
     dispatch_async(_queue, ^{
         TMDiskCache *strongSelf = weakSelf;
         if (!strongSelf) {
-            TMCacheEndBackgroundTask();
+            [TMCacheBackgroundTaskManager endBackgroundTask:taskID];
             return;
         }
 
@@ -467,7 +559,7 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
         if (block)
             block(strongSelf);
         
-        TMCacheEndBackgroundTask();
+        [TMCacheBackgroundTaskManager endBackgroundTask:taskID];
     });
 }
 
@@ -481,14 +573,14 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
         return;
     }
     
-    TMCacheStartBackgroundTask();
+    UIBackgroundTaskIdentifier taskID = [TMCacheBackgroundTaskManager beginBackgroundTask];
 
     __weak TMDiskCache *weakSelf = self;
 
     dispatch_async(_queue, ^{
         TMDiskCache *strongSelf = weakSelf;
         if (!strongSelf) {
-            TMCacheEndBackgroundTask();
+            [TMCacheBackgroundTaskManager endBackgroundTask:taskID];
             return;
         }
 
@@ -497,7 +589,7 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
         if (block)
             block(strongSelf);
         
-        TMCacheEndBackgroundTask();
+        [TMCacheBackgroundTaskManager endBackgroundTask:taskID];
     });
 }
 
@@ -508,14 +600,14 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
         return;
     }
 
-    TMCacheStartBackgroundTask();
+    UIBackgroundTaskIdentifier taskID = [TMCacheBackgroundTaskManager beginBackgroundTask];
 
     __weak TMDiskCache *weakSelf = self;
 
     dispatch_async(_queue, ^{
         TMDiskCache *strongSelf = weakSelf;
         if (!strongSelf) {
-            TMCacheEndBackgroundTask();
+            [TMCacheBackgroundTaskManager endBackgroundTask:taskID];
             return;
         }
 
@@ -524,31 +616,28 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
         if (block)
             block(strongSelf);
 
-        TMCacheEndBackgroundTask();
+        [TMCacheBackgroundTaskManager endBackgroundTask:taskID];
     });
 }
 
 - (void)removeAllObjects:(TMDiskCacheBlock)block
 {
-    TMCacheStartBackgroundTask();
+    UIBackgroundTaskIdentifier taskID = [TMCacheBackgroundTaskManager beginBackgroundTask];
     
     __weak TMDiskCache *weakSelf = self;
 
     dispatch_async(_queue, ^{
         TMDiskCache *strongSelf = weakSelf;
         if (!strongSelf) {
-            TMCacheEndBackgroundTask();
+            [TMCacheBackgroundTaskManager endBackgroundTask:taskID];
             return;
         }
 
         if (strongSelf->_willRemoveAllObjectsBlock)
             strongSelf->_willRemoveAllObjectsBlock(strongSelf);
-
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[strongSelf->_cacheURL path]]) {
-            NSError *error = nil;
-            [[NSFileManager defaultManager] removeItemAtURL:strongSelf->_cacheURL error:&error];
-            TMDiskCacheError(error);
-        }
+        
+        [TMDiskCache moveItemAtURLToTrash:strongSelf->_cacheURL];
+        [TMDiskCache emptyTrash];
 
         [strongSelf createCacheDirectory];
 
@@ -562,7 +651,7 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
         if (block)
             block(strongSelf);
         
-        TMCacheEndBackgroundTask();
+        [TMCacheBackgroundTaskManager endBackgroundTask:taskID];
     });
 }
 
@@ -571,14 +660,14 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
     if (!block)
         return;
 
-    TMCacheStartBackgroundTask();
+    UIBackgroundTaskIdentifier taskID = [TMCacheBackgroundTaskManager beginBackgroundTask];
 
     __weak TMDiskCache *weakSelf = self;
 
     dispatch_async(_queue, ^{
         TMDiskCache *strongSelf = weakSelf;
         if (!strongSelf) {
-            TMCacheEndBackgroundTask();
+            [TMCacheBackgroundTaskManager endBackgroundTask:taskID];
             return;
         }
 
@@ -592,7 +681,7 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
         if (completionBlock)
             completionBlock(strongSelf);
 
-        TMCacheEndBackgroundTask();
+        [TMCacheBackgroundTaskManager endBackgroundTask:taskID];
     });
 }
 
@@ -965,215 +1054,10 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
     });
 }
 
-@end
+#pragma mark - Background Tasks -
 
-@implementation TMDiskCache (Image)
-- (UIImage *)imageForKey:(NSString *)key
-{
-    if (!key)
-        return nil;
-    NSData *data = [self fileDataForKey:key];
-    if (data)
-    {
-        return [UIImage imageWithData:data];
-    }
-    return nil;
-}
-
-- (void)imageForKey:(NSString *)key block:(TMDiskCacheObjectBlock)block
-{
-    if (!block)
-    {
-        return;
-    }
-    [self fileDataForKey:key block:^(TMDiskCache *cache, NSString *key, id<NSCoding> object, NSURL *fileURL) {
-        NSData *data = (NSData *)object;
-        if (data)
-        {
-            UIImage *img = [UIImage imageWithData:data];
-            block(cache, key, img, fileURL);
-        }
-        else
-        {
-            block(cache, key, nil, fileURL);
-        }
-        
-    }];
-}
-
-- (void)setImage:(UIImage *)image forKey:(NSString *)key
-{
-    if (!image || !key)
-        return;
-    NSData *data = UIImagePNGRepresentation(image);
-    [self setFileData:data forKey:key];
-}
-
-- (void)setImage:(UIImage *)image forKey:(NSString *)key block:(TMDiskCacheObjectBlock)block
-{
-    NSData *data = UIImagePNGRepresentation(image);
-    [self setFileData:data forKey:key block:^(TMDiskCache *cache, NSString *key, id<NSCoding> object, NSURL *fileURL) {
-        if (block)
-        {
-            block(cache, key, image, fileURL);
-        }
-    }];
-}
-
-#pragma mark - File setter and getter
-- (void)setFileData:(NSData *)data forKey:(NSString *)key
-{
-    if (!data || !key)
-        return;
-    
-    NSDate *now = [[NSDate alloc] init];
-    NSURL *fileURL = [self encodedFileURLForKey:key];
-    if (_willAddObjectBlock)
-    {
-        _willAddObjectBlock(self, key, data, fileURL);
-    }
-    NSError *error = nil;
-    NSString *path = [fileURL path];
-    BOOL written = [data writeToFile:path atomically:YES];
-    TMDiskCacheError(error);
-    
-    if (written) {
-        [self setFileModificationDate:now forURL:fileURL];
-        
-        error = nil;
-        NSDictionary *values = [fileURL resourceValuesForKeys:@[ NSURLTotalFileAllocatedSizeKey ] error:&error];
-        TMDiskCacheError(error);
-        
-        NSNumber *diskFileSize = [values objectForKey:NSURLTotalFileAllocatedSizeKey];
-        if (diskFileSize) {
-            [_sizes setObject:diskFileSize forKey:key];
-            self.byteCount = _byteCount + [diskFileSize unsignedIntegerValue]; // atomic
-        }
-        
-        if (_byteLimit > 0 && _byteCount > _byteLimit)
-            [self trimToSizeByDate:_byteLimit block:nil];
-    } else {
-        fileURL = nil;
-    }
-    
-    if (_didAddObjectBlock)
-        _didAddObjectBlock(self, key, data, written ? fileURL : nil);
-    
-//    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-//    
-//    [self setFileData:data forKey:key block:^(TMDiskCache *cache, NSString *key, id <NSCoding> object, NSURL *fileURL) {
-//        dispatch_semaphore_signal(semaphore);
-//    }];
-//    
-//    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-//    
-//#if !OS_OBJECT_USE_OBJC
-//    dispatch_release(semaphore);
-//#endif
-}
-
-- (void)setFileData:(NSData *)data forKey:(NSString *)key block:(TMDiskCacheObjectBlock)block
-{
-    NSDate *now = [[NSDate alloc] init];
-    
-    if (!key || !data)
-        return;
-
-    TMCacheStartBackgroundTask();
-    
-    __weak TMDiskCache *weakSelf = self;
-    
-    dispatch_async(_queue, ^{
-        TMDiskCache *strongSelf = weakSelf;
-        if (!strongSelf) {
-            TMCacheEndBackgroundTask();
-            return;
-        }
-        
-        NSURL *fileURL = [strongSelf encodedFileURLForKey:key];
-        
-        if (strongSelf->_willAddObjectBlock)
-            strongSelf->_willAddObjectBlock(strongSelf, key, data, fileURL);
-        
-        NSError *error = nil;
-        BOOL written = [data writeToFile:[fileURL path] atomically:YES];
-        TMDiskCacheError(error);
-        
-        if (written) {
-            [strongSelf setFileModificationDate:now forURL:fileURL];
-            
-            error = nil;
-            NSDictionary *values = [fileURL resourceValuesForKeys:@[ NSURLTotalFileAllocatedSizeKey ] error:&error];
-            TMDiskCacheError(error);
-            
-            NSNumber *diskFileSize = [values objectForKey:NSURLTotalFileAllocatedSizeKey];
-            if (diskFileSize) {
-                [strongSelf->_sizes setObject:diskFileSize forKey:key];
-                strongSelf.byteCount = strongSelf->_byteCount + [diskFileSize unsignedIntegerValue]; // atomic
-            }
-            
-            if (strongSelf->_byteLimit > 0 && strongSelf->_byteCount > strongSelf->_byteLimit)
-                [strongSelf trimToSizeByDate:strongSelf->_byteLimit block:nil];
-        } else {
-            fileURL = nil;
-        }
-        
-        if (strongSelf->_didAddObjectBlock)
-            strongSelf->_didAddObjectBlock(strongSelf, key, data, written ? fileURL : nil);
-        
-        if (block)
-            block(strongSelf, key, data, fileURL);
-        
-        TMCacheEndBackgroundTask();
-    });
-}
-
-- (NSData *)fileDataForKey:(NSString *)key
-{
-    if (!key)
-        return nil;
-    
-    __block NSData *data = nil;
-    
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-    
-    [self fileDataForKey:key block:^(TMDiskCache *cache, NSString *key, id <NSCoding> object, NSURL *fileURL) {
-        data = (NSData *)object;
-        dispatch_semaphore_signal(semaphore);
-    }];
-    
-    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-    
-#if !OS_OBJECT_USE_OBJC
-    dispatch_release(semaphore);
-#endif
-    
-    return data;
-}
-
-- (void)fileDataForKey:(NSString *)key block:(TMDiskCacheObjectBlock)block
-{
-    NSDate *now = [[NSDate alloc] init];
-    
-    if (!key || !block)
-        return;
-    
-    __weak TMDiskCache *weakSelf = self;
-    
-    dispatch_async(_queue, ^{
-        TMDiskCache *strongSelf = weakSelf;
-        if (!strongSelf)
-            return;
-        
-        NSURL *fileURL = [strongSelf encodedFileURLForKey:key];
-        NSData *data = nil;
-        
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[fileURL path]]) {
-            data = [NSData dataWithContentsOfFile:[fileURL path]];
-            [strongSelf setFileModificationDate:now forURL:fileURL];
-        }
-        block(strongSelf, key, data, fileURL);
-    });
++ (void)setBackgroundTaskManager:(id <TMCacheBackgroundTaskManager>)backgroundTaskManager {
+    TMCacheBackgroundTaskManager = backgroundTaskManager;
 }
 
 @end

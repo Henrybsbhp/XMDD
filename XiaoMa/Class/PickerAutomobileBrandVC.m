@@ -97,10 +97,7 @@
     AutoBrand *brand = [self.fetchCtrl objectAtIndexPath:indexPath];
     
     titleL.text = brand.name;
-    [[[gAppMgr.mediaMgr rac_getPictureForUrl:brand.logo withType:ImageURLTypeOrigin defaultPic:@"cm_logo_def" errorPic:@"cm_logo_def"]
-      takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        logoV.image = x;
-    }];
+    [logoV setImageByUrl:brand.logo withType:ImageURLTypeOrigin defImage:@"cm_logo_def" errorImage:@"cm_logo_def"];
     return cell;
 }
 

@@ -20,11 +20,11 @@
 #import "CommentListViewController.h"
 #import "EditMyCarVC.h"
 #import "AddUserFavoriteOp.h"
-
+#import "SDPhotoBrowser.h"
 
 #define kDefaultServieCount     2
 
-@interface ShopDetailVC ()
+@interface ShopDetailVC ()<SDPhotoBrowserDelegate>
 
 /// 服务列表展开
 @property (nonatomic, assign) BOOL serviceExpanded;
@@ -192,13 +192,26 @@
     }];
 }
 
-
 - (IBAction)actionMap:(id)sender
 {
     [MobClick event:@"rp105-4"];
     CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
     vc.shop = self.shop;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionShowPhotos:(UITapGestureRecognizer *)tap
+{
+    [MobClick event:@"rp105-2"];
+    if (self.shop.picArray.count > 0)
+    {
+        SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
+        browser.sourceImagesContainerView = tap.view.superview; // 原图的父控件
+        browser.imageCount = self.shop.picArray.count; // 图片总数
+        browser.currentImageIndex = 0;
+        browser.delegate = self;
+        [browser show];
+    }
 }
 
 - (void)gotoPaymentVCWithService:(JTShopService *)service
@@ -426,33 +439,18 @@
         [logoV addGestureRecognizer:ge];
         logoV.userInteractionEnabled = YES;
         logoV.customObject = ge;
+        [ge addTarget:self action:@selector(actionShowPhotos:)];
     }
     gesture = logoV.customObject;
     
-    @weakify(self)
-    [[[gesture rac_gestureSignal] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
-        [MobClick event:@"rp105-2"];
-        @strongify(self)
-        if (self.shop.picArray.count)
-        {
-            [self showImages:0];
-        }
-    }];
-    
+    @weakify(self);
     [[[collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self);
         [self requestAddUserFavorite:collectBtn];
     }];
     
-    
-    [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                            withType:ImageURLTypeThumbnail
-                          defaultPic:@"cm_shop" errorPic:@"cm_shop"] subscribeNext:^(UIImage * img) {
-        
-        logoV.image = img;
-    }];
+    [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
     titleL.text = shop.shopName;
     ratingV.ratingValue = shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%0.1f分", shop.shopRate];
@@ -586,10 +584,7 @@
     timeL.text = [comment.time dateFormatForYYMMdd2];
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
-    [[gMediaMgr rac_getPictureForUrl:comment.avatarUrl withType:ImageURLTypeThumbnail
-                          defaultPic:@"avatar_default" errorPic:@"avatar_default"] subscribeNext:^(id x) {
-        avatarV.image = x;
-    }];
+    [avatarV setImageByUrl:comment.avatarUrl withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
     
     return cell;
 }
@@ -601,6 +596,24 @@
     return cell;
 }
 
+#pragma mark - SDPhotoBrowserDelegate
+// 返回临时占位图片（即原来的小图）
+- (UIImage *)photoBrowser:(SDPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index
+{
+    if (index == 0) {
+        NSString *strurl = [gMediaMgr urlWith:[self.shop.picArray safetyObjectAtIndex:0] imageType:ImageURLTypeThumbnail];
+        UIImage *cachedImg = [gMediaMgr imageFromMemoryCacheForUrl:strurl];
+        return cachedImg ? cachedImg : [UIImage imageNamed:@"cm_shop"];
+    }
+    return [UIImage imageNamed:@"cm_shop"];
+}
+
+
+// 返回高质量图片的url
+- (NSURL *)photoBrowser:(SDPhotoBrowser *)browser highQualityImageURLForIndex:(NSInteger)index
+{
+    return [NSURL URLWithString:[gMediaMgr urlWith:[self.shop.picArray safetyObjectAtIndex:index] imageType:ImageURLTypeMedium]];
+}
 #pragma mark - Utility
 - (NSAttributedString *)priceStringWithOldPrice:(NSNumber *)price1 curPrice:(NSNumber *)price2
 {
@@ -624,76 +637,4 @@
     return str;
 }
 
-- (void)showImages:(NSInteger)rotationIndex
-{
-    UIWindow * window = [UIApplication sharedApplication].keyWindow;
-    UIScrollView * backgroundView= [[UIScrollView alloc]
-                                    initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
-    backgroundView.showsHorizontalScrollIndicator = NO;
-    backgroundView.backgroundColor = [UIColor colorWithHex:@"#0000000" alpha:0.6f];
-    backgroundView.alpha = 0;
-    [backgroundView setContentSize:CGSizeMake([UIScreen mainScreen].bounds.size.width * self.shop.picArray.count, [UIScreen mainScreen].bounds.size.height)];
-    backgroundView.pagingEnabled = YES;
-    
-    CGRect frame = backgroundView.frame;
-    frame.origin.x = frame.size.width * rotationIndex;
-    frame.origin.y = 0;
-    [backgroundView scrollRectToVisible:frame animated:YES];
-    
-    for (NSInteger i = 0;i < self.shop.picArray.count;i++)
-    {
-        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectZero];
-        UIActivityIndicatorView * indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-        NSString * imageUrl = [self.shop.picArray safetyObjectAtIndex:i];
-        [[gMediaMgr rac_getPictureForSpecialFirstTime:imageUrl withType:ImageURLTypeMedium defaultPic:@"cm_shop" errorPic:@"cm_shop"]
-         subscribeNext:^(NSObject * obj) {
-            
-             if ([obj isKindOfClass:[UIImage class]])
-             {
-                 UIImage * image = (UIImage *)obj;
-                 CGRect frame = CGRectMake(i*[UIScreen mainScreen].bounds.size.width,
-                                           ([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2,
-                                           [UIScreen mainScreen].bounds.size.width,
-                                           image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width);
-                 imageView.frame = frame;
-                 [imageView setImage:image];
-                 indicator.animating = NO;
-                 indicator.hidden = YES;
-             }
-             else if ([obj isKindOfClass:[NSString class]])
-             {
-                 indicator.animating = YES;
-             }
-        } error:^(NSError *error) {
-            
-            [imageView setImage:[UIImage imageNamed:@"cm_shop"]];
-        }];
-        
-        imageView.tag = i;
-        [backgroundView addSubview:indicator];
-        [backgroundView addSubview:imageView];
-        indicator.animating = YES;
-        indicator.center = backgroundView.center;
-    }
-    
-    [window addSubview:backgroundView];
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImage:)];
-    [backgroundView addGestureRecognizer: tap];
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        backgroundView.alpha=1;
-    } completion:^(BOOL finished) {
-        
-    }];
-}
-
--(void)hideImage:(UITapGestureRecognizer*)tap{
-    UIView *backgroundView=tap.view;
-    [UIView animateWithDuration:0.3 animations:^{
-        backgroundView.alpha=0;
-    } completion:^(BOOL finished) {
-        [backgroundView removeFromSuperview];
-    }];
-}
 @end

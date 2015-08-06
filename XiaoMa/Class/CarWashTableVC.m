@@ -335,10 +335,7 @@
     }
     UIImageView *imgV = (UIImageView *)[pageView searchViewWithTag:1001];
     HKAdvertisement * ad = [gAdMgr.carwashAdvertiseArray safetyObjectAtIndex:pageIndex];
-    [[gMediaMgr rac_getPictureForUrl:ad.adPic withType:ImageURLTypeMedium defaultPic:@"hp_bottom" errorPic:@"hp_bottom"]
-     subscribeNext:^(id x) {
-        imgV.image = x;
-    }];
+    [imgV setImageByUrl:ad.adPic withType:ImageURLTypeMedium defImage:@"hp_bottom" errorImage:@"hp_bottom"];
     
     UITapGestureRecognizer * gesture = imgV.customObject;
     if (!gesture)
@@ -395,10 +392,8 @@
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
     UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
 
-    
-    [[[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] takeUntilForCell:cell] subscribeNext:^(UIImage * image) {
-        logoV.image = image;
-    }];
+    [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0]
+                withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
     
     titleL.text = shop.shopName;
     ratingV.ratingValue = shop.shopRate;

@@ -13,6 +13,8 @@
  separately if necessary. See the docs for <TMMemoryCache> and <TMDiskCache> for more details.
  */
 
+#import <Foundation/Foundation.h>
+
 #import "TMDiskCache.h"
 #import "TMMemoryCache.h"
 
@@ -62,7 +64,7 @@ typedef void (^TMCacheObjectBlock)(TMCache *cache, NSString *key, id object);
 + (instancetype)sharedCache;
 
 /**
- The designated initializer. Multiple instances with the same name are allowed and can safely access
+ Multiple instances with the same name are allowed and can safely access
  the same data on disk thanks to the magic of seriality. Also used to create the <diskCache>.
  
  @see name
@@ -70,6 +72,17 @@ typedef void (^TMCacheObjectBlock)(TMCache *cache, NSString *key, id object);
  @result A new cache with the specified name.
  */
 - (instancetype)initWithName:(NSString *)name;
+
+/**
+ The designated initializer. Multiple instances with the same name are allowed and can safely access
+ the same data on disk thanks to the magic of seriality. Also used to create the <diskCache>.
+ 
+ @see name
+ @param name The name of the cache.
+ @param rootPath The path of the cache on disk.
+ @result A new cache with the specified name.
+ */
+- (instancetype)initWithName:(NSString *)name rootPath:(NSString *)rootPath;
 
 #pragma mark -
 /// @name Asynchronous Methods
@@ -160,15 +173,5 @@ typedef void (^TMCacheObjectBlock)(TMCache *cache, NSString *key, id object);
  Removes all objects from the cache. This method blocks the calling thread until the cache has been cleared.
  */
 - (void)removeAllObjects;
-
-- (UIImage *)imageForKey:(NSString *)key;
-- (void)imageForKey:(NSString *)key block:(TMCacheObjectBlock)block;
-- (void)setImage:(UIImage *)image forKey:(NSString *)key;
-- (void)setImage:(UIImage *)image forKey:(NSString *)key block:(TMCacheObjectBlock)block;
-
-- (void)fileDataForKey:(NSString *)key block:(TMCacheObjectBlock)block;
-- (void)setFileData:(NSData *)data forKey:(NSString *)key block:(TMCacheObjectBlock)block;
-- (void)setFileData:(NSData *)data forKey:(NSString *)key;
-- (NSData *)fileDataForKey:(NSString *)key;
 
 @end

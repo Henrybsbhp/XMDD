@@ -15,6 +15,8 @@
  a memory cache backed by a disk cache.
  */
 
+#import <Foundation/Foundation.h>
+
 @class TMMemoryCache;
 
 typedef void (^TMMemoryCacheBlock)(TMMemoryCache *cache);
@@ -294,5 +296,15 @@ typedef void (^TMMemoryCacheObjectBlock)(TMMemoryCache *cache, NSString *key, id
  
  */
 - (void)enumerateObjectsWithBlock:(TMMemoryCacheObjectBlock)block;
+
+/**
+ Handle a memory warning.
+ */
+- (void)handleMemoryWarning __deprecated_msg("This happens automatically in TMCache 2.1. There’s no longer a need to call it directly.");
+
+/**
+ Handle the application having been backgrounded.
+ */
+- (void)handleApplicationBackgrounding __deprecated_msg("This happens automatically in TMCache 2.1. There’s no longer a need to call it directly.");
 
 @end

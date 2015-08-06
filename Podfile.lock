@@ -65,8 +65,12 @@ PODS:
   - ReactiveCocoa/no-arc (2.3.1)
   - ReactiveCocoa/UI (2.3.1):
     - ReactiveCocoa/Core
+  - SDWebImage (3.7.2):
+    - SDWebImage/Core (= 3.7.2)
+  - SDWebImage/Core (3.7.2)
   - SevenSwitch (1.3.0)
   - SFHFKeychainUtils (0.0.1)
+  - TMCache (2.1.0)
   - UI7Kit (0.9.22):
     - cdebug
     - FoundationExtension
@@ -86,7 +90,9 @@ DEPENDENCIES:
   - Masonry (= 0.6.1)
   - MZFormSheetController (= 2.4.1)
   - ReactiveCocoa (= 2.3.1)
+  - SDWebImage (= 3.7.2)
   - SFHFKeychainUtils (= 0.0.1)
+  - TMCache (= 2.1.0)
   - UI7Kit (= 0.9.22)
   - UMengAnalytics (= 3.5.8)
 
@@ -114,8 +120,10 @@ SPEC CHECKSUMS:
   MZAppearance: 6e9dc64e42074c0a19812a327f590746c3283bab
   MZFormSheetController: bcc262cb8b682bdc17fa88177b4f34ac26f0dcbe
   ReactiveCocoa: 334468a83b2c5f669f7cfb9a084415ee23219b4f
+  SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   SevenSwitch: 4faf7584ea9fcfa053ab0375353531c402ed2bf0
   SFHFKeychainUtils: 9576b411a79a058f4d5381ace6f3242b9a62e664
+  TMCache: 95ebcc9b3c7e90fb5fd8fc3036cba3aa781c9bed
   UI7Kit: a2be10b7ced09944b8d2dca5d373743665d29639
   UMengAnalytics: 020551718ba37da017bd85ac4c38ffba2774f3ce
 
