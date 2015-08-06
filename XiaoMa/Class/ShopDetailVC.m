@@ -21,15 +21,26 @@
 #import "EditMyCarVC.h"
 #import "AddUserFavoriteOp.h"
 #import "SDPhotoBrowser.h"
+#import "UIView+Layer.h"
 
 #define kDefaultServieCount     2
 
-@interface ShopDetailVC ()<SDPhotoBrowserDelegate>
+@interface ShopDetailVC () <UIScrollViewDelegate, SDPhotoBrowserDelegate>
 
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *titleView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UIButton *greenBackBtn;
+@property (weak, nonatomic) IBOutlet UIButton *whiteBackBtn;
+@property (weak, nonatomic) IBOutlet UIButton *greenStarBtn;
+@property (weak, nonatomic) IBOutlet UIButton *whiteStarBtn;
+- (IBAction)collectionAction:(id)sender;
 /// 服务列表展开
 @property (nonatomic, assign) BOOL serviceExpanded;
 /// 是否已收藏标签
 @property (nonatomic)BOOL favorite;
+/// 是否显示标题栏
+@property (nonatomic)BOOL titleShow;
 
 @end
 
@@ -38,9 +49,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        self.tableView.estimatedRowHeight = 44;
+        self.tableView.rowHeight = UITableViewAutomaticDimension;
+    }
+    if (IOSVersionGreaterThanOrEqualTo(@"7.0")) {
+        [self.tableView setContentInset:UIEdgeInsetsMake(-20, 0, 0, 0)];
+    }
     
-    [self setupNavigationBar];
-//    [self setupMyCarList];
+    [[self.whiteBackBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    [[self.greenBackBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
     [self requestShopComments];
 }
 
@@ -48,21 +71,38 @@
 {
     [super viewWillAppear:animated];
     
+//    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0)
+//    {
+//        [self.titleView mas_updateConstraints:^(MASConstraintMaker *make) {
+//            make.height.mas_equalTo(@47);
+//        }];
+//    }
+//    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+    
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    
     [MobClick beginLogPageView:@"rp105"];
     if([gAppMgr.myUser.favorites getFavoriteWithID:self.shop.shopID] == nil){
         self.favorite = NO;
+        [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star"] forState:UIControlStateNormal];
+        [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star"] forState:UIControlStateNormal];
     }
     else {
         self.favorite = YES;
+        [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_fillstar"] forState:UIControlStateNormal];
+        [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_fillstar"] forState:UIControlStateNormal];
     }
-    
-    [self setupNavigationBar];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp105"];
+    //如果当前视图的导航条没有发生跳转，则不做处理
+    if (![self.navigationController.topViewController isEqual:self]) {
+        [self.navigationController setNavigationBarHidden:NO animated:animated];
+    }
 }
 - (void)dealloc
 {
@@ -70,81 +110,29 @@
 }
 
 #pragma mark - SetupUI
-- (void)setupNavigationBar
+- (UIStatusBarStyle)preferredStatusBarStyle
 {
-    UIButton * collectBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 23)];
-    UIImage * image = [UIImage imageNamed:self.favorite ? @"collected" : @"collect"];
-    
-    [collectBtn setImage:image forState:UIControlStateNormal];
+    return  self.titleShow ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
+}
 
-    @weakify(self);
-    [[collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
-        [MobClick event:@"rp105-1"];
-        @strongify(self);
-        if ([LoginViewModel loginIfNeededForTargetViewController:self])
-        {
-            if (self.favorite)
-            {
-                @weakify(self);
-                [[[gAppMgr.myUser.favorites rac_removeFavorite:@[self.shop.shopID]] initially:^{
-                    
-                    [gToast showingWithText:@"移除中…"];
-                }] subscribeNext:^(id x) {
-                    
-                    @strongify(self);
-                    [gToast dismiss];
-                    self.favorite = NO;
-                    [collectBtn setImage:[UIImage imageNamed:@"collect"] forState:UIControlStateNormal];
-                    NSArray * array = self.navigationController.viewControllers;
-                    UIViewController * vc = [array safetyObjectAtIndex:array.count - 2];
-                    if (vc && [vc isKindOfClass:[NearbyShopsViewController class]])
-                    {
-                        NearbyShopsViewController * nearbyVC = (NearbyShopsViewController *)vc;
-                        [nearbyVC reloadBottomView];
-                    }
-                } error:^(NSError *error) {
-                    
-                    [gToast showError:error.domain];
-                }];
-            }
-            else
-            {
-                @weakify(self);
-                [[[gAppMgr.myUser.favorites rac_addFavorite:self.shop] initially:^{
-                    
-                    [gToast showingWithText:@"添加中…"];
-                }] subscribeNext:^(id x) {
-                    
-                    @strongify(self);
-                    [gToast dismiss];
-                    self.favorite = YES;
-                    [collectBtn setImage:[UIImage imageNamed:@"collected"] forState:UIControlStateNormal];
-                    NSArray * array = self.navigationController.viewControllers;
-                    UIViewController * vc = [array safetyObjectAtIndex:array.count - 2];
-                    if (vc && [vc isKindOfClass:[NearbyShopsViewController class]])
-                    {
-                        NearbyShopsViewController * nearbyVC = (NearbyShopsViewController *)vc;
-                        [nearbyVC reloadBottomView];
-                    }
-                } error:^(NSError *error) {
-                    
-                    @strongify(self);
-                    if (error.code == 7002)
-                    {
-                        self.favorite = YES;
-                        [collectBtn setImage:[UIImage imageNamed:@"collected"] forState:UIControlStateNormal];
-                        [gToast dismiss];
-                    }
-                    else {
-                        [gToast showError:error.domain];
-                    }
-                }];
-            }
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    self.titleView.alpha = MAX(0, (scrollView.contentOffset.y - 80)) * 0.02;
+    self.titleLabel.alpha = MAX(0, (scrollView.contentOffset.y - 80)) * 0.02;
+    self.greenBackBtn.alpha = MAX(0, (scrollView.contentOffset.y - 80)) * 0.02;
+    self.greenStarBtn.alpha = MAX(0, (scrollView.contentOffset.y - 80)) * 0.02;
+    if (scrollView.contentOffset.y > 80) {
+        self.titleShow = YES;
+        if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+            [self setNeedsStatusBarAppearanceUpdate];
         }
-    }];
-    UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithCustomView:collectBtn];
-    self.navigationItem.rightBarButtonItem = item;
+    }
+    else {
+        self.titleShow = NO;
+        if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+            [self setNeedsStatusBarAppearanceUpdate];
+        }
+    }
 }
 
 - (void)setupMyCarList
@@ -155,6 +143,74 @@
 }
 
 #pragma mark - Action
+- (IBAction)collectionAction:(id)sender {
+    [MobClick event:@"rp105-1"];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self])
+    {
+        if (self.favorite)
+        {
+            @weakify(self);
+            [[[gAppMgr.myUser.favorites rac_removeFavorite:@[self.shop.shopID]] initially:^{
+
+                [gToast showingWithText:@"移除中…"];
+            }] subscribeNext:^(id x) {
+
+                @strongify(self);
+                [gToast dismiss];
+                self.favorite = NO;
+                [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star"] forState:UIControlStateNormal];
+                [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star"] forState:UIControlStateNormal];
+                
+                NSArray * array = self.navigationController.viewControllers;
+                UIViewController * vc = [array safetyObjectAtIndex:array.count - 2];
+                if (vc && [vc isKindOfClass:[NearbyShopsViewController class]])
+                {
+                    NearbyShopsViewController * nearbyVC = (NearbyShopsViewController *)vc;
+                    [nearbyVC reloadBottomView];
+                }
+            } error:^(NSError *error) {
+
+                [gToast showError:error.domain];
+            }];
+        }
+        else
+        {
+            @weakify(self);
+            [[[gAppMgr.myUser.favorites rac_addFavorite:self.shop] initially:^{
+
+                [gToast showingWithText:@"添加中…"];
+            }] subscribeNext:^(id x) {
+
+                @strongify(self);
+                [gToast dismiss];
+                self.favorite = YES;
+                [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_fillstar"] forState:UIControlStateNormal];
+                [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_fillstar"] forState:UIControlStateNormal];
+                NSArray * array = self.navigationController.viewControllers;
+                UIViewController * vc = [array safetyObjectAtIndex:array.count - 2];
+                if (vc && [vc isKindOfClass:[NearbyShopsViewController class]])
+                {
+                    NearbyShopsViewController * nearbyVC = (NearbyShopsViewController *)vc;
+                    [nearbyVC reloadBottomView];
+                }
+            } error:^(NSError *error) {
+
+                @strongify(self);
+                if (error.code == 7002)
+                {
+                    self.favorite = YES;
+                    [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star"] forState:UIControlStateNormal];
+                    [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star"] forState:UIControlStateNormal];
+                    [gToast dismiss];
+                }
+                else {
+                    [gToast showError:error.domain];
+                }
+            }];
+        }
+    }
+}
+
 - (void)requestShopComments
 {
     GetShopRatesOp * op = [GetShopRatesOp operation];
@@ -206,7 +262,10 @@
     if (self.shop.picArray.count > 0)
     {
         SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
-        browser.sourceImagesContainerView = tap.view.superview; // 原图的父控件
+        UIView *containerV = tap.view.superview;
+        UIView *sourceImgV1 = [containerV viewWithTag:1001];
+        UIView *sourceImgV2 = [containerV viewWithTag:1002];
+        browser.sourceImageViews = @[sourceImgV1, sourceImgV2]; // 原图的容器
         browser.imageCount = self.shop.picArray.count; // 图片总数
         browser.currentImageIndex = 0;
         browser.delegate = self;
@@ -266,7 +325,17 @@
             height = 44;
         }
         else if (indexPath.row < 3 + self.shop.shopServiceArray.count) {
-            height = [super tableView:tableView heightForRowAtIndexPath:indexPath];
+            if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+            {
+                return UITableViewAutomaticDimension;
+            }
+            
+            UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+            [cell layoutIfNeeded];
+            [cell setNeedsUpdateConstraints];
+            [cell updateConstraintsIfNeeded];
+            CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+            height = ceil(size.height+1);
         }
         else {
             height = 44;
@@ -279,7 +348,17 @@
         else {
             if (self.shop.shopCommentArray.count)
             {
-                height = [super tableView:tableView heightForRowAtIndexPath:indexPath];
+                if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+                {
+                    return UITableViewAutomaticDimension;
+                }
+                
+                UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+                [cell layoutIfNeeded];
+                [cell setNeedsUpdateConstraints];
+                [cell updateConstraintsIfNeeded];
+                CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+                height = ceil(size.height+1);
             }
             else
             {
@@ -309,12 +388,22 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 9;
+    return section == 0 ? 165 : 9;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 9;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return [self addSectionHeadView];
+    }
+    else {
+        return nil;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -423,38 +512,36 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ShopTitleCell"];
     JTShop *shop = self.shop;
-    UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
+    
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1003];
     UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *businessHoursLb = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
     UIButton *collectBtn = (UIButton *)[cell.contentView viewWithTag:1007];
+    UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1008];
     
-    
-    UITapGestureRecognizer * gesture = logoV.customObject;
-    if (!gesture)
-    {
-        UITapGestureRecognizer *ge = [[UITapGestureRecognizer alloc] init];
-        [logoV addGestureRecognizer:ge];
-        logoV.userInteractionEnabled = YES;
-        logoV.customObject = ge;
-        [ge addTarget:self action:@selector(actionShowPhotos:)];
-    }
-    gesture = logoV.customObject;
-    
-    @weakify(self);
+    @weakify(self)
     [[[collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self);
         [self requestAddUserFavorite:collectBtn];
     }];
-    
-    [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
+
     titleL.text = shop.shopName;
     ratingV.ratingValue = shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%0.1f分", shop.shopRate];
     businessHoursLb.text = [NSString stringWithFormat:@"营业时间：%@ - %@",self.shop.openHour,self.shop.closeHour];
+    
+    [statusL makeCornerRadius:3];
+    if ([self isBetween:shop.openHour and:shop.closeHour]) {
+        statusL.text = @"营业中";
+        statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
+    }
+    else {
+        statusL.text = @"已休息";
+        statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
+    }
     
     double myLat = gMapHelper.coordinate.latitude;
     double myLng = gMapHelper.coordinate.longitude;
@@ -601,7 +688,7 @@
 - (UIImage *)photoBrowser:(SDPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index
 {
     if (index == 0) {
-        NSString *strurl = [gMediaMgr urlWith:[self.shop.picArray safetyObjectAtIndex:0] imageType:ImageURLTypeThumbnail];
+        NSString *strurl = [gMediaMgr urlWith:[self.shop.picArray safetyObjectAtIndex:0] imageType:ImageURLTypeMedium];
         UIImage *cachedImg = [gMediaMgr imageFromMemoryCacheForUrl:strurl];
         return cachedImg ? cachedImg : [UIImage imageNamed:@"cm_shop"];
     }
@@ -615,6 +702,62 @@
     return [NSURL URLWithString:[gMediaMgr urlWith:[self.shop.picArray safetyObjectAtIndex:index] imageType:ImageURLTypeMedium]];
 }
 #pragma mark - Utility
+-(UIView *) addSectionHeadView
+{
+    UIView * sectionHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 165)];
+    UIImageView * imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 165)];
+    imgView.tag = 1001;
+    imgView.clipsToBounds = YES;
+    imgView.contentMode = UIViewContentModeScaleAspectFill;
+    
+    JTShop *shop = self.shop;
+    [imgView setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeMedium defImage:@"cm_shop" errorImage:@"cm_shop"];
+    UITapGestureRecognizer * gesture = imgView.customObject;
+    if (!gesture)
+    {
+        UITapGestureRecognizer *ge = [[UITapGestureRecognizer alloc] init];
+        [imgView addGestureRecognizer:ge];
+        imgView.userInteractionEnabled = YES;
+        imgView.customObject = ge;
+        [ge addTarget:self action:@selector(actionShowPhotos:)];
+    }
+    gesture = imgView.customObject;
+    [sectionHeadView addSubview:imgView];
+    
+    UILabel * countLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 58, 132, 70, 23)];
+    countLabel.text = [NSString stringWithFormat:@"%d张", (int)shop.picArray.count];
+    countLabel.font = [UIFont systemFontOfSize:15];
+    countLabel.textColor = [UIColor colorWithHex:@"#ffffff" alpha:0.7f];
+    countLabel.textAlignment = NSTextAlignmentCenter;
+    countLabel.backgroundColor = [UIColor colorWithHex:@"#000000" alpha:0.5f];
+    [countLabel makeCornerRadius:13];
+    countLabel.tag = 1002;
+    [sectionHeadView addSubview:countLabel];
+    
+    //为避免纯白图片而添加的蒙版(不截获点击图片的手势)
+    UIView * shadowView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 165)];
+    shadowView.backgroundColor = [UIColor colorWithHex:@"#000000" alpha:0.05f];
+    shadowView.userInteractionEnabled = NO;
+    [sectionHeadView addSubview:shadowView];
+    
+    return sectionHeadView;
+}
+
+-(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    
+    NSDate * nowDate = [NSDate date];
+    NSString * transStr = [formatter stringFromDate:nowDate];
+    NSDate * transDate = [formatter dateFromString:transStr];
+    
+    NSDate * beginDate = [formatter dateFromString:openHourStr];
+    NSDate * endDate = [formatter dateFromString:closeHourStr];
+    
+    return (transDate == [transDate earlierDate:beginDate]) || (transDate == [transDate laterDate:endDate]) ? NO : YES;
+}
+
 - (NSAttributedString *)priceStringWithOldPrice:(NSNumber *)price1 curPrice:(NSNumber *)price2
 {
     NSMutableAttributedString *str = [NSMutableAttributedString attributedString];

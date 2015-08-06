@@ -10,7 +10,7 @@
 #import "JTTableViewController.h"
 #import "JTShop.h"
 
-@interface ShopDetailVC : JTTableViewController
+@interface ShopDetailVC : UIViewController
 
 @property (nonatomic, strong)JTShop * shop;
 

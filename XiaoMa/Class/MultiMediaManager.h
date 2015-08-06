@@ -12,8 +12,8 @@
 typedef enum : NSInteger
 {
     ImageURLTypeOrigin = 0,     //原图
-    ImageURLTypeThumbnail,      //缩略图   128*128
-    ImageURLTypeMedium,         //中图     1024*1024
+    ImageURLTypeThumbnail,      //缩略图     128*128
+    ImageURLTypeMedium          //中图       1024*1024
 }ImageURLType;
 
 #define kImagePickerDelayDismiss @"$DelayDismiss"

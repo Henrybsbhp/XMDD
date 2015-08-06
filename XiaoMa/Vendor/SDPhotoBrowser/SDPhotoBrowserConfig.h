@@ -19,7 +19,7 @@ typedef enum {
 #define SDPhotoBrowserSaveImageFailText @" >_< 保存失败 ";
 
 // browser背景颜色
-#define SDPhotoBrowserBackgrounColor [UIColor colorWithRed:0 green:0 blue:0 alpha:0.75]
+#define SDPhotoBrowserBackgrounColor [UIColor colorWithRed:0 green:0 blue:0 alpha:0.9]
 
 // browser中图片间的margin
 #define SDPhotoBrowserImageViewMargin 10

@@ -304,11 +304,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1) {
+    if (indexPath.section == 1 && indexPath.row == 0) {
         [MobClick event:@"rp301-4"];
-        
         if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
             MyCarListVC *vc = [UIStoryboard vcWithId:@"MyCarListVC" inStoryboard:@"Mine"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
+    else if (indexPath.section == 1 && indexPath.row == 1) {
+        if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+            UIViewController *vc = [UIStoryboard vcWithId:@"MyBankVC" inStoryboard:@"Bank"];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }
