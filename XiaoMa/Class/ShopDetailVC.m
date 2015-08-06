@@ -25,13 +25,22 @@
 
 #define kDefaultServieCount     2
 
-@interface ShopDetailVC ()
+@interface ShopDetailVC () <UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *titleView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UIButton *greenBackBtn;
+@property (weak, nonatomic) IBOutlet UIButton *whiteBackBtn;
+@property (weak, nonatomic) IBOutlet UIButton *greenStarBtn;
+@property (weak, nonatomic) IBOutlet UIButton *whiteStarBtn;
+- (IBAction)collectionAction:(id)sender;
 /// 服务列表展开
 @property (nonatomic, assign) BOOL serviceExpanded;
 /// 是否已收藏标签
 @property (nonatomic)BOOL favorite;
+/// 是否显示标题栏
+@property (nonatomic)BOOL titleShow;
 
 @end
 
@@ -45,8 +54,16 @@
         self.tableView.estimatedRowHeight = 44;
         self.tableView.rowHeight = UITableViewAutomaticDimension;
     }
+    if (IOSVersionGreaterThanOrEqualTo(@"7.0")) {
+        [self.tableView setContentInset:UIEdgeInsetsMake(-20, 0, 0, 0)];
+    }
     
-    [self setupNavigationBar];
+    [[self.whiteBackBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    [[self.greenBackBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
     [self requestShopComments];
 }
 
@@ -54,6 +71,13 @@
 {
     [super viewWillAppear:animated];
     
+//    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0)
+//    {
+//        [self.titleView mas_updateConstraints:^(MASConstraintMaker *make) {
+//            make.height.mas_equalTo(@47);
+//        }];
+//    }
+//    
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     
     [self.navigationController setNavigationBarHidden:YES animated:animated];
@@ -61,18 +85,24 @@
     [MobClick beginLogPageView:@"rp105"];
     if([gAppMgr.myUser.favorites getFavoriteWithID:self.shop.shopID] == nil){
         self.favorite = NO;
+        [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star"] forState:UIControlStateNormal];
+        [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star"] forState:UIControlStateNormal];
     }
     else {
         self.favorite = YES;
+        [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_fillstar"] forState:UIControlStateNormal];
+        [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_fillstar"] forState:UIControlStateNormal];
     }
-    [self setupNavigationBar];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp105"];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    //如果当前视图的导航条没有发生跳转，则不做处理
+    if (![self.navigationController.topViewController isEqual:self]) {
+        [self.navigationController setNavigationBarHidden:NO animated:animated];
+    }
 }
 - (void)dealloc
 {
@@ -82,86 +112,27 @@
 #pragma mark - SetupUI
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
-    return UIStatusBarStyleLightContent;
+    return  self.titleShow ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
 }
 
-- (void)setupNavigationBar
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    UIButton * collectBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 23)];
-    UIImage * image = [UIImage imageNamed:self.favorite ? @"collected" : @"collect"];
-    
-    [collectBtn setImage:image forState:UIControlStateNormal];
-
-    @weakify(self);
-    [[collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
-        [MobClick event:@"rp105-1"];
-        @strongify(self);
-        if ([LoginViewModel loginIfNeededForTargetViewController:self])
-        {
-            if (self.favorite)
-            {
-                @weakify(self);
-                [[[gAppMgr.myUser.favorites rac_removeFavorite:@[self.shop.shopID]] initially:^{
-                    
-                    [gToast showingWithText:@"移除中…"];
-                }] subscribeNext:^(id x) {
-                    
-                    @strongify(self);
-                    [gToast dismiss];
-                    self.favorite = NO;
-                    [collectBtn setImage:[UIImage imageNamed:@"collect"] forState:UIControlStateNormal];
-                    NSArray * array = self.navigationController.viewControllers;
-                    UIViewController * vc = [array safetyObjectAtIndex:array.count - 2];
-                    if (vc && [vc isKindOfClass:[NearbyShopsViewController class]])
-                    {
-                        NearbyShopsViewController * nearbyVC = (NearbyShopsViewController *)vc;
-                        [nearbyVC reloadBottomView];
-                    }
-                } error:^(NSError *error) {
-                    
-                    [gToast showError:error.domain];
-                }];
-            }
-            else
-            {
-                @weakify(self);
-                [[[gAppMgr.myUser.favorites rac_addFavorite:self.shop] initially:^{
-                    
-                    [gToast showingWithText:@"添加中…"];
-                }] subscribeNext:^(id x) {
-                    
-                    @strongify(self);
-                    [gToast dismiss];
-                    self.favorite = YES;
-                    [collectBtn setImage:[UIImage imageNamed:@"collected"] forState:UIControlStateNormal];
-                    NSArray * array = self.navigationController.viewControllers;
-                    UIViewController * vc = [array safetyObjectAtIndex:array.count - 2];
-                    if (vc && [vc isKindOfClass:[NearbyShopsViewController class]])
-                    {
-                        NearbyShopsViewController * nearbyVC = (NearbyShopsViewController *)vc;
-                        [nearbyVC reloadBottomView];
-                    }
-                } error:^(NSError *error) {
-                    
-                    @strongify(self);
-                    if (error.code == 7002)
-                    {
-                        self.favorite = YES;
-                        [collectBtn setImage:[UIImage imageNamed:@"collected"] forState:UIControlStateNormal];
-                        [gToast dismiss];
-                    }
-                    else {
-                        [gToast showError:error.domain];
-                    }
-                }];
-            }
+    self.titleView.alpha = MAX(0, (scrollView.contentOffset.y - 80)) * 0.02;
+    self.titleLabel.alpha = MAX(0, (scrollView.contentOffset.y - 80)) * 0.02;
+    self.greenBackBtn.alpha = MAX(0, (scrollView.contentOffset.y - 80)) * 0.02;
+    self.greenStarBtn.alpha = MAX(0, (scrollView.contentOffset.y - 80)) * 0.02;
+    if (scrollView.contentOffset.y > 80) {
+        self.titleShow = YES;
+        if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+            [self setNeedsStatusBarAppearanceUpdate];
         }
-    }];
-    UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithCustomView:collectBtn];
-    self.navigationItem.rightBarButtonItem = item;
-    
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
+    else {
+        self.titleShow = NO;
+        if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+            [self setNeedsStatusBarAppearanceUpdate];
+        }
+    }
 }
 
 - (void)setupMyCarList
@@ -172,6 +143,74 @@
 }
 
 #pragma mark - Action
+- (IBAction)collectionAction:(id)sender {
+    [MobClick event:@"rp105-1"];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self])
+    {
+        if (self.favorite)
+        {
+            @weakify(self);
+            [[[gAppMgr.myUser.favorites rac_removeFavorite:@[self.shop.shopID]] initially:^{
+
+                [gToast showingWithText:@"移除中…"];
+            }] subscribeNext:^(id x) {
+
+                @strongify(self);
+                [gToast dismiss];
+                self.favorite = NO;
+                [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star"] forState:UIControlStateNormal];
+                [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star"] forState:UIControlStateNormal];
+                
+                NSArray * array = self.navigationController.viewControllers;
+                UIViewController * vc = [array safetyObjectAtIndex:array.count - 2];
+                if (vc && [vc isKindOfClass:[NearbyShopsViewController class]])
+                {
+                    NearbyShopsViewController * nearbyVC = (NearbyShopsViewController *)vc;
+                    [nearbyVC reloadBottomView];
+                }
+            } error:^(NSError *error) {
+
+                [gToast showError:error.domain];
+            }];
+        }
+        else
+        {
+            @weakify(self);
+            [[[gAppMgr.myUser.favorites rac_addFavorite:self.shop] initially:^{
+
+                [gToast showingWithText:@"添加中…"];
+            }] subscribeNext:^(id x) {
+
+                @strongify(self);
+                [gToast dismiss];
+                self.favorite = YES;
+                [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_fillstar"] forState:UIControlStateNormal];
+                [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_fillstar"] forState:UIControlStateNormal];
+                NSArray * array = self.navigationController.viewControllers;
+                UIViewController * vc = [array safetyObjectAtIndex:array.count - 2];
+                if (vc && [vc isKindOfClass:[NearbyShopsViewController class]])
+                {
+                    NearbyShopsViewController * nearbyVC = (NearbyShopsViewController *)vc;
+                    [nearbyVC reloadBottomView];
+                }
+            } error:^(NSError *error) {
+
+                @strongify(self);
+                if (error.code == 7002)
+                {
+                    self.favorite = YES;
+                    [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star"] forState:UIControlStateNormal];
+                    [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star"] forState:UIControlStateNormal];
+                    [gToast dismiss];
+                }
+                else {
+                    [gToast showError:error.domain];
+                }
+            }];
+        }
+    }
+}
+
 - (void)requestShopComments
 {
     GetShopRatesOp * op = [GetShopRatesOp operation];
@@ -672,11 +711,17 @@
     UILabel * countLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 58, 132, 70, 23)];
     countLabel.text = [NSString stringWithFormat:@"%d张", (int)shop.picArray.count];
     countLabel.font = [UIFont systemFontOfSize:15];
-    countLabel.textColor = [UIColor colorWithHex:@"#ffffff" alpha:0.7];
+    countLabel.textColor = [UIColor colorWithHex:@"#ffffff" alpha:0.7f];
     countLabel.textAlignment = NSTextAlignmentCenter;
-    countLabel.backgroundColor = [UIColor colorWithHex:@"#000000" alpha:0.5];
+    countLabel.backgroundColor = [UIColor colorWithHex:@"#000000" alpha:0.5f];
     [countLabel makeCornerRadius:13];
     [sectionHeadView addSubview:countLabel];
+    
+    //为避免纯白图片而添加的蒙版(不截获点击图片的手势)
+    UIView * shadowView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 165)];
+    shadowView.backgroundColor = [UIColor colorWithHex:@"#000000" alpha:0.05f];
+    shadowView.userInteractionEnabled = NO;
+    [sectionHeadView addSubview:shadowView];
     
     return sectionHeadView;
 }
