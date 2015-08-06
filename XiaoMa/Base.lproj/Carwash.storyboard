@@ -1853,7 +1853,7 @@
                                                     </state>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1007" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="营业中" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U0I-Mj-vLA">
-                                                    <rect key="frame" x="544" y="37" width="42" height="17"/>
+                                                    <rect key="frame" x="544" y="35.5" width="42" height="17"/>
                                                     <color key="backgroundColor" red="0.1344757674" green="0.671875" blue="0.1314050806" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="YSN-Zs-FKt"/>
@@ -1865,7 +1865,7 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="U0I-Mj-vLA" firstAttribute="top" secondItem="I15-aG-Bdl" secondAttribute="bottom" constant="-14" id="0Ot-de-h1n"/>
+                                                <constraint firstItem="U0I-Mj-vLA" firstAttribute="top" secondItem="I15-aG-Bdl" secondAttribute="bottom" id="0Ot-de-h1n"/>
                                                 <constraint firstItem="BkN-3K-13X" firstAttribute="top" secondItem="rNF-Im-C2j" secondAttribute="bottom" constant="5" id="22i-xn-Ehc"/>
                                                 <constraint firstItem="a3U-jh-nBw" firstAttribute="leading" secondItem="JgD-oD-7ux" secondAttribute="leading" constant="12" id="2Xm-AO-ZXB"/>
                                                 <constraint firstItem="rNF-Im-C2j" firstAttribute="leading" secondItem="Cyy-L0-epg" secondAttribute="trailing" priority="750" constant="5" id="3Aw-Aj-Kjc"/>
@@ -1885,6 +1885,7 @@
                                                 <constraint firstItem="oUF-cM-FBo" firstAttribute="centerY" secondItem="I15-aG-Bdl" secondAttribute="centerY" id="U5F-Te-VsY"/>
                                                 <constraint firstItem="BkN-3K-13X" firstAttribute="top" secondItem="k9I-is-698" secondAttribute="bottom" constant="5" id="UN1-eE-d3k"/>
                                                 <constraint firstItem="I15-aG-Bdl" firstAttribute="leading" secondItem="oUF-cM-FBo" secondAttribute="trailing" constant="14" id="UtT-CE-LKI"/>
+                                                <constraint firstItem="I15-aG-Bdl" firstAttribute="centerY" secondItem="U0I-Mj-vLA" secondAttribute="centerY" constant="-1" id="Vka-9k-EbT"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ucm-rQ-4mG" secondAttribute="trailing" constant="12" id="WlO-Ae-JtE"/>
                                                 <constraint firstItem="rNF-Im-C2j" firstAttribute="top" secondItem="XV9-TQ-Kgl" secondAttribute="bottom" constant="5" id="X5l-ZY-IhU"/>
                                                 <constraint firstAttribute="trailing" secondItem="Bac-h4-TQT" secondAttribute="trailing" constant="15" id="aMp-HV-qVh"/>
@@ -1909,6 +1910,11 @@
                                                 <constraint firstItem="VjD-BJ-eao" firstAttribute="centerY" secondItem="W5e-Vt-cQ8" secondAttribute="centerY" id="ynU-fH-LmX"/>
                                                 <constraint firstItem="W5e-Vt-cQ8" firstAttribute="leading" secondItem="jyB-ho-WBy" secondAttribute="trailing" constant="11" id="zw8-q5-Bw8"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="0Ot-de-h1n"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
