@@ -30,6 +30,7 @@
     
     NSDictionary* infoDict =[[NSBundle mainBundle] infoDictionary];
     _appVersion = [infoDict objectForKey:@"CFBundleShortVersionString"];
+    _appLongVersion = [infoDict objectForKey:@"CFBundleVersion"];
     return self;
 }
 

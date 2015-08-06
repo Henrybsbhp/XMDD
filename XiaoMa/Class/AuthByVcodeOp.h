@@ -11,4 +11,5 @@
 @interface AuthByVcodeOp : BaseOp
 @property (nonatomic, strong) NSString *req_deviceID;
 @property (nonatomic, strong) NSString *req_deviceModel;
+@property (nonatomic, strong) NSString *req_appVersion;
 @end

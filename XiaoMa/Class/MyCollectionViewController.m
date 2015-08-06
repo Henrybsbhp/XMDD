@@ -283,10 +283,7 @@
         UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
         UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
         
-        
-        [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] subscribeNext:^(UIImage * image) {
-            logoV.image = image;
-        }];;
+        [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
         titleL.text = shop.shopName;
         ratingV.ratingValue = shop.shopRate;
         ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
@@ -364,9 +361,7 @@
         UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
         UIButton * checkBtn = (UIButton *)[cell searchViewWithTag:3003];
         
-        [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] subscribeNext:^(UIImage * image) {
-            logoV.image = image;
-        }];;
+        [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
         titleL.text = shop.shopName;
         ratingV.ratingValue = shop.shopRate;
         ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];

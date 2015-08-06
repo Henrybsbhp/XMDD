@@ -54,32 +54,16 @@
 {
     self.pickedPhotoUrl = self.car.licenceurl;
     if (self.pickedPhotoUrl.length > 0) {
-//        [[gAppMgr.mediaMgr rac_getPictureForUrl:self.pickedPhotoUrl withType:ImageURLTypeOrigin defaultPic:@"cm_defpic" errorPic:@"cm_defpic_fail"] subscribeNext:^(UIImage *x) {
-//            
-//            self.pickedPhoto = x;
-//            self.pickedPhotoView.image = x;
-//            self.defaultPhotoView.hidden = YES;
-//        }];
-        
+
         self.pickedPhotoView.image = [UIImage imageNamed:@"cm_defpic"];
         self.defaultPhotoView.hidden = YES;
-        [[gAppMgr.mediaMgr rac_getPictureForUrl:self.pickedPhotoUrl defaultPic:nil] subscribeNext:^(UIImage *orgImg) {
-            if (!orgImg) {
-                self.pickedPhotoView.image = [UIImage imageNamed:@"cm_defpic"];
-                return ;
-            }
-            self.pickedPhoto = orgImg;
-            NSString *markedUrl = [self.pickedPhotoUrl append:@"_marked"];
-            [[[gAppMgr.mediaMgr rac_getImageFromCacheWithUrl:markedUrl] deliverOn:[RACScheduler mainThreadScheduler]]
-             subscribeNext:^(UIImage *markedImg) {
-                if (!markedImg) {
-                    markedImg = [EditPictureViewController generateImageByAddingWatermarkWith:orgImg];
-                    [gAppMgr.mediaMgr.picCache setImage:markedImg forKey:markedUrl];
-                }
-                self.pickedPhotoView.image = markedImg;
-            }];
+        [[gAppMgr.mediaMgr rac_getImageByUrl:self.pickedPhotoUrl withType:ImageURLTypeOrigin defaultPic:nil errorPic:nil]
+         subscribeNext:^(UIImage *orgImg) {
+             self.pickedPhoto = orgImg;
+             self.pickedPhotoView.image = [EditPictureViewController generateImageByAddingWatermarkWith:orgImg];
         } error:^(NSError *error) {
-            self.pickedPhotoView.image = [UIImage imageNamed:@"cm_defpic_fail"];
+            NSString *name = self.pickedPhotoUrl.length == 0 ? @"cm_defpic" : @"cm_defpic_fail";
+            self.pickedPhotoView.image = [UIImage imageNamed:name];
         }];
     }
 }
