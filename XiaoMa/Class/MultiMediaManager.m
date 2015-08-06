@@ -51,6 +51,9 @@ static MultiMediaManager *g_mediaManager;
     else if (type == ImageURLTypeMedium) {
         url = [url append:@"?imageView2/0/w/1024/h/1024"];
     }
+    else if (type == ImageURLTypeDetail) {
+        url = [url append:@"?imageView2/0/w/375/h/375"];
+    }
     return [self rac_getPictureForUrl:url defaultPic:defName];
 }
 
@@ -83,6 +86,9 @@ static MultiMediaManager *g_mediaManager;
     else if (type == ImageURLTypeMedium) {
         url = [url append:@"?imageView2/0/w/1024/h/1024"];
     }
+    else if (type == ImageURLTypeDetail) {
+        url = [url append:@"?imageView2/0/w/375/h/375"];
+    }
     return url;
 }
 
@@ -94,6 +100,9 @@ static MultiMediaManager *g_mediaManager;
     }
     else if (type == ImageURLTypeMedium) {
         url = [url append:@"?imageView2/0/w/1024/h/1024"];
+    }
+    else if (type == ImageURLTypeDetail) {
+        url = [url append:@"?imageView2/0/w/375/h/375"];
     }
     
     return [[self rac_getPictureWithUrlForSpecialFirstTime:url  defaultPic:defName] catch:^RACSignal *(NSError *error) {
