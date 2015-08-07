@@ -28,6 +28,8 @@
 @interface ShopDetailVC () <UIScrollViewDelegate, SDPhotoBrowserDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIImageView *headImgView;
+@property (weak, nonatomic) IBOutlet UIImageView *maskView;
 @property (weak, nonatomic) IBOutlet UIView *titleView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIButton *greenBackBtn;
@@ -64,6 +66,8 @@
     [[self.greenBackBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         [self.navigationController popViewControllerAnimated:YES];
     }];
+    
+    [self headImageView];
     [self requestShopComments];
 }
 
@@ -254,7 +258,7 @@
     {
         SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
         UIView *containerV = tap.view.superview;
-        UIView *sourceImgV1 = [containerV viewWithTag:1001];
+        UIView *sourceImgV1 = self.headImgView;
         UIView *sourceImgV2 = [containerV viewWithTag:1002];
         browser.sourceImageViews = @[sourceImgV1, sourceImgV2]; // 原图的容器
         browser.imageCount = self.shop.picArray.count; // 图片总数
@@ -379,22 +383,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return section == 0 ? 165 : 9;
+    return section == 0 ? CGFLOAT_MIN : 9;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 9;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    if (section == 0) {
-        return [self addSectionHeadView];
-    }
-    else {
-        return nil;
-    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -693,27 +687,30 @@
     return [NSURL URLWithString:[gMediaMgr urlWith:[self.shop.picArray safetyObjectAtIndex:index] imageType:ImageURLTypeMedium]];
 }
 #pragma mark - Utility
--(UIView *) addSectionHeadView
+-(void) headImageView
 {
-    UIView * sectionHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 165)];
-    UIImageView * imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 165)];
-    imgView.tag = 1001;
-    imgView.clipsToBounds = YES;
-    imgView.contentMode = UIViewContentModeScaleAspectFill;
+    @weakify(self);
+    [self.headImgView mas_updateConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.top.equalTo(self.view.mas_top).offset(0);
+    }];
+    [self.maskView mas_updateConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.top.equalTo(self.view.mas_top).offset(0);
+    }];
     
     JTShop *shop = self.shop;
-    [imgView setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeMedium defImage:@"cm_shop" errorImage:@"cm_shop"];
-    UITapGestureRecognizer * gesture = imgView.customObject;
+    [self.headImgView setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeMedium defImage:@"cm_shop" errorImage:@"cm_shop"];
+    UITapGestureRecognizer * gesture = self.headImgView.customObject;
     if (!gesture)
     {
         UITapGestureRecognizer *ge = [[UITapGestureRecognizer alloc] init];
-        [imgView addGestureRecognizer:ge];
-        imgView.userInteractionEnabled = YES;
-        imgView.customObject = ge;
+        [self.headImgView addGestureRecognizer:ge];
+        self.headImgView.userInteractionEnabled = YES;
+        self.headImgView.customObject = ge;
         [ge addTarget:self action:@selector(actionShowPhotos:)];
     }
-    gesture = imgView.customObject;
-    [sectionHeadView addSubview:imgView];
+    gesture = self.headImgView.customObject;
     
     UILabel * countLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 58, 132, 70, 23)];
     countLabel.text = [NSString stringWithFormat:@"%d张", (int)shop.picArray.count];
@@ -723,15 +720,7 @@
     countLabel.backgroundColor = [UIColor colorWithHex:@"#000000" alpha:0.5f];
     [countLabel makeCornerRadius:13];
     countLabel.tag = 1002;
-    [sectionHeadView addSubview:countLabel];
-    
-    //为避免纯白图片而添加的蒙版(不截获点击图片的手势)
-    UIView * shadowView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 165)];
-    shadowView.backgroundColor = [UIColor colorWithHex:@"#000000" alpha:0.05f];
-    shadowView.userInteractionEnabled = NO;
-    [sectionHeadView addSubview:shadowView];
-    
-    return sectionHeadView;
+    [self.headImgView addSubview:countLabel];
 }
 
 -(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
