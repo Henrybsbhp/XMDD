@@ -480,6 +480,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2dM-dg-Pn5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2659" y="247"/>
+        </scene>
         <!--注册-->
         <scene sceneID="0ph-Hq-VL6">
             <objects>
