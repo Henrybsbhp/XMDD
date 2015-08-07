@@ -802,35 +802,25 @@
                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HLz-L9-uTf">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="67"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fvt-EY-Jv6">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </view>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="商户详情" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OVB-gB-sMR">
                                         <rect key="frame" x="266" y="35" width="68" height="17"/>
                                         <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cm_nav_shadow" translatesAutoresizingMaskIntoConstraints="NO" id="wTK-Gi-8WX">
+                                    <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BBt-xX-zdU">
+                                        <rect key="frame" x="0.0" y="63" width="600" height="1"/>
+                                        <color key="backgroundColor" red="0.71312736742424243" green="0.71312736742424243" blue="0.71312736742424243" alpha="1" colorSpace="calibratedRGB"/>
+                                    </view>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cm_nav_shadow" translatesAutoresizingMaskIntoConstraints="NO" id="wTK-Gi-8WX">
                                         <rect key="frame" x="0.0" y="64" width="600" height="3"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="3" id="HJv-Zh-6gc"/>
-                                        </constraints>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="fvt-EY-Jv6" secondAttribute="trailing" id="0rm-6j-c5R"/>
-                                    <constraint firstItem="fvt-EY-Jv6" firstAttribute="leading" secondItem="HLz-L9-uTf" secondAttribute="leading" id="10q-up-miL"/>
-                                    <constraint firstAttribute="trailing" secondItem="wTK-Gi-8WX" secondAttribute="trailing" id="Nuc-tH-JQE"/>
-                                    <constraint firstItem="wTK-Gi-8WX" firstAttribute="top" secondItem="fvt-EY-Jv6" secondAttribute="bottom" id="UsQ-mw-2Fa"/>
                                     <constraint firstAttribute="height" constant="67" id="YF6-tp-udj"/>
                                     <constraint firstAttribute="centerY" secondItem="OVB-gB-sMR" secondAttribute="centerY" constant="-10" id="cX7-d2-gSs"/>
-                                    <constraint firstItem="fvt-EY-Jv6" firstAttribute="top" secondItem="HLz-L9-uTf" secondAttribute="top" id="dbF-TF-5ao"/>
                                     <constraint firstAttribute="centerX" secondItem="OVB-gB-sMR" secondAttribute="centerX" id="eRH-0K-4n8"/>
-                                    <constraint firstAttribute="bottom" secondItem="wTK-Gi-8WX" secondAttribute="bottom" id="eXS-rB-mtz"/>
-                                    <constraint firstItem="wTK-Gi-8WX" firstAttribute="leading" secondItem="HLz-L9-uTf" secondAttribute="leading" id="w3y-qi-Ema"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lpy-1f-ogz" userLabel="WhiteBack">

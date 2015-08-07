@@ -71,15 +71,6 @@
 {
     [super viewWillAppear:animated];
     
-//    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0)
-//    {
-//        [self.titleView mas_updateConstraints:^(MASConstraintMaker *make) {
-//            make.height.mas_equalTo(@47);
-//        }];
-//    }
-//    
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-    
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     
     [MobClick beginLogPageView:@"rp105"];
@@ -536,11 +527,11 @@
     [statusL makeCornerRadius:3];
     if ([self isBetween:shop.openHour and:shop.closeHour]) {
         statusL.text = @"营业中";
-        statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
+        statusL.backgroundColor = HEXCOLOR(@"#1bb745");
     }
     else {
         statusL.text = @"已休息";
-        statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
+        statusL.backgroundColor = HEXCOLOR(@"#b6b6b6");
     }
     
     double myLat = gMapHelper.coordinate.latitude;

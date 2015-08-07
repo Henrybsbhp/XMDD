@@ -10,15 +10,15 @@
 #import "ADViewController.h"
 #import "HKBankCard.h"
 #import "HKConvertModel.h"
-#import "HKLoadingModel.h"
+#import "CardDetailVC.h"
 
-@interface MyBankVC ()<UITableViewDataSource,UITableViewDelegate,HKLoadingModelDelegate>
+@interface MyBankVC ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) ADViewController *advc;
 @property (nonatomic, strong) NSArray *bankCards;
-@property (nonatomic, strong) HKLoadingModel *loadingModel;
 @end
+
 @implementation MyBankVC
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -59,7 +59,15 @@
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    //点击“添加银行卡”
+    if (indexPath.row >= self.bankCards.count) {
+        
+    }
+    else {
+        CardDetailVC *vc = [UIStoryboard vcWithId:@"CardDetailVC" inStoryboard:@"Bank"];
+        vc.card = [self.bankCards safetyObjectAtIndex:0];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
