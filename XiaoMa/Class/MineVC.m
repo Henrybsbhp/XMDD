@@ -19,6 +19,7 @@
 #import "CouponPkgViewController.h"
 #import "UIView+ShowDot.h"
 #import "CardDetailVC.h"
+#import "UnbundlingVC.h"
 
 @interface MineVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -315,7 +316,8 @@
     else if (indexPath.section == 1 && indexPath.row == 1) {
         if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
             //UIViewController *vc = [UIStoryboard vcWithId:@"MyBankVC" inStoryboard:@"Bank"];
-            CardDetailVC *vc = [UIStoryboard vcWithId:@"CardDetailVC" inStoryboard:@"Bank"];
+            //CardDetailVC *vc = [UIStoryboard vcWithId:@"CardDetailVC" inStoryboard:@"Bank"];
+            UnbundlingVC *vc = [UIStoryboard vcWithId:@"UnbundlingVC" inStoryboard:@"Bank"];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }

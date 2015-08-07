@@ -183,6 +183,7 @@
 		18F813691B5F3561005F49B0 /* CKNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F813651B5F3561005F49B0 /* CKNavigationController.m */; };
 		18F8136A1B5F3561005F49B0 /* vertical_shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F813661B5F3561005F49B0 /* vertical_shadow.png */; };
 		18F8136B1B5F3561005F49B0 /* vertical_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F813671B5F3561005F49B0 /* vertical_shadow@2x.png */; };
+		507A4DDF1B74462200E0BF1E /* UnbundlingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 507A4DDE1B74462200E0BF1E /* UnbundlingVC.m */; };
 		50C6BF4D1B7341B800A5E021 /* CardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */; };
 		6B086BA11AE3184D00659DB7 /* GetShopByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */; };
 		6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */; };
@@ -676,6 +677,8 @@
 		18F813651B5F3561005F49B0 /* CKNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKNavigationController.m; sourceTree = "<group>"; };
 		18F813661B5F3561005F49B0 /* vertical_shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vertical_shadow.png; sourceTree = "<group>"; };
 		18F813671B5F3561005F49B0 /* vertical_shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vertical_shadow@2x.png"; sourceTree = "<group>"; };
+		507A4DDD1B74462200E0BF1E /* UnbundlingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnbundlingVC.h; sourceTree = "<group>"; };
+		507A4DDE1B74462200E0BF1E /* UnbundlingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnbundlingVC.m; sourceTree = "<group>"; };
 		50C6BF4B1B7341B800A5E021 /* CardDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardDetailVC.h; sourceTree = "<group>"; };
 		50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardDetailVC.m; sourceTree = "<group>"; };
 		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1967,6 +1970,8 @@
 				18E756A31B73335C00874601 /* MyBankVC.m */,
 				50C6BF4B1B7341B800A5E021 /* CardDetailVC.h */,
 				50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */,
+				507A4DDD1B74462200E0BF1E /* UnbundlingVC.h */,
+				507A4DDE1B74462200E0BF1E /* UnbundlingVC.m */,
 			);
 			name = Bank;
 			sourceTree = "<group>";
@@ -2709,6 +2714,7 @@
 				181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */,
 				6BB884BB1AE0BB9600EBD8F4 /* JTTableView.m in Sources */,
 				6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */,
+				507A4DDF1B74462200E0BF1E /* UnbundlingVC.m in Sources */,
 				6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */,
 				6BB61BA31AEF7CAE004F39AA /* NSString+RectSize.m in Sources */,
 				6BD7AE681AE9F63900BEF30E /* MapBottomView.m in Sources */,
