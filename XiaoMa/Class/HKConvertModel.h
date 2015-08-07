@@ -10,5 +10,6 @@
 
 @interface HKConvertModel : NSObject
 
++ (NSMutableString *)convertCardNumberForEncryption:(NSString *)card;
 
 @end

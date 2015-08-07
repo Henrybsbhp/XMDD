@@ -10,7 +10,6 @@
 #import <Masonry.h>
 #import "XiaoMa.h"
 #import "JTRatingView.h"
-#import "SYPaginator.h"
 #import "UIView+Layer.h"
 #import "ShopDetailVC.h"
 #import "JTShop.h"
@@ -22,19 +21,14 @@
 #import "NearbyShopsViewController.h"
 #import "SearchViewController.h"
 #import "WebVC.h"
-#import "HKAdvertisement.h"
 #import "UIView+DefaultEmptyView.h"
 #import "NSDate+DateForText.h"
+#import "ADViewController.h"
 
 
-
-@interface CarWashTableVC ()<SYPaginatorViewDataSource, SYPaginatorViewDelegate>
-@property (nonatomic, strong) SYPaginatorView *adView;
-@property (nonatomic, strong) RACDisposable *rac_adDisposable;
-@property (nonatomic, strong) NSArray *adList;
-
+@interface CarWashTableVC ()
 @property (nonatomic)CLLocationCoordinate2D  userCoordinate;
-
+@property (nonatomic, strong) ADViewController *adctrl;
 ///当前页码索引
 @property (nonatomic, assign) NSUInteger currentPageIndex;
 @end
@@ -69,6 +63,7 @@
     CKAsyncMainQueue(^{
         [self setupSearchView];
         [self setupTableView];
+        [self setupADView];
         [self reloadAdList];
         [self.loadingModel loadDataForTheFirstTime];
     });
@@ -120,61 +115,37 @@
     }];
 }
 
+- (void)setupADView
+{
+    self.adctrl = [ADViewController vcWithADType:AdvertisementCarWash boundsWidth:self.view.bounds.size.width
+                                        targetVC:self mobBaseEvent:@"rp102-6"];
+}
+
 - (void)reloadAdList
 {
     if (self.forbidAD) {
-        self.adList = nil;
         [self refreshAdView];
         return;
     }
-
     @weakify(self);
-    [[gAdMgr rac_fetchAdListByType:AdvertisementCarWash] subscribeNext:^(NSArray *ads) {
-        
+    [self.adctrl reloadDataWithCompleted:^(ADViewController *ctrl, NSArray *ads) {
         @strongify(self);
-        self.adList = ads;
         [self refreshAdView];
     }];
 }
 
 - (void)refreshAdView
 {
-    if (self.adList.count > 0) {
-        CGFloat width = CGRectGetWidth(self.view.frame);
-        CGFloat height = 360.0f/1242.0f*width;
-        self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), height+45);
-        if (!self.adView) {
-            SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 45, width, height)];
-            adView.delegate = self;
-            adView.dataSource = self;
-            adView.pageGapWidth = 0;
-            self.adView = adView;
-        }
-        [self.headerView addSubview:self.adView];
-        [self.adView reloadDataRemovingCurrentPage:YES];
-        self.adView.currentPageIndex = 0;
-        self.adView.pageControl.hidden = self.adList.count <= 1;
-        
-        //重置广告滚动的定时器
-        [self.rac_adDisposable dispose];
-        @weakify(self);
-        self.rac_adDisposable = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
-            
-            @strongify(self);
-            NSInteger index = [self.adView currentPageIndex] + 1;
-            if (index >= self.adList.count) {
-                index = 0;
-            }
-            [self.adView setCurrentPageIndex:index animated:YES];
-        }];
+    if (!self.forbidAD && self.adctrl.adList.count > 0) {
+        CGRect frame = self.adctrl.adView.frame;
+        self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), CGRectGetHeight(frame)+45);
+        frame.origin.y = 45;
+        self.adctrl.adView.frame = frame;
+        [self.headerView addSubview:self.adctrl.adView];
     }
     else {
         self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), 45);
-        [self.adView removeFromSuperview];
-        
-        //清理广告的定时器
-        [self.rac_adDisposable dispose];
-        [[self rac_deallocDisposable] removeDisposable:self.rac_adDisposable];
+        [self.adctrl.adView removeFromSuperview];
     }
     if (self.loadingModel.datasource.count > 0) {
         [self.tableView setTableHeaderView:self.headerView];
@@ -315,57 +286,6 @@
     else if (!self.tableView.tableHeaderView) {
         self.tableView.tableHeaderView = self.headerView;
     }
-}
-
-#pragma mark - SYPaginatorViewDelegate
-- (NSInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView
-{
-    return gAdMgr.carwashAdvertiseArray.count;
-}
-
-- (SYPageView *)paginatorView:(SYPaginatorView *)paginatorView viewForPageAtIndex:(NSInteger)pageIndex
-{
-    SYPageView *pageView = [paginatorView dequeueReusablePageWithIdentifier:@"pageView"];
-    if (!pageView) {
-        pageView = [[SYPageView alloc] initWithReuseIdentifier:@"pageView"];
-        UIImageView *imgV = [[UIImageView alloc] initWithFrame:pageView.bounds];
-        imgV.autoresizingMask = UIViewAutoresizingFlexibleAll;
-        imgV.tag = 1001;
-        [pageView addSubview:imgV];
-    }
-    UIImageView *imgV = (UIImageView *)[pageView searchViewWithTag:1001];
-    HKAdvertisement * ad = [gAdMgr.carwashAdvertiseArray safetyObjectAtIndex:pageIndex];
-    [imgV setImageByUrl:ad.adPic withType:ImageURLTypeMedium defImage:@"hp_bottom" errorImage:@"hp_bottom"];
-    
-    UITapGestureRecognizer * gesture = imgV.customObject;
-    if (!gesture)
-    {
-        UITapGestureRecognizer *ge = [[UITapGestureRecognizer alloc] init];
-        [imgV addGestureRecognizer:ge];
-        imgV.userInteractionEnabled = YES;
-        imgV.customObject = ge;
-    }
-    gesture = imgV.customObject;
-    
-    @weakify(self)
-    [[[gesture rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
-        
-        NSString * eventstr = [NSString stringWithFormat:@"rp102-6_%ld", pageIndex];
-        [MobClick event:eventstr];
-        @strongify(self)
-        if (ad.adLink.length)
-        {
-            WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
-            vc.url = ad.adLink;
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-    }];
-
-    return pageView;
-}
-
-- (void)paginatorView:(SYPaginatorView *)paginatorView didScrollToPageAtIndex:(NSInteger)pageIndex
-{
 }
 
 #pragma mark - Table view data source
