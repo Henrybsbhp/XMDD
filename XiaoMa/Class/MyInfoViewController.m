@@ -66,8 +66,7 @@
 {
     @weakify(self);
     RACDisposable *dis = [[[RACObserve(gAppMgr.myUser, avatarUrl) distinctUntilChanged] flattenMap:^RACStream *(id value) {
-        
-        return [gMediaMgr rac_getPictureForUrl:value withType:ImageURLTypeMedium defaultPic:nil errorPic:@"cm_avatar"];
+        return [gMediaMgr rac_getImageByUrl:value withType:ImageURLTypeMedium defaultPic:nil errorPic:@"cm_avatar"];
     }] subscribeNext:^(id x) {
         
         @strongify(self);

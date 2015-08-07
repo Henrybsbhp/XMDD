@@ -12,6 +12,7 @@
 #import "JGActionSheet.h"
 #import "UIImage+Utilities.h"
 #import "EditPictureViewController.h"
+#import <SDWebImageManager.h>
 
 #define kPicCacheName    @"MultiMediaManager_PicCache"
 
@@ -21,58 +22,40 @@
 
 @implementation MultiMediaManager
 
-static MultiMediaManager *g_mediaManager;
-
-- (instancetype)initWithPicCache:(TMCache *)cache
+- (UIImage *)imageFromMemoryCacheForUrl:(NSString *)strurl
 {
-    self = [super init];
-    if (self) {
-        _picCache = cache;
+    SDWebImageManager *mgr = [SDWebImageManager sharedManager];
+    if (strurl) {
+        return [mgr.imageCache imageFromMemoryCacheForKey:[mgr cacheKeyForURL:[NSURL URLWithString:strurl]]];
     }
-    return self;
+    return nil;
 }
 
-- (RACSignal *)rac_getPictureForUrl:(NSString *)url withType:(ImageURLType)type
-                           defaultPic:(NSString *)defName errorPic:(NSString *)errName
+- (RACSignal *)rac_getImageByUrl:(NSString *)strurl withType:(ImageURLType)type
+                      defaultPic:(NSString *)defName errorPic:(NSString *)errName
 {
-    return [[self rac_getPictureForUrl:url withType:type defaultPic:defName] catch:^RACSignal *(NSError *error) {
-        if (errName.length > 0) {
-            return [RACSignal return:[UIImage imageNamed:errName]];
+    return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        NSURL *url = strurl ? [NSURL URLWithString:strurl] : nil;
+        SDWebImageManager *mgr = [SDWebImageManager sharedManager];
+        if (defName && url && ![mgr cachedImageExistsForURL:url]) {
+            [subscriber sendNext:[UIImage imageNamed:defName]];
         }
-        return [RACSignal error:error];
-    }];
-}
-
-- (RACSignal *)rac_getPictureForUrl:(NSString *)url withType:(ImageURLType)type defaultPic:(NSString *)defName
-{
-    if (type == ImageURLTypeThumbnail) {
-        url = [url append:@"?imageView2/1/w/128/h/128"];
-    }
-    else if (type == ImageURLTypeMedium) {
-        url = [url append:@"?imageView2/0/w/1024/h/1024"];
-    }
-    return [self rac_getPictureForUrl:url defaultPic:defName];
-}
-
-- (RACSignal *)rac_getPictureForUrl:(NSString *)url defaultPic:(NSString *)defName
-{
-    RACSignal *signal = [self rac_getImageFromCacheWithUrl:url];
-    //从网络获取image
-    signal = [signal flattenMap:^RACStream *(UIImage *img) {
-
-        if (img) {
-            return [RACSignal return:img];
-        }
-        RACSignal *sig = [[self rac_getImageFromWebWithUrl:url] filter:^BOOL(id value) {
-            return (BOOL)value;
+        [mgr downloadImageWithURL:url options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+            if (image) {
+                [subscriber sendNext:image];
+            }
+            else if (error) {
+                if (errName.length > 0) {
+                    [subscriber sendNext:[UIImage imageNamed:errName]];
+                }
+                else {
+                    [subscriber sendError:error];
+                }
+            }
+            [subscriber sendCompleted];
         }];
-        if (defName.length > 0) {
-            sig = [sig merge:[RACSignal return:[UIImage imageNamed:defName]]];
-        }
-        return sig;
-    }];
-    
-    return [signal deliverOn:[RACScheduler mainThreadScheduler]];
+        return nil;
+    }] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
 - (NSString *)urlWith:(NSString *)url imageType:(ImageURLType)type
@@ -84,81 +67,6 @@ static MultiMediaManager *g_mediaManager;
         url = [url append:@"?imageView2/0/w/1024/h/1024"];
     }
     return url;
-}
-
-- (RACSignal *)rac_getPictureForSpecialFirstTime:(NSString *)url withType:(ImageURLType)type
-                         defaultPic:(NSString *)defName errorPic:(NSString *)errName
-{
-    if (type == ImageURLTypeThumbnail) {
-        url = [url append:@"?imageView2/1/w/128/h/128"];
-    }
-    else if (type == ImageURLTypeMedium) {
-        url = [url append:@"?imageView2/0/w/1024/h/1024"];
-    }
-    
-    return [[self rac_getPictureWithUrlForSpecialFirstTime:url  defaultPic:defName] catch:^RACSignal *(NSError *error) {
-        if (errName.length > 0) {
-            return [RACSignal return:[UIImage imageNamed:errName]];
-        }
-        return [RACSignal error:error];
-    }];
-}
-
-- (RACSignal *)rac_getPictureWithUrlForSpecialFirstTime:(NSString *)url defaultPic:(NSString *)defName
-{
-    RACSignal *signal = [self rac_getImageFromCacheWithUrl:url];
-    //从网络获取image
-    signal = [signal flattenMap:^RACStream *(UIImage *img) {
-        
-        if (img) {
-            return [RACSignal return:img];
-        }
-        RACSignal *sig = [[self rac_getImageFromWebWithUrl:url] filter:^BOOL(id value) {
-            return (BOOL)value;
-        }];
-        if (defName.length > 0) {
-            sig = [sig merge:[RACSignal return:@"loading"]];
-        }
-        return sig;
-    }];
-    
-    return [signal deliverOn:[RACScheduler mainThreadScheduler]];
-}
-
-#pragma mark - Private Image Method
-///从本地缓存获取image
-- (RACSignal *)rac_getImageFromCacheWithUrl:(NSString *)url
-{
-    RACScheduler *sch = [RACScheduler schedulerWithPriority:RACSchedulerPriorityHigh];
-    RACSignal *signal = [[RACSignal startEagerlyWithScheduler:sch block:^(id<RACSubscriber> subscriber) {
-        
-        UIImage *img = [self.picCache imageForKey:url];
-        [subscriber sendNext:img];
-        [subscriber sendCompleted];
-    }] replay];
-    return signal;
-}
-
-- (RACSignal *)rac_getImageFromWebWithUrl:(NSString *)url
-{
-    DownloadOp *curOp = [DownloadOp firstDownloadOpInClientForReqURI:url];
-    RACSignal * downloadSig = [curOp rac_curSignal];
-    if (!downloadSig)
-    {
-        DownloadOp * op = [DownloadOp operation];
-        op.req_uri = url;
-        downloadSig = [op rac_getRequest];
-    }
-    
-    return [downloadSig map:^id(DownloadOp *op) {
-        UIImage *img;
-        if (op.rsp_data) {
-            [self.picCache.diskCache setFileData:op.rsp_data forKey:url];
-            img = [UIImage imageWithData:op.rsp_data];
-            [self.picCache.memoryCache setObject:img forKey:url];
-        }
-        return img;
-    }];
 }
 
 #pragma mark - ImagePicker

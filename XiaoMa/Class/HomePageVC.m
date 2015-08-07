@@ -9,7 +9,6 @@
 #import "HomePageVC.h"
 #import <Masonry.h>
 #import "XiaoMa.h"
-#import "SYPaginator.h"
 #import "AuthByVcodeOp.h"
 #import "NSString+MD5.h"
 #import "UpdatePwdOp.h"
@@ -23,7 +22,6 @@
 #import <AFNetworking2-RACExtensions/AFHTTPRequestOperationManager+RACSupport.h>
 #import "JTUser.h"
 #import "WebVC.h"
-#import "AdvertisementManager.h"
 #import "SocialShareViewController.h"
 #import "RescureViewController.h"
 #import "CommissionViewController.h"
@@ -33,16 +31,17 @@
 #import "GainedViewController.h"
 #import "WelcomeViewController.h"
 #import "CheckAwardViewController.h"
+#import "ADViewController.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 
-@interface HomePageVC ()<UIScrollViewDelegate, SYPaginatorViewDataSource, SYPaginatorViewDelegate>
+@interface HomePageVC ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *bgView;
 @property (weak, nonatomic) IBOutlet UIView *weatherView;
 @property (nonatomic, strong) UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *bottomView;
-@property (nonatomic, strong) SYPaginatorView *adView;
+@property (nonatomic, strong) ADViewController *adctrl;
 @end
 
 @implementation HomePageVC
@@ -73,7 +72,7 @@
     //设置主页的滚动视图
     [self setupScrollView];
     [self setupWeatherView];
-    [self rotationTableHeaderView];
+//    [self rotationTableHeaderView];
     
     [self.scrollView.refreshView addTarget:self action:@selector(reloadDatasource) forControlEvents:UIControlEventValueChanged];
     CKAsyncMainQueue(^{
@@ -140,7 +139,7 @@
     UIButton *btn5 = [self functionalButtonWithImageName:@"hp_award" action:@selector(actionAward:) inContainer:container];
     
     [btn5 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.adView.mas_bottom).offset(11);
+        make.top.equalTo(self.adctrl.adView.mas_bottom).offset(11);
         make.right.equalTo(container).offset(-11);
         
         if (deviceWidth <= 320)
@@ -156,7 +155,7 @@
     }];
     
     [btn1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.adView.mas_bottom).offset(11);
+        make.top.equalTo(self.adctrl.adView.mas_bottom).offset(11);
         make.left.equalTo(container).offset(11);
         make.right.equalTo(btn5.mas_left).offset(-7);
         make.height.equalTo(btn5);
@@ -204,21 +203,17 @@
 
 - (void)setupADViewInContainer:(UIView *)container
 {
-    CGFloat width = CGRectGetWidth(self.view.frame);
-    CGFloat height = width*360.0/1242.0;
-    SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-    adView.delegate = self;
-    adView.dataSource = self;
-    adView.pageGapWidth = 0;
-    [container addSubview:adView];
-    self.adView = adView;
-    [adView mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.adctrl = [ADViewController vcWithADType:AdvertisementHomePage boundsWidth:self.view.frame.size.width
+                                        targetVC:self mobBaseEvent:@"rp101-10"];
+    
+    CGFloat height = floor(self.adctrl.adView.frame.size.height);
+    [container addSubview:self.adctrl.adView];
+    [self.adctrl.adView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(container);
         make.right.equalTo(container);
         make.top.equalTo(container);
         make.height.mas_equalTo(height);
     }];
-    self.adView.currentPageIndex = 0;
 }
 
 - (void)setupBottomViewWithUpper:(UIView *)upper
@@ -247,14 +242,15 @@
 {
     if (city.length)
     {
-        UIBarButtonItem *cityBtn =
-        [[UIBarButtonItem alloc] initWithTitle:city style:UIBarButtonItemStyleDone target:self action:nil];
+        UIBarButtonItem *cityBtn = [[UIBarButtonItem alloc] initWithTitle:city style:UIBarButtonItemStyleDone
+                                                                   target:self action:nil];
         self.navigationItem.leftBarButtonItem = cityBtn;
     }
     else
     {
-        UIBarButtonItem *retrybtn =
-        [[UIBarButtonItem alloc] initWithTitle:@"定位失败" style:UIBarButtonItemStyleDone target:self action:@selector(rac_getWeatherInfo)];
+        
+        UIBarButtonItem *retrybtn = [[UIBarButtonItem alloc] initWithTitle:@"定位失败" style:UIBarButtonItemStyleDone
+                                                                    target:self action:@selector(reloadDatasource)];
         self.navigationItem.leftBarButtonItem = retrybtn;
     }
     self.navigationItem.leftBarButtonItem.action=@selector(umeng);
@@ -277,9 +273,7 @@
     UILabel * tempLb = (UILabel *)[self.weatherView searchViewWithTag:20202];
     UILabel * restrictionLb = (UILabel *)[self.weatherView searchViewWithTag:20204];
     UILabel * tipLb = (UILabel *)[self.weatherView searchViewWithTag:20206];
-    [[gAppMgr.mediaMgr rac_getPictureForUrl:picName withType:ImageURLTypeOrigin defaultPic:nil errorPic:nil] subscribeNext:^(id x) {
-        weatherImage.image = x;
-    }];
+    [weatherImage setImageByUrl:picName withType:ImageURLTypeOrigin defImage:nil errorImage:nil];
     
     tempLb.text = temp;
     restrictionLb.text = restriction;
@@ -351,9 +345,11 @@
         [self.scrollView.refreshView beginRefreshing];
     }] flattenMap:^RACStream *(AMapReGeocode *regeo) {
         @strongify(self);
-        RACSignal *sig2 = [self rac_getWeatherInfoWithReGeocode:regeo];
-        RACSignal *sig3 = [self rac_getAdListWithReGeocode:regeo];
-        return [sig2 merge:sig3];
+        [self.adctrl reloadDataWithCompleted:nil];
+        return [self rac_getWeatherInfoWithReGeocode:regeo];
+//        RACSignal *sig2 = [self rac_getWeatherInfoWithReGeocode:regeo];
+//        RACSignal *sig3 = [self rac_getAdListWithReGeocode:regeo];
+//        return [sig2 merge:sig3];
     }] finally:^{
         @strongify(self);
         [self.scrollView.refreshView endRefreshing];
@@ -384,19 +380,6 @@
     }] doError:^(NSError *error) {
         
         [gToast showError:@"天气获取失败"];
-    }] catch:^RACSignal *(NSError *error) {
-        
-        return [RACSignal empty];
-    }];
-}
-
-- (RACSignal *)rac_getAdListWithReGeocode:(AMapReGeocode *)regeo
-{
-    return [[[gAdMgr rac_getAdvertisement:AdvertisementHomePage] doNext:^(NSArray * array) {
-        
-        [self.adView reloadData];
-        self.adView.currentPageIndex = 0;
-        self.adView.pageControl.hidden = array.count <= 1;
     }] catch:^RACSignal *(NSError *error) {
         
         return [RACSignal empty];
@@ -499,20 +482,6 @@
     }
 }
 
-- (void)rotationTableHeaderView
-{
-    //    每隔6秒滚动宣传栏
-    RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
-        
-        NSInteger index = self.adView.currentPageIndex+1;
-        if (index >= gAdMgr.homepageAdvertiseArray.count) {
-            index = 0;
-        }
-        [self.adView setCurrentPageIndex:index animated:YES];
-    }];
-    [[self rac_deallocDisposable] addDisposable:dis];
-}
-
 #pragma mark - Utility
 - (UIButton *)functionalButtonWithImageName:(NSString *)imgName action:(SEL)action inContainer:(UIView *)container
 {
@@ -540,73 +509,5 @@
     label.attributedText = attributedString;
     [label sizeToFit];
 }
-
-#pragma mark - SYPaginatorViewDelegate
-- (NSInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView
-{
-    NSInteger ii = gAdMgr.homepageAdvertiseArray.count ? gAdMgr.homepageAdvertiseArray.count : 1;
-    return ii ;
-}
-
-- (SYPageView *)paginatorView:(SYPaginatorView *)paginatorView viewForPageAtIndex:(NSInteger)pageIndex
-{
-    SYPageView *pageView = [paginatorView dequeueReusablePageWithIdentifier:@"pageView"];
-    if (!pageView) {
-        pageView = [[SYPageView alloc] initWithReuseIdentifier:@"pageView"];
-        UIImageView *imgV = [[UIImageView alloc] initWithFrame:pageView.bounds];
-        imgV.autoresizingMask = UIViewAutoresizingFlexibleAll;
-        imgV.tag = 1001;
-        [pageView addSubview:imgV];
-    }
-    UIImageView *imgV = (UIImageView *)[pageView viewWithTag:1001];
-    HKAdvertisement * ad = [gAdMgr.homepageAdvertiseArray safetyObjectAtIndex:pageIndex];
-//    [[[gMediaMgr rac_getPictureForUrl:ad.adPic withDefaultPic:@"hp_bottom"] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
-//        
-//        imgV.image = x;
-//    }];
-    [[gMediaMgr rac_getPictureForUrl:ad.adPic withType:ImageURLTypeMedium defaultPic:@"ad_default" errorPic:@"ad_default"]
-     subscribeNext:^(id x) {
-        UIImage * image = x;
-        if (image.size.width > (imgV.frame.size.width * 2)) {
-            image = [image compressImageWithPointSize:imgV.frame.size];
-        }
-        imgV.image = image;
-    }];
-//
-    UITapGestureRecognizer * gesture = imgV.customObject;
-    if (!gesture)
-    {
-        UITapGestureRecognizer *ge = [[UITapGestureRecognizer alloc] init];
-        [imgV addGestureRecognizer:ge];
-        imgV.userInteractionEnabled = YES;
-        imgV.customObject = ge;
-    }
-    gesture = imgV.customObject;
-    [[[gesture rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
-        NSString * eventstr = [NSString stringWithFormat:@"rp101-10_%ld", pageIndex];
-        [MobClick event:eventstr];
-        if (ad.adLink.length)
-        {
-            WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
-            vc.url = ad.adLink;
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-        else
-        {
-            WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
-            vc.title = @"小马达达";
-            vc.url = XIAMMAWEB;
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-    }];
-    
-    return pageView;
-}
-
-- (void)paginatorView:(SYPaginatorView *)paginatorView didScrollToPageAtIndex:(NSInteger)pageIndex
-{
-    
-}
-
 
 @end

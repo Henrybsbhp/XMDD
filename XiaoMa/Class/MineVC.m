@@ -108,11 +108,7 @@
 {
     if (gAppMgr.myUser.avatarUrl.length)
     {
-        [[gMediaMgr rac_getPictureForUrl:gAppMgr.myUser.avatarUrl withType:ImageURLTypeMedium defaultPic:@"cm_avatar" errorPic:@"cm_avatar"] subscribeNext:^(UIImage * image) {
-            
-//            gAppMgr.myUser.avatar = image;
-            self.avatarView.image = image;
-        }];
+        [self.avatarView setImageByUrl:gAppMgr.myUser.avatarUrl withType:ImageURLTypeMedium defImage:@"cm_avatar" errorImage:@"cm_avatar"];
     }
     else
     {
@@ -141,7 +137,7 @@
             RAC(self.accountLabel, text) = RACObserve(user, userID);
             UIImageView *avatarView = self.avatarView;
             [[[RACObserve(user, avatarUrl) distinctUntilChanged] flattenMap:^RACStream *(NSString *url) {
-                return [gMediaMgr rac_getPictureForUrl:url withType:ImageURLTypeMedium defaultPic:@"cm_avatar" errorPic:@"cm_avatar"];
+                return [gMediaMgr rac_getImageByUrl:url withType:ImageURLTypeMedium defaultPic:@"cm_avatar" errorPic:@"cm_avatar"];
             }] subscribeNext:^(id x) {
                 avatarView.image = x;
             }];
@@ -189,6 +185,9 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 1) {
+        return 2;
+    }
     if (section == 2) {
         return 3;
     }
@@ -265,8 +264,14 @@
     UILabel *subTitleL = (UILabel *)[cell.contentView viewWithTag:1003];
     subTitleL.text = nil;
     if (indexPath.section == 1) {
-        iconV.image = [UIImage imageNamed:@"me_car"];
-        titleL.text = @"爱车";
+        if (indexPath.row == 0) {
+            iconV.image = [UIImage imageNamed:@"me_car"];
+            titleL.text = @"爱车";
+        }
+        else if (indexPath.row == 1) {
+            iconV.image = [UIImage imageNamed:@"me_bank"];
+            titleL.text = @"银行卡";
+        }
     }
     else if (indexPath.section == 2) {
         if (indexPath.row == 0) {
@@ -299,10 +304,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1) {
+    if (indexPath.section == 1 && indexPath.row == 0) {
         [MobClick event:@"rp301-4"];
         if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
             MyCarListVC *vc = [UIStoryboard vcWithId:@"MyCarListVC" inStoryboard:@"Mine"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
+    else if (indexPath.section == 1 && indexPath.row == 1) {
+        if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+            UIViewController *vc = [UIStoryboard vcWithId:@"MyBankVC" inStoryboard:@"Bank"];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }

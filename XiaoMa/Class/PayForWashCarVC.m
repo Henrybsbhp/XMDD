@@ -280,10 +280,7 @@
     logoV.cornerRadius = 5.0f;
     logoV.layer.masksToBounds = YES;
     
-    [[gMediaMgr rac_getPictureForUrl:[self.shop.picArray safetyObjectAtIndex:0]
-                                               withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] subscribeNext:^(id x) {
-        logoV.image = x;
-    }];
+    [logoV setImageByUrl:[self.shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
     titleL.text = self.shop.shopName;
     addrL.text = self.shop.shopAddress;
     

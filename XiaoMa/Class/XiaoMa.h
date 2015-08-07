@@ -37,6 +37,7 @@
 #import "WeChatHelper.h"
 #import "PhoneHelper.h"
 #import "AdvertisementManager.h"
+#import <SDWebImageManager.h>
 
 #import "JTNavigationController.h"
 #import "JTTableViewCell.h"
@@ -53,6 +54,7 @@
 #import "UIView+Base.h"
 #import "UIView+DefaultEmptyView.h"
 #import "NSDate+DateForText.h"
+#import "UIImageView+WebImage.h"
 
 
 #endif
