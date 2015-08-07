@@ -7,6 +7,8 @@
 //
 
 #import "UnbundlingVC.h"
+#import "ResultVC.h"
+#import "DrawingBoardView.h"
 
 @interface UnbundlingVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -20,9 +22,8 @@
     [super viewDidLoad];
     
     [self.unbundlingBtn setCornerRadius:5.0f];
-    [[self.unbundlingBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
-    }];
+    
+    [self btnClick];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -31,9 +32,27 @@
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void) btnClick
+{
+    [[self.unbundlingBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        ResultVC *vc = [UIStoryboard vcWithId:@"ResultVC" inStoryboard:@"Bank"];
+        
+        MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
+        formSheet.presentedFormSheetSize = CGSizeMake(self.view.frame.size.width - 60, 238);
+        formSheet.cornerRadius = 2.0;
+        formSheet.shadowOpacity = 0.01;
+        formSheet.shouldDismissOnBackgroundViewTap = YES;
+        formSheet.shouldCenterVertically = YES;
+        
+        [self mz_presentFormSheetController:formSheet animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+            [vc.drawView drawSuccess];
+            [[vc.confirmBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                [formSheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }];
+            }];
+        }];
+    }];
 }
 
 #pragma mark - TableView

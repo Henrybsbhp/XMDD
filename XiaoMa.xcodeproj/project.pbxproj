@@ -183,6 +183,8 @@
 		18F813691B5F3561005F49B0 /* CKNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F813651B5F3561005F49B0 /* CKNavigationController.m */; };
 		18F8136A1B5F3561005F49B0 /* vertical_shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F813661B5F3561005F49B0 /* vertical_shadow.png */; };
 		18F8136B1B5F3561005F49B0 /* vertical_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F813671B5F3561005F49B0 /* vertical_shadow@2x.png */; };
+		506008D41B74631800B8761D /* DrawingBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 506008D31B74631800B8761D /* DrawingBoardView.m */; };
+		506008D71B747FED00B8761D /* ResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 506008D61B747FED00B8761D /* ResultVC.m */; };
 		507A4DDF1B74462200E0BF1E /* UnbundlingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 507A4DDE1B74462200E0BF1E /* UnbundlingVC.m */; };
 		50C6BF4D1B7341B800A5E021 /* CardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */; };
 		6B086BA11AE3184D00659DB7 /* GetShopByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */; };
@@ -677,6 +679,10 @@
 		18F813651B5F3561005F49B0 /* CKNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKNavigationController.m; sourceTree = "<group>"; };
 		18F813661B5F3561005F49B0 /* vertical_shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vertical_shadow.png; sourceTree = "<group>"; };
 		18F813671B5F3561005F49B0 /* vertical_shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vertical_shadow@2x.png"; sourceTree = "<group>"; };
+		506008D21B74631800B8761D /* DrawingBoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingBoardView.h; sourceTree = "<group>"; };
+		506008D31B74631800B8761D /* DrawingBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingBoardView.m; sourceTree = "<group>"; };
+		506008D51B747FED00B8761D /* ResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultVC.h; sourceTree = "<group>"; };
+		506008D61B747FED00B8761D /* ResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultVC.m; sourceTree = "<group>"; };
 		507A4DDD1B74462200E0BF1E /* UnbundlingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnbundlingVC.h; sourceTree = "<group>"; };
 		507A4DDE1B74462200E0BF1E /* UnbundlingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnbundlingVC.m; sourceTree = "<group>"; };
 		50C6BF4B1B7341B800A5E021 /* CardDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardDetailVC.h; sourceTree = "<group>"; };
@@ -1972,6 +1978,10 @@
 				50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */,
 				507A4DDD1B74462200E0BF1E /* UnbundlingVC.h */,
 				507A4DDE1B74462200E0BF1E /* UnbundlingVC.m */,
+				506008D21B74631800B8761D /* DrawingBoardView.h */,
+				506008D31B74631800B8761D /* DrawingBoardView.m */,
+				506008D51B747FED00B8761D /* ResultVC.h */,
+				506008D61B747FED00B8761D /* ResultVC.m */,
 			);
 			name = Bank;
 			sourceTree = "<group>";
@@ -2699,6 +2709,7 @@
 				189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */,
 				186984F51B0098A2000A182A /* GetInsuranceOrderListOp.m in Sources */,
 				6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */,
+				506008D71B747FED00B8761D /* ResultVC.m in Sources */,
 				1837A7601B72130F0006E6C5 /* SDPhotoBrowser.m in Sources */,
 				18D17F7D1B57407900F66F04 /* BindDeviceToken2Op.m in Sources */,
 				1837A7551B70C97A0006E6C5 /* UIImageView+WebImage.m in Sources */,
@@ -2793,6 +2804,7 @@
 				1883D9331ACCDA8B002A4D19 /* DefaultStyleModel.m in Sources */,
 				6BE4CE311AF217BC008E1C19 /* GetUserCouponOp.m in Sources */,
 				189B30BA1AD51EF2001D7288 /* JTUser.m in Sources */,
+				506008D41B74631800B8761D /* DrawingBoardView.m in Sources */,
 				18D17F701B5390F400F66F04 /* VCodeInputField.m in Sources */,
 				6BCF624A1B1739E70064AE32 /* CommissionCouponViewController.m in Sources */,
 				6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */,
