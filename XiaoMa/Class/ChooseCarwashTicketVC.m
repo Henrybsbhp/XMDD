@@ -25,11 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //    [self setupNavigationBar];
-    
     [self reloadData];
-    
-    //    [self setupGetMoreBtn];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -117,17 +113,22 @@
         
         if (self.selectedCouponArray.count)
         {
-            [payVc setPaymentType:PaymentChannelCoupon];
-            if (self.type == CouponTypeCarWash)
+            HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];
+            self.type = c.conponType;
+            if (self.type == CouponTypeCZBankCarWash)
+            {
+                [payVc setPlatform:PayWithXMDDCreditCard];
+                [payVc setSelectCarwashCoupouArray:self.selectedCouponArray];
+            }
+            else if (self.type == CouponTypeCarWash)
             {
                 [payVc setSelectCarwashCoupouArray:self.selectedCouponArray];
-                [payVc setCouponType:CouponTypeCarWash];
             }
             else if (self.type == CouponTypeCash)
             {
                 [payVc setSelectCashCoupouArray:self.selectedCouponArray];
-                [payVc setCouponType:CouponTypeCash];
             }
+            [payVc setCouponType:self.type];
         }
         else
         {
@@ -228,8 +229,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HKCoupon * coupon = [self.couponArray safetyObjectAtIndex:indexPath.row];
-    if (self.type == CouponTypeCarWash)
+    if (self.type == CouponTypeCarWash || self.type == CouponTypeCZBankCarWash)
     {
+        self.type = coupon.conponType;
         HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];
         if ([c.couponId isEqualToNumber:coupon.couponId])
         {
