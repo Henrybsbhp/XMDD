@@ -151,6 +151,8 @@
 		189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B39631AF9E32400B83F1B /* DeleteCarOp.m */; };
 		189B39661AF9FDDF00B83F1B /* EnquiryInsuranceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B39651AF9FDDF00B83F1B /* EnquiryInsuranceVC.m */; };
 		189B396A1AFB062200B83F1B /* BuyInsuranceOnlineVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B39691AFB062200B83F1B /* BuyInsuranceOnlineVC.m */; };
+		189C69821B734EDD00E56E4A /* ADViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 189C69811B734EDD00E56E4A /* ADViewController.m */; };
+		189C69861B74505E00E56E4A /* HKBankCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 189C69851B74505E00E56E4A /* HKBankCard.m */; };
 		189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 189DD3FF1B10722700BA0A7F /* SRMonthPicker.m */; };
 		18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */; };
 		18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */; };
@@ -624,6 +626,10 @@
 		189B39651AF9FDDF00B83F1B /* EnquiryInsuranceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnquiryInsuranceVC.m; sourceTree = "<group>"; };
 		189B39681AFB062200B83F1B /* BuyInsuranceOnlineVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyInsuranceOnlineVC.h; sourceTree = "<group>"; };
 		189B39691AFB062200B83F1B /* BuyInsuranceOnlineVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyInsuranceOnlineVC.m; sourceTree = "<group>"; };
+		189C69801B734EDD00E56E4A /* ADViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADViewController.h; sourceTree = "<group>"; };
+		189C69811B734EDD00E56E4A /* ADViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADViewController.m; sourceTree = "<group>"; };
+		189C69841B74505E00E56E4A /* HKBankCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKBankCard.h; path = Class/HKBankCard.h; sourceTree = "<group>"; };
+		189C69851B74505E00E56E4A /* HKBankCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKBankCard.m; path = Class/HKBankCard.m; sourceTree = "<group>"; };
 		189DD3FE1B10722700BA0A7F /* SRMonthPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRMonthPicker.h; sourceTree = "<group>"; };
 		189DD3FF1B10722700BA0A7F /* SRMonthPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRMonthPicker.m; sourceTree = "<group>"; };
 		18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
@@ -1308,6 +1314,8 @@
 				6BCA5F3F1B102A3700E1E630 /* HKCouponPkg.m */,
 				18D17F7E1B57782800F66F04 /* HKAddressComponent.h */,
 				18D17F7F1B57782800F66F04 /* HKAddressComponent.m */,
+				189C69841B74505E00E56E4A /* HKBankCard.h */,
+				189C69851B74505E00E56E4A /* HKBankCard.m */,
 			);
 			name = Dataset;
 			sourceTree = "<group>";
@@ -1771,6 +1779,7 @@
 		189B31001AD7A921001D7288 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				189C69791B734D1E00E56E4A /* ADView */,
 				189B31011AD7A935001D7288 /* DatePickerVC.h */,
 				189B31021AD7A935001D7288 /* DatePickerVC.m */,
 				187CC9531AEDD0D1004D1F28 /* MonthPickerVC.h */,
@@ -1868,6 +1877,15 @@
 				189B39691AFB062200B83F1B /* BuyInsuranceOnlineVC.m */,
 			);
 			name = BuyOnline;
+			sourceTree = "<group>";
+		};
+		189C69791B734D1E00E56E4A /* ADView */ = {
+			isa = PBXGroup;
+			children = (
+				189C69801B734EDD00E56E4A /* ADViewController.h */,
+				189C69811B734EDD00E56E4A /* ADViewController.m */,
+			);
+			name = ADView;
 			sourceTree = "<group>";
 		};
 		189DD3FD1B10722700BA0A7F /* SRMonthPicker */ = {
@@ -2706,6 +2724,7 @@
 				186985011B01A731000A182A /* CarwashOrderCommentVC.m in Sources */,
 				186984FE1B00E277000A182A /* InsuranceOrderDetailVC.m in Sources */,
 				6BE2BD521AE62B1600A69875 /* GetInsuranceCalculatorOp.m in Sources */,
+				189C69861B74505E00E56E4A /* HKBankCard.m in Sources */,
 				189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */,
 				186984F51B0098A2000A182A /* GetInsuranceOrderListOp.m in Sources */,
 				6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */,
@@ -2740,6 +2759,7 @@
 				18B2C7351B13076B007FB0C7 /* PECropRectView.m in Sources */,
 				189B39661AF9FDDF00B83F1B /* EnquiryInsuranceVC.m in Sources */,
 				189371361B0F592F0030FDE1 /* JTQueue.m in Sources */,
+				189C69821B734EDD00E56E4A /* ADViewController.m in Sources */,
 				6BBB084B1B021EA90002C349 /* ComOpenThreadOTScreenshotHelperSwizzleHelper.m in Sources */,
 				6BEA56C61AE24DCE000D19C1 /* NSString+SBJSON.m in Sources */,
 				189B30D41AD799AF001D7288 /* RACSignal+Extension.m in Sources */,

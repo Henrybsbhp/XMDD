@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HKBankCard.h"
 
 @interface CardDetailVC : UIViewController
-
+@property (nonatomic, strong) HKBankCard *card;
 @end
