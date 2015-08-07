@@ -136,16 +136,20 @@
         if (indexPath.row == 0){
             height = 76;
         }
-        else{
+        else if (indexPath.row == 3){
+            height = 30;
+        }
+        else
+        {
             height = 26;
         }
     }
     if (indexPath.section != 0){
         if (indexPath.row == 0){
-            height = 40;
+            height = 30;
         }
         else{
-            height = 55;
+            height = 50;
         }
     }
     return height;
