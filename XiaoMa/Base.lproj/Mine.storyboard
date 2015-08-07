@@ -555,7 +555,7 @@
                                                                 <constraint firstAttribute="width" constant="104" id="RS4-Gu-rCU"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                            <state key="normal" title="一键上传" backgroundImage="E2675EDC-F964-4FA8-8036-E9B6A038354D">
+                                                            <state key="normal" title="一键上传" backgroundImage="1466578D-81A2-4E00-9959-4ACF039005FD">
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             </state>
@@ -3224,7 +3224,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="E2675EDC-F964-4FA8-8036-E9B6A038354D" width="22" height="30">
+        <image name="1466578D-81A2-4E00-9959-4ACF039005FD" width="22" height="30">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
