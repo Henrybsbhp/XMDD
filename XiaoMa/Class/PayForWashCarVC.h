@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "JTShop.h"
 #import "HKCoupon.h"
+#import "CheckoutServiceOrderV2Op.h"
 
 @class HKMyCar;
 
@@ -24,7 +25,7 @@
 @property (nonatomic,strong)NSMutableArray * selectCarwashCoupouArray;
 @property (nonatomic,strong)NSMutableArray * selectCashCoupouArray;
 
-- (void)setPaymentType:(PaymentChannelType)paymentType;
+- (void)setPlatform:(PaymentPlatform)platform;
 
 - (void)tableViewReloadData;
 
