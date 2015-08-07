@@ -10,7 +10,8 @@
 
 typedef enum : NSUInteger {
     PayWithAlipay,
-    PayWithWechat
+    PayWithWechat,
+    PayWithXMDDCreditCard
 } PaymentPlatform;
 
 @interface CheckoutServiceOrderV2Op : BaseOp
