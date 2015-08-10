@@ -153,6 +153,9 @@
 		189B396A1AFB062200B83F1B /* BuyInsuranceOnlineVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B39691AFB062200B83F1B /* BuyInsuranceOnlineVC.m */; };
 		189C69821B734EDD00E56E4A /* ADViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 189C69811B734EDD00E56E4A /* ADViewController.m */; };
 		189C69861B74505E00E56E4A /* HKBankCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 189C69851B74505E00E56E4A /* HKBankCard.m */; };
+		189C69891B74ADC700E56E4A /* BindBankCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189C69881B74ADC700E56E4A /* BindBankCardVC.m */; };
+		189C698C1B75A2BB00E56E4A /* GetBindCZBVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 189C698B1B75A2BB00E56E4A /* GetBindCZBVcodeOp.m */; };
+		189C698F1B75BD4B00E56E4A /* BindBankcardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 189C698E1B75BD4B00E56E4A /* BindBankcardOp.m */; };
 		189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 189DD3FF1B10722700BA0A7F /* SRMonthPicker.m */; };
 		18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */; };
 		18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */; };
@@ -252,7 +255,6 @@
 		6BBB82631AE7A0E000850D0C /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBB82621AE7A0E000850D0C /* libc++.dylib */; };
 		6BBBF54D1B291CCA00E1B809 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBBF54B1B291CCA00E1B809 /* Fabric.framework */; };
 		6BBBF54E1B291CCA00E1B809 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBBF54C1B291CCA00E1B809 /* Crashlytics.framework */; };
-		6BBBF5501B2937EB00E1B809 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BBBF54F1B2937EB00E1B809 /* Info.plist */; };
 		6BBBF5531B295CE400E1B809 /* CheckUserAwardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBBF5521B295CE400E1B809 /* CheckUserAwardOp.m */; };
 		6BBBF5561B295FD300E1B809 /* GainUserAwardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBBF5551B295FD300E1B809 /* GainUserAwardOp.m */; };
 		6BBBF5581B296AC900E1B809 /* Award.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BBBF5571B296AC900E1B809 /* Award.storyboard */; };
@@ -630,6 +632,12 @@
 		189C69811B734EDD00E56E4A /* ADViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADViewController.m; sourceTree = "<group>"; };
 		189C69841B74505E00E56E4A /* HKBankCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKBankCard.h; path = Class/HKBankCard.h; sourceTree = "<group>"; };
 		189C69851B74505E00E56E4A /* HKBankCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKBankCard.m; path = Class/HKBankCard.m; sourceTree = "<group>"; };
+		189C69871B74ADC700E56E4A /* BindBankCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BindBankCardVC.h; sourceTree = "<group>"; };
+		189C69881B74ADC700E56E4A /* BindBankCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BindBankCardVC.m; sourceTree = "<group>"; };
+		189C698A1B75A2BB00E56E4A /* GetBindCZBVcodeOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetBindCZBVcodeOp.h; path = Class/GetBindCZBVcodeOp.h; sourceTree = "<group>"; };
+		189C698B1B75A2BB00E56E4A /* GetBindCZBVcodeOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetBindCZBVcodeOp.m; path = Class/GetBindCZBVcodeOp.m; sourceTree = "<group>"; };
+		189C698D1B75BD4B00E56E4A /* BindBankcardOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BindBankcardOp.h; path = Class/BindBankcardOp.h; sourceTree = "<group>"; };
+		189C698E1B75BD4B00E56E4A /* BindBankcardOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BindBankcardOp.m; path = Class/BindBankcardOp.m; sourceTree = "<group>"; };
 		189DD3FE1B10722700BA0A7F /* SRMonthPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRMonthPicker.h; sourceTree = "<group>"; };
 		189DD3FF1B10722700BA0A7F /* SRMonthPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRMonthPicker.m; sourceTree = "<group>"; };
 		18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
@@ -2000,6 +2008,8 @@
 				506008D31B74631800B8761D /* DrawingBoardView.m */,
 				506008D51B747FED00B8761D /* ResultVC.h */,
 				506008D61B747FED00B8761D /* ResultVC.m */,
+				189C69871B74ADC700E56E4A /* BindBankCardVC.h */,
+				189C69881B74ADC700E56E4A /* BindBankCardVC.m */,
 			);
 			name = Bank;
 			sourceTree = "<group>";
@@ -2215,6 +2225,8 @@
 				18895B3B1B4CF1D300928F62 /* LogoutOp.m */,
 				6BBAB8B41ADBC12D00EC342F /* UpdatePwdOp.h */,
 				6BBAB8B51ADBC12D00EC342F /* UpdatePwdOp.m */,
+				189C698D1B75BD4B00E56E4A /* BindBankcardOp.h */,
+				189C698E1B75BD4B00E56E4A /* BindBankcardOp.m */,
 				6BBAB8C21ADCBD1400EC342F /* GetShopByRangeOp.h */,
 				6BBAB8C31ADCBD1400EC342F /* GetShopByRangeOp.m */,
 				6BBAB8C51ADD1ED900EC342F /* GetShopByDistanceOp.h */,
@@ -2299,6 +2311,8 @@
 				6BBBF5551B295FD300E1B809 /* GainUserAwardOp.m */,
 				18895B3D1B4E69B600928F62 /* GetCarwashOrderOp.h */,
 				18895B3E1B4E69B600928F62 /* GetCarwashOrderOp.m */,
+				189C698A1B75A2BB00E56E4A /* GetBindCZBVcodeOp.h */,
+				189C698B1B75A2BB00E56E4A /* GetBindCZBVcodeOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -2564,7 +2578,7 @@
 		1883D8D71ACB99AC002A4D19 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = jiangjunchen;
 				TargetAttributes = {
 					1883D8DE1ACB99AC002A4D19 = {
@@ -2615,7 +2629,6 @@
 				6BB8CB861B14135E007B61B5 /* Commission.storyboard in Resources */,
 				6BB8CB841B141350007B61B5 /* Rescue.storyboard in Resources */,
 				18F8136B1B5F3561005F49B0 /* vertical_shadow@2x.png in Resources */,
-				6BBBF5501B2937EB00E1B809 /* Info.plist in Resources */,
 				18E756A71B73338600874601 /* Bank.storyboard in Resources */,
 				189B311D1ADBEFDF001D7288 /* policy.json in Resources */,
 				6BB884B11AE0B3FE00EBD8F4 /* hz.gpx in Resources */,
@@ -2817,6 +2830,7 @@
 				6BEA56C91AE24DCE000D19C1 /* SBJsonParser.m in Sources */,
 				6BB89CD41B04C23900F3F61F /* UploadLogOp.m in Sources */,
 				18895B321B4CB52A00928F62 /* PushManager.m in Sources */,
+				189C698F1B75BD4B00E56E4A /* BindBankcardOp.m in Sources */,
 				6BCA5F401B102A3700E1E630 /* HKCouponPkg.m in Sources */,
 				189B30B01AD4D661001D7288 /* JTTableViewController.m in Sources */,
 				189B395B1AF9A9E500B83F1B /* EditMyCarVC.m in Sources */,
@@ -2931,6 +2945,7 @@
 				6BEA56451AE2488C000D19C1 /* CheckoutServiceOrderOp.m in Sources */,
 				6BC3B6151ADF69B5001016A0 /* CarWashNavigationViewController.m in Sources */,
 				187CC95F1AEF6A89004D1F28 /* UpdateInsuranceCalculateOp.m in Sources */,
+				189C69891B74ADC700E56E4A /* BindBankCardVC.m in Sources */,
 				18E756A41B73335C00874601 /* MyBankVC.m in Sources */,
 				6BEA56D01AE24DCE000D19C1 /* MD5DataSigner.m in Sources */,
 				184E40D21AD3D01B00EFC3A6 /* JTShop.m in Sources */,
@@ -2951,6 +2966,7 @@
 				181F6D901B1436CA00D38555 /* UIView+DefaultEmptyView.m in Sources */,
 				18804AAE1B280E3C00E7E764 /* HKLoadingModel.m in Sources */,
 				6BBAB8C71ADD1ED900EC342F /* GetShopByDistanceOp.m in Sources */,
+				189C698C1B75A2BB00E56E4A /* GetBindCZBVcodeOp.m in Sources */,
 				1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */,
 				6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */,
 				18B2C7361B13076B007FB0C7 /* PECropView.m in Sources */,
