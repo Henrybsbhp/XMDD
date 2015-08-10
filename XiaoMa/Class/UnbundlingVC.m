@@ -103,6 +103,8 @@
     
     UIView *backView = (UIView *)[cell.contentView viewWithTag:1001];
     UITextField *textfield = (UITextField *)[cell.contentView viewWithTag:1002];
+    UIButton *regetCodeBtn = (UIButton *)[cell.contentView viewWithTag:1003];
+    
     [backView setBorderWidth:1.0];
     [backView setBorderColor:HEXCOLOR(@"#dfdfdf")];
     return cell;
