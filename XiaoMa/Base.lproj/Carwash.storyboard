@@ -379,10 +379,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="Thl-fk-Kw9">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="Thl-fk-Kw9">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="0.95908411609999999" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="sectionIndexBackgroundColor" white="0.95908411609999999" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="uQm-ve-Vb8">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="165"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yWb-UF-vJU">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="165"/>
+                                        </imageView>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shop_imgmask" translatesAutoresizingMaskIntoConstraints="NO" id="Bu5-WK-xyX">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="165"/>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="yWb-UF-vJU" secondAttribute="trailing" id="3PF-16-9vz"/>
+                                        <constraint firstItem="Bu5-WK-xyX" firstAttribute="leading" secondItem="uQm-ve-Vb8" secondAttribute="leading" id="4qQ-GU-rNu"/>
+                                        <constraint firstItem="Bu5-WK-xyX" firstAttribute="top" secondItem="uQm-ve-Vb8" secondAttribute="top" id="EKy-cc-uir"/>
+                                        <constraint firstAttribute="trailing" secondItem="Bu5-WK-xyX" secondAttribute="trailing" id="OXY-Tc-rcs"/>
+                                        <constraint firstAttribute="bottom" secondItem="Bu5-WK-xyX" secondAttribute="bottom" id="RMa-9D-8nt"/>
+                                        <constraint firstAttribute="bottom" secondItem="yWb-UF-vJU" secondAttribute="bottom" id="fkW-rg-xwc"/>
+                                        <constraint firstItem="yWb-UF-vJU" firstAttribute="top" secondItem="uQm-ve-Vb8" secondAttribute="top" id="oqg-0N-eIY"/>
+                                        <constraint firstItem="yWb-UF-vJU" firstAttribute="leading" secondItem="uQm-ve-Vb8" secondAttribute="leading" id="wu6-z1-Hyt"/>
+                                    </constraints>
+                                </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ShopTitleCell" rowHeight="83" id="i48-zZ-PEW" customClass="JTTableViewCell">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -912,6 +935,8 @@
                     <connections>
                         <outlet property="greenBackBtn" destination="EOv-em-vHX" id="agk-dm-dUU"/>
                         <outlet property="greenStarBtn" destination="UQC-32-Vib" id="BWG-jB-Wxr"/>
+                        <outlet property="headImgView" destination="yWb-UF-vJU" id="eSc-M5-iPM"/>
+                        <outlet property="maskView" destination="Bu5-WK-xyX" id="F3W-Ur-rVp"/>
                         <outlet property="tableView" destination="Thl-fk-Kw9" id="Lvq-oQ-ZOS"/>
                         <outlet property="titleLabel" destination="OVB-gB-sMR" id="aVp-u7-K23"/>
                         <outlet property="titleView" destination="HLz-L9-uTf" id="RmN-NH-eeq"/>
@@ -1996,6 +2021,7 @@
         <image name="nb_phone" width="14" height="14"/>
         <image name="nb_ticket" width="15" height="14"/>
         <image name="shop_green_star" width="19" height="17"/>
+        <image name="shop_imgmask" width="19" height="132"/>
         <image name="shop_white_back" width="19" height="17"/>
         <image name="shop_white_star" width="19" height="17"/>
     </resources>

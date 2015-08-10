@@ -221,19 +221,19 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="110" height="130"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="全年5元洗车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHq-0u-e5g">
-                                                            <rect key="frame" x="8" y="8" width="94" height="15"/>
-                                                            <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="15"/>
+                                                            <rect key="frame" x="5" y="10" width="105" height="14"/>
+                                                            <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="14"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="每月2次" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UWZ-pa-BDp">
-                                                            <rect key="frame" x="8" y="26" width="94" height="17"/>
+                                                            <rect key="frame" x="5" y="27" width="105" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.55155066287878785" green="0.55155066287878785" blue="0.55155066287878785" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView userInteractionEnabled="NO" tag="1004" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mb_carwash" translatesAutoresizingMaskIntoConstraints="NO" id="SFd-8m-g0B">
-                                                            <rect key="frame" x="28" y="58" width="54" height="58"/>
+                                                            <rect key="frame" x="28" y="54" width="54" height="58"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="54" id="j0b-5a-Uxb"/>
                                                                 <constraint firstAttribute="height" constant="58" id="sNs-6K-VTh"/>
@@ -242,14 +242,14 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="trailing" secondItem="JHq-0u-e5g" secondAttribute="trailing" constant="8" id="54z-6q-z9z"/>
-                                                        <constraint firstItem="JHq-0u-e5g" firstAttribute="top" secondItem="BNJ-o7-OEe" secondAttribute="top" constant="8" id="Gyc-W1-lyF"/>
+                                                        <constraint firstAttribute="trailing" secondItem="JHq-0u-e5g" secondAttribute="trailing" id="54z-6q-z9z"/>
+                                                        <constraint firstItem="JHq-0u-e5g" firstAttribute="top" secondItem="BNJ-o7-OEe" secondAttribute="top" constant="10" id="Gyc-W1-lyF"/>
                                                         <constraint firstAttribute="centerX" secondItem="SFd-8m-g0B" secondAttribute="centerX" id="VaD-K4-jW9"/>
-                                                        <constraint firstItem="JHq-0u-e5g" firstAttribute="leading" secondItem="BNJ-o7-OEe" secondAttribute="leading" constant="8" id="Xvm-yE-CQN"/>
+                                                        <constraint firstItem="JHq-0u-e5g" firstAttribute="leading" secondItem="BNJ-o7-OEe" secondAttribute="leading" constant="5" id="Xvm-yE-CQN"/>
                                                         <constraint firstItem="UWZ-pa-BDp" firstAttribute="top" secondItem="JHq-0u-e5g" secondAttribute="bottom" constant="3" id="ehv-AN-oFp"/>
-                                                        <constraint firstAttribute="trailing" secondItem="UWZ-pa-BDp" secondAttribute="trailing" constant="8" id="hni-6J-Q2z"/>
-                                                        <constraint firstItem="SFd-8m-g0B" firstAttribute="top" secondItem="UWZ-pa-BDp" secondAttribute="bottom" constant="15" id="keC-eM-TNm"/>
-                                                        <constraint firstItem="UWZ-pa-BDp" firstAttribute="leading" secondItem="BNJ-o7-OEe" secondAttribute="leading" constant="8" id="yoo-od-xCJ"/>
+                                                        <constraint firstAttribute="trailing" secondItem="UWZ-pa-BDp" secondAttribute="trailing" id="hni-6J-Q2z"/>
+                                                        <constraint firstItem="SFd-8m-g0B" firstAttribute="top" secondItem="UWZ-pa-BDp" secondAttribute="bottom" constant="10" id="keC-eM-TNm"/>
+                                                        <constraint firstItem="UWZ-pa-BDp" firstAttribute="leading" secondItem="BNJ-o7-OEe" secondAttribute="leading" constant="5" id="yoo-od-xCJ"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
