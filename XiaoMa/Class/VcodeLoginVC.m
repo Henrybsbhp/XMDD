@@ -31,8 +31,12 @@
     self.num.delegate = self;
     self.code.delegate = self;
     NSArray *mobEvents = @[@"rp002-7",@"rp002-8",@"rp002-9"];
-    [self.smsModel countDownIfNeededForVcodeButton:self.vcodeBtn];
-    [self.smsModel setupVCodeInputField:self.code accountField:self.num forTargetVC:self mobEvents:mobEvents];
+    
+    self.smsModel.getVcodeButton = self.vcodeBtn;
+    self.smsModel.inputVcodeField = self.code;
+    self.smsModel.accountField = self.num;
+    [self.smsModel setupWithTargetVC:self mobEvents:mobEvents];
+    [self.smsModel countDownIfNeededWithVcodeType:HKVcodeTypeLogin];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,12 +62,12 @@
     if ([self sharkCellIfErrorAtIndex:0]) {
         return;
     }
-    [[self.smsModel rac_handleVcodeButtonClick:sender vcodeInputField:self.code withVcodeType:1 phone:[self textAtIndex:0]]
-     subscribeNext:^(GetVcodeOp *op) {
-         
-    } error:^(NSError *error) {
+    
+    RACSignal *sig = [self.smsModel rac_getSystemVcodeWithType:HKVcodeTypeLogin phone:[self textAtIndex:0]];
+    [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:sig] subscribeError:^(NSError *error) {
         [gToast showError:error.domain];
     }];
+    
     //激活输入验证码的输入框
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];

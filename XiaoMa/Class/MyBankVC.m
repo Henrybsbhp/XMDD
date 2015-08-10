@@ -11,6 +11,7 @@
 #import "HKBankCard.h"
 #import "HKConvertModel.h"
 #import "CardDetailVC.h"
+#import "BindBankCardVC.h"
 
 @interface MyBankVC ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -61,8 +62,10 @@
 {
     //点击“添加银行卡”
     if (indexPath.row >= self.bankCards.count) {
-        
+        BindBankCardVC *vc = [UIStoryboard vcWithId:@"BindBankCardVC" inStoryboard:@"Bank"];
+        [self.navigationController pushViewController:vc animated:YES];
     }
+    //点击某张银行卡
     else {
         CardDetailVC *vc = [UIStoryboard vcWithId:@"CardDetailVC" inStoryboard:@"Bank"];
         vc.card = [self.bankCards safetyObjectAtIndex:0];
