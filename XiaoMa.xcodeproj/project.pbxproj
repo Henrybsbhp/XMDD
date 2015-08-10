@@ -252,7 +252,6 @@
 		6BBB82631AE7A0E000850D0C /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBB82621AE7A0E000850D0C /* libc++.dylib */; };
 		6BBBF54D1B291CCA00E1B809 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBBF54B1B291CCA00E1B809 /* Fabric.framework */; };
 		6BBBF54E1B291CCA00E1B809 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBBF54C1B291CCA00E1B809 /* Crashlytics.framework */; };
-		6BBBF5501B2937EB00E1B809 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BBBF54F1B2937EB00E1B809 /* Info.plist */; };
 		6BBBF5531B295CE400E1B809 /* CheckUserAwardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBBF5521B295CE400E1B809 /* CheckUserAwardOp.m */; };
 		6BBBF5561B295FD300E1B809 /* GainUserAwardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBBF5551B295FD300E1B809 /* GainUserAwardOp.m */; };
 		6BBBF5581B296AC900E1B809 /* Award.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BBBF5571B296AC900E1B809 /* Award.storyboard */; };
@@ -2564,7 +2563,7 @@
 		1883D8D71ACB99AC002A4D19 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = jiangjunchen;
 				TargetAttributes = {
 					1883D8DE1ACB99AC002A4D19 = {
@@ -2615,7 +2614,6 @@
 				6BB8CB861B14135E007B61B5 /* Commission.storyboard in Resources */,
 				6BB8CB841B141350007B61B5 /* Rescue.storyboard in Resources */,
 				18F8136B1B5F3561005F49B0 /* vertical_shadow@2x.png in Resources */,
-				6BBBF5501B2937EB00E1B809 /* Info.plist in Resources */,
 				18E756A71B73338600874601 /* Bank.storyboard in Resources */,
 				189B311D1ADBEFDF001D7288 /* policy.json in Resources */,
 				6BB884B11AE0B3FE00EBD8F4 /* hz.gpx in Resources */,
