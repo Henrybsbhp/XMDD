@@ -109,7 +109,7 @@
     UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 1];
     if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
     {
-        PayForWashCarVC  * payVc = (PayForWashCarVC *)vc;
+        PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
         
         if (self.selectedCouponArray.count)
         {

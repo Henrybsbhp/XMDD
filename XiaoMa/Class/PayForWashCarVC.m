@@ -11,7 +11,7 @@
 #import "UIView+Layer.h"
 #import "PaymentSuccessVC.h"
 #import "ChooseCarwashTicketVC.h"
-#import "GetUserResourcesOp.h"
+#import "GetUserResourcesV2Op.h"
 #import "GetUserCarOp.h"
 #import "HKCoupon.h"
 #import "HKMyCar.h"
@@ -250,7 +250,7 @@
             [MobClick event:@"rp108-2"];
             ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
             vc.originVC = self.originVC;
-            HKCoupon * c = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
+//            HKCoupon * c = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
             vc.type = CouponTypeCarWash;
             vc.selectedCouponArray = self.selectCarwashCoupouArray;
             vc.couponArray = gAppMgr.myUser.validCarwashCouponArray;
@@ -599,10 +599,10 @@
 #pragma mark - Utility
 - (void)requestGetUserResource
 {
-    GetUserResourcesOp * op = [GetUserResourcesOp operation];
+    GetUserResourcesV2Op * op = [GetUserResourcesV2Op operation];
     [[[op rac_postRequest] initially:^{
         
-    }] subscribeNext:^(GetUserResourcesOp * op) {
+    }] subscribeNext:^(GetUserResourcesV2Op * op) {
         
         gAppMgr.myUser.abcCarwashesCount = op.rsp_freewashes;
         gAppMgr.myUser.abcIntegral = op.rsp_bankIntegral;

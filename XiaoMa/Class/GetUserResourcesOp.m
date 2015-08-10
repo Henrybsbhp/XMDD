@@ -31,7 +31,7 @@
             HKCoupon * coupon = [HKCoupon couponWithJSONResponse:dict];
             [tArray addObject:coupon];
         }
-        NSArray * creditCards = (NSArray *)rspObj[@"creditcard"];
+        NSArray * creditCards = (NSArray *)rspObj[@"bindcards"];
 //        NSMutableArray * tArray2 = [[NSMutableArray alloc] init];
 //        for (NSDictionary * dict in creditCards)
 //        {

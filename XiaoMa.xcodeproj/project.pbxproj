@@ -295,6 +295,7 @@
 		6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5F1AE8A64B00BEF30E /* payRequsestHandler.mm */; };
 		6BD7AE641AE8A64B00BEF30E /* WXUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE611AE8A64B00BEF30E /* WXUtil.mm */; };
 		6BD7AE681AE9F63900BEF30E /* MapBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE671AE9F63900BEF30E /* MapBottomView.m */; };
+		6BDB47841B78794800C61AB9 /* GetUserResourcesV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDB47831B78794800C61AB9 /* GetUserResourcesV2Op.m */; };
 		6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD4E1AE6232C00A69875 /* HKAdvertisement.m */; };
 		6BE2BD521AE62B1600A69875 /* GetInsuranceCalculatorOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD511AE62B1600A69875 /* GetInsuranceCalculatorOp.m */; };
 		6BE2BD581AE62CDF00A69875 /* HKInsurance.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD571AE62CDF00A69875 /* HKInsurance.m */; };
@@ -893,6 +894,8 @@
 		6BD7AE611AE8A64B00BEF30E /* WXUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WXUtil.mm; sourceTree = "<group>"; };
 		6BD7AE661AE9F63900BEF30E /* MapBottomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapBottomView.h; path = Class/MapBottomView.h; sourceTree = "<group>"; };
 		6BD7AE671AE9F63900BEF30E /* MapBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapBottomView.m; path = Class/MapBottomView.m; sourceTree = "<group>"; };
+		6BDB47821B78794800C61AB9 /* GetUserResourcesV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserResourcesV2Op.h; path = Class/GetUserResourcesV2Op.h; sourceTree = "<group>"; };
+		6BDB47831B78794800C61AB9 /* GetUserResourcesV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserResourcesV2Op.m; path = Class/GetUserResourcesV2Op.m; sourceTree = "<group>"; };
 		6BE2BD4D1AE6232C00A69875 /* HKAdvertisement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKAdvertisement.h; path = Class/HKAdvertisement.h; sourceTree = "<group>"; };
 		6BE2BD4E1AE6232C00A69875 /* HKAdvertisement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKAdvertisement.m; path = Class/HKAdvertisement.m; sourceTree = "<group>"; };
 		6BE2BD501AE62B1600A69875 /* GetInsuranceCalculatorOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetInsuranceCalculatorOp.h; path = Class/GetInsuranceCalculatorOp.h; sourceTree = "<group>"; };
@@ -2299,6 +2302,8 @@
 				6BBBF5551B295FD300E1B809 /* GainUserAwardOp.m */,
 				18895B3D1B4E69B600928F62 /* GetCarwashOrderOp.h */,
 				18895B3E1B4E69B600928F62 /* GetCarwashOrderOp.m */,
+				6BDB47821B78794800C61AB9 /* GetUserResourcesV2Op.h */,
+				6BDB47831B78794800C61AB9 /* GetUserResourcesV2Op.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -2829,6 +2834,7 @@
 				6BCF624A1B1739E70064AE32 /* CommissionCouponViewController.m in Sources */,
 				6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */,
 				1816F4B41ACE767200BBCC96 /* UIStoryboard+Expansion.m in Sources */,
+				6BDB47841B78794800C61AB9 /* GetUserResourcesV2Op.m in Sources */,
 				18895B391B4CB93800928F62 /* BindDeviceTokenOp.m in Sources */,
 				1851F4211B0C268F00241A01 /* AutoInfoModel.m in Sources */,
 				186984F21B007FAB000A182A /* HKServiceOrder.m in Sources */,
