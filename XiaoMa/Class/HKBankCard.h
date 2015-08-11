@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 typedef enum : NSInteger
 {
+    HKBankTypeUnknow = 0,
     HKBankTypeCZB               //浙商银行
 }HKBankType;
 
@@ -21,7 +22,10 @@ typedef enum : NSInteger
 @interface HKBankCard : NSObject
 @property (nonatomic, assign) HKBankType bankType;
 @property (nonatomic, assign) HKBankCardType cardType;
-@property (nonatomic, strong) NSString *cardName;
+@property (nonatomic, strong) NSString *cardID;
 @property (nonatomic, strong) NSString *cardNumber;
+
++ (instancetype)bankCardWithJSONResponse:(NSDictionary *)rsp;
+- (NSString *)cardName;
 
 @end

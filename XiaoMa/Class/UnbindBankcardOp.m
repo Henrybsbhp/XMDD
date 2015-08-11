@@ -1,33 +1,29 @@
 //
-//  BindBankcardOp.m
+//  UnbindBankcardOp.m
 //  XiaoMa
 //
-//  Created by jiangjunchen on 15/8/8.
+//  Created by jiangjunchen on 15/8/10.
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "BindBankcardOp.h"
+#import "UnbindBankcardOp.h"
 
-@implementation BindBankcardOp
+@implementation UnbindBankcardOp
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/user/bankcard/bind";
+    self.req_method = @"/user/bankcard/unbind";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params addParam:self.req_bankcardno forName:@"bankcardno"];
-    [params addParam:self.req_phone forName:@"phone"];
     [params addParam:self.req_vcode forName:@"vcode"];
+    [params addParam:self.req_cardid forName:@"bid"];
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
 - (NSError *)mapError:(NSError *)error
 {
     if (error.code == -1) {
-        error = [NSError errorWithDomain:@"绑定失败,请重新绑定" code:-1 userInfo:nil];
-    }
-    else if (error.code == -2) {
-        
+        error = [NSError errorWithDomain:@"解绑失败,请重试" code:0 userInfo:nil];
     }
     return error;
 }

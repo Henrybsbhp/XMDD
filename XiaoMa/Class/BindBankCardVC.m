@@ -10,6 +10,7 @@
 #import "HKSMSModel.h"
 #import "UIView+Shake.h"
 #import "BindBankcardOp.h"
+#import <UIKitExtension.h>
 
 @interface BindBankCardVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -32,12 +33,22 @@
 #pragma mark - Action
 - (void)actionGetVCode:(id)sender
 {
+    if ([self sharkCellIfErrorAtIndex:0]) {
+        return;
+    }
     if ([self sharkCellIfErrorAtIndex:1]) {
         return;
     }
+    @weakify(self);
     RACSignal *sig = [self.smsModel rac_getBindCZBVcodeWithCardno:self.cardField.text phone:self.phoneField.text];
-    [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:sig] subscribeError:^(NSError *error) {
-        [gToast showError:error.domain];
+    [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:sig] subscribeNext:^(id x) {
+       
+        @strongify(self);
+        self.promptView.hidden = YES;
+    } error:^(NSError *error) {
+        
+        @strongify(self);
+        [self handleGetVcodeError:error];
     }];
     
     //激活输入验证码的输入框
@@ -55,6 +66,38 @@
     }
     if ([self sharkCellIfErrorAtIndex:2]) {
         return;
+    }
+    BindBankcardOp *op = [BindBankcardOp operation];
+    op.req_bankcardno = self.cardField.text;
+    op.req_phone = self.phoneField.text;
+    op.req_vcode = self.vcodeField.text;
+    [[[op rac_postRequest] initially:^{
+    
+        [gToast showingWithText:@"正在绑定..."];
+    }] subscribeNext:^(id x) {
+        
+        [gToast dismiss];
+    } error:^(NSError *error) {
+
+        [gToast showError:error.domain];
+    }];
+}
+
+#pragma mark - Handler
+- (void)handleGetVcodeError:(NSError *)error
+{
+    if (error.code == 616103) {
+        [self.promptView setHidden:NO animated:YES];
+        return;
+    }
+    [self.promptView setHidden:YES animated:NO];
+    if (error.code == 616102) {
+        UIAlertView *alert = [[UIAlertView alloc] initNoticeWithTitle:@"" message:@"该卡已绑定当前账号,请勿重复绑定"
+                                                    cancelButtonTitle:@"确定"];
+        [alert show];
+    }
+    else {
+        [gToast showError:error.domain];
     }
 }
 
@@ -128,13 +171,6 @@
 }
 
 #pragma mark - Private
-- (NSString *)textAtIndex:(NSInteger)index
-{
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-    UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
-    return field.text;
-}
-
 - (BOOL)sharkCellIfErrorAtIndex:(NSInteger)index
 {
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
