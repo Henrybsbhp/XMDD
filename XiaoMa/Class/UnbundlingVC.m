@@ -12,6 +12,7 @@
 #import "HKSMSModel.h"
 #import "HKConvertModel.h"
 #import "JTLabel.h"
+#import "UnbindBankcardOp.h"
 
 @interface UnbundlingVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -56,23 +57,36 @@
 
 - (IBAction)actionUnbind:(id)sender
 {
-    ResultVC *vc = [UIStoryboard vcWithId:@"ResultVC" inStoryboard:@"Bank"];
-    
-    MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
-    formSheet.presentedFormSheetSize = CGSizeMake(self.view.frame.size.width - 60, 238);
-    formSheet.cornerRadius = 2.0;
-    formSheet.shadowOpacity = 0.01;
-    formSheet.shouldDismissOnBackgroundViewTap = YES;
-    formSheet.shouldCenterVertically = YES;
-    
-    [self mz_presentFormSheetController:formSheet animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
-        [vc.drawView drawSuccess];
-        [[vc.confirmBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            [formSheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-                [self.navigationController popViewControllerAnimated:YES];
+    UnbindBankcardOp *op = [UnbindBankcardOp operation];
+    @weakify(self);
+    [[[op rac_postRequest] initially:^{
+        [gToast showingWithText:@"正在解绑..."];
+        
+    }] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        [gToast dismiss];
+        ResultVC *vc = [UIStoryboard vcWithId:@"ResultVC" inStoryboard:@"Bank"];
+        MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
+        formSheet.presentedFormSheetSize = CGSizeMake(self.view.frame.size.width - 60, 238);
+        formSheet.cornerRadius = 2.0;
+        formSheet.shadowOpacity = 0.01;
+        formSheet.shouldDismissOnBackgroundViewTap = YES;
+        formSheet.shouldCenterVertically = YES;
+        
+        [self mz_presentFormSheetController:formSheet animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+            [vc.drawView drawSuccess];
+            [[vc.confirmBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                [formSheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }];
             }];
         }];
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain];
     }];
+  
 }
 #pragma mark - TableView
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
