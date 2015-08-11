@@ -7,7 +7,7 @@
 //
 
 #import "LoginViewModel.h"
-#import "LoginVC.h"
+#import "VcodeLoginVC.h"
 #import "XiaoMa.h"
 
 @implementation LoginViewModel
@@ -51,7 +51,7 @@
     if (gAppMgr.myUser) {
         return YES;
     }
-    LoginVC *vc = [UIStoryboard vcWithId:@"LoginVC" inStoryboard:@"Login"];
+    VcodeLoginVC *vc = [UIStoryboard vcWithId:@"VcodeLoginVC" inStoryboard:@"Login"];
     if ([targetVC isKindOfClass:[UINavigationController class]]) {
         vc.model.originVC = originVC;
         [(UINavigationController *)targetVC pushViewController:vc animated:YES];

@@ -45,10 +45,6 @@
 
 @property (nonatomic, strong) MultiMediaManager *mediaMgr;
 
-#pragma mark - 时间戳相关
-@property (nonatomic, assign) NSTimeInterval vcodeCoolingTimeForLogin;
-@property (nonatomic, assign) NSTimeInterval vcodeCoolingTimeForCZB;
-
 + (AppManager *)sharedManager;
 
 - (void)resetWithAccount:(NSString *)account;

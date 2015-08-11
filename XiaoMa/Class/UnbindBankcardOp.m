@@ -22,8 +22,8 @@
 
 - (NSError *)mapError:(NSError *)error
 {
-    if (error.code == -1) {
-        error = [NSError errorWithDomain:@"解绑失败,请重试" code:0 userInfo:nil];
+    if (error.code == -1 || error.domain.length == 0) {
+        error = [NSError errorWithDomain:@"解绑失败,请重试" code:error.code userInfo:nil];
     }
     return error;
 }

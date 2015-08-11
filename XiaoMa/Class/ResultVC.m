@@ -19,4 +19,31 @@
     // Do any additional setup after loading the view.
 }
 
++ (ResultVC *)showInTargetVC:(UIViewController *)targetVC withSuccessText:(NSString *)success ensureBlock:(void(^)(void))block
+{
+    ResultVC *vc = [UIStoryboard vcWithId:@"ResultVC" inStoryboard:@"Bank"];
+    MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
+    formSheet.presentedFormSheetSize = CGSizeMake(280, 238);
+    formSheet.cornerRadius = 2.0;
+    formSheet.shadowOpacity = 0.01;
+    formSheet.shouldDismissOnBackgroundViewTap = YES;
+    formSheet.shouldCenterVertically = YES;
+    [targetVC mz_presentFormSheetController:formSheet animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+        [vc.drawView drawSuccess];
+        vc.textLabel.text = success;
+    }];
+    
+    @weakify(formSheet);
+    [[[vc.confirmBtn rac_signalForControlEvents:UIControlEventTouchUpInside] take:1] subscribeNext:^(id x) {
+        @strongify(formSheet);
+        [formSheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+            if (block) {
+                block();
+            }
+        }];
+    }];
+    
+    return vc;
+}
+
 @end
