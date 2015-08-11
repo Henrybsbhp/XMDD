@@ -19,6 +19,7 @@ typedef enum : NSInteger
 }HKBankCardType;
 
 @interface HKBankCard : NSObject
+
 @property (nonatomic, assign) HKBankType bankType;
 @property (nonatomic, assign) HKBankCardType cardType;
 @property (nonatomic, strong) NSString *cardName;

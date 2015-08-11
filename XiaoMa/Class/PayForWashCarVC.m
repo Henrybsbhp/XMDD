@@ -21,6 +21,7 @@
 #import "NSDate+DateForText.h"
 #import "UIView+Layer.h"
 #import "MyCarsModel.h"
+#import <POP.h>
 
 #define CheckBoxCouponGroup @"CheckBoxCouponGroup"
 #define CheckBoxPlatformGroup @"CheckBoxPlatformGroup"
@@ -30,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *payBtn;
+@property (nonatomic,strong)UIView * drawerView;
 
 @property (nonatomic, strong) CKSegmentHelper *checkBoxHelper;
 
@@ -37,8 +39,6 @@
 
 ///支付平台，（section == 2）
 @property (nonatomic)PaymentPlatform platform;
-
-@property (nonatomic,strong)NSDictionary * tbStructure;
 
 @end
 
@@ -210,7 +210,7 @@
         }
         else
         {
-            cell = [self paymentModeCellAtIndexPath:indexPath];
+            cell = [self paymentPlatformACellAtIndexPath:indexPath];
         }
     }
 
@@ -389,7 +389,22 @@
     }
     
     // checkBox 点击处理
+    NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxCouponGroup];
+    for (NSInteger i = 0 ; i < array.count ; i++)
+    {
+        UIButton * btn = [array safetyObjectAtIndex:i];
+        if ([btn.customObject isKindOfClass:[NSIndexPath class]])
+        {
+            NSIndexPath * path = (NSIndexPath *)btn.customObject;
+            if (path.section == indexPath.section && path.row == indexPath.row)
+            {
+                [self.checkBoxHelper removeItem:btn forGroupName:CheckBoxCouponGroup];
+                break;
+            }
+        }
+    }
     @weakify(self);
+    boxB.customObject = indexPath;
     [self.checkBoxHelper addItem:boxB forGroupName:CheckBoxCouponGroup withChangedBlock:^(id item, BOOL selected) {
         
         @strongify(self);
@@ -484,13 +499,35 @@
     return cell;
 }
 
-- (UITableViewCell *)paymentModeCellAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)paymentPlatformACellAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentModeCell"];
-    UIImageView *iconV = (UIImageView *)[cell.contentView viewWithTag:1001];
-    UILabel *titleLb = (UILabel *)[cell.contentView viewWithTag:1002];
-    UILabel *noteLb = (UILabel *)[cell.contentView viewWithTag:1004];
-    UIButton *boxB = (UIButton *)[cell.contentView viewWithTag:1003];
+    UITableViewCell *cell;
+    UIImageView *iconV,*drawerIV;
+    UILabel *titleLb,*noteLb,*numberLb;
+    UIButton *boxB;
+    UIView * drawerV;
+    if (indexPath.row == 1)
+    {
+        cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatformCellB"];
+        iconV = (UIImageView *)[cell searchViewWithTag:1001];
+        titleLb = (UILabel *)[cell searchViewWithTag:1002];
+        noteLb = (UILabel *)[cell searchViewWithTag:1004];
+        drawerV = (UIView *)[cell searchViewWithTag:104];
+        boxB = (UIButton *)[cell searchViewWithTag:20401];
+        drawerIV = (UIImageView *)[cell  searchViewWithTag:20402];
+        numberLb = (UILabel *)[cell searchViewWithTag:20403];
+        self.drawerView = drawerV;
+        drawerIV.image = [[UIImage imageNamed:@"cw_ticket_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
+    }
+    else
+    {
+        cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatformCellA"];
+        iconV = (UIImageView *)[cell.contentView viewWithTag:1001];
+        titleLb = (UILabel *)[cell.contentView viewWithTag:1002];
+        noteLb = (UILabel *)[cell.contentView viewWithTag:1004];
+        boxB = (UIButton *)[cell.contentView viewWithTag:1003];
+    }
+    
     if (indexPath.row == 1) {
         iconV.image = [UIImage imageNamed:@"cw_creditcard"];
         titleLb.text = @"信用卡支付";
@@ -536,7 +573,22 @@
             boxB.enabled = YES;
         }
     }
+    NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup];
+    for (NSInteger i = 0 ; i < array.count ; i++)
+    {
+        UIButton * btn = [array safetyObjectAtIndex:i];
+        if ([btn.customObject isKindOfClass:[NSIndexPath class]])
+        {
+            NSIndexPath * path = (NSIndexPath *)btn.customObject;
+            if (path.section == indexPath.section && path.row == indexPath.row)
+            {
+                [self.checkBoxHelper removeItem:btn forGroupName:CheckBoxPlatformGroup];
+                break;
+            }
+        }
+    }
     @weakify(self);
+    boxB.customObject = indexPath;
     [self.checkBoxHelper addItem:boxB forGroupName:CheckBoxPlatformGroup withChangedBlock:^(id item, BOOL selected) {
         boxB.selected = selected;
     }];
@@ -560,25 +612,37 @@
         
         if (indexPath.row == 1){
             self.platform = PayWithXMDDCreditCard;
+            [self popBankCardNumberAnimation:YES];
         }
         else if (indexPath.row == 2){
             self.platform = PayWithAlipay;
+            [self popBankCardNumberAnimation:NO];
         }
         else{
             self.platform = PayWithWechat;
+            [self popBankCardNumberAnimation:NO];
         }
     }];
-    
     
     if ((indexPath.row == 1 && self.platform == PayWithXMDDCreditCard) ||
         (indexPath.row == 2 && self.platform == PayWithAlipay)||
         (indexPath.row == 3 && self.platform == PayWithWechat))
     {
+        if (indexPath.row == 1)
+        {
+            [self popBankCardNumberAnimation:YES];
+        }
+        else
+        {
+            [self popBankCardNumberAnimation:NO];
+        }
         [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxPlatformGroup];
     }
     
     return cell;
 }
+
+
 
 - (UITableViewCell *)DiscountInfoCellAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -683,6 +747,7 @@
     op.serviceid = self.service.serviceID;
     op.licencenumber = self.defaultCar.licencenumber ? self.defaultCar.licencenumber : @"";
     op.carbrand = [self.defaultCar carSeriesDesc];
+    op.bankCardId = @(7);
     NSMutableArray *coupons;
     if (couponType == CouponTypeCZBankCarWash)
     {
@@ -1014,6 +1079,38 @@
     [self.checkBoxHelper selectItem:nil forGroupName:CheckBoxCouponGroup];
     [self.tableView reloadData];
     [self refreshPriceLb];
+}
+
+- (void)popBankCardNumberAnimation:(BOOL)flag
+{
+    if (flag)
+    {
+        POPSpringAnimation * anim = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
+        
+        CGFloat centerX = self.view.frame.size.width - 45;
+        CGFloat centerY = 25;
+        
+        anim.toValue = [NSValue valueWithCGPoint:CGPointMake(centerX, centerY)];
+        anim.springBounciness = 16;
+        anim.springSpeed = 6;
+        //    anim.dynamicsTension = 100;
+        anim.dynamicsMass = 2;
+        [self.drawerView pop_addAnimation:anim forKey:@"center"];
+    }
+    else
+    {
+        POPSpringAnimation * anim = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
+        
+        CGFloat centerX = self.view.frame.size.width + 5;
+        CGFloat centerY = 25;
+        
+        anim.toValue = [NSValue valueWithCGPoint:CGPointMake(centerX, centerY)];
+        anim.springBounciness = 16;
+        anim.springSpeed = 6;
+        //    anim.dynamicsTension = 100;
+        anim.dynamicsMass = 2;
+        [self.drawerView pop_addAnimation:anim forKey:@"center"];
+    }
 }
 
 @end
