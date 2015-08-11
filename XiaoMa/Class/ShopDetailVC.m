@@ -712,7 +712,8 @@
     }
     gesture = self.headImgView.customObject;
     
-    UILabel * countLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 58, 132, 70, 23)];
+    UILabel * countLabel = [[UILabel alloc] init];
+    
     countLabel.text = [NSString stringWithFormat:@"%d张", (int)shop.picArray.count];
     countLabel.font = [UIFont systemFontOfSize:15];
     countLabel.textColor = [UIColor colorWithHex:@"#ffffff" alpha:0.7f];
@@ -721,6 +722,14 @@
     [countLabel makeCornerRadius:13];
     countLabel.tag = 1002;
     [self.headImgView addSubview:countLabel];
+    
+    [countLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.top.equalTo(self.view.mas_top).offset(132);
+        make.right.equalTo(self.view.mas_right).offset(12);
+        make.width.equalTo(@70);
+        make.height.equalTo(@23);
+    }];
 }
 
 -(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
