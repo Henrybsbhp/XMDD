@@ -24,5 +24,7 @@
 
 ///检测关键字是否第一次在当前版本出现过
 - (BOOL)firstAppearAtThisVersionForKey:(NSString *)key;
+///检测关键字是否第一次在某版本之后（包含该版本）出现过
+- (BOOL)firstAppearAfterVersion:(NSString *)version forKey:(NSString *)key;
 
 @end

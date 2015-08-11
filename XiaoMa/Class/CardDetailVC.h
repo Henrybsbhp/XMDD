@@ -11,4 +11,5 @@
 
 @interface CardDetailVC : UIViewController
 @property (nonatomic, strong) HKBankCard *card;
+@property (nonatomic, weak) UIViewController *originVC;
 @end

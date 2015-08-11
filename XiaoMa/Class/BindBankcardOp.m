@@ -23,11 +23,8 @@
 
 - (NSError *)mapError:(NSError *)error
 {
-    if (error.code == -1) {
-        error = [NSError errorWithDomain:@"绑定失败,请重新绑定" code:-1 userInfo:nil];
-    }
-    else if (error.code == -2) {
-        
+    if (error.code == -1 || error.domain.length == 0) {
+        error = [NSError errorWithDomain:@"绑定失败,请重新绑定" code:error.code userInfo:nil];
     }
     return error;
 }

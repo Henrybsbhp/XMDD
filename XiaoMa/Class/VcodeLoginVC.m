@@ -24,8 +24,17 @@
 
 @implementation VcodeLoginVC
 
+- (void)awakeFromNib
+{
+    self.model = [[LoginViewModel alloc] init];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    self.navigationItem.leftBarButtonItem = back;
+    
     self.smsModel = [[HKSMSModel alloc] init];
     
     self.num.delegate = self;
@@ -56,6 +65,10 @@
 }
 
 #pragma mark - Action
+- (void)actionBack:(id)sender {
+    [self.model dismissForTargetVC:self forSucces:NO];
+}
+
 - (IBAction)actionGetVCode:(id)sender
 {
     [MobClick event:@"rp002-2"];

@@ -709,7 +709,7 @@
         <!--登录-->
         <scene sceneID="ccP-j7-gJC">
             <objects>
-                <tableViewController storyboardIdentifier="VcodeLoginVC" id="xCV-qz-Sg2" customClass="VcodeLoginVC" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="VcodeLoginVC" hidesBottomBarWhenPushed="YES" id="xCV-qz-Sg2" customClass="VcodeLoginVC" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="52" sectionHeaderHeight="10" sectionFooterHeight="2" id="h08-1f-BGf">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -43,7 +43,7 @@
             
             @strongify(self);
             NSInteger index = adView.currentPageIndex + 1;
-            if (index > self.adList.count-1) {
+            if (index > (int)(self.adList.count)-1) {
                 index = 0;
             }
             if (index != adView.currentPageIndex) {

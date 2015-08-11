@@ -12,5 +12,8 @@
 @interface ResultVC : UIViewController
 @property (weak, nonatomic) IBOutlet DrawingBoardView *drawView;
 @property (weak, nonatomic) IBOutlet UIButton *confirmBtn;
+@property (weak, nonatomic) IBOutlet UILabel *textLabel;
+
++ (ResultVC *)showInTargetVC:(UIViewController *)targetVC withSuccessText:(NSString *)success ensureBlock:(void(^)(void))block;
 
 @end
