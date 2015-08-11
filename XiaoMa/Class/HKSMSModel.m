@@ -9,6 +9,7 @@
 #import "HKSMSModel.h"
 #import "GetTokenOp.h"
 #import "GetBindCZBVcodeOp.h"
+#import "GetUnbindBankcardVcodeOp.h"
 
 #define kMaxVcodeInterval        60       //短信60秒冷却时间
 
@@ -28,7 +29,8 @@
 ///获取解绑浙商银行卡的短信验证码
 - (RACSignal *)rac_getUnbindCZBVcode
 {
-    RACSignal *signal;
+    GetUnbindBankcardVcodeOp *op = [GetUnbindBankcardVcodeOp operation];
+    RACSignal *signal = [op rac_postRequest];
     return [[signal doNext:^(id x) {
         gAppMgr.vcodeCoolingTimeForCZB = [[NSDate date] timeIntervalSince1970];
     }] deliverOn:[RACScheduler mainThreadScheduler]];

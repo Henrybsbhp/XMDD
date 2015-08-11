@@ -28,4 +28,15 @@
     return str;
 }
 
++ (NSString *)convertPhoneNumberForEncryption:(NSString *)phone
+{
+    NSMutableString *str = [NSMutableString string];
+    [str safetyAppendString:phone];
+    if (str.length >= 8)
+    {
+        [str replaceCharactersInRange:NSMakeRange(phone.length-8, 4) withString:@"****"];
+    }
+    return str;
+}
+
 @end

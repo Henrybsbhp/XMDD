@@ -20,4 +20,12 @@
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
+- (NSError *)mapError:(NSError *)error
+{
+    if (error.code == -1) {
+        error = [NSError errorWithDomain:@"验证码获取失败，请重新获取" code:-1 userInfo:nil];
+    }
+    return error;
+}
+
 @end
