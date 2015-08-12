@@ -23,8 +23,9 @@ typedef enum : NSInteger
 
 @property (nonatomic, assign) HKBankType bankType;
 @property (nonatomic, assign) HKBankCardType cardType;
-@property (nonatomic, strong) NSString *cardID;
+@property (nonatomic, strong) NSNumber *cardID;
 @property (nonatomic, strong) NSString *cardNumber;
+@property (nonatomic, strong) NSArray  *couponIds;
 
 + (instancetype)bankCardWithJSONResponse:(NSDictionary *)rsp;
 - (NSString *)cardName;

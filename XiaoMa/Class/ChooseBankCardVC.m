@@ -10,6 +10,7 @@
 #import "ADViewController.h"
 #import "HKBankCard.h"
 #import "HKConvertModel.h"
+#import "PayForWashCarVC.h"
 
 @interface ChooseBankCardVC ()
 
@@ -44,14 +45,6 @@
 
 - (void)reloadData
 {
-    [self.tableView.refreshView beginRefreshing];
-    HKBankCard *card = [[HKBankCard alloc] init];
-    card.bankType = HKBankTypeCZB;
-    card.cardType = HKBankCardTypeCredit;
-    card.cardName = @"浙商银行 - 小马达达";
-    card.cardNumber = @"6222111122223244";
-    self.bankCards = @[card];
-    [self.tableView.refreshView endRefreshing];
     [self.tableView reloadData];
 }
 
@@ -63,7 +56,17 @@
         
     }
     else {
-        
+        NSArray * viewcontroller = self.navigationController.viewControllers;
+        UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 2];
+        if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
+        {
+            PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
+            HKBankCard * card = [self.bankCards safetyObjectAtIndex:indexPath.row];
+            payVc.selectBankCard = card;
+            [payVc setPlatform:PayWithXMDDCreditCard];
+            [payVc tableViewReloadData];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }
 }
 

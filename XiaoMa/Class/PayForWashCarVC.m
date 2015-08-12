@@ -8,9 +8,11 @@
 
 #import "PayForWashCarVC.h"
 #import "XiaoMa.h"
+#import <POP.h>
 #import "UIView+Layer.h"
 #import "PaymentSuccessVC.h"
 #import "ChooseCarwashTicketVC.h"
+#import "ChooseBankCardVC.h"
 #import "GetUserResourcesV2Op.h"
 #import "GetUserCarOp.h"
 #import "HKCoupon.h"
@@ -21,7 +23,8 @@
 #import "NSDate+DateForText.h"
 #import "UIView+Layer.h"
 #import "MyCarsModel.h"
-#import <POP.h>
+#import "HKBankCard.h"
+
 
 #define CheckBoxCouponGroup @"CheckBoxCouponGroup"
 #define CheckBoxPlatformGroup @"CheckBoxPlatformGroup"
@@ -33,7 +36,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *payBtn;
 @property (nonatomic,strong)UIView * drawerView;
 
-@property (nonatomic, strong) CKSegmentHelper *checkBoxHelper;
+@property (nonatomic,strong) CKSegmentHelper *checkBoxHelper;
 
 @property (nonatomic)BOOL isLoadingResourse;
 
@@ -271,6 +274,16 @@
         
         ///取消支付宝，微信勾选
         [self.tableView reloadData];
+    }
+    else if (indexPath.section == 2) {
+        if (indexPath.row == 1) {
+            if (gAppMgr.myUser.validCZBankCreditCard)
+            {
+                ChooseBankCardVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseBankCardVC"];
+                vc.bankCards = gAppMgr.myUser.validCZBankCreditCard;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        }
     }
 }
 
@@ -518,6 +531,21 @@
         numberLb = (UILabel *)[cell searchViewWithTag:20403];
         self.drawerView = drawerV;
         drawerIV.image = [[UIImage imageNamed:@"cw_ticket_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
+        numberLb.text = [self.selectBankCard.cardNumber substringFromIndex:self.selectBankCard.cardNumber.length - 4];
+        if (!gAppMgr.myUser.validCZBankCreditCard.count)
+        {
+            [boxB setImage:[UIImage imageNamed:@"cw_box2"] forState:UIControlStateNormal];
+            [boxB setImage:[UIImage imageNamed:@"cw_box3"] forState:UIControlStateSelected];
+            [boxB setImage:[UIImage imageNamed:@"cw_box3"] forState:UIControlStateHighlighted];
+            drawerIV.hidden = YES;
+        }
+        else
+        {
+            [boxB setImage:[UIImage imageNamed:@"cw_box4"] forState:UIControlStateNormal];
+            [boxB setImage:[UIImage imageNamed:@"cw_box5"] forState:UIControlStateSelected];
+            [boxB setImage:[UIImage imageNamed:@"cw_box5"] forState:UIControlStateHighlighted];
+            drawerIV.hidden = NO;
+        }
     }
     else
     {
@@ -725,8 +753,10 @@
         self.isLoadingResourse = NO;
         
         [self selectDefaultCoupon];
+        [self autoSelectBankCard];
         
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
     } error:^(NSError *error) {
         
         self.isLoadingResourse = NO;
@@ -747,7 +777,7 @@
     op.serviceid = self.service.serviceID;
     op.licencenumber = self.defaultCar.licencenumber ? self.defaultCar.licencenumber : @"";
     op.carbrand = [self.defaultCar carSeriesDesc];
-    op.bankCardId = @(7);
+    op.bankCardId = self.selectBankCard.cardID;
     NSMutableArray *coupons;
     if (couponType == CouponTypeCZBankCarWash)
     {
@@ -791,6 +821,7 @@
                 else
                 {
                     op.platform = PayWithXMDDCreditCard;
+                    //如果是信用卡支付，paychannel 填 PaymentChannelXMDDCreditCard
                     op.paychannel = PaymentChannelXMDDCreditCard;
                 }
             }
@@ -1027,6 +1058,35 @@
     self.couponType = 0;
     [self tableViewReloadData];
 }
+
+- (void)autoSelectBankCard
+{
+//    if (self.couponType == CouponTypeCZBankCarWash)
+//    {
+//        HKCoupon * coupon = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
+//        for (HKBankCard * card in gAppMgr.myUser.validCZBankCreditCard)
+//        {
+//            for (NSNumber * cid in card.couponIds)
+//            {
+//                if ([coupon.couponId isEqualToNumber:cid])
+//                {
+//                    self.selectBankCard = card;
+//                    return;
+//                }
+//            }
+//        }
+//    }
+//    else
+    {
+        if (gAppMgr.myUser.validCZBankCreditCard.count)
+        {
+            HKBankCard * card = [gAppMgr.myUser.validCZBankCreditCard safetyObjectAtIndex:0];
+            self.selectBankCard = card;
+            self.platform = PayWithXMDDCreditCard;
+        }
+    }
+}
+
 
 - (void)refreshPriceLb
 {
