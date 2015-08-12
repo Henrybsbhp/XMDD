@@ -1257,7 +1257,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pj4-ZF-cw9" userLabel="Label2">
-                                                    <rect key="frame" x="46" y="28" width="33" height="16"/>
+                                                    <rect key="frame" x="46" y="26" width="33" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -1277,7 +1277,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="MHZ-jn-56M" firstAttribute="leading" secondItem="rN9-qP-ADY" secondAttribute="leading" constant="12" id="4SX-hh-ZFQ"/>
-                                                <constraint firstItem="pj4-ZF-cw9" firstAttribute="top" secondItem="rob-hE-mbf" secondAttribute="bottom" constant="3" id="4dJ-jT-SfM"/>
+                                                <constraint firstItem="pj4-ZF-cw9" firstAttribute="top" secondItem="rob-hE-mbf" secondAttribute="bottom" constant="1" id="4dJ-jT-SfM"/>
                                                 <constraint firstItem="pj4-ZF-cw9" firstAttribute="leading" secondItem="rob-hE-mbf" secondAttribute="leading" id="AhP-Yq-AxS"/>
                                                 <constraint firstItem="rob-hE-mbf" firstAttribute="top" secondItem="rN9-qP-ADY" secondAttribute="top" constant="8" id="F3L-66-isx"/>
                                                 <constraint firstAttribute="centerY" secondItem="fGc-nz-NUg" secondAttribute="centerY" id="InB-1h-l6V"/>
@@ -1334,10 +1334,10 @@
                                                             <state key="selected" image="cw_box5"/>
                                                             <state key="highlighted" image="cw_box5"/>
                                                         </button>
-                                                        <imageView userInteractionEnabled="NO" tag="20402" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WET-Er-jp1">
-                                                            <rect key="frame" x="37" y="8" width="58" height="25"/>
+                                                        <imageView userInteractionEnabled="NO" tag="20402" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WET-Er-jp1">
+                                                            <rect key="frame" x="37" y="4" width="58" height="34"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="25" id="PII-kN-Tfu"/>
+                                                                <constraint firstAttribute="height" constant="34" id="PII-kN-Tfu"/>
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="20403" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N4K-rj-XSE">

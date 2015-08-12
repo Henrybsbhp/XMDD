@@ -530,7 +530,7 @@
         drawerIV = (UIImageView *)[cell  searchViewWithTag:20402];
         numberLb = (UILabel *)[cell searchViewWithTag:20403];
         self.drawerView = drawerV;
-        drawerIV.image = [[UIImage imageNamed:@"cw_ticket_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
+        drawerIV.image = [UIImage imageNamed:@"mini_card"];
         numberLb.text = [self.selectBankCard.cardNumber substringFromIndex:self.selectBankCard.cardNumber.length - 4];
         if (!gAppMgr.myUser.validCZBankCreditCard.count)
         {
