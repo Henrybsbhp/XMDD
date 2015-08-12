@@ -314,9 +314,8 @@
         }
     }
     else if (indexPath.section == 1 && indexPath.row == 1) {
+        [MobClick event:@"rp301-10"];
         if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-            //UIViewController *vc = [UIStoryboard vcWithId:@"MyBankVC" inStoryboard:@"Bank"];
-            //CardDetailVC *vc = [UIStoryboard vcWithId:@"CardDetailVC" inStoryboard:@"Bank"];
             UIViewController *vc = [UIStoryboard vcWithId:@"MyBankVC" inStoryboard:@"Bank"];
             [self.navigationController pushViewController:vc animated:YES];
         }

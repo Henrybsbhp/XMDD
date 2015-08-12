@@ -31,9 +31,21 @@
     self.smsModel = [[HKSMSModel alloc] init];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [MobClick beginLogPageView:@"rp313"];
+    [super viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [MobClick endLogPageView:@"rp313"];
+    [super viewWillDisappear:animated];
+}
+
 #pragma mark - Action
 - (void)actionGetVCode:(id)sender
 {
+    [MobClick event:@"rp313-3"];
     if ([self sharkCellIfErrorAtIndex:0]) {
         return;
     }
@@ -59,6 +71,7 @@
 }
 
 - (IBAction)actionBind:(id)sender {
+    [MobClick event:@"rp313-5"];
     if ([self sharkCellIfErrorAtIndex:0]) {
         return;
     }
@@ -81,6 +94,7 @@
         [gToast dismiss];
         @strongify(self);
         [ResultVC showInTargetVC:self withSuccessText:@"恭喜，绑定成功!" ensureBlock:^{
+            [MobClick event:@"rp313-6"];
             [self.navigationController popViewControllerAnimated:YES];
             [self postCustomNotificationName:kNotifyRefreshMyBankcardList object:nil];
         }];
@@ -141,6 +155,10 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CardCell" forIndexPath:indexPath];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
+    
+    [[[field rac_signalForControlEvents:UIControlEventEditingDidBegin] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        [MobClick event:@"rp313-1"];
+    }];
     if (!self.cardField) {
         self.cardField = field;
     }
@@ -153,6 +171,9 @@
     UITextField *phoneField = (UITextField *)[cell.contentView viewWithTag:1001];
     UIButton *vcodeButton = (UIButton *)[cell.contentView viewWithTag:1002];
 
+    [[[phoneField rac_signalForControlEvents:UIControlEventEditingDidBegin] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        [MobClick event:@"rp313-2"];
+    }];
     if (!self.phoneField) {
         self.phoneField = phoneField;
     }
@@ -171,6 +192,10 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"VcodeCell" forIndexPath:indexPath];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
+    [[[field rac_signalForControlEvents:UIControlEventEditingDidBegin] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        [MobClick event:@"rp313-4"];
+    }];
+    
     if (!self.vcodeField) {
         self.vcodeField = field;
     }

@@ -25,8 +25,14 @@
 @implementation MyBankVC
 
 - (void)viewWillAppear:(BOOL)animated {
+    [MobClick beginLogPageView:@"rp314"];
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [MobClick endLogPageView:@"rp314"];
+    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidLoad
@@ -79,11 +85,13 @@
 {
     //点击“添加银行卡”
     if (indexPath.row > self.bankCards.count) {
+        [MobClick event:@"rp314-3"];
         BindBankCardVC *vc = [UIStoryboard vcWithId:@"BindBankCardVC" inStoryboard:@"Bank"];
         [self.navigationController pushViewController:vc animated:YES];
     }
     //点击某张银行卡
     else if (indexPath.row > 0) {
+        [MobClick event:@"rp314-2"];
         CardDetailVC *vc = [UIStoryboard vcWithId:@"CardDetailVC" inStoryboard:@"Bank"];
         vc.card = [self.bankCards safetyObjectAtIndex:0];
         vc.originVC = self;

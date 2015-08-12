@@ -50,7 +50,7 @@
 -(void)drawLineAnimation:(CALayer*)layer
 {
     CABasicAnimation *bas=[CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-    bas.duration=0.8;
+    bas.duration=0.5;
     bas.delegate=self;
     bas.fromValue=[NSNumber numberWithInteger:0];
     bas.toValue=[NSNumber numberWithInteger:1];

@@ -239,7 +239,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1) {
+    if (indexPath.section == 0){
+        if (indexPath.row == 3) {
+            [MobClick event:@"rp108-10"];
+        }
+    }
+    else if (indexPath.section == 1) {
         if (indexPath.row == 1)
         {
         //点击查看洗车券
@@ -264,9 +269,16 @@
             vc.upperLimit = self.service.origprice;
             [self.navigationController pushViewController:vc animated:YES];
         }
-        
+            
         ///取消支付宝，微信勾选
         [self.tableView reloadData];
+    }
+    else {
+        //选择信用卡
+        if (indexPath.row == 1)
+        {
+            [MobClick event:@"rp108-12"];
+        }
     }
 }
 
@@ -543,7 +555,7 @@
         [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxPlatformGroup];
         if (indexPath.row == 1)
         {
-            [MobClick event:@"rp108-7"];
+            [MobClick event:@"rp108-11"];
         }
         else if (indexPath.row == 2)
         {
