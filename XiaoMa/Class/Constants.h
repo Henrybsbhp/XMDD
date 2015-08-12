@@ -97,5 +97,6 @@ typedef enum : NSUInteger {
 //通知定义
 #define kNotifyRefreshMyCarList             @"com.huika.xmdd.RefreshMyCarList"
 #define kNotifyRefreshMyCarwashOrders       @"com.huika.xmdd.RefreshMyCarwashOrders"
+#define kNotifyRefreshMyBankcardList        @"com.huika.xmdd.RefreshMyBankcardList"
 
 #endif

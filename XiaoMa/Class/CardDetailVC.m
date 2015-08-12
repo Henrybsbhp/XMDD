@@ -7,6 +7,7 @@
 //
 
 #import "CardDetailVC.h"
+#import "UnbundlingVC.h"
 
 @interface CardDetailVC ()
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -111,7 +112,9 @@
     [[sheet rac_buttonClickedSignal] subscribeNext:^(NSNumber * index) {
         if ([index integerValue] == 0) {
             
-            UIViewController *vc = [UIStoryboard vcWithId:@"UnbundlingVC" inStoryboard:@"Bank"];
+            UnbundlingVC *vc = [UIStoryboard vcWithId:@"UnbundlingVC" inStoryboard:@"Bank"];
+            vc.originVC = self.originVC;
+            vc.card = self.card;
             [self.navigationController pushViewController:vc animated:YES];
             
         }

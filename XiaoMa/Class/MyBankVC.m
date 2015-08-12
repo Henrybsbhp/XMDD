@@ -13,6 +13,7 @@
 #import "CardDetailVC.h"
 #import "BindBankCardVC.h"
 #import "GetBankcardListOp.h"
+#import "MyBankcardsModel.h"
 
 @interface MyBankVC ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -33,6 +34,11 @@
     [super viewDidLoad];
     [self setupAdView];
     [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
+    @weakify(self);
+    [self listenNotificationByName:kNotifyRefreshMyBankcardList withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        @strongify(self);
+        [self reloadData];
+    }];
     [self reloadData];
 }
 
@@ -64,13 +70,7 @@
         [self.tableView reloadData];
     } error:^(NSError *error) {
         
-        HKBankCard *card = [[HKBankCard alloc] init];
-        card.bankType = HKBankTypeCZB;
-        card.cardType = HKBankCardTypeCredit;
-        card.cardNumber = @"1234567890123456";
-        self.bankCards = @[card];
-        [self.tableView reloadData];
-//        [gToast showError:error.domain];
+        [gToast showError:error.domain];
     }];
 }
 
@@ -86,6 +86,7 @@
     else if (indexPath.row > 0) {
         CardDetailVC *vc = [UIStoryboard vcWithId:@"CardDetailVC" inStoryboard:@"Bank"];
         vc.card = [self.bankCards safetyObjectAtIndex:0];
+        vc.originVC = self;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

@@ -12,6 +12,9 @@
 #import "GetUnbindBankcardVcodeOp.h"
 
 #define kMaxVcodeInterval        60       //短信60秒冷却时间
+static NSTimeInterval s_coolingTimeForUnbindCZB = 0;
+static NSTimeInterval s_coolingTimeForBindCZB = 0;
+static NSTimeInterval s_coolingTimeForLogin = 0;
 
 @implementation HKSMSModel
 
@@ -22,7 +25,7 @@
     op.req_bankcardno = cardno;
     op.req_phone = phone;
     return [[[op rac_postRequest] doNext:^(id x) {
-        gAppMgr.vcodeCoolingTimeForCZB = [[NSDate date] timeIntervalSince1970];
+        s_coolingTimeForBindCZB = [[NSDate date] timeIntervalSince1970];
     }] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
@@ -32,7 +35,7 @@
     GetUnbindBankcardVcodeOp *op = [GetUnbindBankcardVcodeOp operation];
     RACSignal *signal = [op rac_postRequest];
     return [[signal doNext:^(id x) {
-        gAppMgr.vcodeCoolingTimeForCZB = [[NSDate date] timeIntervalSince1970];
+        s_coolingTimeForUnbindCZB = [[NSDate date] timeIntervalSince1970];
     }] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
@@ -71,7 +74,7 @@
     //获取短信验证码成功后，更新本地token
     signal = [signal doNext:^(GetVcodeOp *op) {
         [gAppMgr.tokenPool setToken:op.req_token forAccount:op.req_phone ];
-        gAppMgr.vcodeCoolingTimeForLogin = [[NSDate date] timeIntervalSince1970];
+        s_coolingTimeForLogin = [[NSDate date] timeIntervalSince1970];
     }];
     //切换到主线程接收next
     signal = [signal deliverOn:[RACScheduler mainThreadScheduler]];
@@ -82,9 +85,12 @@
 - (BOOL)countDownIfNeededWithVcodeType:(HKVcodeType)type
 {
     UIButton *vbtn = self.getVcodeButton;
-    NSTimeInterval coolingTime = gAppMgr.vcodeCoolingTimeForLogin;
-    if (type == HKVcodeTypeUnbindCZB || type == HKVcodeTypeBindCZB) {
-        coolingTime = gAppMgr.vcodeCoolingTimeForCZB;
+    NSTimeInterval coolingTime = s_coolingTimeForLogin;
+    if (type == HKVcodeTypeBindCZB) {
+        coolingTime = s_coolingTimeForBindCZB;
+    }
+    else if (type == HKVcodeTypeUnbindCZB) {
+        coolingTime = s_coolingTimeForUnbindCZB;
     }
     NSTimeInterval interval = [[NSDate date] timeIntervalSince1970] - coolingTime;
     if (interval < kMaxVcodeInterval) {

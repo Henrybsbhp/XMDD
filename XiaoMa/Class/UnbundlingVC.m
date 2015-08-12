@@ -13,6 +13,9 @@
 #import "HKConvertModel.h"
 #import "JTLabel.h"
 #import "UnbindBankcardOp.h"
+#import "UIView+Shake.h"
+
+static NSString *s_sendedPhone;
 
 @interface UnbundlingVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -31,12 +34,6 @@
     self.smsModel = [[HKSMSModel alloc] init];
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-}
-
 #pragma mark - Action
 - (void)actionGetVcode:(id)sender
 {
@@ -45,19 +42,24 @@
     [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:signal] subscribeNext:^(id x) {
        
         @strongify(self);
-        self.promptString = [self attrStrWithPhone:gAppMgr.myUser.userID];
-        [self.tableView reloadData];
+        NSString *phone = gAppMgr.myUser.userID;
+        s_sendedPhone = phone;
+        self.promptString = [self attrStrWithPhone:phone];
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
         self.promptString = [self attrStrWithError:error];
-        [self.tableView reloadData];
     }];
 }
 
 - (IBAction)actionUnbind:(id)sender
 {
+    if ([self sharkCellIfErrorAtIndex:0]) {
+        return;
+    }
     UnbindBankcardOp *op = [UnbindBankcardOp operation];
+    op.req_vcode = self.vcodeField.text;
+    op.req_cardid = self.card.cardID;
     @weakify(self);
     [[[op rac_postRequest] initially:^{
         [gToast showingWithText:@"正在解绑..."];
@@ -66,21 +68,9 @@
         
         @strongify(self);
         [gToast dismiss];
-        ResultVC *vc = [UIStoryboard vcWithId:@"ResultVC" inStoryboard:@"Bank"];
-        MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
-        formSheet.presentedFormSheetSize = CGSizeMake(self.view.frame.size.width - 60, 238);
-        formSheet.cornerRadius = 2.0;
-        formSheet.shadowOpacity = 0.01;
-        formSheet.shouldDismissOnBackgroundViewTap = YES;
-        formSheet.shouldCenterVertically = YES;
-        
-        [self mz_presentFormSheetController:formSheet animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
-            [vc.drawView drawSuccess];
-            [[vc.confirmBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-                [formSheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-                    [self.navigationController popViewControllerAnimated:YES];
-                }];
-            }];
+        [ResultVC showInTargetVC:self withSuccessText:@"解绑成功!" ensureBlock:^{
+            [self.navigationController popToViewController:self.originVC animated:YES];
+            [self postCustomNotificationName:kNotifyRefreshMyBankcardList object:nil];
         }];
     } error:^(NSError *error) {
         
@@ -124,7 +114,13 @@
     }
     
     UILabel *lb = (UILabel *)[headerView viewWithTag:1001];
-    lb.attributedText = self.promptString;
+    @weakify(self);
+    [[RACObserve(self, promptString) takeUntil:[headerView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
+
+        @strongify(self);
+        lb.attributedText = self.promptString;
+    }];
+
 
     return headerView;
 }
@@ -133,25 +129,26 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"normalCell" forIndexPath:indexPath];
     
-    UITextField *textfield = (UITextField *)[cell.contentView viewWithTag:1002];
-    UIButton *vcodeBtn = (UIButton *)[cell.contentView viewWithTag:1003];
+    UITextField *textfield = (UITextField *)[cell.contentView viewWithTag:1001];
+    UIButton *vcodeBtn = (UIButton *)[cell.contentView viewWithTag:1002];
     if (!self.vcodeButton) {
         self.vcodeButton = vcodeBtn;
         self.smsModel.getVcodeButton = vcodeBtn;
-        [self.smsModel countDownIfNeededWithVcodeType:HKVcodeTypeUnbindCZB];
         [vcodeBtn addTarget:self action:@selector(actionGetVcode:) forControlEvents:UIControlEventTouchUpInside];
-        [self actionGetVcode:vcodeBtn];
+        //如果按钮倒计时已经结束，就开始发送短信
+        if ([self.smsModel countDownIfNeededWithVcodeType:HKVcodeTypeUnbindCZB]) {
+            [self actionGetVcode:vcodeBtn];
+        }
+        //否则显示发送的手机号码
+        else {
+            self.promptString = [self attrStrWithPhone:s_sendedPhone];
+        }
     }
     if (!self.vcodeField) {
         self.vcodeField = textfield;
     }
     
     return cell;
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -174,4 +171,16 @@
     return attrStr;
 }
 
+#pragma mark - Private
+- (BOOL)sharkCellIfErrorAtIndex:(NSInteger)index
+{
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+    UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
+    if (field.text.length == 0) {
+        UIView *container = [cell.contentView viewWithTag:100];
+        [container shake];
+        return YES;
+    }
+    return NO;
+}
 @end

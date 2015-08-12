@@ -10,6 +10,7 @@
 #import "HKSMSModel.h"
 #import "UIView+Shake.h"
 #import "BindBankcardOp.h"
+#import "ResultVC.h"
 #import <UIKitExtension.h>
 
 @interface BindBankCardVC ()<UITableViewDataSource, UITableViewDelegate>
@@ -71,12 +72,18 @@
     op.req_bankcardno = self.cardField.text;
     op.req_phone = self.phoneField.text;
     op.req_vcode = self.vcodeField.text;
+    @weakify(self);
     [[[op rac_postRequest] initially:^{
     
         [gToast showingWithText:@"正在绑定..."];
     }] subscribeNext:^(id x) {
         
         [gToast dismiss];
+        @strongify(self);
+        [ResultVC showInTargetVC:self withSuccessText:@"恭喜，绑定成功!" ensureBlock:^{
+            [self.navigationController popViewControllerAnimated:YES];
+            [self postCustomNotificationName:kNotifyRefreshMyBankcardList object:nil];
+        }];
     } error:^(NSError *error) {
 
         [gToast showError:error.domain];
