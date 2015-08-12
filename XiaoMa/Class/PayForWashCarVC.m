@@ -816,12 +816,10 @@
                 if (couponType > 0)
                 {
                     op.platform = PayWithXMDDCreditCard;
-                    op.paychannel = PaymentChannelXMDDCreditCard;
                 }
                 else
                 {
                     op.platform = PayWithXMDDCreditCard;
-                    //如果是信用卡支付，paychannel 填 PaymentChannelXMDDCreditCard
                     op.paychannel = PaymentChannelXMDDCreditCard;
                 }
             }
