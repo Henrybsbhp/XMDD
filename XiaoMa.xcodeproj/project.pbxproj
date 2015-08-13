@@ -297,6 +297,7 @@
 		6BCF624A1B1739E70064AE32 /* CommissionCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF62491B1739E70064AE32 /* CommissionCouponViewController.m */; };
 		6BCF62501B184AEF0064AE32 /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF624D1B184AEF0064AE32 /* NJKWebViewProgress.m */; };
 		6BCF62511B184AEF0064AE32 /* NJKWebViewProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF624F1B184AEF0064AE32 /* NJKWebViewProgressView.m */; };
+		6BD25E8B1B7C41C6008C0080 /* CollectionChooseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD25E8A1B7C41C6008C0080 /* CollectionChooseVC.m */; };
 		6BD7AE5B1AE8927C00BEF30E /* WeChatHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */; };
 		6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5D1AE8A64B00BEF30E /* ApiXml.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5F1AE8A64B00BEF30E /* payRequsestHandler.mm */; };
@@ -907,6 +908,8 @@
 		6BCF624D1B184AEF0064AE32 /* NJKWebViewProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NJKWebViewProgress.m; sourceTree = "<group>"; };
 		6BCF624E1B184AEF0064AE32 /* NJKWebViewProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NJKWebViewProgressView.h; sourceTree = "<group>"; };
 		6BCF624F1B184AEF0064AE32 /* NJKWebViewProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NJKWebViewProgressView.m; sourceTree = "<group>"; };
+		6BD25E891B7C41C6008C0080 /* CollectionChooseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionChooseVC.h; sourceTree = "<group>"; };
+		6BD25E8A1B7C41C6008C0080 /* CollectionChooseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionChooseVC.m; sourceTree = "<group>"; };
 		6BD7AE591AE8927C00BEF30E /* WeChatHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeChatHelper.h; path = Class/WeChatHelper.h; sourceTree = "<group>"; };
 		6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeChatHelper.m; path = Class/WeChatHelper.m; sourceTree = "<group>"; };
 		6BD7AE5C1AE8A64B00BEF30E /* ApiXml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiXml.h; sourceTree = "<group>"; };
@@ -1820,6 +1823,8 @@
 				186984E01AFF976A000A182A /* WebVC.m */,
 				6BBC4A2D1B0C8F87003F3081 /* SocialShareViewController.h */,
 				6BBC4A2E1B0C8F87003F3081 /* SocialShareViewController.m */,
+				6BD25E891B7C41C6008C0080 /* CollectionChooseVC.h */,
+				6BD25E8A1B7C41C6008C0080 /* CollectionChooseVC.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -2970,6 +2975,7 @@
 				6BD7AE5B1AE8927C00BEF30E /* WeChatHelper.m in Sources */,
 				187CC9621AEF896C004D1F28 /* PayResultForInstallmentsVC.m in Sources */,
 				18D17F771B53B21E00F66F04 /* MBProgressHUD.m in Sources */,
+				6BD25E8B1B7C41C6008C0080 /* CollectionChooseVC.m in Sources */,
 				189B31061AD7B7F5001D7288 /* UIView+Shake.m in Sources */,
 				6BB61BA01AEF6969004F39AA /* RescueViewController.m in Sources */,
 				6BBB083D1B01F8A30002C349 /* AboutViewController.m in Sources */,

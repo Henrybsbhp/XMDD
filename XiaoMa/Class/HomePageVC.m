@@ -32,6 +32,7 @@
 #import "WelcomeViewController.h"
 #import "CheckAwardViewController.h"
 #import "ADViewController.h"
+#import "CollectionChooseVC.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 
