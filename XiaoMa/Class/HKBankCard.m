@@ -17,6 +17,15 @@
     card.cardID = rsp[@"cardid"];
     card.bankType = [self bankTypeForString:rsp[@"bankType"]];
     card.cardType = HKBankCardTypeCredit;
+    
+    NSString * cids = rsp[@"cids"];
+    NSMutableArray * tCids = [NSMutableArray array];
+    for (NSString * cid in [cids componentsSeparatedByString:@","])
+    {
+        NSNumber * number = [NSNumber numberWithInteger:[cid integerValue]];
+        [tCids safetyAddObject:number];
+    }
+    card.couponIds = [NSArray arrayWithArray:tCids];
     return card;
 }
 

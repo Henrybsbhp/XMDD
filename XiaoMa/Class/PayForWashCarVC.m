@@ -289,9 +289,12 @@
             [MobClick event:@"rp108-12"];
             if (gAppMgr.myUser.validCZBankCreditCard)
             {
-                ChooseBankCardVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseBankCardVC"];
-                vc.bankCards = gAppMgr.myUser.validCZBankCreditCard;
-                [self.navigationController pushViewController:vc animated:YES];
+                if (self.couponType != CouponTypeCZBankCarWash)
+                {
+                    ChooseBankCardVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseBankCardVC"];
+                    vc.bankCards = gAppMgr.myUser.validCZBankCreditCard;
+                    [self.navigationController pushViewController:vc animated:YES];
+                }
             }
         }
     }
@@ -1084,22 +1087,22 @@
 
 - (void)autoSelectBankCard
 {
-    //    if (self.couponType == CouponTypeCZBankCarWash)
-    //    {
-    //        HKCoupon * coupon = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
-    //        for (HKBankCard * card in gAppMgr.myUser.validCZBankCreditCard)
-    //        {
-    //            for (NSNumber * cid in card.couponIds)
-    //            {
-    //                if ([coupon.couponId isEqualToNumber:cid])
-    //                {
-    //                    self.selectBankCard = card;
-    //                    return;
-    //                }
-    //            }
-    //        }
-    //    }
-    //    else
+        if (self.couponType == CouponTypeCZBankCarWash)
+        {
+            HKCoupon * coupon = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
+            for (HKBankCard * card in gAppMgr.myUser.validCZBankCreditCard)
+            {
+                for (NSNumber * cid in card.couponIds)
+                {
+                    if ([coupon.couponId isEqualToNumber:cid])
+                    {
+                        self.selectBankCard = card;
+                        return;
+                    }
+                }
+            }
+        }
+        else
     {
         if (gAppMgr.myUser.validCZBankCreditCard.count)
         {

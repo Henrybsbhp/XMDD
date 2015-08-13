@@ -11,6 +11,7 @@
 #import "HKBankCard.h"
 #import "HKConvertModel.h"
 #import "PayForWashCarVC.h"
+#import "BindBankCardVC.h"
 
 @interface ChooseBankCardVC ()
 
@@ -31,7 +32,13 @@
     [super viewDidLoad];
     [self setupAdView];
     [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
+    @weakify(self);
+    [self listenNotificationByName:kNotifyRefreshMyBankcardList withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        @strongify(self);
+        [self reloadData];
+    }];
     [self reloadData];
+
 }
 
 - (void)setupAdView
@@ -48,12 +55,29 @@
     [self.tableView reloadData];
 }
 
+- (void)reloadResources
+{
+    NSArray * viewcontroller = self.navigationController.viewControllers;
+    UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 2];
+    if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
+    {
+        PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
+        [payVc requestGetUserResource];
+    }
+}
+
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //点击“添加银行卡”
-    if (indexPath.row >= self.bankCards.count) {
-        
+    if (indexPath.row > self.bankCards.count) {
+        [MobClick event:@"rp314-3"];
+        BindBankCardVC *vc = [UIStoryboard vcWithId:@"BindBankCardVC" inStoryboard:@"Bank"];
+        [vc setFinishAction:^{
+            
+            [self reloadResources];
+        }];
+        [self.navigationController pushViewController:vc animated:YES];
     }
     else {
         NSArray * viewcontroller = self.navigationController.viewControllers;
@@ -72,7 +96,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row >= self.bankCards.count) {
+    if (indexPath.row == 0) {
+        return 28;
+    }
+    else if (indexPath.row > self.bankCards.count) {
         return 114;
     }
     return 104;
@@ -80,13 +107,16 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.bankCards.count + 1;
+    return self.bankCards.count + 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-    if (indexPath.row >= self.bankCards.count) {
+    if (indexPath.row == 0) {
+        cell = [self promptCellAtIndexPath:indexPath];
+    }
+    else if (indexPath.row > self.bankCards.count) {
         cell = [self addCellAtIndexPath:indexPath];
     }
     else {
@@ -95,17 +125,23 @@
     return cell;
 }
 
-#pragma mark - Abount Cell
+#pragma mark - About Cell
+- (UITableViewCell *)promptCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PromptCell" forIndexPath:indexPath];
+    return cell;
+}
+
 - (UITableViewCell *)bankCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"BankCell" forIndexPath:indexPath];
     UIImageView *bgV = (UIImageView *)[cell.contentView viewWithTag:1000];
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
-    UILabel *cardTypeL = (UILabel *)[cell.contentView viewWithTag:10032];
+    UILabel *cardTypeL = (UILabel *)[cell.contentView viewWithTag:1003];
     UILabel *numberL = (UILabel *)[cell.contentView viewWithTag:1004];
     
-    HKBankCard *card = [self.bankCards safetyObjectAtIndex:indexPath.row];
+    HKBankCard *card = [self.bankCards safetyObjectAtIndex:indexPath.row-1];
     
     bgV.image = [[UIImage imageNamed:@"mb_bg_czb"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 140)];
     logoV.image = [UIImage imageNamed:@"mb_logo"];
@@ -120,6 +156,8 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"AddCell" forIndexPath:indexPath];
     return cell;
 }
+
+
 
 
 @end
