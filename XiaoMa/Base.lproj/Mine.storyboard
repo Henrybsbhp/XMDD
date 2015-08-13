@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -1590,7 +1591,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="3002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1200" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T30-ad-0be">
-                                                            <rect key="frame" x="29" y="6" width="479" height="22"/>
+                                                            <rect key="frame" x="29" y="8" width="479" height="21.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <color key="textColor" red="0.98431372549999996" green="0.34509803919999998" blue="0.058823529409999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -1605,26 +1606,14 @@
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="centerY" secondItem="vgV-cJ-uDy" secondAttribute="centerY" id="6II-qv-AsX"/>
-                                                        <constraint firstItem="vgV-cJ-uDy" firstAttribute="top" secondItem="6dG-FY-1sy" secondAttribute="top" id="D2g-hy-N7r"/>
                                                         <constraint firstAttribute="bottom" secondItem="VRk-MN-bPW" secondAttribute="bottom" id="GsA-yZ-PDz"/>
                                                         <constraint firstAttribute="trailing" secondItem="VRk-MN-bPW" secondAttribute="trailing" id="Hf7-1d-Po7"/>
-                                                        <constraint firstItem="T30-ad-0be" firstAttribute="bottom" secondItem="vgV-cJ-uDy" secondAttribute="bottom" constant="1" id="JWd-Ln-EYL"/>
-                                                        <constraint firstItem="T30-ad-0be" firstAttribute="top" secondItem="6dG-FY-1sy" secondAttribute="top" id="R4R-Fg-UQj"/>
-                                                        <constraint firstAttribute="bottom" secondItem="T30-ad-0be" secondAttribute="bottom" id="VNP-Vx-y1a"/>
-                                                        <constraint firstAttribute="bottom" secondItem="vgV-cJ-uDy" secondAttribute="bottom" id="e1K-cb-WQD"/>
+                                                        <constraint firstAttribute="centerY" secondItem="T30-ad-0be" secondAttribute="centerY" id="KVm-kG-u2n"/>
                                                         <constraint firstItem="VRk-MN-bPW" firstAttribute="leading" secondItem="T30-ad-0be" secondAttribute="trailing" constant="8" id="fh6-BQ-9CM"/>
                                                         <constraint firstItem="VRk-MN-bPW" firstAttribute="top" secondItem="6dG-FY-1sy" secondAttribute="top" id="ie4-Rp-o7w"/>
                                                         <constraint firstItem="T30-ad-0be" firstAttribute="leading" secondItem="vgV-cJ-uDy" secondAttribute="trailing" constant="1" id="mY7-hd-8pz"/>
                                                         <constraint firstItem="vgV-cJ-uDy" firstAttribute="leading" secondItem="6dG-FY-1sy" secondAttribute="leading" id="q94-B4-qXH"/>
                                                     </constraints>
-                                                    <variation key="default">
-                                                        <mask key="constraints">
-                                                            <exclude reference="D2g-hy-N7r"/>
-                                                            <exclude reference="e1K-cb-WQD"/>
-                                                            <exclude reference="R4R-Fg-UQj"/>
-                                                            <exclude reference="VNP-Vx-y1a"/>
-                                                        </mask>
-                                                    </variation>
                                                 </view>
                                                 <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CRo-F2-4AI">
                                                     <rect key="frame" x="13" y="137" width="574" height="34"/>

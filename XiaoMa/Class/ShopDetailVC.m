@@ -725,7 +725,8 @@
     
     [countLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
-        make.top.equalTo(self.view.mas_top).offset(132);
+        make.bottom.equalTo(self.headImgView.mas_bottom).offset(-16);
+//        make.top.equalTo(self.view.mas_top).offset(132);
         make.right.equalTo(self.view.mas_right).offset(12);
         make.width.equalTo(@70);
         make.height.equalTo(@23);

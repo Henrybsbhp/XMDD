@@ -181,6 +181,7 @@
 		18D17F831B57A3D000F66F04 /* HomePageVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F821B57A3D000F66F04 /* HomePageVModel.m */; };
 		18D17F861B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F851B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m */; };
 		18D475DF1B79E332000FAF1C /* MyBankcardsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D475DE1B79E332000FAF1C /* MyBankcardsModel.m */; };
+		18D475E21B7C3954000FAF1C /* GetUserCouponV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D475E11B7C3954000FAF1C /* GetUserCouponV2Op.m */; };
 		18D62B3F1B60EBF800E3FDB2 /* 90_0.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */; };
 		18E756A41B73335C00874601 /* MyBankVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E756A31B73335C00874601 /* MyBankVC.m */; };
 		18E756A71B73338600874601 /* Bank.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18E756A51B73338600874601 /* Bank.storyboard */; };
@@ -687,6 +688,8 @@
 		18D17F851B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckoutServiceOrderV2Op.m; path = Class/CheckoutServiceOrderV2Op.m; sourceTree = "<group>"; };
 		18D475DD1B79E332000FAF1C /* MyBankcardsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyBankcardsModel.h; path = Class/MyBankcardsModel.h; sourceTree = "<group>"; };
 		18D475DE1B79E332000FAF1C /* MyBankcardsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyBankcardsModel.m; path = Class/MyBankcardsModel.m; sourceTree = "<group>"; };
+		18D475E01B7C3954000FAF1C /* GetUserCouponV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserCouponV2Op.h; path = Class/GetUserCouponV2Op.h; sourceTree = "<group>"; };
+		18D475E11B7C3954000FAF1C /* GetUserCouponV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserCouponV2Op.m; path = Class/GetUserCouponV2Op.m; sourceTree = "<group>"; };
 		18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 90_0.gpx; sourceTree = "<group>"; };
 		18E756A21B73335C00874601 /* MyBankVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBankVC.h; sourceTree = "<group>"; };
 		18E756A31B73335C00874601 /* MyBankVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBankVC.m; sourceTree = "<group>"; };
@@ -2305,6 +2308,8 @@
 				6BB61B971AEE85E8004F39AA /* AddUserFavoriteOp.m */,
 				6BE4CE2F1AF217BC008E1C19 /* GetUserCouponOp.h */,
 				6BE4CE301AF217BC008E1C19 /* GetUserCouponOp.m */,
+				18D475E01B7C3954000FAF1C /* GetUserCouponV2Op.h */,
+				18D475E11B7C3954000FAF1C /* GetUserCouponV2Op.m */,
 				6BE4CE321AF21ACA008E1C19 /* AddUserCarOp.h */,
 				6BE4CE331AF21ACA008E1C19 /* AddUserCarOp.m */,
 				1893711A1B0DAC8D0030FDE1 /* GetMessageOp.h */,
@@ -2919,6 +2924,7 @@
 				186984E11AFF976A000A182A /* WebVC.m in Sources */,
 				6BC220961AD7801C00A4310E /* BaseOp.m in Sources */,
 				1853DEAD1AE0A0B700C39175 /* HKCatchErrorModel.m in Sources */,
+				18D475E21B7C3954000FAF1C /* GetUserCouponV2Op.m in Sources */,
 				18F41DAF1B788022000409E1 /* GetUnbindBankcardVcodeOp.m in Sources */,
 				6BC2209C1AD7AAF300A4310E /* NetworkManager.m in Sources */,
 				18039AF51B0C5BCE00264059 /* GetAutomobileModelOp.m in Sources */,
