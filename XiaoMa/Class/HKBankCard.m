@@ -13,8 +13,8 @@
 + (instancetype)bankCardWithJSONResponse:(NSDictionary *)rsp
 {
     HKBankCard *card = [[HKBankCard alloc] init];
-    card.cardNumber = rsp[@"bindcardno"];
-    card.cardID = rsp[@"bid"];
+    card.cardNumber = rsp[@"cardno"];
+    card.cardID = rsp[@"cardid"];
     card.bankType = [self bankTypeForString:rsp[@"bankType"]];
     card.cardType = HKBankCardTypeCredit;
     return card;
