@@ -1379,6 +1379,82 @@
                                             </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PaymentPlatformCellC" rowHeight="44" id="pSu-DL-U9v" customClass="JTTableViewCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pSu-DL-U9v" id="M5I-Pk-Tx5">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6lr-1I-jko">
+                                                    <rect key="frame" x="12" y="9" width="26" height="26"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="26" id="Too-4r-4u4"/>
+                                                        <constraint firstAttribute="height" constant="26" id="UtQ-7S-qOa"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bF4-uK-m7T" userLabel="Label1">
+                                                    <rect key="frame" x="46" y="8" width="514" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bjv-Xy-17O" userLabel="Label2">
+                                                    <rect key="frame" x="46" y="26" width="33" height="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" tag="1003" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xQe-Lr-Y8p">
+                                                    <rect key="frame" x="560" y="2" width="40" height="40"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="40" id="FDc-2T-njm"/>
+                                                        <constraint firstAttribute="width" constant="40" id="nXU-Ce-6tI"/>
+                                                    </constraints>
+                                                    <state key="normal" image="cw_box2">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <state key="selected" image="cw_box3"/>
+                                                    <state key="highlighted" image="cw_box3"/>
+                                                </button>
+                                                <view tag="105" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T8H-0b-glN">
+                                                    <rect key="frame" x="577" y="19" width="7" height="7"/>
+                                                    <color key="backgroundColor" red="1" green="0.49019607840000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="7" id="rVv-vZ-7Vg"/>
+                                                        <constraint firstAttribute="height" constant="7" id="wmB-cC-uXe"/>
+                                                    </constraints>
+                                                </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="106" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="njp-Uq-SWj">
+                                                    <rect key="frame" x="560" y="12" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="xQe-Lr-Y8p" secondAttribute="trailing" id="6nx-Bu-MJX"/>
+                                                <constraint firstAttribute="bottom" secondItem="bF4-uK-m7T" secondAttribute="bottom" constant="14" id="Ig0-Dd-pxb"/>
+                                                <constraint firstItem="bF4-uK-m7T" firstAttribute="leading" secondItem="6lr-1I-jko" secondAttribute="trailing" constant="8" id="Iz6-Da-Wwa"/>
+                                                <constraint firstItem="6lr-1I-jko" firstAttribute="leading" secondItem="M5I-Pk-Tx5" secondAttribute="leading" constant="12" id="KhK-un-Qb3"/>
+                                                <constraint firstItem="njp-Uq-SWj" firstAttribute="centerX" secondItem="T8H-0b-glN" secondAttribute="centerX" id="NB2-Uj-Q6V"/>
+                                                <constraint firstItem="xQe-Lr-Y8p" firstAttribute="leading" secondItem="bF4-uK-m7T" secondAttribute="trailing" id="YW0-nn-bOF"/>
+                                                <constraint firstAttribute="centerY" secondItem="xQe-Lr-Y8p" secondAttribute="centerY" id="alv-I1-uC3"/>
+                                                <constraint firstItem="njp-Uq-SWj" firstAttribute="centerY" secondItem="T8H-0b-glN" secondAttribute="centerY" id="gO0-0S-V87"/>
+                                                <constraint firstItem="T8H-0b-glN" firstAttribute="centerX" secondItem="xQe-Lr-Y8p" secondAttribute="centerX" id="gfs-Au-3a5"/>
+                                                <constraint firstItem="T8H-0b-glN" firstAttribute="centerY" secondItem="xQe-Lr-Y8p" secondAttribute="centerY" id="hHS-IO-8aI"/>
+                                                <constraint firstAttribute="centerY" secondItem="6lr-1I-jko" secondAttribute="centerY" id="ifJ-yu-Y8q"/>
+                                                <constraint firstItem="bF4-uK-m7T" firstAttribute="top" secondItem="M5I-Pk-Tx5" secondAttribute="top" constant="8" id="lOI-2x-fAT"/>
+                                                <constraint firstItem="Bjv-Xy-17O" firstAttribute="leading" secondItem="bF4-uK-m7T" secondAttribute="leading" id="lsh-XJ-h3M"/>
+                                                <constraint firstItem="Bjv-Xy-17O" firstAttribute="top" secondItem="bF4-uK-m7T" secondAttribute="bottom" constant="1" id="za4-m4-ijg"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="Ig0-Dd-pxb"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="DiscountInfoCell" id="duH-6D-cJD" customClass="JTTableViewCell">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>

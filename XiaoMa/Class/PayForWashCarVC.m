@@ -36,6 +36,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *payBtn;
 @property (nonatomic,strong)UIView * drawerView;
 
+@property (nonatomic,strong)UIView * animationView;
+@property (nonatomic,strong)UILabel * numberView;
+
 @property (nonatomic,strong) CKSegmentHelper *checkBoxHelper;
 
 @property (nonatomic)BOOL isLoadingResourse;
@@ -234,7 +237,7 @@
     {
         if (indexPath.section == 0)
         {
-            if (indexPath.row != 3)
+            if (indexPath.row != 3 || indexPath != 0)
             {
                 return;
             }
@@ -518,9 +521,24 @@
     UIImageView *iconV,*drawerIV;
     UILabel *titleLb,*noteLb,*numberLb;
     UIButton *boxB;
-    UIView * drawerV;
+    UIView * drawerV,*animationView;
     if (indexPath.row == 1)
     {
+//        cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatformCellC"];
+//        iconV = (UIImageView *)[cell.contentView viewWithTag:1001];
+//        titleLb = (UILabel *)[cell.contentView viewWithTag:1002];
+//        noteLb = (UILabel *)[cell.contentView viewWithTag:1004];
+//        boxB = (UIButton *)[cell.contentView viewWithTag:1003];
+//        animationView = (UIView *)[cell searchViewWithTag:105];
+//        numberLb = (UILabel *)[cell.contentView viewWithTag:106];
+//        
+//        self.animationView = animationView;
+//        animationView.backgroundColor = [UIColor colorWithHex:@"#ff5a00" alpha:1.0f];
+//        animationView.layer.cornerRadius = 3.5f;
+//        animationView.layer.masksToBounds = YES;
+//        self.numberView = numberLb;
+//        numberLb.text = [self.selectBankCard.cardNumber substringFromIndex:self.selectBankCard.cardNumber.length - 4];
+//        self.numberView.hidden = YES;
         cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatformCellB"];
         iconV = (UIImageView *)[cell searchViewWithTag:1001];
         titleLb = (UILabel *)[cell searchViewWithTag:1002];
@@ -1169,6 +1187,52 @@
         anim.dynamicsMass = 2;
         [self.drawerView pop_addAnimation:anim forKey:@"center"];
     }
+    
+    // 扩散效果动画
+//    CGFloat pointWidth = 7.0f;
+//    CGPoint middlePoint = self.animationView.layer.position;
+//    if (flag)
+//    {
+//        self.numberView.hidden = YES;
+//        self.animationView.hidden = NO;
+//        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+//            
+//        } completion:^(BOOL finished) {
+//            
+//            CAKeyframeAnimation *ka1 = [CAKeyframeAnimation animationWithKeyPath:@"bounds"];
+//            NSMutableArray *values = [NSMutableArray array];
+//            [values addObject:[NSValue valueWithCGRect:CGRectMake(0, 0, 7, 7)]];
+//            [values addObject:[NSValue valueWithCGRect:CGRectMake(0, 0, 10, 9)]];
+//            [values addObject:[NSValue valueWithCGRect:CGRectMake(0, 0, 14, 11)]];
+//            [values addObject:[NSValue valueWithCGRect:CGRectMake(0, 0, 19, 13)]];
+//            [values addObject:[NSValue valueWithCGRect:CGRectMake(0, 0, 25, 17)]];
+//            [values addObject:[NSValue valueWithCGRect:CGRectMake(0, 0, 31, 20)]];
+//            [values addObject:[NSValue valueWithCGRect:CGRectMake(0, 0, 47, 23)]];
+//            [values addObject:[NSValue valueWithCGRect:CGRectMake(0, 0, 55, 26)]];
+//            
+//            
+//            ka1.values = values;
+//            ka1.duration = 1.5f;
+//            ka1.delegate = self;
+//            [self.animationView.layer addAnimation:ka1 forKey:@"bounds"];
+//            self.animationView.frame = CGRectMake(middlePoint.x - 27.5,middlePoint.y - 13, 55, 26);
+//        }];
+//        
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            
+//            self.numberView.hidden = NO;
+//            self.numberView.alpha = 0;
+//            
+//            [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+//                
+//                self.numberView.alpha = 1.0f;
+//            } completion:^(BOOL finished) {
+//                
+//                self.numberView.alpha = 1.0f;
+//            }];
+//        });
+//    }
+//    return;
 }
 
 @end
