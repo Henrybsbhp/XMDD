@@ -200,6 +200,7 @@
 		6B086BA11AE3184D00659DB7 /* GetShopByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */; };
 		6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */; };
 		6B086BA71AE4F03800659DB7 /* UIView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA61AE4F03800659DB7 /* UIView+Base.m */; };
+		6B328ED01B79AAFA00B9F207 /* ChooseBankCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */; };
 		6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B343C351B0EFFAF0036AED9 /* ShareUserCouponOp.m */; };
 		6B747A651AF08C7B00106BFD /* PhoneHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B747A641AF08C7B00106BFD /* PhoneHelper.m */; };
 		6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B82588F1AF8B37100D5D800 /* CommentListViewController.m */; };
@@ -302,6 +303,7 @@
 		6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5F1AE8A64B00BEF30E /* payRequsestHandler.mm */; };
 		6BD7AE641AE8A64B00BEF30E /* WXUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE611AE8A64B00BEF30E /* WXUtil.mm */; };
 		6BD7AE681AE9F63900BEF30E /* MapBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE671AE9F63900BEF30E /* MapBottomView.m */; };
+		6BDB47841B78794800C61AB9 /* GetUserResourcesV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDB47831B78794800C61AB9 /* GetUserResourcesV2Op.m */; };
 		6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD4E1AE6232C00A69875 /* HKAdvertisement.m */; };
 		6BE2BD521AE62B1600A69875 /* GetInsuranceCalculatorOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD511AE62B1600A69875 /* GetInsuranceCalculatorOp.m */; };
 		6BE2BD581AE62CDF00A69875 /* HKInsurance.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD571AE62CDF00A69875 /* HKInsurance.m */; };
@@ -723,6 +725,8 @@
 		6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemTipsOp.m; path = Class/GetSystemTipsOp.m; sourceTree = "<group>"; };
 		6B086BA51AE4F03800659DB7 /* UIView+Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Base.h"; path = "Class/UIView+Base.h"; sourceTree = "<group>"; };
 		6B086BA61AE4F03800659DB7 /* UIView+Base.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Base.m"; path = "Class/UIView+Base.m"; sourceTree = "<group>"; };
+		6B328ECE1B79AAFA00B9F207 /* ChooseBankCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseBankCardVC.h; sourceTree = "<group>"; };
+		6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseBankCardVC.m; sourceTree = "<group>"; };
 		6B343C341B0EFFAF0036AED9 /* ShareUserCouponOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareUserCouponOp.h; path = Class/ShareUserCouponOp.h; sourceTree = "<group>"; };
 		6B343C351B0EFFAF0036AED9 /* ShareUserCouponOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShareUserCouponOp.m; path = Class/ShareUserCouponOp.m; sourceTree = "<group>"; };
 		6B65DF4F1B1BF99000E54948 /* XiaoMaConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XiaoMaConstants.h; sourceTree = "<group>"; };
@@ -916,6 +920,8 @@
 		6BD7AE611AE8A64B00BEF30E /* WXUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WXUtil.mm; sourceTree = "<group>"; };
 		6BD7AE661AE9F63900BEF30E /* MapBottomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapBottomView.h; path = Class/MapBottomView.h; sourceTree = "<group>"; };
 		6BD7AE671AE9F63900BEF30E /* MapBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapBottomView.m; path = Class/MapBottomView.m; sourceTree = "<group>"; };
+		6BDB47821B78794800C61AB9 /* GetUserResourcesV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserResourcesV2Op.h; path = Class/GetUserResourcesV2Op.h; sourceTree = "<group>"; };
+		6BDB47831B78794800C61AB9 /* GetUserResourcesV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserResourcesV2Op.m; path = Class/GetUserResourcesV2Op.m; sourceTree = "<group>"; };
 		6BE2BD4D1AE6232C00A69875 /* HKAdvertisement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKAdvertisement.h; path = Class/HKAdvertisement.h; sourceTree = "<group>"; };
 		6BE2BD4E1AE6232C00A69875 /* HKAdvertisement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKAdvertisement.m; path = Class/HKAdvertisement.m; sourceTree = "<group>"; };
 		6BE2BD501AE62B1600A69875 /* GetInsuranceCalculatorOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetInsuranceCalculatorOp.h; path = Class/GetInsuranceCalculatorOp.h; sourceTree = "<group>"; };
@@ -1169,6 +1175,8 @@
 				6BB9D7701AF7054B00F7F3F8 /* SearchViewController.m */,
 				6B82588E1AF8B37100D5D800 /* CommentListViewController.h */,
 				6B82588F1AF8B37100D5D800 /* CommentListViewController.m */,
+				6B328ECE1B79AAFA00B9F207 /* ChooseBankCardVC.h */,
+				6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */,
 			);
 			name = CarWash;
 			sourceTree = "<group>";
@@ -2336,6 +2344,8 @@
 				6BBBF5551B295FD300E1B809 /* GainUserAwardOp.m */,
 				18895B3D1B4E69B600928F62 /* GetCarwashOrderOp.h */,
 				18895B3E1B4E69B600928F62 /* GetCarwashOrderOp.m */,
+				6BDB47821B78794800C61AB9 /* GetUserResourcesV2Op.h */,
+				6BDB47831B78794800C61AB9 /* GetUserResourcesV2Op.m */,
 				189C698A1B75A2BB00E56E4A /* GetBindCZBVcodeOp.h */,
 				189C698B1B75A2BB00E56E4A /* GetBindCZBVcodeOp.m */,
 			);
@@ -2869,6 +2879,7 @@
 				6BCF624A1B1739E70064AE32 /* CommissionCouponViewController.m in Sources */,
 				6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */,
 				1816F4B41ACE767200BBCC96 /* UIStoryboard+Expansion.m in Sources */,
+				6BDB47841B78794800C61AB9 /* GetUserResourcesV2Op.m in Sources */,
 				18895B391B4CB93800928F62 /* BindDeviceTokenOp.m in Sources */,
 				1851F4211B0C268F00241A01 /* AutoInfoModel.m in Sources */,
 				186984F21B007FAB000A182A /* HKServiceOrder.m in Sources */,
@@ -2946,6 +2957,7 @@
 				6BC3B6121ADF6205001016A0 /* MapHelper.m in Sources */,
 				1837A75F1B72130F0006E6C5 /* SDBrowserImageView.m in Sources */,
 				6BBF7DA01B004A7A00E45967 /* MyInfoViewController.m in Sources */,
+				6B328ED01B79AAFA00B9F207 /* ChooseBankCardVC.m in Sources */,
 				189B31031AD7A935001D7288 /* DatePickerVC.m in Sources */,
 				186984E81B005A86000A182A /* CarwashOrderViewModel.m in Sources */,
 				189B30AF1AD4D661001D7288 /* JTLabel.m in Sources */,

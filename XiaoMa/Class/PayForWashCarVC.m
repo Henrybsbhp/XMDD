@@ -8,10 +8,12 @@
 
 #import "PayForWashCarVC.h"
 #import "XiaoMa.h"
+#import <POP.h>
 #import "UIView+Layer.h"
 #import "PaymentSuccessVC.h"
 #import "ChooseCarwashTicketVC.h"
-#import "GetUserResourcesOp.h"
+#import "ChooseBankCardVC.h"
+#import "GetUserResourcesV2Op.h"
 #import "GetUserCarOp.h"
 #import "HKCoupon.h"
 #import "HKMyCar.h"
@@ -21,6 +23,8 @@
 #import "NSDate+DateForText.h"
 #import "UIView+Layer.h"
 #import "MyCarsModel.h"
+#import "HKBankCard.h"
+
 
 #define CheckBoxCouponGroup @"CheckBoxCouponGroup"
 #define CheckBoxPlatformGroup @"CheckBoxPlatformGroup"
@@ -30,15 +34,17 @@
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *payBtn;
+@property (nonatomic,strong)UIView * drawerView;
 
-@property (nonatomic, strong) CKSegmentHelper *checkBoxHelper;
+@property (nonatomic,strong)UIView * animationView;
+@property (nonatomic,strong)UILabel * numberView;
+
+@property (nonatomic,strong) CKSegmentHelper *checkBoxHelper;
 
 @property (nonatomic)BOOL isLoadingResourse;
 
 ///支付平台，（section == 2）
 @property (nonatomic)PaymentPlatform platform;
-
-@property (nonatomic,strong)NSDictionary * tbStructure;
 
 @end
 
@@ -52,7 +58,7 @@
     
     ///一开始设置支付宝，保证可用资源获取失败的时候能够正常默认选择
     self.platform = PayWithAlipay;
-
+    
     self.isLoadingResourse = YES;
     [self requestGetUserResource];
     
@@ -136,16 +142,20 @@
         if (indexPath.row == 0){
             height = 76;
         }
-        else{
+        else if (indexPath.row == 3){
+            height = 30;
+        }
+        else
+        {
             height = 26;
         }
     }
     if (indexPath.section != 0){
         if (indexPath.row == 0){
-            height = 40;
+            height = 30;
         }
         else{
-            height = 55;
+            height = 50;
         }
     }
     return height;
@@ -164,7 +174,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
+    
     NSInteger count = 0;
     if (section == 0) {
         count = 4;
@@ -179,7 +189,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     UITableViewCell *cell;
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
@@ -206,10 +216,10 @@
         }
         else
         {
-            cell = [self paymentModeCellAtIndexPath:indexPath];
+            cell = [self paymentPlatformACellAtIndexPath:indexPath];
         }
     }
-
+    
     return cell;
 }
 
@@ -227,7 +237,7 @@
     {
         if (indexPath.section == 0)
         {
-            if (indexPath.row != 3)
+            if (indexPath.row != 3 || indexPath != 0)
             {
                 return;
             }
@@ -239,14 +249,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1) {
+    if (indexPath.section == 0){
+        if (indexPath.row == 3) {
+            
+            [MobClick event:@"rp108-10"];//车牌
+        }
+    }
+    else if (indexPath.section == 1) {
         if (indexPath.row == 1)
         {
-        //点击查看洗车券
+            //点击查看洗车券
             [MobClick event:@"rp108-2"];
             ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
             vc.originVC = self.originVC;
-            HKCoupon * c = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
+            //            HKCoupon * c = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
             vc.type = CouponTypeCarWash;
             vc.selectedCouponArray = self.selectCarwashCoupouArray;
             vc.couponArray = gAppMgr.myUser.validCarwashCouponArray;
@@ -267,6 +283,17 @@
         
         ///取消支付宝，微信勾选
         [self.tableView reloadData];
+    }
+    else if (indexPath.section == 2) {
+        if (indexPath.row == 1) {
+            [MobClick event:@"rp108-12"];
+            if (gAppMgr.myUser.validCZBankCreditCard)
+            {
+                ChooseBankCardVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseBankCardVC"];
+                vc.bankCards = gAppMgr.myUser.validCZBankCreditCard;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        }
     }
 }
 
@@ -310,14 +337,14 @@
             infoL.text = car.licencenumber ? car.licencenumber : @"";
         }];
     }
-
+    
     return cell;
 }
 
 - (UITableViewCell *)paymentTypeCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentTypeCell"];
-
+    
     UIButton *boxB = (UIButton *)[cell.contentView viewWithTag:1001];
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:1002];
     UIImageView *arrow = (UIImageView *)[cell.contentView viewWithTag:1003];
@@ -385,7 +412,22 @@
     }
     
     // checkBox 点击处理
+    NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxCouponGroup];
+    for (NSInteger i = 0 ; i < array.count ; i++)
+    {
+        UIButton * btn = [array safetyObjectAtIndex:i];
+        if ([btn.customObject isKindOfClass:[NSIndexPath class]])
+        {
+            NSIndexPath * path = (NSIndexPath *)btn.customObject;
+            if (path.section == indexPath.section && path.row == indexPath.row)
+            {
+                [self.checkBoxHelper removeItem:btn forGroupName:CheckBoxCouponGroup];
+                break;
+            }
+        }
+    }
     @weakify(self);
+    boxB.customObject = indexPath;
     [self.checkBoxHelper addItem:boxB forGroupName:CheckBoxCouponGroup withChangedBlock:^(id item, BOOL selected) {
         
         @strongify(self);
@@ -420,7 +462,7 @@
                 vc.couponArray = gAppMgr.myUser.validCarwashCouponArray;
                 vc.upperLimit = self.service.origprice;
                 [self.navigationController pushViewController:vc animated:YES];
-                 [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
+                [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
             }
             else
             {
@@ -461,7 +503,7 @@
                 if (self.couponType == CouponTypeCash)
                 {
                     self.couponType = 0;
-                     [self.checkBoxHelper selectItem:nil forGroupName:CheckBoxCouponGroup];
+                    [self.checkBoxHelper selectItem:nil forGroupName:CheckBoxCouponGroup];
                 }
                 else
                 {
@@ -471,22 +513,74 @@
                 
             }
         }
-
+        
         
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
         [self refreshPriceLb];
     }];
-
+    
     return cell;
 }
 
-- (UITableViewCell *)paymentModeCellAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)paymentPlatformACellAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentModeCell"];
-    UIImageView *iconV = (UIImageView *)[cell.contentView viewWithTag:1001];
-    UILabel *titleLb = (UILabel *)[cell.contentView viewWithTag:1002];
-    UILabel *noteLb = (UILabel *)[cell.contentView viewWithTag:1004];
-    UIButton *boxB = (UIButton *)[cell.contentView viewWithTag:1003];
+    UITableViewCell *cell;
+    UIImageView *iconV,*drawerIV;
+    UILabel *titleLb,*noteLb,*numberLb;
+    UIButton *boxB;
+    UIView * drawerV,*animationView;
+    if (indexPath.row == 1)
+    {
+        //        cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatformCellC"];
+        //        iconV = (UIImageView *)[cell.contentView viewWithTag:1001];
+        //        titleLb = (UILabel *)[cell.contentView viewWithTag:1002];
+        //        noteLb = (UILabel *)[cell.contentView viewWithTag:1004];
+        //        boxB = (UIButton *)[cell.contentView viewWithTag:1003];
+        //        animationView = (UIView *)[cell searchViewWithTag:105];
+        //        numberLb = (UILabel *)[cell.contentView viewWithTag:106];
+        //
+        //        self.animationView = animationView;
+        //        animationView.backgroundColor = [UIColor colorWithHex:@"#ff5a00" alpha:1.0f];
+        //        animationView.layer.cornerRadius = 3.5f;
+        //        animationView.layer.masksToBounds = YES;
+        //        self.numberView = numberLb;
+        //        numberLb.text = [self.selectBankCard.cardNumber substringFromIndex:self.selectBankCard.cardNumber.length - 4];
+        //        self.numberView.hidden = YES;
+        cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatformCellB"];
+        iconV = (UIImageView *)[cell searchViewWithTag:1001];
+        titleLb = (UILabel *)[cell searchViewWithTag:1002];
+        noteLb = (UILabel *)[cell searchViewWithTag:1004];
+        drawerV = (UIView *)[cell searchViewWithTag:104];
+        boxB = (UIButton *)[cell searchViewWithTag:20401];
+        drawerIV = (UIImageView *)[cell  searchViewWithTag:20402];
+        numberLb = (UILabel *)[cell searchViewWithTag:20403];
+        self.drawerView = drawerV;
+        drawerIV.image = [UIImage imageNamed:@"mini_card"];
+        numberLb.text = [self.selectBankCard.cardNumber substringFromIndex:self.selectBankCard.cardNumber.length - 4];
+        if (!gAppMgr.myUser.validCZBankCreditCard.count)
+        {
+            [boxB setImage:[UIImage imageNamed:@"cw_box2"] forState:UIControlStateNormal];
+            [boxB setImage:[UIImage imageNamed:@"cw_box3"] forState:UIControlStateSelected];
+            [boxB setImage:[UIImage imageNamed:@"cw_box3"] forState:UIControlStateHighlighted];
+            drawerIV.hidden = YES;
+        }
+        else
+        {
+            [boxB setImage:[UIImage imageNamed:@"cw_box4"] forState:UIControlStateNormal];
+            [boxB setImage:[UIImage imageNamed:@"cw_box5"] forState:UIControlStateSelected];
+            [boxB setImage:[UIImage imageNamed:@"cw_box5"] forState:UIControlStateHighlighted];
+            drawerIV.hidden = NO;
+        }
+    }
+    else
+    {
+        cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatformCellA"];
+        iconV = (UIImageView *)[cell.contentView viewWithTag:1001];
+        titleLb = (UILabel *)[cell.contentView viewWithTag:1002];
+        noteLb = (UILabel *)[cell.contentView viewWithTag:1004];
+        boxB = (UIButton *)[cell.contentView viewWithTag:1003];
+    }
+    
     if (indexPath.row == 1) {
         iconV.image = [UIImage imageNamed:@"cw_creditcard"];
         titleLb.text = @"信用卡支付";
@@ -532,18 +626,33 @@
             boxB.enabled = YES;
         }
     }
+    NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup];
+    for (NSInteger i = 0 ; i < array.count ; i++)
+    {
+        UIButton * btn = [array safetyObjectAtIndex:i];
+        if ([btn.customObject isKindOfClass:[NSIndexPath class]])
+        {
+            NSIndexPath * path = (NSIndexPath *)btn.customObject;
+            if (path.section == indexPath.section && path.row == indexPath.row)
+            {
+                [self.checkBoxHelper removeItem:btn forGroupName:CheckBoxPlatformGroup];
+                break;
+            }
+        }
+    }
     @weakify(self);
+    boxB.customObject = indexPath;
     [self.checkBoxHelper addItem:boxB forGroupName:CheckBoxPlatformGroup withChangedBlock:^(id item, BOOL selected) {
         boxB.selected = selected;
     }];
-
+    
     [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
         
         [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxPlatformGroup];
         if (indexPath.row == 1)
         {
-            [MobClick event:@"rp108-7"];
+            [MobClick event:@"rp108-11"];
         }
         else if (indexPath.row == 2)
         {
@@ -556,25 +665,37 @@
         
         if (indexPath.row == 1){
             self.platform = PayWithXMDDCreditCard;
+            [self popBankCardNumberAnimation:YES];
         }
         else if (indexPath.row == 2){
             self.platform = PayWithAlipay;
+            [self popBankCardNumberAnimation:NO];
         }
         else{
             self.platform = PayWithWechat;
+            [self popBankCardNumberAnimation:NO];
         }
     }];
-    
     
     if ((indexPath.row == 1 && self.platform == PayWithXMDDCreditCard) ||
         (indexPath.row == 2 && self.platform == PayWithAlipay)||
         (indexPath.row == 3 && self.platform == PayWithWechat))
     {
+        if (indexPath.row == 1)
+        {
+            [self popBankCardNumberAnimation:YES];
+        }
+        else
+        {
+            [self popBankCardNumberAnimation:NO];
+        }
         [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxPlatformGroup];
     }
     
     return cell;
 }
+
+
 
 - (UITableViewCell *)DiscountInfoCellAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -595,16 +716,16 @@
 #pragma mark - Utility
 - (void)requestGetUserResource
 {
-    GetUserResourcesOp * op = [GetUserResourcesOp operation];
+    GetUserResourcesV2Op * op = [GetUserResourcesV2Op operation];
     [[[op rac_postRequest] initially:^{
         
-    }] subscribeNext:^(GetUserResourcesOp * op) {
+    }] subscribeNext:^(GetUserResourcesV2Op * op) {
         
         gAppMgr.myUser.abcCarwashesCount = op.rsp_freewashes;
         gAppMgr.myUser.abcIntegral = op.rsp_bankIntegral;
         gAppMgr.myUser.validCZBankCreditCard = op.rsp_czBankCreditCard;
         NSArray * carwashfilterArray = [op.rsp_coupons arrayByFilteringOperator:^BOOL(HKCoupon * c) {
-           
+            
             if (c.conponType == CouponTypeCarWash)
             {
                 if (c.valid)
@@ -657,8 +778,10 @@
         self.isLoadingResourse = NO;
         
         [self selectDefaultCoupon];
+        [self autoSelectBankCard];
         
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
     } error:^(NSError *error) {
         
         self.isLoadingResourse = NO;
@@ -679,6 +802,7 @@
     op.serviceid = self.service.serviceID;
     op.licencenumber = self.defaultCar.licencenumber ? self.defaultCar.licencenumber : @"";
     op.carbrand = [self.defaultCar carSeriesDesc];
+    op.bankCardId = self.selectBankCard.cardID;
     NSMutableArray *coupons;
     if (couponType == CouponTypeCZBankCarWash)
     {
@@ -717,7 +841,6 @@
                 if (couponType > 0)
                 {
                     op.platform = PayWithXMDDCreditCard;
-                    op.paychannel = PaymentChannelXMDDCreditCard;
                 }
                 else
                 {
@@ -916,7 +1039,7 @@
         if (coupon.conponType == CouponTypeCZBankCarWash){
             
             self.couponType = CouponTypeCZBankCarWash;
-//            self.paymentType = PaymentChannelXMDDCreditCard;
+            //            self.paymentType = PaymentChannelXMDDCreditCard;
             self.platform = PayWithXMDDCreditCard;
         }
         else{
@@ -958,6 +1081,35 @@
     self.couponType = 0;
     [self tableViewReloadData];
 }
+
+- (void)autoSelectBankCard
+{
+    //    if (self.couponType == CouponTypeCZBankCarWash)
+    //    {
+    //        HKCoupon * coupon = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
+    //        for (HKBankCard * card in gAppMgr.myUser.validCZBankCreditCard)
+    //        {
+    //            for (NSNumber * cid in card.couponIds)
+    //            {
+    //                if ([coupon.couponId isEqualToNumber:cid])
+    //                {
+    //                    self.selectBankCard = card;
+    //                    return;
+    //                }
+    //            }
+    //        }
+    //    }
+    //    else
+    {
+        if (gAppMgr.myUser.validCZBankCreditCard.count)
+        {
+            HKBankCard * card = [gAppMgr.myUser.validCZBankCreditCard safetyObjectAtIndex:0];
+            self.selectBankCard = card;
+            self.platform = PayWithXMDDCreditCard;
+        }
+    }
+}
+
 
 - (void)refreshPriceLb
 {
@@ -1010,6 +1162,84 @@
     [self.checkBoxHelper selectItem:nil forGroupName:CheckBoxCouponGroup];
     [self.tableView reloadData];
     [self refreshPriceLb];
+}
+
+- (void)popBankCardNumberAnimation:(BOOL)flag
+{
+    if (flag)
+    {
+        POPSpringAnimation * anim = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
+        
+        CGFloat centerX = self.view.frame.size.width - 45;
+        CGFloat centerY = 25;
+        
+        anim.toValue = [NSValue valueWithCGPoint:CGPointMake(centerX, centerY)];
+        anim.springBounciness = 16;
+        anim.springSpeed = 6;
+        //    anim.dynamicsTension = 100;
+        anim.dynamicsMass = 2;
+        [self.drawerView pop_addAnimation:anim forKey:@"center"];
+    }
+    else
+    {
+        POPSpringAnimation * anim = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
+        
+        CGFloat centerX = self.view.frame.size.width + 5;
+        CGFloat centerY = 25;
+        
+        anim.toValue = [NSValue valueWithCGPoint:CGPointMake(centerX, centerY)];
+        anim.springBounciness = 16;
+        anim.springSpeed = 6;
+        //    anim.dynamicsTension = 100;
+        anim.dynamicsMass = 2;
+        [self.drawerView pop_addAnimation:anim forKey:@"center"];
+    }
+    
+    // 扩散效果动画
+    //    CGFloat pointWidth = 7.0f;
+    //    CGPoint middlePoint = self.animationView.layer.position;
+    //    if (flag)
+    //    {
+    //        self.numberView.hidden = YES;
+    //        self.animationView.hidden = NO;
+    //        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    //
+    //        } completion:^(BOOL finished) {
+    //
+    //            CAKeyframeAnimation *ka1 = [CAKeyframeAnimation animationWithKeyPath:@"bounds"];
+    //            NSMutableArray *values = [NSMutableArray array];
+    //            [values addObject:[NSValue valueWithCGRect:CGRectMake(0, 0, 7, 7)]];
+    //            [values addObject:[NSValue valueWithCGRect:CGRectMake(0, 0, 10, 9)]];
+    //            [values addObject:[NSValue valueWithCGRect:CGRectMake(0, 0, 14, 11)]];
+    //            [values addObject:[NSValue valueWithCGRect:CGRectMake(0, 0, 19, 13)]];
+    //            [values addObject:[NSValue valueWithCGRect:CGRectMake(0, 0, 25, 17)]];
+    //            [values addObject:[NSValue valueWithCGRect:CGRectMake(0, 0, 31, 20)]];
+    //            [values addObject:[NSValue valueWithCGRect:CGRectMake(0, 0, 47, 23)]];
+    //            [values addObject:[NSValue valueWithCGRect:CGRectMake(0, 0, 55, 26)]];
+    //
+    //
+    //            ka1.values = values;
+    //            ka1.duration = 1.5f;
+    //            ka1.delegate = self;
+    //            [self.animationView.layer addAnimation:ka1 forKey:@"bounds"];
+    //            self.animationView.frame = CGRectMake(middlePoint.x - 27.5,middlePoint.y - 13, 55, 26);
+    //        }];
+    //
+    //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    //
+    //            self.numberView.hidden = NO;
+    //            self.numberView.alpha = 0;
+    //
+    //            [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    //
+    //                self.numberView.alpha = 1.0f;
+    //            } completion:^(BOOL finished) {
+    //
+    //                self.numberView.alpha = 1.0f;
+    //            }];
+    //        });
+    //    }
+    //    return;
 }
 
 @end

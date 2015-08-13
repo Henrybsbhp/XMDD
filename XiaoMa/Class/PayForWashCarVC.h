@@ -12,6 +12,7 @@
 #import "CheckoutServiceOrderV2Op.h"
 
 @class HKMyCar;
+@class HKBankCard;
 
 @interface PayForWashCarVC : UIViewController
 
@@ -22,10 +23,12 @@
 
 /// 为优惠劵选择服务
 @property (nonatomic)CouponType couponType;
+@property (nonatomic)HKBankCard * selectBankCard;
 @property (nonatomic,strong)NSMutableArray * selectCarwashCoupouArray;
 @property (nonatomic,strong)NSMutableArray * selectCashCoupouArray;
 
 - (void)setPlatform:(PaymentPlatform)platform;
+
 
 - (void)tableViewReloadData;
 
