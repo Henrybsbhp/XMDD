@@ -29,8 +29,15 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [MobClick beginLogPageView:@"rp315"];
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [MobClick endLogPageView:@"rp315"];
+    [super viewWillDisappear:animated];
 }
 
 - (void)setupNavigationBar
@@ -101,6 +108,7 @@
 
 -(void)cancelBinding
 {
+    [MobClick event:@"rp315-1"];
     UIActionSheet * sheet = [[UIActionSheet alloc] init];
     NSInteger cancelIndex = 1;
     [sheet addButtonWithTitle:@"解除绑定"];
@@ -111,12 +119,15 @@
     
     [[sheet rac_buttonClickedSignal] subscribeNext:^(NSNumber * index) {
         if ([index integerValue] == 0) {
-            
+            [MobClick event:@"rp315-2"];
             UnbundlingVC *vc = [UIStoryboard vcWithId:@"UnbundlingVC" inStoryboard:@"Bank"];
             vc.originVC = self.originVC;
             vc.card = self.card;
             [self.navigationController pushViewController:vc animated:YES];
             
+        }
+        else {
+            [MobClick event:@"rp315-3"];
         }
     }];
 }

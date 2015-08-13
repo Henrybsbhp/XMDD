@@ -249,14 +249,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1) {
+    if (indexPath.section == 0){
+        if (indexPath.row == 3) {
+
+            [MobClick event:@"rp108-10"];//车牌
+        }
+    }
+    else if (indexPath.section == 1) {
         if (indexPath.row == 1)
         {
-        //点击查看洗车券
+            //点击查看洗车券
             [MobClick event:@"rp108-2"];
             ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
             vc.originVC = self.originVC;
-//            HKCoupon * c = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
+            //            HKCoupon * c = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
             vc.type = CouponTypeCarWash;
             vc.selectedCouponArray = self.selectCarwashCoupouArray;
             vc.couponArray = gAppMgr.myUser.validCarwashCouponArray;
@@ -280,6 +286,7 @@
     }
     else if (indexPath.section == 2) {
         if (indexPath.row == 1) {
+            [MobClick event:@"rp108-12"];
             if (gAppMgr.myUser.validCZBankCreditCard)
             {
                 ChooseBankCardVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseBankCardVC"];
@@ -287,7 +294,6 @@
                 [self.navigationController pushViewController:vc animated:YES];
             }
         }
-    }
 }
 
 #pragma mark - TableViewCell
@@ -645,7 +651,7 @@
         [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxPlatformGroup];
         if (indexPath.row == 1)
         {
-            [MobClick event:@"rp108-7"];
+            [MobClick event:@"rp108-11"];
         }
         else if (indexPath.row == 2)
         {
