@@ -31,7 +31,7 @@
 - (NSString *)cardName
 {
     if (self.cardType == HKBankCardTypeCredit) {
-        return @"浙商银行 - 达达卡";
+        return @"浙商银行 - 汽车达人卡";
     }
     return nil;
 }
