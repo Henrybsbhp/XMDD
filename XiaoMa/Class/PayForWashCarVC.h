@@ -28,8 +28,8 @@
 @property (nonatomic,strong)NSMutableArray * selectCashCoupouArray;
 
 - (void)setPlatform:(PaymentPlatform)platform;
-
-
 - (void)tableViewReloadData;
+
+- (void)requestGetUserResource;
 
 @end

@@ -289,9 +289,12 @@
             [MobClick event:@"rp108-12"];
             if (gAppMgr.myUser.validCZBankCreditCard)
             {
-                ChooseBankCardVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseBankCardVC"];
-                vc.bankCards = gAppMgr.myUser.validCZBankCreditCard;
-                [self.navigationController pushViewController:vc animated:YES];
+                if (self.couponType != CouponTypeCZBankCarWash)
+                {
+                    ChooseBankCardVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseBankCardVC"];
+                    vc.bankCards = gAppMgr.myUser.validCZBankCreditCard;
+                    [self.navigationController pushViewController:vc animated:YES];
+                }
             }
         }
     }

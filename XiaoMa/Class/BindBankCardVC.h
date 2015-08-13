@@ -10,4 +10,6 @@
 
 @interface BindBankCardVC : UIViewController
 
+@property (strong, nonatomic)void(^finishAction)(void);
+
 @end

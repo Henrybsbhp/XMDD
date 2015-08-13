@@ -97,6 +97,10 @@
             [MobClick event:@"rp313-6"];
             [self.navigationController popViewControllerAnimated:YES];
             [self postCustomNotificationName:kNotifyRefreshMyBankcardList object:nil];
+            if (self.finishAction)
+            {
+                self.finishAction();
+            }
         }];
     } error:^(NSError *error) {
 
