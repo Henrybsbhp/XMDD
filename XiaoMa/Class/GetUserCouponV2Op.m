@@ -12,10 +12,10 @@
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/user/resource/coupon/get/v2/by-page";
+    self.req_method = @"/user/resource/coupon/v2/get/by-page";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params addParam:self.used ? @1 : @2 forName:@"used"];
+    [params addParam:@(self.used) forName:@"used"];
     [params addParam:self.pageno ? @(self.pageno):@(1) forName:@"pageno"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
