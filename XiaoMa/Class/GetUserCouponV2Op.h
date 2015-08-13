@@ -12,10 +12,10 @@
 @interface GetUserCouponV2Op : BaseOp
 
 ///是否已使用
-@property (nonatomic, assign) BOOL used;
+@property (nonatomic) NSInteger used;
 
 ///分页号
-@property (nonatomic)NSInteger pageno;
+@property (nonatomic) NSInteger pageno;
 
 ///优惠劵列表
 @property (nonatomic,strong)NSArray *rsp_couponsArray;

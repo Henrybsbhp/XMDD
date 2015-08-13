@@ -241,7 +241,7 @@
     
     [[[gAppMgr.myUser.favorites rac_removeFavorite:array] initially:^{
         
-        [gToast showText:@"移除中..."];
+        [gToast showingWithText:@"移除中..."];
     }] subscribeNext:^(id x) {
         
         [gToast showText:@"移除成功！"];
