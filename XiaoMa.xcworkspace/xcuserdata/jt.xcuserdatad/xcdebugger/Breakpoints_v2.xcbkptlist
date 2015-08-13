@@ -20,12 +20,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "461064167.576184"
+            timestampString = "461126584.647469"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "792"
-            endingLineNumber = "792"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            startingLineNumber = "786"
+            endingLineNumber = "786"
+            landmarkName = "-requestGetUserResource"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -36,12 +36,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "461064167.576184"
+            timestampString = "461126584.647469"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "622"
-            endingLineNumber = "622"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            startingLineNumber = "616"
+            endingLineNumber = "616"
+            landmarkName = "-paymentPlatformACellAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -52,12 +52,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "461064167.576184"
+            timestampString = "461126584.647469"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "717"
-            endingLineNumber = "717"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            startingLineNumber = "711"
+            endingLineNumber = "711"
+            landmarkName = "-OtherInfoCellAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -84,12 +84,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "461064167.576184"
+            timestampString = "461126584.647469"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1078"
-            endingLineNumber = "1078"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            startingLineNumber = "1072"
+            endingLineNumber = "1072"
+            landmarkName = "-selectDefaultCoupon"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -100,12 +100,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/PayForWashCarVC.m"
-            timestampString = "461064167.576184"
+            timestampString = "461126584.647469"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "884"
-            endingLineNumber = "884"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            startingLineNumber = "878"
+            endingLineNumber = "878"
+            landmarkName = "-requestCheckoutWithCouponType:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
