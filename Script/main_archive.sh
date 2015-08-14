@@ -30,7 +30,7 @@ echo "project_pbxproj_path : "$project_pbxproj_path
 
 echo "**************pull code**************"
 git checkout .
-git checkout next2.0
+git checkout dev
 if git pull;then
 	echo "git pull success"
 else 
