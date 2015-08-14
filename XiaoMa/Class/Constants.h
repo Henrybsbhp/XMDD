@@ -23,7 +23,8 @@ typedef enum : NSUInteger {
     PaymentChannelWechat,
     PaymentChannelABCCarWashAmount,
     PaymentChannelABCIntegral,
-    PaymentChannelCoupon
+    PaymentChannelCoupon,
+    PaymentChannelXMDDCreditCard
 } PaymentChannelType;
 
 /// 支付渠道
@@ -38,7 +39,7 @@ typedef enum : NSUInteger {
     AdvertisementBankCardBinding = 3,
     AdvertisementAppSlide = 10,
     AdvertisementInsurance = 11,
-    AdvertisementTypeActivities = 20
+    AdvertisementTypeActivities = 20,
 } AdvertisementType;
 
 #define IOSAPPID 1001
@@ -96,5 +97,6 @@ typedef enum : NSUInteger {
 //通知定义
 #define kNotifyRefreshMyCarList             @"com.huika.xmdd.RefreshMyCarList"
 #define kNotifyRefreshMyCarwashOrders       @"com.huika.xmdd.RefreshMyCarwashOrders"
+#define kNotifyRefreshMyBankcardList        @"com.huika.xmdd.RefreshMyBankcardList"
 
 #endif

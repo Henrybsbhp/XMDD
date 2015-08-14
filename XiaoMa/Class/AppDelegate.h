@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "HKPushManager.h"
-#import "LoginVC.h"
+#import "VcodeLoginVC.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, strong) HKPushManager *pushMgr;
-@property (nonatomic, weak) LoginVC *loginVC;
+@property (nonatomic, weak) VcodeLoginVC *loginVC;
 
 - (void)resetRootViewController:(UIViewController *)vc;
 @end

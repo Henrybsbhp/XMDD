@@ -20,14 +20,16 @@
 #import "CommentListViewController.h"
 #import "EditMyCarVC.h"
 #import "AddUserFavoriteOp.h"
+#import "SDPhotoBrowser.h"
 #import "UIView+Layer.h"
-
 
 #define kDefaultServieCount     2
 
-@interface ShopDetailVC () <UIScrollViewDelegate>
+@interface ShopDetailVC () <UIScrollViewDelegate, SDPhotoBrowserDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIImageView *headImgView;
+@property (weak, nonatomic) IBOutlet UIImageView *maskView;
 @property (weak, nonatomic) IBOutlet UIView *titleView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIButton *greenBackBtn;
@@ -64,21 +66,14 @@
     [[self.greenBackBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         [self.navigationController popViewControllerAnimated:YES];
     }];
+    
+    [self headImageView];
     [self requestShopComments];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-//    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0)
-//    {
-//        [self.titleView mas_updateConstraints:^(MASConstraintMaker *make) {
-//            make.height.mas_equalTo(@47);
-//        }];
-//    }
-//    
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     
@@ -248,13 +243,29 @@
     }];
 }
 
-
 - (IBAction)actionMap:(id)sender
 {
     [MobClick event:@"rp105-4"];
     CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
     vc.shop = self.shop;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionShowPhotos:(UITapGestureRecognizer *)tap
+{
+    [MobClick event:@"rp105-2"];
+    if (self.shop.picArray.count > 0)
+    {
+        SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
+        UIView *containerV = tap.view.superview;
+        UIView *sourceImgV1 = self.headImgView;
+        UIView *sourceImgV2 = [containerV viewWithTag:1002];
+        browser.sourceImageViews = @[sourceImgV1, sourceImgV2]; // 原图的容器
+        browser.imageCount = self.shop.picArray.count; // 图片总数
+        browser.currentImageIndex = 0;
+        browser.delegate = self;
+        [browser show];
+    }
 }
 
 - (void)gotoPaymentVCWithService:(JTShopService *)service
@@ -372,22 +383,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return section == 0 ? 165 : 9;
+    return section == 0 ? CGFLOAT_MIN : 9;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 9;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    if (section == 0) {
-        return [self addSectionHeadView];
-    }
-    else {
-        return nil;
-    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -511,7 +512,7 @@
         @strongify(self);
         [self requestAddUserFavorite:collectBtn];
     }];
-    
+
     titleL.text = shop.shopName;
     ratingV.ratingValue = shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%0.1f分", shop.shopRate];
@@ -520,11 +521,11 @@
     [statusL makeCornerRadius:3];
     if ([self isBetween:shop.openHour and:shop.closeHour]) {
         statusL.text = @"营业中";
-        statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
+        statusL.backgroundColor = HEXCOLOR(@"#1bb745");
     }
     else {
         statusL.text = @"已休息";
-        statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
+        statusL.backgroundColor = HEXCOLOR(@"#b6b6b6");
     }
     
     double myLat = gMapHelper.coordinate.latitude;
@@ -655,10 +656,7 @@
     timeL.text = [comment.time dateFormatForYYMMdd2];
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
-    [[gMediaMgr rac_getPictureForUrl:comment.avatarUrl withType:ImageURLTypeThumbnail
-                          defaultPic:@"avatar_default" errorPic:@"avatar_default"] subscribeNext:^(id x) {
-        avatarV.image = x;
-    }];
+    [avatarV setImageByUrl:comment.avatarUrl withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
     
     return cell;
 }
@@ -670,60 +668,69 @@
     return cell;
 }
 
-#pragma mark - Utility
--(UIView *) addSectionHeadView
+#pragma mark - SDPhotoBrowserDelegate
+// 返回临时占位图片（即原来的小图）
+- (UIImage *)photoBrowser:(SDPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index
 {
-    UIView * sectionHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 165)];
-    UIImageView * imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 165)];
-    imgView.clipsToBounds = YES;
-    imgView.contentMode = UIViewContentModeScaleAspectFill;
+    if (index == 0) {
+        NSString *strurl = [gMediaMgr urlWith:[self.shop.picArray safetyObjectAtIndex:0] imageType:ImageURLTypeMedium];
+        UIImage *cachedImg = [gMediaMgr imageFromMemoryCacheForUrl:strurl];
+        return cachedImg ? cachedImg : [UIImage imageNamed:@"cm_shop"];
+    }
+    return [UIImage imageNamed:@"cm_shop"];
+}
+
+
+// 返回高质量图片的url
+- (NSURL *)photoBrowser:(SDPhotoBrowser *)browser highQualityImageURLForIndex:(NSInteger)index
+{
+    return [NSURL URLWithString:[gMediaMgr urlWith:[self.shop.picArray safetyObjectAtIndex:index] imageType:ImageURLTypeMedium]];
+}
+#pragma mark - Utility
+-(void) headImageView
+{
+    @weakify(self);
+    [self.headImgView mas_updateConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.top.equalTo(self.view.mas_top).offset(0);
+    }];
+    [self.maskView mas_updateConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.top.equalTo(self.view.mas_top).offset(0);
+    }];
     
     JTShop *shop = self.shop;
-    [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                            withType:ImageURLTypeDetail
-                          defaultPic:@"cm_shop" errorPic:@"cm_shop"] subscribeNext:^(UIImage * img) {
-        
-        imgView.image = img;
-    }];
-    UITapGestureRecognizer * gesture = imgView.customObject;
+    [self.headImgView setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeMedium defImage:@"cm_shop" errorImage:@"cm_shop"];
+    UITapGestureRecognizer * gesture = self.headImgView.customObject;
     if (!gesture)
     {
         UITapGestureRecognizer *ge = [[UITapGestureRecognizer alloc] init];
-        [imgView addGestureRecognizer:ge];
-        imgView.userInteractionEnabled = YES;
-        imgView.customObject = ge;
+        [self.headImgView addGestureRecognizer:ge];
+        self.headImgView.userInteractionEnabled = YES;
+        self.headImgView.customObject = ge;
+        [ge addTarget:self action:@selector(actionShowPhotos:)];
     }
-    gesture = imgView.customObject;
+    gesture = self.headImgView.customObject;
     
-    @weakify(self)
-    [[gesture rac_gestureSignal] subscribeNext:^(id x) {
-        
-        [MobClick event:@"rp105-2"];
-        @strongify(self)
-        if (self.shop.picArray.count)
-        {
-            [self showImages:0];
-        }
-    }];
+    UILabel * countLabel = [[UILabel alloc] init];
     
-    [sectionHeadView addSubview:imgView];
-    
-    UILabel * countLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 58, 132, 70, 23)];
     countLabel.text = [NSString stringWithFormat:@"%d张", (int)shop.picArray.count];
     countLabel.font = [UIFont systemFontOfSize:15];
     countLabel.textColor = [UIColor colorWithHex:@"#ffffff" alpha:0.7f];
     countLabel.textAlignment = NSTextAlignmentCenter;
     countLabel.backgroundColor = [UIColor colorWithHex:@"#000000" alpha:0.5f];
     [countLabel makeCornerRadius:13];
-    [sectionHeadView addSubview:countLabel];
+    countLabel.tag = 1002;
+    [self.headImgView addSubview:countLabel];
     
-    //为避免纯白图片而添加的蒙版(不截获点击图片的手势)
-    UIView * shadowView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 165)];
-    shadowView.backgroundColor = [UIColor colorWithHex:@"#000000" alpha:0.05f];
-    shadowView.userInteractionEnabled = NO;
-    [sectionHeadView addSubview:shadowView];
-    
-    return sectionHeadView;
+    [countLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.bottom.equalTo(self.headImgView.mas_bottom).offset(-16);
+//        make.top.equalTo(self.view.mas_top).offset(132);
+        make.right.equalTo(self.view.mas_right).offset(12);
+        make.width.equalTo(@70);
+        make.height.equalTo(@23);
+    }];
 }
 
 -(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
@@ -763,76 +770,4 @@
     return str;
 }
 
-- (void)showImages:(NSInteger)rotationIndex
-{
-    UIWindow * window = [UIApplication sharedApplication].keyWindow;
-    UIScrollView * backgroundView= [[UIScrollView alloc]
-                                    initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
-    backgroundView.showsHorizontalScrollIndicator = NO;
-    backgroundView.backgroundColor = [UIColor colorWithHex:@"#0000000" alpha:0.6f];
-    backgroundView.alpha = 0;
-    [backgroundView setContentSize:CGSizeMake([UIScreen mainScreen].bounds.size.width * self.shop.picArray.count, [UIScreen mainScreen].bounds.size.height)];
-    backgroundView.pagingEnabled = YES;
-    
-    CGRect frame = backgroundView.frame;
-    frame.origin.x = frame.size.width * rotationIndex;
-    frame.origin.y = 0;
-    [backgroundView scrollRectToVisible:frame animated:YES];
-    
-    for (NSInteger i = 0;i < self.shop.picArray.count;i++)
-    {
-        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectZero];
-        UIActivityIndicatorView * indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-        NSString * imageUrl = [self.shop.picArray safetyObjectAtIndex:i];
-        [[gMediaMgr rac_getPictureForSpecialFirstTime:imageUrl withType:ImageURLTypeMedium defaultPic:@"cm_shop" errorPic:@"cm_shop"]
-         subscribeNext:^(NSObject * obj) {
-            
-             if ([obj isKindOfClass:[UIImage class]])
-             {
-                 UIImage * image = (UIImage *)obj;
-                 CGRect frame = CGRectMake(i*[UIScreen mainScreen].bounds.size.width,
-                                           ([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2,
-                                           [UIScreen mainScreen].bounds.size.width,
-                                           image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width);
-                 imageView.frame = frame;
-                 [imageView setImage:image];
-                 indicator.animating = NO;
-                 indicator.hidden = YES;
-             }
-             else if ([obj isKindOfClass:[NSString class]])
-             {
-                 indicator.animating = YES;
-             }
-        } error:^(NSError *error) {
-            
-            [imageView setImage:[UIImage imageNamed:@"cm_shop"]];
-        }];
-        
-        imageView.tag = i;
-        [backgroundView addSubview:indicator];
-        [backgroundView addSubview:imageView];
-        indicator.animating = YES;
-        indicator.center = backgroundView.center;
-    }
-    
-    [window addSubview:backgroundView];
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImage:)];
-    [backgroundView addGestureRecognizer: tap];
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        backgroundView.alpha=1;
-    } completion:^(BOOL finished) {
-        
-    }];
-}
-
--(void)hideImage:(UITapGestureRecognizer*)tap{
-    UIView *backgroundView=tap.view;
-    [UIView animateWithDuration:0.3 animations:^{
-        backgroundView.alpha=0;
-    } completion:^(BOOL finished) {
-        [backgroundView removeFromSuperview];
-    }];
-}
 @end

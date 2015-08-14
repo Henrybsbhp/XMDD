@@ -19,25 +19,27 @@
 /// 手机号码
 @property (nonatomic, copy)NSString * phoneNumber;
 ///性别 （1-男 2-女）
-@property (nonatomic, assign) NSInteger sex;
-@property (nonatomic, strong) NSDate *birthday;
+@property (nonatomic, assign)NSInteger sex;
+@property (nonatomic, strong)NSDate *birthday;
 ///车牌
-@property (nonatomic, strong) NSString *numberPlate;
+@property (nonatomic, strong)NSString *numberPlate;
 /// 爱车
 @property (nonatomic, strong)NSArray * carArray;
 /// 头像
 //@property (nonatomic,strong)UIImage * avatar;
 
 ///洗车次数
-@property (nonatomic, assign) NSInteger abcCarwashesCount;
+@property (nonatomic, assign)NSInteger abcCarwashesCount;
 ///积分
-@property (nonatomic, assign) NSInteger abcIntegral;
+@property (nonatomic, assign)NSInteger abcIntegral;
 /// 可用洗车券
 @property (nonatomic, strong)NSArray * validCarwashCouponArray;
 /// 可用现金券
 @property (nonatomic, strong)NSArray * validCashCouponArray;
 /// 所有优惠劵
 @property (nonatomic, strong)NSArray * carwashArray;
+/// 可用浙商银行信用卡
+@property (nonatomic, strong)NSArray * validCZBankCreditCard;
 
 /// 收藏夹
 @property (nonatomic, strong) FavoriteModel * favorites;
