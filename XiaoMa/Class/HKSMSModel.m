@@ -13,20 +13,16 @@
 #define kMaxVcodeInterval        60       //短信60秒冷却时间
 
 @implementation HKSMSModel
+
 ///获取短信验证码 如果获取短信验证码接口返回成功，每隔1秒发送剩余冷却时间(sendNext:NSNumber*:剩余冷却时间)
 - (RACSignal *)rac_getVcodeWithType:(NSInteger)type phone:(NSString *)phone
 {
     RACSignal *signal;
     //获取本地的token，如果本地没有token，则重新下载新token
-    NSString *token = gNetworkMgr.token;
-    @weakify(self);
-    if (token.length == 0) {
-        signal = [[self rac_getTokenWithAccount:phone] map:^id(GetTokenOp *rspOp) {
-            return rspOp.rsp_token;
-        }];
-    } else {
-        signal = [RACSignal return:token];
-    }
+    signal = [[self rac_getTokenWithAccount:phone] map:^id(GetTokenOp *rspOp) {
+        
+        return rspOp.rsp_token;
+    }];
     //获取验证码
     signal = [signal flattenMap:^RACStream *(NSString *token) {
         GetVcodeOp *op = [GetVcodeOp new];
@@ -35,6 +31,7 @@
         op.req_type = type;
         return [op rac_postRequest];
     }];
+    @weakify(self);
     //如果返回token失效错误，则重新获取新token，并重试一遍
     signal = [signal catch:^RACSignal *(NSError *error) {
         if (error.code == 3002) {
@@ -50,15 +47,35 @@
         return [RACSignal error:error];
     }];
     //获取短信验证码成功后，更新本地token
-    signal = [[signal doNext:^(GetVcodeOp *rspOp) {
-        gNetworkMgr.token = rspOp.req_token;
-    }] deliverOn:[RACScheduler mainThreadScheduler]];
+    signal = [signal doNext:^(GetVcodeOp *op) {
+        [gAppMgr.tokenPool setToken:op.req_token forAccount:op.req_phone ];
+    }];
+    //切换到主线程接收next
+    signal = [signal deliverOn:[RACScheduler mainThreadScheduler]];
     
     return signal;
 }
 
+- (BOOL)countDownIfNeededForVcodeButton:(UIButton *)vbtn
+{
+    NSTimeInterval interval = [[NSDate date] timeIntervalSince1970] - gAppMgr.vcodeCoolingTimeForLogin;
+    if (interval < kMaxVcodeInterval) {
+        NSString *originTitle = [vbtn titleForState:UIControlStateNormal];
+        vbtn.enabled = NO;
+        [[self rac_timeCountDown:kMaxVcodeInterval - interval] subscribeNext:^(id x) {
+            NSString *title = [NSString stringWithFormat:@"剩余%d秒", [x intValue]];
+            [vbtn setTitle:title forState:UIControlStateDisabled];
+        } completed:^{
+            [vbtn setTitle:originTitle forState:UIControlStateNormal];
+            vbtn.enabled = YES;
+        }];
+        return NO;
+    }
+    return YES;
+}
 
-- (RACSignal *)rac_handleVcodeButtonClick:(UIButton *)btn withVcodeType:(NSInteger)type phone:(NSString *)phone
+- (RACSignal *)rac_handleVcodeButtonClick:(UIButton *)btn vcodeInputField:(VCodeInputField *)field
+                            withVcodeType:(NSInteger)type phone:(NSString *)phone
 {
     NSString *originTitle = [btn titleForState:UIControlStateNormal];
     RACSubject *subject = [RACSubject subject];
@@ -68,6 +85,8 @@
     }] flattenMap:^RACStream *(id value) {
         [subject sendNext:value];
         [subject sendCompleted];
+        [field showRightViewAfterInterval:kVCodePromptInteval];
+        gAppMgr.vcodeCoolingTimeForLogin = [[NSDate date] timeIntervalSince1970];
         return [self rac_timeCountDown:kMaxVcodeInterval];
     }] subscribeNext:^(id x) {
         NSString *title = [NSString stringWithFormat:@"剩余%d秒", [x intValue]];
@@ -90,6 +109,51 @@
         
         return @(count--);
     }] take:time+1] deliverOn:[RACScheduler mainThreadScheduler]];
+}
+
+#pragma mark - VcodeInputField
+- (void)setupVCodeInputField:(VCodeInputField *)field accountField:(UITextField *)adField
+                 forTargetVC:(UIViewController *)targetVC mobEvents:(NSArray *)events
+{
+    @weakify(field);
+    [[[field.rightButton rac_signalForControlEvents:UIControlEventTouchUpInside]
+      takeUntil:[targetVC rac_signalForSelector:@selector(didReceiveMemoryWarning)]] subscribeNext:^(id x) {
+        @strongify(field);
+        [MobClick event:[events safetyObjectAtIndex:0]];
+//        [targetVC.view endEditing:YES];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                        message:@"验证码将以语音的形式通知到您,请注意接听电话。是否现在发送语音验证码?"
+                                                       delegate:nil cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
+        [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
+            NSInteger index = [number integerValue];
+            //否
+            if (index == 0) {
+                [MobClick event:[events safetyObjectAtIndex:1]];
+            }
+            //“是”,将请求服务器发出一个语音验证码的请求
+            else {
+                [MobClick event:[events safetyObjectAtIndex:2]];
+                [self getVoiceVCodeWithVCodeInputField:field account:adField.text targetVC:targetVC];
+            }
+        }];
+        [alert show];
+    }];
+}
+
+- (void)getVoiceVCodeWithVCodeInputField:(VCodeInputField *)field account:(NSString *)account targetVC:(UIViewController *)targetVC
+{
+    GetVoiceVCodeOp *op = [GetVoiceVCodeOp operation];
+    op.req_phone = account;
+    op.req_token = [gAppMgr.tokenPool tokenForAccount:account];
+    [[[[op rac_postRequest] initially:^{
+        [gToast showingWithText:nil inView:targetVC.view];
+    }] finally:^{
+    }] subscribeNext:^(id x) {
+        [gToast dismissInView:targetVC.view];
+        [field hideRightView];
+    } error:^(NSError *error) {
+        [gToast showError:error.domain inView:targetVC.view];
+    }];
 }
 
 #pragma mark - Private

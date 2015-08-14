@@ -10,7 +10,7 @@
 #import "UIView+Layer.h"
 #import "UpdateUserInfoOp.h"
 
-@interface EditMyInfoViewController ()
+@interface EditMyInfoViewController () <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLb;
 @property (weak, nonatomic) IBOutlet UITextField *textFeild;
@@ -27,16 +27,32 @@
     [self setupUI];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [MobClick beginLogPageView:@"rp305"];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     
+    [MobClick endLogPageView:@"rp305"];
+    //未找到取消按钮的点击事件
+    //[MobClick event:@"rp305-1"];
     [SVProgressHUD dismiss];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
 }
 
 #pragma mark - SetupUI
@@ -46,6 +62,8 @@
     self.navigationItem.rightBarButtonItem = commitBtn;
     
     self.navigationItem.title = self.naviTitle;
+    
+    self.textFeild.delegate = self;
 }
 
 - (void)setupUI
@@ -65,13 +83,14 @@
 #pragma mark - Action
 - (void)requestModifyUserInfo
 {
+    [MobClick event:@"rp305-2"];
     UpdateUserInfoOp * op = [UpdateUserInfoOp operation];
     if (self.type == ModifyNickname)
     {
         
         if (self.textFeild.text.length == 0)
         {
-            [gToast showError:@"请输入正确昵称"];
+            [gToast showError:@"请输入昵称"];
             return;
         }
         op.nickname = self.textFeild.text;
@@ -98,6 +117,11 @@
 - (void)viewTap
 {
     [self.textFeild becomeFirstResponder];
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [MobClick event:@"rp305-3"];
 }
 
 @end

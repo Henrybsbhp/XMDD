@@ -56,11 +56,13 @@ typedef enum : NSUInteger {
 #define kRspPrefix      @"█ ▇ ▆ ▅ ▄ ▃ ▂"
 #define kReqPrefix      @"▂ ▃ ▄ ▅ ▆ ▇ █"
 #define kErrPrefix      @"〓〓〓〓〓"
+#define kDefErrorPormpt      @"网络不给力，请重试"
 
 // 如果是2D的话，可以设置为2.1，3.1，大于整数级，因为整数级别中只是缩放当前级别的图，不会去渲染更高等级的图。
 #define MapZoomLevel 15.1000
 
 #define PageAmount 10
+#define kVCodePromptInteval     15
 
 #define AppleNavigationStr @"苹果地图"
 #define BaiduNavigationStr @"百度地图"
@@ -85,6 +87,7 @@ typedef enum : NSUInteger {
 #define mineStoryboard [UIStoryboard storyboardWithName:@"Mine" bundle:nil]
 #define rescueStoryboard [UIStoryboard storyboardWithName:@"Rescue" bundle:nil]
 #define commissionStoryboard [UIStoryboard storyboardWithName:@"Commission" bundle:nil]
+#define awardStoryboard [UIStoryboard storyboardWithName:@"Award" bundle:nil]
 
 
 #define LocationFail 7001

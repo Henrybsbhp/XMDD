@@ -10,7 +10,7 @@
 #import <UIKitExtension.h>
 #import "FeedbackOp.h"
 
-@interface FeedbackVC ()
+@interface FeedbackVC () <UITextViewDelegate>
 //@property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
 @property (weak, nonatomic) IBOutlet UIAPlaceholderTextView *feedbackTextView;
 @property (weak, nonatomic) IBOutlet UIButton *bottomButton;
@@ -23,6 +23,7 @@
     [super viewDidLoad];
 
     //设置textView
+    self.feedbackTextView.delegate = self;
     self.feedbackTextView.placeholderString = @"有什么建议或意见,欢迎您提供给我们,谢谢!";
     self.feedbackTextView.placeholderTextView.textColor = HEXCOLOR(@"#c5c5cb");
     
@@ -35,8 +36,26 @@
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp323"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp323"];
+}
+
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    //首次编辑会执行两次？  LYW
+    [MobClick event:@"rp323-1"];
+}
 
 - (IBAction)actionFeedback:(id)sender {
+    [MobClick event:@"rp323-2"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         FeedbackOp *op = [FeedbackOp new];
         op.req_contactinfo = gAppMgr.myUser.userID;
@@ -57,4 +76,11 @@
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([UIScreen mainScreen].bounds.size.height <= 480) {
+        return 116;
+    }
+    return 146;
+}
 @end

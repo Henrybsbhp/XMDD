@@ -31,9 +31,22 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp324"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp324"];
 }
 
 - (void)setupTableView
@@ -127,13 +140,11 @@
     HKMessage *msg = [self.msgList safetyObjectAtIndex:indexPath.section];
     TTTAttributedLabel *label = (TTTAttributedLabel *)[cell.contentView viewWithTag:1001];
     UILabel *timeL = (UILabel *)[cell.contentView viewWithTag:2001];
-    
     timeL.text = [[NSDate dateWithTimeIntervalSince1970:msg.msgtime/1000] textForDate];
     label.text = msg.content;
     label.delegate = (id<TTTAttributedLabelDelegate>)label;
     label.linkAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
                              NSForegroundColorAttributeName:HEXCOLOR(@"#386fcd")};
-   
     NSRange range = NSMakeRange(0, 0);
     NSAttributedString *str = [self attrStrForMessage:msg linkRange:&range];
     label.attributedText = str;
@@ -158,7 +169,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [MobClick event:@"rp324-1"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    HKMessage *msg = [self.msgList safetyObjectAtIndex:indexPath.section];
+    if (msg.url.length > 0) {
+        [gAppMgr.navModel pushToViewControllerByUrl:msg.url];
+    }
 }
 
 - (void)loadMoreMessages
@@ -174,17 +190,20 @@
 - (NSAttributedString *)attrStrForMessage:(HKMessage *)msg linkRange:(NSRange *)range
 {
     NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
-    NSDictionary *attr = @{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:[UIColor darkTextColor]};
+    NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
+    paragraph.lineSpacing = 5;
+    NSDictionary *attr = @{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:[UIColor darkTextColor],
+                           NSParagraphStyleAttributeName:paragraph};
     NSAttributedString *str1 = [[NSAttributedString alloc] initWithString:msg.content attributes:attr];
     [str appendAttributedString:str1];
     (*range).location = [str length];
 
-    if (msg.msgtype == 2) {
+//    if (msg.msgtype == 2) {
 //        NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:HEXCOLOR(@"#386fcd")};
-        NSAttributedString *str2 = [[NSAttributedString alloc] initWithString:@" 点击分享" attributes:attr];
-        (*range).length = [str2 length];
-        [str appendAttributedString:str2];
-    }
+//        NSAttributedString *str2 = [[NSAttributedString alloc] initWithString:@" 点击分享" attributes:attr];
+//        (*range).length = [str2 length];
+//        [str appendAttributedString:str2];
+//    }
     return str;
 }
 

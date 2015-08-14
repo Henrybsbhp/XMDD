@@ -24,6 +24,7 @@
 #import "WebVC.h"
 #import "HKAdvertisement.h"
 #import "UIView+DefaultEmptyView.h"
+#import "NSDate+DateForText.h"
 
 
 
@@ -31,38 +32,45 @@
 @property (nonatomic, strong) SYPaginatorView *adView;
 @property (nonatomic, strong) RACDisposable *rac_adDisposable;
 @property (nonatomic, strong) NSArray *adList;
-@property (nonatomic, strong) NSArray *datasource;
-
 
 @property (nonatomic)CLLocationCoordinate2D  userCoordinate;
 
-/// 每页数量
-@property (nonatomic, assign) NSUInteger pageAmount;
-///列表下面是否还有商户
-@property (nonatomic, assign) BOOL isRemain;
 ///当前页码索引
 @property (nonatomic, assign) NSUInteger currentPageIndex;
 @end
 
 @implementation CarWashTableVC
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (self.forbidAD)
+        [MobClick beginLogPageView:@"rp201"];
+    else
+        [MobClick beginLogPageView:@"rp102"];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    if (self.forbidAD)
+        [MobClick endLogPageView:@"rp201"];
+    else
+        [MobClick endLogPageView:@"rp102"];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.isRemain = YES;
-    self.pageAmount = PageAmount;
-    self.currentPageIndex = 1;
     self.tableView.tableHeaderView = nil;
+    self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAdList) name:CarwashAdvertiseNotification object:nil];
     
-    [self.tableView.refreshView addTarget:self action:@selector(reloadShopList) forControlEvents:UIControlEventValueChanged];
-
     CKAsyncMainQueue(^{
         [self setupSearchView];
         [self setupTableView];
         [self reloadAdList];
-        [self reloadShopList];
+        [self.loadingModel loadDataForTheFirstTime];
     });
 }
 
@@ -95,14 +103,15 @@
 
     @weakify(self)
     [[tap rac_gestureSignal] subscribeNext:^(id x) {
-        
+        if (self.forbidAD)
+            [MobClick event:@"rp201-2"];
+        else
+            [MobClick event:@"rp102-2"];
         @strongify(self)
         SearchViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
         [self.navigationController pushViewController:vc animated:YES];
     }];
-    
     [[self.searchField rac_newTextChannel] subscribeNext:^(id x) {
-        
 
     }];
     
@@ -167,7 +176,7 @@
         [self.rac_adDisposable dispose];
         [[self rac_deallocDisposable] removeDisposable:self.rac_adDisposable];
     }
-    if (self.datasource.count > 0) {
+    if (self.loadingModel.datasource.count > 0) {
         [self.tableView setTableHeaderView:self.headerView];
     }
 }
@@ -179,34 +188,134 @@
     self.tableView.contentInset = UIEdgeInsetsZero;
 }
 
-- (void)reloadDataWithText:(NSString *)text error:(NSError *)error
-{
-    if (error) {
-        self.datasource = nil;
-        text = text ? text : error.domain;
-    }
 
-    [self.tableView reloadData];
-    if (self.datasource.count == 0) {
-        self.tableView.tableHeaderView = nil;
-        [self.tableView showDefaultEmptyViewWithText:text];
-    }
-    else {
-        [self.tableView hideDefaultEmptyView];
-        if (!self.tableView.tableHeaderView) {
-            self.tableView.tableHeaderView = self.headerView;
-        }
-    }
-}
 #pragma mark - Action
 - (IBAction)actionMap:(id)sender
 {
+    if (self.forbidAD) {
+        [MobClick event:@"rp201-1"];
+    }
+    else {
+        [MobClick event:@"rp102-1"];
+    }
     NearbyShopsViewController * nearbyShopView = [carWashStoryboard instantiateViewControllerWithIdentifier:@"NearbyShopsViewController"];
     nearbyShopView.type = self.type;
     nearbyShopView.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:nearbyShopView animated:YES];
 }
 
+#pragma mark - HKLoadingModelDelegate
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
+{
+    return @"暂无商铺";
+}
+
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+{
+    //定位失败
+    if (error.customTag == 1) {
+        return @"定位失败";
+    }
+    return @"获取商铺失败，点击重试";
+}
+
+- (void)loadingModel:(HKLoadingModel *)model didLoadingFailWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+{
+    //定位失败
+    if (error.customTag == 1) {
+        switch (error.code) {
+            case kCLErrorDenied:
+            {
+                if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+                {
+                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置打开,然后重启应用" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往设置", nil];
+                    
+                    [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
+                        
+                        if ([x integerValue] == 1)
+                        {
+                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                        }
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }];
+                    [av show];
+                }
+                else
+                {
+                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置打开，然后重启应用" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
+                    
+                    [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
+                        
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }];
+                    
+                    [av show];
+                }
+                break;
+            }
+            case LocationFail:
+            {
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"城市定位失败,请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
+                    
+                    [self.navigationController popViewControllerAnimated:YES];
+                }];
+                
+                [av show];
+            }
+            default:
+            {
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"定位失败，请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
+                    
+                    [self.navigationController popViewControllerAnimated:YES];
+                }];
+                
+                [av show];
+                break;
+            }
+        }
+    }
+}
+
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+{
+    if (type != HKDatasourceLoadingTypeLoadMore) {
+        self.currentPageIndex = 0;
+    }
+    
+    @weakify(self);
+    return [[[gMapHelper rac_getUserLocation] catch:^RACSignal *(NSError *error) {
+        
+        NSError *mappedError = [NSError errorWithDomain:@"" code:error.code userInfo:nil];
+        mappedError.customTag = 1;
+        return [RACSignal error:mappedError];
+    }] flattenMap:^RACStream *(MAUserLocation *userLocation) {
+        
+        @strongify(self)
+        self.userCoordinate = userLocation.coordinate;
+        GetShopByDistanceOp * getShopByDistanceOp = [GetShopByDistanceOp new];
+        getShopByDistanceOp.longitude = userLocation.coordinate.longitude;
+        getShopByDistanceOp.latitude = userLocation.coordinate.latitude;
+        getShopByDistanceOp.pageno = self.currentPageIndex+1;
+        return [[getShopByDistanceOp rac_postRequest] map:^id(GetShopByDistanceOp *op) {
+            
+            self.currentPageIndex = self.currentPageIndex+1;
+            return op.rsp_shopArray;
+        }];
+    }];
+}
+
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+{
+    [self.tableView reloadData];
+    if (model.datasource.count == 0) {
+        self.tableView.tableHeaderView = nil;
+    }
+    else if (!self.tableView.tableHeaderView) {
+        self.tableView.tableHeaderView = self.headerView;
+    }
+}
 
 #pragma mark - SYPaginatorViewDelegate
 - (NSInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView
@@ -240,12 +349,16 @@
         imgV.customObject = ge;
     }
     gesture = imgV.customObject;
+    
+    @weakify(self)
     [[[gesture rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
+        NSString * eventstr = [NSString stringWithFormat:@"rp102-6_%ld", pageIndex];
+        [MobClick event:eventstr];
+        @strongify(self)
         if (ad.adLink.length)
         {
             WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
-            vc.title = @"洗车广告";
             vc.url = ad.adLink;
             [self.navigationController pushViewController:vc animated:YES];
         }
@@ -267,19 +380,20 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return self.datasource.count;
+    return self.loadingModel.datasource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];
-    JTShop *shop = [self.datasource safetyObjectAtIndex:indexPath.row];
-    //row 0  缩略图、名称、评分、地址、距离等
+    JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
+    //row 0  缩略图、名称、评分、地址、距离、营业状况等
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1003];
     UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
+    UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
 
     
     [[[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] takeUntilForCell:cell] subscribeNext:^(UIImage * image) {
@@ -287,9 +401,19 @@
     }];
     
     titleL.text = shop.shopName;
-    ratingV.ratingValue = (NSInteger)shop.shopRate;
+    ratingV.ratingValue = shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
     addrL.text = shop.shopAddress;
+    
+    [statusL makeCornerRadius:3];
+    if ([self isBetween:shop.openHour and:shop.closeHour]) {
+        statusL.text = @"营业中";
+        statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
+    }
+    else {
+        statusL.text = @"已休息";
+        statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
+    }
     
     double myLat = self.userCoordinate.latitude;
     double myLng = self.userCoordinate.longitude;
@@ -302,7 +426,6 @@
     UILabel *washTypeL = (UILabel *)[cell.contentView viewWithTag:2001];
     UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:2002];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
-    
     
     JTShopService * service = [shop.shopServiceArray firstObjectByFilteringOperator:^BOOL(JTShopService * s) {
         return s.shopServiceType == ShopServiceCarWash;
@@ -325,11 +448,24 @@
     [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
-        [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.view];
+        if (self.forbidAD) {
+            [MobClick event:@"rp201-4"];
+        }
+        else {
+            [MobClick event:@"rp102-4"];
+        }
+        [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.tabBarController.view];
     }];
     
     [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        @strongify(self);
+        if (self.forbidAD) {
+            [MobClick event:@"rp201-5"];
+        }
+        else {
+            [MobClick event:@"rp102-5"];
+        }
         if (shop.shopPhone.length == 0)
         {
             UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
@@ -352,22 +488,39 @@
     [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(0, 0, 8, 0) forDirectionMask:mask];
     [cell.contentView showBorderLineWithDirectionMask:mask];
     
-    if (self.datasource.count-1 <= indexPath.row && self.isRemain)
-    {
-        [self requestMoreCarWashShopList];
-    }
+    [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nest:NO promptView:self.tableView.bottomLoadingView];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.forbidAD)
+        [MobClick event:@"rp201-3"];
+    else
+        [MobClick event:@"rp102-3"];
     ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
     vc.hidesBottomBarWhenPushed = YES;
-    vc.shop = [self.datasource safetyObjectAtIndex:indexPath.row];
+    vc.shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 
 #pragma mark - Utility
+
+-(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    
+    NSDate * nowDate = [NSDate date];
+    NSString * transStr = [formatter stringFromDate:nowDate];
+    NSDate * transDate = [formatter dateFromString:transStr];
+    
+    NSDate * beginDate = [formatter dateFromString:openHourStr];
+    NSDate * endDate = [formatter dateFromString:closeHourStr];
+    
+    return (transDate == [transDate earlierDate:beginDate]) || (transDate == [transDate laterDate:endDate]) ? NO : YES;
+}
+
 - (NSAttributedString *)priceStringWithOldPrice:(NSNumber *)price1 curPrice:(NSNumber *)price2
 {
     NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
@@ -389,164 +542,5 @@
     }
     return str;
 }
-
-- (void)reloadShopList
-{
-    self.currentPageIndex = 0;
-    [self requestCarWashShopList];
-}
-
-- (void)requestCarWashShopList
-{
-    self.currentPageIndex = 1;
-    @weakify(self)
-    [[[[gMapHelper rac_getUserLocation] take:1] initially:^{
-
-        [self.tableView.refreshView beginRefreshing];
-    }] subscribeNext:^(MAUserLocation *userLocation) {
-    
-        @strongify(self)
-        self.userCoordinate = userLocation.coordinate;
-        GetShopByDistanceOp * getShopByDistanceOp = [GetShopByDistanceOp new];
-        getShopByDistanceOp.longitude = userLocation.coordinate.longitude;
-        getShopByDistanceOp.latitude = userLocation.coordinate.latitude;
-        getShopByDistanceOp.pageno = self.currentPageIndex;
-        [[getShopByDistanceOp rac_postRequest] subscribeNext:^(GetShopByDistanceOp * op) {
-            
-            @strongify(self);
-            self.currentPageIndex = self.currentPageIndex + 1;
-            
-            [self.tableView.refreshView endRefreshing];
-            
-            self.datasource = op.rsp_shopArray;
-            
-            if (self.datasource.count >= self.pageAmount)
-            {
-                self.isRemain = YES;
-            }
-            else
-            {
-                self.isRemain = NO;
-            }
-            if (!self.isRemain && self.datasource.count > 0)
-            {
-                [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
-            }
-            else {
-                [self.tableView.bottomLoadingView hideIndicatorText];
-            }
-            [self reloadDataWithText:@"暂无商铺" error:nil];
-        } error:^(NSError *error) {
-            
-            @strongify(self);
-            [gToast showError:error.domain];
-            [self.tableView.refreshView endRefreshing];
-        }];
-    } error:^(NSError *error) {
-        
-        @strongify(self);
-        [SVProgressHUD dismiss];
-        [self.tableView.refreshView endRefreshing];
-        [self reloadDataWithText:@"定位失败" error:error];
-        
-        switch (error.code) {
-            case kCLErrorDenied:
-            {
-                if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
-                {
-                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置打开,然后重启应用" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往设置", nil];
-                    
-                    [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
-                        
-                        if ([x integerValue] == 1)
-                        {
-                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-                        }
-                        [self.navigationController popViewControllerAnimated:YES];
-                    }];
-                    [av show];
-                }
-                else
-                {
-                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置打开，然后重启应用" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
-                    
-                    [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
-                        
-                        [self.navigationController popViewControllerAnimated:YES];
-                    }];
-
-                    [av show];
-                }
-                break;
-            }
-            case LocationFail:
-            {
-                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"城市定位失败,请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
-                    
-                    [self.navigationController popViewControllerAnimated:YES];
-                }];
-                
-                [av show];
-            }
-            default:
-            {
-                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"定位失败，请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
-                    
-                    [self.navigationController popViewControllerAnimated:YES];
-                }];
-                
-                [av show];
-                break;
-            }
-        }
-    }];
-}
-
-
-- (void)requestMoreCarWashShopList
-{
-    if ([self.tableView.bottomLoadingView isActivityAnimating])
-    {
-        return;
-    }
-    
-    GetShopByDistanceOp * getShopByDistanceOp = [GetShopByDistanceOp new];
-    getShopByDistanceOp.longitude = self.userCoordinate.longitude;
-    getShopByDistanceOp.latitude = self.userCoordinate.latitude;
-    getShopByDistanceOp.pageno = self.currentPageIndex;
-    [[[getShopByDistanceOp rac_postRequest] initially:^{
-        
-        [self.tableView.bottomLoadingView hideIndicatorText];
-        [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
-    }] subscribeNext:^(GetShopByDistanceOp * op) {
-        
-        self.currentPageIndex = self.currentPageIndex + 1;
-        [self.tableView.bottomLoadingView stopActivityAnimation];
-        if (op.rsp_shopArray.count >= self.pageAmount)
-        {
-            self.isRemain = YES;
-        }
-        else
-        {
-            self.isRemain = NO;
-        }
-        if (!self.isRemain)
-        {
-            [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
-        }
-        NSMutableArray * tArray = [NSMutableArray arrayWithArray:self.datasource];
-        [tArray addObjectsFromArray:op.rsp_shopArray];
-        self.datasource = [NSArray arrayWithArray:tArray];
-        [self reloadDataWithText:@"暂无商铺" error:nil];
-        
-    } error:^(NSError *error) {
-        
-        
-    }];
-}
-
-
 
 @end

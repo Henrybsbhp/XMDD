@@ -15,17 +15,22 @@ typedef enum : NSUInteger {
 
 @interface CheckoutServiceOrderOp : BaseOp
 
-///
 @property (nonatomic,copy)NSNumber *serviceid;
 
 ///车牌
 @property (nonatomic,copy)NSString * licencenumber;
+
+///车型车系
+@property (nonatomic,strong) NSString *carbrand;
 
 ///优惠券ID
 @property (nonatomic,strong)NSArray * couponArray;
 
 ///支付渠道
 @property (nonatomic)PaymentChannelType  paychannel;
+
+///经纬度
+@property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 
 ///支付平台，这个不会用到接口中，只是做个储存
 @property (nonatomic)PaymentPlatform  platform;

@@ -14,11 +14,8 @@
 #import "ShareUserCouponOp.h"
 #import "DownloadOp.h"
 
-@interface UnusedCouponVModel ()
-@property (nonatomic, strong) NSMutableArray *validCoupons;//有效
-@property (nonatomic, strong) NSMutableArray *overdueCoupons;//过期
+@interface UnusedCouponVModel ()<HKLoadingModelDelegate>
 @property (nonatomic, assign) NSInteger curPageno;
-@property (nonatomic, assign) BOOL isRemain;
 @end
 
 @implementation UnusedCouponVModel
@@ -30,68 +27,10 @@
         self.tableView = tableView;
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
-        [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
         self.tableView.showBottomLoadingView = YES;
+        self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
     }
     return self;
-}
-
-- (void)reloadData
-{
-    self.curPageno = 0;
-    self.isRemain = NO;
-    self.validCoupons = [NSMutableArray array];
-    self.overdueCoupons = [NSMutableArray array];
-    [self requestUnuseCoupons];
-}
-
-- (void)refreshTableView
-{
-    if (self.validCoupons.count == 0 && self.overdueCoupons.count == 0) {
-        [self.tableView showDefaultEmptyViewWithText:@"暂无优惠券"];
-    }
-    else {
-        [self.tableView hideDefaultEmptyView];
-    }
-    [self.tableView reloadData];
-}
-
-- (void)requestUnuseCoupons
-{
-    NSInteger pageno = self.curPageno+1;
-    GetUserCouponOp * op = [GetUserCouponOp operation];
-    op.used = 2;
-    op.pageno = pageno;
-    @weakify(self);
-    [[[op rac_postRequest] initially:^{
-
-        @strongify(self);
-        [self.tableView.bottomLoadingView hideIndicatorText];
-        if (pageno == 1) {
-            [self.tableView.refreshView beginRefreshing];
-        }
-        else {
-            [self.tableView.bottomLoadingView startActivityAnimation];
-        }
-    }] subscribeNext:^(GetUserCouponOp * op) {
-        
-        @strongify(self);
-        [self.tableView.refreshView endRefreshing];
-        [self.tableView.bottomLoadingView stopActivityAnimation];
-
-        [self sortCoupons:op.rsp_couponsArray];
-        self.isRemain = op.rsp_couponsArray.count >= PageAmount;
-        self.curPageno = pageno;
-        [self refreshTableView];
-     } error:^(NSError *error) {
-        
-         @strongify(self);
-         [self.tableView.refreshView endRefreshing];
-         [self.tableView.bottomLoadingView stopActivityAnimation];
-         [gToast showError:error.domain];
-         [self refreshTableView];
-    }];
-
 }
 
 #pragma mark - Share
@@ -106,27 +45,6 @@
         
         [gToast dismiss];
         [self shareAction:sop andImage:nil];
-        
-        
-//        DownloadOp * op = [[DownloadOp alloc] init];
-//        op.req_uri = sop.rsp_picUrl;
-//        [[op rac_getRequest] subscribeNext:^(DownloadOp *op) {
-//            
-//            [gToast dismiss];
-//            NSObject * obj = [UIImage imageWithData: op.rsp_data];
-//            if (obj && [obj isKindOfClass:[UIImage class]])
-//            {
-//                [self shareAction:sop andImage:(UIImage *)obj];
-//            }
-//            else
-//            {
-//                [self shareAction:sop andImage:nil];
-//            }
-//        } error:^(NSError *error) {
-//            
-//            [gToast dismiss];
-//            [self shareAction:sop andImage:nil];
-//        }];
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
@@ -135,16 +53,9 @@
 
 - (void)shareAction:(NSNumber *)cid
 {
-//    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否分享本张优惠劵" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-//    [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
-//        
-//        NSInteger index = [number integerValue];
-//        if (index == 1)
-//        {
-            [self requestShareCoupon:cid];
-//        }
-//    }];
-//    [av show];
+    [MobClick event:@"rp304-3"];
+    
+    [self requestShareCoupon:cid];
 }
 
 - (void)shareAction:(ShareUserCouponOp *)op andImage:(UIImage *)image
@@ -160,38 +71,86 @@
     [sheet presentAnimated:YES completionHandler:nil];
     
     [vc setFinishAction:^{
-        
         [sheet dismissAnimated:YES completionHandler:nil];
     }];
     
     [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
+        [MobClick event:@"rp110-7"];
         [sheet dismissAnimated:YES completionHandler:nil];
     }];
 }
 
-#pragma mark - Utility
--(void)sortCoupons:(NSArray *)coupons
+#pragma mark - HKLoadingModelDelegate
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
 {
-    for (HKCoupon *cpn in coupons)
+    return @"暂无优惠券";
+}
+
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+{
+    return @"获取未使用优惠券失败，点击重试";
+}
+
+- (NSArray *)loadingModel:(HKLoadingModel *)model datasourceFromLoadedData:(NSArray *)data withType:(HKDatasourceLoadingType)type
+{
+    NSMutableArray *datasource;
+    if (type == HKDatasourceLoadingTypeLoadMore) {
+        datasource = (NSMutableArray *)model.datasource;
+    }
+    
+    if (!datasource) {
+        datasource = [NSMutableArray array];
+        [datasource addObject:[NSMutableArray array]];
+    }
+    
+    NSMutableArray *array1 = [datasource safetyObjectAtIndex:0];
+    NSMutableArray *array2 = [datasource safetyObjectAtIndex:1];
+    for (HKCoupon *cpn in data)
     {
         if (cpn.valid) {
-            [self.validCoupons addObject:cpn];
+            [array1 addObject:cpn];
         }
         else {
-            [self.overdueCoupons addObject:cpn];
+            if (!array2) {
+                array2 = [NSMutableArray array];
+                [datasource addObject:array2];
+            }
+            [array2 addObject:cpn];
         }
     }
+    return datasource;
 }
+
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+{
+    if (type != HKDatasourceLoadingTypeLoadMore) {
+        self.curPageno = 0;
+    }
+    
+    GetUserCouponOp * op = [GetUserCouponOp operation];
+    op.used = 2;
+    op.pageno = self.curPageno+1;
+    return [[op rac_postRequest] map:^id(GetUserCouponOp *rspOp) {
+        
+        self.curPageno = self.curPageno+1;
+        return rspOp.rsp_couponsArray;
+    }];
+}
+
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+{
+    [self.tableView reloadData];
+}
+
 #pragma mark - Table view data source
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return self.loadingModel.datasource.count;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if (section == 1 && self.overdueCoupons.count > 0) {
+    if (section == 1) {
         return @"下列优惠券已过期";
     }
     return nil;
@@ -200,7 +159,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     CGFloat height = 10;
-    if (section == 1 && self.overdueCoupons.count > 0) {
+    if (section == 1) {
         height = 25;
     }
     return height;
@@ -212,7 +171,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return section == 0 ? self.validCoupons.count : self.overdueCoupons.count;
+    return [[self.loadingModel.datasource safetyObjectAtIndex:section] count];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -240,10 +199,12 @@
     UIButton *status = (UIButton *)[cell.contentView viewWithTag:1005];
     
     NSUInteger section = [indexPath section];
+    
+    HKCoupon *couponDic = [[self.loadingModel.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
     if (section == 0){
-        HKCoupon *couponDic = [self.validCoupons safetyObjectAtIndex:indexPath.row];;
+//        HKCoupon *couponDic = section [self.validCoupons safetyObjectAtIndex:indexPath.row];;
         if (couponDic.conponType == CouponTypeCarWash) {
-            [status setTitle:@"分享" forState:UIControlStateNormal];
+            [status setTitle:@"转赠" forState:UIControlStateNormal];
             [[[status rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 
                 [self shareAction:couponDic.couponId];
@@ -252,14 +213,23 @@
             backgroundImg.image = carWash;
         }
         else if (couponDic.conponType == CouponTypeCash || couponDic.conponType == CouponTypeInsurance) {
-            //               @LYW 重用
             backgroundImg.image = cashImage;
             [status setTitle:@"有效" forState:UIControlStateNormal];
+            
+            [[[status rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                
+                [MobClick event:@"rp304-4"];
+            }];
         }
         else if (couponDic.conponType == CouponTypeAgency)
         {
             backgroundImg.image = agency;
             [status setTitle:@"有效" forState:UIControlStateNormal];
+            
+            [[[status rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                
+                [MobClick event:@"rp304-4"];
+            }];
         }
         else if (couponDic.conponType == CouponTypeRescue)
         {
@@ -268,13 +238,12 @@
         }
         name.text = couponDic.couponName;
         description.text = [NSString stringWithFormat:@"使用说明：%@",couponDic.couponDescription];
-        // @LYW 时间显示有误
         validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",[couponDic.validsince dateFormatForYYMMdd2],[couponDic.validthrough dateFormatForYYMMdd2]];
     }
     else {
         [status setTitle:@"已过期" forState:UIControlStateNormal];
         backgroundImg.image = unavailable;
-        HKCoupon *couponDic = [self.overdueCoupons safetyObjectAtIndex:indexPath.row];
+//        HKCoupon *couponDic = [self.overdueCoupons safetyObjectAtIndex:indexPath.row];
         name.text = couponDic.couponName;
         description.text = [NSString stringWithFormat:@"使用说明：%@",couponDic.couponDescription];
         validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",[couponDic.validsince dateFormatForYYMMdd2],[couponDic.validthrough dateFormatForYYMMdd2]];
@@ -284,20 +253,13 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView.refreshView.refreshing) {
-        return;
-    }
-    if (self.isRemain && indexPath.section == 0 &&  self.overdueCoupons.count == 0 && indexPath.row >= self.validCoupons.count-1) {
-        [self requestUnuseCoupons];
-    }
-    else if (self.isRemain && indexPath.section == 1 && indexPath.row >= self.overdueCoupons.count-1) {
-        [self requestUnuseCoupons];
-    }
+    [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nest:YES promptView:self.tableView.bottomLoadingView];
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [MobClick event:@"rp304-5"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

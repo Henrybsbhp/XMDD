@@ -14,18 +14,28 @@
 #import "UpdatePwdOp.h"
 #import "WebVC.h"
 
-@interface RegisterVC ()
+@interface RegisterVC () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *checkBox;
 @property (weak, nonatomic) IBOutlet UIButton *vcodeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *registBtn;
 @property (nonatomic, strong) HKSMSModel *smsModel;
+@property (weak, nonatomic) IBOutlet UITextField *num;
+@property (weak, nonatomic) IBOutlet VCodeInputField *code;
+@property (weak, nonatomic) IBOutlet UITextField *pwd;
 @end
 
 @implementation RegisterVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.smsModel = [HKSMSModel new];
+    self.smsModel = [[HKSMSModel alloc] init];
+    
+    self.num.delegate = self;
+    self.code.delegate = self;
+    self.pwd.delegate = self;
+    NSArray *mobArray = @[@"rp004-8",@"rp004-9",@"rp004-10"];
+    [self.smsModel countDownIfNeededForVcodeButton:self.vcodeBtn];
+    [self.smsModel setupVCodeInputField:self.code accountField:self.num forTargetVC:self mobEvents:mobArray];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,26 +43,44 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp004"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp004"];
+}
+
 #pragma mark - Action
 - (IBAction)actionGetVCode:(id)sender
 {
+    [MobClick event:@"rp004-2"];
     if ([self sharkCellIfErrorAtIndex:0]) {
         return;
     }
-    [[self.smsModel rac_handleVcodeButtonClick:sender withVcodeType:3 phone:[self textAtIndex:0]]
+    [[self.smsModel rac_handleVcodeButtonClick:sender vcodeInputField:self.code withVcodeType:3 phone:[self textAtIndex:0]]
      subscribeError:^(NSError *error) {
         [gToast showError:error.domain];
     }];
+    
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
+    [field becomeFirstResponder];
 }
 
 - (IBAction)actionCheck:(id)sender
 {
+    [MobClick event:@"rp004-5"];
     self.checkBox.selected = !self.checkBox.selected;
     self.registBtn.enabled = self.checkBox.selected;
 }
 
 - (IBAction)actionAgreement:(id)sender
 {
+    [MobClick event:@"rp004-6"];
     WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
     vc.title = @"服务协议";
     vc.url = @"http://www.xiaomadada.com/apphtml/license.html";
@@ -61,6 +89,7 @@
 
 - (IBAction)actionRegister:(id)sender
 {
+    [MobClick event:@"rp004-7"];
     if ([self sharkCellIfErrorAtIndex:0]) {
         return;
     }
@@ -104,6 +133,20 @@
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
     [field becomeFirstResponder];
+}
+
+#pragma mark - TextField
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if (textField == self.num) {
+        [MobClick event:@"rp004-1"];
+    }
+    if (textField == self.code) {
+        [MobClick event:@"rp004-3"];
+    }
+    if (textField == self.pwd) {
+        [MobClick event:@"rp004-4"];
+    }
 }
 
 #pragma mark - Private

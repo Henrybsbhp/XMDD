@@ -10,8 +10,7 @@
 #import "NJKWebViewProgress.h"
 #import "NJKWebViewProgressView.h"
 
-@interface WebVC ()<NJKWebViewProgressDelegate,UIWebViewDelegate>
-@property (nonatomic, weak) IBOutlet UIWebView *webView;
+@interface WebVC ()<NJKWebViewProgressDelegate>
 @property (nonatomic, strong) NSURLRequest *request;
 
 @property (nonatomic,strong)NJKWebViewProgress * progressProxy;
@@ -28,27 +27,33 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupProcessView];
+    [self.webView.scrollView setDecelerationRate:UIScrollViewDecelerationRateNormal];
+    self.webView.scalesPageToFit = YES;
     self.request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
-     [self setupProcessView];
-    
-     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
-    // Do any additional setup after loading the view.
+    CKAsyncMainQueue(^{
+        self.webView.scrollView.contentInset = UIEdgeInsetsZero;
+        self.webView.scrollView.contentSize = self.webView.frame.size;
+        [self.webView loadRequest:self.request];
+    });
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController.navigationBar addSubview:_progressView];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
     [_progressView removeFromSuperview];
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
 
 - (void)setupProcessView
 {
@@ -79,7 +84,18 @@
 -(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
 {
     [_progressView setProgress:progress animated:YES];
-    self.title = [_webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    NSString *title = [_webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    if (title.length > 0) {
+        CKAsyncMainQueue(^{
+            self.navigationItem.title = title;
+        });
+    }
 }
 
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    self.webView.scrollView.contentInset = UIEdgeInsetsZero;
+    self.webView.scrollView.contentSize = self.webView.frame.size;
+    [gToast showError:kDefErrorPormpt];
+}
 @end

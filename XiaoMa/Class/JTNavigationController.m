@@ -8,7 +8,6 @@
 
 #import "JTNavigationController.h"
 #import <CKKit.h>
-#import "UIBarButtonItem+CustomStyle.h"
 
 @interface JTNavigationController ()
 

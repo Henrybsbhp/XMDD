@@ -10,12 +10,13 @@
 #import "JTTableView.h"
 #import "HKCoupon.h"
 #import "GetUserCouponByTypeOp.h"
+#import "HKLoadingModel.h"
 
-@interface RescueCouponViewController ()
+@interface RescueCouponViewController ()<HKLoadingModelDelegate>
 
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
 
-@property (nonatomic,strong)NSArray * couponArray;
+@property (nonatomic,strong) HKLoadingModel *loadingModel;
 
 @end
 
@@ -23,9 +24,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self.tableView.refreshView addTarget:self action:@selector(requestCoupon) forControlEvents:UIControlEventValueChanged];
-    [self requestCoupon];
+    self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
+    [self.loadingModel loadDataForTheFirstTime];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,29 +33,34 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)requestCoupon
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
+}
+#pragma mark - HKLoadingModelDelegate
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
+{
+    return @"暂无救援券";
+}
+
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+{
+    return @"获取失败，点击重试";
+}
+
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
 {
     GetUserCouponByTypeOp * op = [GetUserCouponByTypeOp operation];
     op.type = CouponTypeRescue;
-    [[[op rac_postRequest] initially:^{
-        
-        [self.tableView.refreshView beginRefreshing];
-    }] subscribeNext:^(GetUserCouponByTypeOp * op) {
-        
-        [self.tableView.refreshView endRefreshing];
-        self.couponArray = op.rsp_couponsArray;
-        [self.tableView reloadData];
-        if (self.couponArray.count == 0) {
-            [self.tableView showDefaultEmptyViewWithText:@"暂无免费券"];
-        }
-        else {
-            [self.tableView hideDefaultEmptyView];
-        }
-    } error:^(NSError *error) {
-
-        [self.tableView.refreshView endRefreshing];
-        [self.tableView showDefaultEmptyViewWithText:@"刷新失败了,请重试"];
+    return [[op rac_postRequest] map:^id(GetUserCouponByTypeOp *rspOp) {
+        return rspOp.rsp_couponsArray;
     }];
+}
+
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+{
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -71,7 +76,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return self.couponArray.count;
+    return self.loadingModel.datasource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -94,7 +99,7 @@
     
     [status setTitle:@"有效" forState:UIControlStateNormal];
     
-    HKCoupon * coupon = [self.couponArray safetyObjectAtIndex:indexPath.row];
+    HKCoupon * coupon = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
     ticketBgView.image = bgImage;
     name.text = coupon.couponName;
     description.text = [NSString stringWithFormat:@"使用说明：%@",coupon.couponDescription];

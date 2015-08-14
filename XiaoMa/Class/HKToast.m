@@ -8,6 +8,7 @@
 
 #import "HKToast.h"
 #import "SVProgressHUD.h"
+#import "MBProgressHUD.h"
 #import "XiaoMa.h"
 
 @interface HKToast ()
@@ -27,7 +28,7 @@
 
 - (void)showingWithText:(NSString *)test
 {
-    [SVProgressHUD showWithStatus:test maskType:SVProgressHUDMaskTypeNone];
+    [SVProgressHUD showWithStatus:test maskType:SVProgressHUDMaskTypeClear];
 }
 
 - (void)showSuccess:(NSString *)success
@@ -37,13 +38,51 @@
 
 - (void)showError:(NSString *)error
 {
-    [self showText:error];
-//    [SVProgressHUD showErrorWithStatus:error];
+    if (error.length == 0) {
+        [self dismiss];
+    }
+    else {
+        [self showText:error];
+//        [SVProgressHUD showErrorWithStatus:error];
+    }
+}
+
+- (void)showError:(NSString *)error inView:(UIView *)view
+{
+    [self showText:error inView:view];
 }
 
 - (void)showText:(NSString *)text
 {
     [SVProgressHUD showOnlyStatus:text duration:[self displayDurationForString:text]];
+}
+
+- (void)showText:(NSString *)text inView:(UIView *)view
+{
+    if (text.length == 0) {
+        [self dismissInView:view];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD HUDForView:view];
+        if (!hud) {
+            hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+        }
+        hud.labelText = text;
+        hud.margin = 10;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:[self displayDurationForString:text]];
+    }
+}
+
+- (void)showingWithText:(NSString *)text inView:(UIView *)view
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.labelText = text;
+}
+
+- (void)dismissInView:(UIView *)view
+{
+    [MBProgressHUD hideAllHUDsForView:view animated:YES];
 }
 
 - (void)dismiss

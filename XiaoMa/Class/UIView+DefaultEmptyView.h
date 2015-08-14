@@ -11,9 +11,10 @@
 @interface UIView (DefaultEmptyView)
 
 - (void)showDefaultEmptyViewWithText:(NSString *)text;
-- (void)showDefaultEmptyViewWithText:(NSString *)text centerOffset:(CGFloat)offset;
-- (void)showDefaultEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text centerOffset:(CGFloat)offset;
+- (void)showDefaultEmptyViewWithText:(NSString *)text tapBlock:(void(^)(void))tapBlock;
+- (void)showDefaultEmptyViewWithText:(NSString *)text centerOffset:(CGFloat)offset tapBlock:(void(^)(void))tapBlock;
+- (void)showDefaultEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text
+                             centerOffset:(CGFloat)offset tapBlock:(void(^)(void))tapBlock;
 - (void)hideDefaultEmptyView;
-
 
 @end

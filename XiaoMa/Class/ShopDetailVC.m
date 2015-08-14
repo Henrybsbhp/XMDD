@@ -20,16 +20,27 @@
 #import "CommentListViewController.h"
 #import "EditMyCarVC.h"
 #import "AddUserFavoriteOp.h"
+#import "UIView+Layer.h"
 
 
 #define kDefaultServieCount     2
 
-@interface ShopDetailVC ()
+@interface ShopDetailVC () <UIScrollViewDelegate>
 
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *titleView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UIButton *greenBackBtn;
+@property (weak, nonatomic) IBOutlet UIButton *whiteBackBtn;
+@property (weak, nonatomic) IBOutlet UIButton *greenStarBtn;
+@property (weak, nonatomic) IBOutlet UIButton *whiteStarBtn;
+- (IBAction)collectionAction:(id)sender;
 /// 服务列表展开
 @property (nonatomic, assign) BOOL serviceExpanded;
 /// 是否已收藏标签
 @property (nonatomic)BOOL favorite;
+/// 是否显示标题栏
+@property (nonatomic)BOOL titleShow;
 
 @end
 
@@ -38,9 +49,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        self.tableView.estimatedRowHeight = 44;
+        self.tableView.rowHeight = UITableViewAutomaticDimension;
+    }
+    if (IOSVersionGreaterThanOrEqualTo(@"7.0")) {
+        [self.tableView setContentInset:UIEdgeInsetsMake(-20, 0, 0, 0)];
+    }
     
-    [self setupNavigationBar];
-//    [self setupMyCarList];
+    [[self.whiteBackBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    [[self.greenBackBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
     [self requestShopComments];
 }
 
@@ -48,96 +71,68 @@
 {
     [super viewWillAppear:animated];
     
+//    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0)
+//    {
+//        [self.titleView mas_updateConstraints:^(MASConstraintMaker *make) {
+//            make.height.mas_equalTo(@47);
+//        }];
+//    }
+//    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+    
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    
+    [MobClick beginLogPageView:@"rp105"];
     if([gAppMgr.myUser.favorites getFavoriteWithID:self.shop.shopID] == nil){
         self.favorite = NO;
+        [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star"] forState:UIControlStateNormal];
+        [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star"] forState:UIControlStateNormal];
     }
     else {
         self.favorite = YES;
+        [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_fillstar"] forState:UIControlStateNormal];
+        [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_fillstar"] forState:UIControlStateNormal];
     }
-    
-    [self setupNavigationBar];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp105"];
+    //如果当前视图的导航条没有发生跳转，则不做处理
+    if (![self.navigationController.topViewController isEqual:self]) {
+        [self.navigationController setNavigationBarHidden:NO animated:animated];
+    }
+}
 - (void)dealloc
 {
     DebugLog(@"ShopDetailVC Dealloc");
 }
 
 #pragma mark - SetupUI
-- (void)setupNavigationBar
+- (UIStatusBarStyle)preferredStatusBarStyle
 {
-    UIButton * collectBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 23)];
-    UIImage * image = [UIImage imageNamed:self.favorite ? @"collected" : @"collect"];
-    
-    [collectBtn setImage:image forState:UIControlStateNormal];
-    
-    @weakify(self)
-    [[collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
-        @strongify(self)
-        
-        if ([LoginViewModel loginIfNeededForTargetViewController:self])
-        {
-            if (self.favorite)
-            {
-                [[[[gAppMgr.myUser.favorites rac_removeFavorite:@[self.shop.shopID]] initially:^{
-                    
-                    [gToast showingWithText:@"移除中…"];
-                }]  finally:^{
-                    
-                    [SVProgressHUD dismiss];
-                }]  subscribeNext:^(id x) {
-                    
-                    self.favorite = NO;
-                    [collectBtn setImage:[UIImage imageNamed:@"collect"] forState:UIControlStateNormal];
-                    NSArray * array = self.navigationController.viewControllers;
-                    UIViewController * vc = [array safetyObjectAtIndex:array.count - 2];
-                    if (vc && [vc isKindOfClass:[NearbyShopsViewController class]])
-                    {
-                        NearbyShopsViewController * nearbyVC = (NearbyShopsViewController *)vc;
-                        [nearbyVC reloadBottomView];
-                    }
-                } error:^(NSError *error) {
-                    
-                    [gToast showError:error.domain];
-                }];
-            }
-            else
-            {
-                [[[[gAppMgr.myUser.favorites rac_addFavorite:self.shop] initially:^{
-                    
-                    [gToast showingWithText:@"添加中…"];
-                }]  finally:^{
-                    
-                    [SVProgressHUD dismiss];
-                }]  subscribeNext:^(id x) {
-                    
-                    self.favorite = YES;
-                    [collectBtn setImage:[UIImage imageNamed:@"collected"] forState:UIControlStateNormal];
-                    NSArray * array = self.navigationController.viewControllers;
-                    UIViewController * vc = [array safetyObjectAtIndex:array.count - 2];
-                    if (vc && [vc isKindOfClass:[NearbyShopsViewController class]])
-                    {
-                        NearbyShopsViewController * nearbyVC = (NearbyShopsViewController *)vc;
-                        [nearbyVC reloadBottomView];
-                    }
-                } error:^(NSError *error) {
-                    
-                    if (error.code == 7002)
-                    {
-                        self.favorite = YES;
-                        [collectBtn setImage:[UIImage imageNamed:@"collected"] forState:UIControlStateNormal];
-                    }
-                    else
-                    {
-                        [gToast showError:error.domain];
-                    }
-                }];
-            }
+    return  self.titleShow ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    self.titleView.alpha = MAX(0, (scrollView.contentOffset.y - 80)) * 0.02;
+    self.titleLabel.alpha = MAX(0, (scrollView.contentOffset.y - 80)) * 0.02;
+    self.greenBackBtn.alpha = MAX(0, (scrollView.contentOffset.y - 80)) * 0.02;
+    self.greenStarBtn.alpha = MAX(0, (scrollView.contentOffset.y - 80)) * 0.02;
+    if (scrollView.contentOffset.y > 80) {
+        self.titleShow = YES;
+        if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+            [self setNeedsStatusBarAppearanceUpdate];
         }
-    }];
-    UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithCustomView:collectBtn];
-    self.navigationItem.rightBarButtonItem = item;
+    }
+    else {
+        self.titleShow = NO;
+        if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+            [self setNeedsStatusBarAppearanceUpdate];
+        }
+    }
 }
 
 - (void)setupMyCarList
@@ -148,6 +143,74 @@
 }
 
 #pragma mark - Action
+- (IBAction)collectionAction:(id)sender {
+    [MobClick event:@"rp105-1"];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self])
+    {
+        if (self.favorite)
+        {
+            @weakify(self);
+            [[[gAppMgr.myUser.favorites rac_removeFavorite:@[self.shop.shopID]] initially:^{
+
+                [gToast showingWithText:@"移除中…"];
+            }] subscribeNext:^(id x) {
+
+                @strongify(self);
+                [gToast dismiss];
+                self.favorite = NO;
+                [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star"] forState:UIControlStateNormal];
+                [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star"] forState:UIControlStateNormal];
+                
+                NSArray * array = self.navigationController.viewControllers;
+                UIViewController * vc = [array safetyObjectAtIndex:array.count - 2];
+                if (vc && [vc isKindOfClass:[NearbyShopsViewController class]])
+                {
+                    NearbyShopsViewController * nearbyVC = (NearbyShopsViewController *)vc;
+                    [nearbyVC reloadBottomView];
+                }
+            } error:^(NSError *error) {
+
+                [gToast showError:error.domain];
+            }];
+        }
+        else
+        {
+            @weakify(self);
+            [[[gAppMgr.myUser.favorites rac_addFavorite:self.shop] initially:^{
+
+                [gToast showingWithText:@"添加中…"];
+            }] subscribeNext:^(id x) {
+
+                @strongify(self);
+                [gToast dismiss];
+                self.favorite = YES;
+                [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_fillstar"] forState:UIControlStateNormal];
+                [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_fillstar"] forState:UIControlStateNormal];
+                NSArray * array = self.navigationController.viewControllers;
+                UIViewController * vc = [array safetyObjectAtIndex:array.count - 2];
+                if (vc && [vc isKindOfClass:[NearbyShopsViewController class]])
+                {
+                    NearbyShopsViewController * nearbyVC = (NearbyShopsViewController *)vc;
+                    [nearbyVC reloadBottomView];
+                }
+            } error:^(NSError *error) {
+
+                @strongify(self);
+                if (error.code == 7002)
+                {
+                    self.favorite = YES;
+                    [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star"] forState:UIControlStateNormal];
+                    [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star"] forState:UIControlStateNormal];
+                    [gToast dismiss];
+                }
+                else {
+                    [gToast showError:error.domain];
+                }
+            }];
+        }
+    }
+}
+
 - (void)requestShopComments
 {
     GetShopRatesOp * op = [GetShopRatesOp operation];
@@ -188,6 +251,7 @@
 
 - (IBAction)actionMap:(id)sender
 {
+    [MobClick event:@"rp105-4"];
     CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
     vc.shop = self.shop;
     [self.navigationController pushViewController:vc animated:YES];
@@ -195,25 +259,36 @@
 
 - (void)gotoPaymentVCWithService:(JTShopService *)service
 {
-    //首先读取爱车缓存，个人爱车数组不为空或者数量大于0时跳转支付，否则跳转到添加爱车，对应问题7317  LYW
-    [[[gAppMgr.myUser.carModel rac_fetchDataIfNeeded] catch:^RACSignal *(NSError *error) {
+    [[[gAppMgr.myUser.carModel rac_getDefaultCar] catch:^RACSignal *(NSError *error) {
         
         return [RACSignal return:nil];
-    }] subscribeNext:^(NSArray *carList) {
-        
-        if (carList.count > 0)
+    }] subscribeNext:^(HKMyCar *car) {
+
+        if (car && [car isCarInfoCompleted])
         {
             PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
             vc.originVC = self;
             vc.shop = self.shop;
             vc.service = service;
+            vc.defaultCar = car;
             [self.navigationController pushViewController:vc animated:YES];
+        }
+        else if (car) {
+            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您的爱车信息不完善，请先完善" delegate:nil
+                                                cancelButtonTitle:@"前往完善" otherButtonTitles: nil];
+            [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
+                [MobClick event:@"rp104-9"];
+                EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
+                vc.originCar = car;
+                [self.navigationController pushViewController:vc animated:YES];
+            }];
+            [av show];
         }
         else
         {
             UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您尚未添加车辆，请添加一辆" delegate:nil cancelButtonTitle:@"前往添加" otherButtonTitles: nil];
             [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
-                
+                [MobClick event:@"rp104-9"];
                 EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
                 [self.navigationController pushViewController:vc animated:YES];
             }];
@@ -234,7 +309,17 @@
             height = 44;
         }
         else if (indexPath.row < 3 + self.shop.shopServiceArray.count) {
-            height = [super tableView:tableView heightForRowAtIndexPath:indexPath];
+            if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+            {
+                return UITableViewAutomaticDimension;
+            }
+            
+            UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+            [cell layoutIfNeeded];
+            [cell setNeedsUpdateConstraints];
+            [cell updateConstraintsIfNeeded];
+            CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+            height = ceil(size.height+1);
         }
         else {
             height = 44;
@@ -247,7 +332,17 @@
         else {
             if (self.shop.shopCommentArray.count)
             {
-                height = [super tableView:tableView heightForRowAtIndexPath:indexPath];
+                if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+                {
+                    return UITableViewAutomaticDimension;
+                }
+                
+                UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+                [cell layoutIfNeeded];
+                [cell setNeedsUpdateConstraints];
+                [cell updateConstraintsIfNeeded];
+                CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+                height = ceil(size.height+1);
             }
             else
             {
@@ -277,12 +372,22 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 9;
+    return section == 0 ? 165 : 9;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 9;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return [self addSectionHeadView];
+    }
+    else {
+        return nil;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -345,9 +450,15 @@
     
     if (indexPath.section == 0)
     {
+        if (indexPath.row == 0)
+        {
+            [MobClick event:@"rp105-9"];
+        }
         if (indexPath.row == 1)
         {
 //            [gPhoneHelper navigationRedirectThirdMap:self.shop andUserLocation:gMapHelper.coordinate andView:self.view];
+            
+            [MobClick event:@"rp105-3"];
             CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
             vc.shop = self.shop;
             vc.favorite = self.favorite;
@@ -355,6 +466,7 @@
         }
         else if (indexPath.row == 2)
         {
+            [MobClick event:@"rp105-5"];
             if (self.shop.shopPhone.length == 0)
             {
                 UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
@@ -370,6 +482,7 @@
     {
         if (self.shop.shopCommentArray.count)
         {
+            [MobClick event:@"rp105-8"];
             CommentListViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"CommentListViewController"];
             vc.shopid = self.shop.shopID;
             vc.commentArray = self.shop.shopCommentArray;
@@ -383,31 +496,14 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ShopTitleCell"];
     JTShop *shop = self.shop;
-    UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
+    
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1003];
     UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *businessHoursLb = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
     UIButton *collectBtn = (UIButton *)[cell.contentView viewWithTag:1007];
-    
-    
-    UITapGestureRecognizer * gesture = logoV.customObject;
-    if (!gesture)
-    {
-        UITapGestureRecognizer *ge = [[UITapGestureRecognizer alloc] init];
-        [logoV addGestureRecognizer:ge];
-        logoV.userInteractionEnabled = YES;
-        logoV.customObject = ge;
-    }
-    gesture = logoV.customObject;
-    [[[gesture rac_gestureSignal] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
-        if (self.shop.picArray.count)
-        {
-            [self showImages:0];
-        }
-    }];
+    UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1008];
     
     @weakify(self)
     [[[collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -416,17 +512,20 @@
         [self requestAddUserFavorite:collectBtn];
     }];
     
-    
-    [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                            withType:ImageURLTypeThumbnail
-                          defaultPic:@"cm_shop" errorPic:@"cm_shop"] subscribeNext:^(UIImage * img) {
-        
-        logoV.image = img;
-    }];
     titleL.text = shop.shopName;
-    ratingV.ratingValue = (NSInteger)shop.shopRate;
+    ratingV.ratingValue = shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%0.1f分", shop.shopRate];
     businessHoursLb.text = [NSString stringWithFormat:@"营业时间：%@ - %@",self.shop.openHour,self.shop.closeHour];
+    
+    [statusL makeCornerRadius:3];
+    if ([self isBetween:shop.openHour and:shop.closeHour]) {
+        statusL.text = @"营业中";
+        statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
+    }
+    else {
+        statusL.text = @"已休息";
+        statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
+    }
     
     double myLat = gMapHelper.coordinate.latitude;
     double myLng = gMapHelper.coordinate.longitude;
@@ -447,6 +546,7 @@
     @weakify(self)
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp105-4"];
         @strongify(self)
 //        [gPhoneHelper navigationRedirectThirdMap:self.shop andUserLocation:gMapHelper.coordinate andView:self.view];
         CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
@@ -500,12 +600,13 @@
     //    [priceL mas_updateConstraints:^(MASConstraintMaker *make) {
     //        make.bottom.equalTo(cc ? iconV : titleL);
     //    }];
+    titleL.text = service.serviceName;
     priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
     introL.text = service.serviceDescription;
     
     @weakify(self);
     [[[payB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
+        [MobClick event:@"rp105-6"];
         @strongify(self);
         if([LoginViewModel loginIfNeededForTargetViewController:self]) {
             [self gotoPaymentVCWithService:service];
@@ -521,7 +622,9 @@
     UIButton *btn = (UIButton *)[cell.contentView viewWithTag:1001];
     @weakify(self);
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        [MobClick event:@"rp105-7"];
         @strongify(self);
+        
         self.serviceExpanded = YES;
         [self.tableView reloadData];
     }];
@@ -568,6 +671,76 @@
 }
 
 #pragma mark - Utility
+-(UIView *) addSectionHeadView
+{
+    UIView * sectionHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 165)];
+    UIImageView * imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 165)];
+    imgView.clipsToBounds = YES;
+    imgView.contentMode = UIViewContentModeScaleAspectFill;
+    
+    JTShop *shop = self.shop;
+    [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
+                            withType:ImageURLTypeDetail
+                          defaultPic:@"cm_shop" errorPic:@"cm_shop"] subscribeNext:^(UIImage * img) {
+        
+        imgView.image = img;
+    }];
+    UITapGestureRecognizer * gesture = imgView.customObject;
+    if (!gesture)
+    {
+        UITapGestureRecognizer *ge = [[UITapGestureRecognizer alloc] init];
+        [imgView addGestureRecognizer:ge];
+        imgView.userInteractionEnabled = YES;
+        imgView.customObject = ge;
+    }
+    gesture = imgView.customObject;
+    
+    @weakify(self)
+    [[gesture rac_gestureSignal] subscribeNext:^(id x) {
+        
+        [MobClick event:@"rp105-2"];
+        @strongify(self)
+        if (self.shop.picArray.count)
+        {
+            [self showImages:0];
+        }
+    }];
+    
+    [sectionHeadView addSubview:imgView];
+    
+    UILabel * countLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 58, 132, 70, 23)];
+    countLabel.text = [NSString stringWithFormat:@"%d张", (int)shop.picArray.count];
+    countLabel.font = [UIFont systemFontOfSize:15];
+    countLabel.textColor = [UIColor colorWithHex:@"#ffffff" alpha:0.7f];
+    countLabel.textAlignment = NSTextAlignmentCenter;
+    countLabel.backgroundColor = [UIColor colorWithHex:@"#000000" alpha:0.5f];
+    [countLabel makeCornerRadius:13];
+    [sectionHeadView addSubview:countLabel];
+    
+    //为避免纯白图片而添加的蒙版(不截获点击图片的手势)
+    UIView * shadowView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 165)];
+    shadowView.backgroundColor = [UIColor colorWithHex:@"#000000" alpha:0.05f];
+    shadowView.userInteractionEnabled = NO;
+    [sectionHeadView addSubview:shadowView];
+    
+    return sectionHeadView;
+}
+
+-(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    
+    NSDate * nowDate = [NSDate date];
+    NSString * transStr = [formatter stringFromDate:nowDate];
+    NSDate * transDate = [formatter dateFromString:transStr];
+    
+    NSDate * beginDate = [formatter dateFromString:openHourStr];
+    NSDate * endDate = [formatter dateFromString:closeHourStr];
+    
+    return (transDate == [transDate earlierDate:beginDate]) || (transDate == [transDate laterDate:endDate]) ? NO : YES;
+}
+
 - (NSAttributedString *)priceStringWithOldPrice:(NSNumber *)price1 curPrice:(NSNumber *)price2
 {
     NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
@@ -609,28 +782,42 @@
     for (NSInteger i = 0;i < self.shop.picArray.count;i++)
     {
         UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectZero];
+        UIActivityIndicatorView * indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         NSString * imageUrl = [self.shop.picArray safetyObjectAtIndex:i];
-        [[gMediaMgr rac_getPictureForUrl:imageUrl withType:ImageURLTypeMedium defaultPic:@"cm_shop" errorPic:@"cm_shop"]
-         subscribeNext:^(UIImage * image) {
+        [[gMediaMgr rac_getPictureForSpecialFirstTime:imageUrl withType:ImageURLTypeMedium defaultPic:@"cm_shop" errorPic:@"cm_shop"]
+         subscribeNext:^(NSObject * obj) {
             
-            CGRect frame = CGRectMake(i*[UIScreen mainScreen].bounds.size.width,
-                                      ([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2,
-                                      [UIScreen mainScreen].bounds.size.width,
-                                      image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width);
-            imageView.frame = frame;
-            [imageView setImage:image];
+             if ([obj isKindOfClass:[UIImage class]])
+             {
+                 UIImage * image = (UIImage *)obj;
+                 CGRect frame = CGRectMake(i*[UIScreen mainScreen].bounds.size.width,
+                                           ([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2,
+                                           [UIScreen mainScreen].bounds.size.width,
+                                           image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width);
+                 imageView.frame = frame;
+                 [imageView setImage:image];
+                 indicator.animating = NO;
+                 indicator.hidden = YES;
+             }
+             else if ([obj isKindOfClass:[NSString class]])
+             {
+                 indicator.animating = YES;
+             }
         } error:^(NSError *error) {
             
             [imageView setImage:[UIImage imageNamed:@"cm_shop"]];
         }];
         
         imageView.tag = i;
+        [backgroundView addSubview:indicator];
         [backgroundView addSubview:imageView];
+        indicator.animating = YES;
+        indicator.center = backgroundView.center;
     }
     
     [window addSubview:backgroundView];
     
-    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImage:)];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImage:)];
     [backgroundView addGestureRecognizer: tap];
     
     [UIView animateWithDuration:0.3 animations:^{

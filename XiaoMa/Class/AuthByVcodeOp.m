@@ -24,6 +24,7 @@
     self.req_method = @"/auth/by-vcode";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params safetySetObject:self.req_deviceID forKey:@"deviceid"];
+    [params safetySetObject:self.req_deviceModel forKey:@"devicemodel"];
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 

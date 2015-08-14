@@ -8,54 +8,35 @@
 
 #import "CommissionViewController.h"
 #import "CommissionCouponViewController.h"
-#import "NJKWebViewProgress.h"
-#import "NJKWebViewProgressView.h"
 
-@interface CommissionViewController ()<NJKWebViewProgressDelegate,UIWebViewDelegate>
-@property (strong, nonatomic) IBOutlet UIWebView *webView;
+@interface CommissionViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *actionBtn;
-@property (nonatomic, strong) NSURLRequest *request;
-
-@property (nonatomic,strong)NJKWebViewProgress * progressProxy;
-@property (nonatomic,strong)NJKWebViewProgressView *progressView;
 
 @end
 
 @implementation CommissionViewController
 
-- (void)dealloc
-{
-    [[NSURLCache sharedURLCache] removeCachedResponseForRequest:self.request];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigationBar];
-    [self setupProcessView];
-    
-    self.request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.urlStr]];
-    [self.webView loadRequest:self.request];
-    
     [[self.actionBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        [MobClick event:@"rp128-2"];
         
-        [gPhoneHelper makePhone:@"4007111111" andInfo:@"代办电话：400-711-1111"];
+        [gPhoneHelper makePhone:@"4007111111" andInfo:@"代办电话：4007-111-111"];
     }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self.navigationController.navigationBar addSubview:_progressView];
+    [MobClick beginLogPageView:@"rp128"];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
-    [_progressView removeFromSuperview];
+    [MobClick endLogPageView:@"rp128"];
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -73,34 +54,15 @@
     
 }
 
-- (void)setupProcessView
-{
-    _progressProxy = [[NJKWebViewProgress alloc] init];
-    _webView.delegate = _progressProxy;
-    _progressProxy.webViewProxyDelegate = self;
-    _progressProxy.progressDelegate = self;
-    
-    CGFloat progressBarHeight = 2.f;
-    CGRect navigaitonBarBounds = self.navigationController.navigationBar.bounds;
-    CGRect barFrame = CGRectMake(0, navigaitonBarBounds.size.height - progressBarHeight, navigaitonBarBounds.size.width, progressBarHeight);
-    _progressView = [[NJKWebViewProgressView alloc] initWithFrame:barFrame];
-    _progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-}
-
 - (void)actionNavigationToCoupon
 {
+    
+    [MobClick event:@"rp128-1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self])
     {
-    CommissionCouponViewController * vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionCouponViewController"];
-    [self.navigationController pushViewController:vc animated:YES];
+        CommissionCouponViewController * vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionCouponViewController"];
+        [self.navigationController pushViewController:vc animated:YES];
     }
-}
-
-#pragma mark - NJKWebViewProgressDelegate
--(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
-{
-    [_progressView setProgress:progress animated:YES];
-    self.title = [_webView stringByEvaluatingJavaScriptFromString:@"document.title"];
 }
 
 @end

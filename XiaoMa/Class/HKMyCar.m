@@ -67,4 +67,24 @@
     return car;
 }
 
+- (BOOL)isCarInfoCompleted
+{
+    if (self.carId && self.licencenumber.length > 0 && self.purchasedate && self.brand.length > 0 && self.model.length > 0) {
+        return YES;
+    }
+    return NO;
+}
+
+- (NSString *)carSeriesDesc
+{
+    NSString *desc = self.brand;
+    if (desc) {
+        desc = [self.model hasPrefix:desc] ? self.model : [desc append:self.model];
+    }
+    else {
+        desc = self.model;
+    }
+    return desc;
+}
+
 @end

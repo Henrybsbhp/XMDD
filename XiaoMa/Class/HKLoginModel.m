@@ -10,11 +10,16 @@
 #import "AuthByPwdOp.h"
 #import "AuthByVcodeOp.h"
 #import "GetTokenOp.h"
+#import "LogoutOp.h"
 #import <SFHFKeychainUtils.h>
 #import "NSString+MD5.h"
 
 #define kNealyLoginInfoKey @"loginModel.nearlyLoginInfo"
+#if XMDDENT
+#define kKeychainServiceName    @"com.huika.xmdd.ent.skey"
+#else
 #define kKeychainServiceName    @"com.huika.xmdd.skey"
+#endif
 typedef enum : NSInteger {
     LoginTypePassowrd = 0,
     LoginTypeVCode
@@ -27,7 +32,7 @@ typedef enum : NSInteger {
     AuthByPwdOp *op = [AuthByPwdOp new];
     op.skey = [self skeyFromPassword:password];
     op.req_deviceID = gAppMgr.deviceInfo.deviceID;
-    return [[self rac_commonValidateTokenOp:op account:account refreshToken:YES] doNext:^(id x) {
+    return [[self rac_commonValidateTokenOp:op account:account token:nil] doNext:^(id x) {
         [gAppMgr resetWithAccount:account];
     }];
 }
@@ -37,7 +42,8 @@ typedef enum : NSInteger {
     AuthByVcodeOp *op = [AuthByVcodeOp new];
     op.skey = [self skeyFromPassword:vCode];
     op.req_deviceID = gAppMgr.deviceInfo.deviceID;
-    return [[self rac_commonValidateTokenOp:op account:account refreshToken:NO] doNext:^(id x) {
+    NSString *token = [gAppMgr.tokenPool tokenForAccount:account];
+    return [[self rac_commonValidateTokenOp:op account:account token:token] doNext:^(id x) {
         [gAppMgr resetWithAccount:account];
     }];
 }
@@ -162,7 +168,7 @@ typedef enum : NSInteger {
         }
         BaseOp *op = (BaseOp *)(type == LoginTypePassowrd ? [AuthByPwdOp new] : [AuthByVcodeOp new]);
         op.skey = skey;
-        return [self rac_commonValidateTokenOp:op account:ad refreshToken:YES];
+        return [self rac_commonValidateTokenOp:op account:ad token:nil];
     }] replay];
     [[HKLoginModel globalRetrySignal] sendNext:sig];
     return sig;
@@ -225,23 +231,25 @@ typedef enum : NSInteger {
 {
     GetTokenOp *op = [GetTokenOp new];
     op.req_phone = account;
-    return [op rac_postRequest];
+//    @weakify(self);
+    return [[op rac_postRequest] map:^(GetTokenOp *rspOp) {
+//        @strongify(self);
+//        [self.tokenPool safetySetObject:rspOp.rsp_token forKey:account];
+        return rspOp.rsp_token;
+    }];
 }
 
-- (RACSignal *)rac_commonValidateTokenOp:(BaseOp *)validOp account:(NSString *)account refreshToken:(BOOL)refetch
+- (RACSignal *)rac_commonValidateTokenOp:(BaseOp *)validOp account:(NSString *)account token:(NSString *)token
 {
     //获取token
     RACSignal *signal;
-    if (gNetworkMgr.token && !refetch)
+    if (token.length > 0)
     {
-        signal = [RACSignal return:gNetworkMgr.token];
+        signal = [RACSignal return:token];
     }
     else
     {
-        signal = [[self rac_getTokenWithAccount:account] map:^id(GetTokenOp *rstOp) {
-            
-            return rstOp.rsp_token;
-        }];
+        signal = [self rac_getTokenWithAccount:account];
     }
     
     //验证token
@@ -253,10 +261,19 @@ typedef enum : NSInteger {
         
         gNetworkMgr.token = rstOp.token;
         gNetworkMgr.skey = rstOp.skey;
+        gNetworkMgr.bindingMobile = account;
         LoginType type = [rstOp isKindOfClass:[AuthByPwdOp class]] ? LoginTypePassowrd : LoginTypeVCode;
         [HKLoginModel saveSkey:rstOp.skey forAccount:account loginType:type];
         return rstOp;
      }];
+    
+//    @weakify(self);
+//    signal = [signal doError:^(NSError *error) {
+//        
+//        @strongify(self);
+//        //验证失败的时候需要从token池中移除掉当前token
+//        [self.tokenPool removeObjectForKey:account];
+//    }];
     
     return [signal deliverOn:[RACScheduler mainThreadScheduler]];
 
@@ -265,14 +282,17 @@ typedef enum : NSInteger {
 
 + (void)logout
 {
+    LogoutOp *op = [LogoutOp operation];
+    [[op rac_postRequest] subscribeNext:^(id x) {
+        DebugLog(@"Logout success!");
+    }];
     gNetworkMgr.token = nil;
     gNetworkMgr.skey = nil;
     [gAppMgr resetWithAccount:nil];
-//    gApplicationInfo.loginFlag = LoginStatusNone;
     [HKLoginModel cleanPwdForAccount:gNetworkMgr.bindingMobile];
 }
 
-+ (void)cleanPwdForAccount:(NSString *)accoun
++ (void)cleanPwdForAccount:(NSString *)ad
 {
     NSDictionary *loginInfo = [HKLoginModel nearlyLoginInfo];
     NSString *account = loginInfo[@"account"];

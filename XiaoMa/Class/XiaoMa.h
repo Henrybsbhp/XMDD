@@ -19,6 +19,11 @@
 #import "DebugFormat.h"
 #import "SVProgressHUD.h"
 #import <Masonry.h>
+#import "CKNavigationController.h"
+#import "CKNavigationController+Expansion.h"
+
+//友盟
+#import <UMengAnalytics/MobClick.h>
 
 //单例
 #import "HKToast.h"
@@ -48,5 +53,6 @@
 #import "UIView+Base.h"
 #import "UIView+DefaultEmptyView.h"
 #import "NSDate+DateForText.h"
+
 
 #endif

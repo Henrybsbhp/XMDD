@@ -10,7 +10,7 @@
 #import "JTRatingView.h"
 #import "SubmitCommentOp.h"
 
-@interface CarwashOrderCommentVC ()<UITableViewDelegate, UITableViewDataSource>
+@interface CarwashOrderCommentVC ()<UITextViewDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) SubmitCommentOp *commentOp;
 @end
@@ -31,26 +31,47 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp321"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp321"];
+}
+
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
+}
 
 #pragma mark - Action
 - (IBAction)actionComment:(id)sender
 {
+    [MobClick event:@"rp321-3"];
     @weakify(self);
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     if (cell) {
         JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:2001];
         UIAPlaceholderTextView *textV = (UIAPlaceholderTextView *)[cell.contentView viewWithTag:3001];
+        textV.delegate=self;
+        [textV resignFirstResponder];
+//        self.commentOp.req_comment = textV.text;
         self.commentOp.req_comment = [textV.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         self.commentOp.req_rating = round(ratingV.ratingValue);
     }
     [[[self.commentOp rac_postRequest] initially:^{
         
         [gToast showingWithText:@"Loading..."];
-    }] subscribeNext:^(id x) {
+    }] subscribeNext:^(SubmitCommentOp *rspOp) {
         
         @strongify(self);
         [gToast showSuccess:@"评价成功!"];
         self.order.ratetime = [NSDate date];
+        self.order.comment = rspOp.req_comment;
+        self.order.rating = rspOp.req_rating;
         if (self.originVC) {
             [self.navigationController popToViewController:self.originVC animated:YES];
         }
@@ -63,6 +84,12 @@
     } error:^(NSError *error) {
         [gToast showError:error.domain];
     }];
+}
+
+#pragma mark - UITextView
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    [MobClick event:@"rp321-2"];
 }
 
 #pragma mark - UITableViewDelegate and datasource

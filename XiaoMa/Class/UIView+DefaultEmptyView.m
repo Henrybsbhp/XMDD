@@ -12,26 +12,33 @@
 #define kEmptyView  @"$DefaultEmptyView"
 #define kImgView    @"$DefaultEmptyView_ImgView"
 #define kLabelView  @"$DefaultEmptyView_LabelView"
+#define kTapGesture @"$DefaultEmptyView_TapGesture"
 
 @implementation UIView (DefaultEmptyView)
 
 - (void)showDefaultEmptyViewWithText:(NSString *)text
 {
-    [self showDefaultEmptyViewWithImageName:@"cm_blank" text:text centerOffset:-20];
+    [self showDefaultEmptyViewWithText:text tapBlock:nil];
 }
 
-- (void)showDefaultEmptyViewWithText:(NSString *)text centerOffset:(CGFloat)offset
+- (void)showDefaultEmptyViewWithText:(NSString *)text tapBlock:(void(^)(void))tapBlock
 {
-    [self showDefaultEmptyViewWithImageName:@"cm_blank" text:text centerOffset:offset];
+    [self showDefaultEmptyViewWithText:text centerOffset:-20 tapBlock:tapBlock];
 }
 
-- (void)showDefaultEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text centerOffset:(CGFloat)offset
+- (void)showDefaultEmptyViewWithText:(NSString *)text centerOffset:(CGFloat)offset tapBlock:(void(^)(void))tapBlock
+{
+    [self showDefaultEmptyViewWithImageName:@"cm_blank" text:text centerOffset:offset tapBlock:tapBlock];
+}
+
+- (void)showDefaultEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text
+                             centerOffset:(CGFloat)offset tapBlock:(void(^)(void))tapBlock
 {
     UIView *view = self.customInfo[kEmptyView];
     if (!view) {
         view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
         view.backgroundColor = [UIColor clearColor];
-        view.userInteractionEnabled = NO;
+//        view.userInteractionEnabled = NO;
         UIImageView *imgView =  [[UIImageView alloc] initWithFrame:CGRectZero];
         [view addSubview:imgView];
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -42,9 +49,15 @@
         label.numberOfLines = 0;
         [view addSubview:label];
         [self addSubview:view];
+        
+        //添加点击事件
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionDefaultEmptyViewTaped:)];
+        [view addGestureRecognizer:tap];
+        
         self.customInfo[kEmptyView] = view;
         self.customInfo[kImgView] = imgView;;
         self.customInfo[kLabelView] = label;
+        self.customInfo[kTapGesture] = tap;
     }
     
     CKAsyncMainQueue(^{
@@ -53,6 +66,9 @@
 
     UIImageView *imgView = self.customInfo[kImgView];
     UILabel *label = self.customInfo[kLabelView];
+    UITapGestureRecognizer *tap = self.customInfo[kTapGesture];
+
+    [tap setAssociatedObject:tapBlock forKey:kTapGesture policy:OBJC_ASSOCIATION_COPY_NONATOMIC];
     
     imgView.image = [UIImage imageNamed:imgName];
     label.text = text;
@@ -70,12 +86,6 @@
         make.top.equalTo(imgView.mas_bottom).offset(17);
     }];
     
-//    [view mas_updateConstraints:^(MASConstraintMaker *make) {
-//        
-//        make.centerX.equalTo(boundsView.mas_centerX);
-//        make.centerY.equalTo(self.mas_centerY).offset(offset);
-//    }];
-    
     view.hidden = NO;
     [self bringSubviewToFront:view];
 }
@@ -86,4 +96,11 @@
     view.hidden = YES;
 }
 
+- (void)actionDefaultEmptyViewTaped:(UITapGestureRecognizer *)tap
+{
+    void (^block)(void) = [tap associatedObjectForKey:kTapGesture];
+    if (block) {
+        block();
+    }
+}
 @end

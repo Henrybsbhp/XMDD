@@ -13,7 +13,7 @@
 #import "UploadFileOp.h"
 #import "UpdateInsuranceCalculateOp.h"
 
-@interface SubmitInsuranceInfoVC ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, PECropViewControllerDelegate>
+@interface SubmitInsuranceInfoVC ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, PECropViewControllerDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIView *idCardContainerView;
 @property (weak, nonatomic) IBOutlet UITextField *idCardField;
 @property (weak, nonatomic) IBOutlet UIView *defaultPhotoView;
@@ -29,42 +29,80 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.idCardField.delegate = self;
     [self reloadDrivingCard];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp124"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp124"];
+}
+
+- (void)dealloc
+{
+    DebugLog(@"SubmitInsuranceInfoVC dealloc");
 }
 
 - (void)reloadDrivingCard
 {
-    RACSignal *signal;
-    if (self.car.licenceurl > 0) {
-        signal = [RACSignal return:self.car.licenceurl];
-    }
-    else {
-        [[gAppMgr.myUser.carModel rac_getDefaultCar] map:^id(HKMyCar *car) {
-            return car.licenceurl;
+    self.pickedPhotoUrl = self.car.licenceurl;
+    if (self.pickedPhotoUrl.length > 0) {
+//        [[gAppMgr.mediaMgr rac_getPictureForUrl:self.pickedPhotoUrl withType:ImageURLTypeOrigin defaultPic:@"cm_defpic" errorPic:@"cm_defpic_fail"] subscribeNext:^(UIImage *x) {
+//            
+//            self.pickedPhoto = x;
+//            self.pickedPhotoView.image = x;
+//            self.defaultPhotoView.hidden = YES;
+//        }];
+        
+        self.pickedPhotoView.image = [UIImage imageNamed:@"cm_defpic"];
+        self.defaultPhotoView.hidden = YES;
+        [[gAppMgr.mediaMgr rac_getPictureForUrl:self.pickedPhotoUrl defaultPic:nil] subscribeNext:^(UIImage *orgImg) {
+            if (!orgImg) {
+                self.pickedPhotoView.image = [UIImage imageNamed:@"cm_defpic"];
+                return ;
+            }
+            self.pickedPhoto = orgImg;
+            NSString *markedUrl = [self.pickedPhotoUrl append:@"_marked"];
+            [[[gAppMgr.mediaMgr rac_getImageFromCacheWithUrl:markedUrl] deliverOn:[RACScheduler mainThreadScheduler]]
+             subscribeNext:^(UIImage *markedImg) {
+                if (!markedImg) {
+                    markedImg = [EditPictureViewController generateImageByAddingWatermarkWith:orgImg];
+                    [gAppMgr.mediaMgr.picCache setImage:markedImg forKey:markedUrl];
+                }
+                self.pickedPhotoView.image = markedImg;
+            }];
+        } error:^(NSError *error) {
+            self.pickedPhotoView.image = [UIImage imageNamed:@"cm_defpic_fail"];
         }];
     }
-
-    [signal subscribeNext:^(NSString *url) {
-
-        if (url.length == 0) {
-            return ;
-        }
-        self.pickedPhotoUrl = url;
-        [[gAppMgr.mediaMgr rac_getPictureForUrl:url withType:ImageURLTypeMedium defaultPic:@"cm_defpic" errorPic:@"cm_defpic_fail"] subscribeNext:^(UIImage *x) {
-            
-            self.pickedPhoto = x;
-            self.pickedPhotoView.image = x;
-            self.defaultPhotoView.hidden = YES;
-        }];
-    }];
 }
+
+#pragma mark - Textfield
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [MobClick event:@"rp124-1"];
+}
+
 #pragma mark - Action
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 - (IBAction)actionTakePhoto:(id)sender {
     
+    [MobClick event:@"rp124-2"];
+    if (self.pickedPhotoUrl.length > 0) {
+        return;
+    }
+
     JGActionSheetSection *section1 = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"拍照",@"从相册选择"]
                                                                 buttonStyle:JGActionSheetButtonStyleDefault];
     JGActionSheetSection *section2 = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"取消"]
@@ -97,7 +135,7 @@
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:14];
     label.textColor = [UIColor whiteColor];
-    label.text = @"所有上传资料均会加水印，小马达达保障您的安全！";
+    label.text = @"所有上传资料均会加水印，小马达达保障您的隐私安全！";
     
     [exampleView addSubview:imgV];
     [exampleView addSubview:label];
@@ -110,12 +148,14 @@
         [exampleView setHidden:YES animated:YES];
         [sheet dismissAnimated:YES];
         if (sheetIndexPath.section != 0) {
+            [MobClick event:@"rp124-6"];
             return ;
         }
         
         //拍照
         if (sheetIndexPath.section == 0 && sheetIndexPath.row == 0)
         {
+            [MobClick event:@"rp124-4"];
             if ([UIImagePickerController isCameraAvailable])
             {
                 UIImagePickerController *controller = [[UIImagePickerController alloc] init];
@@ -138,6 +178,7 @@
         // 从相册中选取
         else if (sheetIndexPath.section == 0 && sheetIndexPath.row == 1)
         {
+            [MobClick event:@"rp124-5"];
             if ([UIImagePickerController isPhotoLibraryAvailable])
             {
                 UIImagePickerController *controller = [[UIImagePickerController alloc] init];
@@ -156,6 +197,7 @@
 
 - (IBAction)actionSubmit:(id)sender {
     
+    [MobClick event:@"rp124-3"];
     if (self.idCardField.text.length != 18) {
         [gToast showText:@"请填写正确的身份证号码"];
         [self.idCardContainerView shake];
@@ -209,7 +251,7 @@
                 return @1;
             }];
         }
-        //如果行驶证不一样切未审核，则更新车辆
+        //如果行驶证不一样且未审核，则更新车辆
         else if (![op.req_driverpic equalByCaseInsensitive:self.car.licenceurl] &&
                  self.car.status != 1 &&
                  self.car.status != 2) {
@@ -295,8 +337,9 @@
 - (void)cropViewController:(PECropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage
 {
     [controller dismissViewControllerAnimated:YES completion:nil];
+    croppedImage = [croppedImage compressImageWithPixelSize:CGSizeMake(2048, 2048)];
     UIImage *image = [EditPictureViewController generateImageByAddingWatermarkWith:croppedImage];
-    self.pickedPhoto = image;
+    self.pickedPhoto = croppedImage;
     self.pickedPhotoUrl = nil;
     self.pickedPhotoView.image = image;
     self.defaultPhotoView.hidden = YES;

@@ -13,17 +13,11 @@
 
 #define kInsuranceOlineUrl  @"http://www.xiaomadada.com/apphtml/aichebao.html"
 
-@interface BuyInsuranceOnlineVC ()
-@property (weak, nonatomic) IBOutlet UIWebView *webView;
-
-@end
-
 @implementation BuyInsuranceOnlineVC
 
 - (void)viewDidLoad {
+    self.url = kInsuranceOlineUrl;
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    [self reloadWebView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -31,42 +25,68 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)reloadWebView
+- (void)viewWillAppear:(BOOL)animated
 {
-    NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:kInsuranceOlineUrl]];
-    [self.webView loadRequest:req];
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp123"];
 }
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp123"];
+
+}
+
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
+}
+
 #pragma mark - Action
 ///我感兴趣
 - (IBAction)actionInterested:(id)sender {
-    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        BeInterestedInInsuranceOp *op = [BeInterestedInInsuranceOp new];
-        [[[op rac_postRequest] initially:^{
-          
-            [gToast showingWithText:@"正在提交..."];
-        }] subscribeNext:^(id x) {
-
-            [gToast dismiss];
-            UIAlertView *alert = [[UIAlertView alloc] initNoticeWithTitle:@"收到啦～工作人员将于1个工作日内电话联系您，为您更详细的介绍爱车宝！" message:nil cancelButtonTitle:@"确定"];
-            [alert show];
-            [gToast showSuccess:@"提交成功!"];
-        } error:^(NSError *error) {
-
-            if (error.code == 6001) {
-                [gToast dismiss];
-                UIAlertView *alert = [[UIAlertView alloc] initNoticeWithTitle:@"收到啦～工作人员将于1个工作日内电话联系您，为您更详细的介绍爱车宝！" message:nil cancelButtonTitle:@"确定"];
-                [alert show];
-            }
-            else {
-                [gToast showError:error.domain];
-            }
-        }];
+    [MobClick event:@"rp123-2"];
+    if (![LoginViewModel loginIfNeededForTargetViewController:self]) {
+        return;
     }
+    NSString *msg = @"感谢您对爱车宝感兴趣，是否需要工作人员在1个工作日内电话联系您，为您更详细地介绍爱车宝？";
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:msg delegate:nil
+                                          cancelButtonTitle:@"算了吧" otherButtonTitles:@"必须的", nil];
+    [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
+        //我感兴趣
+        if ([number integerValue] == 1) {
+            [MobClick event:@"rp123-4"];
+            BeInterestedInInsuranceOp *op = [BeInterestedInInsuranceOp new];
+            [[[op rac_postRequest] initially:^{
+                
+                [gToast showingWithText:@"正在提交..."];
+            }] subscribeNext:^(id x) {
+                
+                [gToast showText:@"收到啦～工作人员将于1个工作日内电话联系您，为您更详细的介绍爱车宝！"];
+            } error:^(NSError *error) {
+                
+                if (error.code == 6001) {
+                    [gToast showText:@"收到啦～工作人员将于1个工作日内电话联系您，为您更详细的介绍爱车宝！"];
+                }
+                else {
+                    [gToast showError:error.domain];
+                }
+            }];
+        }
+        //算了
+        else {
+            [MobClick event:@"rp123-3"];
+        }
+    }];
+    [alert show];
 }
 
 ///电话咨询
 - (IBAction)actionMakeCall:(id)sender {
-    [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：400-711-1111"];
+    [MobClick event:@"rp123-1"];
+    [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
 }
 
 - (IBAction)actionHelp:(id)sender
@@ -82,4 +102,5 @@
     vc.originVC = self.originVC;
     [self.navigationController pushViewController:vc animated:YES];
 }
+
 @end

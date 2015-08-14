@@ -10,9 +10,10 @@
 #import "XiaoMa.h"
 #import "HKLoginModel.h"
 #import "CXAlertView.h"
+#import "LoginVC.h"
 
 @interface HKCatchErrorModel ()
-@property (nonatomic, strong) CXAlertView *alertView;
+@property (nonatomic, weak) UIAlertView *alertView;
 @end
 @implementation HKCatchErrorModel
 
@@ -21,14 +22,21 @@
     [gNetworkMgr setCatchErrorHandler:^RACSignal *(BaseOp *op, NSError *error) {
         
         NSInteger code = error.code;
-        //token失效或非法
-        if (code == -2001 || code == -2002) {
+        //token失效
+        if (code == -2001) {
             return [self retryWithOp:op withError:error];
+        }
+        //token非法
+        else if (code == -2002) {
+            [HKLoginModel logout];
+            [self gotoRootViewWithAlertTitle:@"登出通知" msg:@"您的本次登录已经失效了,请重新登录。"];
+            error = [NSError errorWithDomain:@"" code:error.code userInfo:nil];
         }
         //被抢登
         else if (code == -2003 && !self.alertView) {
             [HKLoginModel logout];
-            [self gotoRootViewWithAlertTitle:@"登出通知" msg:@"您的账号已经在其他设备登录,请重新登录后修改密码,确保帐号安全。"];
+            [self gotoRootViewWithAlertTitle:@"登出通知" msg:@"您的账号已经在其他设备登录,请重新登录后修改密码,确保账号安全。"];
+            error = [NSError errorWithDomain:@"" code:error.code userInfo:nil];
         }
         return [RACSignal error:error];
     }];
@@ -71,10 +79,20 @@
 - (void)gotoRootViewWithAlertTitle:(NSString *)title msg:(NSString *)msg
 {
     [self clearAllOperations];
-    CXAlertView *alert = [[CXAlertView alloc] initWithTitle:title message:msg cancelButtonTitle:nil];
-    [alert addButtonWithTitle:@"确定" type:0 handler:^(CXAlertView *alertView, CXAlertButtonItem *button) {
-        [alertView dismiss];
-        [gAppDelegate.curNavCtrl popToRootViewControllerAnimated:YES];
+    //已经有个对话框在显示，或者用户已经退出登录，则直接返回
+    if (self.alertView) {
+        return;
+    }
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+    [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *index) {
+        if (index.integerValue == 0) {
+            //已经在登录页面了，则忽略
+            if (gAppDelegate.loginVC) {
+                return ;
+            }
+            UIViewController *orginVC = [gAppMgr.navModel.curNavCtrl.viewControllers safetyObjectAtIndex:0];
+            [LoginViewModel loginIfNeededForTargetViewController:gAppMgr.navModel.curNavCtrl originVC:orginVC];
+        }
     }];
     self.alertView = alert;
     [alert show];

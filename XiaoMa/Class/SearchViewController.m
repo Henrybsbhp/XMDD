@@ -13,6 +13,7 @@
 #import "JTRatingView.h"
 #import "DistanceCalcHelper.h"
 #import "GetShopByNameOp.h"
+#import "UIView+Layer.h"
 
 @interface SearchViewController ()
 
@@ -26,6 +27,7 @@
 @property (nonatomic,strong)NSArray * resultArray;
 
 @property (nonatomic)BOOL isSearching;
+@property (nonatomic)BOOL isLoading;
 
 /// 每页数量
 @property (nonatomic, assign) NSUInteger pageAmount;
@@ -50,7 +52,7 @@
     self.isRemain = YES;
     self.pageAmount = PageAmount;
     self.currentPageIndex = 1;
-    
+//
     [self getSearchHistory];
     [self getUserLocation];
 }
@@ -58,6 +60,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp103"];
     
     UIView * view = self.navigationController.navigationBar;
     [view addSubview:self.searchBarBackgroundView];
@@ -65,10 +68,10 @@
     [self.searchBar becomeFirstResponder];
 }
 
-
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp103"];
     
     [self.searchBarBackgroundView removeFromSuperview];
 }
@@ -94,8 +97,11 @@
     [searchBtn setTitle:@"搜索" forState:UIControlStateNormal];
     [searchBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     searchBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+    @weakify(self)
     [[searchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp103-1"];
+        @strongify(self)
         [self search];
     }];
     UIBarButtonItem *searchBtnItem = [[UIBarButtonItem alloc] initWithCustomView:searchBtn];
@@ -182,20 +188,25 @@
 
 - (void)search
 {
-    if (self.searchBar.text.length)
+    NSString * searchInfo = self.searchBar.text;
+    searchInfo = [self.searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if (searchInfo.length)
     {
         self.isSearching = YES;
         
-        [self searchShops];
+        if (!self.isLoading)
+        {
+            [self searchShops];
+        }
         
         for (NSString * keyword in self.historyArray)
         {
-            if ([keyword isEqualToString:self.searchBar.text])
+            if ([keyword isEqualToString:searchInfo])
             {
                 return;
             }
         }
-        [self.historyArray insertObject:self.searchBar.text atIndex:0];
+        [self.historyArray insertObject:searchInfo atIndex:0];
         if(self.historyArray.count > 15)
         {
             [self.historyArray removeLastObject];
@@ -230,34 +241,44 @@
 #pragma mark - Utility
 - (void)searchShops
 {
+    self.currentPageIndex = 1;
     NSString * searchInfo = self.searchBar.text;
     searchInfo = [self.searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     GetShopByNameOp * op = [GetShopByNameOp operation];
     op.shopName = searchInfo;
     op.longitude = self.coordinate.longitude;
     op.latitude = self.coordinate.latitude;
-    op.pageno = 1;
+    op.pageno = self.currentPageIndex;
     op.orderby = 1;
+    
+    [self.tableView hideDefaultEmptyView];
+    self.isLoading = YES;
+    
     [[[op rac_postRequest] initially:^{
         
     }] subscribeNext:^(GetShopByNameOp * op) {
         
+        self.isLoading = NO;
         [self.searchBar resignFirstResponder];
         if (op.rsp_code == 0)
         {
+            self.isSearching = YES;
             self.currentPageIndex = self.currentPageIndex + 1;
             
             self.resultArray = op.rsp_shopArray;
             if (self.resultArray.count == 0)
             {
                 self.tableView.showBottomLoadingView = YES;
-                [self.tableView.bottomLoadingView showIndicatorTextWith:@"附近没有您要找的商户"];
+                [self.tableView.bottomLoadingView hideIndicatorText];
+                [self.tableView showDefaultEmptyViewWithText:@"附近没有您要找的商户"];
             }
             else
             {
+                [self.tableView hideDefaultEmptyView];
                 if (op.rsp_shopArray.count >= self.pageAmount)
                 {
                     self.isRemain = YES;
+                    [self.tableView.bottomLoadingView hideIndicatorText];
                 }
                 else
                 {
@@ -274,7 +295,15 @@
         }
     } error:^(NSError *error) {
         
-        [self.searchBar becomeFirstResponder];
+        self.isLoading = NO;
+        self.resultArray = nil;
+        @weakify(self);
+        [self.tableView showDefaultEmptyViewWithText:error.domain tapBlock:^{
+            
+            @strongify(self);
+            [self searchShops];
+        }];
+        [self.tableView reloadData];
     }];
 
 }
@@ -299,13 +328,15 @@
         
         [self.tableView.bottomLoadingView hideIndicatorText];
         [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
+        self.isLoading = YES;
     }] subscribeNext:^(GetShopByNameOp * op) {
         
         self.currentPageIndex = self.currentPageIndex + 1;
         [self.tableView.bottomLoadingView stopActivityAnimation];
+        self.isLoading = NO;
         if(op.rsp_code == 0)
         {
-            self.currentPageIndex ++;
+            [self.tableView hideDefaultEmptyView];
             if (op.rsp_shopArray.count >= self.pageAmount)
             {
                 self.isRemain = YES;
@@ -330,6 +361,9 @@
             [self.tableView.bottomLoadingView showIndicatorTextWith:@"获取失败，再拉拉看"];
         }
     } error:^(NSError *error) {
+        self.isLoading = NO;
+        self.tableView.showBottomLoadingView = YES;
+        [self.tableView.bottomLoadingView stopActivityAnimation];
         [self.tableView.bottomLoadingView showIndicatorTextWith:@"获取失败，再拉拉看"];
         
     }];
@@ -343,6 +377,21 @@
         
         self.coordinate = userLocation.location.coordinate;
     }];
+}
+
+-(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    
+    NSDate * nowDate = [NSDate date];
+    NSString * transStr = [formatter stringFromDate:nowDate];
+    NSDate * transDate = [formatter dateFromString:transStr];
+    
+    NSDate * beginDate = [formatter dateFromString:openHourStr];
+    NSDate * endDate = [formatter dateFromString:closeHourStr];
+    
+    return (transDate == [transDate earlierDate:beginDate]) || (transDate == [transDate laterDate:endDate]) ? NO : YES;
 }
 
 - (NSAttributedString *)priceStringWithOldPrice:(NSNumber *)price1 curPrice:(NSNumber *)price2
@@ -372,7 +421,7 @@
 {
     if (self.isSearching)
     {
-        return 185;
+        return 180;
     }
     else
     {
@@ -415,13 +464,26 @@
         UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
         UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
         UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
+        UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
         
-        RAC(logoV, image) = [gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                                                   withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"];
+        [[[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
+                               withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            logoV.image = x;
+        }];
         titleL.text = shop.shopName;
         ratingV.ratingValue = shop.shopRate;
         ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
         addrL.text = shop.shopAddress;
+        
+        [statusL makeCornerRadius:3];
+        if ([self isBetween:shop.openHour and:shop.closeHour]) {
+            statusL.text = @"营业中";
+            statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
+        }
+        else {
+            statusL.text = @"已休息";
+            statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
+        }
         
         double myLat = gMapHelper.coordinate.latitude;
         double myLng = gMapHelper.coordinate.longitude;
@@ -467,12 +529,14 @@
         @weakify(self)
         [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
+            [MobClick event:@"rp201-4"];
             @strongify(self)
             [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:gMapHelper.coordinate andView:self.view];
         }];
         
         [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
+            [MobClick event:@"rp201-5"];
             if (shop.shopPhone.length == 0)
             {
                 UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
@@ -529,6 +593,7 @@
     
     if (self.isSearching)
     {
+        [MobClick event:@"rp201-3"];
         JTShop * shop = [self.resultArray safetyObjectAtIndex:indexPath.row];
         ShopDetailVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ShopDetailVC"];
         vc.shop = shop;
@@ -543,9 +608,11 @@
         }
         if (indexPath.row == self.historyArray.count + 1)
         {
+            [MobClick event:@"rp103-2"];
             [self cleanHistory];
             return;
         }
+        [MobClick event:@"rp103-3"];
         NSString * content = [self.historyArray safetyObjectAtIndex:indexPath.row - 1];
         self.searchBar.text = content;
     }
@@ -567,13 +634,20 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    [MobClick event:@"rp103-4"];
     [self search];
 }
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
     self.tableView.showBottomLoadingView = NO;
-//    [self.tableView reloadData];
+    [self.tableView hideDefaultEmptyView];
+    if (!self.searchBar.text.length)
+    {
+        self.isSearching = NO;
+        [self.tableView reloadData];
+        self.tableView.showBottomLoadingView = NO;
+    }
     
     return YES;
 }
@@ -589,6 +663,7 @@
         {
             self.isSearching = NO;
             [self.tableView reloadData];
+            [self.tableView hideDefaultEmptyView];
             self.tableView.showBottomLoadingView = NO;
         }
     }

@@ -24,7 +24,10 @@
 #import <TencentOpenAPI.framework/Headers/TencentOAuth.h>
 #import "JTLogModel.h"
 #import <UMengAnalytics/MobClick.h>
-
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+#import "WelcomeViewController.h"
+#import "MainTabBarVC.h"
 
 #define RequestWeatherInfoInterval 60 * 10
 //#define RequestWeatherInfoInterval 5
@@ -36,10 +39,10 @@
 /// 日志
 @property (nonatomic,strong)JTLogModel * logModel;
 @property (nonatomic, strong) HKCatchErrorModel *errorModel;
+
 @end
 
 @implementation AppDelegate
-
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -52,8 +55,14 @@
     
     [gMapHelper setupMapApi];
     [gMapHelper setupMAMap];
+    //设置友盟
     [self setupUmeng];
-    
+    //设置崩溃捕捉
+    [self setupCrashlytics];
+    //设置url缓存
+    [self setupURLCache];
+    //设置推送
+    [self setupPushManagerWithOptions:launchOptions];
     //微信授权
     if (![WXApi registerApp:WECHAT_APP_ID])
     {
@@ -72,11 +81,31 @@
     }
     
     [self setupVersionUpdating];
+    [self setupRootView];
     
     return YES;
 }
 
 #pragma mark - Initialize
+- (void)setupRootView
+{
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    UIViewController *vc;
+    if ([gAppMgr.deviceInfo firstAppearAtThisVersionForKey:@"$GuideView"]) {
+        vc = [UIStoryboard vcWithId:@"WelcomeViewController" inStoryboard:@"Main"];
+    }
+    else {
+        vc = [UIStoryboard vcWithId:@"MainTabBarVC" inStoryboard:@"Main"];
+    }
+    [self resetRootViewController:vc];
+}
+
+- (void)resetRootViewController:(UIViewController *)vc
+{
+    self.window.rootViewController = vc;
+    [self.window makeKeyAndVisible];
+}
+
 - (void)setupLogger
 {
     DebugFormat *formatter = [[DebugFormat alloc] init];
@@ -101,6 +130,19 @@
     [self.errorModel catchNetworkingError];
 }
 
+- (void)setupURLCache
+{
+    NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:200*1024*1024 diskCapacity:0 diskPath:nil];
+    [NSURLCache setSharedURLCache:sharedCache];
+}
+
+- (void)setupPushManagerWithOptions:(NSDictionary *)launchOptions
+{
+    self.pushMgr = [[HKPushManager alloc] init];
+    [self.pushMgr setupWithOptions:launchOptions];
+    [self.pushMgr autoBindDeviceTokenInBackground];
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -116,7 +158,7 @@
     CKAsyncDefaultQueue(^{
         NSDate * lastLocationTime = [NSDate dateWithText:[gAppMgr getInfo:LastLocationTime]];
         NSTimeInterval timeInterval = [lastLocationTime timeIntervalSinceNow];
-        if (abs(timeInterval) > RequestWeatherInfoInterval)
+        if (fabs(timeInterval) > RequestWeatherInfoInterval)
         {
             CKAsyncMainQueue(^{
                     [self getLocation];
@@ -143,6 +185,21 @@
     /// 微信回调处理
     [WXApi handleOpenURL:url delegate:self];
     return YES;
+}
+
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
+{
+    [application registerForRemoteNotifications];
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    [self.pushMgr registerDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    [self.pushMgr handleNofitication:userInfo forApplication:application];
 }
 
 #pragma mark - QQ
@@ -241,6 +298,49 @@
     }
 }
 
+#pragma mark - 友盟
+- (void)setupUmeng
+{
+    [MobClick setCrashReportEnabled:NO];
+    [MobClick startWithAppkey:UMeng_API_ID reportPolicy:BATCH   channelId:@"iOS"];
+    [MobClick setCrashReportEnabled:NO];
+#ifdef DEBUG
+    [MobClick setLogEnabled:YES];
+#else
+    [MobClick setLogEnabled:NO];
+#endif
+    
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    [MobClick setAppVersion:version];
+    
+    [MobClick startSession:nil];
+    
+    //[self getDeviceIDForMob];
+}
+
+///友盟实时监测，设备身份申请码获取
+- (NSString *)getDeviceIDForMob
+{
+    Class cls = NSClassFromString(@"UMANUtil");
+    SEL deviceIDSelector = @selector(openUDIDString);
+    NSString *deviceID = nil;
+    if(cls && [cls respondsToSelector:deviceIDSelector]){
+        deviceID = [cls performSelector:deviceIDSelector];
+    }
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:@{@"oid" : deviceID}
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:nil];
+    NSString * deviceIDStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSLog(@"%@", deviceIDStr);
+    return deviceIDStr;
+}
+
+#pragma mark - Crashlytics
+- (void)setupCrashlytics
+{
+    [Fabric with:@[CrashlyticsKit]];
+}
+
 #pragma mark - Utilities
 - (void)requestStaticPromotion
 {}
@@ -249,9 +349,7 @@
 {}
 
 - (void)requestUpdateInfo
-{
-    
-}
+{}
 
 - (void)getLocation
 {
@@ -357,34 +455,29 @@
     [[op rac_postRequest] subscribeNext:^(GetSystemVersionOp * op) {
         
         [gToast dismiss];
-        if (op.rsp_code == 0)
+        if([version compare:op.rsp_version options:NSCaseInsensitiveSearch | NSNumericSearch] == NSOrderedAscending)
         {
-            if (op.rsp_version.length)
+            if (op.rsp_mandatory)
             {
-                if(![op.rsp_version isEqualToString:version])
-                {
-                    if (op.rsp_mandatory)
-                    {
-                        gAppMgr.clientInfo.forceUpdateUrl = op.rsp_link;
-                        gAppMgr.clientInfo.forceUpdateContent = op.rsp_updateinfo;
-                        gAppMgr.clientInfo.forceUpdateVersion = op.rsp_version;
-                        UIAlertView * av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"有新的版本可以更新：%@",op.rsp_version] message:op.rsp_updateinfo delegate:self cancelButtonTitle:@"前去更新" otherButtonTitles:nil];
-                        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNumber) {
-                            [gAppMgr startUpdatingWithURLString:op.rsp_link];
-                        }];
-                        [av show];
+                gAppMgr.clientInfo.forceUpdateUrl = op.rsp_link;
+                gAppMgr.clientInfo.forceUpdateContent = op.rsp_updateinfo;
+                gAppMgr.clientInfo.forceUpdateVersion = op.rsp_version;
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"有新的版本可以更新：%@",op.rsp_version] message:op.rsp_updateinfo delegate:self cancelButtonTitle:@"前去更新" otherButtonTitles:nil];
+                [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNumber) {
+                    [gAppMgr startUpdatingWithURLString:op.rsp_link];
+                }];
+                [av show];
+            }
+            else
+            {
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"有新的版本可以更新：%@",op.rsp_version] message:op.rsp_updateinfo  delegate:self cancelButtonTitle:@"忽略" otherButtonTitles:@"前去更新",nil];
+                [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNumber) {
+                    if ([indexNumber intValue] == 1) {
+                        [gAppMgr startUpdatingWithURLString:op.rsp_link];
                     }
-                    else
-                    {
-                        UIAlertView * av = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"有新的版本可以更新：%@",op.rsp_version] message:op.rsp_updateinfo  delegate:self cancelButtonTitle:@"忽略" otherButtonTitles:@"前去更新",nil];
-                        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNumber) {
-                            if ([indexNumber intValue] == 1) {
-                                [gAppMgr startUpdatingWithURLString:op.rsp_link];
-                            }
-                        }];
-                        [av show];
-                    }
-                }
+                }];
+                [av show];
+                
             }
         }
     }];
@@ -407,22 +500,6 @@
     }
 }
 
-
-#pragma mark - 友盟
-- (void)setupUmeng
-{
-    [MobClick startWithAppkey:UMeng_API_ID reportPolicy:BATCH   channelId:@"iOS"];
-#ifdef DEBUG
-    [MobClick setLogEnabled:YES];
-#else
-    [MobClick setLogEnabled:NO];
-#endif
-    
-    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    [MobClick setAppVersion:version];
-    
-    [MobClick startSession:nil];
-}
 
 #pragma mark - 日志
 #pragma mark - UIResponser

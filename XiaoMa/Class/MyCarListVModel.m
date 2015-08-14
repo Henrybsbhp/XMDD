@@ -42,8 +42,7 @@
     }
     [btn setTitle:title forState:UIControlStateNormal];
     UIImage *bgimg = [[UIImage imageNamed:bgName] resizableImageWithCapInsets:UIEdgeInsetsMake(9, 5, 9, 5)];
-    [btn setBackgroundImage:bgimg
-                   forState:UIControlStateNormal];
+    [btn setBackgroundImage:bgimg forState:UIControlStateNormal];
     label.text = desc;
 }
 
@@ -56,7 +55,7 @@
             }
         });
         UploadFileOp *op = [UploadFileOp new];
-        img = [EditPictureViewController generateImageByAddingWatermarkWith:img];
+//        img = [EditPictureViewController generateImageByAddingWatermarkWith:img];
         NSData *data = UIImageJPEGRepresentation(img, 0.5);
         op.req_fileDataArray = [NSArray arrayWithObject:data];
         op.req_fileType = @"jpg";

@@ -29,20 +29,27 @@
         [self serviceAgreement];
     }},
                         
+                        @{@"title":@"前往评价",@"action":^(void){
+                            [self rateOurApp];
+                        }},
+                        
                         @{@"title":@"意见反馈",@"action":^(void){
                             [self gotoFeedback];
                         }},
                         
-                        @{@"title":@"客服电话4007111111",@"action":^(void){
+                        @{@"title":@"客服电话4007-111-111",@"action":^(void){
         
          [self callCustomerService];
     }}];
     
-#ifdef DEBUG
     NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
-#else
-     NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    
+#ifndef DEBUG
+    #if XMDDENT == 0
+    version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    #endif
 #endif
+    
     self.versionLb.text = version;
     
     
@@ -51,9 +58,22 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [MobClick beginLogPageView:@"rp322"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp322"];
+}
+
+- (void)dealloc
+{
+    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
+    DebugLog(deallocInfo);
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -94,14 +114,13 @@
 #pragma mark - Utilitly
 - (void)rateOurApp
 {
-//    NSString *url = [NSString stringWithFormat:@""];
-//    [[UIApplication sharedApplication] openURL: [NSURL URLWithString:url]];
-//    
-//    DebugLog(@"Opening URL for Remarks: %@", url);
+    NSString *url = [NSString stringWithFormat:@"https://itunes.apple.com/cn/app/xiao-ma-da-da-xi-che-zhi-yao1fen/id991665445&mt=8"];
+    [[UIApplication sharedApplication] openURL: [NSURL URLWithString:url]];
 }
 
 - (void)serviceAgreement
 {
+    [MobClick event:@"rp322-1"];
     WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
     vc.title = @"服务协议";
     vc.url = @"http://www.xiaomadada.com/apphtml/license.html";
@@ -110,11 +129,13 @@
 
 - (void)callCustomerService
 {
+    [MobClick event:@"rp322-3"];
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"呼叫客服"];
 }
 
 - (void)gotoFeedback
 {
+    [MobClick event:@"rp322-2"];
     FeedbackVC *vc = [UIStoryboard vcWithId:@"FeedbackVC" inStoryboard:@"About"];
     [self.navigationController pushViewController:vc animated:YES];
 }

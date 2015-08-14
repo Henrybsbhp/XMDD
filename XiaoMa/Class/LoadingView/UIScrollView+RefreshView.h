@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ODRefreshControl.h"
-//#import "CarbonSwipeRefresh.h"
+#import "HKRefreshControl.h"
 
 @interface UIScrollView (RefreshView)
-@property (nonatomic, strong) ODRefreshControl *refreshView;
+@property (nonatomic, strong) HKRefreshControl *refreshView;
+- (void)restartRefreshViewAnimatingWhenRefreshing;
 @end

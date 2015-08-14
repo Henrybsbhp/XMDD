@@ -20,7 +20,7 @@
 
 @property (nonatomic)NSInteger sex;
 @property (nonatomic,strong)NSDate * birthday;
-@property (nonatomic, strong) UIImage *avatar;
+@property (nonatomic,strong) UIImage *avatar;
 
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
 
@@ -31,17 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if (!gAppMgr.myUser)
-    {
-                [self requestUserInfo];
-    }
-    else
-    {
-        //        [[gUserInfoMgr rac_getUserInfo:YES] subscribeNext:^(UserInfo * userInfo) {
-        //
-        //            [self.table reloadData];
-        //        }];
-    }
+    [self requestUserInfo];
     [self setupSignals];
     [self setupTableView];
 }
@@ -54,6 +44,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp302"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     [self.tableView reloadData];
 }
@@ -61,7 +52,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
+    [MobClick endLogPageView:@"rp302"];
     [SVProgressHUD dismiss];
 }
 
@@ -90,9 +81,13 @@
     UIButton * logoutBtn = (UIButton *)[self.tableView.tableFooterView searchViewWithTag:20801];
     [logoutBtn.layer setMasksToBounds:YES];
     logoutBtn.layer.cornerRadius = 5.0f;
+    
+    @weakify(self)
     [[logoutBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp302-6"];
 #pragma mark- warming
+        @strongify(self)
         [self logoutAction];
     }];
     
@@ -139,7 +134,7 @@
         [self.tableView reloadData];
 
     } error:^(NSError *error) {
-        [gToast showError:@"修改失败，再试一次"];
+        [gToast showError:error.domain];
         [self.tableView reloadData];
     }];
 }
@@ -232,6 +227,7 @@
 {
     if (indexPath.row == 0)
     {
+        [MobClick event:@"rp302-1"];
         @weakify(self);
         [[gAppMgr.mediaMgr rac_pickPhotoInTargetVC:self inView:self.view initBlock:^(UIImagePickerController *picker) {
             
@@ -244,6 +240,7 @@
     }
     else if (indexPath.row == 1)
     {
+        [MobClick event:@"rp302-2"];
         EditMyInfoViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"EditMyInfoViewController"];
         vc.naviTitle = @"修改昵称";
         vc.type = ModifyNickname;
@@ -254,6 +251,7 @@
     }
     else if (indexPath.row == 2)
     {
+        [MobClick event:@"rp302-3"];
         UIActionSheet * sexSheet = [[UIActionSheet alloc]initWithTitle:@"请选择性别" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"男", @"女", nil];
         [sexSheet showInView:self.view];
         [[sexSheet rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
@@ -273,7 +271,8 @@
     }
     else if (indexPath.row == 3)
     {
-        [[DatePickerVC rac_presentPackerVCInView:self.navigationController.view withSelectedDate:self.birthday]
+        [MobClick event:@"rp302-4"];
+        [[DatePickerVC rac_presentPickerVCInView:self.navigationController.view withSelectedDate:self.birthday]
          subscribeNext:^(NSDate *date) {
              self.birthday = date;
              [self requestModifyUserInfo:ModifyBirthday];
@@ -281,6 +280,7 @@
     }
     else if (indexPath.row == 4)
     {
+        [MobClick event:@"rp302-5"];
         if (!gAppMgr.myUser.phoneNumber.length)
         {
             //            EditMyInfoViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"EditMyInfoViewController"];
@@ -325,7 +325,7 @@
         return UIImageJPEGRepresentation(img, 1.0);
     }];
     
-    [[[[op rac_postRequest] flattenMap:^RACStream *(UploadFileOp *uploadOp) {
+    [[[[[op rac_postRequest] flattenMap:^RACStream *(UploadFileOp *uploadOp) {
         UpdateUserInfoOp * op = [UpdateUserInfoOp operation];
         op.avatarUrl = [uploadOp.rsp_urlArray safetyObjectAtIndex:0];
         op.nickname = gAppMgr.myUser.userName;
@@ -333,13 +333,20 @@
         op.birthday = gAppMgr.myUser.birthday;
         
         return [op rac_postRequest];
+    }] catch:^RACSignal *(NSError *error) {
+        
+        NSError * err = error;
+//        if (error.code == -1009 || error.code == -1005)
+//        {
+//            err = [NSError errorWithDomain:kDefErrorPormpt code:error.code userInfo:error.userInfo];
+//        }
+        return [RACSignal error:err];
     }] initially:^{
         
         [gToast showingWithText:@"正在上传..."];
     }] subscribeNext:^(UpdateUserInfoOp * op) {
         
         [gToast dismiss];
-
         gAppMgr.myUser.avatarUrl = op.avatarUrl;
     } error:^(NSError *error) {
         

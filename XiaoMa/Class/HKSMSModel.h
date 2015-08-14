@@ -9,11 +9,16 @@
 #import <Foundation/Foundation.h>
 #import "XiaoMa.h"
 #import "GetVcodeOp.h"
+#import "VCodeInputField.h"
+#import "GetVoiceVCodeOp.h"
 
 @interface HKSMSModel : NSObject
 
 ///获取短信验证码 如果获取短信验证码接口返回成功，每隔1秒发送剩余冷却时间(sendNext:NSNumber*:剩余冷却时间)
 - (RACSignal *)rac_getVcodeWithType:(NSInteger)type phone:(NSString *)phone;
-- (RACSignal *)rac_handleVcodeButtonClick:(UIButton *)btn withVcodeType:(NSInteger)type phone:(NSString *)phone;
-
+- (RACSignal *)rac_handleVcodeButtonClick:(UIButton *)btn vcodeInputField:(VCodeInputField *)field
+                            withVcodeType:(NSInteger)type phone:(NSString *)phone;
+- (BOOL)countDownIfNeededForVcodeButton:(UIButton *)vbtn;
+- (void)setupVCodeInputField:(VCodeInputField *)field accountField:(UITextField *)adField
+                 forTargetVC:(UIViewController *)targetVC mobEvents:(NSArray *)events;
 @end

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "NSMutableDictionary+AddParams.h"
+#import <AFNetworking.h>
 #import "XiaoMa.h"
 
 @protocol BaseOpDelegate <NSObject>
@@ -17,6 +18,7 @@
 - (RACSignal *)rac_postRequest;
 - (RACSignal *)rac_getRequest;
 - (NSError *)mapError:(NSError *)error;
+- (BOOL)shouldHandleDefaultError;
 - (instancetype)parseResponseObject:(id)rspObj;
 ///模拟接口返回 JSON对象 或 NSError
 - (id)returnSimulateResponse;

@@ -10,9 +10,9 @@
 #import <AMapSearchKit/AMapSearchAPI.h>
 #import <MAMapKit/MAMapKit.h>
 #import "XiaoMa.h"
+#import "HKAddressComponent.h"
 
 //#define AMapKey @"0442b54d277405a2f29a42f773a137aa" //cn.jtang.xmdd
-
 @interface MapHelper : NSObject<MAMapViewDelegate,AMapSearchDelegate>
 
 + (MapHelper *)sharedHelper;
@@ -27,14 +27,7 @@
 /// 当前位置
 @property (nonatomic)CLLocationCoordinate2D coordinate;
 
-@property (nonatomic,copy)NSString * province;
-@property (nonatomic,copy)NSString * city;
-@property (nonatomic,copy)NSString * district;
-
-/// 定位结果信号
-@property (nonatomic, strong)RACSubject * rac_userLocationResultSignal;
-/// 反地理编码结果信号
-@property (nonatomic, strong)RACSubject * rac_invertGeoResultSignal;
+@property (nonatomic, strong) HKAddressComponent *addrComponent;
 
 - (void)startLocation;
 
@@ -45,3 +38,4 @@
 - (RACSignal *)rac_getInvertGeoInfo;
 
 @end
+

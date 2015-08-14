@@ -17,7 +17,7 @@
     UIImage *img = [UIImage imageNamed:@"cm_nav_back"];
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain
                                                             target:target action:action];
-    item.tintColor = HEXCOLOR(@"#262626");
+    item.tintColor = HEXCOLOR(@"#1bb745");
     return item;
 }
 

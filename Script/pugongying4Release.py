@@ -98,7 +98,7 @@ def send_Email(json_result):
     appBuildVersion = json_result['data']['appBuildVersion']
     appShortcutUrl = json_result['data']['appShortcutUrl']
     #邮件接受者
-    mail_receiver = ['fq@jtang.cn']
+    mail_receiver = ['fq@jtang.cn','fuqi@xiaomadada.com','jiangjunchen@xiaomadada.com','xmdd@zxuner.com']
     #根据不同邮箱配置 host，user，和pwd
     mail_host = 'smtp.exmail.qq.com'
     mail_user = 'ci_server@jtang.cn'
@@ -107,7 +107,7 @@ def send_Email(json_result):
     
     msg = MIMEMultipart()
     
-    environsString = '<h3>小马达达本次打包相关信息: Release</h3><p>'
+    environsString = '<h3>小马达达本次打包相关信息: Release '+ ipa_name +'</h3><p>'
     environsString += '<p>可从蒲公英网站在线安装 : ' + 'http://www.pgyer.com/' + str(appShortcutUrl) + '   密码 : ' + installPassword + '<p>'
     message = environsString
     body = MIMEText(message, _subtype='html', _charset='utf-8')

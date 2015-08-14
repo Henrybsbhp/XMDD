@@ -8,19 +8,27 @@
 
 #import "UIScrollView+RefreshView.h"
 
+static char kRefreshViewKey;
+
 @implementation UIScrollView (RefreshView)
 @dynamic refreshView;
 
-- (ODRefreshControl *)refreshView
+- (HKRefreshControl *)refreshView
 {
-    ODRefreshControl *refreshView = objc_getAssociatedObject(self, _cmd);
+    HKRefreshControl *refreshView = objc_getAssociatedObject(self, &kRefreshViewKey);
     if (!refreshView) {
-        refreshView = [[ODRefreshControl alloc] initInScrollView:self];
-        objc_setAssociatedObject(self, _cmd, refreshView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        [self addSubview:refreshView];
+        refreshView = [[HKRefreshControl alloc] initWithScrollView:self];
+        objc_setAssociatedObject(self, &kRefreshViewKey, refreshView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+//        [self addSubview:refreshView];
 //        [refreshView setColors:@[kDefTintColor]];
     }
     return refreshView;
+}
+
+- (void)restartRefreshViewAnimatingWhenRefreshing
+{
+    HKRefreshControl *refreshView = objc_getAssociatedObject(self, &kRefreshViewKey);
+    [refreshView restartAnimatingIfNeeded];
 }
 
 @end
