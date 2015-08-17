@@ -11,6 +11,7 @@
 
 @interface CardDetailVC ()
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+- (IBAction)cancelBinding:(id)sender;
 
 @end
 
@@ -18,8 +19,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self setupNavigationBar];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,15 +37,6 @@
 {
     [MobClick endLogPageView:@"rp315"];
     [super viewWillDisappear:animated];
-}
-
-- (void)setupNavigationBar
-{
-    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
-                                                             target:self action:@selector(cancelBinding)];
-    right.tintColor = HEXCOLOR(@"#1bb745");
-    right.image = [UIImage imageNamed:@"mb_more"];
-    self.navigationItem.rightBarButtonItem = right;
 }
 
 #pragma mark - collectionView
@@ -106,8 +96,7 @@
     
 }
 
--(void)cancelBinding
-{
+- (IBAction)cancelBinding:(id)sender {
     [MobClick event:@"rp315-1"];
     UIActionSheet * sheet = [[UIActionSheet alloc] init];
     NSInteger cancelIndex = 1;
@@ -131,5 +120,4 @@
         }
     }];
 }
-
 @end

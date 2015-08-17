@@ -80,6 +80,7 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
     else {
+        [MobClick event:@"rp314-4"];
         NSArray * viewcontroller = self.navigationController.viewControllers;
         UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 2];
         if (vc && [vc isKindOfClass:[PayForWashCarVC class]])

@@ -300,6 +300,15 @@
                             <constraint firstItem="aNQ-yJ-6Sq" firstAttribute="top" secondItem="28M-MG-0wM" secondAttribute="bottom" id="bH7-YR-93I"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="银行卡详情" id="qmg-sW-aka">
+                        <barButtonItem key="rightBarButtonItem" image="mb_more" id="blD-My-N9c">
+                            <color key="tintColor" red="0.1344757674" green="0.671875" blue="0.1314050806" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="cancelBinding:" destination="ogM-Ah-gMB" id="Lra-KM-QEk"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="collectionView" destination="28M-MG-0wM" id="JqB-Qy-mg0"/>
                     </connections>
@@ -797,5 +806,6 @@
         <image name="mb_carwash" width="47" height="51"/>
         <image name="mb_exclamation" width="22" height="22"/>
         <image name="mb_logo" width="25" height="19"/>
+        <image name="mb_more" width="21" height="17"/>
     </resources>
 </document>
