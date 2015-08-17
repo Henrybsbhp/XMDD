@@ -472,7 +472,7 @@
                 if (self.couponType == CouponTypeCarWash || self.couponType == CouponTypeCZBankCarWash)
                 {
                     self.couponType = 0;
-                    [self.checkBoxHelper selectItem:nil forGroupName:CheckBoxCouponGroup];
+                    [self.checkBoxHelper cancelSelectedForGroupName:CheckBoxCouponGroup];
                 }
                 else
                 {
@@ -506,7 +506,7 @@
                 if (self.couponType == CouponTypeCash)
                 {
                     self.couponType = 0;
-                    [self.checkBoxHelper selectItem:nil forGroupName:CheckBoxCouponGroup];
+                    [self.checkBoxHelper cancelSelectedForGroupName:CheckBoxCouponGroup];
                 }
                 else
                 {
@@ -531,7 +531,7 @@
     UIImageView *iconV,*drawerIV;
     UILabel *titleLb,*noteLb,*numberLb;
     UIButton *boxB;
-    UIView * drawerV,*animationView;
+    UIView * drawerV;
     if (indexPath.row == 1)
     {
         //        cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatformCellC"];
@@ -582,6 +582,7 @@
         titleLb = (UILabel *)[cell.contentView viewWithTag:1002];
         noteLb = (UILabel *)[cell.contentView viewWithTag:1004];
         boxB = (UIButton *)[cell.contentView viewWithTag:1003];
+        boxB.selected = NO;
     }
     
     if (indexPath.row == 1) {
@@ -646,6 +647,7 @@
     @weakify(self);
     boxB.customObject = indexPath;
     [self.checkBoxHelper addItem:boxB forGroupName:CheckBoxPlatformGroup withChangedBlock:^(id item, BOOL selected) {
+        
         boxB.selected = selected;
     }];
     
@@ -694,7 +696,6 @@
         }
         [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxPlatformGroup];
     }
-    
     return cell;
 }
 
@@ -1162,7 +1163,7 @@
 
 - (void)tableViewReloadData
 {
-    [self.checkBoxHelper selectItem:nil forGroupName:CheckBoxCouponGroup];
+    [self.checkBoxHelper cancelSelectedForGroupName:CheckBoxCouponGroup];
     [self.tableView reloadData];
     [self refreshPriceLb];
 }
