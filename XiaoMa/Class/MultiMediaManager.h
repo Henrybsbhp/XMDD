@@ -17,7 +17,7 @@ typedef enum : NSInteger
 }ImageURLType;
 
 #define kImagePickerDelayDismiss @"$DelayDismiss"
-#define kImagePickerCompress  @"$Compress"
+#define kImagePickerCompressSize @"$CompressSize"
 
 @interface MultiMediaManager : NSObject
 
