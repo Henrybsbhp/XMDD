@@ -186,7 +186,7 @@
             }
             else {
                 vc.shouldUpdateCar = NO;
-                vc.car = car;
+                vc.car = self.noPlateNumber ? nil : car;
             }
             [self.navigationController pushViewController:vc animated:YES];
             [vc reloadWithInsurance:rspOp.rsp_insuraceArray calculatorID:rspOp.rsp_calculatorID];

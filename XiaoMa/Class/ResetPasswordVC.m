@@ -37,7 +37,7 @@
     
     self.smsModel.getVcodeButton = self.vcodeBtn;
     self.smsModel.inputVcodeField = self.code;
-    self.smsModel.accountField = self.num;
+    self.smsModel.phoneField = self.num;
     [self.smsModel setupWithTargetVC:self mobEvents:mobEvents];
     [self.smsModel countDownIfNeededWithVcodeType:HKVcodeTypeResetPwd];
 }

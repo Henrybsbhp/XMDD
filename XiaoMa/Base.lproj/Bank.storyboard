@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -594,7 +594,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                         </textField>
-                                                        <button opaque="NO" tag="1002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fYn-sR-GEz">
+                                                        <button opaque="NO" tag="1002" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fYn-sR-GEz">
                                                             <rect key="frame" x="477" y="0.0" width="95" height="40"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="95" id="GHt-6C-bPp"/>
@@ -702,7 +702,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="该卡已绑定其他账号，若继续绑定，将解除原有绑定关系！" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4MT-ql-orK">
-                                        <rect key="frame" x="45" y="0.0" width="535" height="40"/>
+                                        <rect key="frame" x="48" y="0.0" width="532" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="ccF-Fc-Bs1"/>
                                         </constraints>
@@ -723,7 +723,7 @@
                                     <constraint firstItem="4MT-ql-orK" firstAttribute="top" secondItem="UdV-5g-eVd" secondAttribute="top" id="Vya-B5-mmD"/>
                                     <constraint firstAttribute="trailing" secondItem="4MT-ql-orK" secondAttribute="trailing" constant="20" id="WVD-nh-A9P"/>
                                     <constraint firstAttribute="centerY" secondItem="rvw-K2-CHA" secondAttribute="centerY" id="fhy-oE-LWw"/>
-                                    <constraint firstItem="4MT-ql-orK" firstAttribute="leading" secondItem="rvw-K2-CHA" secondAttribute="trailing" constant="3" id="sab-rB-abM"/>
+                                    <constraint firstItem="4MT-ql-orK" firstAttribute="leading" secondItem="rvw-K2-CHA" secondAttribute="trailing" constant="6" id="sab-rB-abM"/>
                                     <constraint firstAttribute="bottom" secondItem="4MT-ql-orK" secondAttribute="bottom" id="vMW-wr-Jga"/>
                                 </constraints>
                             </view>

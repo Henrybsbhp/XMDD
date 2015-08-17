@@ -78,21 +78,15 @@
     [[self rac_pickPhotoInTargetVC:targetVC inView:view initBlock:^(UIImagePickerController *picker) {
        
         picker.customInfo[kImagePickerDelayDismiss] = @YES;
-        picker.customInfo[kImagePickerCompress] = @YES;
+        picker.customInfo[kImagePickerCompressSize] = [NSValue valueWithCGSize:CGSizeMake(2048, 2048)];
     }] subscribeNext:^(UIImage *img) {
         
         picked = YES;
         EditPictureViewController *vc = [[EditPictureViewController alloc] init];
         vc.delegate = self;
+        vc.rotationEnabled = NO;
         vc.image = img;
         vc.customObject = subject;
-        CGFloat width = img.size.width;
-        CGFloat height = img.size.height;
-        CGFloat length = MIN(width, height);
-        vc.imageCropRect = CGRectMake((width - length) / 2,
-                                      (height - length) / 2,
-                                      length,
-                                      length);
         [self.imgPickerNavCtrl pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         [subject sendCompleted];
@@ -108,7 +102,7 @@
                                 inView:(UIView *)view
 {
     return [self rac_pickPhotoInTargetVC:targetVC inView:view initBlock:^(UIImagePickerController *picker) {
-        picker.customInfo[kImagePickerCompress] = @YES;
+        picker.customInfo[kImagePickerCompressSize] = [NSValue valueWithCGSize:CGSizeMake(1024, 1024)];
     }];
 }
 
@@ -179,15 +173,15 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     BOOL editing = picker.allowsEditing;
-    BOOL compress = [picker.customInfo[kImagePickerCompress] boolValue];
     BOOL delayDismiss = [picker.customInfo[kImagePickerDelayDismiss] boolValue];
+    NSValue *sizeValue = picker.customInfo[kImagePickerCompressSize];
     if (!delayDismiss) {
         [picker dismissViewControllerAnimated:YES completion:nil];
     }
     
     UIImage *img = [info objectForKey:editing ? UIImagePickerControllerEditedImage : UIImagePickerControllerOriginalImage];
-    if (compress) {
-        img = [img compressImageWithPixelSize:CGSizeMake(1024, 1024)];
+    if (sizeValue) {
+        img = [img compressImageWithPixelSize:[sizeValue CGSizeValue]];
     }
     RACSubject *subject = picker.customObject;
     [subject sendNext:img];

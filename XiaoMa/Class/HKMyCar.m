@@ -11,6 +11,15 @@
 
 @implementation HKMyCar
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _editMask = HKCarEditableAll;
+    }
+    return self;
+}
+
 + (instancetype)carWithJSONResponse:(NSDictionary *)rsp
 {
     if (!rsp)
@@ -30,6 +39,19 @@
     car.insexipiredate = [NSDate dateWithD8Text:[rsp stringParamForName:@"insexipiredate"]];
     car.licenceurl = [rsp stringParamForName:@"licenceurl"];
     car.isDefault = [rsp integerParamForName:@"isdefault"] == 1;
+    NSInteger editable = [rsp integerParamForName:@"iseditable"];
+    if (editable == 0) {
+        car.editMask = HKCarEditableAll;
+    }
+    else if (editable == 1) {
+        car.editMask = HKCarEditableDelete;
+    }
+    else if (editable == 2) {
+        car.editMask = HKCarEditableNone;
+    }
+    else if (editable == 3) {
+        car.editMask = HKCarEditableEdit;
+    }
     return car;
 }
 
@@ -64,12 +86,57 @@
     car.insexipiredate = _insexipiredate;
     car.isDefault = _isDefault;
     car.status  =_status;
+    car.editMask = _editMask;
     return car;
 }
 
 - (BOOL)isCarInfoCompleted
 {
     if (self.carId && self.licencenumber.length > 0 && self.purchasedate && self.brand.length > 0 && self.model.length > 0) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)isDifferentFromAnother:(HKMyCar *)another
+{
+    if (![self.carId isEqualToNumber:another.carId]) {
+        return YES;
+    }
+    if (![self isEqualWithString1:self.licencenumber string2:another.licencenumber]) {
+        return YES;
+    }
+    if (![self isEqualWithDate1:self.purchasedate date2:another.purchasedate]) {
+        return YES;
+    }
+    if (![self isEqualWithString1:self.brand string2:another.brand]) {
+        return YES;
+    }
+    if (![self isEqualWithString1:self.model string2:another.model]) {
+        return YES;
+    }
+    if (self.price != another.price) {
+        return YES;
+    }
+    if (self.odo != another.odo) {
+        return YES;
+    }
+    if (self.status != another.status) {
+        return YES;
+    }
+    if (![self isEqualWithString1:self.inscomp string2:another.inscomp]) {
+        return YES;
+    }
+    if (![self isEqualWithString1:self.licenceurl string2:another.licenceurl]) {
+        return YES;
+    }
+    if (![self isEqualWithDate1:self.insexipiredate date2:another.insexipiredate]) {
+        return YES;
+    }
+    if (self.isDefault != another.isDefault) {
+        return YES;
+    }
+    if (self.editMask != another.editMask) {
         return YES;
     }
     return NO;
@@ -87,4 +154,24 @@
     return desc;
 }
 
+#pragma mark - Private
+- (BOOL)isEqualWithDate1:(NSDate *)date1 date2:(NSDate *)date2
+{
+    if (!date1) {
+        return !date2;
+    }
+    return [date1 isEqualToDate:date2];
+}
+
+- (BOOL)isEqualWithString1:(NSString *)str1 string2:(NSString *)str2
+{
+    if (!str1) {
+        return str2.length == 0;
+    }
+    else if (!str2) {
+        return str1.length == 0;
+    }
+    return [str1 isEqualToString:str2];
+}
 @end
+

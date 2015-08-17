@@ -24,7 +24,7 @@ typedef enum : NSInteger
 @interface HKSMSModel : NSObject
 @property (nonatomic, strong) UIButton *getVcodeButton;
 @property (nonatomic, strong) VCodeInputField *inputVcodeField;
-@property (nonatomic, strong) UITextField *accountField;
+@property (nonatomic, strong) UITextField *phoneField;
 
 - (RACSignal *)rac_getBindCZBVcodeWithCardno:(NSString *)cardno phone:(NSString *)phone;
 - (RACSignal *)rac_getUnbindCZBVcode;
