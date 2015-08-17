@@ -105,6 +105,10 @@ withChangedBlock:(void(^)(id item, BOOL selected))block
 
 - (void)changeItemState:(NSObject *)item withSelected:(BOOL)selected
 {
+    void(^block)(id, BOOL) = [[(NSObject *)item customInfo] objectForKey:@"$segment-block"];
+    if (block) {
+        block(item, selected);
+    }
     //如果状态未改变则不做处理
     if ([self isItemSelected:item] == selected) {
         return;
@@ -114,11 +118,6 @@ withChangedBlock:(void(^)(id item, BOOL selected))block
     }
     else {
         [[item customInfo] setObject:@YES forKey:@"$segment-selected"];
-    }
-    
-    void(^block)(id, BOOL) = [[(NSObject *)item customInfo] objectForKey:@"$segment-block"];
-    if (block) {
-        block(item, selected);
     }
 }
 
@@ -132,6 +131,18 @@ withChangedBlock:(void(^)(id item, BOOL selected))block
     }
     return group;
 }
+
+//- (BOOL)sortAllItemsForGroupName:(NSString *)name byComparisonResult:(NSComparisonResult)c
+//{
+//    name = name ? name : @"$";
+//    NSMutableArray *group = [self.itemGroups objectForKey:name];
+//    [group sortedArrayUsingComparator:^NSComparisonResult(NSObject *obj1, NSObject *obj2) {
+//        
+//        
+//        if (c == NSOrderedAscending)
+//            return
+//    }];
+//}
 
 
 @end

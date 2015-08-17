@@ -15,6 +15,7 @@
 #import "JTRatingView.h"
 #import "HKLoadingModel.h"
 #import "GetCarwashOrderOp.h"
+#import "ShopDetailVC.h"
 
 @interface CarwashOrderDetailVC ()<UITableViewDelegate, UITableViewDataSource, HKLoadingModelDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -100,6 +101,12 @@
 #pragma mark - UITableViewDelegate and UITableViewDatasource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 0)
+    {
+        ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
+        vc.shop = self.order.shop;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
     [MobClick event:@"rp320-2"];
 }
 

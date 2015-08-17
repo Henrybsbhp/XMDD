@@ -52,7 +52,7 @@
 {
     CKAsyncMainQueue(^{
         self.advc  =[ADViewController vcWithADType:AdvertisementBankCardBinding boundsWidth:self.view.bounds.size.width
-                                          targetVC:self mobBaseEvent:nil];
+                                          targetVC:self mobBaseEvent:@"rp314-1"];
         [self.advc reloadDataForTableView:self.tableView];
     });
 }
@@ -93,7 +93,7 @@
     else if (indexPath.row > 0) {
         [MobClick event:@"rp314-2"];
         CardDetailVC *vc = [UIStoryboard vcWithId:@"CardDetailVC" inStoryboard:@"Bank"];
-        vc.card = [self.bankCards safetyObjectAtIndex:0];
+        vc.card = [self.bankCards safetyObjectAtIndex:indexPath.row - 1];
         vc.originVC = self;
         [self.navigationController pushViewController:vc animated:YES];
     }

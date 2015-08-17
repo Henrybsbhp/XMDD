@@ -12,6 +12,7 @@
 #import "HKConvertModel.h"
 #import "PayForWashCarVC.h"
 #import "BindBankCardVC.h"
+#import "GetUserResourcesV2Op.h"
 
 @interface ChooseBankCardVC ()
 
@@ -31,20 +32,18 @@
 {
     [super viewDidLoad];
     [self setupAdView];
-    [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
     @weakify(self);
     [self listenNotificationByName:kNotifyRefreshMyBankcardList withNotifyBlock:^(NSNotification *note, id weakSelf) {
         @strongify(self);
         [self reloadData];
     }];
-    [self reloadData];
-
+    [self.tableView reloadData];
 }
 
 - (void)setupAdView
 {
     CKAsyncMainQueue(^{
-        self.advc  =[ADViewController vcWithADType:AdvertisementBankCardBinding boundsWidth:self.view.bounds.size.width
+        self.advc = [ADViewController vcWithADType:AdvertisementBankCardBinding boundsWidth:self.view.bounds.size.width
                                           targetVC:self mobBaseEvent:nil];
         [self.advc reloadDataForTableView:self.tableView];
     });
@@ -52,7 +51,23 @@
 
 - (void)reloadData
 {
-    [self.tableView reloadData];
+    GetUserResourcesV2Op * op = [GetUserResourcesV2Op operation];
+    [[[[op rac_postRequest] initially:^{
+        
+        [self.tableView.refreshView beginRefreshing];
+    }] finally:^{
+       
+        [self.tableView.refreshView endRefreshing];
+    }] subscribeNext:^(GetUserResourcesV2Op * op) {
+        
+        gAppMgr.myUser.abcCarwashesCount = op.rsp_freewashes;
+        gAppMgr.myUser.abcIntegral = op.rsp_bankIntegral;
+        gAppMgr.myUser.validCZBankCreditCard = op.rsp_czBankCreditCard;
+        self.bankCards = op.rsp_czBankCreditCard;
+        [self.tableView reloadData];
+    } error:^(NSError *error) {
+        
+    }];
 }
 
 - (void)reloadResources
@@ -70,22 +85,22 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //点击“添加银行卡”
-    if (indexPath.row > self.bankCards.count) {
+    if (indexPath.row == 0) {
+        
+    }
+    else if (indexPath.row > self.bankCards.count) {
         [MobClick event:@"rp314-3"];
         BindBankCardVC *vc = [UIStoryboard vcWithId:@"BindBankCardVC" inStoryboard:@"Bank"];
-        [vc setFinishAction:^{
-            
-            [self reloadResources];
-        }];
         [self.navigationController pushViewController:vc animated:YES];
     }
     else {
+        [MobClick event:@"rp314-4"];
         NSArray * viewcontroller = self.navigationController.viewControllers;
         UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 2];
         if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
         {
             PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
-            HKBankCard * card = [self.bankCards safetyObjectAtIndex:indexPath.row];
+            HKBankCard * card = [self.bankCards safetyObjectAtIndex:indexPath.row - 1];
             payVc.selectBankCard = card;
             [payVc setPlatform:PayWithXMDDCreditCard];
             [payVc tableViewReloadData];

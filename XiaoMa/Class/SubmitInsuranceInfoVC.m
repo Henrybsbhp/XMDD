@@ -301,13 +301,7 @@
     EditPictureViewController *vc = [[EditPictureViewController alloc] init];
     vc.delegate = self;
     vc.image = portraitImg;
-    CGFloat width = portraitImg.size.width;
-    CGFloat height = portraitImg.size.height;
-    CGFloat length = MIN(width, height);
-    vc.imageCropRect = CGRectMake((width - length) / 2,
-                                  (height - length) / 2,
-                                  length,
-                                  length);
+    vc.rotationEnabled = NO;
     [self.imgPickerNavCtrl pushViewController:vc animated:YES];
 
 }
