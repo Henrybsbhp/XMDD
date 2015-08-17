@@ -12,6 +12,7 @@
 #import "GetVcodeOp.h"
 #import "VCodeInputField.h"
 #import "WebVC.h"
+#import "NSString+PhoneNumber.h"
 
 @interface VcodeLoginVC () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *checkBox;
@@ -43,7 +44,7 @@
     
     self.smsModel.getVcodeButton = self.vcodeBtn;
     self.smsModel.inputVcodeField = self.code;
-    self.smsModel.accountField = self.num;
+    self.smsModel.phoneField = self.num;
     [self.smsModel setupWithTargetVC:self mobEvents:mobEvents];
     [self.smsModel countDownIfNeededWithVcodeType:HKVcodeTypeLogin];
 }
@@ -107,12 +108,15 @@
 - (IBAction)actionLogin:(id)sender
 {
     [MobClick event:@"rp002-6"];
-    if ([self sharkCellIfErrorAtIndex:0]) {
+    if (![self.num.text isPhoneNumber]) {
+        [self shakeCellAtIndex:0];
         return;
     }
-    if ([self sharkCellIfErrorAtIndex:1]) {
+    if (self.code.text.length < 4) {
+        [self shakeCellAtIndex:1];
         return;
     }
+    
     [self.view endEditing:YES];
     NSString *ad = [self textAtIndex:0];
     NSString *vcode = [self textAtIndex:1];
@@ -139,6 +143,33 @@
     }
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    //手机号输入
+    if ([textField isEqual:self.num]) {
+        NSInteger length = range.location + [string length] - range.length;
+        if (length > 11) {
+            return NO;
+        }
+        NSString *title = [self.vcodeBtn titleForState:UIControlStateNormal];
+        if ([@"获取验证码" equalByCaseInsensitive:title]) {
+            BOOL enable = length == 11;
+            if (enable != self.vcodeBtn.enabled) {
+                self.vcodeBtn.enabled = enable;
+            }
+        }
+    }
+    //验证码输入
+    else if ([textField isEqual:self.code]) {
+        NSInteger length = range.location + [string length] - range.length;
+        if (length > 8) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
 #pragma mark - Private
 - (NSString *)textAtIndex:(NSInteger)index
 {
@@ -159,5 +190,11 @@
     return NO;
 }
 
+- (void)shakeCellAtIndex:(NSInteger)index
+{
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+    UIView *container = [cell.contentView viewWithTag:100];
+    [container shake];
+}
 
 @end

@@ -95,8 +95,8 @@
         _curCar.isDefault = YES;
         _isEditingModel = NO;
     }
-    
-    if (!_isEditingModel) {
+
+    if (!_isEditingModel || !(self.curCar.editMask & HKCarEditableDelete)) {
         [self.bottomBar removeFromSuperview];
     }
     
@@ -149,18 +149,26 @@
 - (void) actionCancel:(id)sender
 {
     [MobClick event:@"312-13"];
-    if (!self.isDrivingLicenseNeedSave) {
+
+    if (self.isEditingModel && ![self.curCar isDifferentFromAnother:self.originCar]) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    if (!self.isEditingModel && !self.isDrivingLicenseNeedSave) {
         [self.navigationController popViewControllerAnimated:YES];
         return;
     }
     if (self.isEditingModel) {
+        [self.view endEditing:YES];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您未保存信息，是否现在保存？" delegate:nil
                                               cancelButtonTitle:@"算了" otherButtonTitles:@"保存", nil];
         [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
-            //算了n
+            //算了
             if ([number integerValue] == 0) {
                 [MobClick event:@"rp312-14"];
-                [self.navigationController popViewControllerAnimated:YES];
+                CKAfter(0.1, ^{
+                    [self.navigationController popViewControllerAnimated:YES];
+                });
             }
             //保存
             else {
@@ -171,13 +179,16 @@
         [alert show];
     }
     else {
+        [self.view endEditing:YES];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您未保存行驶证，需填写相关必填项并点击“保存”后方能添加爱车。"
                                                        delegate:nil cancelButtonTitle:@"放弃添加" otherButtonTitles:@"继续添加", nil];
         [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
             //放弃
             if ([number integerValue] == 0) {
                 [MobClick event:@"rp312-16"];
-                [self.navigationController popViewControllerAnimated:YES];
+                CKAfter(0.1, ^{
+                    [self.navigationController popViewControllerAnimated:YES];
+                });
             }
             //继续
             else {
@@ -297,6 +308,9 @@
     //购车时间
     if (indexPath.row == 1) {
         [MobClick event:@"rp312-3"];
+        if (!(self.curCar.editMask & HKCarEditableEdit)) {
+            return;
+        }
         [self.view endEditing:YES];
         self.datePicker.maximumDate = [NSDate date];
         
@@ -325,6 +339,9 @@
     //汽车品牌
     else if (indexPath.row == 2) {
         [MobClick event:@"rp312-4"];
+        if (!(self.curCar.editMask & HKCarEditableEdit)) {
+            return;
+        }
         [self.view endEditing:YES];
         PickerAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
         vc.originVC = self;
@@ -337,6 +354,9 @@
     //具体车系
     else if (indexPath.row == 3) {
         [MobClick event:@"rp312-5"];
+        if (!(self.curCar.editMask & HKCarEditableEdit)) {
+            return;
+        }
         [self.view endEditing:YES];
         PickerAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
         vc.originVC = self;
@@ -383,15 +403,15 @@
     HKMyCar *car = self.curCar;
     
     field.delegate = self;
-    field.userInteractionEnabled = YES;
     field.keyboardType = UIKeyboardTypeDefault;
     field.clearsOnBeginEditing = NO;
     field.customObject = indexPath;
+    BOOL fieldEditable = YES;
     if (indexPath.row == 0) {
         titleL.attributedText = [self attrStrWithTitle:@"车牌号码" asterisk:YES];
         field.text = car.licencenumber;
         unitL.text = nil;
-
+        fieldEditable = car.editMask & HKCarEditableEdit;
         [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             car.licencenumber = [x uppercaseString];
         }];
@@ -402,7 +422,7 @@
         [[RACObserve(car, purchasedate) takeUntilForCell:cell] subscribeNext:^(NSDate *date) {
             field.text = [date dateFormatForYYMMdd];
         }];
-        field.userInteractionEnabled = NO;
+        fieldEditable = NO;
     }
     else  if (indexPath.row  == 4) {
         unitL.text = @"万元";
@@ -438,7 +458,7 @@
             @strongify(field);
             field.text = [date dateFormatForYYMMdd];
         }];
-        field.userInteractionEnabled = NO;
+        fieldEditable = NO;
     }
     else if (indexPath.row == 7) {
         unitL.text = nil;
@@ -449,6 +469,7 @@
         }];
     }
     
+    field.userInteractionEnabled = fieldEditable;
     return cell;
 }
 
@@ -457,6 +478,16 @@
     JTTableViewCell *cell = (JTTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"Cell2" forIndexPath:indexPath];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     UILabel *subTitleL = (UILabel *)[cell.contentView viewWithTag:1002];
+    UIImageView *arrowV = (UIImageView *)[cell.contentView viewWithTag:1003];
+    
+    BOOL editable = self.curCar.editMask & HKCarEditableEdit;
+    if (arrowV.hidden != !editable) {
+        arrowV.hidden = !editable;
+        [subTitleL mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(arrowV.mas_left).offset(editable ? -10 : 9);
+        }];
+    }
+    arrowV.hidden = !editable;
     
     if (indexPath.row == 2) {
         titleL.attributedText = [self attrStrWithTitle:@"爱车品牌" asterisk:YES];

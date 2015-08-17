@@ -182,6 +182,7 @@
 		18D17F861B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F851B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m */; };
 		18D475DF1B79E332000FAF1C /* MyBankcardsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D475DE1B79E332000FAF1C /* MyBankcardsModel.m */; };
 		18D475E21B7C3954000FAF1C /* GetUserCouponV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D475E11B7C3954000FAF1C /* GetUserCouponV2Op.m */; };
+		18D475E51B7D9F82000FAF1C /* NSString+PhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D475E41B7D9F82000FAF1C /* NSString+PhoneNumber.m */; };
 		18D62B3F1B60EBF800E3FDB2 /* 90_0.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */; };
 		18E756A41B73335C00874601 /* MyBankVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E756A31B73335C00874601 /* MyBankVC.m */; };
 		18E756A71B73338600874601 /* Bank.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18E756A51B73338600874601 /* Bank.storyboard */; };
@@ -693,6 +694,8 @@
 		18D475DE1B79E332000FAF1C /* MyBankcardsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyBankcardsModel.m; path = Class/MyBankcardsModel.m; sourceTree = "<group>"; };
 		18D475E01B7C3954000FAF1C /* GetUserCouponV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserCouponV2Op.h; path = Class/GetUserCouponV2Op.h; sourceTree = "<group>"; };
 		18D475E11B7C3954000FAF1C /* GetUserCouponV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserCouponV2Op.m; path = Class/GetUserCouponV2Op.m; sourceTree = "<group>"; };
+		18D475E31B7D9F82000FAF1C /* NSString+PhoneNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+PhoneNumber.h"; path = "Class/NSString+PhoneNumber.h"; sourceTree = "<group>"; };
+		18D475E41B7D9F82000FAF1C /* NSString+PhoneNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+PhoneNumber.m"; path = "Class/NSString+PhoneNumber.m"; sourceTree = "<group>"; };
 		18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 90_0.gpx; sourceTree = "<group>"; };
 		18E756A21B73335C00874601 /* MyBankVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBankVC.h; sourceTree = "<group>"; };
 		18E756A31B73335C00874601 /* MyBankVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBankVC.m; sourceTree = "<group>"; };
@@ -1211,6 +1214,8 @@
 				1816F4B31ACE767200BBCC96 /* UIStoryboard+Expansion.m */,
 				1837A7531B70C97A0006E6C5 /* UIImageView+WebImage.h */,
 				1837A7541B70C97A0006E6C5 /* UIImageView+WebImage.m */,
+				18D475E31B7D9F82000FAF1C /* NSString+PhoneNumber.h */,
+				18D475E41B7D9F82000FAF1C /* NSString+PhoneNumber.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -2931,6 +2936,7 @@
 				6BBF7DA91B00C9C200E45967 /* UIImage+Utilities.mm in Sources */,
 				6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */,
 				18895B361B4CB89000928F62 /* HKPushManager.m in Sources */,
+				18D475E51B7D9F82000FAF1C /* NSString+PhoneNumber.m in Sources */,
 				6BC3B60F1ADF52CB001016A0 /* BaseMapViewController.m in Sources */,
 				1851F42F1B0C304B00241A01 /* AutoBrand+Extension.m in Sources */,
 				6BBAB8C11ADBC21600EC342F /* GTMBase64.m in Sources */,

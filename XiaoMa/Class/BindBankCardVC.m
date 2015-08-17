@@ -13,7 +13,7 @@
 #import "ResultVC.h"
 #import <UIKitExtension.h>
 
-@interface BindBankCardVC ()<UITableViewDataSource, UITableViewDelegate>
+@interface BindBankCardVC ()<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *promptView;
 @property (nonatomic, strong) UITextField *phoneField;
@@ -52,8 +52,22 @@
     if ([self sharkCellIfErrorAtIndex:1]) {
         return;
     }
+    CKAsyncMainQueue(^{
+        [self.view endEditing:YES];
+    });
     @weakify(self);
     RACSignal *sig = [self.smsModel rac_getBindCZBVcodeWithCardno:self.cardField.text phone:self.phoneField.text];
+    sig = [sig catch:^RACSignal *(NSError *error) {
+        
+        @strongify(self);
+        if (error.code == 616103) {
+            CKAfter(0.35, ^{
+                [self.promptView setHidden:NO animated:YES];
+            });
+            return [RACSignal return:nil];
+        }
+        return [RACSignal error:error];
+    }];
     [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:sig] subscribeNext:^(id x) {
        
         @strongify(self);
@@ -61,7 +75,15 @@
     } error:^(NSError *error) {
         
         @strongify(self);
-        [self handleGetVcodeError:error];
+        [self.promptView setHidden:YES animated:NO];
+        if (error.code == 616102) {
+            UIAlertView *alert = [[UIAlertView alloc] initNoticeWithTitle:@"" message:@"该卡已绑定当前账号,请勿重复绑定"
+                                                        cancelButtonTitle:@"确定"];
+            [alert show];
+        }
+        else {
+            [gToast showError:error.domain];
+        }
     }];
     
     //激活输入验证码的输入框
@@ -91,8 +113,8 @@
         [gToast showingWithText:@"正在绑定..."];
     }] subscribeNext:^(id x) {
         
-        [gToast dismiss];
         @strongify(self);
+        [gToast dismiss];
         [ResultVC showInTargetVC:self withSuccessText:@"恭喜，绑定成功!" ensureBlock:^{
             [MobClick event:@"rp313-6"];
             [self.navigationController popViewControllerAnimated:YES];
@@ -106,24 +128,6 @@
 
         [gToast showError:error.domain];
     }];
-}
-
-#pragma mark - Handler
-- (void)handleGetVcodeError:(NSError *)error
-{
-    if (error.code == 616103) {
-        [self.promptView setHidden:NO animated:YES];
-        return;
-    }
-    [self.promptView setHidden:YES animated:NO];
-    if (error.code == 616102) {
-        UIAlertView *alert = [[UIAlertView alloc] initNoticeWithTitle:@"" message:@"该卡已绑定当前账号,请勿重复绑定"
-                                                    cancelButtonTitle:@"确定"];
-        [alert show];
-    }
-    else {
-        [gToast showError:error.domain];
-    }
 }
 
 #pragma mark - UITableViewDelegate
@@ -180,6 +184,8 @@
     }];
     if (!self.phoneField) {
         self.phoneField = phoneField;
+        self.smsModel.phoneField = phoneField;
+        phoneField.delegate = self;
     }
     
     if (!self.vcodeButton) {
@@ -206,6 +212,33 @@
     return cell;
 }
 
+#pragma mark - UITextFieldDelegate
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    //手机号输入
+    if ([textField isEqual:self.phoneField]) {
+        NSInteger length = range.location + [string length] - range.length;
+        if (length > 11) {
+            return NO;
+        }
+        NSString *title = [self.vcodeButton titleForState:UIControlStateNormal];
+        if ([@"获取验证码" equalByCaseInsensitive:title]) {
+            BOOL enable = length == 11;
+            if (enable != self.vcodeButton.enabled) {
+                self.vcodeButton.enabled = enable;
+            }
+        }
+    }
+    //验证码输入
+    else if ([textField isEqual:self.vcodeField]) {
+        NSInteger length = range.location + [string length] - range.length;
+        if (length > 8) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
 #pragma mark - Private
 - (BOOL)sharkCellIfErrorAtIndex:(NSInteger)index
 {
@@ -217,6 +250,13 @@
         return YES;
     }
     return NO;
+}
+
+- (void)shakeCellAtIndex:(NSInteger)index
+{
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+    UIView *container = [cell.contentView viewWithTag:100];
+    [container shake];
 }
 
 @end

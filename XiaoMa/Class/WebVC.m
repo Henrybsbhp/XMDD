@@ -12,9 +12,8 @@
 
 @interface WebVC ()<NJKWebViewProgressDelegate>
 @property (nonatomic, strong) NSURLRequest *request;
-
-@property (nonatomic,strong)NJKWebViewProgress * progressProxy;
-@property (nonatomic,strong)NJKWebViewProgressView *progressView;
+@property (nonatomic, strong)NJKWebViewProgress * progressProxy;
+@property (nonatomic, strong)NJKWebViewProgressView *progressView;
 
 @end
 
@@ -58,9 +57,9 @@
 - (void)setupProcessView
 {
     _progressProxy = [[NJKWebViewProgress alloc] init];
-    _webView.delegate = _progressProxy;
     _progressProxy.webViewProxyDelegate = self;
     _progressProxy.progressDelegate = self;
+    _webView.delegate = _progressProxy;
     
     CGFloat progressBarHeight = 2.f;
     CGRect navigaitonBarBounds = self.navigationController.navigationBar.bounds;
@@ -95,8 +94,21 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
+    DebugLog(@"%@ WebViewLoadError:%@\n,error=%@", kErrPrefix, webView.request.URL, error);
     self.webView.scrollView.contentInset = UIEdgeInsetsZero;
     self.webView.scrollView.contentSize = self.webView.frame.size;
-    [gToast showError:kDefErrorPormpt];
+    if ((error.code >= 400 && error.code < 600) || error.code == -1009) {
+        [gToast showError:kDefErrorPormpt];
+    }
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+    DebugLog(@"%@ WebViewStartLoad:%@", kReqPrefix, webView.request.URL);
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    DebugLog(@"%@ WebViewFinishLoad:%@", kRspPrefix, webView.request.URL);
 }
 @end

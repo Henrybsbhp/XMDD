@@ -11,11 +11,18 @@
 #import "GetBindCZBVcodeOp.h"
 #import "GetUnbindBankcardVcodeOp.h"
 
-#define kMaxVcodeInterval        60       //短信60秒冷却时间
+///短信60秒冷却时间
+#define kMaxVcodeInterval        60
+/// 手机号码长度（11位）
+#define kPhoneNumberLength      11
+
 static NSTimeInterval s_coolingTimeForUnbindCZB = 0;
 static NSTimeInterval s_coolingTimeForBindCZB = 0;
 static NSTimeInterval s_coolingTimeForLogin = 0;
 
+@interface HKSMSModel ()<UITextFieldDelegate>
+
+@end
 @implementation HKSMSModel
 
 ///获取绑定浙商银行卡的短信验证码
@@ -24,7 +31,11 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
     GetBindCZBVcodeOp *op = [GetBindCZBVcodeOp operation];
     op.req_bankcardno = cardno;
     op.req_phone = phone;
-    return [[[op rac_postRequest] doNext:^(id x) {
+    return [[[[op rac_postRequest] doError:^(NSError *error) {
+        if (error.code == 616103) {
+            s_coolingTimeForBindCZB = [[NSDate date] timeIntervalSince1970];
+        }
+    }] doNext:^(id x) {
         s_coolingTimeForBindCZB = [[NSDate date] timeIntervalSince1970];
     }] deliverOn:[RACScheduler mainThreadScheduler]];
 }
@@ -96,12 +107,19 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
     if (interval < kMaxVcodeInterval) {
         NSString *originTitle = [vbtn titleForState:UIControlStateNormal];
         vbtn.enabled = NO;
+        @weakify(self);
         [[self rac_timeCountDown:kMaxVcodeInterval - interval] subscribeNext:^(id x) {
             NSString *title = [NSString stringWithFormat:@"剩余%d秒", [x intValue]];
-            [vbtn setTitle:title forState:UIControlStateDisabled];
+            [vbtn setTitle:title forState:UIControlStateNormal];
         } completed:^{
+            @strongify(self);
             [vbtn setTitle:originTitle forState:UIControlStateNormal];
-            vbtn.enabled = YES;
+            if (self.phoneField) {
+                vbtn.enabled = [self.phoneField.text length] == 11 ? YES : NO;
+            }
+            else {
+                vbtn.enabled = YES;
+            }
         }];
         return NO;
     }
@@ -115,23 +133,33 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
     
     NSString *originTitle = [btn titleForState:UIControlStateNormal];
     RACSubject *subject = [RACSubject subject];
-    [[[vcodeSignal initially:^{
-        [btn setTitle:@"正在获取..." forState:UIControlStateDisabled];
+    @weakify(self);
+    [[[[vcodeSignal initially:^{
+//        [btn setTitle:@"正在获取..." forState:UIControlStateDi0sabled];
+        [btn setTitle:@"正在获取..." forState:UIControlStateNormal];
         btn.enabled = NO;
     }] flattenMap:^RACStream *(id value) {
         [subject sendNext:value];
         [subject sendCompleted];
         [field showRightViewAfterInterval:kVCodePromptInteval];
         return [self rac_timeCountDown:kMaxVcodeInterval];
+    }] finally:^{
+        @strongify(self);
+        if (self.phoneField) {
+            btn.enabled = [self.phoneField.text length] == 11 ? YES : NO;
+        }
+        else {
+            btn.enabled = YES;
+        }
     }] subscribeNext:^(id x) {
         NSString *title = [NSString stringWithFormat:@"剩余%d秒", [x intValue]];
-        [btn setTitle:title forState:UIControlStateDisabled];
+//        [btn setTitle:title forState:UIControlStateDisabled];
+        [btn setTitle:title forState:UIControlStateNormal];
     } error:^(NSError *error) {
-        btn.enabled = YES;
         [subject sendError:error];
+        [btn setTitle:originTitle forState:UIControlStateNormal];
     } completed:^{
         [btn setTitle:originTitle forState:UIControlStateNormal];
-        btn.enabled = YES;
     }];
     return subject;
 }
@@ -139,7 +167,7 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
 - (void)setupWithTargetVC:(UIViewController *)targetVC mobEvents:(NSArray *)events
 {
     VCodeInputField *field = self.inputVcodeField;
-    UITextField *adField = self.accountField;
+    UITextField *adField = self.phoneField;
     @weakify(field);
     [[[field.rightButton rac_signalForControlEvents:UIControlEventTouchUpInside]
       takeUntil:[targetVC rac_signalForSelector:@selector(didReceiveMemoryWarning)]] subscribeNext:^(id x) {
@@ -164,7 +192,6 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
         [alert show];
     }];
 }
-
 
 - (RACSignal *)rac_timeCountDown:(NSTimeInterval)time
 {
