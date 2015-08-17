@@ -133,7 +133,7 @@
         signal = [gAppMgr.myUser.carModel rac_fetchData];
     }
     else {
-        signal = [gAppMgr.myUser.carModel rac_fetchDataIfNeeded];
+        signal = [gAppMgr.myUser.carModel rac_fetchData];
     }
     return [signal map:^id(JTQueue *queue) {
         return [queue allObjects];

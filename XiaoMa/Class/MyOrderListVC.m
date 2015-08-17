@@ -135,9 +135,7 @@
     
     nameL.text = order.shop.shopName;
     stateL.text = @"交易成功";
-    [[[gAppMgr.mediaMgr rac_getPictureForUrl:[order.shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        iconV.image = x;
-    }];
+    [iconV setImageByUrl:[order.shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
     
     serviceL.text = order.servicename;
     timeL.text = [order.txtime dateFormatForYYYYMMddHHmm];
@@ -145,7 +143,7 @@
     paymentL.text = [order paymentForCurrentChannel];
     [[RACObserve(order, ratetime) takeUntilForCell:cell] subscribeNext:^(id x) {
         [bottomB setTitle:order.ratetime ? @"已评价" : @"去评价" forState:UIControlStateNormal];
-        bottomB.enabled = !order.ratetime;
+        bottomB.userInteractionEnabled = !order.ratetime;
     }];
     @weakify(self);
     [[[bottomB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {

@@ -8,14 +8,50 @@
 
 #import "HKSMSModel.h"
 #import "GetTokenOp.h"
+#import "GetBindCZBVcodeOp.h"
+#import "GetUnbindBankcardVcodeOp.h"
 
+///短信60秒冷却时间
+#define kMaxVcodeInterval        60
+/// 手机号码长度（11位）
+#define kPhoneNumberLength      11
 
-#define kMaxVcodeInterval        60       //短信60秒冷却时间
+static NSTimeInterval s_coolingTimeForUnbindCZB = 0;
+static NSTimeInterval s_coolingTimeForBindCZB = 0;
+static NSTimeInterval s_coolingTimeForLogin = 0;
 
+@interface HKSMSModel ()<UITextFieldDelegate>
+
+@end
 @implementation HKSMSModel
 
+///获取绑定浙商银行卡的短信验证码
+- (RACSignal *)rac_getBindCZBVcodeWithCardno:(NSString *)cardno phone:(NSString *)phone
+{
+    GetBindCZBVcodeOp *op = [GetBindCZBVcodeOp operation];
+    op.req_bankcardno = cardno;
+    op.req_phone = phone;
+    return [[[[op rac_postRequest] doError:^(NSError *error) {
+        if (error.code == 616103) {
+            s_coolingTimeForBindCZB = [[NSDate date] timeIntervalSince1970];
+        }
+    }] doNext:^(id x) {
+        s_coolingTimeForBindCZB = [[NSDate date] timeIntervalSince1970];
+    }] deliverOn:[RACScheduler mainThreadScheduler]];
+}
+
+///获取解绑浙商银行卡的短信验证码
+- (RACSignal *)rac_getUnbindCZBVcode
+{
+    GetUnbindBankcardVcodeOp *op = [GetUnbindBankcardVcodeOp operation];
+    RACSignal *signal = [op rac_postRequest];
+    return [[signal doNext:^(id x) {
+        s_coolingTimeForUnbindCZB = [[NSDate date] timeIntervalSince1970];
+    }] deliverOn:[RACScheduler mainThreadScheduler]];
+}
+
 ///获取短信验证码 如果获取短信验证码接口返回成功，每隔1秒发送剩余冷却时间(sendNext:NSNumber*:剩余冷却时间)
-- (RACSignal *)rac_getVcodeWithType:(NSInteger)type phone:(NSString *)phone
+- (RACSignal *)rac_getSystemVcodeWithType:(HKVcodeType)type phone:(NSString *)phone
 {
     RACSignal *signal;
     //获取本地的token，如果本地没有token，则重新下载新token
@@ -49,6 +85,7 @@
     //获取短信验证码成功后，更新本地token
     signal = [signal doNext:^(GetVcodeOp *op) {
         [gAppMgr.tokenPool setToken:op.req_token forAccount:op.req_phone ];
+        s_coolingTimeForLogin = [[NSDate date] timeIntervalSince1970];
     }];
     //切换到主线程接收next
     signal = [signal deliverOn:[RACScheduler mainThreadScheduler]];
@@ -56,71 +93,87 @@
     return signal;
 }
 
-- (BOOL)countDownIfNeededForVcodeButton:(UIButton *)vbtn
+- (BOOL)countDownIfNeededWithVcodeType:(HKVcodeType)type
 {
-    NSTimeInterval interval = [[NSDate date] timeIntervalSince1970] - gAppMgr.vcodeCoolingTimeForLogin;
+    UIButton *vbtn = self.getVcodeButton;
+    NSTimeInterval coolingTime = s_coolingTimeForLogin;
+    if (type == HKVcodeTypeBindCZB) {
+        coolingTime = s_coolingTimeForBindCZB;
+    }
+    else if (type == HKVcodeTypeUnbindCZB) {
+        coolingTime = s_coolingTimeForUnbindCZB;
+    }
+    NSTimeInterval interval = [[NSDate date] timeIntervalSince1970] - coolingTime;
     if (interval < kMaxVcodeInterval) {
         NSString *originTitle = [vbtn titleForState:UIControlStateNormal];
         vbtn.enabled = NO;
+        @weakify(self);
         [[self rac_timeCountDown:kMaxVcodeInterval - interval] subscribeNext:^(id x) {
             NSString *title = [NSString stringWithFormat:@"剩余%d秒", [x intValue]];
-            [vbtn setTitle:title forState:UIControlStateDisabled];
+            [vbtn setTitle:title forState:UIControlStateNormal];
         } completed:^{
+            @strongify(self);
             [vbtn setTitle:originTitle forState:UIControlStateNormal];
-            vbtn.enabled = YES;
+            if (self.phoneField) {
+                vbtn.enabled = [self.phoneField.text length] == 11 ? YES : NO;
+            }
+            else {
+                vbtn.enabled = YES;
+            }
         }];
         return NO;
     }
     return YES;
 }
 
-- (RACSignal *)rac_handleVcodeButtonClick:(UIButton *)btn vcodeInputField:(VCodeInputField *)field
-                            withVcodeType:(NSInteger)type phone:(NSString *)phone
+- (RACSignal *)rac_startGetVcodeWithFetchVcodeSignal:(RACSignal *)vcodeSignal
 {
+    UIButton *btn = self.getVcodeButton;
+    VCodeInputField *field = self.inputVcodeField;
+    
     NSString *originTitle = [btn titleForState:UIControlStateNormal];
     RACSubject *subject = [RACSubject subject];
-    [[[[self rac_getVcodeWithType:type phone:phone] initially:^{
-        [btn setTitle:@"正在获取..." forState:UIControlStateDisabled];
+    @weakify(self);
+    [[[[vcodeSignal initially:^{
+//        [btn setTitle:@"正在获取..." forState:UIControlStateDi0sabled];
+        [btn setTitle:@"正在获取..." forState:UIControlStateNormal];
         btn.enabled = NO;
     }] flattenMap:^RACStream *(id value) {
         [subject sendNext:value];
         [subject sendCompleted];
         [field showRightViewAfterInterval:kVCodePromptInteval];
-        gAppMgr.vcodeCoolingTimeForLogin = [[NSDate date] timeIntervalSince1970];
         return [self rac_timeCountDown:kMaxVcodeInterval];
+    }] finally:^{
+        @strongify(self);
+        if (self.phoneField) {
+            btn.enabled = [self.phoneField.text length] == 11 ? YES : NO;
+        }
+        else {
+            btn.enabled = YES;
+        }
     }] subscribeNext:^(id x) {
         NSString *title = [NSString stringWithFormat:@"剩余%d秒", [x intValue]];
-        [btn setTitle:title forState:UIControlStateDisabled];
+//        [btn setTitle:title forState:UIControlStateDisabled];
+        [btn setTitle:title forState:UIControlStateNormal];
     } error:^(NSError *error) {
-        btn.enabled = YES;
         [subject sendError:error];
+        [btn setTitle:originTitle forState:UIControlStateNormal];
     } completed:^{
         [btn setTitle:originTitle forState:UIControlStateNormal];
-        btn.enabled = YES;
     }];
     return subject;
 }
 
-- (RACSignal *)rac_timeCountDown:(NSTimeInterval)time
+- (void)setupWithTargetVC:(UIViewController *)targetVC mobEvents:(NSArray *)events
 {
-    __block int count = time;
-    return [[[[[RACSignal interval:1 onScheduler:[RACScheduler scheduler]]
-              startWith:[NSDate date]] map:^id(id value) {
-        
-        return @(count--);
-    }] take:time+1] deliverOn:[RACScheduler mainThreadScheduler]];
-}
-
-#pragma mark - VcodeInputField
-- (void)setupVCodeInputField:(VCodeInputField *)field accountField:(UITextField *)adField
-                 forTargetVC:(UIViewController *)targetVC mobEvents:(NSArray *)events
-{
+    VCodeInputField *field = self.inputVcodeField;
+    UITextField *adField = self.phoneField;
     @weakify(field);
     [[[field.rightButton rac_signalForControlEvents:UIControlEventTouchUpInside]
       takeUntil:[targetVC rac_signalForSelector:@selector(didReceiveMemoryWarning)]] subscribeNext:^(id x) {
         @strongify(field);
         [MobClick event:[events safetyObjectAtIndex:0]];
-//        [targetVC.view endEditing:YES];
+        //        [targetVC.view endEditing:YES];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
                                                         message:@"验证码将以语音的形式通知到您,请注意接听电话。是否现在发送语音验证码?"
                                                        delegate:nil cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
@@ -133,14 +186,24 @@
             //“是”,将请求服务器发出一个语音验证码的请求
             else {
                 [MobClick event:[events safetyObjectAtIndex:2]];
-                [self getVoiceVCodeWithVCodeInputField:field account:adField.text targetVC:targetVC];
+                [self getVoiceVcodeWithVcodeInputField:field account:adField.text targetVC:targetVC];
             }
         }];
         [alert show];
     }];
 }
 
-- (void)getVoiceVCodeWithVCodeInputField:(VCodeInputField *)field account:(NSString *)account targetVC:(UIViewController *)targetVC
+- (RACSignal *)rac_timeCountDown:(NSTimeInterval)time
+{
+    __block int count = time;
+    return [[[[[RACSignal interval:1 onScheduler:[RACScheduler scheduler]]
+              startWith:[NSDate date]] map:^id(id value) {
+        
+        return @(count--);
+    }] take:time+1] deliverOn:[RACScheduler mainThreadScheduler]];
+}
+
+- (void)getVoiceVcodeWithVcodeInputField:(VCodeInputField *)field account:(NSString *)account targetVC:(UIViewController *)targetVC
 {
     GetVoiceVCodeOp *op = [GetVoiceVCodeOp operation];
     op.req_phone = account;

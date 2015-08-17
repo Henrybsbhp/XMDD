@@ -37,7 +37,7 @@
         cache.diskCache.byteLimit = 512 * 1024 * 1024;
         _dataCache = cache;
         //多媒体管理器
-        _mediaMgr = [[MultiMediaManager alloc] initWithPicCache:_dataCache];
+        _mediaMgr = [[MultiMediaManager alloc] init];
         
         cache = [[TMCache alloc] initWithName:@"PromptionCache"];
         cache.diskCache.byteLimit = 200 * 1024 * 1024; // 200M
