@@ -833,7 +833,12 @@
     op.couponArray = coupons;
     
     //支付方式
-    NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup];
+    NSArray * array = [[self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup] sortedArrayUsingComparator:^NSComparisonResult(UIButton * obj1, UIButton * obj2) {
+        
+        NSIndexPath * path1 = (NSIndexPath *)obj1.customObject;
+        NSIndexPath * path2 = (NSIndexPath *)obj2.customObject;
+        return path1.row > path2.row;
+    }];
     for (NSInteger i = 0 ; i < array.count ; i++)
     {
         UIButton * btn = [array safetyObjectAtIndex:i];
@@ -865,7 +870,7 @@
                     op.paychannel = PaymentChannelAlipay;
                 }
             }
-            else if (i == 1)
+            else if (i == 2)
             {
                 if (couponType > 0)
                 {
