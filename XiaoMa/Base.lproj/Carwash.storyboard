@@ -1048,8 +1048,8 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="神州洗车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I4M-0L-imi">
-                                                    <rect key="frame" x="104" y="21" width="484" height="20"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="black" pointSize="17"/>
+                                                    <rect key="frame" x="104" y="18" width="484" height="17"/>
+                                                    <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="17"/>
                                                     <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -1067,7 +1067,7 @@
                                                 <constraint firstItem="3yt-Fj-TBA" firstAttribute="bottom" secondItem="8Uc-9g-PQf" secondAttribute="bottom" constant="-8" id="bA7-3E-l1B"/>
                                                 <constraint firstAttribute="trailing" secondItem="3yt-Fj-TBA" secondAttribute="trailing" constant="12" id="dmr-A0-fsY"/>
                                                 <constraint firstItem="3yt-Fj-TBA" firstAttribute="leading" secondItem="8Uc-9g-PQf" secondAttribute="trailing" constant="11" id="iDO-gn-RNI"/>
-                                                <constraint firstItem="I4M-0L-imi" firstAttribute="top" secondItem="8Uc-9g-PQf" secondAttribute="top" constant="8" id="nTM-GC-KzL"/>
+                                                <constraint firstItem="I4M-0L-imi" firstAttribute="top" secondItem="8Uc-9g-PQf" secondAttribute="top" constant="5" id="nTM-GC-KzL"/>
                                                 <constraint firstAttribute="trailing" secondItem="I4M-0L-imi" secondAttribute="trailing" constant="12" id="reW-fr-Z0g"/>
                                             </constraints>
                                         </tableViewCellContentView>
