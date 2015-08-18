@@ -11,6 +11,6 @@
 @interface UnbindBankcardOp : BaseOp
 
 @property (nonatomic, strong) NSString *req_vcode;
-@property (nonatomic, strong) NSString *req_cardid;
+@property (nonatomic, strong) NSNumber *req_cardid;
 
 @end
