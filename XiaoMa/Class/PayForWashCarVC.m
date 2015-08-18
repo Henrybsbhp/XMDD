@@ -71,6 +71,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    if (self.needChooseResource)
+    {
+        [self requestGetUserResource];
+        self.needChooseResource = NO;
+    }
     [MobClick beginLogPageView:@"rp108"];
 }
 
@@ -287,15 +292,15 @@
     else if (indexPath.section == 2) {
         if (indexPath.row == 1) {
             [MobClick event:@"rp108-12"];
-            if (gAppMgr.myUser.validCZBankCreditCard)
-            {
-                if (self.couponType != CouponTypeCZBankCarWash)
-                {
+//            if (gAppMgr.myUser.validCZBankCreditCard)
+//            {
+//                if (self.couponType != CouponTypeCZBankCarWash)
+//                {
                     ChooseBankCardVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseBankCardVC"];
                     vc.bankCards = gAppMgr.myUser.validCZBankCreditCard;
                     [self.navigationController pushViewController:vc animated:YES];
-                }
-            }
+//                }
+//            }
         }
     }
 }
@@ -778,6 +783,7 @@
             
             return obj1.couponAmount > obj2.couponAmount;
         }];
+        gAppMgr.myUser.validCashCouponArray = cashfilterArray;
         
         self.isLoadingResourse = NO;
         
@@ -1249,6 +1255,20 @@
     //        });
     //    }
     //    return;
+}
+
+- (void)chooseResource
+{
+    [self selectDefaultCoupon];
+    [self autoSelectBankCard];
+    
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
+}
+
+- (void)chooseResourceByBankCard:(HKBankCard *)card
+{
+    
 }
 
 @end

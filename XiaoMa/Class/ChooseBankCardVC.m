@@ -37,6 +37,7 @@
         @strongify(self);
         [self reloadData];
     }];
+    [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
     [self.tableView reloadData];
 }
 
@@ -64,7 +65,67 @@
         gAppMgr.myUser.abcIntegral = op.rsp_bankIntegral;
         gAppMgr.myUser.validCZBankCreditCard = op.rsp_czBankCreditCard;
         self.bankCards = op.rsp_czBankCreditCard;
+        NSArray * carwashfilterArray = [op.rsp_coupons arrayByFilteringOperator:^BOOL(HKCoupon * c) {
+            
+            if (c.conponType == CouponTypeCarWash)
+            {
+                if (c.valid)
+                {
+                    return YES;
+                }
+            }
+            return NO;
+        }];
+        NSArray * czBankcarwashfilterArray = [op.rsp_coupons arrayByFilteringOperator:^BOOL(HKCoupon * c) {
+            
+            if (c.conponType == CouponTypeCZBankCarWash)
+            {
+                if (c.valid)
+                {
+                    return YES;
+                }
+            }
+            return NO;
+        }];
+        NSArray * sortedCarwashfilterArray  = [carwashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
+            
+            return obj1.validthrough == [obj1.validthrough laterDate:obj2.validthrough];
+        }];
+        NSArray * sortedCZBankcarwashfilterArray  = [czBankcarwashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
+            
+            return obj1.validthrough == [obj1.validthrough laterDate:obj2.validthrough];
+        }];
+        
+        NSMutableArray * carwashArray = [NSMutableArray arrayWithArray:sortedCZBankcarwashfilterArray];
+        [carwashArray addObjectsFromArray:sortedCarwashfilterArray];
+        gAppMgr.myUser.validCarwashCouponArray = [NSArray arrayWithArray:carwashArray];
+        
+        NSArray * cashfilterArray = [op.rsp_coupons arrayByFilteringOperator:^BOOL(HKCoupon * c) {
+            
+            if (c.conponType == CouponTypeCash)
+            {
+                if (c.valid)
+                {
+                    return YES;
+                }
+            }
+            return NO;
+        }];
+        gAppMgr.myUser.validCashCouponArray = [cashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
+            
+            return obj1.couponAmount > obj2.couponAmount;
+        }];
+        
         [self.tableView reloadData];
+        
+        NSArray * viewcontroller = self.navigationController.viewControllers;
+        UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 2];
+        if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
+        {
+            PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
+            [payVc chooseResource];
+        }
+
     } error:^(NSError *error) {
         
     }];
@@ -102,6 +163,18 @@
             PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
             HKBankCard * card = [self.bankCards safetyObjectAtIndex:indexPath.row - 1];
             payVc.selectBankCard = card;
+            if (card.couponIds.count)
+            {
+                NSArray * array = [gAppMgr.myUser.validCarwashCouponArray arrayByFilteringOperator:^BOOL(HKCoupon *obj) {
+                    
+                    return [obj.couponId isEqualToNumber:[card.couponIds safetyObjectAtIndex:0]];
+                }];
+                if (array.count)
+                {
+                    payVc.selectCarwashCoupouArray = [NSMutableArray arrayWithObject:[array safetyObjectAtIndex:0]];
+                    payVc.couponType = CouponTypeCZBankCarWash;
+                }
+            }
             [payVc setPlatform:PayWithXMDDCreditCard];
             [payVc tableViewReloadData];
             [self.navigationController popViewControllerAnimated:YES];
