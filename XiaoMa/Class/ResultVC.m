@@ -26,7 +26,7 @@
     formSheet.presentedFormSheetSize = CGSizeMake(280, 238);
     formSheet.cornerRadius = 2.0;
     formSheet.shadowOpacity = 0.01;
-    formSheet.shouldDismissOnBackgroundViewTap = YES;
+    formSheet.shouldDismissOnBackgroundViewTap = NO;
     formSheet.shouldCenterVertically = YES;
     [targetVC mz_presentFormSheetController:formSheet animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
         [vc.drawView drawSuccess];
