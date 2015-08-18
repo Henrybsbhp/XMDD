@@ -13,7 +13,6 @@
 #import "CardDetailVC.h"
 #import "BindBankCardVC.h"
 #import "GetBankcardListOp.h"
-#import "MyBankcardsModel.h"
 
 @interface MyBankVC ()<UITableViewDataSource,UITableViewDelegate>
 

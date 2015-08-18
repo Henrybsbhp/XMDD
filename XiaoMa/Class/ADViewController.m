@@ -8,9 +8,10 @@
 
 #import "ADViewController.h"
 #import "WebVC.h"
+#import "NavigationModel.h"
 
 @interface ADViewController ()<SYPaginatorViewDelegate, SYPaginatorViewDataSource>
-
+@property (nonatomic, strong) NavigationModel *navModel;
 @end
 @implementation ADViewController
 
@@ -29,7 +30,9 @@
         _targetVC = vc;
         _adType = type;
         _mobBaseEvent = event;
-        CGFloat height = width*360.0/1242.0;
+        _navModel = [[NavigationModel alloc] init];
+        _navModel.curNavCtrl = _targetVC.navigationController;
+        CGFloat height = floor(width*360.0/1242.0);
         SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
         adView.delegate = self;
         adView.dataSource = self;
@@ -76,12 +79,14 @@
 - (void)reloadDataForTableView:(UITableView *)tableView
 {
     [self reloadDataWithCompleted:^(ADViewController *ctrl, NSArray *ads) {
-        if (ads.count > 0) {
-            tableView.tableHeaderView = ctrl.adView;
-        }
-        else {
-            tableView.tableHeaderView = nil;
-        }
+        CKAsyncMainQueue(^{
+            if (ads.count > 0) {
+                tableView.tableHeaderView = ctrl.adView;
+            }
+            else {
+                tableView.tableHeaderView = nil;
+            }
+        });
     }];
 }
 #pragma mark - SYPaginatorViewDelegate
@@ -119,12 +124,9 @@
         }
         @strongify(self);
         if (ad.adLink.length > 0) {
-            WebVC * vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
-            vc.url = ad.adLink;
-            [self.targetVC.navigationController pushViewController:vc animated:YES];
+            [self.navModel pushToViewControllerByUrl:ad.adLink];
         }
-        else
-        {
+        else {
             WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
             vc.title = @"小马达达";
             vc.url = XIAMMAWEB;
