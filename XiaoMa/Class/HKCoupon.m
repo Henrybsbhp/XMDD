@@ -24,6 +24,7 @@
     coupon.couponDescription = rsp[@"description"];
     coupon.used = [rsp intParamForName:@"used"] == 1;
     coupon.valid = [rsp intParamForName:@"valid"] == 1;
+    coupon.isshareble = [rsp intParamForName:@"isshareble"];
     coupon.validsince = [NSDate dateWithD8Text:[NSString stringWithFormat:@"%@",rsp[@"validsince"]]];
     coupon.validthrough = [NSDate dateWithD8Text:[NSString stringWithFormat:@"%@",rsp[@"validthrough"]]];
     coupon.conponType = (CouponType)[rsp integerParamForName:@"type"];
