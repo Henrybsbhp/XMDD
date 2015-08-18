@@ -186,7 +186,7 @@
             }
             else {
                 vc.shouldUpdateCar = NO;
-                vc.car = car;
+                vc.car = self.noPlateNumber ? nil : car;
             }
             [self.navigationController pushViewController:vc animated:YES];
             [vc reloadWithInsurance:rspOp.rsp_insuraceArray calculatorID:rspOp.rsp_calculatorID];
@@ -540,6 +540,7 @@
 
 - (void)pickDate
 {
+    
     [[self.datePickerVC rac_presentPickerVCInView:self.navigationController.view withSelectedDate:self.carryTime]
      subscribeNext:^(NSDate *date) {
         self.carryTime = date;

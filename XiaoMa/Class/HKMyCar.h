@@ -9,6 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "NSMutableDictionary+AddParams.h"
 
+typedef enum : NSInteger
+{
+    HKCarEditableNone = 0,
+    HKCarEditableEdit = 0x01,
+    HKCarEditableDelete = 0x02,
+    HKCarEditableAll = 0xff
+}HKCarEditableMask;
+
 
 @interface HKMyCar : NSObject<NSCopying>
 
@@ -48,9 +56,12 @@
 ///是否为默认车辆
 @property (nonatomic)BOOL isDefault;
 
+@property (nonatomic, assign) HKCarEditableMask editMask;
+
 + (instancetype)carWithJSONResponse:(NSDictionary *)rsp;
 - (NSDictionary *)jsonDictForCarInfo;
 - (BOOL)isCarInfoCompleted;
+- (BOOL)isDifferentFromAnother:(HKMyCar *)another;
 - (NSString *)carSeriesDesc;
 
 
