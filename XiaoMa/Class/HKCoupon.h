@@ -44,6 +44,9 @@ typedef enum : NSUInteger {
 ///是否有效
 @property (nonatomic)BOOL valid;
 
+///是否可以分享
+@property (nonatomic)BOOL isshareble;
+
 ///有效期开始
 @property (nonatomic,strong)NSDate *validsince;
 

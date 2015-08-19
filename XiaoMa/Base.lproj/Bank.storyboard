@@ -222,7 +222,7 @@
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="全年5元洗车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHq-0u-e5g">
                                                             <rect key="frame" x="5" y="10" width="105" height="14"/>
                                                             <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="14"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="每月2次" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UWZ-pa-BDp">
@@ -798,6 +798,67 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iyE-0V-iyK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="383" y="967"/>
+        </scene>
+        <!--Details AlertVC-->
+        <scene sceneID="kmw-aS-YHf">
+            <objects>
+                <viewController storyboardIdentifier="DetailsAlertVC" id="OKl-ED-WLm" customClass="DetailsAlertVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="JNv-DU-3lU"/>
+                        <viewControllerLayoutGuide type="bottom" id="NiV-cY-E5A"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="4C5-9l-jIT">
+                        <rect key="frame" x="0.0" y="0.0" width="290" height="360"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RXY-IS-3gz">
+                                <rect key="frame" x="14" y="25" width="262" height="295"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="295" id="8Wo-zA-wFR"/>
+                                    <constraint firstAttribute="width" constant="262" id="KD7-Zm-iPT"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WXl-gt-T5i">
+                                <rect key="frame" x="0.0" y="314" width="290" height="1"/>
+                                <color key="backgroundColor" red="0.85124684340000001" green="0.85124684340000001" blue="0.85124684340000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="vUb-qa-hDl"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c8Q-Yg-3gx">
+                                <rect key="frame" x="0.0" y="315" width="290" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="Gka-Ka-2gy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="确 认">
+                                    <color key="titleColor" red="0.1344757674" green="0.671875" blue="0.1314050806" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="RXY-IS-3gz" firstAttribute="leading" secondItem="4C5-9l-jIT" secondAttribute="leading" constant="14" id="4YJ-Hl-oLK"/>
+                            <constraint firstItem="WXl-gt-T5i" firstAttribute="leading" secondItem="4C5-9l-jIT" secondAttribute="leadingMargin" constant="-16" id="BzK-M0-uK3"/>
+                            <constraint firstAttribute="trailing" secondItem="c8Q-Yg-3gx" secondAttribute="trailing" id="QhU-pI-LkG"/>
+                            <constraint firstItem="RXY-IS-3gz" firstAttribute="top" secondItem="JNv-DU-3lU" secondAttribute="bottom" constant="5" id="XnN-m2-NDd"/>
+                            <constraint firstItem="c8Q-Yg-3gx" firstAttribute="leading" secondItem="4C5-9l-jIT" secondAttribute="leading" id="em0-qU-cal"/>
+                            <constraint firstItem="WXl-gt-T5i" firstAttribute="top" secondItem="c8Q-Yg-3gx" secondAttribute="top" constant="-1" id="ggt-py-Qag"/>
+                            <constraint firstItem="NiV-cY-E5A" firstAttribute="top" secondItem="c8Q-Yg-3gx" secondAttribute="bottom" id="mwI-ft-8Xs"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="WXl-gt-T5i" secondAttribute="trailing" constant="-16" id="wwX-dd-fPr"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="290" height="360"/>
+                    <connections>
+                        <outlet property="confirmBtn" destination="c8Q-Yg-3gx" id="C5u-13-2nT"/>
+                        <outlet property="detailsImageView" destination="RXY-IS-3gz" id="hzA-hx-XoZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wQ0-ZU-H6S" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1155" y="807"/>
         </scene>
     </scenes>
     <resources>
