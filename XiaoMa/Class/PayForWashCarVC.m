@@ -593,7 +593,7 @@
     if (indexPath.row == 1) {
         iconV.image = [UIImage imageNamed:@"cw_creditcard"];
         titleLb.text = @"信用卡支付";
-        noteLb.text = @"推荐浙商银行汽车达人卡用户使用";
+        noteLb.text = @"推荐浙商银行汽车卡用户使用";
         if (gAppMgr.myUser.validCZBankCreditCard.count)
         {
             titleLb.textColor = [UIColor colorWithHex:@"#323232" alpha:1.0f];
