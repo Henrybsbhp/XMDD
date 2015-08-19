@@ -92,11 +92,11 @@ typedef enum : NSInteger {
     {
         RACScheduler *sch = [RACScheduler schedulerWithPriority:RACSchedulerPriorityHigh];
         return [[[RACSignal startEagerlyWithScheduler:sch block:^(id<RACSubscriber> subscriber) {
-            
-            NSString *skey = [HKLoginModel getSkeyForAccount:ad loginType:LoginTypePassowrd];
-            if (!skey && type != LoginTypePassowrd) {
-                skey = [HKLoginModel getSkeyForAccount:ad loginType:type];
-            }
+            NSString *skey = [HKLoginModel getSkeyForAccount:ad loginType:type];
+//            NSString *skey = [HKLoginModel getSkeyForAccount:ad loginType:LoginTypePassowrd];
+//            if (!skey && type != LoginTypePassowrd) {
+//                skey = [HKLoginModel getSkeyForAccount:ad loginType:type];
+//            }
             [subscriber sendNext:skey];
         }] flattenMap:^RACStream *(NSString *skey) {
             
@@ -245,10 +245,7 @@ typedef enum : NSInteger {
 {
     GetTokenOp *op = [GetTokenOp new];
     op.req_phone = account;
-//    @weakify(self);
     return [[op rac_postRequest] map:^(GetTokenOp *rspOp) {
-//        @strongify(self);
-//        [self.tokenPool safetySetObject:rspOp.rsp_token forKey:account];
         return rspOp.rsp_token;
     }];
 }
@@ -281,14 +278,6 @@ typedef enum : NSInteger {
         return rstOp;
      }];
     
-//    @weakify(self);
-//    signal = [signal doError:^(NSError *error) {
-//        
-//        @strongify(self);
-//        //验证失败的时候需要从token池中移除掉当前token
-//        [self.tokenPool removeObjectForKey:account];
-//    }];
-    
     return [signal deliverOn:[RACScheduler mainThreadScheduler]];
 
 }
@@ -315,14 +304,15 @@ typedef enum : NSInteger {
 {
     NSDictionary *loginInfo = [HKLoginModel nearlyLoginInfo];
     NSString *account = loginInfo[@"account"];
-    LoginType type = [loginInfo[@"type"] integerValue];
+//    LoginType type = [loginInfo[@"type"] integerValue];
     
-    NSString *serverId = [NSString stringWithFormat:@"%@_%@", kKeychainServiceName, @(type)];
+    NSString *PwdKey = [NSString stringWithFormat:@"%@_%@", kKeychainServiceName, @(LoginTypePassowrd)];
+    NSString *vcodeKey = [NSString stringWithFormat:@"%@_%@", kKeychainServiceName, @(LoginTypeVCode)];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0),^{
         
-        NSError * error;
-        [SFHFKeychainUtils deleteItemForUsername:account andServiceName:serverId error:&error];
+        [SFHFKeychainUtils deleteItemForUsername:account andServiceName:PwdKey error:nil];
+        [SFHFKeychainUtils deleteItemForUsername:account andServiceName:vcodeKey error:nil];
     });
 }
 

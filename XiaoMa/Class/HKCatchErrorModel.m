@@ -23,11 +23,11 @@
         
         NSInteger code = error.code;
         //token失效
-        if (code == -2001) {
-            return [self retryWithOp:op withError:error];
-        }
-        //token非法
-        else if (code == -2002) {
+//        if (code == -2001) {
+//            return [self retryWithOp:op withError:error];
+//        }
+        //token非法或失效
+        if (code == -2002 || code == -2001) {
             [HKLoginModel logoutWithoutNetworking];
             [self gotoRootViewWithAlertTitle:@"登出通知" msg:@"您的本次登录已经失效了,请重新登录。"];
             error = [NSError errorWithDomain:@"" code:error.code userInfo:nil];
