@@ -110,6 +110,7 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
         @weakify(self);
         [[self rac_timeCountDown:kMaxVcodeInterval - interval] subscribeNext:^(id x) {
             NSString *title = [NSString stringWithFormat:@"剩余%d秒", [x intValue]];
+            [vbtn setTitle:title forState:UIControlStateDisabled];
             [vbtn setTitle:title forState:UIControlStateNormal];
         } completed:^{
             @strongify(self);
@@ -135,7 +136,7 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
     RACSubject *subject = [RACSubject subject];
     @weakify(self);
     [[[[vcodeSignal initially:^{
-//        [btn setTitle:@"正在获取..." forState:UIControlStateDi0sabled];
+        [btn setTitle:@"正在获取..." forState:UIControlStateDisabled];
         [btn setTitle:@"正在获取..." forState:UIControlStateNormal];
         btn.enabled = NO;
     }] flattenMap:^RACStream *(id value) {
@@ -153,7 +154,7 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
         }
     }] subscribeNext:^(id x) {
         NSString *title = [NSString stringWithFormat:@"剩余%d秒", [x intValue]];
-//        [btn setTitle:title forState:UIControlStateDisabled];
+        [btn setTitle:title forState:UIControlStateDisabled];
         [btn setTitle:title forState:UIControlStateNormal];
     } error:^(NSError *error) {
         [subject sendError:error];
@@ -168,10 +169,12 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
 {
     VCodeInputField *field = self.inputVcodeField;
     UITextField *adField = self.phoneField;
+    @weakify(targetVC);
     @weakify(field);
     [[[field.rightButton rac_signalForControlEvents:UIControlEventTouchUpInside]
       takeUntil:[targetVC rac_signalForSelector:@selector(didReceiveMemoryWarning)]] subscribeNext:^(id x) {
         @strongify(field);
+        @strongify(targetVC);
         [MobClick event:[events safetyObjectAtIndex:0]];
         //        [targetVC.view endEditing:YES];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil

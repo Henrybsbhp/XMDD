@@ -54,16 +54,16 @@
             }
         }];
         [[self rac_deallocDisposable] addDisposable:dis];
-        
     }
     return self;
 }
 
 #pragma mark - Reload
-- (void)reloadDataWithCompleted:(void(^)(ADViewController *ctrl, NSArray *ads))completed
+- (void)reloadDataWithForce:(BOOL)force completed:(void(^)(ADViewController *ctrl, NSArray *ads))completed
 {
     @weakify(self);
-    [[[gAdMgr rac_fetchAdListByType:self.adType] deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
+    RACSignal *signal = force ? [gAdMgr rac_getAdvertisement:self.adType] : [gAdMgr rac_fetchAdListByType:self.adType];
+    [[signal deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
         
         @strongify(self);
         _adList = ads;
@@ -78,13 +78,15 @@
 
 - (void)reloadDataForTableView:(UITableView *)tableView
 {
-    [self reloadDataWithCompleted:^(ADViewController *ctrl, NSArray *ads) {
+    [self reloadDataWithForce:NO completed:^(ADViewController *ctrl, NSArray *ads) {
         CKAsyncMainQueue(^{
             if (ads.count > 0) {
                 tableView.tableHeaderView = ctrl.adView;
             }
             else {
-                tableView.tableHeaderView = nil;
+                UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+                header.backgroundColor = [UIColor clearColor];
+                tableView.tableHeaderView = header;
             }
         });
     }];
