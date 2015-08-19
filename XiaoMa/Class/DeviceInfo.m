@@ -79,7 +79,6 @@
     //如果该版本大于上次检测到的版本
     if ([version compare:oldVersion options:NSCaseInsensitiveSearch] == NSOrderedDescending) {
         [def setObject:version forKey:name];
-        return YES;
     }
     return NO;
 }
