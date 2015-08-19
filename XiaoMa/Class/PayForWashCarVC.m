@@ -852,7 +852,7 @@
                 if (couponType > 0)
                 {
                     op.platform = PayWithXMDDCreditCard;
-                    op.paychannel = PaymentChannelXMDDCreditCard;
+//                    op.paychannel = PaymentChannelXMDDCreditCard;
                 }
                 else
                 {
@@ -991,7 +991,7 @@
             }
             else if ([number integerValue] == 1) {
                 [MobClick event:@"rp108-9"];
-                [self requestCheckoutWithCouponType:CouponTypeNone ];
+                [self requestCheckoutWithCouponType:CouponTypeNone];
             }
         }];
         [alert show];
