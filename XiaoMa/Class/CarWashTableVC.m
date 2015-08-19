@@ -128,7 +128,7 @@
         return;
     }
     @weakify(self);
-    [self.adctrl reloadDataWithCompleted:^(ADViewController *ctrl, NSArray *ads) {
+    [self.adctrl reloadDataWithForce:NO completed:^(ADViewController *ctrl, NSArray *ads) {
         @strongify(self);
         [self refreshAdView];
     }];

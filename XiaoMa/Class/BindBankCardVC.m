@@ -46,10 +46,8 @@
 - (void)actionGetVCode:(id)sender
 {
     [MobClick event:@"rp313-3"];
-    if ([self sharkCellIfErrorAtIndex:0]) {
-        return;
-    }
-    if ([self sharkCellIfErrorAtIndex:1]) {
+    if (self.cardField.text.length < 15 || self.cardField.text.length > 20) {
+        [self shakeCellAtIndex:0];
         return;
     }
     CKAsyncMainQueue(^{
@@ -94,13 +92,16 @@
 
 - (IBAction)actionBind:(id)sender {
     [MobClick event:@"rp313-5"];
-    if ([self sharkCellIfErrorAtIndex:0]) {
+    if (self.cardField.text.length < 15 || self.cardField.text.length > 20) {
+        [self shakeCellAtIndex:0];
         return;
     }
-    if ([self sharkCellIfErrorAtIndex:1]) {
+    if (self.phoneField.text.length != 11) {
+        [self shakeCellAtIndex:1];
         return;
     }
-    if ([self sharkCellIfErrorAtIndex:2]) {
+    if (self.vcodeField.text.length < 4 || self.vcodeField.text.length > 8) {
+        [self shakeCellAtIndex:2];
         return;
     }
     BindBankcardOp *op = [BindBankcardOp operation];
@@ -163,7 +164,7 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CardCell" forIndexPath:indexPath];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
-    
+    field.delegate = self;
     [[[field rac_signalForControlEvents:UIControlEventEditingDidBegin] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         [MobClick event:@"rp313-1"];
     }];
@@ -202,6 +203,7 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"VcodeCell" forIndexPath:indexPath];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
+    field.delegate = self;
     [[[field rac_signalForControlEvents:UIControlEventEditingDidBegin] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         [MobClick event:@"rp313-4"];
     }];
@@ -215,9 +217,15 @@
 #pragma mark - UITextFieldDelegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
+    NSInteger length = range.location + [string length] - range.length;
+    //银行卡号输入
+    if ([textField isEqual:self.cardField]) {
+        if (length > 20) {
+            return NO;
+        }
+    }
     //手机号输入
-    if ([textField isEqual:self.phoneField]) {
-        NSInteger length = range.location + [string length] - range.length;
+    else if ([textField isEqual:self.phoneField]) {
         if (length > 11) {
             return NO;
         }
@@ -231,12 +239,25 @@
     }
     //验证码输入
     else if ([textField isEqual:self.vcodeField]) {
-        NSInteger length = range.location + [string length] - range.length;
         if (length > 8) {
             return NO;
         }
     }
     
+    return YES;
+}
+- (BOOL)textFieldShouldClear:(UITextField *)textField
+{
+    //手机号输入
+    if ([textField isEqual:self.phoneField]) {
+        NSString *title = [self.vcodeButton titleForState:UIControlStateNormal];
+        if ([@"获取验证码" equalByCaseInsensitive:title]) {
+            BOOL enable = NO;
+            if (enable != self.vcodeButton.enabled) {
+                self.vcodeButton.enabled = enable;
+            }
+        }
+    }
     return YES;
 }
 #pragma mark - Private

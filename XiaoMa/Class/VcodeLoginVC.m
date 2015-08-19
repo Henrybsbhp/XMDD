@@ -66,6 +66,11 @@
     [MobClick endLogPageView:@"rp002"];
 }
 
+- (void)dealloc
+{
+    
+}
+
 #pragma mark - Action
 - (void)actionBack:(id)sender {
     [self.model dismissForTargetVC:self forSucces:NO];
@@ -170,6 +175,20 @@
     return YES;
 }
 
+- (BOOL)textFieldShouldClear:(UITextField *)textField
+{
+    //手机号输入
+    if ([textField isEqual:self.num]) {
+        NSString *title = [self.vcodeBtn titleForState:UIControlStateNormal];
+        if ([@"获取验证码" equalByCaseInsensitive:title]) {
+            BOOL enable = NO;
+            if (enable != self.vcodeBtn.enabled) {
+                self.vcodeBtn.enabled = enable;
+            }
+        }
+    }
+    return YES;
+}
 #pragma mark - Private
 - (NSString *)textAtIndex:(NSInteger)index
 {

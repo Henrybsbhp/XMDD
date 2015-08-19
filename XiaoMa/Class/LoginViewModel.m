@@ -30,6 +30,7 @@
             [self.rac_loginSuccess sendNext:@YES];
             [self.rac_loginSuccess sendCompleted];
         }
+        gAppDelegate.loginVC = nil;
         return;
     }
     [targetVC dismissViewControllerAnimated:YES completion:^{
@@ -37,6 +38,7 @@
             [self.rac_loginSuccess sendNext:@YES];
             [self.rac_loginSuccess sendCompleted];
         }
+        gAppDelegate.loginVC = nil;
     }];
 }
 
