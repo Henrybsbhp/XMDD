@@ -996,6 +996,11 @@
         }];
         [alert show];
     }
+    else if (error.code == 5003 || error.code == 615805)
+    {
+        [self requestGetUserResource];
+        [gToast showError:error.domain];
+    }
     else {
         [gToast showError:error.domain];
     }
