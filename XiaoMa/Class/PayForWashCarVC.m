@@ -593,7 +593,7 @@
     if (indexPath.row == 1) {
         iconV.image = [UIImage imageNamed:@"cw_creditcard"];
         titleLb.text = @"信用卡支付";
-        noteLb.text = @"推荐小马达达信用卡用户使用";
+        noteLb.text = @"推荐浙商银行汽车达人卡用户使用";
         if (gAppMgr.myUser.validCZBankCreditCard.count)
         {
             titleLb.textColor = [UIColor colorWithHex:@"#323232" alpha:1.0f];
@@ -755,17 +755,17 @@
             }
             return NO;
         }];
-        NSArray * sortedCarwashfilterArray  = [carwashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
-            
-            return obj1.validthrough == [obj1.validthrough laterDate:obj2.validthrough];
-        }];
-        NSArray * sortedCZBankcarwashfilterArray  = [czBankcarwashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
-            
-            return obj1.validthrough == [obj1.validthrough laterDate:obj2.validthrough];
-        }];
+//        NSArray * sortedCarwashfilterArray  = [carwashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
+//            
+//            return obj1.validthrough == [obj1.validthrough laterDate:obj2.validthrough];
+//        }];
+//        NSArray * sortedCZBankcarwashfilterArray  = [czBankcarwashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
+//            
+//            return obj1.validthrough == [obj1.validthrough laterDate:obj2.validthrough];
+//        }];
         
-        NSMutableArray * carwashArray = [NSMutableArray arrayWithArray:sortedCZBankcarwashfilterArray];
-        [carwashArray addObjectsFromArray:sortedCarwashfilterArray];
+        NSMutableArray * carwashArray = [NSMutableArray arrayWithArray:czBankcarwashfilterArray];
+        [carwashArray addObjectsFromArray:carwashfilterArray];
         gAppMgr.myUser.validCarwashCouponArray = [NSArray arrayWithArray:carwashArray];
         
         NSArray * cashfilterArray = [op.rsp_coupons arrayByFilteringOperator:^BOOL(HKCoupon * c) {
@@ -809,10 +809,6 @@
 - (void)requestCheckoutWithCouponType:(CouponType)couponType
 {
     CheckoutServiceOrderV2Op * op = [CheckoutServiceOrderV2Op operation];
-    op.serviceid = self.service.serviceID;
-    op.licencenumber = self.defaultCar.licencenumber ? self.defaultCar.licencenumber : @"";
-    op.carbrand = [self.defaultCar carSeriesDesc];
-    op.bankCardId = self.selectBankCard.cardID;
     NSMutableArray *coupons;
     if (couponType == CouponTypeCZBankCarWash)
     {
@@ -856,6 +852,7 @@
                 if (couponType > 0)
                 {
                     op.platform = PayWithXMDDCreditCard;
+                    op.paychannel = PaymentChannelXMDDCreditCard;
                 }
                 else
                 {
@@ -875,6 +872,7 @@
                     op.platform = PayWithAlipay;
                     op.paychannel = PaymentChannelAlipay;
                 }
+                self.selectBankCard.cardID = nil;
             }
             else if (i == 2)
             {
@@ -888,9 +886,15 @@
                     op.platform = PayWithWechat;
                     op.paychannel = PaymentChannelWechat;
                 }
+                self.selectBankCard.cardID = nil;
             }
         }
     }
+    
+    op.serviceid = self.service.serviceID;
+    op.licencenumber = self.defaultCar.licencenumber ? self.defaultCar.licencenumber : @"";
+    op.carbrand = [self.defaultCar carSeriesDesc];
+    op.bankCardId = self.selectBankCard.cardID;
     
     //如果不是原价支付，需要提供定位信息
     RACSignal *signal;
@@ -1048,13 +1052,13 @@
 {
     [self.selectCarwashCoupouArray removeAllObjects];
     [self.selectCashCoupouArray removeAllObjects];
+    self.couponType = CouponTypeNone;
     if (gAppMgr.myUser.validCarwashCouponArray.count)
     {
         HKCoupon * coupon = [gAppMgr.myUser.validCarwashCouponArray safetyObjectAtIndex:0];
         if (coupon.conponType == CouponTypeCZBankCarWash){
             
             self.couponType = CouponTypeCZBankCarWash;
-            //            self.paymentType = PaymentChannelXMDDCreditCard;
             self.platform = PayWithXMDDCreditCard;
         }
         else{
