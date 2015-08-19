@@ -196,16 +196,24 @@
     
     NSUInteger section = [indexPath section];
     NSString *bgColorName;
-    NSString *statusText = @"有效";
+    NSString *statusText;
     if (section == 0){
-        if (couponDic.conponType == CouponTypeCarWash) {
-            bgColorName = @"#5fb8e2";
+        if (couponDic.isshareble) {
+            
             statusText = @"转赠";
             @weakify(self);
             [[[statusB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 @strongify(self);
                 [self shareAction:couponDic.couponId];
             }];
+        }
+        else
+        {
+            statusText = @"有效";
+        }
+        
+        if (couponDic.conponType == CouponTypeCarWash) {
+            bgColorName = @"#5fb8e2";
         }
         else if (couponDic.conponType == CouponTypeCash || couponDic.conponType == CouponTypeInsurance) {
             bgColorName = @"#f54a4a";

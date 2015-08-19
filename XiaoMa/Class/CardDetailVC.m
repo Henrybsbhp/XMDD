@@ -8,6 +8,7 @@
 
 #import "CardDetailVC.h"
 #import "UnbundlingVC.h"
+#import "DetailsAlertVC.h"
 
 @interface CardDetailVC ()
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -82,7 +83,7 @@
     
     //模拟数据
     NSArray * titleStr = @[@"全年5元洗车", @"免费道路救援", @"免费年检代办"];
-    NSArray * remarksStr = @[@"每月2次", @"不限次数", @"不限次数"];
+    NSArray * remarksStr = @[@"每月2次", @"出行无忧", @"年检无忧"];
     NSArray * imageStr = @[@"mb_carwash", @"mb_rescue", @"mb_agency"];
     [backgroundView setCornerRadius:5.0f];
     titleLabel.text = titleStr[indexPath.row];
@@ -93,7 +94,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    [DetailsAlertVC showInTargetVC:self withType:indexPath.row];
 }
 
 - (IBAction)cancelBinding:(id)sender {
