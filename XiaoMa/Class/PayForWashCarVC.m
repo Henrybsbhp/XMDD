@@ -71,6 +71,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    if (self.needChooseResource)
+    {
+        [self requestGetUserResource];
+        self.needChooseResource = NO;
+    }
     [MobClick beginLogPageView:@"rp108"];
 }
 
@@ -287,15 +292,15 @@
     else if (indexPath.section == 2) {
         if (indexPath.row == 1) {
             [MobClick event:@"rp108-12"];
-            if (gAppMgr.myUser.validCZBankCreditCard)
-            {
-                if (self.couponType != CouponTypeCZBankCarWash)
-                {
+//            if (gAppMgr.myUser.validCZBankCreditCard)
+//            {
+//                if (self.couponType != CouponTypeCZBankCarWash)
+//                {
                     ChooseBankCardVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseBankCardVC"];
                     vc.bankCards = gAppMgr.myUser.validCZBankCreditCard;
                     [self.navigationController pushViewController:vc animated:YES];
-                }
-            }
+//                }
+//            }
         }
     }
 }
@@ -588,7 +593,7 @@
     if (indexPath.row == 1) {
         iconV.image = [UIImage imageNamed:@"cw_creditcard"];
         titleLb.text = @"信用卡支付";
-        noteLb.text = @"推荐小马达达信用卡用户使用";
+        noteLb.text = @"推荐浙商银行汽车达人卡用户使用";
         if (gAppMgr.myUser.validCZBankCreditCard.count)
         {
             titleLb.textColor = [UIColor colorWithHex:@"#323232" alpha:1.0f];
@@ -750,17 +755,17 @@
             }
             return NO;
         }];
-        NSArray * sortedCarwashfilterArray  = [carwashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
-            
-            return obj1.validthrough == [obj1.validthrough laterDate:obj2.validthrough];
-        }];
-        NSArray * sortedCZBankcarwashfilterArray  = [czBankcarwashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
-            
-            return obj1.validthrough == [obj1.validthrough laterDate:obj2.validthrough];
-        }];
+//        NSArray * sortedCarwashfilterArray  = [carwashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
+//            
+//            return obj1.validthrough == [obj1.validthrough laterDate:obj2.validthrough];
+//        }];
+//        NSArray * sortedCZBankcarwashfilterArray  = [czBankcarwashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
+//            
+//            return obj1.validthrough == [obj1.validthrough laterDate:obj2.validthrough];
+//        }];
         
-        NSMutableArray * carwashArray = [NSMutableArray arrayWithArray:sortedCZBankcarwashfilterArray];
-        [carwashArray addObjectsFromArray:sortedCarwashfilterArray];
+        NSMutableArray * carwashArray = [NSMutableArray arrayWithArray:czBankcarwashfilterArray];
+        [carwashArray addObjectsFromArray:carwashfilterArray];
         gAppMgr.myUser.validCarwashCouponArray = [NSArray arrayWithArray:carwashArray];
         
         NSArray * cashfilterArray = [op.rsp_coupons arrayByFilteringOperator:^BOOL(HKCoupon * c) {
@@ -778,6 +783,7 @@
             
             return obj1.couponAmount > obj2.couponAmount;
         }];
+        gAppMgr.myUser.validCashCouponArray = cashfilterArray;
         
         self.isLoadingResourse = NO;
         
@@ -803,10 +809,6 @@
 - (void)requestCheckoutWithCouponType:(CouponType)couponType
 {
     CheckoutServiceOrderV2Op * op = [CheckoutServiceOrderV2Op operation];
-    op.serviceid = self.service.serviceID;
-    op.licencenumber = self.defaultCar.licencenumber ? self.defaultCar.licencenumber : @"";
-    op.carbrand = [self.defaultCar carSeriesDesc];
-    op.bankCardId = self.selectBankCard.cardID;
     NSMutableArray *coupons;
     if (couponType == CouponTypeCZBankCarWash)
     {
@@ -833,7 +835,12 @@
     op.couponArray = coupons;
     
     //支付方式
-    NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup];
+    NSArray * array = [[self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup] sortedArrayUsingComparator:^NSComparisonResult(UIButton * obj1, UIButton * obj2) {
+        
+        NSIndexPath * path1 = (NSIndexPath *)obj1.customObject;
+        NSIndexPath * path2 = (NSIndexPath *)obj2.customObject;
+        return path1.row > path2.row;
+    }];
     for (NSInteger i = 0 ; i < array.count ; i++)
     {
         UIButton * btn = [array safetyObjectAtIndex:i];
@@ -845,6 +852,7 @@
                 if (couponType > 0)
                 {
                     op.platform = PayWithXMDDCreditCard;
+                    op.paychannel = PaymentChannelXMDDCreditCard;
                 }
                 else
                 {
@@ -864,8 +872,9 @@
                     op.platform = PayWithAlipay;
                     op.paychannel = PaymentChannelAlipay;
                 }
+                self.selectBankCard.cardID = nil;
             }
-            else if (i == 1)
+            else if (i == 2)
             {
                 if (couponType > 0)
                 {
@@ -877,9 +886,15 @@
                     op.platform = PayWithWechat;
                     op.paychannel = PaymentChannelWechat;
                 }
+                self.selectBankCard.cardID = nil;
             }
         }
     }
+    
+    op.serviceid = self.service.serviceID;
+    op.licencenumber = self.defaultCar.licencenumber ? self.defaultCar.licencenumber : @"";
+    op.carbrand = [self.defaultCar carSeriesDesc];
+    op.bankCardId = self.selectBankCard.cardID;
     
     //如果不是原价支付，需要提供定位信息
     RACSignal *signal;
@@ -981,6 +996,11 @@
         }];
         [alert show];
     }
+    else if (error.code == 5003 || error.code == 615805)
+    {
+        [self requestGetUserResource];
+        [gToast showError:error.domain];
+    }
     else {
         [gToast showError:error.domain];
     }
@@ -1037,13 +1057,13 @@
 {
     [self.selectCarwashCoupouArray removeAllObjects];
     [self.selectCashCoupouArray removeAllObjects];
+    self.couponType = CouponTypeNone;
     if (gAppMgr.myUser.validCarwashCouponArray.count)
     {
         HKCoupon * coupon = [gAppMgr.myUser.validCarwashCouponArray safetyObjectAtIndex:0];
         if (coupon.conponType == CouponTypeCZBankCarWash){
             
             self.couponType = CouponTypeCZBankCarWash;
-            //            self.paymentType = PaymentChannelXMDDCreditCard;
             self.platform = PayWithXMDDCreditCard;
         }
         else{
@@ -1244,6 +1264,20 @@
     //        });
     //    }
     //    return;
+}
+
+- (void)chooseResource
+{
+    [self selectDefaultCoupon];
+    [self autoSelectBankCard];
+    
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
+}
+
+- (void)chooseResourceByBankCard:(HKBankCard *)card
+{
+    
 }
 
 @end

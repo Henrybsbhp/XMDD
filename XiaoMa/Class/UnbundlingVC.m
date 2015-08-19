@@ -24,7 +24,7 @@ static NSString *s_sendedPhone;
 @property (nonatomic, strong) UITextField *vcodeField;
 @property (nonatomic, strong) HKSMSModel *smsModel;
 @property (nonatomic, strong) NSAttributedString *promptString;
-
+@property (nonatomic, strong) UIView *headerView;
 @end
 
 @implementation UnbundlingVC
@@ -108,34 +108,37 @@ static NSString *s_sendedPhone;
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UITableViewHeaderFooterView * headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"HeaderView"];
-    if (!headerView) {
-        headerView = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:@"HeaderView"];
-        JTLabel * lb = [[JTLabel alloc] init];
-        lb.numberOfLines = 0;
+    if (!self.headerView) {
+        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+        UILabel * lb = [[UILabel alloc] initWithFrame:CGRectZero];
+        lb.numberOfLines = 2;
+        lb.lineBreakMode = NSLineBreakByWordWrapping;
         lb.font = [UIFont systemFontOfSize:14];
         lb.textColor = [UIColor darkGrayColor];
         lb.backgroundColor = [UIColor clearColor];
         lb.tag = 1001;
+        headerView.backgroundColor = [UIColor clearColor];
         [headerView addSubview:lb];
         [lb mas_makeConstraints:^(MASConstraintMaker *make) {
             
             make.left.equalTo(headerView.mas_left).offset(16);
             make.centerY.equalTo(headerView.mas_centerY).offset(6);
-            make.right.equalTo(headerView.mas_right).offset(8);
+            make.size.height.mas_equalTo(36);
+            make.right.equalTo(headerView.mas_right).offset(-16);
         }];
+        self.headerView = headerView;
     }
-    
-    UILabel *lb = (UILabel *)[headerView viewWithTag:1001];
-    @weakify(self);
-    [[RACObserve(self, promptString) takeUntil:[headerView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
 
+    UILabel *lb = (UILabel *)[self.headerView viewWithTag:1001];
+    @weakify(self);
+    [[RACObserve(self, promptString) takeUntil:[self.headerView rac_signalForSelector:@selector(prepareForReuse)]]
+     subscribeNext:^(id x) {
         @strongify(self);
         lb.attributedText = self.promptString;
     }];
 
 
-    return headerView;
+    return self.headerView;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

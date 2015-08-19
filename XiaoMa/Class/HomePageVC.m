@@ -346,7 +346,7 @@
         [self.scrollView.refreshView beginRefreshing];
     }] flattenMap:^RACStream *(AMapReGeocode *regeo) {
         @strongify(self);
-        [self.adctrl reloadDataWithCompleted:nil];
+        [self.adctrl reloadDataWithForce:YES completed:nil];
         return [self rac_getWeatherInfoWithReGeocode:regeo];
 //        RACSignal *sig2 = [self rac_getWeatherInfoWithReGeocode:regeo];
 //        RACSignal *sig3 = [self rac_getAdListWithReGeocode:regeo];

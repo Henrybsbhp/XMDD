@@ -200,8 +200,12 @@
     self.isEditing = !self.isEditing;
     
     [self refreshBottomView];
-    
+
     [self.navigationItem.rightBarButtonItem setTitle:(self.isEditing ? @"完成":@"编辑")];
+    if (gAppMgr.myUser.favorites.favoritesArray.count == 0)
+    {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
     
     [self reloadData];
 }

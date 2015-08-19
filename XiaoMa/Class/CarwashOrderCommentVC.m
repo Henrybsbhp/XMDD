@@ -64,7 +64,7 @@
     }
     [[[self.commentOp rac_postRequest] initially:^{
         
-        [gToast showingWithText:@"Loading..."];
+        [gToast showingWithText:@"提交中…"];
     }] subscribeNext:^(SubmitCommentOp *rspOp) {
         
         @strongify(self);

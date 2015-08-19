@@ -8,9 +8,10 @@
 
 #import "ADViewController.h"
 #import "WebVC.h"
+#import "NavigationModel.h"
 
 @interface ADViewController ()<SYPaginatorViewDelegate, SYPaginatorViewDataSource>
-
+@property (nonatomic, strong) NavigationModel *navModel;
 @end
 @implementation ADViewController
 
@@ -29,7 +30,9 @@
         _targetVC = vc;
         _adType = type;
         _mobBaseEvent = event;
-        CGFloat height = width*360.0/1242.0;
+        _navModel = [[NavigationModel alloc] init];
+        _navModel.curNavCtrl = _targetVC.navigationController;
+        CGFloat height = floor(width*360.0/1242.0);
         SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
         adView.delegate = self;
         adView.dataSource = self;
@@ -51,16 +54,16 @@
             }
         }];
         [[self rac_deallocDisposable] addDisposable:dis];
-        
     }
     return self;
 }
 
 #pragma mark - Reload
-- (void)reloadDataWithCompleted:(void(^)(ADViewController *ctrl, NSArray *ads))completed
+- (void)reloadDataWithForce:(BOOL)force completed:(void(^)(ADViewController *ctrl, NSArray *ads))completed
 {
     @weakify(self);
-    [[[gAdMgr rac_fetchAdListByType:self.adType] deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
+    RACSignal *signal = force ? [gAdMgr rac_getAdvertisement:self.adType] : [gAdMgr rac_fetchAdListByType:self.adType];
+    [[signal deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
         
         @strongify(self);
         _adList = ads;
@@ -75,13 +78,17 @@
 
 - (void)reloadDataForTableView:(UITableView *)tableView
 {
-    [self reloadDataWithCompleted:^(ADViewController *ctrl, NSArray *ads) {
-        if (ads.count > 0) {
-            tableView.tableHeaderView = ctrl.adView;
-        }
-        else {
-            tableView.tableHeaderView = nil;
-        }
+    [self reloadDataWithForce:NO completed:^(ADViewController *ctrl, NSArray *ads) {
+        CKAsyncMainQueue(^{
+            if (ads.count > 0) {
+                tableView.tableHeaderView = ctrl.adView;
+            }
+            else {
+                UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+                header.backgroundColor = [UIColor clearColor];
+                tableView.tableHeaderView = header;
+            }
+        });
     }];
 }
 #pragma mark - SYPaginatorViewDelegate
@@ -119,12 +126,9 @@
         }
         @strongify(self);
         if (ad.adLink.length > 0) {
-            WebVC * vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
-            vc.url = ad.adLink;
-            [self.targetVC.navigationController pushViewController:vc animated:YES];
+            [self.navModel pushToViewControllerByUrl:ad.adLink];
         }
-        else
-        {
+        else {
             WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
             vc.title = @"小马达达";
             vc.url = XIAMMAWEB;

@@ -81,7 +81,7 @@
     }
     else if ([url hasPrefix:@"http://"]) {
         WebVC *vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
-        vc.url = url;
+        vc.url = [self httpUrlStringFrom:url];
         [self.curNavCtrl pushViewController:vc animated:YES];
         flag = YES;
     }
@@ -104,6 +104,36 @@
         [dict safetySetObject:[pair safetyObjectAtIndex:1] forKey:[pair safetyObjectAtIndex:0]];
     }
     return dict;
+}
+
+- (NSString *)httpUrlStringFrom:(NSString *)url
+{
+    if (url.length == 0) {
+        return url;
+    }
+    NSMutableString *mutstr = [NSMutableString string];
+    NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:@"(?<=\\{).*?(?=\\})" options:0 error:nil];
+    NSArray *matches = [regexp matchesInString:url options:0 range:NSMakeRange(0, url.length)];
+    NSInteger index = 0;
+    for (NSTextCheckingResult *rst in matches) {
+        [mutstr appendString:[url substringFromIndex:index toIndex:rst.range.location-1]];
+        [mutstr appendString:[self parseParamKey:[url substringWithRange:rst.range]]];
+        index = rst.range.location+rst.range.length+1;
+    }
+    [mutstr appendString:[url substringFromIndex:index length:url.length-index]];
+    return mutstr;
+}
+
+- (NSString *)parseParamKey:(NSString *)key
+{
+    NSString *value;
+    if ([@"phone" equalByCaseInsensitive:key]) {
+        value = gAppMgr.myUser.userID;
+    }
+    else if ([@"token" equalByCaseInsensitive:key]) {
+        value = gNetworkMgr.token;
+    }
+    return value.length > 0 ? value : @"null";
 }
 
 - (BOOL)popToViewControllerIfNeededByIdentify:(NSString *)identify

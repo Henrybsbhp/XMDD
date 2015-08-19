@@ -294,16 +294,21 @@ typedef enum : NSInteger {
 }
 
 
++ (void)logoutWithoutNetworking
+{
+    gNetworkMgr.token = nil;
+    gNetworkMgr.skey = nil;
+    [gAppMgr resetWithAccount:nil];
+    [HKLoginModel cleanPwdForAccount:gNetworkMgr.bindingMobile];
+}
+
 + (void)logout
 {
     LogoutOp *op = [LogoutOp operation];
     [[op rac_postRequest] subscribeNext:^(id x) {
         DebugLog(@"Logout success!");
     }];
-    gNetworkMgr.token = nil;
-    gNetworkMgr.skey = nil;
-    [gAppMgr resetWithAccount:nil];
-    [HKLoginModel cleanPwdForAccount:gNetworkMgr.bindingMobile];
+    [self logoutWithoutNetworking];
 }
 
 + (void)cleanPwdForAccount:(NSString *)ad
