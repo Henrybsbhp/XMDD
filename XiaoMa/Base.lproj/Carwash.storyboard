@@ -1068,8 +1068,6 @@
                                                 <constraint firstItem="3yt-Fj-TBA" firstAttribute="bottom" secondItem="8Uc-9g-PQf" secondAttribute="bottom" constant="-8" id="bA7-3E-l1B"/>
                                                 <constraint firstAttribute="trailing" secondItem="3yt-Fj-TBA" secondAttribute="trailing" constant="12" id="dmr-A0-fsY"/>
                                                 <constraint firstItem="3yt-Fj-TBA" firstAttribute="leading" secondItem="8Uc-9g-PQf" secondAttribute="trailing" constant="11" id="iDO-gn-RNI"/>
-                                                <constraint firstItem="I4M-0L-imi" firstAttribute="top" secondItem="8Uc-9g-PQf" secondAttribute="top" constant="5" id="nTM-GC-KzL"/>
-                                                <constraint firstAttribute="trailing" secondItem="I4M-0L-imi" secondAttribute="trailing" constant="12" id="reW-fr-Z0g"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
