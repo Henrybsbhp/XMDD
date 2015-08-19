@@ -117,6 +117,7 @@
             self.type = c.conponType;
             if (self.type == CouponTypeCZBankCarWash)
             {
+                [payVc autoSelectBankCard];
                 [payVc setPlatform:PayWithXMDDCreditCard];
                 [payVc setSelectCarwashCoupouArray:self.selectedCouponArray];
             }
@@ -234,7 +235,23 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HKCoupon * coupon = [self.couponArray safetyObjectAtIndex:indexPath.row];
-    if (self.type == CouponTypeCarWash || self.type == CouponTypeCZBankCarWash)
+    if (self.type == CouponTypeCarWash)
+    {
+        self.type = coupon.conponType;
+        HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];
+        if ([c.couponId isEqualToNumber:coupon.couponId])
+        {
+            [self.selectedCouponArray removeAllObjects];
+        }
+        else
+        {
+            [MobClick event:@"rp109-1"];
+            [self.selectedCouponArray removeAllObjects];
+            [self.selectedCouponArray addObject:coupon];
+        }
+        [self.tableView reloadData];
+    }
+    else if (self.type == CouponTypeCZBankCarWash)
     {
         self.type = coupon.conponType;
         HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];
@@ -270,7 +287,6 @@
             [self.tableView reloadData];
         }
     }
-    
 }
 
 

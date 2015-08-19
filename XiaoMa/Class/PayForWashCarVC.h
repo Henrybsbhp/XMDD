@@ -27,8 +27,13 @@
 @property (nonatomic,strong)NSMutableArray * selectCarwashCoupouArray;
 @property (nonatomic,strong)NSMutableArray * selectCashCoupouArray;
 
+@property (nonatomic)BOOL needChooseResource;
+
 - (void)setPlatform:(PaymentPlatform)platform;
 - (void)tableViewReloadData;
+- (void)autoSelectBankCard;
+- (void)chooseResource;
+- (void)chooseResourceByBankCard:(HKBankCard *)card;
 
 - (void)requestGetUserResource;
 
