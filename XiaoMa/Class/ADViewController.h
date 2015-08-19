@@ -24,7 +24,7 @@
                     targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event;
 
 ///reload
-- (void)reloadDataWithCompleted:(void(^)(ADViewController *ctrl, NSArray *ads))completed;
+- (void)reloadDataWithForce:(BOOL)force completed:(void(^)(ADViewController *ctrl, NSArray *ads))completed;
 - (void)reloadDataForTableView:(UITableView *)tableView;
 
 @end

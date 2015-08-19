@@ -23,6 +23,7 @@
 - (RACSignal *)rac_retryLogin;
 
 + (void)logout;
++ (void)logoutWithoutNetworking;
 + (void)cleanPwdForAccount:(NSString *)account;
 
 @end
