@@ -1047,28 +1047,34 @@
 
 - (void)autoSelectBankCard
 {
-        if (self.couponType == CouponTypeCZBankCarWash)
+    self.selectBankCard = nil;
+    if (self.couponType == CouponTypeCZBankCarWash)
+    {
+        HKCoupon * coupon = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
+        for (HKBankCard * card in gAppMgr.myUser.couponModel.validCZBankCreditCard)
         {
-            HKCoupon * coupon = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
-            for (HKBankCard * card in gAppMgr.myUser.couponModel.validCZBankCreditCard)
+            for (NSNumber * cid in card.couponIds)
             {
-                for (NSNumber * cid in card.couponIds)
+                if ([coupon.couponId isEqualToNumber:cid])
                 {
-                    if ([coupon.couponId isEqualToNumber:cid])
-                    {
-                        self.selectBankCard = card;
-                        return;
-                    }
+                    self.selectBankCard = card;
+                    return;
                 }
             }
         }
-        else
+    }
+    else
     {
         if (gAppMgr.myUser.couponModel.validCZBankCreditCard.count)
         {
             HKBankCard * card = [gAppMgr.myUser.couponModel.validCZBankCreditCard safetyObjectAtIndex:0];
             self.selectBankCard = card;
             self.platform = PayWithXMDDCreditCard;
+        }
+        else
+        {
+            self.selectBankCard = nil;
+            self.platform = PayWithAlipay;
         }
     }
 }

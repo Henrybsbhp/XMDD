@@ -52,9 +52,24 @@
 
 - (void)reloadData
 {
-    [[gAppMgr.myUser.couponModel rac_getVaildResource] subscribeNext:^(GetUserResourcesV2Op * op) {
+    [[[[gAppMgr.myUser.couponModel rac_getVaildResource] initially:^{
+        
+        [self.tableView.refreshView beginRefreshing];
+    }] finally:^{
+        
+        [self.tableView.refreshView endRefreshing];
+    }] subscribeNext:^(GetUserResourcesV2Op * op) {
         
         self.bankCards = op.rsp_czBankCreditCard;
+        [self.tableView reloadData];
+        
+        NSArray * viewcontroller = self.navigationController.viewControllers;
+        UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 2];
+        if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
+        {
+            PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
+            [payVc chooseResource];
+        }
     } error:^(NSError *error) {
         
     }];
