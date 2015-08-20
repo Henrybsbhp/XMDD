@@ -19,6 +19,7 @@
     {
         _favorites = [[FavoriteModel alloc] init];
         _carModel = [[MyCarsModel alloc] init];
+        _couponModel = [[CouponModel alloc] init];
     }
     return self;
 }
