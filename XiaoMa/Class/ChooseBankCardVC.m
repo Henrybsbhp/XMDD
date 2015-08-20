@@ -87,17 +87,8 @@
             }
             return NO;
         }];
-        NSArray * sortedCarwashfilterArray  = [carwashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
-            
-            return obj1.validthrough == [obj1.validthrough laterDate:obj2.validthrough];
-        }];
-        NSArray * sortedCZBankcarwashfilterArray  = [czBankcarwashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
-            
-            return obj1.validthrough == [obj1.validthrough laterDate:obj2.validthrough];
-        }];
-        
-        NSMutableArray * carwashArray = [NSMutableArray arrayWithArray:sortedCZBankcarwashfilterArray];
-        [carwashArray addObjectsFromArray:sortedCarwashfilterArray];
+        NSMutableArray * carwashArray = [NSMutableArray arrayWithArray:czBankcarwashfilterArray];
+        [carwashArray addObjectsFromArray:carwashfilterArray];
         gAppMgr.myUser.validCarwashCouponArray = [NSArray arrayWithArray:carwashArray];
         
         NSArray * cashfilterArray = [op.rsp_coupons arrayByFilteringOperator:^BOOL(HKCoupon * c) {

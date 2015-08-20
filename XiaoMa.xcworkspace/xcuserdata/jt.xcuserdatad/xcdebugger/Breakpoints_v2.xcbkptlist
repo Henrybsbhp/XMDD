@@ -41,8 +41,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1131"
             endingLineNumber = "1131"
-            landmarkName = "@implementation PayForWashCarVC"
-            landmarkType = "3">
+            landmarkName = "-autoSelectBankCard"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -153,7 +153,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1133"
             endingLineNumber = "1133"
-            landmarkName = "-refreshPriceLb"
+            landmarkName = "-autoSelectBankCard"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -164,11 +164,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoMa/Class/ChooseBankCardVC.m"
-            timestampString = "461577847.688798"
+            timestampString = "461727917.410306"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "163"
-            endingLineNumber = "163"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -201,7 +201,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1051"
             endingLineNumber = "1051"
-            landmarkName = "-selectDefaultCoupon"
+            landmarkName = "-requestWechatPay:andTradeId:andPrice:andProductName:andTime:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
