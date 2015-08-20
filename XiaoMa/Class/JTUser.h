@@ -10,6 +10,7 @@
 #import "HKMyCar.h"
 #import "FavoriteModel.h"
 #import "MyCarsModel.h"
+#import "CouponModel.h"
 
 
 @interface JTUser : NSObject
@@ -28,23 +29,25 @@
 /// 头像
 //@property (nonatomic,strong)UIImage * avatar;
 
-///洗车次数
-@property (nonatomic, assign)NSInteger abcCarwashesCount;
-///积分
-@property (nonatomic, assign)NSInteger abcIntegral;
-/// 可用洗车券
-@property (nonatomic, strong)NSArray * validCarwashCouponArray;
-/// 可用现金券
-@property (nonatomic, strong)NSArray * validCashCouponArray;
-/// 所有优惠劵
-@property (nonatomic, strong)NSArray * carwashArray;
-/// 可用浙商银行信用卡
-@property (nonatomic, strong)NSArray * validCZBankCreditCard;
+/////洗车次数
+//@property (nonatomic, assign)NSInteger abcCarwashesCount;
+/////积分
+//@property (nonatomic, assign)NSInteger abcIntegral;
+///// 可用洗车券
+//@property (nonatomic, strong)NSArray * validCarwashCouponArray;
+///// 可用现金券
+//@property (nonatomic, strong)NSArray * validCashCouponArray;
+///// 所有优惠劵
+//@property (nonatomic, strong)NSArray * carwashArray;
+///// 可用浙商银行信用卡
+//@property (nonatomic, strong)NSArray * validCZBankCreditCard;
 
 /// 收藏夹
-@property (nonatomic, strong) FavoriteModel * favorites;
+@property (nonatomic, strong)FavoriteModel * favorites;
 
 @property (nonatomic, strong)MyCarsModel * carModel;
+
+@property (nonatomic, strong)CouponModel * couponModel;
 
 #pragma mark - Status
 ///有新消息

@@ -52,80 +52,9 @@
 
 - (void)reloadData
 {
-    GetUserResourcesV2Op * op = [GetUserResourcesV2Op operation];
-    [[[[op rac_postRequest] initially:^{
+    [[gAppMgr.myUser.couponModel rac_getVaildResource] subscribeNext:^(GetUserResourcesV2Op * op) {
         
-        [self.tableView.refreshView beginRefreshing];
-    }] finally:^{
-       
-        [self.tableView.refreshView endRefreshing];
-    }] subscribeNext:^(GetUserResourcesV2Op * op) {
-        
-        gAppMgr.myUser.abcCarwashesCount = op.rsp_freewashes;
-        gAppMgr.myUser.abcIntegral = op.rsp_bankIntegral;
-        gAppMgr.myUser.validCZBankCreditCard = op.rsp_czBankCreditCard;
         self.bankCards = op.rsp_czBankCreditCard;
-        NSArray * carwashfilterArray = [op.rsp_coupons arrayByFilteringOperator:^BOOL(HKCoupon * c) {
-            
-            if (c.conponType == CouponTypeCarWash)
-            {
-                if (c.valid)
-                {
-                    return YES;
-                }
-            }
-            return NO;
-        }];
-        NSArray * czBankcarwashfilterArray = [op.rsp_coupons arrayByFilteringOperator:^BOOL(HKCoupon * c) {
-            
-            if (c.conponType == CouponTypeCZBankCarWash)
-            {
-                if (c.valid)
-                {
-                    return YES;
-                }
-            }
-            return NO;
-        }];
-        NSArray * sortedCarwashfilterArray  = [carwashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
-            
-            return obj1.validthrough == [obj1.validthrough laterDate:obj2.validthrough];
-        }];
-        NSArray * sortedCZBankcarwashfilterArray  = [czBankcarwashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
-            
-            return obj1.validthrough == [obj1.validthrough laterDate:obj2.validthrough];
-        }];
-        
-        NSMutableArray * carwashArray = [NSMutableArray arrayWithArray:sortedCZBankcarwashfilterArray];
-        [carwashArray addObjectsFromArray:sortedCarwashfilterArray];
-        gAppMgr.myUser.validCarwashCouponArray = [NSArray arrayWithArray:carwashArray];
-        
-        NSArray * cashfilterArray = [op.rsp_coupons arrayByFilteringOperator:^BOOL(HKCoupon * c) {
-            
-            if (c.conponType == CouponTypeCash)
-            {
-                if (c.valid)
-                {
-                    return YES;
-                }
-            }
-            return NO;
-        }];
-        gAppMgr.myUser.validCashCouponArray = [cashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
-            
-            return obj1.couponAmount > obj2.couponAmount;
-        }];
-        
-        [self.tableView reloadData];
-        
-        NSArray * viewcontroller = self.navigationController.viewControllers;
-        UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 2];
-        if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
-        {
-            PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
-            [payVc chooseResource];
-        }
-
     } error:^(NSError *error) {
         
     }];
@@ -165,7 +94,7 @@
             payVc.selectBankCard = card;
             if (card.couponIds.count)
             {
-                NSArray * array = [gAppMgr.myUser.validCarwashCouponArray arrayByFilteringOperator:^BOOL(HKCoupon *obj) {
+                NSArray * array = [gAppMgr.myUser.couponModel.validCarwashCouponArray arrayByFilteringOperator:^BOOL(HKCoupon *obj) {
                     
                     return [obj.couponId isEqualToNumber:[card.couponIds safetyObjectAtIndex:0]];
                 }];
