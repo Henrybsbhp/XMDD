@@ -51,13 +51,18 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     
-    
 }
 
 - (void)dealloc
 {
     NSString * deallocInfo = [NSString stringWithFormat:@"%@ parse error~~",NSStringFromClass([self class])];
     DebugLog(deallocInfo);
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 #pragma mark - Action
