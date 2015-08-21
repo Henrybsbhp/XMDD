@@ -308,9 +308,6 @@
     //购车时间
     if (indexPath.row == 1) {
         [MobClick event:@"rp312-3"];
-        if (!(self.curCar.editMask & HKCarEditableEdit)) {
-            return;
-        }
         [self.view endEditing:YES];
         self.datePicker.maximumDate = [NSDate date];
         
@@ -339,9 +336,6 @@
     //汽车品牌
     else if (indexPath.row == 2) {
         [MobClick event:@"rp312-4"];
-        if (!(self.curCar.editMask & HKCarEditableEdit)) {
-            return;
-        }
         [self.view endEditing:YES];
         PickerAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
         vc.originVC = self;
@@ -354,9 +348,6 @@
     //具体车系
     else if (indexPath.row == 3) {
         [MobClick event:@"rp312-5"];
-        if (!(self.curCar.editMask & HKCarEditableEdit)) {
-            return;
-        }
         [self.view endEditing:YES];
         PickerAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
         vc.originVC = self;
@@ -479,15 +470,6 @@
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     UILabel *subTitleL = (UILabel *)[cell.contentView viewWithTag:1002];
     UIImageView *arrowV = (UIImageView *)[cell.contentView viewWithTag:1003];
-    
-    BOOL editable = self.curCar.editMask & HKCarEditableEdit;
-    if (arrowV.hidden != !editable) {
-        arrowV.hidden = !editable;
-        [subTitleL mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(arrowV.mas_left).offset(editable ? -10 : 9);
-        }];
-    }
-    arrowV.hidden = !editable;
     
     if (indexPath.row == 2) {
         titleL.attributedText = [self attrStrWithTitle:@"爱车品牌" asterisk:YES];

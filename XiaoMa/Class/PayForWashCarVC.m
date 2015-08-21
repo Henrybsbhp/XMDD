@@ -71,12 +71,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp108"];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
     if (self.needChooseResource)
     {
         [self requestGetUserResource];
         self.needChooseResource = NO;
     }
-    [MobClick beginLogPageView:@"rp108"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
