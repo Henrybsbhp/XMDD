@@ -112,7 +112,7 @@
         return url;
     }
     NSMutableString *mutstr = [NSMutableString string];
-    NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:@"(?<=\\{).*?(?=\\})" options:0 error:nil];
+    NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:@"(?<=\\().*?(?=\\))" options:0 error:nil];
     NSArray *matches = [regexp matchesInString:url options:0 range:NSMakeRange(0, url.length)];
     NSInteger index = 0;
     for (NSTextCheckingResult *rst in matches) {

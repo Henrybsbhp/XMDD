@@ -373,7 +373,7 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"HeaderCell" forIndexPath:indexPath];
     UILabel *descLabel = (UILabel *)[cell.contentView viewWithTag:1002];
     UIButton *uploadBtn = (UIButton *)[cell.contentView viewWithTag:1003];
-    [self.model setupUploadBtn:uploadBtn andDescLabel:descLabel forStatus:self.originCar.status];
+    [self.model setupUploadBtn:uploadBtn andDescLabel:descLabel forCar:self.originCar];
     
     @weakify(self);
     [[[uploadBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
