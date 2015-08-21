@@ -12,20 +12,25 @@
 
 @implementation MyCarListVModel
 
-- (void)setupUploadBtn:(UIButton *)btn andDescLabel:(UILabel *)label forStatus:(NSInteger)status
+- (void)setupUploadBtn:(UIButton *)btn andDescLabel:(UILabel *)label forCar:(HKMyCar *)car
 {
     btn.userInteractionEnabled = NO;
     NSString *bgName = @"mec_btn_bg3";
     NSString *title;
     NSString *desc;
-    switch (status) {
+    switch (car.status) {
         case 1:
             title = @"审核中";
             desc = @"行驶证已提交审核";
             break;
         case 2:
             title = @"审核成功";
-            desc = @"审核通过,礼包已发放,您可进入礼包中查看";
+            if (!(car.editMask & HKCarEditableDelete) && !(car.editMask & HKCarEditableEdit)) {
+                desc = @"汽车卡指定车辆，审核通过";
+            }
+            else {
+                desc =  @"审核通过,礼包已发放,您可进入礼包中查看";
+            }
             break;
         case 3:
             title = @"一键上传";

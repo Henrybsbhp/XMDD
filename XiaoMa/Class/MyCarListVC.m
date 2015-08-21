@@ -102,7 +102,7 @@
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
         UILabel *bottomL = (UILabel *)[cell.contentView viewWithTag:3001];
         UIButton *bottomB = (UIButton *)[cell.contentView viewWithTag:3002];
-        [self.model setupUploadBtn:bottomB andDescLabel:bottomL forStatus:1];
+        [self.model setupUploadBtn:bottomB andDescLabel:bottomL forCar:car];
         [gToast showSuccess:@"上传行驶证成功!"];
     } error:^(NSError *error) {
         
@@ -176,7 +176,7 @@
     UIButton *bottomB = (UIButton *)[cell.contentView viewWithTag:3002];
 
     MyCarListVModel *model = self.model;
-    [model setupUploadBtn:bottomB andDescLabel:bottomL forStatus:car.status];
+    [model setupUploadBtn:bottomB andDescLabel:bottomL forCar:car];
     //一键上传行驶证
     @weakify(self);
     [[[bottomB rac_signalForControlEvents:UIControlEventTouchUpInside]
