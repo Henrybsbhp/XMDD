@@ -25,12 +25,7 @@
             break;
         case 2:
             title = @"审核成功";
-            if (!(car.editMask & HKCarEditableDelete) && !(car.editMask & HKCarEditableEdit)) {
-                desc = @"汽车卡指定车辆，审核通过";
-            }
-            else {
-                desc =  @"审核通过,礼包已发放,您可进入礼包中查看";
-            }
+            desc = @"车辆已通过认证";
             break;
         case 3:
             title = @"一键上传";
