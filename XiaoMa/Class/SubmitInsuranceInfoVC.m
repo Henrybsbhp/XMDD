@@ -337,7 +337,7 @@
 - (void)cropViewController:(PECropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage
 {
     [controller dismissViewControllerAnimated:YES completion:nil];
-    croppedImage = [croppedImage compressImageWithPixelSize:CGSizeMake(2048, 2048)];
+    croppedImage = [croppedImage compressImageWithPixelSize:CGSizeMake(1024, 1024)];
     UIImage *image = [EditPictureViewController generateImageByAddingWatermarkWith:croppedImage];
     self.pickedPhoto = croppedImage;
     self.pickedPhotoUrl = nil;
