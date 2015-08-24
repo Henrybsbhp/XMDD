@@ -75,8 +75,6 @@
 {
     [super viewWillAppear:animated];
     
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
-    
     [MobClick beginLogPageView:@"rp105"];
     if([gAppMgr.myUser.favorites getFavoriteWithID:self.shop.shopID] == nil){
         self.favorite = NO;
@@ -94,10 +92,6 @@
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp105"];
-    //如果当前视图的导航条没有发生跳转，则不做处理
-    if (![self.navigationController.topViewController isEqual:self]) {
-        [self.navigationController setNavigationBarHidden:NO animated:animated];
-    }
 }
 - (void)dealloc
 {

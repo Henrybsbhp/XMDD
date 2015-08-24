@@ -469,7 +469,6 @@
     JTTableViewCell *cell = (JTTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"Cell2" forIndexPath:indexPath];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     UILabel *subTitleL = (UILabel *)[cell.contentView viewWithTag:1002];
-    UIImageView *arrowV = (UIImageView *)[cell.contentView viewWithTag:1003];
     
     if (indexPath.row == 2) {
         titleL.attributedText = [self attrStrWithTitle:@"爱车品牌" asterisk:YES];

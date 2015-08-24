@@ -160,15 +160,6 @@
 		18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */; };
 		18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */; };
 		18B2C7241B1304ED007FB0C7 /* SubmitInsuranceInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2C7231B1304ED007FB0C7 /* SubmitInsuranceInfoVC.m */; };
-		18B2C7351B13076B007FB0C7 /* PECropRectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2C7281B13076B007FB0C7 /* PECropRectView.m */; };
-		18B2C7361B13076B007FB0C7 /* PECropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2C72A1B13076B007FB0C7 /* PECropView.m */; };
-		18B2C7371B13076B007FB0C7 /* PECropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2C72C1B13076B007FB0C7 /* PECropViewController.m */; };
-		18B2C7381B13076B007FB0C7 /* PEResizeControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2C72E1B13076B007FB0C7 /* PEResizeControl.m */; };
-		18B2C7391B13076B007FB0C7 /* UIImage+PECrop.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2C7301B13076B007FB0C7 /* UIImage+PECrop.m */; };
-		18B2C73A1B13076B007FB0C7 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 18B2C7311B13076B007FB0C7 /* LICENSE */; };
-		18B2C73B1B13076B007FB0C7 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 18B2C7321B13076B007FB0C7 /* README.md */; };
-		18B2C73C1B13076B007FB0C7 /* PEPhotoCropEditor.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18B2C7341B13076B007FB0C7 /* PEPhotoCropEditor.bundle */; };
-		18B2C7401B130A75007FB0C7 /* EditPictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2C73F1B130A75007FB0C7 /* EditPictureViewController.m */; };
 		18C81CB71B17FE4400B0C292 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18C81CB51B17FE4400B0C292 /* About.storyboard */; };
 		18C81CBC1B17FE7B00B0C292 /* FeedbackVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C81CBB1B17FE7B00B0C292 /* FeedbackVC.m */; };
 		18C81CBF1B18403000B0C292 /* FeedbackOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C81CBE1B18403000B0C292 /* FeedbackOp.m */; };
@@ -184,6 +175,8 @@
 		18D475E21B7C3954000FAF1C /* GetUserCouponV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D475E11B7C3954000FAF1C /* GetUserCouponV2Op.m */; };
 		18D475E51B7D9F82000FAF1C /* NSString+PhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D475E41B7D9F82000FAF1C /* NSString+PhoneNumber.m */; };
 		18D62B3F1B60EBF800E3FDB2 /* 90_0.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */; };
+		18E28A011B8AD71F0070E759 /* HKImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E28A001B8AD71F0070E759 /* HKImagePicker.m */; };
+		18E28A051B8AFBB70070E759 /* HKNavigationHiddenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E28A041B8AFBB70070E759 /* HKNavigationHiddenVC.m */; };
 		18E756A41B73335C00874601 /* MyBankVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E756A31B73335C00874601 /* MyBankVC.m */; };
 		18E756A71B73338600874601 /* Bank.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18E756A51B73338600874601 /* Bank.storyboard */; };
 		18F41DA91B784CD8000409E1 /* GetBankcardListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F41DA81B784CD8000409E1 /* GetBankcardListOp.m */; };
@@ -657,21 +650,6 @@
 		18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		18B2C7221B1304ED007FB0C7 /* SubmitInsuranceInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubmitInsuranceInfoVC.h; sourceTree = "<group>"; };
 		18B2C7231B1304ED007FB0C7 /* SubmitInsuranceInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubmitInsuranceInfoVC.m; sourceTree = "<group>"; };
-		18B2C7271B13076B007FB0C7 /* PECropRectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PECropRectView.h; sourceTree = "<group>"; };
-		18B2C7281B13076B007FB0C7 /* PECropRectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PECropRectView.m; sourceTree = "<group>"; };
-		18B2C7291B13076B007FB0C7 /* PECropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PECropView.h; sourceTree = "<group>"; };
-		18B2C72A1B13076B007FB0C7 /* PECropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PECropView.m; sourceTree = "<group>"; };
-		18B2C72B1B13076B007FB0C7 /* PECropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PECropViewController.h; sourceTree = "<group>"; };
-		18B2C72C1B13076B007FB0C7 /* PECropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PECropViewController.m; sourceTree = "<group>"; };
-		18B2C72D1B13076B007FB0C7 /* PEResizeControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEResizeControl.h; sourceTree = "<group>"; };
-		18B2C72E1B13076B007FB0C7 /* PEResizeControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PEResizeControl.m; sourceTree = "<group>"; };
-		18B2C72F1B13076B007FB0C7 /* UIImage+PECrop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+PECrop.h"; sourceTree = "<group>"; };
-		18B2C7301B13076B007FB0C7 /* UIImage+PECrop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+PECrop.m"; sourceTree = "<group>"; };
-		18B2C7311B13076B007FB0C7 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		18B2C7321B13076B007FB0C7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		18B2C7341B13076B007FB0C7 /* PEPhotoCropEditor.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PEPhotoCropEditor.bundle; sourceTree = "<group>"; };
-		18B2C73E1B130A75007FB0C7 /* EditPictureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditPictureViewController.h; sourceTree = "<group>"; };
-		18B2C73F1B130A75007FB0C7 /* EditPictureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditPictureViewController.m; sourceTree = "<group>"; };
 		18C81CB61B17FE4400B0C292 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = XiaoMa/Base.lproj/About.storyboard; sourceTree = SOURCE_ROOT; };
 		18C81CBA1B17FE7B00B0C292 /* FeedbackVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackVC.h; sourceTree = "<group>"; };
 		18C81CBB1B17FE7B00B0C292 /* FeedbackVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackVC.m; sourceTree = "<group>"; };
@@ -700,6 +678,10 @@
 		18D475E31B7D9F82000FAF1C /* NSString+PhoneNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+PhoneNumber.h"; path = "Class/NSString+PhoneNumber.h"; sourceTree = "<group>"; };
 		18D475E41B7D9F82000FAF1C /* NSString+PhoneNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+PhoneNumber.m"; path = "Class/NSString+PhoneNumber.m"; sourceTree = "<group>"; };
 		18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 90_0.gpx; sourceTree = "<group>"; };
+		18E289FF1B8AD71F0070E759 /* HKImagePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKImagePicker.h; path = Class/HKImagePicker.h; sourceTree = "<group>"; };
+		18E28A001B8AD71F0070E759 /* HKImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKImagePicker.m; path = Class/HKImagePicker.m; sourceTree = "<group>"; };
+		18E28A031B8AFBB70070E759 /* HKNavigationHiddenVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKNavigationHiddenVC.h; sourceTree = "<group>"; };
+		18E28A041B8AFBB70070E759 /* HKNavigationHiddenVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKNavigationHiddenVC.m; sourceTree = "<group>"; };
 		18E756A21B73335C00874601 /* MyBankVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBankVC.h; sourceTree = "<group>"; };
 		18E756A31B73335C00874601 /* MyBankVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBankVC.m; sourceTree = "<group>"; };
 		18E756A61B73338600874601 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = XiaoMa/Base.lproj/Bank.storyboard; sourceTree = SOURCE_ROOT; };
@@ -1135,7 +1117,6 @@
 				185A52961B1C0DEC003515CC /* CarbonKit */,
 				6BCF624B1B184AEF0064AE32 /* NJKWebViewProgress */,
 				181F6D941B15919900D38555 /* CXAlertView */,
-				18B2C7251B13076B007FB0C7 /* PEPhotoCropEditor */,
 				189DD3FD1B10722700BA0A7F /* SRMonthPicker */,
 				189371231B0E0D460030FDE1 /* TTTAttributedLabel */,
 				6BBFBC3C1B0D8E57000D3CA3 /* WeiboShareSDK */,
@@ -1232,6 +1213,7 @@
 		1816F4B51AD36D5100BBCC96 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				18E289FE1B8AD6E90070E759 /* ImagePicker */,
 				1885F0BD1B1C4D940056D3BD /* Badge */,
 				181F6D8D1B14369B00D38555 /* DefaultEmptyView */,
 				6BD7AE651AE9EEDE00BEF30E /* Map */,
@@ -1617,6 +1599,7 @@
 		1883D91A1ACBC2E4002A4D19 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				18E28A021B8AFB710070E759 /* Super */,
 				6BBBF5591B296EB700E1B809 /* Award */,
 				185A527F1B195AA8003515CC /* Nearby */,
 				6BB8CB881B14147F007B61B5 /* Commission */,
@@ -1813,7 +1796,6 @@
 		189B30C41AD6649A001D7288 /* Insurance */ = {
 			isa = PBXGroup;
 			children = (
-				18B2C73D1B130A5F007FB0C7 /* SubView */,
 				189B39671AFB045800B83F1B /* BuyOnline */,
 				189B31171ADBEBA0001D7288 /* BuyByChannel */,
 				189B310D1ADA5911001D7288 /* Enquiry */,
@@ -1963,51 +1945,6 @@
 			path = SVProgressHUD;
 			sourceTree = "<group>";
 		};
-		18B2C7251B13076B007FB0C7 /* PEPhotoCropEditor */ = {
-			isa = PBXGroup;
-			children = (
-				18B2C7261B13076B007FB0C7 /* Lib */,
-				18B2C7311B13076B007FB0C7 /* LICENSE */,
-				18B2C7321B13076B007FB0C7 /* README.md */,
-				18B2C7331B13076B007FB0C7 /* Resources */,
-			);
-			path = PEPhotoCropEditor;
-			sourceTree = "<group>";
-		};
-		18B2C7261B13076B007FB0C7 /* Lib */ = {
-			isa = PBXGroup;
-			children = (
-				18B2C7271B13076B007FB0C7 /* PECropRectView.h */,
-				18B2C7281B13076B007FB0C7 /* PECropRectView.m */,
-				18B2C7291B13076B007FB0C7 /* PECropView.h */,
-				18B2C72A1B13076B007FB0C7 /* PECropView.m */,
-				18B2C72B1B13076B007FB0C7 /* PECropViewController.h */,
-				18B2C72C1B13076B007FB0C7 /* PECropViewController.m */,
-				18B2C72D1B13076B007FB0C7 /* PEResizeControl.h */,
-				18B2C72E1B13076B007FB0C7 /* PEResizeControl.m */,
-				18B2C72F1B13076B007FB0C7 /* UIImage+PECrop.h */,
-				18B2C7301B13076B007FB0C7 /* UIImage+PECrop.m */,
-			);
-			path = Lib;
-			sourceTree = "<group>";
-		};
-		18B2C7331B13076B007FB0C7 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				18B2C7341B13076B007FB0C7 /* PEPhotoCropEditor.bundle */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		18B2C73D1B130A5F007FB0C7 /* SubView */ = {
-			isa = PBXGroup;
-			children = (
-				18B2C73E1B130A75007FB0C7 /* EditPictureViewController.h */,
-				18B2C73F1B130A75007FB0C7 /* EditPictureViewController.m */,
-			);
-			name = SubView;
-			sourceTree = "<group>";
-		};
 		18C81CB81B17FE5800B0C292 /* About */ = {
 			isa = PBXGroup;
 			children = (
@@ -2041,6 +1978,24 @@
 				18D17F761B53B21E00F66F04 /* MBProgressHUD.m */,
 			);
 			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		18E289FE1B8AD6E90070E759 /* ImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+				18E289FF1B8AD71F0070E759 /* HKImagePicker.h */,
+				18E28A001B8AD71F0070E759 /* HKImagePicker.m */,
+			);
+			name = ImagePicker;
+			sourceTree = "<group>";
+		};
+		18E28A021B8AFB710070E759 /* Super */ = {
+			isa = PBXGroup;
+			children = (
+				18E28A031B8AFBB70070E759 /* HKNavigationHiddenVC.h */,
+				18E28A041B8AFBB70070E759 /* HKNavigationHiddenVC.m */,
+			);
+			name = Super;
 			sourceTree = "<group>";
 		};
 		18E756A11B73334600874601 /* Bank */ = {
@@ -2684,7 +2639,6 @@
 				189B39551AF898A400B83F1B /* Mine.storyboard in Resources */,
 				185A527D1B185191003515CC /* Message.storyboard in Resources */,
 				6BBBF5581B296AC900E1B809 /* Award.storyboard in Resources */,
-				18B2C73C1B13076B007FB0C7 /* PEPhotoCropEditor.bundle in Resources */,
 				6BBFBC421B0D8E57000D3CA3 /* WeiboSDK.bundle in Resources */,
 				6BB8CB861B14135E007B61B5 /* Commission.storyboard in Resources */,
 				6BB8CB841B141350007B61B5 /* Rescue.storyboard in Resources */,
@@ -2698,7 +2652,6 @@
 				1816F4A51ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist in Resources */,
 				6BB884D31AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.bundle in Resources */,
 				18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */,
-				18B2C73A1B13076B007FB0C7 /* LICENSE in Resources */,
 				1883D9141ACBBE5E002A4D19 /* Images.xcassets in Resources */,
 				6BB61B9C1AEF587E004F39AA /* Other.storyboard in Resources */,
 				1816F4AC1ACE74C000BBCC96 /* Carwash.storyboard in Resources */,
@@ -2781,6 +2734,7 @@
 				6BB884D21AE0BC6A00EBD8F4 /* MONActivityIndicatorView.m in Sources */,
 				186984F81B0098FB000A182A /* HKInsuranceOrder.m in Sources */,
 				6BB884DD1AE0FE7500EBD8F4 /* GetUserCarOp.m in Sources */,
+				18E28A051B8AFBB70070E759 /* HKNavigationHiddenVC.m in Sources */,
 				6BEA56CE1AE24DCE000D19C1 /* DataSigner.m in Sources */,
 				1893711C1B0DAC8D0030FDE1 /* GetMessageOp.m in Sources */,
 				6BBB084C1B021EA90002C349 /* JTCaptureScreen.m in Sources */,
@@ -2790,7 +2744,6 @@
 				1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */,
 				18C81CBC1B17FE7B00B0C292 /* FeedbackVC.m in Sources */,
 				1851F4281B0C2A4E00241A01 /* AutoBrand.m in Sources */,
-				18B2C73B1B13076B007FB0C7 /* README.md in Sources */,
 				1853DEB01AE0A10C00C39175 /* HKLoginModel.m in Sources */,
 				6BE2BD5B1AE6305600A69875 /* GetSystemPromotionOp.m in Sources */,
 				187CC9591AEE4034004D1F28 /* SimplePolicyInfoVC.m in Sources */,
@@ -2829,7 +2782,6 @@
 				189B395E1AF9D9F700B83F1B /* UpdateCarOp.m in Sources */,
 				1851F42B1B0C2C3500241A01 /* CoreDataManager.m in Sources */,
 				189B394C1AF71C3900B83F1B /* MineVC.m in Sources */,
-				18B2C7351B13076B007FB0C7 /* PECropRectView.m in Sources */,
 				189B39661AF9FDDF00B83F1B /* EnquiryInsuranceVC.m in Sources */,
 				189371361B0F592F0030FDE1 /* JTQueue.m in Sources */,
 				189C69821B734EDD00E56E4A /* ADViewController.m in Sources */,
@@ -2880,10 +2832,8 @@
 				18863FA51AE8ECFB005BF4ED /* GridLabel.m in Sources */,
 				18B2C7241B1304ED007FB0C7 /* SubmitInsuranceInfoVC.m in Sources */,
 				189B396A1AFB062200B83F1B /* BuyInsuranceOnlineVC.m in Sources */,
-				18B2C7371B13076B007FB0C7 /* PECropViewController.m in Sources */,
 				6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */,
 				6BBB084D1B021EA90002C349 /* JTLogModel.m in Sources */,
-				18B2C7401B130A75007FB0C7 /* EditPictureViewController.m in Sources */,
 				6BB9D76E1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m in Sources */,
 				18F41DAC1B787F5D000409E1 /* UnbindBankcardOp.m in Sources */,
 				1873710C1B0AD1D900B8CDCC /* MyCarListVModel.m in Sources */,
@@ -2938,7 +2888,6 @@
 				6BC2209F1AD7AC9D00A4310E /* NSString+MD5.m in Sources */,
 				1883D9101ACBBE30002A4D19 /* main.m in Sources */,
 				18F813681B5F3561005F49B0 /* CKNavigationController+Expansion.m in Sources */,
-				18B2C7381B13076B007FB0C7 /* PEResizeControl.m in Sources */,
 				18804A9F1B2548AC00E7E764 /* NavigationModel.m in Sources */,
 				6BBF7DA31B008B1000E45967 /* EditMyInfoViewController.m in Sources */,
 				6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */,
@@ -2959,6 +2908,7 @@
 				6B1D93D31B8573A000740628 /* PayModel.m in Sources */,
 				1837A7611B72130F0006E6C5 /* SDWaitingView.m in Sources */,
 				6BBAB8CE1ADE059300EC342F /* DistanceCalcHelper.m in Sources */,
+				18E28A011B8AD71F0070E759 /* HKImagePicker.m in Sources */,
 				6BEA56C21AE24DCE000D19C1 /* AlixPayOrder.m in Sources */,
 				186984E11AFF976A000A182A /* WebVC.m in Sources */,
 				6BC220961AD7801C00A4310E /* BaseOp.m in Sources */,
@@ -3033,14 +2983,12 @@
 				18804AA51B2679BB00E7E764 /* TestVC.m in Sources */,
 				181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */,
 				6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */,
-				18B2C7391B13076B007FB0C7 /* UIImage+PECrop.m in Sources */,
 				181F6D901B1436CA00D38555 /* UIView+DefaultEmptyView.m in Sources */,
 				18804AAE1B280E3C00E7E764 /* HKLoadingModel.m in Sources */,
 				6BBAB8C71ADD1ED900EC342F /* GetShopByDistanceOp.m in Sources */,
 				189C698C1B75A2BB00E56E4A /* GetBindCZBVcodeOp.m in Sources */,
 				1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */,
 				6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */,
-				18B2C7361B13076B007FB0C7 /* PECropView.m in Sources */,
 				6BB884D41AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.m in Sources */,
 				6BB8CB8E1B1416BB007B61B5 /* RescureViewController.m in Sources */,
 				189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */,
