@@ -15,6 +15,7 @@
 #import "UIImage+Utilities.h"
 #import "UploadFileOp.h"
 #import "DownloadOp.h"
+#import "HKImagePicker.h"
 
 @interface MyInfoViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
@@ -227,11 +228,11 @@
     if (indexPath.row == 0)
     {
         [MobClick event:@"rp302-1"];
+        HKImagePicker *picker = [HKImagePicker imagePicker];
+        picker.allowsEditing = YES;
+        picker.shouldShowBigImage = NO;
         @weakify(self);
-        [[gAppMgr.mediaMgr rac_pickPhotoInTargetVC:self inView:self.view initBlock:^(UIImagePickerController *picker) {
-            
-            picker.allowsEditing = YES;
-        }] subscribeNext:^(id x) {
+        [[picker rac_pickImageInTargetVC:self inView:self.navigationController.view] subscribeNext:^(id x) {
             
             @strongify(self);
             [self pickerAvatar:x];

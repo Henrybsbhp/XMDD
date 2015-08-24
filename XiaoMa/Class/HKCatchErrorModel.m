@@ -28,13 +28,13 @@
 //        }
         //token非法或失效
         if (code == -2002 || code == -2001) {
-            [HKLoginModel logoutWithoutNetworking];
+            [HKLoginModel logout];
             [self gotoRootViewWithAlertTitle:@"登出通知" msg:@"您的本次登录已经失效了,请重新登录。"];
             error = [NSError errorWithDomain:@"" code:error.code userInfo:nil];
         }
         //被抢登
         else if (code == -2003 && !self.alertView) {
-            [HKLoginModel logoutWithoutNetworking];
+            [HKLoginModel logout];
             [self gotoRootViewWithAlertTitle:@"登出通知" msg:@"您的账号已经在其他设备登录,请重新登录后修改密码,确保账号安全。"];
             error = [NSError errorWithDomain:@"" code:error.code userInfo:nil];
         }
