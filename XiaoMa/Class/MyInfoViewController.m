@@ -54,7 +54,7 @@
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp302"];
-    [SVProgressHUD dismiss];
+    [gToast dismiss];
 }
 
 -(void)dealloc
