@@ -1854,6 +1854,10 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="BCI_10,10,10,10"/>
                                 </userDefinedRuntimeAttributes>
                             </button>
+                            <view alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ltH-CS-9yu">
+                                <rect key="frame" x="5" y="72" width="600" height="600"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.94509803920000002" green="0.94509803920000002" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -2041,7 +2045,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="车损险" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9pE-Dk-2t2">
                                                     <rect key="frame" x="40" y="15" width="42" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Verticalline" translatesAutoresizingMaskIntoConstraints="NO" id="bob-nP-pf0">
@@ -2100,7 +2104,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="车损险" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BFC-2p-A0g">
                                                     <rect key="frame" x="40" y="15" width="42" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Verticalline" translatesAutoresizingMaskIntoConstraints="NO" id="z3O-sd-eUP">
@@ -2200,7 +2204,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="不计免赔" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mfc-tp-4ws">
                                                     <rect key="frame" x="65" y="12" width="56" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Verticalline" translatesAutoresizingMaskIntoConstraints="NO" id="55k-xj-4Na">
@@ -2259,7 +2263,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="不计免赔" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mqU-lm-Ssd">
                                                     <rect key="frame" x="65" y="12" width="56" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Verticalline" translatesAutoresizingMaskIntoConstraints="NO" id="Gl3-mZ-8ib">
@@ -2424,6 +2428,85 @@
             </objects>
             <point key="canvasLocation" x="1171" y="1702"/>
         </scene>
+        <!--支付结果新-->
+        <scene sceneID="Wq8-VS-h1b">
+            <objects>
+                <viewController storyboardIdentifier="InsuranceResultVC" id="fWG-JZ-LsX" userLabel="支付结果新" customClass="InsuranceResultVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4hf-oI-nTm"/>
+                        <viewControllerLayoutGuide type="bottom" id="Q9e-vj-hSE"/>
+                    </layoutGuides>
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="1q8-6v-XWe">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mL1-Bn-HTg" customClass="DrawingBoardView">
+                                <rect key="frame" x="235" y="164" width="130" height="130"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ins_ordersuccess" translatesAutoresizingMaskIntoConstraints="NO" id="GPz-md-L9Z">
+                                        <rect key="frame" x="-235" y="-164" width="105" height="105"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="130" id="0hd-AV-wab"/>
+                                    <constraint firstAttribute="width" constant="130" id="ZQZ-Ha-d2S"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ATE-el-z04">
+                                <rect key="frame" x="210" y="376" width="180" height="34"/>
+                                <color key="backgroundColor" red="0.12941176469999999" green="0.62352941179999999" blue="0.12549019610000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="180" id="5IU-pW-Hhj"/>
+                                    <constraint firstAttribute="height" constant="34" id="6SI-UU-k7q"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="17"/>
+                                <state key="normal" title="告诉好友">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="shareAction:" destination="fWG-JZ-LsX" eventType="touchUpInside" id="5zh-nE-Mpa"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="失败原因：请检查网络！" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HFc-qu-goc">
+                                <rect key="frame" x="25" y="359" width="550" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.34901960780000002" green="0.34901960780000002" blue="0.34901960780000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="恭喜，支付成功！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Syg-eI-f83">
+                                <rect key="frame" x="218" y="314" width="176" height="22"/>
+                                <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="22"/>
+                                <color key="textColor" red="0.12941176469999999" green="0.62352941179999999" blue="0.12549019610000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.94509803921568625" green="0.94509803921568625" blue="0.94509803921568625" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="Syg-eI-f83" firstAttribute="bottom" secondItem="HFc-qu-goc" secondAttribute="top" constant="-23" id="2IP-q7-5JI"/>
+                            <constraint firstAttribute="trailing" secondItem="HFc-qu-goc" secondAttribute="trailing" constant="25" id="2mq-1L-KHJ"/>
+                            <constraint firstItem="mL1-Bn-HTg" firstAttribute="top" secondItem="4hf-oI-nTm" secondAttribute="bottom" constant="100" id="mYe-Xn-jkE"/>
+                            <constraint firstAttribute="centerX" secondItem="Syg-eI-f83" secondAttribute="centerX" constant="-6" id="pu3-Mf-jiq"/>
+                            <constraint firstAttribute="centerX" secondItem="mL1-Bn-HTg" secondAttribute="centerX" id="pua-Eg-bUy"/>
+                            <constraint firstAttribute="centerX" secondItem="ATE-el-z04" secondAttribute="centerX" id="qv1-iq-1hc"/>
+                            <constraint firstItem="Syg-eI-f83" firstAttribute="top" secondItem="mL1-Bn-HTg" secondAttribute="bottom" constant="20" id="sSc-5b-aeq"/>
+                            <constraint firstItem="Syg-eI-f83" firstAttribute="bottom" secondItem="ATE-el-z04" secondAttribute="top" constant="-40" id="t3N-O0-SQg"/>
+                            <constraint firstItem="HFc-qu-goc" firstAttribute="leading" secondItem="1q8-6v-XWe" secondAttribute="leading" constant="25" id="y7h-fH-TFj"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="支付结果" id="FIi-hX-hid"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="drawView" destination="mL1-Bn-HTg" id="gwY-iY-zXP"/>
+                        <outlet property="failureContentLabel" destination="HFc-qu-goc" id="Gom-b6-FJG"/>
+                        <outlet property="resultLabel" destination="Syg-eI-f83" id="hs8-ww-v1c"/>
+                        <outlet property="shareButton" destination="ATE-el-z04" id="coQ-57-7Ae"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n9j-Wn-wUw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2548" y="1045"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Horizontaline" width="621" height="1"/>
@@ -2449,6 +2532,7 @@
         <image name="ins_jian" width="15" height="14"/>
         <image name="ins_menu1" width="74" height="74"/>
         <image name="ins_menu3" width="74" height="74"/>
+        <image name="ins_ordersuccess" width="105" height="105"/>
         <image name="ins_phone" width="19" height="17"/>
         <image name="ins_upload" width="19" height="17"/>
         <image name="mec_gift" width="48" height="29"/>
