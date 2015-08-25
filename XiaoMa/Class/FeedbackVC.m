@@ -76,4 +76,11 @@
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([UIScreen mainScreen].bounds.size.height <= 480) {
+        return 116;
+    }
+    return 146;
+}
 @end

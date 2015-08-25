@@ -12,6 +12,7 @@
 #import "GetVcodeOp.h"
 #import "VCodeInputField.h"
 #import "WebVC.h"
+#import "NSString+PhoneNumber.h"
 
 @interface VcodeLoginVC () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *checkBox;
@@ -24,14 +25,28 @@
 
 @implementation VcodeLoginVC
 
+- (void)awakeFromNib
+{
+    self.model = [[LoginViewModel alloc] init];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    self.navigationItem.leftBarButtonItem = back;
+    
     self.smsModel = [[HKSMSModel alloc] init];
     
     self.num.delegate = self;
     self.code.delegate = self;
     NSArray *mobEvents = @[@"rp002-7",@"rp002-8",@"rp002-9"];
-    [self.smsModel setupVCodeInputField:self.code accountField:self.num forTargetVC:self mobEvents:mobEvents];
+    
+    self.smsModel.getVcodeButton = self.vcodeBtn;
+    self.smsModel.inputVcodeField = self.code;
+    self.smsModel.phoneField = self.num;
+    [self.smsModel setupWithTargetVC:self mobEvents:mobEvents];
+    [self.smsModel countDownIfNeededWithVcodeType:HKVcodeTypeLogin];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -42,6 +57,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp002"];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -50,19 +66,28 @@
     [MobClick endLogPageView:@"rp002"];
 }
 
+- (void)dealloc
+{
+    
+}
+
 #pragma mark - Action
+- (void)actionBack:(id)sender {
+    [self.model dismissForTargetVC:self forSucces:NO];
+}
+
 - (IBAction)actionGetVCode:(id)sender
 {
     [MobClick event:@"rp002-2"];
     if ([self sharkCellIfErrorAtIndex:0]) {
         return;
     }
-    [[self.smsModel rac_handleVcodeButtonClick:sender vcodeInputField:self.code withVcodeType:1 phone:[self textAtIndex:0]]
-     subscribeNext:^(GetVcodeOp *op) {
-         
-    } error:^(NSError *error) {
+
+    RACSignal *sig = [self.smsModel rac_getSystemVcodeWithType:HKVcodeTypeLogin phone:[self textAtIndex:0]];
+    [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:sig] subscribeError:^(NSError *error) {
         [gToast showError:error.domain];
     }];
+    
     //激活输入验证码的输入框
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
@@ -88,12 +113,15 @@
 - (IBAction)actionLogin:(id)sender
 {
     [MobClick event:@"rp002-6"];
-    if ([self sharkCellIfErrorAtIndex:0]) {
+    if (![self.num.text isPhoneNumber]) {
+        [self shakeCellAtIndex:0];
         return;
     }
-    if ([self sharkCellIfErrorAtIndex:1]) {
+    if (self.code.text.length < 4) {
+        [self shakeCellAtIndex:1];
         return;
     }
+    
     [self.view endEditing:YES];
     NSString *ad = [self textAtIndex:0];
     NSString *vcode = [self textAtIndex:1];
@@ -120,6 +148,47 @@
     }
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    //手机号输入
+    if ([textField isEqual:self.num]) {
+        NSInteger length = range.location + [string length] - range.length;
+        if (length > 11) {
+            return NO;
+        }
+        NSString *title = [self.vcodeBtn titleForState:UIControlStateNormal];
+        if ([@"获取验证码" equalByCaseInsensitive:title]) {
+            BOOL enable = length == 11;
+            if (enable != self.vcodeBtn.enabled) {
+                self.vcodeBtn.enabled = enable;
+            }
+        }
+    }
+    //验证码输入
+    else if ([textField isEqual:self.code]) {
+        NSInteger length = range.location + [string length] - range.length;
+        if (length > 8) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
+- (BOOL)textFieldShouldClear:(UITextField *)textField
+{
+    //手机号输入
+    if ([textField isEqual:self.num]) {
+        NSString *title = [self.vcodeBtn titleForState:UIControlStateNormal];
+        if ([@"获取验证码" equalByCaseInsensitive:title]) {
+            BOOL enable = NO;
+            if (enable != self.vcodeBtn.enabled) {
+                self.vcodeBtn.enabled = enable;
+            }
+        }
+    }
+    return YES;
+}
 #pragma mark - Private
 - (NSString *)textAtIndex:(NSInteger)index
 {
@@ -140,5 +209,11 @@
     return NO;
 }
 
+- (void)shakeCellAtIndex:(NSInteger)index
+{
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+    UIView *container = [cell.contentView viewWithTag:100];
+    [container shake];
+}
 
 @end

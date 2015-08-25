@@ -28,7 +28,7 @@
 
 - (void)showingWithText:(NSString *)test
 {
-    [SVProgressHUD showWithStatus:test maskType:SVProgressHUDMaskTypeNone];
+    [SVProgressHUD showWithStatus:test maskType:SVProgressHUDMaskTypeClear];
 }
 
 - (void)showSuccess:(NSString *)success
@@ -49,7 +49,17 @@
 
 - (void)showError:(NSString *)error inView:(UIView *)view
 {
-    if (error.length == 0) {
+    [self showText:error inView:view];
+}
+
+- (void)showText:(NSString *)text
+{
+    [SVProgressHUD showOnlyStatus:text duration:[self displayDurationForString:text]];
+}
+
+- (void)showText:(NSString *)text inView:(UIView *)view
+{
+    if (text.length == 0) {
         [self dismissInView:view];
     }
     else {
@@ -57,16 +67,11 @@
         if (!hud) {
             hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
         }
-        hud.labelText = error;
+        hud.labelText = text;
         hud.margin = 10;
         hud.mode = MBProgressHUDModeText;
-        [hud hide:YES afterDelay:[self displayDurationForString:error]];
+        [hud hide:YES afterDelay:[self displayDurationForString:text]];
     }
-}
-
-- (void)showText:(NSString *)text
-{
-    [SVProgressHUD showOnlyStatus:text duration:[self displayDurationForString:text]];
 }
 
 - (void)showingWithText:(NSString *)text inView:(UIView *)view

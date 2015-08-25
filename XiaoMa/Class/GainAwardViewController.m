@@ -35,6 +35,16 @@
 
 #pragma mark - Table view data source
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return CGFLOAT_MIN;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return CGFLOAT_MIN;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
     return 1;

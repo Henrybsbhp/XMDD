@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "JTTableViewController.h"
 #import "JTShop.h"
+#import "HKNavigationHiddenVC.h"
 
-@interface ShopDetailVC : JTTableViewController
+@interface ShopDetailVC : HKNavigationHiddenVC
 
 @property (nonatomic, strong)JTShop * shop;
 

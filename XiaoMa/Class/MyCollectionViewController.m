@@ -200,8 +200,12 @@
     self.isEditing = !self.isEditing;
     
     [self refreshBottomView];
-    
+
     [self.navigationItem.rightBarButtonItem setTitle:(self.isEditing ? @"完成":@"编辑")];
+    if (gAppMgr.myUser.favorites.favoritesArray.count == 0)
+    {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
     
     [self reloadData];
 }
@@ -241,7 +245,7 @@
     
     [[[gAppMgr.myUser.favorites rac_removeFavorite:array] initially:^{
         
-        [gToast showText:@"移除中..."];
+        [gToast showingWithText:@"移除中..."];
     }] subscribeNext:^(id x) {
         
         [gToast showText:@"移除成功！"];
@@ -283,10 +287,7 @@
         UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
         UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
         
-        
-        [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] subscribeNext:^(UIImage * image) {
-            logoV.image = image;
-        }];;
+        [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
         titleL.text = shop.shopName;
         ratingV.ratingValue = shop.shopRate;
         ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
@@ -364,9 +365,7 @@
         UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
         UIButton * checkBtn = (UIButton *)[cell searchViewWithTag:3003];
         
-        [[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] subscribeNext:^(UIImage * image) {
-            logoV.image = image;
-        }];;
+        [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
         titleL.text = shop.shopName;
         ratingV.ratingValue = shop.shopRate;
         ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];

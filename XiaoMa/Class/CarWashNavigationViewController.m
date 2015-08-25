@@ -47,6 +47,7 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp104"];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

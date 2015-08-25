@@ -32,6 +32,7 @@ typedef enum : NSInteger {
     AuthByPwdOp *op = [AuthByPwdOp new];
     op.skey = [self skeyFromPassword:password];
     op.req_deviceID = gAppMgr.deviceInfo.deviceID;
+    op.req_appVersion = gAppMgr.deviceInfo.appLongVersion;
     return [[self rac_commonValidateTokenOp:op account:account token:nil] doNext:^(id x) {
         [gAppMgr resetWithAccount:account];
     }];
@@ -42,6 +43,7 @@ typedef enum : NSInteger {
     AuthByVcodeOp *op = [AuthByVcodeOp new];
     op.skey = [self skeyFromPassword:vCode];
     op.req_deviceID = gAppMgr.deviceInfo.deviceID;
+    op.req_appVersion = gAppMgr.deviceInfo.appLongVersion;
     NSString *token = [gAppMgr.tokenPool tokenForAccount:account];
     return [[self rac_commonValidateTokenOp:op account:account token:token] doNext:^(id x) {
         [gAppMgr resetWithAccount:account];
@@ -90,11 +92,11 @@ typedef enum : NSInteger {
     {
         RACScheduler *sch = [RACScheduler schedulerWithPriority:RACSchedulerPriorityHigh];
         return [[[RACSignal startEagerlyWithScheduler:sch block:^(id<RACSubscriber> subscriber) {
-            
-            NSString *skey = [HKLoginModel getSkeyForAccount:ad loginType:LoginTypePassowrd];
-            if (!skey && type != LoginTypePassowrd) {
-                skey = [HKLoginModel getSkeyForAccount:ad loginType:type];
-            }
+            NSString *skey = [HKLoginModel getSkeyForAccount:ad loginType:type];
+//            NSString *skey = [HKLoginModel getSkeyForAccount:ad loginType:LoginTypePassowrd];
+//            if (!skey && type != LoginTypePassowrd) {
+//                skey = [HKLoginModel getSkeyForAccount:ad loginType:type];
+//            }
             [subscriber sendNext:skey];
         }] flattenMap:^RACStream *(NSString *skey) {
             
@@ -166,9 +168,21 @@ typedef enum : NSInteger {
         if (!skey) {
             return [RACSignal error:[NSError errorWithDomain:@"无效的密码" code:0 userInfo:nil]];
         }
-        BaseOp *op = (BaseOp *)(type == LoginTypePassowrd ? [AuthByPwdOp new] : [AuthByVcodeOp new]);
-        op.skey = skey;
-        return [self rac_commonValidateTokenOp:op account:ad token:nil];
+        
+        if (type == LoginTypePassowrd) {
+            AuthByPwdOp *op = [AuthByPwdOp operation];
+            op.skey = skey;
+            op.req_deviceID = gAppMgr.deviceInfo.deviceID;
+            op.req_appVersion = gAppMgr.deviceInfo.appLongVersion;
+            return [self rac_commonValidateTokenOp:op account:ad token:nil];
+        }
+        else {
+            AuthByVcodeOp *op = [AuthByVcodeOp operation];
+            op.skey = skey;
+            op.req_deviceID = gAppMgr.deviceInfo.deviceID;
+            op.req_appVersion = gAppMgr.deviceInfo.appLongVersion;
+            return [self rac_commonValidateTokenOp:op account:ad token:nil];
+        }
     }] replay];
     [[HKLoginModel globalRetrySignal] sendNext:sig];
     return sig;
@@ -231,10 +245,7 @@ typedef enum : NSInteger {
 {
     GetTokenOp *op = [GetTokenOp new];
     op.req_phone = account;
-//    @weakify(self);
     return [[op rac_postRequest] map:^(GetTokenOp *rspOp) {
-//        @strongify(self);
-//        [self.tokenPool safetySetObject:rspOp.rsp_token forKey:account];
         return rspOp.rsp_token;
     }];
 }
@@ -267,18 +278,18 @@ typedef enum : NSInteger {
         return rstOp;
      }];
     
-//    @weakify(self);
-//    signal = [signal doError:^(NSError *error) {
-//        
-//        @strongify(self);
-//        //验证失败的时候需要从token池中移除掉当前token
-//        [self.tokenPool removeObjectForKey:account];
-//    }];
-    
     return [signal deliverOn:[RACScheduler mainThreadScheduler]];
 
 }
 
+
++ (void)logoutWithoutNetworking
+{
+    gNetworkMgr.token = nil;
+    gNetworkMgr.skey = nil;
+    [gAppMgr resetWithAccount:nil];
+    [HKLoginModel cleanPwdForAccount:gNetworkMgr.bindingMobile];
+}
 
 + (void)logout
 {
@@ -286,24 +297,22 @@ typedef enum : NSInteger {
     [[op rac_postRequest] subscribeNext:^(id x) {
         DebugLog(@"Logout success!");
     }];
-    gNetworkMgr.token = nil;
-    gNetworkMgr.skey = nil;
-    [gAppMgr resetWithAccount:nil];
-    [HKLoginModel cleanPwdForAccount:gNetworkMgr.bindingMobile];
+    [self logoutWithoutNetworking];
 }
 
 + (void)cleanPwdForAccount:(NSString *)ad
 {
     NSDictionary *loginInfo = [HKLoginModel nearlyLoginInfo];
     NSString *account = loginInfo[@"account"];
-    LoginType type = [loginInfo[@"type"] integerValue];
+//    LoginType type = [loginInfo[@"type"] integerValue];
     
-    NSString *serverId = [NSString stringWithFormat:@"%@_%@", kKeychainServiceName, @(type)];
+    NSString *PwdKey = [NSString stringWithFormat:@"%@_%@", kKeychainServiceName, @(LoginTypePassowrd)];
+    NSString *vcodeKey = [NSString stringWithFormat:@"%@_%@", kKeychainServiceName, @(LoginTypeVCode)];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0),^{
         
-        NSError * error;
-        [SFHFKeychainUtils deleteItemForUsername:account andServiceName:serverId error:&error];
+        [SFHFKeychainUtils deleteItemForUsername:account andServiceName:PwdKey error:nil];
+        [SFHFKeychainUtils deleteItemForUsername:account andServiceName:vcodeKey error:nil];
     });
 }
 

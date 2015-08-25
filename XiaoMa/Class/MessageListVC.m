@@ -171,7 +171,7 @@
 {
     [MobClick event:@"rp324-1"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    HKMessage *msg = [self.msgList safetyObjectAtIndex:indexPath.row];
+    HKMessage *msg = [self.msgList safetyObjectAtIndex:indexPath.section];
     if (msg.url.length > 0) {
         [gAppMgr.navModel pushToViewControllerByUrl:msg.url];
     }

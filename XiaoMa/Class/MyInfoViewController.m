@@ -15,12 +15,13 @@
 #import "UIImage+Utilities.h"
 #import "UploadFileOp.h"
 #import "DownloadOp.h"
+#import "HKImagePicker.h"
 
 @interface MyInfoViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
 @property (nonatomic)NSInteger sex;
 @property (nonatomic,strong)NSDate * birthday;
-@property (nonatomic, strong) UIImage *avatar;
+@property (nonatomic,strong) UIImage *avatar;
 
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
 
@@ -31,17 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if (!gAppMgr.myUser)
-    {
-                [self requestUserInfo];
-    }
-    else
-    {
-        //        [[gUserInfoMgr rac_getUserInfo:YES] subscribeNext:^(UserInfo * userInfo) {
-        //
-        //            [self.table reloadData];
-        //        }];
-    }
+    [self requestUserInfo];
     [self setupSignals];
     [self setupTableView];
 }
@@ -76,8 +67,7 @@
 {
     @weakify(self);
     RACDisposable *dis = [[[RACObserve(gAppMgr.myUser, avatarUrl) distinctUntilChanged] flattenMap:^RACStream *(id value) {
-        
-        return [gMediaMgr rac_getPictureForUrl:value withType:ImageURLTypeMedium defaultPic:nil errorPic:@"cm_avatar"];
+        return [gMediaMgr rac_getImageByUrl:value withType:ImageURLTypeMedium defaultPic:nil errorPic:@"cm_avatar"];
     }] subscribeNext:^(id x) {
         
         @strongify(self);
@@ -144,7 +134,7 @@
         [self.tableView reloadData];
 
     } error:^(NSError *error) {
-        [gToast showError:@"修改失败，再试一次"];
+        [gToast showError:error.domain];
         [self.tableView reloadData];
     }];
 }
@@ -238,11 +228,11 @@
     if (indexPath.row == 0)
     {
         [MobClick event:@"rp302-1"];
+        HKImagePicker *picker = [HKImagePicker imagePicker];
+        picker.allowsEditing = YES;
+        picker.shouldShowBigImage = NO;
         @weakify(self);
-        [[gAppMgr.mediaMgr rac_pickPhotoInTargetVC:self inView:self.view initBlock:^(UIImagePickerController *picker) {
-            
-            picker.allowsEditing = YES;
-        }] subscribeNext:^(id x) {
+        [[picker rac_pickImageInTargetVC:self inView:self.navigationController.view] subscribeNext:^(id x) {
             
             @strongify(self);
             [self pickerAvatar:x];
@@ -335,7 +325,7 @@
         return UIImageJPEGRepresentation(img, 1.0);
     }];
     
-    [[[[op rac_postRequest] flattenMap:^RACStream *(UploadFileOp *uploadOp) {
+    [[[[[op rac_postRequest] flattenMap:^RACStream *(UploadFileOp *uploadOp) {
         UpdateUserInfoOp * op = [UpdateUserInfoOp operation];
         op.avatarUrl = [uploadOp.rsp_urlArray safetyObjectAtIndex:0];
         op.nickname = gAppMgr.myUser.userName;
@@ -343,13 +333,20 @@
         op.birthday = gAppMgr.myUser.birthday;
         
         return [op rac_postRequest];
+    }] catch:^RACSignal *(NSError *error) {
+        
+        NSError * err = error;
+//        if (error.code == -1009 || error.code == -1005)
+//        {
+//            err = [NSError errorWithDomain:kDefErrorPormpt code:error.code userInfo:error.userInfo];
+//        }
+        return [RACSignal error:err];
     }] initially:^{
         
         [gToast showingWithText:@"正在上传..."];
     }] subscribeNext:^(UpdateUserInfoOp * op) {
         
         [gToast dismiss];
-
         gAppMgr.myUser.avatarUrl = op.avatarUrl;
     } error:^(NSError *error) {
         

@@ -29,7 +29,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
     self.mapView.delegate = self;
     self.search.delegate = self;
 }

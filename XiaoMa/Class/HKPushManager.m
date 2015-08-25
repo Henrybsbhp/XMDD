@@ -62,7 +62,10 @@
     [[[[sig1 merge:sig2] skip:1] flattenMap:^RACStream *(id value) {
         @strongify(self);
         self.bindOp.token = gNetworkMgr.token;
-        return [self.bindOp rac_postRequest];
+        self.bindOp.skey = gNetworkMgr.skey;
+        return [[self.bindOp rac_postRequest] catch:^RACSignal *(NSError *error) {
+            return [RACSignal empty];
+        }];
     }] subscribeNext:^(BindDeviceTokenOp *rspOp) {
         DebugLog(@"Bind device token success!(deviceToken:%@ user:%@ deviceID:%@)",
                  rspOp.req_deviceToken, gAppMgr.myUser.userID, gAppMgr.deviceInfo.deviceID);
@@ -75,7 +78,9 @@
         op.req_appversion = self.bindOp.req_appversion;
         op.req_deviceID = self.bindOp.req_deviceID;
         op.req_deviceToken = token;
-        return [op rac_postRequest];
+        return [[op rac_postRequest] catch:^RACSignal *(NSError *error) {
+            return [RACSignal empty];
+        }];
     }] subscribeNext:^(BindDeviceToken2Op *rspOp) {
         DebugLog(@"Bind global device token success!(deviceToken:%@ deviceID:%@)",
                  rspOp.req_deviceToken, rspOp.req_deviceID);

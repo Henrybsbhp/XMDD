@@ -123,9 +123,7 @@
     
     nameL.text = order.shop.shopName;
     stateL.text = @"交易成功";
-    [[[gAppMgr.mediaMgr rac_getPictureForUrl:[order.shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        iconV.image = x;
-    }];
+    [iconV setImageByUrl:[order.shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
     
     serviceL.text = order.servicename;
     timeL.text = [order.txtime dateFormatForYYYYMMddHHmm];
