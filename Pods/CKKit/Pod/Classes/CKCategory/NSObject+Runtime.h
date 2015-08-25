@@ -21,6 +21,7 @@
 @property (nonatomic, copy) void (^customActionBlock)(void);
 @property (nonatomic, weak) id customWeakObject;
 @property (nonatomic, assign) NSInteger customTag;
+@property (nonatomic, assign) BOOL customFlag;
 @property (nonatomic, strong) NSString *customIdenfitier;
 @end
 
