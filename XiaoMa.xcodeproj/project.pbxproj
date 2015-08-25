@@ -190,6 +190,8 @@
 		6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B343C351B0EFFAF0036AED9 /* ShareUserCouponOp.m */; };
 		6B747A651AF08C7B00106BFD /* PhoneHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B747A641AF08C7B00106BFD /* PhoneHelper.m */; };
 		6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B82588F1AF8B37100D5D800 /* CommentListViewController.m */; };
+		6B978BFA1B6B643A00A6E7C6 /* HKCoverage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B978BF91B6B643A00A6E7C6 /* HKCoverage.m */; };
+		6B978BFD1B6B68AA00A6E7C6 /* InsuranceCalcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B978BFC1B6B68AA00A6E7C6 /* InsuranceCalcHelper.m */; };
 		6BAF30181AE67CC800E35E08 /* GetSystemVersionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF30171AE67CC800E35E08 /* GetSystemVersionOp.m */; };
 		6BAF301D1AE6947F00E35E08 /* ClientInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301A1AE6947F00E35E08 /* ClientInfo.m */; };
 		6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301C1AE6947F00E35E08 /* DeviceInfo.m */; };
@@ -290,6 +292,16 @@
 		6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5F1AE8A64B00BEF30E /* payRequsestHandler.mm */; };
 		6BD7AE641AE8A64B00BEF30E /* WXUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE611AE8A64B00BEF30E /* WXUtil.mm */; };
 		6BD7AE681AE9F63900BEF30E /* MapBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE671AE9F63900BEF30E /* MapBottomView.m */; };
+		6BDD6E211B67615C0060CFD0 /* JDDateCountdownFlipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E131B67615C0060CFD0 /* JDDateCountdownFlipView.m */; };
+		6BDD6E221B67615C0060CFD0 /* JDFlipClockView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E151B67615C0060CFD0 /* JDFlipClockView.m */; };
+		6BDD6E231B67615C0060CFD0 /* JDFlipImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E171B67615C0060CFD0 /* JDFlipImageView.m */; };
+		6BDD6E241B67615C0060CFD0 /* JDFlipNumberDigitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E191B67615C0060CFD0 /* JDFlipNumberDigitView.m */; };
+		6BDD6E251B67615C0060CFD0 /* JDFlipNumberView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6BDD6E1A1B67615C0060CFD0 /* JDFlipNumberView.bundle */; };
+		6BDD6E261B67615C0060CFD0 /* JDFlipNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E1C1B67615C0060CFD0 /* JDFlipNumberView.m */; };
+		6BDD6E271B67615C0060CFD0 /* JDFlipNumberViewImageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E1E1B67615C0060CFD0 /* JDFlipNumberViewImageFactory.m */; };
+		6BDD6E281B67615C0060CFD0 /* UIView+JDFlipImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E201B67615C0060CFD0 /* UIView+JDFlipImageView.m */; };
+		6BDD6E2B1B6762C50060CFD0 /* InsuranceDetailPlanVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E2A1B6762C50060CFD0 /* InsuranceDetailPlanVC.m */; };
+		6BDD6E2E1B68B9AE0060CFD0 /* HKFlipDecimalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E2D1B68B9AE0060CFD0 /* HKFlipDecimalView.m */; };
 		6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD4E1AE6232C00A69875 /* HKAdvertisement.m */; };
 		6BE2BD521AE62B1600A69875 /* GetInsuranceCalculatorOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD511AE62B1600A69875 /* GetInsuranceCalculatorOp.m */; };
 		6BE2BD581AE62CDF00A69875 /* HKInsurance.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD571AE62CDF00A69875 /* HKInsurance.m */; };
@@ -692,6 +704,10 @@
 		6B747A641AF08C7B00106BFD /* PhoneHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhoneHelper.m; path = Class/PhoneHelper.m; sourceTree = "<group>"; };
 		6B82588E1AF8B37100D5D800 /* CommentListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentListViewController.h; sourceTree = "<group>"; };
 		6B82588F1AF8B37100D5D800 /* CommentListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentListViewController.m; sourceTree = "<group>"; };
+		6B978BF81B6B643A00A6E7C6 /* HKCoverage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKCoverage.h; path = Class/HKCoverage.h; sourceTree = "<group>"; };
+		6B978BF91B6B643A00A6E7C6 /* HKCoverage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKCoverage.m; path = Class/HKCoverage.m; sourceTree = "<group>"; };
+		6B978BFB1B6B68AA00A6E7C6 /* InsuranceCalcHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InsuranceCalcHelper.h; path = Class/InsuranceCalcHelper.h; sourceTree = "<group>"; };
+		6B978BFC1B6B68AA00A6E7C6 /* InsuranceCalcHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsuranceCalcHelper.m; path = Class/InsuranceCalcHelper.m; sourceTree = "<group>"; };
 		6BAF30161AE67CC800E35E08 /* GetSystemVersionOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemVersionOp.h; path = Class/GetSystemVersionOp.h; sourceTree = "<group>"; };
 		6BAF30171AE67CC800E35E08 /* GetSystemVersionOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemVersionOp.m; path = Class/GetSystemVersionOp.m; sourceTree = "<group>"; };
 		6BAF30191AE6947F00E35E08 /* ClientInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClientInfo.h; path = Class/ClientInfo.h; sourceTree = "<group>"; };
@@ -878,6 +894,25 @@
 		6BD7AE611AE8A64B00BEF30E /* WXUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WXUtil.mm; sourceTree = "<group>"; };
 		6BD7AE661AE9F63900BEF30E /* MapBottomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapBottomView.h; path = Class/MapBottomView.h; sourceTree = "<group>"; };
 		6BD7AE671AE9F63900BEF30E /* MapBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapBottomView.m; path = Class/MapBottomView.m; sourceTree = "<group>"; };
+		6BDD6E121B67615C0060CFD0 /* JDDateCountdownFlipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDDateCountdownFlipView.h; sourceTree = "<group>"; };
+		6BDD6E131B67615C0060CFD0 /* JDDateCountdownFlipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDDateCountdownFlipView.m; sourceTree = "<group>"; };
+		6BDD6E141B67615C0060CFD0 /* JDFlipClockView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDFlipClockView.h; sourceTree = "<group>"; };
+		6BDD6E151B67615C0060CFD0 /* JDFlipClockView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDFlipClockView.m; sourceTree = "<group>"; };
+		6BDD6E161B67615C0060CFD0 /* JDFlipImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDFlipImageView.h; sourceTree = "<group>"; };
+		6BDD6E171B67615C0060CFD0 /* JDFlipImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDFlipImageView.m; sourceTree = "<group>"; };
+		6BDD6E181B67615C0060CFD0 /* JDFlipNumberDigitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDFlipNumberDigitView.h; sourceTree = "<group>"; };
+		6BDD6E191B67615C0060CFD0 /* JDFlipNumberDigitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDFlipNumberDigitView.m; sourceTree = "<group>"; };
+		6BDD6E1A1B67615C0060CFD0 /* JDFlipNumberView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JDFlipNumberView.bundle; sourceTree = "<group>"; };
+		6BDD6E1B1B67615C0060CFD0 /* JDFlipNumberView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDFlipNumberView.h; sourceTree = "<group>"; };
+		6BDD6E1C1B67615C0060CFD0 /* JDFlipNumberView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDFlipNumberView.m; sourceTree = "<group>"; };
+		6BDD6E1D1B67615C0060CFD0 /* JDFlipNumberViewImageFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDFlipNumberViewImageFactory.h; sourceTree = "<group>"; };
+		6BDD6E1E1B67615C0060CFD0 /* JDFlipNumberViewImageFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDFlipNumberViewImageFactory.m; sourceTree = "<group>"; };
+		6BDD6E1F1B67615C0060CFD0 /* UIView+JDFlipImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+JDFlipImageView.h"; sourceTree = "<group>"; };
+		6BDD6E201B67615C0060CFD0 /* UIView+JDFlipImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+JDFlipImageView.m"; sourceTree = "<group>"; };
+		6BDD6E291B6762C50060CFD0 /* InsuranceDetailPlanVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceDetailPlanVC.h; sourceTree = "<group>"; };
+		6BDD6E2A1B6762C50060CFD0 /* InsuranceDetailPlanVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceDetailPlanVC.m; sourceTree = "<group>"; };
+		6BDD6E2C1B68B9AE0060CFD0 /* HKFlipDecimalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKFlipDecimalView.h; sourceTree = "<group>"; };
+		6BDD6E2D1B68B9AE0060CFD0 /* HKFlipDecimalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKFlipDecimalView.m; sourceTree = "<group>"; };
 		6BE2BD4D1AE6232C00A69875 /* HKAdvertisement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKAdvertisement.h; path = Class/HKAdvertisement.h; sourceTree = "<group>"; };
 		6BE2BD4E1AE6232C00A69875 /* HKAdvertisement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKAdvertisement.m; path = Class/HKAdvertisement.m; sourceTree = "<group>"; };
 		6BE2BD501AE62B1600A69875 /* GetInsuranceCalculatorOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetInsuranceCalculatorOp.h; path = Class/GetInsuranceCalculatorOp.h; sourceTree = "<group>"; };
@@ -1070,6 +1105,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				6BDD6E111B67615C0060CFD0 /* JDFlipNumberView */,
 				18F813611B5F3561005F49B0 /* CKNavigationController */,
 				18D17F741B53B21E00F66F04 /* MBProgressHUD */,
 				185A52961B1C0DEC003515CC /* CarbonKit */,
@@ -1284,6 +1320,8 @@
 				6BCA5F3F1B102A3700E1E630 /* HKCouponPkg.m */,
 				18D17F7E1B57782800F66F04 /* HKAddressComponent.h */,
 				18D17F7F1B57782800F66F04 /* HKAddressComponent.m */,
+				6B978BF81B6B643A00A6E7C6 /* HKCoverage.h */,
+				6B978BF91B6B643A00A6E7C6 /* HKCoverage.m */,
 			);
 			name = Dataset;
 			sourceTree = "<group>";
@@ -1732,6 +1770,8 @@
 				189B310D1ADA5911001D7288 /* Enquiry */,
 				189B30C51AD664D7001D7288 /* InsuranceVC.h */,
 				189B30C61AD664D7001D7288 /* InsuranceVC.m */,
+				6BDD6E291B6762C50060CFD0 /* InsuranceDetailPlanVC.h */,
+				6BDD6E2A1B6762C50060CFD0 /* InsuranceDetailPlanVC.m */,
 				50A9EF191B6874880036897F /* InsuranceResultVC.h */,
 				50A9EF1A1B6874880036897F /* InsuranceResultVC.m */,
 				507A0EAF1B6EFA50004F6EC1 /* DrawingBoardView.h */,
@@ -2075,6 +2115,8 @@
 				6BBB083E1B021EA90002C349 /* JTCatureScreen */,
 				6BBAB8CC1ADE059300EC342F /* DistanceCalcHelper.h */,
 				6BBAB8CD1ADE059300EC342F /* DistanceCalcHelper.m */,
+				6B978BFB1B6B68AA00A6E7C6 /* InsuranceCalcHelper.h */,
+				6B978BFC1B6B68AA00A6E7C6 /* InsuranceCalcHelper.m */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -2303,6 +2345,30 @@
 				6BBC4A271B0C8236003F3081 /* SocialShareView.m */,
 			);
 			name = Map;
+			sourceTree = "<group>";
+		};
+		6BDD6E111B67615C0060CFD0 /* JDFlipNumberView */ = {
+			isa = PBXGroup;
+			children = (
+				6BDD6E121B67615C0060CFD0 /* JDDateCountdownFlipView.h */,
+				6BDD6E131B67615C0060CFD0 /* JDDateCountdownFlipView.m */,
+				6BDD6E141B67615C0060CFD0 /* JDFlipClockView.h */,
+				6BDD6E151B67615C0060CFD0 /* JDFlipClockView.m */,
+				6BDD6E161B67615C0060CFD0 /* JDFlipImageView.h */,
+				6BDD6E171B67615C0060CFD0 /* JDFlipImageView.m */,
+				6BDD6E181B67615C0060CFD0 /* JDFlipNumberDigitView.h */,
+				6BDD6E191B67615C0060CFD0 /* JDFlipNumberDigitView.m */,
+				6BDD6E1A1B67615C0060CFD0 /* JDFlipNumberView.bundle */,
+				6BDD6E1B1B67615C0060CFD0 /* JDFlipNumberView.h */,
+				6BDD6E1C1B67615C0060CFD0 /* JDFlipNumberView.m */,
+				6BDD6E1D1B67615C0060CFD0 /* JDFlipNumberViewImageFactory.h */,
+				6BDD6E1E1B67615C0060CFD0 /* JDFlipNumberViewImageFactory.m */,
+				6BDD6E1F1B67615C0060CFD0 /* UIView+JDFlipImageView.h */,
+				6BDD6E201B67615C0060CFD0 /* UIView+JDFlipImageView.m */,
+				6BDD6E2C1B68B9AE0060CFD0 /* HKFlipDecimalView.h */,
+				6BDD6E2D1B68B9AE0060CFD0 /* HKFlipDecimalView.m */,
+			);
+			path = JDFlipNumberView;
 			sourceTree = "<group>";
 		};
 		6BEA56491AE24DCD000D19C1 /* AlipaySDK */ = {
@@ -2582,6 +2648,7 @@
 				6BB8CB861B14135E007B61B5 /* Commission.storyboard in Resources */,
 				6BB8CB841B141350007B61B5 /* Rescue.storyboard in Resources */,
 				18F8136B1B5F3561005F49B0 /* vertical_shadow@2x.png in Resources */,
+				6BDD6E251B67615C0060CFD0 /* JDFlipNumberView.bundle in Resources */,
 				6BBBF5501B2937EB00E1B809 /* Info.plist in Resources */,
 				189B311D1ADBEFDF001D7288 /* policy.json in Resources */,
 				6BB884B11AE0B3FE00EBD8F4 /* hz.gpx in Resources */,
@@ -2664,6 +2731,7 @@
 				1853DEB41AE0A26700C39175 /* DebugFormat.m in Sources */,
 				1816F4A71ACD3B0900BBCC96 /* SYPaginatorView.m in Sources */,
 				186984FB1B00CC50000A182A /* CarwashOrderDetailVC.m in Sources */,
+				6B978BFD1B6B68AA00A6E7C6 /* InsuranceCalcHelper.m in Sources */,
 				6BEA56C41AE24DCE000D19C1 /* APAuthV2Info.m in Sources */,
 				6BBAB8D41ADE3CBC00EC342F /* NSDate+DateForText.m in Sources */,
 				6BC220991AD7804800A4310E /* NSMutableDictionary+AddParams.m in Sources */,
@@ -2683,14 +2751,18 @@
 				1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */,
 				18C81CBC1B17FE7B00B0C292 /* FeedbackVC.m in Sources */,
 				1851F4281B0C2A4E00241A01 /* AutoBrand.m in Sources */,
+				6B978BFA1B6B643A00A6E7C6 /* HKCoverage.m in Sources */,
 				18B2C73B1B13076B007FB0C7 /* README.md in Sources */,
 				1853DEB01AE0A10C00C39175 /* HKLoginModel.m in Sources */,
 				6BE2BD5B1AE6305600A69875 /* GetSystemPromotionOp.m in Sources */,
 				187CC9591AEE4034004D1F28 /* SimplePolicyInfoVC.m in Sources */,
+				6BDD6E221B67615C0060CFD0 /* JDFlipClockView.m in Sources */,
 				186985011B01A731000A182A /* CarwashOrderCommentVC.m in Sources */,
 				186984FE1B00E277000A182A /* InsuranceOrderDetailVC.m in Sources */,
 				6BE2BD521AE62B1600A69875 /* GetInsuranceCalculatorOp.m in Sources */,
+				6BDD6E271B67615C0060CFD0 /* JDFlipNumberViewImageFactory.m in Sources */,
 				189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */,
+				6BDD6E2E1B68B9AE0060CFD0 /* HKFlipDecimalView.m in Sources */,
 				186984F51B0098A2000A182A /* GetInsuranceOrderListOp.m in Sources */,
 				6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */,
 				18D17F7D1B57407900F66F04 /* BindDeviceToken2Op.m in Sources */,
@@ -2705,6 +2777,7 @@
 				6BAF301D1AE6947F00E35E08 /* ClientInfo.m in Sources */,
 				181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */,
 				6BB884BB1AE0BB9600EBD8F4 /* JTTableView.m in Sources */,
+				6BDD6E281B67615C0060CFD0 /* UIView+JDFlipImageView.m in Sources */,
 				507A0EB11B6EFA50004F6EC1 /* DrawingBoardView.m in Sources */,
 				6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */,
 				6B086BB01AE4F46900659DB7 /* TMDiskCache.m in Sources */,
@@ -2772,6 +2845,7 @@
 				18B2C7371B13076B007FB0C7 /* PECropViewController.m in Sources */,
 				6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */,
 				6BBB084D1B021EA90002C349 /* JTLogModel.m in Sources */,
+				6BDD6E2B1B6762C50060CFD0 /* InsuranceDetailPlanVC.m in Sources */,
 				18B2C7401B130A75007FB0C7 /* EditPictureViewController.m in Sources */,
 				6BB9D76E1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m in Sources */,
 				1873710C1B0AD1D900B8CDCC /* MyCarListVModel.m in Sources */,
@@ -2824,6 +2898,7 @@
 				6BC2209F1AD7AC9D00A4310E /* NSString+MD5.m in Sources */,
 				1883D9101ACBBE30002A4D19 /* main.m in Sources */,
 				18F813681B5F3561005F49B0 /* CKNavigationController+Expansion.m in Sources */,
+				6BDD6E241B67615C0060CFD0 /* JDFlipNumberDigitView.m in Sources */,
 				18B2C7381B13076B007FB0C7 /* PEResizeControl.m in Sources */,
 				18804A9F1B2548AC00E7E764 /* NavigationModel.m in Sources */,
 				6BBF7DA31B008B1000E45967 /* EditMyInfoViewController.m in Sources */,
@@ -2834,11 +2909,13 @@
 				6BBAB8B61ADBC12D00EC342F /* UpdatePwdOp.m in Sources */,
 				1853DED41AE2A0BD00C39175 /* VcodeLoginVC.m in Sources */,
 				6BB8CB8B1B1416B0007B61B5 /* CommissionViewController.m in Sources */,
+				6BDD6E261B67615C0060CFD0 /* JDFlipNumberView.m in Sources */,
 				6BBC4A281B0C8236003F3081 /* SocialShareView.m in Sources */,
 				6BBF7DA91B00C9C200E45967 /* UIImage+Utilities.mm in Sources */,
 				6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */,
 				18895B361B4CB89000928F62 /* HKPushManager.m in Sources */,
 				6BC3B60F1ADF52CB001016A0 /* BaseMapViewController.m in Sources */,
+				6BDD6E211B67615C0060CFD0 /* JDDateCountdownFlipView.m in Sources */,
 				1851F42F1B0C304B00241A01 /* AutoBrand+Extension.m in Sources */,
 				6BBAB8C11ADBC21600EC342F /* GTMBase64.m in Sources */,
 				50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */,
@@ -2858,6 +2935,7 @@
 				18088D8E1B1DC938007438FC /* UnusedCouponVModel.m in Sources */,
 				185A529C1B1C0DEC003515CC /* CarbonSwipeRefresh.m in Sources */,
 				189B310C1ADA499C001D7288 /* EnquiryResultVC.m in Sources */,
+				6BDD6E231B67615C0060CFD0 /* JDFlipImageView.m in Sources */,
 				6BCA5F4C1B104B5100E1E630 /* MyCollectionViewController.m in Sources */,
 				6BEA56CF1AE24DCE000D19C1 /* DataVerifier.m in Sources */,
 				6BB884BC1AE0BB9600EBD8F4 /* UIView+JTLoadingView.m in Sources */,

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+
+
 /// 险种
 @interface SubInsurance : NSObject
 
@@ -15,9 +17,11 @@
 @property (nonatomic,copy)NSString * coveragerName;
 
 ///险种金额
-@property (nonatomic, strong) NSString *coveragerValue;
+@property (nonatomic,strong) NSString *coveragerValue;
 
 @end
+
+
 
 
 @interface HKInsurance : NSObject
@@ -32,3 +36,4 @@
 + (instancetype)insuranceWithJSONResponse:(NSDictionary *)rsp;
 
 @end
+
