@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "JTShop.h"
 #import "HKCoupon.h"
+#import "CheckoutServiceOrderV2Op.h"
 
 @class HKMyCar;
+@class HKBankCard;
 
 @interface PayForWashCarVC : UIViewController
 
@@ -21,11 +23,18 @@
 
 /// 为优惠劵选择服务
 @property (nonatomic)CouponType couponType;
+@property (nonatomic)HKBankCard * selectBankCard;
 @property (nonatomic,strong)NSMutableArray * selectCarwashCoupouArray;
 @property (nonatomic,strong)NSMutableArray * selectCashCoupouArray;
 
-- (void)setPaymentType:(PaymentChannelType)paymentType;
+@property (nonatomic)BOOL needChooseResource;
 
+- (void)setPlatform:(PaymentPlatform)platform;
 - (void)tableViewReloadData;
+- (void)autoSelectBankCard;
+- (void)chooseResource;
+- (void)chooseResourceByBankCard:(HKBankCard *)card;
+
+- (void)requestGetUserResource;
 
 @end

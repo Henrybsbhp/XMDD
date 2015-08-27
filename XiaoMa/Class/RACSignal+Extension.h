@@ -11,5 +11,6 @@
 @interface RACSignal (Extension)
 
 - (RACSignal *)takeUntilForCell:(id)cell;
+- (RACSignal *)ignoreError;
 
 @end

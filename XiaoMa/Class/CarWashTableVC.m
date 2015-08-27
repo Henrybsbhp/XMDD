@@ -10,7 +10,6 @@
 #import <Masonry.h>
 #import "XiaoMa.h"
 #import "JTRatingView.h"
-#import "SYPaginator.h"
 #import "UIView+Layer.h"
 #import "ShopDetailVC.h"
 #import "JTShop.h"
@@ -22,18 +21,14 @@
 #import "NearbyShopsViewController.h"
 #import "SearchViewController.h"
 #import "WebVC.h"
-#import "HKAdvertisement.h"
 #import "UIView+DefaultEmptyView.h"
+#import "NSDate+DateForText.h"
+#import "ADViewController.h"
 
 
-
-@interface CarWashTableVC ()<SYPaginatorViewDataSource, SYPaginatorViewDelegate>
-@property (nonatomic, strong) SYPaginatorView *adView;
-@property (nonatomic, strong) RACDisposable *rac_adDisposable;
-@property (nonatomic, strong) NSArray *adList;
-
+@interface CarWashTableVC ()
 @property (nonatomic)CLLocationCoordinate2D  userCoordinate;
-
+@property (nonatomic, strong) ADViewController *adctrl;
 ///当前页码索引
 @property (nonatomic, assign) NSUInteger currentPageIndex;
 @end
@@ -68,6 +63,7 @@
     CKAsyncMainQueue(^{
         [self setupSearchView];
         [self setupTableView];
+        [self setupADView];
         [self reloadAdList];
         [self.loadingModel loadDataForTheFirstTime];
     });
@@ -110,9 +106,7 @@
         SearchViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
         [self.navigationController pushViewController:vc animated:YES];
     }];
-    //LYW 下面两个方法是？
     [[self.searchField rac_newTextChannel] subscribeNext:^(id x) {
-        
 
     }];
     
@@ -121,61 +115,37 @@
     }];
 }
 
+- (void)setupADView
+{
+    self.adctrl = [ADViewController vcWithADType:AdvertisementCarWash boundsWidth:self.view.bounds.size.width
+                                        targetVC:self mobBaseEvent:@"rp102-6"];
+}
+
 - (void)reloadAdList
 {
     if (self.forbidAD) {
-        self.adList = nil;
         [self refreshAdView];
         return;
     }
-
     @weakify(self);
-    [[gAdMgr rac_fetchAdListByType:AdvertisementCarWash] subscribeNext:^(NSArray *ads) {
-        
+    [self.adctrl reloadDataWithForce:NO completed:^(ADViewController *ctrl, NSArray *ads) {
         @strongify(self);
-        self.adList = ads;
         [self refreshAdView];
     }];
 }
 
 - (void)refreshAdView
 {
-    if (self.adList.count > 0) {
-        CGFloat width = CGRectGetWidth(self.view.frame);
-        CGFloat height = 360.0f/1242.0f*width;
-        self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), height+45);
-        if (!self.adView) {
-            SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 45, width, height)];
-            adView.delegate = self;
-            adView.dataSource = self;
-            adView.pageGapWidth = 0;
-            self.adView = adView;
-        }
-        [self.headerView addSubview:self.adView];
-        [self.adView reloadDataRemovingCurrentPage:YES];
-        self.adView.currentPageIndex = 0;
-        self.adView.pageControl.hidden = self.adList.count <= 1;
-        
-        //重置广告滚动的定时器
-        [self.rac_adDisposable dispose];
-        @weakify(self);
-        self.rac_adDisposable = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
-            
-            @strongify(self);
-            NSInteger index = [self.adView currentPageIndex] + 1;
-            if (index >= self.adList.count) {
-                index = 0;
-            }
-            [self.adView setCurrentPageIndex:index animated:YES];
-        }];
+    if (!self.forbidAD && self.adctrl.adList.count > 0) {
+        CGRect frame = self.adctrl.adView.frame;
+        self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), CGRectGetHeight(frame)+45);
+        frame.origin.y = 45;
+        self.adctrl.adView.frame = frame;
+        [self.headerView addSubview:self.adctrl.adView];
     }
     else {
         self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), 45);
-        [self.adView removeFromSuperview];
-        
-        //清理广告的定时器
-        [self.rac_adDisposable dispose];
-        [[self rac_deallocDisposable] removeDisposable:self.rac_adDisposable];
+        [self.adctrl.adView removeFromSuperview];
     }
     if (self.loadingModel.datasource.count > 0) {
         [self.tableView setTableHeaderView:self.headerView];
@@ -288,7 +258,7 @@
     @weakify(self);
     return [[[gMapHelper rac_getUserLocation] catch:^RACSignal *(NSError *error) {
         
-        NSError *mappedError = [NSError errorWithDomain:error.domain code:error.code userInfo:nil];
+        NSError *mappedError = [NSError errorWithDomain:@"" code:error.code userInfo:nil];
         mappedError.customTag = 1;
         return [RACSignal error:mappedError];
     }] flattenMap:^RACStream *(MAUserLocation *userLocation) {
@@ -318,60 +288,6 @@
     }
 }
 
-#pragma mark - SYPaginatorViewDelegate
-- (NSInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView
-{
-    return gAdMgr.carwashAdvertiseArray.count;
-}
-
-- (SYPageView *)paginatorView:(SYPaginatorView *)paginatorView viewForPageAtIndex:(NSInteger)pageIndex
-{
-    SYPageView *pageView = [paginatorView dequeueReusablePageWithIdentifier:@"pageView"];
-    if (!pageView) {
-        pageView = [[SYPageView alloc] initWithReuseIdentifier:@"pageView"];
-        UIImageView *imgV = [[UIImageView alloc] initWithFrame:pageView.bounds];
-        imgV.autoresizingMask = UIViewAutoresizingFlexibleAll;
-        imgV.tag = 1001;
-        [pageView addSubview:imgV];
-    }
-    UIImageView *imgV = (UIImageView *)[pageView searchViewWithTag:1001];
-    HKAdvertisement * ad = [gAdMgr.carwashAdvertiseArray safetyObjectAtIndex:pageIndex];
-    [[gMediaMgr rac_getPictureForUrl:ad.adPic withType:ImageURLTypeMedium defaultPic:@"hp_bottom" errorPic:@"hp_bottom"]
-     subscribeNext:^(id x) {
-        imgV.image = x;
-    }];
-    
-    UITapGestureRecognizer * gesture = imgV.customObject;
-    if (!gesture)
-    {
-        UITapGestureRecognizer *ge = [[UITapGestureRecognizer alloc] init];
-        [imgV addGestureRecognizer:ge];
-        imgV.userInteractionEnabled = YES;
-        imgV.customObject = ge;
-    }
-    gesture = imgV.customObject;
-    
-    @weakify(self)
-    [[[gesture rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
-        
-        NSString * eventstr = [NSString stringWithFormat:@"rp102-6_%ld", pageIndex];
-        [MobClick event:eventstr];
-        @strongify(self)
-        if (ad.adLink.length)
-        {
-            WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
-            vc.url = ad.adLink;
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-    }];
-
-    return pageView;
-}
-
-- (void)paginatorView:(SYPaginatorView *)paginatorView didScrollToPageAtIndex:(NSInteger)pageIndex
-{
-}
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -387,23 +303,32 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];
     JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
-    //row 0  缩略图、名称、评分、地址、距离等
+    //row 0  缩略图、名称、评分、地址、距离、营业状况等
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1003];
     UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
+    UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
 
-    
-    [[[gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] takeUntilForCell:cell] subscribeNext:^(UIImage * image) {
-        logoV.image = image;
-    }];
+    [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0]
+                withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
     
     titleL.text = shop.shopName;
     ratingV.ratingValue = shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
     addrL.text = shop.shopAddress;
+    
+    [statusL makeCornerRadius:3];
+    if ([self isBetween:shop.openHour and:shop.closeHour]) {
+        statusL.text = @"营业中";
+        statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
+    }
+    else {
+        statusL.text = @"已休息";
+        statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
+    }
     
     double myLat = self.userCoordinate.latitude;
     double myLng = self.userCoordinate.longitude;
@@ -416,7 +341,6 @@
     UILabel *washTypeL = (UILabel *)[cell.contentView viewWithTag:2001];
     UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:2002];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
-    
     
     JTShopService * service = [shop.shopServiceArray firstObjectByFilteringOperator:^BOOL(JTShopService * s) {
         return s.shopServiceType == ShopServiceCarWash;
@@ -445,7 +369,7 @@
         else {
             [MobClick event:@"rp102-4"];
         }
-        [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.view];
+        [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.tabBarController.view];
     }];
     
     [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -496,6 +420,22 @@
 
 
 #pragma mark - Utility
+
+-(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    
+    NSDate * nowDate = [NSDate date];
+    NSString * transStr = [formatter stringFromDate:nowDate];
+    NSDate * transDate = [formatter dateFromString:transStr];
+    
+    NSDate * beginDate = [formatter dateFromString:openHourStr];
+    NSDate * endDate = [formatter dateFromString:closeHourStr];
+    
+    return (transDate == [transDate earlierDate:beginDate]) || (transDate == [transDate laterDate:endDate]) ? NO : YES;
+}
+
 - (NSAttributedString *)priceStringWithOldPrice:(NSNumber *)price1 curPrice:(NSNumber *)price2
 {
     NSMutableAttributedString *str = [NSMutableAttributedString attributedString];

@@ -46,6 +46,16 @@
 
 #pragma mark - Table view data source
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return CGFLOAT_MIN;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return CGFLOAT_MIN;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
     return 1;
@@ -88,6 +98,7 @@
     UILabel * amountLb = (UILabel *)[cell searchViewWithTag:20302];
     UIButton * checkCouponBtn = (UIButton *)[cell searchViewWithTag:104];
     UIButton * shareBtn = (UIButton *)[cell searchViewWithTag:105];
+    UILabel * noteLb = (UILabel *)[cell searchViewWithTag:106];
     
     NSInteger deviceWidth = (NSInteger)[[UIScreen mainScreen] bounds].size.width;
     NSString * imageName = [NSString stringWithFormat:@"award_bg_%ld",(long)deviceWidth];
@@ -153,8 +164,8 @@
     SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
     vc.tt = @"小马达达每周礼券送不停，洗车不用愁！";
     vc.subtitle = [NSString stringWithFormat:@"我抢到了%d元洗车代金券，邀您来PK！每周都能领，快去试试手气吧！", (int)self.amount];
-    vc.image = [UIImage imageNamed:@"wechat_share_carwash"];
-    vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
+    vc.image = [UIImage imageNamed:@"wechat_share_award"];
+    vc.webimage = [UIImage imageNamed:@"weibo_share_award"];
     vc.urlStr = @"http://www.xiaomadada.com/apphtml/weeklycoupon.html";
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
     sheet.shouldCenterVertically = YES;

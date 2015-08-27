@@ -25,11 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //    [self setupNavigationBar];
-    
     [self reloadData];
-    
-    //    [self setupGetMoreBtn];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -113,21 +109,27 @@
     UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 1];
     if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
     {
-        PayForWashCarVC  * payVc = (PayForWashCarVC *)vc;
+        PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
         
         if (self.selectedCouponArray.count)
         {
-            [payVc setPaymentType:PaymentChannelCoupon];
-            if (self.type == CouponTypeCarWash)
+            HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];
+            self.type = c.conponType;
+            if (self.type == CouponTypeCZBankCarWash)
+            {
+                [payVc autoSelectBankCard];
+                [payVc setPlatform:PayWithXMDDCreditCard];
+                [payVc setSelectCarwashCoupouArray:self.selectedCouponArray];
+            }
+            else if (self.type == CouponTypeCarWash)
             {
                 [payVc setSelectCarwashCoupouArray:self.selectedCouponArray];
-                [payVc setCouponType:CouponTypeCarWash];
             }
             else if (self.type == CouponTypeCash)
             {
                 [payVc setSelectCashCoupouArray:self.selectedCouponArray];
-                [payVc setCouponType:CouponTypeCash];
             }
+            [payVc setCouponType:self.type];
         }
         else
         {
@@ -165,6 +167,7 @@
     //背景图片
     UIImage * carWashImage = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#5fb8e2" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];
     UIImage * cashImage = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#f54a4a" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];
+    UIImage * czbCarwashImage = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#c01920" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];
     
     UIImageView * ticketBgView = (UIImageView *)[cell searchViewWithTag:101];
     
@@ -191,6 +194,10 @@
     if (coupon.conponType == CouponTypeCarWash)
     {
         ticketBgView.image = carWashImage;
+    }
+    else if (coupon.conponType == CouponTypeCZBankCarWash)
+    {
+        ticketBgView.image = czbCarwashImage;
     }
     else
     {
@@ -230,6 +237,23 @@
     HKCoupon * coupon = [self.couponArray safetyObjectAtIndex:indexPath.row];
     if (self.type == CouponTypeCarWash)
     {
+        self.type = coupon.conponType;
+        HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];
+        if ([c.couponId isEqualToNumber:coupon.couponId])
+        {
+            [self.selectedCouponArray removeAllObjects];
+        }
+        else
+        {
+            [MobClick event:@"rp109-1"];
+            [self.selectedCouponArray removeAllObjects];
+            [self.selectedCouponArray addObject:coupon];
+        }
+        [self.tableView reloadData];
+    }
+    else if (self.type == CouponTypeCZBankCarWash)
+    {
+        self.type = coupon.conponType;
         HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];
         if ([c.couponId isEqualToNumber:coupon.couponId])
         {
@@ -263,7 +287,6 @@
             [self.tableView reloadData];
         }
     }
-    
 }
 
 

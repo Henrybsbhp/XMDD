@@ -40,9 +40,10 @@
 
 - (void)payOrdWithTradeNo:(NSString *)TradeNO andProductName:(NSString *)pName andPrice:(float_t)price
 {
-#ifdef DEBUG
-    price = 0.01;
-#endif
+// 服务器判定，如果支付小于订单价格，订单无效。所以现在测试环境也支付正确的价格
+//#ifdef DEBUG
+//    price = 0.01;
+//#endif
     //创建支付签名对象
     payRequsestHandler *req = [payRequsestHandler alloc];
     //初始化支付签名对象

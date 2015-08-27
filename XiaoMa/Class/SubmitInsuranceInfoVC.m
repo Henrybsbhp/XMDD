@@ -8,12 +8,12 @@
 
 #import "SubmitInsuranceInfoVC.h"
 #import "JGActionSheet.h"
-#import "EditPictureViewController.h"
 #import "UIView+Shake.h"
 #import "UploadFileOp.h"
 #import "UpdateInsuranceCalculateOp.h"
+#import "HKImagePicker.h"
 
-@interface SubmitInsuranceInfoVC ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, PECropViewControllerDelegate, UITextFieldDelegate>
+@interface SubmitInsuranceInfoVC ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIView *idCardContainerView;
 @property (weak, nonatomic) IBOutlet UITextField *idCardField;
 @property (weak, nonatomic) IBOutlet UIView *defaultPhotoView;
@@ -54,32 +54,16 @@
 {
     self.pickedPhotoUrl = self.car.licenceurl;
     if (self.pickedPhotoUrl.length > 0) {
-//        [[gAppMgr.mediaMgr rac_getPictureForUrl:self.pickedPhotoUrl withType:ImageURLTypeOrigin defaultPic:@"cm_defpic" errorPic:@"cm_defpic_fail"] subscribeNext:^(UIImage *x) {
-//            
-//            self.pickedPhoto = x;
-//            self.pickedPhotoView.image = x;
-//            self.defaultPhotoView.hidden = YES;
-//        }];
-        
+
         self.pickedPhotoView.image = [UIImage imageNamed:@"cm_defpic"];
         self.defaultPhotoView.hidden = YES;
-        [[gAppMgr.mediaMgr rac_getPictureForUrl:self.pickedPhotoUrl defaultPic:nil] subscribeNext:^(UIImage *orgImg) {
-            if (!orgImg) {
-                self.pickedPhotoView.image = [UIImage imageNamed:@"cm_defpic"];
-                return ;
-            }
-            self.pickedPhoto = orgImg;
-            NSString *markedUrl = [self.pickedPhotoUrl append:@"_marked"];
-            [[[gAppMgr.mediaMgr rac_getImageFromCacheWithUrl:markedUrl] deliverOn:[RACScheduler mainThreadScheduler]]
-             subscribeNext:^(UIImage *markedImg) {
-                if (!markedImg) {
-                    markedImg = [EditPictureViewController generateImageByAddingWatermarkWith:orgImg];
-                    [gAppMgr.mediaMgr.picCache setImage:markedImg forKey:markedUrl];
-                }
-                self.pickedPhotoView.image = markedImg;
-            }];
+        [[gAppMgr.mediaMgr rac_getImageByUrl:self.pickedPhotoUrl withType:ImageURLTypeOrigin defaultPic:nil errorPic:nil]
+         subscribeNext:^(UIImage *orgImg) {
+             self.pickedPhoto = orgImg;
+             self.pickedPhotoView.image = [self generateImageByAddingWatermarkWith:orgImg];
         } error:^(NSError *error) {
-            self.pickedPhotoView.image = [UIImage imageNamed:@"cm_defpic_fail"];
+            NSString *name = self.pickedPhotoUrl.length == 0 ? @"cm_defpic" : @"cm_defpic_fail";
+            self.pickedPhotoView.image = [UIImage imageNamed:name];
         }];
     }
 }
@@ -307,47 +291,43 @@
     }];
 }
 
+#pragma mark - Utility
+- (UIImage *)generateImageByAddingWatermarkWith:(UIImage *)croppedImage
+{
+    UIImage *image = [croppedImage compressImageWithPixelSize:CGSizeMake(1024, 1024)];
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
+    //Draw image
+    [image drawInRect:CGRectMake(0, 0, image.size.width, image.size.height)];
+    
+    //Draw watermark
+    UIImage *watermark = [UIImage imageNamed:@"cm_watermark"];
+    CGFloat yoffset = ceil((image.size.height/image.size.width - watermark.size.height/watermark.size.width)*image.size.width/2.0);
+    [watermark drawInRect:CGRectMake(0, yoffset, image.size.width, image.size.height - 2*yoffset)];
+    
+    UIImage *resultImage=UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return resultImage;
+}
+
 #pragma mark - UIImagePickerControllerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    //图片压缩成jpg
-    UIImage *portraitImg = [info objectForKey:UIImagePickerControllerOriginalImage];
-    
-    EditPictureViewController *vc = [[EditPictureViewController alloc] init];
-    vc.delegate = self;
-    vc.image = portraitImg;
-    CGFloat width = portraitImg.size.width;
-    CGFloat height = portraitImg.size.height;
-    CGFloat length = MIN(width, height);
-    vc.imageCropRect = CGRectMake((width - length) / 2,
-                                  (height - length) / 2,
-                                  length,
-                                  length);
-    [self.imgPickerNavCtrl pushViewController:vc animated:YES];
-
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
     [picker dismissViewControllerAnimated:YES completion:nil];
-}
-
-#pragma mark - PECropViewControllerDelegate
-- (void)cropViewController:(PECropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage
-{
-    [controller dismissViewControllerAnimated:YES completion:nil];
-    croppedImage = [croppedImage compressImageWithPixelSize:CGSizeMake(2048, 2048)];
-    UIImage *image = [EditPictureViewController generateImageByAddingWatermarkWith:croppedImage];
+    //图片压缩
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    UIImage *croppedImage = [image compressImageWithPixelSize:CGSizeMake(1024, 1024)];
+    image = [self generateImageByAddingWatermarkWith:croppedImage];
     self.pickedPhoto = croppedImage;
     self.pickedPhotoUrl = nil;
     self.pickedPhotoView.image = image;
     self.defaultPhotoView.hidden = YES;
 }
 
-- (void)cropViewControllerDidCancel:(PECropViewController *)controller
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    [controller dismissViewControllerAnimated:YES completion:nil];
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - UINavigationControllerDelegate

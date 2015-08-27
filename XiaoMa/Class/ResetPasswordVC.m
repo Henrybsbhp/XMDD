@@ -34,7 +34,12 @@
     self.code.delegate = self;
     self.pwd.delegate = self;
     NSArray *mobEvents = @[@"rp003-8",@"rp003-9",@"rp003-10"];
-    [self.smsModel setupVCodeInputField:self.code accountField:self.num forTargetVC:self mobEvents:mobEvents];
+    
+    self.smsModel.getVcodeButton = self.vcodeBtn;
+    self.smsModel.inputVcodeField = self.code;
+    self.smsModel.phoneField = self.num;
+    [self.smsModel setupWithTargetVC:self mobEvents:mobEvents];
+    [self.smsModel countDownIfNeededWithVcodeType:HKVcodeTypeResetPwd];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,8 +65,8 @@
     if ([self shakeCellIfErrorAtIndex:0]) {
         return;
     }
-    [[self.smsModel rac_handleVcodeButtonClick:sender vcodeInputField:self.code withVcodeType:3 phone:[self textAtIndex:0]]
-     subscribeError:^(NSError *error) {
+    RACSignal *sig = [self.smsModel rac_getSystemVcodeWithType:HKVcodeTypeResetPwd phone:[self textAtIndex:0]];
+    [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:sig] subscribeError:^(NSError *error) {
         [gToast showError:error.domain];
     }];
     
