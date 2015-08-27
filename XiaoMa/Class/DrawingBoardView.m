@@ -15,10 +15,10 @@
     UIBezierPath *path=[UIBezierPath bezierPath];
     CAShapeLayer *arcLayer = [CAShapeLayer layer];
     
-    [path addArcWithCenter:CGPointMake(65, 50) radius:45 startAngle:0 endAngle:2*M_PI clockwise:NO];
-    [path moveToPoint:CGPointMake(43, 50)];
-    [path addLineToPoint:CGPointMake(63, 68)];
-    [path addLineToPoint:CGPointMake(88, 35)];
+    [path addArcWithCenter:CGPointMake(50, 50) radius:35 startAngle:0 endAngle:2*M_PI clockwise:NO];
+    [path moveToPoint:CGPointMake(32, 50)];
+    [path addLineToPoint:CGPointMake(47, 65)];
+    [path addLineToPoint:CGPointMake(68, 40)];
     arcLayer = [CAShapeLayer layer];
     arcLayer.path = path.CGPath;
     arcLayer.fillColor = [UIColor clearColor].CGColor;
@@ -33,11 +33,11 @@
     UIBezierPath *path=[UIBezierPath bezierPath];
     CAShapeLayer *arcLayer = [CAShapeLayer layer];
     
-    [path addArcWithCenter:CGPointMake(65, 50) radius:45 startAngle:0 endAngle:2*M_PI clockwise:NO];
-    [path moveToPoint:CGPointMake(50, 37)];
-    [path addLineToPoint:CGPointMake(80, 67)];
-    [path moveToPoint:CGPointMake(80, 37)];
-    [path addLineToPoint:CGPointMake(50, 67)];
+    [path addArcWithCenter:CGPointMake(50, 50) radius:35 startAngle:0 endAngle:2*M_PI clockwise:NO];
+    [path moveToPoint:CGPointMake(35, 37)];
+    [path addLineToPoint:CGPointMake(65, 67)];
+    [path moveToPoint:CGPointMake(65, 37)];
+    [path addLineToPoint:CGPointMake(35, 67)];
     arcLayer = [CAShapeLayer layer];
     arcLayer.path = path.CGPath;
     arcLayer.fillColor = [UIColor clearColor].CGColor;
@@ -50,7 +50,7 @@
 -(void)drawLineAnimation:(CALayer*)layer
 {
     CABasicAnimation *bas=[CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-    bas.duration=0.8;
+    bas.duration=0.5;
     bas.delegate=self;
     bas.fromValue=[NSNumber numberWithInteger:0];
     bas.toValue=[NSNumber numberWithInteger:1];

@@ -10,6 +10,7 @@
 #import "XiaoMa.h"
 #import "GetInsuranceOrderListOp.h"
 #import "InsuranceOrderDetailVC.h"
+#import "InsuranceOrderVC.h"
 
 @interface InsranceOrderViewModel ()<HKLoadingModelDelegate>
 
@@ -54,6 +55,7 @@
     if (type != HKDatasourceLoadingTypeLoadMore) {
         self.curTradetime = 0;
     }
+
     
     GetInsuranceOrderListOp * op = [GetInsuranceOrderListOp operation];
     //op.req_tradetime = self.curTradetime;
@@ -64,7 +66,7 @@
 
 - (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
 {
-    HKInsuranceOrder * hkmodel = [model.datasource lastObject];
+    HKInsuranceOrder *hkmodel = [model.datasource lastObject];
     //self.curTradetime = hkmodel.tradetime;
     [self.tableView reloadData];
 }
@@ -73,7 +75,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    //return 1;
+    return 1;
     return self.loadingModel.datasource.count;
 }
 
@@ -135,8 +137,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    InsuranceOrderDetailVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderDetailVC" inStoryboard:@"Mine"];
-    vc.order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+    InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
     [self.targetVC.navigationController pushViewController:vc animated:YES];
 }
 

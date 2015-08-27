@@ -15,7 +15,8 @@ typedef enum : NSUInteger {
     CouponTypeCash,//现金抵扣
     CouponTypeAgency,//免费年检代办
     CouponTypeInsurance,//保险代金券
-    CouponTypeRescue//免费道路救援
+    CouponTypeRescue,//免费道路救援
+    CouponTypeCZBankCarWash = 7// 浙商小马达达洗车券
 } CouponType;
 
 typedef enum : NSUInteger {
@@ -42,6 +43,9 @@ typedef enum : NSUInteger {
 
 ///是否有效
 @property (nonatomic)BOOL valid;
+
+///是否可以分享
+@property (nonatomic)BOOL isshareble;
 
 ///有效期开始
 @property (nonatomic,strong)NSDate *validsince;

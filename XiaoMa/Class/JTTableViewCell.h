@@ -13,6 +13,7 @@
 @property (nonatomic, weak) UITableView *targetTableView;
 @property (nonatomic, assign) UIEdgeInsets customSeparatorInset UI_APPEARANCE_SELECTOR;
 @property (nonatomic, assign) BOOL hiddenTopSeparatorLine;
+@property (nonatomic, strong) UIColor *customSeparatorColor;
 
 - (void)prepareCellForTableView:(UITableView *)tableView atIndexPath:(NSIndexPath *)indexPath;
 

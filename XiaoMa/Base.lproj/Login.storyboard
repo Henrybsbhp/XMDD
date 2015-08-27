@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--登录-->
         <scene sceneID="5HJ-6J-clS">
             <objects>
-                <tableViewController storyboardIdentifier="LoginVC" id="ijf-1f-3Ld" customClass="LoginVC" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="LoginVC" hidesBottomBarWhenPushed="YES" id="ijf-1f-3Ld" customClass="LoginVC" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="52" sectionHeaderHeight="10" sectionFooterHeight="1" id="5eb-ZF-LpN">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -709,7 +709,7 @@
         <!--登录-->
         <scene sceneID="ccP-j7-gJC">
             <objects>
-                <tableViewController storyboardIdentifier="VcodeLoginVC" id="xCV-qz-Sg2" customClass="VcodeLoginVC" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="VcodeLoginVC" hidesBottomBarWhenPushed="YES" id="xCV-qz-Sg2" customClass="VcodeLoginVC" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="52" sectionHeaderHeight="10" sectionFooterHeight="2" id="h08-1f-BGf">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -729,9 +729,6 @@
                                         <attributedString key="attributedTitle"/>
                                     </state>
                                     <state key="selected" image="lg_box1"/>
-                                    <connections>
-                                        <action selector="actionLoginByVCode:" destination="xCV-qz-Sg2" eventType="touchUpInside" id="B9i-RE-UgR"/>
-                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0tu-J3-NHC">
                                     <rect key="frame" x="14" y="45" width="572" height="44"/>
@@ -816,7 +813,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                         </textField>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJK-4j-Xhc">
+                                                        <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJK-4j-Xhc">
                                                             <rect key="frame" x="477" y="0.0" width="95" height="40"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="95" id="ySc-8S-FMx"/>

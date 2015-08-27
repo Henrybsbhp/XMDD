@@ -51,13 +51,18 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     
-    
 }
 
 - (void)dealloc
 {
     NSString * deallocInfo = [NSString stringWithFormat:@"%@ parse error~~",NSStringFromClass([self class])];
     DebugLog(deallocInfo);
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 #pragma mark - Action
@@ -169,10 +174,7 @@
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
     
-    [[gMediaMgr rac_getPictureForUrl:comment.avatarUrl withType:ImageURLTypeThumbnail defaultPic:@"avatar_default" errorPic:@"avatar_default"] subscribeNext:^(id x) {
-        
-        avatarV.image = x;
-    }];
+    [avatarV setImageByUrl:comment.avatarUrl withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
     
     return cell;
 }

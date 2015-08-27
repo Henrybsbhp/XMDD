@@ -8,24 +8,24 @@
 
 #import "MyCarListVModel.h"
 #import "UploadFileOp.h"
-#import "EditPictureViewController.h"
+#import "HKImagePicker.h"
 
 @implementation MyCarListVModel
 
-- (void)setupUploadBtn:(UIButton *)btn andDescLabel:(UILabel *)label forStatus:(NSInteger)status
+- (void)setupUploadBtn:(UIButton *)btn andDescLabel:(UILabel *)label forCar:(HKMyCar *)car
 {
     btn.userInteractionEnabled = NO;
     NSString *bgName = @"mec_btn_bg3";
     NSString *title;
     NSString *desc;
-    switch (status) {
+    switch (car.status) {
         case 1:
             title = @"审核中";
             desc = @"行驶证已提交审核";
             break;
         case 2:
             title = @"审核成功";
-            desc = @"审核通过,礼包已发放,您可进入礼包中查看";
+            desc = @"车辆已通过认证";
             break;
         case 3:
             title = @"一键上传";
@@ -48,7 +48,9 @@
 
 - (RACSignal *)rac_uploadDrivingLicenseWithTargetVC:(UIViewController *)targetVC initially:(void(^)(void))block
 {
-    RACSignal *signal = [[gAppMgr.mediaMgr rac_pickAndCropPhotoInTargetVC:targetVC inView:targetVC.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
+    HKImagePicker *picker = [HKImagePicker imagePicker];
+    picker.compressedSize = CGSizeMake(1024, 1024);
+    RACSignal *signal = [[picker rac_pickImageInTargetVC:targetVC inView:targetVC.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
         CKAsyncMainQueue(^{
             if (block) {
                 block();

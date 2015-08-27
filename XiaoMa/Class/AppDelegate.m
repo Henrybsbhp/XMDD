@@ -79,7 +79,7 @@
     {
         DebugLog(@"QQ register Failed");
     }
-    
+    //检测版本更新
     [self setupVersionUpdating];
     [self setupRootView];
     
@@ -303,7 +303,6 @@
 {
     [MobClick setCrashReportEnabled:NO];
     [MobClick startWithAppkey:UMeng_API_ID reportPolicy:BATCH   channelId:@"iOS"];
-    [MobClick setCrashReportEnabled:NO];
 #ifdef DEBUG
     [MobClick setLogEnabled:YES];
 #else
@@ -446,6 +445,11 @@
 
 - (void)setupVersionUpdating
 {
+    //TODO:移除2.0版本前缓存的token和密码
+    if ([gAppMgr.deviceInfo firstAppearAfterVersion:@"2.0" forKey:@"loginInfo"]) {
+        [HKLoginModel logout];
+    }
+
     NSString * version = gAppMgr.clientInfo.clientVersion;
     NSString * OSVersion = gAppMgr.deviceInfo.osVersion;
     GetSystemVersionOp * op = [GetSystemVersionOp operation];

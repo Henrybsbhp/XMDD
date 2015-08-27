@@ -176,6 +176,12 @@
     });
 }
 
+- (void)restartAnimatingIfNeeded
+{
+    if (self.refreshing) {
+        [self.imgView startAnimating];
+    }
+}
 #pragma mark - AnimationDelegate
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {

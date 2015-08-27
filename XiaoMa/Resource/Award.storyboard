@@ -113,10 +113,10 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="heZ-yd-Qp4" firstAttribute="bottom" secondItem="JXF-EG-ljL" secondAttribute="bottom" id="ITE-aK-e5i"/>
-                            <constraint firstItem="JXF-EG-ljL" firstAttribute="top" secondItem="fX4-M2-YmY" secondAttribute="bottom" id="fpx-1F-ykW"/>
+                            <constraint firstItem="JXF-EG-ljL" firstAttribute="top" secondItem="fX4-M2-YmY" secondAttribute="top" id="fpx-1F-ykW"/>
                             <constraint firstItem="JXF-EG-ljL" firstAttribute="leading" secondItem="7Nf-8j-NUE" secondAttribute="leading" id="wb0-pw-wEq"/>
                             <constraint firstAttribute="trailing" secondItem="JXF-EG-ljL" secondAttribute="trailing" id="xqT-24-j3a"/>
                         </constraints>
@@ -256,7 +256,7 @@
                                                         </mask>
                                                     </variation>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="106" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="据说分享给好友可以提高下次抢礼券的人品呦！赶快去分享吧" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GUz-jb-JfB">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="106" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="据说分享给好友可以提高下次抢礼券的人品呦！赶快去分享吧" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GUz-jb-JfB" customClass="JTLabel">
                                                     <rect key="frame" x="125" y="510" width="351" height="16"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
@@ -325,7 +325,7 @@
                         <constraints>
                             <constraint firstItem="mE5-wn-98N" firstAttribute="leading" secondItem="Vz5-X9-fgw" secondAttribute="leading" id="Gam-uj-UV0"/>
                             <constraint firstItem="cUL-z6-y9z" firstAttribute="bottom" secondItem="mE5-wn-98N" secondAttribute="bottom" id="SiH-3x-ieb"/>
-                            <constraint firstItem="mE5-wn-98N" firstAttribute="top" secondItem="AGc-ql-vXw" secondAttribute="bottom" id="WQ8-Rw-aMi"/>
+                            <constraint firstItem="mE5-wn-98N" firstAttribute="top" secondItem="AGc-ql-vXw" secondAttribute="top" id="WQ8-Rw-aMi"/>
                             <constraint firstAttribute="trailing" secondItem="mE5-wn-98N" secondAttribute="trailing" id="dkn-gQ-d1L"/>
                         </constraints>
                     </view>

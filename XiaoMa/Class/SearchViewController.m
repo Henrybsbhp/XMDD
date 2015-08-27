@@ -13,6 +13,7 @@
 #import "JTRatingView.h"
 #import "DistanceCalcHelper.h"
 #import "GetShopByNameOp.h"
+#import "UIView+Layer.h"
 
 @interface SearchViewController ()
 
@@ -26,6 +27,7 @@
 @property (nonatomic,strong)NSArray * resultArray;
 
 @property (nonatomic)BOOL isSearching;
+@property (nonatomic)BOOL isLoading;
 
 /// 每页数量
 @property (nonatomic, assign) NSUInteger pageAmount;
@@ -192,7 +194,10 @@
     {
         self.isSearching = YES;
         
-        [self searchShops];
+        if (!self.isLoading)
+        {
+            [self searchShops];
+        }
         
         for (NSString * keyword in self.historyArray)
         {
@@ -236,38 +241,44 @@
 #pragma mark - Utility
 - (void)searchShops
 {
+    self.currentPageIndex = 1;
     NSString * searchInfo = self.searchBar.text;
     searchInfo = [self.searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     GetShopByNameOp * op = [GetShopByNameOp operation];
     op.shopName = searchInfo;
     op.longitude = self.coordinate.longitude;
     op.latitude = self.coordinate.latitude;
-    op.pageno = 1;
+    op.pageno = self.currentPageIndex;
     op.orderby = 1;
     
     [self.tableView hideDefaultEmptyView];
+    self.isLoading = YES;
     
     [[[op rac_postRequest] initially:^{
         
     }] subscribeNext:^(GetShopByNameOp * op) {
         
+        self.isLoading = NO;
         [self.searchBar resignFirstResponder];
         if (op.rsp_code == 0)
         {
+            self.isSearching = YES;
             self.currentPageIndex = self.currentPageIndex + 1;
             
             self.resultArray = op.rsp_shopArray;
             if (self.resultArray.count == 0)
             {
                 self.tableView.showBottomLoadingView = YES;
-//                [self.tableView.bottomLoadingView showIndicatorTextWith:@"附近没有您要找的商户"];
+                [self.tableView.bottomLoadingView hideIndicatorText];
                 [self.tableView showDefaultEmptyViewWithText:@"附近没有您要找的商户"];
             }
             else
             {
+                [self.tableView hideDefaultEmptyView];
                 if (op.rsp_shopArray.count >= self.pageAmount)
                 {
                     self.isRemain = YES;
+                    [self.tableView.bottomLoadingView hideIndicatorText];
                 }
                 else
                 {
@@ -284,7 +295,15 @@
         }
     } error:^(NSError *error) {
         
-        [self.searchBar becomeFirstResponder];
+        self.isLoading = NO;
+        self.resultArray = nil;
+        @weakify(self);
+        [self.tableView showDefaultEmptyViewWithText:error.domain tapBlock:^{
+            
+            @strongify(self);
+            [self searchShops];
+        }];
+        [self.tableView reloadData];
     }];
 
 }
@@ -309,13 +328,15 @@
         
         [self.tableView.bottomLoadingView hideIndicatorText];
         [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
+        self.isLoading = YES;
     }] subscribeNext:^(GetShopByNameOp * op) {
         
         self.currentPageIndex = self.currentPageIndex + 1;
         [self.tableView.bottomLoadingView stopActivityAnimation];
+        self.isLoading = NO;
         if(op.rsp_code == 0)
         {
-            self.currentPageIndex ++;
+            [self.tableView hideDefaultEmptyView];
             if (op.rsp_shopArray.count >= self.pageAmount)
             {
                 self.isRemain = YES;
@@ -340,6 +361,9 @@
             [self.tableView.bottomLoadingView showIndicatorTextWith:@"获取失败，再拉拉看"];
         }
     } error:^(NSError *error) {
+        self.isLoading = NO;
+        self.tableView.showBottomLoadingView = YES;
+        [self.tableView.bottomLoadingView stopActivityAnimation];
         [self.tableView.bottomLoadingView showIndicatorTextWith:@"获取失败，再拉拉看"];
         
     }];
@@ -353,6 +377,21 @@
         
         self.coordinate = userLocation.location.coordinate;
     }];
+}
+
+-(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    
+    NSDate * nowDate = [NSDate date];
+    NSString * transStr = [formatter stringFromDate:nowDate];
+    NSDate * transDate = [formatter dateFromString:transStr];
+    
+    NSDate * beginDate = [formatter dateFromString:openHourStr];
+    NSDate * endDate = [formatter dateFromString:closeHourStr];
+    
+    return (transDate == [transDate earlierDate:beginDate]) || (transDate == [transDate laterDate:endDate]) ? NO : YES;
 }
 
 - (NSAttributedString *)priceStringWithOldPrice:(NSNumber *)price1 curPrice:(NSNumber *)price2
@@ -382,7 +421,7 @@
 {
     if (self.isSearching)
     {
-        return 185;
+        return 180;
     }
     else
     {
@@ -425,13 +464,23 @@
         UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
         UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
         UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
-        
-        RAC(logoV, image) = [gMediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0]
-                                                   withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"];
+        UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
+
+        [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
         titleL.text = shop.shopName;
         ratingV.ratingValue = shop.shopRate;
         ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
         addrL.text = shop.shopAddress;
+        
+        [statusL makeCornerRadius:3];
+        if ([self isBetween:shop.openHour and:shop.closeHour]) {
+            statusL.text = @"营业中";
+            statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
+        }
+        else {
+            statusL.text = @"已休息";
+            statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
+        }
         
         double myLat = gMapHelper.coordinate.latitude;
         double myLng = gMapHelper.coordinate.longitude;
@@ -590,7 +639,12 @@
 {
     self.tableView.showBottomLoadingView = NO;
     [self.tableView hideDefaultEmptyView];
-//    [self.tableView reloadData];
+    if (!self.searchBar.text.length)
+    {
+        self.isSearching = NO;
+        [self.tableView reloadData];
+        self.tableView.showBottomLoadingView = NO;
+    }
     
     return YES;
 }
@@ -606,6 +660,7 @@
         {
             self.isSearching = NO;
             [self.tableView reloadData];
+            [self.tableView hideDefaultEmptyView];
             self.tableView.showBottomLoadingView = NO;
         }
     }

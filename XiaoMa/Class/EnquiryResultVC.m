@@ -76,48 +76,91 @@
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"4007-111-111"];
 }
 #pragma mark - Table view data source
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        [MobClick event:@"rp116-1"];
+    }
+    else if (indexPath.section == 1) {
+        [MobClick event:@"rp116-2"];
+    }
+    else if (indexPath.section == 2) {
+        [MobClick event:@"rp116-3"];
+    }
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 8;
+    if (section == 0) {
+        return 11;
+    }
+    return 6;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return CGFLOAT_MIN;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 100;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return MIN(3, self.insurances.count);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return MIN(3 ,self.insurances.count);
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    UIImageView *bgV = (UIImageView *)[cell.contentView viewWithTag:1001];
+    UIImageView *bgV = (UIImageView *)[cell.contentView viewWithTag:1000];
+    UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:1002];
-    UIButton *detailB = (UIButton *)[cell.contentView viewWithTag:1003];
+    UILabel *subTitleL = (UILabel *)[cell.contentView viewWithTag:1003];
+    UIView *detailV = [cell.contentView viewWithTag:1004];
+    UILabel *detailTitleL = (UILabel *)[detailV viewWithTag:10041];
+    UIImageView *detailArrowV = (UIImageView *)[detailV viewWithTag:10042];
+    
     HKInsurance *ins = [self.insurances safetyObjectAtIndex:indexPath.row];
 
-    UIImage *bgImg = [UIImage imageNamed:[NSString stringWithFormat:@"ins_cell_bg%d", (int)(indexPath.row+1)]];
-    bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(0, 75, 0, 1)];
+    UIImage *bgImg = [UIImage imageNamed:[NSString stringWithFormat:@"ins_cell_bg%d", (int)(indexPath.section+1)]];
+    bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(45, 11, 6, 12)];
     bgV.image = bgImg;
-    priceL.text = [NSString stringWithFormat:@"￥%.2f", ins.premium];
     
-    //查看详情
-    detailB.backgroundColor = indexPath.row == 0 ? HEXCOLOR(@"#6B77AD") : indexPath.row == 1 ? HEXCOLOR(@"#7EB929") : HEXCOLOR(@"#FDAE0C");
-    @weakify(self);
-    [[[detailB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
-     subscribeNext:^(id x) {
-        if (indexPath.row == 0) {
-            [MobClick event:@"rp116-1"];
-        }
-        if (indexPath.row == 1) {
-            [MobClick event:@"rp116-2"];
-        }
-        if (indexPath.row == 2) {
-            [MobClick event:@"rp116-3"];
-        }
-        @strongify(self);
-        SimplePolicyInfoVC *vc = [UIStoryboard vcWithId:@"SimplePolicyInfoVC" inStoryboard:@"Insurance"];
-        vc.policy = ins;
-        [self.navigationController pushViewController:vc animated:YES];
-    }];
+    priceL.text = [NSString stringWithFormat:@"￥%d", (int)ins.premium];
+    
+    detailV.layer.borderWidth = 1;
+    detailV.layer.cornerRadius = 4.0;
+    detailV.layer.masksToBounds = YES;
+    if (indexPath.section == 0) {
+        titleL.text = @"平民套餐";
+        subTitleL.text = @"广大人民的选择";
+        detailV.layer.borderColor = [HEXCOLOR(@"#1bb745") CGColor];
+        detailTitleL.textColor = HEXCOLOR(@"#1bb745");
+        detailArrowV.image = [UIImage imageNamed:@"ins_arrow1"];
+    }
+    else if (indexPath.section == 1) {
+        titleL.text = @"土豪风范";
+        subTitleL.text = @"对爱车好一点，让车主更安心";
+        detailV.layer.borderColor = [HEXCOLOR(@"#8054b2") CGColor];
+        detailTitleL.textColor = HEXCOLOR(@"#8054b2");;
+        detailArrowV.image = [UIImage imageNamed:@"ins_arrow2"];
+    }
+    else if (indexPath.section == 2) {
+        titleL.text = @"自选车险";
+        subTitleL.text = @"我的车险我做主";
+        detailV.layer.borderColor = [HEXCOLOR(@"#3d98ff") CGColor];
+        detailTitleL.textColor = HEXCOLOR(@"#3d98ff");
+        detailArrowV.image = [UIImage imageNamed:@"ins_arrow3"];
+    }
+    
     return cell;
 }
 

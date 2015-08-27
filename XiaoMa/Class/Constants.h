@@ -23,7 +23,8 @@ typedef enum : NSUInteger {
     PaymentChannelWechat,
     PaymentChannelABCCarWashAmount,
     PaymentChannelABCIntegral,
-    PaymentChannelCoupon
+    PaymentChannelCoupon,
+    PaymentChannelXMDDCreditCard
 } PaymentChannelType;
 
 /// 支付渠道
@@ -38,7 +39,7 @@ typedef enum : NSUInteger {
     AdvertisementBankCardBinding = 3,
     AdvertisementAppSlide = 10,
     AdvertisementInsurance = 11,
-    AdvertisementTypeActivities = 20
+    AdvertisementTypeActivities = 20,
 } AdvertisementType;
 
 #define IOSAPPID 1001
@@ -60,7 +61,6 @@ typedef enum : NSUInteger {
 
 // 如果是2D的话，可以设置为2.1，3.1，大于整数级，因为整数级别中只是缩放当前级别的图，不会去渲染更高等级的图。
 #define MapZoomLevel 15.1000
-
 #define PageAmount 10
 #define kVCodePromptInteval     15
 
@@ -96,5 +96,6 @@ typedef enum : NSUInteger {
 //通知定义
 #define kNotifyRefreshMyCarList             @"com.huika.xmdd.RefreshMyCarList"
 #define kNotifyRefreshMyCarwashOrders       @"com.huika.xmdd.RefreshMyCarwashOrders"
+#define kNotifyRefreshMyBankcardList        @"com.huika.xmdd.RefreshMyBankcardList"
 
 #endif

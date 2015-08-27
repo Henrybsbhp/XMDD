@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JTUser.h"
-#import "TMCache.h"
+#import <TMCache.h>
 #import "ClientInfo.h"
 #import "DeviceInfo.h"
 #import "MultiMediaManager.h"
@@ -42,6 +42,7 @@
 @property(nonatomic,strong)ClientInfo * clientInfo;
 ///常用数据缓存（可手动清除）
 @property (nonatomic, strong, readonly) TMCache *dataCache;
+
 @property (nonatomic, strong) MultiMediaManager *mediaMgr;
 
 + (AppManager *)sharedManager;
