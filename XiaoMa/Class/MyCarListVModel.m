@@ -49,7 +49,7 @@
 - (RACSignal *)rac_uploadDrivingLicenseWithTargetVC:(UIViewController *)targetVC initially:(void(^)(void))block
 {
     HKImagePicker *picker = [HKImagePicker imagePicker];
-    picker.compressedSize = CGSizeMake(2048, 2048);
+    picker.compressedSize = CGSizeMake(1024, 1024);
     RACSignal *signal = [[picker rac_pickImageInTargetVC:targetVC inView:targetVC.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
         CKAsyncMainQueue(^{
             if (block) {
