@@ -10,7 +10,7 @@
 
 @implementation GetInsuranceOrderListOp
 
-- (RACSignal *)rac_postRequest
+- (RACSignal *)rac_postRequesØt
 {
     self.req_method = @"/user/order/insurance/get";
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:nil security:YES];
