@@ -90,30 +90,47 @@
             }
         }
     }];
-    return subject;
+    return [subject deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+    DebugLog(@"UIImagePickerController didFinishPickingMediaWithInfo:%@", info);
     RACSubject *subject = picker.customObject;
-    if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary && self.shouldShowBigImage) {
-        HKImageShowingViewController *vc = [[HKImageShowingViewController alloc] initWithSubject:subject];
-        UIImage *img = [info objectForKey:picker.allowsEditing ? UIImagePickerControllerEditedImage : UIImagePickerControllerOriginalImage];
-        if (self.shouldCompress && self.compressedSize.width > 0 && self.compressedSize.height > 0) {
-            img = [img compressImageWithPixelSize:self.compressedSize];
-        }
-        vc.image = img;
-        [self.imgPickerNavCtrl pushViewController:vc animated:YES];
+    HKImageShowingViewController *vc;
+    //如果不需要展示大图,直接关闭图片选择器页面
+    if (!(picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary && self.shouldShowBigImage)) {
+        [picker dismissViewControllerAnimated:YES completion:nil];
     }
     else {
-        [picker dismissViewControllerAnimated:YES completion:nil];
-        UIImage *img = [info objectForKey:picker.allowsEditing ? UIImagePickerControllerEditedImage : UIImagePickerControllerOriginalImage];
-        if (self.shouldCompress && self.compressedSize.width > 0 && self.compressedSize.height > 0) {
-            img = [img compressImageWithPixelSize:self.compressedSize];
+        vc = [[HKImageShowingViewController alloc] initWithSubject:subject];
+        [self.imgPickerNavCtrl pushViewController:vc animated:YES];
+    }
+
+    UIImage *img = [info objectForKey:picker.allowsEditing ? UIImagePickerControllerEditedImage : UIImagePickerControllerOriginalImage];
+    DebugLog(@"picked image:%@", img);
+    if (self.shouldCompress && self.compressedSize.width > 0 && self.compressedSize.height > 0) {
+        CKAsyncHighQueue(^{
+            UIImage *compressedImg = [img compressImageWithPixelSize:self.compressedSize];
+            DebugLog(@"compressed image:%@", compressedImg);
+            if (vc) {
+                vc.image = compressedImg;
+            }
+            else {
+                [subject sendNext:compressedImg];
+                [subject sendCompleted];
+            }
+        });
+    }
+    else {
+        if (vc) {
+            vc.image = img;
         }
-        [subject sendNext:img];
-        [subject sendCompleted];
+        else {
+            [subject sendNext:img];
+            [subject sendCompleted];
+        }
     }
 }
 
@@ -154,7 +171,9 @@
 - (void)setImage:(UIImage *)image
 {
     _image = image;
-    self.imageView.image = image;
+    CKAsyncMainQueue(^{
+        self.imageView.image = image;
+    });
 }
 
 - (void)viewDidLoad
