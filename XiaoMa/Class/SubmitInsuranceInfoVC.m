@@ -314,24 +314,15 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    RACSubject *subject = [RACSubject subject];
-    
+    [picker dismissViewControllerAnimated:YES completion:nil];
     //图片压缩
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    image = [image compressImageWithPixelSize:CGSizeMake(2048, 2048)];
-
-    HKImageShowingViewController *vc = [[HKImageShowingViewController alloc] initWithSubject:subject];
-    vc.image = image;
-    [self.imgPickerNavCtrl pushViewController:vc animated:YES];
-    @weakify(self);
-    [subject subscribeNext:^(UIImage *croppedImage) {
-        @strongify(self);
-        UIImage *image = [self generateImageByAddingWatermarkWith:croppedImage];
-        self.pickedPhoto = croppedImage;
-        self.pickedPhotoUrl = nil;
-        self.pickedPhotoView.image = image;
-        self.defaultPhotoView.hidden = YES;
-    }];
+    UIImage *croppedImage = [image compressImageWithPixelSize:CGSizeMake(1024, 1024)];
+    image = [self generateImageByAddingWatermarkWith:croppedImage];
+    self.pickedPhoto = croppedImage;
+    self.pickedPhotoUrl = nil;
+    self.pickedPhotoView.image = image;
+    self.defaultPhotoView.hidden = YES;
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker

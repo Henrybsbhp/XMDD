@@ -11,9 +11,8 @@
 /// 等比压缩图片（按像素）
 - (UIImage *)compressImageWithPixelSize:(CGSize)pixelSize
 {
-    CGImageRef imageRef = self.CGImage;
-    CGFloat oldHeight = CGImageGetHeight(imageRef);
-    CGFloat oldWidth = CGImageGetWidth(imageRef);
+    CGFloat oldHeight = self.size.height;
+    CGFloat oldWidth = self.size.width;
     //长和宽都小于压缩大小，不压缩
     if (oldHeight < pixelSize.height && oldWidth < pixelSize.width)
     {
@@ -22,31 +21,28 @@
     CGFloat thumbnailScale = pixelSize.width/pixelSize.height;
     CGFloat scale = oldWidth/oldHeight;
     CGSize newSize = CGSizeMake(oldWidth, oldHeight);
-    //  CGFloat newX = 0;
-    //  CGFloat newY = 0;
     if (scale > thumbnailScale)
     {
         newSize.width = pixelSize.width;
         newSize.height = newSize.width/scale;
-        //      newY = (pixelSize.height - newSize.height)*0.5;
     }
     else
     {
         newSize.height = pixelSize.height;
         newSize.width = newSize.height*scale;
-        //      newX = (pixelSize.width - newSize.width)*0.5;
     }
-    CGColorSpaceRef colorSpaceInfo = CGColorSpaceCreateDeviceRGB();
-
-    CGContextRef bitmap = CGBitmapContextCreate(NULL, newSize.width, newSize.height,
-                                                8, 0, colorSpaceInfo, (CGBitmapInfo)kCGImageAlphaNoneSkipLast);
-    CGColorSpaceRelease(colorSpaceInfo);
-    CGContextDrawImage(bitmap, CGRectMake(0, 0, newSize.width, newSize.height), imageRef);
-    CGImageRef newImageRef = CGBitmapContextCreateImage(bitmap);
-    UIImage *newImage = [UIImage imageWithCGImage:newImageRef];
-    CGImageRelease(newImageRef);
-    CGContextRelease(bitmap);
-    return newImage;
+    
+    // 创建一个bitmap的context
+    // 并把它设置成为当前正在使用的context
+    UIGraphicsBeginImageContext(newSize);
+    // 绘制改变大小的图片
+    [self drawInRect:CGRectMake(0,0, newSize.width, newSize.height)];
+    // 从当前context中创建一个改变大小后的图片
+    UIImage* scaledImage =UIGraphicsGetImageFromCurrentImageContext();
+    // 使当前的context出堆栈
+    UIGraphicsEndImageContext();
+    //返回新的改变大小后的图片
+    return scaledImage;
 }
 
 // 等比压缩图片（按point）
