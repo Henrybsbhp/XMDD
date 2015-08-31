@@ -17,13 +17,12 @@
 #import "GetUserCarOp.h"
 #import "HKCoupon.h"
 #import "HKMyCar.h"
-#import "AlipayHelper.h"
-#import "WeChatHelper.h"
 #import "CheckoutServiceOrderV2Op.h"
 #import "NSDate+DateForText.h"
 #import "UIView+Layer.h"
 #import "MyCarsModel.h"
 #import "HKBankCard.h"
+#import "PaymentHelper.h"
 
 
 #define CheckBoxCouponGroup @"CheckBoxCouponGroup"
@@ -40,7 +39,6 @@
 @property (nonatomic,strong)UILabel * numberView;
 
 @property (nonatomic,strong) CKSegmentHelper *checkBoxHelper;
-
 @property (nonatomic)BOOL isLoadingResourse;
 
 ///支付平台，（section == 2）
@@ -949,9 +947,10 @@
 - (void)requestAliPay:(NSNumber *)orderId andTradeId:(NSString *)tradeId
              andPrice:(CGFloat)price andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time
 {
-    [gAlipayHelper payOrdWithTradeNo:tradeId andProductName:name andProductDescription:desc andPrice:price];
+    PaymentHelper *helper = [[PaymentHelper alloc] init];
+    [helper resetForAlipayWithTradeNumber:tradeId productName:name productDescription:desc price:price];
     
-    [gAlipayHelper.rac_alipayResultSignal subscribeNext:^(id x) {
+    [[helper rac_startPay] subscribeNext:^(id x) {
         
         [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
         PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
@@ -972,12 +971,10 @@
                 andPrice:(CGFloat)price andProductName:(NSString *)name
                  andTime:(NSString *)time
 {
-    [gWechatHelper payOrdWithTradeNo:tradeId andProductName:name andPrice:price];
-    
-    [gWechatHelper.rac_wechatResultSignal subscribeNext:^(NSString * info) {
-        
-        if (![info isEqualToString:@"9000"])
-            return;
+    PaymentHelper *helper = [[PaymentHelper alloc] init];
+    [helper resetForWeChatWithTradeNumber:tradeId productName:name price:price];
+    [[helper rac_startPay] subscribeNext:^(NSString * info) {
+
         [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
         PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
         vc.originVC = self.originVC;

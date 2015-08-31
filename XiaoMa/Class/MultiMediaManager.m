@@ -27,6 +27,34 @@
     return nil;
 }
 
+- (UIImage *)imageFromDiskCacheForUrl:(NSString *)strurl
+{
+    SDWebImageManager *mgr = [SDWebImageManager sharedManager];
+    if (strurl) {
+        return [mgr.imageCache imageFromDiskCacheForKey:[mgr cacheKeyForURL:[NSURL URLWithString:strurl]]];
+    }
+    return nil;
+}
+
+
+- (BOOL)cachedImageExistsForUrl:(NSString *)strurl
+{
+    if (!strurl) {
+        return NO;
+    }
+    NSURL *url = [NSURL URLWithString:strurl];
+    return [[SDWebImageManager sharedManager] cachedImageExistsForURL:url];
+}
+
+- (BOOL)diskImageExistsForUrl:(NSString *)strurl
+{
+    if (!strurl) {
+        return NO;
+    }
+    NSURL *url = [NSURL URLWithString:strurl];
+    return [[SDWebImageManager sharedManager] diskImageExistsForURL:url];
+}
+
 - (RACSignal *)rac_getImageByUrl:(NSString *)strurl withType:(ImageURLType)type
                       defaultPic:(NSString *)defName errorPic:(NSString *)errName
 {

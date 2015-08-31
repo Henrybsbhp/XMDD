@@ -30,4 +30,6 @@
 
 - (RACSignal *)rac_scrollTimerSignal;
 
+- (void)checkUpdatingByType:(AdvertisementType)type;
+
 @end
