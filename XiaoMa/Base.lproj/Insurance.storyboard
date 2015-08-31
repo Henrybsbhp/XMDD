@@ -253,9 +253,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-
                                                         <view tag="1001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jGl-j3-mMc">
-
                                                             <rect key="frame" x="0.0" y="23" width="600" height="58"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         </view>
@@ -3016,10 +3014,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="cm_arrow_r" width="9" height="15"/>
         <image name="Horizontaline" width="621" height="1"/>
         <image name="Verticalline" width="1" height="82"/>
         <image name="array_down" width="8" height="4"/>
+        <image name="cm_arrow_r" width="9" height="15"/>
         <image name="cm_bg" width="17" height="24"/>
         <image name="cm_bg1" width="17" height="42"/>
         <image name="cw_box" width="16" height="16"/>

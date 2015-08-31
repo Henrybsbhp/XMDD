@@ -11,6 +11,8 @@
 #import "SubmitInsuranceInfoVC.h"
 #import "SimplePolicyInfoVC.h"
 #import "HKInsurance.h"
+#import "InsuranceAppointmentOp.h"
+#import "InsuranceDetailPlanVC.h"
 
 @interface EnquiryResultVC ()
 
@@ -87,6 +89,30 @@
     else if (indexPath.section == 2) {
         [MobClick event:@"rp116-3"];
     }
+    
+    //预约购买接口试调
+    
+//    InsuranceAppointmentOp * op = [InsuranceAppointmentOp operation];
+//    op.req_licencenumber = @"浙A12312";
+//    op.req_city = @"杭州市";
+//    op.req_register = 1;
+//    op.req_purchaseprice = 123.2;
+//    op.req_purchasedate = [NSDate date];
+//    op.req_phone = @"15869163784";
+//    op.req_idcard = @"341281199309230656";
+//    op.req_idpic = @"http://a.hiphotos.baidu.com/zhidao/pic/item/7e3e6709c93d70cff39269d0f9dcd100bba12b87.jpg";
+//    op.req_driverpic = @"http://a.hiphotos.baidu.com/zhidao/pic/item/7e3e6709c93d70cff39269d0f9dcd100bba12b87.jpg";
+//    op.req_inslist = @"1@车损险@1.4万";
+//    
+//    [[op rac_postRequest] subscribeNext:^(id x) {
+//        
+//    } error:^(NSError *error) {
+//        
+//    }];
+ 
+    InsuranceDetailPlanVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceDetailPlanVC"];
+    [self.navigationController pushViewController:vc animated:YES];
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
