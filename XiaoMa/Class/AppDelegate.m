@@ -13,8 +13,6 @@
 #import <CocoaLumberjack.h>
 #import "HKCatchErrorModel.h"
 #import "MapHelper.h"
-#import "AlipayHelper.h"
-#import "WeChatHelper.h"
 #import "GetSystemTipsOp.h"
 #import "GetSystemVersionOp.h"
 #import "ClientInfo.h"
@@ -28,6 +26,8 @@
 #import <Crashlytics/Crashlytics.h>
 #import "WelcomeViewController.h"
 #import "MainTabBarVC.h"
+#import "HKAdvertisement.h"
+#import "LaunchVC.h"
 
 #define RequestWeatherInfoInterval 60 * 10
 //#define RequestWeatherInfoInterval 5
@@ -95,7 +95,16 @@
         vc = [UIStoryboard vcWithId:@"WelcomeViewController" inStoryboard:@"Main"];
     }
     else {
-        vc = [UIStoryboard vcWithId:@"MainTabBarVC" inStoryboard:@"Main"];
+        //如果本地没有启动页的相关信息，则直接进入主页，否则进入启动页
+        HKAdvertisement *ad = [[gAdMgr loadLastAdvertiseInfo:AdvertisementTypeLaunch] safetyObjectAtIndex:0];
+        NSString *adurl = [gMediaMgr urlWith:ad.adPic imageType:ImageURLTypeMedium];
+        if (!ad || ![gMediaMgr cachedImageExistsForUrl:adurl]) {
+            vc = [UIStoryboard vcWithId:@"MainTabBarVC" inStoryboard:@"Main"];
+        }
+        else {
+            vc = [UIStoryboard vcWithId:@"LaunchVC" inStoryboard:@"Main"];
+            [(LaunchVC *)vc setImage:[gMediaMgr imageFromDiskCacheForUrl:adurl]];
+        }
     }
     [self resetRootViewController:vc];
 }
@@ -171,6 +180,8 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    //每次应用激活，都尝试更新一下启动页的信息
+    [gAdMgr checkUpdatingByType:AdvertisementTypeLaunch];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -179,11 +190,6 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    /// 支付宝回调处理
-    [self handleURL:url];
-    
-    /// 微信回调处理
-    [WXApi handleOpenURL:url delegate:self];
     return YES;
 }
 
@@ -216,86 +222,6 @@
 - (void)tencentDidNotNetWork
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"loginFailed" object:self];
-}
-
-#pragma mark - 支付宝
-- (void)handleURL:(NSURL *)url
-{
-    AlixPayResult* result = [self handleOpenURL:url];
-    
-    if(!result)
-        return;
-    
-    if (result && result.statusCode == 9000)
-    {
-        /*
-         *用公钥验证签名 严格验证请使用result.resultString与result.signString验签
-         */
-        
-        //交易成功
-        NSString* key = AlipayPubKey;
-        id<DataVerifier> verifier;
-        verifier = CreateRSADataVerifier(key);
-        
-        if ([verifier verifyString:result.resultString withSign:result.signString])
-        {
-            [gAlipayHelper.rac_alipayResultSignal sendNext:@"9000"];
-            //验证签名成功，交易结果无篡改
-        }
-        else
-        {
-            [gAlipayHelper.rac_alipayResultSignal sendError:[NSError errorWithDomain:@"验证签名失败，交易结果被篡改" code:8999 userInfo:nil]];
-        }
-    }
-    else
-    {
-        [gAlipayHelper.rac_alipayResultSignal sendError:[NSError errorWithDomain:result.statusMessage code:result.statusCode userInfo:nil]];
-    }
-}
-
-
-- (AlixPayResult *)resultFromURL:(NSURL *)url {
-    NSString * query = [[url query] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-#if ! __has_feature(objc_arc)
-    return [[[AlixPayResult alloc] initWithString:query] autorelease];
-#else
-    return [[AlixPayResult alloc] initWithString:query];
-#endif
-}
-
-- (AlixPayResult *)handleOpenURL:(NSURL *)url {
-    AlixPayResult * result = nil;
-    
-    if (url != nil && [[url host] compare:@"safepay"] == 0) {
-        result = [self resultFromURL:url];
-    }
-    
-    return result;
-}
-
-#pragma mark - 微信
-- (void)onResp:(BaseResp *)resp
-{
-    if ([resp isKindOfClass:[PayResp class]])
-    {
-        PayResp * payResp = (PayResp *)resp;
-        if (payResp.errCode == WXSuccess)
-        {
-            [gWechatHelper.rac_wechatResultSignal sendNext:@"9000"];
-        }
-        else if (payResp.errCode == WXErrCodeUserCancel)
-        {
-            [gWechatHelper.rac_wechatResultSignal sendError:[NSError errorWithDomain:@"用户点击取消并返回" code:payResp.errCode userInfo:nil]];
-        }
-        else
-        {
-            [gWechatHelper.rac_wechatResultSignal sendError:[NSError errorWithDomain:@"请求失败" code:payResp.errCode userInfo:nil]];
-        }
-    }
-    if ([resp isKindOfClass:[SendMessageToWXResp class]])
-    {
-        [gWechatHelper.rac_wechatResultSignal sendNext:@"dismiss"];
-    }
 }
 
 #pragma mark - 友盟

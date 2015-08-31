@@ -40,6 +40,7 @@ typedef enum : NSUInteger {
     AdvertisementAppSlide = 10,
     AdvertisementInsurance = 11,
     AdvertisementTypeActivities = 20,
+    AdvertisementTypeLaunch = 30
 } AdvertisementType;
 
 #define IOSAPPID 1001
@@ -73,8 +74,6 @@ typedef enum : NSUInteger {
 #define gAppMgr     [AppManager sharedManager]
 #define gNetworkMgr [NetworkManager sharedManager]
 #define gToast      [HKToast sharedTosast]
-#define gAlipayHelper       ([AlipayHelper sharedHelper])
-#define gWechatHelper       ([WeChatHelper sharedHelper])
 #define gMapHelper ([MapHelper sharedHelper])
 #define gMediaMgr  ([[AppManager sharedManager] mediaMgr])
 #define gPhoneHelper  ([PhoneHelper sharedHelper])
