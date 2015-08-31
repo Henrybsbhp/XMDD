@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HKInsuranceOrder.h"
 
 @interface InsuranceOrderVC : UIViewController
+
+@property (nonatomic, strong) HKInsuranceOrder *order;
 
 @end

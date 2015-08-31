@@ -138,6 +138,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
+    vc.order = self.loadingModel.datasource[indexPath.row];
     [self.targetVC.navigationController pushViewController:vc animated:YES];
 }
 

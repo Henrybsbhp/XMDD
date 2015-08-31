@@ -37,3 +37,15 @@
 
 @end
 
+
+//折扣率
+@interface InsuranceDiscount : NSObject
+
+/// 险种id
+@property (nonatomic)NSInteger pid;
+/// 折扣率
+@property (nonatomic)CGFloat discountrate;
+
++ (instancetype)insuranceDiscountWithJSONResponse:(NSDictionary *)rsp;
+
+@end

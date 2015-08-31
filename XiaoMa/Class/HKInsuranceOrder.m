@@ -28,9 +28,9 @@
     order.paychannel = [rsp integerParamForName:@"paychannel"];
     order.insdeliveryno = rsp[@"insdeliveryno"];
     order.insdeliverycomp = rsp[@"insdeliverycomp"];
-    order.instype = [rsp integerParamForName:@"instype"];
     order.status = [rsp integerParamForName:@"status"];
     order.lstupdatetime = [NSDate dateWithD14Text:rsp[@"lstupdatetime"]];
+    order.instype = [rsp integerParamForName:@"instype"];
     return order;
 }
 

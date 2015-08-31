@@ -39,4 +39,19 @@
 @end
 
 
+@implementation InsuranceDiscount
+
++ (instancetype)insuranceDiscountWithJSONResponse:(NSDictionary *)rsp
+{
+    if (!rsp)
+    {
+        return nil;
+    }
+    InsuranceDiscount * disIns = [[InsuranceDiscount alloc] init];
+    disIns.pid = [rsp integerParamForName:@"pid"];
+    disIns.discountrate = [rsp floatParamForName:@"discountrate"];
+    return disIns;
+}
+
+@end
 
