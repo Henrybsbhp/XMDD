@@ -18,6 +18,8 @@
 #import "WebVC.h"
 #import "ADViewController.h"
 #import "UploadInsuranceInfoVC.h"
+#import "InsuranceChooseViewController.h"
+#import "PaymentHelper.h"
 
 @interface InsuranceVC ()
 @property (nonatomic, strong) ADViewController *advc;
@@ -75,12 +77,11 @@
 }
 
 - (void)actionInsuranceDirectSelling {
-
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         UploadInsuranceInfoVC *vc = [UIStoryboard vcWithId:@"UploadInsuranceInfoVC" inStoryboard:@"Insurance"];
         [self.navigationController pushViewController:vc animated:YES];
         [vc setGetNextVCBlock:^UIViewController *(BOOL skip) {
-            return nil;
+            return [UIStoryboard vcWithId:@"InsuranceChooseViewController" inStoryboard:@"Insurance"];
         }];
     }
 }
