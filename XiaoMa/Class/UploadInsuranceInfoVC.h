@@ -10,7 +10,9 @@
 
 @interface UploadInsuranceInfoVC : UIViewController
 
-///(next:(YES--上传成功; NO--跳过)
-@property (nonatomic, copy) UIViewController *(^getNextVCBlock)(BOOL skip);
+///完成事件（返回下一个ViewController，如果为nil则不跳转）
+@property (nonatomic, copy) UIViewController *(^finishBlock)(BOOL skip, UIViewController *targetvc);
+///(default is YES)
+@property (nonatomic, assign) BOOL allowSkip;
 
 @end

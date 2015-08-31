@@ -42,6 +42,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.carPicker = [[CKSegmentHelper alloc] init];
     [self setupDatePickerVC];
     CKAsyncMainQueue(^{
         [self reloadCarList];

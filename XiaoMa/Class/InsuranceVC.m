@@ -76,7 +76,7 @@
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         UploadInsuranceInfoVC *vc = [UIStoryboard vcWithId:@"UploadInsuranceInfoVC" inStoryboard:@"Insurance"];
         [self.navigationController pushViewController:vc animated:YES];
-        [vc setGetNextVCBlock:^UIViewController *(BOOL skip) {
+        [vc setFinishBlock:^UIViewController *(BOOL skip, UIViewController *targetvc) {
             return [UIStoryboard vcWithId:@"InsuranceChooseViewController" inStoryboard:@"Insurance"];
         }];
     }
