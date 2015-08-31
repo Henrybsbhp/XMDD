@@ -35,7 +35,9 @@ typedef enum : NSUInteger {
 
 @interface HKCoverage : NSObject
 
-@property (nonatomic,copy)NSString * coverageName;
+@property (nonatomic,strong)NSNumber * insId;
+
+@property (nonatomic,copy)NSString * insName;
 
 @property (nonatomic)InsuranceCategory insCategory;
 
