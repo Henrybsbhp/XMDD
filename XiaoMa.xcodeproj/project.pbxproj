@@ -129,14 +129,12 @@
 		189B30C01AD62E57001D7288 /* PaymentSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30BF1AD62E57001D7288 /* PaymentSuccessVC.m */; };
 		189B30C31AD64310001D7288 /* ChooseCarwashTicketVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30C21AD64310001D7288 /* ChooseCarwashTicketVC.m */; };
 		189B30C71AD664D7001D7288 /* InsuranceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30C61AD664D7001D7288 /* InsuranceVC.m */; };
-		189B30CA1AD664F5001D7288 /* Insurance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 189B30C81AD664F5001D7288 /* Insurance.storyboard */; };
 		189B30D41AD799AF001D7288 /* RACSignal+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30D31AD799AF001D7288 /* RACSignal+Extension.m */; };
 		189B30FF1AD7A85A001D7288 /* Common.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 189B30FD1AD7A85A001D7288 /* Common.storyboard */; };
 		189B31031AD7A935001D7288 /* DatePickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B31021AD7A935001D7288 /* DatePickerVC.m */; };
 		189B31061AD7B7F5001D7288 /* UIView+Shake.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B31051AD7B7F5001D7288 /* UIView+Shake.m */; };
 		189B31091AD7C5B3001D7288 /* InsuranceChannelVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B31081AD7C5B3001D7288 /* InsuranceChannelVC.m */; };
 		189B310C1ADA499C001D7288 /* EnquiryResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B310B1ADA499C001D7288 /* EnquiryResultVC.m */; };
-		189B31101ADA597D001D7288 /* UploadInfomationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B310F1ADA597D001D7288 /* UploadInfomationVC.m */; };
 		189B31141ADB60AE001D7288 /* JGActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B31131ADB60AD001D7288 /* JGActionSheet.m */; };
 		189B31161ADBDF07001D7288 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 189B31151ADBDF07001D7288 /* MobileCoreServices.framework */; };
 		189B311A1ADBEBE8001D7288 /* PolicyInfomationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B31191ADBEBE8001D7288 /* PolicyInfomationVC.m */; };
@@ -183,6 +181,7 @@
 		18E28A151B93E5A20070E759 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E28A141B93E5A20070E759 /* QuartzCore.framework */; };
 		18E28A171B93E5AF0070E759 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E28A161B93E5AF0070E759 /* Security.framework */; };
 		18E28A1C1B93F1FF0070E759 /* UPPayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E28A1B1B93F1FF0070E759 /* UPPayHelper.m */; };
+		18E28A201B942D700070E759 /* UploadInsuranceInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E28A1F1B942D700070E759 /* UploadInsuranceInfoVC.m */; };
 		18E7565A1B69D696001B0869 /* InsuranceOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E756591B69D696001B0869 /* InsuranceOrderVC.m */; };
 		18E756A41B73335C00874601 /* MyBankVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E756A31B73335C00874601 /* MyBankVC.m */; };
 		18E756A71B73338600874601 /* Bank.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18E756A51B73338600874601 /* Bank.storyboard */; };
@@ -316,6 +315,7 @@
 		6BCF62511B184AEF0064AE32 /* NJKWebViewProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF624F1B184AEF0064AE32 /* NJKWebViewProgressView.m */; };
 		6BD25E8B1B7C41C6008C0080 /* CollectionChooseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD25E8A1B7C41C6008C0080 /* CollectionChooseVC.m */; };
 		6BD293B71B9401D6006482A4 /* InsuranceChooseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD293B61B9401D6006482A4 /* InsuranceChooseViewController.m */; };
+		6BD293B91B943A17006482A4 /* Insurance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293B81B943A17006482A4 /* Insurance.storyboard */; };
 		6BD7AE5B1AE8927C00BEF30E /* WeChatHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */; };
 		6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5D1AE8A64B00BEF30E /* ApiXml.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5F1AE8A64B00BEF30E /* payRequsestHandler.mm */; };
@@ -624,7 +624,6 @@
 		189B30C21AD64310001D7288 /* ChooseCarwashTicketVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ChooseCarwashTicketVC.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		189B30C51AD664D7001D7288 /* InsuranceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceVC.h; sourceTree = "<group>"; };
 		189B30C61AD664D7001D7288 /* InsuranceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceVC.m; sourceTree = "<group>"; };
-		189B30C91AD664F5001D7288 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = XiaoMa/Base.lproj/Insurance.storyboard; sourceTree = SOURCE_ROOT; };
 		189B30CB1AD762B1001D7288 /* EnquiryInsuranceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnquiryInsuranceVC.h; sourceTree = "<group>"; };
 		189B30D21AD799AF001D7288 /* RACSignal+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "RACSignal+Extension.h"; path = "Class/RACSignal+Extension.h"; sourceTree = "<group>"; };
 		189B30D31AD799AF001D7288 /* RACSignal+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RACSignal+Extension.m"; path = "Class/RACSignal+Extension.m"; sourceTree = "<group>"; };
@@ -637,8 +636,6 @@
 		189B31081AD7C5B3001D7288 /* InsuranceChannelVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceChannelVC.m; sourceTree = "<group>"; };
 		189B310A1ADA499C001D7288 /* EnquiryResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnquiryResultVC.h; sourceTree = "<group>"; };
 		189B310B1ADA499C001D7288 /* EnquiryResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnquiryResultVC.m; sourceTree = "<group>"; };
-		189B310E1ADA597D001D7288 /* UploadInfomationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadInfomationVC.h; sourceTree = "<group>"; };
-		189B310F1ADA597D001D7288 /* UploadInfomationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadInfomationVC.m; sourceTree = "<group>"; };
 		189B31121ADB60AD001D7288 /* JGActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JGActionSheet.h; sourceTree = "<group>"; };
 		189B31131ADB60AD001D7288 /* JGActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JGActionSheet.m; sourceTree = "<group>"; };
 		189B31151ADBDF07001D7288 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -723,6 +720,8 @@
 		18E28A161B93E5AF0070E759 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		18E28A1A1B93F1FF0070E759 /* UPPayHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UPPayHelper.h; path = Class/UPPayHelper.h; sourceTree = "<group>"; };
 		18E28A1B1B93F1FF0070E759 /* UPPayHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UPPayHelper.m; path = Class/UPPayHelper.m; sourceTree = "<group>"; };
+		18E28A1E1B942D700070E759 /* UploadInsuranceInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadInsuranceInfoVC.h; sourceTree = "<group>"; };
+		18E28A1F1B942D700070E759 /* UploadInsuranceInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadInsuranceInfoVC.m; sourceTree = "<group>"; };
 		18E756581B69D696001B0869 /* InsuranceOrderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceOrderVC.h; sourceTree = "<group>"; };
 		18E756591B69D696001B0869 /* InsuranceOrderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceOrderVC.m; sourceTree = "<group>"; };
 		18E756A21B73335C00874601 /* MyBankVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBankVC.h; sourceTree = "<group>"; };
@@ -976,6 +975,7 @@
 		6BD25E8A1B7C41C6008C0080 /* CollectionChooseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionChooseVC.m; sourceTree = "<group>"; };
 		6BD293B51B9401D6006482A4 /* InsuranceChooseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceChooseViewController.h; sourceTree = "<group>"; };
 		6BD293B61B9401D6006482A4 /* InsuranceChooseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceChooseViewController.m; sourceTree = "<group>"; };
+		6BD293B81B943A17006482A4 /* Insurance.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Insurance.storyboard; sourceTree = "<group>"; };
 		6BD7AE591AE8927C00BEF30E /* WeChatHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeChatHelper.h; path = Class/WeChatHelper.h; sourceTree = "<group>"; };
 		6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeChatHelper.m; path = Class/WeChatHelper.m; sourceTree = "<group>"; };
 		6BD7AE5C1AE8A64B00BEF30E /* ApiXml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiXml.h; sourceTree = "<group>"; };
@@ -1648,13 +1648,13 @@
 		1883D9151ACBBE68002A4D19 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
+				6BD293B81B943A17006482A4 /* Insurance.storyboard */,
 				1883D9201ACBC418002A4D19 /* Main.storyboard */,
 				189B39531AF898A400B83F1B /* Mine.storyboard */,
 				18C81CB51B17FE4400B0C292 /* About.storyboard */,
 				185A527B1B185191003515CC /* Message.storyboard */,
 				18E756A51B73338600874601 /* Bank.storyboard */,
 				1816F4AA1ACE74C000BBCC96 /* Carwash.storyboard */,
-				189B30C81AD664F5001D7288 /* Insurance.storyboard */,
 				189B30FD1AD7A85A001D7288 /* Common.storyboard */,
 				1853DEBF1AE0E69000C39175 /* Login.storyboard */,
 				6BB61B9B1AEF587E004F39AA /* Other.storyboard */,
@@ -1891,6 +1891,7 @@
 		189B30C41AD6649A001D7288 /* Insurance */ = {
 			isa = PBXGroup;
 			children = (
+				18E28A1D1B942CCB0070E759 /* Common */,
 				18E756571B69D675001B0869 /* Order */,
 				189B39671AFB045800B83F1B /* AiCheBao */,
 				189B31171ADBEBA0001D7288 /* DirectSelling */,
@@ -1945,8 +1946,6 @@
 				189B310B1ADA499C001D7288 /* EnquiryResultVC.m */,
 				187CC9571AEE4034004D1F28 /* SimplePolicyInfoVC.h */,
 				187CC9581AEE4034004D1F28 /* SimplePolicyInfoVC.m */,
-				189B310E1ADA597D001D7288 /* UploadInfomationVC.h */,
-				189B310F1ADA597D001D7288 /* UploadInfomationVC.m */,
 				18B2C7221B1304ED007FB0C7 /* SubmitInsuranceInfoVC.h */,
 				18B2C7231B1304ED007FB0C7 /* SubmitInsuranceInfoVC.m */,
 			);
@@ -2125,6 +2124,15 @@
 				18E28A1B1B93F1FF0070E759 /* UPPayHelper.m */,
 			);
 			name = Payment;
+			sourceTree = "<group>";
+		};
+		18E28A1D1B942CCB0070E759 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				18E28A1E1B942D700070E759 /* UploadInsuranceInfoVC.h */,
+				18E28A1F1B942D700070E759 /* UploadInsuranceInfoVC.m */,
+			);
+			name = Common;
 			sourceTree = "<group>";
 		};
 		18E756571B69D675001B0869 /* Order */ = {
@@ -2831,9 +2839,9 @@
 				6BEA56C01AE24DCE000D19C1 /* AlipaySDK.bundle in Resources */,
 				18C81CB71B17FE4400B0C292 /* About.storyboard in Resources */,
 				1883D9221ACBC418002A4D19 /* Main.storyboard in Resources */,
-				189B30CA1AD664F5001D7288 /* Insurance.storyboard in Resources */,
 				6BBB825D1AE79FE100850D0C /* read_me.txt in Resources */,
 				189B39551AF898A400B83F1B /* Mine.storyboard in Resources */,
+				6BD293B91B943A17006482A4 /* Insurance.storyboard in Resources */,
 				185A527D1B185191003515CC /* Message.storyboard in Resources */,
 				6BBBF5581B296AC900E1B809 /* Award.storyboard in Resources */,
 				6BBFBC421B0D8E57000D3CA3 /* WeiboSDK.bundle in Resources */,
@@ -2928,7 +2936,6 @@
 				6BC220991AD7804800A4310E /* NSMutableDictionary+AddParams.m in Sources */,
 				18746B181AEA1BB300D93696 /* UpdateInsuranceOrderOp.m in Sources */,
 				186985121B02E6CB000A182A /* ODRefreshControl.m in Sources */,
-				189B31101ADA597D001D7288 /* UploadInfomationVC.m in Sources */,
 				185A52821B195C87003515CC /* NearbyShopListVC.m in Sources */,
 				6BB884D21AE0BC6A00EBD8F4 /* MONActivityIndicatorView.m in Sources */,
 				186984F81B0098FB000A182A /* HKInsuranceOrder.m in Sources */,
@@ -3133,6 +3140,7 @@
 				18D475E21B7C3954000FAF1C /* GetUserCouponV2Op.m in Sources */,
 				18F41DAF1B788022000409E1 /* GetUnbindBankcardVcodeOp.m in Sources */,
 				6BC2209C1AD7AAF300A4310E /* NetworkManager.m in Sources */,
+				18E28A201B942D700070E759 /* UploadInsuranceInfoVC.m in Sources */,
 				18039AF51B0C5BCE00264059 /* GetAutomobileModelOp.m in Sources */,
 				189371221B0E046E0030FDE1 /* JTAttributedLabel.m in Sources */,
 				184E40C61AD3B58F00EFC3A6 /* UIView+Layer.m in Sources */,
@@ -3284,14 +3292,6 @@
 				1883D9211ACBC418002A4D19 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		189B30C81AD664F5001D7288 /* Insurance.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				189B30C91AD664F5001D7288 /* Base */,
-			);
-			name = Insurance.storyboard;
 			sourceTree = "<group>";
 		};
 		189B30FD1AD7A85A001D7288 /* Common.storyboard */ = {
