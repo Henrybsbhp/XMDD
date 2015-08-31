@@ -11,6 +11,7 @@
 #import "HKCoverage.h"
 #import "InsuranceCalcHelper.h"
 #import "UploadInsuranceInfoVC.h"
+#import "InsuranceResultVC.h"
 
 
 #define CheckBoxInsuranceGroup @"CheckBoxInsuranceGroup"
@@ -50,7 +51,12 @@
     [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
        
         UploadInsuranceInfoVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"UploadInsuranceInfoVC"];
+        vc.allowSkip = NO;
         [self.navigationController pushViewController:vc animated:YES];
+        [vc setFinishBlock:^UIViewController *(BOOL skip, UIViewController *targetvc) {
+            InsuranceResultVC *vc = [UIStoryboard vcWithId:@"InsuranceResultVC" inStoryboard:@"Insurance"];
+            return vc;
+        }];
     }];
 }
 

@@ -9,6 +9,7 @@
 #import "InsuranceResultVC.h"
 #import "DrawingBoardView.h"
 #import "AnimationBoardView.h"
+#import "InsuranceVC.h"
 
 @interface InsuranceResultVC ()
 
@@ -22,6 +23,19 @@
 @end
 
 @implementation InsuranceResultVC
+
+- (void)actionBack:(id)sender
+{
+    UIViewController *vc = [self.navigationController.viewControllers firstObjectByFilteringOperator:^BOOL(id obj) {
+        return [(UIViewController *)obj isKindOfClass:NSClassFromString(@"InsuranceVC")];
+    }];
+    if (vc) {
+        [self.navigationController popToViewController:vc animated:YES];
+    }
+    else {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+}
 
 -(void)setResultType:(InsuranceResult) resultType
 {
