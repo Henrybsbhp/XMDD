@@ -438,6 +438,7 @@
 //    [gPhoneHelper makePhone:number andInfo:@"客服电话：4007-111-111"];
     
     InsuranceDetailPlanVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceDetailPlanVC"];
+    vc.selectInsurance = @[@(1101),@(1102)];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

@@ -10,4 +10,6 @@
 
 @interface InsuranceDetailPlanVC : UIViewController
 
+@property (nonatomic,strong)NSArray * selectInsurance;
+
 @end
