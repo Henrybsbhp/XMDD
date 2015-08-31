@@ -17,6 +17,7 @@
 #import "EnquiryInsuranceVC.h"
 #import "WebVC.h"
 #import "ADViewController.h"
+#import "UploadInsuranceInfoVC.h"
 #import "InsuranceChooseViewController.h"
 #import "PaymentHelper.h"
 
@@ -76,9 +77,13 @@
 }
 
 - (void)actionInsuranceDirectSelling {
-
-    InsuranceChooseViewController * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceChooseViewController"];
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        UploadInsuranceInfoVC *vc = [UIStoryboard vcWithId:@"UploadInsuranceInfoVC" inStoryboard:@"Insurance"];
+        [self.navigationController pushViewController:vc animated:YES];
+        [vc setGetNextVCBlock:^UIViewController *(BOOL skip) {
+            return [UIStoryboard vcWithId:@"InsuranceChooseViewController" inStoryboard:@"Insurance"];
+        }];
+    }
 }
 
 - (void)actionAiCheBao {

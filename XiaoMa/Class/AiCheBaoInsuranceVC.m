@@ -7,7 +7,6 @@
 //
 
 #import "AiCheBaoInsuranceVC.h"
-#import "UploadInfomationVC.h"
 #import "BeInterestedInInsuranceOp.h"
 #import "WebVC.h"
 
@@ -87,20 +86,6 @@
 - (IBAction)actionMakeCall:(id)sender {
     [MobClick event:@"rp123-1"];
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
-}
-
-- (IBAction)actionHelp:(id)sender
-{
-    WebVC *vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
-    vc.title = @"什么是爱车宝保险？";
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (IBAction)actionUploadInfo:(id)sender
-{
-    UploadInfomationVC *vc = [UIStoryboard vcWithId:@"UploadInfomationVC" inStoryboard:@"Insurance"];
-    vc.originVC = self.originVC;
-    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end
