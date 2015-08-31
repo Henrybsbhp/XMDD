@@ -70,10 +70,6 @@
         EnquiryInsuranceVC *vc = [UIStoryboard vcWithId:@"EnquiryInsuranceVC" inStoryboard:@"Insurance"];
         [self.navigationController pushViewController:vc animated:YES];
     }
-//    //支付成功失败弹出框测试，注释了爱车宝的网页页面，需要时请替换     LYW
-//    InsuranceResultVC *resultVC = [UIStoryboard vcWithId:@"InsuranceResultVC" inStoryboard:@"Insurance"];
-//    [resultVC setResultType:(arc4random() % 3)];
-//    [self.navigationController pushViewController:resultVC animated:YES];
 }
 
 - (void)actionInsuranceDirectSelling {
