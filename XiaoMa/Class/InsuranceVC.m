@@ -17,7 +17,7 @@
 #import "EnquiryInsuranceVC.h"
 #import "WebVC.h"
 #import "ADViewController.h"
-#import "PaymentHelper.h"
+#import "UploadInsuranceInfoVC.h"
 
 @interface InsuranceVC ()
 @property (nonatomic, strong) ADViewController *advc;
@@ -75,15 +75,14 @@
 }
 
 - (void)actionInsuranceDirectSelling {
-    PaymentHelper *helper = [[PaymentHelper alloc] init];
-    [helper resetForUPPayWithTradeNumber:@"201508271702181435538" targetVC:self];
-    [[helper rac_startPay] subscribeNext:^(id x) {
-        
-    } error:^(NSError *error) {
-        
-    } completed:^{
-        
-    }];
+
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        UploadInsuranceInfoVC *vc = [UIStoryboard vcWithId:@"UploadInsuranceInfoVC" inStoryboard:@"Insurance"];
+        [self.navigationController pushViewController:vc animated:YES];
+        [vc setGetNextVCBlock:^UIViewController *(BOOL skip) {
+            return nil;
+        }];
+    }
 }
 
 - (void)actionAiCheBao {
