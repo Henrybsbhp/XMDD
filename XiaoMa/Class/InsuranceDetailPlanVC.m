@@ -17,6 +17,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet JDFlipNumberView *flipNumberView;
+@property (weak, nonatomic) IBOutlet UIButton *sureBtn;
 
 @property (nonatomic,strong)NSMutableArray * insuranceArry;
 @property (nonatomic, strong) CKSegmentHelper *checkBoxHelper;
@@ -38,6 +39,14 @@
     [self animateToTargetValue:(NSInteger)(self.totalPrice * 100)];
     
     [self.tableView reloadData];
+}
+
+- (void)setupUI
+{
+    [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+       
+        
+    }];
 }
 
 - (void)setupCalcHelper
