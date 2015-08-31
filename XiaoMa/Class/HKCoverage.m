@@ -16,26 +16,27 @@
     if (self)
     {
         self.insCategory = category;
+        self.insId = @(category);
         switch (category) {
             case InsuranceCompulsory:{
-                self.coverageName = @"交强险";
+                self.insName = @"交强险";
                 break;
             }
                 
             case InsuranceTravelTax:{
-                self.coverageName = @"车船税";
+                self.insName = @"车船税";
                 break;
             }
                 
             case InsuranceCarDamage:{
-                self.coverageName = @"车辆损失险";
+                self.insName = @"车辆损失险";
                 self.isContainExcludingDeductible = @(1);
                 self.customObject = [[HKCoverage alloc] initWithCategory:InsuranceExcludingDeductible4CarDamage];
                 break;
             }
                 
             case InsuranceThirdPartyLiability:{
-                self.coverageName = @"第三方责任险";
+                self.insName = @"第三方责任险";
                 NSDictionary * d = @{@"key":@"5万元",@"value":@(673)};
                 d.customFlag = YES;
                 self.params = @[d,
@@ -72,7 +73,7 @@
             }
                 
             case InsuranceCarSeatInsuranceOfDriver:{
-                self.coverageName = @"司机座位责任险";
+                self.insName = @"司机座位责任险";
                 NSDictionary * d = @{@"key":@"1万元",@"value":@(10000)};
                 d.customFlag = YES;
                 self.params = @[d,
@@ -92,7 +93,7 @@
             }
                 
             case InsuranceCarSeatInsuranceOfPassenger:{
-                self.coverageName = @"乘客座位责任险 ";
+                self.insName = @"乘客座位责任险 ";
                 NSDictionary * d = @{@"key":@"1万元",@"value":@(10000)};
                 d.customFlag = YES;
                 self.params = @[d,
@@ -112,14 +113,14 @@
             }
                 
             case InsuranceWholeCarStolen:{
-                self.coverageName = @"全车盗抢险";
+                self.insName = @"全车盗抢险";
                 self.isContainExcludingDeductible = @(1);
                 self.customObject = [[HKCoverage alloc] initWithCategory:InsuranceExcludingDeductible4WholeCarStolen];
                 break;
             }
                 
             case InsuranceSeparateGlassBreakage:{
-                self.coverageName = @"玻璃单独破碎险";
+                self.insName = @"玻璃单独破碎险";
                 NSDictionary * d = @{@"key":@"国产",@"value":@(0.0021)};
                 d.customFlag = YES;
                 self.params = @[d,
@@ -128,31 +129,31 @@
                 break;
             }
             case InsuranceSpontaneousLossRisk:{
-                self.coverageName = @"自燃损失险";
+                self.insName = @"自燃损失险";
                 break;
             }
             case InsuranceWaterLoss:{
-                self.coverageName = @"涉水损失险";
+                self.insName = @"涉水损失险";
                 break;
             }
             case InsuranceExcludingDeductible4CarDamage:{
-                self.coverageName = @"车损险不计免赔";
+                self.insName = @"车损险不计免赔";
                 break;
             }
             case InsuranceExcludingDeductible4ThirdPartyLiability:{
-                self.coverageName = @"第三者责任险不计免赔";
+                self.insName = @"第三者责任险不计免赔";
                 break;
             }
             case InsuranceExcludingDeductible4CarSeatInsuranceOfDriver:{
-                self.coverageName = @"司机座位责任险 不计免赔";
+                self.insName = @"司机座位责任险 不计免赔";
                 break;
             }
             case InsuranceExcludingDeductible4CarSeatInsuranceOfPassenger:{
-                self.coverageName = @"乘客座位责任险 不计免赔";
+                self.insName = @"乘客座位责任险 不计免赔";
                 break;
             }
             case InsuranceExcludingDeductible4WholeCarStolen:{
-                self.coverageName = @"全车盗抢险不计免赔";
+                self.insName = @"全车盗抢险不计免赔";
                 break;
             }
             default:{
