@@ -2926,6 +2926,7 @@
                     <navigationItem key="navigationItem" title="保险详情" id="CB4-ro-wp8"/>
                     <connections>
                         <outlet property="flipNumberView" destination="hiX-Vv-6K1" id="WC1-2D-Ooc"/>
+                        <outlet property="sureBtn" destination="5Ao-kZ-2gD" id="6gb-kG-qcP"/>
                         <outlet property="tableView" destination="Kt8-dN-CLs" id="fcF-uc-iua"/>
                     </connections>
                 </viewController>
@@ -3339,6 +3340,7 @@
                     <navigationItem key="navigationItem" title="险种选择" id="yTQ-Ix-wfh"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="sureBtn" destination="1Br-Vl-cOU" id="0qN-Uj-i4i"/>
                         <outlet property="tableView" destination="0nv-XL-TQp" id="0Uw-ov-Lly"/>
                     </connections>
                 </viewController>

@@ -8,10 +8,12 @@
 
 #import "InsuranceChooseViewController.h"
 #import "HKCoverage.h"
+#import "InsuranceResultVC.h"
 
 @interface InsuranceChooseViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIButton *sureBtn;
 
 @property (nonatomic,strong)NSMutableArray * insuranceArry;
 @property (nonatomic,strong)NSMutableArray * insuranceArry2;
@@ -34,6 +36,16 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+- (void)setupUI
+{
+    [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        InsuranceResultVC *resultVC = [UIStoryboard vcWithId:@"InsuranceResultVC" inStoryboard:@"Insurance"];
+        [resultVC setResultType:(arc4random() % 3)];
+        [self.navigationController pushViewController:resultVC animated:YES];
+    }];
+}
 
 - (void)setupInsuranceArray
 {
