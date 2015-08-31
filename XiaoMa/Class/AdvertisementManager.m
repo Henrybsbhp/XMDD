@@ -137,6 +137,21 @@
     return self.defScrollTimerSignal;
 }
 
+- (void)checkUpdatingByType:(AdvertisementType)type
+{
+    [[self rac_fetchAdListByType:type] subscribeNext:^(NSArray *adlist) {
+        for (HKAdvertisement *ad in adlist) {
+            NSString *adurl = [gMediaMgr urlWith:ad.adPic imageType:ImageURLTypeMedium];
+            BOOL cached = [gMediaMgr cachedImageExistsForUrl:adurl];
+            if (!cached) {
+                [[gMediaMgr rac_getImageByUrl:ad.adPic withType:ImageURLTypeMedium defaultPic:nil errorPic:nil] subscribeNext:^(id x) {
+                    
+                }];
+            }
+        }
+    }];
+}
+
 #pragma mark - Utility
 - (NSArray *)filterAndSortAdList:(NSArray *)ads
 {

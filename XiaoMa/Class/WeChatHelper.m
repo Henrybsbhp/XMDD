@@ -8,79 +8,81 @@
 
 #import "WeChatHelper.h"
 #import "payRequsestHandler.h"
+#import "WXApi.h"
+#import "WXApiObject.h"
+#import "XiaoMa.h"
 
+@interface WeChatHelper ()<WXApiDelegate>
+
+@end
 
 @implementation WeChatHelper
-
-+ (instancetype)sharedHelper
-{
-    static WeChatHelper *g_wechatHelper;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^ {
-        g_wechatHelper = [[WeChatHelper alloc] init];
-    });
-    return g_wechatHelper;
-}
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self)
-    {
-        _rac_wechatResultSignal = [RACSubject subject];
-    }
-    return self;
-}
-
 
 - (void)dealloc
 {
     NSLog(@"WeChatHelper dealloc");
 }
 
-- (void)payOrdWithTradeNo:(NSString *)TradeNO andProductName:(NSString *)pName andPrice:(float_t)price
+- (RACSignal *)rac_payWithTradeNumber:(NSString *)tn productName:(NSString *)pn price:(CGFloat)price
 {
-// 服务器判定，如果支付小于订单价格，订单无效。所以现在测试环境也支付正确的价格
-//#ifdef DEBUG
-//    price = 0.01;
-//#endif
     //创建支付签名对象
-    payRequsestHandler *req = [payRequsestHandler alloc];
+    payRequsestHandler *reqHandler = [payRequsestHandler alloc];
     //初始化支付签名对象
-    [req init:WECHAT_APP_ID mch_id:WECHAT_MCH_ID];
+    [reqHandler init:WECHAT_APP_ID mch_id:WECHAT_MCH_ID];
     //设置密钥
-    [req setKey:WECHAT_PARTNER_ID];
-    
-    //}}}
-    
+    [reqHandler setKey:WECHAT_PARTNER_ID];
     //获取到实际调起微信支付的参数后，在app端调起支付
-    NSMutableDictionary *dict = [req sendPayWithTradeNo:TradeNO andProductName:pName andPrice:price];
-    
+    NSMutableDictionary *dict = [reqHandler sendPayWithTradeNo:tn andProductName:pn andPrice:price];
     if(dict == nil){
         //错误提示
-        NSString *debug = [req getDebugifo];
-        
-//        [self alert:@"提示信息" msg:debug];
-        
-        NSLog(@"%@\n\n",debug);
-    }else{
-        NSLog(@"%@\n\n",[req getDebugifo]);
-        //[self alert:@"确认" msg:@"下单成功，点击OK后调起支付！"];
-        
-        NSMutableString *stamp  = [dict objectForKey:@"timestamp"];
-        
-        //调起微信支付
-        PayReq* req             = [[PayReq alloc] init];
-        req.openID              = [dict objectForKey:@"appid"];
-        req.partnerId           = [dict objectForKey:@"partnerid"];
-        req.prepayId            = [dict objectForKey:@"prepayid"];
-        req.nonceStr            = [dict objectForKey:@"noncestr"];
-        req.timeStamp           = stamp.intValue;
-        req.package             = [dict objectForKey:@"package"];
-        req.sign                = [dict objectForKey:@"sign"];
-        
-        [WXApi sendReq:req];
+        NSString *debug = [reqHandler getDebugifo];
+        DebugLog(@"%@WeChatPay:%@",kErrPrefix,debug);
+        return [RACSignal error:[NSError errorWithDomain:debug code:0 userInfo:nil]];
     }
+    DebugLog(@"WeChatPay:%@",[reqHandler getDebugifo]);
+    
+    //调起微信支付
+    PayReq *req             = [[PayReq alloc] init];
+    req.openID              = [dict objectForKey:@"appid"];
+    req.partnerId           = [dict objectForKey:@"partnerid"];
+    req.prepayId            = [dict objectForKey:@"prepayid"];
+    req.nonceStr            = [dict objectForKey:@"noncestr"];
+    req.timeStamp           = [(NSString *)[dict objectForKey:@"timestamp"] intValue];
+    req.package             = [dict objectForKey:@"package"];
+    req.sign                = [dict objectForKey:@"sign"];
+    
+    [WXApi sendReq:req];
+    [self startHandleWeChatPaymentOnce];
+    
+    RACSignal *sig = [[[self rac_signalForSelector:@selector(onResp:) fromProtocol:@protocol(WXApiDelegate)] take:1] flattenMap:^RACStream *(RACTuple *tuple) {
+        
+        BaseResp *resp = [tuple first];
+        if (![resp isKindOfClass:[PayResp class]]) {
+            return [RACSignal empty];
+        }
+        if (resp.errCode == WXSuccess) {
+            return [RACSignal return:@"9000"];
+        }
+        else if (resp.errCode == WXErrCodeUserCancel) {
+            return [RACSignal empty];
+        }
+        return [RACSignal error:[NSError errorWithDomain:@"微信支付失败" code:resp.errCode userInfo:nil]];
+    }];
+    return sig;
 }
 
+- (void)startHandleWeChatPaymentOnce
+{
+    [[[[gAppDelegate rac_signalForSelector:@selector(application:handleOpenURL:)] filter:^BOOL(RACTuple *tuple) {
+        NSURL *url = [tuple second];
+        return [WXApi handleOpenURL:url delegate:self];
+    }] take:1] subscribeNext:^(id x) {
+        DebugLog(@"start Handle WeChatPayment!");
+    }];
+}
+
+#pragma mark - WXApiDelegate
+- (void)onResp:(BaseResp *)resp
+{
+}
 @end

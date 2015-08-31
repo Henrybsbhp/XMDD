@@ -18,6 +18,7 @@
 #import "WebVC.h"
 #import "ADViewController.h"
 #import "InsuranceChooseViewController.h"
+#import "PaymentHelper.h"
 
 @interface InsuranceVC ()
 @property (nonatomic, strong) ADViewController *advc;

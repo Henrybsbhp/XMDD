@@ -11,6 +11,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import "DistanceCalcHelper.h"
+#import "WXApi.h"
 
 @implementation PhoneHelper
 

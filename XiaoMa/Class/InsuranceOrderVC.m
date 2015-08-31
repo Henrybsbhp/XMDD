@@ -9,6 +9,8 @@
 #import "InsuranceOrderVC.h"
 #import "UIView+Layer.h"
 #import "BorderLineLabel.h"
+#import "GetInsuranceOrderDetailsOp.h"
+#import "InsuranceOrderPayOp.h"
 
 typedef enum : NSInteger
 {
@@ -70,11 +72,28 @@ typedef enum : NSInteger
                        @[@"不计免赔险",@"1000.00/座*1座"],
                        @[@"交强险",@"950.00"]];
     [self resetBottomButton];
+    //保险订单详情接口试调
+    GetInsuranceOrderDetailsOp * op = [GetInsuranceOrderDetailsOp operation];
+    op.req_orderid = [ NSString stringWithFormat:@"%@",self.order.orderid];
+    [[op rac_postRequest] subscribeNext:^(GetInsuranceOrderDetailsOp * op) {
+        
+        
+    }error:^(NSError *error) {
+        
+    }];
     [self.tableView reloadData];
 }
 #pragma mark - Action
 - (void)actionPay:(id)sender {
-    
+    //保险订单支付接口试调
+    InsuranceOrderPayOp * op = [InsuranceOrderPayOp operation];
+    op.req_paychannel = 2;
+    op.req_orderid = [self.order.orderid integerValue];
+    [[op rac_postRequest] subscribeNext:^(id x) {
+        
+    } error:^(NSError *error) {
+        
+    }];
 }
 
 - (void)actionMakeCall:(id)sender {
