@@ -17,6 +17,7 @@
 #import "EnquiryInsuranceVC.h"
 #import "WebVC.h"
 #import "ADViewController.h"
+#import "InsuranceChooseViewController.h"
 #import "PaymentHelper.h"
 
 @interface InsuranceVC ()
@@ -75,15 +76,9 @@
 }
 
 - (void)actionInsuranceDirectSelling {
-    PaymentHelper *helper = [[PaymentHelper alloc] init];
-    [helper resetForUPPayWithTradeNumber:@"201508271702181435538" targetVC:self];
-    [[helper rac_startPay] subscribeNext:^(id x) {
-        
-    } error:^(NSError *error) {
-        
-    } completed:^{
-        
-    }];
+
+    InsuranceChooseViewController * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceChooseViewController"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionAiCheBao {

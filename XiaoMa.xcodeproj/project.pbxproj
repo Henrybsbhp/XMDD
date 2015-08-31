@@ -315,6 +315,7 @@
 		6BCF62501B184AEF0064AE32 /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF624D1B184AEF0064AE32 /* NJKWebViewProgress.m */; };
 		6BCF62511B184AEF0064AE32 /* NJKWebViewProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF624F1B184AEF0064AE32 /* NJKWebViewProgressView.m */; };
 		6BD25E8B1B7C41C6008C0080 /* CollectionChooseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD25E8A1B7C41C6008C0080 /* CollectionChooseVC.m */; };
+		6BD293B71B9401D6006482A4 /* InsuranceChooseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD293B61B9401D6006482A4 /* InsuranceChooseViewController.m */; };
 		6BD7AE5B1AE8927C00BEF30E /* WeChatHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */; };
 		6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5D1AE8A64B00BEF30E /* ApiXml.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5F1AE8A64B00BEF30E /* payRequsestHandler.mm */; };
@@ -973,6 +974,8 @@
 		6BCF624F1B184AEF0064AE32 /* NJKWebViewProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NJKWebViewProgressView.m; sourceTree = "<group>"; };
 		6BD25E891B7C41C6008C0080 /* CollectionChooseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionChooseVC.h; sourceTree = "<group>"; };
 		6BD25E8A1B7C41C6008C0080 /* CollectionChooseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionChooseVC.m; sourceTree = "<group>"; };
+		6BD293B51B9401D6006482A4 /* InsuranceChooseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceChooseViewController.h; sourceTree = "<group>"; };
+		6BD293B61B9401D6006482A4 /* InsuranceChooseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceChooseViewController.m; sourceTree = "<group>"; };
 		6BD7AE591AE8927C00BEF30E /* WeChatHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeChatHelper.h; path = Class/WeChatHelper.h; sourceTree = "<group>"; };
 		6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeChatHelper.m; path = Class/WeChatHelper.m; sourceTree = "<group>"; };
 		6BD7AE5C1AE8A64B00BEF30E /* ApiXml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiXml.h; sourceTree = "<group>"; };
@@ -1900,6 +1903,8 @@
 				50A9EF1A1B6874880036897F /* InsuranceResultVC.m */,
 				507A0EB21B6F39D1004F6EC1 /* AnimationBoardView.h */,
 				507A0EB31B6F39D1004F6EC1 /* AnimationBoardView.m */,
+				6BD293B51B9401D6006482A4 /* InsuranceChooseViewController.h */,
+				6BD293B61B9401D6006482A4 /* InsuranceChooseViewController.m */,
 			);
 			name = Insurance;
 			sourceTree = "<group>";
@@ -3073,6 +3078,7 @@
 				189B30B31AD4F7AC001D7288 /* UIView+CustomForXIB.m in Sources */,
 				186985151B02E7DB000A182A /* UIScrollView+RefreshView.m in Sources */,
 				6BEA56C81AE24DCE000D19C1 /* SBJsonBase.m in Sources */,
+				6BD293B71B9401D6006482A4 /* InsuranceChooseViewController.m in Sources */,
 				18804AA21B25811E00E7E764 /* HKRefreshControl.m in Sources */,
 				6BCA5F431B102D5700E1E630 /* GetUserCouponPkgOp.m in Sources */,
 				6BBB82491AE7401400850D0C /* GetInsuranceByChannel.m in Sources */,
