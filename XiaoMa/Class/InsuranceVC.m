@@ -17,6 +17,7 @@
 #import "EnquiryInsuranceVC.h"
 #import "WebVC.h"
 #import "ADViewController.h"
+#import "InsuranceChooseViewController.h"
 
 @interface InsuranceVC ()
 @property (nonatomic, strong) ADViewController *advc;
@@ -75,6 +76,8 @@
 
 - (void)actionInsuranceDirectSelling {
 
+    InsuranceChooseViewController * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceChooseViewController"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionAiCheBao {
