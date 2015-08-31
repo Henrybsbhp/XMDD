@@ -28,6 +28,7 @@
     
     [self setupInsuranceArray];
     
+    [self setupUI];
     [self.tableView reloadData];
 }
 

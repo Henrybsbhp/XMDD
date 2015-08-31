@@ -10,6 +10,8 @@
 #import "JDFlipNumberView.h"
 #import "HKCoverage.h"
 #import "InsuranceCalcHelper.h"
+#import "UploadInsuranceInfoVC.h"
+
 
 #define CheckBoxInsuranceGroup @"CheckBoxInsuranceGroup"
 
@@ -38,6 +40,8 @@
     [self calcTotalPrice];
     [self animateToTargetValue:(NSInteger)(self.totalPrice * 100)];
     
+    [self setupUI];
+    
     [self.tableView reloadData];
 }
 
@@ -45,7 +49,8 @@
 {
     [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
        
-        
+        UploadInsuranceInfoVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"UploadInsuranceInfoVC"];
+        [self.navigationController pushViewController:vc animated:YES];
     }];
 }
 
