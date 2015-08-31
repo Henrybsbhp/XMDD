@@ -30,10 +30,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     [self setupCalcHelper];
     [self setupInsuranceArray];
     [self setupFlipNumberView];
+    [self calcTotalPrice];
+    [self animateToTargetValue:(NSInteger)(self.totalPrice * 100)];
     
     [self.tableView reloadData];
 }
@@ -57,7 +59,48 @@
     HKCoverage * coverage9 = [[HKCoverage alloc] initWithCategory:InsuranceSpontaneousLossRisk];
     HKCoverage * coverage10 = [[HKCoverage alloc] initWithCategory:InsuranceWaterLoss];
     self.insuranceArry = [NSMutableArray arrayWithArray:@[coverage1,coverage2,coverage3,coverage4,coverage5,coverage6,
-                           coverage7,coverage8,coverage9,coverage10]];
+                                                          coverage7,coverage8,coverage9,coverage10]];
+    
+    // 勾选
+    for (HKCoverage * c in self.insuranceArry){
+        
+        NSNumber * cid = c.insId;
+        NSNumber * filter = [self.selectInsurance firstObjectByFilteringOperator:^BOOL(NSNumber * num) {
+            
+            return [cid isEqualToNumber:num];
+        }];
+        
+        if ([filter integerValue]){
+            
+            c.customFlag = YES;
+            continue;
+        }
+        else{
+            
+            c.customFlag = NO;
+        }
+        
+        if (c.isContainExcludingDeductible.customObject &&
+            [c.isContainExcludingDeductible.customObject isKindOfClass:[HKCoverage class]]){
+            
+            HKCoverage * subCoverage = c.isContainExcludingDeductible.customObject;
+            
+            NSNumber * sid = subCoverage.insId;
+            NSNumber * sFilter = [self.selectInsurance firstObjectByFilteringOperator:^BOOL(NSNumber * num) {
+                
+                return [sid isEqualToNumber:num];
+            }];
+            
+            if ([sFilter integerValue]){
+                
+                subCoverage.customFlag = YES;
+            }
+            else{
+                
+                subCoverage.customFlag = NO;
+            }
+        }
+    }
 }
 
 - (void)setupFlipNumberView
@@ -82,6 +125,8 @@
 
 - (void)calcTotalPrice
 {
+    // customObject 为险种HKCoverage
+    // customFlag 为险种是否勾选
     CGFloat total = 0;
     CGFloat price = 0;
     CGFloat excludingDeductible = 0;
@@ -107,7 +152,7 @@
 - (void)showActionSheet:(HKCoverage * )c
 {
     UIActionSheet * as = [[UIActionSheet alloc] init];
-    as.title = c.coverageName;
+    as.title = c.insName;
     [as setCancelButtonIndex:c.params.count];
     for (NSDictionary * dict in c.params)
     {
@@ -208,7 +253,7 @@
             UILabel *insuranceNameLb = (UILabel *)[cell searchViewWithTag:102];
             UILabel *priceLb = (UILabel *)[cell searchViewWithTag:104];
             
-            insuranceNameLb.text = coverage.coverageName;
+            insuranceNameLb.text = coverage.insName;
             CGFloat price = [self.calcHelper calcInsurancePrice:coverage];
             priceLb.text = [NSString stringWithFormat:@"%.2f",price];
             
@@ -273,7 +318,7 @@
                 [self showActionSheet:coverage];
             }];
             
-            insuranceNameLb.text = coverage.coverageName;
+            insuranceNameLb.text = coverage.insName;
             CGFloat price = [self.calcHelper calcInsurancePrice:coverage];
             priceLb.text = [NSString stringWithFormat:@"%.2f",price];
             boxBtn.selected = coverage.customFlag;
@@ -321,7 +366,7 @@
             UILabel *insuranceNameLb = (UILabel *)[cell searchViewWithTag:102];
             UILabel *priceLb = (UILabel *)[cell searchViewWithTag:104];
             
-            insuranceNameLb.text = coverage.coverageName;
+            insuranceNameLb.text = coverage.insName;
             CGFloat price = [self.calcHelper calcInsurancePrice:coverage];
             priceLb.text = [NSString stringWithFormat:@"%.2f",price];
             
@@ -345,8 +390,8 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    JTTableViewCell *jtcell = (JTTableViewCell *)cell;
-//    [jtcell prepareCellForTableView:tableView atIndexPath:indexPath];
+    //    JTTableViewCell *jtcell = (JTTableViewCell *)cell;
+    //    [jtcell prepareCellForTableView:tableView atIndexPath:indexPath];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
