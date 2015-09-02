@@ -26,11 +26,16 @@
     order.policy = [HKInsurance insuranceWithJSONResponse:rsp[@"policy"]];
     order.validperiod = rsp[@"validperiod"];
     order.paychannel = [rsp integerParamForName:@"paychannel"];
-    order.insdeliveryno = rsp[@"insdeliveryno"];
-    order.insdeliverycomp = rsp[@"insdeliverycomp"];
+    
+    order.totoalpay = [rsp floatParamForName:@"totalpay"];
     order.status = [rsp integerParamForName:@"status"];
     order.lstupdatetime = [NSDate dateWithD14Text:rsp[@"lstupdatetime"]];
-    order.instype = [rsp integerParamForName:@"instype"];
+    order.isusedCoupon = [rsp boolParamForName:@"isusedcoupon"];
+    order.activityName = [rsp stringParamForName:@"activityname"];
+    order.couponType = [rsp integerParamForName:@"coupontype"];
+    order.couponName = [rsp stringParamForName:@"couponname"];
+    order.couponMoney = [rsp floatParamForName:@"couponmoney"];
+    
     return order;
 }
 
@@ -55,9 +60,9 @@
 
 - (NSString *)descForCurrentInstype
 {
-    if (self.instype == 2) {
-        return @"小马达达保险";
-    }
+//    if (self.instype == 2) {
+//        return @"小马达达保险";
+//    }
     return self.inscomp;
 }
 

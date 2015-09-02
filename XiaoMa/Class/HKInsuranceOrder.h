@@ -19,25 +19,24 @@
 @property (nonatomic, strong) HKInsurance *policy;
 @property (nonatomic, strong) NSString *validperiod;
 @property (nonatomic, assign) PaymentChannelType paychannel;
-@property (nonatomic, strong) NSString *comment;
-@property (nonatomic, strong) NSDate *ratetime;
-@property (nonatomic, assign) NSInteger instype;
-///保单快递单号
-@property (nonatomic, strong) NSString *insdeliveryno;
-///保单快递公司
-@property (nonatomic, strong) NSString *insdeliverycomp;
-///银行卡快递单号
-@property (nonatomic, strong) NSString *carddeliveryno;
-///银行卡快递公司
-@property (nonatomic, strong) NSString *carddeliverycomp;
 //总费用
-@property (nonatomic, assign) NSInteger totoalpay;
-//邮寄地址
-@property (nonatomic, assign) NSString *deliveryaddress;
+@property (nonatomic, assign) CGFloat totoalpay;
 //订单状态
 @property (nonatomic, assign) NSInteger status;
 //订单最后更新时间
-@property (nonatomic, assign) NSDate *lstupdatetime;
+@property (nonatomic, strong) NSDate *lstupdatetime;
+//是否使用活动优惠
+@property (nonatomic) BOOL isusedCoupon;
+//优惠名称
+@property (nonatomic, strong) NSString * activityName;
+//优惠类型
+@property (nonatomic, assign) NSInteger couponType;
+//优惠名称
+@property (nonatomic, strong) NSString *couponName;
+//优惠金额
+@property (nonatomic, assign) CGFloat couponMoney;
+
+
 
 + (instancetype)orderWithJSONResponse:(NSDictionary *)rsp;
 - (NSString *)paymentForCurrentChannel;
