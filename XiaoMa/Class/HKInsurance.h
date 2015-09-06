@@ -22,8 +22,6 @@
 @end
 
 
-
-
 @interface HKInsurance : NSObject
 
 @property (nonatomic,copy)NSString * insuranceName;

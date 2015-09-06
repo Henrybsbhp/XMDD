@@ -8,6 +8,7 @@
 
 #import "CouponModel.h"
 #import "GetUserResourcesV2Op.h"
+#import "GetInscouponOp.h"
 
 @implementation CouponModel
 
@@ -70,6 +71,21 @@
             return obj1.couponAmount > obj2.couponAmount;
         }];
         self.validCashCouponArray = cashfilterArray;
+        
+        return [RACSignal return:rOp];
+    }];
+    
+    return signal;
+}
+
+- (RACSignal *)rac_getVaildInsuranceCoupon
+{
+    RACSignal * signal;
+    
+    GetInscouponOp * op = [GetInscouponOp operation];
+    signal = [[op rac_postRequest] flattenMap:^RACStream *(GetInscouponOp * rOp) {
+        
+        self.validInsuranceCouponArray = rOp.rsp_inscouponsArray;
         
         return [RACSignal return:rOp];
     }];
