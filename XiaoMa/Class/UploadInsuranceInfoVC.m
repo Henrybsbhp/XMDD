@@ -25,10 +25,18 @@
 
 @implementation UploadInsuranceInfoVC
 
+- (void)awakeFromNib
+{
+    _allowSkip = YES;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.idCardField.delegate = self;
+    if (!self.allowSkip) {
+        self.navigationItem.rightBarButtonItem  =nil;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -62,8 +70,8 @@
 #pragma mark - Action
 - (IBAction)actionSkip:(id)sender
 {
-    if (self.getNextVCBlock) {
-        UIViewController *nextVC = self.getNextVCBlock(YES);
+    if (self.finishBlock) {
+        UIViewController *nextVC = self.finishBlock(YES, self);
         if (nextVC) {
             [self.navigationController pushViewController:nextVC animated:YES];
         }
@@ -206,8 +214,8 @@
         
         @strongify(self);
         [gToast dismiss];
-        if (self.getNextVCBlock) {
-            UIViewController *nextVC = self.getNextVCBlock(NO);
+        if (self.finishBlock) {
+            UIViewController *nextVC = self.finishBlock(NO, self);
             if (nextVC) {
                 [self.navigationController pushViewController:nextVC animated:YES];
             }
