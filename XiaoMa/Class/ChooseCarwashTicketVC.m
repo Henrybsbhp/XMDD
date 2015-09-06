@@ -13,6 +13,7 @@
 #import "PayForWashCarVC.h"
 #import "UIBarButtonItem+CustomStyle.h"
 #import "WebVC.h"
+#import "PayForInsuranceVC.h"
 
 @interface ChooseCarwashTicketVC ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -129,6 +130,10 @@
             {
                 [payVc setSelectCashCoupouArray:self.selectedCouponArray];
             }
+            else if (self.type == CouponTypeInsurance)
+            {
+                [payVc setSelectCashCoupouArray:self.selectedCouponArray];
+            }
             [payVc setCouponType:self.type];
         }
         else
@@ -140,7 +145,30 @@
         }
         [payVc tableViewReloadData];
     }
-    //    [self.navigationController popViewControllerAnimated:YES];
+    else if (vc && [vc isKindOfClass:[PayForInsuranceVC class]])
+    {
+        PayForInsuranceVC * payVc = (PayForInsuranceVC *)vc;
+        
+        if (self.selectedCouponArray.count)
+        {
+            HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];
+            self.type = c.conponType;
+            if (self.type == CouponTypeInsurance)
+            {
+                [payVc setSelectInsuranceCoupouArray:self.selectedCouponArray];
+            }
+            [payVc setCouponType:self.type];
+            [payVc setIsSelectActivity:NO];
+        }
+        else
+        {
+            if (payVc.couponType  == self.type)
+            {
+                [payVc setCouponType:0];
+            }
+        }
+        [payVc tableViewReloadData];
+    }
 }
 
 #pragma mark - Table view data source
@@ -252,6 +280,22 @@
         [self.tableView reloadData];
     }
     else if (self.type == CouponTypeCZBankCarWash)
+    {
+        self.type = coupon.conponType;
+        HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];
+        if ([c.couponId isEqualToNumber:coupon.couponId])
+        {
+            [self.selectedCouponArray removeAllObjects];
+        }
+        else
+        {
+            [MobClick event:@"rp109-1"];
+            [self.selectedCouponArray removeAllObjects];
+            [self.selectedCouponArray addObject:coupon];
+        }
+        [self.tableView reloadData];
+    }
+    else if (self.type == CouponTypeInsurance)
     {
         self.type = coupon.conponType;
         HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];

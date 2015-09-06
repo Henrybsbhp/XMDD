@@ -41,9 +41,6 @@
 @property (nonatomic,strong) CKSegmentHelper *checkBoxHelper;
 @property (nonatomic)BOOL isLoadingResourse;
 
-///支付平台，（section == 2）
-@property (nonatomic)PaymentPlatform platform;
-
 @end
 
 @implementation PayForWashCarVC
