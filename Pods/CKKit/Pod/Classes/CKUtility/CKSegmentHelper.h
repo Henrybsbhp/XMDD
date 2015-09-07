@@ -26,6 +26,5 @@ withChangedBlock:(void(^)(id item, BOOL selected))block;
 - (void)removeAllItemsForGroupName:(NSString *)name;
 - (void)removeItem:(id)item forGroupName:(NSString *)name;
 - (void)setComplete:(void(^)(id item))complete forGroupName:(NSString *)name;
-- (BOOL)sortAllItemsForGroupName:(NSString *)name;;
 
 @end

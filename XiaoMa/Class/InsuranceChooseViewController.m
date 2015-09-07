@@ -82,12 +82,12 @@
         NSInteger index = [number integerValue];
         for (NSDictionary * dict in c.params)
         {
-            dict.customFlag = NO;
+            dict.customTag = NO;
         }
         
         
         NSObject * obj = [c.params safetyObjectAtIndex:index];
-        obj.customFlag = YES;
+        obj.customTag = YES;
         
         NSInteger i;
         NSIndexPath *indexPath1;
@@ -104,7 +104,7 @@
         }
         
         NSArray * refreshArray ;
-        if (c.customFlag && c.isContainExcludingDeductible)
+        if (c.customTag && c.isContainExcludingDeductible)
         {
             NSIndexPath *indexPath2 = [NSIndexPath indexPathForRow:i + 1 inSection:0];
             refreshArray = @[indexPath1,indexPath2];
@@ -198,7 +198,7 @@
         
         insuranceNameLb.text = coverage.insName;
         
-        boxBtn.selected = coverage.customFlag;
+        boxBtn.selected = coverage.customTag;
         @weakify(boxBtn);
         [[[boxBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
@@ -209,11 +209,11 @@
              */
             BOOL flag = boxBtn.selected;
             [boxBtn setSelected:!flag];
-            coverage.customFlag = !flag;
+            coverage.customTag = !flag;
             
             if ([coverage.isContainExcludingDeductible integerValue])
             {
-                if (coverage.customFlag == YES)
+                if (coverage.customTag == YES)
                 {
                     NSInteger index = [self.insuranceArry indexOfObject:coverage];
                     [self.insuranceArry safetyInsertObject:coverage.customObject atIndex:index + 1];
@@ -256,10 +256,10 @@
         }];
         
         insuranceNameLb.text = coverage.insName;
-        boxBtn.selected = coverage.customFlag;
+        boxBtn.selected = coverage.customTag;
         for (NSDictionary * obj in coverage.params)
         {
-            if (obj.customFlag)
+            if (obj.customTag)
                 paramLb.text = [obj objectForKey:@"key"];
         }
         
@@ -269,11 +269,11 @@
             @strongify(boxBtn);
             BOOL flag = boxBtn.selected;
             [boxBtn setSelected:!flag];
-            coverage.customFlag = !flag;
+            coverage.customTag = !flag;
             
             if ([coverage.isContainExcludingDeductible integerValue])
             {
-                if (coverage.customFlag == YES)
+                if (coverage.customTag == YES)
                 {
                     NSInteger index = [self.insuranceArry indexOfObject:coverage];
                     [self.insuranceArry safetyInsertObject:coverage.customObject atIndex:index + 1];
@@ -299,14 +299,14 @@
         
         insuranceNameLb.text = coverage.insName;
         
-        boxBtn.selected = coverage.customFlag;
+        boxBtn.selected = coverage.customTag;
         @weakify(boxBtn);
         [[[boxBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
             @strongify(boxBtn);
             BOOL flag = boxBtn.selected;
             [boxBtn setSelected:!flag];
-            coverage.customFlag = !flag;
+            coverage.customTag = !flag;
         }];
     }
     

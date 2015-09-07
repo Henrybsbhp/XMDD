@@ -16,7 +16,6 @@
 @dynamic customActionBlock;
 @dynamic customWeakObject;
 @dynamic customTag;
-@dynamic customFlag;
 @dynamic customIdenfitier;
 
 static char sCustomObjectKey;
@@ -25,15 +24,9 @@ static char sCustomArrayKey;
 static char sCustomActionBlockKey;
 static char sCustomWeakObjectKey;
 static char sCustomTagKey;
-static char sCustomFlagKey;
 static char sCustomIdenfitierKey;
 
 #pragma mark - Setter
-- (void)setCustomFlag:(BOOL)customFlag
-{
-    objc_setAssociatedObject(self, &sCustomFlagKey, @(customFlag), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
 - (void)setCustomTag:(NSInteger)customTag
 {
     objc_setAssociatedObject(self, &sCustomTagKey, @(customTag), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -80,12 +73,6 @@ static char sCustomIdenfitierKey;
 }
 
 #pragma mark - Getter
-- (BOOL)customFlag
-{
-    NSNumber *numTag = objc_getAssociatedObject(self, &sCustomFlagKey);
-    return [numTag integerValue];
-}
-
 - (NSInteger)customTag
 {
     NSNumber *numTag = objc_getAssociatedObject(self, &sCustomTagKey);
