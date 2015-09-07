@@ -10,7 +10,7 @@
 #import "UIBarButtonItem+CustomStyle.h"
 
 @interface JTNavigationController : UINavigationController
-
+@property (nonatomic, assign) BOOL shouldAllowInteractivePopGestureRecognizer;
 @end
 
 @interface UIViewController (NavigationController)

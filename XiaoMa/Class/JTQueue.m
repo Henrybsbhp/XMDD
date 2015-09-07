@@ -49,6 +49,12 @@
     return [self.mQueue indexOfObject:tuple];
 }
 
+- (id)objectAtIndex:(NSInteger)index
+{
+    RACTuple *tuple = [self.mQueue safetyObjectAtIndex:index];
+    return tuple ? tuple.first : nil;
+}
+
 - (id)objectForKey:(id<NSCopying>)key
 {
     RACTuple *tuple = [self.mObjectMap objectForKey:key];

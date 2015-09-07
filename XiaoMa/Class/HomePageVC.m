@@ -445,7 +445,6 @@
 
 - (IBAction)actionChooseCity:(id)sender
 {
-    
 }
 
 - (void)actionWashCar:(id)sender

@@ -45,7 +45,9 @@
 {
     return [[[GetUserCarOp operation] rac_postRequest] map:^id(GetUserCarOp *op) {
         JTQueue *queue = [[JTQueue alloc] init];
-        for (HKMyCar *car in op.rsp_carArray) {
+        for (NSInteger index = 0; index < op.rsp_carArray.count; index++) {
+            HKMyCar *car = op.rsp_carArray[index];
+            car.tintColorType = [self carTintColorTypeAtIndex:index];
             [queue addObject:car forKey:car.carId];
         }
         return queue;
@@ -59,6 +61,7 @@
     
     return [[op rac_postRequest] doNext:^(AddCarOp * addOp) {
         car.carId = addOp.rsp_carId;
+        car.tintColorType = [self carTintColorTypeAtIndex:[self carCache].count];
         [[self carCache] addObject:car forKey:car.carId];
         [self setDefaultCarIfNeeded:car];
         [self updateCache:[self carCache] refreshTime:NO];
@@ -140,4 +143,14 @@
     return [licenseNumber uppercaseString];
 }
 
+- (HKCarTintColorType)carTintColorTypeAtIndex:(NSInteger)index
+{
+    HKCarTintColorType color = index % 5 + 1;
+    HKMyCar *prevCar = [self.cache objectAtIndex:index-1];
+    HKMyCar *nextCar = [self.cache objectAtIndex:index+1];
+    if (color == prevCar.tintColorType || color == nextCar.tintColorType) {
+        color = nextCar.tintColorType % 5 + 1;
+    }
+    return color;
+}
 @end

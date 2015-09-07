@@ -94,6 +94,7 @@
     car.editMask = _editMask;
     car.licenceArea = _licenceArea;
     car.licenceSuffix = _licenceSuffix;
+    car.tintColorType = _tintColorType;
     return car;
 }
 
@@ -159,6 +160,37 @@
         desc = self.model;
     }
     return desc;
+}
+
+- (UIColor *)tintColor
+{
+    return [HKMyCar tintColorForColorType:self.tintColorType];
+}
+
++ (UIColor *)tintColorForColorType:(HKCarTintColorType)colorType
+{
+    UIColor *color;
+    switch (colorType) {
+        case HKCarTintColorTypeCyan:
+            color = HEXCOLOR(@"#67d2c6");
+            break;
+        case HKCarTintColorTypeBlue:
+            color = HEXCOLOR(@"#3d98ff");
+            break;
+        case HKCarTintColorTypeGreen:
+            color = HEXCOLOR(@"#5ebe00");
+            break;
+        case HKCarTintColorTypeRed:
+            color = HEXCOLOR(@"#ff697a");
+            break;
+        case HKCarTintColorTypeYellow:
+            color = HEXCOLOR(@"#eab750");
+            break;
+        default:
+            color = nil;
+            break;
+    }
+    return color;
 }
 
 #pragma mark - Private
