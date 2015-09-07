@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--我的爱车-->
+        <scene sceneID="YBB-hI-1Ip">
+            <objects>
+                <viewController storyboardIdentifier="CarListVC" hidesBottomBarWhenPushed="YES" id="Kga-6a-mRu" customClass="CarListVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="FxP-a9-O3B"/>
+                        <viewControllerLayoutGuide type="bottom" id="vPt-aD-Nnl"/>
+                    </layoutGuides>
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="e57-az-gLj">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GuI-jf-ZZh" customClass="JT3DScrollView">
+                                <rect key="frame" x="28" y="40" width="544" height="376"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="360" id="0Da-Ki-TC5"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="0Da-Ki-TC5"/>
+                                    </mask>
+                                </variation>
+                            </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2x0-tf-Byt">
+                                <rect key="frame" x="0.0" y="461" width="600" height="75"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="您已选择的爱车：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kAw-sk-1Nk">
+                                        <rect key="frame" x="30" y="8" width="540" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MI5-Vr-LCx">
+                                        <rect key="frame" x="30" y="33" width="508" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xJb-yl-LL3">
+                                        <rect key="frame" x="548" y="34.5" width="22" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="22" id="4i3-cW-F2e"/>
+                                            <constraint firstAttribute="width" constant="22" id="dYb-MY-FDO"/>
+                                        </constraints>
+                                        <state key="normal" image="mec_check1">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="kAw-sk-1Nk" firstAttribute="leading" secondItem="2x0-tf-Byt" secondAttribute="leading" constant="30" id="1lO-rU-JYJ"/>
+                                    <constraint firstItem="xJb-yl-LL3" firstAttribute="leading" secondItem="MI5-Vr-LCx" secondAttribute="trailing" constant="10" id="CcS-Rk-imk"/>
+                                    <constraint firstItem="kAw-sk-1Nk" firstAttribute="top" secondItem="2x0-tf-Byt" secondAttribute="top" constant="8" id="IFi-gq-Pcq"/>
+                                    <constraint firstAttribute="height" constant="75" id="Riy-od-ZXb"/>
+                                    <constraint firstItem="MI5-Vr-LCx" firstAttribute="centerY" secondItem="xJb-yl-LL3" secondAttribute="centerY" constant="-0.25" id="Tah-Dc-fP2"/>
+                                    <constraint firstItem="MI5-Vr-LCx" firstAttribute="top" secondItem="kAw-sk-1Nk" secondAttribute="bottom" constant="8" id="gY9-XV-rAJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="kAw-sk-1Nk" secondAttribute="trailing" constant="30" id="kaV-c1-XyQ"/>
+                                    <constraint firstItem="kAw-sk-1Nk" firstAttribute="leading" secondItem="MI5-Vr-LCx" secondAttribute="leading" id="wEa-xR-rd4"/>
+                                    <constraint firstAttribute="trailing" secondItem="xJb-yl-LL3" secondAttribute="trailing" constant="30" id="zfi-id-Oct"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.92156862745098034" green="0.92156862745098034" blue="0.92156862745098034" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="2x0-tf-Byt" secondAttribute="bottom" id="2ca-we-yQj"/>
+                            <constraint firstItem="GuI-jf-ZZh" firstAttribute="top" secondItem="FxP-a9-O3B" secondAttribute="bottom" constant="40" id="5jf-nB-gh3"/>
+                            <constraint firstAttribute="trailing" secondItem="2x0-tf-Byt" secondAttribute="trailing" id="BPG-63-22c"/>
+                            <constraint firstItem="vPt-aD-Nnl" firstAttribute="top" secondItem="GuI-jf-ZZh" secondAttribute="bottom" constant="120" id="HLG-hi-F4Y"/>
+                            <constraint firstAttribute="trailing" secondItem="GuI-jf-ZZh" secondAttribute="trailing" constant="40" id="SVI-yc-zNY"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="GuI-jf-ZZh" secondAttribute="trailing" constant="12" id="Xo6-k3-hDa"/>
+                            <constraint firstItem="GuI-jf-ZZh" firstAttribute="top" secondItem="e57-az-gLj" secondAttribute="top" constant="40" id="gcS-dn-8Ep"/>
+                            <constraint firstItem="2x0-tf-Byt" firstAttribute="leading" secondItem="e57-az-gLj" secondAttribute="leading" id="nGg-Sy-cMH"/>
+                            <constraint firstItem="GuI-jf-ZZh" firstAttribute="leading" secondItem="e57-az-gLj" secondAttribute="leading" constant="40" id="nqT-UH-8Xz"/>
+                            <constraint firstItem="GuI-jf-ZZh" firstAttribute="leading" secondItem="e57-az-gLj" secondAttribute="leadingMargin" constant="12" id="qRp-GR-TMP"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="SVI-yc-zNY"/>
+                                <exclude reference="gcS-dn-8Ep"/>
+                                <exclude reference="nqT-UH-8Xz"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <navigationItem key="navigationItem" title="我的爱车" id="v4b-R6-Zh2">
+                        <barButtonItem key="rightBarButtonItem" title="添加" id="TeI-fO-WEY">
+                            <connections>
+                                <action selector="actionAddCar:" destination="Kga-6a-mRu" id="r1L-ND-2Th"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="bottomCheckView" destination="xJb-yl-LL3" id="geB-Q5-q9h"/>
+                        <outlet property="bottomLicenseNoLabel" destination="MI5-Vr-LCx" id="hif-U0-juW"/>
+                        <outlet property="bottomTitlelabel" destination="kAw-sk-1Nk" id="muC-EL-ZYS"/>
+                        <outlet property="bottomView" destination="2x0-tf-Byt" id="hMN-VW-mjD"/>
+                        <outlet property="scrollView" destination="GuI-jf-ZZh" id="hND-uz-Aup"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PK0-7B-H4j" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="355" y="338"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="mec_check1" width="22" height="22"/>
+    </resources>
+</document>

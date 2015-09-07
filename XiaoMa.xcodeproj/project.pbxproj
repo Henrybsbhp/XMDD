@@ -11,6 +11,7 @@
 		18039AF51B0C5BCE00264059 /* GetAutomobileModelOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18039AF41B0C5BCE00264059 /* GetAutomobileModelOp.m */; };
 		18088D8B1B1DC921007438FC /* UsedCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18088D8A1B1DC921007438FC /* UsedCouponVModel.m */; };
 		18088D8E1B1DC938007438FC /* UnusedCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18088D8D1B1DC938007438FC /* UnusedCouponVModel.m */; };
+		1814F6581B96D56E001F2D76 /* CarListSubView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1814F6571B96D56E001F2D76 /* CarListSubView.m */; };
 		1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4951ACD3B0900BBCC96 /* NSBundle+SYPaginator.m */; };
 		1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4971ACD3B0900BBCC96 /* SYPageControl.m */; };
 		1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4991ACD3B0900BBCC96 /* SYPageView.m */; };
@@ -175,6 +176,9 @@
 		18E28A171B93E5AF0070E759 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E28A161B93E5AF0070E759 /* Security.framework */; };
 		18E28A1C1B93F1FF0070E759 /* UPPayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E28A1B1B93F1FF0070E759 /* UPPayHelper.m */; };
 		18E28A201B942D700070E759 /* UploadInsuranceInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E28A1F1B942D700070E759 /* UploadInsuranceInfoVC.m */; };
+		18E28A261B954F4E0070E759 /* Car.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18E28A251B954F4E0070E759 /* Car.storyboard */; };
+		18E28A281B9551950070E759 /* Insurance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18E28A271B9551950070E759 /* Insurance.storyboard */; };
+		18E28A2B1B9578240070E759 /* CarListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E28A2A1B9578240070E759 /* CarListVC.m */; };
 		18E7565A1B69D696001B0869 /* InsuranceOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E756591B69D696001B0869 /* InsuranceOrderVC.m */; };
 		18E756A41B73335C00874601 /* MyBankVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E756A31B73335C00874601 /* MyBankVC.m */; };
 		18F41DA91B784CD8000409E1 /* GetBankcardListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F41DA81B784CD8000409E1 /* GetBankcardListOp.m */; };
@@ -309,7 +313,6 @@
 		6BD293CB1B943EF1006482A4 /* Carwash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293BE1B943EF1006482A4 /* Carwash.storyboard */; };
 		6BD293CC1B943EF1006482A4 /* Commission.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293BF1B943EF1006482A4 /* Commission.storyboard */; };
 		6BD293CD1B943EF1006482A4 /* Common.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293C01B943EF1006482A4 /* Common.storyboard */; };
-		6BD293CE1B943EF1006482A4 /* Insurance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293C11B943EF1006482A4 /* Insurance.storyboard */; };
 		6BD293CF1B943EF1006482A4 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293C21B943EF1006482A4 /* Login.storyboard */; };
 		6BD293D01B943EF1006482A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293C31B943EF1006482A4 /* Main.storyboard */; };
 		6BD293D11B943EF1006482A4 /* Message.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293C41B943EF1006482A4 /* Message.storyboard */; };
@@ -386,6 +389,8 @@
 		18088D8A1B1DC921007438FC /* UsedCouponVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsedCouponVModel.m; sourceTree = "<group>"; };
 		18088D8C1B1DC938007438FC /* UnusedCouponVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnusedCouponVModel.h; sourceTree = "<group>"; };
 		18088D8D1B1DC938007438FC /* UnusedCouponVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnusedCouponVModel.m; sourceTree = "<group>"; };
+		1814F6561B96D56E001F2D76 /* CarListSubView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarListSubView.h; sourceTree = "<group>"; };
+		1814F6571B96D56E001F2D76 /* CarListSubView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarListSubView.m; sourceTree = "<group>"; };
 		1816F4941ACD3B0900BBCC96 /* NSBundle+SYPaginator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+SYPaginator.h"; sourceTree = "<group>"; };
 		1816F4951ACD3B0900BBCC96 /* NSBundle+SYPaginator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+SYPaginator.m"; sourceTree = "<group>"; };
 		1816F4961ACD3B0900BBCC96 /* SYPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPageControl.h; sourceTree = "<group>"; };
@@ -715,6 +720,10 @@
 		18E28A1B1B93F1FF0070E759 /* UPPayHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UPPayHelper.m; path = Class/UPPayHelper.m; sourceTree = "<group>"; };
 		18E28A1E1B942D700070E759 /* UploadInsuranceInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadInsuranceInfoVC.h; sourceTree = "<group>"; };
 		18E28A1F1B942D700070E759 /* UploadInsuranceInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadInsuranceInfoVC.m; sourceTree = "<group>"; };
+		18E28A251B954F4E0070E759 /* Car.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Car.storyboard; sourceTree = "<group>"; };
+		18E28A271B9551950070E759 /* Insurance.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Insurance.storyboard; sourceTree = "<group>"; };
+		18E28A291B9578240070E759 /* CarListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarListVC.h; sourceTree = "<group>"; };
+		18E28A2A1B9578240070E759 /* CarListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarListVC.m; sourceTree = "<group>"; };
 		18E756581B69D696001B0869 /* InsuranceOrderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceOrderVC.h; sourceTree = "<group>"; };
 		18E756591B69D696001B0869 /* InsuranceOrderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceOrderVC.m; sourceTree = "<group>"; };
 		18E756A21B73335C00874601 /* MyBankVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBankVC.h; sourceTree = "<group>"; };
@@ -969,14 +978,12 @@
 		6BD293BE1B943EF1006482A4 /* Carwash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Carwash.storyboard; sourceTree = "<group>"; };
 		6BD293BF1B943EF1006482A4 /* Commission.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Commission.storyboard; sourceTree = "<group>"; };
 		6BD293C01B943EF1006482A4 /* Common.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Common.storyboard; sourceTree = "<group>"; };
-		6BD293C11B943EF1006482A4 /* Insurance.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Insurance.storyboard; sourceTree = "<group>"; };
 		6BD293C21B943EF1006482A4 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		6BD293C31B943EF1006482A4 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		6BD293C41B943EF1006482A4 /* Message.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Message.storyboard; sourceTree = "<group>"; };
 		6BD293C51B943EF1006482A4 /* Mine.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Mine.storyboard; sourceTree = "<group>"; };
 		6BD293C61B943EF1006482A4 /* Other.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Other.storyboard; sourceTree = "<group>"; };
 		6BD293C71B943EF1006482A4 /* Rescue.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Rescue.storyboard; sourceTree = "<group>"; };
-		6BD293D51B943F1B006482A4 /* Insurance.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Insurance.storyboard; path = XiaoMa/Resource/Storyboard/Insurance.storyboard; sourceTree = "<group>"; };
 		6BD7AE591AE8927C00BEF30E /* WeChatHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeChatHelper.h; path = Class/WeChatHelper.h; sourceTree = "<group>"; };
 		6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeChatHelper.m; path = Class/WeChatHelper.m; sourceTree = "<group>"; };
 		6BD7AE5C1AE8A64B00BEF30E /* ApiXml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiXml.h; sourceTree = "<group>"; };
@@ -1557,6 +1564,10 @@
 				1851F4171B0C1E5400241A01 /* PickerAutomobileBrandVC.m */,
 				1851F4301B0C596600241A01 /* PickerAutoSeriesVC.h */,
 				1851F4311B0C596600241A01 /* PickerAutoSeriesVC.m */,
+				18E28A291B9578240070E759 /* CarListVC.h */,
+				18E28A2A1B9578240070E759 /* CarListVC.m */,
+				1814F6561B96D56E001F2D76 /* CarListSubView.h */,
+				1814F6571B96D56E001F2D76 /* CarListSubView.m */,
 			);
 			name = MyCar;
 			sourceTree = "<group>";
@@ -1573,7 +1584,6 @@
 		1883D8D61ACB99AC002A4D19 = {
 			isa = PBXGroup;
 			children = (
-				6BD293D51B943F1B006482A4 /* Insurance.storyboard */,
 				1883D8E11ACB99AC002A4D19 /* XiaoMa */,
 				1883D8FB1ACB99AC002A4D19 /* XiaoMaTests */,
 				1883D8E01ACB99AC002A4D19 /* Products */,
@@ -2518,13 +2528,14 @@
 		6BD293BA1B943EF1006482A4 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
+				18E28A271B9551950070E759 /* Insurance.storyboard */,
+				18E28A251B954F4E0070E759 /* Car.storyboard */,
 				6BD293BB1B943EF1006482A4 /* About.storyboard */,
 				6BD293BC1B943EF1006482A4 /* Award.storyboard */,
 				6BD293BD1B943EF1006482A4 /* Bank.storyboard */,
 				6BD293BE1B943EF1006482A4 /* Carwash.storyboard */,
 				6BD293BF1B943EF1006482A4 /* Commission.storyboard */,
 				6BD293C01B943EF1006482A4 /* Common.storyboard */,
-				6BD293C11B943EF1006482A4 /* Insurance.storyboard */,
 				6BD293C21B943EF1006482A4 /* Login.storyboard */,
 				6BD293C31B943EF1006482A4 /* Main.storyboard */,
 				6BD293C41B943EF1006482A4 /* Message.storyboard */,
@@ -2837,7 +2848,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BD293CE1B943EF1006482A4 /* Insurance.storyboard in Resources */,
 				6BB61B9A1AEF5350004F39AA /* MapBottomView.xib in Resources */,
 				6BEA56C01AE24DCE000D19C1 /* AlipaySDK.bundle in Resources */,
 				6BBB825D1AE79FE100850D0C /* read_me.txt in Resources */,
@@ -2845,6 +2855,7 @@
 				6BD293D31B943EF1006482A4 /* Other.storyboard in Resources */,
 				6BBFBC421B0D8E57000D3CA3 /* WeiboSDK.bundle in Resources */,
 				6BD293D41B943EF1006482A4 /* Rescue.storyboard in Resources */,
+				18E28A281B9551950070E759 /* Insurance.storyboard in Resources */,
 				18F8136B1B5F3561005F49B0 /* vertical_shadow@2x.png in Resources */,
 				6BD293D01B943EF1006482A4 /* Main.storyboard in Resources */,
 				6BDD6E251B67615C0060CFD0 /* JDFlipNumberView.bundle in Resources */,
@@ -2866,6 +2877,7 @@
 				1883D9141ACBBE5E002A4D19 /* Images.xcassets in Resources */,
 				18D62B3F1B60EBF800E3FDB2 /* 90_0.gpx in Resources */,
 				6BBC4A2C1B0C8495003F3081 /* SocialShareView.xib in Resources */,
+				18E28A261B954F4E0070E759 /* Car.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2984,6 +2996,7 @@
 				181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */,
 				6BB884BB1AE0BB9600EBD8F4 /* JTTableView.m in Sources */,
 				18E28A0B1B904FF00070E759 /* LaunchVC.m in Sources */,
+				18E28A2B1B9578240070E759 /* CarListVC.m in Sources */,
 				6BDD6E281B67615C0060CFD0 /* UIView+JDFlipImageView.m in Sources */,
 				6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */,
 				507A4DDF1B74462200E0BF1E /* UnbundlingVC.m in Sources */,
@@ -3002,6 +3015,7 @@
 				189371361B0F592F0030FDE1 /* JTQueue.m in Sources */,
 				189C69821B734EDD00E56E4A /* ADViewController.m in Sources */,
 				6BBB084B1B021EA90002C349 /* ComOpenThreadOTScreenshotHelperSwizzleHelper.m in Sources */,
+				1814F6581B96D56E001F2D76 /* CarListSubView.m in Sources */,
 				6BEA56C61AE24DCE000D19C1 /* NSString+SBJSON.m in Sources */,
 				189B30D41AD799AF001D7288 /* RACSignal+Extension.m in Sources */,
 				6BCF62511B184AEF0064AE32 /* NJKWebViewProgressView.m in Sources */,

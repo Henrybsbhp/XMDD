@@ -20,6 +20,7 @@
 #import "CheckoutServiceOrderV2Op.h"
 #import "NSDate+DateForText.h"
 #import "UIView+Layer.h"
+#import "CarListVC.h"
 #import "MyCarsModel.h"
 #import "HKBankCard.h"
 #import "PaymentHelper.h"
@@ -147,7 +148,7 @@
             height = 76;
         }
         else if (indexPath.row == 3){
-            height = 30;
+            height = 36;
         }
         else
         {
@@ -198,6 +199,9 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             cell = [self shopTitleCellAtIndexPath:indexPath];
+        }
+        else if (indexPath.row == 3) {
+            cell = [self carCellAtIndexPath:indexPath];
         }
         else {
             cell = [self shopItemCellAtIndexPath:indexPath];
@@ -257,6 +261,14 @@
         if (indexPath.row == 3) {
             
             [MobClick event:@"rp108-10"];//车牌
+            CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+            vc.model.allowAutoChangeSelectedCar = YES;
+            vc.model.disableEditingCar = YES;
+            vc.model.selectedCar = self.defaultCar;
+            [vc.model setFinishBlock:^(HKMyCar *curSelectedCar) {
+                self.defaultCar = curSelectedCar;
+            }];
+            [self.navigationController pushViewController:vc animated:YES];
         }
     }
     else if (indexPath.section == 1) {
@@ -337,16 +349,25 @@
         infoL.textColor = HEXCOLOR(@"#fb4209");
         infoL.text = [NSString stringWithFormat:@"￥%.2f",self.service.origprice];
     }
-    else if (indexPath.row == 3) {
-        [[RACObserve(self, defaultCar) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(HKMyCar *car) {
-            titleL.text = [NSString stringWithFormat:@"我的车辆"];
-            infoL.textColor = HEXCOLOR(@"#505050");
-            infoL.text = car.licencenumber ? car.licencenumber : @"";
-        }];
-    }
     
     return cell;
 }
+
+- (UITableViewCell *)carCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CarCell"];
+    UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
+    UILabel *infoL = (UILabel *)[cell.contentView viewWithTag:1002];
+    
+    [[RACObserve(self, defaultCar) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(HKMyCar *car) {
+        titleL.text = [NSString stringWithFormat:@"我的车辆"];
+        infoL.textColor = HEXCOLOR(@"#505050");
+        infoL.text = car.licencenumber ? car.licencenumber : @"";
+    }];
+    
+    return cell;
+}
+
 
 - (UITableViewCell *)paymentTypeCellAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -1093,9 +1114,9 @@
             HKCoupon * coupon = [self.selectCashCoupouArray safetyObjectAtIndex:i];
             amount = amount - coupon.couponAmount;
         }
-    }
-    else
+    }    else
     {
+
         amount = self.service.origprice;
     }
     

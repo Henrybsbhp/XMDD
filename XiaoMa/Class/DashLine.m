@@ -10,9 +10,9 @@
 
 @implementation DashLine
 
-- (instancetype)init
+- (id)initWithFrame:(CGRect)frame
 {
-    self = [super init];
+    self = [super initWithFrame:frame];
     if (self) {
         [self commonInit];
     }
@@ -31,6 +31,7 @@
 
 - (void)commonInit
 {
+    self.backgroundColor = [UIColor clearColor];
     self.lineColor = HEXCOLOR(@"#cdd3da");
     CGFloat* lengths = malloc(sizeof(CGFloat)*2);
     lengths[0] = 8;
@@ -44,8 +45,7 @@
     CGContextBeginPath(ctx);
     CGContextSetStrokeColorWithColor(ctx, self.lineColor.CGColor);
     CGContextSetLineWidth(ctx, 1.0);
-    CGFloat lens[] = {8, 2};
-    CGContextSetLineDash(ctx, 0, lens, 2);
+    CGContextSetLineDash(ctx, 0, self.dashLengths, 2);
     CGContextMoveToPoint(ctx, 0, 0);
     CGContextAddLineToPoint(ctx, self.vertical ? 0 : rect.size.width, self.vertical ? rect.size.height : 0);
     CGContextStrokePath(ctx);

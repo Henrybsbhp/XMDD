@@ -37,7 +37,7 @@
         case InsuranceThirdPartyLiability:{
             for (NSDictionary * dict in converage.params)
             {
-                if (dict.customFlag)
+                if (dict.customTag)
                 {
                     price = [[dict objectForKey:@"value"] floatValue];
                     break;
@@ -50,7 +50,7 @@
             CGFloat amount = 0.0f;
             for (NSDictionary * dict in converage.params)
             {
-                if (dict.customFlag)
+                if (dict.customTag)
                 {
                     amount = [[dict objectForKey:@"value"] floatValue];
                     break;
@@ -64,7 +64,7 @@
             CGFloat amount = 0.0;
             for (NSDictionary * dict in converage.params)
             {
-                if (dict.customFlag)
+                if (dict.customTag)
                 {
                     amount = [[dict objectForKey:@"value"] floatValue];
                     break;
@@ -83,7 +83,7 @@
             CGFloat ratio = 0.0f;
             for (NSDictionary * dict in converage.params)
             {
-                if (dict.customFlag)
+                if (dict.customTag)
                 {
                     ratio = [[dict objectForKey:@"value"] floatValue];
                     break;
@@ -107,7 +107,7 @@
         case InsuranceExcludingDeductible4ThirdPartyLiability:{
             for (NSDictionary * dict in converage.params)
             {
-                if (dict.customFlag)
+                if (dict.customTag)
                 {
                     price = [[dict objectForKey:@"value"] floatValue];
                     break;
@@ -120,7 +120,7 @@
             CGFloat amount = 0.0f;
             for (NSDictionary * dict in converage.params)
             {
-                if (dict.customFlag)
+                if (dict.customTag)
                 {
                     amount = [[dict objectForKey:@"value"] floatValue];
                     break;
@@ -133,7 +133,7 @@
             CGFloat amount = 0.0;
             for (NSDictionary * dict in converage.params)
             {
-                if (dict.customFlag)
+                if (dict.customTag)
                 {
                     amount = [[dict objectForKey:@"value"] floatValue];
                     break;

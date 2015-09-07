@@ -26,7 +26,7 @@ PODS:
   - AMap2DMap (2.4.2)
   - AMapSearch (2.4.1)
   - cdebug (0.1.1)
-  - CKKit (0.1.0)
+  - CKKit (0.1.1)
   - CocoaLumberjack (2.0.0):
     - CocoaLumberjack/Default (= 2.0.0)
     - CocoaLumberjack/Extensions (= 2.0.0)
@@ -51,6 +51,7 @@ PODS:
     - FoundationExtension/FoundationExtension
   - GIKPopoverBackgroundView/Core (0.0.1)
   - IQKeyboardManager (3.2.0.3)
+  - JT3DScrollView (1.0.2)
   - Masonry (0.6.1)
   - MZAppearance (1.1.5)
   - MZFormSheetController (2.4.1):
@@ -88,9 +89,10 @@ DEPENDENCIES:
   - CocoaLumberjack (= 2.0.0)
   - FoundationExtension (= 0.60)
   - IQKeyboardManager (= 3.2.0.3)
+  - JT3DScrollView (= 1.0.2)
   - Masonry (= 0.6.1)
   - MZFormSheetController (= 2.4.1)
-  - pop (~> 1.0)
+  - pop (= 1.0.7)
   - ReactiveCocoa (= 2.3.1)
   - SDWebImage (= 3.7.2)
   - SFHFKeychainUtils (= 0.0.1)
@@ -104,7 +106,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   CKKit:
-    :commit: ce946554561b67f067134ffdb165cd7974203f53
+    :commit: 524feb9f3c217342ab81d5023aee6840b3d12aec
     :git: ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git
 
 SPEC CHECKSUMS:
@@ -113,11 +115,12 @@ SPEC CHECKSUMS:
   AMap2DMap: 6f19f93b3410c8105c34ef93dd9dbb537f7ea897
   AMapSearch: e48c562fc7713f7e5f719863a15141a847e16c04
   cdebug: 32bf88e54d22ad187b23122872b3977e5d0c1bde
-  CKKit: 61f635d9e103026e4631e5096acd924d945aebd9
+  CKKit: 43bdc802a60199f4b21c21de2914e8103756b85d
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   FoundationExtension: 76157113e6486ad95ea2be32a06f0d3f48172d56
   GIKPopoverBackgroundView: 9cde2752e608df4d1e35ebca12af762b9a7dca3e
   IQKeyboardManager: 7b071d1284b47b1c0c19891a042c2c65f118fa85
+  JT3DScrollView: 863773b53a2fd9b6599835ea4202843ad60535fd
   Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
   MZAppearance: 6e9dc64e42074c0a19812a327f590746c3283bab
   MZFormSheetController: bcc262cb8b682bdc17fa88177b4f34ac26f0dcbe
@@ -130,4 +133,4 @@ SPEC CHECKSUMS:
   UI7Kit: a2be10b7ced09944b8d2dca5d373743665d29639
   UMengAnalytics: 020551718ba37da017bd85ac4c38ffba2774f3ce
 
-COCOAPODS: 0.35.0
+COCOAPODS: 0.37.2
