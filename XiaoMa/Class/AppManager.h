@@ -45,6 +45,8 @@
 
 @property (nonatomic, strong) MultiMediaManager *mediaMgr;
 
+@property (nonatomic, strong,readonly)NSDictionary * provinceDict;
+
 + (AppManager *)sharedManager;
 
 - (void)resetWithAccount:(NSString *)account;

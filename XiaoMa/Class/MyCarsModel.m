@@ -130,7 +130,8 @@
 
 + (NSString *)verifiedLicenseNumberFrom:(NSString *)licenseNumber
 {
-    NSString *pattern = @"^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵黔粵青藏川宁琼使][a-z][a-z0-9]{5}[警港澳领学]{0,1}$";
+//    NSString *pattern = @"^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵黔粵青藏川宁琼使][a-z][a-z0-9]{5}[警港澳领学]{0,1}$";
+    NSString *pattern = @"^[a-z][a-z0-9]{5}[警港澳领学]{0,1}$";
     NSRegularExpression *regexp = [[NSRegularExpression alloc] initWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
     NSTextCheckingResult *rst = [regexp firstMatchInString:licenseNumber options:0 range:NSMakeRange(0, [licenseNumber length])];
     if (!rst) {

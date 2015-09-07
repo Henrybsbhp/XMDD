@@ -27,9 +27,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc
+{
+    DebugLog(@"CollectionChooseVC dealloc");
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
@@ -45,6 +51,7 @@
 }
 
 - (void)actionBack:(id)sender {
+    
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
@@ -75,8 +82,9 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    return CGSizeMake(80, 30);
+    CGFloat width = floor((self.view.frame.size.width - 40) / 3.0);
+    CGFloat height = width * 3 / 8;
+    return CGSizeMake(width, height);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
@@ -95,7 +103,10 @@
     UIView * view = (UILabel *)[cell searchViewWithTag:101];
     UILabel * titleLabel = (UILabel *)[cell searchViewWithTag:20101];
     
-    titleLabel.text = [self.datasource safetyObjectAtIndex:indexPath.section * 3 + indexPath.row];
+    NSDictionary * d = [self.datasource safetyObjectAtIndex:indexPath.section * 3 + indexPath.row];
+    NSString * key = [d.allKeys safetyObjectAtIndex:0];
+    NSString * value = [d objectForKey:key];
+    titleLabel.text = value;
     view.borderWidth = 0.5f;
     view.borderColor = [UIColor lightGrayColor];
     
@@ -104,7 +115,15 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    NSInteger index = indexPath.section * 3 + indexPath.row;
+    NSString * t = [self.datasource safetyObjectAtIndex:index];
+    if (self.selectAction)
+    {
+        self.selectAction(t);
+    }
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
 }
 
 

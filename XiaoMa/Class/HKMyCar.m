@@ -8,6 +8,7 @@
 
 #import "HKMyCar.h"
 #import "NSDate+DateForText.h"
+#import "NSString+Safe.h"
 
 @implementation HKMyCar
 
@@ -52,12 +53,16 @@
     else if (editable == 3) {
         car.editMask = HKCarEditableEdit;
     }
+    
+    car.licenceArea = [car.licencenumber safteySubstringToIndexIndex:1];
+    car.licenceSuffix = [car.licencenumber safteySubstringFromIndex:1];
     return car;
 }
 
 - (NSDictionary *)jsonDictForCarInfo
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    self.licencenumber = [NSString stringWithFormat:@"%@%@",[NSString stringNotNullFrom:self.licenceArea],[NSString stringNotNullFrom:self.licenceSuffix]];
     [dict safetySetObject:[self.licencenumber uppercaseString] forKey:@"licencenumber"];
     [dict safetySetObject:[self.purchasedate dateFormatForDT8] forKey:@"purchasedate"];
     [dict safetySetObject:self.brand forKey:@"make"];
@@ -87,6 +92,8 @@
     car.isDefault = _isDefault;
     car.status  =_status;
     car.editMask = _editMask;
+    car.licenceArea = _licenceArea;
+    car.licenceSuffix = _licenceSuffix;
     return car;
 }
 
