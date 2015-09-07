@@ -320,6 +320,7 @@
 		6BD293D31B943EF1006482A4 /* Other.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293C61B943EF1006482A4 /* Other.storyboard */; };
 		6BD293D41B943EF1006482A4 /* Rescue.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293C71B943EF1006482A4 /* Rescue.storyboard */; };
 		6BD293D81B946B49006482A4 /* PayForInsuranceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD293D71B946B49006482A4 /* PayForInsuranceVC.m */; };
+		6BD6E29A1B9D7F67001D33E6 /* NSString+Safe.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD6E2991B9D7F67001D33E6 /* NSString+Safe.m */; };
 		6BD7AE5B1AE8927C00BEF30E /* WeChatHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */; };
 		6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5D1AE8A64B00BEF30E /* ApiXml.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5F1AE8A64B00BEF30E /* payRequsestHandler.mm */; };
@@ -988,6 +989,8 @@
 		6BD293D51B943F1B006482A4 /* Insurance.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Insurance.storyboard; path = XiaoMa/Resource/Storyboard/Insurance.storyboard; sourceTree = "<group>"; };
 		6BD293D61B946B49006482A4 /* PayForInsuranceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayForInsuranceVC.h; sourceTree = "<group>"; };
 		6BD293D71B946B49006482A4 /* PayForInsuranceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayForInsuranceVC.m; sourceTree = "<group>"; };
+		6BD6E2981B9D7F67001D33E6 /* NSString+Safe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Safe.h"; path = "Class/NSString+Safe.h"; sourceTree = "<group>"; };
+		6BD6E2991B9D7F67001D33E6 /* NSString+Safe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Safe.m"; path = "Class/NSString+Safe.m"; sourceTree = "<group>"; };
 		6BD7AE591AE8927C00BEF30E /* WeChatHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeChatHelper.h; path = Class/WeChatHelper.h; sourceTree = "<group>"; };
 		6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeChatHelper.m; path = Class/WeChatHelper.m; sourceTree = "<group>"; };
 		6BD7AE5C1AE8A64B00BEF30E /* ApiXml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiXml.h; sourceTree = "<group>"; };
@@ -1311,6 +1314,8 @@
 				1837A7541B70C97A0006E6C5 /* UIImageView+WebImage.m */,
 				18D475E31B7D9F82000FAF1C /* NSString+PhoneNumber.h */,
 				18D475E41B7D9F82000FAF1C /* NSString+PhoneNumber.m */,
+				6BD6E2981B9D7F67001D33E6 /* NSString+Safe.h */,
+				6BD6E2991B9D7F67001D33E6 /* NSString+Safe.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -3241,6 +3246,7 @@
 				189C698C1B75A2BB00E56E4A /* GetBindCZBVcodeOp.m in Sources */,
 				1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */,
 				5078E4D21B93FD4000E3B198 /* GetInscouponOp.m in Sources */,
+				6BD6E29A1B9D7F67001D33E6 /* NSString+Safe.m in Sources */,
 				6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */,
 				6BB884D41AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.m in Sources */,
 				6BB8CB8E1B1416BB007B61B5 /* RescureViewController.m in Sources */,

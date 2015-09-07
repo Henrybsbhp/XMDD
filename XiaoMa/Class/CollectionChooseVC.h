@@ -10,6 +10,8 @@
 
 @interface CollectionChooseVC : UIViewController
 
+@property(nonatomic,strong)void(^selectAction)(id);
+
 @property(nonatomic,strong)NSArray * datasource;
 
 @end

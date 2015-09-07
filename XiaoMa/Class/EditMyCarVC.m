@@ -15,6 +15,7 @@
 #import "UIView+Shake.h"
 #import "PickerAutomobileBrandVC.h"
 #import "MyCarsModel.h"
+#import "CollectionChooseVC.h"
 
 
 @interface EditMyCarVC ()<UITableViewDataSource,UITableViewDelegate, UITextFieldDelegate>
@@ -92,6 +93,7 @@
     }
     else {
         _curCar = [HKMyCar new];
+        _curCar.licenceArea  = [self getCurrentProvince];
         _curCar.isDefault = YES;
         _isEditingModel = NO;
     }
@@ -106,10 +108,11 @@
 - (void)actionSave:(id)sender
 {
     [MobClick event:@"rp312-12"];
-    if ([self sharkCellIfErrorAtIndex:0 withData:self.curCar.licencenumber errorMsg:@"车牌号码不能为空"]) {
+    if ([self sharkCellIfErrorAtIndex:0 withData:self.curCar.licenceSuffix errorMsg:@"车牌号码不能为空"]) {
         return;
     }
-    if (![MyCarsModel verifiedLicenseNumberFrom:self.curCar.licencenumber]) {
+    
+    if (![MyCarsModel verifiedLicenseNumberFrom:self.curCar.licenceSuffix]) {
         [self sharkCellIfErrorAtIndex:0 withData:nil errorMsg:@"请输入正确的车牌号码"];
         return;
     }
@@ -122,6 +125,7 @@
     if ([self sharkCellIfErrorAtIndex:3 withData:self.curCar.model errorMsg:@"具体车系不能为空"]) {
         return;
     }
+
     @weakify(self);
     RACSignal *sig;
     if (self.isEditingModel) {
@@ -281,6 +285,10 @@
     if (indexPath.section == 0 && self.showHeaderView) {
         cell = [self cellForHeaderViewAtIndexPath:indexPath];
     }
+    else if (indexPath.row == 0)
+    {
+        cell = [self cellForLicenceAtIndexPath:indexPath];
+    }
     else if (indexPath.row == 2 || indexPath.row == 3) {
         cell = [self cellForType2AtIndexPath:indexPath];
     }
@@ -384,6 +392,63 @@
     return cell;
 }
 
+- (JTTableViewCell *)cellForLicenceAtIndexPath:(NSIndexPath *)indexPath
+{
+    JTTableViewCell *cell = (JTTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"LicenceCell" forIndexPath:indexPath];
+    UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
+    UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
+    UILabel *unitL = (UILabel *)[cell.contentView viewWithTag:1003];
+    UIView * paramView = (UIView * )[cell searchViewWithTag:1004];
+    UILabel *paramLb = (UILabel *)[cell searchViewWithTag:20401];
+
+    
+    HKMyCar *car = self.curCar;
+    paramLb.text = self.curCar.licenceArea.length ? self.curCar.licenceArea : [self getCurrentProvince];
+    
+    field.delegate = self;
+    field.keyboardType = UIKeyboardTypeDefault;
+    field.clearsOnBeginEditing = NO;
+    field.customObject = indexPath;
+    BOOL fieldEditable = YES;
+    if (indexPath.row == 0) {
+        titleL.attributedText = [self attrStrWithTitle:@"车牌号码" asterisk:YES];
+        field.text = car.licenceSuffix;
+        unitL.text = nil;
+        fieldEditable = car.editMask & HKCarEditableEdit;
+        [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            car.licenceSuffix = [x uppercaseString];
+        }];
+    }
+    
+    UITapGestureRecognizer * gesture = paramView.customObject;
+    if (!gesture)
+    {
+        UITapGestureRecognizer *ge = [[UITapGestureRecognizer alloc] init];
+        [paramView addGestureRecognizer:ge];
+        paramView.userInteractionEnabled = YES;
+        paramView.customObject = ge;
+    }
+    gesture = paramView.customObject;
+    [[[gesture rac_gestureSignal] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        
+        CollectionChooseVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"CollectionChooseVC"];
+        JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
+        vc.datasource = @[@{@"浙":@"浙江"},@{@"沪":@"上海"},@{@"京":@"北京"},@{@"苏":@"江苏"},@{@"海":@"海南"}];
+        [vc setSelectAction:^(NSDictionary * d) {
+            
+            NSString * key = [d.allKeys safetyObjectAtIndex:0];
+            self.curCar.licenceArea = key;
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        }];
+        [self presentViewController:nav animated:YES completion:^{
+            
+        }];
+    }];
+    
+    return cell;
+}
+
 - (JTTableViewCell *)cellForType1AtIndexPath:(NSIndexPath *)indexPath
 {
     JTTableViewCell *cell = (JTTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"Cell1" forIndexPath:indexPath];
@@ -400,11 +465,11 @@
     BOOL fieldEditable = YES;
     if (indexPath.row == 0) {
         titleL.attributedText = [self attrStrWithTitle:@"车牌号码" asterisk:YES];
-        field.text = car.licencenumber;
+        field.text = car.licenceSuffix;
         unitL.text = nil;
         fieldEditable = car.editMask & HKCarEditableEdit;
         [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            car.licencenumber = [x uppercaseString];
+            car.licenceSuffix = [x uppercaseString];
         }];
     }
     else  if (indexPath.row  == 1) {
@@ -528,7 +593,7 @@
     NSIndexPath *indexPath = textField.customObject;
     HKMyCar *car = self.curCar;
     if (indexPath.row == 0) {
-        textField.text = car.licencenumber;
+        textField.text = car.licenceSuffix;
     }
     else if (indexPath.row == 4) {
         textField.text = [NSString stringWithFormat:@"%.2f", car.price];
@@ -574,6 +639,19 @@
     }
     
     return attrStr;
+}
+
+- (NSString *)getCurrentProvince
+{
+    for (NSString * s in gAppMgr.provinceDict.allKeys)
+    {
+        NSString * v = [gAppMgr.provinceDict objectForKey:s];
+        if ([gMapHelper.addrComponent.province containsString:v])
+        {
+            return  s;
+        }
+    }
+    return @"浙";
 }
 
 @end
