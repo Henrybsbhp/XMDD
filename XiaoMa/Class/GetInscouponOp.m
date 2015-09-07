@@ -24,9 +24,9 @@
 {
     if ([rspObj isKindOfClass:[NSDictionary class]])
     {
-        NSArray * shops = (NSArray *)rspObj[@"usercouponlist"];
+        NSArray * coupons = (NSArray *)rspObj[@"coupons"];
         NSMutableArray * tArray = [[NSMutableArray alloc] init];
-        for (NSDictionary * dict in shops)
+        for (NSDictionary * dict in coupons)
         {
             HKCoupon * coupon = [HKCoupon couponWithJSONResponse:dict];
             [tArray addObject:coupon];

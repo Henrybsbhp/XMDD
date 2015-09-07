@@ -8,12 +8,6 @@
 
 #import "BaseOp.h"
 
-typedef enum : NSUInteger {
-    PayWithAlipay,
-    PayWithWechat,
-    PayWithXMDDCreditCard
-} PaymentPlatform;
-
 @interface CheckoutServiceOrderV2Op : BaseOp
 
 @property (nonatomic,copy)NSNumber *serviceid;

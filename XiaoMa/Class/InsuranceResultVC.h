@@ -16,6 +16,9 @@ typedef enum : NSUInteger {
 
 @interface InsuranceResultVC : UIViewController
 
+@property (nonatomic,strong)NSString * resultText;
+
 -(void) setResultType:(InsuranceResult) resultType;
+
 
 @end

@@ -19,11 +19,15 @@
 @property (nonatomic, strong)NSArray * validCarwashCouponArray;
 /// 可用现金券
 @property (nonatomic, strong)NSArray * validCashCouponArray;
+/// 可用现金券
+@property (nonatomic, strong)NSArray * validInsuranceCouponArray;
 /// 所有优惠劵
 @property (nonatomic, strong)NSArray * carwashArray;
 /// 可用浙商银行信用卡
 @property (nonatomic, strong)NSArray * validCZBankCreditCard;
 
 - (RACSignal *)rac_getVaildResource;
+
+- (RACSignal *)rac_getVaildInsuranceCoupon;
 
 @end
