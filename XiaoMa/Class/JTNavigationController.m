@@ -18,7 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    _shouldAllowInteractivePopGestureRecognizer = YES;
     if (IOSVersionGreaterThanOrEqualTo(@"7.0")) {
         self.navigationBar.translucent = NO;
         self.interactivePopGestureRecognizer.enabled = YES;
@@ -33,6 +33,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 #pragma mark - Rotation
 -(NSUInteger)supportedInterfaceOrientations {
     UIViewController *top = self.topViewController;
@@ -72,7 +73,7 @@
 {
     if ([self respondsToSelector:@selector(interactivePopGestureRecognizer)])
     {
-        self.interactivePopGestureRecognizer.enabled = YES;
+        self.interactivePopGestureRecognizer.enabled = self.shouldAllowInteractivePopGestureRecognizer;
     }
 }
 

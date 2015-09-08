@@ -38,7 +38,7 @@
             case InsuranceThirdPartyLiability:{
                 self.insName = @"第三方责任险";
                 NSDictionary * d = @{@"key":@"5万元",@"value":@(673)};
-                d.customFlag = YES;
+                d.customTag = YES;
                 self.params = @[d,
                                 @{@"key":@"10万元",@"value":@(972)},
                                 @{@"key":@"15万元",@"value":@(1108)},
@@ -75,7 +75,7 @@
             case InsuranceCarSeatInsuranceOfDriver:{
                 self.insName = @"司机座位责任险";
                 NSDictionary * d = @{@"key":@"1万元",@"value":@(10000)};
-                d.customFlag = YES;
+                d.customTag = YES;
                 self.params = @[d,
                                 @{@"key":@"2万元",@"value":@(20000)},
                                 @{@"key":@"3万元",@"value":@(30000)},
@@ -95,7 +95,7 @@
             case InsuranceCarSeatInsuranceOfPassenger:{
                 self.insName = @"乘客座位责任险 ";
                 NSDictionary * d = @{@"key":@"1万元",@"value":@(10000)};
-                d.customFlag = YES;
+                d.customTag = YES;
                 self.params = @[d,
                                 @{@"key":@"2万元",@"value":@(20000)},
                                 @{@"key":@"3万元",@"value":@(30000)},
@@ -122,7 +122,7 @@
             case InsuranceSeparateGlassBreakage:{
                 self.insName = @"玻璃单独破碎险";
                 NSDictionary * d = @{@"key":@"国产",@"value":@(0.0021)};
-                d.customFlag = YES;
+                d.customTag = YES;
                 self.params = @[d,
                                 @{@"key":@"进口",@"value":@(0.0036)}
                                 ];

@@ -20,6 +20,7 @@
 #import "UIView+ShowDot.h"
 #import "CardDetailVC.h"
 #import "UnbundlingVC.h"
+#import "CarListVC.h"
 
 @interface MineVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -291,7 +292,7 @@
     if (indexPath.section == 1 && indexPath.row == 0) {
         [MobClick event:@"rp301-4"];
         if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-            MyCarListVC *vc = [UIStoryboard vcWithId:@"MyCarListVC" inStoryboard:@"Mine"];
+            CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }

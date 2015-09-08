@@ -70,7 +70,7 @@
 #define COCOAPODS_POD_AVAILABLE_CKKit
 #define COCOAPODS_VERSION_MAJOR_CKKit 0
 #define COCOAPODS_VERSION_MINOR_CKKit 1
-#define COCOAPODS_VERSION_PATCH_CKKit 0
+#define COCOAPODS_VERSION_PATCH_CKKit 1
 
 // CocoaLumberjack
 #define COCOAPODS_POD_AVAILABLE_CocoaLumberjack
@@ -132,6 +132,12 @@
 // so we were not able to define version macros.
 // Please contact the author.
 // Version: 3.2.0.3.
+
+// JT3DScrollView
+#define COCOAPODS_POD_AVAILABLE_JT3DScrollView
+#define COCOAPODS_VERSION_MAJOR_JT3DScrollView 1
+#define COCOAPODS_VERSION_MINOR_JT3DScrollView 0
+#define COCOAPODS_VERSION_PATCH_JT3DScrollView 2
 
 // MZAppearance
 #define COCOAPODS_POD_AVAILABLE_MZAppearance

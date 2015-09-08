@@ -30,12 +30,13 @@
     order.totoalpay = [rsp floatParamForName:@"totalpay"];
     order.status = [rsp integerParamForName:@"status"];
     order.lstupdatetime = [NSDate dateWithD14Text:rsp[@"lstupdatetime"]];
-    order.isusedCoupon = [rsp boolParamForName:@"isusedcoupon"];
-    order.activityName = [rsp stringParamForName:@"activityname"];
-    order.couponType = [rsp integerParamForName:@"coupontype"];
-    order.couponName = [rsp stringParamForName:@"couponname"];
-    order.couponMoney = [rsp floatParamForName:@"couponmoney"];
+    order.totoalpay = [rsp floatParamForName:@"totalpay"];
     
+    order.iscontainActivity = [rsp boolParamForName:@"isusedcoupon"];
+    order.activityName = rsp[@"activityname"];
+    order.activityTag = rsp[@"couponname"];
+    order.activityType = (DiscountType)[rsp integerParamForName:@"coupontype"];
+    order.activityAmount = [rsp floatParamForName:@"couponmoney"];
     return order;
 }
 

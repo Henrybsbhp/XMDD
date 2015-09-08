@@ -59,7 +59,8 @@
                       defaultPic:(NSString *)defName errorPic:(NSString *)errName
 {
     return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        NSURL *url = strurl ? [NSURL URLWithString:strurl] : nil;
+        NSString *realStrUrl = [gMediaMgr urlWith:strurl imageType:type];
+        NSURL *url = strurl ? [NSURL URLWithString:realStrUrl] : nil;
         SDWebImageManager *mgr = [SDWebImageManager sharedManager];
         if (defName && url && ![mgr cachedImageExistsForURL:url]) {
             [subscriber sendNext:[UIImage imageNamed:defName]];

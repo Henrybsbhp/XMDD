@@ -1,6 +1,6 @@
 {
   "name": "CKKit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "summary": "就是个库",
   "description": "                       没啥好说的\n\n                       * Markdown format.\n                       * Don't worry about the indent, we strip it!\n",
   "homepage": "https://stash.jtang.cn/projects/IOSLIB/repos/ckkit/browse",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git",
-    "tag": "0.1.0"
+    "tag": "0.1.1"
   },
   "platforms": {
     "ios": "6.0"

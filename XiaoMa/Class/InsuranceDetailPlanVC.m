@@ -92,12 +92,12 @@
         
         if ([filter integerValue]){
             
-            c.customFlag = YES;
+            c.customTag = YES;
             continue;
         }
         else{
             
-            c.customFlag = NO;
+            c.customTag = NO;
         }
         
         if (c.isContainExcludingDeductible.customObject &&
@@ -113,11 +113,11 @@
             
             if ([sFilter integerValue]){
                 
-                subCoverage.customFlag = YES;
+                subCoverage.customTag = YES;
             }
             else{
                 
-                subCoverage.customFlag = NO;
+                subCoverage.customTag = NO;
             }
         }
     }
@@ -152,14 +152,14 @@
     CGFloat excludingDeductible = 0;
     for (HKCoverage * c in self.insuranceArry)
     {
-        if (c.customFlag)
+        if (c.customTag)
         {
             price = [self.calcHelper calcInsurancePrice:c];
             total = total + price;
             
             if (c.isContainExcludingDeductible.customObject &&
                 [c.isContainExcludingDeductible.customObject isKindOfClass:[HKCoverage class]] &&
-                c.isContainExcludingDeductible.customFlag){
+                c.isContainExcludingDeductible.customTag){
                 
                 excludingDeductible = [self.calcHelper calcInsurancePrice:c.isContainExcludingDeductible.customObject];
                 total = total + excludingDeductible;
@@ -185,12 +185,12 @@
         NSInteger index = [number integerValue];
         for (NSDictionary * dict in c.params)
         {
-            dict.customFlag = NO;
+            dict.customTag = NO;
         }
         
         
         NSObject * obj = [c.params safetyObjectAtIndex:index];
-        obj.customFlag = YES;
+        obj.customTag = YES;
         
         //计算金额
         [self calcTotalPrice];
@@ -199,7 +199,7 @@
         NSInteger i = [self.insuranceArry indexOfObject:c];
         NSIndexPath *indexPath1 = [NSIndexPath indexPathForRow:i + 1 inSection:0];
         NSArray * refreshArray ;
-        if (c.customFlag && c.isContainExcludingDeductible)
+        if (c.customTag && c.isContainExcludingDeductible)
         {
             NSIndexPath *indexPath2 = [NSIndexPath indexPathForRow:i + 2 inSection:0];
             refreshArray = @[indexPath1,indexPath2];
@@ -277,7 +277,7 @@
             CGFloat price = [self.calcHelper calcInsurancePrice:coverage];
             priceLb.text = [NSString stringWithFormat:@"%.2f",price];
             
-            boxBtn.selected = coverage.customFlag;
+            boxBtn.selected = coverage.customTag;
             @weakify(boxBtn);
             [[[boxBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 
@@ -288,11 +288,11 @@
                  */
                 BOOL flag = boxBtn.selected;
                 [boxBtn setSelected:!flag];
-                coverage.customFlag = !flag;
+                coverage.customTag = !flag;
                 
                 if ([coverage.isContainExcludingDeductible integerValue])
                 {
-                    if (coverage.customFlag == YES)
+                    if (coverage.customTag == YES)
                     {
                         NSInteger index = [self.insuranceArry indexOfObject:coverage];
                         [self.insuranceArry safetyInsertObject:coverage.customObject atIndex:index + 1];
@@ -341,10 +341,10 @@
             insuranceNameLb.text = coverage.insName;
             CGFloat price = [self.calcHelper calcInsurancePrice:coverage];
             priceLb.text = [NSString stringWithFormat:@"%.2f",price];
-            boxBtn.selected = coverage.customFlag;
+            boxBtn.selected = coverage.customTag;
             for (NSDictionary * obj in coverage.params)
             {
-                if (obj.customFlag)
+                if (obj.customTag)
                     paramLb.text = [obj objectForKey:@"key"];
             }
             
@@ -354,11 +354,11 @@
                 @strongify(boxBtn);
                 BOOL flag = boxBtn.selected;
                 [boxBtn setSelected:!flag];
-                coverage.customFlag = !flag;
+                coverage.customTag = !flag;
                 
                 if ([coverage.isContainExcludingDeductible integerValue])
                 {
-                    if (coverage.customFlag == YES)
+                    if (coverage.customTag == YES)
                     {
                         NSInteger index = [self.insuranceArry indexOfObject:coverage];
                         [self.insuranceArry safetyInsertObject:coverage.customObject atIndex:index + 1];
@@ -390,14 +390,14 @@
             CGFloat price = [self.calcHelper calcInsurancePrice:coverage];
             priceLb.text = [NSString stringWithFormat:@"%.2f",price];
             
-            boxBtn.selected = coverage.customFlag;
+            boxBtn.selected = coverage.customTag;
             @weakify(boxBtn);
             [[[boxBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 
                 @strongify(boxBtn);
                 BOOL flag = boxBtn.selected;
                 [boxBtn setSelected:!flag];
-                coverage.customFlag = !flag;
+                coverage.customTag = !flag;
                 
                 [self calcTotalPrice];
                 [self animateToTargetValue:(NSInteger)(self.totalPrice * 100)];

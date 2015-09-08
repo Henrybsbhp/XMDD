@@ -17,13 +17,28 @@ typedef enum : NSInteger
     HKCarEditableAll = 0xff
 }HKCarEditableMask;
 
+typedef enum : NSInteger
+{
+    HKCarTintColorTypeUnknow = 0,
+    HKCarTintColorTypeCyan,
+    HKCarTintColorTypeYellow,
+    HKCarTintColorTypeRed,
+    HKCarTintColorTypeBlue,
+    HKCarTintColorTypeGreen
+}HKCarTintColorType;
+
+
 
 @interface HKMyCar : NSObject<NSCopying>
 
 ///车id
 @property (nonatomic,copy)NSNumber *carId;
 
-///车牌号码
+///车牌区域 浙
+@property (nonatomic,copy)NSString * licenceArea;
+///车牌后缀 AB2345
+@property (nonatomic,copy)NSString * licenceSuffix;
+///车牌号码 浙AB2345
 @property (nonatomic,copy)NSString * licencenumber;
 
 ///购买日期
@@ -56,6 +71,8 @@ typedef enum : NSInteger
 ///是否为默认车辆
 @property (nonatomic)BOOL isDefault;
 
+@property (nonatomic, assign) HKCarTintColorType tintColorType;
+
 @property (nonatomic, assign) HKCarEditableMask editMask;
 
 + (instancetype)carWithJSONResponse:(NSDictionary *)rsp;
@@ -63,6 +80,7 @@ typedef enum : NSInteger
 - (BOOL)isCarInfoCompleted;
 - (BOOL)isDifferentFromAnother:(HKMyCar *)another;
 - (NSString *)carSeriesDesc;
-
+- (UIColor *)tintColor;
++ (UIColor *)tintColorForColorType:(HKCarTintColorType)colorType;
 
 @end

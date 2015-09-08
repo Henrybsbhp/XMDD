@@ -11,6 +11,7 @@
 #import "BorderLineLabel.h"
 #import "GetInsuranceOrderDetailsOp.h"
 #import "InsuranceOrderPayOp.h"
+#import "PayForInsuranceVC.h"
 
 typedef enum : NSInteger
 {
@@ -85,15 +86,9 @@ typedef enum : NSInteger
 }
 #pragma mark - Action
 - (void)actionPay:(id)sender {
-    //保险订单支付接口试调
-    InsuranceOrderPayOp * op = [InsuranceOrderPayOp operation];
-    op.req_paychannel = 2;
-    op.req_orderid = [self.order.orderid integerValue];
-    [[op rac_postRequest] subscribeNext:^(id x) {
-        
-    } error:^(NSError *error) {
-        
-    }];
+    PayForInsuranceVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"PayForInsuranceVC"];
+    vc.insOrder = self.order;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionMakeCall:(id)sender {

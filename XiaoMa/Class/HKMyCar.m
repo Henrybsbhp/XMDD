@@ -8,6 +8,7 @@
 
 #import "HKMyCar.h"
 #import "NSDate+DateForText.h"
+#import "NSString+Safe.h"
 
 @implementation HKMyCar
 
@@ -52,12 +53,16 @@
     else if (editable == 3) {
         car.editMask = HKCarEditableEdit;
     }
+    
+    car.licenceArea = [car.licencenumber safteySubstringToIndexIndex:1];
+    car.licenceSuffix = [car.licencenumber safteySubstringFromIndex:1];
     return car;
 }
 
 - (NSDictionary *)jsonDictForCarInfo
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    self.licencenumber = [NSString stringWithFormat:@"%@%@",[NSString stringNotNullFrom:self.licenceArea],[NSString stringNotNullFrom:self.licenceSuffix]];
     [dict safetySetObject:[self.licencenumber uppercaseString] forKey:@"licencenumber"];
     [dict safetySetObject:[self.purchasedate dateFormatForDT8] forKey:@"purchasedate"];
     [dict safetySetObject:self.brand forKey:@"make"];
@@ -87,6 +92,9 @@
     car.isDefault = _isDefault;
     car.status  =_status;
     car.editMask = _editMask;
+    car.licenceArea = _licenceArea;
+    car.licenceSuffix = _licenceSuffix;
+    car.tintColorType = _tintColorType;
     return car;
 }
 
@@ -152,6 +160,37 @@
         desc = self.model;
     }
     return desc;
+}
+
+- (UIColor *)tintColor
+{
+    return [HKMyCar tintColorForColorType:self.tintColorType];
+}
+
++ (UIColor *)tintColorForColorType:(HKCarTintColorType)colorType
+{
+    UIColor *color;
+    switch (colorType) {
+        case HKCarTintColorTypeCyan:
+            color = HEXCOLOR(@"#67d2c6");
+            break;
+        case HKCarTintColorTypeBlue:
+            color = HEXCOLOR(@"#3d98ff");
+            break;
+        case HKCarTintColorTypeGreen:
+            color = HEXCOLOR(@"#5ebe00");
+            break;
+        case HKCarTintColorTypeRed:
+            color = HEXCOLOR(@"#ff697a");
+            break;
+        case HKCarTintColorTypeYellow:
+            color = HEXCOLOR(@"#eab750");
+            break;
+        default:
+            color = nil;
+            break;
+    }
+    return color;
 }
 
 #pragma mark - Private

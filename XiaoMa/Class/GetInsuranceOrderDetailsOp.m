@@ -23,8 +23,8 @@
 
 - (instancetype)parseResponseObject:(id)rspObj
 {
-    NSDictionary *dict = rspObj;
-    self.rsp_order = [HKInsuranceOrder orderWithJSONResponse:dict[@"order"]];
+    NSDictionary *dict = rspObj[@"order"];
+    self.rsp_order = [HKInsuranceOrder orderWithJSONResponse:dict];
     
     return self;
 }

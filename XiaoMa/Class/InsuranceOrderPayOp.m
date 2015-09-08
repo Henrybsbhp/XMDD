@@ -17,8 +17,8 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     [params addParam:@(self.req_paychannel) forName:@"paychannel"];
-    [params addParam:@(self.req_orderid) forName:@"orderid"];
-    [params addParam:@(self.req_cid) forName:@"cid"];
+    [params addParam:self.req_orderid forName:@"orderid"];
+    [params addParam:self.req_cid ? self.req_cid : @"" forName:@"cid"];
     [params addParam:@(self.req_type) forName:@"type"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];

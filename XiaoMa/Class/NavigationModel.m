@@ -20,8 +20,16 @@
         NSDictionary *params = [self getActionParamsFromUrl:url];
         NSString *name = params[@"t"];
         NSString *value = params[@"id"];
+        //领取礼包
+        if ([@"a" equalByCaseInsensitive:name] && gAppMgr.myUser) {
+            if (![self popToViewControllerIfNeededByIdentify:@"CheckAwardViewController"]) {
+                UIViewController *vc = [UIStoryboard vcWithId:@"CheckAwardViewController" inStoryboard:@"Award"];
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+            flag = YES;
+        }
         //优惠券
-        if ([@"cp" equalByCaseInsensitive:name] && gAppMgr.myUser) {
+        else if ([@"cp" equalByCaseInsensitive:name] && gAppMgr.myUser) {
             if (![self popToViewControllerIfNeededByIdentify:@"MyCouponVC"]) {
                 UIViewController *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
