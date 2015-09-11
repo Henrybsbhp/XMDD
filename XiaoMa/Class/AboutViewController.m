@@ -25,6 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+#ifdef DEBUG
     self.datasource = @[@{@"title":@"用户服务协议",@"action":^(void){
         [self serviceAgreement];
     }},
@@ -38,9 +39,31 @@
                         }},
                         
                         @{@"title":@"客服电话4007-111-111",@"action":^(void){
-        
-         [self callCustomerService];
-    }}];
+                            [self callCustomerService];
+                        }},
+                        @{@"title":@"网页跳转",@"action":^(void){
+                            
+                            [self gotoTestWeb];
+                        }}];
+#else
+    self.datasource = @[@{@"title":@"用户服务协议",@"action":^(void){
+        [self serviceAgreement];
+    }},
+                        
+                        @{@"title":@"前往评价",@"action":^(void){
+                            [self rateOurApp];
+                        }},
+                        
+                        @{@"title":@"意见反馈",@"action":^(void){
+                            [self gotoFeedback];
+                        }},
+                        
+                        @{@"title":@"客服电话4007-111-111",@"action":^(void){
+                            
+                            [self callCustomerService];
+                        }}];
+#endif
+    
     
     NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
     
@@ -138,6 +161,27 @@
     [MobClick event:@"rp322-2"];
     FeedbackVC *vc = [UIStoryboard vcWithId:@"FeedbackVC" inStoryboard:@"About"];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)gotoTestWeb
+{
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"请输入网址" message:@"" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往",nil];
+    [av setAlertViewStyle:UIAlertViewStylePlainTextInput];
+    UITextField *textField = [av textFieldAtIndex:0];
+    textField.text = @"http://";
+    [av show];
+    
+    [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
+        
+        NSInteger i = [n integerValue];
+        if (i == 1)
+        {
+            WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+            vc.url = textField.text;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        
+    }];
 }
 
 @end
