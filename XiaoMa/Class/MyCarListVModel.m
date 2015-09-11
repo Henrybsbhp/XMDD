@@ -8,7 +8,7 @@
 
 #import "MyCarListVModel.h"
 #import "UploadFileOp.h"
-#import "EditPictureViewController.h"
+#import "HKImagePicker.h"
 
 @implementation MyCarListVModel
 
@@ -48,7 +48,9 @@
 
 - (RACSignal *)rac_uploadDrivingLicenseWithTargetVC:(UIViewController *)targetVC initially:(void(^)(void))block
 {
-    RACSignal *signal = [[gAppMgr.mediaMgr rac_pickAndCropPhotoInTargetVC:targetVC inView:targetVC.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
+    HKImagePicker *picker = [HKImagePicker imagePicker];
+    picker.compressedSize = CGSizeMake(1024, 1024);
+    RACSignal *signal = [[picker rac_pickImageInTargetVC:targetVC inView:targetVC.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
         CKAsyncMainQueue(^{
             if (block) {
                 block();
