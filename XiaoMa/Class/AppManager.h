@@ -38,14 +38,13 @@
 @property (nonatomic, strong) CoreDataManager *defDataMgr;
 @property (nonatomic, strong) NavigationModel *navModel;
 @property (nonatomic,strong, readonly)DeviceInfo * deviceInfo;
-@property (nonatomic, strong, readonly) HKTokenPool *tokenPool;
+@property (nonatomic, strong,readonly) HKTokenPool *tokenPool;
 @property(nonatomic,strong)ClientInfo * clientInfo;
 ///常用数据缓存（可手动清除）
 @property (nonatomic, strong, readonly) TMCache *dataCache;
 
 @property (nonatomic, strong) MultiMediaManager *mediaMgr;
 
-@property (nonatomic, strong,readonly)NSDictionary * provinceDict;
 
 + (AppManager *)sharedManager;
 
@@ -83,6 +82,8 @@
 - (void)saveInfo:(id <NSCoding>)value forKey:(NSString *)key;
 
 - (NSString *)getInfo:(NSString *)key;
+
+- (NSArray *)getProvinceArray;
 
 
 ///版本升级

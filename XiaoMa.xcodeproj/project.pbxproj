@@ -986,7 +986,6 @@
 		6BD293C51B943EF1006482A4 /* Mine.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Mine.storyboard; sourceTree = "<group>"; };
 		6BD293C61B943EF1006482A4 /* Other.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Other.storyboard; sourceTree = "<group>"; };
 		6BD293C71B943EF1006482A4 /* Rescue.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Rescue.storyboard; sourceTree = "<group>"; };
-		6BD293D51B943F1B006482A4 /* Insurance.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Insurance.storyboard; path = XiaoMa/Resource/Storyboard/Insurance.storyboard; sourceTree = "<group>"; };
 		6BD293D61B946B49006482A4 /* PayForInsuranceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayForInsuranceVC.h; sourceTree = "<group>"; };
 		6BD293D71B946B49006482A4 /* PayForInsuranceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayForInsuranceVC.m; sourceTree = "<group>"; };
 		6BD6E2981B9D7F67001D33E6 /* NSString+Safe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Safe.h"; path = "Class/NSString+Safe.h"; sourceTree = "<group>"; };
