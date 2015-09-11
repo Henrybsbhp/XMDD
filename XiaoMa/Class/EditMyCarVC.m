@@ -434,7 +434,7 @@
         
         CollectionChooseVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"CollectionChooseVC"];
         JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
-        vc.datasource = @[@{@"浙":@"浙江"},@{@"沪":@"上海"},@{@"京":@"北京"},@{@"苏":@"江苏"},@{@"海":@"海南"}];
+        vc.datasource = gAppMgr.getProvinceArray;
         [vc setSelectAction:^(NSDictionary * d) {
             
             NSString * key = [d.allKeys safetyObjectAtIndex:0];
@@ -643,13 +643,14 @@
 
 - (NSString *)getCurrentProvince
 {
-    for (NSString * s in gAppMgr.provinceDict.allKeys)
+    for (NSDictionary * d in gAppMgr.getProvinceArray)
     {
-        NSString * v = [gAppMgr.provinceDict objectForKey:s];
-        if ([gMapHelper.addrComponent.province containsString:v])
-        {
-            return  s;
-        }
+        NSString * key = [d.allKeys safetyObjectAtIndex:0];
+//        self.curCar.licenceArea = key;
+//        if ([gMapHelper.addrComponent.province containsString:v])
+//        {
+//            return  s;
+//        }
     }
     return @"浙";
 }
