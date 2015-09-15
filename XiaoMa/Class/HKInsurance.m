@@ -30,6 +30,7 @@
         SubInsurance * subIns = [[SubInsurance alloc] init];
         subIns.coveragerName = dict[@"name"];
         subIns.coveragerValue = dict[@"value"];
+        subIns.coveragerId = [dict integerParamForName:@"pid"];
         [tarray addObject:subIns];
     }
     insurance.subInsuranceArray = tarray;

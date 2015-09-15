@@ -16,8 +16,8 @@
 - (CGFloat)calcInsurancePrice:(HKCoverage *)converage
 {
     CGFloat price = 0.0;
-    CGFloat discountRate = [[self.discountRateDict objectForKey:@(converage.insCategory)] floatValue];
-    discountRate = (discountRate > 0 && discountRate <= 1) ? discountRate : 1;
+    CGFloat discountRate = [[self.discountRateDict objectForKey:@(converage.discountType)] floatValue];
+    discountRate = (discountRate > 0 && discountRate <= 100) ? discountRate : 100;
     switch (converage.insCategory) {
         case InsuranceCompulsory:{
             price = 950;
@@ -151,7 +151,8 @@
             break;
     }
     
-    price = price * discountRate;
+    NSString * text = [NSString stringWithFormat:@"%.2f",price];
+    price = [text floatValue];
     return price;
 }
 
