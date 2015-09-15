@@ -14,7 +14,7 @@
 
 @interface CommentListViewController ()
 
-@property (strong, nonatomic) IBOutlet JTTableView *tableView;
+@property (strong, nonatomic) IBOutlet JTTableView *jtTableView;
 
 /// 每页数量
 @property (nonatomic, assign) NSUInteger pageAmount;
@@ -22,6 +22,8 @@
 @property (nonatomic, assign) BOOL isRemain;
 ///当前页码索引
 @property (nonatomic, assign) NSUInteger currentPageIndex;
+
+@property (nonatomic, assign) BOOL isLoading;
 
 @end
 
@@ -37,8 +39,8 @@
     else
     {
         self.isRemain = NO;
-        self.tableView.showBottomLoadingView = YES;
-        [self.tableView.bottomLoadingView showIndicatorTextWith:@"到底了"];
+        self.jtTableView.showBottomLoadingView = YES;
+        [self.jtTableView.bottomLoadingView showIndicatorTextWith:@"到底了"];
     }
     
     self.pageAmount = PageAmount;
@@ -68,22 +70,23 @@
 #pragma mark - Action
 - (void)requestMoreShopComments
 {
-    if ([self.tableView.bottomLoadingView isActivityAnimating])
+    if ([self.jtTableView.bottomLoadingView isActivityAnimating] || self.isLoading)
     {
         return;
     }
-    
     GetShopRatesOp * op = [GetShopRatesOp operation];
     op.shopId = self.shopid;
     op.pageno = self.currentPageIndex;
+    self.isLoading = YES;
     [[[op rac_postRequest] initially:^{
         
-        [self.tableView.bottomLoadingView hideIndicatorText];
-        [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
+        [self.jtTableView.bottomLoadingView hideIndicatorText];
+        [self.jtTableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
         
     }]  subscribeNext:^(GetShopRatesOp * op) {
         
-        [self.tableView.bottomLoadingView stopActivityAnimation];
+        self.isLoading = NO;
+        [self.jtTableView.bottomLoadingView stopActivityAnimation];
         self.currentPageIndex = self.currentPageIndex + 1;
         if (op.rsp_shopCommentArray.count >= self.pageAmount)
         {
@@ -95,8 +98,8 @@
         }
         if (!self.isRemain)
         {
-            self.tableView.showBottomLoadingView = YES;
-            [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+            self.jtTableView.showBottomLoadingView = YES;
+            [self.jtTableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
         }
 
         
@@ -104,6 +107,10 @@
         [tArray addObjectsFromArray:op.rsp_shopCommentArray];
         self.commentArray = [NSArray arrayWithArray:tArray];
         [self.tableView reloadData];
+    } error:^(NSError *error) {
+        
+        self.isLoading = NO;
+        [self.jtTableView.bottomLoadingView stopActivityAnimation];
     }];
 }
 
@@ -150,7 +157,7 @@
     JTTableViewCell *jtcell = (JTTableViewCell *)cell;
     [jtcell prepareCellForTableView:tableView atIndexPath:indexPath];
     
-    if (self.commentArray.count-1 <= indexPath.row && self.isRemain)
+    if (self.commentArray.count-1 <= indexPath.row && self.isRemain && !self.jtTableView.bottomLoadingView.isActivityAnimating)
     {
         [self requestMoreShopComments];
     }

@@ -10,6 +10,7 @@
 
 @interface InsuranceDetailPlanVC : UIViewController
 
-@property (nonatomic,strong)NSArray * selectInsurance;
+@property (strong,nonatomic)NSArray * planArray;
+@property (nonatomic)CGFloat carPrice;
 
 @end

@@ -113,6 +113,12 @@
     return [self.promptionCache objectForKey:key];
 }
 
+- (NSArray *)getProvinceArray
+{
+    NSArray * array = @[@{@"浙":@"浙江"},@{@"沪":@"上海"},@{@"京":@"北京"},@{@"苏":@"江苏"},@{@"海":@"海南"}];
+    return array;
+}
+
 #pragma mark - 升级相关
 - (void)startUpdatingWithURLString:(NSString *)strurl
 {
