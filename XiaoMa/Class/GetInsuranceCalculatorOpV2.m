@@ -6,15 +6,15 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "GetInsuranceCalculatorOp.h"
+#import "GetInsuranceCalculatorOpV2.h"
 #import "NSDate+DateForText.h"
 #import "HKInsurance.h"
 
-@implementation GetInsuranceCalculatorOp
+@implementation GetInsuranceCalculatorOpV2
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/insurance/calculator/get";
+    self.req_method = @"/insurance/calculator/v2/get";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params safetySetObject:self.req_city forKey:@"city"];

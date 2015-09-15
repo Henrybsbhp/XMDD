@@ -8,7 +8,7 @@
 
 #import "BaseOp.h"
 
-@interface GetInsuranceCalculatorOp : BaseOp
+@interface GetInsuranceCalculatorOpV2 : BaseOp
 
 ///城市
 @property (nonatomic,copy)NSString * req_city;

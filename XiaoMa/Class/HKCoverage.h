@@ -8,22 +8,25 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ 枚举值可用作id
+ */
 typedef enum : NSUInteger {
-    InsuranceCompulsory = 1101,//交强险
-    InsuranceTravelTax = 1102, //车船税
-    InsuranceCarDamage,//车辆损失险
-    InsuranceThirdPartyLiability,//第三方责任险
-    InsuranceCarSeatInsuranceOfDriver,//车上人员座位险（司机）
-    InsuranceCarSeatInsuranceOfPassenger,//车上人员座位险（乘客）
-    InsuranceWholeCarStolen,//全车盗抢险
-    InsuranceSeparateGlassBreakage,//玻璃单独破碎险
-    InsuranceSpontaneousLossRisk,//自燃损失险
-    InsuranceWaterLoss,//涉水损失险
-    InsuranceExcludingDeductible4CarDamage,//车损险不计免赔
-    InsuranceExcludingDeductible4ThirdPartyLiability,//第三者责任险不计免赔
-    InsuranceExcludingDeductible4CarSeatInsuranceOfDriver,//车上责任险（司机）不计免赔
-    InsuranceExcludingDeductible4CarSeatInsuranceOfPassenger,//车上责任险（乘客）不计免赔
-    InsuranceExcludingDeductible4WholeCarStolen//全车盗抢险不计免赔
+    InsuranceCompulsory = 14,//交强险
+    InsuranceTravelTax = 15, //车船税
+    InsuranceCarDamage = 1,//车辆损失险
+    InsuranceThirdPartyLiability = 2,//第三方责任险
+    InsuranceCarSeatInsuranceOfDriver = 3,//车上人员座位险（司机）
+    InsuranceCarSeatInsuranceOfPassenger =4,//车上人员座位险（乘客）
+    InsuranceWholeCarStolen = 5,//全车盗抢险
+    InsuranceSeparateGlassBreakage =6,//玻璃单独破碎险
+    InsuranceSpontaneousLossRisk =7,//自燃损失险
+    InsuranceWaterLoss = 8,//涉水损失险
+    InsuranceExcludingDeductible4CarDamage = 9,//车损险不计免赔
+    InsuranceExcludingDeductible4ThirdPartyLiability = 10,//第三者责任险不计免赔
+    InsuranceExcludingDeductible4CarSeatInsuranceOfDriver = 11,//车上责任险（司机）不计免赔
+    InsuranceExcludingDeductible4CarSeatInsuranceOfPassenger = 12,//车上责任险（乘客）不计免赔
+    InsuranceExcludingDeductible4WholeCarStolen =13//全车盗抢险不计免赔
 } InsuranceCategory;
 
 typedef enum : NSUInteger {
@@ -33,6 +36,12 @@ typedef enum : NSUInteger {
     InsuranceTypeContractualTerms//特约条款
 } InsuranceType;
 
+typedef enum : NSUInteger {
+    InsuranceCompulsoryDiscount = 1,//交强
+    InsuranceTravelTaxDiscount,//车船
+    InsuranceBusinessDiscount//商业
+} InsuranceDiscountType;
+
 @interface HKCoverage : NSObject
 
 @property (nonatomic,strong)NSNumber * insId;
@@ -40,6 +49,8 @@ typedef enum : NSUInteger {
 @property (nonatomic,copy)NSString * insName;
 
 @property (nonatomic)InsuranceCategory insCategory;
+
+@property (nonatomic)InsuranceDiscountType discountType;
 
 /**
  *  是否包含不计免赔,为了增加customFlag，做成number

@@ -14,6 +14,9 @@
 @interface SubInsurance : NSObject
 
 ///险种名称
+@property (nonatomic)NSInteger coveragerId;
+
+///险种名称
 @property (nonatomic,copy)NSString * coveragerName;
 
 ///险种金额
