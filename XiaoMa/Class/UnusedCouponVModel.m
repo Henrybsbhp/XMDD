@@ -176,7 +176,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 85;
+    return 90;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -239,12 +239,12 @@
         name.text = couponDic.couponName;
         description.text = [NSString stringWithFormat:@"使用说明：%@",couponDic.couponDescription];
         validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",[couponDic.validsince dateFormatForYYMMdd2],[couponDic.validthrough dateFormatForYYMMdd2]];
-        backgroundImg.image = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:HEXCOLOR(bgColorName)];
+        backgroundImg.image = [[UIImage imageNamed:@"coupon_background"] imageByFilledWithColor:HEXCOLOR(bgColorName)];
     }
     else {
         [statusB setTitle:@"已过期" forState:UIControlStateNormal];
         bgColorName = @"#d0d0d0";
-        backgroundImg.image = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:HEXCOLOR(bgColorName)];
+        backgroundImg.image = [[UIImage imageNamed:@"coupon_background"] imageByFilledWithColor:HEXCOLOR(bgColorName)];
         name.text = couponDic.couponName;
         description.text = [NSString stringWithFormat:@"使用说明：%@",couponDic.couponDescription];
         validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",[couponDic.validsince dateFormatForYYMMdd2],[couponDic.validthrough dateFormatForYYMMdd2]];

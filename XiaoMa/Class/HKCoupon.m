@@ -28,6 +28,28 @@
     coupon.validsince = [NSDate dateWithD8Text:[NSString stringWithFormat:@"%@",rsp[@"validsince"]]];
     coupon.validthrough = [NSDate dateWithD8Text:[NSString stringWithFormat:@"%@",rsp[@"validthrough"]]];
     coupon.conponType = (CouponType)[rsp integerParamForName:@"type"];
+    coupon.rgbColor = [rsp stringParamForName:@"rgb"];
+    coupon.logo = [rsp stringParamForName:@"logo"];
+    coupon.subname = rsp[@"subname"];
+    return coupon;
+}
+
++ (instancetype)couponDetailsWithJSONResponse:(NSDictionary *)rsp
+{
+    if (!rsp)
+    {
+        return nil;
+    }
+    HKCoupon * coupon = [[HKCoupon alloc] init];
+    coupon.couponName = rsp[@"name"];
+    coupon.couponDescription = rsp[@"description"];
+    coupon.validsince = [NSDate dateWithD8Text:[NSString stringWithFormat:@"%@",rsp[@"validsince"]]];
+    coupon.validthrough = [NSDate dateWithD8Text:[NSString stringWithFormat:@"%@",rsp[@"validthrough"]]];
+    coupon.rgbColor = [rsp stringParamForName:@"rgb"];
+    coupon.logo = [rsp stringParamForName:@"logo"];
+    coupon.subname = rsp[@"subname"];
+    coupon.useguide = rsp[@"useguide"];
+
     return coupon;
 }
 
