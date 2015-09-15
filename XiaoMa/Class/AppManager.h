@@ -71,7 +71,7 @@
 @property (nonatomic,strong)NSArray * searchHistoryArray;
 
 @property (nonatomic,strong)NSDictionary * discountRateDict;
-
+@property (nonatomic,strong)NSDictionary * carwashRateDict;
 
 
 ///获取上次的定位地址和天气信息

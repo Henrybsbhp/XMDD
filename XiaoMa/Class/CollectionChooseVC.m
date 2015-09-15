@@ -106,7 +106,7 @@
     NSDictionary * d = [self.datasource safetyObjectAtIndex:indexPath.section * 3 + indexPath.row];
     NSString * key = [d.allKeys safetyObjectAtIndex:0];
     NSString * value = [d objectForKey:key];
-    titleLabel.text = value;
+    titleLabel.text = [NSString stringWithFormat:@"%@%@",key,value];
     view.borderWidth = 0.5f;
     view.borderColor = [UIColor lightGrayColor];
     
