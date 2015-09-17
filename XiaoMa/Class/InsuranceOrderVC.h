@@ -12,5 +12,6 @@
 @interface InsuranceOrderVC : UIViewController
 
 @property (nonatomic, strong) HKInsuranceOrder *order;
+@property (nonatomic, strong) NSNumber *orderID;
 
 @end

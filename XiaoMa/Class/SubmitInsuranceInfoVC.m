@@ -197,7 +197,8 @@
     //获取行驶证url
     if (self.pickedPhotoUrl.length == 0) {
         UploadFileOp *op = [UploadFileOp new];
-        op.req_fileType = @"jpg";
+        op.req_fileType = UploadFileTypeDrivingLicense;
+        op.req_fileExtType = @"jpg";
         [op setFileArray:@[self.pickedPhoto] withGetDataBlock:^NSData *(UIImage *img) {
             return UIImageJPEGRepresentation(img, 0.5);
         }];

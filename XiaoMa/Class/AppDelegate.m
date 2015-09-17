@@ -28,6 +28,7 @@
 #import "MainTabBarVC.h"
 #import "HKAdvertisement.h"
 #import "LaunchVC.h"
+#import "HKLaunchManager.h"
 
 #define RequestWeatherInfoInterval 60 * 10
 //#define RequestWeatherInfoInterval 5
@@ -39,6 +40,7 @@
 /// 日志
 @property (nonatomic,strong)JTLogModel * logModel;
 @property (nonatomic, strong) HKCatchErrorModel *errorModel;
+@property (nonatomic, strong) HKLaunchManager *launchMgr;
 
 @end
 
@@ -81,12 +83,19 @@
     }
     //检测版本更新
     [self setupVersionUpdating];
+    //设置启动页管理器
+    [self setupLaunchManager];
     [self setupRootView];
     
     return YES;
 }
 
 #pragma mark - Initialize
+- (void)setupLaunchManager
+{
+    self.launchMgr = [[HKLaunchManager alloc] init];
+}
+
 - (void)setupRootView
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -96,14 +105,16 @@
     }
     else {
         //如果本地没有启动页的相关信息，则直接进入主页，否则进入启动页
-        HKAdvertisement *ad = [[gAdMgr loadLastAdvertiseInfo:AdvertisementTypeLaunch] safetyObjectAtIndex:0];
-        NSString *adurl = [gMediaMgr urlWith:ad.adPic imageType:ImageURLTypeMedium];
-        if (!ad || ![gMediaMgr cachedImageExistsForUrl:adurl]) {
+        HKLaunchInfo *info = [self.launchMgr fetchLatestLaunchInfo];
+        NSString *url = [info croppedPicUrl];
+        if (!info || ![gMediaMgr cachedImageExistsForUrl:url]) {
             vc = [UIStoryboard vcWithId:@"MainTabBarVC" inStoryboard:@"Main"];
         }
         else {
-            vc = [UIStoryboard vcWithId:@"LaunchVC" inStoryboard:@"Main"];
-            [(LaunchVC *)vc setImage:[gMediaMgr imageFromDiskCacheForUrl:adurl]];
+            LaunchVC *lvc = [UIStoryboard vcWithId:@"LaunchVC" inStoryboard:@"Launch"];
+            [lvc setImage:[gMediaMgr imageFromDiskCacheForUrl:url]];
+            [lvc setInfo:info];
+            vc = lvc;
         }
     }
     [self resetRootViewController:vc];
@@ -170,7 +181,7 @@
         if (fabs(timeInterval) > RequestWeatherInfoInterval)
         {
             CKAsyncMainQueue(^{
-                    [self getLocation];
+                [self getLocation];
             });
         }
     });
@@ -180,8 +191,9 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
     //每次应用激活，都尝试更新一下启动页的信息
-    [gAdMgr checkUpdatingByType:AdvertisementTypeLaunch];
+    [self.launchMgr checkLaunchInfoUpdating];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -407,7 +419,6 @@
                     }
                 }];
                 [av show];
-                
             }
         }
     }];

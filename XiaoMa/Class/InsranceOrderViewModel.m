@@ -9,7 +9,6 @@
 #import "InsranceOrderViewModel.h"
 #import "XiaoMa.h"
 #import "GetInsuranceOrderListOp.h"
-#import "InsuranceOrderDetailVC.h"
 #import "InsuranceOrderVC.h"
 
 @interface InsranceOrderViewModel ()<HKLoadingModelDelegate>
@@ -39,6 +38,17 @@
     //    [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
 }
 
+#pragma mark - Action
+- (void)actionBuy:(id)sender
+{
+    
+}
+
+- (void)actionMakeCall:(id)sender
+{
+    [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
+}
+
 #pragma mark - HKLoadingModelDelegate
 - (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
 {
@@ -66,8 +76,8 @@
 
 - (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
 {
-    HKInsuranceOrder *hkmodel = [model.datasource lastObject];
-    //self.curTradetime = hkmodel.tradetime;
+//    HKInsuranceOrder *hkmodel = [model.datasource lastObject];
+//    self.curTradetime = hkmodel.tradetime;
     [self.tableView reloadData];
 }
 
@@ -75,12 +85,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return self.loadingModel.datasource.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.loadingModel.datasource.count;
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -108,21 +118,31 @@
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:3002];
     UIButton *bottomB = (UIButton *)[cell.contentView viewWithTag:4001];
     
-    nameL.text = @"太平保险";
-    stateL.text = @"保单受理中";
-    contentL.text = @"购买三年保险一份";
-    timeL.text = @"2015.09.01 09:00";
-    priceL.text = @"￥1234564";
-    [bottomB setTitle:@"买好了123" forState:UIControlStateNormal];
+    HKInsuranceOrder *order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     
-//    HKInsuranceOrder *order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
-//    
-//    nameL.text = [order descForCurrentInstype];
-//    stateL.text = [order descForCurrentStatus];
-//    contentL.text = [order generateContent];
-//    timeL.text = [order.lstupdatetime dateFormatForYYYYMMddHHmm];
-//    priceL.text = [NSString stringWithFormat:@"￥%d", (int)(order.policy.premium)];
-//    paymentL.text = [order paymentForCurrentChannel];
+    nameL.text = [order descForCurrentInstype];
+    stateL.text = [order descForCurrentStatus];
+    contentL.text = [order generateContent];
+    timeL.text = [order.lstupdatetime dateFormatForYYYYMMddHHmm];
+    priceL.text = [NSString stringWithFormat:@"￥%d", (int)(order.policy.premium)];
+    
+    BOOL unpaid = order.status == InsuranceOrderStatusUnpaid;
+    [bottomB setTitle:unpaid ? @"买了" : @"联系客服" forState:UIControlStateNormal];
+    [bottomB setTitleColor:unpaid ? RGBCOLOR(251, 88, 15) : RGBCOLOR(21, 172, 31) forState:UIControlStateNormal];
+    bottomB.layer.borderColor = unpaid ? [RGBCOLOR(251, 88, 15) CGColor] : [RGBCOLOR(21, 172, 31) CGColor];
+    
+     @weakify(self);
+    [[[bottomB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+     subscribeNext:^(id x) {
+         
+        @strongify(self);
+         if (unpaid) {
+             [self actionBuy:x];
+         }
+         else {
+             [self actionMakeCall:x];
+         }
+    }];
 
     cell.separatorInset = UIEdgeInsetsZero;
     return cell;

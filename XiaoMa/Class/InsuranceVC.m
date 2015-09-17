@@ -17,7 +17,7 @@
 #import "EnquiryInsuranceVC.h"
 #import "WebVC.h"
 #import "ADViewController.h"
-#import "UploadInsuranceInfoVC.h"
+#import "InsuranceInfoSubmitingVC.h"
 #import "InsuranceChooseViewController.h"
 #import "PaymentHelper.h"
 
@@ -74,11 +74,9 @@
 
 - (void)actionInsuranceDirectSelling {
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        UploadInsuranceInfoVC *vc = [UIStoryboard vcWithId:@"UploadInsuranceInfoVC" inStoryboard:@"Insurance"];
+        InsuranceInfoSubmitingVC *vc = [UIStoryboard vcWithId:@"InsuranceInfoSubmitingVC" inStoryboard:@"Insurance"];
+        vc.submitModel = InsuranceInfoSubmitForDirectSell;
         [self.navigationController pushViewController:vc animated:YES];
-        [vc setFinishBlock:^UIViewController *(BOOL skip, UIViewController *targetvc) {
-            return [UIStoryboard vcWithId:@"InsuranceChooseViewController" inStoryboard:@"Insurance"];
-        }];
     }
 }
 
@@ -126,4 +124,8 @@
     return 10;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 2;
+}
 @end

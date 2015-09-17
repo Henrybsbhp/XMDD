@@ -10,7 +10,7 @@
 #import "JDFlipNumberView.h"
 #import "HKCoverage.h"
 #import "InsuranceCalcHelper.h"
-#import "UploadInsuranceInfoVC.h"
+#import "InsuranceInfoSubmitingVC.h"
 #import "InsuranceResultVC.h"
 
 
@@ -50,13 +50,9 @@
 {
     [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
        
-        UploadInsuranceInfoVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"UploadInsuranceInfoVC"];
-        vc.allowSkip = NO;
+        InsuranceInfoSubmitingVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceInfoSubmitingVC"];
+        vc.submitModel = InsuranceInfoSubmitForEnquiry;
         [self.navigationController pushViewController:vc animated:YES];
-        [vc setFinishBlock:^UIViewController *(BOOL skip, UIViewController *targetvc) {
-            InsuranceResultVC *vc = [UIStoryboard vcWithId:@"InsuranceResultVC" inStoryboard:@"Insurance"];
-            return vc;
-        }];
     }];
 }
 

@@ -75,6 +75,7 @@ typedef enum : NSUInteger {
 #define MapZoomLevel 15.1000
 #define PageAmount 10
 #define kVCodePromptInteval     15
+#define kLaunchBottomViewHeight     102
 
 #define AppleNavigationStr @"苹果地图"
 #define BaiduNavigationStr @"百度地图"

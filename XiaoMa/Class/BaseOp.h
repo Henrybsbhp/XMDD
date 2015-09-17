@@ -60,6 +60,7 @@
 - (RACSignal *)rac_invokeWithRPCClient:(AFHTTPRequestOperationManager *)manager params:(id)params security:(BOOL)security;
 
 + (instancetype)operation;
+- (void)increaseRequistIDs;
 
 + (void)cancelAllCurrentClassOpsInClient:(AFHTTPRequestOperationManager *)client;
 

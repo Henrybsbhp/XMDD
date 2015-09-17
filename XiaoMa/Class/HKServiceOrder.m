@@ -23,6 +23,7 @@
     order.shop = [JTShop shopWithJSONResponse:rsp[@"shop"]];
     order.licencenumber = rsp[@"licencenumber"];
     order.paychannel = [rsp integerParamForName:@"paychannel"];
+    order.paydesc = rsp[@"paydesc"];
     order.txtime = [NSDate dateWithD14Text:rsp[@"txtime"]];
     order.rating = [rsp floatParamForName:@"rating"];
     order.comment = rsp[@"comment"];
