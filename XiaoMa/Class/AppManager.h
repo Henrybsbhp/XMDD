@@ -45,6 +45,11 @@
 
 @property (nonatomic, strong) MultiMediaManager *mediaMgr;
 
+/**
+ *  评价小标，从1-5星排序
+ */
+@property (nonatomic,strong)NSArray * commentList;
+
 
 + (AppManager *)sharedManager;
 

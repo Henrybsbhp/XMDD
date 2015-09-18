@@ -19,7 +19,6 @@
 #import "GetSystemTipsOp.h"
 #import "GetSystemPromotionOp.h"
 #import "ServiceViewController.h"
-#import <AFNetworking2-RACExtensions/AFHTTPRequestOperationManager+RACSupport.h>
 #import "JTUser.h"
 #import "WebVC.h"
 #import "SocialShareViewController.h"
@@ -34,6 +33,8 @@
 #import "ADViewController.h"
 #import "CollectionChooseVC.h"
 #import "InsuranceDetailPlanVC.h"
+
+#import "PaymentSuccessVC.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 

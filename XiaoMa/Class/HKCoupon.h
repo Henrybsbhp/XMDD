@@ -20,6 +20,12 @@ typedef enum : NSUInteger {
 } CouponType;
 
 typedef enum : NSUInteger {
+    CouponNewTypeCarWash = 1, //洗车券
+    CouponNewTypeInsurance, //保险券
+    CouponNewTypeOthers //其他券
+} CouponNewType;
+
+typedef enum : NSUInteger {
     CouponUse = 1,//已使用
     CouponUnuse//未使用
 } CouponUseType;
@@ -36,7 +42,7 @@ typedef enum : NSUInteger {
 @property (nonatomic)CGFloat couponAmount;
 
 ///优惠券描述
-@property (nonatomic,copy)NSString * couponDescription;
+@property (nonatomic, copy)NSString * couponDescription;
 
 ///是否已使用
 @property (nonatomic)BOOL used;
@@ -56,7 +62,21 @@ typedef enum : NSUInteger {
 ///优惠券类型
 @property (nonatomic)CouponType conponType;
 
+///优惠券颜色
+@property (nonatomic, copy)NSString * rgbColor;
+
+///优惠券logo
+@property (nonatomic, copy)NSString * logo;
+
+///优惠券子名字
+@property (nonatomic, copy)NSString * subname;
+
+
+///以下为优惠券详情的字段
+@property (nonatomic, strong)NSArray * useguide;
+
 + (instancetype)couponWithJSONResponse:(NSDictionary *)rsp;
 
++ (instancetype)couponDetailsWithJSONResponse:(NSDictionary *)rsp;
 
 @end
