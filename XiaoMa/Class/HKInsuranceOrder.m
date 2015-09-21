@@ -26,7 +26,9 @@
     order.policy = [HKInsurance insuranceWithJSONResponse:rsp[@"policy"]];
     order.validperiod = rsp[@"validperiod"];
     order.paychannel = [rsp integerParamForName:@"paychannel"];
-    
+    order.paydesc = rsp[@"paydesc"];
+    order.insdeliveryno = rsp[@"insdeliveryno"];
+    order.insdeliverycomp = rsp[@"insdeliverycomp"];
     order.totoalpay = [rsp floatParamForName:@"totalpay"];
     order.status = [rsp integerParamForName:@"status"];
     order.lstupdatetime = [NSDate dateWithD14Text:rsp[@"lstupdatetime"]];
@@ -69,12 +71,36 @@
 
 - (NSString *)descForCurrentStatus
 {
-    return @"保单已寄出";
+    NSString *desc;
+    switch (self.status) {
+        case InsuranceOrderStatusUnpaid:
+            desc = @"未支付";
+            break;
+        case InsuranceOrderStatusPaid:
+            desc = @"保单受理中";
+            break;
+        case InsuranceOrderStatusComplete:
+            desc = @"保单已出";
+            break;
+        case InsuranceOrderStatusStopping:
+            desc = @"停保审核中";
+            break;
+        case InsuranceOrderStatusStopped:
+            desc = @"已停保";
+            break;
+        case InsranceOrderStatusClose:
+            desc = @"订单已关闭";
+            break;
+        default:
+            desc = @"订单已关闭";
+            break;
+    }
+    return desc;
 }
 
 - (NSString *)generateContent
 {
-    return @"购买一年保险";
+    return @"购买一年保险一份";
 }
 
 @end

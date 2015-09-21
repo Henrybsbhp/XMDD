@@ -12,19 +12,14 @@
 #import "GetInsuranceOrderDetailsOp.h"
 #import "InsuranceOrderPayOp.h"
 #import "PayForInsuranceVC.h"
+#import "HKLoadingModel.h"
 
-typedef enum : NSInteger
-{
-    InsuranceOrderStatusWaiting,
-    InsuranceOrderStatusPaid,
-    InsuranceOrderStatusComplete
-}InsuranceOrderStatus;
-@interface InsuranceOrderVC ()<UITableViewDataSource,UITableViewDelegate>
+@interface InsuranceOrderVC ()<UITableViewDataSource,UITableViewDelegate,HKLoadingModelDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *bottomButton;
-@property (nonatomic, assign) InsuranceOrderStatus orderStatus;
 @property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) NSArray *coverages;
+@property (nonatomic, strong) HKLoadingModel *loadingModel;
 @end
 
 @implementation InsuranceOrderVC
@@ -32,7 +27,16 @@ typedef enum : NSInteger
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self reloadWithOrderStatus:InsuranceOrderStatusWaiting];
+    self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
+    if (self.order) {
+        self.orderID = self.order.orderid;
+        [self.tableView.refreshView addTarget:self.loadingModel action:@selector(reloadData)
+                             forControlEvents:UIControlEventValueChanged];
+        [self reloadWithOrderStatus:self.order.status];
+    }
+    else {
+        [self.loadingModel loadDataForTheFirstTime];
+    }
 }
 
 - (void)resetBottomButton
@@ -40,7 +44,7 @@ typedef enum : NSInteger
     UIColor *bgColor;
     SEL action;
     NSString *title;
-    if (self.orderStatus == InsuranceOrderStatusWaiting) {
+    if (self.order.status == InsuranceOrderStatusUnpaid) {
         bgColor = HEXCOLOR(@"#ff5a00");
         title = @"去支付";
         action = @selector(actionPay:);
@@ -58,31 +62,57 @@ typedef enum : NSInteger
     [self.bottomButton addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
 }
 #pragma mark - Load
+- (void)reloadDatasource
+{
+
+}
+
 - (void)reloadWithOrderStatus:(InsuranceOrderStatus)status
 {
-    self.orderStatus = status;
-    self.titles = @[@[@"被保险人",@"李美美"],
-                    @[@"保险公司",@"太平保险"],
-                    @[@"证件号码",@"330100101001010011"],
-                    @[@"投保车辆",@"浙A12345"],
-                    @[@"共计保费",@"￥4500.00"],
-                    @[@"保险期限",@"2015.06.01-2016.06.01"]];
-    self.coverages = @[@[@"机动车损失险",@"359555.00"],
-                       @[@"车上乘客责任险",@"1000.00/座*4座"],
-                       @[@"第三责任险",@"500000.00"],
-                       @[@"不计免赔险",@"1000.00/座*1座"],
-                       @[@"交强险",@"950.00"]];
+    self.order.status = status;
+    id amount;
+    //优惠额度
+    int activityAmount = floor(self.order.activityAmount);
+    if (activityAmount > 0) {
+        NSString *str = [NSString stringWithFormat:@"(已优惠%d) ", activityAmount];
+        NSDictionary *attr = @{NSForegroundColorAttributeName:HEXCOLOR(@"#8b9eb3"),
+                               NSFontAttributeName:[UIFont systemFontOfSize:12]};
+        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:attr];
+        
+        str = [NSString stringWithFormat:@"￥%.2f ", self.order.totoalpay];
+        attr = @{NSForegroundColorAttributeName:[UIColor blackColor],
+                 NSFontAttributeName:[UIFont systemFontOfSize:12],
+                 NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle)};
+        [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:attr]];
+        
+        str = [NSString stringWithFormat:@"￥%.2f", self.order.totoalpay-activityAmount];
+        attr = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
+                 NSForegroundColorAttributeName:[UIColor blackColor]};
+        [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:attr]];
+        amount = attrStr;
+    }
+    else {
+        amount = [NSString stringWithFormat:@"￥%.2f", self.order.totoalpay-activityAmount];
+    }
+    
+    self.titles = @[RACTuplePack(@"被保险人",_order.policyholder),
+                    RACTuplePack(@"保险公司",_order.inscomp),
+                    RACTuplePack(@"证件号码",_order.idcard),
+                    RACTuplePack(@"投保车辆",_order.licencenumber),
+                    RACTuplePack(@"共计保费",amount),
+                    RACTuplePack(@"保险期限",_order.validperiod)];
+    
+    self.coverages = self.order.policy.subInsuranceArray;
     [self resetBottomButton];
-    //保险订单详情接口试调
-    GetInsuranceOrderDetailsOp * op = [GetInsuranceOrderDetailsOp operation];
-    op.req_orderid = [ NSString stringWithFormat:@"%@",self.order.orderid];
-    [[op rac_postRequest] subscribeNext:^(GetInsuranceOrderDetailsOp * op) {
-        
-        
-    }error:^(NSError *error) {
-        
-    }];
     [self.tableView reloadData];
+}
+
+- (NSString *)strValueFrom:(id)value
+{
+    if ([value isKindOfClass:[NSString class]]) {
+        return value;
+    }
+    return @"";
 }
 #pragma mark - Action
 - (void)actionPay:(id)sender {
@@ -92,7 +122,34 @@ typedef enum : NSInteger
 }
 
 - (void)actionMakeCall:(id)sender {
-    
+    [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
+}
+
+#pragma mark - HKLoadingModelDelegate
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
+{
+    return @"该订单已消失";
+}
+
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+{
+    return @"获取订单信息失败，点击重试";
+}
+
+
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+{
+    //保险订单详情接口试调
+    GetInsuranceOrderDetailsOp * op = [GetInsuranceOrderDetailsOp operation];
+    op.req_orderid = self.orderID;
+    return [[op rac_postRequest] map:^id(GetInsuranceOrderDetailsOp *rspOp) {
+        self.order = rspOp.rsp_order;
+        return [NSArray arrayWithObject:rspOp.rsp_order];
+    }];
+}
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+{
+    [self reloadWithOrderStatus:self.order.status];
 }
 
 #pragma mark - UITableViewDelegate
@@ -138,11 +195,29 @@ typedef enum : NSInteger
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"HeaderCell" forIndexPath:indexPath];
     UIImageView *line1 = (UIImageView *)[cell.contentView viewWithTag:1002];
     UIImageView *line2 = (UIImageView *)[cell.contentView viewWithTag:1004];
-    [self resetStepViewInCell:cell highlight:(self.orderStatus == InsuranceOrderStatusWaiting) baseTag:10010];
-    [self resetStepViewInCell:cell highlight:(self.orderStatus == InsuranceOrderStatusPaid) baseTag:10030];
-    [self resetStepViewInCell:cell highlight:(self.orderStatus == InsuranceOrderStatusComplete) baseTag:10050];
-    line1.highlighted = self.orderStatus != InsuranceOrderStatusComplete;
-    line2.highlighted = self.orderStatus != InsuranceOrderStatusWaiting;
+    UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1006];
+    
+    [self resetStepViewInCell:cell highlight:(self.order.status == InsuranceOrderStatusUnpaid) baseTag:10010];
+    [self resetStepViewInCell:cell highlight:(self.order.status == InsuranceOrderStatusPaid) baseTag:10030];
+    [self resetStepViewInCell:cell highlight:(self.order.status == InsuranceOrderStatusComplete) baseTag:10050];
+    
+    line1.highlighted = self.order.status == InsuranceOrderStatusUnpaid || self.order.status == InsuranceOrderStatusPaid;
+    line2.highlighted = self.order.status == InsuranceOrderStatusPaid || self.order.status == InsuranceOrderStatusComplete;
+    
+    switch (self.order.status) {
+        case InsuranceOrderStatusUnpaid:
+            titleL.text = @"请确认保单";
+            break;
+        case InsuranceOrderStatusPaid:
+            titleL.text = @"保单正在处理中";
+            break;
+        case InsuranceOrderStatusComplete:
+            titleL.text = @"保单将尽快寄出";
+            break;
+        default:
+            titleL.text = [self.order descForCurrentStatus];
+            break;
+    }
     return cell;
 }
 
@@ -161,17 +236,22 @@ typedef enum : NSInteger
     //清除label
     [containerV.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     id uponV = containerV;
-    for (NSArray *item in self.titles) {
+    for (RACTuple *item in self.titles) {
         UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         leftLabel.textColor = HEXCOLOR(@"#8b9eb3");
         leftLabel.font = [UIFont systemFontOfSize:14];
-        leftLabel.text = [item safetyObjectAtIndex:0];
+        leftLabel.text = item[0];
         [containerV addSubview:leftLabel];
         
         UILabel *rightLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         rightLabel.textColor = HEXCOLOR(@"#000000");
         rightLabel.font = [UIFont systemFontOfSize:14];
-        rightLabel.text = [item safetyObjectAtIndex:1];
+        id text = item[1];
+        if ([text isKindOfClass:[NSString class]]) {
+            text = [[NSAttributedString alloc] initWithString:text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14],
+                                                                                NSForegroundColorAttributeName:[UIColor blackColor]}];
+        }
+        rightLabel.attributedText = text;
         rightLabel.textAlignment = NSTextAlignmentRight;
         [containerV addSubview:rightLabel];
 
@@ -214,11 +294,16 @@ typedef enum : NSInteger
         rightL.backgroundColor = HEXCOLOR(@"#dae7f7");
         [rightL showBorderLineWithDirectionMask:CKViewBorderDirectionAll];
     }
-    for (NSArray *item in self.coverages) {
+    for (SubInsurance *item in self.coverages) {
         leftL = [self baseCoverageLabelForRight:NO uponView:leftL leftView:nil containerView:containerV];
-        leftL.text = [item safetyObjectAtIndex:0];
+        leftL.text = item.coveragerName;
         rightL = [self baseCoverageLabelForRight:YES uponView:rightL leftView:leftL containerView:containerV];
-        rightL.text = [item safetyObjectAtIndex:1];
+        if ([item.coveragerValue isKindOfClass:[NSNumber class]]) {
+            rightL.text = [item.coveragerValue description];
+        }
+        else {
+            rightL.text = item.coveragerValue;
+        }
     }
     return cell;
 }

@@ -41,10 +41,10 @@
             if (maxTimetag < brand.timetag) {
                 maxTimetag = brand.timetag;
             }
-            [gAppMgr.defDataMgr saveContext];
-            [def setObject:maxTimetag forKey:kAutoBrandTimetag];
             return brand;
         }];
+        [gAppMgr.defDataMgr saveContext];
+        [def setObject:maxTimetag forKey:kAutoBrandTimetag];
         return brands;
     }];
 }

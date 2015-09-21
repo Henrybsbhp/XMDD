@@ -82,7 +82,7 @@
     self.detailItems = @[RACTuplePack(@"服务项目：", self.order.servicename),
                          RACTuplePack(@"项目价格：", strpirce),
                          RACTuplePack(@"我的车辆：", self.order.licencenumber),
-                         RACTuplePack(@"支付方式：", [self.order paymentForCurrentChannel]),
+                         RACTuplePack(@"支付方式：", self.order.paydesc),
                          RACTuplePack(@"支付时间：", [self.order.txtime dateFormatForYYYYMMddHHmm])];
     [self.tableView reloadData];
 }

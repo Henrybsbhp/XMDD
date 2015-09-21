@@ -33,40 +33,20 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2x0-tf-Byt">
                                 <rect key="frame" x="0.0" y="461" width="600" height="75"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="您已选择的爱车：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kAw-sk-1Nk">
-                                        <rect key="frame" x="30" y="8" width="540" height="17"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MI5-Vr-LCx">
-                                        <rect key="frame" x="30" y="33" width="508" height="24"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="500" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MI5-Vr-LCx">
+                                        <rect key="frame" x="14" y="10" width="572" height="55"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xJb-yl-LL3">
-                                        <rect key="frame" x="548" y="34.5" width="22" height="22"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="22" id="4i3-cW-F2e"/>
-                                            <constraint firstAttribute="width" constant="22" id="dYb-MY-FDO"/>
-                                        </constraints>
-                                        <state key="normal" image="mec_check1">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="kAw-sk-1Nk" firstAttribute="leading" secondItem="2x0-tf-Byt" secondAttribute="leading" constant="30" id="1lO-rU-JYJ"/>
-                                    <constraint firstItem="xJb-yl-LL3" firstAttribute="leading" secondItem="MI5-Vr-LCx" secondAttribute="trailing" constant="10" id="CcS-Rk-imk"/>
-                                    <constraint firstItem="kAw-sk-1Nk" firstAttribute="top" secondItem="2x0-tf-Byt" secondAttribute="top" constant="8" id="IFi-gq-Pcq"/>
+                                    <constraint firstItem="MI5-Vr-LCx" firstAttribute="leading" secondItem="2x0-tf-Byt" secondAttribute="leading" constant="14" id="1ju-Ht-Xgp"/>
                                     <constraint firstAttribute="height" constant="75" id="Riy-od-ZXb"/>
-                                    <constraint firstItem="MI5-Vr-LCx" firstAttribute="centerY" secondItem="xJb-yl-LL3" secondAttribute="centerY" constant="-0.25" id="Tah-Dc-fP2"/>
-                                    <constraint firstItem="MI5-Vr-LCx" firstAttribute="top" secondItem="kAw-sk-1Nk" secondAttribute="bottom" constant="8" id="gY9-XV-rAJ"/>
-                                    <constraint firstAttribute="trailing" secondItem="kAw-sk-1Nk" secondAttribute="trailing" constant="30" id="kaV-c1-XyQ"/>
-                                    <constraint firstItem="kAw-sk-1Nk" firstAttribute="leading" secondItem="MI5-Vr-LCx" secondAttribute="leading" id="wEa-xR-rd4"/>
-                                    <constraint firstAttribute="trailing" secondItem="xJb-yl-LL3" secondAttribute="trailing" constant="30" id="zfi-id-Oct"/>
+                                    <constraint firstItem="MI5-Vr-LCx" firstAttribute="top" secondItem="2x0-tf-Byt" secondAttribute="top" constant="10" id="TKk-eC-QBR"/>
+                                    <constraint firstAttribute="trailing" secondItem="MI5-Vr-LCx" secondAttribute="trailing" constant="14" id="nZd-XE-pi4"/>
+                                    <constraint firstAttribute="bottom" secondItem="MI5-Vr-LCx" secondAttribute="bottom" constant="10" id="yXp-ZS-O75"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -100,9 +80,7 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
-                        <outlet property="bottomCheckView" destination="xJb-yl-LL3" id="geB-Q5-q9h"/>
-                        <outlet property="bottomLicenseNoLabel" destination="MI5-Vr-LCx" id="hif-U0-juW"/>
-                        <outlet property="bottomTitlelabel" destination="kAw-sk-1Nk" id="muC-EL-ZYS"/>
+                        <outlet property="bottomTitlelabel" destination="MI5-Vr-LCx" id="tsv-Gb-L1A"/>
                         <outlet property="bottomView" destination="2x0-tf-Byt" id="hMN-VW-mjD"/>
                         <outlet property="scrollView" destination="GuI-jf-ZZh" id="hND-uz-Aup"/>
                     </connections>
@@ -112,7 +90,4 @@
             <point key="canvasLocation" x="355" y="338"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="mec_check1" width="22" height="22"/>
-    </resources>
 </document>

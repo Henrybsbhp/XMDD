@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HKAdvertisement.h"
+#import "HKLaunchInfo.h"
 
 @interface LaunchVC : UIViewController
 
 @property (nonatomic, strong) UIImage *image;
+@property (nonatomic, strong) HKLaunchInfo *info;
 
 @end

@@ -14,7 +14,7 @@
 @interface GetInsuranceOrderDetailsOp : BaseOp
 
 ///订单id
-@property (nonatomic, strong) NSString* req_orderid;
+@property (nonatomic, strong) NSNumber* req_orderid;
 
 ///保险订单详情
 @property (nonatomic, strong) HKInsuranceOrder* rsp_order;

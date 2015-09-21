@@ -20,6 +20,8 @@
 @property (nonatomic, strong) JTShop *shop;
 @property (nonatomic, strong) NSString *licencenumber;
 @property (nonatomic, assign) PaymentChannelType paychannel;
+///支付方式
+@property (nonatomic, strong) NSString *paydesc;
 @property (nonatomic, assign) long long tradetime;
 ///提交时间
 @property (nonatomic, strong) NSDate *txtime;

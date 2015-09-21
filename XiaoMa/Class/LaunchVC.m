@@ -10,14 +10,23 @@
 
 @interface LaunchVC ()
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
+@property (nonatomic, strong) UIWindow *nextWindow;
 @end
 @implementation LaunchVC
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    gAppDelegate.window.windowLevel = UIWindowLevelStatusBar;
     self.imageView.image = self.image;
-    [self swithToRootViewAfterDelay:1];
+    if (self.info.fullscreen) {
+        self.bottomView.hidden = YES;
+        [self.imageView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view);
+        }];
+    }
+    [self swithToRootViewAfterDelay:self.info.staytime > 0 ? self.info.staytime : 2];
 }
 
 - (void)setImage:(UIImage *)image
@@ -33,9 +42,17 @@
 - (void)swithToRootViewAfterDelay:(NSTimeInterval)delay
 {
     CKAfter(delay, ^{
-        
+        self.nextWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        self.nextWindow.backgroundColor = [UIColor whiteColor];
         UIViewController *vc = [UIStoryboard vcWithId:@"MainTabBarVC" inStoryboard:@"Main"];
-        [gAppDelegate resetRootViewController:vc];
+        self.nextWindow.rootViewController = vc;
+        [self.nextWindow makeKeyAndVisible];
+        
+        [UIView animateWithDuration:0.35 animations:^{
+            gAppDelegate.window.alpha = 0;
+        } completion:^(BOOL finished) {
+            gAppDelegate.window = self.nextWindow;
+        }];
     });
 }
 

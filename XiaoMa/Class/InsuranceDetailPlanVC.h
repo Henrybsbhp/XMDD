@@ -12,5 +12,6 @@
 
 @property (strong,nonatomic)NSArray * planArray;
 @property (nonatomic)CGFloat carPrice;
+@property (nonatomic, strong) NSString *calculatorID;
 
 @end

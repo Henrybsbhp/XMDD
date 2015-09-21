@@ -12,5 +12,6 @@
 @interface UIImageView (WebImage)
 
 - (void)setImageByUrl:(NSString *)url withType:(ImageURLType)type defImage:(NSString *)defimg errorImage:(NSString *)errimg;
+- (void)setImageByUrl:(NSString *)url withType:(ImageURLType)type defImageObj:(UIImage *)defimg errorImageObj:(UIImage *)errimg;
 
 @end

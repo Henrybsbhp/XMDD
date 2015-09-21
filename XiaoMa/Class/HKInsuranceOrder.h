@@ -15,6 +15,15 @@ typedef enum : NSUInteger {
     DiscountTypeDiscount // 优惠打折
 } DiscountType;
 
+typedef enum : NSUInteger {
+    InsuranceOrderStatusUnpaid = 2,     //代付款
+    InsuranceOrderStatusPaid = 7,       //已支付
+    InsuranceOrderStatusStopped = 9,    //已停保
+    InsuranceOrderStatusComplete = 10,  //寄送保单（已完成）
+    InsuranceOrderStatusStopping = 20,  //停保审核中
+    InsranceOrderStatusClose = 100      //已关闭
+}InsuranceOrderStatus;
+
 @interface HKInsuranceOrder : NSObject
 @property (nonatomic, strong) NSNumber *orderid;
 @property (nonatomic, strong) NSString *policyholder;
@@ -27,13 +36,28 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) HKInsurance *policy;
 // 保险有效期
 @property (nonatomic, strong) NSString *validperiod;
+// 支付方式的类型
 @property (nonatomic, assign) PaymentChannelType paychannel;
+// 支付方式
+@property (nonatomic, strong) NSString *paydesc;
+@property (nonatomic, strong) NSString *comment;
+@property (nonatomic, strong) NSDate *ratetime;
+@property (nonatomic, assign) NSInteger instype;
+///保单快递单号
+@property (nonatomic, strong) NSString *insdeliveryno;
+///保单快递公司
+@property (nonatomic, strong) NSString *insdeliverycomp;
+///银行卡快递单号
+@property (nonatomic, strong) NSString *carddeliveryno;
+///银行卡快递公司
+@property (nonatomic, strong) NSString *carddeliverycomp;
+
 //总费用
 @property (nonatomic, assign) CGFloat totoalpay;
 //邮寄地址
 @property (nonatomic, assign) NSString *deliveryaddress;
 //订单状态
-@property (nonatomic, assign) NSInteger status;
+@property (nonatomic, assign) InsuranceOrderStatus status;
 //订单最后更新时间
 @property (nonatomic, strong) NSDate *lstupdatetime;
 //是否使用活动优惠

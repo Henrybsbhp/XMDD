@@ -260,6 +260,7 @@
             
             [MobClick event:@"rp108-10"];//车牌
             CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+            vc.title = @"选择爱车";
             vc.model.allowAutoChangeSelectedCar = YES;
             vc.model.disableEditingCar = YES;
             vc.model.selectedCar = self.defaultCar;

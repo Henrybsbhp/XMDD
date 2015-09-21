@@ -55,6 +55,15 @@
     return [[SDWebImageManager sharedManager] diskImageExistsForURL:url];
 }
 
+- (void)saveImageToCache:(UIImage *)image forUrl:(NSString *)strurl
+{
+    if (!strurl) {
+        return;
+    }
+    NSURL *url = [NSURL URLWithString:strurl];
+    [[SDWebImageManager sharedManager] saveImageToCache:image forURL:url];
+}
+
 - (RACSignal *)rac_getImageByUrl:(NSString *)strurl withType:(ImageURLType)type
                       defaultPic:(NSString *)defName errorPic:(NSString *)errName
 {
@@ -81,6 +90,12 @@
         }];
         return nil;
     }] deliverOn:[RACScheduler mainThreadScheduler]];
+}
+
+- (NSString *)urlWith:(NSString *)url croppedSize:(CGSize)size
+{
+    NSString *suffix = [NSString stringWithFormat:@"?imageView2/1/w/%d/h/%d", (int)size.width, (int)size.height];
+    return [url append:suffix];
 }
 
 - (NSString *)urlWith:(NSString *)url imageType:(ImageURLType)type
