@@ -58,7 +58,6 @@
 
     
     GetInsuranceOrderListOp * op = [GetInsuranceOrderListOp operation];
-    //op.req_tradetime = self.curTradetime;
     return [[op rac_postRequest] map:^id(GetInsuranceOrderListOp *rspOp) {
         return rspOp.rsp_orders;
     }];
@@ -66,8 +65,6 @@
 
 - (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
 {
-    HKInsuranceOrder *hkmodel = [model.datasource lastObject];
-    //self.curTradetime = hkmodel.tradetime;
     [self.tableView reloadData];
 }
 
@@ -108,22 +105,22 @@
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:3002];
     UIButton *bottomB = (UIButton *)[cell.contentView viewWithTag:4001];
     
-    nameL.text = @"太平保险";
-    stateL.text = @"保单受理中";
-    contentL.text = @"购买三年保险一份";
-    timeL.text = @"2015.09.01 09:00";
-    priceL.text = @"￥1234564";
-    [bottomB setTitle:@"买好了123" forState:UIControlStateNormal];
+    HKInsuranceOrder *order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+    nameL.text = order.inscomp;
+    stateL.text = [order getStatusString];
+    contentL.text = order.serviceName;
+    timeL.text = [order.lstupdatetime dateFormatForYYYYMMddHHmm];
+    priceL.text = [NSString stringWithFormat:@"￥%d", (int)(order.policy.premium)];
+    if (order.status == 2) {
+        [bottomB setTitle:@"买了" forState:UIControlStateNormal];
+    }
+    else {
+        [bottomB setTitle:@"买了" forState:UIControlStateNormal];
+        [[[bottomB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
+            
+        }];
+    }
     
-//    HKInsuranceOrder *order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
-//    
-//    nameL.text = [order descForCurrentInstype];
-//    stateL.text = [order descForCurrentStatus];
-//    contentL.text = [order generateContent];
-//    timeL.text = [order.lstupdatetime dateFormatForYYYYMMddHHmm];
-//    priceL.text = [NSString stringWithFormat:@"￥%d", (int)(order.policy.premium)];
-//    paymentL.text = [order paymentForCurrentChannel];
-
     cell.separatorInset = UIEdgeInsetsZero;
     return cell;
 }

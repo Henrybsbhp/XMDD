@@ -22,6 +22,7 @@
     order.policyholder = rsp[@"policyholder"];
     order.idcard = rsp[@"idcard"];
     order.inscomp = rsp[@"inscomp"];
+    order.serviceName = rsp[@"servicename"];
     order.licencenumber = rsp[@"licencenumber"];
     order.policy = [HKInsurance insuranceWithJSONResponse:rsp[@"policy"]];
     order.validperiod = rsp[@"validperiod"];
@@ -59,22 +60,26 @@
     return payment;
 }
 
-- (NSString *)descForCurrentInstype
+- (NSString *) getStatusString
 {
-//    if (self.instype == 2) {
-//        return @"小马达达保险";
-//    }
-    return self.inscomp;
-}
-
-- (NSString *)descForCurrentStatus
-{
-    return @"保单已寄出";
-}
-
-- (NSString *)generateContent
-{
-    return @"购买一年保险";
+    if (self.status == 2){
+        return @"待支付";
+    }
+    else if (self.status == 7) {
+        return @"保单受理中";
+    }
+    else if (self.status == 9) {
+        return @"保单已停保";
+    }
+    else if (self.status == 10){
+        return @"保单已出";
+    }
+    else if (self.status == 20){
+        return @"停保审核中";
+    }
+    else {
+        return @"已关闭";
+    }
 }
 
 @end

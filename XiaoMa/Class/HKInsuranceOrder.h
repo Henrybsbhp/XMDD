@@ -22,6 +22,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSString *picUrl;
 @property (nonatomic, strong) NSString *idcard;
 @property (nonatomic, strong) NSString *inscomp;
+@property (nonatomic, strong) NSString *serviceName;
 //车牌号码
 @property (nonatomic, strong) NSString *licencenumber;
 @property (nonatomic, strong) HKInsurance *policy;
@@ -60,8 +61,6 @@ typedef enum : NSUInteger {
 
 + (instancetype)orderWithJSONResponse:(NSDictionary *)rsp;
 - (NSString *)paymentForCurrentChannel;
-- (NSString *)descForCurrentInstype;
-- (NSString *)descForCurrentStatus;
-- (NSString *)generateContent;
+- (NSString *)getStatusString;
 
 @end

@@ -13,7 +13,7 @@
 /// 险种
 @interface SubInsurance : NSObject
 
-///险种名称
+///险种id
 @property (nonatomic)NSInteger coveragerId;
 
 ///险种名称
