@@ -58,7 +58,6 @@
 }
 
 #pragma mark - collectionView
-
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     NSInteger num = self.datasource.count / 3 + ((self.datasource.count % 3) ? 1 : 0);
@@ -94,7 +93,7 @@
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 10;
+    return CGFLOAT_MIN;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -106,7 +105,7 @@
     NSDictionary * d = [self.datasource safetyObjectAtIndex:indexPath.section * 3 + indexPath.row];
     NSString * key = [d.allKeys safetyObjectAtIndex:0];
     NSString * value = [d objectForKey:key];
-    titleLabel.text = value;
+    titleLabel.text = [NSString stringWithFormat:@"%@%@",key,value];
     view.borderWidth = 0.5f;
     view.borderColor = [UIColor lightGrayColor];
     

@@ -16,6 +16,7 @@
 #import "PickerAutomobileBrandVC.h"
 #import "MyCarsModel.h"
 #import "CollectionChooseVC.h"
+#import "ProvinceChooseView.h"
 
 
 @interface EditMyCarVC ()<UITableViewDataSource,UITableViewDelegate, UITextFieldDelegate>
@@ -398,12 +399,10 @@
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
     UILabel *unitL = (UILabel *)[cell.contentView viewWithTag:1003];
-    UIView * paramView = (UIView * )[cell searchViewWithTag:1004];
-    UILabel *paramLb = (UILabel *)[cell searchViewWithTag:20401];
+    ProvinceChooseView * paramView = (ProvinceChooseView * )[cell searchViewWithTag:1004];
 
-    
     HKMyCar *car = self.curCar;
-    paramLb.text = self.curCar.licenceArea.length ? self.curCar.licenceArea : [self getCurrentProvince];
+    paramView.displayLb.text = self.curCar.licenceArea.length ? self.curCar.licenceArea : [self getCurrentProvince];
     
     field.delegate = self;
     field.keyboardType = UIKeyboardTypeDefault;
@@ -420,17 +419,8 @@
         }];
     }
     
-    UITapGestureRecognizer * gesture = paramView.customObject;
-    if (!gesture)
-    {
-        UITapGestureRecognizer *ge = [[UITapGestureRecognizer alloc] init];
-        [paramView addGestureRecognizer:ge];
-        paramView.userInteractionEnabled = YES;
-        paramView.customObject = ge;
-    }
-    gesture = paramView.customObject;
-    [[[gesture rac_gestureSignal] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
+    
+    [[[paramView rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         CollectionChooseVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"CollectionChooseVC"];
         JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
@@ -646,11 +636,13 @@
     for (NSDictionary * d in gAppMgr.getProvinceArray)
     {
         NSString * key = [d.allKeys safetyObjectAtIndex:0];
-//        self.curCar.licenceArea = key;
-//        if ([gMapHelper.addrComponent.province containsString:v])
-//        {
-//            return  s;
-//        }
+        NSString * value = [d objectForKey:key];
+        NSString * v = [value stringByReplacingOccurrencesOfString:@"(" withString:@""];
+        v = [v stringByReplacingOccurrencesOfString:@")" withString:@""];
+        if ([gMapHelper.addrComponent.province containsString:v])
+        {
+            return  key;
+        }
     }
     return @"浙";
 }

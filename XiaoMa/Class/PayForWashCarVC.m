@@ -24,6 +24,7 @@
 #import "MyCarsModel.h"
 #import "HKBankCard.h"
 #import "PaymentHelper.h"
+#import "SystemFastrateGetOp.h"
 
 
 #define CheckBoxCouponGroup @"CheckBoxCouponGroup"
@@ -874,6 +875,7 @@
         [gToast showingWithText:@"订单生成中..."];
     }] subscribeNext:^(CheckoutServiceOrderV2Op * op) {
         
+        [self requestCommentlist];
         if (op.rsp_price)
         {
             if (op.platform == PayWithAlipay)
@@ -924,6 +926,8 @@
             vc.order = order;
             [self.navigationController pushViewController:vc animated:YES];
         }
+        
+        
     } error:^(NSError *error) {
         
         [self handerOrderError:error forOp:checkoutOp];
@@ -933,6 +937,17 @@
 - (void)requestCheckout
 {
     [self requestCheckoutWithCouponType:self.couponType];
+}
+
+- (void)requestCommentlist
+{
+    if (gAppMgr.commentList.count)
+        return;
+    SystemFastrateGetOp * op = [SystemFastrateGetOp operation];
+    [[op rac_postRequest] subscribeNext:^(SystemFastrateGetOp * op) {
+       
+        gAppMgr.commentList = op.rsp_commentlist;
+    }];
 }
 
 - (void)handerOrderError:(NSError *)error forOp:(CheckoutServiceOrderV2Op *)op

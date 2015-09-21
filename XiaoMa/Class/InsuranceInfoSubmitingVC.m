@@ -67,6 +67,7 @@
 - (IBAction)actionEnquire:(id)sender
 {
     if ([self checkInfomation]) {
+        
         InsuranceResultVC *vc = [UIStoryboard vcWithId:@"InsuranceResultVC" inStoryboard:@"Insurance"];
         [self.navigationController pushViewController:vc animated:YES];
     }

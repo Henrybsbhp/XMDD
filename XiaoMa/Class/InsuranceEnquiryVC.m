@@ -63,6 +63,7 @@
             ins.insuranceName = @"自选";
             [array safetyAddObject:ins];
             
+            vc.calculatorID = rspOp.rsp_calculatorID;
             vc.planArray = array;
             vc.carPrice = [rspOp.req_purchaseprice floatValue];
             [gToast dismiss];

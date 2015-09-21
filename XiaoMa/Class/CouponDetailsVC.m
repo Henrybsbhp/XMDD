@@ -37,14 +37,20 @@
 
 - (void)setUI{
     
+    self.tableView.hidden = YES;
     if (self.isShareble) {
         self.longUseBtn.hidden = YES;
         [self.shortUseBtn setCornerRadius:5.0f];
+        @weakify(self);
         [[self.shortUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            @strongify(self);
             
         }];
         [self.shareBtn setCornerRadius:5.0f];
         [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            @strongify(self);
             //转赠
             [self shareAction:self.couponId];
         }];
@@ -53,8 +59,10 @@
         self.shortUseBtn.hidden = YES;
         self.shareBtn.hidden = YES;
         [self.longUseBtn setCornerRadius:5.0f];
+        @weakify(self);
         [[self.longUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
+            @strongify(self);
         }];
     }
 }
@@ -62,19 +70,30 @@
 - (void)requestDate {
     GetCouponDetailsOp * op = [GetCouponDetailsOp operation];
     op.req_cid = self.couponId;
-    [[op rac_postRequest] subscribeNext:^(GetCouponDetailsOp * op) {
+    @weakify(self);
+    [[[op rac_postRequest] initially:^{
+        
+        @strongify(self);
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+    }] subscribeNext:^(GetCouponDetailsOp * op) {
+        
+        @strongify(self);
+        [self.view stopActivityAnimation];
+        self.tableView.hidden = NO;
         self.couponDic = op.rsp_couponDetails;
         [self.tableView reloadData];
     } error:^(NSError *error) {
         
+        @strongify(self);
+        [self.view stopActivityAnimation];
+        [gToast showError:error.domain];
+        [self.navigationController popViewControllerAnimated:YES];
     }];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
-
 
 #pragma mark - Share
 - (void)requestShareCoupon:(NSNumber *)cid

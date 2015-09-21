@@ -154,7 +154,8 @@
     HKCoupon * couponDic;
     if (indexPath.section == 0) {
         couponDic = [self.validCouponArr safetyObjectAtIndex:indexPath.row];
-        backgroundImg.image = [[UIImage imageNamed:@"coupon_background"] imageByFilledWithColor:[UIColor colorWithHex:[NSString stringWithFormat:@"#%@", couponDic.rgbColor] alpha:1.0f]];
+        UIColor *color = couponDic.rgbColor.length > 0 ? HEXCOLOR(couponDic.rgbColor) : nil;
+        backgroundImg.image =[[UIImage imageNamed:@"coupon_background"] imageByFilledWithColor:color];
         [logoV setImageByUrl:couponDic.logo
                           withType:ImageURLTypeThumbnail defImage:@"coupon_logo" errorImage:@"coupon_logo"];
         markV.hidden = YES;
