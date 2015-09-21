@@ -119,7 +119,7 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     NSInteger len = range.location + [string length] - range.length;
-    if (len > 8) {
+    if (len > 6) {
         return NO;
     }
     return YES;
