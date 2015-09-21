@@ -16,5 +16,6 @@ typedef enum : NSInteger
 
 @interface InsuranceInfoSubmitingVC : UIViewController
 @property (nonatomic, assign) InsuranceInfoSubmitModel submitModel;
+@property (nonatomic, strong) NSString *calculatorID;
 
 @end

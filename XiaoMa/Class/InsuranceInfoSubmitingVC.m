@@ -12,6 +12,7 @@
 #import "JGActionSheet.h"
 #import "InsuranceResultVC.h"
 #import "UIView+Shake.h"
+#import "UpdateInsuranceCalculateOp.h"
 
 @interface InsuranceInfoSubmitingVC ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, DrivingLicenseHistoryViewDelegate>
 {
@@ -67,7 +68,8 @@
 - (IBAction)actionEnquire:(id)sender
 {
     if ([self checkInfomation]) {
-        
+        UpdateInsuranceCalculateOp *op = [[UpdateInsuranceCalculateOp alloc] init];
+        op.req_cid = self.calculatorID;
         InsuranceResultVC *vc = [UIStoryboard vcWithId:@"InsuranceResultVC" inStoryboard:@"Insurance"];
         [self.navigationController pushViewController:vc animated:YES];
     }
