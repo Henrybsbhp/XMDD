@@ -296,7 +296,7 @@
                     }
                     else
                     {
-                        NSInteger index = [self.insuranceArry indexOfObject:coverage.customObject];
+                        NSInteger index = [self.insuranceArry indexOfObject:coverage.isContainExcludingDeductible.customObject];
                         [self.insuranceArry safetyRemoveObject:coverage.isContainExcludingDeductible.customObject];
                         NSIndexPath * idxPath = [NSIndexPath indexPathForRow: 1 + index inSection:indexPath.section];
                         [self.tableView deleteRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationRight];
