@@ -14,6 +14,7 @@
 #import "UIView+Shake.h"
 #import "UpdateInsuranceCalculateOp.h"
 #import "InsuranceAppointmentOp.h"
+#import "InsuranceChooseViewController.h"
 
 @interface InsuranceInfoSubmitingVC ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, DrivingLicenseHistoryViewDelegate>
 {
@@ -62,7 +63,9 @@
 - (IBAction)actionNext:(id)sender
 {
     if ([self checkInfomation]) {
-        UIViewController *vc = [UIStoryboard vcWithId:@"InsuranceChooseViewController" inStoryboard:@"Insurance"];
+        InsuranceChooseViewController *vc = [UIStoryboard vcWithId:@"InsuranceChooseViewController" inStoryboard:@"Insurance"];
+        vc.idcard = self.idcardField.text;
+        vc.currentRecord = self.currentRecord;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

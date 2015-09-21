@@ -22,6 +22,9 @@
 
 @property (nonatomic)CGFloat carPrice;
 
+/**
+ *  选中的车险
+ */
 @property (nonatomic,strong)NSArray * selectInsurance;
 
 - (instancetype)initWithSelectInsurance:(NSArray *)array andCarPrice:(CGFloat)price;
@@ -29,4 +32,6 @@
 - (void)animateToTargetValue;
 - (void)noAnimateToTargetValue;
 
+// 获取inslist，/insurance/appointment接口需要
+- (NSArray *)inslistForVC;
 @end
