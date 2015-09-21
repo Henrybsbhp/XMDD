@@ -308,7 +308,7 @@
     if (!self.model.selectedCar || !self.model.allowAutoChangeSelectedCar) {
         self.model.selectedCar = [gAppMgr.myUser.carModel getDefalutCar];
     }
-    if (model.datasource.count > 5) {
+    if (model.datasource.count >= 5) {
         [self.navigationItem setRightBarButtonItem:nil animated:NO];
     }
     else {
@@ -317,5 +317,6 @@
     }
     [self refreshScrollView];
 }
+
 
 @end
