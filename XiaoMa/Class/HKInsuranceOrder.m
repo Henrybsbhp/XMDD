@@ -27,7 +27,9 @@
     order.policy = [HKInsurance insuranceWithJSONResponse:rsp[@"policy"]];
     order.validperiod = rsp[@"validperiod"];
     order.paychannel = [rsp integerParamForName:@"paychannel"];
-    
+    order.paydesc = rsp[@"paydesc"];
+    order.insdeliveryno = rsp[@"insdeliveryno"];
+    order.insdeliverycomp = rsp[@"insdeliverycomp"];
     order.totoalpay = [rsp floatParamForName:@"totalpay"];
     order.status = [rsp integerParamForName:@"status"];
     order.lstupdatetime = [NSDate dateWithD14Text:rsp[@"lstupdatetime"]];
@@ -60,26 +62,38 @@
     return payment;
 }
 
-- (NSString *) getStatusString
+- (NSString *)descForCurrentStatus
 {
-    if (self.status == 2){
-        return @"待支付";
+    NSString *desc;
+    switch (self.status) {
+        case InsuranceOrderStatusUnpaid:
+            desc = @"未支付";
+            break;
+        case InsuranceOrderStatusPaid:
+            desc = @"保单受理中";
+            break;
+        case InsuranceOrderStatusComplete:
+            desc = @"保单已出";
+            break;
+        case InsuranceOrderStatusStopping:
+            desc = @"停保审核中";
+            break;
+        case InsuranceOrderStatusStopped:
+            desc = @"已停保";
+            break;
+        case InsranceOrderStatusClose:
+            desc = @"订单已关闭";
+            break;
+        default:
+            desc = @"订单已关闭";
+            break;
     }
-    else if (self.status == 7) {
-        return @"保单受理中";
-    }
-    else if (self.status == 9) {
-        return @"保单已停保";
-    }
-    else if (self.status == 10){
-        return @"保单已出";
-    }
-    else if (self.status == 20){
-        return @"停保审核中";
-    }
-    else {
-        return @"已关闭";
-    }
+    return desc;
+}
+
+- (NSString *)generateContent
+{
+    return @"购买一年保险一份";
 }
 
 @end

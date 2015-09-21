@@ -16,9 +16,7 @@
 @interface CarListVC ()<HKLoadingModelDelegate, UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet JT3DScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
-@property (weak, nonatomic) IBOutlet UILabel *bottomLicenseNoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *bottomTitlelabel;
-@property (weak, nonatomic) IBOutlet UIButton *bottomCheckView;
 @property (nonatomic, strong) HKLoadingModel *loadingModel;
 @end
 
@@ -109,18 +107,29 @@
 
 - (void)setupBottomView
 {
-    self.bottomTitlelabel.text = self.model.allowAutoChangeSelectedCar ? @"您已选择的爱车：" : @"您的默认爱车：";
-    
     @weakify(self);
     [[RACObserve(self.model, selectedCar) distinctUntilChanged] subscribeNext:^(HKMyCar *car) {
+        
         @strongify(self);
         self.bottomView.hidden = !car;
+
+        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] init];
         
-        self.bottomLicenseNoLabel.text = car.licencenumber;
-        self.bottomLicenseNoLabel.textColor = [HKMyCar tintColorForColorType:car.tintColorType];
+        NSString *str = self.model.allowAutoChangeSelectedCar ? @"您已选择的爱车：" : @"默认车辆：";
+        NSDictionary *attr = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
+                               NSForegroundColorAttributeName:HEXCOLOR(@"#555555")};
+        NSAttributedString *prefix = [[NSAttributedString alloc] initWithString:str attributes:attr];
+        [attrStr appendAttributedString:prefix];
+
+        if (car.licencenumber.length > 0) {
+            NSMutableDictionary *attr2 = [NSMutableDictionary dictionary];
+            [attr2 safetySetObject:[UIFont systemFontOfSize:21] forKey:NSFontAttributeName];
+            [attr2 safetySetObject:[HKMyCar tintColorForColorType:car.tintColorType] forKey:NSForegroundColorAttributeName];
+            NSAttributedString *suffix = [[NSAttributedString alloc] initWithString:car.licencenumber attributes:attr2];
+            [attrStr appendAttributedString:suffix];
+        }
         
-        UIImage *img = [UIImage imageNamed:[NSString stringWithFormat:@"mec_check%d", (int)car.tintColorType]];
-        [self.bottomCheckView setImage:img forState:UIControlStateNormal];
+        self.bottomTitlelabel.attributedText  =attrStr;
     }];
 }
 
@@ -299,8 +308,15 @@
     if (!self.model.selectedCar || !self.model.allowAutoChangeSelectedCar) {
         self.model.selectedCar = [gAppMgr.myUser.carModel getDefalutCar];
     }
-
+    if (model.datasource.count >= 5) {
+        [self.navigationItem setRightBarButtonItem:nil animated:NO];
+    }
+    else {
+        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"添加" style:UIBarButtonItemStylePlain target:self action:@selector(actionAddCar:)];
+        [self.navigationItem setRightBarButtonItem:right animated:NO];
+    }
     [self refreshScrollView];
 }
+
 
 @end

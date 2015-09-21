@@ -26,6 +26,21 @@
     }];
 }
 
+- (void)setImageByUrl:(NSString *)strurl withType:(ImageURLType)type defImageObj:(UIImage *)defimg errorImageObj:(UIImage *)errimg
+{
+    NSURL *url = strurl ? [NSURL URLWithString:[self urlWith:strurl imageType:type]] : nil;
+    __weak UIImageView *weakView = self;
+    [self sd_setImageWithURL:url placeholderImage:defimg completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        if (!weakView) {
+            return ;
+        }
+        if (error && errimg) {
+            weakView.image = errimg;
+            [weakView setNeedsLayout];
+        }
+    }];
+}
+
 - (NSString *)urlWith:(NSString *)url imageType:(ImageURLType)type
 {
     if (type == ImageURLTypeThumbnail) {

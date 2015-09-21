@@ -9,6 +9,7 @@
 #import "InsuranceChooseViewController.h"
 #import "HKCoverage.h"
 #import "InsuranceResultVC.h"
+#import "InsuranceAppointmentOp.h"
 
 @interface InsuranceChooseViewController ()
 
@@ -42,9 +43,24 @@
 {
     [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        InsuranceResultVC *resultVC = [UIStoryboard vcWithId:@"InsuranceResultVC" inStoryboard:@"Insurance"];
-        [resultVC setResultType:(arc4random() % 3)];
-        [self.navigationController pushViewController:resultVC animated:YES];
+        InsuranceAppointmentOp *op = [[InsuranceAppointmentOp alloc] init];
+        op.req_idcard = self.idcard;
+        op.req_driverpic = self.currentRecord.url;
+        op.req_inslist = [[self inslistForVC] componentsJoinedByString:@"|"];
+        @weakify(self);
+        [[[op rac_postRequest] initially:^{
+            
+            [gToast showingWithText:@"正在预约..."];
+        }] subscribeNext:^(id x) {
+            
+            @strongify(self);
+            [gToast dismiss];
+            InsuranceResultVC *vc = [UIStoryboard vcWithId:@"InsuranceResultVC" inStoryboard:@"Insurance"];
+            [self.navigationController pushViewController:vc animated:YES];
+        } error:^(NSError *error) {
+            
+            [gToast showError:error.domain];
+        }];
     }];
 }
 
@@ -325,5 +341,27 @@
 }
 
 
-
+#pragma mark - Utility
+- (NSArray *)inslistForVC
+{
+    NSMutableArray * array = [NSMutableArray array];
+    for (HKCoverage * c in self.insuranceArry)
+    {
+        if (c.customTag)
+        {
+            NSString * s = [NSString stringWithFormat:@"%@@%@@0",c.insId,c.insName];
+            [array safetyAddObject:s];
+            
+            if (c.isContainExcludingDeductible.customObject &&
+                [c.isContainExcludingDeductible.customObject isKindOfClass:[HKCoverage class]] &&
+                c.isContainExcludingDeductible.customTag){
+                
+                NSString * s2 = [NSString stringWithFormat:@"%@@%@@0",c.insId];
+                [array safetyAddObject:s2];
+            }
+        }
+    }
+    //    NSString * inslist = [array componentsJoinedByString:@"|"];
+    return array;
+}
 @end

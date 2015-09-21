@@ -213,7 +213,7 @@
         subnameLabel.text = [NSString stringWithFormat:@"（%@）", self.couponDic.subname];
         describeLabel.text = [NSString stringWithFormat:@"使用说明：%@", self.couponDic.couponDescription];
         validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@", [self.couponDic.validsince dateFormatForYYMMdd2], [self.couponDic.validthrough dateFormatForYYMMdd2]];
-        UIImage * bgImg = [[UIImage imageNamed:@"coupon_detailsbg"] imageByFilledWithColor:[UIColor colorWithHex:[NSString stringWithFormat:@"#%@", self.rgbStr] alpha:1.0f]];
+        UIImage * bgImg = [[UIImage imageNamed:@"coupon_detailsbg"] imageByFilledWithColor:[UIColor colorWithHex:nil alpha:1.0f]];
         bgImageView.image = bgImg;
         
         return cell;

@@ -9,7 +9,6 @@
 #import "InsranceOrderViewModel.h"
 #import "XiaoMa.h"
 #import "GetInsuranceOrderListOp.h"
-#import "InsuranceOrderDetailVC.h"
 #import "InsuranceOrderVC.h"
 
 @interface InsranceOrderViewModel ()<HKLoadingModelDelegate>
@@ -37,6 +36,17 @@
 {
     _targetVC = targetVC;
     //    [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
+}
+
+#pragma mark - Action
+- (void)actionBuy:(id)sender
+{
+    
+}
+
+- (void)actionMakeCall:(id)sender
+{
+    [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
 }
 
 #pragma mark - HKLoadingModelDelegate
@@ -72,12 +82,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return self.loadingModel.datasource.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.loadingModel.datasource.count;
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -107,20 +117,32 @@
     
     HKInsuranceOrder *order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     nameL.text = order.inscomp;
-    stateL.text = [order getStatusString];
+//    nameL.text = [order descForCurrentInstype];
     contentL.text = order.serviceName;
+//    contentL.text = [order generateContent];
+    
+    stateL.text = [order descForCurrentStatus]; //老方式，已经用新字段替换
     timeL.text = [order.lstupdatetime dateFormatForYYYYMMddHHmm];
     priceL.text = [NSString stringWithFormat:@"￥%d", (int)(order.policy.premium)];
-    if (order.status == 2) {
-        [bottomB setTitle:@"买了" forState:UIControlStateNormal];
-    }
-    else {
-        [bottomB setTitle:@"买了" forState:UIControlStateNormal];
-        [[[bottomB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
-            
-        }];
-    }
     
+    BOOL unpaid = order.status == InsuranceOrderStatusUnpaid;
+    [bottomB setTitle:unpaid ? @"买了" : @"联系客服" forState:UIControlStateNormal];
+    [bottomB setTitleColor:unpaid ? RGBCOLOR(251, 88, 15) : RGBCOLOR(21, 172, 31) forState:UIControlStateNormal];
+    bottomB.layer.borderColor = unpaid ? [RGBCOLOR(251, 88, 15) CGColor] : [RGBCOLOR(21, 172, 31) CGColor];
+    
+     @weakify(self);
+    [[[bottomB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+     subscribeNext:^(id x) {
+         
+        @strongify(self);
+         if (unpaid) {
+             [self actionBuy:x];
+         }
+         else {
+             [self actionMakeCall:x];
+         }
+    }];
+
     cell.separatorInset = UIEdgeInsetsZero;
     return cell;
 }

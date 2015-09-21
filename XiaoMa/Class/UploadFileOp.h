@@ -8,11 +8,20 @@
 
 #import "BaseOp.h"
 
-@interface UploadFileOp : BaseOp
-@property (nonatomic, strong) NSArray *req_fileDataArray;
-@property (nonatomic, strong) NSString *req_fileType;
-@property (nonatomic, strong) NSArray *rsp_urlArray;
+typedef enum : NSInteger
+{
+    UploadFileTypeUnknow = 0,
+    UploadFileTypeDrivingLicense
+}UploadFileType;
 
+@interface UploadFileOp : BaseOp
+@property (nonatomic, assign) UploadFileType req_fileType;
+@property (nonatomic, strong) NSString *req_fileExtType;
+@property (nonatomic, strong) NSArray *req_fileDataArray;
+@property (nonatomic, strong) NSArray *rsp_urlArray;
+@property (nonatomic, strong) NSArray *rsp_idArray;
+
+- (void)setProgress:(void (^)(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite))block;
 - (void)setFileArray:(NSArray *)files withGetDataBlock:(NSData*(^)(id))block;
 
 @end

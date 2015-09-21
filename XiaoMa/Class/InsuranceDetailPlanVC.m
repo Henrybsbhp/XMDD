@@ -10,7 +10,7 @@
 #import "JDFlipNumberView.h"
 #import "HKCoverage.h"
 #import "InsuranceCalcHelper.h"
-#import "UploadInsuranceInfoVC.h"
+#import "InsuranceInfoSubmitingVC.h"
 #import "InsuranceResultVC.h"
 #import "CCSegmentedControl.h"
 #import "InsuranceDetailPlanModel.h"
@@ -50,8 +50,6 @@
     [self setupSegmentControl];
     [self setupFlipNumberView];
     
-    //处理绑定
-    //    RAC(<#TARGET, ...#>)
     //数据
     [self setupModel];
     
@@ -81,14 +79,18 @@
 - (void)setupUI
 {
     [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-       
-        UploadInsuranceInfoVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"UploadInsuranceInfoVC"];
-        vc.allowSkip = NO;
+    
+        if (![self.currentModel inslistForVC].count)
+        {
+            [gToast showError:@"请至少选择一个车险"];
+            return ;
+        }
+        
+        InsuranceInfoSubmitingVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceInfoSubmitingVC"];
+        vc.submitModel = InsuranceInfoSubmitForEnquiry;
+        vc.calculatorOp = self.calculatorOp;
+        vc.insuranceList = [[self.currentModel inslistForVC] componentsJoinedByString:@"|"];
         [self.navigationController pushViewController:vc animated:YES];
-        [vc setFinishBlock:^UIViewController *(BOOL skip, UIViewController *targetvc) {
-            InsuranceResultVC *vc = [UIStoryboard vcWithId:@"InsuranceResultVC" inStoryboard:@"Insurance"];
-            return vc;
-        }];
     }];
 }
 
@@ -110,7 +112,7 @@
         {
             [selectIns safetyAddObject:@(subIns.coveragerId)];
         }
-        InsuranceDetailPlanModel * model = [[InsuranceDetailPlanModel alloc] initWithSelectInsurance:selectIns andCarPrice:self.carPrice];
+        InsuranceDetailPlanModel * model = [[InsuranceDetailPlanModel alloc] initWithSelectInsurance:selectIns andCarPrice:[self.calculatorOp.req_purchaseprice floatValue]];
         model.tableView = self.tableView;
         model.flipNumberView = self.flipNumberView;
         [self.modelArray safetyAddObject:model];
