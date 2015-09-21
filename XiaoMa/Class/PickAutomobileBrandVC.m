@@ -6,17 +6,17 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "PickerAutomobileBrandVC.h"
+#import "PickAutomobileBrandVC.h"
 #import "PickerAutoSeriesVC.h"
 #import "AutoInfoModel.h"
 
-@interface PickerAutomobileBrandVC ()<UITableViewDataSource,UITableViewDelegate, NSFetchedResultsControllerDelegate>
+@interface PickAutomobileBrandVC ()<UITableViewDataSource,UITableViewDelegate, NSFetchedResultsControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) AutoInfoModel *autoModel;
 @property (nonatomic, strong) NSFetchedResultsController *fetchCtrl;
 @end
 
-@implementation PickerAutomobileBrandVC
+@implementation PickAutomobileBrandVC
 - (void)awakeFromNib
 {
     self.autoModel = [AutoInfoModel new];

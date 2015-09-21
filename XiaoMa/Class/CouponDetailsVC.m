@@ -44,9 +44,8 @@
         @weakify(self);
         [[self.shortUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
-            @strongify(self);
-            
         }];
+        
         [self.shareBtn setCornerRadius:5.0f];
         [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
@@ -59,10 +58,8 @@
         self.shortUseBtn.hidden = YES;
         self.shareBtn.hidden = YES;
         [self.longUseBtn setCornerRadius:5.0f];
-        @weakify(self);
         [[self.longUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
-            @strongify(self);
         }];
     }
 }

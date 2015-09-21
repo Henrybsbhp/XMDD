@@ -10,12 +10,15 @@
 #import "HKSMSModel.h"
 #import "UIView+Shake.h"
 #import "BindBankcardOp.h"
+#import "WebVC.h"
 #import "ResultVC.h"
 #import <UIKitExtension.h>
 
 @interface BindBankCardVC ()<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *promptView;
+@property (weak, nonatomic) IBOutlet UIButton *bindButton;
+@property (weak, nonatomic) IBOutlet UIButton *checkButton;
 @property (nonatomic, strong) UITextField *phoneField;
 @property (nonatomic, strong) UITextField *cardField;
 @property (nonatomic, strong) UITextField *vcodeField;
@@ -89,6 +92,22 @@
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
     [field becomeFirstResponder];
 }
+
+- (IBAction)actionCheck:(id)sender
+{
+    [MobClick event:@"rp003-7"];
+    self.checkButton.selected = !self.checkButton.selected;
+    self.bindButton.enabled = self.checkButton.selected;
+}
+
+- (IBAction)actionAgreement:(id)sender
+{
+    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    vc.title = @"服务协议";
+    vc.url = @"http://www.xiaomadada.com/apphtml/license-czb.html";
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 
 - (IBAction)actionBind:(id)sender {
     [MobClick event:@"rp313-5"];

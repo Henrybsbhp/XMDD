@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -830,7 +829,7 @@
         <!--选择品牌-->
         <scene sceneID="27M-17-rlT">
             <objects>
-                <viewController storyboardIdentifier="PickerAutomobileBrandVC" title="选择品牌" id="PWb-pF-kIc" customClass="PickerAutomobileBrandVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PickerAutomobileBrandVC" title="选择品牌" id="PWb-pF-kIc" customClass="PickAutomobileBrandVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BIh-1s-Znr"/>
                         <viewControllerLayoutGuide type="bottom" id="9Jh-ZC-h63"/>
@@ -3160,7 +3159,7 @@
                                     <outlet property="delegate" destination="Chs-Re-bLH" id="Mnh-eH-Op4"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SBu-Sk-dCs">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SBu-Sk-dCs">
                                 <rect key="frame" x="0.0" y="555" width="600" height="45"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="DZC-DG-c7o">
@@ -3373,7 +3372,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uSD-BT-dyk">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uSD-BT-dyk">
                                 <rect key="frame" x="0.0" y="77" width="600" height="47"/>
                                 <subviews>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="姓名：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M7h-OC-IIE">
