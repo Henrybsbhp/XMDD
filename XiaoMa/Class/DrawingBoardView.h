@@ -10,6 +10,8 @@
 
 @interface DrawingBoardView : UIView
 
+- (void)drawSuccessByFrame;
+
 -(void) drawSuccess;
 
 -(void) drawFailure;
