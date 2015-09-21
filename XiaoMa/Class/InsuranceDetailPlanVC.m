@@ -84,6 +84,7 @@
        
         InsuranceInfoSubmitingVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceInfoSubmitingVC"];
         vc.submitModel = InsuranceInfoSubmitForEnquiry;
+        vc.calculatorOp = self.calculatorOp;
         [self.navigationController pushViewController:vc animated:YES];
     }];
 }
@@ -106,7 +107,7 @@
         {
             [selectIns safetyAddObject:@(subIns.coveragerId)];
         }
-        InsuranceDetailPlanModel * model = [[InsuranceDetailPlanModel alloc] initWithSelectInsurance:selectIns andCarPrice:self.carPrice];
+        InsuranceDetailPlanModel * model = [[InsuranceDetailPlanModel alloc] initWithSelectInsurance:selectIns andCarPrice:[self.calculatorOp.req_purchaseprice floatValue]];
         model.tableView = self.tableView;
         model.flipNumberView = self.flipNumberView;
         [self.modelArray safetyAddObject:model];

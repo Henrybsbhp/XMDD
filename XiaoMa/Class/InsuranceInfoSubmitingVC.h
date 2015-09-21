@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GetInsuranceCalculatorOpV2.h"
+#import "HKInsurance.h"
 
 typedef enum : NSInteger
 {
@@ -16,6 +18,7 @@ typedef enum : NSInteger
 
 @interface InsuranceInfoSubmitingVC : UIViewController
 @property (nonatomic, assign) InsuranceInfoSubmitModel submitModel;
-@property (nonatomic, strong) NSString *calculatorID;
+@property (nonatomic, strong) GetInsuranceCalculatorOpV2 *calculatorOp;
+@property (nonatomic, strong) NSString *insuranceList;
 
 @end
