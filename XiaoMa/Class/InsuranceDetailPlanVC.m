@@ -50,8 +50,6 @@
     [self setupSegmentControl];
     [self setupFlipNumberView];
     
-    //处理绑定
-    //    RAC(<#TARGET, ...#>)
     //数据
     [self setupModel];
     
@@ -81,10 +79,17 @@
 - (void)setupUI
 {
     [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-       
+    
+        if (![self.currentModel inslistForVC].count)
+        {
+            [gToast showError:@"请至少选择一个车险"];
+            return ;
+        }
+        
         InsuranceInfoSubmitingVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceInfoSubmitingVC"];
         vc.submitModel = InsuranceInfoSubmitForEnquiry;
         vc.calculatorOp = self.calculatorOp;
+        vc.insuranceList = [[self.currentModel inslistForVC] componentsJoinedByString:@"|"];
         [self.navigationController pushViewController:vc animated:YES];
     }];
 }

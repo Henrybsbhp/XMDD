@@ -184,6 +184,30 @@
     [self.flipNumberView setValue:(NSInteger)(self.totalPrice * 100) animated:1.0f];
 }
 
+- (NSArray *)inslistForVC
+{
+    NSMutableArray * array = [NSMutableArray array];
+    for (HKCoverage * c in self.insuranceArry)
+    {
+        if (c.customTag)
+        {
+            NSString * s = [NSString stringWithFormat:@"%@@%@@%.2f",c.insId,c.insName,[self.calcHelper calcInsurancePrice:c]];
+            [array safetyAddObject:s];
+            
+            if (c.isContainExcludingDeductible.customObject &&
+                [c.isContainExcludingDeductible.customObject isKindOfClass:[HKCoverage class]] &&
+                c.isContainExcludingDeductible.customTag){
+                
+                NSString * s2 = [NSString stringWithFormat:@"%@@%@@%f",c.insId,c.insName,[self.calcHelper calcInsurancePrice:c]];
+                [array safetyAddObject:s2];
+            }
+        }
+    }
+
+//    NSString * inslist = [array componentsJoinedByString:@"|"];
+    return array;
+}
+
 #pragma mark - TableView data source
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -389,5 +413,6 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+
 
 @end

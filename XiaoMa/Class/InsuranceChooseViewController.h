@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PictureRecord.h"
 
 @interface InsuranceChooseViewController : UIViewController
+
+@property (nonatomic,copy)NSString * idcard;
+@property (nonatomic, strong) PictureRecord *currentRecord;
 
 @end
