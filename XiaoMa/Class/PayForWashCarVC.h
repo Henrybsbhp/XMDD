@@ -23,13 +23,14 @@
 
 /// 为优惠劵选择服务
 @property (nonatomic)CouponType couponType;
+///支付平台，（section == 2）
+@property (nonatomic)PaymentPlatform platform;
 @property (nonatomic)HKBankCard * selectBankCard;
 @property (nonatomic,strong)NSMutableArray * selectCarwashCoupouArray;
 @property (nonatomic,strong)NSMutableArray * selectCashCoupouArray;
 
 @property (nonatomic)BOOL needChooseResource;
 
-- (void)setPlatform:(PaymentPlatform)platform;
 - (void)tableViewReloadData;
 - (void)autoSelectBankCard;
 - (void)chooseResource;

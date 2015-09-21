@@ -82,7 +82,7 @@
     if ([self sharkCellIfErrorAtIndex:0]) {
         return;
     }
-    
+
     RACSignal *sig = [self.smsModel rac_getSystemVcodeWithType:HKVcodeTypeLogin phone:[self textAtIndex:0]];
     [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:sig] subscribeError:^(NSError *error) {
         [gToast showError:error.domain];

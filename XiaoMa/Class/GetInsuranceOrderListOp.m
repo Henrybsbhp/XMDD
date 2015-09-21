@@ -27,4 +27,10 @@
     self.rsp_orders = orderArray;
     return self;
 }
+
+- (id)returnSimulateResponse
+{
+    return @{@"rc":@0, @"orders":@[], @"id":@17, @"newmsg":@0};
+}
+
 @end

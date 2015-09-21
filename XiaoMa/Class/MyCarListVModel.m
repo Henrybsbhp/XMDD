@@ -11,6 +11,25 @@
 #import "HKImagePicker.h"
 
 @implementation MyCarListVModel
+- (NSString *)descForCarStatus:(NSInteger)status
+{
+    NSString *desc;
+    switch (status) {
+        case 1:
+            desc = @"行驶证已提交审核";
+            break;
+        case 2:
+            desc = @"车辆已通过认证";
+            break;
+        case 3:
+            desc = @"审核未通过,请重新上传行驶证";
+            break;
+        default:
+            desc = @"上传行驶证并通过审核,即可享受价值1000元的大礼包";
+            break;
+    }
+    return desc;
+}
 
 - (void)setupUploadBtn:(UIButton *)btn andDescLabel:(UILabel *)label forCar:(HKMyCar *)car
 {
@@ -57,10 +76,11 @@
             }
         });
         UploadFileOp *op = [UploadFileOp new];
+        op.req_fileType = UploadFileTypeDrivingLicense;
 //        img = [EditPictureViewController generateImageByAddingWatermarkWith:img];
         NSData *data = UIImageJPEGRepresentation(img, 0.5);
         op.req_fileDataArray = [NSArray arrayWithObject:data];
-        op.req_fileType = @"jpg";
+        op.req_fileExtType = @"jpg";
         return [[op rac_postRequest] map:^id(UploadFileOp *rspOp) {
             return [rspOp.rsp_urlArray safetyObjectAtIndex:0];
         }];

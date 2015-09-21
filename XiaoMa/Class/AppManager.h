@@ -38,12 +38,18 @@
 @property (nonatomic, strong) CoreDataManager *defDataMgr;
 @property (nonatomic, strong) NavigationModel *navModel;
 @property (nonatomic,strong, readonly)DeviceInfo * deviceInfo;
-@property (nonatomic, strong, readonly) HKTokenPool *tokenPool;
+@property (nonatomic, strong,readonly) HKTokenPool *tokenPool;
 @property(nonatomic,strong)ClientInfo * clientInfo;
 ///常用数据缓存（可手动清除）
 @property (nonatomic, strong, readonly) TMCache *dataCache;
 
 @property (nonatomic, strong) MultiMediaManager *mediaMgr;
+
+/**
+ *  评价小标，从1-5星排序
+ */
+@property (nonatomic,strong)NSArray * commentList;
+
 
 + (AppManager *)sharedManager;
 
@@ -69,6 +75,8 @@
 
 @property (nonatomic,strong)NSArray * searchHistoryArray;
 
+@property (nonatomic,strong)NSDictionary * discountRateDict;
+@property (nonatomic,strong)NSDictionary * carwashRateDict;
 
 
 ///获取上次的定位地址和天气信息
@@ -79,8 +87,8 @@
 
 
 - (void)saveInfo:(id <NSCoding>)value forKey:(NSString *)key;
-
 - (NSString *)getInfo:(NSString *)key;
+- (NSArray *)getProvinceArray;
 
 
 ///版本升级

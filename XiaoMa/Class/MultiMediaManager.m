@@ -27,11 +27,49 @@
     return nil;
 }
 
+- (UIImage *)imageFromDiskCacheForUrl:(NSString *)strurl
+{
+    SDWebImageManager *mgr = [SDWebImageManager sharedManager];
+    if (strurl) {
+        return [mgr.imageCache imageFromDiskCacheForKey:[mgr cacheKeyForURL:[NSURL URLWithString:strurl]]];
+    }
+    return nil;
+}
+
+
+- (BOOL)cachedImageExistsForUrl:(NSString *)strurl
+{
+    if (!strurl) {
+        return NO;
+    }
+    NSURL *url = [NSURL URLWithString:strurl];
+    return [[SDWebImageManager sharedManager] cachedImageExistsForURL:url];
+}
+
+- (BOOL)diskImageExistsForUrl:(NSString *)strurl
+{
+    if (!strurl) {
+        return NO;
+    }
+    NSURL *url = [NSURL URLWithString:strurl];
+    return [[SDWebImageManager sharedManager] diskImageExistsForURL:url];
+}
+
+- (void)saveImageToCache:(UIImage *)image forUrl:(NSString *)strurl
+{
+    if (!strurl) {
+        return;
+    }
+    NSURL *url = [NSURL URLWithString:strurl];
+    [[SDWebImageManager sharedManager] saveImageToCache:image forURL:url];
+}
+
 - (RACSignal *)rac_getImageByUrl:(NSString *)strurl withType:(ImageURLType)type
                       defaultPic:(NSString *)defName errorPic:(NSString *)errName
 {
     return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        NSURL *url = strurl ? [NSURL URLWithString:strurl] : nil;
+        NSString *realStrUrl = [gMediaMgr urlWith:strurl imageType:type];
+        NSURL *url = strurl ? [NSURL URLWithString:realStrUrl] : nil;
         SDWebImageManager *mgr = [SDWebImageManager sharedManager];
         if (defName && url && ![mgr cachedImageExistsForURL:url]) {
             [subscriber sendNext:[UIImage imageNamed:defName]];
@@ -52,6 +90,12 @@
         }];
         return nil;
     }] deliverOn:[RACScheduler mainThreadScheduler]];
+}
+
+- (NSString *)urlWith:(NSString *)url croppedSize:(CGSize)size
+{
+    NSString *suffix = [NSString stringWithFormat:@"?imageView2/1/w/%d/h/%d", (int)size.width, (int)size.height];
+    return [url append:suffix];
 }
 
 - (NSString *)urlWith:(NSString *)url imageType:(ImageURLType)type

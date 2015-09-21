@@ -7,17 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WXApi.h"
-#import "WXApiObject.h"
-
+#import <ReactiveCocoa.h>
 
 @interface WeChatHelper : NSObject
 
-/// 微信支付结果信号 9000,dismiss,
-@property (nonatomic,strong)RACSubject * rac_wechatResultSignal;
-
-+ (instancetype)sharedHelper;
-
-- (void)payOrdWithTradeNo:(NSString *)TradeNO andProductName:(NSString *)pName andPrice:(float_t)price;
+- (RACSignal *)rac_payWithTradeNumber:(NSString *)tn productName:(NSString *)pn price:(CGFloat)price;
 
 @end

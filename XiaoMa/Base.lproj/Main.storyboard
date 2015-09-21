@@ -276,6 +276,38 @@
             </objects>
             <point key="canvasLocation" x="-1029" y="964"/>
         </scene>
+        <!--LaunchVC-->
+        <scene sceneID="6b5-X9-CE4">
+            <objects>
+                <viewController storyboardIdentifier="LaunchVC" id="szA-Ih-HCe" customClass="LaunchVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Qjd-bW-J7E"/>
+                        <viewControllerLayoutGuide type="bottom" id="FEM-uS-uG9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="evL-gF-nhX">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8Vw-yD-ZnO">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8Vw-yD-ZnO" firstAttribute="leading" secondItem="evL-gF-nhX" secondAttribute="leading" id="JeR-ay-BjL"/>
+                            <constraint firstItem="8Vw-yD-ZnO" firstAttribute="top" secondItem="evL-gF-nhX" secondAttribute="top" id="Tcm-ZM-PLS"/>
+                            <constraint firstAttribute="trailing" secondItem="8Vw-yD-ZnO" secondAttribute="trailing" id="YMg-Mw-n3M"/>
+                            <constraint firstItem="FEM-uS-uG9" firstAttribute="top" secondItem="8Vw-yD-ZnO" secondAttribute="bottom" id="d01-Xp-1P4"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="8Vw-yD-ZnO" id="riv-bf-XHO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Odp-LG-C62" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1029" y="1630"/>
+        </scene>
         <!--我的-->
         <scene sceneID="17A-OG-jFU">
             <objects>
@@ -718,7 +750,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="2003" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ANg-YO-BUs">
-                                                    <rect key="frame" x="540" y="93" width="44.5" height="21.5"/>
+                                                    <rect key="frame" x="540" y="93" width="45" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" red="0.97647058819999999" green="0.2274509804" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>

@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "JTTableView.h"
+#import "HKLoadingModel.h"
 
 @interface CarwashOrderViewModel : NSObject<UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic, weak) IBOutlet JTTableView *tableView;
-@property (nonatomic, strong) NSMutableArray *orders;
+@property (nonatomic, weak) JTTableView *tableView;
+@property (nonatomic, strong) HKLoadingModel *loadingModel;
 @property (nonatomic, weak, readonly) UIViewController *targetVC;
-- (void)reloadData;
+
+- (id)initWithTableView:(JTTableView *)tableView;
 - (void)resetWithTargetVC:(UIViewController *)targetVC;
 
 @end

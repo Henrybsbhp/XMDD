@@ -105,36 +105,6 @@
             }
             
             gAppMgr.clientInfo.lastClientVersion = gAppMgr.clientInfo.clientVersion;
-            
-//            CKAsyncMainQueue(^{
-//            
-//                UIViewAnimationOptions option = UIViewAnimationOptionTransitionFlipFromLeft;
-//                NSTimeInterval duration = 0.5;
-//                [UIView transitionWithView:self.sypaginatorView duration:duration options:option animations:^{
-//                    
-//                } completion:^(BOOL finished) {
-//                    
-//                }];
-//
-//            });
-            
-            
-//            [UIView animateWithDuration:0.5f delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-//                
-//                self.finishAction();
-//            } completion:^(BOOL finished) {
-//                
-//                
-//            }];
-            
-            
-
-            [UIView animateWithDuration:0.5 animations:^{
-                
-                
-            } completion:^(BOOL finished) {
-                
-            }];
         }
     }];
 

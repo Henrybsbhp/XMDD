@@ -17,13 +17,14 @@
 #import "GetUserCarOp.h"
 #import "HKCoupon.h"
 #import "HKMyCar.h"
-#import "AlipayHelper.h"
-#import "WeChatHelper.h"
 #import "CheckoutServiceOrderV2Op.h"
 #import "NSDate+DateForText.h"
 #import "UIView+Layer.h"
+#import "CarListVC.h"
 #import "MyCarsModel.h"
 #import "HKBankCard.h"
+#import "PaymentHelper.h"
+#import "SystemFastrateGetOp.h"
 
 
 #define CheckBoxCouponGroup @"CheckBoxCouponGroup"
@@ -40,11 +41,7 @@
 @property (nonatomic,strong)UILabel * numberView;
 
 @property (nonatomic,strong) CKSegmentHelper *checkBoxHelper;
-
 @property (nonatomic)BOOL isLoadingResourse;
-
-///支付平台，（section == 2）
-@property (nonatomic)PaymentPlatform platform;
 
 @end
 
@@ -149,7 +146,7 @@
             height = 76;
         }
         else if (indexPath.row == 3){
-            height = 30;
+            height = 36;
         }
         else
         {
@@ -200,6 +197,9 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             cell = [self shopTitleCellAtIndexPath:indexPath];
+        }
+        else if (indexPath.row == 3) {
+            cell = [self carCellAtIndexPath:indexPath];
         }
         else {
             cell = [self shopItemCellAtIndexPath:indexPath];
@@ -259,6 +259,15 @@
         if (indexPath.row == 3) {
             
             [MobClick event:@"rp108-10"];//车牌
+            CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+            vc.title = @"选择爱车";
+            vc.model.allowAutoChangeSelectedCar = YES;
+            vc.model.disableEditingCar = YES;
+            vc.model.selectedCar = self.defaultCar;
+            [vc.model setFinishBlock:^(HKMyCar *curSelectedCar) {
+                self.defaultCar = curSelectedCar;
+            }];
+            [self.navigationController pushViewController:vc animated:YES];
         }
     }
     else if (indexPath.section == 1) {
@@ -339,16 +348,25 @@
         infoL.textColor = HEXCOLOR(@"#fb4209");
         infoL.text = [NSString stringWithFormat:@"￥%.2f",self.service.origprice];
     }
-    else if (indexPath.row == 3) {
-        [[RACObserve(self, defaultCar) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(HKMyCar *car) {
-            titleL.text = [NSString stringWithFormat:@"我的车辆"];
-            infoL.textColor = HEXCOLOR(@"#505050");
-            infoL.text = car.licencenumber ? car.licencenumber : @"";
-        }];
-    }
     
     return cell;
 }
+
+- (UITableViewCell *)carCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CarCell"];
+    UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
+    UILabel *infoL = (UILabel *)[cell.contentView viewWithTag:1002];
+    
+    [[RACObserve(self, defaultCar) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(HKMyCar *car) {
+        titleL.text = [NSString stringWithFormat:@"我的车辆"];
+        infoL.textColor = HEXCOLOR(@"#505050");
+        infoL.text = car.licencenumber ? car.licencenumber : @"";
+    }];
+    
+    return cell;
+}
+
 
 - (UITableViewCell *)paymentTypeCellAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -857,6 +875,7 @@
         [gToast showingWithText:@"订单生成中..."];
     }] subscribeNext:^(CheckoutServiceOrderV2Op * op) {
         
+        [self requestCommentlist];
         if (op.rsp_price)
         {
             if (op.platform == PayWithAlipay)
@@ -907,6 +926,8 @@
             vc.order = order;
             [self.navigationController pushViewController:vc animated:YES];
         }
+        
+        
     } error:^(NSError *error) {
         
         [self handerOrderError:error forOp:checkoutOp];
@@ -916,6 +937,17 @@
 - (void)requestCheckout
 {
     [self requestCheckoutWithCouponType:self.couponType];
+}
+
+- (void)requestCommentlist
+{
+    if (gAppMgr.commentList.count)
+        return;
+    SystemFastrateGetOp * op = [SystemFastrateGetOp operation];
+    [[op rac_postRequest] subscribeNext:^(SystemFastrateGetOp * op) {
+       
+        gAppMgr.commentList = op.rsp_commentlist;
+    }];
 }
 
 - (void)handerOrderError:(NSError *)error forOp:(CheckoutServiceOrderV2Op *)op
@@ -949,9 +981,10 @@
 - (void)requestAliPay:(NSNumber *)orderId andTradeId:(NSString *)tradeId
              andPrice:(CGFloat)price andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time
 {
-    [gAlipayHelper payOrdWithTradeNo:tradeId andProductName:name andProductDescription:desc andPrice:price];
+    PaymentHelper *helper = [[PaymentHelper alloc] init];
+    [helper resetForAlipayWithTradeNumber:tradeId productName:name productDescription:desc price:price];
     
-    [gAlipayHelper.rac_alipayResultSignal subscribeNext:^(id x) {
+    [[helper rac_startPay] subscribeNext:^(id x) {
         
         [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
         PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
@@ -972,12 +1005,10 @@
                 andPrice:(CGFloat)price andProductName:(NSString *)name
                  andTime:(NSString *)time
 {
-    [gWechatHelper payOrdWithTradeNo:tradeId andProductName:name andPrice:price];
-    
-    [gWechatHelper.rac_wechatResultSignal subscribeNext:^(NSString * info) {
-        
-        if (![info isEqualToString:@"9000"])
-            return;
+    PaymentHelper *helper = [[PaymentHelper alloc] init];
+    [helper resetForWeChatWithTradeNumber:tradeId productName:name price:price];
+    [[helper rac_startPay] subscribeNext:^(NSString * info) {
+
         [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
         PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
         vc.originVC = self.originVC;
@@ -1096,9 +1127,9 @@
             HKCoupon * coupon = [self.selectCashCoupouArray safetyObjectAtIndex:i];
             amount = amount - coupon.couponAmount;
         }
-    }
-    else
+    }    else
     {
+
         amount = self.service.origprice;
     }
     

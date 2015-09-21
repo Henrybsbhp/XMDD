@@ -54,6 +54,7 @@ typedef enum : NSInteger
 
 - (NSArray *)loadingModel:(HKLoadingModel *)model datasourceFromLoadedData:(NSArray *)data withType:(HKDatasourceLoadingType)type;
 - (BOOL)loadingModel:(HKLoadingModel *)model shouldLoadMoreDataWithIndexPath:(NSIndexPath *)indexPath;
+- (BOOL)loadingModelShouldAllowRefreshing:(HKLoadingModel *)model;
 - (HKLoadingAnimationType)loadingAnimationTypeForTheFirstTimeWithLoadingModel:(HKLoadingModel *)model;
 
 @end

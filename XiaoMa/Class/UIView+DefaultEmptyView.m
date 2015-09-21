@@ -61,7 +61,7 @@
     }
     
     CKAsyncMainQueue(^{
-        view.center = CGPointMake(self.center.x, self.center.y+offset);
+        view.center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds)+offset);
     });
 
     UIImageView *imgView = self.customInfo[kImgView];

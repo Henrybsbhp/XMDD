@@ -19,5 +19,6 @@
 @property (nonatomic)CouponType type;
 
 @property (nonatomic)CGFloat upperLimit;
+@property (nonatomic)CGFloat numberLimit;
 
 @end

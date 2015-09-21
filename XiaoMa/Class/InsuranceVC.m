@@ -8,10 +8,17 @@
 
 #import "InsuranceVC.h"
 #import "XiaoMa.h"
-#import "BuyInsuranceOnlineVC.h"
-#import "EnquiryInsuranceVC.h"
+#import "AiCheBaoInsuranceVC.h"
+#import "SYPaginator.h"
+#import "HKAdvertisement.h"
+#import "InsuranceEnquiryVC.h"
+#import "WebVC.h"
+#import "InsuranceResultVC.h"
 #import "WebVC.h"
 #import "ADViewController.h"
+#import "InsuranceChooseViewController.h"
+#import "InsuranceDirectSellingVC.h"
+#import "PaymentHelper.h"
 
 @interface InsuranceVC ()
 @property (nonatomic, strong) ADViewController *advc;
@@ -56,36 +63,58 @@
 }
 
 #pragma mark - Action
-- (IBAction)actionBuyInsuraceOline:(id)sender {
-    [MobClick event:@"rp114-2"];
-    BuyInsuranceOnlineVC *vc = [UIStoryboard vcWithId:@"BuyInsuranceOnlineVC" inStoryboard:@"Insurance"];
-    vc.originVC = self;
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (IBAction)actionEnquireInsurance:(id)sender {
+- (void)actionInsuraceEnquiry {
     [MobClick event:@"rp114-1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        EnquiryInsuranceVC *vc = [UIStoryboard vcWithId:@"EnquiryInsuranceVC" inStoryboard:@"Insurance"];
+        InsuranceEnquiryVC *vc = [UIStoryboard vcWithId:@"InsuranceEnquiryVC" inStoryboard:@"Insurance"];
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+- (void)actionInsuranceDirectSelling {
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        InsuranceDirectSellingVC *vc = [UIStoryboard vcWithId:@"InsuranceDirectSellingVC" inStoryboard:@"Insurance"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
+- (void)actionAiCheBao {
+    [MobClick event:@"rp114-2"];
+    AiCheBaoInsuranceVC *vc = [UIStoryboard vcWithId:@"AiCheBaoInsuranceVC" inStoryboard:@"Insurance"];
+    vc.originVC = self;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 #pragma mark - UITableViewDelegate and datasource
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    JTTableViewCell *jtcell = (JTTableViewCell *)cell;
-    jtcell.customSeparatorInset = UIEdgeInsetsMake(-1, 0, 0, 0);
-    [jtcell prepareCellForTableView:tableView atIndexPath:indexPath];
+    if ([cell isKindOfClass:[JTTableViewCell class]]) {
+        JTTableViewCell *jtcell = (JTTableViewCell *)cell;
+        jtcell.customSeparatorInset = UIEdgeInsetsMake(-1, 0, 0, 0);
+        jtcell.customSeparatorColor = kDefLineColor;
+        [jtcell prepareCellForTableView:tableView atIndexPath:indexPath];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    //保险询价
+    if (indexPath.row == 0) {
+         [self actionInsuraceEnquiry];
+    }
+    //车险直销
+    else if (indexPath.row == 1) {
+        [self actionInsuranceDirectSelling];
+    }
+    //爱车宝
+    else if (indexPath.row == 2) {
+        [self actionAiCheBao];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 8;
+    return CGFLOAT_MIN;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -93,4 +122,8 @@
     return 10;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 2;
+}
 @end

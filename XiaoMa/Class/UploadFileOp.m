@@ -9,18 +9,29 @@
 #import "UploadFileOp.h"
 #import "XiaoMa.h"
 #import <RACAFNetworking.h>
+#import "NSString+MD5.h"
 
 @interface UploadFileOp ()
 @property (nonatomic, strong) NSArray *fileArray;
 @property (nonatomic, copy) NSData *(^fileDataBlock)(id file);
+@property (nonatomic, copy) void (^progressBlock)(NSUInteger , long long , long long);
 @end
 @implementation UploadFileOp
 
 - (RACSignal *)rac_postRequest
 {
     self.req_method = @"/fileupload";
-    NSString *url = [ApiBaseUrl append:self.req_method];
+    [self increaseRequistIDs];
+    NSString *token = self.token ? self.token : @"";
+    NSString *srcsig = [NSString stringWithFormat:@"id=%u&token=%@&type=%d", self.req_id, token, (int)self.req_fileType];
+    NSString *sig = [srcsig md5];
+    NSDictionary *params = @{@"id": @(self.req_id),
+                             @"token": token,
+                             @"type": @(self.req_fileType),
+                             @"sign": sig};
     
+    NSString *url = [ApiBaseUrl append:self.req_method];
+
     RACSignal *signal;
     @weakify(self);
     if (self.req_fileDataArray) {
@@ -39,10 +50,10 @@
     
     signal = [signal flattenMap:^RACStream *(NSArray *dataArray) {
         NSError *error;
-        NSMutableURLRequest *req = [gNetworkMgr.mediaClient.requestSerializer multipartFormRequestWithMethod:@"POST" URLString:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        NSMutableURLRequest *req = [gNetworkMgr.mediaClient.requestSerializer multipartFormRequestWithMethod:@"POST" URLString:url parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
 
             for (NSData *data in dataArray) {
-                [formData appendPartWithFileData:data name:self.req_fileType
+                [formData appendPartWithFileData:data name:self.req_fileExtType
                                         fileName:@"fileType" mimeType:@"application/octet-stream"];
             }
         } error:&error];
@@ -52,6 +63,7 @@
         }
         
         AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
+        [op setUploadProgressBlock:self.progressBlock];
         return [gNetworkMgr.mediaClient rac_enqueueHTTPRequestOperation:op];
     }];
     
@@ -67,6 +79,7 @@
         if (data) {
             dict = [data jsonObject];
             self.rsp_urlArray = dict[@"url"];
+            self.rsp_idArray = dict[@"lid"];
         }
         DebugLog(@"%@ Upload file success:%@ \ndata={%@}", kRspPrefix, url, dict);
         return self;
@@ -83,4 +96,10 @@
     _fileArray = files;
     _fileDataBlock = block;
 }
+
+- (void)setProgress:(void (^)(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite))block
+{
+    self.progressBlock = block;
+}
+
 @end

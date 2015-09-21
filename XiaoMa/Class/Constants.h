@@ -16,6 +16,16 @@ typedef enum : NSUInteger {
     ShopServiceAgency,
 } ShopServiceType;
 
+/**
+ 支付平台
+ */
+typedef enum : NSUInteger {
+    PayWithAlipay,
+    PayWithWechat,
+    PayWithXMDDCreditCard,
+    PayWithUPPay
+} PaymentPlatform;
+
 /// 支付渠道 0不要用（0表示没有选择支付渠道）
 typedef enum : NSUInteger {
     PaymentChannelInstallments = 1,
@@ -24,7 +34,8 @@ typedef enum : NSUInteger {
     PaymentChannelABCCarWashAmount,
     PaymentChannelABCIntegral,
     PaymentChannelCoupon,
-    PaymentChannelXMDDCreditCard
+    PaymentChannelXMDDCreditCard,
+    PaymentChannelUPpay
 } PaymentChannelType;
 
 /// 支付渠道
@@ -40,6 +51,7 @@ typedef enum : NSUInteger {
     AdvertisementAppSlide = 10,
     AdvertisementInsurance = 11,
     AdvertisementTypeActivities = 20,
+    AdvertisementTypeLaunch = 30
 } AdvertisementType;
 
 #define IOSAPPID 1001
@@ -63,6 +75,7 @@ typedef enum : NSUInteger {
 #define MapZoomLevel 15.1000
 #define PageAmount 10
 #define kVCodePromptInteval     15
+#define kLaunchBottomViewHeight     102
 
 #define AppleNavigationStr @"苹果地图"
 #define BaiduNavigationStr @"百度地图"
@@ -73,8 +86,6 @@ typedef enum : NSUInteger {
 #define gAppMgr     [AppManager sharedManager]
 #define gNetworkMgr [NetworkManager sharedManager]
 #define gToast      [HKToast sharedTosast]
-#define gAlipayHelper       ([AlipayHelper sharedHelper])
-#define gWechatHelper       ([WeChatHelper sharedHelper])
 #define gMapHelper ([MapHelper sharedHelper])
 #define gMediaMgr  ([[AppManager sharedManager] mediaMgr])
 #define gPhoneHelper  ([PhoneHelper sharedHelper])
@@ -88,7 +99,7 @@ typedef enum : NSUInteger {
 #define rescueStoryboard [UIStoryboard storyboardWithName:@"Rescue" bundle:nil]
 #define commissionStoryboard [UIStoryboard storyboardWithName:@"Commission" bundle:nil]
 #define awardStoryboard [UIStoryboard storyboardWithName:@"Award" bundle:nil]
-
+#define insuranceStoryboard [UIStoryboard storyboardWithName:@"Insurance" bundle:nil]
 
 #define LocationFail 7001
 #define WechatPayFail 7002
@@ -97,5 +108,7 @@ typedef enum : NSUInteger {
 #define kNotifyRefreshMyCarList             @"com.huika.xmdd.RefreshMyCarList"
 #define kNotifyRefreshMyCarwashOrders       @"com.huika.xmdd.RefreshMyCarwashOrders"
 #define kNotifyRefreshMyBankcardList        @"com.huika.xmdd.RefreshMyBankcardList"
+
+
 
 #endif

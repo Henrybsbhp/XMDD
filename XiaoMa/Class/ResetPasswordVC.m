@@ -65,7 +65,6 @@
     if ([self shakeCellIfErrorAtIndex:0]) {
         return;
     }
-    
     RACSignal *sig = [self.smsModel rac_getSystemVcodeWithType:HKVcodeTypeResetPwd phone:[self textAtIndex:0]];
     [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:sig] subscribeError:^(NSError *error) {
         [gToast showError:error.domain];

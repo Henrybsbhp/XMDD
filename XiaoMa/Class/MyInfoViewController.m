@@ -54,7 +54,7 @@
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp302"];
-    [SVProgressHUD dismiss];
+    [gToast dismiss];
 }
 
 -(void)dealloc
@@ -320,7 +320,7 @@
 - (void)pickerAvatar:(UIImage *)avatar
 {
     UploadFileOp *op = [UploadFileOp new];
-    op.req_fileType = @"jpg";
+    op.req_fileExtType = @"jpg";
     [op setFileArray:@[avatar] withGetDataBlock:^NSData *(UIImage *img) {
         return UIImageJPEGRepresentation(img, 1.0);
     }];

@@ -73,7 +73,7 @@
     [gNetworkMgr.apiManager.operationQueue cancelAllOperations];
     [gNetworkMgr.mediaClient.operationQueue cancelAllOperations];
     [gAppMgr resetWithAccount:nil];
-    [SVProgressHUD dismiss];
+    [gToast dismiss];
 }
 
 - (void)gotoRootViewWithAlertTitle:(NSString *)title msg:(NSString *)msg
