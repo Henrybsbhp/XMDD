@@ -13,7 +13,6 @@
 
 @interface CarWashCouponVModel ()<HKLoadingModelDelegate>
 @property (nonatomic, assign) NSInteger curPageno;
-
 @property (nonatomic, assign) CouponNewType couponNewType;
 @property (nonatomic, strong) NSMutableArray * validCouponArr;
 @property (nonatomic, strong) NSMutableArray * unvalidCouponArr;
@@ -154,8 +153,13 @@
     HKCoupon * couponDic;
     if (indexPath.section == 0) {
         couponDic = [self.validCouponArr safetyObjectAtIndex:indexPath.row];
-        UIColor *color = couponDic.rgbColor.length > 0 ? HEXCOLOR(couponDic.rgbColor) : nil;
-        backgroundImg.image =[[UIImage imageNamed:@"coupon_background"] imageByFilledWithColor:color];
+        UIImage *bgImg = [UIImage imageNamed:@"coupon_background"];
+        if (couponDic.rgbColor.length > 0) {
+            NSString *strColor = [NSString stringWithFormat:@"#%@", couponDic.rgbColor];
+            UIColor *color = HEXCOLOR(strColor);
+            bgImg = [bgImg imageByFilledWithColor:color];
+        }
+        backgroundImg.image = bgImg;
         [logoV setImageByUrl:couponDic.logo
                           withType:ImageURLTypeThumbnail defImage:@"coupon_logo" errorImage:@"coupon_logo"];
         markV.hidden = YES;
