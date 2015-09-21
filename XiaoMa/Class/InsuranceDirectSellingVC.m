@@ -9,7 +9,7 @@
 #import "InsuranceDirectSellingVC.h"
 #import "InsuranceInfoSubmitingVC.h"
 
-#define kInsuranceDirectSellingUrl  @"http://www.xiaomadada.com/apphtml/aichebao.html"
+#define kInsuranceDirectSellingUrl  @"http://www.xiaomadada.com/apphtml/directselling.html"
 
 @interface InsuranceDirectSellingVC ()
 

@@ -16,19 +16,18 @@
     self.req_method = @"/insurance/appointment";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params addParam:self.req_licencenumber forName:@"licencenumber"];
-    [params addParam:self.req_city forName:@"city"];
-    [params addParam:@(self.req_register) forName:@"register"];
-    [params addParam:self.req_purchaseprice forName:@"purchaseprice"];
-    if (self.req_purchasedate)
-    {
-        [params addParam:[self.req_purchasedate dateFormatForDT8] forName:@"purchasedate"];
+    [params safetySetObject:self.req_licencenumber forKey:@"licencenumber"];
+    [params safetySetObject:self.req_city forKey:@"city"];
+    [params safetySetObject:@(self.req_register) forKey:@"register"];
+    [params safetySetObject:self.req_purchaseprice forKey:@"purchaseprice"];
+    if (self.req_purchasedate) {
+        [params safetySetObject:[self.req_purchasedate dateFormatForDT8] forKey:@"purchasedate"];
     }
-    [params addParam:self.req_phone forName:@"phone"];
-    [params addParam:self.req_idcard forName:@"idcard"];
-    [params addParam:self.req_idpic forName:@"idpic"];
-    [params addParam:self.req_driverpic forName:@"driverpic"];
-    [params addParam:self.req_inslist forName:@"inslist"];
+    [params safetySetObject:self.req_phone forKey:@"phone"];
+    [params safetySetObject:self.req_idcard forKey:@"idcard"];
+    [params safetySetObject:self.req_idpic forKey:@"idpic"];
+    [params safetySetObject:self.req_driverpic forKey:@"driverpic"];
+    [params safetySetObject:self.req_inslist forKey:@"inslist"];
     
       return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }

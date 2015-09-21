@@ -143,7 +143,6 @@
 		189B395E1AF9D9F700B83F1B /* UpdateCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B395D1AF9D9F700B83F1B /* UpdateCarOp.m */; };
 		189B39611AF9DD3B00B83F1B /* AddCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B39601AF9DD3B00B83F1B /* AddCarOp.m */; };
 		189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B39631AF9E32400B83F1B /* DeleteCarOp.m */; };
-		189B39661AF9FDDF00B83F1B /* EnquiryInsuranceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B39651AF9FDDF00B83F1B /* EnquiryInsuranceVC.m */; };
 		189C69821B734EDD00E56E4A /* ADViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 189C69811B734EDD00E56E4A /* ADViewController.m */; };
 		189C69861B74505E00E56E4A /* HKBankCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 189C69851B74505E00E56E4A /* HKBankCard.m */; };
 		189C69891B74ADC700E56E4A /* BindBankCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189C69881B74ADC700E56E4A /* BindBankCardVC.m */; };
@@ -657,7 +656,6 @@
 		189B30C21AD64310001D7288 /* ChooseCarwashTicketVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ChooseCarwashTicketVC.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		189B30C51AD664D7001D7288 /* InsuranceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceVC.h; sourceTree = "<group>"; };
 		189B30C61AD664D7001D7288 /* InsuranceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceVC.m; sourceTree = "<group>"; };
-		189B30CB1AD762B1001D7288 /* EnquiryInsuranceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnquiryInsuranceVC.h; sourceTree = "<group>"; };
 		189B30D21AD799AF001D7288 /* RACSignal+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "RACSignal+Extension.h"; path = "Class/RACSignal+Extension.h"; sourceTree = "<group>"; };
 		189B30D31AD799AF001D7288 /* RACSignal+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RACSignal+Extension.m"; path = "Class/RACSignal+Extension.m"; sourceTree = "<group>"; };
 		189B31011AD7A935001D7288 /* DatePickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerVC.h; sourceTree = "<group>"; };
@@ -682,7 +680,6 @@
 		189B39601AF9DD3B00B83F1B /* AddCarOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddCarOp.m; path = Class/AddCarOp.m; sourceTree = "<group>"; };
 		189B39621AF9E32400B83F1B /* DeleteCarOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteCarOp.h; path = Class/DeleteCarOp.h; sourceTree = "<group>"; };
 		189B39631AF9E32400B83F1B /* DeleteCarOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteCarOp.m; path = Class/DeleteCarOp.m; sourceTree = "<group>"; };
-		189B39651AF9FDDF00B83F1B /* EnquiryInsuranceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnquiryInsuranceVC.m; sourceTree = "<group>"; };
 		189C69801B734EDD00E56E4A /* ADViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADViewController.h; sourceTree = "<group>"; };
 		189C69811B734EDD00E56E4A /* ADViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADViewController.m; sourceTree = "<group>"; };
 		189C69841B74505E00E56E4A /* HKBankCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKBankCard.h; path = Class/HKBankCard.h; sourceTree = "<group>"; };
@@ -2041,8 +2038,6 @@
 		189B310D1ADA5911001D7288 /* Enquiry */ = {
 			isa = PBXGroup;
 			children = (
-				189B30CB1AD762B1001D7288 /* EnquiryInsuranceVC.h */,
-				189B39651AF9FDDF00B83F1B /* EnquiryInsuranceVC.m */,
 				1826CCF51BABA8DC00E2F46D /* InsuranceEnquiryVC.h */,
 				1826CCF61BABA8DC00E2F46D /* InsuranceEnquiryVC.m */,
 			);
@@ -3170,7 +3165,6 @@
 				189B395E1AF9D9F700B83F1B /* UpdateCarOp.m in Sources */,
 				1851F42B1B0C2C3500241A01 /* CoreDataManager.m in Sources */,
 				189B394C1AF71C3900B83F1B /* MineVC.m in Sources */,
-				189B39661AF9FDDF00B83F1B /* EnquiryInsuranceVC.m in Sources */,
 				189371361B0F592F0030FDE1 /* JTQueue.m in Sources */,
 				5027568F1BA6A3C50065592A /* GetCouponDetailsOp.m in Sources */,
 				189C69821B734EDD00E56E4A /* ADViewController.m in Sources */,

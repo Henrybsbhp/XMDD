@@ -13,6 +13,7 @@
 #import "InsuranceResultVC.h"
 #import "UIView+Shake.h"
 #import "UpdateInsuranceCalculateOp.h"
+#import "InsuranceAppointmentOp.h"
 
 @interface InsuranceInfoSubmitingVC ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, DrivingLicenseHistoryViewDelegate>
 {
@@ -69,15 +70,48 @@
 {
     if ([self checkInfomation]) {
         UpdateInsuranceCalculateOp *op = [[UpdateInsuranceCalculateOp alloc] init];
-        op.req_cid = self.calculatorID;
-        InsuranceResultVC *vc = [UIStoryboard vcWithId:@"InsuranceResultVC" inStoryboard:@"Insurance"];
-        [self.navigationController pushViewController:vc animated:YES];
+        op.req_cid = self.calculatorOp.rsp_calculatorID;
+        op.req_idcard = self.idcardField.text;
+        op.req_driverpic = self.currentRecord.url;
+        @weakify(self);
+        [[[op rac_postRequest] initially:^{
+            
+            [gToast showingWithText:@"正在提交..."];
+        }] subscribeNext:^(id x) {
+
+            @strongify(self);
+            [gToast dismiss];
+            InsuranceResultVC *vc = [UIStoryboard vcWithId:@"InsuranceResultVC" inStoryboard:@"Insurance"];
+            vc.resultTitle = @"恭喜，上传成功！";
+            vc.resultContent = @"精准询价：工作人员将于1个工作日内为您精准报价！";
+            [self.navigationController pushViewController:vc animated:YES];
+        } error:^(NSError *error) {
+            
+            [gToast showError:error.domain];
+        }];
     }
 }
 - (IBAction)actionBuy:(id)sender {
     if ([self checkInfomation]) {
-        InsuranceResultVC *vc = [UIStoryboard vcWithId:@"InsuranceResultVC" inStoryboard:@"Insurance"];
-        [self.navigationController pushViewController:vc animated:YES];
+        InsuranceAppointmentOp *op = [[InsuranceAppointmentOp alloc] init];
+        op.req_purchaseprice = self.calculatorOp.req_purchaseprice;
+        op.req_idcard = self.idcardField.text;
+        op.req_driverpic = self.currentRecord.url;
+        op.req_inslist = self.insuranceList;
+        @weakify(self);
+        [[[op rac_postRequest] initially:^{
+            
+            [gToast showingWithText:@"正在预约..."];
+        }] subscribeNext:^(id x) {
+
+            @strongify(self);
+            [gToast dismiss];
+            InsuranceResultVC *vc = [UIStoryboard vcWithId:@"InsuranceResultVC" inStoryboard:@"Insurance"];
+            [self.navigationController pushViewController:vc animated:YES];
+        } error:^(NSError *error) {
+            
+            [gToast showError:error.domain];
+        }];
     }
 }
 

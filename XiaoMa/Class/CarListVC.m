@@ -308,7 +308,13 @@
     if (!self.model.selectedCar || !self.model.allowAutoChangeSelectedCar) {
         self.model.selectedCar = [gAppMgr.myUser.carModel getDefalutCar];
     }
-
+    if (model.datasource.count > 5) {
+        [self.navigationItem setRightBarButtonItem:nil animated:NO];
+    }
+    else {
+        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"添加" style:UIBarButtonItemStylePlain target:self action:@selector(actionAddCar:)];
+        [self.navigationItem setRightBarButtonItem:right animated:NO];
+    }
     [self refreshScrollView];
 }
 

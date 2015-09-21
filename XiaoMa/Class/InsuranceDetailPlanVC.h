@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GetInsuranceCalculatorOpV2.h"
 
 @interface InsuranceDetailPlanVC : UIViewController
 
 @property (strong,nonatomic)NSArray * planArray;
-@property (nonatomic)CGFloat carPrice;
-@property (nonatomic, strong) NSString *calculatorID;
+@property (nonatomic, strong) GetInsuranceCalculatorOpV2 *calculatorOp;
 
 @end
