@@ -11,6 +11,9 @@
 
 + (UIColor *)colorWithHex:(NSString *)hexColor alpha:(CGFloat)fAlapa
 {
+    if (hexColor.length == 0) {
+        return nil;
+    }
     unsigned int red, green, blue;
     NSRange range;
     range.length = 2;
