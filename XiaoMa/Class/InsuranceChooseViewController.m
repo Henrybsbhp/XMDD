@@ -349,14 +349,14 @@
     {
         if (c.customTag)
         {
-            NSString * s = [NSString stringWithFormat:@"%@@%@",c.insId,c.insName];
+            NSString * s = [NSString stringWithFormat:@"%@@%@@0",c.insId,c.insName];
             [array safetyAddObject:s];
             
             if (c.isContainExcludingDeductible.customObject &&
                 [c.isContainExcludingDeductible.customObject isKindOfClass:[HKCoverage class]] &&
                 c.isContainExcludingDeductible.customTag){
                 
-                NSString * s2 = [NSString stringWithFormat:@"%@@%@",c.insId];
+                NSString * s2 = [NSString stringWithFormat:@"%@@%@@0",c.insId];
                 [array safetyAddObject:s2];
             }
         }
