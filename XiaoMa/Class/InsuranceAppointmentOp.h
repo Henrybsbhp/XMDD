@@ -19,7 +19,7 @@
 ///车辆有没有上牌
 @property (nonatomic, assign) NSInteger req_register;
 ///购买价格
-@property (nonatomic, assign) CGFloat req_purchaseprice;
+@property (nonatomic, assign) NSString *req_purchaseprice;
 ///提车时间
 @property (nonatomic, strong) NSDate* req_purchasedate;
 ///客户电话

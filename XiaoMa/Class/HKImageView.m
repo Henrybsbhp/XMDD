@@ -40,7 +40,9 @@
     
     self.overlayView = [[DAProgressOverlayView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
     self.overlayView.triggersDownloadDidFinishAnimationAutomatically = NO;
+    self.overlayView.innerRadiusRatio = 0.5;
     self.overlayView.autoresizingMask = UIViewAutoresizingFlexibleAll;
+    self.overlayView.allowActivityIndicator = YES;
     self.overlayView.hidden = YES;
     [self addSubview:self.overlayView];
     
@@ -163,20 +165,16 @@
     }
     
     @weakify(self);
-    return [[[[self rac_startOverlayViewAnimation] flattenMap:^RACStream *(id value) {
+    return [[[[[self rac_startOverlayViewAnimation] flattenMap:^RACStream *(id value) {
         
-        @strongify(self);
         UploadFileOp *op = [[UploadFileOp alloc] init];
         op.req_fileType = UploadFileTypeDrivingLicense;
         op.req_fileExtType = @"jpg";
         [op setFileArray:[NSArray arrayWithObject:img] withGetDataBlock:^NSData *(UIImage *img) {
             return UIImageJPEGRepresentation(img, 0.5);
         }];
-        [op setProgress:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
-            self.overlayView.progress = totalBytesWritten*1.0 / totalBytesExpectedToWrite;
-        }];
         return [op rac_postRequest];
-    }] flattenMap:^RACStream *(id value) {
+    }] deliverOn:[RACScheduler mainThreadScheduler]] flattenMap:^RACStream *(id value) {
 
         @strongify(self);
         return [[self rac_stopOverlayViewAnimation] map:^id(id x) {
@@ -202,7 +200,7 @@
 
 - (RACSignal *)rac_startOverlayViewAnimation
 {
-    self.overlayView.progress = 0;
+    self.overlayView.progress = 1;
     self.overlayView.hidden = NO;
     [self.overlayView displayOperationWillTriggerAnimation];
     return [[RACSignal return:nil] delay:self.overlayView.stateChangeAnimationDuration];

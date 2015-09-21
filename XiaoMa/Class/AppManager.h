@@ -70,6 +70,8 @@
 
 @property (nonatomic,strong)NSArray * searchHistoryArray;
 
+@property (nonatomic,strong)NSDictionary * discountRateDict;
+
 
 
 ///获取上次的定位地址和天气信息
@@ -80,9 +82,7 @@
 
 
 - (void)saveInfo:(id <NSCoding>)value forKey:(NSString *)key;
-
 - (NSString *)getInfo:(NSString *)key;
-
 - (NSArray *)getProvinceArray;
 
 

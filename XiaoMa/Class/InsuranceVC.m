@@ -11,14 +11,14 @@
 #import "AiCheBaoInsuranceVC.h"
 #import "SYPaginator.h"
 #import "HKAdvertisement.h"
-#import "EnquiryInsuranceVC.h"
+#import "InsuranceEnquiryVC.h"
 #import "WebVC.h"
 #import "InsuranceResultVC.h"
 #import "EnquiryInsuranceVC.h"
 #import "WebVC.h"
 #import "ADViewController.h"
-#import "InsuranceInfoSubmitingVC.h"
 #import "InsuranceChooseViewController.h"
+#import "InsuranceDirectSellingVC.h"
 #import "PaymentHelper.h"
 
 @interface InsuranceVC ()
@@ -67,15 +67,14 @@
 - (void)actionInsuraceEnquiry {
     [MobClick event:@"rp114-1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        EnquiryInsuranceVC *vc = [UIStoryboard vcWithId:@"EnquiryInsuranceVC" inStoryboard:@"Insurance"];
+        InsuranceEnquiryVC *vc = [UIStoryboard vcWithId:@"InsuranceEnquiryVC" inStoryboard:@"Insurance"];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
 - (void)actionInsuranceDirectSelling {
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        InsuranceInfoSubmitingVC *vc = [UIStoryboard vcWithId:@"InsuranceInfoSubmitingVC" inStoryboard:@"Insurance"];
-        vc.submitModel = InsuranceInfoSubmitForDirectSell;
+        InsuranceDirectSellingVC *vc = [UIStoryboard vcWithId:@"InsuranceDirectSellingVC" inStoryboard:@"Insurance"];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

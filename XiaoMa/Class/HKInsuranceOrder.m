@@ -29,9 +29,9 @@
     order.paydesc = rsp[@"paydesc"];
     order.insdeliveryno = rsp[@"insdeliveryno"];
     order.insdeliverycomp = rsp[@"insdeliverycomp"];
+    order.totoalpay = [rsp floatParamForName:@"totalpay"];
     order.status = [rsp integerParamForName:@"status"];
     order.lstupdatetime = [NSDate dateWithD14Text:rsp[@"lstupdatetime"]];
-    order.instype = [rsp integerParamForName:@"instype"];
     order.totoalpay = [rsp floatParamForName:@"totalpay"];
     
     order.iscontainActivity = [rsp boolParamForName:@"isusedcoupon"];
@@ -63,9 +63,9 @@
 
 - (NSString *)descForCurrentInstype
 {
-    if (self.instype == 2) {
-        return @"小马达达保险";
-    }
+//    if (self.instype == 2) {
+//        return @"小马达达保险";
+//    }
     return self.inscomp;
 }
 

@@ -19,7 +19,7 @@
     [params addParam:self.req_licencenumber forName:@"licencenumber"];
     [params addParam:self.req_city forName:@"city"];
     [params addParam:@(self.req_register) forName:@"register"];
-    [params addParam:@(self.req_purchaseprice) forName:@"purchaseprice"];
+    [params addParam:self.req_purchaseprice forName:@"purchaseprice"];
     if (self.req_purchasedate)
     {
         [params addParam:[self.req_purchasedate dateFormatForDT8] forName:@"purchasedate"];

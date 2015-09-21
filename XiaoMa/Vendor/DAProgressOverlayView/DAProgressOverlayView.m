@@ -7,6 +7,7 @@
 //
 
 #import "DAProgressOverlayView.h"
+#import "ZFCDoubleBounceActivityIndicatorView.h"
 
 typedef enum {
     DAProgressOverlayViewStateWaiting = 0,
@@ -19,7 +20,7 @@ typedef enum {
 @property (assign, nonatomic) DAProgressOverlayViewState state;
 @property (assign, nonatomic) CGFloat animationProggress;
 @property (strong, nonatomic) NSTimer *timer;
-
+@property (nonatomic, strong) ZFCDoubleBounceActivityIndicatorView *activityView;
 @end
 
 
@@ -58,6 +59,9 @@ CGFloat const DAUpdateUIFrequency = 1. / 25.;
     self.animationProggress = 0.;
     self.stateChangeAnimationDuration = 0.25;
     self.triggersDownloadDidFinishAnimationAutomatically = YES;
+    self.activityView = [[ZFCDoubleBounceActivityIndicatorView alloc] init];
+    self.activityView.bounceColor = [UIColor colorWithRed:0. green:0. blue:0. alpha:0.5];
+    [self addSubview:self.activityView];
 }
 
 #pragma mark - Public
@@ -65,6 +69,9 @@ CGFloat const DAUpdateUIFrequency = 1. / 25.;
 - (void)displayOperationDidFinishAnimation
 {
     self.state = DAProgressOverlayViewStateOperationFinished;
+    if (self.activityView.isActivityAnimating) {
+        [self.activityView stopAnimating];
+    }
     self.animationProggress = 0.;
     self.timer = [NSTimer scheduledTimerWithTimeInterval:DAUpdateUIFrequency target:self selector:@selector(update) userInfo:nil repeats:YES];
 }
@@ -72,7 +79,15 @@ CGFloat const DAUpdateUIFrequency = 1. / 25.;
 - (void)displayOperationWillTriggerAnimation
 {
     self.state = DAProgressOverlayViewStateWaiting;
-    self.animationProggress = 0.;
+    if (self.allowActivityIndicator) {
+        self.animationProggress = 1;
+        self.activityView.radius = MIN(self.bounds.size.width, self.bounds.size.height) / 2. * self.innerRadiusRatio;
+        self.activityView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
+        [self.activityView startAnimating];
+    }
+    else {
+        self.animationProggress = 0.;
+    }
     self.timer = [NSTimer scheduledTimerWithTimeInterval:DAUpdateUIFrequency target:self selector:@selector(update) userInfo:nil repeats:YES];
 }
 

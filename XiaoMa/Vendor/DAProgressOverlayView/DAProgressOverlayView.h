@@ -45,6 +45,9 @@
  */
 @property (assign, nonatomic) BOOL triggersDownloadDidFinishAnimationAutomatically;
 
+///(default is NO)
+@property (nonatomic, assign) BOOL allowActivityIndicator;
+
 /**
  makes the outer faded out circle radius expand until it circumscribes the DAProgressOverlayView bounds
  */

@@ -12,6 +12,6 @@
 @interface GetInsuranceDiscountOp : BaseOp
 
 ///险种对应折扣
-@property (nonatomic, assign) NSArray * rsp_dicInsurance;
+@property (nonatomic, strong) NSArray * rsp_dicInsurance;
 
 @end

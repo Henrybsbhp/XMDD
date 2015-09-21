@@ -11,8 +11,11 @@
 #import <Masonry.h>
 #import "MonthPickerVC.h"
 #import "UIView+Shake.h"
-#import "GetInsuranceCalculatorOp.h"
+#import "GetInsuranceCalculatorOpV2.h"
 #import "NSDate+DateForText.h"
+#import "InsuranceDetailPlanVC.h"
+#import "HKInsurance.h"
+#import "GetInsuranceDiscountOp.h"
 
 @interface EnquiryInsuranceVC ()<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 
@@ -164,32 +167,32 @@
     }
     
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        HKMyCar *car = self.selectedCar;
-        GetInsuranceCalculatorOp * op = [GetInsuranceCalculatorOp operation];
-        op.req_city = self.city;
-        op.req_licencenumber = self.noPlateNumber ? nil : self.plateNumber;
-        op.req_registered = self.noPlateNumber ? 2 : 1;
-        op.req_purchaseprice = self.price;
-        op.req_purchasedate = self.carryTime;
+        
+        RACSignal * signal;
+        
         @weakify(self);
-        [[[op rac_postRequest] initially:^{
+        if (gAppMgr.discountRateDict){
+            signal = [self rac_getInsurance];
+        }
+        else{
+            signal = [self rac_getDiscountAndInsurance];
+        }
+
+        [[signal initially:^{
             
             [gToast showingWithText:@"正在查询..."];
-        }] subscribeNext:^(GetInsuranceCalculatorOp *rspOp) {
+        }] subscribeNext:^(GetInsuranceCalculatorOpV2 *rspOp) {
             
-            @strongify(self);
-            EnquiryResultVC *vc = [UIStoryboard vcWithId:@"EnquiryResultVC" inStoryboard:@"Insurance"];
-            HKMyCar *curCar = [self carShouldUpdatedWithOp:rspOp];
-            if (curCar) {
-                vc.shouldUpdateCar = YES;
-                vc.car = curCar;
-            }
-            else {
-                vc.shouldUpdateCar = NO;
-                vc.car = self.noPlateNumber ? nil : car;
-            }
+            InsuranceDetailPlanVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceDetailPlanVC"];
             [self.navigationController pushViewController:vc animated:YES];
-            [vc reloadWithInsurance:rspOp.rsp_insuraceArray calculatorID:rspOp.rsp_calculatorID];
+            
+            NSMutableArray * array = [NSMutableArray arrayWithArray:rspOp.rsp_insuraceArray];
+            HKInsurance * ins = [[HKInsurance alloc] init];
+            ins.insuranceName = @"自选";
+            [array safetyAddObject:ins];
+            
+            vc.planArray = array;
+            vc.carPrice = [self.price floatValue];
             [gToast dismiss];
         } error:^(NSError *error) {
             [gToast showError:error.domain];
@@ -555,7 +558,7 @@
 }
 
 //返回一个需要更新的车辆信息，如果车牌信息不存在或信息没有变动则为空
-- (HKMyCar *)carShouldUpdatedWithOp:(GetInsuranceCalculatorOp *)op
+- (HKMyCar *)carShouldUpdatedWithOp:(GetInsuranceCalculatorOpV2 *)op
 {
     //如果没有填写车牌号码，不更新车辆
     if (self.noPlateNumber) {
@@ -587,5 +590,39 @@
         return curCar;
     }
     return nil;
+}
+
+- (RACSignal *)rac_getDiscountAndInsurance
+{
+    RACSignal * signal;
+    GetInsuranceDiscountOp * op = [GetInsuranceDiscountOp operation];
+    
+    signal = [[op rac_postRequest] flattenMap:^RACStream *(GetInsuranceDiscountOp * getInsuranceDiscountOp) {
+        
+        GetInsuranceDiscountOp * op = getInsuranceDiscountOp;
+        NSArray * array = op.rsp_dicInsurance;
+        NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+        for (InsuranceDiscount * d in array)
+        {
+            [dict safetySetObject:@(d.discountrate) forKey:@(d.pid)];
+        }
+        gAppMgr.discountRateDict = [NSDictionary dictionaryWithDictionary:dict];
+        
+        return [self rac_getInsurance];
+    }];
+    
+    return signal;
+}
+
+- (RACSignal *)rac_getInsurance
+{
+    GetInsuranceCalculatorOpV2 * op = [GetInsuranceCalculatorOpV2 operation];
+    op.req_city = self.city;
+    op.req_licencenumber = self.noPlateNumber ? nil : self.plateNumber;
+    op.req_registered = self.noPlateNumber ? 2 : 1;
+    op.req_purchaseprice = self.price;
+    op.req_purchasedate = self.carryTime;
+    
+    return [op rac_postRequest];
 }
 @end
