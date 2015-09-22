@@ -13,7 +13,6 @@
 #import "PayForWashCarVC.h"
 #import "UIBarButtonItem+CustomStyle.h"
 #import "WebVC.h"
-#import "PayForInsuranceVC.h"
 
 @interface ChooseCarwashTicketVC ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -119,7 +118,7 @@
             if (self.type == CouponTypeCZBankCarWash)
             {
                 [payVc autoSelectBankCard];
-                [payVc setPlatform:PayWithXMDDCreditCard];
+                [payVc setPaymentChannel:PaymentChannelXMDDCreditCard];
                 [payVc setSelectCarwashCoupouArray:self.selectedCouponArray];
             }
             else if (self.type == CouponTypeCarWash)
@@ -130,35 +129,7 @@
             {
                 [payVc setSelectCashCoupouArray:self.selectedCouponArray];
             }
-            else if (self.type == CouponTypeInsurance)
-            {
-                [payVc setSelectCashCoupouArray:self.selectedCouponArray];
-            }
             [payVc setCouponType:self.type];
-        }
-        else
-        {
-            if (payVc.couponType  == self.type)
-            {
-                [payVc setCouponType:0];
-            }
-        }
-        [payVc tableViewReloadData];
-    }
-    else if (vc && [vc isKindOfClass:[PayForInsuranceVC class]])
-    {
-        PayForInsuranceVC * payVc = (PayForInsuranceVC *)vc;
-        
-        if (self.selectedCouponArray.count)
-        {
-            HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];
-            self.type = c.conponType;
-            if (self.type == CouponTypeInsurance)
-            {
-                [payVc setSelectInsuranceCoupouArray:self.selectedCouponArray];
-            }
-            [payVc setCouponType:self.type];
-            [payVc setIsSelectActivity:NO];
         }
         else
         {
@@ -193,9 +164,9 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TicketCell"];
     
     //背景图片
-    UIImage * carWashImage = [[[UIImage imageNamed:@"coupon_background"] imageByFilledWithColor:[UIColor colorWithHex:@"#5fb8e2" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];
-    UIImage * cashImage = [[[UIImage imageNamed:@"coupon_background"] imageByFilledWithColor:[UIColor colorWithHex:@"#f54a4a" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];
-    UIImage * czbCarwashImage = [[[UIImage imageNamed:@"coupon_background"] imageByFilledWithColor:[UIColor colorWithHex:@"#c01920" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];
+    UIImage * carWashImage = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#5fb8e2" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];
+    UIImage * cashImage = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#f54a4a" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];
+    UIImage * czbCarwashImage = [[[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#c01920" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];
     
     UIImageView * ticketBgView = (UIImageView *)[cell searchViewWithTag:101];
     
@@ -212,7 +183,7 @@
     UIImageView * selectedView = (UIImageView *)[cell searchViewWithTag:108];
     
     
-    UIImage * image = [[UIImage imageNamed:@"coupon_background"] imageByFilledWithColor:[UIColor colorWithHex:@"#000000" alpha:0.6f]];
+    UIImage * image = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#000000" alpha:0.6f]];
     UIImage * couponGg = [image resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];
     shadowView.image = couponGg;
     
@@ -280,22 +251,6 @@
         [self.tableView reloadData];
     }
     else if (self.type == CouponTypeCZBankCarWash)
-    {
-        self.type = coupon.conponType;
-        HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];
-        if ([c.couponId isEqualToNumber:coupon.couponId])
-        {
-            [self.selectedCouponArray removeAllObjects];
-        }
-        else
-        {
-            [MobClick event:@"rp109-1"];
-            [self.selectedCouponArray removeAllObjects];
-            [self.selectedCouponArray addObject:coupon];
-        }
-        [self.tableView reloadData];
-    }
-    else if (self.type == CouponTypeInsurance)
     {
         self.type = coupon.conponType;
         HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];
