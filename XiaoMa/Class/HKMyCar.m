@@ -21,6 +21,15 @@
     return self;
 }
 
+- (BOOL)isEqual:(id)object
+{
+    HKMyCar *another = object;
+    if ([another isKindOfClass:[HKMyCar class]]) {
+        return [self.carId isEqual:another.carId];
+    }
+    return NO;
+}
+
 + (instancetype)carWithJSONResponse:(NSDictionary *)rsp
 {
     if (!rsp)
