@@ -22,6 +22,7 @@
     order.policyholder = rsp[@"policyholder"];
     order.idcard = rsp[@"idcard"];
     order.inscomp = rsp[@"inscomp"];
+    order.serviceName = rsp[@"servicename"];
     order.licencenumber = rsp[@"licencenumber"];
     order.policy = [HKInsurance insuranceWithJSONResponse:rsp[@"policy"]];
     order.validperiod = rsp[@"validperiod"];
@@ -59,14 +60,6 @@
             break;
     }
     return payment;
-}
-
-- (NSString *)descForCurrentInstype
-{
-//    if (self.instype == 2) {
-//        return @"小马达达保险";
-//    }
-    return self.inscomp;
 }
 
 - (NSString *)descForCurrentStatus

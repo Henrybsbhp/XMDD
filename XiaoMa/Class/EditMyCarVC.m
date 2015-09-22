@@ -13,7 +13,7 @@
 #import "DeleteCarOp.h"
 #import "DatePickerVC.h"
 #import "UIView+Shake.h"
-#import "PickerAutomobileBrandVC.h"
+#import "PickAutomobileBrandVC.h"
 #import "MyCarsModel.h"
 #import "CollectionChooseVC.h"
 #import "ProvinceChooseView.h"
@@ -346,7 +346,7 @@
     else if (indexPath.row == 2) {
         [MobClick event:@"rp312-4"];
         [self.view endEditing:YES];
-        PickerAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
+        PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
         vc.originVC = self;
         [vc setCompleted:^(NSString *brand, NSString *series) {
             self.curCar.brand = brand;
@@ -358,7 +358,7 @@
     else if (indexPath.row == 3) {
         [MobClick event:@"rp312-5"];
         [self.view endEditing:YES];
-        PickerAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
+        PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
         vc.originVC = self;
         [vc setCompleted:^(NSString *brand, NSString *series) {
             self.curCar.brand = brand;
@@ -560,6 +560,24 @@
 }
 
 #pragma mark - UITextFieldDelegate
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    NSInteger length = range.location + [string length] - range.length;
+    NSIndexPath *indexPath = textField.customObject;
+    //保险公司
+    if (indexPath.row == 7 && length >= 20) {
+        return NO;
+    }
+    //当前里程
+    else if (indexPath.row == 5 && length >= 12) {
+        return NO;
+    }
+    //整车价格
+    else if (indexPath.row == 4 && length >= 12) {
+        return NO;
+    }
+    return YES;
+}
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {

@@ -49,13 +49,13 @@
         case 3:
             title = @"一键上传";
             btn.userInteractionEnabled = YES;
-            desc = @"审核未通过,请重新上传行驶证";
+            desc = @"审核未通过，请重新上传行驶证";
             bgName = @"mec_btn_bg2";
             break;
         default:
             title = @"一键上传";
             btn.userInteractionEnabled = YES;
-            desc = @"上传行驶证并通过审核,即可享受价值1000元的大礼包";
+            desc = @"上传行驶证并通过审核，即可享受价值1000元的大礼包";
             bgName = @"mec_btn_bg2";
             break;
     }

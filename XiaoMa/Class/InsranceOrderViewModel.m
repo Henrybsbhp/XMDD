@@ -68,7 +68,6 @@
 
     
     GetInsuranceOrderListOp * op = [GetInsuranceOrderListOp operation];
-    //op.req_tradetime = self.curTradetime;
     return [[op rac_postRequest] map:^id(GetInsuranceOrderListOp *rspOp) {
         return rspOp.rsp_orders;
     }];
@@ -76,8 +75,6 @@
 
 - (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
 {
-//    HKInsuranceOrder *hkmodel = [model.datasource lastObject];
-//    self.curTradetime = hkmodel.tradetime;
     [self.tableView reloadData];
 }
 
@@ -119,10 +116,12 @@
     UIButton *bottomB = (UIButton *)[cell.contentView viewWithTag:4001];
     
     HKInsuranceOrder *order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+    nameL.text = order.inscomp;
+//    nameL.text = [order descForCurrentInstype];
+    contentL.text = order.serviceName;
+//    contentL.text = [order generateContent];
     
-    nameL.text = [order descForCurrentInstype];
-    stateL.text = [order descForCurrentStatus];
-    contentL.text = [order generateContent];
+    stateL.text = [order descForCurrentStatus]; //老方式，已经用新字段替换
     timeL.text = [order.lstupdatetime dateFormatForYYYYMMddHHmm];
     priceL.text = [NSString stringWithFormat:@"￥%d", (int)(order.policy.premium)];
     

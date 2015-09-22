@@ -46,7 +46,7 @@
 		184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C91AD3B6DC00EFC3A6 /* JTTableViewCell.m */; };
 		184E40CE1AD3BBB600EFC3A6 /* ShopDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40CD1AD3BBB600EFC3A6 /* ShopDetailVC.m */; };
 		184E40D21AD3D01B00EFC3A6 /* JTShop.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40D11AD3D01B00EFC3A6 /* JTShop.m */; };
-		1851F4181B0C1E5400241A01 /* PickerAutomobileBrandVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F4171B0C1E5400241A01 /* PickerAutomobileBrandVC.m */; };
+		1851F4181B0C1E5400241A01 /* PickAutomobileBrandVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F4171B0C1E5400241A01 /* PickAutomobileBrandVC.m */; };
 		1851F41B1B0C210D00241A01 /* GetAutomobileBrandOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F41A1B0C210D00241A01 /* GetAutomobileBrandOp.m */; };
 		1851F41E1B0C223A00241A01 /* HKAutoBrand.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F41D1B0C223A00241A01 /* HKAutoBrand.m */; };
 		1851F4211B0C268F00241A01 /* AutoInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F4201B0C268F00241A01 /* AutoInfoModel.m */; };
@@ -484,8 +484,8 @@
 		184E40CD1AD3BBB600EFC3A6 /* ShopDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailVC.m; sourceTree = "<group>"; };
 		184E40D01AD3D01B00EFC3A6 /* JTShop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTShop.h; path = Class/JTShop.h; sourceTree = "<group>"; };
 		184E40D11AD3D01B00EFC3A6 /* JTShop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTShop.m; path = Class/JTShop.m; sourceTree = "<group>"; };
-		1851F4161B0C1E5400241A01 /* PickerAutomobileBrandVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickerAutomobileBrandVC.h; sourceTree = "<group>"; };
-		1851F4171B0C1E5400241A01 /* PickerAutomobileBrandVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerAutomobileBrandVC.m; sourceTree = "<group>"; };
+		1851F4161B0C1E5400241A01 /* PickAutomobileBrandVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickAutomobileBrandVC.h; sourceTree = "<group>"; };
+		1851F4171B0C1E5400241A01 /* PickAutomobileBrandVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickAutomobileBrandVC.m; sourceTree = "<group>"; };
 		1851F4191B0C210D00241A01 /* GetAutomobileBrandOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetAutomobileBrandOp.h; path = Class/GetAutomobileBrandOp.h; sourceTree = "<group>"; };
 		1851F41A1B0C210D00241A01 /* GetAutomobileBrandOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAutomobileBrandOp.m; path = Class/GetAutomobileBrandOp.m; sourceTree = "<group>"; };
 		1851F41C1B0C223A00241A01 /* HKAutoBrand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKAutoBrand.h; path = Class/HKAutoBrand.h; sourceTree = "<group>"; };
@@ -1657,8 +1657,8 @@
 				189B39511AF877E100B83F1B /* MyCarListVC.m */,
 				189B39591AF9A9E500B83F1B /* EditMyCarVC.h */,
 				189B395A1AF9A9E500B83F1B /* EditMyCarVC.m */,
-				1851F4161B0C1E5400241A01 /* PickerAutomobileBrandVC.h */,
-				1851F4171B0C1E5400241A01 /* PickerAutomobileBrandVC.m */,
+				1851F4161B0C1E5400241A01 /* PickAutomobileBrandVC.h */,
+				1851F4171B0C1E5400241A01 /* PickAutomobileBrandVC.m */,
 				1851F4301B0C596600241A01 /* PickerAutoSeriesVC.h */,
 				1851F4311B0C596600241A01 /* PickerAutoSeriesVC.m */,
 				18E28A291B9578240070E759 /* CarListVC.h */,
@@ -3185,7 +3185,7 @@
 				6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */,
 				6BD7AE641AE8A64B00BEF30E /* WXUtil.mm in Sources */,
 				1851F4251B0C29BB00241A01 /* xmdd.xcdatamodeld in Sources */,
-				1851F4181B0C1E5400241A01 /* PickerAutomobileBrandVC.m in Sources */,
+				1851F4181B0C1E5400241A01 /* PickAutomobileBrandVC.m in Sources */,
 				502756921BA6AC5B0065592A /* CouponDetailsVC.m in Sources */,
 				18D17F7A1B56557200F66F04 /* HKTokenPool.m in Sources */,
 				184E40CE1AD3BBB600EFC3A6 /* ShopDetailVC.m in Sources */,
