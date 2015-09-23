@@ -10,13 +10,18 @@
 #import "GetCouponDetailsOp.h"
 #import "SocialShareViewController.h"
 #import "ShareUserCouponOp.h"
+#import "CarWashTableVC.h"
+#import "InsuranceVC.h"
+#import "UIView+DefaultEmptyView.h"
 
 @interface CouponDetailsVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong ,nonatomic) HKCoupon * couponDic;
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *longUseBtn;
 @property (weak, nonatomic) IBOutlet UIButton *shareBtn;
 @property (weak, nonatomic) IBOutlet UIButton *shortUseBtn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraint;
 
 @end
 
@@ -38,12 +43,18 @@
 - (void)setUI{
     
     self.tableView.hidden = YES;
+    [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     if (self.isShareble) {
-        self.longUseBtn.hidden = YES;
         [self.shortUseBtn setCornerRadius:5.0f];
         @weakify(self);
         [[self.shortUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            
+
+            @strongify(self);
+            //去洗车
+            CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
+            vc.type = 1 ;
+            [self.navigationController pushViewController:vc animated:YES];
+
         }];
         
         [self.shareBtn setCornerRadius:5.0f];
@@ -55,12 +66,36 @@
         }];
     }
     else {
-        self.shortUseBtn.hidden = YES;
-        self.shareBtn.hidden = YES;
-        [self.longUseBtn setCornerRadius:5.0f];
-        [[self.longUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            
-        }];
+
+        if (self.newType == CouponNewTypeCarWash) {
+            self.shortUseBtn.hidden = YES;
+            self.shareBtn.hidden = YES;
+            self.longUseBtn.hidden = NO;
+            [self.longUseBtn setCornerRadius:5.0f];
+            @weakify(self);
+            [[self.longUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                
+                @strongify(self);
+                //去洗车
+                CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
+                vc.type = 1 ;
+                [self.navigationController pushViewController:vc animated:YES];
+            }];
+        }
+        else {
+            self.bottomView.hidden = YES;
+            self.bottomConstraint.constant = 56;
+        }
+        
+//        @weakify(self);
+//        [[self.longUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+//            
+//            @strongify(self);
+//            //保险入口
+//            InsuranceVC *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
+//            [self.navigationController pushViewController:vc animated:YES];
+//        }];
+
     }
 }
 
@@ -70,8 +105,6 @@
     @weakify(self);
     [[[op rac_postRequest] initially:^{
         
-        @strongify(self);
-        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] subscribeNext:^(GetCouponDetailsOp * op) {
         
         @strongify(self);
@@ -84,7 +117,9 @@
         @strongify(self);
         [self.view stopActivityAnimation];
         [gToast showError:error.domain];
-        [self.navigationController popViewControllerAnimated:YES];
+        self.tableView.hidden = YES;
+        self.bottomView.hidden = YES;
+        [self.view showDefaultEmptyViewWithText:@"优惠券详情获取失败"];
     }];
 }
 
@@ -210,7 +245,13 @@
         subnameLabel.text = [NSString stringWithFormat:@"（%@）", self.couponDic.subname];
         describeLabel.text = [NSString stringWithFormat:@"使用说明：%@", self.couponDic.couponDescription];
         validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@", [self.couponDic.validsince dateFormatForYYMMdd2], [self.couponDic.validthrough dateFormatForYYMMdd2]];
-        UIImage * bgImg = [[UIImage imageNamed:@"coupon_detailsbg"] imageByFilledWithColor:[UIColor colorWithHex:nil alpha:1.0f]];
+        
+        UIImage *bgImg = [UIImage imageNamed:@"coupon_detailsbg"];
+        if (self.rgbStr.length > 0) {
+            NSString *strColor = [NSString stringWithFormat:@"#%@", self.rgbStr];
+            UIColor *color = HEXCOLOR(strColor);
+            bgImg = [bgImg imageByFilledWithColor:color];
+        }
         bgImageView.image = bgImg;
         
         return cell;
@@ -225,8 +266,8 @@
         nolabel.backgroundColor = [UIColor colorWithHex:[NSString stringWithFormat:@"#%@", self.rgbStr] alpha:1.0f];
         [nolabel.layer setMasksToBounds:YES];
         
-        contentlabel.attributedText = [self setLabelContent:[self.couponDic.useguide safetyObjectAtIndex:indexPath.row]];
-        
+        contentlabel.text = [self.couponDic.useguide safetyObjectAtIndex:indexPath.row];
+        contentlabel.preferredMaxLayoutWidth = 276;
         return cell;
     }
 }

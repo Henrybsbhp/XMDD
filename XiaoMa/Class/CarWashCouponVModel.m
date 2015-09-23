@@ -14,8 +14,6 @@
 @interface CarWashCouponVModel ()<HKLoadingModelDelegate>
 @property (nonatomic, assign) NSInteger curPageno;
 @property (nonatomic, assign) CouponNewType couponNewType;
-@property (nonatomic, strong) NSMutableArray * validCouponArr;
-@property (nonatomic, strong) NSMutableArray * unvalidCouponArr;
 
 @end
 
@@ -25,8 +23,6 @@
 {
     self = [super init];
     if (self) {
-        self.validCouponArr = [[NSMutableArray alloc] init];
-        self.unvalidCouponArr = [[NSMutableArray alloc] init];
         self.tableView = tableView;
         self.couponNewType = couponNewType;
         self.tableView.delegate = self;
@@ -59,12 +55,40 @@
     return @"获取优惠券失败，点击重试";
 }
 
+- (NSArray *)loadingModel:(HKLoadingModel *)model datasourceFromLoadedData:(NSArray *)data withType:(HKDatasourceLoadingType)type
+{
+    NSMutableArray *datasource;
+    if (type == HKDatasourceLoadingTypeLoadMore) {
+        datasource = (NSMutableArray *)model.datasource;
+    }
+    
+    if (!datasource) {
+        datasource = [NSMutableArray array];
+        [datasource addObject:[NSMutableArray array]];
+    }
+    
+    NSMutableArray *array1 = [datasource safetyObjectAtIndex:0];
+    NSMutableArray *array2 = [datasource safetyObjectAtIndex:1];
+    for (HKCoupon *cpn in data)
+    {
+        if (!cpn.used && cpn.valid) {
+            [array1 addObject:cpn];
+        }
+        else {
+            if (!array2) {
+                array2 = [NSMutableArray array];
+                [datasource addObject:array2];
+            }
+            [array2 addObject:cpn];
+        }
+    }
+    return datasource;
+}
+
 - (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
 {
     if (type != HKDatasourceLoadingTypeLoadMore) {
         self.curPageno = 0;
-        self.validCouponArr = [[NSMutableArray alloc] init];
-        self.unvalidCouponArr = [[NSMutableArray alloc] init];
     }
     GetCouponByTypeNewOp *op = [GetCouponByTypeNewOp operation];
     op.coupontype = self.couponNewType;
@@ -78,29 +102,13 @@
 
 - (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
 {
-    [self sortCouponData];
-}
-
-- (void) sortCouponData
-{
-    for (HKCoupon * hkcoupon in self.loadingModel.datasource) {
-        if (!hkcoupon.used && hkcoupon.valid) {
-            [self.validCouponArr addObject:hkcoupon];
-        }
-        else {
-            [self.unvalidCouponArr addObject:hkcoupon];
-        }
-    }
     [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (self.unvalidCouponArr.count == 0) {
-        return 1;
-    }
-    return 2;
+    return self.loadingModel.datasource.count;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -121,12 +129,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return self.validCouponArr.count;
-    }
-    else {
-        return self.unvalidCouponArr.count;
-    }
+    return [[self.loadingModel.datasource safetyObjectAtIndex:section] count];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -150,9 +153,9 @@
     //失效标签
     UIImageView *markV = (UIImageView *)[cell.contentView viewWithTag:1006];
     
-    HKCoupon * couponDic;
+    HKCoupon *couponDic = [[self.loadingModel.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
     if (indexPath.section == 0) {
-        couponDic = [self.validCouponArr safetyObjectAtIndex:indexPath.row];
+        markV.hidden = YES;
         UIImage *bgImg = [UIImage imageNamed:@"coupon_background"];
         if (couponDic.rgbColor.length > 0) {
             NSString *strColor = [NSString stringWithFormat:@"#%@", couponDic.rgbColor];
@@ -162,10 +165,9 @@
         backgroundImg.image = bgImg;
         [logoV setImageByUrl:couponDic.logo
                           withType:ImageURLTypeThumbnail defImage:@"coupon_logo" errorImage:@"coupon_logo"];
-        markV.hidden = YES;
     }
     else {
-        couponDic = [self.unvalidCouponArr safetyObjectAtIndex:indexPath.row];
+        markV.hidden = NO;
         backgroundImg.image = [[UIImage imageNamed:@"coupon_background"] imageByFilledWithColor:[UIColor colorWithHex:@"#d0d0d0" alpha:1.0f]];
         [logoV setImageByUrl:couponDic.logo
                     withType:ImageURLTypeThumbnail defImage:@"coupon_graylogo" errorImage:@"coupon_graylogo"];
@@ -186,20 +188,22 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nest:NO promptView:self.tableView.bottomLoadingView];
+    [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nest:YES promptView:self.tableView.bottomLoadingView];
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     [MobClick event:@"rp304-5"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
         CouponDetailsVC *vc = [UIStoryboard vcWithId:@"CouponDetailsVC" inStoryboard:@"Mine"];
-        HKCoupon * hkcoupon = [self.validCouponArr safetyObjectAtIndex:indexPath.row];
+        HKCoupon *hkcoupon = [[self.loadingModel.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
         vc.couponId = hkcoupon.couponId;
         vc.rgbStr = hkcoupon.rgbColor;
         vc.isShareble = hkcoupon.isshareble;
+        vc.newType = self.couponNewType;
         [self.targetVC.navigationController pushViewController:vc animated:YES];
     }
 }
