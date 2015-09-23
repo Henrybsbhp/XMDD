@@ -64,6 +64,12 @@
     [self.carWashModel.loadingModel loadDataForTheFirstTime];
     [self.insuranceModel.loadingModel loadDataForTheFirstTime];
     [self.othersModel.loadingModel loadDataForTheFirstTime];
+    
+    @weakify(self);
+    [self listenNotificationByName:kNotifyRefreshMyCouponList withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        @strongify(self);
+        [self.carWashModel.loadingModel reloadData];
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
