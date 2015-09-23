@@ -88,7 +88,8 @@ def handle_resule(result):
         print 'upload success'
         send_Email(json_result)
     else:
-        raise AssertionError("uoload failed")
+        aa = "uoload failed" + str(json_result['code']) + "    " + str(result)
+        raise AssertionError(aa)
 
 #发送邮件
 def send_Email(json_result):
