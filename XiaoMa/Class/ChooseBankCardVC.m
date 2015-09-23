@@ -119,7 +119,7 @@
                     payVc.couponType = CouponTypeCZBankCarWash;
                 }
             }
-            [payVc setPlatform:PayWithXMDDCreditCard];
+            [payVc setPaymentChannel:PaymentChannelXMDDCreditCard];
             [payVc tableViewReloadData];
             [self.navigationController popViewControllerAnimated:YES];
         }

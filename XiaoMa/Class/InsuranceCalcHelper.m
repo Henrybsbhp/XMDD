@@ -151,8 +151,8 @@
             break;
     }
     
-    NSString * text = [NSString stringWithFormat:@"%.2f",price];
-    price = [text floatValue];
+//    NSString * text = [NSString stringWithFormat:@"%.2f",price];
+//    price = [text floatValue];
     return price;
 }
 

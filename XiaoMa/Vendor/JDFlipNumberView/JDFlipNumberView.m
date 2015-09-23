@@ -236,6 +236,7 @@ typedef NS_OPTIONS(NSUInteger, JDFlipAnimationDirection) {
     for (JDFlipNumberDigitView *digit in self.digitViews) {
         [digit removeFromSuperview];
     }
+    [self.pointView removeFromSuperview];
     
     // init & add new digit views
     JDFlipNumberDigitView* view = nil;
