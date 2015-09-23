@@ -32,10 +32,9 @@
                 
             case InsuranceCarDamage:{
                 self.insName = @"车辆损失险";
-                self.isContainExcludingDeductible = @(1);
                 self.discountType = InsuranceBusinessDiscount;
                 
-                self.isContainExcludingDeductible.customObject = [[HKCoverage alloc] initWithCategory:InsuranceExcludingDeductible4CarDamage];
+                self.excludingDeductibleCoverage = [[HKCoverage alloc] initWithCategory:InsuranceExcludingDeductible4CarDamage];
                 break;
             }
                 
@@ -69,12 +68,12 @@
                                 @{@"key":@"950万元",@"value":@(10678)},
                                 @{@"key":@"1000万元",@"value":@(11177)}
                                 ];
-                self.isContainExcludingDeductible = @(1);
+                
                 self.discountType = InsuranceBusinessDiscount;
                 
                 HKCoverage * subCoverage = [[HKCoverage alloc] initWithCategory:InsuranceExcludingDeductible4ThirdPartyLiability];
                 subCoverage.params = self.params;
-                self.isContainExcludingDeductible.customObject = subCoverage;
+                self.excludingDeductibleCoverage = subCoverage;
                 break;
             }
                 
@@ -90,12 +89,11 @@
                                 @{@"key":@"10万元",@"value":@(100000)},
                                 @{@"key":@"20万元",@"value":@(200000)}
                                 ];
-                self.isContainExcludingDeductible = @(1);
                 self.discountType = InsuranceBusinessDiscount;
                 
                 HKCoverage * subCoverage = [[HKCoverage alloc] initWithCategory:InsuranceExcludingDeductible4CarSeatInsuranceOfDriver];
                 subCoverage.params = self.params;
-                self.isContainExcludingDeductible.customObject = subCoverage;
+                self.excludingDeductibleCoverage = subCoverage;
                 
                 break;
             }
@@ -112,22 +110,20 @@
                                 @{@"key":@"10万元",@"value":@(100000)},
                                 @{@"key":@"20万元",@"value":@(200000)}
                                 ];
-                self.isContainExcludingDeductible = @(1);
                 self.discountType = InsuranceBusinessDiscount;
                 
                 HKCoverage * subCoverage = [[HKCoverage alloc] initWithCategory:InsuranceExcludingDeductible4CarSeatInsuranceOfPassenger];
                 subCoverage.params = self.params;
-                self.isContainExcludingDeductible.customObject = subCoverage;
+                self.excludingDeductibleCoverage= subCoverage;
                 
                 break;
             }
                 
             case InsuranceWholeCarStolen:{
                 self.insName = @"全车盗抢险";
-                self.isContainExcludingDeductible = @(1);
                 self.discountType = InsuranceBusinessDiscount;
                 
-                self.isContainExcludingDeductible.customObject = [[HKCoverage alloc] initWithCategory:InsuranceExcludingDeductible4WholeCarStolen];
+                self.excludingDeductibleCoverage = [[HKCoverage alloc] initWithCategory:InsuranceExcludingDeductible4WholeCarStolen];
                 break;
             }
                 
