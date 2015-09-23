@@ -11,6 +11,7 @@
 
 @interface MyCarListVModel : NSObject
 @property (nonatomic, strong) HKMyCar *selectedCar;
+@property (nonatomic, strong) HKMyCar *currentCar;
 @property (nonatomic, assign) BOOL disableEditingCar;
 @property (nonatomic, assign) BOOL allowAutoChangeSelectedCar;
 @property (nonatomic, copy) void(^finishBlock)(HKMyCar *curSelectedCar);

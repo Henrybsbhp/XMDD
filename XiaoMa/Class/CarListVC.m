@@ -141,14 +141,15 @@
         [self createCardWithCar:car atIndex:i];
     }
     
-    NSInteger index=0;
-    if (self.model.selectedCar) {
-        for (; index<self.loadingModel.datasource.count; index++) {
-            HKMyCar *car = self.loadingModel.datasource[index];
-            if ([car.carId isEqual:self.model.selectedCar.carId]) {
-                break;
-            }
-        }
+    NSInteger index = NSNotFound;
+    if (self.model.currentCar) {
+        index = [self.loadingModel.datasource indexOfObject:self.model.currentCar];
+    }
+    if (index == NSNotFound && self.model.selectedCar) {
+        index = [self.loadingModel.datasource indexOfObject:self.model.selectedCar];
+    }
+    if (index == NSNotFound) {
+        index = 0;
     }
     [self.scrollView loadPageIndex:index animated:NO];
 }
@@ -210,7 +211,7 @@
         if (self.model.disableEditingCar) {
             return ;
         }
-        EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
+        EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Car"];
         vc.originCar = car;
         [self.navigationController pushViewController:vc animated:YES];
     }];
@@ -247,22 +248,30 @@
 - (IBAction)actionAddCar:(id)sender
 {
     [MobClick event:@"rp309-1"];
-    EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
+    EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Car"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
+    HKMyCar *car = [self.loadingModel.datasource safetyObjectAtIndex:[self.scrollView currentPage]];
     if (self.model.allowAutoChangeSelectedCar) {
-        self.model.selectedCar = [self.loadingModel.datasource safetyObjectAtIndex:[self.scrollView currentPage]];
+        self.model.selectedCar = car;
+    }
+    else {
+        self.model.currentCar = car;
     }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
+    HKMyCar *car = [self.loadingModel.datasource safetyObjectAtIndex:[self.scrollView currentPage]];
     if (self.model.allowAutoChangeSelectedCar) {
-        self.model.selectedCar = [self.loadingModel.datasource safetyObjectAtIndex:[self.scrollView currentPage]];
+        self.model.selectedCar = car;
+    }
+    else {
+        self.model.currentCar = car;
     }
 }
 

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HKMyCar.h"
 
-@interface PickerAutomobileBrandVC : UIViewController
+@interface PickAutomobileBrandVC : UIViewController
 @property (nonatomic, weak) UIViewController *originVC;
 @property (nonatomic, copy) void(^completed)(NSString *brand, NSString *series);
 @end

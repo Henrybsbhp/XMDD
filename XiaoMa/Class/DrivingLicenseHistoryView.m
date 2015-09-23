@@ -86,7 +86,7 @@
 #pragma mark - Action
 - (void)actionDeleteRecord:(PictureRecord *)record
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"是否删除改行驶证记录" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"是否删除该行驶证记录" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alertView show];
     [[alertView rac_buttonClickedSignal] subscribeNext:^(NSNumber *x) {
         //确定

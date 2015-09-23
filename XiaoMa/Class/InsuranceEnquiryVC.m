@@ -33,7 +33,7 @@
 #pragma mark - Action
 - (IBAction)actionEnquiry:(id)sender
 {
-    if (self.textField.text.length == 0) {
+    if (self.textField.text.length == 0 || [self.textField.text integerValue] == 0) {
         [self.containerView shake];
         return;
     }
@@ -114,6 +114,14 @@
     if (textField.text.length == 0) {
         [self.placeholdLabel setHidden:NO animated:YES];
     }
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    if (textField.text.length > 0) {
+        textField.text = [NSString stringWithInteger:[textField.text integerValue]];
+    }
+    return YES;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
