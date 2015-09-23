@@ -43,6 +43,11 @@
 {
     [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        if ([self inslistForVC].count)
+        {
+            [gToast showError:@"请至少选择一个车险"];
+            return ;
+        }
         InsuranceAppointmentOp *op = [[InsuranceAppointmentOp alloc] init];
         op.req_idcard = self.idcard;
         op.req_driverpic = self.currentRecord.url;
@@ -232,14 +237,14 @@
                 if (coverage.customTag == YES)
                 {
                     NSInteger index = [self.insuranceArry indexOfObject:coverage];
-                    [self.insuranceArry safetyInsertObject:coverage.customObject atIndex:index + 1];
+                    [self.insuranceArry safetyInsertObject:coverage.isContainExcludingDeductible.customObject atIndex:index + 1];
                     NSIndexPath * idxPath = [NSIndexPath indexPathForRow:index + 1 inSection:indexPath.section];
                     [self.tableView insertRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationLeft];
                 }
                 else
                 {
-                    NSInteger index = [self.insuranceArry indexOfObject:coverage.customObject];
-                    [self.insuranceArry safetyRemoveObject:coverage.customObject];
+                    NSInteger index = [self.insuranceArry indexOfObject:coverage.isContainExcludingDeductible.customObject];
+                    [self.insuranceArry safetyRemoveObject:coverage.isContainExcludingDeductible.customObject];
                     NSIndexPath * idxPath = [NSIndexPath indexPathForRow:index inSection:indexPath.section];
                     [self.tableView deleteRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationRight];
                 }
@@ -292,14 +297,14 @@
                 if (coverage.customTag == YES)
                 {
                     NSInteger index = [self.insuranceArry indexOfObject:coverage];
-                    [self.insuranceArry safetyInsertObject:coverage.customObject atIndex:index + 1];
+                    [self.insuranceArry safetyInsertObject:coverage.isContainExcludingDeductible.customObject atIndex:index + 1];
                     NSIndexPath * idxPath = [NSIndexPath indexPathForRow:index + 1 inSection:indexPath.section];
                     [self.tableView insertRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationLeft];
                 }
                 else
                 {
-                    NSInteger index = [self.insuranceArry indexOfObject:coverage.customObject];
-                    [self.insuranceArry safetyRemoveObject:coverage.customObject];
+                    NSInteger index = [self.insuranceArry indexOfObject:coverage.isContainExcludingDeductible.customObject];
+                    [self.insuranceArry safetyRemoveObject:coverage.isContainExcludingDeductible.customObject];
                     NSIndexPath * idxPath = [NSIndexPath indexPathForRow:index inSection:indexPath.section];
                     [self.tableView deleteRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationRight];
                 }
@@ -356,7 +361,7 @@
                 [c.isContainExcludingDeductible.customObject isKindOfClass:[HKCoverage class]] &&
                 c.isContainExcludingDeductible.customTag){
                 
-                NSString * s2 = [NSString stringWithFormat:@"%@@%@@0",c.insId];
+                NSString * s2 = [NSString stringWithFormat:@"%@@%@@0",c.insId,c.insName];
                 [array safetyAddObject:s2];
             }
         }
