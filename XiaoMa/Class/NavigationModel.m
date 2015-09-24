@@ -9,6 +9,7 @@
 #import "NavigationModel.h"
 #import "WebVC.h"
 #import "CarwashOrderDetailVC.h"
+#import "MyCouponVC.h"
 
 @implementation NavigationModel
 
@@ -32,7 +33,28 @@
         else if ([@"cp" equalByCaseInsensitive:name] && gAppMgr.myUser) {
             if (![self popToViewControllerIfNeededByIdentify:@"MyCouponVC"]) {
                 [self postCustomNotificationName:kNotifyRefreshMyCouponList object:nil];
-                UIViewController *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
+                MyCouponVC *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
+                vc.jumpType = CouponNewTypeCarWash;
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+            flag = YES;
+        }
+        //保险优惠券
+        else if ([@"icp" equalByCaseInsensitive:name] && gAppMgr.myUser) {
+            if (![self popToViewControllerIfNeededByIdentify:@"MyCouponVC"]) {
+                [self postCustomNotificationName:kNotifyRefreshMyCouponList object:nil];
+                MyCouponVC *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
+                vc.jumpType = CouponNewTypeInsurance;
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+            flag = YES;
+        }
+        //其他优惠券
+        else if ([@"ocp" equalByCaseInsensitive:name] && gAppMgr.myUser) {
+            if (![self popToViewControllerIfNeededByIdentify:@"MyCouponVC"]) {
+                [self postCustomNotificationName:kNotifyRefreshMyCouponList object:nil];
+                MyCouponVC *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
+                vc.jumpType = CouponNewTypeOthers;
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
             flag = YES;

@@ -10,12 +10,13 @@
 #import "DrawingBoardView.h"
 #import "AnimationBoardView.h"
 #import "InsuranceVC.h"
+#import "JTLabel.h"
 
 @interface InsuranceResultVC ()
 
 @property (assign, nonatomic) InsuranceResult insuranceResultType;
 @property (weak, nonatomic) IBOutlet DrawingBoardView *drawView;
-@property (weak, nonatomic) IBOutlet UILabel *resultLabel;
+@property (weak, nonatomic) IBOutlet JTLabel *resultLabel;
 @property (weak, nonatomic) IBOutlet UILabel *failureContentLabel;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
 - (IBAction)shareAction:(id)sender;

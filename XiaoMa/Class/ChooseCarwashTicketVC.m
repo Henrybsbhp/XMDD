@@ -156,7 +156,7 @@
     logoV.layer.cornerRadius = 22.0F;
     [logoV.layer setMasksToBounds:YES];
     name.text = couponDic.couponName;
-    description.text = [NSString stringWithFormat:@"（%@）", couponDic.subname];
+    description.text = [NSString stringWithFormat:@"%@", couponDic.subname];
     validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",[couponDic.validsince dateFormatForYYMMdd2],[couponDic.validthrough dateFormatForYYMMdd2]];
     
     UIImage * shadowImg = [[UIImage imageNamed:@"coupon_background"] imageByFilledWithColor:[UIColor colorWithHex:@"#000000" alpha:0.4f]];
