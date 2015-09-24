@@ -115,7 +115,7 @@
     if ([url hasPrefix:@"xmdd://"]) {
         [self.navModel pushToViewControllerByUrl:url];
         return NO;
-    }
+    }                      
     return YES;
 }
 

@@ -28,6 +28,7 @@
     [params safetySetObject:self.req_idpic forKey:@"idpic"];
     [params safetySetObject:self.req_driverpic forKey:@"driverpic"];
     [params safetySetObject:self.req_inslist forKey:@"inslist"];
+    [params safetySetObject:self.req_invitecode forKey:@"shopid"];
     
       return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }

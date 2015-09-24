@@ -10,6 +10,7 @@
 #import "GetUserCouponPkgOp.h"
 #import "HKCouponPkg.h"
 #import "GainCouponPkgOp.h"
+#import "WebVC.h"
 
 @interface CouponPkgViewController ()
 
@@ -19,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *receiveBtn;
 
 @property (nonatomic,strong)NSArray * pkgArray;
+- (IBAction)helpAction:(id)sender;
 
 @end
 
@@ -44,6 +46,13 @@
 - (void)dealloc
 {
     DebugLog(@"CouponPkgViewController dealloc");
+}
+
+- (IBAction)helpAction:(id)sender {
+    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    vc.title = @"关于礼包";
+    vc.url = @"http://www.xiaomadada.com/apphtml/guanyulibao.html";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - SetupUI

@@ -26,14 +26,14 @@
     [super viewDidLoad];
     
 #ifdef DEBUG
-    self.datasource = @[@{@"title":@"用户服务协议",@"action":^(void){
-        [self serviceAgreement];
-    }},
-                        
+    self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
+                            [self gotoInstructions];
+                        }}, @{@"title":@"用户服务协议",@"action":^(void){
+                            [self serviceAgreement];
+                        }},
                         @{@"title":@"前往评价",@"action":^(void){
                             [self rateOurApp];
                         }},
-                        
                         @{@"title":@"意见反馈",@"action":^(void){
                             [self gotoFeedback];
                         }},
@@ -41,6 +41,11 @@
                         @{@"title":@"客服电话4007-111-111",@"action":^(void){
                             [self callCustomerService];
                         }},
+                        
+                        @{@"title":@"使用帮助",@"action":^(void){
+                            [self helpWebPage];
+                        }},
+                        
                         @{@"title":@"网页跳转",@"action":^(void){
                             
                             [self gotoTestWeb];
@@ -50,14 +55,15 @@
                             [self switchSurrounding];
                         }}];
 #else
-    self.datasource = @[@{@"title":@"用户服务协议",@"action":^(void){
-        [self serviceAgreement];
-    }},
-                        
+    self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
+                            [self gotoInstructions];
+                        }},
+                        @{@"title":@"用户服务协议",@"action":^(void){
+                            [self serviceAgreement];
+                        }},
                         @{@"title":@"前往评价",@"action":^(void){
                             [self rateOurApp];
                         }},
-                        
                         @{@"title":@"意见反馈",@"action":^(void){
                             [self gotoFeedback];
                         }},
@@ -65,6 +71,10 @@
                         @{@"title":@"客服电话4007-111-111",@"action":^(void){
                             
                             [self callCustomerService];
+                        }},
+                        
+                        @{@"title":@"使用帮助",@"action":^(void){
+                            [self helpWebPage];
                         }}];
 #endif
     
@@ -106,7 +116,6 @@
     [super didReceiveMemoryWarning];
 
 }
-
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
@@ -154,6 +163,14 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)gotoInstructions
+{
+    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    vc.title = @"使用帮助";
+    vc.url = @"http://www.xiaomadada.com/apphtml/shiyongbangzhu.html";
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 - (void)callCustomerService
 {
     [MobClick event:@"rp322-3"];
@@ -192,4 +209,12 @@
 {
     gAppMgr.isSwitchToFormalSurrounding = !gAppMgr.isSwitchToFormalSurrounding;
 }
+- (void)helpWebPage
+{
+    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    vc.title = @"使用帮助";
+    vc.url = @"http://www.xiaomadada.com/apphtml/shiyongbangzhu.html";
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 @end

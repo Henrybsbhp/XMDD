@@ -23,6 +23,8 @@
     advertisement.validStart = [NSDate dateWithD14Text:[NSString stringWithFormat:@"%@",rsp[@"validstart"]]];
     advertisement.validEnd = [NSDate dateWithD14Text:[NSString stringWithFormat:@"%@",rsp[@"validend"]]];
     advertisement.weight = [rsp integerParamForName:@"weight"];
+    NSString *link = rsp[@"link"];
+    advertisement.adLink = [link stringByReplacingOccurrencesOfString:@"jump=f" withString:@"jump=t"];
     return advertisement;
 }
 
