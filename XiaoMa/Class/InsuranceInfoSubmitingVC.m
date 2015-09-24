@@ -24,11 +24,14 @@
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *bottomContentView1;
 @property (weak, nonatomic) IBOutlet UIView *bottomContentView2;
+@property (weak, nonatomic) IBOutlet UIView *defContainerView;
+@property (nonatomic, strong) IBOutlet DrivingLicenseHistoryView *historyView;
 @property (nonatomic, strong) UITextField *idcardField;
-@property (nonatomic, strong) DrivingLicenseHistoryView *historyView;
+@property (nonatomic, strong) UITextField *inviteField;
 @property (nonatomic, strong) PictureRecord *currentRecord;
 @property (nonatomic, strong) HKImageView *imageView;
 @property (nonatomic, assign) BOOL isUploading;
+@property (nonatomic, strong) NSMutableArray *datasource;
 
 @end
 
@@ -39,11 +42,53 @@
     // Do any additional setup after loading the view.
     self.bottomContentView1.hidden = self.submitModel != InsuranceInfoSubmitForDirectSell;
     self.bottomContentView2.hidden = self.submitModel != InsuranceInfoSubmitForEnquiry;
+    [self reloadData];
+    [self setupDrivingLicenseHistoryView];
+//    [self reloadDrivingLicenseHistoryWithCell:nil];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setupDrivingLicenseHistoryView
+{
+    self.historyView.delegate = self;
+    [[[RACObserve(self.historyView, recordList) distinctUntilChanged] deliverOn:[RACScheduler mainThreadScheduler]]
+     subscribeNext:^(NSArray *records) {
+        if (records.count > 0) {
+            if (self.datasource.count < 5) {
+                NSArray *item = @[@"PreviewCell",@106];
+                [self.datasource safetyInsertObject:item atIndex:2];
+                [self.tableView beginUpdates];
+                [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView endUpdates];
+            }
+        }
+        else {
+            if (self.datasource.count >= 5) {
+                [self.datasource safetyRemoveObjectAtIndex:2];
+                [self.tableView beginUpdates];
+                [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView endUpdates];
+            }
+        }
+    }];
+    
+    [[self.historyView rac_reloadDataWithSelectedRecord:self.currentRecord] subscribeNext:^(id x) {
+        
+    }];
+}
+
+- (void)reloadData
+{
+    NSArray *data = @[@[self.submitModel == InsuranceInfoSubmitForDirectSell ? @"HeaderCell" : @"HeaderCell2", @64],
+                      @[@"CardCell",@82],
+                      @[@"ImageCell",@(ceil((CGRectGetWidth(self.tableView.frame)-28)*414/594.0))],
+                      @[@"InviteCell",@75]];
+    self.datasource = [NSMutableArray arrayWithArray:data];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Action
@@ -65,6 +110,7 @@
     if ([self checkInfomation]) {
         InsuranceChooseViewController *vc = [UIStoryboard vcWithId:@"InsuranceChooseViewController" inStoryboard:@"Insurance"];
         vc.idcard = self.idcardField.text;
+        vc.inviteCode = self.inviteField.text;
         vc.currentRecord = self.currentRecord;
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -101,6 +147,7 @@
         op.req_idcard = self.idcardField.text;
         op.req_driverpic = self.currentRecord.url;
         op.req_inslist = self.insuranceList;
+        op.req_invitecode = self.inviteField.text;
         @weakify(self);
         [[[op rac_postRequest] initially:^{
             
@@ -242,8 +289,16 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     NSInteger length = range.location + [string length] - range.length;
-    if (length > 18) {
-        return NO;
+    //身份证
+    if ([textField isEqual:self.idcardField]) {
+        if (length > 18) {
+            return NO;
+        }
+    }
+    if ([textField isEqual:self.inviteField]) {
+        if (length > 50) {
+            return NO;
+        }
     }
     return YES;
 }
@@ -251,46 +306,46 @@
 #pragma mark - UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return self.datasource.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        return 64;
-    }
-    else if (indexPath.row == 1) {
-        return 82;
-    }
-    else if (indexPath.row == 2) {
-        return 106;
-    }
-    return ceil((CGRectGetWidth(tableView.frame)-28)*414/594.0);
+    NSArray *item = [self.datasource safetyObjectAtIndex:indexPath.row];
+    return [(NSNumber *)[item safetyObjectAtIndex:1] floatValue];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-    if (indexPath.row == 0) {
-        NSString *identifier = self.submitModel == InsuranceInfoSubmitForDirectSell ? @"HeaderCell" : @"HeaderCell2";
+    NSArray *item = [self.datasource safetyObjectAtIndex:indexPath.row];
+    NSString *identifier = [item safetyObjectAtIndex:0];
+    if ([@"HeaderCell" equalByCaseInsensitive:identifier] || [@"HeaderCell2" equalByCaseInsensitive:identifier]) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     }
-    else if (indexPath.row == 1) {
-        cell = [self idCardCellAtIndexPath:indexPath];
+//    @[@"CardCell",@82],
+//    @[@"PreviewCell",@106],
+//    @[@"ImageCell",@(ceil((CGRectGetWidth(self.tableView.frame)-28)*414/594.0))],
+//    @[@"InviteCell",@75]]
+    else if ([@"CardCell" equalByCaseInsensitive:identifier]) {
+        cell = [self idCardCellAtIndexPath:indexPath identifier:identifier];
     }
-    else if (indexPath.row == 2) {
-        cell = [self previewCellAtIndexPath:indexPath];
+    else if ([@"PreviewCell" equalByCaseInsensitive:identifier]) {
+        cell = [self previewCellAtIndexPath:indexPath identifier:identifier];
     }
-    else if (indexPath.row == 3) {
-        return [self imageCellAtIndexPath:indexPath];
+    else if ([@"ImageCell" equalByCaseInsensitive:identifier]) {
+        return [self imageCellAtIndexPath:indexPath identifier:identifier];
+    }
+    else if ([@"InviteCell" equalByCaseInsensitive:identifier]) {
+        return [self inviteCellAtIndexPath:indexPath identifier:identifier];
     }
     return cell;
 }
 
 #pragma mark - Cell
-- (UITableViewCell *)idCardCellAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)idCardCellAtIndexPath:(NSIndexPath *)indexPath identifier:identifier
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CardCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     if (!self.idcardField) {
         self.idcardField = (UITextField *)[cell viewWithTag:10002];
         self.idcardField.delegate = self;
@@ -298,14 +353,16 @@
     return cell;
 }
 
-- (UITableViewCell *)previewCellAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)previewCellAtIndexPath:(NSIndexPath *)indexPath identifier:identifier
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PreviewCell" forIndexPath:indexPath];
-    
-    if (!self.historyView) {
-        self.historyView = (DrivingLicenseHistoryView *)[cell.contentView viewWithTag:10003];
-        self.historyView.delegate = self;
-        [self reloadDrivingLicenseHistoryWithCell:cell];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+    UIView *container = [cell.contentView viewWithTag:10003];
+    if (![self.historyView.superview isEqual:container]) {
+        [self.historyView removeFromSuperview];
+        [container addSubview:self.historyView];
+        [self.historyView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(container);
+        }];
     }
     return cell;
 }
@@ -326,9 +383,9 @@
 
 }
 
-- (UITableViewCell *)imageCellAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)imageCellAtIndexPath:(NSIndexPath *)indexPath identifier:identifier
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ImageCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     UIView *imgContainerView = [cell.contentView viewWithTag:1000];
     [imgContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
     HKImageView *imageView = (HKImageView *)[cell.contentView viewWithTag:1001];
@@ -399,6 +456,15 @@
     return cell;
 }
 
+- (UITableViewCell *)inviteCellAtIndexPath:(NSIndexPath *)indexPath identifier:identifier
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+    UITextField *textField = (UITextField *)[cell.contentView viewWithTag:10002];
+    if (!self.inviteField) {
+        self.inviteField = textField;
+    }
+    return cell;
+}
 #pragma mark - Getter
 - (UIImage *)defImage
 {

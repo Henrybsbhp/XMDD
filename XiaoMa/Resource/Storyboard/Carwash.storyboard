@@ -396,6 +396,20 @@
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shop_imgmask" translatesAutoresizingMaskIntoConstraints="NO" id="Bu5-WK-xyX">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="165"/>
                                         </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0张" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PEp-g4-Sf9">
+                                            <rect key="frame" x="542" y="125" width="70" height="24"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="70" id="0Bb-bV-YSJ"/>
+                                                <constraint firstAttribute="height" constant="24" id="UEF-q4-CfW"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="0.69000000000000006" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CR_12"/>
+                                            </userDefinedRuntimeAttributes>
+                                        </label>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
@@ -406,6 +420,8 @@
                                         <constraint firstAttribute="bottom" secondItem="Bu5-WK-xyX" secondAttribute="bottom" id="RMa-9D-8nt"/>
                                         <constraint firstAttribute="bottom" secondItem="yWb-UF-vJU" secondAttribute="bottom" id="fkW-rg-xwc"/>
                                         <constraint firstItem="yWb-UF-vJU" firstAttribute="top" secondItem="uQm-ve-Vb8" secondAttribute="top" id="oqg-0N-eIY"/>
+                                        <constraint firstAttribute="bottom" secondItem="PEp-g4-Sf9" secondAttribute="bottom" constant="16" id="rBH-jF-3cr"/>
+                                        <constraint firstAttribute="trailing" secondItem="PEp-g4-Sf9" secondAttribute="trailing" constant="-12" id="vJ4-5K-oQx"/>
                                         <constraint firstItem="yWb-UF-vJU" firstAttribute="leading" secondItem="uQm-ve-Vb8" secondAttribute="leading" id="wu6-z1-Hyt"/>
                                     </constraints>
                                 </view>
@@ -950,6 +966,7 @@
                         <outlet property="greenBackBtn" destination="EOv-em-vHX" id="agk-dm-dUU"/>
                         <outlet property="greenStarBtn" destination="UQC-32-Vib" id="BWG-jB-Wxr"/>
                         <outlet property="headImgView" destination="yWb-UF-vJU" id="eSc-M5-iPM"/>
+                        <outlet property="imageCountLabel" destination="PEp-g4-Sf9" id="lur-ft-sAH"/>
                         <outlet property="maskView" destination="Bu5-WK-xyX" id="F3W-Ur-rVp"/>
                         <outlet property="tableView" destination="Thl-fk-Kw9" id="Lvq-oQ-ZOS"/>
                         <outlet property="titleLabel" destination="OVB-gB-sMR" id="aVp-u7-K23"/>
@@ -2585,23 +2602,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zPy-av-wRp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="383" y="247"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="ZmM-YU-USc">
-            <objects>
-                <viewController id="wSX-x0-bvq" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="hIo-kX-KhP"/>
-                        <viewControllerLayoutGuide type="bottom" id="cxt-IO-BKx"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="1Cx-Ui-KKn">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rIs-Zs-ncr" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
         </scene>
         <!--View Controller-->
         <scene sceneID="hRe-NW-O8R">
