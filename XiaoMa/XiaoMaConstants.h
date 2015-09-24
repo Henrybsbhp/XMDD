@@ -67,10 +67,11 @@
 //    #define ApiBaseUrl @"http://192.168.1.117:8081/paa/rest/api" //华良联调
 //    #define ApiBaseUrl @"http://192.168.1.70:80/paa/rest/api" //智能联调
     #define ApiBaseUrl @"http://api.dev.xiaomadada.com:8282/paa/rest/api"
-
+    #define ApiFormalUrl @"http://api.xiaomadada.com:8282/paa/rest/api" //正式
     #define LogUploadUrl @"http://183.129.253.170:18282/log/upload"
 #else
     #define ApiBaseUrl @"http://api.xiaomadada.com:8282/paa/rest/api" //正式
+    #define ApiFormalUrl @"http://api.xiaomadada.com:8282/paa/rest/api" //正式
     #define LogUploadUrl @"http://183.129.253.170:18282/log/upload"
 #endif
 

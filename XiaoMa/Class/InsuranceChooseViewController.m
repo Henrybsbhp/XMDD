@@ -183,6 +183,7 @@
     UILabel * l = [[UILabel alloc] init];
     l.frame = CGRectMake(10,6,100,18);
     l.font = [UIFont systemFontOfSize:12];
+    l.backgroundColor = [UIColor clearColor];
     [v addSubview:l];
     if (section == 0){
         

@@ -25,6 +25,7 @@
         self.rsp_amount = [rspObj integerParamForName:@"amount"];
         self.rsp_tip = rspObj[@"tip"];
         self.rsp_total = [rspObj integerParamForName:@"total"];
+        self.rsp_isused = [rspObj boolParamForName:@"isused"];
     }
     else
     {

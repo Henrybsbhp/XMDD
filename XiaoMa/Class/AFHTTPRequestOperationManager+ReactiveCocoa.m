@@ -81,7 +81,8 @@
     payload[@"params"] = parameters;
     payload[@"id"] = [requestId description];
     
-    NSString * urlStr = [NSString stringWithFormat:@"%@%@",ApiBaseUrl,method];
+    NSString * serverStr = (!gAppMgr.isSwitchToFormalSurrounding ) ? ApiBaseUrl : ApiFormalUrl;
+    NSString * urlStr = [NSString stringWithFormat:@"%@%@", serverStr,method];
     NSData *data = [NSJSONSerialization dataWithJSONObject:payload options:0 error:nil];
     return [self.requestSerializer requestWithMethod:@"POST" URLString:urlStr parameters:payload error:nil];
     

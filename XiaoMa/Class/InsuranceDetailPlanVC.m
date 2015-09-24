@@ -70,7 +70,7 @@
     self.segmentedControl.selectedStainView = v;
     
     self.segmentedControl.selectedSegmentTextColor = [UIColor whiteColor];
-    self.segmentedControl.segmentTextColor = [UIColor colorWithHex:@"#e2e2e2" alpha:1.0f];
+    self.segmentedControl.segmentTextColor = [UIColor darkGrayColor];
     [self.segmentedControl addTarget:self action:@selector(segmentValueChanged:) forControlEvents:UIControlEventValueChanged];
 }
 
@@ -136,6 +136,8 @@
 
 - (void)switchDatasource:(InsuranceDetailPlanModel *)model
 {
+    [model setupInsuranceArray];
+    [model calcTotalPrice];
     [model noAnimateToTargetValue];
     
     self.tableView.dataSource = model;

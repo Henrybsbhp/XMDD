@@ -44,6 +44,10 @@
                         @{@"title":@"网页跳转",@"action":^(void){
                             
                             [self gotoTestWeb];
+                        }},
+                        @{@"title":@"环境切换",@"action":^(void){
+                            
+                            [self switchSurrounding];
                         }}];
 #else
     self.datasource = @[@{@"title":@"用户服务协议",@"action":^(void){
@@ -184,4 +188,8 @@
     }];
 }
 
+- (void)switchSurrounding
+{
+    gAppMgr.isSwitchToFormalSurrounding = !gAppMgr.isSwitchToFormalSurrounding;
+}
 @end

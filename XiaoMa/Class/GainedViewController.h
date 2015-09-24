@@ -16,4 +16,6 @@
 
 @property (nonatomic,copy)NSString * tip;
 
+@property (nonatomic)BOOL isCouponUsed;
+
 @end
