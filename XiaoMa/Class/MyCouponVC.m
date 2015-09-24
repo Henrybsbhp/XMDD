@@ -143,7 +143,7 @@
 {
     [MobClick event:@"rp304-6"];
     WebVC *vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
-    vc.url = @"http://www.xiaomadada.com/apphtml/couponpkg.html";
+    vc.url = @"http://www.xiaomadada.com/apphtml/youhuiquan.html";
     [self.navigationController pushViewController:vc animated:YES];
 }
 @end
