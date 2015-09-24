@@ -100,15 +100,15 @@
                 
             case InsuranceCarSeatInsuranceOfPassenger:{
                 self.insName = @"乘客座位责任险 ";
-                NSDictionary * d = @{@"key":@"1万元",@"value":@(10000)};
+                NSDictionary * d = @{@"key":@"1万元*4座",@"value":@(10000)};
                 d.customTag = YES;
                 self.params = @[d,
-                                @{@"key":@"2万元",@"value":@(20000)},
-                                @{@"key":@"3万元",@"value":@(30000)},
-                                @{@"key":@"4万元",@"value":@(40000)},
-                                @{@"key":@"5万元",@"value":@(50000)},
-                                @{@"key":@"10万元",@"value":@(100000)},
-                                @{@"key":@"20万元",@"value":@(200000)}
+                                @{@"key":@"2万元*4座",@"value":@(20000)},
+                                @{@"key":@"3万元*4座",@"value":@(30000)},
+                                @{@"key":@"4万元*4座",@"value":@(40000)},
+                                @{@"key":@"5万元*4座",@"value":@(50000)},
+                                @{@"key":@"10万元*4座",@"value":@(100000)},
+                                @{@"key":@"20万元*4座",@"value":@(200000)}
                                 ];
                 self.discountType = InsuranceBusinessDiscount;
                 

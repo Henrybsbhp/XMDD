@@ -68,6 +68,7 @@
         GainedViewController * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"GainedViewController"];
         vc.leftDay = op.rsp_leftday;
         vc.amount = op.rsp_amount;
+        vc.isCouponUsed = op.rsp_isused;
         [self addChildViewController:vc];
         [self.view addSubview:vc.view];
         vc.view.frame = self.view.bounds;

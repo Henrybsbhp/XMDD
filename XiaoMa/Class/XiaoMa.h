@@ -54,6 +54,7 @@
 #import "UIView+DefaultEmptyView.h"
 #import "NSDate+DateForText.h"
 #import "UIImageView+WebImage.h"
+#import "NSString+Price.h"
 
 
 #endif

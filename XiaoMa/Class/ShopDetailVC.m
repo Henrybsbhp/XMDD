@@ -732,7 +732,7 @@
                                 NSForegroundColorAttributeName:[UIColor lightGrayColor],
                                 NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle)};
         NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:
-                                        [NSString stringWithFormat:@"￥%.2f", [price1 floatValue]] attributes:attr1];
+                                        [NSString formatForPrice:[price1 floatValue]] attributes:attr1];
         [str appendAttributedString:attrStr1];
     }
     
@@ -740,7 +740,7 @@
         NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18],
                                 NSForegroundColorAttributeName:HEXCOLOR(@"#f93a00")};
         NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:
-                                        [NSString stringWithFormat:@" ￥%.2f", [price2 floatValue]] attributes:attr2];
+                                        [NSString formatForPrice:[price1 floatValue]] attributes:attr2];
         [str appendAttributedString:attrStr2];
     }
     return str;
