@@ -242,7 +242,7 @@
         UIImageView * bgImageView = (UIImageView *)[cell.contentView viewWithTag:1005];
         
         nameLabel.text = self.couponDic.couponName;
-        subnameLabel.text = [NSString stringWithFormat:@"（%@）", self.couponDic.subname];
+        subnameLabel.text = [NSString stringWithFormat:@"%@", self.couponDic.subname];
         describeLabel.text = [NSString stringWithFormat:@"使用说明：%@", self.couponDic.couponDescription];
         validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@", [self.couponDic.validsince dateFormatForYYMMdd2], [self.couponDic.validthrough dateFormatForYYMMdd2]];
         

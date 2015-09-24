@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HKCoupon.h"
 
 @interface MyCouponVC : UIViewController
+
+@property (nonatomic, assign) CouponNewType jumpType;
 
 @end
