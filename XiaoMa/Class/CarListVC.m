@@ -314,9 +314,13 @@
 
 - (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
 {
+    HKMyCar *selectedCar = [gAppMgr.myUser.carModel getDefalutCar];
     if (!self.model.selectedCar || !self.model.allowAutoChangeSelectedCar) {
-        self.model.selectedCar = [gAppMgr.myUser.carModel getDefalutCar];
+        if (![selectedCar isEqual:self.model.selectedCar]) {
+            self.model.currentCar = selectedCar;
+        }
     }
+    self.model.selectedCar = selectedCar;
     if (model.datasource.count >= 5) {
         [self.navigationItem setRightBarButtonItem:nil animated:NO];
     }

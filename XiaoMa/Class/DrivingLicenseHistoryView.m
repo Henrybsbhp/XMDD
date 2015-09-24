@@ -50,13 +50,14 @@
     [self addSubview:self.collectionView];
 }
 
+
 - (RACSignal *)rac_reloadDataWithSelectedRecord:(PictureRecord *)selectedRecord
 {
     @weakify(self);
     return [[self rac_fetchDrivingLicenseRecords] doNext:^(NSArray *records) {
         
         @strongify(self);
-        _recordList = records;
+        self.recordList = records;
         if (selectedRecord) {
             self.selectedRecordIndex = [records indexOfObject:selectedRecord];
         }
@@ -96,15 +97,17 @@
                 return ;
             }
 
+            @weakify(self);
             [[[self rac_deleteDrivingLicenseRecord:record] initially:^{
                 
                 [gToast showingWithText:@"正在删除..."];
             }] subscribeNext:^(id x) {
-                
+
+                @strongify(self);
                 [gToast dismiss];
                 NSMutableArray *array = [NSMutableArray arrayWithArray:self.recordList];
                 [array safetyRemoveObjectAtIndex:item];
-                _recordList = array;
+                self.recordList = array;
                 [self.collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:item inSection:0]]];
                 if (self.selectedRecordIndex == item) {
                     self.selectedRecordIndex = NSNotFound;

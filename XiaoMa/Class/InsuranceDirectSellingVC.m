@@ -35,6 +35,10 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (IBAction)actionMakeCall:(id)sender {
+    [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
+}
+
 /*
 #pragma mark - Navigation
 
