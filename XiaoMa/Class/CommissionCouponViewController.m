@@ -9,6 +9,7 @@
 #import "CommissionCouponViewController.h"
 #import "GetUserCouponByTypeOp.h"
 #import "HKLoadingModel.h"
+#import "CouponDetailsVC.h"
 
 @interface CommissionCouponViewController ()<HKLoadingModelDelegate>
 
@@ -69,9 +70,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 85;
+    return 90;
 }
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
@@ -83,29 +83,44 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TicketCell"];
     
     //背景图片
-    UIImage * bgImage = [[[UIImage imageNamed:@"coupon_background"] imageByFilledWithColor:[UIColor colorWithHex:@"#f7b45d" alpha:1.0f]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];
+    UIImageView *backgroundImg = (UIImageView *)[cell searchViewWithTag:1001];
     
-    UIImageView * ticketBgView = (UIImageView *)[cell searchViewWithTag:1001];
     //优惠名称
-    UILabel *name = (UILabel *)[cell.contentView viewWithTag:1002];
+    UILabel *name = (UILabel *)[cell searchViewWithTag:1002];
     //优惠描述
-    UILabel *description = (UILabel *)[cell.contentView viewWithTag:1003];
+    UILabel *description = (UILabel *)[cell searchViewWithTag:1003];
     //优惠有效期
-    UILabel *validDate = (UILabel *)[cell.contentView viewWithTag:1004];
-    //状态
-    UIButton *status = (UIButton *)[cell.contentView viewWithTag:1005];
+    UILabel *validDate = (UILabel *)[cell searchViewWithTag:1004];
+    //logo
+    UIImageView *logoV = (UIImageView *)[cell searchViewWithTag:1005];
     
+    HKCoupon * couponDic = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
+    backgroundImg.image = [[UIImage imageNamed:@"coupon_background"] imageByFilledWithColor:[UIColor colorWithHex:[NSString stringWithFormat:@"#%@", couponDic.rgbColor] alpha:1.0f]];
+    [logoV setImageByUrl:couponDic.logo
+                withType:ImageURLTypeThumbnail defImage:@"coupon_logo" errorImage:@"coupon_logo"];
     
-    [status setTitle:@"有效" forState:UIControlStateNormal];
-    
-    HKCoupon * coupon = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
-    ticketBgView.image = bgImage;
-    name.text = coupon.couponName;
-    description.text = [NSString stringWithFormat:@"使用说明：%@",coupon.couponDescription];
-    validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",[coupon.validsince dateFormatForYYMMdd2],[coupon.validthrough dateFormatForYYMMdd2]];
+    logoV.layer.cornerRadius = 22.0F;
+    [logoV.layer setMasksToBounds:YES];
+    name.text = couponDic.couponName;
+    description.text = [NSString stringWithFormat:@"%@", couponDic.subname];
+    validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",[couponDic.validsince dateFormatForYYMMdd2],[couponDic.validthrough dateFormatForYYMMdd2]];
     
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 0) {
+        CouponDetailsVC *vc = [UIStoryboard vcWithId:@"CouponDetailsVC" inStoryboard:@"Mine"];
+        HKCoupon *hkcoupon = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
+        vc.couponId = hkcoupon.couponId;
+        vc.rgbStr = hkcoupon.rgbColor;
+        vc.isShareble = hkcoupon.isshareble;
+        vc.newType = CouponNewTypeOthers;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 @end

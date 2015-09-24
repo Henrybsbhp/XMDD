@@ -9,7 +9,6 @@
 #import "MyCouponVC.h"
 #import "UIBarButtonItem+CustomStyle.h"
 #import "GetUserCouponOp.h"
-#import "HKCoupon.h"
 #import "JTTableView.h"
 #import "ShareUserCouponOp.h"
 #import "SocialShareViewController.h"
@@ -50,7 +49,15 @@
     
     [self setSegmentView];
     
-    [self.segHelper selectItem:self.carwashBtn];
+    if (self.jumpType == CouponNewTypeInsurance) {
+        [self.segHelper selectItem:self.insuranceBtn];
+    }
+    else if (self.jumpType == CouponNewTypeOthers) {
+        [self.segHelper selectItem:self.othersBtn];
+    }
+    else {
+        [self.segHelper selectItem:self.carwashBtn];
+    }
     
     self.carWashModel = [[CarWashCouponVModel alloc] initWithTableView:self.carwashTableView withType:CouponNewTypeCarWash];
     [self.carWashModel resetWithTargetVC:self];
