@@ -55,7 +55,8 @@
 - (void)setupDrivingLicenseHistoryView
 {
     self.historyView.delegate = self;
-    [[RACObserve(self.historyView, recordList) distinctUntilChanged] subscribeNext:^(NSArray *records) {
+    [[[RACObserve(self.historyView, recordList) distinctUntilChanged] deliverOn:[RACScheduler mainThreadScheduler]]
+     subscribeNext:^(NSArray *records) {
         if (records.count > 0) {
             if (self.datasource.count < 5) {
                 NSArray *item = @[@"PreviewCell",@106];
@@ -357,8 +358,9 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     UIView *container = [cell.contentView viewWithTag:10003];
     if (![self.historyView.superview isEqual:container]) {
+        [self.historyView removeFromSuperview];
         [container addSubview:self.historyView];
-        [self.historyView mas_updateConstraints:^(MASConstraintMaker *make) {
+        [self.historyView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(container);
         }];
     }

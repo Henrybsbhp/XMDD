@@ -43,7 +43,7 @@
 {
     [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        if ([self inslistForVC].count)
+        if (![self inslistForVC].count)
         {
             [gToast showError:@"请至少选择一个车险"];
             return ;
@@ -126,7 +126,7 @@
         }
         
         NSArray * refreshArray ;
-        if (c.customTag && c.isContainExcludingDeductible)
+        if (c.customTag && c.excludingDeductibleCoverage)
         {
             NSIndexPath *indexPath2 = [NSIndexPath indexPathForRow:i + 1 inSection:0];
             refreshArray = @[indexPath1,indexPath2];
@@ -233,19 +233,19 @@
             [boxBtn setSelected:!flag];
             coverage.customTag = !flag;
             
-            if ([coverage.isContainExcludingDeductible integerValue])
+            if (coverage.excludingDeductibleCoverage)
             {
                 if (coverage.customTag == YES)
                 {
                     NSInteger index = [self.insuranceArry indexOfObject:coverage];
-                    [self.insuranceArry safetyInsertObject:coverage.isContainExcludingDeductible.customObject atIndex:index + 1];
+                    [self.insuranceArry safetyInsertObject:coverage.excludingDeductibleCoverage atIndex:index + 1];
                     NSIndexPath * idxPath = [NSIndexPath indexPathForRow:index + 1 inSection:indexPath.section];
                     [self.tableView insertRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationLeft];
                 }
                 else
                 {
-                    NSInteger index = [self.insuranceArry indexOfObject:coverage.isContainExcludingDeductible.customObject];
-                    [self.insuranceArry safetyRemoveObject:coverage.isContainExcludingDeductible.customObject];
+                    NSInteger index = [self.insuranceArry indexOfObject:coverage.excludingDeductibleCoverage];
+                    [self.insuranceArry safetyRemoveObject:coverage.excludingDeductibleCoverage];
                     NSIndexPath * idxPath = [NSIndexPath indexPathForRow:index inSection:indexPath.section];
                     [self.tableView deleteRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationRight];
                 }
@@ -293,19 +293,19 @@
             [boxBtn setSelected:!flag];
             coverage.customTag = !flag;
             
-            if ([coverage.isContainExcludingDeductible integerValue])
+            if (coverage.excludingDeductibleCoverage)
             {
                 if (coverage.customTag == YES)
                 {
                     NSInteger index = [self.insuranceArry indexOfObject:coverage];
-                    [self.insuranceArry safetyInsertObject:coverage.isContainExcludingDeductible.customObject atIndex:index + 1];
+                    [self.insuranceArry safetyInsertObject:coverage.excludingDeductibleCoverage atIndex:index + 1];
                     NSIndexPath * idxPath = [NSIndexPath indexPathForRow:index + 1 inSection:indexPath.section];
                     [self.tableView insertRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationLeft];
                 }
                 else
                 {
-                    NSInteger index = [self.insuranceArry indexOfObject:coverage.isContainExcludingDeductible.customObject];
-                    [self.insuranceArry safetyRemoveObject:coverage.isContainExcludingDeductible.customObject];
+                    NSInteger index = [self.insuranceArry indexOfObject:coverage.excludingDeductibleCoverage];
+                    [self.insuranceArry safetyRemoveObject:coverage.excludingDeductibleCoverage];
                     NSIndexPath * idxPath = [NSIndexPath indexPathForRow:index inSection:indexPath.section];
                     [self.tableView deleteRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationRight];
                 }
@@ -358,9 +358,8 @@
             NSString * s = [NSString stringWithFormat:@"%@@%@@0",c.insId,c.insName];
             [array safetyAddObject:s];
             
-            if (c.isContainExcludingDeductible.customObject &&
-                [c.isContainExcludingDeductible.customObject isKindOfClass:[HKCoverage class]] &&
-                c.isContainExcludingDeductible.customTag){
+            if (c.excludingDeductibleCoverage &&
+                c.excludingDeductibleCoverage.customTag){
                 
                 NSString * s2 = [NSString stringWithFormat:@"%@@%@@0",c.insId,c.insName];
                 [array safetyAddObject:s2];

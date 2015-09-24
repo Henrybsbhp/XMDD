@@ -112,7 +112,7 @@
         {
             [selectIns safetyAddObject:@(subIns.coveragerId)];
         }
-        InsuranceDetailPlanModel * model = [[InsuranceDetailPlanModel alloc] initWithSelectInsurance:selectIns andCarPrice:[self.calculatorOp.req_purchaseprice floatValue]];
+        InsuranceDetailPlanModel * model = [[InsuranceDetailPlanModel alloc] initWithSelectInsurance:selectIns andCarPrice:[self.calculatorOp.req_purchaseprice floatValue] * 10000];
         model.tableView = self.tableView;
         model.flipNumberView = self.flipNumberView;
         [self.modelArray safetyAddObject:model];

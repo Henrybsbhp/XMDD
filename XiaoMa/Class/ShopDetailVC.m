@@ -32,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *maskView;
 @property (weak, nonatomic) IBOutlet UIView *titleView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *imageCountLabel;
 @property (weak, nonatomic) IBOutlet UIButton *greenBackBtn;
 @property (weak, nonatomic) IBOutlet UIButton *whiteBackBtn;
 @property (weak, nonatomic) IBOutlet UIButton *greenStarBtn;
@@ -251,9 +252,8 @@
     if (self.shop.picArray.count > 0)
     {
         SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
-        UIView *containerV = tap.view.superview;
         UIView *sourceImgV1 = self.headImgView;
-        UIView *sourceImgV2 = [containerV viewWithTag:1002];
+        UIView *sourceImgV2 = self.imageCountLabel;
         browser.sourceImageViews = @[sourceImgV1, sourceImgV2]; // 原图的容器
         browser.imageCount = self.shop.picArray.count; // 图片总数
         browser.currentImageIndex = 0;
@@ -706,25 +706,7 @@
     }
     gesture = self.headImgView.customObject;
     
-    UILabel * countLabel = [[UILabel alloc] init];
-    
-    countLabel.text = [NSString stringWithFormat:@"%d张", (int)shop.picArray.count];
-    countLabel.font = [UIFont systemFontOfSize:15];
-    countLabel.textColor = [UIColor colorWithHex:@"#ffffff" alpha:0.7f];
-    countLabel.textAlignment = NSTextAlignmentCenter;
-    countLabel.backgroundColor = [UIColor colorWithHex:@"#000000" alpha:0.5f];
-    [countLabel makeCornerRadius:13];
-    countLabel.tag = 1002;
-    [self.headImgView addSubview:countLabel];
-    
-    [countLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        @strongify(self);
-        make.bottom.equalTo(self.headImgView.mas_bottom).offset(-16);
-//        make.top.equalTo(self.view.mas_top).offset(132);
-        make.right.equalTo(self.view.mas_right).offset(12);
-        make.width.equalTo(@70);
-        make.height.equalTo(@23);
-    }];
+    self.imageCountLabel.text = [NSString stringWithFormat:@"%d张", (int)shop.picArray.count];
 }
 
 -(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr

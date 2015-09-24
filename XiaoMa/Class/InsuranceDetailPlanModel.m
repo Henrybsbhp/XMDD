@@ -54,10 +54,10 @@
             
             coverage.customTag = YES;
             
-            if ([coverage.isContainExcludingDeductible integerValue])
+            if (coverage.excludingDeductibleCoverage)
             {
                 NSInteger index = [self.insuranceArry indexOfObject:coverage];
-                [self.insuranceArry safetyInsertObject:coverage.isContainExcludingDeductible.customObject atIndex:index + 1];
+                [self.insuranceArry safetyInsertObject:coverage.excludingDeductibleCoverage atIndex:index + 1];
             }
             continue;
         }
@@ -66,10 +66,9 @@
             coverage.customTag = NO;
         }
         
-        if (coverage.isContainExcludingDeductible.customObject &&
-            [coverage.isContainExcludingDeductible.customObject isKindOfClass:[HKCoverage class]]){
+        if (coverage.excludingDeductibleCoverage){
             
-            HKCoverage * subCoverage = coverage.isContainExcludingDeductible.customObject;
+            HKCoverage * subCoverage = coverage.excludingDeductibleCoverage;
             
             NSNumber * sid = subCoverage.insId;
             NSNumber * sFilter = [self.selectInsurance firstObjectByFilteringOperator:^BOOL(NSNumber * num) {
@@ -109,11 +108,10 @@
             price = [self.calcHelper calcInsurancePrice:c];
             total = total + price;
             
-            if (c.isContainExcludingDeductible.customObject &&
-                [c.isContainExcludingDeductible.customObject isKindOfClass:[HKCoverage class]] &&
-                c.isContainExcludingDeductible.customTag){
+            if (c.excludingDeductibleCoverage &&
+                c.excludingDeductibleCoverage.customTag){
                 
-                excludingDeductible = [self.calcHelper calcInsurancePrice:c.isContainExcludingDeductible.customObject];
+                excludingDeductible = [self.calcHelper calcInsurancePrice:c.excludingDeductibleCoverage];
                 total = total + excludingDeductible;
             }
         }
@@ -153,7 +151,7 @@
         NSInteger i = [self.insuranceArry indexOfObject:c];
         NSIndexPath *indexPath1 = [NSIndexPath indexPathForRow:i + 1 inSection:0];
         NSArray * refreshArray ;
-        if (c.customTag && c.isContainExcludingDeductible)
+        if (c.customTag && c.excludingDeductibleCoverage)
         {
             NSIndexPath *indexPath2 = [NSIndexPath indexPathForRow:i + 2 inSection:0];
             refreshArray = @[indexPath1,indexPath2];
@@ -168,6 +166,9 @@
 
 - (void)animateToTargetValue
 {
+    NSString * priceStr = [NSString stringWithFormat:@"%.2f",self.totalPrice];
+    NSInteger length = priceStr.length - 1;
+    self.flipNumberView.digitCount = MAX(length,5);
     [self.flipNumberView animateToValue:(NSInteger)(self.totalPrice * 100) duration:1.0 completion:^(BOOL finished) {
         if (finished) {
             
@@ -181,6 +182,9 @@
 
 - (void)noAnimateToTargetValue
 {
+    NSString * priceStr = [NSString stringWithFormat:@"%.2f",self.totalPrice];
+    NSInteger length = priceStr.length - 1;
+    self.flipNumberView.digitCount = MAX(length,5);
     [self.flipNumberView setValue:(NSInteger)(self.totalPrice * 100) animated:1.0f];
 }
 
@@ -194,9 +198,8 @@
             NSString * s = [NSString stringWithFormat:@"%@@%@@%.2f",c.insId,c.insName,[self.calcHelper calcInsurancePrice:c]];
             [array safetyAddObject:s];
             
-            if (c.isContainExcludingDeductible.customObject &&
-                [c.isContainExcludingDeductible.customObject isKindOfClass:[HKCoverage class]] &&
-                c.isContainExcludingDeductible.customTag){
+            if (c.excludingDeductibleCoverage &&
+                c.excludingDeductibleCoverage.customTag){
                 
                 NSString * s2 = [NSString stringWithFormat:@"%@@%@@%f",c.insId,c.insName,[self.calcHelper calcInsurancePrice:c]];
                 [array safetyAddObject:s2];
@@ -285,19 +288,19 @@
                 [boxBtn setSelected:!flag];
                 coverage.customTag = !flag;
                 
-                if ([coverage.isContainExcludingDeductible integerValue])
+                if (coverage.excludingDeductibleCoverage)
                 {
                     if (coverage.customTag == YES)
                     {
                         NSInteger index = [self.insuranceArry indexOfObject:coverage];
-                        [self.insuranceArry safetyInsertObject:coverage.isContainExcludingDeductible.customObject atIndex:index + 1];
+                        [self.insuranceArry safetyInsertObject:coverage.excludingDeductibleCoverage atIndex:index + 1];
                         NSIndexPath * idxPath = [NSIndexPath indexPathForRow:1 + index + 1 inSection:indexPath.section];
                         [self.tableView insertRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationLeft];
                     }
                     else
                     {
-                        NSInteger index = [self.insuranceArry indexOfObject:coverage.isContainExcludingDeductible.customObject];
-                        [self.insuranceArry safetyRemoveObject:coverage.isContainExcludingDeductible.customObject];
+                        NSInteger index = [self.insuranceArry indexOfObject:coverage.excludingDeductibleCoverage];
+                        [self.insuranceArry safetyRemoveObject:coverage.excludingDeductibleCoverage];
                         NSIndexPath * idxPath = [NSIndexPath indexPathForRow: 1 + index inSection:indexPath.section];
                         [self.tableView deleteRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationRight];
                     }
@@ -351,19 +354,19 @@
                 [boxBtn setSelected:!flag];
                 coverage.customTag = !flag;
                 
-                if ([coverage.isContainExcludingDeductible integerValue])
+                if (coverage.excludingDeductibleCoverage)
                 {
                     if (coverage.customTag == YES)
                     {
                         NSInteger index = [self.insuranceArry indexOfObject:coverage];
-                        [self.insuranceArry safetyInsertObject:coverage.isContainExcludingDeductible.customObject atIndex:index + 1];
+                        [self.insuranceArry safetyInsertObject:coverage.excludingDeductibleCoverage atIndex:index + 1];
                         NSIndexPath * idxPath = [NSIndexPath indexPathForRow:1 + index + 1 inSection:indexPath.section];
                         [self.tableView insertRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationLeft];
                     }
                     else
                     {
-                        NSInteger index = [self.insuranceArry indexOfObject:coverage.isContainExcludingDeductible.customObject];
-                        [self.insuranceArry safetyRemoveObject:coverage.isContainExcludingDeductible.customObject];
+                        NSInteger index = [self.insuranceArry indexOfObject:coverage.excludingDeductibleCoverage];
+                        [self.insuranceArry safetyRemoveObject:coverage.excludingDeductibleCoverage];
                         NSIndexPath * idxPath = [NSIndexPath indexPathForRow: 1 + index inSection:indexPath.section];
                         [self.tableView deleteRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationRight];
                     }

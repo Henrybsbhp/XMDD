@@ -93,7 +93,7 @@
         _isEditingModel = YES;
     }
     else {
-        _curCar = [HKMyCar new];
+        _curCar = [[HKMyCar alloc] init];
         _curCar.licenceArea  = [self getCurrentProvince];
         _curCar.isDefault = YES;
         _isEditingModel = NO;
@@ -657,7 +657,8 @@
         NSString * value = [d objectForKey:key];
         NSString * v = [value stringByReplacingOccurrencesOfString:@"(" withString:@""];
         v = [v stringByReplacingOccurrencesOfString:@")" withString:@""];
-        if ([gMapHelper.addrComponent.province containsString:v])
+        NSString *province = gMapHelper.addrComponent.province;
+        if (province && [province hasSubstring:v])
         {
             return  key;
         }

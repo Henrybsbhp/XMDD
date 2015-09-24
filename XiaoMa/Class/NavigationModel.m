@@ -31,6 +31,7 @@
         //优惠券
         else if ([@"cp" equalByCaseInsensitive:name] && gAppMgr.myUser) {
             if (![self popToViewControllerIfNeededByIdentify:@"MyCouponVC"]) {
+                [self postCustomNotificationName:kNotifyRefreshMyCouponList object:nil];
                 UIViewController *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }

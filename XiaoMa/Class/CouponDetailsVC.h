@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HKCoupon.h"
 
 @interface CouponDetailsVC : UIViewController
 
@@ -18,5 +19,8 @@
 
 ///优惠券颜色
 @property (nonatomic, strong)NSString * rgbStr;
+
+///优惠券类型（新）
+@property (nonatomic, assign)CouponNewType newType;
 
 @end

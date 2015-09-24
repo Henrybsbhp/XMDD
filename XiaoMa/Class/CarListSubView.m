@@ -150,6 +150,7 @@
     UILabel *defL = [[UILabel alloc] initWithFrame:CGRectZero];
     defL.tag = 20042;
     defL.textColor = [UIColor whiteColor];
+    defL.backgroundColor = [UIColor clearColor];
     defL.font = [UIFont boldSystemFontOfSize:13];
     defL.textAlignment = NSTextAlignmentCenter;
     defL.text = @"默认";
