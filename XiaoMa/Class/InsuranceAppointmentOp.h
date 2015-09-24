@@ -32,5 +32,6 @@
 @property (nonatomic, strong) NSString* req_driverpic;
 ///购买车险列表
 @property (nonatomic, strong) NSString* req_inslist;
-
+///商户邀请码
+@property (nonatomic, strong) NSString* req_invitecode;
 @end

@@ -18,7 +18,7 @@
 @end
 
 @interface DrivingLicenseHistoryView : UIView
-@property (nonatomic, readonly) NSArray *recordList;
+@property (nonatomic, strong) NSArray *recordList;
 @property (nonatomic, assign) NSInteger selectedRecordIndex;
 @property (nonatomic, weak) id<DrivingLicenseHistoryViewDelegate>delegate;
 

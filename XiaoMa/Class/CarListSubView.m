@@ -99,10 +99,10 @@
     [view addSubview:barV];
 
     //汽车商标
-    UIImageView *logoV = [[UIImageView alloc] initWithFrame:CGRectZero];
-    logoV.tag = 2002;
-    [view addSubview:logoV];
-    self.logoView = logoV;
+//    UIImageView *logoV = [[UIImageView alloc] initWithFrame:CGRectZero];
+//    logoV.tag = 2002;
+//    [view addSubview:logoV];
+//    self.logoView = logoV;
     
     //车牌
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -121,14 +121,16 @@
         make.right.equalTo(label.mas_right);
     }];
     
-    [logoV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(25, 25));
-        make.centerY.equalTo(label.mas_centerY);
-        make.left.equalTo(barV.mas_left);
-    }];
+//    [logoV mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.size.mas_equalTo(CGSizeMake(25, 25));
+//        make.centerY.equalTo(label.mas_centerY);
+//        make.left.equalTo(barV.mas_left);
+//    }];
     
+    [label setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(logoV.mas_right).offset(5);
+//        make.left.equalTo(logoV.mas_right).offset(5);
+        make.left.equalTo(barV.mas_left);
         make.height.mas_equalTo(30);
         make.top.equalTo(barV.mas_bottom).offset(4);
     }];

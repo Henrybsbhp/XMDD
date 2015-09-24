@@ -80,8 +80,8 @@
         }
         //爱车列表
         else if ([@"cl" equalByCaseInsensitive:name] && gAppMgr.myUser) {
-            if (![self popToViewControllerIfNeededByIdentify:@"MyCarListVC"]) {
-                UIViewController *vc = [UIStoryboard vcWithId:@"MyCarListVC" inStoryboard:@"Mine"];
+            if (![self popToViewControllerIfNeededByIdentify:@"CarListVC"]) {
+                UIViewController *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
             flag = YES;

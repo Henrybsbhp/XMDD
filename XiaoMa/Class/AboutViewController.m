@@ -26,14 +26,14 @@
     [super viewDidLoad];
     
 #ifdef DEBUG
-    self.datasource = @[@{@"title":@"用户服务协议",@"action":^(void){
-        [self serviceAgreement];
-    }},
-                        
+    self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
+                            [self gotoInstructions];
+                        }}, @{@"title":@"用户服务协议",@"action":^(void){
+                            [self serviceAgreement];
+                        }},
                         @{@"title":@"前往评价",@"action":^(void){
                             [self rateOurApp];
                         }},
-                        
                         @{@"title":@"意见反馈",@"action":^(void){
                             [self gotoFeedback];
                         }},
@@ -46,14 +46,15 @@
                             [self gotoTestWeb];
                         }}];
 #else
-    self.datasource = @[@{@"title":@"用户服务协议",@"action":^(void){
-        [self serviceAgreement];
-    }},
-                        
+    self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
+                            [self gotoInstructions];
+                        }},
+                        @{@"title":@"用户服务协议",@"action":^(void){
+                            [self serviceAgreement];
+                        }},
                         @{@"title":@"前往评价",@"action":^(void){
                             [self rateOurApp];
                         }},
-                        
                         @{@"title":@"意见反馈",@"action":^(void){
                             [self gotoFeedback];
                         }},
@@ -103,7 +104,6 @@
 
 }
 
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
     return 1;
@@ -147,6 +147,14 @@
     WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
     vc.title = @"服务协议";
     vc.url = @"http://www.xiaomadada.com/apphtml/license.html";
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)gotoInstructions
+{
+    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    vc.title = @"使用帮助";
+    vc.url = @"http://www.xiaomadada.com/apphtml/shiyongbangzhu.html";
     [self.navigationController pushViewController:vc animated:YES];
 }
 

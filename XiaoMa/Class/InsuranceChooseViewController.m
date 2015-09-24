@@ -51,6 +51,7 @@
         InsuranceAppointmentOp *op = [[InsuranceAppointmentOp alloc] init];
         op.req_idcard = self.idcard;
         op.req_driverpic = self.currentRecord.url;
+        op.req_invitecode = self.inviteCode;
         op.req_inslist = [[self inslistForVC] componentsJoinedByString:@"|"];
         @weakify(self);
         [[[op rac_postRequest] initially:^{

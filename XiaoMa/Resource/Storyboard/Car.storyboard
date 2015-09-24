@@ -277,8 +277,8 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="DDB-Le-r2e"/>
                                                     <exclude reference="7dW-ne-wWb"/>
+                                                    <exclude reference="DDB-Le-r2e"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
