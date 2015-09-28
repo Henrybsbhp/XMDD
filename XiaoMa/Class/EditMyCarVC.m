@@ -99,7 +99,7 @@
         _isEditingModel = NO;
     }
 
-    if (!_isEditingModel || !(self.curCar.editMask & HKCarEditableDelete)) {
+    if (self.model.allowAutoChangeSelectedCar || !_isEditingModel || !(self.curCar.editMask & HKCarEditableDelete)) {
         [self.bottomBar removeFromSuperview];
     }
     
@@ -144,7 +144,15 @@
         @strongify(self);
         [gToast showSuccess:@"保存成功!"];
         self.isDrivingLicenseNeedSave = NO;
-        [self.navigationController popViewControllerAnimated:YES];
+        if (self.model.finishBlock) {
+            self.model.finishBlock(self.curCar);
+        }
+        if (self.model.originVC) {
+            [self.navigationController popToViewController:self.model.originVC animated:YES];
+        }
+        else {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
@@ -156,11 +164,21 @@
     [MobClick event:@"312-13"];
 
     if (self.isEditingModel && ![self.curCar isDifferentFromAnother:self.originCar]) {
-        [self.navigationController popViewControllerAnimated:YES];
+        if (self.model.originVC) {
+            [self.navigationController popToViewController:self.model.originVC animated:YES];
+        }
+        else {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
         return;
     }
     if (!self.isEditingModel && !self.isDrivingLicenseNeedSave) {
-        [self.navigationController popViewControllerAnimated:YES];
+        if (self.model.originVC) {
+            [self.navigationController popToViewController:self.model.originVC animated:YES];
+        }
+        else {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
         return;
     }
     if (self.isEditingModel) {
