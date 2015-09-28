@@ -16,11 +16,7 @@
 #import "SystemFastrateGetOp.h"
 #import "SubmitCommentOp.h"
 
-typedef enum : NSUInteger {
-    BeforeComment,
-    Commenting,
-    Commented
-} CommentStatus;
+
 
 @interface PaymentSuccessVC ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
@@ -36,8 +32,6 @@ typedef enum : NSUInteger {
 
 @property (nonatomic,strong)NSArray * currentRateTemplate;
 
-@property (nonatomic)CommentStatus commentStatus;
-
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *heightConstraint;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offsetY1;
@@ -52,11 +46,15 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self.drawingView drawSuccessByFrame];
-    [self changeCollectionHeight];
-    [self changeOffset];
-    [self setupRateView];
-    [self setupUI:BeforeComment];
+    CKAsyncMainQueue(^{
+        [self.drawingView drawSuccessByFrame];
+        [self changeCollectionHeight];
+        [self changeOffset];
+        [self setupRateView];
+        
+        [self setupUI:self.commentStatus];
+    });
+    
     
     [self requestCommentlist];
 }
@@ -145,13 +143,19 @@ typedef enum : NSUInteger {
     }] subscribeNext:^(SubmitCommentOp *rspOp) {
         
         [gToast showSuccess:@"评价成功!"];
+        self.subLabel.text = @"评价成功!";
         [self setupUI:Commented];
+        self.order.ratetime = [NSDate date];
+        self.order.comment = rspOp.req_comment;
+        self.order.rating = rspOp.req_rating;
         self.collectionView.userInteractionEnabled = NO;
+        self.ratingView.userInteractionEnabled = NO;
     } error:^(NSError *error) {
         [gToast showError:error.domain];
         
         [self setupUI:Commented];
         self.collectionView.userInteractionEnabled = YES;
+        self.ratingView.userInteractionEnabled = YES;
     }];
 }
 
@@ -187,9 +191,9 @@ typedef enum : NSUInteger {
     CGFloat collectionViewheight = 25 * num + 5 * (num + 1);
     CGFloat height =   280 + collectionViewheight;
     height = MAX(height, gAppMgr.deviceInfo.screenSize.height);
-    CGSize scrollViewSize = CGSizeMake(gAppMgr.deviceInfo.screenSize.width, height);
+    CGSize scrollViewSize = CGSizeMake(gAppMgr.deviceInfo.screenSize.width/2, height);
     self.scrollView.contentSize = scrollViewSize;
-    
+
     switch (status) {
         case BeforeComment:
         {
@@ -295,6 +299,7 @@ typedef enum : NSUInteger {
     
     CGSize size = self.collectionView.contentSize;
     size.height = height;
+    size.width = gAppMgr.deviceInfo.screenSize.width;
     self.collectionView.contentSize = size;
 }
 
@@ -306,13 +311,21 @@ typedef enum : NSUInteger {
     self.offsetY2.constant =  self.offsetY2.constant * radio;
 //    self.offsetY3.constant =  self.offsetY3.constant * radio;
 //    self.offsetY4.constant =  self.offsetY4.constant * radio;
-    
 }
 
 - (void)requestCommentlist
 {
     if (gAppMgr.commentList.count)
+    {
+        for (NSArray * template in gAppMgr.commentList)
+        {
+            for (NSObject * obj in template)
+            {
+                obj.customTag = NO;
+            }
+        }
         return;
+    }
     SystemFastrateGetOp * op = [SystemFastrateGetOp operation];
     [[op rac_postRequest] subscribeNext:^(SystemFastrateGetOp * op) {
         
