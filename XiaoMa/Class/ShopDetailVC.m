@@ -284,6 +284,12 @@
         if (car && [car isCarInfoCompleted])
         {
             PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
+            if (self.couponFordetailsDic.conponType == CouponTypeCarWash || self.couponFordetailsDic.conponType == CouponTypeCZBankCarWash) {
+                [vc.selectCarwashCoupouArray addObject:self.couponFordetailsDic];
+            }
+            else if (self.couponFordetailsDic.conponType == CouponTypeCash) {
+                [vc.selectCashCoupouArray addObject:self.couponFordetailsDic];
+            }
             vc.originVC = self;
             vc.shop = self.shop;
             vc.service = service;
@@ -525,6 +531,7 @@
     businessHoursLb.text = [NSString stringWithFormat:@"营业时间：%@ - %@",self.shop.openHour,self.shop.closeHour];
     
     [statusL makeCornerRadius:3];
+    statusL.font = [UIFont boldSystemFontOfSize:11]; //ios6字体大小有问题
     if ([self isBetween:shop.openHour and:shop.closeHour]) {
         statusL.text = @"营业中";
         statusL.backgroundColor = HEXCOLOR(@"#1bb745");

@@ -11,8 +11,11 @@
 #import "JTShop.h"
 #import "HKNavigationHiddenVC.h"
 
+@class HKCoupon;
+
 @interface ShopDetailVC : HKNavigationHiddenVC
 
 @property (nonatomic, strong)JTShop * shop;
+@property (nonatomic, strong)HKCoupon * couponFordetailsDic;
 
 @end

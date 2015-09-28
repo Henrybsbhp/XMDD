@@ -52,7 +52,8 @@
             @strongify(self);
             //去洗车
             CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
-            vc.type = 1 ;
+            vc.type = 1;
+            vc.couponForWashDic = self.couponDic;
             [self.navigationController pushViewController:vc animated:YES];
 
         }];
@@ -79,6 +80,7 @@
                 //去洗车
                 CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
                 vc.type = 1 ;
+                vc.couponForWashDic = self.couponDic;
                 [self.navigationController pushViewController:vc animated:YES];
             }];
         }
@@ -263,7 +265,13 @@
         
         nolabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
         nolabel.layer.cornerRadius = 8.0f;
-        nolabel.backgroundColor = [UIColor colorWithHex:[NSString stringWithFormat:@"#%@", self.rgbStr] alpha:1.0f];
+        if (self.rgbStr.length > 0) {
+            NSString *strColor = [NSString stringWithFormat:@"#%@", self.rgbStr];
+            nolabel.backgroundColor = HEXCOLOR(strColor);
+        }
+        else {
+            nolabel.backgroundColor = [UIColor colorWithHex:@"#57C21F" alpha:1.0f];
+        }
         [nolabel.layer setMasksToBounds:YES];
         
         contentlabel.text = [self.couponDic.useguide safetyObjectAtIndex:indexPath.row];
