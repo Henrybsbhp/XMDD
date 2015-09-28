@@ -131,7 +131,7 @@
     paymentL.text = order.paydesc;
     [[RACObserve(order, ratetime) takeUntilForCell:cell] subscribeNext:^(id x) {
         [bottomB setTitle:order.ratetime ? @"已评价" : @"去评价" forState:UIControlStateNormal];
-        bottomB.enabled = !order.ratetime;
+        bottomB.userInteractionEnabled = !order.ratetime;
     }];
     @weakify(self);
     [[[bottomB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
