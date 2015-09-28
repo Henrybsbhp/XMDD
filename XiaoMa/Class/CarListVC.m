@@ -32,9 +32,11 @@
     // Do any additional setup after loading the view.
     [self setupScrollView];
     self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.scrollView delegate:self];
-    [self.loadingModel loadDataForTheFirstTime];
-    [self setupCarModel];
-    [self setupBottomView];
+    CKAsyncMainQueue(^{
+        [self.loadingModel loadDataForTheFirstTime];
+        [self setupCarModel];
+        [self setupBottomView];
+    });
 }
 
 

@@ -346,7 +346,7 @@
     else if (indexPath.row == 2) {
         [MobClick event:@"rp312-4"];
         [self.view endEditing:YES];
-        PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
+        PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Car"];
         vc.originVC = self;
         [vc setCompleted:^(NSString *brand, NSString *series) {
             self.curCar.brand = brand;
@@ -358,7 +358,7 @@
     else if (indexPath.row == 3) {
         [MobClick event:@"rp312-5"];
         [self.view endEditing:YES];
-        PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
+        PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Car"];
         vc.originVC = self;
         [vc setCompleted:^(NSString *brand, NSString *series) {
             self.curCar.brand = brand;
@@ -414,6 +414,8 @@
         field.text = car.licenceSuffix;
         unitL.text = nil;
         fieldEditable = car.editMask & HKCarEditableEdit;
+        paramView.userInteractionEnabled = fieldEditable;
+        field.userInteractionEnabled = fieldEditable;
         [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             car.licenceSuffix = [x uppercaseString];
         }];
