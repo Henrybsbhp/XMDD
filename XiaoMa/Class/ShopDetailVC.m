@@ -285,15 +285,19 @@
         {
             PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
             if (self.couponFordetailsDic.conponType == CouponTypeCarWash || self.couponFordetailsDic.conponType == CouponTypeCZBankCarWash) {
+                vc.selectCarwashCoupouArray = vc.selectCarwashCoupouArray ? vc.selectCarwashCoupouArray : [NSMutableArray array];
                 [vc.selectCarwashCoupouArray addObject:self.couponFordetailsDic];
             }
             else if (self.couponFordetailsDic.conponType == CouponTypeCash) {
+                
+                vc.selectCashCoupouArray = vc.selectCashCoupouArray ? vc.selectCashCoupouArray : [NSMutableArray array];
                 [vc.selectCashCoupouArray addObject:self.couponFordetailsDic];
             }
             vc.originVC = self;
             vc.shop = self.shop;
             vc.service = service;
             vc.defaultCar = car;
+            vc.isAutoCouponSelect = YES;
             [self.navigationController pushViewController:vc animated:YES];
         }
         else if (car) {

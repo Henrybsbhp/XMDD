@@ -27,6 +27,8 @@
 @property (nonatomic,strong)NSMutableArray * selectCarwashCoupouArray;
 @property (nonatomic,strong)NSMutableArray * selectCashCoupouArray;
 
+@property (nonatomic)BOOL isAutoCouponSelect;
+
 
 @property (nonatomic)BOOL needChooseResource;
 
