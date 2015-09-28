@@ -142,8 +142,7 @@
              [self actionMakeCall:x];
          }
     }];
-
-    cell.separatorInset = UIEdgeInsetsZero;
+    cell.customSeparatorInset = UIEdgeInsetsMake(-1, 0, 0, 0);
     return cell;
 }
 

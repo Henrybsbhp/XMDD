@@ -321,6 +321,7 @@
     addrL.text = shop.shopAddress;
     
     [statusL makeCornerRadius:3];
+    statusL.font = [UIFont boldSystemFontOfSize:11];
     if ([self isBetween:shop.openHour and:shop.closeHour]) {
         statusL.text = @"营业中";
         statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
@@ -413,6 +414,7 @@
     else
         [MobClick event:@"rp102-3"];
     ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
+    vc.couponFordetailsDic = self.couponForWashDic;
     vc.hidesBottomBarWhenPushed = YES;
     vc.shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
     [self.navigationController pushViewController:vc animated:YES];
