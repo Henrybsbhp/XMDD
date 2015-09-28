@@ -204,7 +204,9 @@
     }];
     if (!self.phoneField) {
         self.phoneField = phoneField;
+        phoneField.text = gAppMgr.myUser.phoneNumber;
         self.smsModel.phoneField = phoneField;
+        vcodeButton.enabled = phoneField.text.length == 11;
         phoneField.delegate = self;
     }
     

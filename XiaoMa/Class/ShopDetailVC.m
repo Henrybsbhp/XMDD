@@ -268,6 +268,18 @@
         
         return [RACSignal return:nil];
     }] subscribeNext:^(HKMyCar *car) {
+        PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
+        vc.originVC = self;
+        vc.shop = self.shop;
+        vc.service = service;
+        vc.defaultCar = [car isCarInfoCompleted] ? car : nil;
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    return;
+    [[[gAppMgr.myUser.carModel rac_getDefaultCar] catch:^RACSignal *(NSError *error) {
+        
+        return [RACSignal return:nil];
+    }] subscribeNext:^(HKMyCar *car) {
 
         if (car && [car isCarInfoCompleted])
         {
