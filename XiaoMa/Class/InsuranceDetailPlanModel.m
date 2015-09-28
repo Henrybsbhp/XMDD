@@ -288,20 +288,13 @@
     // customFlag 为险种是否勾选
     CGFloat total = 0;
     CGFloat price = 0;
-    CGFloat excludingDeductible = 0;
+//    CGFloat excludingDeductible = 0;
     for (HKCoverage * c in self.insuranceArry)
     {
         if (c.customTag)
         {
             price = [self.calcHelper calcInsurancePrice:c];
             total = total + price;
-            
-            if (c.excludingDeductibleCoverage &&
-                c.excludingDeductibleCoverage.customTag){
-                
-                excludingDeductible = [self.calcHelper calcInsurancePrice:c.excludingDeductibleCoverage];
-                total = total + excludingDeductible;
-            }
         }
     }
     self.totalPrice = total;
@@ -385,13 +378,6 @@
         {
             NSString * s = [NSString stringWithFormat:@"%@@%@@%.2f",c.insId,c.insName,[self.calcHelper calcInsurancePrice:c]];
             [array safetyAddObject:s];
-            
-            if (c.excludingDeductibleCoverage &&
-                c.excludingDeductibleCoverage.customTag){
-                
-                NSString * s2 = [NSString stringWithFormat:@"%@@%@@%f",c.insId,c.insName,[self.calcHelper calcInsurancePrice:c]];
-                [array safetyAddObject:s2];
-            }
         }
     }
     
