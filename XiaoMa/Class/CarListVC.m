@@ -144,11 +144,9 @@
     }
     
     NSInteger index = NSNotFound;
+    
     if (self.model.currentCar) {
         index = [self.loadingModel.datasource indexOfObject:self.model.currentCar];
-    }
-    if (index == NSNotFound && self.model.selectedCar) {
-        index = [self.loadingModel.datasource indexOfObject:self.model.selectedCar];
     }
     if (index == NSNotFound) {
         index = 0;
@@ -171,10 +169,49 @@
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
-    if (self.model.finishBlock) {
-        self.model.finishBlock(self.model.selectedCar);
+    //如果爱车信息不完整
+    if (self.model.allowAutoChangeSelectedCar && self.model.selectedCar && ![self.model.selectedCar isCarInfoCompleted]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您的爱车信息不完整，是否现在完善？"
+                                                       delegate:nil cancelButtonTitle:@"放弃" otherButtonTitles:@"去完善", nil];
+        [alert show];
+        @weakify(self);
+        [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *x) {
+            @strongify(self);
+            //放弃
+            if ([x integerValue] == 0) {
+                if (self.model.originVC) {
+                    [self.navigationController popToViewController:self.model.originVC animated:YES];
+                }
+                else {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            }
+            else {
+                EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Car"];
+                vc.originCar = self.model.selectedCar;
+                vc.model = self.model;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        }];
     }
+    else {
+        if (self.model.originVC) {
+            [self.navigationController popToViewController:self.model.originVC animated:YES];
+        }
+        else {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        if (self.model.finishBlock) {
+            self.model.finishBlock(self.model.selectedCar);
+        }
+    }
+}
+
+- (IBAction)actionAddCar:(id)sender
+{
+    [MobClick event:@"rp309-1"];
+    EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Car"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Reload
@@ -246,34 +283,22 @@
     }];
 }
 
-#pragma mark - Action
-- (IBAction)actionAddCar:(id)sender
-{
-    [MobClick event:@"rp309-1"];
-    EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Car"];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
     HKMyCar *car = [self.loadingModel.datasource safetyObjectAtIndex:[self.scrollView currentPage]];
+    self.model.currentCar = car;
     if (self.model.allowAutoChangeSelectedCar) {
         self.model.selectedCar = car;
-    }
-    else {
-        self.model.currentCar = car;
     }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     HKMyCar *car = [self.loadingModel.datasource safetyObjectAtIndex:[self.scrollView currentPage]];
+    self.model.currentCar = car;
     if (self.model.allowAutoChangeSelectedCar) {
         self.model.selectedCar = car;
-    }
-    else {
-        self.model.currentCar = car;
     }
 }
 
@@ -316,13 +341,23 @@
 
 - (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
 {
-    HKMyCar *selectedCar = [gAppMgr.myUser.carModel getDefalutCar];
-    if (!self.model.selectedCar || !self.model.allowAutoChangeSelectedCar) {
-        if (![selectedCar isEqual:self.model.selectedCar]) {
-            self.model.currentCar = selectedCar;
+    HKMyCar *defCar = [gAppMgr.myUser.carModel getDefalutCar];
+    if (self.model.allowAutoChangeSelectedCar) {
+        BOOL currentCarValid = self.model.currentCar ? [model.datasource containsObject:self.model.currentCar] : NO;
+        if (currentCarValid && ![self.model.currentCar isEqual:self.model.selectedCar]) {
+            self.model.selectedCar = self.model.currentCar;
+        }
+        else {
+            self.model.selectedCar = defCar;
+            self.model.currentCar = defCar;
         }
     }
-    self.model.selectedCar = selectedCar;
+    else {
+        self.model.currentCar = defCar;
+        if (![defCar isEqual:self.model.selectedCar]) {
+            self.model.selectedCar = defCar;
+        }
+    }
     if (model.datasource.count >= 5) {
         [self.navigationItem setRightBarButtonItem:nil animated:NO];
     }
