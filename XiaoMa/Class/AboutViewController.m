@@ -54,10 +54,18 @@
                         @{@"title":@"网页跳转",@"action":^(void){
                             
                             [self gotoTestWeb];
+                        }},
+                        @{@"title":@"环境切换",@"action":^(void){
+                            
+                            [self switchSurrounding];
                         }}];
 #else
     self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
                             [self gotoInstructions];
+                        }},
+                        
+                        @{@"title":@"推荐App给好友",@"action":^(void){
+                            [self shareApp];
                         }},
                         
                         @{@"title":@"用户服务协议",@"action":^(void){
@@ -75,10 +83,6 @@
                         @{@"title":@"客服电话4007-111-111",@"action":^(void){
                             
                             [self callCustomerService];
-                        }},
-                        
-                        @{@"title":@"使用帮助",@"action":^(void){
-                            [self helpWebPage];
                         }}];
 #endif
     
@@ -232,6 +236,11 @@
         }
         
     }];
+}
+
+- (void)switchSurrounding
+{
+    gAppMgr.isSwitchToFormalSurrounding = !gAppMgr.isSwitchToFormalSurrounding;
 }
 
 @end

@@ -207,14 +207,23 @@
                                                             </attributedString>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <imageView userInteractionEnabled="NO" tag="20303" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="award_used" translatesAutoresizingMaskIntoConstraints="NO" id="XEy-2S-avE">
+                                                            <rect key="frame" x="195" y="35" width="90" height="70"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="90" id="F2t-eT-qlt"/>
+                                                                <constraint firstAttribute="height" constant="70" id="ceM-bJ-Rds"/>
+                                                            </constraints>
+                                                        </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="centerX" secondItem="XEy-2S-avE" secondAttribute="centerX" id="GWi-B8-mOc"/>
                                                         <constraint firstItem="BzH-uc-yq7" firstAttribute="top" secondItem="MgA-iQ-21m" secondAttribute="top" id="Mny-zn-AgJ"/>
                                                         <constraint firstAttribute="centerX" secondItem="2e5-9j-JLd" secondAttribute="centerX" id="Nm7-Yx-9d0"/>
                                                         <constraint firstItem="BzH-uc-yq7" firstAttribute="leading" secondItem="MgA-iQ-21m" secondAttribute="leading" id="Oo3-8o-j3G"/>
                                                         <constraint firstAttribute="centerY" secondItem="2e5-9j-JLd" secondAttribute="centerY" id="PIR-Jh-0pj"/>
                                                         <constraint firstAttribute="trailing" secondItem="BzH-uc-yq7" secondAttribute="trailing" id="dQ1-5s-avg"/>
+                                                        <constraint firstAttribute="centerY" secondItem="XEy-2S-avE" secondAttribute="centerY" constant="-0.5" id="fce-Wn-bqN"/>
                                                         <constraint firstAttribute="bottom" secondItem="BzH-uc-yq7" secondAttribute="bottom" id="j2s-ec-wjy"/>
                                                     </constraints>
                                                 </view>
@@ -366,6 +375,7 @@
         <image name="award_bg_375" width="375" height="603"/>
         <image name="award_coupon_bg" width="296" height="146"/>
         <image name="award_element1" width="153" height="153"/>
+        <image name="award_used" width="90" height="70"/>
         <image name="coupon_more" width="17" height="17"/>
     </resources>
 </document>

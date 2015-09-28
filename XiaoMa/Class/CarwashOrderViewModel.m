@@ -11,6 +11,7 @@
 #import "GetCarwashOrderListOp.h"
 #import "CarwashOrderDetailVC.h"
 #import "CarwashOrderCommentVC.h"
+#import "PaymentSuccessVC.h"
 
 @interface CarwashOrderViewModel ()<HKLoadingModelDelegate>
 
@@ -72,11 +73,8 @@
 #pragma mark - Action
 - (void)actionCommentForOrder:(HKServiceOrder *)order
 {
-    CarwashOrderCommentVC *vc = [UIStoryboard vcWithId:@"CarwashOrderCommentVC" inStoryboard:@"Mine"];
+    PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
     vc.order = order;
-    [vc setCustomActionBlock:^{
-        //[self.tableView.refreshView beginRefreshing];
-    }];
     [self.targetVC.navigationController pushViewController:vc animated:YES];
 }
 

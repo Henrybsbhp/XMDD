@@ -32,6 +32,9 @@
 - (void)animateToTargetValue;
 - (void)noAnimateToTargetValue;
 
+- (void)setupInsuranceArray;
+- (void)setupSelectIns;
+- (void)calcTotalPrice;
 // 获取inslist，/insurance/appointment接口需要
 - (NSArray *)inslistForVC;
 @end
