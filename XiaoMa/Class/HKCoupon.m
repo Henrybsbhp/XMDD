@@ -30,7 +30,7 @@
     coupon.conponType = (CouponType)[rsp integerParamForName:@"type"];
     coupon.rgbColor = [rsp stringParamForName:@"rgb"];
     coupon.logo = [rsp stringParamForName:@"logo"];
-    coupon.subname = rsp[@"subname"];
+    coupon.subname = [rsp stringParamForName:@"subname"];
     return coupon;
 }
 
