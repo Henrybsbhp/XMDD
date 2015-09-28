@@ -57,7 +57,6 @@
     [self setupBottomView];
     
     self.isLoadingResourse = YES;
-    [self requestGetUserResource];
     
     self.selectCarwashCoupouArray = self.selectCarwashCoupouArray ? self.selectCarwashCoupouArray :[NSMutableArray array];
     self.selectCashCoupouArray = self.selectCashCoupouArray ? self.selectCashCoupouArray : [NSMutableArray array];
@@ -65,10 +64,13 @@
     self.checkoutServiceOrderV3Op = [[CheckoutServiceOrderV3Op alloc] init];
     self.checkoutServiceOrderV3Op.paychannel = PaymentChannelAlipay;
     
-    if ((!self.selectCarwashCoupouArray.count) && (!self.selectCashCoupouArray.count))
+    [self requestGetUserResource];
+    if (!self.isAutoCouponSelect)
     {
         [self selectDefaultCoupon];
     }
+    
+    self.isAutoCouponSelect = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -728,11 +730,13 @@
 {
     [[gAppMgr.myUser.couponModel rac_getVaildResource] subscribeNext:^(GetUserResourcesV2Op * op) {
         
-        
         self.isLoadingResourse = NO;
         
-        [self selectDefaultCoupon];
-        [self autoSelectBankCard];
+        if (self.isAutoCouponSelect)
+        {
+            [self selectDefaultCoupon];
+            [self autoSelectBankCard];
+        }
         
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
