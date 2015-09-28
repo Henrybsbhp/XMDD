@@ -280,11 +280,10 @@
     
     tempLb.text = temp;
     restrictionLb.text = restriction;
-    tipLb.text = tip;
     
-    if(tipLb.text.length)
+    if(tip.length > 0)
     {
-        [self setupLineSpace:tipLb];
+        [self setupLineSpace:tipLb withText:tip];
     }
 }
 
@@ -302,12 +301,10 @@
         restrictionLb.text = text;
     }];
     
-    [RACObserve(gAppMgr, temperaturetip) subscribeNext:^(id x) {
-        tipLb.text = x;
+    [RACObserve(gAppMgr, temperaturetip) subscribeNext:^(NSString *text) {
         
-        if(tipLb.text.length)
-        {
-            [self setupLineSpace:tipLb];
+        if (text.length > 0) {
+            [self setupLineSpace:tipLb withText:text];
         }
     }];
     
@@ -503,16 +500,20 @@
     return btn;
 }
 
-- (void)setupLineSpace:(UILabel *)label
+- (void)setupLineSpace:(UILabel *)label withText:(NSString *)text
 {
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:label.text];
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    
-    [paragraphStyle setLineSpacing:5];//调整行间距
-    
-    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [label.text length])];
-    label.attributedText = attributedString;
-    [label sizeToFit];
+    if (IOSVersionGreaterThanOrEqualTo(@"7.0")) {
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text];
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        
+        [paragraphStyle setLineSpacing:5];//调整行间距
+        
+        [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [label.text length])];
+        label.attributedText = attributedString;
+    }
+    else {
+        label.text = text;
+    }
 }
 
 @end

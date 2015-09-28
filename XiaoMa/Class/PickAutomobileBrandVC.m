@@ -33,6 +33,7 @@
 
 - (void)dealloc
 {
+    self.fetchCtrl = nil;
     NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
     DebugLog(deallocInfo);
 }
@@ -40,6 +41,10 @@
 - (void)reloadDatasource
 {
     [self.fetchCtrl performFetch:nil];
+    if (!self.tableView.dataSource) {
+        self.tableView.dataSource = self;
+        self.tableView.delegate = self;
+    }
     @weakify(self);
     [[[self.autoModel rac_updateAutoBrand] initially:^{
         @strongify(self);
@@ -74,13 +79,13 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    id<NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchCtrl sections] objectAtIndex:section];
+    id<NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchCtrl sections] safetyObjectAtIndex:section];
     return [sectionInfo numberOfObjects];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    id<NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchCtrl sections] objectAtIndex:section];
+    id<NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchCtrl sections] safetyObjectAtIndex:section];
     return [sectionInfo indexTitle];
 }
 
@@ -97,7 +102,7 @@
     AutoBrand *brand = [self.fetchCtrl objectAtIndexPath:indexPath];
     
     titleL.text = brand.name;
-    [logoV setImageByUrl:brand.logo withType:ImageURLTypeOrigin defImage:@"cm_logo_def" errorImage:@"cm_logo_def"];
+    [logoV setImageByUrl:brand.logo withType:ImageURLTypeThumbnail defImage:@"cm_logo_def" errorImage:@"cm_logo_def"];
     return cell;
 }
 
@@ -105,7 +110,7 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     AutoBrand *brand = [self.fetchCtrl objectAtIndexPath:indexPath];
-    PickerAutoSeriesVC *vc = [UIStoryboard vcWithId:@"PickerAutoSeriesVC" inStoryboard:@"Mine"];
+    PickerAutoSeriesVC *vc = [UIStoryboard vcWithId:@"PickerAutoSeriesVC" inStoryboard:@"Car"];
     vc.brandid = brand.brandid;
     vc.brandName = brand.name;
     vc.originVC = self.originVC;

@@ -284,7 +284,7 @@
     
     UILabel *textL2 = [[UILabel alloc] initWithFrame:CGRectZero];
     textL2.tag = 3021;
-    textL1.backgroundColor = [UIColor clearColor];
+    textL2.backgroundColor = [UIColor clearColor];
     textL2.textAlignment = NSTextAlignmentCenter;
     textL2.numberOfLines = 0;
     textL2.textColor = [UIColor whiteColor];
