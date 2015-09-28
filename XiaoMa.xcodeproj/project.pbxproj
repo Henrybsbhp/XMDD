@@ -391,6 +391,7 @@
 		6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BF1AE24DCE000D19C1 /* RSADataVerifier.m */; };
 		6BEDB0421BA66242009A8C3F /* InsuranceDetailPlanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDB0411BA66242009A8C3F /* InsuranceDetailPlanModel.m */; };
 		6BEDB0461BA666D4009A8C3F /* CCSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDB0451BA666D4009A8C3F /* CCSegmentedControl.m */; };
+		6BF7F7311BB39A4100A24A32 /* NSString+Price.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF7F7301BB39A4100A24A32 /* NSString+Price.m */; };
 		C23FCAB81AF8B8C900E04BEB /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C23FCAB71AF8B8C900E04BEB /* TencentOpenAPI.framework */; };
 		C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */; };
 		C26489B41AF8A70A00F1E318 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C26489B31AF8A70A00F1E318 /* libiconv.dylib */; };
@@ -1221,6 +1222,8 @@
 		6BEDB0411BA66242009A8C3F /* InsuranceDetailPlanModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceDetailPlanModel.m; sourceTree = "<group>"; };
 		6BEDB0441BA666D4009A8C3F /* CCSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSegmentedControl.h; sourceTree = "<group>"; };
 		6BEDB0451BA666D4009A8C3F /* CCSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCSegmentedControl.m; sourceTree = "<group>"; };
+		6BF7F72F1BB39A4100A24A32 /* NSString+Price.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Price.h"; path = "Class/NSString+Price.h"; sourceTree = "<group>"; };
+		6BF7F7301BB39A4100A24A32 /* NSString+Price.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Price.m"; path = "Class/NSString+Price.m"; sourceTree = "<group>"; };
 		B54A6CD3F3426144CC6768CC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C23FCAB71AF8B8C900E04BEB /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = ../QQSDK/TencentOpenAPI.framework; sourceTree = "<group>"; };
 		C25DF9741AFCA7D3009C4041 /* MyCouponVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCouponVC.h; sourceTree = "<group>"; };
@@ -1358,6 +1361,8 @@
 		1816F4B11ACE762900BBCC96 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				6BF7F72F1BB39A4100A24A32 /* NSString+Price.h */,
+				6BF7F7301BB39A4100A24A32 /* NSString+Price.m */,
 				6BBF7DA71B00C9C200E45967 /* UIImage+Utilities.h */,
 				6BBF7DA81B00C9C200E45967 /* UIImage+Utilities.mm */,
 				6BB61BA11AEF7CAE004F39AA /* NSString+RectSize.h */,
@@ -3240,6 +3245,7 @@
 				6BCA5F401B102A3700E1E630 /* HKCouponPkg.m in Sources */,
 				189B30B01AD4D661001D7288 /* JTTableViewController.m in Sources */,
 				189B395B1AF9A9E500B83F1B /* EditMyCarVC.m in Sources */,
+				6BF7F7311BB39A4100A24A32 /* NSString+Price.m in Sources */,
 				1853DED11AE2971500C39175 /* ResetPasswordVC.m in Sources */,
 				1883D9331ACCDA8B002A4D19 /* DefaultStyleModel.m in Sources */,
 				6BE4CE311AF217BC008E1C19 /* GetUserCouponOp.m in Sources */,

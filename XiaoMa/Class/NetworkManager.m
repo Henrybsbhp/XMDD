@@ -27,7 +27,7 @@ static NetworkManager *g_networkManager;
     if (self) {
         self.simulateResponse = NO;
         self.simulateResponseDelay = 0.2;
-        _apiServer = ApiBaseUrl;
+        _apiServer = (!gAppMgr.isSwitchToFormalSurrounding ) ? ApiBaseUrl : ApiFormalUrl;
         NSURL * url = [NSURL URLWithString:_apiServer];
         _apiManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
         _apiManager.requestSerializer = [AFJSONRequestSerializer serializer];

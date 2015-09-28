@@ -13,6 +13,9 @@
 
 @interface GainedViewController ()
 
+@property (weak, nonatomic) IBOutlet UIImageView *awardBgView;
+@property (weak, nonatomic) IBOutlet UILabel *awardLb;
+
 @end
 
 @implementation GainedViewController
@@ -96,6 +99,7 @@
     UILabel * leftDayLb = (UILabel *)[cell searchViewWithTag:102];
     UIImageView * couponBgView = (UIImageView *)[cell searchViewWithTag:20301];
     UILabel * amountLb = (UILabel *)[cell searchViewWithTag:20302];
+    UIImageView * usedView = (UIImageView *)[cell searchViewWithTag:20303];
     UIButton * checkCouponBtn = (UIButton *)[cell searchViewWithTag:104];
     UIButton * shareBtn = (UIButton *)[cell searchViewWithTag:105];
     UILabel * noteLb = (UILabel *)[cell searchViewWithTag:106];
@@ -104,15 +108,16 @@
     NSString * imageName = [NSString stringWithFormat:@"award_bg_%ld",(long)deviceWidth];
     bgView.image = [UIImage imageNamed:imageName];
     
-    UIImage * bgImg = [[UIImage imageNamed:@"award_coupon_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];
+    UIImage * bgImg = [(self.isCouponUsed ? [UIImage imageNamed:@"award_coupon_used_bg"] : [UIImage imageNamed:@"award_coupon_bg"]) resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];
     couponBgView.image = bgImg;
     
-    if (self.leftDay > 0)
-    {
+    usedView.hidden = !self.isCouponUsed;
+    amountLb.textColor = self.isCouponUsed ? [UIColor whiteColor] : [UIColor colorWithHex:@"#e7473e" alpha:1.0f];
+    
+    if (self.leftDay > 0){
         leftDayLb.text = [NSString stringWithFormat:@"您已领取礼券，%ld天后再来领取吧！",(long)self.leftDay];
     }
-    else
-    {
+    else{
         leftDayLb.text = [NSString stringWithFormat:@"%@",self.tip];
     }
     
