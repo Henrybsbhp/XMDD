@@ -56,8 +56,6 @@
             
             @strongify(self);
             InsuranceDetailPlanVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceDetailPlanVC"];
-            [self.navigationController pushViewController:vc animated:YES];
-            
             NSMutableArray * array = [NSMutableArray arrayWithArray:rspOp.rsp_insuraceArray];
             HKInsurance * ins = [[HKInsurance alloc] init];
             ins.insuranceName = @"自选";
@@ -65,6 +63,7 @@
             
             vc.calculatorOp = rspOp;
             vc.planArray = array;
+            [self.navigationController pushViewController:vc animated:YES];
             [gToast dismiss];
         } error:^(NSError *error) {
             [gToast showError:error.domain];

@@ -12,7 +12,8 @@
 typedef enum : NSUInteger {
     BeforeComment,
     Commenting,
-    Commented
+    Commented,
+    CommentError
 } CommentStatus;
 
 @interface PaymentSuccessVC : UIViewController
@@ -24,4 +25,7 @@ typedef enum : NSUInteger {
 @property (nonatomic,strong)HKServiceOrder * order;
 
 @property (nonatomic)CommentStatus commentStatus;
+
+@property (nonatomic, copy) void (^commentSuccess)(void);
+
 @end

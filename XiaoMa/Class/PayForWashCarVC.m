@@ -59,13 +59,16 @@
     self.isLoadingResourse = YES;
     [self requestGetUserResource];
     
-    self.selectCarwashCoupouArray = [NSMutableArray array];
-    self.selectCashCoupouArray = [NSMutableArray array];
+    self.selectCarwashCoupouArray = self.selectCarwashCoupouArray ? self.selectCarwashCoupouArray :[NSMutableArray array];
+    self.selectCashCoupouArray = self.selectCashCoupouArray ? self.selectCashCoupouArray : [NSMutableArray array];
     ///一开始设置支付宝，保证可用资源获取失败的时候能够正常默认选择
     self.checkoutServiceOrderV3Op = [[CheckoutServiceOrderV3Op alloc] init];
     self.checkoutServiceOrderV3Op.paychannel = PaymentChannelAlipay;
     
-    [self selectDefaultCoupon];
+    if ((!self.selectCarwashCoupouArray.count) && (!self.selectCashCoupouArray.count))
+    {
+        [self selectDefaultCoupon];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -686,7 +689,7 @@
     }];
     
     if ((indexPath.row == 1 && self.checkoutServiceOrderV3Op.paychannel == PaymentChannelXMDDCreditCard) ||
-        (indexPath.row == 2 && self.checkoutServiceOrderV3Op.paychannel == PaymentChannelWechat)||
+        (indexPath.row == 2 && self.checkoutServiceOrderV3Op.paychannel == PaymentChannelAlipay)||
         (indexPath.row == 3 && self.checkoutServiceOrderV3Op.paychannel == PaymentChannelWechat))
     {
         if (indexPath.row == 1){
