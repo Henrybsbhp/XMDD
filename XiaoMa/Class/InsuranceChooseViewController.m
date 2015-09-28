@@ -236,8 +236,10 @@
             
             if (coverage.excludingDeductibleCoverage)
             {
+                HKCoverage * subCoverage = coverage.excludingDeductibleCoverage;
                 if (coverage.customTag == YES)
                 {
+                    subCoverage.customTag = [self needSelectExcludingDeductible:subCoverage];
                     NSInteger index = [self.insuranceArry indexOfObject:coverage];
                     [self.insuranceArry safetyInsertObject:coverage.excludingDeductibleCoverage atIndex:index + 1];
                     NSIndexPath * idxPath = [NSIndexPath indexPathForRow:index + 1 inSection:indexPath.section];
@@ -296,8 +298,10 @@
             
             if (coverage.excludingDeductibleCoverage)
             {
+                HKCoverage * subCoverage = coverage.excludingDeductibleCoverage;
                 if (coverage.customTag == YES)
                 {
+                    subCoverage.customTag = [self needSelectExcludingDeductible:subCoverage];
                     NSInteger index = [self.insuranceArry indexOfObject:coverage];
                     [self.insuranceArry safetyInsertObject:coverage.excludingDeductibleCoverage atIndex:index + 1];
                     NSIndexPath * idxPath = [NSIndexPath indexPathForRow:index + 1 inSection:indexPath.section];
@@ -358,16 +362,26 @@
         {
             NSString * s = [NSString stringWithFormat:@"%@@%@@0",c.insId,c.insName];
             [array safetyAddObject:s];
-            
-            if (c.excludingDeductibleCoverage &&
-                c.excludingDeductibleCoverage.customTag){
-                
-                NSString * s2 = [NSString stringWithFormat:@"%@@%@@0",c.insId,c.insName];
-                [array safetyAddObject:s2];
-            }
         }
     }
     //    NSString * inslist = [array componentsJoinedByString:@"|"];
     return array;
+}
+
+#pragma mark - Utility
+- (BOOL)needSelectExcludingDeductible:(HKCoverage *)c
+{
+    if (c.insCategory == InsuranceExcludingDeductible4CarDamage ||
+        c.insCategory == InsuranceExcludingDeductible4ThirdPartyLiability ||
+        c.insCategory == InsuranceExcludingDeductible4CarSeatInsuranceOfDriver ||
+        c.insCategory == InsuranceExcludingDeductible4CarSeatInsuranceOfPassenger)
+    {
+        return YES;
+    }
+    else if (c.insCategory == InsuranceExcludingDeductible4WholeCarStolen)
+    {
+        return NO;
+    }
+    return c.customTag;
 }
 @end

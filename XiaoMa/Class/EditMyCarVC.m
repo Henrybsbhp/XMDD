@@ -398,6 +398,10 @@
     JTTableViewCell *cell = (JTTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"LicenceCell" forIndexPath:indexPath];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
+    [field mas_updateConstraints:^(MASConstraintMaker *make) {
+       
+        make.width.mas_equalTo(200);
+    }];
     UILabel *unitL = (UILabel *)[cell.contentView viewWithTag:1003];
     ProvinceChooseView * paramView = (ProvinceChooseView * )[cell searchViewWithTag:1004];
 

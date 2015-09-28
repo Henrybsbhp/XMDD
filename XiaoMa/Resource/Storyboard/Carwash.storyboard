@@ -1826,7 +1826,7 @@
                                         </constraints>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="v8v-Mj-dz7">
-                                        <rect key="frame" x="350" y="122" width="621" height="1"/>
+                                        <rect key="frame" x="350" y="122" width="215" height="1"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="mnt-cY-N2G"/>
                                         </constraints>
@@ -1970,6 +1970,7 @@
                                     <constraint firstItem="9Dh-GA-jQE" firstAttribute="leading" secondItem="jQh-lD-N0K" secondAttribute="leading" constant="35" id="Vt2-XF-1G9"/>
                                     <constraint firstAttribute="centerX" secondItem="7JX-cm-TcH" secondAttribute="centerX" id="Xir-Q5-mwz"/>
                                     <constraint firstAttribute="centerX" secondItem="6v6-Zv-gFS" secondAttribute="centerX" id="aCq-n3-vYm"/>
+                                    <constraint firstItem="v8v-Mj-dz7" firstAttribute="width" secondItem="vCu-TD-JYR" secondAttribute="width" id="bgu-pH-5ET"/>
                                     <constraint firstItem="v8v-Mj-dz7" firstAttribute="centerY" secondItem="5gd-5a-eXz" secondAttribute="centerY" id="bqj-HR-66R"/>
                                     <constraint firstItem="5gd-5a-eXz" firstAttribute="top" secondItem="SuS-kw-wbC" secondAttribute="bottom" constant="10" id="d38-iX-D4Y"/>
                                     <constraint firstAttribute="centerX" secondItem="aue-e5-Lnk" secondAttribute="centerX" id="d91-1H-U7c"/>
@@ -1993,6 +1994,7 @@
                                     <mask key="constraints">
                                         <exclude reference="318-Rl-m5X"/>
                                         <exclude reference="xYa-TH-9Jy"/>
+                                        <exclude reference="oVn-t6-b3J"/>
                                     </mask>
                                 </variation>
                             </scrollView>

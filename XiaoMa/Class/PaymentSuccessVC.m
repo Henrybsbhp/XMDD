@@ -150,10 +150,15 @@
         self.order.rating = rspOp.req_rating;
         self.collectionView.userInteractionEnabled = NO;
         self.ratingView.userInteractionEnabled = NO;
+        
+        if (self.commentSuccess)
+        {
+            [self commentSuccess];
+        }
     } error:^(NSError *error) {
         [gToast showError:error.domain];
         
-        [self setupUI:Commented];
+        [self setupUI:CommentError];
         self.collectionView.userInteractionEnabled = YES;
         self.ratingView.userInteractionEnabled = YES;
     }];
@@ -191,7 +196,7 @@
     CGFloat collectionViewheight = 25 * num + 5 * (num + 1);
     CGFloat height =   280 + collectionViewheight;
     height = MAX(height, gAppMgr.deviceInfo.screenSize.height);
-    CGSize scrollViewSize = CGSizeMake(gAppMgr.deviceInfo.screenSize.width/2, height);
+    CGSize scrollViewSize = CGSizeMake(gAppMgr.deviceInfo.screenSize.width, height);
     self.scrollView.contentSize = scrollViewSize;
 
     switch (status) {
@@ -206,6 +211,15 @@
             break;
         }
         case Commenting:
+        {
+            self.commentLb.hidden = YES;
+            self.textView.hidden = NO;
+            self.commentBtn.hidden = NO;
+            self.recommendBtn.hidden = YES;
+            self.collectionView.hidden = NO;
+            break;
+        }
+        case CommentError:
         {
             self.commentLb.hidden = YES;
             self.textView.hidden = NO;
