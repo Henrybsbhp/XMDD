@@ -15,6 +15,7 @@
 #import "InsuranceOrderPayOp.h"
 #import "InsuranceResultVC.h"
 #import "PaymentHelper.h"
+#import "InsuranceOrderPaidSuccessOp.h"
 
 #define CheckBoxDiscountGroup @"CheckBoxDiscountGroup"
 #define CheckBoxPlatformGroup @"CheckBoxPlatformGroup"
@@ -36,7 +37,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [self setupCheckBoxHelper];
     [self setupBottomView];
     
@@ -111,62 +112,25 @@
         }
     }
     op.platform = [self getCurrentPaymentPlatform];
-    
-    InsuranceOrderPayOp *checkoutOp = op;
-    RACSignal *signal = [op rac_postRequest];
-    [signal subscribeNext:^(InsuranceOrderPayOp * op) {
+
+    @weakify(self);
+    [[[op rac_postRequest] initially:^{
         
-        if (op.rsp_total){
+        [gToast showingWithText:@"订单生成中..."];
+    }] subscribeNext:^(InsuranceOrderPayOp * op) {
+
+        @strongify(self);
+        if (![self callPaymentHelperWithPayOp:op]) {
             
-            if (op.platform == PayWithAlipay){
-                
-                [gToast showText:@"订单生成成功,正在跳转到支付宝平台进行支付"];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    
-                    NSString * submitTime = [[NSDate date] dateFormatForDT8];
-                    NSString * info = [NSString stringWithFormat:@"%@",self.insOrder.policyholder];
-                    [self requestAliPay:op.req_orderid andTradeId:op.rsp_tradeno andPrice:op.rsp_total
-                         andProductName:info andDescription:info andTime:submitTime];
-                });
-            }
-            else if (op.platform == PayWithWechat){
-                
-                [gToast showText:@"订单生成成功,正在跳转到微信平台进行支付"];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    
-                    NSString * submitTime = [[NSDate date] dateFormatForDT8];
-                    NSString * info = [NSString stringWithFormat:@"%@",self.insOrder.policyholder];
-                    [self requestWechatPay:op.req_orderid andTradeId:op.rsp_tradeno andPrice:op.rsp_total
-                            andProductName:info andTime:submitTime];
-                });
-            }
-            else if (op.platform == PayWithUPPay){
-                
-                [gToast showText:@"订单生成成功,正在跳转到银联平台进行支付"];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    
-                    [self requestUPPay:op.rsp_tradeno];
-                });
-            }
-            else {
-                
-                [gToast dismiss];
-                [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
-                InsuranceResultVC *resultVC = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceResultVC"];
-                [resultVC setResultType:PaySuccess];
-                [self.navigationController pushViewController:resultVC animated:YES];
-            }
-        }
-        else
-        {
             [gToast dismiss];
-            [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
+            [self postCustomNotificationName:kNotifyRefreshInsuranceOrders object:nil];
             InsuranceResultVC *resultVC = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceResultVC"];
             [resultVC setResultType:PaySuccess];
+            [self.navigationController pushViewController:resultVC animated:YES];
         }
     } error:^(NSError *error) {
         
-        [self handerOrderError:error forOp:checkoutOp];
+        [gToast showError:error.domain];
     }];
 }
 
@@ -238,6 +202,52 @@
     return PayWithAlipay;
 }
 
+- (BOOL)callPaymentHelperWithPayOp:(InsuranceOrderPayOp *)op
+{
+    if (op.rsp_total == 0) {
+        return NO;
+    }
+    PaymentHelper *helper = [[PaymentHelper alloc] init];
+    NSString * info = [NSString stringWithFormat:@"%@",self.insOrder.policyholder];
+    NSString *text;
+    switch (op.platform) {
+        case PayWithAlipay: {
+            text = @"订单生成成功,正在跳转到支付宝平台进行支付";
+            [helper resetForAlipayWithTradeNumber:op.rsp_tradeno productName:info productDescription:info price:op.rsp_total];
+        } break;
+        case PayWithWechat: {
+            text = @"订单生成成功,正在跳转到微信平台进行支付";
+            [helper resetForWeChatWithTradeNumber:op.rsp_tradeno productName:info price:op.rsp_total];
+        } break;
+        case PayWithUPPay: {
+            text = @"订单生成成功,正在跳转到银联平台进行支付";
+            [helper resetForUPPayWithTradeNumber:op.rsp_tradeno targetVC:self];
+        } break;
+        default:
+            return NO;
+    }
+    [gToast showText:text];
+    @weakify(self);
+    [[helper rac_startPay] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        [self postCustomNotificationName:kNotifyRefreshInsuranceOrders object:nil];
+        InsuranceResultVC *resultVC = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceResultVC"];
+        [resultVC setResultType:PaySuccess];
+        [self.navigationController pushViewController:resultVC animated:YES];
+        
+        InsuranceOrderPaidSuccessOp *iop = [[InsuranceOrderPaidSuccessOp alloc] init];
+        iop.req_notifytype = 1;
+        iop.req_tradeno = op.rsp_tradeno;
+        [[iop rac_postRequest] subscribeNext:^(id x) {
+            DebugLog(@"已通知服务器支付成功!");
+        }];
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain];
+    }];
+    return YES;
+}
 
 #pragma mark - Table view data source
 
@@ -808,63 +818,5 @@
     }
     return cell;
 }
-
-- (void)requestAliPay:(NSNumber *)orderId andTradeId:(NSString *)tradeId
-             andPrice:(CGFloat)price andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time
-{
-    PaymentHelper *helper = [[PaymentHelper alloc] init];
-    [helper resetForAlipayWithTradeNumber:tradeId productName:name productDescription:desc price:price];
-    
-    [[helper rac_startPay] subscribeNext:^(id x) {
-        
-        [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
-        InsuranceResultVC *resultVC = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceResultVC"];
-        [resultVC setResultType:PaySuccess];
-        [self.navigationController pushViewController:resultVC animated:YES];
-    } error:^(NSError *error) {
-        
-    }];
-}
-
-- (void)requestWechatPay:(NSNumber *)orderId andTradeId:(NSString *)tradeId
-                andPrice:(CGFloat)price andProductName:(NSString *)name
-                 andTime:(NSString *)time
-{
-    PaymentHelper *helper = [[PaymentHelper alloc] init];
-    [helper resetForWeChatWithTradeNumber:tradeId productName:name price:price];
-    [[helper rac_startPay] subscribeNext:^(NSString * info) {
-        
-        [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
-        InsuranceResultVC *resultVC = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceResultVC"];
-        [resultVC setResultType:PaySuccess];
-        [self.navigationController pushViewController:resultVC animated:YES];
-        
-    } error:^(NSError *error) {
-        
-    }];
-}
-
-- (void)requestUPPay:(NSString *)tradeId
-{
-    PaymentHelper * helper = [[PaymentHelper alloc] init];
-    [helper resetForUPPayWithTradeNumber:tradeId targetVC:self];
-    [[helper rac_startPay] subscribeNext:^(NSString * info) {
-        
-        [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
-        InsuranceResultVC *resultVC = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceResultVC"];
-        [resultVC setResultType:PaySuccess];
-        [self.navigationController pushViewController:resultVC animated:YES];
-        
-    } error:^(NSError *error) {
-        
-    }];
-}
-
-
-- (void)handerOrderError:(NSError *)error forOp:(InsuranceOrderPayOp *)op
-{
-    [gToast showError:error.domain];
-}
-
 
 @end
