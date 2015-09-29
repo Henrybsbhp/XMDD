@@ -428,7 +428,6 @@
     
     field.delegate = self;
     field.keyboardType = UIKeyboardTypeDefault;
-    field.clearsOnBeginEditing = NO;
     field.customObject = indexPath;
     BOOL fieldEditable = YES;
     if (indexPath.row == 0) {
@@ -588,8 +587,12 @@
 {
     NSInteger length = range.location + [string length] - range.length;
     NSIndexPath *indexPath = textField.customObject;
+    //车牌号码
+    if (indexPath.row == 0 && length > 10) {
+        return NO;
+    }
     //保险公司
-    if (indexPath.row == 7 && length >= 20) {
+    else if (indexPath.row == 7 && length >= 30) {
         return NO;
     }
     //当前里程

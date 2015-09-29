@@ -141,9 +141,7 @@
 
 - (void)reloadDataWithDatasource:(NSArray *)datasource
 {
-    if (self.datasource.count > 0 || datasource.count > 0) {
-        [self reloadDataFromSignal:[RACSignal return:datasource]];
-    }
+    [self reloadDataFromSignal:[RACSignal return:datasource]];
 }
 
 - (void)reloadDataFromSignal:(RACSignal *)signal
