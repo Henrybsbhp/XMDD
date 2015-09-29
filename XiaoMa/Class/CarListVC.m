@@ -31,7 +31,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setupScrollView];
-    self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.scrollView delegate:self];
+    self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.view delegate:self];
     CKAsyncMainQueue(^{
         [self.loadingModel loadDataForTheFirstTime];
         [self setupCarModel];
@@ -306,12 +306,14 @@
 - (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
 {
     self.scrollView.contentSize = self.scrollView.frame.size;
+    self.scrollView.hidden = YES;
     return @"暂无爱车，快去添加一辆吧";
 }
 
 - (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
 {
     self.scrollView.contentSize = self.scrollView.frame.size;
+    self.scrollView.hidden = YES;
     return @"获取爱车信息失败，点击重试";
 }
 
@@ -341,6 +343,7 @@
 
 - (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
 {
+    self.scrollView.hidden = NO;
     HKMyCar *defCar = [gAppMgr.myUser.carModel getDefalutCar];
     if (self.model.allowAutoChangeSelectedCar) {
         BOOL currentCarValid = self.model.currentCar ? [model.datasource containsObject:self.model.currentCar] : NO;
