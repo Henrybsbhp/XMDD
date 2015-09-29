@@ -82,7 +82,7 @@
     if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
     {
         PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
-        [payVc requestGetUserResource];
+        [payVc requestGetUserResource:YES];
     }
 }
 

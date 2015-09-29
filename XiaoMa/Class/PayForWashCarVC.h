@@ -38,6 +38,6 @@
 - (void)chooseResourceByBankCard:(HKBankCard *)card;
 - (void)setPaymentChannel:(PaymentChannelType)channel;
 
-- (void)requestGetUserResource;
+- (void)requestGetUserResource:(BOOL)needAutoSelect;
 
 @end
