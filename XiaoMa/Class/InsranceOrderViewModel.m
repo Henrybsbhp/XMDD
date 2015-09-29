@@ -10,6 +10,7 @@
 #import "XiaoMa.h"
 #import "GetInsuranceOrderListOp.h"
 #import "InsuranceOrderVC.h"
+#import "PayForInsuranceVC.h"
 
 @interface InsranceOrderViewModel ()<HKLoadingModelDelegate>
 
@@ -132,8 +133,8 @@
          
         @strongify(self);
          if (unpaid) {
-             InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
-             vc.order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+             PayForInsuranceVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"PayForInsuranceVC"];
+             vc.insOrder = order;
              [self.targetVC.navigationController pushViewController:vc animated:YES];
          }
          else {
