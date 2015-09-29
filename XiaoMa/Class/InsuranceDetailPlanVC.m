@@ -20,6 +20,7 @@
 
 @interface InsuranceDetailPlanVC()
 
+@property (strong, nonatomic) IBOutlet UIView *vview;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet JDFlipNumberView *flipNumberView;
 @property (weak, nonatomic) IBOutlet UIButton *sureBtn;
@@ -43,7 +44,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     
     // UI
     [self setupUI];
@@ -114,6 +114,7 @@
         }
         InsuranceDetailPlanModel * model = [[InsuranceDetailPlanModel alloc] initWithSelectInsurance:selectIns andCarPrice:[self.calculatorOp.req_purchaseprice floatValue] * 10000];
         model.tableView = self.tableView;
+        model.view = self.view;
         model.flipNumberView = self.flipNumberView;
         [self.modelArray safetyAddObject:model];
     }
@@ -136,7 +137,10 @@
 
 - (void)switchDatasource:(InsuranceDetailPlanModel *)model
 {
-    [model setupInsuranceArray];
+    if (self.modelArray.lastObject != model)
+    {
+        [model setupInsuranceArray];
+    }
     [model calcTotalPrice];
     [model noAnimateToTargetValue];
     

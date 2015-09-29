@@ -8,6 +8,7 @@
 
 #import "InsuranceDetailPlanModel.h"
 #import "HKCoverage.h"
+#import "HKPickerVC.h"
 
 @implementation InsuranceDetailPlanModel
 
@@ -184,11 +185,27 @@
             CGFloat price = [self.calcHelper calcInsurancePrice:coverage];
             priceLb.text = [NSString stringWithFormat:@"%.2f",price];
             boxBtn.selected = coverage.customTag;
+            
+            NSString * paramText = @"";
             for (NSDictionary * obj in coverage.params)
             {
                 if (obj.customTag)
-                    paramLb.text = [obj objectForKey:@"key"];
+                {
+                    paramText = [paramText append:[obj objectForKey:@"key"]];
+                    break;
+                }
             }
+            for (NSDictionary * obj in coverage.params2)
+            {
+                if (obj.customTag)
+                {
+                    paramText = [paramText append:@" "];
+                    paramText = [paramText append:[obj objectForKey:@"key"]];
+                    break;
+                }
+            }
+            
+            paramLb.text = paramText;
             
             @weakify(boxBtn);
             [[[boxBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -294,7 +311,7 @@
         if (c.customTag)
         {
             price = [self.calcHelper calcInsurancePrice:c];
-            total = total + price;
+            total = round((total + price)*100)/100;
         }
     }
     self.totalPrice = total;
@@ -302,28 +319,28 @@
 
 - (void)showActionSheet:(HKCoverage * )c
 {
-    if (!self.tableView.superview)
-        return;
-    UIActionSheet * as = [[UIActionSheet alloc] init];
-    as.title = c.insName;
-    [as setCancelButtonIndex:c.params.count];
-    for (NSDictionary * dict in c.params)
+    NSMutableArray * array = [NSMutableArray array];
+    NSMutableArray * select = [NSMutableArray array];
+    if (c.params)
     {
-        [as addButtonWithTitle:dict[@"key"]];
+        [array safetyAddObject:c.params];
+        NSObject * obj = [c.params firstObjectByFilteringOperator:^BOOL(NSObject * obj) {
+            
+            return obj.customTag;
+        }];
+        [select safetyAddObject:obj];
     }
-    [as addButtonWithTitle:@"取消"];
-    [as showInView:self.tableView.superview];
-    [[as rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
-        
-        NSInteger index = [number integerValue];
-        for (NSDictionary * dict in c.params)
-        {
-            dict.customTag = NO;
-        }
-        
-        
-        NSObject * obj = [c.params safetyObjectAtIndex:index];
-        obj.customTag = YES;
+    if (c.params2)
+    {
+        [array safetyAddObject:c.params2];
+        NSObject * obj = [c.params2 firstObjectByFilteringOperator:^BOOL(NSObject * obj) {
+            
+            return obj.customTag;
+        }];
+        [select safetyAddObject:obj];
+    }
+
+    [[HKPickerVC rac_presentPickerVCInView:self.view withDatasource:array andCurrentValue:select] subscribeNext:^(NSArray * array) {
         
         //计算金额
         [self calcTotalPrice];
@@ -342,6 +359,8 @@
             refreshArray = @[indexPath1];
         }
         [self.tableView reloadRowsAtIndexPaths:refreshArray withRowAnimation:UITableViewRowAnimationNone];
+    } error:^(NSError *error) {
+        
     }];
 }
 
@@ -376,7 +395,26 @@
     {
         if (c.customTag)
         {
-            NSString * s = [NSString stringWithFormat:@"%@@%@@%.2f",c.insId,c.insName,[self.calcHelper calcInsurancePrice:c]];
+            NSString * paramText = @"";
+            for (NSDictionary * obj in c.params)
+            {
+                if (obj.customTag)
+                {
+                    paramText = [paramText append:[obj objectForKey:@"key"]];
+                    break;
+                }
+            }
+            for (NSDictionary * obj in c.params2)
+            {
+                if (obj.customTag)
+                {
+                    paramText = [paramText append:@" "];
+                    paramText = [paramText append:[obj objectForKey:@"key"]];
+                    break;
+                }
+            }
+            paramText = paramText.length ? paramText : @"0";
+            NSString * s = [NSString stringWithFormat:@"%@@%@@%@@%.2f",c.insId,c.insName,paramText,[self.calcHelper calcInsurancePrice:c]];
             [array safetyAddObject:s];
         }
     }

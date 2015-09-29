@@ -99,21 +99,32 @@
             }
                 
             case InsuranceCarSeatInsuranceOfPassenger:{
-                self.insName = @"乘客座位责任险 ";
-                NSDictionary * d = @{@"key":@"1万元*4座",@"value":@(10000)};
+                self.insName = @"乘客座位责任险";
+                NSDictionary * d = @{@"key":@"1万元/座",@"value":@(10000)};
                 d.customTag = YES;
                 self.params = @[d,
-                                @{@"key":@"2万元*4座",@"value":@(20000)},
-                                @{@"key":@"3万元*4座",@"value":@(30000)},
-                                @{@"key":@"4万元*4座",@"value":@(40000)},
-                                @{@"key":@"5万元*4座",@"value":@(50000)},
-                                @{@"key":@"10万元*4座",@"value":@(100000)},
-                                @{@"key":@"20万元*4座",@"value":@(200000)}
+                                @{@"key":@"2万元/座",@"value":@(20000)},
+                                @{@"key":@"3万元/座",@"value":@(30000)},
+                                @{@"key":@"4万元/座",@"value":@(40000)},
+                                @{@"key":@"5万元/座",@"value":@(50000)},
+                                @{@"key":@"10万元/座",@"value":@(100000)},
+                                @{@"key":@"20万元/座",@"value":@(200000)}
+                                ];
+                
+                NSDictionary * d2 = @{@"key":@"1座",@"value":@(1)};
+                d2.customTag = YES;
+                self.params2 = @[d2,
+                                @{@"key":@"2座",@"value":@(2)},
+                                @{@"key":@"3座",@"value":@(3)},
+                                @{@"key":@"4座",@"value":@(4)},
+                                @{@"key":@"5座",@"value":@(5)},
+                                @{@"key":@"6座",@"value":@(6)}
                                 ];
                 self.discountType = InsuranceBusinessDiscount;
                 
                 HKCoverage * subCoverage = [[HKCoverage alloc] initWithCategory:InsuranceExcludingDeductible4CarSeatInsuranceOfPassenger];
                 subCoverage.params = self.params;
+                subCoverage.params2 = self.params2;
                 self.excludingDeductibleCoverage= subCoverage;
                 
                 break;
