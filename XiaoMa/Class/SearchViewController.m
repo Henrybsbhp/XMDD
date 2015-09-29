@@ -473,6 +473,7 @@
         addrL.text = shop.shopAddress;
         
         [statusL makeCornerRadius:3];
+        statusL.font = [UIFont boldSystemFontOfSize:11];
         if ([self isBetween:shop.openHour and:shop.closeHour]) {
             statusL.text = @"营业中";
             statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
