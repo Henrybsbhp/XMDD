@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -2063,6 +2063,11 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="1" green="0.49019607840000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
+                                                            <variation key="default">
+                                                                <mask key="constraints">
+                                                                    <exclude reference="zPU-JG-bs8"/>
+                                                                </mask>
+                                                            </variation>
                                                         </label>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="array_down" translatesAutoresizingMaskIntoConstraints="NO" id="S7z-XS-xF9">
                                                             <rect key="frame" x="51" y="14" width="9" height="4"/>
@@ -2082,9 +2087,6 @@
                                                         <constraint firstAttribute="centerX" secondItem="z6P-H5-APA" secondAttribute="centerX" id="n7V-xJ-bQd"/>
                                                         <constraint firstItem="S7z-XS-xF9" firstAttribute="trailing" secondItem="KhO-xZ-WIi" secondAttribute="trailing" constant="-5" id="owq-MQ-vDO"/>
                                                     </constraints>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#BW_0.5#BC_(226,226,226)"/>
-                                                    </userDefinedRuntimeAttributes>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="n7V-xJ-bQd"/>
@@ -2359,6 +2361,7 @@
                         <outlet property="segmentedControl" destination="Dk0-e8-ND3" id="oBI-PR-DqI"/>
                         <outlet property="sureBtn" destination="5Ao-kZ-2gD" id="zjG-SP-TBF"/>
                         <outlet property="tableView" destination="Kt8-dN-CLs" id="fcF-uc-iua"/>
+                        <outlet property="vview" destination="22c-Ay-Xbv" id="oJE-72-2Fm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XTY-tg-Cl9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2407,7 +2410,6 @@
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="失败原因：请检查网络！" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HFc-qu-goc" customClass="JTLabel">
                                 <rect key="frame" x="25" y="368" width="550" height="18"/>
-
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" red="0.34901960780000002" green="0.34901960780000002" blue="0.34901960780000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -2721,7 +2723,7 @@
                                     <outlet property="delegate" destination="BQZ-3b-JOZ" id="uoc-ep-ibx"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s9v-c2-ST2">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s9v-c2-ST2">
                                 <rect key="frame" x="0.0" y="514" width="600" height="42"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="Yrq-lO-YJT">
@@ -4000,12 +4002,15 @@
         <image name="cw_box3" width="17" height="17"/>
         <image name="cw_btn_bg" width="34" height="33"/>
         <image name="cw_success" width="60" height="61"/>
+        <image name="ins_arrow1" width="7" height="12"/>
         <image name="ins_bg_left1" width="29" height="30"/>
         <image name="ins_bg_left2" width="29" height="30"/>
         <image name="ins_bg_right1" width="29" height="30"/>
         <image name="ins_bg_right2" width="43" height="46"/>
         <image name="ins_bg_under" width="62" height="34"/>
         <image name="ins_bg_upon" width="62" height="61"/>
+        <image name="ins_box" width="15" height="15"/>
+        <image name="ins_box1" width="15" height="15"/>
         <image name="ins_btn_bg2" width="24" height="37"/>
         <image name="ins_btn_bg3" width="24" height="37"/>
         <image name="ins_camera" width="96" height="96"/>
@@ -4018,6 +4023,7 @@
         <image name="ins_menu2" width="50" height="50"/>
         <image name="ins_menu3" width="50" height="50"/>
         <image name="ins_ordersuccess" width="105" height="105"/>
+        <image name="ins_upload" width="19" height="17"/>
         <image name="ins_watermark" width="114" height="73"/>
         <image name="inse_bg_left" width="47" height="232"/>
         <image name="inse_bg_right" width="47" height="232"/>

@@ -19,4 +19,8 @@
                                                viewController:(UIViewController *)vc
                                                    targetView:(UIView *)view;
 
++ (MZFormSheetController *)presentSheetCtrlFromBottomWithSize:(CGSize)size
+                                               viewController:(UIViewController *)vc
+                                              targetViewFrame:(CGRect)targetViewFrame;
+
 @end

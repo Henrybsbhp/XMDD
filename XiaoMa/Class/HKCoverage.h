@@ -61,6 +61,7 @@ typedef enum : NSUInteger {
  *  相关参数,<NSDictory>
  */
 @property (nonatomic,strong)NSArray * params;
+@property (nonatomic,strong)NSArray * params2;
 
 - (instancetype)initWithCategory:(InsuranceCategory)category;
 

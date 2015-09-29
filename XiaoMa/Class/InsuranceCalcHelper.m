@@ -63,6 +63,7 @@
             
         case InsuranceCarSeatInsuranceOfPassenger:{
             CGFloat amount = 0.0;
+            NSInteger numberOfSeat = 1;
             for (NSDictionary * dict in converage.params)
             {
                 if (dict.customTag)
@@ -71,7 +72,18 @@
                     break;
                 }
             }
-            price = amount * NumberOfSeat * 0.0041;
+            
+            for (NSDictionary * dict in converage.params2)
+            {
+                if (dict.customTag)
+                {
+                    numberOfSeat = [[dict objectForKey:@"value"] floatValue];
+                    break;
+                }
+            }
+            
+            
+            price = amount * numberOfSeat * 0.0026;
             break;
         }
             
@@ -132,6 +144,7 @@
         }
         case InsuranceExcludingDeductible4CarSeatInsuranceOfPassenger:{
             CGFloat amount = 0.0;
+            NSInteger numberOfSeat = 1;
             for (NSDictionary * dict in converage.params)
             {
                 if (dict.customTag)
@@ -140,7 +153,16 @@
                     break;
                 }
             }
-            price = (amount * NumberOfSeat * 0.0041) * 0.15;
+            for (NSDictionary * dict in converage.params2)
+            {
+                if (dict.customTag)
+                {
+                    numberOfSeat = [[dict objectForKey:@"value"] floatValue];
+                    break;
+                }
+            }
+            
+            price = (amount * numberOfSeat * 0.0026) * 0.15;
             break;
         }
         case InsuranceExcludingDeductible4WholeCarStolen:{
