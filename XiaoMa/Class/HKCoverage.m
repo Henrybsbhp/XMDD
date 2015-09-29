@@ -40,33 +40,33 @@
                 
             case InsuranceThirdPartyLiability:{
                 self.insName = @"第三方责任险";
-                NSDictionary * d = @{@"key":@"5万元",@"value":@(673)};
+                NSDictionary * d = @{@"key":@"50万",@"value":@(1631)};
                 d.customTag = YES;
-                self.params = @[d,
-                                @{@"key":@"10万元",@"value":@(972)},
-                                @{@"key":@"15万元",@"value":@(1108)},
-                                @{@"key":@"20万元",@"value":@(1204)},
-                                @{@"key":@"30万元",@"value":@(1359)},
-                                @{@"key":@"50万元",@"value":@(1631)},
-                                @{@"key":@"100万元",@"value":@(2186)},
-                                @{@"key":@"150万元",@"value":@(2686)},
-                                @{@"key":@"200万元",@"value":@(3185)},
-                                @{@"key":@"250万元",@"value":@(3685)},
-                                @{@"key":@"300万元",@"value":@(4184)},
-                                @{@"key":@"350万元",@"value":@(4684)},
-                                @{@"key":@"400万元",@"value":@(5183)},
-                                @{@"key":@"450万元",@"value":@(5683)},
-                                @{@"key":@"500万元",@"value":@(6182)},
-                                @{@"key":@"550万元",@"value":@(6682)},
-                                @{@"key":@"600万元",@"value":@(7181)},
-                                @{@"key":@"650万元",@"value":@(7681)},
-                                @{@"key":@"700万元",@"value":@(8180)},
-                                @{@"key":@"750万元",@"value":@(8680)},
-                                @{@"key":@"800万元",@"value":@(9179)},
-                                @{@"key":@"850万元",@"value":@(9679)},
-                                @{@"key":@"900万元",@"value":@(10178)},
-                                @{@"key":@"950万元",@"value":@(10678)},
-                                @{@"key":@"1000万元",@"value":@(11177)}
+                self.params = @[@{@"key":@"5万元",@"value":@(673)},
+                                @{@"key":@"10万",@"value":@(972)},
+                                @{@"key":@"15万",@"value":@(1108)},
+                                @{@"key":@"20万",@"value":@(1204)},
+                                @{@"key":@"30万",@"value":@(1359)},
+                                d,
+                                @{@"key":@"100万",@"value":@(2186)},
+                                @{@"key":@"150万",@"value":@(2686)},
+                                @{@"key":@"200万",@"value":@(3185)},
+                                @{@"key":@"250万",@"value":@(3685)},
+                                @{@"key":@"300万",@"value":@(4184)},
+                                @{@"key":@"350万",@"value":@(4684)},
+                                @{@"key":@"400万",@"value":@(5183)},
+                                @{@"key":@"450万",@"value":@(5683)},
+                                @{@"key":@"500万",@"value":@(6182)},
+                                @{@"key":@"550万",@"value":@(6682)},
+                                @{@"key":@"600万",@"value":@(7181)},
+                                @{@"key":@"650万",@"value":@(7681)},
+                                @{@"key":@"700万",@"value":@(8180)},
+                                @{@"key":@"750万",@"value":@(8680)},
+                                @{@"key":@"800万",@"value":@(9179)},
+                                @{@"key":@"850万",@"value":@(9679)},
+                                @{@"key":@"900万",@"value":@(10178)},
+                                @{@"key":@"950万",@"value":@(10678)},
+                                @{@"key":@"1000万",@"value":@(11177)}
                                 ];
                 
                 self.discountType = InsuranceBusinessDiscount;
@@ -82,12 +82,12 @@
                 NSDictionary * d = @{@"key":@"1万元",@"value":@(10000)};
                 d.customTag = YES;
                 self.params = @[d,
-                                @{@"key":@"2万元",@"value":@(20000)},
-                                @{@"key":@"3万元",@"value":@(30000)},
-                                @{@"key":@"4万元",@"value":@(40000)},
-                                @{@"key":@"5万元",@"value":@(50000)},
-                                @{@"key":@"10万元",@"value":@(100000)},
-                                @{@"key":@"20万元",@"value":@(200000)}
+                                @{@"key":@"2万",@"value":@(20000)},
+                                @{@"key":@"3万",@"value":@(30000)},
+                                @{@"key":@"4万",@"value":@(40000)},
+                                @{@"key":@"5万",@"value":@(50000)},
+                                @{@"key":@"10万",@"value":@(100000)},
+                                @{@"key":@"20万",@"value":@(200000)}
                                 ];
                 self.discountType = InsuranceBusinessDiscount;
                 
@@ -99,21 +99,32 @@
             }
                 
             case InsuranceCarSeatInsuranceOfPassenger:{
-                self.insName = @"乘客座位责任险 ";
-                NSDictionary * d = @{@"key":@"1万元*4座",@"value":@(10000)};
+                self.insName = @"乘客座位责任险";
+                NSDictionary * d = @{@"key":@"1万/座",@"value":@(10000)};
                 d.customTag = YES;
                 self.params = @[d,
-                                @{@"key":@"2万元*4座",@"value":@(20000)},
-                                @{@"key":@"3万元*4座",@"value":@(30000)},
-                                @{@"key":@"4万元*4座",@"value":@(40000)},
-                                @{@"key":@"5万元*4座",@"value":@(50000)},
-                                @{@"key":@"10万元*4座",@"value":@(100000)},
-                                @{@"key":@"20万元*4座",@"value":@(200000)}
+                                @{@"key":@"2万/座",@"value":@(20000)},
+                                @{@"key":@"3万/座",@"value":@(30000)},
+                                @{@"key":@"4万/座",@"value":@(40000)},
+                                @{@"key":@"5万/座",@"value":@(50000)},
+                                @{@"key":@"10万/座",@"value":@(100000)},
+                                @{@"key":@"20万/座",@"value":@(200000)}
+                                ];
+                
+                NSDictionary * d2 = @{@"key":@"4座",@"value":@(4)};
+                d2.customTag = YES;
+                self.params2 = @[@{@"key":@"4座",@"value":@(1)},
+                                @{@"key":@"2座",@"value":@(2)},
+                                @{@"key":@"3座",@"value":@(3)},
+                                d2,
+                                @{@"key":@"5座",@"value":@(5)},
+                                @{@"key":@"6座",@"value":@(6)}
                                 ];
                 self.discountType = InsuranceBusinessDiscount;
                 
                 HKCoverage * subCoverage = [[HKCoverage alloc] initWithCategory:InsuranceExcludingDeductible4CarSeatInsuranceOfPassenger];
                 subCoverage.params = self.params;
+                subCoverage.params2 = self.params2;
                 self.excludingDeductibleCoverage= subCoverage;
                 
                 break;

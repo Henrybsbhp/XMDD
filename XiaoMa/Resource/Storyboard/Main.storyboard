@@ -100,7 +100,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" tag="20202" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10-15℃" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r8W-Gh-kiq">
-                                        <rect key="frame" x="13" y="27" width="43" height="13.5"/>
+                                        <rect key="frame" x="13" y="27" width="43" height="14"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                         <color key="textColor" white="0.60340180649999997" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>

@@ -14,6 +14,7 @@
 @interface InsuranceDetailPlanModel : NSObject<UITableViewDelegate,UITableViewDataSource>
 
 @property (strong, nonatomic) UITableView *tableView;
+@property (strong, nonatomic) UIView *view;
 @property (strong, nonatomic) JDFlipNumberView *flipNumberView;
 
 @property (nonatomic,strong)NSMutableArray * insuranceArry;
