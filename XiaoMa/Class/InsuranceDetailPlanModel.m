@@ -311,7 +311,7 @@
         if (c.customTag)
         {
             price = [self.calcHelper calcInsurancePrice:c];
-            total = total + price;
+            total = round((total + price)*100)/100;
         }
     }
     self.totalPrice = total;
