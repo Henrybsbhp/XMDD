@@ -10,6 +10,7 @@
 #import "HKCoverage.h"
 #import "InsuranceResultVC.h"
 #import "InsuranceAppointmentOp.h"
+#import "HKPickerVC.h"
 
 @interface InsuranceChooseViewController ()
 
@@ -90,30 +91,33 @@
 
 - (void)showActionSheet:(HKCoverage * )c
 {
-    UIActionSheet * as = [[UIActionSheet alloc] init];
-    as.title = c.insName;
-    [as setCancelButtonIndex:c.params.count];
-    for (NSDictionary * dict in c.params)
+    
+    NSMutableArray * array = [NSMutableArray array];
+    NSMutableArray * select = [NSMutableArray array];
+    if (c.params)
     {
-        [as addButtonWithTitle:dict[@"key"]];
+        [array safetyAddObject:c.params];
+        NSObject * obj = [c.params firstObjectByFilteringOperator:^BOOL(NSObject * obj) {
+            
+            return obj.customTag;
+        }];
+        [select safetyAddObject:obj];
     }
-    [as addButtonWithTitle:@"取消"];
-    [as showInView:self.view];
-    [[as rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
-        
-        NSInteger index = [number integerValue];
-        for (NSDictionary * dict in c.params)
-        {
-            dict.customTag = NO;
-        }
-        
-        
-        NSObject * obj = [c.params safetyObjectAtIndex:index];
-        obj.customTag = YES;
+    if (c.params2)
+    {
+        [array safetyAddObject:c.params2];
+        NSObject * obj = [c.params2 firstObjectByFilteringOperator:^BOOL(NSObject * obj) {
+            
+            return obj.customTag;
+        }];
+        [select safetyAddObject:obj];
+    }
+
+    [[HKPickerVC rac_presentPickerVCInView:self.view withDatasource:array andCurrentValue:select] subscribeNext:^(NSArray * array) {
         
         NSInteger i;
         NSIndexPath *indexPath1;
-        //刷新cell
+        
         if ([self.insuranceArry containsObject:c])
         {
             i= [self.insuranceArry indexOfObject:c];
@@ -136,6 +140,8 @@
             refreshArray = @[indexPath1];
         }
         [self.tableView reloadRowsAtIndexPaths:refreshArray withRowAnimation:UITableViewRowAnimationNone];
+    } error:^(NSError *error) {
+        
     }];
 }
 
@@ -282,11 +288,27 @@
         
         insuranceNameLb.text = coverage.insName;
         boxBtn.selected = coverage.customTag;
+       
+        NSString * paramText = @"";
         for (NSDictionary * obj in coverage.params)
         {
             if (obj.customTag)
-                paramLb.text = [obj objectForKey:@"key"];
+            {
+                paramText = [paramText append:[obj objectForKey:@"key"]];
+                break;
+            }
         }
+        for (NSDictionary * obj in coverage.params2)
+        {
+            if (obj.customTag)
+            {
+                paramText = [paramText append:@" "];
+                paramText = [paramText append:[obj objectForKey:@"key"]];
+                break;
+            }
+        }
+        
+        paramLb.text = paramText;
         
         @weakify(boxBtn);
         [[[boxBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {

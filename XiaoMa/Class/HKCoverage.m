@@ -113,7 +113,7 @@
                 
                 NSDictionary * d2 = @{@"key":@"4座",@"value":@(4)};
                 d2.customTag = YES;
-                self.params2 = @[@{@"key":@"4座",@"value":@(1)},
+                self.params2 = @[@{@"key":@"1座",@"value":@(1)},
                                 @{@"key":@"2座",@"value":@(2)},
                                 @{@"key":@"3座",@"value":@(3)},
                                 d2,

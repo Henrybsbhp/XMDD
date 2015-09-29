@@ -480,6 +480,11 @@
         (self.couponType == CouponTypeInsurance && indexPath.row == 2))
     {
         [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxDiscountGroup];
+        boxB.selected = YES;
+    }
+    else
+    {
+        boxB.selected = NO;
     }
     
     // checkBox 点击处理
@@ -652,6 +657,11 @@
             (indexPath.row == 3 && self.platform == PayWithUPPay))
         {
             [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxPlatformGroup];
+            boxB.selected = YES;
+        }
+        else
+        {
+            boxB.selected = NO;
         }
     }
     else
@@ -660,9 +670,15 @@
             (indexPath.row == 2 && self.platform == PayWithUPPay))
         {
             [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxPlatformGroup];
+            boxB.selected = YES;
         }
+        else
+        {
+            boxB.selected = NO;
+        }
+
     }
-    
+
     return cell;
 }
 
@@ -687,7 +703,7 @@
 #pragma mark - Utility
 - (void)requestGetUserInsCoupon
 {
-    [[gAppMgr.myUser.couponModel rac_getVaildInsuranceCoupon] subscribeNext:^(GetInscouponOp * op) {
+    [[gAppMgr.myUser.couponModel rac_getVaildInsuranceCoupon:self.insOrder.orderid] subscribeNext:^(GetInscouponOp * op) {
         
         self.isLoadingResourse = NO;
         

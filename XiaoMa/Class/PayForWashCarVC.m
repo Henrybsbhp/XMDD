@@ -65,10 +65,15 @@
     self.checkoutServiceOrderV3Op = [[CheckoutServiceOrderV3Op alloc] init];
     self.checkoutServiceOrderV3Op.paychannel = PaymentChannelAlipay;
     
-    [self requestGetUserResource];
+    
+    [self requestGetUserResource:!self.isAutoCouponSelect];
     if (!self.isAutoCouponSelect)
     {
         [self selectDefaultCoupon];
+    }
+    else
+    {
+        [self selectDefaultPayChannel];
     }
     
     self.isAutoCouponSelect = NO;
@@ -81,7 +86,7 @@
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     if (self.needChooseResource)
     {
-        [self requestGetUserResource];
+        [self requestGetUserResource:YES];
         self.needChooseResource = NO;
     }
 }
@@ -450,6 +455,11 @@
         (self.couponType == CouponTypeCash && indexPath.row == 2))
     {
         [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
+        boxB.selected = YES;
+    }
+    else
+    {
+        boxB.selected = NO;
     }
     
     // checkBox 点击处理
@@ -715,6 +725,11 @@
             [self popBankCardNumberAnimation:NO];
         }
         [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxPlatformGroup];
+        boxB.selected = YES;
+    }
+    else
+    {
+        boxB.selected = NO;
     }
     return cell;
 }
@@ -738,13 +753,13 @@
 }
 
 #pragma mark - Utility
-- (void)requestGetUserResource
+- (void)requestGetUserResource:(BOOL)needAutoSelect
 {
     [[gAppMgr.myUser.couponModel rac_getVaildResource] subscribeNext:^(GetUserResourcesV2Op * op) {
         
         self.isLoadingResourse = NO;
         
-        if (self.isAutoCouponSelect)
+        if (needAutoSelect)
         {
             [self selectDefaultCoupon];
             [self autoSelectBankCard];
@@ -930,7 +945,7 @@
     }
     else if (error.code == 5003 || error.code == 615805)
     {
-        [self requestGetUserResource];
+        [self requestGetUserResource:YES];
         [gToast showError:error.domain];
     }
     else {
@@ -1011,7 +1026,9 @@
             
             self.checkoutServiceOrderV3Op.paychannel = PaymentChannelAlipay;
         }
-        [self tableViewReloadData];
+        
+        [self.tableView reloadData];
+        [self refreshPriceLb];
         return;
     }
     if (gAppMgr.myUser.couponModel.validCashCouponArray.count)
@@ -1030,12 +1047,55 @@
                 }
             }
         }
-        [self tableViewReloadData];
+        [self.tableView reloadData];
+        [self refreshPriceLb];
         return;
     }
     self.couponType = 0;
     [self tableViewReloadData];
 }
+
+- (void)selectDefaultPayChannel
+{
+    if (self.selectCarwashCoupouArray.count)
+    {
+        if (gAppMgr.myUser.couponModel.validCZBankCreditCard.count){
+            
+            self.checkoutServiceOrderV3Op.paychannel = PaymentChannelXMDDCreditCard;
+        }
+        else{
+            
+            self.checkoutServiceOrderV3Op.paychannel = PaymentChannelAlipay;
+        }
+        [self.tableView reloadData];
+        [self refreshPriceLb];
+    }
+    
+    if (self.selectCashCoupouArray.count)
+    {
+        HKCoupon * coupon = [self.selectCashCoupouArray safetyObjectAtIndex:0];
+        if (coupon.couponAmount >= self.service.origprice)
+        {
+            [self.selectCashCoupouArray removeAllObjects];
+            [self selectDefaultCoupon];
+        }
+        else
+        {
+            if (gAppMgr.myUser.couponModel.validCZBankCreditCard.count){
+                
+                self.checkoutServiceOrderV3Op.paychannel = PaymentChannelXMDDCreditCard;
+            }
+            else{
+                
+                self.checkoutServiceOrderV3Op.paychannel = PaymentChannelAlipay;
+            }
+            [self.tableView reloadData];
+            [self refreshPriceLb];
+            return;
+        }
+    }
+}
+
 
 - (void)autoSelectBankCard
 {

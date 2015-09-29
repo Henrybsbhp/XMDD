@@ -268,59 +268,26 @@
         
         return [RACSignal return:nil];
     }] subscribeNext:^(HKMyCar *car) {
+        
         PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
+        if (self.couponFordetailsDic.conponType == CouponTypeCarWash || self.couponFordetailsDic.conponType == CouponTypeCZBankCarWash) {
+            vc.selectCarwashCoupouArray = vc.selectCarwashCoupouArray ? vc.selectCarwashCoupouArray : [NSMutableArray array];
+            [vc.selectCarwashCoupouArray addObject:self.couponFordetailsDic];
+            vc.couponType = CouponTypeCarWash;
+            vc.isAutoCouponSelect = YES;
+        }
+        else if (self.couponFordetailsDic.conponType == CouponTypeCash) {
+            
+            vc.selectCashCoupouArray = vc.selectCashCoupouArray ? vc.selectCashCoupouArray : [NSMutableArray array];
+            [vc.selectCashCoupouArray addObject:self.couponFordetailsDic];
+            vc.couponType = CouponTypeCash;
+            vc.isAutoCouponSelect = YES;
+        }
         vc.originVC = self;
         vc.shop = self.shop;
         vc.service = service;
-        vc.defaultCar = [car isCarInfoCompleted] ? car : nil;
+        vc.defaultCar = car;
         [self.navigationController pushViewController:vc animated:YES];
-    }];
-    return;
-    [[[gAppMgr.myUser.carModel rac_getDefaultCar] catch:^RACSignal *(NSError *error) {
-        
-        return [RACSignal return:nil];
-    }] subscribeNext:^(HKMyCar *car) {
-
-        if (car && [car isCarInfoCompleted])
-        {
-            PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
-            if (self.couponFordetailsDic.conponType == CouponTypeCarWash || self.couponFordetailsDic.conponType == CouponTypeCZBankCarWash) {
-                vc.selectCarwashCoupouArray = vc.selectCarwashCoupouArray ? vc.selectCarwashCoupouArray : [NSMutableArray array];
-                [vc.selectCarwashCoupouArray addObject:self.couponFordetailsDic];
-            }
-            else if (self.couponFordetailsDic.conponType == CouponTypeCash) {
-                
-                vc.selectCashCoupouArray = vc.selectCashCoupouArray ? vc.selectCashCoupouArray : [NSMutableArray array];
-                [vc.selectCashCoupouArray addObject:self.couponFordetailsDic];
-            }
-            vc.originVC = self;
-            vc.shop = self.shop;
-            vc.service = service;
-            vc.defaultCar = car;
-            vc.isAutoCouponSelect = YES;
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-        else if (car) {
-            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您的爱车信息不完善，请先完善" delegate:nil
-                                                cancelButtonTitle:@"前往完善" otherButtonTitles: nil];
-            [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
-                [MobClick event:@"rp104-9"];
-                EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
-                vc.originCar = car;
-                [self.navigationController pushViewController:vc animated:YES];
-            }];
-            [av show];
-        }
-        else
-        {
-            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您尚未添加车辆，请添加一辆" delegate:nil cancelButtonTitle:@"前往添加" otherButtonTitles: nil];
-            [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
-                [MobClick event:@"rp104-9"];
-                EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
-                [self.navigationController pushViewController:vc animated:YES];
-            }];
-            [av show];
-        }
     }];
 }
 
