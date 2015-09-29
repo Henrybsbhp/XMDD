@@ -65,6 +65,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.view.userInteractionEnabled = NO;
 
     [gAppMgr loadLastLocationAndWeather];
     [gAdMgr loadLastAdvertiseInfo:AdvertisementHomePage];
@@ -86,6 +88,8 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    self.view.userInteractionEnabled = YES;
     CKAsyncMainQueue(^{
         CGSize size = [self.containerView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
         self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, ceil(size.height));
