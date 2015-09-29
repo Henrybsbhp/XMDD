@@ -16,6 +16,7 @@
     self.req_method = @"/user/inscoupon/get";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params addParam:self.orderid forName:@"orderid"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }

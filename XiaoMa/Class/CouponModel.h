@@ -28,6 +28,6 @@
 
 - (RACSignal *)rac_getVaildResource;
 
-- (RACSignal *)rac_getVaildInsuranceCoupon;
+- (RACSignal *)rac_getVaildInsuranceCoupon:(NSNumber *)orderid;
 
 @end

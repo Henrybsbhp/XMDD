@@ -112,7 +112,7 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     NSArray * array = [self.datasource safetyObjectAtIndex:component];
-    
+    row = row >= array.count ? array.count - 1 : row;
     for (NSInteger i = 0;i < array.count;i++)
     {
         NSDictionary * dict = [array safetyObjectAtIndex:i];

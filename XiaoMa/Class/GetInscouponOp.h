@@ -10,6 +10,8 @@
 
 @interface GetInscouponOp : BaseOp
 
+@property (nonatomic,strong)NSNumber * orderid;
+
 ///优惠劵列表
 @property (nonatomic,strong)NSArray *rsp_inscouponsArray;
 
