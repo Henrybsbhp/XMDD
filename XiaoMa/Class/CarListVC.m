@@ -97,7 +97,7 @@
 - (void)setupCarModel
 {
     @weakify(self);
-    [[RACObserve(gAppMgr, myUser) flattenMap:^RACStream *(JTUser *user) {
+    [[[RACObserve(gAppMgr, myUser) distinctUntilChanged] flattenMap:^RACStream *(JTUser *user) {
         
         return [user.carModel rac_observeDataWithDoRequest:nil];
     }] subscribeNext:^(JTQueue *queue) {
@@ -187,6 +187,7 @@
                 }
             }
             else {
+                [MobClick event:@"rp104-9"];
                 EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Car"];
                 vc.originCar = self.model.selectedCar;
                 vc.model = self.model;

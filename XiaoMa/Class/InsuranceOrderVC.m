@@ -71,13 +71,16 @@
 {
     self.order.status = status;
     id amount;
+    id remark;
     //优惠额度
     int activityAmount = floor(self.order.activityAmount);
     if (activityAmount > 0) {
         NSString *str = [NSString stringWithFormat:@"(已优惠%d) ", activityAmount];
         NSDictionary *attr = @{NSForegroundColorAttributeName:HEXCOLOR(@"#8b9eb3"),
                                NSFontAttributeName:[UIFont systemFontOfSize:12]};
-        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:attr];
+        remark = [[NSAttributedString alloc] initWithString:str attributes:attr];
+        
+        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] init];
         
         str = [NSString stringWithFormat:@"￥%.2f ", self.order.totoalpay];
         attr = @{NSForegroundColorAttributeName:[UIColor blackColor],
@@ -99,7 +102,7 @@
                     RACTuplePack(@"保险公司",_order.inscomp),
                     RACTuplePack(@"证件号码",_order.idcard),
                     RACTuplePack(@"投保车辆",_order.licencenumber),
-                    RACTuplePack(@"共计保费",amount),
+                    RACTuplePack(@"共计保费",amount,remark),
                     RACTuplePack(@"保险期限",_order.validperiod)];
     
     self.coverages = self.order.policy.subInsuranceArray;
@@ -243,6 +246,8 @@
         leftLabel.text = item[0];
         [containerV addSubview:leftLabel];
         
+        UILabel *midLabel = leftLabel;
+        
         UILabel *rightLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         rightLabel.textColor = HEXCOLOR(@"#000000");
         rightLabel.font = [UIFont systemFontOfSize:14];
@@ -254,16 +259,32 @@
         rightLabel.attributedText = text;
         rightLabel.textAlignment = NSTextAlignmentRight;
         [containerV addSubview:rightLabel];
-
+        
+        id remark = [item third];
+        if (remark && [remark isKindOfClass:[NSAttributedString class]]) {
+            midLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+            midLabel.textColor = HEXCOLOR(@"#000000");
+            midLabel.font = [UIFont systemFontOfSize:14];
+            midLabel.attributedText = remark;
+            [containerV addSubview:midLabel];
+            [midLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh  forAxis:UILayoutConstraintAxisHorizontal];
+            [midLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(leftLabel);
+                make.left.equalTo(leftLabel.mas_right);
+                make.height.mas_equalTo(22);
+            }];
+        }
+        
         [leftLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(uponV);
             make.left.equalTo(containerV);
             make.height.mas_equalTo(22);
         }];
-        [rightLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+        
+        [rightLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [rightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(leftLabel);
-            make.left.equalTo(leftLabel.mas_right);
+            make.left.equalTo(midLabel.mas_right);
             make.right.equalTo(containerV);
             make.height.mas_equalTo(22);
         }];

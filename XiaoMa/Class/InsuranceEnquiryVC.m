@@ -37,7 +37,6 @@
         [self.containerView shake];
         return;
     }
-    
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         
         RACSignal * signal;
