@@ -232,6 +232,7 @@
 		6B5B78171BA7CC6000295B77 /* ProvinceChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5B78161BA7CC6000295B77 /* ProvinceChooseView.m */; };
 		6B5B78191BA7CC7600295B77 /* ProvinceChooseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B5B78181BA7CC7600295B77 /* ProvinceChooseView.xib */; };
 		6B65A76C1B856C9E00439228 /* CouponModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B65A76B1B856C9E00439228 /* CouponModel.m */; };
+		6B71C4221BB959CE0048B79F /* HKPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B71C4211BB959CE0048B79F /* HKPickerVC.m */; };
 		6B747A651AF08C7B00106BFD /* PhoneHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B747A641AF08C7B00106BFD /* PhoneHelper.m */; };
 		6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B82588F1AF8B37100D5D800 /* CommentListViewController.m */; };
 		6B978BFA1B6B643A00A6E7C6 /* HKCoverage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B978BF91B6B643A00A6E7C6 /* HKCoverage.m */; };
@@ -852,6 +853,8 @@
 		6B65A76A1B856C9E00439228 /* CouponModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CouponModel.h; path = Class/CouponModel.h; sourceTree = "<group>"; };
 		6B65A76B1B856C9E00439228 /* CouponModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CouponModel.m; path = Class/CouponModel.m; sourceTree = "<group>"; };
 		6B65DF4F1B1BF99000E54948 /* XiaoMaConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XiaoMaConstants.h; sourceTree = "<group>"; };
+		6B71C4201BB959CE0048B79F /* HKPickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKPickerVC.h; sourceTree = "<group>"; };
+		6B71C4211BB959CE0048B79F /* HKPickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKPickerVC.m; sourceTree = "<group>"; };
 		6B747A631AF08C7B00106BFD /* PhoneHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhoneHelper.h; path = Class/PhoneHelper.h; sourceTree = "<group>"; };
 		6B747A641AF08C7B00106BFD /* PhoneHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhoneHelper.m; path = Class/PhoneHelper.m; sourceTree = "<group>"; };
 		6B82588E1AF8B37100D5D800 /* CommentListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentListViewController.h; sourceTree = "<group>"; };
@@ -2039,6 +2042,8 @@
 				6B5B78151BA7CC6000295B77 /* ProvinceChooseView.h */,
 				6B5B78161BA7CC6000295B77 /* ProvinceChooseView.m */,
 				6B5B78181BA7CC7600295B77 /* ProvinceChooseView.xib */,
+				6B71C4201BB959CE0048B79F /* HKPickerVC.h */,
+				6B71C4211BB959CE0048B79F /* HKPickerVC.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -3353,6 +3358,7 @@
 				1837A75F1B72130F0006E6C5 /* SDBrowserImageView.m in Sources */,
 				6BA2B50D1BAFA04700D015FE /* CheckoutServiceOrderV3Op.m in Sources */,
 				6BBF7DA01B004A7A00E45967 /* MyInfoViewController.m in Sources */,
+				6B71C4221BB959CE0048B79F /* HKPickerVC.m in Sources */,
 				6B328ED01B79AAFA00B9F207 /* ChooseBankCardVC.m in Sources */,
 				189B31031AD7A935001D7288 /* DatePickerVC.m in Sources */,
 				186984E81B005A86000A182A /* CarwashOrderViewModel.m in Sources */,

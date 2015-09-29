@@ -49,11 +49,37 @@
     return sheet;
 }
 
+///弹出视图（默认样式是从底部弹出）
++ (MZFormSheetController *)bottomAppearSheetCtrlWithSize:(CGSize)size
+                                          viewController:(UIViewController *)vc
+                                              targetViewFrame:(CGRect)targetViewFrame
+{
+    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:size viewController:vc];
+    sheet.cornerRadius = 0;
+    sheet.shadowRadius = 0;
+    sheet.shadowOpacity = 0;
+    sheet.transitionStyle = MZFormSheetTransitionStyleSlideFromBottom;
+    sheet.shouldDismissOnBackgroundViewTap = YES;
+    [MZFormSheetController sharedBackgroundWindow].backgroundBlurEffect = NO;
+    sheet.portraitTopInset = CGRectGetHeight(targetViewFrame) - vc.view.frame.size.height;
+    return sheet;
+}
+
 + (MZFormSheetController *)presentSheetCtrlFromBottomWithSize:(CGSize)size
                                                viewController:(UIViewController *)vc
                                                    targetView:(UIView *)view
 {
     MZFormSheetController *sheet = [self bottomAppearSheetCtrlWithSize:size viewController:vc targetView:view];
+    [sheet presentAnimated:YES completionHandler:nil];
+    return sheet;
+}
+
+
++ (MZFormSheetController *)presentSheetCtrlFromBottomWithSize:(CGSize)size
+                                               viewController:(UIViewController *)vc
+                                                   targetViewFrame:(CGRect)targetViewFrame
+{
+    MZFormSheetController *sheet = [self bottomAppearSheetCtrlWithSize:size viewController:vc targetViewFrame:targetViewFrame];
     [sheet presentAnimated:YES completionHandler:nil];
     return sheet;
 }

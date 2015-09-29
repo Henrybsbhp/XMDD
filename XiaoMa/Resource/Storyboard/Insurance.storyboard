@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -2063,6 +2063,11 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="1" green="0.49019607840000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
+                                                            <variation key="default">
+                                                                <mask key="constraints">
+                                                                    <exclude reference="zPU-JG-bs8"/>
+                                                                </mask>
+                                                            </variation>
                                                         </label>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="array_down" translatesAutoresizingMaskIntoConstraints="NO" id="S7z-XS-xF9">
                                                             <rect key="frame" x="51" y="14" width="9" height="4"/>
@@ -2082,9 +2087,6 @@
                                                         <constraint firstAttribute="centerX" secondItem="z6P-H5-APA" secondAttribute="centerX" id="n7V-xJ-bQd"/>
                                                         <constraint firstItem="S7z-XS-xF9" firstAttribute="trailing" secondItem="KhO-xZ-WIi" secondAttribute="trailing" constant="-5" id="owq-MQ-vDO"/>
                                                     </constraints>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#BW_0.5#BC_(226,226,226)"/>
-                                                    </userDefinedRuntimeAttributes>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="n7V-xJ-bQd"/>
@@ -2359,6 +2361,7 @@
                         <outlet property="segmentedControl" destination="Dk0-e8-ND3" id="oBI-PR-DqI"/>
                         <outlet property="sureBtn" destination="5Ao-kZ-2gD" id="zjG-SP-TBF"/>
                         <outlet property="tableView" destination="Kt8-dN-CLs" id="fcF-uc-iua"/>
+                        <outlet property="vview" destination="22c-Ay-Xbv" id="oJE-72-2Fm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XTY-tg-Cl9" userLabel="First Responder" sceneMemberID="firstResponder"/>
