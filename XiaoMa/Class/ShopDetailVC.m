@@ -299,10 +299,10 @@
         if (indexPath.row == 0) {
             height = 84;
         }
-        else if (indexPath.row == 1 || indexPath.row == 2) {
+        else if (indexPath.row == 2) {
             height = 44;
         }
-        else if (indexPath.row < 3 + self.shop.shopServiceArray.count) {
+        else if (indexPath.row == 1 || indexPath.row < 3 + self.shop.shopServiceArray.count) {
             if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
             {
                 return UITableViewAutomaticDimension;
@@ -533,7 +533,6 @@
         
         [MobClick event:@"rp105-4"];
         @strongify(self)
-//        [gPhoneHelper navigationRedirectThirdMap:self.shop andUserLocation:gMapHelper.coordinate andView:self.view];
         CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
         vc.shop = self.shop;
         vc.favorite = self.favorite;
