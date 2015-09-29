@@ -36,6 +36,8 @@
 @property (nonatomic, strong) CarWashCouponVModel *carWashModel;
 @property (nonatomic, strong) CarWashCouponVModel *insuranceModel;
 @property (nonatomic, strong) CarWashCouponVModel *othersModel;
+@property (weak, nonatomic) IBOutlet UIView *getMoreView;
+- (IBAction)getMoreAction:(id)sender;
 
 @end
 
@@ -148,9 +150,14 @@
 
 - (IBAction)actionGetMore:(id)sender
 {
-    [MobClick event:@"rp304-6"];
     WebVC *vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
     vc.url = @"http://www.xiaomadada.com/apphtml/youhuiquan.html";
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (IBAction)getMoreAction:(id)sender {
+    [MobClick event:@"rp304-6"];
+    WebVC *vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
+    vc.url = @"http://www.xiaomadada.com/apphtml/couponpkg.html";
     [self.navigationController pushViewController:vc animated:YES];
 }
 @end
