@@ -22,6 +22,7 @@
 #import "HKBankCard.h"
 #import "PaymentHelper.h"
 
+#import "UIView+Shake.h"
 #import "GetUserCarOp.h"
 #import "GetUserResourcesV2Op.h"
 #import "SystemFastrateGetOp.h"
@@ -57,15 +58,20 @@
     [self setupBottomView];
     
     self.isLoadingResourse = YES;
-    [self requestGetUserResource];
     
-    self.selectCarwashCoupouArray = [NSMutableArray array];
-    self.selectCashCoupouArray = [NSMutableArray array];
+    self.selectCarwashCoupouArray = self.selectCarwashCoupouArray ? self.selectCarwashCoupouArray :[NSMutableArray array];
+    self.selectCashCoupouArray = self.selectCashCoupouArray ? self.selectCashCoupouArray : [NSMutableArray array];
     ///一开始设置支付宝，保证可用资源获取失败的时候能够正常默认选择
     self.checkoutServiceOrderV3Op = [[CheckoutServiceOrderV3Op alloc] init];
     self.checkoutServiceOrderV3Op.paychannel = PaymentChannelAlipay;
     
-    [self selectDefaultCoupon];
+    [self requestGetUserResource];
+    if (!self.isAutoCouponSelect)
+    {
+        [self selectDefaultCoupon];
+    }
+    
+    self.isAutoCouponSelect = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -121,6 +127,16 @@
 - (IBAction)actionPay:(id)sender
 {
     [MobClick event:@"rp108-7"];
+    if (!self.defaultCar) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:3 inSection:0];
+        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        CKAfter(0.15    , ^{
+            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+            [cell shake];
+        });
+        [gToast showError:@"请选择当前车辆"];
+        return;
+    }
     UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"支付确认" message:@"请务必到店享受服务，且与店员确认服务商家与软件当前支付商家一致后再付款，付完不退款" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
     [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
         
@@ -266,7 +282,8 @@
             vc.title = @"选择爱车";
             vc.model.allowAutoChangeSelectedCar = YES;
             vc.model.disableEditingCar = YES;
-            vc.model.selectedCar = self.defaultCar;
+            vc.model.currentCar = self.defaultCar;
+            vc.model.originVC = self;
             [vc.model setFinishBlock:^(HKMyCar *curSelectedCar) {
                 self.defaultCar = curSelectedCar;
             }];
@@ -686,7 +703,7 @@
     }];
     
     if ((indexPath.row == 1 && self.checkoutServiceOrderV3Op.paychannel == PaymentChannelXMDDCreditCard) ||
-        (indexPath.row == 2 && self.checkoutServiceOrderV3Op.paychannel == PaymentChannelWechat)||
+        (indexPath.row == 2 && self.checkoutServiceOrderV3Op.paychannel == PaymentChannelAlipay)||
         (indexPath.row == 3 && self.checkoutServiceOrderV3Op.paychannel == PaymentChannelWechat))
     {
         if (indexPath.row == 1){
@@ -725,11 +742,13 @@
 {
     [[gAppMgr.myUser.couponModel rac_getVaildResource] subscribeNext:^(GetUserResourcesV2Op * op) {
         
-        
         self.isLoadingResourse = NO;
         
-        [self selectDefaultCoupon];
-        [self autoSelectBankCard];
+        if (self.isAutoCouponSelect)
+        {
+            [self selectDefaultCoupon];
+            [self autoSelectBankCard];
+        }
         
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];

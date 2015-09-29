@@ -16,6 +16,7 @@
 #import "HKLoadingModel.h"
 #import "GetCarwashOrderOp.h"
 #import "ShopDetailVC.h"
+#import "PaymentSuccessVC.h"
 
 @interface CarwashOrderDetailVC ()<UITableViewDelegate, UITableViewDataSource, HKLoadingModelDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -91,7 +92,8 @@
 - (IBAction)actionComment:(id)sender
 {
     [MobClick event:@"rp320-1"];
-    CarwashOrderCommentVC *vc = [UIStoryboard vcWithId:@"CarwashOrderCommentVC" inStoryboard:@"Mine"];
+    
+    PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
     vc.order = self.order;
     [vc setCommentSuccess:^{
         [self reloadTableView];

@@ -40,7 +40,7 @@
     {
         return nil;
     }
-    HKCoupon * coupon = [[HKCoupon alloc] init];
+    HKCoupon * coupon = [HKCoupon couponWithJSONResponse:rsp];
     coupon.couponName = rsp[@"name"];
     coupon.couponDescription = rsp[@"description"];
     coupon.validsince = [NSDate dateWithD8Text:[NSString stringWithFormat:@"%@",rsp[@"validsince"]]];
