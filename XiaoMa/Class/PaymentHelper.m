@@ -65,9 +65,9 @@
     else if (_platformType == PaymentPlatformTypeWeChat) {
         WeChatHelper *helper = [[WeChatHelper alloc] init];
         signal = [helper rac_payWithTradeNumber:self.tradeNumber productName:self.productName price:self.price];
-        self.helper = signal;
+        self.helper = helper;
     }
-
+    
     return [signal map:^id(id value) {
         return self;
     }];

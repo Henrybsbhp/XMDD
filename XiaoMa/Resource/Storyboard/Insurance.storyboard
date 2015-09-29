@@ -412,7 +412,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <view tag="1001" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jGl-j3-mMc">
+                                                        <view tag="1001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jGl-j3-mMc">
                                                             <rect key="frame" x="0.0" y="23" width="600" height="58"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         </view>
@@ -496,12 +496,12 @@
                                                     </attributedString>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" tag="1002" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="填写车牌号码" textAlignment="right" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="t6V-et-fX5">
+                                                <textField opaque="NO" clipsSubviews="YES" tag="1002" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="填写车牌号码" textAlignment="right" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="t6V-et-fX5">
                                                     <rect key="frame" x="201" y="3" width="385" height="38"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
-                                                <button opaque="NO" tag="1003" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3PO-Dd-ivF">
+                                                <button opaque="NO" tag="1003" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3PO-Dd-ivF">
                                                     <rect key="frame" x="95" y="7" width="96" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="96" id="Ahd-gc-qUW"/>
@@ -558,7 +558,7 @@
                                                     </attributedString>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" tag="1002" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="cNW-cA-Bdm">
+                                                <textField opaque="NO" clipsSubviews="YES" tag="1002" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="cNW-cA-Bdm">
                                                     <rect key="frame" x="90" y="3" width="465" height="38"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
@@ -1749,13 +1749,13 @@
                                 <color key="textColor" red="0.1019607843" green="0.63137254899999995" blue="0.086274509799999996" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="我完成了0元洗车，赶快去告诉好友吧！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Bp-wd-Ee2">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我完成了0元洗车，赶快去告诉好友吧！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Bp-wd-Ee2">
                                 <rect key="frame" x="10" y="275" width="580" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="0.1481959712" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E5S-Dh-d3M">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E5S-Dh-d3M">
                                 <rect key="frame" x="218" y="327" width="164" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="cQC-WW-wF9"/>
@@ -2885,7 +2885,7 @@
                                                     <action selector="actionEnquire:" destination="a1o-Bb-jXE" eventType="touchUpInside" id="P58-Vr-zpS"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pPb-Yg-f7S">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pPb-Yg-f7S">
                                                 <rect key="frame" x="195" y="5" width="170" height="37"/>
                                                 <color key="backgroundColor" red="0.1058823529" green="0.71764705880000002" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
@@ -3069,7 +3069,10 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="上传资料后，我们将为您提供精准的报价，当然，您也可以预约购买保险!" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DfX-wy-B0W">
-                                                    <rect key="frame" x="14" y="20" width="347" height="36"/>
+                                                    <rect key="frame" x="14" y="16" width="347" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="40" id="7cZ-xh-szs"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -3080,10 +3083,12 @@
                                                 <constraint firstAttribute="bottomMargin" secondItem="DfX-wy-B0W" secondAttribute="bottom" id="CJJ-V2-bJc"/>
                                                 <constraint firstItem="DfX-wy-B0W" firstAttribute="top" secondItem="3RG-2E-Bay" secondAttribute="top" constant="8" id="EV1-wY-Buk"/>
                                                 <constraint firstAttribute="trailing" secondItem="DfX-wy-B0W" secondAttribute="trailing" constant="14" id="GWX-QS-NpM"/>
+                                                <constraint firstItem="DfX-wy-B0W" firstAttribute="top" secondItem="3RG-2E-Bay" secondAttribute="top" id="ZiU-HN-f85"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
                                                     <exclude reference="EV1-wY-Buk"/>
+                                                    <exclude reference="ZiU-HN-f85"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
