@@ -95,7 +95,15 @@
     UIImageView *logoV = (UIImageView *)[cell searchViewWithTag:1005];
     
     HKCoupon * couponDic = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
-    backgroundImg.image = [[UIImage imageNamed:@"coupon_background"] imageByFilledWithColor:[UIColor colorWithHex:[NSString stringWithFormat:@"#%@", couponDic.rgbColor] alpha:1.0f]];
+    
+    UIImage *bgImg = [UIImage imageNamed:@"coupon_background"];
+    if (couponDic.rgbColor.length > 0) {
+        NSString *strColor = [NSString stringWithFormat:@"#%@", couponDic.rgbColor];
+        UIColor *color = HEXCOLOR(strColor);
+        bgImg = [bgImg imageByFilledWithColor:color];
+    }
+    backgroundImg.image = bgImg;
+    
     [logoV setImageByUrl:couponDic.logo
                 withType:ImageURLTypeThumbnail defImage:@"coupon_logo" errorImage:@"coupon_logo"];
     

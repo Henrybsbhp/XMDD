@@ -85,7 +85,7 @@
             desc = @"订单已关闭";
             break;
         default:
-            desc = @"订单已关闭";
+            desc = @"订单异常";
             break;
     }
     return desc;

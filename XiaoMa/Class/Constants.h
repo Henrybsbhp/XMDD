@@ -61,7 +61,7 @@ typedef enum : NSUInteger {
 
 #define kDefTintColor   HEXCOLOR(@"#15ac1f")
 #define kDefLineColor   HEXCOLOR(@"#ebebeb")
-#define kDarkLineColor   HEXCOLOR(@"#e0e0e0")
+#define kDarkLineColor  HEXCOLOR(@"#e0e0e0")
 
 #define kKeyChainBaseServer     @"com.huika.xmdd"
 
