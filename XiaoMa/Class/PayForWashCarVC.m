@@ -527,7 +527,7 @@
                     HKCoupon * c = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
                     self.couponType = c.conponType;
                     if (self.couponType == CouponTypeCZBankCarWash){
-                        self.checkoutServiceOrderV3Op.paychannel = PaymentChannelAlipay;
+                        self.checkoutServiceOrderV3Op.paychannel = PaymentChannelXMDDCreditCard;
                     }
                     [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
                 }

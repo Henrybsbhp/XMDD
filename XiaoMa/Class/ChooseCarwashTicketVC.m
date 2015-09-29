@@ -13,6 +13,7 @@
 #import "PayForWashCarVC.h"
 #import "UIBarButtonItem+CustomStyle.h"
 #import "WebVC.h"
+#import "PayForInsuranceVC.h"
 
 @interface ChooseCarwashTicketVC ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -109,6 +110,29 @@
         else
         {
             if (payVc.couponType  == self.type)
+            {
+                [payVc setCouponType:0];
+            }
+        }
+        [payVc tableViewReloadData];
+    }
+    
+    if (vc && [vc isKindOfClass:[PayForInsuranceVC class]])
+    {
+        PayForInsuranceVC * payVc = (PayForInsuranceVC *)vc;
+        if (self.selectedCouponArray.count)
+        {
+            HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];
+            self.type = c.conponType;
+            if (self.type == CouponTypeInsurance)
+            {
+                [payVc setSelectInsuranceCoupouArray:self.selectedCouponArray];
+            }
+            [payVc setCouponType:self.type];
+        }
+        else
+        {
+            if (payVc.couponType == self.type)
             {
                 [payVc setCouponType:0];
             }
