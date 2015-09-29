@@ -762,8 +762,8 @@
         if (needAutoSelect)
         {
             [self selectDefaultCoupon];
-            [self autoSelectBankCard];
         }
+        [self autoSelectBankCard];
         
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
