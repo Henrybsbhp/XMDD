@@ -2074,12 +2074,12 @@
                                                         <constraint firstAttribute="width" constant="90" id="R1S-zD-uXN"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <state key="normal" title="去评价" backgroundImage="me_btn_bg1">
+                                                    <state key="normal" title="去评价">
                                                         <color key="titleColor" red="0.08235294118" green="0.67450980390000004" blue="0.1215686275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="BCI_5,5,5,5"/>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CR_5#BW_1#RGB(21,172,31)"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </button>
                                             </subviews>
@@ -2185,12 +2185,12 @@
                                                         <constraint firstAttribute="width" constant="90" id="i03-fA-7IC"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <state key="normal" title="去评价" backgroundImage="me_btn_bg1">
+                                                    <state key="normal" title="去评价">
                                                         <color key="titleColor" red="0.08235294118" green="0.67450980390000004" blue="0.1215686275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="BCI_5,5,5,5"/>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CR_5#BW_1"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </button>
                                             </subviews>
@@ -3811,7 +3811,6 @@
         <image name="cw_box1" width="16" height="16"/>
         <image name="horizonta_line_red" width="1" height="1"/>
         <image name="logo" width="70" height="70"/>
-        <image name="me_btn_bg1" width="12" height="26"/>
         <image name="mec_btn_bg1" width="18" height="33"/>
         <image name="mec_btn_bg2" width="22" height="30"/>
         <image name="mec_cell_bg1" width="68" height="73"/>

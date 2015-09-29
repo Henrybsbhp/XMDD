@@ -39,11 +39,6 @@
 }
 
 #pragma mark - Action
-- (void)actionBuy:(id)sender
-{
-    
-}
-
 - (void)actionMakeCall:(id)sender
 {
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
@@ -128,6 +123,7 @@
     BOOL unpaid = order.status == InsuranceOrderStatusUnpaid;
     [bottomB setTitle:unpaid ? @"买了" : @"联系客服" forState:UIControlStateNormal];
     [bottomB setTitleColor:unpaid ? RGBCOLOR(251, 88, 15) : RGBCOLOR(21, 172, 31) forState:UIControlStateNormal];
+    
     bottomB.layer.borderColor = unpaid ? [RGBCOLOR(251, 88, 15) CGColor] : [RGBCOLOR(21, 172, 31) CGColor];
     
      @weakify(self);
@@ -136,7 +132,9 @@
          
         @strongify(self);
          if (unpaid) {
-             [self actionBuy:x];
+             InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
+             vc.order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+             [self.targetVC.navigationController pushViewController:vc animated:YES];
          }
          else {
              [self actionMakeCall:x];
@@ -154,8 +152,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    HKInsuranceOrder * order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
-    vc.order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
+    vc.order = order;
     [self.targetVC.navigationController pushViewController:vc animated:YES];
 }
 
