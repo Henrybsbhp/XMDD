@@ -19,11 +19,25 @@
 @property (weak, nonatomic) IBOutlet JTLabel *resultLabel;
 @property (weak, nonatomic) IBOutlet UILabel *failureContentLabel;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
+@property (nonatomic, assign) BOOL navPopGestureEnable;
+
 - (IBAction)shareAction:(id)sender;
 
 @end
 
 @implementation InsuranceResultVC
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:NO];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:YES];
+}
 
 - (void)actionBack:(id)sender
 {
