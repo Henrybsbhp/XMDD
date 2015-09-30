@@ -31,30 +31,32 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp134"];
-    [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:NO];
     [MobClick beginLogPageView:@"rp327"];
+    [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp134"];
-    [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:YES];
     [MobClick endLogPageView:@"rp327"];
+    [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:YES];
 }
 
 - (void)actionBack:(id)sender
 {
-    UIViewController *vc = [self.navigationController.viewControllers firstObjectByFilteringOperator:^BOOL(id obj) {
-        return [(UIViewController *)obj isKindOfClass:NSClassFromString(@"InsuranceVC")];
-    }];
+    UIViewController *vc = self.originVC;
+    if (!vc) {
+        vc = [self.navigationController.viewControllers firstObjectByFilteringOperator:^BOOL(id obj) {
+            return [(UIViewController *)obj isKindOfClass:NSClassFromString(@"InsuranceVC")];
+        }];
+    }
     if (vc) {
         [self.navigationController popToViewController:vc animated:YES];
     }
     else {
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
+    [self postCustomNotificationName:kNotifyRefreshDetailInsuranceOrder object:self.orderID];
 }
 
 -(void)setResultType:(InsuranceResult) resultType

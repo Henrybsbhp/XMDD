@@ -1,4 +1,0 @@
-$(require (lib "template/objc"))
-$<${(namespace (lambda (root) (spath root "/node[attr/op]") (children root)))}
-$(export (format "~a.h" (class-name _)))
-$>
