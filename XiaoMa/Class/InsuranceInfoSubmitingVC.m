@@ -52,6 +52,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp126"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp126"];
+}
+
 - (void)setupDrivingLicenseHistoryView
 {
     self.historyView.delegate = self;
@@ -107,6 +119,7 @@
 
 - (IBAction)actionNext:(id)sender
 {
+    [MobClick event:@"rp126-10"];
     if ([self checkInfomation]) {
         InsuranceChooseViewController *vc = [UIStoryboard vcWithId:@"InsuranceChooseViewController" inStoryboard:@"Insurance"];
         vc.idcard = self.idcardField.text;
@@ -117,6 +130,7 @@
 }
 - (IBAction)actionEnquire:(id)sender
 {
+    [MobClick event:@"rp126-4"];
     if ([self checkInfomation]) {
         UpdateInsuranceCalculateOp *op = [[UpdateInsuranceCalculateOp alloc] init];
         op.req_cid = self.calculatorOp.rsp_calculatorID;
@@ -141,6 +155,7 @@
     }
 }
 - (IBAction)actionBuy:(id)sender {
+    [MobClick event:@"rp126-7"];
     if ([self checkInfomation]) {
         InsuranceAppointmentOp *op = [[InsuranceAppointmentOp alloc] init];
         op.req_purchaseprice = self.calculatorOp.req_purchaseprice;
@@ -166,6 +181,7 @@
 }
 
 - (void)actionUpload:(id)sender {
+    [MobClick event:@"rp126-8"];
     @weakify(self);
     [[[self.imageView rac_setUploadingImage:self.currentRecord.image withImageType:UploadFileTypeDrivingLicense]
       initially:^{
@@ -186,8 +202,18 @@
       }];
 }
 
+- (void)actionRepickImage:(id)sender {
+    [MobClick event:@"rp126-8"];
+    [self _pickImage];
+}
+
 - (IBAction)actionPickImage:(id)sender {
-    [MobClick event:@"rp124-2"];
+    [MobClick event:@"rp126-3"];
+    [self _pickImage];
+}
+
+- (void)_pickImage {
+
     [self.view endEditing:YES];
     JGActionSheetSection *section1 = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"拍照",@"从相册选择"]
                                                                 buttonStyle:JGActionSheetButtonStyleDefault];
@@ -283,7 +309,7 @@
 #pragma mark - TextField
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [MobClick event:@"rp124-1"];
+    [MobClick event:@"rp126-1"];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -396,7 +422,7 @@
         self.imageView = imageView;
         [imageView.tapGesture addTarget:self action:@selector(actionPickImage:)];
         [imageView.reuploadButton addTarget:self action:@selector(actionUpload:) forControlEvents:UIControlEventTouchUpInside];
-        [imageView.pickImageButton addTarget:self action:@selector(actionPickImage:) forControlEvents:UIControlEventTouchUpInside];
+        [imageView.pickImageButton addTarget:self action:@selector(actionRepickImage:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     if (!maskView) {

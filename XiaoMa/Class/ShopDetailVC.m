@@ -286,7 +286,7 @@
         vc.originVC = self;
         vc.shop = self.shop;
         vc.service = service;
-        vc.defaultCar = car;
+        vc.defaultCar = [car isCarInfoCompleted] ? car : nil;
         [self.navigationController pushViewController:vc animated:YES];
     }];
 }
