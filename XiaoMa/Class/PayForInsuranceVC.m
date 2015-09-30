@@ -478,8 +478,8 @@
     {
         if (indexPath.row == 1) {
             
-            label.text = self.insOrder.activityName;
-            tagLb.text = self.insOrder.activityTag;
+            label.text = self.insOrder.activityTag;
+            tagLb.text = self.insOrder.activityName;
             // TODO @fq
             tagLb.cornerRadius = 3.0f;
             arrow.hidden = NO;
@@ -754,6 +754,7 @@
             obj.selected = NO;
         }];
         
+        @strongify(boxB)
         boxB.selected = YES;
         if (indexPath.row == 1){
             [MobClick event:@"rp326-3"];
