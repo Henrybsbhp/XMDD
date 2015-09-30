@@ -104,7 +104,7 @@
     PaymentChannelType channel = [self getCurrentPaymentChannel];
     if (channel == 0)
     {
-        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请选择支付方式" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"好的", nil];
+        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请选择支付方式" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
         [av show];
         return;
     }
