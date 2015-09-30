@@ -34,7 +34,7 @@
     order.status = [rsp integerParamForName:@"status"];
     order.lstupdatetime = [NSDate dateWithD14Text:rsp[@"lstupdatetime"]];
     order.totoalpay = [rsp floatParamForName:@"totalpay"];
-    
+    order.picUrl = rsp[@"inscomplogo"];
     order.iscontainActivity = [rsp boolParamForName:@"isusedcoupon"];
     order.activityName = rsp[@"activityname"];
     order.activityTag = rsp[@"couponname"];
