@@ -101,7 +101,14 @@
     op.req_type = self.isSelectActivity;
     
     [self getCurrentCoupon:op];
-    op.req_paychannel = [self getCurrentPaymentChannel];
+    PaymentChannelType * channel = [self getCurrentPaymentChannel];
+    if (channel == 0)
+    {
+        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请选择支付方式" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"好的", nil];
+        [av show];
+        return;
+    }
+    op.req_paychannel = channel;
 
     @weakify(self);
     [[[op rac_postRequest] initially:^{
@@ -155,7 +162,7 @@
             }
         }
     }
-    return PaymentChannelAlipay;
+    return 0;
 }
 
 - (void)getCurrentCoupon:(InsuranceOrderPayOp *)op
