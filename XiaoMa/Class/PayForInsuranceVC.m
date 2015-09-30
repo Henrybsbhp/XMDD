@@ -599,11 +599,7 @@
 //            [MobClick event:@"rp108-1"];
             if (!self.selectInsuranceCoupouArray.count)
             {
-                ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
-                vc.selectedCouponArray = self.selectInsuranceCoupouArray;
-                vc.type = CouponTypeInsurance;//@fq
-                vc.couponArray = gAppMgr.myUser.couponModel.validInsuranceCouponArray;
-                [self.navigationController pushViewController:vc animated:YES];
+                [self jumpToChooseCouponVC];
                 [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxDiscountGroup];
             }
             else
@@ -627,19 +623,24 @@
         {
             if (self.insOrder.iscontainActivity)
             {
-                self.isSelectActivity = YES;
-                self.couponType = 0;
-                [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxDiscountGroup];
+                if (self.isSelectActivity)
+                {
+                    self.isSelectActivity = NO;
+                    self.couponType = 0;
+                    [self.checkBoxHelper cancelSelectedForGroupName:CheckBoxDiscountGroup];
+                }
+                else
+                {
+                    self.isSelectActivity = YES;
+                    self.couponType = 0;
+                    [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxDiscountGroup];
+                }
             }
             else
             {
                 if (!self.selectInsuranceCoupouArray.count)
                 {
-                    ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
-                    vc.selectedCouponArray = self.selectInsuranceCoupouArray;
-                    vc.type = CouponTypeInsurance;//@fq
-                    vc.couponArray = gAppMgr.myUser.couponModel.validInsuranceCouponArray;
-                    [self.navigationController pushViewController:vc animated:YES];
+                    [self jumpToChooseCouponVC];
                     [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxDiscountGroup];
                 }
                 else
@@ -659,6 +660,7 @@
             }
         }
         
+//        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
         [self refreshPriceLb];
     }];
     
@@ -805,10 +807,17 @@
     }
     if (gAppMgr.myUser.couponModel.validInsuranceCouponArray.count)
     {
-        HKCoupon * coupon = [gAppMgr.myUser.couponModel.validInsuranceCouponArray safetyObjectAtIndex:0];
-        self.couponType = coupon.conponType;
-        [self.selectInsuranceCoupouArray addObject:coupon];
-        self.isSelectActivity = NO;
+        for (NSInteger i = 0 ; i < gAppMgr.myUser.couponModel.validInsuranceCouponArray.count ; i++)
+        {
+            HKCoupon * coupon = [gAppMgr.myUser.couponModel.validInsuranceCouponArray safetyObjectAtIndex:i];
+            if (coupon.couponAmount < self.insOrder.totoalpay)
+            {
+                    [self.selectInsuranceCoupouArray addObject:coupon];
+                    self.couponType = CouponTypeCash;
+                    self.isSelectActivity = NO;
+                    break;
+            }
+        }
         [self tableViewReloadData];
         return;
     }
@@ -837,7 +846,7 @@
         }
         else if (self.insOrder.activityType == DiscountTypeDiscount)
         {
-            amount = amount * self.insOrder.activityAmount;
+            amount = amount - self.insOrder.activityAmount;
         }
     }
     
