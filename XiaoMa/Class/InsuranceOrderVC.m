@@ -108,14 +108,14 @@
                  NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle)};
         [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:attr]];
         
-        str = [NSString stringWithFormat:@"￥%.2f", self.order.fee];
+        str = [NSString stringWithFormat:@"￥%.2f", self.order.totoalpay - self.order.activityAmount];
         attr = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
                  NSForegroundColorAttributeName:[UIColor blackColor]};
         [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:attr]];
         amount = attrStr;
     }
     else {
-        amount = [NSString stringWithFormat:@"￥%.2f", self.order.fee];
+        amount = [NSString stringWithFormat:@"￥%.2f", self.order.totoalpay];
     }
 
 
