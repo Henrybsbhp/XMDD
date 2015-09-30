@@ -80,7 +80,6 @@
 }
 
 - (void)actionAiCheBao {
-    [MobClick event:@"rp114-2"];
     AiCheBaoInsuranceVC *vc = [UIStoryboard vcWithId:@"AiCheBaoInsuranceVC" inStoryboard:@"Insurance"];
     vc.originVC = self;
     [self.navigationController pushViewController:vc animated:YES];

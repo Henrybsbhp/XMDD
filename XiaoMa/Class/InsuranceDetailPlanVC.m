@@ -41,6 +41,18 @@
      [self setupSegmentControl];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp117"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp117"];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -54,18 +66,6 @@
     [self setupModel];
     
     [self.tableView reloadData];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp117"];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick beginLogPageView:@"rp117"];
 }
 
 - (void)setupSegmentControl
