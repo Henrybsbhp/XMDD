@@ -164,6 +164,7 @@
     logoV.layer.cornerRadius = 22.0F;
     [logoV.layer setMasksToBounds:YES];
     name.text = couponDic.couponName;
+    
     description.text = [NSString stringWithFormat:@"%@", couponDic.subname];
     validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",[couponDic.validsince dateFormatForYYMMdd2],[couponDic.validthrough dateFormatForYYMMdd2]];
     

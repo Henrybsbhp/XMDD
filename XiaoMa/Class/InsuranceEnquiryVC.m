@@ -25,6 +25,18 @@
     [super viewDidLoad];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp115"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp115"];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -33,6 +45,7 @@
 #pragma mark - Action
 - (IBAction)actionEnquiry:(id)sender
 {
+    [MobClick event:@"rp115-7"];
     if (self.textField.text.length == 0 || [self.textField.text integerValue] == 0) {
         [self.containerView shake];
         return;
@@ -104,6 +117,7 @@
 #pragma mark - UITextFieldDelegate
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
+    [MobClick event:@"rp115-5"];
     [self.placeholdLabel setHidden:YES animated:YES];
 }
 

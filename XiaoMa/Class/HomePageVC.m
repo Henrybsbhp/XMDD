@@ -508,7 +508,7 @@
         
         [paragraphStyle setLineSpacing:5];//调整行间距
         
-        [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [label.text length])];
+        [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [text length])];
         label.attributedText = attributedString;
     }
     else {

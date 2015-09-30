@@ -41,6 +41,18 @@
      [self setupSegmentControl];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp117"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp117"];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -128,6 +140,7 @@
 #pragma mark - Utility
 - (void)segmentValueChanged:(id)sender
 {
+    [MobClick event:@"rp117-1"];
     CCSegmentedControl* segmentedControl = sender;
     self.selectIndex = segmentedControl.selectedSegmentIndex;
     InsuranceDetailPlanModel * model = [self.modelArray safetyObjectAtIndex:self.selectIndex];

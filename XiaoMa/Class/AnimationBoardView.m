@@ -23,13 +23,13 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.frame = frame;
-        self.firstImgView = [[UIImageView alloc] initWithFrame:CGRectMake(15, -80, 105, 105)];
+        self.firstImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, -80, 105, 105)];
         self.firstImgView.image = [UIImage imageNamed:@"ani_bigcircle"];
-        self.secondImgView = [[UIImageView alloc] initWithFrame:CGRectMake(30, 110, 74, 47)];
+        self.secondImgView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 110, 74, 47)];
         self.secondImgView.image = [UIImage imageNamed:@"ani_envelope"];
-        self.thirdImgView = [[UIImageView alloc] initWithFrame:CGRectMake(58, 48, 20, 20)];
+        self.thirdImgView = [[UIImageView alloc] initWithFrame:CGRectMake(43, 48, 20, 20)];
         self.thirdImgView.image = [UIImage imageNamed:@"ani_smallcircle"];
-        self.fourthImgView = [[UIImageView alloc] initWithFrame:CGRectMake(58, 45, 25, 20)];
+        self.fourthImgView = [[UIImageView alloc] initWithFrame:CGRectMake(43, 45, 25, 20)];
         self.fourthImgView.image = [UIImage imageNamed:@"ani_hook"];
     }
     return self;
