@@ -119,7 +119,7 @@
     
     stateL.text = [order descForCurrentStatus]; //老方式，已经用新字段替换
     timeL.text = [order.lstupdatetime dateFormatForYYYYMMddHHmm];
-    priceL.text = [NSString stringWithFormat:@"￥%d", (int)(order.policy.premium)];
+    priceL.text = [NSString stringWithFormat:@"￥%d", (int)(order.fee)];
     
     BOOL unpaid = order.status == InsuranceOrderStatusUnpaid;
     [bottomB setTitle:unpaid ? @"买了" : @"联系客服" forState:UIControlStateNormal];
