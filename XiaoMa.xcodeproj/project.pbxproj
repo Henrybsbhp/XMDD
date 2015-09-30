@@ -121,6 +121,7 @@
 		1893712B1B0E0D460030FDE1 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 189371281B0E0D460030FDE1 /* TTTAttributedLabel.m */; };
 		189371361B0F592F0030FDE1 /* JTQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 189371351B0F592F0030FDE1 /* JTQueue.m */; };
 		1893713A1B0F59420030FDE1 /* CacheModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 189371391B0F59420030FDE1 /* CacheModel.m */; };
+		18988C441BBAB32F001DECD5 /* InsuranceOrderPaidSuccessOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18988C431BBAB32F001DECD5 /* InsuranceOrderPaidSuccessOp.m */; };
 		189B30AF1AD4D661001D7288 /* JTLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30AC1AD4D661001D7288 /* JTLabel.m */; };
 		189B30B01AD4D661001D7288 /* JTTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30AE1AD4D661001D7288 /* JTTableViewController.m */; };
 		189B30B31AD4F7AC001D7288 /* UIView+CustomForXIB.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30B21AD4F7AC001D7288 /* UIView+CustomForXIB.m */; };
@@ -641,6 +642,8 @@
 		189371371B0F59420030FDE1 /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseModel.h; path = Class/BaseModel.h; sourceTree = "<group>"; };
 		189371381B0F59420030FDE1 /* CacheModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CacheModel.h; path = Class/CacheModel.h; sourceTree = "<group>"; };
 		189371391B0F59420030FDE1 /* CacheModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CacheModel.m; path = Class/CacheModel.m; sourceTree = "<group>"; };
+		18988C421BBAB32F001DECD5 /* InsuranceOrderPaidSuccessOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InsuranceOrderPaidSuccessOp.h; path = Class/InsuranceOrderPaidSuccessOp.h; sourceTree = "<group>"; };
+		18988C431BBAB32F001DECD5 /* InsuranceOrderPaidSuccessOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsuranceOrderPaidSuccessOp.m; path = Class/InsuranceOrderPaidSuccessOp.m; sourceTree = "<group>"; };
 		189B30AB1AD4D661001D7288 /* JTLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTLabel.h; path = Class/JTLabel.h; sourceTree = "<group>"; };
 		189B30AC1AD4D661001D7288 /* JTLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTLabel.m; path = Class/JTLabel.m; sourceTree = "<group>"; };
 		189B30AD1AD4D661001D7288 /* JTTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTTableViewController.h; path = Class/JTTableViewController.h; sourceTree = "<group>"; };
@@ -2561,6 +2564,8 @@
 				18C81CBE1B18403000B0C292 /* FeedbackOp.m */,
 				189B395C1AF9D9F700B83F1B /* UpdateCarOp.h */,
 				189B395D1AF9D9F700B83F1B /* UpdateCarOp.m */,
+				18988C421BBAB32F001DECD5 /* InsuranceOrderPaidSuccessOp.h */,
+				18988C431BBAB32F001DECD5 /* InsuranceOrderPaidSuccessOp.m */,
 				189B395F1AF9DD3B00B83F1B /* AddCarOp.h */,
 				189B39601AF9DD3B00B83F1B /* AddCarOp.m */,
 				1851F4191B0C210D00241A01 /* GetAutomobileBrandOp.h */,
@@ -3275,6 +3280,7 @@
 				186985151B02E7DB000A182A /* UIScrollView+RefreshView.m in Sources */,
 				18B78F591BA9893C0061ECAD /* GetLaunchInfoOp.m in Sources */,
 				6BEA56C81AE24DCE000D19C1 /* SBJsonBase.m in Sources */,
+				18988C441BBAB32F001DECD5 /* InsuranceOrderPaidSuccessOp.m in Sources */,
 				6BD293B71B9401D6006482A4 /* InsuranceChooseViewController.m in Sources */,
 				18804AA21B25811E00E7E764 /* HKRefreshControl.m in Sources */,
 				6BCA5F431B102D5700E1E630 /* GetUserCouponPkgOp.m in Sources */,

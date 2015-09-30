@@ -527,7 +527,7 @@
                     HKCoupon * c = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
                     self.couponType = c.conponType;
                     if (self.couponType == CouponTypeCZBankCarWash){
-                        self.checkoutServiceOrderV3Op.paychannel = PaymentChannelAlipay;
+                        self.checkoutServiceOrderV3Op.paychannel = PaymentChannelXMDDCreditCard;
                     }
                     [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
                 }
@@ -762,8 +762,8 @@
         if (needAutoSelect)
         {
             [self selectDefaultCoupon];
-            [self autoSelectBankCard];
         }
+        [self autoSelectBankCard];
         
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];

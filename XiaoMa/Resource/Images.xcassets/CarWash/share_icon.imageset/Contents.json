@@ -7,11 +7,12 @@
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "启动宣传750-1334-4.png"
+      "filename" : "分享@2x.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "分享@3x.png"
     }
   ],
   "info" : {

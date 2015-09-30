@@ -405,6 +405,34 @@
             [array safetyAddObject:s];
         }
     }
+    
+    for (HKCoverage * c in self.insuranceArry2)
+    {
+        if (c.customTag)
+        {
+            NSString * paramText = @"";
+            for (NSDictionary * obj in c.params)
+            {
+                if (obj.customTag)
+                {
+                    paramText = [paramText append:[obj objectForKey:@"key"]];
+                    break;
+                }
+            }
+            for (NSDictionary * obj in c.params2)
+            {
+                if (obj.customTag)
+                {
+                    paramText = [paramText append:@" "];
+                    paramText = [paramText append:[obj objectForKey:@"key"]];
+                    break;
+                }
+            }
+            paramText = paramText.length ? paramText : @"0";
+            NSString * s = [NSString stringWithFormat:@"%@@%@@%@@%.2f",c.insId,c.insName,paramText,0.00];
+            [array safetyAddObject:s];
+        }
+    }
     //    NSString * inslist = [array componentsJoinedByString:@"|"];
     return array;
 }

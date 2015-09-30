@@ -65,6 +65,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.view.userInteractionEnabled = NO;
 
     [gAppMgr loadLastLocationAndWeather];
     [gAdMgr loadLastAdvertiseInfo:AdvertisementHomePage];
@@ -86,6 +88,8 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    self.view.userInteractionEnabled = YES;
     CKAsyncMainQueue(^{
         CGSize size = [self.containerView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
         self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, ceil(size.height));
@@ -503,13 +507,11 @@
 - (void)setupLineSpace:(UILabel *)label withText:(NSString *)text
 {
     if (IOSVersionGreaterThanOrEqualTo(@"7.0")) {
-        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        
         [paragraphStyle setLineSpacing:5];//调整行间距
         
-        [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [text length])];
-        label.attributedText = attributedString;
+        NSDictionary *attr = @{NSParagraphStyleAttributeName: paragraphStyle};
+        label.attributedText = [[NSAttributedString alloc] initWithString:text attributes:attr];
     }
     else {
         label.text = text;

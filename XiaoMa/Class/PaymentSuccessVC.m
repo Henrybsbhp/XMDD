@@ -39,7 +39,6 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offsetY2;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offsetY3;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offsetY4;
-
 @end
 
 @implementation PaymentSuccessVC
@@ -69,12 +68,14 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp110"];
+    [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp110"];
+    [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:YES];
 }
 
 - (void)dealloc
