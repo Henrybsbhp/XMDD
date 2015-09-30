@@ -19,6 +19,7 @@
     [params addParam:self.req_orderid forName:@"orderid"];
     [params addParam:@(self.req_rating) forName:@"rating"];
     [params addParam:self.req_comment forName:@"comment"];
+    [params addParam:self.req_ids forName:@"ids"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
