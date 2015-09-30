@@ -268,8 +268,8 @@
             }
             amount = amount + c.couponAmount;
         }
-        if (amount + coupon.couponAmount < self.upperLimit ||
-            self.selectedCouponArray.count >= self.numberLimit)
+        if (amount + coupon.couponAmount < self.upperLimit &&
+            self.selectedCouponArray.count < self.numberLimit)
         {
             [MobClick event:@"rp109-1"];
             [self.selectedCouponArray addObject:coupon];
