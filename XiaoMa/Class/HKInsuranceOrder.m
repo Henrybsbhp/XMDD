@@ -41,6 +41,7 @@
     order.activityType = (DiscountType)[rsp integerParamForName:@"coupontype"];
     order.activityAmount = [rsp floatParamForName:@"couponmoney"];
     order.insordernumber = rsp[@"insordernumber"];
+    order.fee = [rsp floatParamForName:@"fee"];
     return order;
 }
 

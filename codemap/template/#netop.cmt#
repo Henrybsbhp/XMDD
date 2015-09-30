@@ -1,0 +1,4 @@
+$(require (lib "template/objc"))
+$<${(namespace (lambda (root) (children root)))}
+$(export (format ""))
+$>
