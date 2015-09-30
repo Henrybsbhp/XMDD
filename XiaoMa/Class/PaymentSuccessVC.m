@@ -18,7 +18,7 @@
 
 
 
-@interface PaymentSuccessVC ()<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface PaymentSuccessVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet DrawingBoardView *drawingView;
@@ -27,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *recommendBtn;
 @property (weak, nonatomic) IBOutlet JTRatingView *ratingView;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (nonatomic, assign) BOOL isTextViewEdit;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UILabel *commentLb;
 
@@ -50,7 +51,7 @@
         [self changeCollectionHeight];
         [self changeOffset];
         [self setupRateView];
-        
+        [self setupTextView];
         [self setupUI:self.commentStatus];
     });
     
@@ -94,7 +95,7 @@
 }
 - (IBAction)shareAction:(id)sender {
     
-    [MobClick event:@"rp110-1"];
+    [MobClick event:@"rp110-9"];
     SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
     vc.tt = @"小马达达－一分洗车，十分满意";
     vc.subtitle = @"我完成了洗车，你也来试试吧";
@@ -117,7 +118,7 @@
     }];
 }
 - (IBAction)commentAction:(id)sender {
-    [MobClick event:@"rp110-2"];
+    [MobClick event:@"rp110-12"];
     
     SubmitCommentOp * op = [SubmitCommentOp operation];
     NSString * withoutSpace= [self.textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -181,14 +182,18 @@
     }];
 }
 
-
 - (void)setupTextView
 {
-//    @weakify(self)
-//    [[self.textView rac_textSignal] subscribeNext:^(NSString * s) {
-//        
-//       
-//    }];
+    self.textView.delegate = self;
+    self.isTextViewEdit = NO; //输入框获取焦点的代理方法会执行两次
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    if (!self.isTextViewEdit) {
+        [MobClick event:@"rp110-11"];
+        self.isTextViewEdit = !self.isTextViewEdit;
+    }
 }
 
 - (void)setupUI:(CommentStatus)status
@@ -298,6 +303,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    [MobClick event:@"rp110-10"];
     NSDictionary * d = [self.currentRateTemplate safetyObjectAtIndex:indexPath.section * 2 + indexPath.row];
 //    NSString * s = d[[d.allKeys safetyObjectAtIndex:0]];
     d.customTag =  !d.customTag;
