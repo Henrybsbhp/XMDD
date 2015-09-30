@@ -21,19 +21,25 @@
                                 <rect key="frame" x="0.0" y="498" width="600" height="102"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch_logo" translatesAutoresizingMaskIntoConstraints="NO" id="f9F-3F-8Sa">
-                                        <rect key="frame" x="207.5" y="24.5" width="185" height="53"/>
+                                        <rect key="frame" x="195" y="22" width="210" height="80"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="53" id="Uud-Af-9dX"/>
-                                            <constraint firstAttribute="width" constant="185" id="c3r-KM-JmF"/>
+                                            <constraint firstAttribute="height" constant="80" id="Uud-Af-9dX"/>
+                                            <constraint firstAttribute="width" constant="210" id="c3r-KM-JmF"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="f9F-3F-8Sa" secondAttribute="bottom" id="FZN-id-qJP"/>
                                     <constraint firstAttribute="centerX" secondItem="f9F-3F-8Sa" secondAttribute="centerX" id="VI1-B2-LH4"/>
                                     <constraint firstAttribute="height" constant="102" id="b2F-OY-rnS"/>
                                     <constraint firstAttribute="centerY" secondItem="f9F-3F-8Sa" secondAttribute="centerY" id="bnq-0k-y7s"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="bnq-0k-y7s"/>
+                                    </mask>
+                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -67,19 +73,25 @@
                                 <rect key="frame" x="0.0" y="498" width="600" height="102"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch_logo" translatesAutoresizingMaskIntoConstraints="NO" id="qwX-SC-GwO">
-                                        <rect key="frame" x="207" y="24" width="185" height="53"/>
+                                        <rect key="frame" x="194.5" y="22" width="210" height="80"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="185" id="BOX-Rk-lxh"/>
-                                            <constraint firstAttribute="height" constant="53" id="c9G-3G-66J"/>
+                                            <constraint firstAttribute="width" constant="210" id="BOX-Rk-lxh"/>
+                                            <constraint firstAttribute="height" constant="80" id="c9G-3G-66J"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="qwX-SC-GwO" secondAttribute="bottom" id="2XU-Oj-UzY"/>
                                     <constraint firstAttribute="centerX" secondItem="qwX-SC-GwO" secondAttribute="centerX" id="7cc-Qh-jBR"/>
                                     <constraint firstAttribute="centerY" secondItem="qwX-SC-GwO" secondAttribute="centerY" id="c6K-du-6Wz"/>
                                     <constraint firstAttribute="height" constant="102" id="fxP-ft-lu5"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="c6K-du-6Wz"/>
+                                    </mask>
+                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -110,6 +122,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="launch_logo" width="185" height="53"/>
+        <image name="launch_logo" width="210" height="80"/>
     </resources>
 </document>
