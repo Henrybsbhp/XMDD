@@ -30,8 +30,6 @@
 ///银行卡id
 @property (nonatomic,strong)NSNumber *bankCardId;
 
-///支付平台，这个不会用到接口中，只是做个储存
-@property (nonatomic)PaymentPlatform  platform;
 
 ///订单id
 @property (nonatomic,strong)NSNumber * rsp_orderid;
