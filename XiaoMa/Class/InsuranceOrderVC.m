@@ -337,6 +337,9 @@
     label.textColor = HEXCOLOR(@"#8b9eb3");
     [label setBorderLineColor:HEXCOLOR(@"#ccdbef") forDirectionMask:CKViewBorderDirectionAll];
     label.textAlignment = NSTextAlignmentCenter;
+    label.numberOfLines = 2;
+    label.adjustsFontSizeToFitWidth = YES;
+    label.minimumScaleFactor = 0.6;
     [containerV addSubview:label];
     
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -347,7 +350,7 @@
             make.right.equalTo(containerV);
         }
         if (leftV) {
-            make.width.equalTo(leftV.mas_width).multipliedBy(4.0/3.0);
+            make.width.equalTo(leftV.mas_width).multipliedBy(5.0/4.0);
         }
     }];
     NSInteger mask = CKViewBorderDirectionLeft | CKViewBorderDirectionBottom;
