@@ -70,6 +70,9 @@
         case InsuranceOrderStatusUnpaid:
             desc = @"未支付";
             break;
+        case InsuranceOrderStatusOuttime:
+            desc = @"已过期";
+            break;
         case InsuranceOrderStatusPaid:
             desc = @"保单受理中";
             break;

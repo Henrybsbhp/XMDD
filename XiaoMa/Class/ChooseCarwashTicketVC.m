@@ -129,6 +129,7 @@
                 [payVc setSelectInsuranceCoupouArray:self.selectedCouponArray];
             }
             [payVc setCouponType:self.type];
+            payVc.isSelectActivity = NO;
         }
         else
         {
@@ -267,7 +268,8 @@
             }
             amount = amount + c.couponAmount;
         }
-        if (amount + coupon.couponAmount < self.upperLimit)
+        if (amount + coupon.couponAmount < self.upperLimit &&
+            self.selectedCouponArray.count < self.numberLimit)
         {
             [MobClick event:@"rp109-1"];
             [self.selectedCouponArray addObject:coupon];

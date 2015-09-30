@@ -41,13 +41,20 @@
     [self setupCheckBoxHelper];
     [self setupBottomView];
     
-    ///一开始设置支付宝，保证可用资源获取失败的时候能够正常默认选择
-    self.platform = PayWithAlipay;
-    
     self.selectInsuranceCoupouArray = [NSMutableArray array];
     
     self.isLoadingResourse = YES;
     [self requestGetUserInsCoupon];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [MobClick beginLogPageView:@"rp326"];
+    [super viewWillAppear:animated];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [MobClick endLogPageView:@"rp326"];
+    [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -88,30 +95,20 @@
 
 #pragma mark - Action
 - (IBAction)actionPay:(id)sender {
-    
+    [MobClick event:@"rp326-6"];
     InsuranceOrderPayOp * op = [InsuranceOrderPayOp operation];
     op.req_orderid = self.insOrder.orderid;
     op.req_type = self.isSelectActivity;
-    if (self.isSelectActivity)
+    
+    [self getCurrentCoupon:op];
+    PaymentChannelType * channel = [self getCurrentPaymentChannel];
+    if (channel == 0)
     {
-        op.req_cid = nil;
-        op.req_paychannel = [self getCurrentPaymentChannel];
+        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请选择支付方式" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"好的", nil];
+        [av show];
+        return;
     }
-    else
-    {
-        if (!self.couponType)
-        {
-            op.req_cid = nil;
-            op.req_paychannel = [self getCurrentPaymentChannel];
-        }
-        else
-        {
-            HKCoupon * c = [self.selectInsuranceCoupouArray safetyObjectAtIndex:0];
-            op.req_cid = c.couponId;
-            op.req_paychannel = PaymentChannelCoupon;
-        }
-    }
-    op.platform = [self getCurrentPaymentPlatform];
+    op.req_paychannel = channel;
 
     @weakify(self);
     [[[op rac_postRequest] initially:^{
@@ -165,12 +162,12 @@
             }
         }
     }
-    return PaymentChannelAlipay;
+    return 0;
 }
 
-- (PaymentPlatform)getCurrentPaymentPlatform
+- (void)getCurrentCoupon:(InsuranceOrderPayOp *)op
 {
-    NSArray * array = [[self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup] sortedArrayUsingComparator:^NSComparisonResult(UIButton * obj1, UIButton * obj2) {
+    NSArray * array = [[self.checkBoxHelper itemsForGroupName:CheckBoxDiscountGroup] sortedArrayUsingComparator:^NSComparisonResult(UIButton * obj1, UIButton * obj2) {
         
         NSIndexPath * path1 = (NSIndexPath *)obj1.customObject;
         NSIndexPath * path2 = (NSIndexPath *)obj2.customObject;
@@ -182,25 +179,45 @@
         BOOL s = btn.selected;
         if (s == YES)
         {
-            if (i == 0)
+            if (i == 1)
             {
-                return PayWithAlipay;
-            }
-            else if (i == 1)
-            {
-                if (gPhoneHelper.exsitWechat)
-                    return PayWithWechat;
+                if (self.insOrder.iscontainActivity)
+                {
+                    op.req_cid = nil;
+                    op.req_type = self.insOrder.activityType;
+                }
                 else
-                    return PayWithUPPay;
+                {
+                    if (!self.couponType)
+                    {
+                        op.req_cid = nil;
+                    }
+                    else
+                    {
+                        HKCoupon * c = [self.selectInsuranceCoupouArray safetyObjectAtIndex:0];
+                        op.req_cid = c.couponId;
+                    }
+                    op.req_type = 0;
+                }
             }
             else if (i == 2)
             {
-                return PayWithUPPay;
+                if (!self.couponType)
+                {
+                    op.req_cid = nil;
+                }
+                else
+                {
+                    HKCoupon * c = [self.selectInsuranceCoupouArray safetyObjectAtIndex:0];
+                    op.req_cid = c.couponId;
+                }
+                op.req_type = 0;
             }
+            return;
         }
     }
-    return PayWithAlipay;
 }
+
 
 - (BOOL)callPaymentHelperWithPayOp:(InsuranceOrderPayOp *)op
 {
@@ -210,16 +227,16 @@
     PaymentHelper *helper = [[PaymentHelper alloc] init];
     NSString * info = [NSString stringWithFormat:@"%@",self.insOrder.policyholder];
     NSString *text;
-    switch (op.platform) {
-        case PayWithAlipay: {
+    switch (op.req_paychannel) {
+        case PaymentChannelAlipay: {
             text = @"订单生成成功,正在跳转到支付宝平台进行支付";
             [helper resetForAlipayWithTradeNumber:op.rsp_tradeno productName:info productDescription:info price:op.rsp_total];
         } break;
-        case PayWithWechat: {
+        case PaymentChannelWechat: {
             text = @"订单生成成功,正在跳转到微信平台进行支付";
             [helper resetForWeChatWithTradeNumber:op.rsp_tradeno productName:info price:op.rsp_total];
         } break;
-        case PayWithUPPay: {
+        case PaymentChannelUPpay: {
             text = @"订单生成成功,正在跳转到银联平台进行支付";
             [helper resetForUPPayWithTradeNumber:op.rsp_tradeno targetVC:self];
         } break;
@@ -374,6 +391,7 @@
     if (indexPath.section == 1) {
         if (indexPath.row == 1)
         {
+            [MobClick event:@"rp326-1"];
             if (!self.insOrder.iscontainActivity)
             {
                 [self jumpToChooseCouponVC];
@@ -381,6 +399,7 @@
         }
         else if (indexPath.row == 2)
         {
+            [MobClick event:@"rp326-2"];
             [self jumpToChooseCouponVC];
         }
         
@@ -497,6 +516,8 @@
         }
     }
     
+
+    
     
     // checkBox 点击处理
     NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxDiscountGroup];
@@ -552,17 +573,6 @@
                     statusLb.hidden = YES;
                 }
             }
-            
-            if ((self.isSelectActivity && indexPath.row == 1) ||
-                (self.couponType == CouponTypeInsurance && indexPath.row == 2))
-            {
-                [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxDiscountGroup];
-                boxB.selected = YES;
-            }
-            else
-            {
-                boxB.selected = NO;
-            }
         }
         else
         {
@@ -607,6 +617,7 @@
                 {
                     HKCoupon * c = [self.selectInsuranceCoupouArray safetyObjectAtIndex:0];
                     self.couponType = c.conponType;
+                    self.isSelectActivity = NO;
                     [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxDiscountGroup];
                 }
             }
@@ -648,7 +659,6 @@
             }
         }
         
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
         [self refreshPriceLb];
     }];
     
@@ -666,7 +676,6 @@
     titleLb = (UILabel *)[cell.contentView viewWithTag:1002];
     noteLb = (UILabel *)[cell.contentView viewWithTag:1004];
     boxB = (UIButton *)[cell.contentView viewWithTag:1003];
-    boxB.selected = NO;
     
     
     if (indexPath.row == 1) {
@@ -695,6 +704,7 @@
     }
     
     NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup];
+    UIButton * removeBtn;
     for (NSInteger i = 0 ; i < array.count ; i++)
     {
         UIButton * btn = [array safetyObjectAtIndex:i];
@@ -704,64 +714,44 @@
             if (path.section == indexPath.section && path.row == indexPath.row)
             {
                 [self.checkBoxHelper removeItem:btn forGroupName:CheckBoxPlatformGroup];
+                removeBtn = btn;
                 break;
             }
         }
     }
     @weakify(self);
     boxB.customObject = indexPath;
+    boxB.selected = removeBtn.selected;
     [self.checkBoxHelper addItem:boxB forGroupName:CheckBoxPlatformGroup withChangedBlock:^(id item, BOOL selected) {
         
-        boxB.selected = selected;
     }];
     
+    @weakify(boxB)
     [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
         
-        [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxPlatformGroup];
+        NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup];
+        [array enumerateObjectsUsingBlock:^(UIButton * obj, NSUInteger idx, BOOL *stop) {
+            
+            obj.selected = NO;
+        }];
         
+        boxB.selected = YES;
         if (indexPath.row == 1){
-            self.platform = PayWithAlipay;
+            [MobClick event:@"rp326-3"];
         }
         else if (indexPath.row == 2){
-            if (gPhoneHelper.exsitWechat)
-                self.platform = PayWithWechat;
-            else
-                self.platform = PayWithUPPay;
+            if (gPhoneHelper.exsitWechat) {
+                [MobClick event:@"rp326-4"];
+            }
+            else {
+                [MobClick event:@"rp326-5"];
+            }
         }
         else{
-            self.platform = PayWithUPPay;
+            [MobClick event:@"rp326-5"];
         }
     }];
-    
-    if (gPhoneHelper.exsitWechat)
-    {
-        if ((indexPath.row == 1 && self.platform == PayWithAlipay) ||
-            (indexPath.row == 2 && self.platform == PayWithWechat)||
-            (indexPath.row == 3 && self.platform == PayWithUPPay))
-        {
-            [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxPlatformGroup];
-            boxB.selected = YES;
-        }
-        else
-        {
-            boxB.selected = NO;
-        }
-    }
-    else
-    {
-        if ((indexPath.row == 1 && self.platform == PayWithAlipay) ||
-            (indexPath.row == 2 && self.platform == PayWithUPPay))
-        {
-            [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxPlatformGroup];
-            boxB.selected = YES;
-        }
-        else
-        {
-            boxB.selected = NO;
-        }
-
-    }
 
     return cell;
 }
@@ -883,12 +873,14 @@
         statusLb.text = @"已选中";
         statusLb.textColor = HEXCOLOR(@"#fb4209");
         statusLb.hidden = NO;
+        boxB.selected = YES;
     }
     else
     {
         statusLb.text = @"未使用";
         statusLb.textColor = HEXCOLOR(@"#aaaaaa");
         statusLb.hidden = YES;
+        boxB.selected = NO;
     }
     return cell;
 }
@@ -900,6 +892,7 @@
     vc.selectedCouponArray = self.selectInsuranceCoupouArray;
     vc.couponArray = gAppMgr.myUser.couponModel.validInsuranceCouponArray;
     vc.numberLimit = 1;
+    vc.upperLimit = self.insOrder.totoalpay;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

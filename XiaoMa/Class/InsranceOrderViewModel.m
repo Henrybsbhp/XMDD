@@ -133,11 +133,13 @@
          
         @strongify(self);
          if (unpaid) {
+             [MobClick event:@"rp318-6"];
              PayForInsuranceVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"PayForInsuranceVC"];
              vc.insOrder = order;
              [self.targetVC.navigationController pushViewController:vc animated:YES];
          }
          else {
+             [MobClick event:@"rp318-5"];
              [self actionMakeCall:x];
          }
     }];

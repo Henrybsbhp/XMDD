@@ -19,12 +19,6 @@ typedef enum : NSUInteger {
 /**
  支付平台
  */
-typedef enum : NSUInteger {
-    PayWithAlipay,
-    PayWithWechat,
-    PayWithXMDDCreditCard,
-    PayWithUPPay
-} PaymentPlatform;
 
 /// 支付渠道 0不要用（0表示没有选择支付渠道）
 typedef enum : NSUInteger {

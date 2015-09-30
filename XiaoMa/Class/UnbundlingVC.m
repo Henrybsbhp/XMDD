@@ -35,19 +35,19 @@ static NSString *s_sendedPhone;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [MobClick beginLogPageView:@"rp326"];
+    [MobClick beginLogPageView:@"rp329"];
     [super viewWillAppear:animated];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [MobClick endLogPageView:@"rp326"];
+    [MobClick endLogPageView:@"rp329"];
     [super viewWillDisappear:animated];
 }
 
 #pragma mark - Action
 - (void)actionGetVcode:(id)sender
 {
-    [MobClick event:@"rp326-2"];
+    [MobClick event:@"rp329-2"];
     @weakify(self);
     RACSignal *signal = [self.smsModel rac_getUnbindCZBVcode];
     [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:signal] subscribeNext:^(id x) {
@@ -65,7 +65,7 @@ static NSString *s_sendedPhone;
 
 - (IBAction)actionUnbind:(id)sender
 {
-    [MobClick event:@"rp326-3"];
+    [MobClick event:@"rp329-3"];
     if ([self sharkCellIfErrorAtIndex:0]) {
         return;
     }
@@ -81,7 +81,7 @@ static NSString *s_sendedPhone;
         @strongify(self);
         [gToast dismiss];
         [ResultVC showInTargetVC:self withSuccessText:@"解绑成功!" ensureBlock:^{
-            [MobClick event:@"rp326-4"];
+            [MobClick event:@"rp329-4"];
             [self.navigationController popToViewController:self.originVC animated:YES];
             [self postCustomNotificationName:kNotifyRefreshMyBankcardList object:nil];
         }];
@@ -149,7 +149,7 @@ static NSString *s_sendedPhone;
     UIButton *vcodeBtn = (UIButton *)[cell.contentView viewWithTag:1002];
     
     [[[textfield rac_signalForControlEvents:UIControlEventEditingDidBegin] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        [MobClick event:@"rp326-1"];
+        [MobClick event:@"rp329-1"];
     }];
     
     if (!self.vcodeButton) {
