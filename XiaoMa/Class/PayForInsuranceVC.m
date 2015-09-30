@@ -98,9 +98,25 @@
     [MobClick event:@"rp326-6"];
     InsuranceOrderPayOp * op = [InsuranceOrderPayOp operation];
     op.req_orderid = self.insOrder.orderid;
-    op.req_type = self.isSelectActivity;
     
-    [self getCurrentCoupon:op];
+    if (self.isSelectActivity)
+    {
+        op.req_cid = nil;
+        op.req_type = self.isSelectActivity;
+    }
+    else
+    {
+        if (!self.couponType)
+        {
+            op.req_cid = nil;
+        }
+        else
+        {
+            HKCoupon * c = [self.selectInsuranceCoupouArray safetyObjectAtIndex:0];
+            op.req_cid = c.couponId;
+        }
+    }
+    
     PaymentChannelType channel = [self getCurrentPaymentChannel];
     if (channel == 0)
     {
