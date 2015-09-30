@@ -396,11 +396,11 @@
 - (NSArray *)inslistForVC
 {
     NSMutableArray * array = [NSMutableArray array];
-    NSString * paramText = @"";
     for (HKCoverage * c in self.insuranceArry)
     {
         if (c.customTag)
         {
+            NSString * paramText = @"";
             for (NSDictionary * obj in c.params)
             {
                 if (obj.customTag)
@@ -428,6 +428,7 @@
     {
         if (c.customTag)
         {
+            NSString * paramText = @"";
             for (NSDictionary * obj in c.params)
             {
                 if (obj.customTag)
