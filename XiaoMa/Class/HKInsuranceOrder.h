@@ -62,16 +62,14 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) InsuranceOrderStatus status;
 //订单最后更新时间
 @property (nonatomic, strong) NSDate *lstupdatetime;
-//是否使用活动优惠
-@property (nonatomic) BOOL isusedCoupon;
-//优惠类型
-@property (nonatomic, assign) NSInteger couponType;
-//优惠名称
-@property (nonatomic, strong) NSString *couponName;
-//优惠金额
-@property (nonatomic, assign) CGFloat couponMoney;
-
-
+////是否使用活动优惠
+//@property (nonatomic) BOOL isusedCoupon;
+////优惠类型
+//@property (nonatomic, assign) NSInteger couponType;
+////优惠名称
+//@property (nonatomic, strong) NSString *couponName;
+////优惠金额
+//@property (nonatomic, assign) CGFloat couponMoney;
 
 //保险订单活动
 @property (nonatomic, assign)BOOL  iscontainActivity;
