@@ -309,7 +309,12 @@
 #pragma mark - TextField
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [MobClick event:@"rp126-1"];
+    if (textField == self.idcardField) {
+        [MobClick event:@"rp126-1"];
+    }
+    else {
+        [MobClick event:@"rp126-6"];
+    }
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -487,6 +492,7 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     UITextField *textField = (UITextField *)[cell.contentView viewWithTag:10002];
     if (!self.inviteField) {
+        self.inviteField.delegate = self;
         self.inviteField = textField;
     }
     return cell;

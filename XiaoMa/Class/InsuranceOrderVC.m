@@ -39,6 +39,16 @@
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp319"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp319"];
+}
+
 - (void)resetBottomButton
 {
     UIColor *bgColor;
@@ -119,12 +129,19 @@
 }
 #pragma mark - Action
 - (void)actionPay:(id)sender {
+    [MobClick event:@"rp319-1"];
     PayForInsuranceVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"PayForInsuranceVC"];
     vc.insOrder = self.order;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionMakeCall:(id)sender {
+    if (self.order.status == InsuranceOrderStatusPaid) {
+        [MobClick event:@"rp319-2"];
+    }
+    else if (self.order.status == InsuranceOrderStatusComplete){
+        [MobClick event:@"rp319-3"];
+    }
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
 }
 

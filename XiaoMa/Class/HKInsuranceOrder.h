@@ -17,6 +17,7 @@ typedef enum : NSUInteger {
 
 typedef enum : NSUInteger {
     InsuranceOrderStatusUnpaid = 2,     //待付款
+    InsuranceOrderStatusOuttime = 4,    //已过期
     InsuranceOrderStatusPaid = 7,       //已支付
     InsuranceOrderStatusStopped = 9,    //已停保
     InsuranceOrderStatusComplete = 10,  //寄送保单（已完成）

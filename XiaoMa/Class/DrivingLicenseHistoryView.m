@@ -171,6 +171,7 @@
     @weakify(self);
     [[[deleteB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
+         [MobClick event:@"rp126-5"];
          @strongify(self);
          [self actionDeleteRecord:record];
     }];
