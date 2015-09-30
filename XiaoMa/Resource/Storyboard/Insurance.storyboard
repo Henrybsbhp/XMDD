@@ -1178,7 +1178,7 @@
         <!--订单详情-->
         <scene sceneID="Nkl-Q6-5t1">
             <objects>
-                <viewController storyboardIdentifier="InsuranceOrderVC" title="订单详情" hidesBottomBarWhenPushed="YES" id="l3V-WV-WdE" customClass="InsuranceOrderVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="InsuranceOrderVC" title="订单详情" id="l3V-WV-WdE" customClass="InsuranceOrderVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tN2-jd-FDq"/>
                         <viewControllerLayoutGuide type="bottom" id="hjF-yA-UDW"/>
@@ -3426,7 +3426,7 @@
         <!--支付确认-->
         <scene sceneID="bmy-c0-x80">
             <objects>
-                <viewController storyboardIdentifier="PayForInsuranceVC" hidesBottomBarWhenPushed="YES" id="LXq-ru-fF7" customClass="PayForInsuranceVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PayForInsuranceVC" id="LXq-ru-fF7" customClass="PayForInsuranceVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Qzz-LP-Ahp"/>
                         <viewControllerLayoutGuide type="bottom" id="ANJ-wZ-mkG"/>
