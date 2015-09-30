@@ -1,0 +1,5 @@
+(require codemap/base)
+(workspace-directory ".")
+(output-directory "codemap/output/")
+(temp-output-directory "codemap/history/")
+(main-input-file #f)
