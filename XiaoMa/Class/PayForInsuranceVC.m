@@ -241,7 +241,7 @@
         return NO;
     }
     PaymentHelper *helper = [[PaymentHelper alloc] init];
-    NSString * info = [NSString stringWithFormat:@"%@",self.insOrder.policyholder];
+    NSString * info = [NSString stringWithFormat:@"保险订单: %@",self.insOrder.licencenumber];
     NSString *text;
     switch (op.req_paychannel) {
         case PaymentChannelAlipay: {
@@ -277,7 +277,7 @@
         }];
     } error:^(NSError *error) {
         
-        [gToast showError:error.domain];
+        [gToast showError:@"订单支付失败"];
     }];
     return YES;
 }
@@ -754,6 +754,7 @@
             obj.selected = NO;
         }];
         
+        @strongify(boxB)
         boxB.selected = YES;
         if (indexPath.row == 1){
             [MobClick event:@"rp326-3"];
