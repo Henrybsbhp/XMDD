@@ -27,6 +27,7 @@
 #import "GetUserResourcesV2Op.h"
 #import "SystemFastrateGetOp.h"
 #import "CheckoutServiceOrderV3Op.h"
+#import "InsuranceOrderPaidSuccessOp.h"
 
 
 #define CheckBoxCouponGroup @"CheckBoxCouponGroup"
@@ -962,6 +963,14 @@
     [[helper rac_startPay] subscribeNext:^(id x) {
         
         [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
+        
+        InsuranceOrderPaidSuccessOp *iop = [[InsuranceOrderPaidSuccessOp alloc] init];
+        iop.req_notifytype = 2;
+        iop.req_tradeno = tradeId;
+        [[iop rac_postRequest] subscribeNext:^(id x) {
+            DebugLog(@"洗车已通知服务器支付成功!");
+        }];
+        
         PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
         vc.originVC = self.originVC;
         vc.subtitle = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
@@ -971,6 +980,7 @@
         order.shop = self.shop;
         vc.order = order;
         [self.navigationController pushViewController:vc animated:YES];
+        
     } error:^(NSError *error) {
         
     }];
@@ -985,6 +995,14 @@
     [[helper rac_startPay] subscribeNext:^(NSString * info) {
 
         [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
+        
+        InsuranceOrderPaidSuccessOp *iop = [[InsuranceOrderPaidSuccessOp alloc] init];
+        iop.req_notifytype = 2;
+        iop.req_tradeno = tradeId;
+        [[iop rac_postRequest] subscribeNext:^(id x) {
+            DebugLog(@"洗车已通知服务器支付成功!");
+        }];
+        
         PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
         vc.originVC = self.originVC;
         vc.subtitle = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
