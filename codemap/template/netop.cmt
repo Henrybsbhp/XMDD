@@ -1,0 +1,13 @@
+$(require (lib "template/objc"))
+$<${(namespace (lambda (root)
+				 (spath root "/node[attr/op]")))}
+$(export (format "~aOp.h" (class-name _)))
+#import "BaseOp.h"
+$(oc:out-import-linked-classes)
+@interface $(out (format "~aOp.h" (class-name _))) : BaseOp.h
+@property (nonatomic,copy)NSString *req_phone;
+@property (nonatomic, strong) NSString *rsp_expires;
+@property (nonatomic, strong) NSString *rsp_token;
+
+@end
+$>
