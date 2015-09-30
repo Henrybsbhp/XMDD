@@ -37,6 +37,7 @@
     else {
         [self.loadingModel loadDataForTheFirstTime];
     }
+    [self setupNotify];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -70,6 +71,15 @@
     [self.bottomButton setTitle:title forState:UIControlStateNormal];
     [self.bottomButton removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
     [self.bottomButton addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)setupNotify
+{
+    [self listenNotificationByName:kNotifyRefreshDetailInsuranceOrder withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        if ([note.object isKindOfClass:[NSNumber class]] && [self.orderID isEqualToNumber:note.object]) {
+            [self.loadingModel reloadData];
+        }
+    }];
 }
 #pragma mark - Load
 - (void)reloadDatasource
@@ -107,14 +117,19 @@
     else {
         amount = [NSString stringWithFormat:@"￥%.2f", self.order.totoalpay-activityAmount];
     }
-    
-    self.titles = @[RACTuplePack(@"被保险人",_order.policyholder),
-                    RACTuplePack(@"保险公司",_order.inscomp),
-                    RACTuplePack(@"证件号码",_order.idcard),
-                    RACTuplePack(@"投保车辆",_order.licencenumber),
-                    RACTuplePack(@"共计保费",amount,remark),
-                    RACTuplePack(@"保险期限",_order.validperiod)];
-    
+
+
+    NSArray *array = @[RACTuplePack(@"被保险人",_order.policyholder),
+                       RACTuplePack(@"保险公司",_order.inscomp),
+                       RACTuplePack(@"证件号码",_order.idcard),
+                       RACTuplePack(@"投保车辆",_order.licencenumber),
+                       RACTuplePack(@"共计保费",amount,remark),
+                       RACTuplePack(@"保险期限",_order.validperiod)];
+    NSMutableArray *titles = [NSMutableArray arrayWithArray:array];
+    if (_order.insordernumber.length > 0) {
+        [titles safetyInsertObject:RACTuplePack(@"保单编号",_order.insordernumber) atIndex:0];
+    }
+    self.titles = titles;
     self.coverages = self.order.policy.subInsuranceArray;
     [self resetBottomButton];
     [self.tableView reloadData];

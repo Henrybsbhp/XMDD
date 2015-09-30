@@ -9,6 +9,7 @@
 #import "NavigationModel.h"
 #import "WebVC.h"
 #import "CarwashOrderDetailVC.h"
+#import "InsuranceOrderVC.h"
 #import "MyCouponVC.h"
 
 @implementation NavigationModel
@@ -62,12 +63,11 @@
         //订单详情
         else if ([@"o" equalByCaseInsensitive:name] && gAppMgr.myUser) {
             NSNumber *orderid = @([value integerValue]);
-            CarwashOrderDetailVC *vc = (CarwashOrderDetailVC *)[self viewControllerByIdentify:@"CarwashOrderDetailVC"];
-            if (vc && ([orderid isEqualToNumber:vc.order.orderid] || [orderid isEqualToNumber:vc.orderID])) {
-                [self.curNavCtrl popToViewController:vc animated:YES];
-            }
-            else {
-                vc = [UIStoryboard vcWithId:@"CarwashOrderDetailVC" inStoryboard:@"Mine"];
+            if ([self popToViewControllerIfNeededByIdentify:@"CarwashOrderDetailVC" withPrecidate:^BOOL(UIViewController *curvc) {
+                CarwashOrderDetailVC *vc = (CarwashOrderDetailVC *)curvc;
+                return [orderid isEqualToNumber:vc.order.orderid] || [orderid isEqualToNumber:vc.orderID];
+            }]) {
+                CarwashOrderDetailVC *vc = [UIStoryboard vcWithId:@"CarwashOrderDetailVC" inStoryboard:@"Mine"];
                 vc.orderID = orderid;
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
@@ -79,6 +79,33 @@
                 UIViewController *vc = [UIStoryboard vcWithId:@"MyOrderListVC" inStoryboard:@"Mine"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
+            flag = YES;
+        }
+        //保险订单
+        else if ([@"ino" equalByCaseInsensitive:name] && gAppMgr.myUser) {
+            NSNumber *orderid = value.length > 0 ? @([value integerValue]) : nil;
+            //保险订单列表
+            if (!orderid && ![self popToViewControllerIfNeededByIdentify:@"MyOrderListVC"]) {
+                UIViewController *vc = [UIStoryboard vcWithId:@"MyOrderListVC" inStoryboard:@"Mine"];
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+            //保险订单详情
+            else if (orderid){
+                UIViewController *vc = [self viewControllerByIdentify:@"InsuranceOrderVC" withPrecidate:^BOOL(UIViewController *curvc) {
+                    InsuranceOrderVC *vc = (InsuranceOrderVC *)curvc;
+                    return [orderid isEqualToNumber:vc.order.orderid] || [orderid isEqualToNumber:vc.orderID];
+                }];
+                if (vc) {
+                    [self.curNavCtrl popToViewController:vc animated:YES];
+                    [self postCustomNotificationName:kNotifyRefreshDetailInsuranceOrder object:orderid];
+                }
+                else {
+                    InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
+                    vc.orderID = orderid;
+                    [self.curNavCtrl pushViewController:vc animated:YES];
+                }
+            }
+            
             flag = YES;
         }
         //礼包
@@ -169,22 +196,32 @@
 
 - (BOOL)popToViewControllerIfNeededByIdentify:(NSString *)identify
 {
-    UIViewController *vc = [self viewControllerByIdentify:identify];
-    if (vc) {
-        [self.curNavCtrl popToViewController:vc animated:YES];
-        return YES;
-    }
-    return NO;
+    return [self popToViewControllerIfNeededByIdentify:identify withPrecidate:nil];
 }
 
-- (UIViewController *)viewControllerByIdentify:(NSString *)identify
+- (BOOL)popToViewControllerIfNeededByIdentify:(NSString *)identify withPrecidate:(BOOL(^)(UIViewController *))precidate
 {
-    UIViewController *vc = [self.curNavCtrl.viewControllers firstObjectByFilteringOperator:^BOOL(NSObject *obj) {
-        if ([obj isKindOfClass:[UIViewController class]]) {
-            return [[(UIViewController *)obj className] equalByCaseInsensitive:identify];
+    UIViewController *vc = [self viewControllerByIdentify:identify withPrecidate:precidate];
+    if (vc) {
+        [self.curNavCtrl popToViewController:vc animated:YES];
+    }
+    return (BOOL)vc;
+}
+
+- (UIViewController *)viewControllerByIdentify:(NSString *)identify withPrecidate:(BOOL(^)(UIViewController *))precidate
+{
+    UIViewController *vc;
+    for (UIViewController *curvc in self.curNavCtrl.viewControllers) {
+        if ([[curvc className] isEqualToString:identify]) {
+            if (precidate && precidate(curvc)) {
+                vc = curvc;
+            }
+            else if (!precidate) {
+                vc = curvc;
+            }
         }
-        return NO;
-    }];
+    }
     return vc;
 }
+
 @end
