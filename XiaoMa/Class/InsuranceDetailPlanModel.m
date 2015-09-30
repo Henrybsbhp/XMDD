@@ -121,6 +121,7 @@
             @weakify(boxBtn);
             [[[boxBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 
+                [MobClick event:@"rp117-1"];
                 @strongify(boxBtn);
                 
                 /**
@@ -209,7 +210,7 @@
             
             @weakify(boxBtn);
             [[[boxBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-                
+                [MobClick event:@"rp117-1"];
                 @strongify(boxBtn);
                 BOOL flag = boxBtn.selected;
                 [boxBtn setSelected:!flag];
@@ -255,7 +256,7 @@
             boxBtn.selected = coverage.customTag;
             @weakify(boxBtn);
             [[[boxBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-                
+                [MobClick event:@"rp117-2"];
                 @strongify(boxBtn);
                 BOOL flag = boxBtn.selected;
                 [boxBtn setSelected:!flag];

@@ -33,6 +33,7 @@
 #pragma mark - Action
 - (IBAction)actionEnquiry:(id)sender
 {
+    [MobClick event:@"rp115-7"];
     if (self.textField.text.length == 0 || [self.textField.text integerValue] == 0) {
         [self.containerView shake];
         return;
@@ -104,6 +105,7 @@
 #pragma mark - UITextFieldDelegate
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
+    [MobClick event:@"rp115-5"];
     [self.placeholdLabel setHidden:YES animated:YES];
 }
 

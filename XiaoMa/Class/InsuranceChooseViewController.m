@@ -39,11 +39,29 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp133"];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [MobClick endLogPageView:@"rp133"];
+}
+
+- (void)actionBack:(id)sender
+{
+    [MobClick event:@"rp133-4"];
+    [super actionBack:sender];
+}
 
 - (void)setupUI
 {
     [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp133-3"];
         if (![self inslistForVC].count)
         {
             [gToast showError:@"请至少选择一个车险"];
@@ -230,7 +248,7 @@
         boxBtn.selected = coverage.customTag;
         @weakify(boxBtn);
         [[[boxBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            
+            [MobClick event:@"rp133-1"];
             @strongify(boxBtn);
             
             /**
@@ -312,7 +330,7 @@
         
         @weakify(boxBtn);
         [[[boxBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            
+            [MobClick event:@"rp133-1"];
             @strongify(boxBtn);
             BOOL flag = boxBtn.selected;
             [boxBtn setSelected:!flag];
@@ -351,7 +369,7 @@
         boxBtn.selected = coverage.customTag;
         @weakify(boxBtn);
         [[[boxBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            
+            [MobClick event:@"rp133-2"];
             @strongify(boxBtn);
             BOOL flag = boxBtn.selected;
             [boxBtn setSelected:!flag];
