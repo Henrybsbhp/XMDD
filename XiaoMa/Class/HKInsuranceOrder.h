@@ -45,6 +45,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSString *comment;
 @property (nonatomic, strong) NSDate *ratetime;
 @property (nonatomic, assign) NSInteger instype;
+///保单号
+@property (nonatomic, strong) NSString *insordernumber;
 ///保单快递单号
 @property (nonatomic, strong) NSString *insdeliveryno;
 ///保单快递公司
