@@ -43,6 +43,7 @@
     [self.insuranceModel.loadingModel loadDataForTheFirstTime];
     
     [[self.washBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        [MobClick event:@"rp318-3"];
         [self.washBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateNormal];
         [self.insranceBtn setTitleColor:[UIColor colorWithHex:@"#4f5051" alpha:1.0f] forState:UIControlStateNormal];
         self.carwashTableView.hidden = NO;
@@ -51,6 +52,7 @@
         self.underLineView2.backgroundColor = [UIColor whiteColor];
     }];
     [[self.insranceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        [MobClick event:@"rp318-4"];
         [self.washBtn setTitleColor:[UIColor colorWithHex:@"#4f5051" alpha:1.0f] forState:UIControlStateNormal];
         [self.insranceBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateNormal];
         self.carwashTableView.hidden = YES;
