@@ -91,7 +91,15 @@
                 return [RACSignal error:[NSError errorWithDomain:@"验证签名失败，交易结果被篡改" code:8999 userInfo:nil]];
             }
         }
-        return [RACSignal error:[NSError errorWithDomain:result.statusMessage code:result.statusCode userInfo:nil]];
+        
+        if (result)
+        {
+            return [RACSignal error:[NSError errorWithDomain:result.statusMessage code:result.statusCode userInfo:nil]];
+        }
+        else
+        {
+           return [RACSignal error:[NSError errorWithDomain:@"" code:8998 userInfo:nil]];
+        }
     }];
     
     return [[sig1 merge:sig2] take:1];

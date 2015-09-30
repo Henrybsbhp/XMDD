@@ -75,7 +75,7 @@
 
 - (IBAction)getMoreAction:(id)sender {
     WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
-    vc.url = @"http://www.xiaomadada.com/apphtml/couponpkg.html";
+    vc.url = @"http://www.xiaomadada.com/apphtml/youhuiquan.html";
     [self.navigationController pushViewController:vc animated:YES];
 }
 
