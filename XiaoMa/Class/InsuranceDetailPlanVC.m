@@ -41,6 +41,18 @@
      [self setupSegmentControl];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp117"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp117"];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -55,7 +67,6 @@
     
     [self.tableView reloadData];
 }
-
 
 - (void)setupSegmentControl
 {
@@ -80,6 +91,7 @@
 {
     [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
     
+        [MobClick event:@"rp117-7"];
         if (![self.currentModel inslistForVC].count)
         {
             [gToast showError:@"请至少选择一个车险"];
@@ -128,6 +140,7 @@
 #pragma mark - Utility
 - (void)segmentValueChanged:(id)sender
 {
+    [MobClick event:@"rp117-6"];
     CCSegmentedControl* segmentedControl = sender;
     self.selectIndex = segmentedControl.selectedSegmentIndex;
     InsuranceDetailPlanModel * model = [self.modelArray safetyObjectAtIndex:self.selectIndex];

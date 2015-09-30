@@ -124,6 +124,7 @@
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    [MobClick event:@"rp126-2"];
     BOOL shouldSelected = YES;
     if (self.delegate && [self.delegate respondsToSelector:@selector(shouldSelectedAtIndex:)]) {
         shouldSelected = [self.delegate shouldSelectedAtIndex:indexPath.item];
@@ -170,6 +171,7 @@
     @weakify(self);
     [[[deleteB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
+         [MobClick event:@"rp126-5"];
          @strongify(self);
          [self actionDeleteRecord:record];
     }];

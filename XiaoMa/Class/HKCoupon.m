@@ -47,7 +47,7 @@
     coupon.validthrough = [NSDate dateWithD8Text:[NSString stringWithFormat:@"%@",rsp[@"validthrough"]]];
     coupon.rgbColor = [rsp stringParamForName:@"rgb"];
     coupon.logo = [rsp stringParamForName:@"logo"];
-    coupon.subname = rsp[@"subname"];
+    coupon.subname = [rsp stringParamForName:@"subname"];
     coupon.useguide = rsp[@"useguide"];
 
     return coupon;

@@ -47,6 +47,16 @@
     [self requestGetUserInsCoupon];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [MobClick beginLogPageView:@"rp326"];
+    [super viewWillAppear:animated];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [MobClick endLogPageView:@"rp326"];
+    [super viewWillDisappear:animated];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -85,7 +95,7 @@
 
 #pragma mark - Action
 - (IBAction)actionPay:(id)sender {
-    
+    [MobClick event:@"rp326-6"];
     InsuranceOrderPayOp * op = [InsuranceOrderPayOp operation];
     op.req_orderid = self.insOrder.orderid;
     op.req_type = self.isSelectActivity;
@@ -374,6 +384,7 @@
     if (indexPath.section == 1) {
         if (indexPath.row == 1)
         {
+            [MobClick event:@"rp326-1"];
             if (!self.insOrder.iscontainActivity)
             {
                 [self jumpToChooseCouponVC];
@@ -381,6 +392,7 @@
         }
         else if (indexPath.row == 2)
         {
+            [MobClick event:@"rp326-2"];
             [self jumpToChooseCouponVC];
         }
         
@@ -717,8 +729,21 @@
             obj.selected = NO;
         }];
         
-        @strongify(boxB)
         boxB.selected = YES;
+        if (indexPath.row == 1){
+            [MobClick event:@"rp326-3"];
+        }
+        else if (indexPath.row == 2){
+            if (gPhoneHelper.exsitWechat) {
+                [MobClick event:@"rp326-4"];
+            }
+            else {
+                [MobClick event:@"rp326-5"];
+            }
+        }
+        else{
+            [MobClick event:@"rp326-5"];
+        }
     }];
 
     return cell;

@@ -506,6 +506,7 @@
     if (IOSVersionGreaterThanOrEqualTo(@"7.0")) {
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         [paragraphStyle setLineSpacing:5];//调整行间距
+        
         NSDictionary *attr = @{NSParagraphStyleAttributeName: paragraphStyle};
         label.attributedText = [[NSAttributedString alloc] initWithString:text attributes:attr];
     }

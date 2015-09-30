@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -2051,7 +2051,7 @@
                                                         <constraint firstAttribute="height" constant="1" id="2Um-1Y-5UN"/>
                                                     </constraints>
                                                 </imageView>
-                                                <view tag="105" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KhO-xZ-WIi">
+                                                <view tag="105" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KhO-xZ-WIi">
                                                     <rect key="frame" x="459" y="9" width="55" height="28"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="20501" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="50万" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z6P-H5-APA">
@@ -2381,11 +2381,6 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mL1-Bn-HTg" customClass="DrawingBoardView">
                                 <rect key="frame" x="250" y="164" width="100" height="100"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ins_ordersuccess" translatesAutoresizingMaskIntoConstraints="NO" id="GPz-md-L9Z">
-                                        <rect key="frame" x="-235" y="-164" width="105" height="105"/>
-                                    </imageView>
-                                </subviews>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="0hd-AV-wab"/>
                                     <constraint firstAttribute="width" constant="100" id="ZQZ-Ha-d2S"/>
@@ -4029,7 +4024,6 @@
         <image name="ins_menu1" width="50" height="50"/>
         <image name="ins_menu2" width="50" height="50"/>
         <image name="ins_menu3" width="50" height="50"/>
-        <image name="ins_ordersuccess" width="105" height="105"/>
         <image name="ins_upload" width="19" height="17"/>
         <image name="ins_watermark" width="114" height="73"/>
         <image name="inse_bg_left" width="47" height="232"/>
