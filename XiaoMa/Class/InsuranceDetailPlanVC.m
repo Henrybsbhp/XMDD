@@ -68,7 +68,6 @@
     [self.tableView reloadData];
 }
 
-
 - (void)setupSegmentControl
 {
     [self.segmentedControl commonInit];
@@ -92,6 +91,7 @@
 {
     [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
     
+        [MobClick event:@"rp117-7"];
         if (![self.currentModel inslistForVC].count)
         {
             [gToast showError:@"请至少选择一个车险"];
@@ -140,7 +140,7 @@
 #pragma mark - Utility
 - (void)segmentValueChanged:(id)sender
 {
-    [MobClick event:@"rp117-1"];
+    [MobClick event:@"rp117-6"];
     CCSegmentedControl* segmentedControl = sender;
     self.selectIndex = segmentedControl.selectedSegmentIndex;
     InsuranceDetailPlanModel * model = [self.modelArray safetyObjectAtIndex:self.selectIndex];

@@ -31,6 +31,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp134"];
     [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:NO];
     [MobClick beginLogPageView:@"rp327"];
 }
@@ -38,6 +39,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp134"];
     [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:YES];
     [MobClick endLogPageView:@"rp327"];
 }
