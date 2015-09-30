@@ -126,6 +126,14 @@
         
         return obj.customTag;
     }];
+    NSMutableArray * array = [NSMutableArray array];
+    for (NSDictionary * dict in selected)
+    {
+        NSString * sid = [NSString stringWithFormat:@"%@",dict[@"id"]];
+        [array addObject:sid];
+    }
+    NSString * ids = [array componentsJoinedByString:@","];
+    
     NSString *ss = [selected componentsJoinedByString:@","];
     NSString *content;
     if (ss.length && withoutSpace.length)
@@ -139,6 +147,7 @@
     op.req_orderid = self.order.orderid;
     op.req_rating = round(self.ratingView.ratingValue);
     op.req_comment = withoutSpace;
+    op.req_ids = ids;
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"提交中…"];

@@ -255,6 +255,27 @@
         }
         [self.tableView reloadData];
     }
+    
+    else if (self.type == CouponTypeCash)
+    {
+        CGFloat amount = 0;
+        for (HKCoupon * c in self.selectedCouponArray)
+        {
+            if ([c.couponId isEqualToNumber:coupon.couponId])
+            {
+                [self.selectedCouponArray safetyRemoveObject:c];
+                [self.tableView reloadData];
+                return;
+            }
+            amount = amount + c.couponAmount;
+        }
+        if (amount + coupon.couponAmount < self.upperLimit)
+        {
+            [MobClick event:@"rp109-1"];
+            [self.selectedCouponArray addObject:coupon];
+            [self.tableView reloadData];
+        }
+    }
     else
     {
         CGFloat amount = 0;
