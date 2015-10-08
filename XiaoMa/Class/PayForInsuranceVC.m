@@ -834,7 +834,7 @@
             if (coupon.couponAmount < self.insOrder.totoalpay)
             {
                     [self.selectInsuranceCoupouArray addObject:coupon];
-                    self.couponType = CouponTypeCash;
+                    self.couponType = CouponTypeInsurance;
                     self.isSelectActivity = NO;
                     break;
             }
