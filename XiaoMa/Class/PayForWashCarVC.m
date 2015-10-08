@@ -583,21 +583,6 @@
     UIView * drawerV;
     if (indexPath.row == 1)
     {
-        //        cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatformCellC"];
-        //        iconV = (UIImageView *)[cell.contentView viewWithTag:1001];
-        //        titleLb = (UILabel *)[cell.contentView viewWithTag:1002];
-        //        noteLb = (UILabel *)[cell.contentView viewWithTag:1004];
-        //        boxB = (UIButton *)[cell.contentView viewWithTag:1003];
-        //        animationView = (UIView *)[cell searchViewWithTag:105];
-        //        numberLb = (UILabel *)[cell.contentView viewWithTag:106];
-        //
-        //        self.animationView = animationView;
-        //        animationView.backgroundColor = [UIColor colorWithHex:@"#ff5a00" alpha:1.0f];
-        //        animationView.layer.cornerRadius = 3.5f;
-        //        animationView.layer.masksToBounds = YES;
-        //        self.numberView = numberLb;
-        //        numberLb.text = [self.selectBankCard.cardNumber substringFromIndex:self.selectBankCard.cardNumber.length - 4];
-        //        self.numberView.hidden = YES;
         cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatformCellB"];
         iconV = (UIImageView *)[cell searchViewWithTag:1001];
         titleLb = (UILabel *)[cell searchViewWithTag:1002];
@@ -631,7 +616,7 @@
         titleLb = (UILabel *)[cell.contentView viewWithTag:1002];
         noteLb = (UILabel *)[cell.contentView viewWithTag:1004];
         boxB = (UIButton *)[cell.contentView viewWithTag:1003];
-        boxB.selected = NO;
+//        boxB.selected = NO;
     }
     
     if (indexPath.row == 1) {
@@ -692,24 +677,36 @@
         boxB.selected = selected;
     }];
     
+    @weakify(boxB)
     [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
         
         [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxPlatformGroup];
+        NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup];
+        [array enumerateObjectsUsingBlock:^(UIButton * obj, NSUInteger idx, BOOL *stop) {
+            
+            obj.selected = NO;
+        }];
+        
+        @strongify(boxB)
+        boxB.selected = YES;
         if (indexPath.row == 1)
         {
             [MobClick event:@"rp108-11"];
             [self popBankCardNumberAnimation:YES];
+            self.checkoutServiceOrderV3Op.paychannel = PaymentChannelXMDDCreditCard;
         }
         else if (indexPath.row == 2)
         {
             [MobClick event:@"rp108-5"];
             [self popBankCardNumberAnimation:NO];
+            self.checkoutServiceOrderV3Op.paychannel = PaymentChannelAlipay;
         }
         else
         {
             [MobClick event:@"rp108-6"];
             [self popBankCardNumberAnimation:NO];
+            self.checkoutServiceOrderV3Op.paychannel = PaymentChannelWechat;
         }
     }];
     
@@ -725,6 +722,7 @@
             
             [self popBankCardNumberAnimation:NO];
         }
+        
         [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxPlatformGroup];
         boxB.selected = YES;
     }
