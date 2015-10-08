@@ -138,6 +138,8 @@
             [gToast dismiss];
             [self postCustomNotificationName:kNotifyRefreshInsuranceOrders object:nil];
             InsuranceResultVC *resultVC = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceResultVC"];
+            resultVC.originVC = self.originVC;
+            resultVC.orderID = self.insOrder.orderid;
             [resultVC setResultType:PaySuccess];
             [self.navigationController pushViewController:resultVC animated:YES];
         }
@@ -267,6 +269,8 @@
         [self postCustomNotificationName:kNotifyRefreshInsuranceOrders object:nil];
         InsuranceResultVC *resultVC = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceResultVC"];
         [resultVC setResultType:PaySuccess];
+        resultVC.originVC = self.originVC;
+        resultVC.orderID = self.insOrder.orderid;
         [self.navigationController pushViewController:resultVC animated:YES];
         
         InsuranceOrderPaidSuccessOp *iop = [[InsuranceOrderPaidSuccessOp alloc] init];
