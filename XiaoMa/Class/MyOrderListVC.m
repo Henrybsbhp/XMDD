@@ -35,6 +35,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [self setupNotify];
+    
     self.carwashModel = [[CarwashOrderViewModel alloc] initWithTableView:self.carwashTableView];
     self.insuranceModel = [[InsranceOrderViewModel alloc] initWithTableView:self.insranceTableView];
     [self.carwashModel resetWithTargetVC:self];
@@ -59,6 +61,15 @@
         self.insranceTableView.hidden = NO;
         self.underLineView.backgroundColor = [UIColor whiteColor];
         self.underLineView2.backgroundColor = [UIColor colorWithHex:@"#20ab2a" alpha:1.0f];
+    }];
+}
+
+- (void)setupNotify
+{
+    @weakify(self);
+     [self listenNotificationByName:kNotifyRefreshInsuranceOrders withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        @strongify(self);
+        [self.insuranceModel.loadingModel reloadData];
     }];
 }
 
