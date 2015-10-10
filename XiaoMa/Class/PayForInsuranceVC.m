@@ -714,13 +714,13 @@
         }
         else
         {
-            iconV.image = [UIImage imageNamed:@"cw_creditcard"];
+            iconV.image = [UIImage imageNamed:@"cw_UPay"];
             titleLb.text = @"银联支付";
             noteLb.text = @"推荐银联卡用户使用";
         }
     }
     else if (indexPath.row == 3) {
-        iconV.image = [UIImage imageNamed:@"cw_creditcard"];
+        iconV.image = [UIImage imageNamed:@"cw_UPay"];
         titleLb.text = @"银联支付";
         noteLb.text = @"推荐银联卡用户使用";
     }
@@ -842,6 +842,8 @@
         [self tableViewReloadData];
         return;
     }
+    [self.tableView reloadData];
+    [self refreshPriceLb];
 }
 
 - (void)tableViewReloadData
