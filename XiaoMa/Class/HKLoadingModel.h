@@ -29,16 +29,22 @@ typedef enum : NSInteger
 @property (nonatomic, strong, readonly) UIView *targetView;
 @property (nonatomic, assign, readonly) BOOL isRemain;
 @property (nonatomic, assign, readonly) BOOL isLoading;
+@property (nonatomic, assign) BOOL loadingSuccessForTheFirstTime;
 @property (nonatomic, weak, readonly) id<HKLoadingModelDelegate> delegate;
 
 - (instancetype)initWithTargetView:(UIView *)targetView delegate:(id<HKLoadingModelDelegate>)delegate;
-- (void)autoLoadWithSignal:(RACSignal *)signal;
+
+/***********以下方法将会触发delegate:"loadingModel:loadingDataSignalWithType:"**************/
 - (void)loadDataForTheFirstTime;
 - (void)reloadData;
-- (void)reloadDataWithDatasource:(NSArray *)datasource;
-- (void)reloadDataFromSignal:(RACSignal *)signal;
 - (void)loadMoreDataWithPromptView:(UIView *)view;
 - (void)loadMoreDataIfNeededWithIndexPath:(NSIndexPath *)indexPath nest:(BOOL)nest promptView:(UIView *)view;
+
+/***********以下方法不会触发delegate:"loadingModel:loadingDataSignalWithType:"**************/
+- (void)autoLoadDataFromSignal:(RACSignal *)signal; //(将会自动调用reloadFromSignal:或loadForTheFirstTimeFromSignal:)
+- (void)loadDataForTheFirstTimeFromSignal:(RACSignal *)signal;
+- (void)reloadDataFromSignal:(RACSignal *)signal;
+- (void)reloadDataWithDatasource:(NSArray *)datasource;
 
 @end
 

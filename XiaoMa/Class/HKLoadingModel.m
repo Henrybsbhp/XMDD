@@ -14,7 +14,6 @@
 #define kDebounchInterval       0.3
 
 @interface HKLoadingModel ()
-//@property (nonatomic, assign) BOOL loadingSuccessForTheFirstTime;
 @end
 
 @implementation HKLoadingModel
@@ -29,6 +28,16 @@
         _delegate = delegate;
     }
     return self;
+}
+
+- (void)autoLoadDataFromSignal:(RACSignal *)signal
+{
+    if (self.loadingSuccessForTheFirstTime) {
+        [self reloadDataFromSignal:signal];
+    }
+    else {
+        [self loadDataForTheFirstTimeFromSignal:signal];
+    }
 }
 
 - (void)loadDataForTheFirstTime
@@ -79,7 +88,7 @@
                                                                   action:@selector(reloadData)
                                                         forControlEvents:UIControlEventValueChanged];
             }
-//            self.loadingSuccessForTheFirstTime = YES;
+            self.loadingSuccessForTheFirstTime = YES;
             if ([self.delegate respondsToSelector:@selector(loadingModel:didLoadingSuccessWithType:)]) {
                 [self.delegate loadingModel:self didLoadingSuccessWithType:HKDatasourceLoadingTypeFirstTime];
             }

@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) NSArray *coverages;
 @property (nonatomic, strong) HKLoadingModel *loadingModel;
+
 @end
 
 @implementation InsuranceOrderVC
@@ -77,12 +78,19 @@
 
 - (void)setupInsOrderStore
 {
+    @weakify(self);
     [[InsOrderStore fetchOrCreateStore] subscribeEventsWithTarget:self receiver:^(CKStore *store, RACSignal *event, NSInteger code) {
+        @strongify(self);
         RACSignal *sig = [event map:^id(id value) {
             self.order = [[(InsOrderStore *)store cache] objectForKey:self.orderID];
             return [NSArray safetyArrayWithObject:self.order];
         }];
-        [self.loadingModel reloadDataFromSignal:sig];
+        if (self.order) {
+            [self.loadingModel reloadDataFromSignal:sig];
+        }
+        else {
+            [self.loadingModel autoLoadDataFromSignal:sig];
+        }
     }];
 }
 #pragma mark - Load
@@ -171,14 +179,10 @@
     return @"获取订单信息失败，点击重试";
 }
 
-
 - (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
 {
-    RACSignal *sig = [[InsOrderStore fetchExistsStore] rac_getInsOrderByID:self.orderID];
-    return [[[InsOrderStore fetchExistsStore] rac_getInsOrderByID:self.orderID] map:^id(HKInsuranceOrder *order) {
-        self.order = order;
-        return [NSArray safetyArrayWithObject:order];
-    }];
+    [InsOrderStore reloadOrderByID:self.orderID];
+    return [RACSignal empty];
 }
 
 - (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type

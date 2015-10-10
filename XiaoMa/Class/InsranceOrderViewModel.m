@@ -17,7 +17,10 @@
 
 @end
 
-@implementation InsranceOrderViewModel
+@implementation InsranceOrderViewModel 
+- (void)dealloc
+{
+}
 
 - (id)initWithTableView:(JTTableView *)tableView
 {
@@ -36,18 +39,19 @@
 - (void)resetWithTargetVC:(UIViewController *)targetVC
 {
     _targetVC = targetVC;
-    //    [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)setupInsOrderStore
 {
+    @weakify(self);
     [[InsOrderStore fetchOrCreateStore] subscribeEventsWithTarget:self receiver:^(CKStore *store, RACSignal *evt, NSInteger code) {
+        @strongify(self);
         if (code != kCKStoreEventReload) {
             evt = [evt map:^id(id value) {
                 return [[(InsOrderStore *)store cache] allObjects];
             }];
         }
-        [self.loadingModel reloadDataFromSignal:evt];
+        [self.loadingModel autoLoadDataFromSignal:evt];
     }];
 }
 
@@ -70,7 +74,8 @@
 
 - (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
 {
-    return [[InsOrderStore fetchExistsStore] rac_getAllInsOrders];
+    [InsOrderStore reloadAllOrders];
+    return [RACSignal empty];
 }
 
 - (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type

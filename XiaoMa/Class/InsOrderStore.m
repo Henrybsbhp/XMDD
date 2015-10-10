@@ -42,6 +42,12 @@
     [self sendEvent:[self rac_getAllInsOrders] withCode:kCKStoreEventReload];
 }
 
++ (void)reloadAllOrders
+{
+    InsOrderStore *store = [self fetchExistsStore];
+    [store sendEvent:[store rac_getAllInsOrders] withCode:kCKStoreEventReload];
+}
+
 + (void)reloadOrderByID:(NSNumber *)orderid
 {
     InsOrderStore *store = [self fetchExistsStore];

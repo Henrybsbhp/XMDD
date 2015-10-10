@@ -14,6 +14,7 @@
 - (RACSignal *)rac_getAllInsOrders;
 - (RACSignal *)rac_getInsOrderByID:(NSNumber *)orderID;
 
++ (void)reloadAllOrders;
 + (void)reloadOrderByID:(NSNumber *)orderid;
 
 @end
