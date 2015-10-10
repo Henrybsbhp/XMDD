@@ -169,12 +169,12 @@
                 break;
             }
             case InsuranceExcludingDeductible4CarSeatInsuranceOfDriver:{
-                self.insName = @"司机座位责任险 不计免赔";
+                self.insName = @"司机座位责任险不计免赔";
                 self.discountType = InsuranceBusinessDiscount;
                 break;
             }
             case InsuranceExcludingDeductible4CarSeatInsuranceOfPassenger:{
-                self.insName = @"乘客座位责任险 不计免赔";
+                self.insName = @"乘客座位责任险不计免赔";
                 self.discountType = InsuranceBusinessDiscount;
                 break;
             }

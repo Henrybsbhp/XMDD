@@ -68,6 +68,7 @@
     comment.rate = [rsp integerParamForName:@"rate"];
     comment.comment = [rsp stringParamForName:@"comment"];
     comment.time = [NSDate dateWithUTS:rsp[@"time"]];
+    comment.serviceName = [rsp stringParamForName:@"servicename"];
     
     return comment;
 }
