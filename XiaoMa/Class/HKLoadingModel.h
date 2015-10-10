@@ -32,6 +32,7 @@ typedef enum : NSInteger
 @property (nonatomic, weak, readonly) id<HKLoadingModelDelegate> delegate;
 
 - (instancetype)initWithTargetView:(UIView *)targetView delegate:(id<HKLoadingModelDelegate>)delegate;
+- (void)autoLoadWithSignal:(RACSignal *)signal;
 - (void)loadDataForTheFirstTime;
 - (void)reloadData;
 - (void)reloadDataWithDatasource:(NSArray *)datasource;
