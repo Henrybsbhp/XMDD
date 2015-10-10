@@ -177,7 +177,7 @@
     RACSignal *sig = [[InsOrderStore fetchExistsStore] rac_getInsOrderByID:self.orderID];
     return [[[InsOrderStore fetchExistsStore] rac_getInsOrderByID:self.orderID] map:^id(HKInsuranceOrder *order) {
         self.order = order;
-        return [NSArray arrayWithObject:order];
+        return [NSArray safetyArrayWithObject:order];
     }];
 }
 
