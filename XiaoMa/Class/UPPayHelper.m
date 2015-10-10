@@ -11,7 +11,7 @@
 
 //接入模式  "00":代表生成环境   "01":代表测试环境、
 #ifdef DEBUG
-    #define UPPayPaymentMode  @"01"
+    #define UPPayPaymentMode  @"00"
 #else
     #define UPPayPaymentMode  @"00"
 #endif
