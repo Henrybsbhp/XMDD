@@ -37,6 +37,7 @@
 		1826CCF21BAAE80800E2F46D /* ZFCWanderingCubesActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1826CCED1BAAE80800E2F46D /* ZFCWanderingCubesActivityIndicatorView.m */; };
 		1826CCF31BAAE80800E2F46D /* ZFCWaveActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1826CCEF1BAAE80800E2F46D /* ZFCWaveActivityIndicatorView.m */; };
 		1826CCF71BABA8DC00E2F46D /* InsuranceEnquiryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1826CCF61BABA8DC00E2F46D /* InsuranceEnquiryVC.m */; };
+		1833F5361BC8BAAB000E1DA1 /* MyCarStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833F5351BC8BAAB000E1DA1 /* MyCarStore.m */; };
 		1837A7551B70C97A0006E6C5 /* UIImageView+WebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1837A7541B70C97A0006E6C5 /* UIImageView+WebImage.m */; };
 		1837A75F1B72130F0006E6C5 /* SDBrowserImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1837A7591B72130F0006E6C5 /* SDBrowserImageView.m */; };
 		1837A7601B72130F0006E6C5 /* SDPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1837A75B1B72130F0006E6C5 /* SDPhotoBrowser.m */; };
@@ -141,7 +142,6 @@
 		189B311D1ADBEFDF001D7288 /* policy.json in Resources */ = {isa = PBXBuildFile; fileRef = 189B311C1ADBEFDF001D7288 /* policy.json */; };
 		189B394C1AF71C3900B83F1B /* MineVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B394B1AF71C3900B83F1B /* MineVC.m */; };
 		189B394F1AF8576600B83F1B /* GetUserBaseInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B394E1AF8576600B83F1B /* GetUserBaseInfoOp.m */; };
-		189B39521AF877E100B83F1B /* MyCarListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B39511AF877E100B83F1B /* MyCarListVC.m */; };
 		189B395B1AF9A9E500B83F1B /* EditMyCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B395A1AF9A9E500B83F1B /* EditMyCarVC.m */; };
 		189B395E1AF9D9F700B83F1B /* UpdateCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B395D1AF9D9F700B83F1B /* UpdateCarOp.m */; };
 		189B39611AF9DD3B00B83F1B /* AddCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B39601AF9DD3B00B83F1B /* AddCarOp.m */; };
@@ -471,6 +471,8 @@
 		1826CCEF1BAAE80800E2F46D /* ZFCWaveActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCWaveActivityIndicatorView.m; sourceTree = "<group>"; };
 		1826CCF51BABA8DC00E2F46D /* InsuranceEnquiryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceEnquiryVC.h; sourceTree = "<group>"; };
 		1826CCF61BABA8DC00E2F46D /* InsuranceEnquiryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceEnquiryVC.m; sourceTree = "<group>"; };
+		1833F5341BC8BAAB000E1DA1 /* MyCarStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyCarStore.h; path = Class/MyCarStore.h; sourceTree = "<group>"; };
+		1833F5351BC8BAAB000E1DA1 /* MyCarStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyCarStore.m; path = Class/MyCarStore.m; sourceTree = "<group>"; };
 		1837A7531B70C97A0006E6C5 /* UIImageView+WebImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImageView+WebImage.h"; path = "Class/UIImageView+WebImage.h"; sourceTree = "<group>"; };
 		1837A7541B70C97A0006E6C5 /* UIImageView+WebImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+WebImage.m"; path = "Class/UIImageView+WebImage.m"; sourceTree = "<group>"; };
 		1837A7581B72130F0006E6C5 /* SDBrowserImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDBrowserImageView.h; sourceTree = "<group>"; };
@@ -682,8 +684,6 @@
 		189B394B1AF71C3900B83F1B /* MineVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineVC.m; sourceTree = "<group>"; };
 		189B394D1AF8576600B83F1B /* GetUserBaseInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserBaseInfoOp.h; path = Class/GetUserBaseInfoOp.h; sourceTree = "<group>"; };
 		189B394E1AF8576600B83F1B /* GetUserBaseInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserBaseInfoOp.m; path = Class/GetUserBaseInfoOp.m; sourceTree = "<group>"; };
-		189B39501AF877E100B83F1B /* MyCarListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCarListVC.h; sourceTree = "<group>"; };
-		189B39511AF877E100B83F1B /* MyCarListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCarListVC.m; sourceTree = "<group>"; };
 		189B39591AF9A9E500B83F1B /* EditMyCarVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditMyCarVC.h; sourceTree = "<group>"; };
 		189B395A1AF9A9E500B83F1B /* EditMyCarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditMyCarVC.m; sourceTree = "<group>"; };
 		189B395C1AF9D9F700B83F1B /* UpdateCarOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateCarOp.h; path = Class/UpdateCarOp.h; sourceTree = "<group>"; };
@@ -1673,8 +1673,6 @@
 			children = (
 				1873710A1B0AD1D900B8CDCC /* MyCarListVModel.h */,
 				1873710B1B0AD1D900B8CDCC /* MyCarListVModel.m */,
-				189B39501AF877E100B83F1B /* MyCarListVC.h */,
-				189B39511AF877E100B83F1B /* MyCarListVC.m */,
 				189B39591AF9A9E500B83F1B /* EditMyCarVC.h */,
 				189B395A1AF9A9E500B83F1B /* EditMyCarVC.m */,
 				1851F4161B0C1E5400241A01 /* PickAutomobileBrandVC.h */,
@@ -1977,10 +1975,12 @@
 			children = (
 				18895B281B4A136100928F62 /* CKStore.h */,
 				18895B291B4A136100928F62 /* CKStore.m */,
-				18988CB31BC7B6A6001DECD5 /* InsOrderStore.h */,
-				18988CB41BC7B6A6001DECD5 /* InsOrderStore.m */,
 				18988CB01BC79A76001DECD5 /* HKUserStore.h */,
 				18988CB11BC79A76001DECD5 /* HKUserStore.m */,
+				18988CB31BC7B6A6001DECD5 /* InsOrderStore.h */,
+				18988CB41BC7B6A6001DECD5 /* InsOrderStore.m */,
+				1833F5341BC8BAAB000E1DA1 /* MyCarStore.h */,
+				1833F5351BC8BAAB000E1DA1 /* MyCarStore.m */,
 			);
 			name = Store;
 			sourceTree = "<group>";
@@ -3178,6 +3178,7 @@
 				1853DECE1AE100CA00C39175 /* HKSMSModel.m in Sources */,
 				1853DEC41AE0EC1600C39175 /* LoginViewModel.m in Sources */,
 				6BCF62471B1737980064AE32 /* GetUserCouponByTypeOp.m in Sources */,
+				1833F5361BC8BAAB000E1DA1 /* MyCarStore.m in Sources */,
 				1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */,
 				6BBF75F51B05CA0800E11EBB /* FavoriteModel.m in Sources */,
 				6B3C67931BA9498F002F04C8 /* HKBigRatingView.m in Sources */,
@@ -3399,7 +3400,6 @@
 				18C52C4D1BA8FE9E00F6C38B /* DrivingLicenseThumbCell.m in Sources */,
 				181F6DA71B15919900D38555 /* CXAlertView.m in Sources */,
 				18F41DA91B784CD8000409E1 /* GetBankcardListOp.m in Sources */,
-				189B39521AF877E100B83F1B /* MyCarListVC.m in Sources */,
 				6BBAB8C41ADCBD1400EC342F /* GetShopByRangeOp.m in Sources */,
 				187CC95C1AEF2023004D1F28 /* UploadFileOp.m in Sources */,
 				187CC9551AEDD0D1004D1F28 /* MonthPickerVC.m in Sources */,

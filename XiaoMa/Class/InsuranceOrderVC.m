@@ -234,23 +234,14 @@
     [self resetStepViewInCell:cell highlight:(self.order.status == InsuranceOrderStatusPaid) baseTag:10030];
     [self resetStepViewInCell:cell highlight:(self.order.status == InsuranceOrderStatusComplete) baseTag:10050];
     
-    line1.highlighted = self.order.status == InsuranceOrderStatusUnpaid || self.order.status == InsuranceOrderStatusPaid;
-    line2.highlighted = self.order.status == InsuranceOrderStatusPaid || self.order.status == InsuranceOrderStatusComplete;
+    line1.highlighted = self.order.status == InsuranceOrderStatusUnpaid ||
+                        self.order.status == InsuranceOrderStatusPaid;
     
-    switch (self.order.status) {
-        case InsuranceOrderStatusUnpaid:
-            titleL.text = @"请确认保单";
-            break;
-        case InsuranceOrderStatusPaid:
-            titleL.text = @"保单正在处理中";
-            break;
-        case InsuranceOrderStatusComplete:
-            titleL.text = @"保单将尽快寄出";
-            break;
-        default:
-            titleL.text = [self.order descForCurrentStatus];
-            break;
-    }
+    line2.highlighted = self.order.status == InsuranceOrderStatusPaid ||
+                        self.order.status == InsuranceOrderStatusComplete ||
+                        self.order.status == InsuranceOrderStatusSended;
+
+    titleL.text = [self.order detailDescForCurrentStatus];
     return cell;
 }
 

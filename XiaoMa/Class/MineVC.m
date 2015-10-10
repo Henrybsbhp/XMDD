@@ -9,7 +9,6 @@
 #import "MineVC.h"
 #import "XiaoMa.h"
 #import "GetUserBaseInfoOp.h"
-#import "MyCarListVC.h"
 #import "MyOrderListVC.h"
 #import "MyCouponVC.h"
 #import "MyInfoViewController.h"
