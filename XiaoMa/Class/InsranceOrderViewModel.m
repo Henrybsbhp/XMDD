@@ -136,6 +136,7 @@
              [MobClick event:@"rp318-6"];
              PayForInsuranceVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"PayForInsuranceVC"];
              vc.insOrder = order;
+             vc.originVC = self.targetVC;
              [self.targetVC.navigationController pushViewController:vc animated:YES];
          }
          else {

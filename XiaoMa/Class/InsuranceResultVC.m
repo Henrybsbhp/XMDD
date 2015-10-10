@@ -57,6 +57,7 @@
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
     [self postCustomNotificationName:kNotifyRefreshDetailInsuranceOrder object:self.orderID];
+    [self postCustomNotificationName:kNotifyRefreshInsuranceOrders object:nil];
 }
 
 -(void)setResultType:(InsuranceResult) resultType

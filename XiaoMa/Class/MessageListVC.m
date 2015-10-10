@@ -9,12 +9,13 @@
 #import "MessageListVC.h"
 #import "GetMessageOp.h"
 #import "TTTAttributedLabel.h"
+#import "HKLoadingModel.h"
 
-@interface MessageListVC ()<UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic, strong) NSMutableArray *msgList;
+@interface MessageListVC ()<UITableViewDataSource, UITableViewDelegate, HKLoadingModelDelegate>
 @property (nonatomic, assign) long long curMsgTime;
 @property (strong, nonatomic) IBOutlet JTTableView *tableView;
-@property (nonatomic, assign) BOOL isRemain;
+@property (nonatomic, strong) HKLoadingModel *loadingModel;
+
 @end
 
 @implementation MessageListVC
@@ -23,7 +24,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setupTableView];
-    [self reloadDatasource];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,62 +51,45 @@
 
 - (void)setupTableView
 {
-    [self.tableView.refreshView addTarget:self action:@selector(reloadDatasource) forControlEvents:UIControlEventValueChanged];
+    self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
+    [self.loadingModel loadDataForTheFirstTime];
     [self.tableView setShowBottomLoadingView:YES];
 }
 
-- (void)reloadDatasource
+#pragma mark - HKLoadingModelDelegate
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
 {
-    self.isRemain = YES;
-    [self loadDatasourceWithTimetag:0];
+    return @"暂无消息";
 }
 
-- (void)loadDatasourceWithTimetag:(long long)timetag
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
 {
-    GetMessageOp *op = [GetMessageOp new];
-    op.req_msgtime = timetag;
-    [[[op rac_postRequest] initially:^{
+    return @"获取消息失败，点击重试";
+}
 
-        [self.tableView.bottomLoadingView hideIndicatorText];
-        if (timetag == 0) {
-            [self.tableView.refreshView beginRefreshing];
-        }
-        else {
-            [self.tableView.bottomLoadingView startActivityAnimation];
-        }
-    }] subscribeNext:^(GetMessageOp *rspOp) {
-        
-        [self.tableView.refreshView endRefreshing];
-        [self.tableView.bottomLoadingView stopActivityAnimation];
-        if (timetag == 0) {
-            self.msgList = [NSMutableArray array];
-            gAppMgr.myUser.hasNewMsg = NO;
-        }
-        [self.msgList safetyAddObjectsFromArray:rspOp.rsp_msgs];
-        self.curMsgTime = [[self.msgList lastObject] msgtime];
-        if (rspOp.rsp_msgs.count < PageAmount) {
-            [self.tableView.bottomLoadingView showIndicatorTextWith:@"没有更多消息了"];
-            self.isRemain = NO;
-        }
-        else {
-            self.isRemain = YES;
-        }
-        [self.tableView reloadData];
-    } error:^(NSError *error) {
-        
-        [self.tableView.refreshView endRefreshing];
-        [self.tableView.bottomLoadingView stopActivityAnimation];
-        @weakify(self);
-        [self.tableView.bottomLoadingView showIndicatorTextWith:@"刷新失败了，点击重试" clickBlock:^(UIButton *sender) {
-            @strongify(self);
-            [self loadDatasourceWithTimetag:timetag];
-        }];
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+{
+    if (type != HKDatasourceLoadingTypeLoadMore) {
+        self.curMsgTime = 0;
+    }
+    
+    GetMessageOp * op = [GetMessageOp operation];
+    op.req_msgtime = self.curMsgTime;
+    return [[op rac_postRequest] map:^id(GetMessageOp *rspOp) {
+        return rspOp.rsp_msgs;
     }];
 }
+
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+{
+    self.curMsgTime = [[model.datasource lastObject] msgtime];
+    [self.tableView reloadData];
+}
+
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    HKMessage *msg = [self.msgList safetyObjectAtIndex:indexPath.section];
+    HKMessage *msg = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     NSRange range = NSMakeRange(0, 0);
     CGSize size = [TTTAttributedLabel sizeThatFitsAttributedString:[self attrStrForMessage:msg linkRange:&range]
                                                    withConstraints:CGSizeMake(self.tableView.frame.size.width-54, 10000)
@@ -131,13 +114,13 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.msgList.count;
+    return self.loadingModel.datasource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    HKMessage *msg = [self.msgList safetyObjectAtIndex:indexPath.section];
+    HKMessage *msg = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     TTTAttributedLabel *label = (TTTAttributedLabel *)[cell.contentView viewWithTag:1001];
     UILabel *timeL = (UILabel *)[cell.contentView viewWithTag:2001];
     timeL.text = [[NSDate dateWithTimeIntervalSince1970:msg.msgtime/1000] textForDate];
@@ -162,28 +145,17 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.msgList.count-1 <= indexPath.section && self.isRemain) {
-        [self loadMoreMessages];
-    }
+    [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nest:NO promptView:self.tableView.bottomLoadingView];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [MobClick event:@"rp324-1"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    HKMessage *msg = [self.msgList safetyObjectAtIndex:indexPath.section];
+    HKMessage *msg = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     if (msg.url.length > 0) {
         [gAppMgr.navModel pushToViewControllerByUrl:msg.url];
     }
-}
-
-- (void)loadMoreMessages
-{
-    if ([self.tableView.bottomLoadingView isActivityAnimating])
-    {
-        return;
-    }
-    [self loadDatasourceWithTimetag:self.curMsgTime];
 }
 
 #pragma mark - Private
