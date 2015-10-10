@@ -76,6 +76,9 @@
     GetMessageOp * op = [GetMessageOp operation];
     op.req_msgtime = self.curMsgTime;
     return [[op rac_postRequest] map:^id(GetMessageOp *rspOp) {
+        if (rspOp.req_msgtime == 0) {
+            gAppMgr.myUser.hasNewMsg = NO;
+        }
         return rspOp.rsp_msgs;
     }];
 }

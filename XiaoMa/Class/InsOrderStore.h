@@ -11,8 +11,6 @@
 
 @interface InsOrderStore : HKUserStore
 
-@property (nonatomic, strong) JTQueue *cache;
-
 - (RACSignal *)rac_getAllInsOrders;
 - (RACSignal *)rac_getInsOrderByID:(NSNumber *)orderID;
 
