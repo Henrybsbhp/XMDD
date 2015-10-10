@@ -42,7 +42,7 @@
                 self.insName = @"第三方责任险";
                 NSDictionary * d = @{@"key":@"50万",@"value":@(1631)};
                 d.customTag = YES;
-                self.params = @[@{@"key":@"5万元",@"value":@(673)},
+                self.params = @[@{@"key":@"5万",@"value":@(673)},
                                 @{@"key":@"10万",@"value":@(972)},
                                 @{@"key":@"15万",@"value":@(1108)},
                                 @{@"key":@"20万",@"value":@(1204)},
@@ -79,7 +79,7 @@
                 
             case InsuranceCarSeatInsuranceOfDriver:{
                 self.insName = @"司机座位责任险";
-                NSDictionary * d = @{@"key":@"1万元",@"value":@(10000)};
+                NSDictionary * d = @{@"key":@"1万",@"value":@(10000)};
                 d.customTag = YES;
                 self.params = @[d,
                                 @{@"key":@"2万",@"value":@(20000)},
@@ -169,12 +169,12 @@
                 break;
             }
             case InsuranceExcludingDeductible4CarSeatInsuranceOfDriver:{
-                self.insName = @"司机座位责任险 不计免赔";
+                self.insName = @"司机座位责任险不计免赔";
                 self.discountType = InsuranceBusinessDiscount;
                 break;
             }
             case InsuranceExcludingDeductible4CarSeatInsuranceOfPassenger:{
-                self.insName = @"乘客座位责任险 不计免赔";
+                self.insName = @"乘客座位责任险不计免赔";
                 self.discountType = InsuranceBusinessDiscount;
                 break;
             }

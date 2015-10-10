@@ -172,6 +172,7 @@
     UILabel *timeL = (UILabel *)[cell.contentView viewWithTag:1003];
     JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1004];
     UILabel *contentL = (UILabel *)[cell.contentView viewWithTag:1005];
+    UILabel *serviceL = (UILabel *)[cell.contentView viewWithTag:1006];
     avatarV.cornerRadius = 17.5f;
     avatarV.layer.masksToBounds = YES;
     
@@ -180,6 +181,7 @@
     timeL.text = [comment.time dateFormatForYYMMdd2];
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
+    serviceL.text = comment.serviceName;
     
     [avatarV setImageByUrl:comment.avatarUrl withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
     
