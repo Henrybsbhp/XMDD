@@ -35,6 +35,7 @@ typedef enum : NSInteger
 - (void)loadDataForTheFirstTime;
 - (void)reloadData;
 - (void)reloadDataWithDatasource:(NSArray *)datasource;
+- (void)reloadDataFromSignal:(RACSignal *)signal;
 - (void)loadMoreDataWithPromptView:(UIView *)view;
 - (void)loadMoreDataIfNeededWithIndexPath:(NSIndexPath *)indexPath nest:(BOOL)nest promptView:(UIView *)view;
 

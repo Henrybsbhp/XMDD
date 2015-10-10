@@ -1,4 +1,4 @@
-$(import "template/netop.cmt")
+$(import "codemap/template/netop.cmt")
 
 <"获取与服务端的应用会话令牌"
 class=GetToken op path="/token/get"> {

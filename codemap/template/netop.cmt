@@ -1,13 +1,74 @@
 $(require (lib "template/objc"))
-$<${(namespace (lambda (root)
-				 (spath root "/node[attr/op]")))}
+$<${(namespace (lambda (root) (spath root "/node[attr/op]")))}
 $(export (format "~aOp.h" (class-name _)))
 #import "BaseOp.h"
-$(oc:out-import-linked-classes)
-@interface $(out (format "~aOp.h" (class-name _))) : BaseOp.h
-@property (nonatomic,copy)NSString *req_phone;
-@property (nonatomic, strong) NSString *rsp_expires;
-@property (nonatomic, strong) NSString *rsp_token;
+$(oc:out-import-linked-classes _)
+
+@interface $(out (format "~aOp" (class-name _))) : BaseOp
+
+$<${(namespace (lambda (nd) (properties-by-remark nd 'req)))}
+$(out (format "@property (nonatomic,~a) ~a req_~a;"
+			  (oc:property-stype _) (oc:property-type _) (property-name _)))
+$>
+
+$<${(namespace (lambda (nd) (properties-by-remark nd 'rsp)))}
+$(outln (format "@property (nonatomic,~a) ~a rsp_~a;"
+			 (oc:property-stype _) (oc:property-type _) (property-name _)))
+$>
 
 @end
+$>
+
+
+$<${(namespace (lambda (root) (spath root "/node[attr/op]")))}
+$(export (format "~aOp.m" (class-name _)))
+#import "$(out (class-name _))Op.h"
+
+@implementation $(out (class-name _))Op
+
+- (RACSignal *)RACSignal {
+  self.req_method = @"$(out (attr-value _ 'path))";
+  NSMutableDictionary *params = [NSMutableDictionary dictionary];
+$<${(namespace (lambda (nd) (properties-by-remark nd 'req)))}
+  $(out (format "[params addParam:~a forName:\"~a\"];"
+				(if (oc:ns-value-type _)
+					(format "@(self.req_~a)" (property-name _))
+					(format "self.req_~a" (property-name _)))
+				(property-name _)))
+$>
+
+  return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:$(out (if (attr-value "auth") "YES" "NO"))];
+}
+
+- (instancetype)parseResponseObject:(id)rspObj
+{
+    NSDictionary *dict = rspObj;
+    $(oc:properties-dict-mapping
+		(properties-by-remark _ 'rsp)
+		(lambda (node key value)
+		  (define name (property-name node))
+		  (define dv (format "dict[@\"~a\"]" name))
+		  (define fmt
+			(case key
+			  ['object dv]
+			  ['value (format "[~a ~a]" dv value)]
+			  ['class (format "[~a createWithJSONDict:dict]" value)]
+			  ['array
+			   (outln (format "NSMutableArray *~a = [NSMutableArray array];" name))
+			   (outln (format "for (NSDictionary *dict in ~a) {" dv))
+			   (outln (format "~a *obj = [~a createWithJSONDict:dict];" value) 4)
+			   (outln (format "[~a addObject:obj];" name) 4)
+			   (outln "}")]
+			  ['date (let ([date-type (attr-value node 'date)])
+					   (cond
+						[(eq? 'DT14 date-type)
+						 (format "[NSDate dateWithD14Text:~a]" dv)]
+						[else (format "[NSDate dateWithUTS:~a]" dv)]))]))
+		  (outln (format "self.rsp_~a = ~a;" name fmt))))
+
+	return self;
+}
+
+@end
+
 $>

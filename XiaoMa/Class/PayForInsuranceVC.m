@@ -16,6 +16,7 @@
 #import "InsuranceResultVC.h"
 #import "PaymentHelper.h"
 #import "InsuranceOrderPaidSuccessOp.h"
+#import "InsOrderStore.h"
 
 #define CheckBoxDiscountGroup @"CheckBoxDiscountGroup"
 #define CheckBoxPlatformGroup @"CheckBoxPlatformGroup"
@@ -136,7 +137,7 @@
         if (![self callPaymentHelperWithPayOp:op]) {
             
             [gToast dismiss];
-            [self postCustomNotificationName:kNotifyRefreshInsuranceOrders object:nil];
+            [InsOrderStore reloadOrderByID:self.insOrder.orderid];
             InsuranceResultVC *resultVC = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceResultVC"];
             resultVC.originVC = self.originVC;
             resultVC.orderID = self.insOrder.orderid;
@@ -266,7 +267,7 @@
     [[helper rac_startPay] subscribeNext:^(id x) {
         
         @strongify(self);
-        [self postCustomNotificationName:kNotifyRefreshInsuranceOrders object:nil];
+        [InsOrderStore reloadOrderByID:self.insOrder.orderid];
         InsuranceResultVC *resultVC = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceResultVC"];
         [resultVC setResultType:PaySuccess];
         resultVC.originVC = self.originVC;
@@ -714,13 +715,13 @@
         }
         else
         {
-            iconV.image = [UIImage imageNamed:@"cw_creditcard"];
+            iconV.image = [UIImage imageNamed:@"ins_uppay"];
             titleLb.text = @"银联支付";
             noteLb.text = @"推荐银联卡用户使用";
         }
     }
     else if (indexPath.row == 3) {
-        iconV.image = [UIImage imageNamed:@"cw_creditcard"];
+        iconV.image = [UIImage imageNamed:@"ins_uppay"];
         titleLb.text = @"银联支付";
         noteLb.text = @"推荐银联卡用户使用";
     }
