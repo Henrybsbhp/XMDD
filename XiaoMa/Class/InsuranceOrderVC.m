@@ -80,7 +80,7 @@
     [[InsOrderStore fetchOrCreateStore] subscribeEventsWithTarget:self receiver:^(CKStore *store, RACSignal *event, NSInteger code) {
         RACSignal *sig = [event map:^id(id value) {
             self.order = [[(InsOrderStore *)store cache] objectForKey:self.orderID];
-            return [NSArray arrayWithObject:self.order];
+            return [NSArray safetyArrayWithObject:self.order];
         }];
         [self.loadingModel reloadDataFromSignal:sig];
     }];
