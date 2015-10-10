@@ -12,6 +12,7 @@
 #import "InsuranceVC.h"
 #import "JTLabel.h"
 #import "SocialShareViewController.h"
+#import "InsOrderStore.h"
 
 @interface InsuranceResultVC ()
 
@@ -56,8 +57,7 @@
     else {
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
-    [self postCustomNotificationName:kNotifyRefreshDetailInsuranceOrder object:self.orderID];
-    [self postCustomNotificationName:kNotifyRefreshInsuranceOrders object:nil];
+    [InsOrderStore reloadOrderByID:self.orderID];
 }
 
 -(void)setResultType:(InsuranceResult) resultType

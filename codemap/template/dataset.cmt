@@ -1,0 +1,61 @@
+$(require (lib "template/objc"))
+$<${(namespace (lambda (root) (spath root "/node[attr/data]")))}
+$(export (format "objc/~a.h" (class-name _)))
+#import <Foundation/Foundation.h>
+$(oc:out-import-linked-classes _)
+
+@interface $(out (class-name _)) : (oc:super-class _)
+
+$<${(namespace (lambda (nd) (properties nd)))}
+$(out (format "@property (nonatomic,~a) ~a req_~a;"
+			  (oc:property-stype _) (oc:property-type _) (property-name _)))
+$>
++ (instancetype)createWithJSONDict:(NSDictionary *)dict;
+- (void)resetWithJSONDict:(NSDictionary *)dict;
+
+@end
+$>
+
+$<${(namespace (lambda (root) (spath root "/node[attr/data]")))}
+$(export (format "objc/~a.m" (class-name _)))
+#import "$(out (class-name _)).h"
+
+@implementation $(out (class-name _))
++ (instancetype)createWithJSONDict:(NSDictionary *)dict
+{
+    $(out (class-name _)) *obj = [[$(out (class-name _)) alloc] init];
+    [obj resetWithJSONDict:dict];
+    return obj;
+}
+
+- (void)resetWithJSONDict:(NSDictionary *)dict
+{
+    NSDictionary *dict = rspObj;
+    $(oc:properties-dict-mapping
+		(properties-by-remark _ 'rsp)
+		(lambda (node key value)
+		  (define name (property-name node))
+		  (define dv (format "dict[@\"~a\"]" name))
+		  (define fmt
+			(case key
+			  ['object dv]
+			  ['value (format "[~a ~a]" dv value)]
+			  ['class (format "[~a createWithJSONDict:dict]" value)]
+			  ['array
+			   (outln (format "NSMutableArray *~a = [NSMutableArray array];" name))
+			   (outln (format "for (NSDictionary *dict in ~a) {" dv))
+			   (outln (format "~a *obj = [~a createWithJSONDict:dict];" value) 4)
+			   (outln (format "[~a addObject:obj];" name) 4)
+			   (outln "}")]
+			  ['date (let ([date-type (attr-value node 'date)])
+					   (cond
+						[(eq? 'DT14 date-type)
+						 (format "[NSDate dateWithD14Text:~a]" dv)]
+						[else (format "[NSDate dateWithUTS:~a]" dv)]))]))
+		  (outln (format "self.~a = ~a;" name fmt))))
+
+}
+
+@end
+
+$>

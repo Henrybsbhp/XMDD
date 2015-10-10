@@ -11,10 +11,9 @@
 #import "GetInsuranceOrderListOp.h"
 #import "InsuranceOrderVC.h"
 #import "PayForInsuranceVC.h"
+#import "InsOrderStore.h"
 
 @interface InsranceOrderViewModel ()<HKLoadingModelDelegate>
-
-@property (nonatomic, assign) long long curTradetime;
 
 @end
 
@@ -29,6 +28,7 @@
         self.tableView.dataSource = self;
         self.tableView.showBottomLoadingView = YES;
         self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
+        [self setupInsOrderStore];
     }
     return self;
 }
@@ -37,6 +37,18 @@
 {
     _targetVC = targetVC;
     //    [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)setupInsOrderStore
+{
+    [[InsOrderStore fetchOrCreateStore] subscribeEventsWithTarget:self receiver:^(CKStore *store, RACSignal *evt, NSInteger code) {
+        if (code != kCKStoreEventReload) {
+            evt = [evt map:^id(id value) {
+                return [[(InsOrderStore *)store cache] allObjects];
+            }];
+        }
+        [self.loadingModel reloadDataFromSignal:evt];
+    }];
 }
 
 #pragma mark - Action
@@ -58,15 +70,7 @@
 
 - (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
 {
-    if (type != HKDatasourceLoadingTypeLoadMore) {
-        self.curTradetime = 0;
-    }
-
-    
-    GetInsuranceOrderListOp * op = [GetInsuranceOrderListOp operation];
-    return [[op rac_postRequest] map:^id(GetInsuranceOrderListOp *rspOp) {
-        return rspOp.rsp_orders;
-    }];
+    return [[InsOrderStore fetchExistsStore] rac_getAllInsOrders];
 }
 
 - (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
