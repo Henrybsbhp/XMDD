@@ -11,6 +11,7 @@
 #import "CarwashOrderDetailVC.h"
 #import "InsuranceOrderVC.h"
 #import "MyCouponVC.h"
+#import "InsOrderStore.h"
 
 @implementation NavigationModel
 
@@ -97,7 +98,7 @@
                 }];
                 if (vc) {
                     [self.curNavCtrl popToViewController:vc animated:YES];
-                    [self postCustomNotificationName:kNotifyRefreshDetailInsuranceOrder object:orderid];
+                    [InsOrderStore reloadOrderByID:orderid];
                 }
                 else {
                     InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];

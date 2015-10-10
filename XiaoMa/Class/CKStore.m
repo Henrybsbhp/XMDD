@@ -8,6 +8,8 @@
 
 #import "CKStore.h"
 static char sSubscribeBlockKey;
+static char sStoreKey;
+
 @interface CKStore ()
 @property (nonatomic, strong) NSHashTable *weakTable;
 @end
@@ -23,7 +25,19 @@ static char sSubscribeBlockKey;
     return g_storeTable;
 }
 
-+ (instancetype)fetchStore
++ (void)reloadDataWithCode:(NSInteger)code
+{
+    CKStore *store = [[self storeTable] objectForKey:self];
+    [store reloadDataWithCode:code];
+}
+
++ (instancetype)fetchExistsStore
+{
+    CKStore *store = [[self storeTable] objectForKey:self];
+    return store;
+}
+
++ (instancetype)fetchOrCreateStore
 {
     CKStore *store = [[self storeTable] objectForKey:self];
     if (!store) {
@@ -31,12 +45,6 @@ static char sSubscribeBlockKey;
         [[self storeTable] setObject:store forKey:self];
     }
     return store;
-}
-
-+ (void)reloadData
-{
-    CKStore *store = [[self storeTable] objectForKey:self];
-    [store reloadData];
 }
 
 - (instancetype)init
@@ -48,20 +56,33 @@ static char sSubscribeBlockKey;
     return self;
 }
 
-- (void)subscribeEventsWithTarget:(id)target receiver:(void(^)(RACSignal *event, NSInteger code))block
+- (void)subscribeEventsWithTarget:(id)target receiver:(void(^)(CKStore *store, RACSignal *evt, NSInteger code))block
 {
-    [(NSObject *)target setAssociatedObject:block forKey:&sSubscribeBlockKey policy:OBJC_ASSOCIATION_COPY_NONATOMIC];
+    objc_setAssociatedObject(target, &sSubscribeBlockKey, block, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    objc_setAssociatedObject(target, &sStoreKey, self, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self.weakTable addObject:target];
+}
+
++ (void)sendEvent:(RACSignal *)event withCode:(NSInteger)code
+{
+    CKStore *store = [[self storeTable] objectForKey:self];
+    [store sendEvent:event withCode:code];
 }
 
 - (void)sendEvent:(RACSignal *)event withCode:(NSInteger)code
 {
     for (NSObject *target in [[self.weakTable objectEnumerator] allObjects]) {
-        void(^block)(RACSignal *, NSInteger) = [target associatedObjectForKey:&sSubscribeBlockKey];
+        void(^block)(CKStore *, RACSignal *, NSInteger) = [target associatedObjectForKey:&sSubscribeBlockKey];
         if (block) {
-            block(event, code);
+            block(self, event, code);
         }
     }
+}
+
+//@Override
+- (void)reloadDataWithCode:(NSInteger)code
+{
+    
 }
 
 @end

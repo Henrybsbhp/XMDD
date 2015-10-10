@@ -9,10 +9,10 @@
 #import "InsuranceOrderVC.h"
 #import "UIView+Layer.h"
 #import "BorderLineLabel.h"
-#import "GetInsuranceOrderDetailsOp.h"
 #import "InsuranceOrderPayOp.h"
 #import "PayForInsuranceVC.h"
 #import "HKLoadingModel.h"
+#import "InsOrderStore.h"
 
 @interface InsuranceOrderVC ()<UITableViewDataSource,UITableViewDelegate,HKLoadingModelDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -30,14 +30,16 @@
     self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
     if (self.order) {
         self.orderID = self.order.orderid;
+        [self setupInsOrderStore];
         [self.tableView.refreshView addTarget:self.loadingModel action:@selector(reloadData)
                              forControlEvents:UIControlEventValueChanged];
         [self reloadWithOrderStatus:self.order.status];
     }
     else {
+        [self setupInsOrderStore];
         [self.loadingModel loadDataForTheFirstTime];
     }
-    [self setupNotify];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -73,20 +75,17 @@
     [self.bottomButton addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)setupNotify
+- (void)setupInsOrderStore
 {
-    [self listenNotificationByName:kNotifyRefreshDetailInsuranceOrder withNotifyBlock:^(NSNotification *note, id weakSelf) {
-        if ([note.object isKindOfClass:[NSNumber class]] && [self.orderID isEqualToNumber:note.object]) {
-            [self.loadingModel reloadData];
-        }
+    [[InsOrderStore fetchOrCreateStore] subscribeEventsWithTarget:self receiver:^(CKStore *store, RACSignal *event, NSInteger code) {
+        RACSignal *sig = [event map:^id(id value) {
+            self.order = [[(InsOrderStore *)store cache] objectForKey:self.orderID];
+            return [NSArray arrayWithObject:self.order];
+        }];
+        [self.loadingModel reloadDataFromSignal:sig];
     }];
 }
 #pragma mark - Load
-- (void)reloadDatasource
-{
-
-}
-
 - (void)reloadWithOrderStatus:(InsuranceOrderStatus)status
 {
     self.order.status = status;
@@ -175,14 +174,12 @@
 
 - (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
 {
-    //保险订单详情接口试调
-    GetInsuranceOrderDetailsOp * op = [GetInsuranceOrderDetailsOp operation];
-    op.req_orderid = self.orderID;
-    return [[op rac_postRequest] map:^id(GetInsuranceOrderDetailsOp *rspOp) {
-        self.order = rspOp.rsp_order;
-        return [NSArray arrayWithObject:rspOp.rsp_order];
+    return [[[InsOrderStore fetchExistsStore] rac_getInsOrderByID:self.orderID] map:^id(HKInsuranceOrder *order) {
+        self.order = order;
+        return [NSArray arrayWithObject:order];
     }];
 }
+
 - (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
 {
     [self reloadWithOrderStatus:self.order.status];

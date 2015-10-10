@@ -26,9 +26,10 @@
             [self sendEvent:[RACSignal return:nil] withCode:kCKStoreEventReload];
         }
         else {
-            [self reloadData];
+            [self reloadDataWithCode:kCKStoreEventReload];
         }
     }];
     [[self rac_deallocDisposable] addDisposable:dsp];
 }
+
 @end

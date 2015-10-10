@@ -19,14 +19,16 @@ typedef enum : NSInteger {
 
 @protocol CKStoreDelegate <NSObject>
 
-@optional
-- (void)reloadData;
+- (void)reloadDataWithCode:(NSInteger)code;
+
 @end
 
 @interface CKStore : NSObject <CKStoreDelegate>
-+ (instancetype)fetchStore;
-+ (void)reloadData;
-- (void)subscribeEventsWithTarget:(id)target receiver:(void(^)(RACSignal *event, NSInteger code))block;
++ (void)reloadDataWithCode:(NSInteger)code;
++ (instancetype)fetchExistsStore;
++ (instancetype)fetchOrCreateStore;
+- (void)subscribeEventsWithTarget:(id)target receiver:(void(^)(CKStore *store, RACSignal *evt, NSInteger code))block;
++ (void)sendEvent:(RACSignal *)event withCode:(NSInteger)code;
 - (void)sendEvent:(RACSignal *)event withCode:(NSInteger)code;
 
 @end

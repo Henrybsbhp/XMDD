@@ -123,6 +123,7 @@
 		1893713A1B0F59420030FDE1 /* CacheModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 189371391B0F59420030FDE1 /* CacheModel.m */; };
 		18988C441BBAB32F001DECD5 /* InsuranceOrderPaidSuccessOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18988C431BBAB32F001DECD5 /* InsuranceOrderPaidSuccessOp.m */; };
 		18988CB21BC79A76001DECD5 /* HKUserStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18988CB11BC79A76001DECD5 /* HKUserStore.m */; };
+		18988CB51BC7B6A6001DECD5 /* InsOrderStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18988CB41BC7B6A6001DECD5 /* InsOrderStore.m */; };
 		189B30AF1AD4D661001D7288 /* JTLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30AC1AD4D661001D7288 /* JTLabel.m */; };
 		189B30B01AD4D661001D7288 /* JTTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30AE1AD4D661001D7288 /* JTTableViewController.m */; };
 		189B30B31AD4F7AC001D7288 /* UIView+CustomForXIB.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B30B21AD4F7AC001D7288 /* UIView+CustomForXIB.m */; };
@@ -647,6 +648,8 @@
 		18988C431BBAB32F001DECD5 /* InsuranceOrderPaidSuccessOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsuranceOrderPaidSuccessOp.m; path = Class/InsuranceOrderPaidSuccessOp.m; sourceTree = "<group>"; };
 		18988CB01BC79A76001DECD5 /* HKUserStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKUserStore.h; path = Class/HKUserStore.h; sourceTree = "<group>"; };
 		18988CB11BC79A76001DECD5 /* HKUserStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKUserStore.m; path = Class/HKUserStore.m; sourceTree = "<group>"; };
+		18988CB31BC7B6A6001DECD5 /* InsOrderStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InsOrderStore.h; path = Class/InsOrderStore.h; sourceTree = "<group>"; };
+		18988CB41BC7B6A6001DECD5 /* InsOrderStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsOrderStore.m; path = Class/InsOrderStore.m; sourceTree = "<group>"; };
 		189B30AB1AD4D661001D7288 /* JTLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTLabel.h; path = Class/JTLabel.h; sourceTree = "<group>"; };
 		189B30AC1AD4D661001D7288 /* JTLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTLabel.m; path = Class/JTLabel.m; sourceTree = "<group>"; };
 		189B30AD1AD4D661001D7288 /* JTTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTTableViewController.h; path = Class/JTTableViewController.h; sourceTree = "<group>"; };
@@ -1974,6 +1977,8 @@
 		18988CAC1BC78D71001DECD5 /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				18988CB31BC7B6A6001DECD5 /* InsOrderStore.h */,
+				18988CB41BC7B6A6001DECD5 /* InsOrderStore.m */,
 				18988CB01BC79A76001DECD5 /* HKUserStore.h */,
 				18988CB11BC79A76001DECD5 /* HKUserStore.m */,
 			);
@@ -3164,6 +3169,7 @@
 				189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */,
 				6BDD6E2E1B68B9AE0060CFD0 /* HKFlipDecimalView.m in Sources */,
 				186984F51B0098A2000A182A /* GetInsuranceOrderListOp.m in Sources */,
+				18988CB51BC7B6A6001DECD5 /* InsOrderStore.m in Sources */,
 				6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */,
 				506008D71B747FED00B8761D /* ResultVC.m in Sources */,
 				1837A7601B72130F0006E6C5 /* SDPhotoBrowser.m in Sources */,
