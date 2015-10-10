@@ -10,4 +10,6 @@
 
 @interface HKUserStore : CKStore
 
+///Override
+- (void)reloadDataWithCode:(NSInteger)code;
 @end

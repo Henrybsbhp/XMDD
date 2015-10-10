@@ -25,12 +25,6 @@ static char sStoreKey;
     return g_storeTable;
 }
 
-+ (void)reloadDataWithCode:(NSInteger)code
-{
-    CKStore *store = [[self storeTable] objectForKey:self];
-    [store reloadDataWithCode:code];
-}
-
 + (instancetype)fetchExistsStore
 {
     CKStore *store = [[self storeTable] objectForKey:self];
@@ -52,6 +46,7 @@ static char sStoreKey;
     self = [super init];
     if (self) {
         _weakTable = [NSHashTable weakObjectsHashTable];
+        _cache = [[JTQueue alloc] init];
     }
     return self;
 }
@@ -77,12 +72,6 @@ static char sStoreKey;
             block(self, event, code);
         }
     }
-}
-
-//@Override
-- (void)reloadDataWithCode:(NSInteger)code
-{
-    
 }
 
 @end

@@ -32,4 +32,9 @@
     [[self rac_deallocDisposable] addDisposable:dsp];
 }
 
+- (void)reloadDataWithCode:(NSInteger)code
+{
+    
+}
+
 @end

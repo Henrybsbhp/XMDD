@@ -17,14 +17,10 @@ typedef enum : NSInteger {
     kCKStoreEventUpdate
 }CKStoreEventCode;
 
-@protocol CKStoreDelegate <NSObject>
 
-- (void)reloadDataWithCode:(NSInteger)code;
+@interface CKStore : NSObject
+@property (nonatomic, strong) JTQueue *cache;
 
-@end
-
-@interface CKStore : NSObject <CKStoreDelegate>
-+ (void)reloadDataWithCode:(NSInteger)code;
 + (instancetype)fetchExistsStore;
 + (instancetype)fetchOrCreateStore;
 - (void)subscribeEventsWithTarget:(id)target receiver:(void(^)(CKStore *store, RACSignal *evt, NSInteger code))block;
