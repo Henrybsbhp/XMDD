@@ -32,6 +32,8 @@
     order.insdeliverycomp = rsp[@"insdeliverycomp"];
     order.totoalpay = [rsp floatParamForName:@"totalpay"];
     order.status = [rsp integerParamForName:@"status"];
+    order.statusDesc = [rsp stringParamForName:@"statusdesc"];
+    order.statusDetailDesc = [rsp stringParamForName:@"statusdetaildesc"];
     order.lstupdatetime = [NSDate dateWithD14Text:rsp[@"lstupdatetime"]];
     order.totoalpay = [rsp floatParamForName:@"totalpay"];
     order.picUrl = rsp[@"inscomplogo"];
@@ -64,9 +66,18 @@
     return payment;
 }
 
+- (NSString *)detailDescForCurrentStatus
+{
+    return self.statusDetailDesc.length > 0 ? self.statusDetailDesc : [self descForCurrentStatus];
+}
+
 - (NSString *)descForCurrentStatus
 {
-    NSString *desc;
+    NSString *desc = self.statusDesc;
+    if (desc.length > 0) {
+        return desc;
+    }
+    
     switch (self.status) {
         case InsuranceOrderStatusUnpaid:
             desc = @"未支付";
@@ -79,6 +90,9 @@
             break;
         case InsuranceOrderStatusComplete:
             desc = @"保单已出";
+            break;
+        case InsuranceOrderStatusSended:
+            desc = @"保单已寄出";
             break;
         case InsuranceOrderStatusStopping:
             desc = @"停保审核中";

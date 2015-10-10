@@ -85,7 +85,7 @@
         top = 40;
         bottom = -170;
     }
-
+    
     @weakify(self);
     [self.scrollView mas_updateConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
@@ -114,7 +114,7 @@
         
         @strongify(self);
         self.bottomView.hidden = !car;
-
+        
         NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] init];
         
         NSString *str = self.model.allowAutoChangeSelectedCar ? @"您已选择的爱车：" : @"默认车辆：";
@@ -122,7 +122,7 @@
                                NSForegroundColorAttributeName:HEXCOLOR(@"#555555")};
         NSAttributedString *prefix = [[NSAttributedString alloc] initWithString:str attributes:attr];
         [attrStr appendAttributedString:prefix];
-
+        
         if (car.licencenumber.length > 0) {
             NSMutableDictionary *attr2 = [NSMutableDictionary dictionary];
             [attr2 safetySetObject:[UIFont systemFontOfSize:21] forKey:NSFontAttributeName];

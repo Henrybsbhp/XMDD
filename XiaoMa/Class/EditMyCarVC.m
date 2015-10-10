@@ -87,7 +87,7 @@
 - (void)setupTableView
 {
     self.showHeaderView = self.originCar.status == 0 || self.originCar.status == 3;
-
+    
     if (self.originCar) {
         _curCar = [self.originCar copy];
         _isEditingModel = YES;
@@ -98,7 +98,7 @@
         _curCar.isDefault = YES;
         _isEditingModel = NO;
     }
-
+    
     if (self.model.allowAutoChangeSelectedCar || !_isEditingModel || !(self.curCar.editMask & HKCarEditableDelete)) {
         [self.bottomBar removeFromSuperview];
     }
@@ -126,7 +126,7 @@
     if ([self sharkCellIfErrorAtIndex:3 withData:self.curCar.model errorMsg:@"具体车系不能为空"]) {
         return;
     }
-
+    
     @weakify(self);
     RACSignal *sig;
     if (self.isEditingModel) {
@@ -162,7 +162,7 @@
 - (void) actionCancel:(id)sender
 {
     [MobClick event:@"312-13"];
-
+    
     if (self.isEditingModel && ![self.curCar isDifferentFromAnother:self.originCar]) {
         if (self.model.originVC) {
             [self.navigationController popToViewController:self.model.originVC animated:YES];
@@ -241,7 +241,7 @@
         
         [gToast showError:error.domain];
     }];
-
+    
 }
 
 - (IBAction)actionUpload:(id)sender
@@ -300,7 +300,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-
+    
     if (indexPath.section == 0 && self.showHeaderView) {
         cell = [self cellForHeaderViewAtIndexPath:indexPath];
     }
@@ -344,7 +344,7 @@
          subscribeNext:^(NSDate *date) {
              @strongify(self);
              self.curCar.purchasedate = date;
-        }];
+         }];
     }
     //年检到期日
     else if (indexPath.row == 6) {
@@ -384,7 +384,7 @@
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }
-
+    
     else {
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
@@ -392,7 +392,7 @@
             [field becomeFirstResponder];
         }
     }
- }
+}
 
 #pragma mark - Cell
 - (UITableViewCell *)cellForHeaderViewAtIndexPath:(NSIndexPath *)indexPath
@@ -417,12 +417,12 @@
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
     [field mas_updateConstraints:^(MASConstraintMaker *make) {
-       
+        
         make.width.mas_equalTo(200);
     }];
     UILabel *unitL = (UILabel *)[cell.contentView viewWithTag:1003];
     ProvinceChooseView * paramView = (ProvinceChooseView * )[cell searchViewWithTag:1004];
-
+    
     HKMyCar *car = self.curCar;
     paramView.displayLb.text = self.curCar.licenceArea.length ? self.curCar.licenceArea : [self getCurrentProvince];
     
@@ -468,7 +468,7 @@
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
     UILabel *unitL = (UILabel *)[cell.contentView viewWithTag:1003];
-
+    
     HKMyCar *car = self.curCar;
     
     field.delegate = self;
@@ -499,7 +499,7 @@
         field.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
         field.clearsOnBeginEditing = YES;
         field.text = [NSString stringWithFormat:@"%.2f", car.price];
-
+        
         [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString *str) {
             if (str.length > 0) {
                 car.price = [str floatValue];
@@ -512,7 +512,7 @@
         field.keyboardType = UIKeyboardTypeNumberPad;
         field.clearsOnBeginEditing = YES;
         field.text = [NSString stringWithFormat:@"%d", (int)car.odo];
-
+        
         [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString *str) {
             if (str.length > 0) {
                 car.odo = [str integerValue];
@@ -573,7 +573,7 @@
     switchV.on = self.curCar.isDefault;
     @weakify(self);
     [[switchV rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(UISwitch *sw) {
-
+        
         @strongify(self);
         [MobClick event:@"rp312-10"];
         BOOL on = sw.on;
