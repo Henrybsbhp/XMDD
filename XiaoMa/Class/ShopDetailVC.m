@@ -22,6 +22,7 @@
 #import "AddUserFavoriteOp.h"
 #import "SDPhotoBrowser.h"
 #import "UIView+Layer.h"
+#import "MyCarStore.h"
 
 #define kDefaultServieCount     2
 
@@ -127,9 +128,7 @@
 
 - (void)setupMyCarList
 {
-    [[gAppMgr.myUser.carModel rac_fetchDataIfNeeded] subscribeNext:^(id x) {
-        
-    }];
+    [[[[MyCarStore fetchExistsStore] getAllCarsIfNeeded] signal] subscribeNext:^(id x) {}];
 }
 
 #pragma mark - Action
@@ -264,7 +263,7 @@
 
 - (void)gotoPaymentVCWithService:(JTShopService *)service
 {
-    [[[gAppMgr.myUser.carModel rac_getDefaultCar] catch:^RACSignal *(NSError *error) {
+    [[[[[MyCarStore fetchExistsStore] getDefaultCar] signal] catch:^RACSignal *(NSError *error) {
         
         return [RACSignal return:nil];
     }] subscribeNext:^(HKMyCar *car) {

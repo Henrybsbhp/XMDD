@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum : NSInteger
+typedef enum : NSUInteger
 {
-    HKDatasourceLoadingTypeReloadData = 0,
-    HKDatasourceLoadingTypeFirstTime,
-    HKDatasourceLoadingTypeLoadMore
-}HKDatasourceLoadingType;
+    HKLoadingTypeNone = 0,
+    HKLoadingTypeReload = 0x01,
+    HKLoadingTypeFirstTime = 0x02,
+    HKLoadingTypeLoadMore = 0x04,
+    HKLoadingTypeAll = NSUIntegerMax
+}HKLoadingTypeMask;
 
 typedef enum : NSInteger
 {
@@ -51,16 +53,16 @@ typedef enum : NSInteger
 @protocol HKLoadingModelDelegate <NSObject>
 
 @optional
-- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type;
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type;
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error;
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type;
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type;
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error;
 
-- (void)loadingModel:(HKLoadingModel *)model didTappedForBlankPrompting:(NSString *)prompting type:(HKDatasourceLoadingType)type;
-- (void)loadingModel:(HKLoadingModel *)model didTappedForErrorPrompting:(NSString *)prompting type:(HKDatasourceLoadingType)type;
-- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type;
-- (void)loadingModel:(HKLoadingModel *)model didLoadingFailWithType:(HKDatasourceLoadingType)type error:(NSError *)error;
+- (void)loadingModel:(HKLoadingModel *)model didTappedForBlankPrompting:(NSString *)prompting type:(HKLoadingTypeMask)type;
+- (void)loadingModel:(HKLoadingModel *)model didTappedForErrorPrompting:(NSString *)prompting type:(HKLoadingTypeMask)type;
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type;
+- (void)loadingModel:(HKLoadingModel *)model didLoadingFailWithType:(HKLoadingTypeMask)type error:(NSError *)error;
 
-- (NSArray *)loadingModel:(HKLoadingModel *)model datasourceFromLoadedData:(NSArray *)data withType:(HKDatasourceLoadingType)type;
+- (NSArray *)loadingModel:(HKLoadingModel *)model datasourceFromLoadedData:(NSArray *)data withType:(HKLoadingTypeMask)type;
 - (BOOL)loadingModel:(HKLoadingModel *)model shouldLoadMoreDataWithIndexPath:(NSIndexPath *)indexPath;
 - (BOOL)loadingModelShouldAllowRefreshing:(HKLoadingModel *)model;
 - (HKLoadingAnimationType)loadingAnimationTypeForTheFirstTimeWithLoadingModel:(HKLoadingModel *)model;

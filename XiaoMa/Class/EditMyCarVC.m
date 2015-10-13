@@ -14,9 +14,9 @@
 #import "DatePickerVC.h"
 #import "UIView+Shake.h"
 #import "PickAutomobileBrandVC.h"
-#import "MyCarsModel.h"
 #import "CollectionChooseVC.h"
 #import "ProvinceChooseView.h"
+#import "MyCarStore.h"
 
 
 @interface EditMyCarVC ()<UITableViewDataSource,UITableViewDelegate, UITextFieldDelegate>
@@ -113,7 +113,7 @@
         return;
     }
     
-    if (![MyCarsModel verifiedLicenseNumberFrom:self.curCar.licenceSuffix]) {
+    if (![MyCarStore verifiedLicenseNumberFrom:self.curCar.licenceSuffix]) {
         [self sharkCellIfErrorAtIndex:0 withData:nil errorMsg:@"请输入正确的车牌号码"];
         return;
     }
@@ -127,16 +127,10 @@
         return;
     }
     
+    MyCarStore *store = [MyCarStore fetchOrCreateStore];
+    CKStoreEvent *evt = self.isEditingModel ? [store updateCar:self.curCar] : [store addCar:self.curCar];
     @weakify(self);
-    RACSignal *sig;
-    if (self.isEditingModel) {
-        sig = [gAppMgr.myUser.carModel rac_updateCar:self.curCar];
-    }
-    else {
-        sig = [gAppMgr.myUser.carModel rac_addCar:self.curCar];
-    }
-    
-    [[sig initially:^{
+    [[[[store sendEvent:evt] signal] initially:^{
         
         [gToast showingWithText:@"正在保存..."];
     }] subscribeNext:^(id x) {
@@ -157,6 +151,11 @@
         
         [gToast showError:error.domain];
     }];
+}
+
+- (void)_saveFromSignal:(RACSignal *)signal
+{
+    
 }
 
 - (void) actionCancel:(id)sender
@@ -230,7 +229,8 @@
         [self.navigationController popViewControllerAnimated:YES];
         return;
     }
-    [[[gAppMgr.myUser.carModel rac_removeCarByID:self.curCar.carId] initially:^{
+    MyCarStore *store = [MyCarStore fetchOrCreateStore];
+    [[[[store sendEvent:[store removeCarByID:self.curCar.carId]] signal] initially:^{
         
         [gToast showingWithText:@"正在删除..."];
     }] subscribeNext:^(id x) {

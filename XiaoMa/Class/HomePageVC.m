@@ -33,7 +33,7 @@
 #import "ADViewController.h"
 #import "CollectionChooseVC.h"
 #import "InsuranceDetailPlanVC.h"
-
+#import "MyCarStore.h"
 #import "PaymentSuccessVC.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
@@ -45,6 +45,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) ADViewController *adctrl;
+@property (nonatomic, strong) MyCarStore *carStore;
 @end
 
 @implementation HomePageVC
@@ -74,9 +75,12 @@
     
     //自动登录
     [self autoLogin];
+    //全局CarStore
+    self.carStore = [MyCarStore fetchOrCreateStore];
     //设置主页的滚动视图
     [self setupScrollView];
     [self setupWeatherView];
+    
 //    [self rotationTableHeaderView];
     
     [self.scrollView.refreshView addTarget:self action:@selector(reloadDatasource) forControlEvents:UIControlEventValueChanged];

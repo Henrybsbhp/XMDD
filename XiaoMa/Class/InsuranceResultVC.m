@@ -57,7 +57,8 @@
     else {
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
-    [InsOrderStore reloadOrderByID:self.orderID];
+    InsOrderStore *store = [InsOrderStore fetchExistsStore];
+    [store sendEvent:[store getInsOrderByID:self.orderID]];
 }
 
 -(void)setResultType:(InsuranceResult) resultType

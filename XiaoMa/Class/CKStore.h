@@ -17,14 +17,30 @@ typedef enum : NSInteger {
     kCKStoreEventUpdate
 }CKStoreEventCode;
 
-
+@class CKStoreEvent;
 @interface CKStore : NSObject
 @property (nonatomic, strong) JTQueue *cache;
+///default is 60*60 seconds;
+@property (nonatomic, assign) NSTimeInterval updateDuration;
 
 + (instancetype)fetchExistsStore;
 + (instancetype)fetchOrCreateStore;
-- (void)subscribeEventsWithTarget:(id)target receiver:(void(^)(CKStore *store, RACSignal *evt, NSInteger code))block;
-+ (void)sendEvent:(RACSignal *)event withCode:(NSInteger)code;
-- (void)sendEvent:(RACSignal *)event withCode:(NSInteger)code;
+- (void)subscribeEventsWithTarget:(id)target receiver:(void(^)(CKStore *store, CKStoreEvent *evt))block;
++ (CKStoreEvent *)sendEvent:(CKStoreEvent *)evt;
+- (CKStoreEvent *)sendEvent:(CKStoreEvent *)evt;
+
+- (BOOL)needUpdateTimetag;
+- (void)updateTimetag;
 
 @end
+
+@interface CKStoreEvent : NSObject
+@property (nonatomic, assign, readonly) NSInteger code;
+@property (nonatomic, strong, readonly) RACSignal *signal;
+@property (nonatomic, strong) id object;
+
++ (instancetype)eventWithSignal:(RACSignal *)sig code:(NSInteger)code object:(id)obj;
+- (CKStoreEvent *)setSignal:(RACSignal *)signal;
+
+@end
+

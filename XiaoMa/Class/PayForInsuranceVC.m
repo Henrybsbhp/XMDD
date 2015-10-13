@@ -137,7 +137,8 @@
         if (![self callPaymentHelperWithPayOp:op]) {
             
             [gToast dismiss];
-            [InsOrderStore reloadOrderByID:self.insOrder.orderid];
+            InsOrderStore *store = [InsOrderStore fetchExistsStore];
+            [store sendEvent:[store getInsOrderByID:self.insOrder.orderid]];
             InsuranceResultVC *resultVC = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceResultVC"];
             resultVC.originVC = self.originVC;
             resultVC.orderID = self.insOrder.orderid;
@@ -267,7 +268,8 @@
     [[helper rac_startPay] subscribeNext:^(id x) {
         
         @strongify(self);
-        [InsOrderStore reloadOrderByID:self.insOrder.orderid];
+        InsOrderStore *store = [InsOrderStore fetchExistsStore];
+        [store sendEvent:[store getInsOrderByID:self.insOrder.orderid]];
         InsuranceResultVC *resultVC = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceResultVC"];
         [resultVC setResultType:PaySuccess];
         resultVC.originVC = self.originVC;

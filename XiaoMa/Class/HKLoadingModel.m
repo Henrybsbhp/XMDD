@@ -44,7 +44,7 @@
 {
     RACSignal *signal;
     if ([self.delegate respondsToSelector:@selector(loadingModel:loadingDataSignalWithType:)]) {
-        signal = [self.delegate loadingModel:self loadingDataSignalWithType:HKDatasourceLoadingTypeFirstTime];
+        signal = [self.delegate loadingModel:self loadingDataSignalWithType:HKLoadingTypeFirstTime];
     }
     if (!signal) {
         signal = [RACSignal return:nil];
@@ -71,7 +71,7 @@
         
         _isRemain = data.count >= PageAmount;
         if ([self.delegate respondsToSelector:@selector(loadingModel:datasourceFromLoadedData:withType:)]) {
-            self.datasource = [self.delegate loadingModel:self datasourceFromLoadedData:data withType:HKDatasourceLoadingTypeFirstTime];
+            self.datasource = [self.delegate loadingModel:self datasourceFromLoadedData:data withType:HKLoadingTypeFirstTime];
         }
         else {
             self.datasource = [NSMutableArray arrayWithArray:data];
@@ -90,20 +90,20 @@
             }
             self.loadingSuccessForTheFirstTime = YES;
             if ([self.delegate respondsToSelector:@selector(loadingModel:didLoadingSuccessWithType:)]) {
-                [self.delegate loadingModel:self didLoadingSuccessWithType:HKDatasourceLoadingTypeFirstTime];
+                [self.delegate loadingModel:self didLoadingSuccessWithType:HKLoadingTypeFirstTime];
             }
         }
         else {
             NSString *blank;
             if ([self.delegate respondsToSelector:@selector(loadingModel:blankPromptingWithType:)]) {
-                blank = [self.delegate loadingModel:self blankPromptingWithType:HKDatasourceLoadingTypeFirstTime];
+                blank = [self.delegate loadingModel:self blankPromptingWithType:HKLoadingTypeFirstTime];
             }
             @weakify(self);
             [self.targetView showDefaultEmptyViewWithText:blank tapBlock:^{
 
                 @strongify(self);
                 if ([self.delegate respondsToSelector:@selector(loadingModel:didTappedForBlankPrompting:type:)]) {
-                    [self.delegate loadingModel:self didTappedForBlankPrompting:blank type:HKDatasourceLoadingTypeFirstTime];
+                    [self.delegate loadingModel:self didTappedForBlankPrompting:blank type:HKLoadingTypeFirstTime];
                 }
                 else {
                     [self loadDataForTheFirstTime];
@@ -114,18 +114,18 @@
         
         [gToast showError:error.domain];
         if ([self.delegate respondsToSelector:@selector(loadingModel:didLoadingFailWithType:error:)]) {
-            [self.delegate loadingModel:self didLoadingFailWithType:HKDatasourceLoadingTypeFirstTime error:error];
+            [self.delegate loadingModel:self didLoadingFailWithType:HKLoadingTypeFirstTime error:error];
         }
         NSString *errorPrompting;
         if ([self.delegate respondsToSelector:@selector(loadingModel:errorPromptingWithType:error:)]) {
-            errorPrompting = [self.delegate loadingModel:self errorPromptingWithType:HKDatasourceLoadingTypeFirstTime error:error];
+            errorPrompting = [self.delegate loadingModel:self errorPromptingWithType:HKLoadingTypeFirstTime error:error];
         }
         @weakify(self);
         [self.targetView showDefaultEmptyViewWithText:errorPrompting tapBlock:^{
             
             @strongify(self);
             if ([self.delegate respondsToSelector:@selector(loadingModel:didTappedForErrorPrompting:type:)]) {
-                [self.delegate loadingModel:self didTappedForErrorPrompting:errorPrompting type:HKDatasourceLoadingTypeFirstTime];
+                [self.delegate loadingModel:self didTappedForErrorPrompting:errorPrompting type:HKLoadingTypeFirstTime];
             }
             else {
                 [self loadDataForTheFirstTime];
@@ -140,7 +140,7 @@
 {
     RACSignal *signal;
     if ([self.delegate respondsToSelector:@selector(loadingModel:loadingDataSignalWithType:)]) {
-        signal = [self.delegate loadingModel:self loadingDataSignalWithType:HKDatasourceLoadingTypeReloadData];
+        signal = [self.delegate loadingModel:self loadingDataSignalWithType:HKLoadingTypeReload];
     }
     if (!signal) {
         signal = [RACSignal return:nil];
@@ -175,26 +175,26 @@
         
         _isRemain = data.count >= PageAmount;
         if ([self.delegate respondsToSelector:@selector(loadingModel:datasourceFromLoadedData:withType:)]) {
-            self.datasource = [self.delegate loadingModel:self datasourceFromLoadedData:data withType:HKDatasourceLoadingTypeReloadData];
+            self.datasource = [self.delegate loadingModel:self datasourceFromLoadedData:data withType:HKLoadingTypeReload];
         }
         else {
             self.datasource = [NSMutableArray arrayWithArray:data];
         }
         
         if ([self.delegate respondsToSelector:@selector(loadingModel:didLoadingSuccessWithType:)]) {
-            [self.delegate loadingModel:self didLoadingSuccessWithType:HKDatasourceLoadingTypeReloadData];
+            [self.delegate loadingModel:self didLoadingSuccessWithType:HKLoadingTypeReload];
         }
         if (data.count == 0) {
             NSString *blank;
             if ([self.delegate respondsToSelector:@selector(loadingModel:blankPromptingWithType:)]) {
-                blank = [self.delegate loadingModel:self blankPromptingWithType:HKDatasourceLoadingTypeReloadData];
+                blank = [self.delegate loadingModel:self blankPromptingWithType:HKLoadingTypeReload];
             }
             @weakify(self);
             [self.targetView showDefaultEmptyViewWithText:blank tapBlock:^{
                 
                 @strongify(self);
                 if ([self.delegate respondsToSelector:@selector(loadingModel:didTappedForBlankPrompting:type:)]) {
-                    [self.delegate loadingModel:self didTappedForBlankPrompting:blank type:HKDatasourceLoadingTypeReloadData];
+                    [self.delegate loadingModel:self didTappedForBlankPrompting:blank type:HKLoadingTypeReload];
                 }
                 else {
                     [self reloadData];
@@ -205,7 +205,7 @@
         
         [gToast showError:error.domain];
         if ([self.delegate respondsToSelector:@selector(loadingModel:didLoadingFailWithType:error:)]) {
-            [self.delegate loadingModel:self didLoadingFailWithType:HKDatasourceLoadingTypeReloadData error:error];
+            [self.delegate loadingModel:self didLoadingFailWithType:HKLoadingTypeReload error:error];
         }
     }];
 }
@@ -214,7 +214,7 @@
 {
     RACSignal *signal;
     if ([self.delegate respondsToSelector:@selector(loadingModel:loadingDataSignalWithType:)]) {
-        signal = [self.delegate loadingModel:self loadingDataSignalWithType:HKDatasourceLoadingTypeLoadMore];
+        signal = [self.delegate loadingModel:self loadingDataSignalWithType:HKLoadingTypeLoadMore];
     }
     if (!signal) {
         signal = [RACSignal return:nil];
@@ -233,20 +233,20 @@
         _isRemain = data.count >= PageAmount;
 
         if ([self.delegate respondsToSelector:@selector(loadingModel:datasourceFromLoadedData:withType:)]) {
-            self.datasource = [self.delegate loadingModel:self datasourceFromLoadedData:data withType:HKDatasourceLoadingTypeLoadMore];
+            self.datasource = [self.delegate loadingModel:self datasourceFromLoadedData:data withType:HKLoadingTypeLoadMore];
         }
         else {
             [(NSMutableArray *)self.datasource safetyAddObjectsFromArray:data];
         }
 
         if ([self.delegate respondsToSelector:@selector(loadingModel:didLoadingSuccessWithType:)]) {
-            [self.delegate loadingModel:self didLoadingSuccessWithType:HKDatasourceLoadingTypeReloadData];
+            [self.delegate loadingModel:self didLoadingSuccessWithType:HKLoadingTypeReload];
         }
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
         if ([self.delegate respondsToSelector:@selector(loadingModel:didLoadingFailWithType:error:)]) {
-            [self.delegate loadingModel:self didLoadingFailWithType:HKDatasourceLoadingTypeLoadMore error:error];
+            [self.delegate loadingModel:self didLoadingFailWithType:HKLoadingTypeLoadMore error:error];
         }
     }];
 }

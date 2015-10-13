@@ -98,7 +98,8 @@
                 }];
                 if (vc) {
                     [self.curNavCtrl popToViewController:vc animated:YES];
-                    [InsOrderStore reloadOrderByID:orderid];
+                    InsOrderStore *store = [InsOrderStore fetchExistsStore];
+                    [store sendEvent:[store getInsOrderByID:orderid]];
                 }
                 else {
                     InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
