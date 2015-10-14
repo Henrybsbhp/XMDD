@@ -567,7 +567,7 @@
         }
         
         
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
         [self refreshPriceLb];
     }];
     
@@ -1105,8 +1105,7 @@
                 
                 self.checkoutServiceOrderV3Op.paychannel = PaymentChannelAlipay;
             }
-            [self.tableView reloadData];
-            [self refreshPriceLb];
+            [self tableViewReloadData];
             return;
         }
     }
