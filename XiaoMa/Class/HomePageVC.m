@@ -34,6 +34,7 @@
 #import "CollectionChooseVC.h"
 #import "InsuranceDetailPlanVC.h"
 #import "MyCarStore.h"
+#import "GasVC.h"
 #import "PaymentSuccessVC.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
@@ -439,6 +440,9 @@
 #pragma mark - Action
 - (IBAction)actionCallCenter:(id)sender
 {
+    GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
+    [self.navigationController pushViewController:vc animated:YES];
+    return;
     [MobClick event:@"rp101-2"];
     NSString * number = @"4007111111";
     [gPhoneHelper makePhone:number andInfo:@"客服电话：4007-111-111"];

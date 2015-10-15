@@ -2,7 +2,7 @@
 
 @interface GasCard : NSObject
 ///油卡id
-@property (nonatomic,assign) long long gid;
+@property (nonatomic,strong) NSNumber* gid;
 ///油卡卡号
 @property (nonatomic,strong) NSString* gascardno;
 ///油卡类型 1：石化  2：石油

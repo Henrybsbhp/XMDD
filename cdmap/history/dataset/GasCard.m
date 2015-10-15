@@ -10,7 +10,7 @@
 
 - (void)resetWithJSONDict:(NSDictionary *)dict
 {
-    self.gid = [dict[@"gid"] longLongValue];
+    self.gid = dict[@"gid"];
     self.gascardno = dict[@"gascardno"];
     self.cardtype = [dict[@"cardtype"] intValue];
     self.availablechargeamt = [dict[@"availablechargeamt"] intValue];

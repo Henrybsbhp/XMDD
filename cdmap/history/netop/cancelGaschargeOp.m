@@ -1,6 +1,6 @@
-#import "cancelGaschargeOp.h"
+#import "CancelGaschargeOp.h"
 
-@implementation cancelGaschargeOp
+@implementation CancelGaschargeOp
 
 - (RACSignal *)rac_postRequest {
     self.req_method = @"/user/gascharge/cancel";

@@ -6,7 +6,7 @@
     self.req_method = @"/czbpay/vcode/get";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params safetySetObject:self.req_phone forKey:@"phone"];
-    [params safetySetObject:@(self.req_cardid) forKey:@"cardid"];
+    [params safetySetObject:self.req_cardid forKey:@"cardid"];
 
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }

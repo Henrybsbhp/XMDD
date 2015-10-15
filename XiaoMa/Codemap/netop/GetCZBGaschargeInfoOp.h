@@ -3,9 +3,9 @@
 @interface GetCZBGaschargeInfoOp : BaseOp
 
 ///油卡id
-@property (nonatomic,assign) long long req_gid;
+@property (nonatomic,strong) NSNumber* req_gid;
 ///浙商银行卡ID
-@property (nonatomic,strong) NSString* req_cardid;
+@property (nonatomic,strong) NSNumber* req_cardid;
 
 ///当月可充金额
 @property (nonatomic,assign) int rsp_availablechargeamt;

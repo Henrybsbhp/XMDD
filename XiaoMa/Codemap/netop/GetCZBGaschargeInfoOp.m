@@ -5,7 +5,7 @@
 - (RACSignal *)rac_postRequest {
     self.req_method = @"/user/czbcard/couponinfo/get";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params safetySetObject:@(self.req_gid) forKey:@"gid"];
+    [params safetySetObject:self.req_gid forKey:@"gid"];
     [params safetySetObject:self.req_cardid forKey:@"cardid"];
 
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
