@@ -16,7 +16,6 @@
     if (self) {
         _isAcceptedAgreement = YES;
         _isLoadSuccess = NO;
-        _gasRemainder = @"充值成功后，须至相应加油站圈存后方能使用；如需开发票，请在营业厅圈存后向工作人员索要。";
         _segHelper = [[CKSegmentHelper alloc] init];
         _paymentPlatform = PaymentPlatformTypeAlipay;
     }
@@ -30,6 +29,13 @@
 - (NSArray *)datasource
 {
     return nil;
+}
+
+///充值提醒
+- (NSString *)gasRemainder
+{
+    NSString *text = @"<font size=13 color='#454545'><p>充值成功后，须至相应加油站圈存后方能使用；如需开发票，请在营业厅圈存后向工作人员索要。</p></font>";
+    return text;
 }
 
 @end

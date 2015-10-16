@@ -14,8 +14,11 @@
 #import "UIView+DefaultEmptyView.h"
 #import "HKTableViewCell.h"
 #import "UIView+JTLoadingView.h"
-#import "GasPickAmountCell.h"
 #import "NSString+RectSize.h"
+
+#import "GasPickAmountCell.h"
+#import "GasReminderCell.h"
+
 #import "WebVC.h"
 
 @interface GasVC ()<UITableViewDataSource, UITableViewDelegate>
@@ -227,7 +230,10 @@
     if (tag == 1) {
         return self.view.frame.size.height;
     }
-    else if (tag == 10001 || tag == 10002) {
+    else if (tag == 10001) {
+        height = 74;
+    }
+    else if (tag == 10002) {
         height = 68;
     }
     else if (tag == 10003) {    //充值金额
@@ -236,9 +242,9 @@
         height = [cell cellHeight];
     }
     else if (tag == 10004) {    //提醒
-        height = [self.curModel.gasRemainder labelSizeWithWidth:tableView.frame.size.width-45
-                                                           font:[UIFont systemFontOfSize:12]].height;
-        height = MAX(45, height+5);
+        GasReminderCell *cell = [self gasReminderCellAtIndexPath:indexPath];
+        cell.frame = CGRectMake(0, 0, tableView.frame.size.width, 45);
+        height = [cell cellHeight];
     }
     return height;
 }
@@ -247,7 +253,10 @@
 {
     NSInteger tag = [[[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row] integerValue];
     UITableViewCell *cell;
-    if (tag == 10002) {
+    if (tag == 10001) {
+        cell = [self gasCardCellAtIndexPath:indexPath];
+    }
+    else if (tag == 10002) {
         cell = [self addNormalGasCardCellAtIndexPath:indexPath];
     }
     else if (tag == 10003) {
@@ -271,6 +280,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSInteger tag = [[[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row] integerValue];
     if (tag == 10002) {
         [self actionAddGasCard];
@@ -281,6 +291,14 @@
 - (HKTableViewCell *)addNormalGasCardCellAtIndexPath:(NSIndexPath *)indexPath
 {
     HKTableViewCell *cell = (HKTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"AddNormalGasCard"
+                                                                                    forIndexPath:indexPath];
+    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 12, 0, 0)];
+    return cell;
+}
+
+- (HKTableViewCell *)gasCardCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    HKTableViewCell *cell = (HKTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"GasCard"
                                                                                     forIndexPath:indexPath];
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 12, 0, 0)];
     return cell;
@@ -303,11 +321,13 @@
     return cell;
 }
 
-- (HKTableViewCell *)gasReminderCellAtIndexPath:(NSIndexPath *)indexPath
+- (GasReminderCell *)gasReminderCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    HKTableViewCell *cell = (HKTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"GasReminder"];
-    UILabel *label = (UILabel *)[cell.contentView viewWithTag:1002];
-    label.text = self.curModel.gasRemainder;
+    GasReminderCell *cell = (GasReminderCell *)[self.tableView dequeueReusableCellWithIdentifier:@"GasReminder"];
+    if (!cell) {
+        cell = [[GasReminderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"GasReminder"];
+    }
+    cell.richLabel.text = [self.curModel gasRemainder];
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
     
     return cell;

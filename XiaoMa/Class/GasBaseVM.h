@@ -15,8 +15,6 @@
 @property (nonatomic, assign) BOOL isLoading;
 ///(Default is NO)
 @property (nonatomic, assign) BOOL isLoadSuccess;
-///充值提醒
-@property (nonatomic, strong) NSString *gasRemainder;
 ///当前选择的油卡
 @property (nonatomic, strong) GasCard *curGasCard;
 ///充值金额
@@ -28,6 +26,8 @@
 ///check box control
 @property (nonatomic, strong) CKSegmentHelper *segHelper;
 
+///充值提醒
+- (NSString *)gasRemainder;
 ///@Override
 - (NSArray *)datasource;
 @end
