@@ -75,7 +75,7 @@
 
 - (IBAction)getMoreAction:(id)sender {
     WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
-    vc.url = @"http://www.xiaomadada.com/apphtml/couponpkg.html";
+    vc.url = @"http://www.xiaomadada.com/apphtml/youhuiquan.html";
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -94,7 +94,7 @@
             if (self.type == CouponTypeCZBankCarWash)
             {
                 [payVc autoSelectBankCard];
-                [payVc setPlatform:PayWithXMDDCreditCard];
+                [payVc setPaymentChannel:PaymentChannelXMDDCreditCard];
                 [payVc setSelectCarwashCoupouArray:self.selectedCouponArray];
             }
             else if (self.type == CouponTypeCarWash)
@@ -102,10 +102,6 @@
                 [payVc setSelectCarwashCoupouArray:self.selectedCouponArray];
             }
             else if (self.type == CouponTypeCash)
-            {
-                [payVc setSelectCashCoupouArray:self.selectedCouponArray];
-            }
-            else if (self.type == CouponTypeInsurance)
             {
                 [payVc setSelectCashCoupouArray:self.selectedCouponArray];
             }
@@ -120,10 +116,10 @@
         }
         [payVc tableViewReloadData];
     }
-    else if (vc && [vc isKindOfClass:[PayForInsuranceVC class]])
+    
+    if (vc && [vc isKindOfClass:[PayForInsuranceVC class]])
     {
         PayForInsuranceVC * payVc = (PayForInsuranceVC *)vc;
-        
         if (self.selectedCouponArray.count)
         {
             HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];
@@ -133,11 +129,11 @@
                 [payVc setSelectInsuranceCoupouArray:self.selectedCouponArray];
             }
             [payVc setCouponType:self.type];
-            [payVc setIsSelectActivity:NO];
+            payVc.isSelectActivity = NO;
         }
         else
         {
-            if (payVc.couponType  == self.type)
+            if (payVc.couponType == self.type)
             {
                 [payVc setCouponType:0];
             }
@@ -178,14 +174,23 @@
     UIImageView * selectedView = (UIImageView *)[cell searchViewWithTag:1007];
     
     HKCoupon * couponDic = [self.couponArray safetyObjectAtIndex:indexPath.row];
-    backgroundImg.image = [[UIImage imageNamed:@"coupon_background"] imageByFilledWithColor:[UIColor colorWithHex:[NSString stringWithFormat:@"#%@", couponDic.rgbColor] alpha:1.0f]];
+    
+    UIImage *bgImg = [UIImage imageNamed:@"coupon_background"];
+    if (couponDic.rgbColor.length > 0) {
+        NSString *strColor = [NSString stringWithFormat:@"#%@", couponDic.rgbColor];
+        UIColor *color = HEXCOLOR(strColor);
+        bgImg = [bgImg imageByFilledWithColor:color];
+    }
+    backgroundImg.image = bgImg;
+    
     [logoV setImageByUrl:couponDic.logo
                 withType:ImageURLTypeThumbnail defImage:@"coupon_logo" errorImage:@"coupon_logo"];
     
     logoV.layer.cornerRadius = 22.0F;
     [logoV.layer setMasksToBounds:YES];
     name.text = couponDic.couponName;
-    description.text = [NSString stringWithFormat:@"（%@）", couponDic.subname];
+    
+    description.text = [NSString stringWithFormat:@"%@", couponDic.subname];
     validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",[couponDic.validsince dateFormatForYYMMdd2],[couponDic.validthrough dateFormatForYYMMdd2]];
     
     UIImage * shadowImg = [[UIImage imageNamed:@"coupon_background"] imageByFilledWithColor:[UIColor colorWithHex:@"#000000" alpha:0.4f]];
@@ -250,21 +255,26 @@
         }
         [self.tableView reloadData];
     }
-    else if (self.type == CouponTypeInsurance)
+    
+    else if (self.type == CouponTypeCash)
     {
-        self.type = coupon.conponType;
-        HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];
-        if ([c.couponId isEqualToNumber:coupon.couponId])
+        CGFloat amount = 0;
+        for (HKCoupon * c in self.selectedCouponArray)
         {
-            [self.selectedCouponArray removeAllObjects];
+            if ([c.couponId isEqualToNumber:coupon.couponId])
+            {
+                [self.selectedCouponArray safetyRemoveObject:c];
+                [self.tableView reloadData];
+                return;
+            }
+            amount = amount + c.couponAmount;
         }
-        else
+        if (amount + coupon.couponAmount < self.upperLimit)
         {
             [MobClick event:@"rp109-1"];
-            [self.selectedCouponArray removeAllObjects];
             [self.selectedCouponArray addObject:coupon];
+            [self.tableView reloadData];
         }
-        [self.tableView reloadData];
     }
     else
     {
@@ -279,7 +289,8 @@
             }
             amount = amount + c.couponAmount;
         }
-        if (amount + coupon.couponAmount < self.upperLimit)
+        if (amount + coupon.couponAmount < self.upperLimit &&
+            self.selectedCouponArray.count < self.numberLimit)
         {
             [MobClick event:@"rp109-1"];
             [self.selectedCouponArray addObject:coupon];

@@ -25,6 +25,18 @@
     [super viewDidLoad];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp115"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp115"];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -33,11 +45,11 @@
 #pragma mark - Action
 - (IBAction)actionEnquiry:(id)sender
 {
-    if (self.textField.text.length == 0) {
+    [MobClick event:@"rp115-7"];
+    if (self.textField.text.length == 0 || [self.textField.text integerValue] == 0) {
         [self.containerView shake];
         return;
     }
-    
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         
         RACSignal * signal;
@@ -56,8 +68,6 @@
             
             @strongify(self);
             InsuranceDetailPlanVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceDetailPlanVC"];
-            [self.navigationController pushViewController:vc animated:YES];
-            
             NSMutableArray * array = [NSMutableArray arrayWithArray:rspOp.rsp_insuraceArray];
             HKInsurance * ins = [[HKInsurance alloc] init];
             ins.insuranceName = @"自选";
@@ -65,6 +75,7 @@
             
             vc.calculatorOp = rspOp;
             vc.planArray = array;
+            [self.navigationController pushViewController:vc animated:YES];
             [gToast dismiss];
         } error:^(NSError *error) {
             [gToast showError:error.domain];
@@ -106,6 +117,7 @@
 #pragma mark - UITextFieldDelegate
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
+    [MobClick event:@"rp115-5"];
     [self.placeholdLabel setHidden:YES animated:YES];
 }
 
@@ -114,6 +126,14 @@
     if (textField.text.length == 0) {
         [self.placeholdLabel setHidden:NO animated:YES];
     }
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    if (textField.text.length > 0) {
+        textField.text = [NSString stringWithInteger:[textField.text integerValue]];
+    }
+    return YES;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string

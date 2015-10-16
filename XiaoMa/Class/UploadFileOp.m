@@ -30,7 +30,8 @@
                              @"type": @(self.req_fileType),
                              @"sign": sig};
     
-    NSString *url = [ApiBaseUrl append:self.req_method];
+    NSString * serverStr = (!gAppMgr.isSwitchToFormalSurrounding ) ? ApiBaseUrl : ApiFormalUrl;
+    NSString *url = [serverStr append:self.req_method];
 
     RACSignal *signal;
     @weakify(self);

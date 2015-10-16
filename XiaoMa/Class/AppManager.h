@@ -50,6 +50,9 @@
  */
 @property (nonatomic,strong)NSArray * commentList;
 
+// 是否需要切换到测试环境，用于Debug模式的正式测试环境切换
+@property (nonatomic)BOOL isSwitchToFormalSurrounding;
+
 
 + (AppManager *)sharedManager;
 

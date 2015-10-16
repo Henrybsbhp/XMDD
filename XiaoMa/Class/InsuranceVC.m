@@ -72,6 +72,7 @@
 }
 
 - (void)actionInsuranceDirectSelling {
+    [MobClick event:@"rp114-4"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         InsuranceDirectSellingVC *vc = [UIStoryboard vcWithId:@"InsuranceDirectSellingVC" inStoryboard:@"Insurance"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -79,7 +80,6 @@
 }
 
 - (void)actionAiCheBao {
-    [MobClick event:@"rp114-2"];
     AiCheBaoInsuranceVC *vc = [UIStoryboard vcWithId:@"AiCheBaoInsuranceVC" inStoryboard:@"Insurance"];
     vc.originVC = self;
     [self.navigationController pushViewController:vc animated:YES];

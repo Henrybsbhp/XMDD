@@ -33,6 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    self.url = @"http://dev.xiaomadada.com/credit/ccamobile?phone=(phone)";
+    self.navModel.curNavCtrl = self.navigationController;
     [self setupProcessView];
     [self.webView.scrollView setDecelerationRate:UIScrollViewDecelerationRateNormal];
     self.webView.scalesPageToFit = YES;
@@ -115,7 +116,7 @@
     if ([url hasPrefix:@"xmdd://"]) {
         [self.navModel pushToViewControllerByUrl:url];
         return NO;
-    }
+    }                      
     return YES;
 }
 

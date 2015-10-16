@@ -178,8 +178,8 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
         [MobClick event:[events safetyObjectAtIndex:0]];
         //        [targetVC.view endEditing:YES];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                        message:@"验证码将以语音的形式通知到您,请注意接听电话。是否现在发送语音验证码?"
-                                                       delegate:nil cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
+                                                        message:@"验证码将以语音的形式通知到您，请注意接听电话。"
+                                                       delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
             NSInteger index = [number integerValue];
             //否

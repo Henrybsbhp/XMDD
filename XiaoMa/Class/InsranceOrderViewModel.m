@@ -10,14 +10,17 @@
 #import "XiaoMa.h"
 #import "GetInsuranceOrderListOp.h"
 #import "InsuranceOrderVC.h"
+#import "PayForInsuranceVC.h"
+#import "InsOrderStore.h"
 
 @interface InsranceOrderViewModel ()<HKLoadingModelDelegate>
 
-@property (nonatomic, assign) long long curTradetime;
-
 @end
 
-@implementation InsranceOrderViewModel
+@implementation InsranceOrderViewModel 
+- (void)dealloc
+{
+}
 
 - (id)initWithTableView:(JTTableView *)tableView
 {
@@ -28,6 +31,7 @@
         self.tableView.dataSource = self;
         self.tableView.showBottomLoadingView = YES;
         self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
+        [self setupInsOrderStore];
     }
     return self;
 }
@@ -35,45 +39,48 @@
 - (void)resetWithTargetVC:(UIViewController *)targetVC
 {
     _targetVC = targetVC;
-    //    [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)setupInsOrderStore
+{
+    @weakify(self);
+    [[InsOrderStore fetchOrCreateStore] subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+        @strongify(self);
+        RACSignal *sig = evt.signal;
+        if (evt.code != kCKStoreEventReload) {
+            sig = [sig map:^id(id value) {
+                return [[(InsOrderStore *)store cache] allObjects];
+            }];
+        }
+        [self.loadingModel autoLoadDataFromSignal:sig];
+    }];
 }
 
 #pragma mark - Action
-- (void)actionBuy:(id)sender
-{
-    
-}
-
 - (void)actionMakeCall:(id)sender
 {
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
 {
     return @"暂无保险订单";
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
     return @"获取保险订单失败，点击重试";
 }
 
-- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
 {
-    if (type != HKDatasourceLoadingTypeLoadMore) {
-        self.curTradetime = 0;
-    }
-
-    
-    GetInsuranceOrderListOp * op = [GetInsuranceOrderListOp operation];
-    return [[op rac_postRequest] map:^id(GetInsuranceOrderListOp *rspOp) {
-        return rspOp.rsp_orders;
-    }];
+    InsOrderStore *store = [InsOrderStore fetchExistsStore];
+    [store sendEvent:[store getAllInsOrders]];
+    return [RACSignal empty];
 }
 
-- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type
 {
     [self.tableView reloadData];
 }
@@ -123,11 +130,12 @@
     
     stateL.text = [order descForCurrentStatus]; //老方式，已经用新字段替换
     timeL.text = [order.lstupdatetime dateFormatForYYYYMMddHHmm];
-    priceL.text = [NSString stringWithFormat:@"￥%d", (int)(order.policy.premium)];
+    priceL.text = [NSString stringWithFormat:@"￥%d", (int)(order.fee)];
     
     BOOL unpaid = order.status == InsuranceOrderStatusUnpaid;
     [bottomB setTitle:unpaid ? @"买了" : @"联系客服" forState:UIControlStateNormal];
     [bottomB setTitleColor:unpaid ? RGBCOLOR(251, 88, 15) : RGBCOLOR(21, 172, 31) forState:UIControlStateNormal];
+    
     bottomB.layer.borderColor = unpaid ? [RGBCOLOR(251, 88, 15) CGColor] : [RGBCOLOR(21, 172, 31) CGColor];
     
      @weakify(self);
@@ -136,14 +144,18 @@
          
         @strongify(self);
          if (unpaid) {
-             [self actionBuy:x];
+             [MobClick event:@"rp318-6"];
+             PayForInsuranceVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"PayForInsuranceVC"];
+             vc.insOrder = order;
+             vc.originVC = self.targetVC;
+             [self.targetVC.navigationController pushViewController:vc animated:YES];
          }
          else {
+             [MobClick event:@"rp318-5"];
              [self actionMakeCall:x];
          }
     }];
-
-    cell.separatorInset = UIEdgeInsetsZero;
+    cell.customSeparatorInset = UIEdgeInsetsMake(-1, 0, 0, 0);
     return cell;
 }
 
@@ -155,8 +167,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    HKInsuranceOrder * order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
-    vc.order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
+    vc.order = order;
     [self.targetVC.navigationController pushViewController:vc animated:YES];
 }
 

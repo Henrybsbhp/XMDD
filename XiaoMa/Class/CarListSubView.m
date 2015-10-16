@@ -99,10 +99,10 @@
     [view addSubview:barV];
 
     //汽车商标
-    UIImageView *logoV = [[UIImageView alloc] initWithFrame:CGRectZero];
-    logoV.tag = 2002;
-    [view addSubview:logoV];
-    self.logoView = logoV;
+//    UIImageView *logoV = [[UIImageView alloc] initWithFrame:CGRectZero];
+//    logoV.tag = 2002;
+//    [view addSubview:logoV];
+//    self.logoView = logoV;
     
     //车牌
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -121,14 +121,16 @@
         make.right.equalTo(label.mas_right);
     }];
     
-    [logoV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(25, 25));
-        make.centerY.equalTo(label.mas_centerY);
-        make.left.equalTo(barV.mas_left);
-    }];
+//    [logoV mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.size.mas_equalTo(CGSizeMake(25, 25));
+//        make.centerY.equalTo(label.mas_centerY);
+//        make.left.equalTo(barV.mas_left);
+//    }];
     
+    [label setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(logoV.mas_right).offset(5);
+//        make.left.equalTo(logoV.mas_right).offset(5);
+        make.left.equalTo(barV.mas_left);
         make.height.mas_equalTo(30);
         make.top.equalTo(barV.mas_bottom).offset(4);
     }];
@@ -148,6 +150,7 @@
     UILabel *defL = [[UILabel alloc] initWithFrame:CGRectZero];
     defL.tag = 20042;
     defL.textColor = [UIColor whiteColor];
+    defL.backgroundColor = [UIColor clearColor];
     defL.font = [UIFont boldSystemFontOfSize:13];
     defL.textAlignment = NSTextAlignmentCenter;
     defL.text = @"默认";
@@ -281,7 +284,7 @@
     
     UILabel *textL2 = [[UILabel alloc] initWithFrame:CGRectZero];
     textL2.tag = 3021;
-    textL1.backgroundColor = [UIColor clearColor];
+    textL2.backgroundColor = [UIColor clearColor];
     textL2.textAlignment = NSTextAlignmentCenter;
     textL2.numberOfLines = 0;
     textL2.textColor = [UIColor whiteColor];

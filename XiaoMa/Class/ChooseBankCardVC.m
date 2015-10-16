@@ -82,7 +82,7 @@
     if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
     {
         PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
-        [payVc requestGetUserResource];
+        [payVc requestGetUserResource:YES];
     }
 }
 
@@ -119,7 +119,7 @@
                     payVc.couponType = CouponTypeCZBankCarWash;
                 }
             }
-            [payVc setPlatform:PayWithXMDDCreditCard];
+            [payVc setPaymentChannel:PaymentChannelXMDDCreditCard];
             [payVc tableViewReloadData];
             [self.navigationController popViewControllerAnimated:YES];
         }

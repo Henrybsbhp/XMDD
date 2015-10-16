@@ -19,12 +19,6 @@ typedef enum : NSUInteger {
 /**
  支付平台
  */
-typedef enum : NSUInteger {
-    PayWithAlipay,
-    PayWithWechat,
-    PayWithXMDDCreditCard,
-    PayWithUPPay
-} PaymentPlatform;
 
 /// 支付渠道 0不要用（0表示没有选择支付渠道）
 typedef enum : NSUInteger {
@@ -43,6 +37,8 @@ typedef enum : NSUInteger {
 //2-洗车广告
 //3-银行卡绑定页广告
 //10-APP滑动广告
+//11-保险广告
+//12-加油广告
 //20：活动类
 typedef enum : NSUInteger {
     AdvertisementHomePage = 1,
@@ -50,6 +46,7 @@ typedef enum : NSUInteger {
     AdvertisementBankCardBinding = 3,
     AdvertisementAppSlide = 10,
     AdvertisementInsurance = 11,
+    AdvertisementGas = 12,
     AdvertisementTypeActivities = 20,
     AdvertisementTypeLaunch = 30
 } AdvertisementType;
@@ -61,7 +58,7 @@ typedef enum : NSUInteger {
 
 #define kDefTintColor   HEXCOLOR(@"#15ac1f")
 #define kDefLineColor   HEXCOLOR(@"#ebebeb")
-#define kDarkLineColor   HEXCOLOR(@"#e0e0e0")
+#define kDarkLineColor  HEXCOLOR(@"#e0e0e0")
 
 #define kKeyChainBaseServer     @"com.huika.xmdd"
 

@@ -11,6 +11,7 @@
 #import "GetCarwashOrderListOp.h"
 #import "CarwashOrderDetailVC.h"
 #import "CarwashOrderCommentVC.h"
+#import "PaymentSuccessVC.h"
 
 @interface CarwashOrderViewModel ()<HKLoadingModelDelegate>
 
@@ -39,19 +40,19 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
 {
     return @"暂无洗车订单";
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
     return @"获取洗车订单失败，点击重试";
 }
 
-- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
 {
-    if (type != HKDatasourceLoadingTypeLoadMore) {
+    if (type != HKLoadingTypeLoadMore) {
         self.curTradetime = 0;
     }
     
@@ -62,7 +63,7 @@
     }];
 }
 
-- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type
 {
     HKServiceOrder * hkmodel = [model.datasource lastObject];
     self.curTradetime = hkmodel.tradetime;
@@ -72,11 +73,8 @@
 #pragma mark - Action
 - (void)actionCommentForOrder:(HKServiceOrder *)order
 {
-    CarwashOrderCommentVC *vc = [UIStoryboard vcWithId:@"CarwashOrderCommentVC" inStoryboard:@"Mine"];
+    PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
     vc.order = order;
-    [vc setCustomActionBlock:^{
-        //[self.tableView.refreshView beginRefreshing];
-    }];
     [self.targetVC.navigationController pushViewController:vc animated:YES];
 }
 
@@ -131,7 +129,7 @@
     paymentL.text = order.paydesc;
     [[RACObserve(order, ratetime) takeUntilForCell:cell] subscribeNext:^(id x) {
         [bottomB setTitle:order.ratetime ? @"已评价" : @"去评价" forState:UIControlStateNormal];
-        bottomB.enabled = !order.ratetime;
+        bottomB.userInteractionEnabled = !order.ratetime;
     }];
     @weakify(self);
     [[[bottomB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {

@@ -11,10 +11,12 @@
 #import "CheckUserAwardOp.h"
 #import "GainedViewController.h"
 #import "GainAwardViewController.h"
+#import "WebVC.h"
 
 @interface CheckAwardViewController ()<HKLoadingModelDelegate>
 
 @property (nonatomic, strong) HKLoadingModel *loadingModel;
+- (IBAction)helpAction:(id)sender;
 
 @end
 
@@ -32,19 +34,25 @@
 
 }
 
+- (IBAction)helpAction:(id)sender {
+    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    vc.title = @"每周礼券";
+    vc.url = @"http://www.xiaomadada.com/apphtml/meizhouliquan.html";
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
 {
     return @"获取红包信息失败";
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
     return @"获取红包信息失败，点击重试";
 }
 
-- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
 {
     CheckUserAwardOp * op = [CheckUserAwardOp operation];
     return [[op rac_postRequest] map:^id(CheckUserAwardOp *rspOp) {
@@ -52,7 +60,7 @@
     }];
 }
 
-- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type
 {
     CheckUserAwardOp * op = [model.datasource safetyObjectAtIndex:0];
     if (op.rsp_leftday > 0)
@@ -60,6 +68,7 @@
         GainedViewController * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"GainedViewController"];
         vc.leftDay = op.rsp_leftday;
         vc.amount = op.rsp_amount;
+        vc.isCouponUsed = op.rsp_isused;
         [self addChildViewController:vc];
         [self.view addSubview:vc.view];
         vc.view.frame = self.view.bounds;
@@ -74,6 +83,5 @@
     }
 
 }
-
 
 @end

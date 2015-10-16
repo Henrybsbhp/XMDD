@@ -9,10 +9,10 @@
 #import "InsuranceOrderVC.h"
 #import "UIView+Layer.h"
 #import "BorderLineLabel.h"
-#import "GetInsuranceOrderDetailsOp.h"
 #import "InsuranceOrderPayOp.h"
 #import "PayForInsuranceVC.h"
 #import "HKLoadingModel.h"
+#import "InsOrderStore.h"
 
 @interface InsuranceOrderVC ()<UITableViewDataSource,UITableViewDelegate,HKLoadingModelDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) NSArray *coverages;
 @property (nonatomic, strong) HKLoadingModel *loadingModel;
+
 @end
 
 @implementation InsuranceOrderVC
@@ -30,13 +31,26 @@
     self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
     if (self.order) {
         self.orderID = self.order.orderid;
+        [self setupInsOrderStore];
         [self.tableView.refreshView addTarget:self.loadingModel action:@selector(reloadData)
                              forControlEvents:UIControlEventValueChanged];
         [self reloadWithOrderStatus:self.order.status];
     }
     else {
+        [self setupInsOrderStore];
         [self.loadingModel loadDataForTheFirstTime];
     }
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp319"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp319"];
 }
 
 - (void)resetBottomButton
@@ -61,23 +75,39 @@
     [self.bottomButton removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
     [self.bottomButton addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
 }
-#pragma mark - Load
-- (void)reloadDatasource
+
+- (void)setupInsOrderStore
 {
-
+    @weakify(self);
+    [[InsOrderStore fetchOrCreateStore] subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+        @strongify(self);
+        RACSignal *sig = [evt.signal map:^id(id value) {
+            self.order = [[(InsOrderStore *)store cache] objectForKey:self.orderID];
+            return [NSArray safetyArrayWithObject:self.order];
+        }];
+        if (self.order) {
+            [self.loadingModel reloadDataFromSignal:sig];
+        }
+        else {
+            [self.loadingModel autoLoadDataFromSignal:sig];
+        }
+    }];
 }
-
+#pragma mark - Load
 - (void)reloadWithOrderStatus:(InsuranceOrderStatus)status
 {
     self.order.status = status;
     id amount;
+    id remark;
     //优惠额度
     int activityAmount = floor(self.order.activityAmount);
     if (activityAmount > 0) {
         NSString *str = [NSString stringWithFormat:@"(已优惠%d) ", activityAmount];
         NSDictionary *attr = @{NSForegroundColorAttributeName:HEXCOLOR(@"#8b9eb3"),
                                NSFontAttributeName:[UIFont systemFontOfSize:12]};
-        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:attr];
+        remark = [[NSAttributedString alloc] initWithString:str attributes:attr];
+        
+        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] init];
         
         str = [NSString stringWithFormat:@"￥%.2f ", self.order.totoalpay];
         attr = @{NSForegroundColorAttributeName:[UIColor blackColor],
@@ -85,23 +115,28 @@
                  NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle)};
         [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:attr]];
         
-        str = [NSString stringWithFormat:@"￥%.2f", self.order.totoalpay-activityAmount];
+        str = [NSString stringWithFormat:@"￥%.2f", self.order.totoalpay - self.order.activityAmount];
         attr = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
                  NSForegroundColorAttributeName:[UIColor blackColor]};
         [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:attr]];
         amount = attrStr;
     }
     else {
-        amount = [NSString stringWithFormat:@"￥%.2f", self.order.totoalpay-activityAmount];
+        amount = [NSString stringWithFormat:@"￥%.2f", self.order.totoalpay];
     }
-    
-    self.titles = @[RACTuplePack(@"被保险人",_order.policyholder),
-                    RACTuplePack(@"保险公司",_order.inscomp),
-                    RACTuplePack(@"证件号码",_order.idcard),
-                    RACTuplePack(@"投保车辆",_order.licencenumber),
-                    RACTuplePack(@"共计保费",amount),
-                    RACTuplePack(@"保险期限",_order.validperiod)];
-    
+
+
+    NSArray *array = @[RACTuplePack(@"被保险人",_order.policyholder),
+                       RACTuplePack(@"保险公司",_order.inscomp),
+                       RACTuplePack(@"证件号码",_order.idcard),
+                       RACTuplePack(@"投保车辆",_order.licencenumber),
+                       RACTuplePack(@"共计保费",amount,remark),
+                       RACTuplePack(@"保险期限",_order.validperiod)];
+    NSMutableArray *titles = [NSMutableArray arrayWithArray:array];
+    if (_order.insordernumber.length > 0) {
+        [titles safetyInsertObject:RACTuplePack(@"保单编号",_order.insordernumber) atIndex:0];
+    }
+    self.titles = titles;
     self.coverages = self.order.policy.subInsuranceArray;
     [self resetBottomButton];
     [self.tableView reloadData];
@@ -116,38 +151,42 @@
 }
 #pragma mark - Action
 - (void)actionPay:(id)sender {
+    [MobClick event:@"rp319-1"];
     PayForInsuranceVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"PayForInsuranceVC"];
     vc.insOrder = self.order;
+    vc.originVC = self;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionMakeCall:(id)sender {
+    if (self.order.status == InsuranceOrderStatusPaid) {
+        [MobClick event:@"rp319-2"];
+    }
+    else if (self.order.status == InsuranceOrderStatusComplete){
+        [MobClick event:@"rp319-3"];
+    }
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
 {
     return @"该订单已消失";
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
     return @"获取订单信息失败，点击重试";
 }
 
-
-- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
 {
-    //保险订单详情接口试调
-    GetInsuranceOrderDetailsOp * op = [GetInsuranceOrderDetailsOp operation];
-    op.req_orderid = self.orderID;
-    return [[op rac_postRequest] map:^id(GetInsuranceOrderDetailsOp *rspOp) {
-        self.order = rspOp.rsp_order;
-        return [NSArray arrayWithObject:rspOp.rsp_order];
-    }];
+    InsOrderStore *store = [InsOrderStore fetchExistsStore];
+    [store sendEvent:[store getInsOrderByID:self.orderID]];
+    return [RACSignal empty];
 }
-- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type
 {
     [self reloadWithOrderStatus:self.order.status];
 }
@@ -201,23 +240,14 @@
     [self resetStepViewInCell:cell highlight:(self.order.status == InsuranceOrderStatusPaid) baseTag:10030];
     [self resetStepViewInCell:cell highlight:(self.order.status == InsuranceOrderStatusComplete) baseTag:10050];
     
-    line1.highlighted = self.order.status == InsuranceOrderStatusUnpaid || self.order.status == InsuranceOrderStatusPaid;
-    line2.highlighted = self.order.status == InsuranceOrderStatusPaid || self.order.status == InsuranceOrderStatusComplete;
+    line1.highlighted = self.order.status == InsuranceOrderStatusUnpaid ||
+                        self.order.status == InsuranceOrderStatusPaid;
     
-    switch (self.order.status) {
-        case InsuranceOrderStatusUnpaid:
-            titleL.text = @"请确认保单";
-            break;
-        case InsuranceOrderStatusPaid:
-            titleL.text = @"保单正在处理中";
-            break;
-        case InsuranceOrderStatusComplete:
-            titleL.text = @"保单将尽快寄出";
-            break;
-        default:
-            titleL.text = [self.order descForCurrentStatus];
-            break;
-    }
+    line2.highlighted = self.order.status == InsuranceOrderStatusPaid ||
+                        self.order.status == InsuranceOrderStatusComplete ||
+                        self.order.status == InsuranceOrderStatusSended;
+
+    titleL.text = [self.order detailDescForCurrentStatus];
     return cell;
 }
 
@@ -243,6 +273,8 @@
         leftLabel.text = item[0];
         [containerV addSubview:leftLabel];
         
+        UILabel *midLabel = leftLabel;
+        
         UILabel *rightLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         rightLabel.textColor = HEXCOLOR(@"#000000");
         rightLabel.font = [UIFont systemFontOfSize:14];
@@ -254,16 +286,32 @@
         rightLabel.attributedText = text;
         rightLabel.textAlignment = NSTextAlignmentRight;
         [containerV addSubview:rightLabel];
-
+        
+        id remark = [item third];
+        if (remark && [remark isKindOfClass:[NSAttributedString class]]) {
+            midLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+            midLabel.textColor = HEXCOLOR(@"#000000");
+            midLabel.font = [UIFont systemFontOfSize:14];
+            midLabel.attributedText = remark;
+            [containerV addSubview:midLabel];
+            [midLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh  forAxis:UILayoutConstraintAxisHorizontal];
+            [midLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(leftLabel);
+                make.left.equalTo(leftLabel.mas_right);
+                make.height.mas_equalTo(22);
+            }];
+        }
+        
         [leftLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(uponV);
             make.left.equalTo(containerV);
             make.height.mas_equalTo(22);
         }];
-        [rightLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+        
+        [rightLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [rightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(leftLabel);
-            make.left.equalTo(leftLabel.mas_right);
+            make.left.equalTo(midLabel.mas_right);
             make.right.equalTo(containerV);
             make.height.mas_equalTo(22);
         }];
@@ -316,6 +364,9 @@
     label.textColor = HEXCOLOR(@"#8b9eb3");
     [label setBorderLineColor:HEXCOLOR(@"#ccdbef") forDirectionMask:CKViewBorderDirectionAll];
     label.textAlignment = NSTextAlignmentCenter;
+    label.numberOfLines = 2;
+    label.adjustsFontSizeToFitWidth = YES;
+    label.minimumScaleFactor = 0.6;
     [containerV addSubview:label];
     
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -326,7 +377,7 @@
             make.right.equalTo(containerV);
         }
         if (leftV) {
-            make.width.equalTo(leftV.mas_width).multipliedBy(4.0/3.0);
+            make.width.equalTo(leftV.mas_width).multipliedBy(5.0/4.0);
         }
     }];
     NSInteger mask = CKViewBorderDirectionLeft | CKViewBorderDirectionBottom;

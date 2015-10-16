@@ -53,6 +53,8 @@
 @property (nonatomic, strong) NSString *comment;
 ///评价时间
 @property (nonatomic, strong) NSDate *time;
+///评价
+@property (nonatomic, copy) NSString *serviceName;
 
 + (instancetype)shopCommentWithJSONResponse:(NSDictionary *)rsp;
 

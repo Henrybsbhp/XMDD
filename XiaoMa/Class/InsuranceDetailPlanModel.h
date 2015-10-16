@@ -14,6 +14,7 @@
 @interface InsuranceDetailPlanModel : NSObject<UITableViewDelegate,UITableViewDataSource>
 
 @property (strong, nonatomic) UITableView *tableView;
+@property (strong, nonatomic) UIView *view;
 @property (strong, nonatomic) JDFlipNumberView *flipNumberView;
 
 @property (nonatomic,strong)NSMutableArray * insuranceArry;
@@ -32,6 +33,9 @@
 - (void)animateToTargetValue;
 - (void)noAnimateToTargetValue;
 
+- (void)setupInsuranceArray;
+- (void)setupSelectIns;
+- (void)calcTotalPrice;
 // 获取inslist，/insurance/appointment接口需要
 - (NSArray *)inslistForVC;
 @end

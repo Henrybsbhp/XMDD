@@ -34,15 +34,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     self.carwashModel = [[CarwashOrderViewModel alloc] initWithTableView:self.carwashTableView];
     self.insuranceModel = [[InsranceOrderViewModel alloc] initWithTableView:self.insranceTableView];
     [self.carwashModel resetWithTargetVC:self];
     [self.insuranceModel resetWithTargetVC:self];
     [self.carwashModel.loadingModel loadDataForTheFirstTime];
     [self.insuranceModel.loadingModel loadDataForTheFirstTime];
-    
+    @weakify(self);
     [[self.washBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [MobClick event:@"rp318-3"];
         [self.washBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateNormal];
         [self.insranceBtn setTitleColor:[UIColor colorWithHex:@"#4f5051" alpha:1.0f] forState:UIControlStateNormal];
         self.carwashTableView.hidden = NO;
@@ -50,7 +51,10 @@
         self.underLineView.backgroundColor = [UIColor colorWithHex:@"#20ab2a" alpha:1.0f];
         self.underLineView2.backgroundColor = [UIColor whiteColor];
     }];
+
     [[self.insranceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [MobClick event:@"rp318-4"];
         [self.washBtn setTitleColor:[UIColor colorWithHex:@"#4f5051" alpha:1.0f] forState:UIControlStateNormal];
         [self.insranceBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateNormal];
         self.carwashTableView.hidden = YES;

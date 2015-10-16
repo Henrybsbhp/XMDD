@@ -33,7 +33,8 @@
 #import "ADViewController.h"
 #import "CollectionChooseVC.h"
 #import "InsuranceDetailPlanVC.h"
-
+#import "MyCarStore.h"
+#import "GasVC.h"
 #import "PaymentSuccessVC.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
@@ -45,6 +46,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) ADViewController *adctrl;
+@property (nonatomic, strong) MyCarStore *carStore;
 @end
 
 @implementation HomePageVC
@@ -65,6 +67,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.view.userInteractionEnabled = NO;
 
     [gAppMgr loadLastLocationAndWeather];
     [gAdMgr loadLastAdvertiseInfo:AdvertisementHomePage];
@@ -72,9 +76,12 @@
     
     //自动登录
     [self autoLogin];
+    //全局CarStore
+    self.carStore = [MyCarStore fetchOrCreateStore];
     //设置主页的滚动视图
     [self setupScrollView];
     [self setupWeatherView];
+    
 //    [self rotationTableHeaderView];
     
     [self.scrollView.refreshView addTarget:self action:@selector(reloadDatasource) forControlEvents:UIControlEventValueChanged];
@@ -86,6 +93,8 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    self.view.userInteractionEnabled = YES;
     CKAsyncMainQueue(^{
         CGSize size = [self.containerView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
         self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, ceil(size.height));
@@ -280,11 +289,10 @@
     
     tempLb.text = temp;
     restrictionLb.text = restriction;
-    tipLb.text = tip;
     
-    if(tipLb.text.length)
+    if(tip.length > 0)
     {
-        [self setupLineSpace:tipLb];
+        [self setupLineSpace:tipLb withText:tip];
     }
 }
 
@@ -302,12 +310,10 @@
         restrictionLb.text = text;
     }];
     
-    [RACObserve(gAppMgr, temperaturetip) subscribeNext:^(id x) {
-        tipLb.text = x;
+    [RACObserve(gAppMgr, temperaturetip) subscribeNext:^(NSString *text) {
         
-        if(tipLb.text.length)
-        {
-            [self setupLineSpace:tipLb];
+        if (text.length > 0) {
+            [self setupLineSpace:tipLb withText:text];
         }
     }];
     
@@ -434,6 +440,9 @@
 #pragma mark - Action
 - (IBAction)actionCallCenter:(id)sender
 {
+    GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
+    [self.navigationController pushViewController:vc animated:YES];
+    return;
     [MobClick event:@"rp101-2"];
     NSString * number = @"4007111111";
     [gPhoneHelper makePhone:number andInfo:@"客服电话：4007-111-111"];
@@ -500,16 +509,18 @@
     return btn;
 }
 
-- (void)setupLineSpace:(UILabel *)label
+- (void)setupLineSpace:(UILabel *)label withText:(NSString *)text
 {
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:label.text];
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    
-    [paragraphStyle setLineSpacing:5];//调整行间距
-    
-    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [label.text length])];
-    label.attributedText = attributedString;
-    [label sizeToFit];
+    if (IOSVersionGreaterThanOrEqualTo(@"7.0")) {
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        [paragraphStyle setLineSpacing:5];//调整行间距
+        
+        NSDictionary *attr = @{NSParagraphStyleAttributeName: paragraphStyle};
+        label.attributedText = [[NSAttributedString alloc] initWithString:text attributes:attr];
+    }
+    else {
+        label.text = text;
+    }
 }
 
 @end

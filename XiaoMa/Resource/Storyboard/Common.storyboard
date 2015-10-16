@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -281,23 +282,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6yK-CS-H04" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="byh-5P-rZp">
-            <objects>
-                <viewController id="tjv-Sm-K8j" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="tPC-as-euY"/>
-                        <viewControllerLayoutGuide type="bottom" id="uez-2q-5Mf"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="84E-HT-rj9">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jfg-aX-p4f" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-        </scene>
         <!--选择省份-->
         <scene sceneID="c6H-0u-Vfe">
             <objects>
@@ -377,6 +361,74 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="33r-Nd-0QY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1540" y="-480"/>
+        </scene>
+        <!--PickerVC-->
+        <scene sceneID="Az3-L3-79t">
+            <objects>
+                <viewController storyboardIdentifier="HKPickerVC" id="ioB-Eg-6sr" customClass="HKPickerVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zkX-GF-wdA"/>
+                        <viewControllerLayoutGuide type="bottom" id="UZQ-4H-LMB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="QUV-8y-wTG">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7s-Jj-AhT">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="Cyb-HT-Njo"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem width="10" style="plain" systemItem="fixedSpace" id="WYw-8W-k16"/>
+                                    <barButtonItem title="取消" id="dwr-zq-KVZ">
+                                        <color key="tintColor" red="0.26274509800000001" green="0.64313725489999995" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <action selector="cancelAction:" destination="ioB-Eg-6sr" id="YRq-O5-aNh"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="dSc-VU-qkd"/>
+                                    <barButtonItem title="确定" id="WCX-hi-skC">
+                                        <color key="tintColor" red="0.26274509800000001" green="0.64313725489999995" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <action selector="sureAction:" destination="ioB-Eg-6sr" id="KK9-Ef-G7r"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="10" style="plain" systemItem="fixedSpace" id="0Jd-kC-7sp"/>
+                                </items>
+                            </toolbar>
+                            <pickerView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5HP-aF-FFs">
+                                <rect key="frame" x="0.0" y="88" width="320" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="ioB-Eg-6sr" id="RvP-lf-szE"/>
+                                    <outlet property="delegate" destination="ioB-Eg-6sr" id="X6e-XQ-dRY"/>
+                                </connections>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="5HP-aF-FFs" firstAttribute="top" secondItem="u7s-Jj-AhT" secondAttribute="bottom" id="80t-7S-q6z"/>
+                            <constraint firstItem="UZQ-4H-LMB" firstAttribute="top" secondItem="5HP-aF-FFs" secondAttribute="bottom" id="DEs-ub-3vJ"/>
+                            <constraint firstItem="u7s-Jj-AhT" firstAttribute="leading" secondItem="QUV-8y-wTG" secondAttribute="leading" id="Gf6-FV-RKJ"/>
+                            <constraint firstItem="u7s-Jj-AhT" firstAttribute="top" secondItem="zkX-GF-wdA" secondAttribute="bottom" id="PVJ-Ez-ijj"/>
+                            <constraint firstAttribute="trailing" secondItem="u7s-Jj-AhT" secondAttribute="trailing" id="gXS-LB-fcA"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="5HP-aF-FFs" secondAttribute="trailing" constant="-16" id="wpE-TO-za0"/>
+                            <constraint firstItem="5HP-aF-FFs" firstAttribute="leading" secondItem="QUV-8y-wTG" secondAttribute="leadingMargin" constant="-16" id="zue-tb-N49"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="250"/>
+                    <connections>
+                        <outlet property="cancelBtn" destination="dwr-zq-KVZ" id="2BU-fi-yN4"/>
+                        <outlet property="pickerView" destination="5HP-aF-FFs" id="87Y-6G-p4I"/>
+                        <outlet property="sureBtn" destination="WCX-hi-skC" id="iv5-Nb-IY9"/>
+                        <outlet property="toolBar" destination="u7s-Jj-AhT" id="k4D-mX-FA2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iTz-Mc-9Zz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="416" y="1117"/>
         </scene>
     </scenes>
     <resources>

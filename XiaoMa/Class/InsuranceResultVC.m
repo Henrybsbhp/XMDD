@@ -10,31 +10,55 @@
 #import "DrawingBoardView.h"
 #import "AnimationBoardView.h"
 #import "InsuranceVC.h"
+#import "JTLabel.h"
+#import "SocialShareViewController.h"
+#import "InsOrderStore.h"
 
 @interface InsuranceResultVC ()
 
 @property (assign, nonatomic) InsuranceResult insuranceResultType;
 @property (weak, nonatomic) IBOutlet DrawingBoardView *drawView;
-@property (weak, nonatomic) IBOutlet UILabel *resultLabel;
+@property (weak, nonatomic) IBOutlet JTLabel *resultLabel;
 @property (weak, nonatomic) IBOutlet UILabel *failureContentLabel;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
+@property (nonatomic, assign) BOOL navPopGestureEnable;
+
 - (IBAction)shareAction:(id)sender;
 
 @end
 
 @implementation InsuranceResultVC
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp327"];
+    [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:NO];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp327"];
+    [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:YES];
+}
+
 - (void)actionBack:(id)sender
 {
-    UIViewController *vc = [self.navigationController.viewControllers firstObjectByFilteringOperator:^BOOL(id obj) {
-        return [(UIViewController *)obj isKindOfClass:NSClassFromString(@"InsuranceVC")];
-    }];
+    UIViewController *vc = self.originVC;
+    if (!vc) {
+        vc = [self.navigationController.viewControllers firstObjectByFilteringOperator:^BOOL(id obj) {
+            return [(UIViewController *)obj isKindOfClass:NSClassFromString(@"InsuranceVC")];
+        }];
+    }
     if (vc) {
         [self.navigationController popToViewController:vc animated:YES];
     }
     else {
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
+    InsOrderStore *store = [InsOrderStore fetchExistsStore];
+    [store sendEvent:[store getInsOrderByID:self.orderID]];
 }
 
 -(void)setResultType:(InsuranceResult) resultType
@@ -90,6 +114,26 @@
 }
 
 - (IBAction)shareAction:(id)sender {
+    [MobClick event:@"rp327-2"];
+    SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+    vc.tt = @"我在小马达达上购买了车险，赚大发了！";
+    vc.subtitle = @"终于等到这一天，好运来到我身边，小马达达车险大“放”假期！嘘，一般人我不告诉他！";
+    vc.image = [UIImage imageNamed:@"wechat_share_ins"];
+    vc.webimage = [UIImage imageNamed:@"weibo_share_ins"];
+    //    vc.urlStr = XIAMMAWEB;
+    vc.urlStr = @"www.xiaomadada.com";
+    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+    sheet.shouldCenterVertically = YES;
+    [sheet presentAnimated:YES completionHandler:nil];
     
+    [vc setFinishAction:^{
+        
+        [sheet dismissAnimated:YES completionHandler:nil];
+    }];
+    
+    [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        [MobClick event:@"rp110-7"];
+        [sheet dismissAnimated:YES completionHandler:nil];
+    }];
 }
 @end

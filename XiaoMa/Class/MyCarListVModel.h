@@ -11,9 +11,11 @@
 
 @interface MyCarListVModel : NSObject
 @property (nonatomic, strong) HKMyCar *selectedCar;
+@property (nonatomic, strong) HKMyCar *currentCar;
 @property (nonatomic, assign) BOOL disableEditingCar;
 @property (nonatomic, assign) BOOL allowAutoChangeSelectedCar;
 @property (nonatomic, copy) void(^finishBlock)(HKMyCar *curSelectedCar);
+@property (nonatomic, weak) UIViewController *originVC;
 
 ///根据行驶证的审核状态，设置相应的上传按钮和描述标签
 - (void)setupUploadBtn:(UIButton *)btn andDescLabel:(UILabel *)label forCar:(HKMyCar *)car;

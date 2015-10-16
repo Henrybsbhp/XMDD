@@ -50,13 +50,14 @@
     [self addSubview:self.collectionView];
 }
 
+
 - (RACSignal *)rac_reloadDataWithSelectedRecord:(PictureRecord *)selectedRecord
 {
     @weakify(self);
     return [[self rac_fetchDrivingLicenseRecords] doNext:^(NSArray *records) {
         
         @strongify(self);
-        _recordList = records;
+        self.recordList = records;
         if (selectedRecord) {
             self.selectedRecordIndex = [records indexOfObject:selectedRecord];
         }
@@ -86,7 +87,7 @@
 #pragma mark - Action
 - (void)actionDeleteRecord:(PictureRecord *)record
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"是否删除改行驶证记录" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"是否删除该行驶证记录" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alertView show];
     [[alertView rac_buttonClickedSignal] subscribeNext:^(NSNumber *x) {
         //确定
@@ -96,15 +97,17 @@
                 return ;
             }
 
+            @weakify(self);
             [[[self rac_deleteDrivingLicenseRecord:record] initially:^{
                 
                 [gToast showingWithText:@"正在删除..."];
             }] subscribeNext:^(id x) {
-                
+
+                @strongify(self);
                 [gToast dismiss];
                 NSMutableArray *array = [NSMutableArray arrayWithArray:self.recordList];
                 [array safetyRemoveObjectAtIndex:item];
-                _recordList = array;
+                self.recordList = array;
                 [self.collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:item inSection:0]]];
                 if (self.selectedRecordIndex == item) {
                     self.selectedRecordIndex = NSNotFound;
@@ -121,6 +124,7 @@
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    [MobClick event:@"rp126-2"];
     BOOL shouldSelected = YES;
     if (self.delegate && [self.delegate respondsToSelector:@selector(shouldSelectedAtIndex:)]) {
         shouldSelected = [self.delegate shouldSelectedAtIndex:indexPath.item];
@@ -167,6 +171,7 @@
     @weakify(self);
     [[[deleteB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
+         [MobClick event:@"rp126-5"];
          @strongify(self);
          [self actionDeleteRecord:record];
     }];

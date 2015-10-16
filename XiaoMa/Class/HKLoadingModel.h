@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum : NSInteger
+typedef enum : NSUInteger
 {
-    HKDatasourceLoadingTypeReloadData = 0,
-    HKDatasourceLoadingTypeFirstTime,
-    HKDatasourceLoadingTypeLoadMore
-}HKDatasourceLoadingType;
+    HKLoadingTypeNone = 0,
+    HKLoadingTypeReload = 0x01,
+    HKLoadingTypeFirstTime = 0x02,
+    HKLoadingTypeLoadMore = 0x04,
+    HKLoadingTypeAll = NSUIntegerMax
+}HKLoadingTypeMask;
 
 typedef enum : NSInteger
 {
@@ -29,30 +31,38 @@ typedef enum : NSInteger
 @property (nonatomic, strong, readonly) UIView *targetView;
 @property (nonatomic, assign, readonly) BOOL isRemain;
 @property (nonatomic, assign, readonly) BOOL isLoading;
+@property (nonatomic, assign) BOOL loadingSuccessForTheFirstTime;
 @property (nonatomic, weak, readonly) id<HKLoadingModelDelegate> delegate;
 
 - (instancetype)initWithTargetView:(UIView *)targetView delegate:(id<HKLoadingModelDelegate>)delegate;
+
+/***********以下方法将会触发delegate:"loadingModel:loadingDataSignalWithType:"**************/
 - (void)loadDataForTheFirstTime;
 - (void)reloadData;
-- (void)reloadDataWithDatasource:(NSArray *)datasource;
 - (void)loadMoreDataWithPromptView:(UIView *)view;
 - (void)loadMoreDataIfNeededWithIndexPath:(NSIndexPath *)indexPath nest:(BOOL)nest promptView:(UIView *)view;
+
+/***********以下方法不会触发delegate:"loadingModel:loadingDataSignalWithType:"**************/
+- (void)autoLoadDataFromSignal:(RACSignal *)signal; //(将会自动调用reloadFromSignal:或loadForTheFirstTimeFromSignal:)
+- (void)loadDataForTheFirstTimeFromSignal:(RACSignal *)signal;
+- (void)reloadDataFromSignal:(RACSignal *)signal;
+- (void)reloadDataWithDatasource:(NSArray *)datasource;
 
 @end
 
 @protocol HKLoadingModelDelegate <NSObject>
 
 @optional
-- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type;
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type;
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error;
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type;
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type;
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error;
 
-- (void)loadingModel:(HKLoadingModel *)model didTappedForBlankPrompting:(NSString *)prompting type:(HKDatasourceLoadingType)type;
-- (void)loadingModel:(HKLoadingModel *)model didTappedForErrorPrompting:(NSString *)prompting type:(HKDatasourceLoadingType)type;
-- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type;
-- (void)loadingModel:(HKLoadingModel *)model didLoadingFailWithType:(HKDatasourceLoadingType)type error:(NSError *)error;
+- (void)loadingModel:(HKLoadingModel *)model didTappedForBlankPrompting:(NSString *)prompting type:(HKLoadingTypeMask)type;
+- (void)loadingModel:(HKLoadingModel *)model didTappedForErrorPrompting:(NSString *)prompting type:(HKLoadingTypeMask)type;
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type;
+- (void)loadingModel:(HKLoadingModel *)model didLoadingFailWithType:(HKLoadingTypeMask)type error:(NSError *)error;
 
-- (NSArray *)loadingModel:(HKLoadingModel *)model datasourceFromLoadedData:(NSArray *)data withType:(HKDatasourceLoadingType)type;
+- (NSArray *)loadingModel:(HKLoadingModel *)model datasourceFromLoadedData:(NSArray *)data withType:(HKLoadingTypeMask)type;
 - (BOOL)loadingModel:(HKLoadingModel *)model shouldLoadMoreDataWithIndexPath:(NSIndexPath *)indexPath;
 - (BOOL)loadingModelShouldAllowRefreshing:(HKLoadingModel *)model;
 - (HKLoadingAnimationType)loadingAnimationTypeForTheFirstTimeWithLoadingModel:(HKLoadingModel *)model;

@@ -87,6 +87,7 @@
     NSArray * imageStr = @[@"mb_carwash", @"mb_rescue", @"mb_agency"];
     [backgroundView setCornerRadius:5.0f];
     titleLabel.text = titleStr[indexPath.row];
+    titleLabel.font = [UIFont boldSystemFontOfSize:14];
     remarksLabel.text = remarksStr[indexPath.row];
     imageView.image = [UIImage imageNamed:imageStr[indexPath.row]];
     return cell;

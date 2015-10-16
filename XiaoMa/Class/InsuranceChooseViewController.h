@@ -12,6 +12,7 @@
 @interface InsuranceChooseViewController : UIViewController
 
 @property (nonatomic,copy)NSString * idcard;
+@property (nonatomic, strong) NSString *inviteCode;
 @property (nonatomic, strong) PictureRecord *currentRecord;
 
 @end

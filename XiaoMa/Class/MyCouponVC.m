@@ -9,7 +9,6 @@
 #import "MyCouponVC.h"
 #import "UIBarButtonItem+CustomStyle.h"
 #import "GetUserCouponOp.h"
-#import "HKCoupon.h"
 #import "JTTableView.h"
 #import "ShareUserCouponOp.h"
 #import "SocialShareViewController.h"
@@ -37,6 +36,8 @@
 @property (nonatomic, strong) CarWashCouponVModel *carWashModel;
 @property (nonatomic, strong) CarWashCouponVModel *insuranceModel;
 @property (nonatomic, strong) CarWashCouponVModel *othersModel;
+@property (weak, nonatomic) IBOutlet UIView *getMoreView;
+- (IBAction)getMoreAction:(id)sender;
 
 @end
 
@@ -50,7 +51,15 @@
     
     [self setSegmentView];
     
-    [self.segHelper selectItem:self.carwashBtn];
+    if (self.jumpType == CouponNewTypeInsurance) {
+        [self.segHelper selectItem:self.insuranceBtn];
+    }
+    else if (self.jumpType == CouponNewTypeOthers) {
+        [self.segHelper selectItem:self.othersBtn];
+    }
+    else {
+        [self.segHelper selectItem:self.carwashBtn];
+    }
     
     self.carWashModel = [[CarWashCouponVModel alloc] initWithTableView:self.carwashTableView withType:CouponNewTypeCarWash];
     [self.carWashModel resetWithTargetVC:self];
@@ -141,9 +150,14 @@
 
 - (IBAction)actionGetMore:(id)sender
 {
+    WebVC *vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
+    vc.url = @"http://www.xiaomadada.com/apphtml/youhuiquan.html";
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (IBAction)getMoreAction:(id)sender {
     [MobClick event:@"rp304-6"];
     WebVC *vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
-    vc.url = @"http://www.xiaomadada.com/apphtml/couponpkg.html";
+    vc.url = @"http://xiaomadada.com/apphtml/couponpkg.html?jump=t";
     [self.navigationController pushViewController:vc animated:YES];
 }
 @end

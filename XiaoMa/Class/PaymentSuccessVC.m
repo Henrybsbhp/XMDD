@@ -16,13 +16,9 @@
 #import "SystemFastrateGetOp.h"
 #import "SubmitCommentOp.h"
 
-typedef enum : NSUInteger {
-    BeforeComment,
-    Commenting,
-    Commented
-} CommentStatus;
 
-@interface PaymentSuccessVC ()<UICollectionViewDelegate,UICollectionViewDataSource>
+
+@interface PaymentSuccessVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet DrawingBoardView *drawingView;
@@ -31,12 +27,11 @@ typedef enum : NSUInteger {
 @property (weak, nonatomic) IBOutlet UIButton *recommendBtn;
 @property (weak, nonatomic) IBOutlet JTRatingView *ratingView;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (nonatomic, assign) BOOL isTextViewEdit;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UILabel *commentLb;
 
 @property (nonatomic,strong)NSArray * currentRateTemplate;
-
-@property (nonatomic)CommentStatus commentStatus;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *heightConstraint;
 
@@ -44,7 +39,6 @@ typedef enum : NSUInteger {
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offsetY2;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offsetY3;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offsetY4;
-
 @end
 
 @implementation PaymentSuccessVC
@@ -52,11 +46,15 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self.drawingView drawSuccessByFrame];
-    [self changeCollectionHeight];
-    [self changeOffset];
-    [self setupRateView];
-    [self setupUI:BeforeComment];
+    CKAsyncMainQueue(^{
+        [self.drawingView drawSuccessByFrame];
+        [self changeCollectionHeight];
+        [self changeOffset];
+        [self setupRateView];
+        [self setupTextView];
+        [self setupUI:self.commentStatus];
+    });
+    
     
     [self requestCommentlist];
 }
@@ -70,12 +68,14 @@ typedef enum : NSUInteger {
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp110"];
+    [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp110"];
+    [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:YES];
 }
 
 - (void)dealloc
@@ -95,7 +95,7 @@ typedef enum : NSUInteger {
 }
 - (IBAction)shareAction:(id)sender {
     
-    [MobClick event:@"rp110-1"];
+    [MobClick event:@"rp110-9"];
     SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
     vc.tt = @"小马达达－一分洗车，十分满意";
     vc.subtitle = @"我完成了洗车，你也来试试吧";
@@ -118,7 +118,7 @@ typedef enum : NSUInteger {
     }];
 }
 - (IBAction)commentAction:(id)sender {
-    [MobClick event:@"rp110-2"];
+    [MobClick event:@"rp110-12"];
     
     SubmitCommentOp * op = [SubmitCommentOp operation];
     NSString * withoutSpace= [self.textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -126,6 +126,14 @@ typedef enum : NSUInteger {
         
         return obj.customTag;
     }];
+    NSMutableArray * array = [NSMutableArray array];
+    for (NSDictionary * dict in selected)
+    {
+        NSString * sid = [NSString stringWithFormat:@"%@",dict[@"id"]];
+        [array addObject:sid];
+    }
+    NSString * ids = [array componentsJoinedByString:@","];
+    
     NSString *ss = [selected componentsJoinedByString:@","];
     NSString *content;
     if (ss.length && withoutSpace.length)
@@ -139,19 +147,31 @@ typedef enum : NSUInteger {
     op.req_orderid = self.order.orderid;
     op.req_rating = round(self.ratingView.ratingValue);
     op.req_comment = withoutSpace;
+    op.req_ids = ids;
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"提交中…"];
     }] subscribeNext:^(SubmitCommentOp *rspOp) {
         
         [gToast showSuccess:@"评价成功!"];
+        self.subLabel.text = @"评价成功!";
         [self setupUI:Commented];
+        self.order.ratetime = [NSDate date];
+        self.order.comment = rspOp.req_comment;
+        self.order.rating = rspOp.req_rating;
         self.collectionView.userInteractionEnabled = NO;
+        self.ratingView.userInteractionEnabled = NO;
+        
+        if (self.commentSuccess)
+        {
+            [self commentSuccess];
+        }
     } error:^(NSError *error) {
         [gToast showError:error.domain];
         
-        [self setupUI:Commented];
+        [self setupUI:CommentError];
         self.collectionView.userInteractionEnabled = YES;
+        self.ratingView.userInteractionEnabled = YES;
     }];
 }
 
@@ -171,14 +191,18 @@ typedef enum : NSUInteger {
     }];
 }
 
-
 - (void)setupTextView
 {
-//    @weakify(self)
-//    [[self.textView rac_textSignal] subscribeNext:^(NSString * s) {
-//        
-//       
-//    }];
+    self.textView.delegate = self;
+    self.isTextViewEdit = NO; //输入框获取焦点的代理方法会执行两次
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    if (!self.isTextViewEdit) {
+        [MobClick event:@"rp110-11"];
+        self.isTextViewEdit = !self.isTextViewEdit;
+    }
 }
 
 - (void)setupUI:(CommentStatus)status
@@ -189,7 +213,7 @@ typedef enum : NSUInteger {
     height = MAX(height, gAppMgr.deviceInfo.screenSize.height);
     CGSize scrollViewSize = CGSizeMake(gAppMgr.deviceInfo.screenSize.width, height);
     self.scrollView.contentSize = scrollViewSize;
-    
+
     switch (status) {
         case BeforeComment:
         {
@@ -202,6 +226,15 @@ typedef enum : NSUInteger {
             break;
         }
         case Commenting:
+        {
+            self.commentLb.hidden = YES;
+            self.textView.hidden = NO;
+            self.commentBtn.hidden = NO;
+            self.recommendBtn.hidden = YES;
+            self.collectionView.hidden = NO;
+            break;
+        }
+        case CommentError:
         {
             self.commentLb.hidden = YES;
             self.textView.hidden = NO;
@@ -279,6 +312,7 @@ typedef enum : NSUInteger {
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    [MobClick event:@"rp110-10"];
     NSDictionary * d = [self.currentRateTemplate safetyObjectAtIndex:indexPath.section * 2 + indexPath.row];
 //    NSString * s = d[[d.allKeys safetyObjectAtIndex:0]];
     d.customTag =  !d.customTag;
@@ -295,6 +329,7 @@ typedef enum : NSUInteger {
     
     CGSize size = self.collectionView.contentSize;
     size.height = height;
+    size.width = gAppMgr.deviceInfo.screenSize.width;
     self.collectionView.contentSize = size;
 }
 
@@ -306,13 +341,21 @@ typedef enum : NSUInteger {
     self.offsetY2.constant =  self.offsetY2.constant * radio;
 //    self.offsetY3.constant =  self.offsetY3.constant * radio;
 //    self.offsetY4.constant =  self.offsetY4.constant * radio;
-    
 }
 
 - (void)requestCommentlist
 {
     if (gAppMgr.commentList.count)
+    {
+        for (NSArray * template in gAppMgr.commentList)
+        {
+            for (NSObject * obj in template)
+            {
+                obj.customTag = NO;
+            }
+        }
         return;
+    }
     SystemFastrateGetOp * op = [SystemFastrateGetOp operation];
     [[op rac_postRequest] subscribeNext:^(SystemFastrateGetOp * op) {
         

@@ -88,7 +88,8 @@ def handle_resule(result):
         print 'upload success'
         send_Email(json_result)
     else:
-        raise AssertionError("uoload failed")
+        aa = "uoload failed" + str(json_result['code']) + "    " + str(result)
+        raise AssertionError(aa)
 
 #发送邮件
 def send_Email(json_result):
@@ -98,7 +99,7 @@ def send_Email(json_result):
     appBuildVersion = json_result['data']['appBuildVersion']
     appShortcutUrl = json_result['data']['appShortcutUrl']
     #邮件接受者
-    mail_receiver = ['fq@jtang.cn','fuqi@xiaomadada.com','jiangjunchen@xiaomadada.com','xmdd@zxuner.com']
+    mail_receiver = ['fq@jtang.cn','fuqi@xiaomadada.com','jiangjunchen@xiaomadada.com','yaojiaping@xiaomadada.com','xmdd@zxuner.com']
     #根据不同邮箱配置 host，user，和pwd
     mail_host = 'smtp.exmail.qq.com'
     mail_user = 'ci_server@jtang.cn'

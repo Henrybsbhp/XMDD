@@ -30,7 +30,7 @@
     coupon.conponType = (CouponType)[rsp integerParamForName:@"type"];
     coupon.rgbColor = [rsp stringParamForName:@"rgb"];
     coupon.logo = [rsp stringParamForName:@"logo"];
-    coupon.subname = rsp[@"subname"];
+    coupon.subname = [rsp stringParamForName:@"subname"];
     return coupon;
 }
 
@@ -40,14 +40,14 @@
     {
         return nil;
     }
-    HKCoupon * coupon = [[HKCoupon alloc] init];
+    HKCoupon * coupon = [HKCoupon couponWithJSONResponse:rsp];
     coupon.couponName = rsp[@"name"];
     coupon.couponDescription = rsp[@"description"];
     coupon.validsince = [NSDate dateWithD8Text:[NSString stringWithFormat:@"%@",rsp[@"validsince"]]];
     coupon.validthrough = [NSDate dateWithD8Text:[NSString stringWithFormat:@"%@",rsp[@"validthrough"]]];
     coupon.rgbColor = [rsp stringParamForName:@"rgb"];
     coupon.logo = [rsp stringParamForName:@"logo"];
-    coupon.subname = rsp[@"subname"];
+    coupon.subname = [rsp stringParamForName:@"subname"];
     coupon.useguide = rsp[@"useguide"];
 
     return coupon;

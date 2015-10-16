@@ -48,13 +48,16 @@
         [self.shortUseBtn setCornerRadius:5.0f];
         @weakify(self);
         [[self.shortUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            
+
             @strongify(self);
             //去洗车
             CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
-            vc.type = 1 ;
+            vc.type = 1;
+            vc.couponForWashDic = self.couponDic;
             [self.navigationController pushViewController:vc animated:YES];
+
         }];
+        
         [self.shareBtn setCornerRadius:5.0f];
         [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
@@ -64,6 +67,7 @@
         }];
     }
     else {
+
         if (self.newType == CouponNewTypeCarWash) {
             self.shortUseBtn.hidden = YES;
             self.shareBtn.hidden = YES;
@@ -76,6 +80,7 @@
                 //去洗车
                 CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
                 vc.type = 1 ;
+                vc.couponForWashDic = self.couponDic;
                 [self.navigationController pushViewController:vc animated:YES];
             }];
         }
@@ -92,6 +97,7 @@
 //            InsuranceVC *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
 //            [self.navigationController pushViewController:vc animated:YES];
 //        }];
+
     }
 }
 
@@ -238,7 +244,7 @@
         UIImageView * bgImageView = (UIImageView *)[cell.contentView viewWithTag:1005];
         
         nameLabel.text = self.couponDic.couponName;
-        subnameLabel.text = [NSString stringWithFormat:@"（%@）", self.couponDic.subname];
+        subnameLabel.text = [NSString stringWithFormat:@"%@", self.couponDic.subname];
         describeLabel.text = [NSString stringWithFormat:@"使用说明：%@", self.couponDic.couponDescription];
         validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@", [self.couponDic.validsince dateFormatForYYMMdd2], [self.couponDic.validthrough dateFormatForYYMMdd2]];
         
@@ -259,7 +265,13 @@
         
         nolabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
         nolabel.layer.cornerRadius = 8.0f;
-        nolabel.backgroundColor = [UIColor colorWithHex:[NSString stringWithFormat:@"#%@", self.rgbStr] alpha:1.0f];
+        if (self.rgbStr.length > 0) {
+            NSString *strColor = [NSString stringWithFormat:@"#%@", self.rgbStr];
+            nolabel.backgroundColor = HEXCOLOR(strColor);
+        }
+        else {
+            nolabel.backgroundColor = [UIColor colorWithHex:@"#57C21F" alpha:1.0f];
+        }
         [nolabel.layer setMasksToBounds:YES];
         
         contentlabel.text = [self.couponDic.useguide safetyObjectAtIndex:indexPath.row];

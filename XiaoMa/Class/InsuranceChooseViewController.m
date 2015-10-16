@@ -10,6 +10,7 @@
 #import "HKCoverage.h"
 #import "InsuranceResultVC.h"
 #import "InsuranceAppointmentOp.h"
+#import "HKPickerVC.h"
 
 @interface InsuranceChooseViewController ()
 
@@ -38,12 +39,30 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp133"];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [MobClick endLogPageView:@"rp133"];
+}
+
+- (void)actionBack:(id)sender
+{
+    [MobClick event:@"rp133-4"];
+    [super actionBack:sender];
+}
 
 - (void)setupUI
 {
     [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        if ([self inslistForVC].count)
+        [MobClick event:@"rp133-3"];
+        if (![self inslistForVC].count)
         {
             [gToast showError:@"请至少选择一个车险"];
             return ;
@@ -51,6 +70,7 @@
         InsuranceAppointmentOp *op = [[InsuranceAppointmentOp alloc] init];
         op.req_idcard = self.idcard;
         op.req_driverpic = self.currentRecord.url;
+        op.req_invitecode = self.inviteCode;
         op.req_inslist = [[self inslistForVC] componentsJoinedByString:@"|"];
         @weakify(self);
         [[[op rac_postRequest] initially:^{
@@ -89,30 +109,33 @@
 
 - (void)showActionSheet:(HKCoverage * )c
 {
-    UIActionSheet * as = [[UIActionSheet alloc] init];
-    as.title = c.insName;
-    [as setCancelButtonIndex:c.params.count];
-    for (NSDictionary * dict in c.params)
+    
+    NSMutableArray * array = [NSMutableArray array];
+    NSMutableArray * select = [NSMutableArray array];
+    if (c.params)
     {
-        [as addButtonWithTitle:dict[@"key"]];
+        [array safetyAddObject:c.params];
+        NSObject * obj = [c.params firstObjectByFilteringOperator:^BOOL(NSObject * obj) {
+            
+            return obj.customTag;
+        }];
+        [select safetyAddObject:obj];
     }
-    [as addButtonWithTitle:@"取消"];
-    [as showInView:self.view];
-    [[as rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
-        
-        NSInteger index = [number integerValue];
-        for (NSDictionary * dict in c.params)
-        {
-            dict.customTag = NO;
-        }
-        
-        
-        NSObject * obj = [c.params safetyObjectAtIndex:index];
-        obj.customTag = YES;
+    if (c.params2)
+    {
+        [array safetyAddObject:c.params2];
+        NSObject * obj = [c.params2 firstObjectByFilteringOperator:^BOOL(NSObject * obj) {
+            
+            return obj.customTag;
+        }];
+        [select safetyAddObject:obj];
+    }
+
+    [[HKPickerVC rac_presentPickerVCInView:self.view withDatasource:array andCurrentValue:select] subscribeNext:^(NSArray * array) {
         
         NSInteger i;
         NSIndexPath *indexPath1;
-        //刷新cell
+        
         if ([self.insuranceArry containsObject:c])
         {
             i= [self.insuranceArry indexOfObject:c];
@@ -125,7 +148,7 @@
         }
         
         NSArray * refreshArray ;
-        if (c.customTag && c.isContainExcludingDeductible)
+        if (c.customTag && c.excludingDeductibleCoverage)
         {
             NSIndexPath *indexPath2 = [NSIndexPath indexPathForRow:i + 1 inSection:0];
             refreshArray = @[indexPath1,indexPath2];
@@ -135,6 +158,8 @@
             refreshArray = @[indexPath1];
         }
         [self.tableView reloadRowsAtIndexPaths:refreshArray withRowAnimation:UITableViewRowAnimationNone];
+    } error:^(NSError *error) {
+        
     }];
 }
 
@@ -183,6 +208,7 @@
     UILabel * l = [[UILabel alloc] init];
     l.frame = CGRectMake(10,6,100,18);
     l.font = [UIFont systemFontOfSize:12];
+    l.backgroundColor = [UIColor clearColor];
     [v addSubview:l];
     if (section == 0){
         
@@ -222,7 +248,7 @@
         boxBtn.selected = coverage.customTag;
         @weakify(boxBtn);
         [[[boxBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            
+            [MobClick event:@"rp133-1"];
             @strongify(boxBtn);
             
             /**
@@ -232,19 +258,21 @@
             [boxBtn setSelected:!flag];
             coverage.customTag = !flag;
             
-            if ([coverage.isContainExcludingDeductible integerValue])
+            if (coverage.excludingDeductibleCoverage)
             {
+                HKCoverage * subCoverage = coverage.excludingDeductibleCoverage;
                 if (coverage.customTag == YES)
                 {
+                    subCoverage.customTag = [self needSelectExcludingDeductible:subCoverage];
                     NSInteger index = [self.insuranceArry indexOfObject:coverage];
-                    [self.insuranceArry safetyInsertObject:coverage.isContainExcludingDeductible.customObject atIndex:index + 1];
+                    [self.insuranceArry safetyInsertObject:coverage.excludingDeductibleCoverage atIndex:index + 1];
                     NSIndexPath * idxPath = [NSIndexPath indexPathForRow:index + 1 inSection:indexPath.section];
                     [self.tableView insertRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationLeft];
                 }
                 else
                 {
-                    NSInteger index = [self.insuranceArry indexOfObject:coverage.isContainExcludingDeductible.customObject];
-                    [self.insuranceArry safetyRemoveObject:coverage.isContainExcludingDeductible.customObject];
+                    NSInteger index = [self.insuranceArry indexOfObject:coverage.excludingDeductibleCoverage];
+                    [self.insuranceArry safetyRemoveObject:coverage.excludingDeductibleCoverage];
                     NSIndexPath * idxPath = [NSIndexPath indexPathForRow:index inSection:indexPath.section];
                     [self.tableView deleteRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationRight];
                 }
@@ -278,33 +306,51 @@
         
         insuranceNameLb.text = coverage.insName;
         boxBtn.selected = coverage.customTag;
+       
+        NSString * paramText = @"";
         for (NSDictionary * obj in coverage.params)
         {
             if (obj.customTag)
-                paramLb.text = [obj objectForKey:@"key"];
+            {
+                paramText = [paramText append:[obj objectForKey:@"key"]];
+                break;
+            }
         }
+        for (NSDictionary * obj in coverage.params2)
+        {
+            if (obj.customTag)
+            {
+                paramText = [paramText append:@" "];
+                paramText = [paramText append:[obj objectForKey:@"key"]];
+                break;
+            }
+        }
+        
+        paramLb.text = paramText;
         
         @weakify(boxBtn);
         [[[boxBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            
+            [MobClick event:@"rp133-1"];
             @strongify(boxBtn);
             BOOL flag = boxBtn.selected;
             [boxBtn setSelected:!flag];
             coverage.customTag = !flag;
             
-            if ([coverage.isContainExcludingDeductible integerValue])
+            if (coverage.excludingDeductibleCoverage)
             {
+                HKCoverage * subCoverage = coverage.excludingDeductibleCoverage;
                 if (coverage.customTag == YES)
                 {
+                    subCoverage.customTag = [self needSelectExcludingDeductible:subCoverage];
                     NSInteger index = [self.insuranceArry indexOfObject:coverage];
-                    [self.insuranceArry safetyInsertObject:coverage.isContainExcludingDeductible.customObject atIndex:index + 1];
+                    [self.insuranceArry safetyInsertObject:coverage.excludingDeductibleCoverage atIndex:index + 1];
                     NSIndexPath * idxPath = [NSIndexPath indexPathForRow:index + 1 inSection:indexPath.section];
                     [self.tableView insertRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationLeft];
                 }
                 else
                 {
-                    NSInteger index = [self.insuranceArry indexOfObject:coverage.isContainExcludingDeductible.customObject];
-                    [self.insuranceArry safetyRemoveObject:coverage.isContainExcludingDeductible.customObject];
+                    NSInteger index = [self.insuranceArry indexOfObject:coverage.excludingDeductibleCoverage];
+                    [self.insuranceArry safetyRemoveObject:coverage.excludingDeductibleCoverage];
                     NSIndexPath * idxPath = [NSIndexPath indexPathForRow:index inSection:indexPath.section];
                     [self.tableView deleteRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationRight];
                 }
@@ -323,7 +369,7 @@
         boxBtn.selected = coverage.customTag;
         @weakify(boxBtn);
         [[[boxBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            
+            [MobClick event:@"rp133-2"];
             @strongify(boxBtn);
             BOOL flag = boxBtn.selected;
             [boxBtn setSelected:!flag];
@@ -354,19 +400,75 @@
     {
         if (c.customTag)
         {
-            NSString * s = [NSString stringWithFormat:@"%@@%@@0",c.insId,c.insName];
-            [array safetyAddObject:s];
-            
-            if (c.isContainExcludingDeductible.customObject &&
-                [c.isContainExcludingDeductible.customObject isKindOfClass:[HKCoverage class]] &&
-                c.isContainExcludingDeductible.customTag){
-                
-                NSString * s2 = [NSString stringWithFormat:@"%@@%@@0",c.insId,c.insName];
-                [array safetyAddObject:s2];
+            NSString * paramText = @"";
+            for (NSDictionary * obj in c.params)
+            {
+                if (obj.customTag)
+                {
+                    paramText = [paramText append:[obj objectForKey:@"key"]];
+                    break;
+                }
             }
+            for (NSDictionary * obj in c.params2)
+            {
+                if (obj.customTag)
+                {
+                    paramText = [paramText append:@" "];
+                    paramText = [paramText append:[obj objectForKey:@"key"]];
+                    break;
+                }
+            }
+            paramText = paramText.length ? paramText : @"0";
+            NSString * s = [NSString stringWithFormat:@"%@@%@@%@@%.2f",c.insId,c.insName,paramText,0.00];
+            [array safetyAddObject:s];
+        }
+    }
+    
+    for (HKCoverage * c in self.insuranceArry2)
+    {
+        if (c.customTag)
+        {
+            NSString * paramText = @"";
+            for (NSDictionary * obj in c.params)
+            {
+                if (obj.customTag)
+                {
+                    paramText = [paramText append:[obj objectForKey:@"key"]];
+                    break;
+                }
+            }
+            for (NSDictionary * obj in c.params2)
+            {
+                if (obj.customTag)
+                {
+                    paramText = [paramText append:@" "];
+                    paramText = [paramText append:[obj objectForKey:@"key"]];
+                    break;
+                }
+            }
+            paramText = paramText.length ? paramText : @"0";
+            NSString * s = [NSString stringWithFormat:@"%@@%@@%@@%.2f",c.insId,c.insName,paramText,0.00];
+            [array safetyAddObject:s];
         }
     }
     //    NSString * inslist = [array componentsJoinedByString:@"|"];
     return array;
+}
+
+#pragma mark - Utility
+- (BOOL)needSelectExcludingDeductible:(HKCoverage *)c
+{
+    if (c.insCategory == InsuranceExcludingDeductible4CarDamage ||
+        c.insCategory == InsuranceExcludingDeductible4ThirdPartyLiability ||
+        c.insCategory == InsuranceExcludingDeductible4CarSeatInsuranceOfDriver ||
+        c.insCategory == InsuranceExcludingDeductible4CarSeatInsuranceOfPassenger)
+    {
+        return YES;
+    }
+    else if (c.insCategory == InsuranceExcludingDeductible4WholeCarStolen)
+    {
+        return NO;
+    }
+    return c.customTag;
 }
 @end

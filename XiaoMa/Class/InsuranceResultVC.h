@@ -18,7 +18,8 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, strong) NSString *resultTitle;
 @property (nonatomic, strong) NSString *resultContent;
-
+@property (nonatomic, weak) UIViewController *originVC;
+@property (nonatomic, strong) NSNumber *orderID;
 -(void) setResultType:(InsuranceResult) resultType;
 
 

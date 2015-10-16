@@ -20,6 +20,7 @@
 
 @interface InsuranceDetailPlanVC()
 
+@property (strong, nonatomic) IBOutlet UIView *vview;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet JDFlipNumberView *flipNumberView;
 @property (weak, nonatomic) IBOutlet UIButton *sureBtn;
@@ -40,10 +41,21 @@
      [self setupSegmentControl];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp117"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp117"];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     
     // UI
     [self setupUI];
@@ -55,7 +67,6 @@
     
     [self.tableView reloadData];
 }
-
 
 - (void)setupSegmentControl
 {
@@ -70,7 +81,7 @@
     self.segmentedControl.selectedStainView = v;
     
     self.segmentedControl.selectedSegmentTextColor = [UIColor whiteColor];
-    self.segmentedControl.segmentTextColor = [UIColor colorWithHex:@"#e2e2e2" alpha:1.0f];
+    self.segmentedControl.segmentTextColor = [UIColor darkGrayColor];
     [self.segmentedControl addTarget:self action:@selector(segmentValueChanged:) forControlEvents:UIControlEventValueChanged];
 }
 
@@ -80,6 +91,7 @@
 {
     [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
     
+        [MobClick event:@"rp117-7"];
         if (![self.currentModel inslistForVC].count)
         {
             [gToast showError:@"请至少选择一个车险"];
@@ -112,8 +124,9 @@
         {
             [selectIns safetyAddObject:@(subIns.coveragerId)];
         }
-        InsuranceDetailPlanModel * model = [[InsuranceDetailPlanModel alloc] initWithSelectInsurance:selectIns andCarPrice:[self.calculatorOp.req_purchaseprice floatValue]];
+        InsuranceDetailPlanModel * model = [[InsuranceDetailPlanModel alloc] initWithSelectInsurance:selectIns andCarPrice:[self.calculatorOp.req_purchaseprice floatValue] * 10000];
         model.tableView = self.tableView;
+        model.view = self.view;
         model.flipNumberView = self.flipNumberView;
         [self.modelArray safetyAddObject:model];
     }
@@ -127,6 +140,7 @@
 #pragma mark - Utility
 - (void)segmentValueChanged:(id)sender
 {
+    [MobClick event:@"rp117-6"];
     CCSegmentedControl* segmentedControl = sender;
     self.selectIndex = segmentedControl.selectedSegmentIndex;
     InsuranceDetailPlanModel * model = [self.modelArray safetyObjectAtIndex:self.selectIndex];
@@ -136,6 +150,11 @@
 
 - (void)switchDatasource:(InsuranceDetailPlanModel *)model
 {
+    if (self.modelArray.lastObject != model)
+    {
+        [model setupInsuranceArray];
+    }
+    [model calcTotalPrice];
     [model noAnimateToTargetValue];
     
     self.tableView.dataSource = model;

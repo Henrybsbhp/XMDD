@@ -13,10 +13,9 @@
 @interface PayForInsuranceVC : UIViewController
 
 @property (nonatomic,strong)HKInsuranceOrder * insOrder;
-
+@property (nonatomic, weak) UIViewController *originVC;
 /// 为优惠劵选择服务
 @property (nonatomic)CouponType couponType;
-@property (nonatomic)PaymentPlatform platform;
 /// 是否选择活动
 @property (nonatomic)BOOL isSelectActivity;
 

@@ -176,12 +176,12 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
 {
     return @"暂无商铺";
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
     //定位失败
     if (error.customTag == 1) {
@@ -190,7 +190,7 @@
     return @"获取商铺失败，点击重试";
 }
 
-- (void)loadingModel:(HKLoadingModel *)model didLoadingFailWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+- (void)loadingModel:(HKLoadingModel *)model didLoadingFailWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
     //定位失败
     if (error.customTag == 1) {
@@ -249,9 +249,9 @@
     }
 }
 
-- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
 {
-    if (type != HKDatasourceLoadingTypeLoadMore) {
+    if (type != HKLoadingTypeLoadMore) {
         self.currentPageIndex = 0;
     }
     
@@ -277,7 +277,7 @@
     }];
 }
 
-- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type
 {
     [self.tableView reloadData];
     if (model.datasource.count == 0) {
@@ -321,6 +321,7 @@
     addrL.text = shop.shopAddress;
     
     [statusL makeCornerRadius:3];
+    statusL.font = [UIFont boldSystemFontOfSize:11];
     if ([self isBetween:shop.openHour and:shop.closeHour]) {
         statusL.text = @"营业中";
         statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
@@ -413,6 +414,7 @@
     else
         [MobClick event:@"rp102-3"];
     ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
+    vc.couponFordetailsDic = self.couponForWashDic;
     vc.hidesBottomBarWhenPushed = YES;
     vc.shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
     [self.navigationController pushViewController:vc animated:YES];
@@ -443,16 +445,16 @@
         NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
                                 NSForegroundColorAttributeName:[UIColor lightGrayColor],
                                 NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle)};
-        NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:
-                                        [NSString stringWithFormat:@"￥%.2f", [price1 floatValue]] attributes:attr1];
+        NSString * p = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:[price1 floatValue]]];
+        NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:p attributes:attr1];
         [str appendAttributedString:attrStr1];
     }
 
     if (price2) {
         NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18],
                                 NSForegroundColorAttributeName:HEXCOLOR(@"#f93a00")};
-        NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:
-                                        [NSString stringWithFormat:@" ￥%.2f", [price2 floatValue]] attributes:attr2];
+        NSString * p = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:[price2 floatValue]]];
+        NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:p attributes:attr2];
         [str appendAttributedString:attrStr2];
     }
     return str;

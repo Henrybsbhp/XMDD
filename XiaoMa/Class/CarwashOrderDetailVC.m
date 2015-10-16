@@ -16,6 +16,7 @@
 #import "HKLoadingModel.h"
 #import "GetCarwashOrderOp.h"
 #import "ShopDetailVC.h"
+#import "PaymentSuccessVC.h"
 
 @interface CarwashOrderDetailVC ()<UITableViewDelegate, UITableViewDataSource, HKLoadingModelDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -91,7 +92,8 @@
 - (IBAction)actionComment:(id)sender
 {
     [MobClick event:@"rp320-1"];
-    CarwashOrderCommentVC *vc = [UIStoryboard vcWithId:@"CarwashOrderCommentVC" inStoryboard:@"Mine"];
+    
+    PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
     vc.order = self.order;
     [vc setCommentSuccess:^{
         [self reloadTableView];
@@ -258,12 +260,12 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
     return @"获取订单信息失败，点击重试";
 }
 
-- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
 {
     GetCarwashOrderOp *op = [GetCarwashOrderOp operation];
     op.req_orderid = self.orderID;
@@ -275,7 +277,7 @@
     }];
 }
 
-- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type
 {
     [self.tableView reloadData];
 }

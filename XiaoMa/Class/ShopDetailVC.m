@@ -22,6 +22,7 @@
 #import "AddUserFavoriteOp.h"
 #import "SDPhotoBrowser.h"
 #import "UIView+Layer.h"
+#import "MyCarStore.h"
 
 #define kDefaultServieCount     2
 
@@ -32,6 +33,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *maskView;
 @property (weak, nonatomic) IBOutlet UIView *titleView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *imageCountLabel;
 @property (weak, nonatomic) IBOutlet UIButton *greenBackBtn;
 @property (weak, nonatomic) IBOutlet UIButton *whiteBackBtn;
 @property (weak, nonatomic) IBOutlet UIButton *greenStarBtn;
@@ -126,9 +128,7 @@
 
 - (void)setupMyCarList
 {
-    [[gAppMgr.myUser.carModel rac_fetchDataIfNeeded] subscribeNext:^(id x) {
-        
-    }];
+    [[[[MyCarStore fetchExistsStore] getAllCarsIfNeeded] signal] subscribeNext:^(id x) {}];
 }
 
 #pragma mark - Action
@@ -251,9 +251,8 @@
     if (self.shop.picArray.count > 0)
     {
         SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
-        UIView *containerV = tap.view.superview;
         UIView *sourceImgV1 = self.headImgView;
-        UIView *sourceImgV2 = [containerV viewWithTag:1002];
+        UIView *sourceImgV2 = self.imageCountLabel;
         browser.sourceImageViews = @[sourceImgV1, sourceImgV2]; // 原图的容器
         browser.imageCount = self.shop.picArray.count; // 图片总数
         browser.currentImageIndex = 0;
@@ -264,41 +263,30 @@
 
 - (void)gotoPaymentVCWithService:(JTShopService *)service
 {
-    [[[gAppMgr.myUser.carModel rac_getDefaultCar] catch:^RACSignal *(NSError *error) {
+    [[[[[MyCarStore fetchExistsStore] getDefaultCar] signal] catch:^RACSignal *(NSError *error) {
         
         return [RACSignal return:nil];
     }] subscribeNext:^(HKMyCar *car) {
-
-        if (car && [car isCarInfoCompleted])
-        {
-            PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
-            vc.originVC = self;
-            vc.shop = self.shop;
-            vc.service = service;
-            vc.defaultCar = car;
-            [self.navigationController pushViewController:vc animated:YES];
+        
+        PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
+        if (self.couponFordetailsDic.conponType == CouponTypeCarWash || self.couponFordetailsDic.conponType == CouponTypeCZBankCarWash) {
+            vc.selectCarwashCoupouArray = vc.selectCarwashCoupouArray ? vc.selectCarwashCoupouArray : [NSMutableArray array];
+            [vc.selectCarwashCoupouArray addObject:self.couponFordetailsDic];
+            vc.couponType = CouponTypeCarWash;
+            vc.isAutoCouponSelect = YES;
         }
-        else if (car) {
-            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您的爱车信息不完善，请先完善" delegate:nil
-                                                cancelButtonTitle:@"前往完善" otherButtonTitles: nil];
-            [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
-                [MobClick event:@"rp104-9"];
-                EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
-                vc.originCar = car;
-                [self.navigationController pushViewController:vc animated:YES];
-            }];
-            [av show];
+        else if (self.couponFordetailsDic.conponType == CouponTypeCash) {
+            
+            vc.selectCashCoupouArray = vc.selectCashCoupouArray ? vc.selectCashCoupouArray : [NSMutableArray array];
+            [vc.selectCashCoupouArray addObject:self.couponFordetailsDic];
+            vc.couponType = CouponTypeCash;
+            vc.isAutoCouponSelect = YES;
         }
-        else
-        {
-            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您尚未添加车辆，请添加一辆" delegate:nil cancelButtonTitle:@"前往添加" otherButtonTitles: nil];
-            [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * num) {
-                [MobClick event:@"rp104-9"];
-                EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Mine"];
-                [self.navigationController pushViewController:vc animated:YES];
-            }];
-            [av show];
-        }
+        vc.originVC = self;
+        vc.shop = self.shop;
+        vc.service = service;
+        vc.defaultCar = [car isCarInfoCompleted] ? car : nil;
+        [self.navigationController pushViewController:vc animated:YES];
     }];
 }
 
@@ -310,10 +298,10 @@
         if (indexPath.row == 0) {
             height = 84;
         }
-        else if (indexPath.row == 1 || indexPath.row == 2) {
+        else if (indexPath.row == 2) {
             height = 44;
         }
-        else if (indexPath.row < 3 + self.shop.shopServiceArray.count) {
+        else if (indexPath.row == 1 || indexPath.row < 3 + self.shop.shopServiceArray.count) {
             if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
             {
                 return UITableViewAutomaticDimension;
@@ -513,6 +501,7 @@
     businessHoursLb.text = [NSString stringWithFormat:@"营业时间：%@ - %@",self.shop.openHour,self.shop.closeHour];
     
     [statusL makeCornerRadius:3];
+    statusL.font = [UIFont boldSystemFontOfSize:11]; //ios6字体大小有问题
     if ([self isBetween:shop.openHour and:shop.closeHour]) {
         statusL.text = @"营业中";
         statusL.backgroundColor = HEXCOLOR(@"#1bb745");
@@ -543,7 +532,6 @@
         
         [MobClick event:@"rp105-4"];
         @strongify(self)
-//        [gPhoneHelper navigationRedirectThirdMap:self.shop andUserLocation:gMapHelper.coordinate andView:self.view];
         CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
         vc.shop = self.shop;
         vc.favorite = self.favorite;
@@ -642,6 +630,7 @@
     UILabel *timeL = (UILabel *)[cell.contentView viewWithTag:1003];
     JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1004];
     UILabel *contentL = (UILabel *)[cell.contentView viewWithTag:1005];
+    UILabel *serviceL = (UILabel *)[cell.contentView viewWithTag:1006];
     avatarV.cornerRadius = 17.5f;
     avatarV.layer.masksToBounds = YES;
     
@@ -650,6 +639,7 @@
     timeL.text = [comment.time dateFormatForYYMMdd2];
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
+    serviceL.text = comment.serviceName;
     [avatarV setImageByUrl:comment.avatarUrl withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
     
     return cell;
@@ -706,25 +696,7 @@
     }
     gesture = self.headImgView.customObject;
     
-    UILabel * countLabel = [[UILabel alloc] init];
-    
-    countLabel.text = [NSString stringWithFormat:@"%d张", (int)shop.picArray.count];
-    countLabel.font = [UIFont systemFontOfSize:15];
-    countLabel.textColor = [UIColor colorWithHex:@"#ffffff" alpha:0.7f];
-    countLabel.textAlignment = NSTextAlignmentCenter;
-    countLabel.backgroundColor = [UIColor colorWithHex:@"#000000" alpha:0.5f];
-    [countLabel makeCornerRadius:13];
-    countLabel.tag = 1002;
-    [self.headImgView addSubview:countLabel];
-    
-    [countLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        @strongify(self);
-        make.bottom.equalTo(self.headImgView.mas_bottom).offset(-16);
-//        make.top.equalTo(self.view.mas_top).offset(132);
-        make.right.equalTo(self.view.mas_right).offset(12);
-        make.width.equalTo(@70);
-        make.height.equalTo(@23);
-    }];
+    self.imageCountLabel.text = [NSString stringWithFormat:@"%d张", (int)shop.picArray.count];
 }
 
 -(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
@@ -749,16 +721,16 @@
         NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
                                 NSForegroundColorAttributeName:[UIColor lightGrayColor],
                                 NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle)};
-        NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:
-                                        [NSString stringWithFormat:@"￥%.2f", [price1 floatValue]] attributes:attr1];
+        NSString * p = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:[price1 floatValue]]];
+        NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:p attributes:attr1];
         [str appendAttributedString:attrStr1];
     }
     
     if (price2) {
         NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18],
                                 NSForegroundColorAttributeName:HEXCOLOR(@"#f93a00")};
-        NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:
-                                        [NSString stringWithFormat:@" ￥%.2f", [price2 floatValue]] attributes:attr2];
+        NSString * p = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:[price2 floatValue]]];
+        NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:p attributes:attr2];
         [str appendAttributedString:attrStr2];
     }
     return str;
