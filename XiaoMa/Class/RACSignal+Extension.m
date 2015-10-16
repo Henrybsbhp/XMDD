@@ -17,4 +17,11 @@
             deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
+- (RACSignal *)ignoreError
+{
+    return [self catch:^RACSignal *(NSError *error) {
+        return [RACSignal empty];
+    }];
+}
+
 @end

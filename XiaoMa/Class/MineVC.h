@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HKNavigationHiddenVC.h"
 
-@interface MineVC : UIViewController
+@interface MineVC : HKNavigationHiddenVC
 
 @end

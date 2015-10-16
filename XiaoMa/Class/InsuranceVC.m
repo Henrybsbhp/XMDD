@@ -8,24 +8,27 @@
 
 #import "InsuranceVC.h"
 #import "XiaoMa.h"
-#import "BuyInsuranceOnlineVC.h"
+#import "AiCheBaoInsuranceVC.h"
 #import "SYPaginator.h"
 #import "HKAdvertisement.h"
-#import "EnquiryInsuranceVC.h"
+#import "InsuranceEnquiryVC.h"
 #import "WebVC.h"
+#import "InsuranceResultVC.h"
+#import "WebVC.h"
+#import "ADViewController.h"
+#import "InsuranceChooseViewController.h"
+#import "InsuranceDirectSellingVC.h"
+#import "PaymentHelper.h"
 
-@interface InsuranceVC ()<SYPaginatorViewDataSource,SYPaginatorViewDelegate>
-@property (nonatomic, strong) SYPaginatorView *adView;
-@property (nonatomic, strong) NSArray *adList;
+@interface InsuranceVC ()
+@property (nonatomic, strong) ADViewController *advc;
 @end
 
 @implementation InsuranceVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    CKAsyncMainQueue(^{
-        [self setupADView];
-    });
+    [self setupADView];
 }
 
 - (void)dealloc
@@ -52,74 +55,66 @@
 
 - (void)setupADView
 {
-    CGFloat width = CGRectGetWidth(self.view.frame);
-    CGFloat height = width*360.0/1242.0;
-    SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-    adView.delegate = self;
-    adView.dataSource = self;
-    adView.pageGapWidth = 0;
-    self.adView = adView;
-    [self reloadAds];
-    
-    @weakify(self);
-    RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
-        
-        @strongify(self);
-        NSInteger index = adView.currentPageIndex + 1;
-        if (index > self.adList.count-1) {
-            index = 0;
-        }
-        [adView setCurrentPageIndex:index animated:YES];
-    }];
-    [[self rac_deallocDisposable] addDisposable:dis];
+    CKAsyncMainQueue(^{
+        self.advc = [ADViewController vcWithADType:AdvertisementInsurance boundsWidth:self.view.frame.size.width
+                                          targetVC:self mobBaseEvent:@"rp114-3"];
+        [self.advc reloadDataForTableView:self.tableView];
+    });
 }
 
-- (void)reloadAds
-{
-    [[gAdMgr rac_fetchAdListByType:AdvertisementInsurance] subscribeNext:^(NSArray *ads) {
-        self.adList = ads;
-        if (self.adList.count > 0) {
-            self.tableView.tableHeaderView = self.adView;
-            [self.adView reloadDataRemovingCurrentPage:YES];
-            self.adView.currentPageIndex = 0;
-            self.adView.pageControl.hidden = self.adList.count <= 1;
-        }
-        else {
-            self.tableView.tableHeaderView = nil;
-        }
-    }];
-}
 #pragma mark - Action
-- (IBAction)actionBuyInsuraceOline:(id)sender {
-    [MobClick event:@"rp114-2"];
-    BuyInsuranceOnlineVC *vc = [UIStoryboard vcWithId:@"BuyInsuranceOnlineVC" inStoryboard:@"Insurance"];
-    vc.originVC = self;
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (IBAction)actionEnquireInsurance:(id)sender {
+- (void)actionInsuraceEnquiry {
     [MobClick event:@"rp114-1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        EnquiryInsuranceVC *vc = [UIStoryboard vcWithId:@"EnquiryInsuranceVC" inStoryboard:@"Insurance"];
+        InsuranceEnquiryVC *vc = [UIStoryboard vcWithId:@"InsuranceEnquiryVC" inStoryboard:@"Insurance"];
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+- (void)actionInsuranceDirectSelling {
+    [MobClick event:@"rp114-4"];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        InsuranceDirectSellingVC *vc = [UIStoryboard vcWithId:@"InsuranceDirectSellingVC" inStoryboard:@"Insurance"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
+- (void)actionAiCheBao {
+    AiCheBaoInsuranceVC *vc = [UIStoryboard vcWithId:@"AiCheBaoInsuranceVC" inStoryboard:@"Insurance"];
+    vc.originVC = self;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 #pragma mark - UITableViewDelegate and datasource
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    JTTableViewCell *jtcell = (JTTableViewCell *)cell;
-    jtcell.customSeparatorInset = UIEdgeInsetsMake(-1, 0, 0, 0);
-    [jtcell prepareCellForTableView:tableView atIndexPath:indexPath];
+    if ([cell isKindOfClass:[JTTableViewCell class]]) {
+        JTTableViewCell *jtcell = (JTTableViewCell *)cell;
+        jtcell.customSeparatorInset = UIEdgeInsetsMake(-1, 0, 0, 0);
+        jtcell.customSeparatorColor = kDefLineColor;
+        [jtcell prepareCellForTableView:tableView atIndexPath:indexPath];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    //保险询价
+    if (indexPath.row == 0) {
+         [self actionInsuraceEnquiry];
+    }
+    //车险直销
+    else if (indexPath.row == 1) {
+        [self actionInsuranceDirectSelling];
+    }
+    //爱车宝
+    else if (indexPath.row == 2) {
+        [self actionAiCheBao];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 8;
+    return CGFLOAT_MIN;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -127,55 +122,8 @@
     return 10;
 }
 
-#pragma mark - SYPaginatorViewDelegate
-- (NSInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.adList.count;
+    return 2;
 }
-
-- (SYPageView *)paginatorView:(SYPaginatorView *)paginatorView viewForPageAtIndex:(NSInteger)pageIndex
-{
-    SYPageView *pageView = [paginatorView dequeueReusablePageWithIdentifier:@"pageView"];
-    if (!pageView) {
-        pageView = [[SYPageView alloc] initWithReuseIdentifier:@"pageView"];
-        UIImageView *imgV = [[UIImageView alloc] initWithFrame:pageView.bounds];
-        imgV.autoresizingMask = UIViewAutoresizingFlexibleAll;
-        imgV.tag = 1001;
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] init];
-        [imgV addGestureRecognizer:tap];
-        imgV.userInteractionEnabled = YES;
-        imgV.customObject = tap;
-        
-        [pageView addSubview:imgV];
-    }
-    UIImageView *imgV = (UIImageView *)[pageView viewWithTag:1001];
-    HKAdvertisement * ad = [self.adList safetyObjectAtIndex:pageIndex];
-    [[gMediaMgr rac_getPictureForUrl:ad.adPic withType:ImageURLTypeMedium defaultPic:@"ad_default" errorPic:@"ad_default"]
-     subscribeNext:^(id x) {
-        imgV.image = x;
-    }];
-    
-    UITapGestureRecognizer *tap = imgV.customObject;
-    @weakify(self);
-    [[[tap rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
-        
-        NSString * eventstr = [NSString stringWithFormat:@"rp114-3_%ld", pageIndex];
-        [MobClick event:eventstr];
-        @strongify(self);
-        if (ad.adLink.length > 0) {
-            WebVC * vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
-            vc.url = ad.adLink;
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-    }];
-    
-    return pageView;
-}
-
-- (void)paginatorView:(SYPaginatorView *)paginatorView didScrollToPageAtIndex:(NSInteger)pageIndex
-{
-    
-}
-
-
 @end

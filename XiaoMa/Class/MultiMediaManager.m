@@ -9,73 +9,93 @@
 #import "MultiMediaManager.h"
 #import "DownloadOp.h"
 #import <CKKit.h>
-#import "JGActionSheet.h"
-#import "UIImage+Utilities.h"
-#import "EditPictureViewController.h"
+#import <SDWebImageManager.h>
 
 #define kPicCacheName    @"MultiMediaManager_PicCache"
 
-@interface MultiMediaManager()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, PECropViewControllerDelegate>
-@property (nonatomic, weak) UINavigationController *imgPickerNavCtrl;
+@interface MultiMediaManager()
 @end
 
 @implementation MultiMediaManager
 
-static MultiMediaManager *g_mediaManager;
-
-- (instancetype)initWithPicCache:(TMCache *)cache
+- (UIImage *)imageFromMemoryCacheForUrl:(NSString *)strurl
 {
-    self = [super init];
-    if (self) {
-        _picCache = cache;
+    SDWebImageManager *mgr = [SDWebImageManager sharedManager];
+    if (strurl) {
+        return [mgr.imageCache imageFromMemoryCacheForKey:[mgr cacheKeyForURL:[NSURL URLWithString:strurl]]];
     }
-    return self;
+    return nil;
 }
 
-- (RACSignal *)rac_getPictureForUrl:(NSString *)url withType:(ImageURLType)type
-                           defaultPic:(NSString *)defName errorPic:(NSString *)errName
+- (UIImage *)imageFromDiskCacheForUrl:(NSString *)strurl
 {
-    return [[self rac_getPictureForUrl:url withType:type defaultPic:defName] catch:^RACSignal *(NSError *error) {
-        if (errName.length > 0) {
-            return [RACSignal return:[UIImage imageNamed:errName]];
+    SDWebImageManager *mgr = [SDWebImageManager sharedManager];
+    if (strurl) {
+        return [mgr.imageCache imageFromDiskCacheForKey:[mgr cacheKeyForURL:[NSURL URLWithString:strurl]]];
+    }
+    return nil;
+}
+
+
+- (BOOL)cachedImageExistsForUrl:(NSString *)strurl
+{
+    if (!strurl) {
+        return NO;
+    }
+    NSURL *url = [NSURL URLWithString:strurl];
+    return [[SDWebImageManager sharedManager] cachedImageExistsForURL:url];
+}
+
+- (BOOL)diskImageExistsForUrl:(NSString *)strurl
+{
+    if (!strurl) {
+        return NO;
+    }
+    NSURL *url = [NSURL URLWithString:strurl];
+    return [[SDWebImageManager sharedManager] diskImageExistsForURL:url];
+}
+
+- (void)saveImageToCache:(UIImage *)image forUrl:(NSString *)strurl
+{
+    if (!strurl) {
+        return;
+    }
+    NSURL *url = [NSURL URLWithString:strurl];
+    [[SDWebImageManager sharedManager] saveImageToCache:image forURL:url];
+}
+
+- (RACSignal *)rac_getImageByUrl:(NSString *)strurl withType:(ImageURLType)type
+                      defaultPic:(NSString *)defName errorPic:(NSString *)errName
+{
+    return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        NSString *realStrUrl = [gMediaMgr urlWith:strurl imageType:type];
+        NSURL *url = strurl ? [NSURL URLWithString:realStrUrl] : nil;
+        SDWebImageManager *mgr = [SDWebImageManager sharedManager];
+        if (defName && url && ![mgr cachedImageExistsForURL:url]) {
+            [subscriber sendNext:[UIImage imageNamed:defName]];
         }
-        return [RACSignal error:error];
-    }];
-}
-
-- (RACSignal *)rac_getPictureForUrl:(NSString *)url withType:(ImageURLType)type defaultPic:(NSString *)defName
-{
-    if (type == ImageURLTypeThumbnail) {
-        url = [url append:@"?imageView2/1/w/128/h/128"];
-    }
-    else if (type == ImageURLTypeMedium) {
-        url = [url append:@"?imageView2/0/w/1024/h/1024"];
-    }
-    else if (type == ImageURLTypeDetail) {
-        url = [url append:@"?imageView2/0/w/375/h/375"];
-    }
-    return [self rac_getPictureForUrl:url defaultPic:defName];
-}
-
-- (RACSignal *)rac_getPictureForUrl:(NSString *)url defaultPic:(NSString *)defName
-{
-    RACSignal *signal = [self rac_getImageFromCacheWithUrl:url];
-    //从网络获取image
-    signal = [signal flattenMap:^RACStream *(UIImage *img) {
-
-        if (img) {
-            return [RACSignal return:img];
-        }
-        RACSignal *sig = [[self rac_getImageFromWebWithUrl:url] filter:^BOOL(id value) {
-            return (BOOL)value;
+        [mgr downloadImageWithURL:url options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+            if (image) {
+                [subscriber sendNext:image];
+            }
+            else if (error) {
+                if (errName.length > 0) {
+                    [subscriber sendNext:[UIImage imageNamed:errName]];
+                }
+                else {
+                    [subscriber sendError:error];
+                }
+            }
+            [subscriber sendCompleted];
         }];
-        if (defName.length > 0) {
-            sig = [sig merge:[RACSignal return:[UIImage imageNamed:defName]]];
-        }
-        return sig;
-    }];
-    
-    return [signal deliverOn:[RACScheduler mainThreadScheduler]];
+        return nil;
+    }] deliverOn:[RACScheduler mainThreadScheduler]];
+}
+
+- (NSString *)urlWith:(NSString *)url croppedSize:(CGSize)size
+{
+    NSString *suffix = [NSString stringWithFormat:@"?imageView2/1/w/%d/h/%d", (int)size.width, (int)size.height];
+    return [url append:suffix];
 }
 
 - (NSString *)urlWith:(NSString *)url imageType:(ImageURLType)type
@@ -86,243 +106,8 @@ static MultiMediaManager *g_mediaManager;
     else if (type == ImageURLTypeMedium) {
         url = [url append:@"?imageView2/0/w/1024/h/1024"];
     }
-    else if (type == ImageURLTypeDetail) {
-        url = [url append:@"?imageView2/0/w/375/h/375"];
-    }
     return url;
 }
 
-- (RACSignal *)rac_getPictureForSpecialFirstTime:(NSString *)url withType:(ImageURLType)type
-                         defaultPic:(NSString *)defName errorPic:(NSString *)errName
-{
-    if (type == ImageURLTypeThumbnail) {
-        url = [url append:@"?imageView2/1/w/128/h/128"];
-    }
-    else if (type == ImageURLTypeMedium) {
-        url = [url append:@"?imageView2/0/w/1024/h/1024"];
-    }
-    else if (type == ImageURLTypeDetail) {
-        url = [url append:@"?imageView2/0/w/375/h/375"];
-    }
-    
-    return [[self rac_getPictureWithUrlForSpecialFirstTime:url  defaultPic:defName] catch:^RACSignal *(NSError *error) {
-        if (errName.length > 0) {
-            return [RACSignal return:[UIImage imageNamed:errName]];
-        }
-        return [RACSignal error:error];
-    }];
-}
-
-- (RACSignal *)rac_getPictureWithUrlForSpecialFirstTime:(NSString *)url defaultPic:(NSString *)defName
-{
-    RACSignal *signal = [self rac_getImageFromCacheWithUrl:url];
-    //从网络获取image
-    signal = [signal flattenMap:^RACStream *(UIImage *img) {
-        
-        if (img) {
-            return [RACSignal return:img];
-        }
-        RACSignal *sig = [[self rac_getImageFromWebWithUrl:url] filter:^BOOL(id value) {
-            return (BOOL)value;
-        }];
-        if (defName.length > 0) {
-            sig = [sig merge:[RACSignal return:@"loading"]];
-        }
-        return sig;
-    }];
-    
-    return [signal deliverOn:[RACScheduler mainThreadScheduler]];
-}
-
-#pragma mark - Private Image Method
-///从本地缓存获取image
-- (RACSignal *)rac_getImageFromCacheWithUrl:(NSString *)url
-{
-    RACScheduler *sch = [RACScheduler schedulerWithPriority:RACSchedulerPriorityHigh];
-    RACSignal *signal = [[RACSignal startEagerlyWithScheduler:sch block:^(id<RACSubscriber> subscriber) {
-        
-        UIImage *img = [self.picCache imageForKey:url];
-        [subscriber sendNext:img];
-        [subscriber sendCompleted];
-    }] replay];
-    return signal;
-}
-
-- (RACSignal *)rac_getImageFromWebWithUrl:(NSString *)url
-{
-    DownloadOp *curOp = [DownloadOp firstDownloadOpInClientForReqURI:url];
-    RACSignal * downloadSig = [curOp rac_curSignal];
-    if (!downloadSig)
-    {
-        DownloadOp * op = [DownloadOp operation];
-        op.req_uri = url;
-        downloadSig = [op rac_getRequest];
-    }
-    
-    return [downloadSig map:^id(DownloadOp *op) {
-        UIImage *img;
-        if (op.rsp_data) {
-            [self.picCache.diskCache setFileData:op.rsp_data forKey:url];
-            img = [UIImage imageWithData:op.rsp_data];
-            [self.picCache.memoryCache setObject:img forKey:url];
-        }
-        return img;
-    }];
-}
-
-#pragma mark - ImagePicker
-- (RACSignal *)rac_pickAndCropPhotoInTargetVC:(UIViewController *)targetVC inView:(UIView *)view
-{
-    RACSubject *subject = [RACSubject subject];
-    __block BOOL picked = NO;
-    
-    [[self rac_pickPhotoInTargetVC:targetVC inView:view initBlock:^(UIImagePickerController *picker) {
-       
-        picker.customInfo[kImagePickerDelayDismiss] = @YES;
-        picker.customInfo[kImagePickerCompress] = @YES;
-    }] subscribeNext:^(UIImage *img) {
-        
-        picked = YES;
-        EditPictureViewController *vc = [[EditPictureViewController alloc] init];
-        vc.delegate = self;
-        vc.image = img;
-        vc.customObject = subject;
-        CGFloat width = img.size.width;
-        CGFloat height = img.size.height;
-        CGFloat length = MIN(width, height);
-        vc.imageCropRect = CGRectMake((width - length) / 2,
-                                      (height - length) / 2,
-                                      length,
-                                      length);
-        [self.imgPickerNavCtrl pushViewController:vc animated:YES];
-    } error:^(NSError *error) {
-        [subject sendCompleted];
-    } completed:^{
-        if (!picked) {
-            [subject sendCompleted];
-        }
-    }];
-    return subject;
-}
-
-- (RACSignal *)rac_pickPhotoInTargetVC:(UIViewController *)targetVC
-                                inView:(UIView *)view
-{
-    return [self rac_pickPhotoInTargetVC:targetVC inView:view initBlock:^(UIImagePickerController *picker) {
-        picker.customInfo[kImagePickerCompress] = @YES;
-    }];
-}
-
-- (RACSignal *)rac_pickPhotoInTargetVC:(UIViewController *)targetVC
-                                inView:(UIView *)view initBlock:(void (^)(UIImagePickerController *))block
-{
-    RACSubject *subject = [RACSubject subject];
-    
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选取照片" delegate:nil cancelButtonTitle:@"取消"
-                                         destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"从相册选择", nil];
-    [sheet showInView:view];
-    [[sheet rac_buttonClickedSignal] subscribeNext:^(NSNumber *x) {
-        NSInteger index = [x integerValue];
-        //拍照
-        if (index == 0)
-        {
-            if ([UIImagePickerController isCameraAvailable])
-            {
-                UIImagePickerController *controller = [[UIImagePickerController alloc] init];
-                controller.customObject = subject;
-                controller.delegate = self;
-                controller.allowsEditing = NO;
-                controller.sourceType = UIImagePickerControllerSourceTypeCamera;
-                controller.cameraDevice = UIImagePickerControllerCameraDeviceRear;
-                NSMutableArray *mediaTypes = [[NSMutableArray alloc] init];
-                [mediaTypes addObject:(__bridge NSString *)kUTTypeImage];
-                controller.mediaTypes = mediaTypes;
-                if (block) {
-                    block(controller);
-                }
-                [targetVC presentViewController:controller animated:YES completion:nil];
-            }
-            else
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"该设备不支持拍照" message:nil delegate:nil
-                                                      cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                [alert show];
-                [subject sendCompleted];
-            }
-        }
-        // 从相册中选取
-        else if (index == 1)
-        {
-            if ([UIImagePickerController isPhotoLibraryAvailable])
-            {
-                UIImagePickerController *controller = [[UIImagePickerController alloc] init];
-                controller.customObject = subject;
-                controller.delegate = self;
-                controller.allowsEditing = NO;
-                controller.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-                NSMutableArray *mediaTypes = [[NSMutableArray alloc] init];
-                [mediaTypes addObject:(__bridge NSString *)kUTTypeImage];
-                controller.mediaTypes = mediaTypes;
-                if (block) {
-                    block(controller);
-                }
-                [targetVC presentViewController:controller animated:YES completion:nil];
-            }
-            else {
-                [subject sendCompleted];
-            }
-        }
-    }];
-    return subject;
-}
-
-#pragma mark - UIImagePickerControllerDelegate
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    BOOL editing = picker.allowsEditing;
-    BOOL compress = [picker.customInfo[kImagePickerCompress] boolValue];
-    BOOL delayDismiss = [picker.customInfo[kImagePickerDelayDismiss] boolValue];
-    if (!delayDismiss) {
-        [picker dismissViewControllerAnimated:YES completion:nil];
-    }
-    
-    UIImage *img = [info objectForKey:editing ? UIImagePickerControllerEditedImage : UIImagePickerControllerOriginalImage];
-    if (compress) {
-        img = [img compressImageWithPixelSize:CGSizeMake(1024, 1024)];
-    }
-    RACSubject *subject = picker.customObject;
-    [subject sendNext:img];
-    [subject sendCompleted];
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    [picker dismissViewControllerAnimated:YES completion:nil];
-    RACSubject *subject = picker.customObject;
-    [subject sendCompleted];
-}
-
-#pragma mark - PECropViewControllerDelegate
-- (void)cropViewController:(PECropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage
-{
-    RACSubject *subject = controller.customObject;
-    [controller dismissViewControllerAnimated:YES completion:nil];
-    UIImage *image = [EditPictureViewController generateImageByAddingWatermarkWith:croppedImage];
-    [subject sendNext:image];
-    [subject sendCompleted];
-}
-
-- (void)cropViewControllerDidCancel:(PECropViewController *)controller
-{
-    RACSubject *subject = controller.customObject;
-    [controller dismissViewControllerAnimated:YES completion:nil];
-    [subject sendCompleted];
-}
-
-#pragma mark - UINavigationControllerDelegate
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
-    self.imgPickerNavCtrl = navigationController;
-}
 
 @end

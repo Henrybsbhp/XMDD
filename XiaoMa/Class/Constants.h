@@ -16,6 +16,10 @@ typedef enum : NSUInteger {
     ShopServiceAgency,
 } ShopServiceType;
 
+/**
+ 支付平台
+ */
+
 /// 支付渠道 0不要用（0表示没有选择支付渠道）
 typedef enum : NSUInteger {
     PaymentChannelInstallments = 1,
@@ -23,7 +27,9 @@ typedef enum : NSUInteger {
     PaymentChannelWechat,
     PaymentChannelABCCarWashAmount,
     PaymentChannelABCIntegral,
-    PaymentChannelCoupon
+    PaymentChannelCoupon,
+    PaymentChannelXMDDCreditCard,
+    PaymentChannelUPpay
 } PaymentChannelType;
 
 /// 支付渠道
@@ -38,7 +44,8 @@ typedef enum : NSUInteger {
     AdvertisementBankCardBinding = 3,
     AdvertisementAppSlide = 10,
     AdvertisementInsurance = 11,
-    AdvertisementTypeActivities = 20
+    AdvertisementTypeActivities = 20,
+    AdvertisementTypeLaunch = 30
 } AdvertisementType;
 
 #define IOSAPPID 1001
@@ -48,7 +55,7 @@ typedef enum : NSUInteger {
 
 #define kDefTintColor   HEXCOLOR(@"#15ac1f")
 #define kDefLineColor   HEXCOLOR(@"#ebebeb")
-#define kDarkLineColor   HEXCOLOR(@"#e0e0e0")
+#define kDarkLineColor  HEXCOLOR(@"#e0e0e0")
 
 #define kKeyChainBaseServer     @"com.huika.xmdd"
 
@@ -60,9 +67,9 @@ typedef enum : NSUInteger {
 
 // 如果是2D的话，可以设置为2.1，3.1，大于整数级，因为整数级别中只是缩放当前级别的图，不会去渲染更高等级的图。
 #define MapZoomLevel 15.1000
-
 #define PageAmount 10
 #define kVCodePromptInteval     15
+#define kLaunchBottomViewHeight     102
 
 #define AppleNavigationStr @"苹果地图"
 #define BaiduNavigationStr @"百度地图"
@@ -73,8 +80,6 @@ typedef enum : NSUInteger {
 #define gAppMgr     [AppManager sharedManager]
 #define gNetworkMgr [NetworkManager sharedManager]
 #define gToast      [HKToast sharedTosast]
-#define gAlipayHelper       ([AlipayHelper sharedHelper])
-#define gWechatHelper       ([WeChatHelper sharedHelper])
 #define gMapHelper ([MapHelper sharedHelper])
 #define gMediaMgr  ([[AppManager sharedManager] mediaMgr])
 #define gPhoneHelper  ([PhoneHelper sharedHelper])
@@ -88,7 +93,7 @@ typedef enum : NSUInteger {
 #define rescueStoryboard [UIStoryboard storyboardWithName:@"Rescue" bundle:nil]
 #define commissionStoryboard [UIStoryboard storyboardWithName:@"Commission" bundle:nil]
 #define awardStoryboard [UIStoryboard storyboardWithName:@"Award" bundle:nil]
-
+#define insuranceStoryboard [UIStoryboard storyboardWithName:@"Insurance" bundle:nil]
 
 #define LocationFail 7001
 #define WechatPayFail 7002
@@ -96,5 +101,9 @@ typedef enum : NSUInteger {
 //通知定义
 #define kNotifyRefreshMyCarList             @"com.huika.xmdd.RefreshMyCarList"
 #define kNotifyRefreshMyCarwashOrders       @"com.huika.xmdd.RefreshMyCarwashOrders"
+#define kNotifyRefreshMyBankcardList        @"com.huika.xmdd.RefreshMyBankcardList"
+#define kNotifyRefreshMyCouponList          @"com.huika.xmdd.RefreshMyCouponList"
+
+
 
 #endif

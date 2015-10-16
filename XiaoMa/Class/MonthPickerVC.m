@@ -48,7 +48,6 @@
 ///弹出日期选择器(next:NSData* error:【表示取消选取】)
 - (RACSignal *)rac_presentPickerVCInView:(UIView *)view withSelectedDate:(NSDate *)date
 {
-    
     CGSize size = CGSizeMake(CGRectGetWidth(view.frame), 280);
     MZFormSheetController *sheet = [DefaultStyleModel bottomAppearSheetCtrlWithSize:size
                                                                      viewController:self

@@ -11,9 +11,8 @@
 #import "UIView+Layer.h"
 #import "UpdateInsuranceOrderOp.h"
 #import "PayResultForInstallmentsVC.h"
-#import "AlipayHelper.h"
-#import "WeChatHelper.h"
 #import "WebVC.h"
+#import "PaymentHelper.h"
 
 @interface PayForPolicyVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -108,21 +107,22 @@
 #pragma mark - Pay
 - (void)requestAliPay:(NSString *)orderId andPrice:(CGFloat)price
 {
+    PaymentHelper *helper = [[PaymentHelper alloc] init];
+    [helper resetForAlipayWithTradeNumber:orderId productName:@"保险" productDescription:@"渠道保险购买" price:price];
     @weakify(self);
-    [gAlipayHelper payOrdWithTradeNo:orderId andProductName:@"保险" andProductDescription:@"渠道保险购买" andPrice:price];
-    [gAlipayHelper.rac_alipayResultSignal subscribeNext:^(id x) {
+    [[helper rac_startPay] subscribeNext:^(id x) {
         @strongify(self);
         [gToast showSuccess:@"支付成功"];
         [self gotoPaySuccessVC];
-    } error:^(NSError *error) {
     }];
 }
 
 - (void)requestWechatPay:(NSString *)orderId andPrice:(CGFloat)price
 {
+    PaymentHelper *helper = [[PaymentHelper alloc] init];
+    [helper resetForWeChatWithTradeNumber:orderId productName:@"保险" price:price];
     @weakify(self);
-    [gWechatHelper payOrdWithTradeNo:orderId andProductName:@"保险" andPrice:price];
-    [gWechatHelper.rac_wechatResultSignal subscribeNext:^(id x) {
+    [[helper rac_startPay] subscribeNext:^(id x) {
         @strongify(self);
         [gToast showSuccess:@"支付成功"];
         [self gotoPaySuccessVC];

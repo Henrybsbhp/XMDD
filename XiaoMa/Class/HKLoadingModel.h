@@ -32,9 +32,11 @@ typedef enum : NSInteger
 @property (nonatomic, weak, readonly) id<HKLoadingModelDelegate> delegate;
 
 - (instancetype)initWithTargetView:(UIView *)targetView delegate:(id<HKLoadingModelDelegate>)delegate;
+- (void)autoLoadWithSignal:(RACSignal *)signal;
 - (void)loadDataForTheFirstTime;
 - (void)reloadData;
 - (void)reloadDataWithDatasource:(NSArray *)datasource;
+- (void)reloadDataFromSignal:(RACSignal *)signal;
 - (void)loadMoreDataWithPromptView:(UIView *)view;
 - (void)loadMoreDataIfNeededWithIndexPath:(NSIndexPath *)indexPath nest:(BOOL)nest promptView:(UIView *)view;
 
@@ -54,6 +56,7 @@ typedef enum : NSInteger
 
 - (NSArray *)loadingModel:(HKLoadingModel *)model datasourceFromLoadedData:(NSArray *)data withType:(HKDatasourceLoadingType)type;
 - (BOOL)loadingModel:(HKLoadingModel *)model shouldLoadMoreDataWithIndexPath:(NSIndexPath *)indexPath;
+- (BOOL)loadingModelShouldAllowRefreshing:(HKLoadingModel *)model;
 - (HKLoadingAnimationType)loadingAnimationTypeForTheFirstTimeWithLoadingModel:(HKLoadingModel *)model;
 
 @end

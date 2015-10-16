@@ -9,13 +9,13 @@
 #import "WebVC.h"
 #import "NJKWebViewProgress.h"
 #import "NJKWebViewProgressView.h"
+#import "NavigationModel.h"
 
 @interface WebVC ()<NJKWebViewProgressDelegate>
 @property (nonatomic, strong) NSURLRequest *request;
-
-@property (nonatomic,strong)NJKWebViewProgress * progressProxy;
-@property (nonatomic,strong)NJKWebViewProgressView *progressView;
-
+@property (nonatomic, strong)NJKWebViewProgress * progressProxy;
+@property (nonatomic, strong)NJKWebViewProgressView *progressView;
+@property (nonatomic, strong) NavigationModel *navModel;
 @end
 
 @implementation WebVC
@@ -25,8 +25,15 @@
     [[NSURLCache sharedURLCache] removeCachedResponseForRequest:self.request];
 }
 
+- (void)awakeFromNib
+{
+    self.navModel = [[NavigationModel alloc] init];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+//    self.url = @"http://dev.xiaomadada.com/credit/ccamobile?phone=(phone)";
+    self.navModel.curNavCtrl = self.navigationController;
     [self setupProcessView];
     [self.webView.scrollView setDecelerationRate:UIScrollViewDecelerationRateNormal];
     self.webView.scalesPageToFit = YES;
@@ -58,14 +65,15 @@
 - (void)setupProcessView
 {
     _progressProxy = [[NJKWebViewProgress alloc] init];
-    _webView.delegate = _progressProxy;
     _progressProxy.webViewProxyDelegate = self;
     _progressProxy.progressDelegate = self;
+    _webView.delegate = _progressProxy;
     
     CGFloat progressBarHeight = 2.f;
     CGRect navigaitonBarBounds = self.navigationController.navigationBar.bounds;
     CGRect barFrame = CGRectMake(0, navigaitonBarBounds.size.height - progressBarHeight, navigaitonBarBounds.size.width, progressBarHeight);
     _progressView = [[NJKWebViewProgressView alloc] initWithFrame:barFrame];
+    _progressView.progress = 0;
     _progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 }
 
@@ -94,8 +102,31 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
+    DebugLog(@"%@ WebViewLoadError:%@\n,error=%@", kErrPrefix, webView.request.URL, error);
     self.webView.scrollView.contentInset = UIEdgeInsetsZero;
     self.webView.scrollView.contentSize = self.webView.frame.size;
-    [gToast showError:kDefErrorPormpt];
+    if ((error.code >= 400 && error.code < 600) || error.code == -1009) {
+        [gToast showError:kDefErrorPormpt];
+    }
+}
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    NSString *url = request.URL.absoluteString;
+    if ([url hasPrefix:@"xmdd://"]) {
+        [self.navModel pushToViewControllerByUrl:url];
+        return NO;
+    }                      
+    return YES;
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+    DebugLog(@"%@ WebViewStartLoad:%@", kReqPrefix, webView.request.URL);
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    DebugLog(@"%@ WebViewFinishLoad:%@", kRspPrefix, webView.request.URL);
 }
 @end

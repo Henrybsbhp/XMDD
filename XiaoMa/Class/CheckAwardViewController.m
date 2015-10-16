@@ -11,10 +11,12 @@
 #import "CheckUserAwardOp.h"
 #import "GainedViewController.h"
 #import "GainAwardViewController.h"
+#import "WebVC.h"
 
 @interface CheckAwardViewController ()<HKLoadingModelDelegate>
 
 @property (nonatomic, strong) HKLoadingModel *loadingModel;
+- (IBAction)helpAction:(id)sender;
 
 @end
 
@@ -32,6 +34,12 @@
 
 }
 
+- (IBAction)helpAction:(id)sender {
+    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    vc.title = @"每周礼券";
+    vc.url = @"http://www.xiaomadada.com/apphtml/meizhouliquan.html";
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 #pragma mark - HKLoadingModelDelegate
 - (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
@@ -60,6 +68,7 @@
         GainedViewController * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"GainedViewController"];
         vc.leftDay = op.rsp_leftday;
         vc.amount = op.rsp_amount;
+        vc.isCouponUsed = op.rsp_isused;
         [self addChildViewController:vc];
         [self.view addSubview:vc.view];
         vc.view.frame = self.view.bounds;
@@ -74,6 +83,5 @@
     }
 
 }
-
 
 @end

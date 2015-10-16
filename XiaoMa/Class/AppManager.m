@@ -37,7 +37,7 @@
         cache.diskCache.byteLimit = 512 * 1024 * 1024;
         _dataCache = cache;
         //多媒体管理器
-        _mediaMgr = [[MultiMediaManager alloc] initWithPicCache:_dataCache];
+        _mediaMgr = [[MultiMediaManager alloc] init];
         
         cache = [[TMCache alloc] initWithName:@"PromptionCache"];
         cache.diskCache.byteLimit = 200 * 1024 * 1024; // 200M
@@ -111,6 +111,23 @@
 - (id)getInfo:(NSString *)key
 {
     return [self.promptionCache objectForKey:key];
+}
+
+- (NSArray *)getProvinceArray
+{
+    NSArray * array = @[@{@"浙":@"(浙江)"},@{@"沪":@"(上海)"},@{@"京":@"(北京)"},
+                        @{@"粤":@"(广东)"},@{@"津":@"(天津)"},@{@"苏":@"(江苏)"},
+                        @{@"川":@"(四川)"},@{@"辽":@"(辽宁)"},@{@"黑":@"(黑龙江)"},
+                        @{@"鲁":@"(山东)"},@{@"湘":@"(湖南)"},
+                        @{@"蒙":@"(内蒙古)"},@{@"甘":@"(甘肃)"},@{@"冀":@"(河北)"},
+                        @{@"青":@"(青海)"},@{@"新":@"(新疆)"},@{@"陕":@"(陕西)"},
+                        @{@"宁":@"(宁夏)"},@{@"皖":@"(安徽)"},@{@"豫":@"(河南)"},
+                        @{@"鄂":@"(湖北)"},@{@"晋":@"(山西)"},@{@"渝":@"(重庆)"},
+                        @{@"黔":@"(贵州)"},@{@"贵":@"(贵州)"},@{@"桂":@"(广西)"},
+                        @{@"藏":@"(西藏)"},@{@"云":@"(云南)"},@{@"赣":@"(江西)"},
+                        @{@"吉":@"(吉林)"},@{@"闽":@"(福建)"},@{@"琼":@"(海南)"},
+                        @{@"使":@"(大使馆)"}];
+    return array;
 }
 
 #pragma mark - 升级相关

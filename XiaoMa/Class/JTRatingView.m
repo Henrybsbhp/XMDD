@@ -10,15 +10,10 @@
 #import <ReactiveCocoa.h>
 #import <CKKit.h>
 
-#define kJTNormalRatingImage    @"nb_star"
-#define kJTHighlightRatingImage @"nb_star1"
-#define kJTHalfRatingImage      @"nb_start2"
-#define kJTRatingViewMargin     0
-#define kJTRatingMaxCount       5
-#define kJTRatingImageBaseTag   100000
+
 
 @interface JTRatingView ()
-@property (nonatomic, strong) RACSubject *rac_subject;
+
 @end
 @implementation JTRatingView
 
@@ -46,9 +41,10 @@
 
 - (void)commInit
 {
-    _imgWidth = 13;
-    _imgHeight = 12;
-    _imgSpacing = 3;
+    _rac_subject = [RACSubject subject];
+    _imgWidth = _imgWidth ? _imgWidth : 13;
+    _imgHeight = _imgHeight ? _imgHeight : 13;
+    _imgSpacing = _imgSpacing ? _imgSpacing : 3;
     _normalImageName = kJTNormalRatingImage;
     _highlightImageName = kJTHighlightRatingImage;
     for (int i = 0; i < kJTRatingMaxCount; i++)
@@ -101,12 +97,15 @@
             imgV.image = [UIImage imageNamed:_highlightImageName];
         }
     }
+    
+    [self.rac_subject sendNext:@(v)];
+//    [self.rac_subject sendCompleted];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     //暂时只在底层这里找到可以发送到友盟的事件
-    [MobClick event:@"rp321-1"];
+    [MobClick event:@"rp110-8"];
     [self touchesMoved:touches withEvent:event];
 }
 

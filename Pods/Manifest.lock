@@ -26,7 +26,7 @@ PODS:
   - AMap2DMap (2.4.2)
   - AMapSearch (2.4.1)
   - cdebug (0.1.1)
-  - CKKit (0.1.0)
+  - CKKit (0.1.2)
   - CocoaLumberjack (2.0.0):
     - CocoaLumberjack/Default (= 2.0.0)
     - CocoaLumberjack/Extensions (= 2.0.0)
@@ -51,6 +51,7 @@ PODS:
     - FoundationExtension/FoundationExtension
   - GIKPopoverBackgroundView/Core (0.0.1)
   - IQKeyboardManager (3.2.0.3)
+  - JT3DScrollView (1.0.2)
   - Masonry (0.6.1)
   - MZAppearance (1.1.5)
   - MZFormSheetController (2.4.1):
@@ -58,6 +59,7 @@ PODS:
     - MZFormSheetController/Core (= 2.4.1)
   - MZFormSheetController/Core (2.4.1):
     - MZAppearance (~> 1.1.3)
+  - pop (1.0.7)
   - ReactiveCocoa (2.3.1):
     - ReactiveCocoa/UI (= 2.3.1)
   - ReactiveCocoa/Core (2.3.1):
@@ -65,8 +67,12 @@ PODS:
   - ReactiveCocoa/no-arc (2.3.1)
   - ReactiveCocoa/UI (2.3.1):
     - ReactiveCocoa/Core
+  - SDWebImage (3.7.2):
+    - SDWebImage/Core (= 3.7.2)
+  - SDWebImage/Core (3.7.2)
   - SevenSwitch (1.3.0)
   - SFHFKeychainUtils (0.0.1)
+  - TMCache (2.1.0)
   - UI7Kit (0.9.22):
     - cdebug
     - FoundationExtension
@@ -83,10 +89,14 @@ DEPENDENCIES:
   - CocoaLumberjack (= 2.0.0)
   - FoundationExtension (= 0.60)
   - IQKeyboardManager (= 3.2.0.3)
+  - JT3DScrollView (= 1.0.2)
   - Masonry (= 0.6.1)
   - MZFormSheetController (= 2.4.1)
+  - pop (= 1.0.7)
   - ReactiveCocoa (= 2.3.1)
+  - SDWebImage (= 3.7.2)
   - SFHFKeychainUtils (= 0.0.1)
+  - TMCache (= 2.1.0)
   - UI7Kit (= 0.9.22)
   - UMengAnalytics (= 3.5.8)
 
@@ -96,7 +106,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   CKKit:
-    :commit: ce946554561b67f067134ffdb165cd7974203f53
+    :commit: 0399e618938f5ad7347abd480a7c6546b373159d
     :git: ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git
 
 SPEC CHECKSUMS:
@@ -105,17 +115,21 @@ SPEC CHECKSUMS:
   AMap2DMap: 6f19f93b3410c8105c34ef93dd9dbb537f7ea897
   AMapSearch: e48c562fc7713f7e5f719863a15141a847e16c04
   cdebug: 32bf88e54d22ad187b23122872b3977e5d0c1bde
-  CKKit: 81e829bb8d46b98ec0eaf0646e7c283e75e89c43
+  CKKit: bdaf97a22e37faa614619336344673f93f9faac7
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   FoundationExtension: 76157113e6486ad95ea2be32a06f0d3f48172d56
   GIKPopoverBackgroundView: 9cde2752e608df4d1e35ebca12af762b9a7dca3e
   IQKeyboardManager: 7b071d1284b47b1c0c19891a042c2c65f118fa85
+  JT3DScrollView: 863773b53a2fd9b6599835ea4202843ad60535fd
   Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
   MZAppearance: 6e9dc64e42074c0a19812a327f590746c3283bab
   MZFormSheetController: bcc262cb8b682bdc17fa88177b4f34ac26f0dcbe
+  pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   ReactiveCocoa: 334468a83b2c5f669f7cfb9a084415ee23219b4f
+  SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   SevenSwitch: 4faf7584ea9fcfa053ab0375353531c402ed2bf0
   SFHFKeychainUtils: 9576b411a79a058f4d5381ace6f3242b9a62e664
+  TMCache: 95ebcc9b3c7e90fb5fd8fc3036cba3aa781c9bed
   UI7Kit: a2be10b7ced09944b8d2dca5d373743665d29639
   UMengAnalytics: 020551718ba37da017bd85ac4c38ffba2774f3ce
 

@@ -15,8 +15,15 @@ typedef enum : NSUInteger {
     CouponTypeCash,//现金抵扣
     CouponTypeAgency,//免费年检代办
     CouponTypeInsurance,//保险代金券
-    CouponTypeRescue//免费道路救援
+    CouponTypeRescue,//免费道路救援
+    CouponTypeCZBankCarWash = 7// 浙商小马达达洗车券
 } CouponType;
+
+typedef enum : NSUInteger {
+    CouponNewTypeCarWash = 1, //洗车券
+    CouponNewTypeInsurance, //保险券
+    CouponNewTypeOthers //其他券
+} CouponNewType;
 
 typedef enum : NSUInteger {
     CouponUse = 1,//已使用
@@ -35,13 +42,16 @@ typedef enum : NSUInteger {
 @property (nonatomic)CGFloat couponAmount;
 
 ///优惠券描述
-@property (nonatomic,copy)NSString * couponDescription;
+@property (nonatomic, copy)NSString * couponDescription;
 
 ///是否已使用
 @property (nonatomic)BOOL used;
 
 ///是否有效
 @property (nonatomic)BOOL valid;
+
+///是否可以分享
+@property (nonatomic)BOOL isshareble;
 
 ///有效期开始
 @property (nonatomic,strong)NSDate *validsince;
@@ -52,7 +62,21 @@ typedef enum : NSUInteger {
 ///优惠券类型
 @property (nonatomic)CouponType conponType;
 
+///优惠券颜色
+@property (nonatomic, copy)NSString * rgbColor;
+
+///优惠券logo
+@property (nonatomic, copy)NSString * logo;
+
+///优惠券子名字
+@property (nonatomic, copy)NSString * subname;
+
+
+///以下为优惠券详情的字段
+@property (nonatomic, strong)NSArray * useguide;
+
 + (instancetype)couponWithJSONResponse:(NSDictionary *)rsp;
 
++ (instancetype)couponDetailsWithJSONResponse:(NSDictionary *)rsp;
 
 @end

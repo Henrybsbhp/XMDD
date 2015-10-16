@@ -15,6 +15,7 @@
 #import "UIImage+Utilities.h"
 #import "UploadFileOp.h"
 #import "DownloadOp.h"
+#import "HKImagePicker.h"
 
 @interface MyInfoViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
@@ -53,7 +54,7 @@
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp302"];
-    [SVProgressHUD dismiss];
+    [gToast dismiss];
 }
 
 -(void)dealloc
@@ -66,8 +67,7 @@
 {
     @weakify(self);
     RACDisposable *dis = [[[RACObserve(gAppMgr.myUser, avatarUrl) distinctUntilChanged] flattenMap:^RACStream *(id value) {
-        
-        return [gMediaMgr rac_getPictureForUrl:value withType:ImageURLTypeMedium defaultPic:nil errorPic:@"cm_avatar"];
+        return [gMediaMgr rac_getImageByUrl:value withType:ImageURLTypeMedium defaultPic:nil errorPic:@"cm_avatar"];
     }] subscribeNext:^(id x) {
         
         @strongify(self);
@@ -228,11 +228,11 @@
     if (indexPath.row == 0)
     {
         [MobClick event:@"rp302-1"];
+        HKImagePicker *picker = [HKImagePicker imagePicker];
+        picker.allowsEditing = YES;
+        picker.shouldShowBigImage = NO;
         @weakify(self);
-        [[gAppMgr.mediaMgr rac_pickPhotoInTargetVC:self inView:self.view initBlock:^(UIImagePickerController *picker) {
-            
-            picker.allowsEditing = YES;
-        }] subscribeNext:^(id x) {
+        [[picker rac_pickImageInTargetVC:self inView:self.navigationController.view] subscribeNext:^(id x) {
             
             @strongify(self);
             [self pickerAvatar:x];
@@ -320,7 +320,7 @@
 - (void)pickerAvatar:(UIImage *)avatar
 {
     UploadFileOp *op = [UploadFileOp new];
-    op.req_fileType = @"jpg";
+    op.req_fileExtType = @"jpg";
     [op setFileArray:@[avatar] withGetDataBlock:^NSData *(UIImage *img) {
         return UIImageJPEGRepresentation(img, 1.0);
     }];

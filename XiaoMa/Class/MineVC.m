@@ -9,7 +9,6 @@
 #import "MineVC.h"
 #import "XiaoMa.h"
 #import "GetUserBaseInfoOp.h"
-#import "MyCarListVC.h"
 #import "MyOrderListVC.h"
 #import "MyCouponVC.h"
 #import "MyInfoViewController.h"
@@ -18,6 +17,9 @@
 #import "MyCollectionViewController.h"
 #import "CouponPkgViewController.h"
 #import "UIView+ShowDot.h"
+#import "CardDetailVC.h"
+#import "UnbundlingVC.h"
+#import "CarListVC.h"
 
 @interface MineVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -27,7 +29,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *accountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *PlaceholdLabel;
-@property (nonatomic, assign) BOOL isViewAppearing;
 @end
 
 @implementation MineVC
@@ -45,31 +46,14 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [MobClick beginLogPageView:@"rp301"];
     [super viewWillAppear:animated];
-    self.isViewAppearing = YES;
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    self.isViewAppearing = NO;
+    [MobClick beginLogPageView:@"rp301"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp301"];
-    //如果当前视图的导航条没有发生跳转，则不做处理
-    if (![self.navigationController.topViewController isEqual:self]) {
-        //如果当前视图的viewWillAppear和viewWillDisappear的间隔太短会导致navigationBar隐藏显示不正常
-        //所以此时应该禁止navigationBar的动画,并在主线程中进行
-        if (self.isViewAppearing) {
-            CKAsyncMainQueue(^{
-                [self.navigationController setNavigationBarHidden:NO animated:NO];
-            });
-        }
-    }
 }
 
 - (void)dealloc
@@ -108,11 +92,7 @@
 {
     if (gAppMgr.myUser.avatarUrl.length)
     {
-        [[gMediaMgr rac_getPictureForUrl:gAppMgr.myUser.avatarUrl withType:ImageURLTypeMedium defaultPic:@"cm_avatar" errorPic:@"cm_avatar"] subscribeNext:^(UIImage * image) {
-            
-//            gAppMgr.myUser.avatar = image;
-            self.avatarView.image = image;
-        }];
+        [self.avatarView setImageByUrl:gAppMgr.myUser.avatarUrl withType:ImageURLTypeMedium defImage:@"cm_avatar" errorImage:@"cm_avatar"];
     }
     else
     {
@@ -141,7 +121,7 @@
             RAC(self.accountLabel, text) = RACObserve(user, userID);
             UIImageView *avatarView = self.avatarView;
             [[[RACObserve(user, avatarUrl) distinctUntilChanged] flattenMap:^RACStream *(NSString *url) {
-                return [gMediaMgr rac_getPictureForUrl:url withType:ImageURLTypeMedium defaultPic:@"cm_avatar" errorPic:@"cm_avatar"];
+                return [gMediaMgr rac_getImageByUrl:url withType:ImageURLTypeMedium defaultPic:@"cm_avatar" errorPic:@"cm_avatar"];
             }] subscribeNext:^(id x) {
                 avatarView.image = x;
             }];
@@ -189,6 +169,9 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 1) {
+        return 2;
+    }
     if (section == 2) {
         return 3;
     }
@@ -265,8 +248,14 @@
     UILabel *subTitleL = (UILabel *)[cell.contentView viewWithTag:1003];
     subTitleL.text = nil;
     if (indexPath.section == 1) {
-        iconV.image = [UIImage imageNamed:@"me_car"];
-        titleL.text = @"爱车";
+        if (indexPath.row == 0) {
+            iconV.image = [UIImage imageNamed:@"me_car"];
+            titleL.text = @"爱车";
+        }
+        else if (indexPath.row == 1) {
+            iconV.image = [UIImage imageNamed:@"me_bank"];
+            titleL.text = @"银行卡";
+        }
     }
     else if (indexPath.section == 2) {
         if (indexPath.row == 0) {
@@ -299,10 +288,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1) {
+    if (indexPath.section == 1 && indexPath.row == 0) {
         [MobClick event:@"rp301-4"];
         if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-            MyCarListVC *vc = [UIStoryboard vcWithId:@"MyCarListVC" inStoryboard:@"Mine"];
+            CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
+    else if (indexPath.section == 1 && indexPath.row == 1) {
+        [MobClick event:@"rp301-10"];
+        if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+            UIViewController *vc = [UIStoryboard vcWithId:@"MyBankVC" inStoryboard:@"Bank"];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }

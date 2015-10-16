@@ -9,6 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "HKServiceOrder.h"
 
+typedef enum : NSUInteger {
+    BeforeComment,
+    Commenting,
+    Commented,
+    CommentError
+} CommentStatus;
+
 @interface PaymentSuccessVC : UIViewController
 
 @property (nonatomic, weak) UIViewController *originVC;
@@ -16,4 +23,9 @@
 @property (nonatomic,copy)NSString * subtitle;
 
 @property (nonatomic,strong)HKServiceOrder * order;
+
+@property (nonatomic)CommentStatus commentStatus;
+
+@property (nonatomic, copy) void (^commentSuccess)(void);
+
 @end

@@ -45,7 +45,9 @@
 {
     return [[[GetUserCarOp operation] rac_postRequest] map:^id(GetUserCarOp *op) {
         JTQueue *queue = [[JTQueue alloc] init];
-        for (HKMyCar *car in op.rsp_carArray) {
+        for (NSInteger index = 0; index < op.rsp_carArray.count; index++) {
+            HKMyCar *car = op.rsp_carArray[index];
+            car.tintColorType = [self carTintColorTypeAtIndex:index];
             [queue addObject:car forKey:car.carId];
         }
         return queue;
@@ -59,6 +61,7 @@
     
     return [[op rac_postRequest] doNext:^(AddCarOp * addOp) {
         car.carId = addOp.rsp_carId;
+        car.tintColorType = [self carTintColorTypeAtIndex:[self carCache].count];
         [[self carCache] addObject:car forKey:car.carId];
         [self setDefaultCarIfNeeded:car];
         [self updateCache:[self carCache] refreshTime:NO];
@@ -130,7 +133,8 @@
 
 + (NSString *)verifiedLicenseNumberFrom:(NSString *)licenseNumber
 {
-    NSString *pattern = @"^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵黔粵青藏川宁琼使][a-z][a-z0-9]{5}[警港澳领学]{0,1}$";
+//    NSString *pattern = @"^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵黔粤粵青藏川宁琼使][a-z][a-z0-9]{5}[警港澳领学]{0,1}$";
+    NSString *pattern = @"^[a-z][a-z0-9]{5}[警港澳领学]{0,1}$";
     NSRegularExpression *regexp = [[NSRegularExpression alloc] initWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
     NSTextCheckingResult *rst = [regexp firstMatchInString:licenseNumber options:0 range:NSMakeRange(0, [licenseNumber length])];
     if (!rst) {
@@ -139,4 +143,14 @@
     return [licenseNumber uppercaseString];
 }
 
+- (HKCarTintColorType)carTintColorTypeAtIndex:(NSInteger)index
+{
+    HKCarTintColorType color = index % 5 + 1;
+    HKMyCar *prevCar = [self.cache objectAtIndex:index-1];
+    HKMyCar *nextCar = [self.cache objectAtIndex:index+1];
+    if (color == prevCar.tintColorType || color == nextCar.tintColorType) {
+        color = nextCar.tintColorType % 5 + 1;
+    }
+    return color;
+}
 @end

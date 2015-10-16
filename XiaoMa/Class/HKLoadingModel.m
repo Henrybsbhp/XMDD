@@ -68,7 +68,11 @@
             self.datasource = [NSMutableArray arrayWithArray:data];
         }
         if (data.count > 0) {
-            if ([self.targetView isKindOfClass:[UIScrollView class]]) {
+            BOOL allowRefeshing = YES;
+            if ([self.delegate respondsToSelector:@selector(loadingModelShouldAllowRefreshing:)]) {
+                allowRefeshing = [self.delegate loadingModelShouldAllowRefreshing:self];
+            }
+            if (allowRefeshing && [self.targetView isKindOfClass:[UIScrollView class]]) {
                 //先移除所有事件
                 [[(UIScrollView *)self.targetView refreshView] removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
                 [[(UIScrollView *)self.targetView refreshView] addTarget:self
@@ -137,9 +141,7 @@
 
 - (void)reloadDataWithDatasource:(NSArray *)datasource
 {
-    if (self.datasource.count > 0 || datasource.count > 0) {
-        [self reloadDataFromSignal:[RACSignal return:datasource]];
-    }
+    [self reloadDataFromSignal:[RACSignal return:datasource]];
 }
 
 - (void)reloadDataFromSignal:(RACSignal *)signal

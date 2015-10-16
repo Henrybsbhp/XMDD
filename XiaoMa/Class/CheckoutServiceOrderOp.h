@@ -8,11 +8,6 @@
 
 #import "BaseOp.h"
 
-typedef enum : NSUInteger {
-    PayWithAlipay,
-    PayWithWechat
-} PaymentPlatform;
-
 @interface CheckoutServiceOrderOp : BaseOp
 
 @property (nonatomic,copy)NSNumber *serviceid;
@@ -32,8 +27,6 @@ typedef enum : NSUInteger {
 ///经纬度
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 
-///支付平台，这个不会用到接口中，只是做个储存
-@property (nonatomic)PaymentPlatform  platform;
 
 ///订单id
 @property (nonatomic,strong)NSNumber * rsp_orderid;

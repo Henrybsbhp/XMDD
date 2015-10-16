@@ -30,6 +30,7 @@
         SubInsurance * subIns = [[SubInsurance alloc] init];
         subIns.coveragerName = dict[@"name"];
         subIns.coveragerValue = dict[@"value"];
+        subIns.coveragerId = [dict integerParamForName:@"pid"];
         [tarray addObject:subIns];
     }
     insurance.subInsuranceArray = tarray;
@@ -37,3 +38,21 @@
 }
 
 @end
+
+
+@implementation InsuranceDiscount
+
++ (instancetype)insuranceDiscountWithJSONResponse:(NSDictionary *)rsp
+{
+    if (!rsp)
+    {
+        return nil;
+    }
+    InsuranceDiscount * disIns = [[InsuranceDiscount alloc] init];
+    disIns.pid = [rsp integerParamForName:@"pid"];
+    disIns.discountrate = [rsp floatParamForName:@"discountrate"];
+    return disIns;
+}
+
+@end
+

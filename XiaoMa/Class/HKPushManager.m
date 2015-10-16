@@ -62,6 +62,7 @@
     [[[[sig1 merge:sig2] skip:1] flattenMap:^RACStream *(id value) {
         @strongify(self);
         self.bindOp.token = gNetworkMgr.token;
+        self.bindOp.skey = gNetworkMgr.skey;
         return [[self.bindOp rac_postRequest] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }];

@@ -9,7 +9,7 @@
 #import "UsedCouponVModel.h"
 #import "XiaoMa.h"
 #import "HKCoupon.h"
-#import "GetUserCouponOp.h"
+#import "GetUserCouponV2Op.h"
 
 @interface UsedCouponVModel ()<HKLoadingModelDelegate>
 @property (nonatomic, assign) NSInteger curPageno;
@@ -49,10 +49,10 @@
         self.curPageno = 0;
     }
 
-    GetUserCouponOp * op = [GetUserCouponOp operation];
+    GetUserCouponV2Op *op = [GetUserCouponV2Op operation];
     op.used = 1;
     op.pageno = self.curPageno+1;
-    return [[op rac_postRequest] map:^id(GetUserCouponOp *rspOp) {
+    return [[op rac_postRequest] map:^id(GetUserCouponV2Op *rspOp) {
         
         self.curPageno = self.curPageno+1;
         return rspOp.rsp_couponsArray;
@@ -81,7 +81,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 85;
+    return 90;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -90,7 +90,7 @@
     UIImageView *backgroundImg = (UIImageView *)[cell.contentView viewWithTag:1001];
     
     //已使用
-    UIImage * used = [[UIImage imageNamed:@"me_ticket_bg"] imageByFilledWithColor:[UIColor colorWithHex:@"#d0d0d0" alpha:1.0f]];//过期或已使用
+    UIImage * used = [[UIImage imageNamed:@"coupon_background"] imageByFilledWithColor:[UIColor colorWithHex:@"#d0d0d0" alpha:1.0f]];//过期或已使用
     UIImage * usableTicket = [used resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];
     
     //优惠名称

@@ -15,6 +15,8 @@
 #import "JTRatingView.h"
 #import "HKLoadingModel.h"
 #import "GetCarwashOrderOp.h"
+#import "ShopDetailVC.h"
+#import "PaymentSuccessVC.h"
 
 @interface CarwashOrderDetailVC ()<UITableViewDelegate, UITableViewDataSource, HKLoadingModelDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -81,7 +83,7 @@
     self.detailItems = @[RACTuplePack(@"服务项目：", self.order.servicename),
                          RACTuplePack(@"项目价格：", strpirce),
                          RACTuplePack(@"我的车辆：", self.order.licencenumber),
-                         RACTuplePack(@"支付方式：", [self.order paymentForCurrentChannel]),
+                         RACTuplePack(@"支付方式：", self.order.paydesc),
                          RACTuplePack(@"支付时间：", [self.order.txtime dateFormatForYYYYMMddHHmm])];
     [self.tableView reloadData];
 }
@@ -90,7 +92,8 @@
 - (IBAction)actionComment:(id)sender
 {
     [MobClick event:@"rp320-1"];
-    CarwashOrderCommentVC *vc = [UIStoryboard vcWithId:@"CarwashOrderCommentVC" inStoryboard:@"Mine"];
+    
+    PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
     vc.order = self.order;
     [vc setCommentSuccess:^{
         [self reloadTableView];
@@ -100,6 +103,12 @@
 #pragma mark - UITableViewDelegate and UITableViewDatasource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 0)
+    {
+        ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
+        vc.shop = self.order.shop;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
     [MobClick event:@"rp320-2"];
 }
 
@@ -188,9 +197,8 @@
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1003];
     JTShop *shop = self.order.shop;
-    [[[gAppMgr.mediaMgr rac_getPictureForUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defaultPic:@"cm_shop" errorPic:@"cm_shop"] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        logoV.image = x;
-    }];
+    
+    [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
     titleL.text = shop.shopName;
     addrL.text = shop.shopAddress;
 
@@ -245,10 +253,8 @@
     timeL.text = [self.order.ratetime dateFormatForYYMMdd2];
     ratingV.ratingValue = self.order.rating;
     contentL.text = self.order.comment;
-    [[gMediaMgr rac_getPictureForUrl:gAppMgr.myUser.avatarUrl withType:ImageURLTypeThumbnail
-                          defaultPic:@"avatar_default" errorPic:@"avatar_default"] subscribeNext:^(id x) {
-        avatarV.image = x;
-    }];
+    
+    [avatarV setImageByUrl:gAppMgr.myUser.avatarUrl withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
     
     return cell;
 }

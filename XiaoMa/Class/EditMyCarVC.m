@@ -13,8 +13,10 @@
 #import "DeleteCarOp.h"
 #import "DatePickerVC.h"
 #import "UIView+Shake.h"
-#import "PickerAutomobileBrandVC.h"
+#import "PickAutomobileBrandVC.h"
 #import "MyCarsModel.h"
+#import "CollectionChooseVC.h"
+#import "ProvinceChooseView.h"
 
 
 @interface EditMyCarVC ()<UITableViewDataSource,UITableViewDelegate, UITextFieldDelegate>
@@ -85,18 +87,19 @@
 - (void)setupTableView
 {
     self.showHeaderView = self.originCar.status == 0 || self.originCar.status == 3;
-
+    
     if (self.originCar) {
         _curCar = [self.originCar copy];
         _isEditingModel = YES;
     }
     else {
-        _curCar = [HKMyCar new];
+        _curCar = [[HKMyCar alloc] init];
+        _curCar.licenceArea  = [self getCurrentProvince];
         _curCar.isDefault = YES;
         _isEditingModel = NO;
     }
     
-    if (!_isEditingModel) {
+    if (self.model.allowAutoChangeSelectedCar || !_isEditingModel || !(self.curCar.editMask & HKCarEditableDelete)) {
         [self.bottomBar removeFromSuperview];
     }
     
@@ -106,10 +109,11 @@
 - (void)actionSave:(id)sender
 {
     [MobClick event:@"rp312-12"];
-    if ([self sharkCellIfErrorAtIndex:0 withData:self.curCar.licencenumber errorMsg:@"车牌号码不能为空"]) {
+    if ([self sharkCellIfErrorAtIndex:0 withData:self.curCar.licenceSuffix errorMsg:@"车牌号码不能为空"]) {
         return;
     }
-    if (![MyCarsModel verifiedLicenseNumberFrom:self.curCar.licencenumber]) {
+    
+    if (![MyCarsModel verifiedLicenseNumberFrom:self.curCar.licenceSuffix]) {
         [self sharkCellIfErrorAtIndex:0 withData:nil errorMsg:@"请输入正确的车牌号码"];
         return;
     }
@@ -122,6 +126,7 @@
     if ([self sharkCellIfErrorAtIndex:3 withData:self.curCar.model errorMsg:@"具体车系不能为空"]) {
         return;
     }
+    
     @weakify(self);
     RACSignal *sig;
     if (self.isEditingModel) {
@@ -139,7 +144,15 @@
         @strongify(self);
         [gToast showSuccess:@"保存成功!"];
         self.isDrivingLicenseNeedSave = NO;
-        [self.navigationController popViewControllerAnimated:YES];
+        if (self.model.finishBlock) {
+            self.model.finishBlock(self.curCar);
+        }
+        if (self.model.originVC) {
+            [self.navigationController popToViewController:self.model.originVC animated:YES];
+        }
+        else {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
@@ -149,18 +162,36 @@
 - (void) actionCancel:(id)sender
 {
     [MobClick event:@"312-13"];
-    if (!self.isDrivingLicenseNeedSave) {
-        [self.navigationController popViewControllerAnimated:YES];
+    
+    if (self.isEditingModel && ![self.curCar isDifferentFromAnother:self.originCar]) {
+        if (self.model.originVC) {
+            [self.navigationController popToViewController:self.model.originVC animated:YES];
+        }
+        else {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        return;
+    }
+    if (!self.isEditingModel && !self.isDrivingLicenseNeedSave) {
+        if (self.model.originVC) {
+            [self.navigationController popToViewController:self.model.originVC animated:YES];
+        }
+        else {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
         return;
     }
     if (self.isEditingModel) {
+        [self.view endEditing:YES];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您未保存信息，是否现在保存？" delegate:nil
                                               cancelButtonTitle:@"算了" otherButtonTitles:@"保存", nil];
         [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
-            //算了n
+            //算了
             if ([number integerValue] == 0) {
                 [MobClick event:@"rp312-14"];
-                [self.navigationController popViewControllerAnimated:YES];
+                CKAfter(0.1, ^{
+                    [self.navigationController popViewControllerAnimated:YES];
+                });
             }
             //保存
             else {
@@ -171,13 +202,16 @@
         [alert show];
     }
     else {
+        [self.view endEditing:YES];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您未保存行驶证，需填写相关必填项并点击“保存”后方能添加爱车。"
                                                        delegate:nil cancelButtonTitle:@"放弃添加" otherButtonTitles:@"继续添加", nil];
         [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
             //放弃
             if ([number integerValue] == 0) {
                 [MobClick event:@"rp312-16"];
-                [self.navigationController popViewControllerAnimated:YES];
+                CKAfter(0.1, ^{
+                    [self.navigationController popViewControllerAnimated:YES];
+                });
             }
             //继续
             else {
@@ -207,7 +241,7 @@
         
         [gToast showError:error.domain];
     }];
-
+    
 }
 
 - (IBAction)actionUpload:(id)sender
@@ -266,9 +300,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-
+    
     if (indexPath.section == 0 && self.showHeaderView) {
         cell = [self cellForHeaderViewAtIndexPath:indexPath];
+    }
+    else if (indexPath.row == 0)
+    {
+        cell = [self cellForLicenceAtIndexPath:indexPath];
     }
     else if (indexPath.row == 2 || indexPath.row == 3) {
         cell = [self cellForType2AtIndexPath:indexPath];
@@ -306,7 +344,7 @@
          subscribeNext:^(NSDate *date) {
              @strongify(self);
              self.curCar.purchasedate = date;
-        }];
+         }];
     }
     //年检到期日
     else if (indexPath.row == 6) {
@@ -326,7 +364,7 @@
     else if (indexPath.row == 2) {
         [MobClick event:@"rp312-4"];
         [self.view endEditing:YES];
-        PickerAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
+        PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Car"];
         vc.originVC = self;
         [vc setCompleted:^(NSString *brand, NSString *series) {
             self.curCar.brand = brand;
@@ -338,7 +376,7 @@
     else if (indexPath.row == 3) {
         [MobClick event:@"rp312-5"];
         [self.view endEditing:YES];
-        PickerAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Mine"];
+        PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Car"];
         vc.originVC = self;
         [vc setCompleted:^(NSString *brand, NSString *series) {
             self.curCar.brand = brand;
@@ -346,7 +384,7 @@
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }
-
+    
     else {
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
@@ -354,7 +392,7 @@
             [field becomeFirstResponder];
         }
     }
- }
+}
 
 #pragma mark - Cell
 - (UITableViewCell *)cellForHeaderViewAtIndexPath:(NSIndexPath *)indexPath
@@ -362,12 +400,63 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"HeaderCell" forIndexPath:indexPath];
     UILabel *descLabel = (UILabel *)[cell.contentView viewWithTag:1002];
     UIButton *uploadBtn = (UIButton *)[cell.contentView viewWithTag:1003];
-    [self.model setupUploadBtn:uploadBtn andDescLabel:descLabel forStatus:self.originCar.status];
+    [self.model setupUploadBtn:uploadBtn andDescLabel:descLabel forCar:self.originCar];
     
     @weakify(self);
     [[[uploadBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
         [self actionUpload:nil];
+    }];
+    
+    return cell;
+}
+
+- (JTTableViewCell *)cellForLicenceAtIndexPath:(NSIndexPath *)indexPath
+{
+    JTTableViewCell *cell = (JTTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"LicenceCell" forIndexPath:indexPath];
+    UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
+    UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
+    [field mas_updateConstraints:^(MASConstraintMaker *make) {
+        
+        make.width.mas_equalTo(200);
+    }];
+    UILabel *unitL = (UILabel *)[cell.contentView viewWithTag:1003];
+    ProvinceChooseView * paramView = (ProvinceChooseView * )[cell searchViewWithTag:1004];
+    
+    HKMyCar *car = self.curCar;
+    paramView.displayLb.text = self.curCar.licenceArea.length ? self.curCar.licenceArea : [self getCurrentProvince];
+    
+    field.delegate = self;
+    field.keyboardType = UIKeyboardTypeDefault;
+    field.customObject = indexPath;
+    BOOL fieldEditable = YES;
+    if (indexPath.row == 0) {
+        titleL.attributedText = [self attrStrWithTitle:@"车牌号码" asterisk:YES];
+        field.text = car.licenceSuffix;
+        unitL.text = nil;
+        fieldEditable = car.editMask & HKCarEditableEdit;
+        paramView.userInteractionEnabled = fieldEditable;
+        field.userInteractionEnabled = fieldEditable;
+        [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            car.licenceSuffix = [x uppercaseString];
+        }];
+    }
+    
+    
+    [[[paramView rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        CollectionChooseVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"CollectionChooseVC"];
+        JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
+        vc.datasource = gAppMgr.getProvinceArray;
+        [vc setSelectAction:^(NSDictionary * d) {
+            
+            NSString * key = [d.allKeys safetyObjectAtIndex:0];
+            self.curCar.licenceArea = key;
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        }];
+        [self presentViewController:nav animated:YES completion:^{
+            
+        }];
     }];
     
     return cell;
@@ -379,21 +468,21 @@
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
     UILabel *unitL = (UILabel *)[cell.contentView viewWithTag:1003];
-
+    
     HKMyCar *car = self.curCar;
     
     field.delegate = self;
-    field.userInteractionEnabled = YES;
     field.keyboardType = UIKeyboardTypeDefault;
     field.clearsOnBeginEditing = NO;
     field.customObject = indexPath;
+    BOOL fieldEditable = YES;
     if (indexPath.row == 0) {
         titleL.attributedText = [self attrStrWithTitle:@"车牌号码" asterisk:YES];
-        field.text = car.licencenumber;
+        field.text = car.licenceSuffix;
         unitL.text = nil;
-
+        fieldEditable = car.editMask & HKCarEditableEdit;
         [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            car.licencenumber = [x uppercaseString];
+            car.licenceSuffix = [x uppercaseString];
         }];
     }
     else  if (indexPath.row  == 1) {
@@ -402,7 +491,7 @@
         [[RACObserve(car, purchasedate) takeUntilForCell:cell] subscribeNext:^(NSDate *date) {
             field.text = [date dateFormatForYYMMdd];
         }];
-        field.userInteractionEnabled = NO;
+        fieldEditable = NO;
     }
     else  if (indexPath.row  == 4) {
         unitL.text = @"万元";
@@ -410,7 +499,7 @@
         field.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
         field.clearsOnBeginEditing = YES;
         field.text = [NSString stringWithFormat:@"%.2f", car.price];
-
+        
         [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString *str) {
             if (str.length > 0) {
                 car.price = [str floatValue];
@@ -423,7 +512,7 @@
         field.keyboardType = UIKeyboardTypeNumberPad;
         field.clearsOnBeginEditing = YES;
         field.text = [NSString stringWithFormat:@"%d", (int)car.odo];
-
+        
         [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString *str) {
             if (str.length > 0) {
                 car.odo = [str integerValue];
@@ -438,7 +527,7 @@
             @strongify(field);
             field.text = [date dateFormatForYYMMdd];
         }];
-        field.userInteractionEnabled = NO;
+        fieldEditable = NO;
     }
     else if (indexPath.row == 7) {
         unitL.text = nil;
@@ -449,6 +538,7 @@
         }];
     }
     
+    field.userInteractionEnabled = fieldEditable;
     return cell;
 }
 
@@ -483,7 +573,7 @@
     switchV.on = self.curCar.isDefault;
     @weakify(self);
     [[switchV rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(UISwitch *sw) {
-
+        
         @strongify(self);
         [MobClick event:@"rp312-10"];
         BOOL on = sw.on;
@@ -493,6 +583,28 @@
 }
 
 #pragma mark - UITextFieldDelegate
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    NSInteger length = range.location + [string length] - range.length;
+    NSIndexPath *indexPath = textField.customObject;
+    //车牌号码
+    if (indexPath.row == 0 && length > 10) {
+        return NO;
+    }
+    //保险公司
+    else if (indexPath.row == 7 && length >= 30) {
+        return NO;
+    }
+    //当前里程
+    else if (indexPath.row == 5 && length >= 12) {
+        return NO;
+    }
+    //整车价格
+    else if (indexPath.row == 4 && length >= 12) {
+        return NO;
+    }
+    return YES;
+}
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
@@ -516,7 +628,7 @@
     NSIndexPath *indexPath = textField.customObject;
     HKMyCar *car = self.curCar;
     if (indexPath.row == 0) {
-        textField.text = car.licencenumber;
+        textField.text = car.licenceSuffix;
     }
     else if (indexPath.row == 4) {
         textField.text = [NSString stringWithFormat:@"%.2f", car.price];
@@ -562,6 +674,23 @@
     }
     
     return attrStr;
+}
+
+- (NSString *)getCurrentProvince
+{
+    for (NSDictionary * d in gAppMgr.getProvinceArray)
+    {
+        NSString * key = [d.allKeys safetyObjectAtIndex:0];
+        NSString * value = [d objectForKey:key];
+        NSString * v = [value stringByReplacingOccurrencesOfString:@"(" withString:@""];
+        v = [v stringByReplacingOccurrencesOfString:@")" withString:@""];
+        NSString *province = gMapHelper.addrComponent.province;
+        if (province && [province hasSubstring:v])
+        {
+            return  key;
+        }
+    }
+    return @"浙";
 }
 
 @end

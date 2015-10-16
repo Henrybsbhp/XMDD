@@ -22,4 +22,7 @@
 ///红包已经领取的总数
 @property (nonatomic)NSInteger rsp_total;
 
+///红包是否使用
+@property (nonatomic)BOOL rsp_isused;
+
 @end

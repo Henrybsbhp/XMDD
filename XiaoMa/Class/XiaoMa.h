@@ -17,7 +17,7 @@
 #import "UIStoryboard+Expansion.h"
 #import <MZFormSheetController.h>
 #import "DebugFormat.h"
-#import "SVProgressHUD.h"
+//#import "SVProgressHUD.h"
 #import <Masonry.h>
 #import "CKNavigationController.h"
 #import "CKNavigationController+Expansion.h"
@@ -34,9 +34,9 @@
 #import "DefaultStyleModel.h"
 #import "MapHelper.h"
 #import "MultiMediaManager.h"
-#import "WeChatHelper.h"
 #import "PhoneHelper.h"
 #import "AdvertisementManager.h"
+#import <SDWebImageManager.h>
 
 #import "JTNavigationController.h"
 #import "JTTableViewCell.h"
@@ -53,6 +53,8 @@
 #import "UIView+Base.h"
 #import "UIView+DefaultEmptyView.h"
 #import "NSDate+DateForText.h"
+#import "UIImageView+WebImage.h"
+#import "NSString+Price.h"
 
 
 #endif

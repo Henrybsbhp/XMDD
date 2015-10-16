@@ -46,7 +46,7 @@
     [self.contentView setBorderLineInsets:UIEdgeInsetsMake(self.customSeparatorInset.top, 0, 0, 0)
                          forDirectionMask:CKViewBorderDirectionTop];
     [self.contentView showBorderLineWithDirectionMask:mask];
-    [self.contentView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:mask];
+    [self.contentView setBorderLineColor:self.customSeparatorColor ? self.customSeparatorColor : HEXCOLOR(@"#e0e0e0") forDirectionMask:mask];
 }
 
 

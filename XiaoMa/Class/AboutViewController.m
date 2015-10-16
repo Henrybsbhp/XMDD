@@ -10,6 +10,7 @@
 #import "JTTableView.h"
 #import "FeedbackVC.h"
 #import "WebVC.h"
+#import "SocialShareViewController.h"
 
 @interface AboutViewController ()
 
@@ -25,9 +26,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.datasource = @[@{@"title":@"用户服务协议",@"action":^(void){
-        [self serviceAgreement];
-    }},
+#ifdef DEBUG
+    self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
+                            [self gotoInstructions];
+                        }},
+                        
+                        @{@"title":@"推荐App给好友",@"action":^(void){
+                            [self shareApp];
+                        }},
+                        
+                        @{@"title":@"用户服务协议",@"action":^(void){
+                            [self serviceAgreement];
+                        }},
                         
                         @{@"title":@"前往评价",@"action":^(void){
                             [self rateOurApp];
@@ -38,9 +48,44 @@
                         }},
                         
                         @{@"title":@"客服电话4007-111-111",@"action":^(void){
-        
-         [self callCustomerService];
-    }}];
+                            [self callCustomerService];
+                        }},
+                        
+                        @{@"title":@"网页跳转",@"action":^(void){
+                            
+                            [self gotoTestWeb];
+                        }},
+                        @{@"title":@"环境切换",@"action":^(void){
+                            
+                            [self switchSurrounding];
+                        }}];
+#else
+    self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
+                            [self gotoInstructions];
+                        }},
+                        
+                        @{@"title":@"推荐App给好友",@"action":^(void){
+                            [self shareApp];
+                        }},
+                        
+                        @{@"title":@"用户服务协议",@"action":^(void){
+                            [self serviceAgreement];
+                        }},
+                        
+                        @{@"title":@"前往评价",@"action":^(void){
+                            [self rateOurApp];
+                        }},
+                        
+                        @{@"title":@"意见反馈",@"action":^(void){
+                            [self gotoFeedback];
+                        }},
+                        
+                        @{@"title":@"客服电话4007-111-111",@"action":^(void){
+                            
+                            [self callCustomerService];
+                        }}];
+#endif
+    
     
     NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
     
@@ -79,7 +124,6 @@
     [super didReceiveMemoryWarning];
 
 }
-
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
@@ -127,6 +171,39 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)gotoInstructions
+{
+    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    vc.title = @"使用帮助";
+    vc.url = @"http://www.xiaomadada.com/apphtml/shiyongbangzhu.html";
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void) shareApp
+{
+    [MobClick event:@"rp110-1"];
+    SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+    vc.tt = @"小马达达——一分钱洗车";
+    vc.subtitle = @"我正在使用1分钱洗车，洗车超便宜，你也来试试吧！";
+    vc.image = [UIImage imageNamed:@"wechat_share_carwash"];
+    vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
+    //    vc.urlStr = XIAMMAWEB;
+    vc.urlStr = @"http://www.xiaomadada.com/apphtml/share001.html";
+    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+    sheet.shouldCenterVertically = YES;
+    [sheet presentAnimated:YES completionHandler:nil];
+    
+    [vc setFinishAction:^{
+        
+        [sheet dismissAnimated:YES completionHandler:nil];
+    }];
+    
+    [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        [MobClick event:@"rp110-7"];
+        [sheet dismissAnimated:YES completionHandler:nil];
+    }];
+}
+
 - (void)callCustomerService
 {
     [MobClick event:@"rp322-3"];
@@ -138,6 +215,32 @@
     [MobClick event:@"rp322-2"];
     FeedbackVC *vc = [UIStoryboard vcWithId:@"FeedbackVC" inStoryboard:@"About"];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)gotoTestWeb
+{
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"请输入网址" message:@"" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往",nil];
+    [av setAlertViewStyle:UIAlertViewStylePlainTextInput];
+    UITextField *textField = [av textFieldAtIndex:0];
+    textField.text = @"http://";
+    [av show];
+    
+    [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
+        
+        NSInteger i = [n integerValue];
+        if (i == 1)
+        {
+            WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+            vc.url = textField.text;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        
+    }];
+}
+
+- (void)switchSurrounding
+{
+    gAppMgr.isSwitchToFormalSurrounding = !gAppMgr.isSwitchToFormalSurrounding;
 }
 
 @end

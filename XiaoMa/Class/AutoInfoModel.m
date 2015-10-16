@@ -20,6 +20,7 @@
     NSSortDescriptor *sort1 = [NSSortDescriptor sortDescriptorWithKey:@"tag" ascending:YES];
     NSSortDescriptor *sort2 = [NSSortDescriptor sortDescriptorWithKey:@"brandid" ascending:YES];
     req.sortDescriptors = @[sort1,sort2];
+    req.fetchBatchSize = 100;
     req.shouldRefreshRefetchedObjects = NO;
     NSFetchedResultsController *ctrl = [[NSFetchedResultsController alloc] initWithFetchRequest:req
                                                                            managedObjectContext:gAppMgr.defDataMgr.managedObjectContext sectionNameKeyPath:@"tag"
@@ -41,10 +42,10 @@
             if (maxTimetag < brand.timetag) {
                 maxTimetag = brand.timetag;
             }
-            [gAppMgr.defDataMgr saveContext];
-            [def setObject:maxTimetag forKey:kAutoBrandTimetag];
             return brand;
         }];
+        [gAppMgr.defDataMgr saveContext];
+        [def setObject:maxTimetag forKey:kAutoBrandTimetag];
         return brands;
     }];
 }

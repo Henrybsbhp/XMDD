@@ -30,6 +30,7 @@
     
     NSDictionary* infoDict =[[NSBundle mainBundle] infoDictionary];
     _appVersion = [infoDict objectForKey:@"CFBundleShortVersionString"];
+    _appLongVersion = [infoDict objectForKey:@"CFBundleVersion"];
     return self;
 }
 
@@ -65,6 +66,22 @@
     return NO;
 }
 
+- (BOOL)firstAppearAfterVersion:(NSString *)version forKey:(NSString *)key
+{
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    NSString *name = [NSString stringWithFormat:@"$CheckKeyAfterTheVersion_%@", key];
+    NSString *oldVersion = [def objectForKey:name];
+    //如果还不存在这个key
+    if (!oldVersion) {
+        [def setObject:version forKey:name];
+        return YES;
+    }
+    //如果该版本大于上次检测到的版本
+    if ([version compare:oldVersion options:NSCaseInsensitiveSearch] == NSOrderedDescending) {
+        [def setObject:version forKey:name];
+    }
+    return NO;
+}
 #pragma mark - Private
 - (void)_saveKey:(NSString *)key forDomain:(NSDictionary *)domain withName:(NSString *)name
 {

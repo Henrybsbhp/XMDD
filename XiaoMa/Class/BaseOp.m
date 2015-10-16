@@ -143,9 +143,13 @@ static int32_t g_requestVid = 1;
 - (id)parseDefaultResponseObject:(id)obj
 {
     if ([obj isKindOfClass:[NSDictionary class]]) {
-        self.rsp_code = [[(NSDictionary *)obj objectForKey:@"rc"] integerValue];
-        self.rsp_prompt = [(NSDictionary *)obj objectForKey:@"error"];
-        self.rsp_hasNewMsg = [[(NSDictionary *)obj objectForKey:@"newmsg"] boolValue];
+        NSDictionary *dict = obj;
+        self.rsp_code = [[dict objectForKey:@"rc"] integerValue];
+        self.rsp_prompt = [dict objectForKey:@"exterror"];
+        if (self.rsp_prompt.length == 0) {
+            self.rsp_prompt = [dict objectForKey:@"error"];
+        }
+        self.rsp_hasNewMsg = [[dict objectForKey:@"newmsg"] boolValue];
 
         if (self.rsp_hasNewMsg) {
             gAppMgr.myUser.hasNewMsg = YES;

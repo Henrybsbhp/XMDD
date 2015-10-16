@@ -8,14 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
+
+
 /// 险种
 @interface SubInsurance : NSObject
+
+///险种id
+@property (nonatomic)NSInteger coveragerId;
 
 ///险种名称
 @property (nonatomic,copy)NSString * coveragerName;
 
 ///险种金额
-@property (nonatomic, strong) NSString *coveragerValue;
+@property (nonatomic,strong) NSString *coveragerValue;
 
 @end
 
@@ -30,5 +35,18 @@
 @property (nonatomic)NSArray * subInsuranceArray;
 
 + (instancetype)insuranceWithJSONResponse:(NSDictionary *)rsp;
+
+@end
+
+
+//折扣率
+@interface InsuranceDiscount : NSObject
+
+/// 险种id
+@property (nonatomic)NSInteger pid;
+/// 折扣率
+@property (nonatomic)CGFloat discountrate;
+
++ (instancetype)insuranceDiscountWithJSONResponse:(NSDictionary *)rsp;
 
 @end

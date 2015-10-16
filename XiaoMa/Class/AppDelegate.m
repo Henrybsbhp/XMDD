@@ -13,8 +13,6 @@
 #import <CocoaLumberjack.h>
 #import "HKCatchErrorModel.h"
 #import "MapHelper.h"
-#import "AlipayHelper.h"
-#import "WeChatHelper.h"
 #import "GetSystemTipsOp.h"
 #import "GetSystemVersionOp.h"
 #import "ClientInfo.h"
@@ -28,6 +26,9 @@
 #import <Crashlytics/Crashlytics.h>
 #import "WelcomeViewController.h"
 #import "MainTabBarVC.h"
+#import "HKAdvertisement.h"
+#import "LaunchVC.h"
+#import "HKLaunchManager.h"
 
 #define RequestWeatherInfoInterval 60 * 10
 //#define RequestWeatherInfoInterval 5
@@ -39,6 +40,7 @@
 /// 日志
 @property (nonatomic,strong)JTLogModel * logModel;
 @property (nonatomic, strong) HKCatchErrorModel *errorModel;
+@property (nonatomic, strong) HKLaunchManager *launchMgr;
 
 @end
 
@@ -79,14 +81,21 @@
     {
         DebugLog(@"QQ register Failed");
     }
-    
+    //检测版本更新
     [self setupVersionUpdating];
+    //设置启动页管理器
+    [self setupLaunchManager];
     [self setupRootView];
     
     return YES;
 }
 
 #pragma mark - Initialize
+- (void)setupLaunchManager
+{
+    self.launchMgr = [[HKLaunchManager alloc] init];
+}
+
 - (void)setupRootView
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -95,7 +104,18 @@
         vc = [UIStoryboard vcWithId:@"WelcomeViewController" inStoryboard:@"Main"];
     }
     else {
-        vc = [UIStoryboard vcWithId:@"MainTabBarVC" inStoryboard:@"Main"];
+        //如果本地没有启动页的相关信息，则直接进入主页，否则进入启动页
+        HKLaunchInfo *info = [self.launchMgr fetchLatestLaunchInfo];
+        NSString *url = [info croppedPicUrl];
+        if (!info || ![gMediaMgr cachedImageExistsForUrl:url]) {
+            vc = [UIStoryboard vcWithId:@"MainTabBarVC" inStoryboard:@"Main"];
+        }
+        else {
+            LaunchVC *lvc = [UIStoryboard vcWithId:@"LaunchVC" inStoryboard:@"Launch"];
+            [lvc setImage:[gMediaMgr imageFromDiskCacheForUrl:url]];
+            [lvc setInfo:info];
+            vc = lvc;
+        }
     }
     [self resetRootViewController:vc];
 }
@@ -161,7 +181,7 @@
         if (fabs(timeInterval) > RequestWeatherInfoInterval)
         {
             CKAsyncMainQueue(^{
-                    [self getLocation];
+                [self getLocation];
             });
         }
     });
@@ -171,6 +191,9 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    //每次应用激活，都尝试更新一下启动页的信息
+    [self.launchMgr checkLaunchInfoUpdating];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -179,11 +202,6 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    /// 支付宝回调处理
-    [self handleURL:url];
-    
-    /// 微信回调处理
-    [WXApi handleOpenURL:url delegate:self];
     return YES;
 }
 
@@ -218,92 +236,11 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"loginFailed" object:self];
 }
 
-#pragma mark - 支付宝
-- (void)handleURL:(NSURL *)url
-{
-    AlixPayResult* result = [self handleOpenURL:url];
-    
-    if(!result)
-        return;
-    
-    if (result && result.statusCode == 9000)
-    {
-        /*
-         *用公钥验证签名 严格验证请使用result.resultString与result.signString验签
-         */
-        
-        //交易成功
-        NSString* key = AlipayPubKey;
-        id<DataVerifier> verifier;
-        verifier = CreateRSADataVerifier(key);
-        
-        if ([verifier verifyString:result.resultString withSign:result.signString])
-        {
-            [gAlipayHelper.rac_alipayResultSignal sendNext:@"9000"];
-            //验证签名成功，交易结果无篡改
-        }
-        else
-        {
-            [gAlipayHelper.rac_alipayResultSignal sendError:[NSError errorWithDomain:@"验证签名失败，交易结果被篡改" code:8999 userInfo:nil]];
-        }
-    }
-    else
-    {
-        [gAlipayHelper.rac_alipayResultSignal sendError:[NSError errorWithDomain:result.statusMessage code:result.statusCode userInfo:nil]];
-    }
-}
-
-
-- (AlixPayResult *)resultFromURL:(NSURL *)url {
-    NSString * query = [[url query] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-#if ! __has_feature(objc_arc)
-    return [[[AlixPayResult alloc] initWithString:query] autorelease];
-#else
-    return [[AlixPayResult alloc] initWithString:query];
-#endif
-}
-
-- (AlixPayResult *)handleOpenURL:(NSURL *)url {
-    AlixPayResult * result = nil;
-    
-    if (url != nil && [[url host] compare:@"safepay"] == 0) {
-        result = [self resultFromURL:url];
-    }
-    
-    return result;
-}
-
-#pragma mark - 微信
-- (void)onResp:(BaseResp *)resp
-{
-    if ([resp isKindOfClass:[PayResp class]])
-    {
-        PayResp * payResp = (PayResp *)resp;
-        if (payResp.errCode == WXSuccess)
-        {
-            [gWechatHelper.rac_wechatResultSignal sendNext:@"9000"];
-        }
-        else if (payResp.errCode == WXErrCodeUserCancel)
-        {
-            [gWechatHelper.rac_wechatResultSignal sendError:[NSError errorWithDomain:@"用户点击取消并返回" code:payResp.errCode userInfo:nil]];
-        }
-        else
-        {
-            [gWechatHelper.rac_wechatResultSignal sendError:[NSError errorWithDomain:@"请求失败" code:payResp.errCode userInfo:nil]];
-        }
-    }
-    if ([resp isKindOfClass:[SendMessageToWXResp class]])
-    {
-        [gWechatHelper.rac_wechatResultSignal sendNext:@"dismiss"];
-    }
-}
-
 #pragma mark - 友盟
 - (void)setupUmeng
 {
     [MobClick setCrashReportEnabled:NO];
     [MobClick startWithAppkey:UMeng_API_ID reportPolicy:BATCH   channelId:@"iOS"];
-    [MobClick setCrashReportEnabled:NO];
 #ifdef DEBUG
     [MobClick setLogEnabled:YES];
 #else
@@ -446,6 +383,11 @@
 
 - (void)setupVersionUpdating
 {
+    //TODO:移除2.0版本前缓存的token和密码
+    if ([gAppMgr.deviceInfo firstAppearAfterVersion:@"2.0" forKey:@"loginInfo"]) {
+        [HKLoginModel logout];
+    }
+
     NSString * version = gAppMgr.clientInfo.clientVersion;
     NSString * OSVersion = gAppMgr.deviceInfo.osVersion;
     GetSystemVersionOp * op = [GetSystemVersionOp operation];
@@ -477,7 +419,6 @@
                     }
                 }];
                 [av show];
-                
             }
         }
     }];
