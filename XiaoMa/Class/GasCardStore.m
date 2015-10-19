@@ -10,6 +10,7 @@
 #import "GetGascardListOp.h"
 #import "GetGaschargeInfoOp.h"
 #import "GetCZBGaschargeInfoOp.h"
+#import "DeleteGascardOp.h"
 
 @implementation GasCardStore
 
@@ -68,6 +69,17 @@
         return card;
     }];
     return [CKStoreEvent eventWithSignal:sig code:kGasGetCardCZBInfo object:nil];
+}
+
+- (CKStoreEvent *)deleteCardByGID:(NSNumber *)gid
+{
+    DeleteGascardOp *op = [DeleteGascardOp operation];
+    op.req_gid = gid;
+    RACSignal *sig = [[op rac_postRequest] map:^id(DeleteGascardOp *op) {
+        [self.cache removeObjectForKey:gid];
+        return op;
+    }];
+    return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventDelete object:nil];
 }
 
 - (void)reloadDataWithCode:(NSInteger)code

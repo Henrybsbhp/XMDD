@@ -34,8 +34,35 @@
 ///充值提醒
 - (NSString *)gasRemainder
 {
-    NSString *text = @"<font size=13 color='#454545'><p>充值成功后，须至相应加油站圈存后方能使用；如需开发票，请在营业厅圈存后向工作人员索要。</p></font>";
+    NSString *text = @"<font size=13 color='#454545'>充值成功后，须至相应加油站圈存后方能使用；如需开发票，请在营业厅圈存后向工作人员索要。</font>";
+    if (self.curGasCard) {
+        NSString *link;
+        NSString *agreement;
+        if (self.curGasCard.cardtype == 1) {
+            link = @"http://www.xiaomadada.com/apphtml/license.html";
+            agreement = @"《中石化服务说明》";
+        }
+        else if (self.curGasCard.cardtype == 2) {
+            link = @"http://www.xiaomadada.com/apphtml/license.html";
+            agreement = @"《中石油服务说明》";
+        }
+        if (link.length > 0) {
+            text = [NSString stringWithFormat:@"%@<font size=13 color='#9a9a9a'><p>更多充值说明，点击查看<font color='#20ab2a'><a href='%@'>%@</a></font></p></font>",
+                    text, link, agreement];
+        }
+    }
     return text;
+}
+
+///充值优惠
+- (NSString *)rechargeFavorableDesc
+{
+    return nil;
+}
+
+- (NSString *)bankFavorableDesc
+{
+    return nil;
 }
 
 @end

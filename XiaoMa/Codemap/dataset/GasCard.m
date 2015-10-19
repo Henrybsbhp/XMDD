@@ -1,5 +1,6 @@
 #import "GasCard.h"
-  
+#import "NSString+Split.h"
+
 @implementation GasCard
 + (instancetype)createWithJSONDict:(NSDictionary *)dict
 {
@@ -24,6 +25,19 @@
 - (void)mergeSimpleGasCard:(GasCard *)other
 {
     self.gascardno = other.gascardno;
+}
+
+- (NSString *)prettyCardNumber
+{
+    return [self.gascardno splitByStep:4 replacement:@" "];
+}
+
+- (NSInteger)maxCardNumberLength
+{
+    if (self.cardtype == 1) {
+        return 19;
+    }
+    return 16;
 }
 
 @end

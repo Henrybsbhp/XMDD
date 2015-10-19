@@ -25,6 +25,11 @@ static char sGroupCompleteBlockKey;
     return self;
 }
 
+- (void)dealloc
+{
+    [self removeAllItemGroups];
+}
+
 - (void)addItems:(NSArray *)items forGroupName:(NSString *)groupName withChangedBlock:(void (^)(id, BOOL))block
 {
     for (id item in items){

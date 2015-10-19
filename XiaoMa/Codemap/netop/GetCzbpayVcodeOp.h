@@ -7,6 +7,4 @@
 ///银行卡记录ID
 @property (nonatomic,strong) NSNumber* req_cardid;
 
-
-
 @end

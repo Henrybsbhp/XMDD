@@ -171,6 +171,7 @@
 		189C698C1B75A2BB00E56E4A /* GetBindCZBVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 189C698B1B75A2BB00E56E4A /* GetBindCZBVcodeOp.m */; };
 		189C698F1B75BD4B00E56E4A /* BindBankcardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 189C698E1B75BD4B00E56E4A /* BindBankcardOp.m */; };
 		189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 189DD3FF1B10722700BA0A7F /* SRMonthPicker.m */; };
+		18A30E401BD472E800521411 /* GasPayForCZBVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A30E3F1BD472E800521411 /* GasPayForCZBVC.m */; };
 		18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */; };
 		18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */; };
 		18B78F591BA9893C0061ECAD /* GetLaunchInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B78F581BA9893C0061ECAD /* GetLaunchInfoOp.m */; };
@@ -187,6 +188,11 @@
 		18BF41F51BCF6D890039F210 /* PKYStepper.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41F41BCF6D890039F210 /* PKYStepper.m */; };
 		18BF41F91BCF75DA0039F210 /* RTLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41F81BCF75DA0039F210 /* RTLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		18BF41FC1BD08F860039F210 /* GasReminderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41FB1BD08F860039F210 /* GasReminderCell.m */; };
+		18BF42011BD0D5A20039F210 /* GasAddCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF42001BD0D5A20039F210 /* GasAddCardVC.m */; };
+		18BF42051BD0D5CB0039F210 /* GasCardListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF42041BD0D5CB0039F210 /* GasCardListVC.m */; };
+		18BF42081BD0E2470039F210 /* NSString+Split.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF42071BD0E2470039F210 /* NSString+Split.m */; };
+		18BF420C1BD273C70039F210 /* CKLimitTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF420B1BD273C70039F210 /* CKLimitTextField.m */; };
+		18BF42161BD29E9B0039F210 /* CKLimitTextFieldProxyObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF42151BD29E9B0039F210 /* CKLimitTextFieldProxyObject.m */; };
 		18C52C331BA670DA00F6C38B /* DrivingLicenseHistoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C52C321BA670DA00F6C38B /* DrivingLicenseHistoryView.m */; };
 		18C52C361BA6783500F6C38B /* PictureRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C52C351BA6783500F6C38B /* PictureRecord.m */; };
 		18C52C3A1BA6CE9400F6C38B /* DAProgressOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C52C391BA6CE9400F6C38B /* DAProgressOverlayView.m */; };
@@ -766,6 +772,8 @@
 		189C698E1B75BD4B00E56E4A /* BindBankcardOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BindBankcardOp.m; path = Class/BindBankcardOp.m; sourceTree = "<group>"; };
 		189DD3FE1B10722700BA0A7F /* SRMonthPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRMonthPicker.h; sourceTree = "<group>"; };
 		189DD3FF1B10722700BA0A7F /* SRMonthPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRMonthPicker.m; sourceTree = "<group>"; };
+		18A30E3E1BD472E800521411 /* GasPayForCZBVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasPayForCZBVC.h; sourceTree = "<group>"; };
+		18A30E3F1BD472E800521411 /* GasPayForCZBVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasPayForCZBVC.m; sourceTree = "<group>"; };
 		18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		18A377F21AE4AB4B0031A574 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
@@ -795,6 +803,16 @@
 		18BF41F81BCF75DA0039F210 /* RTLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTLabel.m; sourceTree = "<group>"; };
 		18BF41FA1BD08F860039F210 /* GasReminderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasReminderCell.h; sourceTree = "<group>"; };
 		18BF41FB1BD08F860039F210 /* GasReminderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasReminderCell.m; sourceTree = "<group>"; };
+		18BF41FF1BD0D5A20039F210 /* GasAddCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasAddCardVC.h; sourceTree = "<group>"; };
+		18BF42001BD0D5A20039F210 /* GasAddCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasAddCardVC.m; sourceTree = "<group>"; };
+		18BF42031BD0D5CB0039F210 /* GasCardListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasCardListVC.h; sourceTree = "<group>"; };
+		18BF42041BD0D5CB0039F210 /* GasCardListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasCardListVC.m; sourceTree = "<group>"; };
+		18BF42061BD0E2470039F210 /* NSString+Split.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Split.h"; path = "Class/NSString+Split.h"; sourceTree = "<group>"; };
+		18BF42071BD0E2470039F210 /* NSString+Split.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Split.m"; path = "Class/NSString+Split.m"; sourceTree = "<group>"; };
+		18BF420A1BD273C70039F210 /* CKLimitTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKLimitTextField.h; path = Class/CKLimitTextField.h; sourceTree = "<group>"; };
+		18BF420B1BD273C70039F210 /* CKLimitTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKLimitTextField.m; path = Class/CKLimitTextField.m; sourceTree = "<group>"; };
+		18BF42141BD29E9B0039F210 /* CKLimitTextFieldProxyObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKLimitTextFieldProxyObject.h; path = Class/CKLimitTextFieldProxyObject.h; sourceTree = "<group>"; };
+		18BF42151BD29E9B0039F210 /* CKLimitTextFieldProxyObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKLimitTextFieldProxyObject.m; path = Class/CKLimitTextFieldProxyObject.m; sourceTree = "<group>"; };
 		18C52C311BA670DA00F6C38B /* DrivingLicenseHistoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrivingLicenseHistoryView.h; sourceTree = "<group>"; };
 		18C52C321BA670DA00F6C38B /* DrivingLicenseHistoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrivingLicenseHistoryView.m; sourceTree = "<group>"; };
 		18C52C341BA6783500F6C38B /* PictureRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PictureRecord.h; path = Class/PictureRecord.h; sourceTree = "<group>"; };
@@ -1479,6 +1497,8 @@
 				18D475E41B7D9F82000FAF1C /* NSString+PhoneNumber.m */,
 				6BD6E2981B9D7F67001D33E6 /* NSString+Safe.h */,
 				6BD6E2991B9D7F67001D33E6 /* NSString+Safe.m */,
+				18BF42061BD0E2470039F210 /* NSString+Split.h */,
+				18BF42071BD0E2470039F210 /* NSString+Split.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -1486,6 +1506,7 @@
 		1816F4B51AD36D5100BBCC96 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				18BF42091BD2732A0039F210 /* TextField */,
 				1833F5A41BCDF5AD000E1DA1 /* Line */,
 				18C52C451BA8FA9C00F6C38B /* HorizontalScrollCell */,
 				18C52C3B1BA6CEA100F6C38B /* ImageView */,
@@ -1628,6 +1649,9 @@
 		1833F59A1BCD4773000E1DA1 /* Gas */ = {
 			isa = PBXGroup;
 			children = (
+				18A30E3D1BD4726B00521411 /* CZBGetVCode */,
+				18BF42021BD0D5BB0039F210 /* GasCardList */,
+				18BF41FE1BD0D57C0039F210 /* AddGasCard */,
 				18BF41DE1BCE3D3B0039F210 /* HomeView */,
 			);
 			name = Gas;
@@ -2324,6 +2348,15 @@
 			path = SRMonthPicker;
 			sourceTree = "<group>";
 		};
+		18A30E3D1BD4726B00521411 /* CZBGetVCode */ = {
+			isa = PBXGroup;
+			children = (
+				18A30E3E1BD472E800521411 /* GasPayForCZBVC.h */,
+				18A30E3F1BD472E800521411 /* GasPayForCZBVC.m */,
+			);
+			name = CZBGetVCode;
+			sourceTree = "<group>";
+		};
 		18A377F01AE4AB4B0031A574 /* SVProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -2338,14 +2371,9 @@
 			isa = PBXGroup;
 			children = (
 				1833F5A01BCDF450000E1DA1 /* SubView */,
+				18BF41FD1BD0AA090039F210 /* ViewModel */,
 				1833F59B1BCD47AD000E1DA1 /* GasVC.h */,
 				1833F59C1BCD47AD000E1DA1 /* GasVC.m */,
-				1833F5A81BCE2C0C000E1DA1 /* GasNormalVM.h */,
-				1833F5A91BCE2C0C000E1DA1 /* GasNormalVM.m */,
-				18BF41DF1BCE3E880039F210 /* GasCZBVM.h */,
-				18BF41E01BCE3E880039F210 /* GasCZBVM.m */,
-				18BF41E21BCE40540039F210 /* GasBaseVM.h */,
-				18BF41E31BCE40540039F210 /* GasBaseVM.m */,
 			);
 			name = HomeView;
 			sourceTree = "<group>";
@@ -2366,6 +2394,48 @@
 				18BF41F81BCF75DA0039F210 /* RTLabel.m */,
 			);
 			path = RTLabel;
+			sourceTree = "<group>";
+		};
+		18BF41FD1BD0AA090039F210 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				1833F5A81BCE2C0C000E1DA1 /* GasNormalVM.h */,
+				1833F5A91BCE2C0C000E1DA1 /* GasNormalVM.m */,
+				18BF41DF1BCE3E880039F210 /* GasCZBVM.h */,
+				18BF41E01BCE3E880039F210 /* GasCZBVM.m */,
+				18BF41E21BCE40540039F210 /* GasBaseVM.h */,
+				18BF41E31BCE40540039F210 /* GasBaseVM.m */,
+			);
+			name = ViewModel;
+			sourceTree = "<group>";
+		};
+		18BF41FE1BD0D57C0039F210 /* AddGasCard */ = {
+			isa = PBXGroup;
+			children = (
+				18BF41FF1BD0D5A20039F210 /* GasAddCardVC.h */,
+				18BF42001BD0D5A20039F210 /* GasAddCardVC.m */,
+			);
+			name = AddGasCard;
+			sourceTree = "<group>";
+		};
+		18BF42021BD0D5BB0039F210 /* GasCardList */ = {
+			isa = PBXGroup;
+			children = (
+				18BF42031BD0D5CB0039F210 /* GasCardListVC.h */,
+				18BF42041BD0D5CB0039F210 /* GasCardListVC.m */,
+			);
+			name = GasCardList;
+			sourceTree = "<group>";
+		};
+		18BF42091BD2732A0039F210 /* TextField */ = {
+			isa = PBXGroup;
+			children = (
+				18BF420A1BD273C70039F210 /* CKLimitTextField.h */,
+				18BF420B1BD273C70039F210 /* CKLimitTextField.m */,
+				18BF42141BD29E9B0039F210 /* CKLimitTextFieldProxyObject.h */,
+				18BF42151BD29E9B0039F210 /* CKLimitTextFieldProxyObject.m */,
+			);
+			name = TextField;
 			sourceTree = "<group>";
 		};
 		18C52C371BA6CE9400F6C38B /* DAProgressOverlayView */ = {
@@ -3379,6 +3449,7 @@
 				1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */,
 				6BBF75F51B05CA0800E11EBB /* FavoriteModel.m in Sources */,
 				6B3C67931BA9498F002F04C8 /* HKBigRatingView.m in Sources */,
+				18A30E401BD472E800521411 /* GasPayForCZBVC.m in Sources */,
 				18895B2A1B4A136100928F62 /* CKStore.m in Sources */,
 				189B30BD1AD524EC001D7288 /* AppManager.m in Sources */,
 				6BB9D7711AF7054B00F7F3F8 /* SearchViewController.m in Sources */,
@@ -3396,6 +3467,7 @@
 				507A4DDF1B74462200E0BF1E /* UnbundlingVC.m in Sources */,
 				6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */,
 				6BB61BA31AEF7CAE004F39AA /* NSString+RectSize.m in Sources */,
+				18BF42051BD0D5CB0039F210 /* GasCardListVC.m in Sources */,
 				6BD7AE681AE9F63900BEF30E /* MapBottomView.m in Sources */,
 				6BBB4C3F1B32790B00C8052E /* WelcomeViewController.m in Sources */,
 				6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */,
@@ -3452,6 +3524,7 @@
 				508150CE1B84703200B16633 /* DetailsAlertVC.m in Sources */,
 				18895B3C1B4CF1D300928F62 /* LogoutOp.m in Sources */,
 				6BEA56CD1AE24DCE000D19C1 /* base64.m in Sources */,
+				18BF42161BD29E9B0039F210 /* CKLimitTextFieldProxyObject.m in Sources */,
 				1893711F1B0DAD290030FDE1 /* HKMessage.m in Sources */,
 				18D17F731B53AFAC00F66F04 /* GetVoiceVCodeOp.m in Sources */,
 				1833F5AA1BCE2C0C000E1DA1 /* GasNormalVM.m in Sources */,
@@ -3464,6 +3537,7 @@
 				18863FA51AE8ECFB005BF4ED /* GridLabel.m in Sources */,
 				1833F5921BCD373B000E1DA1 /* GetGaschargeInfoOp.m in Sources */,
 				6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */,
+				18BF42011BD0D5A20039F210 /* GasAddCardVC.m in Sources */,
 				6BBB084D1B021EA90002C349 /* JTLogModel.m in Sources */,
 				6BDD6E2B1B6762C50060CFD0 /* InsuranceDetailPlanVC.m in Sources */,
 				6BB9D76E1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m in Sources */,
@@ -3553,6 +3627,7 @@
 				18E28A1C1B93F1FF0070E759 /* UPPayHelper.m in Sources */,
 				6BBF7DA91B00C9C200E45967 /* UIImage+Utilities.mm in Sources */,
 				6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */,
+				18BF420C1BD273C70039F210 /* CKLimitTextField.m in Sources */,
 				18895B361B4CB89000928F62 /* HKPushManager.m in Sources */,
 				18D475E51B7D9F82000FAF1C /* NSString+PhoneNumber.m in Sources */,
 				6BC3B60F1ADF52CB001016A0 /* BaseMapViewController.m in Sources */,
@@ -3680,6 +3755,7 @@
 				186984EF1B007ED0000A182A /* GetCarwashOrderListOp.m in Sources */,
 				1833F53F1BCCB680000E1DA1 /* HKLoginModel.m in Sources */,
 				189B394F1AF8576600B83F1B /* GetUserBaseInfoOp.m in Sources */,
+				18BF42081BD0E2470039F210 /* NSString+Split.m in Sources */,
 				189B30C71AD664D7001D7288 /* InsuranceVC.m in Sources */,
 				18088D8B1B1DC921007438FC /* UsedCouponVModel.m in Sources */,
 				1833F58F1BCD373B000E1DA1 /* GetCzbpayVcodeOp.m in Sources */,

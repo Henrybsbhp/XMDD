@@ -7,6 +7,7 @@
 //
 
 #import "HKUserStore.h"
+#import "GasCard.h"
 
 enum : NSInteger {
     kGasGetAllCardBaseInfos = 1000,
@@ -19,5 +20,6 @@ enum : NSInteger {
 - (CKStoreEvent *)getAllCardBaseInfos;
 - (CKStoreEvent *)getCardNormalInfoByGID:(NSNumber *)gid;
 - (CKStoreEvent *)getCardCZBInfoByGID:(NSNumber *)gid CZBID:(NSNumber *)cid;
+- (CKStoreEvent *)deleteCardByGID:(NSNumber *)gid;
 
 @end

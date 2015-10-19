@@ -12,4 +12,6 @@
 
 @interface GasNormalVM : GasBaseVM
 
+- (NSString *)rechargeFavorableDesc;
+
 @end

@@ -22,5 +22,7 @@
 + (instancetype)createWithJSONDict:(NSDictionary *)dict;
 - (void)resetWithJSONDict:(NSDictionary *)dict;
 - (void)mergeSimpleGasCard:(GasCard *)other;
+- (NSString *)prettyCardNumber;
+- (NSInteger)maxCardNumberLength;
 
 @end
