@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "BaseModel.h"
 
+
 @interface CouponModel : BaseOp
 
 ///洗车次数
@@ -26,7 +27,7 @@
 /// 可用浙商银行信用卡
 @property (nonatomic, strong)NSArray * validCZBankCreditCard;
 
-- (RACSignal *)rac_getVaildResource;
+- (RACSignal *)rac_getVaildResource:(ShopServiceType)type;
 
 - (RACSignal *)rac_getVaildInsuranceCoupon:(NSNumber *)orderid;
 

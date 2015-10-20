@@ -27,6 +27,10 @@
 @property (nonatomic,strong)NSMutableArray * selectCarwashCoupouArray;
 @property (nonatomic,strong)NSMutableArray * selectCashCoupouArray;
 
+@property (nonatomic,strong)NSMutableArray * carwashCoupouArray;
+@property (nonatomic,strong)NSMutableArray * cashCoupouArray;
+
+/// 是否自动选择。（优惠劵去使用后进入的页面此值为YES）
 @property (nonatomic)BOOL isAutoCouponSelect;
 
 
