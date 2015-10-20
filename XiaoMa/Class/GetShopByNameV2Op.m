@@ -1,19 +1,18 @@
 //
-//  GetShopByNameOp.m
+//  GetShopByNameV2Op.m
 //  XiaoMa
 //
-//  Created by jt on 15-4-19.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Created by jt on 15/10/20.
+//  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "GetShopByNameOp.h"
-#import "JTShop.h"
+#import "GetShopByNameV2Op.h"
 
-@implementation GetShopByNameOp
+@implementation GetShopByNameV2Op
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/shop/get/by-name";
+    self.req_method = @"/shop/get/v2/by-name";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:self.shopName forName:@"name"];

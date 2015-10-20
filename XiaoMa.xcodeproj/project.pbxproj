@@ -251,7 +251,6 @@
 		50A9EF1B1B6874880036897F /* InsuranceResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A9EF1A1B6874880036897F /* InsuranceResultVC.m */; };
 		50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE7C911B6716B500675887 /* SelectScrollView.m */; };
 		50C6BF4D1B7341B800A5E021 /* CardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */; };
-		6B086BA11AE3184D00659DB7 /* GetShopByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */; };
 		6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */; };
 		6B086BA71AE4F03800659DB7 /* UIView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA61AE4F03800659DB7 /* UIView+Base.m */; };
 		6B1D93D31B8573A000740628 /* PayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1D93D21B8573A000740628 /* PayModel.m */; };
@@ -422,6 +421,7 @@
 		6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BF1AE24DCE000D19C1 /* RSADataVerifier.m */; };
 		6BEDB0421BA66242009A8C3F /* InsuranceDetailPlanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDB0411BA66242009A8C3F /* InsuranceDetailPlanModel.m */; };
 		6BEDB0461BA666D4009A8C3F /* CCSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDB0451BA666D4009A8C3F /* CCSegmentedControl.m */; };
+		6BF392441BD627A900838292 /* GetShopByNameV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF392431BD627A900838292 /* GetShopByNameV2Op.m */; settings = {ASSET_TAGS = (); }; };
 		6BF7F7311BB39A4100A24A32 /* NSString+Price.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF7F7301BB39A4100A24A32 /* NSString+Price.m */; };
 		C23FCAB81AF8B8C900E04BEB /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C23FCAB71AF8B8C900E04BEB /* TencentOpenAPI.framework */; };
 		C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */; };
@@ -920,8 +920,6 @@
 		50C6BF4B1B7341B800A5E021 /* CardDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardDetailVC.h; sourceTree = "<group>"; };
 		50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardDetailVC.m; sourceTree = "<group>"; };
 		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		6B086B9F1AE3184D00659DB7 /* GetShopByNameOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShopByNameOp.h; path = Class/GetShopByNameOp.h; sourceTree = "<group>"; };
-		6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetShopByNameOp.m; path = Class/GetShopByNameOp.m; sourceTree = "<group>"; };
 		6B086BA21AE4E19000659DB7 /* GetSystemTipsOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemTipsOp.h; path = Class/GetSystemTipsOp.h; sourceTree = "<group>"; };
 		6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemTipsOp.m; path = Class/GetSystemTipsOp.m; sourceTree = "<group>"; };
 		6B086BA51AE4F03800659DB7 /* UIView+Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Base.h"; path = "Class/UIView+Base.h"; sourceTree = "<group>"; };
@@ -1314,6 +1312,8 @@
 		6BEDB0411BA66242009A8C3F /* InsuranceDetailPlanModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceDetailPlanModel.m; sourceTree = "<group>"; };
 		6BEDB0441BA666D4009A8C3F /* CCSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSegmentedControl.h; sourceTree = "<group>"; };
 		6BEDB0451BA666D4009A8C3F /* CCSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCSegmentedControl.m; sourceTree = "<group>"; };
+		6BF392421BD627A900838292 /* GetShopByNameV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShopByNameV2Op.h; path = Class/GetShopByNameV2Op.h; sourceTree = "<group>"; };
+		6BF392431BD627A900838292 /* GetShopByNameV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetShopByNameV2Op.m; path = Class/GetShopByNameV2Op.m; sourceTree = "<group>"; };
 		6BF7F72F1BB39A4100A24A32 /* NSString+Price.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Price.h"; path = "Class/NSString+Price.h"; sourceTree = "<group>"; };
 		6BF7F7301BB39A4100A24A32 /* NSString+Price.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Price.m"; path = "Class/NSString+Price.m"; sourceTree = "<group>"; };
 		B54A6CD3F3426144CC6768CC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2794,8 +2794,6 @@
 				6BEA56441AE2488C000D19C1 /* CheckoutServiceOrderOp.m */,
 				18D17F841B58D0B000F66F04 /* CheckoutServiceOrderV2Op.h */,
 				18D17F851B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m */,
-				6B086B9F1AE3184D00659DB7 /* GetShopByNameOp.h */,
-				6B086BA01AE3184D00659DB7 /* GetShopByNameOp.m */,
 				6B086BA21AE4E19000659DB7 /* GetSystemTipsOp.h */,
 				6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */,
 				187CC95D1AEF6A89004D1F28 /* UpdateInsuranceCalculateOp.h */,
@@ -2882,6 +2880,8 @@
 				6B21A8981BD493F8006D0556 /* GetShopByDistanceV2Op.m */,
 				6B21A89A1BD495B3006D0556 /* GetUserFavoriteV2Op.h */,
 				6B21A89B1BD495B3006D0556 /* GetUserFavoriteV2Op.m */,
+				6BF392421BD627A900838292 /* GetShopByNameV2Op.h */,
+				6BF392431BD627A900838292 /* GetShopByNameV2Op.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -3361,6 +3361,7 @@
 				18C52C331BA670DA00F6C38B /* DrivingLicenseHistoryView.m in Sources */,
 				18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */,
 				1816F4BD1AD3A8AD00BBCC96 /* JTNavigationController.m in Sources */,
+				6BF392441BD627A900838292 /* GetShopByNameV2Op.m in Sources */,
 				1816F4B01ACE75FB00BBCC96 /* CarWashTableVC.m in Sources */,
 				1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */,
 				18C81CBC1B17FE7B00B0C292 /* FeedbackVC.m in Sources */,
@@ -3446,7 +3447,6 @@
 				181F6DA81B15919900D38555 /* CXAlertViewController.m in Sources */,
 				186985041B01CC2C000A182A /* SubmitCommentOp.m in Sources */,
 				1826CCF01BAAE80800E2F46D /* ZFCDoubleBounceActivityIndicatorView.m in Sources */,
-				6B086BA11AE3184D00659DB7 /* GetShopByNameOp.m in Sources */,
 				184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */,
 				189B39611AF9DD3B00B83F1B /* AddCarOp.m in Sources */,
 				189371191B0DA6C00030FDE1 /* MessageListVC.m in Sources */,
