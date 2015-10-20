@@ -53,7 +53,7 @@
         // 合并洗车券 = 普通洗车券 + 浙商
         NSMutableArray * carwashArray = [NSMutableArray arrayWithArray:czBankcarwashfilterArray];
         [carwashArray addObjectsFromArray:carwashfilterArray];
-        self.validCarwashCouponArray = [NSArray arrayWithArray:carwashArray];
+        rOp.validCarwashCouponArray = [NSArray arrayWithArray:carwashArray];
         
         // 过滤代金券可用的,然后按金额排序
         NSArray * cashfilterArray = [op.rsp_coupons arrayByFilteringOperator:^BOOL(HKCoupon * c) {
@@ -67,11 +67,10 @@
             }
             return NO;
         }];
-        self.validCashCouponArray = [cashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
+        rOp.validCashCouponArray = [cashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
             
             return obj1.couponAmount > obj2.couponAmount;
         }];
-        self.validCashCouponArray = cashfilterArray;
         
         return [RACSignal return:rOp];
     }];

@@ -42,6 +42,7 @@ typedef enum : NSInteger
 - (void)reloadData;
 - (void)loadMoreDataWithPromptView:(UIView *)view;
 - (void)loadMoreDataIfNeededWithIndexPath:(NSIndexPath *)indexPath nest:(BOOL)nest promptView:(UIView *)view;
+///用section的判断方式
 - (void)loadMoreDataIfNeededWithIndexPath:(NSIndexPath *)indexPath nestItemCount:(NSInteger)count promptView:(UIView *)view;
 
 /***********以下方法不会触发delegate:"loadingModel:loadingDataSignalWithType:"**************/

@@ -268,7 +268,7 @@
         }
     }
     else {
-        NSInteger index = self.isSectionLoadMore ? indexPath.section + 1 : indexPath.row + 1;
+        NSInteger index =  indexPath.row + 1;
         if ([self.datasource count] > index) {
             return;
         }
@@ -287,17 +287,19 @@
             return;
         }
     }
-    else if (count) {
-        NSInteger index = indexPath.section > 0 ? indexPath.section : indexPath.row;
-        if (count > index + 1)
-        {
-            return;
-        }
+    
+    NSInteger index = self.isSectionLoadMore ? indexPath.section + 1 : indexPath.row + 1;
+    if ([self.datasource count] > index) {
+        return;
     }
-    else {
-        NSInteger index = self.isSectionLoadMore ? indexPath.section + 1 : indexPath.row + 1;
-        if ([self.datasource count] > index) {
-            return;
+    else
+    {
+        if (count) {
+            NSInteger index =  indexPath.row + 1;
+            if (count > index)
+            {
+                return;
+            }
         }
     }
     [self loadMoreDataWithPromptView:view];

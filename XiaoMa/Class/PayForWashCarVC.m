@@ -304,7 +304,7 @@
             vc.originVC = self.originVC;
             vc.type = CouponTypeCarWash;
             vc.selectedCouponArray = self.selectCarwashCoupouArray;
-            vc.couponArray = gAppMgr.myUser.couponModel.validCarwashCouponArray;
+            vc.couponArray = self.carwashCoupouArray;
             vc.upperLimit = self.service.origprice;
             [self.navigationController pushViewController:vc animated:YES];
         }
@@ -315,7 +315,7 @@
             vc.originVC = self.originVC;
             vc.type = CouponTypeCash;
             vc.selectedCouponArray = self.selectCashCoupouArray;
-            vc.couponArray = gAppMgr.myUser.couponModel.validCashCouponArray;
+            vc.couponArray = self.cashCoupouArray;
             vc.upperLimit = self.service.origprice;
             [self.navigationController pushViewController:vc animated:YES];
         }
@@ -329,6 +329,7 @@
             ChooseBankCardVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseBankCardVC"];
             vc.service = self.service;
             vc.bankCards = gAppMgr.myUser.couponModel.validCZBankCreditCard;
+            vc.carwashCouponArray = self.carwashCoupouArray;
             [self.navigationController pushViewController:vc animated:YES];
 
         }
@@ -399,12 +400,12 @@
     UILabel *statusLb = (UILabel *)[cell.contentView viewWithTag:1005];
     
     if (indexPath.row == 1) {
-        label.text = [NSString stringWithFormat:@"洗车券：%ld张", (long)gAppMgr.myUser.couponModel.validCarwashCouponArray.count];
+        label.text = [NSString stringWithFormat:@"洗车券：%ld张", (long)self.carwashCoupouArray.count];
         arrow.hidden = NO;
         
         NSDate * earlierDate;
         NSDate * laterDate;
-        for (HKCoupon * c in gAppMgr.myUser.couponModel.validCarwashCouponArray)
+        for (HKCoupon * c in self.carwashCoupouArray)
         {
             earlierDate = [c.validsince earlierDate:earlierDate];
             laterDate = [c.validthrough laterDate:laterDate];
@@ -425,12 +426,12 @@
         }
     }
     else if (indexPath.row == 2) {
-        label.text = [NSString stringWithFormat:@"代金券：%ld张", (long)gAppMgr.myUser.couponModel.validCashCouponArray.count];
+        label.text = [NSString stringWithFormat:@"代金券：%ld张", (long) self.cashCoupouArray.count];
         arrow.hidden = NO;
         
         NSDate * earlierDate;
         NSDate * laterDate;
-        for (HKCoupon * c in gAppMgr.myUser.couponModel.validCashCouponArray)
+        for (HKCoupon * c in self.cashCoupouArray)
         {
             earlierDate = [c.validsince earlierDate:earlierDate];
             laterDate = [c.validthrough laterDate:laterDate];
@@ -511,7 +512,7 @@
                 vc.originVC = self.originVC;
                 vc.selectedCouponArray = self.selectCarwashCoupouArray;
                 vc.type = CouponTypeCarWash;//@fq
-                vc.couponArray = gAppMgr.myUser.couponModel.validCarwashCouponArray;
+                vc.couponArray = self.carwashCoupouArray;
                 vc.upperLimit = self.service.origprice;
                 [self.navigationController pushViewController:vc animated:YES];
                 [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
@@ -545,7 +546,7 @@
                 vc.originVC = self.originVC;
                 vc.selectedCouponArray = self.selectCashCoupouArray;
                 vc.type = CouponTypeCash;
-                vc.couponArray = gAppMgr.myUser.couponModel.validCashCouponArray;
+                vc.couponArray = self.cashCoupouArray;
                 vc.upperLimit = self.service.origprice;
                 [self.navigationController pushViewController:vc animated:YES];
                 [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
@@ -757,6 +758,8 @@
 {
     [[gAppMgr.myUser.couponModel rac_getVaildResource:self.service.shopServiceType] subscribeNext:^(GetUserResourcesV2Op * op) {
         
+        self.carwashCoupouArray = op.validCarwashCouponArray;
+        self.cashCoupouArray = op.validCashCouponArray;
         self.isLoadingResourse = NO;
         
         if (needAutoSelect)
@@ -773,7 +776,7 @@
             self.couponType = c.conponType;
             // 可用资源是否包含去使用的券
             BOOL isContain = [self isContainCoupon:c];
-            if (isContain)
+            if (!isContain)
             {
                 [self selectDefaultCoupon];
             }
@@ -1036,9 +1039,9 @@
     [self.selectCarwashCoupouArray removeAllObjects];
     [self.selectCashCoupouArray removeAllObjects];
     self.couponType = CouponTypeNone;
-    if (gAppMgr.myUser.couponModel.validCarwashCouponArray.count)
+    if (self.carwashCoupouArray.count)
     {
-        HKCoupon * coupon = [gAppMgr.myUser.couponModel.validCarwashCouponArray safetyObjectAtIndex:0];
+        HKCoupon * coupon = [self.carwashCoupouArray safetyObjectAtIndex:0];
         if (coupon.conponType == CouponTypeCZBankCarWash){
             
             self.couponType = CouponTypeCZBankCarWash;
@@ -1063,12 +1066,12 @@
         [self refreshPriceLb];
         return;
     }
-    if (gAppMgr.myUser.couponModel.validCashCouponArray.count)
+    if (self.cashCoupouArray.count)
     {
         NSInteger amount = 0;
-        for (NSInteger i = 0 ; i < gAppMgr.myUser.couponModel.validCashCouponArray.count ; i++)
+        for (NSInteger i = 0 ; i < self.cashCoupouArray.count ; i++)
         {
-            HKCoupon * coupon = [gAppMgr.myUser.couponModel.validCashCouponArray safetyObjectAtIndex:i];
+            HKCoupon * coupon = [self.cashCoupouArray safetyObjectAtIndex:i];
             if (coupon.couponAmount < self.service.origprice)
             {
                 if (amount + coupon.couponAmount < self.service.origprice)
@@ -1167,12 +1170,12 @@
 
 - (BOOL)isContainCoupon:(HKCoupon *)c
 {
-    HKCoupon * coupon = [gAppMgr.myUser.couponModel.validCarwashCouponArray firstObjectByFilteringOperator:^BOOL(HKCoupon * obj) {
+    HKCoupon * coupon = [self.carwashCoupouArray firstObjectByFilteringOperator:^BOOL(HKCoupon * obj) {
         return [c.couponId isEqualToNumber:obj.couponId];
     }];
     if (!coupon)
     {
-        coupon = [gAppMgr.myUser.couponModel.validCashCouponArray firstObjectByFilteringOperator:^BOOL(HKCoupon * obj) {
+        coupon = [self.cashCoupouArray firstObjectByFilteringOperator:^BOOL(HKCoupon * obj) {
             return [c.couponId isEqualToNumber:obj.couponId];
         }];
     }

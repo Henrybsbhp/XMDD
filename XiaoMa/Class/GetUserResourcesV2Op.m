@@ -16,7 +16,7 @@
     self.req_method = @"/user/resources/v2/get";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params addParam:@(self.shopServiceType) forName:@"serviceType"];
+    [params addParam:@(self.shopServiceType) forName:@"servicetype"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }

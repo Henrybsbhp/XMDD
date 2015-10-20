@@ -22,4 +22,11 @@
 ///银行免费洗车
 @property (nonatomic)NSInteger rsp_freewashes;
 
+/// 可用洗车券,洗车券 = 普通洗车券 + 浙商
+@property (nonatomic, strong)NSArray * validCarwashCouponArray;
+/// 可用现金券
+@property (nonatomic, strong)NSArray * validCashCouponArray;
+/// 可用保险代金券
+@property (nonatomic, strong)NSArray * validInsuranceCouponArray;
+
 @end
