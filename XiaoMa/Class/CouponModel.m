@@ -12,11 +12,12 @@
 
 @implementation CouponModel
 
-- (RACSignal *)rac_getVaildResource
+- (RACSignal *)rac_getVaildResource:(ShopServiceType)type
 {
     RACSignal * signal;
     
     GetUserResourcesV2Op * op = [GetUserResourcesV2Op operation];
+    op.shopServiceType = type;
     signal = [[op rac_postRequest] flattenMap:^RACStream *(GetUserResourcesV2Op * rOp) {
         
         self.abcCarwashesCount = rOp.rsp_freewashes;

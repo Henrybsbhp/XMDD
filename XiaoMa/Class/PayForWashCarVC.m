@@ -73,7 +73,7 @@
     }
     else
     {
-        [self selectDefaultPayChannel];
+        [self selectPayChannelIfAutoSelect];
     }
     
     self.isAutoCouponSelect = NO;
@@ -327,6 +327,7 @@
         if (indexPath.row == 1) {
             [MobClick event:@"rp108-12"];
             ChooseBankCardVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseBankCardVC"];
+            vc.service = self.service;
             vc.bankCards = gAppMgr.myUser.couponModel.validCZBankCreditCard;
             [self.navigationController pushViewController:vc animated:YES];
 
@@ -566,6 +567,7 @@
         }
         
         
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
         [self refreshPriceLb];
     }];
@@ -753,13 +755,28 @@
 #pragma mark - Utility
 - (void)requestGetUserResource:(BOOL)needAutoSelect
 {
-    [[gAppMgr.myUser.couponModel rac_getVaildResource] subscribeNext:^(GetUserResourcesV2Op * op) {
+    [[gAppMgr.myUser.couponModel rac_getVaildResource:self.service.shopServiceType] subscribeNext:^(GetUserResourcesV2Op * op) {
         
         self.isLoadingResourse = NO;
         
         if (needAutoSelect)
         {
             [self selectDefaultCoupon];
+        }
+        else
+        {
+            HKCoupon * c = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
+            if (!c){
+                
+                c = [self.selectCashCoupouArray safetyObjectAtIndex:0];
+            }
+            self.couponType = c.conponType;
+            // 可用资源是否包含去使用的券
+            BOOL isContain = [self isContainCoupon:c];
+            if (isContain)
+            {
+                [self selectDefaultCoupon];
+            }
         }
         [self autoSelectBankCard];
         
@@ -1070,10 +1087,12 @@
     [self tableViewReloadData];
 }
 
-- (void)selectDefaultPayChannel
+- (void)selectPayChannelIfAutoSelect
 {
     if (self.selectCarwashCoupouArray.count)
     {
+        HKCoupon * coupon = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
+        self.couponType = coupon.conponType;
         if (gAppMgr.myUser.couponModel.validCZBankCreditCard.count){
             
             self.checkoutServiceOrderV3Op.paychannel = PaymentChannelXMDDCreditCard;
@@ -1085,10 +1104,10 @@
         [self.tableView reloadData];
         [self refreshPriceLb];
     }
-    
-    if (self.selectCashCoupouArray.count)
+    else if (self.selectCashCoupouArray.count)
     {
         HKCoupon * coupon = [self.selectCashCoupouArray safetyObjectAtIndex:0];
+        self.couponType = coupon.conponType;
         if (coupon.couponAmount >= self.service.origprice)
         {
             [self.selectCashCoupouArray removeAllObjects];
@@ -1144,6 +1163,20 @@
             self.checkoutServiceOrderV3Op.paychannel = PaymentChannelAlipay;
         }
     }
+}
+
+- (BOOL)isContainCoupon:(HKCoupon *)c
+{
+    HKCoupon * coupon = [gAppMgr.myUser.couponModel.validCarwashCouponArray firstObjectByFilteringOperator:^BOOL(HKCoupon * obj) {
+        return [c.couponId isEqualToNumber:obj.couponId];
+    }];
+    if (!coupon)
+    {
+        coupon = [gAppMgr.myUser.couponModel.validCashCouponArray firstObjectByFilteringOperator:^BOOL(HKCoupon * obj) {
+            return [c.couponId isEqualToNumber:obj.couponId];
+        }];
+    }
+    return coupon;
 }
 
 

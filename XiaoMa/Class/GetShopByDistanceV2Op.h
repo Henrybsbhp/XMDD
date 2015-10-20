@@ -1,14 +1,14 @@
 //
-//  GetShopByDistanceOp.h
+//  GetShopByDistanceV2Op.h
 //  XiaoMa
 //
-//  Created by jt on 15-4-14.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Created by jt on 15/10/19.
+//  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
 #import "BaseOp.h"
 
-@interface GetShopByDistanceOp : BaseOp
+@interface GetShopByDistanceV2Op : BaseOp
 
 ///精度
 @property (nonatomic)double longitude;
@@ -20,8 +20,9 @@
 @property (nonatomic)NSInteger pageno;
 
 /// 商户过滤码
-//@property (nonatomic)
+@property (nonatomic)NSInteger typemask;
 
 @property (nonatomic,strong)NSArray * rsp_shopArray;
+
 
 @end

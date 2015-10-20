@@ -11,6 +11,8 @@
 
 @interface GetUserResourcesV2Op : BaseOp
 
+@property (nonatomic)ShopServiceType shopServiceType;
+
 ///优惠劵列表
 @property (nonatomic,strong)NSArray * rsp_coupons;
 ///浙商信用卡列表
