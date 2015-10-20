@@ -245,6 +245,7 @@
 		507A0EB41B6F39D1004F6EC1 /* AnimationBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 507A0EB31B6F39D1004F6EC1 /* AnimationBoardView.m */; };
 		507A4DDF1B74462200E0BF1E /* UnbundlingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 507A4DDE1B74462200E0BF1E /* UnbundlingVC.m */; };
 		508150CE1B84703200B16633 /* DetailsAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508150CD1B84703200B16633 /* DetailsAlertVC.m */; };
+		508BD8D01BD0E3ED00B64199 /* GasRecordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508BD8CF1BD0E3ED00B64199 /* GasRecordVC.m */; settings = {ASSET_TAGS = (); }; };
 		508C718F1BA808B600FA2F05 /* Insurance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 508C718E1BA808B600FA2F05 /* Insurance.storyboard */; };
 		508D06801B900CF800B835BB /* InsuranceOrderPayOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 508D067F1B900CF800B835BB /* InsuranceOrderPayOp.m */; };
 		50A9EF1B1B6874880036897F /* InsuranceResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A9EF1A1B6874880036897F /* InsuranceResultVC.m */; };
@@ -907,6 +908,8 @@
 		507A4DDE1B74462200E0BF1E /* UnbundlingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnbundlingVC.m; sourceTree = "<group>"; };
 		508150CC1B84703200B16633 /* DetailsAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsAlertVC.h; sourceTree = "<group>"; };
 		508150CD1B84703200B16633 /* DetailsAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsAlertVC.m; sourceTree = "<group>"; };
+		508BD8CE1BD0E3ED00B64199 /* GasRecordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasRecordVC.h; sourceTree = "<group>"; };
+		508BD8CF1BD0E3ED00B64199 /* GasRecordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasRecordVC.m; sourceTree = "<group>"; };
 		508C718E1BA808B600FA2F05 /* Insurance.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Insurance.storyboard; sourceTree = "<group>"; };
 		508D067E1B900CF800B835BB /* InsuranceOrderPayOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InsuranceOrderPayOp.h; path = Class/InsuranceOrderPayOp.h; sourceTree = "<group>"; };
 		508D067F1B900CF800B835BB /* InsuranceOrderPayOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsuranceOrderPayOp.m; path = Class/InsuranceOrderPayOp.m; sourceTree = "<group>"; };
@@ -2349,6 +2352,8 @@
 				18BF41E01BCE3E880039F210 /* GasCZBVM.m */,
 				18BF41E21BCE40540039F210 /* GasBaseVM.h */,
 				18BF41E31BCE40540039F210 /* GasBaseVM.m */,
+				508BD8CE1BD0E3ED00B64199 /* GasRecordVC.h */,
+				508BD8CF1BD0E3ED00B64199 /* GasRecordVC.m */,
 			);
 			name = HomeView;
 			sourceTree = "<group>";
@@ -3524,6 +3529,7 @@
 				6BEA56C71AE24DCE000D19C1 /* SBJSON.m in Sources */,
 				1826CCF21BAAE80800E2F46D /* ZFCWanderingCubesActivityIndicatorView.m in Sources */,
 				1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */,
+				508BD8D01BD0E3ED00B64199 /* GasRecordVC.m in Sources */,
 				6BB61B981AEE85E8004F39AA /* AddUserFavoriteOp.m in Sources */,
 				6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */,
 				50A9EF1B1B6874880036897F /* InsuranceResultVC.m in Sources */,

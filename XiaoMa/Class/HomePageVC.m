@@ -32,6 +32,7 @@
 #import "CollectionChooseVC.h"
 #import "InsuranceDetailPlanVC.h"
 #import "GasVC.h"
+#import "GasRecordVC.h"
 #import "PaymentSuccessVC.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
@@ -437,7 +438,8 @@
 #pragma mark - Action
 - (IBAction)actionCallCenter:(id)sender
 {
-    GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
+    //GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
+    GasRecordVC *vc = [UIStoryboard vcWithId:@"GasRecordVC" inStoryboard:@"Gas"];
     [self.navigationController pushViewController:vc animated:YES];
     return;
     [MobClick event:@"rp101-2"];
