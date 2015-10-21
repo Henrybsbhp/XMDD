@@ -10,6 +10,9 @@
 
 @interface ChooseBankCardVC : UIViewController
 
+@property (nonatomic, strong) JTShopService *service;
 @property (nonatomic, strong) NSArray *bankCards;
+@property (nonatomic, strong) NSArray *carwashCouponArray;
+
 
 @end

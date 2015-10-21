@@ -1,27 +1,25 @@
 //
-//  GetShopByNameOp.m
+//  GetShopByDistanceV2Op.m
 //  XiaoMa
 //
-//  Created by jt on 15-4-19.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Created by jt on 15/10/19.
+//  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "GetShopByNameOp.h"
+#import "GetShopByDistanceV2Op.h"
 #import "JTShop.h"
 
-@implementation GetShopByNameOp
+@implementation GetShopByDistanceV2Op
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/shop/get/by-name";
+    self.req_method = @"/shop/v2/get/by-distance";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params addParam:self.shopName forName:@"name"];
     [params addParam:@(self.longitude) forName:@"longitude"];
     [params addParam:@(self.latitude) forName:@"latitude"];
     [params addParam:self.pageno ? @(self.pageno):@(1) forName:@"pageno"];
-    //    [params addParam:@(self.typemask) forName:@"typemask"];
-    [params addParam:@(self.orderby) forName:@"orderby"];
+        [params addParam:@(self.typemask) forName:@"typemask"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
 }

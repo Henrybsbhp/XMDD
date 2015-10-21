@@ -7,7 +7,7 @@
 //
 
 #import "NearbyShopsViewController.h"
-#import "GetShopByRangeOp.h"
+#import "GetShopByRangeV2Op.h"
 #import "JTShop.h"
 #import "MapBottomView.h"
 #import "ShopDetailVC.h"
@@ -180,13 +180,13 @@
 {
     self.lastRequestCorrdinate = coordinate;
     
-    GetShopByRangeOp * op = [GetShopByRangeOp operation];
+    GetShopByRangeV2Op * op = [GetShopByRangeV2Op operation];
     op.longitude = coordinate.longitude;
     op.latitude = coordinate.latitude;
     op.range = range;
     [[[op rac_postRequest] initially:^{
         
-    }] subscribeNext:^(GetShopByRangeOp * op) {
+    }] subscribeNext:^(GetShopByRangeV2Op * op) {
         
         if (op.rsp_code == 0)
         {

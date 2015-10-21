@@ -52,7 +52,7 @@
 
 - (void)reloadData
 {
-    [[[[gAppMgr.myUser.couponModel rac_getVaildResource] initially:^{
+    [[[[gAppMgr.myUser.couponModel rac_getVaildResource:self.service.shopServiceType] initially:^{
         
         [self.tableView.refreshView beginRefreshing];
     }] finally:^{
@@ -109,7 +109,7 @@
             payVc.selectBankCard = card;
             if (card.couponIds.count)
             {
-                NSArray * array = [gAppMgr.myUser.couponModel.validCarwashCouponArray arrayByFilteringOperator:^BOOL(HKCoupon *obj) {
+                NSArray * array = [self.carwashCouponArray arrayByFilteringOperator:^BOOL(HKCoupon *obj) {
                     
                     return [obj.couponId isEqualToNumber:[card.couponIds safetyObjectAtIndex:0]];
                 }];

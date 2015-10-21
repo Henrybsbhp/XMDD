@@ -1,25 +1,26 @@
 //
-//  GetShopByDistanceOp.m
+//  GetShopByNameV2Op.m
 //  XiaoMa
 //
-//  Created by jt on 15-4-14.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Created by jt on 15/10/20.
+//  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "GetShopByDistanceOp.h"
-#import "JTShop.h"
+#import "GetShopByNameV2Op.h"
 
-@implementation GetShopByDistanceOp
+@implementation GetShopByNameV2Op
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/shop/get/by-distance";
+    self.req_method = @"/shop/get/v2/by-name";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params addParam:self.shopName forName:@"name"];
     [params addParam:@(self.longitude) forName:@"longitude"];
     [params addParam:@(self.latitude) forName:@"latitude"];
     [params addParam:self.pageno ? @(self.pageno):@(1) forName:@"pageno"];
     //    [params addParam:@(self.typemask) forName:@"typemask"];
+    [params addParam:@(self.orderby) forName:@"orderby"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
 }
@@ -45,17 +46,5 @@
     return self;
 }
 
-- (id)returnSimulateResponse {
-    return @{@"shops":
-                 @[@{@"shopid":@123,
-                    @"name":@"蚂蚁洗车",
-                    @"pics":@[@"temp_1"],
-                    @"rate":@4.0,
-                    @"address":@"文三路232号",
-                    @"phone":@"10086",
-                    @"services":@[@{@"serviceid":@123,
-                                    @"name":@"洗车",
-                                    @"description":@"hahahahaha"}]}]};
-}
 
 @end
