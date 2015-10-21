@@ -1,25 +1,25 @@
 //
-//  GetShopByRangeOp.m
+//  GetShopByRangeV2Op.m
 //  XiaoMa
 //
-//  Created by jt on 15-4-14.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Created by jt on 15/10/19.
+//  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "GetShopByRangeOp.h"
-#import "JTShop.h"
+#import "GetShopByRangeV2Op.h"
 
-@implementation GetShopByRangeOp
+@implementation GetShopByRangeV2Op
+
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/shop/get/by-range";
+    self.req_method = @"/shop/v2/get/by-range";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:@(self.longitude) forName:@"longitude"];
     [params addParam:@(self.latitude) forName:@"latitude"];
     [params addParam:self.range ? @(self.range):@(1) forName:@"range"];
-//    [params addParam:@(self.typemask) forName:@"typemask"];
+    [params addParam:@(self.typemask) forName:@"typemask"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
 }
@@ -44,7 +44,5 @@
     }
     return self;
 }
-
-
 
 @end

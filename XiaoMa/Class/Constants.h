@@ -12,8 +12,8 @@
 /// 服务类型
 typedef enum : NSUInteger {
     ShopServiceCarWash = 1,
-    ShopServiceRescue,
-    ShopServiceAgency,
+    /// 精洗，用心洗
+    ShopServiceCarwashWithHeart
 } ShopServiceType;
 
 /**

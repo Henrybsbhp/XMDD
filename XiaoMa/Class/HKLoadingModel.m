@@ -268,11 +268,40 @@
         }
     }
     else {
-        if ([self.datasource count] > indexPath.row+1) {
+        NSInteger index =  indexPath.row + 1;
+        if ([self.datasource count] > index) {
             return;
         }
     }
     [self loadMoreDataWithPromptView:view];
 }
 
+
+- (void)loadMoreDataIfNeededWithIndexPath:(NSIndexPath *)indexPath nestItemCount:(NSInteger)count promptView:(UIView *)view
+{
+    if (!self.isRemain) {
+        return;
+    }
+    if ([self.delegate respondsToSelector:@selector(loadingModel:shouldLoadMoreDataWithIndexPath:)]) {
+        if(![self.delegate loadingModel:self shouldLoadMoreDataWithIndexPath:indexPath]) {
+            return;
+        }
+    }
+    
+    NSInteger index = self.isSectionLoadMore ? indexPath.section + 1 : indexPath.row + 1;
+    if ([self.datasource count] > index) {
+        return;
+    }
+    else
+    {
+        if (count) {
+            NSInteger index =  indexPath.row + 1;
+            if (count > index)
+            {
+                return;
+            }
+        }
+    }
+    [self loadMoreDataWithPromptView:view];
+}
 @end

@@ -1,14 +1,14 @@
 //
-//  GetShopByNameOp.h
+//  GetShopByNameV2Op.h
 //  XiaoMa
 //
-//  Created by jt on 15-4-19.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Created by jt on 15/10/20.
+//  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
 #import "BaseOp.h"
 
-@interface GetShopByNameOp : BaseOp
+@interface GetShopByNameV2Op : BaseOp
 
 ///商户名称
 @property (nonatomic,copy)NSString * shopName;
