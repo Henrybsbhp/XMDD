@@ -60,6 +60,20 @@
         [self shakeTextFieldCellAtRow:2];
         return;
     }
+    GasCardStore *store = [GasCardStore fetchOrCreateStore];
+    @weakify(self);
+    [[[[store sendEvent:[store addCard:self.curCard]] signal] initially:^{
+        
+        [gToast showingWithText:@"正在添加..."];
+    }] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        [gToast dismiss];
+        [self.navigationController popViewControllerAnimated:YES];
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain];
+    }];
 }
 #pragma mark - UITableView datasource and delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

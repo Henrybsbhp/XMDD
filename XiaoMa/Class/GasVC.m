@@ -22,6 +22,8 @@
 #import "GasCardListVC.h"
 #import "GasAddCardVC.h"
 #import "GasPayForCZBVC.h"
+#import "GasRecordVC.h"
+#import "GasPaymentResultVC.h"
 #import "WebVC.h"
 
 @interface GasVC ()<UITableViewDataSource, UITableViewDelegate, RTLabelDelegate>
@@ -37,6 +39,7 @@
 @property (nonatomic, assign) GasBaseVM *curModel;
 @property (nonatomic, strong) NSArray *datasource;
 @property (nonatomic, assign) BOOL isAcceptedAgreement;
+
 @end
 
 @implementation GasVC
@@ -56,8 +59,9 @@
         [self setupHeaderView];
         [self setupADView];
         [self setupBottomView];
+        [self setupStore];
         [self setupSignals];
-        [self reloadData];
+        self.headerView.tabBlock(0);
     });
 }
 
@@ -79,7 +83,9 @@
     [self.headerView setTabBlock:^(NSInteger index) {
         @strongify(self);
         self.curModel = index == 0 ? self.normalModel : self.czbModel;
-        [self reloadData];
+        if (![self.curModel reloadIfNeeded:nil]) {
+            [self refreshViews];
+        }
     }];
 }
 
@@ -112,6 +118,8 @@
     UIImage *bg2 = [[UIImage imageNamed:@"gas_btn_bg2"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
     [self.bottomBtn setBackgroundImage:bg1 forState:UIControlStateNormal];
     [self.bottomBtn setBackgroundImage:bg2 forState:UIControlStateDisabled];
+    self.bottomBtn.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.bottomBtn.titleLabel.minimumScaleFactor = 0.7;
 }
 
 - (void)setupSignals
@@ -136,16 +144,49 @@
     }];
 }
 
-#pragma mark - reoadData
-- (void)reloadData
+- (void)setupStore
+{
+    @weakify(self);
+    [[GasCardStore fetchExistsStore] subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+        @strongify(self);
+        [evt callIfNeededForCode:kGasVCReloadDirectly object:nil target:self selector:@selector(refreshViews)];
+        [evt callIfNeededForCode:kGasVCReloadWithEvent object:nil target:self selector:@selector(reloadData:)];
+        [evt callIfNeededForCode:kGasConsumeEventForModel object:self.curModel target:self.curModel selector:@selector(consumeEvent:)];
+    }];
+}
+#pragma mark - refresh
+- (void)refreshViews
 {
     self.datasource = [self.curModel datasource];
-    NSNumber *item = [[self.datasource safetyObjectAtIndex:1] safetyObjectAtIndex:0];
-    NSLog(@"item = %@", [item customInfo]);
     [self.curModel.segHelper removeAllItemsForGroupName:@"Pay"];
-    NSLog(@"item = %@", [item customInfo]);
     [self.tableView reloadData];
     [self refrshLoadingView];
+    [self refreshBottomView];
+}
+
+- (void)refreshBottomView
+{
+    NSString *title;
+    if ([self.curModel isEqual:self.normalModel]) {
+        GasNormalVM *model = (GasNormalVM *)self.curModel;
+        NSInteger discount = 0;
+        NSInteger paymoney = self.curModel.rechargeAmount;
+        NSInteger couponlimit = model.configOp ? model.configOp.rsp_couponupplimit : 1000;
+        CGFloat percent = model.configOp ? model.configOp.rsp_discountrate : 2;
+        if (model.curGasCard) {
+            couponlimit = MAX(0, couponlimit - model.curGasCard.couponedmoney);
+        }
+        discount = MIN(couponlimit, paymoney) * percent / 100.0;
+        paymoney = paymoney - discount;
+        if (discount > 0) {
+            title = [NSString stringWithFormat:@"已优惠%d元，您只需支付%d元，现在支付", (int)discount, (int)paymoney];
+        }
+        else {
+            title = [NSString stringWithFormat:@"您需支付%d，元，现在支付", (int)paymoney];
+        }
+    }
+    [self.bottomBtn setTitle:title forState:UIControlStateNormal];
+    [self.bottomBtn setTitle:title forState:UIControlStateDisabled];
 }
 
 - (void)refrshLoadingView
@@ -163,6 +204,7 @@
         @weakify(self);
         [self.view showDefaultEmptyViewWithText:@"刷新失败，点击重试" centerOffset:y tapBlock:^{
             @strongify(self);
+            [self.curModel reloadData];
         }];
     }
     else {
@@ -170,18 +212,67 @@
         [self.view hideDefaultEmptyView];
     }
 }
+
+- (void)reloadData:(CKStoreEvent *)event
+{
+    @weakify(self);
+    GasBaseVM *model = self.curModel;
+    [[[event signal] initially:^{
+        
+        @strongify(self);
+        model.isLoading = YES;
+        [self refreshViews];
+    }] subscribeError:^(NSError *error) {
+        
+        @strongify(self);
+        model.isLoadSuccess = NO;
+        model.isLoading = NO;
+        [self refreshViews];
+    } completed:^{
+        
+        @strongify(self);
+        model.isLoadSuccess = YES;
+        model.isLoading = NO;
+        [self refreshViews];
+    }];
+}
+
 #pragma mark - Action
 - (IBAction)actionGotoRechargeRecords:(id)sender
 {
+    GasRecordVC *vc = [UIStoryboard vcWithId:@"GasRecordVC" inStoryboard:@"Gas"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)actionPay:(id)sender
 {
+    if (![LoginViewModel loginIfNeededForTargetViewController:self]) {
+        return;
+    }
+    if (!self.curModel.curGasCard) {
+        [gToast showText:@"您需要先添加一张油卡！" inView:self.view];
+        return;
+    }
     //浙商支付
     if ([self.curModel isEqual:self.czbModel]) {
         if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
             GasPayForCZBVC *vc = [UIStoryboard vcWithId:@"GasPayForCZBVC" inStoryboard:@"Gas"];
             [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
+    //普通支付
+    else {
+        if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+            @weakify(self);
+            [(GasNormalVM *)self.curModel startPayInTargetVC:self completed:^(GasCard *card, GascardChargeOp *paidop) {
+                
+                @strongify(self);
+                GasPaymentResultVC *vc = [UIStoryboard vcWithId:@"GasPaymentResultVC" inStoryboard:@"Gas"];
+                vc.drawingStatus = DrawingBoardViewStatusSuccess;
+                vc.gasCard = card;
+                vc.gasPayOp = paidop;
+                [self.navigationController pushViewController:vc animated:YES];
+            }];
         }
     }
 }
@@ -201,14 +292,17 @@
 
 - (void)actionAddGasCard
 {
-    GasAddCardVC *vc = [UIStoryboard vcWithId:@"GasAddCardVC" inStoryboard:@"Gas"];
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        GasAddCardVC *vc = [UIStoryboard vcWithId:@"GasAddCardVC" inStoryboard:@"Gas"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (void)actionPickGasCard
 {
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         GasCardListVC *vc = [UIStoryboard vcWithId:@"GasCardListVC" inStoryboard:@"Gas"];
+        vc.model = self.curModel;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -369,8 +463,8 @@
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *cardnoL = (UILabel *)[cell.contentView viewWithTag:1003];
     
-    logoV.image = [UIImage imageNamed:self.curModel.curGasCard.cardtype == 1 ? @"gas_icon_cnpc" : @"gas_icon_snpn"];
-    titleL.text = self.curModel.curGasCard.cardtype == 1 ? @"中石油" : @"中石化";
+    logoV.image = [UIImage imageNamed:self.curModel.curGasCard.cardtype == 2 ? @"gas_icon_cnpc" : @"gas_icon_snpn"];
+    titleL.text = self.curModel.curGasCard.cardtype == 2 ? @"中石油" : @"中石化";
     cardnoL.text = [self.curModel.curGasCard prettyCardNumber];
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 12, 0, 0)];
     return cell;
@@ -397,9 +491,18 @@
             @strongify(self);
             stepper.countLabel.text = [NSString stringWithFormat:@"%d", (int)newValue];
             self.curModel.rechargeAmount = (int)newValue;
+            [self refreshBottomView];
         };
-        [cell.stepper setup];
     }
+    GasNormalVM *model = (GasNormalVM *)self.curModel;
+    if (!model.curGasCard) {
+        cell.stepper.maximum = 2000;
+    }
+    else {
+        cell.stepper.maximum = model.curGasCard.availablechargeamt;
+    }
+    [cell.stepper setup];
+    
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
     return cell;
 }

@@ -15,9 +15,11 @@
     self = [super init];
     if (self) {
         _isAcceptedAgreement = YES;
-        _isLoadSuccess = NO;
+        _isLoadSuccess = YES;
         _segHelper = [[CKSegmentHelper alloc] init];
         _paymentPlatform = PaymentPlatformTypeAlipay;
+        _cardStore = [GasCardStore fetchOrCreateStore];
+        [self setupCardStore];
     }
     return self;
 }
@@ -54,6 +56,7 @@
     return text;
 }
 
+#pragma mark - Override
 ///充值优惠
 - (NSString *)rechargeFavorableDesc
 {
@@ -63,6 +66,24 @@
 - (NSString *)bankFavorableDesc
 {
     return nil;
+}
+
+- (BOOL)reloadIfNeeded:(CKStoreEvent *)event
+{
+    return NO;
+}
+
+- (void)reloadData
+{
+    
+}
+
+- (void)setupCardStore
+{
+}
+
+- (void)consumeEvent:(CKStoreEvent *)event
+{
 }
 
 @end

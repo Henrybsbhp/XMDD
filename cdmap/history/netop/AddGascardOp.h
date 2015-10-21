@@ -7,6 +7,8 @@
 ///油卡类型
 @property (nonatomic,assign) int req_cardtype;
 
+///油卡id
+@property (nonatomic,strong) NSNumber* rsp_gid;
 ///当月可以充值金额
 @property (nonatomic,assign) int rsp_availablechargeamt;
 ///当月已经享受优惠金额

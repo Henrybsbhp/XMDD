@@ -11,12 +11,15 @@ static char sSubscribeBlockKey;
 static char sStoreKey;
 static char sTargetHashTableKey;
 
+#define kDefTimetagKey @"$DefTimetag"
+
 @interface CKStore ()
 @property (nonatomic, strong) NSHashTable *weakTable;
-@property (nonatomic, assign) NSTimeInterval curTimetag;
+@property (nonatomic, strong) NSMutableDictionary *timetagDict;
 @end
 
 @implementation CKStore
+
 + (NSMapTable *)storeTable
 {
     static NSMapTable *g_storeTable;
@@ -49,6 +52,7 @@ static char sTargetHashTableKey;
     if (self) {
         _weakTable = [NSHashTable weakObjectsHashTable];
         _cache = [[JTQueue alloc] init];
+        _timetagDict = [NSMutableDictionary dictionary];
         _updateDuration = 60*60;
     }
     return self;
@@ -57,7 +61,7 @@ static char sTargetHashTableKey;
 - (void)subscribeEventsWithTarget:(id)target receiver:(void(^)(CKStore *store, CKStoreEvent *evt))block
 {
     objc_setAssociatedObject(target, &sSubscribeBlockKey, block, OBJC_ASSOCIATION_COPY_NONATOMIC);
-    objc_setAssociatedObject(target, &sStoreKey, self, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(target, &sStoreKey, block, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self.weakTable addObject:target];
 }
 
@@ -88,14 +92,21 @@ static char sTargetHashTableKey;
     return evt;
 }
 
-- (BOOL)needUpdateTimetag
+- (BOOL)needUpdateTimetagForKey:(NSString *)key
 {
-    return [[NSDate date] timeIntervalSince1970] - self.curTimetag > self.updateDuration;
+    if (!key) {
+        key = kDefTimetagKey;
+    }
+    NSTimeInterval timetag = [[self.timetagDict objectForKey:key] doubleValue];
+    return [[NSDate date] timeIntervalSince1970] - timetag > self.updateDuration;
 }
 
-- (void)updateTimetag
+- (void)updateTimetagForKey:(NSString *)key
 {
-    self.curTimetag = [[NSDate date] timeIntervalSince1970];
+    if (!key) {
+        key = kDefTimetagKey;
+    }
+    [self.timetagDict setObject:@([[NSDate date] timeIntervalSince1970]) forKey:key];
 }
 
 @end
@@ -123,4 +134,47 @@ static char sTargetHashTableKey;
     return [CKStoreEvent eventWithSignal:signal code:self.code object:self.object];
 }
 
+- (BOOL)callIfNeededForCode:(NSInteger)code object:(id)obj target:(id)target selector:(SEL)selector
+{
+    CKStoreEvent *evt = self;
+    if (target && selector && evt.code == code && (!obj || (obj && [obj isEqual:evt.object]))) {
+        [self _callSelector:selector forTarget:target];
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)callIfNeededForCode:(NSInteger)code exceptObject:(id)obj target:(id)target selector:(SEL)selector
+{
+    if (self.object && [self.object isEqual:obj]) {
+        return NO;
+    }
+    if (!self.object && !obj) {
+        return NO;
+    }
+    [self _callSelector:selector forTarget:target];
+    return YES;
+}
+
+- (BOOL)callIfNeededForCode:(NSInteger)code object:(id)obj handler:(void(^)(CKStoreEvent *))handler
+{
+    CKStoreEvent *evt = self;
+    if (handler && evt.code == code && (!obj || (obj && [obj isEqual:evt.object]))) {
+        handler(evt);
+        return YES;
+    }
+    return NO;
+}
+
+- (void)_callSelector:(SEL)selector forTarget:(id)target
+{
+    //用于去掉xcode下面的警告
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    [target performSelector:selector withObject:self];
+#pragma clang diagnostic pop
+}
+
 @end
+
+

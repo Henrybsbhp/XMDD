@@ -15,6 +15,7 @@ class=AddGascard op auth path="/user/gascard/add"> {
     <"油卡类型">cardtype:int
   }
   <rsp> {
+    <"油卡id">gid:number
     <"当月可以充值金额">availablechargeamt:int
     <"当月已经享受优惠金额">couponedmoney:int
   }
@@ -59,7 +60,7 @@ class=GascardCharge op auth path="/user/gascard/charge"> {
   <rsp> {
      <"交易流水">tradeid
      <"记录ID">orderid:number
-     <"支付金额">total
+     <"支付金额">total:int
   }
 }
 

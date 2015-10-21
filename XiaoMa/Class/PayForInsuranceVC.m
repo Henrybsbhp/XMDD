@@ -15,7 +15,7 @@
 #import "InsuranceOrderPayOp.h"
 #import "InsuranceResultVC.h"
 #import "PaymentHelper.h"
-#import "InsuranceOrderPaidSuccessOp.h"
+#import "OrderPaidSuccessOp.h"
 #import "InsOrderStore.h"
 
 #define CheckBoxDiscountGroup @"CheckBoxDiscountGroup"
@@ -276,7 +276,7 @@
         resultVC.orderID = self.insOrder.orderid;
         [self.navigationController pushViewController:resultVC animated:YES];
         
-        InsuranceOrderPaidSuccessOp *iop = [[InsuranceOrderPaidSuccessOp alloc] init];
+        OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 1;
         iop.req_tradeno = op.rsp_tradeno;
         [[iop rac_postRequest] subscribeNext:^(id x) {

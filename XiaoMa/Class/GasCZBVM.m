@@ -12,13 +12,13 @@
 
 - (NSArray *)datasource
 {
-    self.isLoadSuccess = YES;
-    self.curGasCard = [[GasCard alloc] init];
-    self.curGasCard.czbcouponupplimit = 50;
-    self.curGasCard.czbcouponedmoney = 8;
-    self.curGasCard.cardtype = 2;
-    self.curBankCard = [[HKBankCard alloc] init];
-    
+//    self.isLoadSuccess = YES;
+//    self.curGasCard = [[GasCard alloc] init];
+//    self.curGasCard.czbcouponupplimit = 50;
+//    self.curGasCard.czbcouponedmoney = 8;
+//    self.curGasCard.cardtype = 2;
+//    self.curBankCard = [[HKBankCard alloc] init];
+//    
     if (!self.isLoadSuccess) {
         return @[@[@"1"]];
     }

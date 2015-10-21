@@ -8,10 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "GasBaseVM.h"
-
+#import "GetGaschargeConfigOp.h"
+#import "GascardChargeOp.h"
 
 @interface GasNormalVM : GasBaseVM
+@property (nonatomic, strong) GetGaschargeConfigOp *configOp;
 
 - (NSString *)rechargeFavorableDesc;
+- (void)startPayInTargetVC:(UIViewController *)vc completed:(void(^)(GasCard *card, GascardChargeOp *paidop))completed;
 
 @end

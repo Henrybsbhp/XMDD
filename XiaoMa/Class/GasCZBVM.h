@@ -11,5 +11,4 @@
 
 @interface GasCZBVM : GasBaseVM
 
-
 @end

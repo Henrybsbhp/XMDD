@@ -8,12 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum : NSInteger
+{
+    DrawingBoardViewStatusNone = 0,
+    DrawingBoardViewStatusSuccess,
+    DrawingBoardViewStatusFail
+}DrawingBoardViewStatus;
+
 @interface DrawingBoardView : UIView
+///(default is DrawingBoardViewStatusNone)
+@property (nonatomic, assign) DrawingBoardViewStatus drawingStatus;
 
 - (void)drawSuccessByFrame;
 
 -(void) drawSuccess;
 
 -(void) drawFailure;
+
+-(void)drawWithStatus:(DrawingBoardViewStatus)status;
 
 @end

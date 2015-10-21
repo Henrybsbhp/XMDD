@@ -18,7 +18,7 @@
 ///记录ID
 @property (nonatomic,strong) NSNumber* rsp_orderid;
 ///支付金额
-@property (nonatomic,strong) NSString* rsp_total;
+@property (nonatomic,assign) int rsp_total;
 
 
 @end
