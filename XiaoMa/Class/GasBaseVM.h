@@ -9,14 +9,23 @@
 #import <Foundation/Foundation.h>
 #import "PaymentHelper.h"
 #import "GasCard.h"
+#import "HKBankCard.h"
+#import "CKStore.h"
+#import "GasCardStore.h"
+
+#define kGasConsumeEventForModel    997
+#define kGasVCReloadDirectly        998
+#define kGasVCReloadWithEvent       999
 
 @interface GasBaseVM : NSObject
 
 @property (nonatomic, assign) BOOL isLoading;
-///(Default is NO)
+///(Default is YES)
 @property (nonatomic, assign) BOOL isLoadSuccess;
 ///当前选择的油卡
 @property (nonatomic, strong) GasCard *curGasCard;
+///当前选择的银行卡
+@property (nonatomic, strong) HKBankCard *curBankCard;
 ///充值金额
 @property (nonatomic, assign) NSUInteger rechargeAmount;
 ///支付平台
@@ -25,9 +34,19 @@
 @property (nonatomic, assign) BOOL isAcceptedAgreement;
 ///check box control
 @property (nonatomic, strong) CKSegmentHelper *segHelper;
-
-///充值提醒
+@property (nonatomic, strong) GasCardStore *cardStore;
+///加油提醒
 - (NSString *)gasRemainder;
+///充值优惠描述
+- (NSString *)rechargeFavorableDesc;
 ///@Override
 - (NSArray *)datasource;
+///@Override(银行卡优惠描述)
+- (NSString *)bankFavorableDesc;
+///@Override
+- (BOOL)reloadWithForce:(BOOL)force;
+///@Override
+- (void)setupCardStore;
+///@Override
+- (void)consumeEvent:(CKStoreEvent *)event;
 @end

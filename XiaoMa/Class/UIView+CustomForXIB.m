@@ -114,6 +114,14 @@ static char *s_keyPathKey;
             [(UIButton *)self setBackgroundImage:img forState:UIControlStateHighlighted];
         }
     }
+    else if ([key equalByCaseInsensitive:@"DBCI"]) {
+        UIEdgeInsets insets = [self edgeInsetsWithString:value];
+        if ([self isKindOfClass:[UIButton class]]) {
+            UIImage *img = [(UIButton *)self backgroundImageForState:UIControlStateDisabled];
+            img = [img resizableImageWithCapInsets:insets];
+            [(UIButton *)self setBackgroundImage:img forState:UIControlStateDisabled];
+        }
+    }
 }
 
 - (void)_setButton:(UIButton *)btn withImageInsets:(UIEdgeInsets)insets forState:(UIControlState)state

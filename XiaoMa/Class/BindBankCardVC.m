@@ -7,6 +7,7 @@
 //
 
 #import "BindBankCardVC.h"
+#import "BankCardStore.h"
 #import "HKSMSModel.h"
 #import "UIView+Shake.h"
 #import "BindBankcardOp.h"
@@ -138,6 +139,8 @@
         [ResultVC showInTargetVC:self withSuccessText:@"恭喜，绑定成功!" ensureBlock:^{
             [MobClick event:@"rp313-6"];
             [self.navigationController popViewControllerAnimated:YES];
+            BankCardStore *store = [BankCardStore fetchExistsStore];
+            [store sendEvent:[store getAllBankCards]];
             [self postCustomNotificationName:kNotifyRefreshMyBankcardList object:nil];
             if (self.finishAction)
             {

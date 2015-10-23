@@ -26,7 +26,7 @@
 #import "GetUserResourcesV2Op.h"
 #import "SystemFastrateGetOp.h"
 #import "CheckoutServiceOrderV3Op.h"
-#import "InsuranceOrderPaidSuccessOp.h"
+#import "OrderPaidSuccessOp.h"
 
 
 #define CheckBoxCouponGroup @"CheckBoxCouponGroup"
@@ -981,7 +981,7 @@
         
         [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
         
-        InsuranceOrderPaidSuccessOp *iop = [[InsuranceOrderPaidSuccessOp alloc] init];
+        OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 2;
         iop.req_tradeno = tradeId;
         [[iop rac_postRequest] subscribeNext:^(id x) {
@@ -1013,7 +1013,7 @@
 
         [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
         
-        InsuranceOrderPaidSuccessOp *iop = [[InsuranceOrderPaidSuccessOp alloc] init];
+        OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 2;
         iop.req_tradeno = tradeId;
         [[iop rac_postRequest] subscribeNext:^(id x) {

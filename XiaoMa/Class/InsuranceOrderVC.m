@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) NSArray *coverages;
 @property (nonatomic, strong) HKLoadingModel *loadingModel;
+@property (nonatomic, strong) InsOrderStore *orderStore;
 
 @end
 
@@ -78,8 +79,9 @@
 
 - (void)setupInsOrderStore
 {
+    self.orderStore = [InsOrderStore fetchOrCreateStore];
     @weakify(self);
-    [[InsOrderStore fetchOrCreateStore] subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+    [self.orderStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
         @strongify(self);
         RACSignal *sig = [evt.signal map:^id(id value) {
             self.order = [[(InsOrderStore *)store cache] objectForKey:self.orderID];
@@ -124,7 +126,6 @@
     else {
         amount = [NSString stringWithFormat:@"￥%.2f", self.order.totoalpay];
     }
-
 
     NSArray *array = @[RACTuplePack(@"被保险人",_order.policyholder),
                        RACTuplePack(@"保险公司",_order.inscomp),

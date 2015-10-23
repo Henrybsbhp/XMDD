@@ -10,9 +10,13 @@
 #import "CKLine.h"
 
 @interface HKTableViewCell : UITableViewCell
+@property (nonatomic, strong) NSIndexPath *currentIndexPath;
+@property (nonatomic, weak) UITableView *targetTableView;
+@property (nonatomic, assign) UIEdgeInsets customSeparatorInset UI_APPEARANCE_SELECTOR;
 
 - (CKLine *)addOrUpdateBorderLineWithAlignment:(CKLineAlignment)alignment insets:(UIEdgeInsets)insets;
 - (void)removeBorderLineWithAlignment:(CKLineAlignment)alignment;
 - (void)removeAllBorderLines;
+- (void)prepareCellForTableView:(UITableView *)tableView atIndexPath:(NSIndexPath *)indexPath;
 
 @end

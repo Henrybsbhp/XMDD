@@ -15,13 +15,20 @@
 #import "HKTableViewCell.h"
 #import "UIView+JTLoadingView.h"
 #import "NSString+RectSize.h"
+#import "NSString+Split.h"
 
 #import "GasPickAmountCell.h"
 #import "GasReminderCell.h"
 
+#import "MyBankVC.h"
+#import "GasCardListVC.h"
+#import "GasAddCardVC.h"
+#import "GasPayForCZBVC.h"
+#import "GasRecordVC.h"
+#import "GasPaymentResultVC.h"
 #import "WebVC.h"
 
-@interface GasVC ()<UITableViewDataSource, UITableViewDelegate>
+@interface GasVC ()<UITableViewDataSource, UITableViewDelegate, RTLabelDelegate>
 @property (nonatomic, strong) ADViewController *adctrl;
 @property (nonatomic, strong) GasTabView *headerView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
@@ -34,6 +41,7 @@
 @property (nonatomic, assign) GasBaseVM *curModel;
 @property (nonatomic, strong) NSArray *datasource;
 @property (nonatomic, assign) BOOL isAcceptedAgreement;
+
 @end
 
 @implementation GasVC
@@ -53,8 +61,10 @@
         [self setupHeaderView];
         [self setupADView];
         [self setupBottomView];
+        [self setupStore];
         [self setupSignals];
-        [self reloadData];
+        [self refreshViews];
+        [self.curModel reloadWithForce:YES];
     });
 }
 
@@ -76,7 +86,9 @@
     [self.headerView setTabBlock:^(NSInteger index) {
         @strongify(self);
         self.curModel = index == 0 ? self.normalModel : self.czbModel;
-        [self reloadData];
+        if (![self.curModel reloadWithForce:NO]) {
+            [self refreshViews];
+        }
     }];
 }
 
@@ -90,7 +102,7 @@
         if (ads.count > 0) {
             GasTabView *headerView = self.headerView;
             CGFloat height = floor(self.adctrl.adView.frame.size.height);
-            headerView.frame = CGRectMake(0, 0, self.view.frame.size.width, height);
+            headerView.frame = CGRectMake(0, 0, self.view.frame.size.width, height+44);
             [headerView addSubview:self.adctrl.adView];
             [self.adctrl.adView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(headerView);
@@ -109,21 +121,26 @@
     UIImage *bg2 = [[UIImage imageNamed:@"gas_btn_bg2"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
     [self.bottomBtn setBackgroundImage:bg1 forState:UIControlStateNormal];
     [self.bottomBtn setBackgroundImage:bg2 forState:UIControlStateDisabled];
+    self.bottomBtn.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.bottomBtn.titleLabel.minimumScaleFactor = 0.7;
 }
 
 - (void)setupSignals
 {
     RACSignal *sig1 = RACObserve(self, curModel);
-    RACSignal *sig2 = [RACObserve(self.normalModel, isLoadSuccess) distinctUntilChanged];
-    RACSignal *sig3 = [RACObserve(self.czbModel, isLoadSuccess) distinctUntilChanged];
+    RACSignal *sig2 = [[RACObserve(self.normalModel, isLoadSuccess) distinctUntilChanged]
+                       merge:[RACObserve(self.normalModel, isLoading) distinctUntilChanged]];
+    RACSignal *sig3 = [[RACObserve(self.czbModel, isLoadSuccess) distinctUntilChanged]
+                       merge:[RACObserve(self.czbModel, isLoading) distinctUntilChanged]];
     RACSignal *sig4 = [RACObserve(self, isAcceptedAgreement) distinctUntilChanged];
     @weakify(self);
     [[[RACSignal merge:@[sig1,sig2,sig3]] deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(id x) {
         @strongify(self);
         BOOL success = self.curModel.isLoadSuccess;
-        self.bottomView.hidden = !success;
-        self.tableView.tableFooterView.hidden = !success;
-        self.tableView.scrollEnabled = success;
+        BOOL loading = self.curModel.isLoading;
+        self.bottomView.hidden = !success || loading;
+        self.tableView.tableFooterView.hidden = !success || loading;
+        self.tableView.scrollEnabled = success && !loading;
     }];
     
     [sig4 subscribeNext:^(NSNumber *x) {
@@ -133,16 +150,67 @@
     }];
 }
 
-#pragma mark - reoadData
-- (void)reloadData
+- (void)setupStore
+{
+    @weakify(self);
+    [[GasCardStore fetchExistsStore] subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+        @strongify(self);
+        [evt callIfNeededForCode:kGasVCReloadDirectly object:nil target:self selector:@selector(refreshViews)];
+        [evt callIfNeededForCode:kGasVCReloadWithEvent object:nil target:self selector:@selector(reloadData:)];
+        [evt callIfNeededForCode:kGasConsumeEventForModel object:self.curModel target:self.curModel selector:@selector(consumeEvent:)];
+    }];
+}
+#pragma mark - refresh
+- (void)refreshViews
 {
     self.datasource = [self.curModel datasource];
-    NSNumber *item = [[self.datasource safetyObjectAtIndex:1] safetyObjectAtIndex:0];
-    NSLog(@"item = %@", [item customInfo]);
     [self.curModel.segHelper removeAllItemsForGroupName:@"Pay"];
-    NSLog(@"item = %@", [item customInfo]);
     [self.tableView reloadData];
     [self refrshLoadingView];
+    [self refreshBottomView];
+}
+
+- (void)refreshBottomView
+{
+    NSString *title;
+    NSInteger discount = 0;
+    NSInteger paymoney = self.curModel.rechargeAmount;
+    if ([self.curModel isEqual:self.normalModel]) {
+        GasNormalVM *model = (GasNormalVM *)self.curModel;
+        NSInteger discount = 0;
+        NSInteger couponlimit = model.configOp ? model.configOp.rsp_couponupplimit : 1000;
+        CGFloat percent = model.configOp ? model.configOp.rsp_discountrate : 2;
+        if (model.curGasCard) {
+            couponlimit = MAX(0, couponlimit - [model.curGasCard.couponedmoney integerValue]);
+        }
+        discount = MIN(couponlimit, paymoney) * percent / 100.0;
+        paymoney = paymoney - discount;
+        if (discount > 0) {
+            title = [NSString stringWithFormat:@"已优惠%d元，您只需支付%d元，现在支付", (int)discount, (int)paymoney];
+        }
+        else {
+            title = [NSString stringWithFormat:@"您需支付%d，元，现在支付", (int)paymoney];
+        }
+    }
+    else {
+        GasCZBVM *model = (GasCZBVM *)self.curModel;
+        NSInteger couponlimit = 0;
+        CGFloat percent = 0;
+        if (model.curBankCard.gasInfo) {
+            couponlimit = model.curBankCard.gasInfo.rsp_couponupplimit;
+            percent = model.curBankCard.gasInfo.rsp_discountrate;
+        }
+        discount = MIN(couponlimit, paymoney) * percent / 100.0;
+        paymoney = paymoney - discount;
+        if (discount > 0) {
+            title = [NSString stringWithFormat:@"已优惠%d元，您只需支付%d元，现在支付", (int)discount, (int)paymoney];
+        }
+        else {
+            title = [NSString stringWithFormat:@"您需支付%d元，现在支付", (int)paymoney];
+        }
+    }
+    [self.bottomBtn setTitle:title forState:UIControlStateNormal];
+    [self.bottomBtn setTitle:title forState:UIControlStateDisabled];
 }
 
 - (void)refrshLoadingView
@@ -160,6 +228,7 @@
         @weakify(self);
         [self.view showDefaultEmptyViewWithText:@"刷新失败，点击重试" centerOffset:y tapBlock:^{
             @strongify(self);
+            [self.curModel reloadWithForce:YES];
         }];
     }
     else {
@@ -167,9 +236,77 @@
         [self.view hideDefaultEmptyView];
     }
 }
+
+- (void)reloadData:(CKStoreEvent *)event
+{
+    @weakify(self);
+    GasBaseVM *model = self.curModel;
+    [[[event signal] initially:^{
+        
+        @strongify(self);
+        model.isLoading = YES;
+        [self refreshViews];
+    }] subscribeError:^(NSError *error) {
+        
+        @strongify(self);
+        model.isLoadSuccess = NO;
+        model.isLoading = NO;
+        [self refreshViews];
+    } completed:^{
+        
+        @strongify(self);
+        model.isLoadSuccess = YES;
+        model.isLoading = NO;
+        [self refreshViews];
+    }];
+}
+
 #pragma mark - Action
 - (IBAction)actionGotoRechargeRecords:(id)sender
 {
+    GasRecordVC *vc = [UIStoryboard vcWithId:@"GasRecordVC" inStoryboard:@"Gas"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (IBAction)actionPay:(id)sender
+{
+    if (![LoginViewModel loginIfNeededForTargetViewController:self]) {
+        return;
+    }
+    if (!self.curModel.curGasCard) {
+        [gToast showText:@"您需要先添加一张油卡！" inView:self.view];
+        return;
+    }
+    //浙商支付
+    if ([self.curModel isEqual:self.czbModel]) {
+        GasCZBVM *model = (GasCZBVM *)self.curModel;
+        if (!model.curBankCard) {
+            [gToast showText:@"您需要先添加一张浙商汽车卡！" inView:self.view];
+        }
+        else if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+            GasPayForCZBVC *vc = [UIStoryboard vcWithId:@"GasPayForCZBVC" inStoryboard:@"Gas"];
+            vc.bankCard = model.curBankCard;
+            vc.gasCard = model.curGasCard;
+            vc.chargeamt = model.rechargeAmount;
+            vc.originVC = self;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
+    //普通支付
+    else {
+        if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+            @weakify(self);
+            [(GasNormalVM *)self.curModel startPayInTargetVC:self completed:^(GasCard *card, GascardChargeOp *paidop) {
+                
+                @strongify(self);
+                GasPaymentResultVC *vc = [UIStoryboard vcWithId:@"GasPaymentResultVC" inStoryboard:@"Gas"];
+                vc.drawingStatus = DrawingBoardViewStatusSuccess;
+                vc.gasCard = card;
+                vc.gasPayOp = paidop;
+                [self.navigationController pushViewController:vc animated:YES];
+            }];
+        }
+    }
 }
 
 - (IBAction)actionCheckAgreement:(id)sender
@@ -187,8 +324,30 @@
 
 - (void)actionAddGasCard
 {
-    
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        GasAddCardVC *vc = [UIStoryboard vcWithId:@"GasAddCardVC" inStoryboard:@"Gas"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
+
+- (void)actionPickGasCard
+{
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        GasCardListVC *vc = [UIStoryboard vcWithId:@"GasCardListVC" inStoryboard:@"Gas"];
+        vc.model = self.curModel;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
+- (void)actionPickBankCard
+{
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        MyBankVC *vc = [UIStoryboard vcWithId:@"MyBankVC" inStoryboard:@"Bank"];
+        vc.selectedCardReveicer = self.curModel;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
 #pragma mark - UITableViewDelegate and datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -230,10 +389,10 @@
     if (tag == 1) {
         return self.view.frame.size.height;
     }
-    else if (tag == 10001) {
+    else if (tag == 10001) {    //添加加油卡
         height = 74;
     }
-    else if (tag == 10002) {
+    else if (tag == 10002) {    //选择加油卡
         height = 68;
     }
     else if (tag == 10003) {    //充值金额
@@ -246,6 +405,18 @@
         cell.frame = CGRectMake(0, 0, tableView.frame.size.width, 45);
         height = [cell cellHeight];
     }
+    else if (tag == 10005) { //选择银行卡
+        CGFloat width = tableView.frame.size.width - 82 - 10;
+        CGSize size = [[self.curModel bankFavorableDesc] labelSizeWithWidth:width font:[UIFont systemFontOfSize:13]];
+        height = 70+10;
+        height = MAX(height+14, height+size.height);
+    }
+    else if (tag == 10006) {    //添加浙商卡
+        CGFloat width = tableView.frame.size.width - 34 - 10;
+        CGSize size = [[self.curModel bankFavorableDesc] labelSizeWithWidth:width font:[UIFont systemFontOfSize:13]];
+        height = 18+36+14+10;
+        height = MAX(height+14, height+size.height);
+    }
     return height;
 }
 
@@ -257,13 +428,19 @@
         cell = [self gasCardCellAtIndexPath:indexPath];
     }
     else if (tag == 10002) {
-        cell = [self addNormalGasCardCellAtIndexPath:indexPath];
+        cell = [self addGasCardCellAtIndexPath:indexPath];
     }
     else if (tag == 10003) {
         cell = [self pickGasAmountCellAtIndexPath:indexPath];
     }
     else if (tag == 10004) {
         cell = [self gasReminderCellAtIndexPath:indexPath];
+    }
+    else if (tag == 10005) {
+        cell = [self pickBankCardCellAtIndexPath:indexPath];
+    }
+    else if (tag == 10006) {
+        cell = [self addCZBCardCellAtIndexPath:indexPath];
     }
     else if (tag > 20000) {
         cell = [self paymentPlatformCellAtIndexPath:indexPath];
@@ -282,24 +459,68 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSInteger tag = [[[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row] integerValue];
-    if (tag == 10002) {
+    if (tag == 10001) {
+        [self actionPickGasCard];
+    }
+    else if (tag == 10002) {
         [self actionAddGasCard];
+    }
+    else if (tag == 10005 || tag == 10006) {
+        [self actionPickBankCard];
     }
 }
 #pragma mark - About Cell
-///添加油卡（普通充值）
-- (HKTableViewCell *)addNormalGasCardCellAtIndexPath:(NSIndexPath *)indexPath
+///添加油卡
+- (HKTableViewCell *)addGasCardCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    HKTableViewCell *cell = (HKTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"AddNormalGasCard"
+    HKTableViewCell *cell = (HKTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"AddGasCard"
                                                                                     forIndexPath:indexPath];
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 12, 0, 0)];
     return cell;
 }
 
+///添加浙商卡
+- (HKTableViewCell *)addCZBCardCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    HKTableViewCell *cell = (HKTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"AddCZBCard"
+                                                                                    forIndexPath:indexPath];
+    UILabel *label = (UILabel *)[cell.contentView viewWithTag:1003];
+    label.text = [self.curModel bankFavorableDesc];
+    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 12, 0, 0)];
+    return cell;
+}
+
+///选择加油卡
 - (HKTableViewCell *)gasCardCellAtIndexPath:(NSIndexPath *)indexPath
 {
     HKTableViewCell *cell = (HKTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"GasCard"
                                                                                     forIndexPath:indexPath];
+    UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
+    UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
+    UILabel *cardnoL = (UILabel *)[cell.contentView viewWithTag:1003];
+    
+    logoV.image = [UIImage imageNamed:self.curModel.curGasCard.cardtype == 2 ? @"gas_icon_cnpc" : @"gas_icon_snpn"];
+    titleL.text = self.curModel.curGasCard.cardtype == 2 ? @"中石油" : @"中石化";
+    cardnoL.text = [self.curModel.curGasCard.gascardno splitByStep:4 replacement:@" "];
+    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 12, 0, 0)];
+    return cell;
+}
+
+///选择银行卡
+- (HKTableViewCell *)pickBankCardCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    HKTableViewCell *cell = (HKTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"BankCard"
+                                                                                    forIndexPath:indexPath];
+    UILabel *cardnoL = (UILabel *)[cell.contentView viewWithTag:1003];
+    UILabel *descL = (UILabel *)[cell.contentView viewWithTag:1006];
+
+    NSString *cardno = [(GasCZBVM *)self.curModel curBankCard].cardNumber;
+    if (cardno.length > 4) {
+        cardno = [cardno substringFromIndex:cardno.length - 4 length:4];
+    }
+    cardnoL.text = [NSString stringWithFormat:@"尾号%@", cardno];
+    descL.text = [self.curModel bankFavorableDesc];
+
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 12, 0, 0)];
     return cell;
 }
@@ -307,16 +528,35 @@
 - (GasPickAmountCell *)pickGasAmountCellAtIndexPath:(NSIndexPath *)indexPath
 {
     GasPickAmountCell *cell = (GasPickAmountCell *)[self.tableView dequeueReusableCellWithIdentifier:@"PickGasAmount"];
-    cell.richLabel.text = @"<font size=20 color='#CCFF00'>Text with</font> <font size=16 color=purple>different colours 货航哦哦</font> <font face=Futura size=32 color='#dd1100'>and sizes</font>";
+    cell.richLabel.text = [self.curModel rechargeFavorableDesc];
     if (!cell.stepper.valueChangedCallback) {
         @weakify(self);
         cell.stepper.valueChangedCallback = ^(PKYStepper *stepper, float newValue) {
             @strongify(self);
             stepper.countLabel.text = [NSString stringWithFormat:@"%d", (int)newValue];
             self.curModel.rechargeAmount = (int)newValue;
+            [self refreshBottomView];
         };
-        [cell.stepper setup];
     }
+    if ([self.curModel isEqual:self.normalModel]) {
+        if (!self.curModel.curGasCard) {
+            cell.stepper.maximum = 2000;
+        }
+        else {
+            cell.stepper.maximum = [self.curModel.curGasCard.availablechargeamt integerValue];
+        }
+    }
+    else {
+        GasCZBVM *model = (GasCZBVM *)self.curModel;
+        if (!model.curBankCard.gasInfo) {
+            cell.stepper.maximum = 2000;    
+        }
+        else {
+            cell.stepper.maximum = model.curBankCard.gasInfo.rsp_availablechargeamt;
+        }
+    }
+    [cell.stepper setup];
+    
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
     return cell;
 }
@@ -326,6 +566,7 @@
     GasReminderCell *cell = (GasReminderCell *)[self.tableView dequeueReusableCellWithIdentifier:@"GasReminder"];
     if (!cell) {
         cell = [[GasReminderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"GasReminder"];
+        cell.richLabel.delegate = self;
     }
     cell.richLabel.text = [self.curModel gasRemainder];
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
@@ -335,7 +576,7 @@
 
 - (HKTableViewCell *)paymentPlatformCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSNumber *item = [[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
+    NSString *item = [[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
     NSInteger tag = [item integerValue];
     HKTableViewCell *cell = (HKTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatform"];
     UIImageView *iconV = (UIImageView *)[cell.contentView viewWithTag:1001];
@@ -387,6 +628,11 @@
     UIEdgeInsets bottomInsets = tag == 20003 ? UIEdgeInsetsZero : UIEdgeInsetsMake(0, 12, 0, 0);
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:bottomInsets];
     return cell;
+}
+#pragma mark - RTLabelDelegate
+- (void)rtLabel:(id)rtLabel didSelectLinkWithURL:(NSURL *)url
+{
+    [gAppMgr.navModel pushToViewControllerByUrl:[url absoluteString]];
 }
 
 @end

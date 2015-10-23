@@ -497,7 +497,7 @@
 	CGFloat paragraphSpacingBefore = 0.0;
 	int textAlignment = _textAlignment;
 	int lineBreakMode = _lineBreakMode;
-	int lineSpacing = _lineSpacing;
+	CGFloat lineSpacing = _lineSpacing;
 	
 	for (int i=0; i<[[attributes allKeys] count]; i++)
 	{

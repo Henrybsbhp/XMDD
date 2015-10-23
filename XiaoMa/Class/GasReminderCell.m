@@ -20,7 +20,10 @@
     [self.contentView addSubview:_iconView];
     
     _richLabel = [[RTLabel alloc] initWithFrame:CGRectZero];
-    [_richLabel setParagraphReplacement:@""];
+    [_richLabel setParagraphReplacement:@"\n"];
+    [_richLabel setLinkAttributes:@{@"size":@"13"}];
+    [_richLabel setSelectedLinkAttributes:@{@"size":@"13",
+                                            @"color":@"#888888"}];
     [self.contentView addSubview:_richLabel];
     return self;
 }
@@ -28,14 +31,17 @@
 - (void)setFrame:(CGRect)frame
 {
     CGFloat x = 10+23+8;
-    CGRect lbFrame = CGRectMake(x, 5, frame.size.width - x - 8, 0);
+    CGRect lbFrame = CGRectMake(x, 8, frame.size.width - x - 8, 0);
     self.richLabel.frame = lbFrame;
     [super setFrame:frame];
 }
 
 - (CGFloat)cellHeight
 {
-    return MAX(45, ceil([_richLabel optimumSize].height + 10));
+    if (_richLabel.text) {
+        return MAX(45, ceil([_richLabel optimumSize].height + 16));
+    }
+    return 45;
 }
 
 - (void)layoutSubviews
