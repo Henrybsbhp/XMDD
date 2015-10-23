@@ -242,6 +242,13 @@
 		18F93CD71B6F0A4A000325DD /* DashLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F93CD61B6F0A4A000325DD /* DashLine.m */; };
 		5027568F1BA6A3C50065592A /* GetCouponDetailsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5027568E1BA6A3C50065592A /* GetCouponDetailsOp.m */; };
 		502756921BA6AC5B0065592A /* CouponDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 502756911BA6AC5B0065592A /* CouponDetailsVC.m */; };
+		505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */; settings = {ASSET_TAGS = (); }; };
+		505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */; settings = {ASSET_TAGS = (); }; };
+		505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC71BD7356A00857819 /* WebViewJavascriptBridgeBase.m */; settings = {ASSET_TAGS = (); }; };
+		505E5FCD1BD7356B00857819 /* WKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC91BD7356B00857819 /* WKWebViewJavascriptBridge.m */; settings = {ASSET_TAGS = (); }; };
+		505E5FD01BD73AB600857819 /* Discover.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FCF1BD73AB600857819 /* Discover.storyboard */; settings = {ASSET_TAGS = (); }; };
+		505E5FD31BD73B7D00857819 /* ListWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FD21BD73B7D00857819 /* ListWebVC.m */; settings = {ASSET_TAGS = (); }; };
+		505E5FD61BD73B9300857819 /* DetailWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FD51BD73B9300857819 /* DetailWebVC.m */; settings = {ASSET_TAGS = (); }; };
 		506008D41B74631800B8761D /* DrawingBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 506008D31B74631800B8761D /* DrawingBoardView.m */; };
 		506008D71B747FED00B8761D /* ResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 506008D61B747FED00B8761D /* ResultVC.m */; };
 		506A30991B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 506A30981B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.m */; };
@@ -257,6 +264,7 @@
 		508C718F1BA808B600FA2F05 /* Insurance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 508C718E1BA808B600FA2F05 /* Insurance.storyboard */; };
 		508D06801B900CF800B835BB /* InsuranceOrderPayOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 508D067F1B900CF800B835BB /* InsuranceOrderPayOp.m */; };
 		50A9EF1B1B6874880036897F /* InsuranceResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A9EF1A1B6874880036897F /* InsuranceResultVC.m */; };
+		50B5A2961BD8CC51004E00ED /* MyWebViewBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */; settings = {ASSET_TAGS = (); }; };
 		50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE7C911B6716B500675887 /* SelectScrollView.m */; };
 		50C6BF4D1B7341B800A5E021 /* CardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */; };
 		6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */; };
@@ -911,6 +919,18 @@
 		5027568E1BA6A3C50065592A /* GetCouponDetailsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetCouponDetailsOp.m; path = Class/GetCouponDetailsOp.m; sourceTree = "<group>"; };
 		502756901BA6AC5B0065592A /* CouponDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponDetailsVC.h; sourceTree = "<group>"; };
 		502756911BA6AC5B0065592A /* CouponDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponDetailsVC.m; sourceTree = "<group>"; };
+		505E5FC31BD7356A00857819 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
+		505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
+		505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
+		505E5FC61BD7356A00857819 /* WebViewJavascriptBridgeBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridgeBase.h; sourceTree = "<group>"; };
+		505E5FC71BD7356A00857819 /* WebViewJavascriptBridgeBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridgeBase.m; sourceTree = "<group>"; };
+		505E5FC81BD7356A00857819 /* WKWebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKWebViewJavascriptBridge.h; sourceTree = "<group>"; };
+		505E5FC91BD7356B00857819 /* WKWebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWebViewJavascriptBridge.m; sourceTree = "<group>"; };
+		505E5FCF1BD73AB600857819 /* Discover.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Discover.storyboard; sourceTree = "<group>"; };
+		505E5FD11BD73B7D00857819 /* ListWebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListWebVC.h; sourceTree = "<group>"; };
+		505E5FD21BD73B7D00857819 /* ListWebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListWebVC.m; sourceTree = "<group>"; };
+		505E5FD41BD73B9300857819 /* DetailWebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailWebVC.h; sourceTree = "<group>"; };
+		505E5FD51BD73B9300857819 /* DetailWebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailWebVC.m; sourceTree = "<group>"; };
 		506008D21B74631800B8761D /* DrawingBoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingBoardView.h; sourceTree = "<group>"; };
 		506008D31B74631800B8761D /* DrawingBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingBoardView.m; sourceTree = "<group>"; };
 		506008D51B747FED00B8761D /* ResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultVC.h; sourceTree = "<group>"; };
@@ -940,6 +960,8 @@
 		508D067F1B900CF800B835BB /* InsuranceOrderPayOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsuranceOrderPayOp.m; path = Class/InsuranceOrderPayOp.m; sourceTree = "<group>"; };
 		50A9EF191B6874880036897F /* InsuranceResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceResultVC.h; sourceTree = "<group>"; };
 		50A9EF1A1B6874880036897F /* InsuranceResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceResultVC.m; sourceTree = "<group>"; };
+		50B5A2941BD8CC51004E00ED /* MyWebViewBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyWebViewBridge.h; sourceTree = "<group>"; };
+		50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWebViewBridge.m; sourceTree = "<group>"; };
 		50BE7C901B6716B500675887 /* SelectScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectScrollView.h; path = Class/SelectScrollView.h; sourceTree = "<group>"; };
 		50BE7C911B6716B500675887 /* SelectScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectScrollView.m; path = Class/SelectScrollView.m; sourceTree = "<group>"; };
 		50C6BF4B1B7341B800A5E021 /* CardDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardDetailVC.h; sourceTree = "<group>"; };
@@ -1434,6 +1456,7 @@
 				6BBAB8B71ADBC21600EC342F /* DESConverUtil */,
 				189B31111ADB60AD001D7288 /* JGActionSheet */,
 				1816F4931ACD3B0900BBCC96 /* SYPaginator */,
+				505E5FC21BD7356A00857819 /* WebViewJavascriptBridge */,
 			);
 			path = Vendor;
 			sourceTree = "<group>";
@@ -2004,8 +2027,9 @@
 			children = (
 				1833F59A1BCD4773000E1DA1 /* Gas */,
 				18E28A021B8AFB710070E759 /* Super */,
-				6BBBF5591B296EB700E1B809 /* Award */,
 				185A527F1B195AA8003515CC /* Nearby */,
+				505E5FCE1BD7366100857819 /* Discover */,
+				6BBBF5591B296EB700E1B809 /* Award */,
 				6BB8CB881B14147F007B61B5 /* Commission */,
 				6BB8CB871B141474007B61B5 /* Rescure */,
 				189B39491AF71C2200B83F1B /* Mine */,
@@ -2646,6 +2670,33 @@
 			name = Label;
 			sourceTree = "<group>";
 		};
+		505E5FC21BD7356A00857819 /* WebViewJavascriptBridge */ = {
+			isa = PBXGroup;
+			children = (
+				505E5FC31BD7356A00857819 /* WebViewJavascriptBridge.h */,
+				505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */,
+				505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */,
+				505E5FC61BD7356A00857819 /* WebViewJavascriptBridgeBase.h */,
+				505E5FC71BD7356A00857819 /* WebViewJavascriptBridgeBase.m */,
+				505E5FC81BD7356A00857819 /* WKWebViewJavascriptBridge.h */,
+				505E5FC91BD7356B00857819 /* WKWebViewJavascriptBridge.m */,
+			);
+			path = WebViewJavascriptBridge;
+			sourceTree = "<group>";
+		};
+		505E5FCE1BD7366100857819 /* Discover */ = {
+			isa = PBXGroup;
+			children = (
+				505E5FD11BD73B7D00857819 /* ListWebVC.h */,
+				505E5FD21BD73B7D00857819 /* ListWebVC.m */,
+				505E5FD41BD73B9300857819 /* DetailWebVC.h */,
+				505E5FD51BD73B9300857819 /* DetailWebVC.m */,
+				50B5A2941BD8CC51004E00ED /* MyWebViewBridge.h */,
+				50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */,
+			);
+			name = Discover;
+			sourceTree = "<group>";
+		};
 		50BE7C8F1B6715B400675887 /* SelectScrollView */ = {
 			isa = PBXGroup;
 			children = (
@@ -3012,6 +3063,7 @@
 			isa = PBXGroup;
 			children = (
 				18B78F661BAAA0470061ECAD /* Mine.storyboard */,
+				505E5FCF1BD73AB600857819 /* Discover.storyboard */,
 				508C718E1BA808B600FA2F05 /* Insurance.storyboard */,
 				18E28A251B954F4E0070E759 /* Car.storyboard */,
 				6BD293BB1B943EF1006482A4 /* About.storyboard */,
@@ -3353,6 +3405,7 @@
 			files = (
 				6BB61B9A1AEF5350004F39AA /* MapBottomView.xib in Resources */,
 				6BEA56C01AE24DCE000D19C1 /* AlipaySDK.bundle in Resources */,
+				505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */,
 				6BBB825D1AE79FE100850D0C /* read_me.txt in Resources */,
 				6BD293CC1B943EF1006482A4 /* Commission.storyboard in Resources */,
 				6BD293D31B943EF1006482A4 /* Other.storyboard in Resources */,
@@ -3362,6 +3415,7 @@
 				18F8136B1B5F3561005F49B0 /* vertical_shadow@2x.png in Resources */,
 				6BD293D01B943EF1006482A4 /* Main.storyboard in Resources */,
 				6BDD6E251B67615C0060CFD0 /* JDFlipNumberView.bundle in Resources */,
+				505E5FD01BD73AB600857819 /* Discover.storyboard in Resources */,
 				6BD293CF1B943EF1006482A4 /* Login.storyboard in Resources */,
 				6BD293CB1B943EF1006482A4 /* Carwash.storyboard in Resources */,
 				189B311D1ADBEFDF001D7288 /* policy.json in Resources */,
@@ -3473,6 +3527,7 @@
 				6BF392441BD627A900838292 /* GetShopByNameV2Op.m in Sources */,
 				1816F4B01ACE75FB00BBCC96 /* CarWashTableVC.m in Sources */,
 				1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */,
+				50B5A2961BD8CC51004E00ED /* MyWebViewBridge.m in Sources */,
 				18C81CBC1B17FE7B00B0C292 /* FeedbackVC.m in Sources */,
 				1851F4281B0C2A4E00241A01 /* AutoBrand.m in Sources */,
 				6B978BFA1B6B643A00A6E7C6 /* HKCoverage.m in Sources */,
@@ -3483,6 +3538,7 @@
 				18F93CD71B6F0A4A000325DD /* DashLine.m in Sources */,
 				189C69861B74505E00E56E4A /* HKBankCard.m in Sources */,
 				6BDD6E271B67615C0060CFD0 /* JDFlipNumberViewImageFactory.m in Sources */,
+				505E5FD61BD73B9300857819 /* DetailWebVC.m in Sources */,
 				18988CB21BC79A76001DECD5 /* HKUserStore.m in Sources */,
 				189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */,
 				6BDD6E2E1B68B9AE0060CFD0 /* HKFlipDecimalView.m in Sources */,
@@ -3533,6 +3589,7 @@
 				5027568F1BA6A3C50065592A /* GetCouponDetailsOp.m in Sources */,
 				189C69821B734EDD00E56E4A /* ADViewController.m in Sources */,
 				6BBB084B1B021EA90002C349 /* ComOpenThreadOTScreenshotHelperSwizzleHelper.m in Sources */,
+				505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */,
 				1814F6581B96D56E001F2D76 /* CarListSubView.m in Sources */,
 				6BEA56C61AE24DCE000D19C1 /* NSString+SBJSON.m in Sources */,
 				189B30D41AD799AF001D7288 /* RACSignal+Extension.m in Sources */,
@@ -3614,6 +3671,7 @@
 				18B78F6A1BAAA2100061ECAD /* GetInsuranceCalculatorOpV2.m in Sources */,
 				506008D41B74631800B8761D /* DrawingBoardView.m in Sources */,
 				18D17F701B5390F400F66F04 /* VCodeInputField.m in Sources */,
+				505E5FCD1BD7356B00857819 /* WKWebViewJavascriptBridge.m in Sources */,
 				6BCF624A1B1739E70064AE32 /* CommissionCouponViewController.m in Sources */,
 				6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */,
 				1816F4B41ACE767200BBCC96 /* UIStoryboard+Expansion.m in Sources */,
@@ -3640,6 +3698,7 @@
 				1833F5391BCB42B8000E1DA1 /* MyCarStore.m in Sources */,
 				5073810D1BA1672D00B29756 /* GetCouponByTypeNewOp.m in Sources */,
 				6BBB82491AE7401400850D0C /* GetInsuranceByChannel.m in Sources */,
+				505E5FD31BD73B7D00857819 /* ListWebVC.m in Sources */,
 				6BE4CE371AF220A0008E1C19 /* GetUserFavoriteOp.m in Sources */,
 				6BEA56C71AE24DCE000D19C1 /* SBJSON.m in Sources */,
 				1826CCF21BAAE80800E2F46D /* ZFCWanderingCubesActivityIndicatorView.m in Sources */,
@@ -3751,6 +3810,7 @@
 				187CC9621AEF896C004D1F28 /* PayResultForInstallmentsVC.m in Sources */,
 				18D17F771B53B21E00F66F04 /* MBProgressHUD.m in Sources */,
 				6BD25E8B1B7C41C6008C0080 /* CollectionChooseVC.m in Sources */,
+				505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */,
 				189B31061AD7B7F5001D7288 /* UIView+Shake.m in Sources */,
 				6BB61BA01AEF6969004F39AA /* RescueViewController.m in Sources */,
 				6BBB083D1B01F8A30002C349 /* AboutViewController.m in Sources */,

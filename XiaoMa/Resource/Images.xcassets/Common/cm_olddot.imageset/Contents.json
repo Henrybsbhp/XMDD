@@ -6,13 +6,13 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "消息.png",
-      "scale" : "2x"
+      "scale" : "2x",
+      "filename" : "点.png"
     },
     {
       "idiom" : "universal",
-      "filename" : "消息@3x.png",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "点@3x.png"
     }
   ],
   "info" : {
