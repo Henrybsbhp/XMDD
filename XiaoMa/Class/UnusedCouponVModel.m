@@ -201,11 +201,12 @@
         if (couponDic.isshareble) {
             
             statusText = @"转赠";
-            @weakify(self);
             [[[statusB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-                @strongify(self);
-                [self shareAction:couponDic.couponId];
+                
+                if (gAppMgr.canShareFlag)
+                    [self shareAction:couponDic.couponId];
             }];
+            
         }
         else
         {

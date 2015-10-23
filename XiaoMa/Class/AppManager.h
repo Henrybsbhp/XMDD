@@ -81,6 +81,9 @@
 @property (nonatomic,strong)NSDictionary * discountRateDict;
 @property (nonatomic,strong)NSDictionary * carwashRateDict;
 
+///是否显示分享按钮的标示
+@property (nonatomic)BOOL canShareFlag;
+
 
 ///获取上次的定位地址和天气信息
 - (void)loadLastLocationAndWeather;
@@ -96,4 +99,6 @@
 
 ///版本升级
 - (void)startUpdatingWithURLString:(NSString *)strurl;
+///相关开关设置
+- (void)getSwitchConfiguration;
 @end

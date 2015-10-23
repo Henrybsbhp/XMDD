@@ -568,6 +568,7 @@
         
         
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
         [self refreshPriceLb];
     }];
     
@@ -761,6 +762,15 @@
         if (needAutoSelect)
         {
             [self selectDefaultCoupon];
+        }
+        else
+        {
+            HKCoupon * c = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
+            if (!c){
+                
+                c = [self.selectCashCoupouArray safetyObjectAtIndex:0];
+            }
+            self.couponType = c.conponType;
         }
         [self autoSelectBankCard];
         

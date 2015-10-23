@@ -221,7 +221,7 @@
             self.commentLb.text = @"您的任何评价都将成为我们前进的动力";
             self.textView.hidden = YES;
             self.commentBtn.hidden = YES;
-            self.recommendBtn.hidden = NO;
+            self.recommendBtn.hidden = !gAppMgr.canShareFlag;
             self.collectionView.hidden = YES;
             break;
         }
@@ -249,7 +249,7 @@
             self.commentLb.text = self.textView.text;
             self.textView.hidden = YES;
             self.commentBtn.hidden = YES;
-            self.recommendBtn.hidden = NO;
+            self.recommendBtn.hidden = !gAppMgr.canShareFlag;
             self.collectionView.hidden = YES;
             break;
         }
