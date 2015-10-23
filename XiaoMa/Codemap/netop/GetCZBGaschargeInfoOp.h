@@ -6,7 +6,6 @@
 @property (nonatomic,strong) NSNumber* req_gid;
 ///浙商银行卡ID
 @property (nonatomic,strong) NSNumber* req_cardid;
-
 ///当月可充金额
 @property (nonatomic,assign) int rsp_availablechargeamt;
 ///已经享受过的优惠

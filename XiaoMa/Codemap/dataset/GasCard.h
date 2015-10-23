@@ -8,19 +8,14 @@
 ///油卡类型 1：石化  2：石油
 @property (nonatomic,assign) int cardtype;
 ///当月可充金额
-@property (nonatomic,assign) int availablechargeamt;
+@property (nonatomic,strong) NSNumber* availablechargeamt;
 ///已经享受过的优惠
-@property (nonatomic,assign) int couponedmoney;
-///浙商的折扣率
-@property (nonatomic,assign) int czbdiscountrate;
-///浙商的优惠上限
-@property (nonatomic,assign) int czbcouponupplimit;
-///浙商的已享受优惠
-@property (nonatomic,assign) int czbcouponedmoney;
+@property (nonatomic,strong) NSNumber* couponedmoney;
 
 
 + (instancetype)createWithJSONDict:(NSDictionary *)dict;
 - (void)resetWithJSONDict:(NSDictionary *)dict;
 - (void)mergeSimpleGasCard:(GasCard *)other;
+- (NSInteger)maxCardNumberLength;
 
 @end

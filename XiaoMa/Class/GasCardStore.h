@@ -7,17 +7,16 @@
 //
 
 #import "HKUserStore.h"
+#import "GasCard.h"
 
-enum : NSInteger {
-    kGasGetAllCardBaseInfos = 1000,
-    kGasGetCardNormalInfo,
-    kGasGetCardCZBInfo
-}GasCardEventCode;
+#define kGasCardTimetagKey  @"GasCardTimetag"
 
 @interface GasCardStore : HKUserStore
 
-- (CKStoreEvent *)getAllCardBaseInfos;
-- (CKStoreEvent *)getCardNormalInfoByGID:(NSNumber *)gid;
-- (CKStoreEvent *)getCardCZBInfoByGID:(NSNumber *)gid CZBID:(NSNumber *)cid;
+- (CKStoreEvent *)getAllCards;
+- (CKStoreEvent *)getAllCardsIfNeeded;
+- (CKStoreEvent *)deleteCardByGID:(NSNumber *)gid;
+- (CKStoreEvent *)addCard:(GasCard *)card;
+- (RACSignal *)rac_getCardNormalInfoByGID:(NSNumber *)gid;
 
 @end

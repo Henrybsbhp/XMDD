@@ -19,7 +19,7 @@
     NSDictionary *dict = rspObj;
     self.rsp_tradeid = dict[@"tradeid"];
     self.rsp_orderid = dict[@"orderid"];
-    self.rsp_total = dict[@"total"];
+    self.rsp_total = [dict[@"total"] intValue];
 	
     return self;
 }

@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "InsuranceOrderPaidSuccessOp.h"
+#import "OrderPaidSuccessOp.h"
 
-@implementation InsuranceOrderPaidSuccessOp
+@implementation OrderPaidSuccessOp
 
 - (RACSignal *)rac_postRequest
 {

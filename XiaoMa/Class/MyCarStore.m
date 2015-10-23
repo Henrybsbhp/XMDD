@@ -24,7 +24,7 @@
             [cache addObject:car forKey:car.carId];
         }
         self.cache = cache;
-        [self updateTimetag];
+        [self updateTimetagForKey:nil];
         return op.rsp_carArray;
     }];
     return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventReload object:nil];
@@ -32,7 +32,7 @@
 
 - (CKStoreEvent *)getAllCarsIfNeeded
 {
-    if ([self needUpdateTimetag]) {
+    if ([self needUpdateTimetagForKey:nil]) {
         return [self getAllCars];
     }
     return [CKStoreEvent eventWithSignal:[RACSignal return:[self.cache allObjects]] code:kCKStoreEventReload object:nil];

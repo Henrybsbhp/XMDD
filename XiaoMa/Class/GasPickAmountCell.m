@@ -12,6 +12,9 @@
 - (void)awakeFromNib
 {
     RTLabel *label = [[RTLabel alloc] initWithFrame:CGRectZero];
+    [label setParagraphReplacement:@""];
+    label.font = [UIFont systemFontOfSize:13];
+    label.textColor = HEXCOLOR(@"#888888");
     label.backgroundColor = [UIColor clearColor];
     [self.contentView addSubview:label];
     _richLabel = label;
@@ -40,7 +43,10 @@
 
 - (CGFloat)cellHeight
 {
-    return ceil(10 + [_richLabel optimumSize].height + 44);
+    if (_richLabel.text) {
+        return ceil(10 + [_richLabel optimumSize].height + 8 + 44);
+    }
+    return 10 + 44;
 }
 
 - (void)setFrame:(CGRect)frame

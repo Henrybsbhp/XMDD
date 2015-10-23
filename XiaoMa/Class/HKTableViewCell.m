@@ -17,6 +17,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    _customSeparatorInset = UIEdgeInsetsMake(0, 12, 0, 0);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -63,7 +64,7 @@
     if (!line) {
         line = [[CKLine alloc] initWithFrame:CGRectZero];
         line.lineAlignment = alignment;
-        line.linePointWidth = 0.5;
+        line.linePointWidth = 1;
         line.lineColor = HEXCOLOR(@"#e0e0e0");
         [self.contentView addSubview:line];
     }
@@ -104,4 +105,30 @@
     [[self linesDict] setObject:RACTuplePack(line, [NSValue valueWithUIEdgeInsets:insets]) forKey:@(alignment)];
     return line;
 }
+
+- (void)prepareCellForTableView:(UITableView *)tableView atIndexPath:(NSIndexPath *)indexPath
+{
+    self.targetTableView = tableView;
+    self.currentIndexPath = indexPath;
+    if (tableView.separatorStyle!=UITableViewCellSeparatorStyleNone) {
+        return;
+    }
+    //下边线
+    if (!self.currentIndexPath ||
+        [self.targetTableView numberOfRowsInSection:self.currentIndexPath.section] > self.currentIndexPath.row+1) {
+        [self addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:self.customSeparatorInset];
+    }
+    else {
+        [self addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
+    }
+    
+    //上边线
+    if (self.currentIndexPath.row == 0) {
+        [self addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsZero];
+    }
+    else {
+        [self removeBorderLineWithAlignment:CKLineAlignmentHorizontalTop];
+    }
+}
+
 @end

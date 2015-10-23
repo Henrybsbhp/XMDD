@@ -23,6 +23,8 @@
 #import "SDPhotoBrowser.h"
 #import "UIView+Layer.h"
 #import "MyCarStore.h"
+#import "CBAutoScrollLabel.h"
+#import "NSString+RectSize.h"
 
 #define kDefaultServieCount     2
 
@@ -30,6 +32,8 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIImageView *headImgView;
+@property (weak, nonatomic) IBOutlet CBAutoScrollLabel *roundLb;
+@property (weak, nonatomic) IBOutlet UIView *roundBgView;
 @property (weak, nonatomic) IBOutlet UIImageView *maskView;
 @property (weak, nonatomic) IBOutlet UIView *titleView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -76,6 +80,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self.roundLb refreshLabels];
     
     [MobClick beginLogPageView:@"rp105"];
     if([gAppMgr.myUser.favorites getFavoriteWithID:self.shop.shopID] == nil){
@@ -697,6 +703,26 @@
     gesture = self.headImgView.customObject;
     
     self.imageCountLabel.text = [NSString stringWithFormat:@"%d张", (int)shop.picArray.count];
+    
+    self.roundLb.textColor = [UIColor colorWithHex:@"#22b7b5" alpha:1.0f];
+    self.roundLb.font = [UIFont systemFontOfSize:14];
+    self.roundLb.backgroundColor = [UIColor clearColor];
+    self.roundBgView.backgroundColor = self.imageCountLabel.backgroundColor;
+    self.roundLb.labelSpacing = 30;
+    self.roundLb.scrollSpeed = 30;
+    self.roundLb.fadeLength = 5.f;
+    [self.roundLb observeApplicationNotifications];
+    
+    
+    NSString * note = @"推荐浙商银行汽车卡用户使用,推荐浙商银行汽车卡用户使用推荐浙商银行汽车卡用户使用";
+    
+    CGSize size = [note sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(FLT_MAX,FLT_MAX)];
+    CGFloat width = MIN(size.width, self.view.frame.size.width - 90);
+    [self.roundLb mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.width.mas_equalTo(width);
+    }];
+    self.roundLb.text = note;
 }
 
 -(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr

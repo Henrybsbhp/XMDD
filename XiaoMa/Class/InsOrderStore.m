@@ -14,6 +14,11 @@
 
 @implementation InsOrderStore
 
+- (void)dealloc
+{
+    
+}
+
 - (CKStoreEvent *)getAllInsOrders
 {
     GetInsuranceOrderListOp * op = [GetInsuranceOrderListOp operation];
