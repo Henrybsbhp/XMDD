@@ -471,9 +471,21 @@
                                                 <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CR_12"/>
                                             </userDefinedRuntimeAttributes>
                                         </label>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HEC-el-KDx" customClass="CBAutoScrollLabel">
-                                            <rect key="frame" x="-10" y="125" width="522" height="24"/>
+                                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kLz-7F-Wmu">
+                                            <rect key="frame" x="-10" y="125" width="10" height="24"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HEC-el-KDx" customClass="CBAutoScrollLabel">
+                                                    <rect key="frame" x="-19" y="0.0" width="560" height="24"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
+                                                </view>
+                                            </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstItem="HEC-el-KDx" firstAttribute="leading" secondItem="kLz-7F-Wmu" secondAttribute="leading" constant="10" id="4eG-iF-0bo"/>
+                                                <constraint firstAttribute="width" secondItem="HEC-el-KDx" secondAttribute="width" constant="25" id="S2z-bC-QRm"/>
+                                                <constraint firstItem="HEC-el-KDx" firstAttribute="height" secondItem="kLz-7F-Wmu" secondAttribute="height" id="VY4-kX-eHK"/>
+                                                <constraint firstItem="HEC-el-KDx" firstAttribute="centerY" secondItem="kLz-7F-Wmu" secondAttribute="centerY" id="Vch-aY-eyc"/>
+                                            </constraints>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CR_12"/>
                                             </userDefinedRuntimeAttributes>
@@ -481,21 +493,28 @@
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
-                                        <constraint firstItem="HEC-el-KDx" firstAttribute="leading" secondItem="uQm-ve-Vb8" secondAttribute="leading" constant="-10" id="0AF-I8-8zx"/>
                                         <constraint firstAttribute="trailing" secondItem="yWb-UF-vJU" secondAttribute="trailing" id="3PF-16-9vz"/>
                                         <constraint firstItem="Bu5-WK-xyX" firstAttribute="leading" secondItem="uQm-ve-Vb8" secondAttribute="leading" id="4qQ-GU-rNu"/>
+                                        <constraint firstItem="kLz-7F-Wmu" firstAttribute="top" secondItem="PEp-g4-Sf9" secondAttribute="top" id="6YT-ml-At2"/>
+                                        <constraint firstItem="kLz-7F-Wmu" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="PEp-g4-Sf9" secondAttribute="leading" constant="-30" id="CAU-Le-vRa"/>
+                                        <constraint firstItem="kLz-7F-Wmu" firstAttribute="height" secondItem="PEp-g4-Sf9" secondAttribute="height" id="DO4-MK-eBj"/>
                                         <constraint firstItem="Bu5-WK-xyX" firstAttribute="top" secondItem="uQm-ve-Vb8" secondAttribute="top" id="EKy-cc-uir"/>
-                                        <constraint firstItem="HEC-el-KDx" firstAttribute="top" secondItem="PEp-g4-Sf9" secondAttribute="top" id="M4n-tZ-AMj"/>
                                         <constraint firstAttribute="trailing" secondItem="Bu5-WK-xyX" secondAttribute="trailing" id="OXY-Tc-rcs"/>
                                         <constraint firstAttribute="bottom" secondItem="Bu5-WK-xyX" secondAttribute="bottom" id="RMa-9D-8nt"/>
+                                        <constraint firstItem="kLz-7F-Wmu" firstAttribute="leading" secondItem="uQm-ve-Vb8" secondAttribute="leading" constant="-10" id="X0w-LS-Ru9"/>
+                                        <constraint firstItem="kLz-7F-Wmu" firstAttribute="centerY" secondItem="PEp-g4-Sf9" secondAttribute="centerY" id="dTH-xz-eu6"/>
                                         <constraint firstAttribute="bottom" secondItem="yWb-UF-vJU" secondAttribute="bottom" id="fkW-rg-xwc"/>
-                                        <constraint firstItem="HEC-el-KDx" firstAttribute="height" secondItem="PEp-g4-Sf9" secondAttribute="height" id="nYI-G0-70n"/>
                                         <constraint firstItem="yWb-UF-vJU" firstAttribute="top" secondItem="uQm-ve-Vb8" secondAttribute="top" id="oqg-0N-eIY"/>
                                         <constraint firstAttribute="bottom" secondItem="PEp-g4-Sf9" secondAttribute="bottom" constant="16" id="rBH-jF-3cr"/>
                                         <constraint firstAttribute="trailing" secondItem="PEp-g4-Sf9" secondAttribute="trailing" constant="-12" id="vJ4-5K-oQx"/>
-                                        <constraint firstItem="HEC-el-KDx" firstAttribute="trailing" secondItem="PEp-g4-Sf9" secondAttribute="leading" constant="-30" id="vZh-qI-emv"/>
                                         <constraint firstItem="yWb-UF-vJU" firstAttribute="leading" secondItem="uQm-ve-Vb8" secondAttribute="leading" id="wu6-z1-Hyt"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="6YT-ml-At2"/>
+                                            <exclude reference="CAU-Le-vRa"/>
+                                        </mask>
+                                    </variation>
                                 </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ShopTitleCell" rowHeight="83" id="i48-zZ-PEW" customClass="JTTableViewCell">
@@ -1080,6 +1099,7 @@
                         <outlet property="headImgView" destination="yWb-UF-vJU" id="eSc-M5-iPM"/>
                         <outlet property="imageCountLabel" destination="PEp-g4-Sf9" id="lur-ft-sAH"/>
                         <outlet property="maskView" destination="Bu5-WK-xyX" id="F3W-Ur-rVp"/>
+                        <outlet property="roundBgView" destination="kLz-7F-Wmu" id="g0M-QS-azX"/>
                         <outlet property="roundLb" destination="HEC-el-KDx" id="k64-YU-wkq"/>
                         <outlet property="tableView" destination="Thl-fk-Kw9" id="Lvq-oQ-ZOS"/>
                         <outlet property="titleLabel" destination="OVB-gB-sMR" id="aVp-u7-K23"/>
