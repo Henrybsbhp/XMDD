@@ -706,7 +706,7 @@
     
     self.roundLb.textColor = [UIColor colorWithHex:@"#22b7b5" alpha:1.0f];
     self.roundLb.font = [UIFont systemFontOfSize:14];
-    self.roundLb.backgroundColor = self.imageCountLabel.backgroundColor;
+    self.roundLb.backgroundColor = [UIColor clearColor];
     self.roundBgView.backgroundColor = self.imageCountLabel.backgroundColor;
     self.roundLb.labelSpacing = 30;
     self.roundLb.scrollSpeed = 30;
@@ -714,7 +714,7 @@
     [self.roundLb observeApplicationNotifications];
     
     
-    NSString * note = @"推荐客";
+    NSString * note = @"推荐浙商银行汽车卡用户使用,推荐浙商银行汽车卡用户使用推荐浙商银行汽车卡用户使用";
     
     CGSize size = [note sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(FLT_MAX,FLT_MAX)];
     CGFloat width = MIN(size.width, self.view.frame.size.width - 90);
