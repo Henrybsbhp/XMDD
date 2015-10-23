@@ -13,11 +13,8 @@
     self.gid = dict[@"gid"];
     self.gascardno = dict[@"gascardno"];
     self.cardtype = [dict[@"cardtype"] intValue];
-    self.availablechargeamt = [dict[@"availablechargeamt"] intValue];
-    self.couponedmoney = [dict[@"couponedmoney"] intValue];
-    self.czbdiscountrate = [dict[@"czbdiscountrate"] intValue];
-    self.czbcouponupplimit = [dict[@"czbcouponupplimit"] intValue];
-    self.czbcouponedmoney = [dict[@"czbcouponedmoney"] intValue];
+    self.availablechargeamt = dict[@"availablechargeamt"];
+    self.couponedmoney = dict[@"couponedmoney"];
 
 }
 

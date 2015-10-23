@@ -9,6 +9,8 @@
 #import "GasRecordVC.h"
 #import "GetGaschargeRecordListOp.h"
 #import "HKLoadingModel.h"
+#import "NSDate+DateForText.h"
+#import "NSString+Split.h"
 
 @interface GasRecordVC ()<HKLoadingModelDelegate>
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
@@ -95,7 +97,7 @@
 #pragma mark - UITableViewDelegate and datasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 5;
+    return self.loadingModel.datasource.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -122,18 +124,25 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"RecordCell" forIndexPath:indexPath];
     UILabel * timeLabel = (UILabel *)[cell.contentView viewWithTag:1001];
-    UIImage * logoImg = (UIImage *)[cell.contentView viewWithTag:1002];
+    UIImageView * logoV = (UIImageView *)[cell.contentView viewWithTag:1002];
     UILabel * cardnumLbabel = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel * rechargeLabel = (UILabel *)[cell.contentView viewWithTag:1006];
     UILabel * payLabel = (UILabel *)[cell.contentView viewWithTag:1007];
     UILabel * stateLabel = (UILabel *)[cell.contentView viewWithTag:1008];
+    GasChargeRecord *record = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     
+    timeLabel.text = [[NSDate dateWithUTS:@(record.payedtime)] dateFormatForYYYYMMddHHmm2];
+    logoV.image = [UIImage imageNamed:record.cardtype == 2 ? @"gas_icon_cnpc" : @"gas_icon_snpn"];
+    cardnumLbabel.text = [record.gascardno splitByStep:4 replacement:@" "];
+    rechargeLabel.text = [NSString stringWithFormat:@"￥%d", record.chargemoney];
+    payLabel.text = [NSString stringWithFormat:@"￥%d", record.paymoney];
+    stateLabel.text = record.statusdesc;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nest:NO promptView:self.tableView.bottomLoadingView];
+    [self.loadingModel loadMoreDataIfNeededWithIndex:indexPath.section promptView:self.tableView.bottomLoadingView];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

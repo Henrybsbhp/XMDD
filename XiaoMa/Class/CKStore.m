@@ -7,18 +7,21 @@
 //
 
 #import "CKStore.h"
-static char sSubscribeBlockKey;
-static char sStoreKey;
 static char sTargetHashTableKey;
 
 #define kDefTimetagKey @"$DefTimetag"
 
 @interface CKStore ()
-@property (nonatomic, strong) NSHashTable *weakTable;
+@property (nonatomic, strong) NSMapTable *weakTable;
 @property (nonatomic, strong) NSMutableDictionary *timetagDict;
 @end
 
 @implementation CKStore
+
+- (void)dealloc
+{
+    
+}
 
 + (NSMapTable *)storeTable
 {
@@ -50,7 +53,7 @@ static char sTargetHashTableKey;
 {
     self = [super init];
     if (self) {
-        _weakTable = [NSHashTable weakObjectsHashTable];
+        _weakTable = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsWeakMemory valueOptions:NSPointerFunctionsCopyIn];
         _cache = [[JTQueue alloc] init];
         _timetagDict = [NSMutableDictionary dictionary];
         _updateDuration = 60*60;
@@ -60,9 +63,7 @@ static char sTargetHashTableKey;
 
 - (void)subscribeEventsWithTarget:(id)target receiver:(void(^)(CKStore *store, CKStoreEvent *evt))block
 {
-    objc_setAssociatedObject(target, &sSubscribeBlockKey, block, OBJC_ASSOCIATION_COPY_NONATOMIC);
-    objc_setAssociatedObject(target, &sStoreKey, block, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    [self.weakTable addObject:target];
+    [self.weakTable setObject:block forKey:target];
 }
 
 - (NSHashTable *)hashTableForTarget:(NSObject *)target
@@ -83,11 +84,8 @@ static char sTargetHashTableKey;
 
 - (CKStoreEvent *)sendEvent:(CKStoreEvent *)evt
 {
-    for (NSObject *target in [[self.weakTable objectEnumerator] allObjects]) {
-        void(^block)(CKStore *, CKStoreEvent *) = [target associatedObjectForKey:&sSubscribeBlockKey];
-        if (block) {
-            block(self, evt);
-        }
+    for (void(^block)(CKStore *, CKStoreEvent *) in [[self.weakTable objectEnumerator] allObjects]) {
+        block(self, evt);
     }
     return evt;
 }
@@ -134,6 +132,36 @@ static char sTargetHashTableKey;
     return [CKStoreEvent eventWithSignal:signal code:self.code object:self.object];
 }
 
+- (BOOL)callIfNeededExceptCodeList:(NSArray *)codes object:(id)obj target:(id)target selector:(SEL)selector
+{
+    if (target && selector && (!obj || (obj && [obj isEqual:self.object])) && ![codes containsObject:@(self.code)]) {
+        [self _callSelector:selector forTarget:target];
+        return YES;
+    }
+    return NO;
+
+}
+
+- (BOOL)callIfNeededExceptCode:(NSInteger)code object:(id)obj target:(id)target selector:(SEL)selector
+{
+    if (target && selector && self.code != code && (!obj || (obj && [obj isEqual:self.object]))) {
+        [self _callSelector:selector forTarget:target];
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)callIfNeededForCodeList:(NSArray *)codes object:(id)obj target:(id)target selector:(SEL)selector
+{
+    CKStoreEvent *evt = self;
+    if (target && selector && (!obj || (obj && [obj isEqual:evt.object])) && [codes containsObject:@(evt.code)]) {
+        [self _callSelector:selector forTarget:target];
+        return YES;
+    }
+    return NO;
+
+}
+
 - (BOOL)callIfNeededForCode:(NSInteger)code object:(id)obj target:(id)target selector:(SEL)selector
 {
     CKStoreEvent *evt = self;
@@ -144,23 +172,41 @@ static char sTargetHashTableKey;
     return NO;
 }
 
-- (BOOL)callIfNeededForCode:(NSInteger)code exceptObject:(id)obj target:(id)target selector:(SEL)selector
+- (BOOL)callIfNeededExceptCodeList:(NSArray *)codes object:(id)obj handler:(void(^)(CKStoreEvent *))handler
 {
-    if (self.object && [self.object isEqual:obj]) {
-        return NO;
+    CKStoreEvent *evt = self;
+    if (handler && (!obj || (obj && [obj isEqual:evt.object])) && ![codes containsObject:@(evt.code)]) {
+        [self performSelector:@selector(_callhandler:withEvent:) withObject:handler withObject:evt];
+        return YES;
     }
-    if (!self.object && !obj) {
-        return NO;
+    return NO;
+}
+
+- (BOOL)callIfNeededExceptCode:(NSInteger)code object:(id)obj handler:(void(^)(CKStoreEvent *))handler
+{
+    CKStoreEvent *evt = self;
+    if (handler && evt.code != code && (!obj || (obj && [obj isEqual:evt.object]))) {
+        [self performSelector:@selector(_callhandler:withEvent:) withObject:handler withObject:evt];
+        return YES;
     }
-    [self _callSelector:selector forTarget:target];
-    return YES;
+    return NO;
+}
+
+- (BOOL)callIfNeededForCodeList:(NSArray *)codes object:(id)obj handler:(void(^)(CKStoreEvent *))handler
+{
+    CKStoreEvent *evt = self;
+    if (handler && (!obj || (obj && [obj isEqual:evt.object])) && [codes containsObject:@(evt.code)]) {
+        [self performSelector:@selector(_callhandler:withEvent:) withObject:handler withObject:evt];
+        return YES;
+    }
+    return NO;
 }
 
 - (BOOL)callIfNeededForCode:(NSInteger)code object:(id)obj handler:(void(^)(CKStoreEvent *))handler
 {
     CKStoreEvent *evt = self;
     if (handler && evt.code == code && (!obj || (obj && [obj isEqual:evt.object]))) {
-        handler(evt);
+        [self performSelector:@selector(_callhandler:withEvent:) withObject:handler withObject:evt];
         return YES;
     }
     return NO;
@@ -174,6 +220,12 @@ static char sTargetHashTableKey;
     [target performSelector:selector withObject:self];
 #pragma clang diagnostic pop
 }
+
+- (void)_callhandler:(void(^)(CKStoreEvent *))handler withEvent:(CKStoreEvent *)evt
+{
+    handler(evt);
+}
+
 
 @end
 

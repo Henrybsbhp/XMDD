@@ -14,7 +14,8 @@
 #import "PaymentHelper.h"
 
 @interface GasNormalVM ()
-@property (nonatomic, strong) CKStoreEvent *cachedEvent;
+@property (nonatomic, weak) CKStoreEvent *cachedEvent;
+@property (nonatomic, strong) RACSignal *getGaschargeConfigSignal;
 @end
 @implementation GasNormalVM
 
@@ -28,102 +29,83 @@
     @weakify(self);
     [self.cardStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
         @strongify(self);
-        [evt callIfNeededForCode:kCKStoreEventSelect object:nil target:self selector:@selector(reloadIfNeeded:)];
-        [evt callIfNeededForCode:kCKStoreEventAdd object:nil target:self selector:@selector(reloadIfNeeded:)];
-        [evt callIfNeededForCode:kCKStoreEventDelete object:nil target:self selector:@selector(reloadIfNeeded:)];
-        [evt callIfNeededForCode:kCKStoreEventGet object:nil target:self selector:@selector(reloadIfNeeded:)];
-        [evt callIfNeededForCode:kCKStoreEventReload object:nil target:self selector:@selector(reload:)];
+        //切换当前油卡
+        [evt callIfNeededForCode:kCKStoreEventSelect object:self handler:^(CKStoreEvent *evt) {
+            RACSignal *sig = [[evt signal] doNext:^(GasCard *card) {
+                self.curGasCard = card;
+            }];
+            [self reloadWithEvent:[CKStoreEvent eventWithSignal:sig code:evt.code object:evt.object]];
+        }];
+        
+        NSArray *codes = @[@(kCKStoreEventAdd),@(kCKStoreEventDelete),@(kCKStoreEventGet),@(kCKStoreEventReload)];
+        [evt callIfNeededForCodeList:codes object:nil target:self selector:@selector(reloadWithEvent:)];
     }];
 }
 
-- (void)reloadData
+#pragma mark - Reload
+- (BOOL)reloadWithForce:(BOOL)force
 {
-    [self.cardStore sendEvent:[self.cardStore getAllCards]];
-}
-
-- (void)reload:(CKStoreEvent *)event
-{
-    RACSignal *sig = [RACSignal empty];
-    @weakify(self);
-    if (gAppMgr.myUser) {
-        sig = [sig merge:[[event signal] flattenMap:^RACStream *(id value) {
-            @strongify(self);
-            GasCard *card = [self.cardStore.cache objectForKey:self.curGasCard.gid];
-            return [self rac_getChargeInfoWithCard:card];
-        }]];
-    }
-    if (!self.configOp) {
-        sig = [sig merge:[self rac_getChargeConfig]];
-    }
-    self.cachedEvent = [CKStoreEvent eventWithSignal:sig code:kGasConsumeEventForModel object:self];
-    [GasCardStore sendEvent:self.cachedEvent];
-}
-
-
-- (BOOL)reloadIfNeeded:(CKStoreEvent *)event
-{
-    @weakify(self);
-    if (event) {
-        CKStoreEvent *evt = event;
-        RACSignal *sig = [RACSignal empty];
-        if (gAppMgr.myUser) {
-            sig = [sig merge:[[evt signal] flattenMap:^RACStream *(id value) {
-                @strongify(self);
-                GasCard *card;
-                if (event.code == kCKStoreEventSelect) {
-                    card = value;
-                    self.curGasCard = card;
-                }
-                else {
-                    GasCard *card = [self.cardStore.cache objectForKey:self.curGasCard.gid];
-                    if (card) {
-                        return [RACSignal return:value];
-                    }
-                }
-                return [self rac_getChargeInfoWithCard:card];
-            }]];
-        }
-        if (!self.configOp) {
-            sig = [sig merge:[self rac_getChargeConfig]];
-        }
-        self.cachedEvent = [CKStoreEvent eventWithSignal:sig code:kGasConsumeEventForModel object:self];
-        [GasCardStore sendEvent:self.cachedEvent];
-        return YES;
-    }
-    if (!gAppMgr.myUser && !self.configOp) {
-        CKStoreEvent *evt = [CKStoreEvent eventWithSignal:[self rac_getChargeConfig] code:kGasConsumeEventForModel object:self];
-        [self.cardStore sendEvent:evt];
-        return YES;
-    }
-    if (gAppMgr.myUser && (!self.gasCardList || [self.cardStore needUpdateTimetagForKey:kGasCardTimetagKey])) {
+    if (force && gAppMgr.myUser) {
         [self.cardStore sendEvent:[self.cardStore getAllCards]];
         return YES;
     }
-    if (self.cachedEvent) {
-        [GasCardStore sendEvent:self.cachedEvent];
+    else if (self.cachedEvent) {
+        [self.cardStore sendEvent:self.cachedEvent];
         return YES;
     }
     return NO;
 }
+
+- (void)reloadWithEvent:(CKStoreEvent *)event
+{
+    @weakify(self);
+    RACSignal *sig = [[event signal] flattenMap:^RACStream *(id value) {
+        @strongify(self);
+        GasCard *card = [self.cardStore.cache objectForKey:self.curGasCard.gid];
+        if (!card && self.cardStore.cache.count > 0) {
+            self.curGasCard = [self.cardStore.cache objectAtIndex:0];
+            return [self.cardStore rac_getCardNormalInfoByGID:self.curGasCard.gid];
+        }
+        else if (!card) {
+            self.curGasCard = nil;
+        }
+        if (self.curGasCard && (!self.curGasCard.availablechargeamt || !self.curGasCard.couponedmoney)) {
+            return [self.cardStore rac_getCardNormalInfoByGID:self.curGasCard.gid];
+        }
+        return [RACSignal return:value];
+    }];
+    self.cachedEvent = [CKStoreEvent eventWithSignal:sig code:kGasConsumeEventForModel object:self];
+    [GasCardStore sendEvent:self.cachedEvent];
+}
+
 
 - (void)consumeEvent:(CKStoreEvent *)event
 {
     if ([self.cachedEvent isEqual:event]) {
         self.cachedEvent = nil;
     }
-    @weakify(self);
-    RACSignal *sig = [event.signal doNext:^(id x) {
-        @strongify(self);
-        self.gasCardList = [[self.cardStore cache] allObjects];
-    }];
+    RACSignal *sig = [RACSignal combineLatest:@[[self rac_getChargeConfig], event.signal]];
     [self.cardStore sendEvent:[CKStoreEvent eventWithSignal:sig code:kGasVCReloadWithEvent object:self]];
 }
 
 - (RACSignal *)rac_getChargeConfig
 {
-    GetGaschargeConfigOp *configOp = [GetGaschargeConfigOp operation];
-    RACSignal *sig = [configOp rac_postRequest];
-    self.configOp = configOp;
+    if (self.getGaschargeConfigSignal) {
+        return self.getGaschargeConfigSignal;
+    }
+    GetGaschargeConfigOp *op = [GetGaschargeConfigOp operation];
+    @weakify(self);
+    RACSignal *sig = [[[[op rac_postRequest] catch:^RACSignal *(NSError *error) {
+        @strongify(self);
+        self.getGaschargeConfigSignal = nil;
+        return [RACSignal return:nil];
+    }] doNext:^(GetGaschargeConfigOp *rspOp) {
+        
+        @strongify(self);
+        self.configOp = rspOp;
+    }] replayLast];
+    self.getGaschargeConfigSignal = sig;
+    
     return sig;
 }
 
@@ -141,7 +123,7 @@
 
 - (NSArray *)datasource
 {
-    if (!self.isLoadSuccess) {
+    if (!self.isLoadSuccess || self.isLoading) {
         return @[@[@"1"]];
     }
     NSString *row1 = self.curGasCard ? @"10001" : @"10002";
@@ -150,7 +132,7 @@
 
 - (NSString *)rechargeFavorableDesc
 {
-    if (self.configOp) {
+    if (self.configOp.rsp_desc) {
         return self.configOp.rsp_desc;
     }
     return @"<font size=13 color='#888888'>充值即享<font color='#ff0000'>98折</font>，每月优惠限额1000元，超出部分不予奖励。每月最多充值2000元。</font>";

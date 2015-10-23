@@ -10,6 +10,7 @@
 #import "GasCardStore.h"
 #import "HKTableViewCell.h"
 #import "GasCard.h"
+#import "NSString+Split.h"
 
 #import "GasAddCardVC.h"
 
@@ -115,7 +116,8 @@
     else {
         GasCard *card = [self.cardStore.cache objectAtIndex:indexPath.row];
         if (![card.gid isEqual:self.model.curGasCard.gid]) {
-            [self.cardStore sendEvent:[CKStoreEvent eventWithSignal:[RACSignal return:card] code:kCKStoreEventSelect object:nil]];
+            CKStoreEvent *evt = [CKStoreEvent eventWithSignal:[RACSignal return:card] code:kCKStoreEventSelect object:self.model];
+            [self.cardStore sendEvent:evt];
         }
         [self.navigationController popViewControllerAnimated:YES];
     }
@@ -186,7 +188,7 @@
     GasCard *card = [self.cardStore.cache objectAtIndex:indexPath.row];
     logoV.image = [UIImage imageNamed:card.cardtype == 2 ? @"gas_icon_cnpc" : @"gas_icon_snpn"];
     titleL.text = card.cardtype == 2 ? @"中石油" : @"中石化";
-    cardnoL.text = [card prettyCardNumber];
+    cardnoL.text = [card.gascardno splitByStep:4 replacement:@" "];
 
     return cell;
 }

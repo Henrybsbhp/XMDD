@@ -8,6 +8,7 @@
 
 #import "GasPaymentResultVC.h"
 #import "NSString+RectSize.h"
+#import "SocialShareViewController.h"
 
 @interface GasPaymentResultVC ()
 @end
@@ -23,6 +24,27 @@
 }
 
 #pragma mark - Action
+- (IBAction)actionShare:(id)sender
+{
+    SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+    vc.tt = @"我在小马达达上购买了车险，赚大发了！";
+    vc.subtitle = @"终于等到这一天，好运来到我身边，小马达达车险大“放”假期！嘘，一般人我不告诉他！";
+    vc.image = [UIImage imageNamed:@"wechat_share_ins"];
+    vc.webimage = [UIImage imageNamed:@"weibo_share_ins"];
+    vc.urlStr = @"www.xiaomadada.com";
+    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+    sheet.shouldCenterVertically = YES;
+    [sheet presentAnimated:YES completionHandler:nil];
+    
+    [vc setFinishAction:^{
+        [sheet dismissAnimated:YES completionHandler:nil];
+    }];
+    
+    [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        [sheet dismissAnimated:YES completionHandler:nil];
+    }];
+}
+
 - (void)actionBack:(id)sender
 {
     if (self.originVC) {
@@ -32,6 +54,7 @@
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
 }
+
 #pragma mark - UITableViewDelegate And Datasource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

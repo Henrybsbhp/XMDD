@@ -18,6 +18,5 @@
 - (CKStoreEvent *)deleteCardByGID:(NSNumber *)gid;
 - (CKStoreEvent *)addCard:(GasCard *)card;
 - (RACSignal *)rac_getCardNormalInfoByGID:(NSNumber *)gid;
-- (RACSignal *)rac_getCardCZBInfoByGID:(NSNumber *)gid CZBID:(NSNumber *)cid;
 
 @end

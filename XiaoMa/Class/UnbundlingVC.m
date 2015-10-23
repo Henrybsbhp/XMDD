@@ -14,6 +14,7 @@
 #import "JTLabel.h"
 #import "UnbindBankcardOp.h"
 #import "UIView+Shake.h"
+#import "BankCardStore.h"
 
 static NSString *s_sendedPhone;
 
@@ -69,13 +70,11 @@ static NSString *s_sendedPhone;
     if ([self sharkCellIfErrorAtIndex:0]) {
         return;
     }
-    UnbindBankcardOp *op = [UnbindBankcardOp operation];
-    op.req_vcode = self.vcodeField.text;
-    op.req_cardid = self.card.cardID;
+    BankCardStore *store = [BankCardStore fetchOrCreateStore];
     @weakify(self);
-    [[[op rac_postRequest] initially:^{
-        [gToast showingWithText:@"正在解绑..."];
+    [[[[store sendEvent:[store deleteBankCardByCID:self.card.cardID vcode:self.vcodeField.text]] signal] initially:^{
         
+        [gToast showingWithText:@"正在解绑..."];
     }] subscribeNext:^(id x) {
         
         @strongify(self);

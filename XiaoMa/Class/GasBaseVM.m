@@ -68,14 +68,9 @@
     return nil;
 }
 
-- (BOOL)reloadIfNeeded:(CKStoreEvent *)event
+- (BOOL)reloadWithForce:(BOOL)force
 {
     return NO;
-}
-
-- (void)reloadData
-{
-    
 }
 
 - (void)setupCardStore

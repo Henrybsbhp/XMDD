@@ -34,7 +34,6 @@
 @property (nonatomic, assign) BOOL isAcceptedAgreement;
 ///check box control
 @property (nonatomic, strong) CKSegmentHelper *segHelper;
-@property (nonatomic, strong) NSArray *gasCardList;
 @property (nonatomic, strong) GasCardStore *cardStore;
 ///加油提醒
 - (NSString *)gasRemainder;
@@ -45,8 +44,7 @@
 ///@Override(银行卡优惠描述)
 - (NSString *)bankFavorableDesc;
 ///@Override
-- (BOOL)reloadIfNeeded:(CKStoreEvent *)event;
-- (void)reloadData;
+- (BOOL)reloadWithForce:(BOOL)force;
 ///@Override
 - (void)setupCardStore;
 ///@Override

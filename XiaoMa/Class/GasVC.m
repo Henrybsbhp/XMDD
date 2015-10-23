@@ -15,10 +15,12 @@
 #import "HKTableViewCell.h"
 #import "UIView+JTLoadingView.h"
 #import "NSString+RectSize.h"
+#import "NSString+Split.h"
 
 #import "GasPickAmountCell.h"
 #import "GasReminderCell.h"
 
+#import "MyBankVC.h"
 #import "GasCardListVC.h"
 #import "GasAddCardVC.h"
 #import "GasPayForCZBVC.h"
@@ -61,7 +63,8 @@
         [self setupBottomView];
         [self setupStore];
         [self setupSignals];
-        self.headerView.tabBlock(0);
+        [self refreshViews];
+        [self.curModel reloadWithForce:YES];
     });
 }
 
@@ -83,7 +86,7 @@
     [self.headerView setTabBlock:^(NSInteger index) {
         @strongify(self);
         self.curModel = index == 0 ? self.normalModel : self.czbModel;
-        if (![self.curModel reloadIfNeeded:nil]) {
+        if (![self.curModel reloadWithForce:NO]) {
             [self refreshViews];
         }
     }];
@@ -99,7 +102,7 @@
         if (ads.count > 0) {
             GasTabView *headerView = self.headerView;
             CGFloat height = floor(self.adctrl.adView.frame.size.height);
-            headerView.frame = CGRectMake(0, 0, self.view.frame.size.width, height);
+            headerView.frame = CGRectMake(0, 0, self.view.frame.size.width, height+44);
             [headerView addSubview:self.adctrl.adView];
             [self.adctrl.adView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(headerView);
@@ -125,16 +128,19 @@
 - (void)setupSignals
 {
     RACSignal *sig1 = RACObserve(self, curModel);
-    RACSignal *sig2 = [RACObserve(self.normalModel, isLoadSuccess) distinctUntilChanged];
-    RACSignal *sig3 = [RACObserve(self.czbModel, isLoadSuccess) distinctUntilChanged];
+    RACSignal *sig2 = [[RACObserve(self.normalModel, isLoadSuccess) distinctUntilChanged]
+                       merge:[RACObserve(self.normalModel, isLoading) distinctUntilChanged]];
+    RACSignal *sig3 = [[RACObserve(self.czbModel, isLoadSuccess) distinctUntilChanged]
+                       merge:[RACObserve(self.czbModel, isLoading) distinctUntilChanged]];
     RACSignal *sig4 = [RACObserve(self, isAcceptedAgreement) distinctUntilChanged];
     @weakify(self);
     [[[RACSignal merge:@[sig1,sig2,sig3]] deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(id x) {
         @strongify(self);
         BOOL success = self.curModel.isLoadSuccess;
-        self.bottomView.hidden = !success;
-        self.tableView.tableFooterView.hidden = !success;
-        self.tableView.scrollEnabled = success;
+        BOOL loading = self.curModel.isLoading;
+        self.bottomView.hidden = !success || loading;
+        self.tableView.tableFooterView.hidden = !success || loading;
+        self.tableView.scrollEnabled = success && !loading;
     }];
     
     [sig4 subscribeNext:^(NSNumber *x) {
@@ -167,14 +173,15 @@
 - (void)refreshBottomView
 {
     NSString *title;
+    NSInteger discount = 0;
+    NSInteger paymoney = self.curModel.rechargeAmount;
     if ([self.curModel isEqual:self.normalModel]) {
         GasNormalVM *model = (GasNormalVM *)self.curModel;
         NSInteger discount = 0;
-        NSInteger paymoney = self.curModel.rechargeAmount;
         NSInteger couponlimit = model.configOp ? model.configOp.rsp_couponupplimit : 1000;
         CGFloat percent = model.configOp ? model.configOp.rsp_discountrate : 2;
         if (model.curGasCard) {
-            couponlimit = MAX(0, couponlimit - model.curGasCard.couponedmoney);
+            couponlimit = MAX(0, couponlimit - [model.curGasCard.couponedmoney integerValue]);
         }
         discount = MIN(couponlimit, paymoney) * percent / 100.0;
         paymoney = paymoney - discount;
@@ -183,6 +190,23 @@
         }
         else {
             title = [NSString stringWithFormat:@"您需支付%d，元，现在支付", (int)paymoney];
+        }
+    }
+    else {
+        GasCZBVM *model = (GasCZBVM *)self.curModel;
+        NSInteger couponlimit = 0;
+        CGFloat percent = 0;
+        if (model.curBankCard.gasInfo) {
+            couponlimit = model.curBankCard.gasInfo.rsp_couponupplimit;
+            percent = model.curBankCard.gasInfo.rsp_discountrate;
+        }
+        discount = MIN(couponlimit, paymoney) * percent / 100.0;
+        paymoney = paymoney - discount;
+        if (discount > 0) {
+            title = [NSString stringWithFormat:@"已优惠%d元，您只需支付%d元，现在支付", (int)discount, (int)paymoney];
+        }
+        else {
+            title = [NSString stringWithFormat:@"您需支付%d元，现在支付", (int)paymoney];
         }
     }
     [self.bottomBtn setTitle:title forState:UIControlStateNormal];
@@ -204,7 +228,7 @@
         @weakify(self);
         [self.view showDefaultEmptyViewWithText:@"刷新失败，点击重试" centerOffset:y tapBlock:^{
             @strongify(self);
-            [self.curModel reloadData];
+            [self.curModel reloadWithForce:YES];
         }];
     }
     else {
@@ -255,8 +279,16 @@
     }
     //浙商支付
     if ([self.curModel isEqual:self.czbModel]) {
-        if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        GasCZBVM *model = (GasCZBVM *)self.curModel;
+        if (!model.curBankCard) {
+            [gToast showText:@"您需要先添加一张浙商汽车卡！" inView:self.view];
+        }
+        else if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
             GasPayForCZBVC *vc = [UIStoryboard vcWithId:@"GasPayForCZBVC" inStoryboard:@"Gas"];
+            vc.bankCard = model.curBankCard;
+            vc.gasCard = model.curGasCard;
+            vc.chargeamt = model.rechargeAmount;
+            vc.originVC = self;
             [self.navigationController pushViewController:vc animated:YES];
         }
     }
@@ -307,9 +339,13 @@
     }
 }
 
-- (void)actionAddBankCard
+- (void)actionPickBankCard
 {
-    
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        MyBankVC *vc = [UIStoryboard vcWithId:@"MyBankVC" inStoryboard:@"Bank"];
+        vc.selectedCardReveicer = self.curModel;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 #pragma mark - UITableViewDelegate and datasource
@@ -429,8 +465,8 @@
     else if (tag == 10002) {
         [self actionAddGasCard];
     }
-    else if (tag == 10006) {
-        [self actionAddBankCard];
+    else if (tag == 10005 || tag == 10006) {
+        [self actionPickBankCard];
     }
 }
 #pragma mark - About Cell
@@ -465,7 +501,7 @@
     
     logoV.image = [UIImage imageNamed:self.curModel.curGasCard.cardtype == 2 ? @"gas_icon_cnpc" : @"gas_icon_snpn"];
     titleL.text = self.curModel.curGasCard.cardtype == 2 ? @"中石油" : @"中石化";
-    cardnoL.text = [self.curModel.curGasCard prettyCardNumber];
+    cardnoL.text = [self.curModel.curGasCard.gascardno splitByStep:4 replacement:@" "];
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 12, 0, 0)];
     return cell;
 }
@@ -475,9 +511,17 @@
 {
     HKTableViewCell *cell = (HKTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"BankCard"
                                                                                     forIndexPath:indexPath];
-    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 12, 0, 0)];
+    UILabel *cardnoL = (UILabel *)[cell.contentView viewWithTag:1003];
     UILabel *descL = (UILabel *)[cell.contentView viewWithTag:1006];
+
+    NSString *cardno = [(GasCZBVM *)self.curModel curBankCard].cardNumber;
+    if (cardno.length > 4) {
+        cardno = [cardno substringFromIndex:cardno.length - 4 length:4];
+    }
+    cardnoL.text = [NSString stringWithFormat:@"尾号%@", cardno];
     descL.text = [self.curModel bankFavorableDesc];
+
+    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 12, 0, 0)];
     return cell;
 }
 
@@ -494,12 +538,22 @@
             [self refreshBottomView];
         };
     }
-    GasNormalVM *model = (GasNormalVM *)self.curModel;
-    if (!model.curGasCard) {
-        cell.stepper.maximum = 2000;
+    if ([self.curModel isEqual:self.normalModel]) {
+        if (!self.curModel.curGasCard) {
+            cell.stepper.maximum = 2000;
+        }
+        else {
+            cell.stepper.maximum = [self.curModel.curGasCard.availablechargeamt integerValue];
+        }
     }
     else {
-        cell.stepper.maximum = model.curGasCard.availablechargeamt;
+        GasCZBVM *model = (GasCZBVM *)self.curModel;
+        if (!model.curBankCard.gasInfo) {
+            cell.stepper.maximum = 2000;    
+        }
+        else {
+            cell.stepper.maximum = model.curBankCard.gasInfo.rsp_availablechargeamt;
+        }
     }
     [cell.stepper setup];
     

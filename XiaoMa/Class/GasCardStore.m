@@ -99,30 +99,6 @@
     return sig;
 }
 
-- (RACSignal *)rac_getCardCZBInfoByGID:(NSNumber *)gid CZBID:(NSNumber *)cid
-{
-    GetCZBGaschargeInfoOp *op = [GetCZBGaschargeInfoOp operation];
-    op.req_gid = gid;
-    op.req_cardid = cid;
-    @weakify(self);
-    RACSignal *sig = [[[op rac_postRequest] map:^id(GetCZBGaschargeInfoOp *op) {
-        @strongify(self);
-        GasCard *card = [self.cache objectForKey:op.req_gid];
-        if (!card) {
-            card = [[GasCard alloc] init];
-            card.gid = op.req_gid;
-            [self.cache addObject:card forKey:op.req_gid];
-        }
-        card.availablechargeamt = op.rsp_availablechargeamt;
-        card.couponedmoney = op.rsp_couponedmoney;
-        card.czbdiscountrate = op.rsp_discountrate;
-        card.czbcouponupplimit = op.rsp_couponupplimit;
-        card.czbcouponedmoney = op.rsp_czbcouponedmoney;
-        return card;
-    }] replay];
-    return sig;
-}
-
 - (void)reloadDataWithCode:(NSInteger)code
 {
     [self sendEvent:[CKStoreEvent eventWithSignal:[[self getAllCards] signal] code:kCKStoreEventReload object:nil]];
