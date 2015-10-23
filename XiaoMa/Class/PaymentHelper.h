@@ -30,5 +30,6 @@ typedef enum : NSInteger
 - (void)resetForUPPayWithTradeNumber:(NSString *)tn targetVC:(UIViewController *)tvc;
 
 - (RACSignal *)rac_startPay;
++ (int)paymentChannelForPlatformType:(PaymentPlatformType)platformType;
 
 @end

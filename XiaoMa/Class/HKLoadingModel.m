@@ -251,6 +251,17 @@
     }];
 }
 
+- (void)loadMoreDataIfNeededWithIndex:(NSInteger)index promptView:(UIView *)view
+{
+    if (!self.isRemain) {
+        return;
+    }
+    if (self.datasource.count > index + 1) {
+        return;
+    }
+    [self loadMoreDataWithPromptView:view];
+}
+
 - (void)loadMoreDataIfNeededWithIndexPath:(NSIndexPath *)indexPath nest:(BOOL)nest promptView:(UIView *)view
 {
     if (!self.isRemain) {

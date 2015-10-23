@@ -44,9 +44,9 @@ typedef enum : NSUInteger {
     AdvertisementHomePage = 1,
     AdvertisementCarWash = 2,
     AdvertisementBankCardBinding = 3,
+    AdvertisementGas = 4,
     AdvertisementAppSlide = 10,
     AdvertisementInsurance = 11,
-    AdvertisementGas = 12,
     AdvertisementTypeActivities = 20,
     AdvertisementTypeLaunch = 30
 } AdvertisementType;

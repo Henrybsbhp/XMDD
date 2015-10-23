@@ -14,7 +14,7 @@
 #import "InsOrderStore.h"
 
 @interface InsranceOrderViewModel ()<HKLoadingModelDelegate>
-
+@property (nonatomic, strong) InsOrderStore *orderStore;
 @end
 
 @implementation InsranceOrderViewModel 
@@ -43,8 +43,9 @@
 
 - (void)setupInsOrderStore
 {
+    self.orderStore = [InsOrderStore fetchOrCreateStore];
     @weakify(self);
-    [[InsOrderStore fetchOrCreateStore] subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+    [self.orderStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
         @strongify(self);
         RACSignal *sig = evt.signal;
         if (evt.code != kCKStoreEventReload) {

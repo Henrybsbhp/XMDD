@@ -28,6 +28,8 @@
     arcLayer.lineWidth = 2.5;
     [self.layer addSublayer:arcLayer];
     [self drawLineAnimation:arcLayer];
+    
+    self.drawingStatus = DrawingBoardViewStatusSuccess;
 }
 
 - (void)drawSuccess
@@ -46,6 +48,8 @@
     arcLayer.lineWidth = 2.5;
     [self.layer addSublayer:arcLayer];
     [self drawLineAnimation:arcLayer];
+
+    self.drawingStatus = DrawingBoardViewStatusSuccess;
 }
 
 - (void)drawFailure
@@ -65,6 +69,18 @@
     arcLayer.lineWidth = 2.5;
     [self.layer addSublayer:arcLayer];
     [self drawLineAnimation:arcLayer];
+    
+    self.drawingStatus = DrawingBoardViewStatusFail;
+}
+
+-(void)drawWithStatus:(DrawingBoardViewStatus)status
+{
+    if (status == DrawingBoardViewStatusSuccess) {
+        [self drawSuccess];
+    }
+    else if (status == DrawingBoardViewStatusFail) {
+        [self drawFailure];
+    }
 }
 
 -(void)drawLineAnimation:(CALayer*)layer

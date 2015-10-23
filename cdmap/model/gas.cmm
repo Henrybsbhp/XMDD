@@ -15,8 +15,9 @@ class=AddGascard op auth path="/user/gascard/add"> {
     <"油卡类型">cardtype:int
   }
   <rsp> {
-    <"当月可以充值金额">availablechargeamt:int
-    <"当月已经享受优惠金额">couponedmoney:int
+    <"油卡id">gid:number
+    <"当月可以充值金额">availablechargeamt:number
+    <"当月已经享受优惠金额">couponedmoney:number
   }
 }
 
@@ -42,8 +43,8 @@ class=GetGaschargeInfo op auth path="/user/gascard/chargedinfo/get"> {
      <"油卡id">gid:number
   }
   <rsp> {
-     <"当月可充金额">availablechargeamt:int
-     <"已经享受过的优惠">couponedmoney:int
+     <"当月可充金额">availablechargeamt:number
+     <"已经享受过的优惠">couponedmoney:number
   }
 }
 
@@ -59,7 +60,7 @@ class=GascardCharge op auth path="/user/gascard/charge"> {
   <rsp> {
      <"交易流水">tradeid
      <"记录ID">orderid:number
-     <"支付金额">total
+     <"支付金额">total:int
   }
 }
 
@@ -73,8 +74,13 @@ class=CancelGascharge op auth path="/user/gascharge/cancel"> {
 <"浙商支付验证码获取"
 class=GetCzbpayVcode op auth path="/czbpay/vcode/get"> {
   <req> {
-    <"电话">phone
     <"银行卡记录ID">cardid:number
+    <"充值金额">chargeamt:int
+    <"油卡id">gid:number
+  }
+  <rsp> {
+    <"订单记录id">orderid:number
+    <"交易流水">tradeid
   }
 }
 
@@ -117,11 +123,8 @@ class=GasCard data> {
   <"油卡id">gid:number
   <"油卡卡号">gascardno              
   <"油卡类型 1：石化  2：石油">cardtype:int
-  <"当月可充金额">availablechargeamt:int
-  <"已经享受过的优惠">couponedmoney:int  
-  <"浙商的折扣率">czbdiscountrate:int
-  <"浙商的优惠上限">czbcouponupplimit:int
-  <"浙商的已享受优惠">czbcouponedmoney:int
+  <"当月可充金额">availablechargeamt:number
+  <"已经享受过的优惠">couponedmoney:number
 }
 
 <"加油记录"
@@ -129,6 +132,7 @@ class=GasChargeRecord data> {
   <"支付时间">payedtime:longlong
   <"油卡名称">gascardname
   <"油卡卡号">gascardno
+  <"油卡类型">cardtype:int
   <"记录状态 (2:支付成功 3:充值成功 4:充值失败)">status:int
   <"状态说明">statusdesc
   <"支付金额">paymoney:int

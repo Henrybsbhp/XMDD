@@ -13,6 +13,7 @@
     self.payedtime = [dict[@"payedtime"] longLongValue];
     self.gascardname = dict[@"gascardname"];
     self.gascardno = dict[@"gascardno"];
+    self.cardtype = [dict[@"cardtype"] intValue];
     self.status = [dict[@"status"] intValue];
     self.statusdesc = dict[@"statusdesc"];
     self.paymoney = [dict[@"paymoney"] intValue];

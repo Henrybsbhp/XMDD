@@ -7,6 +7,8 @@
 @property (nonatomic,strong) NSString* gascardname;
 ///油卡卡号
 @property (nonatomic,strong) NSString* gascardno;
+///油卡类型
+@property (nonatomic,assign) int cardtype;
 ///记录状态 (2:支付成功 3:充值成功 4:充值失败)
 @property (nonatomic,assign) int status;
 ///状态说明

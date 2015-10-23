@@ -27,7 +27,7 @@
 - (void)commonInit
 {
     self.backgroundColor = [UIColor clearColor];
-    self.lineColor = [UIColor grayColor];
+    self.lineColor = HEXCOLOR(@"#E3E3E3");
     self.linePixelWidth = 1;
     self.linePointWidth = 1;
     self.lineAlignment = CKLineAlignmentHorizontalTop;

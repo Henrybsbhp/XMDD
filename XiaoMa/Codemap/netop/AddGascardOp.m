@@ -14,8 +14,9 @@
 - (instancetype)parseResponseObject:(id)rspObj
 {
     NSDictionary *dict = rspObj;
-    self.rsp_availablechargeamt = [dict[@"availablechargeamt"] intValue];
-    self.rsp_couponedmoney = [dict[@"couponedmoney"] intValue];
+    self.rsp_gid = dict[@"gid"];
+    self.rsp_availablechargeamt = dict[@"availablechargeamt"];
+    self.rsp_couponedmoney = dict[@"couponedmoney"];
 	
     return self;
 }

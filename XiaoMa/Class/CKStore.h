@@ -11,10 +11,12 @@
 typedef enum : NSInteger {
     kCKStoreEventUnknow = 0,
     kCKStoreEventReload,
+    kCKStoreEventNone,
     kCKStoreEventGet,
     kCKStoreEventAdd,
     kCKStoreEventDelete,
-    kCKStoreEventUpdate
+    kCKStoreEventUpdate,
+    kCKStoreEventSelect
 }CKStoreEventCode;
 
 @class CKStoreEvent;
@@ -29,8 +31,9 @@ typedef enum : NSInteger {
 + (CKStoreEvent *)sendEvent:(CKStoreEvent *)evt;
 - (CKStoreEvent *)sendEvent:(CKStoreEvent *)evt;
 
-- (BOOL)needUpdateTimetag;
-- (void)updateTimetag;
+///(if key is nil, then the inner key is "$DefTimetag")
+- (BOOL)needUpdateTimetagForKey:(NSString *)key;
+- (void)updateTimetagForKey:(NSString *)key;
 
 @end
 
@@ -41,6 +44,13 @@ typedef enum : NSInteger {
 
 + (instancetype)eventWithSignal:(RACSignal *)sig code:(NSInteger)code object:(id)obj;
 - (CKStoreEvent *)setSignal:(RACSignal *)signal;
+- (BOOL)callIfNeededExceptCode:(NSInteger)code object:(id)obj target:(id)target selector:(SEL)selector;
+- (BOOL)callIfNeededExceptCodeList:(NSArray *)codes object:(id)obj target:(id)target selector:(SEL)selector;
+- (BOOL)callIfNeededForCode:(NSInteger)code object:(id)obj target:(id)target selector:(SEL)selector;
+- (BOOL)callIfNeededForCodeList:(NSArray *)codes object:(id)obj target:(id)target selector:(SEL)selector;
+- (BOOL)callIfNeededExceptCode:(NSInteger)code object:(id)obj handler:(void(^)(CKStoreEvent *))handler;
+- (BOOL)callIfNeededExceptCodeList:(NSArray *)codes object:(id)obj handler:(void(^)(CKStoreEvent *))handler;
+- (BOOL)callIfNeededForCode:(NSInteger)code object:(id)obj handler:(void(^)(CKStoreEvent *))handler;
+- (BOOL)callIfNeededForCodeList:(NSArray *)codes object:(id)obj handler:(void(^)(CKStoreEvent *))handler;
 
 @end
-

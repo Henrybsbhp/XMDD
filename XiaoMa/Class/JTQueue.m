@@ -95,6 +95,7 @@
     id obj = [self.mObjectMap objectForKey:key];
     if (obj) {
         [self.mQueue safetyRemoveObject:obj];
+        [self.mObjectMap removeObjectForKey:key];
     }
     self.count = self.mQueue.count;
 }

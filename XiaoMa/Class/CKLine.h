@@ -17,7 +17,7 @@ typedef enum : NSInteger
 }CKLineAlignment;
 
 @interface CKLine : UIView
-///(default is grayColor)
+///(default is HEXCOLOR(@"#E3E3E3"))
 @property (nonatomic, strong) UIColor *lineColor;
 ///(线的像素宽度 default is 1px)
 @property (nonatomic, assign) CGFloat linePixelWidth;
