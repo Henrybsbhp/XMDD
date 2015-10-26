@@ -91,7 +91,7 @@
         if (!bankCard) {
             self.curBankCard = nil;
         }
-        else if (code == kCKStoreEventReload) {
+        else if (code == kCKStoreEventReload || code == kCKStoreEventSelect) {
             return [self.bankStore rac_getCardCZBInfoByCID:bankCard.cardID];
         }
         return [RACSignal return:value];

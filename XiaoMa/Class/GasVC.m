@@ -173,6 +173,7 @@
 
 - (void)refreshBottomView
 {
+    NSString *title;
     NSInteger couponlimit, discount = 0;
     NSInteger availablelimit = 2000;
     CGFloat percent = 0;
@@ -186,6 +187,14 @@
         if (model.curGasCard) {
             couponlimit = MAX(0, couponlimit - ABS(availablelimit - [model.curGasCard.availablechargeamt integerValue]));
         }
+        discount = MIN(couponlimit, paymoney) * percent / 100.0;
+        paymoney = paymoney - discount;
+        if (discount > 0) {
+            title = [NSString stringWithFormat:@"已优惠%d元，您只需支付%d元，现在支付", (int)discount, (int)paymoney];
+        }
+        else {
+            title = [NSString stringWithFormat:@"您需支付%d元，现在支付", (int)paymoney];
+        }
     }
     else {
         GasCZBVM *model = (GasCZBVM *)self.curModel;
@@ -195,20 +204,19 @@
             availablelimit = model.curBankCard.gasInfo.rsp_chargeupplimit;
             couponlimit = MAX(0, couponlimit - ABS(availablelimit - model.curBankCard.gasInfo.rsp_availablechargeamt));
         }
+        discount = MIN(couponlimit, paymoney) * percent / 100.0;
+        if (discount > 0) {
+            title = [NSString stringWithFormat:@"充值%d元，只需支付%d元，现在支付", (int)(paymoney + discount), (int)paymoney];
+        }
+        else {
+            title = [NSString stringWithFormat:@"您需支付%d元，现在支付", (int)paymoney];
+        }
     }
     
-    discount = MIN(couponlimit, paymoney) * percent / 100.0;
-    paymoney = paymoney - discount;
-    if (discount > 0) {
-        NSString *title = [NSString stringWithFormat:@"已优惠%d元，您只需支付%d元，现在支付", (int)discount, (int)paymoney];
-        [self.bottomBtn setTitle:title forState:UIControlStateNormal];
-        [self.bottomBtn setTitle:title forState:UIControlStateDisabled];
-    }
-    else {
-        NSString *title = [NSString stringWithFormat:@"您需支付%d元，现在支付", (int)paymoney];
-        [self.bottomBtn setTitle:title forState:UIControlStateNormal];
-        [self.bottomBtn setTitle:title forState:UIControlStateDisabled];
-    }
+
+
+    [self.bottomBtn setTitle:title forState:UIControlStateNormal];
+    [self.bottomBtn setTitle:title forState:UIControlStateDisabled];
 }
 
 - (void)refrshLoadingView

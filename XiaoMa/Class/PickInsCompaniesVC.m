@@ -35,41 +35,51 @@
 {
     GetInsCompanyListOp *op = [GetInsCompanyListOp operation];
     @weakify(self);
-    [[[op rac_postRequest] initially:^{
+    [[[[op rac_postRequest] initially:^{
         
         @strongify(self);
         [self.collectionView.refreshView beginRefreshing];
-    }] subscribeNext:^(GetInsCompanyListOp *op) {
+    }] deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(GetInsCompanyListOp *op) {
 
         @strongify(self);
-        [self.collectionView.refreshView endRefreshing];
         [[NSUserDefaults standardUserDefaults] setObject:op.rsp_names forKey:kInsCompanyListKey];
-        self.datasource = op.rsp_names;
-        [self.collectionView reloadData];
+        [self refreshViewWithDatasource:op.rsp_names];
     } error:^(NSError *error) {
 
         @strongify(self);
-        [self.collectionView.refreshView endRefreshing];
+        [self refreshViewWithDatasource:self.datasource];
         [gToast showError:error.domain];
     }];
 }
 
 - (void)loadDefData
 {
-    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    self.datasource = [def arrayForKey:kInsCompanyListKey];
-    
     CKAsyncMainQueue(^{
         UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
-        layout.itemSize = CGSizeMake(self.view.frame.size.width - 12*3, 44);
+        layout.itemSize = CGSizeMake(floor((self.view.frame.size.width - 12*3)/2.0), 44);
 
         if (!self.collectionView.dataSource) {
             self.collectionView.dataSource = self;
             self.collectionView.delegate = self;
         }
+        self.datasource = [[NSUserDefaults standardUserDefaults] arrayForKey:kInsCompanyListKey];
         [self.collectionView reloadData];
-        
     });
+}
+
+- (void)refreshViewWithDatasource:(NSArray *)datasource
+{
+    [self.collectionView.refreshView endRefreshing];
+    self.datasource = datasource;
+    [self.collectionView reloadData];
+    if (self.datasource.count == 0) {
+        CGFloat offset = self.collectionView.contentInset.top;
+        @weakify(self);
+        [self.collectionView showDefaultEmptyViewWithText:@"暂无保险公司信息" centerOffset:offset tapBlock:^{
+            @strongify(self);
+            [self reloadData];
+        }];
+    }
 }
 
 #pragma mark - UICollectionViewDelegate

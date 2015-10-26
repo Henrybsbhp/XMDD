@@ -539,14 +539,6 @@
         }];
         fieldEditable = NO;
     }
-//    else if (indexPath.row == 7) {
-//        unitL.text = nil;
-//        titleL.attributedText = [self attrStrWithTitle:@"保险公司" asterisk:NO];
-//        field.text = car.inscomp;
-//        [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString *str) {
-//            car.inscomp = str;
-//        }];
-//    }
     
     field.userInteractionEnabled = fieldEditable;
     return cell;
@@ -572,7 +564,9 @@
     }
     else if (indexPath.row == 7) {
         titleL.attributedText = [self attrStrWithTitle:@"保险公司" asterisk:NO];
-        subTitleL.text = self.curCar.inscomp;
+        [[RACObserve(self.curCar, inscomp) takeUntilForCell:cell] subscribeNext:^(id x) {
+            subTitleL.text = self.curCar.inscomp;
+        }];
     }
     return cell;
 }
@@ -603,10 +597,6 @@
     NSIndexPath *indexPath = textField.customObject;
     //车牌号码
     if (indexPath.row == 0 && length > 10) {
-        return NO;
-    }
-    //保险公司
-    else if (indexPath.row == 7 && length >= 30) {
         return NO;
     }
     //当前里程
