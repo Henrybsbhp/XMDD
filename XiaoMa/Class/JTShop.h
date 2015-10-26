@@ -91,6 +91,8 @@
 @property (nonatomic)BOOL allowABC;
 ///商户服务[JTShopComment]
 @property (nonatomic,strong)NSArray * shopCommentArray;
+///公报
+@property (nonatomic,copy)NSString * announcement;
 
 + (instancetype)shopWithJSONResponse:(NSDictionary *)rsp;
 @end

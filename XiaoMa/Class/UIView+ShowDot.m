@@ -19,7 +19,7 @@
 - (void)showDotWithOffset:(CGPoint)offset withBoardLine:(BOOL)board
 {
     JTImageBadge *badge = self.badgeView;
-    badge.frame = CGRectMake(0, 0, 8, 8);
+    badge.frame = CGRectMake(-1, 1, 10, 10);
     badge.backgroundView.image = [UIImage imageNamed:@"cm_dot"];
     CGPoint center = CGPointMake(badge.center.x+offset.x, badge.center.y+offset.y);
     badge.center = center;
