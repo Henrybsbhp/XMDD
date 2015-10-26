@@ -31,6 +31,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 }
 
+#pragma mark - 传递用户token
 - (void)setUserTokenHandler
 {
     id data;
@@ -45,6 +46,62 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
+#pragma mark - 点击查看大图
+- (void)registerShowImage
+{
+    [self.myBridge registerHandler:@"callShowImage" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSDictionary * dic = data;
+        NSString * imageUrl = [dic stringParamForName:@"imgUrl"];
+        [self showImages:imageUrl];
+    }];
+}
+
+- (void)showImages:(NSString *)urlStr
+{
+    UIWindow * window = [UIApplication sharedApplication].keyWindow;
+    UIScrollView * backgroundView= [[UIScrollView alloc]
+                                    initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    backgroundView.showsHorizontalScrollIndicator = NO;
+    backgroundView.backgroundColor = [UIColor colorWithHex:@"#0000000" alpha:0.6f];
+    backgroundView.alpha = 0;
+    [backgroundView setContentSize:CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectZero];
+    
+    [[gMediaMgr rac_getImageByUrl:urlStr withType:ImageURLTypeOrigin defaultPic:@"cm_webimg_default" errorPic:@"cm_webimg_default"] subscribeNext:^(id x) {
+        UIImage * img = x;
+        CGRect frame = CGRectMake(0, ([UIScreen mainScreen].bounds.size.height-img.size.height*[UIScreen mainScreen].bounds.size.width/img.size.width)/2, [UIScreen mainScreen].bounds.size.width, img.size.height*[UIScreen mainScreen].bounds.size.width/img.size.width);
+        imageView.frame = frame;
+        [imageView setImage:img];
+    } error:^(NSError *error) {
+        [gToast showError:@"大图加载失败，请稍后重试"];
+        [imageView setImage:[UIImage imageNamed:@"cm_webimg_default"]]; //默认错误大图
+    }];
+    
+    [backgroundView addSubview:imageView];
+    
+    [window addSubview:backgroundView];
+    
+    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImage:)];
+    [backgroundView addGestureRecognizer: tap];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        backgroundView.alpha=1;
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
+-(void)hideImage:(UITapGestureRecognizer*)tap{
+    UIView *backgroundView=tap.view;
+    [UIView animateWithDuration:0.3 animations:^{
+        backgroundView.alpha=0;
+    } completion:^(BOOL finished) {
+        [backgroundView removeFromSuperview];
+    }];
+}
+
+#pragma mark - 右上角菜单按钮（目前只有分享）
 - (UIBarButtonItem *)setSingleMenu:(NSDictionary *)singleDic
 {
     MenuItemsType type = [singleDic integerParamForName:singleDic[@"type"]];
@@ -53,7 +110,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         right = [[UIBarButtonItem alloc] initWithTitle:@"分享" style:UIBarButtonItemStylePlain target:self action:@selector(shareAction)];
     }
     else {
-        
+        //其他单个右上角功能按钮
     }
     [right setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:16.0]} forState:UIControlStateNormal];
     return right;
