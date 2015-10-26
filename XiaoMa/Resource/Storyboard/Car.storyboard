@@ -89,6 +89,75 @@
             </objects>
             <point key="canvasLocation" x="144" y="327"/>
         </scene>
+        <!--保险公司-->
+        <scene sceneID="CZp-KA-qqR">
+            <objects>
+                <viewController storyboardIdentifier="PickInsCompaniesVC" title="保险公司" id="6FL-ny-ZGL" customClass="PickInsCompaniesVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="kOn-Yt-03w"/>
+                        <viewControllerLayoutGuide type="bottom" id="PQJ-df-czx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xi6-Dx-Ia4">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="iG8-X0-DZb">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="0.95908411609999999" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="12" minimumInteritemSpacing="11" id="vql-G0-byk">
+                                    <size key="itemSize" width="237" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="12" minY="12" maxX="12" maxY="12"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="LableCell" id="ve5-Xi-9kI">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="237" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e7c-Ai-HON">
+                                                    <rect key="frame" x="0.0" y="0.0" width="237" height="50"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="tintColor" red="0.90980392156862744" green="0.90980392156862744" blue="0.90980392156862744" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#BW_1#BC_RGB(232,232,232)"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="e7c-Ai-HON" firstAttribute="top" secondItem="ve5-Xi-9kI" secondAttribute="top" id="0C4-Y4-KDx"/>
+                                            <constraint firstItem="e7c-Ai-HON" firstAttribute="leading" secondItem="ve5-Xi-9kI" secondAttribute="leading" id="UHy-kB-i8a"/>
+                                            <constraint firstAttribute="trailing" secondItem="e7c-Ai-HON" secondAttribute="trailing" id="dXg-cj-3dc"/>
+                                            <constraint firstAttribute="bottom" secondItem="e7c-Ai-HON" secondAttribute="bottom" id="oFH-1q-AfP"/>
+                                        </constraints>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="iG8-X0-DZb" firstAttribute="top" secondItem="xi6-Dx-Ia4" secondAttribute="top" id="8QA-C5-7dn"/>
+                            <constraint firstItem="iG8-X0-DZb" firstAttribute="leading" secondItem="xi6-Dx-Ia4" secondAttribute="leading" id="d2D-oZ-uCG"/>
+                            <constraint firstItem="PQJ-df-czx" firstAttribute="top" secondItem="iG8-X0-DZb" secondAttribute="bottom" id="vgM-qJ-2hW"/>
+                            <constraint firstAttribute="trailing" secondItem="iG8-X0-DZb" secondAttribute="trailing" id="wJu-lR-lY6"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="iG8-X0-DZb" id="nVF-1h-Eeo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iMo-xy-LoT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="786" y="1048"/>
+        </scene>
         <!--我的爱车-->
         <scene sceneID="D89-zs-6NZ">
             <objects>

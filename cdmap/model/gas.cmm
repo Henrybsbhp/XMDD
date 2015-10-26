@@ -34,6 +34,7 @@ class=GetGaschargeConfig op path="/user/gascharge/config/get"> {
      <"描述">desc
      <"折扣率">discountrate:int
      <"有优惠充值上限">couponupplimit:int
+     <"充值上限">chargeupplimit:int
   }
 }
 
@@ -96,6 +97,7 @@ class=GetCZBGaschargeInfo op auth path="/user/czbcard/couponinfo/get"> {
      <"折扣率">discountrate:int
      <"优惠上限">couponupplimit:int
      <"浙商卡已享受优惠">czbcouponedmoney:int
+     <"加油上限">chargeupplimit:int
   }
 }
 

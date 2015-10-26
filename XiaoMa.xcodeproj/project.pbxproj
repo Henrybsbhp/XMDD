@@ -176,6 +176,8 @@
 		18A30E451BD493DB00521411 /* GasPaymentResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A30E441BD493DB00521411 /* GasPaymentResultVC.m */; };
 		18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */; };
 		18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */; };
+		18A9E8C91BDDC0950061D3BC /* GetInsCompanyListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9E8C81BDDC0950061D3BC /* GetInsCompanyListOp.m */; };
+		18A9E8CC1BDDC1C00061D3BC /* PickInsCompaniesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9E8CB1BDDC1C00061D3BC /* PickInsCompaniesVC.m */; };
 		18B78F591BA9893C0061ECAD /* GetLaunchInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B78F581BA9893C0061ECAD /* GetLaunchInfoOp.m */; };
 		18B78F5C1BA989BE0061ECAD /* HKLaunchInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B78F5B1BA989BE0061ECAD /* HKLaunchInfo.m */; };
 		18B78F5F1BA990100061ECAD /* HKLaunchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B78F5E1BA990100061ECAD /* HKLaunchManager.m */; };
@@ -785,6 +787,10 @@
 		18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		18A377F21AE4AB4B0031A574 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
+		18A9E8C71BDDC0950061D3BC /* GetInsCompanyListOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetInsCompanyListOp.h; sourceTree = "<group>"; };
+		18A9E8C81BDDC0950061D3BC /* GetInsCompanyListOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetInsCompanyListOp.m; sourceTree = "<group>"; };
+		18A9E8CA1BDDC1C00061D3BC /* PickInsCompaniesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickInsCompaniesVC.h; sourceTree = "<group>"; };
+		18A9E8CB1BDDC1C00061D3BC /* PickInsCompaniesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickInsCompaniesVC.m; sourceTree = "<group>"; };
 		18B78F571BA9893C0061ECAD /* GetLaunchInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetLaunchInfoOp.h; path = Class/GetLaunchInfoOp.h; sourceTree = "<group>"; };
 		18B78F581BA9893C0061ECAD /* GetLaunchInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetLaunchInfoOp.m; path = Class/GetLaunchInfoOp.m; sourceTree = "<group>"; };
 		18B78F5A1BA989BE0061ECAD /* HKLaunchInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKLaunchInfo.h; path = Class/HKLaunchInfo.h; sourceTree = "<group>"; };
@@ -1632,6 +1638,8 @@
 		1833F5701BCD373B000E1DA1 /* netop */ = {
 			isa = PBXGroup;
 			children = (
+				18A9E8C71BDDC0950061D3BC /* GetInsCompanyListOp.h */,
+				18A9E8C81BDDC0950061D3BC /* GetInsCompanyListOp.m */,
 				1833F5971BCD3BF7000E1DA1 /* CancelGaschargeOp.h */,
 				1833F5981BCD3BF7000E1DA1 /* CancelGaschargeOp.m */,
 				1833F5711BCD373B000E1DA1 /* AddGascardOp.h */,
@@ -1881,6 +1889,8 @@
 				18E28A2A1B9578240070E759 /* CarListVC.m */,
 				1814F6561B96D56E001F2D76 /* CarListSubView.h */,
 				1814F6571B96D56E001F2D76 /* CarListSubView.m */,
+				18A9E8CA1BDDC1C00061D3BC /* PickInsCompaniesVC.h */,
+				18A9E8CB1BDDC1C00061D3BC /* PickInsCompaniesVC.m */,
 			);
 			name = MyCar;
 			sourceTree = "<group>";
@@ -3457,6 +3467,7 @@
 				18C52C331BA670DA00F6C38B /* DrivingLicenseHistoryView.m in Sources */,
 				18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */,
 				1816F4BD1AD3A8AD00BBCC96 /* JTNavigationController.m in Sources */,
+				18A9E8CC1BDDC1C00061D3BC /* PickInsCompaniesVC.m in Sources */,
 				6BF392441BD627A900838292 /* GetShopByNameV2Op.m in Sources */,
 				1816F4B01ACE75FB00BBCC96 /* CarWashTableVC.m in Sources */,
 				1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */,
@@ -3500,6 +3511,7 @@
 				18E28A2B1B9578240070E759 /* CarListVC.m in Sources */,
 				6BDD6E281B67615C0060CFD0 /* UIView+JDFlipImageView.m in Sources */,
 				18C52C3E1BA6CEB900F6C38B /* HKImageView.m in Sources */,
+				18A9E8C91BDDC0950061D3BC /* GetInsCompanyListOp.m in Sources */,
 				1833F5901BCD373B000E1DA1 /* GetGascardListOp.m in Sources */,
 				6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */,
 				507A4DDF1B74462200E0BF1E /* UnbundlingVC.m in Sources */,

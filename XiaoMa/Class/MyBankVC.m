@@ -60,9 +60,14 @@
     @weakify(self);
     [self.bankStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
         @strongify(self);
-        NSArray *codes = @[@(kCKStoreEventAdd),@(kCKStoreEventDelete),@(kCKStoreEventReload),@(kCKStoreEventNone)];
+        NSArray *codes = @[@(kCKStoreEventAdd),@(kCKStoreEventDelete),@(kCKStoreEventReload),@(kCKStoreEventNone),@(kCKStoreEventGet)];
         [evt callIfNeededForCodeList:codes object:nil target:self selector:@selector(reloadWithEvent:)];
     }];
+}
+
+- (void)reloadData
+{
+    [self.bankStore sendEvent:[self.bankStore getAllBankCards]];
 }
 
 - (void)reloadWithEvent:(CKStoreEvent *)event

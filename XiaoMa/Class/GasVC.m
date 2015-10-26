@@ -75,7 +75,8 @@
 
 - (void)dealloc
 {
-    
+    self.czbModel.cachedEvent = nil;
+    self.normalModel.cachedEvent = nil;
 }
 
 - (void)setupHeaderView
@@ -172,45 +173,42 @@
 
 - (void)refreshBottomView
 {
-    NSString *title;
-    NSInteger discount = 0;
+    NSInteger couponlimit, discount = 0;
+    NSInteger availablelimit = 2000;
+    CGFloat percent = 0;
     NSInteger paymoney = self.curModel.rechargeAmount;
+    
     if ([self.curModel isEqual:self.normalModel]) {
         GasNormalVM *model = (GasNormalVM *)self.curModel;
-        NSInteger discount = 0;
-        NSInteger couponlimit = model.configOp ? model.configOp.rsp_couponupplimit : 1000;
-        CGFloat percent = model.configOp ? model.configOp.rsp_discountrate : 2;
+        couponlimit = model.configOp ? model.configOp.rsp_couponupplimit : 1000;
+        availablelimit = model.configOp ? model.configOp.rsp_chargeupplimit : 2000;
+        percent = model.configOp ? model.configOp.rsp_discountrate : 2;
         if (model.curGasCard) {
-            couponlimit = MAX(0, couponlimit - [model.curGasCard.couponedmoney integerValue]);
-        }
-        discount = MIN(couponlimit, paymoney) * percent / 100.0;
-        paymoney = paymoney - discount;
-        if (discount > 0) {
-            title = [NSString stringWithFormat:@"已优惠%d元，您只需支付%d元，现在支付", (int)discount, (int)paymoney];
-        }
-        else {
-            title = [NSString stringWithFormat:@"您需支付%d，元，现在支付", (int)paymoney];
+            couponlimit = MAX(0, couponlimit - ABS(availablelimit - [model.curGasCard.availablechargeamt integerValue]));
         }
     }
     else {
         GasCZBVM *model = (GasCZBVM *)self.curModel;
-        NSInteger couponlimit = 0;
-        CGFloat percent = 0;
         if (model.curBankCard.gasInfo) {
             couponlimit = model.curBankCard.gasInfo.rsp_couponupplimit;
             percent = model.curBankCard.gasInfo.rsp_discountrate;
-        }
-        discount = MIN(couponlimit, paymoney) * percent / 100.0;
-        paymoney = paymoney - discount;
-        if (discount > 0) {
-            title = [NSString stringWithFormat:@"已优惠%d元，您只需支付%d元，现在支付", (int)discount, (int)paymoney];
-        }
-        else {
-            title = [NSString stringWithFormat:@"您需支付%d元，现在支付", (int)paymoney];
+            availablelimit = model.curBankCard.gasInfo.rsp_chargeupplimit;
+            couponlimit = MAX(0, couponlimit - ABS(availablelimit - model.curBankCard.gasInfo.rsp_availablechargeamt));
         }
     }
-    [self.bottomBtn setTitle:title forState:UIControlStateNormal];
-    [self.bottomBtn setTitle:title forState:UIControlStateDisabled];
+    
+    discount = MIN(couponlimit, paymoney) * percent / 100.0;
+    paymoney = paymoney - discount;
+    if (discount > 0) {
+        NSString *title = [NSString stringWithFormat:@"已优惠%d元，您只需支付%d元，现在支付", (int)discount, (int)paymoney];
+        [self.bottomBtn setTitle:title forState:UIControlStateNormal];
+        [self.bottomBtn setTitle:title forState:UIControlStateDisabled];
+    }
+    else {
+        NSString *title = [NSString stringWithFormat:@"您需支付%d元，现在支付", (int)paymoney];
+        [self.bottomBtn setTitle:title forState:UIControlStateNormal];
+        [self.bottomBtn setTitle:title forState:UIControlStateDisabled];
+    }
 }
 
 - (void)refrshLoadingView

@@ -12,7 +12,6 @@
 @interface GasCZBVM ()
 @property (nonatomic, strong) BankCardStore *bankStore;
 @property (nonatomic, strong) NSArray *bankList;
-@property (nonatomic, weak) CKStoreEvent *cachedEvent;
 @property (nonatomic, strong) RACSignal *getCZBCouponDefInfoSignal;
 @end
 
