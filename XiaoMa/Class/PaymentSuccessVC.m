@@ -317,6 +317,8 @@
 //    NSString * s = d[[d.allKeys safetyObjectAtIndex:0]];
     d.customTag =  !d.customTag;
     [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+    
+    
 }
 
 

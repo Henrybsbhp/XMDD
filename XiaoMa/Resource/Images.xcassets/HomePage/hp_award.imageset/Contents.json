@@ -6,13 +6,13 @@
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "750每周礼券(1).png"
+      "filename" : "每周礼券@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x",
-      "filename" : "1242每周礼券.png"
+      "filename" : "每周礼券.png",
+      "scale" : "3x"
     }
   ],
   "info" : {
