@@ -526,8 +526,8 @@
                                             <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
                                             <constraints>
-                                                <constraint firstItem="HEC-el-KDx" firstAttribute="leading" secondItem="kLz-7F-Wmu" secondAttribute="leading" constant="10" id="4eG-iF-0bo"/>
-                                                <constraint firstAttribute="width" secondItem="HEC-el-KDx" secondAttribute="width" constant="25" id="S2z-bC-QRm"/>
+                                                <constraint firstItem="HEC-el-KDx" firstAttribute="leading" secondItem="kLz-7F-Wmu" secondAttribute="leading" constant="15" id="4eG-iF-0bo"/>
+                                                <constraint firstAttribute="width" secondItem="HEC-el-KDx" secondAttribute="width" constant="30" id="S2z-bC-QRm"/>
                                                 <constraint firstItem="HEC-el-KDx" firstAttribute="height" secondItem="kLz-7F-Wmu" secondAttribute="height" id="VY4-kX-eHK"/>
                                                 <constraint firstItem="HEC-el-KDx" firstAttribute="centerY" secondItem="kLz-7F-Wmu" secondAttribute="centerY" id="Vch-aY-eyc"/>
                                             </constraints>

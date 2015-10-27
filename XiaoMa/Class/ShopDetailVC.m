@@ -714,7 +714,7 @@
     [self.roundLb observeApplicationNotifications];
     
     
-    NSString * note = @"推荐浙商银行汽车卡用户使用,推荐浙商银行汽车卡用户使用推荐浙商银行汽车卡用户使用";
+    NSString * note = self.shop.announcement;
     
     CGSize size = [note sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(FLT_MAX,FLT_MAX)];
     CGFloat width = MIN(size.width, self.view.frame.size.width - 90);
@@ -723,6 +723,9 @@
         make.width.mas_equalTo(width);
     }];
     self.roundLb.text = note;
+    
+    self.roundLb.hidden = !self.shop.announcement.length;
+    self.roundBgView.hidden = !self.shop.announcement.length;
 }
 
 -(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
