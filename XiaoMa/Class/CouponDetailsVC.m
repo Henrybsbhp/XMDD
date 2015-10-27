@@ -58,6 +58,7 @@
 
         }];
         
+        self.shareBtn.hidden = !gAppMgr.canShareFlag;
         [self.shareBtn setCornerRadius:5.0f];
         [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             

@@ -131,7 +131,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     NSString *title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
     if (title.length > 0) {
         CKAsyncMainQueue(^{
-            self.navigationItem.title = @"活动详情";
+            self.navigationItem.title = title;
         });
     }
 }
