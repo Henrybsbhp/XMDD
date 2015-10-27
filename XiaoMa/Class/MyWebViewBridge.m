@@ -51,10 +51,12 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 {
     [self.myBridge registerHandler:@"getCurrentPosition" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSString * longitudeStr = [NSString stringWithFormat:@"%f", gMapHelper.coordinate.longitude];
-        NSString * latitudeStr = [NSString stringWithFormat:@"%f", gMapHelper.coordinate.longitude];
+        NSString * latitudeStr = [NSString stringWithFormat:@"%f", gMapHelper.coordinate.latitude];
+        NSString * province = gAppMgr.addrComponent.province;
         NSString * city = gAppMgr.addrComponent.city;
+        NSString * district = gAppMgr.addrComponent.district;
         if (longitudeStr && longitudeStr && latitudeStr) {
-            NSDictionary * dic = @{@"city":city, @"longitude":longitudeStr, @"latitude":latitudeStr};
+            NSDictionary * dic = @{@"province":province, @"city":city, @"district":district, @"longitude":longitudeStr, @"latitude":latitudeStr};
             responseCallback(dic);
         }
     }];

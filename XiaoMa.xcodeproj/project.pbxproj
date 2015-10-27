@@ -242,19 +242,20 @@
 		18F93CD71B6F0A4A000325DD /* DashLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F93CD61B6F0A4A000325DD /* DashLine.m */; };
 		5027568F1BA6A3C50065592A /* GetCouponDetailsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5027568E1BA6A3C50065592A /* GetCouponDetailsOp.m */; };
 		502756921BA6AC5B0065592A /* CouponDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 502756911BA6AC5B0065592A /* CouponDetailsVC.m */; };
-		505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */; settings = {ASSET_TAGS = (); }; };
-		505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */; settings = {ASSET_TAGS = (); }; };
-		505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC71BD7356A00857819 /* WebViewJavascriptBridgeBase.m */; settings = {ASSET_TAGS = (); }; };
-		505E5FCD1BD7356B00857819 /* WKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC91BD7356B00857819 /* WKWebViewJavascriptBridge.m */; settings = {ASSET_TAGS = (); }; };
-		505E5FD01BD73AB600857819 /* Discover.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FCF1BD73AB600857819 /* Discover.storyboard */; settings = {ASSET_TAGS = (); }; };
-		505E5FD31BD73B7D00857819 /* ListWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FD21BD73B7D00857819 /* ListWebVC.m */; settings = {ASSET_TAGS = (); }; };
-		505E5FD61BD73B9300857819 /* DetailWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FD51BD73B9300857819 /* DetailWebVC.m */; settings = {ASSET_TAGS = (); }; };
+		505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */; };
+		505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */; };
+		505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC71BD7356A00857819 /* WebViewJavascriptBridgeBase.m */; };
+		505E5FCD1BD7356B00857819 /* WKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC91BD7356B00857819 /* WKWebViewJavascriptBridge.m */; };
+		505E5FD01BD73AB600857819 /* Discover.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FCF1BD73AB600857819 /* Discover.storyboard */; };
+		505E5FD31BD73B7D00857819 /* ListWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FD21BD73B7D00857819 /* ListWebVC.m */; };
+		505E5FD61BD73B9300857819 /* DetailWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FD51BD73B9300857819 /* DetailWebVC.m */; };
 		506008D41B74631800B8761D /* DrawingBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 506008D31B74631800B8761D /* DrawingBoardView.m */; };
 		506008D71B747FED00B8761D /* ResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 506008D61B747FED00B8761D /* ResultVC.m */; };
 		506A30991B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 506A30981B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.m */; };
 		506A309F1B8F08FC002F1F14 /* InsuranceAppointmentOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 506A309E1B8F08FC002F1F14 /* InsuranceAppointmentOp.m */; };
 		5073810A1BA12A6800B29756 /* CarWashCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 507381091BA12A6800B29756 /* CarWashCouponVModel.m */; };
 		5073810D1BA1672D00B29756 /* GetCouponByTypeNewOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5073810C1BA1672D00B29756 /* GetCouponByTypeNewOp.m */; };
+		507404D91BDF6B8000DAC6BA /* GetCouponByTypeNewV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 507404D81BDF6B8000DAC6BA /* GetCouponByTypeNewV2Op.m */; };
 		5078E4CF1B93F04000E3B198 /* GetInsuranceDiscountOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5078E4CE1B93F04000E3B198 /* GetInsuranceDiscountOp.m */; };
 		5078E4D21B93FD4000E3B198 /* GetInscouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5078E4D11B93FD4000E3B198 /* GetInscouponOp.m */; };
 		507A0EB41B6F39D1004F6EC1 /* AnimationBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 507A0EB31B6F39D1004F6EC1 /* AnimationBoardView.m */; };
@@ -264,7 +265,7 @@
 		508C718F1BA808B600FA2F05 /* Insurance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 508C718E1BA808B600FA2F05 /* Insurance.storyboard */; };
 		508D06801B900CF800B835BB /* InsuranceOrderPayOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 508D067F1B900CF800B835BB /* InsuranceOrderPayOp.m */; };
 		50A9EF1B1B6874880036897F /* InsuranceResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A9EF1A1B6874880036897F /* InsuranceResultVC.m */; };
-		50B5A2961BD8CC51004E00ED /* MyWebViewBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */; settings = {ASSET_TAGS = (); }; };
+		50B5A2961BD8CC51004E00ED /* MyWebViewBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */; };
 		50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE7C911B6716B500675887 /* SelectScrollView.m */; };
 		50C6BF4D1B7341B800A5E021 /* CardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */; };
 		6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */; };
@@ -437,8 +438,8 @@
 		6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BF1AE24DCE000D19C1 /* RSADataVerifier.m */; };
 		6BEDB0421BA66242009A8C3F /* InsuranceDetailPlanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDB0411BA66242009A8C3F /* InsuranceDetailPlanModel.m */; };
 		6BEDB0461BA666D4009A8C3F /* CCSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDB0451BA666D4009A8C3F /* CCSegmentedControl.m */; };
-		6BF392441BD627A900838292 /* GetShopByNameV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF392431BD627A900838292 /* GetShopByNameV2Op.m */; settings = {ASSET_TAGS = (); }; };
-		6BF3925F1BD8935600838292 /* CBAutoScrollLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF3925E1BD8935600838292 /* CBAutoScrollLabel.m */; settings = {ASSET_TAGS = (); }; };
+		6BF392441BD627A900838292 /* GetShopByNameV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF392431BD627A900838292 /* GetShopByNameV2Op.m */; };
+		6BF3925F1BD8935600838292 /* CBAutoScrollLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF3925E1BD8935600838292 /* CBAutoScrollLabel.m */; };
 		6BF7F7311BB39A4100A24A32 /* NSString+Price.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF7F7301BB39A4100A24A32 /* NSString+Price.m */; };
 		C23FCAB81AF8B8C900E04BEB /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C23FCAB71AF8B8C900E04BEB /* TencentOpenAPI.framework */; };
 		C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */; };
@@ -943,6 +944,8 @@
 		507381091BA12A6800B29756 /* CarWashCouponVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarWashCouponVModel.m; sourceTree = "<group>"; };
 		5073810B1BA1672D00B29756 /* GetCouponByTypeNewOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetCouponByTypeNewOp.h; path = Class/GetCouponByTypeNewOp.h; sourceTree = "<group>"; };
 		5073810C1BA1672D00B29756 /* GetCouponByTypeNewOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetCouponByTypeNewOp.m; path = Class/GetCouponByTypeNewOp.m; sourceTree = "<group>"; };
+		507404D71BDF6B8000DAC6BA /* GetCouponByTypeNewV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetCouponByTypeNewV2Op.h; path = Class/GetCouponByTypeNewV2Op.h; sourceTree = "<group>"; };
+		507404D81BDF6B8000DAC6BA /* GetCouponByTypeNewV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetCouponByTypeNewV2Op.m; path = Class/GetCouponByTypeNewV2Op.m; sourceTree = "<group>"; };
 		5078E4CD1B93F04000E3B198 /* GetInsuranceDiscountOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetInsuranceDiscountOp.h; path = Class/GetInsuranceDiscountOp.h; sourceTree = "<group>"; };
 		5078E4CE1B93F04000E3B198 /* GetInsuranceDiscountOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetInsuranceDiscountOp.m; path = Class/GetInsuranceDiscountOp.m; sourceTree = "<group>"; };
 		5078E4D01B93FD4000E3B198 /* GetInscouponOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetInscouponOp.h; path = Class/GetInscouponOp.h; sourceTree = "<group>"; };
@@ -2983,6 +2986,8 @@
 				18D475E11B7C3954000FAF1C /* GetUserCouponV2Op.m */,
 				5073810B1BA1672D00B29756 /* GetCouponByTypeNewOp.h */,
 				5073810C1BA1672D00B29756 /* GetCouponByTypeNewOp.m */,
+				507404D71BDF6B8000DAC6BA /* GetCouponByTypeNewV2Op.h */,
+				507404D81BDF6B8000DAC6BA /* GetCouponByTypeNewV2Op.m */,
 				5027568D1BA6A3C50065592A /* GetCouponDetailsOp.h */,
 				5027568E1BA6A3C50065592A /* GetCouponDetailsOp.m */,
 				6BE4CE321AF21ACA008E1C19 /* AddUserCarOp.h */,
@@ -3522,6 +3527,7 @@
 				1893711C1B0DAC8D0030FDE1 /* GetMessageOp.m in Sources */,
 				6BBB084C1B021EA90002C349 /* JTCaptureScreen.m in Sources */,
 				18C52C331BA670DA00F6C38B /* DrivingLicenseHistoryView.m in Sources */,
+				507404D91BDF6B8000DAC6BA /* GetCouponByTypeNewV2Op.m in Sources */,
 				18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */,
 				1816F4BD1AD3A8AD00BBCC96 /* JTNavigationController.m in Sources */,
 				6BF392441BD627A900838292 /* GetShopByNameV2Op.m in Sources */,
