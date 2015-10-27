@@ -23,13 +23,13 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 @property (nonatomic, strong) NavigationModel *navModel;
 
+@property (nonatomic, strong) MyWebViewBridge* bridge;
+
 @property (nonatomic, strong)NJKWebViewProgress * progressProxy;
 @property (nonatomic, strong)NJKWebViewProgressView *progressView;
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (nonatomic, strong) NSURLRequest *request;
-
-@property (nonatomic, strong) MyWebViewBridge* myBridge;
 
 @end
 
@@ -55,8 +55,6 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupLeftBtn];
-    
     self.navModel.curNavCtrl = self.navigationController;
     
     [self setupSignalsForLogin];
@@ -65,6 +63,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     
     [self.webView.scrollView setDecelerationRate:UIScrollViewDecelerationRateNormal];
     self.webView.scalesPageToFit = YES;
+    self.webView.delegate = self;
     self.request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
     CKAsyncMainQueue(^{
         self.webView.scrollView.contentInset = UIEdgeInsetsZero;
@@ -75,33 +74,12 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [self setupBridge];
 }
 
-- (void)setupLeftBtn {
-    UIBarButtonItem *back = [UIBarButtonItem webBackButtonItemWithTarget:self action:@selector(actionNewBack)];
-    UIBarButtonItem *close = [UIBarButtonItem closeButtonItemWithTarget:self action:@selector(actionCloseWeb)];
-    NSArray * backBtnArr = [[NSArray alloc] initWithObjects:back, close, nil];
-    self.navigationItem.leftBarButtonItems =backBtnArr;
-}
-
-- (void)actionNewBack {
-    [self.myBridge.myBridge callHandler:@"returnBackHandler" data:nil responseCallback:^(id response) {
-        DebugLog(@"%@", response);
-        NSDictionary * dic = response;
-        if ([dic boolParamForName:@"isFirstPage"]) {
-            [self.navigationController popToRootViewControllerAnimated:YES];
-        }
-    }];
-}
-
-- (void)actionCloseWeb {
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
 - (void)setupSignalsForLogin
 {
     @weakify(self);
     [[[RACObserve(gAppMgr, myUser) distinctUntilChanged] skip:1] subscribeNext:^(JTUser *user) {
         @strongify(self);
-        [self.myBridge setUserTokenHandler];
+        [self.bridge setUserTokenHandler];
     }];
 }
 
@@ -121,22 +99,29 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)setupBridge
 {
-    self.myBridge = [[MyWebViewBridge alloc] initBridgeWithWebView:self.webView andDelegate:self.progressProxy];
+    self.bridge = [[MyWebViewBridge alloc] initBridgeWithWebView:self.webView andDelegate:self.progressProxy];
     
-    [self.myBridge.myBridge registerHandler:@"setOptionMenu" handler:^(id data, WVJBResponseCallback responseCallback) {
+    //右上角菜单按钮设置
+    [self.bridge.myBridge registerHandler:@"setOptionMenu" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSArray * menuArr = data;
         if (menuArr.count == 1) {
-            self.navigationItem.rightBarButtonItem = [self.myBridge setSingleMenu:[menuArr safetyObjectAtIndex:0]];
+            self.navigationItem.rightBarButtonItem = [self.bridge setSingleMenu:[menuArr safetyObjectAtIndex:0]];
         }
         else {
             
         }
     }];
-}
-
-- (void)reloadwebView
-{
-    [self.webView reload];
+    
+    //点击查看大图
+    [self.bridge registerShowImage];
+    
+    //上传地理位置
+    [self.bridge registerSetPosition];
+    
+//    //上传单张图片
+//    [self.bridge.myBridge registerHandler:@"uploadSingleImage" handler:^(id data, WVJBResponseCallback responseCallback) {
+//        
+//    }];
 }
 
 #pragma mark - NJKWebViewProgressDelegate
@@ -180,7 +165,47 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 {
     DebugLog(@"%@ WebViewFinishLoad:%@", kRspPrefix, webView.request.URL);
     
-    [self.myBridge setUserTokenHandler];
+    [self.bridge setUserTokenHandler];
+    
+    if (self.webView.canGoBack) {
+        [self setupLeftBtns];
+    }
+    else {
+        [self setupLeftSingleBtn];
+    }
+}
+
+- (void)setupLeftSingleBtn {
+    UIBarButtonItem *back = [UIBarButtonItem webBackButtonItemWithTarget:self action:@selector(actionNewBack)];
+    NSArray * backBtnArr = [[NSArray alloc] initWithObjects:back, nil];
+    self.navigationItem.leftBarButtonItems = backBtnArr;
+}
+
+- (void)setupLeftBtns {
+    UIBarButtonItem *back = [UIBarButtonItem webBackButtonItemWithTarget:self action:@selector(actionNewBack)];
+    UIBarButtonItem *close = [UIBarButtonItem closeButtonItemWithTarget:self action:@selector(actionCloseWeb)];
+    NSArray * backBtnArr = [[NSArray alloc] initWithObjects:back, close, nil];
+    self.navigationItem.leftBarButtonItems =backBtnArr;
+}
+
+- (void)actionNewBack {
+    NSString * returnBackStr = [self.webView stringByEvaluatingJavaScriptFromString:@"returnBackTest();"];
+    if(returnBackStr) {
+        [self.bridge.myBridge callHandler:@"returnBackHandler" data:nil responseCallback:^(id response) {
+            DebugLog(@"%@", response);
+            NSDictionary * dic = response;
+            if ([dic boolParamForName:@"isFirstPage"]) {
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }
+        }];
+    }
+    else {
+        [self.webView goBack];
+    }
+}
+
+- (void)actionCloseWeb {
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
