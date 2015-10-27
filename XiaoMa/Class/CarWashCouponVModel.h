@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "JTTableView.h"
 #import "HKLoadingModel.h"
-#import "GetCouponByTypeNewOp.h"
+#import "GetCouponByTypeNewV2Op.h"
 
 @interface CarWashCouponVModel : NSObject <UITableViewDataSource,UITableViewDelegate>
 

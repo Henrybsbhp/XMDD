@@ -14,6 +14,7 @@
 @interface CarWashCouponVModel ()<HKLoadingModelDelegate>
 @property (nonatomic, assign) NSInteger curPageno;
 @property (nonatomic, assign) CouponNewType couponNewType;
+@property (nonatomic, assign) BOOL spreadFlag;
 
 @end
 
@@ -23,6 +24,7 @@
 {
     self = [super init];
     if (self) {
+        self.spreadFlag = NO;
         self.tableView = tableView;
         self.couponNewType = couponNewType;
         self.tableView.delegate = self;
@@ -90,12 +92,12 @@
     if (type != HKLoadingTypeLoadMore) {
         self.curPageno = 0;
     }
-    GetCouponByTypeNewOp *op = [GetCouponByTypeNewOp operation];
+    GetCouponByTypeNewV2Op *op = [GetCouponByTypeNewV2Op operation];
     op.coupontype = self.couponNewType;
-    op.pageno = self.curPageno+1;
-    return [[op rac_postRequest] map:^id(GetCouponByTypeNewOp *rspOp) {
+    op.pageno = self.curPageno + 1;
+    return [[op rac_postRequest] map:^id(GetCouponByTypeNewV2Op *rspOp) {
         
-        self.curPageno = self.curPageno+1;
+        self.curPageno = self.curPageno + 1;
         return rspOp.rsp_couponsArray;
     }];
 }
@@ -108,24 +110,67 @@
 #pragma mark - Table view data source
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.loadingModel.datasource.count;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    if (section == 1) {
-        return @"下列优惠券已失效";
+    if (!self.spreadFlag) {
+        return 1;
     }
-    return nil;
+    else {
+        return self.loadingModel.datasource.count;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    CGFloat height = 10;
-    if (section == 1) {
-        height = 25;
+    return 10;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (self.loadingModel.datasource.count == 2 && section == 0) {
+        return 40;
     }
-    return height;
+    return CGFLOAT_MIN;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (section == 0 && self.loadingModel.datasource.count == 2) {
+        UIView * footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 40)];
+        footView.backgroundColor = [UIColor clearColor];
+        
+        UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 40)];
+        [btn setTitle:@"下列优惠券已失效" forState:UIControlStateNormal];
+        btn.titleLabel.font = [UIFont systemFontOfSize:15];
+        [btn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        
+        if (self.spreadFlag) {
+            [btn setImage:[UIImage imageNamed:@"coupon_pulldown"] forState:UIControlStateNormal];
+        }
+        else {
+            [btn setImage:[UIImage imageNamed:@"coupon_pullup"] forState:UIControlStateNormal];
+        }
+        
+        UIEdgeInsets imgInsets = UIEdgeInsetsZero;
+        UIEdgeInsets titleInsets = UIEdgeInsetsZero;
+        imgInsets.left = 250;
+        titleInsets.left = - 15;
+        [btn setImageEdgeInsets:imgInsets];
+        [btn setTitleEdgeInsets:titleInsets];
+        
+        [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[footView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
+            self.spreadFlag = !self.spreadFlag;
+            if (self.spreadFlag) {
+                [btn setImage:[UIImage imageNamed:@"coupon_pulldown"] forState:UIControlStateNormal];
+            }
+            else {
+                [btn setImage:[UIImage imageNamed:@"coupon_pullup"] forState:UIControlStateNormal];
+            }
+            [self.tableView reloadData];
+        }];
+        
+        [footView addSubview:btn];
+        return footView;
+    }
+    return nil;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
