@@ -147,4 +147,9 @@
         DebugLog(@"can not update client version with url:%@", strurl);
     }
 }
+
+- (void)getSwitchConfiguration
+{
+    
+}
 @end

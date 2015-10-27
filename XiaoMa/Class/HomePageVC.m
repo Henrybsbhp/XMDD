@@ -21,7 +21,6 @@
 #import "RescueViewController.h"
 #import "ServiceViewController.h"
 #import "WebVC.h"
-#import "SocialShareViewController.h"
 #import "RescureViewController.h"
 #import "CommissionViewController.h"
 #import "GainAwardViewController.h"
@@ -213,7 +212,7 @@
     [carwashBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         
         CGFloat height = 212.0f / 1136.0f * dHeight;
-        CGFloat hhh = dHeight > 568 ? height + 15 : dHeight;
+        CGFloat hhh = dHeight > 568 ? height + 15 : height;
 
         
         make.left.equalTo(secondaryView);
