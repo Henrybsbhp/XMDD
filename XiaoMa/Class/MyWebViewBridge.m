@@ -46,6 +46,20 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
+#pragma mark - 获取地理位置信息
+- (void)registerSetPosition
+{
+    [self.myBridge registerHandler:@"getCurrentPosition" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSString * longitudeStr = [NSString stringWithFormat:@"%f", gMapHelper.coordinate.longitude];
+        NSString * latitudeStr = [NSString stringWithFormat:@"%f", gMapHelper.coordinate.longitude];
+        NSString * city = gAppMgr.addrComponent.city;
+        if (longitudeStr && longitudeStr && latitudeStr) {
+            NSDictionary * dic = @{@"city":city, @"longitude":longitudeStr, @"latitude":latitudeStr};
+            responseCallback(dic);
+        }
+    }];
+}
+
 #pragma mark - 点击查看大图
 - (void)registerShowImage
 {

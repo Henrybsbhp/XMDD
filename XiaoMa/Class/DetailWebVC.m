@@ -115,6 +115,9 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     //点击查看大图
     [self.bridge registerShowImage];
     
+    //上传地理位置
+    [self.bridge registerSetPosition];
+    
 //    //上传单张图片
 //    [self.bridge.myBridge registerHandler:@"uploadSingleImage" handler:^(id data, WVJBResponseCallback responseCallback) {
 //        

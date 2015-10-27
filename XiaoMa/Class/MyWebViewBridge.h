@@ -17,6 +17,8 @@
 
 - (void)setUserTokenHandler;
 
+- (void)registerSetPosition;
+
 - (void)registerShowImage;
 
 - (UIBarButtonItem *)setSingleMenu:(NSDictionary *)singleDic;
