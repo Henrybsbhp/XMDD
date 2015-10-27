@@ -7,14 +7,22 @@
 //
 
 #import "CKStore.h"
-static char sSubscribeBlockKey;
-static char sStoreKey;
+static char sTargetHashTableKey;
+
+#define kDefTimetagKey @"$DefTimetag"
 
 @interface CKStore ()
-@property (nonatomic, strong) NSHashTable *weakTable;
+@property (nonatomic, strong) NSMapTable *weakTable;
+@property (nonatomic, strong) NSMutableDictionary *timetagDict;
 @end
 
 @implementation CKStore
+
+- (void)dealloc
+{
+    
+}
+
 + (NSMapTable *)storeTable
 {
     static NSMapTable *g_storeTable;
@@ -45,33 +53,180 @@ static char sStoreKey;
 {
     self = [super init];
     if (self) {
-        _weakTable = [NSHashTable weakObjectsHashTable];
+        _weakTable = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsWeakMemory valueOptions:NSPointerFunctionsCopyIn];
         _cache = [[JTQueue alloc] init];
+        _timetagDict = [NSMutableDictionary dictionary];
+        _updateDuration = 60*60;
     }
     return self;
 }
 
-- (void)subscribeEventsWithTarget:(id)target receiver:(void(^)(CKStore *store, RACSignal *evt, NSInteger code))block
+- (void)subscribeEventsWithTarget:(id)target receiver:(void(^)(CKStore *store, CKStoreEvent *evt))block
 {
-    objc_setAssociatedObject(target, &sSubscribeBlockKey, block, OBJC_ASSOCIATION_COPY_NONATOMIC);
-    objc_setAssociatedObject(target, &sStoreKey, self, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    [self.weakTable addObject:target];
+    [self.weakTable setObject:block forKey:target];
 }
 
-+ (void)sendEvent:(RACSignal *)event withCode:(NSInteger)code
+- (NSHashTable *)hashTableForTarget:(NSObject *)target
+{
+    NSHashTable *table = objc_getAssociatedObject(target, &sTargetHashTableKey);
+    if (!table) {
+        table = [NSHashTable hashTableWithOptions:NSPointerFunctionsCopyIn];
+        objc_setAssociatedObject(target, &sTargetHashTableKey, table, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    return table;
+}
+
++ (CKStoreEvent *)sendEvent:(CKStoreEvent *)evt
 {
     CKStore *store = [[self storeTable] objectForKey:self];
-    [store sendEvent:event withCode:code];
+    return [store sendEvent:evt];
 }
 
-- (void)sendEvent:(RACSignal *)event withCode:(NSInteger)code
+- (CKStoreEvent *)sendEvent:(CKStoreEvent *)evt
 {
-    for (NSObject *target in [[self.weakTable objectEnumerator] allObjects]) {
-        void(^block)(CKStore *, RACSignal *, NSInteger) = [target associatedObjectForKey:&sSubscribeBlockKey];
-        if (block) {
-            block(self, event, code);
-        }
+    for (void(^block)(CKStore *, CKStoreEvent *) in [[self.weakTable objectEnumerator] allObjects]) {
+        block(self, evt);
     }
+    return evt;
+}
+
+- (BOOL)needUpdateTimetagForKey:(NSString *)key
+{
+    if (!key) {
+        key = kDefTimetagKey;
+    }
+    NSTimeInterval timetag = [[self.timetagDict objectForKey:key] doubleValue];
+    return [[NSDate date] timeIntervalSince1970] - timetag > self.updateDuration;
+}
+
+- (void)updateTimetagForKey:(NSString *)key
+{
+    if (!key) {
+        key = kDefTimetagKey;
+    }
+    [self.timetagDict setObject:@([[NSDate date] timeIntervalSince1970]) forKey:key];
 }
 
 @end
+
+@implementation CKStoreEvent
+
+- (instancetype)initWithSignal:(RACSignal *)sig code:(NSInteger)code object:(id)obj
+{
+    self = [super init];
+    if (self) {
+        _signal = sig;
+        _code = code;
+        _object = obj;
+    }
+    return self;
+}
+
++ (instancetype)eventWithSignal:(RACSignal *)sig code:(NSInteger)code object:(id)obj
+{
+    return [[CKStoreEvent alloc] initWithSignal:sig code:code object:obj];
+}
+
+- (CKStoreEvent *)setSignal:(RACSignal *)signal
+{
+    return [CKStoreEvent eventWithSignal:signal code:self.code object:self.object];
+}
+
+- (BOOL)callIfNeededExceptCodeList:(NSArray *)codes object:(id)obj target:(id)target selector:(SEL)selector
+{
+    if (target && selector && (!obj || (obj && [obj isEqual:self.object])) && ![codes containsObject:@(self.code)]) {
+        [self _callSelector:selector forTarget:target];
+        return YES;
+    }
+    return NO;
+
+}
+
+- (BOOL)callIfNeededExceptCode:(NSInteger)code object:(id)obj target:(id)target selector:(SEL)selector
+{
+    if (target && selector && self.code != code && (!obj || (obj && [obj isEqual:self.object]))) {
+        [self _callSelector:selector forTarget:target];
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)callIfNeededForCodeList:(NSArray *)codes object:(id)obj target:(id)target selector:(SEL)selector
+{
+    CKStoreEvent *evt = self;
+    if (target && selector && (!obj || (obj && [obj isEqual:evt.object])) && [codes containsObject:@(evt.code)]) {
+        [self _callSelector:selector forTarget:target];
+        return YES;
+    }
+    return NO;
+
+}
+
+- (BOOL)callIfNeededForCode:(NSInteger)code object:(id)obj target:(id)target selector:(SEL)selector
+{
+    CKStoreEvent *evt = self;
+    if (target && selector && evt.code == code && (!obj || (obj && [obj isEqual:evt.object]))) {
+        [self _callSelector:selector forTarget:target];
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)callIfNeededExceptCodeList:(NSArray *)codes object:(id)obj handler:(void(^)(CKStoreEvent *))handler
+{
+    CKStoreEvent *evt = self;
+    if (handler && (!obj || (obj && [obj isEqual:evt.object])) && ![codes containsObject:@(evt.code)]) {
+        [self performSelector:@selector(_callhandler:withEvent:) withObject:handler withObject:evt];
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)callIfNeededExceptCode:(NSInteger)code object:(id)obj handler:(void(^)(CKStoreEvent *))handler
+{
+    CKStoreEvent *evt = self;
+    if (handler && evt.code != code && (!obj || (obj && [obj isEqual:evt.object]))) {
+        [self performSelector:@selector(_callhandler:withEvent:) withObject:handler withObject:evt];
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)callIfNeededForCodeList:(NSArray *)codes object:(id)obj handler:(void(^)(CKStoreEvent *))handler
+{
+    CKStoreEvent *evt = self;
+    if (handler && (!obj || (obj && [obj isEqual:evt.object])) && [codes containsObject:@(evt.code)]) {
+        [self performSelector:@selector(_callhandler:withEvent:) withObject:handler withObject:evt];
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)callIfNeededForCode:(NSInteger)code object:(id)obj handler:(void(^)(CKStoreEvent *))handler
+{
+    CKStoreEvent *evt = self;
+    if (handler && evt.code == code && (!obj || (obj && [obj isEqual:evt.object]))) {
+        [self performSelector:@selector(_callhandler:withEvent:) withObject:handler withObject:evt];
+        return YES;
+    }
+    return NO;
+}
+
+- (void)_callSelector:(SEL)selector forTarget:(id)target
+{
+    //用于去掉xcode下面的警告
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    [target performSelector:selector withObject:self];
+#pragma clang diagnostic pop
+}
+
+- (void)_callhandler:(void(^)(CKStoreEvent *))handler withEvent:(CKStoreEvent *)evt
+{
+    handler(evt);
+}
+
+
+@end
+
+

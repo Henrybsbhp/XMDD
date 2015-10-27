@@ -17,7 +17,7 @@
 #import "BaseMapViewController.h"
 #import "CarWashNavigationViewController.h"
 #import "JTTableView.h"
-#import "GetShopByDistanceOp.h"
+#import "GetShopByDistanceV2Op.h"
 #import "NearbyShopsViewController.h"
 #import "SearchViewController.h"
 #import "WebVC.h"
@@ -57,7 +57,7 @@
     
     self.tableView.tableHeaderView = nil;
     self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
-    
+    self.loadingModel.isSectionLoadMore = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAdList) name:CarwashAdvertiseNotification object:nil];
     
     CKAsyncMainQueue(^{
@@ -176,12 +176,12 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
 {
     return @"暂无商铺";
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
     //定位失败
     if (error.customTag == 1) {
@@ -190,7 +190,7 @@
     return @"获取商铺失败，点击重试";
 }
 
-- (void)loadingModel:(HKLoadingModel *)model didLoadingFailWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+- (void)loadingModel:(HKLoadingModel *)model didLoadingFailWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
     //定位失败
     if (error.customTag == 1) {
@@ -249,9 +249,9 @@
     }
 }
 
-- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
 {
-    if (type != HKDatasourceLoadingTypeLoadMore) {
+    if (type != HKLoadingTypeLoadMore) {
         self.currentPageIndex = 0;
     }
     
@@ -265,11 +265,11 @@
         
         @strongify(self)
         self.userCoordinate = userLocation.coordinate;
-        GetShopByDistanceOp * getShopByDistanceOp = [GetShopByDistanceOp new];
+        GetShopByDistanceV2Op * getShopByDistanceOp = [GetShopByDistanceV2Op new];
         getShopByDistanceOp.longitude = userLocation.coordinate.longitude;
         getShopByDistanceOp.latitude = userLocation.coordinate.latitude;
         getShopByDistanceOp.pageno = self.currentPageIndex+1;
-        return [[getShopByDistanceOp rac_postRequest] map:^id(GetShopByDistanceOp *op) {
+        return [[getShopByDistanceOp rac_postRequest] map:^id(GetShopByDistanceV2Op *op) {
             
             self.currentPageIndex = self.currentPageIndex+1;
             return op.rsp_shopArray;
@@ -277,7 +277,7 @@
     }];
 }
 
-- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type
 {
     [self.tableView reloadData];
     if (model.datasource.count == 0) {
@@ -292,17 +292,106 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 
-    return 1;
+    return self.loadingModel.datasource.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return self.loadingModel.datasource.count;
+    NSInteger num = 0;
+    JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:section];
+    num = 1 + shop.shopServiceArray.count + 1;
+    return num;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat height = 0.0;
+    JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+    NSInteger serviceAmount = shop.shopServiceArray.count;
+    NSInteger sectionAmount = 1 + serviceAmount + 1;
+    
+    if(indexPath.row == 0)
+    {
+        height = 84.0f;
+    }
+    else if (indexPath.row == sectionAmount - 1)
+    {
+        height = 42.0f;
+    }
+    else
+    {
+        height = 42.0f;
+    }
+    return height;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 8.0f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return CGFLOAT_MIN;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];
-    JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
+    
+    UITableViewCell * cell;
+    
+    JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+    NSInteger serviceAmount = shop.shopServiceArray.count;
+    NSInteger sectionAmount = 1 + serviceAmount + 1;
+    
+    if(indexPath.row == 0)
+    {
+        cell = [self tableView:tableView shopTitleCellAtIndexPath:indexPath];
+    }
+    else if (indexPath.row == sectionAmount - 1)
+    {
+        cell = [self tableView:tableView shopNavigationCellAtIndexPath:indexPath];
+    }
+    else
+    {
+        cell = [self tableView:tableView shopServiceCellAtIndexPath:indexPath];
+    }
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+//    NSInteger mask = indexPath.row == 0 ? CKViewBorderDirectionBottom : CKViewBorderDirectionBottom | CKViewBorderDirectionTop;
+//    [cell.contentView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:mask];
+//    [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(0, 0, 8, 0) forDirectionMask:mask];
+//    [cell.contentView showBorderLineWithDirectionMask:mask];
+    
+    JTShop * shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+    NSInteger count = shop.shopServiceArray.count + 2;
+    [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nestItemCount:count promptView:self.tableView.bottomLoadingView];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.forbidAD)
+        [MobClick event:@"rp201-3"];
+    else
+        [MobClick event:@"rp102-3"];
+    ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
+    vc.couponFordetailsDic = self.couponForWashDic;
+    vc.hidesBottomBarWhenPushed = YES;
+    vc.shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+
+#pragma mark - Utility
+- (UITableViewCell *)tableView:(UITableView *)tableView shopTitleCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];
+    
+    JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+    
     //row 0  缩略图、名称、评分、地址、距离、营业状况等
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
@@ -311,7 +400,7 @@
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
     UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
-
+    
     [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0]
                 withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
     
@@ -337,24 +426,39 @@
     double shopLng = shop.shopLongitude;
     NSString * disStr = [DistanceCalcHelper getDistanceStrLatA:myLat lngA:myLng latB:shopLat lngB:shopLng];
     distantL.text = disStr;
+    return cell;
+}
 
+- (UITableViewCell *)tableView:(UITableView *)tableView shopServiceCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ServiceCell" forIndexPath:indexPath];
+    
+    JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+    
     //row 1 洗车服务与价格
     UILabel *washTypeL = (UILabel *)[cell.contentView viewWithTag:2001];
     UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:2002];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
     
-    JTShopService * service = [shop.shopServiceArray firstObjectByFilteringOperator:^BOOL(JTShopService * s) {
-        return s.shopServiceType == ShopServiceCarWash;
-    }];
-
+    JTShopService * service = [shop.shopServiceArray safetyObjectAtIndex:indexPath.row - 1];
+    
     washTypeL.text = service.serviceName;
-
+    
     ChargeContent * cc = [service.chargeArray firstObjectByFilteringOperator:^BOOL(ChargeContent * tcc) {
         return tcc.paymentChannelType == PaymentChannelABCIntegral;
     }];
     
     integralL.text = [NSString stringWithFormat:@"%.0f分",cc.amount];
     priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
+    
+    return cell;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView shopNavigationCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"NavigationCell" forIndexPath:indexPath];
+    
+    JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     
     //row 2
     UIButton *guideB = (UIButton *)[cell.contentView viewWithTag:3001];
@@ -393,35 +497,11 @@
         [gPhoneHelper makePhone:shop.shopPhone andInfo:info];
     }];
     
-    
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSInteger mask = indexPath.row == 0 ? CKViewBorderDirectionBottom : CKViewBorderDirectionBottom | CKViewBorderDirectionTop;
-    [cell.contentView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:mask];
-    [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(0, 0, 8, 0) forDirectionMask:mask];
-    [cell.contentView showBorderLineWithDirectionMask:mask];
-    
-    [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nest:NO promptView:self.tableView.bottomLoadingView];
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (self.forbidAD)
-        [MobClick event:@"rp201-3"];
-    else
-        [MobClick event:@"rp102-3"];
-    ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
-    vc.couponFordetailsDic = self.couponForWashDic;
-    vc.hidesBottomBarWhenPushed = YES;
-    vc.shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
-    [self.navigationController pushViewController:vc animated:YES];
-}
 
 
-#pragma mark - Utility
 
 -(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
 {

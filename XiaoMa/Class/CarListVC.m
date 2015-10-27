@@ -12,6 +12,7 @@
 #import "HKLoadingModel.h"
 #import "EditMyCarVC.h"
 #import "CarListSubView.h"
+#import "MyCarStore.h"
 
 @interface CarListVC ()<HKLoadingModelDelegate, UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet JT3DScrollView *scrollView;
@@ -32,9 +33,9 @@
     // Do any additional setup after loading the view.
     [self setupScrollView];
     self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.view delegate:self];
+    [self setupCarStore];
     CKAsyncMainQueue(^{
         [self.loadingModel loadDataForTheFirstTime];
-        [self setupCarModel];
         [self setupBottomView];
     });
 }
@@ -94,16 +95,20 @@
     }];
 }
 
-- (void)setupCarModel
+- (void)setupCarStore
 {
     @weakify(self);
-    [[[RACObserve(gAppMgr, myUser) distinctUntilChanged] flattenMap:^RACStream *(JTUser *user) {
-        
-        return [user.carModel rac_observeDataWithDoRequest:nil];
-    }] subscribeNext:^(JTQueue *queue) {
-        
+    [[MyCarStore fetchOrCreateStore] subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
         @strongify(self);
-        [self.loadingModel reloadDataWithDatasource:[queue allObjects]];
+        //如果当前事件的sender为自己则忽略
+        if ([self isEqual:evt.object]) {
+            return ;
+        }
+        MyCarStore *carStore = (MyCarStore *)store;
+        RACSignal *sig = [evt.signal map:^id(id value) {
+            return [carStore allCars];
+        }];
+        [self.loadingModel autoLoadDataFromSignal:sig];
     }];
 }
 
@@ -265,10 +270,14 @@
         [gToast showingWithText:@"正在上传..."];
     }] flattenMap:^RACStream *(NSString *url) {
         
+        @strongify(self);
         //更新行驶证的url，如果更新失败，重置为原来的行驶证url
         NSString *oldurl = car.licenceurl;
         car.licenceurl = url;
-        return [[gAppMgr.myUser.carModel rac_updateCar:car] catch:^RACSignal *(NSError *error) {
+        MyCarStore *store = [MyCarStore fetchExistsStore];
+        CKStoreEvent *evt = [store updateCar:car];
+        evt.object = self;
+        return [[[store sendEvent:evt] signal] catch:^RACSignal *(NSError *error) {
             car.licenceurl = oldurl;
             return [RACSignal error:error];
         }];
@@ -304,14 +313,14 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
 {
     self.scrollView.contentSize = self.scrollView.frame.size;
     self.scrollView.hidden = YES;
     return @"暂无爱车，快去添加一辆吧";
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
     self.scrollView.contentSize = self.scrollView.frame.size;
     self.scrollView.hidden = YES;
@@ -323,29 +332,22 @@
     return NO;
 }
 
-- (void)loadingModel:(HKLoadingModel *)model didTappedForBlankPrompting:(NSString *)prompting type:(HKDatasourceLoadingType)type
+- (void)loadingModel:(HKLoadingModel *)model didTappedForBlankPrompting:(NSString *)prompting type:(HKLoadingTypeMask)type
 {
     [self actionAddCar:nil];
 }
 
-- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
 {
-    RACSignal *signal;
-    if (type == HKDatasourceLoadingTypeReloadData) {
-        signal = [gAppMgr.myUser.carModel rac_fetchData];
-    }
-    else {
-        signal = [gAppMgr.myUser.carModel rac_fetchData];
-    }
-    return [[signal map:^id(JTQueue *queue) {
-        return [queue allObjects];
-    }] skip:1];
+    MyCarStore *store = [MyCarStore fetchExistsStore];
+    [store sendEvent:[store getAllCars]];
+    return [RACSignal empty];
 }
 
-- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type
 {
     self.scrollView.hidden = NO;
-    HKMyCar *defCar = [gAppMgr.myUser.carModel getDefalutCar];
+    HKMyCar *defCar = [[MyCarStore fetchExistsStore] defalutCar];
     if (self.model.allowAutoChangeSelectedCar) {
         BOOL currentCarValid = self.model.currentCar ? [model.datasource containsObject:self.model.currentCar] : NO;
         if (currentCarValid && ![self.model.currentCar isEqual:self.model.selectedCar]) {

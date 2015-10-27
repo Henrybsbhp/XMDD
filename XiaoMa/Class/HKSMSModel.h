@@ -18,7 +18,8 @@ typedef enum : NSInteger
     HKVcodeTypeResetPwd = 2,
     HKVcodeTypeRegist = 3,
     HKVcodeTypeBindCZB,
-    HKVcodeTypeUnbindCZB
+    HKVcodeTypeUnbindCZB,
+    HKVcodeTypeCZBGasCharge
 }HKVcodeType;
 
 @interface HKSMSModel : NSObject
@@ -30,6 +31,7 @@ typedef enum : NSInteger
 - (RACSignal *)rac_getUnbindCZBVcode;
 ///获取短信验证码 如果获取短信验证码接口返回成功，每隔1秒发送剩余冷却时间(sendNext:NSNumber*:剩余冷却时间)
 - (RACSignal *)rac_getSystemVcodeWithType:(HKVcodeType)type phone:(NSString *)phone;
+- (RACSignal *)rac_getVcodeWithType:(HKVcodeType)type fromSignal:(RACSignal *)signal;
 
 - (void)setupWithTargetVC:(UIViewController *)targetVC mobEvents:(NSArray *)events;
 ///对获取验证码按钮进行倒计时

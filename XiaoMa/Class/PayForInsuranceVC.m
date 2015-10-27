@@ -15,7 +15,7 @@
 #import "InsuranceOrderPayOp.h"
 #import "InsuranceResultVC.h"
 #import "PaymentHelper.h"
-#import "InsuranceOrderPaidSuccessOp.h"
+#import "OrderPaidSuccessOp.h"
 #import "InsOrderStore.h"
 
 #define CheckBoxDiscountGroup @"CheckBoxDiscountGroup"
@@ -137,7 +137,8 @@
         if (![self callPaymentHelperWithPayOp:op]) {
             
             [gToast dismiss];
-            [InsOrderStore reloadOrderByID:self.insOrder.orderid];
+            InsOrderStore *store = [InsOrderStore fetchExistsStore];
+            [store sendEvent:[store getInsOrderByID:self.insOrder.orderid]];
             InsuranceResultVC *resultVC = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceResultVC"];
             resultVC.originVC = self.originVC;
             resultVC.orderID = self.insOrder.orderid;
@@ -267,14 +268,15 @@
     [[helper rac_startPay] subscribeNext:^(id x) {
         
         @strongify(self);
-        [InsOrderStore reloadOrderByID:self.insOrder.orderid];
+        InsOrderStore *store = [InsOrderStore fetchExistsStore];
+        [store sendEvent:[store getInsOrderByID:self.insOrder.orderid]];
         InsuranceResultVC *resultVC = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceResultVC"];
         [resultVC setResultType:PaySuccess];
         resultVC.originVC = self.originVC;
         resultVC.orderID = self.insOrder.orderid;
         [self.navigationController pushViewController:resultVC animated:YES];
         
-        InsuranceOrderPaidSuccessOp *iop = [[InsuranceOrderPaidSuccessOp alloc] init];
+        OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 1;
         iop.req_tradeno = op.rsp_tradeno;
         [[iop rac_postRequest] subscribeNext:^(id x) {

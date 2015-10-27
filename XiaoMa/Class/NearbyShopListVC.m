@@ -37,7 +37,7 @@
     DebugLog(deallocInfo);
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
 {
     return @"附近暂无商户";
 }

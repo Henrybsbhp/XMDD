@@ -12,6 +12,8 @@
 #import "InsuranceOrderVC.h"
 #import "MyCouponVC.h"
 #import "InsOrderStore.h"
+#import "LoginVC.h"
+#import "DetailWebVC.h"
 
 @implementation NavigationModel
 
@@ -30,6 +32,12 @@
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
             flag = YES;
+        }
+        //登录 (针对根据网页中url跳转登录)
+        else if ([@"login" equalByCaseInsensitive:name] && !gAppMgr.myUser) {
+                VcodeLoginVC *vc = [UIStoryboard vcWithId:@"VcodeLoginVC" inStoryboard:@"Login"];
+                JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
+                [self.curNavCtrl presentViewController:nav animated:YES completion:nil];
         }
         //优惠券
         else if ([@"cp" equalByCaseInsensitive:name] && gAppMgr.myUser) {
@@ -98,7 +106,8 @@
                 }];
                 if (vc) {
                     [self.curNavCtrl popToViewController:vc animated:YES];
-                    [InsOrderStore reloadOrderByID:orderid];
+                    InsOrderStore *store = [InsOrderStore fetchExistsStore];
+                    [store sendEvent:[store getInsOrderByID:orderid]];
                 }
                 else {
                     InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];

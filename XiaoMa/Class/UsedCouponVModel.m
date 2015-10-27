@@ -33,19 +33,19 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
 {
     return @"您未使用过优惠券";
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
     return @"获取已使用优惠券失败，点击重试";
 }
 
-- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
 {
-    if (type != HKDatasourceLoadingTypeLoadMore) {
+    if (type != HKLoadingTypeLoadMore) {
         self.curPageno = 0;
     }
 
@@ -59,7 +59,7 @@
     }];
 }
 
-- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type
 {
     [self.tableView reloadData];
 }

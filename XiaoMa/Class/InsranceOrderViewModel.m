@@ -14,10 +14,13 @@
 #import "InsOrderStore.h"
 
 @interface InsranceOrderViewModel ()<HKLoadingModelDelegate>
-
+@property (nonatomic, strong) InsOrderStore *orderStore;
 @end
 
-@implementation InsranceOrderViewModel
+@implementation InsranceOrderViewModel 
+- (void)dealloc
+{
+}
 
 - (id)initWithTableView:(JTTableView *)tableView
 {
@@ -36,18 +39,21 @@
 - (void)resetWithTargetVC:(UIViewController *)targetVC
 {
     _targetVC = targetVC;
-    //    [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)setupInsOrderStore
 {
-    [[InsOrderStore fetchOrCreateStore] subscribeEventsWithTarget:self receiver:^(CKStore *store, RACSignal *evt, NSInteger code) {
-        if (code != kCKStoreEventReload) {
-            evt = [evt map:^id(id value) {
+    self.orderStore = [InsOrderStore fetchOrCreateStore];
+    @weakify(self);
+    [self.orderStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+        @strongify(self);
+        RACSignal *sig = evt.signal;
+        if (evt.code != kCKStoreEventReload) {
+            sig = [sig map:^id(id value) {
                 return [[(InsOrderStore *)store cache] allObjects];
             }];
         }
-        [self.loadingModel reloadDataFromSignal:evt];
+        [self.loadingModel autoLoadDataFromSignal:sig];
     }];
 }
 
@@ -58,22 +64,24 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
 {
     return @"暂无保险订单";
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
     return @"获取保险订单失败，点击重试";
 }
 
-- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
 {
-    return [[InsOrderStore fetchExistsStore] rac_getAllInsOrders];
+    InsOrderStore *store = [InsOrderStore fetchExistsStore];
+    [store sendEvent:[store getAllInsOrders]];
+    return [RACSignal empty];
 }
 
-- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type
 {
     [self.tableView reloadData];
 }

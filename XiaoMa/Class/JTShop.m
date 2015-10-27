@@ -95,6 +95,7 @@
     shop.openHour = rsp[@"openhour"];
     shop.closeHour = rsp[@"closehour"];
     shop.txnumber = [rsp integerParamForName:@"txnumber"];
+    shop.announcement = [rsp stringParamForName:@"note"];
     NSArray * array = rsp[@"services"];
     NSMutableArray * t = [NSMutableArray array];
     for (NSDictionary * dict in array)

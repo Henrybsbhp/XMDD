@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GetCZBGaschargeInfoOp.h"
 typedef enum : NSInteger
 {
     HKBankTypeUnknow = 0,
@@ -26,6 +27,8 @@ typedef enum : NSInteger
 @property (nonatomic, strong) NSNumber *cardID;
 @property (nonatomic, strong) NSString *cardNumber;
 @property (nonatomic, strong) NSArray  *couponIds;
+///加油信息
+@property (nonatomic, strong) GetCZBGaschargeInfoOp *gasInfo;
 
 + (instancetype)bankCardWithJSONResponse:(NSDictionary *)rsp;
 - (NSString *)cardName;

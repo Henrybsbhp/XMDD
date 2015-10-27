@@ -40,19 +40,19 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
 {
     return @"暂无洗车订单";
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
     return @"获取洗车订单失败，点击重试";
 }
 
-- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
 {
-    if (type != HKDatasourceLoadingTypeLoadMore) {
+    if (type != HKLoadingTypeLoadMore) {
         self.curTradetime = 0;
     }
     
@@ -63,7 +63,7 @@
     }];
 }
 
-- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type
 {
     HKServiceOrder * hkmodel = [model.datasource lastObject];
     self.curTradetime = hkmodel.tradetime;

@@ -12,8 +12,8 @@
 /// 服务类型
 typedef enum : NSUInteger {
     ShopServiceCarWash = 1,
-    ShopServiceRescue,
-    ShopServiceAgency,
+    /// 精洗，用心洗
+    ShopServiceCarwashWithHeart
 } ShopServiceType;
 
 /**
@@ -37,11 +37,14 @@ typedef enum : NSUInteger {
 //2-洗车广告
 //3-银行卡绑定页广告
 //10-APP滑动广告
+//11-保险广告
+//12-加油广告
 //20：活动类
 typedef enum : NSUInteger {
     AdvertisementHomePage = 1,
     AdvertisementCarWash = 2,
     AdvertisementBankCardBinding = 3,
+    AdvertisementGas = 4,
     AdvertisementAppSlide = 10,
     AdvertisementInsurance = 11,
     AdvertisementTypeActivities = 20,

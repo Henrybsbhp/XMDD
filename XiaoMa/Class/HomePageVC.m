@@ -9,23 +9,20 @@
 #import "HomePageVC.h"
 #import <Masonry.h>
 #import "XiaoMa.h"
-#import "AuthByVcodeOp.h"
 #import "NSString+MD5.h"
-#import "UpdatePwdOp.h"
-#import "GetShopByDistanceOp.h"
+#import "UIImage+Utilities.h"
+#import "UIView+Layer.h"
+#import "GetSystemTipsOp.h"
+
+#import "HKLoginModel.h"
+#import "MyCarStore.h"
+
 #import "CarWashTableVC.h"
 #import "RescueViewController.h"
-#import "HKLoginModel.h"
-#import "GetSystemTipsOp.h"
-#import "GetSystemPromotionOp.h"
 #import "ServiceViewController.h"
-#import "JTUser.h"
 #import "WebVC.h"
-#import "SocialShareViewController.h"
 #import "RescureViewController.h"
 #import "CommissionViewController.h"
-#import "UIImage+Utilities.h"
-#import "CheckUserAwardOp.h"
 #import "GainAwardViewController.h"
 #import "GainedViewController.h"
 #import "WelcomeViewController.h"
@@ -33,18 +30,23 @@
 #import "ADViewController.h"
 #import "CollectionChooseVC.h"
 #import "InsuranceDetailPlanVC.h"
-
+#import "GasVC.h"
 #import "PaymentSuccessVC.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 
 @interface HomePageVC ()<UIScrollViewDelegate>
-@property (weak, nonatomic) IBOutlet UIView *bgView;
-@property (weak, nonatomic) IBOutlet UIView *weatherView;
-@property (nonatomic, strong) UIView *containerView;
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, weak) IBOutlet UIView *bgView;
 @property (nonatomic, strong) UIView *bottomView;
+@property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
+
 @property (nonatomic, strong) ADViewController *adctrl;
+@property (nonatomic, weak) IBOutlet UIView *weatherView;
+@property (nonatomic, strong)UIView *mainItemView;
+@property (nonatomic, strong)UIView *secondaryItemView;
+@property (nonatomic, strong)UIView *containerView;
+
+@property (nonatomic, strong) MyCarStore *carStore;
 @end
 
 @implementation HomePageVC
@@ -67,6 +69,8 @@
     [super viewDidLoad];
     
     self.view.userInteractionEnabled = NO;
+    
+    NSLog(@"home page :%@",NSStringFromCGSize(self.scrollView.contentSize));
 
     [gAppMgr loadLastLocationAndWeather];
     [gAdMgr loadLastAdvertiseInfo:AdvertisementHomePage];
@@ -74,10 +78,13 @@
     
     //自动登录
     [self autoLogin];
+    //全局CarStore
+    self.carStore = [MyCarStore fetchOrCreateStore];
     //设置主页的滚动视图
     [self setupScrollView];
     [self setupWeatherView];
-//    [self rotationTableHeaderView];
+    
+    NSLog(@"home page :%@",NSStringFromCGSize(self.scrollView.contentSize));
     
     [self.scrollView.refreshView addTarget:self action:@selector(reloadDatasource) forControlEvents:UIControlEventValueChanged];
     CKAsyncMainQueue(^{
@@ -93,6 +100,8 @@
     CKAsyncMainQueue(^{
         CGSize size = [self.containerView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
         self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, ceil(size.height));
+        
+        NSLog(@"CKAsyncMainQueue home page :%@",NSStringFromCGSize(self.scrollView.contentSize));
     });
 }
 
@@ -112,99 +121,149 @@
 
 - (void)setupScrollView
 {
-    //天气视图
-    [self.weatherView removeFromSuperview];
-    [self.scrollView addSubview:self.weatherView];
-    
-    CGFloat deviceWidth = gAppMgr.deviceInfo.screenSize.width;
-
-    @weakify(self);
-    [self.weatherView mas_makeConstraints:^(MASConstraintMaker *make) {
-        @strongify(self);
-        make.top.equalTo(self.scrollView);
-        make.left.equalTo(self.scrollView);
-        make.right.equalTo(self.scrollView);
-        make.width.equalTo(self.scrollView);
-    }];
-    
     UIView *container = [[UIView alloc] initWithFrame:CGRectZero];
+    container.backgroundColor = [UIColor colorWithHex:@"#f4f4f4" alpha:1.0f];
     [self.scrollView addSubview:container];
     self.containerView = container;
     
     [container mas_makeConstraints:^(MASConstraintMaker *make) {
-        @strongify(self);
-        make.top.equalTo(self.weatherView.mas_bottom);
+        make.top.equalTo(self.scrollView);
         make.left.equalTo(self.scrollView);
         make.width.equalTo(self.scrollView);
     }];
     //广告
     [self setupADViewInContainer:container];
-
-    //洗车
-    UIButton *btn1 = [self functionalButtonWithImageName:@"hp_washcar" action:@selector(actionWashCar:) inContainer:container];
-    //抢红包
-    UIButton *btn5 = [self functionalButtonWithImageName:@"hp_award" action:@selector(actionAward:) inContainer:container];
     
-    [btn5 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.adctrl.adView.mas_bottom).offset(11);
-        make.right.equalTo(container).offset(-11);
+    //天气视图
+    self.weatherView.backgroundColor = [UIColor whiteColor];
+    [self.weatherView removeFromSuperview];
+    [container addSubview:self.weatherView];
+    
+    CGFloat deviceWidth = gAppMgr.deviceInfo.screenSize.width;
+    CGFloat dHeight = gAppMgr.deviceInfo.screenSize.height < 568.0 ? 568.0 : gAppMgr.deviceInfo.screenSize.height;
+
+    @weakify(self);
+    [self.weatherView mas_makeConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.top.equalTo(self.adctrl.adView.mas_bottom);
+        make.left.equalTo(self.scrollView);
+        make.right.equalTo(self.scrollView);
+        make.width.equalTo(self.scrollView);
         
-        if (deviceWidth <= 320)
-        {
-            make.width.equalTo(container.mas_width).multipliedBy(180.0/640);
-            make.height.equalTo(container.mas_width).multipliedBy(212.0/640);
-        }
-        else
-        {
-            make.width.equalTo(container.mas_width).multipliedBy(190.0/640);
-            make.height.equalTo(container.mas_width).multipliedBy(230.0/640);
-        }
+        CGFloat height = 76.0f / 1136.0f * dHeight;
+        make.height.mas_equalTo(@(height));
+    }];
+
+    ///第一栏
+    UIView * mainView = [[UIView alloc] init];
+    mainView.backgroundColor = [UIColor whiteColor];
+    [container addSubview:mainView];
+    [mainView mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.top.equalTo(self.weatherView.mas_bottom);
+        make.left.equalTo(self.scrollView);
+        make.right.equalTo(self.scrollView);
+        CGFloat height = 164.0f / 1136.0f * dHeight;
+        make.height.mas_equalTo(@(height));
     }];
     
-    [btn1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.adctrl.adView.mas_bottom).offset(11);
-        make.left.equalTo(container).offset(11);
-        make.right.equalTo(btn5.mas_left).offset(-7);
-        make.height.equalTo(btn5);
+    CGFloat width1 =  284.0f / 640.0f * deviceWidth;
+    CGFloat spaceX = (deviceWidth - width1 * 2) / 3;
+    [self addLineToView:mainView withDirection:CKViewBorderDirectionTop withEdge:UIEdgeInsetsMake(0, spaceX, 0, spaceX)];
+    [self addLineToView:mainView withDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
+    
+    UIView * secondaryView = [[UIView alloc] init];
+    secondaryView.backgroundColor = [UIColor whiteColor];
+    [container addSubview:secondaryView];
+    [secondaryView mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        CGFloat space = 16.0f / 1136.0f * dHeight;
+        make.top.equalTo(mainView.mas_bottom).offset(space);
+        make.left.equalTo(self.scrollView);
+        make.right.equalTo(self.scrollView);
+    }];
+    
+    [self addLineToView:secondaryView withDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
+    
+
+    //加油
+    UIButton *addGasBtn = [self functionalButtonWithImageName:@"hp_add_gas" action:@selector(actionAddGas:) inContainer:mainView hasBorder:YES];
+    //抢红包
+    UIButton *couponBtn = [self functionalButtonWithImageName:@"hp_award" action:@selector(actionAward:) inContainer:mainView hasBorder:YES];
+    
+    
+    [addGasBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(mainView);
+        make.width.mas_equalTo(width1);
+        CGFloat height = 112.0f / 1136.0f * dHeight;
+        make.height.mas_equalTo(height);
+        make.left.equalTo(mainView).offset(spaceX);
+    }];
+    
+    [couponBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(mainView);
+        make.width.mas_equalTo(width1);
+        make.height.equalTo(addGasBtn);
+        make.left.equalTo(addGasBtn.mas_right).offset(spaceX);
     }];
  
-    //保险
-    UIButton *btn2 = [self functionalButtonWithImageName:@"hp_insurance" action:@selector(actionInsurance:) inContainer:container];
-    @weakify(btn2);
-    [btn2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        @strongify(btn2);
-        make.left.equalTo(btn1.mas_left);
-        make.right.equalTo(container.mas_centerX);
-        make.top.equalTo(btn1.mas_bottom).offset(7);
-//        make.width.equalTo(btn1.mas_width).multipliedBy(0.5);
-        make.height.equalTo(btn2.mas_width).multipliedBy(344.0f/346.0f);
-    }];
-    //专业救援
-    UIButton *btn3 = [self functionalButtonWithImageName:@"hp_rescue" action:@selector(actionRescue:) inContainer:container];
-    @weakify(btn3);
-    [btn3 mas_makeConstraints:^(MASConstraintMaker *make) {
-        @strongify(btn3);
-        make.left.equalTo(btn2.mas_right).offset(7);
-        make.right.equalTo(container.mas_right).offset(-11);
-        make.top.equalTo(btn1.mas_bottom).offset(7);
-        make.height.equalTo(btn3.mas_width).multipliedBy(165.0f/332.0f);
-    }];
-    //申请代办
-    UIButton *btn4 = [self functionalButtonWithImageName:@"hp_commission" action:@selector(actionCommission:) inContainer:container];
-    @weakify(btn4);
-    [btn4 mas_makeConstraints:^(MASConstraintMaker *make) {
-        @strongify(btn4);
-        make.left.equalTo(btn3);
-        make.right.equalTo(btn3);
-        make.bottom.equalTo(btn2);
-        make.height.equalTo(btn4.mas_width).multipliedBy(165.0f/332.0f);
+    //洗车
+    UIButton *carwashBtn = [self functionalButtonWithImageName:@"hp_washcar" action:@selector(actionWashCar:) inContainer:secondaryView hasBorder:NO];
+    [carwashBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        CGFloat height = 212.0f / 1136.0f * dHeight;
+        CGFloat hhh = dHeight > 568 ? height + 15 : height;
+
+        
+        make.left.equalTo(secondaryView);
+        make.right.equalTo(secondaryView);
+        make.top.equalTo(secondaryView);
+        make.height.mas_equalTo(hhh);
     }];
     
-    //底部
-    [self setupBottomViewWithUpper:btn4];
+    [self addLineToView:carwashBtn withDirection:CKViewBorderDirectionTop withEdge:UIEdgeInsetsZero];
+    [self addLineToView:carwashBtn withDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
+    
+    //保险
+    UIButton *insuranceBtn = [self functionalButtonWithImageName:@"hp_insurance" action:@selector(actionInsurance:) inContainer:secondaryView hasBorder:NO];
+    [insuranceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(secondaryView.mas_left);
+        make.top.equalTo(carwashBtn.mas_bottom);
+        make.width.equalTo(mainView.mas_width).multipliedBy(0.5);
+        
+        CGFloat height = 270.0f / 1136.0f * dHeight;
+        make.height.mas_equalTo(height);
+    }];
+    
+    [self addLineToView:insuranceBtn withDirection:CKViewBorderDirectionRight withEdge:UIEdgeInsetsZero];
+
+    //专业救援
+    UIButton *rescueBtn = [self functionalButtonWithImageName:@"hp_rescue" action:@selector(actionRescue:) inContainer:secondaryView hasBorder:NO];
+    [rescueBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(insuranceBtn.mas_right);
+        make.top.equalTo(insuranceBtn);
+        make.width.equalTo(insuranceBtn.mas_width);
+        make.height.equalTo(insuranceBtn.mas_height).multipliedBy(0.5f);
+    }];
+    
+    [self addLineToView:rescueBtn withDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
+    
+    //申请代办
+    UIButton *commissionBtn = [self functionalButtonWithImageName:@"hp_commission" action:@selector(actionCommission:) inContainer:secondaryView hasBorder:NO];
+    [commissionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(rescueBtn);
+        make.top.equalTo(rescueBtn.mas_bottom);
+        make.width.equalTo(insuranceBtn.mas_width);
+        make.height.equalTo(insuranceBtn.mas_height).multipliedBy(0.5f);
+    }];
+    
+    [secondaryView mas_updateConstraints:^(MASConstraintMaker *make) {
+       
+        make.bottom.equalTo(insuranceBtn.mas_bottom).offset(1);
+    }];
     
     [container mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(btn4).offset(47+2);
+        make.bottom.equalTo(secondaryView);
     }];
 }
 
@@ -283,7 +342,10 @@
     [weatherImage setImageByUrl:picName withType:ImageURLTypeOrigin defImage:nil errorImage:nil];
     
     tempLb.text = temp;
-    restrictionLb.text = restriction;
+    NSMutableIndexSet * set = [NSMutableIndexSet indexSet];
+    [set addIndex:2];
+    [set addIndex:4];
+    restrictionLb.attributedText = [self formatRestrictionLb:set withString:restriction];
     
     if(tip.length > 0)
     {
@@ -293,6 +355,7 @@
 
 - (void)setupWeatherView
 {
+    
     UIImageView * weatherImage = (UIImageView *)[self.weatherView searchViewWithTag:20201];
     UILabel * tempLb = (UILabel *)[self.weatherView searchViewWithTag:20202];
     UILabel * restrictionLb = (UILabel *)[self.weatherView searchViewWithTag:20204];
@@ -302,7 +365,11 @@
     RAC(tempLb, text) = RACObserve(gAppMgr, temperature);
     [[RACObserve(gAppMgr, restriction) distinctUntilChanged] subscribeNext:^(NSString *text) {
         rightContainerV.hidden = text.length == 0;
-        restrictionLb.text = text;
+        
+        NSMutableIndexSet * set = [NSMutableIndexSet indexSet];
+        [set addIndex:2];
+        [set addIndex:4];
+        restrictionLb.attributedText = [self formatRestrictionLb:set withString:text];
     }];
     
     [RACObserve(gAppMgr, temperaturetip) subscribeNext:^(NSString *text) {
@@ -484,19 +551,28 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
+- (void)actionAddGas:(id)sender
+{
+//    [MobClick event:@"rp101-11"];
+    GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 #pragma mark - Utility
-- (UIButton *)functionalButtonWithImageName:(NSString *)imgName action:(SEL)action inContainer:(UIView *)container
+- (UIButton *)functionalButtonWithImageName:(NSString *)imgName action:(SEL)action inContainer:(UIView *)container hasBorder:(BOOL)border
 {
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
     btn.backgroundColor = [UIColor whiteColor];
     UIImage *img = [UIImage imageNamed:imgName];
     [btn setBackgroundImage:img forState:UIControlStateNormal];
     [btn addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
-    btn.layer.borderColor = [UIColor colorWithWhite:0.84 alpha:1.0].CGColor;
-    btn.layer.borderWidth = 1.0;
-    btn.layer.cornerRadius = 4;
-    btn.layer.masksToBounds = YES;
+    if (border)
+    {
+        btn.layer.borderColor = [UIColor colorWithWhite:0.84 alpha:1.0].CGColor;
+        btn.layer.borderWidth = 0.5;
+        btn.layer.cornerRadius = 4;
+        btn.layer.masksToBounds = YES;
+    }
     [container addSubview:btn];
     return btn;
 }
@@ -514,5 +590,97 @@
         label.text = text;
     }
 }
+
+- (void)addLineToView:(UIView *)view withDirection:(CKViewBorderDirection)d
+             withEdge:(UIEdgeInsets)edge
+{
+    UIImageView *topline = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Horizontaline"]];
+    
+    UIImageView *bottomline = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Horizontaline2"]];
+    
+    UIImageView *leftline = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Verticalline"]];
+
+    UIImageView *rightline = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Verticalline2"]];
+
+    switch (d) {
+        case CKViewBorderDirectionLeft:
+        {
+            [view addSubview:leftline];
+            [leftline mas_makeConstraints:^(MASConstraintMaker *make) {
+                
+                make.top.equalTo(view);
+                make.bottom.equalTo(view);
+                make.width.mas_equalTo(@1);
+                make.left.equalTo(view);
+            }];
+            break;
+        }
+        case CKViewBorderDirectionRight:
+        {
+            [view addSubview:rightline];
+            [rightline mas_makeConstraints:^(MASConstraintMaker *make) {
+                
+                make.top.equalTo(view);
+                make.bottom.equalTo(view);
+                make.width.mas_equalTo(@1);
+                make.right.equalTo(view);
+            }];
+            break;
+        }
+        case CKViewBorderDirectionTop:
+        {
+            [view addSubview:topline];
+            [topline mas_makeConstraints:^(MASConstraintMaker *make) {
+                
+                make.left.equalTo(view).offset(edge.left);
+                make.right.equalTo(view).offset(-edge.right);
+                make.height.mas_equalTo(@1);
+                make.top.equalTo(view);
+            }];
+            break;
+        }
+        case CKViewBorderDirectionBottom:
+        {
+            [view addSubview:bottomline];
+            [bottomline mas_makeConstraints:^(MASConstraintMaker *make) {
+                
+                make.left.equalTo(view);
+                make.right.equalTo(view);
+                make.height.mas_equalTo(@1);
+                make.bottom.equalTo(view);
+            }];
+            break;
+        }
+            
+        default:
+            break;
+    }
+}
+
+- (NSAttributedString *)formatRestrictionLb:(NSIndexSet *)rangeSet  withString:(NSString *)string
+{
+     NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
+    for (NSInteger i = 0 ; i < string.length ; i++)
+    {
+        NSRange r = NSMakeRange(i, 1);
+        NSString * c = [string substringWithRange:r];
+        if ([rangeSet containsIndex:i])
+        {
+            NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:12],
+                                    NSForegroundColorAttributeName:HEXCOLOR(@"#f93a00")};
+            NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:c attributes:attr2];
+            [str appendAttributedString:attrStr2];
+        }
+        else
+        {
+            NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:12],
+                                 NSForegroundColorAttributeName:[UIColor lightGrayColor]};
+            NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:c attributes:attr1];
+            [str appendAttributedString:attrStr1];
+        }
+    }
+    return str;
+}
+
 
 @end

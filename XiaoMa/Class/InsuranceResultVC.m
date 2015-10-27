@@ -57,7 +57,8 @@
     else {
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
-    [InsOrderStore reloadOrderByID:self.orderID];
+    InsOrderStore *store = [InsOrderStore fetchExistsStore];
+    [store sendEvent:[store getInsOrderByID:self.orderID]];
 }
 
 -(void)setResultType:(InsuranceResult) resultType
@@ -87,6 +88,7 @@
         self.failureContentLabel.hidden = YES;
         self.shareButton.layer.masksToBounds = YES;
         self.shareButton.layer.cornerRadius = 11;
+        self.shareButton.hidden = !gAppMgr.canShareFlag;
         
         [self.drawView drawSuccess];
     }
