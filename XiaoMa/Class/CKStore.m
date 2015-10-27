@@ -66,6 +66,11 @@ static char sTargetHashTableKey;
     [self.weakTable setObject:block forKey:target];
 }
 
+- (void)removeSubscriptionForTarget:(id)target
+{
+    [self.weakTable removeObjectForKey:target];
+}
+
 - (NSHashTable *)hashTableForTarget:(NSObject *)target
 {
     NSHashTable *table = objc_getAssociatedObject(target, &sTargetHashTableKey);

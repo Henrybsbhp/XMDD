@@ -28,6 +28,7 @@ typedef enum : NSInteger {
 + (instancetype)fetchExistsStore;
 + (instancetype)fetchOrCreateStore;
 - (void)subscribeEventsWithTarget:(id)target receiver:(void(^)(CKStore *store, CKStoreEvent *evt))block;
+- (void)removeSubscriptionForTarget:(id)target;
 + (CKStoreEvent *)sendEvent:(CKStoreEvent *)evt;
 - (CKStoreEvent *)sendEvent:(CKStoreEvent *)evt;
 

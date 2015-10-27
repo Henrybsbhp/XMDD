@@ -185,7 +185,7 @@
         availablelimit = model.configOp ? model.configOp.rsp_chargeupplimit : 2000;
         percent = model.configOp ? model.configOp.rsp_discountrate : 2;
         if (model.curGasCard) {
-            couponlimit = MAX(0, couponlimit - ABS(availablelimit - [model.curGasCard.availablechargeamt integerValue]));
+            couponlimit = MAX(0, couponlimit - MAX(0,(availablelimit - [model.curGasCard.availablechargeamt integerValue])));
         }
         discount = MIN(couponlimit, paymoney) * percent / 100.0;
         paymoney = paymoney - discount;
@@ -201,10 +201,9 @@
         if (model.curBankCard.gasInfo) {
             couponlimit = model.curBankCard.gasInfo.rsp_couponupplimit;
             percent = model.curBankCard.gasInfo.rsp_discountrate;
-            availablelimit = model.curBankCard.gasInfo.rsp_chargeupplimit;
-            couponlimit = MAX(0, couponlimit - ABS(availablelimit - model.curBankCard.gasInfo.rsp_availablechargeamt));
+            couponlimit = MAX(0, model.curBankCard.gasInfo.rsp_couponupplimit - model.curBankCard.gasInfo.rsp_czbcouponedmoney);
         }
-        discount = MIN(couponlimit, paymoney) * percent / 100.0;
+        discount = MIN(couponlimit, paymoney * percent / 100.0);
         if (discount > 0) {
             title = [NSString stringWithFormat:@"充值%d元，只需支付%d元，现在支付", (int)(paymoney + discount), (int)paymoney];
         }
@@ -212,8 +211,6 @@
             title = [NSString stringWithFormat:@"您需支付%d元，现在支付", (int)paymoney];
         }
     }
-    
-
 
     [self.bottomBtn setTitle:title forState:UIControlStateNormal];
     [self.bottomBtn setTitle:title forState:UIControlStateDisabled];
@@ -270,8 +267,10 @@
 #pragma mark - Action
 - (IBAction)actionGotoRechargeRecords:(id)sender
 {
-    GasRecordVC *vc = [UIStoryboard vcWithId:@"GasRecordVC" inStoryboard:@"Gas"];
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        GasRecordVC *vc = [UIStoryboard vcWithId:@"GasRecordVC" inStoryboard:@"Gas"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (IBAction)actionPay:(id)sender
