@@ -21,6 +21,8 @@
 
 - (void)registerShowImage;
 
+- (void)uploadImage:(UIViewController *)superVC;
+
 - (UIBarButtonItem *)setSingleMenu:(NSDictionary *)singleDic;
 
 @end

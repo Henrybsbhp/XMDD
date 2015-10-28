@@ -88,8 +88,13 @@ typedef void(^FinishBlock)(void);
 
 - (void)shareWechat
 {
-    [self shareToWeChat:WXSceneSession withTitle:self.tt
-         andDescription:self.subtitle andImage:self.image andUrl:self.urlStr];
+    if ([WXApi isWXAppInstalled]) {
+        [self shareToWeChat:WXSceneSession withTitle:self.tt
+             andDescription:self.subtitle andImage:self.image andUrl:self.urlStr];
+    }
+    else {
+        DebugLog(@"未安装微信");
+    }
 }
 
 - (void)shareTimeline
