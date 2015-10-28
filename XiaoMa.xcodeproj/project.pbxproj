@@ -178,6 +178,8 @@
 		18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */; };
 		18A9E8C91BDDC0950061D3BC /* GetInsCompanyListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9E8C81BDDC0950061D3BC /* GetInsCompanyListOp.m */; };
 		18A9E8CC1BDDC1C00061D3BC /* PickInsCompaniesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9E8CB1BDDC1C00061D3BC /* PickInsCompaniesVC.m */; };
+		18A9E8CF1BDF15430061D3BC /* EditCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9E8CE1BDF15430061D3BC /* EditCarVC.m */; };
+		18A9E8D21BDF18EA0061D3BC /* HKCellData.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9E8D11BDF18EA0061D3BC /* HKCellData.m */; };
 		18B78F591BA9893C0061ECAD /* GetLaunchInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B78F581BA9893C0061ECAD /* GetLaunchInfoOp.m */; };
 		18B78F5C1BA989BE0061ECAD /* HKLaunchInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B78F5B1BA989BE0061ECAD /* HKLaunchInfo.m */; };
 		18B78F5F1BA990100061ECAD /* HKLaunchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B78F5E1BA990100061ECAD /* HKLaunchManager.m */; };
@@ -800,6 +802,10 @@
 		18A9E8C81BDDC0950061D3BC /* GetInsCompanyListOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetInsCompanyListOp.m; sourceTree = "<group>"; };
 		18A9E8CA1BDDC1C00061D3BC /* PickInsCompaniesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickInsCompaniesVC.h; sourceTree = "<group>"; };
 		18A9E8CB1BDDC1C00061D3BC /* PickInsCompaniesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickInsCompaniesVC.m; sourceTree = "<group>"; };
+		18A9E8CD1BDF15430061D3BC /* EditCarVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCarVC.h; sourceTree = "<group>"; };
+		18A9E8CE1BDF15430061D3BC /* EditCarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCarVC.m; sourceTree = "<group>"; };
+		18A9E8D01BDF18EA0061D3BC /* HKCellData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKCellData.h; path = Class/HKCellData.h; sourceTree = "<group>"; };
+		18A9E8D11BDF18EA0061D3BC /* HKCellData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKCellData.m; path = Class/HKCellData.m; sourceTree = "<group>"; };
 		18B78F571BA9893C0061ECAD /* GetLaunchInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetLaunchInfoOp.h; path = Class/GetLaunchInfoOp.h; sourceTree = "<group>"; };
 		18B78F581BA9893C0061ECAD /* GetLaunchInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetLaunchInfoOp.m; path = Class/GetLaunchInfoOp.m; sourceTree = "<group>"; };
 		18B78F5A1BA989BE0061ECAD /* HKLaunchInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKLaunchInfo.h; path = Class/HKLaunchInfo.h; sourceTree = "<group>"; };
@@ -1803,6 +1809,8 @@
 				6B978BF91B6B643A00A6E7C6 /* HKCoverage.m */,
 				18C52C341BA6783500F6C38B /* PictureRecord.h */,
 				18C52C351BA6783500F6C38B /* PictureRecord.m */,
+				18A9E8D01BDF18EA0061D3BC /* HKCellData.h */,
+				18A9E8D11BDF18EA0061D3BC /* HKCellData.m */,
 			);
 			name = Dataset;
 			sourceTree = "<group>";
@@ -1904,6 +1912,8 @@
 		186984EC1B005FCE000A182A /* MyCar */ = {
 			isa = PBXGroup;
 			children = (
+				18A9E8CD1BDF15430061D3BC /* EditCarVC.h */,
+				18A9E8CE1BDF15430061D3BC /* EditCarVC.m */,
 				1873710A1B0AD1D900B8CDCC /* MyCarListVModel.h */,
 				1873710B1B0AD1D900B8CDCC /* MyCarListVModel.m */,
 				189B39591AF9A9E500B83F1B /* EditMyCarVC.h */,
@@ -3614,6 +3624,7 @@
 				6BBB08501B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m in Sources */,
 				C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */,
 				18C52C411BA80AC700F6C38B /* GetPicHistoryOp.m in Sources */,
+				18A9E8D21BDF18EA0061D3BC /* HKCellData.m in Sources */,
 				6BCA5F491B104AB300E1E630 /* CouponPkgViewController.m in Sources */,
 				1884ACE31BA2A59E00E5CACF /* InsuranceInfoSubmitingVC.m in Sources */,
 				6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */,
@@ -3854,6 +3865,7 @@
 				6BBF7DA61B00A78900E45967 /* UpdateUserInfoOp.m in Sources */,
 				18804AA51B2679BB00E7E764 /* TestVC.m in Sources */,
 				181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */,
+				18A9E8CF1BDF15430061D3BC /* EditCarVC.m in Sources */,
 				18C52C3A1BA6CE9400F6C38B /* DAProgressOverlayView.m in Sources */,
 				6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */,
 				18B78F6D1BAAB47F0061ECAD /* InsuranceDirectSellingVC.m in Sources */,

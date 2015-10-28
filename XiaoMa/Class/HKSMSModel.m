@@ -133,6 +133,9 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
     else if (type == HKVcodeTypeUnbindCZB) {
         coolingTime = s_coolingTimeForUnbindCZB;
     }
+    else if (type == HKVcodeTypeCZBGasCharge) {
+        coolingTime = s_coolingTimeForCZBGasCharge;
+    }
     NSTimeInterval interval = [[NSDate date] timeIntervalSince1970] - coolingTime;
     if (interval < kMaxVcodeInterval) {
         NSString *originTitle = [vbtn titleForState:UIControlStateNormal];

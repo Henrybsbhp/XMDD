@@ -82,6 +82,9 @@
             self.curBankCard = value;
         }
         self.bankList = self.bankStore.cache.allObjects;
+        if (!self.bankList) {
+            self.bankList = [NSArray array];
+        }
         HKBankCard *bankCard = [self.bankStore.cache objectForKey:self.curBankCard.cardID];
         if (!bankCard && self.bankStore.cache.count > 0) {
             bankCard = [self.bankStore.cache objectAtIndex:0];
@@ -106,7 +109,7 @@
         [self.bankStore sendEvent:[self.bankStore getAllBankCards]];
         return YES;
     }
-    if (gAppMgr.myUser && (!self.bankList || ![self.bankStore needUpdateTimetagForKey:nil])) {
+    if (gAppMgr.myUser && (!self.bankList || [self.bankStore needUpdateTimetagForKey:nil])) {
         [self.bankStore sendEvent:[self.bankStore getAllBankCards]];
         return YES;
     }

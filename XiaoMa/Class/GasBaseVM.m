@@ -40,13 +40,9 @@
     if (self.curGasCard) {
         NSString *link;
         NSString *agreement;
-        if (self.curGasCard.cardtype == 1) {
-            link = @"http://www.xiaomadada.com/apphtml/license.html";
-            agreement = @"《中石化服务说明》";
-        }
-        else if (self.curGasCard.cardtype == 2) {
-            link = @"http://www.xiaomadada.com/apphtml/license.html";
-            agreement = @"《中石油服务说明》";
+        if (self.curGasCard.cardtype == 1 || self.curGasCard.cardtype == 2) {
+            link = @"http://xiaomadada.com/apphtml/chongzhishuoming.html";
+            agreement = @"《服务说明》";
         }
         if (link.length > 0) {
             text = [NSString stringWithFormat:@"%@<font size=13 color='#9a9a9a'><p>更多充值说明，点击查看<font color='#20ab2a'><a href='%@'>%@</a></font></p></font>",

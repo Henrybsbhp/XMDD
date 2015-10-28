@@ -323,7 +323,7 @@
 {
     WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
     vc.title = @"油卡充值服务协议";
-    vc.url = @"http://www.xiaomadada.com/apphtml/license.html";
+    vc.url = @"http://xiaomadada.com/apphtml/license-youka.html";
     [self.navigationController pushViewController:vc animated:YES];
 }
 

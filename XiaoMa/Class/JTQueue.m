@@ -50,6 +50,12 @@
     return [self.mQueue indexOfObject:tuple];
 }
 
+- (id)keyForObjectAtIndex:(NSInteger)index
+{
+    RACTuple *tuple = [self.mQueue safetyObjectAtIndex:index];
+    return tuple ? tuple.second : nil;
+}
+
 - (id)objectAtIndex:(NSInteger)index
 {
     RACTuple *tuple = [self.mQueue safetyObjectAtIndex:index];

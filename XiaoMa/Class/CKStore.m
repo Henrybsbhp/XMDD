@@ -28,20 +28,30 @@ static char sTargetHashTableKey;
     static NSMapTable *g_storeTable;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        g_storeTable = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsWeakMemory];
+        g_storeTable = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsWeakMemory valueOptions:NSPointerFunctionsWeakMemory];
     });
     return g_storeTable;
 }
 
 + (instancetype)fetchExistsStore
 {
-    CKStore *store = [[self storeTable] objectForKey:self];
-    return store;
+    return [self fetchExistsStoreForWeakKey:self];
 }
 
 + (instancetype)fetchOrCreateStore
 {
-    CKStore *store = [[self storeTable] objectForKey:self];
+    return [self fetchOrCreateStoreForWeakKey:self];
+}
+
++ (instancetype)fetchExistsStoreForWeakKey:(id)key
+{
+    CKStore *store = [[self storeTable] objectForKey:key];
+    return store;
+}
+
++ (instancetype)fetchOrCreateStoreForWeakKey:(id)key
+{
+    CKStore *store = [self fetchExistsStoreForWeakKey:key];
     if (!store) {
         store = [[self alloc] init];
         [[self storeTable] setObject:store forKey:self];
