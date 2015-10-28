@@ -118,22 +118,14 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     //上传地理位置
     [self.bridge registerSetPosition];
     
-//    //上传单张图片
-//    [self.bridge.myBridge registerHandler:@"uploadSingleImage" handler:^(id data, WVJBResponseCallback responseCallback) {
-//        
-//    }];
+    //上传单张图片
+    [self.bridge uploadImage:self];
 }
 
 #pragma mark - NJKWebViewProgressDelegate
 -(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
 {
     [_progressView setProgress:progress animated:YES];
-    NSString *title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-    if (title.length > 0) {
-        CKAsyncMainQueue(^{
-            self.navigationItem.title = @"活动详情";
-        });
-    }
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
@@ -164,6 +156,25 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     DebugLog(@"%@ WebViewFinishLoad:%@", kRspPrefix, webView.request.URL);
+    
+    NSString *title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+//    CGFloat titleWidth = self.view.frame.size.width - 180;
+    if (title.length > 0) {
+        //限制标题长度
+//        UILabel * label = [UILabel new];
+//        label.text = title;
+//        label.font = [UIFont boldSystemFontOfSize:17];
+//        [label sizeToFit];
+//        label.frame = CGRectMake(label.frame.origin.x - titleWidth / 2, label.frame.origin.y - label.frame.size.height / 2, titleWidth, label.frame.size.height);
+//        
+//        UIView * view = [UIView new];
+//        [view addSubview:label];
+//        self.navigationItem.titleView = view;
+        self.navigationItem.title = title;
+    }
+    else {
+        self.navigationItem.title = @"活动详情";
+    }
     
     [self.bridge setUserTokenHandler];
     
