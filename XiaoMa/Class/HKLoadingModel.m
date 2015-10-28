@@ -273,9 +273,18 @@
         }
     }
     else if (nest) {
-        NSInteger index = indexPath.section > 0 ? indexPath.section : indexPath.row;
-        if ([[self.datasource safetyObjectAtIndex:indexPath.section] count] > index+1) {
-            return;
+        if (indexPath.section == 0) {
+            NSInteger index = indexPath.row;
+            NSInteger count = [[self.datasource safetyObjectAtIndex:0] count] + [[self.datasource safetyObjectAtIndex:1] count];
+            if (count > index + 1) {
+                return;
+            }
+        }
+        else {
+            NSInteger index = indexPath.row;
+            if ([[self.datasource safetyObjectAtIndex:indexPath.section] count] > index + 1) {
+                return;
+            }
         }
     }
     else {

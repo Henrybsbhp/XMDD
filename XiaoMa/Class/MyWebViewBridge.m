@@ -8,6 +8,7 @@
 
 #import "MyWebViewBridge.h"
 #import "SocialShareViewController.h"
+#import "HKImagePicker.h"
 
 typedef NS_ENUM(NSInteger, MenuItemsType) {
     menuItemsTypeShare                  = 0,
@@ -42,7 +43,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         data = nil;
     }
     [self.myBridge callHandler:@"setUserTokenHandler" data:data responseCallback:^(id response) {
-        DebugLog(@"setUserTokenHandler responded: %@", response);
+        //DebugLog(@"setUserTokenHandler responded: %@", response);
     }];
 }
 
@@ -59,6 +60,23 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             NSDictionary * dic = @{@"province":province, @"city":city, @"district":district, @"longitude":longitudeStr, @"latitude":latitudeStr};
             responseCallback(dic);
         }
+    }];
+}
+
+#pragma mark - 上传图片
+- (void)uploadImage:(UIViewController *)superVC
+{
+    [self.myBridge registerHandler:@"uploadSingleImage" handler:^(id data, WVJBResponseCallback responseCallback) {
+        HKImagePicker *picker = [HKImagePicker imagePicker];
+        picker.allowsEditing = YES;
+        picker.shouldShowBigImage = NO;
+        [[picker rac_pickImageInTargetVC:superVC inView:superVC.navigationController.view] subscribeNext:^(id x) {
+            UIImage * img = x;
+            NSData *data = UIImageJPEGRepresentation(img, 1.0f);
+            NSString *encodedImageStr = [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+            NSDictionary * dic = @{@"imageCodeStr":encodedImageStr};
+            responseCallback(dic);
+        }];
     }];
 }
 
