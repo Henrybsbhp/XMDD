@@ -6,13 +6,13 @@
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "750专业救援.png"
+      "filename" : "专业救援@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x",
-      "filename" : "1242专业救援.png"
+      "filename" : "专业救援.png",
+      "scale" : "3x"
     }
   ],
   "info" : {
