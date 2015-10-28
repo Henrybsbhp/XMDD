@@ -58,6 +58,7 @@
 
         }];
         
+        self.shareBtn.hidden = !gAppMgr.canShareFlag;
         [self.shareBtn setCornerRadius:5.0f];
         [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
@@ -275,12 +276,11 @@
         [nolabel.layer setMasksToBounds:YES];
         
         contentlabel.text = [self.couponDic.useguide safetyObjectAtIndex:indexPath.row];
-        contentlabel.preferredMaxLayoutWidth = 276;
         return cell;
     }
 }
 
-- (NSMutableAttributedString *) setLabelContent:(NSString *) contentStr
+- (NSMutableAttributedString *)setLabelContent:(NSString *) contentStr
 {
     //设置行间距、居中等
     NSMutableAttributedString * attributedStr = [[NSMutableAttributedString alloc] initWithString:contentStr];

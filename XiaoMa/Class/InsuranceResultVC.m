@@ -88,6 +88,7 @@
         self.failureContentLabel.hidden = YES;
         self.shareButton.layer.masksToBounds = YES;
         self.shareButton.layer.cornerRadius = 11;
+        self.shareButton.hidden = !gAppMgr.canShareFlag;
         
         [self.drawView drawSuccess];
     }

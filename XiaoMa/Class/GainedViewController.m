@@ -121,6 +121,7 @@
     UIImage * bgImg = [(self.isCouponUsed ? [UIImage imageNamed:@"award_coupon_used_bg"] : [UIImage imageNamed:@"award_coupon_bg"]) resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 100)];
     couponBgView.image = bgImg;
     
+    shareBtn.hidden = !gAppMgr.canShareFlag;
     usedView.hidden = !self.isCouponUsed;
     amountLb.textColor = self.isCouponUsed ? [UIColor whiteColor] : [UIColor colorWithHex:@"#e7473e" alpha:1.0f];
     

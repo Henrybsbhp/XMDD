@@ -84,7 +84,8 @@
 
 - (void)reloadwebView
 {
-    [self.webView reload];
+    //reload方法在第一次读取失败的时候会reload失败
+    [self.webView loadRequest:self.request];
 }
 
 #pragma mark - NJKWebViewProgressDelegate
@@ -95,11 +96,16 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
+    [self.webView.scrollView.refreshView endRefreshing];
+    
     DebugLog(@"%@ WebViewLoadError:%@\n,error=%@", kErrPrefix, webView.request.URL, error);
     self.webView.scrollView.contentInset = UIEdgeInsetsZero;
     self.webView.scrollView.contentSize = self.webView.frame.size;
     if ((error.code >= 400 && error.code < 600) || error.code == -1009) {
         [gToast showError:kDefErrorPormpt];
+    }
+    else {
+        [gToast showError:@"无法连接到服务器"];
     }
 }
 
