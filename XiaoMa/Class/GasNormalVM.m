@@ -14,7 +14,6 @@
 #import "PaymentHelper.h"
 
 @interface GasNormalVM ()
-@property (nonatomic, weak) CKStoreEvent *cachedEvent;
 @property (nonatomic, strong) RACSignal *getGaschargeConfigSignal;
 @end
 @implementation GasNormalVM

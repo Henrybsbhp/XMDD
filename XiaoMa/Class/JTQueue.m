@@ -37,16 +37,23 @@
 
 - (NSArray *)allObjects
 {
-    return [self.mQueue arrayByMapFilteringOperator:^id(RACTuple *obj) {
+    NSArray *objs = [self.mQueue arrayByMapFilteringOperator:^id(RACTuple *obj) {
 
         return obj.first;
     }];
+    return objs;
 }
 
 - (NSInteger)indexOfObjectForKey:(id<NSCopying>)key
 {
     RACTuple *tuple = [self.mObjectMap objectForKey:key];
     return [self.mQueue indexOfObject:tuple];
+}
+
+- (id)keyForObjectAtIndex:(NSInteger)index
+{
+    RACTuple *tuple = [self.mQueue safetyObjectAtIndex:index];
+    return tuple ? tuple.second : nil;
 }
 
 - (id)objectAtIndex:(NSInteger)index

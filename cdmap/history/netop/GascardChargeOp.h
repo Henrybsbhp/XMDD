@@ -10,8 +10,8 @@
 @property (nonatomic,assign) int req_paychannel;
 ///支付验证码
 @property (nonatomic,strong) NSString* req_vcode;
-///浙商银行卡ID
-@property (nonatomic,strong) NSNumber* req_cardid;
+///订单id
+@property (nonatomic,strong) NSNumber* req_orderid;
 
 ///交易流水
 @property (nonatomic,strong) NSString* rsp_tradeid;

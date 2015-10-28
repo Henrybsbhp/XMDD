@@ -75,7 +75,8 @@
 
 - (void)dealloc
 {
-    
+    self.czbModel.cachedEvent = nil;
+    self.normalModel.cachedEvent = nil;
 }
 
 - (void)setupHeaderView
@@ -173,32 +174,18 @@
 - (void)refreshBottomView
 {
     NSString *title;
-    NSInteger discount = 0;
+    NSInteger couponlimit, discount = 0;
+    NSInteger availablelimit = 2000;
+    CGFloat percent = 0;
     NSInteger paymoney = self.curModel.rechargeAmount;
+    
     if ([self.curModel isEqual:self.normalModel]) {
         GasNormalVM *model = (GasNormalVM *)self.curModel;
-        NSInteger discount = 0;
-        NSInteger couponlimit = model.configOp ? model.configOp.rsp_couponupplimit : 1000;
-        CGFloat percent = model.configOp ? model.configOp.rsp_discountrate : 2;
+        couponlimit = model.configOp ? model.configOp.rsp_couponupplimit : 1000;
+        availablelimit = model.configOp ? model.configOp.rsp_chargeupplimit : 2000;
+        percent = model.configOp ? model.configOp.rsp_discountrate : 2;
         if (model.curGasCard) {
-            couponlimit = MAX(0, couponlimit - [model.curGasCard.couponedmoney integerValue]);
-        }
-        discount = MIN(couponlimit, paymoney) * percent / 100.0;
-        paymoney = paymoney - discount;
-        if (discount > 0) {
-            title = [NSString stringWithFormat:@"已优惠%d元，您只需支付%d元，现在支付", (int)discount, (int)paymoney];
-        }
-        else {
-            title = [NSString stringWithFormat:@"您需支付%d，元，现在支付", (int)paymoney];
-        }
-    }
-    else {
-        GasCZBVM *model = (GasCZBVM *)self.curModel;
-        NSInteger couponlimit = 0;
-        CGFloat percent = 0;
-        if (model.curBankCard.gasInfo) {
-            couponlimit = model.curBankCard.gasInfo.rsp_couponupplimit;
-            percent = model.curBankCard.gasInfo.rsp_discountrate;
+            couponlimit = MAX(0, couponlimit - MAX(0,(availablelimit - [model.curGasCard.availablechargeamt integerValue])));
         }
         discount = MIN(couponlimit, paymoney) * percent / 100.0;
         paymoney = paymoney - discount;
@@ -209,6 +196,22 @@
             title = [NSString stringWithFormat:@"您需支付%d元，现在支付", (int)paymoney];
         }
     }
+    else {
+        GasCZBVM *model = (GasCZBVM *)self.curModel;
+        if (model.curBankCard.gasInfo) {
+            couponlimit = model.curBankCard.gasInfo.rsp_couponupplimit;
+            percent = model.curBankCard.gasInfo.rsp_discountrate;
+            couponlimit = MAX(0, model.curBankCard.gasInfo.rsp_couponupplimit - model.curBankCard.gasInfo.rsp_czbcouponedmoney);
+        }
+        discount = MIN(couponlimit, paymoney * percent / 100.0);
+        if (discount > 0) {
+            title = [NSString stringWithFormat:@"充值%d元，只需支付%d元，现在支付", (int)(paymoney + discount), (int)paymoney];
+        }
+        else {
+            title = [NSString stringWithFormat:@"您需支付%d元，现在支付", (int)paymoney];
+        }
+    }
+
     [self.bottomBtn setTitle:title forState:UIControlStateNormal];
     [self.bottomBtn setTitle:title forState:UIControlStateDisabled];
 }
@@ -264,8 +267,10 @@
 #pragma mark - Action
 - (IBAction)actionGotoRechargeRecords:(id)sender
 {
-    GasRecordVC *vc = [UIStoryboard vcWithId:@"GasRecordVC" inStoryboard:@"Gas"];
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        GasRecordVC *vc = [UIStoryboard vcWithId:@"GasRecordVC" inStoryboard:@"Gas"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (IBAction)actionPay:(id)sender
@@ -318,7 +323,7 @@
 {
     WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
     vc.title = @"油卡充值服务协议";
-    vc.url = @"http://www.xiaomadada.com/apphtml/license.html";
+    vc.url = @"http://xiaomadada.com/apphtml/license-youka.html";
     [self.navigationController pushViewController:vc animated:YES];
 }
 

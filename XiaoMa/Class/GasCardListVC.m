@@ -48,6 +48,11 @@
     }];
 }
 
+- (void)dealloc
+{
+    [self.tableView setEditing:NO];
+}
+
 #pragma mark - relaodData
 - (void)deleteWithEvent:(CKStoreEvent *)evt
 {

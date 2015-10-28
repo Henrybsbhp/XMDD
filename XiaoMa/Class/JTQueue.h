@@ -19,6 +19,7 @@
 - (NSArray *)allObjects;
 - (void)addObject:(id)object forKey:(id<NSCopying>)key;
 - (NSInteger)indexOfObjectForKey:(id<NSCopying>)key;
+- (id)keyForObjectAtIndex:(NSInteger)index;
 - (id)objectAtIndex:(NSInteger)index;
 - (id)objectForKey:(id<NSCopying>)key;
 - (void)removeObjectForKey:(id<NSCopying>)key;

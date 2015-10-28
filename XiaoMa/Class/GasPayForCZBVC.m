@@ -14,6 +14,7 @@
 #import "UIView+Shake.h"
 #import "HKSMSModel.h"
 #import "BankCardStore.h"
+#import "PaymentHelper.h"
 
 #import "GasPaymentResultVC.h"
 
@@ -74,8 +75,9 @@
     GascardChargeOp *op = [GascardChargeOp operation];
     op.req_amount = self.orderInfo.req_chargeamt;
     op.req_gid = self.orderInfo.req_gid;
-    op.req_cardid = self.orderInfo.req_cardid;
     op.req_vcode = self.vcodeField.text;
+    op.req_paychannel = [PaymentHelper paymentChannelForPlatformType:PaymentPlatformTypeCreditCard];
+    op.req_orderid = self.orderInfo.rsp_orderid;
     @weakify(self);
     [[[op rac_postRequest] initially:^{
         [gToast showingWithText:@"正在支付..."];
@@ -189,14 +191,16 @@
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     
     [[RACObserve(self, orderInfo) takeUntilForCell:cell] subscribeNext:^(GetCzbpayVcodeOp *info) {
-        containerV.hidden = info.rsp_tradeid.length == 0;
+        NSString *tradeno = info.rsp_tradeid;
+        containerV.hidden = tradeno.length == 0;
+        
+        if (tradeno.length > 6) {
+            tradeno = [tradeno substringFromIndex:tradeno.length - 6 length:6];
+        }
+        titleL.text = [NSString stringWithFormat:@"您本次加油的订单尾号为：%@", tradeno];
     }];
+
     
-    NSString *tradeno = self.orderInfo.rsp_tradeid;
-    if (tradeno.length > 6) {
-        tradeno = [tradeno substringFromIndex:tradeno.length - 6 length:6];
-    }
-    titleL.text = [NSString stringWithFormat:@"您本次加油的订单尾号为：%@", tradeno];
     
     return cell;
 }

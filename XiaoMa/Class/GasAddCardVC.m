@@ -12,6 +12,7 @@
 #import "NSString+Split.h"
 #import "CKLimitTextField.h"
 #import "UIView+Shake.h"
+#import <KeyboardManager.h>
 
 @interface GasAddCardVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -44,6 +45,17 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [IQKeyboardManager sharedManager].shouldShowTextFieldPlaceholder = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [IQKeyboardManager sharedManager].shouldShowTextFieldPlaceholder = YES;
+}
 #pragma mark - Action
 - (IBAction)actionSwitch:(UIButton *)sender
 {
@@ -139,25 +151,30 @@
     
     [[RACObserve(self, curCard) distinctUntilChanged] subscribeNext:^(GasCard *card) {
         field.placeholder = card.cardtype == 1 ? @"请输入19位加油卡号" : @"请输入16位加油卡号";
+        field.textLimit = card.cardtype == 1 ? 23 : 19;
         if (indexPath.row == 1) {
             field.text = [card.gascardno splitByStep:4 replacement:@" "];
         } else {
             field.text = [card.customObject splitByStep:4 replacement:@" "];
         }
-        [field setTextChangedBlock:^(CKLimitTextField *textField) {
-            NSString *realText = textField.text.length > 0 ?
-                [textField.text stringByReplacingOccurrencesOfString:@" " withString:@""] : @"";
-            NSInteger maxLen = card.cardtype == 1 ? 19 : 16;
-            if (realText.length > maxLen) {
-                realText = [realText substringToIndex:maxLen];
+        [field setTextChangingBlock:^(CKLimitTextField *textField) {
+            NSInteger offset = [textField offsetFromPosition:textField.beginningOfDocument toPosition:textField.curCursorPosition];
+            if (offset > 0 && offset % 5 == 0) {
+                textField.curCursorPosition = [textField positionFromPosition:textField.curCursorPosition offset:1];
             }
+
+            NSString *orgText = textField.text.length > 0 ?
+            [textField.text stringByReplacingOccurrencesOfString:@" " withString:@""] : @"";
+            NSInteger maxLen = card.cardtype == 1 ? 19 : 16;
+            NSString *realText = orgText.length > maxLen ? [orgText substringToIndex:maxLen] : orgText;
             if (indexPath.row == 1)  {
                 self.curCard.gascardno = realText;
             }
             else {
                 self.curCard.customObject = realText;
             }
-            textField.text = [realText splitByStep:4 replacement:@" "];
+            NSString *text = [orgText splitByStep:4 replacement:@" "];
+            textField.text = text;
         }];
     }];
     

@@ -135,7 +135,7 @@
     logoV.image = [UIImage imageNamed:record.cardtype == 2 ? @"gas_icon_cnpc" : @"gas_icon_snpn"];
     cardnumLbabel.text = [record.gascardno splitByStep:4 replacement:@" "];
     rechargeLabel.text = [NSString stringWithFormat:@"￥%d", record.chargemoney];
-    payLabel.text = [NSString stringWithFormat:@"￥%d", record.paymoney];
+    payLabel.text = [NSString stringWithFormat:@"支付金额：￥%d", record.paymoney];
     stateLabel.text = record.statusdesc;
     return cell;
 }
