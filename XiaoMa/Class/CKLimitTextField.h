@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class CKLimitTextFieldDelegate;
+@class CKLimitTextFieldProxyObject;
 
 @interface CKLimitTextField : UITextField
 @property (nonatomic, strong) UITextPosition *curCursorPosition;
@@ -18,4 +18,10 @@
 @property (nonatomic, copy) void (^textChangingBlock)(CKLimitTextField *textField);
 @property (nonatomic, copy) void (^textDidChangedBlock)(CKLimitTextField *textField);
 @property (nonatomic, copy) BOOL (^shouldChangeBlock)(CKLimitTextField *field, NSRange range, NSString *replaceStr);
+@end
+
+@interface CKLimitTextFieldProxyObject : NSObject<UITextFieldDelegate>
+@property (nonatomic, weak) CKLimitTextField *textField;
+
+- (void)actionTextDidChanged:(CKLimitTextField *)textField;
 @end
