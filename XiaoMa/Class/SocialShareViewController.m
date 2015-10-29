@@ -93,28 +93,38 @@ typedef void(^FinishBlock)(void);
              andDescription:self.subtitle andImage:self.image andUrl:self.urlStr];
     }
     else {
-        DebugLog(@"未安装微信");
+        [gToast showText:@"未安装微信，请安装后再分享"];
     }
 }
 
 - (void)shareTimeline
 {
-    [self shareToWeChat:WXSceneTimeline withTitle:self.tt
-         andDescription:self.subtitle andImage:self.image andUrl:self.urlStr];
+    if ([WXApi isWXAppInstalled]) {
+        [self shareToWeChat:WXSceneTimeline withTitle:self.tt
+             andDescription:self.subtitle andImage:self.image andUrl:self.urlStr];
+    }
+    else {
+        [gToast showText:@"未安装微信，请安装后再分享"];
+    }
 }
 
 - (void)shareWeibo
 {
-    WBMessageObject *message = [WBMessageObject message];
-    
-    WBImageObject *image = [WBImageObject object];
-    image.imageData = UIImagePNGRepresentation(self.webimage ? self.webimage : self.image);
-    message.imageObject = image;
-    message.text = [NSString stringWithFormat:@"%@ \n %@ \n %@ ",self.tt,self.subtitle,self.urlStr];
-    
-    WBSendMessageToWeiboRequest * request = [WBSendMessageToWeiboRequest requestWithMessage:message];
-    request.shouldOpenWeiboAppInstallPageIfNotInstalled = NO;
-    [WeiboSDK sendRequest:request];
+    if (WeiboSDK.isWeiboAppInstalled) {
+        WBMessageObject *message = [WBMessageObject message];
+        
+        WBImageObject *image = [WBImageObject object];
+        image.imageData = UIImagePNGRepresentation(self.webimage ? self.webimage : self.image);
+        message.imageObject = image;
+        message.text = [NSString stringWithFormat:@"%@ \n %@ \n %@ ",self.tt,self.subtitle,self.urlStr];
+        
+        WBSendMessageToWeiboRequest * request = [WBSendMessageToWeiboRequest requestWithMessage:message];
+        request.shouldOpenWeiboAppInstallPageIfNotInstalled = NO;
+        [WeiboSDK sendRequest:request];
+    }
+    else {
+        [gToast showText:@"未安装微博，请安装后再分享"];
+    }
 }
 
 - (void)shareQQ

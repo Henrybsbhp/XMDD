@@ -271,6 +271,7 @@
 		50B5A2961BD8CC51004E00ED /* MyWebViewBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */; };
 		50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE7C911B6716B500675887 /* SelectScrollView.m */; };
 		50C6BF4D1B7341B800A5E021 /* CardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */; };
+		50E9DD161BE201180070F38D /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E9DD151BE201180070F38D /* Reachability.m */; };
 		6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */; };
 		6B086BA71AE4F03800659DB7 /* UIView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA61AE4F03800659DB7 /* UIView+Base.m */; };
 		6B1D93D31B8573A000740628 /* PayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1D93D21B8573A000740628 /* PayModel.m */; };
@@ -979,6 +980,8 @@
 		50BE7C911B6716B500675887 /* SelectScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectScrollView.m; path = Class/SelectScrollView.m; sourceTree = "<group>"; };
 		50C6BF4B1B7341B800A5E021 /* CardDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardDetailVC.h; sourceTree = "<group>"; };
 		50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardDetailVC.m; sourceTree = "<group>"; };
+		50E9DD141BE201180070F38D /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		50E9DD151BE201180070F38D /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6B086BA21AE4E19000659DB7 /* GetSystemTipsOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemTipsOp.h; path = Class/GetSystemTipsOp.h; sourceTree = "<group>"; };
 		6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemTipsOp.m; path = Class/GetSystemTipsOp.m; sourceTree = "<group>"; };
@@ -1443,6 +1446,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				50E9DD131BE201090070F38D /* Reachability */,
 				6BF3925C1BD8935600838292 /* CBAutoScrollLabel */,
 				18BF41F61BCF75DA0039F210 /* RTLabel */,
 				18BF41F21BCF6D890039F210 /* PKYStepper */,
@@ -2727,6 +2731,15 @@
 			name = SelectScrollView;
 			sourceTree = "<group>";
 		};
+		50E9DD131BE201090070F38D /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				50E9DD141BE201180070F38D /* Reachability.h */,
+				50E9DD151BE201180070F38D /* Reachability.m */,
+			);
+			name = Reachability;
+			sourceTree = "<group>";
+		};
 		6BB61B9D1AEF6851004F39AA /* Other */ = {
 			isa = PBXGroup;
 			children = (
@@ -3822,6 +3835,7 @@
 				189B30AF1AD4D661001D7288 /* JTLabel.m in Sources */,
 				6BC3B61C1ADF9334001016A0 /* LineDashPolyline.m in Sources */,
 				6BAF30181AE67CC800E35E08 /* GetSystemVersionOp.m in Sources */,
+				50E9DD161BE201180070F38D /* Reachability.m in Sources */,
 				181F6D931B15773600D38555 /* BeInterestedInInsuranceOp.m in Sources */,
 				6B65A76C1B856C9E00439228 /* CouponModel.m in Sources */,
 				18BF41F51BCF6D890039F210 /* PKYStepper.m in Sources */,
