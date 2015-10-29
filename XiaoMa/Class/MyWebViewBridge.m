@@ -9,6 +9,7 @@
 #import "MyWebViewBridge.h"
 #import "SocialShareViewController.h"
 #import "HKImagePicker.h"
+#import "UploadFileOp.h"
 
 typedef NS_ENUM(NSInteger, MenuItemsType) {
     menuItemsTypeShare                  = 0,
@@ -66,17 +67,44 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 #pragma mark - 上传图片
 - (void)uploadImage:(UIViewController *)superVC
 {
-    [self.myBridge registerHandler:@"uploadSingleImage" handler:^(id data, WVJBResponseCallback responseCallback) {
+    NSMutableDictionary * imgDic = [[NSMutableDictionary alloc] init];
+    [self.myBridge registerHandler:@"selectSingleImage" handler:^(id data, WVJBResponseCallback responseCallback) {
+        //存图片ID
+        [imgDic addParam:[data stringParamForName:@"imgId"] forName:@"imgId"];
+        
         HKImagePicker *picker = [HKImagePicker imagePicker];
         picker.allowsEditing = YES;
         picker.shouldShowBigImage = NO;
-        [[picker rac_pickImageInTargetVC:superVC inView:superVC.navigationController.view] subscribeNext:^(id x) {
-            UIImage * img = x;
-            NSData *data = UIImageJPEGRepresentation(img, 1.0f);
-            NSString *encodedImageStr = [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-            NSDictionary * dic = @{@"imageCodeStr":encodedImageStr};
-            responseCallback(dic);
+        @weakify(self);
+        [[[picker rac_pickImageInTargetVC:superVC inView:superVC.navigationController.view] flattenMap:^RACStream *(UIImage *image) {
+            
+            NSData *data = UIImageJPEGRepresentation(image, 0.5f);
+            NSString *encodedImageStr = [NSString stringWithFormat:@"data:image/jpeg;base64,%@", [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength]];
+            //存编码
+            [imgDic addParam:encodedImageStr forName:@"imageCodeStr"];
+            
+            UploadFileOp *op = [UploadFileOp new];
+            op.req_fileExtType = @"jpg";
+            [op setFileArray:@[image] withGetDataBlock:^NSData *(UIImage *img) {
+                return UIImageJPEGRepresentation(img, 1.0);
+            }];
+            return [op rac_postRequest];
+        }] subscribeNext:^(UploadFileOp * rspOp) {
+            @strongify(self);
+            [imgDic addParam:rspOp.rsp_urlArray[0] forName:@"imageUrl"];
+            DebugLog(@"dic:%@", imgDic);
+            [self.myBridge callHandler:@"singleImageBack" data:imgDic responseCallback:^(id response) {
+                
+            }];
         }];
+    }];
+}
+
+- (void)backImage:(NSDictionary *)dic
+{
+    DebugLog(@"%@", dic);
+    [self.myBridge callHandler:@"singleImageBack" data:dic responseCallback:^(id response) {
+        DebugLog(@"upload response%@", response);
     }];
 }
 

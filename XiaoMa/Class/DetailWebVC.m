@@ -200,10 +200,9 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 }
 
 - (void)actionNewBack {
-    NSString * returnBackStr = [self.webView stringByEvaluatingJavaScriptFromString:@"returnBackTest();"];
-    if(returnBackStr) {
+    NSString * returnBackStr = [self.webView stringByEvaluatingJavaScriptFromString:@"thirdPartyPageTest();"];
+    if(returnBackStr.length > 0) {
         [self.bridge.myBridge callHandler:@"returnBackHandler" data:nil responseCallback:^(id response) {
-            DebugLog(@"%@", response);
             NSDictionary * dic = response;
             if ([dic boolParamForName:@"isFirstPage"]) {
                 [self.navigationController popToRootViewControllerAnimated:YES];
@@ -211,7 +210,12 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         }];
     }
     else {
-        [self.webView goBack];
+        if (self.webView.canGoBack) {
+            [self.webView goBack];
+        }
+        else {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
     }
 }
 
