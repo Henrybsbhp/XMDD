@@ -228,7 +228,7 @@
     subv.licenceNumberLabel.text = car.licencenumber;
     subv.markView.hidden = !car.isDefault;
     
-    NSString *text = [self.model descForCarStatus:car.status];
+    NSString *text = [self.model descForCarStatus:car];
     BOOL show = car.status == 3 || car.status == 0;
     [subv setShowBottomButton:show withText:text];
     
@@ -285,7 +285,7 @@
         
         @strongify(self);
         car.status = 1;
-        [subView setShowBottomButton:NO withText:[self.model descForCarStatus:car.status]];
+        [subView setShowBottomButton:NO withText:[self.model descForCarStatus:car]];
         [gToast showSuccess:@"上传行驶证成功!"];
     } error:^(NSError *error) {
         

@@ -419,11 +419,11 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="imC-xr-QKs">
                                                 <rect key="frame" x="10" y="5" width="580" height="37"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                                <state key="normal" backgroundImage="6B31E8DE-028A-49D8-A7F8-3D6ABE058424">
+                                                <state key="normal" backgroundImage="A60D99B6-9441-4CFB-BE0E-1CBAB02285F3">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </state>
-                                                <state key="selected" backgroundImage="1DAE490F-750B-4D62-9189-2540A3E6FA3E"/>
+                                                <state key="selected" backgroundImage="D8C96224-6815-4F9F-9577-2AD0D846AFDF"/>
                                                 <connections>
                                                     <action selector="actionPay:" destination="HHt-2J-Mag" eventType="touchUpInside" id="e8J-8a-Xog"/>
                                                 </connections>
@@ -831,7 +831,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="支付成功！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vXz-dX-Scb">
-                                                    <rect key="frame" x="255" y="113" width="90" height="18"/>
+                                                    <rect key="frame" x="261" y="113" width="90" height="18"/>
                                                     <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="18"/>
                                                     <color key="textColor" red="0.1344757674" green="0.671875" blue="0.1314050806" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -845,7 +845,7 @@
                                                 </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="E00-zo-Fke" firstAttribute="centerX" secondItem="vXz-dX-Scb" secondAttribute="centerX" id="03T-Jk-KtJ"/>
+                                                <constraint firstItem="E00-zo-Fke" firstAttribute="centerX" secondItem="vXz-dX-Scb" secondAttribute="centerX" constant="-6" id="03T-Jk-KtJ"/>
                                                 <constraint firstItem="vXz-dX-Scb" firstAttribute="top" secondItem="E00-zo-Fke" secondAttribute="bottom" constant="1" id="RZ3-5F-xZA"/>
                                                 <constraint firstAttribute="centerX" secondItem="E00-zo-Fke" secondAttribute="centerX" id="Z2K-Xr-eJa"/>
                                                 <constraint firstAttribute="centerY" secondItem="E00-zo-Fke" secondAttribute="centerY" constant="10" id="gMa-CT-zln"/>
@@ -1034,7 +1034,7 @@
                                                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <state key="disabled" backgroundImage="gas_btn_bg2"/>
-                                                    <state key="selected" backgroundImage="1D2EFF40-B15E-4E3D-A8B7-D411CCDC9758"/>
+                                                    <state key="selected" backgroundImage="251D934E-76BE-4B57-A3DA-0D35879688D7"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#BCI_10,10,10,10"/>
                                                     </userDefinedRuntimeAttributes>
@@ -1095,7 +1095,7 @@
                                                     <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <state key="disabled" backgroundImage="gas_btn_bg2"/>
-                                                <state key="selected" backgroundImage="72EDAF0B-F1C5-45E5-A887-6DF6BE89DBF7"/>
+                                                <state key="selected" backgroundImage="4C302E47-6FC6-40E4-AD35-93D0E0B3C25A"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#BCI_5,5,5,5#DBCI_5,5,5,5"/>
                                                 </userDefinedRuntimeAttributes>
@@ -1470,7 +1470,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="1D2EFF40-B15E-4E3D-A8B7-D411CCDC9758" width="15" height="37">
+        <image name="251D934E-76BE-4B57-A3DA-0D35879688D7" width="15" height="37">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -1558,7 +1558,7 @@ XxJiEmcSdhJ6EoESiRKWEpsSnRKfEqQSrBKvErQSvBK/EtES1BLZAAAAAAAAAgEAAAAAAAAAQgAAAAAA
 AAAAAAAAAAAAEts
 </mutableData>
         </image>
-        <image name="1DAE490F-750B-4D62-9189-2540A3E6FA3E" width="15" height="37">
+        <image name="4C302E47-6FC6-40E4-AD35-93D0E0B3C25A" width="15" height="37">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -1646,7 +1646,7 @@ XxJiEmcSdhJ6EoESiRKWEpsSnRKfEqQSrBKvErQSvBK/EtES1BLZAAAAAAAAAgEAAAAAAAAAQgAAAAAA
 AAAAAAAAAAAAEts
 </mutableData>
         </image>
-        <image name="6B31E8DE-028A-49D8-A7F8-3D6ABE058424" width="15" height="37">
+        <image name="A60D99B6-9441-4CFB-BE0E-1CBAB02285F3" width="15" height="37">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -1734,7 +1734,7 @@ XxJiEmcSdhJ6EoESiRKWEpsSnRKfEqQSrBKvErQSvBK/EtES1BLZAAAAAAAAAgEAAAAAAAAAQgAAAAAA
 AAAAAAAAAAAAEts
 </mutableData>
         </image>
-        <image name="72EDAF0B-F1C5-45E5-A887-6DF6BE89DBF7" width="15" height="37">
+        <image name="D8C96224-6815-4F9F-9577-2AD0D846AFDF" width="15" height="37">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
