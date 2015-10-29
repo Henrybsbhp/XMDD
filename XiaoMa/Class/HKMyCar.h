@@ -58,7 +58,8 @@ typedef enum : NSInteger
 
 ///行驶证审核状态(1待审核,2审核通过,3审核失败,0无图片)
 @property (nonatomic, assign) NSInteger status;
-
+///行驶证审核失败原因
+@property (nonatomic, strong) NSString *failreason;
 ///保险公司
 @property (nonatomic,copy)NSString * inscomp;
 
