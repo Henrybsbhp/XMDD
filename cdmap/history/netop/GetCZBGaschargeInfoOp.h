@@ -17,6 +17,8 @@
 @property (nonatomic,assign) int rsp_couponupplimit;
 ///浙商卡已享受优惠
 @property (nonatomic,assign) int rsp_czbcouponedmoney;
+///加油上限
+@property (nonatomic,assign) int rsp_chargeupplimit;
 
 
 @end

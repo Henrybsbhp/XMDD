@@ -34,9 +34,9 @@
 - (void)setupUploadBtn:(UIButton *)btn andDescLabel:(UILabel *)label forCar:(HKMyCar *)car
 {
     btn.userInteractionEnabled = NO;
-    NSString *bgName = @"mec_btn_bg3";
     NSString *title;
     NSString *desc;
+    BOOL enable = NO;
     switch (car.status) {
         case 1:
             title = @"审核中";
@@ -47,21 +47,21 @@
             desc = @"车辆已通过认证";
             break;
         case 3:
-            title = @"一键上传";
+            title = @"重新上传";
             btn.userInteractionEnabled = YES;
             desc = @"审核未通过，请重新上传行驶证";
-            bgName = @"mec_btn_bg2";
+            enable = YES;
             break;
         default:
             title = @"一键上传";
             btn.userInteractionEnabled = YES;
             desc = @"上传行驶证并通过审核，即可享受价值1000元的大礼包";
-            bgName = @"mec_btn_bg2";
+            enable = YES;
             break;
     }
     [btn setTitle:title forState:UIControlStateNormal];
-    UIImage *bgimg = [[UIImage imageNamed:bgName] resizableImageWithCapInsets:UIEdgeInsetsMake(9, 5, 9, 5)];
-    [btn setBackgroundImage:bgimg forState:UIControlStateNormal];
+    [btn setTitle:title forState:UIControlStateDisabled];
+    btn.enabled = enable;
     label.text = desc;
 }
 

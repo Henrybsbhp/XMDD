@@ -9,7 +9,7 @@
     [params safetySetObject:@(self.req_amount) forKey:@"amount"];
     [params safetySetObject:@(self.req_paychannel) forKey:@"paychannel"];
     [params safetySetObject:self.req_vcode forKey:@"vcode"];
-    [params safetySetObject:self.req_cardid forKey:@"cardid"];
+    [params safetySetObject:self.req_orderid forKey:@"orderid"];
 
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }

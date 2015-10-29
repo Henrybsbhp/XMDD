@@ -10,7 +10,7 @@
 #import <JT3DScrollView.h>
 #import "XiaoMa.h"
 #import "HKLoadingModel.h"
-#import "EditMyCarVC.h"
+#import "EditCarVC.h"
 #import "CarListSubView.h"
 #import "MyCarStore.h"
 
@@ -193,7 +193,7 @@
             }
             else {
                 [MobClick event:@"rp104-9"];
-                EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Car"];
+                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
                 vc.originCar = self.model.selectedCar;
                 vc.model = self.model;
                 [self.navigationController pushViewController:vc animated:YES];
@@ -216,7 +216,7 @@
 - (IBAction)actionAddCar:(id)sender
 {
     [MobClick event:@"rp309-1"];
-    EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Car"];
+    EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -256,7 +256,7 @@
         if (self.model.disableEditingCar) {
             return ;
         }
-        EditMyCarVC *vc = [UIStoryboard vcWithId:@"EditMyCarVC" inStoryboard:@"Car"];
+        EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
         vc.originCar = car;
         [self.navigationController pushViewController:vc animated:YES];
     }];

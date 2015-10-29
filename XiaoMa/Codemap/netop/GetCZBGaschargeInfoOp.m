@@ -19,6 +19,7 @@
     self.rsp_discountrate = [dict[@"discountrate"] intValue];
     self.rsp_couponupplimit = [dict[@"couponupplimit"] intValue];
     self.rsp_czbcouponedmoney = [dict[@"czbcouponedmoney"] intValue];
+    self.rsp_chargeupplimit = [dict[@"chargeupplimit"] intValue];
 	
     return self;
 }

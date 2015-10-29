@@ -9,6 +9,8 @@
 @property (nonatomic,assign) int rsp_discountrate;
 ///有优惠充值上限
 @property (nonatomic,assign) int rsp_couponupplimit;
+///充值上限
+@property (nonatomic,assign) int rsp_chargeupplimit;
 
 
 @end

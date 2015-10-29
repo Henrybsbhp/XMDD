@@ -150,6 +150,11 @@
 
 - (void)endRefreshing
 {
+    [self endRefreshingWithCompletion:nil];
+}
+
+- (void)endRefreshingWithCompletion:(void(^)(void))completion
+{
     if (!_refreshing || self.isAnimating) {
         return;
     }
@@ -172,6 +177,9 @@
                 [self setContentInset:self.originInsets];
             }
             self.imgView.hidden = YES;
+            if (completion) {
+                completion();
+            }
         }];
     });
 }
