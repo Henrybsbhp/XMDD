@@ -214,9 +214,11 @@
     else {
         markV.hidden = NO;
         backgroundImg.image = [[UIImage imageNamed:@"coupon_background"] imageByFilledWithColor:[UIColor colorWithHex:@"#d0d0d0" alpha:1.0f]];
-        [logoV setImageByUrl:couponDic.logo
-                    withType:ImageURLTypeThumbnail defImage:@"coupon_graylogo" errorImage:@"coupon_graylogo"];
-        logoV.image = [self getGrayImage:logoV.image];
+        [[gMediaMgr rac_getImageByUrl:couponDic.logo withType:ImageURLTypeThumbnail defaultPic:@"coupon_logo" errorPic:@"coupon_logo"] subscribeNext:^(id x) {
+            UIImage * img = x;
+            logoV.image = [self getGrayImage:img];
+        }];
+        
         if (couponDic.used) {
             markV.image = [UIImage imageNamed:@"coupon_used"];
         }
@@ -224,7 +226,7 @@
             markV.image = [UIImage imageNamed:@"coupon_outtime"];
         }
     }
-    logoV.layer.cornerRadius = 22.0F;
+    logoV.layer.cornerRadius = 22.0f;
     [logoV.layer setMasksToBounds:YES];
     name.text = couponDic.couponName;
     description.text = [NSString stringWithFormat:@"%@", couponDic.subname];

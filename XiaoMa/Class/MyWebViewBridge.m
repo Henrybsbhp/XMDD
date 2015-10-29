@@ -67,45 +67,35 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 #pragma mark - 上传图片
 - (void)uploadImage:(UIViewController *)superVC
 {
+    NSMutableDictionary * imgDic = [[NSMutableDictionary alloc] init];
     [self.myBridge registerHandler:@"selectSingleImage" handler:^(id data, WVJBResponseCallback responseCallback) {
+        //存图片ID
+        [imgDic addParam:[data stringParamForName:@"imgId"] forName:@"imgId"];
+        
         HKImagePicker *picker = [HKImagePicker imagePicker];
         picker.allowsEditing = YES;
         picker.shouldShowBigImage = NO;
         @weakify(self);
-        [[picker rac_pickImageInTargetVC:superVC inView:superVC.navigationController.view] subscribeNext:^(id x) {
-            @strongify(self);
-            UIImage * image = x;
-            NSData *data = UIImageJPEGRepresentation(image, 1.0f);
+        [[[picker rac_pickImageInTargetVC:superVC inView:superVC.navigationController.view] flattenMap:^RACStream *(UIImage *image) {
+            
+            NSData *data = UIImageJPEGRepresentation(image, 0.5f);
             NSString *encodedImageStr = [NSString stringWithFormat:@"data:image/jpeg;base64,%@", [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength]];
+            //存编码
+            [imgDic addParam:encodedImageStr forName:@"imageCodeStr"];
             
             UploadFileOp *op = [UploadFileOp new];
             op.req_fileExtType = @"jpg";
             [op setFileArray:@[image] withGetDataBlock:^NSData *(UIImage *img) {
                 return UIImageJPEGRepresentation(img, 1.0);
             }];
-            
-//            [[[[[op rac_postRequest] flattenMap:^RACStream *(UploadFileOp *uploadOp) {
-//                
-//                return [op rac_postRequest];
-//            }] catch:^RACSignal *(NSError *error) {
-//                
-//                NSError * err = error;
-//                return [RACSignal error:err];
-//            }] initially:^{
-//                
-//                [gToast showingWithText:@"正在上传..."];
-//            }] subscribeNext:^(UpdateUserInfoOp * op) {
-//                
-//                [gToast dismiss];
-//                gAppMgr.myUser.avatarUrl = op.avatarUrl;
-//            } error:^(NSError *error) {
-//                
-//                [gToast showError:error.domain];
-//            }];
-            
-            NSDictionary * dic = @{@"imageCodeStr":encodedImageStr};
-            [self backImage:dic];
-            
+            return [op rac_postRequest];
+        }] subscribeNext:^(UploadFileOp * rspOp) {
+            @strongify(self);
+            [imgDic addParam:rspOp.rsp_urlArray[0] forName:@"imageUrl"];
+            DebugLog(@"dic:%@", imgDic);
+            [self.myBridge callHandler:@"singleImageBack" data:imgDic responseCallback:^(id response) {
+                
+            }];
         }];
     }];
 }
