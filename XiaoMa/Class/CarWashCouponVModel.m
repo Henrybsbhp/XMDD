@@ -143,10 +143,10 @@
         [btn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
         
         if (self.spreadFlag) {
-            [btn setImage:[UIImage imageNamed:@"coupon_pulldown"] forState:UIControlStateNormal];
+            [btn setImage:[UIImage imageNamed:@"coupon_pullup"] forState:UIControlStateNormal];
         }
         else {
-            [btn setImage:[UIImage imageNamed:@"coupon_pullup"] forState:UIControlStateNormal];
+            [btn setImage:[UIImage imageNamed:@"coupon_pulldown"] forState:UIControlStateNormal];
         }
         
         UIEdgeInsets imgInsets = UIEdgeInsetsZero;
@@ -159,10 +159,10 @@
         [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[footView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
             self.spreadFlag = !self.spreadFlag;
             if (self.spreadFlag) {
-                [btn setImage:[UIImage imageNamed:@"coupon_pulldown"] forState:UIControlStateNormal];
+                [btn setImage:[UIImage imageNamed:@"coupon_pullup"] forState:UIControlStateNormal];
             }
             else {
-                [btn setImage:[UIImage imageNamed:@"coupon_pullup"] forState:UIControlStateNormal];
+                [btn setImage:[UIImage imageNamed:@"coupon_pulldown"] forState:UIControlStateNormal];
             }
             [self.tableView reloadData];
         }];
@@ -216,6 +216,7 @@
         backgroundImg.image = [[UIImage imageNamed:@"coupon_background"] imageByFilledWithColor:[UIColor colorWithHex:@"#d0d0d0" alpha:1.0f]];
         [logoV setImageByUrl:couponDic.logo
                     withType:ImageURLTypeThumbnail defImage:@"coupon_graylogo" errorImage:@"coupon_graylogo"];
+        logoV.image = [self getGrayImage:logoV.image];
         if (couponDic.used) {
             markV.image = [UIImage imageNamed:@"coupon_used"];
         }
@@ -251,6 +252,23 @@
         vc.newType = self.couponNewType;
         [self.targetVC.navigationController pushViewController:vc animated:YES];
     }
+}
+
+//图片灰度处理
+-(UIImage*)getGrayImage:(UIImage*)sourceImage
+{
+    int width = sourceImage.size.width;
+    int height = sourceImage.size.height;
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
+    CGContextRef context = CGBitmapContextCreate (nil,width,height,8,0,colorSpace,kCGImageAlphaNone);
+    CGColorSpaceRelease(colorSpace);
+    if (context == NULL) {
+        return nil;
+    }
+    CGContextDrawImage(context,CGRectMake(0, 0, width, height), sourceImage.CGImage);
+    UIImage *grayImage = [UIImage imageWithCGImage:CGBitmapContextCreateImage(context)];
+    CGContextRelease(context);
+    return grayImage;
 }
 
 @end

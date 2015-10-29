@@ -9,6 +9,7 @@
 #import "MyWebViewBridge.h"
 #import "SocialShareViewController.h"
 #import "HKImagePicker.h"
+#import "UploadFileOp.h"
 
 typedef NS_ENUM(NSInteger, MenuItemsType) {
     menuItemsTypeShare                  = 0,
@@ -66,17 +67,54 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 #pragma mark - 上传图片
 - (void)uploadImage:(UIViewController *)superVC
 {
-    [self.myBridge registerHandler:@"uploadSingleImage" handler:^(id data, WVJBResponseCallback responseCallback) {
+    [self.myBridge registerHandler:@"selectSingleImage" handler:^(id data, WVJBResponseCallback responseCallback) {
         HKImagePicker *picker = [HKImagePicker imagePicker];
         picker.allowsEditing = YES;
         picker.shouldShowBigImage = NO;
+        @weakify(self);
         [[picker rac_pickImageInTargetVC:superVC inView:superVC.navigationController.view] subscribeNext:^(id x) {
-            UIImage * img = x;
-            NSData *data = UIImageJPEGRepresentation(img, 1.0f);
-            NSString *encodedImageStr = [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+            @strongify(self);
+            UIImage * image = x;
+            NSData *data = UIImageJPEGRepresentation(image, 1.0f);
+            NSString *encodedImageStr = [NSString stringWithFormat:@"data:image/jpeg;base64,%@", [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength]];
+            
+            UploadFileOp *op = [UploadFileOp new];
+            op.req_fileExtType = @"jpg";
+            [op setFileArray:@[image] withGetDataBlock:^NSData *(UIImage *img) {
+                return UIImageJPEGRepresentation(img, 1.0);
+            }];
+            
+//            [[[[[op rac_postRequest] flattenMap:^RACStream *(UploadFileOp *uploadOp) {
+//                
+//                return [op rac_postRequest];
+//            }] catch:^RACSignal *(NSError *error) {
+//                
+//                NSError * err = error;
+//                return [RACSignal error:err];
+//            }] initially:^{
+//                
+//                [gToast showingWithText:@"正在上传..."];
+//            }] subscribeNext:^(UpdateUserInfoOp * op) {
+//                
+//                [gToast dismiss];
+//                gAppMgr.myUser.avatarUrl = op.avatarUrl;
+//            } error:^(NSError *error) {
+//                
+//                [gToast showError:error.domain];
+//            }];
+            
             NSDictionary * dic = @{@"imageCodeStr":encodedImageStr};
-            responseCallback(dic);
+            [self backImage:dic];
+            
         }];
+    }];
+}
+
+- (void)backImage:(NSDictionary *)dic
+{
+    DebugLog(@"%@", dic);
+    [self.myBridge callHandler:@"singleImageBack" data:dic responseCallback:^(id response) {
+        DebugLog(@"upload response%@", response);
     }];
 }
 
