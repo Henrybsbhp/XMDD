@@ -19,10 +19,14 @@
 
 - (void)registerSetPosition;
 
+- (void)registerNetworkState;
+
+- (void)registerCallPhone;
+
 - (void)registerShowImage;
 
 - (void)uploadImage:(UIViewController *)superVC;
 
-- (UIBarButtonItem *)setSingleMenu:(NSDictionary *)singleDic;
+- (UIBarButtonItem *)setSingleMenu:(NSString *)singleBtn;
 
 @end

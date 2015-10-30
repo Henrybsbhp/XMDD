@@ -10,10 +10,11 @@
 #import "SocialShareViewController.h"
 #import "HKImagePicker.h"
 #import "UploadFileOp.h"
+#import "Reachability.h"
 
 typedef NS_ENUM(NSInteger, MenuItemsType) {
-    menuItemsTypeShare                  = 0,
-    menuItemsTypeCollection             = 1
+    menuItemsTypeShare                  = 1,
+    menuItemsTypeCollection             = 2
 };
 
 @implementation MyWebViewBridge
@@ -43,7 +44,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     else {
         data = nil;
     }
-    [self.myBridge callHandler:@"setUserTokenHandler" data:data responseCallback:^(id response) {
+    NSString * dataStr = [data jsonEncodedString];
+    [self.myBridge callHandler:@"setUserTokenHandler" data:dataStr responseCallback:^(id response) {
         //DebugLog(@"setUserTokenHandler responded: %@", response);
     }];
 }
@@ -59,8 +61,44 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         NSString * district = gAppMgr.addrComponent.district;
         if (longitudeStr && longitudeStr && latitudeStr) {
             NSDictionary * dic = @{@"province":province, @"city":city, @"district":district, @"longitude":longitudeStr, @"latitude":latitudeStr};
-            responseCallback(dic);
+            NSString * dicStr = [dic jsonEncodedString];
+            responseCallback(dicStr);
         }
+    }];
+}
+
+#pragma mark - 获取网络状态
+- (void)registerNetworkState
+{
+    [self.myBridge registerHandler:@"callForNetworkState" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSString * stateStr;
+        Reachability *r=[Reachability reachabilityWithHostName:@"http://www.baidu.com"];
+        switch ([r currentReachabilityStatus]) {
+            case NotReachable:
+                stateStr = @"0";
+                break;
+            case ReachableViaWWAN:{
+                stateStr = @"1";
+                break;
+            case ReachableViaWiFi:
+                stateStr = @"2";
+                break;
+            }
+            default:
+                break;
+        }
+        NSDictionary * dic = @{@"state":stateStr};
+        NSString * dataStr = [dic jsonEncodedString];
+        responseCallback(dataStr);
+    }];
+}
+
+#pragma mark - 拨打电话
+- (void)registerCallPhone
+{
+    [self.myBridge registerHandler:@"getPhoneCall" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSString * phoneStr = [data stringParamForName:@"phoneNum"];
+        [gPhoneHelper makePhone:phoneStr andInfo:[NSString stringWithFormat:@"拨打电话：%@", phoneStr]];
     }];
 }
 
@@ -91,20 +129,15 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             return [op rac_postRequest];
         }] subscribeNext:^(UploadFileOp * rspOp) {
             @strongify(self);
+            //存图片URL
             [imgDic addParam:rspOp.rsp_urlArray[0] forName:@"imageUrl"];
-            DebugLog(@"dic:%@", imgDic);
-            [self.myBridge callHandler:@"singleImageBack" data:imgDic responseCallback:^(id response) {
-                
+            
+            NSString * dataStr = [imgDic jsonEncodedString];//转json字符串
+            DebugLog(@"%@", dataStr);
+            [self.myBridge callHandler:@"singleImageBack" data:dataStr responseCallback:^(id response) {
+                //DebugLog(@"singleImageBack responded: %@", response);
             }];
         }];
-    }];
-}
-
-- (void)backImage:(NSDictionary *)dic
-{
-    DebugLog(@"%@", dic);
-    [self.myBridge callHandler:@"singleImageBack" data:dic responseCallback:^(id response) {
-        DebugLog(@"upload response%@", response);
     }];
 }
 
@@ -141,9 +174,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
     
     [backgroundView addSubview:imageView];
-    
     [window addSubview:backgroundView];
-    
     UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImage:)];
     [backgroundView addGestureRecognizer: tap];
     
@@ -164,9 +195,9 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 }
 
 #pragma mark - 右上角菜单按钮（目前只有分享）
-- (UIBarButtonItem *)setSingleMenu:(NSDictionary *)singleDic
+- (UIBarButtonItem *)setSingleMenu:(NSString *)singleBtn
 {
-    MenuItemsType type = [singleDic integerParamForName:singleDic[@"type"]];
+    MenuItemsType type = [singleBtn integerValue];
     UIBarButtonItem *right;
     if (type == menuItemsTypeShare) {
         right = [[UIBarButtonItem alloc] initWithTitle:@"分享" style:UIBarButtonItemStylePlain target:self action:@selector(shareAction)];
