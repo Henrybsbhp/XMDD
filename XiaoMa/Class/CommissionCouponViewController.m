@@ -40,7 +40,7 @@
 #pragma mark - HKLoadingModelDelegate
 - (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
 {
-    return @"暂无代办券";
+    return @"暂无协办券";
 }
 
 - (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error

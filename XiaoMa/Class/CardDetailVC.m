@@ -82,7 +82,7 @@
     UIImageView * imageView = (UIImageView *)[cell.contentView viewWithTag:1004];
     
     //模拟数据
-    NSArray * titleStr = @[@"全年5元洗车", @"免费道路救援", @"免费年检代办"];
+    NSArray * titleStr = @[@"全年5元洗车", @"免费道路救援", @"免费年检协办"];
     NSArray * remarksStr = @[@"每月2次", @"出行无忧", @"年检无忧"];
     NSArray * imageStr = @[@"mb_carwash", @"mb_rescue", @"mb_agency"];
     [backgroundView setCornerRadius:5.0f];

@@ -22,7 +22,7 @@
     [[self.actionBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         [MobClick event:@"rp128-2"];
         
-        [gPhoneHelper makePhone:@"4007111111" andInfo:@"代办电话：4007-111-111"];
+        [gPhoneHelper makePhone:@"4007111111" andInfo:@"协办电话：4007-111-111"];
     }];
 }
 
