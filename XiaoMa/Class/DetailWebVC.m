@@ -65,13 +65,12 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     self.webView.scalesPageToFit = YES;
     self.webView.delegate = self;
     self.request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
+    [self setupBridge];
     CKAsyncMainQueue(^{
         self.webView.scrollView.contentInset = UIEdgeInsetsZero;
         self.webView.scrollView.contentSize = self.webView.frame.size;
         [self.webView loadRequest:self.request];
     });
-    
-    [self setupBridge];
 }
 
 - (void)setupSignalsForLogin
@@ -102,15 +101,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     self.bridge = [[MyWebViewBridge alloc] initBridgeWithWebView:self.webView andDelegate:self.progressProxy];
     
     //右上角菜单按钮设置
-    [self.bridge.myBridge registerHandler:@"setOptionMenu" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSArray * menuArr = data;
-        if (menuArr.count == 1) {
-            self.navigationItem.rightBarButtonItem = [self.bridge setSingleMenu:[menuArr safetyObjectAtIndex:0]];
-        }
-        else {
-            
-        }
-    }];
+    [self setupRightItems];
     
     //点击查看大图
     [self.bridge registerShowImage];
@@ -118,8 +109,25 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     //上传地理位置
     [self.bridge registerSetPosition];
     
+    //获取网络状态
+    [self.bridge registerNetworkState];
+    
+    //打电话
+    [self.bridge registerCallPhone];
+    
     //上传单张图片
     [self.bridge uploadImage:self];
+}
+
+- (void)setupRightItems
+{
+    [self.bridge.myBridge registerHandler:@"setOptionMenu" handler:^(id data, WVJBResponseCallback responseCallback) {
+        DebugLog(@"%@", data);
+        NSArray * menuArr = data;
+        if (menuArr.count == 1) {
+            self.navigationItem.rightBarButtonItem = [self.bridge setSingleMenu:[menuArr safetyObjectAtIndex:0]];
+        }
+    }];
 }
 
 #pragma mark - NJKWebViewProgressDelegate
@@ -158,18 +166,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     DebugLog(@"%@ WebViewFinishLoad:%@", kRspPrefix, webView.request.URL);
     
     NSString *title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-//    CGFloat titleWidth = self.view.frame.size.width - 180;
     if (title.length > 0) {
-        //限制标题长度
-//        UILabel * label = [UILabel new];
-//        label.text = title;
-//        label.font = [UIFont boldSystemFontOfSize:17];
-//        [label sizeToFit];
-//        label.frame = CGRectMake(label.frame.origin.x - titleWidth / 2, label.frame.origin.y - label.frame.size.height / 2, titleWidth, label.frame.size.height);
-//        
-//        UIView * view = [UIView new];
-//        [view addSubview:label];
-//        self.navigationItem.titleView = view;
         self.navigationItem.title = title;
     }
     else {
@@ -178,6 +175,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     
     [self.bridge setUserTokenHandler];
     
+    //返回和关闭按钮的控制
     if (self.webView.canGoBack) {
         [self setupLeftBtns];
     }
