@@ -207,13 +207,13 @@
         make.left.equalTo(addGasBtn.mas_right).offset(spaceX);
     }];
  
-    //洗车
-    UIButton *carwashBtn = [self functionalButtonWithImageName:@"hp_washcar" action:@selector(actionWashCar:) inContainer:secondaryView hasBorder:NO];
+    //洗车 //按钮大小不同图片不同
+    NSString * carwashBtnName = dHeight > 568 ? @"hp_washcarbig" : @"hp_washcarsmall";
+    UIButton *carwashBtn = [self functionalButtonWithImageName:carwashBtnName action:@selector(actionWashCar:) inContainer:secondaryView hasBorder:NO];
     [carwashBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         
         CGFloat height = 212.0f / 1136.0f * dHeight;
         CGFloat hhh = dHeight > 568 ? height + 15 : height;
-
         
         make.left.equalTo(secondaryView);
         make.right.equalTo(secondaryView);
@@ -248,7 +248,7 @@
     
     [self addLineToView:rescueBtn withDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
     
-    //申请代办
+    //申请协办
     UIButton *commissionBtn = [self functionalButtonWithImageName:@"hp_commission" action:@selector(actionCommission:) inContainer:secondaryView hasBorder:NO];
     [commissionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(rescueBtn);
@@ -667,14 +667,14 @@
         if ([rangeSet containsIndex:i])
         {
             NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:12],
-                                    NSForegroundColorAttributeName:HEXCOLOR(@"#f93a00")};
+                                    NSForegroundColorAttributeName:HEXCOLOR(@"#ff563a")};
             NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:c attributes:attr2];
             [str appendAttributedString:attrStr2];
         }
         else
         {
             NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:12],
-                                 NSForegroundColorAttributeName:[UIColor lightGrayColor]};
+                                 NSForegroundColorAttributeName: HEXCOLOR(@"#657377")};
             NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:c attributes:attr1];
             [str appendAttributedString:attrStr1];
         }
