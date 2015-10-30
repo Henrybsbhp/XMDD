@@ -22,7 +22,7 @@
 #import "CKLimitTextField.h"
 #import "HKTableViewCell.h"
 
-@interface EditCarVC ()<UITableViewDataSource,UITableViewDelegate, UITextFieldDelegate>
+@interface EditCarVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) HKMyCar *curCar;
 @property (nonatomic, assign) BOOL isEditingModel;
@@ -148,10 +148,30 @@
     HKCellData *cell1_1 = [HKCellData dataWithCellID:@"PlateNumber" tag:nil];
     cell1_1.customInfo[@"title"] = @"车牌号码";
     cell1_1.object = RACObserve(self.curCar, licencenumber);
+    cell1_1.customInfo[@"inspector"] = [^BOOL(NSIndexPath *indexPath) {
+        @strongify(self);
+        if (self.curCar.licenceSuffix.length == 0) {
+            [self showErrorAtIndexPath:indexPath errorMsg:@"车牌号码不能为空"];
+            return NO;
+        }
+        else if ([MyCarStore verifiedLicenseNumberFrom:self.curCar.licencenumber]) {
+            [self showErrorAtIndexPath:indexPath errorMsg:@"请输入正确的车牌号码"];
+            return NO;
+        }
+        return YES;
+    } copy];
     
     HKCellData *cell1_2 = [HKCellData dataWithCellID:@"Selection" tag:nil];
     cell1_2.customInfo[@"title"] = @"购车时间";
     cell1_2.customInfo[@"placehold"] = @"请选择购车时间";
+    cell1_2.customInfo[@"inspector"] = [^BOOL(NSIndexPath *indexPath) {
+        @strongify(self);
+        if (!self.curCar.purchasedate) {
+            [self showErrorAtIndexPath:indexPath errorMsg:@"购车时间不能为空"];
+            return NO;
+        }
+        return YES;
+    } copy];
     cell1_2.object = [RACObserve(self.curCar, purchasedate) map:^id(NSDate *date) {
         return [date dateFormatForYYMMdd];
     }];
@@ -173,6 +193,14 @@
     cell1_3.customInfo[@"title"] = @"爱车品牌";
     cell1_3.customInfo[@"placehold"] = @"请选择爱车品牌";
     cell1_3.object = RACObserve(self.curCar, brand);
+    cell1_3.customInfo[@"inspector"] = [^BOOL(NSIndexPath *indexPath) {
+        @strongify(self);
+        if (self.curCar.brand.length == 0) {
+            [self showErrorAtIndexPath:indexPath errorMsg:@"汽车品牌不能为空"];
+            return NO;
+        }
+        return YES;
+    } copy];
     [cell1_3 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         @strongify(self);
         [MobClick event:@"rp312-4"];
@@ -190,6 +218,14 @@
     cell1_4.customInfo[@"title"] = @"具体车系";
     cell1_4.customInfo[@"placehold"] = @"请选择具体车系";
     cell1_4.object = RACObserve(self.curCar, model);
+    cell1_4.customInfo[@"inspector"] = [^BOOL(NSIndexPath *indexPath) {
+        @strongify(self);
+        if (self.curCar.model.length == 0) {
+            [self showErrorAtIndexPath:indexPath errorMsg:@"具体车系不能为空"];
+            return NO;
+        }
+        return YES;
+    } copy];
     [cell1_4 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         @strongify(self);
         [MobClick event:@"rp312-5"];
@@ -308,7 +344,21 @@
 - (void)actionSave:(id)sender
 {
     [MobClick event:@"rp312-12"];
-    
+    for (NSInteger section = 0; section < self.datasource.count; section++) {
+        NSArray *group = self.datasource[section];
+        for (NSInteger row = 0; row < group.count; row++) {
+            HKCellData *data = group[row];
+            BOOL (^inspector)(NSIndexPath *) = data.customInfo[@"inspector"];
+            if (!inspector) {
+                continue;
+            }
+            BOOL success = inspector([NSIndexPath indexPathForRow:row inSection:section]);
+            if (!success) {
+                return;
+            }
+        }
+    }
+
     MyCarStore *store = [MyCarStore fetchOrCreateStore];
     CKStoreEvent *evt = self.isEditingModel ? [store updateCar:self.curCar] : [store addCar:self.curCar];
     @weakify(self);
@@ -618,83 +668,13 @@
     }];
 }
 
-#pragma mark - UITextFieldDelegate
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    NSLog(@"string = %@", string);
-    NSLog(@"range = %@", NSStringFromRange(range));
-//    NSInteger length = range.location + [string length] - range.length;
-//    NSIndexPath *indexPath = textField.customObject;
-//    //车牌号码
-//    if (indexPath.row == 0 && length > 10) {
-//        return NO;
-//    }
-//    //当前里程
-//    else if (indexPath.row == 5 && length >= 12) {
-//        return NO;
-//    }
-//    //整车价格
-//    else if (indexPath.row == 4 && length >= 12) {
-//        return NO;
-//    }
-    return YES;
-}
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    NSIndexPath *indexPath = textField.customObject;
-    if (indexPath.row == 0) {
-        [MobClick event:@"rp312-2"];
-    }
-    else if (indexPath.row == 4) {
-        [MobClick event:@"rp312-6"];
-    }
-    else if (indexPath.row == 5) {
-        [MobClick event:@"rp312-7"];
-    }
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    NSIndexPath *indexPath = textField.customObject;
-    HKMyCar *car = self.curCar;
-    if (indexPath.row == 0) {
-        textField.text = car.licenceSuffix;
-    }
-    else if (indexPath.row == 4) {
-        textField.text = [NSString stringWithFormat:@"%.2f", car.price];
-    }
-    else if (indexPath.row == 5) {
-        textField.text = [NSString stringWithFormat:@"%d", (int)(car.odo)];
-    }
-}
-
 #pragma mark - Utility
-- (NSAttributedString *)attrStrWithTitle:(NSString *)title asterisk:(BOOL)asterisk
+- (void)showErrorAtIndexPath:(NSIndexPath *)indexPath errorMsg:(NSString *)msg
 {
-    NSMutableAttributedString *attrStr = [NSMutableAttributedString attributedString];
-    NSAttributedString *titleStr = [[NSAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17],NSForegroundColorAttributeName:[UIColor darkTextColor]}];
-    [attrStr appendAttributedString:titleStr];
-    if (asterisk) {
-        NSAttributedString *asteriskStr = [[NSAttributedString alloc] initWithString:@"*" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17],NSForegroundColorAttributeName:[UIColor redColor]}];
-        [attrStr appendAttributedString:asteriskStr];
-    }
-    
-    return attrStr;
+    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    [gToast showError:msg];
 }
 
-- (NSAttributedString *)attrStrWithTitle:(NSString *)title mark:(NSString *)mark
-{
-    NSMutableAttributedString *attrStr = [NSMutableAttributedString attributedString];
-    NSAttributedString *titleStr = [[NSAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17],NSForegroundColorAttributeName:[UIColor darkTextColor]}];
-    [attrStr appendAttributedString:titleStr];
-    if (mark) {
-        NSAttributedString *asteriskStr = [[NSAttributedString alloc] initWithString:mark attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13],NSForegroundColorAttributeName:[UIColor darkTextColor]}];
-        [attrStr appendAttributedString:asteriskStr];
-    }
-    
-    return attrStr;
-}
 
 - (NSString *)getCurrentProvince
 {

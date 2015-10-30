@@ -582,6 +582,9 @@
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#BCI_6,6,6,6#DBCI_6,6,6,6"/>
                                                             </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="actionUpload:" destination="G0O-rv-7HK" eventType="touchUpInside" id="31h-96-L7U"/>
+                                                            </connections>
                                                         </button>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WVo-D2-Wad">
                                                             <rect key="frame" x="58" y="5" width="422" height="74"/>
