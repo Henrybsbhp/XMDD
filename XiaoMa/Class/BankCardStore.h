@@ -14,6 +14,7 @@
 - (CKStoreEvent *)getAllBankCards;
 - (CKStoreEvent *)getAllBankCardsIfNeeded;
 - (CKStoreEvent *)deleteBankCardByCID:(NSNumber *)cid vcode:(NSString *)vcode;
+- (CKStoreEvent *)updateBankCardCZBInfoByCID:(NSNumber *)cid;
 - (RACSignal *)rac_getCardCZBInfoByCID:(NSNumber *)cid;
 
 @end

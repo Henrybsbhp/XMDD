@@ -10,4 +10,6 @@
 
 @interface GasTabView : UIView
 @property (nonatomic, copy) void (^tabBlock)(NSInteger index);
+@property (nonatomic, assign) NSInteger selectedIndex;
+- (instancetype)initWithFrame:(CGRect)frame selectedIndex:(NSUInteger)index;
 @end

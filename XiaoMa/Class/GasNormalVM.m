@@ -36,7 +36,8 @@
             [self reloadWithEvent:[CKStoreEvent eventWithSignal:sig code:evt.code object:evt.object]];
         }];
         
-        NSArray *codes = @[@(kCKStoreEventAdd),@(kCKStoreEventDelete),@(kCKStoreEventGet),@(kCKStoreEventReload)];
+        NSArray *codes = @[@(kCKStoreEventAdd),@(kCKStoreEventDelete),@(kCKStoreEventGet),
+                           @(kCKStoreEventReload),@(kCKStoreEventUpdate)];
         [evt callIfNeededForCodeList:codes object:nil target:self selector:@selector(reloadWithEvent:)];
     }];
 }
@@ -57,18 +58,24 @@
 
 - (void)reloadWithEvent:(CKStoreEvent *)event
 {
+    NSInteger code = event.code;
     @weakify(self);
     RACSignal *sig = [[event signal] flattenMap:^RACStream *(id value) {
         @strongify(self);
         GasCard *card = [self.cardStore.cache objectForKey:self.curGasCard.gid];
         if (!card && self.cardStore.cache.count > 0) {
-            self.curGasCard = [self.cardStore.cache objectAtIndex:0];
+            NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+            card = [self.cardStore.cache objectForKey:[def objectForKey:[self recentlyUsedGasCardKey]]];
+            self.curGasCard = card ? card : [self.cardStore.cache objectAtIndex:0];
+            if (code == kCKStoreEventUpdate) {
+                return [RACSignal return:value];
+            }
             return [self.cardStore rac_getCardNormalInfoByGID:self.curGasCard.gid];
         }
         else if (!card) {
             self.curGasCard = nil;
         }
-        if (self.curGasCard && (!self.curGasCard.availablechargeamt || !self.curGasCard.couponedmoney)) {
+        if (self.curGasCard && (code==kCKStoreEventReload||!self.curGasCard.availablechargeamt||!self.curGasCard.couponedmoney)){
             return [self.cardStore rac_getCardNormalInfoByGID:self.curGasCard.gid];
         }
         return [RACSignal return:value];
@@ -126,11 +133,15 @@
         return @[@[@"1"]];
     }
     NSString *row1 = self.curGasCard ? @"10001" : @"10002";
-    return @[@[row1,@"10003",@"10004"],@[@"20001",@"20002",@"20003"]];
+    NSArray *section2 = gPhoneHelper.exsitWechat ? @[@"20001",@"20002",@"20003"] : @[@"20001",@"20003"];
+    return @[@[row1,@"10003",@"10004"],section2];
 }
 
 - (NSString *)rechargeFavorableDesc
 {
+    if (self.curGasCard && self.curGasCard) {
+        return self.curGasCard.desc;
+    }
     if (self.configOp.rsp_desc) {
         return self.configOp.rsp_desc;
     }
@@ -153,13 +164,19 @@
         @strongify(self);
         if (![self callPaymentHelperWithPayOp:op gasCard:card targetVC:vc completed:completed]) {
             [gToast dismiss];
+            [self cancelOrderWithTradeNumber:op.rsp_tradeid cardID:card.gid];
             if (completed) {
                 completed(card, op);
             }
         }
     } error:^(NSError *error) {
         
+        @strongify(self);
         [gToast showError:error.domain];
+        //加油到达上限（如果遇到该错误，客户端提醒用户后，需再调用一次查询卡的充值信息）
+        if (error.code == 618602) {
+            [self.cardStore sendEvent:[self.cardStore updateCardInfoByGID:card.gid]];
+        }
     }];
 }
 
@@ -170,7 +187,7 @@
         return NO;
     }
     PaymentHelper *helper = [[PaymentHelper alloc] init];
-    NSString * info = @"小马达达加油卡充值";
+    NSString * info = [NSString stringWithFormat:@"普通充值－%@油卡充值", card.cardtype == 2 ? @"中石油" : @"中石化"];
     NSString *text;
     switch (paidop.req_paychannel) {
         case PaymentChannelAlipay: {
@@ -193,6 +210,7 @@
     @weakify(self);
     [[helper rac_startPay] subscribeNext:^(id x) {
         
+        @strongify(self);
         OrderPaidSuccessOp *op = [OrderPaidSuccessOp operation];
         op.req_notifytype = 3;
         op.req_tradeno = paidop.rsp_tradeid;
@@ -200,6 +218,8 @@
             DebugLog(@"已通知服务器支付成功!");
         }];
         paidSuccess = YES;
+        NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+        [def setObject:paidop.req_gid forKey:[self recentlyUsedGasCardKey]];
         if (completed) {
             completed(card, paidop);
         }
@@ -207,24 +227,29 @@
         
         @strongify(self);
         [gToast showError:error.domain];
-        [self cancelOrderWithTradeNumber:paidop.rsp_tradeid];
+        [self cancelOrderWithTradeNumber:paidop.rsp_tradeid cardID:card.gid];
     } completed:^{
         
         if (!paidSuccess) {
             @strongify(self);
-            [self cancelOrderWithTradeNumber:paidop.rsp_tradeid];
+            [self cancelOrderWithTradeNumber:paidop.rsp_tradeid cardID:card.gid];
         }
     }];
     return YES;
 }
 
-- (void)cancelOrderWithTradeNumber:(NSString *)tdno
+- (void)cancelOrderWithTradeNumber:(NSString *)tdno cardID:(NSNumber *)gid
 {
     CancelGaschargeOp *op = [CancelGaschargeOp operation];
     op.req_tradeid = tdno;
-    [[op rac_postRequest] subscribeNext:^(id x) {
+    @weakify(self);
+    RACSignal *sig = [[op rac_postRequest] flattenMap:^RACStream *(id value) {
+        
+        @strongify(self);
         DebugLog(@"Canceled gas order : %@", tdno);
+        return [self.cardStore rac_getCardNormalInfoByGID:gid];
     }];
+    [self.cardStore sendEvent:[CKStoreEvent eventWithSignal:sig code:kCKStoreEventUpdate object:nil]];
 }
 
 
