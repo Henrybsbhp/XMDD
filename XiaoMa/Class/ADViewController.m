@@ -131,7 +131,7 @@
         else {
             WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
             vc.title = @"小马达达";
-            vc.url = XIAMMAWEB;
+            vc.url = ADDEFINEWEB;
             [self.targetVC.navigationController pushViewController:vc animated:YES];
         }
     }];

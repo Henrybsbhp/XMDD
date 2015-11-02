@@ -8,9 +8,9 @@
 
 #import "FavoriteModel.h"
 
-#import "GetUserFavoriteOp.h"
 #import "AddUserFavoriteOp.h"
 #import "DeleteUserFavoriteOp.h"
+#import "GetUserFavoriteV2Op.h"
 
 
 @interface FavoriteModel()
@@ -37,11 +37,11 @@
 
 - (RACSignal *)rac_requestData
 {
-    return [[[[GetUserFavoriteOp operation] rac_postRequest] doNext:^(id x) {
+    return [[[[GetUserFavoriteV2Op operation] rac_postRequest] doNext:^(id x) {
         
         /// inject side effect
         NSLog(@"We are in");
-    }] map:^id(GetUserFavoriteOp * op) {
+    }] map:^id(GetUserFavoriteV2Op * op) {
         
         // 这里需要对新返回的数据进行处理
         _favoritesArray = op.rsp_shopArray;

@@ -36,6 +36,14 @@
     [self listenNotificationByName:kNotifyRefreshMyBankcardList withNotifyBlock:^(NSNotification *note, id weakSelf) {
         @strongify(self);
         [self reloadData];
+        
+        NSArray * viewcontroller = self.navigationController.viewControllers;
+        UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 2];
+        if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
+        {
+            PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
+            payVc.needChooseResource = YES;
+        }
     }];
     [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
     [self.tableView reloadData];

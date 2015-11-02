@@ -23,4 +23,6 @@
 ///优惠券类型（新）
 @property (nonatomic, assign)CouponNewType newType;
 
+@property (nonatomic, weak) UIViewController *originVC;
+
 @end

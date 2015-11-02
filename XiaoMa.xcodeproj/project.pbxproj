@@ -416,7 +416,6 @@
 		6BE2BD611AE6408500A69875 /* DownloadOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD601AE6408500A69875 /* DownloadOp.m */; };
 		6BE4CE311AF217BC008E1C19 /* GetUserCouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4CE301AF217BC008E1C19 /* GetUserCouponOp.m */; };
 		6BE4CE341AF21ACA008E1C19 /* AddUserCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4CE331AF21ACA008E1C19 /* AddUserCarOp.m */; };
-		6BE4CE371AF220A0008E1C19 /* GetUserFavoriteOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4CE361AF220A0008E1C19 /* GetUserFavoriteOp.m */; };
 		6BEA56451AE2488C000D19C1 /* CheckoutServiceOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56441AE2488C000D19C1 /* CheckoutServiceOrderOp.m */; };
 		6BEA56481AE24D34000D19C1 /* AlipayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56471AE24D34000D19C1 /* AlipayHelper.m */; };
 		6BEA56C01AE24DCE000D19C1 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6BEA564A1AE24DCD000D19C1 /* AlipaySDK.bundle */; };
@@ -1250,8 +1249,6 @@
 		6BE4CE301AF217BC008E1C19 /* GetUserCouponOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserCouponOp.m; path = Class/GetUserCouponOp.m; sourceTree = "<group>"; };
 		6BE4CE321AF21ACA008E1C19 /* AddUserCarOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddUserCarOp.h; path = Class/AddUserCarOp.h; sourceTree = "<group>"; };
 		6BE4CE331AF21ACA008E1C19 /* AddUserCarOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddUserCarOp.m; path = Class/AddUserCarOp.m; sourceTree = "<group>"; };
-		6BE4CE351AF220A0008E1C19 /* GetUserFavoriteOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserFavoriteOp.h; path = Class/GetUserFavoriteOp.h; sourceTree = "<group>"; };
-		6BE4CE361AF220A0008E1C19 /* GetUserFavoriteOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserFavoriteOp.m; path = Class/GetUserFavoriteOp.m; sourceTree = "<group>"; };
 		6BEA56431AE2488C000D19C1 /* CheckoutServiceOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckoutServiceOrderOp.h; path = Class/CheckoutServiceOrderOp.h; sourceTree = "<group>"; };
 		6BEA56441AE2488C000D19C1 /* CheckoutServiceOrderOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckoutServiceOrderOp.m; path = Class/CheckoutServiceOrderOp.m; sourceTree = "<group>"; };
 		6BEA56461AE24D34000D19C1 /* AlipayHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlipayHelper.h; path = Class/AlipayHelper.h; sourceTree = "<group>"; };
@@ -3025,8 +3022,6 @@
 				6BE4CE331AF21ACA008E1C19 /* AddUserCarOp.m */,
 				1893711A1B0DAC8D0030FDE1 /* GetMessageOp.h */,
 				1893711B1B0DAC8D0030FDE1 /* GetMessageOp.m */,
-				6BE4CE351AF220A0008E1C19 /* GetUserFavoriteOp.h */,
-				6BE4CE361AF220A0008E1C19 /* GetUserFavoriteOp.m */,
 				6BB9D76C1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.h */,
 				6BB9D76D1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m */,
 				6BBF7DA41B00A78900E45967 /* UpdateUserInfoOp.h */,
@@ -3740,7 +3735,6 @@
 				5073810D1BA1672D00B29756 /* GetCouponByTypeNewOp.m in Sources */,
 				6BBB82491AE7401400850D0C /* GetInsuranceByChannel.m in Sources */,
 				505E5FD31BD73B7D00857819 /* ListWebVC.m in Sources */,
-				6BE4CE371AF220A0008E1C19 /* GetUserFavoriteOp.m in Sources */,
 				6BEA56C71AE24DCE000D19C1 /* SBJSON.m in Sources */,
 				1826CCF21BAAE80800E2F46D /* ZFCWanderingCubesActivityIndicatorView.m in Sources */,
 				1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */,

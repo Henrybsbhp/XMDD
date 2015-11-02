@@ -15,6 +15,7 @@
 #import "DrawingBoardView.h"
 #import "SystemFastrateGetOp.h"
 #import "SubmitCommentOp.h"
+#import "ShopDetailVC.h"
 
 
 
@@ -87,10 +88,16 @@
 - (void)actionBack:(id)sender
 {
     if (self.originVC) {
+        if ([self.originVC isKindOfClass:[ShopDetailVC class]])
+        {
+            ShopDetailVC * vc = (ShopDetailVC *)self.originVC;
+            vc.needRequestShopComments = YES;
+        }
         [self.navigationController popToViewController:self.originVC animated:YES];
     }
     else {
         [super actionBack:sender];
+//        [self.navigationController popToRootViewControllerAnimated:YES];
     }
 }
 - (IBAction)shareAction:(id)sender {
