@@ -67,6 +67,11 @@
     [self sendEvent:[CKStoreEvent eventWithSignal:[[self getAllBankCards] signal] code:kCKStoreEventReload object:nil]];
 }
 
+- (CKStoreEvent *)updateBankCardCZBInfoByCID:(NSNumber *)cid
+{
+    return [self sendEvent:[CKStoreEvent eventWithSignal:[self rac_getCardCZBInfoByCID:cid] code:kCKStoreEventUpdate object:nil]];
+}
+
 - (RACSignal *)rac_getCardCZBInfoByCID:(NSNumber *)cid
 {
     GetCZBGaschargeInfoOp *op = [GetCZBGaschargeInfoOp operation];

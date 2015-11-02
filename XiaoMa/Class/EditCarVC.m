@@ -620,6 +620,14 @@
         self.curCar.licenceSuffix = text;
     }];
     
+    [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        field.placeholder = nil;
+    }];
+    
+    [field setDidEndEditingBlock:^(CKLimitTextField *field) {
+        field.placeholder = @"A12345";
+    }];
+    
     [field setTextChangingBlock:^(CKLimitTextField *field) {
         field.text = [field.text uppercaseString];
     }];

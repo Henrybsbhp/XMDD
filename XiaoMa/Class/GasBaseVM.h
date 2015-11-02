@@ -17,6 +17,7 @@
 #define kGasVCReloadDirectly        998
 #define kGasVCReloadWithEvent       999
 
+
 @interface GasBaseVM : NSObject
 
 @property (nonatomic, assign) BOOL isLoading;
@@ -49,4 +50,6 @@
 - (void)setupCardStore;
 ///@Override
 - (void)consumeEvent:(CKStoreEvent *)event;
+- (NSString *)recentlyUsedGasCardKey;
+
 @end

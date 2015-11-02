@@ -62,6 +62,9 @@
     [self.rightTab addTarget:self action:@selector(actionTabClick:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.rightTab];
     
+    UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gas_hui"]];
+    [self.rightTab addSubview:imgV];
+    
     @weakify(self);
     [self.bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
@@ -86,6 +89,13 @@
         make.right.equalTo(self).offset(-5);
         make.width.mas_equalTo(tabw);
         make.height.mas_equalTo(34);
+    }];
+    
+    [imgV mas_makeConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.size.mas_equalTo(CGSizeMake(15, 14));
+        make.centerX.equalTo(self.rightTab.mas_right).offset(-11);
+        make.centerY.equalTo(self.rightTab.mas_top).offset(6);
     }];
     
     [self setupSegmentHelper];

@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self.collectionView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventTouchUpInside];
+    [self.collectionView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
     [self loadDefData];
     [self reloadData];
 }

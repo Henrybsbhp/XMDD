@@ -15,4 +15,5 @@
 @property (nonatomic, strong) CKStoreEvent *cachedEvent;
 ///银行卡优惠描述
 - (NSString *)bankFavorableDesc;
+- (void)cancelOrderWithTradeNumber:(NSString *)tdno bankCardID:(NSNumber *)gid;
 @end

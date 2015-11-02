@@ -78,6 +78,11 @@
     return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventAdd object:nil];
 }
 
+- (CKStoreEvent *)updateCardInfoByGID:(NSNumber *)gid
+{
+    RACSignal *sig = [self rac_getCardNormalInfoByGID:gid];
+    return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventUpdate object:nil];
+}
 
 - (RACSignal *)rac_getCardNormalInfoByGID:(NSNumber *)gid
 {
@@ -94,6 +99,7 @@
         }
         card.availablechargeamt = op.rsp_availablechargeamt;
         card.couponedmoney = op.rsp_couponedmoney;
+        card.desc = op.rsp_desc;
         return card;
     }] replay];
     return sig;

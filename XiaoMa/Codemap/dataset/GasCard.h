@@ -11,6 +11,8 @@
 @property (nonatomic,strong) NSNumber* availablechargeamt;
 ///已经享受过的优惠
 @property (nonatomic,strong) NSNumber* couponedmoney;
+///油卡优惠描述
+@property (nonatomic,strong) NSString* desc;
 
 
 + (instancetype)createWithJSONDict:(NSDictionary *)dict;
