@@ -18,6 +18,13 @@
 
 @implementation GasTabView
 
+- (instancetype)initWithFrame:(CGRect)frame selectedIndex:(NSUInteger)index
+{
+    _selectedIndex = index;
+    return [self initWithFrame:frame];
+    return self;
+}
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -114,7 +121,7 @@
             [self insertSubview:self.bottomLine belowSubview:item];
         }
     }];
-    [self.segHelper selectItem:self.leftTab];
+    [self.segHelper selectItem:_selectedIndex == 0 ? self.leftTab : self.rightTab];
 }
 
 - (void)actionTabClick:(id)sender
@@ -123,6 +130,12 @@
     if (self.tabBlock) {
         self.tabBlock([self.leftTab isEqual:sender] ? 0 : 1);
     }
+}
+
+- (void)setSelectedIndex:(NSInteger)selectedIndex
+{
+    _selectedIndex = selectedIndex;
+    [self.segHelper selectItem:selectedIndex == 0 ? self.leftTab : self.rightTab];
 }
 
 @end
