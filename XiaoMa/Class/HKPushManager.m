@@ -28,6 +28,7 @@
 {
     [self.notifyQueue setConsumeBlock:^RACSignal *(NSDictionary *info, id<NSCopying>key) {
         
+        DDLogDebug(@"setupNotifyQueue,%@",info[@"url"]);
         [gAppMgr.navModel pushToViewControllerByUrl:info[@"url"]];
         return [RACSignal empty];
     }];

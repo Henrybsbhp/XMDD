@@ -14,7 +14,6 @@
 #import "DetailWebVC.h"
 #import "MyWebViewBridge.h"
 
-#define DiscoverUrl @"http://192.168.1.70:82/xmappweb/general/discoveryload"
 
 @interface ListWebVC () <UIWebViewDelegate, NJKWebViewProgressDelegate>
 
