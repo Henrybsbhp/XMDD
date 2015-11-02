@@ -18,6 +18,13 @@
 
 @implementation GasTabView
 
+- (instancetype)initWithFrame:(CGRect)frame selectedIndex:(NSUInteger)index
+{
+    _selectedIndex = index;
+    return [self initWithFrame:frame];
+    return self;
+}
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -62,6 +69,9 @@
     [self.rightTab addTarget:self action:@selector(actionTabClick:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.rightTab];
     
+    UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gas_hui"]];
+    [self.rightTab addSubview:imgV];
+    
     @weakify(self);
     [self.bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
@@ -88,6 +98,13 @@
         make.height.mas_equalTo(34);
     }];
     
+    [imgV mas_makeConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.size.mas_equalTo(CGSizeMake(15, 14));
+        make.centerX.equalTo(self.rightTab.mas_right).offset(-11);
+        make.centerY.equalTo(self.rightTab.mas_top).offset(6);
+    }];
+    
     [self setupSegmentHelper];
 }
 
@@ -104,7 +121,7 @@
             [self insertSubview:self.bottomLine belowSubview:item];
         }
     }];
-    [self.segHelper selectItem:self.leftTab];
+    [self.segHelper selectItem:_selectedIndex == 0 ? self.leftTab : self.rightTab];
 }
 
 - (void)actionTabClick:(id)sender
@@ -113,6 +130,12 @@
     if (self.tabBlock) {
         self.tabBlock([self.leftTab isEqual:sender] ? 0 : 1);
     }
+}
+
+- (void)setSelectedIndex:(NSInteger)selectedIndex
+{
+    _selectedIndex = selectedIndex;
+    [self.segHelper selectItem:selectedIndex == 0 ? self.leftTab : self.rightTab];
 }
 
 @end

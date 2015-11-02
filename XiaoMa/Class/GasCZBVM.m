@@ -8,6 +8,8 @@
 
 #import "GasCZBVM.h"
 #import "BankCardStore.h"
+#import "CancelGaschargeOp.h"
+#import "GascardChargeOp.h"
 
 @interface GasCZBVM ()
 @property (nonatomic, strong) BankCardStore *bankStore;
@@ -127,7 +129,9 @@
         @strongify(self);
         GasCard *card = [self.cardStore.cache objectForKey:self.curGasCard.gid];
         if (!card) {
-            self.curGasCard = self.cardStore.cache.count > 0 ? [self.cardStore.cache objectAtIndex:0] : nil;
+            NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+            card = [self.cardStore.cache objectForKey:[def objectForKey:[self recentlyUsedGasCardKey]]];
+            self.curGasCard = card ? card : [self.cardStore.cache objectAtIndex:0];
         }
     }];
     CKStoreEvent *evt = [CKStoreEvent eventWithSignal:sig code:kGasConsumeEventForModel object:self];
@@ -177,14 +181,27 @@
 
 - (NSString *)bankFavorableDesc
 {
-    if (self.curBankCard && self.curBankCard.gasInfo) {
-        return [NSString stringWithFormat:@"该汽车卡可享受充值返利%d%%的优惠，最高返利%d元。",
-                self.curBankCard.gasInfo.rsp_discountrate, self.curBankCard.gasInfo.rsp_couponupplimit];
+    if (self.curBankCard && self.curBankCard.gasInfo.rsp_desc) {
+        return self.curBankCard.gasInfo.rsp_desc;
     }
     if (self.defCouponInfo.rsp_desc) {
         return self.defCouponInfo.rsp_desc;
     }
     return @"添加浙商银行汽车卡后，既可享受金卡返利8%，最高返50元；白金卡返利15%，最高返100元。";
 }
+
+- (void)cancelOrderWithTradeNumber:(NSString *)tdno bankCardID:(NSNumber *)gid
+{
+    CancelGaschargeOp *op = [CancelGaschargeOp operation];
+    op.req_tradeid = tdno;
+    @weakify(self);
+    RACSignal *sig = [[op rac_postRequest] flattenMap:^RACStream *(id value) {
+        
+        @strongify(self);
+        return [self.cardStore rac_getCardNormalInfoByGID:gid];
+    }];
+    [self.bankStore sendEvent:[CKStoreEvent eventWithSignal:sig code:kCKStoreEventUpdate object:nil]];
+}
+
 
 @end

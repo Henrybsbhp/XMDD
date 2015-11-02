@@ -8,6 +8,7 @@
 
 #import "GasPaymentResultVC.h"
 #import "NSString+RectSize.h"
+#import "NSString+Split.h"
 #import "SocialShareViewController.h"
 
 @interface GasPaymentResultVC ()
@@ -27,11 +28,17 @@
 - (IBAction)actionShare:(id)sender
 {
     SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-    vc.tt = @"我在小马达达上购买了车险，赚大发了！";
-    vc.subtitle = @"终于等到这一天，好运来到我身边，小马达达车险大“放”假期！嘘，一般人我不告诉他！";
-    vc.image = [UIImage imageNamed:@"wechat_share_ins"];
-    vc.webimage = [UIImage imageNamed:@"weibo_share_ins"];
-    vc.urlStr = @"www.xiaomadada.com";
+    vc.tt = @"小马达达加油福利来了";
+    vc.image = [UIImage imageNamed:@"wechat_share_gas"];
+    vc.webimage = [UIImage imageNamed:@"weibo_share_gas"];
+    vc.urlStr = @"http://www.xiaomadada.com/paaweb/general/appDownload?ch=10002";
+    if (self.gasPayOp.rsp_total < self.gasPayOp.req_amount) {
+        vc.subtitle = [NSString stringWithFormat:@"我在小马达达为油卡充值了%d元，省了%d元！加油省省省，你也来加油吧！",
+                       self.gasPayOp.req_amount, self.gasPayOp.req_amount - self.gasPayOp.rsp_total];
+    } else {
+        vc.subtitle = [NSString stringWithFormat:@"我在小马达达为油卡充值了%d元！加油省省省，你也来加油吧！", self.gasPayOp.req_amount];
+    }
+
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
     sheet.shouldCenterVertically = YES;
     [sheet presentAnimated:YES completionHandler:nil];
@@ -105,8 +112,12 @@
     UILabel *leftpriceL = (UILabel *)[cell viewWithTag:1005];
     UILabel *rightpriceL = (UILabel *)[cell viewWithTag:1007];
 
-    cardnoL.text = self.gasCard.gascardno;
-    leftpriceL.text = [NSString stringWithFormat:@"￥%.2f", (float)self.gasPayOp.req_amount];
+    cardnoL.text = [self.gasCard.gascardno splitByStep:4 replacement:@" "];
+    NSInteger amount = self.gasPayOp.req_amount;
+    if (self.gasPayOp.req_paychannel == PaymentChannelXMDDCreditCard) {
+        amount += self.gasPayOp.rsp_couponmoney;
+    }
+    leftpriceL.text = [NSString stringWithFormat:@"￥%.2f", (float)amount];
     rightpriceL.text = [NSString stringWithFormat:@"￥%.2f", (float)self.gasPayOp.rsp_total];
     
     BOOL highlighted = self.drawingStatus != DrawingBoardViewStatusSuccess;
