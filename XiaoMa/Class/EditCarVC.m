@@ -154,8 +154,8 @@
             [self showErrorAtIndexPath:indexPath errorMsg:@"车牌号码不能为空"];
             return NO;
         }
-        else if ([MyCarStore verifiedLicenseNumberFrom:self.curCar.licencenumber]) {
-            [self showErrorAtIndexPath:indexPath errorMsg:@"请输入正确的车牌号码"];
+        //之前验证时入参为licencenumber，为空，切验证结果应为：nil
+        else if (![MyCarStore verifiedLicenseNumberFrom:self.curCar.licenceSuffix]) {            [self showErrorAtIndexPath:indexPath errorMsg:@"请输入正确的车牌号码"];
             return NO;
         }
         return YES;
