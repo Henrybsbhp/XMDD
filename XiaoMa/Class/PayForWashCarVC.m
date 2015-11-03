@@ -20,6 +20,7 @@
 #import "CarListVC.h"
 #import "HKBankCard.h"
 #import "PaymentHelper.h"
+#import "MyCarStore.h"
 
 #import "UIView+Shake.h"
 #import "GetUserCarOp.h"
@@ -44,6 +45,7 @@
 
 @property (nonatomic,strong) CKSegmentHelper *checkBoxHelper;
 @property (nonatomic)BOOL isLoadingResourse;
+@property (nonatomic,strong)MyCarStore * carStore;
 
 @property (nonatomic,strong)CheckoutServiceOrderV3Op * checkoutServiceOrderV3Op;
 
@@ -56,6 +58,7 @@
     
     [self setupCheckBoxHelper];
     [self setupBottomView];
+    [self setupCarStore];
     
     self.isLoadingResourse = YES;
     
@@ -126,6 +129,21 @@
                                                                                 NSForegroundColorAttributeName:HEXCOLOR(@"#fb4209")}];
     [str appendAttributedString:attrStr2];
     label.attributedText = str;
+}
+
+- (void)setupCarStore
+{
+    self.carStore = [MyCarStore fetchExistsStore];
+    [self.carStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+        
+        [[evt signal] subscribeNext:^(id x) {
+            
+            if (!self.defaultCar)
+            {
+                self.defaultCar = self.carStore.defalutCar;
+            }
+        }];
+    }];
 }
 
 #pragma mark - Action
@@ -796,6 +814,7 @@
 - (void)requestCheckoutWithCouponType:(CouponType)couponType
 {
     NSMutableArray *coupons;
+    HKBankCard * bandCard = [self.selectBankCard copy];
     if (couponType == CouponTypeCZBankCarWash || couponType == CouponTypeCarWash)
     {
         coupons = [NSMutableArray array];
@@ -831,12 +850,14 @@
             else if (i == 1)
             {
                 self.checkoutServiceOrderV3Op.paychannel = PaymentChannelAlipay;
-                self.selectBankCard.cardID = nil;
+                bandCard = nil;
+//                self.selectBankCard.cardID = nil;
             }
             else if (i == 2)
             {
                 self.checkoutServiceOrderV3Op.paychannel = PaymentChannelWechat;
-                self.selectBankCard.cardID = nil;
+                bandCard = nil;
+//                self.selectBankCard.cardID = nil;
             }
         }
     }
@@ -845,7 +866,8 @@
     self.checkoutServiceOrderV3Op.licencenumber = self.defaultCar.licencenumber ? self.defaultCar.licencenumber : @"";
     self.checkoutServiceOrderV3Op.carMake = self.defaultCar.brand;
     self.checkoutServiceOrderV3Op.carModel = self.defaultCar.model;
-    self.checkoutServiceOrderV3Op.bankCardId = self.selectBankCard.cardID;
+//    self.checkoutServiceOrderV3Op.bankCardId = self.selectBankCard.cardID;
+    self.checkoutServiceOrderV3Op.bankCardId = bandCard.cardID;
     
     //如果不是原价支付，需要提供定位信息
     RACSignal *signal;

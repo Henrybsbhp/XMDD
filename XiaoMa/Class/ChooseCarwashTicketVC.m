@@ -47,7 +47,7 @@
     [super viewWillDisappear:animated];
     
     [MobClick endLogPageView:@"rp109"];
-    [self actionBack];
+//    [self actionBack];
 }
 
 - (void)dealloc
@@ -79,10 +79,8 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)actionBack
+- (void)actionBackHandle:(UIViewController *)vc
 {
-    NSArray * viewcontroller = self.navigationController.viewControllers;
-    UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 1];
     if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
     {
         PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
@@ -140,6 +138,14 @@
         }
         [payVc tableViewReloadData];
     }
+}
+
+- (void)actionBack
+{
+    NSArray * viewcontroller = self.navigationController.viewControllers;
+    UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 1];
+    
+    [self actionBackHandle:vc];
 }
 
 #pragma mark - Table view data source
@@ -237,7 +243,13 @@
             [self.selectedCouponArray removeAllObjects];
             [self.selectedCouponArray addObject:coupon];
         }
+        
+        NSArray * viewcontroller = self.navigationController.viewControllers;
+        UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 2];
+        [self actionBackHandle:vc];
+        [self.navigationController popViewControllerAnimated:YES];
         [self.tableView reloadData];
+
     }
     else if (self.type == CouponTypeCZBankCarWash)
     {
@@ -253,6 +265,10 @@
             [self.selectedCouponArray removeAllObjects];
             [self.selectedCouponArray addObject:coupon];
         }
+        NSArray * viewcontroller = self.navigationController.viewControllers;
+        UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 2];
+        [self actionBackHandle:vc];
+        [self.navigationController popViewControllerAnimated:YES];
         [self.tableView reloadData];
     }
     

@@ -54,9 +54,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.tableView.tableHeaderView = nil;
-    self.tableView.tableFooterView = nil;
+//    
+//    self.tableView.tableHeaderView = nil;
+//    self.tableView.tableFooterView = nil;
     self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
     self.loadingModel.isSectionLoadMore = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAdList) name:CarwashAdvertiseNotification object:nil];
@@ -170,10 +170,11 @@
     else {
         [MobClick event:@"rp102-1"];
     }
-    NearbyShopsViewController * nearbyShopView = [carWashStoryboard instantiateViewControllerWithIdentifier:@"NearbyShopsViewController"];
-    nearbyShopView.type = self.type;
-    nearbyShopView.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:nearbyShopView animated:YES];
+    [self.tableView reloadData];
+//    NearbyShopsViewController * nearbyShopView = [carWashStoryboard instantiateViewControllerWithIdentifier:@"NearbyShopsViewController"];
+//    nearbyShopView.type = self.type;
+//    nearbyShopView.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:nearbyShopView animated:YES];
 }
 
 #pragma mark - HKLoadingModelDelegate
@@ -290,20 +291,6 @@
 }
 
 #pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-
-    return self.loadingModel.datasource.count;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-    NSInteger num = 0;
-    JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:section];
-    num = 1 + shop.shopServiceArray.count + 1;
-    return num;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat height = 0.0;
@@ -328,13 +315,35 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return CGFLOAT_MIN;
+    return 8.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return CGFLOAT_MIN;
 }
+
+//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+//{
+//    UIView * v = [[UIView alloc] init];
+//    v.backgroundColor = [UIColor redColor];
+//    v.frame = CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, 8.0f);
+//    return v;
+//}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+
+    return self.loadingModel.datasource.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
+    NSInteger num = 0;
+    JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:section];
+    num = 1 + shop.shopServiceArray.count + 1;
+    return num;
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
