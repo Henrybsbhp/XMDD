@@ -12,8 +12,7 @@
 
 @interface GasVC : UIViewController
 
-@property (nonatomic, strong) GasNormalVM *normalModel;
-@property (nonatomic, strong) GasCZBVM *czbModel;
-@property (nonatomic, assign) GasBaseVM *curModel;
+///(Default is 0)
+@property (nonatomic, assign) NSInteger tabViewSelectedIndex;
 
 @end

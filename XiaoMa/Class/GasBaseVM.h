@@ -31,8 +31,6 @@
 @property (nonatomic, assign) NSUInteger rechargeAmount;
 ///支付平台
 @property (nonatomic, assign) PaymentPlatformType paymentPlatform;
-///是否同意协议(Default is YES)
-@property (nonatomic, assign) BOOL isAcceptedAgreement;
 ///check box control
 @property (nonatomic, strong) CKSegmentHelper *segHelper;
 @property (nonatomic, strong) GasCardStore *cardStore;
