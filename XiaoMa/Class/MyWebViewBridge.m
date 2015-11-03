@@ -35,18 +35,29 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 }
 
 #pragma mark - 传递用户token
-- (void)setUserTokenHandler
+- (void)registerGetToken
 {
-    id data;
-    if (gNetworkMgr.token) {
-        data = @{ @"token" : gNetworkMgr.token};
-    }
-    else {
-        data = nil;
-    }
-    NSString * dataStr = [data jsonEncodedString];
-    [self.myBridge callHandler:@"setUserTokenHandler" data:dataStr responseCallback:^(id response) {
-        //DebugLog(@"setUserTokenHandler responded: %@", response);
+    [self.myBridge registerHandler:@"getUserToken" handler:^(id data, WVJBResponseCallback responseCallback) {
+        id backData;
+        if (gNetworkMgr.token && gAppMgr.myUser.userID) {
+            backData = @{ @"token" : gNetworkMgr.token, @"phone" : gAppMgr.myUser.userID};
+        }
+        else {
+            backData = nil;
+        }
+        NSString * dataStr = [backData jsonEncodedString];
+        responseCallback(dataStr);
+    }];
+}
+
+#pragma mark - 获取弱提示弹框内容
+- (void)registerToastMsg
+{
+    [self.myBridge registerHandler:@"sendToastMsg" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSString * toastMsg = [data stringParamForName:@"message"];
+        if (toastMsg) {
+            [gToast showText:[NSString stringWithFormat:@"%@", toastMsg]];
+        }
     }];
 }
 
@@ -109,7 +120,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [self.myBridge registerHandler:@"selectSingleImage" handler:^(id data, WVJBResponseCallback responseCallback) {
         //存图片ID
         [imgDic addParam:[data stringParamForName:@"imgId"] forName:@"imgId"];
-        
+        [imgDic addParam:[data numberParamForName:@"type"] forName:@"type"];
         HKImagePicker *picker = [HKImagePicker imagePicker];
         picker.allowsEditing = YES;
         picker.shouldShowBigImage = NO;
@@ -122,9 +133,10 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             [imgDic addParam:encodedImageStr forName:@"imageCodeStr"];
             
             UploadFileOp *op = [UploadFileOp new];
+            op.req_fileType = [imgDic intParamForName:@"type"];
             op.req_fileExtType = @"jpg";
             [op setFileArray:@[image] withGetDataBlock:^NSData *(UIImage *img) {
-                return UIImageJPEGRepresentation(img, 1.0);
+                return UIImageJPEGRepresentation(img, 0.5);
             }];
             return [op rac_postRequest];
         }] subscribeNext:^(UploadFileOp * rspOp) {
@@ -135,7 +147,10 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             NSString * dataStr = [imgDic jsonEncodedString];//转json字符串
             DebugLog(@"%@", dataStr);
             [self.myBridge callHandler:@"singleImageBack" data:dataStr responseCallback:^(id response) {
-                //DebugLog(@"singleImageBack responded: %@", response);
+            }];
+        } error:^(NSError *error) {
+            //断网传空
+            [self.myBridge callHandler:@"singleImageBack" data:nil responseCallback:^(id response) {
             }];
         }];
     }];
@@ -211,8 +226,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)shareAction
 {
+    [MobClick event:@"rp110-7"];
     [self.myBridge callHandler:@"getShareParamHandler" data:nil responseCallback:^(id response) {
-        DebugLog(@"share response%@", response);
         NSDictionary *shareDic = response;
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.tt = [shareDic stringParamForName:@"title"];
