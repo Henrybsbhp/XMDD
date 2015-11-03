@@ -145,6 +145,7 @@
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         
         MyCouponVC *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
+        vc.originVC = self;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

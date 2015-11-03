@@ -366,10 +366,8 @@
     [[RACObserve(gAppMgr, restriction) distinctUntilChanged] subscribeNext:^(NSString *text) {
         rightContainerV.hidden = text.length == 0;
         
-        NSMutableIndexSet * set = [NSMutableIndexSet indexSet];
-        [set addIndex:2];
-        [set addIndex:4];
-        restrictionLb.attributedText = [self formatRestrictionLb:set withString:text];
+        rightContainerV.hidden = text.length == 0;
+        restrictionLb.text = text;
     }];
     
     [RACObserve(gAppMgr, temperaturetip) subscribeNext:^(NSString *text) {

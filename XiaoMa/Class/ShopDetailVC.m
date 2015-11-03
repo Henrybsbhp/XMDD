@@ -94,6 +94,12 @@
         [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_fillstar"] forState:UIControlStateNormal];
         [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_fillstar"] forState:UIControlStateNormal];
     }
+    
+    if (self.needRequestShopComments)
+    {
+        [self requestShopComments];
+        self.needRequestShopComments = NO;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -295,7 +301,7 @@
             vc.couponType = CouponTypeCash;
             vc.isAutoCouponSelect = YES;
         }
-        vc.originVC = self;
+        vc.originVC = self.originVC ? self.originVC : self;
         vc.shop = self.shop;
         vc.service = service;
         vc.defaultCar = [car isCarInfoCompleted] ? car : nil;
@@ -710,7 +716,7 @@
     
     self.imageCountLabel.text = [NSString stringWithFormat:@"%d张", (int)shop.picArray.count];
     
-    self.roundLb.textColor = [UIColor colorWithHex:@"#22b7b5" alpha:1.0f];
+    self.roundLb.textColor = [UIColor whiteColor];
     self.roundLb.font = [UIFont systemFontOfSize:14];
     self.roundLb.backgroundColor = [UIColor clearColor];
     self.roundBgView.backgroundColor = self.imageCountLabel.backgroundColor;
@@ -723,7 +729,7 @@
     NSString * note = self.shop.announcement;
     
     CGSize size = [note sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(FLT_MAX,FLT_MAX)];
-    CGFloat width = MIN(size.width, self.view.frame.size.width - 90);
+    CGFloat width = MIN(self.view.frame.size.width * 3 / 4, self.view.frame.size.width - 120);
     [self.roundLb mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.width.mas_equalTo(width);

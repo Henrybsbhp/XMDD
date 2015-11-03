@@ -13,7 +13,7 @@
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/user/v2/favorite/get";
+    self.req_method = @"/user/favorite/v2/get";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:@(self.pageno) forName:@"pageno"];

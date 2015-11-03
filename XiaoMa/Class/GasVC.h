@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GasNormalVM.h"
+#import "GasCZBVM.h"
 
 @interface GasVC : UIViewController
+
+@property (nonatomic, strong) GasNormalVM *normalModel;
+@property (nonatomic, strong) GasCZBVM *czbModel;
+@property (nonatomic, assign) GasBaseVM *curModel;
 
 @end

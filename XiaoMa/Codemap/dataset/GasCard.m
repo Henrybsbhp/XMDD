@@ -15,6 +15,7 @@
     self.cardtype = [dict[@"cardtype"] intValue];
     self.availablechargeamt = dict[@"availablechargeamt"];
     self.couponedmoney = dict[@"couponedmoney"];
+    self.desc = dict[@"desc"];
 
 }
 

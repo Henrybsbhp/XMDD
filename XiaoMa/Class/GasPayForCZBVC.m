@@ -47,6 +47,24 @@
 }
 
 #pragma mark - Action
+- (void)actionBack:(id)sender
+{
+    if (self.orderInfo) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您还有订单未支付，是否继续支付？" delegate:nil
+                                              cancelButtonTitle:@"放弃支付" otherButtonTitles:@"继续支付", nil];
+        [alert show];
+        @weakify(self);
+        [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *index) {
+            @strongify(self);
+            if ([index integerValue] == 0) {
+                [self.navigationController popViewControllerAnimated:YES];
+                [self.model cancelOrderWithTradeNumber:self.orderInfo.rsp_tradeid bankCardID:self.orderInfo.req_cardid];
+            }
+        }];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)actionGetVCode:(id)sender
 {
     @weakify(self);
@@ -79,13 +97,22 @@
     op.req_paychannel = [PaymentHelper paymentChannelForPlatformType:PaymentPlatformTypeCreditCard];
     op.req_orderid = self.orderInfo.rsp_orderid;
     @weakify(self);
+    @weakify(op);
     [[[op rac_postRequest] initially:^{
         [gToast showingWithText:@"正在支付..."];
     }] subscribeNext:^(GascardChargeOp *op) {
         
         @strongify(self);
         [gToast dismiss];
+        //标记当前油卡为最近使用的油卡
+        NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+        [def setObject:op.req_gid forKey:[self.model recentlyUsedGasCardKey]];
+        //更新信息
+        BankCardStore *store = [BankCardStore fetchExistsStore];
+        [store sendEvent:[store updateBankCardCZBInfoByCID:self.bankCard.cardID]];
+        //跳转到支付成功页面
         GasPaymentResultVC *vc = [UIStoryboard vcWithId:@"GasPaymentResultVC" inStoryboard:@"Gas"];
+        vc.originVC = self.originVC;
         vc.drawingStatus = DrawingBoardViewStatusSuccess;
         vc.gasCard = self.gasCard;
         vc.gasPayOp = op;
@@ -93,7 +120,14 @@
     } error:^(NSError *error) {
         
         @strongify(self);
+        @strongify(op);
         [gToast dismiss];
+        //加油到达上限（如果遇到该错误，客户端提醒用户后，需再调用一次查询卡的充值信息）
+        if (error.code == 618602) {
+            BankCardStore *store = [BankCardStore fetchExistsStore];
+            [store sendEvent:[store updateBankCardCZBInfoByCID:self.bankCard.cardID]];
+        }
+        //跳转到支付失败页面
         GasPaymentResultVC *vc = [UIStoryboard vcWithId:@"GasPaymentResultVC" inStoryboard:@"Gas"];
         vc.drawingStatus = DrawingBoardViewStatusFail;
         vc.gasCard = self.gasCard;
@@ -101,7 +135,6 @@
         vc.detailText = error.domain;
         vc.originVC = self.originVC;
         [self.navigationController pushViewController:vc animated:YES];
-        [[BankCardStore fetchExistsStore] reloadDataWithCode:kCKStoreEventReload];
     }];
 }
 #pragma mark - UITableViewDelegate
@@ -154,7 +187,7 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"TitleCell"];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     NSString *tialno = [self.bankCard.cardNumber substringFromIndex:self.bankCard.cardNumber.length-4 length:4];
-    titleL.text = [NSString stringWithFormat:@"您正在用浙商银行汽车卡尾号为%@的卡号充值油卡，点击“获取验证码”，验证码将发至年的银行预留手机号中，请及时输入验证码进行支付。", tialno];
+    titleL.text = [NSString stringWithFormat:@"您正在用浙商银行汽车卡尾号为%@的卡号充值油卡，点击“获取验证码”，验证码将发至您的银行预留手机号中，请及时输入验证码进行支付。", tialno];
     return cell;
 }
 

@@ -10,6 +10,7 @@
 #import "XiaoMa.h"
 #import "CouponDetailsVC.h"
 #import "UIImageView+WebImage.h"
+#import "MyCouponVC.h"
 
 @interface CarWashCouponVModel ()<HKLoadingModelDelegate>
 @property (nonatomic, assign) NSInteger curPageno;
@@ -252,6 +253,11 @@
         vc.rgbStr = hkcoupon.rgbColor;
         vc.isShareble = hkcoupon.isshareble;
         vc.newType = self.couponNewType;
+        if ([self.targetVC isKindOfClass:[MyCouponVC class]])
+        {
+            MyCouponVC * cVC = (MyCouponVC *)self.targetVC;
+            vc.originVC = cVC.originVC;
+        }
         [self.targetVC.navigationController pushViewController:vc animated:YES];
     }
 }

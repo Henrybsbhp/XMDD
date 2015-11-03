@@ -7,8 +7,6 @@
 //
 
 #import "GasVC.h"
-#import "GasNormalVM.h"
-#import "GasCZBVM.h"
 #import "GasTabView.h"
 #import "ADViewController.h"
 #import "UIView+DefaultEmptyView.h"
@@ -36,9 +34,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *agreementBox;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property (nonatomic, strong) GasNormalVM *normalModel;
-@property (nonatomic, strong) GasCZBVM *czbModel;
-@property (nonatomic, assign) GasBaseVM *curModel;
 @property (nonatomic, strong) NSArray *datasource;
 @property (nonatomic, assign) BOOL isAcceptedAgreement;
 
@@ -81,7 +76,8 @@
 
 - (void)setupHeaderView
 {
-    self.headerView = [[GasTabView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+    NSInteger index = [self.curModel isEqual:self.normalModel] ? 0 : 1;
+    self.headerView = [[GasTabView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44) selectedIndex:index];
     self.tableView.tableHeaderView = self.headerView;
     @weakify(self);
     [self.headerView setTabBlock:^(NSInteger index) {
@@ -305,6 +301,7 @@
                 
                 @strongify(self);
                 GasPaymentResultVC *vc = [UIStoryboard vcWithId:@"GasPaymentResultVC" inStoryboard:@"Gas"];
+                vc.originVC = self;
                 vc.drawingStatus = DrawingBoardViewStatusSuccess;
                 vc.gasCard = card;
                 vc.gasPayOp = paidop;

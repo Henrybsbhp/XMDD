@@ -219,6 +219,7 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
+    NSLog(@"didReceiveRemoteNotification :%@",userInfo);
     [self.pushMgr handleNofitication:userInfo forApplication:application];
 }
 

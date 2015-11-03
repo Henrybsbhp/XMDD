@@ -50,6 +50,7 @@
     [super viewDidLoad];
     
     self.tableView.tableHeaderView = nil;
+    self.tableView.tableFooterView = nil;
     self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
     self.loadingModel.isSectionLoadMore = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAdList) name:CarwashAdvertiseNotification object:nil];
@@ -313,7 +314,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 8.0f;
+    return CGFLOAT_MIN;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -364,6 +365,7 @@
     vc.couponFordetailsDic = self.couponForWashDic;
     vc.hidesBottomBarWhenPushed = YES;
     vc.shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+    vc.originVC = self.originVC;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

@@ -15,6 +15,7 @@
 #import "DeleteUserFavoriteOp.h"
 #import "UIView+Layer.h"
 #import "PhoneHelper.h"
+#import "DistanceCalcHelper.h"
 
 
 @interface MyCollectionViewController ()
@@ -262,194 +263,78 @@
 
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return gAppMgr.myUser.favorites.favoritesArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [gAppMgr.myUser.favorites.favoritesArray count];
+    
+    NSInteger num = 0;
+    JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:section];
+    num = 1 + shop.shopServiceArray.count + 1;
+    return num;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 185.0f;
+    CGFloat height = 0.0;
+    JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.section];
+    NSInteger serviceAmount = shop.shopServiceArray.count;
+    NSInteger sectionAmount = 1 + serviceAmount + 1;
+    
+    if(indexPath.row == 0)
+    {
+        height = 84.0f;
+    }
+    else if (indexPath.row == sectionAmount - 1)
+    {
+        height = 42.0f;
+    }
+    else
+    {
+        height = 42.0f;
+    }
+    return height;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 8.0f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return CGFLOAT_MIN;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (!self.isEditing)
+    UITableViewCell * cell;
+    
+    JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.section];
+    NSInteger serviceAmount = shop.shopServiceArray.count;
+    NSInteger rowAmount = 1 + serviceAmount + 1;
+    
+    if(indexPath.row == 0)
     {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];
-        JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray  safetyObjectAtIndex:indexPath.row];
-        //row 0
-        UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
-        UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
-        JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1003];
-        UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
-        UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
-        
-        [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
-        titleL.text = shop.shopName;
-        ratingV.ratingValue = shop.shopRate;
-        ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
-        addrL.text = shop.shopAddress;
-        
-        //row 1
-        UILabel *washTypeL = (UILabel *)[cell.contentView viewWithTag:2001];
-        UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:2002];
-        UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
-        
-        JTShopService * service;
-        for (JTShopService * s in shop.shopServiceArray)
+        if (!self.isEditing)
         {
-            if (s.shopServiceType == ShopServiceCarWash)
-            {
-                service = s;
-                break;
-            }
+            cell = [self tableView:tableView shopTitleCellAtIndexPath:indexPath];
         }
-        
-        
-        washTypeL.text = service.serviceName;
-        NSArray * rates = service.chargeArray;
-        ChargeContent * cc;
-        for (ChargeContent * tcc in rates)
+        else
         {
-            if (tcc.paymentChannelType == PaymentChannelABCIntegral )
-            {
-                cc = tcc;
-                break;
-            }
+            cell = [self tableView:tableView editShopTitleCellAtIndexPath:indexPath];
         }
-        
-        integralL.text = [NSString stringWithFormat:@"%.0f分",cc.amount];
-        priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
-        
-        //row 2
-        UIButton *guideB = (UIButton *)[cell.contentView viewWithTag:3001];
-        UIButton *phoneB = (UIButton *)[cell.contentView viewWithTag:3002];
-        
-        @weakify(self)
-        [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            
-            [MobClick event:@"rp316-3"];
-            @strongify(self)
-            [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:gMapHelper.coordinate andView:self.view];
-            
-        }];
-        
-        [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            
-            [MobClick event:@"rp316-4"];
-            if (shop.shopPhone.length == 0)
-            {
-                UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
-                [av show];
-                return ;
-            }
-            
-            NSString * info = [NSString stringWithFormat:@"%@",shop.shopPhone];
-            [gPhoneHelper makePhone:shop.shopPhone andInfo:info];
-        }];
-        
-        return cell;
+    }
+    else if (indexPath.row == rowAmount - 1)
+    {
+        cell = [self tableView:tableView shopNavigationCellAtIndexPath:indexPath];
     }
     else
     {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"EditShopCell" forIndexPath:indexPath];
-        JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.row];
-        //row 0
-        UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
-        UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
-        JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1003];
-        UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
-        UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
-        UIButton * checkBtn = (UIButton *)[cell searchViewWithTag:3003];
-        
-        [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
-        titleL.text = shop.shopName;
-        ratingV.ratingValue = shop.shopRate;
-        ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
-        addrL.text = shop.shopAddress;
-        
-        //row 1
-        UILabel *washTypeL = (UILabel *)[cell.contentView viewWithTag:2001];
-        UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:2002];
-        UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
-        
-        JTShopService * service;
-        for (JTShopService * s in shop.shopServiceArray)
-        {
-            if (s.shopServiceType == ShopServiceCarWash)
-            {
-                service = s;
-                break;
-            }
-        }
-        
-        
-        washTypeL.text = service.serviceName;
-        NSArray * rates = service.chargeArray;
-        ChargeContent * cc;
-        for (ChargeContent * tcc in rates)
-        {
-            if (tcc.paymentChannelType == PaymentChannelABCIntegral )
-            {
-                cc = tcc;
-                break;
-            }
-        }
-        
-        integralL.text = [NSString stringWithFormat:@"%.0f分",cc.amount];
-        priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
-        
-        //row 2
-        UIButton *guideB = (UIButton *)[cell.contentView viewWithTag:3001];
-        UIButton *phoneB = (UIButton *)[cell.contentView viewWithTag:3002];
-        
-        @weakify(self)
-        [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            
-            [MobClick event:@"rp316-3"];
-            @strongify(self)
-            [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:gMapHelper.coordinate andView:self.view];
-        }];
-        
-        [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            
-            [MobClick event:@"rp316-4"];
-            if (shop.shopPhone.length == 0)
-            {
-                UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
-                [av show];
-                return ;
-            }
-            
-            NSString * info = [NSString stringWithFormat:@"%@",shop.shopPhone];
-            [gPhoneHelper makePhone:shop.shopPhone andInfo:info];
-        }];
-        
-        [checkBtn setSelected:[self.selectSet containsIndex:indexPath.row]];
-        @weakify(checkBtn)
-        [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            
-            [MobClick event:@"rp316-7"];
-            @strongify(checkBtn)
-            if ([self.selectSet containsIndex:indexPath.row])
-            {
-                [self.selectSet removeIndex:indexPath.row];
-                [checkBtn setSelected:NO];
-            }
-            else
-            {
-                [self.selectSet addIndex:indexPath.row];
-                [checkBtn setSelected:YES];
-            }
-            [self refreshCheckBox];
-        }];
-        
-        return cell;
+        cell = [self tableView:tableView shopServiceCellAtIndexPath:indexPath];
     }
     
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -459,7 +344,7 @@
     if (!self.isEditing)
     {
         [MobClick event:@"rp316-2"];
-        JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.row];
+        JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.section];
         ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
         vc.hidesBottomBarWhenPushed = YES;
         vc.shop = shop;
@@ -474,6 +359,209 @@
     [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(0, 0, 8, 0) forDirectionMask:mask];
     [cell.contentView showBorderLineWithDirectionMask:mask];
 }
+
+
+#pragma mark - Utility
+- (UITableViewCell *)tableView:(UITableView *)tableView shopTitleCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];
+    
+    JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.section];
+    
+    //row 0  缩略图、名称、评分、地址、距离、营业状况等
+    UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
+    UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
+    JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1003];
+    UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
+    UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
+    UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
+    UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
+    
+    [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0]
+                withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
+    
+    titleL.text = shop.shopName;
+    ratingV.ratingValue = shop.shopRate;
+    ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
+    addrL.text = shop.shopAddress;
+    
+    [statusL makeCornerRadius:3];
+    statusL.font = [UIFont boldSystemFontOfSize:11];
+    if ([self isBetween:shop.openHour and:shop.closeHour]) {
+        statusL.text = @"营业中";
+        statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
+    }
+    else {
+        statusL.text = @"已休息";
+        statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
+    }
+    
+    double myLat = gMapHelper.coordinate.latitude;
+    double myLng = gMapHelper.coordinate.longitude;
+    double shopLat = shop.shopLatitude;
+    double shopLng = shop.shopLongitude;
+    if (myLat == 0 || myLng == 0)
+    {
+        distantL.hidden = YES;
+    }
+    else
+    {
+        distantL.hidden = NO;
+        NSString * disStr = [DistanceCalcHelper getDistanceStrLatA:myLat lngA:myLng latB:shopLat lngB:shopLng];
+        distantL.text = disStr;
+    }
+    return cell;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView editShopTitleCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"EditShopCell" forIndexPath:indexPath];
+    
+    JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.section];
+    
+    //row 0  缩略图、名称、评分、地址、距离、营业状况等
+    UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
+    UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
+    JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1003];
+    UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
+    UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
+    UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
+    UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
+    
+    UIButton * checkBtn = (UIButton *)[cell searchViewWithTag:3003];
+    
+    [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0]
+                withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
+    
+    titleL.text = shop.shopName;
+    ratingV.ratingValue = shop.shopRate;
+    ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
+    addrL.text = shop.shopAddress;
+    
+    [statusL makeCornerRadius:3];
+    statusL.font = [UIFont boldSystemFontOfSize:11];
+    if ([self isBetween:shop.openHour and:shop.closeHour]) {
+        statusL.text = @"营业中";
+        statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
+    }
+    else {
+        statusL.text = @"已休息";
+        statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
+    }
+    
+    double myLat = gMapHelper.coordinate.latitude;
+    double myLng = gMapHelper.coordinate.longitude;
+    double shopLat = shop.shopLatitude;
+    double shopLng = shop.shopLongitude;
+    
+    if (myLat == 0 || myLng == 0)
+    {
+        distantL.hidden = YES;
+    }
+    else
+    {
+        distantL.hidden = NO;
+        NSString * disStr = [DistanceCalcHelper getDistanceStrLatA:myLat lngA:myLng latB:shopLat lngB:shopLng];
+        distantL.text = disStr;
+    }
+    
+    [checkBtn setSelected:[self.selectSet containsIndex:indexPath.section]];
+    @weakify(checkBtn)
+    [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        [MobClick event:@"rp316-7"];
+        @strongify(checkBtn)
+        if ([self.selectSet containsIndex:indexPath.section])
+        {
+            [self.selectSet removeIndex:indexPath.section];
+            [checkBtn setSelected:NO];
+        }
+        else
+        {
+            [self.selectSet addIndex:indexPath.section];
+            [checkBtn setSelected:YES];
+        }
+        [self refreshCheckBox];
+    }];
+
+    return cell;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView shopServiceCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ServiceCell" forIndexPath:indexPath];
+    
+    JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.section];
+    
+    //row 1 洗车服务与价格
+    UILabel *washTypeL = (UILabel *)[cell.contentView viewWithTag:2001];
+    UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:2002];
+    UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
+    
+    JTShopService * service = [shop.shopServiceArray safetyObjectAtIndex:indexPath.row - 1];
+    
+    washTypeL.text = service.serviceName;
+    
+    ChargeContent * cc = [service.chargeArray firstObjectByFilteringOperator:^BOOL(ChargeContent * tcc) {
+        return tcc.paymentChannelType == PaymentChannelABCIntegral;
+    }];
+    
+    integralL.text = [NSString stringWithFormat:@"%.0f分",cc.amount];
+    priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
+    
+    return cell;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView shopNavigationCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"NavigationCell" forIndexPath:indexPath];
+    
+    JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.section];
+    
+    //row 2
+    UIButton *guideB = (UIButton *)[cell.contentView viewWithTag:3001];
+    UIButton *phoneB = (UIButton *)[cell.contentView viewWithTag:3002];
+    
+    [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:gMapHelper.coordinate andView:self.tabBarController.view];
+    }];
+    
+    [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        if (shop.shopPhone.length == 0)
+        {
+            UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
+            [av show];
+            return ;
+        }
+        
+        NSString * info = [NSString stringWithFormat:@"%@",shop.shopPhone];
+        [gPhoneHelper makePhone:shop.shopPhone andInfo:info];
+    }];
+    
+    return cell;
+}
+
+
+
+
+-(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    
+    NSDate * nowDate = [NSDate date];
+    NSString * transStr = [formatter stringFromDate:nowDate];
+    NSDate * transDate = [formatter dateFromString:transStr];
+    
+    NSDate * beginDate = [formatter dateFromString:openHourStr];
+    NSDate * endDate = [formatter dateFromString:closeHourStr];
+    
+    return (transDate == [transDate earlierDate:beginDate]) || (transDate == [transDate laterDate:endDate]) ? NO : YES;
+}
+
 
 
 @end

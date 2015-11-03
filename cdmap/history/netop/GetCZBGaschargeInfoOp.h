@@ -11,6 +11,8 @@
 @property (nonatomic,assign) int rsp_availablechargeamt;
 ///已经享受过的优惠
 @property (nonatomic,assign) int rsp_couponedmoney;
+///优惠描述
+@property (nonatomic,strong) NSString* rsp_desc;
 ///折扣率
 @property (nonatomic,assign) int rsp_discountrate;
 ///优惠上限

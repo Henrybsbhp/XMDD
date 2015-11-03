@@ -13,6 +13,7 @@
 - (instancetype)parseResponseObject:(id)rspObj
 {
     NSDictionary *dict = rspObj;
+    self.rsp_desc = dict[@"desc"];
     self.rsp_availablechargeamt = dict[@"availablechargeamt"];
     self.rsp_couponedmoney = dict[@"couponedmoney"];
 	

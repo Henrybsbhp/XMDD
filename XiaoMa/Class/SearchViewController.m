@@ -38,6 +38,8 @@
 
 @property (nonatomic)CLLocationCoordinate2D coordinate;
 
+@property (nonatomic)BOOL firstAppear;
+
 @end
 
 @implementation SearchViewController
@@ -55,6 +57,8 @@
 //
     [self getSearchHistory];
     [self getUserLocation];
+    
+    self.firstAppear = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -65,7 +69,15 @@
     UIView * view = self.navigationController.navigationBar;
     [view addSubview:self.searchBarBackgroundView];
     
-    [self.searchBar becomeFirstResponder];
+    if (self.firstAppear)
+    {
+        self.firstAppear = NO;
+        [self.searchBar becomeFirstResponder];
+    }
+    else
+    {
+        [self.searchBar resignFirstResponder];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -561,7 +573,8 @@
     
     if (self.isSearching)
     {
-        JTShop * shop = [self.resultArray safetyObjectAtIndex:indexPath.row];
+        [MobClick event:@"rp201-3"];
+        JTShop * shop = [self.resultArray safetyObjectAtIndex:indexPath.section];
         ShopDetailVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ShopDetailVC"];
         vc.shop = shop;
         [self.navigationController pushViewController:vc animated:YES];
@@ -582,6 +595,7 @@
         [MobClick event:@"rp103-3"];
         NSString * content = [self.historyArray safetyObjectAtIndex:indexPath.row - 1];
         self.searchBar.text = content;
+        [self search];
     }
 }
 
