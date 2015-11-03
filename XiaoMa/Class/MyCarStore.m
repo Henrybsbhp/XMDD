@@ -16,7 +16,7 @@
 
 - (CKStoreEvent *)getAllCars
 {
-    RACSignal *sig = [[[GetUserCarOp operation] rac_postRequest] map:^id(GetUserCarOp *op) {
+    RACSignal *sig = [[[[GetUserCarOp operation] rac_postRequest] map:^id(GetUserCarOp *op) {
         JTQueue *cache = [[JTQueue alloc] init];
         for (NSInteger index = 0; index < op.rsp_carArray.count; index++) {
             HKMyCar *car = op.rsp_carArray[index];
@@ -26,7 +26,7 @@
         self.cache = cache;
         [self updateTimetagForKey:nil];
         return op.rsp_carArray;
-    }];
+    }] replayLast];
     return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventReload object:nil];
 }
 
@@ -42,12 +42,12 @@
 {
     AddCarOp * op = [[AddCarOp alloc] init];
     op.req_car = car;
-    RACSignal *sig = [[op rac_postRequest] doNext:^(AddCarOp * addOp) {
+    RACSignal *sig = [[[op rac_postRequest] doNext:^(AddCarOp * addOp) {
         car.carId = addOp.rsp_carId;
         car.tintColorType = [self carTintColorTypeAtIndex:self.cache.count];
         [self.cache addObject:car forKey:car.carId];
         [self setDefaultCarIfNeeded:car];
-    }];
+    }] replayLast];
     return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventAdd object:nil];
 }
 
@@ -55,10 +55,10 @@
 {
     UpdateCarOp * op = [[UpdateCarOp alloc] init];
     op.req_car = car;
-    RACSignal *sig = [[op rac_postRequest] doNext:^(UpdateCarOp * addOp) {
+    RACSignal *sig = [[[op rac_postRequest] doNext:^(UpdateCarOp * addOp) {
         [self.cache addObject:car forKey:car.carId];
         [self setDefaultCarIfNeeded:car];
-    }];
+    }] replayLast];
     return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventUpdate object:nil];
 }
 
@@ -66,19 +66,19 @@
 {
     DeleteCarOp * op = [DeleteCarOp operation];
     op.req_carid = carId;
-    RACSignal *sig = [[op rac_postRequest] doNext:^(DeleteCarOp * removeOp) {
+    RACSignal *sig = [[[op rac_postRequest] doNext:^(DeleteCarOp * removeOp) {
         [self.cache removeObjectForKey:carId];
-    }];
+    }] replayLast];
     return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventDelete object:nil];
 }
 
 - (CKStoreEvent *)getDefaultCar
 {
     @weakify(self);
-    RACSignal *sig = [[self getAllCarsIfNeeded].signal map:^(id x) {
+    RACSignal *sig = [[[self getAllCarsIfNeeded].signal map:^(id x) {
         @strongify(self);
         return [self defalutCar];
-    }];
+    }] replayLast];
     return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventGet object:nil];
 }
 

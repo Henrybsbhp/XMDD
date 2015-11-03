@@ -157,10 +157,20 @@
         } else {
             field.text = [card.customObject splitByStep:4 replacement:@" "];
         }
-        [field setTextChangingBlock:^(CKLimitTextField *textField) {
-            NSInteger offset = [textField offsetFromPosition:textField.beginningOfDocument toPosition:textField.curCursorPosition];
-            if (offset > 0 && offset % 5 == 0) {
-                textField.curCursorPosition = [textField positionFromPosition:textField.curCursorPosition offset:1];
+        [field setTextChangingBlock:^(CKLimitTextField *textField, NSString *replacement) {
+            NSInteger cursor = [textField offsetFromPosition:textField.beginningOfDocument toPosition:textField.curCursorPosition];
+            NSInteger posOffset = 0;
+            NSInteger partOffset = cursor % 5;
+            //删除一个空格或空格后一位
+            if (cursor > 0 && (partOffset == 4 || partOffset == 5) && replacement.length == 0) {
+                posOffset = -1;
+            }
+            //在空格前插入
+            else if (cursor > 0 && (partOffset == 5) && replacement.length > 0) {
+                posOffset = 1;
+            }
+            if (posOffset != 0) {
+                textField.curCursorPosition = [textField positionFromPosition:textField.curCursorPosition offset:posOffset];
             }
 
             NSString *orgText = textField.text.length > 0 ?

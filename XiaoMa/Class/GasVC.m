@@ -31,10 +31,12 @@
 @property (nonatomic, strong) GasTabView *headerView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
-@property (weak, nonatomic) IBOutlet UIButton *agreementBox;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
+@property (nonatomic, strong) GasNormalVM *normalModel;
+@property (nonatomic, strong) GasCZBVM *czbModel;
+@property (nonatomic, weak) GasBaseVM *curModel;
 @property (nonatomic, strong) NSArray *datasource;
+///是否同意协议(Default is YES)
 @property (nonatomic, assign) BOOL isAcceptedAgreement;
 
 @end
@@ -46,6 +48,7 @@
     self.normalModel = [[GasNormalVM alloc] init];
     self.czbModel = [[GasCZBVM alloc] init];
     self.curModel = self.normalModel;
+    _tabViewSelectedIndex = 0;
     _isAcceptedAgreement = YES;
 }
 
@@ -74,9 +77,16 @@
     self.normalModel.cachedEvent = nil;
 }
 
+- (void)setTabViewSelectedIndex:(NSInteger)tabViewSelectedIndex
+{
+    _tabViewSelectedIndex = tabViewSelectedIndex;
+    self.headerView.selectedIndex = tabViewSelectedIndex;
+}
+
 - (void)setupHeaderView
 {
-    NSInteger index = [self.curModel isEqual:self.normalModel] ? 0 : 1;
+    NSInteger index = self.tabViewSelectedIndex;
+    _curModel = index == 0 ? self.normalModel : self.czbModel;
     self.headerView = [[GasTabView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44) selectedIndex:index];
     self.tableView.tableHeaderView = self.headerView;
     @weakify(self);
@@ -140,9 +150,8 @@
         self.tableView.scrollEnabled = success && !loading;
     }];
     
-    [sig4 subscribeNext:^(NSNumber *x) {
+    [sig4 subscribeNext:^(id x) {
         @strongify(self);
-        self.agreementBox.selected = self.isAcceptedAgreement;
         self.bottomBtn.enabled = self.isAcceptedAgreement;
     }];
 }
@@ -311,11 +320,6 @@
     }
 }
 
-- (IBAction)actionCheckAgreement:(id)sender
-{
-    self.isAcceptedAgreement = !self.isAcceptedAgreement;
-}
-
 - (IBAction)actionAgreement:(id)sender
 {
     WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
@@ -444,8 +448,11 @@
     else if (tag == 10006) {
         cell = [self addCZBCardCellAtIndexPath:indexPath];
     }
-    else if (tag > 20000) {
+    else if (tag > 20000 && tag < 30000) {
         cell = [self paymentPlatformCellAtIndexPath:indexPath];
+    }
+    else if (tag == 30001) {
+        cell = [self agreementCellAtIndexPath:indexPath];
     }
     else {
         cell = [tableView dequeueReusableCellWithIdentifier:@"DefCell"];
@@ -629,6 +636,28 @@
     }
     UIEdgeInsets bottomInsets = tag == 20003 ? UIEdgeInsetsZero : UIEdgeInsetsMake(0, 12, 0, 0);
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:bottomInsets];
+    return cell;
+}
+
+- (UITableViewCell *)agreementCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Agreement" forIndexPath:indexPath];
+    UIButton *checkBox = (UIButton *)[cell.contentView viewWithTag:1001];
+    UIButton *btn = (UIButton *)[cell.contentView viewWithTag:1002];
+
+    [[RACObserve(self, isAcceptedAgreement) takeUntilForCell:cell] subscribeNext:^(NSNumber *x) {
+
+        BOOL isAcceptedAgreement = [x boolValue];
+        checkBox.selected = isAcceptedAgreement;
+    }];
+    
+    @weakify(self);
+    [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+     subscribeNext:^(id x) {
+         
+        @strongify(self);
+         self.isAcceptedAgreement = !self.isAcceptedAgreement;
+    }];
     return cell;
 }
 #pragma mark - RTLabelDelegate

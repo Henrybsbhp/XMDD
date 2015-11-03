@@ -362,10 +362,10 @@
     MyCarStore *store = [MyCarStore fetchOrCreateStore];
     CKStoreEvent *evt = self.isEditingModel ? [store updateCar:self.curCar] : [store addCar:self.curCar];
     @weakify(self);
-    [[[[store sendEvent:evt] signal] initially:^{
+    [[[[[store sendEvent:evt] signal] initially:^{
         
         [gToast showingWithText:@"正在保存..."];
-    }] subscribeNext:^(id x) {
+    }] delay:0.01] subscribeNext:^(id x) {
         
         @strongify(self);
         [gToast showSuccess:@"保存成功!"];
@@ -462,10 +462,10 @@
         return;
     }
     MyCarStore *store = [MyCarStore fetchOrCreateStore];
-    [[[[store sendEvent:[store removeCarByID:self.curCar.carId]] signal] initially:^{
+    [[[[[store sendEvent:[store removeCarByID:self.curCar.carId]] signal] initially:^{
         
         [gToast showingWithText:@"正在删除..."];
-    }] subscribeNext:^(id x) {
+    }] delay:0.01] subscribeNext:^(id x) {
         
         [gToast showSuccess:@"删除成功!"];
         [self.navigationController popViewControllerAnimated:YES];
@@ -628,7 +628,7 @@
         field.placeholder = @"A12345";
     }];
     
-    [field setTextChangingBlock:^(CKLimitTextField *field) {
+    [field setTextChangingBlock:^(CKLimitTextField *field, NSString *replacement) {
         field.text = [field.text uppercaseString];
     }];
 }

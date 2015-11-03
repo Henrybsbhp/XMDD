@@ -14,6 +14,7 @@ static char sTargetHashTableKey;
 @interface CKStore ()
 @property (nonatomic, strong) NSMapTable *weakTable;
 @property (nonatomic, strong) NSMutableDictionary *timetagDict;
+@property (nonatomic, strong) id<NSFastEnumeration> innerStores;
 @end
 
 @implementation CKStore
@@ -70,6 +71,28 @@ static char sTargetHashTableKey;
     }
     return self;
 }
+
++ (instancetype)merge:(id<NSFastEnumeration>)stores
+{
+    CKStore *mergedStore = [[self alloc] init];
+    mergedStore.innerStores = stores;
+    @weakify(mergedStore);
+    for (CKStore *store in stores) {
+        [store subscribeEventsWithTarget:mergedStore receiver:^(CKStore *store, CKStoreEvent *evt) {
+            @strongify(mergedStore);
+            for (void(^block)(CKStore *, CKStoreEvent *) in [[mergedStore.weakTable objectEnumerator] allObjects]) {
+                block(store, evt);
+            }
+        }];
+    }
+    return mergedStore;
+}
+
+- (instancetype)merge:(id<NSFastEnumeration>)store
+{
+    return [CKStore merge:@[self, store]];
+}
+
 
 - (void)subscribeEventsWithTarget:(id)target receiver:(void(^)(CKStore *store, CKStoreEvent *evt))block
 {

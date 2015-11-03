@@ -29,6 +29,8 @@ typedef enum : NSInteger {
 + (instancetype)fetchOrCreateStore;
 + (instancetype)fetchExistsStoreForWeakKey:(id)key;
 + (instancetype)fetchOrCreateStoreForWeakKey:(id)key;
++ (instancetype)merge:(id<NSFastEnumeration>)stores;
+- (instancetype)merge:(id<NSFastEnumeration>)store;
 - (void)subscribeEventsWithTarget:(id)target receiver:(void(^)(CKStore *store, CKStoreEvent *evt))block;
 - (void)removeSubscriptionForTarget:(id)target;
 + (CKStoreEvent *)sendEvent:(CKStoreEvent *)evt;

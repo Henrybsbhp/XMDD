@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CKLimitTextField.h"
 
-@interface VCodeInputField : UITextField
+@interface VCodeInputField : CKLimitTextField
 
 @property (nonatomic, strong) UIButton *rightButton;
 

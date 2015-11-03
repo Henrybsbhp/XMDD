@@ -133,7 +133,7 @@
         return @[@[@"1"]];
     }
     NSString *row1 = self.curGasCard ? @"10001" : @"10002";
-    NSArray *section2 = gPhoneHelper.exsitWechat ? @[@"20001",@"20002",@"20003"] : @[@"20001",@"20003"];
+    NSArray *section2 = gPhoneHelper.exsitWechat ? @[@"20001",@"20002",@"20003",@"30001"] : @[@"20001",@"20003",@"30001"];
     return @[@[row1,@"10003",@"10004"],section2];
 }
 
@@ -214,9 +214,17 @@
         OrderPaidSuccessOp *op = [OrderPaidSuccessOp operation];
         op.req_notifytype = 3;
         op.req_tradeno = paidop.rsp_tradeid;
-        [[op rac_postRequest] subscribeNext:^(id x) {
+        RACSignal *sig = [[[op rac_postRequest] flattenMap:^RACStream *(id value) {
+          
+            @strongify(self);
             DebugLog(@"已通知服务器支付成功!");
+            return [self.cardStore rac_getCardNormalInfoByGID:card.gid];
+        }] doNext:^(id x) {
+            
+            @strongify(self);
+            self.rechargeAmount = 100;
         }];
+        [self.cardStore sendEvent:[CKStoreEvent eventWithSignal:sig code:kCKStoreEventUpdate object:nil]];
         paidSuccess = YES;
         NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
         [def setObject:paidop.req_gid forKey:[self recentlyUsedGasCardKey]];
