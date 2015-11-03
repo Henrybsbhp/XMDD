@@ -98,10 +98,17 @@
     
     self.view.userInteractionEnabled = YES;
     CKAsyncMainQueue(^{
-        CGSize size = [self.containerView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
-        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, ceil(size.height));
-        
-        NSLog(@"CKAsyncMainQueue home page :%@",NSStringFromCGSize(self.scrollView.contentSize));
+        if (IOSVersionGreaterThanOrEqualTo(@"7.0"))
+        {
+            CGSize size = [self.containerView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+            self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, ceil(size.height));
+        }
+        else
+        {
+            ///只会出现在4，4s的机型上
+//            CGFloat heigth = self.secondaryItemView.frame.size.height + self.secondaryItemView.frame.origin.x;
+            self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, 460);
+        }
     });
 }
 
@@ -150,7 +157,7 @@
         make.right.equalTo(self.scrollView);
         make.width.equalTo(self.scrollView);
         
-        CGFloat height = 76.0f / 1136.0f * dHeight;
+        CGFloat height = 84.0f / 1136.0f * dHeight;
         make.height.mas_equalTo(@(height));
     }];
 
@@ -177,7 +184,9 @@
     [container addSubview:secondaryView];
     [secondaryView mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        CGFloat space = 16.0f / 1136.0f * dHeight;
+        CGFloat space = 8.0f / 1136.0f * dHeight;
+        if (dHeight > 667)
+            space = space + 5;
         make.top.equalTo(mainView.mas_bottom).offset(space);
         make.left.equalTo(self.scrollView);
         make.right.equalTo(self.scrollView);
@@ -213,7 +222,19 @@
     [carwashBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         
         CGFloat height = 212.0f / 1136.0f * dHeight;
-        CGFloat hhh = dHeight > 568 ? height + 15 : height;
+        CGFloat hhh;
+        if (dHeight > 667)
+        {
+            hhh = height + 23;
+        }
+        else if (dHeight > 568)
+        {
+            hhh = height + 15;
+        }
+        else
+        {
+            hhh = height;
+        }
         
         make.left.equalTo(secondaryView);
         make.right.equalTo(secondaryView);
@@ -232,6 +253,20 @@
         make.width.equalTo(mainView.mas_width).multipliedBy(0.5);
         
         CGFloat height = 270.0f / 1136.0f * dHeight;
+        
+        CGFloat hhh;
+        if (dHeight > 667)
+        {
+            hhh = height + 23;
+        }
+        else if (dHeight > 568)
+        {
+            hhh = height + 15;
+        }
+        else
+        {
+            hhh = height;
+        }
         make.height.mas_equalTo(height);
     }];
     
@@ -551,7 +586,7 @@
 }
 - (void)actionAddGas:(id)sender
 {
-//    [MobClick event:@"rp101-11"];
+    [MobClick event:@"rp101-12"];
     GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
     [self.navigationController pushViewController:vc animated:YES];
 }

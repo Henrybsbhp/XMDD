@@ -275,6 +275,12 @@
 
 - (void)gotoPaymentVCWithService:(JTShopService *)service
 {
+    if (service.shopServiceType == ShopServiceCarWash) {
+        [MobClick event:@"rp105-6_1"];
+    }
+    else {
+        [MobClick event:@"rp105-6_2"];
+    }
     [[[[[MyCarStore fetchExistsStore] getDefaultCar] signal] catch:^RACSignal *(NSError *error) {
         
         return [RACSignal return:nil];
@@ -282,6 +288,7 @@
         
         PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
         if (self.couponFordetailsDic.conponType == CouponTypeCarWash || self.couponFordetailsDic.conponType == CouponTypeCZBankCarWash) {
+            
             vc.selectCarwashCoupouArray = vc.selectCarwashCoupouArray ? vc.selectCarwashCoupouArray : [NSMutableArray array];
             [vc.selectCarwashCoupouArray addObject:self.couponFordetailsDic];
             vc.couponType = CouponTypeCarWash;
@@ -601,7 +608,6 @@
     
     @weakify(self);
     [[[payB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        [MobClick event:@"rp105-6"];
         @strongify(self);
         if([LoginViewModel loginIfNeededForTargetViewController:self]) {
             [self gotoPaymentVCWithService:service];
@@ -722,17 +728,31 @@
     
     NSString * note = self.shop.announcement;
     
-    CGSize size = [note sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(FLT_MAX,FLT_MAX)];
-    CGFloat width = MIN(self.view.frame.size.width * 3 / 4, self.view.frame.size.width - 120);
+    
+    CGFloat width = MIN(self.view.frame.size.width * 3 / 5, self.view.frame.size.width - 120);
     [self.roundLb mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.width.mas_equalTo(width);
     }];
-    self.roundLb.text = note;
+    self.roundLb.text = [self appendSpace:note andWidth:width];
     
     self.roundLb.hidden = !self.shop.announcement.length;
     self.roundBgView.hidden = !self.shop.announcement.length;
 }
+
+
+- (NSString *)appendSpace:(NSString *)note andWidth:(CGFloat)w
+{
+    NSString * spaceNote = note;
+    for (;;)
+    {
+        CGSize size = [spaceNote sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(FLT_MAX,FLT_MAX)];
+        if (size.width > w)
+            return spaceNote;
+        spaceNote = [spaceNote append:@" "];
+    }
+}
+
 
 -(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
 {

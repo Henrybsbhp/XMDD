@@ -38,12 +38,14 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [MobClick beginLogPageView:@"rp202"];
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar addSubview:_progressView];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
+    [MobClick endLogPageView:@"rp202"];
     [super viewWillDisappear:animated];
     [_progressView removeFromSuperview];
 }
@@ -65,6 +67,10 @@
     });
     
     self.myBridge = [[MyWebViewBridge alloc] initBridgeWithWebView:self.webView andDelegate:self.progressProxy];
+    
+    [self.myBridge registerGetToken];
+    
+    [self.myBridge registerToastMsg];
 }
 
 - (void)setupProcessView
@@ -130,8 +136,6 @@
     DebugLog(@"%@ WebViewFinishLoad:%@", kRspPrefix, webView.request.URL);
     
     [self.webView.scrollView.refreshView endRefreshing];
-    
-    [self.myBridge setUserTokenHandler];
 }
 
 - (void)didReceiveMemoryWarning {

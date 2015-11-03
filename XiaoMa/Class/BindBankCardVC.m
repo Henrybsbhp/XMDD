@@ -13,6 +13,7 @@
 #import "BindBankcardOp.h"
 #import "WebVC.h"
 #import "ResultVC.h"
+#import "MyCarStore.h"
 #import <UIKitExtension.h>
 
 @interface BindBankCardVC ()<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
@@ -141,6 +142,8 @@
             [self.navigationController popViewControllerAnimated:YES];
             BankCardStore *store = [BankCardStore fetchExistsStore];
             [store sendEvent:[store getAllBankCards]];
+            MyCarStore *carStore = [MyCarStore fetchExistsStore];
+            [carStore sendEvent:[carStore getAllCars]];
             [self postCustomNotificationName:kNotifyRefreshMyBankcardList object:nil];
             if (self.finishAction)
             {

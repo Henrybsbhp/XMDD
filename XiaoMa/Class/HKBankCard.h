@@ -20,7 +20,7 @@ typedef enum : NSInteger
     HKBankCardTypeDespoit       //储蓄卡
 }HKBankCardType;
 
-@interface HKBankCard : NSObject
+@interface HKBankCard : NSObject<NSCopying>
 
 @property (nonatomic, assign) HKBankType bankType;
 @property (nonatomic, assign) HKBankCardType cardType;

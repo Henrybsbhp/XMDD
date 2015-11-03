@@ -38,25 +38,19 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (self.forbidAD)
-        [MobClick beginLogPageView:@"rp201"];
-    else
-        [MobClick beginLogPageView:@"rp102"];
+    [MobClick beginLogPageView:@"rp102"];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    if (self.forbidAD)
-        [MobClick endLogPageView:@"rp201"];
-    else
-        [MobClick endLogPageView:@"rp102"];
+    [MobClick endLogPageView:@"rp102"];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.tableView.tableHeaderView = nil;
-    self.tableView.tableFooterView = nil;
+//    
+//    self.tableView.tableHeaderView = nil;
+//    self.tableView.tableFooterView = nil;
     self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
     self.loadingModel.isSectionLoadMore = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAdList) name:CarwashAdvertiseNotification object:nil];
@@ -99,10 +93,7 @@
 
     @weakify(self)
     [[tap rac_gestureSignal] subscribeNext:^(id x) {
-        if (self.forbidAD)
-            [MobClick event:@"rp201-2"];
-        else
-            [MobClick event:@"rp102-2"];
+        [MobClick event:@"rp102-2"];
         @strongify(self)
         SearchViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -164,12 +155,7 @@
 #pragma mark - Action
 - (IBAction)actionMap:(id)sender
 {
-    if (self.forbidAD) {
-        [MobClick event:@"rp201-1"];
-    }
-    else {
-        [MobClick event:@"rp102-1"];
-    }
+    [MobClick event:@"rp102-1"];
     NearbyShopsViewController * nearbyShopView = [carWashStoryboard instantiateViewControllerWithIdentifier:@"NearbyShopsViewController"];
     nearbyShopView.type = self.type;
     nearbyShopView.hidesBottomBarWhenPushed = YES;
@@ -290,20 +276,6 @@
 }
 
 #pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-
-    return self.loadingModel.datasource.count;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-    NSInteger num = 0;
-    JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:section];
-    num = 1 + shop.shopServiceArray.count + 1;
-    return num;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat height = 0.0;
@@ -328,13 +300,35 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return CGFLOAT_MIN;
+    return 8.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return CGFLOAT_MIN;
 }
+
+//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+//{
+//    UIView * v = [[UIView alloc] init];
+//    v.backgroundColor = [UIColor redColor];
+//    v.frame = CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, 8.0f);
+//    return v;
+//}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+
+    return self.loadingModel.datasource.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
+    NSInteger num = 0;
+    JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:section];
+    num = 1 + shop.shopServiceArray.count + 1;
+    return num;
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -374,10 +368,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.forbidAD)
-        [MobClick event:@"rp201-3"];
-    else
-        [MobClick event:@"rp102-3"];
+    [MobClick event:@"rp102-3"];
     ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
     vc.couponFordetailsDic = self.couponForWashDic;
     vc.hidesBottomBarWhenPushed = YES;
@@ -470,24 +461,13 @@
     [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
-        if (self.forbidAD) {
-            [MobClick event:@"rp201-4"];
-        }
-        else {
-            [MobClick event:@"rp102-4"];
-        }
+        [MobClick event:@"rp102-4"];
         [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.tabBarController.view];
     }];
     
     [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
-        @strongify(self);
-        if (self.forbidAD) {
-            [MobClick event:@"rp201-5"];
-        }
-        else {
-            [MobClick event:@"rp102-5"];
-        }
+        [MobClick event:@"rp102-5"];
         if (shop.shopPhone.length == 0)
         {
             UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];

@@ -16,6 +16,7 @@
 #import "GasVC.h"
 #import "DetailWebVC.h"
 #import "CarListVC.h"
+#import "GasVC.h"
 
 @implementation NavigationModel
 
@@ -175,6 +176,15 @@
                 vc.tabViewSelectedIndex = 1;
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
+            flag = YES;
+        }
+        //加油首页
+        else if ([@"g" equalByCaseInsensitive:name]) {
+            if (![self popToViewControllerIfNeededByIdentify:@"GasVC"]) {
+                GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+            flag = YES;
         }
     }
     else if ([url hasPrefix:@"http://"]) {

@@ -9,6 +9,7 @@
 #import "ADViewController.h"
 #import "WebVC.h"
 #import "NavigationModel.h"
+#import "DetailWebVC.h"
 
 @interface ADViewController ()<SYPaginatorViewDelegate, SYPaginatorViewDataSource>
 @property (nonatomic, strong) NavigationModel *navModel;
@@ -133,6 +134,9 @@
             vc.title = @"小马达达";
             vc.url = ADDEFINEWEB;
             [self.targetVC.navigationController pushViewController:vc animated:YES];
+//            DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+//            vc.url = XIAMMAWEB;
+//            [self.targetVC.navigationController pushViewController:vc animated:YES];
         }
     }];
     
