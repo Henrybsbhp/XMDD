@@ -586,7 +586,7 @@
 }
 - (void)actionAddGas:(id)sender
 {
-//    [MobClick event:@"rp101-11"];
+    [MobClick event:@"rp101-12"];
     GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
     [self.navigationController pushViewController:vc animated:YES];
 }
