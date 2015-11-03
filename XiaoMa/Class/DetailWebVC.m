@@ -42,12 +42,14 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [MobClick beginLogPageView:@"rp203"];
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar addSubview:_progressView];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
+    [MobClick endLogPageView:@"rp203"];
     [super viewWillDisappear:animated];
     [_progressView removeFromSuperview];
 }
@@ -56,8 +58,6 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [super viewDidLoad];
     
     self.navModel.curNavCtrl = self.navigationController;
-    
-    [self setupSignalsForLogin];
     
     [self setupProcessView];
     
@@ -71,15 +71,6 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         self.webView.scrollView.contentSize = self.webView.frame.size;
         [self.webView loadRequest:self.request];
     });
-}
-
-- (void)setupSignalsForLogin
-{
-    @weakify(self);
-    [[[RACObserve(gAppMgr, myUser) distinctUntilChanged] skip:1] subscribeNext:^(JTUser *user) {
-        @strongify(self);
-        [self.bridge setUserTokenHandler];
-    }];
 }
 
 - (void)setupProcessView
@@ -102,6 +93,9 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     
     //右上角菜单按钮设置
     [self setupRightItems];
+    
+    //弱提示框方法
+    [self.bridge registerToastMsg];
     
     //点击查看大图
     [self.bridge registerShowImage];
@@ -173,7 +167,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         self.navigationItem.title = @"活动详情";
     }
     
-    [self.bridge setUserTokenHandler];
+    [self.bridge registerGetToken];
     
     //返回和关闭按钮的控制
     if (self.webView.canGoBack) {

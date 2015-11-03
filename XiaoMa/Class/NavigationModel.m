@@ -14,6 +14,7 @@
 #import "InsOrderStore.h"
 #import "LoginVC.h"
 #import "DetailWebVC.h"
+#import "GasVC.h"
 
 @implementation NavigationModel
 
@@ -142,6 +143,14 @@
         else if ([@"cl" equalByCaseInsensitive:name] && gAppMgr.myUser) {
             if (![self popToViewControllerIfNeededByIdentify:@"CarListVC"]) {
                 UIViewController *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+            flag = YES;
+        }
+        //加油首页
+        else if ([@"g" equalByCaseInsensitive:name]) {
+            if (![self popToViewControllerIfNeededByIdentify:@"GasVC"]) {
+                GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
             flag = YES;

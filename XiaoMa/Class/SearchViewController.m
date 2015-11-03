@@ -561,7 +561,6 @@
     
     if (self.isSearching)
     {
-        [MobClick event:@"rp201-3"];
         JTShop * shop = [self.resultArray safetyObjectAtIndex:indexPath.row];
         ShopDetailVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ShopDetailVC"];
         vc.shop = shop;

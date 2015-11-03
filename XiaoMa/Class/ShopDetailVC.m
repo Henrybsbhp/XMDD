@@ -269,6 +269,12 @@
 
 - (void)gotoPaymentVCWithService:(JTShopService *)service
 {
+    if (service.shopServiceType == ShopServiceCarWash) {
+        [MobClick event:@"rp105-6_1"];
+    }
+    else {
+        [MobClick event:@"rp105-6_2"];
+    }
     [[[[[MyCarStore fetchExistsStore] getDefaultCar] signal] catch:^RACSignal *(NSError *error) {
         
         return [RACSignal return:nil];
@@ -276,6 +282,7 @@
         
         PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
         if (self.couponFordetailsDic.conponType == CouponTypeCarWash || self.couponFordetailsDic.conponType == CouponTypeCZBankCarWash) {
+            
             vc.selectCarwashCoupouArray = vc.selectCarwashCoupouArray ? vc.selectCarwashCoupouArray : [NSMutableArray array];
             [vc.selectCarwashCoupouArray addObject:self.couponFordetailsDic];
             vc.couponType = CouponTypeCarWash;
@@ -595,7 +602,6 @@
     
     @weakify(self);
     [[[payB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        [MobClick event:@"rp105-6"];
         @strongify(self);
         if([LoginViewModel loginIfNeededForTargetViewController:self]) {
             [self gotoPaymentVCWithService:service];

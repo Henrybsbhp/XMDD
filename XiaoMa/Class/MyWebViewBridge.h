@@ -15,7 +15,9 @@
 
 - (instancetype)initBridgeWithWebView:(WVJB_WEBVIEW_TYPE *)webView andDelegate:(WVJB_WEBVIEW_DELEGATE_TYPE *) delegate;
 
-- (void)setUserTokenHandler;
+- (void)registerGetToken;
+
+- (void)registerToastMsg;
 
 - (void)registerSetPosition;
 
