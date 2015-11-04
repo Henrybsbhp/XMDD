@@ -62,7 +62,9 @@
             }
         }];
     }
-    [self.navigationController popViewControllerAnimated:YES];
+    else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)actionGetVCode:(id)sender
@@ -124,6 +126,16 @@
     } error:^(NSError *error) {
         
         @strongify(self);
+        //绑定验证码失效
+        if (error.code == 616201) {
+            [gToast showError:error.domain];
+            return ;
+        }
+        //验证码错误
+        else if (error.code == 616202) {
+            [gToast showError:error.domain];
+            return;
+        }
         [gToast dismiss];
         //加油到达上限（如果遇到该错误，客户端提醒用户后，需再调用一次查询卡的充值信息）
         if (error.code == 618602) {
