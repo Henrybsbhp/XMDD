@@ -42,7 +42,7 @@
     @weakify(self);
     [[RACObserve(self, vcode) distinctUntilChanged] subscribeNext:^(NSString *vcode) {
         @strongify(self);
-        self.bottomBtn.enabled = vcode.length >= 6 && self.orderInfo;
+        self.bottomBtn.enabled = vcode.length >= 6 && self.orderInfo && ![self.orderInfo.customInfo[@"Invaild"] boolValue];
     }];
 }
 
@@ -129,6 +129,8 @@
         //绑定验证码失效
         if (error.code == 616201) {
             [gToast showError:error.domain];
+            self.orderInfo.customInfo[@"Invaild"] = @YES;
+            self.bottomBtn.enabled = NO;
             return ;
         }
         //验证码错误
