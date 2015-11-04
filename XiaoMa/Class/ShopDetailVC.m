@@ -728,17 +728,31 @@
     
     NSString * note = self.shop.announcement;
     
-    CGSize size = [note sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(FLT_MAX,FLT_MAX)];
-    CGFloat width = MIN(self.view.frame.size.width * 3 / 4, self.view.frame.size.width - 120);
+    
+    CGFloat width = MIN(self.view.frame.size.width * 3 / 5, self.view.frame.size.width - 120);
     [self.roundLb mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.width.mas_equalTo(width);
     }];
-    self.roundLb.text = note;
+    self.roundLb.text = [self appendSpace:note andWidth:width];
     
     self.roundLb.hidden = !self.shop.announcement.length;
     self.roundBgView.hidden = !self.shop.announcement.length;
 }
+
+
+- (NSString *)appendSpace:(NSString *)note andWidth:(CGFloat)w
+{
+    NSString * spaceNote = note;
+    for (;;)
+    {
+        CGSize size = [spaceNote sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(FLT_MAX,FLT_MAX)];
+        if (size.width > w)
+            return spaceNote;
+        spaceNote = [spaceNote append:@" "];
+    }
+}
+
 
 -(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
 {

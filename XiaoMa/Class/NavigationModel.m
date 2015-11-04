@@ -13,13 +13,16 @@
 #import "MyCouponVC.h"
 #import "InsOrderStore.h"
 #import "LoginVC.h"
+#import "GasVC.h"
 #import "DetailWebVC.h"
+#import "CarListVC.h"
 #import "GasVC.h"
 
 @implementation NavigationModel
 
 - (BOOL)pushToViewControllerByUrl:(NSString *)url
 {
+//    url = @"xmdd://j?t=cl&id=47898";
     BOOL flag = NO;
     //是内部跳转链接(以xmdd://开头)
     if ([url hasPrefix:@"xmdd://"]) {
@@ -141,8 +144,36 @@
         }
         //爱车列表
         else if ([@"cl" equalByCaseInsensitive:name] && gAppMgr.myUser) {
-            if (![self popToViewControllerIfNeededByIdentify:@"CarListVC"]) {
-                UIViewController *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+            CarListVC *vc = (CarListVC *)[self viewControllerByIdentify:@"CarListVC" withPrecidate:nil];
+            if (vc) {
+                [self.curNavCtrl popToViewController:vc animated:YES];
+                vc.originCarID = @([value integerValue]);
+            }
+            else {
+                vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+                vc.originCarID = @([value integerValue]);
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+            flag = YES;
+        }
+        //加油记录
+        else if ([@"gl" equalByCaseInsensitive:name] && gAppMgr.myUser) {
+            if (![self popToViewControllerIfNeededByIdentify:@"GasRecordVC"]) {
+                UIViewController *vc = [UIStoryboard vcWithId:@"GasRecordVC" inStoryboard:@"Gas"];
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+            flag = YES;
+        }
+        //浙商加油
+        else if ([@"czbgl" equalByCaseInsensitive:name]) {
+            GasVC *vc = (GasVC *)[self viewControllerByIdentify:@"GasVC" withPrecidate:nil];
+            if (vc) {
+                [self.curNavCtrl popToViewController:vc animated:YES];
+                vc.tabViewSelectedIndex = 1;
+            }
+            else {
+                GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
+                vc.tabViewSelectedIndex = 1;
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
             flag = YES;

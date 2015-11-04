@@ -14,7 +14,6 @@
 {
     self = [super init];
     if (self) {
-        _isAcceptedAgreement = YES;
         _isLoadSuccess = YES;
         _segHelper = [[CKSegmentHelper alloc] init];
         _paymentPlatform = PaymentPlatformTypeAlipay;

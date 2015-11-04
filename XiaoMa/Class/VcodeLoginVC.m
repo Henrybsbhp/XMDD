@@ -13,13 +13,14 @@
 #import "VCodeInputField.h"
 #import "WebVC.h"
 #import "NSString+PhoneNumber.h"
+#import "CKLimitTextField.h"
 
-@interface VcodeLoginVC () <UITextFieldDelegate>
+@interface VcodeLoginVC ()
 @property (weak, nonatomic) IBOutlet UIButton *checkBox;
 @property (weak, nonatomic) IBOutlet UIButton *vcodeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
 @property (nonatomic, strong) HKSMSModel *smsModel;
-@property (weak, nonatomic) IBOutlet UITextField *num;
+@property (weak, nonatomic) IBOutlet CKLimitTextField *num;
 @property (weak, nonatomic) IBOutlet VCodeInputField *code;
 @end
 
@@ -37,16 +38,14 @@
     self.navigationItem.leftBarButtonItem = back;
     
     self.smsModel = [[HKSMSModel alloc] init];
-    
-    self.num.delegate = self;
-    self.code.delegate = self;
+
     NSArray *mobEvents = @[@"rp002-7",@"rp002-8",@"rp002-9"];
-    
     self.smsModel.getVcodeButton = self.vcodeBtn;
     self.smsModel.inputVcodeField = self.code;
     self.smsModel.phoneField = self.num;
     [self.smsModel setupWithTargetVC:self mobEvents:mobEvents];
     [self.smsModel countDownIfNeededWithVcodeType:HKVcodeTypeLogin];
+    [self setupUI];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -71,6 +70,26 @@
     
 }
 
+- (void)setupUI
+{
+    self.num.textLimit = 11;
+    [self.num setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        [MobClick event:@"rp002-1"];
+    }];
+    @weakify(self);
+    [self.num setTextDidChangedBlock:^(CKLimitTextField *field) {
+        @strongify(self);
+        BOOL enable = field.text.length == 11;
+        if (enable != self.vcodeBtn.enabled) {
+            self.vcodeBtn.enabled = enable;
+        }
+    }];
+    
+    self.code.textLimit = 8;
+    [self.code setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        [MobClick event:@"rp002-3"];
+    }];
+}
 #pragma mark - Action
 - (void)actionBack:(id)sender {
     [self.model dismissForTargetVC:self forSucces:NO];
@@ -137,58 +156,6 @@
     }];
 }
 
-#pragma mark - TextField
--(void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    if (textField == self.num) {
-        [MobClick event:@"rp002-1"];
-    }
-    if (textField == self.code) {
-        [MobClick event:@"rp002-3"];
-    }
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    //手机号输入
-    if ([textField isEqual:self.num]) {
-        NSInteger length = range.location + [string length] - range.length;
-        if (length > 11) {
-            return NO;
-        }
-        NSString *title = [self.vcodeBtn titleForState:UIControlStateNormal];
-        if ([@"获取验证码" equalByCaseInsensitive:title]) {
-            BOOL enable = length == 11;
-            if (enable != self.vcodeBtn.enabled) {
-                self.vcodeBtn.enabled = enable;
-            }
-        }
-    }
-    //验证码输入
-    else if ([textField isEqual:self.code]) {
-        NSInteger length = range.location + [string length] - range.length;
-        if (length > 8) {
-            return NO;
-        }
-    }
-    
-    return YES;
-}
-
-- (BOOL)textFieldShouldClear:(UITextField *)textField
-{
-    //手机号输入
-    if ([textField isEqual:self.num]) {
-        NSString *title = [self.vcodeBtn titleForState:UIControlStateNormal];
-        if ([@"获取验证码" equalByCaseInsensitive:title]) {
-            BOOL enable = NO;
-            if (enable != self.vcodeBtn.enabled) {
-                self.vcodeBtn.enabled = enable;
-            }
-        }
-    }
-    return YES;
-}
 #pragma mark - Private
 - (NSString *)textAtIndex:(NSInteger)index
 {

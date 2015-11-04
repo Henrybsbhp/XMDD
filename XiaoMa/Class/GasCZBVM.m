@@ -109,6 +109,7 @@
 {
     if (force && gAppMgr.myUser) {
         [self.bankStore sendEvent:[self.bankStore getAllBankCards]];
+        [self.cardStore sendEvent:[self.cardStore getAllCards]];
         return YES;
     }
     if (gAppMgr.myUser && (!self.bankList || [self.bankStore needUpdateTimetagForKey:nil])) {
@@ -176,7 +177,7 @@
     }
     NSString *row1 = self.curBankCard ? @"10005" : @"10006";
     NSString *row2 = self.curGasCard ? @"10001" : @"10002";
-    return @[@[row1,row2,@"10003",@"10004"]];
+    return @[@[row1,row2,@"10003",@"10004",@"30001"]];
 }
 
 - (NSString *)bankFavorableDesc

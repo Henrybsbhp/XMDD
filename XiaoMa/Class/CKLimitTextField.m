@@ -47,6 +47,7 @@
 @interface CKLimitTextFieldProxyObject ()
 @property (nonatomic, strong) NSString *oldText;
 @property (nonatomic, strong, readonly) UITextPosition *oldCursorPosition;
+@property (nonatomic, strong) NSString *oldReplacement;
 @end
 @implementation CKLimitTextFieldProxyObject
 
@@ -71,7 +72,7 @@
             }
         }
         if (_textField.textChangingBlock) {
-            _textField.textChangingBlock(textField);
+            _textField.textChangingBlock(textField, self.oldReplacement);
         }
     }
     if (_textField.textLimit > 0 && _textField.textLimit < textField.text.length) {
@@ -121,7 +122,7 @@
     UITextRange *markedRange = textField.markedTextRange;
     _oldCursorPosition = markedRange ? markedRange.start : cursorPos;
     _oldText = textField.text;
-    
+    _oldReplacement = string;
     return YES;
 }
 
