@@ -134,16 +134,18 @@
 - (void)setupCarStore
 {
     self.carStore = [MyCarStore fetchExistsStore];
+    @weakify(self);
     [self.carStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
-        
+        @strongify(self);
         [[evt signal] subscribeNext:^(id x) {
-            
+            @strongify(self);
             if (!self.defaultCar)
             {
-                self.defaultCar = self.carStore.defalutCar;
+                self.defaultCar = [self.carStore defalutInfoCompletelyCar];
             }
         }];
     }];
+    [self.carStore sendEvent:[self.carStore getAllCarsIfNeeded]];
 }
 
 #pragma mark - Action

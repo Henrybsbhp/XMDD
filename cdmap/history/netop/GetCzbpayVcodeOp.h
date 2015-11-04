@@ -13,6 +13,10 @@
 @property (nonatomic,strong) NSNumber* rsp_orderid;
 ///交易流水
 @property (nonatomic,strong) NSString* rsp_tradeid;
+///支付金额
+@property (nonatomic,assign) int rsp_total;
+///优惠金额
+@property (nonatomic,assign) int rsp_couponmoney;
 
 
 @end
