@@ -16,6 +16,7 @@
 #import "SystemFastrateGetOp.h"
 #import "SubmitCommentOp.h"
 #import "ShopDetailVC.h"
+#import "NSDate+DateForText.h"
 
 
 
@@ -31,6 +32,13 @@
 @property (nonatomic, assign) BOOL isTextViewEdit;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UILabel *commentLb;
+@property (weak, nonatomic) IBOutlet UIImageView *shopImageView;
+@property (weak, nonatomic) IBOutlet UILabel *shopNameLb;
+@property (weak, nonatomic) IBOutlet UILabel *serviceLb;
+@property (weak, nonatomic) IBOutlet UILabel *dateLb;
+@property (weak, nonatomic) IBOutlet UILabel *priceLb;
+@property (weak, nonatomic) IBOutlet UIView *infoView;
+
 
 @property (nonatomic,strong)NSArray * currentRateTemplate;
 
@@ -40,20 +48,33 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offsetY2;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offsetY3;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offsetY4;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *offset5;
 @end
 
 @implementation PaymentSuccessVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self.shopImageView setImageByUrl:[self.order.shop.picArray safetyObjectAtIndex:0]
+                withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
+    self.shopNameLb.text = self.order.shop.shopName;
+    self.serviceLb.text = self.order.servicename;
+    self.dateLb.text = [[NSDate date] dateFormatForYYYYMMddHHmm];
+    self.priceLb.attributedText = [self priceStringWithPrice:@(self.order.fee)];;
 
     CKAsyncMainQueue(^{
-        [self.drawingView drawSuccessByFrame];
+//        [self.drawingView drawSuccessByFrame];
         [self changeCollectionHeight];
         [self changeOffset];
         [self setupRateView];
         [self setupTextView];
         [self setupUI:self.commentStatus];
+        
+        [self.infoView mas_updateConstraints:^(MASConstraintMaker *make) {
+           
+            make.width.mas_equalTo(gAppMgr.deviceInfo.screenSize.width);
+        }];
     });
     
     
@@ -162,6 +183,7 @@
         
         [gToast showSuccess:@"评价成功!"];
         self.subLabel.text = @"评价成功!";
+        self.currentRateTemplate = selected;
         [self setupUI:Commented];
         self.order.ratetime = [NSDate date];
         self.order.comment = rspOp.req_comment;
@@ -257,7 +279,10 @@
             self.textView.hidden = YES;
             self.commentBtn.hidden = YES;
             self.recommendBtn.hidden = !gAppMgr.canShareFlag;
-            self.collectionView.hidden = YES;
+            self.collectionView.hidden = !self.currentRateTemplate.count;
+            CGFloat height = [self changeCollectionHeight];
+            self.offset5.constant = height + 12;
+            [self.collectionView reloadData];
             break;
         }
     }
@@ -312,8 +337,19 @@
     NSDictionary * d = [self.currentRateTemplate safetyObjectAtIndex:indexPath.section * 2 + indexPath.row];
     lb.text = d[[d.allKeys safetyObjectAtIndex:0]];
     
-    imgV.image = d.customTag ? [UIImage imageNamed:@"gouzi_green"]:[UIImage imageNamed:@"gouzi_gray"];
-    lb.textColor = d.customTag ? [UIColor colorWithHex:@"#20ab2a" alpha:1.0f]:[UIColor darkGrayColor];
+    imgV.image = d.customTag ? [UIImage imageNamed:@"gouzi_orange"]:[UIImage imageNamed:@"gouzi_gray"];
+    lb.textColor = d.customTag ? [UIColor colorWithHex:@"#ffa800" alpha:1.0f]:[UIColor darkGrayColor];
+    if (d.customTag)
+    {
+        cell.contentView.layer.borderWidth = 0.5f;
+        cell.contentView.layer.borderColor = [UIColor colorWithHex:@"#ffa800" alpha:1.0f].CGColor;
+        cell.contentView.layer.masksToBounds = YES;
+    }
+    else
+    {
+        cell.contentView.layer.borderWidth = 0;
+        cell.contentView.layer.masksToBounds = NO;
+    }
     return cell;
 }
 
@@ -330,7 +366,7 @@
 
 
 #pragma mark - Utility
-- (void)changeCollectionHeight
+- (CGFloat)changeCollectionHeight
 {
     NSInteger num = self.currentRateTemplate.count / 2 + (self.currentRateTemplate.count % 2);
     CGFloat height = 25 * num + 5 * (num + 1);
@@ -340,6 +376,8 @@
     size.height = height;
     size.width = gAppMgr.deviceInfo.screenSize.width;
     self.collectionView.contentSize = size;
+
+    return height;
 }
 
 - (void)changeOffset
@@ -388,5 +426,23 @@
         [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
     }
 }
+
+- (NSAttributedString *)priceStringWithPrice:(NSNumber *)price1
+{
+    NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
+    NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
+    NSString * p = @"￥";
+    NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:p attributes:attr1];
+    [str appendAttributedString:attrStr1];
+    
+    if (price1) {
+        NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:30]};
+        NSString * p = [NSString stringWithFormat:@"%@", [NSString formatForPrice:[price1 floatValue]]];
+        NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:p attributes:attr2];
+        [str appendAttributedString:attrStr2];
+    }
+    return str;
+}
+
 
 @end
