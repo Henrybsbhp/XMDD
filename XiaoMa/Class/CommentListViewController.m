@@ -181,6 +181,9 @@
     timeL.text = [comment.time dateFormatForYYMMdd2];
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
+    if (!IOSVersionGreaterThanOrEqualTo(@"8.0")) {
+        contentL.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 71;
+    }
     serviceL.text = comment.serviceName;
     
     [avatarV setImageByUrl:comment.avatarUrl withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
