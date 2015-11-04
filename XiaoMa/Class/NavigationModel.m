@@ -188,7 +188,7 @@
         }
     }
     else if ([url hasPrefix:@"http://"]) {
-        WebVC *vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
+        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.url = [self httpUrlStringFrom:url];
         [self.curNavCtrl pushViewController:vc animated:YES];
         flag = YES;
