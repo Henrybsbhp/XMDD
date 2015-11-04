@@ -42,7 +42,7 @@
     @weakify(self);
     [[RACObserve(self, vcode) distinctUntilChanged] subscribeNext:^(NSString *vcode) {
         @strongify(self);
-        self.bottomBtn.enabled = vcode.length >= 6 && self.orderInfo;
+        self.bottomBtn.enabled = vcode.length >= 6 && self.orderInfo && ![self.orderInfo.customInfo[@"Invaild"] boolValue];
     }];
 }
 
@@ -62,7 +62,9 @@
             }
         }];
     }
-    [self.navigationController popViewControllerAnimated:YES];
+    else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)actionGetVCode:(id)sender
@@ -97,7 +99,6 @@
     op.req_paychannel = [PaymentHelper paymentChannelForPlatformType:PaymentPlatformTypeCreditCard];
     op.req_orderid = self.orderInfo.rsp_orderid;
     @weakify(self);
-    @weakify(op);
     [[[op rac_postRequest] initially:^{
         [gToast showingWithText:@"正在支付..."];
     }] subscribeNext:^(GascardChargeOp *op) {
@@ -106,7 +107,10 @@
         [gToast dismiss];
         //标记当前油卡为最近使用的油卡
         NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-        [def setObject:op.req_gid forKey:[self.model recentlyUsedGasCardKey]];
+        NSString *key = [self.model recentlyUsedGasCardKey];
+        if (key) {
+            [def setObject:op.req_gid forKey:key];
+        }
         //更新信息
         BankCardStore *store = [BankCardStore fetchExistsStore];
         [store sendEvent:[store updateBankCardCZBInfoByCID:self.bankCard.cardID]];
@@ -115,12 +119,25 @@
         vc.originVC = self.originVC;
         vc.drawingStatus = DrawingBoardViewStatusSuccess;
         vc.gasCard = self.gasCard;
-        vc.gasPayOp = op;
+        vc.chargeMoney = op.req_amount+op.rsp_couponmoney;
+        vc.couponMoney = op.rsp_couponmoney;
+        vc.paidMoney = op.rsp_total;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
         @strongify(self);
-        @strongify(op);
+        //绑定验证码失效
+        if (error.code == 616201) {
+            [gToast showError:error.domain];
+            self.orderInfo.customInfo[@"Invaild"] = @YES;
+            self.bottomBtn.enabled = NO;
+            return ;
+        }
+        //验证码错误
+        else if (error.code == 616202) {
+            [gToast showError:error.domain];
+            return;
+        }
         [gToast dismiss];
         //加油到达上限（如果遇到该错误，客户端提醒用户后，需再调用一次查询卡的充值信息）
         if (error.code == 618602) {
@@ -131,7 +148,9 @@
         GasPaymentResultVC *vc = [UIStoryboard vcWithId:@"GasPaymentResultVC" inStoryboard:@"Gas"];
         vc.drawingStatus = DrawingBoardViewStatusFail;
         vc.gasCard = self.gasCard;
-        vc.gasPayOp = op;
+        vc.paidMoney = self.orderInfo.rsp_total;
+        vc.couponMoney = self.orderInfo.rsp_couponmoney;
+        vc.chargeMoney = self.orderInfo.req_chargeamt+self.orderInfo.rsp_couponmoney;
         vc.detailText = error.domain;
         vc.originVC = self.originVC;
         [self.navigationController pushViewController:vc animated:YES];

@@ -15,7 +15,9 @@
 
 @property (nonatomic, strong) NSString *detailText;
 @property (nonatomic, assign) DrawingBoardViewStatus drawingStatus;
-@property (nonatomic, strong) GascardChargeOp *gasPayOp;
+@property (nonatomic, assign) int paidMoney;
+@property (nonatomic, assign) int couponMoney;
+@property (nonatomic, assign) int chargeMoney;
 @property (nonatomic, assign) GasCard *gasCard;
 @property (nonatomic, weak) UIViewController *originVC;
 

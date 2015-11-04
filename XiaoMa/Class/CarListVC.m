@@ -9,16 +9,17 @@
 #import "CarListVC.h"
 #import <JT3DScrollView.h>
 #import "XiaoMa.h"
-#import "HKLoadingModel.h"
 #import "EditCarVC.h"
 #import "CarListSubView.h"
+#import "UIView+JTLoadingView.h"
 #import "MyCarStore.h"
 
-@interface CarListVC ()<HKLoadingModelDelegate, UIScrollViewDelegate>
+@interface CarListVC ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet JT3DScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UILabel *bottomTitlelabel;
-@property (nonatomic, strong) HKLoadingModel *loadingModel;
+@property (nonatomic, strong) MyCarStore *carStore;
+@property (nonatomic, strong) NSArray *datasource;
 @end
 
 @implementation CarListVC
@@ -32,12 +33,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setupScrollView];
-    self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.view delegate:self];
     [self setupCarStore];
-    CKAsyncMainQueue(^{
-        [self.loadingModel loadDataForTheFirstTime];
-        [self setupBottomView];
-    });
+    [self setupBottomView];
+    [self.carStore sendEvent:[self.carStore getAllCars]];
 }
 
 
@@ -98,17 +96,10 @@
 - (void)setupCarStore
 {
     @weakify(self);
-    [[MyCarStore fetchOrCreateStore] subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+    self.carStore = [MyCarStore fetchOrCreateStore];
+    [self.carStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
         @strongify(self);
-        //如果当前事件的sender为自己则忽略
-        if ([self isEqual:evt.object]) {
-            return ;
-        }
-        MyCarStore *carStore = (MyCarStore *)store;
-        RACSignal *sig = [evt.signal map:^id(id value) {
-            return [carStore allCars];
-        }];
-        [self.loadingModel autoLoadDataFromSignal:sig];
+        [self reloadDataWithEvent:evt];
     }];
 }
 
@@ -140,18 +131,99 @@
     }];
 }
 
+- (void)setOriginCarID:(NSNumber *)originCarID
+{
+    _originCarID = originCarID;
+    [self.carStore sendEvent:[self.carStore getAllCarsIfNeeded]];
+}
+
+- (void)reloadDataWithEvent:(CKStoreEvent *)evt
+{
+    NSInteger code = evt.code;
+    @weakify(self);
+    [[[[evt.signal deliverOn:[RACScheduler mainThreadScheduler]] initially:^{
+        
+        @strongify(self);
+        self.scrollView.hidden = YES;
+        self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+    }] finally:^{
+        
+        @strongify(self);
+        [self.view stopActivityAnimation];
+    }] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        self.datasource = [self.carStore.cache allObjects];
+        HKMyCar *defCar = [self.carStore defalutCar];
+        if (self.model.allowAutoChangeSelectedCar) {
+            HKMyCar *car = [self.carStore.cache objectForKey:_originCarID ? _originCarID : self.model.currentCar.carId];
+            if (car) {
+                self.model.selectedCar = car;
+                self.model.currentCar = car;
+            }
+            else {
+                self.model.selectedCar = defCar;
+                self.model.currentCar = defCar;
+            }
+        }
+        else {
+            if (![defCar isEqual:self.model.selectedCar]) {
+                self.model.selectedCar = defCar;
+            }
+            if (_originCarID) {
+                self.model.currentCar = [self.carStore.cache objectForKey:_originCarID];
+            }
+            else if (code != kCKStoreEventUpdate) {
+                self.model.currentCar = defCar;
+            }
+            if (!self.model.currentCar) {
+                self.model.currentCar = self.model.selectedCar;
+            }
+        }
+        if (self.datasource.count >= 5) {
+            [self.navigationItem setRightBarButtonItem:nil animated:NO];
+        }
+        else {
+            UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"添加" style:UIBarButtonItemStylePlain target:self action:@selector(actionAddCar:)];
+            [self.navigationItem setRightBarButtonItem:right animated:NO];
+        }
+        if (self.datasource.count == 0) {
+            [self.view showDefaultEmptyViewWithText:@"暂无爱车，快去添加一辆吧" tapBlock:^{
+                @strongify(self);
+                [self actionAddCar:nil];
+            }];
+        }
+        else {
+            [self refreshScrollView];
+        }
+        _originCarID = nil;
+    } error:^(NSError *error) {
+        
+        @strongify(self);
+        [gToast showError:error.domain];
+        [self.view showDefaultEmptyViewWithText:@"获取爱车信息失败，点击重试" tapBlock:^{
+            @strongify(self);
+            [self.carStore sendEvent:[self.carStore getAllCars]];
+        }];
+    }];
+}
+
 - (void)refreshScrollView
 {
+    [self.view hideDefaultEmptyView];
+    [self.view hideIndicatorText];
+    self.scrollView.hidden = NO;
     [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    for (NSInteger i=0; i<self.loadingModel.datasource.count; i++) {
-        HKMyCar *car = self.loadingModel.datasource[i];
+    for (NSInteger i=0; i<self.datasource.count; i++) {
+        HKMyCar *car = self.datasource[i];
         [self createCardWithCar:car atIndex:i];
     }
     
     NSInteger index = NSNotFound;
     
     if (self.model.currentCar) {
-        index = [self.loadingModel.datasource indexOfObject:self.model.currentCar];
+        index = [self.datasource indexOfObject:self.model.currentCar];
     }
     if (index == NSNotFound) {
         index = 0;
@@ -296,7 +368,7 @@
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
-    HKMyCar *car = [self.loadingModel.datasource safetyObjectAtIndex:[self.scrollView currentPage]];
+    HKMyCar *car = [self.datasource safetyObjectAtIndex:[self.scrollView currentPage]];
     self.model.currentCar = car;
     if (self.model.allowAutoChangeSelectedCar) {
         self.model.selectedCar = car;
@@ -305,74 +377,11 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    HKMyCar *car = [self.loadingModel.datasource safetyObjectAtIndex:[self.scrollView currentPage]];
+    HKMyCar *car = [self.datasource safetyObjectAtIndex:[self.scrollView currentPage]];
     self.model.currentCar = car;
     if (self.model.allowAutoChangeSelectedCar) {
         self.model.selectedCar = car;
     }
 }
-
-#pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
-{
-    self.scrollView.contentSize = self.scrollView.frame.size;
-    self.scrollView.hidden = YES;
-    return @"暂无爱车，快去添加一辆吧";
-}
-
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
-{
-    self.scrollView.contentSize = self.scrollView.frame.size;
-    self.scrollView.hidden = YES;
-    return @"获取爱车信息失败，点击重试";
-}
-
-- (BOOL)loadingModelShouldAllowRefreshing:(HKLoadingModel *)model
-{
-    return NO;
-}
-
-- (void)loadingModel:(HKLoadingModel *)model didTappedForBlankPrompting:(NSString *)prompting type:(HKLoadingTypeMask)type
-{
-    [self actionAddCar:nil];
-}
-
-- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
-{
-    MyCarStore *store = [MyCarStore fetchExistsStore];
-    [store sendEvent:[store getAllCars]];
-    return [RACSignal empty];
-}
-
-- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type
-{
-    self.scrollView.hidden = NO;
-    HKMyCar *defCar = [[MyCarStore fetchExistsStore] defalutCar];
-    if (self.model.allowAutoChangeSelectedCar) {
-        BOOL currentCarValid = self.model.currentCar ? [model.datasource containsObject:self.model.currentCar] : NO;
-        if (currentCarValid && ![self.model.currentCar isEqual:self.model.selectedCar]) {
-            self.model.selectedCar = self.model.currentCar;
-        }
-        else {
-            self.model.selectedCar = defCar;
-            self.model.currentCar = defCar;
-        }
-    }
-    else {
-        self.model.currentCar = defCar;
-        if (![defCar isEqual:self.model.selectedCar]) {
-            self.model.selectedCar = defCar;
-        }
-    }
-    if (model.datasource.count >= 5) {
-        [self.navigationItem setRightBarButtonItem:nil animated:NO];
-    }
-    else {
-        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"添加" style:UIBarButtonItemStylePlain target:self action:@selector(actionAddCar:)];
-        [self.navigationItem setRightBarButtonItem:right animated:NO];
-    }
-    [self refreshScrollView];
-}
-
 
 @end

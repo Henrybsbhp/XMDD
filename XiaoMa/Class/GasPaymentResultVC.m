@@ -32,11 +32,11 @@
     vc.image = [UIImage imageNamed:@"wechat_share_gas"];
     vc.webimage = [UIImage imageNamed:@"weibo_share_gas"];
     vc.urlStr = @"http://www.xiaomadada.com/paaweb/general/appDownload?ch=10002";
-    if (self.gasPayOp.rsp_total < self.gasPayOp.req_amount) {
+    if (self.paidMoney < self.chargeMoney) {
         vc.subtitle = [NSString stringWithFormat:@"我在小马达达为油卡充值了%d元，省了%d元！加油省省省，你也来加油吧！",
-                       self.gasPayOp.req_amount, self.gasPayOp.req_amount - self.gasPayOp.rsp_total];
+                       self.chargeMoney, self.couponMoney];
     } else {
-        vc.subtitle = [NSString stringWithFormat:@"我在小马达达为油卡充值了%d元！加油省省省，你也来加油吧！", self.gasPayOp.req_amount];
+        vc.subtitle = [NSString stringWithFormat:@"我在小马达达为油卡充值了%d元！加油省省省，你也来加油吧！", self.chargeMoney];
     }
 
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
@@ -113,12 +113,8 @@
     UILabel *rightpriceL = (UILabel *)[cell viewWithTag:1007];
 
     cardnoL.text = [self.gasCard.gascardno splitByStep:4 replacement:@" "];
-    NSInteger amount = self.gasPayOp.req_amount;
-    if (self.gasPayOp.req_paychannel == PaymentChannelXMDDCreditCard) {
-        amount += self.gasPayOp.rsp_couponmoney;
-    }
-    leftpriceL.text = [NSString stringWithFormat:@"￥%.2f", (float)amount];
-    rightpriceL.text = [NSString stringWithFormat:@"￥%.2f", (float)self.gasPayOp.rsp_total];
+    leftpriceL.text = [NSString stringWithFormat:@"￥%.2f", (float)self.chargeMoney];
+    rightpriceL.text = [NSString stringWithFormat:@"￥%.2f", (float)self.paidMoney];
     
     BOOL highlighted = self.drawingStatus != DrawingBoardViewStatusSuccess;
     NSString *iconname = self.gasCard.cardtype == 1 ? @"gas_icon_snpn" : @"gas_icon_cnpc";

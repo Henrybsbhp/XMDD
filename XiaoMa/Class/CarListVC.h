@@ -13,5 +13,6 @@
 @interface CarListVC : UIViewController
 
 @property (nonatomic, strong, readonly) MyCarListVModel *model;
+@property (nonatomic, strong) NSNumber *originCarID;
 
 @end

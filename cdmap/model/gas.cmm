@@ -84,6 +84,8 @@ class=GetCzbpayVcode op auth path="/czbpay/vcode/get"> {
   <rsp> {
     <"订单记录id">orderid:number
     <"交易流水">tradeid
+    <"支付金额">total:int
+    <"优惠金额">couponmoney:int
   }
 }
 

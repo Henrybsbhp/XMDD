@@ -120,7 +120,8 @@
             [self.navigationController popViewControllerAnimated:YES];
         }
     }];
-    
+
+    [self setupMyCarList];
     [self headImageView];
     [self requestShopComments];
 }
@@ -188,7 +189,10 @@
 
 - (void)setupMyCarList
 {
-    [[[[MyCarStore fetchExistsStore] getAllCarsIfNeeded] signal] subscribeNext:^(id x) {}];
+    MyCarStore *store = [MyCarStore fetchExistsStore];
+    [[[store sendEvent:[store getAllCarsIfNeeded]] signal] subscribeNext:^(id x) {
+        
+    }];
 }
 
 #pragma mark - Action

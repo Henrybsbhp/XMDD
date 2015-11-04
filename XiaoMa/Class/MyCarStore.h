@@ -20,6 +20,7 @@
 
 - (HKMyCar *)carByID:(NSNumber *)carId;
 - (HKMyCar *)defalutCar;
+- (HKMyCar *)defalutInfoCompletelyCar;
 - (NSArray *)allCars;
 
 + (NSString *)verifiedLicenseNumberFrom:(NSString *)licenseNumber;
