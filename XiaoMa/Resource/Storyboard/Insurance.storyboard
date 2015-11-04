@@ -245,7 +245,7 @@
                                                         <color key="tintColor" red="0.13725490200000001" green="0.67450980390000004" blue="0.1764705882" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="textColor" red="0.13725490200000001" green="0.67450980390000004" blue="0.1764705882" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="38"/>
-                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                         <connections>
                                                             <outlet property="delegate" destination="P7Y-gl-JMG" id="DJV-Hk-JqR"/>
                                                         </connections>
