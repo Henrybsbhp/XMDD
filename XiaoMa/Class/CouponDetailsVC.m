@@ -277,6 +277,9 @@
         [nolabel.layer setMasksToBounds:YES];
         
         contentlabel.text = [self.couponDic.useguide safetyObjectAtIndex:indexPath.row];
+        if (!IOSVersionGreaterThanOrEqualTo(@"8.0")) {
+            contentlabel.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 44;
+        }
         return cell;
     }
 }
