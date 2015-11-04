@@ -1,15 +1,15 @@
 //
-//  GetCarwashOrderListOp.h
+//  GetCarwashOrderListV2Op.h
 //  XiaoMa
 //
-//  Created by jiangjunchen on 15/5/11.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Created by jt on 15/11/4.
+//  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
 #import "BaseOp.h"
 #import "HKServiceOrder.h"
 
-@interface GetCarwashOrderListOp : BaseOp
+@interface GetCarwashOrderListV2Op : BaseOp
 
 @property (nonatomic, assign) long long req_tradetime;
 @property (nonatomic, strong) NSArray *rsp_orders;

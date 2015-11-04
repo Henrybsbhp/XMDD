@@ -1,23 +1,23 @@
 //
-//  GetCarwashOrderListOp.m
+//  GetCarwashOrderListV2Op.m
 //  XiaoMa
 //
-//  Created by jiangjunchen on 15/5/11.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Created by jt on 15/11/4.
+//  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "GetCarwashOrderListOp.h"
+#import "GetCarwashOrderListV2Op.h"
 
-@implementation GetCarwashOrderListOp
+@implementation GetCarwashOrderListV2Op
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/user/order/service/get";
+    self.req_method = @"/user/order/service/v2/get";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if (self.req_tradetime > 0) {
         [params setObject:@(self.req_tradetime) forKey:@"tradetime"];
     }
-
+    
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
@@ -32,5 +32,6 @@
     self.rsp_orders = orderArray;
     return self;
 }
+
 
 @end
