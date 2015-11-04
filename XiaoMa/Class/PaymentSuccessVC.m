@@ -113,6 +113,7 @@
         {
             ShopDetailVC * vc = (ShopDetailVC *)self.originVC;
             vc.needRequestShopComments = YES;
+            vc.needPopToFirstCarwashTableVC = YES;
         }
         [self.navigationController popToViewController:self.originVC animated:YES];
     }
