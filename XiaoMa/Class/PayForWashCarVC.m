@@ -926,6 +926,8 @@
                 order.orderid = op.rsp_orderid;
                 order.shop = self.shop;
                 order.serviceid = self.service.serviceID;
+                order.servicename = self.service.serviceName;
+                order.fee = op.rsp_price;
                 vc.order = order;
                 [self.navigationController pushViewController:vc animated:YES];
             }
@@ -940,6 +942,8 @@
             order.orderid = op.rsp_orderid;
             order.shop = self.shop;
             order.serviceid = self.service.serviceID;
+            order.servicename = self.service.serviceName;
+            order.fee = op.rsp_price;
             vc.order = order;
             [self.navigationController pushViewController:vc animated:YES];
         }
@@ -1018,6 +1022,8 @@
         HKServiceOrder * order = [[HKServiceOrder alloc] init];
         order.orderid = orderId;
         order.serviceid = self.service.serviceID;
+        order.servicename = self.service.serviceName;
+        order.fee = price;
         order.shop = self.shop;
         vc.order = order;
         [self.navigationController pushViewController:vc animated:YES];
@@ -1050,7 +1056,9 @@
         HKServiceOrder * order = [[HKServiceOrder alloc] init];
         order.orderid = orderId;
         order.serviceid = self.service.serviceID;
+        order.servicename = self.service.serviceName;
         order.shop = self.shop;
+        order.fee = price;
         vc.order = order;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {

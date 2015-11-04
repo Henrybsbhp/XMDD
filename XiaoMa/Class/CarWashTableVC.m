@@ -373,7 +373,6 @@
     vc.couponFordetailsDic = self.couponForWashDic;
     vc.hidesBottomBarWhenPushed = YES;
     vc.shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
-    vc.originVC = self.originVC;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

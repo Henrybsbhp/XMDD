@@ -82,7 +82,6 @@
                 CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
                 vc.type = 1 ;
                 vc.couponForWashDic = self.couponDic;
-                vc.originVC = self.originVC;
                 [self.navigationController pushViewController:vc animated:YES];
             }];
         }

@@ -24,6 +24,4 @@
 ///禁止广告
 @property (nonatomic, assign) BOOL forbidAD;
 
-@property (nonatomic, weak) UIViewController *originVC;
-
 @end
