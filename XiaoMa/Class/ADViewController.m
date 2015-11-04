@@ -130,13 +130,13 @@
             [self.navModel pushToViewControllerByUrl:ad.adLink];
         }
         else {
-            WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
-            vc.title = @"小马达达";
-            vc.url = ADDEFINEWEB;
-            [self.targetVC.navigationController pushViewController:vc animated:YES];
-//            DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-//            vc.url = XIAMMAWEB;
+//            WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+//            vc.title = @"小马达达";
+//            vc.url = ADDEFINEWEB;
 //            [self.targetVC.navigationController pushViewController:vc animated:YES];
+            DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+            vc.url = XIAMMAWEB;
+            [self.targetVC.navigationController pushViewController:vc animated:YES];
         }
     }];
     
