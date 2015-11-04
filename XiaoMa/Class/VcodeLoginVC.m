@@ -79,9 +79,12 @@
     @weakify(self);
     [self.num setTextDidChangedBlock:^(CKLimitTextField *field) {
         @strongify(self);
-        BOOL enable = field.text.length == 11;
-        if (enable != self.vcodeBtn.enabled) {
-            self.vcodeBtn.enabled = enable;
+        NSString *title = [self.vcodeBtn titleForState:UIControlStateNormal];
+        if ([@"获取验证码" equalByCaseInsensitive:title]) {
+            BOOL enable = field.text.length == 11;
+            if (enable != self.vcodeBtn.enabled) {
+                self.vcodeBtn.enabled = enable;
+            }
         }
     }];
     

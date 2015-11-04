@@ -101,6 +101,22 @@
     return defCar;
 }
 
+- (HKMyCar *)defalutInfoCompletelyCar
+{
+    NSArray *cars = self.cache.allObjects;
+    HKMyCar *defCar = [cars firstObjectByFilteringOperator:^BOOL(HKMyCar *car) {
+        return car.isDefault && [car isCarInfoCompleted];
+    }];
+    if (!defCar && cars.count > 0) {
+        for (HKMyCar *car in cars) {
+            if ([car isCarInfoCompleted]) {
+                return car;
+            }
+        }
+    }
+    return defCar;
+}
+
 - (NSArray *)allCars
 {
     return self.cache.allObjects;

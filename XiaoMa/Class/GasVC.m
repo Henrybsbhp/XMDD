@@ -299,6 +299,7 @@
             vc.gasCard = model.curGasCard;
             vc.chargeamt = model.rechargeAmount;
             vc.originVC = self;
+            vc.model = model;
             [self.navigationController pushViewController:vc animated:YES];
         }
     }
@@ -313,7 +314,9 @@
                 vc.originVC = self;
                 vc.drawingStatus = DrawingBoardViewStatusSuccess;
                 vc.gasCard = card;
-                vc.gasPayOp = paidop;
+                vc.paidMoney = paidop.rsp_total;
+                vc.couponMoney = paidop.rsp_couponmoney;
+                vc.chargeMoney = paidop.req_amount;
                 [self.navigationController pushViewController:vc animated:YES];
             }];
         }

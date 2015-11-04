@@ -161,12 +161,12 @@
             NSInteger cursor = [textField offsetFromPosition:textField.beginningOfDocument toPosition:textField.curCursorPosition];
             NSInteger posOffset = 0;
             NSInteger partOffset = cursor % 5;
-            //删除一个空格或空格后一位
-            if (cursor > 0 && (partOffset == 4 || partOffset == 5) && replacement.length == 0) {
+            //删除空格后一位
+            if (cursor > 0 && partOffset == 0 && replacement.length == 0) {
                 posOffset = -1;
             }
             //在空格前插入
-            else if (cursor > 0 && (partOffset == 5) && replacement.length > 0) {
+            else if (cursor > 0 && (partOffset == 0) && replacement.length > 0) {
                 posOffset = 1;
             }
             if (posOffset != 0) {
