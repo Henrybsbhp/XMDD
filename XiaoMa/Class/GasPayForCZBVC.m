@@ -135,6 +135,7 @@
         vc.chargeMoney = op.req_amount+op.rsp_couponmoney;
         vc.couponMoney = op.rsp_couponmoney;
         vc.paidMoney = op.rsp_total;
+        self.model.rechargeAmount = 500;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
