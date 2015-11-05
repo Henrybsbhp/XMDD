@@ -53,17 +53,32 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [MobClick endLogPageView:@"rp504"];
     [super viewWillDisappear:animated];
     [IQKeyboardManager sharedManager].shouldShowTextFieldPlaceholder = YES;
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp504"];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+
 #pragma mark - Action
 - (IBAction)actionSwitch:(UIButton *)sender
 {
+    if (sender.tag == 1001) {
+        [MobClick event:@"rp504-1"];
+    }
+    else {
+        [MobClick event:@"rp504-2"];
+    }
     self.curCard = sender.tag == 1001 ? self.snpnCard : self.cnpcCard;
 }
 
 - (IBAction)actionAddCard:(id)sender
 {
+    [MobClick event:@"rp504-5"];
     if (self.curCard.gascardno.length != [self.curCard maxCardNumberLength]) {
         [self shakeTextFieldCellAtRow:1];
         return;
@@ -157,6 +172,15 @@
         } else {
             field.text = [card.customObject splitByStep:4 replacement:@" "];
         }
+        [field setDidBeginEditingBlock:^(CKLimitTextField *textField) {
+            if (indexPath.row == 1) {
+                [MobClick event:@"rp504-3"];
+            } else {
+                [MobClick event:@"rp504-4"];
+            }
+            
+        }];
+        
         [field setTextChangingBlock:^(CKLimitTextField *textField, NSString *replacement) {
             NSInteger cursor = [textField offsetFromPosition:textField.beginningOfDocument toPosition:textField.curCursorPosition];
             NSInteger posOffset = 0;
