@@ -138,6 +138,14 @@
             }
             flag = YES;
         }
+        //消息列表
+        else if ([@"msg" equalByCaseInsensitive:name] && gAppMgr.myUser) {
+            if (![self popToViewControllerIfNeededByIdentify:@"MessageListVC"]) {
+                UIViewController *vc = [UIStoryboard vcWithId:@"MessageListVC" inStoryboard:@"Mine"];
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+            flag = YES;
+        }
         //商店详情
         else if ([@"sd" equalByCaseInsensitive:name]) {
 

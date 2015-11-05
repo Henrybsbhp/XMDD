@@ -31,6 +31,12 @@ static NetworkManager *g_networkManager;
         NSURL * url = [NSURL URLWithString:_apiServer];
         _apiManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
         _apiManager.requestSerializer = [AFJSONRequestSerializer serializer];
+        
+        /// https设置
+        AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
+        securityPolicy.allowInvalidCertificates = YES;
+        _apiManager.securityPolicy = securityPolicy;
+        
         _mediaClient = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
         
         NSURL * logUrl = [NSURL URLWithString:LogUploadUrl];

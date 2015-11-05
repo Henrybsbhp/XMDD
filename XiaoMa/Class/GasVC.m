@@ -88,6 +88,15 @@
     self.normalModel.cachedEvent = nil;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    //IOS 8.1.3下面有RTLabel消失的bug，需要重新刷一下页面
+    if (IOSVersionGreaterThanOrEqualTo(@"8.1.3") && !IOSVersionGreaterThanOrEqualTo(@"8.4")) {
+        [self.tableView reloadData];
+    }
+}
+
 - (void)setTabViewSelectedIndex:(NSInteger)tabViewSelectedIndex
 {
     _tabViewSelectedIndex = tabViewSelectedIndex;

@@ -69,7 +69,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     if (self.insuranceResultType == OrderSuccess) {
-        self.navigationItem.title = @"预约结果";
+        if (!self.navigationItem.title.length)
+        {
+            self.navigationItem.title = @"预约结果";
+        }
         self.resultLabel.text = self.resultTitle ? self.resultTitle : @"恭喜，预约成功 ！";
         self.resultLabel.textColor = [UIColor colorWithHex:@"#fa8585" alpha:1.0f];
         NSString * content = self.resultContent ? self.resultContent :
