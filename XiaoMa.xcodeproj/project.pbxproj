@@ -272,6 +272,7 @@
 		50E9DD161BE201180070F38D /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E9DD151BE201180070F38D /* Reachability.m */; };
 		6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */; };
 		6B086BA71AE4F03800659DB7 /* UIView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA61AE4F03800659DB7 /* UIView+Base.m */; };
+		6B0DB8221BEB277A007BE693 /* GetCarwashOrderListV3Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0DB8211BEB277A007BE693 /* GetCarwashOrderListV3Op.m */; settings = {ASSET_TAGS = (); }; };
 		6B1D93D31B8573A000740628 /* PayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1D93D21B8573A000740628 /* PayModel.m */; };
 		6B21A8961BD49399006D0556 /* GetShopByRangeV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A8951BD49399006D0556 /* GetShopByRangeV2Op.m */; };
 		6B21A8991BD493F8006D0556 /* GetShopByDistanceV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A8981BD493F8006D0556 /* GetShopByDistanceV2Op.m */; };
@@ -286,7 +287,6 @@
 		6B71C4221BB959CE0048B79F /* HKPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B71C4211BB959CE0048B79F /* HKPickerVC.m */; };
 		6B747A651AF08C7B00106BFD /* PhoneHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B747A641AF08C7B00106BFD /* PhoneHelper.m */; };
 		6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B82588F1AF8B37100D5D800 /* CommentListViewController.m */; };
-		6B8D47531BEA015100706989 /* GetCarwashOrderListV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8D47521BEA015100706989 /* GetCarwashOrderListV2Op.m */; settings = {ASSET_TAGS = (); }; };
 		6B8D47561BEA03C900706989 /* GetCarwashOrderV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8D47551BEA03C900706989 /* GetCarwashOrderV2Op.m */; settings = {ASSET_TAGS = (); }; };
 		6B978BFA1B6B643A00A6E7C6 /* HKCoverage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B978BF91B6B643A00A6E7C6 /* HKCoverage.m */; };
 		6B978BFD1B6B68AA00A6E7C6 /* InsuranceCalcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B978BFC1B6B68AA00A6E7C6 /* InsuranceCalcHelper.m */; };
@@ -982,6 +982,8 @@
 		6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemTipsOp.m; path = Class/GetSystemTipsOp.m; sourceTree = "<group>"; };
 		6B086BA51AE4F03800659DB7 /* UIView+Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Base.h"; path = "Class/UIView+Base.h"; sourceTree = "<group>"; };
 		6B086BA61AE4F03800659DB7 /* UIView+Base.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Base.m"; path = "Class/UIView+Base.m"; sourceTree = "<group>"; };
+		6B0DB8201BEB277A007BE693 /* GetCarwashOrderListV3Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetCarwashOrderListV3Op.h; path = Class/GetCarwashOrderListV3Op.h; sourceTree = "<group>"; };
+		6B0DB8211BEB277A007BE693 /* GetCarwashOrderListV3Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetCarwashOrderListV3Op.m; path = Class/GetCarwashOrderListV3Op.m; sourceTree = "<group>"; };
 		6B1D93D11B8573A000740628 /* PayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PayModel.h; path = Class/PayModel.h; sourceTree = "<group>"; };
 		6B1D93D21B8573A000740628 /* PayModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PayModel.m; path = Class/PayModel.m; sourceTree = "<group>"; };
 		6B21A8941BD49399006D0556 /* GetShopByRangeV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShopByRangeV2Op.h; path = Class/GetShopByRangeV2Op.h; sourceTree = "<group>"; };
@@ -1010,8 +1012,6 @@
 		6B747A641AF08C7B00106BFD /* PhoneHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhoneHelper.m; path = Class/PhoneHelper.m; sourceTree = "<group>"; };
 		6B82588E1AF8B37100D5D800 /* CommentListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentListViewController.h; sourceTree = "<group>"; };
 		6B82588F1AF8B37100D5D800 /* CommentListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentListViewController.m; sourceTree = "<group>"; };
-		6B8D47511BEA015100706989 /* GetCarwashOrderListV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetCarwashOrderListV2Op.h; path = Class/GetCarwashOrderListV2Op.h; sourceTree = "<group>"; };
-		6B8D47521BEA015100706989 /* GetCarwashOrderListV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetCarwashOrderListV2Op.m; path = Class/GetCarwashOrderListV2Op.m; sourceTree = "<group>"; };
 		6B8D47541BEA03C900706989 /* GetCarwashOrderV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetCarwashOrderV2Op.h; path = Class/GetCarwashOrderV2Op.h; sourceTree = "<group>"; };
 		6B8D47551BEA03C900706989 /* GetCarwashOrderV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetCarwashOrderV2Op.m; path = Class/GetCarwashOrderV2Op.m; sourceTree = "<group>"; };
 		6B978BF81B6B643A00A6E7C6 /* HKCoverage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKCoverage.h; path = Class/HKCoverage.h; sourceTree = "<group>"; };
@@ -3062,10 +3062,10 @@
 				6BF392431BD627A900838292 /* GetShopByNameV2Op.m */,
 				6BEF74871BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.h */,
 				6BEF74881BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.m */,
-				6B8D47511BEA015100706989 /* GetCarwashOrderListV2Op.h */,
-				6B8D47521BEA015100706989 /* GetCarwashOrderListV2Op.m */,
 				6B8D47541BEA03C900706989 /* GetCarwashOrderV2Op.h */,
 				6B8D47551BEA03C900706989 /* GetCarwashOrderV2Op.m */,
+				6B0DB8201BEB277A007BE693 /* GetCarwashOrderListV3Op.h */,
+				6B0DB8211BEB277A007BE693 /* GetCarwashOrderListV3Op.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -3559,7 +3559,6 @@
 				18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */,
 				1816F4BD1AD3A8AD00BBCC96 /* JTNavigationController.m in Sources */,
 				18A9E8CC1BDDC1C00061D3BC /* PickInsCompaniesVC.m in Sources */,
-				6B8D47531BEA015100706989 /* GetCarwashOrderListV2Op.m in Sources */,
 				6BF392441BD627A900838292 /* GetShopByNameV2Op.m in Sources */,
 				1816F4B01ACE75FB00BBCC96 /* CarWashTableVC.m in Sources */,
 				1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */,
@@ -3757,6 +3756,7 @@
 				6BC2209F1AD7AC9D00A4310E /* NSString+MD5.m in Sources */,
 				1883D9101ACBBE30002A4D19 /* main.m in Sources */,
 				18F813681B5F3561005F49B0 /* CKNavigationController+Expansion.m in Sources */,
+				6B0DB8221BEB277A007BE693 /* GetCarwashOrderListV3Op.m in Sources */,
 				6BDD6E241B67615C0060CFD0 /* JDFlipNumberDigitView.m in Sources */,
 				18804A9F1B2548AC00E7E764 /* NavigationModel.m in Sources */,
 				1833F5871BCD373B000E1DA1 /* GasCard.m in Sources */,

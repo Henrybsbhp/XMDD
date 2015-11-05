@@ -68,6 +68,7 @@
 //    #define ApiBaseUrl @"http://192.168.1.43:80/paa/rest/api" //智能联调
     #define ApiBaseUrl @"http://api.dev.xiaomadada.com:8282/paa/rest/api"
     #define ApiFormalUrl @"http://api.xiaomadada.com:8282/paa/rest/api" //正式
+    #define ApiHttpsBaseUrl @"https://dev.xiaomadada.com/paa/rest/api" //https地址
     #define DiscoverUrl @"http://dev.xiaomadada.com/paaweb/general/discoveryload"//发现地址
     #define LogUploadUrl @"http://183.129.253.170:18282/log/upload"
 #else

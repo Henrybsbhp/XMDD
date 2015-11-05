@@ -46,10 +46,21 @@
     NSDictionary * dic2 = @{NSFontAttributeName:[UIFont systemFontOfSize:15]};
     NSInteger recharge = self.curCharegeTotal;
     NSInteger discount = self.curCouponedTotal;
+    
     NSMutableAttributedString * attributedStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"今年您的油卡充值了%ld元，", (long)recharge] attributes:dic1];
     NSAttributedString * attributedStr2 = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"总计优惠了%ld元", (long)discount] attributes:dic2];
     [attributedStr appendAttributedString:attributedStr2];
+    
     self.headLabel.attributedText = attributedStr;
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+
+    }
+    else
+    {
+//        self.headLabel.text = [NSString stringWithFormat:@"今年您的油卡充值了%ld元，总计优惠了%ld元",(long)recharge,(long)discount];
+//        self.headLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 20;
+    }
     self.tableView.tableHeaderView = self.headView;
 }
 

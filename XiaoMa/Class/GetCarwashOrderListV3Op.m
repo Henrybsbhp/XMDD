@@ -1,18 +1,18 @@
 //
-//  GetCarwashOrderListV2Op.m
+//  GetCarwashOrderListV3Op.m
 //  XiaoMa
 //
-//  Created by jt on 15/11/4.
+//  Created by jt on 15/11/5.
 //  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "GetCarwashOrderListV2Op.h"
+#import "GetCarwashOrderListV3Op.h"
 
-@implementation GetCarwashOrderListV2Op
+@implementation GetCarwashOrderListV3Op
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/user/order/service/v2/get";
+    self.req_method = @"/user/order/service/v3/get";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if (self.req_tradetime > 0) {
         [params setObject:@(self.req_tradetime) forKey:@"tradetime"];

@@ -61,7 +61,7 @@
     self.shopNameLb.text = self.order.shop.shopName;
     self.serviceLb.text = self.order.servicename;
     self.dateLb.text = [[NSDate date] dateFormatForYYYYMMddHHmm];
-    self.priceLb.attributedText = [self priceStringWithPrice:@(self.order.fee)];;
+    self.priceLb.attributedText = [self priceStringWithPrice:@(self.order.fee)];
 
     CKAsyncMainQueue(^{
 //        [self.drawingView drawSuccessByFrame];
