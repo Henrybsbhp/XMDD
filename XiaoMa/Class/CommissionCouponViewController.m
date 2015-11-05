@@ -126,6 +126,7 @@
         vc.couponId = hkcoupon.couponId;
         vc.rgbStr = hkcoupon.rgbColor;
         vc.isShareble = hkcoupon.isshareble;
+        vc.oldType = hkcoupon.conponType;
         vc.newType = CouponNewTypeOthers;
         [self.navigationController pushViewController:vc animated:YES];
     }

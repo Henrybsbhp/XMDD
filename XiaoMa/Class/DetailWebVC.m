@@ -121,6 +121,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         if (menuArr.count == 1) {
             self.navigationItem.rightBarButtonItem = [self.bridge setSingleMenu:[menuArr safetyObjectAtIndex:0]];
         }
+        responseCallback(nil);
     }];
 }
 

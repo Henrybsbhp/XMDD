@@ -6,7 +6,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--年检协办-->
+        <!--年检服务-->
         <scene sceneID="SyX-VG-Geq">
             <objects>
                 <viewController storyboardIdentifier="CommissionViewController" hidesBottomBarWhenPushed="YES" id="dlU-TV-0vz" customClass="CommissionViewController" sceneMemberID="viewController">
@@ -49,7 +49,7 @@
                             <constraint firstAttribute="trailing" secondItem="5EE-Y5-Fq1" secondAttribute="trailing" id="yNt-xZ-njS"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="年检协办" id="Jrk-6O-o9e"/>
+                    <navigationItem key="navigationItem" title="年检服务" id="Jrk-6O-o9e"/>
                     <connections>
                         <outlet property="actionBtn" destination="5EE-Y5-Fq1" id="IqO-Y7-lSS"/>
                         <outlet property="webView" destination="Cb0-XL-fUf" id="bIO-Lw-hvA"/>
