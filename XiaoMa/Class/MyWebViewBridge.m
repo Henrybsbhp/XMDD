@@ -249,7 +249,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)shareAction
 {
-    [MobClick event:@"rp110-7"];
+    [MobClick event:@"rp203-1"];
     [self.myBridge callHandler:@"getShareParamHandler" data:nil responseCallback:^(id response) {
         NSDictionary *shareDic = response;
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];

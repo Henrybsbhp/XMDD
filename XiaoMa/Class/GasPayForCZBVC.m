@@ -37,6 +37,17 @@
     [self setupBottomView];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp507"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp507"];
+}
+
 - (void)setupBottomView
 {
     @weakify(self);
@@ -69,6 +80,7 @@
 
 - (void)actionGetVCode:(id)sender
 {
+    [MobClick event:@"rp507-2"];
     @weakify(self);
     GetCzbpayVcodeOp *op = [GetCzbpayVcodeOp operation];
     op.req_cardid = self.bankCard.cardID;
@@ -92,6 +104,7 @@
 
 - (IBAction)actionPay:(id)sender
 {
+    [MobClick event:@"rp507-3"];
     GascardChargeOp *op = [GascardChargeOp operation];
     op.req_amount = self.orderInfo.req_chargeamt;
     op.req_gid = self.orderInfo.req_gid;
@@ -220,6 +233,10 @@
         self.vcodeField = field;
         field.textLimit = 6;
         @weakify(self);
+        [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
+            
+            [MobClick event:@"rp507-1"];
+        }];
         [[field rac_newTextChannel] subscribeNext:^(NSString *text) {
             
             @strongify(self);

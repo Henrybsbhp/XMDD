@@ -24,9 +24,21 @@
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp506"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp506"];
+}
+
 #pragma mark - Action
 - (IBAction)actionShare:(id)sender
 {
+    [MobClick event:@"rp506-1"];
     SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
     vc.tt = @"小马达达加油福利来了";
     vc.image = [UIImage imageNamed:@"wechat_share_gas"];

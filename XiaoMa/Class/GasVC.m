@@ -52,6 +52,19 @@
     _isAcceptedAgreement = YES;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [MobClick beginLogPageView:@"rp501"];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp501"];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -90,6 +103,13 @@
     @weakify(self);
     [self.headerView setTabBlock:^(NSInteger index) {
         @strongify(self);
+        if (index ==0) {
+            [MobClick event:@"rp501-2"];
+        }
+        else {
+            [MobClick event:@"rp501-3"];
+        }
+        
         self.curModel = index == 0 ? self.normalModel : self.czbModel;
         if (![self.curModel reloadWithForce:NO]) {
             [self refreshViews];
@@ -100,7 +120,7 @@
 - (void)setupADView
 {
     self.adctrl = [ADViewController vcWithADType:AdvertisementGas boundsWidth:self.view.bounds.size.width
-                                        targetVC:self mobBaseEvent:@"rp102-6"];
+                                        targetVC:self mobBaseEvent:@"rp501-1"];
     @weakify(self);
     [self.adctrl reloadDataWithForce:NO completed:^(ADViewController *ctrl, NSArray *ads) {
         @strongify(self);
@@ -270,6 +290,7 @@
 #pragma mark - Action
 - (IBAction)actionGotoRechargeRecords:(id)sender
 {
+    [MobClick event:@"rp501-16"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         GasRecordVC *vc = [UIStoryboard vcWithId:@"GasRecordVC" inStoryboard:@"Gas"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -278,6 +299,13 @@
 
 - (IBAction)actionPay:(id)sender
 {
+    if ([self.curModel isEqual:self.czbModel]) {
+        [MobClick event:@"rp501-18"];
+    }
+    else {
+        [MobClick event:@"rp501-14"];
+    }
+    
     if (![LoginViewModel loginIfNeededForTargetViewController:self]) {
         return;
     }
@@ -323,6 +351,7 @@
 
 - (IBAction)actionAgreement:(id)sender
 {
+    [MobClick event:@"rp501-12"];
     WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
     vc.title = @"油卡充值服务协议";
     vc.url = @"http://xiaomadada.com/apphtml/license-youka.html";
@@ -478,12 +507,20 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSInteger tag = [[[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row] integerValue];
     if (tag == 10001) {
+        [MobClick event:@"rp501-15"];
         [self actionPickGasCard];
     }
     else if (tag == 10002) {
+        [MobClick event:@"rp501-4"];
         [self actionAddGasCard];
     }
     else if (tag == 10005 || tag == 10006) {
+        if (tag == 10005) {
+            [MobClick event:@"rp501-19"];
+        }
+        else {
+            [MobClick event:@"rp501-17"];
+        }
         [self actionPickBankCard];
     }
 }
@@ -548,6 +585,7 @@
 {
     GasPickAmountCell *cell = (GasPickAmountCell *)[self.tableView dequeueReusableCellWithIdentifier:@"PickGasAmount"];
     cell.richLabel.text = [self.curModel rechargeFavorableDesc];
+    
     if (!cell.stepper.valueChangedCallback) {
         @weakify(self);
         cell.stepper.valueChangedCallback = ^(PKYStepper *stepper, float newValue) {
@@ -557,11 +595,13 @@
             [self refreshBottomView];
         };
         cell.stepper.incrementCallback = ^(PKYStepper *stepper, float newValue) {
+            [MobClick event:@"rp501-7"];
             if (newValue > stepper.maximum) {
                 [gToast showText:@"充值金额已达本月最大限制，无法增加啦"];
             }
         };
         cell.stepper.decrementCallback = ^(PKYStepper *stepper, float newValue) {
+            [MobClick event:@"rp501-5"];
             if (newValue < stepper.minimum) {
                 [gToast showText:@"充值金额不能小于100哦～"];
             }
@@ -637,6 +677,16 @@
         boxB.selected = selected;
         boxB.userInteractionEnabled = !selected;
         if (selected) {
+            NSInteger tag = [item integerValue];
+            if (tag == 20001) {
+                [MobClick event:@"rp501-9"];
+            }
+            else if (tag == 20002) {
+                [MobClick event:@"rp501-10"];
+            }
+            else if (tag == 20003){
+                [MobClick event:@"rp501-11"];
+            }
             self.curModel.paymentPlatform = [item integerValue] - 20000;
         }
     }];
@@ -671,7 +721,7 @@
     @weakify(self);
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
-         
+         [MobClick event:@"rp501-13"];
         @strongify(self);
          self.isAcceptedAgreement = !self.isAcceptedAgreement;
     }];
@@ -680,6 +730,7 @@
 #pragma mark - RTLabelDelegate
 - (void)rtLabel:(id)rtLabel didSelectLinkWithURL:(NSURL *)url
 {
+    [MobClick event:@"rp501-8"];
     [gAppMgr.navModel pushToViewControllerByUrl:[url absoluteString]];
 }
 

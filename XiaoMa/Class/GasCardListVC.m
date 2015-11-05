@@ -30,6 +30,17 @@
     [self.cardStore sendEvent:[self.cardStore getAllCardsIfNeeded]];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp505"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp505"];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -56,6 +67,7 @@
 #pragma mark - relaodData
 - (void)deleteWithEvent:(CKStoreEvent *)evt
 {
+    [MobClick event:@"rp505-2"];
     @weakify(self);
     [[[evt signal] initially:^{
         
@@ -114,11 +126,13 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     //点击添加
     if (indexPath.row >= self.cardStore.cache.count) {
+        [MobClick event:@"rp505-4"];
         GasAddCardVC *vc = [UIStoryboard vcWithId:@"GasAddCardVC" inStoryboard:@"Gas"];
         [self.navigationController pushViewController:vc animated:YES];
     }
     //选择银行卡
     else {
+        [MobClick event:@"rp505-3"];
         GasCard *card = [self.cardStore.cache objectAtIndex:indexPath.row];
         if (![card.gid isEqual:self.model.curGasCard.gid]) {
             CKStoreEvent *evt = [CKStoreEvent eventWithSignal:[RACSignal return:card] code:kCKStoreEventSelect object:self.model];

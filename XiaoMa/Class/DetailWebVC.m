@@ -201,7 +201,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         [self.bridge.myBridge callHandler:@"returnBackHandler" data:nil responseCallback:^(id response) {
             NSDictionary * dic = response;
             if ([dic boolParamForName:@"isFirstPage"]) {
-                [self.navigationController popToRootViewControllerAnimated:YES];
+                [self.navigationController popViewControllerAnimated:YES];
             }
         }];
     }
