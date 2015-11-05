@@ -245,7 +245,7 @@
         return NO;
     }
     PaymentHelper *helper = [[PaymentHelper alloc] init];
-    NSString * info = [NSString stringWithFormat:@"%@-%@的保险订单支付",self.insOrder,self.insOrder.licencenumber];
+    NSString * info = [NSString stringWithFormat:@"%@-%@的保险订单支付",self.insOrder.inscomp,self.insOrder.licencenumber];
     NSString *text;
     switch (op.req_paychannel) {
         case PaymentChannelAlipay: {
@@ -683,7 +683,7 @@
             }
         }
         
-//        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
         [self refreshPriceLb];
     }];
     
