@@ -42,7 +42,7 @@
     [self setupAdView];
     [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
     [self setupBankStore];
-    [self.bankStore sendEvent:[self.bankStore getAllBankCardsIfNeeded]];
+    [self.bankStore sendEvent:[self.bankStore getAllBankCards]];
 }
 
 - (void)setupAdView

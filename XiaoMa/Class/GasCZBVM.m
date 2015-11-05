@@ -131,7 +131,10 @@
         GasCard *card = [self.cardStore.cache objectForKey:self.curGasCard.gid];
         if (!card) {
             NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-            card = [self.cardStore.cache objectForKey:[def objectForKey:[self recentlyUsedGasCardKey]]];
+            NSString *key = [self recentlyUsedGasCardKey];
+            if (key) {
+                card = [self.cardStore.cache objectForKey:[def objectForKey:[self recentlyUsedGasCardKey]]];
+            }
             self.curGasCard = card ? card : [self.cardStore.cache objectAtIndex:0];
         }
     }];
