@@ -31,4 +31,6 @@
 
 - (UIBarButtonItem *)setSingleMenu:(NSString *)singleBtn;
 
+- (UIBarButtonItem *)setMultipleMenu:(NSArray *)btnArray;
+
 @end
