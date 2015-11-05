@@ -178,10 +178,12 @@
     
     //选中
     @weakify(cell);
-    [[[RACObserve(self, selectedRecordIndex) distinctUntilChanged] takeUntilForCell:cell] subscribeNext:^(NSNumber *index) {
+    [[RACObserve(self, selectedRecordIndex) takeUntilForCell:cell] subscribeNext:^(NSNumber *index) {
         
         @strongify(cell);
-        if ([index integerValue] == indexPath.item) {
+        @strongify(self);
+        NSInteger itemIndex = [self.recordList indexOfObject:record];
+        if (itemIndex != NSNotFound && itemIndex == [index integerValue]) {
             cell.contentView.layer.borderWidth = 1.5;
             checkV.hidden = NO;
         }
