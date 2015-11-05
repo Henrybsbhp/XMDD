@@ -69,7 +69,7 @@
         }];
         rOp.validCashCouponArray = [cashfilterArray sortedArrayWithOptions:NSSortConcurrent usingComparator:^NSComparisonResult(HKCoupon  * obj1, HKCoupon  * obj2) {
             
-            return obj1.couponAmount > obj2.couponAmount;
+            return obj1.couponAmount < obj2.couponAmount;
         }];
         
         return [RACSignal return:rOp];

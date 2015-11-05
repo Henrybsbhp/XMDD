@@ -95,6 +95,7 @@
     
     PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
     vc.order = self.order;
+    vc.originVC = self.originVC;
     [vc setCommentSuccess:^{
         [self reloadTableView];
     }];

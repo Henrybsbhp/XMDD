@@ -189,6 +189,7 @@
         self.order.ratetime = [NSDate date];
         self.order.comment = rspOp.req_comment;
         self.order.rating = rspOp.req_rating;
+        self.order.ratetime = [NSDate date];
         self.collectionView.userInteractionEnabled = NO;
         self.ratingView.userInteractionEnabled = NO;
         
