@@ -234,6 +234,19 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     return right;
 }
 
+- (UIBarButtonItem *)setMultipleMenu:(NSArray *)btnArray
+{
+    UIBarButtonItem *right;
+    for (NSString * btnStr in btnArray) {
+        MenuItemsType type = [btnStr integerValue];
+        if (type == menuItemsTypeShare) {
+            right = [[UIBarButtonItem alloc] initWithTitle:@"分享" style:UIBarButtonItemStylePlain target:self action:@selector(shareAction)];
+            [right setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:16.0]} forState:UIControlStateNormal];
+        }
+    }
+    return right;
+}
+
 - (void)shareAction
 {
     [MobClick event:@"rp110-7"];

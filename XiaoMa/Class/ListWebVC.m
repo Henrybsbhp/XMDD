@@ -90,7 +90,10 @@
 - (void)reloadwebView
 {
     //reload方法在第一次读取失败的时候会reload失败
-    [self.webView loadRequest:self.request];
+    CKAsyncMainQueue(^{
+        self.webView.scrollView.contentSize = self.webView.frame.size;//避免横条滚动
+        [self.webView loadRequest:self.request];
+    });
 }
 
 #pragma mark - NJKWebViewProgressDelegate
