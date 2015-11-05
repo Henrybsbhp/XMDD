@@ -245,7 +245,7 @@
         return NO;
     }
     PaymentHelper *helper = [[PaymentHelper alloc] init];
-    NSString * info = [NSString stringWithFormat:@"%@-%@的保险订单支付",self.insOrder.insdeliverycomp,self.insOrder.licencenumber];
+    NSString * info = [NSString stringWithFormat:@"%@-%@的保险订单支付",self.insOrder,self.insOrder.licencenumber];
     NSString *text;
     switch (op.req_paychannel) {
         case PaymentChannelAlipay: {
