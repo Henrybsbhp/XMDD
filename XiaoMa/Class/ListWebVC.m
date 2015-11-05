@@ -19,8 +19,8 @@
 
 @property (nonatomic, strong) NavigationModel *navModel;
 
-@property (nonatomic, strong)NJKWebViewProgress * progressProxy;
-@property (nonatomic, strong)NJKWebViewProgressView *progressView;
+@property (nonatomic, strong) NJKWebViewProgress * progressProxy;
+@property (nonatomic, strong) NJKWebViewProgressView *progressView;
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (nonatomic, strong) NSURLRequest *request;

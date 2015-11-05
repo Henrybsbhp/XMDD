@@ -250,6 +250,7 @@
         vc.couponId = hkcoupon.couponId;
         vc.rgbStr = hkcoupon.rgbColor;
         vc.isShareble = hkcoupon.isshareble;
+        vc.oldType = hkcoupon.conponType;
         vc.newType = self.couponNewType;
         if ([self.targetVC isKindOfClass:[MyCouponVC class]])
         {

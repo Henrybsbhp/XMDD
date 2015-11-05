@@ -58,6 +58,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         if (toastMsg) {
             [gToast showText:[NSString stringWithFormat:@"%@", toastMsg]];
         }
+        responseCallback(nil);
     }];
 }
 
@@ -74,6 +75,9 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             NSDictionary * dic = @{@"province":province, @"city":city, @"district":district, @"longitude":longitudeStr, @"latitude":latitudeStr};
             NSString * dicStr = [dic jsonEncodedString];
             responseCallback(dicStr);
+        }
+        else {
+            responseCallback(nil);
         }
     }];
 }
@@ -110,6 +114,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [self.myBridge registerHandler:@"getPhoneCall" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSString * phoneStr = [data stringParamForName:@"phoneNum"];
         [gPhoneHelper makePhone:phoneStr andInfo:[NSString stringWithFormat:@"拨打电话：%@", phoneStr]];
+        
+        responseCallback(nil);
     }];
 }
 
@@ -145,7 +151,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             [imgDic addParam:rspOp.rsp_urlArray[0] forName:@"imageUrl"];
             
             NSString * dataStr = [imgDic jsonEncodedString];//转json字符串
-            DebugLog(@"%@", dataStr);
+
             [self.myBridge callHandler:@"singleImageBack" data:dataStr responseCallback:^(id response) {
             }];
         } error:^(NSError *error) {
@@ -153,6 +159,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             [self.myBridge callHandler:@"singleImageBack" data:nil responseCallback:^(id response) {
             }];
         }];
+        
+        responseCallback(nil);
     }];
 }
 
@@ -163,6 +171,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         NSDictionary * dic = data;
         NSString * imageUrl = [dic stringParamForName:@"imgUrl"];
         [self showImages:imageUrl];
+        
+        responseCallback(nil);
     }];
 }
 
