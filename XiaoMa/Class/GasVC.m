@@ -55,15 +55,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    CKAsyncMainQueue(^{
-        [self setupHeaderView];
-        [self setupADView];
-        [self setupBottomView];
-        [self setupStore];
-        [self setupSignals];
-        [self refreshViews];
-        [self.curModel reloadWithForce:YES];
-    });
+    [self setupHeaderView];
+    [self setupADView];
+    [self setupBottomView];
+    [self setupStore];
+    [self setupSignals];
+    [self refreshViews];
+    [self.curModel reloadWithForce:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -467,6 +465,14 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSInteger tag = [[[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row] integerValue];
+    if (tag == 10004) {
+        [cell setNeedsLayout];
+    }
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -481,6 +487,7 @@
         [self actionPickBankCard];
     }
 }
+
 #pragma mark - About Cell
 ///添加油卡
 - (HKTableViewCell *)addGasCardCellAtIndexPath:(NSIndexPath *)indexPath
@@ -549,6 +556,16 @@
             self.curModel.rechargeAmount = (int)newValue;
             [self refreshBottomView];
         };
+        cell.stepper.incrementCallback = ^(PKYStepper *stepper, float newValue) {
+            if (newValue > stepper.maximum) {
+                [gToast showText:@"充值金额已达本月最大限制，无法增加啦"];
+            }
+        };
+        cell.stepper.decrementCallback = ^(PKYStepper *stepper, float newValue) {
+            if (newValue < stepper.minimum) {
+                [gToast showText:@"充值金额不能小于100哦～"];
+            }
+        };
     }
     if ([self.curModel isEqual:self.normalModel]) {
         if (!self.curModel.curGasCard) {
@@ -567,6 +584,7 @@
             cell.stepper.maximum = model.curBankCard.gasInfo.rsp_availablechargeamt;
         }
     }
+    cell.stepper.value = self.curModel.rechargeAmount;
     [cell.stepper setup];
     
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
@@ -576,13 +594,9 @@
 - (GasReminderCell *)gasReminderCellAtIndexPath:(NSIndexPath *)indexPath
 {
     GasReminderCell *cell = (GasReminderCell *)[self.tableView dequeueReusableCellWithIdentifier:@"GasReminder"];
-    if (!cell) {
-        cell = [[GasReminderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"GasReminder"];
-        cell.richLabel.delegate = self;
-    }
+    cell.richLabel.delegate = self;
     cell.richLabel.text = [self.curModel gasRemainder];
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
-    
     return cell;
 }
 

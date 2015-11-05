@@ -178,25 +178,26 @@ static const float kButtonWidth = 44.0f;
 #pragma mark event handler
 - (void)incrementButtonTapped:(id)sender
 {
-    if (self.value < self.maximum)
+    CGFloat newValue = self.value + self.stepInterval;
+    if (newValue <= self.maximum)
     {
-        self.value += self.stepInterval;
-        if (self.incrementCallback)
-        {
-            self.incrementCallback(self, self.value);
-        }
+        self.value = newValue;
+    }
+    if (self.incrementCallback)
+    {
+        self.incrementCallback(self, newValue);
     }
 }
 
 - (void)decrementButtonTapped:(id)sender
 {
-    if (self.value > self.minimum)
+    CGFloat newValue = self.value - self.stepInterval;
+    if (newValue >= self.minimum) {
+        self.value = newValue;
+    }
+    if (self.decrementCallback)
     {
-        self.value -= self.stepInterval;
-        if (self.decrementCallback)
-        {
-            self.decrementCallback(self, self.value);
-        }
+        self.decrementCallback(self, newValue);
     }
 }
 

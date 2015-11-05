@@ -113,7 +113,7 @@
     UILabel *rightpriceL = (UILabel *)[cell viewWithTag:1007];
 
     cardnoL.text = [self.gasCard.gascardno splitByStep:4 replacement:@" "];
-    leftpriceL.text = [NSString stringWithFormat:@"￥%.2f", (float)self.chargeMoney];
+    leftpriceL.text = [NSString stringWithFormat:@"￥%d", self.chargeMoney];
     rightpriceL.text = [NSString stringWithFormat:@"￥%.2f", (float)self.paidMoney];
     
     BOOL highlighted = self.drawingStatus != DrawingBoardViewStatusSuccess;
