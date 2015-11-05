@@ -51,6 +51,7 @@
 @property (nonatomic)BOOL favorite;
 /// 是否显示标题栏
 @property (nonatomic)BOOL titleShow;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *roundBgWidth;
 
 @end
 
@@ -769,9 +770,8 @@
     self.imageCountLabel.text = [NSString stringWithFormat:@"%d张", (int)shop.picArray.count];
     
     self.roundLb.textColor = [UIColor whiteColor];
-    self.roundLb.font = [UIFont systemFontOfSize:14];
+    self.roundLb.font = [UIFont systemFontOfSize:13];
     self.roundLb.backgroundColor = [UIColor clearColor];
-    self.roundBgView.backgroundColor = self.imageCountLabel.backgroundColor;
     self.roundLb.labelSpacing = 30;
     self.roundLb.scrollSpeed = 30;
     self.roundLb.fadeLength = 5.f;
@@ -779,15 +779,14 @@
     
     
     NSString * note = self.shop.announcement;
+    CGFloat width = self.view.frame.size.width - 40;
     
-    
-    CGFloat width = MIN(self.view.frame.size.width * 3 / 5, self.view.frame.size.width - 120);
-    [self.roundLb mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.width.mas_equalTo(width);
-    }];
-    self.roundLb.text = [self appendSpace:note andWidth:width];
-    
+//    [self.roundLb mas_makeConstraints:^(MASConstraintMaker *make) {
+//        
+//        make.width.mas_equalTo(width);
+//    }];
+    NSString * p = [self appendSpace:note andWidth:width];
+    self.roundLb.text = p;
     self.roundLb.hidden = !self.shop.announcement.length;
     self.roundBgView.hidden = !self.shop.announcement.length;
 }
@@ -798,7 +797,7 @@
     NSString * spaceNote = note;
     for (;;)
     {
-        CGSize size = [spaceNote sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(FLT_MAX,FLT_MAX)];
+        CGSize size = [spaceNote sizeWithFont:[UIFont systemFontOfSize:13] constrainedToSize:CGSizeMake(FLT_MAX,FLT_MAX)];
         if (size.width > w)
             return spaceNote;
         spaceNote = [spaceNote append:@" "];

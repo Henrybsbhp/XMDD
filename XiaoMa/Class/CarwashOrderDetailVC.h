@@ -12,4 +12,6 @@
 @interface CarwashOrderDetailVC : UIViewController
 @property (nonatomic, strong) HKServiceOrder *order;
 @property (nonatomic, strong) NSNumber *orderID;
+
+@property (nonatomic, weak) UIViewController *originVC;
 @end

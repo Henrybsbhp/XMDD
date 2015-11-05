@@ -156,6 +156,7 @@
     [MobClick event:@"rp318-2"];
     CarwashOrderDetailVC *vc = [UIStoryboard vcWithId:@"CarwashOrderDetailVC" inStoryboard:@"Mine"];
     vc.order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+    vc.originVC = self.targetVC;
     [self.targetVC.navigationController pushViewController:vc animated:YES];
 }
 
