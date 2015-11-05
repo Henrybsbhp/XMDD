@@ -518,7 +518,7 @@
                                             <animations/>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0张" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PEp-g4-Sf9">
-                                            <rect key="frame" x="542" y="125" width="70" height="24"/>
+                                            <rect key="frame" x="542" y="136" width="70" height="24"/>
                                             <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
                                             <constraints>
@@ -569,7 +569,7 @@
                                         <constraint firstItem="kLz-7F-Wmu" firstAttribute="centerY" secondItem="PEp-g4-Sf9" secondAttribute="centerY" id="dTH-xz-eu6"/>
                                         <constraint firstAttribute="bottom" secondItem="yWb-UF-vJU" secondAttribute="bottom" id="fkW-rg-xwc"/>
                                         <constraint firstItem="yWb-UF-vJU" firstAttribute="top" secondItem="uQm-ve-Vb8" secondAttribute="top" id="oqg-0N-eIY"/>
-                                        <constraint firstAttribute="bottom" secondItem="PEp-g4-Sf9" secondAttribute="bottom" constant="16" id="rBH-jF-3cr"/>
+                                        <constraint firstAttribute="bottom" secondItem="PEp-g4-Sf9" secondAttribute="bottom" constant="5" id="rBH-jF-3cr"/>
                                         <constraint firstAttribute="trailing" secondItem="PEp-g4-Sf9" secondAttribute="trailing" constant="-12" id="vJ4-5K-oQx"/>
                                         <constraint firstItem="yWb-UF-vJU" firstAttribute="leading" secondItem="uQm-ve-Vb8" secondAttribute="leading" id="wu6-z1-Hyt"/>
                                     </constraints>
