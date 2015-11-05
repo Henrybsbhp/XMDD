@@ -190,10 +190,12 @@
 
 - (void)setupMyCarList
 {
-    MyCarStore *store = [MyCarStore fetchExistsStore];
-    [[[store sendEvent:[store getAllCarsIfNeeded]] signal] subscribeNext:^(id x) {
-        
-    }];
+    if (gAppMgr.myUser) {
+        MyCarStore *store = [MyCarStore fetchExistsStore];
+        [[[store sendEvent:[store getAllCarsIfNeeded]] signal] subscribeNext:^(id x) {
+            
+        }];
+    }
 }
 
 #pragma mark - Action

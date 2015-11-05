@@ -156,7 +156,7 @@ static const float kButtonWidth = 44.0f;
 #pragma mark setter
 - (void)setValue:(float)value
 {
-    _value = MIN(MAX(value, self.minimum), self.maximum);
+    _value = MAX(MIN(value, self.maximum), self.minimum);
     if (self.hidesDecrementWhenMinimum)
     {
         self.decrementButton.hidden = [self isMinimum];
