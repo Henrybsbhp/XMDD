@@ -25,6 +25,8 @@
 #import "MyCarStore.h"
 #import "CBAutoScrollLabel.h"
 #import "NSString+RectSize.h"
+#import "CouponDetailsVC.h"
+#import "CarWashTableVC.h"
 
 #define kDefaultServieCount     2
 
@@ -66,11 +68,57 @@
         [self.tableView setContentInset:UIEdgeInsetsMake(-20, 0, 0, 0)];
     }
     
+    NSArray * array = self.navigationController.viewControllers;
+    BOOL flag;
+    UIViewController * carwashTableVC;
+    flag = [[array safetyObjectAtIndex:array.count - 3] isKindOfClass:[CouponDetailsVC class]];
+    UIViewController * vc_2 = [array safetyObjectAtIndex:array.count - 2];
+    if ([vc_2 isKindOfClass:[CarWashTableVC class]])
+    {
+        carwashTableVC = vc_2;
+    }
+    @weakify(self);
     [[self.whiteBackBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        [self.navigationController popViewControllerAnimated:YES];
+        
+        @strongify(self)
+        if (flag && self.needPopToFirstCarwashTableVC)
+        {
+            if (carwashTableVC)
+            {
+                UINavigationController * a = [self.tabBarController.viewControllers safetyObjectAtIndex:0];
+                [a pushViewController:carwashTableVC animated:YES];
+                self.tabBarController.selectedIndex = 0;
+            }
+            
+            CKAsyncMainQueue(^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            });
+        }
+        else
+        {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }];
     [[self.greenBackBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        [self.navigationController popViewControllerAnimated:YES];
+        
+        @strongify(self)
+        if (flag && self.needPopToFirstCarwashTableVC)
+        {
+            if (carwashTableVC)
+            {
+                UINavigationController * a = [self.tabBarController.viewControllers safetyObjectAtIndex:0];
+                [a pushViewController:carwashTableVC animated:YES];
+                self.tabBarController.selectedIndex = 0;
+            }
+            
+            CKAsyncMainQueue(^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            });
+        }
+        else
+        {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }];
 
     [self setupMyCarList];
@@ -305,7 +353,7 @@
             vc.couponType = CouponTypeCash;
             vc.isAutoCouponSelect = YES;
         }
-        vc.originVC = self.originVC ? self.originVC : self;
+        vc.originVC = self;
         vc.shop = self.shop;
         vc.service = service;
         vc.defaultCar = [car isCarInfoCompleted] ? car : nil;

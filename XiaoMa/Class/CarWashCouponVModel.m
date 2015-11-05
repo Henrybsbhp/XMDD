@@ -252,11 +252,6 @@
         vc.isShareble = hkcoupon.isshareble;
         vc.oldType = hkcoupon.conponType;
         vc.newType = self.couponNewType;
-        if ([self.targetVC isKindOfClass:[MyCouponVC class]])
-        {
-            MyCouponVC * cVC = (MyCouponVC *)self.targetVC;
-            vc.originVC = cVC.originVC;
-        }
         [self.targetVC.navigationController pushViewController:vc animated:YES];
     }
 }

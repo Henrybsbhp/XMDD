@@ -17,6 +17,7 @@
 ///服务名称
 @property (nonatomic, assign) CGFloat serviceprice;
 @property (nonatomic, strong) NSString *servicename;
+@property (nonatomic, strong) NSString *orderPic;
 @property (nonatomic, strong) JTShop *shop;
 @property (nonatomic, strong) NSString *licencenumber;
 @property (nonatomic, assign) PaymentChannelType paychannel;
