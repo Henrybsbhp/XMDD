@@ -75,7 +75,9 @@
         else if (!card) {
             self.curGasCard = nil;
         }
-        if (self.curGasCard && (code==kCKStoreEventReload||!self.curGasCard.availablechargeamt||!self.curGasCard.couponedmoney)){
+        if (self.curGasCard &&
+            (code==kCKStoreEventReload || code == kCKStoreEventSelect||
+             !self.curGasCard.availablechargeamt || !self.curGasCard.couponedmoney)){
             return [self.cardStore rac_getCardNormalInfoByGID:self.curGasCard.gid];
         }
         return [RACSignal return:value];
@@ -222,7 +224,7 @@
         }] doNext:^(id x) {
             
             @strongify(self);
-            self.rechargeAmount = 100;
+            self.rechargeAmount = 500;
         }];
         [self.cardStore sendEvent:[CKStoreEvent eventWithSignal:sig code:kCKStoreEventUpdate object:nil]];
         paidSuccess = YES;
