@@ -133,7 +133,7 @@
             NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
             NSString *key = [self recentlyUsedGasCardKey];
             if (key) {
-                card = [self.cardStore.cache objectForKey:[def objectForKey:[self recentlyUsedGasCardKey]]];
+                card = [self.cardStore.cache objectForKey:[def objectForKey:key]];
             }
             self.curGasCard = card ? card : [self.cardStore.cache objectAtIndex:0];
         }
