@@ -10,22 +10,22 @@
 
 @implementation GasReminderCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
-    _iconView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _iconView.frame = CGRectMake(10, 0, 23, 23);
-    _iconView.image = [UIImage imageNamed:@"gas_mark"];
-    [self.contentView addSubview:_iconView];
+- (void)awakeFromNib {
+    if (!_iconView) {
+        _iconView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        _iconView.frame = CGRectMake(10, 0, 23, 23);
+        _iconView.image = [UIImage imageNamed:@"gas_mark"];
+        [self.contentView addSubview:_iconView];
+    }
     
-    _richLabel = [[RTLabel alloc] initWithFrame:CGRectZero];
-    [_richLabel setParagraphReplacement:@"\n"];
-    [_richLabel setLinkAttributes:@{@"size":@"13"}];
-    [_richLabel setSelectedLinkAttributes:@{@"size":@"13",
-                                            @"color":@"#888888"}];
-    [self.contentView addSubview:_richLabel];
-    return self;
+    if (!_richLabel) {
+        _richLabel = [[RTLabel alloc] initWithFrame:CGRectZero];
+        [_richLabel setParagraphReplacement:@"\n"];
+        [_richLabel setLinkAttributes:@{@"size":@"13"}];
+        [_richLabel setSelectedLinkAttributes:@{@"size":@"13",
+                                                @"color":@"#888888"}];
+        [self.contentView addSubview:_richLabel];
+    }
 }
 
 - (void)setFrame:(CGRect)frame

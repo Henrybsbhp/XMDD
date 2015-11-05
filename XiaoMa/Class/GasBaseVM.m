@@ -18,6 +18,7 @@
         _segHelper = [[CKSegmentHelper alloc] init];
         _paymentPlatform = PaymentPlatformTypeAlipay;
         _cardStore = [GasCardStore fetchOrCreateStore];
+        _rechargeAmount = 500;
         [self setupCardStore];
     }
     return self;

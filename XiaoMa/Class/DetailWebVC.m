@@ -207,13 +207,13 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             [self.webView goBack];
         }
         else {
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self.navigationController popViewControllerAnimated:YES];
         }
     }
 }
 
 - (void)actionCloseWeb {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

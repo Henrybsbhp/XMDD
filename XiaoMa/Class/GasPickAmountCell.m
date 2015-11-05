@@ -11,13 +11,15 @@
 @implementation GasPickAmountCell
 - (void)awakeFromNib
 {
-    RTLabel *label = [[RTLabel alloc] initWithFrame:CGRectZero];
-    [label setParagraphReplacement:@""];
-    label.font = [UIFont systemFontOfSize:13];
-    label.textColor = HEXCOLOR(@"#888888");
-    label.backgroundColor = [UIColor clearColor];
-    [self.contentView addSubview:label];
-    _richLabel = label;
+    if (!_richLabel) {
+        RTLabel *label = [[RTLabel alloc] initWithFrame:CGRectZero];
+        [label setParagraphReplacement:@""];
+        label.font = [UIFont systemFontOfSize:13];
+        label.textColor = HEXCOLOR(@"#888888");
+        label.backgroundColor = [UIColor clearColor];
+        [self.contentView addSubview:label];
+        _richLabel = label;
+    }
 }
 
 - (PKYStepper *)stepper
