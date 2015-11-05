@@ -145,6 +145,11 @@ static char sTargetHashTableKey;
     [self.timetagDict setObject:@([[NSDate date] timeIntervalSince1970]) forKey:key];
 }
 
+- (void)resetAllTimetags
+{
+    [self.timetagDict removeAllObjects];
+}
+
 @end
 
 @implementation CKStoreEvent

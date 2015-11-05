@@ -25,6 +25,7 @@
     RACDisposable *dsp = [[[RACObserve(gAppMgr, myUser) distinctUntilChanged] skip:1] subscribeNext:^(id x) {
         @strongify(self);
         [self.cache removeAllObjects];
+        [self resetAllTimetags];
         if (!x) {
             [self sendEvent:[CKStoreEvent eventWithSignal:[RACSignal return:nil] code:kCKStoreEventReload object:nil]];
         }
