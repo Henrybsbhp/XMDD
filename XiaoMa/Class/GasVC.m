@@ -198,6 +198,7 @@
 {
     self.datasource = [self.curModel datasource];
     [self.curModel.segHelper removeAllItemsForGroupName:@"Pay"];
+//    self.curModel.rechargeAmount = self.curModel.ma
     [self.tableView reloadData];
     [self refrshLoadingView];
     [self refreshBottomView];

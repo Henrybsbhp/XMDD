@@ -65,7 +65,10 @@
         GasCard *card = [self.cardStore.cache objectForKey:self.curGasCard.gid];
         if (!card && self.cardStore.cache.count > 0) {
             NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-            card = [self.cardStore.cache objectForKey:[def objectForKey:[self recentlyUsedGasCardKey]]];
+            NSString *key = [self recentlyUsedGasCardKey];
+            if (key) {
+                card = [self.cardStore.cache objectForKey:[def objectForKey:key]];
+            }
             self.curGasCard = card ? card : [self.cardStore.cache objectAtIndex:0];
             if (code == kCKStoreEventUpdate) {
                 return [RACSignal return:value];
@@ -229,7 +232,10 @@
         [self.cardStore sendEvent:[CKStoreEvent eventWithSignal:sig code:kCKStoreEventUpdate object:nil]];
         paidSuccess = YES;
         NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-        [def setObject:paidop.req_gid forKey:[self recentlyUsedGasCardKey]];
+        NSString *key = [self recentlyUsedGasCardKey];
+        if (key) {
+            [def setObject:paidop.req_gid forKey:key];
+        }
         if (completed) {
             completed(card, paidop);
         }
