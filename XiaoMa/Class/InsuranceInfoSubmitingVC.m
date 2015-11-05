@@ -145,8 +145,9 @@
             @strongify(self);
             [gToast dismiss];
             InsuranceResultVC *vc = [UIStoryboard vcWithId:@"InsuranceResultVC" inStoryboard:@"Insurance"];
+            vc.navigationItem.title = @"询价结果";
             vc.resultTitle = @"恭喜，上传成功！";
-            vc.resultContent = @"精准询价：工作人员将于1个工作日内为您精准报价！";
+            vc.resultContent = @"工作人员将于1个工作日内为您精准报价！";
             [self.navigationController pushViewController:vc animated:YES];
         } error:^(NSError *error) {
             

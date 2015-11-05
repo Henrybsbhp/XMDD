@@ -8,7 +8,7 @@
 
 #import "CarwashOrderViewModel.h"
 #import "XiaoMa.h"
-#import "GetCarwashOrderListV2Op.h"
+#import "GetCarwashOrderListV3Op.h"
 #import "CarwashOrderDetailVC.h"
 #import "CarwashOrderCommentVC.h"
 #import "PaymentSuccessVC.h"
@@ -56,9 +56,9 @@
         self.curTradetime = 0;
     }
     
-    GetCarwashOrderListV2Op * op = [GetCarwashOrderListV2Op operation];
+    GetCarwashOrderListV3Op * op = [GetCarwashOrderListV3Op operation];
     op.req_tradetime = self.curTradetime;
-    return [[op rac_postRequest] map:^id(GetCarwashOrderListV2Op *rspOp) {
+    return [[op rac_postRequest] map:^id(GetCarwashOrderListV3Op *rspOp) {
         return rspOp.rsp_orders;
     }];
 }
