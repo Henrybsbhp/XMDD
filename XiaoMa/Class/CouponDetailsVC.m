@@ -13,6 +13,8 @@
 #import "CarWashTableVC.h"
 #import "InsuranceVC.h"
 #import "UIView+DefaultEmptyView.h"
+#import "RescureViewController.h"
+#import "CommissionViewController.h"
 
 @interface CouponDetailsVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -85,20 +87,32 @@
                 [self.navigationController pushViewController:vc animated:YES];
             }];
         }
-        else {
+        else if (self.newType == CouponNewTypeInsurance){
             self.bottomView.hidden = YES;
             self.bottomConstraint.constant = 56;
         }
-        
-//        @weakify(self);
-//        [[self.longUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-//            
-//            @strongify(self);
-//            //保险入口
-//            InsuranceVC *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
-//            [self.navigationController pushViewController:vc animated:YES];
-//        }];
-
+        else {
+            self.shortUseBtn.hidden = YES;
+            self.shareBtn.hidden = YES;
+            self.longUseBtn.hidden = NO;
+            [self.longUseBtn setCornerRadius:5.0f];
+            @weakify(self);
+            [[self.longUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                
+                @strongify(self);
+                //去使用
+                if (self.oldType == CouponTypeAgency) {
+                    CommissionViewController *cvc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionViewController"];
+                    cvc.url = @"http://www.xiaomadada.com/apphtml/daiban.html";
+                    [self.navigationController pushViewController:cvc animated:YES];
+                }
+                else {
+                    RescureViewController *rvc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureViewController"];
+                    rvc.url = @"http://www.xiaomadada.com/apphtml/jiuyuan.html";
+                    [self.navigationController pushViewController:rvc animated:YES];
+                }
+            }];
+        }
     }
 }
 

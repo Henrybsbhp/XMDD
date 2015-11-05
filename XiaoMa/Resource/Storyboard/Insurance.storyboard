@@ -239,16 +239,13 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Unb-JQ-U7e">
                                                 <rect key="frame" x="22" y="34" width="516" height="56"/>
                                                 <subviews>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="948-y5-XeK">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="948-y5-XeK" customClass="CKLimitTextField">
                                                         <rect key="frame" x="59" y="5" width="398" height="46"/>
                                                         <animations/>
                                                         <color key="tintColor" red="0.13725490200000001" green="0.67450980390000004" blue="0.1764705882" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="textColor" red="0.13725490200000001" green="0.67450980390000004" blue="0.1764705882" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="38"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
-                                                        <connections>
-                                                            <outlet property="delegate" destination="P7Y-gl-JMG" id="DJV-Hk-JqR"/>
-                                                        </connections>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="您要填的是裸车价哦" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dp6-hn-xSY">
                                                         <rect key="frame" x="59" y="18" width="398" height="20"/>

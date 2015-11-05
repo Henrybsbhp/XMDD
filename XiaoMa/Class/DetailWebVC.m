@@ -121,6 +121,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         if (menuArr.count == 1) {
             self.navigationItem.rightBarButtonItem = [self.bridge setSingleMenu:[menuArr safetyObjectAtIndex:0]];
         }
+        responseCallback(nil);
     }];
 }
 
@@ -206,13 +207,13 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             [self.webView goBack];
         }
         else {
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self.navigationController popViewControllerAnimated:YES];
         }
     }
 }
 
 - (void)actionCloseWeb {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
