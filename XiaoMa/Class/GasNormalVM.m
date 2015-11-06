@@ -49,6 +49,9 @@
         [self.cardStore sendEvent:[self.cardStore getAllCards]];
         return YES;
     }
+    else if (force) {
+        [self reloadWithEvent:[CKStoreEvent eventWithSignal:[RACSignal return:nil] code:kCKStoreEventNone object:nil]];
+    }
     else if (self.cachedEvent) {
         [self.cardStore sendEvent:self.cachedEvent];
         return YES;
