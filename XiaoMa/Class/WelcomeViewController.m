@@ -30,7 +30,7 @@
     NSString * imageName2 = [NSString stringWithFormat:@"welcome2_%ld_%ld",(long)deviceWidth,(long)deviceHeight];
     NSString * imageName3 = [NSString stringWithFormat:@"welcome3_%ld_%ld",(long)deviceWidth,(long)deviceHeight];
     NSString * imageName4 = [NSString stringWithFormat:@"welcome4_%ld_%ld",(long)deviceWidth,(long)deviceHeight];
-    self.imageArray = @[imageName1,imageName2,imageName3,imageName4];
+    self.imageArray = @[imageName1,imageName2,imageName3];
     
     self.sypaginatorView.delegate = self;
     self.sypaginatorView.dataSource = self;
