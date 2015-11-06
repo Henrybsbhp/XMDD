@@ -119,7 +119,6 @@
                     [self.curNavCtrl pushViewController:vc animated:YES];
                 }
             }
-            
             flag = YES;
         }
         //礼包
@@ -195,7 +194,7 @@
             flag = YES;
         }
     }
-    else if ([url hasPrefix:@"http://"]) {
+    else if ([url hasPrefix:@"http://"] || [url hasPrefix:@"https://"]) {
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.url = [self httpUrlStringFrom:url];
         [self.curNavCtrl pushViewController:vc animated:YES];
