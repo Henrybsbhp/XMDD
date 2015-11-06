@@ -314,19 +314,19 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat width = floor((self.view.frame.size.width - 90) / 2);
-    CGFloat height = 25;
+    CGFloat width = floor((self.view.frame.size.width - 80) / 2);
+    CGFloat height = 25.0f / 120.0f  * width;
     return CGSizeMake(width, height);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 20;
+    return 10;
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 4;
+    return 10;
 }
 
 
@@ -345,6 +345,7 @@
     {
         cell.contentView.layer.borderWidth = 0.5f;
         cell.contentView.layer.borderColor = [UIColor colorWithHex:@"#ffa800" alpha:1.0f].CGColor;
+        cell.contentView.layer.cornerRadius = 4.0;
         cell.contentView.layer.masksToBounds = YES;
     }
     else
@@ -370,8 +371,10 @@
 #pragma mark - Utility
 - (CGFloat)changeCollectionHeight
 {
+    CGFloat width = floor((self.view.frame.size.width - 80) / 2);
+    CGFloat itemHeight = 25.0f / 120.0f * width;
     NSInteger num = self.currentRateTemplate.count / 2 + (self.currentRateTemplate.count % 2);
-    CGFloat height = 25 * num + 5 * (num + 1);
+    CGFloat height = itemHeight * num + 5 * (num + 1);
     self.heightConstraint.constant = height;
     
     CGSize size = self.collectionView.contentSize;
