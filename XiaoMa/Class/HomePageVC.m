@@ -198,7 +198,7 @@
     //加油
     UIButton *addGasBtn = [self functionalButtonWithImageName:@"hp_add_gas" action:@selector(actionAddGas:) inContainer:mainView hasBorder:YES];
     //抢红包
-    UIButton *couponBtn = [self functionalButtonWithImageName:@"hp_award" action:@selector(actionAward:) inContainer:mainView hasBorder:YES];
+    UIButton *couponBtn = [self functionalButtonWithImageName:@"hp_award_2" action:@selector(actionAward:) inContainer:mainView hasBorder:YES];
     
     
     [addGasBtn mas_makeConstraints:^(MASConstraintMaker *make) {
