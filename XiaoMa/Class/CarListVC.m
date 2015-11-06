@@ -146,6 +146,7 @@
         @strongify(self);
         self.scrollView.hidden = YES;
         self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
+        [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] finally:^{
         
@@ -157,15 +158,21 @@
         self.datasource = [self.carStore.cache allObjects];
         HKMyCar *defCar = [self.carStore defalutCar];
         if (self.model.allowAutoChangeSelectedCar) {
-            HKMyCar *car = [self.carStore.cache objectForKey:_originCarID ? _originCarID : self.model.currentCar.carId];
-            if (car) {
-                self.model.selectedCar = car;
-                self.model.currentCar = car;
+            HKMyCar *car = nil;
+            if (_originCarID) {
+                car = [self.carStore.cache objectForKey:_originCarID];
             }
-            else {
-                self.model.selectedCar = defCar;
-                self.model.currentCar = defCar;
+            if (code == kCKStoreEventAdd) {
+                car = x;
             }
+            if (!car && self.model.currentCar) {
+                car = [self.carStore.cache objectForKey:self.model.currentCar.carId];
+            }
+            if (!car) {
+                car = defCar;
+            }
+            self.model.selectedCar = car;
+            self.model.currentCar = car;
         }
         else {
             if (![defCar isEqual:self.model.selectedCar]) {
@@ -174,8 +181,11 @@
             if (_originCarID) {
                 self.model.currentCar = [self.carStore.cache objectForKey:_originCarID];
             }
-            else if (code != kCKStoreEventUpdate) {
+            else if (code != kCKStoreEventUpdate && code != kCKStoreEventAdd) {
                 self.model.currentCar = defCar;
+            }
+            else if (code == kCKStoreEventAdd) {
+                self.model.currentCar = x;
             }
             if (!self.model.currentCar) {
                 self.model.currentCar = self.model.selectedCar;

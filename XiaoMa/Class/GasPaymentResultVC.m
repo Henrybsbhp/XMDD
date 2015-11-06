@@ -72,6 +72,9 @@
     else {
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
+    if (self.dismissBlock) {
+        self.dismissBlock(self.drawingStatus);
+    }
 }
 
 #pragma mark - UITableViewDelegate And Datasource
