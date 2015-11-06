@@ -132,6 +132,23 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 -(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
 {
     [_progressView setProgress:progress animated:YES];
+    
+    NSString *title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    if (title.length > 0) {
+        CKAsyncMainQueue(^{
+            self.navigationItem.title = title;
+        });
+    }
+    
+    [self.bridge registerGetToken];
+    
+    //返回和关闭按钮的控制
+    if (self.webView.canGoBack) {
+        [self setupLeftBtns];
+    }
+    else {
+        [self setupLeftSingleBtn];
+    }
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
@@ -162,24 +179,6 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     DebugLog(@"%@ WebViewFinishLoad:%@", kRspPrefix, webView.request.URL);
-    
-    NSString *title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-    if (title.length > 0) {
-        self.navigationItem.title = title;
-    }
-    else {
-        self.navigationItem.title = @"活动详情";
-    }
-    
-    [self.bridge registerGetToken];
-    
-    //返回和关闭按钮的控制
-    if (self.webView.canGoBack) {
-        [self setupLeftBtns];
-    }
-    else {
-        [self setupLeftSingleBtn];
-    }
 }
 
 - (void)setupLeftSingleBtn {
