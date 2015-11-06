@@ -141,7 +141,7 @@
         //消息列表
         else if ([@"msg" equalByCaseInsensitive:name] && gAppMgr.myUser) {
             if (![self popToViewControllerIfNeededByIdentify:@"MessageListVC"]) {
-                UIViewController *vc = [UIStoryboard vcWithId:@"MessageListVC" inStoryboard:@"Mine"];
+                UIViewController *vc = [UIStoryboard vcWithId:@"MessageListVC" inStoryboard:@"Message"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
             flag = YES;

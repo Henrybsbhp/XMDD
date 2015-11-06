@@ -219,17 +219,9 @@
         OrderPaidSuccessOp *op = [OrderPaidSuccessOp operation];
         op.req_notifytype = 3;
         op.req_tradeno = paidop.rsp_tradeid;
-        RACSignal *sig = [[[op rac_postRequest] flattenMap:^RACStream *(id value) {
-          
-            @strongify(self);
+        [[op rac_postRequest] subscribeNext:^(id x) {
             DebugLog(@"已通知服务器支付成功!");
-            return [self.cardStore rac_getCardNormalInfoByGID:card.gid];
-        }] doNext:^(id x) {
-            
-            @strongify(self);
-            self.rechargeAmount = 500;
         }];
-        [self.cardStore sendEvent:[CKStoreEvent eventWithSignal:sig code:kCKStoreEventUpdate object:nil]];
         paidSuccess = YES;
         NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
         NSString *key = [self recentlyUsedGasCardKey];

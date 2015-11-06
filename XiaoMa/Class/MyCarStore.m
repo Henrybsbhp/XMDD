@@ -42,11 +42,12 @@
 {
     AddCarOp * op = [[AddCarOp alloc] init];
     op.req_car = car;
-    RACSignal *sig = [[[op rac_postRequest] doNext:^(AddCarOp * addOp) {
+    RACSignal *sig = [[[op rac_postRequest] map:^(AddCarOp * addOp) {
         car.carId = addOp.rsp_carId;
         car.tintColorType = [self carTintColorTypeAtIndex:self.cache.count];
         [self.cache addObject:car forKey:car.carId];
         [self setDefaultCarIfNeeded:car];
+        return car;
     }] replayLast];
     return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventAdd object:nil];
 }
