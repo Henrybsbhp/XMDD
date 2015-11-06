@@ -19,6 +19,7 @@
 @property (nonatomic, assign) int couponMoney;
 @property (nonatomic, assign) int chargeMoney;
 @property (nonatomic, assign) GasCard *gasCard;
+@property (nonatomic, copy) void(^dismissBlock)(DrawingBoardViewStatus status);
 @property (nonatomic, weak) UIViewController *originVC;
 
 @end

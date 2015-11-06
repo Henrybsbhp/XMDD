@@ -155,7 +155,8 @@
             return NO;
         }
         //之前验证时入参为licencenumber，为空，切验证结果应为：nil
-        else if (![MyCarStore verifiedLicenseNumberFrom:self.curCar.licenceSuffix]) {            [self showErrorAtIndexPath:indexPath errorMsg:@"请输入正确的车牌号码"];
+        else if (![MyCarStore verifiedLicenseNumberFrom:self.curCar.licenceSuffix]) {
+            [self showErrorAtIndexPath:indexPath errorMsg:@"请输入正确的车牌号码"];
             return NO;
         }
         return YES;
@@ -615,10 +616,6 @@
 
     field.textLimit = 6;
     field.text = self.curCar.licenceSuffix;
-    [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString *text) {
-        @strongify(self);
-        self.curCar.licenceSuffix = text;
-    }];
     
     [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
         field.placeholder = nil;
@@ -628,8 +625,10 @@
         field.placeholder = @"A12345";
     }];
     
-    [field setTextChangingBlock:^(CKLimitTextField *field, NSString *replacement) {
+    [field setTextDidChangedBlock:^(CKLimitTextField *field) {
+        @strongify(self);
         field.text = [field.text uppercaseString];
+        self.curCar.licenceSuffix = field.text;
     }];
 }
 
