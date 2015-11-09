@@ -26,7 +26,7 @@
 #import "GetUserCarOp.h"
 #import "GetUserResourcesV2Op.h"
 #import "SystemFastrateGetOp.h"
-#import "CheckoutServiceOrderV3Op.h"
+#import "CheckoutServiceOrderV4Op.h"
 #import "OrderPaidSuccessOp.h"
 
 
@@ -47,7 +47,7 @@
 @property (nonatomic)BOOL isLoadingResourse;
 @property (nonatomic,strong)MyCarStore * carStore;
 
-@property (nonatomic,strong)CheckoutServiceOrderV3Op * checkoutServiceOrderV3Op;
+@property (nonatomic,strong)CheckoutServiceOrderV4Op * checkoutServiceOrderV4Op;
 
 @end
 
@@ -65,8 +65,8 @@
     self.selectCarwashCoupouArray = self.selectCarwashCoupouArray ? self.selectCarwashCoupouArray :[NSMutableArray array];
     self.selectCashCoupouArray = self.selectCashCoupouArray ? self.selectCashCoupouArray : [NSMutableArray array];
     ///一开始设置支付宝，保证可用资源获取失败的时候能够正常默认选择
-    self.checkoutServiceOrderV3Op = [[CheckoutServiceOrderV3Op alloc] init];
-    self.checkoutServiceOrderV3Op.paychannel = PaymentChannelAlipay;
+    self.checkoutServiceOrderV4Op = [[CheckoutServiceOrderV4Op alloc] init];
+    self.checkoutServiceOrderV4Op.paychannel = PaymentChannelAlipay;
     
     
     [self requestGetUserResource:!self.isAutoCouponSelect];
@@ -549,7 +549,7 @@
                     HKCoupon * c = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
                     self.couponType = c.conponType;
                     if (self.couponType == CouponTypeCZBankCarWash){
-                        self.checkoutServiceOrderV3Op.paychannel = PaymentChannelXMDDCreditCard;
+                        self.checkoutServiceOrderV4Op.paychannel = PaymentChannelXMDDCreditCard;
                     }
                     [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
                 }
@@ -716,25 +716,25 @@
         {
             [MobClick event:@"rp108-11"];
             [self popBankCardNumberAnimation:YES];
-            self.checkoutServiceOrderV3Op.paychannel = PaymentChannelXMDDCreditCard;
+            self.checkoutServiceOrderV4Op.paychannel = PaymentChannelXMDDCreditCard;
         }
         else if (indexPath.row == 2)
         {
             [MobClick event:@"rp108-5"];
             [self popBankCardNumberAnimation:NO];
-            self.checkoutServiceOrderV3Op.paychannel = PaymentChannelAlipay;
+            self.checkoutServiceOrderV4Op.paychannel = PaymentChannelAlipay;
         }
         else
         {
             [MobClick event:@"rp108-6"];
             [self popBankCardNumberAnimation:NO];
-            self.checkoutServiceOrderV3Op.paychannel = PaymentChannelWechat;
+            self.checkoutServiceOrderV4Op.paychannel = PaymentChannelWechat;
         }
     }];
     
-    if ((indexPath.row == 1 && self.checkoutServiceOrderV3Op.paychannel == PaymentChannelXMDDCreditCard) ||
-        (indexPath.row == 2 && self.checkoutServiceOrderV3Op.paychannel == PaymentChannelAlipay)||
-        (indexPath.row == 3 && self.checkoutServiceOrderV3Op.paychannel == PaymentChannelWechat))
+    if ((indexPath.row == 1 && self.checkoutServiceOrderV4Op.paychannel == PaymentChannelXMDDCreditCard) ||
+        (indexPath.row == 2 && self.checkoutServiceOrderV4Op.paychannel == PaymentChannelAlipay)||
+        (indexPath.row == 3 && self.checkoutServiceOrderV4Op.paychannel == PaymentChannelWechat))
     {
         if (indexPath.row == 1){
             
@@ -830,7 +830,7 @@
             [coupons addObject:c.couponId];
         }
     }
-    self.checkoutServiceOrderV3Op.couponArray = coupons;
+    self.checkoutServiceOrderV4Op.couponArray = coupons;
     
     //支付方式
     NSArray * array = [[self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup] sortedArrayUsingComparator:^NSComparisonResult(UIButton * obj1, UIButton * obj2) {
@@ -847,29 +847,29 @@
         {
             if (i == 0)
             {
-                self.checkoutServiceOrderV3Op.paychannel = PaymentChannelXMDDCreditCard;
+                self.checkoutServiceOrderV4Op.paychannel = PaymentChannelXMDDCreditCard;
             }
             else if (i == 1)
             {
-                self.checkoutServiceOrderV3Op.paychannel = PaymentChannelAlipay;
+                self.checkoutServiceOrderV4Op.paychannel = PaymentChannelAlipay;
                 bandCard = nil;
 //                self.selectBankCard.cardID = nil;
             }
             else if (i == 2)
             {
-                self.checkoutServiceOrderV3Op.paychannel = PaymentChannelWechat;
+                self.checkoutServiceOrderV4Op.paychannel = PaymentChannelWechat;
                 bandCard = nil;
 //                self.selectBankCard.cardID = nil;
             }
         }
     }
     
-    self.checkoutServiceOrderV3Op.serviceid = self.service.serviceID;
-    self.checkoutServiceOrderV3Op.licencenumber = self.defaultCar.licencenumber ? self.defaultCar.licencenumber : @"";
-    self.checkoutServiceOrderV3Op.carMake = self.defaultCar.brand;
-    self.checkoutServiceOrderV3Op.carModel = self.defaultCar.model;
-//    self.checkoutServiceOrderV3Op.bankCardId = self.selectBankCard.cardID;
-    self.checkoutServiceOrderV3Op.bankCardId = bandCard.cardID;
+    self.checkoutServiceOrderV4Op.serviceid = self.service.serviceID;
+    self.checkoutServiceOrderV4Op.licencenumber = self.defaultCar.licencenumber ? self.defaultCar.licencenumber : @"";
+    self.checkoutServiceOrderV4Op.carMake = self.defaultCar.brand;
+    self.checkoutServiceOrderV4Op.carModel = self.defaultCar.model;
+//    self.checkoutServiceOrderV4Op.bankCardId = self.selectBankCard.cardID;
+    self.checkoutServiceOrderV4Op.bankCardId = bandCard.cardID;
     
     //如果不是原价支付，需要提供定位信息
     RACSignal *signal;
@@ -885,12 +885,12 @@
 
     [[[signal flattenMap:^RACStream *(MAUserLocation *location) {
         
-        self.checkoutServiceOrderV3Op.coordinate = location ? location.coordinate : gMapHelper.coordinate;
-        return [self.checkoutServiceOrderV3Op rac_postRequest];
+        self.checkoutServiceOrderV4Op.coordinate = location ? location.coordinate : gMapHelper.coordinate;
+        return [self.checkoutServiceOrderV4Op rac_postRequest];
     }] initially:^{
         
         [gToast showingWithText:@"订单生成中..."];
-    }] subscribeNext:^(CheckoutServiceOrderV3Op * op) {
+    }] subscribeNext:^(CheckoutServiceOrderV4Op * op) {
         
         [self requestCommentlist];
         if (op.rsp_price)
@@ -951,7 +951,7 @@
         
     } error:^(NSError *error) {
         
-        [self handerOrderError:error forOp:self.checkoutServiceOrderV3Op];
+        [self handerOrderError:error forOp:self.checkoutServiceOrderV4Op];
     }];
 }
 
@@ -971,7 +971,7 @@
     }];
 }
 
-- (void)handerOrderError:(NSError *)error forOp:(CheckoutServiceOrderV3Op *)op
+- (void)handerOrderError:(NSError *)error forOp:(CheckoutServiceOrderV4Op *)op
 {
     if (error.code == 615801) {
         [gToast dismiss];
@@ -1077,7 +1077,7 @@
         if (coupon.conponType == CouponTypeCZBankCarWash){
             
             self.couponType = CouponTypeCZBankCarWash;
-            self.checkoutServiceOrderV3Op.paychannel = PaymentChannelXMDDCreditCard;
+            self.checkoutServiceOrderV4Op.paychannel = PaymentChannelXMDDCreditCard;
         }
         else{
             
@@ -1087,11 +1087,11 @@
         
         if (gAppMgr.myUser.couponModel.validCZBankCreditCard.count){
             
-            self.checkoutServiceOrderV3Op.paychannel = PaymentChannelXMDDCreditCard;
+            self.checkoutServiceOrderV4Op.paychannel = PaymentChannelXMDDCreditCard;
         }
         else{
             
-            self.checkoutServiceOrderV3Op.paychannel = PaymentChannelAlipay;
+            self.checkoutServiceOrderV4Op.paychannel = PaymentChannelAlipay;
         }
         
         [self.tableView reloadData];
@@ -1130,11 +1130,11 @@
         self.couponType = coupon.conponType;
         if (gAppMgr.myUser.couponModel.validCZBankCreditCard.count){
             
-            self.checkoutServiceOrderV3Op.paychannel = PaymentChannelXMDDCreditCard;
+            self.checkoutServiceOrderV4Op.paychannel = PaymentChannelXMDDCreditCard;
         }
         else{
             
-            self.checkoutServiceOrderV3Op.paychannel = PaymentChannelAlipay;
+            self.checkoutServiceOrderV4Op.paychannel = PaymentChannelAlipay;
         }
         [self.tableView reloadData];
         [self refreshPriceLb];
@@ -1152,11 +1152,11 @@
         {
             if (gAppMgr.myUser.couponModel.validCZBankCreditCard.count){
                 
-                self.checkoutServiceOrderV3Op.paychannel = PaymentChannelXMDDCreditCard;
+                self.checkoutServiceOrderV4Op.paychannel = PaymentChannelXMDDCreditCard;
             }
             else{
                 
-                self.checkoutServiceOrderV3Op.paychannel = PaymentChannelAlipay;
+                self.checkoutServiceOrderV4Op.paychannel = PaymentChannelAlipay;
             }
             [self tableViewReloadData];
             return;
@@ -1189,12 +1189,12 @@
         {
             HKBankCard * card = [gAppMgr.myUser.couponModel.validCZBankCreditCard safetyObjectAtIndex:0];
             self.selectBankCard = card;
-            self.checkoutServiceOrderV3Op.paychannel = PaymentChannelXMDDCreditCard;
+            self.checkoutServiceOrderV4Op.paychannel = PaymentChannelXMDDCreditCard;
         }
         else
         {
             self.selectBankCard = nil;
-            self.checkoutServiceOrderV3Op.paychannel = PaymentChannelAlipay;
+            self.checkoutServiceOrderV4Op.paychannel = PaymentChannelAlipay;
         }
     }
 }
@@ -1341,7 +1341,7 @@
 
 - (void)setPaymentChannel:(PaymentChannelType)channel
 {
-    self.checkoutServiceOrderV3Op.paychannel = channel;
+    self.checkoutServiceOrderV4Op.paychannel = channel;
 }
 
 @end

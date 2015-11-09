@@ -1,18 +1,18 @@
 //
-//  CheckoutServiceOrderV2Op.m
+//  CheckoutServiceOrderV4Op.m
 //  XiaoMa
 //
-//  Created by jiangjunchen on 15/7/17.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Created by jt on 15/11/9.
+//  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "CheckoutServiceOrderV2Op.h"
+#import "CheckoutServiceOrderV4Op.h"
 
-@implementation CheckoutServiceOrderV2Op
+@implementation CheckoutServiceOrderV4Op
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/order/service/v2/checkout";
+    self.req_method = @"/order/service/v4/checkout";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString * cid;
@@ -24,7 +24,8 @@
     [params addParam:self.licencenumber forName:@"licencenumber"];
     [params addParam:cid ? cid : @"" forName:@"cid"];
     [params addParam:@(self.paychannel) forName:@"paychannel"];
-    [params addParam:self.carbrand forName:@"carbrand"];
+    [params addParam:self.carMake forName:@"make"];
+    [params addParam:self.carModel forName:@"model"];
     [params addParam:[NSString stringWithFormat:@"%f", self.coordinate.longitude] forName:@"longitude"];
     [params addParam:[NSString stringWithFormat:@"%f", self.coordinate.latitude] forName:@"latitude"];
     [params addParam:self.bankCardId ? self.bankCardId : @0 forName:@"cardid"];
@@ -47,5 +48,6 @@
     }
     return self;
 }
+
 
 @end
