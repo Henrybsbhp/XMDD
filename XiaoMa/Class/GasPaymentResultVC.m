@@ -44,7 +44,7 @@
     vc.image = [UIImage imageNamed:@"wechat_share_gas"];
     vc.webimage = [UIImage imageNamed:@"weibo_share_gas"];
     vc.urlStr = @"http://www.xiaomadada.com/paaweb/general/appDownload?ch=10002";
-    if (self.paidMoney < self.chargeMoney) {
+    if (self.couponMoney > 0) {
         vc.subtitle = [NSString stringWithFormat:@"我在小马达达为油卡充值了%d元，省了%d元！加油省省省，你也来加油吧！",
                        self.chargeMoney, self.couponMoney];
     } else {
@@ -71,6 +71,9 @@
     }
     else {
         [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+    if (self.dismissBlock) {
+        self.dismissBlock(self.drawingStatus);
     }
 }
 

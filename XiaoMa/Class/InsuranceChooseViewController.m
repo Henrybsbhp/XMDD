@@ -81,6 +81,7 @@
             @strongify(self);
             [gToast dismiss];
             InsuranceResultVC *vc = [UIStoryboard vcWithId:@"InsuranceResultVC" inStoryboard:@"Insurance"];
+            vc.title = @"预约结果";
             [self.navigationController pushViewController:vc animated:YES];
         } error:^(NSError *error) {
             

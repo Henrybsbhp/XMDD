@@ -489,6 +489,7 @@
             tagLb.text = self.insOrder.activityName;
             // TODO @fq
             tagLb.cornerRadius = 3.0f;
+            tagLb.hidden = NO;
             arrow.hidden = NO;
             
             NSDate * earlierDate;

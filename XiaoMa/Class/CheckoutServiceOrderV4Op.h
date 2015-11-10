@@ -1,14 +1,14 @@
 //
-//  CheckoutServiceOrderV3Op.h
+//  CheckoutServiceOrderV4Op.h
 //  XiaoMa
 //
-//  Created by jt on 15/9/21.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Created by jt on 15/11/9.
+//  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
 #import "BaseOp.h"
 
-@interface CheckoutServiceOrderV3Op : BaseOp
+@interface CheckoutServiceOrderV4Op : BaseOp
 
 @property (nonatomic,strong)NSNumber *serviceid;
 

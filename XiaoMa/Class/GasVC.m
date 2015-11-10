@@ -206,19 +206,19 @@
 {
     NSString *title;
     NSInteger couponlimit, discount = 0;
-    NSInteger availablelimit = 2000;
     CGFloat percent = 0;
     NSInteger paymoney = self.curModel.rechargeAmount;
     
     if ([self.curModel isEqual:self.normalModel]) {
         GasNormalVM *model = (GasNormalVM *)self.curModel;
         couponlimit = model.configOp ? model.configOp.rsp_couponupplimit : 1000;
-        availablelimit = model.configOp ? model.configOp.rsp_chargeupplimit : 2000;
         percent = model.configOp ? model.configOp.rsp_discountrate : 2;
         if (model.curGasCard) {
-            couponlimit = MAX(0, couponlimit - MAX(0,(availablelimit - [model.curGasCard.availablechargeamt integerValue])));
+            discount = MIN([model.curGasCard.couponedmoney integerValue], paymoney * percent / 100.0);
         }
-        discount = MIN(couponlimit, paymoney) * percent / 100.0;
+        else {
+            discount = MIN(couponlimit, paymoney) * percent / 100.0;
+        }
         paymoney = paymoney - discount;
         if (discount > 0) {
             title = [NSString stringWithFormat:@"已优惠%d元，您只需支付%d元，现在支付", (int)discount, (int)paymoney];
@@ -351,6 +351,12 @@
                 vc.paidMoney = paidop.rsp_total;
                 vc.couponMoney = paidop.rsp_couponmoney;
                 vc.chargeMoney = paidop.req_amount;
+                [vc setDismissBlock:^(DrawingBoardViewStatus status) {
+                    @strongify(self);
+                    //更新信息
+                    self.curModel.rechargeAmount = 500;
+                    [self.curModel.cardStore sendEvent:[self.curModel.cardStore updateCardInfoByGID:card.gid]];
+                }];
                 [self.navigationController pushViewController:vc animated:YES];
             }];
         }

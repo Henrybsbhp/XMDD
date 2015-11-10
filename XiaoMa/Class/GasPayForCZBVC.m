@@ -124,9 +124,6 @@
         if (key) {
             [def setObject:op.req_gid forKey:key];
         }
-        //更新信息
-        BankCardStore *store = [BankCardStore fetchExistsStore];
-        [store sendEvent:[store updateBankCardCZBInfoByCID:self.bankCard.cardID]];
         //跳转到支付成功页面
         GasPaymentResultVC *vc = [UIStoryboard vcWithId:@"GasPaymentResultVC" inStoryboard:@"Gas"];
         vc.originVC = self.originVC;
@@ -135,7 +132,13 @@
         vc.chargeMoney = op.req_amount+op.rsp_couponmoney;
         vc.couponMoney = op.rsp_couponmoney;
         vc.paidMoney = op.rsp_total;
-        self.model.rechargeAmount = 500;
+        [vc setDismissBlock:^(DrawingBoardViewStatus status) {
+            @strongify(self);
+            //更新信息
+            self.model.rechargeAmount = 500;
+            BankCardStore *store = [BankCardStore fetchExistsStore];
+            [store sendEvent:[store updateBankCardCZBInfoByCID:self.bankCard.cardID]];
+        }];
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         

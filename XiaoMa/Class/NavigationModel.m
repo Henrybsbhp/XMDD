@@ -119,7 +119,6 @@
                     [self.curNavCtrl pushViewController:vc animated:YES];
                 }
             }
-            
             flag = YES;
         }
         //礼包
@@ -141,7 +140,7 @@
         //消息列表
         else if ([@"msg" equalByCaseInsensitive:name] && gAppMgr.myUser) {
             if (![self popToViewControllerIfNeededByIdentify:@"MessageListVC"]) {
-                UIViewController *vc = [UIStoryboard vcWithId:@"MessageListVC" inStoryboard:@"Mine"];
+                UIViewController *vc = [UIStoryboard vcWithId:@"MessageListVC" inStoryboard:@"Message"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
             flag = YES;
@@ -195,7 +194,7 @@
             flag = YES;
         }
     }
-    else if ([url hasPrefix:@"http://"]) {
+    else if ([url hasPrefix:@"http://"] || [url hasPrefix:@"https://"]) {
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.url = [self httpUrlStringFrom:url];
         [self.curNavCtrl pushViewController:vc animated:YES];
