@@ -13,6 +13,8 @@
 #import "CarWashTableVC.h"
 #import "InsuranceVC.h"
 #import "UIView+DefaultEmptyView.h"
+#import "RescureViewController.h"
+#import "CommissionViewController.h"
 
 @interface CouponDetailsVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -58,6 +60,7 @@
 
         }];
         
+        self.shareBtn.hidden = !gAppMgr.canShareFlag;
         [self.shareBtn setCornerRadius:5.0f];
         [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
@@ -84,20 +87,32 @@
                 [self.navigationController pushViewController:vc animated:YES];
             }];
         }
-        else {
+        else if (self.newType == CouponNewTypeInsurance){
             self.bottomView.hidden = YES;
             self.bottomConstraint.constant = 56;
         }
-        
-//        @weakify(self);
-//        [[self.longUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-//            
-//            @strongify(self);
-//            //保险入口
-//            InsuranceVC *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
-//            [self.navigationController pushViewController:vc animated:YES];
-//        }];
-
+        else {
+            self.shortUseBtn.hidden = YES;
+            self.shareBtn.hidden = YES;
+            self.longUseBtn.hidden = NO;
+            [self.longUseBtn setCornerRadius:5.0f];
+            @weakify(self);
+            [[self.longUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                
+                @strongify(self);
+                //去使用
+                if (self.oldType == CouponTypeAgency) {
+                    CommissionViewController *cvc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionViewController"];
+                    cvc.url = @"http://www.xiaomadada.com/apphtml/daiban.html";
+                    [self.navigationController pushViewController:cvc animated:YES];
+                }
+                else {
+                    RescureViewController *rvc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureViewController"];
+                    rvc.url = @"http://www.xiaomadada.com/apphtml/jiuyuan.html";
+                    [self.navigationController pushViewController:rvc animated:YES];
+                }
+            }];
+        }
     }
 }
 
@@ -275,12 +290,14 @@
         [nolabel.layer setMasksToBounds:YES];
         
         contentlabel.text = [self.couponDic.useguide safetyObjectAtIndex:indexPath.row];
-        contentlabel.preferredMaxLayoutWidth = 276;
+        if (!IOSVersionGreaterThanOrEqualTo(@"8.0")) {
+            contentlabel.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 44;
+        }
         return cell;
     }
 }
 
-- (NSMutableAttributedString *) setLabelContent:(NSString *) contentStr
+- (NSMutableAttributedString *)setLabelContent:(NSString *) contentStr
 {
     //设置行间距、居中等
     NSMutableAttributedString * attributedStr = [[NSMutableAttributedString alloc] initWithString:contentStr];

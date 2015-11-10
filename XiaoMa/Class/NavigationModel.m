@@ -11,11 +11,18 @@
 #import "CarwashOrderDetailVC.h"
 #import "InsuranceOrderVC.h"
 #import "MyCouponVC.h"
+#import "InsOrderStore.h"
+#import "LoginVC.h"
+#import "GasVC.h"
+#import "DetailWebVC.h"
+#import "CarListVC.h"
+#import "GasVC.h"
 
 @implementation NavigationModel
 
 - (BOOL)pushToViewControllerByUrl:(NSString *)url
 {
+//    url = @"xmdd://j?t=cl&id=47898";
     BOOL flag = NO;
     //是内部跳转链接(以xmdd://开头)
     if ([url hasPrefix:@"xmdd://"]) {
@@ -29,6 +36,12 @@
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
             flag = YES;
+        }
+        //登录 (针对根据网页中url跳转登录)
+        else if ([@"login" equalByCaseInsensitive:name] && !gAppMgr.myUser) {
+                VcodeLoginVC *vc = [UIStoryboard vcWithId:@"VcodeLoginVC" inStoryboard:@"Login"];
+                JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
+                [self.curNavCtrl presentViewController:nav animated:YES completion:nil];
         }
         //优惠券
         else if ([@"cp" equalByCaseInsensitive:name] && gAppMgr.myUser) {
@@ -97,7 +110,8 @@
                 }];
                 if (vc) {
                     [self.curNavCtrl popToViewController:vc animated:YES];
-                    [self postCustomNotificationName:kNotifyRefreshDetailInsuranceOrder object:orderid];
+                    InsOrderStore *store = [InsOrderStore fetchExistsStore];
+                    [store sendEvent:[store getInsOrderByID:orderid]];
                 }
                 else {
                     InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
@@ -105,7 +119,6 @@
                     [self.curNavCtrl pushViewController:vc animated:YES];
                 }
             }
-            
             flag = YES;
         }
         //礼包
@@ -124,21 +137,65 @@
             }
             flag = YES;
         }
+        //消息列表
+        else if ([@"msg" equalByCaseInsensitive:name] && gAppMgr.myUser) {
+            if (![self popToViewControllerIfNeededByIdentify:@"MessageListVC"]) {
+                UIViewController *vc = [UIStoryboard vcWithId:@"MessageListVC" inStoryboard:@"Message"];
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+            flag = YES;
+        }
         //商店详情
         else if ([@"sd" equalByCaseInsensitive:name]) {
 
         }
         //爱车列表
         else if ([@"cl" equalByCaseInsensitive:name] && gAppMgr.myUser) {
-            if (![self popToViewControllerIfNeededByIdentify:@"CarListVC"]) {
-                UIViewController *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+            CarListVC *vc = (CarListVC *)[self viewControllerByIdentify:@"CarListVC" withPrecidate:nil];
+            if (vc) {
+                [self.curNavCtrl popToViewController:vc animated:YES];
+                vc.originCarID = @([value integerValue]);
+            }
+            else {
+                vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+                vc.originCarID = @([value integerValue]);
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+            flag = YES;
+        }
+        //加油记录
+        else if ([@"gl" equalByCaseInsensitive:name] && gAppMgr.myUser) {
+            if (![self popToViewControllerIfNeededByIdentify:@"GasRecordVC"]) {
+                UIViewController *vc = [UIStoryboard vcWithId:@"GasRecordVC" inStoryboard:@"Gas"];
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+            flag = YES;
+        }
+        //浙商加油
+        else if ([@"czbgl" equalByCaseInsensitive:name]) {
+            GasVC *vc = (GasVC *)[self viewControllerByIdentify:@"GasVC" withPrecidate:nil];
+            if (vc) {
+                [self.curNavCtrl popToViewController:vc animated:YES];
+                vc.tabViewSelectedIndex = 1;
+            }
+            else {
+                GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
+                vc.tabViewSelectedIndex = 1;
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+            flag = YES;
+        }
+        //加油首页
+        else if ([@"g" equalByCaseInsensitive:name]) {
+            if (![self popToViewControllerIfNeededByIdentify:@"GasVC"]) {
+                GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
             flag = YES;
         }
     }
-    else if ([url hasPrefix:@"http://"]) {
-        WebVC *vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
+    else if ([url hasPrefix:@"http://"] || [url hasPrefix:@"https://"]) {
+        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.url = [self httpUrlStringFrom:url];
         [self.curNavCtrl pushViewController:vc animated:YES];
         flag = YES;

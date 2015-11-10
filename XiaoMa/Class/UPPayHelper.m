@@ -9,7 +9,7 @@
 #import "UPPayHelper.h"
 #import "UPPayPlugin.h"
 
-//接入模式  "00":代表生成环境   "01":代表测试环境、
+//接入模式  "00":代表生产环境   "01":代表测试环境、
 #ifdef DEBUG
     #define UPPayPaymentMode  @"01"
 #else

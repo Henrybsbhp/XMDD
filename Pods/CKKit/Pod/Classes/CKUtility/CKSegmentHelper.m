@@ -25,6 +25,11 @@ static char sGroupCompleteBlockKey;
     return self;
 }
 
+- (void)dealloc
+{
+    [self removeAllItemGroups];
+}
+
 - (void)addItems:(NSArray *)items forGroupName:(NSString *)groupName withChangedBlock:(void (^)(id, BOOL))block
 {
     for (id item in items){
@@ -76,19 +81,35 @@ withChangedBlock:(void(^)(id item, BOOL selected))block
 
 - (void)removeAllItemGroups
 {
+    for (NSArray *group in self.itemGroups.allValues) {
+        for (id item in group) {
+            [self cleanItem:item];
+        }
+    }
     [self.itemGroups removeAllObjects];
 }
 
 - (void)removeAllItemsForGroupName:(NSString *)name
 {
     NSMutableArray *group = [self itemGroupForName:name];
+    for (id item in group) {
+        [self cleanItem:item];
+    }
     [group removeAllObjects];
 }
 
 - (void)removeItem:(id)item forGroupName:(NSString *)name
 {
     NSMutableArray *group = [self itemGroupForName:name];
+    [self cleanItem:item];
     [group safetyRemoveObject:item];
+}
+
+- (void)cleanItem:(id)item
+{
+    [[item customInfo] removeObjectForKey:@"$segment-selected"];
+    [[item customInfo] removeObjectForKey:@"$segment-block"];
+    [[item customInfo] removeObjectForKey:@"$segment-group-name"];
 }
 
 - (void)setComplete:(void(^)(id item))complete forGroupName:(NSString *)name

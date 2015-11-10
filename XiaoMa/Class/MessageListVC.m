@@ -57,30 +57,33 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
 {
     return @"暂无消息";
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
     return @"获取消息失败，点击重试";
 }
 
-- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
 {
-    if (type != HKDatasourceLoadingTypeLoadMore) {
+    if (type != HKLoadingTypeLoadMore) {
         self.curMsgTime = 0;
     }
     
     GetMessageOp * op = [GetMessageOp operation];
     op.req_msgtime = self.curMsgTime;
     return [[op rac_postRequest] map:^id(GetMessageOp *rspOp) {
+        if (rspOp.req_msgtime == 0) {
+            gAppMgr.myUser.hasNewMsg = NO;
+        }
         return rspOp.rsp_msgs;
     }];
 }
 
-- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type
 {
     self.curMsgTime = [[model.datasource lastObject] msgtime];
     [self.tableView reloadData];

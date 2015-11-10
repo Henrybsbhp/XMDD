@@ -27,6 +27,8 @@
     [super viewDidLoad];
     
 #ifdef DEBUG
+    if (gAppMgr.canShareFlag)
+    {
     self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
                             [self gotoInstructions];
                         }},
@@ -59,7 +61,42 @@
                             
                             [self switchSurrounding];
                         }}];
+    }
+    else
+    {
+        self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
+            [self gotoInstructions];
+        }},
+                            
+                            
+                            @{@"title":@"用户服务协议",@"action":^(void){
+                                [self serviceAgreement];
+                            }},
+                            
+                            @{@"title":@"前往评价",@"action":^(void){
+                                [self rateOurApp];
+                            }},
+                            
+                            @{@"title":@"意见反馈",@"action":^(void){
+                                [self gotoFeedback];
+                            }},
+                            
+                            @{@"title":@"客服电话4007-111-111",@"action":^(void){
+                                [self callCustomerService];
+                            }},
+                            
+                            @{@"title":@"网页跳转",@"action":^(void){
+                                
+                                [self gotoTestWeb];
+                            }},
+                            @{@"title":@"环境切换",@"action":^(void){
+                                
+                                [self switchSurrounding];
+                            }}];
+    }
 #else
+    if (gAppMgr.canShareFlag)
+    {
     self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
                             [self gotoInstructions];
                         }},
@@ -84,6 +121,30 @@
                             
                             [self callCustomerService];
                         }}];
+    }
+    else
+    {
+        self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
+            [self gotoInstructions];
+        }},
+                            
+                            @{@"title":@"用户服务协议",@"action":^(void){
+                                [self serviceAgreement];
+                            }},
+                            
+                            @{@"title":@"前往评价",@"action":^(void){
+                                [self rateOurApp];
+                            }},
+                            
+                            @{@"title":@"意见反馈",@"action":^(void){
+                                [self gotoFeedback];
+                            }},
+                            
+                            @{@"title":@"客服电话4007-111-111",@"action":^(void){
+                                
+                                [self callCustomerService];
+                            }}];
+    }
 #endif
     
     

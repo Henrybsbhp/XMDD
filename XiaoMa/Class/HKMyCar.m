@@ -48,6 +48,7 @@
     car.status = [rsp integerParamForName:@"status"];
     car.insexipiredate = [NSDate dateWithD8Text:[rsp stringParamForName:@"insexipiredate"]];
     car.licenceurl = [rsp stringParamForName:@"licenceurl"];
+    car.failreason = [rsp stringParamForName:@"failreason"];
     car.isDefault = [rsp integerParamForName:@"isdefault"] == 1;
     NSInteger editable = [rsp integerParamForName:@"iseditable"];
     if (editable == 0) {
@@ -100,6 +101,7 @@
     car.insexipiredate = _insexipiredate;
     car.isDefault = _isDefault;
     car.status  =_status;
+    car.failreason = _failreason;
     car.editMask = _editMask;
     car.licenceArea = _licenceArea;
     car.licenceSuffix = _licenceSuffix;

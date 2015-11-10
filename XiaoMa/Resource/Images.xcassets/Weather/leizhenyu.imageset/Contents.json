@@ -6,13 +6,13 @@
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "leizhenyu@2x.png"
+      "filename" : "雷阵雨.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x",
-      "filename" : "leizhenyu.png"
+      "filename" : "雷阵雨@3x.png",
+      "scale" : "3x"
     }
   ],
   "info" : {

@@ -12,6 +12,10 @@
 
 + (instancetype)backBarButtonItemWithTarget:(id)target action:(SEL)action;
 
++ (instancetype)webBackButtonItemWithTarget:(id)target action:(SEL)action;
+
++ (instancetype)closeButtonItemWithTarget:(id)target action:(SEL)action;
+
 //- (void)setTarget:(id)target withAction:(SEL)action;
 
 @end

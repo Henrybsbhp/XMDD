@@ -53,6 +53,8 @@
 @property (nonatomic, strong) NSString *comment;
 ///评价时间
 @property (nonatomic, strong) NSDate *time;
+///评价
+@property (nonatomic, copy) NSString *serviceName;
 
 + (instancetype)shopCommentWithJSONResponse:(NSDictionary *)rsp;
 
@@ -89,6 +91,8 @@
 @property (nonatomic)BOOL allowABC;
 ///商户服务[JTShopComment]
 @property (nonatomic,strong)NSArray * shopCommentArray;
+///公报
+@property (nonatomic,copy)NSString * announcement;
 
 + (instancetype)shopWithJSONResponse:(NSDictionary *)rsp;
 @end

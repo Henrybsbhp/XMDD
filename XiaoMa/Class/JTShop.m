@@ -68,6 +68,7 @@
     comment.rate = [rsp integerParamForName:@"rate"];
     comment.comment = [rsp stringParamForName:@"comment"];
     comment.time = [NSDate dateWithUTS:rsp[@"time"]];
+    comment.serviceName = [rsp stringParamForName:@"servicename"];
     
     return comment;
 }
@@ -94,6 +95,7 @@
     shop.openHour = rsp[@"openhour"];
     shop.closeHour = rsp[@"closehour"];
     shop.txnumber = [rsp integerParamForName:@"txnumber"];
+    shop.announcement = [rsp stringParamForName:@"note"];
     NSArray * array = rsp[@"services"];
     NSMutableArray * t = [NSMutableArray array];
     for (NSDictionary * dict in array)

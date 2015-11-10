@@ -36,6 +36,14 @@
     [self listenNotificationByName:kNotifyRefreshMyBankcardList withNotifyBlock:^(NSNotification *note, id weakSelf) {
         @strongify(self);
         [self reloadData];
+        
+        NSArray * viewcontroller = self.navigationController.viewControllers;
+        UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 2];
+        if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
+        {
+            PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
+            payVc.needChooseResource = YES;
+        }
     }];
     [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
     [self.tableView reloadData];
@@ -52,7 +60,7 @@
 
 - (void)reloadData
 {
-    [[[[gAppMgr.myUser.couponModel rac_getVaildResource] initially:^{
+    [[[[gAppMgr.myUser.couponModel rac_getVaildResource:self.service.shopServiceType] initially:^{
         
         [self.tableView.refreshView beginRefreshing];
     }] finally:^{
@@ -109,7 +117,7 @@
             payVc.selectBankCard = card;
             if (card.couponIds.count)
             {
-                NSArray * array = [gAppMgr.myUser.couponModel.validCarwashCouponArray arrayByFilteringOperator:^BOOL(HKCoupon *obj) {
+                NSArray * array = [self.carwashCouponArray arrayByFilteringOperator:^BOOL(HKCoupon *obj) {
                     
                     return [obj.couponId isEqualToNumber:[card.couponIds safetyObjectAtIndex:0]];
                 }];

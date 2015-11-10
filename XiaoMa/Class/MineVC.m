@@ -9,7 +9,6 @@
 #import "MineVC.h"
 #import "XiaoMa.h"
 #import "GetUserBaseInfoOp.h"
-#import "MyCarListVC.h"
 #import "MyOrderListVC.h"
 #import "MyCouponVC.h"
 #import "MyInfoViewController.h"
@@ -146,6 +145,7 @@
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         
         MyCouponVC *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
+        vc.originVC = self;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

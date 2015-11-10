@@ -18,4 +18,9 @@
 @property (nonatomic, strong)JTShop * shop;
 @property (nonatomic, strong)HKCoupon * couponFordetailsDic;
 
+@property (nonatomic)BOOL needRequestShopComments;
+@property (nonatomic)BOOL needPopToFirstCarwashTableVC;
+
+@property (nonatomic, weak) UIViewController *originVC;
+
 @end

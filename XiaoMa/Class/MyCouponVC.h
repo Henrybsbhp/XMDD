@@ -13,4 +13,6 @@
 
 @property (nonatomic, assign) CouponNewType jumpType;
 
+@property (nonatomic, weak) UIViewController *originVC;
+
 @end

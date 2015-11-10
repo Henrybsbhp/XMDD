@@ -100,6 +100,14 @@
     return dateToString;
 }
 
+- (NSString *)dateFormatForYYYYMMddHHmm2
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy.MM.dd HH:mm"];
+    NSString *dateToString = [dateFormatter stringFromDate:self];
+    return dateToString;
+}
+
 - (NSString *)dateFormatForYYMM
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

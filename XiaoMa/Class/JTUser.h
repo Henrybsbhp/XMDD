@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "HKMyCar.h"
 #import "FavoriteModel.h"
-#import "MyCarsModel.h"
 #import "CouponModel.h"
 
 
@@ -44,8 +43,6 @@
 
 /// 收藏夹
 @property (nonatomic, strong)FavoriteModel * favorites;
-
-@property (nonatomic, strong)MyCarsModel * carModel;
 
 @property (nonatomic, strong)CouponModel * couponModel;
 

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GetCZBGaschargeInfoOp.h"
 typedef enum : NSInteger
 {
     HKBankTypeUnknow = 0,
@@ -19,13 +20,15 @@ typedef enum : NSInteger
     HKBankCardTypeDespoit       //储蓄卡
 }HKBankCardType;
 
-@interface HKBankCard : NSObject
+@interface HKBankCard : NSObject<NSCopying>
 
 @property (nonatomic, assign) HKBankType bankType;
 @property (nonatomic, assign) HKBankCardType cardType;
 @property (nonatomic, strong) NSNumber *cardID;
 @property (nonatomic, strong) NSString *cardNumber;
 @property (nonatomic, strong) NSArray  *couponIds;
+///加油信息
+@property (nonatomic, strong) GetCZBGaschargeInfoOp *gasInfo;
 
 + (instancetype)bankCardWithJSONResponse:(NSDictionary *)rsp;
 - (NSString *)cardName;

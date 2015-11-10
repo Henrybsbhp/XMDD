@@ -1,0 +1,2 @@
+$(import "cdmap/model/gas.cmm")
+$(import "cdmap/model/car.cmm")

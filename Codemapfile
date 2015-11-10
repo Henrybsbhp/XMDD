@@ -1,5 +1,5 @@
 (require codemap/base)
 (workspace-directory ".")
-(output-directory "codemap/output/")
-(temp-output-directory "codemap/history/")
-(main-input-file #f)
+(output-directory "XiaoMa/Codemap/")
+(temp-output-directory "cdmap/history/")
+(main-input-file "cdmap/model/main.cmm")

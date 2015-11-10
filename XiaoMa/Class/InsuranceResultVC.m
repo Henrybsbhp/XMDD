@@ -12,6 +12,7 @@
 #import "InsuranceVC.h"
 #import "JTLabel.h"
 #import "SocialShareViewController.h"
+#import "InsOrderStore.h"
 
 @interface InsuranceResultVC ()
 
@@ -56,8 +57,8 @@
     else {
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
-    [self postCustomNotificationName:kNotifyRefreshDetailInsuranceOrder object:self.orderID];
-    [self postCustomNotificationName:kNotifyRefreshInsuranceOrders object:nil];
+    InsOrderStore *store = [InsOrderStore fetchExistsStore];
+    [store sendEvent:[store getInsOrderByID:self.orderID]];
 }
 
 -(void)setResultType:(InsuranceResult) resultType
@@ -68,7 +69,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     if (self.insuranceResultType == OrderSuccess) {
-        self.navigationItem.title = @"预约结果";
+        if (!self.navigationItem.title.length)
+        {
+            self.navigationItem.title = @"预约结果";
+        }
         self.resultLabel.text = self.resultTitle ? self.resultTitle : @"恭喜，预约成功 ！";
         self.resultLabel.textColor = [UIColor colorWithHex:@"#fa8585" alpha:1.0f];
         NSString * content = self.resultContent ? self.resultContent :
@@ -87,6 +91,7 @@
         self.failureContentLabel.hidden = YES;
         self.shareButton.layer.masksToBounds = YES;
         self.shareButton.layer.cornerRadius = 11;
+        self.shareButton.hidden = !gAppMgr.canShareFlag;
         
         [self.drawView drawSuccess];
     }

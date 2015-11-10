@@ -12,8 +12,8 @@
 /// 服务类型
 typedef enum : NSUInteger {
     ShopServiceCarWash = 1,
-    ShopServiceRescue,
-    ShopServiceAgency,
+    /// 精洗，用心洗
+    ShopServiceCarwashWithHeart
 } ShopServiceType;
 
 /**
@@ -37,11 +37,14 @@ typedef enum : NSUInteger {
 //2-洗车广告
 //3-银行卡绑定页广告
 //10-APP滑动广告
+//11-保险广告
+//12-加油广告
 //20：活动类
 typedef enum : NSUInteger {
     AdvertisementHomePage = 1,
     AdvertisementCarWash = 2,
     AdvertisementBankCardBinding = 3,
+    AdvertisementGas = 4,
     AdvertisementAppSlide = 10,
     AdvertisementInsurance = 11,
     AdvertisementTypeActivities = 20,
@@ -52,6 +55,7 @@ typedef enum : NSUInteger {
 #define BaiduMapUrl @"baidumap://map/"
 #define AMapUrl  @"iosamap://"
 #define XIAMMAWEB @"http://www.xiaomadada.com"
+#define ADDEFINEWEB @"http://www.xiaomadada.com/apphtml/couponpkg.html?jump=t"
 
 #define kDefTintColor   HEXCOLOR(@"#15ac1f")
 #define kDefLineColor   HEXCOLOR(@"#ebebeb")
@@ -101,8 +105,6 @@ typedef enum : NSUInteger {
 //通知定义
 #define kNotifyRefreshMyCarList             @"com.huika.xmdd.RefreshMyCarList"
 #define kNotifyRefreshMyCarwashOrders       @"com.huika.xmdd.RefreshMyCarwashOrders"
-#define kNotifyRefreshInsuranceOrders       @"com.huika.xmdd.RefreshInsuranceOrders"
-#define kNotifyRefreshDetailInsuranceOrder  @"com.huika.xmdd.RefreshDetailInsuranceOrder"
 #define kNotifyRefreshMyBankcardList        @"com.huika.xmdd.RefreshMyBankcardList"
 #define kNotifyRefreshMyCouponList          @"com.huika.xmdd.RefreshMyCouponList"
 

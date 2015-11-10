@@ -14,7 +14,7 @@
 #import "NSString+RectSize.h"
 #import "JTRatingView.h"
 #import "HKLoadingModel.h"
-#import "GetCarwashOrderOp.h"
+#import "GetCarwashOrderV2Op.h"
 #import "ShopDetailVC.h"
 #import "PaymentSuccessVC.h"
 
@@ -95,6 +95,7 @@
     
     PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
     vc.order = self.order;
+    vc.originVC = self.originVC;
     [vc setCommentSuccess:^{
         [self reloadTableView];
     }];
@@ -247,37 +248,35 @@
     avatarV.cornerRadius = 17.5f;
     avatarV.layer.masksToBounds = YES;
     
-    [[RACObserve(gAppMgr.myUser, userName) takeUntilForCell:cell] subscribeNext:^(id x) {
-        nameL.text = x;
-    }];
+    nameL.text = self.order.licencenumber;
     timeL.text = [self.order.ratetime dateFormatForYYMMdd2];
     ratingV.ratingValue = self.order.rating;
     contentL.text = self.order.comment;
     
-    [avatarV setImageByUrl:gAppMgr.myUser.avatarUrl withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
+    [avatarV setImageByUrl:self.order.orderPic withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
     
     return cell;
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
     return @"获取订单信息失败，点击重试";
 }
 
-- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
 {
-    GetCarwashOrderOp *op = [GetCarwashOrderOp operation];
+    GetCarwashOrderV2Op *op = [GetCarwashOrderV2Op operation];
     op.req_orderid = self.orderID;
     @weakify(self);
-    return [[op rac_postRequest] map:^id(GetCarwashOrderOp *op) {
+    return [[op rac_postRequest] map:^id(GetCarwashOrderV2Op *op) {
         @strongify(self);
         self.order = op.rsp_order;
         return op.rsp_order;
     }];
 }
 
-- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type
 {
     [self.tableView reloadData];
 }

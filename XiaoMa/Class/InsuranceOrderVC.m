@@ -9,10 +9,10 @@
 #import "InsuranceOrderVC.h"
 #import "UIView+Layer.h"
 #import "BorderLineLabel.h"
-#import "GetInsuranceOrderDetailsOp.h"
 #import "InsuranceOrderPayOp.h"
 #import "PayForInsuranceVC.h"
 #import "HKLoadingModel.h"
+#import "InsOrderStore.h"
 
 @interface InsuranceOrderVC ()<UITableViewDataSource,UITableViewDelegate,HKLoadingModelDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -20,6 +20,8 @@
 @property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) NSArray *coverages;
 @property (nonatomic, strong) HKLoadingModel *loadingModel;
+@property (nonatomic, strong) InsOrderStore *orderStore;
+
 @end
 
 @implementation InsuranceOrderVC
@@ -30,14 +32,16 @@
     self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
     if (self.order) {
         self.orderID = self.order.orderid;
+        [self setupInsOrderStore];
         [self.tableView.refreshView addTarget:self.loadingModel action:@selector(reloadData)
                              forControlEvents:UIControlEventValueChanged];
         [self reloadWithOrderStatus:self.order.status];
     }
     else {
+        [self setupInsOrderStore];
         [self.loadingModel loadDataForTheFirstTime];
     }
-    [self setupNotify];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -73,20 +77,25 @@
     [self.bottomButton addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)setupNotify
+- (void)setupInsOrderStore
 {
-    [self listenNotificationByName:kNotifyRefreshDetailInsuranceOrder withNotifyBlock:^(NSNotification *note, id weakSelf) {
-        if ([note.object isKindOfClass:[NSNumber class]] && [self.orderID isEqualToNumber:note.object]) {
-            [self.loadingModel reloadData];
+    self.orderStore = [InsOrderStore fetchOrCreateStore];
+    @weakify(self);
+    [self.orderStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+        @strongify(self);
+        RACSignal *sig = [evt.signal map:^id(id value) {
+            self.order = [[(InsOrderStore *)store cache] objectForKey:self.orderID];
+            return [NSArray safetyArrayWithObject:self.order];
+        }];
+        if (self.order) {
+            [self.loadingModel reloadDataFromSignal:sig];
+        }
+        else {
+            [self.loadingModel autoLoadDataFromSignal:sig];
         }
     }];
 }
 #pragma mark - Load
-- (void)reloadDatasource
-{
-
-}
-
 - (void)reloadWithOrderStatus:(InsuranceOrderStatus)status
 {
     self.order.status = status;
@@ -117,7 +126,6 @@
     else {
         amount = [NSString stringWithFormat:@"￥%.2f", self.order.totoalpay];
     }
-
 
     NSArray *array = @[RACTuplePack(@"被保险人",_order.policyholder),
                        RACTuplePack(@"保险公司",_order.inscomp),
@@ -162,28 +170,24 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
 {
     return @"该订单已消失";
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
     return @"获取订单信息失败，点击重试";
 }
 
-
-- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
 {
-    //保险订单详情接口试调
-    GetInsuranceOrderDetailsOp * op = [GetInsuranceOrderDetailsOp operation];
-    op.req_orderid = self.orderID;
-    return [[op rac_postRequest] map:^id(GetInsuranceOrderDetailsOp *rspOp) {
-        self.order = rspOp.rsp_order;
-        return [NSArray arrayWithObject:rspOp.rsp_order];
-    }];
+    InsOrderStore *store = [InsOrderStore fetchExistsStore];
+    [store sendEvent:[store getInsOrderByID:self.orderID]];
+    return [RACSignal empty];
 }
-- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type
 {
     [self reloadWithOrderStatus:self.order.status];
 }
@@ -237,23 +241,14 @@
     [self resetStepViewInCell:cell highlight:(self.order.status == InsuranceOrderStatusPaid) baseTag:10030];
     [self resetStepViewInCell:cell highlight:(self.order.status == InsuranceOrderStatusComplete) baseTag:10050];
     
-    line1.highlighted = self.order.status == InsuranceOrderStatusUnpaid || self.order.status == InsuranceOrderStatusPaid;
-    line2.highlighted = self.order.status == InsuranceOrderStatusPaid || self.order.status == InsuranceOrderStatusComplete;
+    line1.highlighted = self.order.status == InsuranceOrderStatusUnpaid ||
+                        self.order.status == InsuranceOrderStatusPaid;
     
-    switch (self.order.status) {
-        case InsuranceOrderStatusUnpaid:
-            titleL.text = @"请确认保单";
-            break;
-        case InsuranceOrderStatusPaid:
-            titleL.text = @"保单正在处理中";
-            break;
-        case InsuranceOrderStatusComplete:
-            titleL.text = @"保单将尽快寄出";
-            break;
-        default:
-            titleL.text = [self.order descForCurrentStatus];
-            break;
-    }
+    line2.highlighted = self.order.status == InsuranceOrderStatusPaid ||
+                        self.order.status == InsuranceOrderStatusComplete ||
+                        self.order.status == InsuranceOrderStatusSended;
+
+    titleL.text = [self.order detailDescForCurrentStatus];
     return cell;
 }
 

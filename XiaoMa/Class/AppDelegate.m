@@ -15,6 +15,7 @@
 #import "MapHelper.h"
 #import "GetSystemTipsOp.h"
 #import "GetSystemVersionOp.h"
+#import "GetsSystemSwitchConfigOp.h"
 #import "ClientInfo.h"
 #import "DeviceInfo.h"
 #import "WXApi.h"
@@ -83,6 +84,7 @@
     }
     //检测版本更新
     [self setupVersionUpdating];
+    [self setupSwitchConfiguation];
     //设置启动页管理器
     [self setupLaunchManager];
     [self setupRootView];
@@ -217,6 +219,7 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
+    NSLog(@"didReceiveRemoteNotification :%@",userInfo);
     [self.pushMgr handleNofitication:userInfo forApplication:application];
 }
 
@@ -439,6 +442,23 @@
         }];
         [av show];
     }
+}
+
+- (void)setupSwitchConfiguation
+{
+    NSString * version = gAppMgr.clientInfo.clientVersion;
+    NSString * OSVersion = gAppMgr.deviceInfo.osVersion;
+    GetsSystemSwitchConfigOp * op = [GetsSystemSwitchConfigOp operation];
+    op.appid = IOSAPPID;
+    op.version = version;
+    op.os = [NSString stringWithFormat:@"iOS %@",OSVersion];
+    [[op rac_postRequest] subscribeNext:^(GetsSystemSwitchConfigOp * op) {
+        NSDictionary * dict = op.rsp_configurations;
+        gAppMgr.canShareFlag = [dict boolParamForName:@"isshare"];
+    } error:^(NSError *error) {
+        
+        DebugLog(@"GetsSystemSwitchConfigOp失败，%@",error.domain);
+    }];
 }
 
 

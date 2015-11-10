@@ -10,6 +10,17 @@
 
 @implementation HKBankCard
 
+- (id)copyWithZone:(NSZone *)zone
+{
+    HKBankCard * card = [HKBankCard allocWithZone:zone];
+    card.cardID = [self.cardID copy];
+    card.cardNumber = [self.cardNumber copy];
+    card.bankType = self.bankType;
+    card.couponIds = [self.couponIds copy];
+    card.cardType = self.cardType;
+    return card;
+}
+
 + (instancetype)bankCardWithJSONResponse:(NSDictionary *)rsp
 {
     HKBankCard *card = [[HKBankCard alloc] init];

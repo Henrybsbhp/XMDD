@@ -16,6 +16,7 @@
 /// 手机号码长度（11位）
 #define kPhoneNumberLength      11
 
+static NSTimeInterval s_coolingTimeForCZBGasCharge = 0;
 static NSTimeInterval s_coolingTimeForUnbindCZB = 0;
 static NSTimeInterval s_coolingTimeForBindCZB = 0;
 static NSTimeInterval s_coolingTimeForLogin = 0;
@@ -47,6 +48,35 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
     RACSignal *signal = [op rac_postRequest];
     return [[signal doNext:^(id x) {
         s_coolingTimeForUnbindCZB = [[NSDate date] timeIntervalSince1970];
+    }] deliverOn:[RACScheduler mainThreadScheduler]];
+}
+
+- (RACSignal *)rac_getVcodeWithType:(HKVcodeType)type fromSignal:(RACSignal *)signal
+{
+    return [[signal doNext:^(id x) {
+        NSTimeInterval timetag = [[NSDate date] timeIntervalSince1970];
+        switch (type) {
+            case HKVcodeTypeLogin:
+                s_coolingTimeForLogin = timetag;
+                break;
+            case HKVcodeTypeBindCZB:
+                s_coolingTimeForBindCZB = timetag;
+                break;
+            case HKVcodeTypeUnbindCZB:
+                s_coolingTimeForUnbindCZB = timetag;
+                break;
+            case HKVcodeTypeCZBGasCharge:
+                s_coolingTimeForCZBGasCharge = timetag;
+                break;
+            case HKVcodeTypeRegist:
+                s_coolingTimeForLogin = timetag;
+                break;
+            case HKVcodeTypeResetPwd:
+                s_coolingTimeForLogin = timetag;
+                break;
+            default:
+                break;
+        }
     }] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
@@ -102,6 +132,9 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
     }
     else if (type == HKVcodeTypeUnbindCZB) {
         coolingTime = s_coolingTimeForUnbindCZB;
+    }
+    else if (type == HKVcodeTypeCZBGasCharge) {
+        coolingTime = s_coolingTimeForCZBGasCharge;
     }
     NSTimeInterval interval = [[NSDate date] timeIntervalSince1970] - coolingTime;
     if (interval < kMaxVcodeInterval) {
