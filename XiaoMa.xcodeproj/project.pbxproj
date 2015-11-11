@@ -4108,7 +4108,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "49d4298a-4b37-4e47-990c-a2b9eb8e6baa";
+				PROVISIONING_PROFILE = "13b76489-934d-407b-a6e7-2b3f8a44dedd";
 			};
 			name = Debug;
 		};
@@ -4212,7 +4212,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0b097263-ee87-4d3e-a27d-1c4766c784b5";
+				PROVISIONING_PROFILE = "cc38a856-97b2-4d3f-ad97-e106d80dd70c";
 			};
 			name = Release;
 		};
