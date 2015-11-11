@@ -125,6 +125,8 @@
 		<string>mqzoneopensdk</string>
 		<string>alipay</string>
 		<string>alipayshare</string>
+		<string>iosamap</string>
+		<string>baidumap</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
