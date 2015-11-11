@@ -12,7 +12,7 @@
 #import "ShopDetailVC.h"
 #import "JTRatingView.h"
 #import "DistanceCalcHelper.h"
-#import "GetShopByNameOp.h"
+#import "GetShopByNameV2Op.h"
 #import "UIView+Layer.h"
 
 @interface SearchViewController ()
@@ -38,6 +38,8 @@
 
 @property (nonatomic)CLLocationCoordinate2D coordinate;
 
+@property (nonatomic)BOOL firstAppear;
+
 @end
 
 @implementation SearchViewController
@@ -55,6 +57,8 @@
 //
     [self getSearchHistory];
     [self getUserLocation];
+    
+    self.firstAppear = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -65,7 +69,15 @@
     UIView * view = self.navigationController.navigationBar;
     [view addSubview:self.searchBarBackgroundView];
     
-    [self.searchBar becomeFirstResponder];
+    if (self.firstAppear)
+    {
+        self.firstAppear = NO;
+        [self.searchBar becomeFirstResponder];
+    }
+    else
+    {
+        [self.searchBar resignFirstResponder];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -244,7 +256,7 @@
     self.currentPageIndex = 1;
     NSString * searchInfo = self.searchBar.text;
     searchInfo = [self.searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    GetShopByNameOp * op = [GetShopByNameOp operation];
+    GetShopByNameV2Op * op = [GetShopByNameV2Op operation];
     op.shopName = searchInfo;
     op.longitude = self.coordinate.longitude;
     op.latitude = self.coordinate.latitude;
@@ -256,7 +268,7 @@
     
     [[[op rac_postRequest] initially:^{
         
-    }] subscribeNext:^(GetShopByNameOp * op) {
+    }] subscribeNext:^(GetShopByNameV2Op * op) {
         
         self.isLoading = NO;
         [self.searchBar resignFirstResponder];
@@ -317,7 +329,7 @@
     
     NSString * searchInfo = self.searchBar.text;
     searchInfo = [self.searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    GetShopByNameOp * op = [GetShopByNameOp operation];
+    GetShopByNameV2Op * op = [GetShopByNameV2Op operation];
     op.longitude = self.coordinate.longitude;
     op.latitude = self.coordinate.latitude;
     op.shopName = searchInfo;
@@ -329,7 +341,7 @@
         [self.tableView.bottomLoadingView hideIndicatorText];
         [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
         self.isLoading = YES;
-    }] subscribeNext:^(GetShopByNameOp * op) {
+    }] subscribeNext:^(GetShopByNameV2Op * op) {
         
         self.currentPageIndex = self.currentPageIndex + 1;
         [self.tableView.bottomLoadingView stopActivityAnimation];
@@ -421,7 +433,24 @@
 {
     if (self.isSearching)
     {
-        return 180;
+        CGFloat height = 0.0;
+        JTShop *shop = [self.resultArray safetyObjectAtIndex:indexPath.section];
+        NSInteger serviceAmount = shop.shopServiceArray.count;
+        NSInteger sectionAmount = 1 + serviceAmount + 1;
+        
+        if(indexPath.row == 0)
+        {
+            height = 84.0f;
+        }
+        else if (indexPath.row == sectionAmount - 1)
+        {
+            height = 42.0f;
+        }
+        else
+        {
+            height = 42.0f;
+        }
+        return height;
     }
     else
     {
@@ -436,13 +465,44 @@
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return CGFLOAT_MIN;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (self.isSearching)
+    {
+        return 8.0f;
+    }
+    else
+    {
+        return CGFLOAT_MIN;
+    }
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    if (self.isSearching)
+    {
+        return self.resultArray.count;
+    }
+    else
+    {
+        return 1;
+    }
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // 首末提示和清除记录
     if (self.isSearching)
     {
-        return self.resultArray.count;
+        NSInteger num = 0;
+        JTShop *shop = [self.resultArray safetyObjectAtIndex:section];
+        num = 1 + shop.shopServiceArray.count + 1;
+        return num;
     }
     else
     {
@@ -454,98 +514,24 @@
 {
     if (self.isSearching)
     {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];
+        UITableViewCell * cell;
         
-        JTShop * shop = [self.resultArray safetyObjectAtIndex:indexPath.row];
+        JTShop *shop = [self.resultArray safetyObjectAtIndex:indexPath.section];
+        NSInteger serviceAmount = shop.shopServiceArray.count;
+        NSInteger sectionAmount = 1 + serviceAmount + 1;
         
-        UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
-        UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
-        JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1003];
-        UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
-        UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
-        UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
-        UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
-
-        [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
-        titleL.text = shop.shopName;
-        ratingV.ratingValue = shop.shopRate;
-        ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
-        addrL.text = shop.shopAddress;
-        
-        [statusL makeCornerRadius:3];
-        statusL.font = [UIFont boldSystemFontOfSize:11];
-        if ([self isBetween:shop.openHour and:shop.closeHour]) {
-            statusL.text = @"营业中";
-            statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
-        }
-        else {
-            statusL.text = @"已休息";
-            statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
-        }
-        
-        double myLat = gMapHelper.coordinate.latitude;
-        double myLng = gMapHelper.coordinate.longitude;
-        double shopLat = shop.shopLatitude;
-        double shopLng = shop.shopLongitude;
-        NSString * disStr = [DistanceCalcHelper getDistanceStrLatA:myLat lngA:myLng latB:shopLat lngB:shopLng];
-        distantL.text = disStr;
-        //row 1
-        UILabel *washTypeL = (UILabel *)[cell.contentView viewWithTag:2001];
-        UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:2002];
-        UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
-        
-        JTShopService * service;
-        for (JTShopService * s in shop.shopServiceArray)
+        if(indexPath.row == 0)
         {
-            if (s.shopServiceType == ShopServiceCarWash)
-            {
-                service = s;
-                break;
-            }
+            cell = [self tableView:tableView shopTitleCellAtIndexPath:indexPath];
         }
-        
-        
-        washTypeL.text = service.serviceName;
-        NSArray * rates = service.chargeArray;
-        ChargeContent * cc;
-        for (ChargeContent * tcc in rates)
+        else if (indexPath.row == sectionAmount - 1)
         {
-            if (tcc.paymentChannelType == PaymentChannelABCIntegral )
-            {
-                cc = tcc;
-                break;
-            }
+            cell = [self tableView:tableView shopNavigationCellAtIndexPath:indexPath];
         }
-        
-        integralL.text = [NSString stringWithFormat:@"%.0f分",cc.amount];
-        priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
-        
-        //row 2
-        UIButton *guideB = (UIButton *)[cell.contentView viewWithTag:3001];
-        UIButton *phoneB = (UIButton *)[cell.contentView viewWithTag:3002];
-        
-        @weakify(self)
-        [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            
-            [MobClick event:@"rp201-4"];
-            @strongify(self)
-            [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:gMapHelper.coordinate andView:self.view];
-        }];
-        
-        [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            
-            [MobClick event:@"rp201-5"];
-            if (shop.shopPhone.length == 0)
-            {
-                UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
-                [av show];
-                return ;
-            }
-            
-            NSString * info = [NSString stringWithFormat:@"%@",shop.shopPhone];
-            [gPhoneHelper makePhone:shop.shopPhone andInfo:info];
-        }];
-        
+        else
+        {
+            cell = [self tableView:tableView shopServiceCellAtIndexPath:indexPath];
+        }
         
         return cell;
     }
@@ -578,10 +564,6 @@
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return CGFLOAT_MIN;
-}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -592,7 +574,7 @@
     if (self.isSearching)
     {
         [MobClick event:@"rp201-3"];
-        JTShop * shop = [self.resultArray safetyObjectAtIndex:indexPath.row];
+        JTShop * shop = [self.resultArray safetyObjectAtIndex:indexPath.section];
         ShopDetailVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ShopDetailVC"];
         vc.shop = shop;
         [self.navigationController pushViewController:vc animated:YES];
@@ -613,15 +595,32 @@
         [MobClick event:@"rp103-3"];
         NSString * content = [self.historyArray safetyObjectAtIndex:indexPath.row - 1];
         self.searchBar.text = content;
+        [self search];
     }
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.resultArray.count-1 <= indexPath.row && self.isRemain)
-    {
-        [self searchMoreShops];
+    if (!self.isRemain) {
+        return;
     }
+    JTShop * shop = [self.resultArray safetyObjectAtIndex:indexPath.section];
+    NSInteger count = shop.shopServiceArray.count + 2;
+    NSInteger index =  indexPath.section + 1;
+    if ([self.resultArray count] > index) {
+        return;
+    }
+    else
+    {
+        if (count) {
+            NSInteger index =  indexPath.row + 1;
+            if (count > index)
+            {
+                return;
+            }
+        }
+    }
+    [self searchMoreShops];
 }
 
 #pragma mark - UISearchBar Delegate
@@ -676,5 +675,109 @@
     //        }
     //    }
 }
+
+#pragma mark - Utility
+- (UITableViewCell *)tableView:(UITableView *)tableView shopTitleCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];
+    
+    JTShop *shop = [self.resultArray safetyObjectAtIndex:indexPath.section];
+    
+    //row 0  缩略图、名称、评分、地址、距离、营业状况等
+    UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
+    UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
+    JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1003];
+    UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
+    UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
+    UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
+    UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
+    
+    [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0]
+                withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
+    
+    titleL.text = shop.shopName;
+    ratingV.ratingValue = shop.shopRate;
+    ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
+    addrL.text = shop.shopAddress;
+    
+    [statusL makeCornerRadius:3];
+    statusL.font = [UIFont boldSystemFontOfSize:11];
+    if ([self isBetween:shop.openHour and:shop.closeHour]) {
+        statusL.text = @"营业中";
+        statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
+    }
+    else {
+        statusL.text = @"已休息";
+        statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
+    }
+    
+    double myLat = gMapHelper.coordinate.latitude;
+    double myLng = gMapHelper.coordinate.longitude;
+    double shopLat = shop.shopLatitude;
+    double shopLng = shop.shopLongitude;
+    NSString * disStr = [DistanceCalcHelper getDistanceStrLatA:myLat lngA:myLng latB:shopLat lngB:shopLng];
+    distantL.text = disStr;
+    return cell;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView shopServiceCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ServiceCell" forIndexPath:indexPath];
+    
+    JTShop *shop = [self.resultArray safetyObjectAtIndex:indexPath.section];
+    
+    //row 1 洗车服务与价格
+    UILabel *washTypeL = (UILabel *)[cell.contentView viewWithTag:2001];
+    UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:2002];
+    UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
+    
+    JTShopService * service = [shop.shopServiceArray safetyObjectAtIndex:indexPath.row - 1];
+    
+    washTypeL.text = service.serviceName;
+    
+    ChargeContent * cc = [service.chargeArray firstObjectByFilteringOperator:^BOOL(ChargeContent * tcc) {
+        return tcc.paymentChannelType == PaymentChannelABCIntegral;
+    }];
+    
+    integralL.text = [NSString stringWithFormat:@"%.0f分",cc.amount];
+    priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
+    
+    return cell;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView shopNavigationCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"NavigationCell" forIndexPath:indexPath];
+    
+    JTShop *shop = [self.resultArray safetyObjectAtIndex:indexPath.section];
+    
+    //row 2
+    UIButton *guideB = (UIButton *)[cell.contentView viewWithTag:3001];
+    UIButton *phoneB = (UIButton *)[cell.contentView viewWithTag:3002];
+    
+    [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+
+        [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:gMapHelper.coordinate andView:self.tabBarController.view];
+    }];
+    
+    [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        if (shop.shopPhone.length == 0)
+        {
+            UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
+            [av show];
+            return ;
+        }
+        
+        NSString * info = [NSString stringWithFormat:@"%@",shop.shopPhone];
+        [gPhoneHelper makePhone:shop.shopPhone andInfo:info];
+    }];
+    
+    return cell;
+}
+
+
+
+
 
 @end

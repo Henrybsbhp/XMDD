@@ -28,4 +28,5 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, copy) void (^commentSuccess)(void);
 
+
 @end

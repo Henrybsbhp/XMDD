@@ -7,14 +7,17 @@
 //
 
 #import "BindBankCardVC.h"
+#import "BankCardStore.h"
 #import "HKSMSModel.h"
 #import "UIView+Shake.h"
 #import "BindBankcardOp.h"
 #import "WebVC.h"
 #import "ResultVC.h"
+#import "MyCarStore.h"
+#import "CKLimitTextField.h"
 #import <UIKitExtension.h>
 
-@interface BindBankCardVC ()<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
+@interface BindBankCardVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *promptView;
 @property (weak, nonatomic) IBOutlet UIButton *bindButton;
@@ -138,6 +141,10 @@
         [ResultVC showInTargetVC:self withSuccessText:@"恭喜，绑定成功!" ensureBlock:^{
             [MobClick event:@"rp313-6"];
             [self.navigationController popViewControllerAnimated:YES];
+            BankCardStore *store = [BankCardStore fetchExistsStore];
+            [store sendEvent:[store getAllBankCards]];
+            MyCarStore *carStore = [MyCarStore fetchExistsStore];
+            [carStore sendEvent:[carStore getAllCars]];
             [self postCustomNotificationName:kNotifyRefreshMyBankcardList object:nil];
             if (self.finishAction)
             {
@@ -182,13 +189,14 @@
 - (UITableViewCell *)bankCardCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CardCell" forIndexPath:indexPath];
-    UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
-    field.delegate = self;
-    [[[field rac_signalForControlEvents:UIControlEventEditingDidBegin] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        [MobClick event:@"rp313-1"];
-    }];
+    CKLimitTextField *field = (CKLimitTextField *)[cell.contentView viewWithTag:1001];
     if (!self.cardField) {
         self.cardField = field;
+        field.textLimit = 20;
+        
+        [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
+            [MobClick event:@"rp313-1"];
+        }];
     }
     return cell;
 }
@@ -196,25 +204,38 @@
 - (UITableViewCell *)phoneCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PhoneCell" forIndexPath:indexPath];
-    UITextField *phoneField = (UITextField *)[cell.contentView viewWithTag:1001];
+    CKLimitTextField *phoneField = (CKLimitTextField *)[cell.contentView viewWithTag:1001];
     UIButton *vcodeButton = (UIButton *)[cell.contentView viewWithTag:1002];
 
-    [[[phoneField rac_signalForControlEvents:UIControlEventEditingDidBegin] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        [MobClick event:@"rp313-2"];
-    }];
-    if (!self.phoneField) {
-        self.phoneField = phoneField;
-        phoneField.text = gAppMgr.myUser.phoneNumber;
-        self.smsModel.phoneField = phoneField;
-        vcodeButton.enabled = phoneField.text.length == 11;
-        phoneField.delegate = self;
-    }
-    
     if (!self.vcodeButton) {
         self.vcodeButton = vcodeButton;
         self.smsModel.getVcodeButton = vcodeButton;
         [vcodeButton addTarget:self action:@selector(actionGetVCode:) forControlEvents:UIControlEventTouchUpInside];
         [self.smsModel countDownIfNeededWithVcodeType:HKVcodeTypeBindCZB];
+    }
+    
+    if (!self.phoneField) {
+        self.phoneField = phoneField;
+        phoneField.text = gAppMgr.myUser.phoneNumber.length > 0 ? gAppMgr.myUser.phoneNumber : gAppMgr.myUser.userID;
+        self.smsModel.phoneField = phoneField;
+        vcodeButton.enabled = phoneField.text.length == 11;
+        phoneField.textLimit = 11;
+        
+        [phoneField setDidBeginEditingBlock:^(CKLimitTextField *field) {
+            [MobClick event:@"rp313-2"];
+        }];
+        
+        @weakify(self);
+        [phoneField setTextDidChangedBlock:^(CKLimitTextField *field) {
+            @strongify(self);
+            NSString *title = [self.vcodeButton titleForState:UIControlStateNormal];
+            if ([@"获取验证码" equalByCaseInsensitive:title]) {
+                BOOL enable = field.text.length == 11;
+                if (enable != self.vcodeButton.enabled) {
+                    self.vcodeButton.enabled = enable;
+                }
+            }
+        }];
     }
     
     return cell;
@@ -223,64 +244,18 @@
 - (UITableViewCell *)vcodeCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"VcodeCell" forIndexPath:indexPath];
-    UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
-    field.delegate = self;
-    [[[field rac_signalForControlEvents:UIControlEventEditingDidBegin] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        [MobClick event:@"rp313-4"];
-    }];
-    
+    CKLimitTextField *field = (CKLimitTextField *)[cell.contentView viewWithTag:1001];
+
     if (!self.vcodeField) {
         self.vcodeField = field;
+        field.textLimit = 8;
+        [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
+            [MobClick event:@"rp313-4"];
+        }];
     }
     return cell;
 }
 
-#pragma mark - UITextFieldDelegate
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    NSInteger length = range.location + [string length] - range.length;
-    //银行卡号输入
-    if ([textField isEqual:self.cardField]) {
-        if (length > 20) {
-            return NO;
-        }
-    }
-    //手机号输入
-    else if ([textField isEqual:self.phoneField]) {
-        if (length > 11) {
-            return NO;
-        }
-        NSString *title = [self.vcodeButton titleForState:UIControlStateNormal];
-        if ([@"获取验证码" equalByCaseInsensitive:title]) {
-            BOOL enable = length == 11;
-            if (enable != self.vcodeButton.enabled) {
-                self.vcodeButton.enabled = enable;
-            }
-        }
-    }
-    //验证码输入
-    else if ([textField isEqual:self.vcodeField]) {
-        if (length > 8) {
-            return NO;
-        }
-    }
-    
-    return YES;
-}
-- (BOOL)textFieldShouldClear:(UITextField *)textField
-{
-    //手机号输入
-    if ([textField isEqual:self.phoneField]) {
-        NSString *title = [self.vcodeButton titleForState:UIControlStateNormal];
-        if ([@"获取验证码" equalByCaseInsensitive:title]) {
-            BOOL enable = NO;
-            if (enable != self.vcodeButton.enabled) {
-                self.vcodeButton.enabled = enable;
-            }
-        }
-    }
-    return YES;
-}
 #pragma mark - Private
 - (BOOL)sharkCellIfErrorAtIndex:(NSInteger)index
 {

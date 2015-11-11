@@ -9,6 +9,7 @@
 #import "ADViewController.h"
 #import "WebVC.h"
 #import "NavigationModel.h"
+#import "DetailWebVC.h"
 
 @interface ADViewController ()<SYPaginatorViewDelegate, SYPaginatorViewDataSource>
 @property (nonatomic, strong) NavigationModel *navModel;
@@ -32,7 +33,7 @@
         _mobBaseEvent = event;
         _navModel = [[NavigationModel alloc] init];
         _navModel.curNavCtrl = _targetVC.navigationController;
-        CGFloat height = floor(width*360.0/1242.0);
+        CGFloat height = floor(width*180.0/640);
         SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
         adView.delegate = self;
         adView.dataSource = self;
@@ -129,9 +130,12 @@
             [self.navModel pushToViewControllerByUrl:ad.adLink];
         }
         else {
-            WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
-            vc.title = @"小马达达";
-            vc.url = XIAMMAWEB;
+//            WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+//            vc.title = @"小马达达";
+//            vc.url = ADDEFINEWEB;
+//            [self.targetVC.navigationController pushViewController:vc animated:YES];
+            DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+            vc.url = ADDEFINEWEB;
             [self.targetVC.navigationController pushViewController:vc animated:YES];
         }
     }];

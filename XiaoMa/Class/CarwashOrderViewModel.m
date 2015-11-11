@@ -8,7 +8,7 @@
 
 #import "CarwashOrderViewModel.h"
 #import "XiaoMa.h"
-#import "GetCarwashOrderListOp.h"
+#import "GetCarwashOrderListV3Op.h"
 #import "CarwashOrderDetailVC.h"
 #import "CarwashOrderCommentVC.h"
 #import "PaymentSuccessVC.h"
@@ -40,30 +40,30 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKDatasourceLoadingType)type
+- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
 {
     return @"暂无洗车订单";
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKDatasourceLoadingType)type error:(NSError *)error
+- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
     return @"获取洗车订单失败，点击重试";
 }
 
-- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKDatasourceLoadingType)type
+- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
 {
-    if (type != HKDatasourceLoadingTypeLoadMore) {
+    if (type != HKLoadingTypeLoadMore) {
         self.curTradetime = 0;
     }
     
-    GetCarwashOrderListOp * op = [GetCarwashOrderListOp operation];
+    GetCarwashOrderListV3Op * op = [GetCarwashOrderListV3Op operation];
     op.req_tradetime = self.curTradetime;
-    return [[op rac_postRequest] map:^id(GetCarwashOrderListOp *rspOp) {
+    return [[op rac_postRequest] map:^id(GetCarwashOrderListV3Op *rspOp) {
         return rspOp.rsp_orders;
     }];
 }
 
-- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKDatasourceLoadingType)type
+- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type
 {
     HKServiceOrder * hkmodel = [model.datasource lastObject];
     self.curTradetime = hkmodel.tradetime;
@@ -156,6 +156,7 @@
     [MobClick event:@"rp318-2"];
     CarwashOrderDetailVC *vc = [UIStoryboard vcWithId:@"CarwashOrderDetailVC" inStoryboard:@"Mine"];
     vc.order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+    vc.originVC = self.targetVC;
     [self.targetVC.navigationController pushViewController:vc animated:YES];
 }
 

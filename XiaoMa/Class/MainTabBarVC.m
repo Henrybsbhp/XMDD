@@ -31,7 +31,7 @@
 
 - (void)setupTabBar
 {
-    static NSString *selectedImages[] = {@"tab_home1", @"tab_nearby1", @"tab_mine1"};
+    static NSString *selectedImages[] = {@"tab_newhome1", @"tab_discover1", @"tab_newmine1"};
     for (int i = 0; i < self.tabBar.items.count; i++) {
         UITabBarItem *item = self.tabBar.items[i];
         item.selectedImage = [UIImage imageNamed:selectedImages[i]];

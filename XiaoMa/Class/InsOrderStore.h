@@ -11,9 +11,7 @@
 
 @interface InsOrderStore : HKUserStore
 
-- (RACSignal *)rac_getAllInsOrders;
-- (RACSignal *)rac_getInsOrderByID:(NSNumber *)orderID;
-
-+ (void)reloadOrderByID:(NSNumber *)orderid;
+- (CKStoreEvent *)getAllInsOrders;
+- (CKStoreEvent *)getInsOrderByID:(NSNumber *)orderID;
 
 @end

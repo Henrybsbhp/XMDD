@@ -22,6 +22,11 @@
 #import "AddUserFavoriteOp.h"
 #import "SDPhotoBrowser.h"
 #import "UIView+Layer.h"
+#import "MyCarStore.h"
+#import "CBAutoScrollLabel.h"
+#import "NSString+RectSize.h"
+#import "CouponDetailsVC.h"
+#import "CarWashTableVC.h"
 
 #define kDefaultServieCount     2
 
@@ -29,6 +34,8 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIImageView *headImgView;
+@property (weak, nonatomic) IBOutlet CBAutoScrollLabel *roundLb;
+@property (weak, nonatomic) IBOutlet UIView *roundBgView;
 @property (weak, nonatomic) IBOutlet UIImageView *maskView;
 @property (weak, nonatomic) IBOutlet UIView *titleView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -44,6 +51,7 @@
 @property (nonatomic)BOOL favorite;
 /// 是否显示标题栏
 @property (nonatomic)BOOL titleShow;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *roundBgWidth;
 
 @end
 
@@ -61,13 +69,60 @@
         [self.tableView setContentInset:UIEdgeInsetsMake(-20, 0, 0, 0)];
     }
     
+    NSArray * array = self.navigationController.viewControllers;
+    BOOL flag;
+    UIViewController * carwashTableVC;
+    flag = [[array safetyObjectAtIndex:array.count - 3] isKindOfClass:[CouponDetailsVC class]];
+    UIViewController * vc_2 = [array safetyObjectAtIndex:array.count - 2];
+    if ([vc_2 isKindOfClass:[CarWashTableVC class]])
+    {
+        carwashTableVC = vc_2;
+    }
+    @weakify(self);
     [[self.whiteBackBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        [self.navigationController popViewControllerAnimated:YES];
+        
+        @strongify(self)
+        if (flag && self.needPopToFirstCarwashTableVC)
+        {
+            if (carwashTableVC)
+            {
+                UINavigationController * a = [self.tabBarController.viewControllers safetyObjectAtIndex:0];
+                [a pushViewController:carwashTableVC animated:YES];
+                self.tabBarController.selectedIndex = 0;
+            }
+            
+            CKAsyncMainQueue(^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            });
+        }
+        else
+        {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }];
     [[self.greenBackBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        [self.navigationController popViewControllerAnimated:YES];
+        
+        @strongify(self)
+        if (flag && self.needPopToFirstCarwashTableVC)
+        {
+            if (carwashTableVC)
+            {
+                UINavigationController * a = [self.tabBarController.viewControllers safetyObjectAtIndex:0];
+                [a pushViewController:carwashTableVC animated:YES];
+                self.tabBarController.selectedIndex = 0;
+            }
+            
+            CKAsyncMainQueue(^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            });
+        }
+        else
+        {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }];
-    
+
+    [self setupMyCarList];
     [self headImageView];
     [self requestShopComments];
 }
@@ -75,6 +130,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self.roundLb refreshLabels];
     
     [MobClick beginLogPageView:@"rp105"];
     if([gAppMgr.myUser.favorites getFavoriteWithID:self.shop.shopID] == nil){
@@ -86,6 +143,12 @@
         self.favorite = YES;
         [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_fillstar"] forState:UIControlStateNormal];
         [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_fillstar"] forState:UIControlStateNormal];
+    }
+    
+    if (self.needRequestShopComments)
+    {
+        [self requestShopComments];
+        self.needRequestShopComments = NO;
     }
 }
 
@@ -127,9 +190,12 @@
 
 - (void)setupMyCarList
 {
-    [[gAppMgr.myUser.carModel rac_fetchDataIfNeeded] subscribeNext:^(id x) {
-        
-    }];
+    if (gAppMgr.myUser) {
+        MyCarStore *store = [MyCarStore fetchExistsStore];
+        [[[store sendEvent:[store getAllCarsIfNeeded]] signal] subscribeNext:^(id x) {
+            
+        }];
+    }
 }
 
 #pragma mark - Action
@@ -264,13 +330,20 @@
 
 - (void)gotoPaymentVCWithService:(JTShopService *)service
 {
-    [[[gAppMgr.myUser.carModel rac_getDefaultCar] catch:^RACSignal *(NSError *error) {
+    if (service.shopServiceType == ShopServiceCarWash) {
+        [MobClick event:@"rp105-6_1"];
+    }
+    else {
+        [MobClick event:@"rp105-6_2"];
+    }
+    [[[[[MyCarStore fetchExistsStore] getDefaultCar] signal] catch:^RACSignal *(NSError *error) {
         
         return [RACSignal return:nil];
     }] subscribeNext:^(HKMyCar *car) {
         
         PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
         if (self.couponFordetailsDic.conponType == CouponTypeCarWash || self.couponFordetailsDic.conponType == CouponTypeCZBankCarWash) {
+            
             vc.selectCarwashCoupouArray = vc.selectCarwashCoupouArray ? vc.selectCarwashCoupouArray : [NSMutableArray array];
             [vc.selectCarwashCoupouArray addObject:self.couponFordetailsDic];
             vc.couponType = CouponTypeCarWash;
@@ -590,7 +663,6 @@
     
     @weakify(self);
     [[[payB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        [MobClick event:@"rp105-6"];
         @strongify(self);
         if([LoginViewModel loginIfNeededForTargetViewController:self]) {
             [self gotoPaymentVCWithService:service];
@@ -698,7 +770,42 @@
     gesture = self.headImgView.customObject;
     
     self.imageCountLabel.text = [NSString stringWithFormat:@"%d张", (int)shop.picArray.count];
+    
+    self.roundLb.textColor = [UIColor whiteColor];
+    self.roundLb.font = [UIFont systemFontOfSize:13];
+    self.roundLb.backgroundColor = [UIColor clearColor];
+    self.roundLb.labelSpacing = 30;
+    self.roundLb.scrollSpeed = 30;
+    self.roundLb.fadeLength = 5.f;
+    [self.roundLb observeApplicationNotifications];
+    
+    
+    NSString * note = self.shop.announcement;
+    CGFloat width = self.view.frame.size.width - 40;
+    
+//    [self.roundLb mas_makeConstraints:^(MASConstraintMaker *make) {
+//        
+//        make.width.mas_equalTo(width);
+//    }];
+    NSString * p = [self appendSpace:note andWidth:width];
+    self.roundLb.text = p;
+    self.roundLb.hidden = !self.shop.announcement.length;
+    self.roundBgView.hidden = !self.shop.announcement.length;
 }
+
+
+- (NSString *)appendSpace:(NSString *)note andWidth:(CGFloat)w
+{
+    NSString * spaceNote = note;
+    for (;;)
+    {
+        CGSize size = [spaceNote sizeWithFont:[UIFont systemFontOfSize:13] constrainedToSize:CGSizeMake(FLT_MAX,FLT_MAX)];
+        if (size.width > w)
+            return spaceNote;
+        spaceNote = [spaceNote append:@" "];
+    }
+}
+
 
 -(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
 {

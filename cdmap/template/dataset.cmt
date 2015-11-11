@@ -1,0 +1,63 @@
+$(require (lib "template/objc"))
+$<${(namespace-by-class-remark 'data)}
+$(output-file (format "dataset/~a.h" (class-name _)))
+#import <Foundation/Foundation.h>
+$(oc:out-import-linked-classes _)
+
+@interface $(out (class-name _)) : $(out (oc:super-class _)) 
+
+$<${(namespace (lambda (nd) (properties nd)))}
+$(let ([cmt (comment)]) (when cmt (outln cmt)))
+$(outln (format "@property (nonatomic,~a) ~a ~a;"
+			  (oc:property-stype _) (oc:property-type _) (property-name _)))
+$>
+
++ (instancetype)createWithJSONDict:(NSDictionary *)dict;
+- (void)resetWithJSONDict:(NSDictionary *)dict;
+
+@end
+$>
+
+$<${(namespace-by-class-remark 'data)}
+$(output-file (format "dataset/~a.m" (class-name _)))
+#import "$(out (class-name _)).h"
+  
+@implementation $(outln (class-name _))
++ (instancetype)createWithJSONDict:(NSDictionary *)dict
+{
+    $(out (class-name _)) *obj = [[self alloc] init];
+    [obj resetWithJSONDict:dict];
+    return obj;
+}
+
+- (void)resetWithJSONDict:(NSDictionary *)dict
+{
+    $(oc:properties-dict-mapping
+		(properties _)
+		(lambda (node k v)
+		  (define name (property-name node))
+		  (define dv (format "dict[@\"~a\"]" name))
+		  (define fmt
+			(case k
+			  ['object dv]
+			  ['value (format "[~a ~a]" dv v)]
+			  ['class (format "[~a createWithJSONDict:dict]" v)]
+			  ['array
+			   (outln (format "NSMutableArray *~a = [NSMutableArray array];" name))
+			   (outln (format "for (NSDictionary *curDict in ~a) {" dv))
+			   (outln (format "~a *obj = [~a createWithJSONDict:curDict];" v v) 4)
+			   (outln (format "[~a addObject:obj];" name) 4)
+			   (outln "}")
+               name]
+			  ['date (let ([date-type (attr-value node 'date)])
+					   (cond
+						[(eq? 'DT14 date-type)
+						 (format "[NSDate dateWithD14Text:~a]" dv)]
+						[else (format "[NSDate dateWithUTS:~a]" dv)]))]))
+		  (outln (format "self.~a = ~a;" name fmt))))
+
+}
+
+@end
+
+$>

@@ -11,7 +11,6 @@
 #import "GetUserCouponOp.h"
 #import "JTTableView.h"
 #import "ShareUserCouponOp.h"
-#import "SocialShareViewController.h"
 #import "DownloadOp.h"
 #import "NSDate+DateForText.h"
 #import "CarWashCouponVModel.h"
@@ -37,6 +36,8 @@
 @property (nonatomic, strong) CarWashCouponVModel *insuranceModel;
 @property (nonatomic, strong) CarWashCouponVModel *othersModel;
 @property (weak, nonatomic) IBOutlet UIView *getMoreView;
+
+
 - (IBAction)getMoreAction:(id)sender;
 
 @end

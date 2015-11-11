@@ -53,7 +53,6 @@
 
 - (void)resetWithAccount:(NSString *)account
 {
-    [self.myUser.carModel removeAllObservers];
     if (!account)
     {
         self.myUser = nil;
@@ -147,5 +146,10 @@
     {
         DebugLog(@"can not update client version with url:%@", strurl);
     }
+}
+
+- (void)getSwitchConfiguration
+{
+    
 }
 @end

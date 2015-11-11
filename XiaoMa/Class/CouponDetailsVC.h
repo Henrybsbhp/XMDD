@@ -20,7 +20,11 @@
 ///优惠券颜色
 @property (nonatomic, strong)NSString * rgbStr;
 
+///优惠券类型（旧）
+@property (nonatomic, assign)CouponType oldType;
+
 ///优惠券类型（新）
 @property (nonatomic, assign)CouponNewType newType;
+
 
 @end

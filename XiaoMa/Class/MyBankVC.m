@@ -13,12 +13,14 @@
 #import "CardDetailVC.h"
 #import "BindBankCardVC.h"
 #import "GetBankcardListOp.h"
+#import "BankCardStore.h"
 
 @interface MyBankVC ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) ADViewController *advc;
 @property (nonatomic, strong) NSArray *bankCards;
+@property (nonatomic, strong) BankCardStore *bankStore;
 @end
 
 @implementation MyBankVC
@@ -39,12 +41,8 @@
     [super viewDidLoad];
     [self setupAdView];
     [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
-    @weakify(self);
-    [self listenNotificationByName:kNotifyRefreshMyBankcardList withNotifyBlock:^(NSNotification *note, id weakSelf) {
-        @strongify(self);
-        [self reloadData];
-    }];
-    [self reloadData];
+    [self setupBankStore];
+    [self.bankStore sendEvent:[self.bankStore getAllBankCards]];
 }
 
 - (void)setupAdView
@@ -56,27 +54,45 @@
     });
 }
 
+- (void)setupBankStore
+{
+    self.bankStore = [BankCardStore fetchOrCreateStore];
+    @weakify(self);
+    [self.bankStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+        @strongify(self);
+        NSArray *codes = @[@(kCKStoreEventAdd),@(kCKStoreEventDelete),@(kCKStoreEventReload),@(kCKStoreEventNone),@(kCKStoreEventGet)];
+        [evt callIfNeededForCodeList:codes object:nil target:self selector:@selector(reloadWithEvent:)];
+    }];
+}
+
 - (void)reloadData
 {
-    GetBankcardListOp *op = [GetBankcardListOp operation];
+    [self.bankStore sendEvent:[self.bankStore getAllBankCards]];
+}
+
+- (void)reloadWithEvent:(CKStoreEvent *)event
+{
+    NSInteger code = event.code;
     @weakify(self);
-    [[[[op rac_postRequest] initially:^{
-        
+    [[[[event signal] initially:^{
+
         @strongify(self);
-        [self.tableView.refreshView beginRefreshing];
+        if (code != kCKStoreEventNone) {
+            [self.tableView.refreshView beginRefreshing];
+        }
     }] finally:^{
-      
+        
         @strongify(self);
         [self.tableView.refreshView endRefreshing];
-    }] subscribeNext:^(GetBankcardListOp *rspOp) {
+    }] subscribeNext:^(id x) {
         
         @strongify(self);
-        self.bankCards = rspOp.rsp_bankcards;
+        self.bankCards = [self.bankStore.cache allObjects];
         [self.tableView reloadData];
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
-    }];
+    }];;
 }
 
 #pragma mark - UITableViewDelegate
@@ -91,8 +107,17 @@
     //点击某张银行卡
     else if (indexPath.row > 0) {
         [MobClick event:@"rp314-2"];
+        HKBankCard *card = [self.bankCards safetyObjectAtIndex:indexPath.row - 1];
+        if (self.selectedCardReveicer) {
+            CKStoreEvent *evt = [CKStoreEvent eventWithSignal:[RACSignal return:card] code:kCKStoreEventSelect
+                                                       object:self.selectedCardReveicer];
+            [self.bankStore sendEvent:evt];
+            [self.navigationController popViewControllerAnimated:YES];
+            return;
+        }
+        
         CardDetailVC *vc = [UIStoryboard vcWithId:@"CardDetailVC" inStoryboard:@"Bank"];
-        vc.card = [self.bankCards safetyObjectAtIndex:indexPath.row - 1];
+        vc.card = card;
         vc.originVC = self;
         [self.navigationController pushViewController:vc animated:YES];
     }

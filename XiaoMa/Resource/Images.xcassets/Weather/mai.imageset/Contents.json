@@ -6,13 +6,13 @@
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "mai@2x.png"
+      "filename" : "霾.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x",
-      "filename" : "mai.png"
+      "filename" : "霾@3x.png",
+      "scale" : "3x"
     }
   ],
   "info" : {

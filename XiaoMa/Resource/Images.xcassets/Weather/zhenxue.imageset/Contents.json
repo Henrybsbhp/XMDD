@@ -6,13 +6,13 @@
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "zhenxue@2x.png"
+      "filename" : "阵雪.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x",
-      "filename" : "zhenxue.png"
+      "filename" : "阵雪@3x.png",
+      "scale" : "3x"
     }
   ],
   "info" : {

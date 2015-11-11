@@ -21,9 +21,13 @@
 
 - (void)observeCurrentUser
 {
+    @weakify(self);
     RACDisposable *dsp = [[[RACObserve(gAppMgr, myUser) distinctUntilChanged] skip:1] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.cache removeAllObjects];
+        [self resetAllTimetags];
         if (!x) {
-            [self sendEvent:[RACSignal return:nil] withCode:kCKStoreEventReload];
+            [self sendEvent:[CKStoreEvent eventWithSignal:[RACSignal return:nil] code:kCKStoreEventReload object:nil]];
         }
         else {
             [self reloadDataWithCode:kCKStoreEventReload];
@@ -34,7 +38,6 @@
 
 - (void)reloadDataWithCode:(NSInteger)code
 {
-    
 }
 
 @end

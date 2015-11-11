@@ -11,9 +11,10 @@
 #import "InsuranceDetailPlanVC.h"
 #import "GetInsuranceDiscountOp.h"
 #import "GetInsuranceCalculatorOpV2.h"
+#import "CKLimitTextField.h"
 
 @interface InsuranceEnquiryVC ()<UITextFieldDelegate>
-@property (weak, nonatomic) IBOutlet UITextField *textField;
+@property (weak, nonatomic) IBOutlet CKLimitTextField *textField;
 @property (weak, nonatomic) IBOutlet UILabel *placeholdLabel;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 
@@ -23,6 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupUI];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -42,18 +44,35 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)setupUI
+{
+    self.textField.textLimit = 7;
+    self.textField.regexpPattern = @"^\\d+$|^\\d*\\.\\d{0,2}";
+    @weakify(self);
+    [self.textField setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        [MobClick event:@"rp115-5"];
+        @strongify(self);
+        [self.placeholdLabel setHidden:YES animated:YES];
+    }];
+    
+    [self.textField setDidEndEditingBlock:^(CKLimitTextField *field) {
+        @strongify(self);
+        if (field.text.length == 0) {
+            [self.placeholdLabel setHidden:NO animated:YES];
+        }
+    }];
+}
 #pragma mark - Action
 - (IBAction)actionEnquiry:(id)sender
 {
     [MobClick event:@"rp115-7"];
-    if (self.textField.text.length == 0 || [self.textField.text integerValue] == 0) {
+    if (self.textField.text.length == 0 || [self.textField.text floatValue] == 0) {
         [self.containerView shake];
         return;
     }
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         
         RACSignal * signal;
-        
         if (gAppMgr.discountRateDict){
             signal = [self rac_getInsurance];
         }
@@ -114,50 +133,5 @@
     return [op rac_postRequest];
 }
 
-#pragma mark - UITextFieldDelegate
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    [MobClick event:@"rp115-5"];
-    [self.placeholdLabel setHidden:YES animated:YES];
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    if (textField.text.length == 0) {
-        [self.placeholdLabel setHidden:NO animated:YES];
-    }
-}
-
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
-{
-    if (textField.text.length > 0) {
-        textField.text = [NSString stringWithInteger:[textField.text integerValue]];
-    }
-    return YES;
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    NSInteger len = range.location + [string length] - range.length;
-    if (len > 6) {
-        return NO;
-    }
-    return YES;
-}
-
-- (BOOL)textFieldShouldClear:(UITextField *)textField
-{
-    [self.placeholdLabel setHidden:NO animated:YES];
-    return YES;
-}
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

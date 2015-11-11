@@ -14,9 +14,10 @@
 #import "DatePickerVC.h"
 #import "UIView+Shake.h"
 #import "PickAutomobileBrandVC.h"
-#import "MyCarsModel.h"
 #import "CollectionChooseVC.h"
 #import "ProvinceChooseView.h"
+#import "PickInsCompaniesVC.h"
+#import "MyCarStore.h"
 
 
 @interface EditMyCarVC ()<UITableViewDataSource,UITableViewDelegate, UITextFieldDelegate>
@@ -113,7 +114,7 @@
         return;
     }
     
-    if (![MyCarsModel verifiedLicenseNumberFrom:self.curCar.licenceSuffix]) {
+    if (![MyCarStore verifiedLicenseNumberFrom:self.curCar.licenceSuffix]) {
         [self sharkCellIfErrorAtIndex:0 withData:nil errorMsg:@"请输入正确的车牌号码"];
         return;
     }
@@ -127,16 +128,10 @@
         return;
     }
     
+    MyCarStore *store = [MyCarStore fetchOrCreateStore];
+    CKStoreEvent *evt = self.isEditingModel ? [store updateCar:self.curCar] : [store addCar:self.curCar];
     @weakify(self);
-    RACSignal *sig;
-    if (self.isEditingModel) {
-        sig = [gAppMgr.myUser.carModel rac_updateCar:self.curCar];
-    }
-    else {
-        sig = [gAppMgr.myUser.carModel rac_addCar:self.curCar];
-    }
-    
-    [[sig initially:^{
+    [[[[store sendEvent:evt] signal] initially:^{
         
         [gToast showingWithText:@"正在保存..."];
     }] subscribeNext:^(id x) {
@@ -157,6 +152,11 @@
         
         [gToast showError:error.domain];
     }];
+}
+
+- (void)_saveFromSignal:(RACSignal *)signal
+{
+    
 }
 
 - (void) actionCancel:(id)sender
@@ -230,7 +230,8 @@
         [self.navigationController popViewControllerAnimated:YES];
         return;
     }
-    [[[gAppMgr.myUser.carModel rac_removeCarByID:self.curCar.carId] initially:^{
+    MyCarStore *store = [MyCarStore fetchOrCreateStore];
+    [[[[store sendEvent:[store removeCarByID:self.curCar.carId]] signal] initially:^{
         
         [gToast showingWithText:@"正在删除..."];
     }] subscribeNext:^(id x) {
@@ -308,7 +309,7 @@
     {
         cell = [self cellForLicenceAtIndexPath:indexPath];
     }
-    else if (indexPath.row == 2 || indexPath.row == 3) {
+    else if (indexPath.row == 2 || indexPath.row == 3 || indexPath.row == 7) {
         cell = [self cellForType2AtIndexPath:indexPath];
     }
     else if (indexPath.row == 8) {
@@ -384,7 +385,16 @@
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }
-    
+    //保险公司
+    else if (indexPath.row == 7) {
+        [MobClick event:@"rp312-9"];
+        [self.view endEditing:YES];
+        PickInsCompaniesVC *vc = [UIStoryboard vcWithId:@"PickInsCompaniesVC" inStoryboard:@"Car"];
+        [vc setPickedBlock:^(NSString *name) {
+            self.curCar.inscomp = name;
+        }];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
     else {
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
@@ -529,14 +539,6 @@
         }];
         fieldEditable = NO;
     }
-    else if (indexPath.row == 7) {
-        unitL.text = nil;
-        titleL.attributedText = [self attrStrWithTitle:@"保险公司" asterisk:NO];
-        field.text = car.inscomp;
-        [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString *str) {
-            car.inscomp = str;
-        }];
-    }
     
     field.userInteractionEnabled = fieldEditable;
     return cell;
@@ -558,6 +560,12 @@
         titleL.attributedText = [self attrStrWithTitle:@"具体车系" asterisk:YES];
         [[RACObserve(self.curCar, model) takeUntilForCell:cell] subscribeNext:^(id x) {
             subTitleL.text = x;
+        }];
+    }
+    else if (indexPath.row == 7) {
+        titleL.attributedText = [self attrStrWithTitle:@"保险公司" asterisk:NO];
+        [[RACObserve(self.curCar, inscomp) takeUntilForCell:cell] subscribeNext:^(id x) {
+            subTitleL.text = self.curCar.inscomp;
         }];
     }
     return cell;
@@ -591,10 +599,6 @@
     if (indexPath.row == 0 && length > 10) {
         return NO;
     }
-    //保险公司
-    else if (indexPath.row == 7 && length >= 30) {
-        return NO;
-    }
     //当前里程
     else if (indexPath.row == 5 && length >= 12) {
         return NO;
@@ -617,9 +621,6 @@
     }
     else if (indexPath.row == 5) {
         [MobClick event:@"rp312-7"];
-    }
-    else if (indexPath.row == 7) {
-        [MobClick event:@"rp312-9"];
     }
 }
 

@@ -73,4 +73,15 @@
     }];
 }
 
++ (int)paymentChannelForPlatformType:(PaymentPlatformType)platformType
+{
+    switch (platformType) {
+        case PaymentPlatformTypeAlipay: return 2;
+        case PaymentPlatformTypeWeChat: return 3;
+        case PaymentPlatformTypeUPPay: return 8;
+        case PaymentPlatformTypeCreditCard: return 7;
+    }
+    return 0;
+}
+
 @end

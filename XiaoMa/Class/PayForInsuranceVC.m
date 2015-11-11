@@ -15,7 +15,7 @@
 #import "InsuranceOrderPayOp.h"
 #import "InsuranceResultVC.h"
 #import "PaymentHelper.h"
-#import "InsuranceOrderPaidSuccessOp.h"
+#import "OrderPaidSuccessOp.h"
 #import "InsOrderStore.h"
 
 #define CheckBoxDiscountGroup @"CheckBoxDiscountGroup"
@@ -137,7 +137,8 @@
         if (![self callPaymentHelperWithPayOp:op]) {
             
             [gToast dismiss];
-            [InsOrderStore reloadOrderByID:self.insOrder.orderid];
+            InsOrderStore *store = [InsOrderStore fetchExistsStore];
+            [store sendEvent:[store getInsOrderByID:self.insOrder.orderid]];
             InsuranceResultVC *resultVC = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceResultVC"];
             resultVC.originVC = self.originVC;
             resultVC.orderID = self.insOrder.orderid;
@@ -244,7 +245,7 @@
         return NO;
     }
     PaymentHelper *helper = [[PaymentHelper alloc] init];
-    NSString * info = [NSString stringWithFormat:@"保险订单: %@",self.insOrder.licencenumber];
+    NSString * info = [NSString stringWithFormat:@"%@-%@的保险订单支付",self.insOrder.inscomp,self.insOrder.licencenumber];
     NSString *text;
     switch (op.req_paychannel) {
         case PaymentChannelAlipay: {
@@ -267,14 +268,15 @@
     [[helper rac_startPay] subscribeNext:^(id x) {
         
         @strongify(self);
-        [InsOrderStore reloadOrderByID:self.insOrder.orderid];
+        InsOrderStore *store = [InsOrderStore fetchExistsStore];
+        [store sendEvent:[store getInsOrderByID:self.insOrder.orderid]];
         InsuranceResultVC *resultVC = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceResultVC"];
         [resultVC setResultType:PaySuccess];
         resultVC.originVC = self.originVC;
         resultVC.orderID = self.insOrder.orderid;
         [self.navigationController pushViewController:resultVC animated:YES];
         
-        InsuranceOrderPaidSuccessOp *iop = [[InsuranceOrderPaidSuccessOp alloc] init];
+        OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 1;
         iop.req_tradeno = op.rsp_tradeno;
         [[iop rac_postRequest] subscribeNext:^(id x) {
@@ -487,6 +489,7 @@
             tagLb.text = self.insOrder.activityName;
             // TODO @fq
             tagLb.cornerRadius = 3.0f;
+            tagLb.hidden = NO;
             arrow.hidden = NO;
             
             NSDate * earlierDate;
@@ -681,7 +684,7 @@
             }
         }
         
-//        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
         [self refreshPriceLb];
     }];
     
