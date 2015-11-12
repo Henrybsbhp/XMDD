@@ -74,7 +74,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2.2.0.0099</string>
+	<string>2.2.0.0100</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -125,6 +125,8 @@
 		<string>mqzoneopensdk</string>
 		<string>alipay</string>
 		<string>alipayshare</string>
+		<string>iosamap</string>
+		<string>baidumap</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

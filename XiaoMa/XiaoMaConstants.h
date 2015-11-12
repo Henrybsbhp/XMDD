@@ -74,7 +74,7 @@
 #else
     #define ApiBaseUrl @"http://api.xiaomadada.com:8282/paa/rest/api" //正式
     #define ApiFormalUrl @"http://api.xiaomadada.com:8282/paa/rest/api" //正式
-    #define DiscoverUrl @"http://api.xiaomadada.com/paaweb/general/discoveryload"//发现地址
+    #define DiscoverUrl @"http://www.xiaomadada.com/paaweb/general/discoveryload"//发现地址
     #define LogUploadUrl @"http://183.129.253.170:18282/log/upload"
 #endif
 

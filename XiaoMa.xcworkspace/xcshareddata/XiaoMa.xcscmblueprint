@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "883C55EE312FC1961E5EE8C1C2815FF726B7A0E0",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "B2182DE5194646A6AADD3BC5C6A9C65619F62E5A" : 0,
+    "883C55EE312FC1961E5EE8C1C2815FF726B7A0E0" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "AB4B6BA3-2BEC-464D-A880-326F0D8CD75B",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "B2182DE5194646A6AADD3BC5C6A9C65619F62E5A" : "xmdd_ios\/Pods\/CKKit\/",
+    "883C55EE312FC1961E5EE8C1C2815FF726B7A0E0" : "XiaoMa"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "XiaoMa",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "XiaoMa.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/stash.jtang.cn:7999\/XMDD\/xmdd_ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "883C55EE312FC1961E5EE8C1C2815FF726B7A0E0"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/stash.jtang.cn:7999\/IOSLIB\/ckkit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B2182DE5194646A6AADD3BC5C6A9C65619F62E5A"
+    }
+  ]
+}
