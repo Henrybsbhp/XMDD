@@ -34,7 +34,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 }
 
-#pragma mark - 传递用户token
+#pragma mark - registerHandler方法，js需要的事后调用oc
+///传递用户token
 - (void)registerGetToken
 {
     [self.myBridge registerHandler:@"getUserToken" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -50,7 +51,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
-#pragma mark - 获取弱提示弹框内容
+///获取弱提示弹框内容
 - (void)registerToastMsg
 {
     [self.myBridge registerHandler:@"sendToastMsg" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -62,7 +63,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
-#pragma mark - 获取地理位置信息
+///获取地理位置信息
 - (void)registerSetPosition
 {
     [self.myBridge registerHandler:@"getCurrentPosition" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -82,7 +83,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
-#pragma mark - 获取网络状态
+///获取网络状态
 - (void)registerNetworkState
 {
     [self.myBridge registerHandler:@"callForNetworkState" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -108,7 +109,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
-#pragma mark - 拨打电话
+///拨打电话
 - (void)registerCallPhone
 {
     [self.myBridge registerHandler:@"getPhoneCall" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -119,7 +120,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
-#pragma mark - 上传图片
+///上传图片
 - (void)uploadImage:(UIViewController *)superVC
 {
     NSMutableDictionary * imgDic = [[NSMutableDictionary alloc] init];
@@ -164,7 +165,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
-#pragma mark - 点击查看大图
+///点击查看大图
 - (void)registerShowImage
 {
     [self.myBridge registerHandler:@"callShowImage" handler:^(id data, WVJBResponseCallback responseCallback) {

@@ -32,6 +32,7 @@
 #import "InsuranceDetailPlanVC.h"
 #import "GasVC.h"
 #import "PaymentSuccessVC.h"
+#import "PaymentCenterViewController.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 
@@ -535,9 +536,14 @@
 #pragma mark - Action
 - (IBAction)actionCallCenter:(id)sender
 {
-    [MobClick event:@"rp101-2"];
-    NSString * number = @"4007111111";
-    [gPhoneHelper makePhone:number andInfo:@"客服电话：4007-111-111"];
+//    [MobClick event:@"rp101-2"];
+//    NSString * number = @"4007111111";
+//    [gPhoneHelper makePhone:number andInfo:@"客服电话：4007-111-111"];
+    
+    PaymentCenterViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"PaymentCenterViewController"];
+    vc.tradeNo = @"1111";
+    vc.tradeType = @"FQJY";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 

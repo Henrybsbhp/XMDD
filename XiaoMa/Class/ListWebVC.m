@@ -61,7 +61,8 @@
     
     [self.webView.scrollView setDecelerationRate:UIScrollViewDecelerationRateNormal];
     self.webView.scalesPageToFit = YES;
-    self.request = [NSURLRequest requestWithURL:[NSURL URLWithString:DiscoverUrl]];
+    NSString * discoverUrl = [NavigationModel appendStaticParam:DiscoverUrl];
+    self.request = [NSURLRequest requestWithURL:[NSURL URLWithString:discoverUrl]];
     CKAsyncMainQueue(^{
         self.webView.scrollView.contentInset = UIEdgeInsetsZero;
         self.webView.scrollView.contentSize = self.webView.frame.size;
@@ -71,7 +72,6 @@
     self.myBridge = [[MyWebViewBridge alloc] initBridgeWithWebView:self.webView andDelegate:self.progressProxy];
     
     [self.myBridge registerGetToken];
-    
     [self.myBridge registerToastMsg];
 }
 
@@ -123,7 +123,7 @@
 {
     NSString *url = request.URL.absoluteString;
     //屏蔽非法页面
-    if (![url isEqualToString:DiscoverUrl] && ([url hasPrefix:@"http://"] || [url hasPrefix:@"https://"])) {
+    if (![url hasPrefix:DiscoverUrl] && ([url hasPrefix:@"http://"] || [url hasPrefix:@"https://"])) {
         [self.navModel pushToViewControllerByUrl:url];
         return NO;
     }

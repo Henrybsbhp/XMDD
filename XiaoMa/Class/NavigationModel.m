@@ -17,6 +17,7 @@
 #import "DetailWebVC.h"
 #import "CarListVC.h"
 #import "GasVC.h"
+#import "PaymentCenterViewController.h"
 
 @implementation NavigationModel
 
@@ -193,10 +194,21 @@
             }
             flag = YES;
         }
+        ///支付中心
+        else if ([@"paycenter" equalByCaseInsensitive:name])
+        {
+            NSString * traderNo = params[@"tradeno"];
+            NSString * traderType = params[@"tradetype"];
+            PaymentCenterViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"PaymentCenterViewController"];
+            vc.tradeNo = traderNo;
+            vc.tradeType = traderType;
+            [self.curNavCtrl pushViewController:vc animated:YES];
+        }
     }
     else if ([url hasPrefix:@"http://"] || [url hasPrefix:@"https://"]) {
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-        vc.url = [self httpUrlStringFrom:url];
+        NSString * urlStr = [self httpUrlStringFrom:url];
+        vc.url = [NavigationModel appendStaticParam:urlStr];
         [self.curNavCtrl pushViewController:vc animated:YES];
         flag = YES;
     }
@@ -249,6 +261,30 @@
         value = gNetworkMgr.token;
     }
     return value.length > 0 ? value : @"null";
+}
+
++ (NSString *)appendStaticParam:(NSString *)url
+{
+    NSString * rUrlStr = url;
+    NSDictionary * dict = @{@"version":gAppMgr.clientInfo.clientVersion};
+    NSMutableArray * tArray = [NSMutableArray array];
+    for (NSString * key in [dict allKeys])
+    {
+        NSString * value = [dict objectForKey:key];
+        NSString * item = [NSString stringWithFormat:@"%@=%@",key,value];
+        [tArray addObject:item];
+    }
+    NSString * params = [tArray componentsJoinedByString:@"&"];
+    
+    if ([url containsString:@"?"])
+    {
+        rUrlStr  = [NSString stringWithFormat:@"%@&%@",url,params];
+    }
+    else
+    {
+        rUrlStr  = [NSString stringWithFormat:@"%@?%@",url,params];
+    }
+    return rUrlStr;
 }
 
 - (BOOL)popToViewControllerIfNeededByIdentify:(NSString *)identify
