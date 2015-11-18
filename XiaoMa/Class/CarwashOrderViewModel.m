@@ -125,7 +125,7 @@
     
     serviceL.text = order.servicename;
     timeL.text = [order.txtime dateFormatForYYYYMMddHHmm];
-    priceL.text = [NSString stringWithFormat:@"￥%.2f", order.fee];
+    priceL.text = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:order.fee]];
     paymentL.text = order.paydesc;
     [[RACObserve(order, ratetime) takeUntilForCell:cell] subscribeNext:^(id x) {
         [bottomB setTitle:order.ratetime ? @"已评价" : @"去评价" forState:UIControlStateNormal];

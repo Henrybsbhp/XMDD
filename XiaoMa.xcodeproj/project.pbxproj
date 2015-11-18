@@ -268,10 +268,13 @@
 		50B5A2961BD8CC51004E00ED /* MyWebViewBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */; };
 		50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE7C911B6716B500675887 /* SelectScrollView.m */; };
 		50C6BF4D1B7341B800A5E021 /* CardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */; };
+		50DD1BC51BFB019300349A70 /* GetOtherOrderListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BC41BFB019300349A70 /* GetOtherOrderListOp.m */; };
+		50DD1BC81BFB023800349A70 /* HKOtherOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BC71BFB023800349A70 /* HKOtherOrder.m */; };
+		50DD1BCB1BFB093500349A70 /* OthersOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BCA1BFB093500349A70 /* OthersOrderViewModel.m */; };
 		50E9DD161BE201180070F38D /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E9DD151BE201180070F38D /* Reachability.m */; };
 		6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */; };
 		6B086BA71AE4F03800659DB7 /* UIView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA61AE4F03800659DB7 /* UIView+Base.m */; };
-		6B0DB8221BEB277A007BE693 /* GetCarwashOrderListV3Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0DB8211BEB277A007BE693 /* GetCarwashOrderListV3Op.m */; settings = {ASSET_TAGS = (); }; };
+		6B0DB8221BEB277A007BE693 /* GetCarwashOrderListV3Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0DB8211BEB277A007BE693 /* GetCarwashOrderListV3Op.m */; };
 		6B1D93D31B8573A000740628 /* PayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1D93D21B8573A000740628 /* PayModel.m */; };
 		6B21A8961BD49399006D0556 /* GetShopByRangeV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A8951BD49399006D0556 /* GetShopByRangeV2Op.m */; };
 		6B21A8991BD493F8006D0556 /* GetShopByDistanceV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A8981BD493F8006D0556 /* GetShopByDistanceV2Op.m */; };
@@ -286,7 +289,7 @@
 		6B71C4221BB959CE0048B79F /* HKPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B71C4211BB959CE0048B79F /* HKPickerVC.m */; };
 		6B747A651AF08C7B00106BFD /* PhoneHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B747A641AF08C7B00106BFD /* PhoneHelper.m */; };
 		6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B82588F1AF8B37100D5D800 /* CommentListViewController.m */; };
-		6B8D47561BEA03C900706989 /* GetCarwashOrderV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8D47551BEA03C900706989 /* GetCarwashOrderV2Op.m */; settings = {ASSET_TAGS = (); }; };
+		6B8D47561BEA03C900706989 /* GetCarwashOrderV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8D47551BEA03C900706989 /* GetCarwashOrderV2Op.m */; };
 		6B978BFA1B6B643A00A6E7C6 /* HKCoverage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B978BF91B6B643A00A6E7C6 /* HKCoverage.m */; };
 		6B978BFD1B6B68AA00A6E7C6 /* InsuranceCalcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B978BFC1B6B68AA00A6E7C6 /* InsuranceCalcHelper.m */; };
 		6BAF30181AE67CC800E35E08 /* GetSystemVersionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF30171AE67CC800E35E08 /* GetSystemVersionOp.m */; };
@@ -442,7 +445,7 @@
 		6BF392441BD627A900838292 /* GetShopByNameV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF392431BD627A900838292 /* GetShopByNameV2Op.m */; };
 		6BF3925F1BD8935600838292 /* CBAutoScrollLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF3925E1BD8935600838292 /* CBAutoScrollLabel.m */; };
 		6BF7F7311BB39A4100A24A32 /* NSString+Price.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF7F7301BB39A4100A24A32 /* NSString+Price.m */; };
-		6BFA93BB1BF098BB00700F27 /* CheckoutServiceOrderV4Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BFA93BA1BF098BB00700F27 /* CheckoutServiceOrderV4Op.m */; settings = {ASSET_TAGS = (); }; };
+		6BFA93BB1BF098BB00700F27 /* CheckoutServiceOrderV4Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BFA93BA1BF098BB00700F27 /* CheckoutServiceOrderV4Op.m */; };
 		C23FCAB81AF8B8C900E04BEB /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C23FCAB71AF8B8C900E04BEB /* TencentOpenAPI.framework */; };
 		C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */; };
 		C26489B41AF8A70A00F1E318 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C26489B31AF8A70A00F1E318 /* libiconv.dylib */; };
@@ -971,6 +974,12 @@
 		50BE7C911B6716B500675887 /* SelectScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectScrollView.m; path = Class/SelectScrollView.m; sourceTree = "<group>"; };
 		50C6BF4B1B7341B800A5E021 /* CardDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardDetailVC.h; sourceTree = "<group>"; };
 		50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardDetailVC.m; sourceTree = "<group>"; };
+		50DD1BC31BFB019300349A70 /* GetOtherOrderListOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetOtherOrderListOp.h; path = Class/GetOtherOrderListOp.h; sourceTree = "<group>"; };
+		50DD1BC41BFB019300349A70 /* GetOtherOrderListOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetOtherOrderListOp.m; path = Class/GetOtherOrderListOp.m; sourceTree = "<group>"; };
+		50DD1BC61BFB023800349A70 /* HKOtherOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKOtherOrder.h; path = Class/HKOtherOrder.h; sourceTree = "<group>"; };
+		50DD1BC71BFB023800349A70 /* HKOtherOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKOtherOrder.m; path = Class/HKOtherOrder.m; sourceTree = "<group>"; };
+		50DD1BC91BFB093500349A70 /* OthersOrderViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OthersOrderViewModel.h; sourceTree = "<group>"; };
+		50DD1BCA1BFB093500349A70 /* OthersOrderViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OthersOrderViewModel.m; sourceTree = "<group>"; };
 		50E9DD141BE201180070F38D /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		50E9DD151BE201180070F38D /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1785,6 +1794,8 @@
 				186984F11B007FAB000A182A /* HKServiceOrder.m */,
 				186984F61B0098FB000A182A /* HKInsuranceOrder.h */,
 				186984F71B0098FB000A182A /* HKInsuranceOrder.m */,
+				50DD1BC61BFB023800349A70 /* HKOtherOrder.h */,
+				50DD1BC71BFB023800349A70 /* HKOtherOrder.m */,
 				6BB884D81AE0F3CC00EBD8F4 /* HKMyCar.h */,
 				6BB884D91AE0F3CC00EBD8F4 /* HKMyCar.m */,
 				6BE2BD4D1AE6232C00A69875 /* HKAdvertisement.h */,
@@ -1903,6 +1914,8 @@
 				186984E71B005A86000A182A /* CarwashOrderViewModel.m */,
 				186984E91B005A94000A182A /* InsranceOrderViewModel.h */,
 				186984EA1B005A94000A182A /* InsranceOrderViewModel.m */,
+				50DD1BC91BFB093500349A70 /* OthersOrderViewModel.h */,
+				50DD1BCA1BFB093500349A70 /* OthersOrderViewModel.m */,
 			);
 			name = Order;
 			sourceTree = "<group>";
@@ -2980,6 +2993,8 @@
 				6BAF30171AE67CC800E35E08 /* GetSystemVersionOp.m */,
 				186984F31B0098A2000A182A /* GetInsuranceOrderListOp.h */,
 				186984F41B0098A2000A182A /* GetInsuranceOrderListOp.m */,
+				50DD1BC31BFB019300349A70 /* GetOtherOrderListOp.h */,
+				50DD1BC41BFB019300349A70 /* GetOtherOrderListOp.m */,
 				506A30971B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.h */,
 				506A30981B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.m */,
 				506A309D1B8F08FC002F1F14 /* InsuranceAppointmentOp.h */,
@@ -3570,6 +3585,7 @@
 				186984F51B0098A2000A182A /* GetInsuranceOrderListOp.m in Sources */,
 				18988CB51BC7B6A6001DECD5 /* InsOrderStore.m in Sources */,
 				6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */,
+				50DD1BCB1BFB093500349A70 /* OthersOrderViewModel.m in Sources */,
 				506008D71B747FED00B8761D /* ResultVC.m in Sources */,
 				1837A7601B72130F0006E6C5 /* SDPhotoBrowser.m in Sources */,
 				18D17F7D1B57407900F66F04 /* BindDeviceToken2Op.m in Sources */,
@@ -3606,6 +3622,7 @@
 				6BBB4C3F1B32790B00C8052E /* WelcomeViewController.m in Sources */,
 				6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */,
 				6BF3925F1BD8935600838292 /* CBAutoScrollLabel.m in Sources */,
+				50DD1BC81BFB023800349A70 /* HKOtherOrder.m in Sources */,
 				6BC3B6191ADF92E7001016A0 /* CommonUtility.m in Sources */,
 				181F6DA61B15919900D38555 /* CXAlertButtonItem.m in Sources */,
 				189B395E1AF9D9F700B83F1B /* UpdateCarOp.m in Sources */,
@@ -3879,6 +3896,7 @@
 				18B78F5F1BA990100061ECAD /* HKLaunchManager.m in Sources */,
 				189C698C1B75A2BB00E56E4A /* GetBindCZBVcodeOp.m in Sources */,
 				1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */,
+				50DD1BC51BFB019300349A70 /* GetOtherOrderListOp.m in Sources */,
 				5078E4D21B93FD4000E3B198 /* GetInscouponOp.m in Sources */,
 				18C52C361BA6783500F6C38B /* PictureRecord.m in Sources */,
 				6BD6E29A1B9D7F67001D33E6 /* NSString+Safe.m in Sources */,
@@ -4212,7 +4230,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cc38a856-97b2-4d3f-ad97-e106d80dd70c";
+				PROVISIONING_PROFILE = "e21a7301-2ad1-40ab-b7ec-356774a7ba3a";
 			};
 			name = Release;
 		};
