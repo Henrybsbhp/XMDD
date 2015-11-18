@@ -14,6 +14,7 @@
 #import "GetGeneralOrderdetailOp.h"
 #import "GetGeneralUnionpayTradenoOp.h"
 #import "OrderPaidSuccessOp.h"
+#import "GetGeneralActivityLefttimeOp.h"
 
 #import <POP.h>
 
@@ -43,23 +44,57 @@
 {
     [super viewDidLoad];
     
-    [self setupUI];
+    self.paychannel = PaymentChannelAlipay;
     
+    [self setupUI];
     [self requestOrderDetail];
 }
 
 - (void)setupUI
 {
+    [self setupPayBtn];
+    [self setupNavigationBar];
+}
+
+- (void)setupNavigationBar
+{
     self.navigationItem.title = @"支付确认";
     
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    self.navigationItem.leftBarButtonItem = back;
+
+}
+
+- (void)setupPayBtn
+{
     @weakify(self)
     [[self.payBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        @strongify(self)
-        [self actionPay];
+        GetGeneralActivityLefttimeOp * lefttimeOp = [[GetGeneralActivityLefttimeOp alloc] init];
+        lefttimeOp.tradeType = self.tradeType;
+        [[[lefttimeOp rac_postRequest] initially:^{
+            
+            [gToast showingWithText:@"支付信息获取中..."];
+        }] subscribeNext:^(GetGeneralActivityLefttimeOp * rop) {
+            
+            [gToast dismiss];
+            if (rop.rsp_lefttime)
+            {
+                @strongify(self)
+                [self actionPay];
+            }
+            else
+            {
+                [gToast showError:@"该活动已结束"];
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
+        } error:^(NSError *error) {
+            
+            [gToast showError:@"该活动已结束"];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }];
     }];
 }
-
 
 - (void)requestOrderDetail
 {
@@ -100,7 +135,9 @@
 }
 
 
-
+- (void)actionBack:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 - (void)actionPay
 {
@@ -117,34 +154,51 @@
         }
     }];
     NSString * tradeno = self.getGeneralOrderdetailOp.tradeNo;
-    NSString * tradetype = self.getGeneralOrderdetailOp.tradeType;
+//    NSString * tradetype = self.getGeneralOrderdetailOp.tradeType;
     CGFloat fee = self.getGeneralOrderdetailOp.rsp_fee;
     NSString * productName = self.getGeneralOrderdetailOp.rsp_prodname;
     NSString * submitTime = [[NSDate date] dateFormatForDT8];
     // 如果是银联支付需要请求服务器得到银联流水号
     if (self.getGeneralOrderdetailOp.rsp_fee)
     {
-        if (self.paychannel == PaymentPlatformTypeUPPay)
+        if (self.paychannel == PaymentChannelUPpay)
         {
             [self requestGetUppayTradenoWithTradeNo:tradeno];
         }
-        else if (self.paychannel == PaymentPlatformTypeAlipay)
+        else if (self.paychannel == PaymentChannelAlipay)
         {
             [self requestAliPay:nil andTradeId:tradeno andPrice:fee andProductName:productName andDescription:productName andTime:submitTime];
         }
-        else if (self.paychannel == PaymentPlatformTypeWeChat)
+        else if (self.paychannel == PaymentChannelWechat)
         {
             [self requestWechatPay:nil andTradeId:tradeno andPrice:fee andProductName:productName andTime:submitTime];
         }
     }
     else
     {
-        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-        ///status 传F(失败),S(成功)
-        NSString * url = [NSString stringWithFormat:@"%@?token=%@&tradeno=%@&tradetype=%@&status=%@",
-                          PayCenterNotifyUrl,gNetworkMgr.token,tradeno,tradetype,@"S"];
-        vc.url = url;
-        [self.navigationController pushViewController:vc animated:YES];
+        @weakify(self)
+        [self dismissViewControllerAnimated:YES completion:^{
+            
+            @strongify(self)
+            [self actionPaySuccess];
+        }];
+    }
+}
+
+- (void)actionPaySuccess
+{
+    if (self.originVc && [self.originVc isKindOfClass:[UINavigationController class]])
+    {
+        UINavigationController * naviVc = (UINavigationController *)self.originVc;
+        NSArray * viewControllers = naviVc.viewControllers;
+        UIViewController * lastVc = [viewControllers safetyObjectAtIndex:viewControllers.count - 1];
+        if ([lastVc isKindOfClass:[DetailWebVC class]])
+        {
+            NSString * url = [NSString stringWithFormat:@"%@?token=%@&tradeno=%@&tradetype=%@&status=%@",
+                              PayCenterNotifyUrl,gNetworkMgr.token,self.tradeNo,self.tradeType,@"S"];
+            DetailWebVC * detailWebVc = (DetailWebVC *)lastVc;
+            [detailWebVc requestUrl:url];
+        }
     }
 }
 
@@ -310,6 +364,8 @@
         }
     }
     
+    boxB.selected = [dict[@"paymentType"] integerValue] == self.paychannel;
+    
     @weakify(boxB)
     [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
@@ -425,17 +481,17 @@
             DebugLog(@"通用订单通知服务器支付成功!");
         }];
         
-        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-        ///status 传F(失败),S(成功)
-        NSString * url = [NSString stringWithFormat:@"%@?token=%@&tradeno=%@&tradetype=%@&status=%@",
-                          PayCenterNotifyUrl,gNetworkMgr.token,self.getGeneralOrderdetailOp.tradeNo,self.getGeneralOrderdetailOp.tradeType,@"S"];
-        vc.url = url;
-        [self.navigationController pushViewController:vc animated:YES];
+        @weakify(self)
+        [self dismissViewControllerAnimated:YES completion:^{
+            
+            @strongify(self)
+            [self actionPaySuccess];
+        }];
         
     } error:^(NSError *error) {
         
         [gToast showError:@"订单支付失败"];
-        [self.navigationController popViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 
@@ -454,17 +510,17 @@
             DebugLog(@"通用订单通知服务器支付成功!");
         }];
         
-        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-        ///status 传F(失败),S(成功)
-        NSString * url = [NSString stringWithFormat:@"%@?token=%@&tradeno=%@&tradetype=%@&status=%@",
-                          PayCenterNotifyUrl,gNetworkMgr.token,self.getGeneralOrderdetailOp.tradeNo,self.getGeneralOrderdetailOp.tradeType,@"S"];
-        vc.url = url;
-        [self.navigationController pushViewController:vc animated:YES];
+        @weakify(self)
+        [self dismissViewControllerAnimated:YES completion:^{
+            
+            @strongify(self)
+            [self actionPaySuccess];
+        }];
         
     } error:^(NSError *error) {
         
         [gToast showError:@"订单支付失败"];
-        [self.navigationController popViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 
@@ -487,16 +543,16 @@
             DebugLog(@"通用订单通知服务器支付成功!");
         }];
         
-        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-        ///status 传F(失败),S(成功)
-        NSString * url = [NSString stringWithFormat:@"%@?token=%@&tradeno=%@&tradetype=%@&status=%@",
-                          PayCenterNotifyUrl,gNetworkMgr.token,self.getGeneralOrderdetailOp.tradeNo,self.getGeneralOrderdetailOp.tradeType,@"S"];
-        vc.url = url;
-        [self.navigationController pushViewController:vc animated:YES];
+        @weakify(self)
+        [self dismissViewControllerAnimated:YES completion:^{
+            
+            @strongify(self)
+            [self actionPaySuccess];
+        }];
     } error:^(NSError *error) {
         
         [gToast showError:@"订单支付失败"];
-        [self.navigationController popViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 

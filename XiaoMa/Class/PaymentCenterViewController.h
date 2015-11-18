@@ -13,4 +13,6 @@
 @property (nonatomic,copy)NSString * tradeNo;
 @property (nonatomic,copy)NSString * tradeType;
 
+@property (nonatomic,strong)UIViewController * originVc;
+
 @end

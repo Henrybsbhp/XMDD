@@ -199,10 +199,13 @@
         {
             NSString * traderNo = params[@"tradeno"];
             NSString * traderType = params[@"tradetype"];
+
             PaymentCenterViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"PaymentCenterViewController"];
             vc.tradeNo = traderNo;
             vc.tradeType = traderType;
-            [self.curNavCtrl pushViewController:vc animated:YES];
+            vc.originVc = self.curNavCtrl;
+            JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
+            [self.curNavCtrl presentViewController:nav animated:YES completion:nil];
         }
     }
     else if ([url hasPrefix:@"http://"] || [url hasPrefix:@"https://"]) {

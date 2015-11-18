@@ -73,6 +73,14 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     });
 }
 
+- (void)requestUrl:(NSString *)url
+{
+    NSURLRequest * urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    CKAsyncMainQueue(^{
+        
+        [self.webView loadRequest:urlRequest];
+    });
+}
 - (void)setupProcessView
 {
     _progressProxy = [[NJKWebViewProgress alloc] init];

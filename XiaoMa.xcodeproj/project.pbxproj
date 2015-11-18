@@ -286,6 +286,7 @@
 		6B5B78171BA7CC6000295B77 /* ProvinceChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5B78161BA7CC6000295B77 /* ProvinceChooseView.m */; };
 		6B5B78191BA7CC7600295B77 /* ProvinceChooseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B5B78181BA7CC7600295B77 /* ProvinceChooseView.xib */; };
 		6B5E0C1A1BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5E0C191BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.m */; };
+		6B5E0C1D1BFC8582002869D7 /* GetGeneralActivityLefttimeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5E0C1C1BFC8582002869D7 /* GetGeneralActivityLefttimeOp.m */; };
 		6B65A76C1B856C9E00439228 /* CouponModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B65A76B1B856C9E00439228 /* CouponModel.m */; };
 		6B71C4221BB959CE0048B79F /* HKPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B71C4211BB959CE0048B79F /* HKPickerVC.m */; };
 		6B747A651AF08C7B00106BFD /* PhoneHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B747A641AF08C7B00106BFD /* PhoneHelper.m */; };
@@ -1013,6 +1014,8 @@
 		6B5B78181BA7CC7600295B77 /* ProvinceChooseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProvinceChooseView.xib; sourceTree = "<group>"; };
 		6B5E0C181BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetGeneralUnionpayTradenoOp.h; path = Class/GetGeneralUnionpayTradenoOp.h; sourceTree = "<group>"; };
 		6B5E0C191BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetGeneralUnionpayTradenoOp.m; path = Class/GetGeneralUnionpayTradenoOp.m; sourceTree = "<group>"; };
+		6B5E0C1B1BFC8582002869D7 /* GetGeneralActivityLefttimeOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetGeneralActivityLefttimeOp.h; path = Class/GetGeneralActivityLefttimeOp.h; sourceTree = "<group>"; };
+		6B5E0C1C1BFC8582002869D7 /* GetGeneralActivityLefttimeOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetGeneralActivityLefttimeOp.m; path = Class/GetGeneralActivityLefttimeOp.m; sourceTree = "<group>"; };
 		6B65A76A1B856C9E00439228 /* CouponModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CouponModel.h; path = Class/CouponModel.h; sourceTree = "<group>"; };
 		6B65A76B1B856C9E00439228 /* CouponModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CouponModel.m; path = Class/CouponModel.m; sourceTree = "<group>"; };
 		6B65DF4F1B1BF99000E54948 /* XiaoMaConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XiaoMaConstants.h; sourceTree = "<group>"; };
@@ -3086,6 +3089,8 @@
 				6B9BF4BB1BF97BCB0046FF48 /* GetGeneralOrderdetailOp.m */,
 				6B5E0C181BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.h */,
 				6B5E0C191BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.m */,
+				6B5E0C1B1BFC8582002869D7 /* GetGeneralActivityLefttimeOp.h */,
+				6B5E0C1C1BFC8582002869D7 /* GetGeneralActivityLefttimeOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -3655,6 +3660,7 @@
 				6BEA56C61AE24DCE000D19C1 /* NSString+SBJSON.m in Sources */,
 				189B30D41AD799AF001D7288 /* RACSignal+Extension.m in Sources */,
 				6BCF62511B184AEF0064AE32 /* NJKWebViewProgressView.m in Sources */,
+				6B5E0C1D1BFC8582002869D7 /* GetGeneralActivityLefttimeOp.m in Sources */,
 				1833F5881BCD373B000E1DA1 /* GasChargeRecord.m in Sources */,
 				6BBB08531B021F440002C349 /* LogAlertView.m in Sources */,
 				1853DEB71AE0B92400C39175 /* AuthByPwdOp.m in Sources */,
