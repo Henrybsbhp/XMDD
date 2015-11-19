@@ -93,6 +93,7 @@
 @property (nonatomic,strong)NSArray * shopCommentArray;
 ///公报
 @property (nonatomic,copy)NSString * announcement;
-
+///评价数量
+@property (nonatomic)NSInteger ratenumber;
 + (instancetype)shopWithJSONResponse:(NSDictionary *)rsp;
 @end
