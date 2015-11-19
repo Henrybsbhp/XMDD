@@ -17,6 +17,7 @@ typedef enum : NSInteger
 @interface UploadFileOp : BaseOp
 @property (nonatomic, assign) UploadFileType req_fileType;
 @property (nonatomic, strong) NSString *req_fileExtType;
+@property (nonatomic, strong) NSString *req_uploadUrl;
 @property (nonatomic, strong) NSArray *req_fileDataArray;
 @property (nonatomic, strong) NSArray *rsp_urlArray;
 @property (nonatomic, strong) NSArray *rsp_idArray;
