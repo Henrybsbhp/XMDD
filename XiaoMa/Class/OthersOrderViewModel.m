@@ -9,6 +9,13 @@
 #import "OthersOrderViewModel.h"
 #import "GetOtherOrderListOp.h"
 #import "NSDate+DateForText.h"
+#import "DetailWebVC.h"
+
+#ifdef DEBUG
+#define OrderDetailsUrl @"http://dev.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 测试地址
+#else
+#define OrderDetailsUrl @"http://www.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 正式地址
+#endif
 
 @interface OthersOrderViewModel ()<HKLoadingModelDelegate>
 
@@ -144,7 +151,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    HKOtherOrder * order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.title = @"订单详情";
+    vc.url = [OrderDetailsUrl stringByAppendingString:[NSString stringWithFormat:@"?token=%@&oid=%ld&tradetype=%@",gNetworkMgr.token ,(long)order.oId, order.tradeType]];
+    [self.targetVC.navigationController pushViewController:vc animated:YES];
 }
 
 @end
