@@ -279,7 +279,7 @@
     }
     NSString * params = [tArray componentsJoinedByString:@"&"];
     
-    if ([url containsString:@"?"])
+    if ([url rangeOfString:@"?"].length)
     {
         rUrlStr  = [NSString stringWithFormat:@"%@&%@",url,params];
     }
