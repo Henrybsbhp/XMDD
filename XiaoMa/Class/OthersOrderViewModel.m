@@ -114,7 +114,7 @@
     UILabel *payedTimeL = (UILabel *)[cell.contentView viewWithTag:4001];
     UILabel *tradeTypeL = (UILabel *)[cell.contentView viewWithTag:4002];
     
-    HKOtherOrder * order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
+    HKOtherOrder * order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     nameL.text = order.prodName;
     [iconV setImageByUrl:order.prodLogo withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
     descL.text = order.prodDesc;
