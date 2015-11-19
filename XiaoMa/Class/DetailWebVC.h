@@ -13,4 +13,6 @@
 @property (nonatomic, weak) UIViewController *originVC;
 @property (nonatomic,copy)NSString *url;
 
+- (void)requestUrl:(NSString *)url;
+
 @end

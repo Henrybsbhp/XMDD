@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSString *picurl;
 @property (nonatomic, assign) BOOL fullscreen;
 @property (nonatomic, assign) NSInteger weight;
+@property (nonatomic, copy) NSString * url;
 
 + (instancetype)launchInfoWithJSONResponse:(NSDictionary *)rsp;
 - (NSString *)croppedPicUrl;

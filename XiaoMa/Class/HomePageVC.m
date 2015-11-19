@@ -32,6 +32,7 @@
 #import "InsuranceDetailPlanVC.h"
 #import "GasVC.h"
 #import "PaymentSuccessVC.h"
+#import "PaymentCenterViewController.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 
