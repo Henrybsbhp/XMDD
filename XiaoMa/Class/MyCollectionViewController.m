@@ -376,6 +376,7 @@
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
     UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
+    UILabel *commentNumL = (UILabel *)[cell.contentView viewWithTag:1008];
     
     [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0]
                 withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
@@ -384,6 +385,14 @@
     ratingV.ratingValue = shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
     addrL.text = shop.shopAddress;
+    if (shop.ratenumber)
+    {
+        commentNumL.text = [NSString stringWithFormat:@"%ld", (long)shop.ratenumber];
+    }
+    else
+    {
+        commentNumL.text = [NSString stringWithFormat:@"暂无"];
+    }
     
     [statusL makeCornerRadius:3];
     statusL.font = [UIFont boldSystemFontOfSize:11];
@@ -427,6 +436,7 @@
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
     UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
+    UILabel *commentNumL = (UILabel *)[cell.contentView viewWithTag:1008];
     
     UIButton * checkBtn = (UIButton *)[cell searchViewWithTag:3003];
     
@@ -437,6 +447,14 @@
     ratingV.ratingValue = shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
     addrL.text = shop.shopAddress;
+    if (shop.ratenumber)
+    {
+        commentNumL.text = [NSString stringWithFormat:@"%ld", (long)shop.ratenumber];
+    }
+    else
+    {
+        commentNumL.text = [NSString stringWithFormat:@"暂无"];
+    }
     
     [statusL makeCornerRadius:3];
     statusL.font = [UIFont boldSystemFontOfSize:11];

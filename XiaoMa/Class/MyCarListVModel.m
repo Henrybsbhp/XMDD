@@ -16,7 +16,7 @@
     NSString *desc;
     switch (car.status) {
         case 1:
-            desc = @"行驶证已提交审核";
+            desc = @"行驶证已提交审核 \n一般一个工作日内审核完毕";
             break;
         case 2:
             desc = @"车辆已通过认证";

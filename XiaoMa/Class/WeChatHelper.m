@@ -66,6 +66,8 @@
         else if (resp.errCode == WXErrCodeUserCancel) {
             return [RACSignal empty];
         }
+        
+        
         return [RACSignal error:[NSError errorWithDomain:@"微信支付失败" code:resp.errCode userInfo:nil]];
     }];
     return sig;
