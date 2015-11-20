@@ -90,7 +90,7 @@
             }
         } error:^(NSError *error) {
             
-            [gToast showError:@"该活动已结束"];
+            [gToast showError:error.domain];
             [self dismissViewControllerAnimated:YES completion:nil];
         }];
     }];
@@ -124,13 +124,8 @@
         self.bottomBtn.hidden = YES;
         [gToast dismissInView:self.view];
         
-        @weakify(self)
-        [self.view showDefaultEmptyViewWithText:@"订单信息获取失败，点击重试" centerOffset:0 tapBlock:^{
-            
-            @strongify(self)
-            [self.view hideDefaultEmptyView];
-            [self requestOrderDetail];
-        }];
+        [gToast showError:error.domain];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 
@@ -472,7 +467,7 @@
     PaymentHelper *helper = [[PaymentHelper alloc] init];
     [helper resetForAlipayWithTradeNumber:tradeId productName:name productDescription:desc price:price];
     
-    [[helper rac_startPay] subscribeNext:^(id x) {
+    [[helper rac_startPay2] subscribeNext:^(id x) {
         
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 4;
@@ -490,7 +485,6 @@
         
     } error:^(NSError *error) {
         
-        [gToast showError:@"订单支付失败"];
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
@@ -501,7 +495,7 @@
 {
     PaymentHelper *helper = [[PaymentHelper alloc] init];
     [helper resetForWeChatWithTradeNumber:tradeId productName:name price:price];
-    [[helper rac_startPay] subscribeNext:^(NSString * info) {
+    [[helper rac_startPay2] subscribeNext:^(NSString * info) {
         
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 4;
@@ -519,7 +513,6 @@
         
     } error:^(NSError *error) {
         
-        [gToast showError:@"订单支付失败"];
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
@@ -533,7 +526,7 @@
         
         PaymentHelper *helper = [[PaymentHelper alloc] init];
         [helper resetForUPPayWithTradeNumber:rop.rsp_uniontradeno targetVC:self];
-        return [helper rac_startPay];
+        return [helper rac_startPay2];
     }] subscribeNext:^(NSString * uppayTradeNo) {
         
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
@@ -551,7 +544,6 @@
         }];
     } error:^(NSError *error) {
         
-        [gToast showError:@"订单支付失败"];
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
