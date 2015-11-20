@@ -126,19 +126,20 @@
         {
             NSNumber *orderid = value.length > 0 ? @([value integerValue]) : nil;
             NSString * type = params[@"tp"];
-            NSString * url = [OrderDetailsUrl stringByAppendingString:[NSString stringWithFormat:@"?token=%@&oid=%@&tradetype=%@",gNetworkMgr.token ,orderid, type]];
+            NSString * urlStr = [OrderDetailsUrl stringByAppendingString:[NSString stringWithFormat:@"?token=%@&oid=%@&tradetype=%@",gNetworkMgr.token ,orderid, type]];
             
             UIViewController *vc = [self viewControllerByIdentify:@"DetailWebVC" withPrecidate:^BOOL(UIViewController *curvc) {
                 DetailWebVC *vc = (DetailWebVC *)curvc;
-                return [url rangeOfString:vc.url].length;
+                return [urlStr rangeOfString:vc.url].length;
             }];
+            
             if (vc) {
                 [self.curNavCtrl popToViewController:vc animated:YES];
             }
             else {
                 DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
                 vc.title = @"订单详情";
-                vc.url = url;
+                vc.url = urlStr;
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
             flag = YES;
