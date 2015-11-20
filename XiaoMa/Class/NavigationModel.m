@@ -122,6 +122,27 @@
             }
             flag = YES;
         }
+        else if ([@"otho" equalByCaseInsensitive:name] && gAppMgr.myUser)
+        {
+            NSNumber *orderid = value.length > 0 ? @([value integerValue]) : nil;
+            NSString * type = params[@"tp"];
+            NSString * url = [OrderDetailsUrl stringByAppendingString:[NSString stringWithFormat:@"?token=%@&oid=%@&tradetype=%@",gNetworkMgr.token ,orderid, type]];
+            
+            UIViewController *vc = [self viewControllerByIdentify:@"DetailWebVC" withPrecidate:^BOOL(UIViewController *curvc) {
+                DetailWebVC *vc = (DetailWebVC *)curvc;
+                return [url rangeOfString:vc.url].length;
+            }];
+            if (vc) {
+                [self.curNavCtrl popToViewController:vc animated:YES];
+            }
+            else {
+                DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+                vc.title = @"订单详情";
+                vc.url = url;
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+            flag = YES;
+        }
         //礼包
         else if ([@"cpk" equalByCaseInsensitive:name] && gAppMgr.myUser) {
             if (![self popToViewControllerIfNeededByIdentify:@"CouponPkgViewController"]) {
@@ -207,6 +228,7 @@
             JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
             [self.curNavCtrl presentViewController:nav animated:YES completion:nil];
         }
+    
     }
     else if ([url hasPrefix:@"http://"] || [url hasPrefix:@"https://"]) {
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
