@@ -82,18 +82,16 @@
     #define LogUploadUrl @"http://183.129.253.170:18282/log/upload"
 #endif
 
-
+//微信通知web
 #ifdef DEBUG
     #define WECHAT_NOTIFY_URL      @"http://api.dev.xiaomadada.com:8282/paa/weichatpaynotify"
-//    #define WECHAT_NOTIFY_URL      @"http://api.xiaomadada.com:8282/paa/weichatpaynotify"
 #else
     #define WECHAT_NOTIFY_URL      @"http://api.xiaomadada.com:8282/paa/weichatpaynotify"
 #endif
 
-//支付宝相关
+//支付宝通知web
 #ifdef DEBUG
     #define ALIPAY_NOTIFY_URL   @"http://api.dev.xiaomadada.com:8282/paa/alipaynotify"
-//    #define ALIPAY_NOTIFY_URL   @"http://api.xiaomadada.com:8282/paa/alipaynotify"
 #else
     #define ALIPAY_NOTIFY_URL   @"http://api.xiaomadada.com:8282/paa/alipaynotify"
 #endif
