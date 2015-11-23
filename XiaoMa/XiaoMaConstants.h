@@ -76,9 +76,9 @@
 #else
     #define ApiBaseUrl @"https://www.xiaomadada.com/paa/rest/api" //正式
     #define ApiFormalUrl @"https://www.xiaomadada.com/paa/rest/api" //正式
-    #define DiscoverUrl @"http://www.xiaomadada.com/paaweb/general/discoveryload"//发现地址
-    #define PayCenterNotifyUrl @"http://www.xiaomadada.com/paaweb/general/order/paynotify"
-    #define OrderDetailsUrl @"http://www.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 正式地址
+    #define DiscoverUrl @"https://www.xiaomadada.com/paaweb/general/discoveryload"//发现地址
+    #define PayCenterNotifyUrl @"https://www.xiaomadada.com/paaweb/general/order/paynotify"
+    #define OrderDetailsUrl @"https://www.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 正式地址
     #define LogUploadUrl @"http://183.129.253.170:18282/log/upload"
 #endif
 
