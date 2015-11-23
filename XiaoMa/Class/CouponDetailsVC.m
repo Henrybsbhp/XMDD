@@ -57,7 +57,6 @@
             vc.type = 1;
             vc.couponForWashDic = self.couponDic;
             [self.navigationController pushViewController:vc animated:YES];
-
         }];
         
         self.shareBtn.hidden = !gAppMgr.canShareFlag;
