@@ -50,14 +50,21 @@
         [self.shortUseBtn setCornerRadius:5.0f];
         @weakify(self);
         [[self.shortUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-
+            [gToast showingWithoutText];
             @strongify(self);
-            //去洗车
-            CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
-            vc.type = 1;
-            vc.couponForWashDic = self.couponDic;
-            [self.navigationController pushViewController:vc animated:YES];
+            GetCouponDetailsOp * op = [GetCouponDetailsOp operation];
+            op.req_cid = self.couponId;
+            [[op rac_postRequest] subscribeNext:^(id x) {
+                [gToast dismiss];
+                //去洗车
+                CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
+                vc.type = 1 ;
+                vc.couponForWashDic = self.couponDic;
+                [self.navigationController pushViewController:vc animated:YES];
 
+            } error:^(NSError *error) {
+                [gToast showError:error.domain];
+            }];
         }];
         
         self.shareBtn.hidden = !gAppMgr.canShareFlag;
