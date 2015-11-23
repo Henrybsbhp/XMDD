@@ -182,7 +182,7 @@
     vc.subtitle = [NSString stringWithFormat:@"我抢到了%d元洗车代金券，邀您来PK！每周都能领，快去试试手气吧！", (int)self.amount];
     vc.image = [UIImage imageNamed:@"wechat_share_award"];
     vc.webimage = [UIImage imageNamed:@"weibo_share_award"];
-    vc.urlStr = @"http://www.xiaomadada.com/apphtml/weeklycoupon.html";
+    vc.urlStr = kWeeklyCouponUrl;
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
     sheet.shouldCenterVertically = YES;
     [sheet presentAnimated:YES completionHandler:nil];

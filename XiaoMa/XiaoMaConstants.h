@@ -10,6 +10,7 @@
 #define XiaoMa_XiaoMaConstants_h
 #endif
 
+
 #if XMDDENT
 
 ///微信相关
@@ -68,13 +69,13 @@
 //    #define ApiBaseUrl @"http://192.168.1.43:80/paa/rest/api" //智能联调
     #define ApiBaseUrl @"https://dev.xiaomadada.com/paa/rest/api"
     #define ApiFormalUrl @"https://api.xiaomadada.com/paa/rest/api" //正式
-    #define DiscoverUrl @"http://dev.xiaomadada.com/paaweb/general/discoveryload"//发现地址
-    #define PayCenterNotifyUrl @"http://dev.xiaomadada.com/paaweb/general/order/paynotify"
-    #define OrderDetailsUrl @"http://dev.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 测试地址
+    #define DiscoverUrl @"https://dev.xiaomadada.com/paaweb/general/discoveryload"//发现地址
+    #define PayCenterNotifyUrl @"https://dev.xiaomadada.com/paaweb/general/order/paynotify"
+    #define OrderDetailsUrl @"https://dev.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 测试地址
     #define LogUploadUrl @"http://183.129.253.170:18282/log/upload"
 #else
-    #define ApiBaseUrl @"https://api.xiaomadada.com/paa/rest/api" //正式
-    #define ApiFormalUrl @"https://api.xiaomadada.com/paa/rest/api" //正式
+    #define ApiBaseUrl @"https://www.xiaomadada.com/paa/rest/api" //正式
+    #define ApiFormalUrl @"https://www.xiaomadada.com/paa/rest/api" //正式
     #define DiscoverUrl @"http://www.xiaomadada.com/paaweb/general/discoveryload"//发现地址
     #define PayCenterNotifyUrl @"http://www.xiaomadada.com/paaweb/general/order/paynotify"
     #define OrderDetailsUrl @"http://www.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 正式地址

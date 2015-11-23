@@ -103,12 +103,12 @@
                 //去使用
                 if (self.oldType == CouponTypeAgency) {
                     CommissionViewController *cvc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionViewController"];
-                    cvc.url = @"http://www.xiaomadada.com/apphtml/daiban.html";
+                    cvc.url = kAgencyUrl;
                     [self.navigationController pushViewController:cvc animated:YES];
                 }
                 else {
                     RescureViewController *rvc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureViewController"];
-                    rvc.url = @"http://www.xiaomadada.com/apphtml/jiuyuan.html";
+                    rvc.url = kRescureUrl;
                     [self.navigationController pushViewController:rvc animated:YES];
                 }
             }];
