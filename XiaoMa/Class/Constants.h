@@ -110,4 +110,22 @@ typedef enum : NSUInteger {
 
 
 
+/// 相关网页地址
+#define kInsuranceOlineUrl  @"https://www.xiaomadada.com/apphtml/aichebao.html"
+#define kServiceLicenseUrl @"https://www.xiaomadada.com/apphtml/license.html"
+#define kServiceHelpUrl     @"https://www.xiaomadada.com/apphtml/shiyongbangzhu.html"
+#define kAppShareUrl        @"https://www.xiaomadada.com/apphtml/share001.html"
+#define kCZBankLicenseUrl  @"https://www.xiaomadada.com/apphtml/license-czb.html"
+#define kMeizhouliquanUrl    @"https://www.xiaomadada.com/apphtml/meizhouliquan.html"
+#define kGetMoreCouponUrl     @"https://www.xiaomadada.com/apphtml/youhuiquan.html"
+#define kAgencyUrl              @"https://www.xiaomadada.com/apphtml/daiban.html"
+#define kRescureUrl             @"https://www.xiaomadada.com/apphtml/jiuyuan.html"
+#define kAboutCouponPkgUrl      @"https://www.xiaomadada.com/apphtml/guanyulibao.html"
+#define kWeeklyCouponUrl    @"https://www.xiaomadada.com/apphtml/weeklycoupon.html"
+#define kAddGasNoticeUrl    @"https://xiaomadada.com/apphtml/chongzhishuoming.html"
+#define kGasPaymentResultUrl      @"https://www.xiaomadada.com/paaweb/general/appDownload?ch=10002"
+#define kGasLicenseUrl          @"https://xiaomadada.com/apphtml/license-youka.html"
+#define kInsuranceDirectSellingUrl  @"https://www.xiaomadada.com/apphtml/chexianzhixiao.html"
+
+
 #endif

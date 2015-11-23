@@ -34,7 +34,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 }
 
-#pragma mark - 传递用户token
+#pragma mark - registerHandler方法，js需要的事后调用oc
+///传递用户token
 - (void)registerGetToken
 {
     [self.myBridge registerHandler:@"getUserToken" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -50,7 +51,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
-#pragma mark - 获取弱提示弹框内容
+///获取弱提示弹框内容
 - (void)registerToastMsg
 {
     [self.myBridge registerHandler:@"sendToastMsg" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -62,7 +63,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
-#pragma mark - 获取地理位置信息
+///获取地理位置信息
 - (void)registerSetPosition
 {
     [self.myBridge registerHandler:@"getCurrentPosition" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -82,7 +83,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
-#pragma mark - 获取网络状态
+///获取网络状态
 - (void)registerNetworkState
 {
     [self.myBridge registerHandler:@"callForNetworkState" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -108,7 +109,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
-#pragma mark - 拨打电话
+///拨打电话
 - (void)registerCallPhone
 {
     [self.myBridge registerHandler:@"getPhoneCall" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -119,30 +120,39 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
-#pragma mark - 上传图片
+///上传图片
 - (void)uploadImage:(UIViewController *)superVC
 {
     NSMutableDictionary * imgDic = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary * imguploadDic = [[NSMutableDictionary alloc] init];
     [self.myBridge registerHandler:@"selectSingleImage" handler:^(id data, WVJBResponseCallback responseCallback) {
         //存图片ID
         [imgDic addParam:[data stringParamForName:@"imgId"] forName:@"imgId"];
-        [imgDic addParam:[data numberParamForName:@"type"] forName:@"type"];
+        [imguploadDic addParam:[data numberParamForName:@"type"] forName:@"type"];
+        [imguploadDic addParam:[data numberParamForName:@"uploadUrl"] forName:@"uploadUrl"];
         HKImagePicker *picker = [HKImagePicker imagePicker];
         picker.allowsEditing = YES;
         picker.shouldShowBigImage = NO;
         @weakify(self);
         [[[picker rac_pickImageInTargetVC:superVC inView:superVC.navigationController.view] flattenMap:^RACStream *(UIImage *image) {
             
-            NSData *data = UIImageJPEGRepresentation(image, 0.5f);
+            NSData *data = UIImageJPEGRepresentation(image, 0.8f);
             NSString *encodedImageStr = [NSString stringWithFormat:@"data:image/jpeg;base64,%@", [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength]];
+            
+            NSString * dataStr = [imgDic jsonEncodedString];//转json字符串
+            [self.myBridge callHandler:@"singleImageBefore" data:dataStr responseCallback:^(id response) {
+                
+            }];
+            
             //存编码
             [imgDic addParam:encodedImageStr forName:@"imageCodeStr"];
             
             UploadFileOp *op = [UploadFileOp new];
-            op.req_fileType = [imgDic intParamForName:@"type"];
+            op.req_fileType = [imguploadDic intParamForName:@"type"];
             op.req_fileExtType = @"jpg";
+            op.req_uploadUrl = [imguploadDic stringParamForName:@"uploadUrl"];
             [op setFileArray:@[image] withGetDataBlock:^NSData *(UIImage *img) {
-                return UIImageJPEGRepresentation(img, 0.5);
+                return UIImageJPEGRepresentation(img, 1.0);
             }];
             return [op rac_postRequest];
         }] subscribeNext:^(UploadFileOp * rspOp) {
@@ -156,7 +166,9 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             }];
         } error:^(NSError *error) {
             //断网传空
-            [self.myBridge callHandler:@"singleImageBack" data:nil responseCallback:^(id response) {
+            [imgDic addParam:@"" forName:@"imageUrl"];
+            [imgDic addParam:@"" forName:@"imageCodeStr"];
+            [self.myBridge callHandler:@"singleImageBack" data:imgDic responseCallback:^(id response) {
             }];
         }];
         
@@ -164,7 +176,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
-#pragma mark - 点击查看大图
+///点击查看大图
 - (void)registerShowImage
 {
     [self.myBridge registerHandler:@"callShowImage" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -259,6 +271,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         //可能可直接传url
         [[gMediaMgr rac_getImageByUrl:shareDic[@"imgUrl"] withType:ImageURLTypeMedium defaultPic:nil errorPic:nil] subscribeNext:^(id x) {
             vc.image = x;
+        }];
+        [[gMediaMgr rac_getImageByUrl:shareDic[@"imgUrlWb"] withType:ImageURLTypeMedium defaultPic:nil errorPic:nil] subscribeNext:^(id x) {
             vc.webimage = x;
         }];
         vc.urlStr = shareDic[@"linkUrl"];

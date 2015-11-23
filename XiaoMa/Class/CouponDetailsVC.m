@@ -50,14 +50,21 @@
         [self.shortUseBtn setCornerRadius:5.0f];
         @weakify(self);
         [[self.shortUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-
+            [gToast showingWithoutText];
             @strongify(self);
-            //去洗车
-            CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
-            vc.type = 1;
-            vc.couponForWashDic = self.couponDic;
-            [self.navigationController pushViewController:vc animated:YES];
+            GetCouponDetailsOp * op = [GetCouponDetailsOp operation];
+            op.req_cid = self.couponId;
+            [[op rac_postRequest] subscribeNext:^(id x) {
+                [gToast dismiss];
+                //去洗车
+                CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
+                vc.type = 1 ;
+                vc.couponForWashDic = self.couponDic;
+                [self.navigationController pushViewController:vc animated:YES];
 
+            } error:^(NSError *error) {
+                [gToast showError:error.domain];
+            }];
         }];
         
         self.shareBtn.hidden = !gAppMgr.canShareFlag;
@@ -103,12 +110,12 @@
                 //去使用
                 if (self.oldType == CouponTypeAgency) {
                     CommissionViewController *cvc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionViewController"];
-                    cvc.url = @"http://www.xiaomadada.com/apphtml/daiban.html";
+                    cvc.url = kAgencyUrl;
                     [self.navigationController pushViewController:cvc animated:YES];
                 }
                 else {
                     RescureViewController *rvc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureViewController"];
-                    rvc.url = @"http://www.xiaomadada.com/apphtml/jiuyuan.html";
+                    rvc.url = kRescureUrl;
                     [self.navigationController pushViewController:rvc animated:YES];
                 }
             }];

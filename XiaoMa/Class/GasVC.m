@@ -368,7 +368,7 @@
     [MobClick event:@"rp501-12"];
     WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
     vc.title = @"油卡充值服务协议";
-    vc.url = @"http://xiaomadada.com/apphtml/license-youka.html";
+    vc.url = kGasLicenseUrl;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

@@ -87,7 +87,7 @@
     [MobClick event:@"rp004-6"];
     WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
     vc.title = @"服务协议";
-    vc.url = @"http://www.xiaomadada.com/apphtml/license.html";
+    vc.url = kServiceLicenseUrl;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

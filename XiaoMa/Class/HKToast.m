@@ -26,6 +26,11 @@
     return g_toast;
 }
 
+- (void)showingWithoutText
+{
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+}
+
 - (void)showingWithText:(NSString *)test
 {
     [SVProgressHUD showWithStatus:test maskType:SVProgressHUDMaskTypeClear];

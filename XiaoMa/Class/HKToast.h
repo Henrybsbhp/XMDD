@@ -12,6 +12,7 @@
 
 + (instancetype)sharedTosast;
 
+- (void)showingWithoutText;
 - (void)showingWithText:(NSString *)test;
 - (void)showSuccess:(NSString *)success;
 - (void)showError:(NSString *)error;

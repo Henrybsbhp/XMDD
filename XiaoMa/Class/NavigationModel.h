@@ -12,4 +12,6 @@
 @property (nonatomic, strong) UINavigationController *curNavCtrl;
 
 - (BOOL)pushToViewControllerByUrl:(NSString *)url;
+
++ (NSString *)appendStaticParam:(NSString *)url;
 @end

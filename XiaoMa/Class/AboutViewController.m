@@ -228,7 +228,7 @@
     [MobClick event:@"rp322-1"];
     WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
     vc.title = @"服务协议";
-    vc.url = @"http://www.xiaomadada.com/apphtml/license.html";
+    vc.url = kServiceLicenseUrl;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -236,7 +236,7 @@
 {
     WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
     vc.title = @"使用帮助";
-    vc.url = @"http://www.xiaomadada.com/apphtml/shiyongbangzhu.html";
+    vc.url = kServiceHelpUrl;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -249,7 +249,7 @@
     vc.image = [UIImage imageNamed:@"wechat_share_carwash"];
     vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
     //    vc.urlStr = XIAMMAWEB;
-    vc.urlStr = @"http://www.xiaomadada.com/apphtml/share001.html";
+    vc.urlStr = kAppShareUrl;
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
     sheet.shouldCenterVertically = YES;
     [sheet presentAnimated:YES completionHandler:nil];
@@ -283,7 +283,7 @@
     UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"请输入网址" message:@"" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往",nil];
     [av setAlertViewStyle:UIAlertViewStylePlainTextInput];
     UITextField *textField = [av textFieldAtIndex:0];
-    textField.text = @"http://";
+    textField.text = @"https://";
     [av show];
     
     [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {

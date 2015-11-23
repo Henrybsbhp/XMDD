@@ -10,7 +10,6 @@
 #import "BeInterestedInInsuranceOp.h"
 #import "WebVC.h"
 
-#define kInsuranceOlineUrl  @"http://www.xiaomadada.com/apphtml/aichebao.html"
 
 @implementation AiCheBaoInsuranceVC
 

@@ -32,6 +32,7 @@
 #import "InsuranceDetailPlanVC.h"
 #import "GasVC.h"
 #import "PaymentSuccessVC.h"
+#import "PaymentCenterViewController.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 
@@ -564,7 +565,7 @@
 {
     [MobClick event:@"rp101-5"];
     RescureViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureViewController"];
-    vc.url = @"http://www.xiaomadada.com/apphtml/jiuyuan.html";
+    vc.url = kRescureUrl;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -572,7 +573,7 @@
 {
     [MobClick event:@"rp101-6"];
     CommissionViewController *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionViewController"];
-    vc.url = @"http://www.xiaomadada.com/apphtml/daiban.html";
+    vc.url = kAgencyUrl;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
