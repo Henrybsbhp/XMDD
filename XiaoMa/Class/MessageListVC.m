@@ -52,6 +52,7 @@
 - (void)setupTableView
 {
     self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
+    self.loadingModel.isSectionLoadMore = YES;
     [self.loadingModel loadDataForTheFirstTime];
     [self.tableView setShowBottomLoadingView:YES];
 }
@@ -148,7 +149,9 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nest:NO promptView:self.tableView.bottomLoadingView];
+//    [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nest:NO promptView:self.tableView.bottomLoadingView];
+    
+    [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nestItemCount:1 promptView:self.tableView.bottomLoadingView];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

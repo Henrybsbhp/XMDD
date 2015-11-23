@@ -37,7 +37,7 @@
 - (IBAction)helpAction:(id)sender {
     WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
     vc.title = @"每周礼券";
-    vc.url = @"http://www.xiaomadada.com/apphtml/meizhouliquan.html";
+    vc.url = kMeizhouliquanUrl;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
