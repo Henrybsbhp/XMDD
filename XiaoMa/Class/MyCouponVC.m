@@ -152,13 +152,13 @@
 - (IBAction)actionGetMore:(id)sender
 {
     WebVC *vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
-    vc.url = @"http://www.xiaomadada.com/apphtml/youhuiquan.html";
+    vc.url = kGetMoreCouponUrl;
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)getMoreAction:(id)sender {
     [MobClick event:@"rp304-6"];
     WebVC *vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
-    vc.url = @"http://xiaomadada.com/apphtml/couponpkg.html?jump=t";
+    vc.url = ADDEFINEWEB;
     [self.navigationController pushViewController:vc animated:YES];
 }
 @end

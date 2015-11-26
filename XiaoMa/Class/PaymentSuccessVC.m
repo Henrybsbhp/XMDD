@@ -131,7 +131,7 @@
     vc.image = [UIImage imageNamed:@"wechat_share_carwash"];
     vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
 //    vc.urlStr = XIAMMAWEB;
-    vc.urlStr = @"http://www.xiaomadada.com/apphtml/share001.html";
+    vc.urlStr = kAppShareUrl;
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
     sheet.shouldCenterVertically = YES;
     [sheet presentAnimated:YES completionHandler:nil];
