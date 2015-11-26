@@ -11,10 +11,12 @@
 #import "FeedbackVC.h"
 #import "WebVC.h"
 #import "SocialShareViewController.h"
+#import "JoinUsViewController.h"
 
 @interface AboutViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *versionLb;
+- (IBAction)joinAction:(id)sender;
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
 
 @property (nonatomic,strong)NSArray * datasource;
@@ -304,4 +306,8 @@
     gAppMgr.isSwitchToFormalSurrounding = !gAppMgr.isSwitchToFormalSurrounding;
 }
 
+- (IBAction)joinAction:(id)sender {
+    JoinUsViewController * vc = [UIStoryboard vcWithId:@"JoinUsViewController" inStoryboard:@"About"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 @end
