@@ -30,6 +30,7 @@
 #import "HKAdvertisement.h"
 #import "LaunchVC.h"
 #import "HKLaunchManager.h"
+#import "FMDeviceManager.h"
 
 #define RequestWeatherInfoInterval 60 * 10
 //#define RequestWeatherInfoInterval 5
@@ -89,9 +90,34 @@
     [self setupLaunchManager];
     [self setupRootView];
     
+    //设置同盾
+    [self setFMDeviceManager];
+    
     return YES;
 }
 
+- (void)setFMDeviceManager {
+    // 获取设备管理器实例
+    FMDeviceManager_t *manager = [FMDeviceManager sharedManager];
+    
+    // 准备SDK初始化参数
+    NSMutableDictionary *options = [NSMutableDictionary dictionary];
+    
+    // SDK具有防调试功能，当使用xcode运行时，请取消此行注释，开启调试模式
+    // 否则使用xcode运行会闪退，(但直接在设备上点APP图标可以正常运行)
+    // 上线Appstore的版本，请记得删除此行，否则将失去防调试防护功能！
+    [options setValue:@"allowd" forKey:@"allowd"];  // TODO
+    
+    // 指定对接同盾的测试环境，正式上线时，请删除或者注释掉此行代码，切换到同盾生产环境
+#ifdef DEBUG
+    [options setValue:@"sandbox" forKey:@"env"]; // TODO
+#endif
+    // 指定合作方标识
+    [options setValue:@"xiaomadada" forKey:@"partner"];
+    
+    // 使用上述参数进行SDK初始化
+    manager->initWithOptions(options);
+}
 #pragma mark - Initialize
 - (void)setupLaunchManager
 {
