@@ -12,6 +12,8 @@
 #import "WebVC.h"
 #import "SocialShareViewController.h"
 #import "JoinUsViewController.h"
+#import "GetShareButtonOp.h"
+#import "ShareResponeManager.h"
 
 @interface AboutViewController ()
 
@@ -245,25 +247,56 @@
 - (void) shareApp
 {
     [MobClick event:@"rp110-1"];
-    SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-    vc.tt = @"小马达达——一分钱洗车";
-    vc.subtitle = @"我正在使用1分钱洗车，洗车超便宜，你也来试试吧！";
-    vc.image = [UIImage imageNamed:@"wechat_share_carwash"];
-    vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
-    //    vc.urlStr = XIAMMAWEB;
-    vc.urlStr = kAppShareUrl;
-    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
-    sheet.shouldCenterVertically = YES;
-    [sheet presentAnimated:YES completionHandler:nil];
     
-    [vc setFinishAction:^{
+    GetShareButtonOp * op = [GetShareButtonOp operation];
+    op.pagePosition = ShareSceneAbout;
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
         
-        [sheet dismissAnimated:YES completionHandler:nil];
-    }];
-    
-    [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        [MobClick event:@"rp110-7"];
-        [sheet dismissAnimated:YES completionHandler:nil];
+        SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+        vc.sceneType = ShareSceneAbout;    //页面位置
+        vc.btnTypeArr = op.rsp_shareBtns;  //分享渠道数组
+        
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            [MobClick event:@"rp110-7"];
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
+        [[ShareResponeManager init] setFinishAction:^ (NSInteger code){
+            DebugLog(@"code:%ld!", (long)code);
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        [[ShareResponeManagerForQQ init] setFinishAction:^ (NSString * code){
+            DebugLog(@"code:%@!", code);
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+    } error:^(NSError *error) {
+        
+        //调试
+        SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+        vc.sceneType = ShareSceneAbout;    //页面位置
+        vc.btnTypeArr = @[@1, @2, @3, @4]; //分享渠道数组
+        
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            [MobClick event:@"rp110-7"];
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
+        [[ShareResponeManager init] setFinishAction:^ (NSInteger code){
+            DebugLog(@"code:%ld!", (long)code);
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        [[ShareResponeManagerForQQ init] setFinishAction:^ (NSString * code){
+            DebugLog(@"code:%@!", code);
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
     }];
 }
 

@@ -114,12 +114,14 @@
     op.req_province = self.hkLocation.state;
     op.req_city = self.hkLocation.city;
     op.req_district = self.hkLocation.district;
+    @weakify(self)
     [[op rac_postRequest] subscribeNext:^(id x) {
+        @strongify(self)
         JoinResultViewController * vc = [UIStoryboard vcWithId:@"JoinResultViewController" inStoryboard:@"About"];
         vc.phone = self.phoneField.text;
         vc.name = self.nameField.text;
         vc.address = [NSString stringWithFormat:@"%@省%@市%@", self.hkLocation.state, self.hkLocation.city, self.hkLocation.district];
-        [self.navigationController pushViewController:vc animated:YES];
+        //[self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         [gToast showError:error.domain];
     }];
@@ -139,4 +141,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc {
+    DebugLog(@"dealloc~~");
+}
 @end

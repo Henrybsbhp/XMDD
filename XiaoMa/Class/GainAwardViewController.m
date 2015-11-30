@@ -9,6 +9,8 @@
 #import "GainAwardViewController.h"
 #import "GainUserAwardOp.h"
 #import "GainedViewController.h"
+#import "AwardShareSheetVC.h"
+#import "SocialShareViewController.h"
 
 @interface GainAwardViewController ()
 
@@ -127,6 +129,24 @@
     }] subscribeNext:^(GainUserAwardOp * op) {
         
         [gToast dismiss];
+        
+        AwardShareSheetVC * sheetVC = [awardStoryboard instantiateViewControllerWithIdentifier:@"AwardShareSheetVC"];
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(300, 400) viewController:sheetVC];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [[sheetVC.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+                [self shareAciton];
+            }];
+        }];
+        
+        [[sheetVC.closeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
         GainedViewController * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"GainedViewController"];
         vc.amount = op.rsp_amount;
         vc.tip = op.rsp_tip;
@@ -138,6 +158,25 @@
     }];
 }
 
-
+- (void)shareAciton {
+    SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+    vc.tt = @"分享标题";
+    vc.subtitle = @"分享内容";
+    vc.image = [UIImage imageNamed:@"wechat_share_coupon"];
+    vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
+    vc.urlStr = @"www.baidu.com";
+    MZFormSheetController *shareSheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+    shareSheet.shouldCenterVertically = YES;
+    [shareSheet presentAnimated:YES completionHandler:nil];
+    
+    [vc setFinishAction:^{
+        [shareSheet dismissAnimated:YES completionHandler:nil];
+    }];
+    
+    [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        [MobClick event:@"rp110-7"];
+        [shareSheet dismissAnimated:YES completionHandler:nil];
+    }];
+}
 
 @end

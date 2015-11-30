@@ -7,15 +7,16 @@
 //
 
 #import "SocialShareViewController.h"
-
 #import <TencentOpenAPI.framework/Headers/QQApiInterface.h>
 #import <TencentOpenAPI.framework/Headers/QQApiInterfaceObject.h>
+#import "GetShareDetailOp.h"
 
 typedef void(^FinishBlock)(void);
+typedef void(^callBackAction)(BOOL isSuccess);
 
 @interface SocialShareViewController ()
 
-@property (nonatomic,weak)FinishBlock block;
+@property (nonatomic, weak)FinishBlock block;
 
 @end
 
@@ -34,44 +35,121 @@ typedef void(^FinishBlock)(void);
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.wechatBtn.enabled = NO;
+    self.timelineBtn.enabled = NO;
+    self.weiboBtn.enabled = NO;
+    self.qqBtn.enabled = NO;
+    DebugLog(@"button:%@", self.btnTypeArr[0]);
+    for (int i = 0; i < self.btnTypeArr.count; i++) {
+        ShareButtonType btnType = [self.btnTypeArr[i] intValue];
+        if (btnType == ShareButtonWechat) {
+            self.wechatBtn.enabled = YES;
+        }
+        if (btnType == ShareButtonTimeLine) {
+            self.timelineBtn.enabled = YES;
+        }
+        if (btnType == ShareButtonWeibo) {
+            self.weiboBtn.enabled = YES;
+        }
+        if (btnType == ShareButtonQQFriend) {
+            self.qqBtn.enabled = YES;
+        }
+    }
+    
     [[_wechatBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [MobClick event:@"rp110-3"];
-        [self shareWechat];
-        if (self.finishAction)
-        {
-            self.finishAction();
-        }
+        
+        GetShareDetailOp * op = [GetShareDetailOp operation];
+        op.pagePosition = self.sceneType;
+        op.buttonId = ShareButtonWechat;
+        @weakify(self);
+        [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
+            
+            @strongify(self);
+            self.tt = @"标题";
+            self.subtitle = @"这是描述";
+            self.urlStr = @"www.baidu.com";
+            [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:nil errorPic:nil] subscribeNext:^(id x) {
+                self.image = x;
+            }];
+            
+            [self shareWechat];
+        } error:^(NSError *error) {
+            
+        }];
     }];
     
-    [[_timelineBrn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+    [[_timelineBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [MobClick event:@"rp110-4"];
-        [self shareTimeline];
-        if (self.finishAction)
-        {
-            self.finishAction();
-        }
+        
+        GetShareDetailOp * op = [GetShareDetailOp operation];
+        op.pagePosition = self.sceneType;
+        op.buttonId = ShareButtonTimeLine;
+        @weakify(self);
+        [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
+            
+            @strongify(self);
+            self.tt = @"标题";
+            self.subtitle = @"这是描述";
+            self.urlStr = @"www.baidu.com";
+            [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:nil errorPic:nil] subscribeNext:^(id x) {
+                self.image = x;
+            }];
+            
+            [self shareTimeline];
+        } error:^(NSError *error) {
+            
+        }];
     }];
     
     [[_weiboBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [MobClick event:@"rp110-5"];
-        [self shareWeibo];
-        if (self.finishAction)
-        {
-            self.finishAction();
-        }
+        
+        GetShareDetailOp * op = [GetShareDetailOp operation];
+        op.pagePosition = self.sceneType;
+        op.buttonId = ShareButtonWeibo;
+        @weakify(self);
+        [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
+            
+            @strongify(self);
+            self.tt = @"标题";
+            self.subtitle = @"这是描述";
+            self.urlStr = @"www.baidu.com";
+            [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"award_element1" errorPic:nil] subscribeNext:^(id x) {
+                self.webimage = x;
+            }];
+            
+            [self shareWeibo];
+        } error:^(NSError *error) {
+            
+        }];
     }];
     
     [[_qqBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [MobClick event:@"rp110-6"];
-        [self shareQQ];
-        if (self.finishAction)
-        {
-            self.finishAction();
-        }
+        
+        GetShareDetailOp * op = [GetShareDetailOp operation];
+        op.pagePosition = self.sceneType;
+        op.buttonId = ShareButtonQQFriend;
+        @weakify(self);
+        [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
+            
+            @strongify(self);
+            self.tt = @"标题";
+            self.subtitle = @"这是描述";
+            self.urlStr = @"www.baidu.com";
+            [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:nil errorPic:nil] subscribeNext:^(id x) {
+                self.image = x;
+            }];
+            
+            [self shareQQ];
+        } error:^(NSError *error) {
+            
+        }];
     }];
 }
 
@@ -84,7 +162,6 @@ typedef void(^FinishBlock)(void);
 {
     DebugLog(@"SocialShareViewController dealloc ~~~");
 }
-
 
 - (void)shareWechat
 {
@@ -163,50 +240,6 @@ typedef void(^FinishBlock)(void);
     [WXApi sendReq:req];
 }
 
-#pragma mark - WeChat Delegate
-- (void)onReq:(BaseReq *)req
-{
-    
-}
-
-- (void)onResp:(BaseResp *)resp
-{
-    NSString * msg = @"";
-    [_rac_dismissSignal sendNext:@"dismiss"];
-    if([resp isKindOfClass:[SendMessageToWXResp class]])
-    {
-        if (resp.errCode == WXSuccess)
-        {
-            msg = @"分享成功";
-            [gToast showSuccess:msg];
-        }
-        else if(resp.errCode == WXErrCodeCommon)
-        {
-            msg = @"分享失败，请重试";
-            [gToast showSuccess:msg];
-        }
-        else if(resp.errCode == WXErrCodeUserCancel)
-        {
-            // 用户取消
-            return;
-        }
-        else if(resp.errCode == WXErrCodeSentFail)
-        {
-            msg = @"分享失败，请重试";
-            [gToast showError:msg];
-        }
-        else if(resp.errCode == WXErrCodeAuthDeny)
-        {
-            msg = @"授权失败，请重试";
-            [gToast showError:msg];
-        }
-        else if(resp.errCode == WXErrCodeUnsupport)
-        {
-            msg = @"内容微信不支持";
-            [gToast showError:msg];
-        }
-    }
-}
 
 #pragma mark - Weibo Delegate
 

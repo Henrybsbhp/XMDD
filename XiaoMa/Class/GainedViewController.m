@@ -112,7 +112,7 @@
     UIImageView * usedView = (UIImageView *)[cell searchViewWithTag:20303];
     UIButton * checkCouponBtn = (UIButton *)[cell searchViewWithTag:104];
     UIButton * shareBtn = (UIButton *)[cell searchViewWithTag:105];
-    UILabel * noteLb = (UILabel *)[cell searchViewWithTag:106];
+    //UILabel * noteLb = (UILabel *)[cell searchViewWithTag:106];
     
     NSInteger deviceWidth = (NSInteger)[[UIScreen mainScreen] bounds].size.width;
     NSString * imageName = [NSString stringWithFormat:@"award_bg_%ld",(long)deviceWidth];
@@ -188,7 +188,6 @@
     [sheet presentAnimated:YES completionHandler:nil];
     
     [vc setFinishAction:^{
-        
         [sheet dismissAnimated:YES completionHandler:nil];
     }];
     
