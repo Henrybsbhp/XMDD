@@ -10,4 +10,9 @@
 
 @interface AwardOtherSheetVC : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIButton *carwashBtn;
+@property (weak, nonatomic) IBOutlet UIButton *closeBtn;
+
+@property (nonatomic) BOOL isSuccess;
+
 @end

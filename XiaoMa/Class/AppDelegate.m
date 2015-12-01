@@ -203,31 +203,15 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-//- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
-//{
-//    if ([url.absoluteString hasPrefix:WECHAT_APP_ID]) {
-//        return [WXApi handleOpenURL:url delegate:[ShareResponeManager init]];
-//    }
-//    else if ([url.absoluteString hasPrefix:WEIBO_APP_ID]) {
-//        return [WeiboSDK handleOpenURL:url delegate:[ShareResponeManager init]];
-//    }
-//    //QQ的回调的URL前面包括字段tencent，QQ空间不包括
-//    else if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@", QQ_API_ID]]) {
-//        return [QQApiInterface handleOpenURL:url delegate:[ShareResponeManagerForQQ init]];
-//    }
-//    return YES;
-//}
-
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation
 {
-    if ([url.absoluteString hasPrefix:WECHAT_APP_ID]) {
+    if ([url.absoluteString hasPrefix:WECHAT_APP_ID] || [sourceApplication isEqualToString:WECHAT_APP]) {
         return [WXApi handleOpenURL:url delegate:[ShareResponeManager init]];
     }
-    else if ([url.absoluteString hasPrefix:WEIBO_APP_ID]) {
+    else if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"wb%@", WEIBO_APP_ID]] || [sourceApplication isEqualToString:WEIBO_APP]) {
         return [WeiboSDK handleOpenURL:url delegate:[ShareResponeManager init]];
     }
-    //QQ的回调的URL前面包括字段tencent，QQ空间不包括
-    else if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@", QQ_API_ID]]) {
+    else if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@", QQ_API_ID]] || [sourceApplication isEqualToString:QQ_APP]) {
         return [QQApiInterface handleOpenURL:url delegate:[ShareResponeManagerForQQ init]];
     }
     return YES;

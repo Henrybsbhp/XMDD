@@ -10,6 +10,9 @@
 #import "MyCouponVC.h"
 #import "SocialShareViewController.h"
 #import "UIBarButtonItem+CustomStyle.h"
+#import "ShareResponeManager.h"
+#import "AwardOtherSheetVC.h"
+#import "CarWashTableVC.h"
 
 @interface GainedViewController ()
 
@@ -146,7 +149,7 @@
     [[[shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
-        [self share];
+        [self shareAction];
     }];
     
     return cell;
@@ -174,28 +177,60 @@
     return str;
 }
 
-- (void)share
+- (void)shareAction
 {
     [MobClick event:@"rp402-2"];
     SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-    vc.tt = @"小马达达每周礼券送不停，洗车不用愁！";
-    vc.subtitle = [NSString stringWithFormat:@"我抢到了%d元洗车代金券，邀您来PK！每周都能领，快去试试手气吧！", (int)self.amount];
-    vc.image = [UIImage imageNamed:@"wechat_share_award"];
-    vc.webimage = [UIImage imageNamed:@"weibo_share_award"];
-    vc.urlStr = kWeeklyCouponUrl;
+    vc.sceneType = ShareSceneAbout;    //页面位置
+    vc.btnTypeArr = @[@1, @2, @3, @4]; //分享渠道数组
+    
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
     sheet.shouldCenterVertically = YES;
     [sheet presentAnimated:YES completionHandler:nil];
-    
-    [vc setFinishAction:^{
-        [sheet dismissAnimated:YES completionHandler:nil];
-    }];
     
     [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         [MobClick event:@"rp110-7"];
         [sheet dismissAnimated:YES completionHandler:nil];
     }];
+    
+    [[ShareResponeManager init] setFinishAction:^(NSInteger code){
+        
+        [self handleResultCode:code forSheet:sheet];
+    }];
+    [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code){
+        
+        [self handleResultCode:[code integerValue] forSheet:sheet];
+    }];
 }
 
+- (void)handleResultCode:(NSInteger)code forSheet:(MZFormSheetController *)sheet
+{
+    [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+        
+        AwardOtherSheetVC * otherVC = [awardStoryboard instantiateViewControllerWithIdentifier:@"AwardOtherSheetVC"];
+        if (code == 0) {
+            otherVC.isSuccess = YES;
+        }
+        else {
+            otherVC.isSuccess = NO;
+        }
+        MZFormSheetController *resultSheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(300, 200) viewController:otherVC];
+        resultSheet.shouldCenterVertically = YES;
+        [resultSheet presentAnimated:YES completionHandler:nil];
+        
+        [[otherVC.carwashBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            [resultSheet dismissAnimated:YES completionHandler:nil];
+            CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
+            vc.type = 1;
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
+        
+        [[otherVC.closeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            [resultSheet dismissAnimated:YES completionHandler:nil];
+        }];
+    }];
+}
 
 @end

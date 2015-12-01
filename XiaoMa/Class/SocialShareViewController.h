@@ -13,7 +13,7 @@
 
 #import "WeiboSDK.h"
 
-@interface SocialShareViewController : UIViewController<WeiboSDKDelegate>
+@interface SocialShareViewController : UIViewController
 
 /// 完成分享后的操作
 @property (strong, nonatomic)void(^finishAction)(void);

@@ -70,11 +70,10 @@ typedef void(^callBackAction)(BOOL isSuccess);
             self.tt = @"标题";
             self.subtitle = @"这是描述";
             self.urlStr = @"www.baidu.com";
-            [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:nil errorPic:nil] subscribeNext:^(id x) {
+            [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"award_element1" errorPic:@"award_element1"] subscribeNext:^(UIImage * x) {
                 self.image = x;
+                [self shareWechat];
             }];
-            
-            [self shareWechat];
         } error:^(NSError *error) {
             
         }];
@@ -94,11 +93,10 @@ typedef void(^callBackAction)(BOOL isSuccess);
             self.tt = @"标题";
             self.subtitle = @"这是描述";
             self.urlStr = @"www.baidu.com";
-            [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:nil errorPic:nil] subscribeNext:^(id x) {
+            [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"award_element1" errorPic:@"award_element1"] subscribeNext:^(UIImage * x) {
                 self.image = x;
+                [self shareTimeline];
             }];
-            
-            [self shareTimeline];
         } error:^(NSError *error) {
             
         }];
@@ -118,11 +116,10 @@ typedef void(^callBackAction)(BOOL isSuccess);
             self.tt = @"标题";
             self.subtitle = @"这是描述";
             self.urlStr = @"www.baidu.com";
-            [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"award_element1" errorPic:nil] subscribeNext:^(id x) {
+            [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"award_element1" errorPic:@"award_element1"] subscribeNext:^(UIImage * x) {
                 self.webimage = x;
+                [self shareWeibo];
             }];
-            
-            [self shareWeibo];
         } error:^(NSError *error) {
             
         }];
@@ -142,11 +139,10 @@ typedef void(^callBackAction)(BOOL isSuccess);
             self.tt = @"标题";
             self.subtitle = @"这是描述";
             self.urlStr = @"www.baidu.com";
-            [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:nil errorPic:nil] subscribeNext:^(id x) {
+            [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"award_element1" errorPic:@"award_element1"] subscribeNext:^(UIImage * x) {
                 self.image = x;
+                [self shareQQ];
             }];
-            
-            [self shareQQ];
         } error:^(NSError *error) {
             
         }];
@@ -214,8 +210,6 @@ typedef void(^callBackAction)(BOOL isSuccess);
     [self handleSendResult:sent];
 }
 
-
-
 - (void)shareToWeChat:(NSInteger)scene
             withTitle:(NSString *)title
        andDescription:(NSString *)desc
@@ -239,84 +233,6 @@ typedef void(^callBackAction)(BOOL isSuccess);
     
     [WXApi sendReq:req];
 }
-
-
-#pragma mark - Weibo Delegate
-
-- (void)didReceiveWeiboResponse:(WBBaseResponse *)response
-{
-    NSString * msg = @"";
-    if([response isKindOfClass:[WBSendMessageToWeiboResponse class]])
-    {
-        if (response.statusCode == WeiboSDKResponseStatusCodeSuccess)
-        {
-            msg = @"分享成功";
-            [gToast showSuccess:msg];
-        }
-        else if(response.statusCode == WeiboSDKResponseStatusCodeUserCancel)
-        {
-            msg = @"支持一下，请不要取消";
-            [gToast showError:msg];
-        }
-        else if(response.statusCode == WeiboSDKResponseStatusCodeSentFail)
-        {
-            msg = @"分享失败，请重试";
-            [gToast showError:msg];
-        }
-        else if(response.statusCode == WeiboSDKResponseStatusCodeAuthDeny)
-        {
-            msg = @"授权失败，请重试";
-            [gToast showError:msg];
-        }
-        else if(response.statusCode == WeiboSDKResponseStatusCodeUserCancelInstall)
-        {
-            //            msg = @"支持一下，不要取消";
-            //            [gToast showError:msg duration:1.0f];
-        }
-        else if(response.statusCode == WeiboSDKResponseStatusCodeUnsupport)
-        {
-            msg = @"内容微博不支持";
-            [gToast showError:msg];
-        }
-        else if(response.statusCode == WeiboSDKResponseStatusCodeUnknown)
-        {
-            msg = @"分享失败，请重试";
-            [gToast showError:msg];
-        }
-    }
-}
-
-
-- (void)didReceiveWeiboRequest:(WBBaseRequest *)request
-{
-    //    if ([response isKindOfClass:WBSendMessageToWeiboResponse.class])
-    //    {
-    //        NSString *title = @"发送结果";
-    //        NSString *message = [NSString stringWithFormat:@"响应状态: %d\n响应UserInfo数据: %@\n原请求UserInfo数据: %@",(int)response.statusCode, response.userInfo, response.requestUserInfo];
-    //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-    //                                                        message:message
-    //                                                       delegate:nil
-    //                                              cancelButtonTitle:@"确定"
-    //                                              otherButtonTitles:nil];
-    //        [alert show];
-    //    }
-    //    else if ([response isKindOfClass:WBAuthorizeResponse.class])
-    //    {
-    //        NSString *title = @"认证结果";
-    //        NSString *message = [NSString stringWithFormat:@"响应状态: %d\nresponse.userId: %@\nresponse.accessToken: %@\n响应UserInfo数据: %@\n原请求UserInfo数据: %@",(int)response.statusCode,[(WBAuthorizeResponse *)response userID], [(WBAuthorizeResponse *)response accessToken], response.userInfo, response.requestUserInfo];
-    //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-    //                                                        message:message
-    //                                                       delegate:nil
-    //                                              cancelButtonTitle:@"确定"
-    //                                              otherButtonTitles:nil];
-    //
-    //        self.wbtoken = [(WBAuthorizeResponse *)response accessToken];
-    //
-    //        [alert show];
-    //    }
-}
-
-
 
 #pragma mark - QQ
 - (void)handleSendResult:(QQApiSendResultCode)sendResult
@@ -357,6 +273,5 @@ typedef void(^callBackAction)(BOOL isSuccess);
         }
     }
 }
-
 
 @end
