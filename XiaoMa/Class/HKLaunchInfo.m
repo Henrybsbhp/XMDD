@@ -20,7 +20,7 @@
     info.picurl = rsp[@"pic"];
     info.fullscreen = [rsp[@"fullscreen"] integerValue] == 1;
     info.weight = [rsp[@"weight"] integerValue];
-    
+    info.url = [rsp stringParamForName:@"url"];
     return info;
 }
 

@@ -57,6 +57,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.view.backgroundColor = [UIColor colorWithHex:@"#f4f4f4" alpha:1.0f];
+    self.webView.backgroundColor = [UIColor colorWithHex:@"#f4f4f4" alpha:1.0f];
     self.navModel.curNavCtrl = self.navigationController;
     
     [self setupProcessView];
@@ -73,6 +75,14 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     });
 }
 
+- (void)requestUrl:(NSString *)url
+{
+    NSURLRequest * urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    CKAsyncMainQueue(^{
+        
+        [self.webView loadRequest:urlRequest];
+    });
+}
 - (void)setupProcessView
 {
     _progressProxy = [[NJKWebViewProgress alloc] init];

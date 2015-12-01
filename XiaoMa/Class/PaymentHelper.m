@@ -45,6 +45,28 @@
     _targetVC = tvc;
 }
 
+- (RACSignal *)rac_startPay2
+{
+    RACSubject *subject = [RACSubject subject];
+    __block BOOL success = NO;
+    [[self rac_startPay] subscribeNext:^(id x) {
+        success = YES;
+        [subject sendNext:x];
+    } error:^(NSError *error) {
+        success = YES;
+        [subject sendError:error];
+    } completed:^{
+        if (!success) {
+            [subject sendError:[NSError errorWithDomain:@"订单取消" code:333 userInfo:nil]];
+        }
+        else {
+            [subject sendCompleted];
+        }
+    }];
+    return subject;
+}
+
+
 - (RACSignal *)rac_startPay
 {
     RACSignal *signal;

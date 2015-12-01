@@ -76,7 +76,7 @@
         self.resultLabel.text = self.resultTitle ? self.resultTitle : @"恭喜，预约成功 ！";
         self.resultLabel.textColor = [UIColor colorWithHex:@"#fa8585" alpha:1.0f];
         NSString * content = self.resultContent ? self.resultContent :
-            @"工作人员将尽快联系您，为您办理相关保险事宜，请保持手机畅通，谢谢您的信任，请耐心等待！";
+            @"工作人员将在一个工作日内尽快与您联系办理相关保险事宜，请保持手机畅通！";
         self.failureContentLabel.attributedText = [self setLabelContent:content];
         self.shareButton.hidden = YES;
         

@@ -27,6 +27,7 @@
 #import "NSString+RectSize.h"
 #import "CouponDetailsVC.h"
 #import "CarWashTableVC.h"
+#import "SearchViewController.h"
 
 #define kDefaultServieCount     2
 
@@ -69,58 +70,7 @@
         [self.tableView setContentInset:UIEdgeInsetsMake(-20, 0, 0, 0)];
     }
     
-    NSArray * array = self.navigationController.viewControllers;
-    BOOL flag;
-    UIViewController * carwashTableVC;
-    flag = [[array safetyObjectAtIndex:array.count - 3] isKindOfClass:[CouponDetailsVC class]];
-    UIViewController * vc_2 = [array safetyObjectAtIndex:array.count - 2];
-    if ([vc_2 isKindOfClass:[CarWashTableVC class]])
-    {
-        carwashTableVC = vc_2;
-    }
-    @weakify(self);
-    [[self.whiteBackBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
-        @strongify(self)
-        if (flag && self.needPopToFirstCarwashTableVC)
-        {
-            if (carwashTableVC)
-            {
-                UINavigationController * a = [self.tabBarController.viewControllers safetyObjectAtIndex:0];
-                [a pushViewController:carwashTableVC animated:YES];
-                self.tabBarController.selectedIndex = 0;
-            }
-            
-            CKAsyncMainQueue(^{
-                [self.navigationController popToRootViewControllerAnimated:YES];
-            });
-        }
-        else
-        {
-            [self.navigationController popViewControllerAnimated:YES];
-        }
-    }];
-    [[self.greenBackBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
-        @strongify(self)
-        if (flag && self.needPopToFirstCarwashTableVC)
-        {
-            if (carwashTableVC)
-            {
-                UINavigationController * a = [self.tabBarController.viewControllers safetyObjectAtIndex:0];
-                [a pushViewController:carwashTableVC animated:YES];
-                self.tabBarController.selectedIndex = 0;
-            }
-            
-            CKAsyncMainQueue(^{
-                [self.navigationController popToRootViewControllerAnimated:YES];
-            });
-        }
-        else
-        {
-            [self.navigationController popViewControllerAnimated:YES];
-        }
-    }];
+    [self setupUI];
 
     [self setupMyCarList];
     [self headImageView];
@@ -159,10 +109,47 @@
 }
 - (void)dealloc
 {
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
     DebugLog(@"ShopDetailVC Dealloc");
 }
 
 #pragma mark - SetupUI
+- (void)setupUI
+{
+    /// 前2个页面是否是优惠劵详情页面
+    BOOL flag;
+    /// 前1个页面是否是洗车列表页面或者洗车搜索
+    UIViewController * carwashTableVC;
+    
+    NSArray * array = self.navigationController.viewControllers;
+    UIViewController * vc_2 = [array safetyObjectAtIndex:array.count - 2];
+    if ([vc_2 isKindOfClass:[CarWashTableVC class]])
+    {
+        flag = [[array safetyObjectAtIndex:array.count - 3] isKindOfClass:[CouponDetailsVC class]];
+        carwashTableVC = vc_2;
+    }
+    else if ([vc_2 isKindOfClass:[SearchViewController class]])
+    {
+        flag = [[array safetyObjectAtIndex:array.count - 4] isKindOfClass:[CouponDetailsVC class]];
+        carwashTableVC = vc_2;
+    }
+    
+    @weakify(self);
+    [[self.whiteBackBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        @strongify(self)
+        [self actionBack:flag andVC:carwashTableVC];
+        
+    }];
+    [[self.greenBackBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        @strongify(self)
+        [self actionBack:flag andVC:carwashTableVC];
+    }];
+}
+
+
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return  self.titleShow ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
@@ -199,6 +186,47 @@
 }
 
 #pragma mark - Action
+- (void)actionBack:(BOOL)flag andVC:(UIViewController *)carwashTableVC
+{
+    if (flag && self.needPopToFirstCarwashTableVC)
+    {
+        // 是否在navigation队列中
+        UINavigationController * a = [self.tabBarController.viewControllers safetyObjectAtIndex:0];
+        NSArray * vcs = a.viewControllers;
+        NSObject * vc = [vcs firstObjectByFilteringOperatorWithIndex:^BOOL(NSObject * obj, NSUInteger index) {
+            
+            return obj == carwashTableVC;
+        }];
+        if (carwashTableVC)
+        {
+            if (!vc)
+            {
+                [a pushViewController:carwashTableVC animated:YES];
+                self.tabBarController.selectedIndex = 0;
+            }
+            else
+            {
+                CKAsyncMainQueue(^{
+                    
+                    [a popToRootViewControllerAnimated:NO];
+                });
+            }
+        }
+        CKAsyncMainQueue(^{
+            
+            if (!vc)
+            {
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }
+        });
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
+
 - (IBAction)collectionAction:(id)sender {
     [MobClick event:@"rp105-1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self])

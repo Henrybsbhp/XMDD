@@ -213,7 +213,6 @@
 		18D17F7D1B57407900F66F04 /* BindDeviceToken2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F7C1B57407900F66F04 /* BindDeviceToken2Op.m */; };
 		18D17F801B57782800F66F04 /* HKAddressComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F7F1B57782800F66F04 /* HKAddressComponent.m */; };
 		18D17F831B57A3D000F66F04 /* HomePageVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F821B57A3D000F66F04 /* HomePageVModel.m */; };
-		18D17F861B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F851B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m */; };
 		18D475DF1B79E332000FAF1C /* MyBankcardsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D475DE1B79E332000FAF1C /* MyBankcardsModel.m */; };
 		18D475E21B7C3954000FAF1C /* GetUserCouponV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D475E11B7C3954000FAF1C /* GetUserCouponV2Op.m */; };
 		18D475E51B7D9F82000FAF1C /* NSString+PhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D475E41B7D9F82000FAF1C /* NSString+PhoneNumber.m */; };
@@ -252,6 +251,7 @@
 		505E5FD61BD73B9300857819 /* DetailWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FD51BD73B9300857819 /* DetailWebVC.m */; };
 		506008D41B74631800B8761D /* DrawingBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 506008D31B74631800B8761D /* DrawingBoardView.m */; };
 		506008D71B747FED00B8761D /* ResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 506008D61B747FED00B8761D /* ResultVC.m */; };
+		506160BE1BFD76D3003E7F80 /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 506160BD1BFD76D3003E7F80 /* libresolv.9.tbd */; };
 		506A30991B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 506A30981B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.m */; };
 		506A309F1B8F08FC002F1F14 /* InsuranceAppointmentOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 506A309E1B8F08FC002F1F14 /* InsuranceAppointmentOp.m */; };
 		5073810A1BA12A6800B29756 /* CarWashCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 507381091BA12A6800B29756 /* CarWashCouponVModel.m */; };
@@ -269,10 +269,13 @@
 		50B5A2961BD8CC51004E00ED /* MyWebViewBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */; };
 		50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE7C911B6716B500675887 /* SelectScrollView.m */; };
 		50C6BF4D1B7341B800A5E021 /* CardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */; };
+		50DD1BC51BFB019300349A70 /* GetOtherOrderListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BC41BFB019300349A70 /* GetOtherOrderListOp.m */; };
+		50DD1BC81BFB023800349A70 /* HKOtherOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BC71BFB023800349A70 /* HKOtherOrder.m */; };
+		50DD1BCB1BFB093500349A70 /* OthersOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BCA1BFB093500349A70 /* OthersOrderViewModel.m */; };
 		50E9DD161BE201180070F38D /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E9DD151BE201180070F38D /* Reachability.m */; };
 		6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */; };
 		6B086BA71AE4F03800659DB7 /* UIView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA61AE4F03800659DB7 /* UIView+Base.m */; };
-		6B0DB8221BEB277A007BE693 /* GetCarwashOrderListV3Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0DB8211BEB277A007BE693 /* GetCarwashOrderListV3Op.m */; settings = {ASSET_TAGS = (); }; };
+		6B0DB8221BEB277A007BE693 /* GetCarwashOrderListV3Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0DB8211BEB277A007BE693 /* GetCarwashOrderListV3Op.m */; };
 		6B1D93D31B8573A000740628 /* PayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1D93D21B8573A000740628 /* PayModel.m */; };
 		6B21A8961BD49399006D0556 /* GetShopByRangeV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A8951BD49399006D0556 /* GetShopByRangeV2Op.m */; };
 		6B21A8991BD493F8006D0556 /* GetShopByDistanceV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A8981BD493F8006D0556 /* GetShopByDistanceV2Op.m */; };
@@ -283,14 +286,17 @@
 		6B3C67961BAA5ADE002F04C8 /* SystemFastrateGetOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C67951BAA5ADE002F04C8 /* SystemFastrateGetOp.m */; };
 		6B5B78171BA7CC6000295B77 /* ProvinceChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5B78161BA7CC6000295B77 /* ProvinceChooseView.m */; };
 		6B5B78191BA7CC7600295B77 /* ProvinceChooseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B5B78181BA7CC7600295B77 /* ProvinceChooseView.xib */; };
+		6B5E0C1A1BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5E0C191BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.m */; };
+		6B5E0C1D1BFC8582002869D7 /* GetGeneralActivityLefttimeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5E0C1C1BFC8582002869D7 /* GetGeneralActivityLefttimeOp.m */; };
 		6B65A76C1B856C9E00439228 /* CouponModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B65A76B1B856C9E00439228 /* CouponModel.m */; };
 		6B71C4221BB959CE0048B79F /* HKPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B71C4211BB959CE0048B79F /* HKPickerVC.m */; };
 		6B747A651AF08C7B00106BFD /* PhoneHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B747A641AF08C7B00106BFD /* PhoneHelper.m */; };
 		6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B82588F1AF8B37100D5D800 /* CommentListViewController.m */; };
-		6B8D47561BEA03C900706989 /* GetCarwashOrderV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8D47551BEA03C900706989 /* GetCarwashOrderV2Op.m */; settings = {ASSET_TAGS = (); }; };
+		6B8D47561BEA03C900706989 /* GetCarwashOrderV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8D47551BEA03C900706989 /* GetCarwashOrderV2Op.m */; };
 		6B978BFA1B6B643A00A6E7C6 /* HKCoverage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B978BF91B6B643A00A6E7C6 /* HKCoverage.m */; };
 		6B978BFD1B6B68AA00A6E7C6 /* InsuranceCalcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B978BFC1B6B68AA00A6E7C6 /* InsuranceCalcHelper.m */; };
-		6BA2B50D1BAFA04700D015FE /* CheckoutServiceOrderV3Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2B50C1BAFA04700D015FE /* CheckoutServiceOrderV3Op.m */; };
+		6B9BF4B91BF96CAC0046FF48 /* PaymentCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B9BF4B81BF96CAC0046FF48 /* PaymentCenterViewController.m */; };
+		6B9BF4BC1BF97BCB0046FF48 /* GetGeneralOrderdetailOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B9BF4BB1BF97BCB0046FF48 /* GetGeneralOrderdetailOp.m */; };
 		6BAF30181AE67CC800E35E08 /* GetSystemVersionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF30171AE67CC800E35E08 /* GetSystemVersionOp.m */; };
 		6BAF301D1AE6947F00E35E08 /* ClientInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301A1AE6947F00E35E08 /* ClientInfo.m */; };
 		6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301C1AE6947F00E35E08 /* DeviceInfo.m */; };
@@ -416,7 +422,6 @@
 		6BE2BD611AE6408500A69875 /* DownloadOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD601AE6408500A69875 /* DownloadOp.m */; };
 		6BE4CE311AF217BC008E1C19 /* GetUserCouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4CE301AF217BC008E1C19 /* GetUserCouponOp.m */; };
 		6BE4CE341AF21ACA008E1C19 /* AddUserCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4CE331AF21ACA008E1C19 /* AddUserCarOp.m */; };
-		6BEA56451AE2488C000D19C1 /* CheckoutServiceOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56441AE2488C000D19C1 /* CheckoutServiceOrderOp.m */; };
 		6BEA56481AE24D34000D19C1 /* AlipayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56471AE24D34000D19C1 /* AlipayHelper.m */; };
 		6BEA56C01AE24DCE000D19C1 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6BEA564A1AE24DCD000D19C1 /* AlipaySDK.bundle */; };
 		6BEA56C11AE24DCE000D19C1 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEA564B1AE24DCD000D19C1 /* AlipaySDK.framework */; };
@@ -445,6 +450,7 @@
 		6BF392441BD627A900838292 /* GetShopByNameV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF392431BD627A900838292 /* GetShopByNameV2Op.m */; };
 		6BF3925F1BD8935600838292 /* CBAutoScrollLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF3925E1BD8935600838292 /* CBAutoScrollLabel.m */; };
 		6BF7F7311BB39A4100A24A32 /* NSString+Price.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF7F7301BB39A4100A24A32 /* NSString+Price.m */; };
+		6BFA93BB1BF098BB00700F27 /* CheckoutServiceOrderV4Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BFA93BA1BF098BB00700F27 /* CheckoutServiceOrderV4Op.m */; };
 		C23FCAB81AF8B8C900E04BEB /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C23FCAB71AF8B8C900E04BEB /* TencentOpenAPI.framework */; };
 		C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */; };
 		C26489B41AF8A70A00F1E318 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C26489B31AF8A70A00F1E318 /* libiconv.dylib */; };
@@ -871,8 +877,6 @@
 		18D17F7F1B57782800F66F04 /* HKAddressComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKAddressComponent.m; path = Class/HKAddressComponent.m; sourceTree = "<group>"; };
 		18D17F811B57A3D000F66F04 /* HomePageVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageVModel.h; sourceTree = "<group>"; };
 		18D17F821B57A3D000F66F04 /* HomePageVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageVModel.m; sourceTree = "<group>"; };
-		18D17F841B58D0B000F66F04 /* CheckoutServiceOrderV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckoutServiceOrderV2Op.h; path = Class/CheckoutServiceOrderV2Op.h; sourceTree = "<group>"; };
-		18D17F851B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckoutServiceOrderV2Op.m; path = Class/CheckoutServiceOrderV2Op.m; sourceTree = "<group>"; };
 		18D475DD1B79E332000FAF1C /* MyBankcardsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyBankcardsModel.h; path = Class/MyBankcardsModel.h; sourceTree = "<group>"; };
 		18D475DE1B79E332000FAF1C /* MyBankcardsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyBankcardsModel.m; path = Class/MyBankcardsModel.m; sourceTree = "<group>"; };
 		18D475E01B7C3954000FAF1C /* GetUserCouponV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserCouponV2Op.h; path = Class/GetUserCouponV2Op.h; sourceTree = "<group>"; };
@@ -942,6 +946,7 @@
 		506008D31B74631800B8761D /* DrawingBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingBoardView.m; sourceTree = "<group>"; };
 		506008D51B747FED00B8761D /* ResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultVC.h; sourceTree = "<group>"; };
 		506008D61B747FED00B8761D /* ResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultVC.m; sourceTree = "<group>"; };
+		506160BD1BFD76D3003E7F80 /* libresolv.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.9.tbd; path = usr/lib/libresolv.9.tbd; sourceTree = SDKROOT; };
 		506A30971B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetInsuranceOrderDetailsOp.h; path = Class/GetInsuranceOrderDetailsOp.h; sourceTree = "<group>"; };
 		506A30981B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetInsuranceOrderDetailsOp.m; path = Class/GetInsuranceOrderDetailsOp.m; sourceTree = "<group>"; };
 		506A309D1B8F08FC002F1F14 /* InsuranceAppointmentOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InsuranceAppointmentOp.h; path = Class/InsuranceAppointmentOp.h; sourceTree = "<group>"; };
@@ -975,6 +980,12 @@
 		50BE7C911B6716B500675887 /* SelectScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectScrollView.m; path = Class/SelectScrollView.m; sourceTree = "<group>"; };
 		50C6BF4B1B7341B800A5E021 /* CardDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardDetailVC.h; sourceTree = "<group>"; };
 		50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardDetailVC.m; sourceTree = "<group>"; };
+		50DD1BC31BFB019300349A70 /* GetOtherOrderListOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetOtherOrderListOp.h; path = Class/GetOtherOrderListOp.h; sourceTree = "<group>"; };
+		50DD1BC41BFB019300349A70 /* GetOtherOrderListOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetOtherOrderListOp.m; path = Class/GetOtherOrderListOp.m; sourceTree = "<group>"; };
+		50DD1BC61BFB023800349A70 /* HKOtherOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKOtherOrder.h; path = Class/HKOtherOrder.h; sourceTree = "<group>"; };
+		50DD1BC71BFB023800349A70 /* HKOtherOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKOtherOrder.m; path = Class/HKOtherOrder.m; sourceTree = "<group>"; };
+		50DD1BC91BFB093500349A70 /* OthersOrderViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OthersOrderViewModel.h; sourceTree = "<group>"; };
+		50DD1BCA1BFB093500349A70 /* OthersOrderViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OthersOrderViewModel.m; sourceTree = "<group>"; };
 		50E9DD141BE201180070F38D /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		50E9DD151BE201180070F38D /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1003,6 +1014,10 @@
 		6B5B78151BA7CC6000295B77 /* ProvinceChooseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProvinceChooseView.h; sourceTree = "<group>"; };
 		6B5B78161BA7CC6000295B77 /* ProvinceChooseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProvinceChooseView.m; sourceTree = "<group>"; };
 		6B5B78181BA7CC7600295B77 /* ProvinceChooseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProvinceChooseView.xib; sourceTree = "<group>"; };
+		6B5E0C181BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetGeneralUnionpayTradenoOp.h; path = Class/GetGeneralUnionpayTradenoOp.h; sourceTree = "<group>"; };
+		6B5E0C191BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetGeneralUnionpayTradenoOp.m; path = Class/GetGeneralUnionpayTradenoOp.m; sourceTree = "<group>"; };
+		6B5E0C1B1BFC8582002869D7 /* GetGeneralActivityLefttimeOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetGeneralActivityLefttimeOp.h; path = Class/GetGeneralActivityLefttimeOp.h; sourceTree = "<group>"; };
+		6B5E0C1C1BFC8582002869D7 /* GetGeneralActivityLefttimeOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetGeneralActivityLefttimeOp.m; path = Class/GetGeneralActivityLefttimeOp.m; sourceTree = "<group>"; };
 		6B65A76A1B856C9E00439228 /* CouponModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CouponModel.h; path = Class/CouponModel.h; sourceTree = "<group>"; };
 		6B65A76B1B856C9E00439228 /* CouponModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CouponModel.m; path = Class/CouponModel.m; sourceTree = "<group>"; };
 		6B65DF4F1B1BF99000E54948 /* XiaoMaConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XiaoMaConstants.h; sourceTree = "<group>"; };
@@ -1018,8 +1033,10 @@
 		6B978BF91B6B643A00A6E7C6 /* HKCoverage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKCoverage.m; path = Class/HKCoverage.m; sourceTree = "<group>"; };
 		6B978BFB1B6B68AA00A6E7C6 /* InsuranceCalcHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InsuranceCalcHelper.h; path = Class/InsuranceCalcHelper.h; sourceTree = "<group>"; };
 		6B978BFC1B6B68AA00A6E7C6 /* InsuranceCalcHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsuranceCalcHelper.m; path = Class/InsuranceCalcHelper.m; sourceTree = "<group>"; };
-		6BA2B50B1BAFA04700D015FE /* CheckoutServiceOrderV3Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckoutServiceOrderV3Op.h; path = Class/CheckoutServiceOrderV3Op.h; sourceTree = "<group>"; };
-		6BA2B50C1BAFA04700D015FE /* CheckoutServiceOrderV3Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckoutServiceOrderV3Op.m; path = Class/CheckoutServiceOrderV3Op.m; sourceTree = "<group>"; };
+		6B9BF4B71BF96CAC0046FF48 /* PaymentCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentCenterViewController.h; sourceTree = "<group>"; };
+		6B9BF4B81BF96CAC0046FF48 /* PaymentCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentCenterViewController.m; sourceTree = "<group>"; };
+		6B9BF4BA1BF97BCB0046FF48 /* GetGeneralOrderdetailOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetGeneralOrderdetailOp.h; path = Class/GetGeneralOrderdetailOp.h; sourceTree = "<group>"; };
+		6B9BF4BB1BF97BCB0046FF48 /* GetGeneralOrderdetailOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetGeneralOrderdetailOp.m; path = Class/GetGeneralOrderdetailOp.m; sourceTree = "<group>"; };
 		6BAF30161AE67CC800E35E08 /* GetSystemVersionOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemVersionOp.h; path = Class/GetSystemVersionOp.h; sourceTree = "<group>"; };
 		6BAF30171AE67CC800E35E08 /* GetSystemVersionOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemVersionOp.m; path = Class/GetSystemVersionOp.m; sourceTree = "<group>"; };
 		6BAF30191AE6947F00E35E08 /* ClientInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClientInfo.h; path = Class/ClientInfo.h; sourceTree = "<group>"; };
@@ -1249,8 +1266,6 @@
 		6BE4CE301AF217BC008E1C19 /* GetUserCouponOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserCouponOp.m; path = Class/GetUserCouponOp.m; sourceTree = "<group>"; };
 		6BE4CE321AF21ACA008E1C19 /* AddUserCarOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddUserCarOp.h; path = Class/AddUserCarOp.h; sourceTree = "<group>"; };
 		6BE4CE331AF21ACA008E1C19 /* AddUserCarOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddUserCarOp.m; path = Class/AddUserCarOp.m; sourceTree = "<group>"; };
-		6BEA56431AE2488C000D19C1 /* CheckoutServiceOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckoutServiceOrderOp.h; path = Class/CheckoutServiceOrderOp.h; sourceTree = "<group>"; };
-		6BEA56441AE2488C000D19C1 /* CheckoutServiceOrderOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckoutServiceOrderOp.m; path = Class/CheckoutServiceOrderOp.m; sourceTree = "<group>"; };
 		6BEA56461AE24D34000D19C1 /* AlipayHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlipayHelper.h; path = Class/AlipayHelper.h; sourceTree = "<group>"; };
 		6BEA56471AE24D34000D19C1 /* AlipayHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AlipayHelper.m; path = Class/AlipayHelper.m; sourceTree = "<group>"; };
 		6BEA564A1AE24DCD000D19C1 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
@@ -1380,6 +1395,8 @@
 		6BF3925E1BD8935600838292 /* CBAutoScrollLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBAutoScrollLabel.m; sourceTree = "<group>"; };
 		6BF7F72F1BB39A4100A24A32 /* NSString+Price.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Price.h"; path = "Class/NSString+Price.h"; sourceTree = "<group>"; };
 		6BF7F7301BB39A4100A24A32 /* NSString+Price.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Price.m"; path = "Class/NSString+Price.m"; sourceTree = "<group>"; };
+		6BFA93B91BF098BB00700F27 /* CheckoutServiceOrderV4Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckoutServiceOrderV4Op.h; path = Class/CheckoutServiceOrderV4Op.h; sourceTree = "<group>"; };
+		6BFA93BA1BF098BB00700F27 /* CheckoutServiceOrderV4Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckoutServiceOrderV4Op.m; path = Class/CheckoutServiceOrderV4Op.m; sourceTree = "<group>"; };
 		B54A6CD3F3426144CC6768CC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C23FCAB71AF8B8C900E04BEB /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = ../QQSDK/TencentOpenAPI.framework; sourceTree = "<group>"; };
 		C25DF9741AFCA7D3009C4041 /* MyCouponVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCouponVC.h; sourceTree = "<group>"; };
@@ -1393,6 +1410,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				506160BE1BFD76D3003E7F80 /* libresolv.9.tbd in Frameworks */,
 				18E28A171B93E5AF0070E759 /* Security.framework in Frameworks */,
 				18E28A151B93E5A20070E759 /* QuartzCore.framework in Frameworks */,
 				C23FCAB81AF8B8C900E04BEB /* TencentOpenAPI.framework in Frameworks */,
@@ -1791,6 +1809,8 @@
 				186984F11B007FAB000A182A /* HKServiceOrder.m */,
 				186984F61B0098FB000A182A /* HKInsuranceOrder.h */,
 				186984F71B0098FB000A182A /* HKInsuranceOrder.m */,
+				50DD1BC61BFB023800349A70 /* HKOtherOrder.h */,
+				50DD1BC71BFB023800349A70 /* HKOtherOrder.m */,
 				6BB884D81AE0F3CC00EBD8F4 /* HKMyCar.h */,
 				6BB884D91AE0F3CC00EBD8F4 /* HKMyCar.m */,
 				6BE2BD4D1AE6232C00A69875 /* HKAdvertisement.h */,
@@ -1909,6 +1929,8 @@
 				186984E71B005A86000A182A /* CarwashOrderViewModel.m */,
 				186984E91B005A94000A182A /* InsranceOrderViewModel.h */,
 				186984EA1B005A94000A182A /* InsranceOrderViewModel.m */,
+				50DD1BC91BFB093500349A70 /* OthersOrderViewModel.h */,
+				50DD1BCA1BFB093500349A70 /* OthersOrderViewModel.m */,
 			);
 			name = Order;
 			sourceTree = "<group>";
@@ -2301,6 +2323,8 @@
 		189B31001AD7A921001D7288 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				6B9BF4B71BF96CAC0046FF48 /* PaymentCenterViewController.h */,
+				6B9BF4B81BF96CAC0046FF48 /* PaymentCenterViewController.m */,
 				189C69791B734D1E00E56E4A /* ADView */,
 				189B31011AD7A935001D7288 /* DatePickerVC.h */,
 				189B31021AD7A935001D7288 /* DatePickerVC.m */,
@@ -2972,10 +2996,6 @@
 				18039AF41B0C5BCE00264059 /* GetAutomobileModelOp.m */,
 				189B39621AF9E32400B83F1B /* DeleteCarOp.h */,
 				189B39631AF9E32400B83F1B /* DeleteCarOp.m */,
-				6BEA56431AE2488C000D19C1 /* CheckoutServiceOrderOp.h */,
-				6BEA56441AE2488C000D19C1 /* CheckoutServiceOrderOp.m */,
-				18D17F841B58D0B000F66F04 /* CheckoutServiceOrderV2Op.h */,
-				18D17F851B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m */,
 				6B086BA21AE4E19000659DB7 /* GetSystemTipsOp.h */,
 				6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */,
 				187CC95D1AEF6A89004D1F28 /* UpdateInsuranceCalculateOp.h */,
@@ -2990,6 +3010,8 @@
 				6BAF30171AE67CC800E35E08 /* GetSystemVersionOp.m */,
 				186984F31B0098A2000A182A /* GetInsuranceOrderListOp.h */,
 				186984F41B0098A2000A182A /* GetInsuranceOrderListOp.m */,
+				50DD1BC31BFB019300349A70 /* GetOtherOrderListOp.h */,
+				50DD1BC41BFB019300349A70 /* GetOtherOrderListOp.m */,
 				506A30971B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.h */,
 				506A30981B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.m */,
 				506A309D1B8F08FC002F1F14 /* InsuranceAppointmentOp.h */,
@@ -3050,8 +3072,6 @@
 				18B78F581BA9893C0061ECAD /* GetLaunchInfoOp.m */,
 				6B3C67941BAA5ADE002F04C8 /* SystemFastrateGetOp.h */,
 				6B3C67951BAA5ADE002F04C8 /* SystemFastrateGetOp.m */,
-				6BA2B50B1BAFA04700D015FE /* CheckoutServiceOrderV3Op.h */,
-				6BA2B50C1BAFA04700D015FE /* CheckoutServiceOrderV3Op.m */,
 				6B21A8941BD49399006D0556 /* GetShopByRangeV2Op.h */,
 				6B21A8951BD49399006D0556 /* GetShopByRangeV2Op.m */,
 				6B21A8971BD493F8006D0556 /* GetShopByDistanceV2Op.h */,
@@ -3066,6 +3086,14 @@
 				6B8D47551BEA03C900706989 /* GetCarwashOrderV2Op.m */,
 				6B0DB8201BEB277A007BE693 /* GetCarwashOrderListV3Op.h */,
 				6B0DB8211BEB277A007BE693 /* GetCarwashOrderListV3Op.m */,
+				6BFA93B91BF098BB00700F27 /* CheckoutServiceOrderV4Op.h */,
+				6BFA93BA1BF098BB00700F27 /* CheckoutServiceOrderV4Op.m */,
+				6B9BF4BA1BF97BCB0046FF48 /* GetGeneralOrderdetailOp.h */,
+				6B9BF4BB1BF97BCB0046FF48 /* GetGeneralOrderdetailOp.m */,
+				6B5E0C181BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.h */,
+				6B5E0C191BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.m */,
+				6B5E0C1B1BFC8582002869D7 /* GetGeneralActivityLefttimeOp.h */,
+				6B5E0C1C1BFC8582002869D7 /* GetGeneralActivityLefttimeOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -3338,6 +3366,7 @@
 		C8447CD201C36C94165168FF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				506160BD1BFD76D3003E7F80 /* libresolv.9.tbd */,
 				18E28A161B93E5AF0070E759 /* Security.framework */,
 				18E28A141B93E5A20070E759 /* QuartzCore.framework */,
 				6BBBF54B1B291CCA00E1B809 /* Fabric.framework */,
@@ -3578,8 +3607,10 @@
 				189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */,
 				6BDD6E2E1B68B9AE0060CFD0 /* HKFlipDecimalView.m in Sources */,
 				186984F51B0098A2000A182A /* GetInsuranceOrderListOp.m in Sources */,
+				6B9BF4BC1BF97BCB0046FF48 /* GetGeneralOrderdetailOp.m in Sources */,
 				18988CB51BC7B6A6001DECD5 /* InsOrderStore.m in Sources */,
 				6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */,
+				50DD1BCB1BFB093500349A70 /* OthersOrderViewModel.m in Sources */,
 				506008D71B747FED00B8761D /* ResultVC.m in Sources */,
 				1837A7601B72130F0006E6C5 /* SDPhotoBrowser.m in Sources */,
 				18D17F7D1B57407900F66F04 /* BindDeviceToken2Op.m in Sources */,
@@ -3609,6 +3640,7 @@
 				1833F5901BCD373B000E1DA1 /* GetGascardListOp.m in Sources */,
 				6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */,
 				507A4DDF1B74462200E0BF1E /* UnbundlingVC.m in Sources */,
+				6B5E0C1A1BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.m in Sources */,
 				6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */,
 				6BB61BA31AEF7CAE004F39AA /* NSString+RectSize.m in Sources */,
 				18BF42051BD0D5CB0039F210 /* GasCardListVC.m in Sources */,
@@ -3616,6 +3648,7 @@
 				6BBB4C3F1B32790B00C8052E /* WelcomeViewController.m in Sources */,
 				6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */,
 				6BF3925F1BD8935600838292 /* CBAutoScrollLabel.m in Sources */,
+				50DD1BC81BFB023800349A70 /* HKOtherOrder.m in Sources */,
 				6BC3B6191ADF92E7001016A0 /* CommonUtility.m in Sources */,
 				181F6DA61B15919900D38555 /* CXAlertButtonItem.m in Sources */,
 				189B395E1AF9D9F700B83F1B /* UpdateCarOp.m in Sources */,
@@ -3631,6 +3664,7 @@
 				6BEA56C61AE24DCE000D19C1 /* NSString+SBJSON.m in Sources */,
 				189B30D41AD799AF001D7288 /* RACSignal+Extension.m in Sources */,
 				6BCF62511B184AEF0064AE32 /* NJKWebViewProgressView.m in Sources */,
+				6B5E0C1D1BFC8582002869D7 /* GetGeneralActivityLefttimeOp.m in Sources */,
 				1833F5881BCD373B000E1DA1 /* GasChargeRecord.m in Sources */,
 				6BBB08531B021F440002C349 /* LogAlertView.m in Sources */,
 				1853DEB71AE0B92400C39175 /* AuthByPwdOp.m in Sources */,
@@ -3764,7 +3798,6 @@
 				6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */,
 				6BCF62501B184AEF0064AE32 /* NJKWebViewProgress.m in Sources */,
 				189B30B71AD50627001D7288 /* PayForWashCarVC.m in Sources */,
-				18D17F861B58D0B000F66F04 /* CheckoutServiceOrderV2Op.m in Sources */,
 				6BBAB8B61ADBC12D00EC342F /* UpdatePwdOp.m in Sources */,
 				1853DED41AE2A0BD00C39175 /* VcodeLoginVC.m in Sources */,
 				6BB8CB8B1B1416B0007B61B5 /* CommissionViewController.m in Sources */,
@@ -3777,6 +3810,7 @@
 				6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */,
 				18BF420C1BD273C70039F210 /* CKLimitTextField.m in Sources */,
 				18895B361B4CB89000928F62 /* HKPushManager.m in Sources */,
+				6BFA93BB1BF098BB00700F27 /* CheckoutServiceOrderV4Op.m in Sources */,
 				18D475E51B7D9F82000FAF1C /* NSString+PhoneNumber.m in Sources */,
 				6BC3B60F1ADF52CB001016A0 /* BaseMapViewController.m in Sources */,
 				6BDD6E211B67615C0060CFD0 /* JDDateCountdownFlipView.m in Sources */,
@@ -3821,7 +3855,6 @@
 				1851F41E1B0C223A00241A01 /* HKAutoBrand.m in Sources */,
 				6BC3B6121ADF6205001016A0 /* MapHelper.m in Sources */,
 				1837A75F1B72130F0006E6C5 /* SDBrowserImageView.m in Sources */,
-				6BA2B50D1BAFA04700D015FE /* CheckoutServiceOrderV3Op.m in Sources */,
 				6BBF7DA01B004A7A00E45967 /* MyInfoViewController.m in Sources */,
 				6B71C4221BB959CE0048B79F /* HKPickerVC.m in Sources */,
 				6B328ED01B79AAFA00B9F207 /* ChooseBankCardVC.m in Sources */,
@@ -3833,6 +3866,7 @@
 				50E9DD161BE201180070F38D /* Reachability.m in Sources */,
 				181F6D931B15773600D38555 /* BeInterestedInInsuranceOp.m in Sources */,
 				6B65A76C1B856C9E00439228 /* CouponModel.m in Sources */,
+				6B9BF4B91BF96CAC0046FF48 /* PaymentCenterViewController.m in Sources */,
 				18BF41F51BCF6D890039F210 /* PKYStepper.m in Sources */,
 				6BE2BD611AE6408500A69875 /* DownloadOp.m in Sources */,
 				18F8135F1B5F308D005F49B0 /* HKVersionManager.m in Sources */,
@@ -3857,7 +3891,6 @@
 				189B31141ADB60AE001D7288 /* JGActionSheet.m in Sources */,
 				6BBBF55C1B296EE200E1B809 /* GainAwardViewController.m in Sources */,
 				6B21A8961BD49399006D0556 /* GetShopByRangeV2Op.m in Sources */,
-				6BEA56451AE2488C000D19C1 /* CheckoutServiceOrderOp.m in Sources */,
 				6BC3B6151ADF69B5001016A0 /* CarWashNavigationViewController.m in Sources */,
 				187CC95F1AEF6A89004D1F28 /* UpdateInsuranceCalculateOp.m in Sources */,
 				506A30991B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.m in Sources */,
@@ -3891,6 +3924,7 @@
 				18B78F5F1BA990100061ECAD /* HKLaunchManager.m in Sources */,
 				189C698C1B75A2BB00E56E4A /* GetBindCZBVcodeOp.m in Sources */,
 				1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */,
+				50DD1BC51BFB019300349A70 /* GetOtherOrderListOp.m in Sources */,
 				5078E4D21B93FD4000E3B198 /* GetInscouponOp.m in Sources */,
 				18C52C361BA6783500F6C38B /* PictureRecord.m in Sources */,
 				6BD6E29A1B9D7F67001D33E6 /* NSString+Safe.m in Sources */,
@@ -4073,6 +4107,7 @@
 					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/WeiboShareSDK/libWeiboSDK",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/UPPaySDK",
+					"$(PROJECT_DIR)/XiaoMa/Vendor",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -4120,7 +4155,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "49d4298a-4b37-4e47-990c-a2b9eb8e6baa";
+				PROVISIONING_PROFILE = "13b76489-934d-407b-a6e7-2b3f8a44dedd";
 			};
 			name = Debug;
 		};
@@ -4177,6 +4212,7 @@
 					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/WeiboShareSDK/libWeiboSDK",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/UPPaySDK",
+					"$(PROJECT_DIR)/XiaoMa/Vendor",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -4224,7 +4260,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0b097263-ee87-4d3e-a27d-1c4766c784b5";
+				PROVISIONING_PROFILE = "cc38a856-97b2-4d3f-ad97-e106d80dd70c";
 			};
 			name = Release;
 		};

@@ -41,7 +41,7 @@
         NSString *link;
         NSString *agreement;
         if (self.curGasCard.cardtype == 1 || self.curGasCard.cardtype == 2) {
-            link = @"http://xiaomadada.com/apphtml/chongzhishuoming.html";
+            link = kAddGasNoticeUrl;
             agreement = @"《充值服务说明》";
         }
         if (link.length > 0) {
