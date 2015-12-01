@@ -253,6 +253,7 @@
 		504FFE991C05B56D002D7D6D /* area.plist in Resources */ = {isa = PBXBuildFile; fileRef = 504FFE981C05B56D002D7D6D /* area.plist */; };
 		504FFEA21C05D48E002D7D6D /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = 504FFEA11C05D48E002D7D6D /* city.plist */; };
 		504FFEA51C05D4C9002D7D6D /* AreaPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 504FFEA41C05D4C9002D7D6D /* AreaPickerVC.m */; };
+		505358F41C0D79640029B5BA /* SharedNotifyOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 505358F31C0D79640029B5BA /* SharedNotifyOp.m */; };
 		505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */; };
 		505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */; };
 		505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC71BD7356A00857819 /* WebViewJavascriptBridgeBase.m */; };
@@ -962,6 +963,8 @@
 		504FFEA11C05D48E002D7D6D /* city.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = city.plist; sourceTree = "<group>"; };
 		504FFEA31C05D4C9002D7D6D /* AreaPickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaPickerVC.h; sourceTree = "<group>"; };
 		504FFEA41C05D4C9002D7D6D /* AreaPickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreaPickerVC.m; sourceTree = "<group>"; };
+		505358F21C0D79640029B5BA /* SharedNotifyOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SharedNotifyOp.h; path = Class/SharedNotifyOp.h; sourceTree = "<group>"; };
+		505358F31C0D79640029B5BA /* SharedNotifyOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SharedNotifyOp.m; path = Class/SharedNotifyOp.m; sourceTree = "<group>"; };
 		505E5FC31BD7356A00857819 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
 		505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
@@ -3150,6 +3153,8 @@
 				5014B6561C07041B00DFAB18 /* GetShareButtonOp.m */,
 				5014B6581C07043900DFAB18 /* GetShareDetailOp.h */,
 				5014B6591C07043900DFAB18 /* GetShareDetailOp.m */,
+				505358F21C0D79640029B5BA /* SharedNotifyOp.h */,
+				505358F31C0D79640029B5BA /* SharedNotifyOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -3971,6 +3976,7 @@
 				1853DEC81AE0EFD200C39175 /* HKToast.m in Sources */,
 				184E40C31AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m in Sources */,
 				1885F0C31B1C50970056D3BD /* UIView+AddBadgeView.m in Sources */,
+				505358F41C0D79640029B5BA /* SharedNotifyOp.m in Sources */,
 				506A309F1B8F08FC002F1F14 /* InsuranceAppointmentOp.m in Sources */,
 				18863FA21AE8A316005BF4ED /* GetInsuranceByChannelOp.m in Sources */,
 				6B3C67961BAA5ADE002F04C8 /* SystemFastrateGetOp.m in Sources */,

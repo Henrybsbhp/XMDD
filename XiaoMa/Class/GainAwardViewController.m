@@ -14,6 +14,7 @@
 #import "ShareResponeManager.h"
 #import "AwardOtherSheetVC.h"
 #import "CarWashTableVC.h"
+#import "SharedNotifyOp.h"
 
 @interface GainAwardViewController ()
 
@@ -126,10 +127,13 @@
     op.req_province = gMapHelper.addrComponent.province;
     op.req_city = gMapHelper.addrComponent.city;
     op.req_district = gMapHelper.addrComponent.district;
+    @weakify(self);
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"抢红包啦..."];
     }] subscribeNext:^(GainUserAwardOp * op) {
+        
+        @strongify(self);
         
         [gToast dismiss];
         
@@ -175,43 +179,65 @@
         [sheet dismissAnimated:YES completionHandler:nil];
     }];
     
+    @weakify(self)
     [[ShareResponeManager init] setFinishAction:^(NSInteger code){
         
+        @strongify(self);
         [self handleResultCode:code forSheet:sheet];
     }];
     [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code){
         
+        @strongify(self);
         [self handleResultCode:[code integerValue] forSheet:sheet];
     }];
 }
 
 - (void)handleResultCode:(NSInteger)code forSheet:(MZFormSheetController *)sheet
 {
+    @weakify(self)
     [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-        
-        AwardOtherSheetVC * otherVC = [awardStoryboard instantiateViewControllerWithIdentifier:@"AwardOtherSheetVC"];
+        @strongify(self);
         if (code == 0) {
-            otherVC.isSuccess = YES;
+            SharedNotifyOp * op = [SharedNotifyOp operation];
+            [gToast showingWithoutText];
+            [[op rac_postRequest] subscribeNext:^(SharedNotifyOp * op) {
+                
+                [gToast dismiss];
+                if (op.rsp_flag == AwardSheetTypeSuccess) {
+                    [self presentSheet:AwardSheetTypeSuccess];
+                }
+                else {
+                    [self presentSheet:AwardSheetTypeAlreadyget];
+                }
+            } error:^(NSError *error) {
+                [gToast dismiss];
+            }];
         }
         else {
-            otherVC.isSuccess = NO;
+            [self presentSheet:AwardSheetTypeFailure];
         }
-        MZFormSheetController *resultSheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(300, 200) viewController:otherVC];
-        resultSheet.shouldCenterVertically = YES;
-        [resultSheet presentAnimated:YES completionHandler:nil];
+    }];
+}
+
+- (void)presentSheet:(AwardSheetType)type
+{
+    AwardOtherSheetVC * otherVC = [awardStoryboard instantiateViewControllerWithIdentifier:@"AwardOtherSheetVC"];
+    otherVC.sheetType = type;
+    MZFormSheetController *resultSheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(300, 200) viewController:otherVC];
+    resultSheet.shouldCenterVertically = YES;
+    [resultSheet presentAnimated:YES completionHandler:nil];
+    
+    [[otherVC.carwashBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [[otherVC.carwashBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            
-            [resultSheet dismissAnimated:YES completionHandler:nil];
-            CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
-            vc.type = 1;
-            [self.navigationController pushViewController:vc animated:YES];
-        }];
+        [resultSheet dismissAnimated:YES completionHandler:nil];
+        CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
+        vc.type = 1;
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    
+    [[otherVC.closeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [[otherVC.closeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            
-            [resultSheet dismissAnimated:YES completionHandler:nil];
-        }];
+        [resultSheet dismissAnimated:YES completionHandler:nil];
     }];
 }
 

@@ -8,11 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, AwardSheetType) {
+    AwardSheetTypeAlreadyget,  //已经获取过红包
+    AwardSheetTypeSuccess,     //获取红包成功
+    AwardSheetTypeFailure      //获取红包失败
+};
+
 @interface AwardOtherSheetVC : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIButton *carwashBtn;
 @property (weak, nonatomic) IBOutlet UIButton *closeBtn;
 
-@property (nonatomic) BOOL isSuccess;
+@property (nonatomic, assign) AwardSheetType sheetType;
 
 @end

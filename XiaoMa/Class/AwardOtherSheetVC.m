@@ -12,6 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *successView;
 @property (weak, nonatomic) IBOutlet UIView *failureView;
+@property (weak, nonatomic) IBOutlet UIView *alreadygetView;
 
 @end
 
@@ -19,9 +20,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.successView.hidden = !self.isSuccess;
-    self.failureView.hidden = self.isSuccess;
+    if (self.sheetType == AwardSheetTypeSuccess) {
+        self.successView.hidden = NO;
+        self.failureView.hidden = YES;
+        self.alreadygetView.hidden = YES;
+    }
+    else if (self.sheetType == AwardSheetTypeAlreadyget) {
+        self.successView.hidden = YES;
+        self.failureView.hidden = YES;
+        self.alreadygetView.hidden = NO;
+    }
+    else {
+        self.successView.hidden = YES;
+        self.failureView.hidden = NO;
+        self.alreadygetView.hidden = YES;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
