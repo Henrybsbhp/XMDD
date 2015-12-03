@@ -305,6 +305,9 @@
 - (void)setupCrashlytics
 {
     [Fabric with:@[CrashlyticsKit]];
+    
+    Crashlytics * crashlytics = [Crashlytics sharedInstance];
+    
 }
 
 #pragma mark - Utilities

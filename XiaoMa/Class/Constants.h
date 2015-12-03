@@ -98,6 +98,7 @@ typedef enum : NSUInteger {
 #define commissionStoryboard [UIStoryboard storyboardWithName:@"Commission" bundle:nil]
 #define awardStoryboard [UIStoryboard storyboardWithName:@"Award" bundle:nil]
 #define insuranceStoryboard [UIStoryboard storyboardWithName:@"Insurance" bundle:nil]
+#define violationStoryboard [UIStoryboard storyboardWithName:@"Violation" bundle:nil]
 
 #define LocationFail 7001
 #define WechatPayFail 7002
