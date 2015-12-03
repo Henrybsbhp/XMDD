@@ -11,10 +11,14 @@
 #import "FeedbackVC.h"
 #import "WebVC.h"
 #import "SocialShareViewController.h"
+#import "JoinUsViewController.h"
+#import "GetShareButtonOp.h"
+#import "ShareResponeManager.h"
 
 @interface AboutViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *versionLb;
+- (IBAction)joinAction:(id)sender;
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
 
 @property (nonatomic,strong)NSArray * datasource;
@@ -244,31 +248,41 @@
 {
     [MobClick event:@"rp110-1"];
     SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-    vc.tt = @"小马达达——一分钱洗车";
+    vc.sceneType = ShareSceneAbout;
+    vc.btnTypeArr = @[@1, @2, @3, @4];
+    vc.tt = @"小马达达 —— 一分钱洗车";
     vc.subtitle = @"我正在使用1分钱洗车，洗车超便宜，你也来试试吧！";
     vc.image = [UIImage imageNamed:@"wechat_share_carwash"];
     vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
-    //    vc.urlStr = XIAMMAWEB;
     vc.urlStr = kAppShareUrl;
+    
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
     sheet.shouldCenterVertically = YES;
     [sheet presentAnimated:YES completionHandler:nil];
-    
-    [vc setFinishAction:^{
-        
-        [sheet dismissAnimated:YES completionHandler:nil];
-    }];
     
     [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         [MobClick event:@"rp110-7"];
         [sheet dismissAnimated:YES completionHandler:nil];
     }];
+    
+    [vc setClickAction:^{
+        [sheet dismissAnimated:YES completionHandler:nil];
+    }];
+    
+    //单例模式下，不需要处理回调应将单例的block设置为空，否则将执行上次set的block
+    [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
+        
+    }];
+    [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
+        
+    }];
+
 }
 
 - (void)callCustomerService
 {
     [MobClick event:@"rp322-3"];
-    [gPhoneHelper makePhone:@"4007111111" andInfo:@"呼叫客服"];
+    [gPhoneHelper makePhone:@"4007111111" andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
 }
 
 - (void)gotoFeedback
@@ -304,4 +318,8 @@
     gAppMgr.isSwitchToFormalSurrounding = !gAppMgr.isSwitchToFormalSurrounding;
 }
 
+- (IBAction)joinAction:(id)sender {
+    JoinUsViewController * vc = [UIStoryboard vcWithId:@"JoinUsViewController" inStoryboard:@"About"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 @end

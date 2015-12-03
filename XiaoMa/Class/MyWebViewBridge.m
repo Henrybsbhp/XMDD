@@ -11,6 +11,7 @@
 #import "HKImagePicker.h"
 #import "UploadFileOp.h"
 #import "Reachability.h"
+#import "ShareResponeManager.h"
 
 typedef NS_ENUM(NSInteger, MenuItemsType) {
     menuItemsTypeShare                  = 1,
@@ -265,14 +266,15 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [self.myBridge callHandler:@"getShareParamHandler" data:nil responseCallback:^(id response) {
         NSDictionary *shareDic = response;
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+        vc.sceneType = ShareSceneAbout;
+        vc.btnTypeArr = @[@1, @2, @3, @4];
         vc.tt = [shareDic stringParamForName:@"title"];
         vc.subtitle = [shareDic stringParamForName:@"desc"];
         
-        //可能可直接传url
-        [[gMediaMgr rac_getImageByUrl:shareDic[@"imgUrl"] withType:ImageURLTypeMedium defaultPic:nil errorPic:nil] subscribeNext:^(id x) {
+        [[gMediaMgr rac_getImageByUrl:shareDic[@"imgUrl"] withType:ImageURLTypeMedium defaultPic:@"wechat_share_carwash" errorPic:@"wechat_share_carwash"] subscribeNext:^(id x) {
             vc.image = x;
         }];
-        [[gMediaMgr rac_getImageByUrl:shareDic[@"imgUrlWb"] withType:ImageURLTypeMedium defaultPic:nil errorPic:nil] subscribeNext:^(id x) {
+        [[gMediaMgr rac_getImageByUrl:shareDic[@"imgUrlWb"] withType:ImageURLTypeMedium defaultPic:@"wechat_share_carwash" errorPic:@"wechat_share_carwash"] subscribeNext:^(id x) {
             vc.webimage = x;
         }];
         vc.urlStr = shareDic[@"linkUrl"];
@@ -280,14 +282,20 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         sheet.shouldCenterVertically = YES;
         [sheet presentAnimated:YES completionHandler:nil];
         
-        [vc setFinishAction:^{
-            
-            [sheet dismissAnimated:YES completionHandler:nil];
-        }];
-        
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             [MobClick event:@"rp110-7"];
             [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        [vc setClickAction:^{
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
+        //单例模式下，不需要处理回调应将单例的block设置为空，否则将执行上次set的block
+        [[ShareResponeManager init] setFinishAction:^ (NSInteger code, ShareResponseType type){
+            
+        }];
+        [[ShareResponeManagerForQQ init] setFinishAction:^ (NSString * code, ShareResponseType type){
+            
         }];
     }];
 }

@@ -30,6 +30,7 @@
 #import "HKAdvertisement.h"
 #import "LaunchVC.h"
 #import "HKLaunchManager.h"
+#import "ShareResponeManager.h"
 
 #define RequestWeatherInfoInterval 60 * 10
 //#define RequestWeatherInfoInterval 5
@@ -49,6 +50,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
     //设置日志系统
     [self setupLogger];
     //设置错误处理
@@ -205,6 +207,15 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
+    if ([url.absoluteString hasPrefix:WECHAT_APP_ID]) {
+        return [WXApi handleOpenURL:url delegate:[ShareResponeManager init]];
+    }
+    else if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"wb%@", WEIBO_APP_ID]]) {
+        return [WeiboSDK handleOpenURL:url delegate:[ShareResponeManager init]];
+    }
+    else if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@", QQ_API_ID]]) {
+        return [QQApiInterface handleOpenURL:url delegate:[ShareResponeManagerForQQ init]];
+    }
     return YES;
 }
 

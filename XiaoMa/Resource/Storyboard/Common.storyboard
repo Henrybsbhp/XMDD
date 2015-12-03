@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -140,6 +140,74 @@
             </objects>
             <point key="canvasLocation" x="806" y="1117"/>
         </scene>
+        <!--Area PickerVC-->
+        <scene sceneID="FUe-PE-9ck">
+            <objects>
+                <viewController storyboardIdentifier="AreaPickerVC" id="h9U-Wp-kOD" customClass="AreaPickerVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="u9i-L2-2se"/>
+                        <viewControllerLayoutGuide type="bottom" id="EcR-aL-30W"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="SV9-20-4es">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jtp-SG-N9E">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <animations/>
+                                <items>
+                                    <barButtonItem width="10" style="plain" systemItem="fixedSpace" id="bQq-Ke-hab"/>
+                                    <barButtonItem title="取消" id="XiS-AO-SPD">
+                                        <color key="tintColor" red="0.26274509800000001" green="0.64313725489999995" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <action selector="cancelAction:" destination="h9U-Wp-kOD" id="2nr-hd-4oz"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="ZVW-w2-X5k"/>
+                                    <barButtonItem title="确定" id="12b-RH-8vO">
+                                        <color key="tintColor" red="0.26274509800000001" green="0.64313725489999995" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <action selector="sureAction:" destination="h9U-Wp-kOD" id="iZe-wj-rZM"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="10" style="plain" systemItem="fixedSpace" id="68p-i3-fiC"/>
+                                </items>
+                                <color key="tintColor" red="0.1960784314" green="0.64401223780000005" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                            </toolbar>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wKy-ek-SMS">
+                                <rect key="frame" x="0.0" y="44" width="320" height="216"/>
+                                <animations/>
+                                <connections>
+                                    <outlet property="dataSource" destination="h9U-Wp-kOD" id="koa-r5-KFD"/>
+                                    <outlet property="delegate" destination="h9U-Wp-kOD" id="ENC-WM-HM5"/>
+                                </connections>
+                            </pickerView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wKy-ek-SMS" firstAttribute="leading" secondItem="SV9-20-4es" secondAttribute="leading" id="HVL-Lb-rkO"/>
+                            <constraint firstItem="wKy-ek-SMS" firstAttribute="top" secondItem="jtp-SG-N9E" secondAttribute="bottom" id="Kop-r4-DaP"/>
+                            <constraint firstItem="jtp-SG-N9E" firstAttribute="leading" secondItem="SV9-20-4es" secondAttribute="leading" id="Qkh-sY-b5K"/>
+                            <constraint firstItem="jtp-SG-N9E" firstAttribute="top" secondItem="u9i-L2-2se" secondAttribute="bottom" id="e33-GB-z0y"/>
+                            <constraint firstAttribute="trailing" secondItem="jtp-SG-N9E" secondAttribute="trailing" id="hJc-91-EC0"/>
+                            <constraint firstAttribute="trailing" secondItem="wKy-ek-SMS" secondAttribute="trailing" id="jw7-4q-a76"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="250"/>
+                    <connections>
+                        <outlet property="cancelBtn" destination="XiS-AO-SPD" id="mHx-DP-Dt9"/>
+                        <outlet property="pickerView" destination="wKy-ek-SMS" id="vHm-Bo-JAg"/>
+                        <outlet property="sureBtn" destination="12b-RH-8vO" id="rKf-VG-s0s"/>
+                        <outlet property="toolBar" destination="jtp-SG-N9E" id="W2b-R2-pBb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vJx-6o-xNN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1215" y="1117"/>
+        </scene>
         <!--WebVC-->
         <scene sceneID="Uba-C9-baA">
             <objects>
@@ -244,14 +312,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享到" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oxB-ym-Fgx">
-                                <rect key="frame" x="275" y="20" width="51" height="21"/>
+                                <rect key="frame" x="275" y="20" width="51" height="20.5"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.3294117647" green="0.3294117647" blue="0.3294117647" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="QQ" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bwj-57-pYu">
-                                <rect key="frame" x="480" y="107" width="21" height="16"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="QQ" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bwj-57-pYu">
+                                <rect key="frame" x="480.5" y="107" width="20" height="16"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
@@ -293,9 +361,13 @@
                     <connections>
                         <outlet property="cancelBtn" destination="GSO-pY-EgS" id="6V7-ky-sFN"/>
                         <outlet property="qqBtn" destination="ZGu-xV-nx2" id="b8d-8c-w8V"/>
-                        <outlet property="timelineBrn" destination="6co-Md-eFf" id="Nft-H6-eGJ"/>
+                        <outlet property="qqLabel" destination="bwj-57-pYu" id="bvS-JL-hDH"/>
+                        <outlet property="timeLineLabel" destination="6cH-EG-JkO" id="VNt-kC-ULz"/>
+                        <outlet property="timelineBtn" destination="6co-Md-eFf" id="weX-b0-yLp"/>
                         <outlet property="wechatBtn" destination="LWm-w8-2al" id="085-Pc-2mI"/>
+                        <outlet property="wechatLabel" destination="gr8-S3-fue" id="aPX-PY-ZUB"/>
                         <outlet property="weiboBtn" destination="bCB-FY-MQy" id="rEr-0b-3rJ"/>
+                        <outlet property="weiboLabel" destination="Dr1-mk-2se" id="Y8Z-5n-huM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6yK-CS-H04" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -479,7 +551,7 @@
                                         <rect key="frame" x="0.0" y="28" width="600" height="110"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G4g-kx-3kq" id="1FT-FA-38f">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="109"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="109.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KlN-kf-BWn">
@@ -558,7 +630,7 @@
                                         <rect key="frame" x="0.0" y="138" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="x9M-VE-9Lr" id="og2-Xk-Nnz">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4G5-Lq-oT5">
@@ -622,7 +694,7 @@
                                         <rect key="frame" x="0.0" y="182" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="l3R-fF-qpD" id="0UO-a2-l0E">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5t4-Eh-L2H">
@@ -717,10 +789,10 @@
                                         <rect key="frame" x="0.0" y="226" width="600" height="35"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="49V-cZ-Rmc" id="73P-0J-1HU">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="34"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="34.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="选择支付方式" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bkl-hc-MVo">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="选择支付方式" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bkl-hc-MVo">
                                                     <rect key="frame" x="13" y="10" width="78" height="16"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
