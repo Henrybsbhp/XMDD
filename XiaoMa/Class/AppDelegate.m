@@ -51,13 +51,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    //dispatch_queue_t concurrentQueue = dispatch_queue_create("my.concurrent.queue", DISPATCH_QUEUE_CONCURRENT);
-    NSLog(@"1");
-    dispatch_async(dispatch_get_main_queue(), ^(){
-        NSLog(@"2");
-    });
-    NSLog(@"3");
-    
     //设置日志系统
     [self setupLogger];
     //设置错误处理

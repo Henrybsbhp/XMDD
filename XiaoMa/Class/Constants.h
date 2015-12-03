@@ -79,7 +79,7 @@ typedef enum : NSUInteger {
 #define BaiduMapUrl @"baidumap://map/"
 #define AMapUrl  @"iosamap://"
 #define XIAMMAWEB @"http://www.xiaomadada.com"
-#define ADDEFINEWEB @"http://dev.xiaomadada.com/apphtml/couponpkg.html?jump=t"
+#define ADDEFINEWEB @"http://www.xiaomadada.com/apphtml/couponpkg.html?jump=t"
 
 #define kDefTintColor   HEXCOLOR(@"#15ac1f")
 #define kDefLineColor   HEXCOLOR(@"#ebebeb")
