@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UIView *failureView;
 @property (weak, nonatomic) IBOutlet UIView *alreadygetView;
 
+@property (weak, nonatomic) IBOutlet UILabel *stateLabel;
 @end
 
 @implementation AwardOtherSheetVC
@@ -31,6 +32,12 @@
         self.alreadygetView.hidden = NO;
     }
     else {
+        if (self.sheetType == AwardSheetTypeCancel) {
+            self.stateLabel.text = @"分享已取消";
+        }
+        else {
+            self.stateLabel.text = @"分享失败";
+        }
         self.successView.hidden = YES;
         self.failureView.hidden = NO;
         self.alreadygetView.hidden = YES;

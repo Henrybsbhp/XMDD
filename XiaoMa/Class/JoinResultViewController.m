@@ -9,6 +9,7 @@
 #import "JoinResultViewController.h"
 
 @interface JoinResultViewController ()
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
@@ -56,6 +57,8 @@
     }
     else if (indexPath.row == 4) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"FooterCell" forIndexPath:indexPath];
+        UILabel * footL = (UILabel *)[cell.contentView viewWithTag:1001];
+        footL.text = self.tip;
         return cell;
     }
     else {
@@ -81,7 +84,11 @@
 
 - (void)actionBack:(id)sender
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popToViewController:[self.navigationController.viewControllers safetyObjectAtIndex:1] animated:YES];
+}
+
+- (void)dealloc {
+    DebugLog(@"dealloc~~");
 }
 
 @end

@@ -50,6 +50,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    //dispatch_queue_t concurrentQueue = dispatch_queue_create("my.concurrent.queue", DISPATCH_QUEUE_CONCURRENT);
+    NSLog(@"1");
+    dispatch_async(dispatch_get_main_queue(), ^(){
+        NSLog(@"2");
+    });
+    NSLog(@"3");
+    
     //设置日志系统
     [self setupLogger];
     //设置错误处理
@@ -203,15 +211,15 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    if ([url.absoluteString hasPrefix:WECHAT_APP_ID] || [sourceApplication isEqualToString:WECHAT_APP]) {
+    if ([url.absoluteString hasPrefix:WECHAT_APP_ID]) {
         return [WXApi handleOpenURL:url delegate:[ShareResponeManager init]];
     }
-    else if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"wb%@", WEIBO_APP_ID]] || [sourceApplication isEqualToString:WEIBO_APP]) {
+    else if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"wb%@", WEIBO_APP_ID]]) {
         return [WeiboSDK handleOpenURL:url delegate:[ShareResponeManager init]];
     }
-    else if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@", QQ_API_ID]] || [sourceApplication isEqualToString:QQ_APP]) {
+    else if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@", QQ_API_ID]]) {
         return [QQApiInterface handleOpenURL:url delegate:[ShareResponeManagerForQQ init]];
     }
     return YES;

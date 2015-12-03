@@ -266,10 +266,11 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [self.myBridge callHandler:@"getShareParamHandler" data:nil responseCallback:^(id response) {
         NSDictionary *shareDic = response;
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+        vc.sceneType = ShareSceneAbout;
+        vc.btnTypeArr = @[@1, @2, @3, @4];
         vc.tt = [shareDic stringParamForName:@"title"];
         vc.subtitle = [shareDic stringParamForName:@"desc"];
         
-        //可能可直接传url
         [[gMediaMgr rac_getImageByUrl:shareDic[@"imgUrl"] withType:ImageURLTypeMedium defaultPic:@"wechat_share_carwash" errorPic:@"wechat_share_carwash"] subscribeNext:^(id x) {
             vc.image = x;
         }];
@@ -285,13 +286,16 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             [MobClick event:@"rp110-7"];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
-        [[ShareResponeManager init] setFinishAction:^ (NSInteger code){
-            DebugLog(@"code:%ld!", (long)code);
+        [vc setClickAction:^{
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
-        [[ShareResponeManagerForQQ init] setFinishAction:^ (NSString * code){
-            DebugLog(@"code:%@!", code);
-            [sheet dismissAnimated:YES completionHandler:nil];
+        
+        //单例模式下，不需要处理回调应将单例的block设置为空，否则将执行上次set的block
+        [[ShareResponeManager init] setFinishAction:^ (NSInteger code, ShareResponseType type){
+            
+        }];
+        [[ShareResponeManagerForQQ init] setFinishAction:^ (NSString * code, ShareResponseType type){
+            
         }];
     }];
 }

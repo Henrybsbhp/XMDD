@@ -63,6 +63,13 @@
     if (indexPath.row == 0) {
         lb.text = @"手机：";
         tf.placeholder = @"请输入11位手机号";
+        tf.keyboardType = UIKeyboardTypeNumberPad;
+        tf.text = gAppMgr.myUser.phoneNumber;
+        [[[tf rac_signalForControlEvents:UIControlEventEditingChanged] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            if (tf.text.length > 11) {
+                tf.text = [tf.text substringToIndex:11];
+            }
+        }];
         self.phoneField = tf;
     }
     else if (indexPath.row == 1){
@@ -82,6 +89,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 2) {
+        [self.phoneField resignFirstResponder];
+        [self.nameField resignFirstResponder];
         NSArray * plistArr = [[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"area.plist" ofType:nil]];
         @weakify(self);
         [[AreaPickerVC rac_presentPickerVCInView:self.view withDatasource:plistArr andCurrentValue:nil forStyle:AreaPickerWithStateAndCityAndDistrict] subscribeNext:^(HKLocationDataModel * locationData) {
@@ -114,14 +123,15 @@
     op.req_province = self.hkLocation.state;
     op.req_city = self.hkLocation.city;
     op.req_district = self.hkLocation.district;
-    @weakify(self)
-    [[op rac_postRequest] subscribeNext:^(id x) {
+    @weakify(self);
+    [[op rac_postRequest] subscribeNext:^(ApplyUnionOp * op) {
         @strongify(self)
         JoinResultViewController * vc = [UIStoryboard vcWithId:@"JoinResultViewController" inStoryboard:@"About"];
         vc.phone = self.phoneField.text;
         vc.name = self.nameField.text;
         vc.address = [NSString stringWithFormat:@"%@省%@市%@", self.hkLocation.state, self.hkLocation.city, self.hkLocation.district];
-        //[self.navigationController pushViewController:vc animated:YES];
+        vc.tip = op.rsp_tip;
+        [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         [gToast showError:error.domain];
     }];

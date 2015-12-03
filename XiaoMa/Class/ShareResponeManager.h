@@ -11,11 +11,17 @@
 #import <TencentOpenAPI.framework/Headers/QQApiInterface.h>
 #import "WXApi.h"
 
+typedef NS_ENUM(NSInteger, ShareResponseType) {
+    ShareResponseWechat,
+    ShareResponseWeibo,
+    ShareResponseQQ
+};
+
 @interface ShareResponeManager : NSObject<WXApiDelegate, WeiboSDKDelegate>
 
 + (instancetype)init;
 
-@property (strong, nonatomic)void(^finishAction)(NSInteger resultCode);
+@property (strong, nonatomic)void(^finishAction)(NSInteger resultCode, ShareResponseType responseType);
 
 @end
 
@@ -24,6 +30,6 @@
 
 + (instancetype)init;
 
-@property (strong, nonatomic)void(^finishAction)(NSString * resultStr);
+@property (strong, nonatomic)void(^finishAction)(NSString * resultStr, ShareResponseType responseType);
 
 @end

@@ -82,7 +82,7 @@
     [logoutBtn.layer setMasksToBounds:YES];
     logoutBtn.layer.cornerRadius = 5.0f;
     
-    @weakify(self)
+    @weakify(self);
     [[logoutBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [MobClick event:@"rp302-6"];

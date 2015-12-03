@@ -407,21 +407,21 @@
                                 <size key="shadowOffset" width="0.0" height="0.0"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享后即可获得洗车代金券一张！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5MF-lI-zZU">
-                                <rect key="frame" x="30" y="113" width="240" height="19.5"/>
+                                <rect key="frame" x="30" y="113" width="240" height="20"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="机不可失，赶快去分享吧。" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugt-VJ-yn1">
-                                <rect key="frame" x="54" y="140" width="192" height="19.5"/>
+                                <rect key="frame" x="54" y="140" width="192" height="20"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bGL-YF-fyH">
-                                <rect key="frame" x="67.5" y="189.5" width="165" height="40"/>
+                                <rect key="frame" x="68" y="190" width="165" height="40"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.25882352941176473" green="0.7803921568627451" blue="0.36470588235294116" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -515,7 +515,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  快去使用吧！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="neW-0Z-3Zv">
-                                        <rect key="frame" x="30" y="28" width="180" height="38"/>
+                                        <rect key="frame" x="30" y="25" width="180" height="38"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="27"/>
                                         <color key="textColor" red="0.95686274510000002" green="0.92156862750000001" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -523,7 +523,7 @@
                                         <size key="shadowOffset" width="0.0" height="0.0"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="isO-Yw-SwA" userLabel="Carwash Btn">
-                                        <rect key="frame" x="37" y="81" width="165" height="40"/>
+                                        <rect key="frame" x="37" y="73" width="165" height="40"/>
                                         <animations/>
                                         <color key="backgroundColor" red="0.25882352939999997" green="0.78039215689999997" blue="0.36470588240000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
@@ -543,15 +543,15 @@
                                 <constraints>
                                     <constraint firstItem="Z0h-ri-7Nz" firstAttribute="centerX" secondItem="isO-Yw-SwA" secondAttribute="centerX" id="3XV-ld-xCV"/>
                                     <constraint firstItem="Z0h-ri-7Nz" firstAttribute="centerX" secondItem="neW-0Z-3Zv" secondAttribute="centerX" id="GOZ-fr-Uzw"/>
-                                    <constraint firstItem="isO-Yw-SwA" firstAttribute="top" secondItem="neW-0Z-3Zv" secondAttribute="bottom" constant="15" id="VDH-s9-Z4e"/>
+                                    <constraint firstItem="isO-Yw-SwA" firstAttribute="top" secondItem="neW-0Z-3Zv" secondAttribute="bottom" constant="10" id="VDH-s9-Z4e"/>
                                     <constraint firstItem="Z0h-ri-7Nz" firstAttribute="top" secondItem="mcx-KY-NVt" secondAttribute="top" id="Wva-1T-gJt"/>
                                     <constraint firstAttribute="width" constant="240" id="enu-YT-7I5"/>
-                                    <constraint firstItem="neW-0Z-3Zv" firstAttribute="top" secondItem="Z0h-ri-7Nz" secondAttribute="bottom" constant="8" symbolic="YES" id="jiw-ah-Igh"/>
+                                    <constraint firstItem="neW-0Z-3Zv" firstAttribute="top" secondItem="Z0h-ri-7Nz" secondAttribute="bottom" constant="5" id="jiw-ah-Igh"/>
                                     <constraint firstItem="Z0h-ri-7Nz" firstAttribute="centerX" secondItem="mcx-KY-NVt" secondAttribute="centerX" id="no0-ft-gyA"/>
                                     <constraint firstAttribute="height" constant="128" id="zAG-x5-XLT"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dI7-5l-SiJ" userLabel="AlreadyGet View">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dI7-5l-SiJ" userLabel="AlreadyGet View">
                                 <rect key="frame" x="30" y="36" width="240" height="128"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="您已经获得过红包代金券了" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VtA-3p-MC7">
@@ -583,7 +583,7 @@
                                     <constraint firstItem="VtA-3p-MC7" firstAttribute="top" secondItem="dI7-5l-SiJ" secondAttribute="top" constant="30" id="ko9-zs-Uyf"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vEC-sb-gdb">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vEC-sb-gdb">
                                 <rect key="frame" x="30" y="52" width="240" height="128"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="据说分享成功后才能拿红包哦！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ZB-Em-4D5">
@@ -651,6 +651,7 @@
                         <outlet property="carwashBtn" destination="isO-Yw-SwA" id="d2n-hk-Nyc"/>
                         <outlet property="closeBtn" destination="Iwe-df-NJr" id="sLg-px-C4a"/>
                         <outlet property="failureView" destination="vEC-sb-gdb" id="FAp-YH-mzb"/>
+                        <outlet property="stateLabel" destination="m1s-FK-617" id="GgS-W5-nJD"/>
                         <outlet property="successView" destination="mcx-KY-NVt" id="Qhd-lZ-2ns"/>
                     </connections>
                 </viewController>

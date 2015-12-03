@@ -55,9 +55,10 @@ typedef enum : NSUInteger {
 //1-每周礼券红包分享
 //2-洗车完成分享
 typedef enum : NSUInteger {
-    ShareSceneGain = 1,
+    ShareSceneGain = 3,
     ShareSceneCarwash = 2,
-    ShareSceneAbout = 6
+    ShareSceneAbout = 6,
+    ShareSceneWebBridge = 7
 } ShareSceneType;
 
 ///分享按钮类型

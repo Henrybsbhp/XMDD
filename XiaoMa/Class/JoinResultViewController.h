@@ -16,4 +16,6 @@
 
 @property (nonatomic, strong) NSString * address;
 
+@property (nonatomic, strong) NSString * tip;
+
 @end

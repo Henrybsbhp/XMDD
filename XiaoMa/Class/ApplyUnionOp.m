@@ -23,4 +23,18 @@
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
 }
 
+- (instancetype)parseResponseObject:(id)rspObj
+{
+    if ([rspObj isKindOfClass:[NSDictionary class]])
+    {
+        self.rsp_tip = rspObj[@"tip"];
+    }
+    else
+    {
+        NSString * errorInfo = [NSString stringWithFormat:@"%@ parse error~~",NSStringFromClass([self class])];
+        NSAssert(NO,errorInfo);
+    }
+    return self;
+}
+
 @end

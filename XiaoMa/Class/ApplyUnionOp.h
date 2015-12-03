@@ -10,10 +10,12 @@
 
 @interface ApplyUnionOp : BaseOp
 
-@property (nonatomic,copy)NSString * req_phone;
-@property (nonatomic,copy)NSString * req_name;
-@property (nonatomic,copy)NSString * req_province;
-@property (nonatomic,copy)NSString * req_city;
-@property (nonatomic,copy)NSString * req_district;
+@property (nonatomic, copy)NSString * req_phone;
+@property (nonatomic, copy)NSString * req_name;
+@property (nonatomic, copy)NSString * req_province;
+@property (nonatomic, copy)NSString * req_city;
+@property (nonatomic, copy)NSString * req_district;
+
+@property (nonatomic, copy)NSString * rsp_tip;
 
 @end

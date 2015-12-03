@@ -16,8 +16,7 @@
 @interface SocialShareViewController : UIViewController
 
 /// 完成分享后的操作
-@property (strong, nonatomic)void(^finishAction)(void);
-@property (strong, nonatomic)void(^beginAction)(void);
+@property (strong, nonatomic)void(^clickAction)(void);
 
 
 @property (weak, nonatomic) IBOutlet UIButton *wechatBtn;

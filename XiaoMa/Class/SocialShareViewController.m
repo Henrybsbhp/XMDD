@@ -11,12 +11,12 @@
 #import <TencentOpenAPI.framework/Headers/QQApiInterfaceObject.h>
 #import "GetShareDetailOp.h"
 
-typedef void(^FinishBlock)(void);
-typedef void(^callBackAction)(BOOL isSuccess);
 
 @interface SocialShareViewController ()
-
-@property (nonatomic, weak)FinishBlock block;
+@property (weak, nonatomic) IBOutlet UILabel *wechatLabel;
+@property (weak, nonatomic) IBOutlet UILabel *timeLineLabel;
+@property (weak, nonatomic) IBOutlet UILabel *weiboLabel;
+@property (weak, nonatomic) IBOutlet UILabel *qqLabel;
 
 @end
 
@@ -39,20 +39,24 @@ typedef void(^callBackAction)(BOOL isSuccess);
     self.timelineBtn.enabled = NO;
     self.weiboBtn.enabled = NO;
     self.qqBtn.enabled = NO;
-    DebugLog(@"button:%@", self.btnTypeArr[0]);
+    
     for (int i = 0; i < self.btnTypeArr.count; i++) {
         ShareButtonType btnType = [self.btnTypeArr[i] intValue];
-        if (btnType == ShareButtonWechat) {
+        if (btnType == ShareButtonWechat && [WXApi isWXAppInstalled]) {
             self.wechatBtn.enabled = YES;
+            self.wechatLabel.textColor = [UIColor colorWithHex:@"#545454" alpha:1.0f];
         }
-        if (btnType == ShareButtonTimeLine) {
+        if (btnType == ShareButtonTimeLine && [WXApi isWXAppInstalled]) {
             self.timelineBtn.enabled = YES;
+            self.timeLineLabel.textColor = [UIColor colorWithHex:@"#545454" alpha:1.0f];
         }
-        if (btnType == ShareButtonWeibo) {
+        if (btnType == ShareButtonWeibo && WeiboSDK.isWeiboAppInstalled) {
             self.weiboBtn.enabled = YES;
+            self.weiboLabel.textColor = [UIColor colorWithHex:@"#545454" alpha:1.0f];
         }
         if (btnType == ShareButtonQQFriend) {
             self.qqBtn.enabled = YES;
+            self.qqLabel.textColor = [UIColor colorWithHex:@"#545454" alpha:1.0f];
         }
     }
     
@@ -60,92 +64,176 @@ typedef void(^callBackAction)(BOOL isSuccess);
         
         [MobClick event:@"rp110-3"];
         
-        GetShareDetailOp * op = [GetShareDetailOp operation];
-        op.pagePosition = self.sceneType;
-        op.buttonId = ShareButtonWechat;
-        @weakify(self);
-        [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
-            
-            @strongify(self);
-            self.tt = @"标题";
-            self.subtitle = @"这是描述";
-            self.urlStr = @"www.baidu.com";
-            [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"award_element1" errorPic:@"award_element1"] subscribeNext:^(UIImage * x) {
-                self.image = x;
-                [self shareWechat];
+        if (self.sceneType == ShareSceneAbout) {
+            if (self.clickAction) {
+                CKAfter(0.3, ^{
+                    self.clickAction();
+                });
+            }
+            [self shareWechat];
+        }
+        else {
+            GetShareDetailOp * op = [GetShareDetailOp operation];
+            op.pagePosition = self.sceneType;
+            op.buttonId = ShareButtonWechat;
+            @weakify(self);
+            [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
+                
+                @strongify(self);
+                self.tt = op.rsp_title;
+                self.subtitle = op.rsp_desc;
+                self.urlStr = op.rsp_linkurl;
+                [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"wechat_share_carwash" errorPic:@"wechat_share_carwash"] subscribeNext:^(UIImage * x) {
+                    self.image = x;
+                    
+                    if (self.clickAction) {
+                        CKAfter(0.3, ^{
+                            self.clickAction();
+                        });
+                    }
+                    [self shareWechat];
+                }];
+            } error:^(NSError *error) {
+                [gToast showError:error.domain];
+                if (self.clickAction) {
+                    CKAfter(0.3, ^{
+                        self.clickAction();
+                    });
+                }
             }];
-        } error:^(NSError *error) {
-            
-        }];
+        }
     }];
     
     [[_timelineBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [MobClick event:@"rp110-4"];
         
-        GetShareDetailOp * op = [GetShareDetailOp operation];
-        op.pagePosition = self.sceneType;
-        op.buttonId = ShareButtonTimeLine;
-        @weakify(self);
-        [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
-            
-            @strongify(self);
-            self.tt = @"标题";
-            self.subtitle = @"这是描述";
-            self.urlStr = @"www.baidu.com";
-            [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"award_element1" errorPic:@"award_element1"] subscribeNext:^(UIImage * x) {
-                self.image = x;
-                [self shareTimeline];
+        if (self.sceneType == ShareSceneAbout) {
+            if (self.clickAction) {
+                CKAfter(0.3, ^{
+                    self.clickAction();
+                });
+            }
+            [self shareTimeline];
+        }
+        else {
+            GetShareDetailOp * op = [GetShareDetailOp operation];
+            op.pagePosition = self.sceneType;
+            op.buttonId = ShareButtonTimeLine;
+            @weakify(self);
+            [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
+                
+                @strongify(self);
+                self.tt = op.rsp_title;
+                self.subtitle = op.rsp_desc;
+                self.urlStr = op.rsp_linkurl;
+                [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"wechat_share_carwash" errorPic:@"wechat_share_carwash"] subscribeNext:^(UIImage * x) {
+                    self.image = x;
+                    
+                    if (self.clickAction) {
+                        CKAfter(0.3, ^{
+                            self.clickAction();
+                        });
+                    }
+                    [self shareTimeline];
+                }];
+            } error:^(NSError *error) {
+                [gToast showError:error.domain];
+                if (self.clickAction) {
+                    CKAfter(0.3, ^{
+                        self.clickAction();
+                    });
+                }
             }];
-        } error:^(NSError *error) {
-            
-        }];
+        }
     }];
     
     [[_weiboBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [MobClick event:@"rp110-5"];
         
-        GetShareDetailOp * op = [GetShareDetailOp operation];
-        op.pagePosition = self.sceneType;
-        op.buttonId = ShareButtonWeibo;
-        @weakify(self);
-        [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
-            
-            @strongify(self);
-            self.tt = @"标题";
-            self.subtitle = @"这是描述";
-            self.urlStr = @"www.baidu.com";
-            [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"award_element1" errorPic:@"award_element1"] subscribeNext:^(UIImage * x) {
-                self.webimage = x;
-                [self shareWeibo];
+        if (self.sceneType == ShareSceneAbout) {
+            if (self.clickAction) {
+                CKAfter(0.3, ^{
+                    self.clickAction();
+                });
+            }
+            [self shareWeibo];
+        }
+        else {
+            GetShareDetailOp * op = [GetShareDetailOp operation];
+            op.pagePosition = self.sceneType;
+            op.buttonId = ShareButtonWeibo;
+            @weakify(self);
+            [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
+                
+                @strongify(self);
+                self.tt = op.rsp_title;
+                self.subtitle = op.rsp_desc;
+                self.urlStr = op.rsp_linkurl;
+                [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"award_element1" errorPic:@"award_element1"] subscribeNext:^(UIImage * x) {
+                    self.webimage = x;
+                    
+                    if (self.clickAction) {
+                        CKAfter(0.3, ^{
+                            self.clickAction();
+                        });
+                    }
+                    [self shareWeibo];
+                }];
+            } error:^(NSError *error) {
+                [gToast showError:error.domain];
+                if (self.clickAction) {
+                    CKAfter(0.3, ^{
+                        self.clickAction();
+                    });
+                }
             }];
-        } error:^(NSError *error) {
-            
-        }];
+        }
     }];
     
     [[_qqBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [MobClick event:@"rp110-6"];
         
-        GetShareDetailOp * op = [GetShareDetailOp operation];
-        op.pagePosition = self.sceneType;
-        op.buttonId = ShareButtonQQFriend;
-        @weakify(self);
-        [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
-            
-            @strongify(self);
-            self.tt = @"标题";
-            self.subtitle = @"这是描述";
-            self.urlStr = @"www.baidu.com";
-            [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"award_element1" errorPic:@"award_element1"] subscribeNext:^(UIImage * x) {
-                self.image = x;
-                [self shareQQ];
+        if (self.sceneType == ShareSceneAbout) {
+            if (self.clickAction) {
+                CKAfter(0.3, ^{
+                    self.clickAction();
+                });
+            }
+            [self shareQQ];
+        }
+        else {
+            GetShareDetailOp * op = [GetShareDetailOp operation];
+            op.pagePosition = self.sceneType;
+            op.buttonId = ShareButtonQQFriend;
+            @weakify(self);
+            [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
+                
+                @strongify(self);
+                self.tt = op.rsp_title;
+                self.subtitle = op.rsp_desc;
+                self.urlStr = op.rsp_linkurl;
+                [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"award_element1" errorPic:@"award_element1"] subscribeNext:^(UIImage * x) {
+                    self.image = x;
+                    
+                    if (self.clickAction) {
+                        CKAfter(0.3, ^{
+                            self.clickAction();
+                        });
+                    }
+                    [self shareQQ];
+                }];
+            } error:^(NSError *error) {
+                [gToast showError:error.domain];
+                if (self.clickAction) {
+                    CKAfter(0.3, ^{
+                        self.clickAction();
+                    });
+                }
             }];
-        } error:^(NSError *error) {
-            
-        }];
+        }
     }];
 }
 
@@ -161,43 +249,28 @@ typedef void(^callBackAction)(BOOL isSuccess);
 
 - (void)shareWechat
 {
-    if ([WXApi isWXAppInstalled]) {
-        [self shareToWeChat:WXSceneSession withTitle:self.tt
+    [self shareToWeChat:WXSceneSession withTitle:self.tt
              andDescription:self.subtitle andImage:self.image andUrl:self.urlStr];
-    }
-    else {
-        [gToast showText:@"未安装微信，请安装后再分享"];
-    }
 }
 
 - (void)shareTimeline
 {
-    if ([WXApi isWXAppInstalled]) {
-        [self shareToWeChat:WXSceneTimeline withTitle:self.tt
+    [self shareToWeChat:WXSceneTimeline withTitle:self.tt
              andDescription:self.subtitle andImage:self.image andUrl:self.urlStr];
-    }
-    else {
-        [gToast showText:@"未安装微信，请安装后再分享"];
-    }
 }
 
 - (void)shareWeibo
 {
-    if (WeiboSDK.isWeiboAppInstalled) {
-        WBMessageObject *message = [WBMessageObject message];
-        
-        WBImageObject *image = [WBImageObject object];
-        image.imageData = UIImagePNGRepresentation(self.webimage ? self.webimage : self.image);
-        message.imageObject = image;
-        message.text = [NSString stringWithFormat:@"%@ \n %@ \n %@ ",self.tt,self.subtitle,self.urlStr];
-        
-        WBSendMessageToWeiboRequest * request = [WBSendMessageToWeiboRequest requestWithMessage:message];
-        request.shouldOpenWeiboAppInstallPageIfNotInstalled = NO;
-        [WeiboSDK sendRequest:request];
-    }
-    else {
-        [gToast showText:@"未安装微博，请安装后再分享"];
-    }
+    WBMessageObject *message = [WBMessageObject message];
+    
+    WBImageObject *image = [WBImageObject object];
+    image.imageData = UIImagePNGRepresentation(self.webimage ? self.webimage : self.image);
+    message.imageObject = image;
+    message.text = [NSString stringWithFormat:@"%@ \n %@ \n %@ ",self.tt,self.subtitle,self.urlStr];
+    
+    WBSendMessageToWeiboRequest * request = [WBSendMessageToWeiboRequest requestWithMessage:message];
+    request.shouldOpenWeiboAppInstallPageIfNotInstalled = NO;
+    [WeiboSDK sendRequest:request];
 }
 
 - (void)shareQQ

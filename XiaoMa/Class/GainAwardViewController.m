@@ -15,6 +15,7 @@
 #import "AwardOtherSheetVC.h"
 #import "CarWashTableVC.h"
 #import "SharedNotifyOp.h"
+#import "GetShareButtonOp.h"
 
 @interface GainAwardViewController ()
 
@@ -145,7 +146,7 @@
         [[sheetVC.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
             [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-                [self shareAciton];
+                [self shareAction];
             }];
         }];
         
@@ -165,43 +166,55 @@
     }];
 }
 
-- (void)shareAciton {
-    SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-    vc.sceneType = ShareSceneAbout;    //页面位置
-    vc.btnTypeArr = @[@1, @2, @3, @4]; //分享渠道数组
-    
-    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
-    sheet.shouldCenterVertically = YES;
-    [sheet presentAnimated:YES completionHandler:nil];
-    
-    [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        [MobClick event:@"rp110-7"];
-        [sheet dismissAnimated:YES completionHandler:nil];
-    }];
-    
-    @weakify(self)
-    [[ShareResponeManager init] setFinishAction:^(NSInteger code){
+- (void)shareAction
+{
+    GetShareButtonOp * op = [GetShareButtonOp operation];
+    op.pagePosition = ShareSceneGain;
+    @weakify(self);
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
         
-        @strongify(self);
-        [self handleResultCode:code forSheet:sheet];
-    }];
-    [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code){
+        SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+        vc.sceneType = ShareSceneGain;    //页面位置
+        vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
         
-        @strongify(self);
-        [self handleResultCode:[code integerValue] forSheet:sheet];
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            [MobClick event:@"rp110-7"];
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        [vc setClickAction:^{
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
+        [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
+            
+            @strongify(self)
+            [self handleResultCode:code from:type forSheet:sheet];
+        }];
+        [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
+            
+            @strongify(self)
+            [self handleResultCode:[code integerValue] from:type forSheet:sheet];
+        }];
+    } error:^(NSError *error) {
+        
     }];
 }
 
-- (void)handleResultCode:(NSInteger)code forSheet:(MZFormSheetController *)sheet
+- (void)handleResultCode:(NSInteger)code from:(ShareResponseType)type forSheet:(MZFormSheetController *)sheet
 {
-    @weakify(self)
+    @weakify(self);
     [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-        @strongify(self);
+        
         if (code == 0) {
             SharedNotifyOp * op = [SharedNotifyOp operation];
             [gToast showingWithoutText];
             [[op rac_postRequest] subscribeNext:^(SharedNotifyOp * op) {
                 
+                @strongify(self);
                 [gToast dismiss];
                 if (op.rsp_flag == AwardSheetTypeSuccess) {
                     [self presentSheet:AwardSheetTypeSuccess];
@@ -212,6 +225,15 @@
             } error:^(NSError *error) {
                 [gToast dismiss];
             }];
+        }
+        else if (type ==ShareResponseWechat && code == -2) {
+            [self presentSheet:AwardSheetTypeCancel];
+        }
+        else if (type == ShareResponseWeibo && code == -1) {
+            [self presentSheet:AwardSheetTypeCancel];
+        }
+        else if (type == ShareResponseQQ && code == -4) {
+            [self presentSheet:AwardSheetTypeCancel];
         }
         else {
             [self presentSheet:AwardSheetTypeFailure];
