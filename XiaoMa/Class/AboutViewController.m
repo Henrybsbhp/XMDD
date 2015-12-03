@@ -282,7 +282,7 @@
 - (void)callCustomerService
 {
     [MobClick event:@"rp322-3"];
-    [gPhoneHelper makePhone:@"4007111111" andInfo:@"呼叫客服"];
+    [gPhoneHelper makePhone:@"4007111111" andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
 }
 
 - (void)gotoFeedback
