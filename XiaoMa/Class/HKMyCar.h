@@ -69,6 +69,11 @@ typedef enum : NSInteger
 ///保险到期日
 @property (nonatomic,strong)NSDate * insexipiredate;
 
+///发动机号
+@property (nonatomic,copy)NSString * engineno;
+///车架号
+@property (nonatomic,copy)NSString * classno;
+
 ///是否为默认车辆
 @property (nonatomic)BOOL isDefault;
 

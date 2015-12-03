@@ -31,8 +31,9 @@
 #import "CollectionChooseVC.h"
 #import "InsuranceDetailPlanVC.h"
 #import "GasVC.h"
-#import "PaymentSuccessVC.h"
-#import "PaymentCenterViewController.h"
+#import "ViolationItemViewController.h"
+#import "ViolationViewController.h"
+
 
 #define WeatherRefreshTimeInterval 60 * 30
 
@@ -439,7 +440,9 @@
         [self handleGPSError:error];
     }] doNext:^(AMapReGeocode *regeo) {
         @strongify(self);
-        [self setupNavigationLeftBar:regeo.addressComponent.city];
+        NSString * cityStr;
+        cityStr = regeo.addressComponent.city.length ? regeo.addressComponent.city : regeo.addressComponent.province;
+        [self setupNavigationLeftBar:cityStr];
         if (![HKAddressComponent isEqualAddrComponent:gAppMgr.addrComponent AMapAddrComponent:regeo.addressComponent]) {
             gAppMgr.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
         }
@@ -467,7 +470,7 @@
 {
     GetSystemTipsOp * op = [GetSystemTipsOp operation];
     op.province = regeo.addressComponent.province;
-    op.city = regeo.addressComponent.city;
+    op.city = regeo.addressComponent.city.length ? regeo.addressComponent.city : regeo.addressComponent.province;
     op.district = regeo.addressComponent.district;
     return [[[[op rac_postRequest] doNext:^(GetSystemTipsOp * op) {
         
@@ -536,9 +539,16 @@
 #pragma mark - Action
 - (IBAction)actionCallCenter:(id)sender
 {
-    [MobClick event:@"rp101-2"];
-    NSString * number = @"4007111111";
-    [gPhoneHelper makePhone:number andInfo:@"客服电话：4007-111-111"];
+//    [MobClick event:@"rp101-2"];
+//    NSString * number = @"4007111111";
+//    [gPhoneHelper makePhone:number andInfo:@"客服电话：4007-111-111"];
+    
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        
+        ViolationViewController * vc = [violationStoryboard instantiateViewControllerWithIdentifier:@"ViolationViewController"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    
 }
 
 
