@@ -28,7 +28,6 @@
 #import "SystemFastrateGetOp.h"
 #import "CheckoutServiceOrderV4Op.h"
 #import "OrderPaidSuccessOp.h"
-#import "FMDeviceManager.h"
 
 
 #define CheckBoxCouponGroup @"CheckBoxCouponGroup"
@@ -871,13 +870,6 @@
     self.checkoutServiceOrderV4Op.carModel = self.defaultCar.model;
 //    self.checkoutServiceOrderV4Op.bankCardId = self.selectBankCard.cardID;
     self.checkoutServiceOrderV4Op.bankCardId = bandCard.cardID;
-    
-    // 获取设备管理器实例
-    FMDeviceManager_t *manager = [FMDeviceManager sharedManager];
-    // 获取设备指纹黑盒数据，请确保在应用开启时已经对SDK进行初始化，切勿在get的时候才初始化
-    NSString *blackBox = manager->getDeviceInfo();
-    // 将blackBox随业务请求提交到服务端
-    self.checkoutServiceOrderV4Op.blackbox = blackBox;
     
     //如果不是原价支付，需要提供定位信息
     RACSignal *signal;
