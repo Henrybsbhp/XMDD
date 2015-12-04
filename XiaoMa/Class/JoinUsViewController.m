@@ -9,9 +9,10 @@
 #import "JoinUsViewController.h"
 #import "UIView+Shake.h"
 #import "JoinResultViewController.h"
-#import "AreaPickerVC.h"
 #import "HKLocationDataModel.h"
 #import "ApplyUnionOp.h"
+#import "GetAreaInfoOp.h"
+#import "AreaTablePickerVC.h"
 
 @interface JoinUsViewController ()
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
@@ -91,15 +92,24 @@
     if (indexPath.row == 2) {
         [self.phoneField resignFirstResponder];
         [self.nameField resignFirstResponder];
-        NSArray * plistArr = [[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"area.plist" ofType:nil]];
-        @weakify(self);
-        [[AreaPickerVC rac_presentPickerVCInView:self.view withDatasource:plistArr andCurrentValue:nil forStyle:AreaPickerWithStateAndCityAndDistrict] subscribeNext:^(HKLocationDataModel * locationData) {
-            @strongify(self);
-            self.hkLocation = locationData;
-            self.cityField.text = [NSString stringWithFormat:@"%@ %@ %@", locationData.state, locationData.city, locationData.district];
-        } error:^(NSError *error) {
-            
+        
+        //清除所有NSUserDefaults的缓存
+//        NSUserDefaults *userDefatluts = [NSUserDefaults standardUserDefaults];
+//        NSDictionary *dictionary = [userDefatluts dictionaryRepresentation];
+//        for(NSString* key in [dictionary allKeys]){
+//            [userDefatluts removeObjectForKey:key];
+//            [userDefatluts synchronize];
+//        }
+        
+        AreaTablePickerVC * vc = [UIStoryboard vcWithId:@"AreaTablePickerVC" inStoryboard:@"Common"];
+        vc.areaType = AreaTypeProvince;
+        vc.originVC = self;
+        
+        [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
+            self.cityField.text = [NSString stringWithFormat:@"%@ %@ %@", provinceModel.infoName, cityModel.infoName, disctrictModel.infoName];
         }];
+        
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
@@ -116,11 +126,11 @@
         [self shakeCellAtIndex:2];
         return;
     }
-    self.cityField.text = [NSString stringWithFormat:@"%@ %@ %@", self.hkLocation.state, self.hkLocation.city, self.hkLocation.district];
+    self.cityField.text = [NSString stringWithFormat:@"%@ %@ %@", self.hkLocation.province, self.hkLocation.city, self.hkLocation.district];
     ApplyUnionOp *op = [ApplyUnionOp new];
     op.req_phone = self.phoneField.text;
     op.req_name = self.nameField.text;
-    op.req_province = self.hkLocation.state;
+    op.req_province = self.hkLocation.province;
     op.req_city = self.hkLocation.city;
     op.req_district = self.hkLocation.district;
     @weakify(self);
@@ -129,7 +139,7 @@
         JoinResultViewController * vc = [UIStoryboard vcWithId:@"JoinResultViewController" inStoryboard:@"About"];
         vc.phone = self.phoneField.text;
         vc.name = self.nameField.text;
-        vc.address = [NSString stringWithFormat:@"%@省%@市%@", self.hkLocation.state, self.hkLocation.city, self.hkLocation.district];
+        vc.address = [NSString stringWithFormat:@"%@省%@市%@", self.hkLocation.province, self.hkLocation.city, self.hkLocation.district];
         vc.tip = op.rsp_tip;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
