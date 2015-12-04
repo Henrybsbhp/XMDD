@@ -463,6 +463,7 @@
 		6BEA56D21AE24DCE000D19C1 /* openssl_wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BB1AE24DCE000D19C1 /* openssl_wrapper.m */; };
 		6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BD1AE24DCE000D19C1 /* RSADataSigner.m */; };
 		6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BF1AE24DCE000D19C1 /* RSADataVerifier.m */; };
+		6BEC3FC91C1122B40046F11D /* GetCityInfoByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEC3FC81C1122B40046F11D /* GetCityInfoByNameOp.m */; };
 		6BEDB0421BA66242009A8C3F /* InsuranceDetailPlanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDB0411BA66242009A8C3F /* InsuranceDetailPlanModel.m */; };
 		6BEDB0461BA666D4009A8C3F /* CCSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDB0451BA666D4009A8C3F /* CCSegmentedControl.m */; };
 		6BEF74891BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEF74881BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.m */; };
@@ -1442,6 +1443,8 @@
 		6BEA56BD1AE24DCE000D19C1 /* RSADataSigner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataSigner.m; sourceTree = "<group>"; };
 		6BEA56BE1AE24DCE000D19C1 /* RSADataVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSADataVerifier.h; sourceTree = "<group>"; };
 		6BEA56BF1AE24DCE000D19C1 /* RSADataVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataVerifier.m; sourceTree = "<group>"; };
+		6BEC3FC71C1122B40046F11D /* GetCityInfoByNameOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetCityInfoByNameOp.h; path = Class/GetCityInfoByNameOp.h; sourceTree = "<group>"; };
+		6BEC3FC81C1122B40046F11D /* GetCityInfoByNameOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetCityInfoByNameOp.m; path = Class/GetCityInfoByNameOp.m; sourceTree = "<group>"; };
 		6BEDB0401BA66242009A8C3F /* InsuranceDetailPlanModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceDetailPlanModel.h; sourceTree = "<group>"; };
 		6BEDB0411BA66242009A8C3F /* InsuranceDetailPlanModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceDetailPlanModel.m; sourceTree = "<group>"; };
 		6BEDB0441BA666D4009A8C3F /* CCSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSegmentedControl.h; sourceTree = "<group>"; };
@@ -3197,6 +3200,8 @@
 				5014B6591C07043900DFAB18 /* GetShareDetailOp.m */,
 				505358F21C0D79640029B5BA /* SharedNotifyOp.h */,
 				505358F31C0D79640029B5BA /* SharedNotifyOp.m */,
+				6BEC3FC71C1122B40046F11D /* GetCityInfoByNameOp.h */,
+				6BEC3FC81C1122B40046F11D /* GetCityInfoByNameOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -3765,6 +3770,7 @@
 				1833F5901BCD373B000E1DA1 /* GetGascardListOp.m in Sources */,
 				6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */,
 				507A4DDF1B74462200E0BF1E /* UnbundlingVC.m in Sources */,
+				6BEC3FC91C1122B40046F11D /* GetCityInfoByNameOp.m in Sources */,
 				6B5E0C1A1BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.m in Sources */,
 				6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */,
 				6BB61BA31AEF7CAE004F39AA /* NSString+RectSize.m in Sources */,

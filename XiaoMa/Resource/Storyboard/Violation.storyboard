@@ -168,9 +168,13 @@
                                                             <animations/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <state key="normal" title="Button">
-                                                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             </state>
                                                         </button>
+                                                        <activityIndicatorView opaque="NO" tag="102" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="UTN-II-849">
+                                                            <rect key="frame" x="522" y="12" width="20" height="20"/>
+                                                            <animations/>
+                                                        </activityIndicatorView>
                                                     </subviews>
                                                     <animations/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -181,9 +185,11 @@
                                                         <constraint firstItem="7RA-IR-DZn" firstAttribute="leading" secondItem="pIx-cQ-cWR" secondAttribute="leading" constant="10" id="VAr-lp-xdv"/>
                                                         <constraint firstItem="pIx-cQ-cWR" firstAttribute="trailing" secondItem="nBV-kf-kf0" secondAttribute="trailing" id="WB0-5t-VKl"/>
                                                         <constraint firstItem="7RA-IR-DZn" firstAttribute="bottom" secondItem="pIx-cQ-cWR" secondAttribute="bottom" id="WCv-H5-9FT"/>
+                                                        <constraint firstItem="UTN-II-849" firstAttribute="trailing" secondItem="7RA-IR-DZn" secondAttribute="trailing" id="dNG-Op-icg"/>
                                                         <constraint firstItem="7RA-IR-DZn" firstAttribute="trailing" secondItem="nBV-kf-kf0" secondAttribute="leading" constant="-10" id="hnR-fv-ixU"/>
                                                         <constraint firstItem="pIx-cQ-cWR" firstAttribute="leading" secondItem="PJl-a7-VVo" secondAttribute="trailing" constant="10" id="l2e-nt-lgC"/>
                                                         <constraint firstItem="PJl-a7-VVo" firstAttribute="bottom" secondItem="pIx-cQ-cWR" secondAttribute="bottom" constant="-6" id="m8G-eO-ggb"/>
+                                                        <constraint firstItem="UTN-II-849" firstAttribute="centerY" secondItem="7RA-IR-DZn" secondAttribute="centerY" id="mIQ-Ao-YxJ"/>
                                                         <constraint firstAttribute="bottom" secondItem="nBV-kf-kf0" secondAttribute="bottom" constant="5" id="sPu-og-yCi"/>
                                                         <constraint firstItem="pIx-cQ-cWR" firstAttribute="width" secondItem="fQw-FX-DpK" secondAttribute="width" constant="-100" id="tUE-0w-CLI"/>
                                                         <constraint firstItem="7RA-IR-DZn" firstAttribute="top" secondItem="fQw-FX-DpK" secondAttribute="top" constant="5" id="xJi-3F-dEL"/>

@@ -71,8 +71,6 @@
     [super viewDidLoad];
     
     self.view.userInteractionEnabled = NO;
-    
-    NSLog(@"home page :%@",NSStringFromCGSize(self.scrollView.contentSize));
 
     [gAppMgr loadLastLocationAndWeather];
     [gAdMgr loadLastAdvertiseInfo:AdvertisementHomePage];

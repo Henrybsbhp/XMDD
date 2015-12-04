@@ -30,14 +30,12 @@
 
 + (instancetype)cityWithJSONResponse:(NSDictionary *)rsp
 {
-    if ([rsp isKindOfClass:[NSDictionary class]])
+    if (![rsp isKindOfClass:[NSDictionary class]])
     {
         return nil;
     }
     ViolationCityInfo * city = [[ViolationCityInfo alloc] init];
-    city.pCode = [rsp objectForKey:@"pid"];
-    city.cityCode = [rsp objectForKey:@"cid"];
-    city.cityName = [rsp objectForKey:@"city_name"];
+    city.cityCode = [rsp objectForKey:@"citycode"];
     city.isEngineNum = [rsp boolParamForName:@"engine"];
     city.engineSuffixNum = [rsp integerParamForName:@"engineno"];
     city.isClassNum = [rsp boolParamForName:@"classa"];

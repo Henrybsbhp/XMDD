@@ -12,12 +12,17 @@
 #import "NSString+RectSize.h"
 #import "UIView+Shake.h"
 #import "EditCarVC.h"
+#import "AreaPickerVC.h"
+#import "HKLocationDataModel.h"
+#import "GetCityInfoByNameOp.h"
 
 
 
 @interface ViolationItemViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,strong)NSArray * infoArray;
+
+
 
 /// 旋转动画
 @property (nonatomic,weak)UIImageView * animationView;
@@ -30,6 +35,9 @@
 
 /// 是否展开
 @property (nonatomic)BOOL isSpread;
+
+/// 是否城市信息获取
+@property (nonatomic)BOOL isCityLoading;
 
 @end
 
@@ -63,7 +71,7 @@
 #pragma mark -  Utility
 - (void)setupUI
 {
-    self.isSpread = YES;
+    self.isSpread = NO;
     
     NSInteger total = self.carArray.count + (self.carArray.count < 5 ? 1 : 0);
     NSInteger current = self.car ? [self.carArray indexOfObject:self.car] : self.carArray.count;
@@ -527,6 +535,9 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CityInputCell"];
     
+    UIActivityIndicatorView * ai = (UIActivityIndicatorView *)[cell searchViewWithTag:102];
+    ai.hidden = !self.isCityLoading;
+    ai.animating = self.isCityLoading;
     // 城市点击区域
     UIButton * cityBtn = (UIButton *)[cell searchViewWithTag:101];
     [cityBtn setTitle:self.model.cityInfo.cityName forState:UIControlStateNormal];
@@ -534,26 +545,42 @@
     
     [[[cityBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        NSArray * plistArr = [[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"area.plist" ofType:nil]];
+        [[[[AreaPickerVC rac_presentPickerVCInView:self.view withDatasource:plistArr andCurrentValue:nil forStyle:AreaPickerWithStateAndCityAndDistrict] flattenMap:^RACStream *(HKLocationDataModel * locationData) {
+           
+            GetCityInfoByNameOp * op = [[GetCityInfoByNameOp alloc] init];
+            op.province = @"浙江省";
+            op.city = @"杭州市";
+            return [op rac_postRequest];
+        }] initially:^{
+            
+            self.isCityLoading = YES;
+            ai.hidden = !self.isCityLoading;
+            ai.animating = self.isCityLoading;
+        }] subscribeNext:^(GetCityInfoByNameOp * op) {
+            
+            self.isCityLoading = NO;
+            ai.hidden = !self.isCityLoading;
+            ai.animating = self.isCityLoading;
+            self.isSpread = YES;
+            
+            
+            ViolationCityInfo * info = op.cityInfo;
+            self.model.cityInfo = info;
         
-//        [[AreaPickerVC rac_presentPickerVCInView:self.view withDatasource:plistArr andCurrentValue:nil forStyle:AreaPickerWithStateAndCityAndDistrict] subscribeNext:^(HKLocationDataModel * locationData) {
-//            @strongify(self);
-//            self.hkLocation = locationData;
-//            self.cityField.text = [NSString stringWithFormat:@"%@ %@ %@", locationData.state, locationData.city, locationData.district];
-//        } error:^(NSError *error) {
-//            
-//        }];
-        
-        ViolationCityInfo * info = [[ViolationCityInfo alloc] init];
-        info.cityCode = @"ZJ_HZ";
-        info.cityName = @"杭州";
-        info.isEngineNum = NO;
-        info.isClassNum = YES;
-        info.classSuffixNum = 6;
-        self.model.cityInfo = info;
-        
-        [self handleViolationCityInfo];
-        [self.tableView reloadData];
+            [self handleViolationCityInfo];
+            [self.tableView reloadData];
+        } error:^(NSError *error) {
+            
+            self.isCityLoading = NO;
+            ai.hidden = !self.isCityLoading;
+            ai.animating = self.isCityLoading;
+            [gToast showError:error.domain];
+        }];
+
     }];
+    
+    
     return cell;
 }
 
