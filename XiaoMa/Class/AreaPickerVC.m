@@ -28,7 +28,7 @@
 
 - (void)dealloc
 {
-    
+    DebugLog(@"AreaPickerVC dealloc");
 }
 
 - (void)didReceiveMemoryWarning {

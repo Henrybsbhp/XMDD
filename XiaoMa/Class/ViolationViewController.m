@@ -19,13 +19,16 @@
 
 @property (nonatomic)BOOL isloading;
 
+/// 用于自动跳转到新添加的爱车页面
+@property (nonatomic,strong)HKMyCar * addCar;
+
 @end
 
 @implementation ViolationViewController
 
 - (void)dealloc
 {
-    DebugLog(@"IllegalViewController dealloc");
+    DebugLog(@"ViolationViewController dealloc");
 }
 
 - (void)viewDidLoad {
@@ -103,6 +106,16 @@
     {
         [self createIllegalCardWithCar:nil];
     }
+    
+    NSInteger index = NSNotFound;
+    
+    if (self.addCar) {
+        index = [self.datasource indexOfObject:self.addCar];
+    }
+    if (index == NSNotFound) {
+        index = 0;
+    }
+    [self loadPageIndex:index animated:NO];
 }
 
 - (void)createIllegalCardWithCar:(NSObject *)car
@@ -129,8 +142,19 @@
     [self.scrollView addSubview:itemVc.view];
 }
 
+- (void)loadPageIndex:(NSUInteger)index animated:(BOOL)animated
+{
+    CGFloat w = CGRectGetWidth(self.view.frame);
+    CGRect frame = self.scrollView.frame;
+    frame.origin.x = w * index;
+    frame.origin.y = 0;
+    
+    [self.scrollView scrollRectToVisible:frame animated:animated];
+}
+
 - (void)reloadDataWithEvent:(CKStoreEvent *)evt
 {
+    NSInteger code = evt.code;
     @weakify(self);
     [[[[evt.signal deliverOn:[RACScheduler mainThreadScheduler]] initially:^{
         
@@ -145,6 +169,9 @@
     }] subscribeNext:^(id x) {
         
         @strongify(self);
+        if (code == kCKStoreEventAdd) {
+            self.addCar = x;
+        }
         self.datasource = [self.carStore.cache allObjects];
         [self refreshScrollView];
     } error:^(NSError *error) {

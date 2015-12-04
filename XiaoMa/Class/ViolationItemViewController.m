@@ -22,8 +22,6 @@
 
 @property (nonatomic,strong)NSArray * infoArray;
 
-
-
 /// 旋转动画
 @property (nonatomic,weak)UIImageView * animationView;
 @property (nonatomic,strong)CABasicAnimation * animation;
@@ -32,12 +30,13 @@
 /// 是否查询过，用于图片替换，和主逻辑关系不大
 @property (nonatomic)BOOL isQueryed;
 
-
 /// 是否展开
 @property (nonatomic)BOOL isSpread;
 
 /// 是否城市信息获取
 @property (nonatomic)BOOL isCityLoading;
+
+@property (nonatomic,weak)UIButton  * cityBtn;
 
 @end
 
@@ -99,6 +98,8 @@
     {
         self.model = [[ViolationModel alloc] init];
         self.model.licencenumber = self.car.licencenumber;
+        self.model.classno = self.car.classno;
+        self.model.engineno = self.car.engineno;
         
         @weakify(self)
         [[self.model rac_getLocalUserViolation] subscribeNext:^(id x) {
@@ -135,6 +136,12 @@
 #pragma mark - Utility
 - (void)queryAction
 {
+    if (self.model.cityInfo.cityCode.length <=  0)
+    {
+        [self.cityBtn.superview.subviews makeObjectsPerformSelector:@selector(shake)];
+        return;
+    }
+        
     for (NSDictionary * dict in self.infoArray)
     {
         UITextField * feild = [dict objectForKey:@"feild"];
@@ -168,11 +175,11 @@
     self.model.licencenumber = self.car.licencenumber;
     self.model.cid = self.car.carId;
     
-    [[[[self.model rac_requestUserViolation] initially:^{
+    [[[self.model rac_requestUserViolation] initially:^{
         
         self.isQuerying = YES;
         [self queryTransform];
-    }] delay:3.0f] subscribeNext:^(id x) {
+    }] subscribeNext:^(id x) {
         
         self.isQuerying = NO;
         [self stopQueryTransform];
@@ -543,9 +550,12 @@
     [cityBtn setTitle:self.model.cityInfo.cityName forState:UIControlStateNormal];
     cityBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     
+    @weakify(self)
     [[[cityBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         NSArray * plistArr = [[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"area.plist" ofType:nil]];
+        
+        @strongify(self)
         [[[[AreaPickerVC rac_presentPickerVCInView:self.view withDatasource:plistArr andCurrentValue:nil forStyle:AreaPickerWithStateAndCityAndDistrict] flattenMap:^RACStream *(HKLocationDataModel * locationData) {
            
             GetCityInfoByNameOp * op = [[GetCityInfoByNameOp alloc] init];
@@ -554,11 +564,13 @@
             return [op rac_postRequest];
         }] initially:^{
             
+            @strongify(self)
             self.isCityLoading = YES;
             ai.hidden = !self.isCityLoading;
             ai.animating = self.isCityLoading;
         }] subscribeNext:^(GetCityInfoByNameOp * op) {
             
+            @strongify(self)
             self.isCityLoading = NO;
             ai.hidden = !self.isCityLoading;
             ai.animating = self.isCityLoading;
@@ -572,6 +584,7 @@
             [self.tableView reloadData];
         } error:^(NSError *error) {
             
+            @strongify(self)
             self.isCityLoading = NO;
             ai.hidden = !self.isCityLoading;
             ai.animating = self.isCityLoading;
@@ -580,6 +593,7 @@
 
     }];
     
+    self.cityBtn = cityBtn;
     
     return cell;
 }
@@ -652,10 +666,12 @@
     }
     
     self.animationView = animationView;
-        
     
+    
+    @weakify(self)
     [[[queryBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        @strongify(self)
         if (!self.isQuerying)
         {
             [self queryAction];
@@ -727,9 +743,7 @@
     ///原因标志
     UILabel * whyLb = (UILabel *)[cell searchViewWithTag:106];
     whyLb.text = violation.violationAct;
-    
-    [cell setNeedsUpdateConstraints];
-    [cell updateConstraintsIfNeeded];
+
     
     return cell;
 }
