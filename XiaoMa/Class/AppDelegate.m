@@ -493,7 +493,7 @@
     }
     self.logModel.userid = gAppMgr.myUser.userID ? gAppMgr.myUser.userID : @"00000000000";
     self.logModel.appname = @"com.huika.xmdd";
-    [self.logModel addToScreen];
+    [self.logModel addToScreen];//12
 #endif
 }
 
