@@ -504,7 +504,7 @@
 /// test
 
 /**
- *  nihao
+ *  nihao hi
  */
 
 @end
