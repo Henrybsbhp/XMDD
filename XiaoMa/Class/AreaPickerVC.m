@@ -90,7 +90,7 @@
     self.citiesArr = [[self.provincesArr objectAtIndex:0] objectForKey:@"cities"];
     self.hkLocation = [[HKLocationDataModel alloc] init];
     
-    self.hkLocation.state = [[self.provincesArr objectAtIndex:0] objectForKey:@"state"];
+    self.hkLocation.province = [[self.provincesArr objectAtIndex:0] objectForKey:@"state"];
     self.hkLocation.city = [[self.citiesArr objectAtIndex:0] objectForKey:@"city"];
     
     self.districtArr = [[self.citiesArr objectAtIndex:0] objectForKey:@"areas"];
@@ -188,7 +188,7 @@
                 [pickerView selectRow:0 inComponent:2 animated:YES];
                 [pickerView reloadComponent:2];
                 
-                self.hkLocation.state = [[self.provincesArr objectAtIndex:row] objectForKey:@"state"];
+                self.hkLocation.province = [[self.provincesArr objectAtIndex:row] objectForKey:@"state"];
                 self.hkLocation.city = [[self.citiesArr objectAtIndex:0] objectForKey:@"city"];
                 if ([self.districtArr count] > 0) {
                     self.hkLocation.district = [self.districtArr objectAtIndex:0];
@@ -225,7 +225,7 @@
                 [pickerView selectRow:0 inComponent:1 animated:YES];
                 [pickerView reloadComponent:1];
                 
-                self.hkLocation.state = [[self.provincesArr objectAtIndex:row] objectForKey:@"state"];
+                self.hkLocation.province = [[self.provincesArr objectAtIndex:row] objectForKey:@"state"];
                 self.hkLocation.city = [self.citiesArr objectAtIndex:0];
                 break;
             case 1:

@@ -12,9 +12,9 @@
 #import "NSString+RectSize.h"
 #import "UIView+Shake.h"
 #import "EditCarVC.h"
-#import "AreaPickerVC.h"
 #import "HKLocationDataModel.h"
 #import "GetCityInfoByNameOp.h"
+#import "AreaTablePickerVC.h"
 
 
 
@@ -553,44 +553,48 @@
     @weakify(self)
     [[[cityBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
-        NSArray * plistArr = [[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"area.plist" ofType:nil]];
-        
-        @strongify(self)
-        [[[[AreaPickerVC rac_presentPickerVCInView:self.view withDatasource:plistArr andCurrentValue:nil forStyle:AreaPickerWithStateAndCityAndDistrict] flattenMap:^RACStream *(HKLocationDataModel * locationData) {
-           
-            GetCityInfoByNameOp * op = [[GetCityInfoByNameOp alloc] init];
-            op.province = @"浙江省";
-            op.city = @"杭州市";
-            return [op rac_postRequest];
-        }] initially:^{
-            
-            @strongify(self)
-            self.isCityLoading = YES;
-            ai.hidden = !self.isCityLoading;
-            ai.animating = self.isCityLoading;
-        }] subscribeNext:^(GetCityInfoByNameOp * op) {
-            
-            @strongify(self)
-            self.isCityLoading = NO;
-            ai.hidden = !self.isCityLoading;
-            ai.animating = self.isCityLoading;
-            self.isSpread = YES;
-            
-            
-            ViolationCityInfo * info = op.cityInfo;
-            self.model.cityInfo = info;
-        
-            [self handleViolationCityInfo];
-            [self.tableView reloadData];
-        } error:^(NSError *error) {
-            
-            @strongify(self)
-            self.isCityLoading = NO;
-            ai.hidden = !self.isCityLoading;
-            ai.animating = self.isCityLoading;
-            [gToast showError:error.domain];
-        }];
 
+        AreaTablePickerVC * vc = [UIStoryboard vcWithId:@"AreaTablePickerVC" inStoryboard:@"Common"];
+        vc.areaType = AreaTypeProvince;
+        vc.originVC = self.parentViewController;
+        
+        [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
+//            self.cityField.text = [NSString stringWithFormat:@"%@ %@ %@", provinceModel.infoName, cityModel.infoName, disctrictModel.infoName];
+//            self.hkLocation.province = provinceModel.infoName;
+//            self.hkLocation.city = cityModel.infoName;
+//            self.hkLocation.district = disctrictModel.infoName;
+            
+            GetCityInfoByNameOp * op = [[GetCityInfoByNameOp alloc] init];
+            op.province = provinceModel.infoName;
+            op.city = cityModel.infoName;
+            
+            [[[op rac_postRequest] initially:^{
+                
+                self.isCityLoading = YES;
+                ai.hidden = !self.isCityLoading;
+                ai.animating = self.isCityLoading;
+            }] subscribeNext:^(GetCityInfoByNameOp * op) {
+                
+                self.isCityLoading = NO;
+                ai.hidden = !self.isCityLoading;
+                ai.animating = self.isCityLoading;
+                self.isSpread = YES;
+                
+                
+                ViolationCityInfo * info = op.cityInfo;
+                self.model.cityInfo = info;
+                
+                [self handleViolationCityInfo];
+                [self.tableView reloadData];
+            } error:^(NSError *error) {
+                
+                self.isCityLoading = NO;
+                ai.hidden = !self.isCityLoading;
+                ai.animating = self.isCityLoading;
+                [gToast showError:error.domain];
+            }];
+        }];
+        [self.navigationController pushViewController:vc animated:YES];
     }];
     
     self.cityBtn = cityBtn;
