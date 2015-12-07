@@ -136,38 +136,44 @@
 #pragma mark - Utility
 - (void)queryAction
 {
-    if (self.model.cityInfo.cityCode.length <=  0)
-    {
-        [self.cityBtn.superview.subviews makeObjectsPerformSelector:@selector(shake)];
-        return;
-    }
-        
-    for (NSDictionary * dict in self.infoArray)
-    {
-        UITextField * feild = [dict objectForKey:@"feild"];
-        NSInteger num = [dict[@"suffixno"] integerValue];
-        if (feild.text.length < num && num > 0)
-        {
-            [feild.superview.subviews makeObjectsPerformSelector:@selector(shake)];
-            return;
-        }
-        if (feild.text.length == 0)
-        {
-             [feild.superview.subviews makeObjectsPerformSelector:@selector(shake)];
-            return;
-        }
-        
-        if ([dict[@"title"] isEqualToString:@"发动机号"])
-        {
-            self.model.engineno = feild.text;
-        }
-        else if ([dict[@"title"] isEqualToString:@"车架号码"])
-        {
-            self.model.classno = feild.text;
-        }
-    }
+    [self insertCityInfoCell];
     
-    [self requesViolation];
+    // 先扩展车信息，为展示动画，延时一秒去查询
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        if (self.model.cityInfo.cityCode.length <=  0)
+        {
+            [self.cityBtn.superview.subviews makeObjectsPerformSelector:@selector(shake)];
+            return;
+        }
+        
+        for (NSDictionary * dict in self.infoArray)
+        {
+            UITextField * feild = [dict objectForKey:@"feild"];
+            NSInteger num = [dict[@"suffixno"] integerValue];
+            if (feild.text.length < num && num > 0)
+            {
+                [feild.superview.subviews makeObjectsPerformSelector:@selector(shake)];
+                return;
+            }
+            if (feild.text.length == 0)
+            {
+                [feild.superview.subviews makeObjectsPerformSelector:@selector(shake)];
+                return;
+            }
+            
+            if ([dict[@"title"] isEqualToString:@"发动机号"])
+            {
+                self.model.engineno = feild.text;
+            }
+            else if ([dict[@"title"] isEqualToString:@"车架号码"])
+            {
+                self.model.classno = feild.text;
+            }
+        }
+        
+        [self requesViolation];
+    });
 }
 
 - (void)requesViolation
@@ -185,12 +191,13 @@
         [self stopQueryTransform];
         self.isSpread = NO;
         [self.tableView reloadData];
+        
     } error:^(NSError *error) {
     
         self.isQuerying = NO;
         [self stopQueryTransform];
         [self.tableView reloadData];
-//        [gToast showError:error.domain];
+        [gToast showError:error.domain];
     }];
 }
 
@@ -216,6 +223,39 @@
     
 }
 
+
+- (void)insertCityInfoCell
+{
+    if (self.isSpread)
+        return;
+    self.isSpread = YES;
+    NSMutableArray * array = [NSMutableArray array];
+    for (NSInteger i = 0; i < self.infoArray.count; i++)
+    {
+        NSIndexPath  * path = [NSIndexPath indexPathForRow:i + 2 inSection:0];
+        [array safetyAddObject:path];
+    }
+    NSIndexPath  * path = [NSIndexPath indexPathForRow:self.infoArray.count + 2 inSection:0];
+    [array safetyAddObject:path];
+    
+    [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationBottom];
+}
+
+- (void)deleteCityInfoCell
+{
+    if (!self.isSpread)
+        return;
+    self.isSpread = NO;
+    NSMutableArray * array = [NSMutableArray array];
+    for (NSInteger i = 0; i < self.infoArray.count; i++)
+    {
+        NSIndexPath  * path = [NSIndexPath indexPathForRow:i + 2 inSection:0];
+        [array safetyAddObject:path];
+    }
+    NSIndexPath  * path = [NSIndexPath indexPathForRow:self.infoArray.count + 2 inSection:0];
+    [array safetyAddObject:path];
+    [self.tableView deleteRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationTop];
+}
 
 #pragma mark - Table view data source
 
@@ -492,36 +532,14 @@
     }
     else if ([cell.reuseIdentifier  isEqualToString:@"SeparatorCell"])
     {
-        
         if (self.isSpread)
         {
-            self.isSpread = NO;
-            NSMutableArray * array = [NSMutableArray array];
-            for (NSInteger i = 0; i < self.infoArray.count; i++)
-            {
-                NSIndexPath  * path = [NSIndexPath indexPathForRow:i + 2 inSection:0];
-                [array safetyAddObject:path];
-            }
-            NSIndexPath  * path = [NSIndexPath indexPathForRow:self.infoArray.count + 2 inSection:0];
-            [array safetyAddObject:path];
-            [self.tableView deleteRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationTop];
+            [self deleteCityInfoCell];
         }
         else
         {
-            self.isSpread = YES;
-            NSMutableArray * array = [NSMutableArray array];
-            for (NSInteger i = 0; i < self.infoArray.count; i++)
-            {
-                NSIndexPath  * path = [NSIndexPath indexPathForRow:i + 2 inSection:0];
-                [array safetyAddObject:path];
-            }
-            NSIndexPath  * path = [NSIndexPath indexPathForRow:self.infoArray.count + 2 inSection:0];
-            [array safetyAddObject:path];
-
-            [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationBottom];
+            [self insertCityInfoCell];
         }
-        
-        
     }
 }
 
@@ -553,16 +571,12 @@
     @weakify(self)
     [[[cityBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
-
+        @strongify(self)
         AreaTablePickerVC * vc = [UIStoryboard vcWithId:@"AreaTablePickerVC" inStoryboard:@"Common"];
         vc.areaType = AreaTypeProvince;
         vc.originVC = self.parentViewController;
         
         [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
-//            self.cityField.text = [NSString stringWithFormat:@"%@ %@ %@", provinceModel.infoName, cityModel.infoName, disctrictModel.infoName];
-//            self.hkLocation.province = provinceModel.infoName;
-//            self.hkLocation.city = cityModel.infoName;
-//            self.hkLocation.district = disctrictModel.infoName;
             
             GetCityInfoByNameOp * op = [[GetCityInfoByNameOp alloc] init];
             op.province = provinceModel.infoName;
@@ -681,7 +695,6 @@
             [self queryAction];
         }
         self.isQueryed = YES;
-        
     }];
     
     // 按钮下面的小标题
@@ -738,7 +751,7 @@
 
     ///时间标志
     UILabel * whenLb = (UILabel *)[cell searchViewWithTag:104];
-    whenLb.text = [violation.violationDate dateFormatForText];
+    whenLb.text = violation.violationDate;
     
     ///地点标志
     UILabel * whereLb = (UILabel *)[cell searchViewWithTag:105];

@@ -12,7 +12,7 @@
 
 
 ///违章时间
-@property (nonatomic,strong)NSDate * violationDate;
+@property (nonatomic,copy)NSString * violationDate;
 
 ///违章地点
 @property (nonatomic,copy)NSString * violationArea;

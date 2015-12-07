@@ -17,7 +17,7 @@
         return nil;
     }
     HKViolation * violation = [HKViolation new];
-    violation.violationDate = [NSDate dateWithUTS:rsp[@"date"]];
+    violation.violationDate = rsp[@"date"];
     violation.violationArea = rsp[@"area"];
     violation.violationAct = rsp[@"act"];
     violation.violationCode= rsp[@"code"];
