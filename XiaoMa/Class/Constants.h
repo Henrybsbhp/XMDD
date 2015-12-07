@@ -51,6 +51,30 @@ typedef enum : NSUInteger {
     AdvertisementTypeLaunch = 30
 } AdvertisementType;
 
+///分享页面类型
+//1-每周礼券红包分享
+//2-洗车完成分享
+typedef enum : NSUInteger {
+    ShareSceneGain = 3,
+    ShareSceneCarwash = 2,
+    ShareSceneAbout = 6,
+    ShareSceneWebBridge = 7
+} ShareSceneType;
+
+///分享按钮类型
+//1-微信好友
+//2-微信朋友圈
+//3-微博
+//4-QQ好友
+//5-QQ空间
+typedef enum : NSUInteger {
+    ShareButtonWechat = 1,
+    ShareButtonTimeLine = 2,
+    ShareButtonWeibo = 3,
+    ShareButtonQQFriend = 4,
+    ShareButtonQQZone = 5
+} ShareButtonType;
+
 #define IOSAPPID 1001
 #define BaiduMapUrl @"baidumap://map/"
 #define AMapUrl  @"iosamap://"
@@ -98,6 +122,7 @@ typedef enum : NSUInteger {
 #define commissionStoryboard [UIStoryboard storyboardWithName:@"Commission" bundle:nil]
 #define awardStoryboard [UIStoryboard storyboardWithName:@"Award" bundle:nil]
 #define insuranceStoryboard [UIStoryboard storyboardWithName:@"Insurance" bundle:nil]
+#define violationStoryboard [UIStoryboard storyboardWithName:@"Violation" bundle:nil]
 
 #define LocationFail 7001
 #define WechatPayFail 7002

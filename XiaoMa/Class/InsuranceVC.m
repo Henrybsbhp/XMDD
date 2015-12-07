@@ -29,6 +29,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupADView];
+    RACSignal *sig = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        [subscriber sendNext:@1];
+        [subscriber sendNext:@2];
+        CKAsyncDefaultQueue(^{
+            [subscriber sendNext:@3];
+            CKAfter(2, ^{
+                [subscriber sendNext:@4];
+                [subscriber sendCompleted];
+            });
+        });
+        return nil;
+    }];
+    
+    [sig subscribeNext:^(id x) {
+        NSLog(@"x=%@", x);
+    } completed:^{
+        NSLog(@"completed");
+    }];
 }
 
 - (void)dealloc

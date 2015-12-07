@@ -7,15 +7,16 @@
 //
 
 #import "SocialShareViewController.h"
-
 #import <TencentOpenAPI.framework/Headers/QQApiInterface.h>
 #import <TencentOpenAPI.framework/Headers/QQApiInterfaceObject.h>
+#import "GetShareDetailOp.h"
 
-typedef void(^FinishBlock)(void);
 
 @interface SocialShareViewController ()
-
-@property (nonatomic,weak)FinishBlock block;
+@property (weak, nonatomic) IBOutlet UILabel *wechatLabel;
+@property (weak, nonatomic) IBOutlet UILabel *timeLineLabel;
+@property (weak, nonatomic) IBOutlet UILabel *weiboLabel;
+@property (weak, nonatomic) IBOutlet UILabel *qqLabel;
 
 @end
 
@@ -34,43 +35,204 @@ typedef void(^FinishBlock)(void);
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.wechatBtn.enabled = NO;
+    self.timelineBtn.enabled = NO;
+    self.weiboBtn.enabled = NO;
+    self.qqBtn.enabled = NO;
+    
+    for (int i = 0; i < self.btnTypeArr.count; i++) {
+        ShareButtonType btnType = [self.btnTypeArr[i] intValue];
+        if (btnType == ShareButtonWechat && [WXApi isWXAppInstalled]) {
+            self.wechatBtn.enabled = YES;
+            self.wechatLabel.textColor = [UIColor colorWithHex:@"#545454" alpha:1.0f];
+        }
+        if (btnType == ShareButtonTimeLine && [WXApi isWXAppInstalled]) {
+            self.timelineBtn.enabled = YES;
+            self.timeLineLabel.textColor = [UIColor colorWithHex:@"#545454" alpha:1.0f];
+        }
+        if (btnType == ShareButtonWeibo && WeiboSDK.isWeiboAppInstalled) {
+            self.weiboBtn.enabled = YES;
+            self.weiboLabel.textColor = [UIColor colorWithHex:@"#545454" alpha:1.0f];
+        }
+        if (btnType == ShareButtonQQFriend) {
+            self.qqBtn.enabled = YES;
+            self.qqLabel.textColor = [UIColor colorWithHex:@"#545454" alpha:1.0f];
+        }
+    }
+    
     [[_wechatBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [MobClick event:@"rp110-3"];
-        [self shareWechat];
-        if (self.finishAction)
-        {
-            self.finishAction();
+        
+        if (self.sceneType == ShareSceneAbout) {
+            if (self.clickAction) {
+                CKAfter(0.3, ^{
+                    self.clickAction();
+                });
+            }
+            [self shareWechat];
+        }
+        else {
+            GetShareDetailOp * op = [GetShareDetailOp operation];
+            op.pagePosition = self.sceneType;
+            op.buttonId = ShareButtonWechat;
+            @weakify(self);
+            [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
+                
+                @strongify(self);
+                self.tt = op.rsp_title;
+                self.subtitle = op.rsp_desc;
+                self.urlStr = op.rsp_linkurl;
+                [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"wechat_share_carwash" errorPic:@"wechat_share_carwash"] subscribeNext:^(UIImage * x) {
+                    self.image = x;
+                    
+                    if (self.clickAction) {
+                        CKAfter(0.3, ^{
+                            self.clickAction();
+                        });
+                    }
+                    [self shareWechat];
+                }];
+            } error:^(NSError *error) {
+                [gToast showError:error.domain];
+                if (self.clickAction) {
+                    CKAfter(0.3, ^{
+                        self.clickAction();
+                    });
+                }
+            }];
         }
     }];
     
-    [[_timelineBrn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+    [[_timelineBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [MobClick event:@"rp110-4"];
-        [self shareTimeline];
-        if (self.finishAction)
-        {
-            self.finishAction();
+        
+        if (self.sceneType == ShareSceneAbout) {
+            if (self.clickAction) {
+                CKAfter(0.3, ^{
+                    self.clickAction();
+                });
+            }
+            [self shareTimeline];
+        }
+        else {
+            GetShareDetailOp * op = [GetShareDetailOp operation];
+            op.pagePosition = self.sceneType;
+            op.buttonId = ShareButtonTimeLine;
+            @weakify(self);
+            [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
+                
+                @strongify(self);
+                self.tt = op.rsp_title;
+                self.subtitle = op.rsp_desc;
+                self.urlStr = op.rsp_linkurl;
+                [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"wechat_share_carwash" errorPic:@"wechat_share_carwash"] subscribeNext:^(UIImage * x) {
+                    self.image = x;
+                    
+                    if (self.clickAction) {
+                        CKAfter(0.3, ^{
+                            self.clickAction();
+                        });
+                    }
+                    [self shareTimeline];
+                }];
+            } error:^(NSError *error) {
+                [gToast showError:error.domain];
+                if (self.clickAction) {
+                    CKAfter(0.3, ^{
+                        self.clickAction();
+                    });
+                }
+            }];
         }
     }];
     
     [[_weiboBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [MobClick event:@"rp110-5"];
-        [self shareWeibo];
-        if (self.finishAction)
-        {
-            self.finishAction();
+        
+        if (self.sceneType == ShareSceneAbout) {
+            if (self.clickAction) {
+                CKAfter(0.3, ^{
+                    self.clickAction();
+                });
+            }
+            [self shareWeibo];
+        }
+        else {
+            GetShareDetailOp * op = [GetShareDetailOp operation];
+            op.pagePosition = self.sceneType;
+            op.buttonId = ShareButtonWeibo;
+            @weakify(self);
+            [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
+                
+                @strongify(self);
+                self.tt = op.rsp_title;
+                self.subtitle = op.rsp_desc;
+                self.urlStr = op.rsp_linkurl;
+                [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"award_element1" errorPic:@"award_element1"] subscribeNext:^(UIImage * x) {
+                    self.webimage = x;
+                    
+                    if (self.clickAction) {
+                        CKAfter(0.3, ^{
+                            self.clickAction();
+                        });
+                    }
+                    [self shareWeibo];
+                }];
+            } error:^(NSError *error) {
+                [gToast showError:error.domain];
+                if (self.clickAction) {
+                    CKAfter(0.3, ^{
+                        self.clickAction();
+                    });
+                }
+            }];
         }
     }];
     
     [[_qqBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [MobClick event:@"rp110-6"];
-        [self shareQQ];
-        if (self.finishAction)
-        {
-            self.finishAction();
+        
+        if (self.sceneType == ShareSceneAbout) {
+            if (self.clickAction) {
+                CKAfter(0.3, ^{
+                    self.clickAction();
+                });
+            }
+            [self shareQQ];
+        }
+        else {
+            GetShareDetailOp * op = [GetShareDetailOp operation];
+            op.pagePosition = self.sceneType;
+            op.buttonId = ShareButtonQQFriend;
+            @weakify(self);
+            [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
+                
+                @strongify(self);
+                self.tt = op.rsp_title;
+                self.subtitle = op.rsp_desc;
+                self.urlStr = op.rsp_linkurl;
+                [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"award_element1" errorPic:@"award_element1"] subscribeNext:^(UIImage * x) {
+                    self.image = x;
+                    
+                    if (self.clickAction) {
+                        CKAfter(0.3, ^{
+                            self.clickAction();
+                        });
+                    }
+                    [self shareQQ];
+                }];
+            } error:^(NSError *error) {
+                [gToast showError:error.domain];
+                if (self.clickAction) {
+                    CKAfter(0.3, ^{
+                        self.clickAction();
+                    });
+                }
+            }];
         }
     }];
 }
@@ -85,46 +247,30 @@ typedef void(^FinishBlock)(void);
     DebugLog(@"SocialShareViewController dealloc ~~~");
 }
 
-
 - (void)shareWechat
 {
-    if ([WXApi isWXAppInstalled]) {
-        [self shareToWeChat:WXSceneSession withTitle:self.tt
+    [self shareToWeChat:WXSceneSession withTitle:self.tt
              andDescription:self.subtitle andImage:self.image andUrl:self.urlStr];
-    }
-    else {
-        [gToast showText:@"未安装微信，请安装后再分享"];
-    }
 }
 
 - (void)shareTimeline
 {
-    if ([WXApi isWXAppInstalled]) {
-        [self shareToWeChat:WXSceneTimeline withTitle:self.tt
+    [self shareToWeChat:WXSceneTimeline withTitle:self.tt
              andDescription:self.subtitle andImage:self.image andUrl:self.urlStr];
-    }
-    else {
-        [gToast showText:@"未安装微信，请安装后再分享"];
-    }
 }
 
 - (void)shareWeibo
 {
-    if (WeiboSDK.isWeiboAppInstalled) {
-        WBMessageObject *message = [WBMessageObject message];
-        
-        WBImageObject *image = [WBImageObject object];
-        image.imageData = UIImagePNGRepresentation(self.webimage ? self.webimage : self.image);
-        message.imageObject = image;
-        message.text = [NSString stringWithFormat:@"%@ \n %@ \n %@ ",self.tt,self.subtitle,self.urlStr];
-        
-        WBSendMessageToWeiboRequest * request = [WBSendMessageToWeiboRequest requestWithMessage:message];
-        request.shouldOpenWeiboAppInstallPageIfNotInstalled = NO;
-        [WeiboSDK sendRequest:request];
-    }
-    else {
-        [gToast showText:@"未安装微博，请安装后再分享"];
-    }
+    WBMessageObject *message = [WBMessageObject message];
+    
+    WBImageObject *image = [WBImageObject object];
+    image.imageData = UIImagePNGRepresentation(self.webimage ? self.webimage : self.image);
+    message.imageObject = image;
+    message.text = [NSString stringWithFormat:@"%@ \n %@ \n %@ ",self.tt,self.subtitle,self.urlStr];
+    
+    WBSendMessageToWeiboRequest * request = [WBSendMessageToWeiboRequest requestWithMessage:message];
+    request.shouldOpenWeiboAppInstallPageIfNotInstalled = NO;
+    [WeiboSDK sendRequest:request];
 }
 
 - (void)shareQQ
@@ -136,8 +282,6 @@ typedef void(^FinishBlock)(void);
     QQApiSendResultCode sent = [QQApiInterface sendReq:req];
     [self handleSendResult:sent];
 }
-
-
 
 - (void)shareToWeChat:(NSInteger)scene
             withTitle:(NSString *)title
@@ -162,128 +306,6 @@ typedef void(^FinishBlock)(void);
     
     [WXApi sendReq:req];
 }
-
-#pragma mark - WeChat Delegate
-- (void)onReq:(BaseReq *)req
-{
-    
-}
-
-- (void)onResp:(BaseResp *)resp
-{
-    NSString * msg = @"";
-    [_rac_dismissSignal sendNext:@"dismiss"];
-    if([resp isKindOfClass:[SendMessageToWXResp class]])
-    {
-        if (resp.errCode == WXSuccess)
-        {
-            msg = @"分享成功";
-            [gToast showSuccess:msg];
-        }
-        else if(resp.errCode == WXErrCodeCommon)
-        {
-            msg = @"分享失败，请重试";
-            [gToast showSuccess:msg];
-        }
-        else if(resp.errCode == WXErrCodeUserCancel)
-        {
-            // 用户取消
-            return;
-        }
-        else if(resp.errCode == WXErrCodeSentFail)
-        {
-            msg = @"分享失败，请重试";
-            [gToast showError:msg];
-        }
-        else if(resp.errCode == WXErrCodeAuthDeny)
-        {
-            msg = @"授权失败，请重试";
-            [gToast showError:msg];
-        }
-        else if(resp.errCode == WXErrCodeUnsupport)
-        {
-            msg = @"内容微信不支持";
-            [gToast showError:msg];
-        }
-    }
-}
-
-#pragma mark - Weibo Delegate
-
-- (void)didReceiveWeiboResponse:(WBBaseResponse *)response
-{
-    NSString * msg = @"";
-    if([response isKindOfClass:[WBSendMessageToWeiboResponse class]])
-    {
-        if (response.statusCode == WeiboSDKResponseStatusCodeSuccess)
-        {
-            msg = @"分享成功";
-            [gToast showSuccess:msg];
-        }
-        else if(response.statusCode == WeiboSDKResponseStatusCodeUserCancel)
-        {
-            msg = @"支持一下，请不要取消";
-            [gToast showError:msg];
-        }
-        else if(response.statusCode == WeiboSDKResponseStatusCodeSentFail)
-        {
-            msg = @"分享失败，请重试";
-            [gToast showError:msg];
-        }
-        else if(response.statusCode == WeiboSDKResponseStatusCodeAuthDeny)
-        {
-            msg = @"授权失败，请重试";
-            [gToast showError:msg];
-        }
-        else if(response.statusCode == WeiboSDKResponseStatusCodeUserCancelInstall)
-        {
-            //            msg = @"支持一下，不要取消";
-            //            [gToast showError:msg duration:1.0f];
-        }
-        else if(response.statusCode == WeiboSDKResponseStatusCodeUnsupport)
-        {
-            msg = @"内容微博不支持";
-            [gToast showError:msg];
-        }
-        else if(response.statusCode == WeiboSDKResponseStatusCodeUnknown)
-        {
-            msg = @"分享失败，请重试";
-            [gToast showError:msg];
-        }
-    }
-}
-
-
-- (void)didReceiveWeiboRequest:(WBBaseRequest *)request
-{
-    //    if ([response isKindOfClass:WBSendMessageToWeiboResponse.class])
-    //    {
-    //        NSString *title = @"发送结果";
-    //        NSString *message = [NSString stringWithFormat:@"响应状态: %d\n响应UserInfo数据: %@\n原请求UserInfo数据: %@",(int)response.statusCode, response.userInfo, response.requestUserInfo];
-    //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-    //                                                        message:message
-    //                                                       delegate:nil
-    //                                              cancelButtonTitle:@"确定"
-    //                                              otherButtonTitles:nil];
-    //        [alert show];
-    //    }
-    //    else if ([response isKindOfClass:WBAuthorizeResponse.class])
-    //    {
-    //        NSString *title = @"认证结果";
-    //        NSString *message = [NSString stringWithFormat:@"响应状态: %d\nresponse.userId: %@\nresponse.accessToken: %@\n响应UserInfo数据: %@\n原请求UserInfo数据: %@",(int)response.statusCode,[(WBAuthorizeResponse *)response userID], [(WBAuthorizeResponse *)response accessToken], response.userInfo, response.requestUserInfo];
-    //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-    //                                                        message:message
-    //                                                       delegate:nil
-    //                                              cancelButtonTitle:@"确定"
-    //                                              otherButtonTitles:nil];
-    //
-    //        self.wbtoken = [(WBAuthorizeResponse *)response accessToken];
-    //
-    //        [alert show];
-    //    }
-}
-
-
 
 #pragma mark - QQ
 - (void)handleSendResult:(QQApiSendResultCode)sendResult
@@ -324,6 +346,5 @@ typedef void(^FinishBlock)(void);
         }
     }
 }
-
 
 @end

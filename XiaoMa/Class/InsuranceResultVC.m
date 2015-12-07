@@ -130,7 +130,7 @@
     sheet.shouldCenterVertically = YES;
     [sheet presentAnimated:YES completionHandler:nil];
     
-    [vc setFinishAction:^{
+    [vc setClickAction:^{
         
         [sheet dismissAnimated:YES completionHandler:nil];
     }];

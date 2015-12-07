@@ -9,6 +9,13 @@
 #import "GainAwardViewController.h"
 #import "GainUserAwardOp.h"
 #import "GainedViewController.h"
+#import "AwardShareSheetVC.h"
+#import "SocialShareViewController.h"
+#import "ShareResponeManager.h"
+#import "AwardOtherSheetVC.h"
+#import "CarWashTableVC.h"
+#import "SharedNotifyOp.h"
+#import "GetShareButtonOp.h"
 
 @interface GainAwardViewController ()
 
@@ -121,12 +128,33 @@
     op.req_province = gMapHelper.addrComponent.province;
     op.req_city = gMapHelper.addrComponent.city;
     op.req_district = gMapHelper.addrComponent.district;
+    @weakify(self);
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"抢红包啦..."];
     }] subscribeNext:^(GainUserAwardOp * op) {
         
+        @strongify(self);
+        
         [gToast dismiss];
+        
+        AwardShareSheetVC * sheetVC = [awardStoryboard instantiateViewControllerWithIdentifier:@"AwardShareSheetVC"];
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(300, 400) viewController:sheetVC];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [[sheetVC.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+                [self shareAction];
+            }];
+        }];
+        
+        [[sheetVC.closeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
         GainedViewController * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"GainedViewController"];
         vc.amount = op.rsp_amount;
         vc.tip = op.rsp_tip;
@@ -138,6 +166,101 @@
     }];
 }
 
+- (void)shareAction
+{
+    GetShareButtonOp * op = [GetShareButtonOp operation];
+    op.pagePosition = ShareSceneGain;
+    @weakify(self);
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
+        
+        SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+        vc.sceneType = ShareSceneGain;    //页面位置
+        vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            [MobClick event:@"rp110-7"];
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        [vc setClickAction:^{
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
+        [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
+            
+            @strongify(self)
+            [self handleResultCode:code from:type forSheet:sheet];
+        }];
+        [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
+            
+            @strongify(self)
+            [self handleResultCode:[code integerValue] from:type forSheet:sheet];
+        }];
+    } error:^(NSError *error) {
+        
+    }];
+}
 
+- (void)handleResultCode:(NSInteger)code from:(ShareResponseType)type forSheet:(MZFormSheetController *)sheet
+{
+    @weakify(self);
+    [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+        
+        if (code == 0) {
+            SharedNotifyOp * op = [SharedNotifyOp operation];
+            [gToast showingWithoutText];
+            [[op rac_postRequest] subscribeNext:^(SharedNotifyOp * op) {
+                
+                @strongify(self);
+                [gToast dismiss];
+                if (op.rsp_flag == AwardSheetTypeSuccess) {
+                    [self presentSheet:AwardSheetTypeSuccess];
+                }
+                else {
+                    [self presentSheet:AwardSheetTypeAlreadyget];
+                }
+            } error:^(NSError *error) {
+                [gToast dismiss];
+            }];
+        }
+        else if (type ==ShareResponseWechat && code == -2) {
+            [self presentSheet:AwardSheetTypeCancel];
+        }
+        else if (type == ShareResponseWeibo && code == -1) {
+            [self presentSheet:AwardSheetTypeCancel];
+        }
+        else if (type == ShareResponseQQ && code == -4) {
+            [self presentSheet:AwardSheetTypeCancel];
+        }
+        else {
+            [self presentSheet:AwardSheetTypeFailure];
+        }
+    }];
+}
+
+- (void)presentSheet:(AwardSheetType)type
+{
+    AwardOtherSheetVC * otherVC = [awardStoryboard instantiateViewControllerWithIdentifier:@"AwardOtherSheetVC"];
+    otherVC.sheetType = type;
+    MZFormSheetController *resultSheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(300, 200) viewController:otherVC];
+    resultSheet.shouldCenterVertically = YES;
+    [resultSheet presentAnimated:YES completionHandler:nil];
+    
+    [[otherVC.carwashBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        [resultSheet dismissAnimated:YES completionHandler:nil];
+        CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
+        vc.type = 1;
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    
+    [[otherVC.closeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        [resultSheet dismissAnimated:YES completionHandler:nil];
+    }];
+}
 
 @end
