@@ -35,7 +35,6 @@
 {
     [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     
-    
     if (self.areaType == AreaTypeProvince) {
         self.keyForUpdateTime = @"provinceUpdateTime";
         self.keyForArea = @"provinceArray";
@@ -124,20 +123,15 @@
     
     AreaTablePickerVC * vc = [UIStoryboard vcWithId:@"AreaTablePickerVC" inStoryboard:@"Common"];
     vc.originVC = self.originVC;
+    vc.selectCompleteAction = self.selectCompleteAction;
+    
     HKAreaInfoModel *areaObject = [self.dataSource safetyObjectAtIndex:indexPath.row];
     vc.areaId = areaObject.infoId;
     if (self.areaType == AreaTypeProvince) {
         vc.areaType = AreaTypeCity;
-        vc.originVC = self.originVC;
         self.selectedArray = [[NSMutableArray alloc] init];
         [self.selectedArray addObject:areaObject];
         vc.selectedArray = self.selectedArray;
-        
-        [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
-            if (self.selectCompleteAction) {
-                self.selectCompleteAction(provinceModel, cityModel, disctrictModel);
-            }
-        }];
         
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -146,12 +140,6 @@
         vc.areaType = AreaTypeDicstrict;
         [self.selectedArray addObject:areaObject];
         vc.selectedArray = self.selectedArray;
-        
-        [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
-            if (self.selectCompleteAction) {
-                self.selectCompleteAction(provinceModel, cityModel, disctrictModel);
-            }
-        }];
         
         [self.navigationController pushViewController:vc animated:YES];
     }

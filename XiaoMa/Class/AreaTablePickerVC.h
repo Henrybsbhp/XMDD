@@ -11,7 +11,7 @@
 
 @interface AreaTablePickerVC : UIViewController
 
-@property (strong, nonatomic)void(^selectCompleteAction)(HKAreaInfoModel *provinceModel, HKAreaInfoModel *cityModel, HKAreaInfoModel *disctrictModel);
+@property (nonatomic, copy)void(^selectCompleteAction)(HKAreaInfoModel *provinceModel, HKAreaInfoModel *cityModel, HKAreaInfoModel *disctrictModel);
 
 @property (nonatomic, assign)AreaType areaType;
 @property (nonatomic)NSInteger areaId;

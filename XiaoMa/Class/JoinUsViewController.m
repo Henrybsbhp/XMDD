@@ -107,6 +107,9 @@
         
         [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
             self.cityField.text = [NSString stringWithFormat:@"%@ %@ %@", provinceModel.infoName, cityModel.infoName, disctrictModel.infoName];
+            self.hkLocation.province = provinceModel.infoName;
+            self.hkLocation.city = cityModel.infoName;
+            self.hkLocation.district = disctrictModel.infoName;
         }];
         
         [self.navigationController pushViewController:vc animated:YES];
@@ -126,7 +129,6 @@
         [self shakeCellAtIndex:2];
         return;
     }
-    self.cityField.text = [NSString stringWithFormat:@"%@ %@ %@", self.hkLocation.province, self.hkLocation.city, self.hkLocation.district];
     ApplyUnionOp *op = [ApplyUnionOp new];
     op.req_phone = self.phoneField.text;
     op.req_name = self.nameField.text;
@@ -139,7 +141,7 @@
         JoinResultViewController * vc = [UIStoryboard vcWithId:@"JoinResultViewController" inStoryboard:@"About"];
         vc.phone = self.phoneField.text;
         vc.name = self.nameField.text;
-        vc.address = [NSString stringWithFormat:@"%@省%@市%@", self.hkLocation.province, self.hkLocation.city, self.hkLocation.district];
+        vc.address = [NSString stringWithFormat:@"%@ %@ %@", self.hkLocation.province, self.hkLocation.city, self.hkLocation.district];
         vc.tip = op.rsp_tip;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
