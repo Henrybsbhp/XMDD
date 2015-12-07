@@ -55,10 +55,6 @@
     {
         [self setupData];
     }
-    else
-    {
-        
-    }
     [self.tableView reloadData];
 }
 
@@ -70,8 +66,6 @@
 #pragma mark -  Utility
 - (void)setupUI
 {
-    self.isSpread = NO;
-    
     NSInteger total = self.carArray.count + (self.carArray.count < 5 ? 1 : 0);
     NSInteger current = self.car ? [self.carArray indexOfObject:self.car] : self.carArray.count;
     self.pageControl.numberOfPages = total;
@@ -109,6 +103,7 @@
             [self.tableView reloadData];
         }];
     }
+    self.isSpread = !self.model.queryDate;
 }
 - (void)handleViolationCityInfo
 {
@@ -136,16 +131,16 @@
 #pragma mark - Utility
 - (void)queryAction
 {
+    if (self.model.cityInfo.cityCode.length <=  0)
+    {
+        [self.cityBtn.superview.subviews makeObjectsPerformSelector:@selector(shake)];
+        return;
+    }
+    
     [self insertCityInfoCell];
     
     // 先扩展车信息，为展示动画，延时一秒去查询
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        if (self.model.cityInfo.cityCode.length <=  0)
-        {
-            [self.cityBtn.superview.subviews makeObjectsPerformSelector:@selector(shake)];
-            return;
-        }
         
         for (NSDictionary * dict in self.infoArray)
         {
@@ -190,6 +185,8 @@
         self.isQuerying = NO;
         [self stopQueryTransform];
         self.isSpread = NO;
+        
+        [self handleViolationCityInfo];
         [self.tableView reloadData];
         
     } error:^(NSError *error) {
