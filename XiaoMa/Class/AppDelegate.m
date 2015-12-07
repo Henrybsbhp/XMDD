@@ -94,6 +94,7 @@
     return YES;
 }
 
+
 #pragma mark - Initialize
 - (void)setupLaunchManager
 {
@@ -290,6 +291,9 @@
 - (void)setupCrashlytics
 {
     [Fabric with:@[CrashlyticsKit]];
+    
+    Crashlytics * crashlytics = [Crashlytics sharedInstance];
+    
 }
 
 #pragma mark - Utilities
@@ -497,6 +501,7 @@
 #endif
 }
 
+/// test
 
 /**
  *  nihao

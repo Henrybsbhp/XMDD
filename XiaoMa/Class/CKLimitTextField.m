@@ -38,7 +38,6 @@
     _proxyObject.textField = self;
     self.delegate = _proxyObject;
     [self addTarget:_proxyObject action:@selector(actionTextDidChanged:) forControlEvents:UIControlEventEditingChanged];
-    NSLog(@"self.inputdelegate = %@", self.inputDelegate);
 }
 
 

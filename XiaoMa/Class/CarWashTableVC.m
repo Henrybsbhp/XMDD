@@ -310,13 +310,6 @@
     return CGFLOAT_MIN;
 }
 
-//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-//{
-//    UIView * v = [[UIView alloc] init];
-//    v.backgroundColor = [UIColor redColor];
-//    v.frame = CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, 8.0f);
-//    return v;
-//}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 
