@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ViolationModel.h"
-#import "HKPageControl.h"
+#import "MyUIPageControl.h"
 
 typedef enum : NSUInteger {
     BeforeQuery,
@@ -20,7 +20,8 @@ typedef enum : NSUInteger {
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *headView;
-@property (weak, nonatomic) IBOutlet HKPageControl *pageControl;
+@property (strong, nonatomic) IBOutlet MyUIPageControl *pageController;
+
 
 @property (nonatomic,strong)ViolationModel * model;
 

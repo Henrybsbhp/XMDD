@@ -466,6 +466,7 @@
 		6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BD1AE24DCE000D19C1 /* RSADataSigner.m */; };
 		6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BF1AE24DCE000D19C1 /* RSADataVerifier.m */; };
 		6BEC3FC91C1122B40046F11D /* GetCityInfoByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEC3FC81C1122B40046F11D /* GetCityInfoByNameOp.m */; };
+		6BEC3FCC1C16F1A50046F11D /* MyUIPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEC3FCB1C16F1A50046F11D /* MyUIPageControl.m */; };
 		6BEDB0421BA66242009A8C3F /* InsuranceDetailPlanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDB0411BA66242009A8C3F /* InsuranceDetailPlanModel.m */; };
 		6BEDB0461BA666D4009A8C3F /* CCSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDB0451BA666D4009A8C3F /* CCSegmentedControl.m */; };
 		6BEF74891BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEF74881BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.m */; };
@@ -1451,6 +1452,8 @@
 		6BEA56BF1AE24DCE000D19C1 /* RSADataVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataVerifier.m; sourceTree = "<group>"; };
 		6BEC3FC71C1122B40046F11D /* GetCityInfoByNameOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetCityInfoByNameOp.h; path = Class/GetCityInfoByNameOp.h; sourceTree = "<group>"; };
 		6BEC3FC81C1122B40046F11D /* GetCityInfoByNameOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetCityInfoByNameOp.m; path = Class/GetCityInfoByNameOp.m; sourceTree = "<group>"; };
+		6BEC3FCA1C16F1A50046F11D /* MyUIPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyUIPageControl.h; path = Class/MyUIPageControl.h; sourceTree = "<group>"; };
+		6BEC3FCB1C16F1A50046F11D /* MyUIPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyUIPageControl.m; path = Class/MyUIPageControl.m; sourceTree = "<group>"; };
 		6BEDB0401BA66242009A8C3F /* InsuranceDetailPlanModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceDetailPlanModel.h; sourceTree = "<group>"; };
 		6BEDB0411BA66242009A8C3F /* InsuranceDetailPlanModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceDetailPlanModel.m; sourceTree = "<group>"; };
 		6BEDB0441BA666D4009A8C3F /* CCSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSegmentedControl.h; sourceTree = "<group>"; };
@@ -3219,6 +3222,8 @@
 		6BC3B6161ADF92CF001016A0 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				6BEC3FCA1C16F1A50046F11D /* MyUIPageControl.h */,
+				6BEC3FCB1C16F1A50046F11D /* MyUIPageControl.m */,
 				6BC3B61A1ADF9334001016A0 /* LineDashPolyline.h */,
 				6BC3B61B1ADF9334001016A0 /* LineDashPolyline.m */,
 				6BC3B6171ADF92E7001016A0 /* CommonUtility.h */,
@@ -4063,6 +4068,7 @@
 				505358F41C0D79640029B5BA /* SharedNotifyOp.m in Sources */,
 				506A309F1B8F08FC002F1F14 /* InsuranceAppointmentOp.m in Sources */,
 				18863FA21AE8A316005BF4ED /* GetInsuranceByChannelOp.m in Sources */,
+				6BEC3FCC1C16F1A50046F11D /* MyUIPageControl.m in Sources */,
 				6B3C67961BAA5ADE002F04C8 /* SystemFastrateGetOp.m in Sources */,
 				6BBAB8C01ADBC21600EC342F /* DesUtil.m in Sources */,
 				18C52C501BA905E600F6C38B /* DrivingLicenseViewLayout.m in Sources */,

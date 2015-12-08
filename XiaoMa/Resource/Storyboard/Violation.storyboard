@@ -60,18 +60,8 @@
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="6rS-Hc-AEa">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <pageControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="GyG-hQ-EC7" customClass="HKPageControl">
-                                            <rect key="frame" x="280" y="4" width="39" height="37"/>
-                                            <animations/>
-                                        </pageControl>
-                                    </subviews>
                                     <animations/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstItem="GyG-hQ-EC7" firstAttribute="centerX" secondItem="6rS-Hc-AEa" secondAttribute="centerX" id="k9l-uG-6KQ"/>
-                                        <constraint firstItem="GyG-hQ-EC7" firstAttribute="centerY" secondItem="6rS-Hc-AEa" secondAttribute="centerY" id="pk7-FE-xo9"/>
-                                    </constraints>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="LisenceNumCell" rowHeight="46" id="VJS-Ca-mOE" customClass="JTTableViewCell">
@@ -807,7 +797,6 @@
                     </view>
                     <connections>
                         <outlet property="headView" destination="6rS-Hc-AEa" id="Xza-9Q-NWC"/>
-                        <outlet property="pageControl" destination="GyG-hQ-EC7" id="4WP-h6-GEw"/>
                         <outlet property="tableView" destination="YpT-uI-WuN" id="chS-ha-sUY"/>
                     </connections>
                 </viewController>

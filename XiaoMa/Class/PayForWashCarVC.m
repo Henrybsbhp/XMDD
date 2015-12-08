@@ -1003,6 +1003,10 @@
              andPrice:(CGFloat)price andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time
 {
     PaymentHelper *helper = [[PaymentHelper alloc] init];
+#ifdef DEBUG
+    name = [@"【测试】" append:name];
+    desc = [@"【测试】" append:desc];
+#endif
     [helper resetForAlipayWithTradeNumber:tradeId productName:name productDescription:desc price:price];
     
     [[helper rac_startPay] subscribeNext:^(id x) {
@@ -1038,6 +1042,10 @@
                  andTime:(NSString *)time
 {
     PaymentHelper *helper = [[PaymentHelper alloc] init];
+    
+#ifdef DEBUG
+    name = [@"【测试】" append:name];
+#endif
     [helper resetForWeChatWithTradeNumber:tradeId productName:name price:price];
     [[helper rac_startPay] subscribeNext:^(NSString * info) {
 
