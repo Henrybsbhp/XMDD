@@ -29,8 +29,8 @@
 ///违章罚款
 @property (nonatomic,copy)NSString * violationMoney;
 
-///是否处理
-@property (nonatomic)BOOL ishandled;
+///是否处理,因为是聚合返回的
+@property (nonatomic,copy)NSString * ishandled;
 
 + (instancetype)violationWithJSONResponse:(NSDictionary *)rsp;
 
