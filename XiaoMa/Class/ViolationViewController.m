@@ -19,8 +19,8 @@
 
 @property (nonatomic)BOOL isloading;
 
-/// 用于自动跳转到新添加的爱车页面
-@property (nonatomic,strong)HKMyCar * addCar;
+/// 用于自动跳转到新添加或默认的爱车页面
+@property (nonatomic,strong)HKMyCar * defaultSelectCar;
 
 @end
 
@@ -109,8 +109,8 @@
     
     NSInteger index = NSNotFound;
     
-    if (self.addCar) {
-        index = [self.datasource indexOfObject:self.addCar];
+    if (self.defaultSelectCar) {
+        index = [self.datasource indexOfObject:self.defaultSelectCar];
     }
     if (index == NSNotFound) {
         index = 0;
@@ -169,10 +169,21 @@
     }] subscribeNext:^(id x) {
         
         @strongify(self);
+        HKMyCar *defCar = [self.carStore defalutCar];
+        HKMyCar *car;
         if (code == kCKStoreEventAdd) {
-            self.addCar = x;
+            self.defaultSelectCar = x;
         }
+        if (!car) {
+            car = defCar;
+        }
+        if (!car)
+        {
+            car = defCar;
+        }
+        
         self.datasource = [self.carStore.cache allObjects];
+        self.defaultSelectCar  = car;
         [self refreshScrollView];
     } error:^(NSError *error) {
         

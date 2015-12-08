@@ -19,7 +19,7 @@
     [params addParam:self.province forName:@"province"];
     [params addParam:self.city forName:@"city"];
     [params addParam:self.district forName:@"district"];
-    
+    [params addParam:self.version forName:@"version"];
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
 }
 
