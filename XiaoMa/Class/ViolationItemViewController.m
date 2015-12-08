@@ -190,7 +190,7 @@
     self.model.licencenumber = self.car.licencenumber;
     self.model.cid = self.car.carId;
     
-    [[[[self.model rac_requestUserViolation] delay:10.f] initially:^{
+    [[[self.model rac_requestUserViolation] initially:^{
         
         self.isQuerying = YES;
         [self queryTransform];
@@ -725,7 +725,7 @@
         }
         else
         {
-            [gToast showingWithText:@"小马达正在努力查询中，请别着急"];
+            [gToast showText:@"小马达正在努力查询中\n请别着急"];
         }
     }];
     
