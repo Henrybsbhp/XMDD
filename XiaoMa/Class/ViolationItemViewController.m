@@ -17,6 +17,8 @@
 #import "AreaTablePickerVC.h"
 #import <objc/runtime.h>
 
+#import "MyUIPageControl.h"
+
 
 
 @interface ViolationItemViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -48,7 +50,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupUI];
+    CKAsyncMainQueue(^{
+        [self setupUI];
+    });
     if (self.car)
     {
         [self setupData];
@@ -65,12 +69,17 @@
 {
     NSInteger total = self.carArray.count + (self.carArray.count < 5 ? 1 : 0);
     NSInteger current = self.car ? [self.carArray indexOfObject:self.car] : self.carArray.count;
-    self.pageControl.numberOfPages = total;
-    self.pageControl.currentPage = current;
-    self.pageControl.currentPageIndicatorTintColor =[UIColor redColor];
-    self.pageControl.pageIndicatorTintColor =[UIColor yellowColor];
 
+    if (!self.pageController)
+    {
+        self.pageController = [[MyUIPageControl alloc] init];
+    }
+    self.pageController.numberOfPages = total;
+    self.pageController.currentPage = current;
     
+    UIView * headView = self.tableView.tableHeaderView;
+    self.pageController.center = headView.center;
+    [headView addSubview:self.pageController];
     
     /// 旋转动画
     CABasicAnimation* rotationAnimation;
