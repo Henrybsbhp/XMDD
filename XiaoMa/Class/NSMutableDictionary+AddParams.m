@@ -16,7 +16,8 @@ static char s_firstparamKey;
 {
     if (!param)
     {
-        param = [NSNull null];
+//        param = [NSNull null];
+        return;
     }
 
     [self setObject:param forKey:name];

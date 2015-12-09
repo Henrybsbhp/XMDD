@@ -2,7 +2,7 @@
 
 # adhoc－xmdd对应的信息
 #adhoc_provisioning_id='b17331be-33bd-4493-9294-cc5e4384c2ee'
-adhoc_provisioning_id='cc38a856-97b2-4d3f-ad97-e106d80dd70c'
+adhoc_provisioning_id='2e1ee95d-0c71-455c-a3b9-613059936363'
 adhoc_code_sign_id='iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)'
 
 # inhouse－xmdd对应的信息

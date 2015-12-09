@@ -60,6 +60,7 @@
     op.province = gAppMgr.addrComponent.province;
     op.city = gAppMgr.addrComponent.city;
     op.district = gAppMgr.addrComponent.district;
+    op.version = gAppMgr.clientInfo.clientVersion;
     signal = [[op rac_postRequest] map:^id(GetSystemPromotionOp *op) {
         
         NSString *key = [self keyForAdType:type];
