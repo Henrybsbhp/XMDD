@@ -46,8 +46,17 @@
 }
 
 #pragma mark - Override
+- (instancetype)initWithRootViewController:(UIViewController *)rootViewController
+{
+    self = [super initWithRootViewController:rootViewController];
+    if (self) {
+        rootViewController.jtnavCtrl = self;
+    }
+    return self;
+}
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
+    viewController.jtnavCtrl = self;
     [super pushViewController:viewController animated:animated];
     if (self.viewControllers.count > 1) {
         UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:viewController action:@selector(actionBack:)];
@@ -96,10 +105,23 @@
 @end
 
 @implementation UIViewController (NavigationController)
+@dynamic jtnavCtrl;
+
+static char s_navctrlKey;
 
 - (void)actionBack:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)setJtnavCtrl:(JTNavigationController *)jtnavCtrl
+{
+    objc_setAssociatedObject(self, &s_navctrlKey, jtnavCtrl, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (JTNavigationController *)jtnavCtrl
+{
+    return objc_getAssociatedObject(self, &s_navctrlKey);
 }
 
 @end
