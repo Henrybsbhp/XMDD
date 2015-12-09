@@ -266,7 +266,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [self.myBridge callHandler:@"getShareParamHandler" data:nil responseCallback:^(id response) {
         NSDictionary *shareDic = response;
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-        vc.sceneType = ShareSceneAbout;
+        vc.sceneType = ShareSceneLocalShare;
         vc.btnTypeArr = @[@1, @2, @3, @4];
         vc.tt = [shareDic stringParamForName:@"title"];
         vc.subtitle = [shareDic stringParamForName:@"desc"];

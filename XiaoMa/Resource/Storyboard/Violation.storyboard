@@ -60,18 +60,8 @@
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="6rS-Hc-AEa">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <pageControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="GyG-hQ-EC7" customClass="HKPageControl">
-                                            <rect key="frame" x="280" y="4" width="39" height="37"/>
-                                            <animations/>
-                                        </pageControl>
-                                    </subviews>
                                     <animations/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstItem="GyG-hQ-EC7" firstAttribute="centerX" secondItem="6rS-Hc-AEa" secondAttribute="centerX" id="k9l-uG-6KQ"/>
-                                        <constraint firstItem="GyG-hQ-EC7" firstAttribute="centerY" secondItem="6rS-Hc-AEa" secondAttribute="centerY" id="pk7-FE-xo9"/>
-                                    </constraints>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="LisenceNumCell" rowHeight="46" id="VJS-Ca-mOE" customClass="JTTableViewCell">
@@ -317,6 +307,7 @@
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <state key="normal" title="   查询违章信息" image="search_white"/>
+                                                            <state key="highlighted" title="   查询违章信息" image="search_white"/>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CR_5"/>
                                                             </userDefinedRuntimeAttributes>
@@ -410,7 +401,7 @@
                                                             <color key="textColor" red="1" green="0.6588235294" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="penalty_fraction_icon" translatesAutoresizingMaskIntoConstraints="NO" id="Qge-Vz-elV" userLabel="Image View2">
+                                                        <imageView userInteractionEnabled="NO" tag="108" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="penalty_fraction_icon" translatesAutoresizingMaskIntoConstraints="NO" id="Qge-Vz-elV" userLabel="Image View2">
                                                             <rect key="frame" x="92" y="15" width="17" height="17"/>
                                                             <animations/>
                                                             <constraints>
@@ -470,7 +461,7 @@
                                                             <color key="textColor" red="0.1764705882352941" green="0.1764705882352941" blue="0.1764705882352941" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="penalty_money_icon" translatesAutoresizingMaskIntoConstraints="NO" id="UtL-he-lhm" userLabel="Image View1">
+                                                        <imageView userInteractionEnabled="NO" tag="107" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="penalty_money_icon" translatesAutoresizingMaskIntoConstraints="NO" id="UtL-he-lhm" userLabel="Image View1">
                                                             <rect key="frame" x="15" y="15" width="17" height="17"/>
                                                             <animations/>
                                                             <constraints>
@@ -748,7 +739,7 @@
                                                                 <constraint firstAttribute="height" constant="1" id="j1J-Fn-ulW"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="how_input" translatesAutoresizingMaskIntoConstraints="NO" id="lyr-Wg-Ywv">
+                                                        <imageView userInteractionEnabled="NO" tag="101" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="violation_pull" translatesAutoresizingMaskIntoConstraints="NO" id="lyr-Wg-Ywv">
                                                             <rect key="frame" x="284" y="6" width="12" height="12"/>
                                                             <animations/>
                                                             <constraints>
@@ -806,7 +797,6 @@
                     </view>
                     <connections>
                         <outlet property="headView" destination="6rS-Hc-AEa" id="Xza-9Q-NWC"/>
-                        <outlet property="pageControl" destination="GyG-hQ-EC7" id="4WP-h6-GEw"/>
                         <outlet property="tableView" destination="YpT-uI-WuN" id="chS-ha-sUY"/>
                     </connections>
                 </viewController>
@@ -847,5 +837,6 @@
         <image name="penalty_money_icon" width="16" height="16"/>
         <image name="search_white" width="13" height="13"/>
         <image name="unhandle_icon" width="77" height="24"/>
+        <image name="violation_pull" width="15" height="15"/>
     </resources>
 </document>

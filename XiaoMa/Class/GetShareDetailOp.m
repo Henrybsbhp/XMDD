@@ -17,6 +17,8 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:@(self.pagePosition) forName:@"position"];
     [params addParam:@(self.buttonId) forName:@"buttonid"];
+    [params addParam:@(self.gasCharge) forName:@"gascharge"];
+    [params addParam:@(self.spareCharge) forName:@"sparecharge"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }

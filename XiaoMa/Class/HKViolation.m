@@ -23,7 +23,7 @@
     violation.violationCode= rsp[@"code"];
     violation.violationScore = rsp[@"fen"];
     violation.violationMoney = rsp[@"money"];
-    violation.ishandled = [rsp boolParamForName:@"money"];
+    violation.ishandled = rsp[@"handled"];
     return violation;
 }
 
@@ -37,7 +37,7 @@
         self.violationCode = [aDecoder decodeObjectForKey:@"violationCode"];
         self.violationScore = [aDecoder decodeObjectForKey:@"violationScore"];
         self.violationMoney = [aDecoder decodeObjectForKey:@"violationMoney"];
-        self.ishandled = [aDecoder decodeBoolForKey:@"ishandled"];
+        self.ishandled = [aDecoder decodeObjectForKey:@"ishandled"];
     }
     
     return  self;
@@ -51,7 +51,7 @@
     [aCoder encodeObject:self.violationCode forKey:@"violationCode"];
     [aCoder encodeObject:self.violationScore forKey:@"violationScore"];
     [aCoder encodeObject:self.violationMoney forKey:@"violationMoney"];
-    [aCoder encodeBool:self.ishandled forKey:@"ishandled"];
+    [aCoder encodeObject:self.ishandled forKey:@"ishandled"];
 }
 
 
