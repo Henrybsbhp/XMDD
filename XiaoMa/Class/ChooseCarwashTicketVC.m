@@ -94,7 +94,7 @@
             if (self.type == CouponTypeCZBankCarWash)
             {
                 [payVc autoSelectBankCard];
-                [payVc setPaymentChannel:PaymentChannelXMDDCreditCard];
+                [payVc setPaymentChannel:PaymentChannelCZBCreditCard];
                 [payVc setSelectCarwashCoupouArray:self.selectedCouponArray];
             }
             else if (self.type == CouponTypeCarWash)
