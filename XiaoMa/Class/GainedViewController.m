@@ -215,7 +215,6 @@
         }];
     } error:^(NSError *error) {
         
-        //调试
     }];
 }
 

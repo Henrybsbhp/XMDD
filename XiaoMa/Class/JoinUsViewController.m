@@ -101,15 +101,13 @@
 //            [userDefatluts synchronize];
 //        }
         
-        AreaTablePickerVC * vc = [UIStoryboard vcWithId:@"AreaTablePickerVC" inStoryboard:@"Common"];
-        vc.areaType = AreaTypeProvince;
-        vc.originVC = self;
+        AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCity fromVC:self];
         
-        [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
-            self.cityField.text = [NSString stringWithFormat:@"%@ %@ %@", provinceModel.infoName, cityModel.infoName, disctrictModel.infoName];
+        [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * districtModel) {
+            self.cityField.text = [NSString stringWithFormat:@"%@ %@ %@", provinceModel.infoName, cityModel.infoName, districtModel.infoName];
             self.hkLocation.province = provinceModel.infoName;
             self.hkLocation.city = cityModel.infoName;
-            self.hkLocation.district = disctrictModel.infoName;
+            self.hkLocation.district = districtModel.infoName;
         }];
         
         [self.navigationController pushViewController:vc animated:YES];

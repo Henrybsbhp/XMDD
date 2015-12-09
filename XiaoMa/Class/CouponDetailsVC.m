@@ -15,6 +15,8 @@
 #import "UIView+DefaultEmptyView.h"
 #import "RescureViewController.h"
 #import "CommissionViewController.h"
+#import "GetShareButtonOp.h"
+#import "ShareResponeManager.h"
 
 @interface CouponDetailsVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -178,24 +180,48 @@
 
 - (void)shareAction:(ShareUserCouponOp *)op andImage:(UIImage *)image
 {
-    SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-    vc.tt = op.rsp_title;
-    vc.subtitle = op.rsp_content;
-    vc.image = [UIImage imageNamed:@"wechat_share_coupon"];
-    vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
-    vc.urlStr = op.rsp_linkUrl;
-    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
-    sheet.shouldCenterVertically = YES;
-    [sheet presentAnimated:YES completionHandler:nil];
-    
-    [vc setClickAction:^{
-        [sheet dismissAnimated:YES completionHandler:nil];
+    GetShareButtonOp * getBtnOp = [GetShareButtonOp operation];
+    getBtnOp.pagePosition = ShareSceneCoupon;
+    [[getBtnOp rac_postRequest] subscribeNext:^(GetShareButtonOp * getBtnOp) {
+        
+        SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+        vc.sceneType = ShareSceneCoupon;
+        vc.btnTypeArr = getBtnOp.rsp_shareBtns;
+        vc.tt = op.rsp_title;
+        vc.subtitle = op.rsp_content;
+        vc.urlStr = op.rsp_linkUrl;
+        
+        [[gMediaMgr rac_getImageByUrl:op.rsp_wechatUrl withType:ImageURLTypeMedium defaultPic:@"wechat_share_coupon" errorPic:@"wechat_share_coupon"] subscribeNext:^(UIImage * x) {
+            vc.image = x;
+        }];
+        [[gMediaMgr rac_getImageByUrl:op.rsp_weiboUrl withType:ImageURLTypeMedium defaultPic:@"weibo_share_carwash" errorPic:@"weibo_share_carwash"] subscribeNext:^(UIImage * x) {
+            vc.webimage = x;
+        }];
+        
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [vc setClickAction:^{
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            [MobClick event:@"rp110-7"];
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
+        //单例模式下，不需要处理回调应将单例的block设置为空，否则将执行上次set的block
+        [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
+            
+        }];
+        [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
+            
+        }];
+        
+    } error:^(NSError *error) {
+        
     }];
     
-    [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        [MobClick event:@"rp110-7"];
-        [sheet dismissAnimated:YES completionHandler:nil];
-    }];
 }
 
 #pragma mark - Table view data source

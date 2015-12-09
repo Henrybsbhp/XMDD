@@ -15,7 +15,7 @@
 
 @interface SocialShareViewController : UIViewController
 
-/// 完成分享后的操作
+/// 点击分享按钮
 @property (strong, nonatomic)void(^clickAction)(void);
 
 
@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
 
 @property (nonatomic)ShareSceneType sceneType;
+@property (nonatomic, strong)NSMutableDictionary * otherInfo;
 @property (nonatomic, strong)NSArray * btnTypeArr;
 
 @property (nonatomic,copy)NSString * tt;

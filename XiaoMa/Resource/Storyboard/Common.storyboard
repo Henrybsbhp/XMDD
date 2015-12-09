@@ -91,8 +91,39 @@
                                 <animations/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LabelCell" id="FiL-oR-rXa">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HeadCell" id="asd-Nj-moZ">
                                         <rect key="frame" x="0.0" y="49.5" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="asd-Nj-moZ" id="2gL-lm-Ktk">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bd0-F2-dXH">
+                                                    <rect key="frame" x="15" y="11" width="42" height="20.5"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <activityIndicatorView opaque="NO" tag="1002" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="PYr-WX-b7Z">
+                                                    <rect key="frame" x="67" y="11" width="20" height="20"/>
+                                                    <animations/>
+                                                </activityIndicatorView>
+                                            </subviews>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstItem="PYr-WX-b7Z" firstAttribute="leading" secondItem="bd0-F2-dXH" secondAttribute="trailing" constant="10" id="Zmi-5Y-GDh"/>
+                                                <constraint firstItem="PYr-WX-b7Z" firstAttribute="centerY" secondItem="2gL-lm-Ktk" secondAttribute="centerY" id="p5I-AC-lZ2"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstItem="bd0-F2-dXH" firstAttribute="leading" secondItem="asd-Nj-moZ" secondAttribute="leading" constant="15" id="I87-Vw-gPK"/>
+                                            <constraint firstItem="bd0-F2-dXH" firstAttribute="centerY" secondItem="asd-Nj-moZ" secondAttribute="centerY" id="rtg-af-hi3"/>
+                                        </constraints>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LabelCell" id="FiL-oR-rXa">
+                                        <rect key="frame" x="0.0" y="93.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FiL-oR-rXa" id="ftr-1D-z2V">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -389,13 +420,19 @@
                                 <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="g9j-Fu-Qcj">
+                                <rect key="frame" x="331" y="20" width="20" height="20"/>
+                                <animations/>
+                            </activityIndicatorView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="LWm-w8-2al" firstAttribute="centerX" secondItem="gr8-S3-fue" secondAttribute="centerX" id="7RZ-XA-6S3"/>
+                            <constraint firstItem="g9j-Fu-Qcj" firstAttribute="top" secondItem="oxB-ym-Fgx" secondAttribute="top" id="8Sq-qZ-xwL"/>
                             <constraint firstItem="6cH-EG-JkO" firstAttribute="centerX" secondItem="6co-Md-eFf" secondAttribute="centerX" id="EuA-eV-ybh"/>
                             <constraint firstAttribute="centerX" secondItem="oxB-ym-Fgx" secondAttribute="centerX" id="FJ3-Nj-394"/>
+                            <constraint firstItem="g9j-Fu-Qcj" firstAttribute="leading" secondItem="oxB-ym-Fgx" secondAttribute="trailing" constant="5" id="HGk-F6-SHB"/>
                             <constraint firstItem="ZGu-xV-nx2" firstAttribute="centerX" secondItem="bwj-57-pYu" secondAttribute="centerX" id="LLp-8R-fkr"/>
                             <constraint firstItem="6cH-EG-JkO" firstAttribute="centerY" secondItem="gr8-S3-fue" secondAttribute="centerY" id="Pht-bH-9Jg"/>
                             <constraint firstItem="oxB-ym-Fgx" firstAttribute="top" secondItem="wmd-Ny-P1r" secondAttribute="top" constant="20" id="QwC-NV-Dzz"/>
@@ -423,6 +460,7 @@
                         </connections>
                     </view>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="g9j-Fu-Qcj" id="r3K-4j-PnN"/>
                         <outlet property="cancelBtn" destination="GSO-pY-EgS" id="6V7-ky-sFN"/>
                         <outlet property="qqBtn" destination="ZGu-xV-nx2" id="b8d-8c-w8V"/>
                         <outlet property="qqLabel" destination="bwj-57-pYu" id="bvS-JL-hDH"/>

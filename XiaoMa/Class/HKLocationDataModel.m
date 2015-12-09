@@ -10,10 +10,6 @@
 
 @implementation HKLocationDataModel
 
-@synthesize province = _province;
-@synthesize city = _city;
-@synthesize district = _district;
-
 @end
 
 @implementation HKAreaInfoModel
