@@ -24,6 +24,7 @@
     area.infoId = [rsp integerParamForName:@"id"];
     area.infoName = [rsp stringParamForName:@"name"];
     area.infoCode = [rsp stringParamForName:@"code"];
+    area.flag = [rsp stringParamForName:@"flag"];
     return area;
 }
 
@@ -33,6 +34,7 @@
         self.infoId = [decoder decodeIntegerForKey:@"id"];
         self.infoName = [decoder decodeObjectForKey:@"name"];
         self.infoCode = [decoder decodeObjectForKey:@"code"];
+        self.flag = [decoder decodeObjectForKey:@"flag"];
     }
     return self;
 }
@@ -42,6 +44,7 @@
     [encoder encodeInteger:self.infoId forKey:@"id"];
     [encoder encodeObject:self.infoName forKey:@"name"];
     [encoder encodeObject:self.infoCode forKey:@"code"];
+    [encoder encodeObject:self.flag forKey:@"flag"];
 }
 
 @end

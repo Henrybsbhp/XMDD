@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HKLocationDataModel.h"
 
 @interface getAreaByPcdOp : BaseOp
 
@@ -14,9 +15,8 @@
 @property (nonatomic, strong)NSString *req_city;
 @property (nonatomic, strong)NSString *req_district;
 
-@property (nonatomic, strong)NSString *rsp_province;
-@property (nonatomic, strong)NSString *rsp_city;
-@property (nonatomic, strong)NSString *rsp_district;
-@property (nonatomic, assign)NSInteger rsp_refId;
+@property (nonatomic, strong)HKAreaInfoModel *rsp_province;
+@property (nonatomic, strong)HKAreaInfoModel *rsp_city;
+@property (nonatomic, strong)HKAreaInfoModel *rsp_district;
 
 @end

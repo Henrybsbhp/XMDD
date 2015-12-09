@@ -101,7 +101,7 @@
 //            [userDefatluts synchronize];
 //        }
         
-        AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCity fromVC:self];
+        AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCityAndDicstrict fromVC:self];
         
         [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * districtModel) {
             self.cityField.text = [NSString stringWithFormat:@"%@ %@ %@", provinceModel.infoName, cityModel.infoName, districtModel.infoName];

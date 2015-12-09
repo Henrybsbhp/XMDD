@@ -27,10 +27,9 @@
 {
     if ([rspObj isKindOfClass:[NSDictionary class]])
     {
-        self.rsp_province = [rspObj stringParamForName:@"province"];
-        self.rsp_city = [rspObj stringParamForName:@"city"];
-        self.rsp_district = [rspObj stringParamForName:@"district"];
-        self.rsp_refId = [rspObj integerParamForName:@"refid"];
+        self.rsp_province = [HKAreaInfoModel areaWithJSONResponse:rspObj[@"province"]];
+        self.rsp_city = [HKAreaInfoModel areaWithJSONResponse:rspObj[@"city"]];
+        self.rsp_district = [HKAreaInfoModel areaWithJSONResponse:rspObj[@"district"]];
     }
     else
     {

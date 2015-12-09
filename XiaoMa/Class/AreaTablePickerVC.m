@@ -51,6 +51,7 @@ typedef NS_ENUM(NSInteger, LocateState) {
     
     self.tableView.hidden = YES;
     
+    [self setKeyString];
     [self requestData];
     if (self.areaType == AreaTypeProvince) {
         [self requestLocation];
@@ -77,11 +78,8 @@ typedef NS_ENUM(NSInteger, LocateState) {
     }];
 }
 
-#pragma mark - 获取地理信息并存储到本地
-- (void)requestData
+- (void)setKeyString
 {
-    [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-    
     if (self.areaType == AreaTypeProvince) {
         self.keyForUpdateTime = @"provinceUpdateTime";
         self.keyForArea = @"provinceArray";
@@ -94,9 +92,14 @@ typedef NS_ENUM(NSInteger, LocateState) {
         self.keyForUpdateTime = [NSString stringWithFormat:@"districtUpdateTime%ld", (long)self.areaId];
         self.keyForArea = [NSString stringWithFormat:@"districtFrom%ld", (long)self.areaId];
     }
-    //将更新时间存到本地
-    self.updateTime = [[[NSUserDefaults standardUserDefaults] objectForKey:self.keyForUpdateTime] longLongValue];
+}
+
+#pragma mark - 获取地理信息并存储到本地
+- (void)requestData
+{
+    [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     
+    self.updateTime = [[[NSUserDefaults standardUserDefaults] objectForKey:self.keyForUpdateTime] longLongValue];
     GetAreaInfoOp * op = [GetAreaInfoOp operation];
     op.req_updateTime = self.updateTime;
     op.req_type = self.areaType;
@@ -105,29 +108,23 @@ typedef NS_ENUM(NSInteger, LocateState) {
     [[op rac_postRequest] subscribeNext:^(GetAreaInfoOp * op) {
         
         @strongify(self);
+        //返回列表不为空
         if (op.rsp_areaArray.count != 0) {
-            
-            //返回列表不为空
             NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:@(op.rsp_maxTime) forKey:self.keyForUpdateTime];
-            NSMutableArray * oldArray = [defaults objectForKey:self.keyForArea];
-            if (oldArray.count == 0) {
-                NSMutableArray * tempMuteArray = [NSMutableArray new];
-                for (HKAreaInfoModel *areaModel in op.rsp_areaArray) {
-                    NSData *areaEncodedObject = [NSKeyedArchiver archivedDataWithRootObject:areaModel];
-                    [tempMuteArray addObject:areaEncodedObject];
-                }
-                [defaults setObject:tempMuteArray forKey:self.keyForArea];
+            NSMutableArray * userAreaArray = [defaults objectForKey:self.keyForArea];
+            
+            if (userAreaArray.count == 0) {
+                [self setAreaDataSource:op.rsp_areaArray];
                 self.dataSource = op.rsp_areaArray;
             }
-            //增量更新本地数据
             else {
-                [self updateAreaDataSource:op.rsp_areaArray forArray:oldArray];
+                [self updateAreaDataSource:op.rsp_areaArray forArray:userAreaArray];
             }
         }
+        //返回列表为空，直接读取本地数据
         else {
-            //返回列表为空，直接读取本地数据
-            self.dataSource = [self getAreaFromUserDefaults];
+            [self getAreaFromUserDefaults];
         }
         [self.view stopActivityAnimation];
         self.tableView.hidden = NO;
@@ -139,42 +136,80 @@ typedef NS_ENUM(NSInteger, LocateState) {
     }];
 }
 
-#pragma mark - 增量更新地区信息
-- (void)updateAreaDataSource:(NSMutableArray *)addArray forArray:(NSMutableArray *)oldArray
+#pragma mark - 编码
+- (NSMutableArray *)archiverData:(NSArray *)originArray
 {
-    for (int j =0; j < addArray.count; j++) {
-        HKAreaInfoModel * newObj = addArray[j];
-        for (int i =0; i < oldArray.count; i++) {
-            HKAreaInfoModel *oldObj = oldArray[i];
+    NSMutableArray * archiverArray = [NSMutableArray new];
+    for (HKAreaInfoModel *areaModel in originArray) {
+        NSData *areaEncodedObject = [NSKeyedArchiver archivedDataWithRootObject:areaModel];
+        [archiverArray addObject:areaEncodedObject];
+    }
+    return archiverArray;
+}
+
+#pragma mark - 解码
+- (NSMutableArray *)unArchiverData:(NSArray *)originArray
+{
+    NSMutableArray * unArchiverArray = [NSMutableArray new];
+    for (NSData *areaData in originArray) {
+        HKAreaInfoModel *areaObject = [NSKeyedUnarchiver unarchiveObjectWithData:areaData];
+        [unArchiverArray addObject:areaObject];
+    }
+    return unArchiverArray;
+}
+
+#pragma mark - 将地区信息编码后存储
+- (void)setAreaDataSource:(NSArray *)areaArray
+{
+    NSMutableArray * tempMuteArray = [self archiverData:areaArray];
+    [[NSUserDefaults standardUserDefaults] setObject:tempMuteArray forKey:self.keyForArea];
+}
+
+#pragma mark - 增量更新地区信息
+- (void)updateAreaDataSource:(NSArray *)newAreaArray forArray:(NSMutableArray *)userAreaArray
+{
+    NSMutableArray * tempMuteArray = [self unArchiverData:userAreaArray];
+    for (HKAreaInfoModel * newObj in newAreaArray)
+    {
+        for (int i =0; i < tempMuteArray.count; i++) {
+            HKAreaInfoModel *oldObj = tempMuteArray[i];
             
-            if (newObj.infoId == oldObj.infoId) {
-                [oldArray replaceObjectAtIndex:i withObject:newObj];
-                [addArray removeObjectAtIndex:j];
-                j--;
+            if ([newObj.flag isEqualToString:@"D"]) {
+                if (newObj.infoId == oldObj.infoId) {
+                    [tempMuteArray removeObjectAtIndex:i];
+                    break;
+                }
+            }
+            else if ([newObj.flag isEqualToString:@"U"]) {
+                if (newObj.infoId == oldObj.infoId) {
+                    [tempMuteArray replaceObjectAtIndex:i withObject:newObj];
+                    break;
+                }
+            }
+            else {
+                [tempMuteArray addObject:newObj];
+                break;
             }
         }
-        [oldArray addObject:newObj];
     }
-}
-
-- (void)bettwenMethod:(HKAreaInfoModel *)model fromArray:(NSMutableArray *)tempAreaArray
-{
+    [tempMuteArray sortUsingComparator:^NSComparisonResult(HKAreaInfoModel * obj1, HKAreaInfoModel * obj2) {
+        return obj1.infoId > obj2.infoId;
+    }];
+    self.dataSource = tempMuteArray;
     
+    NSMutableArray * archiverArray = [self archiverData:tempMuteArray];
+    [[NSUserDefaults standardUserDefaults] setObject:archiverArray forKey:self.keyForArea];
 }
 
-#pragma mark - 读取本地地区信息
-- (NSMutableArray *)getAreaFromUserDefaults
+#pragma mark - 读取本地地区信息并解码
+- (void)getAreaFromUserDefaults
 {
     NSArray * userDefaultArr = [[NSArray alloc] init];
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     userDefaultArr = [defaults objectForKey:self.keyForArea];
     
-    NSMutableArray * tempMuteArray = [NSMutableArray new];
-    for (NSData *areaData in userDefaultArr) {
-        HKAreaInfoModel *areaObject = [NSKeyedUnarchiver unarchiveObjectWithData:areaData];
-        [tempMuteArray addObject:areaObject];
-    }
-    return tempMuteArray;
+    NSMutableArray * tempMuteArray = [self unArchiverData:userDefaultArr];
+    self.dataSource = tempMuteArray;
 }
 
 #pragma mark - TabelViewDelegate
@@ -266,14 +301,14 @@ typedef NS_ENUM(NSInteger, LocateState) {
             getAreaByPcdOp * op = [getAreaByPcdOp operation];
             op.req_province = self.locationData.province;
             op.req_city = self.locationData.city;
-            op.req_district = self.locationData.city;
+            op.req_district = self.locationData.district;
             @weakify(self);
             [[op rac_postRequest] subscribeNext:^(getAreaByPcdOp * op) {
                 
                 @strongify(self);
-                HKAreaInfoModel * provinceModel = op.rsp_city;
+                HKAreaInfoModel * provinceModel = op.rsp_province;
                 HKAreaInfoModel * cityModel = op.rsp_city;
-                HKAreaInfoModel * districtModel = op.rsp_city;
+                HKAreaInfoModel * districtModel = op.rsp_district;
                 if (self.selectCompleteAction) {
                     self.selectCompleteAction(provinceModel, cityModel, districtModel);
                 }
