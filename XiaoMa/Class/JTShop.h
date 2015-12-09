@@ -96,6 +96,6 @@
 ///评价数量
 @property (nonatomic)NSInteger ratenumber;
 //是否营业
-@property (nonatomic)BOOL *isVacation;
+@property (nonatomic,strong)NSNumber *isVacation;
 + (instancetype)shopWithJSONResponse:(NSDictionary *)rsp;
 @end
