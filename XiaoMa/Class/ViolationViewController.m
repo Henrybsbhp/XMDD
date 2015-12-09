@@ -172,13 +172,9 @@
         HKMyCar *defCar = [self.carStore defalutCar];
         HKMyCar *car;
         if (code == kCKStoreEventAdd) {
-            self.defaultSelectCar = x;
+            car = x;
         }
         if (!car) {
-            car = defCar;
-        }
-        if (!car)
-        {
             car = defCar;
         }
         

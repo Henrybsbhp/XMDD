@@ -131,7 +131,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fQw-FX-DpK">
                                                     <rect key="frame" x="10" y="0.0" width="580" height="44"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="行驶城市" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PJl-a7-VVo">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="行驶城市" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PJl-a7-VVo">
                                                             <rect key="frame" x="12" y="16" width="63" height="18"/>
                                                             <animations/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -208,14 +208,14 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bRe-DZ-BIf">
                                                     <rect key="frame" x="10" y="0.0" width="580" height="44"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" verticalHuggingPriority="251" text="车架号" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MO6-jq-thh">
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" verticalHuggingPriority="251" text="车架号" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MO6-jq-thh">
                                                             <rect key="frame" x="12" y="6" width="63" height="18"/>
                                                             <animations/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" red="0.1019607843" green="0.63137254899999995" blue="0.086274509799999996" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <textField opaque="NO" clipsSubviews="YES" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wn7-UU-87g">
+                                                        <textField opaque="NO" clipsSubviews="YES" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wn7-UU-87g">
                                                             <rect key="frame" x="95" y="5" width="447" height="35"/>
                                                             <animations/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -236,7 +236,7 @@
                                                                 <constraint firstAttribute="width" constant="13" id="tcq-KL-lJk"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(选填)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aPO-KS-XRk">
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(选填)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aPO-KS-XRk">
                                                             <rect key="frame" x="17" y="26" width="33" height="15"/>
                                                             <animations/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -355,7 +355,7 @@
                                                     <animations/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="共扣8分，罚款800元" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hbb-qI-LGg">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="共扣8分，罚款800元" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hbb-qI-LGg">
                                                     <rect key="frame" x="25" y="14" width="143" height="18"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -394,7 +394,7 @@
                                                                 <constraint firstAttribute="height" constant="1" id="iAm-SC-BTs"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="id7-FJ-RFJ">
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="id7-FJ-RFJ">
                                                             <rect key="frame" x="37" y="14" width="28" height="18"/>
                                                             <animations/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -409,7 +409,7 @@
                                                                 <constraint firstAttribute="height" constant="17" id="peg-El-mbA"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3分" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j40-pe-7HF">
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3分" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j40-pe-7HF">
                                                             <rect key="frame" x="114" y="14" width="25" height="18"/>
                                                             <animations/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -440,22 +440,15 @@
                                                                 <constraint firstAttribute="width" constant="9" id="zoX-c3-bp5"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="104" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="2015-11-25 17：00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TWq-hX-AwP">
-                                                            <rect key="frame" x="30" y="46" width="108" height="9"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="104" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2015-11-25 17：00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TWq-hX-AwP">
+                                                            <rect key="frame" x="30" y="43" width="108" height="15"/>
                                                             <animations/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="105" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="【浙江衢州】S33龙丽温告诉丽水方向16KM889M" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8bH-1G-dZa" customClass="JTLabel">
-                                                            <rect key="frame" x="30" y="61" width="268" height="15"/>
-                                                            <animations/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="106" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="驾驶中型以上载客载货汽车、危险物品运输车辆以外的其他机动车行驶超过规定时速10%未达20%的" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IIV-36-4di" customClass="JTLabel">
-                                                            <rect key="frame" x="14" y="92" width="555" height="36"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="106" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="驾驶中型以上载客载货汽车、危险物品运输车辆以外的其他机动车行驶超过规定时速10%未达20%的" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IIV-36-4di" customClass="JTLabel">
+                                                            <rect key="frame" x="14" y="95" width="556" height="36"/>
                                                             <animations/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" red="0.1764705882352941" green="0.1764705882352941" blue="0.1764705882352941" alpha="1" colorSpace="calibratedRGB"/>
@@ -469,6 +462,13 @@
                                                                 <constraint firstAttribute="width" constant="17" id="Kd7-7w-dXr"/>
                                                             </constraints>
                                                         </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="105" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="【浙江衢州】S33龙丽温告诉丽水方向16KM889M" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8bH-1G-dZa" customClass="JTLabel">
+                                                            <rect key="frame" x="30" y="64" width="540" height="15"/>
+                                                            <animations/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <animations/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -500,8 +500,8 @@
                                                         <constraint firstItem="Rd3-dd-Sr3" firstAttribute="top" secondItem="JAq-jI-zBW" secondAttribute="top" constant="12" id="dQl-GW-qM9"/>
                                                         <constraint firstItem="Qge-Vz-elV" firstAttribute="leading" secondItem="UtL-he-lhm" secondAttribute="trailing" constant="60" id="daq-hj-GsL"/>
                                                         <constraint firstItem="zoj-a6-lAs" firstAttribute="leading" secondItem="UtL-he-lhm" secondAttribute="leading" id="ij7-2X-zYF"/>
-                                                        <constraint firstItem="8bH-1G-dZa" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="JAq-jI-zBW" secondAttribute="trailing" constant="-10" id="lEP-hT-fSw"/>
-                                                        <constraint firstItem="IIV-36-4di" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="JAq-jI-zBW" secondAttribute="trailing" constant="-10" id="lRk-xN-aeb"/>
+                                                        <constraint firstItem="8bH-1G-dZa" firstAttribute="trailing" secondItem="JAq-jI-zBW" secondAttribute="trailing" constant="-10" id="lEP-hT-fSw"/>
+                                                        <constraint firstItem="IIV-36-4di" firstAttribute="trailing" secondItem="JAq-jI-zBW" secondAttribute="trailing" constant="-10" id="lRk-xN-aeb"/>
                                                         <constraint firstItem="UtL-he-lhm" firstAttribute="top" secondItem="JAq-jI-zBW" secondAttribute="top" constant="15" id="oyE-ai-dJA"/>
                                                         <constraint firstItem="IIV-36-4di" firstAttribute="top" secondItem="5jt-Tu-GxJ" secondAttribute="bottom" constant="20" id="uXW-0k-JIg"/>
                                                     </constraints>
@@ -547,13 +547,6 @@
                                                                 <constraint firstAttribute="width" constant="17" id="puX-Fz-TBV"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="添加车辆" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xax-mn-n6X">
-                                                            <rect key="frame" x="266" y="15" width="68" height="21"/>
-                                                            <animations/>
-                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                            <color key="textColor" red="0.1019607843" green="0.63137254899999995" blue="0.086274509799999996" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dotted_line" translatesAutoresizingMaskIntoConstraints="NO" id="v74-H6-tca">
                                                             <rect key="frame" x="0.0" y="44" width="580" height="1"/>
                                                             <animations/>
@@ -561,8 +554,8 @@
                                                                 <constraint firstAttribute="height" constant="1" id="Pbr-IB-iNw"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="请先添加车辆！" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ijR-rT-RJu">
-                                                            <rect key="frame" x="234" y="75" width="112" height="20"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请先添加车辆！" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ijR-rT-RJu">
+                                                            <rect key="frame" x="238" y="75" width="105" height="18"/>
                                                             <animations/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -589,16 +582,23 @@
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="添加车辆" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xax-mn-n6X">
+                                                            <rect key="frame" x="266" y="13" width="68" height="21"/>
+                                                            <animations/>
+                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                            <color key="textColor" red="0.1019607843" green="0.63137254899999995" blue="0.086274509799999996" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <animations/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="v74-H6-tca" secondAttribute="trailing" id="0nc-J6-IVe"/>
-                                                        <constraint firstItem="Xax-mn-n6X" firstAttribute="top" secondItem="HZ4-lu-uHZ" secondAttribute="top" constant="15" id="0zB-9I-1pq"/>
                                                         <constraint firstItem="eop-Ub-CTJ" firstAttribute="centerX" secondItem="HZ4-lu-uHZ" secondAttribute="centerX" id="3CF-xX-CEM"/>
                                                         <constraint firstItem="Noj-Px-zJS" firstAttribute="centerX" secondItem="HZ4-lu-uHZ" secondAttribute="centerX" id="6ud-Ss-ONf"/>
                                                         <constraint firstItem="G2b-gR-bLc" firstAttribute="top" secondItem="HZ4-lu-uHZ" secondAttribute="top" constant="15" id="HCh-3B-dIH"/>
                                                         <constraint firstItem="Xax-mn-n6X" firstAttribute="centerX" secondItem="HZ4-lu-uHZ" secondAttribute="centerX" id="JrP-U4-wCR"/>
+                                                        <constraint firstItem="Xax-mn-n6X" firstAttribute="centerY" secondItem="G2b-gR-bLc" secondAttribute="centerY" id="ODT-dF-iaF"/>
                                                         <constraint firstItem="eop-Ub-CTJ" firstAttribute="top" secondItem="ijR-rT-RJu" secondAttribute="bottom" constant="30" id="Ocn-N9-TmB"/>
                                                         <constraint firstItem="ijR-rT-RJu" firstAttribute="top" secondItem="v74-H6-tca" secondAttribute="bottom" constant="30" id="U3R-qb-Zu3"/>
                                                         <constraint firstAttribute="width" constant="600" id="WuY-x0-JfY"/>
