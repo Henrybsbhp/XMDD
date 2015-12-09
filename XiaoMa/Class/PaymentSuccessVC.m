@@ -17,8 +17,8 @@
 #import "SubmitCommentOp.h"
 #import "ShopDetailVC.h"
 #import "NSDate+DateForText.h"
-
-
+#import "GetShareButtonOp.h"
+#import "ShareResponeManager.h"
 
 @interface PaymentSuccessVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UITextViewDelegate>
 
@@ -124,26 +124,34 @@
 }
 - (IBAction)shareAction:(id)sender {
     
-    [MobClick event:@"rp110-9"];
-    SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-    vc.tt = @"小马达达－一分洗车，十分满意";
-    vc.subtitle = @"我完成了洗车，你也来试试吧";
-    vc.image = [UIImage imageNamed:@"wechat_share_carwash"];
-    vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
-//    vc.urlStr = XIAMMAWEB;
-    vc.urlStr = kAppShareUrl;
-    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
-    sheet.shouldCenterVertically = YES;
-    [sheet presentAnimated:YES completionHandler:nil];
-    
-    [vc setClickAction:^{
+    GetShareButtonOp * op = [GetShareButtonOp operation];
+    op.pagePosition = ShareSceneCarwash;
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
         
-        [sheet dismissAnimated:YES completionHandler:nil];
-    }];
-
-    [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        [MobClick event:@"rp110-7"];
-        [sheet dismissAnimated:YES completionHandler:nil];
+        SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+        vc.sceneType = ShareSceneCarwash;    //页面位置
+        vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            [MobClick event:@"rp110-7"];
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        [vc setClickAction:^{
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
+        [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
+            
+        }];
+        [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
+            
+        }];
+    } error:^(NSError *error) {
+        
     }];
 }
 - (IBAction)commentAction:(id)sender {

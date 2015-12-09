@@ -12,7 +12,8 @@
 
 @property (nonatomic)ShareSceneType pagePosition;
 @property (nonatomic)ShareButtonType buttonId;
-@property (nonatomic, strong)NSDictionary * restDic;
+@property (nonatomic)NSInteger gasCharge;
+@property (nonatomic)NSInteger spareCharge;
 
 @property (nonatomic, copy)NSString * rsp_title;
 @property (nonatomic, copy)NSString * rsp_desc;

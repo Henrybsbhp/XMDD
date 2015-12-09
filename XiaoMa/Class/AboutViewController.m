@@ -248,7 +248,7 @@
 {
     [MobClick event:@"rp110-1"];
     SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-    vc.sceneType = ShareSceneAbout;
+    vc.sceneType = ShareSceneLocalShare;
     vc.btnTypeArr = @[@1, @2, @3, @4];
     vc.tt = @"小马达达 —— 一分钱洗车";
     vc.subtitle = @"我正在使用1分钱洗车，洗车超便宜，你也来试试吧！";

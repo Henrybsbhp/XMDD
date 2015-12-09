@@ -23,6 +23,7 @@
 @property (nonatomic) NSInteger infoId;
 @property (nonatomic, copy) NSString *infoName;
 @property (nonatomic, copy) NSString *infoCode;
+@property (nonatomic, copy) NSString *flag;
 
 + (instancetype)areaWithJSONResponse:(NSDictionary *)rsp;
 

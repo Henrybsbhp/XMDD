@@ -21,10 +21,11 @@
 
 - (id)parseResponseObject:(id)rspObj
 {
-    self.rsp_linkUrl = rspObj[@"linkurl"];
-    self.rsp_picUrl = rspObj[@"pic_url"];
-    self.rsp_content = rspObj[@"content"];
-    self.rsp_title = rspObj[@"title"];
+    self.rsp_linkUrl = [rspObj stringParamForName:@"linkurl"];
+    self.rsp_content = [rspObj stringParamForName:@"content"];
+    self.rsp_title = [rspObj stringParamForName:@"title"];
+    self.rsp_wechatUrl = [rspObj stringParamForName:@"wechat_picurl"];
+    self.rsp_weiboUrl = [rspObj stringParamForName:@"pic_url"];
     
     return self;
 }
