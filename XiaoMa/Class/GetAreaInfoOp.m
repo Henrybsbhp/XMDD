@@ -20,7 +20,7 @@
     [params addParam:@(self.req_type) forName:@"type"];
     [params addParam:@(self.req_areaId) forName:@"id"];
     
-    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
+    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
 }
 
 - (instancetype)parseResponseObject:(id)rspObj
