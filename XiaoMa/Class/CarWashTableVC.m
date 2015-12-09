@@ -388,6 +388,8 @@
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
     UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
     UILabel *commentNumL = (UILabel *)[cell.contentView viewWithTag:1008];
+    UIImageView *statusImg=(UIImageView *)[cell.contentView viewWithTag:1009];
+    UIView *backgroundView=(UIView *)[cell.contentView viewWithTag:1010];
     
     [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0]
                 withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
@@ -416,6 +418,16 @@
         statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
     }
     
+    if (shop.isVacation)
+    {
+        statusImg.image=[UIImage imageNamed:@"vacation_icon"];
+        backgroundView.backgroundColor=[UIColor whiteColor];
+    }
+    else
+    {
+        backgroundView.backgroundColor=[UIColor clearColor];
+    }
+
     double myLat = self.userCoordinate.latitude;
     double myLng = self.userCoordinate.longitude;
     double shopLat = shop.shopLatitude;
