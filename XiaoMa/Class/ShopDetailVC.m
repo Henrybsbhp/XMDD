@@ -685,7 +685,7 @@
     //    [priceL mas_updateConstraints:^(MASConstraintMaker *make) {
     //        make.bottom.equalTo(cc ? iconV : titleL);
     //    }];
-    if (self.shop.isVacation)
+    if (self.shop.isVacation.integerValue==1)//isVacation==1表示正在休假
     {
         payB.enabled=NO;
     }

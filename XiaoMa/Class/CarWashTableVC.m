@@ -420,7 +420,7 @@
             statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
         }
     }
-    else
+    else if(shop.isVacation.integerValue==1)//isVacation==1表示正在休假
     {
         statusImg.hidden=NO;
         statusL.hidden=YES;
