@@ -260,7 +260,7 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="恭喜，商户加盟提交成功！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="70B-H0-qpH">
-                                                    <rect key="frame" x="186" y="13.5" width="228" height="23"/>
+                                                    <rect key="frame" x="186" y="14" width="228" height="23"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
                                                     <color key="textColor" red="0.12549019610000001" green="0.6705882353" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
@@ -271,7 +271,7 @@
                                             <constraints>
                                                 <constraint firstAttribute="trailingMargin" secondItem="xa6-7c-a4Q" secondAttribute="trailing" constant="-8" id="KHR-jQ-98u"/>
                                                 <constraint firstItem="70B-H0-qpH" firstAttribute="centerX" secondItem="HOA-hy-HHh" secondAttribute="centerX" id="NbE-YX-Hzq"/>
-                                                <constraint firstItem="70B-H0-qpH" firstAttribute="centerY" secondItem="HOA-hy-HHh" secondAttribute="centerY" id="iD8-dt-W1h"/>
+                                                <constraint firstItem="70B-H0-qpH" firstAttribute="top" secondItem="HOA-hy-HHh" secondAttribute="top" constant="14" id="T2f-a6-jHf"/>
                                                 <constraint firstAttribute="bottom" secondItem="xa6-7c-a4Q" secondAttribute="bottom" id="nws-xO-W8D"/>
                                                 <constraint firstItem="xa6-7c-a4Q" firstAttribute="leading" secondItem="HOA-hy-HHh" secondAttribute="leadingMargin" constant="-8" id="p5p-aS-4na"/>
                                             </constraints>

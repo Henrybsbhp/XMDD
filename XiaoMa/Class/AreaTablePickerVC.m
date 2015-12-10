@@ -222,6 +222,16 @@ typedef NS_ENUM(NSInteger, LocateState) {
     return 1;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 40;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return CGFLOAT_MIN;
+}
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (section == 0 && self.areaType == AreaTypeProvince) {
@@ -311,6 +321,12 @@ typedef NS_ENUM(NSInteger, LocateState) {
                 HKAreaInfoModel * districtModel = op.rsp_district;
                 if (self.selectCompleteAction) {
                     self.selectCompleteAction(provinceModel, cityModel, districtModel);
+                }
+                if (self.originVC) {
+                    [self.navigationController popToViewController:self.originVC animated:YES];
+                }
+                else {
+                    [self.navigationController popViewControllerAnimated:YES];
                 }
             } error:^(NSError *error) {
                 if (error.code == 6112001) {

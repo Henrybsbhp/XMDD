@@ -53,6 +53,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self observeUserInfo];
     [self setupProcessView];
     
     self.navModel.curNavCtrl = self.navigationController;
@@ -73,6 +74,16 @@
     
     [self.myBridge registerGetToken];
     [self.myBridge registerToastMsg];
+}
+
+- (void)observeUserInfo
+{
+    @weakify(self);
+    [[[RACObserve(gAppMgr, myUser) distinctUntilChanged] skip:1] subscribeNext:^(JTUser *user) {
+        
+        @strongify(self);
+        [self reloadwebView];
+    }];
 }
 
 - (void)setupProcessView
