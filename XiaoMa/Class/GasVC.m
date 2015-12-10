@@ -26,6 +26,8 @@
 #import "GasPaymentResultVC.h"
 #import "WebVC.h"
 
+#import "CBAutoScrollLabel.h"
+
 @interface GasVC ()<UITableViewDataSource, UITableViewDelegate, RTLabelDelegate>
 @property (nonatomic, strong) ADViewController *adctrl;
 @property (nonatomic, strong) GasTabView *headerView;
@@ -39,9 +41,49 @@
 ///是否同意协议(Default is YES)
 @property (nonatomic, assign) BOOL isAcceptedAgreement;
 
+@property (nonatomic,strong) CBAutoScrollLabel *roundLb;
+@property (nonatomic,strong) UIView *backgroundView;
 @end
 
 @implementation GasVC
+
+-(UIView *)backgroundView
+{
+    if (!_backgroundView)
+    {
+        _backgroundView=[[UIView alloc]init];
+        _backgroundView.backgroundColor=[UIColor colorWithHex:@"#000000" alpha:0.5];
+    }
+    return _backgroundView;
+}
+
+-(CBAutoScrollLabel *)roundLb
+{
+    if (!_roundLb)
+    {
+        _roundLb=[[CBAutoScrollLabel alloc]init];
+        _roundLb.textColor=[UIColor whiteColor];
+        _roundLb.font=[UIFont systemFontOfSize:14];
+        _roundLb.backgroundColor = [UIColor clearColor];
+        _roundLb.labelSpacing = 30;
+        _roundLb.scrollSpeed = 30;
+        _roundLb.fadeLength = 5.f;
+        [_roundLb observeApplicationNotifications];
+    }
+    return _roundLb;
+}
+
+- (NSString *)appendSpace:(NSString *)note andWidth:(CGFloat)w
+{
+    NSString * spaceNote = note;
+    for (;;)
+    {
+        CGSize size = [spaceNote sizeWithFont:[UIFont systemFontOfSize:13] constrainedToSize:CGSizeMake(FLT_MAX,FLT_MAX)];
+        if (size.width > w)
+            return spaceNote;
+        spaceNote = [spaceNote append:@" "];
+    }
+}
 
 - (void)awakeFromNib
 {
@@ -55,6 +97,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+    
+    [self.roundLb refreshLabels];
+    
     //IOS 8.1.3下面有RTLabel消失的bug，需要重新刷一下页面
     if (IOSVersionGreaterThanOrEqualTo(@"8.1.3") && !IOSVersionGreaterThanOrEqualTo(@"8.4")) {
         [self.tableView reloadData];
@@ -122,6 +167,8 @@
             [self refreshViews];
         }
     }];
+    
+    
 }
 
 - (void)setupADView
@@ -134,13 +181,31 @@
         if (ads.count > 0) {
             GasTabView *headerView = self.headerView;
             CGFloat height = floor(self.adctrl.adView.frame.size.height);
-            headerView.frame = CGRectMake(0, 0, self.view.frame.size.width, height+44);
+            headerView.frame = CGRectMake(0, 0, self.view.frame.size.width, height+55);
+            NSString * note = @"测试长度不够是否可以滚动";
+            CGFloat width = self.view.frame.size.width;
+            NSString * p = [self appendSpace:note andWidth:width];
+            self.roundLb.text = p;
             [headerView addSubview:self.adctrl.adView];
+            [headerView addSubview:self.backgroundView];
+            [headerView addSubview:self.roundLb];
             [self.adctrl.adView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(headerView);
                 make.right.equalTo(headerView);
                 make.top.equalTo(headerView);
                 make.height.mas_equalTo(height);
+            }];
+            [self.roundLb mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.mas_equalTo(0);
+                make.right.mas_equalTo(0);
+                make.top.mas_equalTo(self.adctrl.adView.mas_bottom);
+                make.height.mas_equalTo(15);
+            }];
+            [self.backgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.mas_equalTo(self.roundLb.mas_left);
+                make.right.mas_equalTo(self.roundLb.mas_right);
+                make.top.mas_equalTo(self.roundLb.mas_top);
+                make.height.mas_equalTo(self.roundLb.mas_height);
             }];
             self.tableView.tableHeaderView = self.headerView;
         }
