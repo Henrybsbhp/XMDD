@@ -663,24 +663,31 @@
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *subTitleL = (UILabel *)[cell.contentView viewWithTag:1004];
     UIButton *boxB = (UIButton *)[cell.contentView viewWithTag:1003];
+    UILabel *recommendLB = (UILabel *)[cell.contentView viewWithTag:1005];
+    recommendLB.cornerRadius = 3.0f;
+    recommendLB.layer.masksToBounds = YES;
     
     if (tag == 20001) {
         iconV.image = [UIImage imageNamed:@"pm_alipay"];
         titleL.text = @"支付宝支付";
         subTitleL.text = @"推荐支付宝用户使用";
+        recommendLB.hidden = NO;
         [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsZero];
     }
     else if (tag == 20002) {
         iconV.image = [UIImage imageNamed:@"pm_wechat"];
         titleL.text = @"微信支付";
         subTitleL.text = @"推荐微信用户使用";
+        recommendLB.hidden = YES;
         [cell removeBorderLineWithAlignment:CKLineAlignmentHorizontalTop];
+        
         
     }
     else if (tag == 20003) {
         iconV.image = [UIImage imageNamed:@"pm_uppay"];
         titleL.text = @"银联支付";
         subTitleL.text = @"推荐银联用户使用";
+        recommendLB.hidden = YES;
         [cell removeBorderLineWithAlignment:CKLineAlignmentHorizontalTop];
     }
     item.customObject = boxB;

@@ -25,6 +25,8 @@
 
 @property (nonatomic,strong)NSArray * infoArray;
 
+///城市按钮
+@property (nonatomic,weak)UIButton * cityBtn;
 /// 旋转动画
 @property (nonatomic,weak)UIButton * queryBtn;
 @property (nonatomic,strong)CABasicAnimation * animation;
@@ -36,7 +38,7 @@
 /// 是否城市信息获取
 @property (nonatomic)BOOL isCityLoading;
 
-@property (nonatomic,weak)UIButton * cityBtn;
+
 
 @end
 
@@ -76,6 +78,7 @@
     }
     self.pageController.numberOfPages = total;
     self.pageController.currentPage = current;
+    self.pageController.hidden = total <= 1;
     
     UIView * headView = self.tableView.tableHeaderView;
     self.pageController.center = headView.center;
@@ -393,18 +396,18 @@
         {
             HKViolation * violation = [self.model.violationArray safetyObjectAtIndex:indexPath.row - 1];
             
-            if (!violation.customTag)
+//            if (!violation.customTag)
             {
-                CGFloat width1 = gAppMgr.deviceInfo.screenSize.width - 54;
+                CGFloat width1 = gAppMgr.deviceInfo.screenSize.width - 60;
                 CGSize size1 = [violation.violationArea labelSizeWithWidth:width1 font:[UIFont systemFontOfSize:12]];
                 
-                CGFloat width2 = gAppMgr.deviceInfo.screenSize.width - 40;
+                CGFloat width2 = gAppMgr.deviceInfo.screenSize.width - 45;
                 CGSize size2 = [violation.violationAct labelSizeWithWidth:width2 font:[UIFont systemFontOfSize:15]];
                 
-                height = 60 + size1.height + 16 + size2.height + 14;
-                violation.customTag = height;
+                height = 63 + size1.height + 16 + size2.height + 14;
+//                violation.customTag = height;
             }
-            height = violation.customTag;
+//            height = violation.customTag;
         }
     }
     return height;
@@ -669,11 +672,11 @@
     NSInteger num = [dict[@"suffixno"] integerValue];
     if (num > 0)
     {
-        subtitleLb.text = [NSString stringWithFormat:@"后%ld位",(long)num];
+        subtitleLb.text = [NSString stringWithFormat:@"(后%ld位)",(long)num];
     }
     else
     {
-        subtitleLb.text = [NSString stringWithFormat:@"全填"];
+        subtitleLb.text = [NSString stringWithFormat:@"(全填)"];
     }
     
     //输入框
@@ -732,7 +735,7 @@
         }
         else
         {
-            [gToast showText:@"小马达正在努力查询中\n请别着急"];
+            [gToast showText:@"小马达达正在努力查询中\n请别着急"];
         }
     }];
     
@@ -767,7 +770,7 @@
     
     // 违章标题
     UILabel * titleLb = (UILabel *)[cell searchViewWithTag:101];
-    titleLb.text = [NSString stringWithFormat:@"罚款%ld元，共扣%ld分",self.model.violationTotalmoney,self.model.violationTotalfen];
+    titleLb.text = [NSString stringWithFormat:@"罚款%ld元，共扣%ld分",(long)self.model.violationTotalmoney,(long)self.model.violationTotalfen];
     
     return cell;
 }

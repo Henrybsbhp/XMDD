@@ -90,14 +90,14 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp110"];
-    [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:NO];
+    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp110"];
-    [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:YES];
+    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
 }
 
 - (void)dealloc

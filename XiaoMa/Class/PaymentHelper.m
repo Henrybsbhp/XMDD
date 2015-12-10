@@ -23,6 +23,10 @@
 
 - (void)resetForAlipayWithTradeNumber:(NSString *)tn productName:(NSString *)pn productDescription:pd price:(CGFloat)price
 {
+#ifdef DEBUG
+    pn = [@"【测试】" append:pn];
+    pd = [@"【测试】" append:pd];
+#endif
     _platformType = PaymentPlatformTypeAlipay;
     _tradeNumber = tn;
     _productName = pn;
@@ -32,6 +36,9 @@
 
 - (void)resetForWeChatWithTradeNumber:(NSString *)tn productName:(NSString *)pn price:(CGFloat)price
 {
+#ifdef DEBUG
+    pn = [@"【测试】" append:pn];
+#endif
     _platformType = PaymentPlatformTypeWeChat;
     _tradeNumber = tn;
     _productName = pn;
