@@ -322,6 +322,12 @@ typedef NS_ENUM(NSInteger, LocateState) {
                 if (self.selectCompleteAction) {
                     self.selectCompleteAction(provinceModel, cityModel, districtModel);
                 }
+                if (self.originVC) {
+                    [self.navigationController popToViewController:self.originVC animated:YES];
+                }
+                else {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
             } error:^(NSError *error) {
                 if (error.code == 6112001) {
                     [gToast showError:@"该地址无效，请手动选择"];
