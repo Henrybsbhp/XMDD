@@ -408,9 +408,17 @@
     
     [statusL makeCornerRadius:3];
     statusL.font = [UIFont boldSystemFontOfSize:11];
-    if (!shop.isVacation)
+    
+    if([shop.isVacation integerValue] == ShopVacationTypeVacation)//isVacation==1表示正在休假
     {
-        statusImg.hidden=YES;
+        statusL.hidden = YES;
+        statusImg.hidden = NO;
+    }
+    else
+    {
+        statusL.hidden = NO;
+        statusImg.hidden = YES ;
+        
         if ([self isBetween:shop.openHour and:shop.closeHour]) {
             statusL.text = @"营业中";
             statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
@@ -420,13 +428,6 @@
             statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
         }
     }
-    else if(shop.isVacation.integerValue==1)//isVacation==1表示正在休假
-    {
-        statusImg.hidden=NO;
-        statusL.hidden=YES;
-    }
-    
-    
     
     double myLat = self.userCoordinate.latitude;
     double myLng = self.userCoordinate.longitude;
