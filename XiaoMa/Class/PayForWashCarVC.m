@@ -165,7 +165,7 @@
 {
     self.carStore = [MyCarStore fetchExistsStore];
     @weakify(self);
-    [self.carStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+    [self.carStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
         @strongify(self);
         [[evt signal] subscribeNext:^(id x) {
             @strongify(self);

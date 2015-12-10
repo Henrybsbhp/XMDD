@@ -38,8 +38,6 @@
 /// 是否城市信息获取
 @property (nonatomic)BOOL isCityLoading;
 
-
-
 @end
 
 @implementation ViolationItemViewController
@@ -298,6 +296,80 @@
     [self.tableView deleteRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationTop];
 }
 
+
+- (void)selectCityAction:(UITableViewCell *)cell
+{
+    UIActivityIndicatorView * ai = (UIActivityIndicatorView *)[cell searchViewWithTag:102];
+    UIButton * cityBtn = (UIButton *)[cell searchViewWithTag:101];
+    
+    AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCity fromVC:self.parentViewController];
+    
+    [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
+        
+        [cityBtn setTitle:cityModel.infoName forState:UIControlStateNormal];
+        [self requestCithInfoWithProvince:provinceModel.infoName andCith:cityModel.infoName andUI:ai];
+    }];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)requestCithInfoWithProvince:(NSString *)p andCith:(NSString *)c andUI:(UIActivityIndicatorView *)ai
+{
+    GetCityInfoByNameOp * op = [[GetCityInfoByNameOp alloc] init];
+    op.province = p;
+    op.city = c;
+    
+    [[[op rac_postRequest] initially:^{
+        
+        self.isCityLoading = YES;
+        ai.hidden = !self.isCityLoading;
+        ai.animating = self.isCityLoading;
+    }] subscribeNext:^(GetCityInfoByNameOp * op) {
+        
+        self.isCityLoading = NO;
+        ai.hidden = !self.isCityLoading;
+        ai.animating = self.isCityLoading;
+        self.isSpread = YES;
+        
+        ViolationCityInfo * info = op.cityInfo;
+        self.model.cityInfo = info;
+        
+        [self handleViolationCityInfo];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+    } error:^(NSError *error) {
+        
+        self.isCityLoading = NO;
+        ai.hidden = !self.isCityLoading;
+        ai.animating = self.isCityLoading;
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+        [gToast showError:error.domain];
+    }];
+}
+
+
+- (void)autoLocateCityWithUI:(UITableViewCell *)cell
+{
+    UIActivityIndicatorView * ai = (UIActivityIndicatorView *)[cell searchViewWithTag:102];
+    UIButton * cityBtn = (UIButton *)[cell searchViewWithTag:101];
+    
+    if (gMapHelper.addrComponent.province.length && gMapHelper.addrComponent.city)
+    {
+        [cityBtn setTitle:gMapHelper.addrComponent.city forState:UIControlStateNormal];
+        [self requestCithInfoWithProvince:gMapHelper.addrComponent.province andCith:gMapHelper.addrComponent.city andUI:ai];
+        
+    }
+    else
+    {
+        [[gMapHelper rac_getInvertGeoInfo] subscribeNext:^(id x) {
+            
+            [cityBtn setTitle:gMapHelper.addrComponent.city forState:UIControlStateNormal];
+            [self requestCithInfoWithProvince:gMapHelper.addrComponent.province andCith:gMapHelper.addrComponent.city andUI:ai];
+            
+        } error:^(NSError *error) {
+            
+        }];
+    }
+}
+
 #pragma mark - Table view data source
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -341,7 +413,7 @@
             }
             else if (indexPath.row == num - 1)
             {
-                height = 100;
+                height = 84;
             }
             else if (indexPath.row == num - 2)
             {
@@ -371,7 +443,7 @@
             }
             else if (indexPath.row == num - 1)
             {
-                height = 100;
+                height = 84;
             }
             else if (indexPath.row == num - 2)
             {
@@ -616,43 +688,14 @@
     [[[cityBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
-        AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCity fromVC:self.parentViewController];
-        
-        [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
-            
-            GetCityInfoByNameOp * op = [[GetCityInfoByNameOp alloc] init];
-            op.province = provinceModel.infoName;
-            op.city = cityModel.infoName;
-            
-            [[[op rac_postRequest] initially:^{
-                
-                self.isCityLoading = YES;
-                ai.hidden = !self.isCityLoading;
-                ai.animating = self.isCityLoading;
-            }] subscribeNext:^(GetCityInfoByNameOp * op) {
-                
-                self.isCityLoading = NO;
-                ai.hidden = !self.isCityLoading;
-                ai.animating = self.isCityLoading;
-                self.isSpread = YES;
-                
-                
-                ViolationCityInfo * info = op.cityInfo;
-                self.model.cityInfo = info;
-                
-                [self handleViolationCityInfo];
-                [self.tableView reloadData];
-            } error:^(NSError *error) {
-                
-                self.isCityLoading = NO;
-                ai.hidden = !self.isCityLoading;
-                ai.animating = self.isCityLoading;
-                [gToast showError:error.domain];
-            }];
-        }];
-        [self.navigationController pushViewController:vc animated:YES];
+        [self selectCityAction:cell];
     }];
     
+    if (!self.model.cityInfo.cityName.length)
+    {
+        [self autoLocateCityWithUI:cell];
+    }
+
     self.cityBtn = cityBtn;
     
     return cell;
@@ -680,9 +723,27 @@
     }
     
     //输入框
-    UITextField * feild = (UITextField *)[cell searchViewWithTag:103];
-    feild.text = [dict objectForKey:@"no"];
-    [dict safetySetObject:feild forKey:@"feild"];
+    UITextField * field = (UITextField *)[cell searchViewWithTag:103];
+    field.text = [dict objectForKey:@"no"];
+    [dict safetySetObject:field forKey:@"feild"];
+    
+    @weakify(field);
+    [[field rac_textSignal] subscribeNext:^(id x) {
+        
+        @strongify(field)
+        field.text = [field.text uppercaseString];
+        
+        if ([dict[@"title"] isEqualToString:@"发动机号"])
+        {
+            self.model.engineno = field.text;
+            [dict safetySetObject:self.model.engineno forKey:@"no"];
+        }
+        else
+        {
+            self.model.classno = field.text;
+            [dict safetySetObject:self.model.classno forKey:@"no"];
+        }
+    }];
     
     return cell;
 }
@@ -745,20 +806,12 @@
     UILabel * subtitleLb = (UILabel *)[cell searchViewWithTag:102];
     if (self.model.queryDate)
     {
-        if (self.model.violationArray.count)
-        {
-            NSString * str = [NSString stringWithFormat:@"于%@查到过%lu条违章信息，抓紧处理吧",[self.model.queryDate dateFormatForText],(unsigned long)self.model.violationArray.count];
-            subtitleLb.text = str;
-        }
-        else
-        {
-            NSString * str = [NSString stringWithFormat:@"于%@查到过%lu条违章信息，继续保持",[self.model.queryDate dateFormatForText],(unsigned long)self.model.violationArray.count];
-            subtitleLb.text = str;
-        }
+        NSString * str = [NSString stringWithFormat:@"您与%@更新了%ld条信息",[self.model.queryDate dateFormatForText],(unsigned long)self.model.violationArray.count];
+        subtitleLb.text = str;
     }
     else
     {
-        subtitleLb.text = @"您尚未查询过爱车违章";
+        subtitleLb.text = @"暂无更新信息";
     }
 
     return cell;

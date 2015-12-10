@@ -16,6 +16,7 @@
 @property (nonatomic, copy) void (^selectedBlock)(UITableView *tableView, NSIndexPath *indexPath);
 @property (nonatomic, strong) id tag;
 @property (nonatomic, strong) id object;
+@property (nonatomic, assign) BOOL forceReload;
 
 - (BOOL)equalByCellID:(NSString *)cellid tag:(id)tag;
 + (HKCellData *)dataWithCellID:(NSString *)cellid tag:(id)tag;

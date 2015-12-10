@@ -11,12 +11,12 @@
 
 @interface MyCarStore : HKUserStore
 
-- (CKStoreEvent *)getAllCarsIfNeeded;
-- (CKStoreEvent *)getAllCars;
-- (CKStoreEvent *)addCar:(HKMyCar *)car;
-- (CKStoreEvent *)updateCar:(HKMyCar *)car;
-- (CKStoreEvent *)removeCarByID:(NSNumber *)carId;
-- (CKStoreEvent *)getDefaultCar;
+- (HKStoreEvent *)getAllCarsIfNeeded;
+- (HKStoreEvent *)getAllCars;
+- (HKStoreEvent *)addCar:(HKMyCar *)car;
+- (HKStoreEvent *)updateCar:(HKMyCar *)car;
+- (HKStoreEvent *)removeCarByID:(NSNumber *)carId;
+- (HKStoreEvent *)getDefaultCar;
 
 - (HKMyCar *)carByID:(NSNumber *)carId;
 - (HKMyCar *)defalutCar;

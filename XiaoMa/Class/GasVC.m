@@ -249,7 +249,7 @@
 - (void)setupStore
 {
     @weakify(self);
-    [[GasCardStore fetchExistsStore] subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+    [[GasCardStore fetchExistsStore] subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
         @strongify(self);
         [evt callIfNeededForCode:kGasVCReloadDirectly object:nil target:self selector:@selector(refreshViews)];
         [evt callIfNeededForCode:kGasVCReloadWithEvent object:nil target:self selector:@selector(reloadData:)];
@@ -336,7 +336,7 @@
     }
 }
 
-- (void)reloadData:(CKStoreEvent *)event
+- (void)reloadData:(HKStoreEvent *)event
 {
     @weakify(self);
     GasBaseVM *model = self.curModel;
