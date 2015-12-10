@@ -27,10 +27,10 @@
         [self.cache removeAllObjects];
         [self resetAllTimetags];
         if (!x) {
-            [self sendEvent:[CKStoreEvent eventWithSignal:[RACSignal return:nil] code:kCKStoreEventReload object:nil]];
+            [self sendEvent:[HKStoreEvent eventWithSignal:[RACSignal return:nil] code:kHKStoreEventReload object:nil]];
         }
         else {
-            [self reloadDataWithCode:kCKStoreEventReload];
+            [self reloadDataWithCode:kHKStoreEventReload];
         }
     }];
     [[self rac_deallocDisposable] addDisposable:dsp];
