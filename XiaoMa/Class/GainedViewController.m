@@ -21,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *awardBgView;
 @property (weak, nonatomic) IBOutlet UILabel *awardLb;
 
+@property (nonatomic, assign)BOOL isPresenting;
+
 @end
 
 @implementation GainedViewController
@@ -190,11 +192,16 @@
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneGain;    //页面位置
         vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
-
+        
         MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
         sheet.shouldCenterVertically = YES;
-        [sheet presentAnimated:YES completionHandler:nil];
-
+        if (!self.isPresenting) {
+            self.isPresenting = YES;
+            [sheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+                self.isPresenting = NO;
+            }];
+        }
+            
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             [MobClick event:@"rp110-7"];
             [sheet dismissAnimated:YES completionHandler:nil];
@@ -215,7 +222,6 @@
         }];
     } error:^(NSError *error) {
         
-        //调试
     }];
 }
 

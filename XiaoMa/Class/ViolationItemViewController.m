@@ -15,6 +15,9 @@
 #import "HKLocationDataModel.h"
 #import "GetCityInfoByNameOp.h"
 #import "AreaTablePickerVC.h"
+#import <objc/runtime.h>
+
+#import "MyUIPageControl.h"
 
 
 
@@ -22,21 +25,18 @@
 
 @property (nonatomic,strong)NSArray * infoArray;
 
+///城市按钮
+@property (nonatomic,weak)UIButton * cityBtn;
 /// 旋转动画
-@property (nonatomic,weak)UIImageView * animationView;
+@property (nonatomic,weak)UIButton * queryBtn;
 @property (nonatomic,strong)CABasicAnimation * animation;
 @property (nonatomic)BOOL isQuerying;
-@property (nonatomic)CGFloat currentAngle;
-/// 是否查询过，用于图片替换，和主逻辑关系不大
-@property (nonatomic)BOOL isQueryed;
 
 /// 是否展开
 @property (nonatomic)BOOL isSpread;
 
 /// 是否城市信息获取
 @property (nonatomic)BOOL isCityLoading;
-
-@property (nonatomic,weak)UIButton  * cityBtn;
 
 @end
 
@@ -50,16 +50,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupUI];
+    CKAsyncMainQueue(^{
+        [self setupUI];
+    });
     if (self.car)
     {
         [self setupData];
     }
-    else
-    {
-        
-    }
-    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,15 +67,20 @@
 #pragma mark -  Utility
 - (void)setupUI
 {
-    self.isSpread = NO;
-    
     NSInteger total = self.carArray.count + (self.carArray.count < 5 ? 1 : 0);
     NSInteger current = self.car ? [self.carArray indexOfObject:self.car] : self.carArray.count;
-    self.pageControl.numberOfPages = total;
-    self.pageControl.currentPage = current;
-    self.pageControl.currentPageIndicatorTintColor =[UIColor redColor];
-    self.pageControl.pageIndicatorTintColor =[UIColor yellowColor];
 
+    if (!self.pageController)
+    {
+        self.pageController = [[MyUIPageControl alloc] init];
+    }
+    self.pageController.numberOfPages = total;
+    self.pageController.currentPage = current;
+    self.pageController.hidden = total <= 1;
+    
+    UIView * headView = self.tableView.tableHeaderView;
+    self.pageController.center = headView.center;
+    [headView addSubview:self.pageController];
     
     /// 旋转动画
     CABasicAnimation* rotationAnimation;
@@ -105,10 +107,12 @@
         [[self.model rac_getLocalUserViolation] subscribeNext:^(id x) {
             
             @strongify(self)
+            self.isSpread = !self.model.queryDate;
             [self handleViolationCityInfo];
             [self.tableView reloadData];
         }];
     }
+    self.isSpread = !self.model.queryDate;
 }
 - (void)handleViolationCityInfo
 {
@@ -136,29 +140,30 @@
 #pragma mark - Utility
 - (void)queryAction
 {
-    [self insertCityInfoCell];
+    if (self.model.cityInfo.cityCode.length <=  0)
+    {
+        [self.cityBtn.superview.subviews makeObjectsPerformSelector:@selector(shake)];
+        return;
+    }
     
-    // 先扩展车信息，为展示动画，延时一秒去查询
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        if (self.model.cityInfo.cityCode.length <=  0)
+    /// 有发动机，车价输入框
+    for (NSDictionary * dict in self.infoArray)
+    {
+        UITextField * feild = [dict objectForKey:@"feild"];
+        NSInteger num = [dict[@"suffixno"] integerValue];
+        if (feild)
         {
-            [self.cityBtn.superview.subviews makeObjectsPerformSelector:@selector(shake)];
-            return;
-        }
-        
-        for (NSDictionary * dict in self.infoArray)
-        {
-            UITextField * feild = [dict objectForKey:@"feild"];
-            NSInteger num = [dict[@"suffixno"] integerValue];
-            if (feild.text.length < num && num > 0)
+            /// 输入的小于限制或者等于0
+            if ((feild.text.length < num && num > 0) ||
+                feild.text.length == 0)
             {
-                [feild.superview.subviews makeObjectsPerformSelector:@selector(shake)];
-                return;
-            }
-            if (feild.text.length == 0)
-            {
-                [feild.superview.subviews makeObjectsPerformSelector:@selector(shake)];
+                CGFloat delay = self.isSpread ? 0.0f : 1.0f;
+                
+                [self insertCityInfoCell];
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [feild.superview.subviews makeObjectsPerformSelector:@selector(shake)];
+                });
                 return;
             }
             
@@ -171,12 +176,26 @@
                 self.model.classno = feild.text;
             }
         }
-        
-        [self requesViolation];
-    });
+        else
+        {
+            if (self.model.engineno.length == 0 && self.model.classno.length == 0)
+            {
+                CGFloat delay = self.isSpread ? 0.0f : 1.0f;
+                
+                [self insertCityInfoCell];
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [feild.superview.subviews makeObjectsPerformSelector:@selector(shake)];
+                });
+                return;
+            }
+        }
+    }
+    
+    [self requesQueryViolation];
 }
 
-- (void)requesViolation
+- (void)requesQueryViolation
 {
     self.model.licencenumber = self.car.licencenumber;
     self.model.cid = self.car.carId;
@@ -190,6 +209,8 @@
         self.isQuerying = NO;
         [self stopQueryTransform];
         self.isSpread = NO;
+        
+        [self handleViolationCityInfo];
         [self.tableView reloadData];
         
     } error:^(NSError *error) {
@@ -204,23 +225,41 @@
 
 - (void)queryTransform
 {
-    CFTimeInterval pausedTime = [self.animationView.layer timeOffset];
-    self.animationView.layer.speed = 1.0;
-    self.animationView.layer.timeOffset = 0.0;
-    self.animationView.layer.beginTime = 0.0;
-    CFTimeInterval timeSincePause = [self.animationView.layer convertTime:CACurrentMediaTime() fromLayer:nil] - pausedTime;
-    self.animationView.layer.beginTime = timeSincePause;
+    UIImageView * animationView = self.queryBtn.imageView;
+    
+    [self.queryBtn setImage:[UIImage imageNamed:@"loading_white"] forState:UIControlStateNormal];
+    [self.queryBtn setImage:[UIImage imageNamed:@"loading_white"] forState:UIControlStateHighlighted];
+    
+    
+    CFTimeInterval pausedTime = [animationView.layer timeOffset];
+    animationView.layer.speed = 1.0;
+    animationView.layer.timeOffset = 0.0;
+    animationView.layer.beginTime = 0.0;
+    CFTimeInterval timeSincePause = [animationView.layer convertTime:CACurrentMediaTime() fromLayer:nil] - pausedTime;
+    animationView.layer.beginTime = timeSincePause;
 }
 
 - (void)stopQueryTransform
 {
-    CFTimeInterval pausedTime = [self.animationView.layer convertTime:CACurrentMediaTime() fromLayer:nil];
-    self.animationView.layer.speed = 0.0;
-    self.animationView.layer.timeOffset = pausedTime;
+    UIImageView * animationView = self.queryBtn.imageView;
+    CFTimeInterval pausedTime = [animationView.layer convertTime:CACurrentMediaTime() fromLayer:nil];
+    animationView.layer.speed = 0.0;
+    animationView.layer.timeOffset = pausedTime;
     
-    CALayer* layer = [self.animationView.layer presentationLayer];
-    self.currentAngle = [[layer valueForKeyPath:@"transform.rotation.z"] floatValue];
-    
+    if (!self.model.queryDate)
+    {
+        [self.queryBtn setImage:[UIImage imageNamed:@"search_white"] forState:UIControlStateNormal];
+        [self.queryBtn setImage:[UIImage imageNamed:@"search_white"] forState:UIControlStateHighlighted];
+        [self.queryBtn setTitle:@"   查询违章信息" forState:UIControlStateNormal];
+        [self.queryBtn setTitle:@"   查询违章信息" forState:UIControlStateHighlighted];
+    }
+    else
+    {
+        [self.queryBtn setImage:[UIImage imageNamed:@"loading_white"] forState:UIControlStateNormal];
+        [self.queryBtn setImage:[UIImage imageNamed:@"loading_white"] forState:UIControlStateHighlighted];
+        [self.queryBtn setTitle:@"   更新违章信息" forState:UIControlStateNormal];
+        [self.queryBtn setTitle:@"   更新违章信息" forState:UIControlStateHighlighted];
+    }
 }
 
 
@@ -255,6 +294,80 @@
     NSIndexPath  * path = [NSIndexPath indexPathForRow:self.infoArray.count + 2 inSection:0];
     [array safetyAddObject:path];
     [self.tableView deleteRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationTop];
+}
+
+
+- (void)selectCityAction:(UITableViewCell *)cell
+{
+    UIActivityIndicatorView * ai = (UIActivityIndicatorView *)[cell searchViewWithTag:102];
+    UIButton * cityBtn = (UIButton *)[cell searchViewWithTag:101];
+    
+    AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCity fromVC:self.parentViewController];
+    
+    [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
+        
+        [cityBtn setTitle:cityModel.infoName forState:UIControlStateNormal];
+        [self requestCithInfoWithProvince:provinceModel.infoName andCith:cityModel.infoName andUI:ai];
+    }];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)requestCithInfoWithProvince:(NSString *)p andCith:(NSString *)c andUI:(UIActivityIndicatorView *)ai
+{
+    GetCityInfoByNameOp * op = [[GetCityInfoByNameOp alloc] init];
+    op.province = p;
+    op.city = c;
+    
+    [[[op rac_postRequest] initially:^{
+        
+        self.isCityLoading = YES;
+        ai.hidden = !self.isCityLoading;
+        ai.animating = self.isCityLoading;
+    }] subscribeNext:^(GetCityInfoByNameOp * op) {
+        
+        self.isCityLoading = NO;
+        ai.hidden = !self.isCityLoading;
+        ai.animating = self.isCityLoading;
+        self.isSpread = YES;
+        
+        ViolationCityInfo * info = op.cityInfo;
+        self.model.cityInfo = info;
+        
+        [self handleViolationCityInfo];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+    } error:^(NSError *error) {
+        
+        self.isCityLoading = NO;
+        ai.hidden = !self.isCityLoading;
+        ai.animating = self.isCityLoading;
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+        [gToast showError:error.domain];
+    }];
+}
+
+
+- (void)autoLocateCityWithUI:(UITableViewCell *)cell
+{
+    UIActivityIndicatorView * ai = (UIActivityIndicatorView *)[cell searchViewWithTag:102];
+    UIButton * cityBtn = (UIButton *)[cell searchViewWithTag:101];
+    
+    if (gMapHelper.addrComponent.province.length && gMapHelper.addrComponent.city)
+    {
+        [cityBtn setTitle:gMapHelper.addrComponent.city forState:UIControlStateNormal];
+        [self requestCithInfoWithProvince:gMapHelper.addrComponent.province andCith:gMapHelper.addrComponent.city andUI:ai];
+        
+    }
+    else
+    {
+        [[gMapHelper rac_getInvertGeoInfo] subscribeNext:^(id x) {
+            
+            [cityBtn setTitle:gMapHelper.addrComponent.city forState:UIControlStateNormal];
+            [self requestCithInfoWithProvince:gMapHelper.addrComponent.province andCith:gMapHelper.addrComponent.city andUI:ai];
+            
+        } error:^(NSError *error) {
+            
+        }];
+    }
 }
 
 #pragma mark - Table view data source
@@ -300,7 +413,7 @@
             }
             else if (indexPath.row == num - 1)
             {
-                height = 100;
+                height = 84;
             }
             else if (indexPath.row == num - 2)
             {
@@ -330,7 +443,7 @@
             }
             else if (indexPath.row == num - 1)
             {
-                height = 100;
+                height = 84;
             }
             else if (indexPath.row == num - 2)
             {
@@ -355,18 +468,18 @@
         {
             HKViolation * violation = [self.model.violationArray safetyObjectAtIndex:indexPath.row - 1];
             
-            if (!violation.customTag)
+//            if (!violation.customTag)
             {
-                CGFloat width1 = gAppMgr.deviceInfo.screenSize.width - 54;
+                CGFloat width1 = gAppMgr.deviceInfo.screenSize.width - 60;
                 CGSize size1 = [violation.violationArea labelSizeWithWidth:width1 font:[UIFont systemFontOfSize:12]];
                 
-                CGFloat width2 = gAppMgr.deviceInfo.screenSize.width - 40;
+                CGFloat width2 = gAppMgr.deviceInfo.screenSize.width - 45;
                 CGSize size2 = [violation.violationAct labelSizeWithWidth:width2 font:[UIFont systemFontOfSize:15]];
                 
-                height = 60 + size1.height + 16 + size2.height + 14;
-                violation.customTag = height;
+                height = 63 + size1.height + 16 + size2.height + 14;
+//                violation.customTag = height;
             }
-            height = violation.customTag;
+//            height = violation.customTag;
         }
     }
     return height;
@@ -532,14 +645,17 @@
     }
     else if ([cell.reuseIdentifier  isEqualToString:@"SeparatorCell"])
     {
+        UIImageView * statusImgV = (UIImageView *)[cell searchViewWithTag:101];
         if (self.isSpread)
         {
             [self deleteCityInfoCell];
+            
         }
         else
         {
             [self insertCityInfoCell];
         }
+        statusImgV.transform = CGAffineTransformRotate(statusImgV.transform,M_PI);
     }
 }
 
@@ -572,45 +688,14 @@
     [[[cityBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
-        AreaTablePickerVC * vc = [UIStoryboard vcWithId:@"AreaTablePickerVC" inStoryboard:@"Common"];
-        vc.areaType = AreaTypeProvince;
-        vc.originVC = self.parentViewController;
-        
-        [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
-            
-            GetCityInfoByNameOp * op = [[GetCityInfoByNameOp alloc] init];
-            op.province = provinceModel.infoName;
-            op.city = cityModel.infoName;
-            
-            [[[op rac_postRequest] initially:^{
-                
-                self.isCityLoading = YES;
-                ai.hidden = !self.isCityLoading;
-                ai.animating = self.isCityLoading;
-            }] subscribeNext:^(GetCityInfoByNameOp * op) {
-                
-                self.isCityLoading = NO;
-                ai.hidden = !self.isCityLoading;
-                ai.animating = self.isCityLoading;
-                self.isSpread = YES;
-                
-                
-                ViolationCityInfo * info = op.cityInfo;
-                self.model.cityInfo = info;
-                
-                [self handleViolationCityInfo];
-                [self.tableView reloadData];
-            } error:^(NSError *error) {
-                
-                self.isCityLoading = NO;
-                ai.hidden = !self.isCityLoading;
-                ai.animating = self.isCityLoading;
-                [gToast showError:error.domain];
-            }];
-        }];
-        [self.navigationController pushViewController:vc animated:YES];
+        [self selectCityAction:cell];
     }];
     
+    if (!self.model.cityInfo.cityName.length)
+    {
+        [self autoLocateCityWithUI:cell];
+    }
+
     self.cityBtn = cityBtn;
     
     return cell;
@@ -630,17 +715,35 @@
     NSInteger num = [dict[@"suffixno"] integerValue];
     if (num > 0)
     {
-        subtitleLb.text = [NSString stringWithFormat:@"后%ld位",(long)num];
+        subtitleLb.text = [NSString stringWithFormat:@"(后%ld位)",(long)num];
     }
     else
     {
-        subtitleLb.text = [NSString stringWithFormat:@"全填"];
+        subtitleLb.text = [NSString stringWithFormat:@"(全填)"];
     }
     
     //输入框
-    UITextField * feild = (UITextField *)[cell searchViewWithTag:103];
-    feild.text = [dict objectForKey:@"no"];
-    [dict safetySetObject:feild forKey:@"feild"];
+    UITextField * field = (UITextField *)[cell searchViewWithTag:103];
+    field.text = [dict objectForKey:@"no"];
+    [dict safetySetObject:field forKey:@"feild"];
+    
+    @weakify(field);
+    [[field rac_textSignal] subscribeNext:^(id x) {
+        
+        @strongify(field)
+        field.text = [field.text uppercaseString];
+        
+        if ([dict[@"title"] isEqualToString:@"发动机号"])
+        {
+            self.model.engineno = field.text;
+            [dict safetySetObject:self.model.engineno forKey:@"no"];
+        }
+        else
+        {
+            self.model.classno = field.text;
+            [dict safetySetObject:self.model.classno forKey:@"no"];
+        }
+    }];
     
     return cell;
 }
@@ -653,13 +756,19 @@
     UIButton * queryBtn = (UIButton *)[cell searchViewWithTag:101];
     [queryBtn setTitle:@"查询违章信息" forState:UIControlStateNormal || UIControlStateHighlighted];
     UIImageView * animationView = queryBtn.imageView;
-    if (!self.model.queryDate && !self.isQueryed)
+    if (!self.model.queryDate)
     {
-        animationView.image = [UIImage imageNamed:@"search_white"];
+        [self.queryBtn setImage:[UIImage imageNamed:@"search_white"] forState:UIControlStateNormal];
+        [self.queryBtn setImage:[UIImage imageNamed:@"search_white"] forState:UIControlStateHighlighted];
+        [self.queryBtn setTitle:@"   查询违章信息" forState:UIControlStateNormal];
+        [self.queryBtn setTitle:@"   查询违章信息" forState:UIControlStateHighlighted];
     }
     else
     {
-        animationView.image = [UIImage imageNamed:@"loading_white"];
+        [self.queryBtn setImage:[UIImage imageNamed:@"loading_white"] forState:UIControlStateNormal];
+        [self.queryBtn setImage:[UIImage imageNamed:@"loading_white"] forState:UIControlStateHighlighted];
+        [self.queryBtn setTitle:@"   更新违章信息" forState:UIControlStateNormal];
+        [self.queryBtn setTitle:@"   更新违章信息" forState:UIControlStateHighlighted];
     }
     NSArray  * array = animationView.layer.animationKeys;
     if (!array.count)
@@ -675,16 +784,7 @@
             }
         }
     }
-    CALayer* layer = [animationView.layer presentationLayer];
-    CGFloat angle = [[layer valueForKeyPath:@"transform.rotation.z"] floatValue];
-    if (self.currentAngle != angle)
-    {
-//        animationView.layer.transform = CATransform3DMakeRotation(self.currentAngle,0.0f,0.0f,1.0f);
-        animationView.transform = CGAffineTransformMakeRotation(self.currentAngle);
-    }
-    
-    self.animationView = animationView;
-    
+
     
     @weakify(self)
     [[[queryBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -694,27 +794,24 @@
         {
             [self queryAction];
         }
-        self.isQueryed = YES;
+        else
+        {
+            [gToast showText:@"小马达达正在努力查询中\n请别着急"];
+        }
     }];
+    
+    self.queryBtn = queryBtn;
     
     // 按钮下面的小标题
     UILabel * subtitleLb = (UILabel *)[cell searchViewWithTag:102];
     if (self.model.queryDate)
     {
-        if (self.model.violationArray.count)
-        {
-            NSString * str = [NSString stringWithFormat:@"于%@查到过%lu条违章信息，抓紧处理吧",[self.model.queryDate dateFormatForText],(unsigned long)self.model.violationArray.count];
-            subtitleLb.text = str;
-        }
-        else
-        {
-            NSString * str = [NSString stringWithFormat:@"于%@查到过%lu条违章信息，继续保持",[self.model.queryDate dateFormatForText],(unsigned long)self.model.violationArray.count];
-            subtitleLb.text = str;
-        }
+        NSString * str = [NSString stringWithFormat:@"您与%@更新了%ld条信息",[self.model.queryDate dateFormatForText],(unsigned long)self.model.violationArray.count];
+        subtitleLb.text = str;
     }
     else
     {
-        subtitleLb.text = @"您尚未查询过爱车违章";
+        subtitleLb.text = @"暂无更新信息";
     }
 
     return cell;
@@ -726,7 +823,7 @@
     
     // 违章标题
     UILabel * titleLb = (UILabel *)[cell searchViewWithTag:101];
-    titleLb.text = [NSString stringWithFormat:@"共扣%ld分，罚款%ld元",self.model.violationTotalfen,self.model.violationTotalmoney];
+    titleLb.text = [NSString stringWithFormat:@"罚款%ld元，共扣%ld分",(long)self.model.violationTotalmoney,(long)self.model.violationTotalfen];
     
     return cell;
 }
@@ -737,17 +834,22 @@
     
     HKViolation * violation = [self.model.violationArray safetyObjectAtIndex:indexPath.row - 1];
     
+    ///罚款icon
+    UIImageView * moneyImgV = (UIImageView *)[cell searchViewWithTag:107];
+
+    ///罚分icon
+    UIImageView * fenImgV = (UIImageView *)[cell searchViewWithTag:108];
+
     ///罚款标志
     UILabel * moneyLb = (UILabel *)[cell searchViewWithTag:101];
-    moneyLb.text = violation.violationMoney;
+    moneyLb.text = violation.violationMoney.length ? violation.violationMoney : @"未知";
     
     ///罚分标志
     UILabel * fenLb = (UILabel *)[cell searchViewWithTag:102];
-    fenLb.text = violation.violationScore;
+    fenLb.text = violation.violationScore.length ? violation.violationScore : @"未知";
     
     ///处理情况图标
     UIImageView * handleIcon = (UIImageView *)[cell searchViewWithTag:103];
-    
 
     ///时间标志
     UILabel * whenLb = (UILabel *)[cell searchViewWithTag:104];
@@ -760,6 +862,23 @@
     ///原因标志
     UILabel * whyLb = (UILabel *)[cell searchViewWithTag:106];
     whyLb.text = violation.violationAct;
+    
+    if ([violation.ishandled isEqualToString:@"1"])
+    {
+        moneyImgV.image = [UIImage imageNamed:@"penalty_money_green_icon"];
+        fenImgV.image = [UIImage imageNamed:@"penalty_fraction_green_icon"];
+        handleIcon.image = [UIImage imageNamed:@"handle_icon"];
+        moneyLb.textColor = [UIColor colorWithHex:@"#20ab2a" alpha:1.0f];
+        fenLb.textColor = [UIColor colorWithHex:@"#20ab2a" alpha:1.0f];
+    }
+    else
+    {
+        moneyImgV.image = [UIImage imageNamed:@"penalty_money_icon"];
+        fenImgV.image = [UIImage imageNamed:@"penalty_fraction_icon"];
+        handleIcon.image = [UIImage imageNamed:@"unhandle_icon"];
+        moneyLb.textColor = [UIColor colorWithHex:@"#ffa800" alpha:1.0f];
+        fenLb.textColor = [UIColor colorWithHex:@"#ffa800" alpha:1.0f];
+    }
 
     
     return cell;
@@ -792,6 +911,11 @@
 - (UITableViewCell *)separatorCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"SeparatorCell"];
+    
+    UIImageView * statusImgV = (UIImageView *)[cell searchViewWithTag:101];
+    
+    statusImgV.image = self.isSpread ? [UIImage imageNamed:@"violation_push"]:[UIImage imageNamed:@"violation_pull"];
+    
     return cell;
 }
 

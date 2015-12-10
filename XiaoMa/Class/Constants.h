@@ -28,7 +28,7 @@ typedef enum : NSUInteger {
     PaymentChannelABCCarWashAmount,
     PaymentChannelABCIntegral,
     PaymentChannelCoupon,
-    PaymentChannelXMDDCreditCard,
+    PaymentChannelCZBCreditCard,
     PaymentChannelUPpay
 } PaymentChannelType;
 
@@ -52,13 +52,19 @@ typedef enum : NSUInteger {
 } AdvertisementType;
 
 ///分享页面类型
-//1-每周礼券红包分享
 //2-洗车完成分享
+//3-每周礼券红包分享
+//4-保险支付完成分享
+//5-油卡充值完成分享
+//6-优惠券分享（转赠）
+//7-其他分享（jsbridge中的分享和App分享）
 typedef enum : NSUInteger {
-    ShareSceneGain = 3,
     ShareSceneCarwash = 2,
-    ShareSceneAbout = 6,
-    ShareSceneWebBridge = 7
+    ShareSceneGain = 3,
+    ShareSceneInsurance = 4,
+    ShareSceneGas = 5,
+    ShareSceneCoupon = 6,
+    ShareSceneLocalShare
 } ShareSceneType;
 
 ///分享按钮类型

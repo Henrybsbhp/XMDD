@@ -283,6 +283,7 @@
 		5078E4D21B93FD4000E3B198 /* GetInscouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5078E4D11B93FD4000E3B198 /* GetInscouponOp.m */; };
 		507A0EB41B6F39D1004F6EC1 /* AnimationBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 507A0EB31B6F39D1004F6EC1 /* AnimationBoardView.m */; };
 		507A4DDF1B74462200E0BF1E /* UnbundlingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 507A4DDE1B74462200E0BF1E /* UnbundlingVC.m */; };
+		507EFACC1C15AEB60081FECB /* getAreaByPcdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 507EFACB1C15AEB60081FECB /* getAreaByPcdOp.m */; };
 		508150CE1B84703200B16633 /* DetailsAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508150CD1B84703200B16633 /* DetailsAlertVC.m */; };
 		508BD8D01BD0E3ED00B64199 /* GasRecordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508BD8CF1BD0E3ED00B64199 /* GasRecordVC.m */; };
 		508C718F1BA808B600FA2F05 /* Insurance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 508C718E1BA808B600FA2F05 /* Insurance.storyboard */; };
@@ -474,6 +475,7 @@
 		6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BD1AE24DCE000D19C1 /* RSADataSigner.m */; };
 		6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BF1AE24DCE000D19C1 /* RSADataVerifier.m */; };
 		6BEC3FC91C1122B40046F11D /* GetCityInfoByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEC3FC81C1122B40046F11D /* GetCityInfoByNameOp.m */; };
+		6BEC3FCC1C16F1A50046F11D /* MyUIPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEC3FCB1C16F1A50046F11D /* MyUIPageControl.m */; };
 		6BEDB0421BA66242009A8C3F /* InsuranceDetailPlanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDB0411BA66242009A8C3F /* InsuranceDetailPlanModel.m */; };
 		6BEDB0461BA666D4009A8C3F /* CCSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDB0451BA666D4009A8C3F /* CCSegmentedControl.m */; };
 		6BEF74891BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEF74881BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.m */; };
@@ -1041,6 +1043,8 @@
 		507A0EB31B6F39D1004F6EC1 /* AnimationBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimationBoardView.m; sourceTree = "<group>"; };
 		507A4DDD1B74462200E0BF1E /* UnbundlingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnbundlingVC.h; sourceTree = "<group>"; };
 		507A4DDE1B74462200E0BF1E /* UnbundlingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnbundlingVC.m; sourceTree = "<group>"; };
+		507EFACA1C15AEB60081FECB /* getAreaByPcdOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = getAreaByPcdOp.h; path = Class/getAreaByPcdOp.h; sourceTree = "<group>"; };
+		507EFACB1C15AEB60081FECB /* getAreaByPcdOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = getAreaByPcdOp.m; path = Class/getAreaByPcdOp.m; sourceTree = "<group>"; };
 		508150CC1B84703200B16633 /* DetailsAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsAlertVC.h; sourceTree = "<group>"; };
 		508150CD1B84703200B16633 /* DetailsAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsAlertVC.m; sourceTree = "<group>"; };
 		508BD8CE1BD0E3ED00B64199 /* GasRecordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasRecordVC.h; sourceTree = "<group>"; };
@@ -1475,6 +1479,8 @@
 		6BEA56BF1AE24DCE000D19C1 /* RSADataVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataVerifier.m; sourceTree = "<group>"; };
 		6BEC3FC71C1122B40046F11D /* GetCityInfoByNameOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetCityInfoByNameOp.h; path = Class/GetCityInfoByNameOp.h; sourceTree = "<group>"; };
 		6BEC3FC81C1122B40046F11D /* GetCityInfoByNameOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetCityInfoByNameOp.m; path = Class/GetCityInfoByNameOp.m; sourceTree = "<group>"; };
+		6BEC3FCA1C16F1A50046F11D /* MyUIPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyUIPageControl.h; path = Class/MyUIPageControl.h; sourceTree = "<group>"; };
+		6BEC3FCB1C16F1A50046F11D /* MyUIPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyUIPageControl.m; path = Class/MyUIPageControl.m; sourceTree = "<group>"; };
 		6BEDB0401BA66242009A8C3F /* InsuranceDetailPlanModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceDetailPlanModel.h; sourceTree = "<group>"; };
 		6BEDB0411BA66242009A8C3F /* InsuranceDetailPlanModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceDetailPlanModel.m; sourceTree = "<group>"; };
 		6BEDB0441BA666D4009A8C3F /* CCSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSegmentedControl.h; sourceTree = "<group>"; };
@@ -3284,6 +3290,8 @@
 				6BEC3FC81C1122B40046F11D /* GetCityInfoByNameOp.m */,
 				50094B411C1144640069683C /* GetAreaInfoOp.h */,
 				50094B421C1144640069683C /* GetAreaInfoOp.m */,
+				507EFACA1C15AEB60081FECB /* getAreaByPcdOp.h */,
+				507EFACB1C15AEB60081FECB /* getAreaByPcdOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -3291,6 +3299,8 @@
 		6BC3B6161ADF92CF001016A0 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				6BEC3FCA1C16F1A50046F11D /* MyUIPageControl.h */,
+				6BEC3FCB1C16F1A50046F11D /* MyUIPageControl.m */,
 				6BC3B61A1ADF9334001016A0 /* LineDashPolyline.h */,
 				6BC3B61B1ADF9334001016A0 /* LineDashPolyline.m */,
 				6BC3B6171ADF92E7001016A0 /* CommonUtility.h */,
@@ -3633,7 +3643,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0640;
-				ORGANIZATIONNAME = jiangjunchen;
+				ORGANIZATIONNAME = huika;
 				TargetAttributes = {
 					1883D8DE1ACB99AC002A4D19 = {
 						CreatedOnToolsVersion = 6.2;
@@ -3955,6 +3965,7 @@
 				6BF7F7311BB39A4100A24A32 /* NSString+Price.m in Sources */,
 				1853DED11AE2971500C39175 /* ResetPasswordVC.m in Sources */,
 				1883D9331ACCDA8B002A4D19 /* DefaultStyleModel.m in Sources */,
+				507EFACC1C15AEB60081FECB /* getAreaByPcdOp.m in Sources */,
 				6BE4CE311AF217BC008E1C19 /* GetUserCouponOp.m in Sources */,
 				189B30BA1AD51EF2001D7288 /* JTUser.m in Sources */,
 				18B78F6A1BAAA2100061ECAD /* GetInsuranceCalculatorOpV2.m in Sources */,
@@ -4141,6 +4152,7 @@
 				505358F41C0D79640029B5BA /* SharedNotifyOp.m in Sources */,
 				506A309F1B8F08FC002F1F14 /* InsuranceAppointmentOp.m in Sources */,
 				18863FA21AE8A316005BF4ED /* GetInsuranceByChannelOp.m in Sources */,
+				6BEC3FCC1C16F1A50046F11D /* MyUIPageControl.m in Sources */,
 				6B3C67961BAA5ADE002F04C8 /* SystemFastrateGetOp.m in Sources */,
 				6BBAB8C01ADBC21600EC342F /* DesUtil.m in Sources */,
 				18C52C501BA905E600F6C38B /* DrivingLicenseViewLayout.m in Sources */,
@@ -4394,7 +4406,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "13b76489-934d-407b-a6e7-2b3f8a44dedd";
+				PROVISIONING_PROFILE = "19b9e532-9495-4943-a7d9-e1846a3e0cf4";
 			};
 			name = Debug;
 		};
@@ -4500,7 +4512,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cc38a856-97b2-4d3f-ad97-e106d80dd70c";
+				PROVISIONING_PROFILE = "2e1ee95d-0c71-455c-a3b9-613059936363";
 			};
 			name = Release;
 		};

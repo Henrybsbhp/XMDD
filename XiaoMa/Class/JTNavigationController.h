@@ -14,7 +14,7 @@
 @end
 
 @interface UIViewController (NavigationController)
-
+@property (nonatomic, strong) JTNavigationController *jtnavCtrl;
 - (void)actionBack:(id)sender;
 
 @end

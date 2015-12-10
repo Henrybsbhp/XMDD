@@ -19,8 +19,8 @@
 
 @property (nonatomic)BOOL isloading;
 
-/// 用于自动跳转到新添加的爱车页面
-@property (nonatomic,strong)HKMyCar * addCar;
+/// 用于自动跳转到新添加或默认的爱车页面
+@property (nonatomic,strong)HKMyCar * defaultSelectCar;
 
 @end
 
@@ -49,12 +49,12 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-    [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:NO];
+    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:YES];
+    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -95,27 +95,30 @@
 
 - (void)refreshScrollView
 {
-    [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    for (NSInteger i = 0; i < self.datasource.count; i++) {
+    CKAsyncMainQueue(^{
         
-        NSObject * obj = [self.datasource safetyObjectAtIndex:i];
-        [self createIllegalCardWithCar:obj];
-    }
-    
-    if (self.datasource.count < 5)
-    {
-        [self createIllegalCardWithCar:nil];
-    }
-    
-    NSInteger index = NSNotFound;
-    
-    if (self.addCar) {
-        index = [self.datasource indexOfObject:self.addCar];
-    }
-    if (index == NSNotFound) {
-        index = 0;
-    }
-    [self loadPageIndex:index animated:NO];
+        [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        for (NSInteger i = 0; i < self.datasource.count; i++) {
+            
+            NSObject * obj = [self.datasource safetyObjectAtIndex:i];
+            [self createIllegalCardWithCar:obj];
+        }
+        
+        if (self.datasource.count < 5)
+        {
+            [self createIllegalCardWithCar:nil];
+        }
+        
+        NSInteger index = NSNotFound;
+        
+        if (self.defaultSelectCar) {
+            index = [self.datasource indexOfObject:self.defaultSelectCar];
+        }
+        if (index == NSNotFound) {
+            index = 0;
+        }
+        [self loadPageIndex:index animated:NO];
+    });
 }
 
 - (void)createIllegalCardWithCar:(NSObject *)car
@@ -169,10 +172,17 @@
     }] subscribeNext:^(id x) {
         
         @strongify(self);
+        HKMyCar *defCar = [self.carStore defalutCar];
+        HKMyCar *car;
         if (code == kHKStoreEventAdd) {
-            self.addCar = x;
+            car = x;
         }
+        if (!car) {
+            car = defCar;
+        }
+        
         self.datasource = [self.carStore.cache allObjects];
+        self.defaultSelectCar  = car;
         [self refreshScrollView];
     } error:^(NSError *error) {
         

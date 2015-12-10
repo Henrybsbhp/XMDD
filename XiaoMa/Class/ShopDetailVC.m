@@ -685,6 +685,14 @@
     //    [priceL mas_updateConstraints:^(MASConstraintMaker *make) {
     //        make.bottom.equalTo(cc ? iconV : titleL);
     //    }];
+    if (self.shop.isVacation.integerValue==1)//isVacation==1表示正在休假
+    {
+        payB.enabled=NO;
+    }
+    else
+    {
+        payB.enabled=YES;
+    }
     titleL.text = service.serviceName;
     priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
     introL.text = service.serviceDescription;

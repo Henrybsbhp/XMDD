@@ -57,7 +57,7 @@
         case PaymentChannelWechat:
             payment = @"微信支付";
             break;
-        case PaymentChannelXMDDCreditCard:
+        case PaymentChannelCZBCreditCard:
             payment = @"信用卡支付";
             break;
         default:

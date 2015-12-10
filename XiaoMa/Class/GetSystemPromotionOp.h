@@ -15,6 +15,7 @@
 @property (nonatomic, copy) NSString *province;
 @property (nonatomic, copy) NSString *city;
 @property (nonatomic, copy) NSString *district;
+@property (nonatomic, copy) NSString *version;
 
 @property (nonatomic,strong)NSArray * rsp_advertisementArray;
 

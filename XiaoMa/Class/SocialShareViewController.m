@@ -18,6 +18,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *weiboLabel;
 @property (weak, nonatomic) IBOutlet UILabel *qqLabel;
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+
 @end
 
 @implementation SocialShareViewController
@@ -39,6 +41,7 @@
     self.timelineBtn.enabled = NO;
     self.weiboBtn.enabled = NO;
     self.qqBtn.enabled = NO;
+    self.activityIndicatorView.hidden = YES;
     
     for (int i = 0; i < self.btnTypeArr.count; i++) {
         ShareButtonType btnType = [self.btnTypeArr[i] intValue];
@@ -64,43 +67,11 @@
         
         [MobClick event:@"rp110-3"];
         
-        if (self.sceneType == ShareSceneAbout) {
-            if (self.clickAction) {
-                CKAfter(0.3, ^{
-                    self.clickAction();
-                });
-            }
+        if ([self catchLocalShareScene]) {
             [self shareWechat];
         }
         else {
-            GetShareDetailOp * op = [GetShareDetailOp operation];
-            op.pagePosition = self.sceneType;
-            op.buttonId = ShareButtonWechat;
-            @weakify(self);
-            [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
-                
-                @strongify(self);
-                self.tt = op.rsp_title;
-                self.subtitle = op.rsp_desc;
-                self.urlStr = op.rsp_linkurl;
-                [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"wechat_share_carwash" errorPic:@"wechat_share_carwash"] subscribeNext:^(UIImage * x) {
-                    self.image = x;
-                    
-                    if (self.clickAction) {
-                        CKAfter(0.3, ^{
-                            self.clickAction();
-                        });
-                    }
-                    [self shareWechat];
-                }];
-            } error:^(NSError *error) {
-                [gToast showError:error.domain];
-                if (self.clickAction) {
-                    CKAfter(0.3, ^{
-                        self.clickAction();
-                    });
-                }
-            }];
+            [self requestDetailsForButtonId:ShareButtonWechat];
         }
     }];
     
@@ -108,43 +79,11 @@
         
         [MobClick event:@"rp110-4"];
         
-        if (self.sceneType == ShareSceneAbout) {
-            if (self.clickAction) {
-                CKAfter(0.3, ^{
-                    self.clickAction();
-                });
-            }
+        if ([self catchLocalShareScene]) {
             [self shareTimeline];
         }
         else {
-            GetShareDetailOp * op = [GetShareDetailOp operation];
-            op.pagePosition = self.sceneType;
-            op.buttonId = ShareButtonTimeLine;
-            @weakify(self);
-            [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
-                
-                @strongify(self);
-                self.tt = op.rsp_title;
-                self.subtitle = op.rsp_desc;
-                self.urlStr = op.rsp_linkurl;
-                [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"wechat_share_carwash" errorPic:@"wechat_share_carwash"] subscribeNext:^(UIImage * x) {
-                    self.image = x;
-                    
-                    if (self.clickAction) {
-                        CKAfter(0.3, ^{
-                            self.clickAction();
-                        });
-                    }
-                    [self shareTimeline];
-                }];
-            } error:^(NSError *error) {
-                [gToast showError:error.domain];
-                if (self.clickAction) {
-                    CKAfter(0.3, ^{
-                        self.clickAction();
-                    });
-                }
-            }];
+            [self requestDetailsForButtonId:ShareButtonTimeLine];
         }
     }];
     
@@ -152,43 +91,11 @@
         
         [MobClick event:@"rp110-5"];
         
-        if (self.sceneType == ShareSceneAbout) {
-            if (self.clickAction) {
-                CKAfter(0.3, ^{
-                    self.clickAction();
-                });
-            }
+        if ([self catchLocalShareScene]) {
             [self shareWeibo];
         }
         else {
-            GetShareDetailOp * op = [GetShareDetailOp operation];
-            op.pagePosition = self.sceneType;
-            op.buttonId = ShareButtonWeibo;
-            @weakify(self);
-            [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
-                
-                @strongify(self);
-                self.tt = op.rsp_title;
-                self.subtitle = op.rsp_desc;
-                self.urlStr = op.rsp_linkurl;
-                [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"award_element1" errorPic:@"award_element1"] subscribeNext:^(UIImage * x) {
-                    self.webimage = x;
-                    
-                    if (self.clickAction) {
-                        CKAfter(0.3, ^{
-                            self.clickAction();
-                        });
-                    }
-                    [self shareWeibo];
-                }];
-            } error:^(NSError *error) {
-                [gToast showError:error.domain];
-                if (self.clickAction) {
-                    CKAfter(0.3, ^{
-                        self.clickAction();
-                    });
-                }
-            }];
+            [self requestDetailsForButtonId:ShareButtonWeibo];
         }
     }];
     
@@ -196,43 +103,78 @@
         
         [MobClick event:@"rp110-6"];
         
-        if (self.sceneType == ShareSceneAbout) {
+        if ([self catchLocalShareScene]) {
+            [self shareQQ];
+        }
+        else {
+            [self requestDetailsForButtonId:ShareButtonQQFriend];
+        }
+    }];
+}
+
+- (BOOL)catchLocalShareScene
+{
+    if (self.sceneType == ShareSceneLocalShare || self.sceneType == ShareSceneCoupon) {
+        if (self.clickAction) {
+            CKAfter(0.3, ^{
+                self.clickAction();
+            });
+        }
+        return YES;
+    }
+    return NO;
+}
+
+- (void)requestDetailsForButtonId:(ShareButtonType)btnType
+{
+    self.activityIndicatorView.hidden = NO;
+    [self.activityIndicatorView startAnimating];
+    GetShareDetailOp * op = [GetShareDetailOp operation];
+    op.pagePosition = self.sceneType;
+    op.buttonId = btnType;
+    if (self.sceneType == ShareSceneGas) {
+        op.gasCharge = [self.otherInfo integerParamForName:@"gasCharge"];
+        op.spareCharge = [self.otherInfo integerParamForName:@"spareCharge"];
+    }
+    @weakify(self);
+    [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
+        
+        @strongify(self);
+        self.tt = op.rsp_title;
+        self.subtitle = op.rsp_desc;
+        self.urlStr = op.rsp_linkurl;
+        [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"wechat_share_carwash" errorPic:@"wechat_share_carwash"] subscribeNext:^(UIImage * x) {
+            self.image = x;
+        } completed:^{
+            [self.activityIndicatorView stopAnimating];
+            self.activityIndicatorView.hidden = YES;
+            
             if (self.clickAction) {
                 CKAfter(0.3, ^{
                     self.clickAction();
                 });
             }
-            [self shareQQ];
-        }
-        else {
-            GetShareDetailOp * op = [GetShareDetailOp operation];
-            op.pagePosition = self.sceneType;
-            op.buttonId = ShareButtonQQFriend;
-            @weakify(self);
-            [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
-                
-                @strongify(self);
-                self.tt = op.rsp_title;
-                self.subtitle = op.rsp_desc;
-                self.urlStr = op.rsp_linkurl;
-                [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"award_element1" errorPic:@"award_element1"] subscribeNext:^(UIImage * x) {
-                    self.image = x;
-                    
-                    if (self.clickAction) {
-                        CKAfter(0.3, ^{
-                            self.clickAction();
-                        });
-                    }
-                    [self shareQQ];
-                }];
-            } error:^(NSError *error) {
-                [gToast showError:error.domain];
-                if (self.clickAction) {
-                    CKAfter(0.3, ^{
-                        self.clickAction();
-                    });
-                }
-            }];
+            if (btnType == ShareButtonWechat) {
+                [self shareWechat];
+            }
+            else if (btnType == ShareButtonTimeLine) {
+                [self shareTimeline];
+            }
+            else if (btnType == ShareButtonWeibo) {
+                [self shareWeibo];
+            }
+            else if (btnType == ShareButtonQQFriend) {
+                [self shareQQ];
+            }
+        }];
+    } error:^(NSError *error) {
+        [self.activityIndicatorView stopAnimating];
+        self.activityIndicatorView.hidden = YES;
+        [gToast showError:error.domain];
+        if (self.clickAction) {
+            CKAfter(0.3, ^{
+                self.clickAction();
+            });
         }
     }];
 }
@@ -314,7 +256,7 @@
     {
         case EQQAPIAPPNOTREGISTED:
         {
-            UIAlertView *msgbox = [[UIAlertView alloc] initWithTitle:@"Error" message:@"App未注册" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
+            UIAlertView *msgbox = [[UIAlertView alloc] initWithTitle:@"分享失败" message:@"App未注册" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
             [msgbox show];
             break;
         }
@@ -326,8 +268,8 @@
         }
         case EQQAPIQQNOTINSTALLED:
         {
-            UIAlertView *msgbox = [[UIAlertView alloc] initWithTitle:@"Error" message:@"未安装手机QQ" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
-            [msgbox show];
+//            UIAlertView *msgbox = [[UIAlertView alloc] initWithTitle:@"提示" message:@"未安装手机QQ" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
+//            [msgbox show];
             break;
         }
         case EQQAPIQQNOTSUPPORTAPI:
@@ -336,7 +278,7 @@
         }
         case EQQAPISENDFAILD:
         {
-            UIAlertView *msgbox = [[UIAlertView alloc] initWithTitle:@"Error" message:@"分享失败" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
+            UIAlertView *msgbox = [[UIAlertView alloc] initWithTitle:@"错误" message:@"分享失败" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
             [msgbox show];
             break;
         }
