@@ -7,7 +7,7 @@
 //
 
 #import "HKCellData.h"
-#import "CKStore.h"
+#import "HKStore.h"
 
 @implementation HKCellData
 @synthesize cellID = _cellID, tag = _tag;

@@ -97,7 +97,7 @@
 {
     @weakify(self);
     self.carStore = [MyCarStore fetchOrCreateStore];
-    [self.carStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+    [self.carStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
         @strongify(self);
         [self reloadDataWithEvent:evt];
     }];
@@ -137,7 +137,7 @@
     [self.carStore sendEvent:[self.carStore getAllCarsIfNeeded]];
 }
 
-- (void)reloadDataWithEvent:(CKStoreEvent *)evt
+- (void)reloadDataWithEvent:(HKStoreEvent *)evt
 {
     NSInteger code = evt.code;
     @weakify(self);
@@ -162,7 +162,7 @@
             if (_originCarID) {
                 car = [self.carStore.cache objectForKey:_originCarID];
             }
-            if (code == kCKStoreEventAdd) {
+            if (code == kHKStoreEventAdd) {
                 car = x;
             }
             if (!car && self.model.currentCar) {
@@ -181,10 +181,10 @@
             if (_originCarID) {
                 self.model.currentCar = [self.carStore.cache objectForKey:_originCarID];
             }
-            else if (code != kCKStoreEventUpdate && code != kCKStoreEventAdd) {
+            else if (code != kHKStoreEventUpdate && code != kHKStoreEventAdd) {
                 self.model.currentCar = defCar;
             }
-            else if (code == kCKStoreEventAdd) {
+            else if (code == kHKStoreEventAdd) {
                 self.model.currentCar = x;
             }
             if (!self.model.currentCar) {
@@ -357,7 +357,7 @@
         NSString *oldurl = car.licenceurl;
         car.licenceurl = url;
         MyCarStore *store = [MyCarStore fetchExistsStore];
-        CKStoreEvent *evt = [store updateCar:car];
+        HKStoreEvent *evt = [store updateCar:car];
         evt.object = self;
         return [[[store sendEvent:evt] signal] catch:^RACSignal *(NSError *error) {
             car.licenceurl = oldurl;

@@ -45,10 +45,10 @@
 {
     self.orderStore = [InsOrderStore fetchOrCreateStore];
     @weakify(self);
-    [self.orderStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+    [self.orderStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
         @strongify(self);
         RACSignal *sig = evt.signal;
-        if (evt.code != kCKStoreEventReload) {
+        if (evt.code != kHKStoreEventReload) {
             sig = [sig map:^id(id value) {
                 return [[(InsOrderStore *)store cache] allObjects];
             }];

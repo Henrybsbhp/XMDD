@@ -73,7 +73,7 @@
 {
     @weakify(self);
     self.carStore = [MyCarStore fetchOrCreateStore];
-    [self.carStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+    [self.carStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
         @strongify(self);
         [self reloadDataWithEvent:evt];
     }];
@@ -152,7 +152,7 @@
     [self.scrollView scrollRectToVisible:frame animated:animated];
 }
 
-- (void)reloadDataWithEvent:(CKStoreEvent *)evt
+- (void)reloadDataWithEvent:(HKStoreEvent *)evt
 {
     NSInteger code = evt.code;
     @weakify(self);
@@ -169,7 +169,7 @@
     }] subscribeNext:^(id x) {
         
         @strongify(self);
-        if (code == kCKStoreEventAdd) {
+        if (code == kHKStoreEventAdd) {
             self.addCar = x;
         }
         self.datasource = [self.carStore.cache allObjects];

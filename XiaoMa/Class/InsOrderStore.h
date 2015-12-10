@@ -11,7 +11,7 @@
 
 @interface InsOrderStore : HKUserStore
 
-- (CKStoreEvent *)getAllInsOrders;
-- (CKStoreEvent *)getInsOrderByID:(NSNumber *)orderID;
+- (HKStoreEvent *)getAllInsOrders;
+- (HKStoreEvent *)getInsOrderByID:(NSNumber *)orderID;
 
 @end

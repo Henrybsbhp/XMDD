@@ -73,7 +73,7 @@
 {
 }
 
-- (void)consumeEvent:(CKStoreEvent *)event
+- (void)consumeEvent:(HKStoreEvent *)event
 {
 }
 

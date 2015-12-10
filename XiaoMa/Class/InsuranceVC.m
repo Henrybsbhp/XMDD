@@ -8,20 +8,19 @@
 
 #import "InsuranceVC.h"
 #import "XiaoMa.h"
-#import "AiCheBaoInsuranceVC.h"
-#import "SYPaginator.h"
-#import "HKAdvertisement.h"
-#import "InsuranceEnquiryVC.h"
-#import "WebVC.h"
-#import "InsuranceResultVC.h"
-#import "WebVC.h"
 #import "ADViewController.h"
-#import "InsuranceChooseViewController.h"
-#import "InsuranceDirectSellingVC.h"
-#import "PaymentHelper.h"
+#import "HKCellData.h"
+#import "NSString+RectSize.h"
+#import <MZFormSheetController.h>
 
-@interface InsuranceVC ()
+#import "InsInputNameVC.h"
+#import "InsInputInfoVC.h"
+
+
+@interface InsuranceVC ()<UITableViewDataSource, UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) ADViewController *advc;
+@property (nonatomic, strong) NSArray *datasource;
 @end
 
 @implementation InsuranceVC
@@ -29,24 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupADView];
-    RACSignal *sig = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        [subscriber sendNext:@1];
-        [subscriber sendNext:@2];
-        CKAsyncDefaultQueue(^{
-            [subscriber sendNext:@3];
-            CKAfter(2, ^{
-                [subscriber sendNext:@4];
-                [subscriber sendCompleted];
-            });
-        });
-        return nil;
-    }];
-    
-    [sig subscribeNext:^(id x) {
-        NSLog(@"x=%@", x);
-    } completed:^{
-        NSLog(@"completed");
-    }];
+    [self reloadDataWithCarList:@[@1]];
 }
 
 - (void)dealloc
@@ -81,53 +63,71 @@
 }
 
 #pragma mark - Action
-- (void)actionInsuraceEnquiry {
-    [MobClick event:@"rp114-1"];
-    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        InsuranceEnquiryVC *vc = [UIStoryboard vcWithId:@"InsuranceEnquiryVC" inStoryboard:@"Insurance"];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
+- (void)reloadDataWithCarList:(NSArray *)carlist
+{
+    NSMutableArray *datasource = [NSMutableArray array];
+    //标题
+    HKCellData *promptCell = [HKCellData dataWithCellID:@"Prompt" tag:nil];
+    NSString *title = @"请选择或添加一辆爱车，保险到期日前60天内，可进行核保。";
+    promptCell.object = title;
+    @weakify(self);
+    [promptCell setHeightBlock:^CGFloat(UITableView *tableView) {
+        @strongify(self);
+        CGSize fz = [title labelSizeWithWidth:self.tableView.frame.size.width - 28 font:[UIFont systemFontOfSize:13]];
+        return ceil(fz.height) + 10;
+    }];
+    [datasource addObject:promptCell];
+    //车牌
+    NSArray *carCells = [carlist arrayByMappingOperator:^id(id obj) {
+        HKCellData *cell = [HKCellData dataWithCellID:@"Car" tag:nil];
+        return cell;
+    }];
+    [datasource safetyAddObjectsFromArray:carCells];
+    //添加车辆
+    HKCellData *addCell = [HKCellData dataWithCellID:@"Add" tag:nil];
+    addCell.customInfo[@"prefix"] = @"浙";
+    addCell.customInfo[@"suffix"] = @"AK477";
+    [addCell setHeightBlock:^CGFloat(UITableView *tableView) {
+        return 61;
+    }];
+    [datasource addObject:addCell];
+    
+    self.datasource = datasource;
+    [self.tableView reloadData];
 }
 
-- (void)actionInsuranceDirectSelling {
-    [MobClick event:@"rp114-4"];
-    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        InsuranceDirectSellingVC *vc = [UIStoryboard vcWithId:@"InsuranceDirectSellingVC" inStoryboard:@"Insurance"];
+- (IBAction)actionInputOwnerName:(id)sender
+{
+    InsInputNameVC *vc = [UIStoryboard vcWithId:@"InsInputNameVC" inStoryboard:@"Insurance"];
+    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(270, 160) viewController:vc];
+    sheet.shouldCenterVertically = YES;
+    [sheet presentAnimated:YES completionHandler:nil];
+    //取消
+    [[[vc.cancelButton rac_signalForControlEvents:UIControlEventTouchUpInside] take:1] subscribeNext:^(id x) {
+        [sheet dismissAnimated:YES completionHandler:nil];
+    }];
+    //确定
+    @weakify(self);
+    [[vc.ensureButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [sheet dismissAnimated:YES completionHandler:nil];
+        InsInputInfoVC *vc = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
         [self.navigationController pushViewController:vc animated:YES];
-    }
-}
-
-- (void)actionAiCheBao {
-    AiCheBaoInsuranceVC *vc = [UIStoryboard vcWithId:@"AiCheBaoInsuranceVC" inStoryboard:@"Insurance"];
-    vc.originVC = self;
-    [self.navigationController pushViewController:vc animated:YES];
+    }];
 }
 #pragma mark - UITableViewDelegate and datasource
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if ([cell isKindOfClass:[JTTableViewCell class]]) {
-        JTTableViewCell *jtcell = (JTTableViewCell *)cell;
-        jtcell.customSeparatorInset = UIEdgeInsetsMake(-1, 0, 0, 0);
-        jtcell.customSeparatorColor = kDefLineColor;
-        [jtcell prepareCellForTableView:tableView atIndexPath:indexPath];
-    }
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    //保险询价
-    if (indexPath.row == 0) {
-         [self actionInsuraceEnquiry];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    HKCellData *data = [self.datasource safetyObjectAtIndex:indexPath.section];
+    if (data.heightBlock) {
+        return data.heightBlock(tableView);
     }
-    //车险直销
-    else if (indexPath.row == 1) {
-        [self actionInsuranceDirectSelling];
-    }
-    //爱车宝
-    else if (indexPath.row == 2) {
-        [self actionAiCheBao];
-    }
+    return 48;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -137,11 +137,54 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 10;
+    return 6;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return self.datasource.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    HKCellData *data = [self.datasource safetyObjectAtIndex:indexPath.section];
+    JTTableViewCell *cell = (JTTableViewCell *)[tableView dequeueReusableCellWithIdentifier:data.cellID forIndexPath:indexPath];
+    if ([data equalByCellID:@"Prompt" tag:nil]) {
+        [self resetPromptCell:cell withData:data];
+    }
+    else if ([data equalByCellID:@"Car" tag:nil]) {
+        [self resetCarCell:cell withData:data];
+    }
+    else if ([data equalByCellID:@"Add" tag:nil]) {
+        [self resetAddCarCell:cell withData:data];
+    }
+
+    [cell prepareCellForTableView:tableView atIndexPath:indexPath];
+    return cell;
+}
+
+#pragma mark - Cell
+- (void)resetPromptCell:(JTTableViewCell *)cell withData:(HKCellData *)data
+{
+    UILabel *label = [cell.contentView viewWithTag:1001];
+    label.text = data.object;
+
+}
+
+- (void)resetCarCell:(JTTableViewCell *)cell withData:(HKCellData *)data
+{
+    UILabel *numberL = [cell viewWithTag:1002];
+    UIButton *stateB = [cell viewWithTag:1003];
+    UIImageView *arrowV = [cell viewWithTag:1004];
+}
+
+- (void)resetAddCarCell:(JTTableViewCell *)cell withData:(HKCellData *)data
+{
+    
 }
 @end
