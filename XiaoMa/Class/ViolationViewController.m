@@ -95,27 +95,30 @@
 
 - (void)refreshScrollView
 {
-    [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    for (NSInteger i = 0; i < self.datasource.count; i++) {
+    CKAsyncMainQueue(^{
         
-        NSObject * obj = [self.datasource safetyObjectAtIndex:i];
-        [self createIllegalCardWithCar:obj];
-    }
-    
-    if (self.datasource.count < 5)
-    {
-        [self createIllegalCardWithCar:nil];
-    }
-    
-    NSInteger index = NSNotFound;
-    
-    if (self.defaultSelectCar) {
-        index = [self.datasource indexOfObject:self.defaultSelectCar];
-    }
-    if (index == NSNotFound) {
-        index = 0;
-    }
-    [self loadPageIndex:index animated:NO];
+        [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        for (NSInteger i = 0; i < self.datasource.count; i++) {
+            
+            NSObject * obj = [self.datasource safetyObjectAtIndex:i];
+            [self createIllegalCardWithCar:obj];
+        }
+        
+        if (self.datasource.count < 5)
+        {
+            [self createIllegalCardWithCar:nil];
+        }
+        
+        NSInteger index = NSNotFound;
+        
+        if (self.defaultSelectCar) {
+            index = [self.datasource indexOfObject:self.defaultSelectCar];
+        }
+        if (index == NSNotFound) {
+            index = 0;
+        }
+        [self loadPageIndex:index animated:NO];
+    });
 }
 
 - (void)createIllegalCardWithCar:(NSObject *)car

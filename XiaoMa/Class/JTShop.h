@@ -10,7 +10,10 @@
 #import "NSMutableDictionary+AddParams.h"
 #import "Constants.h"
 
-
+typedef enum : NSUInteger {
+    ShopVacationTypeService,
+    ShopVacationTypeVacation,
+} ShopVacationType;
 
 @interface ChargeContent : NSObject
 ///支付渠道

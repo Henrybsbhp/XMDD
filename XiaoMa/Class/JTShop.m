@@ -97,7 +97,7 @@
     shop.txnumber = [rsp integerParamForName:@"txnumber"];
     shop.announcement = [rsp stringParamForName:@"note"];
     shop.ratenumber = [rsp integerParamForName:@"ratenumber"];
-    shop.isVacation = [rsp numberParamForName:@"isVacation"];
+    shop.isVacation = [rsp numberParamForName:@"isvacation"];
     NSArray * array = rsp[@"services"];
     NSMutableArray * t = [NSMutableArray array];
     for (NSDictionary * dict in array)
