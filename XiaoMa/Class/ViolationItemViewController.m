@@ -38,8 +38,6 @@
 /// 是否城市信息获取
 @property (nonatomic)BOOL isCityLoading;
 
-
-
 @end
 
 @implementation ViolationItemViewController
@@ -415,7 +413,7 @@
             }
             else if (indexPath.row == num - 1)
             {
-                height = 100;
+                height = 84;
             }
             else if (indexPath.row == num - 2)
             {
@@ -445,7 +443,7 @@
             }
             else if (indexPath.row == num - 1)
             {
-                height = 100;
+                height = 84;
             }
             else if (indexPath.row == num - 2)
             {
@@ -734,6 +732,17 @@
         
         @strongify(field)
         field.text = [field.text uppercaseString];
+        
+        if ([dict[@"title"] isEqualToString:@"发动机号"])
+        {
+            self.model.engineno = field.text;
+            [dict safetySetObject:self.model.engineno forKey:@"no"];
+        }
+        else
+        {
+            self.model.classno = field.text;
+            [dict safetySetObject:self.model.classno forKey:@"no"];
+        }
     }];
     
     return cell;
@@ -797,20 +806,12 @@
     UILabel * subtitleLb = (UILabel *)[cell searchViewWithTag:102];
     if (self.model.queryDate)
     {
-        if (self.model.violationArray.count)
-        {
-            NSString * str = [NSString stringWithFormat:@"于%@查到过%lu条违章信息，抓紧处理吧",[self.model.queryDate dateFormatForText],(unsigned long)self.model.violationArray.count];
-            subtitleLb.text = str;
-        }
-        else
-        {
-            NSString * str = [NSString stringWithFormat:@"于%@查到过%lu条违章信息，继续保持",[self.model.queryDate dateFormatForText],(unsigned long)self.model.violationArray.count];
-            subtitleLb.text = str;
-        }
+        NSString * str = [NSString stringWithFormat:@"您与%@更新了%ld条信息",[self.model.queryDate dateFormatForText],(unsigned long)self.model.violationArray.count];
+        subtitleLb.text = str;
     }
     else
     {
-        subtitleLb.text = @"您尚未查询过爱车违章";
+        subtitleLb.text = @"暂无更新信息";
     }
 
     return cell;
