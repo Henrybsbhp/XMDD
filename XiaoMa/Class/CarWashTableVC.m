@@ -48,9 +48,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    
-//    self.tableView.tableHeaderView = nil;
-//    self.tableView.tableFooterView = nil;
+    //
+    //    self.tableView.tableHeaderView = nil;
+    //    self.tableView.tableFooterView = nil;
     self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
     self.loadingModel.isSectionLoadMore = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAdList) name:CarwashAdvertiseNotification object:nil];
@@ -92,7 +92,7 @@
     
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] init];
     [self.searchView addGestureRecognizer:tap];
-
+    
     @weakify(self)
     [[tap rac_gestureSignal] subscribeNext:^(id x) {
         [MobClick event:@"rp102-2"];
@@ -101,7 +101,7 @@
         [self.navigationController pushViewController:vc animated:YES];
     }];
     [[self.searchField rac_newTextChannel] subscribeNext:^(id x) {
-
+        
     }];
     
     [[self.searchField rac_textSignal] subscribeNext:^(id x) {
@@ -312,12 +312,12 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-
+    
     return self.loadingModel.datasource.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
+    
     NSInteger num = 0;
     JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:section];
     num = 1 + shop.shopServiceArray.count + 1;
@@ -351,10 +351,10 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NSInteger mask = indexPath.row == 0 ? CKViewBorderDirectionBottom : CKViewBorderDirectionBottom | CKViewBorderDirectionTop;
-//    [cell.contentView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:mask];
-//    [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(0, 0, 8, 0) forDirectionMask:mask];
-//    [cell.contentView showBorderLineWithDirectionMask:mask];
+    //    NSInteger mask = indexPath.row == 0 ? CKViewBorderDirectionBottom : CKViewBorderDirectionBottom | CKViewBorderDirectionTop;
+    //    [cell.contentView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:mask];
+    //    [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(0, 0, 8, 0) forDirectionMask:mask];
+    //    [cell.contentView showBorderLineWithDirectionMask:mask];
     
     JTShop * shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     NSInteger count = shop.shopServiceArray.count + 2;
@@ -388,6 +388,7 @@
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
     UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
     UILabel *commentNumL = (UILabel *)[cell.contentView viewWithTag:1008];
+    UIImageView *statusImg=(UIImageView *)[cell.contentView viewWithTag:1009];
     
     [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0]
                 withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
@@ -404,17 +405,28 @@
     {
         commentNumL.text = [NSString stringWithFormat:@"暂无"];
     }
-
+    
     [statusL makeCornerRadius:3];
     statusL.font = [UIFont boldSystemFontOfSize:11];
-    if ([self isBetween:shop.openHour and:shop.closeHour]) {
-        statusL.text = @"营业中";
-        statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
+    if (!shop.isVacation)
+    {
+        statusImg.hidden=YES;
+        if ([self isBetween:shop.openHour and:shop.closeHour]) {
+            statusL.text = @"营业中";
+            statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
+        }
+        else {
+            statusL.text = @"已休息";
+            statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
+        }
     }
-    else {
-        statusL.text = @"已休息";
-        statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
+    else if(shop.isVacation.integerValue==1)//isVacation==1表示正在休假
+    {
+        statusImg.hidden=NO;
+        statusL.hidden=YES;
     }
+    
+    
     
     double myLat = self.userCoordinate.latitude;
     double myLng = self.userCoordinate.longitude;
@@ -514,7 +526,7 @@
         NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:p attributes:attr1];
         [str appendAttributedString:attrStr1];
     }
-
+    
     if (price2) {
         NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18],
                                 NSForegroundColorAttributeName:HEXCOLOR(@"#f93a00")};

@@ -95,5 +95,7 @@
 @property (nonatomic,copy)NSString * announcement;
 ///评价数量
 @property (nonatomic)NSInteger ratenumber;
+//是否营业
+@property (nonatomic,strong)NSNumber *isVacation;
 + (instancetype)shopWithJSONResponse:(NSDictionary *)rsp;
 @end
