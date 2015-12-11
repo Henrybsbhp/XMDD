@@ -25,6 +25,8 @@
 
 @property (nonatomic,strong)NSArray * infoArray;
 
+///城市按钮
+@property (nonatomic,weak)UIButton * cityBtn;
 /// 旋转动画
 @property (nonatomic,weak)UIButton * queryBtn;
 @property (nonatomic,strong)CABasicAnimation * animation;
@@ -35,8 +37,6 @@
 
 /// 是否城市信息获取
 @property (nonatomic)BOOL isCityLoading;
-
-@property (nonatomic,weak)UIButton * cityBtn;
 
 @end
 
@@ -76,6 +76,7 @@
     }
     self.pageController.numberOfPages = total;
     self.pageController.currentPage = current;
+    self.pageController.hidden = total <= 1;
     
     UIView * headView = self.tableView.tableHeaderView;
     self.pageController.center = headView.center;
@@ -295,6 +296,80 @@
     [self.tableView deleteRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationTop];
 }
 
+
+- (void)selectCityAction:(UITableViewCell *)cell
+{
+    UIActivityIndicatorView * ai = (UIActivityIndicatorView *)[cell searchViewWithTag:102];
+    UIButton * cityBtn = (UIButton *)[cell searchViewWithTag:101];
+    
+    AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCity fromVC:self.parentViewController];
+    
+    [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
+        
+        [cityBtn setTitle:cityModel.infoName forState:UIControlStateNormal];
+        [self requestCithInfoWithProvince:provinceModel.infoName andCith:cityModel.infoName andUI:ai];
+    }];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)requestCithInfoWithProvince:(NSString *)p andCith:(NSString *)c andUI:(UIActivityIndicatorView *)ai
+{
+    GetCityInfoByNameOp * op = [[GetCityInfoByNameOp alloc] init];
+    op.province = p;
+    op.city = c;
+    
+    [[[op rac_postRequest] initially:^{
+        
+        self.isCityLoading = YES;
+        ai.hidden = !self.isCityLoading;
+        ai.animating = self.isCityLoading;
+    }] subscribeNext:^(GetCityInfoByNameOp * op) {
+        
+        self.isCityLoading = NO;
+        ai.hidden = !self.isCityLoading;
+        ai.animating = self.isCityLoading;
+        self.isSpread = YES;
+        
+        ViolationCityInfo * info = op.cityInfo;
+        self.model.cityInfo = info;
+        
+        [self handleViolationCityInfo];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+    } error:^(NSError *error) {
+        
+        self.isCityLoading = NO;
+        ai.hidden = !self.isCityLoading;
+        ai.animating = self.isCityLoading;
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+        [gToast showError:error.domain];
+    }];
+}
+
+
+- (void)autoLocateCityWithUI:(UITableViewCell *)cell
+{
+    UIActivityIndicatorView * ai = (UIActivityIndicatorView *)[cell searchViewWithTag:102];
+    UIButton * cityBtn = (UIButton *)[cell searchViewWithTag:101];
+    
+    if (gMapHelper.addrComponent.province.length && gMapHelper.addrComponent.city)
+    {
+        [cityBtn setTitle:gMapHelper.addrComponent.city forState:UIControlStateNormal];
+        [self requestCithInfoWithProvince:gMapHelper.addrComponent.province andCith:gMapHelper.addrComponent.city andUI:ai];
+        
+    }
+    else
+    {
+        [[gMapHelper rac_getInvertGeoInfo] subscribeNext:^(id x) {
+            
+            [cityBtn setTitle:gMapHelper.addrComponent.city forState:UIControlStateNormal];
+            [self requestCithInfoWithProvince:gMapHelper.addrComponent.province andCith:gMapHelper.addrComponent.city andUI:ai];
+            
+        } error:^(NSError *error) {
+            
+        }];
+    }
+}
+
 #pragma mark - Table view data source
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -338,7 +413,7 @@
             }
             else if (indexPath.row == num - 1)
             {
-                height = 100;
+                height = 84;
             }
             else if (indexPath.row == num - 2)
             {
@@ -368,7 +443,7 @@
             }
             else if (indexPath.row == num - 1)
             {
-                height = 100;
+                height = 84;
             }
             else if (indexPath.row == num - 2)
             {
@@ -393,18 +468,18 @@
         {
             HKViolation * violation = [self.model.violationArray safetyObjectAtIndex:indexPath.row - 1];
             
-            if (!violation.customTag)
+//            if (!violation.customTag)
             {
-                CGFloat width1 = gAppMgr.deviceInfo.screenSize.width - 54;
+                CGFloat width1 = gAppMgr.deviceInfo.screenSize.width - 60;
                 CGSize size1 = [violation.violationArea labelSizeWithWidth:width1 font:[UIFont systemFontOfSize:12]];
                 
-                CGFloat width2 = gAppMgr.deviceInfo.screenSize.width - 40;
+                CGFloat width2 = gAppMgr.deviceInfo.screenSize.width - 45;
                 CGSize size2 = [violation.violationAct labelSizeWithWidth:width2 font:[UIFont systemFontOfSize:15]];
                 
-                height = 60 + size1.height + 16 + size2.height + 14;
-                violation.customTag = height;
+                height = 63 + size1.height + 16 + size2.height + 14;
+//                violation.customTag = height;
             }
-            height = violation.customTag;
+//            height = violation.customTag;
         }
     }
     return height;
@@ -613,43 +688,14 @@
     [[[cityBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
-        AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCity fromVC:self.parentViewController];
-        
-        [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
-            
-            GetCityInfoByNameOp * op = [[GetCityInfoByNameOp alloc] init];
-            op.province = provinceModel.infoName;
-            op.city = cityModel.infoName;
-            
-            [[[op rac_postRequest] initially:^{
-                
-                self.isCityLoading = YES;
-                ai.hidden = !self.isCityLoading;
-                ai.animating = self.isCityLoading;
-            }] subscribeNext:^(GetCityInfoByNameOp * op) {
-                
-                self.isCityLoading = NO;
-                ai.hidden = !self.isCityLoading;
-                ai.animating = self.isCityLoading;
-                self.isSpread = YES;
-                
-                
-                ViolationCityInfo * info = op.cityInfo;
-                self.model.cityInfo = info;
-                
-                [self handleViolationCityInfo];
-                [self.tableView reloadData];
-            } error:^(NSError *error) {
-                
-                self.isCityLoading = NO;
-                ai.hidden = !self.isCityLoading;
-                ai.animating = self.isCityLoading;
-                [gToast showError:error.domain];
-            }];
-        }];
-        [self.navigationController pushViewController:vc animated:YES];
+        [self selectCityAction:cell];
     }];
     
+    if (!self.model.cityInfo.cityName.length)
+    {
+        [self autoLocateCityWithUI:cell];
+    }
+
     self.cityBtn = cityBtn;
     
     return cell;
@@ -669,17 +715,35 @@
     NSInteger num = [dict[@"suffixno"] integerValue];
     if (num > 0)
     {
-        subtitleLb.text = [NSString stringWithFormat:@"后%ld位",(long)num];
+        subtitleLb.text = [NSString stringWithFormat:@"(后%ld位)",(long)num];
     }
     else
     {
-        subtitleLb.text = [NSString stringWithFormat:@"全填"];
+        subtitleLb.text = [NSString stringWithFormat:@"(全填)"];
     }
     
     //输入框
-    UITextField * feild = (UITextField *)[cell searchViewWithTag:103];
-    feild.text = [dict objectForKey:@"no"];
-    [dict safetySetObject:feild forKey:@"feild"];
+    UITextField * field = (UITextField *)[cell searchViewWithTag:103];
+    field.text = [dict objectForKey:@"no"];
+    [dict safetySetObject:field forKey:@"feild"];
+    
+    @weakify(field);
+    [[field rac_textSignal] subscribeNext:^(id x) {
+        
+        @strongify(field)
+        field.text = [field.text uppercaseString];
+        
+        if ([dict[@"title"] isEqualToString:@"发动机号"])
+        {
+            self.model.engineno = field.text;
+            [dict safetySetObject:self.model.engineno forKey:@"no"];
+        }
+        else
+        {
+            self.model.classno = field.text;
+            [dict safetySetObject:self.model.classno forKey:@"no"];
+        }
+    }];
     
     return cell;
 }
@@ -732,7 +796,7 @@
         }
         else
         {
-            [gToast showText:@"小马达正在努力查询中\n请别着急"];
+            [gToast showText:@"小马达达正在努力查询中\n请别着急"];
         }
     }];
     
@@ -742,20 +806,12 @@
     UILabel * subtitleLb = (UILabel *)[cell searchViewWithTag:102];
     if (self.model.queryDate)
     {
-        if (self.model.violationArray.count)
-        {
-            NSString * str = [NSString stringWithFormat:@"于%@查到过%lu条违章信息，抓紧处理吧",[self.model.queryDate dateFormatForText],(unsigned long)self.model.violationArray.count];
-            subtitleLb.text = str;
-        }
-        else
-        {
-            NSString * str = [NSString stringWithFormat:@"于%@查到过%lu条违章信息，继续保持",[self.model.queryDate dateFormatForText],(unsigned long)self.model.violationArray.count];
-            subtitleLb.text = str;
-        }
+        NSString * str = [NSString stringWithFormat:@"您与%@更新了%ld条信息",[self.model.queryDate dateFormatForText],(unsigned long)self.model.violationArray.count];
+        subtitleLb.text = str;
     }
     else
     {
-        subtitleLb.text = @"您尚未查询过爱车违章";
+        subtitleLb.text = @"暂无更新信息";
     }
 
     return cell;
@@ -767,7 +823,7 @@
     
     // 违章标题
     UILabel * titleLb = (UILabel *)[cell searchViewWithTag:101];
-    titleLb.text = [NSString stringWithFormat:@"罚款%ld元，共扣%ld分",self.model.violationTotalmoney,self.model.violationTotalfen];
+    titleLb.text = [NSString stringWithFormat:@"罚款%ld元，共扣%ld分",(long)self.model.violationTotalmoney,(long)self.model.violationTotalfen];
     
     return cell;
 }

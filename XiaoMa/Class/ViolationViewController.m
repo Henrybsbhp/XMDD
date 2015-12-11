@@ -73,7 +73,7 @@
 {
     @weakify(self);
     self.carStore = [MyCarStore fetchOrCreateStore];
-    [self.carStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+    [self.carStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
         @strongify(self);
         [self reloadDataWithEvent:evt];
     }];
@@ -95,27 +95,30 @@
 
 - (void)refreshScrollView
 {
-    [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    for (NSInteger i = 0; i < self.datasource.count; i++) {
+    CKAsyncMainQueue(^{
         
-        NSObject * obj = [self.datasource safetyObjectAtIndex:i];
-        [self createIllegalCardWithCar:obj];
-    }
-    
-    if (self.datasource.count < 5)
-    {
-        [self createIllegalCardWithCar:nil];
-    }
-    
-    NSInteger index = NSNotFound;
-    
-    if (self.defaultSelectCar) {
-        index = [self.datasource indexOfObject:self.defaultSelectCar];
-    }
-    if (index == NSNotFound) {
-        index = 0;
-    }
-    [self loadPageIndex:index animated:NO];
+        [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        for (NSInteger i = 0; i < self.datasource.count; i++) {
+            
+            NSObject * obj = [self.datasource safetyObjectAtIndex:i];
+            [self createIllegalCardWithCar:obj];
+        }
+        
+        if (self.datasource.count < 5)
+        {
+            [self createIllegalCardWithCar:nil];
+        }
+        
+        NSInteger index = NSNotFound;
+        
+        if (self.defaultSelectCar) {
+            index = [self.datasource indexOfObject:self.defaultSelectCar];
+        }
+        if (index == NSNotFound) {
+            index = 0;
+        }
+        [self loadPageIndex:index animated:NO];
+    });
 }
 
 - (void)createIllegalCardWithCar:(NSObject *)car
@@ -152,7 +155,7 @@
     [self.scrollView scrollRectToVisible:frame animated:animated];
 }
 
-- (void)reloadDataWithEvent:(CKStoreEvent *)evt
+- (void)reloadDataWithEvent:(HKStoreEvent *)evt
 {
     NSInteger code = evt.code;
     @weakify(self);
@@ -171,14 +174,10 @@
         @strongify(self);
         HKMyCar *defCar = [self.carStore defalutCar];
         HKMyCar *car;
-        if (code == kCKStoreEventAdd) {
-            self.defaultSelectCar = x;
+        if (code == kHKStoreEventAdd) {
+            car = x;
         }
         if (!car) {
-            car = defCar;
-        }
-        if (!car)
-        {
             car = defCar;
         }
         

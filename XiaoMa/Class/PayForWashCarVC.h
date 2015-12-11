@@ -21,7 +21,6 @@
 @property (nonatomic, weak) UIViewController *originVC;
 
 /// 为优惠劵选择服务
-@property (nonatomic, strong) NSNumber * theCouponIDForPay;
 @property (nonatomic)CouponType couponType;
 @property (nonatomic)HKBankCard * selectBankCard;
 @property (nonatomic,strong)NSMutableArray * selectCarwashCoupouArray;

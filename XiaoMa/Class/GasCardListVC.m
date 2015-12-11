@@ -50,12 +50,12 @@
 {
     self.cardStore = [GasCardStore fetchOrCreateStore];
     @weakify(self);
-    [self.cardStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+    [self.cardStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
         @strongify(self);
-        [evt callIfNeededForCode:kCKStoreEventGet object:nil target:self selector:@selector(reloadWithEvent:)];
-        [evt callIfNeededForCode:kCKStoreEventAdd object:nil target:self selector:@selector(reloadWithEvent:)];
-        [evt callIfNeededForCode:kCKStoreEventDelete object:nil target:self selector:@selector(deleteWithEvent:)];
-        [evt callIfNeededForCode:kCKStoreEventNone object:nil target:self selector:@selector(reloadWithEvent:)];
+        [evt callIfNeededForCode:kHKStoreEventGet object:nil target:self selector:@selector(reloadWithEvent:)];
+        [evt callIfNeededForCode:kHKStoreEventAdd object:nil target:self selector:@selector(reloadWithEvent:)];
+        [evt callIfNeededForCode:kHKStoreEventDelete object:nil target:self selector:@selector(deleteWithEvent:)];
+        [evt callIfNeededForCode:kHKStoreEventNone object:nil target:self selector:@selector(reloadWithEvent:)];
     }];
 }
 
@@ -65,7 +65,7 @@
 }
 
 #pragma mark - relaodData
-- (void)deleteWithEvent:(CKStoreEvent *)evt
+- (void)deleteWithEvent:(HKStoreEvent *)evt
 {
     [MobClick event:@"rp505-2"];
     @weakify(self);
@@ -91,14 +91,14 @@
         [gToast showError:error.domain inView:self.view];
     }];
 }
-- (void)reloadWithEvent:(CKStoreEvent *)evt
+- (void)reloadWithEvent:(HKStoreEvent *)evt
 {
     @weakify(self);
-    CKStoreEvent *event = evt;
+    HKStoreEvent *event = evt;
     [[[[event signal] initially:^{
         
         @strongify(self);
-        if (evt.code != kCKStoreEventNone) {
+        if (evt.code != kHKStoreEventNone) {
             [self.tableView.refreshView beginRefreshing];
         }
     }] finally:^{
@@ -135,7 +135,7 @@
         [MobClick event:@"rp505-3"];
         GasCard *card = [self.cardStore.cache objectAtIndex:indexPath.row];
         if (![card.gid isEqual:self.model.curGasCard.gid]) {
-            CKStoreEvent *evt = [CKStoreEvent eventWithSignal:[RACSignal return:card] code:kCKStoreEventSelect object:self.model];
+            HKStoreEvent *evt = [HKStoreEvent eventWithSignal:[RACSignal return:card] code:kHKStoreEventSelect object:self.model];
             [self.cardStore sendEvent:evt];
         }
         [self.navigationController popViewControllerAnimated:YES];

@@ -10,7 +10,7 @@
 #import "PaymentHelper.h"
 #import "GasCard.h"
 #import "HKBankCard.h"
-#import "CKStore.h"
+#import "HKStore.h"
 #import "GasCardStore.h"
 
 #define kGasConsumeEventForModel    997
@@ -47,7 +47,7 @@
 ///@Override
 - (void)setupCardStore;
 ///@Override
-- (void)consumeEvent:(CKStoreEvent *)event;
+- (void)consumeEvent:(HKStoreEvent *)event;
 - (NSString *)recentlyUsedGasCardKey;
 
 @end

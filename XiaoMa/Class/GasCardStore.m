@@ -20,7 +20,7 @@
     
 }
 
-- (CKStoreEvent *)getAllCards
+- (HKStoreEvent *)getAllCards
 {
     GetGascardListOp *op = [GetGascardListOp operation];
     @weakify(self);
@@ -38,19 +38,19 @@
         [self updateTimetagForKey:kGasCardTimetagKey];
         return rsp.rsp_gascards;
     }] replay];
-    return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventGet object:nil];
+    return [HKStoreEvent eventWithSignal:sig code:kHKStoreEventGet object:nil];
 }
 
-- (CKStoreEvent *)getAllCardsIfNeeded
+- (HKStoreEvent *)getAllCardsIfNeeded
 {
     if ([self needUpdateTimetagForKey:kGasCardTimetagKey]) {
         return [self getAllCards];
     }
     
-    return [CKStoreEvent eventWithSignal:[RACSignal return:[self.cache allObjects]] code:kCKStoreEventNone object:nil];
+    return [HKStoreEvent eventWithSignal:[RACSignal return:[self.cache allObjects]] code:kHKStoreEventNone object:nil];
 }
 
-- (CKStoreEvent *)deleteCardByGID:(NSNumber *)gid
+- (HKStoreEvent *)deleteCardByGID:(NSNumber *)gid
 {
     DeleteGascardOp *op = [DeleteGascardOp operation];
     op.req_gid = gid;
@@ -60,10 +60,10 @@
         NSNumber *indexNumber = index != NSNotFound ? @(index) : nil;
         return RACTuplePack(gid, indexNumber);
     }] replay];
-    return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventDelete object:nil];
+    return [HKStoreEvent eventWithSignal:sig code:kHKStoreEventDelete object:nil];
 }
 
-- (CKStoreEvent *)addCard:(GasCard *)card
+- (HKStoreEvent *)addCard:(GasCard *)card
 {
     AddGascardOp *op = [AddGascardOp operation];
     op.req_cardtype = card.cardtype;
@@ -75,13 +75,13 @@
         [self.cache addObject:card forKey:card.gid];
         return card;
     }] replay];
-    return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventAdd object:nil];
+    return [HKStoreEvent eventWithSignal:sig code:kHKStoreEventAdd object:nil];
 }
 
-- (CKStoreEvent *)updateCardInfoByGID:(NSNumber *)gid
+- (HKStoreEvent *)updateCardInfoByGID:(NSNumber *)gid
 {
     RACSignal *sig = [self rac_getCardNormalInfoByGID:gid];
-    return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventUpdate object:nil];
+    return [HKStoreEvent eventWithSignal:sig code:kHKStoreEventUpdate object:nil];
 }
 
 - (RACSignal *)rac_getCardNormalInfoByGID:(NSNumber *)gid
@@ -107,7 +107,7 @@
 
 - (void)reloadDataWithCode:(NSInteger)code
 {
-    [self sendEvent:[CKStoreEvent eventWithSignal:[[self getAllCards] signal] code:kCKStoreEventReload object:nil]];
+    [self sendEvent:[HKStoreEvent eventWithSignal:[[self getAllCards] signal] code:kHKStoreEventReload object:nil]];
 }
 
 @end

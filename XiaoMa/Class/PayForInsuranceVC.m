@@ -695,19 +695,23 @@
 {
     UITableViewCell *cell;
     UIImageView *iconV;
-    UILabel *titleLb,*noteLb;
+    UILabel *titleLb,*noteLb,*recommendLB;
     UIButton *boxB;
     cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatformCellA"];
     iconV = (UIImageView *)[cell.contentView viewWithTag:1001];
     titleLb = (UILabel *)[cell.contentView viewWithTag:1002];
     noteLb = (UILabel *)[cell.contentView viewWithTag:1004];
     boxB = (UIButton *)[cell.contentView viewWithTag:1003];
+    recommendLB = (UILabel *)[cell.contentView viewWithTag:1005];
+    recommendLB.cornerRadius = 3.0f;
+    recommendLB.layer.masksToBounds = YES;
     
     
     if (indexPath.row == 1) {
         iconV.image = [UIImage imageNamed:@"cw_alipay"];
         titleLb.text = @"支付宝支付";
         noteLb.text = @"推荐支付宝用户使用";
+        recommendLB.hidden = NO;
     }
     else if (indexPath.row == 2) {
         if (gPhoneHelper.exsitWechat)
@@ -722,11 +726,13 @@
             titleLb.text = @"银联支付";
             noteLb.text = @"推荐银联卡用户使用";
         }
+        recommendLB.hidden = YES;
     }
     else if (indexPath.row == 3) {
         iconV.image = [UIImage imageNamed:@"ins_uppay"];
         titleLb.text = @"银联支付";
         noteLb.text = @"推荐银联卡用户使用";
+        recommendLB.hidden = YES;
     }
     
     NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup];

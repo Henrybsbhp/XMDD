@@ -26,18 +26,18 @@
 - (void)setupCardStore
 {
     @weakify(self);
-    [self.cardStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+    [self.cardStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
         @strongify(self);
         //切换当前油卡
-        [evt callIfNeededForCode:kCKStoreEventSelect object:self handler:^(CKStoreEvent *evt) {
+        [evt callIfNeededForCode:kHKStoreEventSelect object:self handler:^(HKStoreEvent *evt) {
             RACSignal *sig = [[evt signal] doNext:^(GasCard *card) {
                 self.curGasCard = card;
             }];
-            [self reloadWithEvent:[CKStoreEvent eventWithSignal:sig code:evt.code object:evt.object]];
+            [self reloadWithEvent:[HKStoreEvent eventWithSignal:sig code:evt.code object:evt.object]];
         }];
         
-        NSArray *codes = @[@(kCKStoreEventAdd),@(kCKStoreEventDelete),@(kCKStoreEventGet),
-                           @(kCKStoreEventReload),@(kCKStoreEventUpdate)];
+        NSArray *codes = @[@(kHKStoreEventAdd),@(kHKStoreEventDelete),@(kHKStoreEventGet),
+                           @(kHKStoreEventReload),@(kHKStoreEventUpdate)];
         [evt callIfNeededForCodeList:codes object:nil target:self selector:@selector(reloadWithEvent:)];
     }];
 }
@@ -50,7 +50,7 @@
         return YES;
     }
     else if (force) {
-        [self reloadWithEvent:[CKStoreEvent eventWithSignal:[RACSignal return:nil] code:kCKStoreEventNone object:nil]];
+        [self reloadWithEvent:[HKStoreEvent eventWithSignal:[RACSignal return:nil] code:kHKStoreEventNone object:nil]];
     }
     else if (self.cachedEvent) {
         [self.cardStore sendEvent:self.cachedEvent];
@@ -59,7 +59,7 @@
     return NO;
 }
 
-- (void)reloadWithEvent:(CKStoreEvent *)event
+- (void)reloadWithEvent:(HKStoreEvent *)event
 {
     NSInteger code = event.code;
     @weakify(self);
@@ -73,7 +73,7 @@
                 card = [self.cardStore.cache objectForKey:[def objectForKey:key]];
             }
             self.curGasCard = card ? card : [self.cardStore.cache objectAtIndex:0];
-            if (code == kCKStoreEventUpdate) {
+            if (code == kHKStoreEventUpdate) {
                 return [RACSignal return:value];
             }
             return [self.cardStore rac_getCardNormalInfoByGID:self.curGasCard.gid];
@@ -82,24 +82,24 @@
             self.curGasCard = nil;
         }
         if (self.curGasCard &&
-            (code==kCKStoreEventReload || code == kCKStoreEventSelect||
+            (code==kHKStoreEventReload || code == kHKStoreEventSelect||
              !self.curGasCard.availablechargeamt || !self.curGasCard.couponedmoney)){
             return [self.cardStore rac_getCardNormalInfoByGID:self.curGasCard.gid];
         }
         return [RACSignal return:value];
     }];
-    self.cachedEvent = [CKStoreEvent eventWithSignal:sig code:kGasConsumeEventForModel object:self];
+    self.cachedEvent = [HKStoreEvent eventWithSignal:sig code:kGasConsumeEventForModel object:self];
     [GasCardStore sendEvent:self.cachedEvent];
 }
 
 
-- (void)consumeEvent:(CKStoreEvent *)event
+- (void)consumeEvent:(HKStoreEvent *)event
 {
     if ([self.cachedEvent isEqual:event]) {
         self.cachedEvent = nil;
     }
     RACSignal *sig = [RACSignal combineLatest:@[[self rac_getChargeConfig], event.signal]];
-    [self.cardStore sendEvent:[CKStoreEvent eventWithSignal:sig code:kGasVCReloadWithEvent object:self]];
+    [self.cardStore sendEvent:[HKStoreEvent eventWithSignal:sig code:kGasVCReloadWithEvent object:self]];
 }
 
 - (RACSignal *)rac_getChargeConfig
@@ -260,7 +260,7 @@
         DebugLog(@"Canceled gas order : %@", tdno);
         return [self.cardStore rac_getCardNormalInfoByGID:gid];
     }];
-    [self.cardStore sendEvent:[CKStoreEvent eventWithSignal:sig code:kCKStoreEventUpdate object:nil]];
+    [self.cardStore sendEvent:[HKStoreEvent eventWithSignal:sig code:kHKStoreEventUpdate object:nil]];
 }
 
 

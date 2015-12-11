@@ -11,10 +11,10 @@
 
 @interface BankCardStore : HKUserStore
 
-- (CKStoreEvent *)getAllBankCards;
-- (CKStoreEvent *)getAllBankCardsIfNeeded;
-- (CKStoreEvent *)deleteBankCardByCID:(NSNumber *)cid vcode:(NSString *)vcode;
-- (CKStoreEvent *)updateBankCardCZBInfoByCID:(NSNumber *)cid;
+- (HKStoreEvent *)getAllBankCards;
+- (HKStoreEvent *)getAllBankCardsIfNeeded;
+- (HKStoreEvent *)deleteBankCardByCID:(NSNumber *)cid vcode:(NSString *)vcode;
+- (HKStoreEvent *)updateBankCardCZBInfoByCID:(NSNumber *)cid;
 - (RACSignal *)rac_getCardCZBInfoByCID:(NSNumber *)cid;
 
 @end

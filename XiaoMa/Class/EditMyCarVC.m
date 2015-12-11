@@ -129,7 +129,7 @@
     }
     
     MyCarStore *store = [MyCarStore fetchOrCreateStore];
-    CKStoreEvent *evt = self.isEditingModel ? [store updateCar:self.curCar] : [store addCar:self.curCar];
+    HKStoreEvent *evt = self.isEditingModel ? [store updateCar:self.curCar] : [store addCar:self.curCar];
     @weakify(self);
     [[[[store sendEvent:evt] signal] initially:^{
         
