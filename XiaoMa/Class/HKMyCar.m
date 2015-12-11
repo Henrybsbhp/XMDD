@@ -50,6 +50,12 @@
     car.licenceurl = [rsp stringParamForName:@"licenceurl"];
     car.failreason = [rsp stringParamForName:@"failreason"];
     car.isDefault = [rsp integerParamForName:@"isdefault"] == 1;
+    car.provinceId = [rsp numberParamForName:@"pid"];
+    car.cithId = [rsp numberParamForName:@"cid"];
+    car.provinceName = [rsp stringParamForName:@"pname"];
+    car.cithName = [rsp stringParamForName:@"cname"];
+    car.classno = [rsp stringParamForName:@"carframenumber"];
+    car.engineno = [rsp stringParamForName:@"enginenumber"];
     NSInteger editable = [rsp integerParamForName:@"iseditable"];
     if (editable == 0) {
         car.editMask = HKCarEditableAll;
@@ -82,7 +88,12 @@
     [dict safetySetObject:self.inscomp forKey:@"inscomp"];
     [dict safetySetObject:[self.insexipiredate dateFormatForDT8] forKey:@"insexipiredate"];
     [dict safetySetObject:self.licenceurl forKey:@"licenceurl"];
-    [dict safetySetObject:@(self.isDefault ? 1 : 2) forKey:@"isdefault"];
+    [dict safetySetObject:self.provinceId forKey:@"pid"];
+    [dict safetySetObject:self.cithId forKey:@"cid"];
+    [dict safetySetObject:self.provinceName forKey:@"pname"];
+    [dict safetySetObject:self.cithName forKey:@"cname"];
+    [dict safetySetObject:self.classno forKey:@"carframenumber"];
+    [dict safetySetObject:self.engineno forKey:@"enginenumber"];
     return dict;
 }
 
@@ -106,6 +117,12 @@
     car.licenceArea = _licenceArea;
     car.licenceSuffix = _licenceSuffix;
     car.tintColorType = _tintColorType;
+    car.provinceId = _provinceId;
+    car.cithId = _cithId;
+    car.provinceName = _provinceName;
+    car.cithName = _cithName;
+    car.classno = _classno;
+    car.engineno = _engineno;
     return car;
 }
 
@@ -150,6 +167,12 @@
         return YES;
     }
     if (![self isEqualWithDate1:self.insexipiredate date2:another.insexipiredate]) {
+        return YES;
+    }
+    if (![self isEqualWithString1:self.classno string2:another.classno]) {
+        return YES;
+    }
+    if (![self isEqualWithString1:self.engineno string2:another.engineno]) {
         return YES;
     }
     if (self.isDefault != another.isDefault) {

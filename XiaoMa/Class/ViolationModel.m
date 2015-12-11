@@ -48,8 +48,8 @@
         NSString * violationKey = [NSString stringWithFormat:@"violation_%@",self.licencenumber];
         
         ViolationModel *model = [gAppMgr.dataCache objectForKey:violationKey];
-        self.engineno = model.engineno;
-        self.classno = model.classno;
+        self.engineno = model.engineno ? model.engineno : self.engineno;
+        self.classno = model.classno ? model.classno : self.classno;
         self.violationCount = model.violationCount;
         self.violationTotalfen = model.violationTotalfen;
         self.violationTotalmoney = model.violationTotalmoney;

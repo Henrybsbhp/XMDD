@@ -6,9 +6,9 @@
 //  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "getAreaByPcdOp.h"
+#import "GetAreaByPcdOp.h"
 
-@implementation getAreaByPcdOp
+@implementation GetAreaByPcdOp
 
 - (RACSignal *)rac_postRequest
 {

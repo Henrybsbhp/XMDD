@@ -308,12 +308,12 @@ typedef NS_ENUM(NSInteger, LocateState) {
             [self requestLocation];
         }
         else if (self.locateState == LocateStateSuccess) {
-            getAreaByPcdOp * op = [getAreaByPcdOp operation];
+            GetAreaByPcdOp * op = [GetAreaByPcdOp operation];
             op.req_province = self.locationData.province;
             op.req_city = self.locationData.city;
             op.req_district = self.locationData.district;
             @weakify(self);
-            [[op rac_postRequest] subscribeNext:^(getAreaByPcdOp * op) {
+            [[op rac_postRequest] subscribeNext:^(GetAreaByPcdOp * op) {
                 
                 @strongify(self);
                 HKAreaInfoModel * provinceModel = op.rsp_province;

@@ -35,8 +35,11 @@
 /// 是否展开
 @property (nonatomic)BOOL isSpread;
 
-/// 是否城市信息获取
+/// 是否城市信息获取的状态
 @property (nonatomic)BOOL isCityLoading;
+
+/// 临时存放
+@property (nonatomic,copy)NSString * tempCityName;
 
 @end
 
@@ -103,16 +106,53 @@
         self.model.classno = self.car.classno;
         self.model.engineno = self.car.engineno;
         
-        @weakify(self)
-        [[self.model rac_getLocalUserViolation] subscribeNext:^(id x) {
+        [[[[self.model rac_getLocalUserViolation] flattenMap:^RACStream *(id value) {
             
-            @strongify(self)
-            self.isSpread = !self.model.queryDate;
+            if (!self.model.cityInfo.provinceName.length || !self.model.cityInfo.cityName.length)
+            {
+                /// 爱车和上次查询都没有地理信息
+                if (!self.car.provinceName.length || !self.car.cithName.length)
+                {
+                    return [self rac_autoLocateCity];
+                }
+                /// 爱车有地理信息
+                else
+                {
+                    return [self rac_requestCityInfoWithProvince:self.car.provinceName andCith:self.car.cithName];
+                }
+            }
+            else
+            {
+                // 直接返回信号
+                return [RACSignal return:self.model];
+            }
+        }] initially:^{
+            
+            self.isCityLoading = YES;
+        }] subscribeNext:^(NSObject * obj) {
+            
+            // 说明进行过城市信息的获取
+            if ([obj isKindOfClass:[GetCityInfoByNameOp class]])
+            {
+                self.isSpread = YES;
+                self.model.cityInfo = ((GetCityInfoByNameOp *)obj).cityInfo;
+            }
+            // 从本地获取的城市信息
+            else
+            {
+                self.isSpread = !self.model.queryDate;
+            }
+            self.isCityLoading = NO;
+            self.tempCityName = self.model.cityInfo.cityName;
             [self handleViolationCityInfo];
             [self.tableView reloadData];
+        } error:^(NSError *error) {
+            
+            self.isCityLoading = NO;
         }];
     }
     self.isSpread = !self.model.queryDate;
+    self.tempCityName = self.model.cityInfo.cityName;
 }
 - (void)handleViolationCityInfo
 {
@@ -136,6 +176,50 @@
     self.infoArray = [NSArray arrayWithArray:tArray];
 }
 
+#pragma mark - Network
+/// 请求违章
+- (void)requesQueryViolation
+{
+    self.model.licencenumber = self.car.licencenumber;
+    self.model.cid = self.car.carId;
+    
+    [[[self.model rac_requestUserViolation] initially:^{
+        
+        self.isQuerying = YES;
+        [self queryTransform];
+    }] subscribeNext:^(id x) {
+        
+        self.isQuerying = NO;
+        [self stopQueryTransform];
+        self.isSpread = NO;
+        
+        [self handleViolationCityInfo];
+        [self.tableView reloadData];
+        
+    } error:^(NSError *error) {
+        
+        self.isQuerying = NO;
+        [self stopQueryTransform];
+        [self.tableView reloadData];
+        [gToast showError:error.domain];
+    }];
+}
+
+- (RACSignal *)rac_requestCityInfoWithProvince:(NSString *)p andCith:(NSString *)c
+{
+    GetAreaByPcdOp * op = [GetAreaByPcdOp operation];
+    op.req_province = p;
+    op.req_city = c;
+    
+    return [[op rac_postRequest] flattenMap:^RACStream *(GetAreaByPcdOp * op) {
+        
+        GetCityInfoByNameOp * getCityInfoByNameOp = [[GetCityInfoByNameOp alloc] init];
+        getCityInfoByNameOp.province = op.rsp_province.infoName;
+        getCityInfoByNameOp.city = op.rsp_city.infoName;
+        
+        return [getCityInfoByNameOp rac_postRequest];
+    }];
+}
 
 #pragma mark - Utility
 - (void)queryAction
@@ -195,32 +279,6 @@
     [self requesQueryViolation];
 }
 
-- (void)requesQueryViolation
-{
-    self.model.licencenumber = self.car.licencenumber;
-    self.model.cid = self.car.carId;
-    
-    [[[self.model rac_requestUserViolation] initially:^{
-        
-        self.isQuerying = YES;
-        [self queryTransform];
-    }] subscribeNext:^(id x) {
-        
-        self.isQuerying = NO;
-        [self stopQueryTransform];
-        self.isSpread = NO;
-        
-        [self handleViolationCityInfo];
-        [self.tableView reloadData];
-        
-    } error:^(NSError *error) {
-    
-        self.isQuerying = NO;
-        [self stopQueryTransform];
-        [self.tableView reloadData];
-        [gToast showError:error.domain];
-    }];
-}
 
 
 - (void)queryTransform
@@ -297,77 +355,64 @@
 }
 
 
-- (void)selectCityAction:(UITableViewCell *)cell
+- (void)selectCityAction
 {
-    UIActivityIndicatorView * ai = (UIActivityIndicatorView *)[cell searchViewWithTag:102];
-    UIButton * cityBtn = (UIButton *)[cell searchViewWithTag:101];
-    
     AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCity fromVC:self.parentViewController];
     
     [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
         
-        [cityBtn setTitle:cityModel.infoName forState:UIControlStateNormal];
-        [self requestCithInfoWithProvince:provinceModel.infoName andCith:cityModel.infoName andUI:ai];
+        self.tempCityName = cityModel.infoName;
+        [self handleRequestCityInfoWithProvince:provinceModel.infoName andCith:cityModel.infoName];
     }];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)requestCithInfoWithProvince:(NSString *)p andCith:(NSString *)c andUI:(UIActivityIndicatorView *)ai
+
+
+- (void)handleRequestCityInfoWithProvince:(NSString *)p andCith:(NSString *)c
 {
-    GetCityInfoByNameOp * op = [[GetCityInfoByNameOp alloc] init];
-    op.province = p;
-    op.city = c;
+    RACSignal * signal = [self rac_requestCityInfoWithProvince:p andCith:c];
     
-    [[[op rac_postRequest] initially:^{
+    [[signal initially:^{
         
         self.isCityLoading = YES;
-        ai.hidden = !self.isCityLoading;
-        ai.animating = self.isCityLoading;
     }] subscribeNext:^(GetCityInfoByNameOp * op) {
         
         self.isCityLoading = NO;
-        ai.hidden = !self.isCityLoading;
-        ai.animating = self.isCityLoading;
         self.isSpread = YES;
         
         ViolationCityInfo * info = op.cityInfo;
         self.model.cityInfo = info;
+        self.tempCityName = info.cityName;
         
         [self handleViolationCityInfo];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+
     } error:^(NSError *error) {
         
+        self.tempCityName = self.model.cityInfo.cityName;
         self.isCityLoading = NO;
-        ai.hidden = !self.isCityLoading;
-        ai.animating = self.isCityLoading;
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
         [gToast showError:error.domain];
     }];
 }
 
 
-- (void)autoLocateCityWithUI:(UITableViewCell *)cell
+- (RACSignal *)rac_autoLocateCity
 {
-    UIActivityIndicatorView * ai = (UIActivityIndicatorView *)[cell searchViewWithTag:102];
-    UIButton * cityBtn = (UIButton *)[cell searchViewWithTag:101];
-    
+    RACSignal * signal;
     if (gMapHelper.addrComponent.province.length && gMapHelper.addrComponent.city)
     {
-        [cityBtn setTitle:gMapHelper.addrComponent.city forState:UIControlStateNormal];
-        [self requestCithInfoWithProvince:gMapHelper.addrComponent.province andCith:gMapHelper.addrComponent.city andUI:ai];
-        
+        signal = [self rac_requestCityInfoWithProvince:gMapHelper.addrComponent.province andCith:gMapHelper.addrComponent.city];
     }
     else
     {
-        [[gMapHelper rac_getInvertGeoInfo] subscribeNext:^(id x) {
+        signal =[[gMapHelper rac_getInvertGeoInfo] flattenMap:^RACStream *(id value) {
             
-            [cityBtn setTitle:gMapHelper.addrComponent.city forState:UIControlStateNormal];
-            [self requestCithInfoWithProvince:gMapHelper.addrComponent.province andCith:gMapHelper.addrComponent.city andUI:ai];
-            
-        } error:^(NSError *error) {
-            
+            return [self rac_requestCityInfoWithProvince:gMapHelper.addrComponent.province andCith:gMapHelper.addrComponent.city];
         }];
     }
+    return signal;
 }
 
 #pragma mark - Table view data source
@@ -679,23 +724,30 @@
     UIActivityIndicatorView * ai = (UIActivityIndicatorView *)[cell searchViewWithTag:102];
     ai.hidden = !self.isCityLoading;
     ai.animating = self.isCityLoading;
-    // 城市点击区域
+    
     UIButton * cityBtn = (UIButton *)[cell searchViewWithTag:101];
-    [cityBtn setTitle:self.model.cityInfo.cityName forState:UIControlStateNormal];
+    
     cityBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     
+    [[RACObserve(self, isCityLoading) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * number) {
+        
+        ai.hidden = ![number integerValue];
+        ai.animating = [number integerValue];
+    }];
+    
+    
+    [[[RACObserve(self,tempCityName) distinctUntilChanged] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString * city) {
+        
+        [cityBtn setTitle:city forState:UIControlStateNormal];
+    }];
+    // 城市点击区域
     @weakify(self)
     [[[cityBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
-        [self selectCityAction:cell];
+        [self selectCityAction];
     }];
     
-    if (!self.model.cityInfo.cityName.length)
-    {
-        [self autoLocateCityWithUI:cell];
-    }
-
     self.cityBtn = cityBtn;
     
     return cell;
