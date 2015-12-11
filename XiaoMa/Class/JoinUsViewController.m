@@ -134,9 +134,11 @@
     op.req_province = self.hkLocation.province;
     op.req_city = self.hkLocation.city;
     op.req_district = self.hkLocation.district;
+    [gToast showingWithoutText];
     @weakify(self);
     [[op rac_postRequest] subscribeNext:^(ApplyUnionOp * op) {
-        @strongify(self)
+        @strongify(self);
+        [gToast dismiss];
         JoinResultViewController * vc = [UIStoryboard vcWithId:@"JoinResultViewController" inStoryboard:@"About"];
         vc.phone = self.phoneField.text;
         vc.name = self.nameField.text;

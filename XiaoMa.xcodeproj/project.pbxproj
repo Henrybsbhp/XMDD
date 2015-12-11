@@ -4326,7 +4326,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "13b76489-934d-407b-a6e7-2b3f8a44dedd";
+				PROVISIONING_PROFILE = "19b9e532-9495-4943-a7d9-e1846a3e0cf4";
 			};
 			name = Debug;
 		};

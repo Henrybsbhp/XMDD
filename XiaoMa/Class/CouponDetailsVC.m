@@ -219,7 +219,7 @@
         }];
         
     } error:^(NSError *error) {
-        
+        [gToast showError:error.domain];
     }];
     
 }
