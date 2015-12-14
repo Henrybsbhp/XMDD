@@ -14,6 +14,9 @@
 #import "UIView+Shake.h"
 #import "UpdateInsuranceCalculateOp.h"
 #import "InsuranceAppointmentOp.h"
+#import "HKCellData.h"
+#import "CKLine.h"
+
 #import "InsuranceChooseViewController.h"
 
 @interface InsuranceInfoSubmitingVC ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, DrivingLicenseHistoryViewDelegate>
@@ -22,12 +25,9 @@
     UIImage *_errorImage;
 }
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIView *bottomContentView1;
-@property (weak, nonatomic) IBOutlet UIView *bottomContentView2;
 @property (weak, nonatomic) IBOutlet UIView *defContainerView;
 @property (nonatomic, strong) IBOutlet DrivingLicenseHistoryView *historyView;
 @property (nonatomic, strong) UITextField *idcardField;
-@property (nonatomic, strong) UITextField *inviteField;
 @property (nonatomic, strong) PictureRecord *currentRecord;
 @property (nonatomic, strong) HKImageView *imageView;
 @property (nonatomic, assign) BOOL isUploading;
@@ -40,11 +40,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.bottomContentView1.hidden = self.submitModel != InsuranceInfoSubmitForDirectSell;
-    self.bottomContentView2.hidden = self.submitModel != InsuranceInfoSubmitForEnquiry;
     [self reloadData];
     [self setupDrivingLicenseHistoryView];
-//    [self reloadDrivingLicenseHistoryWithCell:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -64,13 +61,38 @@
     [MobClick endLogPageView:@"rp126"];
 }
 
+#pragma mark - Datasource
+- (void)reloadData
+{
+    HKCellData *headerCell = [HKCellData dataWithCellID:@"Header" tag:nil];
+    [headerCell setHeightBlock:^CGFloat(UITableView *tableView) {
+        return 82;
+    }];
+    HKCellData *cardCell = [HKCellData dataWithCellID:@"Card" tag:nil];
+    [cardCell setHeightBlock:^CGFloat(UITableView *tableView) {
+        return 72;
+    }];
+    HKCellData *imageCell = [HKCellData dataWithCellID:@"Image" tag:nil];
+    [imageCell setHeightBlock:^CGFloat(UITableView *tableView) {
+        return ceil((CGRectGetWidth(self.tableView.frame)-28)*414/594.0);
+    }];
+
+    self.datasource = [NSMutableArray arrayWithObjects:headerCell,cardCell,imageCell, nil];
+    [self.tableView reloadData];
+}
+
 - (void)setupDrivingLicenseHistoryView
 {
     self.historyView.delegate = self;
     [[[RACObserve(self.historyView, recordList) distinctUntilChanged] deliverOn:[RACScheduler mainThreadScheduler]]
      subscribeNext:^(NSArray *records) {
         if (records.count > 0) {
-            if (self.datasource.count < 5) {
+            if (self.datasource.count < 4) {
+                HKCellData *historyCell = [HKCellData dataWithCellID:@"History" tag:nil];
+                [historyCell setHeightBlock:^CGFloat(UITableView *tableView) {
+                    return 106;
+                }];
+                [self.datasource safetyInsertObject:historyCell atIndex:2];
                 NSArray *item = @[@"PreviewCell",@106];
                 [self.datasource safetyInsertObject:item atIndex:2];
                 [self.tableView beginUpdates];
@@ -79,7 +101,7 @@
             }
         }
         else {
-            if (self.datasource.count >= 5) {
+            if (self.datasource.count >= 4) {
                 [self.datasource safetyRemoveObjectAtIndex:2];
                 [self.tableView beginUpdates];
                 [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -93,15 +115,6 @@
     }];
 }
 
-- (void)reloadData
-{
-    NSArray *data = @[@[self.submitModel == InsuranceInfoSubmitForDirectSell ? @"HeaderCell" : @"HeaderCell2", @64],
-                      @[@"CardCell",@82],
-                      @[@"ImageCell",@(ceil((CGRectGetWidth(self.tableView.frame)-28)*414/594.0))],
-                      @[@"InviteCell",@75]];
-    self.datasource = [NSMutableArray arrayWithArray:data];
-    [self.tableView reloadData];
-}
 
 #pragma mark - Action
 - (BOOL)checkInfomation
@@ -123,7 +136,6 @@
     if ([self checkInfomation]) {
         InsuranceChooseViewController *vc = [UIStoryboard vcWithId:@"InsuranceChooseViewController" inStoryboard:@"Insurance"];
         vc.idcard = self.idcardField.text;
-        vc.inviteCode = self.inviteField.text;
         vc.currentRecord = self.currentRecord;
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -162,8 +174,7 @@
         op.req_purchaseprice = self.calculatorOp.req_purchaseprice;
         op.req_idcard = self.idcardField.text;
         op.req_driverpic = self.currentRecord.url;
-        op.req_inslist = self.insuranceList;
-        op.req_invitecode = self.inviteField.text;
+//        op.req_inslist = self.insuranceList;
         @weakify(self);
         [[[op rac_postRequest] initially:^{
             
@@ -328,11 +339,6 @@
             return NO;
         }
     }
-    if ([textField isEqual:self.inviteField]) {
-        if (length > 50) {
-            return NO;
-        }
-    }
     return YES;
 }
 
@@ -344,51 +350,51 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray *item = [self.datasource safetyObjectAtIndex:indexPath.row];
-    return [(NSNumber *)[item safetyObjectAtIndex:1] floatValue];
+    HKCellData *data = [self.datasource objectAtIndex:indexPath.row];
+    if (data.heightBlock) {
+        return data.heightBlock(tableView);
+    }
+    return 44;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell;
-    NSArray *item = [self.datasource safetyObjectAtIndex:indexPath.row];
-    NSString *identifier = [item safetyObjectAtIndex:0];
-    if ([@"HeaderCell" equalByCaseInsensitive:identifier] || [@"HeaderCell2" equalByCaseInsensitive:identifier]) {
-        cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+    HKCellData *data = [self.datasource safetyObjectAtIndex:indexPath.row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data.cellID forIndexPath:indexPath];
+    if ([data equalByCellID:@"Header" tag:nil]) {
+        [self resetHeaderCell:cell forData:data];
     }
-//    @[@"CardCell",@82],
-//    @[@"PreviewCell",@106],
-//    @[@"ImageCell",@(ceil((CGRectGetWidth(self.tableView.frame)-28)*414/594.0))],
-//    @[@"InviteCell",@75]]
-    else if ([@"CardCell" equalByCaseInsensitive:identifier]) {
-        cell = [self idCardCellAtIndexPath:indexPath identifier:identifier];
+    else if ([data equalByCellID:@"Card" tag:nil]){
+        [self resetHeaderCell:cell forData:data];
     }
-    else if ([@"PreviewCell" equalByCaseInsensitive:identifier]) {
-        cell = [self previewCellAtIndexPath:indexPath identifier:identifier];
+    else if ([data equalByCellID:@"History" tag:nil]) {
+        [self resetHistoryCell:cell forData:data];
     }
-    else if ([@"ImageCell" equalByCaseInsensitive:identifier]) {
-        return [self imageCellAtIndexPath:indexPath identifier:identifier];
-    }
-    else if ([@"InviteCell" equalByCaseInsensitive:identifier]) {
-        return [self inviteCellAtIndexPath:indexPath identifier:identifier];
+    else if ([data equalByCellID:@"Image" tag:nil]) {
+        [self resetImageCell:cell forData:data];
     }
     return cell;
 }
 
 #pragma mark - Cell
-- (UITableViewCell *)idCardCellAtIndexPath:(NSIndexPath *)indexPath identifier:identifier
+- (void)resetHeaderCell:(UITableViewCell *)cell forData:(HKCellData *)data
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+    UILabel *textL = [cell viewWithTag:1002];
+    CKLine *line1 = [cell viewWithTag:10001];
+    CKLine *line2 = [cell viewWithTag:10002];
+    line1.lineAlignment = CKLineAlignmentHorizontalTop;
+    line2.lineAlignment = CKLineAlignmentHorizontalBottom;
+}
+- (void)resetIdCardCell:(UITableViewCell *)cell forData:(HKCellData *)data
+{
     if (!self.idcardField) {
         self.idcardField = (UITextField *)[cell viewWithTag:10002];
         self.idcardField.delegate = self;
     }
-    return cell;
 }
 
-- (UITableViewCell *)previewCellAtIndexPath:(NSIndexPath *)indexPath identifier:identifier
+- (void)resetHistoryCell:(UITableViewCell *)cell forData:(HKCellData *)data
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     UIView *container = [cell.contentView viewWithTag:10003];
     if (![self.historyView.superview isEqual:container]) {
         [self.historyView removeFromSuperview];
@@ -397,7 +403,6 @@
             make.edges.equalTo(container);
         }];
     }
-    return cell;
 }
 
 - (void)reloadDrivingLicenseHistoryWithCell:(UITableViewCell *)cell
@@ -416,9 +421,8 @@
 
 }
 
-- (UITableViewCell *)imageCellAtIndexPath:(NSIndexPath *)indexPath identifier:identifier
+- (void)resetImageCell:(UITableViewCell *)cell forData:(HKCellData *)data
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     UIView *imgContainerView = [cell.contentView viewWithTag:1000];
     [imgContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
     HKImageView *imageView = (HKImageView *)[cell.contentView viewWithTag:1001];
@@ -486,19 +490,8 @@
         }
         maskView.hidden = NO;
     }];
-    return cell;
 }
 
-- (UITableViewCell *)inviteCellAtIndexPath:(NSIndexPath *)indexPath identifier:identifier
-{
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-    UITextField *textField = (UITextField *)[cell.contentView viewWithTag:10002];
-    if (!self.inviteField) {
-        self.inviteField.delegate = self;
-        self.inviteField = textField;
-    }
-    return cell;
-}
 #pragma mark - Getter
 - (UIImage *)defImage
 {
