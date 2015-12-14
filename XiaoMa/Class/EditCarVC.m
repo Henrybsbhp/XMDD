@@ -21,6 +21,7 @@
 #import "HKCellData.h"
 #import "CKLimitTextField.h"
 #import "HKTableViewCell.h"
+#import "AreaTablePickerVC.h"
 
 @interface EditCarVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -250,10 +251,83 @@
     HKCellData *cell2_0 = [HKCellData dataWithCellID:@"Title" tag:nil];
     cell2_0.object = @"更多爱车信息（选填）";
     
-    HKCellData *cell2_1 = [HKCellData dataWithCellID:@"Field" tag:nil];
-    cell2_1.customInfo[@"title"] = @"整车价格";
-    cell2_1.customInfo[@"suffix"] = @"万";
-    cell2_1.customInfo[@"block"] = [^(CKLimitTextField *field, RACSignal *stopSig) {
+    HKCellData *cell2_1 = [HKCellData dataWithCellID:@"Selection" tag:nil];
+    cell2_1.customInfo[@"title"] = @"行驶城市";
+    cell2_1.customInfo[@"placehold"] = @"请选择行驶城市";
+    cell2_1.object = RACObserve(self.curCar, cithName);
+    [cell2_1 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+        @strongify(self);
+        [self.view endEditing:YES];
+        
+        AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCity fromVC:self];
+        
+        [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
+            
+            NSString * cityName = [NSString stringWithFormat:@"%@",cityModel.infoName];
+            self.curCar.cithName = cityName;
+            self.curCar.provinceName = provinceModel.infoName;
+            self.curCar.provinceId = @(provinceModel.infoId);
+            self.curCar.cithId = @(cityModel.infoId);
+        }];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    
+    
+    HKCellData *cell2_2 = [HKCellData dataWithCellID:@"Field" tag:nil];
+    cell2_2.customInfo[@"title"] = @"车架号";
+    cell2_2.customInfo[@"placehold"] = @"请填写车架号";
+    cell2_2.customInfo[@"howDisplay"] = @(YES);
+    cell2_2.customInfo[@"block"] = [^(CKLimitTextField *field, RACSignal *stopSig) {
+        @strongify(self);
+        
+        field.text = [NSString stringWithFormat:@"%@", self.curCar.classno];
+        
+        [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
+            
+        }];
+        
+        [[[field rac_newTextChannel] takeUntil:stopSig] subscribeNext:^(id x) {
+            @strongify(self);
+            
+            field.text = [field.text uppercaseString];
+            self.curCar.classno = field.text;
+        }];
+    } copy];
+    
+    cell2_2.customInfo[@"howAction"] = [^(void){
+        
+        NSLog(@"请填写车架号");
+    } copy];
+
+    HKCellData *cell2_3 = [HKCellData dataWithCellID:@"Field" tag:nil];
+    cell2_3.customInfo[@"title"] = @"发动机号";
+    cell2_3.customInfo[@"placehold"] = @"请填写发动机号";
+    cell2_3.customInfo[@"howDisplay"] = @(YES);
+    cell2_3.customInfo[@"block"] = [^(CKLimitTextField *field, RACSignal *stopSig) {
+        @strongify(self);
+        
+        field.text = [NSString stringWithFormat:@"%@", self.curCar.classno];
+        
+        [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        }];
+        
+        [[[field rac_newTextChannel] takeUntil:stopSig] subscribeNext:^(id x) {
+            @strongify(self);
+            
+            field.text = [field.text uppercaseString];
+            self.curCar.engineno = field.text;
+        }];
+
+    } copy];
+    cell2_3.customInfo[@"howAction"] = [^(void){
+        
+        NSLog(@"请填写发动机号");
+    } copy];
+    
+    HKCellData *cell2_4 = [HKCellData dataWithCellID:@"Field" tag:nil];
+    cell2_4.customInfo[@"title"] = @"整车价格";
+    cell2_4.customInfo[@"suffix"] = @"万";
+    cell2_4.customInfo[@"block"] = [^(CKLimitTextField *field, RACSignal *stopSig) {
         @strongify(self);
         field.text = [NSString stringWithFormat:@"%.2f", self.curCar.price];
         field.keyboardType = UIKeyboardTypeDecimalPad;
@@ -276,10 +350,10 @@
         }];
     } copy];
     
-    HKCellData *cell2_2 = [HKCellData dataWithCellID:@"Field" tag:nil];
-    cell2_2.customInfo[@"title"] = @"行驶里程";
-    cell2_2.customInfo[@"suffix"] = @"公里";
-    cell2_2.customInfo[@"block"] = [^(CKLimitTextField *field, RACSignal *stopSig) {
+    HKCellData *cell2_5 = [HKCellData dataWithCellID:@"Field" tag:nil];
+    cell2_5.customInfo[@"title"] = @"行驶里程";
+    cell2_5.customInfo[@"suffix"] = @"公里";
+    cell2_5.customInfo[@"block"] = [^(CKLimitTextField *field, RACSignal *stopSig) {
         @strongify(self);
         field.text = [NSString stringWithFormat:@"%d", (int)self.curCar.odo];
         field.keyboardType = UIKeyboardTypeNumberPad;
@@ -303,13 +377,13 @@
         }];
     } copy];
     
-    HKCellData *cell2_3 = [HKCellData dataWithCellID:@"Selection" tag:nil];
-    cell2_3.customInfo[@"title"] = @"年检到期日";
-    cell2_3.customInfo[@"placehold"] = @"请选择年检到期时间";
-    cell2_3.object = [RACObserve(self.curCar, insexipiredate) map:^id(NSDate *date) {
+    HKCellData *cell2_6 = [HKCellData dataWithCellID:@"Selection" tag:nil];
+    cell2_6.customInfo[@"title"] = @"年检到期日";
+    cell2_6.customInfo[@"placehold"] = @"请选择年检到期时间";
+    cell2_6.object = [RACObserve(self.curCar, insexipiredate) map:^id(NSDate *date) {
         return [date dateFormatForYYMMdd];
     }];
-    [cell2_3 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+    [cell2_6 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         @strongify(self);
         [MobClick event:@"rp312-8"];
         [self.view endEditing:YES];
@@ -323,11 +397,11 @@
          }];
     }];
     
-    HKCellData *cell2_4 = [HKCellData dataWithCellID:@"Selection" tag:nil];
-    cell2_4.customInfo[@"title"] = @"保险公司";
-    cell2_4.customInfo[@"placehold"] = @"请选择保险公司";
-    cell2_4.object = RACObserve(self.curCar, inscomp);
-    [cell2_4 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+    HKCellData *cell2_7 = [HKCellData dataWithCellID:@"Selection" tag:nil];
+    cell2_7.customInfo[@"title"] = @"保险公司";
+    cell2_7.customInfo[@"placehold"] = @"请选择保险公司";
+    cell2_7.object = RACObserve(self.curCar, inscomp);
+    [cell2_7 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         @strongify(self);
         [MobClick event:@"rp312-9"];
         [self.view endEditing:YES];
@@ -338,7 +412,7 @@
         [self.navigationController pushViewController:vc animated:YES];
     }];
     
-    return @[cell2_0,cell2_1,cell2_2,cell2_3,cell2_4];
+    return @[cell2_0,cell2_1,cell2_2,cell2_3,cell2_4,cell2_5,cell2_6,cell2_7];
 }
 
 #pragma mark - Action
@@ -649,6 +723,9 @@
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:1001];
     CKLimitTextField *field = (CKLimitTextField *)[cell.contentView viewWithTag:1002];
     UILabel *suffixL = (UILabel *)[cell.contentView viewWithTag:1003];
+    UIButton * howBtn = (UIButton *)[cell searchViewWithTag:104];
+    
+    howBtn.hidden = ![data.customInfo[@"howDisplay"] integerValue];
     
     label.text = data.customInfo[@"title"];
     suffixL.text = data.customInfo[@"suffix"];
@@ -657,6 +734,14 @@
     if (block) {
         block(field, [cell rac_prepareForReuseSignal]);
     }
+    
+    typedef void(^MyBlock)(void);
+    MyBlock howAction = data.customInfo[@"howAction"];
+    [[[howBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        howAction();
+    }];
+    
 }
 
 - (void)resetSwitchCell:(UITableViewCell *)cell withData:(HKCellData *)data

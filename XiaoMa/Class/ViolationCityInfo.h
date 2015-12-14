@@ -8,24 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ViolationProvinceInfo : NSObject<NSCoding>
-
-@property (nonatomic,strong)NSNumber * pid;
-
-@property (nonatomic,copy)NSString * province;
-
-@property (nonatomic,copy)NSString * province_code;
-
-@property (nonatomic,strong)NSArray * cityArray;
-
-+ (instancetype)provinceWithJSONResponse:(NSDictionary *)rsp;
-
-@end
-
-
 @interface ViolationCityInfo : NSObject<NSCoding>
 
 @property (nonatomic,copy)NSString * pCode;
+@property (nonatomic,copy)NSString * provinceName;
 
 @property (nonatomic,copy)NSString * cityCode;
 @property (nonatomic,copy)NSString * cityName;

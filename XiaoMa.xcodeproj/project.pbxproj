@@ -282,7 +282,7 @@
 		5078E4D21B93FD4000E3B198 /* GetInscouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5078E4D11B93FD4000E3B198 /* GetInscouponOp.m */; };
 		507A0EB41B6F39D1004F6EC1 /* AnimationBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 507A0EB31B6F39D1004F6EC1 /* AnimationBoardView.m */; };
 		507A4DDF1B74462200E0BF1E /* UnbundlingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 507A4DDE1B74462200E0BF1E /* UnbundlingVC.m */; };
-		507EFACC1C15AEB60081FECB /* getAreaByPcdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 507EFACB1C15AEB60081FECB /* getAreaByPcdOp.m */; };
+		507EFACC1C15AEB60081FECB /* GetAreaByPcdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 507EFACB1C15AEB60081FECB /* GetAreaByPcdOp.m */; };
 		508150CE1B84703200B16633 /* DetailsAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508150CD1B84703200B16633 /* DetailsAlertVC.m */; };
 		508BD8D01BD0E3ED00B64199 /* GasRecordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508BD8CF1BD0E3ED00B64199 /* GasRecordVC.m */; };
 		508C718F1BA808B600FA2F05 /* Insurance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 508C718E1BA808B600FA2F05 /* Insurance.storyboard */; };
@@ -1040,8 +1040,8 @@
 		507A0EB31B6F39D1004F6EC1 /* AnimationBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimationBoardView.m; sourceTree = "<group>"; };
 		507A4DDD1B74462200E0BF1E /* UnbundlingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnbundlingVC.h; sourceTree = "<group>"; };
 		507A4DDE1B74462200E0BF1E /* UnbundlingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnbundlingVC.m; sourceTree = "<group>"; };
-		507EFACA1C15AEB60081FECB /* getAreaByPcdOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = getAreaByPcdOp.h; path = Class/getAreaByPcdOp.h; sourceTree = "<group>"; };
-		507EFACB1C15AEB60081FECB /* getAreaByPcdOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = getAreaByPcdOp.m; path = Class/getAreaByPcdOp.m; sourceTree = "<group>"; };
+		507EFACA1C15AEB60081FECB /* GetAreaByPcdOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetAreaByPcdOp.h; path = Class/GetAreaByPcdOp.h; sourceTree = "<group>"; };
+		507EFACB1C15AEB60081FECB /* GetAreaByPcdOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAreaByPcdOp.m; path = Class/GetAreaByPcdOp.m; sourceTree = "<group>"; };
 		508150CC1B84703200B16633 /* DetailsAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsAlertVC.h; sourceTree = "<group>"; };
 		508150CD1B84703200B16633 /* DetailsAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsAlertVC.m; sourceTree = "<group>"; };
 		508BD8CE1BD0E3ED00B64199 /* GasRecordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasRecordVC.h; sourceTree = "<group>"; };
@@ -3277,8 +3277,8 @@
 				6BEC3FC81C1122B40046F11D /* GetCityInfoByNameOp.m */,
 				50094B411C1144640069683C /* GetAreaInfoOp.h */,
 				50094B421C1144640069683C /* GetAreaInfoOp.m */,
-				507EFACA1C15AEB60081FECB /* getAreaByPcdOp.h */,
-				507EFACB1C15AEB60081FECB /* getAreaByPcdOp.m */,
+				507EFACA1C15AEB60081FECB /* GetAreaByPcdOp.h */,
+				507EFACB1C15AEB60081FECB /* GetAreaByPcdOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -3951,7 +3951,7 @@
 				6BF7F7311BB39A4100A24A32 /* NSString+Price.m in Sources */,
 				1853DED11AE2971500C39175 /* ResetPasswordVC.m in Sources */,
 				1883D9331ACCDA8B002A4D19 /* DefaultStyleModel.m in Sources */,
-				507EFACC1C15AEB60081FECB /* getAreaByPcdOp.m in Sources */,
+				507EFACC1C15AEB60081FECB /* GetAreaByPcdOp.m in Sources */,
 				6BE4CE311AF217BC008E1C19 /* GetUserCouponOp.m in Sources */,
 				189B30BA1AD51EF2001D7288 /* JTUser.m in Sources */,
 				18B78F6A1BAAA2100061ECAD /* GetInsuranceCalculatorOpV2.m in Sources */,

@@ -69,6 +69,14 @@ typedef enum : NSInteger
 ///保险到期日
 @property (nonatomic,strong)NSDate * insexipiredate;
 
+///省名称
+@property (nonatomic,copy)NSString * provinceName;
+///城市名称
+@property (nonatomic,copy)NSString * cithName;
+///省名称
+@property (nonatomic,strong)NSNumber * provinceId;
+///城市名称
+@property (nonatomic,strong)NSNumber * cithId;
 ///发动机号
 @property (nonatomic,copy)NSString * engineno;
 ///车架号
