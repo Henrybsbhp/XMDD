@@ -95,8 +95,8 @@
 
 - (void)refreshScrollView
 {
-    CKAsyncMainQueue(^{
-        
+//    CKAsyncMainQueue(^{
+    
         [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
         for (NSInteger i = 0; i < self.datasource.count; i++) {
             
@@ -118,7 +118,7 @@
             index = 0;
         }
         [self loadPageIndex:index animated:NO];
-    });
+//    });
 }
 
 - (void)createIllegalCardWithCar:(NSObject *)car
@@ -188,6 +188,7 @@
         
         @strongify(self);
         [gToast showError:error.domain];
+        [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
         [self.view showDefaultEmptyViewWithText:@"获取爱车信息失败，点击重试" tapBlock:^{
             @strongify(self);
             [self.carStore sendEvent:[self.carStore getAllCars]];

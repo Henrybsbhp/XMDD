@@ -703,6 +703,11 @@
                                                     <color key="textColor" white="0.50964058199999995" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JSX-Yg-4pm">
+                                                    <rect key="frame" x="80" y="19" width="12" height="22"/>
+                                                    <animations/>
+                                                    <state key="normal" image="how_input"/>
+                                                </button>
                                                 <textField opaque="NO" clipsSubviews="YES" tag="1003" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="A12345" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vsb-5u-Y5H" customClass="CKLimitTextField">
                                                     <rect key="frame" x="479" y="8" width="82" height="43"/>
                                                     <animations/>
@@ -736,12 +741,19 @@
                                                 <constraint firstItem="Ew1-df-rxA" firstAttribute="leading" secondItem="nF0-Zu-Jid" secondAttribute="leading" constant="14" id="1do-Z3-pFg"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="vsb-5u-Y5H" secondAttribute="bottom" id="5dx-4Q-vh3"/>
                                                 <constraint firstItem="Ew1-df-rxA" firstAttribute="top" secondItem="nF0-Zu-Jid" secondAttribute="topMargin" id="Bum-3C-H1h"/>
+                                                <constraint firstItem="JSX-Yg-4pm" firstAttribute="leading" secondItem="Ew1-df-rxA" secondAttribute="trailing" constant="6" id="CZj-1h-Brw"/>
+                                                <constraint firstItem="JSX-Yg-4pm" firstAttribute="centerY" secondItem="Ew1-df-rxA" secondAttribute="centerY" id="Dah-x3-gRE"/>
                                                 <constraint firstItem="EV3-3A-Aj2" firstAttribute="trailing" secondItem="vsb-5u-Y5H" secondAttribute="leading" constant="-1" id="Gu3-MN-iwi"/>
                                                 <constraint firstAttribute="trailing" secondItem="vsb-5u-Y5H" secondAttribute="trailing" constant="15" id="KCQ-Wi-4gq"/>
                                                 <constraint firstItem="vsb-5u-Y5H" firstAttribute="top" secondItem="nF0-Zu-Jid" secondAttribute="topMargin" id="P9p-Pw-tft"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="Ew1-df-rxA" secondAttribute="bottom" id="hUe-ba-dNR"/>
                                                 <constraint firstAttribute="centerY" secondItem="EV3-3A-Aj2" secondAttribute="centerY" id="hjT-G2-O07"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="subviews">
+                                                    <exclude reference="JSX-Yg-4pm"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <animations/>
                                     </tableViewCell>
@@ -772,17 +784,24 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" tag="104" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dAW-41-jHY">
+                                                    <rect key="frame" x="79" y="18" width="12" height="22"/>
+                                                    <animations/>
+                                                    <state key="normal" image="how_input"/>
+                                                </button>
                                             </subviews>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstItem="pH0-xw-j6d" firstAttribute="leading" secondItem="F40-E9-fb4" secondAttribute="trailing" constant="1" id="3Jd-uq-73C"/>
                                                 <constraint firstItem="gLm-6C-eF0" firstAttribute="top" secondItem="erm-so-C6O" secondAttribute="topMargin" id="Byu-rG-WHB"/>
+                                                <constraint firstItem="dAW-41-jHY" firstAttribute="leading" secondItem="gLm-6C-eF0" secondAttribute="trailing" constant="5" id="CGH-bH-hC4"/>
                                                 <constraint firstAttribute="bottom" secondItem="pH0-xw-j6d" secondAttribute="bottom" id="CwO-4z-a2r"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="gLm-6C-eF0" secondAttribute="bottom" id="Egc-9e-2ef"/>
                                                 <constraint firstItem="F40-E9-fb4" firstAttribute="top" secondItem="erm-so-C6O" secondAttribute="topMargin" id="VXz-Lz-ZJC"/>
                                                 <constraint firstItem="pH0-xw-j6d" firstAttribute="top" secondItem="erm-so-C6O" secondAttribute="top" id="ZMb-SV-Cq2"/>
                                                 <constraint firstItem="gLm-6C-eF0" firstAttribute="leading" secondItem="erm-so-C6O" secondAttribute="leading" constant="14" id="cmU-Th-4Tc"/>
                                                 <constraint firstItem="F40-E9-fb4" firstAttribute="leading" secondItem="gLm-6C-eF0" secondAttribute="trailing" constant="8" id="eze-zN-aYY"/>
+                                                <constraint firstItem="dAW-41-jHY" firstAttribute="centerY" secondItem="gLm-6C-eF0" secondAttribute="centerY" id="ggM-0n-zhh"/>
                                                 <constraint firstAttribute="trailing" secondItem="pH0-xw-j6d" secondAttribute="trailing" constant="18" id="jkN-r9-P66"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="F40-E9-fb4" secondAttribute="trailing" constant="5" id="kvh-Ld-jHc"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="F40-E9-fb4" secondAttribute="bottom" id="pr4-1X-xMz"/>
@@ -1075,6 +1094,7 @@
     </scenes>
     <resources>
         <image name="cm_arrow_r" width="9" height="15"/>
+        <image name="how_input" width="12" height="12"/>
         <image name="mec_btn_bg2" width="17" height="28"/>
         <image name="mec_btn_bg3" width="17" height="28"/>
         <image name="mec_btn_bg4" width="17" height="42"/>

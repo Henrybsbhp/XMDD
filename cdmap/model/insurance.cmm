@@ -1,0 +1,8 @@
+$(import "cdmap/template/netop.cmt")
+
+<"获取保险相关车辆列表"
+class=GetInsCarList op auth path="/insurance/related/cars/get"> {
+  <rsp> {
+    carinfolist:array
+  }
+}

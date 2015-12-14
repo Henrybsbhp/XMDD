@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "HKLocationDataModel.h"
 
-@interface getAreaByPcdOp : BaseOp
+@interface GetAreaByPcdOp : BaseOp
 
 @property (nonatomic, strong)NSString *req_province;
 @property (nonatomic, strong)NSString *req_city;
