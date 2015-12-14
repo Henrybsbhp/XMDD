@@ -96,6 +96,20 @@
                 [self.navigationController pushViewController:vc animated:YES];
             }];
         }
+        else if (self.newType == CouponNewTypeGas){
+            self.shortUseBtn.hidden = YES;
+            self.shareBtn.hidden = YES;
+            self.longUseBtn.hidden = NO;
+            @weakify(self);
+            [[self.longUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                
+                @strongify(self);
+                //加油券去使用
+//                CommissionViewController *cvc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionViewController"];
+//                cvc.url = kAgencyUrl;
+//                [self.navigationController pushViewController:cvc animated:YES];
+            }];
+        }
         else if (self.newType == CouponNewTypeInsurance){
             self.bottomView.hidden = YES;
             self.bottomConstraint.constant = 56;
@@ -109,7 +123,7 @@
             [[self.longUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 
                 @strongify(self);
-                //去使用
+                //其他券去使用
                 if (self.oldType == CouponTypeAgency) {
                     CommissionViewController *cvc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionViewController"];
                     cvc.url = kAgencyUrl;
