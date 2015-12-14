@@ -26,6 +26,7 @@
     if ([rspObj isKindOfClass:[NSDictionary class]])
     {
         self.cityInfo = [ViolationCityInfo cityWithJSONResponse:rspObj[@"cityinfo"]];
+        self.cityInfo.provinceName = self.province;
         self.cityInfo.cityName = self.city;
     }
     else

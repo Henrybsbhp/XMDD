@@ -148,7 +148,7 @@
             
         }];
     } error:^(NSError *error) {
-        
+        [gToast showError:@"分享信息拉取失败，请重试"];
     }];
 }
 @end

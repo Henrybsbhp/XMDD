@@ -196,9 +196,9 @@
     [self addLineToView:secondaryView withDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
     
 
-    [self mainButtonWithImageName:@"hp_addgas_2.5" title:@"冲卡充值" index:0 action:@selector(actionAddGas:) inContainer:mainView hasBorder:YES];
-    [self mainButtonWithImageName:@"hp_violation_2.5" title:@"违章查询" index:1 action:@selector(actionQueryViolation:) inContainer:mainView hasBorder:YES];
-    [self mainButtonWithImageName:@"hp_estimate_2.5" title:@"爱车估值" index:2 action:@selector(actionCarEstimate:) inContainer:mainView hasBorder:YES];
+    [self mainButtonWithImageName:@"hp_addgas_2_5" title:@"油卡充值" index:0 action:@selector(actionAddGas:) inContainer:mainView hasBorder:YES];
+    [self mainButtonWithImageName:@"hp_violation_2_5" title:@"违章查询" index:1 action:@selector(actionQueryViolation:) inContainer:mainView hasBorder:YES];
+    [self mainButtonWithImageName:@"hp_estimate_2_5" title:@"爱车估值" index:2 action:@selector(actionCarEstimate:) inContainer:mainView hasBorder:YES];
     
  
     //洗车 //按钮大小不同图片不同
@@ -208,17 +208,17 @@
     if (dHeight > 667)
     {
         hhh = height + 23;
-        carwashBtnName = @"hp_carwash_big_2.5";
+        carwashBtnName = @"hp_carwash_big_2_5";
     }
     else if (dHeight > 568)
     {
         hhh = height + 15;
-        carwashBtnName = @"hp_carwash_mid_2.5";
+        carwashBtnName = @"hp_carwash_mid_2_5";
     }
     else
     {
         hhh = height;
-        carwashBtnName = @"hp_carwash_2.5";
+        carwashBtnName = @"hp_carwash_2_5";
     }
     
     CGFloat width = height * 447 / 226;
@@ -239,17 +239,17 @@
     if (dHeight > 667)
     {
         hhh = height + 23;
-        couponBtnName = @"hp_coupon_big_2.5";
+        couponBtnName = @"hp_coupon_big_2_5";
     }
     else if (dHeight > 568)
     {
         hhh = height + 15;
-        couponBtnName = @"hp_coupon_mid_2.5";
+        couponBtnName = @"hp_coupon_mid_2_5";
     }
     else
     {
         hhh = height;
-        couponBtnName = @"hp_coupon_2.5";
+        couponBtnName = @"hp_coupon_2_5";
     }
     UIButton *couponBtn = [self functionalButtonWithImageName:couponBtnName action:@selector(actionAward:) inContainer:secondaryView hasBorder:NO];
     [couponBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -265,7 +265,7 @@
     [self addLineToView:couponBtn withDirection:CKViewBorderDirectionLeft withEdge:UIEdgeInsetsZero];
     
     //保险
-    UIButton *insuranceBtn = [self functionalButtonWithImageName:@"hp_insurance_2.5" action:@selector(actionInsurance:) inContainer:secondaryView hasBorder:NO];
+    UIButton *insuranceBtn = [self functionalButtonWithImageName:@"hp_insurance_2_5" action:@selector(actionInsurance:) inContainer:secondaryView hasBorder:NO];
     [insuranceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(secondaryView.mas_left);
         make.top.equalTo(carwashBtn.mas_bottom);
@@ -292,7 +292,7 @@
     [self addLineToView:insuranceBtn withDirection:CKViewBorderDirectionRight withEdge:UIEdgeInsetsZero];
 
     //专业救援
-    UIButton *rescueBtn = [self functionalButtonWithImageName:@"hp_rescue_2.5" action:@selector(actionRescue:) inContainer:secondaryView hasBorder:NO];
+    UIButton *rescueBtn = [self functionalButtonWithImageName:@"hp_rescue_2_5" action:@selector(actionRescue:) inContainer:secondaryView hasBorder:NO];
     [rescueBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(insuranceBtn.mas_right);
         make.top.equalTo(insuranceBtn);
@@ -303,7 +303,7 @@
     [self addLineToView:rescueBtn withDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
     
     //申请协办
-    UIButton *commissionBtn = [self functionalButtonWithImageName:@"hp_commission_2.5" action:@selector(actionCommission:) inContainer:secondaryView hasBorder:NO];
+    UIButton *commissionBtn = [self functionalButtonWithImageName:@"hp_commission_2_5" action:@selector(actionCommission:) inContainer:secondaryView hasBorder:NO];
     [commissionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(rescueBtn);
         make.top.equalTo(rescueBtn.mas_bottom);

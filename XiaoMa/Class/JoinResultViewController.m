@@ -7,6 +7,7 @@
 //
 
 #import "JoinResultViewController.h"
+#import "AboutViewController.h"
 
 @interface JoinResultViewController ()
 
@@ -96,7 +97,11 @@
 
 - (void)actionBack:(id)sender
 {
-    [self.navigationController popToViewController:[self.navigationController.viewControllers safetyObjectAtIndex:1] animated:YES];
+    for (UIViewController * vc in self.navigationController.viewControllers) {
+        if ([vc isKindOfClass:[AboutViewController class]]) {
+            [self.navigationController popToViewController:vc animated:YES];
+        }
+    }
 }
 
 - (void)dealloc {

@@ -11,7 +11,9 @@
 #import "HKCellData.h"
 #import "HKSubscriptInputField.h"
 
-@interface InsBuyVC ()
+#import "InsPayResultVC.h"
+
+@interface InsBuyVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *datasource;
@@ -57,6 +59,13 @@
     
     self.datasource = datasource;
     [self.tableView reloadData];
+}
+
+#pragma mark - Action
+- (IBAction)actionBuy:(id)sender
+{
+    InsPayResultVC *vc = [UIStoryboard vcWithId:@"InsPayResultVC" inStoryboard:@"Insurance"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - UITableViewDelegate and datasource

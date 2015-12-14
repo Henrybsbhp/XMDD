@@ -8,17 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "GetInsuranceCalculatorOpV2.h"
-#import "HKInsurance.h"
-
-typedef enum : NSInteger
-{
-    InsuranceInfoSubmitForDirectSell = 0,
-    InsuranceInfoSubmitForEnquiry = 1
-}InsuranceInfoSubmitModel;
 
 @interface InsuranceInfoSubmitingVC : UIViewController
-@property (nonatomic, assign) InsuranceInfoSubmitModel submitModel;
 @property (nonatomic, strong) GetInsuranceCalculatorOpV2 *calculatorOp;
-@property (nonatomic, strong) NSString *insuranceList;
 
 @end
