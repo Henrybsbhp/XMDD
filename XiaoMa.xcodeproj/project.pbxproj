@@ -132,6 +132,7 @@
 		18895B361B4CB89000928F62 /* HKPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18895B351B4CB89000928F62 /* HKPushManager.m */; };
 		18895B391B4CB93800928F62 /* BindDeviceTokenOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18895B381B4CB93800928F62 /* BindDeviceTokenOp.m */; };
 		18895B3C1B4CF1D300928F62 /* LogoutOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18895B3B1B4CF1D300928F62 /* LogoutOp.m */; };
+		18900B441C1E7503003DA439 /* GetInsCarListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18900B431C1E7503003DA439 /* GetInsCarListOp.m */; };
 		189371191B0DA6C00030FDE1 /* MessageListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189371181B0DA6C00030FDE1 /* MessageListVC.m */; };
 		1893711C1B0DAC8D0030FDE1 /* GetMessageOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1893711B1B0DAC8D0030FDE1 /* GetMessageOp.m */; };
 		1893711F1B0DAD290030FDE1 /* HKMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1893711E1B0DAD290030FDE1 /* HKMessage.m */; };
@@ -754,6 +755,8 @@
 		18895B381B4CB93800928F62 /* BindDeviceTokenOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BindDeviceTokenOp.m; path = Class/BindDeviceTokenOp.m; sourceTree = "<group>"; };
 		18895B3A1B4CF1D300928F62 /* LogoutOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogoutOp.h; path = Class/LogoutOp.h; sourceTree = "<group>"; };
 		18895B3B1B4CF1D300928F62 /* LogoutOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LogoutOp.m; path = Class/LogoutOp.m; sourceTree = "<group>"; };
+		18900B421C1E7503003DA439 /* GetInsCarListOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetInsCarListOp.h; sourceTree = "<group>"; };
+		18900B431C1E7503003DA439 /* GetInsCarListOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetInsCarListOp.m; sourceTree = "<group>"; };
 		189371171B0DA6C00030FDE1 /* MessageListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageListVC.h; sourceTree = "<group>"; };
 		189371181B0DA6C00030FDE1 /* MessageListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageListVC.m; sourceTree = "<group>"; };
 		1893711A1B0DAC8D0030FDE1 /* GetMessageOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetMessageOp.h; path = Class/GetMessageOp.h; sourceTree = "<group>"; };
@@ -1795,6 +1798,8 @@
 		1833F5701BCD373B000E1DA1 /* netop */ = {
 			isa = PBXGroup;
 			children = (
+				18900B421C1E7503003DA439 /* GetInsCarListOp.h */,
+				18900B431C1E7503003DA439 /* GetInsCarListOp.m */,
 				18A9E8C71BDDC0950061D3BC /* GetInsCompanyListOp.h */,
 				18A9E8C81BDDC0950061D3BC /* GetInsCompanyListOp.m */,
 				1833F5971BCD3BF7000E1DA1 /* CancelGaschargeOp.h */,
@@ -3960,6 +3965,7 @@
 				18D17F701B5390F400F66F04 /* VCodeInputField.m in Sources */,
 				505E5FCD1BD7356B00857819 /* WKWebViewJavascriptBridge.m in Sources */,
 				6BCF624A1B1739E70064AE32 /* CommissionCouponViewController.m in Sources */,
+				18900B441C1E7503003DA439 /* GetInsCarListOp.m in Sources */,
 				6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */,
 				1816F4B41ACE767200BBCC96 /* UIStoryboard+Expansion.m in Sources */,
 				1833F5A31BCDF46B000E1DA1 /* GasTabView.m in Sources */,

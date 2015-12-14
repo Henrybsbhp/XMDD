@@ -70,7 +70,7 @@
     }];
     HKCellData *cardCell = [HKCellData dataWithCellID:@"Card" tag:nil];
     [cardCell setHeightBlock:^CGFloat(UITableView *tableView) {
-        return 72;
+        return 93;
     }];
     HKCellData *imageCell = [HKCellData dataWithCellID:@"Image" tag:nil];
     [imageCell setHeightBlock:^CGFloat(UITableView *tableView) {
@@ -93,8 +93,6 @@
                     return 106;
                 }];
                 [self.datasource safetyInsertObject:historyCell atIndex:2];
-                NSArray *item = @[@"PreviewCell",@106];
-                [self.datasource safetyInsertObject:item atIndex:2];
                 [self.tableView beginUpdates];
                 [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
                 [self.tableView endUpdates];
@@ -365,7 +363,7 @@
         [self resetHeaderCell:cell forData:data];
     }
     else if ([data equalByCellID:@"Card" tag:nil]){
-        [self resetHeaderCell:cell forData:data];
+        [self resetIdCardCell:cell forData:data];
     }
     else if ([data equalByCellID:@"History" tag:nil]) {
         [self resetHistoryCell:cell forData:data];
@@ -387,10 +385,10 @@
 }
 - (void)resetIdCardCell:(UITableViewCell *)cell forData:(HKCellData *)data
 {
-    if (!self.idcardField) {
-        self.idcardField = (UITextField *)[cell viewWithTag:10002];
-        self.idcardField.delegate = self;
-    }
+//    if (!self.idcardField) {
+//        self.idcardField = (UITextField *)[cell viewWithTag:10002];
+//        self.idcardField.delegate = self;
+//    }
 }
 
 - (void)resetHistoryCell:(UITableViewCell *)cell forData:(HKCellData *)data
