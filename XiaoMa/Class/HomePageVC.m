@@ -33,6 +33,7 @@
 #import "GasVC.h"
 #import "ViolationItemViewController.h"
 #import "ViolationViewController.h"
+#import "InsuranceSelectViewController.h"
 
 
 #define WeatherRefreshTimeInterval 60 * 30
@@ -556,9 +557,13 @@
 #pragma mark - Action
 - (IBAction)actionCallCenter:(id)sender
 {
-    [MobClick event:@"rp101-2"];
-    NSString * number = @"4007111111";
-    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+    InsuranceSelectViewController * selectVc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceSelectViewController"];
+    selectVc.numOfSeat = @(3);
+    [self.navigationController pushViewController:selectVc animated:YES];
+    
+//    [MobClick event:@"rp101-2"];
+//    NSString * number = @"4007111111";
+//    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
 }
 
 
