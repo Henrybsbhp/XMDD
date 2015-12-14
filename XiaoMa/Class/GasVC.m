@@ -43,16 +43,30 @@
 
 @property (nonatomic,strong) CBAutoScrollLabel *roundLb;
 @property (nonatomic,strong) UIView *backgroundView;
+@property (nonatomic,strong) UIImageView *notifyImg;
 @end
 
 @implementation GasVC
+
+-(UIImageView *)notifyImg
+{
+    if (!_notifyImg)
+    {
+        _notifyImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 28, 28)];
+        _notifyImg.image = [UIImage imageNamed:@"gas_notify"];
+        _notifyImg.contentMode=UIViewContentModeCenter;
+        _notifyImg.backgroundColor=[UIColor whiteColor];
+    }
+    return _notifyImg;
+}
 
 -(UIView *)backgroundView
 {
     if (!_backgroundView)
     {
         _backgroundView=[[UIView alloc]init];
-        _backgroundView.backgroundColor=[UIColor colorWithHex:@"#000000" alpha:0.5];
+        _backgroundView.backgroundColor=[UIColor whiteColor];
+        
     }
     return _backgroundView;
 }
@@ -63,7 +77,7 @@
     {
         _roundLb=[[CBAutoScrollLabel alloc]init];
         _roundLb.textColor=[UIColor whiteColor];
-        _roundLb.font=[UIFont systemFontOfSize:14];
+        _roundLb.font=[UIFont systemFontOfSize:12];
         _roundLb.backgroundColor = [UIColor clearColor];
         _roundLb.labelSpacing = 30;
         _roundLb.scrollSpeed = 30;
@@ -181,31 +195,54 @@
         if (ads.count > 0) {
             GasTabView *headerView = self.headerView;
             CGFloat height = floor(self.adctrl.adView.frame.size.height);
-            headerView.frame = CGRectMake(0, 0, self.view.frame.size.width, height+55);
-            NSString * note = @"测试长度不够是否可以滚动";
+            headerView.frame = CGRectMake(0, 0, self.view.frame.size.width, height+68);
+            NSString * note = @"通知：浙商卡充值活动时间2015年12月30日截止";
             CGFloat width = self.view.frame.size.width;
             NSString * p = [self appendSpace:note andWidth:width];
             self.roundLb.text = p;
+            self.roundLb.textColor=[UIColor grayColor];
+            UIView *upLine=[UIView new];
+            upLine.backgroundColor=[UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:0.7];
+            UIView *downLine=[UIView new];
+            downLine.backgroundColor=[UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:0.7];
             [headerView addSubview:self.adctrl.adView];
             [headerView addSubview:self.backgroundView];
             [headerView addSubview:self.roundLb];
+            [headerView addSubview:self.notifyImg];
+            [headerView addSubview:upLine];
+            [headerView addSubview:downLine];
             [self.adctrl.adView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(headerView);
                 make.right.equalTo(headerView);
                 make.top.equalTo(headerView);
                 make.height.mas_equalTo(height);
             }];
-            [self.roundLb mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.mas_equalTo(0);
-                make.right.mas_equalTo(0);
+            [upLine mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.mas_equalTo(self.adctrl.adView.mas_bottom);
-                make.height.mas_equalTo(15);
+                make.left.right.mas_equalTo(0);
+                make.height.mas_equalTo(1);
+            }];
+            [self.roundLb mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.mas_equalTo(28);
+                make.right.mas_equalTo(0);
+                make.top.mas_equalTo(upLine.mas_bottom);
+                make.height.mas_equalTo(28);
+            }];
+            [self.notifyImg mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.mas_equalTo(0);
+                make.top.mas_equalTo(upLine.mas_bottom);
+                make.height.width.mas_equalTo(28);
             }];
             [self.backgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.mas_equalTo(self.roundLb.mas_left);
                 make.right.mas_equalTo(self.roundLb.mas_right);
                 make.top.mas_equalTo(self.roundLb.mas_top);
                 make.height.mas_equalTo(self.roundLb.mas_height);
+            }];
+            [downLine mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.mas_equalTo(self.backgroundView.mas_bottom);
+                make.left.right.mas_equalTo(0);
+                make.height.mas_equalTo(1);
             }];
             self.tableView.tableHeaderView = self.headerView;
         }
@@ -261,7 +298,7 @@
 {
     self.datasource = [self.curModel datasource];
     [self.curModel.segHelper removeAllItemsForGroupName:@"Pay"];
-//    self.curModel.rechargeAmount = self.curModel.ma
+    //    self.curModel.rechargeAmount = self.curModel.ma
     [self.tableView reloadData];
     [self refrshLoadingView];
     [self refreshBottomView];
@@ -307,7 +344,7 @@
             title = [NSString stringWithFormat:@"您需支付%d元，现在支付", (int)paymoney];
         }
     }
-
+    
     [self.bottomBtn setTitle:title forState:UIControlStateNormal];
     [self.bottomBtn setTitle:title forState:UIControlStateDisabled];
 }
@@ -648,14 +685,14 @@
                                                                                     forIndexPath:indexPath];
     UILabel *cardnoL = (UILabel *)[cell.contentView viewWithTag:1003];
     UILabel *descL = (UILabel *)[cell.contentView viewWithTag:1006];
-
+    
     NSString *cardno = [(GasCZBVM *)self.curModel curBankCard].cardNumber;
     if (cardno.length > 4) {
         cardno = [cardno substringFromIndex:cardno.length - 4 length:4];
     }
     cardnoL.text = [NSString stringWithFormat:@"尾号%@", cardno];
     descL.text = [self.curModel bankFavorableDesc];
-
+    
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 12, 0, 0)];
     return cell;
 }
@@ -697,7 +734,7 @@
     else {
         GasCZBVM *model = (GasCZBVM *)self.curModel;
         if (!model.curBankCard.gasInfo) {
-            cell.stepper.maximum = 2000;    
+            cell.stepper.maximum = 2000;
         }
         else {
             cell.stepper.maximum = model.curBankCard.gasInfo.rsp_availablechargeamt;
@@ -776,7 +813,7 @@
             self.curModel.paymentPlatform = [item integerValue] - 20000;
         }
     }];
-
+    
     [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
         [self.curModel.segHelper selectItem:item forGroupName:@"Pay"];
@@ -797,9 +834,9 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Agreement" forIndexPath:indexPath];
     UIButton *checkBox = (UIButton *)[cell.contentView viewWithTag:1001];
     UIButton *btn = (UIButton *)[cell.contentView viewWithTag:1002];
-
+    
     [[RACObserve(self, isAcceptedAgreement) takeUntilForCell:cell] subscribeNext:^(NSNumber *x) {
-
+        
         BOOL isAcceptedAgreement = [x boolValue];
         checkBox.selected = isAcceptedAgreement;
     }];
@@ -808,9 +845,9 @@
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
          [MobClick event:@"rp501-13"];
-        @strongify(self);
+         @strongify(self);
          self.isAcceptedAgreement = !self.isAcceptedAgreement;
-    }];
+     }];
     return cell;
 }
 #pragma mark - RTLabelDelegate
