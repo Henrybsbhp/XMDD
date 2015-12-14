@@ -22,7 +22,8 @@ typedef enum : NSUInteger {
 typedef enum : NSUInteger {
     CouponNewTypeCarWash = 1, //洗车券
     CouponNewTypeInsurance, //保险券
-    CouponNewTypeOthers //其他券
+    CouponNewTypeOthers, //其他券
+    CouponNewTypeGas //加油券
 } CouponNewType;
 
 typedef enum : NSUInteger {

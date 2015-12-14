@@ -256,8 +256,8 @@
     {
         case EQQAPIAPPNOTREGISTED:
         {
-            UIAlertView *msgbox = [[UIAlertView alloc] initWithTitle:@"分享失败" message:@"App未注册" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
-            [msgbox show];
+//            UIAlertView *msgbox = [[UIAlertView alloc] initWithTitle:@"分享失败" message:@"App未注册" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
+//            [msgbox show];
             break;
         }
         case EQQAPIMESSAGECONTENTINVALID:
@@ -278,8 +278,8 @@
         }
         case EQQAPISENDFAILD:
         {
-            UIAlertView *msgbox = [[UIAlertView alloc] initWithTitle:@"错误" message:@"分享失败" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
-            [msgbox show];
+//            UIAlertView *msgbox = [[UIAlertView alloc] initWithTitle:@"错误" message:@"分享失败" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
+//            [msgbox show];
             break;
         }
         default:

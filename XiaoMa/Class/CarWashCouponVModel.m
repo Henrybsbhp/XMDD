@@ -47,6 +47,9 @@
     if (self.couponNewType == CouponNewTypeCarWash) {
         return @"您还没有洗车优惠券";
     }
+    else if (self.couponNewType == CouponNewTypeGas) {
+        return @"您还没有加油优惠券";
+    }
     else if (self.couponNewType == CouponNewTypeInsurance) {
         return @"您还没有保险优惠券";
     }
