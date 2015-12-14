@@ -95,7 +95,6 @@
 - (RACSignal *)rac_getInsurance
 {
     GetInsuranceCalculatorOpV3 * op = [GetInsuranceCalculatorOpV3 operation];
-    op.req_city = @"aaa";
     return [op rac_postRequest];
 }
 
