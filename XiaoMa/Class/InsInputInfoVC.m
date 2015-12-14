@@ -9,7 +9,9 @@
 #import "InsInputInfoVC.h"
 #import "HKCellData.h"
 #import "HKSubscriptInputField.h"
+
 #import "InsCheckResultsVC.h"
+#import "InsuranceInfoSubmitingVC.h"
 
 @interface InsInputInfoVC ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
@@ -88,6 +90,8 @@
         return 57;
     }];
     [helpCell setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+        InsuranceInfoSubmitingVC *vc = [UIStoryboard vcWithId:@"InsuranceInfoSubmitingVC" inStoryboard:@"Insurance"];
+        [self.navigationController pushViewController:vc animated:YES];
     }];
     [datasource addObject:helpCell];
     
@@ -101,10 +105,18 @@
     InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+- (IBAction)actionHelp:(id)sender
+{
+}
 #pragma mark - UITableViewDelegate and datasource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    HKCellData *data = [self.datasource safetyObjectAtIndex:indexPath.row];
+    if (data.selectedBlock) {
+        data.selectedBlock(tableView, indexPath);
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

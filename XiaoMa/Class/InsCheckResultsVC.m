@@ -13,6 +13,7 @@
 
 #import "InsCheckResultsVC.h"
 #import "InsBuyVC.h"
+#import "InsAppointmentVC.h"
 
 @interface InsCheckResultsVC ()
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
@@ -46,15 +47,18 @@
 - (void)reloadData
 {
     NSMutableArray *datasource = [NSMutableArray array];
-    HKCellData *cell1 = [HKCellData dataWithCellID:@"Uppon" tag:nil];
-    HKCellData *cell2 = [HKCellData dataWithCellID:@"Down" tag:nil];
-    cell2.object = @[@"85折优惠",@"全年免费洗车",@"快速理赔"];
-    @weakify(cell2);
-    [cell2 setHeightBlock:^CGFloat(UITableView *tableView) {
-        @strongify(cell2);
-        return [InsCouponView heightWithCouponCount:[cell2.object count] buttonHeight:25]+10;
-    }];
-    [datasource addObject:[NSMutableArray arrayWithObjects:cell1,cell2, nil]];
+    for (int i = 0; i < 2; i++) {
+        HKCellData *cell1 = [HKCellData dataWithCellID:@"Uppon" tag:nil];
+        cell1.customInfo[@"buyable"] = @(i == 0);
+        HKCellData *cell2 = [HKCellData dataWithCellID:@"Down" tag:nil];
+        cell2.object = @[@"85折优惠",@"全年免费洗车",@"快速理赔"];
+        @weakify(cell2);
+        [cell2 setHeightBlock:^CGFloat(UITableView *tableView) {
+            @strongify(cell2);
+            return [InsCouponView heightWithCouponCount:[cell2.object count] buttonHeight:25]+10;
+        }];
+        [datasource addObject:[NSMutableArray arrayWithObjects:cell1,cell2, nil]];
+    }
     
     self.datasource = datasource;
     
@@ -130,10 +134,18 @@
     line5.lineOptions = CKLineOptionDash;
     line5.dashLengths = @[@3, @2];
 
+    BOOL buyable = [data.customInfo[@"buyable"] boolValue];
+    [buyB setTitle:buyable ? @"在线购买" : @"预约购买" forState:UIControlStateNormal];
     @weakify(self);
     [[[buyB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
-        InsBuyVC *vc = [UIStoryboard vcWithId:@"InsBuyVC" inStoryboard:@"Insurance"];
+        UIViewController *vc;
+        if (buyable) {
+            vc = [UIStoryboard vcWithId:@"InsBuyVC" inStoryboard:@"Insurance"];
+        }
+        else {
+            vc = [UIStoryboard vcWithId:@"InsAppointmentVC" inStoryboard:@"Insurance"];
+        }
         [self.navigationController pushViewController:vc animated:YES];
     }];
 }
