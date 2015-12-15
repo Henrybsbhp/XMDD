@@ -26,7 +26,11 @@ typedef enum : NSUInteger {
     InsuranceExcludingDeductible4ThirdPartyLiability = 10,//第三者责任险不计免赔
     InsuranceExcludingDeductible4CarSeatInsuranceOfDriver = 11,//车上责任险（司机）不计免赔
     InsuranceExcludingDeductible4CarSeatInsuranceOfPassenger = 12,//车上责任险（乘客）不计免赔
-    InsuranceExcludingDeductible4WholeCarStolen =13//全车盗抢险不计免赔
+    InsuranceExcludingDeductible4WholeCarStolen =13,//全车盗抢险不计免赔
+    InsuranceCarBodyScratches = 16,//车身划痕损失险
+    InsuranceExcludingDeductible4CarBodyScratches =17,//车身划痕损失险不计免赔
+    //自燃损失险不计免赔
+    InsuranceExcludingDeductible4SpontaneousLossRisk =18,
 } InsuranceCategory;
 
 typedef enum : NSUInteger {
@@ -48,6 +52,8 @@ typedef enum : NSUInteger {
 
 @property (nonatomic,copy)NSString * insName;
 
+@property (nonatomic,strong)NSNumber * numOfSeat;
+
 @property (nonatomic)InsuranceCategory insCategory;
 
 @property (nonatomic)InsuranceDiscountType discountType;
@@ -63,6 +69,9 @@ typedef enum : NSUInteger {
 @property (nonatomic,strong)NSArray * params;
 @property (nonatomic,strong)NSArray * params2;
 
+
 - (instancetype)initWithCategory:(InsuranceCategory)category;
+/// 初始化车上乘客责任险（特殊）
+- (instancetype)initWithInsuranceCarSeatInsuranceOfPassengerWithNumOfSeat:(NSInteger)numOfSeat;
 
 @end

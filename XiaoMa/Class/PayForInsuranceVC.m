@@ -41,6 +41,7 @@
 
     [self setupCheckBoxHelper];
     [self setupBottomView];
+    [self setupNavigationBar];
     
     self.selectInsuranceCoupouArray = [NSMutableArray array];
     
@@ -73,6 +74,15 @@
     self.checkBoxHelper = [CKSegmentHelper new];
 }
 
+- (void)setupNavigationBar
+{
+    UIImage *img = [UIImage imageNamed:@"hp_callcenter2"];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain
+                                                            target:self action:@selector(actionCallCenter:)];
+    item.tintColor = [UIColor blackColor];
+    self.navigationItem.rightBarButtonItem = item;
+}
+
 - (void)setupBottomView
 {
     //line
@@ -95,6 +105,13 @@
 }
 
 #pragma mark - Action
+
+- (IBAction)actionCallCenter:(id)sender
+{
+    NSString * number = @"4007111111";
+    [gPhoneHelper makePhone:number andInfo:@"客服电话: 4007-111-111"];
+}
+
 - (IBAction)actionPay:(id)sender {
     [MobClick event:@"rp326-6"];
     InsuranceOrderPayOp * op = [InsuranceOrderPayOp operation];
@@ -301,7 +318,7 @@
     CGFloat height = 44;
     if (indexPath.section == 0){
         if (indexPath.row == 0){
-            height = 76;
+            height = 66;
         }
         else if (indexPath.row == 3){
             height = 30;
@@ -389,7 +406,7 @@
 {
     JTTableViewCell *jtcell = (JTTableViewCell *)cell;
     
-    if ((indexPath.section == 1 && indexPath.row == 0) || (indexPath.section == 2 && indexPath.row == 0))
+    if ((indexPath.section == 1 && indexPath.row == 0) || (indexPath.section == 2 && indexPath.row == 0) || (indexPath.section == 0 && indexPath.row == 3))
     {
         [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(-1, 0, 0, 0) forDirectionMask:CKViewBorderDirectionBottom];
         [cell.contentView showBorderLineWithDirectionMask:CKViewBorderDirectionBottom];
@@ -480,6 +497,7 @@
     UILabel *dateLb = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *statusLb = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *tagLb = (UILabel *)[cell.contentView viewWithTag:1006];
+    UIView *tagBg = (UIView *)[cell.contentView viewWithTag:1007];
     
     if (self.insOrder.iscontainActivity)
     {
@@ -487,9 +505,9 @@
             
             label.text = self.insOrder.activityTag;
             tagLb.text = self.insOrder.activityName;
-            // TODO @fq
-            tagLb.cornerRadius = 3.0f;
-            tagLb.hidden = NO;
+            [tagBg makeCornerRadius:3.0f];
+            tagLb.hidden = !self.insOrder.activityName.length;
+            tagBg.hidden = !self.insOrder.activityName.length;
             arrow.hidden = NO;
             
             NSDate * earlierDate;
@@ -620,7 +638,6 @@
         @strongify(self);
         if (indexPath.row == 2)
         {
-//            [MobClick event:@"rp108-1"];
             if (!self.selectInsuranceCoupouArray.count)
             {
                 [self jumpToChooseCouponVC];
@@ -895,8 +912,10 @@
     UILabel *dateLb = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *statusLb = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *tagLb = (UILabel *)[cell.contentView viewWithTag:1006];
+    UIView *tagBg = (UIView *)[cell.contentView viewWithTag:1007];
     
     tagLb.hidden = YES;
+    tagBg.hidden = YES;
     
     label.text = [NSString stringWithFormat:@"保险代金券：%ld张", (long)gAppMgr.myUser.couponModel.validInsuranceCouponArray.count];
     arrow.hidden = NO;
