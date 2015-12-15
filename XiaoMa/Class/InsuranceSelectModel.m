@@ -1,93 +1,29 @@
 //
-//  InsuranceChooseViewController.m
+//  InsuranceSelectModel.m
 //  XiaoMa
 //
-//  Created by jt on 15/8/31.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Created by jt on 15/12/14.
+//  Copyright © 2015年 huika. All rights reserved.
 //
 
-#import "InsuranceChooseViewController.h"
+#import "InsuranceSelectModel.h"
 #import "HKCoverage.h"
-#import "InsuranceResultVC.h"
-#import "InsuranceAppointmentOp.h"
 #import "HKPickerVC.h"
 
-@interface InsuranceChooseViewController ()
-
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIButton *sureBtn;
+@interface InsuranceSelectModel()
 
 @property (nonatomic,strong)NSMutableArray * insuranceArry;
 @property (nonatomic,strong)NSMutableArray * insuranceArry2;
 
 @end
 
-@implementation InsuranceChooseViewController
+@implementation InsuranceSelectModel
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    [self setupInsuranceArray];
-    
-    [self setupUI];
-    [self.tableView reloadData];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)viewWillAppear:(BOOL)animated
+- (void)dealloc
 {
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp133"];
+    DebugLog(@"InsuranceSelectModel dealloc");
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    [MobClick endLogPageView:@"rp133"];
-}
-
-- (void)actionBack:(id)sender
-{
-    [MobClick event:@"rp133-4"];
-    [super actionBack:sender];
-}
-
-- (void)setupUI
-{
-    [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
-        [MobClick event:@"rp133-3"];
-        if (![self inslistForVC].count)
-        {
-            [gToast showError:@"请至少选择一个车险"];
-            return ;
-        }
-        InsuranceAppointmentOp *op = [[InsuranceAppointmentOp alloc] init];
-        op.req_idcard = self.idcard;
-        op.req_driverpic = self.currentRecord.url;
-        op.req_invitecode = self.inviteCode;
-        op.req_inslist = [[self inslistForVC] componentsJoinedByString:@"|"];
-        @weakify(self);
-        [[[op rac_postRequest] initially:^{
-            
-            [gToast showingWithText:@"正在预约..."];
-        }] subscribeNext:^(id x) {
-            
-            @strongify(self);
-            [gToast dismiss];
-            InsuranceResultVC *vc = [UIStoryboard vcWithId:@"InsuranceResultVC" inStoryboard:@"Insurance"];
-            vc.title = @"预约结果";
-            [self.navigationController pushViewController:vc animated:YES];
-        } error:^(NSError *error) {
-            
-            [gToast showError:error.domain];
-        }];
-    }];
-}
 
 - (void)setupInsuranceArray
 {
@@ -96,14 +32,17 @@
     HKCoverage * coverage3 = [[HKCoverage alloc] initWithCategory:InsuranceCarDamage];
     HKCoverage * coverage4 = [[HKCoverage alloc] initWithCategory:InsuranceThirdPartyLiability];
     HKCoverage * coverage5 = [[HKCoverage alloc] initWithCategory:InsuranceCarSeatInsuranceOfDriver];
-    HKCoverage * coverage6 = [[HKCoverage alloc] initWithCategory:InsuranceCarSeatInsuranceOfPassenger];
+    /// 2.5需求，座位数不是写死
+    HKCoverage * coverage6 = [[HKCoverage alloc] initWithInsuranceCarSeatInsuranceOfPassengerWithNumOfSeat:[self.numOfSeat integerValue]];
     HKCoverage * coverage7 = [[HKCoverage alloc] initWithCategory:InsuranceWholeCarStolen];
     HKCoverage * coverage8 = [[HKCoverage alloc] initWithCategory:InsuranceSeparateGlassBreakage];
     HKCoverage * coverage9 = [[HKCoverage alloc] initWithCategory:InsuranceSpontaneousLossRisk];
     HKCoverage * coverage10 = [[HKCoverage alloc] initWithCategory:InsuranceWaterLoss];
-    self.insuranceArry = [NSMutableArray arrayWithArray:@[coverage1,coverage2,coverage3,coverage4,coverage5,coverage6,
-                                                          coverage7]];
-    self.insuranceArry2 = [NSMutableArray arrayWithArray:@[coverage8,coverage9,coverage10]];
+    HKCoverage * coverage11 = [[HKCoverage alloc] initWithCategory:InsuranceCarBodyScratches];
+    self.insuranceArry = [NSMutableArray arrayWithArray:@[coverage1,coverage2,coverage3,coverage4,coverage5,coverage6,coverage7]];
+    self.insuranceArry2 = [NSMutableArray arrayWithArray:@[coverage8,coverage9,coverage10,coverage11]];
+    
+    [self setupSelectIns];
 }
 
 
@@ -130,7 +69,7 @@
         }];
         [select safetyAddObject:obj];
     }
-
+    
     [[HKPickerVC rac_presentPickerVCInView:self.view withDatasource:array andCurrentValue:select] subscribeNext:^(NSArray * array) {
         
         NSInteger i;
@@ -165,12 +104,6 @@
 
 
 #pragma mark - TableView data source
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CGFloat height = 45.0f;
-    return height;
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
     return 2;
@@ -199,6 +132,12 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return CGFLOAT_MIN;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat height = 45.0f;
+    return height;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -231,6 +170,7 @@
     else
         coverage = [self.insuranceArry2  safetyObjectAtIndex:indexPath.row];
     
+    ///没选择
     if (coverage.insCategory == InsuranceCompulsory ||
         coverage.insCategory == InsuranceTravelTax ||
         coverage.insCategory == InsuranceCarDamage ||
@@ -261,28 +201,33 @@
             if (coverage.excludingDeductibleCoverage)
             {
                 HKCoverage * subCoverage = coverage.excludingDeductibleCoverage;
+                
+                NSMutableArray * parentArray = [self.insuranceArry containsObject:coverage] ? self.insuranceArry : self.insuranceArry2;
+                
                 if (coverage.customTag == YES)
                 {
                     subCoverage.customTag = [self needSelectExcludingDeductible:subCoverage];
-                    NSInteger index = [self.insuranceArry indexOfObject:coverage];
-                    [self.insuranceArry safetyInsertObject:coverage.excludingDeductibleCoverage atIndex:index + 1];
+                    NSInteger index = [parentArray indexOfObject:coverage];
+                    [parentArray safetyInsertObject:coverage.excludingDeductibleCoverage atIndex:index + 1];
                     NSIndexPath * idxPath = [NSIndexPath indexPathForRow:index + 1 inSection:indexPath.section];
                     [self.tableView insertRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationLeft];
                 }
                 else
                 {
-                    NSInteger index = [self.insuranceArry indexOfObject:coverage.excludingDeductibleCoverage];
-                    [self.insuranceArry safetyRemoveObject:coverage.excludingDeductibleCoverage];
+                    NSInteger index = [parentArray indexOfObject:coverage.excludingDeductibleCoverage];
+                    [parentArray safetyRemoveObject:coverage.excludingDeductibleCoverage];
                     NSIndexPath * idxPath = [NSIndexPath indexPathForRow:index inSection:indexPath.section];
                     [self.tableView deleteRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationRight];
                 }
             }
         }];
     }
+    /// 有选择
     else if (coverage.insCategory == InsuranceThirdPartyLiability ||
              coverage.insCategory == InsuranceCarSeatInsuranceOfDriver ||
              coverage.insCategory == InsuranceCarSeatInsuranceOfPassenger ||
-             coverage.insCategory == InsuranceSeparateGlassBreakage)
+             coverage.insCategory == InsuranceSeparateGlassBreakage||
+             coverage.insCategory == InsuranceCarBodyScratches)
     {
         cell = [self.tableView dequeueReusableCellWithIdentifier:@"InsuranceTypeB"];
         
@@ -306,7 +251,7 @@
         
         insuranceNameLb.text = coverage.insName;
         boxBtn.selected = coverage.customTag;
-       
+        
         NSString * paramText = @"";
         for (NSDictionary * obj in coverage.params)
         {
@@ -339,24 +284,28 @@
             if (coverage.excludingDeductibleCoverage)
             {
                 HKCoverage * subCoverage = coverage.excludingDeductibleCoverage;
+                
+                NSMutableArray * parentArray = [self.insuranceArry containsObject:coverage] ? self.insuranceArry : self.insuranceArry2;
+                
                 if (coverage.customTag == YES)
                 {
                     subCoverage.customTag = [self needSelectExcludingDeductible:subCoverage];
-                    NSInteger index = [self.insuranceArry indexOfObject:coverage];
-                    [self.insuranceArry safetyInsertObject:coverage.excludingDeductibleCoverage atIndex:index + 1];
+                    NSInteger index = [parentArray indexOfObject:coverage];
+                    [parentArray safetyInsertObject:coverage.excludingDeductibleCoverage atIndex:index + 1];
                     NSIndexPath * idxPath = [NSIndexPath indexPathForRow:index + 1 inSection:indexPath.section];
                     [self.tableView insertRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationLeft];
                 }
                 else
                 {
-                    NSInteger index = [self.insuranceArry indexOfObject:coverage.excludingDeductibleCoverage];
-                    [self.insuranceArry safetyRemoveObject:coverage.excludingDeductibleCoverage];
+                    NSInteger index = [parentArray indexOfObject:coverage.excludingDeductibleCoverage];
+                    [parentArray safetyRemoveObject:coverage.excludingDeductibleCoverage];
                     NSIndexPath * idxPath = [NSIndexPath indexPathForRow:index inSection:indexPath.section];
                     [self.tableView deleteRowsAtIndexPaths:@[idxPath] withRowAnimation:UITableViewRowAnimationRight];
                 }
             }
         }];
     }
+    /// 不计免赔
     else
     {
         cell = [self.tableView dequeueReusableCellWithIdentifier:@"SubInsuranceTypeA"];
@@ -391,6 +340,24 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+#pragma mark - Utility
+- (BOOL)needSelectExcludingDeductible:(HKCoverage *)c
+{
+    if (c.insCategory == InsuranceExcludingDeductible4CarDamage ||
+        c.insCategory == InsuranceExcludingDeductible4ThirdPartyLiability ||
+        c.insCategory == InsuranceExcludingDeductible4CarSeatInsuranceOfDriver ||
+        c.insCategory == InsuranceExcludingDeductible4CarSeatInsuranceOfPassenger ||
+        c.insCategory == InsuranceExcludingDeductible4CarBodyScratches ||
+        c.insCategory == InsuranceExcludingDeductible4SpontaneousLossRisk)
+    {
+        return YES;
+    }
+    else if (c.insCategory == InsuranceExcludingDeductible4WholeCarStolen)
+    {
+        return NO;
+    }
+    return c.customTag;
+}
 
 #pragma mark - Utility
 - (NSArray *)inslistForVC
@@ -419,7 +386,7 @@
                 }
             }
             paramText = paramText.length ? paramText : @"0";
-            NSString * s = [NSString stringWithFormat:@"%@@%@@%@@%.2f",c.insId,c.insName,paramText,0.00];
+            NSString * s = [NSString stringWithFormat:@"%@@%@",c.insId,paramText];
             [array safetyAddObject:s];
         }
     }
@@ -447,28 +414,60 @@
                 }
             }
             paramText = paramText.length ? paramText : @"0";
-            NSString * s = [NSString stringWithFormat:@"%@@%@@%@@%.2f",c.insId,c.insName,paramText,0.00];
+            NSString * s = [NSString stringWithFormat:@"%@@%@",c.insId,paramText];
             [array safetyAddObject:s];
         }
     }
-    //    NSString * inslist = [array componentsJoinedByString:@"|"];
+
     return array;
 }
 
-#pragma mark - Utility
-- (BOOL)needSelectExcludingDeductible:(HKCoverage *)c
+- (void)setupSelectIns
 {
-    if (c.insCategory == InsuranceExcludingDeductible4CarDamage ||
-        c.insCategory == InsuranceExcludingDeductible4ThirdPartyLiability ||
-        c.insCategory == InsuranceExcludingDeductible4CarSeatInsuranceOfDriver ||
-        c.insCategory == InsuranceExcludingDeductible4CarSeatInsuranceOfPassenger)
-    {
-        return YES;
+    // 勾选
+    for (NSNumber * cid in self.selectInsurance){
+        
+        HKCoverage * coverage = [self.insuranceArry firstObjectByFilteringOperator:^BOOL(HKCoverage * c) {
+            
+            return [cid isEqualToNumber:c.insId];
+        }];
+        
+        if (coverage){
+            
+            coverage.customTag = YES;
+            
+            if (coverage.excludingDeductibleCoverage)
+            {
+                NSInteger index = [self.insuranceArry indexOfObject:coverage];
+                [self.insuranceArry safetyInsertObject:coverage.excludingDeductibleCoverage atIndex:index + 1];
+            }
+            continue;
+        }
+        else{
+            
+            coverage.customTag = NO;
+        }
+        
+        if (coverage.excludingDeductibleCoverage){
+            
+            HKCoverage * subCoverage = coverage.excludingDeductibleCoverage;
+            
+            NSNumber * sid = subCoverage.insId;
+            NSNumber * sFilter = [self.selectInsurance firstObjectByFilteringOperator:^BOOL(NSNumber * num) {
+                
+                return [sid isEqualToNumber:num];
+            }];
+            
+            if ([sFilter integerValue]){
+                
+                subCoverage.customTag = YES;
+            }
+            else{
+                
+                subCoverage.customTag = NO;
+            }
+        }
     }
-    else if (c.insCategory == InsuranceExcludingDeductible4WholeCarStolen)
-    {
-        return NO;
-    }
-    return c.customTag;
 }
+
 @end

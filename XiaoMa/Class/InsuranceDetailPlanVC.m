@@ -25,7 +25,6 @@
 @property (weak, nonatomic) IBOutlet JDFlipNumberView *flipNumberView;
 @property (weak, nonatomic) IBOutlet UIButton *sureBtn;
 @property (weak, nonatomic) IBOutlet CCSegmentedControl *segmentedControl;
-@property (nonatomic,strong)CKSegmentHelper *checkBoxHelper;
 
 @property (strong,nonatomic)NSMutableArray * modelArray;
 
