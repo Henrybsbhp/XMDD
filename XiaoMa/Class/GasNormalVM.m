@@ -141,7 +141,8 @@
         return @[@[@"1"]];
     }
     NSString *row1 = self.curGasCard ? @"10001" : @"10002";
-    NSArray *section2 = gPhoneHelper.exsitWechat ? @[@"20001",@"20002",@"20003",@"30001"] : @[@"20001",@"20003",@"30001"];
+//    NSArray *section2 = gPhoneHelper.exsitWechat ? @[@"20001",@"20002",@"20003",@"30001"] : @[@"20001",@"20003",@"30001"];
+    NSArray *section2 = @[@"20001"];
     return @[@[row1,@"10003",@"10004"],section2];
 }
 
@@ -163,6 +164,7 @@
     op.req_gid = card.gid;
     op.req_amount = (int)self.rechargeAmount;
     op.req_paychannel = [PaymentHelper paymentChannelForPlatformType:self.paymentPlatform];
+    op.req_needinvoice = self.needInvoice;
     @weakify(self);
     [[[op rac_postRequest] initially:^{
         

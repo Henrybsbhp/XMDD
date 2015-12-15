@@ -34,6 +34,9 @@
 ///check box control
 @property (nonatomic, strong) CKSegmentHelper *segHelper;
 @property (nonatomic, strong) GasCardStore *cardStore;
+
+///是否需要发票
+@property (nonatomic, assign) BOOL needInvoice;
 ///加油提醒
 - (NSString *)gasRemainder;
 ///充值优惠描述

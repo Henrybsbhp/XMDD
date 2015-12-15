@@ -11,7 +11,7 @@
 
 @interface GasReminderCell : HKTableViewCell
 
-@property (nonatomic, strong) UIImageView *iconView;
+@property (nonatomic, strong) UILabel *titleLb;
 @property (nonatomic, strong) RTLabel *richLabel;
 - (CGFloat)cellHeight;
 

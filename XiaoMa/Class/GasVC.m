@@ -131,7 +131,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self setupNavigationBar];
     [self setupHeaderView];
     [self setupADView];
     [self setupBottomView];
@@ -158,6 +159,17 @@
 {
     _tabViewSelectedIndex = tabViewSelectedIndex;
     self.headerView.selectedIndex = tabViewSelectedIndex;
+}
+
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"加油记录" style:UIBarButtonItemStylePlain
+                                                             target:self action:@selector(actionGotoRechargeRecords:)];
+    [right setTitleTextAttributes:@{
+                                    NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:14.0]
+                                    } forState:UIControlStateNormal];
+    self.navigationItem.rightBarButtonItem = right;
+    
 }
 
 - (void)setupHeaderView
@@ -515,7 +527,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 1) {
-        return 32;
+        return 8;
     }
     return CGFLOAT_MIN;
 }
@@ -525,13 +537,13 @@
     return CGFLOAT_MIN;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    if (section == 1) {
-        return @"选择支付方式";
-    }
-    return nil;
-}
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+//{
+//    if (section == 1) {
+//        return @"选择支付方式";
+//    }
+//    return nil;
+//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -552,10 +564,8 @@
         cell.frame = CGRectMake(0, 0, tableView.frame.size.width, 52);
         height = [cell cellHeight];
     }
-    else if (tag == 10004) {    //提醒
-        GasReminderCell *cell = [self gasReminderCellAtIndexPath:indexPath];
-        cell.frame = CGRectMake(0, 0, tableView.frame.size.width, 45);
-        height = [cell cellHeight];
+    else if (tag == 10004) {    // 我要开发票
+        height = 44;
     }
     else if (tag == 10005) { //选择银行卡
         CGFloat width = tableView.frame.size.width - 82 - 10;
@@ -568,6 +578,11 @@
         CGSize size = [[self.curModel bankFavorableDesc] labelSizeWithWidth:width font:[UIFont systemFontOfSize:13]];
         height = 18+36+14+10;
         height = MAX(height+14, height+size.height);
+    }
+    else if (tag == 20001) {    //充值说明
+        GasReminderCell *cell = [self gasReminderCellAtIndexPath:indexPath];
+        cell.frame = CGRectMake(0, 0, tableView.frame.size.width, 45);
+        height = [cell cellHeight];
     }
     return height;
 }
@@ -586,7 +601,7 @@
         cell = [self pickGasAmountCellAtIndexPath:indexPath];
     }
     else if (tag == 10004) {
-        cell = [self gasReminderCellAtIndexPath:indexPath];
+        cell = [self wantInvoiceCellAtIndexPath:indexPath];
     }
     else if (tag == 10005) {
         cell = [self pickBankCardCellAtIndexPath:indexPath];
@@ -594,8 +609,9 @@
     else if (tag == 10006) {
         cell = [self addCZBCardCellAtIndexPath:indexPath];
     }
-    else if (tag > 20000 && tag < 30000) {
-        cell = [self paymentPlatformCellAtIndexPath:indexPath];
+    else if (tag == 20001)
+    {
+        cell = [self gasReminderCellAtIndexPath:indexPath];
     }
     else if (tag == 30001) {
         cell = [self agreementCellAtIndexPath:indexPath];
@@ -753,6 +769,29 @@
     cell.richLabel.delegate = self;
     cell.richLabel.text = [self.curModel gasRemainder];
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
+    return cell;
+}
+
+- (HKTableViewCell *)wantInvoiceCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    HKTableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"WantInvoiceCell"];
+    UIButton * invoiceBtn = (UIButton *)[cell searchViewWithTag:101];
+    UILabel * tagLb = (UILabel *)[cell searchViewWithTag:103];
+    
+    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
+    
+    [[[invoiceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        self.curModel.needInvoice = !self.curModel.needInvoice;
+    }];
+    
+    [[RACObserve(self.curModel, needInvoice) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * num) {
+        
+        tagLb.hidden = ![num integerValue];
+        UIImage * image = [num integerValue] ? [UIImage imageNamed:@"cw_box1"] : [UIImage imageNamed:@"cw_box"];
+        [invoiceBtn setImage:image forState:UIControlStateNormal];
+    }];
+    
     return cell;
 }
 
