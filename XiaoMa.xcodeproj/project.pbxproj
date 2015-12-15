@@ -248,6 +248,11 @@
 		18F8136B1B5F3561005F49B0 /* vertical_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F813671B5F3561005F49B0 /* vertical_shadow@2x.png */; };
 		18F93CD41B6F044D000325DD /* BorderLineLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F93CD31B6F044D000325DD /* BorderLineLabel.m */; };
 		18F93CD71B6F0A4A000325DD /* DashLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F93CD61B6F0A4A000325DD /* DashLine.m */; };
+		4E59955F1C1FE0CA00686565 /* SecondCarValuationOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E59955E1C1FE0CA00686565 /* SecondCarValuationOp.m */; };
+		4E5995621C1FFA4A00686565 /* UserGuideVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5995611C1FFA4A00686565 /* UserGuideVC.m */; };
+		4E5995651C20012300686565 /* SecondCarValuationUploadOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5995641C20012300686565 /* SecondCarValuationUploadOp.m */; };
+		4E5995681C201C5300686565 /* CommitSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5995671C201C5300686565 /* CommitSuccessVC.m */; };
+		4EF12DED1C1EBC900098B8C6 /* SecondCarValuationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */; };
 		50094B431C1144640069683C /* GetAreaInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50094B421C1144640069683C /* GetAreaInfoOp.m */; };
 		50094B461C117CE80069683C /* AreaTablePickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50094B451C117CE80069683C /* AreaTablePickerVC.m */; };
 		5014B6571C07041B00DFAB18 /* GetShareButtonOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5014B6561C07041B00DFAB18 /* GetShareButtonOp.m */; };
@@ -980,6 +985,16 @@
 		18F93CD31B6F044D000325DD /* BorderLineLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BorderLineLabel.m; path = Class/BorderLineLabel.m; sourceTree = "<group>"; };
 		18F93CD51B6F0A4A000325DD /* DashLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashLine.h; path = Class/DashLine.h; sourceTree = "<group>"; };
 		18F93CD61B6F0A4A000325DD /* DashLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DashLine.m; path = Class/DashLine.m; sourceTree = "<group>"; };
+		4E59955D1C1FE0CA00686565 /* SecondCarValuationOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondCarValuationOp.h; sourceTree = "<group>"; };
+		4E59955E1C1FE0CA00686565 /* SecondCarValuationOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondCarValuationOp.m; sourceTree = "<group>"; };
+		4E5995601C1FFA4A00686565 /* UserGuideVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserGuideVC.h; sourceTree = "<group>"; };
+		4E5995611C1FFA4A00686565 /* UserGuideVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserGuideVC.m; sourceTree = "<group>"; };
+		4E5995631C20012300686565 /* SecondCarValuationUploadOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondCarValuationUploadOp.h; sourceTree = "<group>"; };
+		4E5995641C20012300686565 /* SecondCarValuationUploadOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondCarValuationUploadOp.m; sourceTree = "<group>"; };
+		4E5995661C201C5300686565 /* CommitSuccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommitSuccessVC.h; sourceTree = "<group>"; };
+		4E5995671C201C5300686565 /* CommitSuccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommitSuccessVC.m; sourceTree = "<group>"; };
+		4EF12DEB1C1EBC900098B8C6 /* SecondCarValuationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondCarValuationVC.h; sourceTree = "<group>"; };
+		4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondCarValuationVC.m; sourceTree = "<group>"; };
 		50094B411C1144640069683C /* GetAreaInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetAreaInfoOp.h; path = Class/GetAreaInfoOp.h; sourceTree = "<group>"; };
 		50094B421C1144640069683C /* GetAreaInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAreaInfoOp.m; path = Class/GetAreaInfoOp.m; sourceTree = "<group>"; };
 		50094B441C117CE80069683C /* AreaTablePickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaTablePickerVC.h; sourceTree = "<group>"; };
@@ -2893,6 +2908,12 @@
 			children = (
 				50A1E06F1C1EA3A300176572 /* ValuationViewController.h */,
 				50A1E0701C1EA3A300176572 /* ValuationViewController.m */,
+				4EF12DEB1C1EBC900098B8C6 /* SecondCarValuationVC.h */,
+				4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */,
+				4E5995601C1FFA4A00686565 /* UserGuideVC.h */,
+				4E5995611C1FFA4A00686565 /* UserGuideVC.m */,
+				4E5995661C201C5300686565 /* CommitSuccessVC.h */,
+				4E5995671C201C5300686565 /* CommitSuccessVC.m */,
 			);
 			name = Valuation;
 			sourceTree = "<group>";
@@ -3125,6 +3146,10 @@
 		6BC220931AD7800D00A4310E /* Op */ = {
 			isa = PBXGroup;
 			children = (
+				4E59955D1C1FE0CA00686565 /* SecondCarValuationOp.h */,
+				4E59955E1C1FE0CA00686565 /* SecondCarValuationOp.m */,
+				4E5995631C20012300686565 /* SecondCarValuationUploadOp.h */,
+				4E5995641C20012300686565 /* SecondCarValuationUploadOp.m */,
 				18B78F681BAAA2100061ECAD /* GetInsuranceCalculatorOpV2.h */,
 				18B78F691BAAA2100061ECAD /* GetInsuranceCalculatorOpV2.m */,
 				185A527E1B187EFA003515CC /* DownloadOp.h */,
@@ -3655,7 +3680,6 @@
 				TargetAttributes = {
 					1883D8DE1ACB99AC002A4D19 = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = 7A3B9332PS;
 					};
 					1883D8F71ACB99AC002A4D19 = {
 						CreatedOnToolsVersion = 6.2;
@@ -3864,6 +3888,7 @@
 				18BF41E41BCE40540039F210 /* GasBaseVM.m in Sources */,
 				6BB884BB1AE0BB9600EBD8F4 /* JTTableView.m in Sources */,
 				180AD8351BD88CB700E608F9 /* BankCardStore.m in Sources */,
+				4EF12DED1C1EBC900098B8C6 /* SecondCarValuationVC.m in Sources */,
 				18E28A0B1B904FF00070E759 /* LaunchVC.m in Sources */,
 				18E28A2B1B9578240070E759 /* CarListVC.m in Sources */,
 				6BDD6E281B67615C0060CFD0 /* UIView+JDFlipImageView.m in Sources */,
@@ -3918,6 +3943,7 @@
 				184E40CE1AD3BBB600EFC3A6 /* ShopDetailVC.m in Sources */,
 				508D06801B900CF800B835BB /* InsuranceOrderPayOp.m in Sources */,
 				6BBEB70B1B2AB120004AD191 /* GainedViewController.m in Sources */,
+				4E5995651C20012300686565 /* SecondCarValuationUploadOp.m in Sources */,
 				6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */,
 				181F6DA81B15919900D38555 /* CXAlertViewController.m in Sources */,
 				186985041B01CC2C000A182A /* SubmitCommentOp.m in Sources */,
@@ -3954,12 +3980,14 @@
 				6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */,
 				18BF42011BD0D5A20039F210 /* GasAddCardVC.m in Sources */,
 				6BBB084D1B021EA90002C349 /* JTLogModel.m in Sources */,
+				4E5995681C201C5300686565 /* CommitSuccessVC.m in Sources */,
 				6BDD6E2B1B6762C50060CFD0 /* InsuranceDetailPlanVC.m in Sources */,
 				6BB9D76E1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m in Sources */,
 				18F41DAC1B787F5D000409E1 /* UnbindBankcardOp.m in Sources */,
 				1873710C1B0AD1D900B8CDCC /* MyCarListVModel.m in Sources */,
 				186F2FB81C156FF6005CF051 /* CKEvent.m in Sources */,
 				1853DECB1AE0F72500C39175 /* RegisterVC.m in Sources */,
+				4E5995621C1FFA4A00686565 /* UserGuideVC.m in Sources */,
 				6BEA56481AE24D34000D19C1 /* AlipayHelper.m in Sources */,
 				18E7565A1B69D696001B0869 /* InsuranceOrderVC.m in Sources */,
 				1833F58C1BCD373B000E1DA1 /* GascardChargeOp.m in Sources */,
@@ -4109,6 +4137,7 @@
 				1837A75F1B72130F0006E6C5 /* SDBrowserImageView.m in Sources */,
 				6BBF7DA01B004A7A00E45967 /* MyInfoViewController.m in Sources */,
 				6B71C4221BB959CE0048B79F /* HKPickerVC.m in Sources */,
+				4E59955F1C1FE0CA00686565 /* SecondCarValuationOp.m in Sources */,
 				6B328ED01B79AAFA00B9F207 /* ChooseBankCardVC.m in Sources */,
 				189B31031AD7A935001D7288 /* DatePickerVC.m in Sources */,
 				186984E81B005A86000A182A /* CarwashOrderViewModel.m in Sources */,
@@ -4320,8 +4349,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4416,7 +4445,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "19b9e532-9495-4943-a7d9-e1846a3e0cf4";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -4426,8 +4455,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4522,7 +4551,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2e1ee95d-0c71-455c-a3b9-613059936363";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

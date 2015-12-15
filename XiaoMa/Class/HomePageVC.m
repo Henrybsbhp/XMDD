@@ -38,6 +38,9 @@
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3.0
 
+#import "SecondCarValuationVC.h"
+
+
 @interface HomePageVC ()<UIScrollViewDelegate>
 @property (nonatomic, weak) IBOutlet UIView *bgView;
 @property (nonatomic, strong) UIView *bottomView;
@@ -53,6 +56,12 @@
 @end
 
 @implementation HomePageVC
+
+- (IBAction)test:(id)sender {
+    SecondCarValuationVC *testVC=[[UIStoryboard storyboardWithName:@"Valuation" bundle:nil]instantiateViewControllerWithIdentifier:@"SecondCarValuationVC"];
+    [self.navigationController pushViewController:testVC animated:YES];
+//    [self presentViewController:testVC animated:YES completion:nil];
+}
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -789,6 +798,7 @@
     }
     return str;
 }
+
 
 
 @end
