@@ -629,11 +629,8 @@
 
 - (void)actionCarEstimate:(id)sender
 {
-    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        
-        ValuationViewController *vc = [UIStoryboard vcWithId:@"ValuationViewController" inStoryboard:@"Valuation"];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
+    ValuationViewController *vc = [UIStoryboard vcWithId:@"ValuationViewController" inStoryboard:@"Valuation"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Utility
