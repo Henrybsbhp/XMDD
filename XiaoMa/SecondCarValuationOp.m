@@ -12,7 +12,7 @@
 
 -(RACSignal *)rac_postRequest
 {
-    self.req_method=@"/thirdpart/sellerchannel/get";
+    self.req_method = @"/thirdpart/sellerchannel/get";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params safetySetObject:self.req_sellerCityId forKey:@"sellercityid"];
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
@@ -22,8 +22,8 @@
 {
     if ([rspObj isKindOfClass:[NSDictionary class]])
     {
-        NSDictionary *dataDic=(NSDictionary *)rspObj;
-        self.rsp_dataArr=dataDic[@"channels"];
+        NSDictionary *dataDic = (NSDictionary *)rspObj;
+        self.rsp_dataArr = dataDic[@"channels"];
     }
     else
     {

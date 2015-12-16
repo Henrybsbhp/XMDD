@@ -33,38 +33,47 @@
 
 -(void)dealloc
 {
-    self.tableView.delegate=nil;
-    self.tableView.dataSource=nil;
+    DebugLog(@"SecondCarValuationVC dealloc");
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
 }
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
-    self.commitBtn.layer.cornerRadius=5;
-    self.commitBtn.layer.masksToBounds=YES;
+    
     [self reloadCellTwoData];
     //无法点开时获得用户手机号。
-    self.phoneNumber=gAppMgr.myUser.phoneNumber;
-    NSLog(@"****************%@**************",self.phoneNumber);
+    self.phoneNumber = gAppMgr.myUser.phoneNumber;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void)setupUI
+{
+    [self.commitBtn makeCornerRadius:5.0f];
+}
+
+
 //获取服务器数据
 -(void)reloadCellTwoData
 {
-    SecondCarValuationOp *op=[SecondCarValuationOp new];
-    op.req_sellerCityId=@(12);
-    [[[op rac_postRequest]initially:^{
+    SecondCarValuationOp *op = [SecondCarValuationOp new];
+    op.req_sellerCityId = @(12);
+    [[[op rac_postRequest] initially:^{
         
-    }]subscribeNext:^(SecondCarValuationOp *op) {
+    }] subscribeNext:^(SecondCarValuationOp *op) {
         
-        self.dataArr=op.rsp_dataArr;
+        self.dataArr = op.rsp_dataArr;
         [self.tableView reloadData];
         
-    }error:^(NSError *error) {
-    }completed:^{
+    } error:^(NSError *error) {
+        
+    } completed:^{
+        
     }];
 }
 
@@ -110,14 +119,7 @@
         
         [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             [btn setSelected:!btn.isSelected];
-            //                if (btn.isSelected)
-            //                {
-            //                    [self.uploadArr addObject:self.dataArr[indexPath.row]];
-            //                }
-            //                else
-            //                {
-            //                    [self.uploadArr removeObject:self.dataArr[indexPath.row]];
-            //                }
+
         }];
         //        channelNameLabel.text=dataModel[@"channelname"];
         //        couponMoneyLabel.text=dataModel[@"couponmoney"];
@@ -250,19 +252,25 @@
     else
     {
         SecondCarValuationUploadOp *uploadOp=[SecondCarValuationUploadOp new];
-        [[[uploadOp rac_postRequest]initially:^{
-            uploadOp.req_carId=self.carid;
-            uploadOp.req_contatName=self.name;
-            uploadOp.req_contatPhone=self.phoneNumber;
-            uploadOp.req_channelEngs=@"";
-            NSMutableArray *tempString=[NSMutableArray new];
-            for (NSDictionary *dic in self.uploadArr)
-            {
-                [tempString addObject:dic[@"channeleng"]];
-            }
-            uploadOp.req_channelEngs=[self.uploadArr componentsJoinedByString:@","];
-        }]subscribeNext:^(SecondCarValuationUploadOp *uploadOp) {
+        uploadOp.req_carId=self.carid;
+        uploadOp.req_contatName=self.name;
+        uploadOp.req_contatPhone=self.phoneNumber;
+        uploadOp.req_channelEngs=@"";
+        NSMutableArray *tempString=[NSMutableArray new];
+        for (NSDictionary *dic in self.uploadArr)
+        {
+            [tempString addObject:dic[@"channeleng"]];
+        }
+        uploadOp.req_channelEngs=[self.uploadArr componentsJoinedByString:@","];
+        
+        [[[uploadOp rac_postRequest] initially:^{
+            
+            
+        }] subscribeNext:^(SecondCarValuationUploadOp *uploadOp) {
+            
             self.tip=uploadOp.rsp_tip;
+        } error:^(NSError *error) {
+            
         }];
     }
 }

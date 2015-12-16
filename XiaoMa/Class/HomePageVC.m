@@ -58,11 +58,6 @@
 
 @implementation HomePageVC
 
-- (IBAction)test:(id)sender {
-    SecondCarValuationVC *testVC=[[UIStoryboard storyboardWithName:@"Valuation" bundle:nil]instantiateViewControllerWithIdentifier:@"SecondCarValuationVC"];
-    [self.navigationController pushViewController:testVC animated:YES];
-//    [self presentViewController:testVC animated:YES completion:nil];
-}
 
 - (void)viewWillAppear:(BOOL)animated
 {
