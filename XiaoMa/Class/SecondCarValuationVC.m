@@ -9,6 +9,7 @@
 #import "SecondCarValuationVC.h"
 #import "SecondCarValuationOp.h"
 #import "SecondCarValuationUploadOp.h"
+#import "CommitSuccessVC.h"
 
 @interface SecondCarValuationVC ()<UITableViewDelegate,UITableViewDataSource>
 //底部提交按钮
@@ -44,6 +45,7 @@
     [self reloadCellTwoData];
     //无法点开时获得用户手机号。
     self.phoneNumber = gAppMgr.myUser.phoneNumber;
+    [self setupUI];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,7 +63,8 @@
 -(void)reloadCellTwoData
 {
     SecondCarValuationOp *op = [SecondCarValuationOp new];
-    op.req_sellerCityId = @(12);
+    //    op.req_sellerCityId = @(12);
+    op.req_sellerCityId = self.sellercityid;
     [[[op rac_postRequest] initially:^{
         
     }] subscribeNext:^(SecondCarValuationOp *op) {
@@ -70,7 +73,7 @@
         [self.tableView reloadData];
         
     } error:^(NSError *error) {
-        
+        [gToast showError:@"网络数据获取失败"];
     } completed:^{
         
     }];
@@ -87,8 +90,7 @@
 {
     if (section==1)
     {
-        //return self.dataArr.count;
-        return 3;
+        return self.dataArr.count;
     }
     else
     {
@@ -100,12 +102,12 @@
 {
     if (indexPath.section==0)
     {
-        UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"CellOne"];
+        UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"ProcessCell"];
         return cell;
     }
     else if(indexPath.section==1)
     {
-        UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"CellTwo"];
+        UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"PlatformCell"];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
         UILabel *channelNameLabel=(UILabel *)[cell.contentView viewWithTag:1001];
         UILabel *couponMoneyLabel=(UILabel *)[cell.contentView viewWithTag:1002];
@@ -118,17 +120,24 @@
         
         [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             [btn setSelected:!btn.isSelected];
-
+            if (btn.isSelected)
+            {
+                [self.uploadArr addObject:dataModel];
+            }
+            else
+            {
+                [self.uploadArr removeObject:dataModel];
+            }
         }];
-        //        channelNameLabel.text=dataModel[@"channelname"];
-        //        couponMoneyLabel.text=dataModel[@"couponmoney"];
-        //        characterLabel.text=dataModel[@"character"];
-        //        userCNTInfoLabel.text=dataModel[@"usercntinfo"];
+        channelNameLabel.text=[NSString stringWithFormat:@"平台名称：%@",dataModel[@"channelname"]];
+        couponMoneyLabel.text=[NSString stringWithFormat:@" %@ ",dataModel[@"couponmoney"]];
+        characterLabel.text=[NSString stringWithFormat:@"平台特点：%@",dataModel[@"character"]];
+        userCNTInfoLabel.text=[NSString stringWithFormat:@"用户数量：%@",dataModel[@"usercntinfo"]];
         return cell;
     }
     else
     {
-        UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"CellThree"];
+        UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"InfoCell"];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
         UITextView *name=(UITextView *)[cell searchViewWithTag:1001];
         UITextView *phoneNumber=(UITextView *)[cell searchViewWithTag:1002];
@@ -155,18 +164,18 @@
             make.left.mas_equalTo(0);
             make.right.mas_equalTo(0);
             make.top.mas_equalTo(0);
-            make.bottom.mas_equalTo(-8);
+            make.bottom.mas_equalTo(0);
         }];
         UILabel *label=[UILabel new];
         label.text=@"估值及二手车交易服务由小马达达战略合作伙伴“车300”提供";
         label.textColor=[UIColor grayColor];
         label.numberOfLines=0;
-        label.font=[UIFont systemFontOfSize:15];
+        label.font=[UIFont systemFontOfSize:13];
         [backgroundView addSubview:label];
         [label mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(15);
             make.right.mas_equalTo(-15);
-            make.top.mas_equalTo(15);
+            make.centerY.mas_equalTo(backgroundView);
         }];
         UIView *line=[UIView new];
         line.backgroundColor=[UIColor colorWithRed:180/255.0 green:180/255.0 blue:180/255.0 alpha:0.6];
@@ -192,7 +201,7 @@
         UILabel *label=[UILabel new];
         label.text=(section-1)?@"车主信息":@"选择平台";
         label.textColor=[UIColor blackColor];
-        label.font=[UIFont systemFontOfSize:17];
+        label.font=[UIFont systemFontOfSize:15];
         [backgroundView addSubview:label];
         [label mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(backgroundView.mas_centerY);
@@ -215,7 +224,7 @@
 {
     if (section==0)
     {
-        return 70;
+        return 60;
     }
     return 35;
 }
@@ -225,7 +234,6 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
     return UITableViewAutomaticDimension;
 }
 
@@ -269,7 +277,11 @@
             
             self.tip=uploadOp.rsp_tip;
         } error:^(NSError *error) {
-            
+            [gToast showError:@"信息提交失败。请检查您的网络。"];
+        }completed:^{
+            CommitSuccessVC *successVC=[[UIStoryboard storyboardWithName:@"Valuation" bundle:nil]instantiateViewControllerWithIdentifier:@"CommitSuccessVC"];
+            successVC.tip=self.tip;
+            [self.navigationController pushViewController:successVC animated:YES];
         }];
     }
 }
@@ -283,8 +295,5 @@
     return _uploadArr;
 }
 
-- (IBAction)helpClick:(id)sender
-{
-}
 
 @end

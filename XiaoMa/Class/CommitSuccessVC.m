@@ -15,6 +15,8 @@
 
 @interface CommitSuccessVC ()
 @property (strong, nonatomic) IBOutlet UIButton *shareBtn;
+@property (strong, nonatomic) IBOutlet UILabel *tipLabel;
+
 
 @end
 
@@ -24,6 +26,9 @@
     [super viewDidLoad];
     
     [self setupUI];
+    
+    self.tipLabel.text=self.tip;
+    
 }
 
 
@@ -32,6 +37,8 @@
     [self.shareBtn makeCornerRadius:5.0f];
     
     self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cm_nav_back"] style:UIBarButtonItemStylePlain target:self action:@selector(backToHomePage)];
+    
+    
 }
 
 
