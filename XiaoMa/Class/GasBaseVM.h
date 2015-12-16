@@ -29,6 +29,8 @@
 @property (nonatomic, strong) HKBankCard *curBankCard;
 ///充值金额
 @property (nonatomic, assign) NSUInteger rechargeAmount;
+///优惠金额
+@property (nonatomic, assign) NSUInteger discountAmount;
 ///支付平台
 @property (nonatomic, assign) PaymentPlatformType paymentPlatform;
 ///check box control

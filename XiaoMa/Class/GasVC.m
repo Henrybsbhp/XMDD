@@ -14,6 +14,7 @@
 #import "UIView+JTLoadingView.h"
 #import "NSString+RectSize.h"
 #import "NSString+Split.h"
+#import "CBAutoScrollLabel.h"
 
 #import "GasPickAmountCell.h"
 #import "GasReminderCell.h"
@@ -25,8 +26,9 @@
 #import "GasRecordVC.h"
 #import "GasPaymentResultVC.h"
 #import "WebVC.h"
+#import "PayForGasViewController.h"
 
-#import "CBAutoScrollLabel.h"
+
 
 @interface GasVC ()<UITableViewDataSource, UITableViewDelegate, RTLabelDelegate>
 @property (nonatomic, strong) ADViewController *adctrl;
@@ -47,6 +49,13 @@
 @end
 
 @implementation GasVC
+
+- (void)dealloc
+{
+    DebugLog(@"GasVC Dealloc");
+    self.czbModel.cachedEvent = nil;
+    self.normalModel.cachedEvent = nil;
+}
 
 -(UIImageView *)notifyImg
 {
@@ -146,13 +155,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-- (void)dealloc
-{
-    self.czbModel.cachedEvent = nil;
-    self.normalModel.cachedEvent = nil;
-}
-
 
 
 - (void)setTabViewSelectedIndex:(NSInteger)tabViewSelectedIndex
@@ -454,25 +456,13 @@
     //普通支付
     else {
         if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-            @weakify(self);
-            [(GasNormalVM *)self.curModel startPayInTargetVC:self completed:^(GasCard *card, GascardChargeOp *paidop) {
-                
-                @strongify(self);
-                GasPaymentResultVC *vc = [UIStoryboard vcWithId:@"GasPaymentResultVC" inStoryboard:@"Gas"];
-                vc.originVC = self;
-                vc.drawingStatus = DrawingBoardViewStatusSuccess;
-                vc.gasCard = card;
-                vc.paidMoney = paidop.rsp_total;
-                vc.couponMoney = paidop.rsp_couponmoney;
-                vc.chargeMoney = paidop.req_amount;
-                [vc setDismissBlock:^(DrawingBoardViewStatus status) {
-                    @strongify(self);
-                    //更新信息
-                    self.curModel.rechargeAmount = 500;
-                    [self.curModel.cardStore sendEvent:[self.curModel.cardStore updateCardInfoByGID:card.gid]];
-                }];
-                [self.navigationController pushViewController:vc animated:YES];
-            }];
+            
+            PayForGasViewController * vc = [gasStoryboard instantiateViewControllerWithIdentifier:@"PayForGasViewController"];
+            if ([self.curModel isKindOfClass:[GasNormalVM class]])
+            {
+                vc.model = (GasNormalVM *)self.curModel;
+            }
+            [self.navigationController pushViewController:vc animated:YES];
         }
     }
 }

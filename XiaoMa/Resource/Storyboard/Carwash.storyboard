@@ -1805,7 +1805,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="ztJ-Pr-UYj" firstAttribute="top" secondItem="V4e-I7-iuT" secondAttribute="bottom" constant="-1" id="3Pj-6n-do7"/>
                             <constraint firstItem="V4e-I7-iuT" firstAttribute="top" secondItem="Qzh-TL-fnM" secondAttribute="bottom" id="8E9-Vv-pGo"/>
