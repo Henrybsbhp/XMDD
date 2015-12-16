@@ -8,7 +8,6 @@
 
 #import "SecondCarValuationVC.h"
 #import "SecondCarValuationOp.h"
-#import "UserGuideVC.h"
 #import "SecondCarValuationUploadOp.h"
 
 @interface SecondCarValuationVC ()<UITableViewDelegate,UITableViewDataSource>
@@ -286,8 +285,6 @@
 
 - (IBAction)helpClick:(id)sender
 {
-    UserGuideVC *userGuide=[[UIStoryboard storyboardWithName:@"Valuation" bundle:nil]instantiateViewControllerWithIdentifier:@"UserGuideVC"];
-    [self.navigationController pushViewController:userGuide animated:YES];
 }
 
 @end
