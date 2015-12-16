@@ -114,7 +114,7 @@
         return;
     }
     
-    if (![MyCarStore verifiedLicenseNumberFrom:self.curCar.licenceSuffix]) {
+    if (![MyCarStore verifiedLicenseNumberFrom:[self.curCar wholeLicenseNumber]]) {
         [self sharkCellIfErrorAtIndex:0 withData:nil errorMsg:@"请输入正确的车牌号码"];
         return;
     }

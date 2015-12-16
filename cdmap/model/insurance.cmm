@@ -1,8 +1,83 @@
 $(import "cdmap/template/netop.cmt")
+$(import "cdmap/template/dataset.cmt")
 
 <"获取保险相关车辆列表"
 class=GetInsCarList op auth path="/insurance/related/cars/get"> {
   <rsp> {
-    carinfolist:array
+    carinfolist:[InsSimpleCar]
+    <马达帮忙页的提示文案>xmddhelptip
   }
 }
+
+<"获取支持的保险订单省市列表"
+class=GetInsProvinceList op path="/insurance/support/province/get"> {
+  <rsp> {
+    provinces:[Area]
+  }
+}
+
+<"获取保险认证车辆信息"
+class=GetInsBaseCarList op auth path="/insurance/car/detailinfo/get"> {
+  <req> {
+    name
+    licensenum
+  }                        
+  <rsp> {
+    basecar:InsBaseCar
+  }
+}
+
+<"创建核保车辆信息"
+class=AddInsCarBaseInfo op auth path="/insurance/car/premium/add"> {
+  <req> {
+    <"姓名">name
+    province
+    city
+    <"车架号">frameno
+    <"品牌">brandname
+    <"发动机号">engineno
+    <"是否过户(0:不是 1:是)">transferflag:int
+    <"过户时间">transferdate
+    <"车牌">licensenum
+    <"注册日期">regdate
+  }                        
+}
+
+<"根据id获取保险认证车辆信息"
+class=GetInsBaseCarListByID op auth path="/insurance/carpremium/baseinfo/get"> {
+  <req> {
+    carpremiumid:number
+  }                        
+  <rsp> {
+    basecar:InsBaseCar
+  }
+}
+
+<"保险车辆简单信息"
+class=InsSimpleCar data> {
+  <"车牌">licenseno
+  <"车辆相关状态:  0.未关联任何信息; 1.车牌已经关联保险且没有出保单; 2.关联了核保记录; 3.有了核保车辆信息但是无核保记录; 4.关联了保险，且有保单号">status:int
+  <"关联记录ID">refid:number
+}
+
+<"保险车辆基本信息"
+class=InsBaseCar data> {
+  <"姓名">name               
+  <"车架号">frameno
+  <"车型中非中文部分">brandname
+  <"发动机号">engineno
+  <"行驶的省份">province
+  <"行使城市">city
+  <"注册日期(YYYY-MM-DD)">regdate
+  <"过户标志 1：过户  0：非过户">transferflag:int
+  <"过户日期(YYYY-MM-DD)">transferdate  
+}
+
+<"地区信息"
+class=Area data> {
+  <"地区id">aid:number
+  <"名称">name
+  <"简称">abbr
+  <"地理代码">code
+}
+

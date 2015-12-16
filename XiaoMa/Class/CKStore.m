@@ -7,9 +7,11 @@
 //
 
 #import "CKStore.h"
+#import "CKDispatcher.h"
 
 @interface CKStore ()
 @property (nonatomic, strong) NSMapTable *weakTable;
+@property (nonatomic, strong) NSMutableDictionary *eventDict;
 @end
 
 @implementation CKStore
@@ -30,14 +32,11 @@
     self = [super init];
     if (self) {
         _weakTable = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsWeakMemory valueOptions:NSPointerFunctionsStrongMemory];
+        _eventDict = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
 #pragma mark - Fetch
 + (instancetype)fetchExistsStoreForWeakKey:(id)key
 {
@@ -68,35 +67,49 @@
 #pragma mark - Observe
 - (void)observeEventForName:(NSString *)name selector:(SEL)selector
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:selector
-                                                 name:[CKEvent wholeEventName:name] object:nil];
+    RACDisposable *dsp = [[[CKDispatcher sharedDispatcher] rac_addObserverForEventName:name] subscribeNext:^(CKEvent *event) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        [self performSelector:selector withObject:event];
+#pragma clang diagnostic pop
+    }];
+    [[self rac_deallocDisposable] addDisposable:dsp];
 }
 
 - (void)observeEventForName:(NSString *)name handler:(void(^)(CKEvent *))handler
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_onReceiveEvent:handler:)
-                                                 name:[CKEvent wholeEventName:name] object:handler];
+
+    RACDisposable *dsp = [[[CKDispatcher sharedDispatcher] rac_addObserverForEventName:name] subscribeNext:^(CKEvent *event) {
+        handler(event);
+    }];
+    [[self rac_deallocDisposable] addDisposable:dsp];
 }
 
-- (CKEvent *)observeEvent:(CKEvent *)event selector:(SEL)selector
+- (CKEvent *)inlineEvent:(CKEvent *)event
 {
-    [self observeEventForName:event.name selector:selector];
+    return [self inlineEvent:event forDomain:event.name];
+}
+
+- (CKEvent *)inlineEvent:(CKEvent *)event forDomain:(NSString *)domain
+{
+    if (![self.eventDict objectForKey:event.name]) {
+        [self.eventDict setObject:@YES forKey:event.name];
+        @weakify(self);
+        [self observeEventForName:domain handler:^(CKEvent *event) {
+            @strongify(self);
+            [self triggerEvent:event];
+        }];
+    }
     return event;
-}
-
-- (CKEvent *)observeEvent:(CKEvent *)event handler:(void(^)(CKEvent *))handler
-{
-    [self observeEventForName:event.name handler:handler];
-    return event;
-}
-
-- (void)_onReceiveEvent:(CKEvent *)event handler:(void(^)(CKEvent *))handler
-{
-    handler(event);
 }
 
 #pragma mark - Trigger
-- (void)triggerForDomain:(NSString *)domain event:(CKEvent *)event
+- (void)triggerEvent:(CKEvent *)event
+{
+    [self triggerEvent:event forDomain:event.name];
+}
+
+- (void)triggerEvent:(CKEvent *)event forDomain:(NSString *)domain
 {
     for (NSDictionary *dict in [[self.weakTable objectEnumerator] allObjects]) {
        void(^block)(CKStore *, CKEvent *) = [dict objectForKey:domain];

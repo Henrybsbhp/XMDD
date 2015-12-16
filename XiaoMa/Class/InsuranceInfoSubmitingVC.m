@@ -494,7 +494,7 @@
 - (UIImage *)defImage
 {
     if (!_defImage) {
-        _defImage = [UIImage imageNamed:@"cm_defpic"];
+        _defImage = [UIImage imageNamed:@"cm_defpic2"];
     }
     return _defImage;
 }
@@ -502,7 +502,7 @@
 - (UIImage *)errorImage
 {
     if (!_errorImage) {
-        _errorImage = [UIImage imageNamed:@"cm_defpic_fail"];
+        _errorImage = [UIImage imageNamed:@"cm_defpic_fail2"];
     }
     return _errorImage;
 }
