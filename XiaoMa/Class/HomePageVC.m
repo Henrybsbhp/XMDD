@@ -34,10 +34,14 @@
 #import "ViolationItemViewController.h"
 #import "ViolationViewController.h"
 #import "ValuationViewController.h"
+#import "InsuranceSelectViewController.h"
 
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3.0
+
+#import "SecondCarValuationVC.h"
+
 
 @interface HomePageVC ()<UIScrollViewDelegate>
 @property (nonatomic, weak) IBOutlet UIView *bgView;
@@ -54,6 +58,7 @@
 @end
 
 @implementation HomePageVC
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -790,6 +795,7 @@
     }
     return str;
 }
+
 
 
 @end

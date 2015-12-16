@@ -17,7 +17,6 @@
 #import "UIStoryboard+Expansion.h"
 #import <MZFormSheetController.h>
 #import "DebugFormat.h"
-//#import "SVProgressHUD.h"
 #import <Masonry.h>
 #import "CKNavigationController.h"
 #import "CKNavigationController+Expansion.h"
@@ -55,6 +54,7 @@
 #import "NSDate+DateForText.h"
 #import "UIImageView+WebImage.h"
 #import "NSString+Price.h"
+#import "UIView+Layer.h"
 
 
 #endif

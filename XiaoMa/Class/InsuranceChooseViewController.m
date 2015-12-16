@@ -19,7 +19,6 @@
 
 @property (nonatomic,strong)NSMutableArray * insuranceArry;
 @property (nonatomic,strong)NSMutableArray * insuranceArry2;
-@property (nonatomic,strong)CKSegmentHelper *checkBoxHelper;
 
 @end
 
