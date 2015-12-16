@@ -33,6 +33,7 @@
 #import "GasVC.h"
 #import "ViolationItemViewController.h"
 #import "ViolationViewController.h"
+#import "ValuationViewController.h"
 
 
 #define WeatherRefreshTimeInterval 60 * 30
@@ -625,7 +626,7 @@
 {
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         
-        ViolationViewController * vc = [violationStoryboard instantiateViewControllerWithIdentifier:@"ViolationViewController"];
+        ValuationViewController *vc = [UIStoryboard vcWithId:@"ValuationViewController" inStoryboard:@"Valuation"];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

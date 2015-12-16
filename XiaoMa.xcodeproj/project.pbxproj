@@ -276,6 +276,7 @@
 		506160BE1BFD76D3003E7F80 /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 506160BD1BFD76D3003E7F80 /* libresolv.9.tbd */; };
 		506A30991B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 506A30981B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.m */; };
 		506A309F1B8F08FC002F1F14 /* InsuranceAppointmentOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 506A309E1B8F08FC002F1F14 /* InsuranceAppointmentOp.m */; };
+		5071D7C41C1EE756003D397C /* CarValuationSubView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5071D7C31C1EE756003D397C /* CarValuationSubView.m */; };
 		5073810A1BA12A6800B29756 /* CarWashCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 507381091BA12A6800B29756 /* CarWashCouponVModel.m */; };
 		5073810D1BA1672D00B29756 /* GetCouponByTypeNewOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5073810C1BA1672D00B29756 /* GetCouponByTypeNewOp.m */; };
 		507404D91BDF6B8000DAC6BA /* GetCouponByTypeNewV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 507404D81BDF6B8000DAC6BA /* GetCouponByTypeNewV2Op.m */; };
@@ -292,6 +293,8 @@
 		50A1E06E1C1EA12800176572 /* Valuation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50A1E06D1C1EA12800176572 /* Valuation.storyboard */; };
 		50A1E0711C1EA3A300176572 /* ValuationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A1E0701C1EA3A300176572 /* ValuationViewController.m */; };
 		50A9EF1B1B6874880036897F /* InsuranceResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A9EF1A1B6874880036897F /* InsuranceResultVC.m */; };
+		50ACC6A51C20FC79006E984E /* CarScrollTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ACC6A41C20FC79006E984E /* CarScrollTableViewCell.m */; };
+		50ACC6A81C2138F9006E984E /* CarEvaluateOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ACC6A71C2138F9006E984E /* CarEvaluateOp.m */; };
 		50B5A2961BD8CC51004E00ED /* MyWebViewBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */; };
 		50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE7C911B6716B500675887 /* SelectScrollView.m */; };
 		50C6BF4D1B7341B800A5E021 /* CardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */; };
@@ -1031,6 +1034,8 @@
 		506A30981B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetInsuranceOrderDetailsOp.m; path = Class/GetInsuranceOrderDetailsOp.m; sourceTree = "<group>"; };
 		506A309D1B8F08FC002F1F14 /* InsuranceAppointmentOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InsuranceAppointmentOp.h; path = Class/InsuranceAppointmentOp.h; sourceTree = "<group>"; };
 		506A309E1B8F08FC002F1F14 /* InsuranceAppointmentOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsuranceAppointmentOp.m; path = Class/InsuranceAppointmentOp.m; sourceTree = "<group>"; };
+		5071D7C21C1EE756003D397C /* CarValuationSubView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarValuationSubView.h; sourceTree = "<group>"; };
+		5071D7C31C1EE756003D397C /* CarValuationSubView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarValuationSubView.m; sourceTree = "<group>"; };
 		507381081BA12A6800B29756 /* CarWashCouponVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarWashCouponVModel.h; sourceTree = "<group>"; };
 		507381091BA12A6800B29756 /* CarWashCouponVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarWashCouponVModel.m; sourceTree = "<group>"; };
 		5073810B1BA1672D00B29756 /* GetCouponByTypeNewOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetCouponByTypeNewOp.h; path = Class/GetCouponByTypeNewOp.h; sourceTree = "<group>"; };
@@ -1061,6 +1066,10 @@
 		50A1E0701C1EA3A300176572 /* ValuationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuationViewController.m; sourceTree = "<group>"; };
 		50A9EF191B6874880036897F /* InsuranceResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceResultVC.h; sourceTree = "<group>"; };
 		50A9EF1A1B6874880036897F /* InsuranceResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceResultVC.m; sourceTree = "<group>"; };
+		50ACC6A31C20FC79006E984E /* CarScrollTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarScrollTableViewCell.h; sourceTree = "<group>"; };
+		50ACC6A41C20FC79006E984E /* CarScrollTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarScrollTableViewCell.m; sourceTree = "<group>"; };
+		50ACC6A61C2138F9006E984E /* CarEvaluateOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CarEvaluateOp.h; path = Class/CarEvaluateOp.h; sourceTree = "<group>"; };
+		50ACC6A71C2138F9006E984E /* CarEvaluateOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CarEvaluateOp.m; path = Class/CarEvaluateOp.m; sourceTree = "<group>"; };
 		50B5A2941BD8CC51004E00ED /* MyWebViewBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyWebViewBridge.h; sourceTree = "<group>"; };
 		50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWebViewBridge.m; sourceTree = "<group>"; };
 		50BE7C901B6716B500675887 /* SelectScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectScrollView.h; path = Class/SelectScrollView.h; sourceTree = "<group>"; };
@@ -2893,6 +2902,10 @@
 			children = (
 				50A1E06F1C1EA3A300176572 /* ValuationViewController.h */,
 				50A1E0701C1EA3A300176572 /* ValuationViewController.m */,
+				5071D7C21C1EE756003D397C /* CarValuationSubView.h */,
+				5071D7C31C1EE756003D397C /* CarValuationSubView.m */,
+				50ACC6A31C20FC79006E984E /* CarScrollTableViewCell.h */,
+				50ACC6A41C20FC79006E984E /* CarScrollTableViewCell.m */,
 			);
 			name = Valuation;
 			sourceTree = "<group>";
@@ -3299,6 +3312,8 @@
 				50094B421C1144640069683C /* GetAreaInfoOp.m */,
 				507EFACA1C15AEB60081FECB /* GetAreaByPcdOp.h */,
 				507EFACB1C15AEB60081FECB /* GetAreaByPcdOp.m */,
+				50ACC6A61C2138F9006E984E /* CarEvaluateOp.h */,
+				50ACC6A71C2138F9006E984E /* CarEvaluateOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -3835,6 +3850,7 @@
 				505E5FD61BD73B9300857819 /* DetailWebVC.m in Sources */,
 				18988CB21BC79A76001DECD5 /* HKUserStore.m in Sources */,
 				189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */,
+				5071D7C41C1EE756003D397C /* CarValuationSubView.m in Sources */,
 				6BDD6E2E1B68B9AE0060CFD0 /* HKFlipDecimalView.m in Sources */,
 				186984F51B0098A2000A182A /* GetInsuranceOrderListOp.m in Sources */,
 				6B9BF4BC1BF97BCB0046FF48 /* GetGeneralOrderdetailOp.m in Sources */,
@@ -3860,6 +3876,7 @@
 				6BB9D7711AF7054B00F7F3F8 /* SearchViewController.m in Sources */,
 				5078E4CF1B93F04000E3B198 /* GetInsuranceDiscountOp.m in Sources */,
 				6BAF301D1AE6947F00E35E08 /* ClientInfo.m in Sources */,
+				50ACC6A81C2138F9006E984E /* CarEvaluateOp.m in Sources */,
 				181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */,
 				18BF41E41BCE40540039F210 /* GasBaseVM.m in Sources */,
 				6BB884BB1AE0BB9600EBD8F4 /* JTTableView.m in Sources */,
@@ -4187,6 +4204,7 @@
 				1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */,
 				50DD1BC51BFB019300349A70 /* GetOtherOrderListOp.m in Sources */,
 				5078E4D21B93FD4000E3B198 /* GetInscouponOp.m in Sources */,
+				50ACC6A51C20FC79006E984E /* CarScrollTableViewCell.m in Sources */,
 				18C52C361BA6783500F6C38B /* PictureRecord.m in Sources */,
 				6BD6E29A1B9D7F67001D33E6 /* NSString+Safe.m in Sources */,
 				6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */,
