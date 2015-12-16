@@ -24,15 +24,17 @@
         self.rescueDetailArray = [@[] mutableCopy];
         NSDictionary *dic = rspObj[@"rescuedetail"];
         NSLog(@"%lu", dic.count);
-        HKRescureDetail *detail  = [[HKRescureDetail alloc] init];
-        detail.rescueid = dic[@"serviceobject"];
-        detail.feesacle = dic[@"feesacle"];
-        detail.serviceobject = dic[@"serviceproject"];
-        detail.rescueid = dic[@"rescueid"];
-        [self.rescueDetailArray safetyAddObject:dic[@"serviceobject"]];
-        [self.rescueDetailArray safetyAddObject:dic[@"feesacle"]];
-        [self.rescueDetailArray safetyAddObject:dic[@"serviceproject"]];
+        if (dic != nil) {
+            HKRescureDetail *detail  = [[HKRescureDetail alloc] init];
+            detail.rescueid = dic[@"serviceobject"];
+            detail.feesacle = dic[@"feesacle"];
+            detail.serviceobject = dic[@"serviceproject"];
+            detail.rescueid = dic[@"rescueid"];
+            [self.rescueDetailArray safetyAddObject:dic[@"serviceobject"]];
+            [self.rescueDetailArray safetyAddObject:dic[@"feesacle"]];
+            [self.rescueDetailArray safetyAddObject:dic[@"serviceproject"]];
 
+        }
     }
     
     else

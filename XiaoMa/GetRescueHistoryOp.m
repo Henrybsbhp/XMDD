@@ -24,17 +24,18 @@
         
         NSMutableArray * rArray = [[NSMutableArray alloc] init];
         for (NSDictionary *dic in rspObj[@"rescuelist"]) {
-            
-            HKRescueHistory *history = [[HKRescueHistory alloc] init];
-            history.applyTime = dic[@"applytime"];
-            NSLog(@"%@", dic[@"applytime"]);
-            history.serviceName = dic[@"servicename"];
-            history.licenceNumber = dic[@"licencenumber"];
-            history.rescueStatus = dic[@"rescuestatus"];
-            history.commentStatus = dic[@"commentstatus"];
-            history.applyId = dic[@"applyid"];
-            history.type = dic[@"type"];
-            [rArray safetyAddObject:history];
+            if (dic != nil) {
+                HKRescueHistory *history = [[HKRescueHistory alloc] init];
+                history.applyTime = dic[@"applytime"];
+                NSLog(@"%@", dic[@"applytime"]);
+                history.serviceName = dic[@"servicename"];
+                history.licenceNumber = dic[@"licencenumber"];
+                history.rescueStatus = dic[@"rescuestatus"];
+                history.commentStatus = dic[@"commentstatus"];
+                history.applyId = dic[@"applyid"];
+                history.type = dic[@"type"];
+                [rArray safetyAddObject:history];
+            }
         }
         self.req_applysecueArray = rArray;
     }

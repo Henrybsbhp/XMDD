@@ -23,19 +23,22 @@
         NSMutableArray * rArray = [[NSMutableArray alloc] init];
         for (NSDictionary * dict in rescue)
         {
-            HKRescueNoLogin *rescue  = [[HKRescueNoLogin alloc] init];
-            rescue.rescueID = dict[@"id"];
-            rescue.rescueDesc = dict[@"description"];
-            rescue.serviceName = dict[@"servicename"];
-            rescue.amount = dict[@"amount"];
-            rescue.type = [rspObj integerParamForName:dict[@"type"]];
-            [rArray safetyAddObject:rescue];
+            if (dict != nil) {
+                HKRescueNoLogin *rescue  = [[HKRescueNoLogin alloc] init];
+                rescue.rescueID = dict[@"id"];
+                rescue.rescueDesc = dict[@"description"];
+                rescue.serviceName = dict[@"servicename"];
+                rescue.amount = dict[@"amount"];
+                rescue.type = [rspObj integerParamForName:dict[@"type"]];
+                [rArray safetyAddObject:rescue];
+                
+            }
         }
-
+        
         self.req_resceuArray = rArray;
-
+        
     }
-        else
+    else
     {
         NSString * errorInfo = [NSString stringWithFormat:@"%@ parse error~~",NSStringFromClass([self class])];
         NSAssert(NO,errorInfo);

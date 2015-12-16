@@ -67,8 +67,9 @@
             self.placeholderLb.text = @"其他建议或意见";
         }
         return nil;
-    }] subscribeNext:^(id x) {
+    }] subscribeNext:^(NSString * x) {
         NSLog(@"%@", x);
+        self.commentsTV.text = x;
     }];
     
     if (self.isLog == 1) {
@@ -125,7 +126,11 @@
         op.responseSpeed = self.starNum1;
         op.arriveSpeed = self.starNum2;
         op.serviceAttitude = self.starNum3;
-        op.comment = @"dsdfghjk";
+        if (self.commentsTV.text != nil) {
+            op.comment = self.commentsTV.text;
+        }else {
+            op.comment = @"";
+        }
         op.rescueType = [NSNumber numberWithInteger:1];
         
         NSLog(@"-------%@", self.starNum1);

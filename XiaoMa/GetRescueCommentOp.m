@@ -28,11 +28,12 @@
         self.rescueDetailArray = [@[] mutableCopy];
         NSDictionary *dic = rspObj[@"rescuecomment"];
         NSLog(@"%lu", dic.count);
-        
-        [self.rescueDetailArray safetyAddObject:dic[@"responsespeed"]];
-        [self.rescueDetailArray safetyAddObject:dic[@"arrivespeed"]];
-        [self.rescueDetailArray safetyAddObject:dic[@"serviceattitude"]];
-        [self.rescueDetailArray safetyAddObject:dic[@"comment"]];
+        if (dic != nil) {
+            [self.rescueDetailArray safetyAddObject:dic[@"responsespeed"]];
+            [self.rescueDetailArray safetyAddObject:dic[@"arrivespeed"]];
+            [self.rescueDetailArray safetyAddObject:dic[@"serviceattitude"]];
+            [self.rescueDetailArray safetyAddObject:dic[@"comment"]];
+        }
     }
     else
     {
