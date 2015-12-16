@@ -7,12 +7,11 @@
 //
 
 #import "PayForGasViewController.h"
-#import "AppManager.h"
-#import "CouponModel.h"
-#import "HKCoupon.h"
 #import "UIView+Layer.h"
 #import "GasPaymentResultVC.h"
 #import "HKTableViewCell.h"
+#import "ChooseCarwashTicketVC.h"
+#import "GetUserResourcesV2Op.h"
 
 @interface PayForGasViewController ()
 
@@ -28,11 +27,8 @@
 @property (nonatomic,strong)NSArray * paymentArray;
 /// 加油优惠券
 @property (nonatomic,strong)NSArray * gasCoupon;
-/// 为优惠劵选择服务,选中>0,不选中=0
-@property (nonatomic)CouponType couponType;
 ///支付渠道
 @property (nonatomic)PaymentChannelType  paychannel;
-
 
 @end
 
@@ -49,6 +45,7 @@
     [self setupNavigationBar];
     [self setupUI];
     
+    [self setupData];
     [self setupDatasource];
     [self refreshBottomView];
     
@@ -79,10 +76,14 @@
     }];
 }
 
-- (void)setupDatasource
+- (void)setupData
 {
     self.paychannel = PaymentChannelAlipay;
-    
+    self.selectGasCoupouArray = [NSMutableArray array];
+}
+
+- (void)setupDatasource
+{
     NSDictionary * dict0_0 = @{@"cellname":@"PayTitleCell"};
     
     NSDictionary * dict0_1 = @{@"title":@"充值卡号",@"value":self.model.curGasCard.gascardno,
@@ -133,7 +134,7 @@
     [[[gAppMgr.myUser.couponModel rac_getVaildResource:1] initially:^{
         
         self.isLoadingResourse = YES;
-    }] subscribeNext:^(id x) {
+    }] subscribeNext:^(GetUserResourcesV2Op * op) {
         
         self.isLoadingResourse = NO;
         
@@ -148,35 +149,41 @@
 
 - (void)refreshBottomView
 {
-    HKCoupon * coupon;
+    HKCoupon * coupon = [self.selectGasCoupouArray safetyObjectAtIndex:0];
     
     NSString *title;
     NSInteger couponlimit, discount = 0;
     NSUInteger rechargeAmount = self.model.rechargeAmount;
     CGFloat systemPercent = 0;
-    CGFloat couponPercent = coupon.couponPercent > 0 ? coupon.couponPercent : 1.0;
     NSInteger paymoney = rechargeAmount;
     
     couponlimit = self.model.configOp ? self.model.configOp.rsp_couponupplimit : 1000;
     systemPercent = self.model.configOp ? self.model.configOp.rsp_discountrate : 2;
     
-    if (self.couponType == CouponTypeGas)
+    /// 系统额度
+    if (self.model.curGasCard)
     {
-        /// 选择了优惠券
-        discount = rechargeAmount * couponPercent - coupon.couponAmount;
+        discount = MIN([self.model.curGasCard.couponedmoney integerValue], rechargeAmount * systemPercent / 100.0);
     }
     else
     {
-        /// 没选择优惠券
-        if (self.model.curGasCard)
+        discount = MIN(couponlimit, rechargeAmount) * systemPercent / 100.0;
+    }
+    
+    if (self.couponType == CouponTypeGas)
+    {
+        if (coupon.couponPercent)
         {
-            discount = MIN([self.model.curGasCard.couponedmoney integerValue], rechargeAmount * systemPercent / 100.0);
+            // 优惠劵有折扣优惠，直接乘
+            discount = rechargeAmount * coupon.couponPercent / 100;
         }
         else
         {
-            discount = MIN(couponlimit, rechargeAmount) * systemPercent / 100.0;
+            /// 选择了优惠券，优惠劵没折扣优惠  = 原先系统额度 + 优惠劵面额 （ps：优惠劵打折力度和优惠劵面额一般只存在一个）
+            discount = discount +  + coupon.couponAmount;
         }
     }
+    
     paymoney = paymoney - discount;
     
     if (discount > 0) {
@@ -188,6 +195,17 @@
     
     [self.payBtn setTitle:title forState:UIControlStateNormal];
     [self.payBtn setTitle:title forState:UIControlStateDisabled];
+}
+
+- (void)jumpToChooseCouponVC
+{
+    ChooseCarwashTicketVC *vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseCarwashTicketVC"];
+    vc.originVC = self;
+    vc.type = CouponTypeGas;
+    vc.selectedCouponArray = self.selectGasCoupouArray;
+    vc.couponArray = self.gasCoupon;
+    vc.payAmount = (CGFloat)self.model.rechargeAmount;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Action
@@ -320,6 +338,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    NSDictionary * dict = [[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
+    NSString * cellName = dict[@"cellname"];
+    if ([cellName isEqualToString:@"CouponCell"])
+    {
+        [self jumpToChooseCouponVC];
+    }
 }
 
 #pragma mark - TableViewCell
@@ -414,7 +439,21 @@
     [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
-        self.couponType = !self.couponType;
+        if (!self.selectGasCoupouArray.count)
+        {
+            [self jumpToChooseCouponVC];
+        }
+        else
+        {
+            if (self.couponType == CouponTypeGas)
+            {
+                self.couponType = 0;
+            }
+            else
+            {
+                self.couponType = CouponTypeGas;
+            }
+        }
     }];
 
     
@@ -436,6 +475,8 @@
             statusLb.hidden = YES;
             boxB.selected = NO;
         }
+        
+        [self refreshBottomView];
             
     }];
     
