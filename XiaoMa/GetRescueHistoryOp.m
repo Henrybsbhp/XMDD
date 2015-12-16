@@ -12,10 +12,7 @@
 - (RACSignal *)rac_postRequest {
    self.req_method = @"/rescue/history";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    if (self.applytime > 0) {
-        
-        [params addParam:@(self.applytime) forName:@"applytime"];
-           }
+    [params addParam:@(self.applytime) forName:@"applytime"];
     [params addParam:@(self.type) forName:@"type"];
 
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];

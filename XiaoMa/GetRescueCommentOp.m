@@ -29,10 +29,10 @@
         NSDictionary *dic = rspObj[@"rescuecomment"];
         NSLog(@"%lu", dic.count);
         
-        [self.rescueDetailArray addObject:dic[@"responsespeed"]];
-        [self.rescueDetailArray addObject:dic[@"arrivespeed"]];
-        [self.rescueDetailArray addObject:dic[@"serviceattitude"]];
-        [self.rescueDetailArray addObject:dic[@"comment"]];
+        [self.rescueDetailArray safetyAddObject:dic[@"responsespeed"]];
+        [self.rescueDetailArray safetyAddObject:dic[@"arrivespeed"]];
+        [self.rescueDetailArray safetyAddObject:dic[@"serviceattitude"]];
+        [self.rescueDetailArray safetyAddObject:dic[@"comment"]];
     }
     else
     {

@@ -90,7 +90,7 @@
     evaluationLb.layer.borderColor = [UIColor colorWithHex:@"#fe4a00" alpha:1].CGColor;
     evaluationLb.layer.cornerRadius = 4;
     evaluationLb.layer.masksToBounds = YES;
-    plateLb.text = hostory.licenceNumber;
+    plateLb.text = [NSString stringWithFormat:@"服务车辆: %@", hostory.licenceNumber];
     if ([hostory.commentStatus integerValue] == 0) {
         evaluationLb.text = @"未评价";
     }else if ([hostory.commentStatus integerValue]== 1){

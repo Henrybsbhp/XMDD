@@ -29,9 +29,9 @@
         detail.feesacle = dic[@"feesacle"];
         detail.serviceobject = dic[@"serviceproject"];
         detail.rescueid = dic[@"rescueid"];
-        [self.rescueDetailArray addObject:dic[@"serviceobject"]];
-        [self.rescueDetailArray addObject:dic[@"feesacle"]];
-        [self.rescueDetailArray addObject:dic[@"serviceproject"]];
+        [self.rescueDetailArray safetyAddObject:dic[@"serviceobject"]];
+        [self.rescueDetailArray safetyAddObject:dic[@"feesacle"]];
+        [self.rescueDetailArray safetyAddObject:dic[@"serviceproject"]];
 
     }
     
