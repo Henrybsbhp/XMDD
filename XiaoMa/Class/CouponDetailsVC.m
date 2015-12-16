@@ -15,7 +15,7 @@
 #import "UIView+DefaultEmptyView.h"
 #import "RescureViewController.h"
 #import "CommissionViewController.h"
-
+#import "RescureDetailsVC.h"
 @interface CouponDetailsVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong ,nonatomic) HKCoupon * couponDic;
@@ -109,13 +109,13 @@
                 @strongify(self);
                 //去使用
                 if (self.oldType == CouponTypeAgency) {
-                    CommissionViewController *cvc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionViewController"];
-                    cvc.url = kAgencyUrl;
-                    [self.navigationController pushViewController:cvc animated:YES];
+                    RescureDetailsVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"RescureDetailsVC"];
+                    vc.type = self.numberType;
+                    [self.navigationController pushViewController:vc animated:YES];
                 }
                 else {
-                    RescureViewController *rvc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureViewController"];
-                    rvc.url = kRescureUrl;
+                    RescureDetailsVC *rvc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureDetailsVC"];
+                    rvc.type = _numberType;
                     [self.navigationController pushViewController:rvc animated:YES];
                 }
             }];
