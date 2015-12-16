@@ -29,11 +29,16 @@
 @property (nonatomic, strong) HKBankCard *curBankCard;
 ///充值金额
 @property (nonatomic, assign) NSUInteger rechargeAmount;
+///优惠金额
+@property (nonatomic, assign) NSUInteger discountAmount;
 ///支付平台
 @property (nonatomic, assign) PaymentPlatformType paymentPlatform;
 ///check box control
 @property (nonatomic, strong) CKSegmentHelper *segHelper;
 @property (nonatomic, strong) GasCardStore *cardStore;
+
+///是否需要发票
+@property (nonatomic, assign) BOOL needInvoice;
 ///加油提醒
 - (NSString *)gasRemainder;
 ///充值优惠描述

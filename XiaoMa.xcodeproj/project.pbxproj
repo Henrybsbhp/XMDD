@@ -317,6 +317,7 @@
 		6B3C67931BA9498F002F04C8 /* HKBigRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C67921BA9498F002F04C8 /* HKBigRatingView.m */; };
 		6B3C67961BAA5ADE002F04C8 /* SystemFastrateGetOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C67951BAA5ADE002F04C8 /* SystemFastrateGetOp.m */; };
 		6B42270A1C1EDCBE0090F802 /* CalculateInsuranceCarPremiumOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4227091C1EDCBE0090F802 /* CalculateInsuranceCarPremiumOp.m */; };
+		6B42270D1C1FDF150090F802 /* PayForGasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B42270C1C1FDF150090F802 /* PayForGasViewController.m */; };
 		6B5B78171BA7CC6000295B77 /* ProvinceChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5B78161BA7CC6000295B77 /* ProvinceChooseView.m */; };
 		6B5B78191BA7CC7600295B77 /* ProvinceChooseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B5B78181BA7CC7600295B77 /* ProvinceChooseView.xib */; };
 		6B5E0C1A1BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5E0C191BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.m */; };
@@ -1116,6 +1117,8 @@
 		6B3C67951BAA5ADE002F04C8 /* SystemFastrateGetOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SystemFastrateGetOp.m; path = Class/SystemFastrateGetOp.m; sourceTree = "<group>"; };
 		6B4227081C1EDCBE0090F802 /* CalculateInsuranceCarPremiumOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalculateInsuranceCarPremiumOp.h; path = Class/CalculateInsuranceCarPremiumOp.h; sourceTree = "<group>"; };
 		6B4227091C1EDCBE0090F802 /* CalculateInsuranceCarPremiumOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalculateInsuranceCarPremiumOp.m; path = Class/CalculateInsuranceCarPremiumOp.m; sourceTree = "<group>"; };
+		6B42270B1C1FDF150090F802 /* PayForGasViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayForGasViewController.h; sourceTree = "<group>"; };
+		6B42270C1C1FDF150090F802 /* PayForGasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayForGasViewController.m; sourceTree = "<group>"; };
 		6B5B78151BA7CC6000295B77 /* ProvinceChooseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProvinceChooseView.h; sourceTree = "<group>"; };
 		6B5B78161BA7CC6000295B77 /* ProvinceChooseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProvinceChooseView.m; sourceTree = "<group>"; };
 		6B5B78181BA7CC7600295B77 /* ProvinceChooseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProvinceChooseView.xib; sourceTree = "<group>"; };
@@ -1848,7 +1851,7 @@
 		1833F59A1BCD4773000E1DA1 /* Gas */ = {
 			isa = PBXGroup;
 			children = (
-				18A30E421BD493C400521411 /* PayResult */,
+				18A30E421BD493C400521411 /* Pay */,
 				18A30E411BD48C4700521411 /* GasRecord */,
 				18A30E3D1BD4726B00521411 /* CZBGetVCode */,
 				18BF42021BD0D5BB0039F210 /* GasCardList */,
@@ -2592,13 +2595,15 @@
 			name = GasRecord;
 			sourceTree = "<group>";
 		};
-		18A30E421BD493C400521411 /* PayResult */ = {
+		18A30E421BD493C400521411 /* Pay */ = {
 			isa = PBXGroup;
 			children = (
 				18A30E431BD493DB00521411 /* GasPaymentResultVC.h */,
 				18A30E441BD493DB00521411 /* GasPaymentResultVC.m */,
+				6B42270B1C1FDF150090F802 /* PayForGasViewController.h */,
+				6B42270C1C1FDF150090F802 /* PayForGasViewController.m */,
 			);
-			name = PayResult;
+			name = Pay;
 			sourceTree = "<group>";
 		};
 		18A377F01AE4AB4B0031A574 /* SVProgressHUD */ = {
@@ -3848,6 +3853,7 @@
 				1816F4B01ACE75FB00BBCC96 /* CarWashTableVC.m in Sources */,
 				1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */,
 				50B5A2961BD8CC51004E00ED /* MyWebViewBridge.m in Sources */,
+				6B42270D1C1FDF150090F802 /* PayForGasViewController.m in Sources */,
 				18C81CBC1B17FE7B00B0C292 /* FeedbackVC.m in Sources */,
 				18E592351C193C6D006010D9 /* InsBuyVC.m in Sources */,
 				1851F4281B0C2A4E00241A01 /* AutoBrand.m in Sources */,

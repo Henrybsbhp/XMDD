@@ -12,6 +12,8 @@
 @property (nonatomic,strong) NSString* req_vcode;
 ///订单id
 @property (nonatomic,strong) NSNumber* req_orderid;
+///订单id
+@property (nonatomic) BOOL  req_needinvoice;
 
 ///交易流水
 @property (nonatomic,strong) NSString* rsp_tradeid;
