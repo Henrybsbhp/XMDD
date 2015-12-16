@@ -12,7 +12,7 @@
 
 -(RACSignal *)rac_postRequest
 {
-    self.req_method=@"/thirdpart/sellwill/add";
+    self.req_method = @"/thirdpart/sellwill/add";
     NSMutableDictionary *params=[NSMutableDictionary new];
     [params safetySetObject:self.req_carId forKey:@"carid"];
     [params safetySetObject:self.req_contatName forKey:@"contatname"];
@@ -26,8 +26,8 @@
     if ([rspObj isKindOfClass:[NSDictionary class]])
     {
         NSDictionary *temp=(NSDictionary *)rspObj;
-        self.rsp_rc=temp[@"rc"];
-        self.rsp_tip=temp[@"tip"];
+        self.rsp_rc = temp[@"rc"];
+        self.rsp_tip = temp[@"tip"];
     }
     else
     {

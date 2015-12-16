@@ -10,6 +10,9 @@
 #import "SocialShareViewController.h"
 #import "ShareResponeManager.h"
 #import "HomePageVC.h"
+#import "UIView+Layer.h"
+
+
 @interface CommitSuccessVC ()
 @property (strong, nonatomic) IBOutlet UIButton *shareBtn;
 
@@ -19,15 +22,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.shareBtn.layer.cornerRadius=5;
-    self.shareBtn.layer.masksToBounds=YES;
     
-    self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cm_nav_back"] style:UIBarButtonItemStylePlain target:self action:@selector(backToHomePage)];
-    
-    
+    [self setupUI];
 }
 
--(void)backToHomePage
+
+- (void)setupUI
+{
+    [self.shareBtn makeCornerRadius:5.0f];
+    
+    self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cm_nav_back"] style:UIBarButtonItemStylePlain target:self action:@selector(backToHomePage)];
+}
+
+
+- (void)backToHomePage
 {
     HomePageVC *homeVC=[[UIStoryboard storyboardWithName:@"Valuation" bundle:nil]instantiateViewControllerWithIdentifier:@"HomePageVC"];
     [self.navigationController popToViewController:homeVC animated:YES];
@@ -37,11 +45,13 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 - (IBAction)shareClick:(id)sender {
     [self shareApp];
 }
 
-- (void) shareApp
+- (void)shareApp
 {
     SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
     vc.sceneType = ShareSceneLocalShare;
