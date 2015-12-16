@@ -68,7 +68,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.selectCar = [[HKMyCar alloc] init];
     self.datePicker = [DatePickerVC datePickerVCWithMaximumDate:nil];
     
     [self setSpacingByScreen];
@@ -76,7 +75,15 @@
     [self requestLocation];
     [self setupCarStore];
     
-    [self.carStore sendEvent:[self.carStore getAllCars]];
+    //监听用户登录
+    @weakify(self);
+    [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(JTUser *user) {
+        
+        @strongify(self);
+        if (gAppMgr.myUser.userID) {
+            [self.carStore sendEvent:[self.carStore getAllCars]];
+        }
+    }];
 }
 
 - (void)setSpacingByScreen
@@ -136,7 +143,6 @@
 
 - (void)setupCarStore
 {
-    self.tableView.hidden = YES;
     @weakify(self);
     self.carStore = [MyCarStore fetchOrCreateStore];
     [self.carStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
@@ -151,6 +157,7 @@
     [[[[evt.signal deliverOn:[RACScheduler mainThreadScheduler]] initially:^{
         
         @strongify(self);
+        self.tableView.hidden = YES;
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] finally:^{
         
@@ -161,6 +168,7 @@
         
         @strongify(self);
         self.dataSource = [self.carStore.cache allObjects];
+        self.selectCar = [[HKMyCar alloc] init];
         self.selectCar = [self.dataSource safetyObjectAtIndex:0];
         self.miles = self.selectCar.odo;
         [self.tableView reloadData];
@@ -299,8 +307,10 @@
         }];
         
         [view setAddCarClickBlock:^{
-            EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-            [self.navigationController pushViewController:vc animated:YES];
+            if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
         }];
     }
     
