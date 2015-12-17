@@ -28,7 +28,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="196.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lI7-8L-yab">
+                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lI7-8L-yab">
                                                     <rect key="frame" x="34" y="55" width="1" height="156"/>
                                                     <color key="backgroundColor" red="0.86274509803921573" green="0.86274509803921573" blue="0.86274509803921573" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
@@ -41,35 +41,35 @@
                                                         </mask>
                                                     </variation>
                                                 </view>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="W25-v3-ofX">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="W25-v3-ofX">
                                                     <rect key="frame" x="25" y="55" width="18" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="18" id="5ce-Dq-Ndk"/>
                                                         <constraint firstAttribute="width" constant="18" id="eoU-zi-ptf"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="2" translatesAutoresizingMaskIntoConstraints="NO" id="5T7-3Y-FKo">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="2" translatesAutoresizingMaskIntoConstraints="NO" id="5T7-3Y-FKo">
                                                     <rect key="frame" x="25" y="101" width="18" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="18" id="YYe-4E-gWU"/>
                                                         <constraint firstAttribute="width" constant="18" id="ieA-e0-3ME"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="3" translatesAutoresizingMaskIntoConstraints="NO" id="zck-2r-snV">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="3" translatesAutoresizingMaskIntoConstraints="NO" id="zck-2r-snV">
                                                     <rect key="frame" x="25" y="147" width="18" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="18" id="JFa-qL-08Y"/>
                                                         <constraint firstAttribute="width" constant="18" id="fdh-hc-ssj"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="4" translatesAutoresizingMaskIntoConstraints="NO" id="M3L-sB-LPq">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="4" translatesAutoresizingMaskIntoConstraints="NO" id="M3L-sB-LPq">
                                                     <rect key="frame" x="25" y="193" width="18" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="18" id="F5Z-ta-eF4"/>
                                                         <constraint firstAttribute="width" constant="18" id="qj6-CH-dDK"/>
                                                     </constraints>
                                                 </imageView>
-                                                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QBH-0K-1JV">
+                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QBH-0K-1JV">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="35"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nRU-Y8-Qnm">
@@ -110,19 +110,19 @@
                                                         </mask>
                                                     </variation>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="车辆检测通过，即刻上架销售，坐等心仪买家出现" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RnB-pa-ZUQ">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="车辆检测通过，即刻上架销售，坐等心仪买家出现" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RnB-pa-ZUQ">
                                                     <rect key="frame" x="58" y="147" width="522" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="交易完成" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gs-aK-rq6">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="交易完成" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gs-aK-rq6">
                                                     <rect key="frame" x="58" y="193" width="522" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="24小时内与您取得联系，免费安排上门检测车辆" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yDh-np-1p4">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="24小时内与您取得联系，免费安排上门检测车辆" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yDh-np-1p4">
                                                     <rect key="frame" x="58" y="101" width="522" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="361" id="HMc-PN-h8h"/>
@@ -136,7 +136,7 @@
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="选择交易平台，填写车主信息，提交卖车意向" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h5t-Xt-hQ3">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="选择交易平台，填写车主信息，提交卖车意向" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h5t-Xt-hQ3">
                                                     <rect key="frame" x="58" y="55" width="522" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -193,6 +193,9 @@
                                                 <mask key="constraints">
                                                     <exclude reference="3uv-VM-HXC"/>
                                                     <exclude reference="AkO-my-91l"/>
+                                                    <exclude reference="88z-CE-zaz"/>
+                                                    <exclude reference="GhP-SZ-zNZ"/>
+                                                    <exclude reference="U38-Lc-qgn"/>
                                                     <exclude reference="4tK-yW-WO8"/>
                                                     <exclude reference="exI-Oe-YjI"/>
                                                     <exclude reference="KPe-ps-uPG"/>
@@ -205,9 +208,6 @@
                                                     <exclude reference="N9g-dJ-ZFQ"/>
                                                     <exclude reference="R6t-es-4fl"/>
                                                     <exclude reference="T0R-0X-bBe"/>
-                                                    <exclude reference="88z-CE-zaz"/>
-                                                    <exclude reference="GhP-SZ-zNZ"/>
-                                                    <exclude reference="U38-Lc-qgn"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -386,8 +386,8 @@
                                                 <mask key="constraints">
                                                     <exclude reference="OGV-Js-Qe7"/>
                                                     <exclude reference="D08-Ag-MV3"/>
-                                                    <exclude reference="LxL-Gv-Gh6"/>
                                                     <exclude reference="1Uq-87-8Ce"/>
+                                                    <exclude reference="LxL-Gv-Gh6"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
