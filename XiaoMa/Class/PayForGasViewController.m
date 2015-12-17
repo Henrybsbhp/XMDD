@@ -11,7 +11,7 @@
 #import "GasPaymentResultVC.h"
 #import "HKTableViewCell.h"
 #import "ChooseCarwashTicketVC.h"
-#import "GetUserResourcesV2Op.h"
+#import "GetUserResourcesGaschargeOp.h"
 
 @interface PayForGasViewController ()
 
@@ -130,13 +130,15 @@
 #pragma mark - Utilitly
 - (void)requestGetGasResource
 {
-    // @fq TODO
-    [[[gAppMgr.myUser.couponModel rac_getVaildResource:1] initially:^{
+    GetUserResourcesGaschargeOp * op = [GetUserResourcesGaschargeOp operation];
+    
+    [[[op rac_postRequest] initially:^{
         
         self.isLoadingResourse = YES;
-    }] subscribeNext:^(GetUserResourcesV2Op * op) {
+    }] subscribeNext:^(GetUserResourcesGaschargeOp * op) {
         
         self.isLoadingResourse = NO;
+        self.gasCoupon = op.rsp_couponArray;
         
         [self setupDatasource];
         [self.tableView reloadData];
@@ -172,15 +174,15 @@
     
     if (self.couponType == CouponTypeGas)
     {
-        if (coupon.couponPercent)
+        if (coupon.couponPercent < 100)
         {
             // 优惠劵有折扣优惠，直接乘
-            discount = rechargeAmount * coupon.couponPercent / 100;
+            discount = rechargeAmount - rechargeAmount * coupon.couponPercent / 100;
         }
         else
         {
             /// 选择了优惠券，优惠劵没折扣优惠  = 原先系统额度 + 优惠劵面额 （ps：优惠劵打折力度和优惠劵面额一般只存在一个）
-            discount = discount +  + coupon.couponAmount;
+            discount = discount + coupon.couponAmount;
         }
     }
     
@@ -211,6 +213,16 @@
 #pragma mark - Action
 - (IBAction)actionPay:(id)sender
 {
+    if (self.couponType == CouponTypeGas)
+    {
+        self.model.coupon = [self.selectGasCoupouArray safetyObjectAtIndex:0];
+    }
+    else
+    {
+        self.model.coupon = nil;
+    }
+    
+    self.model.paymentPlatform = self.paychannel;
     @weakify(self)
     [self.model startPayInTargetVC:self completed:^(GasCard *card, GascardChargeOp *paidop) {
         
