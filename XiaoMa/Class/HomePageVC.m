@@ -24,6 +24,7 @@
 #import "RescureViewController.h"
 #import "RescureHomeViewController.h"
 #import "CommissionViewController.h"
+#import "CommissonOrderVC.h"
 #import "GainAwardViewController.h"
 #import "GainedViewController.h"
 #import "WelcomeViewController.h"
@@ -572,8 +573,7 @@
 - (void)actionCommission:(id)sender
 {
     [MobClick event:@"rp101-6"];
-    CommissionViewController *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionViewController"];
-    vc.url = kAgencyUrl;
+    CommissonOrderVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonOrderVC"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

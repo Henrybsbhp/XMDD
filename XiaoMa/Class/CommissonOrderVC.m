@@ -1,25 +1,20 @@
 //
-//  RescureDetailsVC.m
+//  CommissonOrderVC.m
 //  XiaoMa
 //
-//  Created by baiyulin on 15/12/11.
+//  Created by baiyulin on 15/12/17.
 //  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "RescureDetailsVC.h"
-#import "GetRescureDetailOp.h"
-#import "HKRescureDetail.h"
-#import "RescueCouponViewController.h"
-#import "GetSystemPromotionOp.h"
-#import "RescueApplyOp.h"
-#import "ADViewController.h"
+#import "CommissonOrderVC.h"
 #import "NSString+RectSize.h"
-#import "RescurecCommentsVC.h"
+#import "GetRescureDetailOp.h"
 #define kWidth [UIScreen mainScreen].bounds.size.width
 #define kHeight [UIScreen mainScreen].bounds.size.height
-@interface RescureDetailsVC ()
+@interface CommissonOrderVC ()
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) UIView        * headerView;
+
 @property (nonatomic, strong) UIImageView   * advertisingImg;
 @property (nonatomic, strong) UIView        * footerView;
 @property (nonatomic, strong) UIButton      * helperBtn;
@@ -27,7 +22,7 @@
 @property (nonatomic, strong) NSMutableArray * dataSourceArray;
 @end
 
-@implementation RescureDetailsVC
+@implementation CommissonOrderVC
 
 - (void)dealloc
 {
@@ -38,37 +33,26 @@
 }
 
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
-    [self network];
-    
     self.tableView.separatorStyle = NO;
-    [self.view addSubview:self.helperBtn];
+    self.tableView.tableHeaderView = self.advertisingImg;
     self.tableView.tableFooterView = self.footerView;
-    [self setupADView];
-    self.navigationItem.title = self.titleStr;
+    [self.view addSubview:self.helperBtn];
+    [self commissonNetwork];
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
     btn.titleLabel.font = [UIFont systemFontOfSize:14];
-    btn.frame = CGRectMake(0, 0, 44, 50);
-    [btn setTitle:@"免费券" forState:UIControlStateNormal];
-    [btn addTarget:self action:@selector(rescueHistory) forControlEvents:UIControlEventTouchUpInside];
+    btn.frame = CGRectMake(0, 0, 60, 44);
+    [btn setTitle:@"协办记录" forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(commissionHistory) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
     
+
 }
 
-- (void)rescueHistory {
-    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        [MobClick event:@"rp101-5"];
-    RescueCouponViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueCouponViewController"];
-        vc.type = self.type;
-    [self.navigationController pushViewController:vc animated:YES];
-    }
-}
-
-- (void)network {
+- (void)commissonNetwork {
     GetRescureDetailOp *op = [GetRescureDetailOp operation];
-    op.rescueid = self.type;
-    op.type = [NSNumber numberWithInteger:2];
+    op.rescueid = 4;
+    op.type = [NSNumber numberWithInteger:1];
     @weakify(self)
     [[[[op rac_postRequest] initially:^{
         [gToast showingWithText:@"加载中..."];
@@ -92,23 +76,11 @@
         [gToast showError:kDefErrorPormpt];
         NSLog(@"%@", error.description);
     }] ;
+
 }
 
-
-- (void)setupADView
-{
-    if (self.type == 1) {
-        
-    }else if (self.type == 2){
-        
-    }else if (self.type == 3){
-        
-    }
+- (void)commissionHistory {
     
-    
-    self.adctrl = [ADViewController vcWithADType:AdvertisementTrailer boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp102-6"];
-    [self.adctrl reloadDataForTableView:self.tableView];
-
 }
 
 #pragma mark - UITableViewDataSource
@@ -120,7 +92,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RescureDetailsVC" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
+    
     UILabel *titleLb = [cell.contentView viewWithTag:1000];
     UILabel *detailLb = [cell.contentView viewWithTag:1001];
     NSString * string = [self.dataSourceArray safetyObjectAtIndex:indexPath.row];
@@ -128,17 +100,17 @@
     //行间距
     NSMutableAttributedString * attributedString1 = [[NSMutableAttributedString alloc] initWithString:string];
     NSMutableParagraphStyle * paragraphStyle1 = [[NSMutableParagraphStyle alloc] init];
-    [paragraphStyle1 setLineSpacing:0];
+    [paragraphStyle1 setLineSpacing:3];
     [attributedString1 addAttribute:NSParagraphStyleAttributeName value:paragraphStyle1 range:NSMakeRange(0, [string length])];
     [detailLb setAttributedText:attributedString1];
     [detailLb sizeToFit];
-
+    
     if (indexPath.row == 0) {
         titleLb.text = @"服务对象";
     }else if (indexPath.row == 1){
-        titleLb.text = @"收费标准";
+        titleLb.text = @"准备材料";
     }else if (indexPath.row == 2){
-        titleLb.text = @"服务项目";
+        titleLb.text = @"注意事项";
     }
     return cell;
 }
@@ -156,21 +128,16 @@
 
 
 #pragma mark - lazyLoading
-- (UIView *)headerView {
-    if (!_headerView) {
-        self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 0.31 * kWidth)];
-    }
-    return _headerView;
-}
 - (UIImageView *)advertisingImg {
     if (!_advertisingImg) {
-        self.advertisingImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 0.31 * kWidth)];
+        self.advertisingImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 0.44 * kWidth)];
+        _advertisingImg.image = [UIImage imageNamed:@"commissonBanner"];
     }
     return _advertisingImg;
 }
 - (UIView *)footerView {
     if (!_footerView) {
-        self.footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 0.375 * kWidth)];
+        self.footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, (kWidth- 20) * 0.13 + 7)];
     }
     return _footerView;
 }
@@ -184,47 +151,16 @@
 
 - (UIButton *)helperBtn {
     if (!_helperBtn) {
-    
+        
         self.helperBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         _helperBtn.frame = CGRectMake(10, self.view.bounds.size.height - (kWidth- 20) * 0.13 - 7 - 64 , kWidth  - 20, (kWidth- 20) * 0.13);
         [_helperBtn setTitle:@"申请救援" forState:UIControlStateNormal];
         [_helperBtn addTarget:self action:@selector(phoneHelperClick) forControlEvents:UIControlEventTouchUpInside];
         [_helperBtn setTintColor:[UIColor whiteColor]];
-        _helperBtn.backgroundColor = [UIColor colorWithHex:@"#fe4a00" alpha:1];
+        _helperBtn.backgroundColor = [UIColor colorWithHex:@"#35cb68" alpha:1];
         _helperBtn.cornerRadius = 4;
         _helperBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
     }
     return _helperBtn;
-}
-
-- (void)phoneHelperClick {
-    BOOL result = [LoginViewModel loginIfNeededForTargetViewController:nil];
-    if (result) {
-        RescueApplyOp *op = [RescueApplyOp operation];
-        op.longitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.longitude];
-        op.latitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.latitude];
-        [[[[op rac_postRequest] initially:^{
-                   }] finally:^{
-        }] subscribeNext:^(RescueApplyOp *op) {
-            NSLog(@"%@", op);
-        } error:^(NSError *error) {
-
-        }] ;
-        NSString * number = @"4007111111";
-        [gPhoneHelper makePhone:number andInfo:@"救援电话: 4007-111-111"];
-        
-    }else{
-        [MobClick event:@"rp101-2"];
-        NSString * number = @"4007111111";
-        [gPhoneHelper makePhone:number andInfo:@"救援电话: 4007-111-111"];
-    }
-}
-
-- (NSAttributedString *)attributedStringforHeight:(NSString *)str {
-    NSMutableAttributedString * attributedString1 = [[NSMutableAttributedString alloc] initWithString:str];
-    NSMutableParagraphStyle * paragraphStyle1 = [[NSMutableParagraphStyle alloc] init];
-    [paragraphStyle1 setLineSpacing:8];
-    [attributedString1 addAttribute:NSParagraphStyleAttributeName value:paragraphStyle1 range:NSMakeRange(0, [str length])];
-    return attributedString1;
 }
 @end

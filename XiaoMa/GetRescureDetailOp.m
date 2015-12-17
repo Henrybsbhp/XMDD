@@ -13,6 +13,7 @@
     self.req_method = @"/rescue/get/rescuedetail";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:@(self.rescueid) forName:@"rescueid"];
+    [params addParam:self.type forName:@"type"];
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
     
 }
@@ -21,6 +22,7 @@
     
     if ([rspObj isKindOfClass:[NSDictionary class]])
     {
+        
         self.rescueDetailArray = [@[] mutableCopy];
         NSDictionary *dic = rspObj[@"rescuedetail"];
         NSLog(@"%lu", dic.count);
