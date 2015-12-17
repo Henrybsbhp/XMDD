@@ -43,8 +43,11 @@
     [super viewDidLoad];
     
     [self reloadCellTwoData];
-    //无法点开时获得用户手机号。
-    self.phoneNumber = gAppMgr.myUser.phoneNumber;
+    
+    [RACObserve(gAppMgr.myUser, phoneNumber) subscribeNext:^(id x) {
+        NSString *phone=(NSString *)x;
+        self.phoneNumber=phone;
+    }];
     [self setupUI];
 }
 
@@ -63,8 +66,8 @@
 -(void)reloadCellTwoData
 {
     SecondCarValuationOp *op = [SecondCarValuationOp new];
-    //    op.req_sellerCityId = @(12);
-    op.req_sellerCityId = self.sellercityid;
+        op.req_sellerCityId = @(12);
+//    op.req_sellerCityId = self.sellercityid;
     [[[op rac_postRequest] initially:^{
         
     }] subscribeNext:^(SecondCarValuationOp *op) {
@@ -130,7 +133,7 @@
             }
         }];
         channelNameLabel.text=[NSString stringWithFormat:@"平台名称：%@",dataModel[@"channelname"]];
-        couponMoneyLabel.text=[NSString stringWithFormat:@" %@ ",dataModel[@"couponmoney"]];
+        couponMoneyLabel.text=[NSString stringWithFormat:@" 返现：%@ ",dataModel[@"couponmoney"]];
         characterLabel.text=[NSString stringWithFormat:@"平台特点：%@",dataModel[@"character"]];
         userCNTInfoLabel.text=[NSString stringWithFormat:@"用户数量：%@",dataModel[@"usercntinfo"]];
         return cell;

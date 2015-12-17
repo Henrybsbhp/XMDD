@@ -44,8 +44,7 @@
 
 - (void)backToHomePage
 {
-    HomePageVC *homeVC=[[UIStoryboard storyboardWithName:@"Valuation" bundle:nil]instantiateViewControllerWithIdentifier:@"HomePageVC"];
-    [self.navigationController popToViewController:homeVC animated:YES];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
