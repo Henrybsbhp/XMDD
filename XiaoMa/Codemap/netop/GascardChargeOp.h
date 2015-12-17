@@ -4,6 +4,8 @@
 
 ///油卡id
 @property (nonatomic,strong) NSNumber* req_gid;
+///优惠劵
+@property (nonatomic,strong) NSNumber* req_cid;
 ///充值金额
 @property (nonatomic,assign) int req_amount;
 ///支付方式

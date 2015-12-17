@@ -163,8 +163,9 @@
     GascardChargeOp *op = [GascardChargeOp operation];
     op.req_gid = card.gid;
     op.req_amount = (int)self.rechargeAmount;
-    op.req_paychannel = [PaymentHelper paymentChannelForPlatformType:self.paymentPlatform];
+    op.req_paychannel = self.paymentPlatform;
     op.req_needinvoice = self.needInvoice;
+    op.req_cid = self.coupon.couponId;
     @weakify(self);
     [[[op rac_postRequest] initially:^{
         

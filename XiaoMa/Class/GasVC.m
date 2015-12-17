@@ -289,6 +289,8 @@
             make.bottom.mas_equalTo(headerView.mas_bottom).offset(-40);
             make.height.mas_equalTo(28);
         }];
+        
+        self.tableView.tableHeaderView = self.headerView;
     }
 }
 
