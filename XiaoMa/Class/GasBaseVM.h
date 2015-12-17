@@ -12,6 +12,7 @@
 #import "HKBankCard.h"
 #import "HKStore.h"
 #import "GasCardStore.h"
+#import "HKCoupon.h"
 
 #define kGasConsumeEventForModel    997
 #define kGasVCReloadDirectly        998
@@ -31,8 +32,10 @@
 @property (nonatomic, assign) NSUInteger rechargeAmount;
 ///优惠金额
 @property (nonatomic, assign) NSUInteger discountAmount;
+///优惠劵
+@property (nonatomic, strong)HKCoupon * coupon;
 ///支付平台
-@property (nonatomic, assign) PaymentPlatformType paymentPlatform;
+@property (nonatomic, assign) PaymentChannelType paymentPlatform;
 ///check box control
 @property (nonatomic, strong) CKSegmentHelper *segHelper;
 @property (nonatomic, strong) GasCardStore *cardStore;
