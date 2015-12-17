@@ -396,6 +396,7 @@
 		6BBC4A281B0C8236003F3081 /* SocialShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC4A271B0C8236003F3081 /* SocialShareView.m */; };
 		6BBC4A2C1B0C8495003F3081 /* SocialShareView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BBC4A2B1B0C8495003F3081 /* SocialShareView.xib */; };
 		6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC4A2E1B0C8F87003F3081 /* SocialShareViewController.m */; };
+		6BBE83BD1C218D2300FEB101 /* GetUserResourcesGaschargeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBE83BC1C218D2300FEB101 /* GetUserResourcesGaschargeOp.m */; };
 		6BBEB70B1B2AB120004AD191 /* GainedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBEB70A1B2AB120004AD191 /* GainedViewController.m */; };
 		6BBF75F41B05CA0800E11EBB /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF75F11B05CA0800E11EBB /* BaseModel.m */; };
 		6BBF75F51B05CA0800E11EBB /* FavoriteModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF75F31B05CA0800E11EBB /* FavoriteModel.m */; };
@@ -1273,6 +1274,8 @@
 		6BBC4A2B1B0C8495003F3081 /* SocialShareView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SocialShareView.xib; path = Class/SocialShareView.xib; sourceTree = "<group>"; };
 		6BBC4A2D1B0C8F87003F3081 /* SocialShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialShareViewController.h; sourceTree = "<group>"; };
 		6BBC4A2E1B0C8F87003F3081 /* SocialShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocialShareViewController.m; sourceTree = "<group>"; };
+		6BBE83BB1C218D2300FEB101 /* GetUserResourcesGaschargeOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserResourcesGaschargeOp.h; path = Class/GetUserResourcesGaschargeOp.h; sourceTree = "<group>"; };
+		6BBE83BC1C218D2300FEB101 /* GetUserResourcesGaschargeOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserResourcesGaschargeOp.m; path = Class/GetUserResourcesGaschargeOp.m; sourceTree = "<group>"; };
 		6BBEB7091B2AB120004AD191 /* GainedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GainedViewController.h; sourceTree = "<group>"; };
 		6BBEB70A1B2AB120004AD191 /* GainedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GainedViewController.m; sourceTree = "<group>"; };
 		6BBF75F11B05CA0800E11EBB /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseModel.m; path = Class/BaseModel.m; sourceTree = "<group>"; };
@@ -3352,6 +3355,8 @@
 				6B88C1331C1E943E00BB6071 /* GetInsuranceCalculatorOpV3.m */,
 				6B4227081C1EDCBE0090F802 /* CalculateInsuranceCarPremiumOp.h */,
 				6B4227091C1EDCBE0090F802 /* CalculateInsuranceCarPremiumOp.m */,
+				6BBE83BB1C218D2300FEB101 /* GetUserResourcesGaschargeOp.h */,
+				6BBE83BC1C218D2300FEB101 /* GetUserResourcesGaschargeOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -4065,6 +4070,7 @@
 				18804AA21B25811E00E7E764 /* HKRefreshControl.m in Sources */,
 				6BCA5F431B102D5700E1E630 /* GetUserCouponPkgOp.m in Sources */,
 				1833F5391BCB42B8000E1DA1 /* MyCarStore.m in Sources */,
+				6BBE83BD1C218D2300FEB101 /* GetUserResourcesGaschargeOp.m in Sources */,
 				5073810D1BA1672D00B29756 /* GetCouponByTypeNewOp.m in Sources */,
 				6BBB82491AE7401400850D0C /* GetInsuranceByChannel.m in Sources */,
 				505E5FD31BD73B7D00857819 /* ListWebVC.m in Sources */,
