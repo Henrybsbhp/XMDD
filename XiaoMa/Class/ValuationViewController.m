@@ -21,6 +21,7 @@
 #import "PickAutomobileBrandVC.h"
 #import "CarEvaluateOp.h"
 #import <IQKeyboardManager/KeyboardManager.h>
+#import "ValuationResultVC.h"
 
 #define ScreenHeight    [[UIScreen mainScreen] bounds].size.height
 
@@ -109,7 +110,8 @@
 - (void)setupAdView
 {
     CKAsyncMainQueue(^{
-        self.advc  =[ADViewController vcWithADType:AdvertisementGas boundsWidth:self.view.bounds.size.width
+        //测试有广告的情况
+        self.advc  =[ADViewController vcWithADType:AdvertisementHomePage boundsWidth:self.view.bounds.size.width
                                           targetVC:self mobBaseEvent:@"rp314-1"];
         [self.advc reloadDataForTableView:self.tableView];
     });
@@ -137,6 +139,7 @@
         self.cityId = [NSNumber numberWithInteger:op.rsp_city.infoId];
         
     } error:^(NSError *error) {
+        self.locateState = LocateStateFailure;
         [gToast showError:@"获取城市信息失败"];
     }];
 }
@@ -345,24 +348,28 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
-    self.tableView.contentSize=CGSizeMake(CGRectGetWidth(self.tableView.contentFrame), CGRectGetHeight(self.tableView.contentFrame) + 170);
-    
-    [UIView animateWithDuration:0.3
-                     animations:^{
-                         [self.tableView setContentOffset:CGPointMake(0, 170)];
-                     }];
+    if (self.advc.adList.count != 0) {
+        self.tableView.contentSize=CGSizeMake(CGRectGetWidth(self.tableView.contentFrame), CGRectGetHeight(self.tableView.contentFrame) + 170);
+        
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             [self.tableView setContentOffset:CGPointMake(0, 170)];
+                         }];
+    }
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField{
     self.miles = [textField.text floatValue];
     
-    [UIView animateWithDuration:0.3 animations:^{
-        
-        [self.tableView setContentOffset:CGPointMake(0, 0)];
-    } completion:^(BOOL finished) {
-        
-        self.tableView.contentSize=CGSizeMake(CGRectGetWidth(self.tableView.contentFrame), CGRectGetHeight(self.tableView.contentFrame) - 170);
-    }];
+    if (self.advc.adList.count != 0) {
+        [UIView animateWithDuration:0.3 animations:^{
+            
+            [self.tableView setContentOffset:CGPointMake(0, 0)];
+        } completion:^(BOOL finished) {
+            
+            self.tableView.contentSize=CGSizeMake(CGRectGetWidth(self.tableView.contentFrame), CGRectGetHeight(self.tableView.contentFrame) - 170);
+        }];
+    }
 }
 
 - (IBAction)recordAction:(id)sender {
@@ -375,6 +382,11 @@
     
     if (![self.selectCar isKindOfClass:[HKMyCar class]]) {
         [gToast showText:@"请添加爱车"];
+        return;
+    }
+    
+    if (!self.cityId) {
+        [gToast showText:@"请选择城市后进行估值"];
         return;
     }
     
@@ -393,8 +405,14 @@
     
     [[[op rac_postRequest] initially:^{
         [gToast showingWithText:@"估值中..."];
-    }] subscribeNext:^(id x) {
+    }] subscribeNext:^(CarEvaluateOp * op) {
+        
         [gToast dismiss];
+        ValuationResultVC * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"ValuationResultVC"];
+        vc.evaluateOp = op;
+        vc.logoUrl = self.selectCar.brandLogo;
+        vc.cityStr = self.locationLabel.text;
+        [self.navigationController pushViewController:vc animated:YES];
         
     } error:^(NSError *error) {
         [gToast showError:error.domain];

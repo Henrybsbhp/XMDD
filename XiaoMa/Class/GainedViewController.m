@@ -195,6 +195,7 @@
         
         MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
         sheet.shouldCenterVertically = YES;
+        @strongify(self);
         if (!self.isPresenting) {
             self.isPresenting = YES;
             [sheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
@@ -212,12 +213,12 @@
         
         [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
             
-            @strongify(self)
+            @strongify(self);
             [self handleResultCode:code from:type forSheet:sheet];
         }];
         [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
             
-            @strongify(self)
+            @strongify(self);
             [self handleResultCode:[code integerValue] from:type forSheet:sheet];
         }];
     } error:^(NSError *error) {
