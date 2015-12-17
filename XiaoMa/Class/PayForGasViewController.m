@@ -11,7 +11,7 @@
 #import "GasPaymentResultVC.h"
 #import "HKTableViewCell.h"
 #import "ChooseCarwashTicketVC.h"
-#import "GetUserResourcesV2Op.h"
+#import "GetUserResourcesGaschargeOp.h"
 
 @interface PayForGasViewController ()
 
@@ -130,13 +130,15 @@
 #pragma mark - Utilitly
 - (void)requestGetGasResource
 {
-    // @fq TODO
-    [[[gAppMgr.myUser.couponModel rac_getVaildResource:1] initially:^{
+    GetUserResourcesGaschargeOp * op = [GetUserResourcesGaschargeOp operation];
+    
+    [[[op rac_postRequest] initially:^{
         
         self.isLoadingResourse = YES;
-    }] subscribeNext:^(GetUserResourcesV2Op * op) {
+    }] subscribeNext:^(GetUserResourcesGaschargeOp * op) {
         
         self.isLoadingResourse = NO;
+        self.gasCoupon = op.rsp_couponArray;
         
         [self setupDatasource];
         [self.tableView reloadData];
@@ -175,7 +177,7 @@
         if (coupon.couponPercent)
         {
             // 优惠劵有折扣优惠，直接乘
-            discount = rechargeAmount * coupon.couponPercent / 100;
+            discount = rechargeAmount - rechargeAmount * coupon.couponPercent / 100;
         }
         else
         {
