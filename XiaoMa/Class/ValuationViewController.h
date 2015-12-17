@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HKMyCar.h"
+#import "MyCarListVModel.h"
 
 @interface ValuationViewController : UIViewController
 

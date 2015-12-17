@@ -8,12 +8,6 @@
 
 #import "AreaTablePickerVC.h"
 
-typedef NS_ENUM(NSInteger, LocateState) {
-    LocateStateLocating,    //定位中
-    LocateStateSuccess,     //定位成功
-    LocateStateFailure      //定位失败
-};
-
 @interface AreaTablePickerVC ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -171,6 +165,7 @@ typedef NS_ENUM(NSInteger, LocateState) {
     NSMutableArray * tempMuteArray = [self unArchiverData:userAreaArray];
     for (HKAreaInfoModel * newObj in newAreaArray)
     {
+        BOOL isExsit = NO;
         for (int i =0; i < tempMuteArray.count; i++) {
             HKAreaInfoModel *oldObj = tempMuteArray[i];
             
@@ -187,9 +182,15 @@ typedef NS_ENUM(NSInteger, LocateState) {
                 }
             }
             else {
-                [tempMuteArray addObject:newObj];
-                break;
+                //检查是否地区存在，避免重复添加
+                if (newObj.infoId == oldObj.infoId) {
+                    isExsit = YES;
+                    break;
+                }
             }
+        }
+        if(!isExsit) {
+            [tempMuteArray addObject:newObj];
         }
     }
     [tempMuteArray sortUsingComparator:^NSComparisonResult(HKAreaInfoModel * obj1, HKAreaInfoModel * obj2) {
