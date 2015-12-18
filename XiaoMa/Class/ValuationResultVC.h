@@ -16,5 +16,7 @@
 @property (nonatomic, strong)NSString * logoUrl;
 @property (nonatomic, strong)NSString * cityStr;
 
+@property (nonatomic, strong)NSNumber * carId;
+@property (nonatomic, strong)NSNumber * cityId;
 
 @end

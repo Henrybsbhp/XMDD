@@ -174,6 +174,7 @@
         self.selectCar = [[HKMyCar alloc] init];
         self.selectCar = [self.dataSource safetyObjectAtIndex:0];
         self.miles = self.selectCar.odo;
+        self.modelId = self.selectCar.detailModel.modelid;
         [self.tableView reloadData];
     } error:^(NSError *error) {
         
@@ -287,9 +288,12 @@
         [view setSelectTypeClickBlock:^{
             PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Car"];
             vc.originVC = self;
-            [vc setCompleted:^(NSString *brand, NSString *series) {
-                modelField.inputField.text = [NSString stringWithFormat:@"%@ %@", brand, series];
-                self.selectCar.model = series;  //需增加车系以及其id参数
+            [vc setCompleted:^(AutoBrandModel *brand, AutoSeriesModel * series, AutoDetailModel * model) {
+                self.selectCar.brand = brand.brandname;
+                self.selectCar.seriesModel = series;
+                self.selectCar.detailModel = model;
+                modelField.inputField.text = [NSString stringWithFormat:@"%@ %@ %@", brand.brandname, series.seriesname, model.modelname];
+                self.modelId = model.modelid;
             }];
             [self.navigationController pushViewController:vc animated:YES];
         }];
@@ -345,6 +349,7 @@
     JT3DScrollView * jt3Dscroll = (JT3DScrollView *)scrollView;
     self.selectCar = [self.dataSource safetyObjectAtIndex:jt3Dscroll.currentPage];
     self.miles = self.selectCar.odo;
+    self.modelId = self.selectCar.detailModel.modelid;
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
@@ -395,6 +400,11 @@
         return;
     }
     
+    if (!self.selectCar.detailModel.modelname) {
+        [gToast showText:@"请选择具体车型"];
+        return;
+    }
+    
     CarEvaluateOp * op = [CarEvaluateOp operation];
     op.req_mile = self.miles;
     op.req_modelid = @24712;
@@ -412,6 +422,8 @@
         vc.evaluateOp = op;
         vc.logoUrl = self.selectCar.brandLogo;
         vc.cityStr = self.locationLabel.text;
+        vc.carId = self.selectCar.carId;
+        vc.cityId = self.cityId;
         [self.navigationController pushViewController:vc animated:YES];
         
     } error:^(NSError *error) {
