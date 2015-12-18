@@ -41,7 +41,7 @@
 #define ItemCount 3.0
 
 #import "SecondCarValuationVC.h"
-
+#import "CommitSuccessVC.h"
 
 @interface HomePageVC ()<UIScrollViewDelegate>
 @property (nonatomic, weak) IBOutlet UIView *bgView;
