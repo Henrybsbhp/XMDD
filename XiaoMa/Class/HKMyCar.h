@@ -47,6 +47,9 @@ typedef enum : NSInteger
 ///车辆品牌
 @property (nonatomic,copy)NSString * brand;
 
+///品牌logo
+@property (nonatomic,copy)NSString * brandLogo;
+
 ///车辆型号
 @property (nonatomic,copy)NSString * model;
 

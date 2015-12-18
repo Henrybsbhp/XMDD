@@ -306,6 +306,7 @@
 		50DD1BC81BFB023800349A70 /* HKOtherOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BC71BFB023800349A70 /* HKOtherOrder.m */; };
 		50DD1BCB1BFB093500349A70 /* OthersOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BCA1BFB093500349A70 /* OthersOrderViewModel.m */; };
 		50E9DD161BE201180070F38D /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E9DD151BE201180070F38D /* Reachability.m */; };
+		50FA52891C2296CD002B1EAE /* ValuationResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FA52881C2296CD002B1EAE /* ValuationResultVC.m */; };
 		6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */; };
 		6B086BA71AE4F03800659DB7 /* UIView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA61AE4F03800659DB7 /* UIView+Base.m */; };
 		6B0DB8221BEB277A007BE693 /* GetCarwashOrderListV3Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0DB8211BEB277A007BE693 /* GetCarwashOrderListV3Op.m */; };
@@ -1102,6 +1103,8 @@
 		50DD1BCA1BFB093500349A70 /* OthersOrderViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OthersOrderViewModel.m; sourceTree = "<group>"; };
 		50E9DD141BE201180070F38D /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		50E9DD151BE201180070F38D /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		50FA52871C2296CD002B1EAE /* ValuationResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuationResultVC.h; sourceTree = "<group>"; };
+		50FA52881C2296CD002B1EAE /* ValuationResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuationResultVC.m; sourceTree = "<group>"; };
 		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6B086BA21AE4E19000659DB7 /* GetSystemTipsOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemTipsOp.h; path = Class/GetSystemTipsOp.h; sourceTree = "<group>"; };
 		6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemTipsOp.m; path = Class/GetSystemTipsOp.m; sourceTree = "<group>"; };
@@ -2943,6 +2946,8 @@
 				4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */,
 				4E5995661C201C5300686565 /* CommitSuccessVC.h */,
 				4E5995671C201C5300686565 /* CommitSuccessVC.m */,
+				50FA52871C2296CD002B1EAE /* ValuationResultVC.h */,
+				50FA52881C2296CD002B1EAE /* ValuationResultVC.m */,
 			);
 			name = Valuation;
 			sourceTree = "<group>";
@@ -4086,6 +4091,7 @@
 				6BD293B71B9401D6006482A4 /* InsuranceChooseViewController.m in Sources */,
 				18804AA21B25811E00E7E764 /* HKRefreshControl.m in Sources */,
 				6BCA5F431B102D5700E1E630 /* GetUserCouponPkgOp.m in Sources */,
+				50FA52891C2296CD002B1EAE /* ValuationResultVC.m in Sources */,
 				1833F5391BCB42B8000E1DA1 /* MyCarStore.m in Sources */,
 				6BBE83BD1C218D2300FEB101 /* GetUserResourcesGaschargeOp.m in Sources */,
 				5073810D1BA1672D00B29756 /* GetCouponByTypeNewOp.m in Sources */,

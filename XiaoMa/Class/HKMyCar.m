@@ -41,6 +41,7 @@
     car.licencenumber= [[rsp stringParamForName:@"licencenumber"] uppercaseString];
     car.purchasedate = [NSDate dateWithD8Text:[rsp stringParamForName:@"purchasedate"]];
     car.brand = [rsp stringParamForName:@"make"];
+    car.brandLogo = [rsp stringParamForName:@"logo"];
     car.model = [rsp stringParamForName:@"model"];
     car.price = [rsp floatParamForName:@"price"];
     car.odo = [rsp integerParamForName:@"odo"];
@@ -82,6 +83,7 @@
     [dict safetySetObject:[self.licencenumber uppercaseString] forKey:@"licencenumber"];
     [dict safetySetObject:[self.purchasedate dateFormatForDT8] forKey:@"purchasedate"];
     [dict safetySetObject:self.brand forKey:@"make"];
+    [dict safetySetObject:self.brandLogo forKey:@"logo"];
     [dict safetySetObject:self.model forKey:@"model"];
     [dict safetySetObject:[NSString stringWithFormat:@"%.2f", self.price] forKey:@"price"];
     [dict safetySetObject:@(self.odo) forKey:@"odo"];
@@ -105,6 +107,7 @@
     car.licenceurl = _licenceurl;
     car.purchasedate = _purchasedate;
     car.brand = _brand;
+    car.brandLogo = _brandLogo;
     car.model = _model;
     car.price = _price;
     car.odo = _odo;
