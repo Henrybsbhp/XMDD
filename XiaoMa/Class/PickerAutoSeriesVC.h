@@ -10,8 +10,7 @@
 #import "HKMyCar.h"
 
 @interface PickerAutoSeriesVC : UIViewController
-@property (nonatomic, strong) NSNumber *brandid;
-@property (nonatomic, strong) NSString *brandName;
+@property (nonatomic, strong) AutoBrandModel *brand;
 @property (nonatomic, weak) UIViewController *originVC;
-@property (nonatomic, copy) void(^completed)(NSString *brand, NSString *series);
+@property (nonatomic, copy) void(^completed)(AutoBrandModel *brand, AutoSeriesModel *series, AutoDetailModel * model);
 @end

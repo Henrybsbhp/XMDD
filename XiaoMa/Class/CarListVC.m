@@ -315,8 +315,9 @@
     [subv setShowBottomButton:show withText:text];
     
     [subv setCellTitle:@"购车时间" withValue:[car.purchasedate dateFormatForYYMM] atIndex:0];
-    [subv setCellTitle:@"爱车品牌" withValue:car.brand atIndex:1];
-    [subv setCellTitle:@"具体车系" withValue:car.model atIndex:2];
+    NSString * brandStr = [NSString stringWithFormat:@"%@ %@", car.brand, car.seriesModel.seriesname];
+    [subv setCellTitle:@"品牌车系" withValue:brandStr atIndex:1];
+    [subv setCellTitle:@"具体车型" withValue:car.detailModel.modelname atIndex:2];
     [subv setCellTitle:@"整车价格" withValue:[NSString stringWithFormat:@"%.2f万元", car.price] atIndex:3];
     [subv setCellTitle:@"当前里程" withValue:[NSString stringWithFormat:@"%d公里", (int)car.odo] atIndex:4];
     [subv setCellTitle:@"年检到期日" withValue:[car.insexipiredate dateFormatForYYMM] atIndex:5];

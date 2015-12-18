@@ -245,6 +245,9 @@
     if (section == 0 && self.areaType == AreaTypeProvince) {
         return 1;
     }
+    if (self.dataSource.count == 0) {
+        return 1;
+    }
     return self.dataSource.count;
 }
 
@@ -294,8 +297,13 @@
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LabelCell" forIndexPath:indexPath];
         UILabel * label = (UILabel *)[cell.contentView viewWithTag:1001];
         
-        HKAreaInfoModel *areaObject = [self.dataSource safetyObjectAtIndex:indexPath.row];
-        label.text = areaObject.infoName;
+        if (self.dataSource.count == 0) {
+            label.text = @"全部地区";
+        }
+        else {
+            HKAreaInfoModel *areaObject = [self.dataSource safetyObjectAtIndex:indexPath.row];
+            label.text = areaObject.infoName;
+        }
         return cell;
     }
 }
@@ -381,12 +389,22 @@
             }
         }
         else {
+            
             HKAreaInfoModel * provinceModel = [self.selectedArray safetyObjectAtIndex:0];
             HKAreaInfoModel * cityModel = [self.selectedArray safetyObjectAtIndex:1];
-            HKAreaInfoModel * districtModel = areaObject;
             
-            if (self.selectCompleteAction) {
-                self.selectCompleteAction(provinceModel, cityModel, districtModel);
+            if (self.dataSource.count == 0) {
+                HKAreaInfoModel * districtDic = [[HKAreaInfoModel alloc] init];
+                districtDic.infoName = @"全部地区";
+                if (self.selectCompleteAction) {
+                    self.selectCompleteAction(provinceModel, cityModel, districtDic);
+                }
+            }
+            else {
+                HKAreaInfoModel * districtModel = areaObject;
+                if (self.selectCompleteAction) {
+                    self.selectCompleteAction(provinceModel, cityModel, districtModel);
+                }
             }
             
             if (self.originVC) {

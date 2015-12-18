@@ -109,7 +109,8 @@
             else if (i == 1) {
                 titleL.text = @"爱车车型";
                 textField.userInteractionEnabled = NO;
-                textField.inputField.text = [NSString stringWithFormat:@"%@ %@", carModel.brand, carModel.model];
+                textField.subscriptImageName = @"val_textfield_car";
+                textField.inputField.text = [NSString stringWithFormat:@"%@ %@ %@", carModel.brand, carModel.seriesModel.seriesname, carModel.detailModel.modelname];
                 [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                     [self endEditing:YES];
                     if (self.selectTypeClickBlock) {
@@ -127,6 +128,7 @@
             else {
                 titleL.text = @"购车时间";
                 textField.userInteractionEnabled = NO;
+                textField.subscriptImageName = @"ins_arrow_time";
                 NSString * dataStr = [carModel.purchasedate dateFormatForYYMM];
                 textField.inputField.text = [NSString stringWithFormat:@"%@", dataStr];
                 [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
