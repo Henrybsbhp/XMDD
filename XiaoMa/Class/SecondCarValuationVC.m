@@ -285,7 +285,7 @@
         {
             [tempString addObject:dic[@"channeleng"]];
         }
-        uploadOp.req_channelEngs=[self.uploadArr componentsJoinedByString:@","];
+        uploadOp.req_channelEngs=[tempString componentsJoinedByString:@","];
         
         [[[uploadOp rac_postRequest] initially:^{
             
@@ -294,7 +294,7 @@
             
             self.tip=uploadOp.rsp_tip;
         } error:^(NSError *error) {
-            [gToast showError:@"信息提交失败。请检查您的网络。"];
+            [gToast showError:error.domain];
         }completed:^{
             CommitSuccessVC *successVC=[[UIStoryboard storyboardWithName:@"Valuation" bundle:nil]instantiateViewControllerWithIdentifier:@"CommitSuccessVC"];
             successVC.tip=self.tip;
