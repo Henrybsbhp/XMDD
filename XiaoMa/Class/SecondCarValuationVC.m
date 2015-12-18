@@ -283,7 +283,7 @@
         NSMutableArray *tempString=[NSMutableArray new];
         for (NSDictionary *dic in self.uploadArr)
         {
-            [tempString addObject:dic[@"channeleng"]];
+            [tempString safetyAddObject:dic[@"channeleng"]];
         }
         uploadOp.req_channelEngs=[tempString componentsJoinedByString:@","];
         
