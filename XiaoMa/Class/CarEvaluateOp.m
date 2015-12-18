@@ -33,6 +33,8 @@
         self.rsp_normalPrice = [rspObj floatParamForName:@"normalprice"];
         self.rsp_betterPrice = [rspObj floatParamForName:@"betterprice"];
         self.rsp_bestPrice = [rspObj floatParamForName:@"bestprice"];
+        self.rsp_url = [rspObj stringParamForName:@"url"];
+        self.rsp_tip = [rspObj stringParamForName:@"tip"];
         self.rsp_carid = [rspObj numberParamForName:@"carid"];
     }
     else
