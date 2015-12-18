@@ -59,6 +59,9 @@
 - (void)setupUI
 {
     [self.commitBtn makeCornerRadius:5.0f];
+    [self.navigationItem.rightBarButtonItem setTitleTextAttributes:@{
+                                                                    NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
+                                                                    } forState:UIControlStateNormal];
 }
 
 
@@ -204,6 +207,7 @@
         UILabel *label=[UILabel new];
         label.text=(section-1)?@"车主信息":@"选择平台";
         label.textColor=[UIColor blackColor];
+        label.backgroundColor=[UIColor clearColor];
         label.font=[UIFont systemFontOfSize:15];
         [backgroundView addSubview:label];
         [label mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -237,7 +241,17 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (IOSVersionGreaterThanOrEqualTo(@"7.0"))
+    {
     return UITableViewAutomaticDimension;
+    }
+    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+    [cell layoutIfNeeded];
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
+    CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+    return ceil(size.height+1);
+
 }
 
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
