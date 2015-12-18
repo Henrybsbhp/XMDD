@@ -14,6 +14,7 @@
 #import "DatePickerVC.h"
 #import "UIView+Shake.h"
 #import "PickAutomobileBrandVC.h"
+#import "PickerAutoModelVC.h"
 #import "CollectionChooseVC.h"
 #import "ProvinceChooseView.h"
 #import "PickInsCompaniesVC.h"
@@ -121,10 +122,10 @@
     if ([self sharkCellIfErrorAtIndex:1 withData:self.curCar.purchasedate errorMsg:@"购车时间不能为空"]) {
         return;
     }
-    if ([self sharkCellIfErrorAtIndex:2 withData:self.curCar.brand errorMsg:@"汽车品牌不能为空"]) {
+    if ([self sharkCellIfErrorAtIndex:2 withData:self.curCar.brand errorMsg:@"品牌车系不能为空"]) {
         return;
     }
-    if ([self sharkCellIfErrorAtIndex:3 withData:self.curCar.model errorMsg:@"具体车系不能为空"]) {
+    if ([self sharkCellIfErrorAtIndex:3 withData:self.curCar.detailModel.modelname errorMsg:@"具体车型不能为空"]) {
         return;
     }
     
@@ -367,9 +368,10 @@
         [self.view endEditing:YES];
         PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Car"];
         vc.originVC = self;
-        [vc setCompleted:^(NSString *brand, NSString *series) {
-            self.curCar.brand = brand;
-            self.curCar.model = series;
+        [vc setCompleted:^(AutoBrandModel *brand, AutoSeriesModel *series, AutoDetailModel * model) {
+            self.curCar.brand = brand.brandname;
+            self.curCar.brandid = brand.brandid;
+            self.curCar.seriesModel = series;
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -377,11 +379,10 @@
     else if (indexPath.row == 3) {
         [MobClick event:@"rp312-5"];
         [self.view endEditing:YES];
-        PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Car"];
+        PickerAutoModelVC *vc = [UIStoryboard vcWithId:@"PickerAutoModelVC" inStoryboard:@"Car"];
         vc.originVC = self;
-        [vc setCompleted:^(NSString *brand, NSString *series) {
-            self.curCar.brand = brand;
-            self.curCar.model = series;
+        [vc setCompleted:^(AutoBrandModel *brand, AutoSeriesModel *series, AutoDetailModel * model) {
+            self.curCar.detailModel = model;
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -551,15 +552,18 @@
     UILabel *subTitleL = (UILabel *)[cell.contentView viewWithTag:1002];
     
     if (indexPath.row == 2) {
-        titleL.attributedText = [self attrStrWithTitle:@"爱车品牌" asterisk:YES];
+        titleL.attributedText = [self attrStrWithTitle:@"品牌车系" asterisk:YES];
         [[RACObserve(self.curCar, brand) takeUntilForCell:cell] subscribeNext:^(id x) {
-            subTitleL.text = x;
+            subTitleL.text = [NSString stringWithFormat:@"%@ %@", x, self.curCar.seriesModel.seriesname];
+        }];
+        [[RACObserve(self.curCar, seriesModel) takeUntilForCell:cell] subscribeNext:^(AutoSeriesModel * series) {
+            subTitleL.text = [NSString stringWithFormat:@"%@ %@", self.curCar.brand, series.seriesname];
         }];
     }
     else if (indexPath.row == 3) {
-        titleL.attributedText = [self attrStrWithTitle:@"具体车系" asterisk:YES];
-        [[RACObserve(self.curCar, model) takeUntilForCell:cell] subscribeNext:^(id x) {
-            subTitleL.text = x;
+        titleL.attributedText = [self attrStrWithTitle:@"具体车型" asterisk:YES];
+        [[RACObserve(self.curCar, seriesModel) takeUntilForCell:cell] subscribeNext:^(AutoDetailModel * detailModel) {
+            subTitleL.text = detailModel.modelname;
         }];
     }
     else if (indexPath.row == 7) {

@@ -47,6 +47,7 @@
 @property (nonatomic, strong)NSDate * buyDate;
 @property (nonatomic, strong)NSNumber * carId;
 @property (nonatomic, strong)NSNumber * cityId;
+@property (nonatomic, strong)NSString * modelStr;
 
 @end
 
@@ -139,6 +140,7 @@
         self.cityId = [NSNumber numberWithInteger:op.rsp_city.infoId];
         
     } error:^(NSError *error) {
+        @strongify(self);
         self.locateState = LocateStateFailure;
         [gToast showError:@"获取城市信息失败"];
     }];
@@ -174,6 +176,8 @@
         self.selectCar = [[HKMyCar alloc] init];
         self.selectCar = [self.dataSource safetyObjectAtIndex:0];
         self.miles = self.selectCar.odo;
+        self.modelId = self.selectCar.detailModel.modelid;
+        self.modelStr = self.selectCar.detailModel.modelname;
         [self.tableView reloadData];
     } error:^(NSError *error) {
         
@@ -283,13 +287,19 @@
         //车系选择
         HKSubscriptInputField * modelField = [view viewWithTag:202];
         modelField.inputField.userInteractionEnabled = NO;
-        
+        @weakify(self);
         [view setSelectTypeClickBlock:^{
+            @strongify(self);
             PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Car"];
             vc.originVC = self;
-            [vc setCompleted:^(NSString *brand, NSString *series) {
-                modelField.inputField.text = [NSString stringWithFormat:@"%@ %@", brand, series];
-                self.selectCar.model = series;  //需增加车系以及其id参数
+            [vc setCompleted:^(AutoBrandModel *brand, AutoSeriesModel * series, AutoDetailModel * model) {
+                @strongify(self);
+                self.selectCar.brand = brand.brandname;
+                self.selectCar.seriesModel = series;
+                self.selectCar.detailModel = model;
+                modelField.inputField.text = [NSString stringWithFormat:@"%@ %@ %@", brand.brandname, series.seriesname, model.modelname];
+                self.modelId = model.modelid;
+                self.modelStr = model.modelname;
             }];
             [self.navigationController pushViewController:vc animated:YES];
         }];
@@ -298,18 +308,21 @@
         HKSubscriptInputField * dateField = [view viewWithTag:203];
         dateField.inputField.userInteractionEnabled = NO;
         [view setSelectDateClickBlock:^{
+            @strongify(self);
             HKMyCar * myCar = [self.dataSource safetyObjectAtIndex:i];
             self.datePicker.maximumDate = [NSDate date];
             NSDate *selectedDate = myCar.purchasedate ? myCar.purchasedate : [NSDate date];
             
             [[self.datePicker rac_presentPickerVCInView:self.navigationController.view withSelectedDate:selectedDate]
              subscribeNext:^(NSDate *date) {
+                 @strongify(self);
                  dateField.inputField.text = [date dateFormatForYYMM];
                  self.selectCar.purchasedate = date;
              }];
         }];
         
         [view setAddCarClickBlock:^{
+            @strongify(self);
             if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
                 EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
                 [self.navigationController pushViewController:vc animated:YES];
@@ -326,8 +339,9 @@
 {
     if (indexPath.row == 0) {
         AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCity fromVC:self];
-        
+        @weakify(self);
         [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * districtModel) {
+            @strongify(self);
             self.locationLabel.text = [NSString stringWithFormat:@"%@/%@", provinceModel.infoName, cityModel.infoName];
             self.cityId = [NSNumber numberWithInteger:cityModel.infoId];
         }];
@@ -345,6 +359,8 @@
     JT3DScrollView * jt3Dscroll = (JT3DScrollView *)scrollView;
     self.selectCar = [self.dataSource safetyObjectAtIndex:jt3Dscroll.currentPage];
     self.miles = self.selectCar.odo;
+    self.modelId = self.selectCar.detailModel.modelid;
+    self.modelStr = self.selectCar.detailModel.modelname;
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
@@ -395,6 +411,11 @@
         return;
     }
     
+    if (!self.selectCar.detailModel.modelname) {
+        [gToast showText:@"请选择具体车型"];
+        return;
+    }
+    
     CarEvaluateOp * op = [CarEvaluateOp operation];
     op.req_mile = self.miles;
     op.req_modelid = @24712;
@@ -402,21 +423,29 @@
     op.req_carid = self.selectCar.carId;
     op.req_cityid = self.cityId;
     op.req_licenseno = self.selectCar.licencenumber;
-    
+    @weakify(self);
     [[[op rac_postRequest] initially:^{
         [gToast showingWithText:@"估值中..."];
     }] subscribeNext:^(CarEvaluateOp * op) {
         
+        @strongify(self);
         [gToast dismiss];
         ValuationResultVC * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"ValuationResultVC"];
         vc.evaluateOp = op;
         vc.logoUrl = self.selectCar.brandLogo;
         vc.cityStr = self.locationLabel.text;
+        vc.carId = self.selectCar.carId;
+        vc.cityId = self.cityId;
+        vc.modelStr = self.modelStr;
         [self.navigationController pushViewController:vc animated:YES];
         
     } error:^(NSError *error) {
         [gToast showError:error.domain];
     }];
+}
+
+- (void)dealloc {
+    DebugLog(@"ValuationViewController dealloc~~~");
 }
 
 - (void)didReceiveMemoryWarning {

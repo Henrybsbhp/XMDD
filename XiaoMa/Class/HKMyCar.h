@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "NSMutableDictionary+AddParams.h"
+#import "AutoSeriesModel.h"
 
 typedef enum : NSInteger
 {
@@ -50,8 +51,14 @@ typedef enum : NSInteger
 ///品牌logo
 @property (nonatomic,copy)NSString * brandLogo;
 
-///车辆型号
-@property (nonatomic,copy)NSString * model;
+///品牌id
+@property (nonatomic,strong)NSNumber* brandid;
+
+///车系
+@property (nonatomic,strong)AutoSeriesModel * seriesModel;
+
+///具体车型
+@property (nonatomic,strong)AutoDetailModel * detailModel;
 
 ///购买价格 单位：万元
 @property (nonatomic)CGFloat price;
@@ -96,7 +103,6 @@ typedef enum : NSInteger
 - (NSDictionary *)jsonDictForCarInfo;
 - (BOOL)isCarInfoCompleted;
 - (BOOL)isDifferentFromAnother:(HKMyCar *)another;
-- (NSString *)carSeriesDesc;
 - (UIColor *)tintColor;
 + (UIColor *)tintColorForColorType:(HKCarTintColorType)colorType;
 

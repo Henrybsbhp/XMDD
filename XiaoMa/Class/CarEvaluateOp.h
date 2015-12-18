@@ -21,6 +21,8 @@
 @property (nonatomic)CGFloat rsp_normalPrice;
 @property (nonatomic)CGFloat rsp_betterPrice;
 @property (nonatomic)CGFloat rsp_bestPrice;
+@property (nonatomic, copy)NSString *rsp_url;
+@property (nonatomic, copy)NSString *rsp_tip;
 @property (nonatomic, strong)NSNumber *rsp_carid;
 
 @end

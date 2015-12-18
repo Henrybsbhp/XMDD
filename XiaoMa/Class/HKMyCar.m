@@ -42,7 +42,18 @@
     car.purchasedate = [NSDate dateWithD8Text:[rsp stringParamForName:@"purchasedate"]];
     car.brand = [rsp stringParamForName:@"make"];
     car.brandLogo = [rsp stringParamForName:@"logo"];
-    car.model = [rsp stringParamForName:@"model"];
+    
+    car.brandid = [rsp numberParamForName:@"makeid"];
+    AutoSeriesModel * seriesDic = [[AutoSeriesModel alloc] init];
+    seriesDic.seriesid = [rsp numberParamForName:@"seriesid"];
+    seriesDic.seriesname = [rsp stringParamForName:@"series"];
+    car.seriesModel = seriesDic;
+    
+    AutoDetailModel * modelDic = [[AutoDetailModel alloc] init];
+    modelDic.modelid = [rsp numberParamForName:@"modelid"];
+    modelDic.modelname = [rsp stringParamForName:@"model"];
+    car.detailModel = modelDic;
+    
     car.price = [rsp floatParamForName:@"price"];
     car.odo = [rsp integerParamForName:@"odo"];
     car.inscomp = [rsp stringParamForName:@"inscomp"];
@@ -84,7 +95,13 @@
     [dict safetySetObject:[self.purchasedate dateFormatForDT8] forKey:@"purchasedate"];
     [dict safetySetObject:self.brand forKey:@"make"];
     [dict safetySetObject:self.brandLogo forKey:@"logo"];
-    [dict safetySetObject:self.model forKey:@"model"];
+    //以下为二手车查询新增
+    [dict safetySetObject:self.brandid forKey:@"makeid"];
+    [dict safetySetObject:self.seriesModel.seriesname forKey:@"series"];
+    [dict safetySetObject:self.seriesModel.seriesid forKey:@"seriesid"];
+    [dict safetySetObject:self.detailModel.modelname forKey:@"model"];
+    [dict safetySetObject:self.detailModel.modelid forKey:@"modelid"];
+    
     [dict safetySetObject:[NSString stringWithFormat:@"%.2f", self.price] forKey:@"price"];
     [dict safetySetObject:@(self.odo) forKey:@"odo"];
     [dict safetySetObject:self.inscomp forKey:@"inscomp"];
@@ -108,7 +125,9 @@
     car.purchasedate = _purchasedate;
     car.brand = _brand;
     car.brandLogo = _brandLogo;
-    car.model = _model;
+    car.brandid = _brandid;
+    car.seriesModel = _seriesModel;
+    car.detailModel = _detailModel;
     car.price = _price;
     car.odo = _odo;
     car.inscomp = _inscomp;
@@ -131,7 +150,7 @@
 
 - (BOOL)isCarInfoCompleted
 {
-    if (self.carId && self.licencenumber.length > 0 && self.purchasedate && self.brand.length > 0 && self.model.length > 0) {
+    if (self.carId && self.licencenumber.length > 0 && self.purchasedate && self.brand.length > 0 && self.seriesModel.seriesname.length > 0 && self.detailModel.modelname.length > 0) {
         return YES;
     }
     return NO;
@@ -151,7 +170,10 @@
     if (![self isEqualWithString1:self.brand string2:another.brand]) {
         return YES;
     }
-    if (![self isEqualWithString1:self.model string2:another.model]) {
+    if (![self isEqualWithString1:self.seriesModel.seriesname string2:another.seriesModel.seriesname]) {
+        return YES;
+    }
+    if (![self isEqualWithString1:self.detailModel.modelname string2:another.detailModel.modelname]) {
         return YES;
     }
     if (self.price != another.price) {
@@ -185,18 +207,6 @@
         return YES;
     }
     return NO;
-}
-
-- (NSString *)carSeriesDesc
-{
-    NSString *desc = self.brand;
-    if (desc) {
-        desc = [self.model hasPrefix:desc] ? self.model : [desc append:self.model];
-    }
-    else {
-        desc = self.model;
-    }
-    return desc;
 }
 
 - (UIColor *)tintColor

@@ -2,27 +2,29 @@
 //  PickerAutoModelVC.m
 //  XiaoMa
 //
-//  Created by jiangjunchen on 15/5/20.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Created by 刘亚威 on 15/12/18.
+//  Copyright © 2015年 huika. All rights reserved.
 //
 
-#import "PickerAutoSeriesVC.h"
-#import "GetAutomobileSeriesV2Op.h"
-#import "HKLoadingModel.h"
 #import "PickerAutoModelVC.h"
+#import "GetAutomobileModelV2Op.h"
+#import "HKLoadingModel.h"
+#import "AutoSeriesModel.h"
+#import "PickerAutoSeriesVC.h"
 #import "AutoSeriesModel.h"
 
-@interface PickerAutoSeriesVC ()<UITableViewDelegate, UITableViewDataSource, HKLoadingModelDelegate>
+@interface PickerAutoModelVC ()<UITableViewDelegate, UITableViewDataSource, HKLoadingModelDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) HKLoadingModel *loadingModel;
+
 @end
 
-@implementation PickerAutoSeriesVC
+@implementation PickerAutoModelVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
     self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
     [self.loadingModel loadDataForTheFirstTime];
 }
@@ -41,20 +43,26 @@
 #pragma mark - HKLoadingModelDelegate
 - (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
 {
-    return @"暂无车系信息";
+    return @"暂无车型信息";
 }
 
 - (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
-    return @"获取车系信息失败，点击重试";
+    return @"获取车型信息失败，点击重试";
 }
 
 - (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
 {
-    GetAutomobileSeriesV2Op *op = [GetAutomobileSeriesV2Op new];
-    op.req_brandid = self.brand.brandid;
-    return [[op rac_postRequest] map:^id(GetAutomobileSeriesV2Op *rspOp) {
-        return rspOp.rsp_seriesList;
+    GetAutomobileModelV2Op *op = [GetAutomobileModelV2Op new];
+    op.req_seriesid = self.series.seriesid;
+    return [[op rac_postRequest] map:^id(GetAutomobileModelV2Op *rspOp) {
+        if (rspOp.rsp_modelList.count == 0) {
+            NSDictionary * defaultDic = [[NSDictionary alloc] initWithObjectsAndKeys:@"0", @"mid", @"全系车型", @"name", nil];
+            AutoDetailModel * defaultModel = [AutoDetailModel setModelWithJSONResponse:defaultDic];
+            NSArray * defaultArr = [[NSArray alloc] initWithObjects:defaultModel, nil];
+            return defaultArr;
+        }
+        return rspOp.rsp_modelList;
     }];
 }
 
@@ -78,8 +86,8 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
-    AutoSeriesModel * seriesDic = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
-    titleL.text = seriesDic.seriesname;
+    AutoDetailModel * model = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
+    titleL.text = model.modelname;
     
     if ([cell isKindOfClass:[JTTableViewCell class]]) {
         [(JTTableViewCell *)cell setHiddenTopSeparatorLine:YES];
@@ -90,13 +98,17 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    AutoSeriesModel *series = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
-    PickerAutoModelVC *vc = [UIStoryboard vcWithId:@"PickerAutoModelVC" inStoryboard:@"Car"];
-    vc.brand = self.brand;
-    vc.series = series;
-    vc.completed = self.completed;
-    vc.originVC = self.originVC;
-    [self.navigationController pushViewController:vc animated:YES];
+    AutoDetailModel *model = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
+    if (self.originVC) {
+        if (self.completed) {
+            self.completed(self.brand, self.series, model);
+        }
+        [self.navigationController popToViewController:self.originVC animated:YES];
+    }
+    else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -105,4 +117,5 @@
         [(JTTableViewCell *)cell prepareCellForTableView:tableView atIndexPath:indexPath];
     }
 }
+
 @end

@@ -12,6 +12,7 @@
 #import "GetShareButtonOp.h"
 #import "SocialShareViewController.h"
 #import "ShareResponeManager.h"
+#import "SecondCarValuationVC.h"
 
 @interface ValuationResultVC ()
 
@@ -111,7 +112,7 @@
             
             [logoV setImageByUrl:self.logoUrl withType:ImageURLTypeOrigin defImage:@"avatar_default" errorImage:@"avatar_default"];
             licensenoL.text = self.evaluateOp.req_licenseno;
-            brandL.text = @"具体车系西溪话西溪IF奖矮点废ud"; //self.evaluateOp.req_modelid
+            brandL.text = self.modelStr;
             if (!IOSVersionGreaterThanOrEqualTo(@"8.0")) {
                 brandL.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 44;
             }
@@ -140,15 +141,17 @@
                 bubbleV.image = bubbleImg;
             }
             UILabel * tipLabel = (UILabel *)[cell.contentView viewWithTag:1007];
-            tipLabel.text = @"估价及二手车交易服务由小马达达战略合作伙伴“车300”提供";
+            tipLabel.text = self.evaluateOp.rsp_tip;
         }
         else {
             cell=[tableView dequeueReusableCellWithIdentifier:@"SecondMoreCell"];
             UIButton * moreBtn = (UIButton *)[cell.contentView viewWithTag:1001];
+            @weakify(self);
             [[[moreBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 //服务器返回
+                @strongify(self);
                 WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
-                vc.url = @"http://www.baidu.com";
+                vc.url = self.evaluateOp.rsp_url;
                 [self.navigationController pushViewController:vc animated:YES];
             }];
         }
@@ -240,12 +243,19 @@
 }
 
 - (IBAction)carSallAction:(id)sender {
-    
+    SecondCarValuationVC * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"SecondCarValuationVC"];
+    vc.carid = self.carId;
+    vc.sellercityid = self.cityId;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+    DebugLog(@"ValuationResultVC dealloc~~~");
 }
 
 @end
