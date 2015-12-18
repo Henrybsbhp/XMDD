@@ -14,9 +14,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:self.applyId forName:@"applyid"];
     [params addParam:self.type forName:@"type"];
-    if (self.type == 0) {
-        [params addParam:self.appointTime forName:@"appointtime"];
-    }
+
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
     
 }
@@ -37,6 +35,7 @@
     }
     else
     {
+        
         NSString * errorInfo = [NSString stringWithFormat:@"%@ parse error~~",NSStringFromClass([self class])];
         NSAssert(NO,errorInfo);
     }

@@ -27,13 +27,14 @@
             if (dic != nil) {
                 HKRescueHistory *history = [[HKRescueHistory alloc] init];
                 history.applyTime = dic[@"applytime"];
-                NSLog(@"%@", dic[@"applytime"]);
+             
                 history.serviceName = dic[@"servicename"];
                 history.licenceNumber = dic[@"licencenumber"];
                 history.rescueStatus = dic[@"rescuestatus"];
                 history.commentStatus = dic[@"commentstatus"];
                 history.applyId = dic[@"applyid"];
                 history.type = dic[@"type"];
+                   NSLog(@"%@",history.commentStatus);
                 [rArray safetyAddObject:history];
             }
         }
@@ -43,6 +44,7 @@
     {
         NSString * errorInfo = [NSString stringWithFormat:@"%@ parse error~~",NSStringFromClass([self class])];
         NSAssert(NO,errorInfo);
+        [gToast dismiss];
     }
     return self;
     

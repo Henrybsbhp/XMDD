@@ -45,6 +45,7 @@
 
 @property (nonatomic,strong) CKSegmentHelper *checkBoxHelper;
 @property (nonatomic)BOOL isLoadingResourse;
+
 @property (nonatomic,strong)MyCarStore * carStore;
 
 @property (nonatomic,strong)CheckoutServiceOrderV4Op * checkoutServiceOrderV4Op;

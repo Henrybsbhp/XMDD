@@ -31,7 +31,7 @@
 @property (nonatomic, strong) NSNumber      * starNum2;
 @property (nonatomic, strong) NSNumber      * starNum3;
 
-@property (nonatomic, assign) NSInteger       mark;
+@property (nonatomic, strong) NSString      * commentsText;
 @end
 
 @implementation RescurecCommentsVC
@@ -52,7 +52,6 @@
     [self.footerView addSubview:self.commentsTV];
     [self.commentsTV addSubview:self.placeholderLb];
     [self.footerView addSubview:self.submitBtn];
-    self.tableView.separatorStyle = NO;
     self.tableView.tableHeaderView = self.headerView;
    
     
@@ -69,11 +68,14 @@
         return nil;
     }] subscribeNext:^(NSString * x) {
         NSLog(@"%@", x);
+        self.commentsText = x;
         self.commentsTV.text = x;
     }];
     
     if (self.isLog == 1) {
+        
         [self alreadyNetwork];
+        
     }else if (self.isLog == 0){
         
          self.tableView.tableFooterView = self.footerView;
@@ -81,13 +83,13 @@
 }
 - (void)setImageAndLbText {
     if (self.type == 1) {
-        self.titleImg.image = [UIImage imageNamed:@"拖车服务"];
+        self.titleImg.image = [UIImage imageNamed:@"rescue_trailer"];
         self.titleLb.text = @"拖车服务";
     }else if (self.type == 2){
-        self.titleImg.image = [UIImage imageNamed:@"泵电服务"];
+        self.titleImg.image = [UIImage imageNamed:@"pump_power"];
         self.titleLb.text = @"泵电服务";
     }else if (self.type == 3){
-        self.titleImg.image = [UIImage imageNamed:@"换胎服务"];
+        self.titleImg.image = [UIImage imageNamed:@"rescue_tire"];
         self.titleLb.text = @"换胎服务";
     }
 }
@@ -95,23 +97,16 @@
 - (void) alreadyNetwork {
     GetRescueCommentOp *op = [GetRescueCommentOp operation];
     op.applyId = self.applyId;
-    op.type = [NSNumber numberWithInteger:1];
+    op.type = self.applyType;
     @weakify(self)
     [[[[op rac_postRequest] initially:^{
- 
-        [gToast showText:@"加载中"];
-        
     }] finally:^{
         
-        
     }] subscribeNext:^(GetRescueCommentOp *op) {
-        
-        
         @strongify(self)
         [gToast dismiss];
         self.evaluationArray = op.rescueDetailArray;
-        
-        self.mark = 3;
+        self.isLog = 1;
         [self.tableView reloadData];
     } error:^(NSError *error) {
         [gToast showError:@"获取评论内容失败"];
@@ -119,37 +114,40 @@
     
 
 }
-- (void) network {
+- (void)commentsClick {
     GetRescueCommentRescueOp *op = [GetRescueCommentRescueOp operation];
     if (self.starNum1 > 0 && self.starNum2 > 0 && self.starNum3 >0) {
         op.applyId = self.applyId;
         op.responseSpeed = self.starNum1;
         op.arriveSpeed = self.starNum2;
         op.serviceAttitude = self.starNum3;
+        op.rescueType = self.applyType;
+        
         if (self.commentsTV.text != nil) {
             op.comment = self.commentsTV.text;
+            
         }else {
             op.comment = @"";
         }
-        op.rescueType = [NSNumber numberWithInteger:1];
         
         NSLog(@"-------%@", self.starNum1);
     }else {
-        [gToast showText:@"您还没有评价"];
+        [gToast showText:@"请您给个星吧!"];
     }
     @weakify(self)
     [[[[op rac_postRequest] initially:^{
-        [gToast showText:@"提交中"];
+        [gToast showText:@"提交评论中"];
     }] finally:^{
         
         
     }] subscribeNext:^(GetRescueCommentRescueOp *op) {
         @strongify(self)
         [gToast dismiss];
+        
         [gToast showText:@"评论成功"];
         self.isLog = 1;
         [self alreadyNetwork];
-//        [self.tableView reloadData];
+        [self.tableView reloadData];
     } error:^(NSError *error) {
         
         [gToast showError:@"评论失败, 请尝试重新提交"];
@@ -222,7 +220,6 @@
         self.ratingView.imgWidth = 20;
         self.ratingView.imgHeight = 20;
         self.ratingView.imgSpacing = (kWidth - 128 - 20 * 5)/6;
-        self.ratingView.ratingValue = 3;
         [[self.ratingView rac_subject] subscribeNext:^(NSNumber * number) {
             if (indexPath.row == 4) {
                 self.starNum1 = number;
@@ -234,12 +231,13 @@
     }];
         
         if (self.isLog == 1 && self.evaluationArray.count != 0) {
+            [self.ratingView setUserInteractionEnabled:NO];
             if (indexPath.row == 4) {                
-                self.ratingView.ratingValue = [self.evaluationArray[0] floatValue];
+                self.ratingView.ratingValue = [[self.evaluationArray safetyObjectAtIndex:0] floatValue];
             }else if (indexPath.row == 5){
-                self.ratingView.ratingValue = [self.evaluationArray[1] floatValue];
+                self.ratingView.ratingValue = [[self.evaluationArray safetyObjectAtIndex:1] floatValue];
             }else if (indexPath.row == 6){
-                self.ratingView.ratingValue = [self.evaluationArray[2] floatValue];
+                self.ratingView.ratingValue = [[self.evaluationArray safetyObjectAtIndex:2] floatValue];
             }
     }
 
@@ -353,17 +351,18 @@
         self.submitBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         _submitBtn.frame = CGRectMake(5, CGRectGetMaxY(self.commentsTV.frame) + 12, kWidth - 10, (kWidth - 10) * 0.128);
         _submitBtn.backgroundColor = [UIColor colorWithHex:@"#ffa800" alpha:1.0];
-        [_submitBtn addTarget:self action:@selector(network) forControlEvents:UIControlEventTouchUpInside];
+        [_submitBtn addTarget:self action:@selector(commentsClick) forControlEvents:UIControlEventTouchUpInside];
         _submitBtn.titleLabel.font = [UIFont systemFontOfSize:12];
         [_submitBtn setTintColor:[UIColor whiteColor]];
         _submitBtn.cornerRadius = 5;
         [_submitBtn setTitle:@"发表评论" forState:UIControlStateNormal];
+
     }
     return _submitBtn;
 }
 
 
-+(NSString *)nsdateToString:(NSDate *)date{
+- (NSString *)nsdateToString:(NSDate *)date{
     NSDateFormatter *dateFormat=[[NSDateFormatter alloc]init];
     [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString* string=[dateFormat stringFromDate:date];

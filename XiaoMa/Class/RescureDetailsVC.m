@@ -42,7 +42,6 @@
     [super viewDidLoad];
     [self network];
     
-    self.tableView.separatorStyle = NO;
     [self.view addSubview:self.helperBtn];
     self.tableView.tableFooterView = self.footerView;
     [self setupADView];

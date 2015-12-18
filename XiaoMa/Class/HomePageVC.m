@@ -35,7 +35,7 @@
 #import "GasVC.h"
 #import "PaymentSuccessVC.h"
 #import "PaymentCenterViewController.h"
-
+#import "CommissonConfirmVC.h"
 #define WeatherRefreshTimeInterval 60 * 30
 
 @interface HomePageVC ()<UIScrollViewDelegate>

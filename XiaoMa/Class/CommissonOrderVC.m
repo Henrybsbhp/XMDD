@@ -9,6 +9,10 @@
 #import "CommissonOrderVC.h"
 #import "NSString+RectSize.h"
 #import "GetRescureDetailOp.h"
+#import "CommissonConfirmVC.h"
+#import "RescureHistoryViewController.h"
+#import "LoginViewModel.h"
+#import "GetStartHostCarOp.h"
 #define kWidth [UIScreen mainScreen].bounds.size.width
 #define kHeight [UIScreen mainScreen].bounds.size.height
 @interface CommissonOrderVC ()
@@ -16,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic, strong) UIImageView   * advertisingImg;
-@property (nonatomic, strong) UIView        * footerView;
+@property (nonatomic, strong)                                            UIView        * footerView;
 @property (nonatomic, strong) UIButton      * helperBtn;
 @property (nonatomic, copy)   NSString      * testStr;
 @property (nonatomic, strong) NSMutableArray * dataSourceArray;
@@ -32,13 +36,20 @@
     DebugLog(deallocInfo);
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    BOOL result = [LoginViewModel loginIfNeededForTargetViewController:nil];
+    NSLog(@"%c", result);
+}
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
-    self.tableView.separatorStyle = NO;
     self.tableView.tableHeaderView = self.advertisingImg;
     self.tableView.tableFooterView = self.footerView;
     [self.view addSubview:self.helperBtn];
-    [self commissonNetwork];
+    
+    [self commissionNetwork];
+    
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
     btn.titleLabel.font = [UIFont systemFontOfSize:14];
     btn.frame = CGRectMake(0, 0, 60, 44);
@@ -48,8 +59,36 @@
     
 
 }
+- (void)CommissionClick {
+    BOOL result = [LoginViewModel loginIfNeededForTargetViewController:nil];
+    if (result) {
+        [self networks];
+   
+    }else{
+        [MobClick event:@"rp101-2"];
+        NSString * number = @"4007111111";
+        [gPhoneHelper makePhone:number andInfo:@"协办电话: 4007-111-111"];
+    }
+}
 
-- (void)commissonNetwork {
+- (void)networks{
+    GetStartHostCarOp *op = [GetStartHostCarOp operation];
+    [[[op rac_postRequest] initially:^{
+        
+    }]subscribeNext:^(id x) {
+        CommissonConfirmVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonConfirmVC"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }error:^(NSError *error) {
+        
+        CommissonConfirmVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonConfirmVC"];
+        [self.navigationController pushViewController:vc animated:YES];
+//        if (error.code == 611139001) {
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有救援券哦，点击省钱攻略，此等优惠岂能错过！" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
+//            [alert show];
+//        }
+    }];
+}
+- (void)commissionNetwork {
     GetRescureDetailOp *op = [GetRescureDetailOp operation];
     op.rescueid = 4;
     op.type = [NSNumber numberWithInteger:1];
@@ -71,6 +110,7 @@
         NSString *string = [NSString stringWithFormat:@"● %@", op.rescueDetailArray[0]];
         lastStr = [string stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n● "];
         self.dataSourceArray[0] = lastStr;
+        
         [self.tableView reloadData];
     } error:^(NSError *error) {
         [gToast showError:kDefErrorPormpt];
@@ -80,7 +120,9 @@
 }
 
 - (void)commissionHistory {
-    
+    RescureHistoryViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureHistoryViewController"];
+    vc.type = 2;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - UITableViewDataSource
@@ -100,7 +142,7 @@
     //行间距
     NSMutableAttributedString * attributedString1 = [[NSMutableAttributedString alloc] initWithString:string];
     NSMutableParagraphStyle * paragraphStyle1 = [[NSMutableParagraphStyle alloc] init];
-    [paragraphStyle1 setLineSpacing:3];
+    [paragraphStyle1 setLineSpacing:4];
     [attributedString1 addAttribute:NSParagraphStyleAttributeName value:paragraphStyle1 range:NSMakeRange(0, [string length])];
     [detailLb setAttributedText:attributedString1];
     [detailLb sizeToFit];
@@ -125,8 +167,6 @@
     height = size.height + 63;
     return height;
 }
-
-
 #pragma mark - lazyLoading
 - (UIImageView *)advertisingImg {
     if (!_advertisingImg) {
@@ -154,8 +194,8 @@
         
         self.helperBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         _helperBtn.frame = CGRectMake(10, self.view.bounds.size.height - (kWidth- 20) * 0.13 - 7 - 64 , kWidth  - 20, (kWidth- 20) * 0.13);
-        [_helperBtn setTitle:@"申请救援" forState:UIControlStateNormal];
-        [_helperBtn addTarget:self action:@selector(phoneHelperClick) forControlEvents:UIControlEventTouchUpInside];
+        [_helperBtn setTitle:@"我要协办" forState:UIControlStateNormal];
+        [_helperBtn addTarget:self action:@selector(CommissionClick) forControlEvents:UIControlEventTouchUpInside];
         [_helperBtn setTintColor:[UIColor whiteColor]];
         _helperBtn.backgroundColor = [UIColor colorWithHex:@"#35cb68" alpha:1];
         _helperBtn.cornerRadius = 4;

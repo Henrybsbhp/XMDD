@@ -10,9 +10,10 @@
 
 @interface RescurecCommentsVC : UIViewController
 @property (nonatomic, assign)   NSInteger       isLog;//是否已评价
-@property (nonatomic, assign)   NSInteger       type;
-@property (nonatomic, strong)   NSDate      *   applyTime;
-@property (nonatomic, strong)   NSNumber    *   applyId;
+@property (nonatomic, assign)   NSInteger       type;//救援类型
+@property (nonatomic, strong)   NSDate      *   applyTime;//救援时间
+@property (nonatomic, strong)   NSNumber    *   applyId;//救援id
 @property (nonatomic, copy)     NSString    *   serviceName;//服务名称
 @property (nonatomic, copy)     NSString    *   licenceNumber;//车牌号
+@property (nonatomic, strong)   NSNumber    *   applyType;//1.救援 2.评价
 @end

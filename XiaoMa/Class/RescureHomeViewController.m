@@ -16,9 +16,13 @@
 #import "HKRescueNoLogin.h"
 #import "RescueApplyOp.h"
 #import "ADViewController.h"
+
+#import "UIView+DefaultEmptyView.h"
+#import "UIView+JTLoadingView.h"
 #define kWidth [UIScreen mainScreen].bounds.size.width
 @interface RescureHomeViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UILabel *addressLb;
 @property (nonatomic)CLLocationCoordinate2D endCoordinate;
 @property (nonatomic, strong) UIView        * headerView;
@@ -36,7 +40,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self loginNetwork];
-    self.tableView.separatorStyle = NO;
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
     btn.titleLabel.font = [UIFont systemFontOfSize:14];
@@ -81,18 +84,27 @@
         GetRescueOp *op = [GetRescueOp operation];
         
         [[[[op rac_postRequest] initially:^{
-            [gToast showingWithText:@"加载中..."];
+            self.bottomView.hidden = YES;
+            [self.view hideDefaultEmptyView];
+            [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         }] finally:^{
-        }] subscribeNext:^(GetRescueOp *op) {
+            [self.view stopActivityAnimation];
+            
+            }] subscribeNext:^(GetRescueOp *op) {
             @strongify(self)
+            self.bottomView.hidden = NO;
+            [self.view stopActivityAnimation];
             self.datasourceArray = (NSMutableArray *)op.req_resceuArray;
-            if (self.datasourceArray.count == 0) {
                 
-            }
-            [gToast dismiss];
             self.tableView.tableHeaderView = self.headerView;
             [self.tableView reloadData];
         } error:^(NSError *error) {
+            self.bottomView.hidden = YES;
+            if (self.datasourceArray.count == 0) {
+                [self.view showDefaultEmptyViewWithText:@"获取失败, 再试试吧" tapBlock:^{
+                    [self loginNetwork];
+                }];
+            }
             
         }] ;
  
@@ -147,6 +159,7 @@
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         [MobClick event:@"rp101-5"];
         RescureHistoryViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureHistoryViewController"];
+        vc.type = 1;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -247,8 +260,6 @@
         [attributedString1 addAttribute:NSParagraphStyleAttributeName value:paragraphStyle1 range:NSMakeRange(0, [string length])];
         [conditionsLb setAttributedText:attributedString1];
         [conditionsLb sizeToFit];
-
-//        conditionsLb.text = [NSString stringWithFormat:@"● %@", rescue.rescueDesc];
     }else {
         HKRescueNoLogin *noLogin = self.datasourceArray[indexPath.row];
         nameLb.text = noLogin.serviceName;
@@ -266,11 +277,11 @@
     }
     
     if (indexPath.row == 0) {
-        titleImg.image = [UIImage imageNamed:@"拖车服务"];
+        titleImg.image = [UIImage imageNamed:@"rescue_trailer"];
     }else if (indexPath.row == 1){
-        titleImg.image = [UIImage imageNamed:@"泵电服务"];
+        titleImg.image = [UIImage imageNamed:@"pump_power"];
     }else if (indexPath.row == 2){
-        titleImg.image = [UIImage imageNamed:@"换胎服务"];
+        titleImg.image = [UIImage imageNamed:@"rescue_tire"];
     }
     return cell;
 }
