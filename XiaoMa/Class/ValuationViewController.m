@@ -22,7 +22,8 @@
 #import "CarEvaluateOp.h"
 #import <IQKeyboardManager/KeyboardManager.h>
 #import "ValuationResultVC.h"
-
+#import "HistoryCollectionVC.h"
+#import "CommitSuccessVC.h"
 #define ScreenHeight    [[UIScreen mainScreen] bounds].size.height
 
 @interface ValuationViewController ()<UIScrollViewDelegate, UITextFieldDelegate>
@@ -451,6 +452,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (IBAction)goToHistoryVC:(id)sender {
+    HistoryCollectionVC *historyVC=[UIStoryboard vcWithId:@"HistoryCollectionVC" inStoryboard:@"Valuation"];
+    [self.navigationController pushViewController:historyVC animated:YES];
 }
 
 @end

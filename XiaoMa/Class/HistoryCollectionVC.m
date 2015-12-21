@@ -45,7 +45,6 @@
     [self getDataArr];
     
     [self refreshBottomView];
-    //    [self setDeleteArrSignal];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -426,7 +425,6 @@
 }
 
 #pragma mark Utility
-
 
 
 @end
