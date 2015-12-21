@@ -467,7 +467,7 @@
                                                         <constraint firstAttribute="width" constant="80" id="Cc3-3E-eNQ"/>
                                                         <constraint firstAttribute="height" constant="29" id="U3f-bw-bMN"/>
                                                     </constraints>
-                                                    <state key="normal" title="查看更多 &gt;">
+                                                    <state key="normal" title="查看详情 &gt;">
                                                         <color key="titleColor" red="0.12549019610000001" green="0.6705882353" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                 </button>

@@ -148,7 +148,6 @@
             UIButton * moreBtn = (UIButton *)[cell.contentView viewWithTag:1001];
             @weakify(self);
             [[[moreBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-                //服务器返回
                 @strongify(self);
                 WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
                 vc.url = self.evaluateOp.rsp_url;
