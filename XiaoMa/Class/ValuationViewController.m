@@ -297,7 +297,7 @@
                 self.selectCar.brand = brand.brandname;
                 self.selectCar.seriesModel = series;
                 self.selectCar.detailModel = model;
-                modelField.inputField.text = [NSString stringWithFormat:@"%@ %@ %@", brand.brandname, series.seriesname, model.modelname];
+                modelField.inputField.text = [NSString stringWithFormat:@"%@", model.modelname];
                 self.modelId = model.modelid;
                 self.modelStr = model.modelname;
             }];
@@ -418,7 +418,7 @@
     
     CarEvaluateOp * op = [CarEvaluateOp operation];
     op.req_mile = self.miles;
-    op.req_modelid = @24712;
+    op.req_modelid = self.modelId; //24712
     op.req_buydate = self.selectCar.purchasedate;
     op.req_carid = self.selectCar.carId;
     op.req_cityid = self.cityId;
