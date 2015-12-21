@@ -171,6 +171,8 @@
     UILabel *couponMoneyLabel = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *characterLabel = (UILabel *)[cell.contentView viewWithTag:1003];
     UILabel *userCNTInfoLabel = (UILabel *)[cell.contentView viewWithTag:1004];
+    UIButton *checkBtn = (UIButton *)[cell searchViewWithTag:1005];
+    checkBtn.userInteractionEnabled = NO;
     couponMoneyLabel.layer.cornerRadius = 3;
     couponMoneyLabel.layer.masksToBounds = YES;
     NSDictionary *dataModel = [self.dataArr safetyObjectAtIndex:indexPath.row];
@@ -368,10 +370,12 @@
     else
     {
         SecondCarValuationUploadOp *uploadOp = [SecondCarValuationUploadOp new];
+        
         uploadOp.req_carId = self.carid;
         uploadOp.req_contatName = self.name;
         uploadOp.req_contatPhone = self.phoneNumber;
         uploadOp.req_channelEngs = @"";
+        uploadOp.req_cityid = self.sellercityid;
         NSMutableArray *tempString = [NSMutableArray new];
         for (NSDictionary *dic in self.uploadArr)
         {
