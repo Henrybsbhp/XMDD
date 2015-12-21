@@ -411,7 +411,7 @@
         return;
     }
     
-    if (!self.selectCar.detailModel.modelname) {
+    if (![self.selectCar.detailModel.modelid integerValue]) {
         [gToast showText:@"请选择具体车型"];
         return;
     }
