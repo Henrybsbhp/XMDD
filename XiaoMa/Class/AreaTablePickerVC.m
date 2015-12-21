@@ -30,6 +30,15 @@
 
 @implementation AreaTablePickerVC
 
+- (void)dealloc {
+    DebugLog(@"AreaTablePickerVC dealloc~~~");
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 + (AreaTablePickerVC *)initPickerAreaVCWithType:(PickerVCType)pickerType fromVC:(UIViewController *)originvVC
 {
     AreaTablePickerVC * vc = [UIStoryboard vcWithId:@"AreaTablePickerVC" inStoryboard:@"Common"];
@@ -166,31 +175,29 @@
     for (HKAreaInfoModel * newObj in newAreaArray)
     {
         BOOL isExsit = NO;
-        for (int i =0; i < tempMuteArray.count; i++) {
-            HKAreaInfoModel *oldObj = tempMuteArray[i];
+        for (int i = 0; i < tempMuteArray.count; i++) {
+            HKAreaInfoModel *oldObj = [tempMuteArray safetyObjectAtIndex:i];
             
-            if ([newObj.flag isEqualToString:@"D"]) {
-                if (newObj.infoId == oldObj.infoId) {
+            if (newObj.infoId == oldObj.infoId)
+            {
+                isExsit = YES;
+                if ([newObj.flag isEqualToString:@"D"])
+                {
                     [tempMuteArray removeObjectAtIndex:i];
-                    break;
                 }
-            }
-            else if ([newObj.flag isEqualToString:@"U"]) {
-                if (newObj.infoId == oldObj.infoId) {
-                    [tempMuteArray replaceObjectAtIndex:i withObject:newObj];
-                    break;
+                else if ([newObj.flag isEqualToString:@"U"])
+                {
+                    [tempMuteArray safetyReplaceObjectAtIndex:i withObject:newObj];
                 }
-            }
-            else {
-                //检查是否地区存在，避免重复添加
-                if (newObj.infoId == oldObj.infoId) {
-                    isExsit = YES;
-                    break;
+                else if ([newObj.flag isEqualToString:@"A"])
+                {
+                    [tempMuteArray safetyReplaceObjectAtIndex:i withObject:newObj];
                 }
+                break;
             }
         }
         if(!isExsit) {
-            [tempMuteArray addObject:newObj];
+            [tempMuteArray safetyAddObject:newObj];
         }
     }
     [tempMuteArray sortUsingComparator:^NSComparisonResult(HKAreaInfoModel * obj1, HKAreaInfoModel * obj2) {
@@ -417,13 +424,8 @@
     }
 }
 
-- (void)dealloc {
-    DebugLog(@"dealloc~~~");
-}
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
+
 
 @end
