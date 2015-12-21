@@ -11,7 +11,6 @@
 @implementation GetStartHostCarOp
 - (RACSignal *)rac_postRequest {
     self.req_method = @"/rescue/start/hostcar";
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:nil security:YES];
     
 }

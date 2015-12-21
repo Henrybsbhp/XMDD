@@ -67,7 +67,7 @@
 - (void)actionFirstEnter {
     GetRescureDetailOp *op = [GetRescureDetailOp operation];
     op.rescueid = self.type;
-    op.type = [NSNumber numberWithInteger:2];
+    op.type = [NSNumber numberWithInteger:1];
     [[[[op rac_postRequest] initially:^{
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
@@ -76,12 +76,13 @@
     }] subscribeNext:^(GetRescureDetailOp *op) {
         NSString *lastStr;
         for (NSString *testStr in op.rescueDetailArray) {
-            lastStr = [testStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+            lastStr = [testStr stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
             [self.dataSourceArray addObject:lastStr];
         }
+        
         NSString *string = [NSString stringWithFormat:@"● %@", [op.rescueDetailArray safetyObjectAtIndex:0]];
-        lastStr = [string stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n● "];
-        self.dataSourceArray[0] = lastStr;
+
+        self.dataSourceArray[0] = string;
         [self.tableView reloadData];
     } error:^(NSError *error) {
         if (self.dataSourceArray.count == 0) {
@@ -171,7 +172,7 @@
     CGFloat width = kWidth - 30;
     CGSize size = [str labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
     CGFloat height;
-    height = size.height + 63;
+    height = size.height + 66;
     return height;
 }
 

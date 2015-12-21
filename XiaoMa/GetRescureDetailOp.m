@@ -12,7 +12,9 @@
 - (RACSignal *)rac_postRequest {
     self.req_method = @"/rescue/get/rescuedetail";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params addParam:@(self.rescueid) forName:@"rescueid"];
+    if ([self.type integerValue] != 2) {
+        [params addParam:@(self.rescueid) forName:@"rescueid"];
+    }
     [params addParam:self.type forName:@"type"];
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
     
@@ -25,7 +27,6 @@
         
         self.rescueDetailArray = [@[] mutableCopy];
         NSDictionary *dic = rspObj[@"rescuedetail"];
-        NSLog(@"%lu", dic.count);
         if (dic != nil) {
             HKRescureDetail *detail  = [[HKRescureDetail alloc] init];
             detail.rescueid = dic[@"serviceobject"];

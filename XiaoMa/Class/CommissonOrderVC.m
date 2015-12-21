@@ -20,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic, strong) UIImageView   * advertisingImg;
-@property (nonatomic, strong)                                            UIView        * footerView;
+@property (nonatomic, strong) UIView        * footerView;
 @property (nonatomic, strong) UIButton      * helperBtn;
 @property (nonatomic, copy)   NSString      * testStr;
 @property (nonatomic, strong) NSMutableArray * dataSourceArray;
@@ -30,17 +30,11 @@
 
 - (void)dealloc
 {
-    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
-    DebugLog(deallocInfo);
+    DebugLog(@"CommissonOrderVC dealloc!");
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    BOOL result = [LoginViewModel loginIfNeededForTargetViewController:nil];
-    NSLog(@"%c", result);
-}
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -48,7 +42,7 @@
     self.tableView.tableFooterView = self.footerView;
     [self.view addSubview:self.helperBtn];
     
-    [self commissionNetwork];
+    [self actionNetwork];
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
     btn.titleLabel.font = [UIFont systemFontOfSize:14];
@@ -59,11 +53,13 @@
     
 
 }
-- (void)CommissionClick {
-    BOOL result = [LoginViewModel loginIfNeededForTargetViewController:nil];
-    if (result) {
-        [self networks];
-   
+
+#pragma mark - Action
+
+- (void)actionCommissionClick {
+    if (gAppMgr.myUser != nil) {
+        
+        [self actionCommissionNetwork];
     }else{
         [MobClick event:@"rp101-2"];
         NSString * number = @"4007111111";
@@ -71,30 +67,34 @@
     }
 }
 
-- (void)networks{
+- (void)actionCommissionNetwork{
     GetStartHostCarOp *op = [GetStartHostCarOp operation];
-    [[[op rac_postRequest] initially:^{
+    [[[[op rac_postRequest] initially:^{
         
-    }]subscribeNext:^(id x) {
+    }]finally:^{
+//        CommissonConfirmVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonConfirmVC"];
+//        [self.navigationController pushViewController:vc animated:YES];
+    }]subscribeNext:^(GetStartHostCarOp *op) {
+        
+        
+    } error:^(NSError *error) {
+        NSLog(@"%ld", error.code);
+        
+        if (error.code == 611139001) {
+            
+        }else if (error.code == 0){
         CommissonConfirmVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonConfirmVC"];
         [self.navigationController pushViewController:vc animated:YES];
-    }error:^(NSError *error) {
-        
-        CommissonConfirmVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonConfirmVC"];
-        [self.navigationController pushViewController:vc animated:YES];
-//        if (error.code == 611139001) {
-//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有救援券哦，点击省钱攻略，此等优惠岂能错过！" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
-//            [alert show];
-//        }
+        }
     }];
 }
-- (void)commissionNetwork {
+- (void) actionNetwork{
     GetRescureDetailOp *op = [GetRescureDetailOp operation];
     op.rescueid = 4;
     op.type = [NSNumber numberWithInteger:1];
     @weakify(self)
     [[[[op rac_postRequest] initially:^{
-        [gToast showingWithText:@"加载中..."];
+        
     }] finally:^{
         
         
@@ -104,13 +104,12 @@
         
         NSString *lastStr;
         for (NSString *testStr in op.rescueDetailArray) {
-            lastStr = [testStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-            [self.dataSourceArray addObject:lastStr];
+            lastStr = [testStr stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
+            [self.dataSourceArray safetyAddObject:lastStr];
         }
-        NSString *string = [NSString stringWithFormat:@"● %@", op.rescueDetailArray[0]];
-        lastStr = [string stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n● "];
-        self.dataSourceArray[0] = lastStr;
-        
+
+        NSString *string = [NSString stringWithFormat:@"● %@", [self.dataSourceArray safetyObjectAtIndex:0]];
+        [self.dataSourceArray safetyReplaceObjectAtIndex:0 withObject:string];
         [self.tableView reloadData];
     } error:^(NSError *error) {
         [gToast showError:kDefErrorPormpt];
@@ -145,8 +144,6 @@
     [paragraphStyle1 setLineSpacing:4];
     [attributedString1 addAttribute:NSParagraphStyleAttributeName value:paragraphStyle1 range:NSMakeRange(0, [string length])];
     [detailLb setAttributedText:attributedString1];
-    [detailLb sizeToFit];
-    
     if (indexPath.row == 0) {
         titleLb.text = @"服务对象";
     }else if (indexPath.row == 1){
@@ -165,6 +162,9 @@
     CGSize size = [str labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
     CGFloat height;
     height = size.height + 63;
+    if (size.height > 40) {
+        height = size.height + 80;
+    }
     return height;
 }
 #pragma mark - lazyLoading
@@ -195,7 +195,7 @@
         self.helperBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         _helperBtn.frame = CGRectMake(10, self.view.bounds.size.height - (kWidth- 20) * 0.13 - 7 - 64 , kWidth  - 20, (kWidth- 20) * 0.13);
         [_helperBtn setTitle:@"我要协办" forState:UIControlStateNormal];
-        [_helperBtn addTarget:self action:@selector(CommissionClick) forControlEvents:UIControlEventTouchUpInside];
+        [_helperBtn addTarget:self action:@selector(actionCommissionClick) forControlEvents:UIControlEventTouchUpInside];
         [_helperBtn setTintColor:[UIColor whiteColor]];
         _helperBtn.backgroundColor = [UIColor colorWithHex:@"#35cb68" alpha:1];
         _helperBtn.cornerRadius = 4;

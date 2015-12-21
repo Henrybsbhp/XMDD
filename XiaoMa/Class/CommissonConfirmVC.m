@@ -23,7 +23,6 @@
 @property (nonatomic, strong) UIButton *helperBtn;
 @property (nonatomic, strong) MyCarStore *carStore;
 @property (nonatomic, strong) HKMyCar * defaultCar;
-
 @property (nonatomic, strong) NSString *countStr;
 
 @end
@@ -39,7 +38,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    [self countNetwork];
+    [self.carStore getAllCarsIfNeeded];
+    
     [self.view addSubview:self.helperBtn];
     [self setupCarStore];
 }
@@ -69,51 +69,43 @@
 }
 
 -(void)applyClick {
-    if ([self.countStr isEqualToString:@"0"]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有救援券哦，点击省钱攻略，此等优惠岂能错过！" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
-        [alert show];
-    }else {
-        
-    }
-    
-    
     GetRescueApplyHostCarOp *op = [GetRescueApplyHostCarOp operation];
     op.licenseNumber = self.defaultCar.licencenumber;
     op.appointTime = [NSString stringWithFormat:@"%@", [NSDate date]];
-    @weakify(self)
     [[[[op rac_postRequest] initially:^{
-        
-        [gToast showText:@"申请中"];
         
     }] finally:^{
         
         
     }] subscribeNext:^(GetRescueApplyHostCarOp *op) {
-        @strongify(self)
         [gToast dismiss];
         
         if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] < 3600 * 24 * 2) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您将预约年检协办业务,再告诉你个秘密,电话预约会更及时有效哦!" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您将预约年检协办业务,再告诉你个秘密,电话预约会更及时有效哦!" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];
             [alert show];
         } else  if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] > 3600 * 24 * 30) {
             [gToast showText:@"不好意思,预约时间需在 30 天内,请修改后再尝试"];
         }else {
             [self.tableView reloadData];
-            CommissionForsuccessfulVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionForsuccessfulVC"];
-            [self.navigationController pushViewController:vc animated:YES];
         }
         
         
     } error:^(NSError *error) {
         if (error.code == 611139001) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有救援券哦，点击省钱攻略，此等优惠岂能错过！" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
+            [alert show];
+        }else if (error.code == 0){
+            CommissionForsuccessfulVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionForsuccessfulVC"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }else if (error.code == 611139002) {
             [gToast showText:@"您的车辆已成功预约年检协办业务，详情可点击协办记录查看"];
+        }else if (error.code == -1){
+            [gToast showText:@"申请失败, 请尝试重新提交!"];
         }
-        
     }] ;
-    
 }
 
-//#pragma mark - UITableViewDataSource
+#pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 5;
 }
@@ -146,7 +138,7 @@
             detailsLb.text = self.defaultCar.licencenumber;
         }else if (indexPath.row == 4){
             titleLb.text = @"预约时间";
-            detailsLb.text = [NSString stringWithFormat:@"%@", self.appointmentDay];
+            detailsLb.text = [self.appointmentDay dateFormatForYYMMdd2];
         }
         return cell2;
     }
@@ -187,7 +179,7 @@
          subscribeNext:^(NSDate *date) {
              @strongify(self)
              if ([date timeIntervalSinceDate:[NSDate date]] < 3600 * 24 * 2) {
-                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您将预约年检协办业务,再告诉你个秘密,电话预约会更及时有效哦!" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您将预约年检协办业务,再告诉你个秘密,电话预约会更及时有效哦!" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];
                  [alert show];
                  self.appointmentDay = date;
                  
@@ -254,7 +246,6 @@
             {
                 self.defaultCar = [self.carStore defalutInfoCompletelyCar];
                 [self countNetwork];
-                NSLog(@"------%@-------", self.defaultCar.licencenumber);
             }
         }];
     }];
