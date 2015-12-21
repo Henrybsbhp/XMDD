@@ -72,6 +72,8 @@ typedef enum : NSUInteger {
 
 - (instancetype)initWithCategory:(InsuranceCategory)category;
 /// 初始化车上乘客责任险（特殊）
-- (instancetype)initWithInsuranceCarSeatInsuranceOfPassengerWithNumOfSeat:(NSInteger)numOfSeat;
+- (instancetype)initWithInsuranceCarSeatInsuranceOfPassengerWithNumOfSeat:(NSNumber *)numOfSeat;
+
+- (NSString *)coverageAmountDesc;
 
 @end

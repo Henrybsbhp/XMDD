@@ -16,15 +16,13 @@
 @property (strong, nonatomic) IBOutlet UIView *bottomView;
 @property (strong, nonatomic) IBOutlet JTTableView *tableView;
 @property (strong, nonatomic) IBOutlet UIButton *selectedAllBtn;
-
-@property (nonatomic,assign) BOOL isEditing;
-
 @property (strong, nonatomic) IBOutlet UIButton *deleteBtn;
+
+@property (nonatomic,strong) NSMutableIndexSet *deleteSet;
 @property (nonatomic,strong) NSMutableArray *dataArr;
 @property (nonatomic,strong) NSMutableArray *deleteArr;
 
-@property (nonatomic,strong) NSMutableIndexSet *selectSet;
-
+@property (nonatomic,assign) BOOL isEditing;
 @property (nonatomic,assign) BOOL isExist;
 @property (nonatomic,assign) BOOL isLoading;
 
@@ -33,22 +31,28 @@
 @implementation HistoryCollectionVC
 
 
+-(void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.isExist=YES;
     self.isLoading=NO;
     [self getDataArr];
-    [self setupUI];
+    
     [self refreshBottomView];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
-#pragma mark tableViewDelegate
+#pragma mark TableViewDelegate
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -79,7 +83,6 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"valuationCell"];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     NSDictionary *model = [self.dataArr safetyObjectAtIndex:indexPath.section];
-    DebugLog(@"%@",model);
     UILabel *licenseNo = (UILabel *)[cell searchViewWithTag:1000];
     UIImageView *imgView = (UIImageView *)[cell searchViewWithTag:1001];
     UILabel *modelName = (UILabel *)[cell viewWithTag:1002];
@@ -89,9 +92,8 @@
     UILabel *evaluateZone = (UILabel *)[cell searchViewWithTag:1006];
     licenseNo.text = model[@"licenseNo"];
     modelName.text = model[@"modelname"];
-    DebugLog(@"%@,%@",modelName.text,model[@"modelname"]);
     mile.text = [NSString stringWithFormat:@"%@万公里",model[@"mile"]];
-//    price.text=model[@"price"];
+    price.text=[NSString stringWithFormat:@"%@万元",model[@"price"]];
     evaluateTime.text = [NSString stringWithFormat:@"%@",[[NSDate dateWithUTS:model[@"evaluatetime"]]dateFormatForYYYYMMddHHmm]];
     evaluateZone.text = model[@"evaluatezone"];
     [imgView setImageByUrl:model[@"logo"] withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
@@ -115,9 +117,31 @@
     licenseNo.text = model[@"licenseNo"];
     modelName.text = model[@"modelname"];
     mile.text=[NSString stringWithFormat:@"%@万公里",model[@"mile"]];
-//        price.text=model[@"price"];
-    evaluateTime.text=[NSString stringWithFormat:@"%@",[[NSDate dateWithUTS:model[@"evaluatetime"]]dateFormatForYYYYMMddHHmm]];
-    evaluateZone.text=model[@"evaluatezone"];
+    price.text=[NSString stringWithFormat:@"%@万元",model[@"price"]];
+    evaluateTime.text = [NSString stringWithFormat:@"%@",[[NSDate dateWithUTS:model[@"evaluatetime"]]dateFormatForYYYYMMddHHmm]];
+    evaluateZone.text = model[@"evaluatezone"];
+    @weakify(self);
+    [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
+        checkBtn.selected=!checkBtn.isSelected;
+        if (checkBtn.isSelected)
+        {
+            [self.deleteArr safetyAddObject:self.dataArr[indexPath.section]];
+        }
+        else
+        {
+            [self.deleteArr safetyRemoveObject:self.dataArr[indexPath.section]];
+        }
+        self.selectedAllBtn.selected = (self.dataArr.count == self.deleteArr.count);
+    }];
+    if ([self.deleteArr containsObject:model])
+    {
+        checkBtn.selected = YES;
+    }
+    else
+    {
+        checkBtn.selected = NO;
+    }
     [imgView setImageByUrl:model[@"logo"] withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
     return cell;
 }
@@ -168,32 +192,49 @@
     
 }
 
-#pragma  mark UI
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
+    UIButton *checkBtn=(UIButton *)[cell searchViewWithTag:1007];
+    checkBtn.selected=!checkBtn.isSelected;
+    if (checkBtn.isSelected)
+    {
+        [self.deleteArr safetyAddObject:self.dataArr[indexPath.section]];
+    }
+    else
+    {
+        [self.deleteArr safetyRemoveObject:self.dataArr[indexPath.section]];
+    }
+    self.selectedAllBtn.selected = (self.dataArr.count == self.deleteArr.count);
+}
+
+#pragma  mark setupUI
 
 - (void)setupUI
-{        self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(edit:)];
+{
+    self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(edit:)];
     
     [self.navigationItem.rightBarButtonItem setTitleTextAttributes:@{
                                                                      NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
                                                                      } forState:UIControlStateNormal];
-    
     self.isEditing = NO;
-    
     [self.deleteBtn makeCornerRadius:5];
+    
 }
 
 -(void)edit:(UIBarButtonItem *)sender
 {
     self.isEditing = !self.isEditing;
-    
-    [self refreshBottomView];
-    
-    [self.navigationItem.rightBarButtonItem setTitle:(self.isEditing ? @"完成":@"编辑")];
     if (self.dataArr.count == 0)
     {
         self.navigationItem.rightBarButtonItem = nil;
     }
-    
+    else
+    {
+        [self.navigationItem.rightBarButtonItem setTitle:(self.isEditing ? @"完成":@"编辑")];
+        [self refreshBottomView];
+    }
+    [self.deleteArr removeAllObjects];
     [self reloadData];
 }
 
@@ -231,22 +272,25 @@
 
 
 
-#pragma mark network
+#pragma mark Network
 
 -(void)loadMoreData
 {
     HistoryCollectionOp *op = [HistoryCollectionOp new];
     NSDictionary *model = self.dataArr.lastObject;
     op.req_evaluateTime =model[@"evaluatetime"];
+    @weakify(self);
     [[[op rac_postRequest]initially:^{
+        @strongify(self);
         [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
         self.isLoading = YES;
     }]subscribeNext:^(HistoryCollectionOp *op) {
-        [self.dataArr addObjectsFromArray:op.rsp_dataArr];
+        @strongify(self);
+        [self.dataArr safetyAddObjectsFromArray:op.rsp_dataArr];
         [self.tableView.bottomLoadingView stopActivityAnimation];
         self.isLoading = NO;
         self.isExist = (op.rsp_dataArr.count == 10)?YES:NO;
-        if (!self.isExist)
+        if (!self.isExist && self.dataArr.count != 0)
         {
             self.tableView.showBottomLoadingView = YES;
             [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
@@ -260,16 +304,31 @@
 {
     HistoryCollectionOp *op=[HistoryCollectionOp new];
     op.req_evaluateTime=@(0);
+    @weakify(self)
     [[[[op rac_postRequest] initially:^{
+        @strongify(self);
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] finally:^{
+        @strongify(self);
         [self.view stopActivityAnimation];
     }] subscribeNext:^(HistoryCollectionOp *op) {
-        [self.dataArr addObjectsFromArray:op.rsp_dataArr];
-        [self.tableView reloadData];
+        @strongify(self);
+        [self.dataArr safetyAddObjectsFromArray:op.rsp_dataArr];
+        if (self.dataArr.count == 0)
+        {
+            [self reloadData];
+            self.navigationItem.rightBarButtonItem = nil;
+        }
+        else
+        {
+            [self setupUI];
+            [self.tableView reloadData];
+        }
     } error:^(NSError *error) {
+        @strongify(self);
         [self.tableView showDefaultEmptyViewWithText:@"网络请求失败。点击屏幕重新请求" tapBlock:^{
+            @strongify(self);
             [self getDataArr];
         }];
     }];
@@ -281,28 +340,36 @@
 
 -(void)uploadDeletaArr
 {
-    HistoryDeleteOp *deleteOp=[HistoryDeleteOp new];
-    NSString *deleteStr=[self.deleteArr componentsJoinedByString:@","];
-    deleteOp.req_evaluateIds=deleteStr;
+    HistoryDeleteOp *deleteOp = [HistoryDeleteOp new];
+    NSMutableArray *deleteStrArr = [NSMutableArray new];
+    for (NSDictionary *dic in self.deleteArr)
+    {
+        [deleteStrArr safetyAddObject:dic[@"evaluateid"]];
+    }
+    NSString *deleteStr = [deleteStrArr componentsJoinedByString:@","];
+    deleteOp.req_evaluateIds = deleteStr;
+    @weakify(self);
     [[deleteOp rac_postRequest]subscribeNext:^(id x) {
         //仅触发信号
     }error:^(NSError *error) {
         [gToast showError:@"error.domain"];
     }completed:^{
-        [self.tableView showDefaultEmptyViewWithText:@"暂无估值记录"];
+        @strongify(self);
+        for (NSDictionary *dic in self.deleteArr)
+        {
+            
+            [self.dataArr safetyRemoveObject:dic];
+        }
+        if (self.dataArr.count == 0)
+        {
+            [self.tableView showDefaultEmptyViewWithText:@"暂无估值纪录"];
+        }
+        [self.tableView reloadData];
     }];
+    
 }
 
 #pragma mark LazyLoad
-
--(NSMutableIndexSet *)selectSet
-{
-    if (!_selectSet)
-    {
-        _selectSet = [[NSMutableIndexSet alloc]init];
-    }
-    return _selectSet;
-}
 
 -(NSMutableArray *)dataArr
 {
@@ -322,36 +389,42 @@
     return _deleteArr;
 }
 
-#pragma markBottomButtonAction
+#pragma mark BottomViewButtonAction
 
 - (IBAction)delete:(id)sender {
-    if (self.selectSet.count)
+    if (self.deleteArr.count)
     {
         [self uploadDeletaArr];
+        self.isEditing = NO;
+        [self refreshBottomView];
+        if (self.deleteArr.count==self.dataArr.count)
+        {
+            self.navigationItem.rightBarButtonItem = nil;
+            [self.dataArr removeAllObjects];
+            [self.deleteArr removeAllObjects];
+            self.tableView.showBottomLoadingView=NO;
+        }
+        
     }
     else
     {
         [gToast showError:@"请选择一家商户进行删除"];
     }
+    [self reloadData];
 }
 
 
 - (IBAction)selectAll:(id)sender {
-    
-    if (self.selectSet.count == gAppMgr.myUser.favorites.favoritesArray.count)
-    {
-        [self.selectSet removeAllIndexes];
-        [self.tableView reloadData];
-        [self.selectedAllBtn setSelected:!self.selectedAllBtn.isSelected];
-        return;
+    [self.deleteArr removeAllObjects];
+    self.selectedAllBtn.selected =! self.selectedAllBtn.isSelected;
+    [self.deleteArr safetyAddObjectsFromArray:self.dataArr];
+    if (!self.selectedAllBtn.isSelected) {
+        [self.deleteArr removeAllObjects];
     }
-    [self.selectSet removeAllIndexes];
-    for (NSInteger i = 0 ; i < gAppMgr.myUser.favorites.favoritesArray.count ; i++)
-    {
-        [self.selectSet addIndex:i];
-    }
-    [self reloadData];
-    [self.selectedAllBtn setSelected:!self.selectedAllBtn.isSelected];
+    [self.tableView reloadData];
 }
+
+#pragma mark Utility
+
 
 @end

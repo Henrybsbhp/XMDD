@@ -9,9 +9,15 @@
 #import "InsuranceSelectViewController.h"
 #import "CCSegmentedControl.h"
 #import "InsuranceSelectModel.h"
-#import "GetInsuranceCalculatorOpV3.h"
-#import "CalculateInsuranceCarPremiumOp.h"
 #import "HKInsurance.h"
+
+#import "GetInsuranceCalculatorOpV3.h"
+#import "CalculatePremiumOp.h"
+
+#import "InsActivityIndicatorVC.h"
+#import "InsCheckResultsVC.h"
+#import "InsAppointmentSuccessVC.h"
+#import "InsCheckFailVC.h"
 
 @interface InsuranceSelectViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -43,9 +49,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // UI
-    [self setupUI];
-    
     //数据
     [self requestInsurancePlan];
 }
@@ -76,19 +79,19 @@
     self.segmentedView.hidden = NO;
 }
 
-- (void)setupUI
+#pragma mark - Action
+- (IBAction)actionNext:(id)sender
 {
-    [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
-        if (![self.currentModel inslistForVC].count)
-        {
-            [gToast showError:@"请至少选择一个车险"];
-            return;
-        }
+    if (![self.currentModel inslistForVC].count)
+    {
+        [gToast showError:@"请至少选择一个车险"];
+    }
+    else if (self.selectMode == InsuranceSelectModeBuy) {
         [self requestCalculatePremium];
-    }];
-    
-    self.navigationItem.title = @"选择车险";
+    }
+    else {
+        [self requestAppointment];
+    }
 }
 
 #pragma mark - Network
@@ -96,50 +99,6 @@
 {
     GetInsuranceCalculatorOpV3 * op = [GetInsuranceCalculatorOpV3 operation];
     return [op rac_postRequest];
-}
-
-
-
-#pragma mark - Utility
-- (void)segmentValueChanged:(id)sender
-{
-    CCSegmentedControl* segmentedControl = sender;
-    self.selectIndex = segmentedControl.selectedSegmentIndex;
-    InsuranceSelectModel * model = [self.modelArray safetyObjectAtIndex:self.selectIndex];
-    self.currentModel = model;
-    [self switchDatasource:model];
-}
-
-- (void)switchDatasource:(InsuranceSelectModel *)model
-{
-    self.tableView.dataSource = model;
-    self.tableView.delegate = model;
-    
-    [self.tableView reloadData];
-}
-
-- (void)setupModel
-{
-    self.modelArray = [NSMutableArray array];
-    for (HKInsurance * ins in self.planArray)
-    {
-        NSMutableArray * selectIns = [NSMutableArray array];
-        for (SubInsurance * subIns in ins.subInsuranceArray)
-        {
-            [selectIns safetyAddObject:@(subIns.coveragerId)];
-        }
-        InsuranceSelectModel * model = [[InsuranceSelectModel alloc] init];
-        model.tableView = self.tableView;
-        model.view = self.view;
-        model.selectInsurance = selectIns;
-        model.numOfSeat = self.numOfSeat;
-        [model setupInsuranceArray];
-        [self.modelArray safetyAddObject:model];
-    }
-    InsuranceSelectModel * model = [self.modelArray safetyObjectAtIndex:self.selectIndex];
-    self.currentModel = model;
-    
-    [self switchDatasource:model];
 }
 
 - (void)requestInsurancePlan
@@ -175,17 +134,98 @@
 
 - (void)requestCalculatePremium
 {
-    CalculateInsuranceCarPremiumOp * op = [[CalculateInsuranceCarPremiumOp alloc] init];
-    op.carPremiumId = self.premiumId;
-    op.inslist = [[self.currentModel inslistForVC] componentsJoinedByString:@"|"];
+    CalculatePremiumOp * op = [CalculatePremiumOp operation];
+    op.req_carpremiumid = self.insModel.premiumId;
+    op.req_inslist = [[self.currentModel inslistForVC] componentsJoinedByString:@"|"];
     
-    [[[op rac_postRequest] initially:^{
+    InsActivityIndicatorVC *indicator = [[InsActivityIndicatorVC alloc] init];
+    @weakify(self);
+    [[[[[op rac_postRequest] delay:0.3] initially:^{
         
-    }] subscribeNext:^(id x) {
+        @strongify(self);
+        [indicator showInView:self.navigationController.view];
+    }] finally:^{
         
+        [indicator dismiss];
+    }] subscribeNext:^(CalculatePremiumOp *op) {
+        
+        @strongify(self);
+        InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
+        vc.insModel = self.insModel;
+        vc.premiumList = op.rsp_premiumlist;
+        [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
-        
+
+        @strongify(self);
+        InsCheckFailVC *vc = [UIStoryboard vcWithId:@"InsCheckFailVC" inStoryboard:@"Insurance"];
+        vc.insModel = self.insModel;
+        vc.errmsg = error.domain;
+        [self.navigationController pushViewController:vc animated:YES];
     }];
 }
+
+- (void)requestAppointment
+{
+    self.appointmentOp.req_inslist = [[self.currentModel inslistForVC] componentsJoinedByString:@"|"];
+    @weakify(self);
+    [[[self.appointmentOp rac_postRequest] initially:^{
+    
+        [gToast showingWithText:@"正在预约..."];
+    }] subscribeNext:^(id x) {
+
+        @strongify(self);
+        [gToast dismiss];
+        InsAppointmentSuccessVC *vc = [UIStoryboard vcWithId:@"InsAppointmentSuccessVC" inStoryboard:@"Insurance"];
+        [self.navigationController pushViewController:vc animated:YES];
+    } error:^(NSError *error) {
+       
+        [gToast showError:error.domain];
+    }];
+}
+
+#pragma mark - Utility
+- (void)segmentValueChanged:(id)sender
+{
+    CCSegmentedControl* segmentedControl = sender;
+    self.selectIndex = segmentedControl.selectedSegmentIndex;
+    InsuranceSelectModel * model = [self.modelArray safetyObjectAtIndex:self.selectIndex];
+    self.currentModel = model;
+    [self switchDatasource:model];
+}
+
+- (void)switchDatasource:(InsuranceSelectModel *)model
+{
+    self.tableView.dataSource = model;
+    self.tableView.delegate = model;
+    
+    [self.tableView reloadData];
+}
+
+- (void)setupModel
+{
+    self.modelArray = [NSMutableArray array];
+    for (HKInsurance * ins in self.planArray)
+    {
+        NSMutableArray * selectIns = [NSMutableArray array];
+        for (SubInsurance * subIns in ins.subInsuranceArray)
+        {
+            [selectIns safetyAddObject:@(subIns.coveragerId)];
+        }
+        InsuranceSelectModel * model = [[InsuranceSelectModel alloc] init];
+        model.tableView = self.tableView;
+        model.view = self.view;
+        model.selectInsurance = selectIns;
+        model.numOfSeat = self.selectMode==InsuranceSelectModeAppointment ? nil : @(MAX(1, [self.insModel.numOfSeat integerValue] - 1));
+        [model setupInsuranceArray];
+        [self.modelArray safetyAddObject:model];
+    }
+    InsuranceSelectModel * model = [self.modelArray safetyObjectAtIndex:self.selectIndex];
+    self.currentModel = model;
+    
+    [self switchDatasource:model];
+}
+
+
+
 
 @end

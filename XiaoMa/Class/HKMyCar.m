@@ -240,6 +240,14 @@
     return color;
 }
 
+- (NSString *)wholeLicenseNumber
+{
+    if (self.licenceArea) {
+        return [self.licenceArea append:self.licenceSuffix];
+    }
+    return self.licenceSuffix;
+}
+
 #pragma mark - Private
 - (BOOL)isEqualWithDate1:(NSDate *)date1 date2:(NSDate *)date2
 {

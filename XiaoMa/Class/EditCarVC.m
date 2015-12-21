@@ -157,7 +157,7 @@
             return NO;
         }
         //之前验证时入参为licencenumber，为空，切验证结果应为：nil
-        else if (![MyCarStore verifiedLicenseNumberFrom:self.curCar.licenceSuffix]) {
+        else if (![MyCarStore verifiedLicenseNumberFrom:[self.curCar wholeLicenseNumber]]) {
             [self showErrorAtIndexPath:indexPath errorMsg:@"请输入正确的车牌号码"];
             return NO;
         }

@@ -42,6 +42,7 @@
 
 #import "SecondCarValuationVC.h"
 #import "CommitSuccessVC.h"
+#import "HistoryCollectionVC.h"
 
 @interface HomePageVC ()<UIScrollViewDelegate>
 @property (nonatomic, weak) IBOutlet UIView *bgView;
@@ -583,8 +584,10 @@
 - (void)actionInsurance:(id)sender
 {
     [MobClick event:@"rp101-4"];
-    UIViewController *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        UIViewController *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (void)actionRescue:(id)sender

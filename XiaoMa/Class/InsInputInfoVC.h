@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "InsuranceVM.h"
 
 @interface InsInputInfoVC : UIViewController
+
+@property (nonatomic, strong) InsuranceVM *insModel;
 
 @end
