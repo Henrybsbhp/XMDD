@@ -114,6 +114,7 @@
     AutoBrandModel * brandModel = [[AutoBrandModel alloc] init];
     brandModel.brandid = brand.brandid;
     brandModel.brandname = brand.name;
+    brandModel.brandLogo = brand.logo;
     vc.brand = brandModel;
     vc.originVC = self.originVC;
     vc.completed = self.completed;

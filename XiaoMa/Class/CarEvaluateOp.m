@@ -16,7 +16,8 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
-    [params addParam:@(self.req_mile) forName:@"mile"];
+    NSString * milesStr = [NSString stringWithFormat:@"%.2f", self.req_mile];
+    [params addParam:@([milesStr floatValue]) forName:@"mile"];
     [params addParam:self.req_modelid forName:@"modelid"];
     [params addParam:[self.req_buydate dateFormatForDT8] forName:@"buydate"];
     [params addParam:self.req_carid forName:@"carid"];

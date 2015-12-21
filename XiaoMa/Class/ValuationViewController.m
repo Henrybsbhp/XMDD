@@ -295,6 +295,7 @@
             [vc setCompleted:^(AutoBrandModel *brand, AutoSeriesModel * series, AutoDetailModel * model) {
                 @strongify(self);
                 self.selectCar.brand = brand.brandname;
+                self.selectCar.brandLogo = brand.brandLogo;
                 self.selectCar.seriesModel = series;
                 self.selectCar.detailModel = model;
                 modelField.inputField.text = [NSString stringWithFormat:@"%@", model.modelname];
@@ -375,7 +376,9 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField{
+    textField.text = [NSString formatForPrice:[textField.text floatValue]];
     self.miles = [textField.text floatValue];
+
     
     if (self.advc.adList.count != 0) {
         [UIView animateWithDuration:0.3 animations:^{
@@ -418,6 +421,7 @@
     
     CarEvaluateOp * op = [CarEvaluateOp operation];
     op.req_mile = self.miles;
+    
     op.req_modelid = self.modelId; //24712
     op.req_buydate = self.selectCar.purchasedate;
     op.req_carid = self.selectCar.carId;

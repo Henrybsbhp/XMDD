@@ -64,7 +64,7 @@ typedef enum : NSInteger
 @property (nonatomic)CGFloat price;
 
 ///行驶里程
-@property (nonatomic)NSInteger odo;
+@property (nonatomic)CGFloat odo;
 
 ///行驶证审核状态(1待审核,2审核通过,3审核失败,0无图片)
 @property (nonatomic, assign) NSInteger status;
