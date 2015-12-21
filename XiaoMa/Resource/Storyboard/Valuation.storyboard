@@ -155,7 +155,7 @@
                         <barButtonItem key="rightBarButtonItem" title="历史记录" id="YDi-Vf-Kmy">
                             <color key="tintColor" red="0.08235294118" green="0.61568627450000002" blue="0.0078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="recordAction:" destination="Qb3-hh-lCv" id="ynj-Bn-Joy"/>
+                                <action selector="goToHistoryVC:" destination="Qb3-hh-lCv" id="aYb-SY-RzH"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1044,8 +1044,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GYj-Zr-6tu">
-                                <rect key="frame" x="10" y="496" width="580" height="30"/>
+                                <rect key="frame" x="10" y="491" width="580" height="40"/>
                                 <color key="backgroundColor" red="0.08235294118" green="0.61568627450000002" blue="0.0078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="zT7-8a-IZe"/>
+                                </constraints>
                                 <state key="normal" title="分享">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1054,14 +1057,14 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="这么好用的app，" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rPj-g7-BvX">
-                                <rect key="frame" x="242" y="445" width="116" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <rect key="frame" x="246" y="447" width="108.5" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="不分享给您的小伙伴们一起使用么？" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zy0-Ed-CxZ">
-                                <rect key="frame" x="180" y="468" width="240" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <rect key="frame" x="188" y="469" width="224" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -1084,11 +1087,11 @@
                             <constraint firstItem="ksJ-v1-Pj3" firstAttribute="top" secondItem="D16-F5-FsV" secondAttribute="bottom" constant="50" id="559-xq-qMp"/>
                             <constraint firstItem="ksJ-v1-Pj3" firstAttribute="centerX" secondItem="imv-2F-pDC" secondAttribute="centerX" id="5NQ-ms-2Al"/>
                             <constraint firstItem="Zy0-Ed-CxZ" firstAttribute="centerX" secondItem="imv-2F-pDC" secondAttribute="centerX" id="DJZ-II-gRn"/>
-                            <constraint firstItem="GYj-Zr-6tu" firstAttribute="top" secondItem="Zy0-Ed-CxZ" secondAttribute="bottom" constant="10" id="DwM-Xb-ozA"/>
+                            <constraint firstItem="GYj-Zr-6tu" firstAttribute="top" secondItem="Zy0-Ed-CxZ" secondAttribute="bottom" constant="5" id="DwM-Xb-ozA"/>
                             <constraint firstItem="gfn-ZD-AJF" firstAttribute="leading" secondItem="imv-2F-pDC" secondAttribute="leading" constant="30" id="EPh-2N-eHz"/>
                             <constraint firstItem="rPj-g7-BvX" firstAttribute="centerX" secondItem="imv-2F-pDC" secondAttribute="centerX" id="Iq3-qI-A1N"/>
                             <constraint firstAttribute="trailing" secondItem="GYj-Zr-6tu" secondAttribute="trailing" constant="10" id="K6A-Fg-WXI"/>
-                            <constraint firstItem="Iwt-BA-E0h" firstAttribute="top" secondItem="GYj-Zr-6tu" secondAttribute="bottom" constant="10" id="Qdb-sh-JIO"/>
+                            <constraint firstItem="Iwt-BA-E0h" firstAttribute="top" secondItem="GYj-Zr-6tu" secondAttribute="bottom" constant="5" id="Qdb-sh-JIO"/>
                             <constraint firstItem="Zy0-Ed-CxZ" firstAttribute="top" secondItem="rPj-g7-BvX" secondAttribute="bottom" constant="5" id="R1Q-sr-UPG"/>
                             <constraint firstAttribute="trailing" secondItem="gfn-ZD-AJF" secondAttribute="trailing" constant="20" symbolic="YES" id="YHU-gN-uIf"/>
                             <constraint firstItem="GYj-Zr-6tu" firstAttribute="leading" secondItem="imv-2F-pDC" secondAttribute="leading" constant="10" id="ntv-3R-b75"/>
@@ -1098,6 +1101,7 @@
                     <navigationItem key="navigationItem" title="提交成功" id="xid-CH-SQr"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
+                        <outlet property="shareBtn" destination="GYj-Zr-6tu" id="Ama-G6-HWp"/>
                         <outlet property="tipLabel" destination="gfn-ZD-AJF" id="BoB-lq-Yb1"/>
                     </connections>
                 </viewController>

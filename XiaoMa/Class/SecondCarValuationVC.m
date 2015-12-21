@@ -64,7 +64,7 @@
     
     [self reloadCellTwoData];
     
-    [RACObserve(gAppMgr.myUser, phoneNumber) subscribeNext:^(id x) {
+    [RACObserve(gAppMgr.myUser, phoneNumber) subscribeNext:^(NSString * x) {
         NSString *phone=(NSString *)x;
         self.phoneNumber=phone;
     }];
@@ -195,6 +195,12 @@
     }];
     [phoneNumber.rac_textSignal subscribeNext:^(id x) {
         self.phoneNumber = phoneNumber.text;
+    }];
+    
+    [[RACObserve(gAppMgr.myUser, phoneNumber) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+       
+        self.phoneNumber = x;
+        phoneNumber.text = (NSString *)x;
     }];
     return cell;
 }
