@@ -42,6 +42,7 @@
 
 #import "SecondCarValuationVC.h"
 #import "CommitSuccessVC.h"
+#import "HistoryCollectionVC.h"
 
 @interface HomePageVC ()<UIScrollViewDelegate>
 @property (nonatomic, weak) IBOutlet UIView *bgView;
