@@ -38,7 +38,7 @@ $<${(namespace (lambda (nd) (properties-by-remark nd 'req)))}
 					  (if (oc:ns-value-type _)
 						  (format "@(self.req_~a)" (property-name _))
 						  (format "self.req_~a" (property-name _)))
-					  (property-name _))))
+					  (property-key _))))
 $>
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:$(out (if (attr-value "auth") "YES" "NO"))];
 }
@@ -51,7 +51,7 @@ $>
 		(properties-by-remark _ 'rsp)
 		(lambda (node k v)
 		  (define name (property-name node))
-		  (define dv (format "dict[@\"~a\"]" name))
+		  (define dv (format "dict[@\"~a\"]" (property-key node)))
 		  (define fmt
 			(case k
 			  ['object dv]

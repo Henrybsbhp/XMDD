@@ -21,7 +21,10 @@
 
 - (instancetype)parseResponseObject:(id)rspObj
 {
-        	
+    NSDictionary *dict = rspObj;
+    self.rsp_carpremiumid = dict[@"carpremiumid"];
+    self.rsp_seatcount = dict[@"seatcount"];
+	
     return self;
 }
 

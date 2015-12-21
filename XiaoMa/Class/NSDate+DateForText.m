@@ -93,7 +93,7 @@
 }
 
 /// 时间格式化(yyyy-MM-dd)
-- (NSString *)dateFormatForYYMMdd3
+- (NSString *)dateFormatForD10
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
@@ -175,7 +175,7 @@
     return [format dateFromString:text];
 }
 
-+ (NSDate *)dateWithYYYYMMdd:(NSString *)text
++ (NSDate *)dateWithD10Text:(NSString *)text
 {
     if (text.length == 0) {
         return nil;

@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "InsuranceVM.h"
 
 @interface InsSubmitResultVC : UIViewController
-
+@property (nonatomic, strong) NSArray *couponList;
+@property (nonatomic, strong) NSNumber *insOrderID;
+@property (nonatomic, strong) InsuranceVM *insModel;
 @end

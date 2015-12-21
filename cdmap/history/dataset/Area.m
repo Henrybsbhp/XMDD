@@ -10,7 +10,7 @@
 
 - (void)resetWithJSONDict:(NSDictionary *)dict
 {
-    self.aid = dict[@"aid"];
+    self.aid = dict[@"id"];
     self.name = dict[@"name"];
     self.abbr = dict[@"abbr"];
     self.code = dict[@"code"];

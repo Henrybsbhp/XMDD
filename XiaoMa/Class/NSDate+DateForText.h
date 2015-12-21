@@ -24,7 +24,7 @@
 /// 时间格式化(yyyy.MM.dd)
 - (NSString *)dateFormatForYYMMdd2;
 /// 时间格式化(yyyy-MM-dd)
-- (NSString *)dateFormatForYYMMdd3;
+- (NSString *)dateFormatForD10;
 /// 时间格式化(yyyy年MM月)
 - (NSString *)dateFormatForYYMM;
 /// D15时间格式化(yyyy年MM月dd日)
@@ -37,7 +37,7 @@
 + (NSDate *)dateWithD8Text:(NSString *)text;
 + (NSDate *)dateWithD14Text:(NSString *)text;
 /// 时间格式化(yyyy-MM-dd)
-+ (NSDate *)dateWithYYYYMMdd:(NSString *)text;
++ (NSDate *)dateWithD10Text:(NSString *)text;
 + (NSDate *)dateWithText:(NSString *)text;
 
 ///参照时间(mm:ss)

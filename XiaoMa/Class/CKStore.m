@@ -120,7 +120,7 @@
 }
 
 #pragma mark - Subscribe
-- (void)subscribeWithTarget:(id)target domain:(NSString *)domain receiver:(void(^)(CKStore *store, CKEvent*evt))block
+- (void)subscribeWithTarget:(id)target domainList:(NSArray *)domains receiver:(void(^)(CKStore *store, CKEvent*evt))block
 {
     NSMutableDictionary *dict = [self.weakTable objectForKey:target];
     if (!dict) {
@@ -134,8 +134,28 @@
             [self.weakTable removeObjectForKey:target];
         }];
     }
-    [dict setObject:[block copy] forKey:domain];
+    block = [block copy];
+    for (NSString *domain in domains) {
+        [dict setObject:block forKey:domain];
+    }
+}
+- (void)subscribeWithTarget:(id)target domain:(NSString *)domain receiver:(void(^)(CKStore *store, CKEvent*evt))block
+{
+    [self subscribeWithTarget:target domainList:@[domain] receiver:block];
 }
 
+- (RACSignal *)rac_subscribeWithTarget:(id)target domainList:(NSArray *)domains
+{
+    RACSubject *subject;
+    [self subscribeWithTarget:target domainList:domains receiver:^(CKStore *store, CKEvent *evt) {
+        [subject sendNext:evt];
+    }];
+    return [subject takeUntil:[[self rac_willDeallocSignal] merge:[target rac_willDeallocSignal]]];
+}
+
+- (RACSignal *)rac_subscribeWithTarget:(id)target domain:(NSString *)domain
+{
+    return [self rac_subscribeWithTarget:target domainList:@[domain]];
+}
 
 @end

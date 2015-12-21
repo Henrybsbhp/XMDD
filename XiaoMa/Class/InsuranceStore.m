@@ -27,7 +27,11 @@
     @weakify(self);
     return [self inlineEvent:[[[[GetInsCarListOp operation] rac_postRequest] map:^id(GetInsCarListOp *op) {
         @strongify(self);
-        self.simpleCars = op.rsp_carinfolist;
+        JTQueue *cars = [[JTQueue alloc] init];
+        for (InsSimpleCar *car in op.rsp_carinfolist) {
+            [cars addObject:car forKey:car.licenseno];
+        }
+        self.simpleCars = cars;
         self.xmddHelpTip = op.rsp_xmddhelptip;
         return op.rsp_carinfolist;
     }] eventWithName:kEvtInsSimpleCars]];
@@ -55,6 +59,13 @@
         [sigs addObject:[[self getInsProvinces] signal]];
     }
     return [self inlineEvent:[[RACSignal combineLatest:sigs] eventWithName:kEvtInsSimpleCarsAndProvinces]];
+}
+
+- (CKEvent *)updateSimpleCarRefid:(NSNumber *)refid byLicenseno:(NSString *)licenseno
+{
+    InsSimpleCar *car = [self.simpleCars objectForKey:licenseno];
+    car.refid = refid;
+    return [self inlineEvent:[CKEvent eventWithName:kEvtUpdateInsSimpleCar signal:[RACSignal return:car]]];
 }
 
 

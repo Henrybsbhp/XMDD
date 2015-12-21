@@ -16,12 +16,15 @@
     [params safetySetObject:self.req_licensenum forKey:@"licensenum"];
     [params safetySetObject:self.req_regdate forKey:@"regdate"];
 
-    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
+    return [self rac_invokeWithRPCClient:gNetworkMgr.longtimeManager params:params security:YES];
 }
 
 - (instancetype)parseResponseObject:(id)rspObj
 {
-        	
+    NSDictionary *dict = rspObj;
+    self.rsp_carpremiumid = dict[@"carpremiumid"];
+    self.rsp_seatcount = dict[@"seatcount"];
+	
     return self;
 }
 

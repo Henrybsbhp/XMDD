@@ -13,10 +13,13 @@
 #import "GetInscouponOp.h"
 #import "ChooseCarwashTicketVC.h"
 #import "InsuranceOrderPayOp.h"
-#import "InsuranceResultVC.h"
 #import "PaymentHelper.h"
 #import "OrderPaidSuccessOp.h"
 #import "InsOrderStore.h"
+#import "InsuranceVM.h"
+
+#import "InsPayResultVC.h"
+//#import "InsPayFaildVC.h"
 
 #define CheckBoxDiscountGroup @"CheckBoxDiscountGroup"
 #define CheckBoxPlatformGroup @"CheckBoxPlatformGroup"
@@ -95,6 +98,29 @@
 }
 
 #pragma mark - Action
+- (IBAction)actionCallCenter:(id)sender
+{
+    NSString * number = @"4007111111";
+    [gPhoneHelper makePhone:number andInfo:@"咨询电话: 4007-111-111"];
+}
+
+- (void)gotoPaidFailVC
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您的保险订单支付失败，请重新支付！" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+    [alert show];
+//    InsPayFaildVC *vc = [UIStoryboard vcWithId:@"InsPayFaildVC" inStoryboard:@"Insurance"];
+//    vc.insOrder = self.insOrder;
+//    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)gotoPaidSuccessVC
+{
+    InsPayResultVC *resultVC = [UIStoryboard vcWithId:@"InsPayResultVC" inStoryboard:@"Insurance"];
+    resultVC.insModel = self.insModel;
+    resultVC.insOrder = self.insOrder;
+    [self.navigationController pushViewController:resultVC animated:YES];
+}
+
 - (IBAction)actionPay:(id)sender {
     [MobClick event:@"rp326-6"];
     InsuranceOrderPayOp * op = [InsuranceOrderPayOp operation];
@@ -139,11 +165,7 @@
             [gToast dismiss];
             InsOrderStore *store = [InsOrderStore fetchExistsStore];
             [store sendEvent:[store getInsOrderByID:self.insOrder.orderid]];
-            InsuranceResultVC *resultVC = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceResultVC"];
-            resultVC.originVC = self.originVC;
-            resultVC.orderID = self.insOrder.orderid;
-            [resultVC setResultType:PaySuccess];
-            [self.navigationController pushViewController:resultVC animated:YES];
+            [self gotoPaidSuccessVC];
         }
     } error:^(NSError *error) {
         
@@ -244,17 +266,23 @@
     if (op.rsp_total == 0) {
         return NO;
     }
+    
+    CGFloat price = op.rsp_total;
+#if DEBUG
+    price = 0.01;
+#endif
+    
     PaymentHelper *helper = [[PaymentHelper alloc] init];
     NSString * info = [NSString stringWithFormat:@"%@-%@的保险订单支付",self.insOrder.inscomp,self.insOrder.licencenumber];
     NSString *text;
     switch (op.req_paychannel) {
         case PaymentChannelAlipay: {
             text = @"订单生成成功,正在跳转到支付宝平台进行支付";
-            [helper resetForAlipayWithTradeNumber:op.rsp_tradeno productName:info productDescription:info price:op.rsp_total];
+            [helper resetForAlipayWithTradeNumber:op.rsp_tradeno productName:info productDescription:info price:price];
         } break;
         case PaymentChannelWechat: {
             text = @"订单生成成功,正在跳转到微信平台进行支付";
-            [helper resetForWeChatWithTradeNumber:op.rsp_tradeno productName:info price:op.rsp_total];
+            [helper resetForWeChatWithTradeNumber:op.rsp_tradeno productName:info price:price];
         } break;
         case PaymentChannelUPpay: {
             text = @"订单生成成功,正在跳转到银联平台进行支付";
@@ -270,11 +298,7 @@
         @strongify(self);
         InsOrderStore *store = [InsOrderStore fetchExistsStore];
         [store sendEvent:[store getInsOrderByID:self.insOrder.orderid]];
-        InsuranceResultVC *resultVC = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceResultVC"];
-        [resultVC setResultType:PaySuccess];
-        resultVC.originVC = self.originVC;
-        resultVC.orderID = self.insOrder.orderid;
-        [self.navigationController pushViewController:resultVC animated:YES];
+        [self gotoPaidSuccessVC];
         
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 1;
@@ -283,8 +307,9 @@
             DebugLog(@"已通知服务器支付成功!");
         }];
     } error:^(NSError *error) {
-        
-        [gToast showError:@"订单支付失败"];
+
+        @strongify(self);
+        [self gotoPaidFailVC];
     }];
     return YES;
 }
@@ -301,7 +326,7 @@
     CGFloat height = 44;
     if (indexPath.section == 0){
         if (indexPath.row == 0){
-            height = 76;
+            height = 66;
         }
         else if (indexPath.row == 3){
             height = 30;
@@ -389,7 +414,7 @@
 {
     JTTableViewCell *jtcell = (JTTableViewCell *)cell;
     
-    if ((indexPath.section == 1 && indexPath.row == 0) || (indexPath.section == 2 && indexPath.row == 0))
+    if ((indexPath.section == 1 && indexPath.row == 0) || (indexPath.section == 2 && indexPath.row == 0) || (indexPath.section == 0 && indexPath.row == 3))
     {
         [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(-1, 0, 0, 0) forDirectionMask:CKViewBorderDirectionBottom];
         [cell.contentView showBorderLineWithDirectionMask:CKViewBorderDirectionBottom];
@@ -440,7 +465,7 @@
     logoV.cornerRadius = 5.0f;
     logoV.layer.masksToBounds = YES;
     
-    [logoV setImageByUrl:self.insOrder.picUrl withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
+    [logoV setImageByUrl:self.insOrder.picUrl withType:ImageURLTypeOrigin defImage:@"ins_comp_def" errorImage:@"ins_comp_def"];
     titleL.text = self.insOrder.inscomp;
     
     return cell;
@@ -480,6 +505,7 @@
     UILabel *dateLb = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *statusLb = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *tagLb = (UILabel *)[cell.contentView viewWithTag:1006];
+    UIView *tagBg = (UIView *)[cell.contentView viewWithTag:1007];
     
     if (self.insOrder.iscontainActivity)
     {
@@ -487,9 +513,9 @@
             
             label.text = self.insOrder.activityTag;
             tagLb.text = self.insOrder.activityName;
-            // TODO @fq
-            tagLb.cornerRadius = 3.0f;
-            tagLb.hidden = NO;
+            [tagBg makeCornerRadius:3.0f];
+            tagLb.hidden = !self.insOrder.activityName.length;
+            tagBg.hidden = !self.insOrder.activityName.length;
             arrow.hidden = NO;
             
             NSDate * earlierDate;
@@ -620,7 +646,6 @@
         @strongify(self);
         if (indexPath.row == 2)
         {
-//            [MobClick event:@"rp108-1"];
             if (!self.selectInsuranceCoupouArray.count)
             {
                 [self jumpToChooseCouponVC];
@@ -895,8 +920,10 @@
     UILabel *dateLb = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *statusLb = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *tagLb = (UILabel *)[cell.contentView viewWithTag:1006];
+    UIView *tagBg = (UIView *)[cell.contentView viewWithTag:1007];
     
     tagLb.hidden = YES;
+    tagBg.hidden = YES;
     
     label.text = [NSString stringWithFormat:@"保险代金券：%ld张", (long)gAppMgr.myUser.couponModel.validInsuranceCouponArray.count];
     arrow.hidden = NO;

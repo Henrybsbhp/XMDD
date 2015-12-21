@@ -18,11 +18,13 @@
 #import "CKLimitTextField.h"
 #import "MyCarStore.h"
 #import "UIView+Shake.h"
+#import "InsuranceVM.h"
 
 #import "InsInputNameVC.h"
 #import "InsInputInfoVC.h"
+#import "InsCheckResultsVC.h"
+#import "InsuranceOrderVC.h"
 #import "PickerVC.h"
-
 
 @interface InsuranceVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -42,7 +44,6 @@
 
 - (void)dealloc
 {
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -76,7 +77,8 @@
     self.insStore = [InsuranceStore fetchOrCreateStore];
     //监听保险车辆信息和保险支持的省市更新
     @weakify(self);
-    [self.insStore subscribeWithTarget:self domain:kEvtInsSimpleCarsAndProvinces receiver:^(CKStore *store, CKEvent *evt) {
+    NSArray *domains = @[kEvtInsSimpleCarsAndProvinces, kEvtUpdateInsSimpleCar];
+    [self.insStore subscribeWithTarget:self domainList:domains receiver:^(CKStore *store, CKEvent *evt) {
         @strongify(self);
         CKAsyncMainQueue(^{
             [self reloadWithEvent:evt];
@@ -84,6 +86,13 @@
     }];
 }
 
+- (void)setupRefreshView
+{
+    if (![self.tableView isRefreshViewExists]) {
+        [self.tableView.refreshView addTarget:self action:@selector(actionRefresh:)
+                             forControlEvents:UIControlEventValueChanged];
+    }
+}
 #pragma mark - Datasource
 - (void)reloadWithEvent:(CKEvent *)event
 {
@@ -98,10 +107,7 @@
             [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         }
         else {
-            if (![self.tableView isRefreshViewExists]) {
-                [self.tableView.refreshView addTarget:self action:@selector(actionRefresh:)
-                                     forControlEvents:UIControlEventValueChanged];
-            }
+            [self setupRefreshView];
             [self.tableView.refreshView beginRefreshing];
         }
     }] finally:^{
@@ -123,6 +129,7 @@
        
         @strongify(self);
         self.tableView.hidden = NO;
+        [self setupRefreshView];
         //刷新页面
         [self reloadData];
     }];
@@ -144,7 +151,7 @@
     [datasource addObject:promptCell];
     
     //车牌
-    NSArray *carCells = [self.insStore.simpleCars arrayByMappingOperator:^id(id obj) {
+    NSArray *carCells = [self.insStore.simpleCars.allObjects arrayByMappingOperator:^id(id obj) {
 
         @strongify(self);
         HKCellData *cell = [HKCellData dataWithCellID:@"Car" tag:nil];
@@ -158,8 +165,9 @@
             }
             else {
                 InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
-                infoVC.licenseNumber = car.licenseno;
-                infoVC.refid = car.refid;
+                infoVC.insModel.licenseNumber = car.licenseno;
+                infoVC.insModel.premiumId = car.refid;
+                infoVC.insModel.originVC = self;
                 [self.navigationController pushViewController:infoVC animated:YES];
             }
         }];
@@ -210,8 +218,9 @@
         [sheet dismissAnimated:YES completionHandler:nil];
 
         InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
-        infoVC.userName = vc.nameField.text;
-        infoVC.licenseNumber = licenseno;
+        infoVC.insModel.realName = vc.nameField.text;
+        infoVC.insModel.licenseNumber = licenseno;
+        infoVC.insModel.originVC = self;
         [self.navigationController pushViewController:infoVC animated:YES];
     }];
 }
@@ -289,6 +298,7 @@
     
     InsSimpleCar *car = data.object;
     numberL.text = [car.licenseno splitByStep:2 replacement:@" " count:1];
+    
     if (car.status == 0 || car.status == 3) {
         arrowV.hidden = NO;
         stateB.hidden = YES;
@@ -296,6 +306,33 @@
     else {
         stateB.hidden = NO;
         arrowV.hidden = YES;
+        NSString *title = @"我的订单";
+        if (car.status == 2) {
+            title = @"核保记录";
+        }
+        [stateB setTitle:title forState:UIControlStateNormal];
+        
+        @weakify(self);
+        [[[stateB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+         subscribeNext:^(id x) {
+             
+             @strongify(self);
+             //核保记录
+             if (car.status == 2) {
+                 InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
+                 vc.insModel = [[InsuranceVM alloc] init];
+                 vc.insModel.licenseNumber = car.licenseno;
+                 vc.insModel.premiumId = car.refid;
+                 vc.insModel.originVC = self;
+                 [self.navigationController pushViewController:vc animated:YES];
+             }
+             //有保单
+             else if (car.status == 1 || car.status == 4) {
+                 InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
+                 vc.orderID = car.refid;
+                 [self.navigationController pushViewController:vc animated:YES];
+             }
+        }];
     }
 }
 

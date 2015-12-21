@@ -18,9 +18,9 @@
 
 #import <MZFormSheetController.h>
 #import "DatePickerVC.h"
-#import "InsCheckResultsVC.h"
 #import "InsuranceInfoSubmitingVC.h"
 #import "CityPickerVC.h"
+#import "InsuranceSelectViewController.h"
 
 @interface InsInputInfoVC ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
@@ -33,6 +33,13 @@
 @end
 
 @implementation InsInputInfoVC
+
+- (void)awakeFromNib
+{
+    if (!self.insModel) {
+        self.insModel = [[InsuranceVM alloc] init];
+    }
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -59,18 +66,18 @@
 {
     RACSignal *signal;
     @weakify(self);
-    if (!self.refid) {
+    if (!self.insModel.premiumId) {
         GetInsBaseCarListOp *op = [GetInsBaseCarListOp operation];
-        op.req_name = self.userName;
-        op.req_licensenum = self.licenseNumber;
+        op.req_name = self.insModel.realName;
+        op.req_licensenum = self.insModel.licenseNumber;
         signal = [op rac_postRequest];
     }
     else {
         GetInsBaseCarListByIDOp *op = [GetInsBaseCarListByIDOp operation];
-        op.req_carpremiumid = self.refid;
+        op.req_carpremiumid = self.insModel.premiumId;
         signal = [[op rac_postRequest] doNext:^(GetInsBaseCarListByIDOp *op) {
             @strongify(self);
-            self.userName = op.rsp_basecar.name;
+            self.insModel.realName = op.rsp_basecar.name;
             self.curProvince = op.rsp_basecar.province;
         }];
     }
@@ -85,11 +92,11 @@
         @strongify(self);
         [self.view stopActivityAnimation];
         self.containerView.hidden = NO;
+        [self reloadData];
     }] subscribeNext:^(id x) {
         
         @strongify(self);
         self.baseCar = [x rsp_basecar];
-        [self reloadData];
     }];
 }
 
@@ -98,7 +105,7 @@
     NSMutableArray *datasource = [NSMutableArray array];
     //车牌
     HKCellData *numberCell = [HKCellData dataWithCellID:@"Number" tag:nil];
-    numberCell.object = self.licenseNumber;
+    numberCell.object = self.insModel.licenseNumber;
     [numberCell setHeightBlock:^CGFloat(UITableView *tableView) {
         return 48;
     }];
@@ -162,8 +169,11 @@
     [helpCell setHeightBlock:^CGFloat(UITableView *tableView) {
         return 57;
     }];
+    @weakify(self);
     [helpCell setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+        @strongify(self);
         InsuranceInfoSubmitingVC *vc = [UIStoryboard vcWithId:@"InsuranceInfoSubmitingVC" inStoryboard:@"Insurance"];
+        vc.insModel = self.insModel;
         [self.navigationController pushViewController:vc animated:YES];
     }];
     [datasource addObject:helpCell];
@@ -173,6 +183,16 @@
 }
 
 #pragma mark - Action
+- (void)actionBack:(id)sender
+{
+    if (self.insModel.originVC) {
+        [self.navigationController popToViewController:self.insModel.originVC animated:YES];
+    }
+    else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 - (IBAction)actionNext:(id)sender
 {
     AddInsCarBaseInfoOp *op = [AddInsCarBaseInfoOp operation];
@@ -204,8 +224,8 @@
     }
     else {
         //补全剩余信息
-        op.req_licensenum = self.licenseNumber;
-        op.req_name = self.userName;
+        op.req_licensenum = self.insModel.licenseNumber;
+        op.req_name = self.insModel.realName;
         op.req_province = self.curProvince;
         
         //开始请求
@@ -217,16 +237,17 @@
             
             @strongify(self);
             [gToast dismiss];
-            InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
+            [[[InsuranceStore fetchExistsStore] updateSimpleCarRefid:op.rsp_carpremiumid byLicenseno:self.insModel.licenseNumber] send];
+            self.insModel.premiumId = op.rsp_carpremiumid;
+            InsuranceSelectViewController *vc = [UIStoryboard vcWithId:@"InsuranceSelectViewController" inStoryboard:@"Insurance"];
+            vc.insModel = self.insModel;
+            vc.insModel.numOfSeat = op.rsp_seatcount;
             [self.navigationController pushViewController:vc animated:YES];
         } error:^(NSError *error) {
             
             [gToast showError:error.domain];
         }];
     }
-    
-
-
 }
 
 #pragma mark - UITableViewDelegate and datasource
@@ -357,6 +378,7 @@
     //输入框
     inputF.inputField.placeholder = data.customInfo[@"placehold"];
     inputF.inputField.text = data.object;
+    inputF.inputField.keyboardType = UIKeyboardTypeASCIICapable;
     inputF.inputField.textLimit = [data.customInfo[@"limit"] integerValue];
     [inputF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
 
@@ -437,10 +459,10 @@
 
 - (RACSignal *)rac_pickDateWithNow:(NSString *)nowtext
 {
-    NSDate *date = [NSDate dateWithYYYYMMdd:nowtext];
+    NSDate *date = [NSDate dateWithD10Text:nowtext];
     self.datePicker.maximumDate = [NSDate date];
     return [[[self.datePicker rac_presentPickerVCInView:self.navigationController.view withSelectedDate:date] ignoreError] map:^id(NSDate *date) {
-        return [date dateFormatForYYMMdd3];
+        return [date dateFormatForD10];
     }];
 }
 
@@ -449,7 +471,6 @@
     CGSize size = CGSizeMake(300, 200);
     UIViewController *vc = [[UIViewController alloc] init];
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:size viewController:vc];
-    
     sheet.cornerRadius = 0;
     sheet.shadowRadius = 0;
     sheet.shadowOpacity = 0;

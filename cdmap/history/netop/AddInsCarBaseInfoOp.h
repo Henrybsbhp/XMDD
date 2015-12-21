@@ -21,6 +21,10 @@
 ///注册日期
 @property (nonatomic,strong) NSString* req_regdate;
 
+///核保记录id
+@property (nonatomic,strong) NSNumber* rsp_carpremiumid;
+///车辆座位数量
+@property (nonatomic,strong) NSNumber* rsp_seatcount;
 
 
 @end

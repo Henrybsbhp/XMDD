@@ -32,6 +32,10 @@ static NetworkManager *g_networkManager;
         _apiManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
         _apiManager.requestSerializer = [AFJSONRequestSerializer serializer];
         
+        _longtimeManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
+        _longtimeManager.requestSerializer = [AFJSONRequestSerializer serializer];
+        _longtimeManager.requestSerializer.timeoutInterval = 2*60;
+        
         /// https设置
         AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
         securityPolicy.allowInvalidCertificates = YES;
