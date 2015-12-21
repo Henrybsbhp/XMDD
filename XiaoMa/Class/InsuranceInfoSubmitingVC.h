@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GetInsuranceCalculatorOpV2.h"
+#import "InsuranceVM.h"
 
 @interface InsuranceInfoSubmitingVC : UIViewController
-@property (nonatomic, strong) GetInsuranceCalculatorOpV2 *calculatorOp;
+@property (nonatomic, strong) InsuranceVM *insModel;
 
 @end

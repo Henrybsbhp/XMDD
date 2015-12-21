@@ -10,7 +10,7 @@
 
 @implementation HKCoverage
 
-- (instancetype)initWithInsuranceCarSeatInsuranceOfPassengerWithNumOfSeat:(NSInteger)numOfSeat
+- (instancetype)initWithInsuranceCarSeatInsuranceOfPassengerWithNumOfSeat:(NSNumber *)numOfSeat
 {
     self = [super init];
     if (self)
@@ -18,6 +18,7 @@
         self.insCategory = InsuranceCarSeatInsuranceOfPassenger;
         self.insId = @(InsuranceCarSeatInsuranceOfPassenger);
         self.insName = @"乘客座位责任险";
+        self.numOfSeat = numOfSeat;
         
         NSDictionary * d = @{@"key":@"1万/座",@"value":@(10000)};
         d.customTag = YES;
@@ -30,10 +31,10 @@
                         @{@"key":@"20万/座",@"value":@(200000)}
                         ];
         
-        if (numOfSeat > 0)
+        if (numOfSeat)
         {
             NSString * str = [NSString stringWithFormat:@"%ld座",(long)numOfSeat];
-            NSDictionary * d2 = @{@"key":str,@"value":@(numOfSeat)};
+            NSDictionary * d2 = @{@"key":str,@"value":numOfSeat};
             d2.customTag = YES;
             self.params2 = @[d2];
         }
@@ -262,6 +263,17 @@
         }
     }
     return self;
+}
+
+- (NSString *)coverageAmountDesc
+{
+    NSDictionary *param = [self.params firstObjectByFilteringOperator:^BOOL(NSDictionary *obj) {
+        return obj.customTag;
+    }];
+    if (self.numOfSeat) {
+        return [NSString stringWithFormat:@"%@ %@座", param[@"key"], self.numOfSeat];
+    }
+    return param[@"key"];
 }
 
 @end

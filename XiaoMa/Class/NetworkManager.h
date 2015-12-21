@@ -21,6 +21,7 @@
 @property (nonatomic, strong) NSString * bindingMobile;
 @property (nonatomic, strong, readonly) NSString *apiServer;
 @property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *apiManager;
+@property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *longtimeManager;
 @property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *mediaClient;
 @property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *logClient;
 

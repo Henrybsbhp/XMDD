@@ -160,7 +160,7 @@
     
     PictureRecord *record = [self.recordList safetyObjectAtIndex:indexPath.item];
     
-    [imageV setImageByUrl:record.url withType:ImageURLTypeThumbnail defImage:@"cm_defpic" errorImage:@"cm_defpic_fail"];
+    [imageV setImageByUrl:record.url withType:ImageURLTypeThumbnail defImage:@"cm_defpic2" errorImage:@"cm_defpic_fail2"];
     imageV.clipsToBounds = YES;
     imageV.contentMode = UIViewContentModeScaleAspectFill;
     bottomV.hidden = record.plateNumber.length == 0;

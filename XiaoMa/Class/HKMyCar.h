@@ -100,6 +100,7 @@ typedef enum : NSInteger
 @property (nonatomic, assign) HKCarEditableMask editMask;
 
 + (instancetype)carWithJSONResponse:(NSDictionary *)rsp;
+- (NSString *)wholeLicenseNumber;
 - (NSDictionary *)jsonDictForCarInfo;
 - (BOOL)isCarInfoCompleted;
 - (BOOL)isDifferentFromAnother:(HKMyCar *)another;

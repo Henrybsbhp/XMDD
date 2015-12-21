@@ -99,7 +99,7 @@
         
         InsuranceInfoSubmitingVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceInfoSubmitingVC"];
 //        vc.submitModel = InsuranceInfoSubmitForEnquiry;
-        vc.calculatorOp = self.calculatorOp;
+//        vc.calculatorOp = self.calculatorOp;
 //        vc.insuranceList = [[self.currentModel inslistForVC] componentsJoinedByString:@"|"];
         [self.navigationController pushViewController:vc animated:YES];
     }];

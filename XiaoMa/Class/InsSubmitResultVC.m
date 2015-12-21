@@ -10,6 +10,11 @@
 #import "HKCellData.h"
 #import "CKLine.h"
 #import "InsCouponView.h"
+#import "GetShareButtonOp.h"
+
+#import "InsuranceOrderVC.h"
+#import "SocialShareViewController.h"
+#import "ShareResponeManager.h"
 
 @interface InsSubmitResultVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
@@ -40,11 +45,11 @@
         return 35;
     }];
     HKCellData *couponsCell = [HKCellData dataWithCellID:@"Coupon" tag:nil];
-    couponsCell.object = @[@"全年免费洗车",@"快速理赔",@"免费道路救援"];
-    @weakify(couponsCell);
+    couponsCell.object = self.couponList;
+    @weakify(self);
     [couponsCell setHeightBlock:^CGFloat(UITableView *tableView) {
-        @strongify(couponsCell);
-        return [InsCouponView heightWithCouponCount:[couponsCell.object count] buttonHeight:30];
+        @strongify(self);
+        return [InsCouponView heightWithCouponCount:[self.couponList count] buttonHeight:30];
     }];
     
     self.datasource = @[headerCell, titleCell, couponsCell];
@@ -52,11 +57,55 @@
 }
 
 #pragma mark - Action
+- (void)actionBack:(id)sender
+{
+    if (self.insModel.originVC) {
+        [self.navigationController popToViewController:self.insModel.originVC animated:YES];
+    }
+    else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 - (IBAction)actionOrder:(id)sender {
+    InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
+    vc.orderID = self.insOrderID;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)actionShare:(id)sender {
+    
+    GetShareButtonOp * op = [GetShareButtonOp operation];
+    op.pagePosition = ShareSceneInsurance;
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
+        
+        SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+        vc.sceneType = ShareSceneInsurance;    //页面位置
+        vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        [vc setClickAction:^{
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
+        [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
+            
+        }];
+        [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
+            
+        }];
+    } error:^(NSError *error) {
+        [gToast showError:@"分享信息拉取失败，请重试"];
+    }];
+
 }
+
 
 #pragma mark - UITableViewDelegate and datasource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
