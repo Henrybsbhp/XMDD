@@ -110,7 +110,8 @@
                 titleL.text = @"爱车车型";
                 textField.userInteractionEnabled = NO;
                 textField.subscriptImageName = @"val_textfield_car";
-                textField.inputField.text = [NSString stringWithFormat:@"%@", carModel.detailModel.modelname];
+                textField.inputField.text = carModel.detailModel.modelname.length ? [NSString stringWithFormat:@"%@", carModel.detailModel.modelname] : @"";
+                
                 [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                     [self endEditing:YES];
                     if (self.selectTypeClickBlock) {

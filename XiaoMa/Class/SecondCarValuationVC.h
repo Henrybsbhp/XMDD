@@ -13,4 +13,5 @@
 @property (nonatomic,strong) NSNumber *sellercityid;
 
 @property (nonatomic,strong) NSNumber *carid;
+
 @end
