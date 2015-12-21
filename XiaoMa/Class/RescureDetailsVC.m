@@ -15,6 +15,9 @@
 #import "ADViewController.h"
 #import "NSString+RectSize.h"
 #import "RescurecCommentsVC.h"
+#import "UIView+DefaultEmptyView.h"
+#import "UIView+JTLoadingView.h"
+
 #define kWidth [UIScreen mainScreen].bounds.size.width
 #define kHeight [UIScreen mainScreen].bounds.size.height
 @interface RescureDetailsVC ()
@@ -23,6 +26,7 @@
 @property (nonatomic, strong) UIImageView   * advertisingImg;
 @property (nonatomic, strong) UIView        * footerView;
 @property (nonatomic, strong) UIButton      * helperBtn;
+@property (nonatomic, strong) UIButton      * freeBtn;
 @property (nonatomic, copy)   NSString      * testStr;
 @property (nonatomic, strong) NSMutableArray * dataSourceArray;
 @end
@@ -31,83 +35,108 @@
 
 - (void)dealloc
 {
-    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
-    DebugLog(deallocInfo);
+    DebugLog(@"RescureDetailsVC dealloc");
 }
 
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    [self network];
     
+    [self actionFirstEnter];
     [self.view addSubview:self.helperBtn];
     self.tableView.tableFooterView = self.footerView;
     [self setupADView];
     self.navigationItem.title = self.titleStr;
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
-    btn.titleLabel.font = [UIFont systemFontOfSize:14];
-    btn.frame = CGRectMake(0, 0, 44, 50);
-    [btn setTitle:@"免费券" forState:UIControlStateNormal];
-    [btn addTarget:self action:@selector(rescueHistory) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.freeBtn];
     
 }
 
-- (void)rescueHistory {
+#pragma mark - Action
+
+- (void)actionRescueHistory {
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         [MobClick event:@"rp101-5"];
-    RescueCouponViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueCouponViewController"];
+        RescueCouponViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueCouponViewController"];
         vc.type = self.type;
-    [self.navigationController pushViewController:vc animated:YES];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
-- (void)network {
+- (void)actionFirstEnter {
     GetRescureDetailOp *op = [GetRescureDetailOp operation];
     op.rescueid = self.type;
     op.type = [NSNumber numberWithInteger:2];
-    @weakify(self)
     [[[[op rac_postRequest] initially:^{
-        [gToast showingWithText:@"加载中..."];
+        [self.view hideDefaultEmptyView];
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] finally:^{
-        
-        
+        [self.view stopActivityAnimation];
     }] subscribeNext:^(GetRescureDetailOp *op) {
-        @strongify(self)
-        [gToast dismiss];
-        
         NSString *lastStr;
         for (NSString *testStr in op.rescueDetailArray) {
             lastStr = [testStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
             [self.dataSourceArray addObject:lastStr];
         }
-        NSString *string = [NSString stringWithFormat:@"● %@", op.rescueDetailArray[0]];
+        NSString *string = [NSString stringWithFormat:@"● %@", [op.rescueDetailArray safetyObjectAtIndex:0]];
         lastStr = [string stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n● "];
         self.dataSourceArray[0] = lastStr;
         [self.tableView reloadData];
     } error:^(NSError *error) {
-        [gToast showError:kDefErrorPormpt];
-        NSLog(@"%@", error.description);
+        if (self.dataSourceArray.count == 0) {
+            [self.view showDefaultEmptyViewWithText:@"获取失败, 再试试吧" tapBlock:^{
+                [self actionFirstEnter];
+            }];
+        }
     }] ;
 }
 
+- (void)actionPhoneHelper{
+    [MobClick event:@"rp128"];
+    if (gAppMgr.myUser != nil) {
+        RescueApplyOp *op = [RescueApplyOp operation];
+        op.longitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.longitude];
+        op.latitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.latitude];
+        [[[[op rac_postRequest] initially:^{
+        }] finally:^{
+            
+        }] subscribeNext:^(RescueApplyOp *op) {
+            
+        } error:^(NSError *error) {
+            
+        }] ;
+        NSString * number = @"4007111111";
+        [gPhoneHelper makePhone:number andInfo:@"救援电话: 4007-111-111"];
+        
+    }else{
+        NSString * number = @"4007111111";
+        [gPhoneHelper makePhone:number andInfo:@"救援电话: 4007-111-111"];
+    }
+}
 
+#pragma mark - AD
 - (void)setupADView
 {
     if (self.type == 1) {
-        
+        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailer boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp102-6"];
+        [self.adctrl reloadDataForTableView:self.tableView];
     }else if (self.type == 2){
-        
+        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailerPumpPower boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp102-6"];
+        [self.adctrl reloadDataForTableView:self.tableView];
     }else if (self.type == 3){
-        
+        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailerPumpPowerChangeTheTire boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp102-6"];
+        [self.adctrl reloadDataForTableView:self.tableView];
     }
-    
-    
-    self.adctrl = [ADViewController vcWithADType:AdvertisementTrailer boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp102-6"];
-    [self.adctrl reloadDataForTableView:self.tableView];
+}
 
+#pragma mark - spacing
+- (NSAttributedString *)attributedStringforHeight:(NSString *)str {
+    NSMutableAttributedString * attributedString1 = [[NSMutableAttributedString alloc] initWithString:str];
+    NSMutableParagraphStyle * paragraphStyle1 = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle1 setLineSpacing:2];
+    [attributedString1 addAttribute:NSParagraphStyleAttributeName value:paragraphStyle1 range:NSMakeRange(0, [str length])];
+    return attributedString1;
 }
 
 #pragma mark - UITableViewDataSource
@@ -119,19 +148,12 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RescureDetailsVC" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-    UILabel *titleLb = [cell.contentView viewWithTag:1000];
-    UILabel *detailLb = [cell.contentView viewWithTag:1001];
+    
+    UILabel *titleLb = (UILabel *)[cell searchViewWithTag:1000];
+    UILabel *detailLb = (UILabel *)[cell searchViewWithTag:1001];
     NSString * string = [self.dataSourceArray safetyObjectAtIndex:indexPath.row];
-    detailLb.text = string;
-    //行间距
-    NSMutableAttributedString * attributedString1 = [[NSMutableAttributedString alloc] initWithString:string];
-    NSMutableParagraphStyle * paragraphStyle1 = [[NSMutableParagraphStyle alloc] init];
-    [paragraphStyle1 setLineSpacing:0];
-    [attributedString1 addAttribute:NSParagraphStyleAttributeName value:paragraphStyle1 range:NSMakeRange(0, [string length])];
-    [detailLb setAttributedText:attributedString1];
-    [detailLb sizeToFit];
-
+    [detailLb setAttributedText:[self attributedStringforHeight:string]];
+    
     if (indexPath.row == 0) {
         titleLb.text = @"服务对象";
     }else if (indexPath.row == 1){
@@ -183,11 +205,10 @@
 
 - (UIButton *)helperBtn {
     if (!_helperBtn) {
-    
         self.helperBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         _helperBtn.frame = CGRectMake(10, self.view.bounds.size.height - (kWidth- 20) * 0.13 - 7 - 64 , kWidth  - 20, (kWidth- 20) * 0.13);
         [_helperBtn setTitle:@"申请救援" forState:UIControlStateNormal];
-        [_helperBtn addTarget:self action:@selector(phoneHelperClick) forControlEvents:UIControlEventTouchUpInside];
+        [_helperBtn addTarget:self action:@selector(actionPhoneHelper) forControlEvents:UIControlEventTouchUpInside];
         [_helperBtn setTintColor:[UIColor whiteColor]];
         _helperBtn.backgroundColor = [UIColor colorWithHex:@"#fe4a00" alpha:1];
         _helperBtn.cornerRadius = 4;
@@ -196,34 +217,15 @@
     return _helperBtn;
 }
 
-- (void)phoneHelperClick {
-    BOOL result = [LoginViewModel loginIfNeededForTargetViewController:nil];
-    if (result) {
-        RescueApplyOp *op = [RescueApplyOp operation];
-        op.longitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.longitude];
-        op.latitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.latitude];
-        [[[[op rac_postRequest] initially:^{
-                   }] finally:^{
-        }] subscribeNext:^(RescueApplyOp *op) {
-            NSLog(@"%@", op);
-        } error:^(NSError *error) {
-
-        }] ;
-        NSString * number = @"4007111111";
-        [gPhoneHelper makePhone:number andInfo:@"救援电话: 4007-111-111"];
-        
-    }else{
-        [MobClick event:@"rp101-2"];
-        NSString * number = @"4007111111";
-        [gPhoneHelper makePhone:number andInfo:@"救援电话: 4007-111-111"];
+- (UIButton *)freeBtn {
+    if (!_freeBtn) {
+        self.freeBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+        _freeBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+        _freeBtn.frame = CGRectMake(0, 0, 44, 50);
+        [_freeBtn setTitle:@"免费券" forState:UIControlStateNormal];
+        [_freeBtn addTarget:self action:@selector(actionRescueHistory) forControlEvents:UIControlEventTouchUpInside];
     }
+    return _freeBtn;
 }
 
-- (NSAttributedString *)attributedStringforHeight:(NSString *)str {
-    NSMutableAttributedString * attributedString1 = [[NSMutableAttributedString alloc] initWithString:str];
-    NSMutableParagraphStyle * paragraphStyle1 = [[NSMutableParagraphStyle alloc] init];
-    [paragraphStyle1 setLineSpacing:8];
-    [attributedString1 addAttribute:NSParagraphStyleAttributeName value:paragraphStyle1 range:NSMakeRange(0, [str length])];
-    return attributedString1;
-}
 @end

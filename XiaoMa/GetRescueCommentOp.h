@@ -12,5 +12,5 @@
 @property (nonatomic, strong) NSNumber    *   applyId;
 @property (nonatomic, strong) NSNumber    *   type;
 @property (nonatomic, strong) NSDate      *   appointTime;
-@property (nonatomic, strong) NSMutableArray *rescueDetailArray;
+@property (nonatomic, strong) NSMutableArray * rescueDetailArray;
 @end

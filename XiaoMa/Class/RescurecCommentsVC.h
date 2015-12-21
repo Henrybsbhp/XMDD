@@ -15,5 +15,5 @@
 @property (nonatomic, strong)   NSNumber    *   applyId;//救援id
 @property (nonatomic, copy)     NSString    *   serviceName;//服务名称
 @property (nonatomic, copy)     NSString    *   licenceNumber;//车牌号
-@property (nonatomic, strong)   NSNumber    *   applyType;//1.救援 2.评价
+@property (nonatomic, strong)   NSNumber    *   applyType;//1.救援 2.协办
 @end

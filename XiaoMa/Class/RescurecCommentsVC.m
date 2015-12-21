@@ -11,6 +11,9 @@
 #import "HKBigRatingView.h"
 #import "JTRatingView.h"
 #import "GetRescueCommentOp.h"
+#import "UIView+DefaultEmptyView.h"
+#import "UIView+JTLoadingView.h"
+
 #define kWidth [UIScreen mainScreen].bounds.size.width
 
 @interface RescurecCommentsVC ()<UITableViewDelegate, UITableViewDataSource>
@@ -38,10 +41,9 @@
 
 - (void)dealloc
 {
-    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
-    DebugLog(deallocInfo);
+    DebugLog(@"RescurecCommentsVC dealloc");
 }
 
 - (void)viewDidLoad {
@@ -53,9 +55,9 @@
     [self.commentsTV addSubview:self.placeholderLb];
     [self.footerView addSubview:self.submitBtn];
     self.tableView.tableHeaderView = self.headerView;
-   
     
-   
+    
+    
     //textView占位符（label要关掉交互）
     @weakify(self)
     [[self.commentsTV.rac_textSignal filter:^BOOL(NSString *value) {
@@ -78,7 +80,7 @@
         
     }else if (self.isLog == 0){
         
-         self.tableView.tableFooterView = self.footerView;
+        self.tableView.tableFooterView = self.footerView;
     }
 }
 - (void)setImageAndLbText {
@@ -94,27 +96,34 @@
     }
 }
 
+#pragma mark - Action
 - (void) alreadyNetwork {
     GetRescueCommentOp *op = [GetRescueCommentOp operation];
     op.applyId = self.applyId;
     op.type = self.applyType;
-    @weakify(self)
     [[[[op rac_postRequest] initially:^{
+        
+        [self.view hideDefaultEmptyView];
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+        
     }] finally:^{
         
+        [self.view stopActivityAnimation];
+        
     }] subscribeNext:^(GetRescueCommentOp *op) {
-        @strongify(self)
-        [gToast dismiss];
+        
         self.evaluationArray = op.rescueDetailArray;
         self.isLog = 1;
         [self.tableView reloadData];
+        
     } error:^(NSError *error) {
         [gToast showError:@"获取评论内容失败"];
+        
     }] ;
     
-
+    
 }
-- (void)commentsClick {
+- (void)actionCommentsClick {
     GetRescueCommentRescueOp *op = [GetRescueCommentRescueOp operation];
     if (self.starNum1 > 0 && self.starNum2 > 0 && self.starNum3 >0) {
         op.applyId = self.applyId;
@@ -130,33 +139,24 @@
             op.comment = @"";
         }
         
-        NSLog(@"-------%@", self.starNum1);
     }else {
         [gToast showText:@"请您给个星吧!"];
     }
-    @weakify(self)
     [[[[op rac_postRequest] initially:^{
+        
         [gToast showText:@"提交评论中"];
     }] finally:^{
         
-        
-    }] subscribeNext:^(GetRescueCommentRescueOp *op) {
-        @strongify(self)
         [gToast dismiss];
-        
         [gToast showText:@"评论成功"];
         self.isLog = 1;
-        [self alreadyNetwork];
         [self.tableView reloadData];
-    } error:^(NSError *error) {
         
+    }] subscribeNext:^(GetRescueCommentRescueOp *op) {
+        
+    } error:^(NSError *error) {
         [gToast showError:@"评论失败, 请尝试重新提交"];
-        NSLog(@"%@", error.description);
     }] ;
-    
-    
- 
-
 }
 
 
@@ -167,28 +167,24 @@
     if (self.isLog == 1 && self.evaluationArray.count != 0){
         return 8;
     }else {
-    return 7;
+        return 7;
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  
+    
     if (indexPath.row < 3) {
         UITableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"RescurecCommentsVC1" forIndexPath:indexPath];
         cell1.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        UILabel *nameLabel = [cell1.contentView viewWithTag:1000];
-        UILabel *textLb = [cell1.contentView viewWithTag:1001];
-   
+        UILabel *nameLabel = (UILabel *)[cell1 searchViewWithTag:1000];
+        UILabel *textLb = (UILabel *)[cell1 searchViewWithTag:1001];
+        
         if (indexPath.row == 0) {
             nameLabel.text = @"申请时间";
             NSString *timeStr = [NSString stringWithFormat:@"%@", self.applyTime];
             NSString *tempStr = [timeStr substringToIndex:10];
-            NSDate *confromTimesp = [NSDate dateWithTimeIntervalSince1970:[tempStr intValue]];
-//            NSDateFormatter *dateFormat=[[NSDateFormatter alloc]init];
-//            [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm"];
-//            textLb.text = [dateFormat stringFromDate:confromTimesp];
-            textLb.text = [self nsdateToString:confromTimesp];
+            textLb.text = [[NSDate dateWithTimeIntervalSince1970:[tempStr intValue]] dateFormatForYYMMdd2];
             
         }else if (indexPath.row == 1){
             nameLabel.text = @"申请服务";
@@ -202,11 +198,10 @@
     }else if (indexPath.row == 3){
         UITableViewCell *cell3 = [tableView dequeueReusableCellWithIdentifier:@"RescurecCommentsVC3" forIndexPath:indexPath];
         cell3.selectionStyle = UITableViewCellSelectionStyleNone;
-        UILabel *stateLb = [cell3.contentView viewWithTag:1010];
-        UILabel *evaluationLb = [cell3.contentView viewWithTag:1011];
+        UILabel *stateLb = (UILabel *)[cell3 searchViewWithTag:1010];
+        UILabel *evaluationLb = (UILabel *)[cell3 searchViewWithTag:1011];
         
         if (self.isLog == 1 && self.evaluationArray.count != 0) {
-            
             stateLb.text = @"感谢您的评价";
             evaluationLb.hidden = YES;
         }
@@ -216,8 +211,8 @@
         UITableViewCell *cell2 = [tableView dequeueReusableCellWithIdentifier:@"RescurecCommentsVC2" forIndexPath:indexPath];
         cell2.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        UILabel *serviceLb = [cell2.contentView viewWithTag:1002];
-        self.ratingView = [cell2.contentView viewWithTag:1003];
+        UILabel *serviceLb = (UILabel *)[cell2 searchViewWithTag:1002];
+        self.ratingView = (JTRatingView *)[cell2 searchViewWithTag:1003];
         self.ratingView.imgWidth = 20;
         self.ratingView.imgHeight = 20;
         self.ratingView.imgSpacing = (kWidth - 128 - 20 * 5)/6;
@@ -229,19 +224,19 @@
             }else if (indexPath.row == 6){
                 self.starNum3 = number;
             }
-    }];
+        }];
         
         if (self.isLog == 1 && self.evaluationArray.count != 0) {
             [self.ratingView setUserInteractionEnabled:NO];
-            if (indexPath.row == 4) {                
+            if (indexPath.row == 4) {
                 self.ratingView.ratingValue = [[self.evaluationArray safetyObjectAtIndex:0] floatValue];
             }else if (indexPath.row == 5){
                 self.ratingView.ratingValue = [[self.evaluationArray safetyObjectAtIndex:1] floatValue];
             }else if (indexPath.row == 6){
                 self.ratingView.ratingValue = [[self.evaluationArray safetyObjectAtIndex:2] floatValue];
             }
-    }
-
+        }
+        
         if (indexPath.row == 4) {
             serviceLb.text = @"客服反映速度:";
         }else if (indexPath.row == 5){
@@ -251,10 +246,10 @@
         }
         return cell2;
     } else{
-       
-            UITableViewCell *cell4 = [tableView dequeueReusableCellWithIdentifier:@"RescurecCommentsVC4" forIndexPath:indexPath];
-           UILabel *textLb = [cell4.contentView viewWithTag:1004];
-           textLb.text = self.evaluationArray[3];
+        
+        UITableViewCell *cell4 = [tableView dequeueReusableCellWithIdentifier:@"RescurecCommentsVC4" forIndexPath:indexPath];
+        UILabel *textLb = (UILabel *)[cell4 searchViewWithTag:1004];
+        textLb.text = self.evaluationArray[3];
         return cell4;
     }
 }
@@ -271,7 +266,7 @@
         if (self.evaluationArray.count != 0) {
             return 36;
         }else{
-        return 50;
+            return 50;
         }
     }else {
         return 36;
@@ -328,21 +323,21 @@
 
 - (NSMutableArray *)dataSourceArray {
     if (!_dataSourceArray) {
-        self.dataSourceArray = [@[] mutableCopy];
+        self.dataSourceArray = [[NSMutableArray alloc] init];
     }
     return _dataSourceArray;
 }
 
 - (NSMutableArray *)evaluationArray {
     if (!_evaluationArray) {
-        self.evaluationArray = [@[] mutableCopy];
+        self.evaluationArray = [[NSMutableArray alloc] init];
     }
     return _evaluationArray;
 }
 
 - (JTRatingView *)ratingView {
     if (!_ratingView) {
-        self.ratingView = [self.tableView viewWithTag:1003];
+        self.ratingView = (JTRatingView *)[self.tableView searchViewWithTag:1003];
     }
     return _ratingView;
 }
@@ -352,22 +347,13 @@
         self.submitBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         _submitBtn.frame = CGRectMake(5, CGRectGetMaxY(self.commentsTV.frame) + 12, kWidth - 10, (kWidth - 10) * 0.128);
         _submitBtn.backgroundColor = [UIColor colorWithHex:@"#ffa800" alpha:1.0];
-        [_submitBtn addTarget:self action:@selector(commentsClick) forControlEvents:UIControlEventTouchUpInside];
+        [_submitBtn addTarget:self action:@selector(actionCommentsClick) forControlEvents:UIControlEventTouchUpInside];
         _submitBtn.titleLabel.font = [UIFont systemFontOfSize:12];
         [_submitBtn setTintColor:[UIColor whiteColor]];
         _submitBtn.cornerRadius = 5;
         [_submitBtn setTitle:@"发表评论" forState:UIControlStateNormal];
-       NSString *stre = [self nsdateToString:[NSDate date]];
-        NSLog(@"------%@------", stre);
     }
     return _submitBtn;
 }
 
-
-- (NSString *)nsdateToString:(NSDate *)date{
-    NSDateFormatter *dateFormat=[[NSDateFormatter alloc]init];
-    [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSString* string=[dateFormat stringFromDate:date];
-    return string;
-}
 @end

@@ -29,13 +29,10 @@
             rescue.serviceName = dict[@"servicename"];
             rescue.rescueDesc = dict[@"description"];
             rescue.rescueID = dict[@"id"];
-            
             rescue.amount = dict[@"amount"];
-            NSLog(@"--------%@---------", rescue.amount);
             rescue.serviceCount = dict[@"servicecount"];
             rescue.type = [rspObj integerParamForName:dict[@"type"]];
             [rArray safetyAddObject:rescue];
-            NSLog(@"is type = ---------------%ld", rescue.type);
         }
         
         self.req_resceuArray = rArray;
