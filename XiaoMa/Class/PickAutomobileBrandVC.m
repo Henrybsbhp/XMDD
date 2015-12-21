@@ -111,8 +111,10 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     AutoBrand *brand = [self.fetchCtrl objectAtIndexPath:indexPath];
     PickerAutoSeriesVC *vc = [UIStoryboard vcWithId:@"PickerAutoSeriesVC" inStoryboard:@"Car"];
-    vc.brandid = brand.brandid;
-    vc.brandName = brand.name;
+    AutoBrandModel * brandModel = [[AutoBrandModel alloc] init];
+    brandModel.brandid = brand.brandid;
+    brandModel.brandname = brand.name;
+    vc.brand = brandModel;
     vc.originVC = self.originVC;
     vc.completed = self.completed;
     [self.navigationController pushViewController:vc animated:YES];

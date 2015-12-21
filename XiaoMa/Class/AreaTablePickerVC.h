@@ -15,6 +15,12 @@ typedef NS_ENUM(NSInteger, PickerVCType) {
     PickerVCTypeProvinceAndCity               //只选择省市
 };
 
+typedef NS_ENUM(NSInteger, LocateState) {
+    LocateStateLocating,    //定位中
+    LocateStateSuccess,     //定位成功
+    LocateStateFailure      //定位失败
+};
+
 @interface AreaTablePickerVC : UIViewController
 
 @property (nonatomic, copy)void(^selectCompleteAction)(HKAreaInfoModel *provinceModel, HKAreaInfoModel *cityModel, HKAreaInfoModel *districtModel);

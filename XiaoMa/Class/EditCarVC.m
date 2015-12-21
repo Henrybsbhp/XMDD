@@ -14,6 +14,7 @@
 #import "DatePickerVC.h"
 #import "UIView+Shake.h"
 #import "PickAutomobileBrandVC.h"
+#import "PickerAutoModelVC.h"
 #import "CollectionChooseVC.h"
 #import "ProvinceChooseView.h"
 #import "PickInsCompaniesVC.h"
@@ -192,13 +193,18 @@
     }];
     
     HKCellData *cell1_3 = [HKCellData dataWithCellID:@"Selection" tag:nil];
-    cell1_3.customInfo[@"title"] = @"爱车品牌";
-    cell1_3.customInfo[@"placehold"] = @"请选择爱车品牌";
-    cell1_3.object = RACObserve(self.curCar, brand);
+    cell1_3.customInfo[@"title"] = @"品牌车系";
+    cell1_3.customInfo[@"placehold"] = @"请选择品牌车系";
+    cell1_3.object = [[RACObserve(self.curCar, brand) merge:RACObserve(self.curCar, seriesModel.seriesname)] map:^id(id value) {
+        if (self.curCar.brand && self.curCar.seriesModel.seriesname) {
+            return [NSString stringWithFormat:@"%@ %@", self.curCar.brand, self.curCar.seriesModel.seriesname];
+        }
+        return nil;
+    }];
     cell1_3.customInfo[@"inspector"] = [^BOOL(NSIndexPath *indexPath) {
         @strongify(self);
-        if (self.curCar.brand.length == 0) {
-            [self showErrorAtIndexPath:indexPath errorMsg:@"汽车品牌不能为空"];
+        if (self.curCar.brand.length == 0 || self.curCar.seriesModel.seriesname.length == 0) {
+            [self showErrorAtIndexPath:indexPath errorMsg:@"品牌车系不能为空"];
             return NO;
         }
         return YES;
@@ -209,21 +215,23 @@
         [self.view endEditing:YES];
         PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Car"];
         vc.originVC = self;
-        [vc setCompleted:^(NSString *brand, NSString *series) {
-            self.curCar.brand = brand;
-            self.curCar.model = series;
+        [vc setCompleted:^(AutoBrandModel *brand, AutoSeriesModel *series, AutoDetailModel *model) {
+            self.curCar.brandid = brand.brandid;
+            self.curCar.brand = brand.brandname;
+            self.curCar.seriesModel = series;
+            self.curCar.detailModel = model;
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }];
     
     HKCellData *cell1_4 = [HKCellData dataWithCellID:@"Selection" tag:nil];
-    cell1_4.customInfo[@"title"] = @"具体车系";
-    cell1_4.customInfo[@"placehold"] = @"请选择具体车系";
-    cell1_4.object = RACObserve(self.curCar, model);
+    cell1_4.customInfo[@"title"] = @"具体车型";
+    cell1_4.customInfo[@"placehold"] = @"请选择具体车型";
+    cell1_4.object = RACObserve(self.curCar, detailModel.modelname);
     cell1_4.customInfo[@"inspector"] = [^BOOL(NSIndexPath *indexPath) {
         @strongify(self);
-        if (self.curCar.model.length == 0) {
-            [self showErrorAtIndexPath:indexPath errorMsg:@"具体车系不能为空"];
+        if (self.curCar.detailModel.modelname.length == 0) {
+            [self showErrorAtIndexPath:indexPath errorMsg:@"具体车型不能为空"];
             return NO;
         }
         return YES;
@@ -232,11 +240,11 @@
         @strongify(self);
         [MobClick event:@"rp312-5"];
         [self.view endEditing:YES];
-        PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Car"];
+        PickerAutoModelVC *vc = [UIStoryboard vcWithId:@"PickerAutoModelVC" inStoryboard:@"Car"];
+        vc.series = self.curCar.seriesModel;
         vc.originVC = self;
-        [vc setCompleted:^(NSString *brand, NSString *series) {
-            self.curCar.brand = brand;
-            self.curCar.model = series;
+        [vc setCompleted:^(AutoBrandModel *brand, AutoSeriesModel *series, AutoDetailModel * model) {
+            self.curCar.detailModel = model;
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }];

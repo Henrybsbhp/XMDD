@@ -31,6 +31,8 @@
     coupon.rgbColor = [rsp stringParamForName:@"rgb"];
     coupon.logo = [rsp stringParamForName:@"logo"];
     coupon.subname = [rsp stringParamForName:@"subname"];
+    coupon.lowerLimit = [rsp integerParamForName:@"minconsumeamt"];
+    coupon.couponPercent = [rsp integerParamForName:@"discount"];
     return coupon;
 }
 

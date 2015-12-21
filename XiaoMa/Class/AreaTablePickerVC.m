@@ -8,12 +8,6 @@
 
 #import "AreaTablePickerVC.h"
 
-typedef NS_ENUM(NSInteger, LocateState) {
-    LocateStateLocating,    //定位中
-    LocateStateSuccess,     //定位成功
-    LocateStateFailure      //定位失败
-};
-
 @interface AreaTablePickerVC ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -35,6 +29,15 @@ typedef NS_ENUM(NSInteger, LocateState) {
 @end
 
 @implementation AreaTablePickerVC
+
+- (void)dealloc {
+    DebugLog(@"AreaTablePickerVC dealloc~~~");
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 + (AreaTablePickerVC *)initPickerAreaVCWithType:(PickerVCType)pickerType fromVC:(UIViewController *)originvVC
 {
@@ -171,25 +174,30 @@ typedef NS_ENUM(NSInteger, LocateState) {
     NSMutableArray * tempMuteArray = [self unArchiverData:userAreaArray];
     for (HKAreaInfoModel * newObj in newAreaArray)
     {
-        for (int i =0; i < tempMuteArray.count; i++) {
-            HKAreaInfoModel *oldObj = tempMuteArray[i];
+        BOOL isExsit = NO;
+        for (int i = 0; i < tempMuteArray.count; i++) {
+            HKAreaInfoModel *oldObj = [tempMuteArray safetyObjectAtIndex:i];
             
-            if ([newObj.flag isEqualToString:@"D"]) {
-                if (newObj.infoId == oldObj.infoId) {
+            if (newObj.infoId == oldObj.infoId)
+            {
+                isExsit = YES;
+                if ([newObj.flag isEqualToString:@"D"])
+                {
                     [tempMuteArray removeObjectAtIndex:i];
-                    break;
                 }
-            }
-            else if ([newObj.flag isEqualToString:@"U"]) {
-                if (newObj.infoId == oldObj.infoId) {
-                    [tempMuteArray replaceObjectAtIndex:i withObject:newObj];
-                    break;
+                else if ([newObj.flag isEqualToString:@"U"])
+                {
+                    [tempMuteArray safetyReplaceObjectAtIndex:i withObject:newObj];
                 }
-            }
-            else {
-                [tempMuteArray addObject:newObj];
+                else if ([newObj.flag isEqualToString:@"A"])
+                {
+                    [tempMuteArray safetyReplaceObjectAtIndex:i withObject:newObj];
+                }
                 break;
             }
+        }
+        if(!isExsit) {
+            [tempMuteArray safetyAddObject:newObj];
         }
     }
     [tempMuteArray sortUsingComparator:^NSComparisonResult(HKAreaInfoModel * obj1, HKAreaInfoModel * obj2) {
@@ -244,6 +252,9 @@ typedef NS_ENUM(NSInteger, LocateState) {
     if (section == 0 && self.areaType == AreaTypeProvince) {
         return 1;
     }
+    if (self.dataSource.count == 0) {
+        return 1;
+    }
     return self.dataSource.count;
 }
 
@@ -293,8 +304,13 @@ typedef NS_ENUM(NSInteger, LocateState) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LabelCell" forIndexPath:indexPath];
         UILabel * label = (UILabel *)[cell.contentView viewWithTag:1001];
         
-        HKAreaInfoModel *areaObject = [self.dataSource safetyObjectAtIndex:indexPath.row];
-        label.text = areaObject.infoName;
+        if (self.dataSource.count == 0) {
+            label.text = @"全部地区";
+        }
+        else {
+            HKAreaInfoModel *areaObject = [self.dataSource safetyObjectAtIndex:indexPath.row];
+            label.text = areaObject.infoName;
+        }
         return cell;
     }
 }
@@ -380,12 +396,22 @@ typedef NS_ENUM(NSInteger, LocateState) {
             }
         }
         else {
+            
             HKAreaInfoModel * provinceModel = [self.selectedArray safetyObjectAtIndex:0];
             HKAreaInfoModel * cityModel = [self.selectedArray safetyObjectAtIndex:1];
-            HKAreaInfoModel * districtModel = areaObject;
             
-            if (self.selectCompleteAction) {
-                self.selectCompleteAction(provinceModel, cityModel, districtModel);
+            if (self.dataSource.count == 0) {
+                HKAreaInfoModel * districtDic = [[HKAreaInfoModel alloc] init];
+                districtDic.infoName = @"全部地区";
+                if (self.selectCompleteAction) {
+                    self.selectCompleteAction(provinceModel, cityModel, districtDic);
+                }
+            }
+            else {
+                HKAreaInfoModel * districtModel = areaObject;
+                if (self.selectCompleteAction) {
+                    self.selectCompleteAction(provinceModel, cityModel, districtModel);
+                }
             }
             
             if (self.originVC) {
@@ -398,13 +424,8 @@ typedef NS_ENUM(NSInteger, LocateState) {
     }
 }
 
-- (void)dealloc {
-    DebugLog(@"dealloc~~~");
-}
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
+
 
 @end

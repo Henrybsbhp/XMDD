@@ -27,6 +27,6 @@
 - (CKEvent *)getInsProvinces;
 
 //Update
-- (CKEvent *)updateSimpleCarRefid:(NSNumber *)refid byLicenseno:(NSString *)licenseno;
+- (CKEvent *)updateSimpleCarRefid:(NSNumber *)refid status:(int)status byLicenseno:(NSString *)licenseno;
 
 @end

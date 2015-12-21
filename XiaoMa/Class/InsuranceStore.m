@@ -61,10 +61,11 @@
     return [self inlineEvent:[[RACSignal combineLatest:sigs] eventWithName:kEvtInsSimpleCarsAndProvinces]];
 }
 
-- (CKEvent *)updateSimpleCarRefid:(NSNumber *)refid byLicenseno:(NSString *)licenseno
+- (CKEvent *)updateSimpleCarRefid:(NSNumber *)refid status:(int)status byLicenseno:(NSString *)licenseno
 {
     InsSimpleCar *car = [self.simpleCars objectForKey:licenseno];
     car.refid = refid;
+    car.status = status;
     return [self inlineEvent:[CKEvent eventWithName:kEvtUpdateInsSimpleCar signal:[RACSignal return:car]]];
 }
 

@@ -33,11 +33,16 @@
 #import "GasVC.h"
 #import "ViolationItemViewController.h"
 #import "ViolationViewController.h"
+#import "ValuationViewController.h"
 #import "InsuranceSelectViewController.h"
 
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3.0
+
+#import "SecondCarValuationVC.h"
+#import "CommitSuccessVC.h"
+#import "HistoryCollectionVC.h"
 
 @interface HomePageVC ()<UIScrollViewDelegate>
 @property (nonatomic, weak) IBOutlet UIView *bgView;
@@ -54,6 +59,7 @@
 @end
 
 @implementation HomePageVC
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -578,8 +584,10 @@
 - (void)actionInsurance:(id)sender
 {
     [MobClick event:@"rp101-4"];
-    UIViewController *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        UIViewController *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (void)actionRescue:(id)sender
@@ -624,11 +632,8 @@
 
 - (void)actionCarEstimate:(id)sender
 {
-    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        
-        ViolationViewController * vc = [violationStoryboard instantiateViewControllerWithIdentifier:@"ViolationViewController"];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
+    ValuationViewController *vc = [UIStoryboard vcWithId:@"ValuationViewController" inStoryboard:@"Valuation"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Utility
@@ -790,6 +795,7 @@
     }
     return str;
 }
+
 
 
 @end

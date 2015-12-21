@@ -911,7 +911,7 @@
     self.checkoutServiceOrderV4Op.serviceid = self.service.serviceID;
     self.checkoutServiceOrderV4Op.licencenumber = self.defaultCar.licencenumber ? self.defaultCar.licencenumber : @"";
     self.checkoutServiceOrderV4Op.carMake = self.defaultCar.brand;
-    self.checkoutServiceOrderV4Op.carModel = self.defaultCar.model;
+    self.checkoutServiceOrderV4Op.carModel = self.defaultCar.seriesModel.seriesname;
 //    self.checkoutServiceOrderV4Op.bankCardId = self.selectBankCard.cardID;
     self.checkoutServiceOrderV4Op.bankCardId = bandCard.cardID;
     

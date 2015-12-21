@@ -36,9 +36,10 @@ typedef enum : NSUInteger {
 //1-首页广告
 //2-洗车广告
 //3-银行卡绑定页广告
+//4-加油广告
 //10-APP滑动广告
 //11-保险广告
-//12-加油广告
+//12-估值广告
 //20：活动类
 typedef enum : NSUInteger {
     AdvertisementHomePage = 1,
@@ -47,6 +48,7 @@ typedef enum : NSUInteger {
     AdvertisementGas = 4,
     AdvertisementAppSlide = 10,
     AdvertisementInsurance = 11,
+    AdvertisementValuation = 12,
     AdvertisementTypeActivities = 20,
     AdvertisementTypeLaunch = 30
 } AdvertisementType;
@@ -64,6 +66,7 @@ typedef enum : NSUInteger {
     ShareSceneInsurance = 4,
     ShareSceneGas = 5,
     ShareSceneCoupon = 6,
+    ShareSceneValuation = 7,
     ShareSceneLocalShare
 } ShareSceneType;
 
@@ -129,7 +132,7 @@ typedef enum : NSUInteger {
 #define awardStoryboard [UIStoryboard storyboardWithName:@"Award" bundle:nil]
 #define insuranceStoryboard [UIStoryboard storyboardWithName:@"Insurance" bundle:nil]
 #define violationStoryboard [UIStoryboard storyboardWithName:@"Violation" bundle:nil]
-#define valuationStoryboard [UIStoryboard storyboardWithName:@"valuation" bundle:nil]
+#define valuationStoryboard [UIStoryboard storyboardWithName:@"Valuation" bundle:nil]
 #define gasStoryboard [UIStoryboard storyboardWithName:@"Gas" bundle:nil]
 
 #define LocationFail 7001

@@ -7,8 +7,10 @@
 //
 
 #import "PickerAutoSeriesVC.h"
-#import "GetAutomobileModelOp.h"
+#import "GetAutomobileSeriesV2Op.h"
 #import "HKLoadingModel.h"
+#import "PickerAutoModelVC.h"
+#import "AutoSeriesModel.h"
 
 @interface PickerAutoSeriesVC ()<UITableViewDelegate, UITableViewDataSource, HKLoadingModelDelegate>
 
@@ -49,9 +51,9 @@
 
 - (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
 {
-    GetAutomobileModelOp *op = [GetAutomobileModelOp new];
-    op.req_brandid = self.brandid;
-    return [[op rac_postRequest] map:^id(GetAutomobileModelOp *rspOp) {
+    GetAutomobileSeriesV2Op *op = [GetAutomobileSeriesV2Op new];
+    op.req_brandid = self.brand.brandid;
+    return [[op rac_postRequest] map:^id(GetAutomobileSeriesV2Op *rspOp) {
         return rspOp.rsp_seriesList;
     }];
 }
@@ -76,7 +78,8 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
-    titleL.text = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
+    AutoSeriesModel * seriesDic = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
+    titleL.text = seriesDic.seriesname;
     
     if ([cell isKindOfClass:[JTTableViewCell class]]) {
         [(JTTableViewCell *)cell setHiddenTopSeparatorLine:YES];
@@ -87,16 +90,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSString *series = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
-    if (self.originVC) {
-        [self.navigationController popToViewController:self.originVC animated:YES];
-    }
-    else {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    if (self.completed) {
-        self.completed(self.brandName, series);
-    }
+    AutoSeriesModel *series = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
+    PickerAutoModelVC *vc = [UIStoryboard vcWithId:@"PickerAutoModelVC" inStoryboard:@"Car"];
+    vc.brand = self.brand;
+    vc.series = series;
+    vc.completed = self.completed;
+    vc.originVC = self.originVC;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath

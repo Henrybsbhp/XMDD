@@ -237,7 +237,8 @@
             
             @strongify(self);
             [gToast dismiss];
-            [[[InsuranceStore fetchExistsStore] updateSimpleCarRefid:op.rsp_carpremiumid byLicenseno:self.insModel.licenseNumber] send];
+            [[[InsuranceStore fetchExistsStore] updateSimpleCarRefid:op.rsp_carpremiumid status:3
+                                                         byLicenseno:self.insModel.licenseNumber] send];
             self.insModel.premiumId = op.rsp_carpremiumid;
             InsuranceSelectViewController *vc = [UIStoryboard vcWithId:@"InsuranceSelectViewController" inStoryboard:@"Insurance"];
             vc.insModel = self.insModel;

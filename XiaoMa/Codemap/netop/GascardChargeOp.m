@@ -7,6 +7,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params safetySetObject:self.req_gid forKey:@"gid"];
     [params safetySetObject:@(self.req_amount) forKey:@"amount"];
+    [params safetySetObject:self.req_cid forKey:@"cid"];
     [params safetySetObject:@(self.req_paychannel) forKey:@"paychannel"];
     [params safetySetObject:self.req_vcode forKey:@"vcode"];
     [params safetySetObject:self.req_orderid forKey:@"orderid"];
