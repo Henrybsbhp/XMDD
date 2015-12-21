@@ -112,7 +112,7 @@
 {
     CKAsyncMainQueue(^{
         //测试有广告的情况
-        self.advc  =[ADViewController vcWithADType:AdvertisementHomePage boundsWidth:self.view.bounds.size.width
+        self.advc  =[ADViewController vcWithADType:AdvertisementValuation boundsWidth:self.view.bounds.size.width
                                           targetVC:self mobBaseEvent:@"rp314-1"];
         [self.advc reloadDataForTableView:self.tableView];
     });
