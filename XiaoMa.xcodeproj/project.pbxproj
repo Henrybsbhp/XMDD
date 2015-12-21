@@ -248,11 +248,7 @@
 		18F8136B1B5F3561005F49B0 /* vertical_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F813671B5F3561005F49B0 /* vertical_shadow@2x.png */; };
 		18F93CD41B6F044D000325DD /* BorderLineLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F93CD31B6F044D000325DD /* BorderLineLabel.m */; };
 		18F93CD71B6F0A4A000325DD /* DashLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F93CD61B6F0A4A000325DD /* DashLine.m */; };
-		4E2E0E531C23A54000B7CB9C /* HistoryCollectionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2E0E521C23A54000B7CB9C /* HistoryCollectionOp.m */; };
-		4E59955F1C1FE0CA00686565 /* SecondCarValuationOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E59955E1C1FE0CA00686565 /* SecondCarValuationOp.m */; };
-		4E5995651C20012300686565 /* SecondCarValuationUploadOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5995641C20012300686565 /* SecondCarValuationUploadOp.m */; };
 		4E5995681C201C5300686565 /* CommitSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5995671C201C5300686565 /* CommitSuccessVC.m */; };
-		4E6EBE111C23EB7C00C1B46A /* HistoryDeleteOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6EBE101C23EB7C00C1B46A /* HistoryDeleteOp.m */; };
 		4EC6EA801C22A5480092BF6E /* HistoryCollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC6EA7F1C22A5480092BF6E /* HistoryCollectionVC.m */; };
 		4EF12DED1C1EBC900098B8C6 /* SecondCarValuationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */; };
 		50094B431C1144640069683C /* GetAreaInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50094B421C1144640069683C /* GetAreaInfoOp.m */; };
@@ -474,6 +470,10 @@
 		6BE2BD5B1AE6305600A69875 /* GetSystemPromotionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD5A1AE6305600A69875 /* GetSystemPromotionOp.m */; };
 		6BE2BD5E1AE63F9F00A69875 /* MultiMediaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD5D1AE63F9F00A69875 /* MultiMediaManager.m */; };
 		6BE2BD611AE6408500A69875 /* DownloadOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD601AE6408500A69875 /* DownloadOp.m */; };
+		6BE47F951C27F4E600DBD969 /* SecondCarValuationOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE47F921C27F4E600DBD969 /* SecondCarValuationOp.m */; };
+		6BE47F961C27F4E600DBD969 /* SecondCarValuationUploadOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE47F941C27F4E600DBD969 /* SecondCarValuationUploadOp.m */; };
+		6BE47F9B1C27F50000DBD969 /* HistoryCollectionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE47F981C27F50000DBD969 /* HistoryCollectionOp.m */; };
+		6BE47F9C1C27F50000DBD969 /* HistoryDeleteOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE47F9A1C27F50000DBD969 /* HistoryDeleteOp.m */; };
 		6BE4CE311AF217BC008E1C19 /* GetUserCouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4CE301AF217BC008E1C19 /* GetUserCouponOp.m */; };
 		6BEA56481AE24D34000D19C1 /* AlipayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56471AE24D34000D19C1 /* AlipayHelper.m */; };
 		6BEA56C01AE24DCE000D19C1 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6BEA564A1AE24DCD000D19C1 /* AlipaySDK.bundle */; };
@@ -1001,16 +1001,8 @@
 		18F93CD31B6F044D000325DD /* BorderLineLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BorderLineLabel.m; path = Class/BorderLineLabel.m; sourceTree = "<group>"; };
 		18F93CD51B6F0A4A000325DD /* DashLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashLine.h; path = Class/DashLine.h; sourceTree = "<group>"; };
 		18F93CD61B6F0A4A000325DD /* DashLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DashLine.m; path = Class/DashLine.m; sourceTree = "<group>"; };
-		4E2E0E511C23A54000B7CB9C /* HistoryCollectionOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryCollectionOp.h; sourceTree = "<group>"; };
-		4E2E0E521C23A54000B7CB9C /* HistoryCollectionOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryCollectionOp.m; sourceTree = "<group>"; };
-		4E59955D1C1FE0CA00686565 /* SecondCarValuationOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondCarValuationOp.h; sourceTree = "<group>"; };
-		4E59955E1C1FE0CA00686565 /* SecondCarValuationOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondCarValuationOp.m; sourceTree = "<group>"; };
-		4E5995631C20012300686565 /* SecondCarValuationUploadOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondCarValuationUploadOp.h; sourceTree = "<group>"; };
-		4E5995641C20012300686565 /* SecondCarValuationUploadOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondCarValuationUploadOp.m; sourceTree = "<group>"; };
 		4E5995661C201C5300686565 /* CommitSuccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommitSuccessVC.h; sourceTree = "<group>"; };
 		4E5995671C201C5300686565 /* CommitSuccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommitSuccessVC.m; sourceTree = "<group>"; };
-		4E6EBE0F1C23EB7C00C1B46A /* HistoryDeleteOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryDeleteOp.h; sourceTree = "<group>"; };
-		4E6EBE101C23EB7C00C1B46A /* HistoryDeleteOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryDeleteOp.m; sourceTree = "<group>"; };
 		4EC6EA7E1C22A5480092BF6E /* HistoryCollectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryCollectionVC.h; sourceTree = "<group>"; };
 		4EC6EA7F1C22A5480092BF6E /* HistoryCollectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryCollectionVC.m; sourceTree = "<group>"; };
 		4EF12DEB1C1EBC900098B8C6 /* SecondCarValuationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondCarValuationVC.h; sourceTree = "<group>"; };
@@ -1426,6 +1418,14 @@
 		6BE2BD5C1AE63F9F00A69875 /* MultiMediaManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MultiMediaManager.h; path = Class/MultiMediaManager.h; sourceTree = "<group>"; };
 		6BE2BD5D1AE63F9F00A69875 /* MultiMediaManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MultiMediaManager.m; path = Class/MultiMediaManager.m; sourceTree = "<group>"; };
 		6BE2BD601AE6408500A69875 /* DownloadOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DownloadOp.m; path = Class/DownloadOp.m; sourceTree = "<group>"; };
+		6BE47F911C27F4E600DBD969 /* SecondCarValuationOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SecondCarValuationOp.h; path = Class/SecondCarValuationOp.h; sourceTree = "<group>"; };
+		6BE47F921C27F4E600DBD969 /* SecondCarValuationOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SecondCarValuationOp.m; path = Class/SecondCarValuationOp.m; sourceTree = "<group>"; };
+		6BE47F931C27F4E600DBD969 /* SecondCarValuationUploadOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SecondCarValuationUploadOp.h; path = Class/SecondCarValuationUploadOp.h; sourceTree = "<group>"; };
+		6BE47F941C27F4E600DBD969 /* SecondCarValuationUploadOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SecondCarValuationUploadOp.m; path = Class/SecondCarValuationUploadOp.m; sourceTree = "<group>"; };
+		6BE47F971C27F50000DBD969 /* HistoryCollectionOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HistoryCollectionOp.h; path = Class/HistoryCollectionOp.h; sourceTree = "<group>"; };
+		6BE47F981C27F50000DBD969 /* HistoryCollectionOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HistoryCollectionOp.m; path = Class/HistoryCollectionOp.m; sourceTree = "<group>"; };
+		6BE47F991C27F50000DBD969 /* HistoryDeleteOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HistoryDeleteOp.h; path = Class/HistoryDeleteOp.h; sourceTree = "<group>"; };
+		6BE47F9A1C27F50000DBD969 /* HistoryDeleteOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HistoryDeleteOp.m; path = Class/HistoryDeleteOp.m; sourceTree = "<group>"; };
 		6BE4CE2F1AF217BC008E1C19 /* GetUserCouponOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserCouponOp.h; path = Class/GetUserCouponOp.h; sourceTree = "<group>"; };
 		6BE4CE301AF217BC008E1C19 /* GetUserCouponOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserCouponOp.m; path = Class/GetUserCouponOp.m; sourceTree = "<group>"; };
 		6BEA56461AE24D34000D19C1 /* AlipayHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlipayHelper.h; path = Class/AlipayHelper.h; sourceTree = "<group>"; };
@@ -3218,14 +3218,14 @@
 		6BC220931AD7800D00A4310E /* Op */ = {
 			isa = PBXGroup;
 			children = (
-				4E6EBE0F1C23EB7C00C1B46A /* HistoryDeleteOp.h */,
-				4E6EBE101C23EB7C00C1B46A /* HistoryDeleteOp.m */,
-				4E2E0E511C23A54000B7CB9C /* HistoryCollectionOp.h */,
-				4E2E0E521C23A54000B7CB9C /* HistoryCollectionOp.m */,
-				4E59955D1C1FE0CA00686565 /* SecondCarValuationOp.h */,
-				4E59955E1C1FE0CA00686565 /* SecondCarValuationOp.m */,
-				4E5995631C20012300686565 /* SecondCarValuationUploadOp.h */,
-				4E5995641C20012300686565 /* SecondCarValuationUploadOp.m */,
+				6BE47F971C27F50000DBD969 /* HistoryCollectionOp.h */,
+				6BE47F981C27F50000DBD969 /* HistoryCollectionOp.m */,
+				6BE47F991C27F50000DBD969 /* HistoryDeleteOp.h */,
+				6BE47F9A1C27F50000DBD969 /* HistoryDeleteOp.m */,
+				6BE47F911C27F4E600DBD969 /* SecondCarValuationOp.h */,
+				6BE47F921C27F4E600DBD969 /* SecondCarValuationOp.m */,
+				6BE47F931C27F4E600DBD969 /* SecondCarValuationUploadOp.h */,
+				6BE47F941C27F4E600DBD969 /* SecondCarValuationUploadOp.m */,
 				18B78F681BAAA2100061ECAD /* GetInsuranceCalculatorOpV2.h */,
 				18B78F691BAAA2100061ECAD /* GetInsuranceCalculatorOpV2.m */,
 				185A527E1B187EFA003515CC /* DownloadOp.h */,
@@ -3946,6 +3946,7 @@
 				504FFEA51C05D4C9002D7D6D /* AreaPickerVC.m in Sources */,
 				189C69861B74505E00E56E4A /* HKBankCard.m in Sources */,
 				6BDD6E271B67615C0060CFD0 /* JDFlipNumberViewImageFactory.m in Sources */,
+				6BE47F9B1C27F50000DBD969 /* HistoryCollectionOp.m in Sources */,
 				505E5FD61BD73B9300857819 /* DetailWebVC.m in Sources */,
 				18988CB21BC79A76001DECD5 /* HKUserStore.m in Sources */,
 				189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */,
@@ -4019,8 +4020,8 @@
 				1833F5881BCD373B000E1DA1 /* GasChargeRecord.m in Sources */,
 				6BBB08531B021F440002C349 /* LogAlertView.m in Sources */,
 				1853DEB71AE0B92400C39175 /* AuthByPwdOp.m in Sources */,
+				6BE47F951C27F4E600DBD969 /* SecondCarValuationOp.m in Sources */,
 				5040B37D1C06D50200ADE77F /* ApplyUnionOp.m in Sources */,
-				4E2E0E531C23A54000B7CB9C /* HistoryCollectionOp.m in Sources */,
 				1853DEBE1AE0E66B00C39175 /* LoginVC.m in Sources */,
 				6BBB08501B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m in Sources */,
 				C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */,
@@ -4029,7 +4030,6 @@
 				6BCA5F491B104AB300E1E630 /* CouponPkgViewController.m in Sources */,
 				1884ACE31BA2A59E00E5CACF /* InsuranceInfoSubmitingVC.m in Sources */,
 				6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */,
-				4E6EBE111C23EB7C00C1B46A /* HistoryDeleteOp.m in Sources */,
 				6BD7AE641AE8A64B00BEF30E /* WXUtil.mm in Sources */,
 				1851F4251B0C29BB00241A01 /* xmdd.xcdatamodeld in Sources */,
 				1851F4181B0C1E5400241A01 /* PickAutomobileBrandVC.m in Sources */,
@@ -4038,7 +4038,6 @@
 				184E40CE1AD3BBB600EFC3A6 /* ShopDetailVC.m in Sources */,
 				508D06801B900CF800B835BB /* InsuranceOrderPayOp.m in Sources */,
 				6BBEB70B1B2AB120004AD191 /* GainedViewController.m in Sources */,
-				4E5995651C20012300686565 /* SecondCarValuationUploadOp.m in Sources */,
 				6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */,
 				181F6DA81B15919900D38555 /* CXAlertViewController.m in Sources */,
 				186985041B01CC2C000A182A /* SubmitCommentOp.m in Sources */,
@@ -4236,7 +4235,6 @@
 				1837A75F1B72130F0006E6C5 /* SDBrowserImageView.m in Sources */,
 				6BBF7DA01B004A7A00E45967 /* MyInfoViewController.m in Sources */,
 				6B71C4221BB959CE0048B79F /* HKPickerVC.m in Sources */,
-				4E59955F1C1FE0CA00686565 /* SecondCarValuationOp.m in Sources */,
 				4EC6EA801C22A5480092BF6E /* HistoryCollectionVC.m in Sources */,
 				6B328ED01B79AAFA00B9F207 /* ChooseBankCardVC.m in Sources */,
 				189B31031AD7A935001D7288 /* DatePickerVC.m in Sources */,
@@ -4311,6 +4309,7 @@
 				18F93CD41B6F044D000325DD /* BorderLineLabel.m in Sources */,
 				18E592311C1919C2006010D9 /* InsCouponView.m in Sources */,
 				181F6D901B1436CA00D38555 /* UIView+DefaultEmptyView.m in Sources */,
+				6BE47F961C27F4E600DBD969 /* SecondCarValuationUploadOp.m in Sources */,
 				1826CCF71BABA8DC00E2F46D /* InsuranceEnquiryVC.m in Sources */,
 				18804AAE1B280E3C00E7E764 /* HKLoadingModel.m in Sources */,
 				504FFE951C0588EB002D7D6D /* JoinResultViewController.m in Sources */,
@@ -4327,6 +4326,7 @@
 				6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */,
 				6BB884D41AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.m in Sources */,
 				6BB8CB8E1B1416BB007B61B5 /* RescureViewController.m in Sources */,
+				6BE47F9C1C27F50000DBD969 /* HistoryDeleteOp.m in Sources */,
 				189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */,
 				6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */,
 				18F813691B5F3561005F49B0 /* CKNavigationController.m in Sources */,
