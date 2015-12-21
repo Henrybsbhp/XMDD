@@ -185,9 +185,10 @@
             NSString *timeStr = [NSString stringWithFormat:@"%@", self.applyTime];
             NSString *tempStr = [timeStr substringToIndex:10];
             NSDate *confromTimesp = [NSDate dateWithTimeIntervalSince1970:[tempStr intValue]];
-            NSDateFormatter *dateFormat=[[NSDateFormatter alloc]init];
-            [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm"];
-            textLb.text = [dateFormat stringFromDate:confromTimesp];
+//            NSDateFormatter *dateFormat=[[NSDateFormatter alloc]init];
+//            [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm"];
+//            textLb.text = [dateFormat stringFromDate:confromTimesp];
+            textLb.text = [self nsdateToString:confromTimesp];
             
         }else if (indexPath.row == 1){
             nameLabel.text = @"申请服务";
@@ -356,7 +357,8 @@
         [_submitBtn setTintColor:[UIColor whiteColor]];
         _submitBtn.cornerRadius = 5;
         [_submitBtn setTitle:@"发表评论" forState:UIControlStateNormal];
-
+       NSString *stre = [self nsdateToString:[NSDate date]];
+        NSLog(@"------%@------", stre);
     }
     return _submitBtn;
 }
