@@ -45,24 +45,19 @@
     GetRescueHistoryOp *op = [GetRescueHistoryOp operation];
     op.applytime = self.applyTime;
     op.type = self.type;
-    @weakify(self)
     [[[[op rac_postRequest] initially:^{
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] finally:^{
         [self.view stopActivityAnimation];
     }] subscribeNext:^(GetRescueHistoryOp *op) {
-        @strongify(self)
-        
         self.dataSourceArray = (NSMutableArray *)op.req_applysecueArray;
         if (self.dataSourceArray.count == 0) {
             [self.view showDefaultEmptyViewWithText:@"暂无历史记录"];
         }
         [self.tableView reloadData];
     } error:^(NSError *error) {
-        @strongify(self);
-        [self.view stopActivityAnimation];
-        [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
+        [gToast showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
             [self historyNetwork];
         }];
     }] ;
@@ -156,16 +151,12 @@
                 [gToast dismiss];
             }] subscribeNext:^(rescueCancelHostcar *op) {
                 if (op.rsp_code == 0) {
-                    
                     [gToast showText:@"取消成功"];
                     [self historyNetwork];
                 }
                 
             } error:^(NSError *error) {
-                [gToast dismiss];
-                [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
-                    [self historyNetwork];
-                }];
+                [gToast showText:@"取消失败, 请重试"];
             }] ;
             
         }

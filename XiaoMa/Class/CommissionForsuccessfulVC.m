@@ -55,7 +55,7 @@
     }else if (indexPath.row == 1){
         return 170;
     }else {
-        return 70;
+        return 150;
     }
 }
 

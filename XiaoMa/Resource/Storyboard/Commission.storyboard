@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -569,23 +570,35 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" tag="1005" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ahR-4R-oLw">
-                                                    <rect key="frame" x="15" y="25" width="570" height="35"/>
+                                                    <rect key="frame" x="15" y="25" width="570" height="69"/>
                                                     <animations/>
                                                     <color key="backgroundColor" red="0.20784313730000001" green="0.79607843140000001" blue="0.40784313729999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="35" id="Z3r-bF-Vqc"/>
+                                                        <constraint firstAttribute="width" secondItem="ahR-4R-oLw" secondAttribute="height" multiplier="580:70" id="lKI-Dy-d9P"/>
                                                     </constraints>
                                                     <state key="normal" title="联系客服">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="Z3r-bF-Vqc"/>
+                                                        </mask>
+                                                    </variation>
                                                 </button>
                                             </subviews>
                                             <animations/>
                                             <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="ahR-4R-oLw" secondAttribute="bottom" constant="2" id="DT3-nw-tPP"/>
                                                 <constraint firstItem="ahR-4R-oLw" firstAttribute="leading" secondItem="1yM-Ob-dVU" secondAttribute="leading" constant="15" id="FYM-xR-rqG"/>
                                                 <constraint firstAttribute="trailing" secondItem="ahR-4R-oLw" secondAttribute="trailing" constant="15" id="czl-fg-qmM"/>
                                                 <constraint firstItem="ahR-4R-oLw" firstAttribute="top" secondItem="1yM-Ob-dVU" secondAttribute="top" constant="25" id="pib-QM-O5G"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="DT3-nw-tPP"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <animations/>
                                     </tableViewCell>

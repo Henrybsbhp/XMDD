@@ -225,6 +225,7 @@
         _freeBtn.frame = CGRectMake(0, 0, 44, 50);
         [_freeBtn setTitle:@"免费券" forState:UIControlStateNormal];
         [_freeBtn addTarget:self action:@selector(actionRescueHistory) forControlEvents:UIControlEventTouchUpInside];
+        
     }
     return _freeBtn;
 }
