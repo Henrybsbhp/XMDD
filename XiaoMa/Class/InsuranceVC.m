@@ -39,7 +39,7 @@
     [super viewDidLoad];
     [self setupADView];
     [self setupInsStore];
-    [[self.insStore reloadInsSimpleCarsAndProvinces] send];
+    [[self.insStore getInsSimpleCars] send];
 }
 
 - (void)dealloc
@@ -77,8 +77,7 @@
     self.insStore = [InsuranceStore fetchOrCreateStore];
     //监听保险车辆信息和保险支持的省市更新
     @weakify(self);
-    NSArray *domains = @[kEvtInsSimpleCarsAndProvinces, kEvtUpdateInsSimpleCar];
-    [self.insStore subscribeWithTarget:self domainList:domains receiver:^(CKStore *store, CKEvent *evt) {
+    [self.insStore subscribeWithTarget:self domain:@"simpleCars" receiver:^(CKStore *store, CKEvent *evt) {
         @strongify(self);
         CKAsyncMainQueue(^{
             [self reloadWithEvent:evt];
@@ -190,7 +189,7 @@
 #pragma mark - Action
 - (void)actionRefresh:(id)sender
 {
-    [[self.insStore reloadInsSimpleCarsAndProvinces] send];
+    [[self.insStore getInsSimpleCars] send];
 }
 
 - (void)actionInputOwnerNameWithLicenseNumber:(NSString *)licenseno

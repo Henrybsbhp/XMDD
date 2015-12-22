@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HKInsuranceOrder.h"
 #import "HKCoupon.h"
-@class InsuranceVM;
+#import "InsuranceVM.h"
 
 @interface PayForInsuranceVC : UIViewController
 

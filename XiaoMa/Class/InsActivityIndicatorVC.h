@@ -10,7 +10,7 @@
 
 @interface InsActivityIndicatorVC : UIViewController
 
-- (void)showInView:(UIView *)view;
+- (void)showInViewController:(UIViewController *)vc;
 - (void)dismiss;
 
 @end

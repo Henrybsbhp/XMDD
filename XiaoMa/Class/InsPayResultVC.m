@@ -211,7 +211,9 @@
     @weakify(self);
     [[[selectB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
+         
          @strongify(self);
+         [self.view endEditing:YES];
          CityPickerVC *picker = [CityPickerVC cityPickerVCWithOriginVC:self];
          picker.options = CityPickerOptionCity | CityPickerOptionProvince | CityPickerOptionDistrict | CityPickerOptionGPS;
          [picker setCompletedBlock:^(CityPickerVC *vc, Area *p, Area *c, Area *d) {

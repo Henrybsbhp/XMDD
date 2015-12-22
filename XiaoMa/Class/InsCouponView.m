@@ -76,6 +76,7 @@
             [self.buttons addObject:btn];
             [self addSubview:btn];
         }
+        btn.customObject = title;
         [btn setTitle:title forState:UIControlStateNormal];
         CGFloat width = ceil((self.frame.size.width - 3 * HorizontalSpacing) / 2.0);
         CGFloat x = (i%2)*(HorizontalSpacing+width)+HorizontalSpacing;
@@ -94,7 +95,14 @@
     btn.layer.borderWidth  = 0.5;
     btn.layer.borderColor = [self.buttonBorderColor CGColor];
     btn.layer.masksToBounds = YES;
+    [btn addTarget:self action:@selector(actionClick:) forControlEvents:UIControlEventTouchUpInside];
     return btn;
 }
 
+- (void)actionClick:(UIButton *)sender
+{
+    if (self.buttonClickBlock) {
+        self.buttonClickBlock(sender.customObject);
+    }
+}
 @end

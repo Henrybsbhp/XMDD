@@ -13,8 +13,10 @@
 @property (nonatomic, strong) UIColor *buttonTitleColor;
 @property (nonatomic, strong) UIColor *buttonBorderColor;
 @property (nonatomic, assign) CGFloat buttonHeight;
+@property (nonatomic, copy) void(^buttonClickBlock)(NSString *coupon);
 
 - (void)setup;
+
 + (CGFloat)heightWithCouponCount:(NSUInteger)count buttonHeight:(CGFloat)height;
 
 @end
