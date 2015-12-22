@@ -1026,16 +1026,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xco-bR-5qz">
-                                                    <rect key="frame" x="14" y="11" width="576" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xco-bR-5qz">
+                                                    <rect key="frame" x="14" y="12" width="576" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="centerY" secondItem="Xco-bR-5qz" secondAttribute="centerY" id="68e-mC-QJB"/>
+                                                <constraint firstAttribute="bottom" secondItem="Xco-bR-5qz" secondAttribute="bottom" constant="12" id="5de-Xe-BPo"/>
                                                 <constraint firstItem="Xco-bR-5qz" firstAttribute="leading" secondItem="nhp-4b-iB2" secondAttribute="leading" constant="14" id="8Xa-pv-5Uz"/>
+                                                <constraint firstItem="Xco-bR-5qz" firstAttribute="top" secondItem="nhp-4b-iB2" secondAttribute="top" constant="12" id="HdO-tp-7vp"/>
                                                 <constraint firstAttribute="trailing" secondItem="Xco-bR-5qz" secondAttribute="trailing" constant="10" id="Qro-iO-W6X"/>
                                             </constraints>
                                         </tableViewCellContentView>

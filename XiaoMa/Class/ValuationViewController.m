@@ -159,6 +159,7 @@
 
 - (void)reloadDataWithEvent:(HKStoreEvent *)evt
 {
+    NSInteger code = evt.code;
     @weakify(self);
     [[[[evt.signal deliverOn:[RACScheduler mainThreadScheduler]] initially:^{
         
@@ -175,8 +176,14 @@
         @strongify(self);
         self.dataSource = [self.carStore.cache allObjects];
         self.selectCar = [[HKMyCar alloc] init];
-        self.selectCar = [self.dataSource safetyObjectAtIndex:0];
-        self.miles = self.selectCar.odo;
+        if (code == kHKStoreEventGet || code == kHKStoreEventReload) {
+            self.selectCar = [self.dataSource safetyObjectAtIndex:0];
+        }
+        else if (code == kHKStoreEventAdd){
+            self.selectCar = [self.dataSource safetyObjectAtIndex:(self.dataSource.count - 1)];
+        }
+        NSString * milesStr = [NSString formatForPrice:self.selectCar.odo / 10000.00];
+        self.miles = [milesStr floatValue];
         self.modelId = self.selectCar.detailModel.modelid;
         self.modelStr = self.selectCar.detailModel.modelname;
         [self.tableView reloadData];
@@ -296,6 +303,7 @@
             [vc setCompleted:^(AutoBrandModel *brand, AutoSeriesModel * series, AutoDetailModel * model) {
                 @strongify(self);
                 self.selectCar.brand = brand.brandname;
+                self.selectCar.brandLogo = brand.brandLogo;
                 self.selectCar.seriesModel = series;
                 self.selectCar.detailModel = model;
                 modelField.inputField.text = [NSString stringWithFormat:@"%@", model.modelname];
@@ -359,7 +367,8 @@
 {
     JT3DScrollView * jt3Dscroll = (JT3DScrollView *)scrollView;
     self.selectCar = [self.dataSource safetyObjectAtIndex:jt3Dscroll.currentPage];
-    self.miles = self.selectCar.odo;
+    NSString * milesStr = [NSString formatForPrice:self.selectCar.odo / 10000.00];
+    self.miles = [milesStr floatValue];
     self.modelId = self.selectCar.detailModel.modelid;
     self.modelStr = self.selectCar.detailModel.modelname;
 }
@@ -376,7 +385,9 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField{
+    textField.text = [NSString formatForPrice:[textField.text floatValue]];
     self.miles = [textField.text floatValue];
+
     
     if (self.advc.adList.count != 0) {
         [UIView animateWithDuration:0.3 animations:^{
@@ -417,9 +428,13 @@
         return;
     }
     
+    if (!self.selectCar.purchasedate) {
+        [gToast showText:@"请选择购车时间"];
+        return;
+    }
     CarEvaluateOp * op = [CarEvaluateOp operation];
     op.req_mile = self.miles;
-    op.req_modelid = self.modelId; //24712
+    op.req_modelid = self.modelId;
     op.req_buydate = self.selectCar.purchasedate;
     op.req_carid = self.selectCar.carId;
     op.req_cityid = self.cityId;
@@ -454,8 +469,10 @@
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)goToHistoryVC:(id)sender {
-    HistoryCollectionVC *historyVC=[UIStoryboard vcWithId:@"HistoryCollectionVC" inStoryboard:@"Valuation"];
-    [self.navigationController pushViewController:historyVC animated:YES];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        HistoryCollectionVC *historyVC=[UIStoryboard vcWithId:@"HistoryCollectionVC" inStoryboard:@"Valuation"];
+        [self.navigationController pushViewController:historyVC animated:YES];
+    }
 }
 
 @end

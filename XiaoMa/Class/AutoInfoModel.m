@@ -51,5 +51,9 @@
     }];
 }
 
+- (void)cleanAutoBrandTimetag
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kAutoBrandTimetag];
+}
 
 @end

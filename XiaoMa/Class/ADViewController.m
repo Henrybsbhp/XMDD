@@ -130,9 +130,11 @@
             [self.navModel pushToViewControllerByUrl:ad.adLink];
         }
         else {
-            DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-            vc.url = ADDEFINEWEB;
-            [self.targetVC.navigationController pushViewController:vc animated:YES];
+            if (_adType != AdvertisementValuation) {
+                DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+                vc.url = ADDEFINEWEB;
+                [self.targetVC.navigationController pushViewController:vc animated:YES];
+            }
         }
     }];
     
