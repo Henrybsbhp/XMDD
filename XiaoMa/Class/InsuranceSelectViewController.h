@@ -7,13 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "InsuranceVM.h"
+#import "InsuranceAppointmentV3Op.h"
+
+typedef NS_ENUM(NSInteger, InsuranceSelectMode) {
+    InsuranceSelectModeBuy,
+    InsuranceSelectModeAppointment
+};
 
 @interface InsuranceSelectViewController : UIViewController
 
-/// 座位数
-@property (nonatomic,strong)NSNumber * numOfSeat;
-
-/// 核保Id
-@property (nonatomic,strong)NSNumber * premiumId;
+@property (nonatomic, strong) InsuranceVM *insModel;
+@property (nonatomic, assign) InsuranceSelectMode selectMode;
+@property (nonatomic, strong) InsuranceAppointmentV3Op *appointmentOp;
 
 @end

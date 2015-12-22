@@ -157,7 +157,7 @@
             return NO;
         }
         //之前验证时入参为licencenumber，为空，切验证结果应为：nil
-        else if (![MyCarStore verifiedLicenseNumberFrom:self.curCar.licenceSuffix]) {
+        else if (![MyCarStore verifiedLicenseNumberFrom:[self.curCar wholeLicenseNumber]]) {
             [self showErrorAtIndexPath:indexPath errorMsg:@"请输入正确的车牌号码"];
             return NO;
         }
@@ -360,11 +360,11 @@
     
     HKCellData *cell2_5 = [HKCellData dataWithCellID:@"Field" tag:nil];
     cell2_5.customInfo[@"title"] = @"行驶里程";
-    cell2_5.customInfo[@"suffix"] = @"公里";
+    cell2_5.customInfo[@"suffix"] = @"万公里";
     cell2_5.customInfo[@"block"] = [^(CKLimitTextField *field, RACSignal *stopSig) {
         @strongify(self);
-        field.text = [NSString stringWithFormat:@"%d", (int)self.curCar.odo];
-        field.keyboardType = UIKeyboardTypeNumberPad;
+        field.text = [NSString formatForPrice:self.curCar.odo];
+        field.keyboardType = UIKeyboardTypeDecimalPad;
         field.clearsOnBeginEditing = YES;
         field.textLimit = 12;
 //        field.regexpPattern = @"[1-9]\\d*|^0(?=$|0+$)";
@@ -375,13 +375,13 @@
         [[[field rac_newTextChannel] takeUntil:stopSig] subscribeNext:^(id x) {
             @strongify(self);
             if (field.text.length > 0) {
-                self.curCar.odo = [field.text integerValue];
+                self.curCar.odo = [field.text floatValue];
             }
         }];
         
         [field setDidEndEditingBlock:^(CKLimitTextField *field) {
             @strongify(self);
-            field.text = [NSString stringWithFormat:@"%d", (int)self.curCar.odo];
+            field.text = [NSString formatForPrice:self.curCar.odo];
         }];
     } copy];
     

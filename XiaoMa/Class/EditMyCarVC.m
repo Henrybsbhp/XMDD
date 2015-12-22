@@ -115,7 +115,7 @@
         return;
     }
     
-    if (![MyCarStore verifiedLicenseNumberFrom:self.curCar.licenceSuffix]) {
+    if (![MyCarStore verifiedLicenseNumberFrom:[self.curCar wholeLicenseNumber]]) {
         [self sharkCellIfErrorAtIndex:0 withData:nil errorMsg:@"请输入正确的车牌号码"];
         return;
     }
@@ -518,15 +518,15 @@
         }];
     }
     else if (indexPath.row == 5) {
-        unitL.text = @"公里";
+        unitL.text = @"万公里";
         titleL.attributedText = [self attrStrWithTitle:@"当前里程" asterisk:NO];
-        field.keyboardType = UIKeyboardTypeNumberPad;
+        field.keyboardType = UIKeyboardTypeDecimalPad;
         field.clearsOnBeginEditing = YES;
-        field.text = [NSString stringWithFormat:@"%d", (int)car.odo];
+        field.text = [NSString formatForPrice:car.odo];
         
         [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString *str) {
             if (str.length > 0) {
-                car.odo = [str integerValue];
+                car.odo = [str floatValue];
             }
         }];
     }
@@ -639,7 +639,7 @@
         textField.text = [NSString stringWithFormat:@"%.2f", car.price];
     }
     else if (indexPath.row == 5) {
-        textField.text = [NSString stringWithFormat:@"%d", (int)(car.odo)];
+        textField.text = [NSString formatForPrice:car.odo];
     }
 }
 

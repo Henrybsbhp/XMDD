@@ -41,7 +41,7 @@
     [self addSubview:line];
     
     _inputField = [[CKLimitTextField alloc] initWithFrame:CGRectZero];
-    _inputField.font = [UIFont systemFontOfSize:16];
+    _inputField.font = [UIFont systemFontOfSize:15];
     _inputField.backgroundColor = [UIColor clearColor];
     _inputField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [self addSubview:_inputField];

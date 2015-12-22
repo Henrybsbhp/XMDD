@@ -10,16 +10,17 @@
 #import "DrivingLicenseHistoryView.h"
 #import "HKImageView.h"
 #import "JGActionSheet.h"
-#import "InsuranceResultVC.h"
 #import "UIView+Shake.h"
-#import "UpdateInsuranceCalculateOp.h"
-#import "InsuranceAppointmentOp.h"
+#import "InsuranceAppointmentV3Op.h"
 #import "HKCellData.h"
 #import "CKLine.h"
+#import "InsuranceStore.h"
+#import "NSString+RectSize.h"
+#import "HKSubscriptInputField.h"
 
-#import "InsuranceChooseViewController.h"
+#import "InsuranceSelectViewController.h"
 
-@interface InsuranceInfoSubmitingVC ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, DrivingLicenseHistoryViewDelegate>
+@interface InsuranceInfoSubmitingVC ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, DrivingLicenseHistoryViewDelegate>
 {
     UIImage *_defImage;
     UIImage *_errorImage;
@@ -27,19 +28,25 @@
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *defContainerView;
 @property (nonatomic, strong) IBOutlet DrivingLicenseHistoryView *historyView;
-@property (nonatomic, strong) UITextField *idcardField;
 @property (nonatomic, strong) PictureRecord *currentRecord;
 @property (nonatomic, strong) HKImageView *imageView;
 @property (nonatomic, assign) BOOL isUploading;
 @property (nonatomic, strong) NSMutableArray *datasource;
+@property (nonatomic, strong) InsuranceStore *insStore;
 
 @end
 
 @implementation InsuranceInfoSubmitingVC
 
+-(void)dealloc
+{
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.insStore = [InsuranceStore fetchOrCreateStore];
     [self reloadData];
     [self setupDrivingLicenseHistoryView];
 }
@@ -65,12 +72,21 @@
 - (void)reloadData
 {
     HKCellData *headerCell = [HKCellData dataWithCellID:@"Header" tag:nil];
+    NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
+    ps.lineSpacing = 5;
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:@"上传资料，达达帮您填写！\n" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17], NSForegroundColorAttributeName:HEXCOLOR(@"#20ab2a"), NSParagraphStyleAttributeName: ps}];
+    if (self.insStore.xmddHelpTip.length > 0) {
+        [text appendAttributedString:[[NSAttributedString alloc] initWithString:self.insStore.xmddHelpTip attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13], NSForegroundColorAttributeName:[UIColor darkTextColor], NSParagraphStyleAttributeName: [NSParagraphStyle defaultParagraphStyle]}]];
+    }
+    headerCell.object = text;
     [headerCell setHeightBlock:^CGFloat(UITableView *tableView) {
-        return 82;
+        CGRect rect = [text boundingRectWithSize:CGSizeMake(self.tableView.frame.size.width-73-14,10000) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
+        return MAX(ceil(rect.size.height+26), 78);
     }];
+
     HKCellData *cardCell = [HKCellData dataWithCellID:@"Card" tag:nil];
     [cardCell setHeightBlock:^CGFloat(UITableView *tableView) {
-        return 93;
+        return 84;
     }];
     HKCellData *imageCell = [HKCellData dataWithCellID:@"Image" tag:nil];
     [imageCell setHeightBlock:^CGFloat(UITableView *tableView) {
@@ -117,8 +133,10 @@
 #pragma mark - Action
 - (BOOL)checkInfomation
 {
-    if (self.idcardField.text.length < 18) {
-        [self.idcardField.superview shake];
+    if ([[(HKCellData *)self.datasource[1] object] length] < 18) {
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+        HKSubscriptInputField *field = [cell viewWithTag:10002];
+        [field shake];
         return NO;
     }
     else if (self.currentRecord.url.length == 0) {
@@ -132,62 +150,16 @@
 {
     [MobClick event:@"rp126-10"];
     if ([self checkInfomation]) {
-        InsuranceChooseViewController *vc = [UIStoryboard vcWithId:@"InsuranceChooseViewController" inStoryboard:@"Insurance"];
-        vc.idcard = self.idcardField.text;
-        vc.currentRecord = self.currentRecord;
+        InsuranceAppointmentV3Op *op = [InsuranceAppointmentV3Op operation];
+        op.req_idcard = [(HKCellData *)self.datasource[1] object];
+        op.req_driverpic = self.currentRecord.url;
+        op.req_licenseno = self.insModel.licenseNumber;
+
+        InsuranceSelectViewController *vc = [UIStoryboard vcWithId:@"InsuranceSelectViewController" inStoryboard:@"Insurance"];
+        vc.selectMode = InsuranceSelectModeAppointment;
+        vc.insModel = self.insModel;
+        vc.appointmentOp = op;
         [self.navigationController pushViewController:vc animated:YES];
-    }
-}
-- (IBAction)actionEnquire:(id)sender
-{
-    [MobClick event:@"rp126-4"];
-    if ([self checkInfomation]) {
-        UpdateInsuranceCalculateOp *op = [[UpdateInsuranceCalculateOp alloc] init];
-        op.req_cid = self.calculatorOp.rsp_calculatorID;
-        op.req_idcard = self.idcardField.text;
-        op.req_driverpic = self.currentRecord.url;
-        @weakify(self);
-        [[[op rac_postRequest] initially:^{
-            
-            [gToast showingWithText:@"正在提交..."];
-        }] subscribeNext:^(id x) {
-
-            @strongify(self);
-            [gToast dismiss];
-            InsuranceResultVC *vc = [UIStoryboard vcWithId:@"InsuranceResultVC" inStoryboard:@"Insurance"];
-            vc.navigationItem.title = @"询价结果";
-            vc.resultTitle = @"恭喜，上传成功！";
-            vc.resultContent = @"工作人员将于1个工作日内为您精准报价！";
-            [self.navigationController pushViewController:vc animated:YES];
-        } error:^(NSError *error) {
-            
-            [gToast showError:error.domain];
-        }];
-    }
-}
-- (IBAction)actionBuy:(id)sender {
-    [MobClick event:@"rp126-7"];
-    if ([self checkInfomation]) {
-        InsuranceAppointmentOp *op = [[InsuranceAppointmentOp alloc] init];
-        op.req_purchaseprice = self.calculatorOp.req_purchaseprice;
-        op.req_idcard = self.idcardField.text;
-        op.req_driverpic = self.currentRecord.url;
-//        op.req_inslist = self.insuranceList;
-        @weakify(self);
-        [[[op rac_postRequest] initially:^{
-            
-            [gToast showingWithText:@"正在预约..."];
-        }] subscribeNext:^(id x) {
-
-            @strongify(self);
-            [gToast dismiss];
-            InsuranceResultVC *vc = [UIStoryboard vcWithId:@"InsuranceResultVC" inStoryboard:@"Insurance"];
-            vc.navigationItem.title = @"预约结果";
-            [self.navigationController pushViewController:vc animated:YES];
-        } error:^(NSError *error) {
-            
-            [gToast showError:error.domain];
-        }];
     }
 }
 
@@ -317,29 +289,6 @@
     }];
 }
 
-#pragma mark - TextField
--(void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    if (textField == self.idcardField) {
-        [MobClick event:@"rp126-1"];
-    }
-    else {
-        [MobClick event:@"rp126-6"];
-    }
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    NSInteger length = range.location + [string length] - range.length;
-    //身份证
-    if ([textField isEqual:self.idcardField]) {
-        if (length > 18) {
-            return NO;
-        }
-    }
-    return YES;
-}
-
 #pragma mark - UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -380,15 +329,22 @@
     UILabel *textL = [cell viewWithTag:1002];
     CKLine *line1 = [cell viewWithTag:10001];
     CKLine *line2 = [cell viewWithTag:10002];
+    
     line1.lineAlignment = CKLineAlignmentHorizontalTop;
     line2.lineAlignment = CKLineAlignmentHorizontalBottom;
+    textL.attributedText = data.object;
 }
 - (void)resetIdCardCell:(UITableViewCell *)cell forData:(HKCellData *)data
 {
-//    if (!self.idcardField) {
-//        self.idcardField = (UITextField *)[cell viewWithTag:10002];
-//        self.idcardField.delegate = self;
-//    }
+    HKSubscriptInputField *field = [cell viewWithTag:10002];
+
+    field.inputField.placeholder = @"请输入身份证号码";
+    field.inputField.textLimit = 18;
+    field.inputField.keyboardType = UIKeyboardTypeASCIICapable;
+    
+    [field.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
+        data.object = field.text;
+    }];
 }
 
 - (void)resetHistoryCell:(UITableViewCell *)cell forData:(HKCellData *)data
@@ -494,7 +450,7 @@
 - (UIImage *)defImage
 {
     if (!_defImage) {
-        _defImage = [UIImage imageNamed:@"cm_defpic"];
+        _defImage = [UIImage imageNamed:@"cm_defpic2"];
     }
     return _defImage;
 }
@@ -502,7 +458,7 @@
 - (UIImage *)errorImage
 {
     if (!_errorImage) {
-        _errorImage = [UIImage imageNamed:@"cm_defpic_fail"];
+        _errorImage = [UIImage imageNamed:@"cm_defpic_fail2"];
     }
     return _errorImage;
 }
