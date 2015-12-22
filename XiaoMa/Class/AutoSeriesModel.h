@@ -30,5 +30,6 @@
 
 @property (nonatomic, strong) NSNumber * brandid;
 @property (nonatomic, strong) NSString * brandname;
+@property (nonatomic, strong) NSString * brandLogo;
 
 @end

@@ -152,7 +152,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="爱车估值" id="HCX-k3-szq">
-                        <barButtonItem key="rightBarButtonItem" title="历史记录" id="YDi-Vf-Kmy">
+                        <barButtonItem key="rightBarButtonItem" title="估值记录" id="YDi-Vf-Kmy">
                             <color key="tintColor" red="0.08235294118" green="0.61568627450000002" blue="0.0078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="goToHistoryVC:" destination="Qb3-hh-lCv" id="aYb-SY-RzH"/>
@@ -1011,6 +1011,12 @@
                             <constraint firstAttribute="bottom" secondItem="fhM-Sc-82y" secondAttribute="bottom" id="qwb-h9-71f"/>
                             <constraint firstAttribute="trailing" secondItem="fhM-Sc-82y" secondAttribute="trailing" id="rpt-O9-pzY"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="bth-AS-d1c"/>
+                                <exclude reference="hN7-pp-reb"/>
+                            </mask>
+                        </variation>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="二手车交易" id="EIW-ct-pbY">

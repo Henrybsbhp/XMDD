@@ -55,7 +55,7 @@
     car.detailModel = modelDic;
     
     car.price = [rsp floatParamForName:@"price"];
-    car.odo = [rsp integerParamForName:@"odo"];
+    car.odo = [rsp floatParamForName:@"odo"];
     car.inscomp = [rsp stringParamForName:@"inscomp"];
     car.status = [rsp integerParamForName:@"status"];
     car.insexipiredate = [NSDate dateWithD8Text:[rsp stringParamForName:@"insexipiredate"]];

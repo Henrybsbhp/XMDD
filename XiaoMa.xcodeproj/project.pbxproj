@@ -329,6 +329,7 @@
 		50ACC6A51C20FC79006E984E /* CarScrollTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ACC6A41C20FC79006E984E /* CarScrollTableViewCell.m */; };
 		50ACC6A81C2138F9006E984E /* CarEvaluateOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ACC6A71C2138F9006E984E /* CarEvaluateOp.m */; };
 		50B5A2961BD8CC51004E00ED /* MyWebViewBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */; };
+		50BA11641C27F42F00EA1E4A /* CarIDCodeCheckModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BA11631C27F42F00EA1E4A /* CarIDCodeCheckModel.m */; };
 		50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE7C911B6716B500675887 /* SelectScrollView.m */; };
 		50C6BF4D1B7341B800A5E021 /* CardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */; };
 		50DD1BC51BFB019300349A70 /* GetOtherOrderListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BC41BFB019300349A70 /* GetOtherOrderListOp.m */; };
@@ -1185,6 +1186,8 @@
 		50ACC6A71C2138F9006E984E /* CarEvaluateOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CarEvaluateOp.m; path = Class/CarEvaluateOp.m; sourceTree = "<group>"; };
 		50B5A2941BD8CC51004E00ED /* MyWebViewBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyWebViewBridge.h; sourceTree = "<group>"; };
 		50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWebViewBridge.m; sourceTree = "<group>"; };
+		50BA11621C27F42F00EA1E4A /* CarIDCodeCheckModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CarIDCodeCheckModel.h; path = Class/CarIDCodeCheckModel.h; sourceTree = "<group>"; };
+		50BA11631C27F42F00EA1E4A /* CarIDCodeCheckModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CarIDCodeCheckModel.m; path = Class/CarIDCodeCheckModel.m; sourceTree = "<group>"; };
 		50BE7C901B6716B500675887 /* SelectScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectScrollView.h; path = Class/SelectScrollView.h; sourceTree = "<group>"; };
 		50BE7C911B6716B500675887 /* SelectScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectScrollView.m; path = Class/SelectScrollView.m; sourceTree = "<group>"; };
 		50C6BF4B1B7341B800A5E021 /* CardDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardDetailVC.h; sourceTree = "<group>"; };
@@ -2496,6 +2499,8 @@
 				18F8135E1B5F308D005F49B0 /* HKVersionManager.m */,
 				18B78F5D1BA990100061ECAD /* HKLaunchManager.h */,
 				18B78F5E1BA990100061ECAD /* HKLaunchManager.m */,
+				50BA11621C27F42F00EA1E4A /* CarIDCodeCheckModel.h */,
+				50BA11631C27F42F00EA1E4A /* CarIDCodeCheckModel.m */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -4453,6 +4458,7 @@
 				18B7A2741C202E6B00865A99 /* GetAreaByNameOp.m in Sources */,
 				184E40D21AD3D01B00EFC3A6 /* JTShop.m in Sources */,
 				6BBF75F41B05CA0800E11EBB /* BaseModel.m in Sources */,
+				50BA11641C27F42F00EA1E4A /* CarIDCodeCheckModel.m in Sources */,
 				6BB89CD11B043BFA00F3F61F /* AdvertisementManager.m in Sources */,
 				1816F4A61ACD3B0900BBCC96 /* SYPaginatorScrollView.m in Sources */,
 				1853DEC81AE0EFD200C39175 /* HKToast.m in Sources */,

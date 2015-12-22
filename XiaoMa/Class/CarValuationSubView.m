@@ -103,7 +103,7 @@
                 textField.inputField.placeholder = @"请输入行驶里程";
                 textField.inputField.keyboardType = UIKeyboardTypeDecimalPad;
                 if (carModel.odo > 0) {
-                    textField.inputField.text = [NSString stringWithFormat:@"%ld", (long)carModel.odo];
+                    textField.inputField.text = [NSString formatForPrice:carModel.odo];
                 }
             }
             else if (i == 1) {
@@ -130,8 +130,10 @@
                 titleL.text = @"购车时间";
                 textField.userInteractionEnabled = NO;
                 textField.subscriptImageName = @"ins_arrow_time";
+                textField.inputField.placeholder = @"请选择购车时间";
+                
                 NSString * dataStr = [carModel.purchasedate dateFormatForYYMM];
-                textField.inputField.text = [NSString stringWithFormat:@"%@", dataStr];
+                textField.inputField.text = dataStr;
                 [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                     [self endEditing:YES];
                     if (self.selectDateClickBlock) {

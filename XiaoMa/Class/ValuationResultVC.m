@@ -242,10 +242,13 @@
 }
 
 - (IBAction)carSallAction:(id)sender {
-    SecondCarValuationVC * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"SecondCarValuationVC"];
-    vc.carid = self.carId;
-    vc.sellercityid = self.cityId;
-    [self.navigationController pushViewController:vc animated:YES];
+    
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        SecondCarValuationVC * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"SecondCarValuationVC"];
+        vc.carid = self.carId;
+        vc.sellercityid = self.cityId;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

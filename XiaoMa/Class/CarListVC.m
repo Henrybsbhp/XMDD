@@ -319,7 +319,7 @@
     [subv setCellTitle:@"品牌车系" withValue:brandStr atIndex:1];
     [subv setCellTitle:@"具体车型" withValue:car.detailModel.modelname atIndex:2];
     [subv setCellTitle:@"整车价格" withValue:[NSString stringWithFormat:@"%.2f万元", car.price] atIndex:3];
-    [subv setCellTitle:@"当前里程" withValue:[NSString stringWithFormat:@"%d公里", (int)car.odo] atIndex:4];
+    [subv setCellTitle:@"当前里程" withValue:[NSString stringWithFormat:@"%@万公里", [NSString formatForPrice:car.odo]] atIndex:4];
     [subv setCellTitle:@"年检到期日" withValue:[car.insexipiredate dateFormatForYYMM] atIndex:5];
     [subv setCellTitle:@"保险公司" withValue:car.inscomp atIndex:6];
     
