@@ -27,7 +27,7 @@
     
     [self setupUI];
     
-    self.tipLabel.text=self.tip;
+    self.tipLabel.text=@"您的信息已成功提交，客服将在24小时内与您取得联系，请保持手机畅通";
     
 }
 
@@ -66,7 +66,7 @@
     vc.subtitle = @"我正在使用1分钱洗车，洗车超便宜，你也来试试吧！";
     vc.image = [UIImage imageNamed:@"wechat_share_carwash"];
     vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
-    vc.urlStr = kAppShareUrl;
+//    vc.urlStr = kAppShareUrl;
     
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
     sheet.shouldCenterVertically = YES;

@@ -43,6 +43,10 @@
     self.isExist=YES;
     self.isLoading=NO;
     [self getDataArr];
+    if (self.dataArr.count > 0)
+    {
+        [self setupUI];
+    }
     
     [self refreshBottomView];
 }
@@ -134,7 +138,7 @@
         }
         self.selectedAllBtn.selected = (self.dataArr.count == self.deleteArr.count);
     }];
-    if ([self.deleteArr containsObject:model])
+    if ([self.deleteArr containsObject:model] || self.selectedAllBtn.selected)
     {
         checkBtn.selected = YES;
     }
@@ -212,8 +216,6 @@
 
 - (void)setupUI
 {
-    self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(edit:)];
-    
     [self.navigationItem.rightBarButtonItem setTitleTextAttributes:@{
                                                                      NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
                                                                      } forState:UIControlStateNormal];
@@ -234,6 +236,7 @@
         [self.navigationItem.rightBarButtonItem setTitle:(self.isEditing ? @"完成":@"编辑")];
         [self refreshBottomView];
     }
+    self.selectedAllBtn.selected = NO;
     [self.deleteArr removeAllObjects];
     [self reloadData];
 }
@@ -322,12 +325,11 @@
         }
         else
         {
-            [self setupUI];
             [self.tableView reloadData];
         }
     } error:^(NSError *error) {
         @strongify(self);
-        [self.tableView showDefaultEmptyViewWithText:@"网络请求失败。点击屏幕重新请求" tapBlock:^{
+        [self.view showDefaultEmptyViewWithText:@"网络请求失败，请点击屏幕重试" tapBlock:^{
             @strongify(self);
             [self getDataArr];
         }];
@@ -352,7 +354,7 @@
     [[deleteOp rac_postRequest]subscribeNext:^(id x) {
         //仅触发信号
     }error:^(NSError *error) {
-        [gToast showError:@"error.domain"];
+        [gToast showError:error.domain];
     }completed:^{
         @strongify(self);
         for (NSDictionary *dic in self.deleteArr)
@@ -397,18 +399,22 @@
         [self uploadDeletaArr];
         self.isEditing = NO;
         [self refreshBottomView];
-        if (self.deleteArr.count==self.dataArr.count)
+        if (self.deleteArr.count == self.dataArr.count)
         {
             self.navigationItem.rightBarButtonItem = nil;
             [self.dataArr removeAllObjects];
             [self.deleteArr removeAllObjects];
             self.tableView.showBottomLoadingView=NO;
         }
+        else
+        {
+            self.navigationItem.rightBarButtonItem.title = @"编辑";
+        }
         
     }
     else
     {
-        [gToast showError:@"请选择一家商户进行删除"];
+        [gToast showError:@"请选中要删除的估值记录"];
     }
     [self reloadData];
 }
