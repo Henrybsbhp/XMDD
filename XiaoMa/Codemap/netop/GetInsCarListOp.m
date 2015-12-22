@@ -12,7 +12,13 @@
 - (instancetype)parseResponseObject:(id)rspObj
 {
     NSDictionary *dict = rspObj;
-    self.rsp_carinfolist = dict[@"carinfolist"];
+    NSMutableArray *carinfolist = [NSMutableArray array];
+    for (NSDictionary *curDict in dict[@"carinfolist"]) {
+        InsSimpleCar *obj = [InsSimpleCar createWithJSONDict:curDict];
+        [carinfolist addObject:obj];
+    }
+    self.rsp_carinfolist = carinfolist;
+    self.rsp_xmddhelptip = dict[@"xmddhelptip"];
 	
     return self;
 }

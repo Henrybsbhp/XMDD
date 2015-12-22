@@ -1,0 +1,25 @@
+#import <Foundation/Foundation.h>
+typedef enum : NSUInteger {
+    AreaLevelUnknow = 0,
+    AreaLevelProvince,
+    AreaLevelCity,
+    AreaLevelDistrict
+}AreaLevel;
+
+@interface Area : NSObject
+///地区id
+@property (nonatomic,strong) NSNumber* aid;
+///名称
+@property (nonatomic,strong) NSString* name;
+///简称
+@property (nonatomic,strong) NSString* abbr;
+///地理代码
+@property (nonatomic,strong) NSString* code;
+
+@property (nonatomic, assign) AreaLevel level;
+
+
++ (instancetype)createWithJSONDict:(NSDictionary *)dict;
+- (void)resetWithJSONDict:(NSDictionary *)dict;
+
+@end

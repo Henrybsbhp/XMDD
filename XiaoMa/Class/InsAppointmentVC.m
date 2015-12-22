@@ -10,10 +10,17 @@
 #import "HKCellData.h"
 #import "HKSubscriptInputField.h"
 #import "InsCouponView.h"
+#import "NSString+Format.h"
+#import "InsuranceAppointmentV2Op.h"
+
+#import "DatePickerVC.h"
+#import "InsAppointmentSuccessVC.h"
 
 @interface InsAppointmentVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *datasource;
+@property (nonatomic, strong) DatePickerVC *datePicker;
+@property (nonatomic, strong) InsuranceAppointmentV2Op *appointInfo;
 @end
 
 @implementation InsAppointmentVC
@@ -21,6 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self setupDatePicker];
     [self reloadData];
 }
 
@@ -29,23 +37,32 @@
     // Dispose of any resources that can be recreated.
 }
 
+//设置日期选择控件（主要是为了事先加载，优化性能）
+- (void)setupDatePicker {
+    self.datePicker = [DatePickerVC datePickerVCWithMaximumDate:nil];
+}
 #pragma Datasource
 - (void)reloadData
 {
+    self.appointInfo = [InsuranceAppointmentV2Op operation];
+    self.appointInfo.req_ownername = self.insModel.realName;
+    self.appointInfo.req_carpremiumid = self.insPremium.carpremiumid;
+    
     HKCellData *infoCell = [HKCellData dataWithCellID:@"Info" tag:nil];
     [infoCell setHeightBlock:^CGFloat(UITableView *tableView) {
-        return 250;
+        return 310;
     }];
+    
     HKCellData *sectionCell = [HKCellData dataWithCellID:@"Title" tag:nil];
     [sectionCell setHeightBlock:^CGFloat(UITableView *tableView) {
         return 35;
     }];
     HKCellData *couponsCell = [HKCellData dataWithCellID:@"Coupon" tag:nil];
-    couponsCell.object = @[@"全年免费洗车",@"快速理赔",@"免费道路救援"];
-    @weakify(couponsCell);
+    couponsCell.object = self.insPremium.couponlist;
+    @weakify(self);
     [couponsCell setHeightBlock:^CGFloat(UITableView *tableView) {
-        @strongify(couponsCell);
-        return [InsCouponView heightWithCouponCount:[couponsCell.object count] buttonHeight:30];
+        @strongify(self);
+        return [InsCouponView heightWithCouponCount:self.insPremium.couponlist.count buttonHeight:30];
     }];
     self.datasource = @[infoCell, sectionCell, couponsCell];
     [self.tableView reloadData];
@@ -54,7 +71,35 @@
 #pragma mark - Action
 - (IBAction)actionAppoint:(id)sender
 {
-    
+    if (self.appointInfo.req_startdate.length == 0) {
+        [gToast showText:@"商业险起保日不能为空"];
+    }
+    else if (self.appointInfo.req_forcestartdate.length == 0) {
+        [gToast showText:@"交强险起保日不能为空"];
+    }
+    else if (self.appointInfo.req_ownername.length  == 0) {
+        [gToast showText:@"投保人姓名不能为空"];
+    }
+    else if (self.appointInfo.req_idcard.length != 18) {
+        [gToast showText:@"身份证号码必须为18位"];
+    }
+    else {
+        @weakify(self);
+        [[[self.appointInfo rac_postRequest] initially:^{
+            
+            [gToast showingWithText:@"正在预约..."];
+        }] subscribeNext:^(id x) {
+            
+            @strongify(self);
+            [gToast dismiss];
+            InsAppointmentSuccessVC *vc = [UIStoryboard vcWithId:@"InsAppointmentSuccessVC" inStoryboard:@"Insurance"];
+            vc.insModel = self.insModel;
+            [self.navigationController pushViewController:vc animated:YES];
+        } error:^(NSError *error) {
+            
+            [gToast showError:error.domain];
+        }];
+    }
 }
 #pragma mark - UITableViewDelegate and datasource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -94,9 +139,61 @@
     UIImageView *logoV = [cell viewWithTag:1001];
     UILabel *titleL = [cell viewWithTag:1002];
     UILabel *priceL = [cell viewWithTag:1003];
-    HKSubscriptInputField *nameF = [cell viewWithTag:1004];
-    HKSubscriptInputField *dateF = [cell viewWithTag:1005];
-    HKSubscriptInputField *idF = [cell viewWithTag:1006];
+    HKSubscriptInputField *dateLF = [cell viewWithTag:1004];
+    UIButton *dateLB = [cell viewWithTag:10041];
+    HKSubscriptInputField *dateRF = [cell viewWithTag:1005];
+    UIButton *dateRB = [cell viewWithTag:10051];
+    HKSubscriptInputField *nameF = [cell viewWithTag:1006];
+    HKSubscriptInputField *idF = [cell viewWithTag:1007];
+    
+    [logoV setImageByUrl:self.insPremium.inslogo withType:ImageURLTypeOrigin defImage:@"ins_comp_def" errorImage:@"ins_comp_def"];
+    titleL.text = self.insPremium.inscompname;
+    priceL.text = [NSString stringWithFormat:@"参考价:%@", [NSString formatForRoundPrice2:self.insPremium.price]];
+    
+    dateLF.inputField.placeholder = @"商业险日期";
+    dateLF.inputField.text = self.appointInfo.req_startdate;
+    dateLF.subscriptImageName = @"ins_arrow_time";
+    @weakify(self);
+    [[[[dateLB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+     flattenMap:^RACStream *(id value) {
+        
+         @strongify(self);
+         return [self rac_pickDateWithNow:self.appointInfo.req_startdate];
+    }] subscribeNext:^(NSString *datetext) {
+      
+        @strongify(self);
+        self.appointInfo.req_startdate = datetext;
+        dateLF.inputField.text = datetext;
+    }];
+    
+    dateRF.inputField.placeholder = @"交强险日期";
+    dateRF.inputField.text = self.appointInfo.req_forcestartdate;
+    dateRF.subscriptImageName = @"ins_arrow_time";
+    [[[[dateRB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+     flattenMap:^RACStream *(id value) {
+         
+        @strongify(self);
+        return [self rac_pickDateWithNow:self.appointInfo.req_forcestartdate];
+    }] subscribeNext:^(NSString *datetext) {
+        
+        @strongify(self);
+        self.appointInfo.req_forcestartdate = datetext;
+        dateRF.inputField.text = datetext;
+    }];
+    
+    nameF.inputField.placeholder = @"请输入投保人姓名";
+    nameF.inputField.text = self.appointInfo.req_ownername;
+    [nameF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
+        @strongify(self);
+        self.appointInfo.req_ownername = field.text;
+    }];
+    
+    idF.inputField.placeholder = @"请输入投保人身份证号码";
+    idF.inputField.text = self.appointInfo.req_idcard;
+    [idF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
+        @strongify(self);
+        self.appointInfo.req_idcard = field.text;
+    }];
 }
 
 - (void)resetCouponCell:(UITableViewCell *)cell forData:(HKCellData *)data
@@ -109,4 +206,12 @@
     couponV.coupons = data.object;
 }
 
+#pragma mark - Utility
+- (RACSignal *)rac_pickDateWithNow:(NSString *)nowtext
+{
+    NSDate *date = [NSDate dateWithD10Text:nowtext];
+    return [[[self.datePicker rac_presentPickerVCInView:self.navigationController.view withSelectedDate:date] ignoreError] map:^id(NSDate *date) {
+        return [date dateFormatForD10];
+    }];
+}
 @end

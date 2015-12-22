@@ -31,4 +31,9 @@ static char kRefreshViewKey;
     [refreshView restartAnimatingIfNeeded];
 }
 
+- (BOOL)isRefreshViewExists
+{
+    return objc_getAssociatedObject(self, &kRefreshViewKey);
+}
+
 @end

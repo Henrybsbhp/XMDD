@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.nameField.textLimit = 20;
+    [self setupNameField];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -25,6 +25,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)setupNameField
+{
+    self.nameField.textLimit = 20;
+    [self.nameField setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        field.placeholder = nil;
+    }];
+    
+    [self.nameField setDidEndEditingBlock:^(CKLimitTextField *field) {
+        field.placeholder = @"请输入姓名";
+    }];
+
+}
 /*
 #pragma mark - Navigation
 

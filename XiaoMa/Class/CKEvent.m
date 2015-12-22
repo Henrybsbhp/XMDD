@@ -7,15 +7,9 @@
 //
 
 #import "CKEvent.h"
-
-#define kEventNamePrefix    @"CKKit.CKEvent."
+#import "CKDispatcher.h"
 
 @implementation CKEvent
-
-+ (NSString *)wholeEventName:(NSString *)name
-{
-    return [kEventNamePrefix stringByAppendingString:name];
-}
 
 + (CKEvent *)eventWithName:(NSString *)aName signal:(RACSignal *)signal
 {
@@ -29,9 +23,19 @@
 
 + (CKEvent *)eventWithName:(NSString *)aName object:(id)object userInfo:(NSDictionary *)userInfo signal:(RACSignal *)signal
 {
-    CKEvent *event = [self notificationWithName:[self wholeEventName:aName] object:object userInfo:userInfo];
-    event->_signal = signal;
-    return event;
+    return [[self alloc] initWithName:aName object:object userInfo:userInfo signal:signal];
+}
+
+- (instancetype)initWithName:(NSString *)aName object:(id)object userInfo:(NSDictionary *)userInfo signal:(RACSignal *)signal
+{
+    self = [self init];
+    if (self) {
+        _name = aName;
+        _object = object;
+        _userInfo = userInfo;
+        _signal = signal;
+    }
+    return self;
 }
 
 - (CKEvent *)mapSignal:(RACSignal *(^)(RACSignal *signal))block
@@ -42,7 +46,7 @@
 
 - (RACSignal *)send
 {
-    [[NSNotificationCenter defaultCenter] postNotification:self];
+    [[CKDispatcher sharedDispatcher] sendEvent:self];
     return self.signal;
 }
 

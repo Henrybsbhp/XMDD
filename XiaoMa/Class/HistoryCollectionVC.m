@@ -245,7 +245,7 @@
 {
     [self.tableView reloadData];
     if (self.dataArr.count == 0) {
-        [self.tableView showDefaultEmptyViewWithText:@"暂无估值纪录"];
+        [self.tableView showDefaultEmptyViewWithText:@"暂无估值记录"];
     }
     else {
         [self.tableView hideDefaultEmptyView];

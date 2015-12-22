@@ -11,5 +11,6 @@
 @interface NSString (Split)
 
 - (NSString *)splitByStep:(NSUInteger)step replacement:(NSString *)replacement;
+- (NSString *)splitByStep:(NSUInteger)step replacement:(NSString *)replacement count:(NSUInteger)count;
 
 @end
