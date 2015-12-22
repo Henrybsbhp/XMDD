@@ -752,6 +752,10 @@
         }
         [self actionPickBankCard];
     }
+    else if (tag == 10004)
+    {
+        self.curModel.needInvoice = !self.curModel.needInvoice;
+    }
 }
 
 #pragma mark - About Cell
