@@ -46,16 +46,16 @@
     car.brandid = [rsp numberParamForName:@"makeid"];
     AutoSeriesModel * seriesDic = [[AutoSeriesModel alloc] init];
     seriesDic.seriesid = [rsp numberParamForName:@"seriesid"];
-    seriesDic.seriesname = [rsp stringParamForName:@"series"];
+    seriesDic.seriesname = [rsp stringParamForName:@"model"];
     car.seriesModel = seriesDic;
     
     AutoDetailModel * modelDic = [[AutoDetailModel alloc] init];
     modelDic.modelid = [rsp numberParamForName:@"modelid"];
-    modelDic.modelname = [rsp stringParamForName:@"model"];
+    modelDic.modelname = [rsp stringParamForName:@"carmodel"];
     car.detailModel = modelDic;
     
     car.price = [rsp floatParamForName:@"price"];
-    car.odo = [rsp floatParamForName:@"odo"];
+    car.odo = [rsp integerParamForName:@"odo"];
     car.inscomp = [rsp stringParamForName:@"inscomp"];
     car.status = [rsp integerParamForName:@"status"];
     car.insexipiredate = [NSDate dateWithD8Text:[rsp stringParamForName:@"insexipiredate"]];
@@ -97,9 +97,9 @@
     [dict safetySetObject:self.brandLogo forKey:@"logo"];
     //以下为二手车查询新增
     [dict safetySetObject:self.brandid forKey:@"makeid"];
-    [dict safetySetObject:self.seriesModel.seriesname forKey:@"series"];
+    [dict safetySetObject:self.seriesModel.seriesname forKey:@"model"];
     [dict safetySetObject:self.seriesModel.seriesid forKey:@"seriesid"];
-    [dict safetySetObject:self.detailModel.modelname forKey:@"model"];
+    [dict safetySetObject:self.detailModel.modelname forKey:@"carmodel"];
     [dict safetySetObject:self.detailModel.modelid forKey:@"modelid"];
     
     [dict safetySetObject:[NSString stringWithFormat:@"%.2f", self.price] forKey:@"price"];

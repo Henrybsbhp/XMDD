@@ -518,15 +518,15 @@
         }];
     }
     else if (indexPath.row == 5) {
-        unitL.text = @"万公里";
+        unitL.text = @"公里";
         titleL.attributedText = [self attrStrWithTitle:@"当前里程" asterisk:NO];
-        field.keyboardType = UIKeyboardTypeDecimalPad;
+        field.keyboardType = UIKeyboardTypeNumberPad;
         field.clearsOnBeginEditing = YES;
-        field.text = [NSString formatForPrice:car.odo];
+        field.text = [NSString stringWithFormat:@"%d", (int)car.odo];
         
         [[[field rac_newTextChannel] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString *str) {
             if (str.length > 0) {
-                car.odo = [str floatValue];
+                car.odo = [str integerValue];
             }
         }];
     }
@@ -639,7 +639,7 @@
         textField.text = [NSString stringWithFormat:@"%.2f", car.price];
     }
     else if (indexPath.row == 5) {
-        textField.text = [NSString formatForPrice:car.odo];
+        textField.text = [NSString stringWithFormat:@"%d", (int)(car.odo)];
     }
 }
 

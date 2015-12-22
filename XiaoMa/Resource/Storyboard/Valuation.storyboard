@@ -884,7 +884,7 @@
                                                         <constraint firstAttribute="height" constant="1" id="qgt-dG-Y1O"/>
                                                     </constraints>
                                                 </imageView>
-                                                <textField opaque="NO" clipsSubviews="YES" tag="1002" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="osw-r4-YbV">
+                                                <textField opaque="NO" clipsSubviews="YES" tag="1002" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入车主联系方式" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="osw-r4-YbV">
                                                     <rect key="frame" x="40" y="109" width="510" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="248-Qh-24z"/>
@@ -1011,12 +1011,6 @@
                             <constraint firstAttribute="bottom" secondItem="fhM-Sc-82y" secondAttribute="bottom" id="qwb-h9-71f"/>
                             <constraint firstAttribute="trailing" secondItem="fhM-Sc-82y" secondAttribute="trailing" id="rpt-O9-pzY"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="bth-AS-d1c"/>
-                                <exclude reference="hN7-pp-reb"/>
-                            </mask>
-                        </variation>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="二手车交易" id="EIW-ct-pbY">
