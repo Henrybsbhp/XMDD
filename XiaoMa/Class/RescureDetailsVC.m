@@ -81,12 +81,12 @@
         }
         
         NSString *string = [NSString stringWithFormat:@"● %@", [op.rescueDetailArray safetyObjectAtIndex:0]];
-
+        
         self.dataSourceArray[0] = string;
         [self.tableView reloadData];
     } error:^(NSError *error) {
         if (self.dataSourceArray.count == 0) {
-            [self.view showDefaultEmptyViewWithText:@"获取失败, 再试试吧" tapBlock:^{
+            [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
                 [self actionFirstEnter];
             }];
         }

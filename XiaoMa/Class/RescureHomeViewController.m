@@ -79,7 +79,7 @@
         }] subscribeNext:^(GetRescueOp *op) {
             self.bottomView.hidden = NO;
             [self.view stopActivityAnimation];
-            self.datasourceArray = [NSMutableArray arrayWithArray:op.req_resceuArray];
+            [self.datasourceArray safetyAddObjectsFromArray:op.req_resceuArray];
             NSString *tempStr;
             NSString *lastStr;
             for (HKRescue *rescue in op.req_resceuArray) {
@@ -92,7 +92,7 @@
         } error:^(NSError *error) {
             self.bottomView.hidden = YES;
             if (self.datasourceArray.count == 0) {
-                [self.view showDefaultEmptyViewWithText:@"获取失败, 再试试吧" tapBlock:^{
+                [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
                     [self actionFirstEnterNetwork];
                 }];
             }
@@ -102,16 +102,22 @@
     }else {//未登录
         GetRescueNoLoginOp *op = [GetRescueNoLoginOp operation];
         [[[[op rac_postRequest] initially:^{
-            
-            [gToast showingWithText:@"加载中..."];
+            [self.view hideDefaultEmptyView];
+            [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         }] finally:^{
-            
+             [self.view stopActivityAnimation];
         }] subscribeNext:^(GetRescueNoLoginOp *op) {
-            self.datasourceArray = (NSMutableArray *)op.req_resceuArray;
+            self.bottomView.hidden = NO;
+            [self.datasourceArray safetyAddObjectsFromArray:op.req_resceuArray];
             [gToast dismiss];
             [self.tableView reloadData];
         } error:^(NSError *error) {
-            
+            self.bottomView.hidden = YES;
+            if (self.datasourceArray.count == 0) {
+                [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
+                    [self actionFirstEnterNetwork];
+                }];
+            }
         }] ;
     }
 }

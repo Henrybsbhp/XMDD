@@ -34,7 +34,6 @@
                 history.commentStatus = dic[@"commentstatus"];
                 history.applyId = dic[@"applyid"];
                 history.type = dic[@"type"];
-                   NSLog(@"%@",history.commentStatus);
                 [rArray safetyAddObject:history];
             }
         }

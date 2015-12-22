@@ -31,10 +31,13 @@
     self.tableView.dataSource = nil;
     DebugLog(@"RescureHistoryViewController dealloc");
 }
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self historyNetwork];
 
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self historyNetwork];
 }
 
 #pragma mark - network
@@ -93,12 +96,14 @@
     if ([hostory.commentStatus integerValue] == 0) {
         evaluationLb.text = @"未评价";
         if ([hostory.rescueStatus integerValue] == 4) {
+            evaluationLb.layer.borderColor = [UIColor colorWithHex:@"#fe4a00" alpha:1].CGColor;
+            evaluationLb.textColor = [UIColor colorWithHex:@"#fe4a00" alpha:1];
+            
             evaluationLb.text = @"已取消";
         }
-        //evaluationLb.layer.borderColor = [UIColor colorWithHex:@"#fe4a00" alpha:1].CGColor;
-         }else if ([hostory.commentStatus integerValue]== 1){
-            evaluationLb.text = @"已评价";
-        }
+    }else if ([hostory.commentStatus integerValue]== 1){
+        evaluationLb.text = @"已评价";
+    }
     if ([hostory.rescueStatus integerValue] == 2) {
         stateLb.text = @"已申请";
         evaluationLb.hidden = YES;
@@ -142,27 +147,26 @@
             vc.applyType = [NSNumber numberWithInteger:self.type];
             [self.navigationController pushViewController:vc animated:YES];
         }else if ([hostory.rescueStatus integerValue] == 2 && self.type == 2){
-                rescueCancelHostcar *op = [rescueCancelHostcar operation];
-                op.applyId = hostory.applyId;
-                [[[[op rac_postRequest] initially:^{
-                    [self.view hideDefaultEmptyView];
-                    [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-                }] finally:^{
-                    [self.view stopActivityAnimation];
-                }] subscribeNext:^(rescueCancelHostcar *op) {
-                    if (op.rsp_code == 0) {
-                        
-                        [gToast showText:@"取消成功"];
-                        [self historyNetwork];
-                    }
-                    
-                } error:^(NSError *error) {
-                    [self.view stopActivityAnimation];
-                    [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
-                        [self historyNetwork];
-                    }];
-                }] ;
- 
+            rescueCancelHostcar *op = [rescueCancelHostcar operation];
+            op.applyId = hostory.applyId;
+            [[[[op rac_postRequest] initially:^{
+                [self.view hideDefaultEmptyView];
+                [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+            }] finally:^{
+                [self.view stopActivityAnimation];
+            }] subscribeNext:^(rescueCancelHostcar *op) {
+                if (op.rsp_code == 0) {
+                    [gToast showText:@"取消成功"];
+                    [self historyNetwork];
+                }
+                
+            } error:^(NSError *error) {
+                [self.view stopActivityAnimation];
+                [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
+                    [self historyNetwork];
+                }];
+            }] ;
+            
         }
         
         
@@ -172,20 +176,20 @@
 
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    HKRescueHistory *hostory = [self.dataSourceArray safetyObjectAtIndex:indexPath.row];
-//    if ([hostory.rescueStatus integerValue] != 2) {
-//        RescurecCommentsVC *vc = [UIStoryboard vcWithId:@"RescurecCommentsVC" inStoryboard:@"Rescue"];
-//        vc.applyTime = hostory.applyTime;
-//        vc.isLog = [hostory.commentStatus integerValue];
-//        vc.type = [hostory.type integerValue];
-//        vc.serviceName = hostory.serviceName;
-//        vc.applyId = hostory.applyId;
-//        vc.applyType = [NSNumber numberWithInteger:1];
-//        vc.licenceNumber = hostory.licenceNumber;
-//        vc.applyType = [NSNumber numberWithInteger:self.type];
-//        
-//        [self.navigationController pushViewController:vc animated:YES];
-//    }
+    //    HKRescueHistory *hostory = [self.dataSourceArray safetyObjectAtIndex:indexPath.row];
+    //    if ([hostory.rescueStatus integerValue] != 2) {
+    //        RescurecCommentsVC *vc = [UIStoryboard vcWithId:@"RescurecCommentsVC" inStoryboard:@"Rescue"];
+    //        vc.applyTime = hostory.applyTime;
+    //        vc.isLog = [hostory.commentStatus integerValue];
+    //        vc.type = [hostory.type integerValue];
+    //        vc.serviceName = hostory.serviceName;
+    //        vc.applyId = hostory.applyId;
+    //        vc.applyType = [NSNumber numberWithInteger:1];
+    //        vc.licenceNumber = hostory.licenceNumber;
+    //        vc.applyType = [NSNumber numberWithInteger:self.type];
+    //
+    //        [self.navigationController pushViewController:vc animated:YES];
+    //    }
 }
 
 

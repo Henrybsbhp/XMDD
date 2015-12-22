@@ -18,7 +18,8 @@
 #import "RescureDetailsVC.h"
 #import "GetShareButtonOp.h"
 #import "ShareResponeManager.h"
-
+#import "CommissonOrderVC.h"
+#import "RescureHomeViewController.h"
 @interface CouponDetailsVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong ,nonatomic) HKCoupon * couponDic;
@@ -126,14 +127,13 @@
                 @strongify(self);
                 //其他券去使用
                 if (self.oldType == CouponTypeAgency) {
-                    RescureDetailsVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"RescureDetailsVC"];
-                    vc.type = self.numberType;
+                    CommissonOrderVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonOrderVC"];
                     [self.navigationController pushViewController:vc animated:YES];
                 }
                 else {
-                    RescureDetailsVC *rvc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureDetailsVC"];
-                    rvc.type = _numberType;
-                    [self.navigationController pushViewController:rvc animated:YES];
+                    
+                    RescureHomeViewController *homeVC = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureHomeViewController"];
+                    [self.navigationController pushViewController:homeVC animated:YES];
                 }
             }];
         }

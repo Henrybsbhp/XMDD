@@ -8,7 +8,6 @@
 
 #import "CommissonConfirmVC.h"
 #import "GetRescueHostCountsOp.h"
-
 #import "GetRescueApplyHostCarOp.h"
 #import "DatePickerVC.h"
 #import "CarListVC.h"
@@ -18,32 +17,32 @@
 #define kWidth [UIScreen mainScreen].bounds.size.width
 @interface CommissonConfirmVC ()<UINavigationControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, copy) NSString *licenseNumber;
-@property (nonatomic, strong) NSDate   *appointmentDay;
-@property (nonatomic, strong) UIButton *helperBtn;
-@property (nonatomic, strong) MyCarStore *carStore;
-@property (nonatomic, strong) HKMyCar * defaultCar;
-@property (nonatomic, strong) NSString *countStr;
+@property (nonatomic, copy)     NSString    * licenseNumber;
+@property (nonatomic, strong)   NSDate      * appointmentDay;
+@property (nonatomic, strong)   UIButton    * helperBtn;
+@property (nonatomic, strong)   MyCarStore  * carStore;
+@property (nonatomic, strong)   HKMyCar     * defaultCar;
+@property (nonatomic, strong)   NSString    * countStr;
 
 @end
 
 @implementation CommissonConfirmVC
 - (void)dealloc
 {
-    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
-    DebugLog(deallocInfo);
+    DebugLog(@"CommissonConfirmVC dealloc~");
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.carStore getAllCarsIfNeeded];
-    
     [self.view addSubview:self.helperBtn];
     [self setupCarStore];
+    
 }
 
+#pragma mark - Action
 - (void) countNetwork {
     GetRescueHostCountsOp *op = [GetRescueHostCountsOp operation];
     op.licenseNumber = self.defaultCar.licencenumber;
@@ -53,7 +52,6 @@
         [gToast showText:@"加载中"];
         
     }] finally:^{
-        
         
     }] subscribeNext:^(GetRescueHostCountsOp *op) {
         @strongify(self)
@@ -69,6 +67,13 @@
 }
 
 -(void)applyClick {
+    if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] < 3600 * 24 * 2) {
+        NSString * number = @"4007111111";
+        [gPhoneHelper makePhone:number andInfo:@"您将预约年检协办业务,再告诉你个秘密,电话预约会更及时有效哦!"];
+    } else  if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] > 3600 * 24 * 30) {
+        [gToast showText:@"不好意思,预约时间需在 30 天内,请修改后再尝试"];
+    }else{
+    
     GetRescueApplyHostCarOp *op = [GetRescueApplyHostCarOp operation];
     op.licenseNumber = self.defaultCar.licencenumber;
     op.appointTime = [NSString stringWithFormat:@"%@", [NSDate date]];
@@ -80,13 +85,7 @@
     }] subscribeNext:^(GetRescueApplyHostCarOp *op) {
         [gToast dismiss];
         
-        if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] < 3600 * 24 * 2) {
-            NSString * number = @"4007111111";
-            [gPhoneHelper makePhone:number andInfo:@"您将预约年检协办业务,再告诉你个秘密,电话预约会更及时有效哦!"];
-        } else  if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] > 3600 * 24 * 30) {
-            [gToast showText:@"不好意思,预约时间需在 30 天内,请修改后再尝试"];
-        }else if (op.rsp_code == 0){
-            
+       if (op.rsp_code == 0){
             CommissionForsuccessfulVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionForsuccessfulVC"];
             vc.licenceNumber = self.defaultCar.licencenumber;
             vc.timeValue = self.appointmentDay;
@@ -110,6 +109,27 @@
             [gToast showText:@"申请失败, 请尝试重新提交!"];
         }
     }] ;
+ }
+}
+
+- (void)setupCarStore
+{
+    self.carStore = [MyCarStore fetchExistsStore];
+    @weakify(self);
+    [self.carStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
+        @strongify(self);
+        [[evt signal] subscribeNext:^(id x) {
+            @strongify(self);
+            NSLog(@"---%@--", self.defaultCar);
+            if (!self.defaultCar)
+            {
+                self.defaultCar = [self.carStore defalutCar];
+                [self countNetwork];
+                
+            }
+        }];
+    }];
+    [self.carStore sendEvent:[self.carStore getAllCarsIfNeeded]];
 }
 
 #pragma mark - UITableViewDataSource
@@ -122,15 +142,15 @@
         return cell3;
     }else if (indexPath.row ==1 || indexPath.row == 2) {
         UITableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"CommissonConfirmVC1"];
-        UILabel *titleLb = [cell1.contentView viewWithTag:1000];
-        UILabel *detailLb = [cell1.contentView viewWithTag:1001];
+        UILabel *titleLb = (UILabel *)[cell1 searchViewWithTag:1000];
+        UILabel *detailLb = (UILabel *)[cell1 searchViewWithTag:1001];
         if (indexPath.row == 1) {
             titleLb.text = @"申请服务";
             detailLb.text = @"年检协办";
         }else if (indexPath.row == 2){
             titleLb.text = @"剩余协办";
             if (self.defaultCar != nil) {
-            detailLb.text = [NSString stringWithFormat:@"%@次", self.countStr];
+                detailLb.text = [NSString stringWithFormat:@"%@次", self.countStr];
             }
         }
         
@@ -138,16 +158,16 @@
         
     }else {
         UITableViewCell *cell2 = [tableView dequeueReusableCellWithIdentifier:@"CommissonConfirmVC2"];
-        UILabel *titleLb = [cell2.contentView viewWithTag:1002];
-        UILabel *detailsLb = [cell2.contentView viewWithTag:1003];
+        UILabel *titleLb = (UILabel *)[cell2 searchViewWithTag:1002];
+        UILabel *detailsLb = (UILabel *)[cell2 searchViewWithTag:1003];
         if (indexPath.row == 3) {
             titleLb.text = @"服务车辆";
             detailsLb.text = self.defaultCar.licencenumber;
+
         }else if (indexPath.row == 4){
             titleLb.text = @"预约时间";
             detailsLb.text = [self.appointmentDay dateFormatForYYMMdd2];
         }
-    
         return cell2;
     }
     
@@ -176,7 +196,7 @@
             [self countNetwork];
         }];
         [self.navigationController pushViewController:vc animated:YES];
-      
+        
     }else if (indexPath.row == 4){
         @weakify(self)
         DatePickerVC *vc = [DatePickerVC datePickerVCWithMaximumDate:[self getPriousorLaterDateFromDate:[NSDate date] withMonth:12]];
@@ -188,20 +208,18 @@
                  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您将预约年检协办业务,再告诉你个秘密,电话预约会更及时有效哦!" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];
                  [alert show];
                  self.appointmentDay = date;
-                 
-                 
-                 NSLog(@"%@", self.appointmentDay);
              } else  if ([date timeIntervalSinceDate:[NSDate date]] > 3600 * 24 * 30) {
                  [gToast showText:@"不好意思,预约时间需在 30 天内,请修改后再尝试"];
              }else {
                  self.appointmentDay = date;
                  [self.tableView reloadData];
              }
-           
+             
          }];
     }
 }
 
+#pragma mark - month
 -(NSDate *)getPriousorLaterDateFromDate:(NSDate *)date withMonth:(int)month
 
 {
@@ -227,7 +245,6 @@
 
 - (UIButton *)helperBtn {
     if (!_helperBtn) {
-        
         self.helperBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         _helperBtn.frame = CGRectMake(10, self.view.bounds.size.height - (kWidth- 20) * 0.13 - 7 - 64 , kWidth  - 20, (kWidth- 20) * 0.13);
         [_helperBtn setTitle:@"开始协办" forState:UIControlStateNormal];
@@ -238,24 +255,6 @@
         _helperBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
     }
     return _helperBtn;
-}
-
-- (void)setupCarStore
-{
-    self.carStore = [MyCarStore fetchExistsStore];
-    @weakify(self);
-    [self.carStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
-        @strongify(self);
-        [[evt signal] subscribeNext:^(id x) {
-            @strongify(self);
-            if (!self.defaultCar)
-            {
-                self.defaultCar = [self.carStore defalutInfoCompletelyCar];
-                [self countNetwork];
-            }
-        }];
-    }];
-    [self.carStore sendEvent:[self.carStore getAllCarsIfNeeded]];
 }
 
 

@@ -149,8 +149,7 @@
         [gToast dismiss];
         [gToast showText:@"评论成功"];
         self.isLog = 1;
-        [self.tableView reloadData];
-        
+        [self alreadyNetwork];
     }] subscribeNext:^(GetRescueCommentRescueOp *op) {
         
     } error:^(NSError *error) {
