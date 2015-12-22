@@ -34,7 +34,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self historyNetwork];
-
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -133,9 +133,10 @@
     
     
     
-    [[[button rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+    [[button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        if ([hostory.rescueStatus integerValue] != 2) {
+        if ([hostory.rescueStatus integerValue] != 2 && [hostory.rescueStatus integerValue] != 4) {
+            
             RescurecCommentsVC *vc = [UIStoryboard vcWithId:@"RescurecCommentsVC" inStoryboard:@"Rescue"];
             vc.applyTime = hostory.applyTime;
             vc.isLog = [hostory.commentStatus integerValue];
@@ -150,18 +151,18 @@
             rescueCancelHostcar *op = [rescueCancelHostcar operation];
             op.applyId = hostory.applyId;
             [[[[op rac_postRequest] initially:^{
-                [self.view hideDefaultEmptyView];
-                [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+                [gToast showText:@"取消中..."];
             }] finally:^{
-                [self.view stopActivityAnimation];
+                [gToast dismiss];
             }] subscribeNext:^(rescueCancelHostcar *op) {
                 if (op.rsp_code == 0) {
+                    
                     [gToast showText:@"取消成功"];
                     [self historyNetwork];
                 }
                 
             } error:^(NSError *error) {
-                [self.view stopActivityAnimation];
+                [gToast dismiss];
                 [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
                     [self historyNetwork];
                 }];

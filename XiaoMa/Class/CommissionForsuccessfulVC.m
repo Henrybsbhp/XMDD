@@ -36,13 +36,14 @@
     }else {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommissionForsuccessfulVC3" forIndexPath:indexPath];
         UIButton *btn = (UIButton *)[cell searchViewWithTag:1005];
-        btn.layer.borderWidth = 1;
-        btn.layer.cornerRadius = 8;
+        btn.layer.cornerRadius = 10;
         btn.layer.masksToBounds = YES;
-        [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        btn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
+
+        
+        [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             NSString * number = @"4007111111";
             [gPhoneHelper makePhone:number andInfo:@"客服电话: 4007-111-111"];
-            
         }];
         return cell;
     }
