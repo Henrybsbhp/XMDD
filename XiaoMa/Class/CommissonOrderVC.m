@@ -76,6 +76,7 @@
 //        [self.navigationController pushViewController:vc animated:YES];
     }]subscribeNext:^(GetStartHostCarOp *op) {
         
+        NSLog(@"%ld", op.rsp_code);
         
     } error:^(NSError *error) {
         NSLog(@"%ld", error.code);

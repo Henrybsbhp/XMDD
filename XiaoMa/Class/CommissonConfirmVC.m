@@ -165,7 +165,6 @@
         vc.model.originVC = self;
         [vc.model setFinishBlock:^(HKMyCar *curSelectedCar) {
             self.defaultCar = curSelectedCar;
-              NSLog(@"-----%@", self.defaultCar.licencenumber);
             [self countNetwork];
         }];
         [self.navigationController pushViewController:vc animated:YES];
