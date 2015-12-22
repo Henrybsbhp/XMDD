@@ -81,10 +81,16 @@
         [gToast dismiss];
         
         if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] < 3600 * 24 * 2) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您将预约年检协办业务,再告诉你个秘密,电话预约会更及时有效哦!" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];
-            [alert show];
+            NSString * number = @"4007111111";
+            [gPhoneHelper makePhone:number andInfo:@"您将预约年检协办业务,再告诉你个秘密,电话预约会更及时有效哦!"];
         } else  if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] > 3600 * 24 * 30) {
             [gToast showText:@"不好意思,预约时间需在 30 天内,请修改后再尝试"];
+        }else if (op.rsp_code == 0){
+            
+            CommissionForsuccessfulVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionForsuccessfulVC"];
+            vc.licenceNumber = self.defaultCar.licencenumber;
+            vc.timeValue = self.appointmentDay;
+            [self.navigationController pushViewController:vc animated:YES];
         }else {
             [self.tableView reloadData];
         }
@@ -98,6 +104,7 @@
             CommissionForsuccessfulVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionForsuccessfulVC"];
             [self.navigationController pushViewController:vc animated:YES];
         }else if (error.code == 611139002) {
+            
             [gToast showText:@"您的车辆已成功预约年检协办业务，详情可点击协办记录查看"];
         }else if (error.code == -1){
             [gToast showText:@"申请失败, 请尝试重新提交!"];
@@ -140,6 +147,7 @@
             titleLb.text = @"预约时间";
             detailsLb.text = [self.appointmentDay dateFormatForYYMMdd2];
         }
+    
         return cell2;
     }
     
@@ -170,7 +178,6 @@
         [self.navigationController pushViewController:vc animated:YES];
       
     }else if (indexPath.row == 4){
-        [MobClick event:@"rp302-4"];
         @weakify(self)
         DatePickerVC *vc = [DatePickerVC datePickerVCWithMaximumDate:[self getPriousorLaterDateFromDate:[NSDate date] withMonth:12]];
         vc.minimumDate = [NSDate date];

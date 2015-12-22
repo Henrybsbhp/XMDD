@@ -300,6 +300,7 @@
 		2E52F26E1C20340900D94F68 /* HKRescueNoLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E52F2691C20340900D94F68 /* HKRescueNoLogin.m */; };
 		2E52F26F1C20340900D94F68 /* HKRescureDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E52F26B1C20340900D94F68 /* HKRescureDetail.m */; };
 		2E52F2721C20344F00D94F68 /* RescueApplyOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E52F2711C20344F00D94F68 /* RescueApplyOp.m */; };
+		2E7445E21C28FB580004B4ED /* rescueCancelHostcar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E7445E11C28FB580004B4ED /* rescueCancelHostcar.m */; };
 		4E5995681C201C5300686565 /* CommitSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5995671C201C5300686565 /* CommitSuccessVC.m */; };
 		4EC6EA801C22A5480092BF6E /* HistoryCollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC6EA7F1C22A5480092BF6E /* HistoryCollectionVC.m */; };
 		4EF12DED1C1EBC900098B8C6 /* SecondCarValuationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */; };
@@ -1157,6 +1158,8 @@
 		2E52F26B1C20340900D94F68 /* HKRescureDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKRescureDetail.m; sourceTree = "<group>"; };
 		2E52F2701C20344F00D94F68 /* RescueApplyOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescueApplyOp.h; sourceTree = "<group>"; };
 		2E52F2711C20344F00D94F68 /* RescueApplyOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescueApplyOp.m; sourceTree = "<group>"; };
+		2E7445E01C28FB580004B4ED /* rescueCancelHostcar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rescueCancelHostcar.h; sourceTree = "<group>"; };
+		2E7445E11C28FB580004B4ED /* rescueCancelHostcar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = rescueCancelHostcar.m; sourceTree = "<group>"; };
 		4E5995661C201C5300686565 /* CommitSuccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommitSuccessVC.h; sourceTree = "<group>"; };
 		4E5995671C201C5300686565 /* CommitSuccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommitSuccessVC.m; sourceTree = "<group>"; };
 		4EC6EA7E1C22A5480092BF6E /* HistoryCollectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryCollectionVC.h; sourceTree = "<group>"; };
@@ -3636,6 +3639,8 @@
 				2E3FE0C51C23ABC0003573EC /* GetStartHostCarOp.m */,
 				2E3EEBCA1C22858F0010E34F /* GetRescueApplyHostCarOp.h */,
 				2E3EEBCB1C22858F0010E34F /* GetRescueApplyHostCarOp.m */,
+				2E7445E01C28FB580004B4ED /* rescueCancelHostcar.h */,
+				2E7445E11C28FB580004B4ED /* rescueCancelHostcar.m */,
 				6B1175241C0C408A00FC1881 /* UserViolationQueryOp.h */,
 				6B1175251C0C408A00FC1881 /* UserViolationQueryOp.m */,
 				6B11752D1C0D768500FC1881 /* GetCitysOp.h */,
@@ -4350,7 +4355,6 @@
 				6BBAB8B01ADB754500EC342F /* GetTokenOp.m in Sources */,
 				2E52F25F1C20334F00D94F68 /* GetRescueHistoryOp.m in Sources */,
 				6B747A651AF08C7B00106BFD /* PhoneHelper.m in Sources */,
-				18863FA51AE8ECFB005BF4ED /* GridLabel.m in Sources */,
 				2E52F24C1C2032BB00D94F68 /* RescureHistoryViewController.m in Sources */,
 				1833F5921BCD373B000E1DA1 /* GetGaschargeInfoOp.m in Sources */,
 				6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */,
@@ -4657,6 +4661,7 @@
 				6BEA56C51AE24DCE000D19C1 /* NSObject+SBJSON.m in Sources */,
 				18A30E451BD493DB00521411 /* GasPaymentResultVC.m in Sources */,
 				6BCF62441B15AF3E0064AE32 /* RescueCouponViewController.m in Sources */,
+				2E7445E21C28FB580004B4ED /* rescueCancelHostcar.m in Sources */,
 				6BE2BD5E1AE63F9F00A69875 /* MultiMediaManager.m in Sources */,
 				6BEA56D21AE24DCE000D19C1 /* openssl_wrapper.m in Sources */,
 				6BD293D81B946B49006482A4 /* PayForInsuranceVC.m in Sources */,

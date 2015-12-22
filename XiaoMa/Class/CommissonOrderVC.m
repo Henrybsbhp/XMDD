@@ -13,12 +13,16 @@
 #import "RescureHistoryViewController.h"
 #import "LoginViewModel.h"
 #import "GetStartHostCarOp.h"
+#import "MyCarStore.h"
+#import "CKStore.h"
 #define kWidth [UIScreen mainScreen].bounds.size.width
 #define kHeight [UIScreen mainScreen].bounds.size.height
 @interface CommissonOrderVC ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
+@property (nonatomic, strong) MyCarStore * carStore;
+@property (nonatomic, strong) HKMyCar    * defaultCar;
+@property (nonatomic, strong) NSArray    * carNumberArray;
 @property (nonatomic, strong) UIImageView   * advertisingImg;
 @property (nonatomic, strong) UIView        * footerView;
 @property (nonatomic, strong) UIButton      * helperBtn;
@@ -57,6 +61,8 @@
 #pragma mark - Action
 
 - (void)actionCommissionClick {
+    
+    [self setupCarStore];
     if (gAppMgr.myUser != nil) {
         
         [self actionCommissionNetwork];
@@ -72,20 +78,18 @@
     [[[[op rac_postRequest] initially:^{
         
     }]finally:^{
-//        CommissonConfirmVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonConfirmVC"];
-//        [self.navigationController pushViewController:vc animated:YES];
+
     }]subscribeNext:^(GetStartHostCarOp *op) {
-        
-        NSLog(@"%ld", op.rsp_code);
+        if (op.rsp_code == 0) {
+            CommissonConfirmVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonConfirmVC"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
         
     } error:^(NSError *error) {
         NSLog(@"%ld", error.code);
         
         if (error.code == 611139001) {
             
-        }else if (error.code == 0){
-        CommissonConfirmVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonConfirmVC"];
-        [self.navigationController pushViewController:vc animated:YES];
         }
     }];
 }
@@ -203,5 +207,25 @@
         _helperBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
     }
     return _helperBtn;
+}
+
+- (void)setupCarStore
+{
+    self.carStore = [MyCarStore fetchExistsStore];
+    @weakify(self);
+    [self.carStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
+        @strongify(self);
+        [[evt signal] subscribeNext:^(id x) {
+            @strongify(self);
+            NSLog(@"----%@----", store.cache.allObjects);
+            
+            self.carNumberArray = [self.carStore allCars];
+            if (!self.defaultCar)
+            {
+                self.defaultCar = [self.carStore defalutInfoCompletelyCar];
+            }
+        }];
+    }];
+    [self.carStore sendEvent:[self.carStore getAllCarsIfNeeded]];
 }
 @end

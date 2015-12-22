@@ -88,7 +88,6 @@
                 [self.desArray safetyAddObject:lastStr];
                 
             }
-            NSLog(@"%@", self.desArray);
             [self.tableView reloadData];
         } error:^(NSError *error) {
             self.bottomView.hidden = YES;

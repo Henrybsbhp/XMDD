@@ -13,6 +13,7 @@
 #import "HKLoadingModel.h"
 #import "UIView+DefaultEmptyView.h"
 #import "UIView+JTLoadingView.h"
+#import "rescueCancelHostcar.h"
 @interface RescureHistoryViewController ()<UITableViewDelegate, UITableViewDataSource, HKLoadingModelDelegate>
 
 @property (nonatomic, strong) HKLoadingModel *loadingModel;
@@ -90,13 +91,12 @@
     evaluationLb.layer.masksToBounds = YES;
     plateLb.text = [NSString stringWithFormat:@"服务车辆: %@", hostory.licenceNumber];
     if ([hostory.commentStatus integerValue] == 0) {
-        
-        
         evaluationLb.text = @"未评价";
-        NSLog(@"------%ld", [hostory.commentStatus integerValue])
-        ;    }else if ([hostory.commentStatus integerValue]== 1){
-            
-            
+        if ([hostory.rescueStatus integerValue] == 4) {
+            evaluationLb.text = @"已取消";
+        }
+        //evaluationLb.layer.borderColor = [UIColor colorWithHex:@"#fe4a00" alpha:1].CGColor;
+         }else if ([hostory.commentStatus integerValue]== 1){
             evaluationLb.text = @"已评价";
         }
     if ([hostory.rescueStatus integerValue] == 2) {
@@ -111,7 +111,6 @@
     }else{
         stateLb.text = @"已完成";
     }
-    NSLog(@"%@", hostory.type);
     if (self.type == 2) {
         image.image = [UIImage imageNamed:@"commission_annual"];
     }else if ([hostory.type integerValue] == 1) {
@@ -142,6 +141,28 @@
             vc.licenceNumber = hostory.licenceNumber;
             vc.applyType = [NSNumber numberWithInteger:self.type];
             [self.navigationController pushViewController:vc animated:YES];
+        }else if ([hostory.rescueStatus integerValue] == 2 && self.type == 2){
+                rescueCancelHostcar *op = [rescueCancelHostcar operation];
+                op.applyId = hostory.applyId;
+                [[[[op rac_postRequest] initially:^{
+                    [self.view hideDefaultEmptyView];
+                    [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+                }] finally:^{
+                    [self.view stopActivityAnimation];
+                }] subscribeNext:^(rescueCancelHostcar *op) {
+                    if (op.rsp_code == 0) {
+                        
+                        [gToast showText:@"取消成功"];
+                        [self historyNetwork];
+                    }
+                    
+                } error:^(NSError *error) {
+                    [self.view stopActivityAnimation];
+                    [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
+                        [self historyNetwork];
+                    }];
+                }] ;
+ 
         }
         
         
@@ -151,20 +172,20 @@
 
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    HKRescueHistory *hostory = [self.dataSourceArray safetyObjectAtIndex:indexPath.row];
-    if ([hostory.rescueStatus integerValue] != 2) {
-        RescurecCommentsVC *vc = [UIStoryboard vcWithId:@"RescurecCommentsVC" inStoryboard:@"Rescue"];
-        vc.applyTime = hostory.applyTime;
-        vc.isLog = [hostory.commentStatus integerValue];
-        vc.type = [hostory.type integerValue];
-        vc.serviceName = hostory.serviceName;
-        vc.applyId = hostory.applyId;
-        vc.applyType = [NSNumber numberWithInteger:1];
-        vc.licenceNumber = hostory.licenceNumber;
-        vc.applyType = [NSNumber numberWithInteger:self.type];
-        
-        [self.navigationController pushViewController:vc animated:YES];
-    }
+//    HKRescueHistory *hostory = [self.dataSourceArray safetyObjectAtIndex:indexPath.row];
+//    if ([hostory.rescueStatus integerValue] != 2) {
+//        RescurecCommentsVC *vc = [UIStoryboard vcWithId:@"RescurecCommentsVC" inStoryboard:@"Rescue"];
+//        vc.applyTime = hostory.applyTime;
+//        vc.isLog = [hostory.commentStatus integerValue];
+//        vc.type = [hostory.type integerValue];
+//        vc.serviceName = hostory.serviceName;
+//        vc.applyId = hostory.applyId;
+//        vc.applyType = [NSNumber numberWithInteger:1];
+//        vc.licenceNumber = hostory.licenceNumber;
+//        vc.applyType = [NSNumber numberWithInteger:self.type];
+//        
+//        [self.navigationController pushViewController:vc animated:YES];
+//    }
 }
 
 

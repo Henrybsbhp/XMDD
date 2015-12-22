@@ -28,9 +28,23 @@
         return cell;
     }else if (indexPath.row == 1){
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommissionForsuccessfulVC2" forIndexPath:indexPath];
+        UILabel *label = (UILabel *)[cell searchViewWithTag:1001];
+        UILabel *timeLb = (UILabel *)[cell searchViewWithTag:1002];
+        label.text = self.licenceNumber;
+        timeLb.text = [self.timeValue dateFormatForYYMMdd2];
         return cell;
     }else {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommissionForsuccessfulVC3" forIndexPath:indexPath];
+        UIButton *btn = (UIButton *)[cell searchViewWithTag:1005];
+        btn.layer.borderWidth = 1;
+        btn.layer.borderColor = [UIColor colorWithHex:@"#fe4a00" alpha:1].CGColor;
+        btn.layer.cornerRadius = 10;
+        btn.layer.masksToBounds = YES;
+        [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            NSString * number = @"4007111111";
+            [gPhoneHelper makePhone:number andInfo:@"救援电话: 4007-111-111"];
+
+        }];
         return cell;
     }
 }
@@ -41,7 +55,7 @@
     }else if (indexPath.row == 1){
         return 170;
     }else {
-        return 58;
+        return 70;
     }
 }
 

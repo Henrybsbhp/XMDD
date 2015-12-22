@@ -69,7 +69,6 @@
         }
         return nil;
     }] subscribeNext:^(NSString * x) {
-        NSLog(@"%@", x);
         self.commentsText = x;
         self.commentsTV.text = x;
     }];
