@@ -1011,12 +1011,6 @@
                             <constraint firstAttribute="bottom" secondItem="fhM-Sc-82y" secondAttribute="bottom" id="qwb-h9-71f"/>
                             <constraint firstAttribute="trailing" secondItem="fhM-Sc-82y" secondAttribute="trailing" id="rpt-O9-pzY"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="bth-AS-d1c"/>
-                                <exclude reference="hN7-pp-reb"/>
-                            </mask>
-                        </variation>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="二手车交易" id="EIW-ct-pbY">

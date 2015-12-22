@@ -204,11 +204,13 @@
 }
 
 - (IBAction)shareAction:(id)sender {
+    [gToast showingWithText:@"分享信息拉取中..."];
     GetShareButtonOp * op = [GetShareButtonOp operation];
     op.pagePosition = ShareSceneValuation;
     @weakify(self);
     [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
         @strongify(self);
+        [gToast dismiss];
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneValuation;    //页面位置
         vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组

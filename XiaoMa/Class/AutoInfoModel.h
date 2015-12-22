@@ -14,5 +14,6 @@
 //获取最新的汽车品牌信息
 - (NSFetchedResultsController *)createAutoBrandFetchCtrl;
 - (RACSignal *)rac_updateAutoBrand;
+- (void)cleanAutoBrandTimetag;
 
 @end
