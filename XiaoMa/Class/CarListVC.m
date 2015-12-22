@@ -43,13 +43,13 @@
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp309"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-    [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:NO];
+    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp309"];
-    [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:YES];
+    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -97,7 +97,7 @@
 {
     @weakify(self);
     self.carStore = [MyCarStore fetchOrCreateStore];
-    [self.carStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+    [self.carStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
         @strongify(self);
         [self reloadDataWithEvent:evt];
     }];
@@ -137,7 +137,7 @@
     [self.carStore sendEvent:[self.carStore getAllCarsIfNeeded]];
 }
 
-- (void)reloadDataWithEvent:(CKStoreEvent *)evt
+- (void)reloadDataWithEvent:(HKStoreEvent *)evt
 {
     NSInteger code = evt.code;
     @weakify(self);
@@ -162,7 +162,7 @@
             if (_originCarID) {
                 car = [self.carStore.cache objectForKey:_originCarID];
             }
-            if (code == kCKStoreEventAdd) {
+            if (code == kHKStoreEventAdd) {
                 car = x;
             }
             if (!car && self.model.currentCar) {
@@ -181,10 +181,10 @@
             if (_originCarID) {
                 self.model.currentCar = [self.carStore.cache objectForKey:_originCarID];
             }
-            else if (code != kCKStoreEventUpdate && code != kCKStoreEventAdd) {
+            else if (code != kHKStoreEventUpdate && code != kHKStoreEventAdd) {
                 self.model.currentCar = defCar;
             }
-            else if (code == kCKStoreEventAdd) {
+            else if (code == kHKStoreEventAdd) {
                 self.model.currentCar = x;
             }
             if (!self.model.currentCar) {
@@ -315,10 +315,11 @@
     [subv setShowBottomButton:show withText:text];
     
     [subv setCellTitle:@"购车时间" withValue:[car.purchasedate dateFormatForYYMM] atIndex:0];
-    [subv setCellTitle:@"爱车品牌" withValue:car.brand atIndex:1];
-    [subv setCellTitle:@"具体车系" withValue:car.model atIndex:2];
+    NSString * brandStr = [NSString stringWithFormat:@"%@ %@", car.brand, car.seriesModel.seriesname];
+    [subv setCellTitle:@"品牌车系" withValue:brandStr atIndex:1];
+    [subv setCellTitle:@"具体车型" withValue:car.detailModel.modelname atIndex:2];
     [subv setCellTitle:@"整车价格" withValue:[NSString stringWithFormat:@"%.2f万元", car.price] atIndex:3];
-    [subv setCellTitle:@"当前里程" withValue:[NSString stringWithFormat:@"%d公里", (int)car.odo] atIndex:4];
+    [subv setCellTitle:@"当前里程" withValue:[NSString stringWithFormat:@"%@万公里", [NSString formatForPrice:car.odo]] atIndex:4];
     [subv setCellTitle:@"年检到期日" withValue:[car.insexipiredate dateFormatForYYMM] atIndex:5];
     [subv setCellTitle:@"保险公司" withValue:car.inscomp atIndex:6];
     
@@ -357,7 +358,7 @@
         NSString *oldurl = car.licenceurl;
         car.licenceurl = url;
         MyCarStore *store = [MyCarStore fetchExistsStore];
-        CKStoreEvent *evt = [store updateCar:car];
+        HKStoreEvent *evt = [store updateCar:car];
         evt.object = self;
         return [[[store sendEvent:evt] signal] catch:^RACSignal *(NSError *error) {
             car.licenceurl = oldurl;

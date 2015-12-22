@@ -28,7 +28,7 @@ typedef enum : NSUInteger {
     PaymentChannelABCCarWashAmount,
     PaymentChannelABCIntegral,
     PaymentChannelCoupon,
-    PaymentChannelXMDDCreditCard,
+    PaymentChannelCZBCreditCard,
     PaymentChannelUPpay
 } PaymentChannelType;
 
@@ -39,9 +39,10 @@ typedef enum : NSUInteger {
 //6-拖车广告
 //7-泵电广告
 //8-换胎广告
+//4-加油广告
 //10-APP滑动广告
 //11-保险广告
-//12-加油广告
+//12-估值广告
 //20：活动类
 typedef enum : NSUInteger {
     AdvertisementHomePage = 1,
@@ -53,9 +54,41 @@ typedef enum : NSUInteger {
     AdvertisementTrailerPumpPowerChangeTheTire = 8,
     AdvertisementAppSlide = 10,
     AdvertisementInsurance = 11,
+    AdvertisementValuation = 12,
     AdvertisementTypeActivities = 20,
     AdvertisementTypeLeaunch = 30
 } AdvertisementType;
+
+///分享页面类型
+//2-洗车完成分享
+//3-每周礼券红包分享
+//4-保险支付完成分享
+//5-油卡充值完成分享
+//6-优惠券分享（转赠）
+//7-其他分享（jsbridge中的分享和App分享）
+typedef enum : NSUInteger {
+    ShareSceneCarwash = 2,
+    ShareSceneGain = 3,
+    ShareSceneInsurance = 4,
+    ShareSceneGas = 5,
+    ShareSceneCoupon = 6,
+    ShareSceneValuation = 7,
+    ShareSceneLocalShare
+} ShareSceneType;
+
+///分享按钮类型
+//1-微信好友
+//2-微信朋友圈
+//3-微博
+//4-QQ好友
+//5-QQ空间
+typedef enum : NSUInteger {
+    ShareButtonWechat = 1,
+    ShareButtonTimeLine = 2,
+    ShareButtonWeibo = 3,
+    ShareButtonQQFriend = 4,
+    ShareButtonQQZone = 5
+} ShareButtonType;
 
 #define IOSAPPID 1001
 #define BaiduMapUrl @"baidumap://map/"
@@ -104,6 +137,9 @@ typedef enum : NSUInteger {
 #define commissionStoryboard [UIStoryboard storyboardWithName:@"Commission" bundle:nil]
 #define awardStoryboard [UIStoryboard storyboardWithName:@"Award" bundle:nil]
 #define insuranceStoryboard [UIStoryboard storyboardWithName:@"Insurance" bundle:nil]
+#define violationStoryboard [UIStoryboard storyboardWithName:@"Violation" bundle:nil]
+#define valuationStoryboard [UIStoryboard storyboardWithName:@"Valuation" bundle:nil]
+#define gasStoryboard [UIStoryboard storyboardWithName:@"Gas" bundle:nil]
 
 #define LocationFail 7001
 #define WechatPayFail 7002

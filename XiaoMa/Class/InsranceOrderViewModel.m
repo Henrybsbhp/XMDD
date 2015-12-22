@@ -45,10 +45,10 @@
 {
     self.orderStore = [InsOrderStore fetchOrCreateStore];
     @weakify(self);
-    [self.orderStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+    [self.orderStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
         @strongify(self);
         RACSignal *sig = evt.signal;
-        if (evt.code != kCKStoreEventReload) {
+        if (evt.code != kHKStoreEventReload) {
             sig = [sig map:^id(id value) {
                 return [[(InsOrderStore *)store cache] allObjects];
             }];
@@ -148,7 +148,7 @@
              [MobClick event:@"rp318-6"];
              PayForInsuranceVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"PayForInsuranceVC"];
              vc.insOrder = order;
-             vc.originVC = self.targetVC;
+//             vc.insModel.originVC = self.targetVC;
              [self.targetVC.navigationController pushViewController:vc animated:YES];
          }
          else {

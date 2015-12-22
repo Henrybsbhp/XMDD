@@ -13,6 +13,7 @@
 #import "PayForInsuranceVC.h"
 #import "HKLoadingModel.h"
 #import "InsOrderStore.h"
+#import "InsuranceVM.h"
 
 @interface InsuranceOrderVC ()<UITableViewDataSource,UITableViewDelegate,HKLoadingModelDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -25,6 +26,13 @@
 @end
 
 @implementation InsuranceOrderVC
+- (void)awakeFromNib
+{
+    if (!self.insModel) {
+        self.insModel = [[InsuranceVM alloc] init];
+        self.insModel.originVC = self;
+    }
+}
 
 - (void)viewDidLoad
 {
@@ -81,7 +89,7 @@
 {
     self.orderStore = [InsOrderStore fetchOrCreateStore];
     @weakify(self);
-    [self.orderStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+    [self.orderStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
         @strongify(self);
         RACSignal *sig = [evt.signal map:^id(id value) {
             self.order = [[(InsOrderStore *)store cache] objectForKey:self.orderID];
@@ -154,8 +162,8 @@
 - (void)actionPay:(id)sender {
     [MobClick event:@"rp319-1"];
     PayForInsuranceVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"PayForInsuranceVC"];
+    vc.insModel = self.insModel;
     vc.insOrder = self.order;
-    vc.originVC = self;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

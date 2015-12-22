@@ -14,7 +14,9 @@
 
 @property (nonatomic,copy)NSString * rsp_linkUrl;
 
-@property (nonatomic,copy)NSString * rsp_picUrl;
+@property (nonatomic,copy)NSString * rsp_weiboUrl;
+
+@property (nonatomic,copy)NSString * rsp_wechatUrl;
 
 @property (nonatomic,copy)NSString * rsp_content;
 

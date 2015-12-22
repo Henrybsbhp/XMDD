@@ -604,13 +604,22 @@
     
     [statusL makeCornerRadius:3];
     statusL.font = [UIFont boldSystemFontOfSize:11]; //ios6字体大小有问题
-    if ([self isBetween:shop.openHour and:shop.closeHour]) {
-        statusL.text = @"营业中";
-        statusL.backgroundColor = HEXCOLOR(@"#1bb745");
-    }
-    else {
-        statusL.text = @"已休息";
+    
+    if ([self.shop.isVacation integerValue] == 1)
+    {
+        statusL.text = @"暂停营业";
         statusL.backgroundColor = HEXCOLOR(@"#b6b6b6");
+    }
+    else
+    {
+        if ([self isBetween:shop.openHour and:shop.closeHour]) {
+            statusL.text = @"营业中";
+            statusL.backgroundColor = HEXCOLOR(@"#1bb745");
+        }
+        else {
+            statusL.text = @"已休息";
+            statusL.backgroundColor = HEXCOLOR(@"#b6b6b6");
+        }
     }
     
     double myLat = gMapHelper.coordinate.latitude;
@@ -685,6 +694,15 @@
     //    [priceL mas_updateConstraints:^(MASConstraintMaker *make) {
     //        make.bottom.equalTo(cc ? iconV : titleL);
     //    }];
+    
+    if ([self.shop.isVacation integerValue] == 1)
+    {
+        payB.enabled = NO;
+    }
+    else
+    {
+        payB.enabled = YES;
+    }
     titleL.text = service.serviceName;
     priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
     introL.text = service.serviceDescription;

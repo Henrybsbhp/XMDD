@@ -18,7 +18,7 @@
     
 }
 
-- (CKStoreEvent *)getAllBankCards
+- (HKStoreEvent *)getAllBankCards
 {
     GetBankcardListOp *op = [GetBankcardListOp operation];
     @weakify(self);
@@ -34,18 +34,18 @@
         [self updateTimetagForKey:nil];
         return op.rsp_bankcards;
     }] replayLast];
-    return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventGet object:nil];
+    return [HKStoreEvent eventWithSignal:sig code:kHKStoreEventGet object:nil];
 }
 
-- (CKStoreEvent *)getAllBankCardsIfNeeded
+- (HKStoreEvent *)getAllBankCardsIfNeeded
 {
     if ([self needUpdateTimetagForKey:nil]) {
         return [self getAllBankCards];
     }
-    return [CKStoreEvent eventWithSignal:[RACSignal return:self.cache.allObjects] code:kCKStoreEventNone object:nil];
+    return [HKStoreEvent eventWithSignal:[RACSignal return:self.cache.allObjects] code:kHKStoreEventNone object:nil];
 }
 
-- (CKStoreEvent *)deleteBankCardByCID:(NSNumber *)cid vcode:(NSString *)vcode
+- (HKStoreEvent *)deleteBankCardByCID:(NSNumber *)cid vcode:(NSString *)vcode
 {
     UnbindBankcardOp *op = [UnbindBankcardOp operation];
     op.req_vcode = vcode;
@@ -59,17 +59,17 @@
         return RACTuplePack(cid, indexNumber);
     }] replayLast];
     
-    return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventDelete object:nil];
+    return [HKStoreEvent eventWithSignal:sig code:kHKStoreEventDelete object:nil];
 }
 
 - (void)reloadDataWithCode:(NSInteger)code
 {
-    [self sendEvent:[CKStoreEvent eventWithSignal:[[self getAllBankCards] signal] code:kCKStoreEventReload object:nil]];
+    [self sendEvent:[HKStoreEvent eventWithSignal:[[self getAllBankCards] signal] code:kHKStoreEventReload object:nil]];
 }
 
-- (CKStoreEvent *)updateBankCardCZBInfoByCID:(NSNumber *)cid
+- (HKStoreEvent *)updateBankCardCZBInfoByCID:(NSNumber *)cid
 {
-    return [self sendEvent:[CKStoreEvent eventWithSignal:[self rac_getCardCZBInfoByCID:cid] code:kCKStoreEventUpdate object:nil]];
+    return [self sendEvent:[HKStoreEvent eventWithSignal:[self rac_getCardCZBInfoByCID:cid] code:kHKStoreEventUpdate object:nil]];
 }
 
 - (RACSignal *)rac_getCardCZBInfoByCID:(NSNumber *)cid

@@ -13,4 +13,5 @@
 @interface UIScrollView (RefreshView)
 @property (nonatomic, strong) HKRefreshControl *refreshView;
 - (void)restartRefreshViewAnimatingWhenRefreshing;
+- (BOOL)isRefreshViewExists;
 @end

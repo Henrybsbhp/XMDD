@@ -19,7 +19,7 @@
     
 }
 
-- (CKStoreEvent *)getAllInsOrders
+- (HKStoreEvent *)getAllInsOrders
 {
     GetInsuranceOrderListOp * op = [GetInsuranceOrderListOp operation];
     RACSignal *sig = [[op rac_postRequest] map:^id(GetInsuranceOrderListOp *rspOp) {
@@ -30,10 +30,10 @@
         self.cache = cache;
         return rspOp.rsp_orders;
     }];
-    return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventReload object:nil];
+    return [HKStoreEvent eventWithSignal:sig code:kHKStoreEventReload object:nil];
 }
 
-- (CKStoreEvent *)getInsOrderByID:(NSNumber *)orderID
+- (HKStoreEvent *)getInsOrderByID:(NSNumber *)orderID
 {
     GetInsuranceOrderDetailsOp * op = [GetInsuranceOrderDetailsOp operation];
     op.req_orderid = orderID;
@@ -41,7 +41,7 @@
         [self.cache addObject:rspOp.rsp_order forKey:rspOp.rsp_order.orderid];
         return rspOp.rsp_order;
     }];
-    return [CKStoreEvent eventWithSignal:sig code:kInsOrderStoreEventReloadOne object:nil];
+    return [HKStoreEvent eventWithSignal:sig code:kInsOrderStoreEventReloadOne object:nil];
 }
 
 - (void)reloadDataWithCode:(NSInteger)code

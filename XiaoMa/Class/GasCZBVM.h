@@ -12,7 +12,7 @@
 
 @interface GasCZBVM : GasBaseVM
 @property (nonatomic, strong) GetCZBCouponDefInfoOp *defCouponInfo;
-@property (nonatomic, strong) CKStoreEvent *cachedEvent;
+@property (nonatomic, strong) HKStoreEvent *cachedEvent;
 ///银行卡优惠描述
 - (NSString *)bankFavorableDesc;
 - (void)cancelOrderWithTradeNumber:(NSString *)tdno bankCardID:(NSNumber *)gid;

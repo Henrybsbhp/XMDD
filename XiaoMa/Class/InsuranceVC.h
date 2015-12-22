@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface InsuranceVC : UITableViewController
+@interface InsuranceVC : UIViewController
 
 @end

@@ -10,6 +10,56 @@
 
 @implementation HKCoverage
 
+- (instancetype)initWithInsuranceCarSeatInsuranceOfPassengerWithNumOfSeat:(NSNumber *)numOfSeat
+{
+    self = [super init];
+    if (self)
+    {
+        self.insCategory = InsuranceCarSeatInsuranceOfPassenger;
+        self.insId = @(InsuranceCarSeatInsuranceOfPassenger);
+        self.insName = @"乘客座位责任险";
+        self.numOfSeat = numOfSeat;
+        
+        NSDictionary * d = @{@"key":@"1万/座",@"value":@(10000)};
+        d.customTag = YES;
+        self.params = @[d,
+                        @{@"key":@"2万/座",@"value":@(20000)},
+                        @{@"key":@"3万/座",@"value":@(30000)},
+                        @{@"key":@"4万/座",@"value":@(40000)},
+                        @{@"key":@"5万/座",@"value":@(50000)},
+                        @{@"key":@"10万/座",@"value":@(100000)},
+                        @{@"key":@"20万/座",@"value":@(200000)}
+                        ];
+        
+        if (numOfSeat)
+        {
+            NSString * str = [NSString stringWithFormat:@"%ld座",(long)numOfSeat];
+            NSDictionary * d2 = @{@"key":str,@"value":numOfSeat};
+            d2.customTag = YES;
+            self.params2 = @[d2];
+        }
+        else
+        {
+            NSDictionary * d2 = @{@"key":@"4座",@"value":@(4)};
+            d2.customTag = YES;
+            self.params2 = @[@{@"key":@"1座",@"value":@(1)},
+                             @{@"key":@"2座",@"value":@(2)},
+                             @{@"key":@"3座",@"value":@(3)},
+                             d2,
+                             @{@"key":@"5座",@"value":@(5)},
+                             @{@"key":@"6座",@"value":@(6)}
+                             ];
+        }
+        self.discountType = InsuranceBusinessDiscount;
+        
+        HKCoverage * subCoverage = [[HKCoverage alloc] initWithCategory:InsuranceExcludingDeductible4CarSeatInsuranceOfPassenger];
+        subCoverage.params = self.params;
+        subCoverage.params2 = self.params2;
+        self.excludingDeductibleCoverage= subCoverage;
+    }
+    return self;
+}
+
 - (instancetype)initWithCategory:(InsuranceCategory)category
 {
     self = [super init];
@@ -151,11 +201,25 @@
             case InsuranceSpontaneousLossRisk:{
                 self.insName = @"自燃损失险";
                 self.discountType = InsuranceBusinessDiscount;
+                
+                self.excludingDeductibleCoverage = [[HKCoverage alloc] initWithCategory:InsuranceExcludingDeductible4SpontaneousLossRisk];
                 break;
             }
             case InsuranceWaterLoss:{
                 self.insName = @"涉水损失险";
                 self.discountType = InsuranceBusinessDiscount;
+                break;
+            }
+            case InsuranceCarBodyScratches:{
+                self.insName = @"车身划痕损失险";
+    
+                NSDictionary * d = @{@"key":@"2千",@"value":@(2000)};
+                d.customTag = YES;
+                self.params = @[d,
+                                @{@"key":@"5千",@"value":@(5000)}];
+                self.discountType = InsuranceBusinessDiscount;
+                
+                self.excludingDeductibleCoverage = [[HKCoverage alloc] initWithCategory:InsuranceExcludingDeductible4CarBodyScratches];
                 break;
             }
             case InsuranceExcludingDeductible4CarDamage:{
@@ -183,12 +247,33 @@
                 self.discountType = InsuranceBusinessDiscount;
                 break;
             }
+            case InsuranceExcludingDeductible4CarBodyScratches:{
+                self.insName = @"车身划痕损失险不计免赔";
+                self.discountType = InsuranceBusinessDiscount;
+                break;
+            }
+            case InsuranceExcludingDeductible4SpontaneousLossRisk:{
+                self.insName = @"自燃损失险不计免赔";
+                self.discountType = InsuranceBusinessDiscount;
+                break;
+            }
             default:{
                 break;
             }
         }
     }
     return self;
+}
+
+- (NSString *)coverageAmountDesc
+{
+    NSDictionary *param = [self.params firstObjectByFilteringOperator:^BOOL(NSDictionary *obj) {
+        return obj.customTag;
+    }];
+    if (self.numOfSeat) {
+        return [NSString stringWithFormat:@"%@ %@座", param[@"key"], self.numOfSeat];
+    }
+    return param[@"key"];
 }
 
 @end

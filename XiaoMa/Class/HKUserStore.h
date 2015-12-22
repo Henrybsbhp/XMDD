@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "CKStore.h"
+#import "HKStore.h"
 
-@interface HKUserStore : CKStore
+@interface HKUserStore : HKStore
 
 ///Override
 - (void)reloadDataWithCode:(NSInteger)code;

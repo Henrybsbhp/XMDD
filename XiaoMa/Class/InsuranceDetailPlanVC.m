@@ -25,7 +25,6 @@
 @property (weak, nonatomic) IBOutlet JDFlipNumberView *flipNumberView;
 @property (weak, nonatomic) IBOutlet UIButton *sureBtn;
 @property (weak, nonatomic) IBOutlet CCSegmentedControl *segmentedControl;
-@property (nonatomic,strong)CKSegmentHelper *checkBoxHelper;
 
 @property (strong,nonatomic)NSMutableArray * modelArray;
 
@@ -99,9 +98,9 @@
         }
         
         InsuranceInfoSubmitingVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceInfoSubmitingVC"];
-        vc.submitModel = InsuranceInfoSubmitForEnquiry;
-        vc.calculatorOp = self.calculatorOp;
-        vc.insuranceList = [[self.currentModel inslistForVC] componentsJoinedByString:@"|"];
+//        vc.submitModel = InsuranceInfoSubmitForEnquiry;
+//        vc.calculatorOp = self.calculatorOp;
+//        vc.insuranceList = [[self.currentModel inslistForVC] componentsJoinedByString:@"|"];
         [self.navigationController pushViewController:vc animated:YES];
     }];
 }

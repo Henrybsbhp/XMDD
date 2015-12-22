@@ -36,7 +36,18 @@
 #import "PaymentSuccessVC.h"
 #import "PaymentCenterViewController.h"
 #import "CommissonConfirmVC.h"
+#import "ViolationItemViewController.h"
+#import "ViolationViewController.h"
+#import "ValuationViewController.h"
+#import "InsuranceSelectViewController.h"
+
+
 #define WeatherRefreshTimeInterval 60 * 30
+#define ItemCount 3.0
+
+#import "SecondCarValuationVC.h"
+#import "CommitSuccessVC.h"
+#import "HistoryCollectionVC.h"
 
 @interface HomePageVC ()<UIScrollViewDelegate>
 @property (nonatomic, weak) IBOutlet UIView *bgView;
@@ -53,6 +64,7 @@
 @end
 
 @implementation HomePageVC
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -72,8 +84,6 @@
     [super viewDidLoad];
     
     self.view.userInteractionEnabled = NO;
-    
-    NSLog(@"home page :%@",NSStringFromCGSize(self.scrollView.contentSize));
 
     [gAppMgr loadLastLocationAndWeather];
     [gAdMgr loadLastAdvertiseInfo:AdvertisementHomePage];
@@ -198,49 +208,37 @@
     [self addLineToView:secondaryView withDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
     
 
-    //加油
-    UIButton *addGasBtn = [self functionalButtonWithImageName:@"hp_add_gas" action:@selector(actionAddGas:) inContainer:mainView hasBorder:YES];
-    //抢红包
-    UIButton *couponBtn = [self functionalButtonWithImageName:@"hp_award_2" action:@selector(actionAward:) inContainer:mainView hasBorder:YES];
+    [self mainButtonWithImageName:@"hp_addgas_2_5" title:@"油卡充值" index:0 action:@selector(actionAddGas:) inContainer:mainView hasBorder:YES];
+    [self mainButtonWithImageName:@"hp_violation_2_5" title:@"违章查询" index:1 action:@selector(actionQueryViolation:) inContainer:mainView hasBorder:YES];
+    [self mainButtonWithImageName:@"hp_estimate_2_5" title:@"爱车估值" index:2 action:@selector(actionCarEstimate:) inContainer:mainView hasBorder:YES];
     
-    
-    [addGasBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(mainView);
-        make.width.mas_equalTo(width1);
-        CGFloat height = 112.0f / 1136.0f * dHeight;
-        make.height.mas_equalTo(height);
-        make.left.equalTo(mainView).offset(spaceX);
-    }];
-    
-    [couponBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(mainView);
-        make.width.mas_equalTo(width1);
-        make.height.equalTo(addGasBtn);
-        make.left.equalTo(addGasBtn.mas_right).offset(spaceX);
-    }];
  
     //洗车 //按钮大小不同图片不同
-    NSString * carwashBtnName = dHeight > 568 ? @"hp_washcarbig" : @"hp_washcarsmall";
+    NSString * carwashBtnName;
+    CGFloat height = 226.0f / 1136.0f * dHeight;
+    CGFloat hhh;
+    if (dHeight > 667)
+    {
+        hhh = height + 23;
+        carwashBtnName = @"hp_carwash_big_2_5";
+    }
+    else if (dHeight > 568)
+    {
+        hhh = height + 15;
+        carwashBtnName = @"hp_carwash_mid_2_5";
+    }
+    else
+    {
+        hhh = height;
+        carwashBtnName = @"hp_carwash_2_5";
+    }
+    
+    CGFloat width = height * 447 / 226;
     UIButton *carwashBtn = [self functionalButtonWithImageName:carwashBtnName action:@selector(actionWashCar:) inContainer:secondaryView hasBorder:NO];
     [carwashBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        CGFloat height = 212.0f / 1136.0f * dHeight;
-        CGFloat hhh;
-        if (dHeight > 667)
-        {
-            hhh = height + 23;
-        }
-        else if (dHeight > 568)
-        {
-            hhh = height + 15;
-        }
-        else
-        {
-            hhh = height;
-        }
-        
         make.left.equalTo(secondaryView);
-        make.right.equalTo(secondaryView);
+        make.width.mas_equalTo(width);
         make.top.equalTo(secondaryView);
         make.height.mas_equalTo(hhh);
     }];
@@ -248,14 +246,44 @@
     [self addLineToView:carwashBtn withDirection:CKViewBorderDirectionTop withEdge:UIEdgeInsetsZero];
     [self addLineToView:carwashBtn withDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
     
+    //洗车 //按钮大小不同图片不同
+    NSString * couponBtnName;
+    if (dHeight > 667)
+    {
+        hhh = height + 23;
+        couponBtnName = @"hp_coupon_big_2_5";
+    }
+    else if (dHeight > 568)
+    {
+        hhh = height + 15;
+        couponBtnName = @"hp_coupon_mid_2_5";
+    }
+    else
+    {
+        hhh = height;
+        couponBtnName = @"hp_coupon_2_5";
+    }
+    UIButton *couponBtn = [self functionalButtonWithImageName:couponBtnName action:@selector(actionAward:) inContainer:secondaryView hasBorder:NO];
+    [couponBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.left.equalTo(carwashBtn.mas_right);
+        make.right.equalTo(secondaryView);
+        make.top.equalTo(secondaryView);
+        make.height.equalTo(carwashBtn);
+    }];
+    
+    [self addLineToView:couponBtn withDirection:CKViewBorderDirectionTop withEdge:UIEdgeInsetsZero];
+    [self addLineToView:couponBtn withDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
+    [self addLineToView:couponBtn withDirection:CKViewBorderDirectionLeft withEdge:UIEdgeInsetsZero];
+    
     //保险
-    UIButton *insuranceBtn = [self functionalButtonWithImageName:@"hp_insurance" action:@selector(actionInsurance:) inContainer:secondaryView hasBorder:NO];
+    UIButton *insuranceBtn = [self functionalButtonWithImageName:@"hp_insurance_2_5" action:@selector(actionInsurance:) inContainer:secondaryView hasBorder:NO];
     [insuranceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(secondaryView.mas_left);
         make.top.equalTo(carwashBtn.mas_bottom);
         make.width.equalTo(mainView.mas_width).multipliedBy(0.5);
         
-        CGFloat height = 270.0f / 1136.0f * dHeight;
+        CGFloat height = 256.0f / 1136.0f * dHeight;
         
         CGFloat hhh;
         if (dHeight > 667)
@@ -276,7 +304,7 @@
     [self addLineToView:insuranceBtn withDirection:CKViewBorderDirectionRight withEdge:UIEdgeInsetsZero];
 
     //专业救援
-    UIButton *rescueBtn = [self functionalButtonWithImageName:@"hp_rescue" action:@selector(actionRescue:) inContainer:secondaryView hasBorder:NO];
+    UIButton *rescueBtn = [self functionalButtonWithImageName:@"hp_rescue_2_5" action:@selector(actionRescue:) inContainer:secondaryView hasBorder:NO];
     [rescueBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(insuranceBtn.mas_right);
         make.top.equalTo(insuranceBtn);
@@ -287,7 +315,7 @@
     [self addLineToView:rescueBtn withDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
     
     //申请协办
-    UIButton *commissionBtn = [self functionalButtonWithImageName:@"hp_commission" action:@selector(actionCommission:) inContainer:secondaryView hasBorder:NO];
+    UIButton *commissionBtn = [self functionalButtonWithImageName:@"hp_commission_2_5" action:@selector(actionCommission:) inContainer:secondaryView hasBorder:NO];
     [commissionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(rescueBtn);
         make.top.equalTo(rescueBtn.mas_bottom);
@@ -441,7 +469,9 @@
         [self handleGPSError:error];
     }] doNext:^(AMapReGeocode *regeo) {
         @strongify(self);
-        [self setupNavigationLeftBar:regeo.addressComponent.city];
+        NSString * cityStr;
+        cityStr = regeo.addressComponent.city.length ? regeo.addressComponent.city : regeo.addressComponent.province;
+        [self setupNavigationLeftBar:cityStr];
         if (![HKAddressComponent isEqualAddrComponent:gAppMgr.addrComponent AMapAddrComponent:regeo.addressComponent]) {
             gAppMgr.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
         }
@@ -469,7 +499,7 @@
 {
     GetSystemTipsOp * op = [GetSystemTipsOp operation];
     op.province = regeo.addressComponent.province;
-    op.city = regeo.addressComponent.city;
+    op.city = regeo.addressComponent.city.length ? regeo.addressComponent.city : regeo.addressComponent.province;
     op.district = regeo.addressComponent.district;
     return [[[[op rac_postRequest] doNext:^(GetSystemTipsOp * op) {
         
@@ -559,8 +589,10 @@
 - (void)actionInsurance:(id)sender
 {
     [MobClick event:@"rp101-4"];
-    UIViewController *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        UIViewController *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (void)actionRescue:(id)sender
@@ -592,6 +624,21 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)actionQueryViolation:(id)sender
+{
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        
+        ViolationViewController * vc = [violationStoryboard instantiateViewControllerWithIdentifier:@"ViolationViewController"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
+- (void)actionCarEstimate:(id)sender
+{
+    ValuationViewController *vc = [UIStoryboard vcWithId:@"ValuationViewController" inStoryboard:@"Valuation"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark - Utility
 - (UIButton *)functionalButtonWithImageName:(NSString *)imgName action:(SEL)action inContainer:(UIView *)container hasBorder:(BOOL)border
 {
@@ -600,6 +647,7 @@
     UIImage *img = [UIImage imageNamed:imgName];
     [btn setBackgroundImage:img forState:UIControlStateNormal];
     [btn addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+    btn.imageView.contentMode = UIViewContentModeScaleAspectFill;
     if (border)
     {
         btn.layer.borderColor = [UIColor colorWithWhite:0.84 alpha:1.0].CGColor;
@@ -608,6 +656,41 @@
         btn.layer.masksToBounds = YES;
     }
     [container addSubview:btn];
+    return btn;
+}
+
+- (UIButton *)mainButtonWithImageName:(NSString *)imgName title:(NSString *)title index:(NSInteger)index action:(SEL)action inContainer:(UIView *)container hasBorder:(BOOL)border
+{
+    UIButton * btn = [self functionalButtonWithImageName:imgName action:action inContainer:container hasBorder:NO];
+    UILabel * lb = [[UILabel alloc] init];
+    lb.text = title;
+    lb.font = [UIFont systemFontOfSize:12];
+    lb.textColor = [UIColor colorWithHex:@"#454545" alpha:1.0f];
+    [container addSubview:lb];
+    
+    
+    
+    CGFloat dHeight = gAppMgr.deviceInfo.screenSize.height < 568.0 ? 568.0 : gAppMgr.deviceInfo.screenSize.height;
+    CGFloat diameter = 95.0f / 1136 * dHeight;
+    CGFloat totalHeight = 130.0f / 1136 * dHeight;
+    CGFloat containHeight = 164.0f / 1136.0f * dHeight;
+    CGFloat multiplied = (index * 2.0 + 1) / ItemCount;
+    CGFloat space = 10.f / 1136 * dHeight;
+    
+    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.width.mas_equalTo(diameter);
+        make.height.mas_equalTo(diameter);
+        make.top.equalTo(container).offset(((containHeight - totalHeight)/2));
+        make.centerX.equalTo(container).multipliedBy(multiplied);
+    }];
+    
+    [lb mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.centerX.equalTo(btn);
+        make.top.equalTo(btn.mas_bottom).offset(space);
+    }];
+    
     return btn;
 }
 
@@ -715,6 +798,7 @@
     }
     return str;
 }
+
 
 
 @end

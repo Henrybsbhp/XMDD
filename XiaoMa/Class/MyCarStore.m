@@ -14,7 +14,7 @@
 
 @implementation MyCarStore
 
-- (CKStoreEvent *)getAllCars
+- (HKStoreEvent *)getAllCars
 {
     RACSignal *sig = [[[[GetUserCarOp operation] rac_postRequest] map:^id(GetUserCarOp *op) {
         JTQueue *cache = [[JTQueue alloc] init];
@@ -27,18 +27,18 @@
         [self updateTimetagForKey:nil];
         return op.rsp_carArray;
     }] replayLast];
-    return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventReload object:nil];
+    return [HKStoreEvent eventWithSignal:sig code:kHKStoreEventReload object:nil];
 }
 
-- (CKStoreEvent *)getAllCarsIfNeeded
+- (HKStoreEvent *)getAllCarsIfNeeded
 {
     if ([self needUpdateTimetagForKey:nil]) {
         return [self getAllCars];
     }
-    return [CKStoreEvent eventWithSignal:[RACSignal return:[self.cache allObjects]] code:kCKStoreEventReload object:nil];
+    return [HKStoreEvent eventWithSignal:[RACSignal return:[self.cache allObjects]] code:kHKStoreEventReload object:nil];
 }
 
-- (CKStoreEvent *)addCar:(HKMyCar *)car
+- (HKStoreEvent *)addCar:(HKMyCar *)car
 {
     AddCarOp * op = [[AddCarOp alloc] init];
     op.req_car = car;
@@ -49,10 +49,10 @@
         [self setDefaultCarIfNeeded:car];
         return car;
     }] replayLast];
-    return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventAdd object:nil];
+    return [HKStoreEvent eventWithSignal:sig code:kHKStoreEventAdd object:nil];
 }
 
-- (CKStoreEvent *)updateCar:(HKMyCar *)car
+- (HKStoreEvent *)updateCar:(HKMyCar *)car
 {
     UpdateCarOp * op = [[UpdateCarOp alloc] init];
     op.req_car = car;
@@ -60,27 +60,27 @@
         [self.cache addObject:car forKey:car.carId];
         [self setDefaultCarIfNeeded:car];
     }] replayLast];
-    return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventUpdate object:nil];
+    return [HKStoreEvent eventWithSignal:sig code:kHKStoreEventUpdate object:nil];
 }
 
-- (CKStoreEvent *)removeCarByID:(NSNumber *)carId
+- (HKStoreEvent *)removeCarByID:(NSNumber *)carId
 {
     DeleteCarOp * op = [DeleteCarOp operation];
     op.req_carid = carId;
     RACSignal *sig = [[[op rac_postRequest] doNext:^(DeleteCarOp * removeOp) {
         [self.cache removeObjectForKey:carId];
     }] replayLast];
-    return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventDelete object:nil];
+    return [HKStoreEvent eventWithSignal:sig code:kHKStoreEventDelete object:nil];
 }
 
-- (CKStoreEvent *)getDefaultCar
+- (HKStoreEvent *)getDefaultCar
 {
     @weakify(self);
     RACSignal *sig = [[[self getAllCarsIfNeeded].signal map:^(id x) {
         @strongify(self);
         return [self defalutCar];
     }] replayLast];
-    return [CKStoreEvent eventWithSignal:sig code:kCKStoreEventGet object:nil];
+    return [HKStoreEvent eventWithSignal:sig code:kHKStoreEventGet object:nil];
 }
 
 - (HKMyCar *)carByID:(NSNumber *)carId
@@ -125,8 +125,8 @@
 
 + (NSString *)verifiedLicenseNumberFrom:(NSString *)licenseNumber
 {
-//    NSString *pattern = @"^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵黔粤粵青藏川宁琼使][a-z][a-z0-9]{5}[警港澳领学]{0,1}$";
-    NSString *pattern = @"^[a-z][a-z0-9]{5}[警港澳领学]{0,1}$";
+    NSString *pattern = @"^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵黔粤粵青藏川宁琼使][a-z][a-z0-9]{5}[警港澳领学]{0,1}$";
+//    NSString *pattern = @"^[a-z][a-z0-9]{5}[警港澳领学]{0,1}$";
     NSRegularExpression *regexp = [[NSRegularExpression alloc] initWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
     NSTextCheckingResult *rst = [regexp firstMatchInString:licenseNumber options:0 range:NSMakeRange(0, [licenseNumber length])];
     if (!rst) {

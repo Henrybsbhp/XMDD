@@ -14,6 +14,7 @@
 #import "UIBarButtonItem+CustomStyle.h"
 #import "WebVC.h"
 #import "PayForInsuranceVC.h"
+#import "PayForGasViewController.h"
 
 @interface ChooseCarwashTicketVC ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -27,6 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setupNavigationBar];
     [self reloadData];
 }
 
@@ -47,13 +49,11 @@
     [super viewWillDisappear:animated];
     
     [MobClick endLogPageView:@"rp109"];
-    [self actionBack];
 }
 
 - (void)dealloc
 {
-    NSString * deallocInfo = [NSString stringWithFormat:@"%@ parse error~~",NSStringFromClass([self class])];
-    DebugLog(deallocInfo);
+    DebugLog(@"ChooseCarwashTicketVC dealloc");
 }
 
 - (void)setupNavigationBar
@@ -82,7 +82,7 @@
 - (void)actionBack
 {
     NSArray * viewcontroller = self.navigationController.viewControllers;
-    UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 1];
+    UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 2];
     if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
     {
         PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
@@ -94,7 +94,7 @@
             if (self.type == CouponTypeCZBankCarWash)
             {
                 [payVc autoSelectBankCard];
-                [payVc setPaymentChannel:PaymentChannelXMDDCreditCard];
+                [payVc setPaymentChannel:PaymentChannelCZBCreditCard];
                 [payVc setSelectCarwashCoupouArray:self.selectedCouponArray];
             }
             else if (self.type == CouponTypeCarWash)
@@ -140,6 +140,17 @@
         }
         [payVc tableViewReloadData];
     }
+    if (vc && [vc isKindOfClass:[PayForGasViewController class]])
+    {
+        PayForGasViewController * pay4GasVC = (PayForGasViewController *)vc;
+        if (self.selectedCouponArray.count)
+        {
+            pay4GasVC.couponType = CouponTypeGas;
+            pay4GasVC.selectGasCoupouArray = self.selectedCouponArray;
+        }
+    }
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Table view data source
@@ -226,34 +237,20 @@
     if (self.type == CouponTypeCarWash)
     {
         self.type = coupon.conponType;
-        HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];
-        if ([c.couponId isEqualToNumber:coupon.couponId])
-        {
-            [self.selectedCouponArray removeAllObjects];
-        }
-        else
-        {
-            [MobClick event:@"rp109-1"];
-            [self.selectedCouponArray removeAllObjects];
-            [self.selectedCouponArray addObject:coupon];
-        }
-        [self.tableView reloadData];
+        
+        [self.selectedCouponArray removeAllObjects];
+        [self.selectedCouponArray addObject:coupon];
+        
+        [self actionBack];
     }
     else if (self.type == CouponTypeCZBankCarWash)
     {
         self.type = coupon.conponType;
-        HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];
-        if ([c.couponId isEqualToNumber:coupon.couponId])
-        {
-            [self.selectedCouponArray removeAllObjects];
-        }
-        else
-        {
-            [MobClick event:@"rp109-1"];
-            [self.selectedCouponArray removeAllObjects];
-            [self.selectedCouponArray addObject:coupon];
-        }
-        [self.tableView reloadData];
+        
+        [self.selectedCouponArray removeAllObjects];
+        [self.selectedCouponArray addObject:coupon];
+        
+        [self actionBack];
     }
     
     else if (self.type == CouponTypeCash)
@@ -275,28 +272,67 @@
             [self.selectedCouponArray addObject:coupon];
             [self.tableView reloadData];
         }
+        else
+        {
+            [gToast showError:@"选择的优惠券优惠总额大于订单金额[此处文案需要修改]"];
+        }
     }
-    else
+    else if (self.type == CouponTypeInsurance)
     {
-        CGFloat amount = 0;
-        for (HKCoupon * c in self.selectedCouponArray)
+        if (coupon.couponAmount < self.upperLimit)
         {
-            if ([c.couponId isEqualToNumber:coupon.couponId])
-            {
-                [self.selectedCouponArray safetyRemoveObject:c];
-                [self.tableView reloadData];
-                return;
-            }
-            amount = amount + c.couponAmount;
-        }
-        if (amount + coupon.couponAmount < self.upperLimit &&
-            self.selectedCouponArray.count < self.numberLimit)
-        {
+            self.type = coupon.conponType;
+            
             [MobClick event:@"rp109-1"];
+            [self.selectedCouponArray removeAllObjects];
             [self.selectedCouponArray addObject:coupon];
-            [self.tableView reloadData];
+            
+            [self actionBack];
+        }
+        else
+        {
+            //@fq TODE
+            [gToast showError:@"选择的优惠券优惠总额大于订单金额[此处文案需要修改]"];
         }
     }
+    else if (self.type == CouponTypeGas)
+    {
+        if (coupon.lowerLimit <= self.payAmount)
+        {
+            self.type = coupon.conponType;
+        
+            [self.selectedCouponArray removeAllObjects];
+            [self.selectedCouponArray addObject:coupon];
+        
+            [self actionBack];
+        }
+        else
+        {
+            NSString * str = [NSString stringWithFormat:@"此优惠券需满%.0f元才可使用[此处文案需要修改]",coupon.lowerLimit];
+            [gToast showError:str];
+        }
+    }
+//    else
+//    {
+//        CGFloat amount = 0;
+//        for (HKCoupon * c in self.selectedCouponArray)
+//        {
+//            if ([c.couponId isEqualToNumber:coupon.couponId])
+//            {
+//                [self.selectedCouponArray safetyRemoveObject:c];
+//                [self.tableView reloadData];
+//                return;
+//            }
+//            amount = amount + c.couponAmount;
+//        }
+//        if (amount + coupon.couponAmount < self.upperLimit &&
+//            self.selectedCouponArray.count < self.numberLimit)
+//        {
+//            [MobClick event:@"rp109-1"];
+//            [self.selectedCouponArray addObject:coupon];
+//            [self.tableView reloadData];
+//        }
+//    }
 }
 
 @end

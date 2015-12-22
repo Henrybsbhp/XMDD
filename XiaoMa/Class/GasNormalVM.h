@@ -13,7 +13,7 @@
 
 @interface GasNormalVM : GasBaseVM
 @property (nonatomic, strong) GetGaschargeConfigOp *configOp;
-@property (nonatomic, strong) CKStoreEvent *cachedEvent;
+@property (nonatomic, strong) HKStoreEvent *cachedEvent;
 
 ///充值优惠描述
 - (NSString *)rechargeFavorableDesc;

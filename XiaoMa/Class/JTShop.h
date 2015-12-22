@@ -10,7 +10,10 @@
 #import "NSMutableDictionary+AddParams.h"
 #import "Constants.h"
 
-
+typedef enum : NSUInteger {
+    ShopVacationTypeService,
+    ShopVacationTypeVacation,
+} ShopVacationType;
 
 @interface ChargeContent : NSObject
 ///支付渠道
@@ -95,5 +98,7 @@
 @property (nonatomic,copy)NSString * announcement;
 ///评价数量
 @property (nonatomic)NSInteger ratenumber;
+//是否营业，1:是。0：营业
+@property (nonatomic,strong)NSNumber *isVacation;
 + (instancetype)shopWithJSONResponse:(NSDictionary *)rsp;
 @end
