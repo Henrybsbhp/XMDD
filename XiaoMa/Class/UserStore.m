@@ -20,6 +20,8 @@
 {
     self = [super init];
     if (self) {
+        self.updateDuration = 12 * 60 * 60;
+        self.timetagDict = [NSMutableDictionary dictionary];
         [self observeCurrentUser];
     }
     return self;

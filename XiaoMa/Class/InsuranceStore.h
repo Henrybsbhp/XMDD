@@ -11,10 +11,7 @@
 #import "Area.h"
 #import "JTQueue.h"
 
-#define kEvtInsSimpleCars                           @"ins.simpleCars"
-#define kEvtUpdateInsSimpleCar                      @"ins.simpleCar.update"
-#define kEvtInsProvinces                            @"ins.provinces"
-#define kEvtInsSimpleCarsAndProvinces               @"ins.simpleCarsAndProvinces"
+
 
 @interface InsuranceStore : UserStore
 @property (nonatomic, strong) JTQueue *simpleCars;
@@ -22,9 +19,10 @@
 @property (nonatomic, strong) NSString *xmddHelpTip; ///马达帮助文案
 
 //Fetch
-- (CKEvent *)reloadInsSimpleCarsAndProvinces;
+///获取保险车辆简单信息（内部会调用"getInsProvinces:NO"）
 - (CKEvent *)getInsSimpleCars;
-- (CKEvent *)getInsProvinces;
+///获取保险支持的省份信息
+- (CKEvent *)getInsProvinces:(BOOL)force;
 
 //Update
 - (CKEvent *)updateSimpleCarRefid:(NSNumber *)refid status:(int)status byLicenseno:(NSString *)licenseno;
