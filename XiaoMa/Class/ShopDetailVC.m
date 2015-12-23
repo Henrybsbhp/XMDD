@@ -760,7 +760,7 @@
     contentL.text = comment.comment;
     serviceL.text = comment.serviceName;
     [avatarV setImageByUrl:comment.avatarUrl withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
-    
+    [self.tableView layoutIfNeeded];
     return cell;
 }
 

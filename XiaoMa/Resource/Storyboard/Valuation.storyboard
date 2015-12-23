@@ -1127,12 +1127,6 @@
                             <constraint firstAttribute="bottom" secondItem="fhM-Sc-82y" secondAttribute="bottom" id="qwb-h9-71f"/>
                             <constraint firstAttribute="trailing" secondItem="fhM-Sc-82y" secondAttribute="trailing" id="rpt-O9-pzY"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="bth-AS-d1c"/>
-                                <exclude reference="hN7-pp-reb"/>
-                            </mask>
-                        </variation>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="二手车交易" id="EIW-ct-pbY">
@@ -1248,14 +1242,14 @@
                                 <rect key="frame" x="0.0" y="486" width="600" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bjq-aS-qga">
-                                        <rect key="frame" x="5" y="10" width="57" height="30"/>
+                                        <rect key="frame" x="5" y="10" width="90" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="70" id="nHJ-pm-5xB"/>
                                         </constraints>
-                                        <state key="normal" title=" 全选" image="unselected">
+                                        <state key="normal" title=" 全选       " image="unselected">
                                             <color key="titleColor" red="0.08235294118" green="0.61568627450000002" blue="0.0078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
-                                        <state key="selected" title=" 取消全选" image="selected"/>
+                                        <state key="selected" image="selected"/>
                                         <variation key="default">
                                             <mask key="constraints">
                                                 <exclude reference="nHJ-pm-5xB"/>
@@ -1292,7 +1286,7 @@
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="r9I-XG-71m" customClass="JTTableView">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="486"/>
-                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="editValuationCell" rowHeight="222" id="2Tv-4y-0Cx">
                                         <rect key="frame" x="0.0" y="49.5" width="600" height="222"/>

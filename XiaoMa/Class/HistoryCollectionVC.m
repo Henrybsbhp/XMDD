@@ -243,13 +243,19 @@
 
 -(void)reloadData
 {
-    [self.tableView reloadData];
-    if (self.dataArr.count == 0) {
+    if (self.dataArr.count == 0)
+    {
+        self.isEditing = NO;
+        self.tableView.showBottomLoadingView = NO;
+        self.navigationItem.rightBarButtonItem = nil;
+        [self refreshBottomView];
         [self.tableView showDefaultEmptyViewWithText:@"暂无估值记录"];
     }
-    else {
+    else
+    {
         [self.tableView hideDefaultEmptyView];
     }
+    [self.tableView reloadData];
 }
 
 -(void)refreshBottomView
@@ -292,7 +298,7 @@
         [self.dataArr safetyAddObjectsFromArray:op.rsp_dataArr];
         [self.tableView.bottomLoadingView stopActivityAnimation];
         self.isLoading = NO;
-        self.isExist = (op.rsp_dataArr.count == 10)?YES:NO;
+        self.isExist = (op.rsp_dataArr.count == 10?YES:NO);
         if (!self.isExist && self.dataArr.count != 0)
         {
             self.tableView.showBottomLoadingView = YES;
@@ -318,15 +324,7 @@
     }] subscribeNext:^(HistoryCollectionOp *op) {
         @strongify(self);
         [self.dataArr safetyAddObjectsFromArray:op.rsp_dataArr];
-        if (self.dataArr.count == 0)
-        {
-            [self reloadData];
-            self.navigationItem.rightBarButtonItem = nil;
-        }
-        else
-        {
-            [self.tableView reloadData];
-        }
+        [self reloadData];
     } error:^(NSError *error) {
         @strongify(self);
         [self.view showDefaultEmptyViewWithText:@"网络请求失败，请点击屏幕重试" tapBlock:^{
@@ -340,15 +338,9 @@
 
 
 
--(void)uploadDeletaArr
+-(void)uploadDeletaArr:(NSString *)deleteStr
 {
     HistoryDeleteOp *deleteOp = [HistoryDeleteOp new];
-    NSMutableArray *deleteStrArr = [NSMutableArray new];
-    for (NSDictionary *dic in self.deleteArr)
-    {
-        [deleteStrArr safetyAddObject:dic[@"evaluateid"]];
-    }
-    NSString *deleteStr = [deleteStrArr componentsJoinedByString:@","];
     deleteOp.req_evaluateIds = deleteStr;
     @weakify(self);
     [[deleteOp rac_postRequest]subscribeNext:^(id x) {
@@ -362,11 +354,7 @@
             
             [self.dataArr safetyRemoveObject:dic];
         }
-        if (self.dataArr.count == 0)
-        {
-            [self.tableView showDefaultEmptyViewWithText:@"暂无估值纪录"];
-        }
-        [self.tableView reloadData];
+        [self reloadData];
     }];
     
 }
@@ -396,20 +384,25 @@
 - (IBAction)delete:(id)sender {
     if (self.deleteArr.count)
     {
-        [self uploadDeletaArr];
-        self.isEditing = NO;
-        [self refreshBottomView];
-        if (self.deleteArr.count == self.dataArr.count)
+        NSMutableArray *deleteStrArr = [NSMutableArray new];
+        for (NSDictionary *dic in self.deleteArr)
         {
-            self.navigationItem.rightBarButtonItem = nil;
-            [self.dataArr removeAllObjects];
-            [self.deleteArr removeAllObjects];
-            self.tableView.showBottomLoadingView=NO;
+            [deleteStrArr safetyAddObject:dic[@"evaluateid"]];
         }
-        else
-        {
-            self.navigationItem.rightBarButtonItem.title = @"编辑";
-        }
+        NSString *deleteStr = [deleteStrArr componentsJoinedByString:@","];
+        [self uploadDeletaArr:deleteStr];
+        [self reloadData];
+//        self.isEditing = NO;
+//        [self refreshBottomView];
+//        if (self.deleteArr.count == self.dataArr.count)
+//        {
+//            self.navigationItem.rightBarButtonItem = nil;
+//            self.tableView.showBottomLoadingView=NO;
+//        }
+//        else
+//        {
+//            self.navigationItem.rightBarButtonItem.title = @"编辑";
+//        }
         
     }
     else
@@ -428,6 +421,17 @@
         [self.deleteArr removeAllObjects];
     }
     [self.tableView reloadData];
+    UIAlertView *alerView = [[UIAlertView alloc]initWithTitle:nil message:@"请确认是否清空估值记录" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [alerView show];
+    [[alerView rac_buttonClickedSignal] subscribeNext:^(NSNumber *index) {
+        if (index.integerValue == 1)
+        {
+            [self uploadDeletaArr:@"all"];
+            [self.deleteArr removeAllObjects];
+            [self.dataArr removeAllObjects];
+            [self reloadData];
+        }
+    }];
 }
 
 #pragma mark Utility

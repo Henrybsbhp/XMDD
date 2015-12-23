@@ -28,7 +28,6 @@
     [self setupUI];
     
     self.tipLabel.text=@"您的信息已成功提交，客服将在24小时内与您取得联系，请保持手机畅通";
-    
 }
 
 
@@ -36,7 +35,7 @@
 {
     [self.shareBtn makeCornerRadius:5.0f];
     
-    self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cm_nav_back"] style:UIBarButtonItemStylePlain target:self action:@selector(backToHomePage)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cm_nav_back"] style:UIBarButtonItemStylePlain target:self action:@selector(backToHomePage)];
     
     
 }
@@ -44,7 +43,8 @@
 
 - (void)backToHomePage
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    NSArray *viewControllers = self.navigationController.viewControllers;
+    [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -377,7 +377,7 @@
         uploadOp.req_contatName = self.name;
         uploadOp.req_contatPhone = self.phoneNumber;
         uploadOp.req_channelEngs = @"";
-        uploadOp.req_cityid = self.sellercityid;
+        uploadOp.req_sellercityid = @(12);//self.sellercityid;
         NSMutableArray *tempString = [NSMutableArray new];
         for (NSDictionary *dic in self.uploadArr)
         {
@@ -402,10 +402,6 @@
     }
 }
 
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    [self.view resignFirstResponder];
-}
 
 #pragma mark LazyLoad
 
