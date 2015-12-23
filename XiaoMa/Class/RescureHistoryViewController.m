@@ -134,13 +134,20 @@
             
             RescurecCommentsVC *vc = [UIStoryboard vcWithId:@"RescurecCommentsVC" inStoryboard:@"Rescue"];
             vc.applyTime = hostory.applyTime;
+            
             vc.isLog = [hostory.commentStatus integerValue];
+            if ( [evaluationLb.text isEqualToString:@"已评价"]) {
+                vc.isLog = 1;
+            }
             vc.type = [hostory.type integerValue];
             vc.serviceName = hostory.serviceName;
             vc.applyId = hostory.applyId;
-            vc.applyType = [NSNumber numberWithInteger:self.type];
+            if ([hostory.type integerValue] == 0) {
+                vc.applyType = [NSNumber numberWithInteger:2];
+            }else {
+                vc.applyType = [NSNumber numberWithInteger:1];
+            }
             vc.licenceNumber = hostory.licenceNumber;
-            vc.applyType = [NSNumber numberWithInteger:self.type];
             [self.navigationController pushViewController:vc animated:YES];
         }else if ([hostory.rescueStatus integerValue] == 2 && self.type == 2){
             rescueCancelHostcar *op = [rescueCancelHostcar operation];

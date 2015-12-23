@@ -193,6 +193,11 @@
 - (UIView *)footerView {
     if (!_footerView) {
         self.footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 0.375 * kWidth)];
+//        [self.footerView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.with.offset(0);
+//            make.right.with.offset(0);
+//            make.height.with.offset(100);
+//        }];
     }
     return _footerView;
 }

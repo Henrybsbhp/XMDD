@@ -109,6 +109,14 @@
         }] subscribeNext:^(GetRescueNoLoginOp *op) {
             self.bottomView.hidden = NO;
             [self.datasourceArray safetyAddObjectsFromArray:op.req_resceuArray];
+            NSString *tempStr;
+            NSString *lastStr;
+            for (HKRescueNoLogin *rescue in op.req_resceuArray) {
+                tempStr = [NSString stringWithFormat:@"● %@", rescue.rescueDesc];
+                lastStr = [tempStr stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n● "];
+                [self.desArray safetyAddObject:lastStr];
+                
+            }
             [gToast dismiss];
             [self.tableView reloadData];
         } error:^(NSError *error) {
@@ -241,7 +249,7 @@
     view.layer.cornerRadius = 4;
     view.layer.masksToBounds = YES;
     if (gAppMgr.myUser != nil) {
-        HKRescue *rescue = self.datasourceArray[indexPath.row];
+        HKRescue *rescue = [self.datasourceArray safetyObjectAtIndex:indexPath.row];
         nameLb.text = rescue.serviceName;
         priceLb.text = [NSString stringWithFormat:@"￥%@", rescue.amount];
         numberLb.text = [NSString stringWithFormat:@"%@", rescue.serviceCount];
@@ -258,14 +266,17 @@
             remainingLb.hidden = NO;
             tempLb.hidden = NO;
         }
-        [conditionsLb setAttributedText:[self attributedStringforHeight:[self.desArray safetyObjectAtIndex:indexPath.row]]];
+        if (self.desArray.count != 0) {
+             [conditionsLb setAttributedText:[self attributedStringforHeight:[self.desArray safetyObjectAtIndex:indexPath.row]]];
+        }
         
     }else {
         HKRescueNoLogin *noLogin = self.datasourceArray[indexPath.row];
         nameLb.text = noLogin.serviceName;
         priceLb.text = [NSString stringWithFormat:@"%@", noLogin.amount];
-        [conditionsLb setAttributedText:[self attributedStringforHeight:[self.desArray safetyObjectAtIndex:indexPath.row]]];
-        
+        if (self.desArray.count != 0) {
+             [conditionsLb setAttributedText:[self attributedStringforHeight:[self.desArray safetyObjectAtIndex:indexPath.row]]];
+        }
         numberLb.hidden = YES;
         remainingLb.hidden = YES;
         tempLb.hidden = YES;

@@ -45,7 +45,7 @@
     
     [super viewDidLoad];
     self.tableView.tableHeaderView = self.advertisingImg;
-    self.tableView.tableFooterView = self.footerView;
+    self.tableView.tableFooterView = [[UIView alloc] init];
     [self.view addSubview:self.helperBtn];
     
     [self actionNetwork];
@@ -157,6 +157,13 @@
     
     UILabel *titleLb = (UILabel *)[cell searchViewWithTag:1000];
     UILabel *detailLb = (UILabel *)[cell searchViewWithTag:1001];
+    UIView  *topView = (UIView *)[cell searchViewWithTag:1004];
+    UIView  *lineView  = (UIView *)[cell searchViewWithTag:1005];
+    if (indexPath.row == 0) {
+        topView.hidden = YES;
+    }else if (indexPath.row == 2) {
+        lineView.hidden = YES;
+    }
     NSString * string = [self.dataSourceArray safetyObjectAtIndex:indexPath.row];
     detailLb.text = string;
     //行间距

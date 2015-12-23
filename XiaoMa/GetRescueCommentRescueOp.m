@@ -15,8 +15,9 @@
     [params addParam:self.applyId forName:@"applyid"];
     [params addParam:self.responseSpeed forName:@"responsespeed"];
     [params addParam:self.arriveSpeed forName:@"arrivespeed"];
+    [params addParam:self.serviceAttitude forName:@"serviceattitude"];
     [params addParam:self.comment forName:@"comment"];
-    [params addParam:self.responseSpeed forName:@"rescuetype"];
+    [params addParam:self.rescueType forName:@"rescuetype"];
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 

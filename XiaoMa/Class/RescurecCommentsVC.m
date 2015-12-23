@@ -99,6 +99,7 @@
 - (void) alreadyNetwork {
     GetRescueCommentOp *op = [GetRescueCommentOp operation];
     op.applyId = self.applyId;
+    
     op.type = self.applyType;
     [[[[op rac_postRequest] initially:^{
         
@@ -113,6 +114,7 @@
         
         self.evaluationArray = op.rescueDetailArray;
         self.isLog = 1;
+        self.footerView.hidden = YES;
         [self.tableView reloadData];
         
     } error:^(NSError *error) {
@@ -129,6 +131,7 @@
         op.responseSpeed = self.starNum1;
         op.arriveSpeed = self.starNum2;
         op.serviceAttitude = self.starNum3;
+        
         op.rescueType = self.applyType;
         
         if (self.commentsTV.text != nil) {
@@ -247,7 +250,7 @@
         
         UITableViewCell *cell4 = [tableView dequeueReusableCellWithIdentifier:@"RescurecCommentsVC4" forIndexPath:indexPath];
         UILabel *textLb = (UILabel *)[cell4 searchViewWithTag:1004];
-        textLb.text = self.evaluationArray[3];
+        textLb.text = [self.evaluationArray safetyObjectAtIndex:3];
         return cell4;
     }
 }

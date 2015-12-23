@@ -14,7 +14,6 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:self.applyId forName:@"applyid"];
     [params addParam:self.type forName:@"type"];
-
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
     
 }
