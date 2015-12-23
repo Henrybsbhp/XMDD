@@ -10,6 +10,10 @@
 #import "GetInsCarListOp.h"
 #import "GetInsProvinceListOp.h"
 
+#define kEvtInsSimpleCars                           @"ins.simpleCars"
+#define kEvtUpdateInsSimpleCar                      @"ins.simpleCar.update"
+#define kEvtInsProvinces                            @"ins.provinces"
+
 @implementation InsuranceStore
 
 - (void)reloadForUserChanged
@@ -24,8 +28,11 @@
 #pragma mark - Action
 - (CKEvent *)getInsSimpleCars
 {
+    //获取保险支持的省份
+    RACSignal *provSig = [[self getInsProvinces:NO] send];
+    //获取保险车辆信息
     @weakify(self);
-    return [self inlineEvent:[[[[GetInsCarListOp operation] rac_postRequest] map:^id(GetInsCarListOp *op) {
+    RACSignal *carSig = [[[GetInsCarListOp operation] rac_postRequest] map:^id(GetInsCarListOp *op) {
         @strongify(self);
         JTQueue *cars = [[JTQueue alloc] init];
         for (InsSimpleCar *car in op.rsp_carinfolist) {
@@ -34,13 +41,18 @@
         self.simpleCars = cars;
         self.xmddHelpTip = op.rsp_xmddhelptip;
         return op.rsp_carinfolist;
-    }] eventWithName:kEvtInsSimpleCars]];
+    }];
+    CKEvent *event = [[RACSignal combineLatest:@[provSig, carSig]] eventWithName:kEvtInsSimpleCars];
+    return [self inlineEvent:event forDomain:@"simpleCars"];
 }
 
-- (CKEvent *)getInsProvinces
+- (CKEvent *)getInsProvinces:(BOOL)force
 {
+    if (!force && ![self needUpdateTimetagForKey:kEvtInsProvinces]) {
+        return [[RACSignal return:self.insProvinces] eventWithName:kEvtInsProvinces];
+    }
     @weakify(self);
-    return [self inlineEvent:[[[[GetInsProvinceListOp operation] rac_postRequest] map:^id(GetInsProvinceListOp *op) {
+    CKEvent *event = [[[[GetInsProvinceListOp operation] rac_postRequest] map:^id(GetInsProvinceListOp *op) {
         @strongify(self);
         JTQueue *areas = [[JTQueue alloc] init];
         for (Area *a in op.rsp_provinces) {
@@ -49,16 +61,8 @@
         self.insProvinces = areas;
         [self updateTimetagForKey:kEvtInsProvinces];
         return op.rsp_provinces;
-    }] eventWithName:kEvtInsProvinces]];
-}
-
-- (CKEvent *)reloadInsSimpleCarsAndProvinces
-{
-    NSMutableArray *sigs = [NSMutableArray arrayWithObject:[[self getInsSimpleCars] signal]];
-    if ([self needUpdateTimetagForKey:@"insProvinces"]) {
-        [sigs addObject:[[self getInsProvinces] signal]];
-    }
-    return [self inlineEvent:[[RACSignal combineLatest:sigs] eventWithName:kEvtInsSimpleCarsAndProvinces]];
+    }] eventWithName:kEvtInsProvinces];
+    return [self inlineEvent:event forDomain:@"insProvinces"];
 }
 
 - (CKEvent *)updateSimpleCarRefid:(NSNumber *)refid status:(int)status byLicenseno:(NSString *)licenseno

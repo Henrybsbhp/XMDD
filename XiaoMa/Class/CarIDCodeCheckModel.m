@@ -18,25 +18,31 @@
     
     NSDictionary * vinDic = @{@"0":@"0", @"1":@"1", @"2":@"2",
                               @"3":@"3", @"4":@"4", @"5":@"5",
-                              @"6":@"6", @"7":@"0", @"8":@"0",
+                              @"6":@"6", @"7":@"7", @"8":@"8",
                               @"9":@"9", @"A":@"1", @"B":@"2",
                               @"C":@"3", @"D":@"4", @"E":@"5",
                               @"F":@"6", @"G":@"7", @"H":@"8",
                               @"J":@"1", @"K":@"2", @"L":@"3",
                               @"M":@"4", @"N":@"5", @"P":@"7",
-                              @"R":@"8", @"S":@"2", @"T":@"3",
+                              @"R":@"9", @"S":@"2", @"T":@"3",
                               @"U":@"4", @"V":@"5", @"W":@"6",
                               @"X":@"7", @"Y":@"8", @"Z":@"9"};
     
     NSArray * weightingArray = @[@8, @7, @6, @5, @4, @3, @2, @10, @0, @9, @8, @7, @6, @5, @4, @3, @2];
     
-    NSCharacterSet *letterCharacterSet = [NSCharacterSet letterCharacterSet];
-    
-    NSArray * codeArray = [codeStr componentsSeparatedByCharactersInSet:letterCharacterSet];
-    for (int i = 0; i < codeArray.count; i ++) {
-        
+    NSInteger result = 0;
+    for (int i = 0; i < codeStr.length; i ++) {
+        if (i != 8) {
+            NSString * key = [NSString stringWithFormat:@"%c", [codeStr characterAtIndex:i]];
+            NSInteger value = [vinDic[key] integerValue];
+            NSInteger weight = [weightingArray[i] integerValue];
+            result = weight * value + result;
+        }
     }
-    return YES;
+    if (result % 11 == [[NSString stringWithFormat:@"%c", [codeStr characterAtIndex:8]] integerValue]){
+        return YES;
+    }
+    return NO;
 }
 
 @end

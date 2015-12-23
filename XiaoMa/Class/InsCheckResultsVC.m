@@ -25,6 +25,7 @@
 @property (nonatomic, weak) IBOutlet UIView *containerView;
 @property (strong, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic, strong) NSMutableArray *datasource;
+@property (nonatomic, strong) NSString *headerTip;
 
 @end
 
@@ -33,7 +34,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self setupHeaderView];
     if (self.premiumList.count == 0) {
         [self requestPremiums];
     }
@@ -47,12 +47,13 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setupHeaderView
+- (void)reloadHeaderView
 {
     UILabel *titleL = [self.headerView viewWithTag:1001];
     CKLine *line = [self.headerView viewWithTag:1002];
     line.lineAlignment = CKLineAlignmentHorizontalBottom;
-    titleL.text = @"如有任何疑问，可拨打4007-111-111咨询。";
+    [line layoutIfNeeded];
+    titleL.text = self.headerTip.length > 0 ? self.headerTip : @"如有任何疑问，可拨打4007-111-111咨询。";
 }
 
 #pragma Datasource
@@ -67,11 +68,14 @@
         self.containerView.hidden = YES;
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-    }] subscribeNext:^(id x) {
+    }] subscribeNext:^(GetPremiumByIdOp *op) {
         
         @strongify(self);
         [self.view stopActivityAnimation];
         self.containerView.hidden = NO;
+        self.premiumList = op.rsp_premiumlist;
+        self.headerTip = op.rsp_tip;
+        [self reloadData];
     } error:^(NSError *error) {
         
         @strongify(self);
@@ -85,13 +89,14 @@
 
 - (void)reloadData
 {
+    [self reloadHeaderView];
+    
     NSMutableArray *datasource = [NSMutableArray array];
     for (int i = 0; i < self.premiumList.count; i++) {
         NSMutableArray *rows = [NSMutableArray array];
         InsPremium *premium = self.premiumList[i];
-        HKCellData *cell;
-        if (premium.errmsg.length == 0) {
-            cell = [HKCellData dataWithCellID:@"Uppon" tag:nil];
+         if (premium.errmsg.length == 0) {
+            HKCellData *cell = [HKCellData dataWithCellID:@"Uppon" tag:nil];
             cell.object = premium;
             [rows addObject:cell];
             if (i == 0) {
@@ -100,12 +105,7 @@
             }
         }
         else {
-            cell = [HKCellData dataWithCellID:@"Fail" tag:nil];
-            cell.object = premium;
-            [cell setHeightBlock:^CGFloat(UITableView *tableView) {
-                return 140;
-            }];
-            [rows addObject:cell];
+            [rows addObject:[self createFailCellDataWithPremium:premium]];
         }
 
         [datasource addObject:rows];
@@ -122,6 +122,24 @@
     [data setHeightBlock:^CGFloat(UITableView *tableView) {
         return [InsCouponView heightWithCouponCount:premium.couponlist.count buttonHeight:25]+8;
     }];
+    return data;
+}
+
+- (HKCellData *)createFailCellDataWithPremium:(InsPremium *)premium
+{
+    HKCellData *data = [HKCellData dataWithCellID:@"Fail" tag:nil];
+    data.object = premium;
+    @weakify(data);
+    [data setHeightBlock:^CGFloat(UITableView *tableView) {
+        @strongify(data);
+        CGSize lbsize = [premium.errmsg labelSizeWithWidth:tableView.frame.size.width-48 font:[UIFont systemFontOfSize:14]];
+        CGFloat lbheight = MIN(ceil(lbsize.height), 35);
+        BOOL overflow = lbheight >= 35;
+        data.customInfo[@"overflow"] = @(overflow);
+        data.customInfo[@"lbheight"] = @(lbheight);
+        return 94+8+lbheight+(overflow ? 26 : 8);
+    }];
+    
     return data;
 }
 
@@ -323,7 +341,18 @@
     line2.lineAlignment = CKLineAlignmentVerticalRight;
     line3.lineAlignment = CKLineAlignmentHorizontalBottom;
     couponV.buttonHeight = 25;
-    couponV.coupons = premium.couponlist;
+    couponV.coupons = [premium.couponlist arrayByMapFilteringOperator:^id(NSDictionary *dict) {
+        NSString *name = dict[@"name"];
+        NSString *desc = dict[@"desc"];
+        name.customObject = desc;
+        return name;
+    }];
+    
+    @weakify(self);
+    [couponV setButtonClickBlock:^(NSString *name) {
+        @strongify(self);
+        [InsAlertVC showInView:self.navigationController.view withMessage:name.customObject];
+    }];
 }
 
 - (void)resetFailCell:(UITableViewCell *)cell forData:(HKCellData *)data
@@ -338,6 +367,7 @@
     UIButton *callB = [cell viewWithTag:2002];
     UILabel *errorL = [cell viewWithTag:3001];
     UIButton *bgB = [cell viewWithTag:3002];
+    UILabel *detailL = [cell viewWithTag:3003];
 
     InsPremium *premium = data.object;
     
@@ -357,14 +387,22 @@
      subscribeNext:^(id x) {
         [gPhoneHelper makePhone:@"4007111111" andInfo:@"客服电话: 4007-111-111"];
     }];
-    
+
+    BOOL overflow = [data.customInfo[@"overflow"] boolValue];
+    detailL.hidden = !overflow;
     errorL.text = premium.errmsg;
+    [errorL mas_updateConstraints:^(MASConstraintMaker *make) {
+        CGFloat height = [data.customInfo[@"lbheight"] floatValue];
+        make.height.mas_equalTo(height);
+    }];
 
     @weakify(self);
     [[[bgB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
          @strongify(self);
-         [InsAlertVC showInView:self.navigationController.view withMessage:premium.errmsg];
+         if (overflow) {
+             [InsAlertVC showInView:self.navigationController.view withMessage:premium.errmsg];
+         }
     }];
 }
 

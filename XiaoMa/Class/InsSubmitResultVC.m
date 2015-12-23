@@ -51,8 +51,11 @@
         @strongify(self);
         return [InsCouponView heightWithCouponCount:[self.couponList count] buttonHeight:30];
     }];
-    
-    self.datasource = @[headerCell, titleCell, couponsCell];
+    HKCellData *bottomCell = [HKCellData dataWithCellID:@"Bottom" tag:nil];
+    [bottomCell setHeightBlock:^CGFloat(UITableView *tableView) {
+        return 55;
+    }];
+    self.datasource = @[headerCell, titleCell, couponsCell, bottomCell];
     [self.tableView reloadData];
 }
 

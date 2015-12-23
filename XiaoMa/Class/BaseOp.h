@@ -62,6 +62,7 @@
 + (instancetype)operation;
 - (void)increaseRequistIDs;
 
+- (void)cancel;
 + (void)cancelAllCurrentClassOpsInClient:(AFHTTPRequestOperationManager *)client;
 
 + (NSArray *)allCurrentClassOpsInClient:(AFHTTPRequestOperationManager *)client;

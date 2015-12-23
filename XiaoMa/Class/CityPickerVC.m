@@ -19,6 +19,7 @@ typedef NS_ENUM(NSInteger, LocateState) {
 
 @interface CityPickerVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (nonatomic, strong) NSArray *areaList;
 @property (nonatomic, strong) NSMutableDictionary *areaCache;
 @property (nonatomic, assign) LocateState locateState;
@@ -41,8 +42,6 @@ typedef NS_ENUM(NSInteger, LocateState) {
     if (self.options & CityPickerOptionGPS) {
         [self requestLocation];
     }
-    [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
-    [self.tableView reloadData];
     CKAsyncMainQueue(^{
         [self requestAreas];
     });
@@ -119,19 +118,43 @@ typedef NS_ENUM(NSInteger, LocateState) {
     [[[[op rac_postRequest] initially:^{
         
         @strongify(self);
-        [self.tableView.refreshView beginRefreshing];
+        if ([self.tableView isRefreshViewExists]) {
+            [self.tableView.refreshView beginRefreshing];
+        }
+        else {
+            self.containerView.hidden = YES;
+            [self.view hideDefaultEmptyView];
+            [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+        }
     }] finally:^{
       
         @strongify(self);
-        [self.tableView.refreshView endRefreshing];
+        [self.view stopActivityAnimation];
     }] subscribeNext:^(GetAreaByIdOp *op) {
         
         @strongify(self);
+        if ([self.tableView isRefreshViewExists]) {
+            [self.tableView.refreshView endRefreshing];
+        }
+        else {
+            self.containerView.hidden = NO;
+            [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
+        }
         self.areaList = op.rsp_areaArray;
         [self.tableView reloadData];
     } error:^(NSError *error) {
         
+        @strongify(self);
         [gToast showError:error.domain];
+        if ([self.tableView isRefreshViewExists]) {
+            [self.tableView.refreshView endRefreshing];
+            return;
+        }
+        [self.view showDefaultEmptyViewWithText:@"获取信息失败，点击重试" tapBlock:^{
+            @strongify(self);
+            [self requestAreas];
+        }];
+
     }];
 }
 #pragma mark - Utility

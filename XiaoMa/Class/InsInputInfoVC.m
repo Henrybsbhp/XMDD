@@ -323,7 +323,9 @@
     @weakify(self);
     [[[cityB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
+         
          @strongify(self);
+         [self.view endEditing:YES];
          CityPickerVC *vc = [CityPickerVC cityPickerVCWithOriginVC:self];
          vc.options = CityPickerOptionCity;
          InsuranceStore *store = [InsuranceStore fetchOrCreateStore];
@@ -347,6 +349,7 @@
      flattenMap:^RACStream *(id value) {
          
          @strongify(self);
+         [self.view endEditing:YES];
          return [self rac_pickDateWithNow:data.customInfo[@"date"]];
      }] subscribeNext:^(NSString *datetext) {
         
@@ -487,7 +490,6 @@
     [vc.view addSubview:imgv];
     imgv.autoresizingMask = UIViewAutoresizingFlexibleAll;
     imgv.image = [UIImage imageNamed:picname];
-
 }
 
 @end

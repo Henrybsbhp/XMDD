@@ -16,6 +16,8 @@
 @property (nonatomic,assign) double rsp_price;
 ///起保日期
 @property (nonatomic,strong) NSString* rsp_startdate;
+///交强险启保日期 DT10
+@property (nonatomic,strong) NSString* rsp_fstartdate;
 ///投保人
 @property (nonatomic,strong) NSString* rsp_ownername;
 ///保险公司图片

@@ -41,13 +41,8 @@
 #import "ValuationViewController.h"
 #import "InsuranceSelectViewController.h"
 
-
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3.0
-
-#import "SecondCarValuationVC.h"
-#import "CommitSuccessVC.h"
-#import "HistoryCollectionVC.h"
 
 @interface HomePageVC ()<UIScrollViewDelegate>
 @property (nonatomic, weak) IBOutlet UIView *bgView;

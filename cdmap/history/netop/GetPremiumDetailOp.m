@@ -24,6 +24,7 @@
     self.rsp_originprice = [dict[@"originprice"] doubleValue];
     self.rsp_price = [dict[@"price"] doubleValue];
     self.rsp_startdate = dict[@"startdate"];
+    self.rsp_fstartdate = dict[@"fstartdate"];
     self.rsp_ownername = dict[@"ownername"];
     self.rsp_inslogo = dict[@"inslogo"];
     self.rsp_inscompname = dict[@"inscompname"];

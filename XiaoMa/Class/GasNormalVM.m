@@ -142,7 +142,7 @@
     }
     NSString *row1 = self.curGasCard ? @"10001" : @"10002";
 //    NSArray *section2 = gPhoneHelper.exsitWechat ? @[@"20001",@"20002",@"20003",@"30001"] : @[@"20001",@"20003",@"30001"];
-    NSArray *section2 = @[@"20001"];
+    NSArray *section2 = @[@"20001",@"30001"];
     return @[@[row1,@"10003",@"10004"],section2];
 }
 

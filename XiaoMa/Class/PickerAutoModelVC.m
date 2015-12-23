@@ -25,6 +25,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        self.tableView.estimatedRowHeight = 44; //估算高度
+        self.tableView.rowHeight = UITableViewAutomaticDimension;
+    }
+    
     self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
     [self.loadingModel loadDataForTheFirstTime];
 }
@@ -77,6 +83,21 @@
     return 1;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        return UITableViewAutomaticDimension;
+    }
+    
+    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+    [cell layoutIfNeeded];
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
+    CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+    return ceil(size.height+1);
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.loadingModel.datasource.count;
@@ -84,10 +105,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     AutoDetailModel * model = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
     titleL.text = model.modelname;
+    if (!IOSVersionGreaterThanOrEqualTo(@"8.0")) {
+        titleL.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 24;
+    }
     
     if ([cell isKindOfClass:[JTTableViewCell class]]) {
         [(JTTableViewCell *)cell setHiddenTopSeparatorLine:YES];
