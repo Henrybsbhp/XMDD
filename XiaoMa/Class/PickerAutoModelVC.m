@@ -105,7 +105,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     AutoDetailModel * model = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
     titleL.text = model.modelname;
