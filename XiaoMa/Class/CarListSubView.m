@@ -199,7 +199,7 @@
     titleL.font = [UIFont systemFontOfSize:15];
     titleL.backgroundColor = [UIColor clearColor];
     titleL.textColor = HEXCOLOR(@"#555555");
-    [titleL setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    //[titleL setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
 
     UILabel *valueL = [[UILabel alloc] initWithFrame:CGRectZero];
     valueL.tag = tag*10+2;
@@ -207,6 +207,7 @@
     valueL.font = [UIFont systemFontOfSize:15];
     valueL.textAlignment = NSTextAlignmentRight;
     valueL.textColor = HEXCOLOR(@"#999999");
+    [valueL setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     
     [cell addSubview:titleL];
     [cell addSubview:valueL];
