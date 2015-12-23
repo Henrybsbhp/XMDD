@@ -16,6 +16,8 @@
 #import "MyCarStore.h"
 #import "CKStore.h"
 #import "EditCarVC.h"
+#import "UIView+DefaultEmptyView.h"
+#import "UIView+JTLoadingView.h"
 #define kWidth [UIScreen mainScreen].bounds.size.width
 #define kHeight [UIScreen mainScreen].bounds.size.height
 @interface CommissonOrderVC ()
@@ -94,16 +96,12 @@
     GetRescureDetailOp *op = [GetRescureDetailOp operation];
     op.rescueid = 4;
     op.type = [NSNumber numberWithInteger:1];
-    @weakify(self)
     [[[[op rac_postRequest] initially:^{
-        
+        [self.view hideDefaultEmptyView];
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] finally:^{
-        
-        
+        [self.view stopActivityAnimation];
     }] subscribeNext:^(GetRescureDetailOp *op) {
-        @strongify(self)
-        [gToast dismiss];
-        
         NSString *lastStr;
         for (NSString *testStr in op.rescueDetailArray) {
             lastStr = [testStr stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
@@ -114,7 +112,11 @@
         [self.dataSourceArray safetyReplaceObjectAtIndex:0 withObject:string];
         [self.tableView reloadData];
     } error:^(NSError *error) {
-        [gToast showError:kDefErrorPormpt];
+        if (self.dataSourceArray.count == 0) {
+            [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
+                [self actionNetwork];
+            }];
+        }
     }] ;
     
 }
