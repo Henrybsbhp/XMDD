@@ -561,15 +561,15 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Fail" id="wXA-pL-DYK">
-                                        <rect key="frame" x="0.0" y="280.5" width="600" height="148"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Fail" rowHeight="190" id="wXA-pL-DYK">
+                                        <rect key="frame" x="0.0" y="280.5" width="600" height="190"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wXA-pL-DYK" id="NjP-sF-Noa">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="148"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="190"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qGA-hw-Lh9">
-                                                    <rect key="frame" x="10" y="0.0" width="580" height="148"/>
+                                                    <rect key="frame" x="10" y="0.0" width="580" height="190"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bZq-xi-oNM">
                                                             <rect key="frame" x="1" y="0.0" width="578" height="44"/>
@@ -640,30 +640,59 @@
                                                             </constraints>
                                                         </view>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GMN-pT-DHs">
-                                                            <rect key="frame" x="0.0" y="94" width="580" height="54"/>
+                                                            <rect key="frame" x="0.0" y="94" width="580" height="96"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="3001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gmW-8h-PuH">
-                                                                    <rect key="frame" x="14" y="2" width="552" height="50"/>
+                                                                    <rect key="frame" x="14" y="8" width="552" height="60"/>
                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="20" id="KpN-BP-6Pk"/>
+                                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="TK4-c5-Vy3"/>
+                                                                    </constraints>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                     <color key="textColor" red="0.53333333333333333" green="0.53333333333333333" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
+                                                                    <variation key="default">
+                                                                        <mask key="constraints">
+                                                                            <exclude reference="KpN-BP-6Pk"/>
+                                                                        </mask>
+                                                                    </variation>
                                                                 </label>
                                                                 <button opaque="NO" tag="3002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wOq-OD-mlE">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="580" height="54"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="580" height="96"/>
                                                                 </button>
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="3003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="详情&gt;" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dEP-Iq-cMQ">
+                                                                    <rect key="frame" x="14" y="70" width="552" height="20"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="20" id="Wxe-8V-1Oj"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                    <color key="textColor" red="0.12549019610000001" green="0.6705882353" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
                                                             </subviews>
                                                             <color key="backgroundColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
+                                                                <constraint firstAttribute="trailing" secondItem="dEP-Iq-cMQ" secondAttribute="trailing" constant="14" id="0yM-lw-mCa"/>
+                                                                <constraint firstItem="dEP-Iq-cMQ" firstAttribute="leading" secondItem="GMN-pT-DHs" secondAttribute="leading" constant="14" id="6vt-lW-KeU"/>
                                                                 <constraint firstAttribute="bottom" secondItem="wOq-OD-mlE" secondAttribute="bottom" id="HNS-qV-Kls"/>
                                                                 <constraint firstItem="wOq-OD-mlE" firstAttribute="top" secondItem="GMN-pT-DHs" secondAttribute="top" id="J6G-Gb-SC5"/>
+                                                                <constraint firstItem="dEP-Iq-cMQ" firstAttribute="top" secondItem="gmW-8h-PuH" secondAttribute="bottom" constant="2" id="KfH-WN-FYn"/>
                                                                 <constraint firstItem="wOq-OD-mlE" firstAttribute="leading" secondItem="GMN-pT-DHs" secondAttribute="leading" id="Lra-CE-XRq"/>
                                                                 <constraint firstAttribute="trailing" secondItem="gmW-8h-PuH" secondAttribute="trailing" constant="14" id="MNG-pp-avd"/>
                                                                 <constraint firstAttribute="bottom" secondItem="gmW-8h-PuH" secondAttribute="bottom" constant="2" id="MNy-ld-1Nm"/>
-                                                                <constraint firstItem="gmW-8h-PuH" firstAttribute="top" secondItem="GMN-pT-DHs" secondAttribute="top" constant="2" id="Neg-M5-Whg"/>
+                                                                <constraint firstItem="gmW-8h-PuH" firstAttribute="top" secondItem="GMN-pT-DHs" secondAttribute="top" constant="8" id="Neg-M5-Whg"/>
                                                                 <constraint firstAttribute="trailing" secondItem="wOq-OD-mlE" secondAttribute="trailing" id="S9I-lG-ePo"/>
                                                                 <constraint firstItem="gmW-8h-PuH" firstAttribute="leading" secondItem="GMN-pT-DHs" secondAttribute="leading" constant="14" id="aU6-si-XAw"/>
+                                                                <constraint firstItem="dEP-Iq-cMQ" firstAttribute="top" secondItem="gmW-8h-PuH" secondAttribute="bottom" priority="750" constant="2" id="puE-3b-kQ1"/>
+                                                                <constraint firstAttribute="bottom" secondItem="dEP-Iq-cMQ" secondAttribute="bottom" constant="6" id="rea-M3-Cnk"/>
                                                             </constraints>
+                                                            <variation key="default">
+                                                                <mask key="constraints">
+                                                                    <exclude reference="MNy-ld-1Nm"/>
+                                                                    <exclude reference="KfH-WN-FYn"/>
+                                                                </mask>
+                                                            </variation>
                                                         </view>
                                                         <view tag="10001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lb1-do-kdu" customClass="CKLine">
                                                             <rect key="frame" x="0.0" y="0.0" width="580" height="1"/>
@@ -673,7 +702,7 @@
                                                             </constraints>
                                                         </view>
                                                         <view tag="10002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sTK-28-mcc" customClass="CKLine">
-                                                            <rect key="frame" x="0.0" y="0.0" width="1" height="148"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="1" height="190"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="1" id="6dz-l7-ZBl"/>
@@ -686,7 +715,7 @@
                                                             </variation>
                                                         </view>
                                                         <view tag="10003" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tfl-jB-8K6" customClass="CKLine">
-                                                            <rect key="frame" x="579" y="0.0" width="1" height="148"/>
+                                                            <rect key="frame" x="579" y="0.0" width="1" height="190"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="1" id="9OJ-bJ-wl2"/>
@@ -706,7 +735,7 @@
                                                             </constraints>
                                                         </view>
                                                         <view tag="10006" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3ot-xA-phk" customClass="CKLine">
-                                                            <rect key="frame" x="0.0" y="147" width="580" height="1"/>
+                                                            <rect key="frame" x="0.0" y="189" width="580" height="1"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="1" id="d9C-fh-AtK"/>

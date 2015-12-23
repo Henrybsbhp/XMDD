@@ -16,6 +16,7 @@
     component.province = otherComponent.province;
     component.city = otherComponent.city;
     component.district = otherComponent.district;
+    component.streetNumber = otherComponent.streetNumber;
     return component;
 }
 

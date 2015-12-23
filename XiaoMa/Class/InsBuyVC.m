@@ -166,7 +166,6 @@
             [gToast dismiss];
             PayForInsuranceVC *vc = [UIStoryboard vcWithId:@"PayForInsuranceVC" inStoryboard:@"Insurance"];
             vc.insModel = [self.insModel copy];
-            vc.insModel.originVC = self;
             vc.insOrder = op.rsp_order;
             [self.navigationController pushViewController:vc animated:YES];
         } error:^(NSError *error) {

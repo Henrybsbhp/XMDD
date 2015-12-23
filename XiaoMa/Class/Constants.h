@@ -36,6 +36,9 @@ typedef enum : NSUInteger {
 //1-首页广告
 //2-洗车广告
 //3-银行卡绑定页广告
+//6-拖车广告
+//7-泵电广告
+//8-换胎广告
 //4-加油广告
 //10-APP滑动广告
 //11-保险广告
@@ -46,11 +49,14 @@ typedef enum : NSUInteger {
     AdvertisementCarWash = 2,
     AdvertisementBankCardBinding = 3,
     AdvertisementGas = 4,
+    AdvertisementTrailer = 6,
+    AdvertisementTrailerPumpPower = 7,
+    AdvertisementTrailerPumpPowerChangeTheTire = 8,
     AdvertisementAppSlide = 10,
     AdvertisementInsurance = 11,
     AdvertisementValuation = 12,
     AdvertisementTypeActivities = 20,
-    AdvertisementTypeLaunch = 30
+    AdvertisementTypeLeaunch = 30
 } AdvertisementType;
 
 ///分享页面类型

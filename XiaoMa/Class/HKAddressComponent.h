@@ -17,5 +17,5 @@
 @property (nonatomic, strong) NSString *province;
 @property (nonatomic, strong) NSString *city;
 @property (nonatomic, strong) NSString *district;
-
+@property (nonatomic, strong) AMapStreetNumber *streetNumber;
 @end
