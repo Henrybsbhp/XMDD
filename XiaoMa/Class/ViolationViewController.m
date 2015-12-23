@@ -9,15 +9,21 @@
 #import "ViolationViewController.h"
 #import "ViolationItemViewController.h"
 #import "MyCarStore.h"
+#import "MyUIPageControl.h"
 
 
 @interface ViolationViewController ()<UIScrollViewDelegate>
 
+
+@property (weak, nonatomic) IBOutlet UIView *headView;
+@property (strong,nonatomic)MyUIPageControl * pageController;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (nonatomic,strong)NSArray * datasource;
 @property (nonatomic,strong) MyCarStore *carStore;
 
 @property (nonatomic)BOOL isloading;
+
+@property (nonatomic)NSInteger currentIndex;
 
 /// 用于自动跳转到新添加或默认的爱车页面
 @property (nonatomic,strong)HKMyCar * defaultSelectCar;
@@ -37,6 +43,7 @@
     [self setupNavigation];
     CKAsyncMainQueue(^{
         
+        [self setupPageController];
         [self setupScrollView];
     });
     
@@ -79,11 +86,41 @@
     }];
 }
 
+- (void)setupPageController
+{
+    NSInteger total = self.datasource.count + (self.datasource.count < 5 ? 1 : 0);
+    NSInteger current = self.currentIndex;
+    
+    if (!self.pageController)
+    {
+        self.pageController = [[MyUIPageControl alloc] init];
+    }
+    self.pageController.numberOfPages = total;
+    self.pageController.currentPage = current;
+    self.pageController.hidden = total <= 1;
+    
+    [self.pageController removeFromSuperview];
+    
+    UIView * headView = self.headView;
+    self.pageController.center = headView.center;
+    [headView addSubview:self.pageController];
+}
+
+- (void)refreshPageController
+{
+    NSInteger total = self.datasource.count + (self.datasource.count < 5 ? 1 : 0);
+    NSInteger current = self.currentIndex;
+    self.pageController.numberOfPages = total;
+    self.pageController.currentPage = current;
+    self.pageController.hidden = total <= 1;
+}
+
 - (void)setupScrollView
 {
+    self.view.backgroundColor = [UIColor colorWithHex:@"#f4f4f4" alpha:1.0f];
     self.scrollView.directionalLockEnabled = YES;
     self.scrollView.delegate = self;
-    self.scrollView.backgroundColor = [UIColor colorWithHex:@"#f4f4f4" alpha:1.0f];
+    self.scrollView.backgroundColor = [UIColor clearColor];
 
     @weakify(self);
     [self.scrollView mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -117,6 +154,8 @@
         if (index == NSNotFound) {
             index = 0;
         }
+    
+    self.currentIndex = index;
         [self loadPageIndex:index animated:NO];
 //    });
 }
@@ -142,6 +181,7 @@
     [itemVc.view setFrame:CGRectMake(x, 0, w, h)];
     [self addChildViewController:itemVc];
     [itemVc didMoveToParentViewController:self];
+    
     [self.scrollView addSubview:itemVc.view];
 }
 
@@ -153,6 +193,8 @@
     frame.origin.y = 0;
     
     [self.scrollView scrollRectToVisible:frame animated:animated];
+    
+    [self refreshPageController];
 }
 
 - (void)reloadDataWithEvent:(HKStoreEvent *)evt
@@ -181,9 +223,11 @@
             car = defCar;
         }
         
+        
         self.datasource = [self.carStore.cache allObjects];
         self.defaultSelectCar  = car;
         [self refreshScrollView];
+        [self setupPageController];
     } error:^(NSError *error) {
         
         @strongify(self);
@@ -197,12 +241,22 @@
 }
 
 #pragma mark - UIScrollViewDelegate
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+
+}
+
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
+    
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
+    CGFloat w = CGRectGetWidth(self.view.frame);
+    NSInteger index = scrollView.contentOffset.x / w;
+    self.currentIndex = index;
+    [self refreshPageController];
 }
 
 

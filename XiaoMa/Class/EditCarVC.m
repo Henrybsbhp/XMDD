@@ -23,6 +23,7 @@
 #import "CKLimitTextField.h"
 #import "HKTableViewCell.h"
 #import "AreaTablePickerVC.h"
+#import "CarIDCodeCheckModel.h"
 
 @interface EditCarVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -301,6 +302,15 @@
             field.text = [field.text uppercaseString];
             self.curCar.classno = field.text;
         }];
+    } copy];
+    cell2_2.customInfo[@"inspector"] = [^BOOL(NSIndexPath *indexPath) {
+        @strongify(self);
+        
+        if (self.curCar.classno.length && ![CarIDCodeCheckModel carIDCheckWithCodeStr:self.curCar.classno]) {
+            [self showErrorAtIndexPath:indexPath errorMsg:@"请输入正确的车架号"];
+            return NO;
+        }
+        return YES;
     } copy];
     
     cell2_2.customInfo[@"howAction"] = [^(void){

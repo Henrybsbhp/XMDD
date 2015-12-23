@@ -70,21 +70,6 @@
 #pragma mark -  Utility
 - (void)setupUI
 {
-    NSInteger total = self.carArray.count + (self.carArray.count < 5 ? 1 : 0);
-    NSInteger current = self.car ? [self.carArray indexOfObject:self.car] : self.carArray.count;
-
-    if (!self.pageController)
-    {
-        self.pageController = [[MyUIPageControl alloc] init];
-    }
-    self.pageController.numberOfPages = total;
-    self.pageController.currentPage = current;
-    self.pageController.hidden = total <= 1;
-    
-    UIView * headView = self.tableView.tableHeaderView;
-    self.pageController.center = headView.center;
-    [headView addSubview:self.pageController];
-    
     /// 旋转动画
     CABasicAnimation* rotationAnimation;
     rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
@@ -94,6 +79,13 @@
     rotationAnimation.cumulative = NO;
     
     self.animation = rotationAnimation;
+    
+    
+    CGFloat inset = self.carArray.count ? 30 : 10;
+    self.tableView.contentInset = UIEdgeInsetsMake(inset, 0, 0, 0);
+    [self.tableView setContentOffset:CGPointMake(0, -inset) animated:YES];
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor clearColor];
 }
 
 
@@ -224,6 +216,7 @@
 #pragma mark - Utility
 - (void)queryAction
 {
+    
     if (self.model.cityInfo.cityCode.length <=  0)
     {
         [self.cityBtn.superview.subviews makeObjectsPerformSelector:@selector(shake)];
