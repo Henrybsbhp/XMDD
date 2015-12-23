@@ -13,6 +13,7 @@
 #import "SocialShareViewController.h"
 #import "ShareResponeManager.h"
 #import "SecondCarValuationVC.h"
+#import "GetCityInfoByNameOp.h"
 
 @interface ValuationResultVC ()
 
@@ -197,7 +198,7 @@
     else {
         imgStr = @"val_location";
         titleL.text = @"估值城市";
-        contentL.text = self.cityStr;
+        contentL.text = [NSString stringWithFormat:@"%@/%@", self.provinceName, self.cityName];
     }
     imgV.image = [UIImage imageNamed:imgStr];
     return cell;
@@ -245,12 +246,28 @@
 
 - (IBAction)carSallAction:(id)sender {
     
-    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        SecondCarValuationVC * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"SecondCarValuationVC"];
-        vc.carid = self.carId;
-        vc.sellercityid = self.cityId;
-        [self.navigationController pushViewController:vc animated:YES];
-    }
+    GetCityInfoByNameOp * op = [GetCityInfoByNameOp operation];
+    op.province = self.provinceName;
+    op.city = self.cityName;
+    [[op rac_postRequest] subscribeNext:^(GetCityInfoByNameOp * op) {
+        if (op.rsp_sellerCityId == 0) {
+            UIAlertView * alertView = [[UIAlertView alloc] init];
+            alertView.title = @"提示";
+            alertView.message = @"抱歉，您所在的城市未开通此项服务，敬请期待";
+            [alertView addButtonWithTitle:@"知道了"];
+            [alertView show];
+        }
+        else {
+            SecondCarValuationVC * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"SecondCarValuationVC"];
+            vc.carid = self.carId;
+            vc.sellercityid = op.rsp_sellerCityId;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    } error:^(NSError *error) {
+        [gToast showError:error.domain];
+    }];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {

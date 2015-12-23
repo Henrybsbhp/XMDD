@@ -291,6 +291,7 @@
         
         HKSubscriptInputField * milesField = [view viewWithTag:201];
         milesField.inputField.delegate = self;
+        [milesField.inputField addDoneOnKeyboardWithTarget:self action:@selector(finishInputAction) shouldShowPlaceholder:YES];
         
         //车系选择
         HKSubscriptInputField * modelField = [view viewWithTag:202];
@@ -351,11 +352,18 @@
         @weakify(self);
         [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * districtModel) {
             @strongify(self);
+            self.locationData.province = provinceModel.infoName;
+            self.locationData.city = cityModel.infoName;
             self.locationLabel.text = [NSString stringWithFormat:@"%@/%@", provinceModel.infoName, cityModel.infoName];
             self.cityId = [NSNumber numberWithInteger:cityModel.infoId];
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+- (void)finishInputAction
+{
+    [self.view endEditing:YES];
 }
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
@@ -385,9 +393,15 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField{
-    textField.text = [NSString formatForPrice:[textField.text floatValue]];
-    self.miles = [textField.text floatValue];
-
+    if (textField.text.length > 7) {
+        textField.text = @"";
+        [gToast showText:@"请输入正确的行驶里程"];
+    }
+    else {
+        textField.text = [NSString formatForPrice:[textField.text floatValue]];
+        self.miles = [textField.text floatValue];
+        self.selectCar.odo = self.miles * 10000;
+    }
     
     if (self.advc.adList.count != 0) {
         [UIView animateWithDuration:0.3 animations:^{
@@ -449,9 +463,9 @@
         ValuationResultVC * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"ValuationResultVC"];
         vc.evaluateOp = op;
         vc.logoUrl = self.selectCar.brandLogo;
-        vc.cityStr = self.locationLabel.text;
         vc.carId = self.selectCar.carId;
-        vc.cityId = self.cityId;
+        vc.provinceName = self.locationData.province;
+        vc.cityName = self.locationData.city;
         vc.modelStr = self.modelStr;
         [self.navigationController pushViewController:vc animated:YES];
         
