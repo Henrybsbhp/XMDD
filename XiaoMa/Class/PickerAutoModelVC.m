@@ -83,7 +83,7 @@
     return 1;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
     {
@@ -105,7 +105,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     AutoDetailModel * model = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
     titleL.text = model.modelname;
