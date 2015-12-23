@@ -17,6 +17,7 @@
 #import "CommissionViewController.h"
 #import "GetShareButtonOp.h"
 #import "ShareResponeManager.h"
+#import "GasVC.h"
 
 @interface CouponDetailsVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -100,14 +101,14 @@
             self.shortUseBtn.hidden = YES;
             self.shareBtn.hidden = YES;
             self.longUseBtn.hidden = NO;
+            [self.longUseBtn setCornerRadius:5.0f];
             @weakify(self);
             [[self.longUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 
                 @strongify(self);
                 //加油券去使用
-//                CommissionViewController *cvc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionViewController"];
-//                cvc.url = kAgencyUrl;
-//                [self.navigationController pushViewController:cvc animated:YES];
+                GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
+                [self.navigationController pushViewController:vc animated:YES];
             }];
         }
         else if (self.newType == CouponNewTypeInsurance){
