@@ -120,10 +120,15 @@
     }] subscribeError:^(NSError *error) {
         
         @strongify(self);
-        [self.view showDefaultEmptyViewWithText:@"获取信息失败，点击重试" tapBlock:^{
-            //重新发送事件
-            [event send];
-        }];
+        if ([self.tableView isRefreshViewExists]) {
+            [gToast showError:error.domain];
+        }
+        else {
+            [self.view showDefaultEmptyViewWithText:@"获取信息失败，点击重试" tapBlock:^{
+                //重新发送事件
+                [event send];
+            }];
+        }
     } completed:^{
        
         @strongify(self);
