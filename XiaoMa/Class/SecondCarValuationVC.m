@@ -11,7 +11,7 @@
 #import "SecondCarValuationUploadOp.h"
 #import "CommitSuccessVC.h"
 #import <IQKeyboardManager.h>
-
+#import "WebVC.h"
 @interface SecondCarValuationVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 //底部提交按钮
 @property (strong, nonatomic) IBOutlet UIButton *commitBtn;
@@ -64,10 +64,6 @@
     
     [self reloadCellTwoData];
     
-    [RACObserve(gAppMgr.myUser, phoneNumber) subscribeNext:^(NSString * x) {
-        NSString *phone=(NSString *)x;
-        self.phoneNumber=phone;
-    }];
     [self setupUI];
 }
 
@@ -177,7 +173,7 @@
     couponMoneyLabel.layer.masksToBounds = YES;
     NSDictionary *dataModel = [self.dataArr safetyObjectAtIndex:indexPath.row];
     channelNameLabel.text=[NSString stringWithFormat:@"平台名称：%@",dataModel[@"channelname"]];
-    couponMoneyLabel.text=[NSString stringWithFormat:@" 返现：%@ ",dataModel[@"couponmoney"]];
+    couponMoneyLabel.text=[NSString stringWithFormat:@" %@ ",dataModel[@"couponmoney"]];
     characterLabel.text=[NSString stringWithFormat:@"平台特点：%@",dataModel[@"character"]];
     userCNTInfoLabel.text=[NSString stringWithFormat:@"用户数量：%@",dataModel[@"usercntinfo"]];
     return cell;
@@ -197,7 +193,7 @@
         self.phoneNumber = phoneNumber.text;
     }];
     
-    [[RACObserve(gAppMgr.myUser, phoneNumber) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+    [[RACObserve(gAppMgr.myUser, userID) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
        
         self.phoneNumber = x;
         phoneNumber.text = (NSString *)x;
@@ -221,6 +217,7 @@
         }];
         UILabel *label = [UILabel new];
         label.text = @"估值及二手车交易服务由小马达达战略合作伙伴“车300”提供";
+//        label.text = self.tip;
         label.textColor = [UIColor grayColor];
         label.numberOfLines = 0;
         label.font = [UIFont systemFontOfSize:13];
@@ -358,6 +355,13 @@
 
 #pragma mark Action
 
+- (IBAction)helpBtnClick:(id)sender
+{
+    WebVC *webVC=[UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
+    webVC.url=@"http://www.xiaomadada.com/apphtml/second-hand-car-help.html";
+    [self.navigationController pushViewController:webVC animated:YES];
+    
+}
 
 - (IBAction)commitDataArr:(id)sender
 {
@@ -381,7 +385,7 @@
         uploadOp.req_contatName = self.name;
         uploadOp.req_contatPhone = self.phoneNumber;
         uploadOp.req_channelEngs = @"";
-        uploadOp.req_cityid = self.sellercityid;
+        uploadOp.req_sellercityid = @(12);//self.sellercityid;
         NSMutableArray *tempString = [NSMutableArray new];
         for (NSDictionary *dic in self.uploadArr)
         {
@@ -406,10 +410,6 @@
     }
 }
 
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    [self.view resignFirstResponder];
-}
 
 #pragma mark LazyLoad
 

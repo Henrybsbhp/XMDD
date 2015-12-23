@@ -27,8 +27,7 @@
     
     [self setupUI];
     
-    self.tipLabel.text=self.tip;
-    
+    self.tipLabel.text=@"您的信息已成功提交，客服将在24小时内与您取得联系，请保持手机畅通";
 }
 
 
@@ -36,7 +35,7 @@
 {
     [self.shareBtn makeCornerRadius:5.0f];
     
-    self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cm_nav_back"] style:UIBarButtonItemStylePlain target:self action:@selector(backToHomePage)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cm_nav_back"] style:UIBarButtonItemStylePlain target:self action:@selector(backToHomePage)];
     
     
 }
@@ -44,7 +43,8 @@
 
 - (void)backToHomePage
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    NSArray *viewControllers = self.navigationController.viewControllers;
+    [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -62,11 +62,11 @@
     SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
     vc.sceneType = ShareSceneLocalShare;
     vc.btnTypeArr = @[@1, @2, @3, @4];
-    vc.tt = @"小马达达 —— 一分钱洗车";
-    vc.subtitle = @"我正在使用1分钱洗车，洗车超便宜，你也来试试吧！";
+//    vc.tt = @"小马达达 —— 一分钱洗车";
+//    vc.subtitle = @"我正在使用1分钱洗车，洗车超便宜，你也来试试吧！";
     vc.image = [UIImage imageNamed:@"wechat_share_carwash"];
     vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
-    vc.urlStr = kAppShareUrl;
+//    vc.urlStr = kAppShareUrl;
     
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
     sheet.shouldCenterVertically = YES;
