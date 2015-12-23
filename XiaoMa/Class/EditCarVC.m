@@ -218,6 +218,7 @@
         [vc setCompleted:^(AutoBrandModel *brand, AutoSeriesModel *series, AutoDetailModel *model) {
             self.curCar.brandid = brand.brandid;
             self.curCar.brand = brand.brandname;
+            self.curCar.brandLogo = brand.brandLogo;
             self.curCar.seriesModel = series;
             self.curCar.detailModel = model;
         }];
