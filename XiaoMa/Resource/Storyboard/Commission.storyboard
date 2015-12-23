@@ -736,7 +736,7 @@
                                         </tableViewCellContentView>
                                         <animations/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CommissonConfirmVC3" rowHeight="56" id="lu9-rQ-Pip">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="CommissonConfirmVC3" rowHeight="56" id="lu9-rQ-Pip">
                                         <rect key="frame" x="0.0" y="78" width="600" height="56"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lu9-rQ-Pip" id="2tg-PP-BUB">
