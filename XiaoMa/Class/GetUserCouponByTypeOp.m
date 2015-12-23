@@ -16,7 +16,9 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:@(self.type) forName:@"coupontype"];
-    
+    if (self.type == 5) {
+        [params addParam:@(self.rescueId) forName:@"rescueid"];
+    }
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 

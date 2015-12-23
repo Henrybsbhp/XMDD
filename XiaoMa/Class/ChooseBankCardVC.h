@@ -7,8 +7,9 @@
 //
 
 #import "MyBankVC.h"
-
+@class HKMyCar;
 @interface ChooseBankCardVC : UIViewController
+@property (nonatomic, strong) HKMyCar * defaultCar;
 
 @property (nonatomic, strong) JTShopService *service;
 @property (nonatomic, strong) NSArray *bankCards;
