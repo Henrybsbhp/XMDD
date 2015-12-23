@@ -156,6 +156,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView ProcessCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProcessCell"];
+    [cell layoutIfNeeded];
     return cell;
 }
 
@@ -176,6 +177,7 @@
     couponMoneyLabel.text=[NSString stringWithFormat:@" %@ ",dataModel[@"couponmoney"]];
     characterLabel.text=[NSString stringWithFormat:@"平台特点：%@",dataModel[@"character"]];
     userCNTInfoLabel.text=[NSString stringWithFormat:@"用户数量：%@",dataModel[@"usercntinfo"]];
+   
     return cell;
 }
 

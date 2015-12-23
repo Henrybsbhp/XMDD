@@ -22,12 +22,23 @@
 
 @implementation CommitSuccessVC
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setupUI];
-    
     self.tipLabel.text=@"您的信息已成功提交，客服将在24小时内与您取得联系，请保持手机畅通";
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
 }
 
 

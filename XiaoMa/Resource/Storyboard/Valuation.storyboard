@@ -1234,14 +1234,14 @@
                                 <rect key="frame" x="0.0" y="486" width="600" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bjq-aS-qga">
-                                        <rect key="frame" x="5" y="10" width="90" height="30"/>
+                                        <rect key="frame" x="20" y="10" width="36" height="30"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="70" id="nHJ-pm-5xB"/>
                                         </constraints>
-                                        <state key="normal" title=" 全选       " image="unselected">
-                                            <color key="titleColor" red="0.08235294118" green="0.61568627450000002" blue="0.0078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="清空">
+                                            <color key="titleColor" red="0.90588235294117647" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
-                                        <state key="selected" image="selected"/>
                                         <variation key="default">
                                             <mask key="constraints">
                                                 <exclude reference="nHJ-pm-5xB"/>
@@ -1269,7 +1269,7 @@
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="daU-tZ-XKe" secondAttribute="bottom" constant="8" id="0D4-aA-rpe"/>
                                     <constraint firstAttribute="bottom" secondItem="Bjq-aS-qga" secondAttribute="bottom" constant="10" id="Fr3-MY-t6g"/>
-                                    <constraint firstItem="Bjq-aS-qga" firstAttribute="leading" secondItem="vyI-Lb-sNq" secondAttribute="leading" constant="5" id="G8M-md-ugq"/>
+                                    <constraint firstItem="Bjq-aS-qga" firstAttribute="leading" secondItem="vyI-Lb-sNq" secondAttribute="leading" constant="20" id="G8M-md-ugq"/>
                                     <constraint firstItem="daU-tZ-XKe" firstAttribute="top" secondItem="vyI-Lb-sNq" secondAttribute="top" constant="8" id="IlN-sd-Tsy"/>
                                     <constraint firstAttribute="height" constant="50" id="Rpc-EY-ymc"/>
                                     <constraint firstItem="Bjq-aS-qga" firstAttribute="top" secondItem="vyI-Lb-sNq" secondAttribute="top" constant="10" id="cMf-ZK-WlH"/>
