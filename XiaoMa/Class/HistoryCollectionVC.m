@@ -97,8 +97,8 @@
     UILabel *evaluateZone = (UILabel *)[cell searchViewWithTag:1006];
     licenseNo.text = model[@"licenseNo"];
     modelName.text = model[@"modelname"];
-    mile.text = [NSString stringWithFormat:@"%@万公里",model[@"mile"]];
-    price.text=[NSString stringWithFormat:@"%@万元",model[@"price"]];
+    mile.text = [NSString stringWithFormat:@"%@万公里",[NSString formatForPrice:[model floatParamForName:@"mile"]]];
+    price.text=[NSString stringWithFormat:@"%@万元",[NSString formatForPrice:[model floatParamForName:@"price"]]];
     evaluateTime.text = [NSString stringWithFormat:@"%@",[[NSDate dateWithUTS:model[@"evaluatetime"]]dateFormatForYYYYMMddHHmm]];
     evaluateZone.text = model[@"evaluatezone"];
     [imgView setImageByUrl:model[@"logo"] withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
@@ -328,7 +328,7 @@
         [self reloadData];
     } error:^(NSError *error) {
         @strongify(self);
-        [self.view showDefaultEmptyViewWithText:@"网络请求失败，请点击屏幕重试" tapBlock:^{
+        [self.view showDefaultEmptyViewWithText:@"估值记录获取失败，请点击屏幕重试" tapBlock:^{
             @strongify(self);
             [self getDataArr];
         }];
