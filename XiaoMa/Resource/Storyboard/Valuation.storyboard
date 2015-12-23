@@ -1121,6 +1121,9 @@
                     <navigationItem key="navigationItem" title="二手车交易" id="EIW-ct-pbY">
                         <barButtonItem key="rightBarButtonItem" title="使用帮助" id="ewn-vM-BZb">
                             <color key="tintColor" red="0.08235294118" green="0.61568627450000002" blue="0.0078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="helpBtnClick:" destination="Dp0-na-Y8l" id="f3C-fS-20Q"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>

@@ -11,6 +11,7 @@
 #import "HistoryDeleteOp.h"
 #import "NSDate+DateForText.h"
 #import "UIImageView+WebImage.h"
+#import "NSString+Price.h"
 
 @interface HistoryCollectionVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UIView *bottomView;
@@ -120,8 +121,8 @@
     
     licenseNo.text = model[@"licenseNo"];
     modelName.text = model[@"modelname"];
-    mile.text=[NSString stringWithFormat:@"%@万公里",model[@"mile"]];
-    price.text=[NSString stringWithFormat:@"%@万元",model[@"price"]];
+    mile.text = [NSString stringWithFormat:@"%@万公里",[NSString formatForPrice:[model floatParamForName:@"mile"]]];
+    price.text=[NSString stringWithFormat:@"%@万元",[NSString formatForPrice:[model floatParamForName:@"price"]]];
     evaluateTime.text = [NSString stringWithFormat:@"%@",[[NSDate dateWithUTS:model[@"evaluatetime"]]dateFormatForYYYYMMddHHmm]];
     evaluateZone.text = model[@"evaluatezone"];
     @weakify(self);
