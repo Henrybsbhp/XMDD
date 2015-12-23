@@ -92,7 +92,6 @@
     [self setupScrollView];
     [self setupWeatherView];
     
-    NSLog(@"home page :%@",NSStringFromCGSize(self.scrollView.contentSize));
     
     [self.scrollView.refreshView addTarget:self action:@selector(reloadDatasource) forControlEvents:UIControlEventValueChanged];
     CKAsyncMainQueue(^{

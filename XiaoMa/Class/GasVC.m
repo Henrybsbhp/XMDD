@@ -286,7 +286,7 @@
         [self.backgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(headerView.mas_left);
             make.right.mas_equalTo(headerView.mas_right);
-            make.bottom.mas_equalTo(headerView.mas_bottom).offset(-40);
+            make.bottom.mas_equalTo(headerView.mas_bottom).offset(-44);
             make.height.mas_equalTo(28);
         }];
         
