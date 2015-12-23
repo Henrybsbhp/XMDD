@@ -25,6 +25,7 @@
 @property (nonatomic, weak) IBOutlet UIView *containerView;
 @property (strong, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic, strong) NSMutableArray *datasource;
+@property (nonatomic, strong) NSString *headerTip;
 
 @end
 
@@ -33,7 +34,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self setupHeaderView];
     if (self.premiumList.count == 0) {
         [self requestPremiums];
     }
@@ -47,12 +47,13 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setupHeaderView
+- (void)reloadHeaderView
 {
     UILabel *titleL = [self.headerView viewWithTag:1001];
     CKLine *line = [self.headerView viewWithTag:1002];
     line.lineAlignment = CKLineAlignmentHorizontalBottom;
-    titleL.text = @"如有任何疑问，可拨打4007-111-111咨询。";
+    [line layoutIfNeeded];
+    titleL.text = self.headerTip.length > 0 ? self.headerTip : @"如有任何疑问，可拨打4007-111-111咨询。";
 }
 
 #pragma Datasource
@@ -67,11 +68,14 @@
         self.containerView.hidden = YES;
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-    }] subscribeNext:^(id x) {
+    }] subscribeNext:^(GetPremiumByIdOp *op) {
         
         @strongify(self);
         [self.view stopActivityAnimation];
         self.containerView.hidden = NO;
+        self.premiumList = op.rsp_premiumlist;
+        self.headerTip = op.rsp_tip;
+        [self reloadData];
     } error:^(NSError *error) {
         
         @strongify(self);
@@ -85,6 +89,8 @@
 
 - (void)reloadData
 {
+    [self reloadHeaderView];
+    
     NSMutableArray *datasource = [NSMutableArray array];
     for (int i = 0; i < self.premiumList.count; i++) {
         NSMutableArray *rows = [NSMutableArray array];
@@ -323,7 +329,18 @@
     line2.lineAlignment = CKLineAlignmentVerticalRight;
     line3.lineAlignment = CKLineAlignmentHorizontalBottom;
     couponV.buttonHeight = 25;
-    couponV.coupons = premium.couponlist;
+    couponV.coupons = [premium.couponlist arrayByMapFilteringOperator:^id(NSDictionary *dict) {
+        NSString *name = dict[@"name"];
+        NSString *desc = dict[@"desc"];
+        name.customObject = desc;
+        return name;
+    }];
+    
+    @weakify(self);
+    [couponV setButtonClickBlock:^(NSString *name) {
+        @strongify(self);
+        [InsAlertVC showInView:self.navigationController.view withMessage:name.customObject];
+    }];
 }
 
 - (void)resetFailCell:(UITableViewCell *)cell forData:(HKCellData *)data

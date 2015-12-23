@@ -158,6 +158,7 @@
      flattenMap:^RACStream *(id value) {
         
          @strongify(self);
+         [self.view endEditing:YES];
          return [self rac_pickDateWithNow:self.appointInfo.req_startdate];
     }] subscribeNext:^(NSString *datetext) {
       
@@ -173,6 +174,7 @@
      flattenMap:^RACStream *(id value) {
          
         @strongify(self);
+        [self.view endEditing:YES];
         return [self rac_pickDateWithNow:self.appointInfo.req_forcestartdate];
     }] subscribeNext:^(NSString *datetext) {
         

@@ -37,8 +37,10 @@ typedef enum : NSUInteger {
 //车牌号码
 @property (nonatomic, strong) NSString *licencenumber;
 @property (nonatomic, strong) HKInsurance *policy;
-// 保险有效期
+// 商业险险有效期
 @property (nonatomic, strong) NSString *validperiod;
+///交强险有效日期
+@property (nonatomic, strong) NSString *fvalidperiod;
 // 支付方式的类型
 @property (nonatomic, assign) PaymentChannelType paychannel;
 // 支付方式
@@ -90,6 +92,8 @@ typedef enum : NSUInteger {
 @property (nonatomic)DiscountType activityType;
 //活动金额，如果coupontype=2,该字段直接为小于1的小数。总金额直接相乘即可
 @property (nonatomic)CGFloat activityAmount;
+@property (nonatomic, strong) NSString *licenseUrl;
+@property (nonatomic, strong) NSString *licenseName;
 
 + (instancetype)orderWithJSONResponse:(NSDictionary *)rsp;
 - (NSString *)paymentForCurrentChannel;

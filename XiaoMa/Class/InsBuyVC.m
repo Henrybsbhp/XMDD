@@ -89,8 +89,8 @@
     self.paymentInfo = [PayForPremiumOp operation];
     self.paymentInfo.req_ownername = self.premiumDetail.rsp_ownername ? self.premiumDetail.rsp_ownername : self.insModel.realName;
     self.paymentInfo.req_carpremiumid = self.premiumDetail.req_carpremiumid;
-    self.paymentInfo.req_startdate = self.premiumDetail.rsp_startdate ?
-                                    self.premiumDetail.rsp_startdate : [[NSDate date] dateFormatForD10];
+    self.paymentInfo.req_startdate = self.premiumDetail.rsp_startdate;
+    self.paymentInfo.req_forcestartdate = self.premiumDetail.rsp_fstartdate;
     self.paymentInfo.req_inscomp = self.premiumDetail.req_inscomp;
 
     NSMutableArray *datasource = [NSMutableArray array];
@@ -282,6 +282,7 @@
       flattenMap:^RACStream *(id value) {
           
           @strongify(self);
+          [self.view endEditing:YES];
           return [self rac_pickDateWithNow:self.paymentInfo.req_startdate];
       }] subscribeNext:^(NSString *datetext) {
 
@@ -298,6 +299,7 @@
       flattenMap:^RACStream *(id value) {
           
           @strongify(self);
+          [self.view endEditing:YES];
           return [self rac_pickDateWithNow:self.paymentInfo.req_forcestartdate];
       }] subscribeNext:^(NSString *datetext) {
           

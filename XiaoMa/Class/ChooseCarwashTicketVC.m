@@ -274,7 +274,7 @@
         }
         else
         {
-            [gToast showError:@"选择的优惠券优惠总额大于订单金额[此处文案需要修改]"];
+            [gToast showError:@"代金券金额大于支付金额，无法使用"];
         }
     }
     else if (self.type == CouponTypeInsurance)
@@ -291,8 +291,7 @@
         }
         else
         {
-            //@fq TODE
-            [gToast showError:@"选择的优惠券优惠总额大于订单金额[此处文案需要修改]"];
+            [gToast showError:@"代金券金额大于支付金额，无法使用"];
         }
     }
     else if (self.type == CouponTypeGas)
@@ -308,7 +307,7 @@
         }
         else
         {
-            NSString * str = [NSString stringWithFormat:@"此优惠券需满%.0f元才可使用[此处文案需要修改]",coupon.lowerLimit];
+            NSString * str = [NSString stringWithFormat:@"该加油券需充值满%.0f元方可使用",coupon.lowerLimit];
             [gToast showError:str];
         }
     }

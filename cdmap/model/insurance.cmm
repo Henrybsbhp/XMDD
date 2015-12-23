@@ -91,6 +91,7 @@ class=GetPremiumDetail op auth path="/insurance/car/premium/detail/get"> {
     <"原价">originprice:double
     <"实际价格">price:double
     <"起保日期">startdate
+    <"交强险启保日期 DT10">fstartdate
     <"投保人">ownername
     <"保险公司图片">inslogo
     <"保险公司名字">inscompname

@@ -16,15 +16,16 @@
 #import "PaymentHelper.h"
 #import "OrderPaidSuccessOp.h"
 #import "InsOrderStore.h"
-#import "InsuranceVM.h"
-
+#import "HKCellData.h"
+#import "TTTAttributedLabel.h"
 #import "InsPayResultVC.h"
+#import "DetailWebVC.h"
 //#import "InsPayFaildVC.h"
 
 #define CheckBoxDiscountGroup @"CheckBoxDiscountGroup"
 #define CheckBoxPlatformGroup @"CheckBoxPlatformGroup"
 
-@interface PayForInsuranceVC ()<UITableViewDataSource, UITableViewDelegate>
+@interface PayForInsuranceVC ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
@@ -32,6 +33,7 @@
 
 @property (nonatomic,strong) CKSegmentHelper *checkBoxHelper;
 @property (nonatomic)BOOL isLoadingResourse;
+@property (nonatomic, strong) HKCellData *licenseData;
 
 /////支付平台，（section == 2）
 //@property (nonatomic)PaymentPlatform platform;
@@ -48,6 +50,7 @@
     self.selectInsuranceCoupouArray = [NSMutableArray array];
     
     self.isLoadingResourse = YES;
+    [self reloadData];
     [self requestGetUserInsCoupon];
 }
 
@@ -97,6 +100,34 @@
     label.attributedText = str;
 }
 
+#pragma mark - Datasource
+- (void)reloadData
+{
+    self.licenseData = [HKCellData dataWithCellID:@"LicenseCell" tag:nil];
+    self.licenseData.customInfo[@"check"] = @YES;
+    NSMutableString *license = [NSMutableString stringWithString:@"我已阅读并同意小马达达《保险服务协议》"];
+    self.licenseData.customInfo[@"range1"] = [NSValue valueWithRange:NSMakeRange(license.length - 8, 8)];
+    self.licenseData.customInfo[@"url1"] = [NSURL URLWithString:kServiceLicenseUrl];
+    if (self.insOrder.licenseUrl.length > 0) {
+        NSString *license2 = self.insOrder.licenseName;
+        [license appendFormat:@"，及%@", license2];
+        self.licenseData.customInfo[@"range2"] = [NSValue valueWithRange:NSMakeRange(license.length-license2.length, license2.length)];
+        self.licenseData.customInfo[@"url2"] = [NSURL URLWithString:self.insOrder.licenseUrl];
+    }
+    NSAttributedString *attstr = [[NSAttributedString alloc] initWithString:license
+                                                                 attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:12],
+                                                                              NSForegroundColorAttributeName: HEXCOLOR(@"#9a9a9a")}];
+    self.licenseData.object = attstr;
+    
+    [self.licenseData setHeightBlock:^CGFloat(UITableView *tableView) {
+        CGSize size = [TTTAttributedLabel sizeThatFitsAttributedString:attstr
+                                                       withConstraints:CGSizeMake(tableView.frame.size.width-60, 10000)
+                                                limitedToNumberOfLines:0];
+        return MAX(40, ceil(size.height+24));
+    }];
+
+    [self.tableView reloadData];
+}
 #pragma mark - Action
 - (IBAction)actionCallCenter:(id)sender
 {
@@ -318,7 +349,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    return 3;
+    return 4;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -328,7 +359,7 @@
         if (indexPath.row == 0){
             height = 66;
         }
-        else if (indexPath.row == 3){
+        else if (indexPath.row == 4){
             height = 30;
         }
         else
@@ -344,6 +375,9 @@
             height = 50;
         }
     }
+    if (indexPath.section == 3) {
+        height = self.licenseData.heightBlock(tableView);
+    }
     return height;
 }
 
@@ -358,12 +392,11 @@
 }
 
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     NSInteger count = 0;
     if (section == 0) {
-        count = 4;
+        count = 5;
     }
     else if (section == 1) {
         
@@ -371,6 +404,9 @@
     }
     else if (section == 2) {
         count = 4 - (gPhoneHelper.exsitWechat ? 0:1);
+    }
+    else if (section == 3) {
+        return 1;
     }
     return count;
 }
@@ -406,15 +442,21 @@
             cell = [self paymentPlatformCellAtIndexPath:indexPath];
         }
     }
+    else if (indexPath.section == 3) {
+        cell = [self licenseCellAtIndexPath:indexPath];
+    }
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (![cell isKindOfClass:[JTTableViewCell class]]) {
+        return;
+    }
     JTTableViewCell *jtcell = (JTTableViewCell *)cell;
     
-    if ((indexPath.section == 1 && indexPath.row == 0) || (indexPath.section == 2 && indexPath.row == 0) || (indexPath.section == 0 && indexPath.row == 3))
+    if ((indexPath.section == 1 && indexPath.row == 0) || (indexPath.section == 2 && indexPath.row == 0) || (indexPath.section == 0 && indexPath.row == 4))
     {
         [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(-1, 0, 0, 0) forDirectionMask:CKViewBorderDirectionBottom];
         [cell.contentView showBorderLineWithDirectionMask:CKViewBorderDirectionBottom];
@@ -483,11 +525,16 @@
         infoL.text = self.insOrder.licencenumber;
     }
     else if (indexPath.row == 2) {
-        titleL.text = [NSString stringWithFormat:@"保险期限"];
-        infoL.textColor = HEXCOLOR(@"#fb4209");
+        titleL.text = [NSString stringWithFormat:@"商业险期限"];
+        infoL.textColor = HEXCOLOR(@"#505050");
         infoL.text = self.insOrder.validperiod;
     }
     else if (indexPath.row == 3) {
+        titleL.text = [NSString stringWithFormat:@"交强险期限"];
+        infoL.textColor = HEXCOLOR(@"#505050");
+        infoL.text = self.insOrder.fvalidperiod;
+    }
+    else if (indexPath.row == 4) {
         titleL.text = [NSString stringWithFormat:@"共计保费"];
         infoL.textColor = HEXCOLOR(@"#fb4209");
         infoL.text = [NSString stringWithFormat:@"￥%.2f",self.insOrder.totoalpay];
@@ -830,6 +877,52 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"OtherInfoCell"];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
+}
+
+- (UITableViewCell *)licenseCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"LicenseCell"];
+    UIButton *checkB = [cell viewWithTag:1001];
+    TTTAttributedLabel *richL = [cell viewWithTag:1002];
+    
+    HKCellData *data = self.licenseData;
+
+    //选择框
+    @weakify(checkB);
+    [[[checkB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+     subscribeNext:^(id x) {
+         
+         @strongify(checkB);
+         BOOL checked = ![data.customInfo[@"check"] boolValue];
+         data.customInfo[@"check"] = @(checked);
+         checkB.selected = checked;
+         self.payBtn.enabled = checked;
+    }];
+
+    //文字和协议链接
+    if (!data.customInfo[@"setup"]) {
+        data.customInfo[@"setup"] = @YES;
+        richL.delegate = self;
+        richL.attributedText = data.object;
+        [richL setLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
+                                   NSForegroundColorAttributeName: HEXCOLOR(@"#007aff")}];
+        [richL setActiveLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
+                                         NSForegroundColorAttributeName: HEXCOLOR(@"#888888")}];
+        [richL addLinkToURL:data.customInfo[@"url1"] withRange:[data.customInfo[@"range1"] rangeValue]];
+        if (data.customInfo[@"range2"]) {
+            [richL addLinkToURL:data.customInfo[@"url2"] withRange:[data.customInfo[@"range2"] rangeValue]];
+        }
+    }
+    
+    return cell;
+}
+
+#pragma mark - TTTAttributedLabelDelegate
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url
+{
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.url = [url absoluteString];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Utility

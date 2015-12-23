@@ -95,9 +95,9 @@
     if (![self.eventDict objectForKey:event.name]) {
         [self.eventDict setObject:@YES forKey:event.name];
         @weakify(self);
-        [self observeEventForName:domain handler:^(CKEvent *event) {
+        [self observeEventForName:event.name handler:^(CKEvent *event) {
             @strongify(self);
-            [self triggerEvent:event];
+            [self triggerEvent:event forDomain:domain];
         }];
     }
     return event;
