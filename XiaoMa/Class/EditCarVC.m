@@ -304,7 +304,7 @@
     
     cell2_2.customInfo[@"howAction"] = [^(void){
         
-        NSLog(@"请填写车架号");
+        [self showPicture:@"ins_eg_pic1"];
     } copy];
 
     HKCellData *cell2_3 = [HKCellData dataWithCellID:@"Field" tag:nil];
@@ -314,7 +314,7 @@
     cell2_3.customInfo[@"block"] = [^(CKLimitTextField *field, RACSignal *stopSig) {
         @strongify(self);
         
-        field.text = [NSString stringWithFormat:@"%@", self.curCar.classno];
+        field.text = [NSString stringWithFormat:@"%@", self.curCar.engineno];
         
         [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
         }];
@@ -329,7 +329,7 @@
     } copy];
     cell2_3.customInfo[@"howAction"] = [^(void){
         
-        NSLog(@"请填写发动机号");
+        [self showPicture:@"ins_eg_pic2"];
     } copy];
     
     HKCellData *cell2_4 = [HKCellData dataWithCellID:@"Field" tag:nil];
@@ -792,5 +792,29 @@
     }
     return @"浙";
 }
+
+
+- (void)showPicture:(NSString *)picname
+{
+    CGSize size = CGSizeMake(300, 200);
+    UIViewController *vc = [[UIViewController alloc] init];
+    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:size viewController:vc];
+    sheet.cornerRadius = 0;
+    sheet.shadowRadius = 0;
+    sheet.shadowOpacity = 0;
+    sheet.transitionStyle = MZFormSheetTransitionStyleFade;
+    sheet.shouldDismissOnBackgroundViewTap = YES;
+    [MZFormSheetController sharedBackgroundWindow].backgroundBlurEffect = NO;
+    sheet.portraitTopInset = floor((self.view.frame.size.height - size.height) / 2);
+    
+    [sheet presentAnimated:YES completionHandler:nil];
+    
+    vc.view.backgroundColor = [UIColor clearColor];
+    UIImageView *imgv = [[UIImageView alloc] initWithFrame:vc.view.bounds];
+    [vc.view addSubview:imgv];
+    imgv.autoresizingMask = UIViewAutoresizingFlexibleAll;
+    imgv.image = [UIImage imageNamed:picname];
+}
+
 
 @end

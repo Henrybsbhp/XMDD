@@ -955,7 +955,7 @@
     UIButton * btn = (UIButton *)[cell searchViewWithTag:101];
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
-        // 如何填写的事件
+        [self showPicture:@"violation_eg"];
     }];
     return cell;
 }
@@ -970,6 +970,29 @@
     
     return cell;
 }
+
+- (void)showPicture:(NSString *)picname
+{
+    CGSize size = CGSizeMake(300, 200);
+    UIViewController *vc = [[UIViewController alloc] init];
+    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:size viewController:vc];
+    sheet.cornerRadius = 0;
+    sheet.shadowRadius = 0;
+    sheet.shadowOpacity = 0;
+    sheet.transitionStyle = MZFormSheetTransitionStyleFade;
+    sheet.shouldDismissOnBackgroundViewTap = YES;
+    [MZFormSheetController sharedBackgroundWindow].backgroundBlurEffect = NO;
+    sheet.portraitTopInset = floor((self.view.frame.size.height - size.height) / 2);
+    
+    [sheet presentAnimated:YES completionHandler:nil];
+    
+    vc.view.backgroundColor = [UIColor clearColor];
+    UIImageView *imgv = [[UIImageView alloc] initWithFrame:vc.view.bounds];
+    [vc.view addSubview:imgv];
+    imgv.autoresizingMask = UIViewAutoresizingFlexibleAll;
+    imgv.image = [UIImage imageNamed:picname];
+}
+
 
 
 @end

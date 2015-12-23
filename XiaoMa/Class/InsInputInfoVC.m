@@ -490,7 +490,6 @@
     [vc.view addSubview:imgv];
     imgv.autoresizingMask = UIViewAutoresizingFlexibleAll;
     imgv.image = [UIImage imageNamed:picname];
-
 }
 
 @end

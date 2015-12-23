@@ -308,7 +308,7 @@
         }
         else
         {
-            NSString * str = [NSString stringWithFormat:@"此优惠券需满%.0f元才可使用[此处文案需要修改]",coupon.lowerLimit];
+            NSString * str = [NSString stringWithFormat:@"该加油券需充值满%.0f元方可使用",coupon.lowerLimit];
             [gToast showError:str];
         }
     }
