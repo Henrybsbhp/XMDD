@@ -274,7 +274,7 @@
         }
         else
         {
-            [gToast showError:@"选择的优惠券优惠总额大于订单金额[此处文案需要修改]"];
+            [gToast showError:@"代金券金额大于支付金额，无法使用"];
         }
     }
     else if (self.type == CouponTypeInsurance)
@@ -291,8 +291,7 @@
         }
         else
         {
-            //@fq TODE
-            [gToast showError:@"选择的优惠券优惠总额大于订单金额[此处文案需要修改]"];
+            [gToast showError:@"代金券金额大于支付金额，无法使用"];
         }
     }
     else if (self.type == CouponTypeGas)
