@@ -14,9 +14,9 @@
 @property (nonatomic, strong)CarEvaluateOp * evaluateOp;
 
 @property (nonatomic, strong)NSString * logoUrl;
-@property (nonatomic, strong)NSString * cityStr;
 @property (nonatomic, strong)NSString * modelStr;
 @property (nonatomic, strong)NSNumber * carId;
-@property (nonatomic, strong)NSNumber * cityId;
+@property (nonatomic, strong)NSString * provinceName;
+@property (nonatomic, strong)NSString * cityName;
 
 @end

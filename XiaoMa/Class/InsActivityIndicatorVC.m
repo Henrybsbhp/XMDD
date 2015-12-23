@@ -59,27 +59,34 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)showInView:(UIView *)view
+- (void)showInViewController:(UIViewController *)vc
 {
-    CGSize size = CGSizeMake(200, 200);
-    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:size viewController:self];
-    sheet.cornerRadius = 0;
-    sheet.shadowRadius = 0;
-    sheet.shadowOpacity = 0;
-    sheet.transitionStyle = MZFormSheetTransitionStyleFade;
-    [MZFormSheetController sharedBackgroundWindow].backgroundBlurEffect = NO;
-    sheet.portraitTopInset = floor((view.frame.size.height - size.height) / 2);
+    [vc addChildViewController:self];
     
-    [sheet presentAnimated:YES completionHandler:nil];
-    self.sheet = sheet;
+    UIView *maskView = [[UIView alloc] initWithFrame:vc.view.bounds];
+    maskView.autoresizingMask = UIViewAutoresizingFlexibleAll;
+    maskView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.4];
+    maskView.alpha = 0;
+    [maskView addSubview:self.view];
+    [self.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(200, 200));
+        make.center.equalTo(maskView);
+    }];
+    
+    [vc.view addSubview:maskView];
+    [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        maskView.alpha = 1;
+    } completion:nil];
+
     [self startAnimating];
 }
 
 - (void)dismiss
 {
-    [self.sheet dismissAnimated:YES completionHandler:nil];
     CKAfter(0.2, ^{
         [self stopAnimating];
+        [self.view.superview removeFromSuperview];
+        [self removeFromParentViewController];
     });
 }
 

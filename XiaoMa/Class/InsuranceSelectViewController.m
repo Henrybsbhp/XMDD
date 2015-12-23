@@ -137,30 +137,39 @@
     CalculatePremiumOp * op = [CalculatePremiumOp operation];
     op.req_carpremiumid = self.insModel.premiumId;
     op.req_inslist = [[self.currentModel inslistForVC] componentsJoinedByString:@"|"];
-    
+
     InsActivityIndicatorVC *indicator = [[InsActivityIndicatorVC alloc] init];
+    
+    //当页面释放的时候，直接断开连接
+    @weakify(op);
     @weakify(self);
-    [[[[[op rac_postRequest] delay:0.3] initially:^{
+    [[[[[[op rac_postRequest] takeUntil:[self rac_willDeallocSignal]] delay:0.3] initially:^{
         
         @strongify(self);
-        [indicator showInView:self.navigationController.view];
+        [indicator showInViewController:self];
     }] finally:^{
-        
+
+        @strongify(op);
         [indicator dismiss];
+        [op cancel];
     }] subscribeNext:^(CalculatePremiumOp *op) {
         
         @strongify(self);
-        InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
-        vc.insModel = self.insModel;
-        vc.premiumList = op.rsp_premiumlist;
-        [self.navigationController pushViewController:vc animated:YES];
+        if ([self.navigationController.topViewController isEqual:self]) {
+            InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
+            vc.insModel = self.insModel;
+            vc.premiumList = op.rsp_premiumlist;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     } error:^(NSError *error) {
 
         @strongify(self);
-        InsCheckFailVC *vc = [UIStoryboard vcWithId:@"InsCheckFailVC" inStoryboard:@"Insurance"];
-        vc.insModel = self.insModel;
-        vc.errmsg = error.domain;
-        [self.navigationController pushViewController:vc animated:YES];
+        if ([self.navigationController.topViewController isEqual:self]) {
+            InsCheckFailVC *vc = [UIStoryboard vcWithId:@"InsCheckFailVC" inStoryboard:@"Insurance"];
+            vc.insModel = self.insModel;
+            vc.errmsg = error.domain;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }];
 }
 

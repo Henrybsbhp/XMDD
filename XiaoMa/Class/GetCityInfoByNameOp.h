@@ -17,5 +17,6 @@
 
 @property (nonatomic,strong)ViolationCityInfo * cityInfo;
 
+@property (nonatomic,strong)NSNumber * rsp_sellerCityId;
 
 @end

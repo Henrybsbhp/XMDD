@@ -9,6 +9,7 @@
 #import "CKStore.h"
 
 @interface UserStore : CKStore
+///(default is 12 * 60 * 60)
 @property (nonatomic, assign) NSTimeInterval updateDuration;
 
 ///Override

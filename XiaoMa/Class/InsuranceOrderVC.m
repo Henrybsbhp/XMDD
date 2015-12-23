@@ -140,10 +140,14 @@
                        RACTuplePack(@"证件号码",_order.idcard),
                        RACTuplePack(@"投保车辆",_order.licencenumber),
                        RACTuplePack(@"共计保费",amount,remark),
-                       RACTuplePack(@"保险期限",_order.validperiod)];
+                       RACTuplePack(@"商业险期限",_order.validperiod),
+                       ];
     NSMutableArray *titles = [NSMutableArray arrayWithArray:array];
     if (_order.insordernumber.length > 0) {
         [titles safetyInsertObject:RACTuplePack(@"保单编号",_order.insordernumber) atIndex:0];
+    }
+    if (_order.fvalidperiod.length > 0) {
+        [titles safetyAddObject:RACTuplePack(@"交强险期限",_order.fvalidperiod)];
     }
     self.titles = titles;
     self.coverages = self.order.policy.subInsuranceArray;

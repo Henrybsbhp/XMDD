@@ -2636,11 +2636,11 @@
 		189B30C41AD6649A001D7288 /* Insurance */ = {
 			isa = PBXGroup;
 			children = (
+				18E592271C170956006010D9 /* Model */,
 				6B88C12E1C1E8D5300BB6071 /* Select */,
 				189428B51C1AB9F500E492CA /* Appointment */,
 				18E592321C1937E8006010D9 /* Buy */,
 				18E5922B1C183B19006010D9 /* Check */,
-				18E592271C170956006010D9 /* Model */,
 				1897C3021C16CE35007E394E /* Input */,
 				18E756571B69D675001B0869 /* Order */,
 				189B310D1ADA5911001D7288 /* Enquiry */,
@@ -4730,7 +4730,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "49d4298a-4b37-4e47-990c-a2b9eb8e6baa";
+				PROVISIONING_PROFILE = "19b9e532-9495-4943-a7d9-e1846a3e0cf4";
 			};
 			name = Debug;
 		};
@@ -4836,7 +4836,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2e1ee95d-0c71-455c-a3b9-613059936363";
+				PROVISIONING_PROFILE = "e21a7301-2ad1-40ab-b7ec-356774a7ba3a";
 			};
 			name = Release;
 		};

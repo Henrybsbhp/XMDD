@@ -25,6 +25,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //数据迁移
+    [self dataMigration];
     self.fetchCtrl = [self.autoModel createAutoBrandFetchCtrl];
     self.fetchCtrl.delegate = self;
     [self.tableView.refreshView addTarget:self action:@selector(reloadDatasource) forControlEvents:UIControlEventValueChanged];
@@ -38,6 +40,17 @@
     DebugLog(deallocInfo);
 }
 
+//数据迁移
+- (void)dataMigration
+{
+    if ([gAppMgr.deviceInfo firstAppearAfterVersion:@"2.5" forKey:@"AutoBrand"]) {
+        NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:@"AutoBrand"];
+        [gAppMgr.defDataMgr deleteAllObjectsWithFetchRequest:req];
+        [self.autoModel cleanAutoBrandTimetag];
+    }
+}
+
+#pragma mark - Datasource
 - (void)reloadDatasource
 {
     [self.fetchCtrl performFetch:nil];
