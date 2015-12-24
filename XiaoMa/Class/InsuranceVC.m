@@ -75,9 +75,10 @@
 - (void)setupInsStore
 {
     self.insStore = [InsuranceStore fetchOrCreateStore];
+    NSArray *domains = @[@"simpleCars", kEvtInsSimpleCars];
     //监听保险车辆信息和保险支持的省市更新
     @weakify(self);
-    [self.insStore subscribeWithTarget:self domain:@"simpleCars" receiver:^(CKStore *store, CKEvent *evt) {
+    [self.insStore subscribeWithTarget:self domainList:domains receiver:^(CKStore *store, CKEvent *evt) {
         @strongify(self);
         CKAsyncMainQueue(^{
             [self reloadWithEvent:evt];
@@ -87,39 +88,28 @@
 
 - (void)setupRefreshView
 {
-    if (![self.tableView isRefreshViewExists]) {
-        [self.tableView.refreshView addTarget:self action:@selector(actionRefresh:)
-                             forControlEvents:UIControlEventValueChanged];
-    }
+    [self.tableView.refreshView addTarget:self action:@selector(actionRefresh:)
+                                forControlEvents:UIControlEventValueChanged];
 }
 #pragma mark - Datasource
 - (void)reloadWithEvent:(CKEvent *)event
 {
     @weakify(self);
-    [[[[[event signal] deliverOn:[RACScheduler mainThreadScheduler]] initially:^{
+    [[[[event signal] deliverOn:[RACScheduler mainThreadScheduler]] initially:^{
         
         @strongify(self);
         [self.view hideDefaultEmptyView];
-        //如果没有省份信息，需要强制更新
-        if (!self.insStore.insProvinces) {
+        if ([self.tableView isRefreshViewExists]) {
+            [self.tableView.refreshView beginRefreshing];
+        }
+        else {
             self.tableView.hidden = YES;
             [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         }
-        else {
-            [self setupRefreshView];
-            [self.tableView.refreshView beginRefreshing];
-        }
-    }] finally:^{
-        
-        @strongify(self);
-        //结束动画
-        if ([self.tableView isRefreshViewExists]) {
-            [self.tableView.refreshView endRefreshing];
-        }
-        [self.view stopActivityAnimation];
     }] subscribeError:^(NSError *error) {
         
         @strongify(self);
+        [self.view stopActivityAnimation];
         if ([self.tableView isRefreshViewExists]) {
             [gToast showError:error.domain];
         }
@@ -132,8 +122,14 @@
     } completed:^{
        
         @strongify(self);
+        [self.view stopActivityAnimation];
+        if ([self.tableView isRefreshViewExists]) {
+            [self.tableView.refreshView endRefreshing];
+        }
+        else {
+            [self setupRefreshView];
+        }
         self.tableView.hidden = NO;
-        [self setupRefreshView];
         //刷新页面
         [self reloadData];
     }];
@@ -164,13 +160,12 @@
 
             @strongify(self);
             InsSimpleCar *car = obj;
-            if (car.status == 0 || !car.refid) {
-                [self actionInputOwnerNameWithLicenseNumber:car.licenseno];
+            if (car.status == 0 || !car.carpremiumid) {
+                [self actionInputOwnerNameForSimpleCar:car];
             }
             else {
                 InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
-                infoVC.insModel.licenseNumber = car.licenseno;
-                infoVC.insModel.premiumId = car.refid;
+                infoVC.insModel.simpleCar = car;
                 infoVC.insModel.originVC = self;
                 [self.navigationController pushViewController:infoVC animated:YES];
             }
@@ -197,7 +192,7 @@
     [[self.insStore getInsSimpleCars] send];
 }
 
-- (void)actionInputOwnerNameWithLicenseNumber:(NSString *)licenseno
+- (void)actionInputOwnerNameForSimpleCar:(InsSimpleCar *)car
 {
     InsInputNameVC *vc = [UIStoryboard vcWithId:@"InsInputNameVC" inStoryboard:@"Insurance"];
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(270, 160) viewController:vc];
@@ -223,7 +218,7 @@
 
         InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
         infoVC.insModel.realName = vc.nameField.text;
-        infoVC.insModel.licenseNumber = licenseno;
+        infoVC.insModel.simpleCar = car;
         infoVC.insModel.originVC = self;
         [self.navigationController pushViewController:infoVC animated:YES];
     }];
@@ -325,8 +320,7 @@
              if (car.status == 2) {
                  InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
                  vc.insModel = [[InsuranceVM alloc] init];
-                 vc.insModel.licenseNumber = car.licenseno;
-                 vc.insModel.premiumId = car.refid;
+                 vc.insModel.simpleCar = car;
                  vc.insModel.originVC = self;
                  [self.navigationController pushViewController:vc animated:YES];
              }
@@ -393,7 +387,9 @@
             [gToast showText:@"请输入正确的车牌号码"];
         }
         else {
-            [self actionInputOwnerNameWithLicenseNumber:licenseno];
+            InsSimpleCar *car = [[InsSimpleCar alloc] init];
+            car.licenseno = licenseno;
+            [self actionInputOwnerNameForSimpleCar:car];
         }
     }];
 }
@@ -406,7 +402,7 @@
         return [NSString stringWithFormat:@"%@（%@）", province.name, province.abbr];
     }];
     return [[vc rac_presentInView:self.navigationController.view datasource:@[provinces]
-                         curRows:[NSArray safetyArrayWithObject:curProvince]] map:^id(NSArray *result) {
+                         curRows:@[@([provinces indexOfObject:curProvince])]] map:^id(NSArray *result) {
         return [result safetyObjectAtIndex:0];
     }];
 }

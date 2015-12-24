@@ -7,6 +7,8 @@
 @property (nonatomic,assign) int status;
 ///关联记录ID
 @property (nonatomic,strong) NSNumber* refid;
+///核保id
+@property (nonatomic,strong) NSNumber* carpremiumid;
 
 
 + (instancetype)createWithJSONDict:(NSDictionary *)dict;

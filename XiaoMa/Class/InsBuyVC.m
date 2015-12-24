@@ -56,7 +56,7 @@
 - (void)requestDetailPremium
 {
     GetPremiumDetailOp *op = [GetPremiumDetailOp operation];
-    op.req_carpremiumid = self.insModel.premiumId;
+    op.req_carpremiumid = self.insModel.simpleCar.carpremiumid;
     op.req_inscomp = self.insModel.inscomp;
     @weakify(self);
     [[[op rac_postRequest] initially:^{

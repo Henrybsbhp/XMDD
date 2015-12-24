@@ -18,7 +18,7 @@
 #import "NSString+RectSize.h"
 #import "HKSubscriptInputField.h"
 
-#import "InsuranceSelectViewController.h"
+#import "InsCoverageSelectVC.h"
 
 @interface InsuranceInfoSubmitingVC ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, DrivingLicenseHistoryViewDelegate>
 {
@@ -153,9 +153,9 @@
         InsuranceAppointmentV3Op *op = [InsuranceAppointmentV3Op operation];
         op.req_idcard = [(HKCellData *)self.datasource[1] object];
         op.req_driverpic = self.currentRecord.url;
-        op.req_licenseno = self.insModel.licenseNumber;
+        op.req_licenseno = self.insModel.simpleCar.licenseno;
 
-        InsuranceSelectViewController *vc = [UIStoryboard vcWithId:@"InsuranceSelectViewController" inStoryboard:@"Insurance"];
+        InsCoverageSelectVC *vc = [UIStoryboard vcWithId:@"InsCoverageSelectVC" inStoryboard:@"Insurance"];
         vc.selectMode = InsuranceSelectModeAppointment;
         vc.insModel = self.insModel;
         vc.appointmentOp = op;
