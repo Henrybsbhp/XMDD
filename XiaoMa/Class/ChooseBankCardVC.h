@@ -11,6 +11,7 @@
 @interface ChooseBankCardVC : UIViewController
 @property (nonatomic, strong) HKMyCar * defaultCar;
 
+@property (nonatomic, strong) JTShop *shop;
 @property (nonatomic, strong) JTShopService *service;
 @property (nonatomic, strong) NSArray *bankCards;
 @property (nonatomic, strong) NSArray *carwashCouponArray;
