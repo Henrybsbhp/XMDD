@@ -33,7 +33,10 @@
     self.tableView.dataSource = nil;
     DebugLog(@"CommissonConfirmVC dealloc~");
 }
-
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self countNetwork];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.carStore getAllCarsIfNeeded];
@@ -67,12 +70,30 @@
 }
 
 -(void)applyClick {
-    if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] < 3600 * 24 * 2) {
-        NSString * number = @"4007111111";
-        [gPhoneHelper makePhone:number andInfo:@"您将预约年检协办业务,再告诉你个秘密,电话预约会更及时有效哦!"];
-    } else  if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] > 3600 * 24 * 30) {
+    if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] < 3600 * 24 * 1 - 1) {
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:nil message:@"您将预约年检协办业务,再告诉你个秘密,电话预约会更及时有效哦!" delegate:nil cancelButtonTitle:@"立即协办" otherButtonTitles:@"拨打电话", nil];
+        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNum) {
+            
+            NSInteger index = [indexNum integerValue];
+            if (index == 1)
+            {
+                NSString * number = @"4007111111";
+                NSString * urlStr = [NSString stringWithFormat:@"tel://%@",number];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
+            }else{
+                [self actionAssisting];
+                }
+        }];
+        [av show];
+
+    }else if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] > 3600 * 24 * 30) {
         [gToast showText:@"不好意思,预约时间需在 30 天内,请修改后再尝试"];
-    }else{
+    } else {
+        [self actionAssisting];
+    }
+}
+
+- (void)actionAssisting{
     
     GetRescueApplyHostCarOp *op = [GetRescueApplyHostCarOp operation];
     op.licenseNumber = self.defaultCar.licencenumber;
@@ -85,7 +106,7 @@
     }] subscribeNext:^(GetRescueApplyHostCarOp *op) {
         [gToast dismiss];
         
-       if (op.rsp_code == 0){
+        if (op.rsp_code == 0){
             CommissionForsuccessfulVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionForsuccessfulVC"];
             vc.licenceNumber = self.defaultCar.licencenumber;
             vc.timeValue = self.appointmentDay;
@@ -109,7 +130,6 @@
             [gToast showText:@"申请失败, 请尝试重新提交!"];
         }
     }] ;
- }
 }
 
 - (void)setupCarStore
@@ -150,6 +170,7 @@
         }else if (indexPath.row == 2){
             titleLb.text = @"剩余协办";
             if (self.defaultCar != nil) {
+                detailLb.textColor = [UIColor colorWithHex:@"#fe4a00" alpha:1.0];
                 detailLb.text = [NSString stringWithFormat:@"%@次", self.countStr];
             }
         }
@@ -198,23 +219,12 @@
         [self.navigationController pushViewController:vc animated:YES];
         
     }else if (indexPath.row == 4){
-        @weakify(self)
         DatePickerVC *vc = [DatePickerVC datePickerVCWithMaximumDate:[self getPriousorLaterDateFromDate:[NSDate date] withMonth:12]];
         vc.minimumDate = [NSDate date];
         [[vc rac_presentPickerVCInView:self.navigationController.view withSelectedDate:self.appointmentDay]
          subscribeNext:^(NSDate *date) {
-             @strongify(self)
-             if ([date timeIntervalSinceDate:[NSDate date]] < 3600 * 24 * 2) {
-                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您将预约年检协办业务,再告诉你个秘密,电话预约会更及时有效哦!" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];
-                 [alert show];
-                 self.appointmentDay = date;
-             } else  if ([date timeIntervalSinceDate:[NSDate date]] > 3600 * 24 * 30) {
-                 [gToast showText:@"不好意思,预约时间需在 30 天内,请修改后再尝试"];
-             }else {
-                 self.appointmentDay = date;
-                 [self.tableView reloadData];
-             }
-             
+             self.appointmentDay = date;
+             [self.tableView reloadData];
          }];
     }
 }

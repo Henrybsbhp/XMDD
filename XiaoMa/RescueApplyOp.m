@@ -15,6 +15,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:self.longitude forName:@"longitude"];
     [params addParam:self.latitude forName:@"latitude"];
+    [params addParam:self.address forName:@"address"];
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
