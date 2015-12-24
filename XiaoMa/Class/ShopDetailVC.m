@@ -18,7 +18,6 @@
 #import "CarWashNavigationViewController.h"
 #import "NearbyShopsViewController.h"
 #import "CommentListViewController.h"
-#import "EditMyCarVC.h"
 #import "AddUserFavoriteOp.h"
 #import "SDPhotoBrowser.h"
 #import "UIView+Layer.h"
