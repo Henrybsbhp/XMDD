@@ -192,7 +192,7 @@
             [cell shake];
         });
         
-        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"爱车确认" message:@"您尚未拥有一辆爱车，请添加" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"爱车确认" message:@"您尚未拥有一辆爱车，请添加" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往添加", nil];
         [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
             
             NSInteger index =[number integerValue];
@@ -205,7 +205,7 @@
         [av show];
         return;
     }
-    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"支付确认" message:@"请务必到店享受服务，且与店员确认服务商家与软件当前支付商家一致后再付款，付完不退款" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往添加", nil];
+    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"支付确认" message:@"请务必到店享受服务，且与店员确认服务商家与软件当前支付商家一致后再付款，付完不退款" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
     [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
         
         NSInteger index =[number integerValue];

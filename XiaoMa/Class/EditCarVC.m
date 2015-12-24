@@ -32,9 +32,18 @@
 @property (nonatomic, strong) NSArray *datasource;
 @property (nonatomic, strong) DatePickerVC *datePicker;
 @property (nonatomic, assign) BOOL isDrivingLicenseNeedSave;
+@property (nonatomic, assign) BOOL isKeyboardAppear;
+
 @end
 
 @implementation EditCarVC
+
+
+- (void)dealloc
+{
+    DebugLog(@"EditCarVC dealloc");
+}
+
 - (void)awakeFromNib {
     self.model = [MyCarListVModel new];
 }
@@ -57,19 +66,28 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp312"];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp312"];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 }
 
-- (void)dealloc
-{
-    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
-    DebugLog(deallocInfo);
-}
 
 //设置日期选择控件（主要是为了事先加载，优化性能）
 - (void)setupDatePicker
@@ -290,7 +308,7 @@
     cell2_2.customInfo[@"block"] = [^(CKLimitTextField *field, RACSignal *stopSig) {
         @strongify(self);
         
-        field.text = [NSString stringWithFormat:@"%@", self.curCar.classno];
+        field.text = self.curCar.classno;
         
         [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
             
@@ -307,7 +325,7 @@
         @strongify(self);
         
         if (self.curCar.classno.length && ![CarIDCodeCheckModel carIDCheckWithCodeStr:self.curCar.classno]) {
-            [self showErrorAtIndexPath:indexPath errorMsg:@"请输入正确的车架号"];
+            [self showErrorAtIndexPath:indexPath errorMsg:@"请输入正确的车架号码"];
             return NO;
         }
         return YES;
@@ -325,7 +343,7 @@
     cell2_3.customInfo[@"block"] = [^(CKLimitTextField *field, RACSignal *stopSig) {
         @strongify(self);
         
-        field.text = [NSString stringWithFormat:@"%@", self.curCar.engineno];
+        field.text = self.curCar.engineno;
         
         [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
         }];
@@ -651,11 +669,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self.view endEditing:YES];
-    HKCellData *data = [[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
-    if (data.selectedBlock) {
-        data.selectedBlock(tableView, indexPath);
+    
+    if (!self.isKeyboardAppear)
+    {
+        HKCellData *data = [[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
+        if (data.selectedBlock) {
+            data.selectedBlock(tableView, indexPath);
+        }
     }
+    
+    [self.view endEditing:YES];
 }
 
 #pragma mark - Cell
@@ -827,5 +850,16 @@
     imgv.image = [UIImage imageNamed:picname];
 }
 
+
+#pragma mark 键盘隐藏的监听方法
+- (void)keyboardWillShow:(NSNotification *)notify
+{
+    self.isKeyboardAppear = YES;
+}
+
+- (void)keyboardWillHide:(NSNotification *) notify
+{
+    self.isKeyboardAppear = NO;
+}
 
 @end

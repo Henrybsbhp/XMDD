@@ -15,7 +15,7 @@
 #import "HKLocationDataModel.h"
 #import "GetCityInfoByNameOp.h"
 #import "AreaTablePickerVC.h"
-#import <objc/runtime.h>
+#import "CarIDCodeCheckModel.h"
 
 #import "MyUIPageControl.h"
 
@@ -250,6 +250,15 @@
             }
             else if ([dict[@"title"] isEqualToString:@"车架号码"])
             {
+                ///说明要求输入完整车架号，此时验证
+                if (num == 0)
+                {
+                    if (![CarIDCodeCheckModel carIDCheckWithCodeStr:feild.text])
+                    {
+                        [gToast showError:@"请输入正确的车架号码"];
+                        return;
+                    }
+                }
                 self.model.classno = feild.text;
             }
         }
