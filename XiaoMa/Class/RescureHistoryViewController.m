@@ -59,8 +59,13 @@
     }] subscribeNext:^(GetRescueHistoryOp *op) {
         self.dataSourceArray = (NSMutableArray *)op.req_applysecueArray;
         if (self.dataSourceArray.count == 0) {
-            [self.view showDefaultEmptyViewWithText:@"暂无历史记录"];
+            if (self.type == 1) {
+                [self.view showDefaultEmptyViewWithText:@"暂无救援记录"];
+            }else {
+                [self.view showDefaultEmptyViewWithText:@"暂无协办记录"];
+            }
         }
+        
         [self.tableView reloadData];
     } error:^(NSError *error) {
         [gToast showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
