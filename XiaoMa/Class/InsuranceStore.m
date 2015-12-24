@@ -10,10 +10,6 @@
 #import "GetInsCarListOp.h"
 #import "GetInsProvinceListOp.h"
 
-#define kEvtInsSimpleCars                           @"ins.simpleCars"
-#define kEvtUpdateInsSimpleCar                      @"ins.simpleCar.update"
-#define kEvtInsProvinces                            @"ins.provinces"
-
 @implementation InsuranceStore
 
 - (void)reloadForUserChanged
@@ -65,11 +61,9 @@
     return [self inlineEvent:event forDomain:@"insProvinces"];
 }
 
-- (CKEvent *)updateSimpleCarRefid:(NSNumber *)refid status:(int)status byLicenseno:(NSString *)licenseno
+- (CKEvent *)updateSimpleCar:(InsSimpleCar *)car
 {
-    InsSimpleCar *car = [self.simpleCars objectForKey:licenseno];
-    car.refid = refid;
-    car.status = status;
+    [self.simpleCars addObject:car forKey:car.licenseno];
     return [self inlineEvent:[CKEvent eventWithName:kEvtUpdateInsSimpleCar signal:[RACSignal return:car]]];
 }
 

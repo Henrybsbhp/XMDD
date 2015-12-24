@@ -29,12 +29,10 @@
 #import "CheckAwardViewController.h"
 #import "ADViewController.h"
 #import "CollectionChooseVC.h"
-#import "InsuranceDetailPlanVC.h"
 #import "GasVC.h"
 #import "ViolationItemViewController.h"
 #import "ViolationViewController.h"
 #import "ValuationViewController.h"
-#import "InsuranceSelectViewController.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3.0

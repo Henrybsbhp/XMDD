@@ -67,12 +67,10 @@ typedef enum : NSUInteger {
  *  相关参数,<NSDictory>
  */
 @property (nonatomic,strong)NSArray * params;
-@property (nonatomic,strong)NSArray * params2;
+@property (nonatomic, assign) NSUInteger defParamIndex;
 
 
 - (instancetype)initWithCategory:(InsuranceCategory)category;
-/// 初始化车上乘客责任险（特殊）
-- (instancetype)initWithInsuranceCarSeatInsuranceOfPassengerWithNumOfSeat:(NSNumber *)numOfSeat;
 
 - (NSString *)coverageAmountDesc;
 
