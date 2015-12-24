@@ -45,12 +45,13 @@
     
     if (gMapHelper.addrComponent.streetNumber.street != nil) {
         
-        self.addressLb.text = [NSString stringWithFormat:@"%@%@%@%@", gMapHelper.addrComponent.province,gMapHelper.addrComponent.city, gMapHelper.addrComponent.district, gMapHelper.addrComponent.streetNumber.street];;
+        self.addressLb.text = [NSString stringWithFormat:@"%@%@%@%@", gMapHelper.addrComponent.province,gMapHelper.addrComponent.city, gMapHelper.addrComponent.district, gMapHelper.addrComponent.streetNumber.street];
     }else{
         self.addressLb.text = @"获取位置失败, 请尝试\"刷新\"";
     }
     
     self.tableView.tableHeaderView = self.headerView;
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 28)];
     [self.headerView addSubview:self.backgroundImage];
     [self.headerView addSubview:self.phoneHelperBtn];
 }
@@ -122,9 +123,9 @@
         } error:^(NSError *error) {
             self.bottomView.hidden = YES;
             if (self.datasourceArray.count == 0) {
-                [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
-                    [self actionFirstEnterNetwork];
-                }];
+//                [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
+//                    [self actionFirstEnterNetwork];
+//                }];
             }
         }] ;
     }
@@ -134,17 +135,18 @@
     
     if (gAppMgr.myUser != nil) {
         RescueApplyOp *op = [RescueApplyOp operation];
+        op.address = [NSString stringWithFormat:@"%@%@%@%@", gMapHelper.addrComponent.province,gMapHelper.addrComponent.city, gMapHelper.addrComponent.district, gMapHelper.addrComponent.streetNumber.street];
         op.longitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.longitude];
         op.latitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.latitude];
+       
         [[[[op rac_postRequest] initially:^{
             
         }] finally:^{
             
-            
         }] subscribeNext:^(RescueApplyOp *op) {
-            
+
         } error:^(NSError *error) {
-            [gToast showError:kDefErrorPormpt];
+            
         }] ;
         NSString * number = @"4007111111";
         [gPhoneHelper makePhone:number andInfo:@"救援电话: 4007-111-111"];
@@ -166,14 +168,15 @@
 - (IBAction)refreshClick:(UIButton *)sender {
     
     [[[gMapHelper rac_getInvertGeoInfo] initially:^{
-        
+         self.addressLb.hidden = YES;
     }]
      subscribeNext:^(AMapReGeocode * getInfo) {
-         
-         self.addressLb.text = [NSString stringWithFormat:@"%@%@%@%@", gMapHelper.addrComponent.province,gMapHelper.addrComponent.city, gMapHelper.addrComponent.district, gMapHelper.addrComponent.streetNumber.street];;
+         self.addressLb.hidden = NO;
+         NSString *tempAdd = [NSString stringWithFormat:@"%@%@%@%@", gMapHelper.addrComponent.province,gMapHelper.addrComponent.city, gMapHelper.addrComponent.district, gMapHelper.addrComponent.streetNumber.street];
+         self.addressLb.text = [tempAdd stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
          
      } error:^(NSError *error) {
-         
+         self.addressLb.hidden = NO;
          switch (error.code) {
              case kCLErrorDenied:
              {
@@ -206,10 +209,9 @@
              }
              default:
              {
-                 UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"定位失败，请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
                  
-                 [av show];
-                 break;
+                self.addressLb.text = @"获取位置失败, 请尝试\"刷新\"";
+                break;
              }
          }
          
@@ -235,7 +237,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RescureHomeViewController" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    UIImageView *titleImg = (UIImageView *)[cell searchViewWithTag:1000];
+    UIImageView *titleImg    = (UIImageView *)[cell searchViewWithTag:1000];
     UILabel * nameLb         = (UILabel *)[cell searchViewWithTag:1001];
     UILabel * conditionsLb   = (UILabel *)[cell searchViewWithTag:1006];
     UILabel * priceLb        = (UILabel *)[cell searchViewWithTag:1003];
@@ -243,8 +245,6 @@
     UIView  * view           = (UIView  *)[cell searchViewWithTag:1005];
     UILabel * remainingLb    = (UILabel *)[cell searchViewWithTag:1007];
     UILabel * tempLb         = (UILabel *)[cell searchViewWithTag:1008];
-    UILabel * textLb         = (UILabel *)[cell searchViewWithTag:1111];
-    textLb.hidden = YES;
     view.layer.borderColor = [UIColor colorWithHex:@"#fe9d87" alpha:1].CGColor;
     view.layer.cornerRadius = 4;
     view.layer.masksToBounds = YES;
@@ -256,12 +256,10 @@
         
         if ([rescue.serviceCount integerValue] == 0) {
             
-            textLb.hidden = NO;
             numberLb.hidden = YES;
             remainingLb.hidden = YES;
             tempLb.hidden = YES;
         }else {
-            textLb.hidden = YES;
             numberLb.hidden = NO;
             remainingLb.hidden = NO;
             tempLb.hidden = NO;
