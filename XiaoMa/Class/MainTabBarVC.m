@@ -45,10 +45,17 @@
         return [RACSignal return:@NO];
     }] subscribeNext:^(NSNumber *hasmsg) {
         
+        CGFloat offsetX = 6;
+        CGFloat offsetY = 6;
+        if (!IOSVersionGreaterThanOrEqualTo(@"7.0"))
+        {
+            offsetX = 7;
+            offsetY = 5;
+        }
         BOOL showDot = [hasmsg boolValue];
         if (showDot) {
-            CGFloat x = ceilf(CGRectGetWidth(self.tabBar.frame)/6*5 + 6);
-            CGFloat y = 6;
+            CGFloat x = ceilf(CGRectGetWidth(self.tabBar.frame)/6*5 + offsetX);
+            CGFloat y = offsetY;
             [self.tabBar showDotWithOffset:CGPointMake(x, y)];
         }
         else {

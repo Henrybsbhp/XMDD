@@ -10,6 +10,6 @@
 
 @interface HistoryCollectionVC : UIViewController
 
-@property (nonatomic,copy) NSNumber *evaluateTime;
+@property (nonatomic,strong) NSNumber *evaluateTime;
 
 @end

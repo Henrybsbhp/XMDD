@@ -15,8 +15,12 @@
 #import "UIView+DefaultEmptyView.h"
 #import "RescureViewController.h"
 #import "CommissionViewController.h"
+#import "RescureDetailsVC.h"
 #import "GetShareButtonOp.h"
 #import "ShareResponeManager.h"
+#import "CommissonOrderVC.h"
+#import "RescureHomeViewController.h"
+#import "GasVC.h"
 
 @interface CouponDetailsVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -100,14 +104,14 @@
             self.shortUseBtn.hidden = YES;
             self.shareBtn.hidden = YES;
             self.longUseBtn.hidden = NO;
+            [self.longUseBtn setCornerRadius:5.0f];
             @weakify(self);
             [[self.longUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 
                 @strongify(self);
                 //加油券去使用
-//                CommissionViewController *cvc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionViewController"];
-//                cvc.url = kAgencyUrl;
-//                [self.navigationController pushViewController:cvc animated:YES];
+                GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
+                [self.navigationController pushViewController:vc animated:YES];
             }];
         }
         else if (self.newType == CouponNewTypeInsurance){
@@ -125,14 +129,13 @@
                 @strongify(self);
                 //其他券去使用
                 if (self.oldType == CouponTypeAgency) {
-                    CommissionViewController *cvc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionViewController"];
-                    cvc.url = kAgencyUrl;
-                    [self.navigationController pushViewController:cvc animated:YES];
+                    CommissonOrderVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonOrderVC"];
+                    [self.navigationController pushViewController:vc animated:YES];
                 }
                 else {
-                    RescureViewController *rvc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureViewController"];
-                    rvc.url = kRescureUrl;
-                    [self.navigationController pushViewController:rvc animated:YES];
+                    
+                    RescureHomeViewController *homeVC = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureHomeViewController"];
+                    [self.navigationController pushViewController:homeVC animated:YES];
                 }
             }];
         }

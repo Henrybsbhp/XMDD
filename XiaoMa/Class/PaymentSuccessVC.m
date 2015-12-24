@@ -70,6 +70,7 @@
         [self setupRateView];
         [self setupTextView];
         [self setupUI:self.commentStatus];
+        [self setupNavigationBar];
         
         [self.infoView mas_updateConstraints:^(MASConstraintMaker *make) {
            
@@ -298,6 +299,16 @@
     }
 }
 
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"首页" style:UIBarButtonItemStylePlain
+                                                             target:self action:@selector(popToHomePage)];
+    [right setTitleTextAttributes:@{
+                                    NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:14.0]
+                                    } forState:UIControlStateNormal];
+    self.navigationItem.rightBarButtonItem = right;
+}
+
 #pragma mark - collectionView
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -455,6 +466,13 @@
         [str appendAttributedString:attrStr2];
     }
     return str;
+}
+
+
+- (void)popToHomePage
+{
+    [self.tabBarController setSelectedIndex:0];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 

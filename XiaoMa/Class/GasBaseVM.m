@@ -37,18 +37,10 @@
 - (NSString *)gasRemainder
 {
     NSString *text = @"<font size=12 color='#888888'>充值成功后，须至相应加油站圈存后方能使用。</font>";
-    if (self.curGasCard) {
-        NSString *link;
-        NSString *agreement;
-        if (self.curGasCard.cardtype == 1 || self.curGasCard.cardtype == 2) {
-            link = kAddGasNoticeUrl;
-            agreement = @"《充值服务说明》";
-        }
-        if (link.length > 0) {
+    NSString *link = kAddGasNoticeUrl;
+    NSString *agreement = @"《充值服务说明》";
             text = [NSString stringWithFormat:@"%@<font size=12 color='#888888'>更多充值说明，点击查看<font color='#20ab2a'><a href='%@'>%@</a></font></font>",
                     text, link, agreement];
-        }
-    }
     return text;
 }
 

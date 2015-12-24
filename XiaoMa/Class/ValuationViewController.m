@@ -165,6 +165,8 @@
         
         @strongify(self);
         self.tableView.hidden = YES;
+        self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
+        [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] finally:^{
         

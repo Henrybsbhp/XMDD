@@ -115,7 +115,7 @@
             licensenoL.text = self.evaluateOp.req_licenseno;
             brandL.text = self.modelStr;
             if (!IOSVersionGreaterThanOrEqualTo(@"8.0")) {
-                brandL.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 44;
+                brandL.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 86;
             }
         }
         else {
