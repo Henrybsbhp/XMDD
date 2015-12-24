@@ -154,7 +154,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (IOSVersionGreaterThanOrEqualTo(@"7.0"))
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
     {
         return UITableViewAutomaticDimension;
     }

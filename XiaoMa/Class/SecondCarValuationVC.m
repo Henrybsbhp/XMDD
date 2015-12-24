@@ -177,7 +177,7 @@
     couponMoneyLabel.text=[NSString stringWithFormat:@" %@ ",dataModel[@"couponmoney"]];
     characterLabel.text=[NSString stringWithFormat:@"平台特点：%@",dataModel[@"character"]];
     userCNTInfoLabel.text=[NSString stringWithFormat:@"用户数量：%@",dataModel[@"usercntinfo"]];
-   
+    [cell layoutIfNeeded];
     return cell;
 }
 
@@ -200,6 +200,7 @@
         self.phoneNumber = x;
         phoneNumber.text = (NSString *)x;
     }];
+    [cell layoutIfNeeded];
     return cell;
 }
 
@@ -287,7 +288,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (IOSVersionGreaterThanOrEqualTo(@"7.0"))
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
     {
         return UITableViewAutomaticDimension;
     }

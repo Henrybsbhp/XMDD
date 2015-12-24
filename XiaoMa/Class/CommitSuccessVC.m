@@ -11,6 +11,7 @@
 #import "ShareResponeManager.h"
 #import "HomePageVC.h"
 #import "UIView+Layer.h"
+#import "GetShareButtonOp.h"
 
 
 @interface CommitSuccessVC ()
@@ -39,6 +40,7 @@
 {
     [super viewWillDisappear:animated];
     [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
+
 }
 
 
@@ -71,7 +73,7 @@
 - (void)shareApp
 {
     SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-    vc.sceneType = ShareSceneLocalShare;
+    vc.sceneType = ShareSceneApp;
     vc.btnTypeArr = @[@1, @2, @3, @4];
 //    vc.tt = @"小马达达 —— 一分钱洗车";
 //    vc.subtitle = @"我正在使用1分钱洗车，洗车超便宜，你也来试试吧！";
