@@ -191,7 +191,7 @@
     if (self.defCouponInfo.rsp_desc) {
         return self.defCouponInfo.rsp_desc;
     }
-    return @"添加浙商银行汽车卡后，既可享受金卡返利8%，最高返50元；白金卡返利15%，最高返100元。";
+    return @"添加浙商银行汽车卡后，既可享受金卡返利8%，每月最高返50元；白金卡返利15%，每月最高返100元。";
 }
 
 - (void)cancelOrderWithTradeNumber:(NSString *)tdno bankCardID:(NSNumber *)gid
