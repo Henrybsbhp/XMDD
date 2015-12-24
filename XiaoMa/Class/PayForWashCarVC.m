@@ -394,6 +394,7 @@
             [MobClick event:@"rp108-12"];
             ChooseBankCardVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseBankCardVC"];
             vc.service = self.service;
+            vc.shop = self.shop;
             vc.bankCards = gAppMgr.myUser.couponModel.validCZBankCreditCard;
             vc.carwashCouponArray = self.carwashCoupouArray;
             [self.navigationController pushViewController:vc animated:YES];
@@ -831,7 +832,7 @@
 #pragma mark - 网络请求及处理
 - (void)requestGetUserResource:(BOOL)needAutoSelect
 {
-    [[gAppMgr.myUser.couponModel rac_getVaildResource:self.service.shopServiceType] subscribeNext:^(GetUserResourcesV2Op * op) {
+    [[gAppMgr.myUser.couponModel rac_getVaildResource:self.service.shopServiceType andShopId:self.shop.shopID] subscribeNext:^(GetUserResourcesV2Op * op) {
         
         self.carwashCoupouArray = op.validCarwashCouponArray;
         self.cashCoupouArray = op.validCashCouponArray;

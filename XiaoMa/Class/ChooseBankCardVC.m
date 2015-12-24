@@ -60,7 +60,7 @@
 
 - (void)reloadData
 {
-    [[[[gAppMgr.myUser.couponModel rac_getVaildResource:self.service.shopServiceType] initially:^{
+    [[[[gAppMgr.myUser.couponModel rac_getVaildResource:self.service.shopServiceType andShopId:self.shop.shopID] initially:^{
         
         [self.tableView.refreshView beginRefreshing];
     }] finally:^{
