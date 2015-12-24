@@ -18,13 +18,10 @@
 #import "RescureDetailsVC.h"
 #import "GetShareButtonOp.h"
 #import "ShareResponeManager.h"
-<<<<<<< HEAD
 #import "CommissonOrderVC.h"
 #import "RescureHomeViewController.h"
-=======
 #import "GasVC.h"
 
->>>>>>> fq_dev
 @interface CouponDetailsVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong ,nonatomic) HKCoupon * couponDic;
