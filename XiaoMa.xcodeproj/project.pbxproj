@@ -110,7 +110,6 @@
 		186984FB1B00CC50000A182A /* CarwashOrderDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 186984FA1B00CC50000A182A /* CarwashOrderDetailVC.m */; };
 		186985011B01A731000A182A /* CarwashOrderCommentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 186985001B01A731000A182A /* CarwashOrderCommentVC.m */; };
 		186985041B01CC2C000A182A /* SubmitCommentOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186985031B01CC2C000A182A /* SubmitCommentOp.m */; };
-		186985121B02E6CB000A182A /* ODRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 186985111B02E6CB000A182A /* ODRefreshControl.m */; };
 		186985151B02E7DB000A182A /* UIScrollView+RefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186985141B02E7DB000A182A /* UIScrollView+RefreshView.m */; };
 		186F2FB51C155FA5005CF051 /* CKStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 186F2FB41C155FA5005CF051 /* CKStore.m */; };
 		186F2FB81C156FF6005CF051 /* CKEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 186F2FB71C156FF6005CF051 /* CKEvent.m */; };
@@ -785,8 +784,6 @@
 		186985001B01A731000A182A /* CarwashOrderCommentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarwashOrderCommentVC.m; sourceTree = "<group>"; };
 		186985021B01CC2C000A182A /* SubmitCommentOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubmitCommentOp.h; path = Class/SubmitCommentOp.h; sourceTree = "<group>"; };
 		186985031B01CC2C000A182A /* SubmitCommentOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SubmitCommentOp.m; path = Class/SubmitCommentOp.m; sourceTree = "<group>"; };
-		186985101B02E6CB000A182A /* ODRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODRefreshControl.h; sourceTree = "<group>"; };
-		186985111B02E6CB000A182A /* ODRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODRefreshControl.m; sourceTree = "<group>"; };
 		186985131B02E7DB000A182A /* UIScrollView+RefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+RefreshView.h"; sourceTree = "<group>"; };
 		186985141B02E7DB000A182A /* UIScrollView+RefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+RefreshView.m"; sourceTree = "<group>"; };
 		186F2FB31C155FA5005CF051 /* CKStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKStore.h; path = Class/CKStore.h; sourceTree = "<group>"; };
@@ -1811,7 +1808,6 @@
 				189DD3FD1B10722700BA0A7F /* SRMonthPicker */,
 				189371231B0E0D460030FDE1 /* TTTAttributedLabel */,
 				6BBFBC3C1B0D8E57000D3CA3 /* WeiboShareSDK */,
-				1869850F1B02E6CB000A182A /* ODRefreshControl */,
 				C26489B21AF8A6B600F1E318 /* QQSDK */,
 				6BBB82571AE79FE100850D0C /* WeChatSDK.5 */,
 				18A377F01AE4AB4B0031A574 /* SVProgressHUD */,
@@ -2342,15 +2338,6 @@
 				18A9E8CB1BDDC1C00061D3BC /* PickInsCompaniesVC.m */,
 			);
 			name = MyCar;
-			sourceTree = "<group>";
-		};
-		1869850F1B02E6CB000A182A /* ODRefreshControl */ = {
-			isa = PBXGroup;
-			children = (
-				186985101B02E6CB000A182A /* ODRefreshControl.h */,
-				186985111B02E6CB000A182A /* ODRefreshControl.m */,
-			);
-			path = ODRefreshControl;
 			sourceTree = "<group>";
 		};
 		1883D8D61ACB99AC002A4D19 = {
@@ -4178,7 +4165,6 @@
 				6BC220991AD7804800A4310E /* NSMutableDictionary+AddParams.m in Sources */,
 				18746B181AEA1BB300D93696 /* UpdateInsuranceOrderOp.m in Sources */,
 				1818D8FB1C22FB670078C329 /* UpdateDeliveryInfoOp.m in Sources */,
-				186985121B02E6CB000A182A /* ODRefreshControl.m in Sources */,
 				185A52821B195C87003515CC /* NearbyShopListVC.m in Sources */,
 				1833F5961BCD37EB000E1DA1 /* GasCardStore.m in Sources */,
 				2E52F24D1C2032BB00D94F68 /* RescureHomeViewController.m in Sources */,
@@ -4974,7 +4960,6 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "e21a7301-2ad1-40ab-b7ec-356774a7ba3a";
-
 			};
 			name = Release;
 		};

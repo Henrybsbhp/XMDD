@@ -101,7 +101,7 @@
     NSString * spaceNote = note;
     for (;;)
     {
-        CGSize size = [spaceNote sizeWithFont:[UIFont systemFontOfSize:13] constrainedToSize:CGSizeMake(FLT_MAX,FLT_MAX)];
+        CGSize size = [spaceNote sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(FLT_MAX,FLT_MAX)];
         if (size.width > w)
             return spaceNote;
         spaceNote = [spaceNote append:@" "];

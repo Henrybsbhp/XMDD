@@ -284,8 +284,8 @@
     
     
     HKCellData *cell2_2 = [HKCellData dataWithCellID:@"Field" tag:nil];
-    cell2_2.customInfo[@"title"] = @"车架号";
-    cell2_2.customInfo[@"placehold"] = @"请填写车架号";
+    cell2_2.customInfo[@"title"] = @"车架号码";
+    cell2_2.customInfo[@"placehold"] = @"请填写车架号码";
     cell2_2.customInfo[@"howDisplay"] = @(YES);
     cell2_2.customInfo[@"block"] = [^(CKLimitTextField *field, RACSignal *stopSig) {
         @strongify(self);
@@ -340,7 +340,7 @@
     } copy];
     cell2_3.customInfo[@"howAction"] = [^(void){
         
-        [self showPicture:@"ins_eg_pic2"];
+        [self showPicture:@"ins_eg_pic3"];
     } copy];
     
     HKCellData *cell2_4 = [HKCellData dataWithCellID:@"Field" tag:nil];
@@ -650,6 +650,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [IQKeyboardManager sharedManager].
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.view endEditing:YES];
     HKCellData *data = [[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
