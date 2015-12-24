@@ -11,7 +11,11 @@
 
 @interface GetUserResourcesV2Op : BaseOp
 
+///商户id
+@property (nonatomic,strong)NSNumber * shopID;
+
 @property (nonatomic)ShopServiceType shopServiceType;
+
 
 ///优惠劵列表
 @property (nonatomic,strong)NSArray * rsp_coupons;

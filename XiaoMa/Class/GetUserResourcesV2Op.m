@@ -17,7 +17,7 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:@(self.shopServiceType) forName:@"servicetype"];
-    
+    [params addParam:self.shopID forName:@"shopid"];
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 

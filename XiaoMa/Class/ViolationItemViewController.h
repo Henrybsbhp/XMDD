@@ -20,7 +20,6 @@ typedef enum : NSUInteger {
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *headView;
-@property (strong, nonatomic) IBOutlet MyUIPageControl *pageController;
 
 
 @property (nonatomic,strong)ViolationModel * model;

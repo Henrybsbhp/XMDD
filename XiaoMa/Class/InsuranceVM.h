@@ -8,12 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "HKInsuranceOrder.h"
+#import "InsSimpleCar.h"
 
 @interface InsuranceVM : NSObject<NSCopying>
-///车牌号
-@property (nonatomic, strong) NSString *licenseNumber;
-///核保id
-@property (nonatomic, strong) NSNumber *premiumId;
+@property (nonatomic, strong) InsSimpleCar *simpleCar;
 ///用户姓名
 @property (nonatomic, strong) NSString *realName;
 /// 座位数
@@ -24,5 +22,7 @@
 @property (nonatomic, strong) NSString *inscompname;
 
 @property (nonatomic, weak) UIViewController *originVC;
+
+- (NSArray *)createCoveragesList;
 
 @end

@@ -7,9 +7,9 @@
 //
 
 #import "HKInsurance.h"
+#import "HKCoverage.h"
 
 @implementation SubInsurance
-
 
 @end
 
@@ -30,7 +30,7 @@
         SubInsurance * subIns = [[SubInsurance alloc] init];
         subIns.coveragerName = dict[@"name"];
         subIns.coveragerValue = dict[@"value"];
-        subIns.coveragerId = [dict integerParamForName:@"pid"];
+        subIns.coveragerId = [dict numberParamForName:@"pid"];
         [tarray addObject:subIns];
     }
     insurance.subInsuranceArray = tarray;
@@ -49,7 +49,7 @@
         return nil;
     }
     InsuranceDiscount * disIns = [[InsuranceDiscount alloc] init];
-    disIns.pid = [rsp integerParamForName:@"pid"];
+    disIns.pid = [rsp numberParamForName:@"pid"];
     disIns.discountrate = [rsp floatParamForName:@"discountrate"];
     return disIns;
 }
