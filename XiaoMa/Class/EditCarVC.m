@@ -1,5 +1,5 @@
 //
-//  EditMyCarVC.m
+//  EditCarVC.m
 //  XiaoMa
 //
 //  Created by jiangjunchen on 15/5/6.
@@ -241,13 +241,27 @@
         @strongify(self);
         [MobClick event:@"rp312-5"];
         [self.view endEditing:YES];
-        PickerAutoModelVC *vc = [UIStoryboard vcWithId:@"PickerAutoModelVC" inStoryboard:@"Car"];
-        vc.series = self.curCar.seriesModel;
-        vc.originVC = self;
-        [vc setCompleted:^(AutoBrandModel *brand, AutoSeriesModel *series, AutoDetailModel * model) {
-            self.curCar.detailModel = model;
-        }];
-        [self.navigationController pushViewController:vc animated:YES];
+        if ([self.curCar.seriesModel.seriesid integerValue] != 0) {
+            PickerAutoModelVC *vc = [UIStoryboard vcWithId:@"PickerAutoModelVC" inStoryboard:@"Car"];
+            vc.series = self.curCar.seriesModel;
+            vc.originVC = self;
+            [vc setCompleted:^(AutoBrandModel *brand, AutoSeriesModel *series, AutoDetailModel * model) {
+                self.curCar.detailModel = model;
+            }];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        else {
+            PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Car"];
+            vc.originVC = self;
+            [vc setCompleted:^(AutoBrandModel *brand, AutoSeriesModel *series, AutoDetailModel *model) {
+                self.curCar.brandid = brand.brandid;
+                self.curCar.brand = brand.brandname;
+                self.curCar.brandLogo = brand.brandLogo;
+                self.curCar.seriesModel = series;
+                self.curCar.detailModel = model;
+            }];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }];
     
     return @[cell1_0,cell1_1,cell1_2,cell1_3,cell1_4];
