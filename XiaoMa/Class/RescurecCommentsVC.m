@@ -13,7 +13,7 @@
 #import "GetRescueCommentOp.h"
 #import "UIView+DefaultEmptyView.h"
 #import "UIView+JTLoadingView.h"
-
+#import "NSString+RectSize.h"
 #define kWidth [UIScreen mainScreen].bounds.size.width
 
 @interface RescurecCommentsVC ()<UITableViewDelegate, UITableViewDataSource>
@@ -56,7 +56,11 @@
     [self.footerView addSubview:self.submitBtn];
     self.tableView.tableHeaderView = self.headerView;
     
-    
+    if (self.type == 1) {
+        self.navigationItem.title = @"救援完成";
+    }else {
+        self.navigationItem.title = @"协办完成";
+    }
     
     //textView占位符（label要关掉交互）
     @weakify(self)
@@ -92,6 +96,9 @@
     }else if (self.type == 3){
         self.titleImg.image = [UIImage imageNamed:@"rescue_tire"];
         self.titleLb.text = @"换胎服务";
+    }else if (self.type == 0){
+        self.titleImg.image = [UIImage imageNamed:@"commission_annual"];
+        self.titleLb.text = @"年检协办";
     }
 }
 
@@ -99,7 +106,6 @@
 - (void) alreadyNetwork {
     GetRescueCommentOp *op = [GetRescueCommentOp operation];
     op.applyId = self.applyId;
-    
     op.type = self.applyType;
     [[[[op rac_postRequest] initially:^{
         
@@ -268,6 +274,15 @@
             return 36;
         }else{
             return 50;
+        }
+    }else if (indexPath.row == 7){
+        if (self.isLog == 1 && self.evaluationArray.count != 0){
+            NSString * str = [self.evaluationArray safetyObjectAtIndex:3];
+            CGFloat width = kWidth - 20;
+            CGSize size = [str labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
+            return size.height;
+        }else{
+            return 36;
         }
     }else {
         return 36;

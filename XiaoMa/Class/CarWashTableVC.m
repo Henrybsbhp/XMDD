@@ -27,7 +27,8 @@
 
 
 @interface CarWashTableVC ()
-@property (nonatomic)CLLocationCoordinate2D  userCoordinate;
+
+@property (nonatomic,strong)MAUserLocation *userLocation;
 @property (nonatomic, strong) ADViewController *adctrl;
 ///当前页码索引
 @property (nonatomic, assign) NSUInteger currentPageIndex;
@@ -245,7 +246,17 @@
     }
     
     @weakify(self);
-    return [[[gMapHelper rac_getUserLocation] catch:^RACSignal *(NSError *error) {
+    RACSignal * signal;
+    if (!self.userLocation || self.currentPageIndex == 0)
+    {
+        signal = [gMapHelper rac_getUserLocation];
+    }
+    else
+    {
+        signal = [RACSignal return:self.userLocation];
+    }
+    
+    return [[signal catch:^RACSignal *(NSError *error) {
         
         NSError *mappedError = [NSError errorWithDomain:@"" code:error.code userInfo:nil];
         mappedError.customTag = 1;
@@ -253,7 +264,7 @@
     }] flattenMap:^RACStream *(MAUserLocation *userLocation) {
         
         @strongify(self)
-        self.userCoordinate = userLocation.coordinate;
+        self.userLocation = userLocation;
         GetShopByDistanceV2Op * getShopByDistanceOp = [GetShopByDistanceV2Op new];
         getShopByDistanceOp.longitude = userLocation.coordinate.longitude;
         getShopByDistanceOp.latitude = userLocation.coordinate.latitude;
@@ -429,8 +440,8 @@
         }
     }
     
-    double myLat = self.userCoordinate.latitude;
-    double myLng = self.userCoordinate.longitude;
+    double myLat = self.userLocation.coordinate.latitude;
+    double myLng = self.userLocation.coordinate.longitude;
     double shopLat = shop.shopLatitude;
     double shopLng = shop.shopLongitude;
     NSString * disStr = [DistanceCalcHelper getDistanceStrLatA:myLat lngA:myLng latB:shopLat lngB:shopLng];
@@ -478,7 +489,8 @@
         
         @strongify(self)
         [MobClick event:@"rp102-4"];
-        [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.tabBarController.view];
+        
+        [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userLocation.coordinate andView:self.tabBarController.view];
     }];
     
     [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {

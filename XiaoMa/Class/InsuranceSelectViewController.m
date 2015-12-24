@@ -10,6 +10,7 @@
 #import "CCSegmentedControl.h"
 #import "InsuranceSelectModel.h"
 #import "HKInsurance.h"
+#import "CKLine.h"
 
 #import "GetInsuranceCalculatorOpV3.h"
 #import "CalculatePremiumOp.h"
@@ -64,15 +65,15 @@
 {
     self.segmentedView.hidden = YES;
     [self.segmentedView commonInit];
+    self.segmentedView.backgroundColor = [UIColor whiteColor];
     [self.planArray enumerateObjectsUsingBlock:^(HKInsurance * ins, NSUInteger idx, BOOL *stop) {
         
         [self.segmentedView insertSegmentWithTitle:ins.insuranceName atIndex:idx animated:NO];
     }];
     
-    UIView * v = [[UIView alloc] init];
+    UIView * v = [[UIView alloc] initWithFrame:CGRectZero];
     v.backgroundColor = [UIColor colorWithHex:@"#20ab2a" alpha:1.0f];
     self.segmentedView.selectedStainView = v;
-    
     self.segmentedView.selectedSegmentTextColor = [UIColor whiteColor];
     self.segmentedView.segmentTextColor = [UIColor darkGrayColor];
     [self.segmentedView addTarget:self action:@selector(segmentValueChanged:) forControlEvents:UIControlEventValueChanged];
@@ -135,7 +136,7 @@
 - (void)requestCalculatePremium
 {
     CalculatePremiumOp * op = [CalculatePremiumOp operation];
-    op.req_carpremiumid = self.insModel.premiumId;
+    op.req_carpremiumid = self.insModel.simpleCar.carpremiumid;
     op.req_inslist = [[self.currentModel inslistForVC] componentsJoinedByString:@"|"];
 
     InsActivityIndicatorVC *indicator = [[InsActivityIndicatorVC alloc] init];
@@ -185,6 +186,7 @@
         @strongify(self);
         [gToast dismiss];
         InsAppointmentSuccessVC *vc = [UIStoryboard vcWithId:@"InsAppointmentSuccessVC" inStoryboard:@"Insurance"];
+        vc.insModel = self.insModel;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
        
@@ -218,7 +220,7 @@
         NSMutableArray * selectIns = [NSMutableArray array];
         for (SubInsurance * subIns in ins.subInsuranceArray)
         {
-            [selectIns safetyAddObject:@(subIns.coveragerId)];
+            [selectIns safetyAddObject:subIns.coveragerId];
         }
         InsuranceSelectModel * model = [[InsuranceSelectModel alloc] init];
         model.tableView = self.tableView;

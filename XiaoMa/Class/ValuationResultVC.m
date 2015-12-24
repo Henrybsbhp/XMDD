@@ -115,7 +115,7 @@
             licensenoL.text = self.evaluateOp.req_licenseno;
             brandL.text = self.modelStr;
             if (!IOSVersionGreaterThanOrEqualTo(@"8.0")) {
-                brandL.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 44;
+                brandL.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 86;
             }
         }
         else {
@@ -143,6 +143,9 @@
             }
             UILabel * tipLabel = (UILabel *)[cell.contentView viewWithTag:1007];
             tipLabel.text = self.evaluateOp.rsp_tip;
+            if (!IOSVersionGreaterThanOrEqualTo(@"8.0")) {
+                tipLabel.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 32;
+            }
         }
         else {
             cell=[tableView dequeueReusableCellWithIdentifier:@"SecondMoreCell"];

@@ -12,7 +12,7 @@
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/insurance/calculator/v2/get";
+    self.req_method = @"/insurance/calculator/v3/get";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params safetySetObject:self.req_city forKey:@"city"];

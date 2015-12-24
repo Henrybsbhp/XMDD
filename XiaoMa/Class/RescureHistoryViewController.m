@@ -16,8 +16,9 @@
 #import "rescueCancelHostcar.h"
 @interface RescureHistoryViewController ()<UITableViewDelegate, UITableViewDataSource, HKLoadingModelDelegate>
 
+@property (weak, nonatomic) IBOutlet JTTableView *tableView;
 @property (nonatomic, strong) HKLoadingModel *loadingModel;
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
+//@property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *dataSourceArray;
 @property (nonatomic, assign) long long applyTime;
 @property (nonatomic, assign) NSInteger applyType;
@@ -34,10 +35,15 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self historyNetwork];
-    
+ 
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if (self.type == 1) {
+        self.navigationItem.title = @"救援记录";
+    }else {
+        self.navigationItem.title = @"协办记录";
+    }
 }
 
 #pragma mark - network
@@ -53,8 +59,13 @@
     }] subscribeNext:^(GetRescueHistoryOp *op) {
         self.dataSourceArray = (NSMutableArray *)op.req_applysecueArray;
         if (self.dataSourceArray.count == 0) {
-            [self.view showDefaultEmptyViewWithText:@"暂无历史记录"];
+            if (self.type == 1) {
+                [self.view showDefaultEmptyViewWithText:@"暂无救援记录"];
+            }else {
+                [self.view showDefaultEmptyViewWithText:@"暂无协办记录"];
+            }
         }
+        
         [self.tableView reloadData];
     } error:^(NSError *error) {
         [gToast showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
@@ -90,15 +101,13 @@
     plateLb.text = [NSString stringWithFormat:@"服务车辆: %@", hostory.licenceNumber];
     if ([hostory.commentStatus integerValue] == 0) {
         evaluationLb.text = @"未评价";
-        if ([hostory.rescueStatus integerValue] == 4) {
-            evaluationLb.layer.borderColor = [UIColor colorWithHex:@"#fe4a00" alpha:1].CGColor;
-            evaluationLb.textColor = [UIColor colorWithHex:@"#fe4a00" alpha:1];
-            
-            evaluationLb.text = @"已取消";
+        if ([hostory.rescueStatus integerValue] == 4 || [hostory.rescueStatus integerValue] == 5) {
+            evaluationLb.hidden = YES;
         }
     }else if ([hostory.commentStatus integerValue]== 1){
         evaluationLb.text = @"已评价";
     }
+    
     if ([hostory.rescueStatus integerValue] == 2) {
         stateLb.text = @"已申请";
         evaluationLb.hidden = YES;
@@ -108,8 +117,15 @@
             evaluationLb.textColor = [UIColor colorWithHex:@"#bfbfbf" alpha:1];
             evaluationLb.text = @"取消";
         }
-    }else{
+    }else if ([hostory.rescueStatus integerValue] == 3){
+        evaluationLb.hidden = NO;
         stateLb.text = @"已完成";
+    }else if ([hostory.rescueStatus integerValue] == 4){
+        stateLb.text = @"已取消";
+        button.hidden = YES;
+    }else if ([hostory.rescueStatus integerValue] == 5){
+        button.hidden = YES;
+        stateLb.text = @"处理中";
     }
     if (self.type == 2) {
         image.image = [UIImage imageNamed:@"commission_annual"];
@@ -126,19 +142,16 @@
     NSString *tempStr = [timeStr substringToIndex:10];
     timeLb.text = [[NSDate dateWithTimeIntervalSince1970:[tempStr intValue]] dateFormatForYYYYMMddHHmm2];
     
-    
-    
     [[button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
-        if ([hostory.rescueStatus integerValue] != 2 && [hostory.rescueStatus integerValue] != 4) {
+        HKRescueHistory *hostory = self.dataSourceArray[indexPath.row];
+        if ([hostory.rescueStatus integerValue] != 2 && [hostory.rescueStatus integerValue] != 4 && [hostory.rescueStatus integerValue] != 5) {
             
             RescurecCommentsVC *vc = [UIStoryboard vcWithId:@"RescurecCommentsVC" inStoryboard:@"Rescue"];
             vc.applyTime = hostory.applyTime;
-            
-            vc.isLog = [hostory.commentStatus integerValue];
-            if ( [evaluationLb.text isEqualToString:@"已评价"]) {
-                vc.isLog = 1;
-            }
+         
+            [RACObserve(hostory,commentStatus) subscribeNext:^(NSNumber *num) {
+               vc.isLog = [num integerValue];
+            }];
             vc.type = [hostory.type integerValue];
             vc.serviceName = hostory.serviceName;
             vc.applyId = hostory.applyId;
@@ -150,21 +163,32 @@
             vc.licenceNumber = hostory.licenceNumber;
             [self.navigationController pushViewController:vc animated:YES];
         }else if ([hostory.rescueStatus integerValue] == 2 && self.type == 2){
-            rescueCancelHostcar *op = [rescueCancelHostcar operation];
-            op.applyId = hostory.applyId;
-            [[[[op rac_postRequest] initially:^{
-                [gToast showText:@"取消中..."];
-            }] finally:^{
-                [gToast dismiss];
-            }] subscribeNext:^(rescueCancelHostcar *op) {
-                if (op.rsp_code == 0) {
-                    [gToast showText:@"取消成功"];
-                    [self historyNetwork];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您确定要本次协办服务吗？" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            [alert show];
+            [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
+                
+                NSInteger i = [n integerValue];
+                if (i == 1)
+                {
+                    rescueCancelHostcar *op = [rescueCancelHostcar operation];
+                    op.applyId = hostory.applyId;
+                    [[[[op rac_postRequest] initially:^{
+                        [gToast showText:@"取消中..."];
+                    }] finally:^{
+                        [gToast dismiss];
+                    }] subscribeNext:^(rescueCancelHostcar *op) {
+                        if (op.rsp_code == 0) {
+                            [gToast showText:@"取消成功"];
+                            [self historyNetwork];
+                        }
+                        
+                    } error:^(NSError *error) {
+                        [gToast showText:@"取消失败, 请重试"];
+                    }] ;
                 }
                 
-            } error:^(NSError *error) {
-                [gToast showText:@"取消失败, 请重试"];
-            }] ;
+            }];
+          
             
         }
         
@@ -175,20 +199,7 @@
 
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //    HKRescueHistory *hostory = [self.dataSourceArray safetyObjectAtIndex:indexPath.row];
-    //    if ([hostory.rescueStatus integerValue] != 2) {
-    //        RescurecCommentsVC *vc = [UIStoryboard vcWithId:@"RescurecCommentsVC" inStoryboard:@"Rescue"];
-    //        vc.applyTime = hostory.applyTime;
-    //        vc.isLog = [hostory.commentStatus integerValue];
-    //        vc.type = [hostory.type integerValue];
-    //        vc.serviceName = hostory.serviceName;
-    //        vc.applyId = hostory.applyId;
-    //        vc.applyType = [NSNumber numberWithInteger:1];
-    //        vc.licenceNumber = hostory.licenceNumber;
-    //        vc.applyType = [NSNumber numberWithInteger:self.type];
-    //
-    //        [self.navigationController pushViewController:vc animated:YES];
-    //    }
+
 }
 
 
@@ -199,5 +210,66 @@
     }
     return _dataSourceArray;
 }
-
+/*
+ - (void)searchMoreShops
+ {
+ if ([self.tableView.bottomLoadingView isActivityAnimating])
+ {
+ return;
+ }
+ 
+ NSString * searchInfo = self.searchBar.text;
+ searchInfo = [self.searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+ GetShopByNameV2Op * op = [GetShopByNameV2Op operation];
+ op.longitude = self.coordinate.longitude;
+ op.latitude = self.coordinate.latitude;
+ op.shopName = searchInfo;
+ op.pageno = self.currentPageIndex;
+ op.orderby = 1;
+ 
+ [[[op rac_postRequest] initially:^{
+ 
+ [self.tableView.bottomLoadingView hideIndicatorText];
+ [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
+ self.isLoading = YES;
+ }] subscribeNext:^(GetShopByNameV2Op * op) {
+ 
+ self.currentPageIndex = self.currentPageIndex + 1;
+ [self.tableView.bottomLoadingView stopActivityAnimation];
+ self.isLoading = NO;
+ if(op.rsp_code == 0)
+ {
+ [self.tableView hideDefaultEmptyView];
+ if (op.rsp_shopArray.count >= self.pageAmount)
+ {
+ self.isRemain = YES;
+ }
+ else
+ {
+ self.isRemain = NO;
+ }
+ if (!self.isRemain)
+ {
+ self.tableView.showBottomLoadingView = YES;
+ [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+ }
+ 
+ NSMutableArray * tArray = [NSMutableArray arrayWithArray:self.resultArray];
+ [tArray addObjectsFromArray:op.rsp_shopArray];
+ self.resultArray = [NSArray arrayWithArray:tArray];
+ [self.tableView reloadData];
+ }
+ else
+ {
+ [self.tableView.bottomLoadingView showIndicatorTextWith:@"获取失败，再拉拉看"];
+ }
+ } error:^(NSError *error) {
+ self.isLoading = NO;
+ self.tableView.showBottomLoadingView = YES;
+ [self.tableView.bottomLoadingView stopActivityAnimation];
+ [self.tableView.bottomLoadingView showIndicatorTextWith:@"获取失败，再拉拉看"];
+ 
+ }];
+ }
+ */
 @end

@@ -53,8 +53,8 @@
 {
     self.datasource = datasource;
     if (!rows) {
-        rows = [datasource arrayByMappingOperator:^id(id obj) {
-            return @0;
+        rows = [datasource arrayByMappingOperator:^id(NSArray *datas) {
+            return [datas objectAtIndex:0];
         }];
     }
     self.curRows = [NSMutableArray arrayWithArray:rows];

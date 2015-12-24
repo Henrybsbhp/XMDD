@@ -46,13 +46,15 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    self.tableView.tableHeaderView = self.advertisingImg;
-    self.tableView.tableFooterView = [[UIView alloc] init];
-    [self.view addSubview:self.helperBtn];
+
     
-    [self actionNetwork];
-    [self setupCarStore];
-  
+    
+    
+    if ( [LoginViewModel loginIfNeededForTargetViewController:self]) {
+        [self actionNetwork];
+        [self setupCarStore];
+        [self.view addSubview:self.helperBtn];
+    };
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.historyBtn];
 }
 
@@ -110,6 +112,9 @@
         
         NSString *string = [NSString stringWithFormat:@"● %@", [self.dataSourceArray safetyObjectAtIndex:0]];
         [self.dataSourceArray safetyReplaceObjectAtIndex:0 withObject:string];
+        self.helperBtn.hidden = NO;
+        self.tableView.tableHeaderView = self.advertisingImg;
+        self.tableView.tableFooterView = self.footerView;
         [self.tableView reloadData];
     } error:^(NSError *error) {
         if (self.dataSourceArray.count == 0) {
@@ -229,6 +234,7 @@
         [_helperBtn setTitle:@"我要协办" forState:UIControlStateNormal];
         [_helperBtn addTarget:self action:@selector(actionCommissionClick) forControlEvents:UIControlEventTouchUpInside];
         [_helperBtn setTintColor:[UIColor whiteColor]];
+        _helperBtn.hidden = YES;
         _helperBtn.backgroundColor = [UIColor colorWithHex:@"#35cb68" alpha:1];
         _helperBtn.cornerRadius = 4;
         _helperBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];

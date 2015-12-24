@@ -27,7 +27,7 @@
 /// 可用浙商银行信用卡
 @property (nonatomic, strong)NSArray * validCZBankCreditCard;
 
-- (RACSignal *)rac_getVaildResource:(ShopServiceType)type;
+- (RACSignal *)rac_getVaildResource:(ShopServiceType)type andShopId:(NSNumber *)shopid;
 
 - (RACSignal *)rac_getVaildInsuranceCoupon:(NSNumber *)orderid;
 
