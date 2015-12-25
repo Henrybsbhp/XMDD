@@ -16,6 +16,8 @@
         return NO;
     }
     
+    codeStr = [codeStr uppercaseString];
+    
     NSDictionary * vinDic = @{@"0":@"0", @"1":@"1", @"2":@"2",
                               @"3":@"3", @"4":@"4", @"5":@"5",
                               @"6":@"6", @"7":@"7", @"8":@"8",
@@ -39,7 +41,14 @@
             result = weight * value + result;
         }
     }
-    if (result % 11 == [[NSString stringWithFormat:@"%c", [codeStr characterAtIndex:8]] integerValue]){
+    
+    NSString * checkValueStr = [NSString stringWithFormat:@"%c", [codeStr characterAtIndex:8]];
+    if ([checkValueStr isEqualToString:@"X"]) {
+        if (result % 11 == 10) {
+            return YES;
+        }
+    }
+    else if (result % 11 == [checkValueStr integerValue]) {
         return YES;
     }
     return NO;

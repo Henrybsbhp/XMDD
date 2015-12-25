@@ -159,6 +159,14 @@
     return NO;
 }
 
+- (BOOL)isCarInfoCompletedForCarWash
+{
+    if (self.carId && self.licencenumber.length > 0 && self.purchasedate && self.brand.length > 0 && self.seriesModel.seriesname.length > 0) {
+        return YES;
+    }
+    return NO;
+}
+
 - (BOOL)isDifferentFromAnother:(HKMyCar *)another
 {
     if (![self.carId isEqualToNumber:another.carId]) {
