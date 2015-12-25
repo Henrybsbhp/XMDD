@@ -214,9 +214,9 @@
     else if (op.req_frameno.length != 17) {
         [gToast showText:@"车架号位数必须为17位"];
     }
-    else if (![CarIDCodeCheckModel carIDCheckWithCodeStr:op.req_frameno]) {
-        [gToast showText:@"请输入正确的车架号"];
-    }
+//    else if (![CarIDCodeCheckModel carIDCheckWithCodeStr:op.req_frameno]) {
+//        [gToast showText:@"请输入正确的车架号"];
+//    }
     else if (op.req_brandname.length == 0) {
         [gToast showText:@"车辆型号不能为空"];
     }

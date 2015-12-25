@@ -12,7 +12,7 @@
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/user/order/insurance/get";
+    self.req_method = @"/user/order/insurance/v2/get";
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:nil security:YES];
 }
 
