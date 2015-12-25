@@ -46,9 +46,10 @@
     [self getDataArr];
     if (self.dataArr.count > 0)
     {
-        [self setupUI];
+        [self setupNavi];
     }
-    
+    [self.deleteBtn makeCornerRadius:5];
+    self.isEditing = NO;
     [self refreshBottomView];
 }
 
@@ -97,8 +98,8 @@
     UILabel *evaluateZone = (UILabel *)[cell searchViewWithTag:1006];
     licenseNo.text = model[@"licenseNo"];
     modelName.text = model[@"modelname"];
-    mile.text = [NSString stringWithFormat:@"%@万公里",model[@"mile"]];
-    price.text=[NSString stringWithFormat:@"%@万元",model[@"price"]];
+    mile.text = [NSString stringWithFormat:@"%@万公里",[NSString formatForPrice:[model floatParamForName:@"mile"]]];
+    price.text=[NSString stringWithFormat:@"%@万元",[NSString formatForPrice:[model floatParamForName:@"price"]]];
     evaluateTime.text = [NSString stringWithFormat:@"%@",[[NSDate dateWithUTS:model[@"evaluatetime"]]dateFormatForYYYYMMddHHmm]];
     evaluateZone.text = model[@"evaluatezone"];
     [imgView setImageByUrl:model[@"logo"] withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
@@ -139,7 +140,7 @@
         }
         self.selectedAllBtn.selected = (self.dataArr.count == self.deleteArr.count);
     }];
-    if ([self.deleteArr containsObject:model] || self.selectedAllBtn.selected)
+    if ([self.deleteArr containsObject:model])
     {
         checkBtn.selected = YES;
     }
@@ -153,7 +154,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (IOSVersionGreaterThanOrEqualTo(@"7.0"))
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
     {
         return UITableViewAutomaticDimension;
     }
@@ -215,13 +216,11 @@
 
 #pragma  mark setupUI
 
-- (void)setupUI
+- (void)setupNavi
 {
     [self.navigationItem.rightBarButtonItem setTitleTextAttributes:@{
                                                                      NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
                                                                      } forState:UIControlStateNormal];
-    self.isEditing = NO;
-    [self.deleteBtn makeCornerRadius:5];
     
 }
 
@@ -328,7 +327,7 @@
         [self reloadData];
     } error:^(NSError *error) {
         @strongify(self);
-        [self.view showDefaultEmptyViewWithText:@"网络请求失败，请点击屏幕重试" tapBlock:^{
+        [self.view showDefaultEmptyViewWithText:@"估值记录获取失败，请点击屏幕重试" tapBlock:^{
             @strongify(self);
             [self getDataArr];
         }];
@@ -392,19 +391,6 @@
         }
         NSString *deleteStr = [deleteStrArr componentsJoinedByString:@","];
         [self uploadDeletaArr:deleteStr];
-        [self reloadData];
-//        self.isEditing = NO;
-//        [self refreshBottomView];
-//        if (self.deleteArr.count == self.dataArr.count)
-//        {
-//            self.navigationItem.rightBarButtonItem = nil;
-//            self.tableView.showBottomLoadingView=NO;
-//        }
-//        else
-//        {
-//            self.navigationItem.rightBarButtonItem.title = @"编辑";
-//        }
-        
     }
     else
     {
@@ -416,11 +402,7 @@
 
 - (IBAction)selectAll:(id)sender {
     [self.deleteArr removeAllObjects];
-    self.selectedAllBtn.selected =! self.selectedAllBtn.isSelected;
     [self.deleteArr safetyAddObjectsFromArray:self.dataArr];
-    if (!self.selectedAllBtn.isSelected) {
-        [self.deleteArr removeAllObjects];
-    }
     [self.tableView reloadData];
     UIAlertView *alerView = [[UIAlertView alloc]initWithTitle:nil message:@"请确认是否清空估值记录" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alerView show];
@@ -428,10 +410,10 @@
         if (index.integerValue == 1)
         {
             [self uploadDeletaArr:@"all"];
-            [self.deleteArr removeAllObjects];
             [self.dataArr removeAllObjects];
-            [self reloadData];
         }
+        [self.deleteArr removeAllObjects];
+        [self reloadData];
     }];
 }
 

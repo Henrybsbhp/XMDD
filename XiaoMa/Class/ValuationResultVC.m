@@ -210,7 +210,7 @@
 - (IBAction)shareAction:(id)sender {
     [gToast showingWithText:@"分享信息拉取中..."];
     GetShareButtonOp * op = [GetShareButtonOp operation];
-    op.pagePosition = ShareSceneValuation;
+    op.pagePosition = ShareSceneApp;
     @weakify(self);
     [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
         @strongify(self);
