@@ -72,33 +72,34 @@
 
 - (void)shareApp
 {
-    SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-    vc.sceneType = ShareSceneApp;
-    vc.btnTypeArr = @[@1, @2, @3, @4];
-//    vc.tt = @"小马达达 —— 一分钱洗车";
-//    vc.subtitle = @"我正在使用1分钱洗车，洗车超便宜，你也来试试吧！";
-    vc.image = [UIImage imageNamed:@"wechat_share_carwash"];
-    vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
-//    vc.urlStr = kAppShareUrl;
-    
-    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
-    sheet.shouldCenterVertically = YES;
-    [sheet presentAnimated:YES completionHandler:nil];
-    
-    [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        [sheet dismissAnimated:YES completionHandler:nil];
-    }];
-    
-    [vc setClickAction:^{
-        [sheet dismissAnimated:YES completionHandler:nil];
-    }];
-    
-    //单例模式下，不需要处理回调应将单例的block设置为空，否则将执行上次set的block
-    [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
+    [gToast showingWithText:@"分享信息拉取中..."];
+    GetShareButtonOp * op = [GetShareButtonOp operation];
+    op.pagePosition = ShareSceneApp;
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
+        [gToast dismiss];
+        SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+        vc.sceneType = ShareSceneApp;    //页面位置
+        vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
         
-    }];
-    [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+        sheet.shouldCenterVertically = YES;
         
+        [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            [MobClick event:@"rp110-7"];
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        [vc setClickAction:^{
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
+        [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
+            
+        }];
+        [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
+            
+        }];
+    } error:^(NSError *error) {
+        [gToast showError:@"分享信息拉取失败，请重试"];
     }];
 }
 
