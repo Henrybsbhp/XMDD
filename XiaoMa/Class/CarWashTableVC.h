@@ -14,11 +14,11 @@
 @interface CarWashTableVC : UIViewController<UITableViewDataSource, UITableViewDelegate, HKLoadingModelDelegate>
 
 @property (nonatomic)NSInteger type;
-@property (strong, nonatomic) IBOutlet JTTableView *tableView;
-@property (weak, nonatomic) IBOutlet UIView *searchView;
-@property (weak, nonatomic) IBOutlet UITextField *searchField;
+@property (strong, nonatomic) IBOutlet JTTableView *carwashTableView;
+@property (strong, nonatomic) IBOutlet JTTableView *withheartTableView;
 @property (strong, nonatomic) IBOutlet UIView *headerView;
-@property (nonatomic, strong) HKLoadingModel *loadingModel;
+@property (nonatomic, strong) HKLoadingModel *carwashLoadingModel;
+@property (nonatomic, strong) HKLoadingModel *withheartLoadingModel;
 
 @property (nonatomic, strong)HKCoupon * couponForWashDic;
 ///禁止广告

@@ -103,6 +103,7 @@ typedef enum : NSInteger
 - (NSString *)wholeLicenseNumber;
 - (NSDictionary *)jsonDictForCarInfo;
 - (BOOL)isCarInfoCompleted;
+- (BOOL)isCarInfoCompletedForCarWash;
 - (BOOL)isDifferentFromAnother:(HKMyCar *)another;
 - (UIColor *)tintColor;
 + (UIColor *)tintColorForColorType:(HKCarTintColorType)colorType;

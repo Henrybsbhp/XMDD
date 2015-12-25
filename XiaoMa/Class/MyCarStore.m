@@ -106,11 +106,11 @@
 {
     NSArray *cars = self.cache.allObjects;
     HKMyCar *defCar = [cars firstObjectByFilteringOperator:^BOOL(HKMyCar *car) {
-        return car.isDefault && [car isCarInfoCompleted];
+        return car.isDefault && [car isCarInfoCompletedForCarWash];
     }];
     if (!defCar && cars.count > 0) {
         for (HKMyCar *car in cars) {
-            if ([car isCarInfoCompleted]) {
+            if ([car isCarInfoCompletedForCarWash]) {
                 return car;
             }
         }

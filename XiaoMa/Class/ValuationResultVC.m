@@ -218,6 +218,8 @@
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneValuation;    //页面位置
         vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        NSMutableDictionary * otherDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:self.evaluateOp.rsp_sharecode, @"shareCode", nil];
+        vc.otherInfo = otherDic;
         
         MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
         sheet.shouldCenterVertically = YES;
