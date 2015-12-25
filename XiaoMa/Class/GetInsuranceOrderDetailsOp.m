@@ -13,7 +13,7 @@
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/user/order/insurance/detail/get/by-id";
+    self.req_method = @"/user/order/insurance/detail/v2/get/by-id";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:self.req_orderid forName:@"orderid"];

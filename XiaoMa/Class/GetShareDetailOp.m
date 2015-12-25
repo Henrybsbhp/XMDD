@@ -19,6 +19,7 @@
     [params addParam:@(self.buttonId) forName:@"buttonid"];
     [params addParam:@(self.gasCharge) forName:@"gascharge"];
     [params addParam:@(self.spareCharge) forName:@"sparecharge"];
+    [params addParam:self.shareCode forName:@"sharecode"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }

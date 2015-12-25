@@ -45,6 +45,7 @@
     order.activityAmount = [rsp floatParamForName:@"couponmoney"];
     order.insordernumber = rsp[@"insordernumber"];
     order.fee = [rsp floatParamForName:@"fee"];
+    order.forcetaxfee = [rsp floatParamForName:@"forcetaxfee"];
     order.licenseName = [rsp stringParamForName:@"license"];
     order.licenseUrl = [rsp stringParamForName:@"licenseurl"];
     

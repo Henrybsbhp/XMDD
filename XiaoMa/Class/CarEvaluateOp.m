@@ -37,6 +37,7 @@
         self.rsp_url = [rspObj stringParamForName:@"url"];
         self.rsp_tip = [rspObj stringParamForName:@"tip"];
         self.rsp_carid = [rspObj numberParamForName:@"carid"];
+        self.rsp_sharecode = [rspObj stringParamForName:@"sharecode"];
     }
     else
     {

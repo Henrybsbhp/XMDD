@@ -10,10 +10,14 @@
 
 @interface TopMenuScrollView : UIScrollView
 
+@property (nonatomic, strong) NSArray * btnTitleArr;
+
 //stroryboard中直接继承的初始化方法
 - (instancetype)initWithCoder:(NSCoder *)aDecoder;
+//- (void)layoutSubviews;
 
+- (void)setBtnTitles:(NSArray *)titleArr;
 //代码添加的初始化方法
-- (instancetype)initWithFrame:(CGRect)frame;
+- (instancetype)initWithFrame:(CGRect)frame andBtnTitles:(NSArray *)titleArr;
 
 @end

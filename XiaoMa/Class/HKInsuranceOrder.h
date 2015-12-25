@@ -63,6 +63,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) CGFloat totoalpay;
 //实际支付价格
 @property (nonatomic, assign) CGFloat fee;
+///交强险+车船税总额
+@property (nonatomic, assign) CGFloat forcetaxfee;
 //邮寄地址
 @property (nonatomic, assign) NSString *deliveryaddress;
 //订单状态
