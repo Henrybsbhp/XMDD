@@ -158,6 +158,10 @@
 }
 
 - (void)actionRescueHistory {
+    /**
+     *  救援记录事件
+     */
+    [MobClick event:@"rp701-1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         RescureHistoryViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureHistoryViewController"];
         vc.type = 1;
