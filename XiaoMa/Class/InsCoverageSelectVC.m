@@ -224,6 +224,18 @@
 }
 
 #pragma mark - Utlity
+- (HKCellData *)dataForInsID:(NSNumber *)insid inArray:(NSArray *)array
+{
+    if (!insid || !array) {
+        return nil;
+    }
+    HKCellData *data = [array firstObjectByFilteringOperator:^BOOL(HKCellData *data) {
+        HKCoverage *cov = data.object;
+        return [cov.insId isEqual:insid];
+    }];
+    return data;
+}
+
 - (HKInsurance *)generateCustomPlan
 {
     HKInsurance * ins = [[HKInsurance alloc] init];
@@ -369,18 +381,20 @@
     UIView *rightV = [cell viewWithTag:103];
     UILabel *rightL = [cell viewWithTag:1031];
     UIButton *rightB = [cell viewWithTag:1033];
-    
+
     HKCoverage *coverage = data.object;
+    [[RACObserve(data, forceReload) takeUntilForCell:cell] subscribeNext:^(id x) {
+        titleL.text = coverage.insName;
+        rightV.hidden = coverage.params.count == 0 || data.customInfo[@"nested"];
+        rightL.text = [data.customInfo[@"detail"] objectForKey:@"key"];
+        checkB.selected = [data.customInfo[@"select"] boolValue];
+    }];
     
-    titleL.text = coverage.insName;
-    rightV.hidden = coverage.params.count == 0 || data.customInfo[@"nested"];
-    rightL.text = [data.customInfo[@"detail"] objectForKey:@"key"];
-    
-    checkB.selected = [data.customInfo[@"select"] boolValue];
     @weakify(self);
-    @weakify(checkB);
     [[[checkB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
+         
+         @strongify(self);
          //交强险和车船税无法取消
          if ([coverage.insId isEqual:@14] || [coverage.insId isEqual:@15]) {
              UIAlertView *alert = [[UIAlertView alloc] initNoticeWithTitle:@"" message:@"在线无法单独购买商业险,请拨打4007-111-111, 小马达达车险专员为您服务" cancelButtonTitle:@"确定"];
@@ -388,18 +402,57 @@
              return ;
          }
          NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-         @strongify(self);
-         @strongify(checkB);
          BOOL selected = ![data.customInfo[@"select"] boolValue];
          data.customInfo[@"select"] = @(selected);
-         checkB.selected = selected;
+         data.forceReload = !data.forceReload;
+         NSArray *array = [self.datasource safetyObjectAtIndex:indexPath.section];
          //移除行
-         if (!selected && !data.customInfo[@"nested"] && coverage.excludingDeductibleCoverage) {
-             [self deleteRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row+1 inSection:indexPath.section]];
-         }
+         if (!selected) {
+             [self.tableView beginUpdates];
+
+             if ([coverage.insId isEqual:@3]) {
+                 HKCellData *data2 = [self dataForInsID:@4 inArray:array];
+                 data2.customInfo[@"select"] = @NO;
+                 data2.forceReload = !data2.forceReload;
+                 //注意！delete的顺序，index一定要大到小，不然会错乱
+                 [self deleteRowsForData:data2 inSection:indexPath.section];
+                 [self deleteRowsForData:data inSection:indexPath.section];
+             }
+             else if ([coverage.insId isEqual:@4]) {
+                 HKCellData *data2 = [self dataForInsID:@3 inArray:array];
+                 data2.customInfo[@"select"] = @NO;
+                 data2.forceReload = !data2.forceReload;
+                 [self deleteRowsForData:data inSection:indexPath.section];
+                 [self deleteRowsForData:data2 inSection:indexPath.section];
+             }
+             else {
+                 [self deleteRowsForData:data inSection:indexPath.section];
+             }
+             [self.tableView endUpdates];
+          }
          //插入行
          else if (selected && coverage.excludingDeductibleCoverage) {
-             [self insertRowFromData:data atIndexPath:[NSIndexPath indexPathForRow:indexPath.row+1 inSection:indexPath.section]];
+             [self.tableView beginUpdates];
+             
+             if ([coverage.insId isEqual:@3]) {
+                 HKCellData *data2 = [self dataForInsID:@4 inArray:array];
+                 data2.customInfo[@"select"] = @YES;
+                 data2.forceReload = !data2.forceReload;
+                 //注意！insert的顺序，index一定要从小到大，不然会错乱
+                 [self insertRowForData:data inSection:indexPath.section];
+                 [self insertRowForData:data2 inSection:indexPath.section];
+             }
+             else if ([coverage.insId isEqual:@4]) {
+                 HKCellData *data2 = [self dataForInsID:@3 inArray:array];
+                 data2.customInfo[@"select"] = @YES;
+                 data2.forceReload = !data2.forceReload;
+                 [self insertRowForData:data2 inSection:indexPath.section];
+                 [self insertRowForData:data inSection:indexPath.section];
+             }
+             else {
+                 [self insertRowForData:data inSection:indexPath.section];
+             }
+             [self.tableView endUpdates];
          }
     }];
     
@@ -415,24 +468,34 @@
     }];
 }
 
-- (void)insertRowFromData:(HKCellData *)data atIndexPath:(NSIndexPath *)indexPath
+- (void)insertRowForData:(HKCellData *)data inSection:(NSInteger)section
 {
-    HKCoverage *parentCoverage = data.object;
-    HKCellData *data2 = [HKCellData dataWithCellID:@"SubIns" tag:nil];
-    data2.customInfo[@"select"] = @YES;
-    data2.customInfo[@"nested"] = @YES;
-    data2.object = parentCoverage.excludingDeductibleCoverage;
-    [[self.datasource safetyObjectAtIndex:indexPath.section] safetyInsertObject:data2 atIndex:indexPath.row];
-    [self.tableView beginUpdates];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
-    [self.tableView endUpdates];
+    HKCoverage *subcov = [(HKCoverage *)data.object excludingDeductibleCoverage];
+    NSMutableArray *array = [self.datasource safetyObjectAtIndex:section];
+    
+    if (![self dataForInsID:subcov.insId inArray:array]) {
+        NSInteger row = [array indexOfObject:data];
+        HKCellData *insertingData = [HKCellData dataWithCellID:@"SubIns" tag:nil];
+        insertingData.object = [(HKCoverage *)data.object excludingDeductibleCoverage];
+        insertingData.customInfo[@"select"] = @YES;
+        insertingData.customInfo[@"nested"] = @YES;
+        [array safetyInsertObject:insertingData atIndex:row+1];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row+1 inSection:section];
+        [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+    }
 }
 
-- (void)deleteRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)deleteRowsForData:(HKCellData *)data inSection:(NSInteger)section
 {
-    [[self.datasource safetyObjectAtIndex:indexPath.section] safetyRemoveObjectAtIndex:indexPath.row];
-    [self.tableView beginUpdates];
-    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
-    [self.tableView endUpdates];
+    NSMutableArray *array = [self.datasource safetyObjectAtIndex:section];
+    HKCoverage *subcov = [(HKCoverage *)data.object excludingDeductibleCoverage];
+    
+    if ([self dataForInsID:subcov.insId inArray:array]) {
+        NSInteger row = [array indexOfObject:data];
+        [array safetyRemoveObjectAtIndex:row+1];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row+1 inSection:section];
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+    }
 }
+
 @end
