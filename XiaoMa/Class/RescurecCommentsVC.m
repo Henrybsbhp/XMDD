@@ -33,8 +33,6 @@
 @property (nonatomic, strong) NSNumber      * starNum1;
 @property (nonatomic, strong) NSNumber      * starNum2;
 @property (nonatomic, strong) NSNumber      * starNum3;
-
-@property (nonatomic, strong) NSString      * commentsText;
 @end
 
 @implementation RescurecCommentsVC
@@ -56,24 +54,25 @@
     [self.footerView addSubview:self.submitBtn];
     self.tableView.tableHeaderView = self.headerView;
     
-    if (self.type == 1) {
+    if ([self.history.type isEqual:@(1)]){
         self.navigationItem.title = @"救援完成";
     }else {
         self.navigationItem.title = @"协办完成";
     }
     
-    //textView占位符（label要关掉交互）
     @weakify(self)
     [[self.commentsTV.rac_textSignal filter:^BOOL(NSString *value) {
         @strongify(self)
         if (value.length > 0) {
+            self.placeholderLb.hidden = YES;
             self.placeholderLb.text = @"";
         }else {
+            self.placeholderLb.hidden = NO;
             self.placeholderLb.text = @"其他建议或意见";
         }
-        return nil;
+        
+        return YES;
     }] subscribeNext:^(NSString * x) {
-        self.commentsText = x;
         self.commentsTV.text = x;
     }];
     
@@ -87,16 +86,16 @@
     }
 }
 - (void)setImageAndLbText {
-    if (self.type == 1) {
+    if ([self.history.type isEqual:@(1)]) {
         self.titleImg.image = [UIImage imageNamed:@"rescue_trailer"];
         self.titleLb.text = @"拖车服务";
-    }else if (self.type == 2){
+    }else if ([self.history.type isEqual:@(2)]){
         self.titleImg.image = [UIImage imageNamed:@"pump_power"];
         self.titleLb.text = @"泵电服务";
-    }else if (self.type == 3){
+    }else if ([self.history.type isEqual:@(3)]){
         self.titleImg.image = [UIImage imageNamed:@"rescue_tire"];
         self.titleLb.text = @"换胎服务";
-    }else if (self.type == 0){
+    }else if ([self.history.type isEqual:@(4)]){
         self.titleImg.image = [UIImage imageNamed:@"commission_annual"];
         self.titleLb.text = @"年检协办";
     }
@@ -105,8 +104,9 @@
 #pragma mark - Action
 - (void) alreadyNetwork {
     GetRescueCommentOp *op = [GetRescueCommentOp operation];
-    op.applyId = self.applyId;
+    op.applyId = self.history.applyId;
     op.type = self.applyType;
+    
     [[[[op rac_postRequest] initially:^{
         
         [self.view hideDefaultEmptyView];
@@ -120,11 +120,15 @@
         
         self.evaluationArray = op.rescueDetailArray;
         self.isLog = 1;
+        self.tableView.hidden = NO;
         self.footerView.hidden = YES;
         [self.tableView reloadData];
         
     } error:^(NSError *error) {
-        [gToast showError:@"获取评论内容失败"];
+        self.tableView.hidden = YES;
+        [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
+            [self alreadyNetwork];
+        }];
         
     }] ;
     
@@ -132,8 +136,8 @@
 }
 - (void)actionCommentsClick {
     GetRescueCommentRescueOp *op = [GetRescueCommentRescueOp operation];
-    if (self.starNum1 > 0 && self.starNum2 > 0 && self.starNum3 >0) {
-        op.applyId = self.applyId;
+    if ([self.starNum1 integerValue]> 0 && [self.starNum2 integerValue] > 0 && [self.starNum3 integerValue] > 0) {
+        op.applyId = self.history.applyId;
         op.responseSpeed = self.starNum1;
         op.arriveSpeed = self.starNum2;
         op.serviceAttitude = self.starNum3;
@@ -146,24 +150,26 @@
         }else {
             op.comment = @"";
         }
+        [[[[op rac_postRequest] initially:^{
+            
+            [gToast showText:@"提交评论中"];
+        }] finally:^{
+            
+            [gToast dismiss];
+            [gToast showText:@"评论成功"];
+            self.isLog = 1;
+            self.history.commentStatus = @(1);
+            [self alreadyNetwork];
+        }] subscribeNext:^(GetRescueCommentRescueOp *op) {
+            
+        } error:^(NSError *error) {
+            [gToast showError:@"评论失败, 请尝试重新提交"];
+        }] ;
+
         
     }else {
-        [gToast showText:@"请您给个星吧!"];
+        [gToast showText:@"请给所有评分项给个星吧!"];
     }
-    [[[[op rac_postRequest] initially:^{
-        
-        [gToast showText:@"提交评论中"];
-    }] finally:^{
-        
-        [gToast dismiss];
-        [gToast showText:@"评论成功"];
-        self.isLog = 1;
-        [self alreadyNetwork];
-    }] subscribeNext:^(GetRescueCommentRescueOp *op) {
-        
-    } error:^(NSError *error) {
-        [gToast showError:@"评论失败, 请尝试重新提交"];
-    }] ;
 }
 
 
@@ -189,16 +195,16 @@
         
         if (indexPath.row == 0) {
             nameLabel.text = @"申请时间";
-            NSString *timeStr = [NSString stringWithFormat:@"%@", self.applyTime];
+            NSString *timeStr = [NSString stringWithFormat:@"%@", self.history.applyTime];
             NSString *tempStr = [timeStr substringToIndex:10];
             textLb.text = [[NSDate dateWithTimeIntervalSince1970:[tempStr intValue]] dateFormatForYYMMdd2];
             
         }else if (indexPath.row == 1){
             nameLabel.text = @"申请服务";
-            textLb.text = self.serviceName;
+            textLb.text = self.history.serviceName;
         }else if (indexPath.row == 2){
             nameLabel.text = @"服务车牌";
-            textLb.text = self.licenceNumber;
+            textLb.text = self.history.licenceNumber;
         }
         
         return cell1;
@@ -222,7 +228,8 @@
         self.ratingView = (JTRatingView *)[cell2 searchViewWithTag:1003];
         self.ratingView.imgWidth = 20;
         self.ratingView.imgHeight = 20;
-        self.ratingView.imgSpacing = (kWidth - 128 - 20 * 5)/6;
+        self.ratingView.imgSpacing = (self.view.frame.size.width - 128 - 20 * 5)/6;
+        
         [[self.ratingView rac_subject] subscribeNext:^(NSNumber * number) {
             if (indexPath.row == 4) {
                 self.starNum1 = number;
@@ -353,7 +360,11 @@
 
 - (JTRatingView *)ratingView {
     if (!_ratingView) {
+        
         self.ratingView = (JTRatingView *)[self.tableView searchViewWithTag:1003];
+        self.ratingView.imgWidth = 20;
+        self.ratingView.imgHeight = 20;
+        self.ratingView.imgSpacing = 10;
     }
     return _ratingView;
 }

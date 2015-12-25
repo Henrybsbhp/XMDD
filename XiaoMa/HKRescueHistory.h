@@ -16,7 +16,7 @@
 @property (nonatomic, strong) NSNumber  *commentStatus;//评价状态
 @property (nonatomic, strong) NSNumber *applyId;//申请记录id
 @property (nonatomic, strong) NSNumber  *type;//救援类型
-
+@property (nonatomic, strong) NSString  *appointTime;//预约时间
 
 @end
 

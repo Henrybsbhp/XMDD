@@ -34,6 +34,11 @@
                 history.commentStatus = dic[@"commentstatus"];
                 history.applyId = dic[@"applyid"];
                 history.type = dic[@"type"];
+                if (history.type == 0) {
+                    history.appointTime = dic[@"appointTime"];
+                }else {
+                    history.appointTime = @"";
+                }
                 [rArray safetyAddObject:history];
             }
         }
