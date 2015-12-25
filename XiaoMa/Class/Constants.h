@@ -73,7 +73,7 @@ typedef enum : NSUInteger {
     ShareSceneGas = 5,
     ShareSceneCoupon = 6,
     ShareSceneValuation = 7,
-    ShareSceneLocalShare
+    ShareSceneLocalShare = 100
 } ShareSceneType;
 
 ///分享按钮类型

@@ -14,6 +14,7 @@
 @property (nonatomic)ShareButtonType buttonId;
 @property (nonatomic)NSInteger gasCharge;
 @property (nonatomic)NSInteger spareCharge;
+@property (nonatomic, copy)NSString * shareCode;
 
 @property (nonatomic, copy)NSString * rsp_title;
 @property (nonatomic, copy)NSString * rsp_desc;
