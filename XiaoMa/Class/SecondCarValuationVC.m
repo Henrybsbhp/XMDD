@@ -44,7 +44,7 @@
 {
     [super viewWillAppear:animated];
     [IQKeyboardManager sharedManager].enable=NO;
-//    [IQKeyboardManager sharedManager].enableAutoToolbar=NO;
+    //    [IQKeyboardManager sharedManager].enableAutoToolbar=NO;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(openKeyboard:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(closeKeyboard:) name:UIKeyboardWillHideNotification object:nil];
 }
@@ -53,7 +53,7 @@
 {
     [super viewWillDisappear:animated];
     [IQKeyboardManager sharedManager].enable=YES;
-//    [IQKeyboardManager sharedManager].enableAutoToolbar=YES;
+    //    [IQKeyboardManager sharedManager].enableAutoToolbar=YES;
     [[NSNotificationCenter defaultCenter]removeObserver:UIKeyboardWillShowNotification];
     [[NSNotificationCenter defaultCenter]removeObserver:UIKeyboardWillHideNotification];
 }
@@ -80,10 +80,10 @@
     CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey]CGRectValue];
     
     NSTimeInterval duration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
-
+    
     UIViewAnimationOptions options = [notification.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
     
-//    CGFloat height = keyboardFrame.size.height;
+    //    CGFloat height = keyboardFrame.size.height;
     self.bottomLayout.constant = keyboardFrame.size.height - 30;
     
     //让输入框架和键盘做完全一样的动画效果
@@ -109,9 +109,9 @@
                           delay:0
                         options:options
                      animations:^{
-        [self.view layoutIfNeeded];
-        
-    } completion:nil];
+                         [self.view layoutIfNeeded];
+                         
+                     } completion:nil];
 }
 
 
@@ -197,11 +197,11 @@
     }];
     
     [[RACObserve(gAppMgr.myUser, userID) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-       
+        
         self.phoneNumber = x;
         phoneNumber.text = (NSString *)x;
     }];
-//    [cell layoutIfNeeded];
+    //    [cell layoutIfNeeded];
     return cell;
 }
 
@@ -220,8 +220,8 @@
             make.bottom.mas_equalTo(0);
         }];
         UILabel *label = [UILabel new];
-        label.text = @"估值及二手车交易服务由小马达达战略合作伙伴“车300”提供";
-//        label.text = self.tip;
+        //        label.text = @"估值及二手车交易服务由小马达达战略合作伙伴“车300”提供";
+        label.text = self.tip;
         label.textColor = [UIColor grayColor];
         label.numberOfLines = 0;
         label.font = [UIFont systemFontOfSize:13];
@@ -335,8 +335,7 @@
 -(void)reloadCellTwoData
 {
     SecondCarValuationOp *op = [SecondCarValuationOp new];
-    op.req_sellerCityId = @(12);
-    //    op.req_sellerCityId = self.sellercityid;
+    op.req_sellerCityId = self.sellercityid;
     [[[op rac_postRequest] initially:^{
         self.tableView.hidden=YES;
         self.bottomView.hidden=YES;
@@ -345,6 +344,7 @@
     }] subscribeNext:^(SecondCarValuationOp *op) {
         
         self.dataArr = op.rsp_dataArr;
+        self.tip = op.rsp_tip;
         [self.tableView reloadData];
         
     } error:^(NSError *error) {
@@ -363,6 +363,10 @@
 
 - (IBAction)helpBtnClick:(id)sender
 {
+    /**
+     *  使用帮助事件
+     */
+    [MobClick event:@"rp604-1"];
     WebVC *webVC=[UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
     webVC.url=@"http://www.xiaomadada.com/apphtml/second-hand-car-help.html";
     [self.navigationController pushViewController:webVC animated:YES];
@@ -371,6 +375,11 @@
 
 - (IBAction)commitDataArr:(id)sender
 {
+    
+    /**
+     *  提交卖车意向事件
+     */
+    [MobClick event:@"rp604-2"];
     if (self.uploadArr.count == 0)
     {
         [gToast showError:@"所选平台不能为空"];
@@ -397,7 +406,7 @@
         {
             [tempString safetyAddObject:dic[@"channeleng"]];
         }
-
+        
         uploadOp.req_channelEngs = [tempString componentsJoinedByString:@","];
         
         [[[uploadOp rac_postRequest] initially:^{

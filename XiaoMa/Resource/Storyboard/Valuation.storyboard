@@ -450,6 +450,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="588" height="30"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rR0-cq-FUt">
+                                                    <rect key="frame" x="15" y="0.0" width="558" height="1"/>
+                                                    <color key="backgroundColor" red="0.8862745098" green="0.8862745098" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="1" id="UKg-ts-YAB"/>
+                                                    </constraints>
+                                                </view>
                                                 <button opaque="NO" tag="1001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hd4-Kj-0yc">
                                                     <rect key="frame" x="474" y="0.0" width="80" height="29"/>
                                                     <constraints>
@@ -460,13 +467,6 @@
                                                         <color key="titleColor" red="0.12549019610000001" green="0.6705882353" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                 </button>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rR0-cq-FUt">
-                                                    <rect key="frame" x="15" y="0.0" width="558" height="1"/>
-                                                    <color key="backgroundColor" red="0.8862745098" green="0.8862745098" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="1" id="UKg-ts-YAB"/>
-                                                    </constraints>
-                                                </view>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <constraints>

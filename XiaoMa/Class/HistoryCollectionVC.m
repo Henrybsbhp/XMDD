@@ -226,6 +226,10 @@
 
 -(void)edit:(UIBarButtonItem *)sender
 {
+    /**
+     *  编辑事件
+     */
+    [MobClick event:@"rp601-1"];
     self.isEditing = !self.isEditing;
     if (self.dataArr.count == 0)
     {
@@ -382,6 +386,10 @@
 #pragma mark BottomViewButtonAction
 
 - (IBAction)delete:(id)sender {
+    /**
+     *  删除事件
+     */
+    [MobClick event:@"rp601-3"];
     if (self.deleteArr.count)
     {
         NSMutableArray *deleteStrArr = [NSMutableArray new];
@@ -401,6 +409,10 @@
 
 
 - (IBAction)selectAll:(id)sender {
+    /**
+     *  清空事件
+     */
+    [MobClick event:@"rp601-2"];
     [self.deleteArr removeAllObjects];
     [self.deleteArr safetyAddObjectsFromArray:self.dataArr];
     [self.tableView reloadData];

@@ -36,6 +36,15 @@
     // Do any additional setup after loading the view.
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    /**
+     *  估值结果返回
+     */
+    [MobClick event:@"rp602-1"];
+}
+
 #pragma mark TableViewDelegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -152,6 +161,10 @@
             UIButton * moreBtn = (UIButton *)[cell.contentView viewWithTag:1001];
             @weakify(self);
             [[[moreBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                /**
+                 *  查看更多事件
+                 */
+                [MobClick event:@"rp602-2"];
                 @strongify(self);
                 WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
                 vc.url = self.evaluateOp.rsp_url;
@@ -208,6 +221,10 @@
 }
 
 - (IBAction)shareAction:(id)sender {
+    /**
+     *  炫耀一下事件
+     */
+    [MobClick event:@"rp602-3"];
     [gToast showingWithText:@"分享信息拉取中..."];
     GetShareButtonOp * op = [GetShareButtonOp operation];
     op.pagePosition = ShareSceneApp;
@@ -248,7 +265,10 @@
 }
 
 - (IBAction)carSallAction:(id)sender {
-    
+    /**
+     *  一键卖车事件
+     */
+    [MobClick event:@"rp602-4"];
     GetCityInfoByNameOp * op = [GetCityInfoByNameOp operation];
     op.province = self.provinceName;
     op.city = self.cityName;
