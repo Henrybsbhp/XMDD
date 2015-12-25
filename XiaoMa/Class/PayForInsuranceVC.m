@@ -20,6 +20,7 @@
 #import "TTTAttributedLabel.h"
 #import "InsPayResultVC.h"
 #import "DetailWebVC.h"
+#import "NSString+Format.h"
 //#import "InsPayFaildVC.h"
 
 #define CheckBoxDiscountGroup @"CheckBoxDiscountGroup"
@@ -87,13 +88,15 @@
     [self.bottomView layoutBorderLineIfNeeded];
     
     //label
+    CGFloat total = self.insOrder.totoalpay + self.insOrder.forcetaxfee;
     UILabel *label = (UILabel *)[self.bottomView viewWithTag:1001];
     NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
     NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:@"总计："
                                                                    attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14],
                                                                                 NSForegroundColorAttributeName:HEXCOLOR(@"#fb4209")}];
     [str appendAttributedString:attrStr1];
-    NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%.2f", self.insOrder.policy.premium]
+    NSString *strfee = [NSString stringWithFormat:@"￥%@", [NSString formatForRoundPrice2:total]];
+    NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:strfee
                                                                    attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:19],
                                                                                 NSForegroundColorAttributeName:HEXCOLOR(@"#fb4209")}];
     [str appendAttributedString:attrStr2];
@@ -359,7 +362,7 @@
         if (indexPath.row == 0){
             height = 66;
         }
-        else if (indexPath.row == 4){
+        else if (indexPath.row == 5){
             height = 30;
         }
         else
@@ -396,7 +399,7 @@
     
     NSInteger count = 0;
     if (section == 0) {
-        count = 5;
+        count = 6;
     }
     else if (section == 1) {
         
@@ -456,7 +459,7 @@
     }
     JTTableViewCell *jtcell = (JTTableViewCell *)cell;
     
-    if ((indexPath.section == 1 && indexPath.row == 0) || (indexPath.section == 2 && indexPath.row == 0) || (indexPath.section == 0 && indexPath.row == 4))
+    if ((indexPath.section == 1 && indexPath.row == 0) || (indexPath.section == 2 && indexPath.row == 0) || (indexPath.section == 0 && indexPath.row == 5))
     {
         [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(-1, 0, 0, 0) forDirectionMask:CKViewBorderDirectionBottom];
         [cell.contentView showBorderLineWithDirectionMask:CKViewBorderDirectionBottom];
@@ -535,7 +538,12 @@
         infoL.text = self.insOrder.fvalidperiod;
     }
     else if (indexPath.row == 4) {
-        titleL.text = [NSString stringWithFormat:@"共计保费"];
+        titleL.text = @"交强险/车船税";
+        infoL.textColor = HEXCOLOR(@"#fb4209");
+        infoL.text = [NSString stringWithFormat:@"￥%.2f", self.insOrder.forcetaxfee];
+    }
+    else if (indexPath.row == 5) {
+        titleL.text = [NSString stringWithFormat:@"商业险保费"];
         infoL.textColor = HEXCOLOR(@"#fb4209");
         infoL.text = [NSString stringWithFormat:@"￥%.2f",self.insOrder.totoalpay];
     }
@@ -1000,7 +1008,7 @@
             amount = amount - self.insOrder.activityAmount;
         }
     }
-    
+    amount += self.insOrder.forcetaxfee;
     NSString * btnText = [NSString stringWithFormat:@"您只需支付%.2f元，现在支付",amount];
     [self.payBtn setTitle:btnText forState:UIControlStateNormal];
 }

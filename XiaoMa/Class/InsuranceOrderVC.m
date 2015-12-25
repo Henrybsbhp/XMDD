@@ -107,11 +107,13 @@
 - (void)reloadWithOrderStatus:(InsuranceOrderStatus)status
 {
     self.order.status = status;
+    CGFloat total = self.order.totoalpay+self.order.forcetaxfee;
     id amount;
     id remark;
     //优惠额度
     int activityAmount = floor(self.order.activityAmount);
     if (activityAmount > 0) {
+        
         NSString *str = [NSString stringWithFormat:@"(已优惠%d) ", activityAmount];
         NSDictionary *attr = @{NSForegroundColorAttributeName:HEXCOLOR(@"#8b9eb3"),
                                NSFontAttributeName:[UIFont systemFontOfSize:12]};
@@ -119,20 +121,20 @@
         
         NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] init];
         
-        str = [NSString stringWithFormat:@"￥%.2f ", self.order.totoalpay];
+        str = [NSString stringWithFormat:@"￥%.2f ", total];
         attr = @{NSForegroundColorAttributeName:[UIColor blackColor],
                  NSFontAttributeName:[UIFont systemFontOfSize:12],
                  NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle)};
         [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:attr]];
         
-        str = [NSString stringWithFormat:@"￥%.2f", self.order.totoalpay - self.order.activityAmount];
+        str = [NSString stringWithFormat:@"￥%.2f", total - self.order.activityAmount];
         attr = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
                  NSForegroundColorAttributeName:[UIColor blackColor]};
         [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:attr]];
         amount = attrStr;
     }
     else {
-        amount = [NSString stringWithFormat:@"￥%.2f", self.order.totoalpay];
+        amount = [NSString stringWithFormat:@"￥%.2f", total];
     }
 
     NSArray *array = @[RACTuplePack(@"被保险人",_order.policyholder),
