@@ -760,6 +760,7 @@
     serviceL.text = comment.serviceName;
     [avatarV setImageByUrl:comment.avatarUrl withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
     contentL.preferredMaxLayoutWidth = self.view.bounds.size.width - 71;
+    [cell layoutIfNeeded];
     return cell;
 }
 
