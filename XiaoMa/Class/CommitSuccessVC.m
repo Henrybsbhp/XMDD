@@ -11,6 +11,7 @@
 #import "ShareResponeManager.h"
 #import "HomePageVC.h"
 #import "UIView+Layer.h"
+#import "GetShareButtonOp.h"
 
 
 @interface CommitSuccessVC ()
@@ -22,12 +23,24 @@
 
 @implementation CommitSuccessVC
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setupUI];
-    
     self.tipLabel.text=@"您的信息已成功提交，客服将在24小时内与您取得联系，请保持手机畅通";
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
+
 }
 
 
@@ -60,7 +73,7 @@
 - (void)shareApp
 {
     SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-    vc.sceneType = ShareSceneLocalShare;
+    vc.sceneType = ShareSceneApp;
     vc.btnTypeArr = @[@1, @2, @3, @4];
 //    vc.tt = @"小马达达 —— 一分钱洗车";
 //    vc.subtitle = @"我正在使用1分钱洗车，洗车超便宜，你也来试试吧！";
