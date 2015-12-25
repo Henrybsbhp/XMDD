@@ -90,7 +90,7 @@
 
 - (void)setupADView
 {
-    self.adctrl = [ADViewController vcWithADType:AdvertisementBankCardBinding boundsWidth:self.view.bounds.size.width
+    self.adctrl = [ADViewController vcWithADType:AdvertisementCarWash boundsWidth:self.view.bounds.size.width
                                         targetVC:self mobBaseEvent:@"rp102-6"];
 }
 

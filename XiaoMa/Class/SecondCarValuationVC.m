@@ -156,6 +156,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView ProcessCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProcessCell"];
+    [cell layoutIfNeeded];
     return cell;
 }
 
@@ -176,6 +177,8 @@
     couponMoneyLabel.text=[NSString stringWithFormat:@" %@ ",dataModel[@"couponmoney"]];
     characterLabel.text=[NSString stringWithFormat:@"平台特点：%@",dataModel[@"character"]];
     userCNTInfoLabel.text=[NSString stringWithFormat:@"用户数量：%@",dataModel[@"usercntinfo"]];
+    
+    [cell layoutIfNeeded];
     return cell;
 }
 
@@ -198,6 +201,7 @@
         self.phoneNumber = x;
         phoneNumber.text = (NSString *)x;
     }];
+//    [cell layoutIfNeeded];
     return cell;
 }
 
@@ -227,6 +231,7 @@
             make.right.mas_equalTo(-15);
             make.centerY.mas_equalTo(backgroundView);
         }];
+        label.preferredMaxLayoutWidth = self.view.bounds.size.width - 30;
         UIView *line = [UIView new];
         line.backgroundColor = [UIColor colorWithRed:180/255.0 green:180/255.0 blue:180/255.0 alpha:0.6];
         [head addSubview:line];
@@ -267,6 +272,7 @@
             make.right.mas_equalTo(0);
             make.height.mas_equalTo(0.5);
         }];
+        
     }
     return head;
 }
@@ -285,7 +291,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (IOSVersionGreaterThanOrEqualTo(@"7.0"))
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
     {
         return UITableViewAutomaticDimension;
     }
@@ -298,7 +304,7 @@
     
 }
 
--(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return UITableViewAutomaticDimension;
 }

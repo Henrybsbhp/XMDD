@@ -187,7 +187,7 @@
     serviceL.text = comment.serviceName;
     
     [avatarV setImageByUrl:comment.avatarUrl withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
-    
+    [cell layoutIfNeeded];
     return cell;
 }
 

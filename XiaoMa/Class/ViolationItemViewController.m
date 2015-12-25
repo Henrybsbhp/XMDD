@@ -383,11 +383,20 @@
         self.isCityLoading = NO;
         self.isSpread = YES;
         
-        ViolationCityInfo * info = op.cityInfo;
-        self.model.cityInfo = info;
-        self.tempCityName = info.cityName;
+        if (op.cityInfo.cityCode.length)
+        {
+            ViolationCityInfo * info = op.cityInfo;
+            self.model.cityInfo = info;
+            self.tempCityName = info.cityName;
+            [self handleViolationCityInfo];
+        }
+        else
+        {
+            self.tempCityName = self.model.cityInfo.cityName;
+            [gToast showError:@"该城市暂不支持违章查询"];
+        }
         
-        [self handleViolationCityInfo];
+        
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
 
     } error:^(NSError *error) {
