@@ -116,7 +116,7 @@
         [self.headerView addSubview:self.adctrl.adView];
     }
     else {
-        self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.carwashTableView.frame), 0);
+        self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.carwashTableView.frame), CGFLOAT_MIN);
         [self.adctrl.adView removeFromSuperview];
     }
     if (self.carwashLoadingModel.datasource.count > 0) {
@@ -304,6 +304,7 @@
     if (model.datasource.count == 0) {
         self.carwashTableView.tableHeaderView = nil;
     }
+    
     else if (self.carwashTableView.tableHeaderView != self.headerView) {
         self.carwashTableView.tableHeaderView = self.headerView;
     }
