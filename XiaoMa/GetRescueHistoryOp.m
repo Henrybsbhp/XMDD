@@ -27,13 +27,17 @@
             if (dic != nil) {
                 HKRescueHistory *history = [[HKRescueHistory alloc] init];
                 history.applyTime = dic[@"applytime"];
-             
                 history.serviceName = dic[@"servicename"];
                 history.licenceNumber = dic[@"licencenumber"];
                 history.rescueStatus = dic[@"rescuestatus"];
                 history.commentStatus = dic[@"commentstatus"];
                 history.applyId = dic[@"applyid"];
                 history.type = dic[@"type"];
+                if ([history.type isEqual:@(0)]) {
+                    history.appointTime = dic[@"appointtime"];
+                }else {
+                    history.appointTime = nil;
+                }
                 [rArray safetyAddObject:history];
             }
         }

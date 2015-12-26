@@ -93,9 +93,9 @@
         } error:^(NSError *error) {
             self.bottomView.hidden = YES;
             if (self.datasourceArray.count == 0) {
-                [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
-                    [self actionFirstEnterNetwork];
-                }];
+//                [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
+//                    [self actionFirstEnterNetwork];
+//                }];
             }
             
         }] ;
@@ -103,6 +103,7 @@
     }else {//未登录
         GetRescueNoLoginOp *op = [GetRescueNoLoginOp operation];
         [[[[op rac_postRequest] initially:^{
+            self.bottomView.hidden = YES;
             [self.view hideDefaultEmptyView];
             [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         }] finally:^{
@@ -118,7 +119,6 @@
                 [self.desArray safetyAddObject:lastStr];
                 
             }
-            [gToast dismiss];
             [self.tableView reloadData];
         } error:^(NSError *error) {
             self.bottomView.hidden = YES;
@@ -271,7 +271,7 @@
     }else {
         HKRescueNoLogin *noLogin = self.datasourceArray[indexPath.row];
         nameLb.text = noLogin.serviceName;
-        priceLb.text = [NSString stringWithFormat:@"%@", noLogin.amount];
+        priceLb.text = [NSString stringWithFormat:@"￥%@", noLogin.amount];
         if (self.desArray.count != 0) {
              [conditionsLb setAttributedText:[self attributedStringforHeight:[self.desArray safetyObjectAtIndex:indexPath.row]]];
         }
