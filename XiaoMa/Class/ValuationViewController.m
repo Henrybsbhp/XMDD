@@ -344,7 +344,7 @@
     
     scrollView.contentSize = CGSizeMake(count * w, self.cardHeight);
     
-    [scrollView loadPageIndex:self.carIndex animated:YES];
+    [scrollView loadPageIndex:self.carIndex animated:NO];
     
     return cell;
 }
