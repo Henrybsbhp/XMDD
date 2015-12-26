@@ -26,6 +26,7 @@ typedef enum : NSUInteger {
     CouponNewTypeOthers, //其他券
     CouponNewTypeGas //加油券
 } CouponNewType;
+/// 此枚举用于优惠劵页面的segment类型
 
 typedef enum : NSUInteger {
     CouponUse = 1,//已使用
