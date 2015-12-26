@@ -397,7 +397,7 @@
     }
     else
     {
-        cell = [self tableView:tableView shopServiceCellAtIndexPath:indexPath];
+        cell = [self tableView:tableView shopServiceCellAtIndexPath:indexPath andShopService:serviceArray];
     }
     
     return cell;
@@ -405,13 +405,11 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    NSInteger mask = indexPath.row == 0 ? CKViewBorderDirectionBottom : CKViewBorderDirectionBottom | CKViewBorderDirectionTop;
-    //    [cell.contentView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:mask];
-    //    [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(0, 0, 8, 0) forDirectionMask:mask];
-    //    [cell.contentView showBorderLineWithDirectionMask:mask];
     HKLoadingModel * model = [self modelForTableView:tableView];
-    JTShop * shop = [model.datasource safetyObjectAtIndex:indexPath.section];
-    NSInteger count = shop.shopServiceArray.count + 2;
+    ShopServiceType type = model == self.carwashLoadingModel ? ShopServiceCarWash : ShopServiceCarwashWithHeart;
+    JTShop *shop = [model.datasource safetyObjectAtIndex:indexPath.section];
+    NSArray * serviceArray = [self filterShopServiceByType:type andArray:shop.shopServiceArray];
+    NSInteger count = serviceArray.count + 2;
     if ([tableView isKindOfClass:[JTTableView class]])
     {
         [model loadMoreDataIfNeededWithIndexPath:indexPath nestItemCount:count promptView:self.carwashTableView.bottomLoadingView];
@@ -497,19 +495,16 @@
     return cell;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView shopServiceCellAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView shopServiceCellAtIndexPath:(NSIndexPath *)indexPath andShopService:(NSArray *)serviceArray
 {
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ServiceCell" forIndexPath:indexPath];
-    
-    HKLoadingModel * model = [self modelForTableView:tableView];
-    JTShop *shop = [model.datasource safetyObjectAtIndex:indexPath.section];
     
     //row 1 洗车服务与价格
     UILabel *washTypeL = (UILabel *)[cell.contentView viewWithTag:2001];
     UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:2002];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
     
-    JTShopService * service = [shop.shopServiceArray safetyObjectAtIndex:indexPath.row - 1];
+    JTShopService * service = [serviceArray safetyObjectAtIndex:indexPath.row - 1];
     
     washTypeL.text = service.serviceName;
     
