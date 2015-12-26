@@ -202,14 +202,14 @@
                                         </tableViewCellContentView>
                                         <animations/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="RescureHistoryViewController2" rowHeight="128" id="0eJ-UO-zWK" customClass="HKTableViewCell">
-                                        <rect key="frame" x="0.0" y="143" width="600" height="128"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="RescureHistoryViewController2" rowHeight="130" id="0eJ-UO-zWK" customClass="HKTableViewCell">
+                                        <rect key="frame" x="0.0" y="143" width="600" height="130"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0eJ-UO-zWK" id="54R-4V-982">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="128"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="130"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OjM-fc-4aW">
+                                                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OjM-fc-4aW">
                                                     <rect key="frame" x="0.0" y="8" width="600" height="120"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="81X-MP-58X">

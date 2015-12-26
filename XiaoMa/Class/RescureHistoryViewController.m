@@ -10,24 +10,18 @@
 #import "RescurecCommentsVC.h"
 #import "GetRescueHistoryOp.h"
 #import "HKRescueHistory.h"
-#import "HKLoadingModel.h"
 #import "UIView+DefaultEmptyView.h"
 #import "UIView+JTLoadingView.h"
 #import "rescueCancelHostcar.h"
 #import "HKTableViewCell.h"
-@interface RescureHistoryViewController ()<UITableViewDelegate, UITableViewDataSource, HKLoadingModelDelegate>
+@interface RescureHistoryViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
-@property (nonatomic, strong) HKLoadingModel *loadingModel;
-@property (nonatomic, strong) HKTableViewCell *cell;
 @property (strong, nonatomic) NSMutableArray *dataSourceArray;
 @property (nonatomic, assign) long long applyTime;
 @property (nonatomic, assign) NSInteger applyType;
-@property (nonatomic, assign) BOOL isFirst;
-@property (nonatomic, assign) NSUInteger pageAmount;
 @property (nonatomic, assign) BOOL isLoading;
 @property (nonatomic, assign) BOOL isRemain;
-@property (nonatomic, assign) NSInteger isLog;
 @end
 
 @implementation RescureHistoryViewController
@@ -50,6 +44,7 @@
         self.navigationItem.title = @"协办记录";
     }
     [self historyNetwork];
+//    [self searchMoreHistory];
 
 }
 
@@ -81,6 +76,7 @@
         
         [self.tableView reloadData];
     } error:^(NSError *error) {
+            [self.tableView.bottomLoadingView stopActivityAnimation];
             [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
             [self historyNetwork];
         }];
@@ -95,29 +91,36 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    HKTableViewCell *cell;
     if (self.type == 1 ) {
-       self.cell = [tableView dequeueReusableCellWithIdentifier:@"RescureHistoryViewController1" forIndexPath:indexPath];
+       cell = [tableView dequeueReusableCellWithIdentifier:@"RescureHistoryViewController1" forIndexPath:indexPath];
     }else if (self.type == 2){
-        self.cell = [tableView dequeueReusableCellWithIdentifier:@"RescureHistoryViewController2" forIndexPath:indexPath];
+        cell = [tableView dequeueReusableCellWithIdentifier:@"RescureHistoryViewController2" forIndexPath:indexPath];
     }
     
-    [self.cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 0, 0, 0)];
-    [self.cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsMake(8, 0, 0, 0)];
+    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsMake(8, 0, 0, 0)];
 
     HKRescueHistory *hostory = self.dataSourceArray[indexPath.row];
     if (indexPath.row == self.dataSourceArray.count - 1) {
-        self.isRemain = YES;
-        self.applyTime = [hostory.applyTime doubleValue];
+        
+        self.applyTime = (long long)hostory.applyTime;
+        NSLog(@"-----%@", hostory.applyTime);
+        NSLog(@"-----%lld", self.applyTime);
+        
      }
-    UILabel *plateLb = (UILabel *)[self.cell searchViewWithTag:1000];
-    UILabel *stateLb = (UILabel *)[self.cell searchViewWithTag:1002];
-    UILabel *timeLb = (UILabel *)[self.cell searchViewWithTag:1003];
-    UILabel *titleLb = (UILabel *)[self.cell searchViewWithTag:1004];
-    UIImageView *image = (UIImageView *)[self.cell searchViewWithTag:1005];
-    UIButton *evaluationBtn = (UIButton *)[self.cell searchViewWithTag:1010];
+    UILabel *plateLb = (UILabel *)[cell searchViewWithTag:1000];
+    UILabel *stateLb = (UILabel *)[cell searchViewWithTag:1002];
+    UILabel *timeLb = (UILabel *) [cell searchViewWithTag:1003];
+    UILabel *titleLb = (UILabel *)[cell searchViewWithTag:1004];
+    UIImageView *image = (UIImageView *)[cell searchViewWithTag:1005];
+    UIButton *evaluationBtn = (UIButton *)[cell searchViewWithTag:1010];
     if (self.type ==2) {
-        UILabel *tempTimeLb = (UILabel *)[self.cell searchViewWithTag:1009];
-        tempTimeLb.text = hostory.appointTime;
+        UILabel *tempTimeLb = (UILabel *)[cell searchViewWithTag:1009];
+        NSString *timeStr = [NSString stringWithFormat:@"%@", hostory.appointTime];
+        NSString *tempStr = [timeStr substringToIndex:10];
+        tempTimeLb.text = [NSString stringWithFormat:@"预约时间: %@", [[NSDate dateWithTimeIntervalSince1970:[tempStr intValue]] dateFormatForYYMMdd2]];
+        tempTimeLb.text = [[NSDate dateWithTimeIntervalSince1970:[tempStr intValue]] dateFormatForYYMMdd2];
     }
     evaluationBtn.layer.borderWidth = 1;
     evaluationBtn.layer.borderColor = [UIColor colorWithHex:@"#fe4a00" alpha:1].CGColor;
@@ -132,6 +135,7 @@
         }
     }else if ([hostory.commentStatus integerValue]== 1){
         [evaluationBtn setTitle:@"已评价" forState:UIControlStateNormal];
+        [evaluationBtn setTitleColor:[UIColor colorWithHex:@"#bfbfbf" alpha:1.0] forState:UIControlStateNormal];
     }
     
     if ([hostory.rescueStatus integerValue] == 2) {
@@ -147,11 +151,12 @@
     }else if ([hostory.rescueStatus integerValue] == 3){
         evaluationBtn.hidden = NO;
         stateLb.text = @"已完成";
+        [evaluationBtn setTitleColor:[UIColor colorWithHex:@"#fe4a00" alpha:1.0] forState:UIControlStateNormal];
     }else if ([hostory.rescueStatus integerValue] == 4){
         stateLb.text = @"已取消";
         evaluationBtn.hidden = YES;
         
-    }else if ([hostory.rescueStatus integerValue] == 5){
+    }else {
         evaluationBtn.hidden = YES;
         stateLb.text = @"处理中";
     }
@@ -171,30 +176,39 @@
     timeLb.text = [[NSDate dateWithTimeIntervalSince1970:[tempStr intValue]] dateFormatForYYYYMMddHHmm2];
     
     [RACObserve(hostory, commentStatus) subscribeNext:^(NSNumber *num) {
-        self.isLog = [num integerValue];
-        if (self.isLog == 1) {
+        if ([num integerValue] == 1) {
             [evaluationBtn setTitle:@"已评价" forState:UIControlStateNormal];
         }
     }];
     
-    [[evaluationBtn rac_signalForControlEvents:UIControlEventTouchUpInside]  subscribeNext:^(id x) {
-        
-        HKRescueHistory *hostory = self.dataSourceArray[indexPath.row];
-      
-        if ([hostory.rescueStatus integerValue] != 2 && [hostory.rescueStatus integerValue] != 4 && [hostory.rescueStatus integerValue] != 5) {
-            
+    [RACObserve(hostory, rescueStatus) subscribeNext:^(NSNumber *num) {
+        if ([num integerValue] == 4) {
+            stateLb.text = @"已取消";
+            evaluationBtn.hidden = YES;
+            [evaluationBtn setTitleColor:[UIColor colorWithHex:@"#fe4a00" alpha:1.0] forState:UIControlStateNormal];
+        }
+    }];
+    @weakify(self)
+    [[[evaluationBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self)
+        [x integerValue];
+        evaluationBtn.enabled = NO;
+            if ([hostory.rescueStatus integerValue] != 2 && [hostory.rescueStatus integerValue] != 4 && [hostory.rescueStatus integerValue] != 5) {
+            evaluationBtn.enabled = YES;
             RescurecCommentsVC *vc = [UIStoryboard vcWithId:@"RescurecCommentsVC" inStoryboard:@"Rescue"];
             vc.history = hostory;
-            if ([hostory.commentStatus isEqual:@(1)]) {
-                vc.isLog = 1;
-            }
             vc.applyType = @(self.applyType);
             [self.navigationController pushViewController:vc animated:YES];
-        }else if ([hostory.rescueStatus integerValue] == 2 && self.type == 2){
+                
+                /**
+                 *  协办已申请
+                 */
+        }else if ([hostory.rescueStatus isEqual:@(2)] && self.type == 2){
+            evaluationBtn.enabled = YES;
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您确定要本次协办服务吗？" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            
             [alert show];
             [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
-                
                 NSInteger i = [n integerValue];
                 if (i == 1)
                 {
@@ -207,7 +221,7 @@
                     }] subscribeNext:^(rescueCancelHostcar *op) {
                         if (op.rsp_code == 0) {
                             [gToast showText:@"取消成功"];
-                            [self historyNetwork];
+                            hostory.rescueStatus = @(4);
                         }
                         
                     } error:^(NSError *error) {
@@ -222,49 +236,50 @@
         
         
     }];
-    return self.cell;
+    return cell;
 }
 
 #pragma mark - UITableViewDelegate
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.type == 1) {
+        return 115;
+    }else{
+    return 130;
+    }
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (!self.isRemain) {
         return;
     }
-    
-    //HKRescueHistory * rescue = [self.dataSourceArray safetyObjectAtIndex:indexPath.row];
-    NSInteger count = self.dataSourceArray.count + 2;
-    NSInteger index =  indexPath.section + 1;
+    NSInteger index =  indexPath.row + 1;
+   
     if ([self.dataSourceArray count] > index) {
+         NSLog(@"%ld, %ld", self.dataSourceArray.count , index);
         return;
     }
     else
     {
-        if (count) {
-            NSInteger index =  indexPath.row + 1;
-            if (count > index)
-            {
-                return;
-            }
-        }
+        
+      [self searchMoreHistory];
+        
     }
     
-    [self searchMoreShops];
+    
 }
 
 
 #pragma mark - lazy
 - (NSMutableArray *)dataSourceArray {
     if (!_dataSourceArray) {
-        self.dataSourceArray = [[NSMutableArray alloc] init];
+        _dataSourceArray = [[NSMutableArray alloc] init];
     }
     return _dataSourceArray;
 }
 
-- (void)searchMoreShops
+#pragma mark - more
+- (void)searchMoreHistory
 {
     if ([self.tableView.bottomLoadingView isActivityAnimating])
     {
@@ -272,9 +287,9 @@
     }
     
     GetRescueHistoryOp *op = [GetRescueHistoryOp operation];
-    NSLog(@"-2-------%lld--------", self.applyTime);
 
     op.applytime = self.applyTime;
+    
     op.type = self.type;
     
     [[[op rac_postRequest] initially:^{
@@ -283,7 +298,6 @@
         [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
         self.isLoading = YES;
     }] subscribeNext:^(GetRescueHistoryOp * op) {
-        
         [self.tableView.bottomLoadingView stopActivityAnimation];
         self.isLoading = NO;
         if(op.rsp_code == 0)

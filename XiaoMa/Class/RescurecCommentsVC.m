@@ -56,6 +56,7 @@
     
     if ([self.history.type isEqual:@(1)]){
         self.navigationItem.title = @"救援完成";
+        
     }else {
         self.navigationItem.title = @"协办完成";
     }
@@ -73,17 +74,18 @@
         
         return YES;
     }] subscribeNext:^(NSString * x) {
+        @strongify(self)
         self.commentsTV.text = x;
     }];
     
-    if (self.isLog == 1) {
-        
+    if ([self.history.commentStatus isEqual:@(1)]) {
         [self alreadyNetwork];
         
-    }else if (self.isLog == 0){
         
+    }else{
         self.tableView.tableFooterView = self.footerView;
     }
+    
 }
 - (void)setImageAndLbText {
     if ([self.history.type isEqual:@(1)]) {
@@ -106,18 +108,20 @@
     GetRescueCommentOp *op = [GetRescueCommentOp operation];
     op.applyId = self.history.applyId;
     op.type = self.applyType;
-    
+    self.tableView.hidden = YES;
+    @weakify(self)
     [[[[op rac_postRequest] initially:^{
-        
+        @strongify(self)
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         
     }] finally:^{
-        
+        @strongify(self)
         [self.view stopActivityAnimation];
         
     }] subscribeNext:^(GetRescueCommentOp *op) {
-        
+        @strongify(self)
+        self.tableView.hidden = NO;
         self.evaluationArray = op.rescueDetailArray;
         self.isLog = 1;
         self.tableView.hidden = NO;
@@ -125,6 +129,7 @@
         [self.tableView reloadData];
         
     } error:^(NSError *error) {
+        @strongify(self)
         self.tableView.hidden = YES;
         [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
             [self alreadyNetwork];
@@ -150,11 +155,12 @@
         }else {
             op.comment = @"";
         }
+        @weakify(self)
         [[[[op rac_postRequest] initially:^{
             
             [gToast showText:@"提交评论中"];
         }] finally:^{
-            
+            @strongify(self)
             [gToast dismiss];
             [gToast showText:@"评论成功"];
             self.isLog = 1;
@@ -177,7 +183,7 @@
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    if (self.isLog == 1 && self.evaluationArray.count != 0){
+    if ([self.history.commentStatus isEqual:@(1)] && self.evaluationArray.count != 0){
         return 8;
     }else {
         return 7;
@@ -296,6 +302,31 @@
     }
 }
 #pragma mark - lazyLoading
+
+- (void)addSubView {
+    self.headerView = [UIView new];
+    self.titleImg = [UIImageView new];
+    self.titleLb = [UILabel new];
+    
+    [self.headerView addSubview:self.titleImg];
+    [self.headerView addSubview:self.titleLb];
+    
+    [_headerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view).offset(0);
+        make.right.mas_equalTo(self.view).offset(0);
+        make.top.mas_equalTo(self.view).offset(0);
+        make.height.equalTo(self.view).multipliedBy(0.242);
+    }];
+    [_titleImg mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.headerView).offset(13);
+        make.top.mas_equalTo(self.headerView).offset(15);
+        make.height.mas_equalTo(35);
+        make.width.mas_equalTo(35);
+    }];
+    [self.titleLb mas_makeConstraints:^(MASConstraintMaker *make) {
+    }];
+}
+
 - (UIView *)headerView {
     if (!_headerView) {
         self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 0.193 * kWidth)];
@@ -329,13 +360,16 @@
 - (UITextView *)commentsTV {
     if (!_commentsTV) {
         self.commentsTV = [[UITextView alloc] initWithFrame:CGRectMake(9, 0, kWidth - 18, 0.24 * (kWidth - 18))];
+        _commentsTV.layer.backgroundColor = [[UIColor clearColor] CGColor];
+        _commentsTV.layer.borderColor = [UIColor colorWithHex:@"#bfbfbf" alpha:1.0].CGColor;
+        _commentsTV.layer.borderWidth = 0.5;
     }
     return _commentsTV;
 }
 
 - (UILabel *)placeholderLb {
     if (!_placeholderLb) {
-        self.placeholderLb = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.commentsTV.frame), CGRectGetMinY(self.commentsTV.frame), 100, 20)];
+        self.placeholderLb = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.commentsTV.frame), CGRectGetMinY(_commentsTV.frame), 100, 20)];
         _placeholderLb.text = @"其他建议或意见";
         _placeholderLb.textColor = [UIColor colorWithHex:@"#e3e3e3" alpha:1.0];
         _placeholderLb.font = [UIFont systemFontOfSize:12];
@@ -358,21 +392,12 @@
     return _evaluationArray;
 }
 
-- (JTRatingView *)ratingView {
-    if (!_ratingView) {
-        
-        self.ratingView = (JTRatingView *)[self.tableView searchViewWithTag:1003];
-        self.ratingView.imgWidth = 20;
-        self.ratingView.imgHeight = 20;
-        self.ratingView.imgSpacing = 10;
-    }
-    return _ratingView;
-}
 
 - (UIButton *)submitBtn {
+    
     if (!_submitBtn) {
         self.submitBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-        _submitBtn.frame = CGRectMake(5, CGRectGetMaxY(self.commentsTV.frame) + 12, kWidth - 10, (kWidth - 10) * 0.128);
+        _submitBtn.frame = CGRectMake(5, CGRectGetMaxY(_commentsTV.frame) + 12, kWidth - 10, (kWidth - 10) * 0.128);
         _submitBtn.backgroundColor = [UIColor colorWithHex:@"#ffa800" alpha:1.0];
         [_submitBtn addTarget:self action:@selector(actionCommentsClick) forControlEvents:UIControlEventTouchUpInside];
         _submitBtn.titleLabel.font = [UIFont systemFontOfSize:12];

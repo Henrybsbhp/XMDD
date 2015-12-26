@@ -10,5 +10,4 @@
 
 @interface GetRescueNoLoginOp : BaseOp
 @property (nonatomic, strong) NSArray  *req_resceuArray;
-
 @end

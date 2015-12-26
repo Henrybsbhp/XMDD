@@ -19,6 +19,7 @@
 #import "UIView+DefaultEmptyView.h"
 #import "UIView+JTLoadingView.h"
 #import "HKTableViewCell.h"
+#import "WebVC.h"
 #define kWidth [UIScreen mainScreen].bounds.size.width
 #define kHeight [UIScreen mainScreen].bounds.size.height
 @interface CommissonOrderVC ()
@@ -33,6 +34,7 @@
 @property (nonatomic, strong) UIButton      * historyBtn;
 @property (nonatomic, copy)   NSString      * testStr;
 @property (nonatomic, strong) NSMutableArray * dataSourceArray;
+
 @end
 
 @implementation CommissonOrderVC
@@ -55,19 +57,30 @@
         [self actionNetwork];
         [self setupCarStore];
         
-        [self.view addSubview:self.helperBtn];
+       // [self.view addSubview:self.helperBtn];
     };
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.historyBtn];
 }
 
 #pragma mark - Action
+
 - (void)actionCommissionClick {
     if (gAppMgr.myUser != nil) {
         if (self.carStore.allCars.count != 0) {
             [self actionCommissionNetwork];
         }else {
-            EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-            [self.navigationController pushViewController:vc animated:YES];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有添加爱车, 请先添加爱车" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
+                NSInteger i = [n integerValue];
+                if (i == 1) {
+                    EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+                    [self.navigationController pushViewController:vc animated:YES];
+                }else{
+                    
+                }
+            }];
+            [alert show];
+            
         }
         
     }else{
@@ -92,6 +105,17 @@
     } error:^(NSError *error) {        
         if (error.code == 611139001) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有救援券哦!\n点击省钱攻略,此等优惠岂能错过" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
+            [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
+                NSInteger i = [n integerValue];
+                if (i == 1) {
+                    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+                    vc.title = @"省钱攻略";
+                    vc.url = kMoneySavingStrategiesUrl;
+                    [self.navigationController pushViewController:vc animated:YES];                }else{
+                    
+                }
+            }];
+
             [alert show];
         }
     }];
@@ -163,7 +187,7 @@
     
     HKTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RescureDetailsVC" forIndexPath:indexPath];
     if (indexPath.row != 0) {
-        [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsMake(0, 0, 0, 0)];
+        [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsMake(0, 0, -1, 0)];
     }
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 0, 7, 0)];
     if (indexPath.row == self.dataSourceArray.count - 1) {
