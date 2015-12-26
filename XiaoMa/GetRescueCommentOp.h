@@ -10,6 +10,13 @@
 
 @interface GetRescueCommentOp : BaseOp
 @property (nonatomic, strong) NSNumber    *   applyId;
+
+/** type
+ *  0. 年检协办
+ *  1. 拖车
+ *  2. 泵电
+ *  3. 换胎
+ */
 @property (nonatomic, strong) NSNumber    *   type;
 @property (nonatomic, strong) NSMutableArray * rescueDetailArray;
 @end

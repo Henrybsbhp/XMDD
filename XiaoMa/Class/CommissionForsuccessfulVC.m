@@ -7,7 +7,7 @@
 //
 
 #import "CommissionForsuccessfulVC.h"
-
+#import "CommissonOrderVC.h"
 @interface CommissionForsuccessfulVC ()
 
 @end
@@ -16,8 +16,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"cm_nav_back"] style:UIBarButtonItemStyleDone target:self action:@selector(popOrderVC)];
 }
 
+
+- (void)popOrderVC {
+    for(UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[CommissonOrderVC class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
+}
+
+
+#pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 3;
 }
