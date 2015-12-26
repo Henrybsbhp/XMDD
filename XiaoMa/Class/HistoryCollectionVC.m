@@ -1,4 +1,4 @@
-//
+ //
 //  HistoryCollectionVC.m
 //  XiaoMa
 //
@@ -14,12 +14,11 @@
 #import "NSString+Price.h"
 
 @interface HistoryCollectionVC ()<UITableViewDelegate,UITableViewDataSource>
-@property (strong, nonatomic) IBOutlet UIView *bottomView;
-@property (strong, nonatomic) IBOutlet JTTableView *tableView;
-@property (strong, nonatomic) IBOutlet UIButton *selectedAllBtn;
-@property (strong, nonatomic) IBOutlet UIButton *deleteBtn;
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
+@property (weak, nonatomic) IBOutlet JTTableView *tableView;
+@property (weak, nonatomic) IBOutlet UIButton *selectedAllBtn;
+@property (weak, nonatomic) IBOutlet UIButton *deleteBtn;
 
-@property (nonatomic,strong) NSMutableIndexSet *deleteSet;
 @property (nonatomic,strong) NSMutableArray *dataArr;
 @property (nonatomic,strong) NSMutableArray *deleteArr;
 
@@ -36,21 +35,21 @@
 {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
+    DebugLog(@"HistoryCollectionVC dealloc");
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.isExist=YES;
-    self.isLoading=NO;
-    [self getDataArr];
-    if (self.dataArr.count > 0)
-    {
-        [self setupNavi];
-    }
-    [self.deleteBtn makeCornerRadius:5];
+    
+    self.isExist = YES;
+    self.isLoading = NO;
     self.isEditing = NO;
+    
+    [self.deleteBtn makeCornerRadius:5];
     [self refreshBottomView];
+    
+    [self requestValuationHistory];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -126,28 +125,29 @@
     price.text=[NSString stringWithFormat:@"%@万元",[NSString formatForPrice:[model floatParamForName:@"price"]]];
     evaluateTime.text = [NSString stringWithFormat:@"%@",[[NSDate dateWithUTS:model[@"evaluatetime"]]dateFormatForYYYYMMddHHmm]];
     evaluateZone.text = model[@"evaluatezone"];
-    @weakify(self);
+    
+    
+    @weakify(checkBtn)
     [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        @strongify(self);
-        checkBtn.selected=!checkBtn.isSelected;
-        if (checkBtn.isSelected)
+        
+        @strongify(checkBtn)
+        BOOL isExsit = [self.deleteArr containsObject:model];
+        if (isExsit)
         {
-            [self.deleteArr safetyAddObject:self.dataArr[indexPath.section]];
+            [self.deleteArr safetyRemoveObject:model];
+            [checkBtn setSelected:NO];
         }
         else
         {
-            [self.deleteArr safetyRemoveObject:self.dataArr[indexPath.section]];
+            [self.deleteArr safetyAddObject:model];
+            [checkBtn setSelected:YES];
         }
-        self.selectedAllBtn.selected = (self.dataArr.count == self.deleteArr.count);
+        
     }];
-    if ([self.deleteArr containsObject:model])
-    {
-        checkBtn.selected = YES;
-    }
-    else
-    {
-        checkBtn.selected = NO;
-    }
+    
+    
+    checkBtn.selected = [self.deleteArr containsObject:model];
+    
     [imgView setImageByUrl:model[@"logo"] withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
     return cell;
 }
@@ -167,14 +167,6 @@
 }
 
 
-
--(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return UITableViewAutomaticDimension;
-}
-
-
-
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return CGFLOAT_MIN;
@@ -187,15 +179,14 @@
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.dataArr.count-1 > indexPath.section)
+    if (self.dataArr.count -1 > indexPath.section)
     {
         return;
     }
-    else if(self.isExist&&!self.isLoading)
+    else if(self.isExist && !self.isLoading)
     {
         [self loadMoreData];
     }
-    
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -216,13 +207,6 @@
 
 #pragma  mark setupUI
 
-- (void)setupNavi
-{
-    [self.navigationItem.rightBarButtonItem setTitleTextAttributes:@{
-                                                                     NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
-                                                                     } forState:UIControlStateNormal];
-    
-}
 
 -(void)edit:(UIBarButtonItem *)sender
 {
@@ -233,10 +217,12 @@
     }
     else
     {
+        [self.navigationItem.rightBarButtonItem setTitleTextAttributes:@{
+                                                                         NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
+                                                                         } forState:UIControlStateNormal];
         [self.navigationItem.rightBarButtonItem setTitle:(self.isEditing ? @"完成":@"编辑")];
         [self refreshBottomView];
     }
-    self.selectedAllBtn.selected = NO;
     [self.deleteArr removeAllObjects];
     [self reloadData];
 }
@@ -288,48 +274,82 @@
     HistoryCollectionOp *op = [HistoryCollectionOp new];
     NSDictionary *model = self.dataArr.lastObject;
     op.req_evaluateTime =model[@"evaluatetime"];
-    @weakify(self);
+    
     [[[op rac_postRequest]initially:^{
-        @strongify(self);
+        
         [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
         self.isLoading = YES;
     }]subscribeNext:^(HistoryCollectionOp *op) {
-        @strongify(self);
-        [self.dataArr safetyAddObjectsFromArray:op.rsp_dataArr];
-        [self.tableView.bottomLoadingView stopActivityAnimation];
+        
         self.isLoading = NO;
-        self.isExist = (op.rsp_dataArr.count == 10?YES:NO);
+        
+        self.isExist = (op.rsp_dataArr.count >= 10 ? YES : NO);
+        [self.dataArr safetyAddObjectsFromArray:op.rsp_dataArr];
+        
+        
+        [self.tableView.bottomLoadingView stopActivityAnimation];
+        
         if (!self.isExist && self.dataArr.count != 0)
         {
             self.tableView.showBottomLoadingView = YES;
             [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
         }
         [self.tableView reloadData];
+    } error:^(NSError *error) {
+        
+        self.isLoading = NO;
     }];
 }
 
 
--(void)getDataArr
+-(void)requestValuationHistory
 {
-    HistoryCollectionOp *op=[HistoryCollectionOp new];
-    op.req_evaluateTime=@(0);
-    @weakify(self)
-    [[[[op rac_postRequest] initially:^{
-        @strongify(self);
+    HistoryCollectionOp *op = [HistoryCollectionOp new];
+    op.req_evaluateTime = @(0);
+
+    [[[op rac_postRequest] initially:^{
+
+        self.isLoading = YES;
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-    }] finally:^{
-        @strongify(self);
+    }]  subscribeNext:^(HistoryCollectionOp *op) {
+
+        self.isLoading = NO;
         [self.view stopActivityAnimation];
-    }] subscribeNext:^(HistoryCollectionOp *op) {
-        @strongify(self);
-        [self.dataArr safetyAddObjectsFromArray:op.rsp_dataArr];
-        [self reloadData];
+        
+        self.dataArr = [NSMutableArray arrayWithArray:op.rsp_dataArr];
+        if (self.dataArr.count == 0)
+        {
+            self.tableView.showBottomLoadingView = YES;
+            [self.tableView.bottomLoadingView hideIndicatorText];
+            [self.tableView showDefaultEmptyViewWithText:@"暂无估值记录"];
+        }
+        else
+        {
+            [self.tableView hideDefaultEmptyView];
+            if (op.rsp_dataArr.count >= 10)
+            {
+                self.isExist = YES;
+                [self.tableView.bottomLoadingView hideIndicatorText];
+            }
+            else
+            {
+                self.isExist = NO;
+                self.tableView.showBottomLoadingView = YES;
+                [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
+            }
+        }
+        [self.tableView reloadData];
+    
     } error:^(NSError *error) {
-        @strongify(self);
+        
+        self.isLoading = NO;
+        [self.view stopActivityAnimation];
+        
+        @weakify(self)
         [self.view showDefaultEmptyViewWithText:@"估值记录获取失败，请点击屏幕重试" tapBlock:^{
             @strongify(self);
-            [self getDataArr];
+            [self requestValuationHistory];
         }];
     }];
 }
@@ -342,19 +362,32 @@
 {
     HistoryDeleteOp *deleteOp = [HistoryDeleteOp new];
     deleteOp.req_evaluateIds = deleteStr;
-    @weakify(self);
-    [[deleteOp rac_postRequest]subscribeNext:^(id x) {
-        //仅触发信号
+    [[[deleteOp rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@""];
+    }] subscribeNext:^(id x) {
+        
+        [gToast dismiss];
+        
+        if (![deleteStr isEqualToString:@"all"])
+        {
+            NSMutableIndexSet  * tempSet = [NSMutableIndexSet indexSet];
+            for (NSDictionary *dic in self.deleteArr)
+            {
+                NSInteger index = [self.dataArr indexOfObject:dic];
+                [tempSet addIndex:index];
+                [self.dataArr safetyRemoveObject:dic];
+            }
+        }
+        else
+        {
+            [self.dataArr removeAllObjects];
+        }
+        [self.deleteArr removeAllObjects];
+        [self reloadData];
+        
     }error:^(NSError *error) {
         [gToast showError:error.domain];
-    }completed:^{
-        @strongify(self);
-        for (NSDictionary *dic in self.deleteArr)
-        {
-            
-            [self.dataArr safetyRemoveObject:dic];
-        }
-        [self reloadData];
     }];
     
 }
@@ -396,28 +429,18 @@
     {
         [gToast showError:@"请选中要删除的估值记录"];
     }
-    [self reloadData];
 }
 
 
 - (IBAction)selectAll:(id)sender {
-    [self.deleteArr removeAllObjects];
-    [self.deleteArr safetyAddObjectsFromArray:self.dataArr];
-    [self.tableView reloadData];
+
     UIAlertView *alerView = [[UIAlertView alloc]initWithTitle:nil message:@"请确认是否清空估值记录" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alerView show];
     [[alerView rac_buttonClickedSignal] subscribeNext:^(NSNumber *index) {
         if (index.integerValue == 1)
         {
             [self uploadDeletaArr:@"all"];
-            [self.dataArr removeAllObjects];
         }
-        [self.deleteArr removeAllObjects];
-        [self reloadData];
     }];
 }
-
-#pragma mark Utility
-
-
 @end
