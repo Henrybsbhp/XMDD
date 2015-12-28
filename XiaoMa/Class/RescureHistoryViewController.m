@@ -200,7 +200,7 @@
              */
         }else if ([hostory.rescueStatus isEqual:@(2)] && self.type == 2){
             evaluationBtn.enabled = YES;
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您确定要本次协办服务吗？" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您确定要取消本次协办服务吗？" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             
             [alert show];
             [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {

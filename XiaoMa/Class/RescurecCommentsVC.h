@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HKRescueHistory.h"
-
+@class HKRescueHistory;
 @interface RescurecCommentsVC : UIViewController
 
 @property (nonatomic,strong)HKRescueHistory * history;

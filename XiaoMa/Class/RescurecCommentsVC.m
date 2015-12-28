@@ -14,6 +14,7 @@
 #import "UIView+DefaultEmptyView.h"
 #import "UIView+JTLoadingView.h"
 #import "NSString+RectSize.h"
+#import "HKRescueHistory.h"
 #define kWidth [UIScreen mainScreen].bounds.size.width
 
 @interface RescurecCommentsVC ()<UITableViewDelegate, UITableViewDataSource>
