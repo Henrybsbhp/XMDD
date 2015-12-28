@@ -63,6 +63,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     
     [self setupProcessView];
     
+    [self setupLeftSingleBtn];
+    
     [self.webView.scrollView setDecelerationRate:UIScrollViewDecelerationRateNormal];
     self.webView.scalesPageToFit = YES;
     self.webView.delegate = self;
@@ -152,13 +154,13 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     
     [self.bridge registerGetToken];
     
-    //返回和关闭按钮的控制
-    if (self.webView.canGoBack) {
-        [self setupLeftBtns];
-    }
-    else {
-        [self setupLeftSingleBtn];
-    }
+    //返回和关闭按钮的控制 （此种方案是当检测到是第二层的时候就显示返回按钮）
+//    if (self.webView.canGoBack) {
+//        [self setupLeftBtns];
+//    }
+//    else {
+//        [self setupLeftSingleBtn];
+//    }
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
@@ -212,10 +214,14 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             if ([dic boolParamForName:@"isFirstPage"]) {
                 [self.navigationController popViewControllerAnimated:YES];
             }
+            else {
+                [self setupLeftBtns];
+            }
         }];
     }
     else {
         if (self.webView.canGoBack) {
+            [self setupLeftBtns];
             [self.webView goBack];
         }
         else {
