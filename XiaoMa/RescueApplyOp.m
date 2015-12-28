@@ -21,8 +21,8 @@
 
 - (NSError *)mapError:(NSError *)error
 {
-    if (error.code == -1) {
-        error = [NSError errorWithDomain:@"无法获取地理位置!" code:error.code userInfo:error.userInfo];
+    if (error.code == -2003) {
+        error = [NSError errorWithDomain:error.domain code:9999 userInfo:error.userInfo];
     }
     return error;
 }
