@@ -40,4 +40,24 @@
     return @[@[coverage1,coverage2,coverage3,coverage4,coverage5,coverage6,coverage7],
              @[coverage8,coverage9,coverage10,coverage11]];
 }
+
+- (NSString *)simpleCarStatusDesc:(NSInteger)status
+{
+    if (status == 0 || status == 3) {
+        return nil;
+    }
+    if (status == 1) {
+        return @"订单待支付";
+    }
+    if (status == 2) {
+        return @"查看核保记录";
+    }
+    if (status == 4) {
+        return @"保单已出";
+    }
+    if (status == 5) {
+        return @"订单已支付";
+    }
+    return nil;
+}
 @end
