@@ -41,16 +41,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    /**
+     *  初始化是否存在，是否正在加载，是否在编辑
+     */
     self.isExist=YES;
     self.isLoading=NO;
+    self.isEditing = NO;
     [self getDataArr];
     if (self.dataArr.count > 0)
     {
         [self setupNavi];
     }
     [self.deleteBtn makeCornerRadius:5];
-    self.isEditing = NO;
     [self refreshBottomView];
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        self.tableView.rowHeight = UITableViewAutomaticDimension;
+        self.tableView.estimatedRowHeight = 100;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -98,6 +106,7 @@
     UILabel *evaluateZone = (UILabel *)[cell searchViewWithTag:1006];
     licenseNo.text = model[@"licenseNo"];
     modelName.text = model[@"modelname"];
+    modelName.preferredMaxLayoutWidth = self.view.bounds.size.width - 50;
     mile.text = [NSString stringWithFormat:@"%@万公里",[NSString formatForPrice:[model floatParamForName:@"mile"]]];
     price.text=[NSString stringWithFormat:@"%@万元",[NSString formatForPrice:[model floatParamForName:@"price"]]];
     evaluateTime.text = [NSString stringWithFormat:@"%@",[[NSDate dateWithUTS:model[@"evaluatetime"]]dateFormatForYYYYMMddHHmm]];
@@ -122,6 +131,7 @@
     
     licenseNo.text = model[@"licenseNo"];
     modelName.text = model[@"modelname"];
+    modelName.preferredMaxLayoutWidth = self.view.bounds.size.width - 50;
     mile.text = [NSString stringWithFormat:@"%@万公里",[NSString formatForPrice:[model floatParamForName:@"mile"]]];
     price.text=[NSString stringWithFormat:@"%@万元",[NSString formatForPrice:[model floatParamForName:@"price"]]];
     evaluateTime.text = [NSString stringWithFormat:@"%@",[[NSDate dateWithUTS:model[@"evaluatetime"]]dateFormatForYYYYMMddHHmm]];
@@ -138,16 +148,8 @@
         {
             [self.deleteArr safetyRemoveObject:self.dataArr[indexPath.section]];
         }
-        self.selectedAllBtn.selected = (self.dataArr.count == self.deleteArr.count);
     }];
-    if ([self.deleteArr containsObject:model])
-    {
-        checkBtn.selected = YES;
-    }
-    else
-    {
-        checkBtn.selected = NO;
-    }
+    checkBtn.selected = [self.deleteArr containsObject:model]?YES:NO;
     [imgView setImageByUrl:model[@"logo"] withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
     return cell;
 }
@@ -165,14 +167,6 @@
     CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
     return ceil(size.height+1);
 }
-
-
-
--(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return UITableViewAutomaticDimension;
-}
-
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -229,18 +223,11 @@
     /**
      *  编辑事件
      */
-    [MobClick event:@"rp601-1"];
+    [MobClick event:@"rp603-1"];
     self.isEditing = !self.isEditing;
-    if (self.dataArr.count == 0)
-    {
-        self.navigationItem.rightBarButtonItem = nil;
-    }
-    else
-    {
-        [self.navigationItem.rightBarButtonItem setTitle:(self.isEditing ? @"完成":@"编辑")];
-        [self refreshBottomView];
-    }
-    self.selectedAllBtn.selected = NO;
+    
+    [self.navigationItem.rightBarButtonItem setTitle:(self.isEditing ? @"完成":@"编辑")];
+    [self refreshBottomView];
     [self.deleteArr removeAllObjects];
     [self reloadData];
 }
@@ -259,7 +246,11 @@
     {
         [self.tableView hideDefaultEmptyView];
     }
+    /**
+     *  保证在清空历史的时候也能进行一次reloadData操作
+     */
     [self.tableView reloadData];
+    
 }
 
 -(void)refreshBottomView
@@ -268,6 +259,7 @@
     if (self.isEditing)
     {
         offsetY = -50;
+        
     }
     else
     {
@@ -281,6 +273,10 @@
             make.height.mas_equalTo(50);
         }];
     }];
+    /**
+     *  更新界面约束。避免出现卡顿一下的情况
+     */
+    [self.view layoutIfNeeded];
 }
 
 
@@ -389,7 +385,7 @@
     /**
      *  删除事件
      */
-    [MobClick event:@"rp601-3"];
+    [MobClick event:@"rp603-3"];
     if (self.deleteArr.count)
     {
         NSMutableArray *deleteStrArr = [NSMutableArray new];
@@ -399,6 +395,7 @@
         }
         NSString *deleteStr = [deleteStrArr componentsJoinedByString:@","];
         [self uploadDeletaArr:deleteStr];
+        [self.deleteArr removeAllObjects];
     }
     else
     {
@@ -412,7 +409,7 @@
     /**
      *  清空事件
      */
-    [MobClick event:@"rp601-2"];
+    [MobClick event:@"rp603-2"];
     [self.deleteArr removeAllObjects];
     [self.deleteArr safetyAddObjectsFromArray:self.dataArr];
     [self.tableView reloadData];

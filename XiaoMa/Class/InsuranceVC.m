@@ -201,12 +201,20 @@
     
     //取消
     [[[vc.cancelButton rac_signalForControlEvents:UIControlEventTouchUpInside] take:1] subscribeNext:^(id x) {
+        /**
+         *  取消按钮点击事件
+         */
+        [MobClick event:@"rp1000-4"];
         [sheet dismissAnimated:YES completionHandler:nil];
     }];
     //确定
     @weakify(self);
     @weakify(vc);
     [[vc.ensureButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        /**
+         *  确定按钮点击事件
+         */
+        [MobClick event:@"rp1000-6"];
         @strongify(self);
         @strongify(vc);
         if (vc.nameField.text.length == 0) {
@@ -227,6 +235,10 @@
 #pragma mark - UITableViewDelegate and datasource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    /**
+     *  保险服务cell点击事件
+     */
+    [MobClick event:@"rp1000-2"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     HKCellData *data = [self.datasource safetyObjectAtIndex:indexPath.section];
     if (data.selectedBlock) {
@@ -314,7 +326,10 @@
         @weakify(self);
         [[[stateB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
          subscribeNext:^(id x) {
-             
+             /**
+              *  我的订单点击事件
+              */
+             [MobClick event:@"1000-1"];
              @strongify(self);
              //核保记录
              if (car.status == 2) {
@@ -379,6 +394,10 @@
     
     [[[addB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        /**
+         *  添加车辆点击事件
+         */
+        [MobClick event:@"rp1000-3"];
         @strongify(self);
         NSString *prefix = [(Area *)data.customInfo[@"province"] abbr];
         NSString *licenseno = [prefix append:data.customInfo[@"suffix"]];

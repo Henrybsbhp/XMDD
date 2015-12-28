@@ -132,7 +132,10 @@
 }
 
 - (void)actionPhoneHelper:(UIButton *)sender {
-    
+    /**
+     *  一键救援事件
+     */
+    [MobClick event:@"rp701-2"];
     if (gAppMgr.myUser != nil) {
         RescueApplyOp *op = [RescueApplyOp operation];
         op.address = [NSString stringWithFormat:@"%@%@%@%@", gMapHelper.addrComponent.province,gMapHelper.addrComponent.city, gMapHelper.addrComponent.district, gMapHelper.addrComponent.streetNumber.street];
@@ -170,7 +173,11 @@
 }
 
 - (IBAction)refreshClick:(UIButton *)sender {
-    
+
+    /**
+     *  更新定位事件
+     */
+    [MobClick event:@"rp701-6"];
     [[[gMapHelper rac_getInvertGeoInfo] initially:^{
          self.addressLb.hidden = YES;
     }]
@@ -313,7 +320,23 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if (gAppMgr.myUser != nil) {
+        /**
+         *  三种救援点击事件
+         */
+        switch (indexPath.row)
+        {
+            case 0:
+                [MobClick event:@"rp701-3"];
+                break;
+            case 1:
+                [MobClick event:@"rp701-4"];
+                break;
+            default:
+                [MobClick event:@"rp701-5"];
+                break;
+        }
         HKRescue *rescue = self.datasourceArray[indexPath.row];
         RescureDetailsVC *vc = [UIStoryboard vcWithId:@"RescureDetailsVC" inStoryboard:@"Rescue"];
         vc.type = indexPath.row + 1;

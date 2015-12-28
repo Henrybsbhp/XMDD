@@ -56,8 +56,12 @@
 #pragma mark - Action
 
 - (void)actionRescueHistory {
+    
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        [MobClick event:@"rp101-5"];
+        /**
+         *  免费券点击事件
+         */
+        [MobClick event:@"rp701-2"];
         RescueCouponViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueCouponViewController"];
         vc.type = self.type;
         [self.navigationController pushViewController:vc animated:YES];
@@ -94,7 +98,10 @@
 }
 
 - (void)actionPhoneHelper{
-    [MobClick event:@"rp128"];
+    /**
+     *  申请救援点击事件
+     */
+    [MobClick event:@"rp702-2"];
     if (gAppMgr.myUser != nil) {
         RescueApplyOp *op = [RescueApplyOp operation];
         op.longitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.longitude];

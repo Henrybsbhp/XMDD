@@ -59,6 +59,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    /**
+     *  选择车险返回事件
+     */
+    [MobClick event:@"rp1003-1"];
+}
+
 
 #pragma mark - Setup
 - (void)setupSegmentControl
@@ -83,6 +92,10 @@
 #pragma mark - Action
 - (IBAction)actionNext:(id)sender
 {
+    /**
+     *  精确核保点击事件
+     */
+    [MobClick event:@"rp1003-6"];
     if (![self.currentModel inslistForVC].count)
     {
         [gToast showError:@"请至少选择一个车险"];

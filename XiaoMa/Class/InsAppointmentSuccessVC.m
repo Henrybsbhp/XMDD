@@ -24,6 +24,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    /**
+     *  预约结果返回界面
+     */
+    [MobClick event:@"rp1011-1"];
+}
+
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {

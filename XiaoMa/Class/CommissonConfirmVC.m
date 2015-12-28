@@ -70,6 +70,10 @@
 }
 
 -(void)applyClick {
+    /**
+     *  开始协办点击事件
+     */
+    [MobClick event:@"rp802-2"];
     if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] < 3600 * 24 * 1 - 1) {
         UIAlertView *av = [[UIAlertView alloc] initWithTitle:nil message:@"您将预约年检协办业务,再告诉你个秘密,电话预约会更及时有效哦!" delegate:nil cancelButtonTitle:@"立即协办" otherButtonTitles:@"拨打电话", nil];
         [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNum) {

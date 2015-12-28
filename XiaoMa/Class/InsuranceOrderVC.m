@@ -62,6 +62,15 @@
     [MobClick endLogPageView:@"rp319"];
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    /**
+     *  订单详情页面返回事件
+     */
+    [MobClick event:@"rp1012-1"];
+}
+
 - (void)resetBottomButton
 {
     UIColor *bgColor;

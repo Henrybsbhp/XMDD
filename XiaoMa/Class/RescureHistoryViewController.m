@@ -35,7 +35,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self historyNetwork];
- 
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -148,9 +148,9 @@
             
             RescurecCommentsVC *vc = [UIStoryboard vcWithId:@"RescurecCommentsVC" inStoryboard:@"Rescue"];
             vc.applyTime = hostory.applyTime;
-         
+            
             [RACObserve(hostory,commentStatus) subscribeNext:^(NSNumber *num) {
-               vc.isLog = [num integerValue];
+                vc.isLog = [num integerValue];
             }];
             vc.type = [hostory.type integerValue];
             vc.serviceName = hostory.serviceName;
@@ -161,8 +161,37 @@
                 vc.applyType = [NSNumber numberWithInteger:1];
             }
             vc.licenceNumber = hostory.licenceNumber;
+            /**
+             *  救援评价事件
+             */
+            if (self.type == 1)
+            {
+                if (hostory.commentStatus == 0)
+                {
+                    [MobClick event:@"rp705-1"];
+                }
+                else
+                {
+                    [MobClick event:@"rp705-2"];
+                }
+            }
+            else
+            {
+                if (hostory.commentStatus == 0)
+                {
+                    [MobClick event:@"rp804-2"];
+                }
+                else
+                {
+                    [MobClick event:@"rp804-3"];
+                }
+            }
             [self.navigationController pushViewController:vc animated:YES];
         }else if ([hostory.rescueStatus integerValue] == 2 && self.type == 2){
+            /**
+             *  取消按钮点击事件
+             */
+            [MobClick event:@"rp804-1"];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您确定要本次协办服务吗？" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             [alert show];
             [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
@@ -188,7 +217,7 @@
                 }
                 
             }];
-          
+            
             
         }
         
@@ -199,7 +228,7 @@
 
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
 }
 
 

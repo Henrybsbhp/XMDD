@@ -16,7 +16,7 @@
 #import "NSString+RectSize.h"
 #define kWidth [UIScreen mainScreen].bounds.size.width
 
-@interface RescurecCommentsVC ()<UITableViewDelegate, UITableViewDataSource>
+@interface RescurecCommentsVC ()<UITableViewDelegate, UITableViewDataSource,UITextFieldDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UIView        * headerView;
@@ -71,6 +71,7 @@
         }else {
             self.placeholderLb.text = @"其他建议或意见";
         }
+        
         return nil;
     }] subscribeNext:^(NSString * x) {
         self.commentsText = x;
@@ -131,6 +132,17 @@
     
 }
 - (void)actionCommentsClick {
+    /**
+     *  发表评论事件
+     */
+    if(self.type == 1)
+    {
+        [MobClick event:@"rp706-1"];
+    }
+    else
+    {
+        [MobClick event:@"rp805-1"];
+    }
     GetRescueCommentRescueOp *op = [GetRescueCommentRescueOp operation];
     if (self.starNum1 > 0 && self.starNum2 > 0 && self.starNum3 >0) {
         op.applyId = self.applyId;
@@ -371,5 +383,23 @@
     }
     return _submitBtn;
 }
+
+#pragma mark UITextFieldDelegate
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    /**
+     *  评价事件
+     */
+    if(self.type == 1)
+    {
+        [MobClick event:@"rp706-2"];
+    }
+    else
+    {
+        [MobClick event:@"rp805-2"];
+    }
+}
+
 
 @end

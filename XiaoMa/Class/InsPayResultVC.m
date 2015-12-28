@@ -35,6 +35,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    /**
+     *  支付结果页面返回事件
+     */
+    [MobClick event:@"rp1007-1"];
+}
+
 #pragma mark - Datasource
 - (void)reloadData
 {
@@ -78,6 +87,10 @@
 }
 - (IBAction)actionSubmit:(id)sender
 {
+    /**
+     *  提交资料点击事件
+     */
+    [MobClick event:@"1007-6"];
     if (self.deliveryInfo.req_contatorname.length == 0) {
         [gToast showText:@"联系人姓名不能为空"];
     }
@@ -182,6 +195,10 @@
     @weakify(self);
     [nameF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
         @strongify(self);
+        /**
+         *  联系人姓名点击事件
+         */
+        [MobClick event:@"rp1007-2"];
         self.deliveryInfo.req_contatorname = field.text;
     }];
     
@@ -190,6 +207,10 @@
     phoneF.inputField.placeholder = @"请输入手机";
     phoneF.inputField.text = self.deliveryInfo.req_contatorphone;
     [phoneF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
+        /**
+         *  联系人手机号点击事件
+         */
+        [MobClick event:@"rp1007-3"];
         self.deliveryInfo.req_contatorphone = field.text;
     }];
 }
@@ -205,13 +226,20 @@
     addrF.inputField.placeholder = @"请填写详细地址";
     addrF.inputField.text = data.customInfo[@"detail"];
     [addrF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
+        /**
+         *  保单寄送详细地址点击事件
+         */
+        [MobClick event:@"rp1007-5"];
         data.customInfo[@"detail"] = field.text;
     }];
     
     @weakify(self);
     [[[selectB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
-         
+         /**
+          *  保单寄送点击事件
+          */
+         [MobClick event:@"rp1007-4"];
          @strongify(self);
          [self.view endEditing:YES];
          CityPickerVC *picker = [CityPickerVC cityPickerVCWithOriginVC:self];

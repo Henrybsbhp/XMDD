@@ -37,6 +37,10 @@
 
 //省钱攻略
 - (void)rescueHistory {
+    /**
+     *  省钱攻略点击事件
+     */
+    [MobClick event:@"rp708-1"];
     
 }
 - (void)didReceiveMemoryWarning {

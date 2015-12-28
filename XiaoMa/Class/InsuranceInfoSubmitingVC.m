@@ -68,6 +68,16 @@
     [MobClick endLogPageView:@"rp126"];
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    /**
+     *  页面返回事件
+     */
+    
+    [MobClick event:@"rp1002-1"];
+}
+
 #pragma mark - Datasource
 - (void)reloadData
 {
@@ -83,7 +93,7 @@
         CGRect rect = [text boundingRectWithSize:CGSizeMake(self.tableView.frame.size.width-73-14,10000) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
         return MAX(ceil(rect.size.height+26), 78);
     }];
-
+    
     HKCellData *cardCell = [HKCellData dataWithCellID:@"Card" tag:nil];
     [cardCell setHeightBlock:^CGFloat(UITableView *tableView) {
         return 84;
@@ -92,7 +102,7 @@
     [imageCell setHeightBlock:^CGFloat(UITableView *tableView) {
         return ceil((CGRectGetWidth(self.tableView.frame)-28)*414/594.0);
     }];
-
+    
     self.datasource = [NSMutableArray arrayWithObjects:headerCell,cardCell,imageCell, nil];
     [self.tableView reloadData];
 }
@@ -102,27 +112,27 @@
     self.historyView.delegate = self;
     [[[RACObserve(self.historyView, recordList) distinctUntilChanged] deliverOn:[RACScheduler mainThreadScheduler]]
      subscribeNext:^(NSArray *records) {
-        if (records.count > 0) {
-            if (self.datasource.count < 4) {
-                HKCellData *historyCell = [HKCellData dataWithCellID:@"History" tag:nil];
-                [historyCell setHeightBlock:^CGFloat(UITableView *tableView) {
-                    return 106;
-                }];
-                [self.datasource safetyInsertObject:historyCell atIndex:2];
-                [self.tableView beginUpdates];
-                [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-                [self.tableView endUpdates];
-            }
-        }
-        else {
-            if (self.datasource.count >= 4) {
-                [self.datasource safetyRemoveObjectAtIndex:2];
-                [self.tableView beginUpdates];
-                [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-                [self.tableView endUpdates];
-            }
-        }
-    }];
+         if (records.count > 0) {
+             if (self.datasource.count < 4) {
+                 HKCellData *historyCell = [HKCellData dataWithCellID:@"History" tag:nil];
+                 [historyCell setHeightBlock:^CGFloat(UITableView *tableView) {
+                     return 106;
+                 }];
+                 [self.datasource safetyInsertObject:historyCell atIndex:2];
+                 [self.tableView beginUpdates];
+                 [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                 [self.tableView endUpdates];
+             }
+         }
+         else {
+             if (self.datasource.count >= 4) {
+                 [self.datasource safetyRemoveObjectAtIndex:2];
+                 [self.tableView beginUpdates];
+                 [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                 [self.tableView endUpdates];
+             }
+         }
+     }];
     
     [[self.historyView rac_reloadDataWithSelectedRecord:self.currentRecord] subscribeNext:^(id x) {
         
@@ -154,7 +164,7 @@
         op.req_idcard = [(HKCellData *)self.datasource[1] object];
         op.req_driverpic = self.currentRecord.url;
         op.req_licenseno = self.insModel.simpleCar.licenseno;
-
+        
         InsCoverageSelectVC *vc = [UIStoryboard vcWithId:@"InsCoverageSelectVC" inStoryboard:@"Insurance"];
         vc.selectMode = InsuranceSelectModeAppointment;
         vc.insModel = self.insModel;
@@ -196,7 +206,7 @@
 }
 
 - (void)_pickImage {
-
+    
     [self.view endEditing:YES];
     JGActionSheetSection *section1 = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"拍照",@"从相册选择"]
                                                                 buttonStyle:JGActionSheetButtonStyleDefault];
@@ -337,12 +347,16 @@
 - (void)resetIdCardCell:(UITableViewCell *)cell forData:(HKCellData *)data
 {
     HKSubscriptInputField *field = [cell viewWithTag:10002];
-
+    
     field.inputField.placeholder = @"请输入身份证号码";
     field.inputField.textLimit = 18;
     field.inputField.keyboardType = UIKeyboardTypeASCIICapable;
     
     [field.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
+        /**
+         *  身份证号点击事件
+         */
+        [MobClick event:@"rp1002-2"];
         data.object = field.text;
     }];
 }
@@ -372,7 +386,7 @@
     } error:^(NSError *error) {
         [activity stopAnimating];
     }];
-
+    
 }
 
 - (void)resetImageCell:(UITableViewCell *)cell forData:(HKCellData *)data
@@ -382,7 +396,7 @@
     HKImageView *imageView = (HKImageView *)[cell.contentView viewWithTag:1001];
     UIImageView *maskView = imageView.customObject;
     UIView *defContainerView = [cell.contentView viewWithTag:2000];
-
+    
     if (!self.imageView) {
         self.imageView = imageView;
         [imageView.tapGesture addTarget:self action:@selector(actionPickImage:)];
@@ -395,7 +409,7 @@
         [imageView insertSubview:maskView atIndex:0];
         imageView.customObject = maskView;
     }
-
+    
     [[RACObserve(self, currentRecord) takeUntilForCell:cell] subscribeNext:^(PictureRecord *record) {
         
         if (record) {
@@ -436,7 +450,7 @@
                 size.width = imgContainerView.frame.size.width-10;
                 size.height = ceil(size.width*maskRatio);
             }
-
+            
             [maskView mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(size);
                 make.center.equalTo(imageView);
