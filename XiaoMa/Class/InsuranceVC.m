@@ -183,6 +183,13 @@
                 vc.orderID = car.refid;
                 [self.navigationController pushViewController:vc animated:YES];
             }
+            //填写信息
+            else {
+                InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
+                infoVC.insModel.simpleCar = car;
+                infoVC.insModel.originVC = self;
+                [self.navigationController pushViewController:infoVC animated:YES];
+            }
         }];
         return cell;
     }];
