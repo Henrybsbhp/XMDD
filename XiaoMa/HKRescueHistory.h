@@ -7,31 +7,34 @@
 //
 
 #import <Foundation/Foundation.h>
+typedef enum : NSInteger
+{
+    HKRescueAnnual = 0,//年检
+    HKRescueTrailer,//拖车
+    HKRescuePumpPower,//换胎
+    HKRescuetire//泵电
+}HKRescueType;
+
+
+typedef enum : NSInteger
+{
+    HKRescueStateAlready = 2,//已申请
+    HKRescueStateComplete,//已完成
+    HKRescueStateCancel,//已取消
+    HKRescueStateprocessing//处理中
+}HKRescueStateNum;
+
+typedef enum : NSInteger
+{
+    HKCommentStatusNo = 0,//未评论
+    HKCommentStatusYes//已评论
+}HKCommentStatus;
 
 @interface HKRescueHistory : NSObject
 
-/** type
- *  0. 年检协办
- *  1. 拖车
- *  2. 泵电
- *  3. 换胎
- */
-@property (nonatomic, strong) NSNumber  *type;//救援类型
-
-/**commentStatus
- *  0. 未评价
- *  1. 已评价
- */
-@property (nonatomic, strong) NSNumber  *commentStatus;//评价状态
-
-/**rescueStatus
- *  2已申请
- *  3已完成
- *  4已取消
- *  5处理中
- */
-@property (nonatomic, strong) NSNumber  *rescueStatus;//救援状态
-
+@property (nonatomic, assign) HKRescueType  type;//救援类型
+@property (nonatomic, assign) HKCommentStatus  commentStatus;//评价状态
+@property (nonatomic, assign) HKRescueStateNum  rescueStatus;//救援状态
 @property (nonatomic, strong) NSDate *applyTime;//申请时间
 @property (nonatomic, copy) NSString *serviceName;//服务名称
 @property (nonatomic, copy) NSString *licenceNumber;//车牌号

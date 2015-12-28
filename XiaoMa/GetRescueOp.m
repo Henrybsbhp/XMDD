@@ -31,7 +31,7 @@
             rescue.rescueID = dict[@"id"];
             rescue.amount = dict[@"amount"];
             rescue.serviceCount = dict[@"servicecount"];
-            rescue.type = [rspObj integerParamForName:dict[@"type"]];
+            rescue.type = [dict integerParamForName:@"type"];
             [rArray safetyAddObject:rescue];
         }
         

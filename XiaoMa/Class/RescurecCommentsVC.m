@@ -79,7 +79,7 @@
         self.commentsTV.text = x;
     }];
     
-    if ([self.history.commentStatus isEqual:@(1)]) {
+    if (self.history.commentStatus == HKCommentStatusYes) {
         [self alreadyNetwork];
         
         
@@ -89,16 +89,16 @@
     
 }
 - (void)setImageAndLbText {
-    if ([self.history.type isEqual:@(1)]) {
+    if (self.history.type == HKRescueTrailer ) {
         self.titleImg.image = [UIImage imageNamed:@"rescue_trailer"];
         self.titleLb.text = @"拖车服务";
-    }else if ([self.history.type isEqual:@(2)]){
+    }else if (self.history.type == HKRescuePumpPower ){
         self.titleImg.image = [UIImage imageNamed:@"pump_power"];
         self.titleLb.text = @"泵电服务";
-    }else if ([self.history.type isEqual:@(3)]){
+    }else if (self.history.type == HKRescuetire){
         self.titleImg.image = [UIImage imageNamed:@"rescue_tire"];
         self.titleLb.text = @"换胎服务";
-    }else if ([self.history.type isEqual:@(4)]){
+    }else{
         self.titleImg.image = [UIImage imageNamed:@"commission_annual"];
         self.titleLb.text = @"年检协办";
     }
@@ -124,7 +124,6 @@
         @strongify(self)
         self.tableView.hidden = NO;
         self.evaluationArray = op.rescueDetailArray;
-        self.isLog = 1;
         self.tableView.hidden = NO;
         self.footerView.hidden = YES;
         [self.tableView reloadData];
@@ -164,8 +163,7 @@
             @strongify(self)
             [gToast dismiss];
             [gToast showText:@"评论成功"];
-            self.isLog = 1;
-            self.history.commentStatus = @(1);
+            self.history.commentStatus = HKCommentStatusYes;
             [self alreadyNetwork];
         }] subscribeNext:^(GetRescueCommentRescueOp *op) {
             
@@ -184,7 +182,7 @@
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    if ([self.history.commentStatus isEqual:@(1)] && self.evaluationArray.count != 0){
+    if (self.history.commentStatus == HKCommentStatusYes && self.evaluationArray.count != 0){
         return 8;
     }else {
         return 7;
@@ -221,7 +219,7 @@
         UILabel *stateLb = (UILabel *)[cell3 searchViewWithTag:1010];
         UILabel *evaluationLb = (UILabel *)[cell3 searchViewWithTag:1011];
         
-        if (self.isLog == 1 && self.evaluationArray.count != 0) {
+        if (self.history.commentStatus == HKCommentStatusYes && self.evaluationArray.count != 0) {
             stateLb.text = @"感谢您的评价";
             evaluationLb.hidden = YES;
         }
@@ -247,7 +245,7 @@
             }
         }];
         
-        if (self.isLog == 1 && self.evaluationArray.count != 0) {
+        if (self.history.commentStatus == HKCommentStatusYes && self.evaluationArray.count != 0) {
             [self.ratingView setUserInteractionEnabled:NO];
             if (indexPath.row == 4) {
                 self.ratingView.ratingValue = [[self.evaluationArray safetyObjectAtIndex:0] floatValue];
@@ -290,7 +288,7 @@
             return 50;
         }
     }else if (indexPath.row == 7){
-        if (self.isLog == 1 && self.evaluationArray.count != 0){
+        if (self.history.commentStatus == HKCommentStatusYes && self.evaluationArray.count != 0){
             NSString * str = [self.evaluationArray safetyObjectAtIndex:3];
             CGFloat width = kWidth - 20;
             CGSize size = [str labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];

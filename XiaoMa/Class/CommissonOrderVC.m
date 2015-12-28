@@ -30,7 +30,6 @@
 @property (nonatomic, strong) NSArray       * carNumberArray;
 @property (nonatomic, strong) UIImageView   * advertisingImg;
 @property (nonatomic, strong) UIView        * footerView;
-@property (nonatomic, strong) UIButton      * helperBtn;
 @property (nonatomic, strong) UIButton      * historyBtn;
 @property (nonatomic, copy)   NSString      * testStr;
 @property (nonatomic, strong) NSMutableArray * dataSourceArray;
@@ -63,8 +62,7 @@
 }
 
 #pragma mark - Action
-
-- (void)actionCommissionClick {
+- (IBAction)actionCommission:(UIButton *)sender {
     if (gAppMgr.myUser != nil) {
         if (self.carStore.allCars.count != 0) {
             [self actionCommissionNetwork];
@@ -89,6 +87,7 @@
         [gPhoneHelper makePhone:number andInfo:@"协办电话: 4007-111-111"];
     }
 }
+
 
 - (void)actionCommissionNetwork{
     GetStartHostCarOp *op = [GetStartHostCarOp operation];
@@ -138,7 +137,6 @@
         
         NSString *string = [NSString stringWithFormat:@"● %@", [self.dataSourceArray safetyObjectAtIndex:0]];
         [self.dataSourceArray safetyReplaceObjectAtIndex:0 withObject:string];
-        self.helperBtn.hidden = NO;
         self.tableView.tableHeaderView = self.advertisingImg;
         self.tableView.tableFooterView = self.footerView;
         [self.tableView reloadData];
@@ -256,31 +254,6 @@
     return _dataSourceArray;
 }
 
-
-- (UIButton *)helperBtn {
-    if (!_helperBtn) {
-        
-        self.helperBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-//        _helperBtn.frame = CGRectMake(10, self.view.bounds.size.height - (kWidth- 20) * 0.13 - 7 - 64 , kWidth  - 20, (kWidth- 20) * 0.13);
-        
-        [self.view addSubview:self.helperBtn];
-        [_helperBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            make.left.mas_equalTo(self.view).offset(10);
-            make.right.mas_equalTo(self.view).offset(-10);
-            make.bottom.mas_equalTo(self.view).offset(- 5);
-             make.height.equalTo(self.view).multipliedBy(0.08);;
-        }];
-        [_helperBtn setTitle:@"我要协办" forState:UIControlStateNormal];
-        [_helperBtn addTarget:self action:@selector(actionCommissionClick) forControlEvents:UIControlEventTouchUpInside];
-        [_helperBtn setTintColor:[UIColor whiteColor]];
-        _helperBtn.hidden = YES;
-        _helperBtn.backgroundColor = [UIColor colorWithHex:@"#35cb68" alpha:1];
-        _helperBtn.cornerRadius = 4;
-        _helperBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
-    }
-    return _helperBtn;
-}
 - (UIButton *)historyBtn {
     if (!_historyBtn) {
         self.historyBtn = [UIButton buttonWithType:UIButtonTypeSystem];
