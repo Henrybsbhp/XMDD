@@ -55,7 +55,7 @@
     [self.footerView addSubview:self.submitBtn];
     self.tableView.tableHeaderView = self.headerView;
     
-    if ([self.history.type isEqual:@(1)]){
+    if ([self.applyType isEqual:@(1)]){
         self.navigationItem.title = @"救援完成";
         
     }else {
@@ -259,7 +259,7 @@
         }
         
         if (indexPath.row == 4) {
-            serviceLb.text = @"客服反映速度:";
+            serviceLb.text = @"客服反应速度:";
         }else if (indexPath.row == 5){
             serviceLb.text = @"救援到达速度:";
         }else if (indexPath.row == 6){

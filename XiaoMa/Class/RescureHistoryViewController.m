@@ -191,7 +191,7 @@
             evaluationBtn.enabled = YES;
             RescurecCommentsVC *vc = [UIStoryboard vcWithId:@"RescurecCommentsVC" inStoryboard:@"Rescue"];
             vc.history = hostory;
-            vc.applyType = @(self.applyType);
+            vc.applyType = @(self.type);
             [self.navigationController pushViewController:vc animated:YES];
             
             /**
