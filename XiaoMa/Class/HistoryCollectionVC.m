@@ -54,7 +54,7 @@
     
     [self.deleteBtn makeCornerRadius:5];
     [self refreshBottomView];
-    
+    [self setupNavi];
     [self requestValuationHistory];
 }
 
@@ -115,7 +115,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView editValuationCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"editValuationCell"];
-    cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     NSDictionary *model = [self.dataArr safetyObjectAtIndex:indexPath.section];
     UILabel *licenseNo = (UILabel *)[cell searchViewWithTag:1000];
     UIImageView *imgView = (UIImageView *)[cell searchViewWithTag:1001];
@@ -252,6 +252,23 @@
     [self.tableView reloadData];
 }
 
+- (void)setupNavi
+{
+    if (self.dataArr.count == 0)
+    {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+    else
+    {
+        UIBarButtonItem * rightBtn = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(edit:)];
+        
+        [rightBtn setTitleTextAttributes:@{
+                                           NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
+                                           } forState:UIControlStateNormal];
+        self.navigationItem.rightBarButtonItem = rightBtn;
+    }
+}
+
 -(void)refreshBottomView
 {
     CGFloat offsetY = 0;
@@ -348,6 +365,7 @@
             }
         }
         [self.tableView reloadData];
+        [self setupNavi];
     
     } error:^(NSError *error) {
         
