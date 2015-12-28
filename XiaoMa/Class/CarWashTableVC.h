@@ -16,12 +16,11 @@
 @property (nonatomic)NSInteger type;
 @property (strong, nonatomic) IBOutlet JTTableView *carwashTableView;
 @property (strong, nonatomic) IBOutlet JTTableView *withheartTableView;
-@property (strong, nonatomic) IBOutlet UIView *headerView;
+@property (weak, nonatomic) IBOutlet UIView *carwashHeaderView;
+@property (weak, nonatomic) IBOutlet UIView *withHeartHeaderView;
 @property (nonatomic, strong) HKLoadingModel *carwashLoadingModel;
 @property (nonatomic, strong) HKLoadingModel *withheartLoadingModel;
 
 @property (nonatomic, strong)HKCoupon * couponForWashDic;
-///禁止广告
-@property (nonatomic, assign) BOOL forbidAD;
 
 @end
