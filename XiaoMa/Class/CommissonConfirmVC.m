@@ -14,16 +14,21 @@
 #import "CommissionForsuccessfulVC.h"
 #import "MyCarStore.h"
 #import "CKStore.h"
+#import "WebVC.h"
+#import "UIView+Layer.h"
+#import "HKTableViewCell.h"
+
+
 #define kWidth [UIScreen mainScreen].bounds.size.width
 @interface CommissonConfirmVC ()<UINavigationControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, copy)     NSString    * licenseNumber;
 @property (nonatomic, strong)   NSDate      * appointmentDay;
+@property (nonatomic, strong)   UIView      * bottomView;
 @property (nonatomic, strong)   UIButton    * helperBtn;
 @property (nonatomic, strong)   MyCarStore  * carStore;
 @property (nonatomic, strong)   HKMyCar     * defaultCar;
 @property (nonatomic, strong)   NSString    * countStr;
-
 @end
 
 @implementation CommissonConfirmVC
@@ -33,16 +38,12 @@
     self.tableView.dataSource = nil;
     DebugLog(@"CommissonConfirmVC dealloc~");
 }
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self countNetwork];
-}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.carStore getAllCarsIfNeeded];
     [self.view addSubview:self.helperBtn];
     [self setupCarStore];
-    
 }
 
 #pragma mark - Action
@@ -69,21 +70,26 @@
     }] ;
 }
 
+
 -(void)applyClick {
     if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] < 3600 * 24 * 1 - 1) {
         UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"预约协办" message:@"您将预约年检协办业务,再告诉你个秘密,电话预约会更及时有效哦!" delegate:nil cancelButtonTitle:@"立即协办" otherButtonTitles:@"拨打电话", nil];
         [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNum) {
             
             NSInteger index = [indexNum integerValue];
+            [av dismissWithClickedButtonIndex:index animated:YES];
             if (index == 1)
             {
                 NSString * number = @"4007111111";
                 NSString * urlStr = [NSString stringWithFormat:@"tel://%@",number];
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
-            }else{
+            }else if(index == 0){
                 [self actionAssisting];
-                }
+            }else {
+                av.hidden = YES;
+            }
         }];
+        
         [av show];
         
         UITapGestureRecognizer * recognizerTap = [[UITapGestureRecognizer alloc] init];
@@ -112,7 +118,10 @@
     
     GetRescueApplyHostCarOp *op = [GetRescueApplyHostCarOp operation];
     op.licenseNumber = self.defaultCar.licencenumber;
-    op.appointTime = [NSString stringWithFormat:@"%@", [NSDate date]];
+   
+    NSString *tempStr = [NSString stringWithFormat:@"%@", self.appointmentDay];
+    op.appointTime = [tempStr substringToIndex:10];
+    
     [[[[op rac_postRequest] initially:^{
         
     }] finally:^{
@@ -134,6 +143,17 @@
     } error:^(NSError *error) {
         if (error.code == 611139001) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有救援券哦，点击省钱攻略，此等优惠岂能错过！" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
+            [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
+                NSInteger i = [n integerValue];
+                if (i == 1) {
+                    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+                    vc.title = @"省钱攻略";
+                    vc.url = kMoneySavingStrategiesUrl;
+                    [self.navigationController pushViewController:vc animated:YES];
+                }else{
+                    
+                }
+            }];
             [alert show];
         }else if (error.code == 0){
             CommissionForsuccessfulVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionForsuccessfulVC"];
@@ -155,7 +175,6 @@
         @strongify(self);
         [[evt signal] subscribeNext:^(id x) {
             @strongify(self);
-            NSLog(@"---%@--", self.defaultCar);
             if (!self.defaultCar)
             {
                 self.defaultCar = [self.carStore defalutCar];
@@ -187,6 +206,7 @@
             if (self.defaultCar != nil) {
                 detailLb.textColor = [UIColor colorWithHex:@"#fe4a00" alpha:1.0];
                 detailLb.text = [NSString stringWithFormat:@"%@次", self.countStr];
+                
             }
         }
         
@@ -271,17 +291,21 @@
 - (UIButton *)helperBtn {
     if (!_helperBtn) {
         self.helperBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-        _helperBtn.frame = CGRectMake(10, self.view.bounds.size.height - (kWidth- 20) * 0.13 - 7 - 64 , kWidth  - 20, (kWidth- 20) * 0.13);
+        [self.view addSubview:self.helperBtn];
         [_helperBtn setTitle:@"开始协办" forState:UIControlStateNormal];
         [_helperBtn addTarget:self action:@selector(applyClick) forControlEvents:UIControlEventTouchUpInside];
         [_helperBtn setTintColor:[UIColor whiteColor]];
         _helperBtn.backgroundColor = [UIColor colorWithHex:@"#35cb68" alpha:1];
         _helperBtn.cornerRadius = 4;
         _helperBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
-    }
+        
+        [_helperBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.view).offset(10);
+            make.right.mas_equalTo(self.view).offset(-10);
+            make.bottom.mas_equalTo(self.view).offset(- 5);
+            make.height.equalTo(self.view).multipliedBy(0.08);;
+        }];
+      }
     return _helperBtn;
 }
-
-
-
 @end

@@ -10,7 +10,15 @@
 
 @interface GetRescureDetailOp : BaseOp
 @property (nonatomic, assign) NSInteger   rescueid;
+
+/** type
+ *  0. 年检协办
+ *  1. 拖车
+ *  2. 泵电
+ *  3. 换胎
+ */
 @property (nonatomic, strong) NSNumber  * type;
+
 @property (nonatomic, copy) NSString    * serviceObject;//服务对象
 @property (nonatomic, copy) NSString    * feesacle;//收费标准
 @property (nonatomic, copy) NSString    * serviceProject;//服务项目

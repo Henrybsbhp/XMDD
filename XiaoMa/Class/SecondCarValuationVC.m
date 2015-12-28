@@ -220,7 +220,7 @@
             make.bottom.mas_equalTo(0);
         }];
         UILabel *label = [UILabel new];
-        label.text = @"估值及二手车交易服务由小马达达战略合作伙伴“车300”提供";
+        label.text = @"估值及二手车交易服务由小马达达战略合作伙伴车300提供";
 //        label.text = self.tip;
         label.textColor = [UIColor grayColor];
         label.numberOfLines = 0;

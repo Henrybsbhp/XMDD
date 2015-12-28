@@ -33,8 +33,6 @@
 @property (nonatomic, strong) NSNumber      * starNum1;
 @property (nonatomic, strong) NSNumber      * starNum2;
 @property (nonatomic, strong) NSNumber      * starNum3;
-
-@property (nonatomic, strong) NSString      * commentsText;
 @end
 
 @implementation RescurecCommentsVC
@@ -56,47 +54,50 @@
     [self.footerView addSubview:self.submitBtn];
     self.tableView.tableHeaderView = self.headerView;
     
-    if (self.type == 1) {
+    if ([self.history.type isEqual:@(1)]){
         self.navigationItem.title = @"救援完成";
+        
     }else {
         self.navigationItem.title = @"协办完成";
     }
     
-    //textView占位符（label要关掉交互）
     @weakify(self)
     [[self.commentsTV.rac_textSignal filter:^BOOL(NSString *value) {
         @strongify(self)
         if (value.length > 0) {
+            self.placeholderLb.hidden = YES;
             self.placeholderLb.text = @"";
         }else {
+            self.placeholderLb.hidden = NO;
             self.placeholderLb.text = @"其他建议或意见";
         }
-        return nil;
+        
+        return YES;
     }] subscribeNext:^(NSString * x) {
-        self.commentsText = x;
+        @strongify(self)
         self.commentsTV.text = x;
     }];
     
-    if (self.isLog == 1) {
-        
+    if ([self.history.commentStatus isEqual:@(1)]) {
         [self alreadyNetwork];
         
-    }else if (self.isLog == 0){
         
+    }else{
         self.tableView.tableFooterView = self.footerView;
     }
+    
 }
 - (void)setImageAndLbText {
-    if (self.type == 1) {
+    if ([self.history.type isEqual:@(1)]) {
         self.titleImg.image = [UIImage imageNamed:@"rescue_trailer"];
         self.titleLb.text = @"拖车服务";
-    }else if (self.type == 2){
+    }else if ([self.history.type isEqual:@(2)]){
         self.titleImg.image = [UIImage imageNamed:@"pump_power"];
         self.titleLb.text = @"泵电服务";
-    }else if (self.type == 3){
+    }else if ([self.history.type isEqual:@(3)]){
         self.titleImg.image = [UIImage imageNamed:@"rescue_tire"];
         self.titleLb.text = @"换胎服务";
-    }else if (self.type == 0){
+    }else if ([self.history.type isEqual:@(4)]){
         self.titleImg.image = [UIImage imageNamed:@"commission_annual"];
         self.titleLb.text = @"年检协办";
     }
@@ -105,26 +106,34 @@
 #pragma mark - Action
 - (void) alreadyNetwork {
     GetRescueCommentOp *op = [GetRescueCommentOp operation];
-    op.applyId = self.applyId;
+    op.applyId = self.history.applyId;
     op.type = self.applyType;
+    self.tableView.hidden = YES;
+    @weakify(self)
     [[[[op rac_postRequest] initially:^{
-        
+        @strongify(self)
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         
     }] finally:^{
-        
+        @strongify(self)
         [self.view stopActivityAnimation];
         
     }] subscribeNext:^(GetRescueCommentOp *op) {
-        
+        @strongify(self)
+        self.tableView.hidden = NO;
         self.evaluationArray = op.rescueDetailArray;
         self.isLog = 1;
+        self.tableView.hidden = NO;
         self.footerView.hidden = YES;
         [self.tableView reloadData];
         
     } error:^(NSError *error) {
-        [gToast showError:@"获取评论内容失败"];
+        @strongify(self)
+        self.tableView.hidden = YES;
+        [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
+            [self alreadyNetwork];
+        }];
         
     }] ;
     
@@ -132,8 +141,8 @@
 }
 - (void)actionCommentsClick {
     GetRescueCommentRescueOp *op = [GetRescueCommentRescueOp operation];
-    if (self.starNum1 > 0 && self.starNum2 > 0 && self.starNum3 >0) {
-        op.applyId = self.applyId;
+    if ([self.starNum1 integerValue]> 0 && [self.starNum2 integerValue] > 0 && [self.starNum3 integerValue] > 0) {
+        op.applyId = self.history.applyId;
         op.responseSpeed = self.starNum1;
         op.arriveSpeed = self.starNum2;
         op.serviceAttitude = self.starNum3;
@@ -146,24 +155,27 @@
         }else {
             op.comment = @"";
         }
+        @weakify(self)
+        [[[[op rac_postRequest] initially:^{
+            
+            [gToast showText:@"提交评论中"];
+        }] finally:^{
+            @strongify(self)
+            [gToast dismiss];
+            [gToast showText:@"评论成功"];
+            self.isLog = 1;
+            self.history.commentStatus = @(1);
+            [self alreadyNetwork];
+        }] subscribeNext:^(GetRescueCommentRescueOp *op) {
+            
+        } error:^(NSError *error) {
+            [gToast showError:@"评论失败, 请尝试重新提交"];
+        }] ;
+
         
     }else {
-        [gToast showText:@"请您给个星吧!"];
+        [gToast showText:@"请给所有评分项给个星吧!"];
     }
-    [[[[op rac_postRequest] initially:^{
-        
-        [gToast showText:@"提交评论中"];
-    }] finally:^{
-        
-        [gToast dismiss];
-        [gToast showText:@"评论成功"];
-        self.isLog = 1;
-        [self alreadyNetwork];
-    }] subscribeNext:^(GetRescueCommentRescueOp *op) {
-        
-    } error:^(NSError *error) {
-        [gToast showError:@"评论失败, 请尝试重新提交"];
-    }] ;
 }
 
 
@@ -171,7 +183,7 @@
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    if (self.isLog == 1 && self.evaluationArray.count != 0){
+    if ([self.history.commentStatus isEqual:@(1)] && self.evaluationArray.count != 0){
         return 8;
     }else {
         return 7;
@@ -189,16 +201,16 @@
         
         if (indexPath.row == 0) {
             nameLabel.text = @"申请时间";
-            NSString *timeStr = [NSString stringWithFormat:@"%@", self.applyTime];
+            NSString *timeStr = [NSString stringWithFormat:@"%@", self.history.applyTime];
             NSString *tempStr = [timeStr substringToIndex:10];
             textLb.text = [[NSDate dateWithTimeIntervalSince1970:[tempStr intValue]] dateFormatForYYMMdd2];
             
         }else if (indexPath.row == 1){
             nameLabel.text = @"申请服务";
-            textLb.text = self.serviceName;
+            textLb.text = self.history.serviceName;
         }else if (indexPath.row == 2){
             nameLabel.text = @"服务车牌";
-            textLb.text = self.licenceNumber;
+            textLb.text = self.history.licenceNumber;
         }
         
         return cell1;
@@ -222,7 +234,8 @@
         self.ratingView = (JTRatingView *)[cell2 searchViewWithTag:1003];
         self.ratingView.imgWidth = 20;
         self.ratingView.imgHeight = 20;
-        self.ratingView.imgSpacing = (kWidth - 128 - 20 * 5)/6;
+        self.ratingView.imgSpacing = (self.view.frame.size.width - 128 - 20 * 5)/6;
+        
         [[self.ratingView rac_subject] subscribeNext:^(NSNumber * number) {
             if (indexPath.row == 4) {
                 self.starNum1 = number;
@@ -289,6 +302,31 @@
     }
 }
 #pragma mark - lazyLoading
+
+- (void)addSubView {
+    self.headerView = [UIView new];
+    self.titleImg = [UIImageView new];
+    self.titleLb = [UILabel new];
+    
+    [self.headerView addSubview:self.titleImg];
+    [self.headerView addSubview:self.titleLb];
+    
+    [_headerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view).offset(0);
+        make.right.mas_equalTo(self.view).offset(0);
+        make.top.mas_equalTo(self.view).offset(0);
+        make.height.equalTo(self.view).multipliedBy(0.242);
+    }];
+    [_titleImg mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.headerView).offset(13);
+        make.top.mas_equalTo(self.headerView).offset(15);
+        make.height.mas_equalTo(35);
+        make.width.mas_equalTo(35);
+    }];
+    [self.titleLb mas_makeConstraints:^(MASConstraintMaker *make) {
+    }];
+}
+
 - (UIView *)headerView {
     if (!_headerView) {
         self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 0.193 * kWidth)];
@@ -322,13 +360,16 @@
 - (UITextView *)commentsTV {
     if (!_commentsTV) {
         self.commentsTV = [[UITextView alloc] initWithFrame:CGRectMake(9, 0, kWidth - 18, 0.24 * (kWidth - 18))];
+        _commentsTV.layer.backgroundColor = [[UIColor clearColor] CGColor];
+        _commentsTV.layer.borderColor = [UIColor colorWithHex:@"#bfbfbf" alpha:1.0].CGColor;
+        _commentsTV.layer.borderWidth = 0.5;
     }
     return _commentsTV;
 }
 
 - (UILabel *)placeholderLb {
     if (!_placeholderLb) {
-        self.placeholderLb = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.commentsTV.frame), CGRectGetMinY(self.commentsTV.frame), 100, 20)];
+        self.placeholderLb = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.commentsTV.frame), CGRectGetMinY(_commentsTV.frame), 100, 20)];
         _placeholderLb.text = @"其他建议或意见";
         _placeholderLb.textColor = [UIColor colorWithHex:@"#e3e3e3" alpha:1.0];
         _placeholderLb.font = [UIFont systemFontOfSize:12];
@@ -351,17 +392,12 @@
     return _evaluationArray;
 }
 
-- (JTRatingView *)ratingView {
-    if (!_ratingView) {
-        self.ratingView = (JTRatingView *)[self.tableView searchViewWithTag:1003];
-    }
-    return _ratingView;
-}
 
 - (UIButton *)submitBtn {
+    
     if (!_submitBtn) {
         self.submitBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-        _submitBtn.frame = CGRectMake(5, CGRectGetMaxY(self.commentsTV.frame) + 12, kWidth - 10, (kWidth - 10) * 0.128);
+        _submitBtn.frame = CGRectMake(5, CGRectGetMaxY(_commentsTV.frame) + 12, kWidth - 10, (kWidth - 10) * 0.128);
         _submitBtn.backgroundColor = [UIColor colorWithHex:@"#ffa800" alpha:1.0];
         [_submitBtn addTarget:self action:@selector(actionCommentsClick) forControlEvents:UIControlEventTouchUpInside];
         _submitBtn.titleLabel.font = [UIFont systemFontOfSize:12];
