@@ -24,6 +24,7 @@
     {
         NSDictionary *dataDic = (NSDictionary *)rspObj;
         self.rsp_dataArr = dataDic[@"channels"];
+        self.rsp_tip = dataDic[@"tip"];
     }
     else
     {
