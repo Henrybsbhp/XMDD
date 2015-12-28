@@ -115,7 +115,6 @@
         NSString *timeStr = [NSString stringWithFormat:@"%@", hostory.appointTime];
         NSString *tempStr = [timeStr substringToIndex:10];
         tempTimeLb.text = [NSString stringWithFormat:@"预约时间: %@", [[NSDate dateWithTimeIntervalSince1970:[tempStr intValue]] dateFormatForYYMMdd2]];
-        tempTimeLb.text = [[NSDate dateWithTimeIntervalSince1970:[tempStr intValue]] dateFormatForYYMMdd2];
     }
     evaluationBtn.layer.borderWidth = 1;
     evaluationBtn.layer.borderColor = [UIColor colorWithHex:@"#fe4a00" alpha:1].CGColor;
