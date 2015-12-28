@@ -26,9 +26,6 @@
 {
     if ([rspObj isKindOfClass:[NSDictionary class]])
     {
-        NSDictionary *temp=(NSDictionary *)rspObj;
-        self.rsp_rc = temp[@"rc"];
-        self.rsp_tip = temp[@"tip"];
     }
     else
     {

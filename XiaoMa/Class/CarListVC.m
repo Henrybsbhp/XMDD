@@ -311,6 +311,20 @@
     subv.licenceNumberLabel.text = car.licencenumber;
     subv.markView.hidden = !car.isDefault;
     
+    if (!car.isDefault) {
+        [subv.barView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(subv);
+            make.height.mas_equalTo(2.5);
+            make.left.equalTo(subv).offset(20);
+            make.right.equalTo(subv.licenceNumberLabel.mas_right);
+        }];
+        [subv.licenceNumberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(subv.barView.mas_left);
+            make.height.mas_equalTo(30);
+            make.top.equalTo(subv.barView.mas_bottom).offset(2);
+        }];
+    }
+    
     NSString *text = [self.model descForCarStatus:car];
     BOOL show = car.status == 3 || car.status == 0;
     [subv setShowBottomButton:show withText:text];

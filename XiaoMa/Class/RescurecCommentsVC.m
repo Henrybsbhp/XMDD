@@ -14,6 +14,7 @@
 #import "UIView+DefaultEmptyView.h"
 #import "UIView+JTLoadingView.h"
 #import "NSString+RectSize.h"
+#import "HKRescueHistory.h"
 #define kWidth [UIScreen mainScreen].bounds.size.width
 
 @interface RescurecCommentsVC ()<UITableViewDelegate, UITableViewDataSource>
@@ -54,7 +55,7 @@
     [self.footerView addSubview:self.submitBtn];
     self.tableView.tableHeaderView = self.headerView;
     
-    if ([self.history.type isEqual:@(1)]){
+    if ([self.applyType isEqual:@(1)]){
         self.navigationItem.title = @"救援完成";
         
     }else {
@@ -62,20 +63,15 @@
     }
     
     @weakify(self)
-    [[self.commentsTV.rac_textSignal filter:^BOOL(NSString *value) {
+    [self.commentsTV.rac_textSignal subscribeNext:^(NSString * x) {
         @strongify(self)
-        if (value.length > 0) {
+        if (x.length > 0) {
             self.placeholderLb.hidden = YES;
             self.placeholderLb.text = @"";
         }else {
             self.placeholderLb.hidden = NO;
             self.placeholderLb.text = @"其他建议或意见";
         }
-        
-        return YES;
-    }] subscribeNext:^(NSString * x) {
-        @strongify(self)
-        self.commentsTV.text = x;
     }];
     
     if ([self.history.commentStatus isEqual:@(1)]) {
@@ -258,7 +254,7 @@
         }
         
         if (indexPath.row == 4) {
-            serviceLb.text = @"客服反映速度:";
+            serviceLb.text = @"客服反应速度:";
         }else if (indexPath.row == 5){
             serviceLb.text = @"救援到达速度:";
         }else if (indexPath.row == 6){
@@ -369,7 +365,7 @@
 
 - (UILabel *)placeholderLb {
     if (!_placeholderLb) {
-        self.placeholderLb = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.commentsTV.frame), CGRectGetMinY(_commentsTV.frame), 100, 20)];
+        self.placeholderLb = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.commentsTV.frame), CGRectGetMinY(_commentsTV.frame) + 3, 100, 20)];
         _placeholderLb.text = @"其他建议或意见";
         _placeholderLb.textColor = [UIColor colorWithHex:@"#e3e3e3" alpha:1.0];
         _placeholderLb.font = [UIFont systemFontOfSize:12];

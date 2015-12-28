@@ -34,18 +34,17 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.isRemain = YES;
     if (self.type == 1) {
         self.navigationItem.title = @"救援记录";
     }else {
         self.navigationItem.title = @"协办记录";
     }
     [self historyNetwork];
-//    [self searchMoreHistory];
-
 }
 
 #pragma mark - network
@@ -54,9 +53,9 @@
     op.applytime = self.applyTime;
     op.type = self.type;
     [[[[op rac_postRequest] initially:^{
-            [self.view hideDefaultEmptyView];
-            [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-            }] finally:^{
+        [self.view hideDefaultEmptyView];
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+    }] finally:^{
         [self.view stopActivityAnimation];
     }] subscribeNext:^(GetRescueHistoryOp *op) {
         self.dataSourceArray = (NSMutableArray *)op.req_applysecueArray;
@@ -65,19 +64,19 @@
                 [self.view showDefaultEmptyViewWithText:@"暂无救援记录" tapBlock:^{
                     [self historyNetwork];
                 }];
-
+                
             }else {
                 [self.view showDefaultEmptyViewWithText:@"暂无协办记录" tapBlock:^{
                     [self historyNetwork];
                 }];
-
+                
             }
         }
         
         [self.tableView reloadData];
     } error:^(NSError *error) {
-            [self.tableView.bottomLoadingView stopActivityAnimation];
-            [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
+        [self.tableView.bottomLoadingView stopActivityAnimation];
+        [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
             [self historyNetwork];
         }];
     }] ;
@@ -93,22 +92,18 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HKTableViewCell *cell;
     if (self.type == 1 ) {
-       cell = [tableView dequeueReusableCellWithIdentifier:@"RescureHistoryViewController1" forIndexPath:indexPath];
+        cell = [tableView dequeueReusableCellWithIdentifier:@"RescureHistoryViewController1" forIndexPath:indexPath];
     }else if (self.type == 2){
         cell = [tableView dequeueReusableCellWithIdentifier:@"RescureHistoryViewController2" forIndexPath:indexPath];
     }
     
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 0, 0, 0)];
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsMake(8, 0, 0, 0)];
-
+    
     HKRescueHistory *hostory = self.dataSourceArray[indexPath.row];
     if (indexPath.row == self.dataSourceArray.count - 1) {
-        
         self.applyTime = (long long)hostory.applyTime;
-        NSLog(@"-----%@", hostory.applyTime);
-        NSLog(@"-----%lld", self.applyTime);
-        
-     }
+    }
     UILabel *plateLb = (UILabel *)[cell searchViewWithTag:1000];
     UILabel *stateLb = (UILabel *)[cell searchViewWithTag:1002];
     UILabel *timeLb = (UILabel *) [cell searchViewWithTag:1003];
@@ -120,7 +115,6 @@
         NSString *timeStr = [NSString stringWithFormat:@"%@", hostory.appointTime];
         NSString *tempStr = [timeStr substringToIndex:10];
         tempTimeLb.text = [NSString stringWithFormat:@"预约时间: %@", [[NSDate dateWithTimeIntervalSince1970:[tempStr intValue]] dateFormatForYYMMdd2]];
-        tempTimeLb.text = [[NSDate dateWithTimeIntervalSince1970:[tempStr intValue]] dateFormatForYYMMdd2];
     }
     evaluationBtn.layer.borderWidth = 1;
     evaluationBtn.layer.borderColor = [UIColor colorWithHex:@"#fe4a00" alpha:1].CGColor;
@@ -128,7 +122,7 @@
     evaluationBtn.layer.masksToBounds = YES;
     plateLb.text = [NSString stringWithFormat:@"服务车辆: %@", hostory.licenceNumber];
     if ([hostory.commentStatus integerValue] == 0) {
-       
+        
         [evaluationBtn setTitle:@"去评价" forState:UIControlStateNormal];
         if ([hostory.rescueStatus integerValue] == 4 || [hostory.rescueStatus integerValue] == 5) {
             evaluationBtn.hidden = YES;
@@ -193,19 +187,19 @@
         @strongify(self)
         [x integerValue];
         evaluationBtn.enabled = NO;
-            if ([hostory.rescueStatus integerValue] != 2 && [hostory.rescueStatus integerValue] != 4 && [hostory.rescueStatus integerValue] != 5) {
+        if ([hostory.rescueStatus integerValue] != 2 && [hostory.rescueStatus integerValue] != 4 && [hostory.rescueStatus integerValue] != 5) {
             evaluationBtn.enabled = YES;
             RescurecCommentsVC *vc = [UIStoryboard vcWithId:@"RescurecCommentsVC" inStoryboard:@"Rescue"];
             vc.history = hostory;
-            vc.applyType = @(self.applyType);
+            vc.applyType = @(self.type);
             [self.navigationController pushViewController:vc animated:YES];
-                
-                /**
-                 *  协办已申请
-                 */
+            
+            /**
+             *  协办已申请
+             */
         }else if ([hostory.rescueStatus isEqual:@(2)] && self.type == 2){
             evaluationBtn.enabled = YES;
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您确定要本次协办服务吗？" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您确定要取消本次协办服务吗？" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             
             [alert show];
             [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
@@ -228,13 +222,8 @@
                         [gToast showText:@"取消失败, 请重试"];
                     }] ;
                 }
-                
             }];
-          
-            
         }
-        
-        
     }];
     return cell;
 }
@@ -245,7 +234,7 @@
     if (self.type == 1) {
         return 115;
     }else{
-    return 130;
+        return 130;
     }
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -254,15 +243,14 @@
         return;
     }
     NSInteger index =  indexPath.row + 1;
-   
+    
     if ([self.dataSourceArray count] > index) {
-         NSLog(@"%ld, %ld", self.dataSourceArray.count , index);
         return;
     }
     else
     {
         
-      [self searchMoreHistory];
+        [self searchMoreHistory];
         
     }
     
@@ -287,17 +275,19 @@
     }
     
     GetRescueHistoryOp *op = [GetRescueHistoryOp operation];
-
+    
     op.applytime = self.applyTime;
-    
+    HKRescueHistory *his = [self.dataSourceArray lastObject];
+    NSString *timeStr = [NSString stringWithFormat:@"%@", his.applyTime];
+    op.applytime = [timeStr longLongValue];
     op.type = self.type;
-    
     [[[op rac_postRequest] initially:^{
         
         [self.tableView.bottomLoadingView hideIndicatorText];
         [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
         self.isLoading = YES;
     }] subscribeNext:^(GetRescueHistoryOp * op) {
+        
         [self.tableView.bottomLoadingView stopActivityAnimation];
         self.isLoading = NO;
         if(op.rsp_code == 0)
@@ -320,6 +310,7 @@
             NSMutableArray * tArray = [NSMutableArray arrayWithArray:self.dataSourceArray];
             [tArray addObjectsFromArray:op.req_applysecueArray];
             self.dataSourceArray = tArray;
+            
             [self.tableView reloadData];
         }
         else

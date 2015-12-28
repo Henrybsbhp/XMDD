@@ -43,9 +43,8 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.historyBtn];
     
-    if (gMapHelper.addrComponent.streetNumber.street != nil) {
-        
-        self.addressLb.text = [NSString stringWithFormat:@"%@%@%@%@", gMapHelper.addrComponent.province,gMapHelper.addrComponent.city, gMapHelper.addrComponent.district, gMapHelper.addrComponent.streetNumber.street];
+    if (gMapHelper.addrComponent != nil) {
+        [self actionAddress];
     }else{
         self.addressLb.text = @"获取位置失败, 请尝试\"刷新\"";
     }
@@ -65,20 +64,22 @@
 
 
 #pragma mark - Action
-
+- (void)actionAddress {
+    NSString *tempAdd = [NSString stringWithFormat:@"%@%@%@%@%@", gMapHelper.addrComponent.province,gMapHelper.addrComponent.city, gMapHelper.addrComponent.district, gMapHelper.addrComponent.street,gMapHelper.addrComponent.number];
+    
+    self.addressLb.text = [tempAdd stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+}
 - (void)actionFirstEnterNetwork {
     if (gAppMgr.myUser != nil) {//已登录
         GetRescueOp *op = [GetRescueOp operation];
         
         [[[[op rac_postRequest] initially:^{
-            self.bottomView.hidden = YES;
             [self.view hideDefaultEmptyView];
             [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         }] finally:^{
             [self.view stopActivityAnimation];
             
         }] subscribeNext:^(GetRescueOp *op) {
-            self.bottomView.hidden = NO;
             [self.view stopActivityAnimation];
             [self.datasourceArray safetyAddObjectsFromArray:op.req_resceuArray];
             NSString *tempStr;
@@ -91,25 +92,17 @@
             }
             [self.tableView reloadData];
         } error:^(NSError *error) {
-            self.bottomView.hidden = YES;
-            if (self.datasourceArray.count == 0) {
-//                [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
-//                    [self actionFirstEnterNetwork];
-//                }];
-            }
             
         }] ;
         
     }else {//未登录
         GetRescueNoLoginOp *op = [GetRescueNoLoginOp operation];
         [[[[op rac_postRequest] initially:^{
-            self.bottomView.hidden = YES;
             [self.view hideDefaultEmptyView];
             [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         }] finally:^{
              [self.view stopActivityAnimation];
         }] subscribeNext:^(GetRescueNoLoginOp *op) {
-            self.bottomView.hidden = NO;
             [self.datasourceArray safetyAddObjectsFromArray:op.req_resceuArray];
             NSString *tempStr;
             NSString *lastStr;
@@ -117,16 +110,9 @@
                 tempStr = [NSString stringWithFormat:@"● %@", rescue.rescueDesc];
                 lastStr = [tempStr stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n● "];
                 [self.desArray safetyAddObject:lastStr];
-                
             }
             [self.tableView reloadData];
         } error:^(NSError *error) {
-            self.bottomView.hidden = YES;
-            if (self.datasourceArray.count == 0) {
-//                [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
-//                    [self actionFirstEnterNetwork];
-//                }];
-            }
         }] ;
     }
 }
@@ -135,7 +121,7 @@
     
     if (gAppMgr.myUser != nil) {
         RescueApplyOp *op = [RescueApplyOp operation];
-        op.address = [NSString stringWithFormat:@"%@%@%@%@", gMapHelper.addrComponent.province,gMapHelper.addrComponent.city, gMapHelper.addrComponent.district, gMapHelper.addrComponent.streetNumber.street];
+        op.address = self.addressLb.text;
         op.longitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.longitude];
         op.latitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.latitude];
        
@@ -172,8 +158,7 @@
     }]
      subscribeNext:^(AMapReGeocode * getInfo) {
          self.addressLb.hidden = NO;
-         NSString *tempAdd = [NSString stringWithFormat:@"%@%@%@%@", gMapHelper.addrComponent.province,gMapHelper.addrComponent.city, gMapHelper.addrComponent.district, gMapHelper.addrComponent.streetNumber.street];
-         self.addressLb.text = [tempAdd stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+         [self actionAddress];
          
      } error:^(NSError *error) {
          self.addressLb.hidden = NO;

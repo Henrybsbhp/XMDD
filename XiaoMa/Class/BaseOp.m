@@ -55,7 +55,8 @@ static int32_t g_requestVid = 1;
     RACSignal *sig = [manager rac_invokeMethod:self.req_method parameters:params requestId:@(self.req_id) operation:&af_op];
     //捕获http的默认错误码
     sig = [sig catch:^RACSignal *(NSError *error) {
-        return [RACSignal error:[NSError errorWithDomain:kDefErrorPormpt code:error.code userInfo:error.userInfo]];
+        NSString * domain = [NSString stringWithFormat:@"%@[%ld]",kDefErrorPormpt,(long)error.code];
+        return [RACSignal error:[NSError errorWithDomain:domain code:error.code userInfo:error.userInfo]];
     }];
     //返回业务数据以及解析业务层的错误码
     sig = [sig flattenMap:^RACStream *(RACTuple *tuple) {
@@ -157,7 +158,8 @@ static int32_t g_requestVid = 1;
         
         if (self.rsp_code != 0) {
 
-            return [NSError errorWithDomain:self.rsp_prompt ? self.rsp_prompt : kDefErrorPormpt code:self.rsp_code userInfo:nil];
+            NSString * domain = [NSString stringWithFormat:@"%@[%ld]",kDefErrorPormpt,(long)self.rsp_code];
+            return [NSError errorWithDomain:self.rsp_prompt ? self.rsp_prompt : domain code:self.rsp_code userInfo:nil];
         }
     }
     return self;

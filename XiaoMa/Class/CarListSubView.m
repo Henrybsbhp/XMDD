@@ -97,6 +97,7 @@
     UIImageView *barV = [[UIImageView alloc] initWithFrame:CGRectZero];
     barV.tag = 2001;
     [view addSubview:barV];
+    self.barView = barV;
 
     //汽车商标
 //    UIImageView *logoV = [[UIImageView alloc] initWithFrame:CGRectZero];
