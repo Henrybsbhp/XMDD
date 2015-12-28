@@ -43,9 +43,8 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.historyBtn];
     
-    if (gMapHelper.addrComponent.streetNumber.street != nil) {
-        
-        self.addressLb.text = [NSString stringWithFormat:@"%@%@%@%@", gMapHelper.addrComponent.province,gMapHelper.addrComponent.city, gMapHelper.addrComponent.district, gMapHelper.addrComponent.streetNumber.street];
+    if (gMapHelper.addrComponent != nil) {
+        [self actionAddress];
     }else{
         self.addressLb.text = @"获取位置失败, 请尝试\"刷新\"";
     }
@@ -65,7 +64,10 @@
 
 
 #pragma mark - Action
-
+- (void)actionAddress {
+    NSString *tempAdd = [NSString stringWithFormat:@"%@%@%@%@", gMapHelper.addrComponent.province,gMapHelper.addrComponent.city, gMapHelper.addrComponent.district, gMapHelper.addrComponent.streetNumber.street];
+    self.addressLb.text = [tempAdd stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+}
 - (void)actionFirstEnterNetwork {
     if (gAppMgr.myUser != nil) {//已登录
         GetRescueOp *op = [GetRescueOp operation];
@@ -135,7 +137,7 @@
     
     if (gAppMgr.myUser != nil) {
         RescueApplyOp *op = [RescueApplyOp operation];
-        op.address = [NSString stringWithFormat:@"%@%@%@%@", gMapHelper.addrComponent.province,gMapHelper.addrComponent.city, gMapHelper.addrComponent.district, gMapHelper.addrComponent.streetNumber.street];
+        op.address = self.addressLb.text;
         op.longitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.longitude];
         op.latitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.latitude];
        
@@ -172,8 +174,7 @@
     }]
      subscribeNext:^(AMapReGeocode * getInfo) {
          self.addressLb.hidden = NO;
-         NSString *tempAdd = [NSString stringWithFormat:@"%@%@%@%@", gMapHelper.addrComponent.province,gMapHelper.addrComponent.city, gMapHelper.addrComponent.district, gMapHelper.addrComponent.streetNumber.street];
-         self.addressLb.text = [tempAdd stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+         [self actionAddress];
          
      } error:^(NSError *error) {
          self.addressLb.hidden = NO;
