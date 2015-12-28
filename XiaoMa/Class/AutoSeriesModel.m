@@ -33,6 +33,7 @@
     AutoDetailModel * model= [[AutoDetailModel alloc] init];
     model.modelid = rsp[@"mid"];
     model.modelname = rsp[@"name"];
+    model.price = [rsp floatParamForName:@"price"];
     return model;
 }
 

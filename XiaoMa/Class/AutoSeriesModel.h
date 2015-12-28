@@ -21,6 +21,7 @@
 
 @property (nonatomic, strong) NSNumber * modelid;
 @property (nonatomic, strong) NSString * modelname;
+@property (nonatomic, assign) CGFloat price;
 
 + (instancetype)setModelWithJSONResponse:(NSDictionary *)rsp;
 

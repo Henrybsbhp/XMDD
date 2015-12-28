@@ -63,7 +63,7 @@
     op.req_seriesid = self.series.seriesid;
     return [[op rac_postRequest] map:^id(GetAutomobileModelV2Op *rspOp) {
         if (rspOp.rsp_modelList.count == 0) {
-            NSDictionary * defaultDic = [[NSDictionary alloc] initWithObjectsAndKeys:@"0", @"mid", @"全系车型", @"name", nil];
+            NSDictionary * defaultDic = [[NSDictionary alloc] initWithObjectsAndKeys:@"0", @"mid", @"全系车型", @"name", @"0", @"price", nil];
             AutoDetailModel * defaultModel = [AutoDetailModel setModelWithJSONResponse:defaultDic];
             NSArray * defaultArr = [[NSArray alloc] initWithObjects:defaultModel, nil];
             return defaultArr;
@@ -108,7 +108,8 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     AutoDetailModel * model = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
-    titleL.text = model.modelname;
+    titleL.text = [NSString stringWithFormat:@"%@   指导价：%@万元", model.modelname, [NSString formatForPrice:model.price]];
+    
     if (!IOSVersionGreaterThanOrEqualTo(@"8.0")) {
         titleL.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 24;
     }
