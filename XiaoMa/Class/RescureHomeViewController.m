@@ -65,7 +65,8 @@
 
 #pragma mark - Action
 - (void)actionAddress {
-    NSString *tempAdd = [NSString stringWithFormat:@"%@%@%@%@", gMapHelper.addrComponent.province,gMapHelper.addrComponent.city, gMapHelper.addrComponent.district, gMapHelper.addrComponent.streetNumber.street];
+    NSString *tempAdd = [NSString stringWithFormat:@"%@%@%@%@%@", gMapHelper.addrComponent.province,gMapHelper.addrComponent.city, gMapHelper.addrComponent.district, gMapHelper.addrComponent.street,gMapHelper.addrComponent.number];
+    
     self.addressLb.text = [tempAdd stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
 }
 - (void)actionFirstEnterNetwork {

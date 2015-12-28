@@ -122,12 +122,8 @@
     DebugLog(@"%@ WebViewLoadError:%@\n,error=%@", kErrPrefix, webView.request.URL, error);
     self.webView.scrollView.contentInset = UIEdgeInsetsZero;
     self.webView.scrollView.contentSize = self.webView.frame.size;
-    if ((error.code >= 400 && error.code < 600) || error.code == -1009) {
-        [gToast showError:kDefErrorPormpt];
-    }
-    else {
-        [gToast showError:@"无法连接到服务器"];
-    }
+    NSString * domain = [NSString stringWithFormat:@"%@[%ld]",kDefErrorPormpt,(long)error.code];
+    [gToast showError:domain];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
