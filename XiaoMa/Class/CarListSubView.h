@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UILabel *licenceNumberLabel;
 ///表示是否为“默认”车辆的标记
 @property (nonatomic, strong) UIView *markView;
+@property (nonatomic, copy) void(^valuationClickBlock)(void);
 @property (nonatomic, copy) void(^bottomButtonClickBlock)(UIButton *btn, CarListSubView* view);
 @property (nonatomic, copy) void(^backgroundClickBlock)(CarListSubView *view);
 

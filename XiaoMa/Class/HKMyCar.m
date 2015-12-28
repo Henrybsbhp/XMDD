@@ -102,6 +102,9 @@
     [dict safetySetObject:self.detailModel.modelname forKey:@"carmodel"];
     [dict safetySetObject:self.detailModel.modelid forKey:@"modelid"];
     
+    //之前的版本遗漏
+    [dict safetySetObject:self.isDefault ? @1 : @2 forKey:@"isdefault"];
+    
     [dict safetySetObject:[NSString stringWithFormat:@"%.2f", self.price] forKey:@"price"];
     [dict safetySetObject:@(self.odo) forKey:@"odo"];
     [dict safetySetObject:self.inscomp forKey:@"inscomp"];
@@ -151,6 +154,14 @@
 - (BOOL)isCarInfoCompleted
 {
     if (self.carId && self.licencenumber.length > 0 && self.purchasedate && self.brand.length > 0 && self.seriesModel.seriesname.length > 0 && self.detailModel.modelname.length > 0) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)isCarInfoCompletedForCarWash
+{
+    if (self.carId && self.licencenumber.length > 0 && self.purchasedate && self.brand.length > 0 && self.seriesModel.seriesname.length > 0) {
         return YES;
     }
     return NO;

@@ -18,6 +18,7 @@
 #import "CarListVC.h"
 #import "GasVC.h"
 #import "PaymentCenterViewController.h"
+#import "ViolationViewController.h"
 
 @implementation NavigationModel
 
@@ -60,6 +61,16 @@
                 [self postCustomNotificationName:kNotifyRefreshMyCouponList object:nil];
                 MyCouponVC *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
                 vc.jumpType = CouponNewTypeInsurance;
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+            flag = YES;
+        }
+        //加油优惠券
+        else if ([@"gcp" equalByCaseInsensitive:name] && gAppMgr.myUser) {
+            if (![self popToViewControllerIfNeededByIdentify:@"MyCouponVC"]) {
+                [self postCustomNotificationName:kNotifyRefreshMyCouponList object:nil];
+                MyCouponVC *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
+                vc.jumpType = CouponNewTypeGas;
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
             flag = YES;
@@ -228,6 +239,12 @@
             vc.originVc = self.curNavCtrl;
             JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
             [self.curNavCtrl presentViewController:nav animated:YES completion:nil];
+        }
+        ///违章查询
+        else if ([@"violation" equalByCaseInsensitive:name])
+        {
+            ViolationViewController * vc = [violationStoryboard instantiateViewControllerWithIdentifier:@"ViolationViewController"];
+            [self.curNavCtrl pushViewController:vc animated:YES];
         }
     
     }

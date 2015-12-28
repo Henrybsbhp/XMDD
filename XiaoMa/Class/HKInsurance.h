@@ -14,7 +14,7 @@
 @interface SubInsurance : NSObject
 
 ///险种id
-@property (nonatomic)NSInteger coveragerId;
+@property (nonatomic, strong)NSNumber *coveragerId;
 
 ///险种名称
 @property (nonatomic,copy)NSString * coveragerName;
@@ -43,9 +43,9 @@
 @interface InsuranceDiscount : NSObject
 
 /// 险种id
-@property (nonatomic)NSInteger pid;
+@property (nonatomic, strong) NSNumber *pid;
 /// 折扣率
-@property (nonatomic)CGFloat discountrate;
+@property (nonatomic, assign) CGFloat discountrate;
 
 + (instancetype)insuranceDiscountWithJSONResponse:(NSDictionary *)rsp;
 

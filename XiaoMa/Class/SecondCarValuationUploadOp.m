@@ -18,7 +18,7 @@
     [params safetySetObject:self.req_contatName forKey:@"contatname"];
     [params safetySetObject:self.req_contatPhone forKey:@"contatphone"];
     [params safetySetObject:self.req_channelEngs forKey:@"channelengs"];
-    [params safetySetObject:self.req_cityid forKey:@"cityid"];
+    [params safetySetObject:self.req_sellercityid forKey:@"sellercityid"];
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 

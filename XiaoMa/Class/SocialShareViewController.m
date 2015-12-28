@@ -136,6 +136,9 @@
         op.gasCharge = [self.otherInfo integerParamForName:@"gasCharge"];
         op.spareCharge = [self.otherInfo integerParamForName:@"spareCharge"];
     }
+    else if (self.sceneType == ShareSceneValuation) {
+        op.shareCode = [self.otherInfo stringParamForName:@"shareCode"];
+    }
     @weakify(self);
     [[op rac_postRequest] subscribeNext:^(GetShareDetailOp * op) {
         

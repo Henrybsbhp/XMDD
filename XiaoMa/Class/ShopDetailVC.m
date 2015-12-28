@@ -18,7 +18,6 @@
 #import "CarWashNavigationViewController.h"
 #import "NearbyShopsViewController.h"
 #import "CommentListViewController.h"
-#import "EditMyCarVC.h"
 #import "AddUserFavoriteOp.h"
 #import "SDPhotoBrowser.h"
 #import "UIView+Layer.h"
@@ -387,7 +386,7 @@
         vc.originVC = self;
         vc.shop = self.shop;
         vc.service = service;
-        vc.defaultCar = [car isCarInfoCompleted] ? car : nil;
+        vc.defaultCar = [car isCarInfoCompletedForCarWash] ? car : nil;
         [self.navigationController pushViewController:vc animated:YES];
     }];
 }
@@ -760,7 +759,8 @@
     contentL.text = comment.comment;
     serviceL.text = comment.serviceName;
     [avatarV setImageByUrl:comment.avatarUrl withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
-    
+    contentL.preferredMaxLayoutWidth = self.view.bounds.size.width - 71;
+    [cell layoutIfNeeded];
     return cell;
 }
 

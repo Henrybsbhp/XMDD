@@ -15,12 +15,13 @@
 #import "NSDate+DateForText.h"
 #import "InsuranceStore.h"
 #import "UIView+Shake.h"
+#import "CarIDCodeCheckModel.h"
 
 #import <MZFormSheetController.h>
 #import "DatePickerVC.h"
 #import "InsuranceInfoSubmitingVC.h"
 #import "CityPickerVC.h"
-#import "InsuranceSelectViewController.h"
+#import "InsCoverageSelectVC.h"
 
 @interface InsInputInfoVC ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
@@ -66,15 +67,15 @@
 {
     RACSignal *signal;
     @weakify(self);
-    if (!self.insModel.premiumId) {
+    if (!self.insModel.simpleCar.carpremiumid) {
         GetInsBaseCarListOp *op = [GetInsBaseCarListOp operation];
         op.req_name = self.insModel.realName;
-        op.req_licensenum = self.insModel.licenseNumber;
+        op.req_licensenum = self.insModel.simpleCar.licenseno;
         signal = [op rac_postRequest];
     }
     else {
         GetInsBaseCarListByIDOp *op = [GetInsBaseCarListByIDOp operation];
-        op.req_carpremiumid = self.insModel.premiumId;
+        op.req_carpremiumid = self.insModel.simpleCar.carpremiumid;
         signal = [[op rac_postRequest] doNext:^(GetInsBaseCarListByIDOp *op) {
             @strongify(self);
             self.insModel.realName = op.rsp_basecar.name;
@@ -105,7 +106,7 @@
     NSMutableArray *datasource = [NSMutableArray array];
     //车牌
     HKCellData *numberCell = [HKCellData dataWithCellID:@"Number" tag:nil];
-    numberCell.object = self.insModel.licenseNumber;
+    numberCell.object = self.insModel.simpleCar.licenseno;
     [numberCell setHeightBlock:^CGFloat(UITableView *tableView) {
         return 48;
     }];
@@ -213,6 +214,9 @@
     else if (op.req_frameno.length != 17) {
         [gToast showText:@"车架号位数必须为17位"];
     }
+    else if (![CarIDCodeCheckModel carIDCheckWithCodeStr:op.req_frameno]) {
+        [gToast showText:@"请输入正确的车架号"];
+    }
     else if (op.req_brandname.length == 0) {
         [gToast showText:@"车辆型号不能为空"];
     }
@@ -224,7 +228,7 @@
     }
     else {
         //补全剩余信息
-        op.req_licensenum = self.insModel.licenseNumber;
+        op.req_licensenum = self.insModel.simpleCar.licenseno;
         op.req_name = self.insModel.realName;
         op.req_province = self.curProvince;
         
@@ -237,10 +241,13 @@
             
             @strongify(self);
             [gToast dismiss];
-            [[[InsuranceStore fetchExistsStore] updateSimpleCarRefid:op.rsp_carpremiumid status:3
-                                                         byLicenseno:self.insModel.licenseNumber] send];
-            self.insModel.premiumId = op.rsp_carpremiumid;
-            InsuranceSelectViewController *vc = [UIStoryboard vcWithId:@"InsuranceSelectViewController" inStoryboard:@"Insurance"];
+            //更新当前保险车辆信息（id和status）
+            self.insModel.simpleCar.carpremiumid = op.rsp_carpremiumid;
+            self.insModel.simpleCar.status = 3;
+            [[InsuranceStore fetchExistsStore] updateSimpleCar:self.insModel.simpleCar];
+            
+            //跳转到险种选择页面
+            InsCoverageSelectVC *vc = [UIStoryboard vcWithId:@"InsCoverageSelectVC" inStoryboard:@"Insurance"];
             vc.insModel = self.insModel;
             vc.insModel.numOfSeat = op.rsp_seatcount;
             [self.navigationController pushViewController:vc animated:YES];
@@ -452,15 +459,6 @@
 }
 
 #pragma mark - Utility
-- (BOOL)ifDataIncomplete:(id)data withPrompt:(NSString *)prompt
-{
-    if (!data || ([data isKindOfClass:[NSString class]] && [data length] == 0)) {
-        [gToast showText:prompt];
-        return YES;
-    }
-    return NO;
-}
-
 - (RACSignal *)rac_pickDateWithNow:(NSString *)nowtext
 {
     NSDate *date = [NSDate dateWithD10Text:nowtext];

@@ -115,7 +115,7 @@
             licensenoL.text = self.evaluateOp.req_licenseno;
             brandL.text = self.modelStr;
             if (!IOSVersionGreaterThanOrEqualTo(@"8.0")) {
-                brandL.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 44;
+                brandL.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 86;
             }
         }
         else {
@@ -143,6 +143,9 @@
             }
             UILabel * tipLabel = (UILabel *)[cell.contentView viewWithTag:1007];
             tipLabel.text = self.evaluateOp.rsp_tip;
+            if (!IOSVersionGreaterThanOrEqualTo(@"8.0")) {
+                tipLabel.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 32;
+            }
         }
         else {
             cell=[tableView dequeueReusableCellWithIdentifier:@"SecondMoreCell"];
@@ -215,6 +218,8 @@
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneValuation;    //页面位置
         vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        NSMutableDictionary * otherDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:self.evaluateOp.rsp_sharecode, @"shareCode", nil];
+        vc.otherInfo = otherDic;
         
         MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
         sheet.shouldCenterVertically = YES;

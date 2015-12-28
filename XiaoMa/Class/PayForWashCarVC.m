@@ -24,6 +24,7 @@
 #import "ChooseCarwashTicketVC.h"
 #import "ChooseBankCardVC.h"
 #import "CarListVC.h"
+#import "EditCarVC.h"
 
 #import "GetUserCarOp.h"
 #import "GetUserResourcesV2Op.h"
@@ -190,7 +191,18 @@
             UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
             [cell shake];
         });
-        [gToast showError:@"请选择当前车辆"];
+        
+        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"温馨提醒" message:@"您尚未添加爱车，请先添加 " delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往添加", nil];
+        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
+            
+            NSInteger index =[number integerValue];
+            if (index == 1)
+            {
+                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        }];
+        [av show];
         return;
     }
     UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"支付确认" message:@"请务必到店享受服务，且与店员确认服务商家与软件当前支付商家一致后再付款，付完不退款" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
@@ -382,6 +394,7 @@
             [MobClick event:@"rp108-12"];
             ChooseBankCardVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseBankCardVC"];
             vc.service = self.service;
+            vc.shop = self.shop;
             vc.bankCards = gAppMgr.myUser.couponModel.validCZBankCreditCard;
             vc.carwashCouponArray = self.carwashCoupouArray;
             [self.navigationController pushViewController:vc animated:YES];
@@ -819,7 +832,7 @@
 #pragma mark - 网络请求及处理
 - (void)requestGetUserResource:(BOOL)needAutoSelect
 {
-    [[gAppMgr.myUser.couponModel rac_getVaildResource:self.service.shopServiceType] subscribeNext:^(GetUserResourcesV2Op * op) {
+    [[gAppMgr.myUser.couponModel rac_getVaildResource:self.service.shopServiceType andShopId:self.shop.shopID] subscribeNext:^(GetUserResourcesV2Op * op) {
         
         self.carwashCoupouArray = op.validCarwashCouponArray;
         self.cashCoupouArray = op.validCashCouponArray;

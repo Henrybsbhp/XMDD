@@ -33,13 +33,13 @@
     HKCoverage * coverage4 = [[HKCoverage alloc] initWithCategory:InsuranceThirdPartyLiability];
     HKCoverage * coverage5 = [[HKCoverage alloc] initWithCategory:InsuranceCarSeatInsuranceOfDriver];
     /// 2.5需求，座位数不是写死
-    HKCoverage * coverage6 = [[HKCoverage alloc] initWithInsuranceCarSeatInsuranceOfPassengerWithNumOfSeat:self.numOfSeat];
+//    HKCoverage * coverage6 = [[HKCoverage alloc] initWithInsuranceCarSeatInsuranceOfPassengerWithNumOfSeat:self.numOfSeat];
     HKCoverage * coverage7 = [[HKCoverage alloc] initWithCategory:InsuranceWholeCarStolen];
     HKCoverage * coverage8 = [[HKCoverage alloc] initWithCategory:InsuranceSeparateGlassBreakage];
     HKCoverage * coverage9 = [[HKCoverage alloc] initWithCategory:InsuranceSpontaneousLossRisk];
     HKCoverage * coverage10 = [[HKCoverage alloc] initWithCategory:InsuranceWaterLoss];
     HKCoverage * coverage11 = [[HKCoverage alloc] initWithCategory:InsuranceCarBodyScratches];
-    self.insuranceArry = [NSMutableArray arrayWithArray:@[coverage1,coverage2,coverage3,coverage4,coverage5,coverage6,coverage7]];
+    self.insuranceArry = [NSMutableArray arrayWithArray:@[coverage1,coverage2,coverage3,coverage4,coverage5,coverage7]];
     self.insuranceArry2 = [NSMutableArray arrayWithArray:@[coverage8,coverage9,coverage10,coverage11]];
     
     [self setupSelectIns];
@@ -371,34 +371,7 @@
             [array safetyAddObject:s];
         }
     }
-    
-    for (HKCoverage * c in self.insuranceArry2)
-    {
-        if (c.customTag)
-        {
-            NSString * paramText = @"";
-            for (NSDictionary * obj in c.params)
-            {
-                if (obj.customTag)
-                {
-                    paramText = [paramText append:[obj objectForKey:@"key"]];
-                    break;
-                }
-            }
-            for (NSDictionary * obj in c.params2)
-            {
-                if (obj.customTag)
-                {
-                    paramText = [paramText append:@" "];
-                    paramText = [paramText append:[obj objectForKey:@"key"]];
-                    break;
-                }
-            }
-            paramText = paramText.length ? paramText : @"0";
-            NSString * s = [NSString stringWithFormat:@"%@@%@",c.insId,paramText];
-            [array safetyAddObject:s];
-        }
-    }
+
 
     return array;
 }

@@ -24,5 +24,6 @@
 @property (nonatomic, copy)NSString *rsp_url;
 @property (nonatomic, copy)NSString *rsp_tip;
 @property (nonatomic, strong)NSNumber *rsp_carid;
+@property (nonatomic, strong)NSString *rsp_sharecode;
 
 @end

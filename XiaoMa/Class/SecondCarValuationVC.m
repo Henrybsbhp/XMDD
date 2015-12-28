@@ -11,7 +11,7 @@
 #import "SecondCarValuationUploadOp.h"
 #import "CommitSuccessVC.h"
 #import <IQKeyboardManager.h>
-
+#import "WebVC.h"
 @interface SecondCarValuationVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 //底部提交按钮
 @property (strong, nonatomic) IBOutlet UIButton *commitBtn;
@@ -64,10 +64,6 @@
     
     [self reloadCellTwoData];
     
-    [RACObserve(gAppMgr.myUser, phoneNumber) subscribeNext:^(NSString * x) {
-        NSString *phone=(NSString *)x;
-        self.phoneNumber=phone;
-    }];
     [self setupUI];
 }
 
@@ -160,6 +156,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView ProcessCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProcessCell"];
+    [cell layoutIfNeeded];
     return cell;
 }
 
@@ -177,9 +174,11 @@
     couponMoneyLabel.layer.masksToBounds = YES;
     NSDictionary *dataModel = [self.dataArr safetyObjectAtIndex:indexPath.row];
     channelNameLabel.text=[NSString stringWithFormat:@"平台名称：%@",dataModel[@"channelname"]];
-    couponMoneyLabel.text=[NSString stringWithFormat:@" 返现：%@ ",dataModel[@"couponmoney"]];
+    couponMoneyLabel.text=[NSString stringWithFormat:@" %@ ",dataModel[@"couponmoney"]];
     characterLabel.text=[NSString stringWithFormat:@"平台特点：%@",dataModel[@"character"]];
     userCNTInfoLabel.text=[NSString stringWithFormat:@"用户数量：%@",dataModel[@"usercntinfo"]];
+    
+    [cell layoutIfNeeded];
     return cell;
 }
 
@@ -197,11 +196,12 @@
         self.phoneNumber = phoneNumber.text;
     }];
     
-    [[RACObserve(gAppMgr.myUser, phoneNumber) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+    [[RACObserve(gAppMgr.myUser, userID) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
        
         self.phoneNumber = x;
         phoneNumber.text = (NSString *)x;
     }];
+//    [cell layoutIfNeeded];
     return cell;
 }
 
@@ -220,7 +220,8 @@
             make.bottom.mas_equalTo(0);
         }];
         UILabel *label = [UILabel new];
-        label.text = @"估值及二手车交易服务由小马达达战略合作伙伴“车300”提供";
+        label.text = @"估值及二手车交易服务由小马达达战略合作伙伴车300提供";
+//        label.text = self.tip;
         label.textColor = [UIColor grayColor];
         label.numberOfLines = 0;
         label.font = [UIFont systemFontOfSize:13];
@@ -230,6 +231,7 @@
             make.right.mas_equalTo(-15);
             make.centerY.mas_equalTo(backgroundView);
         }];
+        label.preferredMaxLayoutWidth = self.view.bounds.size.width - 30;
         UIView *line = [UIView new];
         line.backgroundColor = [UIColor colorWithRed:180/255.0 green:180/255.0 blue:180/255.0 alpha:0.6];
         [head addSubview:line];
@@ -270,6 +272,7 @@
             make.right.mas_equalTo(0);
             make.height.mas_equalTo(0.5);
         }];
+        
     }
     return head;
 }
@@ -288,7 +291,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (IOSVersionGreaterThanOrEqualTo(@"7.0"))
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
     {
         return UITableViewAutomaticDimension;
     }
@@ -301,7 +304,7 @@
     
 }
 
--(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return UITableViewAutomaticDimension;
 }
@@ -358,6 +361,13 @@
 
 #pragma mark Action
 
+- (IBAction)helpBtnClick:(id)sender
+{
+    WebVC *webVC=[UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
+    webVC.url=@"http://www.xiaomadada.com/apphtml/second-hand-car-help.html";
+    [self.navigationController pushViewController:webVC animated:YES];
+    
+}
 
 - (IBAction)commitDataArr:(id)sender
 {
@@ -381,7 +391,7 @@
         uploadOp.req_contatName = self.name;
         uploadOp.req_contatPhone = self.phoneNumber;
         uploadOp.req_channelEngs = @"";
-        uploadOp.req_cityid = self.sellercityid;
+        uploadOp.req_sellercityid = @(12);//self.sellercityid;
         NSMutableArray *tempString = [NSMutableArray new];
         for (NSDictionary *dic in self.uploadArr)
         {
@@ -406,10 +416,6 @@
     }
 }
 
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    [self.view resignFirstResponder];
-}
 
 #pragma mark LazyLoad
 

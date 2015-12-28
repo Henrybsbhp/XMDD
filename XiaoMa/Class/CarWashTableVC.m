@@ -25,12 +25,18 @@
 #import "NSDate+DateForText.h"
 #import "ADViewController.h"
 
-
 @interface CarWashTableVC ()
-@property (nonatomic)CLLocationCoordinate2D  userCoordinate;
+
+@property (nonatomic,strong)MAUserLocation *userLocation;
 @property (nonatomic, strong) ADViewController *adctrl;
-///当前页码索引
-@property (nonatomic, assign) NSUInteger currentPageIndex;
+@property (nonatomic, strong) ADViewController *adctrl2;
+@property (nonatomic, strong) CKSegmentHelper *segHelper;
+@property (weak, nonatomic) IBOutlet UIButton *carwashBtn;
+@property (weak, nonatomic) IBOutlet UIButton *withheartBtn;
+@property (weak, nonatomic) IBOutlet UIView *line1;
+@property (weak, nonatomic) IBOutlet UIView *line2;
+- (IBAction)tabBarAtion:(id)sender;
+
 @end
 
 @implementation CarWashTableVC
@@ -48,19 +54,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //
-    //    self.tableView.tableHeaderView = nil;
-    //    self.tableView.tableFooterView = nil;
-    self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
-    self.loadingModel.isSectionLoadMore = YES;
+    
+    self.carwashLoadingModel = [[HKLoadingModel alloc] initWithTargetView:self.carwashTableView delegate:self];
+    self.withheartLoadingModel = [[HKLoadingModel alloc] initWithTargetView:self.withheartTableView delegate:self];
+    self.carwashLoadingModel.isSectionLoadMore = YES;
+    self.withheartLoadingModel.isSectionLoadMore = YES;
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAdList) name:CarwashAdvertiseNotification object:nil];
     
     CKAsyncMainQueue(^{
-        [self setupSearchView];
         [self setupTableView];
         [self setupADView];
         [self reloadAdList];
-        [self.loadingModel loadDataForTheFirstTime];
+        [self setSegmentView];
+        [self.carwashLoadingModel loadDataForTheFirstTime];
+        [self.withheartLoadingModel loadDataForTheFirstTime];
     });
 }
 
@@ -71,90 +79,110 @@
 
 - (void)dealloc
 {
-    self.tableView.delegate = nil;
-    self.tableView.dataSource = nil;
+    self.carwashTableView.delegate = nil;
+    self.carwashTableView.dataSource = nil;
+    self.withheartTableView.delegate = nil;
+    self.withheartTableView.dataSource = nil;
     DebugLog(@"CarWashTableVC Dealloc");
-}
-
-#pragma mark - Setup UI
-- (void)setupSearchView
-{
-    UIImage *bg = [UIImage imageNamed:@"nb_search_bg"];
-    bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
-    self.searchField.background = bg;
-    UIImageView *imgV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-    imgV.image = [UIImage imageNamed:@"nb_search"];
-    imgV.contentMode = UIViewContentModeCenter;
-    self.searchField.leftView = imgV;
-    self.searchField.leftViewMode = UITextFieldViewModeAlways;
-    [self.searchField resignFirstResponder];
-    self.searchField.enabled = NO;
-    
-    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] init];
-    [self.searchView addGestureRecognizer:tap];
-    
-    @weakify(self)
-    [[tap rac_gestureSignal] subscribeNext:^(id x) {
-        [MobClick event:@"rp102-2"];
-        @strongify(self)
-        SearchViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
-        [self.navigationController pushViewController:vc animated:YES];
-    }];
-    [[self.searchField rac_newTextChannel] subscribeNext:^(id x) {
-        
-    }];
-    
-    [[self.searchField rac_textSignal] subscribeNext:^(id x) {
-        
-    }];
 }
 
 - (void)setupADView
 {
     self.adctrl = [ADViewController vcWithADType:AdvertisementCarWash boundsWidth:self.view.bounds.size.width
                                         targetVC:self mobBaseEvent:@"rp102-6"];
+    self.adctrl2 = [ADViewController vcWithADType:AdvertisementCarWash boundsWidth:self.view.bounds.size.width
+                                        targetVC:self mobBaseEvent:@"rp102-6"];
 }
 
 - (void)reloadAdList
 {
-    if (self.forbidAD) {
-        [self refreshAdView];
-        return;
-    }
     @weakify(self);
     [self.adctrl reloadDataWithForce:NO completed:^(ADViewController *ctrl, NSArray *ads) {
         @strongify(self);
-        [self refreshAdView];
+        [self refreshAdView1];
+    }];
+    
+    [self.adctrl2 reloadDataWithForce:NO completed:^(ADViewController *ctrl, NSArray *ads) {
+        @strongify(self);
+        [self refreshAdView2];
     }];
 }
 
-- (void)refreshAdView
+- (void)refreshAdView1
 {
-    if (!self.forbidAD && self.adctrl.adList.count > 0) {
+    if (self.adctrl.adList.count > 0) {
         CGRect frame = self.adctrl.adView.frame;
-        self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), CGRectGetHeight(frame)+45);
-        frame.origin.y = 45;
+        self.carwashHeaderView.frame = CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, CGRectGetHeight(frame));
         self.adctrl.adView.frame = frame;
-        [self.headerView addSubview:self.adctrl.adView];
+        [self.carwashHeaderView addSubview:self.adctrl.adView];
     }
     else {
-        self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), 45);
+        self.carwashHeaderView.frame = CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, CGFLOAT_MIN);
         [self.adctrl.adView removeFromSuperview];
     }
-    if (self.loadingModel.datasource.count > 0) {
-        [self.tableView setTableHeaderView:self.headerView];
-    }
+    [self.carwashTableView setTableHeaderView:self.carwashHeaderView];
 }
 
+- (void)refreshAdView2
+{
+    if (self.adctrl2.adList.count > 0) {
+        CGRect frame = self.adctrl2.adView.frame;
+        self.withHeartHeaderView.frame = CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, CGRectGetHeight(frame));
+        self.adctrl2.adView.frame = frame;
+        [self.withHeartHeaderView addSubview:self.adctrl2.adView];
+    }
+    else {
+        self.withHeartHeaderView.frame = CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, CGFLOAT_MIN);
+        [self.adctrl2.adView removeFromSuperview];
+    }
+    [self.withheartTableView setTableHeaderView:self.withHeartHeaderView];
+}
+
+- (void)setSegmentView
+{
+    [self.carwashBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateSelected];
+    [self.withheartBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateSelected];
+    self.segHelper = [[CKSegmentHelper alloc] init];
+    @weakify(self)
+    [self.segHelper addItem:self.carwashBtn forGroupName:@"CarwashTabBar" withChangedBlock:^(id item, BOOL selected) {
+        @strongify(self);
+        UIButton * btn = item;
+        btn.selected = selected;
+        self.line1.hidden = !selected;
+        self.carwashTableView.hidden = !selected;
+        if (selected) {
+            
+        }
+    }];
+    
+    [self.segHelper addItem:self.withheartBtn forGroupName:@"CarwashTabBar" withChangedBlock:^(id item, BOOL selected) {
+        @strongify(self);
+        UIButton * btn = item;
+        btn.selected = selected;
+        self.line2.hidden = !selected;
+        self.withheartTableView.hidden = !selected;
+        if (selected) {
+            
+        }
+    }];
+    //默认显示普洗
+    [self.segHelper selectItem:self.carwashBtn];
+}
 
 - (void)setupTableView
 {
-    self.tableView.showBottomLoadingView = YES;
-    self.tableView.contentInset = UIEdgeInsetsZero;
+    self.carwashTableView.showBottomLoadingView = YES;
+    self.carwashTableView.contentInset = UIEdgeInsetsZero;
+    self.withheartTableView.showBottomLoadingView = YES;
+    self.withheartTableView.contentInset = UIEdgeInsetsZero;
 }
 
 
 #pragma mark - Action
+- (IBAction)tabBarAtion:(id)sender {
+    [self.segHelper selectItem:sender];
+}
+
 - (IBAction)actionMap:(id)sender
 {
     [MobClick event:@"rp102-1"];
@@ -162,6 +190,11 @@
     nearbyShopView.type = self.type;
     nearbyShopView.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:nearbyShopView animated:YES];
+}
+
+- (IBAction)searchAction:(id)sender {
+    SearchViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - HKLoadingModelDelegate
@@ -241,11 +274,21 @@
 - (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
 {
     if (type != HKLoadingTypeLoadMore) {
-        self.currentPageIndex = 0;
+        model.currentPageIndex = 0;
     }
     
     @weakify(self);
-    return [[[gMapHelper rac_getUserLocation] catch:^RACSignal *(NSError *error) {
+    RACSignal * signal;
+    if (!self.userLocation || model.currentPageIndex == 0)
+    {
+        signal = [gMapHelper rac_getUserLocation];
+    }
+    else
+    {
+        signal = [RACSignal return:self.userLocation];
+    }
+    
+    return [[signal catch:^RACSignal *(NSError *error) {
         
         NSError *mappedError = [NSError errorWithDomain:@"" code:error.code userInfo:nil];
         mappedError.customTag = 1;
@@ -253,14 +296,17 @@
     }] flattenMap:^RACStream *(MAUserLocation *userLocation) {
         
         @strongify(self)
-        self.userCoordinate = userLocation.coordinate;
+        ShopServiceType service =  model == self.carwashLoadingModel ? ShopServiceCarWash : ShopServiceCarwashWithHeart;
+        self.userLocation = userLocation;
         GetShopByDistanceV2Op * getShopByDistanceOp = [GetShopByDistanceV2Op new];
         getShopByDistanceOp.longitude = userLocation.coordinate.longitude;
         getShopByDistanceOp.latitude = userLocation.coordinate.latitude;
-        getShopByDistanceOp.pageno = self.currentPageIndex+1;
+        getShopByDistanceOp.pageno = model.currentPageIndex+1;
+        getShopByDistanceOp.serviceType =  service;
         return [[getShopByDistanceOp rac_postRequest] map:^id(GetShopByDistanceV2Op *op) {
             
-            self.currentPageIndex = self.currentPageIndex+1;
+//            [self filterShopServiceByType:service andArray:op.rsp_shopArray];
+            model.currentPageIndex = model.currentPageIndex+1;
             return op.rsp_shopArray;
         }];
     }];
@@ -268,21 +314,23 @@
 
 - (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type
 {
-    [self.tableView reloadData];
-    if (model.datasource.count == 0) {
-        self.tableView.tableHeaderView = nil;
-    }
-    else if (!self.tableView.tableHeaderView) {
-        self.tableView.tableHeaderView = self.headerView;
-    }
+    UITableView * tableView = model == self.carwashLoadingModel ? self.carwashTableView : self.withheartTableView;
+    [tableView reloadData];
+
+//    if (tableView.tableHeaderView != self.headerView) {
+//        tableView.tableHeaderView = self.headerView;
+//    }
 }
 
 #pragma mark - Table view data source
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    HKLoadingModel * model = [self modelForTableView:tableView];
+    ShopServiceType type = model == self.carwashLoadingModel ? ShopServiceCarWash : ShopServiceCarwashWithHeart;
     CGFloat height = 0.0;
-    JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
-    NSInteger serviceAmount = shop.shopServiceArray.count;
+    JTShop *shop = [model.datasource safetyObjectAtIndex:indexPath.section];
+    NSArray * serviceArray = [self filterShopServiceByType:type andArray:shop.shopServiceArray];
+    NSInteger serviceAmount = serviceArray.count;
     NSInteger sectionAmount = 1 + serviceAmount + 1;
     
     if(indexPath.row == 0)
@@ -313,14 +361,17 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    return self.loadingModel.datasource.count;
+    HKLoadingModel * model = [self modelForTableView:tableView];
+    return model.datasource.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    NSInteger num = 0;
-    JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:section];
-    num = 1 + shop.shopServiceArray.count + 1;
+    HKLoadingModel * model = [self modelForTableView:tableView];
+    ShopServiceType type = model == self.carwashLoadingModel ? ShopServiceCarWash : ShopServiceCarwashWithHeart;
+    JTShop *shop = [model.datasource safetyObjectAtIndex:section];
+    NSArray * serviceArray = [self filterShopServiceByType:type andArray:shop.shopServiceArray];
+    NSInteger num = 1 + serviceArray.count + 1;
     return num;
 }
 
@@ -329,8 +380,11 @@
     
     UITableViewCell * cell;
     
-    JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
-    NSInteger serviceAmount = shop.shopServiceArray.count;
+    HKLoadingModel * model = [self modelForTableView:tableView];
+    ShopServiceType type = model == self.carwashLoadingModel ? ShopServiceCarWash : ShopServiceCarwashWithHeart;
+    JTShop *shop = [model.datasource safetyObjectAtIndex:indexPath.section];
+    NSArray * serviceArray = [self filterShopServiceByType:type andArray:shop.shopServiceArray];
+    NSInteger serviceAmount = serviceArray.count;
     NSInteger sectionAmount = 1 + serviceAmount + 1;
     
     if(indexPath.row == 0)
@@ -343,7 +397,7 @@
     }
     else
     {
-        cell = [self tableView:tableView shopServiceCellAtIndexPath:indexPath];
+        cell = [self tableView:tableView shopServiceCellAtIndexPath:indexPath andShopService:serviceArray];
     }
     
     return cell;
@@ -351,23 +405,25 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    NSInteger mask = indexPath.row == 0 ? CKViewBorderDirectionBottom : CKViewBorderDirectionBottom | CKViewBorderDirectionTop;
-    //    [cell.contentView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:mask];
-    //    [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(0, 0, 8, 0) forDirectionMask:mask];
-    //    [cell.contentView showBorderLineWithDirectionMask:mask];
-    
-    JTShop * shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
-    NSInteger count = shop.shopServiceArray.count + 2;
-    [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nestItemCount:count promptView:self.tableView.bottomLoadingView];
+    HKLoadingModel * model = [self modelForTableView:tableView];
+    ShopServiceType type = model == self.carwashLoadingModel ? ShopServiceCarWash : ShopServiceCarwashWithHeart;
+    JTShop *shop = [model.datasource safetyObjectAtIndex:indexPath.section];
+    NSArray * serviceArray = [self filterShopServiceByType:type andArray:shop.shopServiceArray];
+    NSInteger count = serviceArray.count + 2;
+    if ([tableView isKindOfClass:[JTTableView class]])
+    {
+        [model loadMoreDataIfNeededWithIndexPath:indexPath nestItemCount:count promptView:self.carwashTableView.bottomLoadingView];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [MobClick event:@"rp102-3"];
+    HKLoadingModel * model = [self modelForTableView:tableView];
     ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
     vc.couponFordetailsDic = self.couponForWashDic;
     vc.hidesBottomBarWhenPushed = YES;
-    vc.shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+    vc.shop = [model.datasource safetyObjectAtIndex:indexPath.section];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -377,7 +433,8 @@
 {
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];
     
-    JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+    HKLoadingModel * model = [self modelForTableView:tableView];
+    JTShop *shop = [model.datasource safetyObjectAtIndex:indexPath.section];
     
     //row 0  缩略图、名称、评分、地址、距离、营业状况等
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
@@ -429,8 +486,8 @@
         }
     }
     
-    double myLat = self.userCoordinate.latitude;
-    double myLng = self.userCoordinate.longitude;
+    double myLat = self.userLocation.coordinate.latitude;
+    double myLng = self.userLocation.coordinate.longitude;
     double shopLat = shop.shopLatitude;
     double shopLng = shop.shopLongitude;
     NSString * disStr = [DistanceCalcHelper getDistanceStrLatA:myLat lngA:myLng latB:shopLat lngB:shopLng];
@@ -438,18 +495,16 @@
     return cell;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView shopServiceCellAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView shopServiceCellAtIndexPath:(NSIndexPath *)indexPath andShopService:(NSArray *)serviceArray
 {
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ServiceCell" forIndexPath:indexPath];
-    
-    JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     
     //row 1 洗车服务与价格
     UILabel *washTypeL = (UILabel *)[cell.contentView viewWithTag:2001];
     UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:2002];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
     
-    JTShopService * service = [shop.shopServiceArray safetyObjectAtIndex:indexPath.row - 1];
+    JTShopService * service = [serviceArray safetyObjectAtIndex:indexPath.row - 1];
     
     washTypeL.text = service.serviceName;
     
@@ -467,7 +522,8 @@
 {
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"NavigationCell" forIndexPath:indexPath];
     
-    JTShop *shop = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+    HKLoadingModel * model = [self modelForTableView:tableView];
+    JTShop *shop = [model.datasource safetyObjectAtIndex:indexPath.section];
     
     //row 2
     UIButton *guideB = (UIButton *)[cell.contentView viewWithTag:3001];
@@ -478,7 +534,8 @@
         
         @strongify(self)
         [MobClick event:@"rp102-4"];
-        [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.tabBarController.view];
+        
+        [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userLocation.coordinate andView:self.tabBarController.view];
     }];
     
     [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -536,6 +593,31 @@
         [str appendAttributedString:attrStr2];
     }
     return str;
+}
+
+- (HKLoadingModel *)modelForTableView:(UITableView *)tableView
+{
+    HKLoadingModel * model;
+    if (tableView == self.carwashTableView)
+    {
+        model = self.carwashLoadingModel;
+    }
+    else
+    {
+        model = self.withheartLoadingModel;
+    }
+    return model;
+}
+
+
+- (NSArray *)filterShopServiceByType:(ShopServiceType)type andArray:(NSArray * )array
+{
+    NSArray * serviceArray = [array arrayByFilteringOperator:^BOOL(JTShopService  * service) {
+            
+        return service.shopServiceType == type;
+    }];
+        
+    return serviceArray;
 }
 
 @end

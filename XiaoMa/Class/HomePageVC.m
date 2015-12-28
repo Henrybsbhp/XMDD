@@ -31,7 +31,6 @@
 #import "CheckAwardViewController.h"
 #import "ADViewController.h"
 #import "CollectionChooseVC.h"
-#import "InsuranceDetailPlanVC.h"
 #import "GasVC.h"
 #import "PaymentSuccessVC.h"
 #import "PaymentCenterViewController.h"
@@ -39,7 +38,6 @@
 #import "ViolationItemViewController.h"
 #import "ViolationViewController.h"
 #import "ValuationViewController.h"
-#import "InsuranceSelectViewController.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3.0
@@ -92,7 +90,6 @@
     [self setupScrollView];
     [self setupWeatherView];
     
-    NSLog(@"home page :%@",NSStringFromCGSize(self.scrollView.contentSize));
     
     [self.scrollView.refreshView addTarget:self action:@selector(reloadDatasource) forControlEvents:UIControlEventValueChanged];
     CKAsyncMainQueue(^{
