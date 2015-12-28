@@ -32,6 +32,7 @@
         self.tableView.showBottomLoadingView = YES;
         self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
         [self setupInsOrderStore];
+        self.loadingModel.isSectionLoadMore = YES;
     }
     return self;
 }

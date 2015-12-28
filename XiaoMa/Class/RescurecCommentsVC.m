@@ -63,20 +63,15 @@
     }
     
     @weakify(self)
-    [[self.commentsTV.rac_textSignal filter:^BOOL(NSString *value) {
+    [self.commentsTV.rac_textSignal subscribeNext:^(NSString * x) {
         @strongify(self)
-        if (value.length > 0) {
+        if (x.length > 0) {
             self.placeholderLb.hidden = YES;
             self.placeholderLb.text = @"";
         }else {
             self.placeholderLb.hidden = NO;
             self.placeholderLb.text = @"其他建议或意见";
         }
-        
-        return YES;
-    }] subscribeNext:^(NSString * x) {
-        @strongify(self)
-        self.commentsTV.text = x;
     }];
     
     if ([self.history.commentStatus isEqual:@(1)]) {

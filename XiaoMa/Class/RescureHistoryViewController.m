@@ -222,13 +222,8 @@
                         [gToast showText:@"取消失败, 请重试"];
                     }] ;
                 }
-                
             }];
-            
-            
         }
-        
-        
     }];
     return cell;
 }
