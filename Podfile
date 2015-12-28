@@ -18,4 +18,4 @@ pod 'UMengAnalytics','3.5.8'
 pod 'SDWebImage','3.7.2'
 pod 'TMCache', '2.1.0'
 pod 'pop', '1.0.7'
-pod 'JT3DScrollView', '1.0.2'
+

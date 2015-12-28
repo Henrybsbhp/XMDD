@@ -11,17 +11,16 @@
 #import "BorderLineLabel.h"
 #import "InsuranceOrderPayOp.h"
 #import "PayForInsuranceVC.h"
-#import "HKLoadingModel.h"
-#import "InsOrderStore.h"
+#import "InsuranceStore.h"
 #import "InsuranceVM.h"
 
-@interface InsuranceOrderVC ()<UITableViewDataSource,UITableViewDelegate,HKLoadingModelDelegate>
+@interface InsuranceOrderVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *bottomButton;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) NSArray *coverages;
-@property (nonatomic, strong) HKLoadingModel *loadingModel;
-@property (nonatomic, strong) InsOrderStore *orderStore;
+@property (nonatomic, strong) InsuranceStore *insStore;
 
 @end
 
@@ -37,19 +36,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
+
     if (self.order) {
         self.orderID = self.order.orderid;
-        [self setupInsOrderStore];
-        [self.tableView.refreshView addTarget:self.loadingModel action:@selector(reloadData)
-                             forControlEvents:UIControlEventValueChanged];
+        [self setupRefreshView];
         [self reloadWithOrderStatus:self.order.status];
+        [self setupInsuranceStore];
     }
     else {
-        [self setupInsOrderStore];
-        [self.loadingModel loadDataForTheFirstTime];
+        [self setupInsuranceStore];
+        CKAsyncMainQueue(^{
+            [[self.insStore getInsOrderByID:self.orderID] send];
+        });
     }
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -60,6 +59,11 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp319"];
+}
+
+- (void)setupRefreshView
+{
+    [self.tableView.refreshView addTarget:self action:@selector(actionRefresh) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)resetBottomButton
@@ -85,21 +89,59 @@
     [self.bottomButton addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)setupInsOrderStore
+- (void)setupInsuranceStore
 {
-    self.orderStore = [InsOrderStore fetchOrCreateStore];
+    self.insStore = [InsuranceStore fetchOrCreateStore];
     @weakify(self);
-    [self.orderStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
+    [self.insStore subscribeWithTarget:self domain:@"insOrder" receiver:^(CKStore *store, CKEvent *evt) {
+        
         @strongify(self);
-        RACSignal *sig = [evt.signal map:^id(id value) {
-            self.order = [[(InsOrderStore *)store cache] objectForKey:self.orderID];
-            return [NSArray safetyArrayWithObject:self.order];
-        }];
-        if (self.order) {
-            [self.loadingModel reloadDataFromSignal:sig];
+        if (evt.object && [evt.object isEqual:self.orderID]) {
+            [self reloadWithEvent:evt];
+        }
+    }];
+}
+
+- (void)reloadWithEvent:(CKEvent *)event
+{
+    @weakify(self);
+    __weak CKEvent *evt = event;
+    [[[event signal] initially:^{
+        
+        @strongify(self);
+        if ([self.tableView isRefreshViewExists]) {
+            [self.tableView.refreshView beginRefreshing];
         }
         else {
-            [self.loadingModel autoLoadDataFromSignal:sig];
+            self.containerView.hidden = YES;
+            [self.view hideDefaultEmptyView];
+            [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+        }
+    }] subscribeNext:^(id x) {
+    
+        @strongify(self);
+        if ([self.tableView isRefreshViewExists]) {
+            [self.tableView.refreshView endRefreshing];
+        }
+        else {
+            self.containerView.hidden = NO;
+            [self.view stopActivityAnimation];
+            [self setupRefreshView];
+        }
+        self.order = x;
+        [self reloadWithOrderStatus:self.order.status];
+    } error:^(NSError *error) {
+       
+        @strongify(self);
+        [gToast showError:error.domain];
+        if ([self.tableView isRefreshViewExists]) {
+            [self.tableView.refreshView endRefreshing];
+        }
+        else {
+            [self.view stopActivityAnimation];
+            [self.view showDefaultEmptyViewWithText:@"获取订单详情失败，点击重试" tapBlock:^{
+                [evt send];
+            }];
         }
     }];
 }
@@ -183,27 +225,8 @@
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
 }
 
-#pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
-{
-    return @"该订单已消失";
-}
-
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
-{
-    return @"获取订单信息失败，点击重试";
-}
-
-- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
-{
-    InsOrderStore *store = [InsOrderStore fetchExistsStore];
-    [store sendEvent:[store getInsOrderByID:self.orderID]];
-    return [RACSignal empty];
-}
-
-- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type
-{
-    [self reloadWithOrderStatus:self.order.status];
+- (void)actionRefresh {
+    [[self.insStore getInsOrderByID:self.orderID] send];
 }
 
 #pragma mark - UITableViewDelegate

@@ -9,6 +9,8 @@
 #import "InsuranceStore.h"
 #import "GetInsCarListOp.h"
 #import "GetInsProvinceListOp.h"
+#import "GetInsuranceOrderListOp.h"
+#import "GetInsuranceOrderDetailsOp.h"
 
 @implementation InsuranceStore
 
@@ -38,7 +40,7 @@
         self.xmddHelpTip = op.rsp_xmddhelptip;
         return op.rsp_carinfolist;
     }];
-    CKEvent *event = [[RACSignal combineLatest:@[provSig, carSig]] eventWithName:kEvtInsSimpleCars];
+    CKEvent *event = [[RACSignal combineLatest:@[provSig, carSig]] eventWithName:kEvtGetInsSimpleCars];
     return [self inlineEvent:event forDomain:@"simpleCars"];
 }
 
@@ -65,6 +67,37 @@
 {
     [self.simpleCars addObject:car forKey:car.licenseno];
     return [self inlineEvent:[CKEvent eventWithName:kEvtUpdateInsSimpleCar signal:[RACSignal return:car]]];
+}
+
+///获取所有的保险订单列表
+- (CKEvent *)getAllInsOrders
+{
+    @weakify(self);
+    CKEvent *event = [[[[GetInsuranceOrderListOp operation] rac_postRequest] map:^id(GetInsuranceOrderListOp *rspOp) {
+        @strongify(self);
+        JTQueue *cache = [[JTQueue alloc] init];
+        for (HKInsuranceOrder *order in rspOp.rsp_orders) {
+            [cache addObject:order forKey:order.orderid];
+        }
+        self.insOrders = cache;
+        return rspOp.rsp_orders;
+    }] eventWithName:kEvtGetInsOrders];
+    return [self inlineEvent:event forDomain:@"insOrders"];
+}
+
+///根据id获取指定的保险订单
+- (CKEvent *)getInsOrderByID:(NSNumber *)orderID
+{
+    GetInsuranceOrderDetailsOp * op = [GetInsuranceOrderDetailsOp operation];
+    op.req_orderid = orderID;
+    @weakify(self);
+    CKEvent *event = [[[op rac_postRequest] map:^id(GetInsuranceOrderDetailsOp *op) {
+        
+        @strongify(self);
+        [self.insOrders addObject:op.rsp_order forKey:op.rsp_order.orderid];
+        return op.rsp_order;
+    }] eventWithName:kEvtGetInsOrder object:orderID];
+    return [self inlineEvent:event forDomainList:@[@"insOrders", @"insOrder"]];
 }
 
 

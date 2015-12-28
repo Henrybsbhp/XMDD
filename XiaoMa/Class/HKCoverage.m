@@ -124,10 +124,10 @@
                 
             case InsuranceSeparateGlassBreakage:{
                 self.insName = @"玻璃单独破碎险";
-                self.params = @[@{@"key":@"国产",@"value":@(1)},
-                                @{@"key":@"进口",@"value":@(2)}
-                                ];
-                self.defParamIndex = 0;
+//                self.params = @[@{@"key":@"国产",@"value":@(1)},
+//                                @{@"key":@"进口",@"value":@(2)}
+//                                ];
+//                self.defParamIndex = 0;
                 self.discountType = InsuranceBusinessDiscount;
                 break;
             }

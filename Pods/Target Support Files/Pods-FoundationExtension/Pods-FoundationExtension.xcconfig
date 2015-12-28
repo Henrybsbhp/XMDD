@@ -1,1 +1,0 @@
-PODS_FOUNDATIONEXTENSION_OTHER_LDFLAGS = -framework "AddressBook" -framework "Foundation" -framework "QuartzCore" -framework "UIKit"

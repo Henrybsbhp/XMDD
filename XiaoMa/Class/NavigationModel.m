@@ -11,7 +11,7 @@
 #import "CarwashOrderDetailVC.h"
 #import "InsuranceOrderVC.h"
 #import "MyCouponVC.h"
-#import "InsOrderStore.h"
+#import "InsuranceStore.h"
 #import "LoginVC.h"
 #import "GasVC.h"
 #import "DetailWebVC.h"
@@ -122,8 +122,7 @@
                 }];
                 if (vc) {
                     [self.curNavCtrl popToViewController:vc animated:YES];
-                    InsOrderStore *store = [InsOrderStore fetchExistsStore];
-                    [store sendEvent:[store getInsOrderByID:orderid]];
+                    [[[InsuranceStore fetchExistsStore] getInsOrderByID:orderid] send];
                 }
                 else {
                     InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];

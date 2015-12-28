@@ -50,6 +50,17 @@
     return self.signal;
 }
 
+- (RACSignal *)sendAndIgnoreError
+{
+    RACSignal *signal = self.signal;
+    [[CKDispatcher sharedDispatcher] sendEvent:[self mapSignal:^RACSignal *(RACSignal *signal) {
+        return [signal catch:^RACSignal *(NSError *error) {
+            return [RACSignal empty];
+        }];
+    }]];
+    return signal;
+}
+
 @end
 
 @implementation RACSignal (CKEvent)
