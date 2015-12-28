@@ -104,7 +104,7 @@
 {
     //reload方法在第一次读取失败的时候会reload失败
     CKAsyncMainQueue(^{
-        self.webView.scrollView.contentSize = self.webView.frame.size;//避免横条滚动
+        self.webView.scrollView.contentSize = self.webView.frame.size;//避免横条滚动  //加上刷新的时候会闪一下
         [self.webView loadRequest:self.request];
     });
 }
