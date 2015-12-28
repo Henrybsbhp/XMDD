@@ -409,7 +409,6 @@
         }] subscribeNext:^(SecondCarValuationUploadOp *uploadOp) {
             
             CommitSuccessVC * successVC = [valuationStoryboard instantiateViewControllerWithIdentifier:@"CommitSuccessVC"];
-            successVC.tip = uploadOp.rsp_tip;
             [self.navigationController pushViewController:successVC animated:YES];
         } error:^(NSError *error) {
             [gToast showError:error.domain];

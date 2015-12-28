@@ -10,6 +10,5 @@
 
 @interface CommitSuccessVC : UIViewController
 
-@property (nonatomic,copy) NSString *tip;
 
 @end
