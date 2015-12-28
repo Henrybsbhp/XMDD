@@ -19,6 +19,7 @@
 + (CKEvent *)eventWithName:(NSString *)aName object:(id)object userInfo:(NSDictionary *)userInfo signal:(RACSignal *)signal;
 - (CKEvent *)mapSignal:(RACSignal *(^)(RACSignal *signal))block;
 - (RACSignal *)send;
+- (RACSignal *)sendAndIgnoreError;
 
 @end
 

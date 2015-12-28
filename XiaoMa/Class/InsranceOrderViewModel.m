@@ -11,10 +11,10 @@
 #import "GetInsuranceOrderListOp.h"
 #import "InsuranceOrderVC.h"
 #import "PayForInsuranceVC.h"
-#import "InsOrderStore.h"
+#import "InsuranceStore.h"
 
 @interface InsranceOrderViewModel ()<HKLoadingModelDelegate>
-@property (nonatomic, strong) InsOrderStore *orderStore;
+@property (nonatomic, strong) InsuranceStore *insStore;
 @end
 
 @implementation InsranceOrderViewModel 
@@ -31,7 +31,7 @@
         self.tableView.dataSource = self;
         self.tableView.showBottomLoadingView = YES;
         self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
-        [self setupInsOrderStore];
+        [self setupInsStore];
         self.loadingModel.isSectionLoadMore = YES;
     }
     return self;
@@ -42,18 +42,17 @@
     _targetVC = targetVC;
 }
 
-- (void)setupInsOrderStore
+- (void)setupInsStore
 {
-    self.orderStore = [InsOrderStore fetchOrCreateStore];
+    self.insStore = [InsuranceStore fetchOrCreateStore];
     @weakify(self);
-    [self.orderStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
+    [self.insStore subscribeWithTarget:self domain:@"insOrders" receiver:^(CKStore *store, CKEvent *evt) {
+        
         @strongify(self);
-        RACSignal *sig = evt.signal;
-        if (evt.code != kHKStoreEventReload) {
-            sig = [sig map:^id(id value) {
-                return [[(InsOrderStore *)store cache] allObjects];
-            }];
-        }
+        RACSignal *sig = [[evt signal] map:^id(id value) {
+            @strongify(self);
+            return [self.insStore.insOrders allObjects];
+        }];
         [self.loadingModel autoLoadDataFromSignal:sig];
     }];
 }
@@ -77,8 +76,7 @@
 
 - (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
 {
-    InsOrderStore *store = [InsOrderStore fetchExistsStore];
-    [store sendEvent:[store getAllInsOrders]];
+    [[[InsuranceStore fetchExistsStore] getAllInsOrders] send];
     return [RACSignal empty];
 }
 
