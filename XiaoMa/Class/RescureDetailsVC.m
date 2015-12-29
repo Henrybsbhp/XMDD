@@ -44,7 +44,6 @@
     [super viewDidLoad];
     
     [self actionFirstEnter];
-    //[self.view addSubview:self.helperBtn];
     self.tableView.tableFooterView = self.footerView;
     [self setupADView];
     self.navigationItem.title = self.titleStr;
@@ -97,6 +96,9 @@
         RescueApplyOp *op = [RescueApplyOp operation];
         op.longitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.longitude];
         op.latitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.latitude];
+        NSString *tempAdd = [NSString stringWithFormat:@"%@%@%@%@%@", gMapHelper.addrComponent.province,gMapHelper.addrComponent.city, gMapHelper.addrComponent.district, gMapHelper.addrComponent.street,gMapHelper.addrComponent.number];
+        op.address = [tempAdd stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+        
         [[[[op rac_postRequest] initially:^{
         }] finally:^{
             
