@@ -48,6 +48,10 @@
 
 @implementation MyCouponVC
 
+- (void)dealloc
+{
+    DebugLog(@"MyCouponVC dealloc!");
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -160,11 +164,6 @@
     
 }
 
-- (void)dealloc
-{
-    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
-    DebugLog(deallocInfo);
-}
 
 #pragma mark - Action
 - (IBAction)actionTabBar:(id)sender

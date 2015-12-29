@@ -18,6 +18,10 @@
 @end
 
 @implementation FeedbackVC
+- (void)dealloc
+{
+    DebugLog(@"FeedbackVC dealloc!");
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

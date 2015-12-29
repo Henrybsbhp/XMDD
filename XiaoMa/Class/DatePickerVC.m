@@ -14,6 +14,11 @@
 
 @implementation DatePickerVC
 
+- (void)dealloc
+{
+    DebugLog(@"DatePickerVC delloc ~");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

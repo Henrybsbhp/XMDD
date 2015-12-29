@@ -62,7 +62,10 @@
 - (void)dealloc
 {
     [self.tableView setEditing:NO];
-}
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"GasCardListVC dealloc ~");
+ }
 
 #pragma mark - relaodData
 - (void)deleteWithEvent:(HKStoreEvent *)evt

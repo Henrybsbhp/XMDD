@@ -22,7 +22,7 @@
 
 - (void)dealloc
 {
-    
+    DebugLog(@"HKPickerVC dealloc ~");
 }
 
 - (void)didReceiveMemoryWarning {

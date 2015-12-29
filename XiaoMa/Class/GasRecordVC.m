@@ -26,6 +26,13 @@
 
 @implementation GasRecordVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"GasRecordVC dealloc ~");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView.tableHeaderView = nil;

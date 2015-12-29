@@ -103,8 +103,7 @@
 
 - (void)dealloc
 {
-    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
-    DebugLog(deallocInfo);
+    DebugLog(@"PaymentSuccessVC dealloc");
 }
 
 - (void)actionBack:(id)sender

@@ -35,6 +35,11 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 @implementation DetailWebVC
 
+- (void)dealloc
+{
+    DebugLog(@"DetailWebVC dealloc ~");
+}
+
 - (void)awakeFromNib
 {
     self.navModel = [[NavigationModel alloc] init];
