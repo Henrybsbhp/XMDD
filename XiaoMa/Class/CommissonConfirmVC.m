@@ -13,7 +13,6 @@
 #import "CarListVC.h"
 #import "CommissionForsuccessfulVC.h"
 #import "MyCarStore.h"
-#import "CKStore.h"
 #import "WebVC.h"
 #import "UIView+Layer.h"
 #import "HKTableViewCell.h"
@@ -169,9 +168,10 @@
 
 - (void)setupCarStore
 {
-    self.carStore = [MyCarStore fetchExistsStore];
+    self.carStore = [MyCarStore fetchOrCreateStore];
     @weakify(self);
-    [self.carStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
+    [self.carStore subscribeWithTarget:self domain:@"cars" receiver:^(CKStore *store, CKEvent *evt) {
+
         @strongify(self);
         [[evt signal] subscribeNext:^(id x) {
             @strongify(self);
@@ -183,7 +183,7 @@
             }
         }];
     }];
-    [self.carStore sendEvent:[self.carStore getAllCarsIfNeeded]];
+    [[self.carStore getAllCarsIfNeeded] send];
 }
 
 #pragma mark - UITableViewDataSource

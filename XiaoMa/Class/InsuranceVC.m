@@ -16,9 +16,9 @@
 #import "HKLoadingModel.h"
 #import "NSString+Split.h"
 #import "CKLimitTextField.h"
-#import "MyCarStore.h"
 #import "UIView+Shake.h"
 #import "InsuranceVM.h"
+#import "MyCarStore.h"
 
 #import "InsInputNameVC.h"
 #import "InsInputInfoVC.h"
@@ -115,24 +115,26 @@
     }] subscribeError:^(NSError *error) {
         
         @strongify(self);
-        [self.view stopActivityAnimation];
+        [gToast showError:error.domain];
         if ([self.tableView isRefreshViewExists]) {
-            [gToast showError:error.domain];
+            [self.tableView.refreshView endRefreshing];
         }
         else {
+            [self.view stopActivityAnimation];
             [self.view showDefaultEmptyViewWithText:@"获取信息失败，点击重试" tapBlock:^{
+                @strongify(self);
                 //重新发送事件
-                [event send];
+                [[self.insStore getInsSimpleCars] send];
             }];
         }
     } completed:^{
        
         @strongify(self);
-        [self.view stopActivityAnimation];
         if ([self.tableView isRefreshViewExists]) {
             [self.tableView.refreshView endRefreshing];
         }
         else {
+            [self.view stopActivityAnimation];
             [self setupRefreshView];
         }
         self.tableView.hidden = NO;
@@ -335,15 +337,27 @@
 #else
     rightB.hidden = car.status != 1 && car.status != 2;
 #endif
-    
+    [rightB setTitle:car.status == 1 ? @"核保结果" : @"重新核保" forState:UIControlStateNormal];
     @weakify(self);
     [[[rightB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
+
          @strongify(self);
-         InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
-         infoVC.insModel.simpleCar = car;
-         infoVC.insModel.originVC = self;
-         [self.navigationController pushViewController:infoVC animated:YES];
+         //到核保结果页
+         if (car.status == 1) {
+             InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
+             vc.insModel = [self.insModel copy];
+             vc.insModel.simpleCar = car;
+             vc.insModel.originVC = self;
+             [self.navigationController pushViewController:vc animated:YES];
+         }
+         //到重新核保页
+         else {
+             InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
+             infoVC.insModel.simpleCar = car;
+             infoVC.insModel.originVC = self;
+             [self.navigationController pushViewController:infoVC animated:YES];
+         }
     }];
 }
 

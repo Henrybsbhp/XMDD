@@ -52,7 +52,7 @@
     UILabel *titleL = [self.headerView viewWithTag:1001];
     CKLine *line = [self.headerView viewWithTag:1002];
     line.lineAlignment = CKLineAlignmentHorizontalBottom;
-    [line layoutIfNeeded];
+    [line setNeedsDisplay];
     titleL.text = self.headerTip.length > 0 ? self.headerTip : @"如有任何疑问，可拨打4007-111-111咨询。";
 }
 
@@ -289,6 +289,8 @@
         }
         else {
             InsAppointmentVC *vc = [UIStoryboard vcWithId:@"InsAppointmentVC" inStoryboard:@"Insurance"];
+            vc.insModel = insModel;
+            vc.insPremium = premium;
             [self.navigationController pushViewController:vc animated:YES];
         }
 

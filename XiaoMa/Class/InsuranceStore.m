@@ -17,6 +17,7 @@
 - (void)reloadForUserChanged
 {
     self.simpleCars = nil;
+    self.insOrders = nil;
 }
 
 - (void)dealloc
@@ -30,7 +31,7 @@
     RACSignal *provSig = [[self getInsProvinces:NO] send];
     //获取保险车辆信息
     @weakify(self);
-    RACSignal *carSig = [[[GetInsCarListOp operation] rac_postRequest] map:^id(GetInsCarListOp *op) {
+    RACSignal *carSig = [[[[GetInsCarListOp operation] rac_postRequest] map:^id(GetInsCarListOp *op) {
         @strongify(self);
         JTQueue *cars = [[JTQueue alloc] init];
         for (InsSimpleCar *car in op.rsp_carinfolist) {
@@ -39,7 +40,7 @@
         self.simpleCars = cars;
         self.xmddHelpTip = op.rsp_xmddhelptip;
         return op.rsp_carinfolist;
-    }];
+    }] replayLast];
     CKEvent *event = [[RACSignal combineLatest:@[provSig, carSig]] eventWithName:kEvtGetInsSimpleCars];
     return [self inlineEvent:event forDomain:@"simpleCars"];
 }
@@ -50,7 +51,7 @@
         return [[RACSignal return:self.insProvinces] eventWithName:kEvtInsProvinces];
     }
     @weakify(self);
-    CKEvent *event = [[[[GetInsProvinceListOp operation] rac_postRequest] map:^id(GetInsProvinceListOp *op) {
+    CKEvent *event = [[[[[GetInsProvinceListOp operation] rac_postRequest] map:^id(GetInsProvinceListOp *op) {
         @strongify(self);
         JTQueue *areas = [[JTQueue alloc] init];
         for (Area *a in op.rsp_provinces) {
@@ -59,7 +60,7 @@
         self.insProvinces = areas;
         [self updateTimetagForKey:kEvtInsProvinces];
         return op.rsp_provinces;
-    }] eventWithName:kEvtInsProvinces];
+    }] replayLast] eventWithName:kEvtInsProvinces];
     return [self inlineEvent:event forDomain:@"insProvinces"];
 }
 
@@ -73,7 +74,7 @@
 - (CKEvent *)getAllInsOrders
 {
     @weakify(self);
-    CKEvent *event = [[[[GetInsuranceOrderListOp operation] rac_postRequest] map:^id(GetInsuranceOrderListOp *rspOp) {
+    CKEvent *event = [[[[[GetInsuranceOrderListOp operation] rac_postRequest] map:^id(GetInsuranceOrderListOp *rspOp) {
         @strongify(self);
         JTQueue *cache = [[JTQueue alloc] init];
         for (HKInsuranceOrder *order in rspOp.rsp_orders) {
@@ -81,7 +82,7 @@
         }
         self.insOrders = cache;
         return rspOp.rsp_orders;
-    }] eventWithName:kEvtGetInsOrders];
+    }] replayLast] eventWithName:kEvtGetInsOrders];
     return [self inlineEvent:event forDomain:@"insOrders"];
 }
 
@@ -91,12 +92,12 @@
     GetInsuranceOrderDetailsOp * op = [GetInsuranceOrderDetailsOp operation];
     op.req_orderid = orderID;
     @weakify(self);
-    CKEvent *event = [[[op rac_postRequest] map:^id(GetInsuranceOrderDetailsOp *op) {
+    CKEvent *event = [[[[op rac_postRequest] map:^id(GetInsuranceOrderDetailsOp *op) {
         
         @strongify(self);
         [self.insOrders addObject:op.rsp_order forKey:op.rsp_order.orderid];
         return op.rsp_order;
-    }] eventWithName:kEvtGetInsOrder object:orderID];
+    }] replayLast] eventWithName:kEvtGetInsOrder object:orderID];
     return [self inlineEvent:event forDomainList:@[@"insOrders", @"insOrder"]];
 }
 

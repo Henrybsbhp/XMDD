@@ -20,6 +20,8 @@
 - (CKEvent *)mapSignal:(RACSignal *(^)(RACSignal *signal))block;
 - (RACSignal *)send;
 - (RACSignal *)sendAndIgnoreError;
+- (BOOL)isEqualForName:(NSString *)name;
+- (BOOL)isEqualForAnyoneOfNames:(NSArray *)names;
 
 @end
 

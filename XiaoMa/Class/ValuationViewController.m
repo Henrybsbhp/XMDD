@@ -84,7 +84,7 @@
         
         @strongify(self);
         if (gAppMgr.myUser.userID) {
-            [self.carStore sendEvent:[self.carStore getAllCars]];
+            [[self.carStore getAllCars] send];
         }
     }];
 }
@@ -151,15 +151,16 @@
 {
     @weakify(self);
     self.carStore = [MyCarStore fetchOrCreateStore];
-    [self.carStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
+    [self.carStore subscribeWithTarget:self domain:@"cars" receiver:^(CKStore *store, CKEvent *evt) {
+
         @strongify(self);
         [self reloadDataWithEvent:evt];
     }];
 }
 
-- (void)reloadDataWithEvent:(HKStoreEvent *)evt
+- (void)reloadDataWithEvent:(CKEvent *)evt
 {
-    NSInteger code = evt.code;
+    CKEvent *event = evt;
     @weakify(self);
     [[[[evt.signal deliverOn:[RACScheduler mainThreadScheduler]] initially:^{
         
@@ -176,14 +177,18 @@
     }] subscribeNext:^(id x) {
         
         @strongify(self);
-        self.dataSource = [self.carStore.cache allObjects];
-        self.selectCar = [[HKMyCar alloc] init];
-        if (code == kHKStoreEventGet || code == kHKStoreEventReload) {
-            self.selectCar = [self.dataSource safetyObjectAtIndex:0];
+        HKMyCar *defCar = [self.carStore defalutCar];
+        HKMyCar *car;
+        self.dataSource = [self.carStore.cars allObjects];
+        self.selectCar = [self.carStore defalutCar];
+        if ([event isEqualForName:@"addCar"] && event.object){
+            car = [self.carStore.cars objectForKey:event.object];
         }
-        else if (code == kHKStoreEventAdd){
-            self.selectCar = [self.dataSource safetyObjectAtIndex:(self.dataSource.count - 1)];
+        if (!car) {
+            car = defCar;
         }
+        self.selectCar = car;
+
         NSString * milesStr = [NSString formatForPrice:self.selectCar.odo / 10000.00];
         self.miles = [milesStr floatValue];
         self.modelId = self.selectCar.detailModel.modelid;

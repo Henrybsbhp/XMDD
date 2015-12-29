@@ -2,21 +2,23 @@
 //  MyCarStore.h
 //  XiaoMa
 //
-//  Created by jiangjunchen on 15/10/12.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Created by jiangjunchen on 15/12/28.
+//  Copyright © 2015年 huika. All rights reserved.
 //
 
-#import "HKUserStore.h"
+#import "UserStore.h"
 #import "HKMyCar.h"
+#import "JTQueue.h"
 
-@interface MyCarStore : HKUserStore
+@interface MyCarStore : UserStore
+@property (nonatomic, strong) JTQueue *cars;
 
-- (HKStoreEvent *)getAllCarsIfNeeded;
-- (HKStoreEvent *)getAllCars;
-- (HKStoreEvent *)addCar:(HKMyCar *)car;
-- (HKStoreEvent *)updateCar:(HKMyCar *)car;
-- (HKStoreEvent *)removeCarByID:(NSNumber *)carId;
-- (HKStoreEvent *)getDefaultCar;
+- (CKEvent *)getAllCarsIfNeeded;
+- (CKEvent *)getAllCars;
+- (CKEvent *)addCar:(HKMyCar *)car;
+- (CKEvent *)updateCar:(HKMyCar *)car;
+- (CKEvent *)removeCar:(NSNumber *)carId;
+- (CKEvent *)getDefaultCar;
 
 - (HKMyCar *)carByID:(NSNumber *)carId;
 - (HKMyCar *)defalutCar;
@@ -24,6 +26,4 @@
 - (NSArray *)allCars;
 
 + (NSString *)verifiedLicenseNumberFrom:(NSString *)licenseNumber;
-
-
 @end
