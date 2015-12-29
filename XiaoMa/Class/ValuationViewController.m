@@ -113,8 +113,11 @@
 {
     CKAsyncMainQueue(^{
         //测试有广告的情况
+        /**
+         *  点击广告事件
+         */
         self.advc  =[ADViewController vcWithADType:AdvertisementValuation boundsWidth:self.view.bounds.size.width
-                                          targetVC:self mobBaseEvent:@"rp314-1"];
+                                          targetVC:self mobBaseEvent:@"rp601-5.1"];
         [self.advc reloadDataForTableView:self.tableView];
     });
 }
@@ -335,6 +338,10 @@
         
         [view setAddCarClickBlock:^{
             @strongify(self);
+            /**
+             *  添加评估车辆
+             */
+            [MobClick event:@"rp601-3"];
             if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
                 self.carIndex = self.dataSource.count;
                 EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
@@ -352,7 +359,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
+    if (indexPath.row == 0)
+    {
+        /**
+         *  定位事件
+         */
+        [MobClick event:@"rp601-2"];
         AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCity fromVC:self];
         @weakify(self);
         [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * districtModel) {
@@ -424,7 +436,10 @@
 }
 
 - (IBAction)evaluationAction:(id)sender {
-    
+    /**
+     *  估值事件
+     */
+    [MobClick event:@"rp601-4"];
     [self.view endEditing:YES];
     
     if (![self.selectCar isKindOfClass:[HKMyCar class]]) {
@@ -488,6 +503,10 @@
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)goToHistoryVC:(id)sender {
+    /**
+     *  历史记录事件
+     */
+    [MobClick event:@"rp601-1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         HistoryCollectionVC *historyVC=[UIStoryboard vcWithId:@"HistoryCollectionVC" inStoryboard:@"Valuation"];
         [self.navigationController pushViewController:historyVC animated:YES];

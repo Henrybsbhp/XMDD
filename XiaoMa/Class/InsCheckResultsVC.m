@@ -42,6 +42,15 @@
     }
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    /**
+     *  核保结果返回事件
+     */
+    [MobClick event:@"rp100-1"];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -147,6 +156,10 @@
 ///重新核保
 - (IBAction)actionReUnderwrite:(id)sender
 {
+    /**
+     * 重新核保点击事件
+     */
+    [MobClick event:@"1004-2"];
     InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
     infoVC.insModel = self.insModel;
     [self.navigationController pushViewController:infoVC animated:YES];
@@ -283,11 +296,13 @@
         insModel.inscomp = premium.inscomp;
         insModel.inscompname = premium.inscompname;
         if (buyable) {
+            
             InsBuyVC *vc = [UIStoryboard vcWithId:@"InsBuyVC" inStoryboard:@"Insurance"];
             vc.insModel = insModel;
             [self.navigationController pushViewController:vc animated:YES];
         }
         else {
+            
             InsAppointmentVC *vc = [UIStoryboard vcWithId:@"InsAppointmentVC" inStoryboard:@"Insurance"];
             [self.navigationController pushViewController:vc animated:YES];
         }
@@ -385,6 +400,7 @@
     
     [[[callB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
+         
         [gPhoneHelper makePhone:@"4007111111" andInfo:@"客服电话: 4007-111-111"];
     }];
 
@@ -399,6 +415,7 @@
     @weakify(self);
     [[[bgB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
+         
          @strongify(self);
          if (overflow) {
              [InsAlertVC showInView:self.navigationController.view withMessage:premium.errmsg];

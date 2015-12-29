@@ -10,13 +10,19 @@
 
 @interface SecondCarValuationOp : BaseOp
 
-//帮卖城市ID
+/**
+ *  帮卖城市ID
+ */
 @property (nonatomic,strong) NSNumber *req_sellerCityId;
 
-//获取数据数组
+/**
+ *  获取数据数组
+ */
 @property (nonatomic,strong) NSArray *rsp_dataArr;
 
-//获取数据数组
+/**
+ *  合作方文案
+ */
 @property (nonatomic,strong) NSString *rsp_tip;
 
 @end

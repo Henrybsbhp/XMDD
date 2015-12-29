@@ -283,9 +283,7 @@
 		2E3EEBCC1C22858F0010E34F /* GetRescueApplyHostCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EEBCB1C22858F0010E34F /* GetRescueApplyHostCarOp.m */; };
 		2E3EEBCF1C22AAD50010E34F /* CommissionForsuccessfulVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EEBCE1C22AAD50010E34F /* CommissionForsuccessfulVC.m */; };
 		2E3FE0C61C23ABC0003573EC /* GetStartHostCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3FE0C51C23ABC0003573EC /* GetStartHostCarOp.m */; };
-		2E52F24A1C2032BB00D94F68 /* RescurecCommentsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E52F2411C2032BB00D94F68 /* RescurecCommentsVC.m */; };
 		2E52F24B1C2032BB00D94F68 /* RescureDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E52F2431C2032BB00D94F68 /* RescureDetailsVC.m */; };
-		2E52F24C1C2032BB00D94F68 /* RescureHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E52F2451C2032BB00D94F68 /* RescureHistoryViewController.m */; };
 		2E52F24D1C2032BB00D94F68 /* RescureHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E52F2471C2032BB00D94F68 /* RescureHomeViewController.m */; };
 		2E52F25D1C20334F00D94F68 /* GetRescueCommentOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E52F2501C20334E00D94F68 /* GetRescueCommentOp.m */; };
 		2E52F25E1C20334F00D94F68 /* GetRescueCommentRescueOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E52F2521C20334E00D94F68 /* GetRescueCommentRescueOp.m */; };
@@ -303,6 +301,8 @@
 		4E5995681C201C5300686565 /* CommitSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5995671C201C5300686565 /* CommitSuccessVC.m */; };
 		4EC6EA801C22A5480092BF6E /* HistoryCollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC6EA7F1C22A5480092BF6E /* HistoryCollectionVC.m */; };
 		4EF12DED1C1EBC900098B8C6 /* SecondCarValuationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */; };
+		4EF94AF21C321D020092CB55 /* RescurecCommentsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF01C321D020092CB55 /* RescurecCommentsVC.m */; };
+		4EF94AF31C321D020092CB55 /* RescureHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF11C321D020092CB55 /* RescureHistoryViewController.m */; };
 		50094B431C1144640069683C /* GetAreaInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50094B421C1144640069683C /* GetAreaInfoOp.m */; };
 		50094B461C117CE80069683C /* AreaTablePickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50094B451C117CE80069683C /* AreaTablePickerVC.m */; };
 		5014B6571C07041B00DFAB18 /* GetShareButtonOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5014B6561C07041B00DFAB18 /* GetShareButtonOp.m */; };
@@ -1119,11 +1119,8 @@
 		2E3FE0C41C23ABC0003573EC /* GetStartHostCarOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetStartHostCarOp.h; sourceTree = "<group>"; };
 		2E3FE0C51C23ABC0003573EC /* GetStartHostCarOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetStartHostCarOp.m; sourceTree = "<group>"; };
 		2E52F2401C2032BB00D94F68 /* RescurecCommentsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescurecCommentsVC.h; sourceTree = "<group>"; };
-		2E52F2411C2032BB00D94F68 /* RescurecCommentsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescurecCommentsVC.m; sourceTree = "<group>"; };
 		2E52F2421C2032BB00D94F68 /* RescureDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescureDetailsVC.h; sourceTree = "<group>"; };
 		2E52F2431C2032BB00D94F68 /* RescureDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescureDetailsVC.m; sourceTree = "<group>"; };
-		2E52F2441C2032BB00D94F68 /* RescureHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescureHistoryViewController.h; sourceTree = "<group>"; };
-		2E52F2451C2032BB00D94F68 /* RescureHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescureHistoryViewController.m; sourceTree = "<group>"; };
 		2E52F2461C2032BB00D94F68 /* RescureHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescureHomeViewController.h; sourceTree = "<group>"; };
 		2E52F2471C2032BB00D94F68 /* RescureHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescureHomeViewController.m; sourceTree = "<group>"; };
 		2E52F24F1C20334E00D94F68 /* GetRescueCommentOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetRescueCommentOp.h; sourceTree = "<group>"; };
@@ -1158,6 +1155,9 @@
 		4EC6EA7F1C22A5480092BF6E /* HistoryCollectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryCollectionVC.m; sourceTree = "<group>"; };
 		4EF12DEB1C1EBC900098B8C6 /* SecondCarValuationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondCarValuationVC.h; sourceTree = "<group>"; };
 		4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondCarValuationVC.m; sourceTree = "<group>"; };
+		4EF94AF01C321D020092CB55 /* RescurecCommentsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescurecCommentsVC.m; sourceTree = "<group>"; };
+		4EF94AF11C321D020092CB55 /* RescureHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescureHistoryViewController.m; sourceTree = "<group>"; };
+		4EF94AF41C321EFD0092CB55 /* RescureHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescureHistoryViewController.h; sourceTree = "<group>"; };
 		50094B411C1144640069683C /* GetAreaInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetAreaInfoOp.h; path = Class/GetAreaInfoOp.h; sourceTree = "<group>"; };
 		50094B421C1144640069683C /* GetAreaInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAreaInfoOp.m; path = Class/GetAreaInfoOp.m; sourceTree = "<group>"; };
 		50094B441C117CE80069683C /* AreaTablePickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaTablePickerVC.h; sourceTree = "<group>"; };
@@ -3298,10 +3298,10 @@
 				2E52F2471C2032BB00D94F68 /* RescureHomeViewController.m */,
 				2E52F2421C2032BB00D94F68 /* RescureDetailsVC.h */,
 				2E52F2431C2032BB00D94F68 /* RescureDetailsVC.m */,
-				2E52F2441C2032BB00D94F68 /* RescureHistoryViewController.h */,
-				2E52F2451C2032BB00D94F68 /* RescureHistoryViewController.m */,
+				4EF94AF41C321EFD0092CB55 /* RescureHistoryViewController.h */,
+				4EF94AF11C321D020092CB55 /* RescureHistoryViewController.m */,
 				2E52F2401C2032BB00D94F68 /* RescurecCommentsVC.h */,
-				2E52F2411C2032BB00D94F68 /* RescurecCommentsVC.m */,
+				4EF94AF01C321D020092CB55 /* RescurecCommentsVC.m */,
 			);
 			name = Rescure;
 			sourceTree = "<group>";
@@ -4261,6 +4261,7 @@
 				507A4DDF1B74462200E0BF1E /* UnbundlingVC.m in Sources */,
 				6BEC3FC91C1122B40046F11D /* GetCityInfoByNameOp.m in Sources */,
 				6B5E0C1A1BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.m in Sources */,
+				4EF94AF21C321D020092CB55 /* RescurecCommentsVC.m in Sources */,
 				6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */,
 				6BB61BA31AEF7CAE004F39AA /* NSString+RectSize.m in Sources */,
 				181921841C264D54009C80BD /* InsuranceAppointmentV2Op.m in Sources */,
@@ -4290,6 +4291,7 @@
 				6BBB08531B021F440002C349 /* LogAlertView.m in Sources */,
 				1853DEB71AE0B92400C39175 /* AuthByPwdOp.m in Sources */,
 				6BE47F951C27F4E600DBD969 /* SecondCarValuationOp.m in Sources */,
+				4EF94AF31C321D020092CB55 /* RescureHistoryViewController.m in Sources */,
 				5040B37D1C06D50200ADE77F /* ApplyUnionOp.m in Sources */,
 				1853DEBE1AE0E66B00C39175 /* LoginVC.m in Sources */,
 				18AB16AC1C1FAE810000E718 /* GetInsBaseCarListOp.m in Sources */,
@@ -4346,7 +4348,6 @@
 				2E52F25F1C20334F00D94F68 /* GetRescueHistoryOp.m in Sources */,
 				6B747A651AF08C7B00106BFD /* PhoneHelper.m in Sources */,
 				508EE5DC1C2BA09800873602 /* TopMenuScrollView.m in Sources */,
-				2E52F24C1C2032BB00D94F68 /* RescureHistoryViewController.m in Sources */,
 				1833F5921BCD373B000E1DA1 /* GetGaschargeInfoOp.m in Sources */,
 				6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */,
 				18BF42011BD0D5A20039F210 /* GasAddCardVC.m in Sources */,
@@ -4422,7 +4423,6 @@
 				6BB61B981AEE85E8004F39AA /* AddUserFavoriteOp.m in Sources */,
 				18A15A691C225E3F00D7B5DF /* CalculatePremiumOp.m in Sources */,
 				6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */,
-				2E52F24A1C2032BB00D94F68 /* RescurecCommentsVC.m in Sources */,
 				189428B81C1ABA3500E492CA /* InsAppointmentVC.m in Sources */,
 				6BBAB8BF1ADBC21600EC342F /* ConverUtil.m in Sources */,
 				503B20581C08028C00F396DD /* AwardShareSheetVC.m in Sources */,

@@ -37,6 +37,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+
 //设置日期选择控件（主要是为了事先加载，优化性能）
 - (void)setupDatePicker {
     self.datePicker = [DatePickerVC datePickerVCWithMaximumDate:nil];
@@ -71,6 +73,7 @@
 #pragma mark - Action
 - (IBAction)actionAppoint:(id)sender
 {
+    
     if (self.appointInfo.req_startdate.length == 0) {
         [gToast showText:@"商业险起保日不能为空"];
     }
@@ -161,7 +164,7 @@
          [self.view endEditing:YES];
          return [self rac_pickDateWithNow:self.appointInfo.req_startdate];
     }] subscribeNext:^(NSString *datetext) {
-      
+        
         @strongify(self);
         self.appointInfo.req_startdate = datetext;
         dateLF.inputField.text = datetext;
@@ -186,6 +189,7 @@
     nameF.inputField.placeholder = @"请输入投保人姓名";
     nameF.inputField.text = self.appointInfo.req_ownername;
     [nameF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
+        
         @strongify(self);
         self.appointInfo.req_ownername = field.text;
     }];
@@ -193,6 +197,7 @@
     idF.inputField.placeholder = @"请输入投保人身份证号码";
     idF.inputField.text = self.appointInfo.req_idcard;
     [idF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
+        
         @strongify(self);
         self.appointInfo.req_idcard = field.text;
     }];

@@ -63,6 +63,9 @@
 
 #pragma mark - Action
 - (IBAction)actionCommission:(UIButton *)sender {
+    
+    [MobClick event:@"rp801-2"];
+    
     if (gAppMgr.myUser != nil) {
         if (self.carStore.allCars.count != 0) {
             [self actionCommissionNetwork];
@@ -151,6 +154,10 @@
 }
 
 - (void)commissionHistory {
+    /**
+     *  协办记录点击事件
+     */
+    [MobClick event:@"rp801-1"];
     RescureHistoryViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureHistoryViewController"];
     vc.type = 2;
     [self.navigationController pushViewController:vc animated:YES];
