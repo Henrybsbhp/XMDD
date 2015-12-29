@@ -35,6 +35,9 @@ typedef enum : NSInteger
 @property (nonatomic, assign) BOOL loadingSuccessForTheFirstTime;
 @property (nonatomic, weak, readonly) id<HKLoadingModelDelegate> delegate;
 
+///当前页码索引
+@property (nonatomic, assign) NSUInteger currentPageIndex;
+
 - (instancetype)initWithTargetView:(UIView *)targetView delegate:(id<HKLoadingModelDelegate>)delegate;
 
 /***********以下方法将会触发delegate:"loadingModel:loadingDataSignalWithType:"**************/

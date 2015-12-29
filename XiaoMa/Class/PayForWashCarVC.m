@@ -192,7 +192,7 @@
             [cell shake];
         });
         
-        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"爱车确认" message:@"您尚未拥有一辆爱车，请添加" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往添加", nil];
+        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"温馨提醒" message:@"您尚未添加爱车，请先添加 " delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往添加", nil];
         [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
             
             NSInteger index =[number integerValue];

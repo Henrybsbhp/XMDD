@@ -7,12 +7,13 @@
 //
 
 #import "CarListVC.h"
-#import <JT3DScrollView.h>
+#import "JT3DScrollView.h"
 #import "XiaoMa.h"
 #import "EditCarVC.h"
 #import "CarListSubView.h"
 #import "UIView+JTLoadingView.h"
 #import "MyCarStore.h"
+#import "ValuationViewController.h"
 
 @interface CarListVC ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet JT3DScrollView *scrollView;
@@ -251,7 +252,7 @@
     [self.scrollView addSubview:view];
     self.scrollView.contentSize = CGSizeMake(x + w, h);
     
-    [self reloadSubView:view withCar:car];
+    [self reloadSubView:view withCar:car atIndex:index];
 }
 #pragma mark - Action
 - (void)actionBack:(id)sender
@@ -303,12 +304,26 @@
 }
 
 #pragma mark - Reload
-- (void)reloadSubView:(CarListSubView *)subv withCar:(HKMyCar *)car
+- (void)reloadSubView:(CarListSubView *)subv withCar:(HKMyCar *)car atIndex:(NSInteger)index
 {
     [subv setCarTintColorType:car.tintColorType];
     
     subv.licenceNumberLabel.text = car.licencenumber;
     subv.markView.hidden = !car.isDefault;
+    
+    if (!car.isDefault) {
+        [subv.barView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(subv);
+            make.height.mas_equalTo(2.5);
+            make.left.equalTo(subv).offset(20);
+            make.right.equalTo(subv.licenceNumberLabel.mas_right);
+        }];
+        [subv.licenceNumberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(subv.barView.mas_left);
+            make.height.mas_equalTo(30);
+            make.top.equalTo(subv.barView.mas_bottom).offset(2);
+        }];
+    }
     
     NSString *text = [self.model descForCarStatus:car];
     BOOL show = car.status == 3 || car.status == 0;
@@ -326,8 +341,16 @@
     //汽车品牌logo
     [subv.logoView setImageByUrl:nil withType:ImageURLTypeThumbnail defImage:@"cm_logo_def" errorImage:@"cm_logo_def"];
     
-    //上传行驶证
+    //爱车估值
     @weakify(self);
+    [subv setValuationClickBlock:^(void) {
+        @strongify(self);
+        ValuationViewController *vc = [UIStoryboard vcWithId:@"ValuationViewController" inStoryboard:@"Valuation"];
+        vc.carIndex = index;
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    
+    //上传行驶证
     [subv setBottomButtonClickBlock:^(UIButton *btn, CarListSubView *view) {
         @strongify(self);
         [self uploadDrivingLicenceWithCar:car subView:view];

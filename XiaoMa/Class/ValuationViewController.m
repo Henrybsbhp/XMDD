@@ -8,7 +8,7 @@
 
 #import "ValuationViewController.h"
 #import "AreaTablePickerVC.h"
-#import <JT3DScrollView.h>
+#import "JT3DScrollView.h"
 #import "CarValuationSubView.h"
 #import "HKSubscriptInputField.h"
 #import "MyCarStore.h"
@@ -343,6 +343,7 @@
              */
             [MobClick event:@"rp601-3"];
             if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+                self.carIndex = self.dataSource.count;
                 EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
                 [self.navigationController pushViewController:vc animated:YES];
             }
@@ -350,6 +351,8 @@
     }
     
     scrollView.contentSize = CGSizeMake(count * w, self.cardHeight);
+    
+    [scrollView loadPageIndex:self.carIndex animated:NO];
     
     return cell;
 }

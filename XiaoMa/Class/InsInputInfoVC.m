@@ -261,7 +261,7 @@
             //更新当前保险车辆信息（id和status）
             self.insModel.simpleCar.carpremiumid = op.rsp_carpremiumid;
             self.insModel.simpleCar.status = 3;
-            [[InsuranceStore fetchExistsStore] updateSimpleCar:self.insModel.simpleCar];
+            [[[InsuranceStore fetchExistsStore] getInsSimpleCars] sendAndIgnoreError];
             
             //跳转到险种选择页面
             InsCoverageSelectVC *vc = [UIStoryboard vcWithId:@"InsCoverageSelectVC" inStoryboard:@"Insurance"];

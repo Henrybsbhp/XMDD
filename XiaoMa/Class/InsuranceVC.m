@@ -31,9 +31,15 @@
 @property (nonatomic, strong) ADViewController *advc;
 @property (nonatomic, strong) NSArray *datasource;
 @property (nonatomic, strong) InsuranceStore *insStore;
+@property (nonatomic, strong) InsuranceVM *insModel;
 @end
 
 @implementation InsuranceVC
+
+- (void)awakeFromNib
+{
+    self.insModel = [[InsuranceVM alloc] init];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -75,7 +81,7 @@
 - (void)setupInsStore
 {
     self.insStore = [InsuranceStore fetchOrCreateStore];
-    NSArray *domains = @[@"simpleCars", kEvtInsSimpleCars];
+    NSArray *domains = @[@"simpleCars"];
     //监听保险车辆信息和保险支持的省市更新
     @weakify(self);
     [self.insStore subscribeWithTarget:self domainList:domains receiver:^(CKStore *store, CKEvent *evt) {
@@ -163,6 +169,21 @@
             if (car.status == 0 || !car.carpremiumid) {
                 [self actionInputOwnerNameForSimpleCar:car];
             }
+            //核保记录
+            else if (car.status == 2) {
+                InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
+                vc.insModel = [self.insModel copy];
+                vc.insModel.simpleCar = car;
+                vc.insModel.originVC = self;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+            //有保单
+            else if (car.status == 1 || car.status == 4 || car.status == 5) {
+                InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
+                vc.orderID = car.refid;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+            //填写信息
             else {
                 InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
                 infoVC.insModel.simpleCar = car;
@@ -178,7 +199,7 @@
     HKCellData *addCell = [HKCellData dataWithCellID:@"Add" tag:nil];
     addCell.customInfo[@"province"] = [self.insStore.insProvinces objectAtIndex:0];
     [addCell setHeightBlock:^CGFloat(UITableView *tableView) {
-        return 61;
+        return 50;
     }];
     [datasource addObject:addCell];
     
@@ -252,7 +273,7 @@
     if (data.heightBlock) {
         return data.heightBlock(tableView);
     }
-    return 48;
+    return 65;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -278,7 +299,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HKCellData *data = [self.datasource safetyObjectAtIndex:indexPath.section];
-    JTTableViewCell *cell = (JTTableViewCell *)[tableView dequeueReusableCellWithIdentifier:data.cellID forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data.cellID forIndexPath:indexPath];
     if ([data equalByCellID:@"Prompt" tag:nil]) {
         [self resetPromptCell:cell withData:data];
     }
@@ -289,27 +310,24 @@
         [self resetAddCarCell:cell withData:data];
     }
     
-    [cell prepareCellForTableView:tableView atIndexPath:indexPath];
     return cell;
 }
 
 #pragma mark - Cell
-- (void)resetPromptCell:(JTTableViewCell *)cell withData:(HKCellData *)data
+- (void)resetPromptCell:(UITableViewCell *)cell withData:(HKCellData *)data
 {
     UILabel *label = [cell.contentView viewWithTag:1001];
     label.text = data.object;
 
 }
 
-- (void)resetCarCell:(JTTableViewCell *)cell withData:(HKCellData *)data
+- (void)resetCarCell:(UITableViewCell *)cell withData:(HKCellData *)data
 {
-    UILabel *numberL = [cell viewWithTag:1002];
-    UIButton *stateB = [cell viewWithTag:1003];
-    UIImageView *arrowV = [cell viewWithTag:1004];
+    UILabel *numberL = [cell viewWithTag:1001];
+    UIButton *rightB = [cell viewWithTag:1002];
     
     InsSimpleCar *car = data.object;
-    numberL.text = [car.licenseno splitByStep:2 replacement:@" " count:1];
-    
+
     if (car.status == 0 || car.status == 3) {
         arrowV.hidden = NO;
         stateB.hidden = YES;
@@ -346,10 +364,38 @@
                  [self.navigationController pushViewController:vc animated:YES];
              }
         }];
+    NSString *licenseno = [car.licenseno splitByStep:2 replacement:@" " count:1];
+    NSString *statusdesc = [self.insModel simpleCarStatusDesc:car.status];
+    licenseno = statusdesc ? [licenseno append:@"\n"] : licenseno;
+    
+    NSMutableAttributedString *attstr = [NSMutableAttributedString attributedString];
+    NSDictionary *attr1 = @{NSForegroundColorAttributeName: HEXCOLOR(@"#454545"),
+                            NSFontAttributeName: [UIFont systemFontOfSize:17]};
+    [attstr appendAttributedString:[[NSAttributedString alloc] initWithString:licenseno attributes:attr1]];
+    if (statusdesc) {
+        NSDictionary *attr2 = @{NSForegroundColorAttributeName: HEXCOLOR(@"#888888"),
+                                NSFontAttributeName: [UIFont systemFontOfSize:12]};
+        [attstr appendAttributedString:[[NSAttributedString alloc] initWithString:statusdesc attributes:attr2]];
     }
+    numberL.attributedText = attstr;
+#if DEBUG
+    rightB.hidden = car.status == 0 || car.status == 3;
+#else
+    rightB.hidden = car.status != 1 && car.status != 2;
+#endif
+    
+    @weakify(self);
+    [[[rightB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+     subscribeNext:^(id x) {
+         @strongify(self);
+         InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
+         infoVC.insModel.simpleCar = car;
+         infoVC.insModel.originVC = self;
+         [self.navigationController pushViewController:infoVC animated:YES];
+    }];
 }
 
-- (void)resetAddCarCell:(JTTableViewCell *)cell withData:(HKCellData *)data
+- (void)resetAddCarCell:(UITableViewCell *)cell withData:(HKCellData *)data
 {
     UILabel *provinceL = [cell viewWithTag:10011];
     UIButton *provinceB = [cell viewWithTag:10013];

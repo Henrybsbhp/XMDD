@@ -24,5 +24,6 @@
 @property (nonatomic, weak) UIViewController *originVC;
 
 - (NSArray *)createCoveragesList;
+- (NSString *)simpleCarStatusDesc:(NSInteger)status;
 
 @end

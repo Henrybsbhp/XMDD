@@ -363,11 +363,7 @@
     titleL.text = cp.coverage;
 
     //detailLabel
-    if (cp.value > 0 && ([cp.coverageid isEqual:@4] || [cp.coverageid isEqual:@12])) {
-        detailL.text = [NSString stringWithFormat:@"%@万 * %d",
-                        [NSString formatForRoundPrice:cp.value], (int)self.premiumDetail.rsp_setcount];
-    }
-    else if (cp.value > 0) {
+    if (cp.value > 0) {
         detailL.text = [NSString stringWithFormat:@"%@万", [NSString formatForRoundPrice:cp.value]];
     }
     else {

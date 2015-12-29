@@ -17,7 +17,7 @@
 #import "RescurecCommentsVC.h"
 #import "UIView+DefaultEmptyView.h"
 #import "UIView+JTLoadingView.h"
-
+#import "HKTableViewCell.h"
 #define kWidth [UIScreen mainScreen].bounds.size.width
 #define kHeight [UIScreen mainScreen].bounds.size.height
 @interface RescureDetailsVC ()
@@ -154,9 +154,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RescureDetailsVC" forIndexPath:indexPath];
+    HKTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RescureDetailsVC" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if (indexPath.row != 0) {
+        [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsMake(0, 0, 1, 0)];
+    }
+     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 0, 8, 0)];
     
+
     UILabel *titleLb = (UILabel *)[cell searchViewWithTag:1000];
     UILabel *detailLb = (UILabel *)[cell searchViewWithTag:1001];
     NSString * string = [self.dataSourceArray safetyObjectAtIndex:indexPath.row];
@@ -168,6 +173,7 @@
         titleLb.text = @"收费标准";
     }else if (indexPath.row == 2){
         titleLb.text = @"服务项目";
+        cell.contentView.backgroundColor = [UIColor whiteColor];
     }
     return cell;
 }
@@ -214,7 +220,15 @@
 - (UIButton *)helperBtn {
     if (!_helperBtn) {
         self.helperBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-        _helperBtn.frame = CGRectMake(10, self.view.bounds.size.height - (kWidth- 20) * 0.13 - 7 - 64 , kWidth  - 20, (kWidth- 20) * 0.13);
+        [self.view addSubview:self.helperBtn];
+
+        [_helperBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.view).offset(10);
+            make.right.mas_equalTo(self.view).offset(-10);
+            make.bottom.mas_equalTo(self.view).offset(- 5);
+            make.height.equalTo(self.view).multipliedBy(0.08);;
+        }];
+        
         [_helperBtn setTitle:@"申请救援" forState:UIControlStateNormal];
         [_helperBtn addTarget:self action:@selector(actionPhoneHelper) forControlEvents:UIControlEventTouchUpInside];
         [_helperBtn setTintColor:[UIColor whiteColor]];

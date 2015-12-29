@@ -16,7 +16,8 @@
     component.province = otherComponent.province;
     component.city = otherComponent.city;
     component.district = otherComponent.district;
-    component.streetNumber = otherComponent.streetNumber;
+    component.street = otherComponent.streetNumber.street;
+    component.number = otherComponent.streetNumber.number;
     return component;
 }
 
@@ -53,6 +54,8 @@
     [coder encodeObject:self.province forKey:@"province"];
     [coder encodeObject:self.city forKey:@"city"];
     [coder encodeObject:self.district forKey:@"district"];
+    [coder encodeObject:self.street forKey:@"street"];
+    [coder encodeObject:self.number forKey:@"number"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder
@@ -62,6 +65,8 @@
         self.province = [coder decodeObjectForKey:@"province"];
         self.city = [coder decodeObjectForKey:@"city"];
         self.district = [coder decodeObjectForKey:@"district"];
+        self.street = [coder decodeObjectForKey:@"street"];
+        self.number = [coder decodeObjectForKey:@"number"];
     }
     return self;
 }
@@ -72,6 +77,8 @@
         copy.province = _province;
         copy.city = _city;
         copy.district = _district;
+        copy.street = _street;
+        copy.number = _number;
     }
     
     return copy;

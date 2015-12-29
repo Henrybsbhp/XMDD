@@ -275,8 +275,8 @@
 
     //price
     NSMutableAttributedString *text = [NSMutableAttributedString attributedString];
-    NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:33], NSForegroundColorAttributeName:HEXCOLOR(@"#ffb20c")};
-    NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:15], NSForegroundColorAttributeName:HEXCOLOR(@"#e1e1e1"),
+    NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:28], NSForegroundColorAttributeName:HEXCOLOR(@"#ffb20c")};
+    NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:HEXCOLOR(@"#e1e1e1"),
                             NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle)};
     NSString *strPrice = [NSString stringWithFormat:@"%@ ", [NSString formatForRoundPrice:premium.price]];
     [text appendAttributedString:[[NSAttributedString alloc] initWithString:strPrice attributes:attr1]];

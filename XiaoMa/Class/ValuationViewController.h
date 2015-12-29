@@ -12,4 +12,6 @@
 
 @interface ValuationViewController : UIViewController
 
+@property (nonatomic, assign) NSInteger carIndex;
+
 @end

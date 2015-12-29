@@ -23,17 +23,22 @@
 
 @implementation CommitSuccessVC
 
--(void)viewWillAppear:(BOOL)animated
+- (void)dealloc
 {
-    [super viewWillAppear:animated];
-    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
+    DebugLog(@"CommitSuccessVC dealloc");
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setupUI];
-    self.tipLabel.text=@"您的信息已成功提交，客服将在24小时内与您取得联系，请保持手机畅通";
+    self.tipLabel.text = @"您的信息已成功提交，客服将在24小时内与您取得联系，请保持手机畅通";
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -49,8 +54,6 @@
     [self.shareBtn makeCornerRadius:5.0f];
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cm_nav_back"] style:UIBarButtonItemStylePlain target:self action:@selector(backToHomePage)];
-    
-    
 }
 
 
@@ -91,6 +94,7 @@
         
         MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
         sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             [MobClick event:@"rp110-7"];

@@ -334,7 +334,8 @@
         [[[field rac_newTextChannel] takeUntil:stopSig] subscribeNext:^(id x) {
             @strongify(self);
             
-            field.text = [field.text uppercaseString];
+            NSString *temp = [field.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+            field.text = [temp uppercaseString];
             self.curCar.classno = field.text;
         }];
     } copy];
@@ -372,8 +373,9 @@
         [[[field rac_newTextChannel] takeUntil:stopSig] subscribeNext:^(id x) {
             @strongify(self);
             
-            field.text = [field.text uppercaseString];
-            self.curCar.engineno = field.text;
+            NSString *temp = [field.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+            field.text = [temp uppercaseString];
+            self.curCar.engineno = field.text;            
         }];
 
     } copy];

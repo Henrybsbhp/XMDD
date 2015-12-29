@@ -177,6 +177,8 @@
     couponMoneyLabel.text=[NSString stringWithFormat:@" %@ ",dataModel[@"couponmoney"]];
     characterLabel.text=[NSString stringWithFormat:@"平台特点：%@",dataModel[@"character"]];
     userCNTInfoLabel.text=[NSString stringWithFormat:@"用户数量：%@",dataModel[@"usercntinfo"]];
+    characterLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 65;
+    userCNTInfoLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 65;
     
     [cell layoutIfNeeded];
     return cell;
@@ -220,7 +222,6 @@
             make.bottom.mas_equalTo(0);
         }];
         UILabel *label = [UILabel new];
-        //        label.text = @"估值及二手车交易服务由小马达达战略合作伙伴“车300”提供";
         label.text = self.tip;
         label.textColor = [UIColor grayColor];
         label.numberOfLines = 0;
@@ -289,6 +290,8 @@
 {
     return CGFLOAT_MIN;
 }
+
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
@@ -304,10 +307,10 @@
     
 }
 
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return UITableViewAutomaticDimension;
-}
+//- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return UITableViewAutomaticDimension;
+//}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -400,7 +403,7 @@
         uploadOp.req_contatName = self.name;
         uploadOp.req_contatPhone = self.phoneNumber;
         uploadOp.req_channelEngs = @"";
-        uploadOp.req_sellercityid = @(12);//self.sellercityid;
+        uploadOp.req_sellercityid = self.sellercityid;//self.sellercityid;
         NSMutableArray *tempString = [NSMutableArray new];
         for (NSDictionary *dic in self.uploadArr)
         {
@@ -414,13 +417,10 @@
             
         }] subscribeNext:^(SecondCarValuationUploadOp *uploadOp) {
             
-            self.tip = uploadOp.rsp_tip;
+            CommitSuccessVC * successVC = [valuationStoryboard instantiateViewControllerWithIdentifier:@"CommitSuccessVC"];
+            [self.navigationController pushViewController:successVC animated:YES];
         } error:^(NSError *error) {
             [gToast showError:error.domain];
-        }completed:^{
-            CommitSuccessVC *successVC = [[UIStoryboard storyboardWithName:@"Valuation" bundle:nil]instantiateViewControllerWithIdentifier:@"CommitSuccessVC"];
-            successVC.tip = self.tip;
-            [self.navigationController pushViewController:successVC animated:YES];
         }];
     }
 }
@@ -444,6 +444,12 @@
     [self.navigationItem.rightBarButtonItem setTitleTextAttributes:@{
                                                                      NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
                                                                      } forState:UIControlStateNormal];
+    
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        self.tableView.estimatedRowHeight = 44;
+        self.tableView.rowHeight = UITableViewAutomaticDimension;
+    }
 }
 
 

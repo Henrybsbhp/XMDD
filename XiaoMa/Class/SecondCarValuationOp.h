@@ -24,4 +24,5 @@
  *  合作方文案
  */
 @property (nonatomic,strong) NSString *rsp_tip;
+
 @end
