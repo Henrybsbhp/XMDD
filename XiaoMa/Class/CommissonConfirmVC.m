@@ -120,7 +120,11 @@
     op.licenseNumber = self.defaultCar.licencenumber;
    
     NSString *tempStr = [NSString stringWithFormat:@"%@", self.appointmentDay];
-    op.appointTime = [tempStr substringToIndex:10];
+    if (tempStr.length >= 10) {
+        op.appointTime = [tempStr substringToIndex:10];
+    }else {
+        op.appointTime = @"";
+    }
     
     [[[[op rac_postRequest] initially:^{
         

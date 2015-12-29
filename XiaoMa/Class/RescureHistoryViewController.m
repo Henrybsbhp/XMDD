@@ -80,8 +80,6 @@
             [self historyNetwork];
         }];
     }] ;
-    
-    
 }
 
 #pragma mark - UITableViewDataSource
@@ -100,9 +98,9 @@
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 0, 0, 0)];
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsMake(8, 0, 0, 0)];
     
-    HKRescueHistory *hostory = self.dataSourceArray[indexPath.row];
+    HKRescueHistory *history = self.dataSourceArray[indexPath.row];
     if (indexPath.row == self.dataSourceArray.count - 1) {
-        self.applyTime = (long long)hostory.applyTime;
+        self.applyTime = (long long)history.applyTime;
     }
     UILabel *plateLb = (UILabel *)[cell searchViewWithTag:1000];
     UILabel *stateLb = (UILabel *)[cell searchViewWithTag:1002];
@@ -112,27 +110,46 @@
     UIButton *evaluationBtn = (UIButton *)[cell searchViewWithTag:1010];
     if (self.type ==2) {
         UILabel *tempTimeLb = (UILabel *)[cell searchViewWithTag:1009];
-        NSString *timeStr = [NSString stringWithFormat:@"%@", hostory.appointTime];
-        NSString *tempStr = [timeStr substringToIndex:10];
-        tempTimeLb.text = [NSString stringWithFormat:@"预约时间: %@", [[NSDate dateWithTimeIntervalSince1970:[tempStr intValue]] dateFormatForYYMMdd2]];
+        NSString *timeStr = [NSString stringWithFormat:@"%@", history.appointTime];
+        if (timeStr.length >= 10) {
+            NSString *tempStr = [timeStr substringToIndex:10];
+            tempTimeLb.text = [NSString stringWithFormat:@"预约时间: %@", [[NSDate dateWithTimeIntervalSince1970:[tempStr intValue]] dateFormatForYYMMdd2]];
+        }else {
+            tempTimeLb.text = @"";
+        }
+        
+    }else {
+        
     }
+    
+    
+    titleLb.text = history.serviceName;
+    NSString *timeStr = [NSString stringWithFormat:@"%@", history.applyTime];
+    NSString *tempStr;
+    if (timeStr.length >= 10) {
+        tempStr = [timeStr substringToIndex:10];
+        timeLb.text = [[NSDate dateWithTimeIntervalSince1970:[tempStr intValue]] dateFormatForYYYYMMddHHmm2];
+    }else {
+        timeLb.text = @"";
+    }
+    
     evaluationBtn.layer.borderWidth = 1;
     evaluationBtn.layer.borderColor = [UIColor colorWithHex:@"#fe4a00" alpha:1].CGColor;
     evaluationBtn.layer.cornerRadius = 4;
     evaluationBtn.layer.masksToBounds = YES;
-    plateLb.text = [NSString stringWithFormat:@"服务车辆: %@", hostory.licenceNumber];
-    if ([hostory.commentStatus integerValue] == 0) {
+    plateLb.text = [NSString stringWithFormat:@"服务车辆: %@", history.licenceNumber];
+    if (history.commentStatus  == HKCommentStatusNo) {
         
         [evaluationBtn setTitle:@"去评价" forState:UIControlStateNormal];
-        if ([hostory.rescueStatus integerValue] == 4 || [hostory.rescueStatus integerValue] == 5) {
+        if (history.rescueStatus == HKRescueStateCancel || history.rescueStatus == HKRescueStateprocessing) {
             evaluationBtn.hidden = YES;
         }
-    }else if ([hostory.commentStatus integerValue]== 1){
+    }else{
         [evaluationBtn setTitle:@"已评价" forState:UIControlStateNormal];
         [evaluationBtn setTitleColor:[UIColor colorWithHex:@"#bfbfbf" alpha:1.0] forState:UIControlStateNormal];
     }
     
-    if ([hostory.rescueStatus integerValue] == 2) {
+    if (history.rescueStatus == HKRescueStateAlready) {
         stateLb.text = @"已申请";
         evaluationBtn.hidden = YES;
         if (self.type == 2) {
@@ -142,11 +159,11 @@
             [evaluationBtn setTitleColor:[UIColor colorWithHex:@"#bfbfbf" alpha:1.0] forState:UIControlStateNormal];
             [evaluationBtn setTitle:@"取消" forState:UIControlStateNormal];
         }
-    }else if ([hostory.rescueStatus integerValue] == 3){
+    }else if (history.rescueStatus == HKRescueStateComplete){
         evaluationBtn.hidden = NO;
         stateLb.text = @"已完成";
         [evaluationBtn setTitleColor:[UIColor colorWithHex:@"#fe4a00" alpha:1.0] forState:UIControlStateNormal];
-    }else if ([hostory.rescueStatus integerValue] == 4){
+    }else if (history.rescueStatus  == HKRescueStateCancel){
         stateLb.text = @"已取消";
         evaluationBtn.hidden = YES;
         
@@ -154,28 +171,27 @@
         evaluationBtn.hidden = YES;
         stateLb.text = @"处理中";
     }
-    if (self.type == 2) {
+    
+    if (history.type == HKRescueAnnual) {
         image.image = [UIImage imageNamed:@"commission_annual"];
-    }else if ([hostory.type integerValue] == 1) {
+    }else if (history.type  == HKRescueTrailer) {
         image.image = [UIImage imageNamed:@"rescue_trailer"];
-    }else if ([hostory.type integerValue] == 2){
+    }else if (history.type  == HKRescuePumpPower){
         image.image = [UIImage imageNamed:@"pump_power"];
     }else {
         image.image = [UIImage imageNamed:@"rescue_tire"];
     }
     
-    titleLb.text = hostory.serviceName;
-    NSString *timeStr = [NSString stringWithFormat:@"%@", hostory.applyTime];
-    NSString *tempStr = [timeStr substringToIndex:10];
-    timeLb.text = [[NSDate dateWithTimeIntervalSince1970:[tempStr intValue]] dateFormatForYYYYMMddHHmm2];
     
-    [RACObserve(hostory, commentStatus) subscribeNext:^(NSNumber *num) {
+    
+    
+    [RACObserve(history, commentStatus) subscribeNext:^(NSNumber *num) {
         if ([num integerValue] == 1) {
             [evaluationBtn setTitle:@"已评价" forState:UIControlStateNormal];
         }
     }];
     
-    [RACObserve(hostory, rescueStatus) subscribeNext:^(NSNumber *num) {
+    [RACObserve(history, rescueStatus) subscribeNext:^(NSNumber *num) {
         if ([num integerValue] == 4) {
             stateLb.text = @"已取消";
             evaluationBtn.hidden = YES;
@@ -187,17 +203,19 @@
         @strongify(self)
         [x integerValue];
         evaluationBtn.enabled = NO;
-        if ([hostory.rescueStatus integerValue] != 2 && [hostory.rescueStatus integerValue] != 4 && [hostory.rescueStatus integerValue] != 5) {
+        if (history.rescueStatus == HKRescueStateComplete) {
             evaluationBtn.enabled = YES;
-            RescurecCommentsVC *vc = [UIStoryboard vcWithId:@"RescurecCommentsVC" inStoryboard:@"Rescue"];
-            vc.history = hostory;
-            vc.applyType = @(self.type);
-            [self.navigationController pushViewController:vc animated:YES];
-            
+            if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+                [MobClick event:@"rp101-5"];
+                RescurecCommentsVC *vc = [UIStoryboard vcWithId:@"RescurecCommentsVC" inStoryboard:@"Rescue"];
+                vc.history = history;
+                vc.applyType = @(self.type);
+                [self.navigationController pushViewController:vc animated:YES];
+            }
             /**
              *  协办已申请
              */
-        }else if ([hostory.rescueStatus isEqual:@(2)] && self.type == 2){
+        }else if (history.rescueStatus == HKRescueStateAlready && self.type == 2){
             evaluationBtn.enabled = YES;
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您确定要取消本次协办服务吗？" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             
@@ -207,7 +225,7 @@
                 if (i == 1)
                 {
                     rescueCancelHostcar *op = [rescueCancelHostcar operation];
-                    op.applyId = hostory.applyId;
+                    op.applyId = history.applyId;
                     [[[[op rac_postRequest] initially:^{
                         [gToast showText:@"取消中..."];
                     }] finally:^{
@@ -215,7 +233,7 @@
                     }] subscribeNext:^(rescueCancelHostcar *op) {
                         if (op.rsp_code == 0) {
                             [gToast showText:@"取消成功"];
-                            hostory.rescueStatus = @(4);
+                            history.rescueStatus = HKRescueStateCancel;
                         }
                         
                     } error:^(NSError *error) {
@@ -322,7 +340,6 @@
         self.tableView.showBottomLoadingView = YES;
         [self.tableView.bottomLoadingView stopActivityAnimation];
         [self.tableView.bottomLoadingView showIndicatorTextWith:@"获取失败，再拉拉看"];
-        
     }];
 }
 
