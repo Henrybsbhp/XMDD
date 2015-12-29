@@ -14,7 +14,6 @@
 #import "LoginViewModel.h"
 #import "GetStartHostCarOp.h"
 #import "MyCarStore.h"
-#import "CKStore.h"
 #import "EditCarVC.h"
 #import "UIView+DefaultEmptyView.h"
 #import "UIView+JTLoadingView.h"
@@ -165,9 +164,10 @@
 
 - (void)setupCarStore
 {
-    self.carStore = [MyCarStore fetchExistsStore];
+    self.carStore = [MyCarStore fetchOrCreateStore];
     @weakify(self);
-    [self.carStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
+    [self.carStore subscribeWithTarget:self domain:@"cars" receiver:^(CKStore *store, CKEvent *evt) {
+        
         @strongify(self);
         [[evt signal] subscribeNext:^(id x) {
             @strongify(self);
@@ -178,7 +178,7 @@
             }
         }];
     }];
-    [self.carStore sendEvent:[self.carStore getAllCarsIfNeeded]];
+    [[self.carStore getAllCarsIfNeeded] send];
 }
 
 

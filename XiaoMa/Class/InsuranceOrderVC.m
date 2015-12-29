@@ -113,7 +113,6 @@
 - (void)reloadWithEvent:(CKEvent *)event
 {
     @weakify(self);
-    __weak CKEvent *evt = event;
     [[[event signal] initially:^{
         
         @strongify(self);
@@ -148,7 +147,8 @@
         else {
             [self.view stopActivityAnimation];
             [self.view showDefaultEmptyViewWithText:@"获取订单详情失败，点击重试" tapBlock:^{
-                [evt send];
+                @strongify(self);
+                [[self.insStore getInsOrderByID:self.orderID] send];
             }];
         }
     }];

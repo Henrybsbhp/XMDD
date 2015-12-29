@@ -46,9 +46,9 @@
 @property (nonatomic,strong) CKSegmentHelper *checkBoxHelper;
 @property (nonatomic)BOOL isLoadingResourse;
 
-@property (nonatomic,strong)MyCarStore * carStore;
+@property (nonatomic,strong) MyCarStore *carStore;
 
-@property (nonatomic,strong)CheckoutServiceOrderV4Op * checkoutServiceOrderV4Op;
+@property (nonatomic,strong)CheckoutServiceOrderV4Op *checkoutServiceOrderV4Op;
 
 ///支付数据源
 @property (nonatomic,strong)NSArray * paymentArray;
@@ -167,7 +167,8 @@
 {
     self.carStore = [MyCarStore fetchExistsStore];
     @weakify(self);
-    [self.carStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
+    [self.carStore subscribeWithTarget:self domain:@"cars" receiver:^(CKStore *store, CKEvent *evt) {
+
         @strongify(self);
         [[evt signal] subscribeNext:^(id x) {
             @strongify(self);
@@ -177,7 +178,7 @@
             }
         }];
     }];
-    [self.carStore sendEvent:[self.carStore getAllCarsIfNeeded]];
+    [[self.carStore getAllCarsIfNeeded] send];
 }
 
 #pragma mark - Action

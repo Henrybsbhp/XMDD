@@ -337,16 +337,28 @@
 #else
     rightB.hidden = car.status != 1 && car.status != 2;
 #endif
-    
+    [rightB setTitle:car.status == 1 ? @"核保结果" : @"重新核保" forState:UIControlStateNormal];
     @weakify(self);
     [[[rightB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
+
          @strongify(self);
-         InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
-         infoVC.insModel.simpleCar = car;
-         infoVC.insModel.originVC = self;
-         [self.navigationController pushViewController:infoVC animated:YES];
-     }];
+         //到核保结果页
+         if (car.status == 1) {
+             InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
+             vc.insModel = [self.insModel copy];
+             vc.insModel.simpleCar = car;
+             vc.insModel.originVC = self;
+             [self.navigationController pushViewController:vc animated:YES];
+         }
+         //到重新核保页
+         else {
+             InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
+             infoVC.insModel.simpleCar = car;
+             infoVC.insModel.originVC = self;
+             [self.navigationController pushViewController:infoVC animated:YES];
+         }
+    }];
 }
 
 - (void)resetAddCarCell:(UITableViewCell *)cell withData:(HKCellData *)data

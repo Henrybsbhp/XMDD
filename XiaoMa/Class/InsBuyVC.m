@@ -38,7 +38,9 @@
     // Do any additional setup after loading the view.
     self.navigationItem.title = self.insModel.inscompname;
     [self setupDatePicker];
-    [self requestDetailPremium];
+    CKAsyncMainQueue(^{
+        [self requestDetailPremium];
+    });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -101,6 +103,9 @@
 
     NSMutableArray *datasource = [NSMutableArray array];
     HKCellData *infoCell = [HKCellData dataWithCellID:@"Info" tag:nil];
+    if (self.premiumDetail.rsp_fstartdate.length > 0) {
+        infoCell.customInfo[@"lockfdate"] = @YES;
+    }
     [infoCell setHeightBlock:^CGFloat(UITableView *tableView) {
         return 320;
     }];
@@ -130,7 +135,7 @@
     CKLine *line = [self.headerView viewWithTag:1002];
     
     line.lineAlignment = CKLineAlignmentHorizontalBottom;
-    [line setNeedsLayout];
+    [line setNeedsDisplay];
 
     titleL.text = self.premiumDetail.rsp_tip;
     CGFloat height = 0;
@@ -304,6 +309,7 @@
     dateRF.inputField.text = self.paymentInfo.req_forcestartdate;
     dateRF.subscriptImageName = @"ins_arrow_time";
     
+    dateRB.userInteractionEnabled = ![data.customInfo[@"lockfdate"] boolValue];
     [[[[dateRB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
       flattenMap:^RACStream *(id value) {
           
