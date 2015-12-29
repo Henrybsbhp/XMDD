@@ -14,6 +14,10 @@
 
 @implementation HKNavigationHiddenVC
 
+- (void)dealloc
+{
+    DebugLog(@"HKNavigationHiddenVC dealloc ~");
+}
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.isViewAppearing = YES;

@@ -24,6 +24,13 @@
 
 @implementation InsPayResultVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"InsPayResultVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

@@ -1,14 +1,15 @@
 //
-//  rescueCancelHostcar.m
+//  RescueCancelHostcarOp.m
 //  XiaoMa
 //
-//  Created by baiyulin on 15/12/22.
+//  Created by baiyulin on 15/12/29.
 //  Copyright © 2015年 huika. All rights reserved.
 //
 
-#import "rescueCancelHostcar.h"
+#import "RescueCancelHostcarOp.h"
 
-@implementation rescueCancelHostcar
+@implementation RescueCancelHostcarOp
+
 - (RACSignal *)rac_postRequest
 {
     self.req_method = @"/rescue/cancel/hostcar";

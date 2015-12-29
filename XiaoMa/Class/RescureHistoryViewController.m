@@ -12,7 +12,7 @@
 #import "HKRescueHistory.h"
 #import "UIView+DefaultEmptyView.h"
 #import "UIView+JTLoadingView.h"
-#import "rescueCancelHostcar.h"
+#import "RescueCancelHostcarOp.h"
 #import "HKTableViewCell.h"
 @interface RescureHistoryViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -32,10 +32,11 @@
     self.tableView.dataSource = nil;
     DebugLog(@"RescureHistoryViewController dealloc");
 }
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.isRemain = YES;
@@ -44,7 +45,9 @@
     }else {
         self.navigationItem.title = @"协办记录";
     }
-    [self historyNetwork];
+     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+         [self historyNetwork];
+     }
 }
 
 #pragma mark - network
@@ -110,21 +113,13 @@
     UIButton *evaluationBtn = (UIButton *)[cell searchViewWithTag:1010];
     if (self.type ==2) {
         UILabel *tempTimeLb = (UILabel *)[cell searchViewWithTag:1009];
-        tempTimeLb.text = [[NSDate dateWithUTS:history.appointTime] dateFormatForYYMMdd2];
+        tempTimeLb.text = [NSString stringWithFormat:@"预约时间: %@", [[NSDate dateWithUTS:history.appointTime] dateFormatForYYMMdd2]];
     }else {
         
     }
-    
-    
+   
     titleLb.text = history.serviceName;
-    NSString *timeStr = [NSString stringWithFormat:@"%@", history.applyTime];
-    NSString *tempStr;
-    if (timeStr.length >= 10) {
-        tempStr = [timeStr substringToIndex:10];
-        timeLb.text = [[NSDate dateWithTimeIntervalSince1970:[tempStr intValue]] dateFormatForYYYYMMddHHmm2];
-    }else {
-        timeLb.text = @"";
-    }
+    timeLb.text = [[NSDate dateWithUTS:history.applyTime] dateFormatForYYMMdd2];
     
     evaluationBtn.layer.borderWidth = 1;
     evaluationBtn.layer.borderColor = [UIColor colorWithHex:@"#fe4a00" alpha:1].CGColor;
@@ -217,13 +212,13 @@
                 NSInteger i = [n integerValue];
                 if (i == 1)
                 {
-                    rescueCancelHostcar *op = [rescueCancelHostcar operation];
+                    RescueCancelHostcarOp *op = [RescueCancelHostcarOp operation];
                     op.applyId = history.applyId;
                     [[[[op rac_postRequest] initially:^{
                         [gToast showText:@"取消中..."];
                     }] finally:^{
                         [gToast dismiss];
-                    }] subscribeNext:^(rescueCancelHostcar *op) {
+                    }] subscribeNext:^(RescueCancelHostcarOp *op) {
                         if (op.rsp_code == 0) {
                             [gToast showText:@"取消成功"];
                             history.rescueStatus = HKRescueStateCancel;

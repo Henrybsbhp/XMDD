@@ -23,6 +23,13 @@
 
 @implementation ChooseBankCardVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"ChooseBankCardVC dealloc");
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];

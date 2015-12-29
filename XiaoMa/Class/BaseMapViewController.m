@@ -16,6 +16,10 @@
 
 @implementation BaseMapViewController
 
+- (void)dealloc
+{
+    DebugLog(@"BaseMapViewController dealloc");
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     

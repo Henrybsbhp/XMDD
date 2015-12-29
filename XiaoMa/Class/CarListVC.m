@@ -25,6 +25,11 @@
 
 @implementation CarListVC
 
+- (void)dealloc
+{
+    DebugLog(@"CarListVC dealloc");
+}
+
 - (void)awakeFromNib
 {
     _model = [[MyCarListVModel alloc] init];

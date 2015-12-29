@@ -18,7 +18,10 @@
 @end
 
 @implementation AwardOtherSheetVC
-
+- (void)dealloc
+{
+    DebugLog(@"AwardOtherSheetVC dealloc ~");
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     if (self.sheetType == AwardSheetTypeSuccess) {

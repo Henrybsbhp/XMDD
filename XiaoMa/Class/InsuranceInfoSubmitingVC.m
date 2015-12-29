@@ -38,9 +38,11 @@
 
 @implementation InsuranceInfoSubmitingVC
 
--(void)dealloc
+- (void)dealloc
 {
-    
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"InsuranceInfoSubmitingVC dealloc");
 }
 
 - (void)viewDidLoad {

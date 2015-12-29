@@ -18,6 +18,13 @@
 
 @implementation CardDetailVC
 
+- (void)dealloc
+{
+    self.collectionView.delegate = nil;
+    self.collectionView.dataSource = nil;
+    DebugLog(@"CardDetailVC dealloc!");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
