@@ -303,6 +303,7 @@
 		4EF12DED1C1EBC900098B8C6 /* SecondCarValuationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */; };
 		4EF94AF21C321D020092CB55 /* RescurecCommentsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF01C321D020092CB55 /* RescurecCommentsVC.m */; };
 		4EF94AF31C321D020092CB55 /* RescureHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF11C321D020092CB55 /* RescureHistoryViewController.m */; };
+		4EF94AFA1C3256330092CB55 /* OETextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF91C3256330092CB55 /* OETextField.m */; };
 		50094B431C1144640069683C /* GetAreaInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50094B421C1144640069683C /* GetAreaInfoOp.m */; };
 		50094B461C117CE80069683C /* AreaTablePickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50094B451C117CE80069683C /* AreaTablePickerVC.m */; };
 		5014B6571C07041B00DFAB18 /* GetShareButtonOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5014B6561C07041B00DFAB18 /* GetShareButtonOp.m */; };
@@ -1158,6 +1159,8 @@
 		4EF94AF01C321D020092CB55 /* RescurecCommentsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescurecCommentsVC.m; sourceTree = "<group>"; };
 		4EF94AF11C321D020092CB55 /* RescureHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescureHistoryViewController.m; sourceTree = "<group>"; };
 		4EF94AF41C321EFD0092CB55 /* RescureHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescureHistoryViewController.h; sourceTree = "<group>"; };
+		4EF94AF81C3256330092CB55 /* OETextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OETextField.h; path = Class/OETextField.h; sourceTree = "<group>"; };
+		4EF94AF91C3256330092CB55 /* OETextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OETextField.m; path = Class/OETextField.m; sourceTree = "<group>"; };
 		50094B411C1144640069683C /* GetAreaInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetAreaInfoOp.h; path = Class/GetAreaInfoOp.h; sourceTree = "<group>"; };
 		50094B421C1144640069683C /* GetAreaInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAreaInfoOp.m; path = Class/GetAreaInfoOp.m; sourceTree = "<group>"; };
 		50094B441C117CE80069683C /* AreaTablePickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaTablePickerVC.h; sourceTree = "<group>"; };
@@ -2906,6 +2909,8 @@
 				18BF420B1BD273C70039F210 /* CKLimitTextField.m */,
 				1897C3031C16CF02007E394E /* HKSubscriptInputField.h */,
 				1897C3041C16CF02007E394E /* HKSubscriptInputField.m */,
+				4EF94AF81C3256330092CB55 /* OETextField.h */,
+				4EF94AF91C3256330092CB55 /* OETextField.m */,
 			);
 			name = TextField;
 			sourceTree = "<group>";
@@ -4519,6 +4524,7 @@
 				1893712B1B0E0D460030FDE1 /* TTTAttributedLabel.m in Sources */,
 				6BB884D71AE0F31700EBD8F4 /* HKCoupon.m in Sources */,
 				6BFE6A6B1C03417200EC9766 /* ViolationViewController.m in Sources */,
+				4EF94AFA1C3256330092CB55 /* OETextField.m in Sources */,
 				6B1175321C0D78AC00FC1881 /* ViolationCityModel.m in Sources */,
 				1851F41E1B0C223A00241A01 /* HKAutoBrand.m in Sources */,
 				6BC3B6121ADF6205001016A0 /* MapHelper.m in Sources */,
