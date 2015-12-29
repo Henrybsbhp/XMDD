@@ -23,17 +23,15 @@
 @property (nonatomic, strong) UIView        * headerView;
 @property (nonatomic, strong) UIImageView   * titleImg;
 @property (nonatomic, strong) UILabel       * titleLb;
-
 @property (nonatomic, strong) UIView        * footerView;
 @property (nonatomic, strong) UITextView    * commentsTV;
 @property (nonatomic, strong) UILabel       * placeholderLb;
 @property (nonatomic, strong) UIButton      * submitBtn;
-@property (nonatomic, strong) JTRatingView  * ratingView;
-@property (nonatomic, strong) NSMutableArray * dataSourceArray;
-@property (nonatomic, strong) NSMutableArray * evaluationArray;
 @property (nonatomic, strong) NSNumber      * starNum1;
 @property (nonatomic, strong) NSNumber      * starNum2;
 @property (nonatomic, strong) NSNumber      * starNum3;
+@property (nonatomic, strong) NSMutableArray * dataSourceArray;
+@property (nonatomic, strong) NSMutableArray * evaluationArray;
 @end
 
 @implementation RescurecCommentsVC
@@ -44,7 +42,15 @@
     self.tableView.dataSource = nil;
     DebugLog(@"RescurecCommentsVC dealloc");
 }
+- (void)viewDidDisappear:(BOOL)animated {
+    
+}
+- (void)viewWillDisappear:(BOOL)animated {
+    
+}
+- (void)viewWillAppear:(BOOL)animated {
 
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setImageAndLbText];
@@ -55,7 +61,7 @@
     [self.footerView addSubview:self.submitBtn];
     self.tableView.tableHeaderView = self.headerView;
     
-    if ([self.applyType isEqual:@(1)]){
+    if ([self.applyType integerValue] == 1){
         self.navigationItem.title = @"救援完成";
         
     }else {
@@ -74,7 +80,7 @@
         }
     }];
     
-    if ([self.history.commentStatus isEqual:@(1)]) {
+    if (self.history.commentStatus == HKCommentStatusYes) {
         [self alreadyNetwork];
         
         
@@ -84,16 +90,16 @@
     
 }
 - (void)setImageAndLbText {
-    if ([self.history.type isEqual:@(1)]) {
+    if (self.history.type == HKRescueTrailer ) {
         self.titleImg.image = [UIImage imageNamed:@"rescue_trailer"];
         self.titleLb.text = @"拖车服务";
-    }else if ([self.history.type isEqual:@(2)]){
+    }else if (self.history.type == HKRescuePumpPower ){
         self.titleImg.image = [UIImage imageNamed:@"pump_power"];
         self.titleLb.text = @"泵电服务";
-    }else if ([self.history.type isEqual:@(3)]){
+    }else if (self.history.type == HKRescuetire){
         self.titleImg.image = [UIImage imageNamed:@"rescue_tire"];
         self.titleLb.text = @"换胎服务";
-    }else if ([self.history.type isEqual:@(4)]){
+    }else{
         self.titleImg.image = [UIImage imageNamed:@"commission_annual"];
         self.titleLb.text = @"年检协办";
     }
@@ -119,7 +125,6 @@
         @strongify(self)
         self.tableView.hidden = NO;
         self.evaluationArray = op.rescueDetailArray;
-        self.isLog = 1;
         self.tableView.hidden = NO;
         self.footerView.hidden = YES;
         [self.tableView reloadData];
@@ -130,10 +135,7 @@
         [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
             [self alreadyNetwork];
         }];
-        
     }] ;
-    
-    
 }
 - (void)actionCommentsClick {
     GetRescueCommentRescueOp *op = [GetRescueCommentRescueOp operation];
@@ -142,32 +144,28 @@
         op.responseSpeed = self.starNum1;
         op.arriveSpeed = self.starNum2;
         op.serviceAttitude = self.starNum3;
-        
         op.rescueType = self.applyType;
         
         if (self.commentsTV.text != nil) {
             op.comment = self.commentsTV.text;
-            
         }else {
             op.comment = @"";
         }
+        
         @weakify(self)
         [[[[op rac_postRequest] initially:^{
-            
             [gToast showText:@"提交评论中"];
         }] finally:^{
             @strongify(self)
             [gToast dismiss];
             [gToast showText:@"评论成功"];
-            self.isLog = 1;
-            self.history.commentStatus = @(1);
+            self.history.commentStatus = HKCommentStatusYes;
             [self alreadyNetwork];
         }] subscribeNext:^(GetRescueCommentRescueOp *op) {
             
         } error:^(NSError *error) {
             [gToast showError:@"评论失败, 请尝试重新提交"];
         }] ;
-
         
     }else {
         [gToast showText:@"请给所有评分项给个星吧!"];
@@ -179,7 +177,7 @@
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    if ([self.history.commentStatus isEqual:@(1)] && self.evaluationArray.count != 0){
+    if (self.history.commentStatus == HKCommentStatusYes && self.evaluationArray.count != 0){
         return 8;
     }else {
         return 7;
@@ -189,9 +187,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.row < 3) {
-        UITableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"RescurecCommentsVC1" forIndexPath:indexPath];
-        cell1.selectionStyle = UITableViewCellSelectionStyleNone;
-        
+        UITableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"RescurecContent" forIndexPath:indexPath];
         UILabel *nameLabel = (UILabel *)[cell1 searchViewWithTag:1000];
         UILabel *textLb = (UILabel *)[cell1 searchViewWithTag:1001];
         
@@ -208,31 +204,29 @@
             nameLabel.text = @"服务车牌";
             textLb.text = self.history.licenceNumber;
         }
-        
         return cell1;
-    }else if (indexPath.row == 3){
-        UITableViewCell *cell3 = [tableView dequeueReusableCellWithIdentifier:@"RescurecCommentsVC3" forIndexPath:indexPath];
-        cell3.selectionStyle = UITableViewCellSelectionStyleNone;
-        UILabel *stateLb = (UILabel *)[cell3 searchViewWithTag:1010];
-        UILabel *evaluationLb = (UILabel *)[cell3 searchViewWithTag:1011];
         
-        if (self.isLog == 1 && self.evaluationArray.count != 0) {
+    }else if (indexPath.row == 3){
+        
+        UITableViewCell *cell3 = [tableView dequeueReusableCellWithIdentifier:@"RescurecCommentsText" forIndexPath:indexPath];
+        UILabel * stateLb      = (UILabel *)[cell3 searchViewWithTag:1010];
+        UILabel * evaluationLb = (UILabel *)[cell3 searchViewWithTag:1011];
+        
+        if (self.history.commentStatus == HKCommentStatusYes && self.evaluationArray.count != 0) {
             stateLb.text = @"感谢您的评价";
             evaluationLb.hidden = YES;
         }
-        
         return cell3;
+        
     }else  if(indexPath.row == 4 || indexPath.row == 5 || indexPath.row == 6){
-        UITableViewCell *cell2 = [tableView dequeueReusableCellWithIdentifier:@"RescurecCommentsVC2" forIndexPath:indexPath];
-        cell2.selectionStyle = UITableViewCellSelectionStyleNone;
-        
+        UITableViewCell *cell2 = [tableView dequeueReusableCellWithIdentifier:@"RescureStar" forIndexPath:indexPath];
         UILabel *serviceLb = (UILabel *)[cell2 searchViewWithTag:1002];
-        self.ratingView = (JTRatingView *)[cell2 searchViewWithTag:1003];
-        self.ratingView.imgWidth = 20;
-        self.ratingView.imgHeight = 20;
-        self.ratingView.imgSpacing = (self.view.frame.size.width - 128 - 20 * 5)/6;
+        JTRatingView *ratingView = (JTRatingView *)[cell2 searchViewWithTag:1003];
+        ratingView.imgWidth = 20;
+        ratingView.imgHeight = 20;
+        ratingView.imgSpacing = (self.view.frame.size.width - 128 - 20 * 5)/6;
         
-        [[self.ratingView rac_subject] subscribeNext:^(NSNumber * number) {
+        [[ratingView rac_subject] subscribeNext:^(NSNumber * number) {
             if (indexPath.row == 4) {
                 self.starNum1 = number;
             }else if (indexPath.row == 5){
@@ -242,14 +236,14 @@
             }
         }];
         
-        if (self.isLog == 1 && self.evaluationArray.count != 0) {
-            [self.ratingView setUserInteractionEnabled:NO];
+        if (self.history.commentStatus == HKCommentStatusYes && self.evaluationArray.count != 0) {
+            [ratingView setUserInteractionEnabled:NO];
             if (indexPath.row == 4) {
-                self.ratingView.ratingValue = [[self.evaluationArray safetyObjectAtIndex:0] floatValue];
+                ratingView.ratingValue = [[self.evaluationArray safetyObjectAtIndex:0] floatValue];
             }else if (indexPath.row == 5){
-                self.ratingView.ratingValue = [[self.evaluationArray safetyObjectAtIndex:1] floatValue];
+                ratingView.ratingValue = [[self.evaluationArray safetyObjectAtIndex:1] floatValue];
             }else if (indexPath.row == 6){
-                self.ratingView.ratingValue = [[self.evaluationArray safetyObjectAtIndex:2] floatValue];
+                ratingView.ratingValue = [[self.evaluationArray safetyObjectAtIndex:2] floatValue];
             }
         }
         
@@ -263,7 +257,7 @@
         return cell2;
     } else{
         
-        UITableViewCell *cell4 = [tableView dequeueReusableCellWithIdentifier:@"RescurecCommentsVC4" forIndexPath:indexPath];
+        UITableViewCell *cell4 = [tableView dequeueReusableCellWithIdentifier:@"EvaluationContent" forIndexPath:indexPath];
         UILabel *textLb = (UILabel *)[cell4 searchViewWithTag:1004];
         textLb.text = [self.evaluationArray safetyObjectAtIndex:3];
         return cell4;
@@ -285,7 +279,7 @@
             return 50;
         }
     }else if (indexPath.row == 7){
-        if (self.isLog == 1 && self.evaluationArray.count != 0){
+        if (self.history.commentStatus == HKCommentStatusYes && self.evaluationArray.count != 0){
             NSString * str = [self.evaluationArray safetyObjectAtIndex:3];
             CGFloat width = kWidth - 20;
             CGSize size = [str labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
@@ -298,31 +292,6 @@
     }
 }
 #pragma mark - lazyLoading
-
-- (void)addSubView {
-    self.headerView = [UIView new];
-    self.titleImg = [UIImageView new];
-    self.titleLb = [UILabel new];
-    
-    [self.headerView addSubview:self.titleImg];
-    [self.headerView addSubview:self.titleLb];
-    
-    [_headerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view).offset(0);
-        make.right.mas_equalTo(self.view).offset(0);
-        make.top.mas_equalTo(self.view).offset(0);
-        make.height.equalTo(self.view).multipliedBy(0.242);
-    }];
-    [_titleImg mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.headerView).offset(13);
-        make.top.mas_equalTo(self.headerView).offset(15);
-        make.height.mas_equalTo(35);
-        make.width.mas_equalTo(35);
-    }];
-    [self.titleLb mas_makeConstraints:^(MASConstraintMaker *make) {
-    }];
-}
-
 - (UIView *)headerView {
     if (!_headerView) {
         self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 0.193 * kWidth)];
@@ -365,7 +334,7 @@
 
 - (UILabel *)placeholderLb {
     if (!_placeholderLb) {
-        self.placeholderLb = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.commentsTV.frame), CGRectGetMinY(_commentsTV.frame) + 3, 100, 20)];
+        self.placeholderLb = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.commentsTV.frame), CGRectGetMinY(self.commentsTV.frame) + 3, 100, 20)];
         _placeholderLb.text = @"其他建议或意见";
         _placeholderLb.textColor = [UIColor colorWithHex:@"#e3e3e3" alpha:1.0];
         _placeholderLb.font = [UIFont systemFontOfSize:12];
@@ -390,7 +359,6 @@
 
 
 - (UIButton *)submitBtn {
-    
     if (!_submitBtn) {
         self.submitBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         _submitBtn.frame = CGRectMake(5, CGRectGetMaxY(_commentsTV.frame) + 12, kWidth - 10, (kWidth - 10) * 0.128);

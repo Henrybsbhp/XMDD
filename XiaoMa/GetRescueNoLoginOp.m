@@ -29,7 +29,7 @@
                 rescue.rescueDesc = dict[@"description"];
                 rescue.serviceName = dict[@"servicename"];
                 rescue.amount = dict[@"amount"];
-                rescue.type = [rspObj integerParamForName:dict[@"type"]];
+                rescue.type = [dict integerParamForName:@"type"];
                 [rArray safetyAddObject:rescue];
                 
             }

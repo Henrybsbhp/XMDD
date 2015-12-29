@@ -9,11 +9,17 @@
 #import "CommissionForsuccessfulVC.h"
 #import "CommissonOrderVC.h"
 @interface CommissionForsuccessfulVC ()
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
 @implementation CommissionForsuccessfulVC
-
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"CommissionForsuccessfulVC dealloc");
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
