@@ -35,6 +35,13 @@
     self.curCard = self.snpnCard;
 }
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"GasAddCardVC dealloc ~");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

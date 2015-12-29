@@ -36,8 +36,9 @@
 - (void)dealloc
 {
     self.fetchCtrl = nil;
-    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
-    DebugLog(deallocInfo);
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"PickAutomobileBrandVC dealloc");
 }
 
 //数据迁移

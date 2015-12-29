@@ -49,7 +49,7 @@
     
 }
 - (void)viewWillAppear:(BOOL)animated {
-
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -216,10 +216,7 @@
         
         if (indexPath.row == 0) {
             nameLabel.text = @"申请时间";
-            NSString *timeStr = [NSString stringWithFormat:@"%@", self.history.applyTime];
-            NSString *tempStr = [timeStr substringToIndex:10];
-            textLb.text = [[NSDate dateWithTimeIntervalSince1970:[tempStr intValue]] dateFormatForYYMMdd2];
-            
+            textLb.text = [[NSDate dateWithUTS:self.history.appointTime] dateFormatForYYMMdd2];
         }else if (indexPath.row == 1){
             nameLabel.text = @"申请服务";
             textLb.text = self.history.serviceName;

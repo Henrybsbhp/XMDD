@@ -50,8 +50,7 @@
 
 - (void)dealloc
 {
-    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
-    DebugLog(deallocInfo);
+    DebugLog(@"EditMyInfoViewController dealloc");
 }
 
 #pragma mark - SetupUI

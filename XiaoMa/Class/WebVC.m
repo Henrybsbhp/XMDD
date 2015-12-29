@@ -23,6 +23,7 @@
 - (void)dealloc
 {
     [[NSURLCache sharedURLCache] removeCachedResponseForRequest:self.request];
+    DebugLog(@"WebVC dealloc ~");
 }
 
 - (void)awakeFromNib

@@ -35,11 +35,11 @@ typedef enum : NSInteger
 @property (nonatomic, assign) HKRescueType  type;//救援类型
 @property (nonatomic, assign) HKCommentStatus  commentStatus;//评价状态
 @property (nonatomic, assign) HKRescueStateNum  rescueStatus;//救援状态
-@property (nonatomic, strong) NSDate *applyTime;//申请时间
+@property (nonatomic, strong) NSNumber *applyTime;//申请时间
 @property (nonatomic, copy) NSString *serviceName;//服务名称
 @property (nonatomic, copy) NSString *licenceNumber;//车牌号
 @property (nonatomic, strong) NSNumber *applyId;//申请记录id
-@property (nonatomic, strong) NSString  *appointTime;//预约时间
+@property (nonatomic, strong) NSNumber *appointTime;//预约时间
 
 @end
 

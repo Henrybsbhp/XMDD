@@ -20,6 +20,10 @@ typedef NS_ENUM(NSInteger, benefitType) {
 
 @implementation DetailsAlertVC
 
+- (void)dealloc
+{
+    DebugLog(@"DetailsAlertVC dealloc!");
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

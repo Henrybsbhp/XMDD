@@ -15,6 +15,11 @@
 
 @implementation PickerVC
 
+- (void)dealloc
+{
+    DebugLog(@"PickerVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

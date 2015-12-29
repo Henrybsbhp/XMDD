@@ -14,6 +14,11 @@
 
 @implementation MonthPickerVC
 
+- (void)dealloc
+{
+    DebugLog(@"MonthPickerVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

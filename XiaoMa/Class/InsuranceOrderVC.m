@@ -33,6 +33,13 @@
     }
 }
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"InsuranceOrderVC dealloc");
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

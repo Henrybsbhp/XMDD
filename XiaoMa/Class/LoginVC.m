@@ -21,6 +21,11 @@
 
 @implementation LoginVC
 
+- (void)dealloc
+{
+    DebugLog(@"LoginVC dealloc");
+}
+
 - (void)awakeFromNib {
     self.model = [[LoginViewModel alloc] init];
 }
