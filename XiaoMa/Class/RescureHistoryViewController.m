@@ -110,14 +110,7 @@
     UIButton *evaluationBtn = (UIButton *)[cell searchViewWithTag:1010];
     if (self.type ==2) {
         UILabel *tempTimeLb = (UILabel *)[cell searchViewWithTag:1009];
-        NSString *timeStr = [NSString stringWithFormat:@"%@", history.appointTime];
-        if (timeStr.length >= 10) {
-            NSString *tempStr = [timeStr substringToIndex:10];
-            tempTimeLb.text = [NSString stringWithFormat:@"预约时间: %@", [[NSDate dateWithTimeIntervalSince1970:[tempStr intValue]] dateFormatForYYMMdd2]];
-        }else {
-            tempTimeLb.text = @"";
-        }
-        
+        tempTimeLb.text = [[NSDate dateWithUTS:history.appointTime] dateFormatForYYMMdd2];
     }else {
         
     }

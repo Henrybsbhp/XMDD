@@ -39,7 +39,7 @@ typedef enum : NSInteger
 @property (nonatomic, copy) NSString *serviceName;//服务名称
 @property (nonatomic, copy) NSString *licenceNumber;//车牌号
 @property (nonatomic, strong) NSNumber *applyId;//申请记录id
-@property (nonatomic, strong) NSString  *appointTime;//预约时间
+@property (nonatomic, strong) NSNumber *appointTime;//预约时间
 
 @end
 
