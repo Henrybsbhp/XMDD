@@ -16,9 +16,9 @@
 #import "HKLoadingModel.h"
 #import "NSString+Split.h"
 #import "CKLimitTextField.h"
-#import "MyCarStore.h"
 #import "UIView+Shake.h"
 #import "InsuranceVM.h"
+#import "MyCarStore.h"
 
 #import "InsInputNameVC.h"
 #import "InsInputInfoVC.h"
@@ -98,7 +98,7 @@
 - (void)setupRefreshView
 {
     [self.tableView.refreshView addTarget:self action:@selector(actionRefresh:)
-                                forControlEvents:UIControlEventValueChanged];
+                         forControlEvents:UIControlEventValueChanged];
 }
 #pragma mark - Datasource
 - (void)reloadWithEvent:(CKEvent *)event
@@ -118,24 +118,26 @@
     }] subscribeError:^(NSError *error) {
         
         @strongify(self);
-        [self.view stopActivityAnimation];
-        if ([self.tableView isRefreshViewExists]) {
-            [gToast showError:error.domain];
-        }
-        else {
-            [self.view showDefaultEmptyViewWithText:@"获取信息失败，点击重试" tapBlock:^{
-                //重新发送事件
-                [event send];
-            }];
-        }
-    } completed:^{
-       
-        @strongify(self);
-        [self.view stopActivityAnimation];
+        [gToast showError:error.domain];
         if ([self.tableView isRefreshViewExists]) {
             [self.tableView.refreshView endRefreshing];
         }
         else {
+            [self.view stopActivityAnimation];
+            [self.view showDefaultEmptyViewWithText:@"获取信息失败，点击重试" tapBlock:^{
+                @strongify(self);
+                //重新发送事件
+                [[self.insStore getInsSimpleCars] send];
+            }];
+        }
+    } completed:^{
+        
+        @strongify(self);
+        if ([self.tableView isRefreshViewExists]) {
+            [self.tableView.refreshView endRefreshing];
+        }
+        else {
+            [self.view stopActivityAnimation];
             [self setupRefreshView];
         }
         self.tableView.hidden = NO;
@@ -161,12 +163,12 @@
     
     //车牌
     NSArray *carCells = [self.insStore.simpleCars.allObjects arrayByMappingOperator:^id(id obj) {
-
+        
         @strongify(self);
         HKCellData *cell = [HKCellData dataWithCellID:@"Car" tag:nil];
         cell.object = obj;
         [cell setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
-
+            
             @strongify(self);
             InsSimpleCar *car = obj;
             if (car.status == 0 || !car.carpremiumid) {
@@ -239,7 +241,7 @@
         }
         [vc.nameField endEditing:YES];
         [sheet dismissAnimated:YES completionHandler:nil];
-
+        
         InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
         infoVC.insModel.realName = vc.nameField.text;
         infoVC.insModel.simpleCar = car;
@@ -309,7 +311,7 @@
 {
     UILabel *label = [cell.contentView viewWithTag:1001];
     label.text = data.object;
-
+    
 }
 
 - (void)resetCarCell:(UITableViewCell *)cell withData:(HKCellData *)data
@@ -338,15 +340,27 @@
 #else
     rightB.hidden = car.status != 1 && car.status != 2;
 #endif
-    
+    [rightB setTitle:car.status == 1 ? @"核保结果" : @"重新核保" forState:UIControlStateNormal];
     @weakify(self);
     [[[rightB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
+
          @strongify(self);
-         InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
-         infoVC.insModel.simpleCar = car;
-         infoVC.insModel.originVC = self;
-         [self.navigationController pushViewController:infoVC animated:YES];
+         //到核保结果页
+         if (car.status == 1) {
+             InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
+             vc.insModel = [self.insModel copy];
+             vc.insModel.simpleCar = car;
+             vc.insModel.originVC = self;
+             [self.navigationController pushViewController:vc animated:YES];
+         }
+         //到重新核保页
+         else {
+             InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
+             infoVC.insModel.simpleCar = car;
+             infoVC.insModel.originVC = self;
+             [self.navigationController pushViewController:infoVC animated:YES];
+         }
     }];
 }
 
@@ -356,7 +370,7 @@
     UIButton *provinceB = [cell viewWithTag:10013];
     CKLimitTextField *textF = [cell viewWithTag:1002];
     UIButton *addB = [cell viewWithTag:1003];
-
+    
     Area *province = data.customInfo[@"province"];
     provinceL.text = province.abbr;
     
@@ -373,9 +387,9 @@
               subscribeNext:^(Area *curProvince) {
                   data.customInfo[@"province"] = curProvince;
                   provinceL.text = curProvince.abbr;
-             }];
+              }];
          }
-    }];
+     }];
     
     textF.textLimit = 6;
     textF.text = data.customInfo[@"suffix"];
@@ -387,7 +401,7 @@
     [textF setDidEndEditingBlock:^(CKLimitTextField *field) {
         field.placeholder = @"A12345";
     }];
-
+    
     [textF setTextDidChangedBlock:^(CKLimitTextField *field) {
         field.text = [field.text uppercaseString];
         data.customInfo[@"suffix"] = field.text;
@@ -418,7 +432,7 @@
         return [NSString stringWithFormat:@"%@（%@）", province.name, province.abbr];
     }];
     return [[vc rac_presentInView:self.navigationController.view datasource:@[provinces]
-                         curRows:@[@([provinces indexOfObject:curProvince])]] map:^id(NSArray *result) {
+                          curRows:@[@([provinces indexOfObject:curProvince])]] map:^id(NSArray *result) {
         return [result safetyObjectAtIndex:0];
     }];
 }

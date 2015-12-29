@@ -53,6 +53,9 @@
             integer += 1;
         }
     }
+    else {
+        remain = remain/10;
+    }
     if (remain > 0) {
         return [NSString stringWithFormat:@"%d.%d", integer, remain];
     }

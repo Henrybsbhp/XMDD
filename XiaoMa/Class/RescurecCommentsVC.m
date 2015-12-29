@@ -17,7 +17,7 @@
 #import "HKRescueHistory.h"
 #define kWidth [UIScreen mainScreen].bounds.size.width
 
-@interface RescurecCommentsVC ()<UITableViewDelegate, UITableViewDataSource>
+@interface RescurecCommentsVC ()<UITableViewDelegate, UITableViewDataSource,UITextViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UIView        * headerView;
@@ -54,6 +54,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setImageAndLbText];
+    
     [self.headerView addSubview:self.titleImg];
     [self.headerView addSubview:self.titleLb];
     [self.footerView addSubview:self.commentsTV];
@@ -70,6 +71,17 @@
     
     @weakify(self)
     [self.commentsTV.rac_textSignal subscribeNext:^(NSString * x) {
+        /**
+         *  评价事件
+         */
+        if(self.applyType.integerValue == 1)
+        {
+            [MobClick event:@"rp706-2"];
+        }
+        else
+        {
+            [MobClick event:@"rp805-2"];
+        }
         @strongify(self)
         if (x.length > 0) {
             self.placeholderLb.hidden = YES;
@@ -138,6 +150,17 @@
     }] ;
 }
 - (void)actionCommentsClick {
+    /**
+     *  发表评论事件
+     */
+    if(self.applyType.integerValue == 1)
+    {
+        [MobClick event:@"rp706-1"];
+    }
+    else
+    {
+        [MobClick event:@"rp805-1"];
+    }
     GetRescueCommentRescueOp *op = [GetRescueCommentRescueOp operation];
     if ([self.starNum1 integerValue]> 0 && [self.starNum2 integerValue] > 0 && [self.starNum3 integerValue] > 0) {
         op.applyId = self.history.applyId;

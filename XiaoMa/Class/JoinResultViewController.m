@@ -29,6 +29,15 @@
     [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    /**
+     *  加盟申请结果返回事件
+     */
+    [MobClick event:@"rp334-1"];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 }

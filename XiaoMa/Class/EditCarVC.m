@@ -327,7 +327,10 @@
         field.text = self.curCar.classno;
         
         [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
-            
+            /**
+             *  车架号码点击事件
+             */
+            [MobClick event:@"rp312-18"];
         }];
         
         [[[field rac_newTextChannel] takeUntil:stopSig] subscribeNext:^(id x) {
@@ -363,6 +366,10 @@
         field.text = self.curCar.engineno;
         
         [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
+            /**
+             *  发动机号
+             */
+            [MobClick event:@"rp312-19"];
         }];
         
         [[[field rac_newTextChannel] takeUntil:stopSig] subscribeNext:^(id x) {
@@ -490,9 +497,9 @@
     }
 
     MyCarStore *store = [MyCarStore fetchOrCreateStore];
-    HKStoreEvent *evt = self.isEditingModel ? [store updateCar:self.curCar] : [store addCar:self.curCar];
+    CKEvent *evt = self.isEditingModel ? [store updateCar:self.curCar] : [store addCar:self.curCar];
     @weakify(self);
-    [[[[[store sendEvent:evt] signal] initially:^{
+    [[[[evt sendAndIgnoreError] initially:^{
         
         [gToast showingWithText:@"正在保存..."];
     }] delay:0.01] subscribeNext:^(id x) {
@@ -592,7 +599,7 @@
         return;
     }
     MyCarStore *store = [MyCarStore fetchOrCreateStore];
-    [[[[[store sendEvent:[store removeCarByID:self.curCar.carId]] signal] initially:^{
+    [[[[[store removeCar:self.curCar.carId] sendAndIgnoreError] initially:^{
         
         [gToast showingWithText:@"正在删除..."];
     }] delay:0.01] subscribeNext:^(id x) {

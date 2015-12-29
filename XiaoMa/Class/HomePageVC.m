@@ -618,6 +618,10 @@
 
 - (void)actionQueryViolation:(id)sender
 {
+    /**
+     *  违章查询事件
+     */
+    [MobClick event:@"rp101-14"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         
         ViolationViewController * vc = [violationStoryboard instantiateViewControllerWithIdentifier:@"ViolationViewController"];
@@ -627,6 +631,10 @@
 
 - (void)actionCarEstimate:(id)sender
 {
+    /**
+     *  二手车估值事件
+     */
+    [MobClick event:@"rp101-15"];
     ValuationViewController *vc = [UIStoryboard vcWithId:@"ValuationViewController" inStoryboard:@"Valuation"];
     [self.navigationController pushViewController:vc animated:YES];
 }

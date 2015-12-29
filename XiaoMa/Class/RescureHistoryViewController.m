@@ -192,9 +192,16 @@
         [x integerValue];
         evaluationBtn.enabled = NO;
         if (history.rescueStatus == HKRescueStateComplete) {
+            if (history.commentStatus == 0)
+            {
+                [MobClick event:@"rp705-1"];
+            }
+            else
+            {
+                [MobClick event:@"rp705-2"];
+            }
             evaluationBtn.enabled = YES;
             if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-                [MobClick event:@"rp101-5"];
                 RescurecCommentsVC *vc = [UIStoryboard vcWithId:@"RescurecCommentsVC" inStoryboard:@"Rescue"];
                 vc.history = history;
                 vc.applyType = @(self.type);
@@ -204,6 +211,14 @@
              *  协办已申请
              */
         }else if (history.rescueStatus == HKRescueStateAlready && self.type == 2){
+            if (history.commentStatus == 0)
+            {
+                [MobClick event:@"rp804-2"];
+            }
+            else
+            {
+                [MobClick event:@"rp804-3"];
+            }
             evaluationBtn.enabled = YES;
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您确定要取消本次协办服务吗？" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             

@@ -61,6 +61,21 @@
     return signal;
 }
 
+- (BOOL)isEqualForAnyoneOfNames:(NSArray *)names
+{
+    return [names firstObjectByFilteringOperator:^BOOL(NSString *name) {
+        return [self.name isEqualToString:name];
+    }];
+}
+
+- (BOOL)isEqualForName:(NSString *)name
+{
+    if ([self.name isEqualToString:name]) {
+        return YES;
+    }
+    return NO;
+}
+
 @end
 
 @implementation RACSignal (CKEvent)

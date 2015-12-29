@@ -65,6 +65,15 @@
     [super viewWillDisappear:animated];
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    /**
+     *  保单支付页面返回事件
+     */
+    [MobClick event:@"1006-1"];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -110,18 +119,24 @@
 {
     self.licenseData = [HKCellData dataWithCellID:@"LicenseCell" tag:nil];
     self.licenseData.customInfo[@"check"] = @YES;
+    
     NSMutableString *license = [NSMutableString stringWithString:@"我已阅读并同意小马达达《保险服务协议》"];
+    
     self.licenseData.customInfo[@"range1"] = [NSValue valueWithRange:NSMakeRange(license.length - 8, 8)];
     self.licenseData.customInfo[@"url1"] = [NSURL URLWithString:kServiceLicenseUrl];
     if (self.insOrder.licenseUrl.length > 0) {
         NSString *license2 = self.insOrder.licenseName;
-        [license appendFormat:@"，及%@", license2];
+        [license appendFormat:@"及%@", license2];
         self.licenseData.customInfo[@"range2"] = [NSValue valueWithRange:NSMakeRange(license.length-license2.length, license2.length)];
         self.licenseData.customInfo[@"url2"] = [NSURL URLWithString:self.insOrder.licenseUrl];
     }
+    
+    NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
+    ps.lineSpacing = 5;
     NSAttributedString *attstr = [[NSAttributedString alloc] initWithString:license
                                                                  attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:12],
-                                                                              NSForegroundColorAttributeName: HEXCOLOR(@"#9a9a9a")}];
+                                                                              NSForegroundColorAttributeName: HEXCOLOR(@"#9a9a9a"),
+                                                                              NSParagraphStyleAttributeName: ps}];
     self.licenseData.object = attstr;
     
     [self.licenseData setHeightBlock:^CGFloat(UITableView *tableView) {
@@ -136,6 +151,10 @@
 #pragma mark - Action
 - (IBAction)actionCallCenter:(id)sender
 {
+    /**
+     *  咨询点击事件
+     */
+    [MobClick event:@"1006-2"];
     NSString * number = @"4007111111";
     [gPhoneHelper makePhone:number andInfo:@"咨询电话: 4007-111-111"];
 }

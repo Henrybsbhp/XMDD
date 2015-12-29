@@ -123,6 +123,10 @@
 }
 
 - (IBAction)applyAction:(id)sender {
+    /**
+     *  申请加盟点击事件
+     */
+    [MobClick event:@"rp333-1"];
     if (self.phoneField.text.length != 11) {
         [self shakeCellAtIndex:0];
         return;

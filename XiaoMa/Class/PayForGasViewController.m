@@ -73,7 +73,10 @@
     self.payTitle = @"油卡充值";
     self.paySubTitle = @"普通充值";
     [[self.payBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
+        /**
+         *  支付确定点击事件
+         */
+        [MobClick event:@"508-6"];
         [self actionPay:nil];
     }];
 }

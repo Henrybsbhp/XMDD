@@ -45,12 +45,20 @@
     // Do any additional setup after loading the view.
     self.navigationItem.title = self.insModel.inscompname;
     [self setupDatePicker];
-    [self requestDetailPremium];
+    CKAsyncMainQueue(^{
+        [self requestDetailPremium];
+    });
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
 }
 
 //设置日期选择控件（主要是为了事先加载，优化性能）
@@ -102,6 +110,9 @@
 
     NSMutableArray *datasource = [NSMutableArray array];
     HKCellData *infoCell = [HKCellData dataWithCellID:@"Info" tag:nil];
+    if (self.premiumDetail.rsp_fstartdate.length > 0) {
+        infoCell.customInfo[@"lockfdate"] = @YES;
+    }
     [infoCell setHeightBlock:^CGFloat(UITableView *tableView) {
         return 320;
     }];
@@ -131,7 +142,7 @@
     CKLine *line = [self.headerView viewWithTag:1002];
     
     line.lineAlignment = CKLineAlignmentHorizontalBottom;
-    [line setNeedsLayout];
+    [line setNeedsDisplay];
 
     titleL.text = self.premiumDetail.rsp_tip;
     CGFloat height = 0;
@@ -150,6 +161,8 @@
 #pragma mark - Action
 - (IBAction)actionBuy:(id)sender
 {
+    
+    
     if (self.paymentInfo.req_startdate.length == 0) {
         [gToast showText:@"商业险启保日不能为空"];
     }
@@ -184,6 +197,7 @@
 
 - (IBAction)actionCall:(id)sender
 {
+    
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
 }
 #pragma mark - UITableViewDelegate and datasource
@@ -277,6 +291,7 @@
     @weakify(self);
     [nameF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
         @strongify(self);
+        
         self.paymentInfo.req_ownername = field.text;
     }];
     
@@ -291,7 +306,7 @@
           [self.view endEditing:YES];
           return [self rac_pickDateWithNow:self.paymentInfo.req_startdate];
       }] subscribeNext:^(NSString *datetext) {
-
+          
           @strongify(self);
           self.paymentInfo.req_startdate = datetext;
           dateLF.inputField.text = datetext;
@@ -301,6 +316,7 @@
     dateRF.inputField.text = self.paymentInfo.req_forcestartdate;
     dateRF.subscriptImageName = @"ins_arrow_time";
     
+    dateRB.userInteractionEnabled = ![data.customInfo[@"lockfdate"] boolValue];
     [[[[dateRB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
       flattenMap:^RACStream *(id value) {
           
@@ -319,6 +335,7 @@
     idF.inputField.keyboardType = UIKeyboardTypeASCIICapable;
     idF.inputField.text = self.paymentInfo.req_idno;
     [idF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
+        
         @strongify(self);
         self.paymentInfo.req_idno = field.text;
     }];

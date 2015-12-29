@@ -61,6 +61,10 @@
 
         
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            /**
+             *  联系客服事件
+             */
+            [MobClick event:@"rp803-1"];
             NSString * number = @"4007111111";
             [gPhoneHelper makePhone:number andInfo:@"客服电话: 4007-111-111"];
         }];
