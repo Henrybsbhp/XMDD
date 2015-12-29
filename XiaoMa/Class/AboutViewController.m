@@ -319,6 +319,10 @@
 }
 
 - (IBAction)joinAction:(id)sender {
+    /**
+     *  商户加盟点击事件
+     */
+    [MobClick event:@"322-4"];
     JoinUsViewController * vc = [UIStoryboard vcWithId:@"JoinUsViewController" inStoryboard:@"About"];
     [self.navigationController pushViewController:vc animated:YES];
 }

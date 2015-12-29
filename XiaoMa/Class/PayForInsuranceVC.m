@@ -65,6 +65,15 @@
     [super viewWillDisappear:animated];
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    /**
+     *  保单支付页面返回事件
+     */
+    [MobClick event:@"1006-1"];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -140,6 +149,10 @@
 #pragma mark - Action
 - (IBAction)actionCallCenter:(id)sender
 {
+    /**
+     *  咨询点击事件
+     */
+    [MobClick event:@"1006-2"];
     NSString * number = @"4007111111";
     [gPhoneHelper makePhone:number andInfo:@"咨询电话: 4007-111-111"];
 }

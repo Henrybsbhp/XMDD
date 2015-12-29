@@ -51,6 +51,12 @@
     });
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -172,6 +178,7 @@
     }];
     @weakify(self);
     [helpCell setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+        
         @strongify(self);
         InsuranceInfoSubmitingVC *vc = [UIStoryboard vcWithId:@"InsuranceInfoSubmitingVC" inStoryboard:@"Insurance"];
         vc.insModel = self.insModel;
@@ -196,6 +203,7 @@
 
 - (IBAction)actionNext:(id)sender
 {
+    
     AddInsCarBaseInfoOp *op = [AddInsCarBaseInfoOp operation];
     op.req_city = [[self.datasource safetyObjectAtIndex:1] customInfo][@"city"];
     op.req_regdate = [[self.datasource safetyObjectAtIndex:1] customInfo][@"date"];
@@ -359,7 +367,7 @@
          [self.view endEditing:YES];
          return [self rac_pickDateWithNow:data.customInfo[@"date"]];
      }] subscribeNext:^(NSString *datetext) {
-        
+         
          data.customInfo[@"date"] = datetext;
          dateInput.inputField.text = datetext;
      }];

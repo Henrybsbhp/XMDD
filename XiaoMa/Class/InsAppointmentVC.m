@@ -44,6 +44,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+
 //设置日期选择控件（主要是为了事先加载，优化性能）
 - (void)setupDatePicker {
     self.datePicker = [DatePickerVC datePickerVCWithMaximumDate:nil];
@@ -114,6 +116,7 @@
 #pragma mark - Action
 - (IBAction)actionAppoint:(id)sender
 {
+    
     if (self.appointInfo.req_startdate.length == 0) {
         [gToast showText:@"商业险起保日不能为空"];
     }
@@ -205,7 +208,7 @@
          [self.view endEditing:YES];
          return [self rac_pickDateWithNow:self.appointInfo.req_startdate];
     }] subscribeNext:^(NSString *datetext) {
-      
+        
         @strongify(self);
         self.appointInfo.req_startdate = datetext;
         dateLF.inputField.text = datetext;
@@ -233,6 +236,7 @@
     nameF.inputField.text = self.appointInfo.req_ownername;
     nameF.inputField.textLimit = 20;
     [nameF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
+        
         @strongify(self);
         self.appointInfo.req_ownername = field.text;
     }];
@@ -242,6 +246,7 @@
     idF.inputField.textLimit = 18;
     idF.inputField.keyboardType = UIKeyboardTypeASCIICapable;
     [idF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
+        
         @strongify(self);
         self.appointInfo.req_idcard = field.text;
     }];

@@ -95,7 +95,7 @@
 - (void)setupRefreshView
 {
     [self.tableView.refreshView addTarget:self action:@selector(actionRefresh:)
-                                forControlEvents:UIControlEventValueChanged];
+                         forControlEvents:UIControlEventValueChanged];
 }
 #pragma mark - Datasource
 - (void)reloadWithEvent:(CKEvent *)event
@@ -128,7 +128,7 @@
             }];
         }
     } completed:^{
-       
+        
         @strongify(self);
         if ([self.tableView isRefreshViewExists]) {
             [self.tableView.refreshView endRefreshing];
@@ -160,12 +160,12 @@
     
     //车牌
     NSArray *carCells = [self.insStore.simpleCars.allObjects arrayByMappingOperator:^id(id obj) {
-
+        
         @strongify(self);
         HKCellData *cell = [HKCellData dataWithCellID:@"Car" tag:nil];
         cell.object = obj;
         [cell setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
-
+            
             @strongify(self);
             InsSimpleCar *car = obj;
             if (car.status == 0 || !car.carpremiumid) {
@@ -238,7 +238,7 @@
         }
         [vc.nameField endEditing:YES];
         [sheet dismissAnimated:YES completionHandler:nil];
-
+        
         InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
         infoVC.insModel.realName = vc.nameField.text;
         infoVC.insModel.simpleCar = car;
@@ -308,7 +308,7 @@
 {
     UILabel *label = [cell.contentView viewWithTag:1001];
     label.text = data.object;
-
+    
 }
 
 - (void)resetCarCell:(UITableViewCell *)cell withData:(HKCellData *)data
@@ -367,7 +367,7 @@
     UIButton *provinceB = [cell viewWithTag:10013];
     CKLimitTextField *textF = [cell viewWithTag:1002];
     UIButton *addB = [cell viewWithTag:1003];
-
+    
     Area *province = data.customInfo[@"province"];
     provinceL.text = province.abbr;
     
@@ -384,9 +384,9 @@
               subscribeNext:^(Area *curProvince) {
                   data.customInfo[@"province"] = curProvince;
                   provinceL.text = curProvince.abbr;
-             }];
+              }];
          }
-    }];
+     }];
     
     textF.textLimit = 6;
     textF.text = data.customInfo[@"suffix"];
@@ -398,7 +398,7 @@
     [textF setDidEndEditingBlock:^(CKLimitTextField *field) {
         field.placeholder = @"A12345";
     }];
-
+    
     [textF setTextDidChangedBlock:^(CKLimitTextField *field) {
         field.text = [field.text uppercaseString];
         data.customInfo[@"suffix"] = field.text;
@@ -429,7 +429,7 @@
         return [NSString stringWithFormat:@"%@（%@）", province.name, province.abbr];
     }];
     return [[vc rac_presentInView:self.navigationController.view datasource:@[provinces]
-                         curRows:@[@([provinces indexOfObject:curProvince])]] map:^id(NSArray *result) {
+                          curRows:@[@([provinces indexOfObject:curProvince])]] map:^id(NSArray *result) {
         return [result safetyObjectAtIndex:0];
     }];
 }

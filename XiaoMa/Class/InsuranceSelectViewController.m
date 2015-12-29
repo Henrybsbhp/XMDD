@@ -59,6 +59,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+}
+
 
 #pragma mark - Setup
 - (void)setupSegmentControl
@@ -83,6 +89,7 @@
 #pragma mark - Action
 - (IBAction)actionNext:(id)sender
 {
+    
     if (![self.currentModel inslistForVC].count)
     {
         [gToast showError:@"请至少选择一个车险"];

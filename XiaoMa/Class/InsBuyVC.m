@@ -48,6 +48,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+}
+
 //设置日期选择控件（主要是为了事先加载，优化性能）
 - (void)setupDatePicker {
     self.datePicker = [DatePickerVC datePickerVCWithMaximumDate:nil];
@@ -148,6 +154,8 @@
 #pragma mark - Action
 - (IBAction)actionBuy:(id)sender
 {
+    
+    
     if (self.paymentInfo.req_startdate.length == 0) {
         [gToast showText:@"商业险启保日不能为空"];
     }
@@ -182,6 +190,7 @@
 
 - (IBAction)actionCall:(id)sender
 {
+    
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
 }
 #pragma mark - UITableViewDelegate and datasource
@@ -275,6 +284,7 @@
     @weakify(self);
     [nameF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
         @strongify(self);
+        
         self.paymentInfo.req_ownername = field.text;
     }];
     
@@ -289,7 +299,7 @@
           [self.view endEditing:YES];
           return [self rac_pickDateWithNow:self.paymentInfo.req_startdate];
       }] subscribeNext:^(NSString *datetext) {
-
+          
           @strongify(self);
           self.paymentInfo.req_startdate = datetext;
           dateLF.inputField.text = datetext;
@@ -318,6 +328,7 @@
     idF.inputField.keyboardType = UIKeyboardTypeASCIICapable;
     idF.inputField.text = self.paymentInfo.req_idno;
     [idF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
+        
         @strongify(self);
         self.paymentInfo.req_idno = field.text;
     }];

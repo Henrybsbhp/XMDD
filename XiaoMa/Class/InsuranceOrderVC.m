@@ -36,7 +36,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     if (self.order) {
         self.orderID = self.order.orderid;
         [self setupRefreshView];
@@ -61,6 +61,14 @@
     [MobClick endLogPageView:@"rp319"];
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    /**
+     *  订单详情页面返回事件
+     */
+    [MobClick event:@"rp1012-1"];
+}
 - (void)setupRefreshView
 {
     [self.tableView.refreshView addTarget:self action:@selector(actionRefresh) forControlEvents:UIControlEventValueChanged];
@@ -117,7 +125,7 @@
             [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         }
     }] subscribeNext:^(id x) {
-    
+        
         @strongify(self);
         if ([self.tableView isRefreshViewExists]) {
             [self.tableView.refreshView endRefreshing];
@@ -130,7 +138,7 @@
         self.order = x;
         [self reloadWithOrderStatus:self.order.status];
     } error:^(NSError *error) {
-       
+        
         @strongify(self);
         [gToast showError:error.domain];
         if ([self.tableView isRefreshViewExists]) {
@@ -178,7 +186,7 @@
     else {
         amount = [NSString stringWithFormat:@"￥%.2f", total];
     }
-
+    
     NSArray *array = @[RACTuplePack(@"被保险人",_order.policyholder),
                        RACTuplePack(@"保险公司",_order.inscomp),
                        RACTuplePack(@"证件号码",_order.idcard),
@@ -279,12 +287,12 @@
     [self resetStepViewInCell:cell highlight:(self.order.status == InsuranceOrderStatusComplete) baseTag:10050];
     
     line1.highlighted = self.order.status == InsuranceOrderStatusUnpaid ||
-                        self.order.status == InsuranceOrderStatusPaid;
+    self.order.status == InsuranceOrderStatusPaid;
     
     line2.highlighted = self.order.status == InsuranceOrderStatusPaid ||
-                        self.order.status == InsuranceOrderStatusComplete ||
-                        self.order.status == InsuranceOrderStatusSended;
-
+    self.order.status == InsuranceOrderStatusComplete ||
+    self.order.status == InsuranceOrderStatusSended;
+    
     titleL.text = [self.order detailDescForCurrentStatus];
     return cell;
 }

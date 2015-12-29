@@ -59,6 +59,10 @@
 
 - (void)backToHomePage
 {
+    /**
+     *  返回估值首页事件
+     */
+    [MobClick event:@"rp605-1"];
     NSArray *viewControllers = self.navigationController.viewControllers;
     [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
 }
@@ -70,6 +74,10 @@
 
 
 - (IBAction)shareClick:(id)sender {
+    /**
+     *  分享事件
+     */
+    [MobClick event:@"rp605-2"];
     [self shareApp];
 }
 
