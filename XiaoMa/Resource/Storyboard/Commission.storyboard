@@ -642,6 +642,9 @@
                             <constraint firstItem="uFF-wb-pMF" firstAttribute="top" secondItem="hLd-cJ-DGg" secondAttribute="bottom" id="jEw-gm-t0r"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="uFF-wb-pMF" id="UKo-d1-yMt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="344-VO-fuy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

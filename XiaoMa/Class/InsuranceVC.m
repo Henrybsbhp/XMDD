@@ -81,7 +81,7 @@
 - (void)setupInsStore
 {
     self.insStore = [InsuranceStore fetchOrCreateStore];
-    NSArray *domains = @[@"simpleCars", kEvtInsSimpleCars];
+    NSArray *domains = @[@"simpleCars"];
     //监听保险车辆信息和保险支持的省市更新
     @weakify(self);
     [self.insStore subscribeWithTarget:self domainList:domains receiver:^(CKStore *store, CKEvent *evt) {

@@ -63,6 +63,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     
     [self setupProcessView];
     
+    [self setupLeftSingleBtn];
+    
     [self.webView.scrollView setDecelerationRate:UIScrollViewDecelerationRateNormal];
     self.webView.scalesPageToFit = YES;
     self.webView.delegate = self;
@@ -152,13 +154,13 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     
     [self.bridge registerGetToken];
     
-    //返回和关闭按钮的控制
-    if (self.webView.canGoBack) {
-        [self setupLeftBtns];
-    }
-    else {
-        [self setupLeftSingleBtn];
-    }
+    //返回和关闭按钮的控制 （此种方案是当检测到是第二层的时候就显示返回按钮）
+//    if (self.webView.canGoBack) {
+//        [self setupLeftBtns];
+//    }
+//    else {
+//        [self setupLeftSingleBtn];
+//    }
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
@@ -166,9 +168,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     DebugLog(@"%@ WebViewLoadError:%@\n,error=%@", kErrPrefix, webView.request.URL, error);
     self.webView.scrollView.contentInset = UIEdgeInsetsZero;
     self.webView.scrollView.contentSize = self.webView.frame.size;
-    if ((error.code >= 400 && error.code < 600) || error.code == -1009) {
-        [gToast showError:kDefErrorPormpt];
-    }
+    NSString * domain = [NSString stringWithFormat:@"%@[%ld]",kDefErrorPormpt,(long)error.code];
+    [gToast showError:domain];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
@@ -212,10 +213,14 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             if ([dic boolParamForName:@"isFirstPage"]) {
                 [self.navigationController popViewControllerAnimated:YES];
             }
+            else {
+                [self setupLeftBtns];
+            }
         }];
     }
     else {
         if (self.webView.canGoBack) {
+            [self setupLeftBtns];
             [self.webView goBack];
         }
         else {

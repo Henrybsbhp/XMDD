@@ -431,6 +431,7 @@ NSInteger const kIQPreviousNextButtonToolbarTag     =   -1005;
     }
     
     //  Special case for ScrollView.
+    if (NO)
     {
         //  If we found lastScrollView then setting it's contentOffset to show textField.
         if (_lastScrollView)

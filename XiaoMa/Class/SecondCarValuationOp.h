@@ -16,4 +16,7 @@
 //获取数据数组
 @property (nonatomic,strong) NSArray *rsp_dataArr;
 
+//获取数据数组
+@property (nonatomic,strong) NSString *rsp_tip;
+
 @end

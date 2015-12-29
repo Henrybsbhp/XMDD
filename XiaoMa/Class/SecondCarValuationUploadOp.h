@@ -21,10 +21,6 @@
 //渠道英文名称,多个以逗号分隔
 @property (nonatomic,strong) NSNumber *req_sellercityid;
 
-//业务处理结果代码
-@property (nonatomic,strong) NSString *rsp_rc;
-//提价成功后的文案
-@property (nonatomic,strong) NSString *rsp_tip;
 
 
 @end

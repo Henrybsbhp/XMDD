@@ -80,8 +80,6 @@
             [self historyNetwork];
         }];
     }] ;
-    
-    
 }
 
 #pragma mark - UITableViewDataSource
@@ -114,12 +112,12 @@
         UILabel *tempTimeLb = (UILabel *)[cell searchViewWithTag:1009];
         NSString *timeStr = [NSString stringWithFormat:@"%@", history.appointTime];
         if (timeStr.length >= 10) {
-             NSString *tempStr = [timeStr substringToIndex:10];
+            NSString *tempStr = [timeStr substringToIndex:10];
             tempTimeLb.text = [NSString stringWithFormat:@"预约时间: %@", [[NSDate dateWithTimeIntervalSince1970:[tempStr intValue]] dateFormatForYYMMdd2]];
         }else {
             tempTimeLb.text = @"";
         }
-      
+        
     }else {
         
     }
@@ -183,7 +181,7 @@
     }else {
         image.image = [UIImage imageNamed:@"rescue_tire"];
     }
-   
+    
     
     
     
@@ -209,10 +207,10 @@
             evaluationBtn.enabled = YES;
             if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
                 [MobClick event:@"rp101-5"];
-            RescurecCommentsVC *vc = [UIStoryboard vcWithId:@"RescurecCommentsVC" inStoryboard:@"Rescue"];
-            vc.history = history;
-            vc.applyType = @(self.type);
-            [self.navigationController pushViewController:vc animated:YES];
+                RescurecCommentsVC *vc = [UIStoryboard vcWithId:@"RescurecCommentsVC" inStoryboard:@"Rescue"];
+                vc.history = history;
+                vc.applyType = @(self.type);
+                [self.navigationController pushViewController:vc animated:YES];
             }
             /**
              *  协办已申请
@@ -242,13 +240,8 @@
                         [gToast showText:@"取消失败, 请重试"];
                     }] ;
                 }
-                
             }];
-            
-            
         }
-        
-        
     }];
     return cell;
 }
@@ -347,7 +340,6 @@
         self.tableView.showBottomLoadingView = YES;
         [self.tableView.bottomLoadingView stopActivityAnimation];
         [self.tableView.bottomLoadingView showIndicatorTextWith:@"获取失败，再拉拉看"];
-        
     }];
 }
 

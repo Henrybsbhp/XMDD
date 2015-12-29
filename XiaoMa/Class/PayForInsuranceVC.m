@@ -15,12 +15,12 @@
 #import "InsuranceOrderPayOp.h"
 #import "PaymentHelper.h"
 #import "OrderPaidSuccessOp.h"
-#import "InsOrderStore.h"
 #import "HKCellData.h"
 #import "TTTAttributedLabel.h"
 #import "InsPayResultVC.h"
 #import "DetailWebVC.h"
 #import "NSString+Format.h"
+#import "InsuranceStore.h"
 //#import "InsPayFaildVC.h"
 
 #define CheckBoxDiscountGroup @"CheckBoxDiscountGroup"
@@ -197,8 +197,12 @@
         if (![self callPaymentHelperWithPayOp:op]) {
             
             [gToast dismiss];
-            InsOrderStore *store = [InsOrderStore fetchExistsStore];
-            [store sendEvent:[store getInsOrderByID:self.insOrder.orderid]];
+            InsuranceStore *store = [InsuranceStore fetchExistsStore];
+            //刷新保险订单
+            [[store getInsOrderByID:self.insOrder.orderid] sendAndIgnoreError];
+            //刷新保险车辆列表
+            [[store getInsSimpleCars] sendAndIgnoreError];
+            
             [self gotoPaidSuccessVC];
         }
     } error:^(NSError *error) {
@@ -330,10 +334,11 @@
     [[helper rac_startPay] subscribeNext:^(id x) {
         
         @strongify(self);
-        InsOrderStore *store = [InsOrderStore fetchExistsStore];
-        [store sendEvent:[store getInsOrderByID:self.insOrder.orderid]];
-        [self gotoPaidSuccessVC];
+        //刷新保险订单
+        [[[InsuranceStore fetchExistsStore] getInsOrderByID:self.insOrder.orderid] sendAndIgnoreError];
         
+        [self gotoPaidSuccessVC];
+
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 1;
         iop.req_tradeno = op.rsp_tradeno;

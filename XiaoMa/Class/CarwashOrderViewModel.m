@@ -29,6 +29,7 @@
         self.tableView.dataSource = self;
         self.tableView.showBottomLoadingView = YES;
         self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
+        self.loadingModel.isSectionLoadMore = YES;
     }
     return self;
 }
@@ -148,7 +149,8 @@
     if ([cell isKindOfClass:[JTTableViewCell class]]) {
         [(JTTableViewCell *)cell prepareCellForTableView:tableView atIndexPath:indexPath];        
     }
-    [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nest:NO promptView:self.tableView.bottomLoadingView];
+    
+    [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nestItemCount:1 promptView:self.tableView.bottomLoadingView];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

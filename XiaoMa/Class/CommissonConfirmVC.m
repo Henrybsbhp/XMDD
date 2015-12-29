@@ -73,7 +73,7 @@
 
 -(void)applyClick {
     if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] < 3600 * 24 * 1 - 1) {
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle:nil message:@"您将预约年检协办业务,再告诉你个秘密,电话预约会更及时有效哦!" delegate:nil cancelButtonTitle:@"立即协办" otherButtonTitles:@"拨打电话", nil];
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"预约协办" message:@"您将预约年检协办业务,再告诉你个秘密,电话预约会更及时有效哦!" delegate:nil cancelButtonTitle:@"立即协办" otherButtonTitles:@"拨打电话", nil];
         [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNum) {
             
             NSInteger index = [indexNum integerValue];
@@ -91,6 +91,21 @@
         }];
         
         [av show];
+        
+        UITapGestureRecognizer * recognizerTap = [[UITapGestureRecognizer alloc] init];
+        [[recognizerTap rac_gestureSignal] subscribeNext:^(id x) {
+            if (recognizerTap.state == UIGestureRecognizerStateEnded){
+                CGPoint location = [recognizerTap locationInView:nil];
+                if (![av pointInside:[av convertPoint:location fromView:av.window] withEvent:nil]){
+                    [av.window removeGestureRecognizer:recognizerTap];
+                    [av dismissWithClickedButtonIndex:0 animated:YES];
+                }  
+            }
+        }];
+        
+        [recognizerTap setNumberOfTapsRequired:1];
+        recognizerTap.cancelsTouchesInView = NO;
+        [[UIApplication sharedApplication].keyWindow addGestureRecognizer:recognizerTap];
 
     }else if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] > 3600 * 24 * 30) {
         [gToast showText:@"不好意思,预约时间需在 30 天内,请修改后再尝试"];
@@ -105,7 +120,11 @@
     op.licenseNumber = self.defaultCar.licencenumber;
    
     NSString *tempStr = [NSString stringWithFormat:@"%@", self.appointmentDay];
-    op.appointTime = [tempStr substringToIndex:10];
+    if (tempStr.length >= 10) {
+        op.appointTime = [tempStr substringToIndex:10];
+    }else {
+        op.appointTime = @"";
+    }
     
     [[[[op rac_postRequest] initially:^{
         

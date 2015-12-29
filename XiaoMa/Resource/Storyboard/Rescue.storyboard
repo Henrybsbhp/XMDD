@@ -192,7 +192,7 @@
                                                 </view>
                                             </subviews>
                                             <animations/>
-                                            <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" red="0.95686274509803915" green="0.95686274509803915" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstItem="0dK-52-hmx" firstAttribute="leading" secondItem="pFa-Ee-aag" secondAttribute="leading" id="SxL-Gs-nsn"/>
                                                 <constraint firstItem="0dK-52-hmx" firstAttribute="top" secondItem="pFa-Ee-aag" secondAttribute="top" constant="8" id="Tkh-ah-tsK"/>
@@ -333,7 +333,7 @@
                                                 </view>
                                             </subviews>
                                             <animations/>
-                                            <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" red="0.95686274509803915" green="0.95686274509803915" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstItem="OjM-fc-4aW" firstAttribute="leading" secondItem="54R-4V-982" secondAttribute="leading" id="JFk-Hk-Z2i"/>
                                                 <constraint firstAttribute="trailing" secondItem="OjM-fc-4aW" secondAttribute="trailing" id="Oj3-Ae-wOQ"/>
@@ -518,7 +518,7 @@
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RescurecCommentsVC1" rowHeight="50" id="BNk-gs-1RU">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RescurecContent" rowHeight="50" id="BNk-gs-1RU">
                                         <rect key="frame" x="0.0" y="28" width="600" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BNk-gs-1RU" id="sk1-dP-TyF">
@@ -556,7 +556,7 @@
                                         </tableViewCellContentView>
                                         <animations/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RescurecCommentsVC2" rowHeight="36" id="2n0-Cg-wIp">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" showsReorderControl="YES" indentationWidth="10" reuseIdentifier="RescureStar" rowHeight="36" id="2n0-Cg-wIp">
                                         <rect key="frame" x="0.0" y="78" width="600" height="36"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2n0-Cg-wIp" id="iAm-ur-Lgg">
@@ -597,7 +597,7 @@
                                         </tableViewCellContentView>
                                         <animations/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RescurecCommentsVC3" rowHeight="50" id="CND-YG-vc0">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RescurecCommentsText" rowHeight="50" id="CND-YG-vc0">
                                         <rect key="frame" x="0.0" y="114" width="600" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CND-YG-vc0" id="rbP-3J-0aw">
@@ -665,7 +665,7 @@
                                         </tableViewCellContentView>
                                         <animations/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="RescurecCommentsVC4" rowHeight="43" id="Z7h-Ut-30n">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="EvaluationContent" rowHeight="43" id="Z7h-Ut-30n">
                                         <rect key="frame" x="0.0" y="164" width="600" height="43"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Z7h-Ut-30n" id="Ghy-Dt-tDe">

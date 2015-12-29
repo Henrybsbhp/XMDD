@@ -13,6 +13,7 @@
 #import "HKCoverage.h"
 #import "HKCellData.h"
 #import "HKTableViewCell.h"
+#import "InsuranceStore.h"
 
 #import "GetInsuranceCalculatorOpV3.h"
 #import "CalculatePremiumOp.h"
@@ -165,7 +166,10 @@
     }] subscribeNext:^(CalculatePremiumOp *op) {
         
         @strongify(self);
+        //核保成功，刷新保险车辆列表
+        [[[InsuranceStore fetchExistsStore] getInsSimpleCars] sendAndIgnoreError];
         if ([self.navigationController.topViewController isEqual:self]) {
+            //跳到核保结果页
             InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
             vc.insModel = self.insModel;
             vc.premiumList = op.rsp_premiumlist;
@@ -175,6 +179,7 @@
         
         @strongify(self);
         if ([self.navigationController.topViewController isEqual:self]) {
+            //跳到核保失败页面
             InsCheckFailVC *vc = [UIStoryboard vcWithId:@"InsCheckFailVC" inStoryboard:@"Insurance"];
             vc.insModel = self.insModel;
             vc.errmsg = error.domain;

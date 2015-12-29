@@ -45,5 +45,15 @@
     return self;
 }
 
+- (NSError *)mapError:(NSError *)error
+{
+    /// 把抢登的处理移除掉
+    if (error.code == -2003)
+    {
+        error = [NSError errorWithDomain:error.domain code:9999 userInfo:error.userInfo];
+    }
+    return error;
+}
+
 
 @end
