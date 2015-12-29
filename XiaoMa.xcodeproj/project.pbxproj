@@ -3290,7 +3290,6 @@
 		6BB8CB871B141474007B61B5 /* Rescure */ = {
 			isa = PBXGroup;
 			children = (
-				4EF94AF41C321EFD0092CB55 /* RescureHistoryViewController.h */,
 				6BB8CB8C1B1416BB007B61B5 /* RescureViewController.h */,
 				6BB8CB8D1B1416BB007B61B5 /* RescureViewController.m */,
 				6BCF62421B15AF3E0064AE32 /* RescueCouponViewController.h */,
@@ -3299,6 +3298,7 @@
 				2E52F2471C2032BB00D94F68 /* RescureHomeViewController.m */,
 				2E52F2421C2032BB00D94F68 /* RescureDetailsVC.h */,
 				2E52F2431C2032BB00D94F68 /* RescureDetailsVC.m */,
+				4EF94AF41C321EFD0092CB55 /* RescureHistoryViewController.h */,
 				4EF94AF11C321D020092CB55 /* RescureHistoryViewController.m */,
 				2E52F2401C2032BB00D94F68 /* RescurecCommentsVC.h */,
 				4EF94AF01C321D020092CB55 /* RescurecCommentsVC.m */,

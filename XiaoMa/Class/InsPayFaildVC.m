@@ -28,14 +28,6 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    /**
-     *  支付结果失败返回页面事件
-     */
-    [MobClick event:@"rp1008-1"];
-}
 
 #pragma mark - Datasource
 - (void)reloadData

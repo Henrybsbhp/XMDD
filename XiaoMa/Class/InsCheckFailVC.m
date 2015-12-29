@@ -33,10 +33,7 @@
 #pragma mark - Action
 - (IBAction)actionMakeCall:(id)sender
 {
-    /**
-     *  一键呼叫专员点击事件
-     */
-    [MobClick event:@"rp1004-7"];
+    
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"客服电话: 4007-111-111"];
 }
 

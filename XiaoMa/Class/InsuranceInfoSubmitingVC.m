@@ -68,15 +68,7 @@
     [MobClick endLogPageView:@"rp126"];
 }
 
--(void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    /**
-     *  页面返回事件
-     */
-    
-    [MobClick event:@"rp1002-1"];
-}
+
 
 #pragma mark - Datasource
 - (void)reloadData
@@ -353,10 +345,7 @@
     field.inputField.keyboardType = UIKeyboardTypeASCIICapable;
     
     [field.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
-        /**
-         *  身份证号点击事件
-         */
-        [MobClick event:@"rp1002-2"];
+        
         data.object = field.text;
     }];
 }

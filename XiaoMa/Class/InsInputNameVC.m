@@ -29,10 +29,6 @@
 {
     self.nameField.textLimit = 20;
     [self.nameField setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        /**
-         *  姓名文本框点击事件
-         */
-        [MobClick event:@"rp1000-5"];
         field.placeholder = nil;
     }];
     

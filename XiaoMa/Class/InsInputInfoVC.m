@@ -54,10 +54,7 @@
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    /**
-     *  填写资料点击事件
-     */
-    [MobClick event:@"rp1001-13"];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -181,10 +178,7 @@
     }];
     @weakify(self);
     [helpCell setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
-        /**
-         *  达达帮忙点击事件
-         */
-        [MobClick event:@"rp1001-11"];
+        
         @strongify(self);
         InsuranceInfoSubmitingVC *vc = [UIStoryboard vcWithId:@"InsuranceInfoSubmitingVC" inStoryboard:@"Insurance"];
         vc.insModel = self.insModel;
@@ -209,10 +203,7 @@
 
 - (IBAction)actionNext:(id)sender
 {
-    /**
-     *  下一步点击事件
-     */
-    [MobClick event:@"rp1001-12"];
+    
     AddInsCarBaseInfoOp *op = [AddInsCarBaseInfoOp operation];
     op.req_city = [[self.datasource safetyObjectAtIndex:1] customInfo][@"city"];
     op.req_regdate = [[self.datasource safetyObjectAtIndex:1] customInfo][@"date"];
@@ -347,10 +338,7 @@
     @weakify(self);
     [[[cityB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
-         /**
-          *  行驶城市点击事件
-          */
-         [MobClick event:@"rp1001-2"];
+         
          @strongify(self);
          [self.view endEditing:YES];
          CityPickerVC *vc = [CityPickerVC cityPickerVCWithOriginVC:self];
@@ -379,10 +367,7 @@
          [self.view endEditing:YES];
          return [self rac_pickDateWithNow:data.customInfo[@"date"]];
      }] subscribeNext:^(NSString *datetext) {
-         /**
-          *  注册日期点击事件
-          */
-         [MobClick event:@"rp1001-1"];
+         
          data.customInfo[@"date"] = datetext;
          dateInput.inputField.text = datetext;
      }];
@@ -439,10 +424,7 @@
     @weakify(switchV);
     [[[switchV rac_signalForControlEvents:UIControlEventValueChanged] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(NSNumber *x) {
-         /**
-          *  是否是过户车辆switch点击事件
-          */
-         [MobClick event:@"rp1001-9"];
+         
          @strongify(self);
          @strongify(switchV);
          BOOL on = switchV.on;
@@ -478,10 +460,7 @@
         @strongify(self);
         return [self rac_pickDateWithNow:data.object];
     }] subscribeNext:^(NSString *datetext) {
-        /**
-         *  过户日期点击事件
-         */
-        [MobClick event:@"rp1001-10"];
+        
         data.object = datetext;
         inputF.inputField.text = datetext;
     }];

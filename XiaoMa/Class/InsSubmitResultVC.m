@@ -34,14 +34,7 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    /**
-     *  提交结果页面返回事件
-     */
-    [MobClick event:@"rp1009-1"];
-}
+
 
 #pragma mark - Datasource
 - (void)reloadData {
@@ -80,20 +73,14 @@
 }
 
 - (IBAction)actionOrder:(id)sender {
-    /**
-     *  查看订单点击事件
-     */
-    [MobClick event:@"rp1009-3"];
+    
     InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
     vc.orderID = self.insOrderID;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)actionShare:(id)sender {
-    /**
-     *  晒单炫耀点击事件
-     */
-    [MobClick event:@"rp1009-2"];
+    
     GetShareButtonOp * op = [GetShareButtonOp operation];
     op.pagePosition = ShareSceneInsurance;
     [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {

@@ -49,10 +49,7 @@
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    /**
-     *  保险支付页面返回事件
-     */
-    [MobClick event:@"rp1005-1"];
+    
 }
 
 //设置日期选择控件（主要是为了事先加载，优化性能）
@@ -153,10 +150,7 @@
 - (IBAction)actionBuy:(id)sender
 {
     
-    /**
-     *   立即支付按钮点击事件
-     */
-    [MobClick event:@"rp1005-7"];
+    
     if (self.paymentInfo.req_startdate.length == 0) {
         [gToast showText:@"商业险启保日不能为空"];
     }
@@ -191,10 +185,7 @@
 
 - (IBAction)actionCall:(id)sender
 {
-    /**
-     *  客服点击事件
-     */
-    [MobClick event:@"rp1005-2"];
+    
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
 }
 #pragma mark - UITableViewDelegate and datasource
@@ -288,10 +279,7 @@
     @weakify(self);
     [nameF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
         @strongify(self);
-        /**
-         *  投保人姓名点击事件
-         */
-        [MobClick event:@"rp1005-5"];
+        
         self.paymentInfo.req_ownername = field.text;
     }];
     
@@ -306,10 +294,7 @@
           [self.view endEditing:YES];
           return [self rac_pickDateWithNow:self.paymentInfo.req_startdate];
       }] subscribeNext:^(NSString *datetext) {
-          /**
-           *  商业险起保日点击事件
-           */
-          [MobClick event:@"rp1005-3"];
+          
           @strongify(self);
           self.paymentInfo.req_startdate = datetext;
           dateLF.inputField.text = datetext;
@@ -326,10 +311,7 @@
           [self.view endEditing:YES];
           return [self rac_pickDateWithNow:self.paymentInfo.req_forcestartdate];
       }] subscribeNext:^(NSString *datetext) {
-          /**
-           *  交强险起保日点击事件
-           */
-          [MobClick event:@"rp1005-4"];
+          
           @strongify(self);
           self.paymentInfo.req_forcestartdate = datetext;
           dateRF.inputField.text = datetext;
@@ -340,10 +322,7 @@
     idF.inputField.keyboardType = UIKeyboardTypeASCIICapable;
     idF.inputField.text = self.paymentInfo.req_idno;
     [idF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
-        /**
-         *  投保人身份证点击事件
-         */
-        [MobClick event:@"rp1005-6"];
+        
         @strongify(self);
         self.paymentInfo.req_idno = field.text;
     }];
