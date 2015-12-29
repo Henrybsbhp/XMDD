@@ -186,7 +186,7 @@
             self.selectCar = [self.carStore.cars objectForKey:event.object];
         }
         else {
-            self.selectCar = [self.dataSource safetyObjectAtIndex:0];
+            self.selectCar = [self.dataSource safetyObjectAtIndex:self.carIndex];
         }
         NSString * milesStr = [NSString formatForPrice:self.selectCar.odo / 10000.00];
         self.miles = [milesStr floatValue];
@@ -481,6 +481,7 @@
         
         @strongify(self);
         [gToast dismiss];
+        [[self.carStore getAllCars] send];
         ValuationResultVC * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"ValuationResultVC"];
         vc.evaluateOp = op;
         vc.logoUrl = self.selectCar.brandLogo;
