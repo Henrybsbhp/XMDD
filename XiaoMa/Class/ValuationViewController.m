@@ -180,18 +180,14 @@
     }] subscribeNext:^(id x) {
         
         @strongify(self);
-        HKMyCar *defCar = [self.carStore defalutCar];
-        HKMyCar *car;
         self.dataSource = [self.carStore.cars allObjects];
-        self.selectCar = [self.carStore defalutCar];
+        self.selectCar = [[HKMyCar alloc] init];
         if ([event isEqualForName:@"addCar"] && event.object){
-            car = [self.carStore.cars objectForKey:event.object];
+            self.selectCar = [self.carStore.cars objectForKey:event.object];
         }
-        if (!car) {
-            car = defCar;
+        else {
+            self.selectCar = [self.dataSource safetyObjectAtIndex:0];
         }
-        self.selectCar = car;
-
         NSString * milesStr = [NSString formatForPrice:self.selectCar.odo / 10000.00];
         self.miles = [milesStr floatValue];
         self.modelId = self.selectCar.detailModel.modelid;
