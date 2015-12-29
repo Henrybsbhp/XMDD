@@ -1157,6 +1157,7 @@
 		4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondCarValuationVC.m; sourceTree = "<group>"; };
 		4EF94AF01C321D020092CB55 /* RescurecCommentsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescurecCommentsVC.m; sourceTree = "<group>"; };
 		4EF94AF11C321D020092CB55 /* RescureHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescureHistoryViewController.m; sourceTree = "<group>"; };
+		4EF94AF41C321EFD0092CB55 /* RescureHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescureHistoryViewController.h; sourceTree = "<group>"; };
 		50094B411C1144640069683C /* GetAreaInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetAreaInfoOp.h; path = Class/GetAreaInfoOp.h; sourceTree = "<group>"; };
 		50094B421C1144640069683C /* GetAreaInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAreaInfoOp.m; path = Class/GetAreaInfoOp.m; sourceTree = "<group>"; };
 		50094B441C117CE80069683C /* AreaTablePickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaTablePickerVC.h; sourceTree = "<group>"; };
@@ -3289,6 +3290,7 @@
 		6BB8CB871B141474007B61B5 /* Rescure */ = {
 			isa = PBXGroup;
 			children = (
+				4EF94AF41C321EFD0092CB55 /* RescureHistoryViewController.h */,
 				6BB8CB8C1B1416BB007B61B5 /* RescureViewController.h */,
 				6BB8CB8D1B1416BB007B61B5 /* RescureViewController.m */,
 				6BCF62421B15AF3E0064AE32 /* RescueCouponViewController.h */,

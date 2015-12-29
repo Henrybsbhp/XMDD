@@ -29,11 +29,12 @@
                 history.applyTime = dic[@"applytime"];
                 history.serviceName = dic[@"servicename"];
                 history.licenceNumber = dic[@"licencenumber"];
-                history.rescueStatus = dic[@"rescuestatus"];
-                history.commentStatus = dic[@"commentstatus"];
                 history.applyId = dic[@"applyid"];
-                history.type = dic[@"type"];
-                if ([history.type isEqual:@(0)]) {
+                history.rescueStatus = [dic integerParamForName:@"rescuestatus"];
+                history.commentStatus = [dic integerParamForName:@"commentstatus"];
+                history.type = [dic integerParamForName:@"type"];
+                
+                if (history.type == HKRescueAnnual) {
                     history.appointTime = dic[@"appointtime"];
                 }else {
                     history.appointTime = nil;
