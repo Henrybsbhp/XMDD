@@ -545,6 +545,7 @@
         GasCZBVM *model = (GasCZBVM *)self.curModel;
         if (!model.curBankCard) {
             [gToast showText:@"您需要先添加一张浙商汽车卡！" inView:self.view];
+            return;
         }
         else if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
             GasPayForCZBVC *vc = [UIStoryboard vcWithId:@"GasPayForCZBVC" inStoryboard:@"Gas"];
