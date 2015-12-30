@@ -85,7 +85,7 @@
 {
     RACSignal *signal;
     @weakify(self);
-    if (!self.insModel.simpleCar.carpremiumid) {
+    if ([self.insModel.simpleCar.carpremiumid integerValue] == 0) {
         GetInsBaseCarListOp *op = [GetInsBaseCarListOp operation];
         op.req_name = self.insModel.realName;
         op.req_licensenum = self.insModel.simpleCar.licenseno;
