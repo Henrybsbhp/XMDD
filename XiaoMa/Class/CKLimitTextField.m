@@ -40,6 +40,18 @@
     [self addTarget:_proxyObject action:@selector(actionTextDidChanged:) forControlEvents:UIControlEventEditingChanged];
 }
 
+- (void)setText:(NSString *)text {
+    BOOL isAtEnd = YES;
+    UITextPosition *pos = self.curCursorPosition;
+    if (self.isEditing) {
+        isAtEnd = [self comparePosition:self.curCursorPosition toPosition:self.endOfDocument] == NSOrderedSame;
+    }
+    [super setText:text];
+    
+    if (!isAtEnd && [self offsetFromPosition:pos toPosition:self.endOfDocument] > 0) {
+        self.selectedTextRange = [self textRangeFromPosition:pos toPosition:pos];
+    }
+}
 
 @end
 

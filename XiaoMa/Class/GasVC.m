@@ -540,6 +540,10 @@
     if (![LoginViewModel loginIfNeededForTargetViewController:self]) {
         return;
     }
+    if (!self.curModel.curGasCard) {
+        [gToast showText:@"您需要先添加一张油卡！" inView:self.view];
+        return;
+    }
     //浙商支付
     if ([self.curModel isEqual:self.czbModel]) {
         GasCZBVM *model = (GasCZBVM *)self.curModel;
@@ -556,10 +560,6 @@
             vc.model = model;
             [self.navigationController pushViewController:vc animated:YES];
         }
-    }
-    if (!self.curModel.curGasCard) {
-        [gToast showText:@"您需要先添加一张油卡！" inView:self.view];
-        return;
     }
     //普通支付
     else {
