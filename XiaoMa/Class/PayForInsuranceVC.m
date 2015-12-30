@@ -117,7 +117,7 @@
     self.licenseData.customInfo[@"url1"] = [NSURL URLWithString:kInsuranceLicenseUrl];
     if (self.insOrder.licenseUrl.length > 0) {
         NSString *license2 = self.insOrder.licenseName;
-        [license appendFormat:@"及%@", license2];
+        [license appendFormat:@"和%@", license2];
         self.licenseData.customInfo[@"range2"] = [NSValue valueWithRange:NSMakeRange(license.length-license2.length, license2.length)];
         self.licenseData.customInfo[@"url2"] = [NSURL URLWithString:self.insOrder.licenseUrl];
     }
