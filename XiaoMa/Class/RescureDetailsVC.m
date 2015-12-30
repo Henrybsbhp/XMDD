@@ -187,13 +187,13 @@
 - (void)setupADView
 {
     if (self.type == 1) {
-        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailer boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@""];
+        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailer boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp702-3"];
         [self.adctrl reloadDataForTableView:self.tableView];
     }else if (self.type == 2){
-        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailerPumpPower boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@""];
+        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailerPumpPower boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp703-3"];
         [self.adctrl reloadDataForTableView:self.tableView];
     }else if (self.type == 3){
-        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailerPumpPowerChangeTheTire boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@""];
+        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailerPumpPowerChangeTheTire boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp704-3"];
         [self.adctrl reloadDataForTableView:self.tableView];
     }
 }
