@@ -14,6 +14,7 @@
 #import "UIView+JTLoadingView.h"
 #import "RescueCancelHostcarOp.h"
 #import "HKTableViewCell.h"
+#import "HKLoadingModel.h"
 @interface RescureHistoryViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
@@ -46,15 +47,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     self.isRemain = YES;
     if (self.type == 1) {
         self.navigationItem.title = @"救援记录";
     }else {
         self.navigationItem.title = @"协办记录";
     }
-     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-         [self historyNetwork];
-     }
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        [self historyNetwork];
+    }
 }
 
 #pragma mark - network
@@ -124,7 +127,7 @@
     }else {
         
     }
-   
+    
     titleLb.text = history.serviceName;
     timeLb.text = [[NSDate dateWithUTS:history.applyTime] dateFormatForYYMMdd2];
     
@@ -342,5 +345,7 @@
         [self.tableView.bottomLoadingView showIndicatorTextWith:@"获取失败，再拉拉看"];
     }];
 }
+
+
 
 @end

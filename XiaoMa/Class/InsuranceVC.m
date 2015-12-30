@@ -172,7 +172,7 @@
             @strongify(self);
             [MobClick event:@"rp1002-2"];
             InsSimpleCar *car = obj;
-            if (car.status == 0 || !car.carpremiumid) {
+            if (car.status == 0 || [car.carpremiumid integerValue] == 0) {
                 [self actionInputOwnerNameForSimpleCar:car];
             }
             //核保记录
@@ -336,11 +336,10 @@
         [attstr appendAttributedString:[[NSAttributedString alloc] initWithString:statusdesc attributes:attr2]];
     }
     numberL.attributedText = attstr;
-#if DEBUG
-    rightB.hidden = car.status == 0 || car.status == 3;
-#else
     rightB.hidden = car.status != 1 && car.status != 2;
-#endif
+//#if DEBUG
+//    rightB.hidden = car.status == 0 || car.status == 3;
+//#endif
     [rightB setTitle:car.status == 1 ? @"核保结果" : @"重新核保" forState:UIControlStateNormal];
     @weakify(self);
     [[[rightB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
