@@ -42,15 +42,20 @@
     self.tableView.dataSource = nil;
     DebugLog(@"RescurecCommentsVC dealloc");
 }
-- (void)viewDidDisappear:(BOOL)animated {
-    
+
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp706"];
 }
-- (void)viewWillDisappear:(BOOL)animated {
-    
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp706"];
 }
-- (void)viewWillAppear:(BOOL)animated {
-    
-}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setImageAndLbText];

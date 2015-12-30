@@ -39,6 +39,18 @@
     DebugLog(@"RescureDetailsVC dealloc");
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp702"];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp702"];
+}
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -59,7 +71,7 @@
         /**
          *  免费券点击事件
          */
-        [MobClick event:@"rp701-2"];
+        [MobClick event:@"rp702-1"];
         RescueCouponViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueCouponViewController"];
         vc.type = self.type;
         [self.navigationController pushViewController:vc animated:YES];
