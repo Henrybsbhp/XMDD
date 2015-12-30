@@ -181,8 +181,9 @@
 
 - (void)dealloc
 {
-    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
-    DebugLog(deallocInfo);
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"AboutViewController dealloc");
 }
 
 - (void)didReceiveMemoryWarning {
@@ -319,6 +320,10 @@
 }
 
 - (IBAction)joinAction:(id)sender {
+    /**
+     *  商户加盟点击事件
+     */
+    [MobClick event:@"322-4"];
     JoinUsViewController * vc = [UIStoryboard vcWithId:@"JoinUsViewController" inStoryboard:@"About"];
     [self.navigationController pushViewController:vc animated:YES];
 }

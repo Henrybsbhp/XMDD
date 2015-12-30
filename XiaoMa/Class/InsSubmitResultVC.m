@@ -23,6 +23,13 @@
 
 @implementation InsSubmitResultVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"InsSubmitResultVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -33,6 +40,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 #pragma mark - Datasource
 - (void)reloadData {
@@ -71,6 +80,7 @@
 }
 
 - (IBAction)actionOrder:(id)sender {
+    
     InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
     vc.orderID = self.insOrderID;
     [self.navigationController pushViewController:vc animated:YES];

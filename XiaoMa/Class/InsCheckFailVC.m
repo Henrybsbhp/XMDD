@@ -19,6 +19,13 @@
 
 @implementation InsCheckFailVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"InsCheckFailVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -33,6 +40,7 @@
 #pragma mark - Action
 - (IBAction)actionMakeCall:(id)sender
 {
+    
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"客服电话: 4007-111-111"];
 }
 

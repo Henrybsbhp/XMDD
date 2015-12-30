@@ -50,6 +50,32 @@
     return self.signal;
 }
 
+- (RACSignal *)sendAndIgnoreError
+{
+    RACSignal *signal = self.signal;
+    [[CKDispatcher sharedDispatcher] sendEvent:[self mapSignal:^RACSignal *(RACSignal *signal) {
+        return [signal catch:^RACSignal *(NSError *error) {
+            return [RACSignal empty];
+        }];
+    }]];
+    return signal;
+}
+
+- (BOOL)isEqualForAnyoneOfNames:(NSArray *)names
+{
+    return [names firstObjectByFilteringOperator:^BOOL(NSString *name) {
+        return [self.name isEqualToString:name];
+    }];
+}
+
+- (BOOL)isEqualForName:(NSString *)name
+{
+    if ([self.name isEqualToString:name]) {
+        return YES;
+    }
+    return NO;
+}
+
 @end
 
 @implementation RACSignal (CKEvent)

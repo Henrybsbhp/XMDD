@@ -37,6 +37,10 @@
 
 //省钱攻略
 - (void)rescueHistory {
+    /**
+     *  省钱攻略点击事件
+     */
+    [MobClick event:@"rp708-1"];
     WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
     vc.title = @"省钱攻略";
     vc.url = kMoneySavingStrategiesUrl;
@@ -49,9 +53,11 @@
 
 - (void)dealloc
 {
-    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
-    DebugLog(deallocInfo);
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"RescureViewController dealloc!");
 }
+
 #pragma mark - HKLoadingModelDelegate
 - (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
 {

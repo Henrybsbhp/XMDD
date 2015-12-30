@@ -92,12 +92,17 @@
 
 - (CKEvent *)inlineEvent:(CKEvent *)event forDomain:(NSString *)domain
 {
+    return [self inlineEvent:event forDomainList:@[domain]];
+}
+
+- (CKEvent *)inlineEvent:(CKEvent *)event forDomainList:(NSArray *)domains
+{
     if (![self.eventDict objectForKey:event.name]) {
         [self.eventDict setObject:@YES forKey:event.name];
         @weakify(self);
         [self observeEventForName:event.name handler:^(CKEvent *event) {
             @strongify(self);
-            [self triggerEvent:event forDomain:domain];
+            [self triggerEvent:event forDomainList:domains];
         }];
     }
     return event;
@@ -116,6 +121,13 @@
         if (block) {
             block(self, event);
         }
+    }
+}
+
+- (void)triggerEvent:(CKEvent *)event forDomainList:(NSArray *)domains
+{
+    for (NSString *domain in domains) {
+        [self triggerEvent:event forDomain:domain];
     }
 }
 

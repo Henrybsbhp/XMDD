@@ -22,17 +22,16 @@
 #import "NSString+RectSize.m"
 #define kWidth [UIScreen mainScreen].bounds.size.width
 @interface RescureHomeViewController ()<UITableViewDelegate, UITableViewDataSource>
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIView *bottomView;
-@property (weak, nonatomic) IBOutlet UILabel *addressLb;
+@property (weak, nonatomic) IBOutlet UITableView    * tableView;
+@property (weak, nonatomic) IBOutlet UIView         * bottomView;
+@property (weak, nonatomic) IBOutlet UILabel        * addressLb;
 @property (nonatomic, strong) UIView        * headerView;
 @property (nonatomic, strong) UIImageView   * backgroundImage;
 @property (nonatomic, strong) UIButton      * phoneHelperBtn;
 @property (nonatomic ,strong) UIButton      * historyBtn;
-@property (nonatomic, strong) ADViewController *adctrl;
-
-@property (nonatomic, strong) NSMutableArray *datasourceArray;
-@property (nonatomic, strong) NSMutableArray *desArray;
+@property (nonatomic, strong) ADViewController  * adctrl;
+@property (nonatomic, strong) NSMutableArray    * datasourceArray;
+@property (nonatomic, strong) NSMutableArray    * desArray;
 @end
 
 @implementation RescureHomeViewController
@@ -72,13 +71,11 @@
 - (void)actionFirstEnterNetwork {
     if (gAppMgr.myUser != nil) {//已登录
         GetRescueOp *op = [GetRescueOp operation];
-        
         [[[[op rac_postRequest] initially:^{
             [self.view hideDefaultEmptyView];
             [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         }] finally:^{
             [self.view stopActivityAnimation];
-            
         }] subscribeNext:^(GetRescueOp *op) {
             [self.view stopActivityAnimation];
             [self.datasourceArray safetyAddObjectsFromArray:op.req_resceuArray];
@@ -92,7 +89,7 @@
             }
             [self.tableView reloadData];
         } error:^(NSError *error) {
-            
+
         }] ;
         
     }else {//未登录
@@ -101,8 +98,10 @@
             [self.view hideDefaultEmptyView];
             [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         }] finally:^{
-             [self.view stopActivityAnimation];
+            [self.view stopActivityAnimation];
         }] subscribeNext:^(GetRescueNoLoginOp *op) {
+
+
             [self.datasourceArray safetyAddObjectsFromArray:op.req_resceuArray];
             NSString *tempStr;
             NSString *lastStr;
@@ -113,24 +112,28 @@
             }
             [self.tableView reloadData];
         } error:^(NSError *error) {
+            
         }] ;
     }
 }
 
 - (void)actionPhoneHelper:(UIButton *)sender {
-    
+    /**
+     *  一键救援事件
+     */
+    [MobClick event:@"rp701-2"];
     if (gAppMgr.myUser != nil) {
         RescueApplyOp *op = [RescueApplyOp operation];
         op.address = self.addressLb.text;
         op.longitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.longitude];
         op.latitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.latitude];
-       
+        
         [[[[op rac_postRequest] initially:^{
             
         }] finally:^{
             
         }] subscribeNext:^(RescueApplyOp *op) {
-
+            
         } error:^(NSError *error) {
             
         }] ;
@@ -144,6 +147,10 @@
 }
 
 - (void)actionRescueHistory {
+    /**
+     *  救援记录事件
+     */
+    [MobClick event:@"rp701-1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         RescureHistoryViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureHistoryViewController"];
         vc.type = 1;
@@ -152,9 +159,13 @@
 }
 
 - (IBAction)refreshClick:(UIButton *)sender {
-    
+
+    /**
+     *  更新定位事件
+     */
+    [MobClick event:@"rp701-6"];
     [[[gMapHelper rac_getInvertGeoInfo] initially:^{
-         self.addressLb.hidden = YES;
+        self.addressLb.hidden = YES;
     }]
      subscribeNext:^(AMapReGeocode * getInfo) {
          self.addressLb.hidden = NO;
@@ -195,8 +206,8 @@
              default:
              {
                  
-                self.addressLb.text = @"获取位置失败, 请尝试\"刷新\"";
-                break;
+                 self.addressLb.text = @"获取位置失败, 请尝试\"刷新\"";
+                 break;
              }
          }
          
@@ -240,7 +251,6 @@
         numberLb.text = [NSString stringWithFormat:@"%@", rescue.serviceCount];
         
         if ([rescue.serviceCount integerValue] == 0) {
-            
             numberLb.hidden = YES;
             remainingLb.hidden = YES;
             tempLb.hidden = YES;
@@ -250,7 +260,7 @@
             tempLb.hidden = NO;
         }
         if (self.desArray.count != 0) {
-             [conditionsLb setAttributedText:[self attributedStringforHeight:[self.desArray safetyObjectAtIndex:indexPath.row]]];
+            [conditionsLb setAttributedText:[self attributedStringforHeight:[self.desArray safetyObjectAtIndex:indexPath.row]]];
         }
         
     }else {
@@ -258,7 +268,9 @@
         nameLb.text = noLogin.serviceName;
         priceLb.text = [NSString stringWithFormat:@"￥%@", noLogin.amount];
         if (self.desArray.count != 0) {
-             [conditionsLb setAttributedText:[self attributedStringforHeight:[self.desArray safetyObjectAtIndex:indexPath.row]]];
+            [conditionsLb setAttributedText:[self attributedStringforHeight:[self.desArray safetyObjectAtIndex:indexPath.row]]];
+        }else{
+            
         }
         numberLb.hidden = YES;
         remainingLb.hidden = YES;
@@ -294,17 +306,34 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if (gAppMgr.myUser != nil) {
+        /**
+         *  三种救援点击事件
+         */
+        switch (indexPath.row)
+        {
+            case 0:
+                [MobClick event:@"rp701-3"];
+                break;
+            case 1:
+                [MobClick event:@"rp701-4"];
+                break;
+            default:
+                [MobClick event:@"rp701-5"];
+                break;
+        }
         HKRescue *rescue = self.datasourceArray[indexPath.row];
         RescureDetailsVC *vc = [UIStoryboard vcWithId:@"RescureDetailsVC" inStoryboard:@"Rescue"];
-        vc.type = indexPath.row + 1;
+        vc.type = rescue.type;
+        
         vc.titleStr = rescue.serviceName;
         [self.navigationController pushViewController:vc animated:YES];
         
     }else {
         HKRescueNoLogin *noLogin = self.datasourceArray[indexPath.row];
         RescureDetailsVC *vc = [UIStoryboard vcWithId:@"RescureDetailsVC" inStoryboard:@"Rescue"];
-        vc.type = indexPath.row + 1;
+        vc.type = noLogin.type;
         vc.titleStr = noLogin.serviceName;
         [self.navigationController pushViewController:vc animated:YES];
         

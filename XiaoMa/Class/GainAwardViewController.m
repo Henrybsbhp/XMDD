@@ -47,6 +47,8 @@
 
 - (void)dealloc
 {
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
     DebugLog(@"GainAwardViewController dealloc");
 }
 
@@ -250,14 +252,28 @@
     [resultSheet presentAnimated:YES completionHandler:nil];
     
     [[otherVC.carwashBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
+        /**
+         *  去洗车点击事件
+         */
+        [MobClick event:@"rp402-3"];
         [resultSheet dismissAnimated:YES completionHandler:nil];
         CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
         [self.navigationController pushViewController:vc animated:YES];
     }];
     
     [[otherVC.closeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
+        /**
+         *  取消按钮点击事件
+         */
+        if(otherVC.sheetType == AwardSheetTypeSuccess)
+        {
+            [MobClick event:@"rp402-4"];
+            
+        }
+        else if(otherVC.sheetType == AwardSheetTypeCancel)
+        {
+            [MobClick event:@"rp402-5"];
+        }
         [resultSheet dismissAnimated:YES completionHandler:nil];
     }];
 }

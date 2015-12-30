@@ -31,6 +31,13 @@
 
 @implementation BindBankCardVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"BindBankCardVC dealloc!");
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -144,7 +151,7 @@
             BankCardStore *store = [BankCardStore fetchExistsStore];
             [store sendEvent:[store getAllBankCards]];
             MyCarStore *carStore = [MyCarStore fetchExistsStore];
-            [carStore sendEvent:[carStore getAllCars]];
+            [[carStore getAllCars] send];
             [self postCustomNotificationName:kNotifyRefreshMyBankcardList object:nil];
             if (self.finishAction)
             {

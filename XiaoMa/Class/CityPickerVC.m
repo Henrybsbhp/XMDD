@@ -36,6 +36,13 @@ typedef NS_ENUM(NSInteger, LocateState) {
     return vc;
 }
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"CityPickerVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

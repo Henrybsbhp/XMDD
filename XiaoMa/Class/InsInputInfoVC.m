@@ -42,6 +42,13 @@
     }
 }
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"InsInputInfoVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -49,6 +56,12 @@
     CKAsyncMainQueue(^{
         [self loadDataAsync];
     });
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -172,6 +185,7 @@
     }];
     @weakify(self);
     [helpCell setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+        
         @strongify(self);
         InsuranceInfoSubmitingVC *vc = [UIStoryboard vcWithId:@"InsuranceInfoSubmitingVC" inStoryboard:@"Insurance"];
         vc.insModel = self.insModel;
@@ -196,6 +210,7 @@
 
 - (IBAction)actionNext:(id)sender
 {
+    
     AddInsCarBaseInfoOp *op = [AddInsCarBaseInfoOp operation];
     op.req_city = [[self.datasource safetyObjectAtIndex:1] customInfo][@"city"];
     op.req_regdate = [[self.datasource safetyObjectAtIndex:1] customInfo][@"date"];
@@ -244,7 +259,7 @@
             //更新当前保险车辆信息（id和status）
             self.insModel.simpleCar.carpremiumid = op.rsp_carpremiumid;
             self.insModel.simpleCar.status = 3;
-            [[InsuranceStore fetchExistsStore] updateSimpleCar:self.insModel.simpleCar];
+            [[[InsuranceStore fetchExistsStore] getInsSimpleCars] sendAndIgnoreError];
             
             //跳转到险种选择页面
             InsCoverageSelectVC *vc = [UIStoryboard vcWithId:@"InsCoverageSelectVC" inStoryboard:@"Insurance"];
@@ -359,7 +374,7 @@
          [self.view endEditing:YES];
          return [self rac_pickDateWithNow:data.customInfo[@"date"]];
      }] subscribeNext:^(NSString *datetext) {
-        
+         
          data.customInfo[@"date"] = datetext;
          dateInput.inputField.text = datetext;
      }];

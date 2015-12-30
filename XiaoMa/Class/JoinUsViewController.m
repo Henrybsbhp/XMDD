@@ -31,6 +31,13 @@
 
 @implementation JoinUsViewController
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"JoinUsViewController dealloc!");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -116,6 +123,10 @@
 }
 
 - (IBAction)applyAction:(id)sender {
+    /**
+     *  申请加盟点击事件
+     */
+    [MobClick event:@"rp333-1"];
     if (self.phoneField.text.length != 11) {
         [self shakeCellAtIndex:0];
         return;
@@ -164,7 +175,4 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)dealloc {
-    DebugLog(@"dealloc~~");
-}
 @end

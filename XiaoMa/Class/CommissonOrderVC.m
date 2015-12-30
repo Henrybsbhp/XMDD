@@ -14,7 +14,6 @@
 #import "LoginViewModel.h"
 #import "GetStartHostCarOp.h"
 #import "MyCarStore.h"
-#import "CKStore.h"
 #import "EditCarVC.h"
 #import "UIView+DefaultEmptyView.h"
 #import "UIView+JTLoadingView.h"
@@ -30,7 +29,6 @@
 @property (nonatomic, strong) NSArray       * carNumberArray;
 @property (nonatomic, strong) UIImageView   * advertisingImg;
 @property (nonatomic, strong) UIView        * footerView;
-@property (nonatomic, strong) UIButton      * helperBtn;
 @property (nonatomic, strong) UIButton      * historyBtn;
 @property (nonatomic, copy)   NSString      * testStr;
 @property (nonatomic, strong) NSMutableArray * dataSourceArray;
@@ -47,24 +45,29 @@
 }
 
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
-
     
-    
-    
-    if ( [LoginViewModel loginIfNeededForTargetViewController:self]) {
+    if (gAppMgr.myUser != nil) {
         [self actionNetwork];
         [self setupCarStore];
-        
-       // [self.view addSubview:self.helperBtn];
-    };
+    }else {
+        [self actionNetwork];
+    }
+    
+    [RACObserve(gAppMgr, myUser)subscribeNext:^(JTUser *user) {
+        if (user != nil) {
+            [self setupCarStore];
+        }
+    }];
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.historyBtn];
 }
 
 #pragma mark - Action
-
-- (void)actionCommissionClick {
+- (IBAction)actionCommission:(UIButton *)sender {
+    
+    [MobClick event:@"rp801-2"];
+    
     if (gAppMgr.myUser != nil) {
         if (self.carStore.allCars.count != 0) {
             [self actionCommissionNetwork];
@@ -90,6 +93,7 @@
     }
 }
 
+
 - (void)actionCommissionNetwork{
     GetStartHostCarOp *op = [GetStartHostCarOp operation];
     [[[[op rac_postRequest] initially:^{
@@ -102,7 +106,7 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
         
-    } error:^(NSError *error) {        
+    } error:^(NSError *error) {
         if (error.code == 611139001) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有救援券哦!\n点击省钱攻略,此等优惠岂能错过" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
             [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
@@ -112,10 +116,10 @@
                     vc.title = @"省钱攻略";
                     vc.url = kMoneySavingStrategiesUrl;
                     [self.navigationController pushViewController:vc animated:YES];                }else{
-                    
-                }
+                        
+                    }
             }];
-
+            
             [alert show];
         }
     }];
@@ -138,7 +142,6 @@
         
         NSString *string = [NSString stringWithFormat:@"● %@", [self.dataSourceArray safetyObjectAtIndex:0]];
         [self.dataSourceArray safetyReplaceObjectAtIndex:0 withObject:string];
-        self.helperBtn.hidden = NO;
         self.tableView.tableHeaderView = self.advertisingImg;
         self.tableView.tableFooterView = self.footerView;
         [self.tableView reloadData];
@@ -153,16 +156,20 @@
 }
 
 - (void)commissionHistory {
-    RescureHistoryViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureHistoryViewController"];
-    vc.type = 2;
-    [self.navigationController pushViewController:vc animated:YES];
+    [MobClick event:@"rp801-1"];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        RescureHistoryViewController *vc  =[rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureHistoryViewController"];
+        vc.type = 2;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (void)setupCarStore
 {
-    self.carStore = [MyCarStore fetchExistsStore];
+    self.carStore = [MyCarStore fetchOrCreateStore];
     @weakify(self);
-    [self.carStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
+    [self.carStore subscribeWithTarget:self domain:@"cars" receiver:^(CKStore *store, CKEvent *evt) {
+        
         @strongify(self);
         [[evt signal] subscribeNext:^(id x) {
             @strongify(self);
@@ -173,7 +180,7 @@
             }
         }];
     }];
-    [self.carStore sendEvent:[self.carStore getAllCarsIfNeeded]];
+    [[self.carStore getAllCarsIfNeeded] send];
 }
 
 
@@ -187,16 +194,16 @@
     
     HKTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RescureDetailsVC" forIndexPath:indexPath];
     if (indexPath.row != 0) {
-        [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsMake(0, 0, -1, 0)];
+        [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsMake(- 1, 0, 0, 0)];
     }
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 0, 7, 0)];
     if (indexPath.row == self.dataSourceArray.count - 1) {
         cell.contentView.backgroundColor = [UIColor whiteColor];
     }
-    UILabel *titleLb = (UILabel *)[cell searchViewWithTag:1000];
-    UILabel *detailLb = (UILabel *)[cell searchViewWithTag:1001];
-    UIView  *topView = (UIView *)[cell searchViewWithTag:1004];
-    UIView  *lineView  = (UIView *)[cell searchViewWithTag:1005];
+    UILabel * titleLb  = (UILabel *)[cell searchViewWithTag:1000];
+    UILabel * detailLb = (UILabel *)[cell searchViewWithTag:1001];
+    UIView  * topView  = (UIView *) [cell searchViewWithTag:1004];
+    UIView  * lineView = (UIView *) [cell searchViewWithTag:1005];
     if (indexPath.row == 0) {
         topView.hidden = YES;
     }else if (indexPath.row == 2) {
@@ -256,31 +263,6 @@
     return _dataSourceArray;
 }
 
-
-- (UIButton *)helperBtn {
-    if (!_helperBtn) {
-        
-        self.helperBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-//        _helperBtn.frame = CGRectMake(10, self.view.bounds.size.height - (kWidth- 20) * 0.13 - 7 - 64 , kWidth  - 20, (kWidth- 20) * 0.13);
-        
-        [self.view addSubview:self.helperBtn];
-        [_helperBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            make.left.mas_equalTo(self.view).offset(10);
-            make.right.mas_equalTo(self.view).offset(-10);
-            make.bottom.mas_equalTo(self.view).offset(- 5);
-             make.height.equalTo(self.view).multipliedBy(0.08);;
-        }];
-        [_helperBtn setTitle:@"我要协办" forState:UIControlStateNormal];
-        [_helperBtn addTarget:self action:@selector(actionCommissionClick) forControlEvents:UIControlEventTouchUpInside];
-        [_helperBtn setTintColor:[UIColor whiteColor]];
-        _helperBtn.hidden = YES;
-        _helperBtn.backgroundColor = [UIColor colorWithHex:@"#35cb68" alpha:1];
-        _helperBtn.cornerRadius = 4;
-        _helperBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
-    }
-    return _helperBtn;
-}
 - (UIButton *)historyBtn {
     if (!_historyBtn) {
         self.historyBtn = [UIButton buttonWithType:UIButtonTypeSystem];

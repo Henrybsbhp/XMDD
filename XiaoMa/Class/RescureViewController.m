@@ -15,6 +15,11 @@
 
 @implementation RescureViewController
 
+- (void)dealloc
+{
+    DebugLog(@"RescureViewController dealloc!");
+}
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];

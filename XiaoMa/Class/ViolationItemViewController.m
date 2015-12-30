@@ -47,6 +47,8 @@
 
 - (void)dealloc
 {
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
     DebugLog(@"ViolationItemViewController dealloc");
 }
 
@@ -164,7 +166,7 @@
         [dict safetySetObject:self.model.engineno forKey:@"no"];
         [tArray safetyAddObject:dict];
     }
-
+    
     self.infoArray = [NSArray arrayWithArray:tArray];
 }
 
@@ -398,7 +400,7 @@
         
         
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
-
+        
     } error:^(NSError *error) {
         
         self.tempCityName = self.model.cityInfo.cityName;
@@ -524,7 +526,7 @@
         {
             HKViolation * violation = [self.model.violationArray safetyObjectAtIndex:indexPath.row - 1];
             
-//            if (!violation.customTag)
+            //            if (!violation.customTag)
             {
                 CGFloat width1 = gAppMgr.deviceInfo.screenSize.width - 60;
                 CGSize size1 = [violation.violationArea labelSizeWithWidth:width1 font:[UIFont systemFontOfSize:12]];
@@ -533,9 +535,9 @@
                 CGSize size2 = [violation.violationAct labelSizeWithWidth:width2 font:[UIFont systemFontOfSize:15]];
                 
                 height = 63 + size1.height + 16 + size2.height + 14;
-//                violation.customTag = height;
+                //                violation.customTag = height;
             }
-//            height = violation.customTag;
+            //            height = violation.customTag;
         }
     }
     return height;
@@ -696,6 +698,10 @@
     UITableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
     if ([cell.reuseIdentifier  isEqualToString:@"AddCarCell"])
     {
+        /**
+         *  添加车辆点击事件
+         */
+        [MobClick event:@"rp901-1"];
         EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -748,7 +754,10 @@
     
     
     [[[RACObserve(self,tempCityName) distinctUntilChanged] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString * city) {
-        
+        /**
+         *  行驶城市点击事件
+         */
+        [MobClick event:@"rp901-3"];
         [cityBtn setTitle:city forState:UIControlStateNormal];
     }];
     // 城市点击区域
@@ -792,7 +801,10 @@
     
     @weakify(field);
     [[field rac_textSignal] subscribeNext:^(id x) {
-        
+        /**
+         *  发动机号点击事件
+         */
+        [MobClick event:@"rp901-4"];
         @strongify(field)
         field.text = [field.text uppercaseString];
         
@@ -847,7 +859,7 @@
             }
         }
     }
-
+    
     
     @weakify(self)
     [[[queryBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -855,10 +867,18 @@
         @strongify(self)
         if (!self.isQuerying)
         {
+            /**
+             *  查询按钮点击事件
+             */
+            [MobClick event:@"rp901-2"];
             [self queryAction];
         }
         else
         {
+            /**
+             *  更新违章点击事件
+             */
+            [MobClick event:@"rp901-6"];
             [gToast showText:@"小马达达正在努力查询中\n请别着急"];
         }
     }];
@@ -876,7 +896,7 @@
     {
         subtitleLb.text = @"暂无更新信息";
     }
-
+    
     return cell;
 }
 
@@ -899,10 +919,10 @@
     
     ///罚款icon
     UIImageView * moneyImgV = (UIImageView *)[cell searchViewWithTag:107];
-
+    
     ///罚分icon
     UIImageView * fenImgV = (UIImageView *)[cell searchViewWithTag:108];
-
+    
     ///罚款标志
     UILabel * moneyLb = (UILabel *)[cell searchViewWithTag:101];
     moneyLb.text = violation.violationMoney.length ? violation.violationMoney : @"未知";
@@ -913,7 +933,7 @@
     
     ///处理情况图标
     UIImageView * handleIcon = (UIImageView *)[cell searchViewWithTag:103];
-
+    
     ///时间标志
     UILabel * whenLb = (UILabel *)[cell searchViewWithTag:104];
     whenLb.text = violation.violationDate;
@@ -942,7 +962,7 @@
         moneyLb.textColor = [UIColor colorWithHex:@"#ffa800" alpha:1.0f];
         fenLb.textColor = [UIColor colorWithHex:@"#ffa800" alpha:1.0f];
     }
-
+    
     
     return cell;
 }

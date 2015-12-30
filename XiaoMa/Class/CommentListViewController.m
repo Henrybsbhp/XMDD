@@ -57,8 +57,9 @@
 
 - (void)dealloc
 {
-    NSString * deallocInfo = [NSString stringWithFormat:@"%@ parse error~~",NSStringFromClass([self class])];
-    DebugLog(deallocInfo);
+    self.jtTableView.delegate = nil;
+    self.jtTableView.dataSource = nil;
+    DebugLog(@"CommentListViewController dealloc");
 }
 
 - (void)viewWillAppear:(BOOL)animated

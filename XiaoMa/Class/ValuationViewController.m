@@ -8,7 +8,7 @@
 
 #import "ValuationViewController.h"
 #import "AreaTablePickerVC.h"
-#import <JT3DScrollView.h>
+#import "JT3DScrollView.h"
 #import "CarValuationSubView.h"
 #import "HKSubscriptInputField.h"
 #import "MyCarStore.h"
@@ -84,7 +84,7 @@
         
         @strongify(self);
         if (gAppMgr.myUser.userID) {
-            [self.carStore sendEvent:[self.carStore getAllCars]];
+            [[self.carStore getAllCars] send];
         }
     }];
 }
@@ -113,8 +113,11 @@
 {
     CKAsyncMainQueue(^{
         //测试有广告的情况
+        /**
+         *  点击广告事件
+         */
         self.advc  =[ADViewController vcWithADType:AdvertisementValuation boundsWidth:self.view.bounds.size.width
-                                          targetVC:self mobBaseEvent:@"rp314-1"];
+                                          targetVC:self mobBaseEvent:@"rp601-5.1"];
         [self.advc reloadDataForTableView:self.tableView];
     });
 }
@@ -151,15 +154,16 @@
 {
     @weakify(self);
     self.carStore = [MyCarStore fetchOrCreateStore];
-    [self.carStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
+    [self.carStore subscribeWithTarget:self domain:@"cars" receiver:^(CKStore *store, CKEvent *evt) {
+
         @strongify(self);
         [self reloadDataWithEvent:evt];
     }];
 }
 
-- (void)reloadDataWithEvent:(HKStoreEvent *)evt
+- (void)reloadDataWithEvent:(CKEvent *)evt
 {
-    NSInteger code = evt.code;
+    CKEvent *event = evt;
     @weakify(self);
     [[[[evt.signal deliverOn:[RACScheduler mainThreadScheduler]] initially:^{
         
@@ -176,13 +180,13 @@
     }] subscribeNext:^(id x) {
         
         @strongify(self);
-        self.dataSource = [self.carStore.cache allObjects];
+        self.dataSource = [self.carStore.cars allObjects];
         self.selectCar = [[HKMyCar alloc] init];
-        if (code == kHKStoreEventGet || code == kHKStoreEventReload) {
-            self.selectCar = [self.dataSource safetyObjectAtIndex:0];
+        if ([event isEqualForName:@"addCar"] && event.object){
+            self.selectCar = [self.carStore.cars objectForKey:event.object];
         }
-        else if (code == kHKStoreEventAdd){
-            self.selectCar = [self.dataSource safetyObjectAtIndex:(self.dataSource.count - 1)];
+        else {
+            self.selectCar = [self.dataSource safetyObjectAtIndex:self.carIndex];
         }
         NSString * milesStr = [NSString formatForPrice:self.selectCar.odo / 10000.00];
         self.miles = [milesStr floatValue];
@@ -335,6 +339,10 @@
         
         [view setAddCarClickBlock:^{
             @strongify(self);
+            /**
+             *  添加评估车辆
+             */
+            [MobClick event:@"rp601-3"];
             if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
                 self.carIndex = self.dataSource.count;
                 EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
@@ -352,7 +360,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
+    if (indexPath.row == 0)
+    {
+        /**
+         *  定位事件
+         */
+        [MobClick event:@"rp601-2"];
         AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCity fromVC:self];
         @weakify(self);
         [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * districtModel) {
@@ -424,7 +437,10 @@
 }
 
 - (IBAction)evaluationAction:(id)sender {
-    
+    /**
+     *  估值事件
+     */
+    [MobClick event:@"rp601-4"];
     [self.view endEditing:YES];
     
     if (![self.selectCar isKindOfClass:[HKMyCar class]]) {
@@ -465,6 +481,7 @@
         
         @strongify(self);
         [gToast dismiss];
+        [[self.carStore getAllCars] send];
         ValuationResultVC * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"ValuationResultVC"];
         vc.evaluateOp = op;
         vc.logoUrl = self.selectCar.brandLogo;
@@ -488,6 +505,10 @@
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)goToHistoryVC:(id)sender {
+    /**
+     *  历史记录事件
+     */
+    [MobClick event:@"rp601-1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         HistoryCollectionVC *historyVC=[UIStoryboard vcWithId:@"HistoryCollectionVC" inStoryboard:@"Valuation"];
         [self.navigationController pushViewController:historyVC animated:YES];

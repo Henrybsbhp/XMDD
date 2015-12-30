@@ -25,7 +25,6 @@
 @property (nonatomic, strong) UIView        * headerView;
 @property (nonatomic, strong) UIImageView   * advertisingImg;
 @property (nonatomic, strong) UIView        * footerView;
-@property (nonatomic, strong) UIButton      * helperBtn;
 @property (nonatomic, strong) UIButton      * freeBtn;
 @property (nonatomic, copy)   NSString      * testStr;
 @property (nonatomic, strong) NSMutableArray * dataSourceArray;
@@ -45,7 +44,6 @@
     [super viewDidLoad];
     
     [self actionFirstEnter];
-    [self.view addSubview:self.helperBtn];
     self.tableView.tableFooterView = self.footerView;
     [self setupADView];
     self.navigationItem.title = self.titleStr;
@@ -56,8 +54,12 @@
 #pragma mark - Action
 
 - (void)actionRescueHistory {
+    
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        [MobClick event:@"rp101-5"];
+        /**
+         *  免费券点击事件
+         */
+        [MobClick event:@"rp701-2"];
         RescueCouponViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueCouponViewController"];
         vc.type = self.type;
         [self.navigationController pushViewController:vc animated:YES];
@@ -93,12 +95,17 @@
     }] ;
 }
 
-- (void)actionPhoneHelper{
-    [MobClick event:@"rp128"];
+
+///申请救援点击事件
+- (IBAction)actionResource:(UIButton *)sender {
+    [MobClick event:@"rp702-2"];
     if (gAppMgr.myUser != nil) {
         RescueApplyOp *op = [RescueApplyOp operation];
         op.longitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.longitude];
         op.latitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.latitude];
+        NSString *tempAdd = [NSString stringWithFormat:@"%@%@%@%@%@", gMapHelper.addrComponent.province,gMapHelper.addrComponent.city, gMapHelper.addrComponent.district, gMapHelper.addrComponent.street,gMapHelper.addrComponent.number];
+        op.address = [tempAdd stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+        
         [[[[op rac_postRequest] initially:^{
         }] finally:^{
             
@@ -178,7 +185,7 @@
     CGFloat width = kWidth - 30;
     CGSize size = [str labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
     CGFloat height;
-    height = size.height + 66;
+    height = size.height + 68;
     return height;
 }
 
@@ -207,29 +214,6 @@
         self.dataSourceArray = [@[] mutableCopy];
     }
     return _dataSourceArray;
-}
-
-
-- (UIButton *)helperBtn {
-    if (!_helperBtn) {
-        self.helperBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-        [self.view addSubview:self.helperBtn];
-
-        [_helperBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(self.view).offset(10);
-            make.right.mas_equalTo(self.view).offset(-10);
-            make.bottom.mas_equalTo(self.view).offset(- 5);
-            make.height.equalTo(self.view).multipliedBy(0.08);;
-        }];
-        
-        [_helperBtn setTitle:@"申请救援" forState:UIControlStateNormal];
-        [_helperBtn addTarget:self action:@selector(actionPhoneHelper) forControlEvents:UIControlEventTouchUpInside];
-        [_helperBtn setTintColor:[UIColor whiteColor]];
-        _helperBtn.backgroundColor = [UIColor colorWithHex:@"#fe4a00" alpha:1];
-        _helperBtn.cornerRadius = 4;
-        _helperBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
-    }
-    return _helperBtn;
 }
 
 - (UIButton *)freeBtn {

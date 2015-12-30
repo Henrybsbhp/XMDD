@@ -35,6 +35,13 @@
 
 @implementation CouponDetailsVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"CouponDetailsVC dealloc!");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     

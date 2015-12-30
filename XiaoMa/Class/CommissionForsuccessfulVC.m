@@ -9,11 +9,17 @@
 #import "CommissionForsuccessfulVC.h"
 #import "CommissonOrderVC.h"
 @interface CommissionForsuccessfulVC ()
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
 @implementation CommissionForsuccessfulVC
-
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"CommissionForsuccessfulVC dealloc");
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -55,6 +61,10 @@
 
         
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            /**
+             *  联系客服事件
+             */
+            [MobClick event:@"rp803-1"];
             NSString * number = @"4007111111";
             [gPhoneHelper makePhone:number andInfo:@"客服电话: 4007-111-111"];
         }];

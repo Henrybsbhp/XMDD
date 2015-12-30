@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class ADViewController;
 @interface RescureDetailsVC : UIViewController
-@property (nonatomic, assign) NSInteger type;
-@property (nonatomic, copy)   NSString  *titleStr;
-@property (nonatomic, strong) ADViewController *adctrl;
+@property (nonatomic, assign) NSInteger           type;//救援类型
+@property (nonatomic, copy)   NSString          * titleStr;
+@property (nonatomic, strong) ADViewController  * adctrl;
 @end

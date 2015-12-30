@@ -358,13 +358,13 @@ IQ_LoadCategory(IQUIViewToolbar)
 	}
 	else
 	{
-//        #pragma GCC diagnostic push
-//        #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-//		//  Create a next/previous button to switch between TextFieldViews.
-//		IQSegmentedNextPrevious *segControl = [[IQSegmentedNextPrevious alloc] initWithTarget:target previousAction:previousAction nextAction:nextAction];
-//        #pragma GCC diagnostic pop
-//		IQBarButtonItem *segButton = [[IQBarButtonItem alloc] initWithCustomView:segControl];
-//		[items addObject:segButton];
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+		//  Create a next/previous button to switch between TextFieldViews.
+		IQSegmentedNextPrevious *segControl = [[IQSegmentedNextPrevious alloc] initWithTarget:target previousAction:previousAction nextAction:nextAction];
+        #pragma GCC diagnostic pop
+		IQBarButtonItem *segButton = [[IQBarButtonItem alloc] initWithCustomView:segControl];
+		[items addObject:segButton];
 	}
 	
     if ([titleText length] && self.shouldHideTitle == NO)

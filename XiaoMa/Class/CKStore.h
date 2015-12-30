@@ -20,9 +20,11 @@
 - (void)observeEventForName:(NSString *)name handler:(void(^)(CKEvent *))handler;
 - (CKEvent *)inlineEvent:(CKEvent *)event;
 - (CKEvent *)inlineEvent:(CKEvent *)event forDomain:(NSString *)domain;
+- (CKEvent *)inlineEvent:(CKEvent *)event forDomainList:(NSArray *)domains;
 ///trigger方法用于对外触发经过Store处理的事件
 - (void)triggerEvent:(CKEvent *)event;
 - (void)triggerEvent:(CKEvent *)event forDomain:(NSString *)domain;
+- (void)triggerEvent:(CKEvent *)event forDomainList:(NSArray *)domains;
 ///subscribe用于外部监听事件的发生
 - (void)subscribeWithTarget:(id)target domain:(NSString *)domain receiver:(void(^)(CKStore *store, CKEvent*evt))block;
 - (void)subscribeWithTarget:(id)target domainList:(NSArray *)domains receiver:(void(^)(CKStore *store, CKEvent*evt))block;

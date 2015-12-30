@@ -13,7 +13,6 @@
 #import "CarListVC.h"
 #import "CommissionForsuccessfulVC.h"
 #import "MyCarStore.h"
-#import "CKStore.h"
 #import "WebVC.h"
 #import "UIView+Layer.h"
 #import "HKTableViewCell.h"
@@ -72,6 +71,10 @@
 
 
 -(void)applyClick {
+    /**
+     *  开始协办点击事件
+     */
+    [MobClick event:@"rp802-2"];
     if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] < 3600 * 24 * 1 - 1) {
         UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"预约协办" message:@"您将预约年检协办业务,再告诉你个秘密,电话预约会更及时有效哦!" delegate:nil cancelButtonTitle:@"立即协办" otherButtonTitles:@"拨打电话", nil];
         [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNum) {
@@ -120,7 +123,11 @@
     op.licenseNumber = self.defaultCar.licencenumber;
    
     NSString *tempStr = [NSString stringWithFormat:@"%@", self.appointmentDay];
-    op.appointTime = [tempStr substringToIndex:10];
+    if (tempStr.length >= 10) {
+        op.appointTime = [tempStr substringToIndex:10];
+    }else {
+        op.appointTime = @"";
+    }
     
     [[[[op rac_postRequest] initially:^{
         
@@ -169,9 +176,10 @@
 
 - (void)setupCarStore
 {
-    self.carStore = [MyCarStore fetchExistsStore];
+    self.carStore = [MyCarStore fetchOrCreateStore];
     @weakify(self);
-    [self.carStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
+    [self.carStore subscribeWithTarget:self domain:@"cars" receiver:^(CKStore *store, CKEvent *evt) {
+
         @strongify(self);
         [[evt signal] subscribeNext:^(id x) {
             @strongify(self);
@@ -183,7 +191,7 @@
             }
         }];
     }];
-    [self.carStore sendEvent:[self.carStore getAllCarsIfNeeded]];
+    [[self.carStore getAllCarsIfNeeded] send];
 }
 
 #pragma mark - UITableViewDataSource
@@ -303,7 +311,7 @@
             make.left.mas_equalTo(self.view).offset(10);
             make.right.mas_equalTo(self.view).offset(-10);
             make.bottom.mas_equalTo(self.view).offset(- 5);
-            make.height.equalTo(self.view).multipliedBy(0.08);;
+            make.height.mas_offset(40);
         }];
       }
     return _helperBtn;

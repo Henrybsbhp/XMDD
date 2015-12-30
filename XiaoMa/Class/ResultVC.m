@@ -14,6 +14,11 @@
 
 @implementation ResultVC
 
+- (void)dealloc
+{
+    DebugLog(@"ResultVC dealloc!");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
