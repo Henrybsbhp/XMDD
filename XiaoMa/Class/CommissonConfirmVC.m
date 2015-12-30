@@ -19,7 +19,8 @@
 
 
 #define kWidth [UIScreen mainScreen].bounds.size.width
-@interface CommissonConfirmVC ()<UINavigationControllerDelegate>
+#define kHeight [UIScreen mainScreen].bounds.size.height
+@interface CommissonConfirmVC ()<UINavigationControllerDelegate, UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, copy)     NSString    * licenseNumber;
 @property (nonatomic, strong)   NSDate      * appointmentDay;
@@ -28,6 +29,18 @@
 @property (nonatomic, strong)   MyCarStore  * carStore;
 @property (nonatomic, strong)   HKMyCar     * defaultCar;
 @property (nonatomic, strong)   NSString    * countStr;
+/**
+ *  alertView
+ */
+@property (nonatomic, strong)   UIView      * underlyingView;
+@property (nonatomic, strong)   UIView      * alertV;
+@property (nonatomic, strong)   UILabel     * titleLb;
+@property (nonatomic, strong)   UILabel     * detailLb;
+@property (nonatomic, strong)   UIButton    * commissionBtn;
+@property (nonatomic, strong)   UIButton    * phoneBtn;
+@property (nonatomic, strong)   UIView      * horizontalLineView;
+@property (nonatomic, strong)   UIView      * verticalLineView;
+
 @end
 
 @implementation CommissonConfirmVC
@@ -43,6 +56,7 @@
     [super viewDidLoad];
     [self.view addSubview:self.helperBtn];
     [self setupCarStore];
+//    [self addSubView];
 }
 
 #pragma mark - Action
@@ -51,14 +65,13 @@
     op.licenseNumber = self.defaultCar.licencenumber;
     @weakify(self)
     [[[[op rac_postRequest] initially:^{
-        
-        [gToast showText:@"加载中"];
+        [self.view hideDefaultEmptyView];
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         
     }] finally:^{
-        
+        [self.view stopActivityAnimation];
     }] subscribeNext:^(GetRescueHostCountsOp *op) {
         @strongify(self)
-        [gToast dismiss];
         self.countStr = [NSString stringWithFormat:@"%@", op.counts];
         if ([op.counts integerValue] == 0) {
             [gToast showText:@"当前车辆无协办券可用,请尝试其他车辆"];
@@ -69,56 +82,37 @@
     }] ;
 }
 
-
 -(void)applyClick {
     /**
      *  开始协办点击事件
      */
     [MobClick event:@"rp802-2"];
+    self.tableView.backgroundColor = [UIColor colorWithRed:153 green:153 blue:153 alpha:1.0];
     if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] < 3600 * 24 * 1 - 1) {
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"预约协办" message:@"您将预约年检协办业务,再告诉你个秘密,电话预约会更及时有效哦!" delegate:nil cancelButtonTitle:@"立即协办" otherButtonTitles:@"拨打电话", nil];
-        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *indexNum) {
-            
-            NSInteger index = [indexNum integerValue];
-            [av dismissWithClickedButtonIndex:index animated:YES];
-            if (index == 1)
-            {
-                NSString * number = @"4007111111";
-                NSString * urlStr = [NSString stringWithFormat:@"tel://%@",number];
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
-            }else if(index == 0){
-                [self actionAssisting];
-            }else {
-                av.hidden = YES;
-            }
-        }];
-        
-        [av show];
+        [self.underlyingView addSubview:self.alertV];
+        [self.view addSubview:self.underlyingView];
+        self.view.backgroundColor = [UIColor colorWithRed:153 green:153 blue:153 alpha:1.0];
+        self.view.backgroundColor = [UIColor blueColor];
         
         UITapGestureRecognizer * recognizerTap = [[UITapGestureRecognizer alloc] init];
         [[recognizerTap rac_gestureSignal] subscribeNext:^(id x) {
             if (recognizerTap.state == UIGestureRecognizerStateEnded){
-                CGPoint location = [recognizerTap locationInView:nil];
-                if (![av pointInside:[av convertPoint:location fromView:av.window] withEvent:nil]){
-                    [av.window removeGestureRecognizer:recognizerTap];
-                    [av dismissWithClickedButtonIndex:0 animated:YES];
-                }  
+                [self.underlyingView removeFromSuperview];
             }
         }];
-        
         [recognizerTap setNumberOfTapsRequired:1];
-        recognizerTap.cancelsTouchesInView = NO;
-        [[UIApplication sharedApplication].keyWindow addGestureRecognizer:recognizerTap];
-
-    }else if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] > 3600 * 24 * 30) {
+        recognizerTap.cancelsTouchesInView = YES;
+        [self.underlyingView addGestureRecognizer:recognizerTap];
+        
+           }else if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] > 3600 * 24 * 30) {
         [gToast showText:@"不好意思,预约时间需在 30 天内,请修改后再尝试"];
     } else {
         [self actionAssisting];
     }
 }
 
+
 - (void)actionAssisting{
-    
     GetRescueApplyHostCarOp *op = [GetRescueApplyHostCarOp operation];
     op.licenseNumber = self.defaultCar.licencenumber;
    
@@ -149,7 +143,7 @@
         
     } error:^(NSError *error) {
         if (error.code == 611139001) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有救援券哦，点击省钱攻略，此等优惠岂能错过！" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有协办券哦，点击省钱攻略，此等优惠岂能错过！" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
             [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
                 NSInteger i = [n integerValue];
                 if (i == 1) {
@@ -264,7 +258,7 @@
     }else if (indexPath.row == 4){
         DatePickerVC *vc = [DatePickerVC datePickerVCWithMaximumDate:[self getPriousorLaterDateFromDate:[NSDate date] withMonth:12]];
         vc.minimumDate = [NSDate date];
-        [[vc rac_presentPickerVCInView:self.navigationController.view withSelectedDate:self.appointmentDay]
+        [[vc rac_presentPickerVCInView:self.navigationController.view withSelectedDate:[NSDate date]]
          subscribeNext:^(NSDate *date) {
              self.appointmentDay = date;
              [self.tableView reloadData];
@@ -316,4 +310,107 @@
       }
     return _helperBtn;
 }
+
+- (UIView *)underlyingView {
+    if (!_underlyingView) {
+        self.underlyingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, kHeight)];
+        self.underlyingView.backgroundColor = [UIColor redColor];
+        self.underlyingView.backgroundColor = [UIColor colorWithRed:248 green:124 blue:128 alpha:0.5];
+    }
+    return _underlyingView;
+}
+- (UIView *)alertV {
+    
+    if (!_alertV) {
+        
+        self.alertV = [[UIView alloc] initWithFrame:CGRectMake((kWidth-270)/2, (kHeight - 180)/2 - 30, 270, 150)];
+        _alertV.backgroundColor = [UIColor whiteColor];
+        _alertV.cornerRadius = 8;
+        _alertV.layer.borderWidth = 0.2;
+        _alertV.clipsToBounds = YES;
+        _alertV.layer.borderColor = [UIColor colorWithHex:@"#454545" alpha:1.0].CGColor;
+
+    }
+    return _alertV;
+}
+
+- (UILabel *)titleLb {
+    if (!_titleLb) {
+        self.titleLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 270, 30)];
+        _titleLb.text = @"预约协办";
+        _titleLb.textAlignment = NSTextAlignmentCenter;
+        _titleLb.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
+    }
+    return _titleLb;
+}
+
+- (UILabel *)detailLb {
+    if (!_detailLb) {
+        self.detailLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 55, 270, 40)];
+        _detailLb.text = @"您将预约年检协办业务, 再告诉你个秘密,\n电话预约会更及时有效哦!";
+        _detailLb.textAlignment = NSTextAlignmentCenter;
+        _detailLb.numberOfLines = 0;
+        _detailLb.font = [UIFont systemFontOfSize:12];
+
+    }
+    return _detailLb;
+}
+
+- (UIButton *)commissionBtn {
+    if (!_commissionBtn) {
+        self.commissionBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+        _commissionBtn.frame = CGRectMake(0, 102, 134, 49);
+        [_commissionBtn setTitle:@"立即协办" forState:UIControlStateNormal];
+        _commissionBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
+        
+        [[_commissionBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            [self actionAssisting];
+            [self.underlyingView removeFromSuperview];
+        }];
+
+    }
+    return _commissionBtn;
+}
+
+- (UIButton *)phoneBtn {
+    if (!_phoneBtn) {
+        self.phoneBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+        _phoneBtn.frame = CGRectMake(136, 102, 134, 49);
+        [_phoneBtn setTitle:@"拨打电话" forState:UIControlStateNormal];
+        _phoneBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
+        [[_phoneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            NSString * number = @"4007111111";
+            NSString * urlStr = [NSString stringWithFormat:@"tel://%@",number];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
+            [self.underlyingView removeFromSuperview];
+        }];
+    }
+    return _phoneBtn;
+}
+
+- (UIView *)horizontalLineView {
+    if (!_horizontalLineView) {
+        self.horizontalLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 101, 270, 0.5)];
+        _horizontalLineView.backgroundColor = [UIColor colorWithHex:@"#e3e3e3" alpha:1.0];
+    }
+    return _horizontalLineView;
+}
+
+- (UIView *)verticalLineView {
+    if (!_verticalLineView) {
+        self.verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(135, 100, 0.5, 48)];
+        _verticalLineView.backgroundColor = [UIColor colorWithHex:@"#e3e3e3" alpha:1.0];
+    }
+    return _verticalLineView;
+}
+- (void)addSubView {
+    [self.alertV addSubview:self.titleLb];
+    [self.alertV addSubview:self.detailLb];
+    [self.alertV addSubview:self.commissionBtn];
+    [self.alertV addSubview:self.phoneBtn];
+    [self.alertV addSubview:self.horizontalLineView];
+    [self.alertV addSubview:self.verticalLineView];
+}
+
+
 @end

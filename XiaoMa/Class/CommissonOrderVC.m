@@ -48,13 +48,13 @@
     [super viewDidLoad];
     
     if (gAppMgr.myUser != nil) {
-        [self actionNetwork];
         [self setupCarStore];
     }else {
         [self actionNetwork];
     }
     
     [RACObserve(gAppMgr, myUser)subscribeNext:^(JTUser *user) {
+        
         if (user != nil) {
             [self setupCarStore];
         }
@@ -64,8 +64,7 @@
 }
 
 #pragma mark - Action
-- (IBAction)actionCommission:(UIButton *)sender {
-    
+- (IBAction)actionCommissionClick:(UIButton *)sender {
     [MobClick event:@"rp801-2"];
     
     if (gAppMgr.myUser != nil) {
@@ -173,7 +172,10 @@
         @strongify(self);
         [[evt signal] subscribeNext:^(id x) {
             @strongify(self);
-            self.carNumberArray = [self.carStore allCars];
+           [RACObserve(self.carStore, allCars)subscribeNext:^(id x) {
+               self.carNumberArray = [self.carStore allCars];
+               [self actionNetwork];
+           }];
             if (!self.defaultCar)
             {
                 self.defaultCar = [self.carStore defalutInfoCompletelyCar];
