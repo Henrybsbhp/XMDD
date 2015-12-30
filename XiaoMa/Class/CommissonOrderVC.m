@@ -49,6 +49,7 @@
     
     if (gAppMgr.myUser != nil) {
         [self setupCarStore];
+        [self actionNetwork];
     }else {
         [self actionNetwork];
     }
@@ -107,7 +108,7 @@
         
     } error:^(NSError *error) {
         if (error.code == 611139001) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有救援券哦!\n点击省钱攻略,此等优惠岂能错过" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有协办券哦!\n点击省钱攻略,此等优惠岂能错过" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
             [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
                 NSInteger i = [n integerValue];
                 if (i == 1) {
@@ -133,6 +134,7 @@
     }] finally:^{
         [self.view stopActivityAnimation];
     }] subscribeNext:^(GetRescureDetailOp *op) {
+        [self.dataSourceArray removeAllObjects];
         NSString *lastStr;
         for (NSString *testStr in op.rescueDetailArray) {
             lastStr = [testStr stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
@@ -172,10 +174,10 @@
         @strongify(self);
         [[evt signal] subscribeNext:^(id x) {
             @strongify(self);
-           [RACObserve(self.carStore, allCars)subscribeNext:^(id x) {
-               self.carNumberArray = [self.carStore allCars];
-               [self actionNetwork];
-           }];
+            [RACObserve(self.carStore, allCars)subscribeNext:^(id x) {
+                self.carNumberArray = [self.carStore allCars];
+                
+            }];
             if (!self.defaultCar)
             {
                 self.defaultCar = [self.carStore defalutInfoCompletelyCar];
