@@ -114,12 +114,11 @@
 - (void)setupAdView
 {
     CKAsyncMainQueue(^{
-        //测试有广告的情况
         /**
-         *  点击广告事件
+         *  点击广告事件（只需传入底层事件，具体点了哪个广告在底层实现）
          */
         self.advc  =[ADViewController vcWithADType:AdvertisementValuation boundsWidth:self.view.bounds.size.width
-                                          targetVC:self mobBaseEvent:@"rp601-5.1"];
+                                          targetVC:self mobBaseEvent:@"rp601-5"];
         [self.advc reloadDataForTableView:self.tableView];
     });
 }
@@ -306,6 +305,7 @@
         modelField.inputField.userInteractionEnabled = NO;
         @weakify(self);
         [view setSelectTypeClickBlock:^{
+            [MobClick event:@"rp601-7"];
             @strongify(self);
             PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Car"];
             vc.originVC = self;
@@ -326,6 +326,7 @@
         HKSubscriptInputField * dateField = [view viewWithTag:203];
         dateField.inputField.userInteractionEnabled = NO;
         [view setSelectDateClickBlock:^{
+            [MobClick event:@"rp601-8"];
             @strongify(self);
             HKMyCar * myCar = [self.dataSource safetyObjectAtIndex:i];
             self.datePicker.maximumDate = [NSDate date];
@@ -402,6 +403,7 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
+    [MobClick event:@"rp601-6"];
     if (self.advc.adList.count != 0) {
         self.tableView.contentSize=CGSizeMake(CGRectGetWidth(self.tableView.contentFrame), CGRectGetHeight(self.tableView.contentFrame) + 170);
         
@@ -432,10 +434,6 @@
             self.tableView.contentSize=CGSizeMake(CGRectGetWidth(self.tableView.contentFrame), CGRectGetHeight(self.tableView.contentFrame) - 170);
         }];
     }
-}
-
-- (IBAction)recordAction:(id)sender {
-    
 }
 
 - (IBAction)evaluationAction:(id)sender {
