@@ -52,6 +52,18 @@
     DebugLog(@"ViolationItemViewController dealloc");
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp901"];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp901"];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
