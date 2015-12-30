@@ -35,13 +35,13 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp705"];
+    [MobClick beginLogPageView:@"rp804"];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp705"];
+    [MobClick endLogPageView:@"rp804"];
 }
 
 - (void)viewDidLoad {
@@ -199,13 +199,13 @@
         [x integerValue];
         evaluationBtn.enabled = NO;
         if (history.rescueStatus == HKRescueStateComplete) {
-            if (history.commentStatus == 0)
+            if (history.commentStatus == HKCommentStatusNo)
             {
-                [MobClick event:@"rp705-1"];
+                [MobClick event:@"rp804-2"];
             }
             else
             {
-                [MobClick event:@"rp705-2"];
+                [MobClick event:@"rp804-3"];
             }
             evaluationBtn.enabled = YES;
             if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
@@ -214,18 +214,8 @@
                 vc.applyType = @(self.type);
                 [self.navigationController pushViewController:vc animated:YES];
             }
-            /**
-             *  协办已申请
-             */
         }else if (history.rescueStatus == HKRescueStateAlready && self.type == 2){
-            if (history.commentStatus == 0)
-            {
-                [MobClick event:@"rp804-2"];
-            }
-            else
-            {
-                [MobClick event:@"rp804-3"];
-            }
+            [MobClick event:@"rp804-1"];
             evaluationBtn.enabled = YES;
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您确定要取消本次协办服务吗？" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             

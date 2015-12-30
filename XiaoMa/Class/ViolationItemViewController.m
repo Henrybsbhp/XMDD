@@ -21,7 +21,7 @@
 
 
 
-@interface ViolationItemViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface ViolationItemViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 
 @property (nonatomic,strong)NSArray * infoArray;
 
@@ -295,8 +295,6 @@
     [self requesQueryViolation];
 }
 
-
-
 - (void)queryTransform
 {
     UIImageView * animationView = self.queryBtn.imageView;
@@ -438,6 +436,17 @@
         }];
     }
     return signal;
+}
+
+#pragma mark - TextField Delegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if (textField.customTag == 1031) {
+        [MobClick event:@"rp901-4"];
+    }
+    else {
+        [MobClick event:@"rp901-5"];
+    }
 }
 
 #pragma mark - Table view data source
@@ -708,7 +717,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    if ([cell.reuseIdentifier  isEqualToString:@"AddCarCell"])
+    if ([cell.reuseIdentifier isEqualToString:@"AddCarCell"])
     {
         /**
          *  添加车辆点击事件
@@ -719,6 +728,7 @@
     }
     else if ([cell.reuseIdentifier  isEqualToString:@"SeparatorCell"])
     {
+        [MobClick event:@"rp901-7"];
         UIImageView * statusImgV = (UIImageView *)[cell searchViewWithTag:101];
         if (self.isSpread)
         {
@@ -766,16 +776,13 @@
     
     
     [[[RACObserve(self,tempCityName) distinctUntilChanged] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString * city) {
-        /**
-         *  行驶城市点击事件
-         */
-        [MobClick event:@"rp901-3"];
         [cityBtn setTitle:city forState:UIControlStateNormal];
     }];
     // 城市点击区域
     @weakify(self)
     [[[cityBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp901-3"];
         @strongify(self)
         [self selectCityAction];
     }];
@@ -808,25 +815,24 @@
     
     //输入框
     UITextField * field = (UITextField *)[cell searchViewWithTag:103];
+    field.delegate = self;
     field.text = [dict objectForKey:@"no"];
     [dict safetySetObject:field forKey:@"feild"];
     
     @weakify(field);
     [[field rac_textSignal] subscribeNext:^(id x) {
-        /**
-         *  发动机号点击事件
-         */
-        [MobClick event:@"rp901-4"];
         @strongify(field)
         field.text = [field.text uppercaseString];
         
         if ([dict[@"title"] isEqualToString:@"发动机号"])
         {
+            field.customTag = 1031;
             self.model.engineno = field.text;
             [dict safetySetObject:self.model.engineno forKey:@"no"];
         }
         else
         {
+            field.customTag = 1032;
             self.model.classno = field.text;
             [dict safetySetObject:self.model.classno forKey:@"no"];
         }
@@ -875,22 +881,19 @@
     
     @weakify(self)
     [[[queryBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
+        if (!self.model.queryDate) {
+            [MobClick event:@"rp901-2"];
+        }
+        else {
+            [MobClick event:@"rp901-6"];
+        }
         @strongify(self)
         if (!self.isQuerying)
         {
-            /**
-             *  查询按钮点击事件
-             */
-            [MobClick event:@"rp901-2"];
             [self queryAction];
         }
         else
         {
-            /**
-             *  更新违章点击事件
-             */
-            [MobClick event:@"rp901-6"];
             [gToast showText:@"小马达达正在努力查询中\n请别着急"];
         }
     }];

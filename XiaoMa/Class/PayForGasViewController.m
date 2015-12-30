@@ -76,7 +76,7 @@
         /**
          *  支付确定点击事件
          */
-        [MobClick event:@"508-6"];
+        [MobClick event:@"rp508-6"];
         [self actionPay:nil];
     }];
 }

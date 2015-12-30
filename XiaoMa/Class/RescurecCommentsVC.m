@@ -76,17 +76,7 @@
     
     @weakify(self)
     [self.commentsTV.rac_textSignal subscribeNext:^(NSString * x) {
-        /**
-         *  评价事件
-         */
-        if(self.applyType.integerValue == 1)
-        {
-            [MobClick event:@"rp706-2"];
-        }
-        else
-        {
-            [MobClick event:@"rp805-2"];
-        }
+        
         @strongify(self)
         if (x.length > 0) {
             self.placeholderLb.hidden = YES;
@@ -103,6 +93,21 @@
         
     }else{
         self.tableView.tableFooterView = self.footerView;
+    }
+}
+
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    /**
+     *  评价事件
+     */
+    if(self.applyType.integerValue == 1)
+    {
+        [MobClick event:@"rp706-2"];
+    }
+    else
+    {
+        [MobClick event:@"rp805-2"];
     }
 }
 

@@ -121,7 +121,7 @@
     @weakify(self);
     [[[tap rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
-        if (self.mobBaseEvent) {
+        if (self.mobBaseEvent.length != 0) {
             NSString * eventstr = [NSString stringWithFormat:@"%@_%d", self.mobBaseEvent, (int)pageIndex];
             [MobClick event:eventstr];
         }
