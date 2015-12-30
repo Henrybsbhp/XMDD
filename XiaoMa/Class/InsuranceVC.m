@@ -172,7 +172,7 @@
             @strongify(self);
             [MobClick event:@"rp1002-2"];
             InsSimpleCar *car = obj;
-            if (car.status == 0 || !car.carpremiumid) {
+            if (car.status == 0 || [car.carpremiumid integerValue] == 0) {
                 [self actionInputOwnerNameForSimpleCar:car];
             }
             //核保记录
