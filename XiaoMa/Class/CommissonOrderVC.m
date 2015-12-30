@@ -14,7 +14,6 @@
 #import "LoginViewModel.h"
 #import "GetStartHostCarOp.h"
 #import "MyCarStore.h"
-#import "CKStore.h"
 #import "EditCarVC.h"
 #import "UIView+DefaultEmptyView.h"
 #import "UIView+JTLoadingView.h"
@@ -46,18 +45,21 @@
 }
 
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
-
     
-    
-    
-    if ( [LoginViewModel loginIfNeededForTargetViewController:self]) {
+    if (gAppMgr.myUser != nil) {
         [self actionNetwork];
         [self setupCarStore];
-        
-       // [self.view addSubview:self.helperBtn];
-    };
+    }else {
+        [self actionNetwork];
+    }
+    
+    [RACObserve(gAppMgr, myUser)subscribeNext:^(JTUser *user) {
+        if (user != nil) {
+            [self setupCarStore];
+        }
+    }];
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.historyBtn];
 }
 
@@ -116,7 +118,7 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
         
-    } error:^(NSError *error) {        
+    } error:^(NSError *error) {
         if (error.code == 611139001) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有救援券哦!\n点击省钱攻略,此等优惠岂能错过" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
             [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
@@ -126,10 +128,10 @@
                     vc.title = @"省钱攻略";
                     vc.url = kMoneySavingStrategiesUrl;
                     [self.navigationController pushViewController:vc animated:YES];                }else{
-                    
-                }
+                        
+                    }
             }];
-
+            
             [alert show];
         }
     }];
@@ -166,20 +168,20 @@
 }
 
 - (void)commissionHistory {
-    /**
-     *  协办记录点击事件
-     */
     [MobClick event:@"rp801-1"];
-    RescureHistoryViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureHistoryViewController"];
-    vc.type = 2;
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        RescureHistoryViewController *vc  =[rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureHistoryViewController"];
+        vc.type = 2;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (void)setupCarStore
 {
-    self.carStore = [MyCarStore fetchExistsStore];
+    self.carStore = [MyCarStore fetchOrCreateStore];
     @weakify(self);
-    [self.carStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
+    [self.carStore subscribeWithTarget:self domain:@"cars" receiver:^(CKStore *store, CKEvent *evt) {
+        
         @strongify(self);
         [[evt signal] subscribeNext:^(id x) {
             @strongify(self);
@@ -190,7 +192,7 @@
             }
         }];
     }];
-    [self.carStore sendEvent:[self.carStore getAllCarsIfNeeded]];
+    [[self.carStore getAllCarsIfNeeded] send];
 }
 
 
@@ -204,16 +206,16 @@
     
     HKTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RescureDetailsVC" forIndexPath:indexPath];
     if (indexPath.row != 0) {
-        [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsMake(0, 0, -1, 0)];
+        [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsMake(- 1, 0, 0, 0)];
     }
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 0, 7, 0)];
     if (indexPath.row == self.dataSourceArray.count - 1) {
         cell.contentView.backgroundColor = [UIColor whiteColor];
     }
-    UILabel *titleLb = (UILabel *)[cell searchViewWithTag:1000];
-    UILabel *detailLb = (UILabel *)[cell searchViewWithTag:1001];
-    UIView  *topView = (UIView *)[cell searchViewWithTag:1004];
-    UIView  *lineView  = (UIView *)[cell searchViewWithTag:1005];
+    UILabel * titleLb  = (UILabel *)[cell searchViewWithTag:1000];
+    UILabel * detailLb = (UILabel *)[cell searchViewWithTag:1001];
+    UIView  * topView  = (UIView *) [cell searchViewWithTag:1004];
+    UIView  * lineView = (UIView *) [cell searchViewWithTag:1005];
     if (indexPath.row == 0) {
         topView.hidden = YES;
     }else if (indexPath.row == 2) {

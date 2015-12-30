@@ -67,7 +67,7 @@
 
 - (void)dealloc
 {
-    
+    DebugLog(@"VcodeLoginVC dealloc");
 }
 
 - (void)setupUI

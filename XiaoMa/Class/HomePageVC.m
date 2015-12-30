@@ -574,7 +574,6 @@
 {
     [MobClick event:@"rp101-3"];
     CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
-    vc.type = 1 ;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -597,13 +596,8 @@
 - (void)actionCommission:(id)sender
 {
     [MobClick event:@"rp101-6"];
-   
-    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-         CommissonOrderVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonOrderVC"];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-    
-    
+    CommissonOrderVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonOrderVC"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionAward:(id)sender

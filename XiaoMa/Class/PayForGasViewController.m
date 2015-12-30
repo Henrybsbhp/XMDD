@@ -36,6 +36,8 @@
 
 - (void)dealloc
 {
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
     DebugLog(@"PayForGasViewController dealloc");
 }
 
@@ -175,7 +177,9 @@
         discount = MIN(couponlimit, rechargeAmount) * systemPercent / 100.0;
     }
     
-    if (self.couponType == CouponTypeGas)
+    if (self.couponType == CouponTypeGasNormal ||
+        self.couponType == CouponTypeGasReduceWithThreshold ||
+        self.couponType == CouponTypeGasDiscount)
     {
         if (coupon.couponPercent < 100)
         {
@@ -206,7 +210,7 @@
 {
     ChooseCarwashTicketVC *vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseCarwashTicketVC"];
     vc.originVC = self;
-    vc.type = CouponTypeGas;
+    vc.type = CouponTypeGasNormal; /// 加油券类型的用普通代替
     vc.selectedCouponArray = self.selectGasCoupouArray;
     vc.couponArray = self.gasCoupon;
     vc.payAmount = (CGFloat)self.model.rechargeAmount;
@@ -216,7 +220,9 @@
 #pragma mark - Action
 - (IBAction)actionPay:(id)sender
 {
-    if (self.couponType == CouponTypeGas)
+    if (self.couponType == CouponTypeGasNormal ||
+        self.couponType == CouponTypeGasReduceWithThreshold ||
+        self.couponType == CouponTypeGasDiscount)
     {
         self.model.coupon = [self.selectGasCoupouArray safetyObjectAtIndex:0];
     }
@@ -460,13 +466,16 @@
         }
         else
         {
-            if (self.couponType == CouponTypeGas)
+            if (self.couponType == CouponTypeGasNormal ||
+                    self.couponType == CouponTypeGasReduceWithThreshold ||
+                    self.couponType == CouponTypeGasDiscount)
             {
                 self.couponType = 0;
             }
             else
             {
-                self.couponType = CouponTypeGas;
+                HKCoupon * coupon = [self.selectGasCoupouArray safetyObjectAtIndex:0];
+                self.couponType = coupon.conponType;
             }
         }
     }];
@@ -474,8 +483,15 @@
     
     [[RACObserve(self, couponType) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * num) {
         
+        BOOL flag = NO;
         CouponType coupon = (CouponType)[num integerValue];
-        BOOL flag = coupon == CouponTypeGas;
+        if (coupon == CouponTypeGasNormal ||
+            coupon == CouponTypeGasReduceWithThreshold ||
+            coupon == CouponTypeGasDiscount)
+        {
+            flag = YES;
+        }
+        
         if (flag)
         {
             statusLb.text = @"已选中";

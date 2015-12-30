@@ -31,6 +31,10 @@
 
 @implementation ListWebVC
 
+- (void)dealloc
+{
+    DebugLog(@"ListWebVC dealloc ~");
+}
 - (void)awakeFromNib
 {
     self.navModel = [[NavigationModel alloc] init];

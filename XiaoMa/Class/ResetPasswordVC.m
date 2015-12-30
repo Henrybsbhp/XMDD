@@ -26,6 +26,11 @@
 
 @implementation ResetPasswordVC
 
+- (void)dealloc
+{
+    DebugLog(@"ResetPasswordVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.smsModel = [[HKSMSModel alloc] init];

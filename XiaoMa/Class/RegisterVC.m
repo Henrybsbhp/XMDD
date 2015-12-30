@@ -26,6 +26,11 @@
 
 @implementation RegisterVC
 
+- (void)dealloc
+{
+    DebugLog(@"RegisterVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.smsModel = [[HKSMSModel alloc] init];

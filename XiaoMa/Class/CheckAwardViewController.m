@@ -22,6 +22,11 @@
 
 @implementation CheckAwardViewController
 
+- (void)dealloc
+{
+    DebugLog(@"CheckAwardViewController dealloc ~");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 

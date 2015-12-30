@@ -39,6 +39,8 @@
 {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
+    DebugLog(@"SecondCarValuationVC dealloc~~~");
+  
 }
 
 -(void)viewWillAppear:(BOOL)animated

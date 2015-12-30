@@ -31,6 +31,13 @@
 
 @implementation InsCheckResultsVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"InsCheckResultsVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -42,13 +49,16 @@
     }
 }
 
--(void)viewDidDisappear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidDisappear:animated];
-    /**
-     *  核保结果返回事件
-     */
-    [MobClick event:@"rp100-1"];
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp1004"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp1004"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,7 +71,7 @@
     UILabel *titleL = [self.headerView viewWithTag:1001];
     CKLine *line = [self.headerView viewWithTag:1002];
     line.lineAlignment = CKLineAlignmentHorizontalBottom;
-    [line layoutIfNeeded];
+    [line setNeedsDisplay];
     titleL.text = self.headerTip.length > 0 ? self.headerTip : @"如有任何疑问，可拨打4007-111-111咨询。";
 }
 
@@ -153,13 +163,16 @@
 }
 
 #pragma mark - Action
+- (void)actionBack:(id)sender
+{
+    [MobClick event:@"rp1004-1"];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 ///重新核保
 - (IBAction)actionReUnderwrite:(id)sender
 {
-    /**
-     * 重新核保点击事件
-     */
-    [MobClick event:@"1004-2"];
+    [MobClick event:@"rp1004-2"];
     InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
     infoVC.insModel = self.insModel;
     [self.navigationController pushViewController:infoVC animated:YES];
@@ -296,14 +309,16 @@
         insModel.inscomp = premium.inscomp;
         insModel.inscompname = premium.inscompname;
         if (buyable) {
-            
+            [MobClick event:@"rp1004-3"];
             InsBuyVC *vc = [UIStoryboard vcWithId:@"InsBuyVC" inStoryboard:@"Insurance"];
             vc.insModel = insModel;
             [self.navigationController pushViewController:vc animated:YES];
         }
         else {
-            
+            [MobClick event:@"rp1004-4"];
             InsAppointmentVC *vc = [UIStoryboard vcWithId:@"InsAppointmentVC" inStoryboard:@"Insurance"];
+            vc.insModel = insModel;
+            vc.insPremium = premium;
             [self.navigationController pushViewController:vc animated:YES];
         }
 
@@ -400,7 +415,7 @@
     
     [[[callB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
-         
+        [MobClick event:@"rp1004-5"];
         [gPhoneHelper makePhone:@"4007111111" andInfo:@"客服电话: 4007-111-111"];
     }];
 
@@ -418,6 +433,7 @@
          
          @strongify(self);
          if (overflow) {
+             [MobClick event:@"rp1004-6"];
              [InsAlertVC showInView:self.navigationController.view withMessage:premium.errmsg];
          }
     }];

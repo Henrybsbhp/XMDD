@@ -47,6 +47,8 @@
 
 - (void)dealloc
 {
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
     DebugLog(@"GainAwardViewController dealloc");
 }
 
@@ -256,7 +258,6 @@
         [MobClick event:@"rp402-3"];
         [resultSheet dismissAnimated:YES completionHandler:nil];
         CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
-        vc.type = 1;
         [self.navigationController pushViewController:vc animated:YES];
     }];
     

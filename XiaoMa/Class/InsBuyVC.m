@@ -33,12 +33,21 @@
 
 @implementation InsBuyVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"InsBuyVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = self.insModel.inscompname;
     [self setupDatePicker];
-    [self requestDetailPremium];
+    CKAsyncMainQueue(^{
+        [self requestDetailPremium];
+    });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,12 +55,17 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)viewDidDisappear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidDisappear:animated];
-    
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp1005"];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp1005"];
+}
 //设置日期选择控件（主要是为了事先加载，优化性能）
 - (void)setupDatePicker {
     self.datePicker = [DatePickerVC datePickerVCWithMaximumDate:nil];
@@ -101,6 +115,9 @@
 
     NSMutableArray *datasource = [NSMutableArray array];
     HKCellData *infoCell = [HKCellData dataWithCellID:@"Info" tag:nil];
+    if (self.premiumDetail.rsp_fstartdate.length > 0) {
+        infoCell.customInfo[@"lockfdate"] = @YES;
+    }
     [infoCell setHeightBlock:^CGFloat(UITableView *tableView) {
         return 320;
     }];
@@ -130,7 +147,7 @@
     CKLine *line = [self.headerView viewWithTag:1002];
     
     line.lineAlignment = CKLineAlignmentHorizontalBottom;
-    [line setNeedsLayout];
+    [line setNeedsDisplay];
 
     titleL.text = self.premiumDetail.rsp_tip;
     CGFloat height = 0;
@@ -149,8 +166,7 @@
 #pragma mark - Action
 - (IBAction)actionBuy:(id)sender
 {
-    
-    
+    [MobClick event:@"rp1005-7"];
     if (self.paymentInfo.req_startdate.length == 0) {
         [gToast showText:@"商业险启保日不能为空"];
     }
@@ -185,8 +201,14 @@
 
 - (IBAction)actionCall:(id)sender
 {
-    
+    [MobClick event:@"rp1005-2"];
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
+}
+
+- (void)actionBack:(id)sender
+{
+    [MobClick event:@"rp1005-1"];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 #pragma mark - UITableViewDelegate and datasource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -276,10 +298,13 @@
     nameF.inputField.placeholder = @"输入姓名";
     nameF.inputField.textLimit = 20;
     nameF.inputField.text = self.paymentInfo.req_ownername;
+    [nameF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        [MobClick event:@"rp1005-5"];
+    }];
     @weakify(self);
     [nameF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
-        @strongify(self);
         
+        @strongify(self);
         self.paymentInfo.req_ownername = field.text;
     }];
     
@@ -291,6 +316,7 @@
       flattenMap:^RACStream *(id value) {
           
           @strongify(self);
+          [MobClick event:@"rp1005-3"];
           [self.view endEditing:YES];
           return [self rac_pickDateWithNow:self.paymentInfo.req_startdate];
       }] subscribeNext:^(NSString *datetext) {
@@ -304,10 +330,12 @@
     dateRF.inputField.text = self.paymentInfo.req_forcestartdate;
     dateRF.subscriptImageName = @"ins_arrow_time";
     
+    dateRB.userInteractionEnabled = ![data.customInfo[@"lockfdate"] boolValue];
     [[[[dateRB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
       flattenMap:^RACStream *(id value) {
           
           @strongify(self);
+          [MobClick event:@"rp1005-4"];
           [self.view endEditing:YES];
           return [self rac_pickDateWithNow:self.paymentInfo.req_forcestartdate];
       }] subscribeNext:^(NSString *datetext) {
@@ -321,6 +349,9 @@
     idF.inputField.textLimit = 18;
     idF.inputField.keyboardType = UIKeyboardTypeASCIICapable;
     idF.inputField.text = self.paymentInfo.req_idno;
+    [idF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        [MobClick event:@"rp1005-5"];
+    }];
     [idF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
         
         @strongify(self);

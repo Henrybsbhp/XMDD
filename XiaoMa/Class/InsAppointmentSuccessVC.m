@@ -24,15 +24,21 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)viewDidDisappear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidDisappear:animated];
-    
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp1011"];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp1011"];
+}
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
+    [MobClick event:@"rp1011-1"];
     if (self.insModel.originVC) {
         [self.navigationController popToViewController:self.insModel.originVC animated:YES];
     }

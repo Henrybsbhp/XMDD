@@ -178,7 +178,7 @@
 {
     if (gAppMgr.myUser) {
         MyCarStore *store = [MyCarStore fetchExistsStore];
-        [[[store sendEvent:[store getAllCarsIfNeeded]] signal] subscribeNext:^(id x) {
+        [[[store getAllCarsIfNeeded] send] subscribeNext:^(id x) {
             
         }];
     }
@@ -363,7 +363,7 @@
     else {
         [MobClick event:@"rp105-6_2"];
     }
-    [[[[[MyCarStore fetchExistsStore] getDefaultCar] signal] catch:^RACSignal *(NSError *error) {
+    [[[[[MyCarStore fetchExistsStore] getDefaultCar] send] catch:^RACSignal *(NSError *error) {
         
         return [RACSignal return:nil];
     }] subscribeNext:^(HKMyCar *car) {

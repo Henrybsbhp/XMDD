@@ -53,6 +53,8 @@
 
 - (void)dealloc
 {
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
     DebugLog(@"ChooseCarwashTicketVC dealloc");
 }
 
@@ -145,7 +147,8 @@
         PayForGasViewController * pay4GasVC = (PayForGasViewController *)vc;
         if (self.selectedCouponArray.count)
         {
-            pay4GasVC.couponType = CouponTypeGas;
+            HKCoupon * coupon = [self.selectedCouponArray safetyObjectAtIndex:0];
+            pay4GasVC.couponType = coupon.conponType;
             pay4GasVC.selectGasCoupouArray = self.selectedCouponArray;
         }
     }
@@ -294,7 +297,9 @@
             [gToast showError:@"代金券金额大于支付金额，无法使用"];
         }
     }
-    else if (self.type == CouponTypeGas)
+    else if (self.type == CouponTypeGasNormal ||
+             self.type == CouponTypeGasReduceWithThreshold ||
+             self.type == CouponTypeGasDiscount)
     {
         if (coupon.lowerLimit <= self.payAmount)
         {

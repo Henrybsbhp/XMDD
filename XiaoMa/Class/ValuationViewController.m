@@ -86,7 +86,7 @@
         
         @strongify(self);
         if (gAppMgr.myUser.userID) {
-            [self.carStore sendEvent:[self.carStore getAllCars]];
+            [[self.carStore getAllCars] send];
         }
     }];
 }
@@ -156,15 +156,16 @@
 {
     @weakify(self);
     self.carStore = [MyCarStore fetchOrCreateStore];
-    [self.carStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
+    [self.carStore subscribeWithTarget:self domain:@"cars" receiver:^(CKStore *store, CKEvent *evt) {
+
         @strongify(self);
         [self reloadDataWithEvent:evt];
     }];
 }
 
-- (void)reloadDataWithEvent:(HKStoreEvent *)evt
+- (void)reloadDataWithEvent:(CKEvent *)evt
 {
-    NSInteger code = evt.code;
+    CKEvent *event = evt;
     @weakify(self);
     [[[[evt.signal deliverOn:[RACScheduler mainThreadScheduler]] initially:^{
         
@@ -181,13 +182,13 @@
     }] subscribeNext:^(id x) {
         
         @strongify(self);
-        self.dataSource = [self.carStore.cache allObjects];
+        self.dataSource = [self.carStore.cars allObjects];
         self.selectCar = [[HKMyCar alloc] init];
-        if (code == kHKStoreEventGet || code == kHKStoreEventReload) {
-            self.selectCar = [self.dataSource safetyObjectAtIndex:0];
+        if ([event isEqualForName:@"addCar"] && event.object){
+            self.selectCar = [self.carStore.cars objectForKey:event.object];
         }
-        else if (code == kHKStoreEventAdd){
-            self.selectCar = [self.dataSource safetyObjectAtIndex:(self.dataSource.count - 1)];
+        else {
+            self.selectCar = [self.dataSource safetyObjectAtIndex:self.carIndex];
         }
         NSString * milesStr = [NSString formatForPrice:self.selectCar.odo / 10000.00];
         self.miles = [milesStr floatValue];
@@ -482,6 +483,7 @@
         
         @strongify(self);
         [gToast dismiss];
+        [[self.carStore getAllCars] send];
         ValuationResultVC * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"ValuationResultVC"];
         vc.evaluateOp = op;
         vc.logoUrl = self.selectCar.brandLogo;

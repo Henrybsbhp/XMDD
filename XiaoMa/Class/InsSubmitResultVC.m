@@ -23,6 +23,13 @@
 
 @implementation InsSubmitResultVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"InsSubmitResultVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -34,7 +41,17 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp1009"];
+}
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp1009"];
+}
 
 #pragma mark - Datasource
 - (void)reloadData {
@@ -64,6 +81,7 @@
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
+    [MobClick event:@"rp1009-1"];
     if (self.insModel.originVC) {
         [self.navigationController popToViewController:self.insModel.originVC animated:YES];
     }
@@ -74,6 +92,7 @@
 
 - (IBAction)actionOrder:(id)sender {
     
+    [MobClick event:@"rp1009-3"];
     InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
     vc.orderID = self.insOrderID;
     [self.navigationController pushViewController:vc animated:YES];
@@ -81,6 +100,7 @@
 
 - (IBAction)actionShare:(id)sender {
     
+    [MobClick event:@"rp1009-2"];
     GetShareButtonOp * op = [GetShareButtonOp operation];
     op.pagePosition = ShareSceneInsurance;
     [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {

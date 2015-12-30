@@ -24,6 +24,13 @@
 
 @implementation InsPayResultVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"InsPayResultVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -35,10 +42,16 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidDisappear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidDisappear:animated];
-    
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp1007"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp1007"];
 }
 
 #pragma mark - Datasource
@@ -75,6 +88,7 @@
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
+    [MobClick event:@"rp1007-1"];
     if (self.insModel.originVC) {
         [self.navigationController popToViewController:self.insModel.originVC animated:YES];
     }
@@ -84,10 +98,7 @@
 }
 - (IBAction)actionSubmit:(id)sender
 {
-    /**
-     *  提交资料点击事件
-     */
-    [MobClick event:@"1007-6"];
+    [MobClick event:@"rp1007-6"];
     if (self.deliveryInfo.req_contatorname.length == 0) {
         [gToast showText:@"联系人姓名不能为空"];
     }
@@ -189,6 +200,9 @@
     nameF.inputField.textLimit = 20;
     nameF.inputField.placeholder = @"请输入姓名";
     nameF.inputField.text = self.deliveryInfo.req_contatorname;
+    [nameF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        [MobClick event:@"rp1007-2"];
+    }];
     @weakify(self);
     [nameF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
         @strongify(self);
@@ -200,6 +214,9 @@
     phoneF.inputField.textLimit = 11;
     phoneF.inputField.placeholder = @"请输入手机";
     phoneF.inputField.text = self.deliveryInfo.req_contatorphone;
+    [phoneF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        [MobClick event:@"rp1007-3"];
+    }];
     [phoneF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
         
         self.deliveryInfo.req_contatorphone = field.text;
@@ -216,6 +233,9 @@
     
     addrF.inputField.placeholder = @"请填写详细地址";
     addrF.inputField.text = data.customInfo[@"detail"];
+    [addrF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        [MobClick event:@"rp1007-5"];
+    }];
     [addrF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
         
         data.customInfo[@"detail"] = field.text;
@@ -226,6 +246,7 @@
      subscribeNext:^(id x) {
          
          @strongify(self);
+         [MobClick event:@"rp1007-4"];
          [self.view endEditing:YES];
          CityPickerVC *picker = [CityPickerVC cityPickerVCWithOriginVC:self];
          picker.options = CityPickerOptionCity | CityPickerOptionProvince | CityPickerOptionDistrict | CityPickerOptionGPS;

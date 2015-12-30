@@ -38,9 +38,11 @@
 
 @implementation InsuranceInfoSubmitingVC
 
--(void)dealloc
+- (void)dealloc
 {
-    
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"InsuranceInfoSubmitingVC dealloc");
 }
 
 - (void)viewDidLoad {
@@ -59,13 +61,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp126"];
+    [MobClick beginLogPageView:@"rp1002"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp126"];
+    [MobClick endLogPageView:@"rp1002"];
 }
 
 
@@ -148,9 +150,15 @@
     return YES;
 }
 
+- (void)actionBack:(id)sender
+{
+    [MobClick event:@"rp1002-1"];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (IBAction)actionNext:(id)sender
 {
-    [MobClick event:@"rp126-10"];
+    [MobClick event:@"rp1002-7"];
     if ([self checkInfomation]) {
         InsuranceAppointmentV3Op *op = [InsuranceAppointmentV3Op operation];
         op.req_idcard = [(HKCellData *)self.datasource[1] object];
@@ -166,7 +174,7 @@
 }
 
 - (void)actionUpload:(id)sender {
-    [MobClick event:@"rp126-8"];
+    [MobClick event:@"rp1002-8"];
     @weakify(self);
     [[[self.imageView rac_setUploadingImage:self.currentRecord.image withImageType:UploadFileTypeDrivingLicense]
       initially:^{
@@ -188,12 +196,12 @@
 }
 
 - (void)actionRepickImage:(id)sender {
-    [MobClick event:@"rp126-8"];
+    [MobClick event:@"rp1002-8"];
     [self _pickImage];
 }
 
 - (IBAction)actionPickImage:(id)sender {
-    [MobClick event:@"rp126-3"];
+    [MobClick event:@"rp1002-6"];
     [self _pickImage];
 }
 
@@ -343,9 +351,11 @@
     field.inputField.placeholder = @"请输入身份证号码";
     field.inputField.textLimit = 18;
     field.inputField.keyboardType = UIKeyboardTypeASCIICapable;
-    
+    [field.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        [MobClick event:@"rp1002-2"];
+    }];
     [field.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
-        
+
         data.object = field.text;
     }];
 }

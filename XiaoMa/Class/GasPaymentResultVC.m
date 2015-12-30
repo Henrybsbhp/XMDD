@@ -18,6 +18,12 @@
 
 @implementation GasPaymentResultVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"GasPaymentResultVC dealloc ~");
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];

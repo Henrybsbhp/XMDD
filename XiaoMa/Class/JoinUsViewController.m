@@ -31,6 +31,13 @@
 
 @implementation JoinUsViewController
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"JoinUsViewController dealloc!");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -168,7 +175,4 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)dealloc {
-    DebugLog(@"dealloc~~");
-}
 @end

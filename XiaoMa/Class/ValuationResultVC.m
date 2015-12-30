@@ -287,7 +287,7 @@
     op.province = self.provinceName;
     op.city = self.cityName;
     [[op rac_postRequest] subscribeNext:^(GetCityInfoByNameOp * op) {
-        if (op.rsp_sellerCityId == 0) {
+        if ([op.rsp_sellerCityId intValue] == 0) {
             UIAlertView * alertView = [[UIAlertView alloc] init];
             alertView.title = @"提示";
             alertView.message = @"抱歉，您所在的城市未开通此项服务，敬请期待";
@@ -313,6 +313,8 @@
 }
 
 - (void)dealloc {
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
     DebugLog(@"ValuationResultVC dealloc~~~");
 }
 

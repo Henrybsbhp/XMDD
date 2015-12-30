@@ -49,7 +49,7 @@
     
     // 设置数据源&获取所有爱车
     [self setupCarStore];
-    [self.carStore sendEvent:[self.carStore getAllCars]];
+    [[self.carStore getAllCars] send];
 }
 
 
@@ -80,7 +80,8 @@
 {
     @weakify(self);
     self.carStore = [MyCarStore fetchOrCreateStore];
-    [self.carStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
+    [self.carStore subscribeWithTarget:self domain:@"cars" receiver:^(CKStore *store, CKEvent *evt) {
+        
         @strongify(self);
         [self reloadDataWithEvent:evt];
     }];
@@ -197,9 +198,9 @@
     [self refreshPageController];
 }
 
-- (void)reloadDataWithEvent:(HKStoreEvent *)evt
+- (void)reloadDataWithEvent:(CKEvent *)evt
 {
-    NSInteger code = evt.code;
+    CKEvent *event = evt;
     @weakify(self);
     [[[[evt.signal deliverOn:[RACScheduler mainThreadScheduler]] initially:^{
         
@@ -216,15 +217,14 @@
         @strongify(self);
         HKMyCar *defCar = [self.carStore defalutCar];
         HKMyCar *car;
-        if (code == kHKStoreEventAdd) {
-            car = x;
+        if ([event isEqualForName:@"addCar"] && event.object) {
+            car = [self.carStore.cars objectForKey:event.object];
         }
         if (!car) {
             car = defCar;
         }
         
-        
-        self.datasource = [self.carStore.cache allObjects];
+        self.datasource = [self.carStore.cars allObjects];
         self.defaultSelectCar  = car;
         [self refreshScrollView];
         [self setupPageController];
@@ -235,7 +235,7 @@
         [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
         [self.view showDefaultEmptyViewWithText:@"获取爱车信息失败，点击重试" tapBlock:^{
             @strongify(self);
-            [self.carStore sendEvent:[self.carStore getAllCars]];
+            [[self.carStore getAllCars] send];
         }];
     }];
 }
@@ -243,7 +243,7 @@
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-
+    [self.view endEditing:YES];
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView

@@ -25,6 +25,11 @@
 
 @implementation CarListVC
 
+- (void)dealloc
+{
+    DebugLog(@"CarListVC dealloc");
+}
+
 - (void)awakeFromNib
 {
     _model = [[MyCarListVModel alloc] init];
@@ -36,7 +41,7 @@
     [self setupScrollView];
     [self setupCarStore];
     [self setupBottomView];
-    [self.carStore sendEvent:[self.carStore getAllCars]];
+    [[self.carStore getAllCars] send];
 }
 
 
@@ -96,9 +101,10 @@
 
 - (void)setupCarStore
 {
-    @weakify(self);
     self.carStore = [MyCarStore fetchOrCreateStore];
-    [self.carStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
+
+    @weakify(self);
+    [self.carStore subscribeWithTarget:self domain:@"cars" receiver:^(CKStore *store, CKEvent *evt) {
         @strongify(self);
         [self reloadDataWithEvent:evt];
     }];
@@ -135,12 +141,12 @@
 - (void)setOriginCarID:(NSNumber *)originCarID
 {
     _originCarID = originCarID;
-    [self.carStore sendEvent:[self.carStore getAllCarsIfNeeded]];
+    [[self.carStore getAllCarsIfNeeded] send];
 }
 
-- (void)reloadDataWithEvent:(HKStoreEvent *)evt
+- (void)reloadDataWithEvent:(CKEvent *)evt
 {
-    NSInteger code = evt.code;
+    CKEvent *event = evt;
     @weakify(self);
     [[[[evt.signal deliverOn:[RACScheduler mainThreadScheduler]] initially:^{
         
@@ -156,18 +162,18 @@
     }] subscribeNext:^(id x) {
         
         @strongify(self);
-        self.datasource = [self.carStore.cache allObjects];
+        self.datasource = [self.carStore.cars allObjects];
         HKMyCar *defCar = [self.carStore defalutCar];
         if (self.model.allowAutoChangeSelectedCar) {
             HKMyCar *car = nil;
             if (_originCarID) {
-                car = [self.carStore.cache objectForKey:_originCarID];
+                car = [self.carStore.cars objectForKey:_originCarID];
             }
-            if (code == kHKStoreEventAdd) {
+            if ([event isEqualForName:@"addCar"]) {
                 car = x;
             }
             if (!car && self.model.currentCar) {
-                car = [self.carStore.cache objectForKey:self.model.currentCar.carId];
+                car = [self.carStore.cars objectForKey:self.model.currentCar.carId];
             }
             if (!car) {
                 car = defCar;
@@ -180,12 +186,12 @@
                 self.model.selectedCar = defCar;
             }
             if (_originCarID) {
-                self.model.currentCar = [self.carStore.cache objectForKey:_originCarID];
+                self.model.currentCar = [self.carStore.cars objectForKey:_originCarID];
             }
-            else if (code != kHKStoreEventUpdate && code != kHKStoreEventAdd) {
+            else if (![event isEqualForAnyoneOfNames:@[@"updateCar",@"addCar"]]) {
                 self.model.currentCar = defCar;
             }
-            else if (code == kHKStoreEventAdd) {
+            else if ([event isEqualForName:@"addCar"]) {
                 self.model.currentCar = x;
             }
             if (!self.model.currentCar) {
@@ -215,7 +221,7 @@
         [gToast showError:error.domain];
         [self.view showDefaultEmptyViewWithText:@"获取爱车信息失败，点击重试" tapBlock:^{
             @strongify(self);
-            [self.carStore sendEvent:[self.carStore getAllCars]];
+            [[self.carStore getAllCars] send];
         }];
     }];
 }
@@ -376,14 +382,11 @@
         [gToast showingWithText:@"正在上传..."];
     }] flattenMap:^RACStream *(NSString *url) {
         
-        @strongify(self);
         //更新行驶证的url，如果更新失败，重置为原来的行驶证url
         NSString *oldurl = car.licenceurl;
         car.licenceurl = url;
         MyCarStore *store = [MyCarStore fetchExistsStore];
-        HKStoreEvent *evt = [store updateCar:car];
-        evt.object = self;
-        return [[[store sendEvent:evt] signal] catch:^RACSignal *(NSError *error) {
+        return [[[store updateCar:car] sendAndIgnoreError] catch:^RACSignal *(NSError *error) {
             car.licenceurl = oldurl;
             return [RACSignal error:error];
         }];

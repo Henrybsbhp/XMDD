@@ -181,8 +181,9 @@
 
 - (void)dealloc
 {
-    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
-    DebugLog(deallocInfo);
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"AboutViewController dealloc");
 }
 
 - (void)didReceiveMemoryWarning {
