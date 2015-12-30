@@ -166,7 +166,15 @@
         }
     }];
     //默认显示普洗
-    [self.segHelper selectItem:self.carwashBtn];
+    if (self.serviceType == ShopServiceCarwashWithHeart)
+    {
+        [self.segHelper selectItem:self.withheartBtn];
+    }
+    else
+    {
+        [self.segHelper selectItem:self.carwashBtn];
+    }
+    
 }
 
 - (void)setupTableView
@@ -187,7 +195,6 @@
 {
     [MobClick event:@"rp102-1"];
     NearbyShopsViewController * nearbyShopView = [carWashStoryboard instantiateViewControllerWithIdentifier:@"NearbyShopsViewController"];
-    nearbyShopView.type = self.type;
     nearbyShopView.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:nearbyShopView animated:YES];
 }

@@ -574,7 +574,6 @@
 {
     [MobClick event:@"rp101-3"];
     CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
-    vc.type = 1 ;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

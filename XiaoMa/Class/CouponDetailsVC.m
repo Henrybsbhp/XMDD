@@ -64,7 +64,6 @@
                 [gToast dismiss];
                 //去洗车
                 CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
-                vc.type = 1 ;
                 vc.couponForWashDic = self.couponDic;
                 [self.navigationController pushViewController:vc animated:YES];
 
@@ -95,8 +94,8 @@
                 @strongify(self);
                 //去洗车
                 CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
-                vc.type = 1 ;
                 vc.couponForWashDic = self.couponDic;
+                vc.serviceType = self.oldType == CouponTypeWithHeartCarwash ? ShopServiceCarwashWithHeart : ShopServiceCarWash;
                 [self.navigationController pushViewController:vc animated:YES];
             }];
         }
