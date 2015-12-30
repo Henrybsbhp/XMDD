@@ -25,6 +25,18 @@
 
 @implementation ValuationResultVC
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp602"];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp602"];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     

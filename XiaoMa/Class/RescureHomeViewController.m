@@ -36,6 +36,18 @@
 
 @implementation RescureHomeViewController
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp701"];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp701"];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self actionFirstEnterNetwork];

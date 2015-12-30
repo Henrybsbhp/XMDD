@@ -46,6 +46,18 @@
     [self setupCarStore];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp802"];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp802"];
+}
+
 #pragma mark - Action
 - (void) countNetwork {
     GetRescueHostCountsOp *op = [GetRescueHostCountsOp operation];
