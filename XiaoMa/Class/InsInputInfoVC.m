@@ -51,10 +51,16 @@
     });
 }
 
--(void)viewDidDisappear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidDisappear:animated];
-    
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp1001"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp1001"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,7 +72,6 @@
 - (void)setupDatePicker {
     self.datePicker = [DatePickerVC datePickerVCWithMaximumDate:nil];
 }
-
 
 #pragma mark - Datasource
 - (void)loadDataAsync
@@ -131,6 +136,8 @@
     normalCell1.customInfo[@"placehold"] = @"请输入车架号码";
     normalCell1.customInfo[@"pic"] = @"ins_eg_pic1";
     normalCell1.customInfo[@"limit"] = @17;
+    normalCell1.customInfo[@"field.event"] = @"rp1001-4";
+    normalCell1.customInfo[@"help.event"] = @"rp1001-3";
     normalCell1.object = self.baseCar.frameno;
     [datasource addObject:normalCell1];
     
@@ -141,6 +148,8 @@
     normalCell2.customInfo[@"placehold"] = @"请输入车辆型号";
     normalCell2.customInfo[@"pic"] = @"ins_eg_pic2";
     normalCell2.customInfo[@"limit"] = @50;
+    normalCell2.customInfo[@"field.event"] = @"rp1001-6";
+    normalCell2.customInfo[@"help.event"] = @"rp1001-5";
     normalCell2.object = self.baseCar.brandname;
     [datasource addObject:normalCell2];
     
@@ -150,6 +159,8 @@
     normalCell3.customInfo[@"placehold"] = @"请输入发动机号";
     normalCell3.customInfo[@"pic"] = @"ins_eg_pic3";
     normalCell3.customInfo[@"limit"] = @50;
+    normalCell3.customInfo[@"field.event"] = @"rp1001-8";
+    normalCell3.customInfo[@"help.event"] = @"rp1001-7";
     normalCell3.object = self.baseCar.engineno;
     [datasource addObject:normalCell3];
 
@@ -180,6 +191,7 @@
     [helpCell setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         
         @strongify(self);
+        [MobClick event:@"rp1001-11"];
         InsuranceInfoSubmitingVC *vc = [UIStoryboard vcWithId:@"InsuranceInfoSubmitingVC" inStoryboard:@"Insurance"];
         vc.insModel = self.insModel;
         [self.navigationController pushViewController:vc animated:YES];
@@ -193,6 +205,7 @@
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
+    [MobClick event:@"rp1001-13"];
     if (self.insModel.originVC) {
         [self.navigationController popToViewController:self.insModel.originVC animated:YES];
     }
@@ -203,7 +216,7 @@
 
 - (IBAction)actionNext:(id)sender
 {
-    
+    [MobClick event:@"rp1001-12"];
     AddInsCarBaseInfoOp *op = [AddInsCarBaseInfoOp operation];
     op.req_city = [[self.datasource safetyObjectAtIndex:1] customInfo][@"city"];
     op.req_regdate = [[self.datasource safetyObjectAtIndex:1] customInfo][@"date"];
@@ -340,6 +353,7 @@
      subscribeNext:^(id x) {
          
          @strongify(self);
+         [MobClick event:@"rp1001-2"];
          [self.view endEditing:YES];
          CityPickerVC *vc = [CityPickerVC cityPickerVCWithOriginVC:self];
          vc.options = CityPickerOptionCity;
@@ -364,6 +378,7 @@
      flattenMap:^RACStream *(id value) {
          
          @strongify(self);
+         [MobClick event:@"rp1001-1"];
          [self.view endEditing:YES];
          return [self rac_pickDateWithNow:data.customInfo[@"date"]];
      }] subscribeNext:^(NSString *datetext) {
@@ -399,6 +414,9 @@
     inputF.inputField.text = data.object;
     inputF.inputField.keyboardType = UIKeyboardTypeASCIICapable;
     inputF.inputField.textLimit = [data.customInfo[@"limit"] integerValue];
+    [inputF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        [MobClick event:data.customInfo[@"field.event"]];
+    }];
     [inputF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
 
         NSString *text = [field.text uppercaseString];
@@ -412,6 +430,7 @@
       subscribeNext:^(id x) {
           
           @strongify(self);
+          [MobClick event:data.customInfo[@"help.event"]];
           [self showPicture:data.customInfo[@"pic"]];
     }];
 }
@@ -426,6 +445,7 @@
      subscribeNext:^(NSNumber *x) {
          
          @strongify(self);
+         [MobClick event:@"rp1001-9"];
          @strongify(switchV);
          BOOL on = switchV.on;
          data.object = @(on);
@@ -458,6 +478,7 @@
       flattenMap:^RACStream *(id value) {
           
         @strongify(self);
+        [MobClick event:@"rp1001-10"];
         return [self rac_pickDateWithNow:data.object];
     }] subscribeNext:^(NSString *datetext) {
         

@@ -171,7 +171,7 @@
     @weakify(self);
     [[[deleteB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
-         [MobClick event:@"rp126-5"];
+         [MobClick event:@"rp1002-3"];
          @strongify(self);
          [self actionDeleteRecord:record];
     }];
@@ -184,6 +184,10 @@
         @strongify(self);
         NSInteger itemIndex = [self.recordList indexOfObject:record];
         if (itemIndex != NSNotFound && itemIndex == [index integerValue]) {
+            [MobClick event:@"rp1002-4"];
+            if (record.plateNumber) {
+                [MobClick event:@"rp1002-5"];
+            }
             cell.contentView.layer.borderWidth = 1.5;
             checkV.hidden = NO;
         }

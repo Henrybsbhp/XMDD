@@ -63,6 +63,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp1003"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp1003"];
+}
+
 #pragma mark - Setup
 - (void)setupHeaderView
 {
@@ -209,8 +221,15 @@
 }
 
 #pragma mark - Action
+- (void)actionBack:(id)sender
+{
+    [MobClick event:@"rp1003-1"];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (IBAction)actionNext:(id)sender
 {
+    [MobClick event:@"rp1003-6"];
     NSArray *inslist = [self generateInsList];
     if (inslist.count < 3) {
         [gToast showError:@"请至少选择一个商业险种"];
@@ -225,6 +244,7 @@
 
 - (void)actionSegmentChanged:(id)sender
 {
+    [MobClick event:[NSString stringWithFormat:@"rp1003-%ld", self.segctrl.selectedSegmentIndex+2]];
     [self reloadTableDataWithCurPlan:[self.planList safetyObjectAtIndex:self.segctrl.selectedSegmentIndex]];
 }
 

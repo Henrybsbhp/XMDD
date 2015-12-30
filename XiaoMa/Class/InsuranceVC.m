@@ -60,13 +60,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp114"];
+    [MobClick beginLogPageView:@"rp1000"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp114"];
+    [MobClick endLogPageView:@"rp1000"];
 }
 
 - (void)setupADView
@@ -167,6 +167,7 @@
         [cell setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
             
             @strongify(self);
+            [MobClick event:@"rp1002-2"];
             InsSimpleCar *car = obj;
             if (car.status == 0 || !car.carpremiumid) {
                 [self actionInputOwnerNameForSimpleCar:car];
@@ -294,7 +295,7 @@
         [self resetPromptCell:cell withData:data];
     }
     else if ([data equalByCellID:@"Car" tag:nil]) {
-        [self resetCarCell:cell withData:data];
+        [self resetCarCell:cell withData:data atIndexPath:indexPath];
     }
     else if ([data equalByCellID:@"Add" tag:nil]) {
         [self resetAddCarCell:cell withData:data];
@@ -311,7 +312,7 @@
     
 }
 
-- (void)resetCarCell:(UITableViewCell *)cell withData:(HKCellData *)data
+- (void)resetCarCell:(UITableViewCell *)cell withData:(HKCellData *)data atIndexPath:(NSIndexPath *)indexPath
 {
     UILabel *numberL = [cell viewWithTag:1001];
     UIButton *rightB = [cell viewWithTag:1002];
@@ -343,6 +344,7 @@
      subscribeNext:^(id x) {
 
          @strongify(self);
+         [MobClick event:@"rp1001-1"];
          //到核保结果页
          if (car.status == 1) {
              InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
@@ -375,6 +377,7 @@
     [[[provinceB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
          @strongify(self);
+         [MobClick event:@"rp1000-3"];
          if (self.insStore.insProvinces.count == 1) {
              Area *province = [self.insStore.insProvinces objectAtIndex:0];
              [gToast showText:[NSString stringWithFormat:@"当前只支持%@", province.name]];

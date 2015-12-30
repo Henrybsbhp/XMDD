@@ -53,22 +53,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp319"];
+    [MobClick beginLogPageView:@"rp1012"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp319"];
+    [MobClick endLogPageView:@"rp1012"];
 }
 
--(void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    /**
-     *  订单详情页面返回事件
-     */
-    [MobClick event:@"rp1012-1"];
-}
 - (void)setupRefreshView
 {
     [self.tableView.refreshView addTarget:self action:@selector(actionRefresh) forControlEvents:UIControlEventValueChanged];
@@ -215,8 +207,14 @@
     return @"";
 }
 #pragma mark - Action
+- (void)actionBack:(id)sender
+{
+    [MobClick event:@"rp1012-1"];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)actionPay:(id)sender {
-    [MobClick event:@"rp319-1"];
+    [MobClick event:@"rp1012-2"];
     PayForInsuranceVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"PayForInsuranceVC"];
     vc.insModel = self.insModel;
     vc.insOrder = self.order;
@@ -224,12 +222,7 @@
 }
 
 - (void)actionMakeCall:(id)sender {
-    if (self.order.status == InsuranceOrderStatusPaid) {
-        [MobClick event:@"rp319-2"];
-    }
-    else if (self.order.status == InsuranceOrderStatusComplete){
-        [MobClick event:@"rp319-3"];
-    }
+    [MobClick event:@"rp1012-3"];
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
 }
 
