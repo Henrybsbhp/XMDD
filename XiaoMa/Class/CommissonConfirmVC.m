@@ -56,7 +56,7 @@
     [super viewDidLoad];
     [self.view addSubview:self.helperBtn];
     [self setupCarStore];
-//    [self addSubView];
+    [self addSubView];
 }
 
 #pragma mark - Action
