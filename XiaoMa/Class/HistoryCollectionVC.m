@@ -218,6 +218,7 @@
     if (checkBtn.isSelected)
     {
         [self.deleteArr safetyAddObject:self.dataArr[indexPath.section]];
+        
     }
     else
     {
@@ -417,7 +418,6 @@
     HistoryDeleteOp *deleteOp = [HistoryDeleteOp new];
     deleteOp.req_evaluateIds = deleteStr;
     [[[deleteOp rac_postRequest] initially:^{
-        
         [gToast showingWithText:@""];
     }] subscribeNext:^(id x) {
         
@@ -425,11 +425,8 @@
         
         if (![deleteStr isEqualToString:@"all"])
         {
-            NSMutableIndexSet  * tempSet = [NSMutableIndexSet indexSet];
             for (NSDictionary *dic in self.deleteArr)
             {
-                NSInteger index = [self.dataArr indexOfObject:dic];
-                [tempSet addIndex:index];
                 [self.dataArr safetyRemoveObject:dic];
             }
         }
@@ -439,7 +436,6 @@
         }
         [self.deleteArr removeAllObjects];
         [self reloadData];
-        
     }error:^(NSError *error) {
         [gToast showError:error.domain];
     }];
@@ -482,7 +478,6 @@
         }
         NSString *deleteStr = [deleteStrArr componentsJoinedByString:@","];
         [self uploadDeletaArr:deleteStr];
-        [self.deleteArr removeAllObjects];
     }
     else
     {
