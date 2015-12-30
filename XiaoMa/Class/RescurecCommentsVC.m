@@ -220,14 +220,33 @@
         UILabel *textLb = (UILabel *)[cell1 searchViewWithTag:1001];
         
         if (indexPath.row == 0) {
-            nameLabel.text = @"申请时间";
-            textLb.text = [[NSDate dateWithUTS:self.history.appointTime] dateFormatForYYMMdd2];
+            
+            if ([self.applyType integerValue]== 2) {
+                nameLabel.text = @"申请服务";
+                textLb.text = self.history.serviceName;
+            }else{
+                nameLabel.text = @"申请时间";
+                textLb.text = [[NSDate dateWithUTS:self.history.applyTime] dateFormatForYYMMdd2];
+            }
+            
         }else if (indexPath.row == 1){
-            nameLabel.text = @"申请服务";
-            textLb.text = self.history.serviceName;
+            if ([self.applyType integerValue]== 2) {
+                nameLabel.text = @"服务车辆";
+                textLb.text = self.history.licenceNumber;
+                
+            }else{
+                nameLabel.text = @"申请服务";
+                textLb.text = self.history.serviceName;
+            }
+            
         }else if (indexPath.row == 2){
-            nameLabel.text = @"服务车牌";
-            textLb.text = self.history.licenceNumber;
+            if ([self.applyType integerValue]== 2) {
+                nameLabel.text = @"预约时间";
+                textLb.text = [[NSDate dateWithUTS:self.history.appointTime] dateFormatForYYMMdd2];
+            }else{
+                nameLabel.text = @"服务车牌";
+                textLb.text = self.history.licenceNumber;
+            }
         }
         return cell1;
         
