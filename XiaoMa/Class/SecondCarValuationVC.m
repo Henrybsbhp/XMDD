@@ -12,6 +12,7 @@
 #import "CommitSuccessVC.h"
 #import <IQKeyboardManager.h>
 #import "WebVC.h"
+#import "OETextField.h"
 @interface SecondCarValuationVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 //底部提交按钮
 @property (strong, nonatomic) IBOutlet UIButton *commitBtn;
@@ -46,18 +47,18 @@
 {
     [super viewWillAppear:animated];
     [IQKeyboardManager sharedManager].enable=NO;
-    //    [IQKeyboardManager sharedManager].enableAutoToolbar=NO;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(openKeyboard:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(closeKeyboard:) name:UIKeyboardWillHideNotification object:nil];
+    [MobClick beginLogPageView:@"rp604"];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [IQKeyboardManager sharedManager].enable=YES;
-    //    [IQKeyboardManager sharedManager].enableAutoToolbar=YES;
     [[NSNotificationCenter defaultCenter]removeObserver:UIKeyboardWillShowNotification];
     [[NSNotificationCenter defaultCenter]removeObserver:UIKeyboardWillHideNotification];
+    [MobClick endLogPageView:@"rp604"];
 }
 
 - (void)viewDidLoad {
@@ -197,6 +198,10 @@
         self.name = name.text;
     }];
     [phoneNumber.rac_textSignal subscribeNext:^(id x) {
+        
+        if (phoneNumber.text.length > 11) {
+            phoneNumber.text = [phoneNumber.text substringToIndex:11];
+        }
         self.phoneNumber = phoneNumber.text;
     }];
     
@@ -393,9 +398,9 @@
     {
         [gToast showError:@"车主姓名不能为空"];
     }
-    else if ([self.phoneNumber isEqualToString:@""])
+    else if (self.phoneNumber.length != 11)
     {
-        [gToast showError:@"车主号码不能为空"];
+        [gToast showError:@"请输入正确的联系方式"];
     }
     else
     {

@@ -300,6 +300,9 @@
     cell2_1.customInfo[@"placehold"] = @"请选择行驶城市";
     cell2_1.object = RACObserve(self.curCar, cithName);
     [cell2_1 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+        
+        [MobClick event:@"rp312-18"];
+        
         @strongify(self);
         [self.view endEditing:YES];
         
@@ -330,7 +333,7 @@
             /**
              *  车架号码点击事件
              */
-            [MobClick event:@"rp312-18"];
+            [MobClick event:@"rp312-19"];
         }];
         
         [[[field rac_newTextChannel] takeUntil:stopSig] subscribeNext:^(id x) {
@@ -369,7 +372,7 @@
             /**
              *  发动机号
              */
-            [MobClick event:@"rp312-19"];
+            [MobClick event:@"rp312-20"];
         }];
         
         [[[field rac_newTextChannel] takeUntil:stopSig] subscribeNext:^(id x) {

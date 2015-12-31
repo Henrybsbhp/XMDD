@@ -170,11 +170,13 @@
 
 - (void)shareAction
 {
+    [gToast showingWithText:@"分享信息拉取中..."];
     GetShareButtonOp * op = [GetShareButtonOp operation];
     op.pagePosition = ShareSceneGain;
     @weakify(self);
     [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
         
+        [gToast dismiss];
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneGain;    //页面位置
         vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
@@ -258,7 +260,6 @@
         [MobClick event:@"rp402-3"];
         [resultSheet dismissAnimated:YES completionHandler:nil];
         CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
-        vc.type = 1;
         [self.navigationController pushViewController:vc animated:YES];
     }];
     

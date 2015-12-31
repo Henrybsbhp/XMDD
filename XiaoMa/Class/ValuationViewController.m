@@ -59,6 +59,7 @@
     [super viewWillAppear:animated];
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;
     [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
+    [MobClick beginLogPageView:@"rp601"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -66,6 +67,7 @@
     [super viewWillDisappear:animated];
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = NO;
     [IQKeyboardManager sharedManager].enableAutoToolbar = YES;
+    [MobClick endLogPageView:@"rp601"];
 }
 
 - (void)viewDidLoad {
@@ -112,12 +114,11 @@
 - (void)setupAdView
 {
     CKAsyncMainQueue(^{
-        //测试有广告的情况
         /**
-         *  点击广告事件
+         *  点击广告事件（只需传入底层事件，具体点了哪个广告在底层实现）
          */
         self.advc  =[ADViewController vcWithADType:AdvertisementValuation boundsWidth:self.view.bounds.size.width
-                                          targetVC:self mobBaseEvent:@"rp601-5.1"];
+                                          targetVC:self mobBaseEvent:@"rp601-5"];
         [self.advc reloadDataForTableView:self.tableView];
     });
 }
@@ -186,7 +187,7 @@
             self.selectCar = [self.carStore.cars objectForKey:event.object];
         }
         else {
-            self.selectCar = [self.dataSource safetyObjectAtIndex:0];
+            self.selectCar = [self.dataSource safetyObjectAtIndex:self.carIndex];
         }
         NSString * milesStr = [NSString formatForPrice:self.selectCar.odo / 10000.00];
         self.miles = [milesStr floatValue];
@@ -304,6 +305,7 @@
         modelField.inputField.userInteractionEnabled = NO;
         @weakify(self);
         [view setSelectTypeClickBlock:^{
+            [MobClick event:@"rp601-7"];
             @strongify(self);
             PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Car"];
             vc.originVC = self;
@@ -324,6 +326,7 @@
         HKSubscriptInputField * dateField = [view viewWithTag:203];
         dateField.inputField.userInteractionEnabled = NO;
         [view setSelectDateClickBlock:^{
+            [MobClick event:@"rp601-8"];
             @strongify(self);
             HKMyCar * myCar = [self.dataSource safetyObjectAtIndex:i];
             self.datePicker.maximumDate = [NSDate date];
@@ -400,6 +403,7 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
+    [MobClick event:@"rp601-6"];
     if (self.advc.adList.count != 0) {
         self.tableView.contentSize=CGSizeMake(CGRectGetWidth(self.tableView.contentFrame), CGRectGetHeight(self.tableView.contentFrame) + 170);
         
@@ -430,10 +434,6 @@
             self.tableView.contentSize=CGSizeMake(CGRectGetWidth(self.tableView.contentFrame), CGRectGetHeight(self.tableView.contentFrame) - 170);
         }];
     }
-}
-
-- (IBAction)recordAction:(id)sender {
-    
 }
 
 - (IBAction)evaluationAction:(id)sender {
@@ -481,6 +481,7 @@
         
         @strongify(self);
         [gToast dismiss];
+        [[self.carStore getAllCars] send];
         ValuationResultVC * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"ValuationResultVC"];
         vc.evaluateOp = op;
         vc.logoUrl = self.selectCar.brandLogo;

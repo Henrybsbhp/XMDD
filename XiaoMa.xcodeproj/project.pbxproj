@@ -281,8 +281,7 @@
 		2E3EEBC31C224DD20010E34F /* CommissonOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EEBC21C224DD20010E34F /* CommissonOrderVC.m */; };
 		2E3EEBC61C227CC90010E34F /* CommissonConfirmVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EEBC51C227CC90010E34F /* CommissonConfirmVC.m */; };
 		2E3EEBCF1C22AAD50010E34F /* CommissionForsuccessfulVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EEBCE1C22AAD50010E34F /* CommissionForsuccessfulVC.m */; };
-		2E52F24A1C2032BB00D94F68 /* RescurecCommentsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E52F2411C2032BB00D94F68 /* RescurecCommentsVC.m */; };
-		2E3FE0C61C23ABC0003573EC /* GetStartHostCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3FE0C51C23ABC0003573EC /* GetStartHostCarOp.m */; };
+		2E52F24A1C2032BB00D94F68 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		2E52F24B1C2032BB00D94F68 /* RescureDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E52F2431C2032BB00D94F68 /* RescureDetailsVC.m */; };
 		2E52F24D1C2032BB00D94F68 /* RescureHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E52F2471C2032BB00D94F68 /* RescureHomeViewController.m */; };
 		2E77A48F1C325F2F00264FC9 /* GetRescueApplyHostCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E77A47E1C325F2F00264FC9 /* GetRescueApplyHostCarOp.m */; };
@@ -306,6 +305,7 @@
 		4EF12DED1C1EBC900098B8C6 /* SecondCarValuationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */; };
 		4EF94AF21C321D020092CB55 /* RescurecCommentsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF01C321D020092CB55 /* RescurecCommentsVC.m */; };
 		4EF94AF31C321D020092CB55 /* RescureHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF11C321D020092CB55 /* RescureHistoryViewController.m */; };
+		4EF94AFA1C3256330092CB55 /* OETextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF91C3256330092CB55 /* OETextField.m */; };
 		50094B431C1144640069683C /* GetAreaInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50094B421C1144640069683C /* GetAreaInfoOp.m */; };
 		50094B461C117CE80069683C /* AreaTablePickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50094B451C117CE80069683C /* AreaTablePickerVC.m */; };
 		5014B6571C07041B00DFAB18 /* GetShareButtonOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5014B6561C07041B00DFAB18 /* GetShareButtonOp.m */; };
@@ -553,6 +553,35 @@
 		6BEC3FC91C1122B40046F11D /* GetCityInfoByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEC3FC81C1122B40046F11D /* GetCityInfoByNameOp.m */; };
 		6BEC3FCC1C16F1A50046F11D /* MyUIPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEC3FCB1C16F1A50046F11D /* MyUIPageControl.m */; };
 		6BEDB0461BA666D4009A8C3F /* CCSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDB0451BA666D4009A8C3F /* CCSegmentedControl.m */; };
+		6BEE17751C325A0D0004F63A /* IFTTTAlphaAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE173C1C325A0D0004F63A /* IFTTTAlphaAnimation.m */; };
+		6BEE17761C325A0D0004F63A /* IFTTTAnimatedPagingScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE173F1C325A0D0004F63A /* IFTTTAnimatedPagingScrollViewController.m */; };
+		6BEE17771C325A0D0004F63A /* IFTTTAnimatedScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17411C325A0D0004F63A /* IFTTTAnimatedScrollViewController.m */; };
+		6BEE17781C325A0D0004F63A /* IFTTTAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17431C325A0D0004F63A /* IFTTTAnimation.m */; };
+		6BEE17791C325A0D0004F63A /* IFTTTAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17451C325A0D0004F63A /* IFTTTAnimator.m */; };
+		6BEE177A1C325A0D0004F63A /* IFTTTBackgroundColorAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17471C325A0D0004F63A /* IFTTTBackgroundColorAnimation.m */; };
+		6BEE177B1C325A0D0004F63A /* IFTTTConstraintConstantAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17491C325A0D0004F63A /* IFTTTConstraintConstantAnimation.m */; };
+		6BEE177C1C325A0D0004F63A /* IFTTTConstraintMultiplierAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE174B1C325A0D0004F63A /* IFTTTConstraintMultiplierAnimation.m */; };
+		6BEE177D1C325A0D0004F63A /* IFTTTCornerRadiusAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE174D1C325A0D0004F63A /* IFTTTCornerRadiusAnimation.m */; };
+		6BEE177E1C325A0D0004F63A /* IFTTTEasingFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE174F1C325A0D0004F63A /* IFTTTEasingFunction.m */; };
+		6BEE177F1C325A0D0004F63A /* IFTTTFilmstrip.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17511C325A0D0004F63A /* IFTTTFilmstrip.m */; };
+		6BEE17801C325A0D0004F63A /* IFTTTFrameAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17531C325A0D0004F63A /* IFTTTFrameAnimation.m */; };
+		6BEE17811C325A0D0004F63A /* IFTTTHideAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17551C325A0D0004F63A /* IFTTTHideAnimation.m */; };
+		6BEE17821C325A0D0004F63A /* IFTTTInterpolatable.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17571C325A0D0004F63A /* IFTTTInterpolatable.m */; };
+		6BEE17831C325A0D0004F63A /* IFTTTLayerFillColorAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE175A1C325A0D0004F63A /* IFTTTLayerFillColorAnimation.m */; };
+		6BEE17841C325A0D0004F63A /* IFTTTLayerStrokeEndAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE175C1C325A0D0004F63A /* IFTTTLayerStrokeEndAnimation.m */; };
+		6BEE17851C325A0D0004F63A /* IFTTTLayerStrokeStartAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE175E1C325A0D0004F63A /* IFTTTLayerStrokeStartAnimation.m */; };
+		6BEE17861C325A0D0004F63A /* IFTTTMaskAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17601C325A0D0004F63A /* IFTTTMaskAnimation.m */; };
+		6BEE17871C325A0D0004F63A /* IFTTTPathPositionAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17621C325A0D0004F63A /* IFTTTPathPositionAnimation.m */; };
+		6BEE17881C325A0D0004F63A /* IFTTTRotationAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17641C325A0D0004F63A /* IFTTTRotationAnimation.m */; };
+		6BEE17891C325A0D0004F63A /* IFTTTScaleAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17661C325A0D0004F63A /* IFTTTScaleAnimation.m */; };
+		6BEE178A1C325A0D0004F63A /* IFTTTScrollViewPageConstraintAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17681C325A0D0004F63A /* IFTTTScrollViewPageConstraintAnimation.m */; };
+		6BEE178B1C325A0D0004F63A /* IFTTTShapeLayerAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE176A1C325A0D0004F63A /* IFTTTShapeLayerAnimation.m */; };
+		6BEE178C1C325A0D0004F63A /* IFTTTTextColorAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE176C1C325A0D0004F63A /* IFTTTTextColorAnimation.m */; };
+		6BEE178D1C325A0D0004F63A /* IFTTTTransform3DAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE176E1C325A0D0004F63A /* IFTTTTransform3DAnimation.m */; };
+		6BEE178E1C325A0D0004F63A /* IFTTTTranslationAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17701C325A0D0004F63A /* IFTTTTranslationAnimation.m */; };
+		6BEE178F1C325A0D0004F63A /* IFTTTViewAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17721C325A0D0004F63A /* IFTTTViewAnimation.m */; };
+		6BEE17901C325A0D0004F63A /* UIView+IFTTTJazzHands.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17741C325A0D0004F63A /* UIView+IFTTTJazzHands.m */; };
+		6BEE17931C325A3C0004F63A /* GuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17921C325A3C0004F63A /* GuideViewController.m */; };
 		6BEF74891BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEF74881BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.m */; };
 		6BF392441BD627A900838292 /* GetShopByNameV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF392431BD627A900838292 /* GetShopByNameV2Op.m */; };
 		6BF3925F1BD8935600838292 /* CBAutoScrollLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF3925E1BD8935600838292 /* CBAutoScrollLabel.m */; };
@@ -1163,6 +1192,8 @@
 		4EF94AF01C321D020092CB55 /* RescurecCommentsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescurecCommentsVC.m; sourceTree = "<group>"; };
 		4EF94AF11C321D020092CB55 /* RescureHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescureHistoryViewController.m; sourceTree = "<group>"; };
 		4EF94AF41C321EFD0092CB55 /* RescureHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescureHistoryViewController.h; sourceTree = "<group>"; };
+		4EF94AF81C3256330092CB55 /* OETextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OETextField.h; path = Class/OETextField.h; sourceTree = "<group>"; };
+		4EF94AF91C3256330092CB55 /* OETextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OETextField.m; path = Class/OETextField.m; sourceTree = "<group>"; };
 		50094B411C1144640069683C /* GetAreaInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetAreaInfoOp.h; path = Class/GetAreaInfoOp.h; sourceTree = "<group>"; };
 		50094B421C1144640069683C /* GetAreaInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAreaInfoOp.m; path = Class/GetAreaInfoOp.m; sourceTree = "<group>"; };
 		50094B441C117CE80069683C /* AreaTablePickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaTablePickerVC.h; sourceTree = "<group>"; };
@@ -1703,6 +1734,66 @@
 		6BEC3FCB1C16F1A50046F11D /* MyUIPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyUIPageControl.m; path = Class/MyUIPageControl.m; sourceTree = "<group>"; };
 		6BEDB0441BA666D4009A8C3F /* CCSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSegmentedControl.h; sourceTree = "<group>"; };
 		6BEDB0451BA666D4009A8C3F /* CCSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCSegmentedControl.m; sourceTree = "<group>"; };
+		6BEE173B1C325A0D0004F63A /* IFTTTAlphaAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTAlphaAnimation.h; sourceTree = "<group>"; };
+		6BEE173C1C325A0D0004F63A /* IFTTTAlphaAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTAlphaAnimation.m; sourceTree = "<group>"; };
+		6BEE173D1C325A0D0004F63A /* IFTTTAnimatable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTAnimatable.h; sourceTree = "<group>"; };
+		6BEE173E1C325A0D0004F63A /* IFTTTAnimatedPagingScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTAnimatedPagingScrollViewController.h; sourceTree = "<group>"; };
+		6BEE173F1C325A0D0004F63A /* IFTTTAnimatedPagingScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTAnimatedPagingScrollViewController.m; sourceTree = "<group>"; };
+		6BEE17401C325A0D0004F63A /* IFTTTAnimatedScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTAnimatedScrollViewController.h; sourceTree = "<group>"; };
+		6BEE17411C325A0D0004F63A /* IFTTTAnimatedScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTAnimatedScrollViewController.m; sourceTree = "<group>"; };
+		6BEE17421C325A0D0004F63A /* IFTTTAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTAnimation.h; sourceTree = "<group>"; };
+		6BEE17431C325A0D0004F63A /* IFTTTAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTAnimation.m; sourceTree = "<group>"; };
+		6BEE17441C325A0D0004F63A /* IFTTTAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTAnimator.h; sourceTree = "<group>"; };
+		6BEE17451C325A0D0004F63A /* IFTTTAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTAnimator.m; sourceTree = "<group>"; };
+		6BEE17461C325A0D0004F63A /* IFTTTBackgroundColorAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTBackgroundColorAnimation.h; sourceTree = "<group>"; };
+		6BEE17471C325A0D0004F63A /* IFTTTBackgroundColorAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTBackgroundColorAnimation.m; sourceTree = "<group>"; };
+		6BEE17481C325A0D0004F63A /* IFTTTConstraintConstantAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTConstraintConstantAnimation.h; sourceTree = "<group>"; };
+		6BEE17491C325A0D0004F63A /* IFTTTConstraintConstantAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTConstraintConstantAnimation.m; sourceTree = "<group>"; };
+		6BEE174A1C325A0D0004F63A /* IFTTTConstraintMultiplierAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTConstraintMultiplierAnimation.h; sourceTree = "<group>"; };
+		6BEE174B1C325A0D0004F63A /* IFTTTConstraintMultiplierAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTConstraintMultiplierAnimation.m; sourceTree = "<group>"; };
+		6BEE174C1C325A0D0004F63A /* IFTTTCornerRadiusAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTCornerRadiusAnimation.h; sourceTree = "<group>"; };
+		6BEE174D1C325A0D0004F63A /* IFTTTCornerRadiusAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTCornerRadiusAnimation.m; sourceTree = "<group>"; };
+		6BEE174E1C325A0D0004F63A /* IFTTTEasingFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTEasingFunction.h; sourceTree = "<group>"; };
+		6BEE174F1C325A0D0004F63A /* IFTTTEasingFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTEasingFunction.m; sourceTree = "<group>"; };
+		6BEE17501C325A0D0004F63A /* IFTTTFilmstrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTFilmstrip.h; sourceTree = "<group>"; };
+		6BEE17511C325A0D0004F63A /* IFTTTFilmstrip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTFilmstrip.m; sourceTree = "<group>"; };
+		6BEE17521C325A0D0004F63A /* IFTTTFrameAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTFrameAnimation.h; sourceTree = "<group>"; };
+		6BEE17531C325A0D0004F63A /* IFTTTFrameAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTFrameAnimation.m; sourceTree = "<group>"; };
+		6BEE17541C325A0D0004F63A /* IFTTTHideAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTHideAnimation.h; sourceTree = "<group>"; };
+		6BEE17551C325A0D0004F63A /* IFTTTHideAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTHideAnimation.m; sourceTree = "<group>"; };
+		6BEE17561C325A0D0004F63A /* IFTTTInterpolatable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTInterpolatable.h; sourceTree = "<group>"; };
+		6BEE17571C325A0D0004F63A /* IFTTTInterpolatable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTInterpolatable.m; sourceTree = "<group>"; };
+		6BEE17581C325A0D0004F63A /* IFTTTJazzHands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTJazzHands.h; sourceTree = "<group>"; };
+		6BEE17591C325A0D0004F63A /* IFTTTLayerFillColorAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTLayerFillColorAnimation.h; sourceTree = "<group>"; };
+		6BEE175A1C325A0D0004F63A /* IFTTTLayerFillColorAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTLayerFillColorAnimation.m; sourceTree = "<group>"; };
+		6BEE175B1C325A0D0004F63A /* IFTTTLayerStrokeEndAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTLayerStrokeEndAnimation.h; sourceTree = "<group>"; };
+		6BEE175C1C325A0D0004F63A /* IFTTTLayerStrokeEndAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTLayerStrokeEndAnimation.m; sourceTree = "<group>"; };
+		6BEE175D1C325A0D0004F63A /* IFTTTLayerStrokeStartAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTLayerStrokeStartAnimation.h; sourceTree = "<group>"; };
+		6BEE175E1C325A0D0004F63A /* IFTTTLayerStrokeStartAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTLayerStrokeStartAnimation.m; sourceTree = "<group>"; };
+		6BEE175F1C325A0D0004F63A /* IFTTTMaskAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTMaskAnimation.h; sourceTree = "<group>"; };
+		6BEE17601C325A0D0004F63A /* IFTTTMaskAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTMaskAnimation.m; sourceTree = "<group>"; };
+		6BEE17611C325A0D0004F63A /* IFTTTPathPositionAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTPathPositionAnimation.h; sourceTree = "<group>"; };
+		6BEE17621C325A0D0004F63A /* IFTTTPathPositionAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTPathPositionAnimation.m; sourceTree = "<group>"; };
+		6BEE17631C325A0D0004F63A /* IFTTTRotationAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTRotationAnimation.h; sourceTree = "<group>"; };
+		6BEE17641C325A0D0004F63A /* IFTTTRotationAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTRotationAnimation.m; sourceTree = "<group>"; };
+		6BEE17651C325A0D0004F63A /* IFTTTScaleAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTScaleAnimation.h; sourceTree = "<group>"; };
+		6BEE17661C325A0D0004F63A /* IFTTTScaleAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTScaleAnimation.m; sourceTree = "<group>"; };
+		6BEE17671C325A0D0004F63A /* IFTTTScrollViewPageConstraintAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTScrollViewPageConstraintAnimation.h; sourceTree = "<group>"; };
+		6BEE17681C325A0D0004F63A /* IFTTTScrollViewPageConstraintAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTScrollViewPageConstraintAnimation.m; sourceTree = "<group>"; };
+		6BEE17691C325A0D0004F63A /* IFTTTShapeLayerAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTShapeLayerAnimation.h; sourceTree = "<group>"; };
+		6BEE176A1C325A0D0004F63A /* IFTTTShapeLayerAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTShapeLayerAnimation.m; sourceTree = "<group>"; };
+		6BEE176B1C325A0D0004F63A /* IFTTTTextColorAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTTextColorAnimation.h; sourceTree = "<group>"; };
+		6BEE176C1C325A0D0004F63A /* IFTTTTextColorAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTTextColorAnimation.m; sourceTree = "<group>"; };
+		6BEE176D1C325A0D0004F63A /* IFTTTTransform3DAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTTransform3DAnimation.h; sourceTree = "<group>"; };
+		6BEE176E1C325A0D0004F63A /* IFTTTTransform3DAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTTransform3DAnimation.m; sourceTree = "<group>"; };
+		6BEE176F1C325A0D0004F63A /* IFTTTTranslationAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTTranslationAnimation.h; sourceTree = "<group>"; };
+		6BEE17701C325A0D0004F63A /* IFTTTTranslationAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTTranslationAnimation.m; sourceTree = "<group>"; };
+		6BEE17711C325A0D0004F63A /* IFTTTViewAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTViewAnimation.h; sourceTree = "<group>"; };
+		6BEE17721C325A0D0004F63A /* IFTTTViewAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTViewAnimation.m; sourceTree = "<group>"; };
+		6BEE17731C325A0D0004F63A /* UIView+IFTTTJazzHands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+IFTTTJazzHands.h"; sourceTree = "<group>"; };
+		6BEE17741C325A0D0004F63A /* UIView+IFTTTJazzHands.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+IFTTTJazzHands.m"; sourceTree = "<group>"; };
+		6BEE17911C325A3C0004F63A /* GuideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuideViewController.h; sourceTree = "<group>"; };
+		6BEE17921C325A3C0004F63A /* GuideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuideViewController.m; sourceTree = "<group>"; };
 		6BEF74871BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetsSystemSwitchConfigOp.h; path = Class/GetsSystemSwitchConfigOp.h; sourceTree = "<group>"; };
 		6BEF74881BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetsSystemSwitchConfigOp.m; path = Class/GetsSystemSwitchConfigOp.m; sourceTree = "<group>"; };
 		6BF392421BD627A900838292 /* GetShopByNameV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShopByNameV2Op.h; path = Class/GetShopByNameV2Op.h; sourceTree = "<group>"; };
@@ -1785,6 +1876,7 @@
 			isa = PBXGroup;
 			children = (
 				18CECC221C30F8890075B7F9 /* JT3DScrollView */,
+				6BEE173A1C325A0D0004F63A /* JazzHands */,
 				50E9DD131BE201090070F38D /* Reachability */,
 				6BF3925C1BD8935600838292 /* CBAutoScrollLabel */,
 				18BF41F61BCF75DA0039F210 /* RTLabel */,
@@ -2486,6 +2578,8 @@
 				18D17F821B57A3D000F66F04 /* HomePageVModel.m */,
 				18E28A091B904FF00070E759 /* LaunchVC.h */,
 				18E28A0A1B904FF00070E759 /* LaunchVC.m */,
+				6BEE17911C325A3C0004F63A /* GuideViewController.h */,
+				6BEE17921C325A3C0004F63A /* GuideViewController.m */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -2913,6 +3007,8 @@
 				18BF420B1BD273C70039F210 /* CKLimitTextField.m */,
 				1897C3031C16CF02007E394E /* HKSubscriptInputField.h */,
 				1897C3041C16CF02007E394E /* HKSubscriptInputField.m */,
+				4EF94AF81C3256330092CB55 /* OETextField.h */,
+				4EF94AF91C3256330092CB55 /* OETextField.m */,
 			);
 			name = TextField;
 			sourceTree = "<group>";
@@ -3908,6 +4004,71 @@
 			path = CCSegmentedControl;
 			sourceTree = "<group>";
 		};
+		6BEE173A1C325A0D0004F63A /* JazzHands */ = {
+			isa = PBXGroup;
+			children = (
+				6BEE173B1C325A0D0004F63A /* IFTTTAlphaAnimation.h */,
+				6BEE173C1C325A0D0004F63A /* IFTTTAlphaAnimation.m */,
+				6BEE173D1C325A0D0004F63A /* IFTTTAnimatable.h */,
+				6BEE173E1C325A0D0004F63A /* IFTTTAnimatedPagingScrollViewController.h */,
+				6BEE173F1C325A0D0004F63A /* IFTTTAnimatedPagingScrollViewController.m */,
+				6BEE17401C325A0D0004F63A /* IFTTTAnimatedScrollViewController.h */,
+				6BEE17411C325A0D0004F63A /* IFTTTAnimatedScrollViewController.m */,
+				6BEE17421C325A0D0004F63A /* IFTTTAnimation.h */,
+				6BEE17431C325A0D0004F63A /* IFTTTAnimation.m */,
+				6BEE17441C325A0D0004F63A /* IFTTTAnimator.h */,
+				6BEE17451C325A0D0004F63A /* IFTTTAnimator.m */,
+				6BEE17461C325A0D0004F63A /* IFTTTBackgroundColorAnimation.h */,
+				6BEE17471C325A0D0004F63A /* IFTTTBackgroundColorAnimation.m */,
+				6BEE17481C325A0D0004F63A /* IFTTTConstraintConstantAnimation.h */,
+				6BEE17491C325A0D0004F63A /* IFTTTConstraintConstantAnimation.m */,
+				6BEE174A1C325A0D0004F63A /* IFTTTConstraintMultiplierAnimation.h */,
+				6BEE174B1C325A0D0004F63A /* IFTTTConstraintMultiplierAnimation.m */,
+				6BEE174C1C325A0D0004F63A /* IFTTTCornerRadiusAnimation.h */,
+				6BEE174D1C325A0D0004F63A /* IFTTTCornerRadiusAnimation.m */,
+				6BEE174E1C325A0D0004F63A /* IFTTTEasingFunction.h */,
+				6BEE174F1C325A0D0004F63A /* IFTTTEasingFunction.m */,
+				6BEE17501C325A0D0004F63A /* IFTTTFilmstrip.h */,
+				6BEE17511C325A0D0004F63A /* IFTTTFilmstrip.m */,
+				6BEE17521C325A0D0004F63A /* IFTTTFrameAnimation.h */,
+				6BEE17531C325A0D0004F63A /* IFTTTFrameAnimation.m */,
+				6BEE17541C325A0D0004F63A /* IFTTTHideAnimation.h */,
+				6BEE17551C325A0D0004F63A /* IFTTTHideAnimation.m */,
+				6BEE17561C325A0D0004F63A /* IFTTTInterpolatable.h */,
+				6BEE17571C325A0D0004F63A /* IFTTTInterpolatable.m */,
+				6BEE17581C325A0D0004F63A /* IFTTTJazzHands.h */,
+				6BEE17591C325A0D0004F63A /* IFTTTLayerFillColorAnimation.h */,
+				6BEE175A1C325A0D0004F63A /* IFTTTLayerFillColorAnimation.m */,
+				6BEE175B1C325A0D0004F63A /* IFTTTLayerStrokeEndAnimation.h */,
+				6BEE175C1C325A0D0004F63A /* IFTTTLayerStrokeEndAnimation.m */,
+				6BEE175D1C325A0D0004F63A /* IFTTTLayerStrokeStartAnimation.h */,
+				6BEE175E1C325A0D0004F63A /* IFTTTLayerStrokeStartAnimation.m */,
+				6BEE175F1C325A0D0004F63A /* IFTTTMaskAnimation.h */,
+				6BEE17601C325A0D0004F63A /* IFTTTMaskAnimation.m */,
+				6BEE17611C325A0D0004F63A /* IFTTTPathPositionAnimation.h */,
+				6BEE17621C325A0D0004F63A /* IFTTTPathPositionAnimation.m */,
+				6BEE17631C325A0D0004F63A /* IFTTTRotationAnimation.h */,
+				6BEE17641C325A0D0004F63A /* IFTTTRotationAnimation.m */,
+				6BEE17651C325A0D0004F63A /* IFTTTScaleAnimation.h */,
+				6BEE17661C325A0D0004F63A /* IFTTTScaleAnimation.m */,
+				6BEE17671C325A0D0004F63A /* IFTTTScrollViewPageConstraintAnimation.h */,
+				6BEE17681C325A0D0004F63A /* IFTTTScrollViewPageConstraintAnimation.m */,
+				6BEE17691C325A0D0004F63A /* IFTTTShapeLayerAnimation.h */,
+				6BEE176A1C325A0D0004F63A /* IFTTTShapeLayerAnimation.m */,
+				6BEE176B1C325A0D0004F63A /* IFTTTTextColorAnimation.h */,
+				6BEE176C1C325A0D0004F63A /* IFTTTTextColorAnimation.m */,
+				6BEE176D1C325A0D0004F63A /* IFTTTTransform3DAnimation.h */,
+				6BEE176E1C325A0D0004F63A /* IFTTTTransform3DAnimation.m */,
+				6BEE176F1C325A0D0004F63A /* IFTTTTranslationAnimation.h */,
+				6BEE17701C325A0D0004F63A /* IFTTTTranslationAnimation.m */,
+				6BEE17711C325A0D0004F63A /* IFTTTViewAnimation.h */,
+				6BEE17721C325A0D0004F63A /* IFTTTViewAnimation.m */,
+				6BEE17731C325A0D0004F63A /* UIView+IFTTTJazzHands.h */,
+				6BEE17741C325A0D0004F63A /* UIView+IFTTTJazzHands.m */,
+			);
+			path = JazzHands;
+			sourceTree = "<group>";
+		};
 		6BF3925C1BD8935600838292 /* CBAutoScrollLabel */ = {
 			isa = PBXGroup;
 			children = (
@@ -4177,6 +4338,7 @@
 				6BC220991AD7804800A4310E /* NSMutableDictionary+AddParams.m in Sources */,
 				18746B181AEA1BB300D93696 /* UpdateInsuranceOrderOp.m in Sources */,
 				1818D8FB1C22FB670078C329 /* UpdateDeliveryInfoOp.m in Sources */,
+				6BEE177E1C325A0D0004F63A /* IFTTTEasingFunction.m in Sources */,
 				1833F5961BCD37EB000E1DA1 /* GasCardStore.m in Sources */,
 				2E52F24D1C2032BB00D94F68 /* RescureHomeViewController.m in Sources */,
 				6BB884D21AE0BC6A00EBD8F4 /* MONActivityIndicatorView.m in Sources */,
@@ -4184,6 +4346,7 @@
 				6BFE6A6E1C03FD8900EC9766 /* ViolationItemViewController.m in Sources */,
 				6BB884DD1AE0FE7500EBD8F4 /* GetUserCarOp.m in Sources */,
 				18E28A051B8AFBB70070E759 /* HKNavigationHiddenVC.m in Sources */,
+				6BEE178C1C325A0D0004F63A /* IFTTTTextColorAnimation.m in Sources */,
 				18C52C441BA8118400F6C38B /* DeletePicHistoryOp.m in Sources */,
 				6BEA56CE1AE24DCE000D19C1 /* DataSigner.m in Sources */,
 				1893711C1B0DAC8D0030FDE1 /* GetMessageOp.m in Sources */,
@@ -4196,6 +4359,7 @@
 				18A9E8CC1BDDC1C00061D3BC /* PickInsCompaniesVC.m in Sources */,
 				6BF392441BD627A900838292 /* GetShopByNameV2Op.m in Sources */,
 				1816F4B01ACE75FB00BBCC96 /* CarWashTableVC.m in Sources */,
+				6BEE17931C325A3C0004F63A /* GuideViewController.m in Sources */,
 				1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */,
 				1818D8F51C22845A0078C329 /* PayForPremiumOp.m in Sources */,
 				50B5A2961BD8CC51004E00ED /* MyWebViewBridge.m in Sources */,
@@ -4209,6 +4373,7 @@
 				2E3EEBC61C227CC90010E34F /* CommissonConfirmVC.m in Sources */,
 				6BE2BD5B1AE6305600A69875 /* GetSystemPromotionOp.m in Sources */,
 				6BDD6E221B67615C0060CFD0 /* JDFlipClockView.m in Sources */,
+				6BEE17781C325A0D0004F63A /* IFTTTAnimation.m in Sources */,
 				186985011B01A731000A182A /* CarwashOrderCommentVC.m in Sources */,
 				18F93CD71B6F0A4A000325DD /* DashLine.m in Sources */,
 				504FFEA51C05D4C9002D7D6D /* AreaPickerVC.m in Sources */,
@@ -4225,6 +4390,7 @@
 				6BDD6E2E1B68B9AE0060CFD0 /* HKFlipDecimalView.m in Sources */,
 				186984F51B0098A2000A182A /* GetInsuranceOrderListOp.m in Sources */,
 				6B9BF4BC1BF97BCB0046FF48 /* GetGeneralOrderdetailOp.m in Sources */,
+				6BEE17801C325A0D0004F63A /* IFTTTFrameAnimation.m in Sources */,
 				6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */,
 				50DD1BCB1BFB093500349A70 /* OthersOrderViewModel.m in Sources */,
 				6B11752F1C0D768500FC1881 /* GetCitysOp.m in Sources */,
@@ -4244,6 +4410,7 @@
 				18A30E401BD472E800521411 /* GasPayForCZBVC.m in Sources */,
 				18895B2A1B4A136100928F62 /* HKStore.m in Sources */,
 				18B7A2771C203B5E00865A99 /* GetAreaByIdOp.m in Sources */,
+				6BEE178D1C325A0D0004F63A /* IFTTTTransform3DAnimation.m in Sources */,
 				189B30BD1AD524EC001D7288 /* AppManager.m in Sources */,
 				6BB9D7711AF7054B00F7F3F8 /* SearchViewController.m in Sources */,
 				5078E4CF1B93F04000E3B198 /* GetInsuranceDiscountOp.m in Sources */,
@@ -4252,7 +4419,10 @@
 				50ACC6A81C2138F9006E984E /* CarEvaluateOp.m in Sources */,
 				181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */,
 				18BF41E41BCE40540039F210 /* GasBaseVM.m in Sources */,
+				6BEE17831C325A0D0004F63A /* IFTTTLayerFillColorAnimation.m in Sources */,
+				6BEE177B1C325A0D0004F63A /* IFTTTConstraintConstantAnimation.m in Sources */,
 				6BB884BB1AE0BB9600EBD8F4 /* JTTableView.m in Sources */,
+				6BEE178B1C325A0D0004F63A /* IFTTTShapeLayerAnimation.m in Sources */,
 				180AD8351BD88CB700E608F9 /* BankCardStore.m in Sources */,
 				4EF12DED1C1EBC900098B8C6 /* SecondCarValuationVC.m in Sources */,
 				18E28A0B1B904FF00070E759 /* LaunchVC.m in Sources */,
@@ -4297,6 +4467,7 @@
 				1833F5881BCD373B000E1DA1 /* GasChargeRecord.m in Sources */,
 				6BBB08531B021F440002C349 /* LogAlertView.m in Sources */,
 				1853DEB71AE0B92400C39175 /* AuthByPwdOp.m in Sources */,
+				6BEE177D1C325A0D0004F63A /* IFTTTCornerRadiusAnimation.m in Sources */,
 				6BE47F951C27F4E600DBD969 /* SecondCarValuationOp.m in Sources */,
 				4EF94AF31C321D020092CB55 /* RescureHistoryViewController.m in Sources */,
 				5040B37D1C06D50200ADE77F /* ApplyUnionOp.m in Sources */,
@@ -4322,6 +4493,7 @@
 				186985041B01CC2C000A182A /* SubmitCommentOp.m in Sources */,
 				1826CCF01BAAE80800E2F46D /* ZFCDoubleBounceActivityIndicatorView.m in Sources */,
 				184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */,
+				6BEE177F1C325A0D0004F63A /* IFTTTFilmstrip.m in Sources */,
 				6B88C1311C1E8D7000BB6071 /* InsuranceSelectModel.m in Sources */,
 				189B39611AF9DD3B00B83F1B /* AddCarOp.m in Sources */,
 				2E77A4A61C325FCC00264FC9 /* RescueApplyOp.m in Sources */,
@@ -4340,6 +4512,7 @@
 				1885F0C01B1C4DB40056D3BD /* UIView+ShowDot.m in Sources */,
 				1897C3051C16CF02007E394E /* HKSubscriptInputField.m in Sources */,
 				6B21A8991BD493F8006D0556 /* GetShopByDistanceV2Op.m in Sources */,
+				6BEE17901C325A0D0004F63A /* UIView+IFTTTJazzHands.m in Sources */,
 				508150CE1B84703200B16633 /* DetailsAlertVC.m in Sources */,
 				18895B3C1B4CF1D300928F62 /* LogoutOp.m in Sources */,
 				6BEA56CD1AE24DCE000D19C1 /* base64.m in Sources */,
@@ -4358,6 +4531,7 @@
 				1833F5921BCD373B000E1DA1 /* GetGaschargeInfoOp.m in Sources */,
 				6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */,
 				18BF42011BD0D5A20039F210 /* GasAddCardVC.m in Sources */,
+				6BEE17861C325A0D0004F63A /* IFTTTMaskAnimation.m in Sources */,
 				6BBB084D1B021EA90002C349 /* JTLogModel.m in Sources */,
 				2E77A4A91C32603800264FC9 /* GetStartHostCarOp.m in Sources */,
 				4E5995681C201C5300686565 /* CommitSuccessVC.m in Sources */,
@@ -4372,6 +4546,7 @@
 				1833F58C1BCD373B000E1DA1 /* GascardChargeOp.m in Sources */,
 				6BEA56C91AE24DCE000D19C1 /* SBJsonParser.m in Sources */,
 				1818D8FE1C23B0800078C329 /* InsPayFaildVC.m in Sources */,
+				6BEE17851C325A0D0004F63A /* IFTTTLayerStrokeStartAnimation.m in Sources */,
 				6BB89CD41B04C23900F3F61F /* UploadLogOp.m in Sources */,
 				18895B321B4CB52A00928F62 /* PushManager.m in Sources */,
 				189C698F1B75BD4B00E56E4A /* BindBankcardOp.m in Sources */,
@@ -4426,13 +4601,14 @@
 				6BEA56C71AE24DCE000D19C1 /* SBJSON.m in Sources */,
 				1826CCF21BAAE80800E2F46D /* ZFCWanderingCubesActivityIndicatorView.m in Sources */,
 				1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */,
+				6BEE177C1C325A0D0004F63A /* IFTTTConstraintMultiplierAnimation.m in Sources */,
 				2E3EEBC31C224DD20010E34F /* CommissonOrderVC.m in Sources */,
 				508BD8D01BD0E3ED00B64199 /* GasRecordVC.m in Sources */,
 				6BB61B981AEE85E8004F39AA /* AddUserFavoriteOp.m in Sources */,
 				18A15A691C225E3F00D7B5DF /* CalculatePremiumOp.m in Sources */,
 				6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */,
 				2E77A4941C325F2F00264FC9 /* GetRescueHostCountsOp.m in Sources */,
-				2E52F24A1C2032BB00D94F68 /* RescurecCommentsVC.m in Sources */,
+				2E52F24A1C2032BB00D94F68 /* (null) in Sources */,
 				18CECC301C314CAC0075B7F9 /* MyCarStore.m in Sources */,
 				189428B81C1ABA3500E492CA /* InsAppointmentVC.m in Sources */,
 				6BBAB8BF1ADBC21600EC342F /* ConverUtil.m in Sources */,
@@ -4449,6 +4625,8 @@
 				187532D31ACCDEEF004CB777 /* HomePageVC.m in Sources */,
 				1833F5991BCD3BF7000E1DA1 /* CancelGaschargeOp.m in Sources */,
 				6BC2209F1AD7AC9D00A4310E /* NSString+MD5.m in Sources */,
+				6BEE17771C325A0D0004F63A /* IFTTTAnimatedScrollViewController.m in Sources */,
+				6BEE17841C325A0D0004F63A /* IFTTTLayerStrokeEndAnimation.m in Sources */,
 				1883D9101ACBBE30002A4D19 /* main.m in Sources */,
 				18F813681B5F3561005F49B0 /* CKNavigationController+Expansion.m in Sources */,
 				6B0DB8221BEB277A007BE693 /* GetCarwashOrderListV3Op.m in Sources */,
@@ -4470,6 +4648,7 @@
 				18E28A1C1B93F1FF0070E759 /* UPPayHelper.m in Sources */,
 				6BBF7DA91B00C9C200E45967 /* UIImage+Utilities.mm in Sources */,
 				6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */,
+				6BEE178A1C325A0D0004F63A /* IFTTTScrollViewPageConstraintAnimation.m in Sources */,
 				18A15A6B1C225E3F00D7B5DF /* GetPremiumDetailOp.m in Sources */,
 				18BF420C1BD273C70039F210 /* CKLimitTextField.m in Sources */,
 				18895B361B4CB89000928F62 /* HKPushManager.m in Sources */,
@@ -4496,12 +4675,16 @@
 				18E28A011B8AD71F0070E759 /* HKImagePicker.m in Sources */,
 				18FB68F01C2A911C00AD7341 /* InsCoverageSelectVC.m in Sources */,
 				1833F5931BCD373B000E1DA1 /* GetGaschargeRecordListOp.m in Sources */,
+				6BEE17871C325A0D0004F63A /* IFTTTPathPositionAnimation.m in Sources */,
 				6BEA56C21AE24DCE000D19C1 /* AlixPayOrder.m in Sources */,
 				186984E11AFF976A000A182A /* WebVC.m in Sources */,
 				6BC220961AD7801C00A4310E /* BaseOp.m in Sources */,
 				1853DEAD1AE0A0B700C39175 /* HKCatchErrorModel.m in Sources */,
 				18D475E21B7C3954000FAF1C /* GetUserCouponV2Op.m in Sources */,
+				6BEE17821C325A0D0004F63A /* IFTTTInterpolatable.m in Sources */,
 				18F41DAF1B788022000409E1 /* GetUnbindBankcardVcodeOp.m in Sources */,
+				6BEE17791C325A0D0004F63A /* IFTTTAnimator.m in Sources */,
+				6BEE178F1C325A0D0004F63A /* IFTTTViewAnimation.m in Sources */,
 				6BC2209C1AD7AAF300A4310E /* NetworkManager.m in Sources */,
 				18039AF51B0C5BCE00264059 /* GetAutomobileModelOp.m in Sources */,
 				2E77A4A21C325FCC00264FC9 /* HKRescue.m in Sources */,
@@ -4528,6 +4711,7 @@
 				1893712B1B0E0D460030FDE1 /* TTTAttributedLabel.m in Sources */,
 				6BB884D71AE0F31700EBD8F4 /* HKCoupon.m in Sources */,
 				6BFE6A6B1C03417200EC9766 /* ViolationViewController.m in Sources */,
+				4EF94AFA1C3256330092CB55 /* OETextField.m in Sources */,
 				6B1175321C0D78AC00FC1881 /* ViolationCityModel.m in Sources */,
 				1851F41E1B0C223A00241A01 /* HKAutoBrand.m in Sources */,
 				2E77A4901C325F2F00264FC9 /* GetRescueCommentOp.m in Sources */,
@@ -4559,6 +4743,7 @@
 				18F41DA91B784CD8000409E1 /* GetBankcardListOp.m in Sources */,
 				18A15A561C214C2200D7B5DF /* InsActivityIndicatorVC.m in Sources */,
 				187CC95C1AEF2023004D1F28 /* UploadFileOp.m in Sources */,
+				6BEE17881C325A0D0004F63A /* IFTTTRotationAnimation.m in Sources */,
 				18BF41F11BCF6A540039F210 /* GasPickAmountCell.m in Sources */,
 				1833F58D1BCD373B000E1DA1 /* GetCZBCouponDefInfoOp.m in Sources */,
 				187CC9551AEDD0D1004D1F28 /* MonthPickerVC.m in Sources */,
@@ -4573,7 +4758,9 @@
 				6BB61BA01AEF6969004F39AA /* RescueViewController.m in Sources */,
 				6B1175261C0C408A00FC1881 /* UserViolationQueryOp.m in Sources */,
 				18A15A531C2149B100D7B5DF /* InsPremium.m in Sources */,
+				6BEE17811C325A0D0004F63A /* IFTTTHideAnimation.m in Sources */,
 				6BBB083D1B01F8A30002C349 /* AboutViewController.m in Sources */,
+				6BEE177A1C325A0D0004F63A /* IFTTTBackgroundColorAnimation.m in Sources */,
 				50094B431C1144640069683C /* GetAreaInfoOp.m in Sources */,
 				6B42270A1C1EDCBE0090F802 /* CalculateInsuranceCarPremiumOp.m in Sources */,
 				1816F4A81ACD3B0900BBCC96 /* SYPaginatorViewController.m in Sources */,
@@ -4587,6 +4774,7 @@
 				189C69891B74ADC700E56E4A /* BindBankCardVC.m in Sources */,
 				18E756A41B73335C00874601 /* MyBankVC.m in Sources */,
 				6BEA56D01AE24DCE000D19C1 /* MD5DataSigner.m in Sources */,
+				6BEE17751C325A0D0004F63A /* IFTTTAlphaAnimation.m in Sources */,
 				18B7A2741C202E6B00865A99 /* GetAreaByNameOp.m in Sources */,
 				184E40D21AD3D01B00EFC3A6 /* JTShop.m in Sources */,
 				6BBF75F41B05CA0800E11EBB /* BaseModel.m in Sources */,
@@ -4596,6 +4784,7 @@
 				1853DEC81AE0EFD200C39175 /* HKToast.m in Sources */,
 				184E40C31AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m in Sources */,
 				1885F0C31B1C50970056D3BD /* UIView+AddBadgeView.m in Sources */,
+				6BEE178E1C325A0D0004F63A /* IFTTTTranslationAnimation.m in Sources */,
 				50A1E0711C1EA3A300176572 /* ValuationViewController.m in Sources */,
 				505358F41C0D79640029B5BA /* SharedNotifyOp.m in Sources */,
 				18B7A2711C2014BA00865A99 /* CityPickerVC.m in Sources */,
@@ -4637,10 +4826,12 @@
 				6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */,
 				6BB884D41AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.m in Sources */,
 				6BB8CB8E1B1416BB007B61B5 /* RescureViewController.m in Sources */,
+				6BEE17891C325A0D0004F63A /* IFTTTScaleAnimation.m in Sources */,
 				6BE47F9C1C27F50000DBD969 /* HistoryDeleteOp.m in Sources */,
 				189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */,
 				6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */,
 				2E77A4961C325F2F00264FC9 /* GetRescueOp.m in Sources */,
+				6BEE17761C325A0D0004F63A /* IFTTTAnimatedPagingScrollViewController.m in Sources */,
 				18F813691B5F3561005F49B0 /* CKNavigationController.m in Sources */,
 				18804AAB1B27DD3C00E7E764 /* GifActivityIndicatorView.m in Sources */,
 				18900B531C1EA0C2003DA439 /* InsSimpleCar.m in Sources */,

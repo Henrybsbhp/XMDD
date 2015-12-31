@@ -29,13 +29,23 @@
 {
     self.nameField.textLimit = 20;
     [self.nameField setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        [MobClick event:@"rp1000-5"];
         field.placeholder = nil;
     }];
     
     [self.nameField setDidEndEditingBlock:^(CKLimitTextField *field) {
         field.placeholder = @"请输入姓名";
     }];
+}
 
+- (IBAction)actionCancel:(id)sender
+{
+    [MobClick event:@"rp1000-4"];
+}
+
+- (IBAction)actionEnsure:(id)sender
+{
+    [MobClick event:@"rp1000-6"];
 }
 /*
 #pragma mark - Navigation

@@ -56,22 +56,13 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [MobClick beginLogPageView:@"rp326"];
+    [MobClick beginLogPageView:@"rp1006"];
     [super viewWillAppear:animated];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [MobClick endLogPageView:@"rp326"];
+    [MobClick endLogPageView:@"rp1006"];
     [super viewWillDisappear:animated];
-}
-
--(void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    /**
-     *  保单支付页面返回事件
-     */
-    [MobClick event:@"1006-1"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -123,10 +114,10 @@
     NSMutableString *license = [NSMutableString stringWithString:@"我已阅读并同意小马达达《保险服务协议》"];
     
     self.licenseData.customInfo[@"range1"] = [NSValue valueWithRange:NSMakeRange(license.length - 8, 8)];
-    self.licenseData.customInfo[@"url1"] = [NSURL URLWithString:kServiceLicenseUrl];
+    self.licenseData.customInfo[@"url1"] = [NSURL URLWithString:kInsuranceLicenseUrl];
     if (self.insOrder.licenseUrl.length > 0) {
         NSString *license2 = self.insOrder.licenseName;
-        [license appendFormat:@"及%@", license2];
+        [license appendFormat:@"和%@", license2];
         self.licenseData.customInfo[@"range2"] = [NSValue valueWithRange:NSMakeRange(license.length-license2.length, license2.length)];
         self.licenseData.customInfo[@"url2"] = [NSURL URLWithString:self.insOrder.licenseUrl];
     }
@@ -149,11 +140,14 @@
     [self.tableView reloadData];
 }
 #pragma mark - Action
+- (void)actionBack:(id)sender
+{
+    [MobClick event:@"rp1006-1"];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (IBAction)actionCallCenter:(id)sender
 {
-    /**
-     *  咨询点击事件
-     */
     [MobClick event:@"1006-2"];
     NSString * number = @"4007111111";
     [gPhoneHelper makePhone:number andInfo:@"咨询电话: 4007-111-111"];
@@ -678,6 +672,7 @@
                 
                 if (self.isSelectActivity)
                 {
+                    [MobClick event:@"rp1006-3"];
                     statusLb.text = @"已选中";
                     statusLb.textColor = HEXCOLOR(@"#fb4209");
                     statusLb.hidden = NO;
@@ -693,6 +688,7 @@
             {
                 if (self.couponType == CouponTypeInsurance)
                 {
+                    [MobClick event:@"rp1006-4"];
                     statusLb.text = @"已选中";
                     statusLb.textColor = HEXCOLOR(@"#fb4209");
                     statusLb.hidden = NO;
@@ -877,18 +873,18 @@
         @strongify(boxB)
         boxB.selected = YES;
         if (indexPath.row == 1){
-            [MobClick event:@"rp326-3"];
+            [MobClick event:@"rp1006-5"];
         }
         else if (indexPath.row == 2){
             if (gPhoneHelper.exsitWechat) {
-                [MobClick event:@"rp326-4"];
+                [MobClick event:@"rp1006-6"];
             }
             else {
-                [MobClick event:@"rp326-5"];
+                [MobClick event:@"rp1006-7"];
             }
         }
         else{
-            [MobClick event:@"rp326-5"];
+            [MobClick event:@"rp1006-7"];
         }
     }];
 

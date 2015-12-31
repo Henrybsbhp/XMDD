@@ -54,6 +54,18 @@
     [self requestGetGasResource];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp508"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp508"];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -76,7 +88,7 @@
         /**
          *  支付确定点击事件
          */
-        [MobClick event:@"508-6"];
+        [MobClick event:@"rp508-6"];
         [self actionPay:nil];
     }];
 }
@@ -177,7 +189,9 @@
         discount = MIN(couponlimit, rechargeAmount) * systemPercent / 100.0;
     }
     
-    if (self.couponType == CouponTypeGas)
+    if (self.couponType == CouponTypeGasNormal ||
+        self.couponType == CouponTypeGasReduceWithThreshold ||
+        self.couponType == CouponTypeGasDiscount)
     {
         if (coupon.couponPercent < 100)
         {
@@ -208,7 +222,7 @@
 {
     ChooseCarwashTicketVC *vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseCarwashTicketVC"];
     vc.originVC = self;
-    vc.type = CouponTypeGas;
+    vc.type = CouponTypeGasNormal; /// 加油券类型的用普通代替
     vc.selectedCouponArray = self.selectGasCoupouArray;
     vc.couponArray = self.gasCoupon;
     vc.payAmount = (CGFloat)self.model.rechargeAmount;
@@ -218,7 +232,9 @@
 #pragma mark - Action
 - (IBAction)actionPay:(id)sender
 {
-    if (self.couponType == CouponTypeGas)
+    if (self.couponType == CouponTypeGasNormal ||
+        self.couponType == CouponTypeGasReduceWithThreshold ||
+        self.couponType == CouponTypeGasDiscount)
     {
         self.model.coupon = [self.selectGasCoupouArray safetyObjectAtIndex:0];
     }
@@ -360,6 +376,7 @@
     NSString * cellName = dict[@"cellname"];
     if ([cellName isEqualToString:@"CouponCell"])
     {
+        [MobClick event:@"rp508-2"];
         [self jumpToChooseCouponVC];
     }
 }
@@ -455,6 +472,7 @@
     @weakify(self)
     [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp508-1"];
         @strongify(self)
         if (!self.selectGasCoupouArray.count)
         {
@@ -462,13 +480,16 @@
         }
         else
         {
-            if (self.couponType == CouponTypeGas)
+            if (self.couponType == CouponTypeGasNormal ||
+                    self.couponType == CouponTypeGasReduceWithThreshold ||
+                    self.couponType == CouponTypeGasDiscount)
             {
                 self.couponType = 0;
             }
             else
             {
-                self.couponType = CouponTypeGas;
+                HKCoupon * coupon = [self.selectGasCoupouArray safetyObjectAtIndex:0];
+                self.couponType = coupon.conponType;
             }
         }
     }];
@@ -476,8 +497,15 @@
     
     [[RACObserve(self, couponType) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * num) {
         
+        BOOL flag = NO;
         CouponType coupon = (CouponType)[num integerValue];
-        BOOL flag = coupon == CouponTypeGas;
+        if (coupon == CouponTypeGasNormal ||
+            coupon == CouponTypeGasReduceWithThreshold ||
+            coupon == CouponTypeGasDiscount)
+        {
+            flag = YES;
+        }
+        
         if (flag)
         {
             statusLb.text = @"已选中";
@@ -541,7 +569,15 @@
     
     @weakify(self)
     [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
+        if (tt == PaymentChannelAlipay) {
+            [MobClick event:@"rp508-3"];
+        }
+        else if (tt == PaymentChannelWechat) {
+            [MobClick event:@"rp508-4"];
+        }
+        else {
+            [MobClick event:@"rp508-5"];
+        }
         @strongify(self)
         self.paychannel = tt;
     }];

@@ -39,6 +39,42 @@
     DebugLog(@"RescureDetailsVC dealloc");
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    switch (self.type) {
+        case 1:
+            [MobClick beginLogPageView:@"rp702"];
+            break;
+        case 2:
+            [MobClick beginLogPageView:@"rp703"];
+            break;
+        case 3:
+            [MobClick beginLogPageView:@"rp704"];
+            break;
+        default:
+            break;
+    }
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    switch (self.type) {
+        case 1:
+            [MobClick endLogPageView:@"rp702"];
+            break;
+        case 2:
+            [MobClick endLogPageView:@"rp703"];
+            break;
+        case 3:
+            [MobClick endLogPageView:@"rp704"];
+            break;
+        default:
+            break;
+    }
+}
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -59,7 +95,19 @@
         /**
          *  免费券点击事件
          */
-        [MobClick event:@"rp701-2"];
+        switch (self.type) {
+            case 1:
+                [MobClick event:@"rp702-1"];
+                break;
+            case 2:
+                [MobClick event:@"rp703-1"];
+                break;
+            case 3:
+                [MobClick event:@"rp704-1"];
+                break;
+            default:
+                break;
+        }
         RescueCouponViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueCouponViewController"];
         vc.type = self.type;
         [self.navigationController pushViewController:vc animated:YES];
@@ -98,7 +146,19 @@
 
 ///申请救援点击事件
 - (IBAction)actionResource:(UIButton *)sender {
-    [MobClick event:@"rp702-2"];
+    switch (self.type) {
+        case 1:
+            [MobClick event:@"rp702-2"];
+            break;
+        case 2:
+            [MobClick event:@"rp703-2"];
+            break;
+        case 3:
+            [MobClick event:@"rp704-2"];
+            break;
+        default:
+            break;
+    }
     if (gAppMgr.myUser != nil) {
         RescueApplyOp *op = [RescueApplyOp operation];
         op.longitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.longitude];
@@ -127,13 +187,13 @@
 - (void)setupADView
 {
     if (self.type == 1) {
-        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailer boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp102-6"];
+        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailer boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp702-3"];
         [self.adctrl reloadDataForTableView:self.tableView];
     }else if (self.type == 2){
-        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailerPumpPower boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp102-6"];
+        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailerPumpPower boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp703-3"];
         [self.adctrl reloadDataForTableView:self.tableView];
     }else if (self.type == 3){
-        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailerPumpPowerChangeTheTire boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp102-6"];
+        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailerPumpPowerChangeTheTire boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp704-3"];
         [self.adctrl reloadDataForTableView:self.tableView];
     }
 }

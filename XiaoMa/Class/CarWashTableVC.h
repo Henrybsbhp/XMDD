@@ -13,7 +13,7 @@
 
 @interface CarWashTableVC : UIViewController<UITableViewDataSource, UITableViewDelegate, HKLoadingModelDelegate>
 
-@property (nonatomic)NSInteger type;
+@property (nonatomic)ShopServiceType serviceType;
 @property (strong, nonatomic) IBOutlet JTTableView *carwashTableView;
 @property (strong, nonatomic) IBOutlet JTTableView *withheartTableView;
 @property (weak, nonatomic) IBOutlet UIView *carwashHeaderView;

@@ -25,12 +25,12 @@
 #import <UMengAnalytics/MobClick.h>
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
-#import "WelcomeViewController.h"
 #import "MainTabBarVC.h"
 #import "HKAdvertisement.h"
 #import "LaunchVC.h"
 #import "HKLaunchManager.h"
 #import "ShareResponeManager.h"
+#import "GuideViewController.h"
 
 #define RequestWeatherInfoInterval 60 * 10
 //#define RequestWeatherInfoInterval 5
@@ -106,9 +106,10 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     UIViewController *vc;
     if ([gAppMgr.deviceInfo firstAppearAtThisVersionForKey:@"$GuideView"]) {
-        vc = [UIStoryboard vcWithId:@"WelcomeViewController" inStoryboard:@"Main"];
+        vc = [[GuideViewController alloc] init];
     }
-    else {
+    else
+    {
         //如果本地没有启动页的相关信息，则直接进入主页，否则进入启动页
         HKLaunchInfo *info = [self.launchMgr fetchLatestLaunchInfo];
         NSString *url = [info croppedPicUrl];

@@ -19,6 +19,7 @@
 #import "GasVC.h"
 #import "PaymentCenterViewController.h"
 #import "ViolationViewController.h"
+#import "InsuranceVC.h"
 
 @implementation NavigationModel
 
@@ -132,11 +133,12 @@
             }
             flag = YES;
         }
+        //其他订单
         else if ([@"otho" equalByCaseInsensitive:name] && gAppMgr.myUser)
         {
             NSNumber *orderid = value.length > 0 ? @([value integerValue]) : nil;
-            NSString * type = params[@"tp"];
-            NSString * urlStr = [OrderDetailsUrl stringByAppendingString:[NSString stringWithFormat:@"?token=%@&oid=%@&tradetype=%@",gNetworkMgr.token ,orderid, type]];
+            NSString *type = params[@"tp"];
+            NSString *urlStr = [OrderDetailsUrl stringByAppendingString:[NSString stringWithFormat:@"?token=%@&oid=%@&tradetype=%@",gNetworkMgr.token ,orderid, type]];
             
             UIViewController *vc = [self viewControllerByIdentify:@"DetailWebVC" withPrecidate:^BOOL(UIViewController *curvc) {
                 DetailWebVC *vc = (DetailWebVC *)curvc;
@@ -153,6 +155,13 @@
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
             flag = YES;
+        }
+        //保险
+        else if ([@"ins" equalByCaseInsensitive:name] && gAppMgr.myUser) {
+            if (![self popToViewControllerIfNeededByIdentify:@"InsuranceVC"]) {
+                InsuranceVC *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
         }
         //礼包
         else if ([@"cpk" equalByCaseInsensitive:name] && gAppMgr.myUser) {
