@@ -33,119 +33,165 @@
 #ifdef DEBUG
     if (gAppMgr.canShareFlag)
     {
+        @weakify(self)
     self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
+        
+                            @strongify(self)
                             [self gotoInstructions];
                         }},
                         
                         @{@"title":@"推荐App给好友",@"action":^(void){
+                            
+                            @strongify(self)
                             [self shareApp];
                         }},
                         
                         @{@"title":@"用户服务协议",@"action":^(void){
+                            
+                            @strongify(self)
                             [self serviceAgreement];
                         }},
                         
                         @{@"title":@"前往评价",@"action":^(void){
+                            
+                            @strongify(self)
                             [self rateOurApp];
                         }},
                         
                         @{@"title":@"意见反馈",@"action":^(void){
+                            
+                            @strongify(self)
                             [self gotoFeedback];
                         }},
                         
                         @{@"title":@"客服电话4007-111-111",@"action":^(void){
+                            
+                            @strongify(self)
                             [self callCustomerService];
                         }},
                         
                         @{@"title":@"网页跳转",@"action":^(void){
                             
+                            @strongify(self)
                             [self gotoTestWeb];
                         }},
                         @{@"title":@"环境切换",@"action":^(void){
                             
+                            @strongify(self)
                             [self switchSurrounding];
                         }}];
     }
     else
     {
+        @weakify(self)
         self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
             [self gotoInstructions];
         }},
                             
                             
                             @{@"title":@"用户服务协议",@"action":^(void){
+                                
+                                @strongify(self)
                                 [self serviceAgreement];
                             }},
                             
                             @{@"title":@"前往评价",@"action":^(void){
+                                
+                                @strongify(self)
                                 [self rateOurApp];
                             }},
                             
                             @{@"title":@"意见反馈",@"action":^(void){
+                                
+                                @strongify(self)
                                 [self gotoFeedback];
                             }},
                             
                             @{@"title":@"客服电话4007-111-111",@"action":^(void){
+                                
+                                @strongify(self)
                                 [self callCustomerService];
                             }},
                             
                             @{@"title":@"网页跳转",@"action":^(void){
                                 
+                                @strongify(self)
                                 [self gotoTestWeb];
                             }},
                             @{@"title":@"环境切换",@"action":^(void){
                                 
+                                @strongify(self)
                                 [self switchSurrounding];
                             }}];
     }
 #else
     if (gAppMgr.canShareFlag)
     {
+        @weakify(self)
     self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
+        
+                            @strongify(self)
                             [self gotoInstructions];
                         }},
                         
                         @{@"title":@"推荐App给好友",@"action":^(void){
+                            
+                            @strongify(self)
                             [self shareApp];
                         }},
                         
                         @{@"title":@"用户服务协议",@"action":^(void){
+                            
+                            @strongify(self)
                             [self serviceAgreement];
                         }},
                         
                         @{@"title":@"前往评价",@"action":^(void){
+                            
+                            @strongify(self)
                             [self rateOurApp];
                         }},
                         
                         @{@"title":@"意见反馈",@"action":^(void){
+                            
+                            @strongify(self)
                             [self gotoFeedback];
                         }},
                         
                         @{@"title":@"客服电话4007-111-111",@"action":^(void){
                             
+                            @strongify(self)
                             [self callCustomerService];
                         }}];
     }
     else
     {
+        @weakify(self)
         self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
             [self gotoInstructions];
         }},
                             
                             @{@"title":@"用户服务协议",@"action":^(void){
+                                
+                                @strongify(self)
                                 [self serviceAgreement];
                             }},
                             
                             @{@"title":@"前往评价",@"action":^(void){
+                                
+                                @strongify(self)
                                 [self rateOurApp];
                             }},
                             
                             @{@"title":@"意见反馈",@"action":^(void){
+                                
+                                @strongify(self)
                                 [self gotoFeedback];
                             }},
                             
                             @{@"title":@"客服电话4007-111-111",@"action":^(void){
                                 
+                                @strongify(self)
                                 [self callCustomerService];
                             }}];
     }
