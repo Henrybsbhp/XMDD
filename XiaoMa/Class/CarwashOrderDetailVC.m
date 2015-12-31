@@ -34,6 +34,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     CKAsyncMainQueue(^{
+        self.commentBtn.hidden = (BOOL)self.order.ratetime;
         [self loadOrderInfo];
     });
 }
@@ -77,7 +78,6 @@
 {
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.commentBtn.hidden = (BOOL)self.order.ratetime;
     //这一行必须加，否则第一行的section的高度不起作用。
     self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, CGFLOAT_MIN)];
     NSString *strpirce = [NSString stringWithFormat:@"%.2f", self.order.serviceprice];
