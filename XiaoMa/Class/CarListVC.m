@@ -350,6 +350,7 @@
     //爱车估值
     @weakify(self);
     [subv setValuationClickBlock:^(void) {
+        [MobClick event:@"rp309-4"];
         @strongify(self);
         ValuationViewController *vc = [UIStoryboard vcWithId:@"ValuationViewController" inStoryboard:@"Valuation"];
         vc.carIndex = index;

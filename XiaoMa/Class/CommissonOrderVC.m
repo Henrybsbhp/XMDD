@@ -48,13 +48,13 @@
     [super viewDidLoad];
     
     if (gAppMgr.myUser != nil) {
-        [self actionNetwork];
         [self setupCarStore];
     }else {
         [self actionNetwork];
     }
     
     [RACObserve(gAppMgr, myUser)subscribeNext:^(JTUser *user) {
+        
         if (user != nil) {
             [self setupCarStore];
         }
@@ -63,9 +63,20 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.historyBtn];
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp801"];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp801"];
+}
+
 #pragma mark - Action
-- (IBAction)actionCommission:(UIButton *)sender {
-    
+- (IBAction)actionCommissionClick:(UIButton *)sender {
     [MobClick event:@"rp801-2"];
     
     if (gAppMgr.myUser != nil) {
@@ -173,7 +184,10 @@
         @strongify(self);
         [[evt signal] subscribeNext:^(id x) {
             @strongify(self);
-            self.carNumberArray = [self.carStore allCars];
+           [RACObserve(self.carStore, allCars)subscribeNext:^(id x) {
+               self.carNumberArray = [self.carStore allCars];
+               [self actionNetwork];
+           }];
             if (!self.defaultCar)
             {
                 self.defaultCar = [self.carStore defalutInfoCompletelyCar];

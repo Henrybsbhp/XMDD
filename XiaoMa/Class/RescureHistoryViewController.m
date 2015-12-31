@@ -14,6 +14,7 @@
 #import "UIView+JTLoadingView.h"
 #import "RescueCancelHostcarOp.h"
 #import "HKTableViewCell.h"
+#import "HKLoadingModel.h"
 @interface RescureHistoryViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
@@ -35,19 +36,28 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp804"];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp804"];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     self.isRemain = YES;
     if (self.type == 1) {
         self.navigationItem.title = @"救援记录";
     }else {
         self.navigationItem.title = @"协办记录";
     }
-     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-         [self historyNetwork];
-     }
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        [self historyNetwork];
+    }
 }
 
 #pragma mark - network
@@ -117,7 +127,7 @@
     }else {
         
     }
-   
+    
     titleLb.text = history.serviceName;
     timeLb.text = [[NSDate dateWithUTS:history.applyTime] dateFormatForYYMMdd2];
     
@@ -192,13 +202,13 @@
         [x integerValue];
         evaluationBtn.enabled = NO;
         if (history.rescueStatus == HKRescueStateComplete) {
-            if (history.commentStatus == 0)
+            if (history.commentStatus == HKCommentStatusNo)
             {
-                [MobClick event:@"rp705-1"];
+                [MobClick event:@"rp804-2"];
             }
             else
             {
-                [MobClick event:@"rp705-2"];
+                [MobClick event:@"rp804-3"];
             }
             evaluationBtn.enabled = YES;
             if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
@@ -207,18 +217,8 @@
                 vc.applyType = @(self.type);
                 [self.navigationController pushViewController:vc animated:YES];
             }
-            /**
-             *  协办已申请
-             */
         }else if (history.rescueStatus == HKRescueStateAlready && self.type == 2){
-            if (history.commentStatus == 0)
-            {
-                [MobClick event:@"rp804-2"];
-            }
-            else
-            {
-                [MobClick event:@"rp804-3"];
-            }
+            [MobClick event:@"rp804-1"];
             evaluationBtn.enabled = YES;
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您确定要取消本次协办服务吗？" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             
@@ -345,5 +345,7 @@
         [self.tableView.bottomLoadingView showIndicatorTextWith:@"获取失败，再拉拉看"];
     }];
 }
+
+
 
 @end

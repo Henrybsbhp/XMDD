@@ -25,6 +25,18 @@
 
 @implementation ValuationResultVC
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp602"];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp602"];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -36,13 +48,10 @@
     // Do any additional setup after loading the view.
 }
 
--(void)viewDidDisappear:(BOOL)animated
+- (void)actionBack:(id)sender
 {
-    [super viewDidDisappear:animated];
-    /**
-     *  估值结果返回
-     */
     [MobClick event:@"rp602-1"];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark TableViewDelegate
