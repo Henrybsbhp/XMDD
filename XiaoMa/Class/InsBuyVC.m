@@ -167,6 +167,7 @@
 - (IBAction)actionBuy:(id)sender
 {
     [MobClick event:@"rp1005-7"];
+    InsuranceVM *im = [self.insModel copy];
     if (self.paymentInfo.req_startdate.length == 0) {
         [gToast showText:@"商业险启保日不能为空"];
     }

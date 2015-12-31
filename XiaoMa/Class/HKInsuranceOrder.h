@@ -28,6 +28,8 @@ typedef enum : NSUInteger {
 
 @interface HKInsuranceOrder : NSObject
 @property (nonatomic, strong) NSNumber *orderid;
+//核保记录id
+@property (nonatomic, strong) NSNumber *carpremiumid;
 @property (nonatomic, strong) NSString *policyholder;
 // 图片url
 @property (nonatomic, strong) NSString *picUrl;
