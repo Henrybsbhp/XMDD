@@ -12,7 +12,7 @@
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/order/insurance/pay";
+    self.req_method = @"/order/insurance/v2/pay";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
