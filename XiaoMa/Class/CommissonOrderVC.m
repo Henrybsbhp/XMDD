@@ -32,6 +32,7 @@
 @property (nonatomic, strong) UIButton      * historyBtn;
 @property (nonatomic, copy)   NSString      * testStr;
 @property (nonatomic, strong) NSMutableArray * dataSourceArray;
+@property (nonatomic, assign) NSInteger       errorCode;
 
 @end
 
@@ -53,9 +54,7 @@
 #pragma mark - Action
 - (IBAction)actionCommissionClick:(UIButton *)sender {
     [MobClick event:@"rp801-2"];
-    
     if (gAppMgr.myUser != nil) {
-        
         self.carStore = [MyCarStore fetchOrCreateStore];
         @weakify(self);
         [[[self.carStore getAllCars] send] subscribeNext:^(id x) {
@@ -80,6 +79,11 @@
         }];
         
     }else{
+        [MobClick event:@"rp101-2"];
+        NSString * number = @"4007111111";
+        [gPhoneHelper makePhone:number andInfo:@"协办电话: 4007-111-111"];
+    }
+    if (self.errorCode == -1009) {
         [MobClick event:@"rp101-2"];
         NSString * number = @"4007111111";
         [gPhoneHelper makePhone:number andInfo:@"协办电话: 4007-111-111"];
@@ -144,6 +148,9 @@
             [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
                 [self actionNetwork];
             }];
+        }
+        if (error.code == -1009) {
+            self.errorCode = error.code;
         }
     }] ;
     
