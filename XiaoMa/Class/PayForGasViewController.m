@@ -249,7 +249,7 @@
         
         @strongify(self);
         GasPaymentResultVC *vc = [UIStoryboard vcWithId:@"GasPaymentResultVC" inStoryboard:@"Gas"];
-        vc.originVC = self;
+        vc.originVC = self.originVC;
         vc.drawingStatus = DrawingBoardViewStatusSuccess;
         vc.gasCard = card;
         vc.paidMoney = paidop.rsp_total;

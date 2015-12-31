@@ -566,6 +566,7 @@
         if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
             
             PayForGasViewController * vc = [gasStoryboard instantiateViewControllerWithIdentifier:@"PayForGasViewController"];
+            vc.originVC = self;
             if ([self.curModel isKindOfClass:[GasNormalVM class]])
             {
                 vc.model = (GasNormalVM *)self.curModel;
