@@ -219,9 +219,9 @@
     if (indexPath.row != 0) {
         [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsMake(0, 0, 1, 0)];
     }
-     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 0, 8, 0)];
+    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 0, 8, 0)];
     
-
+    
     UILabel *titleLb = (UILabel *)[cell searchViewWithTag:1000];
     UILabel *detailLb = (UILabel *)[cell searchViewWithTag:1001];
     NSString * string = [self.dataSourceArray safetyObjectAtIndex:indexPath.row];
