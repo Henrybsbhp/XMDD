@@ -16,6 +16,7 @@
 #import "GetCityInfoByNameOp.h"
 #import "AreaTablePickerVC.h"
 #import "CarIDCodeCheckModel.h"
+#import "CKLimitTextField.h"
 
 #import "MyUIPageControl.h"
 
@@ -814,14 +815,18 @@
     }
     
     //输入框
-    UITextField * field = (UITextField *)[cell searchViewWithTag:103];
-    field.delegate = self;
+    CKLimitTextField * field = (CKLimitTextField *)[cell searchViewWithTag:103];
     field.text = [dict objectForKey:@"no"];
     [dict safetySetObject:field forKey:@"feild"];
-    
-    @weakify(field);
-    [[field rac_textSignal] subscribeNext:^(id x) {
-        @strongify(field)
+
+    [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        [MobClick event:@"rp901-4"];
+    }];
+
+    @weakify(self);
+    [field setTextDidChangedBlock:^(CKLimitTextField *field) {
+
+        @strongify(self);
         field.text = [field.text uppercaseString];
         
         if ([dict[@"title"] isEqualToString:@"发动机号"])
