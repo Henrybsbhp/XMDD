@@ -12,6 +12,7 @@
 #import "HKTableViewCell.h"
 #import "ChooseCarwashTicketVC.h"
 #import "GetUserResourcesGaschargeOp.h"
+#import "NSString+Split.h"
 
 @interface PayForGasViewController ()
 
@@ -103,7 +104,8 @@
 {
     NSDictionary * dict0_0 = @{@"cellname":@"PayTitleCell"};
     
-    NSDictionary * dict0_1 = @{@"title":@"充值卡号",@"value":self.model.curGasCard.gascardno,
+    NSDictionary * dict0_1 = @{@"title":@"充值卡号",@"value":
+                                   [self.model.curGasCard.gascardno splitByStep:4 replacement:@" "] ,
                                @"cellname":@"InfoItemCell"};
     
     
