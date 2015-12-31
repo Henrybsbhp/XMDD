@@ -198,6 +198,10 @@
         self.name = name.text;
     }];
     [phoneNumber.rac_textSignal subscribeNext:^(id x) {
+        
+        if (phoneNumber.text.length > 11) {
+            phoneNumber.text = [phoneNumber.text substringToIndex:11];
+        }
         self.phoneNumber = phoneNumber.text;
     }];
     
@@ -394,9 +398,9 @@
     {
         [gToast showError:@"车主姓名不能为空"];
     }
-    else if ([self.phoneNumber isEqualToString:@""])
+    else if (self.phoneNumber.length != 11)
     {
-        [gToast showError:@"车主号码不能为空"];
+        [gToast showError:@"请输入正确的联系方式"];
     }
     else
     {
