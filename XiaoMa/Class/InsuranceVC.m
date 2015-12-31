@@ -19,6 +19,7 @@
 #import "UIView+Shake.h"
 #import "InsuranceVM.h"
 #import "MyCarStore.h"
+#import <IQKeyboardManager.h>
 
 #import "InsInputNameVC.h"
 #import "InsInputInfoVC.h"
@@ -64,12 +65,14 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp1000"];
+    [IQKeyboardManager sharedManager].keyboardDistanceFromTextField = 50;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp1000"];
+    [IQKeyboardManager sharedManager].keyboardDistanceFromTextField = 10;
 }
 
 - (void)setupADView
