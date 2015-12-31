@@ -21,21 +21,14 @@
 {
     [super viewWillAppear:animated];
     [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
+    [MobClick beginLogPageView:@"rp334"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
-}
-
--(void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    /**
-     *  加盟申请结果返回事件
-     */
-    [MobClick event:@"rp334-1"];
+    [MobClick endLogPageView:@"rp334"];
 }
 
 - (void)viewDidLoad {
@@ -106,6 +99,7 @@
 
 - (void)actionBack:(id)sender
 {
+    [MobClick event:@"rp334-1"];
     for (UIViewController * vc in self.navigationController.viewControllers) {
         if ([vc isKindOfClass:[AboutViewController class]]) {
             [self.navigationController popToViewController:vc animated:YES];

@@ -295,7 +295,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="actionCommission:" destination="NCp-7Q-SwT" eventType="touchUpInside" id="U9x-3N-McB"/>
+                                            <action selector="actionCommissionClick:" destination="NCp-7Q-SwT" eventType="touchUpInside" id="OTY-4S-v6n"/>
                                         </connections>
                                     </button>
                                 </subviews>

@@ -25,6 +25,18 @@
 
 @implementation ValuationResultVC
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp602"];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp602"];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -36,13 +48,10 @@
     // Do any additional setup after loading the view.
 }
 
--(void)viewDidDisappear:(BOOL)animated
+- (void)actionBack:(id)sender
 {
-    [super viewDidDisappear:animated];
-    /**
-     *  估值结果返回
-     */
     [MobClick event:@"rp602-1"];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark TableViewDelegate
@@ -275,7 +284,7 @@
     op.province = self.provinceName;
     op.city = self.cityName;
     [[op rac_postRequest] subscribeNext:^(GetCityInfoByNameOp * op) {
-        if (op.rsp_sellerCityId == 0) {
+        if ([op.rsp_sellerCityId intValue] == 0) {
             UIAlertView * alertView = [[UIAlertView alloc] init];
             alertView.title = @"提示";
             alertView.message = @"抱歉，您所在的城市未开通此项服务，敬请期待";
