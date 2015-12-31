@@ -101,7 +101,7 @@
             }
             [self.tableView reloadData];
         } error:^(NSError *error) {
-
+            
         }] ;
         
     }else {//未登录
@@ -112,8 +112,8 @@
         }] finally:^{
             [self.view stopActivityAnimation];
         }] subscribeNext:^(GetRescueNoLoginOp *op) {
-
-
+            
+            
             [self.datasourceArray safetyAddObjectsFromArray:op.req_resceuArray];
             NSString *tempStr;
             NSString *lastStr;
@@ -171,7 +171,7 @@
 }
 
 - (IBAction)refreshClick:(UIButton *)sender {
-
+    
     /**
      *  更新定位事件
      */
