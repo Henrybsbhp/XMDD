@@ -26,6 +26,7 @@
 {
     if(self.finishAction) {
         self.finishAction(resp.errCode, ShareResponseWechat);
+        self.finishAction = nil;
     }
 //    NSString * msg = @"";
 //    if([resp isKindOfClass:[SendMessageToWXResp class]])
@@ -70,6 +71,7 @@
 {
     if(self.finishAction) {
         self.finishAction(response.statusCode, ShareResponseWeibo);
+        self.finishAction = nil;
     }
 //    NSString * msg = @"";
 //    if([response isKindOfClass:[WBSendMessageToWeiboResponse class]])
@@ -136,6 +138,7 @@
 {
     if(self.finishAction) {
         self.finishAction(resp.result, ShareResponseQQ);
+        self.finishAction = nil;
     }
 //    NSString * msg = @"";
 //    if ([resp isKindOfClass:[SendMessageToQQResp class]]) {
