@@ -78,7 +78,7 @@
                 [self request];
             }
         }];
-  
+        
     }else{
         [MobClick event:@"rp101-2"];
         NSString * number = @"4007111111";
@@ -92,10 +92,10 @@
     [[[op rac_postRequest] initially:^{
         
     }] subscribeNext:^(GetStartHostCarOp *rspop) {
-
+        
         self.carNumberArray = self.carStore.allCars;
-            CommissonConfirmVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonConfirmVC"];
-            [self.navigationController pushViewController:vc animated:YES];
+        CommissonConfirmVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonConfirmVC"];
+        [self.navigationController pushViewController:vc animated:YES];
         
     }error:^(NSError *error) {
         if (error.code == 611139001) {

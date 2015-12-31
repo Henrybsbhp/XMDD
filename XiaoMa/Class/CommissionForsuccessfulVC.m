@@ -58,7 +58,7 @@
         btn.layer.cornerRadius = 10;
         btn.layer.masksToBounds = YES;
         btn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
-
+        
         
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             /**
