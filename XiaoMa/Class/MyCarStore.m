@@ -14,6 +14,11 @@
 
 @implementation MyCarStore
 
+- (void)reloadForUserChanged
+{
+    self.cars = nil;
+}
+
 - (CKEvent *)getAllCars
 {
     CKEvent *event = [[[[[GetUserCarOp operation] rac_postRequest] map:^id(GetUserCarOp *op) {
