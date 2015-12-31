@@ -43,7 +43,7 @@
 - (void)setText:(NSString *)text {
     BOOL isAtEnd = YES;
     UITextPosition *pos = self.curCursorPosition;
-    if (self.isEditing && self.curCursorPosition23123) {
+    if (self.isEditing && self.curCursorPosition) {
         isAtEnd = [self comparePosition:self.curCursorPosition toPosition:self.endOfDocument] == NSOrderedSame;
     }
     [super setText:text];
