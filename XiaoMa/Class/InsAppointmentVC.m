@@ -131,6 +131,11 @@
 }
 
 #pragma mark - Action
+- (IBAction)actionCall:(id)sender
+{
+    [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
+}
+
 - (void)actionBack:(id)sender
 {
     [MobClick event:@"rp1010-1"];
