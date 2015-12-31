@@ -56,7 +56,7 @@
     [super viewDidLoad];
     [self.view addSubview:self.helperBtn];
     [self setupCarStore];
-    [self addSubView];
+    //[self addSubView];
 }
 
 #pragma mark - Action
@@ -104,7 +104,7 @@
         recognizerTap.cancelsTouchesInView = YES;
         [self.underlyingView addGestureRecognizer:recognizerTap];
         
-           }else if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] > 3600 * 24 * 30) {
+    }else if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] > 3600 * 24 * 30) {
         [gToast showText:@"不好意思,预约时间需在 30 天内,请修改后再尝试"];
     } else {
         [self actionAssisting];
@@ -115,7 +115,7 @@
 - (void)actionAssisting{
     GetRescueApplyHostCarOp *op = [GetRescueApplyHostCarOp operation];
     op.licenseNumber = self.defaultCar.licencenumber;
-   
+    
     NSString *tempStr = [NSString stringWithFormat:@"%@", self.appointmentDay];
     if (tempStr.length >= 10) {
         op.appointTime = [tempStr substringToIndex:10];
@@ -129,17 +129,11 @@
         
         
     }] subscribeNext:^(GetRescueApplyHostCarOp *op) {
-        [gToast dismiss];
         
-        if (op.rsp_code == 0){
-            CommissionForsuccessfulVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionForsuccessfulVC"];
-            vc.licenceNumber = self.defaultCar.licencenumber;
-            vc.timeValue = self.appointmentDay;
-            [self.navigationController pushViewController:vc animated:YES];
-        }else {
-            [self.tableView reloadData];
-        }
-        
+        CommissionForsuccessfulVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionForsuccessfulVC"];
+        vc.licenceNumber = self.defaultCar.licencenumber;
+        vc.timeValue = self.appointmentDay;
+        [self.navigationController pushViewController:vc animated:YES];
         
     } error:^(NSError *error) {
         if (error.code == 611139001) {
@@ -173,7 +167,7 @@
     self.carStore = [MyCarStore fetchOrCreateStore];
     @weakify(self);
     [self.carStore subscribeWithTarget:self domain:@"cars" receiver:^(CKStore *store, CKEvent *evt) {
-
+        
         @strongify(self);
         [[evt signal] subscribeNext:^(id x) {
             @strongify(self);
@@ -208,7 +202,6 @@
             if (self.defaultCar != nil) {
                 detailLb.textColor = [UIColor colorWithHex:@"#fe4a00" alpha:1.0];
                 detailLb.text = [NSString stringWithFormat:@"%@次", self.countStr];
-                
             }
         }
         
@@ -221,7 +214,6 @@
         if (indexPath.row == 3) {
             titleLb.text = @"服务车辆";
             detailsLb.text = self.defaultCar.licencenumber;
-
         }else if (indexPath.row == 4){
             titleLb.text = @"预约时间";
             detailsLb.text = [self.appointmentDay dateFormatForYYMMdd2];
@@ -307,7 +299,7 @@
             make.bottom.mas_equalTo(self.view).offset(- 5);
             make.height.mas_offset(40);
         }];
-      }
+    }
     return _helperBtn;
 }
 
@@ -329,7 +321,7 @@
         _alertV.layer.borderWidth = 0.2;
         _alertV.clipsToBounds = YES;
         _alertV.layer.borderColor = [UIColor colorWithHex:@"#454545" alpha:1.0].CGColor;
-
+        
     }
     return _alertV;
 }
@@ -351,7 +343,7 @@
         _detailLb.textAlignment = NSTextAlignmentCenter;
         _detailLb.numberOfLines = 0;
         _detailLb.font = [UIFont systemFontOfSize:12];
-
+        
     }
     return _detailLb;
 }
@@ -367,7 +359,7 @@
             [self actionAssisting];
             [self.underlyingView removeFromSuperview];
         }];
-
+        
     }
     return _commissionBtn;
 }

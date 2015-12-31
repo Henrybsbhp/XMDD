@@ -46,21 +46,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    if (gAppMgr.myUser != nil) {
-        [self setupCarStore];
-        [self actionNetwork];
-    }else {
-        [self actionNetwork];
-    }
-    
-    [RACObserve(gAppMgr, myUser)subscribeNext:^(JTUser *user) {
-        
-        if (user != nil) {
-            [self setupCarStore];
-        }
-    }];
-    
+    [self actionNetwork];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.historyBtn];
 }
 
@@ -69,23 +55,30 @@
     [MobClick event:@"rp801-2"];
     
     if (gAppMgr.myUser != nil) {
-        if (self.carStore.allCars.count != 0) {
-            [self actionCommissionNetwork];
-        }else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有添加爱车, 请先添加爱车" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
-                NSInteger i = [n integerValue];
-                if (i == 1) {
-                    EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                    [self.navigationController pushViewController:vc animated:YES];
-                }else{
-                    
-                }
-            }];
-            [alert show];
-            
-        }
         
+        self.carStore = [MyCarStore fetchOrCreateStore];
+        @weakify(self);
+        [[[self.carStore getAllCars] send] subscribeNext:^(id x) {
+            @strongify(self);
+            if (self.carStore.cars.count == 0) {
+                //TODO:1
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有添加爱车, 请先添加爱车" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
+                    NSInteger i = [n integerValue];
+                    if (i == 1) {
+                        EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+                        [self.navigationController pushViewController:vc animated:YES];
+                    }else{
+                    }
+                }];
+                [alert show];
+            }
+            else {
+                //TODO: Request
+                [self request];
+            }
+        }];
+  
     }else{
         [MobClick event:@"rp101-2"];
         NSString * number = @"4007111111";
@@ -93,20 +86,18 @@
     }
 }
 
-
-- (void)actionCommissionNetwork{
+- (void)request
+{
     GetStartHostCarOp *op = [GetStartHostCarOp operation];
-    [[[[op rac_postRequest] initially:^{
+    [[[op rac_postRequest] initially:^{
         
-    }]finally:^{
-        
-    }]subscribeNext:^(GetStartHostCarOp *op) {
-        if (op.rsp_code == 0) {
+    }] subscribeNext:^(GetStartHostCarOp *rspop) {
+
+        self.carNumberArray = self.carStore.allCars;
             CommissonConfirmVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonConfirmVC"];
             [self.navigationController pushViewController:vc animated:YES];
-        }
         
-    } error:^(NSError *error) {
+    }error:^(NSError *error) {
         if (error.code == 611139001) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有协办券哦!\n点击省钱攻略,此等优惠岂能错过" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
             [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
@@ -115,15 +106,17 @@
                     WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
                     vc.title = @"省钱攻略";
                     vc.url = kMoneySavingStrategiesUrl;
-                    [self.navigationController pushViewController:vc animated:YES];                }else{
-                        
-                    }
+                    [self.navigationController pushViewController:vc animated:YES];
+                }else{
+                    
+                }
             }];
-            
             [alert show];
         }
     }];
 }
+
+
 - (void) actionNetwork{
     GetRescureDetailOp *op = [GetRescureDetailOp operation];
     op.rescueid = 4;
@@ -164,29 +157,6 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
-
-- (void)setupCarStore
-{
-    self.carStore = [MyCarStore fetchOrCreateStore];
-    @weakify(self);
-    [self.carStore subscribeWithTarget:self domain:@"cars" receiver:^(CKStore *store, CKEvent *evt) {
-        
-        @strongify(self);
-        [[evt signal] subscribeNext:^(id x) {
-            @strongify(self);
-            [RACObserve(self.carStore, allCars)subscribeNext:^(id x) {
-                self.carNumberArray = [self.carStore allCars];
-                
-            }];
-            if (!self.defaultCar)
-            {
-                self.defaultCar = [self.carStore defalutInfoCompletelyCar];
-            }
-        }];
-    }];
-    [[self.carStore getAllCarsIfNeeded] send];
-}
-
 
 #pragma mark - UITableViewDataSource
 
