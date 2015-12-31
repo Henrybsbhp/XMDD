@@ -38,6 +38,13 @@
     DebugLog(@"InsCheckResultsVC dealloc");
 }
 
+- (void)awakeFromNib
+{
+    if (!self.insModel) {
+        self.insModel = [[InsuranceVM alloc] init];
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
