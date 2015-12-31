@@ -191,6 +191,7 @@
                 InsSimpleCar *car = [[InsSimpleCar alloc] init];
                 car.carpremiumid = premiumid;
                 vc.insModel.simpleCar = car;
+                vc.insModel.originVC = self.curNavCtrl.topViewController;
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
         }
