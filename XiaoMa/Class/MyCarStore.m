@@ -14,9 +14,12 @@
 
 @implementation MyCarStore
 
-- (void)reloadForUserChanged
+- (void)reloadForUserChanged:(JTUser *)user
 {
     self.cars = nil;
+    if (user) {
+        [[self getAllCars] send];
+    }
 }
 
 - (CKEvent *)getAllCars
