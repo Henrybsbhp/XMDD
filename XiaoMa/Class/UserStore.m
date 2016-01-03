@@ -32,12 +32,12 @@
     @weakify(self);
     RACDisposable *dsp = [[[RACObserve(gAppMgr, myUser) distinctUntilChanged] skip:1] subscribeNext:^(id x) {
         @strongify(self);
-        [self reloadForUserChanged];
+        [self reloadForUserChanged:x];
     }];
     [[self rac_deallocDisposable] addDisposable:dsp];
 }
 
-- (void)reloadForUserChanged
+- (void)reloadForUserChanged:(JTUser *)user
 {
     
 }
