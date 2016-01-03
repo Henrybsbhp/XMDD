@@ -16,10 +16,8 @@
 
 - (void)reloadForUserChanged:(JTUser *)user
 {
-    if (!user) {
-        self.cars = nil;
-    }
-    else {
+    self.cars = nil;
+    if (user) {
         [[self getAllCars] send];
     }
 }
