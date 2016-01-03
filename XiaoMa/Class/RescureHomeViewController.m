@@ -20,6 +20,9 @@
 #import "UIView+JTLoadingView.h"
 #import "NSDate+DateForText.h"
 #import "NSString+RectSize.m"
+#import "NSString+RectSize.h"
+
+
 #define kWidth [UIScreen mainScreen].bounds.size.width
 @interface RescureHomeViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView    * tableView;
@@ -50,20 +53,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self setupUI];
+    [self requestGetAddress];
     [self actionFirstEnterNetwork];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.historyBtn];
-    
-    if (gMapHelper.addrComponent != nil) {
-        [self actionAddress];
-    }else{
-        self.addressLb.text = @"获取位置失败, 请尝试\"刷新\"";
-    }
-    
-    self.tableView.tableHeaderView = self.headerView;
-    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 28)];
-    [self.headerView addSubview:self.backgroundImage];
-    [self.headerView addSubview:self.phoneHelperBtn];
 }
 
 - (void)dealloc
@@ -73,12 +66,91 @@
     DebugLog(@"RescureHomeViewController dealloc");
 }
 
+#pragma mark - SetupUI
+- (void)setupUI
+{
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.historyBtn];
+    
+    self.tableView.tableHeaderView = self.headerView;
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 28)];
+    [self.headerView addSubview:self.backgroundImage];
+    [self.headerView addSubview:self.phoneHelperBtn];
+}
+
 
 #pragma mark - Action
-- (void)actionAddress {
-    NSString *tempAdd = [NSString stringWithFormat:@"%@%@%@%@%@", gMapHelper.addrComponent.province,gMapHelper.addrComponent.city, gMapHelper.addrComponent.district, gMapHelper.addrComponent.street,gMapHelper.addrComponent.number];
+- (void)requestGetAddress {
+    RACSignal *sig1 = [[gMapHelper rac_getInvertGeoInfo] take:1];
     
-    self.addressLb.text = [tempAdd stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    [[sig1 initially:^{
+        
+        self.addressLb.text = @"定位中...";
+    }] subscribeNext:^(AMapReGeocode *regeo) {
+        
+        if (![HKAddressComponent isEqualAddrComponent:gAppMgr.addrComponent AMapAddrComponent:regeo.addressComponent]) {
+            gAppMgr.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
+        }
+        
+        
+        CGFloat lbWidth = gAppMgr.deviceInfo.screenSize.width - 57;
+        CGFloat textWidth = [regeo.formattedAddress labelSizeWithWidth:FLT_MAX font:[UIFont systemFontOfSize:13]].width;
+        /// 如果超过label大小
+        if (textWidth > lbWidth)
+        {
+            NSString *tempAdd = [NSString stringWithFormat:@"%@%@%@%@",
+                                 regeo.addressComponent.district,
+                                 regeo.addressComponent.township,
+                                 regeo.addressComponent.streetNumber.street,
+                                 regeo.addressComponent.streetNumber.number];
+            
+            self.addressLb.text = [tempAdd stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+        }
+        else
+        {
+            self.addressLb.text = regeo.formattedAddress;
+        }
+        
+        
+    } error:^(NSError *error) {
+        
+        switch (error.code) {
+            case kCLErrorDenied:
+            {
+                if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+                {
+                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"请允许小马达达访问您的位置，进入系统-[设置]-[小马达达]-[位置]-使用期间" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往设置", nil];
+                    
+                    [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
+                        
+                        if ([x integerValue] == 1)
+                        {
+                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                        }
+                    }];
+                    [av show];
+                }
+                else
+                {
+                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"请允许小马达达访问您的位置" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
+                    
+                    [av show];
+                }
+                break;
+            }
+            case LocationFail:
+            {
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"城市定位失败,请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                
+                [av show];
+            }
+            default:
+            {
+                
+                self.addressLb.text = @"获取位置失败, 请尝试\"刷新\"";
+                break;
+            }
+        }
+    }];
 }
 - (void)actionFirstEnterNetwork {
     if (gAppMgr.myUser != nil) {//已登录
@@ -176,54 +248,7 @@
      *  更新定位事件
      */
     [MobClick event:@"rp701-6"];
-    [[[gMapHelper rac_getInvertGeoInfo] initially:^{
-        self.addressLb.hidden = YES;
-    }]
-     subscribeNext:^(AMapReGeocode * getInfo) {
-         self.addressLb.hidden = NO;
-         [self actionAddress];
-         
-     } error:^(NSError *error) {
-         self.addressLb.hidden = NO;
-         switch (error.code) {
-             case kCLErrorDenied:
-             {
-                 if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
-                 {
-                     UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"请允许小马达达访问您的位置，进入系统-[设置]-[小马达达]-[位置]-使用期间" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往设置", nil];
-                     
-                     [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
-                         
-                         if ([x integerValue] == 1)
-                         {
-                             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-                         }
-                     }];
-                     [av show];
-                 }
-                 else
-                 {
-                     UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"请允许小马达达访问您的位置" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
-                     
-                     [av show];
-                 }
-                 break;
-             }
-             case LocationFail:
-             {
-                 UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"城市定位失败,请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                 
-                 [av show];
-             }
-             default:
-             {
-                 
-                 self.addressLb.text = @"获取位置失败, 请尝试\"刷新\"";
-                 break;
-             }
-         }
-         
-     }];
+    [self requestGetAddress];
 }
 
 #pragma mark - spacing

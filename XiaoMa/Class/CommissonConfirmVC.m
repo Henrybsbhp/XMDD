@@ -318,8 +318,8 @@
 - (UIView *)underlyingView {
     if (!_underlyingView) {
         self.underlyingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, kHeight)];
-        self.underlyingView.backgroundColor = [UIColor redColor];
-        self.underlyingView.backgroundColor = [UIColor colorWithRed:248 green:124 blue:128 alpha:0.5];
+//        self.underlyingView.backgroundColor = [UIColor colorWithHex:@"#f4f4f4" alpha:0.6f];
+        self.underlyingView.backgroundColor = [UIColor colorWithHex:@"#454545" alpha:0.6f];
     }
     return _underlyingView;
 }
@@ -343,7 +343,7 @@
         self.titleLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 270, 30)];
         _titleLb.text = @"预约协办";
         _titleLb.textAlignment = NSTextAlignmentCenter;
-        _titleLb.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
+        _titleLb.font = [UIFont boldSystemFontOfSize:15];
     }
     return _titleLb;
 }
@@ -354,7 +354,7 @@
         _detailLb.text = @"您将预约年检协办业务, 再告诉你个秘密,\n电话预约会更及时有效哦!";
         _detailLb.textAlignment = NSTextAlignmentCenter;
         _detailLb.numberOfLines = 0;
-        _detailLb.font = [UIFont systemFontOfSize:12];
+        _detailLb.font = [UIFont systemFontOfSize:13];
         
     }
     return _detailLb;

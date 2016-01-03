@@ -32,6 +32,12 @@
     if ((!ac1.district && ac2.district) && ![ac1.district isEqualToString:ac2.district]) {
         return NO;
     }
+    if ((!ac1.street && ac2.street) && ![ac1.district isEqualToString:ac2.street]) {
+        return NO;
+    }
+    if ((!ac1.number && ac2.number) && ![ac1.district isEqualToString:ac2.number]) {
+        return NO;
+    }
     return YES;
 }
 
@@ -44,6 +50,12 @@
         return NO;
     }
     if ((!ac1.district && ac2.district) && ![ac1.district isEqualToString:ac2.district]) {
+        return NO;
+    }
+    if ((!ac1.street && ac2.streetNumber.street) && ![ac1.district isEqualToString:ac2.streetNumber.street]) {
+        return NO;
+    }
+    if ((!ac1.number && ac2.streetNumber.number) && ![ac1.district isEqualToString:ac2.streetNumber.number]) {
         return NO;
     }
     return YES;
