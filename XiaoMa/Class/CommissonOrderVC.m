@@ -66,7 +66,12 @@
     if (gAppMgr.myUser != nil) {
         self.carStore = [MyCarStore fetchOrCreateStore];
         @weakify(self);
-        [[[self.carStore getAllCars] send] subscribeNext:^(id x) {
+        [[[[self.carStore getAllCars] send] initially:^{
+          
+            [gToast showingWithText:@"" inView:self.view];
+        }] subscribeNext:^(id x) {
+            
+            [gToast dismissInView:self.view];
             @strongify(self);
             if (self.carStore.cars.count == 0) {
                 //TODO:1
@@ -86,14 +91,13 @@
                 [self request];
             }
         }error:^(NSError *error) {
-            if (error.code == -1009) {
-                NSString * number = @"4007111111";
-                [gPhoneHelper makePhone:number andInfo:@"协办电话: 4007-111-111"];
-            }
+            
+            [gToast dismissInView:self.view];
+            NSString * number = @"4007111111";
+            [gPhoneHelper makePhone:number andInfo:@"协办电话: 4007-111-111"];
         }];
         
     }else{
-        [MobClick event:@"rp101-2"];
         NSString * number = @"4007111111";
         [gPhoneHelper makePhone:number andInfo:@"协办电话: 4007-111-111"];
     }

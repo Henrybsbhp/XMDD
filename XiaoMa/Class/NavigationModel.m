@@ -24,6 +24,7 @@
 #import "MyBankVC.h"
 #import "InsSimpleCar.h"
 #import "InsCheckResultsVC.h"
+#import "ValuationViewController.h"
 
 @implementation NavigationModel
 
@@ -180,6 +181,12 @@
         else if ([@"vio" equalByCaseInsensitive:name] && gAppMgr.myUser)
         {
             ViolationViewController * vc = [violationStoryboard instantiateViewControllerWithIdentifier:@"ViolationViewController"];
+            [self.curNavCtrl pushViewController:vc animated:YES];
+        }
+        ///估值
+        else if ([@"val" equalByCaseInsensitive:name] && gAppMgr.myUser)
+        {
+            ValuationViewController * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"ValuationViewController"];
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
         ///核保结果 TODO

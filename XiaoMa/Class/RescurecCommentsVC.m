@@ -271,9 +271,10 @@
         UITableViewCell *cell2 = [tableView dequeueReusableCellWithIdentifier:@"RescureStar" forIndexPath:indexPath];
         UILabel *serviceLb = (UILabel *)[cell2 searchViewWithTag:1002];
         JTRatingView *ratingView = (JTRatingView *)[cell2 searchViewWithTag:1003];
-        ratingView.imgWidth = 20;
-        ratingView.imgHeight = 20;
-        ratingView.imgSpacing = (self.view.frame.size.width - 128 - 20 * 5)/6;
+        CGFloat space = (self.view.frame.size.width - 153 - 20 * 5) / 4;
+        
+        
+        [ratingView setupImgWidth:20 andImgHeight:20 andSpace:space];
         
         [[ratingView rac_subject] subscribeNext:^(NSNumber * number) {
             if (indexPath.row == 4) {
