@@ -25,6 +25,8 @@
 
 @property (nonatomic, strong) RACSubject *rac_subject;
 
+- (void)setupImgWidth:(CGFloat)w andImgHeight:(CGFloat)h andSpace:(CGFloat)s;
+
 - (void)resetImageViewFrames;
 - (void)sizeToFit;
 
