@@ -34,9 +34,12 @@
             integer += 1;
         }
     }
+    else {
+        remain = remain/10;
+    }
     if (remain > 0) {
-        remain = remain%10 == 0 ? remain/10 : remain;
-        return [NSString stringWithFormat:@"%d.%d", integer, remain];
+        NSString *suffix = remain%10 == 0 ? [NSString stringWithFormat:@"%d",remain/10] : [NSString stringWithFormat:@"%02d", remain];
+        return [NSString stringWithFormat:@"%d.%@", integer, suffix];
     }
     return [NSString stringWithFormat:@"%d", integer];
 }
@@ -57,7 +60,7 @@
         remain = remain/10;
     }
     if (remain > 0) {
-        return [NSString stringWithFormat:@"%d.%d", integer, remain];
+        return [NSString stringWithFormat:@"%d.%02d", integer, remain];
     }
     return [NSString stringWithFormat:@"%d", integer];
 }
