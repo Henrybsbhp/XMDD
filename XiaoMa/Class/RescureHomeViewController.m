@@ -224,7 +224,6 @@
         NSString * number = @"4007111111";
         [gPhoneHelper makePhone:number andInfo:@"救援电话: 4007-111-111"];
     }else{
-        [MobClick event:@"rp101-2"];
         NSString * number = @"4007111111";
         [gPhoneHelper makePhone:number andInfo:@"救援电话: 4007-111-111"];
     }
