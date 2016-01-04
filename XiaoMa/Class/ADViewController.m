@@ -115,7 +115,7 @@
     }
     UIImageView *imgV = (UIImageView *)[pageView viewWithTag:1001];
     HKAdvertisement * ad = [self.adList safetyObjectAtIndex:pageIndex];
-    [imgV setImageByUrl:ad.adPic withType:ImageURLTypeMedium defImage:@"ad_default" errorImage:@"ad_default"];
+    [imgV setImageByUrl:ad.adPic withType:ImageURLTypeMedium defImage:@"ad_default_2_5" errorImage:@"ad_default_2_5"];
     
     UITapGestureRecognizer *tap = imgV.customObject;
     @weakify(self);
