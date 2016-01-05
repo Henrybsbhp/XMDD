@@ -7,13 +7,14 @@
 //
 
 #import "CKStore.h"
+#import "JTUser.h"
 
 @interface UserStore : CKStore
 ///(default is 12 * 60 * 60)
 @property (nonatomic, assign) NSTimeInterval updateDuration;
 
 ///Override
-- (void)reloadForUserChanged;
+- (void)reloadForUserChanged:(JTUser *)user;
 
 ///(if key is nil, then the inner key is "$DefTimetag")
 - (BOOL)needUpdateTimetagForKey:(NSString *)key;

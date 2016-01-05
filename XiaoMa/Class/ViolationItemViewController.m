@@ -234,6 +234,11 @@
     
     if (self.model.cityInfo.cityCode.length <=  0)
     {
+        /// 此城市从爱车带过来，但是不支持违章
+        if (self.model.cityInfo.cityName.length)
+        {
+            [gToast showError:@"该城市暂不支持违章查询"];
+        }
         [self.cityBtn.superview.subviews makeObjectsPerformSelector:@selector(shake)];
         return;
     }

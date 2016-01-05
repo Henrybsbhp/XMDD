@@ -33,6 +33,7 @@
     
     [self setupUI];
     self.tipLabel.text = @"您的信息已成功提交，客服将在24小时内与您取得联系，请保持手机畅通";
+    self.tipLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 50;
 }
 
 -(void)viewWillAppear:(BOOL)animated

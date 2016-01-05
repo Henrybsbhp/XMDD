@@ -20,6 +20,11 @@
 #import "PaymentCenterViewController.h"
 #import "ViolationViewController.h"
 #import "InsuranceVC.h"
+#import "CarWashTableVC.h"
+#import "MyBankVC.h"
+#import "InsSimpleCar.h"
+#import "InsCheckResultsVC.h"
+#import "ValuationViewController.h"
 
 @implementation NavigationModel
 
@@ -32,19 +37,55 @@
         NSDictionary *params = [self getActionParamsFromUrl:url];
         NSString *name = params[@"t"];
         NSString *value = params[@"id"];
+        //登录 (针对根据网页中url跳转登录)
+        if ([@"login" equalByCaseInsensitive:name] && !gAppMgr.myUser) {
+            VcodeLoginVC *vc = [UIStoryboard vcWithId:@"VcodeLoginVC" inStoryboard:@"Login"];
+            JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
+            [self.curNavCtrl presentViewController:nav animated:YES completion:nil];
+        }
         //领取礼包
-        if ([@"a" equalByCaseInsensitive:name] && gAppMgr.myUser) {
+        else if ([@"a" equalByCaseInsensitive:name] && gAppMgr.myUser) {
             if (![self popToViewControllerIfNeededByIdentify:@"CheckAwardViewController"]) {
                 UIViewController *vc = [UIStoryboard vcWithId:@"CheckAwardViewController" inStoryboard:@"Award"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
             flag = YES;
         }
-        //登录 (针对根据网页中url跳转登录)
-        else if ([@"login" equalByCaseInsensitive:name] && !gAppMgr.myUser) {
-                VcodeLoginVC *vc = [UIStoryboard vcWithId:@"VcodeLoginVC" inStoryboard:@"Login"];
-                JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
-                [self.curNavCtrl presentViewController:nav animated:YES completion:nil];
+        //爱车列表
+        else if ([@"cl" equalByCaseInsensitive:name] && gAppMgr.myUser) {
+            CarListVC *vc = (CarListVC *)[self viewControllerByIdentify:@"CarListVC" withPrecidate:nil];
+            if (vc) {
+                [self.curNavCtrl popToViewController:vc animated:YES];
+                vc.originCarID = @([value integerValue]);
+            }
+            else {
+                vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+                vc.originCarID = @([value integerValue]);
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+            flag = YES;
+        }
+        //保险
+        else if ([@"ins" equalByCaseInsensitive:name] && gAppMgr.myUser) {
+            if (![self popToViewControllerIfNeededByIdentify:@"InsuranceVC"]) {
+                InsuranceVC *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+        }
+        //普洗商户列表
+        else if ([@"sl" equalByCaseInsensitive:name]) {
+            if (![self popToViewControllerIfNeededByIdentify:@"CarWashTableVC"]) {
+                CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+        }
+        //精洗商户列表
+        else if ([@"whsl" equalByCaseInsensitive:name]) {
+            if (![self popToViewControllerIfNeededByIdentify:@"CarWashTableVC"]) {
+                CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
+                vc.serviceType = ShopServiceCarwashWithHeart;
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
         }
         //优惠券
         else if ([@"cp" equalByCaseInsensitive:name] && gAppMgr.myUser) {
@@ -86,26 +127,80 @@
             }
             flag = YES;
         }
-        //订单详情
-        else if ([@"o" equalByCaseInsensitive:name] && gAppMgr.myUser) {
-            NSNumber *orderid = @([value integerValue]);
-            if ([self popToViewControllerIfNeededByIdentify:@"CarwashOrderDetailVC" withPrecidate:^BOOL(UIViewController *curvc) {
-                CarwashOrderDetailVC *vc = (CarwashOrderDetailVC *)curvc;
-                return [orderid isEqualToNumber:vc.order.orderid] || [orderid isEqualToNumber:vc.orderID];
-            }]) {
-                CarwashOrderDetailVC *vc = [UIStoryboard vcWithId:@"CarwashOrderDetailVC" inStoryboard:@"Mine"];
-                vc.orderID = orderid;
+        //礼包
+        else if ([@"cpk" equalByCaseInsensitive:name] && gAppMgr.myUser) {
+            if (![self popToViewControllerIfNeededByIdentify:@"CouponPkgViewController"]) {
+                UIViewController *vc = [UIStoryboard vcWithId:@"CouponPkgViewController" inStoryboard:@"Mine"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
             flag = YES;
         }
-        //订单列表
-        else if ([@"ol" equalByCaseInsensitive:name] && gAppMgr.myUser) {
-            if (![self popToViewControllerIfNeededByIdentify:@"MyOrderListVC"]) {
-                UIViewController *vc = [UIStoryboard vcWithId:@"MyOrderListVC" inStoryboard:@"Mine"];
+        //银行卡
+        else if ([@"bcl" equalByCaseInsensitive:name] && gAppMgr.myUser) {
+            if (![self popToViewControllerIfNeededByIdentify:@"MyBankVC"]) {
+                MyBankVC *vc = [UIStoryboard vcWithId:@"MyBankVC" inStoryboard:@"Bank"];
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+        }
+        //订单支付
+        else if ([@"paycenter" equalByCaseInsensitive:name] && gAppMgr.myUser)
+        {
+            NSString * traderNo = params[@"tradeno"];
+            NSString * traderType = params[@"tradetype"];
+            
+            PaymentCenterViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"PaymentCenterViewController"];
+            vc.tradeNo = traderNo;
+            vc.tradeType = traderType;
+            vc.originVc = self.curNavCtrl;
+            JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
+            [self.curNavCtrl presentViewController:nav animated:YES completion:nil];
+        }
+        //加油首页
+        else if ([@"g" equalByCaseInsensitive:name]) {
+            if (![self popToViewControllerIfNeededByIdentify:@"GasVC"]) {
+                GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
             flag = YES;
+        }
+        //浙商加油
+        else if ([@"czbgl" equalByCaseInsensitive:name]) {
+            GasVC *vc = (GasVC *)[self viewControllerByIdentify:@"GasVC" withPrecidate:nil];
+            if (vc) {
+                [self.curNavCtrl popToViewController:vc animated:YES];
+                vc.tabViewSelectedIndex = 1;
+            }
+            else {
+                GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
+                vc.tabViewSelectedIndex = 1;
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+            flag = YES;
+        }
+        ///违章查询
+        else if ([@"vio" equalByCaseInsensitive:name] && gAppMgr.myUser)
+        {
+            ViolationViewController * vc = [violationStoryboard instantiateViewControllerWithIdentifier:@"ViolationViewController"];
+            [self.curNavCtrl pushViewController:vc animated:YES];
+        }
+        ///估值
+        else if ([@"val" equalByCaseInsensitive:name] && gAppMgr.myUser)
+        {
+            ValuationViewController * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"ValuationViewController"];
+            [self.curNavCtrl pushViewController:vc animated:YES];
+        }
+        ///核保结果 TODO
+        else if ([@"icr" equalByCaseInsensitive:name] && gAppMgr.myUser)
+        {
+            NSNumber *premiumid = value.length > 0 ? @([value integerValue]) : nil;
+            if (premiumid) {
+                InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
+                InsSimpleCar *car = [[InsSimpleCar alloc] init];
+                car.carpremiumid = premiumid;
+                vc.insModel.simpleCar = car;
+                vc.insModel.originVC = self.curNavCtrl.topViewController;
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
         }
         //保险订单
         else if ([@"ino" equalByCaseInsensitive:name] && gAppMgr.myUser) {
@@ -133,6 +228,27 @@
             }
             flag = YES;
         }
+        //洗车订单详情
+        else if ([@"o" equalByCaseInsensitive:name] && gAppMgr.myUser) {
+            NSNumber *orderid = @([value integerValue]);
+            if ([self popToViewControllerIfNeededByIdentify:@"CarwashOrderDetailVC" withPrecidate:^BOOL(UIViewController *curvc) {
+                CarwashOrderDetailVC *vc = (CarwashOrderDetailVC *)curvc;
+                return [orderid isEqualToNumber:vc.order.orderid] || [orderid isEqualToNumber:vc.orderID];
+            }]) {
+                CarwashOrderDetailVC *vc = [UIStoryboard vcWithId:@"CarwashOrderDetailVC" inStoryboard:@"Mine"];
+                vc.orderID = orderid;
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+            flag = YES;
+        }
+        //订单列表
+        else if ([@"ol" equalByCaseInsensitive:name] && gAppMgr.myUser) {
+            if (![self popToViewControllerIfNeededByIdentify:@"MyOrderListVC"]) {
+                UIViewController *vc = [UIStoryboard vcWithId:@"MyOrderListVC" inStoryboard:@"Mine"];
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+            flag = YES;
+        }
         //其他订单
         else if ([@"otho" equalByCaseInsensitive:name] && gAppMgr.myUser)
         {
@@ -152,21 +268,6 @@
                 DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
                 vc.title = @"订单详情";
                 vc.url = urlStr;
-                [self.curNavCtrl pushViewController:vc animated:YES];
-            }
-            flag = YES;
-        }
-        //保险
-        else if ([@"ins" equalByCaseInsensitive:name] && gAppMgr.myUser) {
-            if (![self popToViewControllerIfNeededByIdentify:@"InsuranceVC"]) {
-                InsuranceVC *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
-                [self.curNavCtrl pushViewController:vc animated:YES];
-            }
-        }
-        //礼包
-        else if ([@"cpk" equalByCaseInsensitive:name] && gAppMgr.myUser) {
-            if (![self popToViewControllerIfNeededByIdentify:@"CouponPkgViewController"]) {
-                UIViewController *vc = [UIStoryboard vcWithId:@"CouponPkgViewController" inStoryboard:@"Mine"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
             flag = YES;
@@ -191,20 +292,6 @@
         else if ([@"sd" equalByCaseInsensitive:name]) {
 
         }
-        //爱车列表
-        else if ([@"cl" equalByCaseInsensitive:name] && gAppMgr.myUser) {
-            CarListVC *vc = (CarListVC *)[self viewControllerByIdentify:@"CarListVC" withPrecidate:nil];
-            if (vc) {
-                [self.curNavCtrl popToViewController:vc animated:YES];
-                vc.originCarID = @([value integerValue]);
-            }
-            else {
-                vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
-                vc.originCarID = @([value integerValue]);
-                [self.curNavCtrl pushViewController:vc animated:YES];
-            }
-            flag = YES;
-        }
         //加油记录
         else if ([@"gl" equalByCaseInsensitive:name] && gAppMgr.myUser) {
             if (![self popToViewControllerIfNeededByIdentify:@"GasRecordVC"]) {
@@ -213,48 +300,6 @@
             }
             flag = YES;
         }
-        //浙商加油
-        else if ([@"czbgl" equalByCaseInsensitive:name]) {
-            GasVC *vc = (GasVC *)[self viewControllerByIdentify:@"GasVC" withPrecidate:nil];
-            if (vc) {
-                [self.curNavCtrl popToViewController:vc animated:YES];
-                vc.tabViewSelectedIndex = 1;
-            }
-            else {
-                GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
-                vc.tabViewSelectedIndex = 1;
-                [self.curNavCtrl pushViewController:vc animated:YES];
-            }
-            flag = YES;
-        }
-        //加油首页
-        else if ([@"g" equalByCaseInsensitive:name]) {
-            if (![self popToViewControllerIfNeededByIdentify:@"GasVC"]) {
-                GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
-                [self.curNavCtrl pushViewController:vc animated:YES];
-            }
-            flag = YES;
-        }
-        ///支付中心
-        else if ([@"paycenter" equalByCaseInsensitive:name])
-        {
-            NSString * traderNo = params[@"tradeno"];
-            NSString * traderType = params[@"tradetype"];
-
-            PaymentCenterViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"PaymentCenterViewController"];
-            vc.tradeNo = traderNo;
-            vc.tradeType = traderType;
-            vc.originVc = self.curNavCtrl;
-            JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
-            [self.curNavCtrl presentViewController:nav animated:YES completion:nil];
-        }
-        ///违章查询
-        else if ([@"violation" equalByCaseInsensitive:name])
-        {
-            ViolationViewController * vc = [violationStoryboard instantiateViewControllerWithIdentifier:@"ViolationViewController"];
-            [self.curNavCtrl pushViewController:vc animated:YES];
-        }
-    
     }
     else if ([url hasPrefix:@"http://"] || [url hasPrefix:@"https://"]) {
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];

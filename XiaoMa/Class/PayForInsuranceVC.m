@@ -119,7 +119,9 @@
         NSString *license2 = self.insOrder.licenseName;
         [license appendFormat:@"和%@", license2];
         self.licenseData.customInfo[@"range2"] = [NSValue valueWithRange:NSMakeRange(license.length-license2.length, license2.length)];
-        self.licenseData.customInfo[@"url2"] = [NSURL URLWithString:self.insOrder.licenseUrl];
+        NSString *url2 = [NSString stringWithFormat:@"%@?token=%@&carpremiumid=%@",
+                          self.insOrder.licenseUrl,gNetworkMgr.token, self.insOrder.carpremiumid];
+        self.licenseData.customInfo[@"url2"] = [NSURL URLWithString:url2];
     }
     
     NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];

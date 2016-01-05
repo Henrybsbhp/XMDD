@@ -16,6 +16,7 @@
 #import "WebVC.h"
 #import "UIView+Layer.h"
 #import "HKTableViewCell.h"
+#import "NSDate+DateForText.h"
 
 
 #define kWidth [UIScreen mainScreen].bounds.size.width
@@ -124,32 +125,29 @@
 }
 
 
-- (void)actionAssisting{
+- (void)actionAssisting
+{
     GetRescueApplyHostCarOp *op = [GetRescueApplyHostCarOp operation];
+    NSString * tempStr = [self.appointmentDay dateFormatForD10];
+    op.appointTime = tempStr;
     op.licenseNumber = self.defaultCar.licencenumber;
     
-    NSString *tempStr = [NSString stringWithFormat:@"%@", self.appointmentDay];
-    if (tempStr.length >= 10) {
-        op.appointTime = [tempStr substringToIndex:10];
-    }else {
-        op.appointTime = @"";
-    }
     
-    [[[[op rac_postRequest] initially:^{
+    [[[op rac_postRequest] initially:^{
         
-    }] finally:^{
-        
-        
+        [gToast showingWithText:@"申请中..." inView:self.view];
     }] subscribeNext:^(GetRescueApplyHostCarOp *op) {
         
+        [gToast dismissInView:self.view];
         CommissionForsuccessfulVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionForsuccessfulVC"];
         vc.licenceNumber = self.defaultCar.licencenumber;
         vc.timeValue = self.appointmentDay;
         [self.navigationController pushViewController:vc animated:YES];
         
     } error:^(NSError *error) {
+        [gToast dismissInView:self.view];
         if (error.code == 611139001) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有协办券哦，点击省钱攻略，此等优惠岂能错过！" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:error.domain delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
             [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
                 NSInteger i = [n integerValue];
                 if (i == 1) {
@@ -162,14 +160,19 @@
                 }
             }];
             [alert show];
-        }else if (error.code == 0){
-            CommissionForsuccessfulVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionForsuccessfulVC"];
-            [self.navigationController pushViewController:vc animated:YES];
-        }else if (error.code == 611139002) {
-            
-            [gToast showText:@"您的车辆已成功预约年检协办业务，详情可点击协办记录查看"];
-        }else if (error.code == -1){
-            [gToast showText:@"申请失败, 请尝试重新提交!"];
+        }
+        else if (error.code == 611139002)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"协办结果" message:error.domain delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
+                
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
+            [alert show];
+        }
+        else
+        {
+            [gToast showError:error.domain];
         }
     }] ;
 }
@@ -303,7 +306,7 @@
         [_helperBtn setTintColor:[UIColor whiteColor]];
         _helperBtn.backgroundColor = [UIColor colorWithHex:@"#35cb68" alpha:1];
         _helperBtn.cornerRadius = 4;
-        _helperBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
+        _helperBtn.titleLabel.font = [UIFont boldSystemFontOfSize:13];
         
         [_helperBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self.view).offset(10);
@@ -318,8 +321,8 @@
 - (UIView *)underlyingView {
     if (!_underlyingView) {
         self.underlyingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, kHeight)];
-        self.underlyingView.backgroundColor = [UIColor redColor];
-        self.underlyingView.backgroundColor = [UIColor colorWithRed:248 green:124 blue:128 alpha:0.5];
+//        self.underlyingView.backgroundColor = [UIColor colorWithHex:@"#f4f4f4" alpha:0.6f];
+        self.underlyingView.backgroundColor = [UIColor colorWithHex:@"#454545" alpha:0.6f];
     }
     return _underlyingView;
 }
@@ -340,21 +343,21 @@
 
 - (UILabel *)titleLb {
     if (!_titleLb) {
-        self.titleLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 270, 30)];
+        self.titleLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 15, 270, 30)];
         _titleLb.text = @"预约协办";
         _titleLb.textAlignment = NSTextAlignmentCenter;
-        _titleLb.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
+        _titleLb.font = [UIFont boldSystemFontOfSize:15];
     }
     return _titleLb;
 }
 
 - (UILabel *)detailLb {
     if (!_detailLb) {
-        self.detailLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 55, 270, 40)];
+        self.detailLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 47, 270, 40)];
         _detailLb.text = @"您将预约年检协办业务, 再告诉你个秘密,\n电话预约会更及时有效哦!";
         _detailLb.textAlignment = NSTextAlignmentCenter;
         _detailLb.numberOfLines = 0;
-        _detailLb.font = [UIFont systemFontOfSize:12];
+        _detailLb.font = [UIFont systemFontOfSize:13];
         
     }
     return _detailLb;
@@ -365,7 +368,7 @@
         self.commissionBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         _commissionBtn.frame = CGRectMake(0, 102, 134, 49);
         [_commissionBtn setTitle:@"立即协办" forState:UIControlStateNormal];
-        _commissionBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
+        _commissionBtn.titleLabel.font = [UIFont boldSystemFontOfSize:13];
         
         [[_commissionBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             [self actionAssisting];
@@ -381,7 +384,7 @@
         self.phoneBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         _phoneBtn.frame = CGRectMake(136, 102, 134, 49);
         [_phoneBtn setTitle:@"拨打电话" forState:UIControlStateNormal];
-        _phoneBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
+        _phoneBtn.titleLabel.font = [UIFont boldSystemFontOfSize:13];
         [[_phoneBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             NSString * number = @"4007111111";
             NSString * urlStr = [NSString stringWithFormat:@"tel://%@",number];

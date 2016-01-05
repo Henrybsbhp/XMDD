@@ -244,9 +244,6 @@
     }
     else
     {
-        [self.navigationItem.rightBarButtonItem setTitleTextAttributes:@{
-                                                                         NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
-                                                                         } forState:UIControlStateNormal];
         [self.navigationItem.rightBarButtonItem setTitle:(self.isEditing ? @"完成":@"编辑")];
         [self refreshBottomView];
     }
@@ -286,9 +283,9 @@
     {
         UIBarButtonItem * rightBtn = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(edit:)];
         
-        [rightBtn setTitleTextAttributes:@{
-                                           NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
-                                           } forState:UIControlStateNormal];
+//        [rightBtn setTitleTextAttributes:@{
+//                                           NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
+//                                           } forState:UIControlStateNormal];
         self.navigationItem.rightBarButtonItem = rightBtn;
     }
 }

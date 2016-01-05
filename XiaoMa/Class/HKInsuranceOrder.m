@@ -48,6 +48,7 @@
     order.forcetaxfee = [rsp floatParamForName:@"forcetaxfee"];
     order.licenseName = [rsp stringParamForName:@"license"];
     order.licenseUrl = [rsp stringParamForName:@"licenseurl"];
+    order.carpremiumid = [rsp numberParamForName:@"carpremiumid"];
     
     return order;
 }

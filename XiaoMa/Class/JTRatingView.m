@@ -39,6 +39,14 @@
     return  self;
 }
 
+- (void)setupImgWidth:(CGFloat)w andImgHeight:(CGFloat)h andSpace:(CGFloat)s
+{
+    _imgWidth = w;
+    _imgHeight = h;
+    _imgSpacing = s;
+    [self resetImageViewFrames];
+}
+
 - (void)commInit
 {
     _rac_subject = [RACSubject subject];
@@ -122,5 +130,6 @@
     [super layoutSubviews];
     [self resetImageViewFrames];
 }
+
 
 @end

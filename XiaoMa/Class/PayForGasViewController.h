@@ -27,4 +27,6 @@
 /// 选中的优惠劵
 @property (nonatomic,strong)NSMutableArray * selectGasCoupouArray;
 
+@property (nonatomic, weak) UIViewController *originVC;
+
 @end
