@@ -51,9 +51,8 @@ PODS:
     - FoundationExtension/FoundationExtension
   - GIKPopoverBackgroundView/Core (0.0.1)
   - IQKeyboardManager (3.2.0.3)
-  - JT3DScrollView (1.0.2)
   - Masonry (0.6.1)
-  - MZAppearance (1.1.5)
+  - MZAppearance (1.1.6)
   - MZFormSheetController (2.4.1):
     - MZAppearance (~> 1.1.3)
     - MZFormSheetController/Core (= 2.4.1)
@@ -89,7 +88,6 @@ DEPENDENCIES:
   - CocoaLumberjack (= 2.0.0)
   - FoundationExtension (= 0.60)
   - IQKeyboardManager (= 3.2.0.3)
-  - JT3DScrollView (= 1.0.2)
   - Masonry (= 0.6.1)
   - MZFormSheetController (= 2.4.1)
   - pop (= 1.0.7)
@@ -115,14 +113,13 @@ SPEC CHECKSUMS:
   AMap2DMap: 6f19f93b3410c8105c34ef93dd9dbb537f7ea897
   AMapSearch: e48c562fc7713f7e5f719863a15141a847e16c04
   cdebug: 32bf88e54d22ad187b23122872b3977e5d0c1bde
-  CKKit: 438d9100d22fc85565f3a8910d49381858bc60f7
+  CKKit: deb58335f227e2df2436b9b5e3889d731229e86a
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   FoundationExtension: 76157113e6486ad95ea2be32a06f0d3f48172d56
   GIKPopoverBackgroundView: 9cde2752e608df4d1e35ebca12af762b9a7dca3e
   IQKeyboardManager: 7b071d1284b47b1c0c19891a042c2c65f118fa85
-  JT3DScrollView: 863773b53a2fd9b6599835ea4202843ad60535fd
   Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
-  MZAppearance: 6e9dc64e42074c0a19812a327f590746c3283bab
+  MZAppearance: 0c06d3fa9cc55142f1da14bc8631fbe8fd6e19d5
   MZFormSheetController: bcc262cb8b682bdc17fa88177b4f34ac26f0dcbe
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   ReactiveCocoa: 334468a83b2c5f669f7cfb9a084415ee23219b4f
@@ -133,4 +130,4 @@ SPEC CHECKSUMS:
   UI7Kit: a2be10b7ced09944b8d2dca5d373743665d29639
   UMengAnalytics: 020551718ba37da017bd85ac4c38ffba2774f3ce
 
-COCOAPODS: 0.37.2
+COCOAPODS: 0.39.0

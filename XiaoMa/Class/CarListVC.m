@@ -7,12 +7,13 @@
 //
 
 #import "CarListVC.h"
-#import <JT3DScrollView.h>
+#import "JT3DScrollView.h"
 #import "XiaoMa.h"
 #import "EditCarVC.h"
 #import "CarListSubView.h"
 #import "UIView+JTLoadingView.h"
 #import "MyCarStore.h"
+#import "ValuationViewController.h"
 
 @interface CarListVC ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet JT3DScrollView *scrollView;
@@ -23,6 +24,11 @@
 @end
 
 @implementation CarListVC
+
+- (void)dealloc
+{
+    DebugLog(@"CarListVC dealloc");
+}
 
 - (void)awakeFromNib
 {
@@ -35,7 +41,7 @@
     [self setupScrollView];
     [self setupCarStore];
     [self setupBottomView];
-    [self.carStore sendEvent:[self.carStore getAllCars]];
+    [[self.carStore getAllCars] send];
 }
 
 
@@ -43,13 +49,13 @@
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp309"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-    [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:NO];
+    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp309"];
-    [(JTNavigationController *)self.navigationController setShouldAllowInteractivePopGestureRecognizer:YES];
+    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -95,9 +101,10 @@
 
 - (void)setupCarStore
 {
-    @weakify(self);
     self.carStore = [MyCarStore fetchOrCreateStore];
-    [self.carStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+
+    @weakify(self);
+    [self.carStore subscribeWithTarget:self domain:@"cars" receiver:^(CKStore *store, CKEvent *evt) {
         @strongify(self);
         [self reloadDataWithEvent:evt];
     }];
@@ -134,12 +141,12 @@
 - (void)setOriginCarID:(NSNumber *)originCarID
 {
     _originCarID = originCarID;
-    [self.carStore sendEvent:[self.carStore getAllCarsIfNeeded]];
+    [[self.carStore getAllCarsIfNeeded] send];
 }
 
-- (void)reloadDataWithEvent:(CKStoreEvent *)evt
+- (void)reloadDataWithEvent:(CKEvent *)evt
 {
-    NSInteger code = evt.code;
+    CKEvent *event = evt;
     @weakify(self);
     [[[[evt.signal deliverOn:[RACScheduler mainThreadScheduler]] initially:^{
         
@@ -155,18 +162,18 @@
     }] subscribeNext:^(id x) {
         
         @strongify(self);
-        self.datasource = [self.carStore.cache allObjects];
+        self.datasource = [self.carStore.cars allObjects];
         HKMyCar *defCar = [self.carStore defalutCar];
         if (self.model.allowAutoChangeSelectedCar) {
             HKMyCar *car = nil;
             if (_originCarID) {
-                car = [self.carStore.cache objectForKey:_originCarID];
+                car = [self.carStore.cars objectForKey:_originCarID];
             }
-            if (code == kCKStoreEventAdd) {
+            if ([event isEqualForName:@"addCar"]) {
                 car = x;
             }
             if (!car && self.model.currentCar) {
-                car = [self.carStore.cache objectForKey:self.model.currentCar.carId];
+                car = [self.carStore.cars objectForKey:self.model.currentCar.carId];
             }
             if (!car) {
                 car = defCar;
@@ -179,12 +186,12 @@
                 self.model.selectedCar = defCar;
             }
             if (_originCarID) {
-                self.model.currentCar = [self.carStore.cache objectForKey:_originCarID];
+                self.model.currentCar = [self.carStore.cars objectForKey:_originCarID];
             }
-            else if (code != kCKStoreEventUpdate && code != kCKStoreEventAdd) {
+            else if (![event isEqualForAnyoneOfNames:@[@"updateCar",@"addCar"]]) {
                 self.model.currentCar = defCar;
             }
-            else if (code == kCKStoreEventAdd) {
+            else if ([event isEqualForName:@"addCar"]) {
                 self.model.currentCar = x;
             }
             if (!self.model.currentCar) {
@@ -214,7 +221,7 @@
         [gToast showError:error.domain];
         [self.view showDefaultEmptyViewWithText:@"获取爱车信息失败，点击重试" tapBlock:^{
             @strongify(self);
-            [self.carStore sendEvent:[self.carStore getAllCars]];
+            [[self.carStore getAllCars] send];
         }];
     }];
 }
@@ -251,7 +258,7 @@
     [self.scrollView addSubview:view];
     self.scrollView.contentSize = CGSizeMake(x + w, h);
     
-    [self reloadSubView:view withCar:car];
+    [self reloadSubView:view withCar:car atIndex:index];
 }
 #pragma mark - Action
 - (void)actionBack:(id)sender
@@ -303,20 +310,35 @@
 }
 
 #pragma mark - Reload
-- (void)reloadSubView:(CarListSubView *)subv withCar:(HKMyCar *)car
+- (void)reloadSubView:(CarListSubView *)subv withCar:(HKMyCar *)car atIndex:(NSInteger)index
 {
     [subv setCarTintColorType:car.tintColorType];
     
     subv.licenceNumberLabel.text = car.licencenumber;
     subv.markView.hidden = !car.isDefault;
     
+    if (!car.isDefault) {
+        [subv.barView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(subv);
+            make.height.mas_equalTo(2.5);
+            make.left.equalTo(subv).offset(20);
+            make.right.equalTo(subv.licenceNumberLabel.mas_right);
+        }];
+        [subv.licenceNumberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(subv.barView.mas_left);
+            make.height.mas_equalTo(30);
+            make.top.equalTo(subv.barView.mas_bottom).offset(2);
+        }];
+    }
+    
     NSString *text = [self.model descForCarStatus:car];
     BOOL show = car.status == 3 || car.status == 0;
     [subv setShowBottomButton:show withText:text];
     
     [subv setCellTitle:@"购车时间" withValue:[car.purchasedate dateFormatForYYMM] atIndex:0];
-    [subv setCellTitle:@"爱车品牌" withValue:car.brand atIndex:1];
-    [subv setCellTitle:@"具体车系" withValue:car.model atIndex:2];
+    NSString * brandStr = [NSString stringWithFormat:@"%@ %@", car.brand, car.seriesModel.seriesname];
+    [subv setCellTitle:@"品牌车系" withValue:brandStr atIndex:1];
+    [subv setCellTitle:@"具体车型" withValue:car.detailModel.modelname atIndex:2];
     [subv setCellTitle:@"整车价格" withValue:[NSString stringWithFormat:@"%.2f万元", car.price] atIndex:3];
     [subv setCellTitle:@"当前里程" withValue:[NSString stringWithFormat:@"%d公里", (int)car.odo] atIndex:4];
     [subv setCellTitle:@"年检到期日" withValue:[car.insexipiredate dateFormatForYYMM] atIndex:5];
@@ -325,8 +347,17 @@
     //汽车品牌logo
     [subv.logoView setImageByUrl:nil withType:ImageURLTypeThumbnail defImage:@"cm_logo_def" errorImage:@"cm_logo_def"];
     
-    //上传行驶证
+    //爱车估值
     @weakify(self);
+    [subv setValuationClickBlock:^(void) {
+        [MobClick event:@"rp309-4"];
+        @strongify(self);
+        ValuationViewController *vc = [UIStoryboard vcWithId:@"ValuationViewController" inStoryboard:@"Valuation"];
+        vc.carIndex = index;
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    
+    //上传行驶证
     [subv setBottomButtonClickBlock:^(UIButton *btn, CarListSubView *view) {
         @strongify(self);
         [self uploadDrivingLicenceWithCar:car subView:view];
@@ -352,14 +383,11 @@
         [gToast showingWithText:@"正在上传..."];
     }] flattenMap:^RACStream *(NSString *url) {
         
-        @strongify(self);
         //更新行驶证的url，如果更新失败，重置为原来的行驶证url
         NSString *oldurl = car.licenceurl;
         car.licenceurl = url;
         MyCarStore *store = [MyCarStore fetchExistsStore];
-        CKStoreEvent *evt = [store updateCar:car];
-        evt.object = self;
-        return [[[store sendEvent:evt] signal] catch:^RACSignal *(NSError *error) {
+        return [[[store updateCar:car] sendAndIgnoreError] catch:^RACSignal *(NSError *error) {
             car.licenceurl = oldurl;
             return [RACSignal error:error];
         }];

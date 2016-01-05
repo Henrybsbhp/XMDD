@@ -10,12 +10,20 @@
 #import "NSString+RectSize.h"
 #import "NSString+Split.h"
 #import "SocialShareViewController.h"
+#import "GetShareButtonOp.h"
+#import "ShareResponeManager.h"
 
 @interface GasPaymentResultVC ()
 @end
 
 @implementation GasPaymentResultVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"GasPaymentResultVC dealloc ~");
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -39,28 +47,38 @@
 - (IBAction)actionShare:(id)sender
 {
     [MobClick event:@"rp506-1"];
-    SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-    vc.tt = @"小马达达加油福利来了";
-    vc.image = [UIImage imageNamed:@"wechat_share_gas"];
-    vc.webimage = [UIImage imageNamed:@"weibo_share_gas"];
-    vc.urlStr = kGasPaymentResultUrl;
-    if (self.couponMoney > 0) {
-        vc.subtitle = [NSString stringWithFormat:@"我在小马达达为油卡充值了%d元，省了%d元！加油省省省，你也来加油吧！",
-                       self.chargeMoney, self.couponMoney];
-    } else {
-        vc.subtitle = [NSString stringWithFormat:@"我在小马达达为油卡充值了%d元！加油省省省，你也来加油吧！", self.chargeMoney];
-    }
-
-    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
-    sheet.shouldCenterVertically = YES;
-    [sheet presentAnimated:YES completionHandler:nil];
-    
-    [vc setFinishAction:^{
-        [sheet dismissAnimated:YES completionHandler:nil];
-    }];
-    
-    [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        [sheet dismissAnimated:YES completionHandler:nil];
+    GetShareButtonOp * op = [GetShareButtonOp operation];
+    op.pagePosition = ShareSceneGas;
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
+        
+        SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+        vc.sceneType = ShareSceneGas;    //页面位置
+        NSString * paidStr = [NSString stringWithFormat:@"%d", self.chargeMoney];
+        NSString * chargeStr = [NSString stringWithFormat:@"%d", self.couponMoney];
+        NSMutableDictionary * otherDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:paidStr, @"gasCharge", chargeStr, @"spareCharge", nil];
+        vc.otherInfo = otherDic;
+        vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            [MobClick event:@"rp110-7"];
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        [vc setClickAction:^{
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
+        [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
+            
+        }];
+        [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
+            
+        }];
+    } error:^(NSError *error) {
+        [gToast showError:@"分享信息拉取失败，请重试"];
     }];
 }
 

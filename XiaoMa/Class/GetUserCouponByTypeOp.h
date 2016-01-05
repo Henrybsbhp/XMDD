@@ -11,8 +11,8 @@
 
 @interface GetUserCouponByTypeOp: BaseOp
 
-@property (nonatomic)CouponType type;
-
+@property (nonatomic)   CouponType type;
+@property (nonatomic, assign)   NSInteger rescueId;
 ///优惠劵列表
 @property (nonatomic,strong)NSArray *rsp_couponsArray;
 

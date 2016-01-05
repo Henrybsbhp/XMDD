@@ -11,5 +11,5 @@
 
 @interface PickAutomobileBrandVC : UIViewController
 @property (nonatomic, weak) UIViewController *originVC;
-@property (nonatomic, copy) void(^completed)(NSString *brand, NSString *series);
+@property (nonatomic, copy) void(^completed)(AutoBrandModel *brand, AutoSeriesModel *series, AutoDetailModel * model);
 @end

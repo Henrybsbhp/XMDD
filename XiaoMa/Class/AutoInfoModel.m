@@ -7,8 +7,9 @@
 //
 
 #import "AutoInfoModel.h"
-#import "GetAutomobileBrandOp.h"
-#import "GetAutomobileModelOp.h"
+#import "GetAutomobileBrandV2Op.h"
+#import "GetAutomobileSeriesV2Op.h"
+#import "GetAutomobileModelV2Op.h"
 
 #define kAutoBrandTimetag       @"com.xmdd.auto.brand.timetag"
 
@@ -29,11 +30,11 @@
 }
 - (RACSignal *)rac_updateAutoBrand
 {
-    GetAutomobileBrandOp *op = [GetAutomobileBrandOp new];
+    GetAutomobileBrandV2Op *op = [GetAutomobileBrandV2Op new];
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
     NSNumber *timetag = [def objectForKey:kAutoBrandTimetag];
     op.req_timetag = timetag ? timetag : @(0);
-    return [[op rac_postRequest] map:^id(GetAutomobileBrandOp *rspOp) {
+    return [[op rac_postRequest] map:^id(GetAutomobileBrandV2Op *rspOp) {
         __block NSNumber *maxTimetag = rspOp.req_timetag;
         NSArray *brands = [rspOp.rsp_brands arrayByMappingOperator:^id(NSDictionary *dict) {
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"brandid = %@", dict[@"bid"]];
@@ -50,5 +51,9 @@
     }];
 }
 
+- (void)cleanAutoBrandTimetag
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kAutoBrandTimetag];
+}
 
 @end

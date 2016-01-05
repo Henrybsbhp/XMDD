@@ -9,11 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "HKInsuranceOrder.h"
 #import "HKCoupon.h"
+#import "InsuranceVM.h"
 
 @interface PayForInsuranceVC : UIViewController
 
+@property (nonatomic, strong) InsuranceVM *insModel;
 @property (nonatomic,strong)HKInsuranceOrder * insOrder;
-@property (nonatomic, weak) UIViewController *originVC;
+
+
 /// 为优惠劵选择服务
 @property (nonatomic)CouponType couponType;
 /// 是否选择活动

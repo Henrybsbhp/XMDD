@@ -33,6 +33,9 @@
 ///银行卡id
 @property (nonatomic,strong)NSNumber *bankCardId;
 
+///设备指纹
+@property (nonatomic,copy)NSString *blackbox;
+
 
 ///订单id
 @property (nonatomic,strong)NSNumber * rsp_orderid;

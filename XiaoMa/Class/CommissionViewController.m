@@ -15,7 +15,10 @@
 @end
 
 @implementation CommissionViewController
-
+- (void)dealloc
+{
+    DebugLog(@"CommissionViewController dealloc ~");
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigationBar];

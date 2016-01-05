@@ -38,9 +38,20 @@
     _proxyObject.textField = self;
     self.delegate = _proxyObject;
     [self addTarget:_proxyObject action:@selector(actionTextDidChanged:) forControlEvents:UIControlEventEditingChanged];
-    NSLog(@"self.inputdelegate = %@", self.inputDelegate);
 }
 
+- (void)setText:(NSString *)text {
+    BOOL isAtEnd = YES;
+    UITextPosition *pos = self.curCursorPosition;
+    if (self.isEditing && self.curCursorPosition) {
+        isAtEnd = [self comparePosition:self.curCursorPosition toPosition:self.endOfDocument] == NSOrderedSame;
+    }
+    [super setText:text];
+    
+    if (!isAtEnd && [self offsetFromPosition:pos toPosition:self.endOfDocument] > 0) {
+        self.selectedTextRange = [self textRangeFromPosition:pos toPosition:pos];
+    }
+}
 
 @end
 

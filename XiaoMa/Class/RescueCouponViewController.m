@@ -12,7 +12,7 @@
 #import "GetUserCouponByTypeOp.h"
 #import "HKLoadingModel.h"
 #import "CouponDetailsVC.h"
-
+#import "WebVC.h"
 @interface RescueCouponViewController ()<HKLoadingModelDelegate>
 
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
@@ -27,8 +27,38 @@
     [super viewDidLoad];
     self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
     [self.loadingModel loadDataForTheFirstTime];
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
+    btn.titleLabel.font = [UIFont systemFontOfSize:14];
+    btn.frame = CGRectMake(0, 0, 60, 44);
+    [btn setTitle:@"省钱攻略" forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(rescueHistory) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
 }
 
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp708"];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp708"];
+}
+
+//省钱攻略
+- (void)rescueHistory {
+    /**
+     *  省钱攻略点击事件
+     */
+    [MobClick event:@"rp708-1"];
+    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    vc.title = @"省钱攻略";
+    vc.url = kMoneySavingStrategiesUrl;
+    [self.navigationController pushViewController:vc animated:YES];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -36,9 +66,11 @@
 
 - (void)dealloc
 {
-    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
-    DebugLog(deallocInfo);
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"RescureViewController dealloc!");
 }
+
 #pragma mark - HKLoadingModelDelegate
 - (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
 {
@@ -54,6 +86,9 @@
 {
     GetUserCouponByTypeOp * op = [GetUserCouponByTypeOp operation];
     op.type = CouponTypeRescue;
+    if (CouponTypeRescue == 5) {
+        op.rescueId = self.type;
+    }
     return [[op rac_postRequest] map:^id(GetUserCouponByTypeOp *rspOp) {
         return rspOp.rsp_couponsArray;
     }];
@@ -128,6 +163,7 @@
         vc.isShareble = hkcoupon.isshareble;
         vc.oldType = hkcoupon.conponType;
         vc.newType = CouponNewTypeOthers;
+        vc.numberType = self.type;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

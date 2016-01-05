@@ -14,8 +14,9 @@
 + (BOOL)isEqualAddrComponent:(HKAddressComponent *)ac1 otherAddrComponent:(HKAddressComponent *)ac2;
 + (BOOL)isEqualAddrComponent:(HKAddressComponent *)ac1 AMapAddrComponent:(AMapAddressComponent *)ac2;
 
-@property (nonatomic, strong) NSString *province;
-@property (nonatomic, strong) NSString *city;
-@property (nonatomic, strong) NSString *district;
-
+@property (nonatomic, copy) NSString *province;
+@property (nonatomic, copy) NSString *city;
+@property (nonatomic, copy) NSString *district;
+@property (nonatomic, copy) NSString *street;
+@property (nonatomic, copy) NSString *number;
 @end

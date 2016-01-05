@@ -16,6 +16,13 @@ typedef enum : NSInteger
     CKLineAlignmentVerticalRight = -2
 }CKLineAlignment;
 
+typedef enum : NSUInteger
+{
+    CKLineOptionNone = 0,
+    CKLineOptionPixel = 1 << 0,
+    CKLineOptionDash = 1 << 1,
+}CKLineOptionMask;
+
 @interface CKLine : UIView
 ///(default is HEXCOLOR(@"#E3E3E3"))
 @property (nonatomic, strong) UIColor *lineColor;
@@ -23,8 +30,11 @@ typedef enum : NSInteger
 @property (nonatomic, assign) CGFloat linePixelWidth;
 ///(线的点宽度 default is 1)
 @property (nonatomic, assign) CGFloat linePointWidth;
-///(default is NO)
-@property (nonatomic, assign) BOOL pixelMode;
+///(default is CKLineOptionNone)
+@property (nonatomic, assign) CKLineOptionMask lineOptions;
 ///(default is CKLineAlignmentHorizontalTop)
 @property (nonatomic, assign) CKLineAlignment lineAlignment;
+///虚线的线段长短
+@property (nonatomic, strong) NSArray *dashLengths;
+
 @end

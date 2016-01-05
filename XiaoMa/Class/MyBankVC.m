@@ -25,6 +25,13 @@
 
 @implementation MyBankVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"MyBankVC dealloc!");
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [MobClick beginLogPageView:@"rp314"];
     [super viewWillAppear:animated];
@@ -58,9 +65,9 @@
 {
     self.bankStore = [BankCardStore fetchOrCreateStore];
     @weakify(self);
-    [self.bankStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+    [self.bankStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
         @strongify(self);
-        NSArray *codes = @[@(kCKStoreEventAdd),@(kCKStoreEventDelete),@(kCKStoreEventReload),@(kCKStoreEventNone),@(kCKStoreEventGet)];
+        NSArray *codes = @[@(kHKStoreEventAdd),@(kHKStoreEventDelete),@(kHKStoreEventReload),@(kHKStoreEventNone),@(kHKStoreEventGet)];
         [evt callIfNeededForCodeList:codes object:nil target:self selector:@selector(reloadWithEvent:)];
     }];
 }
@@ -70,14 +77,14 @@
     [self.bankStore sendEvent:[self.bankStore getAllBankCards]];
 }
 
-- (void)reloadWithEvent:(CKStoreEvent *)event
+- (void)reloadWithEvent:(HKStoreEvent *)event
 {
     NSInteger code = event.code;
     @weakify(self);
     [[[[event signal] initially:^{
 
         @strongify(self);
-        if (code != kCKStoreEventNone) {
+        if (code != kHKStoreEventNone) {
             [self.tableView.refreshView beginRefreshing];
         }
     }] finally:^{
@@ -109,7 +116,7 @@
         [MobClick event:@"rp314-2"];
         HKBankCard *card = [self.bankCards safetyObjectAtIndex:indexPath.row - 1];
         if (self.selectedCardReveicer) {
-            CKStoreEvent *evt = [CKStoreEvent eventWithSignal:[RACSignal return:card] code:kCKStoreEventSelect
+            HKStoreEvent *evt = [HKStoreEvent eventWithSignal:[RACSignal return:card] code:kHKStoreEventSelect
                                                        object:self.selectedCardReveicer];
             [self.bankStore sendEvent:evt];
             [self.navigationController popViewControllerAnimated:YES];

@@ -36,7 +36,7 @@ $(output-file (format "dataset/~a.m" (class-name _)))
 		(properties _)
 		(lambda (node k v)
 		  (define name (property-name node))
-		  (define dv (format "dict[@\"~a\"]" name))
+		  (define dv (format "dict[@\"~a\"]" (property-key node)))
 		  (define fmt
 			(case k
 			  ['object dv]

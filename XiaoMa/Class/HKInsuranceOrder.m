@@ -26,6 +26,7 @@
     order.licencenumber = rsp[@"licencenumber"];
     order.policy = [HKInsurance insuranceWithJSONResponse:rsp[@"policy"]];
     order.validperiod = rsp[@"validperiod"];
+    order.fvalidperiod = rsp[@"fvalidperiod"];
     order.paychannel = [rsp integerParamForName:@"paychannel"];
     order.paydesc = rsp[@"paydesc"];
     order.insdeliveryno = rsp[@"insdeliveryno"];
@@ -44,6 +45,11 @@
     order.activityAmount = [rsp floatParamForName:@"couponmoney"];
     order.insordernumber = rsp[@"insordernumber"];
     order.fee = [rsp floatParamForName:@"fee"];
+    order.forcetaxfee = [rsp floatParamForName:@"forcetaxfee"];
+    order.licenseName = [rsp stringParamForName:@"license"];
+    order.licenseUrl = [rsp stringParamForName:@"licenseurl"];
+    order.carpremiumid = [rsp numberParamForName:@"carpremiumid"];
+    
     return order;
 }
 

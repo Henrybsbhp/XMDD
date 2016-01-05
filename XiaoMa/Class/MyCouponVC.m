@@ -20,11 +20,14 @@
 @interface MyCouponVC ()
 
 @property (weak, nonatomic) IBOutlet JTTableView *carwashTableView;
+@property (weak, nonatomic) IBOutlet JTTableView *gasTableView;
 @property (weak, nonatomic) IBOutlet JTTableView *insuranceTableView;
 @property (weak, nonatomic) IBOutlet JTTableView *othersTableView;
 @property (weak, nonatomic) IBOutlet UIView *headView;
 @property (weak, nonatomic) IBOutlet UIButton *carwashBtn;
 @property (weak, nonatomic) IBOutlet UIView *carwashline;
+@property (weak, nonatomic) IBOutlet UIButton *gasBtn;
+@property (weak, nonatomic) IBOutlet UIView *gasLine;
 @property (weak, nonatomic) IBOutlet UIButton *insuranceBtn;
 @property (weak, nonatomic) IBOutlet UIView *insuranceline;
 @property (weak, nonatomic) IBOutlet UIButton *othersBtn;
@@ -33,6 +36,7 @@
 
 
 @property (nonatomic, strong) CarWashCouponVModel *carWashModel;
+@property (nonatomic, strong) CarWashCouponVModel *gasModel;
 @property (nonatomic, strong) CarWashCouponVModel *insuranceModel;
 @property (nonatomic, strong) CarWashCouponVModel *othersModel;
 @property (weak, nonatomic) IBOutlet UIView *getMoreView;
@@ -44,6 +48,10 @@
 
 @implementation MyCouponVC
 
+- (void)dealloc
+{
+    DebugLog(@"MyCouponVC dealloc!");
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -52,7 +60,10 @@
     
     [self setSegmentView];
     
-    if (self.jumpType == CouponNewTypeInsurance) {
+    if (self.jumpType == CouponNewTypeGas) {
+        [self.segHelper selectItem:self.gasBtn];
+    }
+    else if (self.jumpType == CouponNewTypeInsurance) {
         [self.segHelper selectItem:self.insuranceBtn];
     }
     else if (self.jumpType == CouponNewTypeOthers) {
@@ -65,6 +76,9 @@
     self.carWashModel = [[CarWashCouponVModel alloc] initWithTableView:self.carwashTableView withType:CouponNewTypeCarWash];
     [self.carWashModel resetWithTargetVC:self];
     
+    self.gasModel = [[CarWashCouponVModel alloc] initWithTableView:self.gasTableView withType:CouponNewTypeGas];
+    [self.gasModel resetWithTargetVC:self];
+    
     self.insuranceModel = [[CarWashCouponVModel alloc] initWithTableView:self.insuranceTableView withType:CouponNewTypeInsurance];
     [self.insuranceModel resetWithTargetVC:self];
     
@@ -72,6 +86,7 @@
     [self.othersModel resetWithTargetVC:self];
     
     [self.carWashModel.loadingModel loadDataForTheFirstTime];
+    [self.gasModel.loadingModel loadDataForTheFirstTime];
     [self.insuranceModel.loadingModel loadDataForTheFirstTime];
     [self.othersModel.loadingModel loadDataForTheFirstTime];
     
@@ -98,6 +113,7 @@
 - (void)setSegmentView
 {
     [self.carwashBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateSelected];
+    [self.gasBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateSelected];
     [self.insuranceBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateSelected];
     [self.othersBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateSelected];
     self.segHelper = [[CKSegmentHelper alloc] init];
@@ -108,6 +124,17 @@
         btn.selected = selected;
         self.carwashline.hidden = !selected;
         self.carwashTableView.hidden = !selected;
+        if (selected) {
+            [MobClick event:@"rp304-1"];
+        }
+    }];
+    
+    [self.segHelper addItem:self.gasBtn forGroupName:@"TabBar" withChangedBlock:^(id item, BOOL selected) {
+        @strongify(self);
+        UIButton * btn = item;
+        btn.selected = selected;
+        self.gasLine.hidden = !selected;
+        self.gasTableView.hidden = !selected;
         if (selected) {
             [MobClick event:@"rp304-1"];
         }
@@ -137,11 +164,6 @@
     
 }
 
-- (void)dealloc
-{
-    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
-    DebugLog(deallocInfo);
-}
 
 #pragma mark - Action
 - (IBAction)actionTabBar:(id)sender

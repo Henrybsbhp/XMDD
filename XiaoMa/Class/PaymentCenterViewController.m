@@ -30,6 +30,7 @@
 @property (nonatomic,strong)NSArray * paymentArray;
 ///支付渠道
 @property (nonatomic)PaymentChannelType  paychannel;
+
 @end
 
 
@@ -37,6 +38,8 @@
 
 - (void)dealloc
 {
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
     DebugLog(@"PaymentCenterViewController dealloc");
 }
 
@@ -322,7 +325,7 @@
 {
     UITableViewCell *cell;
     UIImageView *iconV;
-    UILabel *titleLb,*noteLb;
+    UILabel *titleLb,*noteLb,*recommendLB;
     UIButton *boxB;
     
     NSMutableDictionary * dict = [self.paymentArray safetyObjectAtIndex:indexPath.row -1];
@@ -331,6 +334,7 @@
     titleLb = (UILabel *)[cell.contentView viewWithTag:1002];
     noteLb = (UILabel *)[cell.contentView viewWithTag:1004];
     boxB = (UIButton *)[cell.contentView viewWithTag:1003];
+    recommendLB = (UILabel *)[cell.contentView viewWithTag:1005];
     
     [boxB setImage:[UIImage imageNamed:@"cw_box2"] forState:UIControlStateNormal];
     [boxB setImage:[UIImage imageNamed:@"cw_box3"] forState:UIControlStateSelected];
@@ -339,6 +343,11 @@
     iconV.image = [UIImage imageNamed:dict[@"logo"]];
     titleLb.text = dict[@"title"];
     noteLb.text = dict[@"subTitle"];
+    
+    PaymentChannelType paychannel = [dict[@"paymentType"] integerValue];
+    recommendLB.hidden = paychannel != PaymentChannelAlipay;
+    recommendLB.cornerRadius = 3.0f;
+    recommendLB.layer.masksToBounds = YES;
     
     
     UIButton * btn = [dict objectForKey:@"btn"];
@@ -440,7 +449,7 @@
         else if ([paychannelStr isEqualToString:@"7"])
         {
             NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:
-                                          @{@"paymentType":@(PaymentChannelXMDDCreditCard),
+                                          @{@"paymentType":@(PaymentChannelCZBCreditCard),
                                             @"title":@"浙商支付",
                                             @"subTitle":@"推荐浙商信用卡用户使用",
                                             @"logo":@"cw_creditcard"}];

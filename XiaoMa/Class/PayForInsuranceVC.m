@@ -13,15 +13,20 @@
 #import "GetInscouponOp.h"
 #import "ChooseCarwashTicketVC.h"
 #import "InsuranceOrderPayOp.h"
-#import "InsuranceResultVC.h"
 #import "PaymentHelper.h"
 #import "OrderPaidSuccessOp.h"
-#import "InsOrderStore.h"
+#import "HKCellData.h"
+#import "TTTAttributedLabel.h"
+#import "InsPayResultVC.h"
+#import "DetailWebVC.h"
+#import "NSString+Format.h"
+#import "InsuranceStore.h"
+//#import "InsPayFaildVC.h"
 
 #define CheckBoxDiscountGroup @"CheckBoxDiscountGroup"
 #define CheckBoxPlatformGroup @"CheckBoxPlatformGroup"
 
-@interface PayForInsuranceVC ()<UITableViewDataSource, UITableViewDelegate>
+@interface PayForInsuranceVC ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
@@ -29,6 +34,7 @@
 
 @property (nonatomic,strong) CKSegmentHelper *checkBoxHelper;
 @property (nonatomic)BOOL isLoadingResourse;
+@property (nonatomic, strong) HKCellData *licenseData;
 
 /////支付平台，（section == 2）
 //@property (nonatomic)PaymentPlatform platform;
@@ -45,16 +51,17 @@
     self.selectInsuranceCoupouArray = [NSMutableArray array];
     
     self.isLoadingResourse = YES;
+    [self reloadData];
     [self requestGetUserInsCoupon];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [MobClick beginLogPageView:@"rp326"];
+    [MobClick beginLogPageView:@"rp1006"];
     [super viewWillAppear:animated];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [MobClick endLogPageView:@"rp326"];
+    [MobClick endLogPageView:@"rp1006"];
     [super viewWillDisappear:animated];
 }
 
@@ -65,6 +72,8 @@
 
 - (void)dealloc
 {
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
     DebugLog(@"PayForInsuranceVC dealloc");
 }
 
@@ -81,20 +90,88 @@
     [self.bottomView layoutBorderLineIfNeeded];
     
     //label
+    CGFloat total = self.insOrder.totoalpay + self.insOrder.forcetaxfee;
     UILabel *label = (UILabel *)[self.bottomView viewWithTag:1001];
     NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
     NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:@"总计："
                                                                    attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14],
                                                                                 NSForegroundColorAttributeName:HEXCOLOR(@"#fb4209")}];
     [str appendAttributedString:attrStr1];
-    NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%.2f", self.insOrder.policy.premium]
+    NSString *strfee = [NSString stringWithFormat:@"￥%@", [NSString formatForRoundPrice2:total]];
+    NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:strfee
                                                                    attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:19],
                                                                                 NSForegroundColorAttributeName:HEXCOLOR(@"#fb4209")}];
     [str appendAttributedString:attrStr2];
     label.attributedText = str;
 }
 
+#pragma mark - Datasource
+- (void)reloadData
+{
+    self.licenseData = [HKCellData dataWithCellID:@"LicenseCell" tag:nil];
+    self.licenseData.customInfo[@"check"] = @YES;
+    
+    NSMutableString *license = [NSMutableString stringWithString:@"我已阅读并同意小马达达《保险服务协议》"];
+    
+    self.licenseData.customInfo[@"range1"] = [NSValue valueWithRange:NSMakeRange(license.length - 8, 8)];
+    self.licenseData.customInfo[@"url1"] = [NSURL URLWithString:kInsuranceLicenseUrl];
+    if (self.insOrder.licenseUrl.length > 0) {
+        NSString *license2 = self.insOrder.licenseName;
+        [license appendFormat:@"和%@", license2];
+        self.licenseData.customInfo[@"range2"] = [NSValue valueWithRange:NSMakeRange(license.length-license2.length, license2.length)];
+        NSString *url2 = [NSString stringWithFormat:@"%@?token=%@&carpremiumid=%@",
+                          self.insOrder.licenseUrl,gNetworkMgr.token, self.insOrder.carpremiumid];
+        self.licenseData.customInfo[@"url2"] = [NSURL URLWithString:url2];
+    }
+    
+    NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
+    ps.lineSpacing = 5;
+    NSAttributedString *attstr = [[NSAttributedString alloc] initWithString:license
+                                                                 attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:12],
+                                                                              NSForegroundColorAttributeName: HEXCOLOR(@"#9a9a9a"),
+                                                                              NSParagraphStyleAttributeName: ps}];
+    self.licenseData.object = attstr;
+    
+    [self.licenseData setHeightBlock:^CGFloat(UITableView *tableView) {
+        CGSize size = [TTTAttributedLabel sizeThatFitsAttributedString:attstr
+                                                       withConstraints:CGSizeMake(tableView.frame.size.width-60, 10000)
+                                                limitedToNumberOfLines:0];
+        return MAX(40, ceil(size.height+24));
+    }];
+
+    [self.tableView reloadData];
+}
 #pragma mark - Action
+- (void)actionBack:(id)sender
+{
+    [MobClick event:@"rp1006-1"];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)actionCallCenter:(id)sender
+{
+    [MobClick event:@"1006-2"];
+    NSString * number = @"4007111111";
+    [gPhoneHelper makePhone:number andInfo:@"咨询电话: 4007-111-111"];
+}
+
+- (void)gotoPaidFailVC
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您的保险订单支付失败，请重新支付！" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+    [alert show];
+//    InsPayFaildVC *vc = [UIStoryboard vcWithId:@"InsPayFaildVC" inStoryboard:@"Insurance"];
+//    vc.insOrder = self.insOrder;
+//    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)gotoPaidSuccessVC
+{
+    InsPayResultVC *resultVC = [UIStoryboard vcWithId:@"InsPayResultVC" inStoryboard:@"Insurance"];
+    resultVC.insModel = self.insModel;
+    resultVC.insOrder = self.insOrder;
+    [self.navigationController pushViewController:resultVC animated:YES];
+}
+
 - (IBAction)actionPay:(id)sender {
     [MobClick event:@"rp326-6"];
     InsuranceOrderPayOp * op = [InsuranceOrderPayOp operation];
@@ -137,13 +214,13 @@
         if (![self callPaymentHelperWithPayOp:op]) {
             
             [gToast dismiss];
-            InsOrderStore *store = [InsOrderStore fetchExistsStore];
-            [store sendEvent:[store getInsOrderByID:self.insOrder.orderid]];
-            InsuranceResultVC *resultVC = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceResultVC"];
-            resultVC.originVC = self.originVC;
-            resultVC.orderID = self.insOrder.orderid;
-            [resultVC setResultType:PaySuccess];
-            [self.navigationController pushViewController:resultVC animated:YES];
+            InsuranceStore *store = [InsuranceStore fetchExistsStore];
+            //刷新保险订单
+            [[store getInsOrderByID:self.insOrder.orderid] sendAndIgnoreError];
+            //刷新保险车辆列表
+            [[store getInsSimpleCars] sendAndIgnoreError];
+            
+            [self gotoPaidSuccessVC];
         }
     } error:^(NSError *error) {
         
@@ -244,17 +321,23 @@
     if (op.rsp_total == 0) {
         return NO;
     }
+    
+    CGFloat price = op.rsp_total;
+#if DEBUG
+    price = 0.01;
+#endif
+    
     PaymentHelper *helper = [[PaymentHelper alloc] init];
     NSString * info = [NSString stringWithFormat:@"%@-%@的保险订单支付",self.insOrder.inscomp,self.insOrder.licencenumber];
     NSString *text;
     switch (op.req_paychannel) {
         case PaymentChannelAlipay: {
             text = @"订单生成成功,正在跳转到支付宝平台进行支付";
-            [helper resetForAlipayWithTradeNumber:op.rsp_tradeno productName:info productDescription:info price:op.rsp_total];
+            [helper resetForAlipayWithTradeNumber:op.rsp_tradeno productName:info productDescription:info price:price];
         } break;
         case PaymentChannelWechat: {
             text = @"订单生成成功,正在跳转到微信平台进行支付";
-            [helper resetForWeChatWithTradeNumber:op.rsp_tradeno productName:info price:op.rsp_total];
+            [helper resetForWeChatWithTradeNumber:op.rsp_tradeno productName:info price:price];
         } break;
         case PaymentChannelUPpay: {
             text = @"订单生成成功,正在跳转到银联平台进行支付";
@@ -268,14 +351,11 @@
     [[helper rac_startPay] subscribeNext:^(id x) {
         
         @strongify(self);
-        InsOrderStore *store = [InsOrderStore fetchExistsStore];
-        [store sendEvent:[store getInsOrderByID:self.insOrder.orderid]];
-        InsuranceResultVC *resultVC = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"InsuranceResultVC"];
-        [resultVC setResultType:PaySuccess];
-        resultVC.originVC = self.originVC;
-        resultVC.orderID = self.insOrder.orderid;
-        [self.navigationController pushViewController:resultVC animated:YES];
+        //刷新保险订单
+        [[[InsuranceStore fetchExistsStore] getInsOrderByID:self.insOrder.orderid] sendAndIgnoreError];
         
+        [self gotoPaidSuccessVC];
+
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 1;
         iop.req_tradeno = op.rsp_tradeno;
@@ -283,8 +363,9 @@
             DebugLog(@"已通知服务器支付成功!");
         }];
     } error:^(NSError *error) {
-        
-        [gToast showError:@"订单支付失败"];
+
+        @strongify(self);
+        [self gotoPaidFailVC];
     }];
     return YES;
 }
@@ -293,7 +374,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    return 3;
+    return 4;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -301,9 +382,9 @@
     CGFloat height = 44;
     if (indexPath.section == 0){
         if (indexPath.row == 0){
-            height = 76;
+            height = 66;
         }
-        else if (indexPath.row == 3){
+        else if (indexPath.row == 5){
             height = 30;
         }
         else
@@ -319,6 +400,9 @@
             height = 50;
         }
     }
+    if (indexPath.section == 3) {
+        height = self.licenseData.heightBlock(tableView);
+    }
     return height;
 }
 
@@ -333,12 +417,11 @@
 }
 
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     NSInteger count = 0;
     if (section == 0) {
-        count = 4;
+        count = 6;
     }
     else if (section == 1) {
         
@@ -346,6 +429,9 @@
     }
     else if (section == 2) {
         count = 4 - (gPhoneHelper.exsitWechat ? 0:1);
+    }
+    else if (section == 3) {
+        return 1;
     }
     return count;
 }
@@ -381,15 +467,21 @@
             cell = [self paymentPlatformCellAtIndexPath:indexPath];
         }
     }
+    else if (indexPath.section == 3) {
+        cell = [self licenseCellAtIndexPath:indexPath];
+    }
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (![cell isKindOfClass:[JTTableViewCell class]]) {
+        return;
+    }
     JTTableViewCell *jtcell = (JTTableViewCell *)cell;
     
-    if ((indexPath.section == 1 && indexPath.row == 0) || (indexPath.section == 2 && indexPath.row == 0))
+    if ((indexPath.section == 1 && indexPath.row == 0) || (indexPath.section == 2 && indexPath.row == 0) || (indexPath.section == 0 && indexPath.row == 5))
     {
         [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(-1, 0, 0, 0) forDirectionMask:CKViewBorderDirectionBottom];
         [cell.contentView showBorderLineWithDirectionMask:CKViewBorderDirectionBottom];
@@ -440,7 +532,7 @@
     logoV.cornerRadius = 5.0f;
     logoV.layer.masksToBounds = YES;
     
-    [logoV setImageByUrl:self.insOrder.picUrl withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
+    [logoV setImageByUrl:self.insOrder.picUrl withType:ImageURLTypeOrigin defImage:@"ins_comp_def" errorImage:@"ins_comp_def"];
     titleL.text = self.insOrder.inscomp;
     
     return cell;
@@ -458,12 +550,22 @@
         infoL.text = self.insOrder.licencenumber;
     }
     else if (indexPath.row == 2) {
-        titleL.text = [NSString stringWithFormat:@"保险期限"];
-        infoL.textColor = HEXCOLOR(@"#fb4209");
+        titleL.text = [NSString stringWithFormat:@"商业险期限"];
+        infoL.textColor = HEXCOLOR(@"#505050");
         infoL.text = self.insOrder.validperiod;
     }
     else if (indexPath.row == 3) {
-        titleL.text = [NSString stringWithFormat:@"共计保费"];
+        titleL.text = [NSString stringWithFormat:@"交强险期限"];
+        infoL.textColor = HEXCOLOR(@"#505050");
+        infoL.text = self.insOrder.fvalidperiod;
+    }
+    else if (indexPath.row == 4) {
+        titleL.text = @"交强险/车船税";
+        infoL.textColor = HEXCOLOR(@"#fb4209");
+        infoL.text = [NSString stringWithFormat:@"￥%.2f", self.insOrder.forcetaxfee];
+    }
+    else if (indexPath.row == 5) {
+        titleL.text = [NSString stringWithFormat:@"商业险保费"];
         infoL.textColor = HEXCOLOR(@"#fb4209");
         infoL.text = [NSString stringWithFormat:@"￥%.2f",self.insOrder.totoalpay];
     }
@@ -480,6 +582,7 @@
     UILabel *dateLb = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *statusLb = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *tagLb = (UILabel *)[cell.contentView viewWithTag:1006];
+    UIView *tagBg = (UIView *)[cell.contentView viewWithTag:1007];
     
     if (self.insOrder.iscontainActivity)
     {
@@ -487,9 +590,9 @@
             
             label.text = self.insOrder.activityTag;
             tagLb.text = self.insOrder.activityName;
-            // TODO @fq
-            tagLb.cornerRadius = 3.0f;
-            tagLb.hidden = NO;
+            [tagBg makeCornerRadius:3.0f];
+            tagLb.hidden = !self.insOrder.activityName.length;
+            tagBg.hidden = !self.insOrder.activityName.length;
             arrow.hidden = NO;
             
             NSDate * earlierDate;
@@ -571,6 +674,7 @@
                 
                 if (self.isSelectActivity)
                 {
+                    [MobClick event:@"rp1006-3"];
                     statusLb.text = @"已选中";
                     statusLb.textColor = HEXCOLOR(@"#fb4209");
                     statusLb.hidden = NO;
@@ -586,6 +690,7 @@
             {
                 if (self.couponType == CouponTypeInsurance)
                 {
+                    [MobClick event:@"rp1006-4"];
                     statusLb.text = @"已选中";
                     statusLb.textColor = HEXCOLOR(@"#fb4209");
                     statusLb.hidden = NO;
@@ -620,7 +725,6 @@
         @strongify(self);
         if (indexPath.row == 2)
         {
-//            [MobClick event:@"rp108-1"];
             if (!self.selectInsuranceCoupouArray.count)
             {
                 [self jumpToChooseCouponVC];
@@ -695,19 +799,23 @@
 {
     UITableViewCell *cell;
     UIImageView *iconV;
-    UILabel *titleLb,*noteLb;
+    UILabel *titleLb,*noteLb,*recommendLB;
     UIButton *boxB;
     cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatformCellA"];
     iconV = (UIImageView *)[cell.contentView viewWithTag:1001];
     titleLb = (UILabel *)[cell.contentView viewWithTag:1002];
     noteLb = (UILabel *)[cell.contentView viewWithTag:1004];
     boxB = (UIButton *)[cell.contentView viewWithTag:1003];
+    recommendLB = (UILabel *)[cell.contentView viewWithTag:1005];
+    recommendLB.cornerRadius = 3.0f;
+    recommendLB.layer.masksToBounds = YES;
     
     
     if (indexPath.row == 1) {
         iconV.image = [UIImage imageNamed:@"cw_alipay"];
         titleLb.text = @"支付宝支付";
         noteLb.text = @"推荐支付宝用户使用";
+        recommendLB.hidden = NO;
     }
     else if (indexPath.row == 2) {
         if (gPhoneHelper.exsitWechat)
@@ -722,11 +830,13 @@
             titleLb.text = @"银联支付";
             noteLb.text = @"推荐银联卡用户使用";
         }
+        recommendLB.hidden = YES;
     }
     else if (indexPath.row == 3) {
         iconV.image = [UIImage imageNamed:@"ins_uppay"];
         titleLb.text = @"银联支付";
         noteLb.text = @"推荐银联卡用户使用";
+        recommendLB.hidden = YES;
     }
     
     NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup];
@@ -765,18 +875,18 @@
         @strongify(boxB)
         boxB.selected = YES;
         if (indexPath.row == 1){
-            [MobClick event:@"rp326-3"];
+            [MobClick event:@"rp1006-5"];
         }
         else if (indexPath.row == 2){
             if (gPhoneHelper.exsitWechat) {
-                [MobClick event:@"rp326-4"];
+                [MobClick event:@"rp1006-6"];
             }
             else {
-                [MobClick event:@"rp326-5"];
+                [MobClick event:@"rp1006-7"];
             }
         }
         else{
-            [MobClick event:@"rp326-5"];
+            [MobClick event:@"rp1006-7"];
         }
     }];
 
@@ -799,6 +909,52 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"OtherInfoCell"];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
+}
+
+- (UITableViewCell *)licenseCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"LicenseCell"];
+    UIButton *checkB = [cell viewWithTag:1001];
+    TTTAttributedLabel *richL = [cell viewWithTag:1002];
+    
+    HKCellData *data = self.licenseData;
+
+    //选择框
+    @weakify(checkB);
+    [[[checkB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+     subscribeNext:^(id x) {
+         
+         @strongify(checkB);
+         BOOL checked = ![data.customInfo[@"check"] boolValue];
+         data.customInfo[@"check"] = @(checked);
+         checkB.selected = checked;
+         self.payBtn.enabled = checked;
+    }];
+
+    //文字和协议链接
+    if (!data.customInfo[@"setup"]) {
+        data.customInfo[@"setup"] = @YES;
+        richL.delegate = self;
+        richL.attributedText = data.object;
+        [richL setLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
+                                   NSForegroundColorAttributeName: HEXCOLOR(@"#007aff")}];
+        [richL setActiveLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
+                                         NSForegroundColorAttributeName: HEXCOLOR(@"#888888")}];
+        [richL addLinkToURL:data.customInfo[@"url1"] withRange:[data.customInfo[@"range1"] rangeValue]];
+        if (data.customInfo[@"range2"]) {
+            [richL addLinkToURL:data.customInfo[@"url2"] withRange:[data.customInfo[@"range2"] rangeValue]];
+        }
+    }
+    
+    return cell;
+}
+
+#pragma mark - TTTAttributedLabelDelegate
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url
+{
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.url = [url absoluteString];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Utility
@@ -876,7 +1032,7 @@
             amount = amount - self.insOrder.activityAmount;
         }
     }
-    
+    amount += self.insOrder.forcetaxfee;
     NSString * btnText = [NSString stringWithFormat:@"您只需支付%.2f元，现在支付",amount];
     [self.payBtn setTitle:btnText forState:UIControlStateNormal];
 }
@@ -889,8 +1045,10 @@
     UILabel *dateLb = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *statusLb = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *tagLb = (UILabel *)[cell.contentView viewWithTag:1006];
+    UIView *tagBg = (UIView *)[cell.contentView viewWithTag:1007];
     
     tagLb.hidden = YES;
+    tagBg.hidden = YES;
     
     label.text = [NSString stringWithFormat:@"保险代金券：%ld张", (long)gAppMgr.myUser.couponModel.validInsuranceCouponArray.count];
     arrow.hidden = NO;

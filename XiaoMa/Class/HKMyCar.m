@@ -41,7 +41,19 @@
     car.licencenumber= [[rsp stringParamForName:@"licencenumber"] uppercaseString];
     car.purchasedate = [NSDate dateWithD8Text:[rsp stringParamForName:@"purchasedate"]];
     car.brand = [rsp stringParamForName:@"make"];
-    car.model = [rsp stringParamForName:@"model"];
+    car.brandLogo = [rsp stringParamForName:@"logo"];
+    
+    car.brandid = [rsp numberParamForName:@"makeid"];
+    AutoSeriesModel * seriesDic = [[AutoSeriesModel alloc] init];
+    seriesDic.seriesid = [rsp numberParamForName:@"seriesid"];
+    seriesDic.seriesname = [rsp stringParamForName:@"model"];
+    car.seriesModel = seriesDic;
+    
+    AutoDetailModel * modelDic = [[AutoDetailModel alloc] init];
+    modelDic.modelid = [rsp numberParamForName:@"modelid"];
+    modelDic.modelname = [rsp stringParamForName:@"carmodel"];
+    car.detailModel = modelDic;
+    
     car.price = [rsp floatParamForName:@"price"];
     car.odo = [rsp integerParamForName:@"odo"];
     car.inscomp = [rsp stringParamForName:@"inscomp"];
@@ -50,6 +62,12 @@
     car.licenceurl = [rsp stringParamForName:@"licenceurl"];
     car.failreason = [rsp stringParamForName:@"failreason"];
     car.isDefault = [rsp integerParamForName:@"isdefault"] == 1;
+    car.provinceId = [rsp numberParamForName:@"pid"];
+    car.cithId = [rsp numberParamForName:@"cid"];
+    car.provinceName = [rsp stringParamForName:@"pname"];
+    car.cithName = [rsp stringParamForName:@"cname"];
+    car.classno = [rsp stringParamForName:@"carframenumber"];
+    car.engineno = [rsp stringParamForName:@"enginenumber"];
     NSInteger editable = [rsp integerParamForName:@"iseditable"];
     if (editable == 0) {
         car.editMask = HKCarEditableAll;
@@ -76,13 +94,28 @@
     [dict safetySetObject:[self.licencenumber uppercaseString] forKey:@"licencenumber"];
     [dict safetySetObject:[self.purchasedate dateFormatForDT8] forKey:@"purchasedate"];
     [dict safetySetObject:self.brand forKey:@"make"];
-    [dict safetySetObject:self.model forKey:@"model"];
+    [dict safetySetObject:self.brandLogo forKey:@"logo"];
+    //以下为二手车查询新增
+    [dict safetySetObject:self.brandid forKey:@"makeid"];
+    [dict safetySetObject:self.seriesModel.seriesname forKey:@"model"];
+    [dict safetySetObject:self.seriesModel.seriesid forKey:@"seriesid"];
+    [dict safetySetObject:self.detailModel.modelname forKey:@"carmodel"];
+    [dict safetySetObject:self.detailModel.modelid forKey:@"modelid"];
+    
+    //之前的版本遗漏
+    [dict safetySetObject:self.isDefault ? @1 : @2 forKey:@"isdefault"];
+    
     [dict safetySetObject:[NSString stringWithFormat:@"%.2f", self.price] forKey:@"price"];
     [dict safetySetObject:@(self.odo) forKey:@"odo"];
     [dict safetySetObject:self.inscomp forKey:@"inscomp"];
     [dict safetySetObject:[self.insexipiredate dateFormatForDT8] forKey:@"insexipiredate"];
     [dict safetySetObject:self.licenceurl forKey:@"licenceurl"];
-    [dict safetySetObject:@(self.isDefault ? 1 : 2) forKey:@"isdefault"];
+    [dict safetySetObject:self.provinceId forKey:@"pid"];
+    [dict safetySetObject:self.cithId forKey:@"cid"];
+    [dict safetySetObject:self.provinceName forKey:@"pname"];
+    [dict safetySetObject:self.cithName forKey:@"cname"];
+    [dict safetySetObject:self.classno forKey:@"carframenumber"];
+    [dict safetySetObject:self.engineno forKey:@"enginenumber"];
     return dict;
 }
 
@@ -94,7 +127,10 @@
     car.licenceurl = _licenceurl;
     car.purchasedate = _purchasedate;
     car.brand = _brand;
-    car.model = _model;
+    car.brandLogo = _brandLogo;
+    car.brandid = _brandid;
+    car.seriesModel = _seriesModel;
+    car.detailModel = _detailModel;
     car.price = _price;
     car.odo = _odo;
     car.inscomp = _inscomp;
@@ -106,12 +142,26 @@
     car.licenceArea = _licenceArea;
     car.licenceSuffix = _licenceSuffix;
     car.tintColorType = _tintColorType;
+    car.provinceId = _provinceId;
+    car.cithId = _cithId;
+    car.provinceName = _provinceName;
+    car.cithName = _cithName;
+    car.classno = _classno;
+    car.engineno = _engineno;
     return car;
 }
 
 - (BOOL)isCarInfoCompleted
 {
-    if (self.carId && self.licencenumber.length > 0 && self.purchasedate && self.brand.length > 0 && self.model.length > 0) {
+    if (self.carId && self.licencenumber.length > 0 && self.purchasedate && self.brand.length > 0 && self.seriesModel.seriesname.length > 0 && self.detailModel.modelname.length > 0) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)isCarInfoCompletedForCarWash
+{
+    if (self.carId && self.licencenumber.length > 0 && self.purchasedate && self.brand.length > 0 && self.seriesModel.seriesname.length > 0) {
         return YES;
     }
     return NO;
@@ -131,7 +181,10 @@
     if (![self isEqualWithString1:self.brand string2:another.brand]) {
         return YES;
     }
-    if (![self isEqualWithString1:self.model string2:another.model]) {
+    if (![self isEqualWithString1:self.seriesModel.seriesname string2:another.seriesModel.seriesname]) {
+        return YES;
+    }
+    if (![self isEqualWithString1:self.detailModel.modelname string2:another.detailModel.modelname]) {
         return YES;
     }
     if (self.price != another.price) {
@@ -152,6 +205,12 @@
     if (![self isEqualWithDate1:self.insexipiredate date2:another.insexipiredate]) {
         return YES;
     }
+    if (![self isEqualWithString1:self.classno string2:another.classno]) {
+        return YES;
+    }
+    if (![self isEqualWithString1:self.engineno string2:another.engineno]) {
+        return YES;
+    }
     if (self.isDefault != another.isDefault) {
         return YES;
     }
@@ -159,18 +218,6 @@
         return YES;
     }
     return NO;
-}
-
-- (NSString *)carSeriesDesc
-{
-    NSString *desc = self.brand;
-    if (desc) {
-        desc = [self.model hasPrefix:desc] ? self.model : [desc append:self.model];
-    }
-    else {
-        desc = self.model;
-    }
-    return desc;
 }
 
 - (UIColor *)tintColor
@@ -202,6 +249,14 @@
             break;
     }
     return color;
+}
+
+- (NSString *)wholeLicenseNumber
+{
+    if (self.licenceArea) {
+        return [self.licenceArea append:self.licenceSuffix];
+    }
+    return self.licenceSuffix;
 }
 
 #pragma mark - Private

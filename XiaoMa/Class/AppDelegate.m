@@ -25,11 +25,12 @@
 #import <UMengAnalytics/MobClick.h>
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
-#import "WelcomeViewController.h"
 #import "MainTabBarVC.h"
 #import "HKAdvertisement.h"
 #import "LaunchVC.h"
 #import "HKLaunchManager.h"
+#import "ShareResponeManager.h"
+#import "GuideViewController.h"
 
 #define RequestWeatherInfoInterval 60 * 10
 //#define RequestWeatherInfoInterval 5
@@ -49,6 +50,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
     //设置日志系统
     [self setupLogger];
     //设置错误处理
@@ -92,6 +94,7 @@
     return YES;
 }
 
+
 #pragma mark - Initialize
 - (void)setupLaunchManager
 {
@@ -103,9 +106,10 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     UIViewController *vc;
     if ([gAppMgr.deviceInfo firstAppearAtThisVersionForKey:@"$GuideView"]) {
-        vc = [UIStoryboard vcWithId:@"WelcomeViewController" inStoryboard:@"Main"];
+        vc = [[GuideViewController alloc] init];
     }
-    else {
+    else
+    {
         //如果本地没有启动页的相关信息，则直接进入主页，否则进入启动页
         HKLaunchInfo *info = [self.launchMgr fetchLatestLaunchInfo];
         NSString *url = [info croppedPicUrl];
@@ -204,6 +208,15 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
+    if ([url.absoluteString hasPrefix:WECHAT_APP_ID]) {
+        return [WXApi handleOpenURL:url delegate:[ShareResponeManager init]];
+    }
+    else if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"wb%@", WEIBO_APP_ID]]) {
+        return [WeiboSDK handleOpenURL:url delegate:[ShareResponeManager init]];
+    }
+    else if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@", QQ_API_ID]]) {
+        return [QQApiInterface handleOpenURL:url delegate:[ShareResponeManagerForQQ init]];
+    }
     return YES;
 }
 
@@ -279,6 +292,9 @@
 - (void)setupCrashlytics
 {
     [Fabric with:@[CrashlyticsKit]];
+    
+    Crashlytics * crashlytics = [Crashlytics sharedInstance];
+    
 }
 
 #pragma mark - Utilities
@@ -485,6 +501,5 @@
     [self.logModel addToScreen];
 #endif
 }
-
 
 @end

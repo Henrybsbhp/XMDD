@@ -31,18 +31,24 @@
     self.linePixelWidth = 1;
     self.linePointWidth = 1;
     self.lineAlignment = CKLineAlignmentHorizontalTop;
-    self.pixelMode = NO;
+    self.lineOptions = CKLineOptionNone;
+    self.dashLengths = @[@8, @2];
 }
 
 - (void)drawRect:(CGRect)rect
 {
     // Drawing code
-    CGFloat lineWidth = self.pixelMode ? self.linePixelWidth/[UIScreen mainScreen].scale : self.linePointWidth;
+    CGFloat lineWidth = self.lineOptions & CKLineOptionPixel ? self.linePixelWidth/[UIScreen mainScreen].scale : self.linePointWidth;
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     //关闭抗锯齿
     CGContextSetAllowsAntialiasing(ctx,NO);
     CGContextBeginPath(ctx);
     CGContextSetStrokeColorWithColor(ctx, self.lineColor.CGColor);
+    //设置虚线
+    if (self.lineOptions & CKLineOptionDash) {
+        CGFloat dashLengths[2] = {[self.dashLengths[0] floatValue], [self.dashLengths[1] floatValue]};
+        CGContextSetLineDash(ctx, 0,  dashLengths, 2);
+    }
     CGContextSetLineWidth(ctx, lineWidth);
     CGFloat x1 = self.lineAlignment == CKLineAlignmentVerticalRight ? rect.size.width : 0;
     CGFloat y1 = self.lineAlignment == CKLineAlignmentHorizontalBottom ? rect.size.height : 0;

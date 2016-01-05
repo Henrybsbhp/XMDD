@@ -18,7 +18,6 @@
 #import "CarWashNavigationViewController.h"
 #import "NearbyShopsViewController.h"
 #import "CommentListViewController.h"
-#import "EditMyCarVC.h"
 #import "AddUserFavoriteOp.h"
 #import "SDPhotoBrowser.h"
 #import "UIView+Layer.h"
@@ -179,7 +178,7 @@
 {
     if (gAppMgr.myUser) {
         MyCarStore *store = [MyCarStore fetchExistsStore];
-        [[[store sendEvent:[store getAllCarsIfNeeded]] signal] subscribeNext:^(id x) {
+        [[[store getAllCarsIfNeeded] send] subscribeNext:^(id x) {
             
         }];
     }
@@ -364,7 +363,7 @@
     else {
         [MobClick event:@"rp105-6_2"];
     }
-    [[[[[MyCarStore fetchExistsStore] getDefaultCar] signal] catch:^RACSignal *(NSError *error) {
+    [[[[[MyCarStore fetchExistsStore] getDefaultCar] send] catch:^RACSignal *(NSError *error) {
         
         return [RACSignal return:nil];
     }] subscribeNext:^(HKMyCar *car) {
@@ -387,7 +386,7 @@
         vc.originVC = self;
         vc.shop = self.shop;
         vc.service = service;
-        vc.defaultCar = [car isCarInfoCompleted] ? car : nil;
+        vc.defaultCar = [car isCarInfoCompletedForCarWash] ? car : nil;
         [self.navigationController pushViewController:vc animated:YES];
     }];
 }
@@ -604,13 +603,22 @@
     
     [statusL makeCornerRadius:3];
     statusL.font = [UIFont boldSystemFontOfSize:11]; //ios6字体大小有问题
-    if ([self isBetween:shop.openHour and:shop.closeHour]) {
-        statusL.text = @"营业中";
-        statusL.backgroundColor = HEXCOLOR(@"#1bb745");
-    }
-    else {
-        statusL.text = @"已休息";
+    
+    if ([self.shop.isVacation integerValue] == 1)
+    {
+        statusL.text = @"暂停营业";
         statusL.backgroundColor = HEXCOLOR(@"#b6b6b6");
+    }
+    else
+    {
+        if ([self isBetween:shop.openHour and:shop.closeHour]) {
+            statusL.text = @"营业中";
+            statusL.backgroundColor = HEXCOLOR(@"#1bb745");
+        }
+        else {
+            statusL.text = @"已休息";
+            statusL.backgroundColor = HEXCOLOR(@"#b6b6b6");
+        }
     }
     
     double myLat = gMapHelper.coordinate.latitude;
@@ -685,6 +693,15 @@
     //    [priceL mas_updateConstraints:^(MASConstraintMaker *make) {
     //        make.bottom.equalTo(cc ? iconV : titleL);
     //    }];
+    
+    if ([self.shop.isVacation integerValue] == 1)
+    {
+        payB.enabled = NO;
+    }
+    else
+    {
+        payB.enabled = YES;
+    }
     titleL.text = service.serviceName;
     priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
     introL.text = service.serviceDescription;
@@ -742,7 +759,8 @@
     contentL.text = comment.comment;
     serviceL.text = comment.serviceName;
     [avatarV setImageByUrl:comment.avatarUrl withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
-    
+    contentL.preferredMaxLayoutWidth = self.view.bounds.size.width - 71;
+    [cell layoutIfNeeded];
     return cell;
 }
 

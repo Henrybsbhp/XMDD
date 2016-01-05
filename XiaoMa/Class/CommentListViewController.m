@@ -57,8 +57,9 @@
 
 - (void)dealloc
 {
-    NSString * deallocInfo = [NSString stringWithFormat:@"%@ parse error~~",NSStringFromClass([self class])];
-    DebugLog(deallocInfo);
+    self.jtTableView.delegate = nil;
+    self.jtTableView.dataSource = nil;
+    DebugLog(@"CommentListViewController dealloc");
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -187,7 +188,7 @@
     serviceL.text = comment.serviceName;
     
     [avatarV setImageByUrl:comment.avatarUrl withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
-    
+    [cell layoutIfNeeded];
     return cell;
 }
 

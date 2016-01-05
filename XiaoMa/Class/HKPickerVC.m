@@ -22,7 +22,7 @@
 
 - (void)dealloc
 {
-    
+    DebugLog(@"HKPickerVC dealloc ~");
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,7 +51,6 @@
     return [vc rac_presentPickerVCInView:view withDatasource:datasource andCurrentValue:value];
 }
 
-///弹出日期选择器(next:NSData* error:【表示取消选取】)
 - (RACSignal *)rac_presentPickerVCInView:(UIView *)view withDatasource:(NSArray *)datasource andCurrentValue:(NSArray *)value
 {
     self.datasource = datasource;

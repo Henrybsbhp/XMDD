@@ -83,7 +83,7 @@
             }
             if (allowRefeshing && [self.targetView isKindOfClass:[UIScrollView class]]) {
                 //先移除所有事件
-                [[(UIScrollView *)self.targetView refreshView] removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
+                [[(UIScrollView *)self.targetView refreshView] removeTarget:nil action:nil forControlEvents:UIControlEventValueChanged];
                 [[(UIScrollView *)self.targetView refreshView] addTarget:self
                                                                   action:@selector(reloadData)
                                                         forControlEvents:UIControlEventValueChanged];
@@ -314,6 +314,7 @@
     }
     else
     {
+        /// 最后一个Section的最后一个row
         if (count) {
             NSInteger index =  indexPath.row + 1;
             if (count > index)

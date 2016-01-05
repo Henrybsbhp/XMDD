@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ODRefreshControl.h"
 #import "HKRefreshControl.h"
 
 @interface UIScrollView (RefreshView)
 @property (nonatomic, strong) HKRefreshControl *refreshView;
 - (void)restartRefreshViewAnimatingWhenRefreshing;
+- (BOOL)isRefreshViewExists;
 @end

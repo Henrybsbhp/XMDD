@@ -115,13 +115,13 @@
     }
     UIImageView *imgV = (UIImageView *)[pageView viewWithTag:1001];
     HKAdvertisement * ad = [self.adList safetyObjectAtIndex:pageIndex];
-    [imgV setImageByUrl:ad.adPic withType:ImageURLTypeMedium defImage:@"ad_default" errorImage:@"ad_default"];
+    [imgV setImageByUrl:ad.adPic withType:ImageURLTypeMedium defImage:@"ad_default_2_5" errorImage:@"ad_default_2_5"];
     
     UITapGestureRecognizer *tap = imgV.customObject;
     @weakify(self);
     [[[tap rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
-        if (self.mobBaseEvent) {
+        if (self.mobBaseEvent.length != 0) {
             NSString * eventstr = [NSString stringWithFormat:@"%@_%d", self.mobBaseEvent, (int)pageIndex];
             [MobClick event:eventstr];
         }
@@ -130,9 +130,11 @@
             [self.navModel pushToViewControllerByUrl:ad.adLink];
         }
         else {
-            DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-            vc.url = ADDEFINEWEB;
-            [self.targetVC.navigationController pushViewController:vc animated:YES];
+            if (_adType != AdvertisementValuation) {
+                DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+                vc.url = ADDEFINEWEB;
+                [self.targetVC.navigationController pushViewController:vc animated:YES];
+            }
         }
     }];
     

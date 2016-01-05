@@ -97,6 +97,7 @@
     UIImageView *barV = [[UIImageView alloc] initWithFrame:CGRectZero];
     barV.tag = 2001;
     [view addSubview:barV];
+    self.barView = barV;
 
     //汽车商标
 //    UIImageView *logoV = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -113,11 +114,13 @@
     self.licenceNumberLabel = label;
     
     [self createMarkViewWithContainer:view];
+    
+    [self createValuationViewWithContainer:view];
 
     [barV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(view);
         make.height.mas_equalTo(2.5);
-        make.left.equalTo(view);
+        make.left.equalTo(view).offset(30);
         make.right.equalTo(label.mas_right);
     }];
     
@@ -130,9 +133,9 @@
     [label setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.left.equalTo(logoV.mas_right).offset(5);
-        make.left.equalTo(barV.mas_left);
+        make.left.equalTo(barV.mas_left).offset(10);
         make.height.mas_equalTo(30);
-        make.top.equalTo(barV.mas_bottom).offset(4);
+        make.top.equalTo(barV.mas_bottom).offset(2);
     }];
 }
 
@@ -157,9 +160,9 @@
     [markV addSubview:defL];
 
     [markV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(30, 33));
+        make.size.mas_equalTo(CGSizeMake(35, 38));
         make.top.equalTo(container);
-        make.right.equalTo(container).offset(-4);
+        make.left.equalTo(container);
     }];
     
     [bgV mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -169,6 +172,22 @@
     [defL mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(markV);
         make.centerY.equalTo(markV).offset(-3);
+    }];
+}
+- (void)createValuationViewWithContainer:(UIView *)container
+{
+    UIButton *valuationBtn = [[UIButton alloc] initWithFrame:CGRectZero];
+    valuationBtn.tag = 2005;
+    [valuationBtn setTitle:@"爱车估值" forState:UIControlStateNormal];
+    valuationBtn.titleLabel.font = [UIFont systemFontOfSize:14  ];
+    [valuationBtn makeCornerRadius:5];
+    [valuationBtn addTarget:self action:@selector(valuationButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [container addSubview:valuationBtn];
+    
+    [valuationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(75, 32));
+        make.top.equalTo(container).offset(8);
+        make.right.equalTo(container).offset(-5);
     }];
 }
 
@@ -199,7 +218,7 @@
     titleL.font = [UIFont systemFontOfSize:15];
     titleL.backgroundColor = [UIColor clearColor];
     titleL.textColor = HEXCOLOR(@"#555555");
-    [titleL setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    //[titleL setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
 
     UILabel *valueL = [[UILabel alloc] initWithFrame:CGRectZero];
     valueL.tag = tag*10+2;
@@ -207,6 +226,7 @@
     valueL.font = [UIFont systemFontOfSize:15];
     valueL.textAlignment = NSTextAlignmentRight;
     valueL.textColor = HEXCOLOR(@"#999999");
+    [valueL setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     
     [cell addSubview:titleL];
     [cell addSubview:valueL];
@@ -304,6 +324,13 @@
 }
 
 #pragma mark - Action
+- (void)valuationButtonClick:(id)sender
+{
+    if (self.valuationClickBlock) {
+        self.valuationClickBlock();
+    }
+}
+
 - (void)actionTap:(id)sender
 {
     if (self.backgroundClickBlock) {
@@ -333,6 +360,11 @@
     
     UIImageView *markBgV = (UIImageView *)[self viewWithTag:20041];
     markBgV.image = [UIImage imageNamed:[NSString stringWithFormat:@"mec_mark%d",(int)colorType]];
+    
+    UIButton *valuationBtn = (UIButton *)[self viewWithTag:2005];
+    [valuationBtn setTitleColor:color forState:UIControlStateNormal];
+    valuationBtn.borderWidth = 1.5;
+    valuationBtn.borderColor = color;
     
     UIButton *bottomB = (UIButton *)[self viewWithTag:3011];
     [bottomB setTitleColor:color forState:UIControlStateNormal];

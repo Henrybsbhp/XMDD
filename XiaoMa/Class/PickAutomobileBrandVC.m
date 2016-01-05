@@ -25,6 +25,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //数据迁移
+    [self dataMigration];
     self.fetchCtrl = [self.autoModel createAutoBrandFetchCtrl];
     self.fetchCtrl.delegate = self;
     [self.tableView.refreshView addTarget:self action:@selector(reloadDatasource) forControlEvents:UIControlEventValueChanged];
@@ -34,10 +36,22 @@
 - (void)dealloc
 {
     self.fetchCtrl = nil;
-    NSString * deallocInfo = [NSString stringWithFormat:@"%@ dealloc~~",NSStringFromClass([self class])];
-    DebugLog(deallocInfo);
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"PickAutomobileBrandVC dealloc");
 }
 
+//数据迁移
+- (void)dataMigration
+{
+    if ([gAppMgr.deviceInfo firstAppearAfterVersion:@"2.5" forKey:@"AutoBrand"]) {
+        NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:@"AutoBrand"];
+        [gAppMgr.defDataMgr deleteAllObjectsWithFetchRequest:req];
+        [self.autoModel cleanAutoBrandTimetag];
+    }
+}
+
+#pragma mark - Datasource
 - (void)reloadDatasource
 {
     [self.fetchCtrl performFetch:nil];
@@ -111,8 +125,11 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     AutoBrand *brand = [self.fetchCtrl objectAtIndexPath:indexPath];
     PickerAutoSeriesVC *vc = [UIStoryboard vcWithId:@"PickerAutoSeriesVC" inStoryboard:@"Car"];
-    vc.brandid = brand.brandid;
-    vc.brandName = brand.name;
+    AutoBrandModel * brandModel = [[AutoBrandModel alloc] init];
+    brandModel.brandid = brand.brandid;
+    brandModel.brandname = brand.name;
+    brandModel.brandLogo = brand.logo;
+    vc.brand = brandModel;
     vc.originVC = self.originVC;
     vc.completed = self.completed;
     [self.navigationController pushViewController:vc animated:YES];

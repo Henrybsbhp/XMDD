@@ -23,6 +23,13 @@
 
 @implementation ChooseBankCardVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"ChooseBankCardVC dealloc");
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
@@ -60,7 +67,7 @@
 
 - (void)reloadData
 {
-    [[[[gAppMgr.myUser.couponModel rac_getVaildResource:self.service.shopServiceType] initially:^{
+    [[[[gAppMgr.myUser.couponModel rac_getVaildResource:self.service.shopServiceType andShopId:self.shop.shopID] initially:^{
         
         [self.tableView.refreshView beginRefreshing];
     }] finally:^{
@@ -127,7 +134,7 @@
                     payVc.couponType = CouponTypeCZBankCarWash;
                 }
             }
-            [payVc setPaymentChannel:PaymentChannelXMDDCreditCard];
+            [payVc setPaymentChannel:PaymentChannelCZBCreditCard];
             [payVc tableViewReloadData];
             [self.navigationController popViewControllerAnimated:YES];
         }

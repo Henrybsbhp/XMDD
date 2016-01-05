@@ -19,7 +19,7 @@ typedef enum : NSUInteger {
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *ensureItem;
 @property (nonatomic, strong) NSDate *maximumDate;
-
+@property (nonatomic, strong) NSDate *minimumDate;
 - (IBAction)actionCancel:(id)sender;
 - (IBAction)actionEnsure:(id)sender;
 - (void)setupWithTintColor:(UIColor *)tintColor;

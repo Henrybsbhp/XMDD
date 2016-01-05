@@ -16,14 +16,20 @@ typedef enum : NSUInteger {
     CouponTypeAgency,//免费年检协办
     CouponTypeInsurance,//保险代金券
     CouponTypeRescue,//免费道路救援
-    CouponTypeCZBankCarWash = 7// 浙商小马达达洗车券
+    CouponTypeCZBankCarWash = 7,// 浙商小马达达洗车券
+    CouponTypeWithHeartCarwash = 8,// 精洗券
+    CouponTypeGasNormal = 201,// 加油普通券
+    CouponTypeGasReduceWithThreshold = 202,// 加油满减券券
+    CouponTypeGasDiscount = 203,// 加油折扣券
 } CouponType;
 
 typedef enum : NSUInteger {
     CouponNewTypeCarWash = 1, //洗车券
     CouponNewTypeInsurance, //保险券
-    CouponNewTypeOthers //其他券
+    CouponNewTypeOthers, //其他券
+    CouponNewTypeGas //加油券
 } CouponNewType;
+/// 此枚举用于优惠劵页面的segment类型
 
 typedef enum : NSUInteger {
     CouponUse = 1,//已使用
@@ -40,6 +46,12 @@ typedef enum : NSUInteger {
 
 ///数额
 @property (nonatomic)CGFloat couponAmount;
+
+///优惠折扣
+@property (nonatomic)NSUInteger couponPercent;
+
+/// 使用门槛
+@property (nonatomic)CGFloat lowerLimit;
 
 ///优惠券描述
 @property (nonatomic, copy)NSString * couponDescription;

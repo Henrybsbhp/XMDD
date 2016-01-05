@@ -14,6 +14,11 @@
 
 @implementation DatePickerVC
 
+- (void)dealloc
+{
+    DebugLog(@"DatePickerVC delloc ~");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -69,6 +74,7 @@
         self.datePicker.date = date;
     }
     self.datePicker.maximumDate = self.maximumDate;
+    self.datePicker.minimumDate = self.minimumDate;
     [self setupWithTintColor:kDefTintColor];
     
     RACSubject *subject = [RACSubject subject];

@@ -31,6 +31,10 @@
 
 @implementation ListWebVC
 
+- (void)dealloc
+{
+    DebugLog(@"ListWebVC dealloc ~");
+}
 - (void)awakeFromNib
 {
     self.navModel = [[NavigationModel alloc] init];
@@ -53,6 +57,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self observeUserInfo];
     [self setupProcessView];
     
     self.navModel.curNavCtrl = self.navigationController;
@@ -75,6 +80,16 @@
     [self.myBridge registerToastMsg];
 }
 
+- (void)observeUserInfo
+{
+    @weakify(self);
+    [[[RACObserve(gAppMgr, myUser) distinctUntilChanged] skip:1] subscribeNext:^(JTUser *user) {
+        
+        @strongify(self);
+        [self reloadwebView];
+    }];
+}
+
 - (void)setupProcessView
 {
     _progressProxy = [[NJKWebViewProgress alloc] init];
@@ -93,7 +108,7 @@
 {
     //reload方法在第一次读取失败的时候会reload失败
     CKAsyncMainQueue(^{
-        self.webView.scrollView.contentSize = self.webView.frame.size;//避免横条滚动
+        self.webView.scrollView.contentSize = self.webView.frame.size;//避免横条滚动  //加上刷新的时候会闪一下
         [self.webView loadRequest:self.request];
     });
 }
@@ -111,12 +126,8 @@
     DebugLog(@"%@ WebViewLoadError:%@\n,error=%@", kErrPrefix, webView.request.URL, error);
     self.webView.scrollView.contentInset = UIEdgeInsetsZero;
     self.webView.scrollView.contentSize = self.webView.frame.size;
-    if ((error.code >= 400 && error.code < 600) || error.code == -1009) {
-        [gToast showError:kDefErrorPormpt];
-    }
-    else {
-        [gToast showError:@"无法连接到服务器"];
-    }
+    NSString * domain = [NSString stringWithFormat:@"%@[%ld]",kDefErrorPormpt,(long)error.code];
+    [gToast showError:domain];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType

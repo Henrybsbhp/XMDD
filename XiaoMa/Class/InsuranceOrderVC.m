@@ -11,47 +11,66 @@
 #import "BorderLineLabel.h"
 #import "InsuranceOrderPayOp.h"
 #import "PayForInsuranceVC.h"
-#import "HKLoadingModel.h"
-#import "InsOrderStore.h"
+#import "InsuranceStore.h"
+#import "InsuranceVM.h"
 
-@interface InsuranceOrderVC ()<UITableViewDataSource,UITableViewDelegate,HKLoadingModelDelegate>
+@interface InsuranceOrderVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *bottomButton;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) NSArray *coverages;
-@property (nonatomic, strong) HKLoadingModel *loadingModel;
-@property (nonatomic, strong) InsOrderStore *orderStore;
+@property (nonatomic, strong) InsuranceStore *insStore;
 
 @end
 
 @implementation InsuranceOrderVC
+- (void)awakeFromNib
+{
+    if (!self.insModel) {
+        self.insModel = [[InsuranceVM alloc] init];
+        self.insModel.originVC = self;
+    }
+}
+
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"InsuranceOrderVC dealloc");
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
+    
     if (self.order) {
         self.orderID = self.order.orderid;
-        [self setupInsOrderStore];
-        [self.tableView.refreshView addTarget:self.loadingModel action:@selector(reloadData)
-                             forControlEvents:UIControlEventValueChanged];
+        [self setupRefreshView];
         [self reloadWithOrderStatus:self.order.status];
+        [self setupInsuranceStore];
     }
     else {
-        [self setupInsOrderStore];
-        [self.loadingModel loadDataForTheFirstTime];
+        [self setupInsuranceStore];
+        CKAsyncMainQueue(^{
+            [[self.insStore getInsOrderByID:self.orderID] send];
+        });
     }
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp319"];
+    [MobClick beginLogPageView:@"rp1012"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp319"];
+    [MobClick endLogPageView:@"rp1012"];
+}
+
+- (void)setupRefreshView
+{
+    [self.tableView.refreshView addTarget:self action:@selector(actionRefresh) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)resetBottomButton
@@ -77,21 +96,59 @@
     [self.bottomButton addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)setupInsOrderStore
+- (void)setupInsuranceStore
 {
-    self.orderStore = [InsOrderStore fetchOrCreateStore];
+    self.insStore = [InsuranceStore fetchOrCreateStore];
     @weakify(self);
-    [self.orderStore subscribeEventsWithTarget:self receiver:^(CKStore *store, CKStoreEvent *evt) {
+    [self.insStore subscribeWithTarget:self domain:@"insOrder" receiver:^(CKStore *store, CKEvent *evt) {
+        
         @strongify(self);
-        RACSignal *sig = [evt.signal map:^id(id value) {
-            self.order = [[(InsOrderStore *)store cache] objectForKey:self.orderID];
-            return [NSArray safetyArrayWithObject:self.order];
-        }];
-        if (self.order) {
-            [self.loadingModel reloadDataFromSignal:sig];
+        if (evt.object && [evt.object isEqual:self.orderID]) {
+            [self reloadWithEvent:evt];
+        }
+    }];
+}
+
+- (void)reloadWithEvent:(CKEvent *)event
+{
+    @weakify(self);
+    [[[event signal] initially:^{
+        
+        @strongify(self);
+        if ([self.tableView isRefreshViewExists]) {
+            [self.tableView.refreshView beginRefreshing];
         }
         else {
-            [self.loadingModel autoLoadDataFromSignal:sig];
+            self.containerView.hidden = YES;
+            [self.view hideDefaultEmptyView];
+            [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+        }
+    }] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        if ([self.tableView isRefreshViewExists]) {
+            [self.tableView.refreshView endRefreshing];
+        }
+        else {
+            self.containerView.hidden = NO;
+            [self.view stopActivityAnimation];
+            [self setupRefreshView];
+        }
+        self.order = x;
+        [self reloadWithOrderStatus:self.order.status];
+    } error:^(NSError *error) {
+        
+        @strongify(self);
+        [gToast showError:error.domain];
+        if ([self.tableView isRefreshViewExists]) {
+            [self.tableView.refreshView endRefreshing];
+        }
+        else {
+            [self.view stopActivityAnimation];
+            [self.view showDefaultEmptyViewWithText:@"获取订单详情失败，点击重试" tapBlock:^{
+                @strongify(self);
+                [[self.insStore getInsOrderByID:self.orderID] send];
+            }];
         }
     }];
 }
@@ -99,11 +156,13 @@
 - (void)reloadWithOrderStatus:(InsuranceOrderStatus)status
 {
     self.order.status = status;
+    CGFloat total = self.order.totoalpay+self.order.forcetaxfee;
     id amount;
     id remark;
     //优惠额度
     int activityAmount = floor(self.order.activityAmount);
     if (activityAmount > 0) {
+        
         NSString *str = [NSString stringWithFormat:@"(已优惠%d) ", activityAmount];
         NSDictionary *attr = @{NSForegroundColorAttributeName:HEXCOLOR(@"#8b9eb3"),
                                NSFontAttributeName:[UIFont systemFontOfSize:12]};
@@ -111,31 +170,35 @@
         
         NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] init];
         
-        str = [NSString stringWithFormat:@"￥%.2f ", self.order.totoalpay];
+        str = [NSString stringWithFormat:@"￥%.2f ", total];
         attr = @{NSForegroundColorAttributeName:[UIColor blackColor],
                  NSFontAttributeName:[UIFont systemFontOfSize:12],
                  NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle)};
         [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:attr]];
         
-        str = [NSString stringWithFormat:@"￥%.2f", self.order.totoalpay - self.order.activityAmount];
+        str = [NSString stringWithFormat:@"￥%.2f", total - self.order.activityAmount];
         attr = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
                  NSForegroundColorAttributeName:[UIColor blackColor]};
         [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:attr]];
         amount = attrStr;
     }
     else {
-        amount = [NSString stringWithFormat:@"￥%.2f", self.order.totoalpay];
+        amount = [NSString stringWithFormat:@"￥%.2f", total];
     }
-
+    
     NSArray *array = @[RACTuplePack(@"被保险人",_order.policyholder),
                        RACTuplePack(@"保险公司",_order.inscomp),
                        RACTuplePack(@"证件号码",_order.idcard),
                        RACTuplePack(@"投保车辆",_order.licencenumber),
                        RACTuplePack(@"共计保费",amount,remark),
-                       RACTuplePack(@"保险期限",_order.validperiod)];
+                       RACTuplePack(@"商业险期限",_order.validperiod),
+                       ];
     NSMutableArray *titles = [NSMutableArray arrayWithArray:array];
     if (_order.insordernumber.length > 0) {
         [titles safetyInsertObject:RACTuplePack(@"保单编号",_order.insordernumber) atIndex:0];
+    }
+    if (_order.fvalidperiod.length > 0) {
+        [titles safetyAddObject:RACTuplePack(@"交强险期限",_order.fvalidperiod)];
     }
     self.titles = titles;
     self.coverages = self.order.policy.subInsuranceArray;
@@ -151,45 +214,27 @@
     return @"";
 }
 #pragma mark - Action
+- (void)actionBack:(id)sender
+{
+    [MobClick event:@"rp1012-1"];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)actionPay:(id)sender {
-    [MobClick event:@"rp319-1"];
+    [MobClick event:@"rp1012-2"];
     PayForInsuranceVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"PayForInsuranceVC"];
+    vc.insModel = self.insModel;
     vc.insOrder = self.order;
-    vc.originVC = self;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionMakeCall:(id)sender {
-    if (self.order.status == InsuranceOrderStatusPaid) {
-        [MobClick event:@"rp319-2"];
-    }
-    else if (self.order.status == InsuranceOrderStatusComplete){
-        [MobClick event:@"rp319-3"];
-    }
+    [MobClick event:@"rp1012-3"];
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
 }
 
-#pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
-{
-    return @"该订单已消失";
-}
-
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
-{
-    return @"获取订单信息失败，点击重试";
-}
-
-- (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
-{
-    InsOrderStore *store = [InsOrderStore fetchExistsStore];
-    [store sendEvent:[store getInsOrderByID:self.orderID]];
-    return [RACSignal empty];
-}
-
-- (void)loadingModel:(HKLoadingModel *)model didLoadingSuccessWithType:(HKLoadingTypeMask)type
-{
-    [self reloadWithOrderStatus:self.order.status];
+- (void)actionRefresh {
+    [[self.insStore getInsOrderByID:self.orderID] send];
 }
 
 #pragma mark - UITableViewDelegate
@@ -242,12 +287,12 @@
     [self resetStepViewInCell:cell highlight:(self.order.status == InsuranceOrderStatusComplete) baseTag:10050];
     
     line1.highlighted = self.order.status == InsuranceOrderStatusUnpaid ||
-                        self.order.status == InsuranceOrderStatusPaid;
+    self.order.status == InsuranceOrderStatusPaid;
     
     line2.highlighted = self.order.status == InsuranceOrderStatusPaid ||
-                        self.order.status == InsuranceOrderStatusComplete ||
-                        self.order.status == InsuranceOrderStatusSended;
-
+    self.order.status == InsuranceOrderStatusComplete ||
+    self.order.status == InsuranceOrderStatusSended;
+    
     titleL.text = [self.order detailDescForCurrentStatus];
     return cell;
 }

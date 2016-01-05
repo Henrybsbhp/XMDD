@@ -18,6 +18,13 @@
 
 @implementation PickInsCompaniesVC
 
+- (void)dealloc
+{
+    self.collectionView.delegate = nil;
+    self.collectionView.dataSource = nil;
+    DebugLog(@"PickInsCompaniesVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

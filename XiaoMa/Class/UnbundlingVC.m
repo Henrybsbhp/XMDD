@@ -30,6 +30,13 @@ static NSString *s_sendedPhone;
 
 @implementation UnbundlingVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"UnbundlingVC dealloc!");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.smsModel = [[HKSMSModel alloc] init];
