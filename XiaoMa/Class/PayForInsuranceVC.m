@@ -593,7 +593,7 @@
             [tagBg makeCornerRadius:3.0f];
             tagLb.hidden = !self.insOrder.activityName.length;
             tagBg.hidden = !self.insOrder.activityName.length;
-            arrow.hidden = NO;
+            arrow.hidden = YES;
             
             NSDate * earlierDate;
             NSDate * laterDate;
@@ -611,6 +611,12 @@
                 statusLb.textColor = HEXCOLOR(@"#aaaaaa");
                 statusLb.hidden = YES;
             }
+            
+            [tagLb mas_makeConstraints:^(MASConstraintMaker *make) {
+               
+                make.centerY.equalTo(cell.contentView);
+            }];
+            dateLb.hidden = YES;
         }
         else
         {
@@ -1049,6 +1055,7 @@
     
     tagLb.hidden = YES;
     tagBg.hidden = YES;
+    arrow.hidden = NO;
     
     label.text = [NSString stringWithFormat:@"保险代金券：%ld张", (long)gAppMgr.myUser.couponModel.validInsuranceCouponArray.count];
     arrow.hidden = NO;
@@ -1076,6 +1083,12 @@
         statusLb.hidden = YES;
         boxB.selected = NO;
     }
+    
+    [tagLb mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(cell.contentView).offset(8);
+    }];
+    dateLb.hidden = NO;
     return cell;
 }
 
