@@ -249,7 +249,7 @@
     avatarV.cornerRadius = 17.5f;
     avatarV.layer.masksToBounds = YES;
     
-    nameL.text = self.order.licencenumber;
+    nameL.text = self.order.nickName;
     timeL.text = [self.order.ratetime dateFormatForYYMMdd2];
     ratingV.ratingValue = self.order.rating;
     contentL.text = self.order.comment;

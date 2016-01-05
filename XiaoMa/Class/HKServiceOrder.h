@@ -33,6 +33,8 @@
 ///订单支付费用
 @property (nonatomic, assign) CGFloat fee;
 
+@property (nonatomic, strong) NSString *nickName;
+
 + (instancetype)orderWithJSONResponse:(NSDictionary *)rsp;
 - (JTShopService *)currentService;
 - (NSString *)paymentForCurrentChannel;
