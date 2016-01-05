@@ -1,12 +1,12 @@
 //
-//  RescurecCommentsVC.m
+//  RescueCommentsVC.m
 //  XiaoMa
 //
 //  Created by baiyulin on 15/12/10.
 //  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "RescurecCommentsVC.h"
+#import "RescueCommentsVC.h"
 #import "GetRescueCommentRescueOp.h"
 #import "HKBigRatingView.h"
 #import "JTRatingView.h"
@@ -17,7 +17,7 @@
 #import "HKRescueHistory.h"
 #define kWidth [UIScreen mainScreen].bounds.size.width
 
-@interface RescurecCommentsVC ()<UITableViewDelegate, UITableViewDataSource,UITextViewDelegate>
+@interface RescueCommentsVC ()<UITableViewDelegate, UITableViewDataSource,UITextViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UIView        * headerView;
@@ -34,13 +34,13 @@
 @property (nonatomic, strong) NSMutableArray * evaluationArray;
 @end
 
-@implementation RescurecCommentsVC
+@implementation RescueCommentsVC
 
 - (void)dealloc
 {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
-    DebugLog(@"RescurecCommentsVC dealloc");
+    DebugLog(@"RescueCommentsVC dealloc");
 }
 
 

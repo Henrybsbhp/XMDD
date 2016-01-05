@@ -6,8 +6,8 @@
 //  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "HKRescureDetail.h"
+#import "HKRescueDetail.h"
 
-@implementation HKRescureDetail
+@implementation HKRescueDetail
 
 @end

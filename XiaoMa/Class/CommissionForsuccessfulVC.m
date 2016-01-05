@@ -7,7 +7,7 @@
 //
 
 #import "CommissionForsuccessfulVC.h"
-#import "CommissonOrderVC.h"
+#import "CommissionOrderVC.h"
 @interface CommissionForsuccessfulVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -40,7 +40,7 @@
 
 - (void)popOrderVC {
     for(UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[CommissonOrderVC class]]) {
+        if ([controller isKindOfClass:[CommissionOrderVC class]]) {
             [self.navigationController popToViewController:controller animated:YES];
         }
     }

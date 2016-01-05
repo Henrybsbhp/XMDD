@@ -6,7 +6,7 @@
 //  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "CommissonConfirmVC.h"
+#import "CommissionConfirmVC.h"
 #import "GetRescueHostCountsOp.h"
 #import "GetRescueApplyHostCarOp.h"
 #import "DatePickerVC.h"
@@ -20,7 +20,7 @@
 
 #define kWidth [UIScreen mainScreen].bounds.size.width
 #define kHeight [UIScreen mainScreen].bounds.size.height
-@interface CommissonConfirmVC ()<UINavigationControllerDelegate, UIAlertViewDelegate>
+@interface CommissionConfirmVC ()<UINavigationControllerDelegate, UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, copy)     NSString    * licenseNumber;
 @property (nonatomic, strong)   NSDate      * appointmentDay;
@@ -43,7 +43,7 @@
 
 @end
 
-@implementation CommissonConfirmVC
+@implementation CommissionConfirmVC
 - (void)dealloc
 {
     self.tableView.delegate = nil;

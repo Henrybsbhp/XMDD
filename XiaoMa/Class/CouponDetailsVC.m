@@ -15,11 +15,11 @@
 #import "UIView+DefaultEmptyView.h"
 #import "RescureViewController.h"
 #import "CommissionViewController.h"
-#import "RescureDetailsVC.h"
+#import "RescueDetailsVC.h"
 #import "GetShareButtonOp.h"
 #import "ShareResponeManager.h"
-#import "CommissonOrderVC.h"
-#import "RescureHomeViewController.h"
+#import "CommissionOrderVC.h"
+#import "RescueHomeViewController.h"
 #import "GasVC.h"
 
 @interface CouponDetailsVC ()
@@ -135,12 +135,12 @@
                 @strongify(self);
                 //其他券去使用
                 if (self.oldType == CouponTypeAgency) {
-                    CommissonOrderVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonOrderVC"];
+                    CommissionOrderVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionOrderVC"];
                     [self.navigationController pushViewController:vc animated:YES];
                 }
                 else {
                     
-                    RescureHomeViewController *homeVC = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureHomeViewController"];
+                    RescueHomeViewController *homeVC = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
                     [self.navigationController pushViewController:homeVC animated:YES];
                 }
             }];

@@ -1,5 +1,5 @@
 //
-//  RescureHomeViewController.h
+//  RescueHomeViewController.h
 //  XiaoMa
 //
 //  Created by baiyulin on 15/12/9.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RescureHomeViewController : UIViewController
+@interface RescueHomeViewController : UIViewController
 
 @end

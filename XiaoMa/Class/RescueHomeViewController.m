@@ -1,16 +1,16 @@
 //
-//  RescureHomeViewController.m
+//  RescueHomeViewController.m
 //  XiaoMa
 //
 //  Created by baiyulin on 15/12/9.
 //  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "RescureHomeViewController.h"
+#import "RescueHomeViewController.h"
 #import "LoginVC.h"
-#import "RescureHistoryViewController.h"
+#import "RescueHistoryViewController.h"
 #import "GetRescueOp.h"
-#import "RescureDetailsVC.h"
+#import "RescueDetailsVC.h"
 #import "HKRescue.h"
 #import "GetRescueNoLoginOp.h"
 #import "HKRescueNoLogin.h"
@@ -21,7 +21,7 @@
 #import "NSDate+DateForText.h"
 #import "NSString+RectSize.m"
 #define kWidth [UIScreen mainScreen].bounds.size.width
-@interface RescureHomeViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface RescueHomeViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView    * tableView;
 @property (weak, nonatomic) IBOutlet UIView         * bottomView;
 @property (weak, nonatomic) IBOutlet UILabel        * addressLb;
@@ -34,7 +34,7 @@
 @property (nonatomic, strong) NSMutableArray    * desArray;
 @end
 
-@implementation RescureHomeViewController
+@implementation RescueHomeViewController
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -70,7 +70,7 @@
 {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
-    DebugLog(@"RescureHomeViewController dealloc");
+    DebugLog(@"RescueHomeViewController dealloc");
 }
 
 
@@ -164,7 +164,7 @@
      */
     [MobClick event:@"rp701-1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        RescureHistoryViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureHistoryViewController"];
+        RescueHistoryViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHistoryViewController"];
         vc.type = 1;
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -242,7 +242,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RescureHomeViewController" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RescueHomeViewController" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     UIImageView *titleImg    = (UIImageView *)[cell searchViewWithTag:1000];
@@ -336,7 +336,7 @@
                 break;
         }
         HKRescue *rescue = self.datasourceArray[indexPath.row];
-        RescureDetailsVC *vc = [UIStoryboard vcWithId:@"RescureDetailsVC" inStoryboard:@"Rescue"];
+        RescueDetailsVC *vc = [UIStoryboard vcWithId:@"RescueDetailsVC" inStoryboard:@"Rescue"];
         vc.type = rescue.type;
         
         vc.titleStr = rescue.serviceName;
@@ -344,7 +344,7 @@
         
     }else {
         HKRescueNoLogin *noLogin = self.datasourceArray[indexPath.row];
-        RescureDetailsVC *vc = [UIStoryboard vcWithId:@"RescureDetailsVC" inStoryboard:@"Rescue"];
+        RescueDetailsVC *vc = [UIStoryboard vcWithId:@"RescueDetailsVC" inStoryboard:@"Rescue"];
         vc.type = noLogin.type;
         vc.titleStr = noLogin.serviceName;
         [self.navigationController pushViewController:vc animated:YES];

@@ -1,14 +1,14 @@
 //
-//  GetRescureDetailOp.m
+//  GetRescueDetailOp.m
 //  XiaoMa
 //
 //  Created by baiyulin on 15/12/11.
 //  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "GetRescureDetailOp.h"
-#import "HKRescureDetail.h"
-@implementation GetRescureDetailOp
+#import "GetRescueDetailOp.h"
+#import "HKRescueDetail.h"
+@implementation GetRescueDetailOp
 - (RACSignal *)rac_postRequest {
     self.req_method = @"/rescue/get/rescuedetail";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -28,7 +28,7 @@
         self.rescueDetailArray = [@[] mutableCopy];
         NSDictionary *dic = rspObj[@"rescuedetail"];
         if (dic != nil) {
-            HKRescureDetail *detail  = [[HKRescureDetail alloc] init];
+            HKRescueDetail *detail  = [[HKRescueDetail alloc] init];
             detail.rescueid = dic[@"serviceobject"];
             detail.feesacle = dic[@"feesacle"];
             detail.serviceobject = dic[@"serviceproject"];

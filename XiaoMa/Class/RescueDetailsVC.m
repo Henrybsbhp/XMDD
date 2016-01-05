@@ -1,26 +1,26 @@
 //
-//  RescureDetailsVC.m
+//  RescueDetailsVC.m
 //  XiaoMa
 //
 //  Created by baiyulin on 15/12/11.
 //  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "RescureDetailsVC.h"
-#import "GetRescureDetailOp.h"
-#import "HKRescureDetail.h"
+#import "RescueDetailsVC.h"
+#import "GetRescueDetailOp.h"
+#import "HKRescueDetail.h"
 #import "RescueCouponViewController.h"
 #import "GetSystemPromotionOp.h"
 #import "RescueApplyOp.h"
 #import "ADViewController.h"
 #import "NSString+RectSize.h"
-#import "RescurecCommentsVC.h"
+#import "RescueCommentsVC.h"
 #import "UIView+DefaultEmptyView.h"
 #import "UIView+JTLoadingView.h"
 #import "HKTableViewCell.h"
 #define kWidth [UIScreen mainScreen].bounds.size.width
 #define kHeight [UIScreen mainScreen].bounds.size.height
-@interface RescureDetailsVC ()
+@interface RescueDetailsVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UIView        * headerView;
 @property (nonatomic, strong) UIImageView   * advertisingImg;
@@ -30,13 +30,13 @@
 @property (nonatomic, strong) NSMutableArray * dataSourceArray;
 @end
 
-@implementation RescureDetailsVC
+@implementation RescueDetailsVC
 
 - (void)dealloc
 {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
-    DebugLog(@"RescureDetailsVC dealloc");
+    DebugLog(@"RescueDetailsVC dealloc");
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -115,7 +115,7 @@
 }
 
 - (void)actionFirstEnter {
-    GetRescureDetailOp *op = [GetRescureDetailOp operation];
+    GetRescueDetailOp *op = [GetRescueDetailOp operation];
     op.rescueid = self.type;
     op.type = [NSNumber numberWithInteger:1];
     [[[[op rac_postRequest] initially:^{
@@ -123,7 +123,7 @@
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] finally:^{
         [self.view stopActivityAnimation];
-    }] subscribeNext:^(GetRescureDetailOp *op) {
+    }] subscribeNext:^(GetRescueDetailOp *op) {
         NSString *lastStr;
         for (NSString *testStr in op.rescueDetailArray) {
             lastStr = [testStr stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
@@ -214,7 +214,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    HKTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RescureDetailsVC" forIndexPath:indexPath];
+    HKTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RescueDetailsVC" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (indexPath.row != 0) {
         [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsMake(0, 0, 1, 0)];

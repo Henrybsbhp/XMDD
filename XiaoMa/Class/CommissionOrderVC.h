@@ -1,5 +1,5 @@
 //
-//  CommissonOrderVC.h
+//  CommissionOrderVC.h
 //  XiaoMa
 //
 //  Created by baiyulin on 15/12/17.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CommissonOrderVC : UIViewController
+@interface CommissionOrderVC : UIViewController
 
 @end

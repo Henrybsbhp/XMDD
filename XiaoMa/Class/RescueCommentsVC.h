@@ -1,5 +1,5 @@
 //
-//  RescurecCommentsVC.h
+//  RescueCommentsVC.h
 //  XiaoMa
 //
 //  Created by baiyulin on 15/12/10.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 @class HKRescueHistory;
-@interface RescurecCommentsVC : UIViewController
+@interface RescueCommentsVC : UIViewController
 
 @property (nonatomic,strong)HKRescueHistory * history;
 @property (nonatomic, strong)   NSNumber    * applyType;//1.救援 2.协办
