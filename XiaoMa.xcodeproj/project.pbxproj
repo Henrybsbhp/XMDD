@@ -4289,7 +4289,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run e29387288292dbe0610a93205503a68cced0eedf 8b007cc7981b209f8eca8517bbe5c41c1d5d28f51eb7b5cff962d561ac638b24";
+			shellScript = "releaseConfig=\"Release\"\n\nif [ \"$releaseConfig\" = \"${CONFIGURATION}\" ]\nthen\n./Fabric.framework/run e29387288292dbe0610a93205503a68cced0eedf 8b007cc7981b209f8eca8517bbe5c41c1d5d28f51eb7b5cff962d561ac638b24\nfi";
 		};
 		A104FC05B6EB7D321E22B017 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
