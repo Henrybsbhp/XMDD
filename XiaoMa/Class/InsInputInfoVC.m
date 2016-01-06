@@ -278,6 +278,8 @@
             InsInputDateVC *vc = [UIStoryboard vcWithId:@"InsInputDateVC" inStoryboard:@"Insurance"];
             vc.insModel = self.insModel;
             vc.insModel.numOfSeat = op.rsp_seatcount;
+            vc.insModel.startDate = op.rsp_mstartdate;
+            vc.insModel.forceStartDate = op.rsp_fstartdate;
             [self.navigationController pushViewController:vc animated:YES];
         } error:^(NSError *error) {
             

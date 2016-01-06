@@ -162,6 +162,8 @@
     CalculatePremiumOp * op = [CalculatePremiumOp operation];
     op.req_carpremiumid = self.insModel.simpleCar.carpremiumid;
     op.req_inslist = [inslist componentsJoinedByString:@"|"];
+    op.req_fstartdate = self.insModel.forceStartDate;
+    op.req_mstartdate = self.insModel.startDate;
     
     InsActivityIndicatorVC *indicator = [[InsActivityIndicatorVC alloc] init];
     
