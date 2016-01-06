@@ -771,7 +771,7 @@
     
     [field setTextDidChangedBlock:^(CKLimitTextField *field) {
         @strongify(self);
-        NSString *newtext = [field.text stringByReplacingOccurrencesOfString:@" " withString:@""]8;
+        NSString *newtext = [field.text stringByReplacingOccurrencesOfString:@" " withString:@""];
         field.text = [newtext uppercaseString];
         self.curCar.licenceSuffix = field.text;
     }];
