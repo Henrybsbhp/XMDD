@@ -97,7 +97,7 @@
 - (void)setupBottomView
 {
     UIButton *button = [self.bottomView viewWithTag:1001];
-    [button setTitle:self.selectMode == InsuranceSelectModeBuy ? @"保险核保" : @"预约核保" forState:UIControlStateNormal];
+    [button setTitle:self.selectMode == InsuranceSelectModeBuy ? @"立即核保" : @"预约核保" forState:UIControlStateNormal];
 }
 
 #pragma mark - Reload

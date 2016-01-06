@@ -194,6 +194,7 @@
 		18A30E451BD493DB00521411 /* GasPaymentResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A30E441BD493DB00521411 /* GasPaymentResultVC.m */; };
 		18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */; };
 		18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */; };
+		18A4DD531C3CC16F00003F70 /* InsInputDateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4DD521C3CC16F00003F70 /* InsInputDateVC.m */; };
 		18A9E8C91BDDC0950061D3BC /* GetInsCompanyListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9E8C81BDDC0950061D3BC /* GetInsCompanyListOp.m */; };
 		18A9E8CC1BDDC1C00061D3BC /* PickInsCompaniesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9E8CB1BDDC1C00061D3BC /* PickInsCompaniesVC.m */; };
 		18A9E8CF1BDF15430061D3BC /* EditCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9E8CE1BDF15430061D3BC /* EditCarVC.m */; };
@@ -981,6 +982,8 @@
 		18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		18A377F21AE4AB4B0031A574 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
+		18A4DD511C3CC16F00003F70 /* InsInputDateVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsInputDateVC.h; sourceTree = "<group>"; };
+		18A4DD521C3CC16F00003F70 /* InsInputDateVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsInputDateVC.m; sourceTree = "<group>"; };
 		18A9E8C71BDDC0950061D3BC /* GetInsCompanyListOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetInsCompanyListOp.h; sourceTree = "<group>"; };
 		18A9E8C81BDDC0950061D3BC /* GetInsCompanyListOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetInsCompanyListOp.m; sourceTree = "<group>"; };
 		18A9E8CA1BDDC1C00061D3BC /* PickInsCompaniesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickInsCompaniesVC.h; sourceTree = "<group>"; };
@@ -2720,6 +2723,8 @@
 			children = (
 				1897C2FD1C16C319007E394E /* InsInputInfoVC.h */,
 				1897C2FE1C16C319007E394E /* InsInputInfoVC.m */,
+				18A4DD511C3CC16F00003F70 /* InsInputDateVC.h */,
+				18A4DD521C3CC16F00003F70 /* InsInputDateVC.m */,
 			);
 			name = Input;
 			sourceTree = "<group>";
@@ -4682,6 +4687,7 @@
 				1853DEAD1AE0A0B700C39175 /* HKCatchErrorModel.m in Sources */,
 				18D475E21B7C3954000FAF1C /* GetUserCouponV2Op.m in Sources */,
 				6BEE17821C325A0D0004F63A /* IFTTTInterpolatable.m in Sources */,
+				18A4DD531C3CC16F00003F70 /* InsInputDateVC.m in Sources */,
 				18F41DAF1B788022000409E1 /* GetUnbindBankcardVcodeOp.m in Sources */,
 				6BEE17791C325A0D0004F63A /* IFTTTAnimator.m in Sources */,
 				6BEE178F1C325A0D0004F63A /* IFTTTViewAnimation.m in Sources */,
