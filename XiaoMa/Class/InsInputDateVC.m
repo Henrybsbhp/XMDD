@@ -123,7 +123,7 @@
 - (RACSignal *)rac_pickDateWithNow:(NSString *)nowtext
 {
     NSDate *date = [NSDate dateWithD10Text:nowtext];
-    self.datePicker.maximumDate = [NSDate date];
+    self.datePicker.minimumDate = [NSDate date];
     return [[[self.datePicker rac_presentPickerVCInView:self.navigationController.view withSelectedDate:date] ignoreError] map:^id(NSDate *date) {
         return [date dateFormatForD10];
     }];
