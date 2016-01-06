@@ -28,9 +28,6 @@
 @property (weak, nonatomic) IBOutlet UITableView    * tableView;
 @property (weak, nonatomic) IBOutlet UIView         * bottomView;
 @property (weak, nonatomic) IBOutlet UILabel        * addressLb;
-@property (nonatomic, strong) UIView        * headerView;
-@property (nonatomic, strong) UIImageView   * backgroundImage;
-@property (nonatomic, strong) UIButton      * phoneHelperBtn;
 @property (nonatomic ,strong) UIButton      * historyBtn;
 @property (nonatomic, strong) ADViewController  * adctrl;
 @property (nonatomic, strong) NSMutableArray    * datasourceArray;
@@ -55,6 +52,7 @@
     [super viewDidLoad];
     
     [self setupUI];
+    // [self addsubView];
     [self requestGetAddress];
     [self actionFirstEnterNetwork];
 }
@@ -69,12 +67,12 @@
 #pragma mark - SetupUI
 - (void)setupUI
 {
+    UIView * headerView = (UIView *)[self.tableView searchViewWithTag:1111];
+    headerView.frame = CGRectMake(0, 0, kWidth, 0.44 * kWidth + 38 + 13);
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.historyBtn];
     
-    self.tableView.tableHeaderView = self.headerView;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 28)];
-    [self.headerView addSubview:self.backgroundImage];
-    [self.headerView addSubview:self.phoneHelperBtn];
+    
 }
 
 
@@ -91,9 +89,8 @@
             gAppMgr.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
         }
         
-        
         CGFloat lbWidth = gAppMgr.deviceInfo.screenSize.width - 57;
-        CGFloat textWidth = [regeo.formattedAddress labelSizeWithWidth:FLT_MAX font:[UIFont systemFontOfSize:13]].width;
+        CGFloat textWidth = [regeo.formattedAddress labelSizeWithWidth:FLT_MAX font:[UIFont systemFontOfSize:12]].width;
         /// 如果超过label大小
         if (textWidth > lbWidth)
         {
@@ -200,8 +197,7 @@
         }] ;
     }
 }
-
-- (void)actionPhoneHelper:(UIButton *)sender {
+- (IBAction)actionAKeyRescue:(UIButton *)sender {
     /**
      *  一键救援事件
      */
@@ -229,6 +225,10 @@
     }
 }
 
+- (void)actionPhoneHelper:(UIButton *)sender {
+    
+}
+
 - (void)actionRescueHistory {
     /**
      *  救援记录事件
@@ -242,7 +242,6 @@
 }
 
 - (IBAction)refreshClick:(UIButton *)sender {
-    
     /**
      *  更新定位事件
      */
@@ -378,35 +377,6 @@
 
 
 #pragma mark - lazyLoading
-
-- (UIView *)headerView {
-    if (!_headerView) {
-        self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 0.44 * kWidth + 38 + 9)];
-    }
-    return _headerView;
-}
-
-- (UIImageView *)backgroundImage {
-    if (!_backgroundImage) {
-        self.backgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 0.44 * kWidth)];
-        _backgroundImage.image = [UIImage imageNamed:@"banner"];
-    }
-    return _backgroundImage;
-}
-
-- (UIButton *)phoneHelperBtn {
-    if (!_phoneHelperBtn) {
-        self.phoneHelperBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-        _phoneHelperBtn.frame = CGRectMake(28, CGRectGetMaxY(self.backgroundImage.frame) + 4, kWidth - 56, 38);
-        [_phoneHelperBtn addTarget:self action:@selector(actionPhoneHelper:) forControlEvents:UIControlEventTouchUpInside];
-        [_phoneHelperBtn setTitle:@"一键救援" forState:UIControlStateNormal];
-        _phoneHelperBtn.titleLabel.font = [UIFont systemFontOfSize:18];
-        [_phoneHelperBtn setTintColor:[UIColor whiteColor]];
-        _phoneHelperBtn.backgroundColor = [UIColor colorWithHex:@"#fe4a00" alpha:1];
-        _phoneHelperBtn.cornerRadius = 19;
-    }
-    return _phoneHelperBtn;
-}
 - (UIButton *)historyBtn {
     if (!_historyBtn) {
         self.historyBtn = [UIButton buttonWithType:UIButtonTypeSystem];

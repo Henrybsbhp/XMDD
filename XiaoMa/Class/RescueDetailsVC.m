@@ -22,11 +22,8 @@
 #define kHeight [UIScreen mainScreen].bounds.size.height
 @interface RescueDetailsVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) UIView        * headerView;
-@property (nonatomic, strong) UIImageView   * advertisingImg;
 @property (nonatomic, strong) UIView        * footerView;
 @property (nonatomic, strong) UIButton      * freeBtn;
-@property (nonatomic, copy)   NSString      * testStr;
 @property (nonatomic, strong) NSMutableArray * dataSourceArray;
 @end
 
@@ -163,7 +160,12 @@
         RescueApplyOp *op = [RescueApplyOp operation];
         op.longitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.longitude];
         op.latitude = [NSString stringWithFormat:@"%lf", gMapHelper.coordinate.latitude];
-        NSString *tempAdd = [NSString stringWithFormat:@"%@%@%@%@%@", gMapHelper.addrComponent.province,gMapHelper.addrComponent.city, gMapHelper.addrComponent.district, gMapHelper.addrComponent.street,gMapHelper.addrComponent.number];
+        NSString *tempAdd = [NSString stringWithFormat:@"%@%@%@%@%@",
+                             gMapHelper.addrComponent.province,
+                             gMapHelper.addrComponent.city,
+                             gMapHelper.addrComponent.district,
+                             gMapHelper.addrComponent.street,
+                             gMapHelper.addrComponent.number];
         op.address = [tempAdd stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
         
         [[[[op rac_postRequest] initially:^{
@@ -251,21 +253,9 @@
 
 
 #pragma mark - lazyLoading
-- (UIView *)headerView {
-    if (!_headerView) {
-        self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 0.31 * kWidth)];
-    }
-    return _headerView;
-}
-- (UIImageView *)advertisingImg {
-    if (!_advertisingImg) {
-        self.advertisingImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 0.31 * kWidth)];
-    }
-    return _advertisingImg;
-}
 - (UIView *)footerView {
     if (!_footerView) {
-        self.footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 0.375 * kWidth)];
+        self.footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 58)];
     }
     return _footerView;
 }

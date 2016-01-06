@@ -45,10 +45,12 @@
     [MobClick endLogPageView:@"rp804"];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
     self.isRemain = YES;
     if (self.type == 1) {
         self.navigationItem.title = @"救援记录";
@@ -65,12 +67,16 @@
     GetRescueHistoryOp *op = [GetRescueHistoryOp operation];
     op.applytime = self.applyTime;
     op.type = self.type;
+    @weakify(self);
     [[[[op rac_postRequest] initially:^{
+        @strongify(self)
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] finally:^{
+        @strongify(self)
         [self.view stopActivityAnimation];
     }] subscribeNext:^(GetRescueHistoryOp *op) {
+        @strongify(self)
         self.dataSourceArray = (NSMutableArray *)op.req_applysecueArray;
         if (self.dataSourceArray.count == 0) {
             if (self.type == 1) {
@@ -88,6 +94,7 @@
         
         [self.tableView reloadData];
     } error:^(NSError *error) {
+        
         [self.tableView.bottomLoadingView stopActivityAnimation];
         [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
             [self historyNetwork];
@@ -179,9 +186,6 @@
     }else {
         image.image = [UIImage imageNamed:@"rescue_tire"];
     }
-    
-    
-    
     
     [RACObserve(history, commentStatus) subscribeNext:^(NSNumber *num) {
         if ([num integerValue] == 1) {

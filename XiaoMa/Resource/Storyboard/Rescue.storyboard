@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -730,9 +731,58 @@
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableHeaderView" tag="1111" contentMode="scaleToFill" id="v3i-NL-BrT">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="315"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="banner" translatesAutoresizingMaskIntoConstraints="NO" id="DT4-CF-1w7">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="266"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="DT4-CF-1w7" secondAttribute="height" multiplier="960:425" id="QIt-uA-Ryw"/>
+                                            </constraints>
+                                        </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6bA-zr-aNw">
+                                            <rect key="frame" x="30" y="271" width="540" height="38"/>
+                                            <animations/>
+                                            <color key="backgroundColor" red="0.99607843137254903" green="0.29019607843137252" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="38" id="38x-xw-0rx"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <state key="normal" title="一键救援">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <integer key="value" value="19"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="actionAKeyRescue:" destination="tBu-5C-YGk" eventType="touchUpInside" id="yrD-dD-jgT"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <animations/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="DT4-CF-1w7" secondAttribute="trailing" id="8X3-Mk-RvR"/>
+                                        <constraint firstItem="DT4-CF-1w7" firstAttribute="leading" secondItem="v3i-NL-BrT" secondAttribute="leading" id="JgR-Q6-cVV"/>
+                                        <constraint firstItem="6bA-zr-aNw" firstAttribute="leading" secondItem="v3i-NL-BrT" secondAttribute="leading" constant="30" id="K5f-N7-OD0"/>
+                                        <constraint firstItem="6bA-zr-aNw" firstAttribute="top" secondItem="DT4-CF-1w7" secondAttribute="bottom" constant="5" id="VRt-lf-mxN"/>
+                                        <constraint firstItem="DT4-CF-1w7" firstAttribute="top" secondItem="v3i-NL-BrT" secondAttribute="top" id="hSe-Om-HEG"/>
+                                        <constraint firstAttribute="trailing" secondItem="6bA-zr-aNw" secondAttribute="trailing" constant="30" id="ikC-jU-v5U"/>
+                                        <constraint firstAttribute="bottom" secondItem="6bA-zr-aNw" secondAttribute="bottom" id="xIw-Zv-uhT"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="xIw-Zv-uhT"/>
+                                        </mask>
+                                    </variation>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RescueHomeViewController" rowHeight="95" id="uVo-ix-nio">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="95"/>
+                                        <rect key="frame" x="0.0" y="343" width="600" height="95"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uVo-ix-nio" id="kJF-jB-Nst">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="95"/>
@@ -1128,6 +1178,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="banner" width="960" height="425"/>
         <image name="coupon_background" width="297" height="73"/>
         <image name="coupon_shadow" width="297" height="20"/>
         <image name="cw_coupon_selected" width="27" height="22"/>
