@@ -68,19 +68,6 @@
         self.navigationItem.title = @"协办完成";
     }
     
-    @weakify(self)
-    [self.commentsTV.rac_textSignal subscribeNext:^(NSString * x) {
-        
-        @strongify(self)
-        if (x.length > 0) {
-            self.placeholderLb.hidden = YES;
-            self.placeholderLb.text = @"";
-        }else {
-            self.placeholderLb.hidden = NO;
-            self.placeholderLb.text = @"其他建议或意见";
-        }
-    }];
-    
     if (self.history.commentStatus == HKCommentStatusYes) {
         [self alreadyNetwork];
         
@@ -88,6 +75,7 @@
     }else{
         [self setupFooterView];
     }
+    
 }
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
@@ -171,6 +159,20 @@
         CGFloat width = self.view.frame.size.width - 10;
         make.width.mas_equalTo(width);
         make.height.mas_equalTo(0.128 * width);
+    }];
+    
+    @weakify(self)
+    [self.commentsTV.rac_textSignal subscribeNext:^(NSString * x) {
+        
+        @strongify(self)
+        if (x.length > 0) {
+            self.placeholderLb.hidden = YES;
+            self.placeholderLb.text = @"";
+            
+        }else {
+            self.placeholderLb.hidden = NO;
+            self.placeholderLb.text = @"其他建议或意见";
+        }
     }];
 }
 
