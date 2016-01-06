@@ -115,9 +115,6 @@
 
     NSMutableArray *datasource = [NSMutableArray array];
     HKCellData *infoCell = [HKCellData dataWithCellID:@"Info" tag:nil];
-    if (self.premiumDetail.rsp_fstartdate.length > 0) {
-        infoCell.customInfo[@"lockfdate"] = @YES;
-    }
     [infoCell setHeightBlock:^CGFloat(UITableView *tableView) {
         return 320;
     }];
@@ -167,13 +164,13 @@
 - (IBAction)actionBuy:(id)sender
 {
     [MobClick event:@"rp1005-7"];
-    if (self.paymentInfo.req_startdate.length == 0) {
-        [gToast showText:@"商业险启保日不能为空"];
-    }
-    else if (self.paymentInfo.req_forcestartdate.length == 0) {
-        [gToast showText:@"交强险启保日不能为空"];
-    }
-    else if (self.paymentInfo.req_ownername.length  == 0) {
+//    if (self.paymentInfo.req_startdate.length == 0) {
+//        [gToast showText:@"商业险启保日不能为空"];
+//    }
+//    else if (self.paymentInfo.req_forcestartdate.length == 0) {
+//        [gToast showText:@"交强险启保日不能为空"];
+//    }
+    if (self.paymentInfo.req_ownername.length  == 0) {
         [gToast showText:@"投保人姓名不能为空"];
     }
     else if (self.paymentInfo.req_idno.length == 0) {
@@ -311,7 +308,7 @@
     dateLF.inputField.placeholder = @"商业险日期";
     dateLF.inputField.text = self.paymentInfo.req_startdate;
     dateLF.subscriptImageName = @"ins_arrow_time";
-
+    dateLB.userInteractionEnabled = NO;
     [[[[dateLB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
       flattenMap:^RACStream *(id value) {
           
@@ -330,7 +327,7 @@
     dateRF.inputField.text = self.paymentInfo.req_forcestartdate;
     dateRF.subscriptImageName = @"ins_arrow_time";
     
-    dateRB.userInteractionEnabled = ![data.customInfo[@"lockfdate"] boolValue];
+    dateRB.userInteractionEnabled = NO;
     [[[[dateRB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
       flattenMap:^RACStream *(id value) {
           
