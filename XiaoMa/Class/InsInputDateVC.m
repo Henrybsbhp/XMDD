@@ -37,7 +37,7 @@
     
     HKCellData *cell2 = [HKCellData dataWithCellID:@"Input" tag:@1];
     cell2.customInfo[@"title"] = @"交强险启保日";
-    cell2.customInfo[@"]
+    cell2.customInfo[@"placehold"] = @"请输入交强险日期";
     
     self.datasource = @[cell1, cell2];
     [self.tableView reloadData];
@@ -76,7 +76,7 @@
     HKSubscriptInputField *inputF = [cell viewWithTag:10012];
     
     titleL.text = data.customInfo[@"title"];
-    inputF
+    inputF.inputField.placeholder = data.customInfo[@"placehold"];
 }
 
 @end
