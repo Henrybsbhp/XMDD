@@ -62,8 +62,6 @@
     [gMapHelper setupMAMap];
     //设置友盟
     [self setupUmeng];
-    //设置崩溃捕捉
-    [self setupCrashlytics];
     //设置url缓存
     [self setupURLCache];
     //设置推送
@@ -90,6 +88,9 @@
     //设置启动页管理器
     [self setupLaunchManager];
     [self setupRootView];
+    
+    //设置崩溃捕捉(官方建议放在最后面)
+    [self setupCrashlytics];
     
     return YES;
 }
