@@ -21,7 +21,7 @@
 #import "DatePickerVC.h"
 #import "InsuranceInfoSubmitingVC.h"
 #import "CityPickerVC.h"
-#import "InsCoverageSelectVC.h"
+#import "InsInputDateVC.h"
 
 @interface InsInputInfoVC ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
@@ -275,9 +275,11 @@
             [[[InsuranceStore fetchExistsStore] getInsSimpleCars] sendAndIgnoreError];
             
             //跳转到险种选择页面
-            InsCoverageSelectVC *vc = [UIStoryboard vcWithId:@"InsCoverageSelectVC" inStoryboard:@"Insurance"];
+            InsInputDateVC *vc = [UIStoryboard vcWithId:@"InsInputDateVC" inStoryboard:@"Insurance"];
             vc.insModel = self.insModel;
             vc.insModel.numOfSeat = op.rsp_seatcount;
+            vc.insModel.startDate = op.rsp_mstartdate;
+            vc.insModel.forceStartDate = op.rsp_fstartdate;
             [self.navigationController pushViewController:vc animated:YES];
         } error:^(NSError *error) {
             

@@ -25,6 +25,10 @@
 @property (nonatomic,strong) NSNumber* rsp_carpremiumid;
 ///车辆座位数量
 @property (nonatomic,strong) NSNumber* rsp_seatcount;
+///商业险启保日期
+@property (nonatomic,strong) NSString* rsp_mstartdate;
+///交强险启保日期
+@property (nonatomic,strong) NSString* rsp_fstartdate;
 
 
 @end

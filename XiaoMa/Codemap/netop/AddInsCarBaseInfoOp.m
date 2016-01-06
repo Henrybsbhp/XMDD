@@ -24,6 +24,8 @@
     NSDictionary *dict = rspObj;
     self.rsp_carpremiumid = dict[@"carpremiumid"];
     self.rsp_seatcount = dict[@"seatcount"];
+    self.rsp_mstartdate = dict[@"mstartdate"];
+    self.rsp_fstartdate = dict[@"fstartdate"];
 	
     return self;
 }

@@ -44,6 +44,8 @@ class=AddInsCarBaseInfo op auth path="/insurance/car/premium/add"> {
   <rsp> {
     <"核保记录id">carpremiumid:number
     <"车辆座位数量">seatcount:number
+    <"商业险启保日期">mstartdate
+    <"交强险启保日期">fstartdate
   }                        
 }
 
@@ -62,6 +64,8 @@ class=CalculatePremium op auth path="/insurance/car/premium/calculate"> {
   <req> {
     <"记录id">carpremiumid:number
     <"选中的保险列表">inslist
+    <"商业险起保日期">mstartdate
+    <"交强险起保日期">fstartdate
   }
   <rsp> {
     <"各保险公司报价情况">premiumlist:[InsPremium]
