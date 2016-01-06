@@ -11,4 +11,5 @@
 
 @interface InsInputDateVC : UIViewController
 @property (nonatomic, strong) InsuranceVM *insModel;
+
 @end
