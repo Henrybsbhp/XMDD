@@ -11,6 +11,9 @@
     [params safetySetObject:self.req_forcestartdate forKey:@"forcestartdate"];
     [params safetySetObject:self.req_inscomp forKey:@"inscomp"];
     [params safetySetObject:self.req_idno forKey:@"idno"];
+    [params safetySetObject:self.req_ownerphone forKey:@"ownerphone"];
+    [params safetySetObject:self.req_owneraddress forKey:@"owneraddress"];
+    [params safetySetObject:self.req_location forKey:@"location"];
 
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }

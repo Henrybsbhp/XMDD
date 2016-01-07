@@ -11,5 +11,7 @@
 @interface WebVC : UIViewController<UIWebViewDelegate>
 @property (nonatomic, weak) UIViewController *originVC;
 @property (nonatomic, weak) IBOutlet UIWebView *webView;
+///(Default is NO)
+@property (nonatomic, assign) BOOL autoShowBackButton;
 @property (nonatomic,copy)NSString * url;
 @end

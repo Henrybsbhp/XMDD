@@ -42,13 +42,13 @@
 - (void)reloadData
 {
     HKCellData *cell1 = [HKCellData dataWithCellID:@"Input" tag:@0];
-    cell1.customInfo[@"title"] = @"商业险启保日";
+    cell1.customInfo[@"title"] = @"商业险起保日";
     cell1.customInfo[@"placehold"] = @"请输入商业险日期";
     cell1.customInfo[@"lock"] = @NO;
     cell1.object = self.insModel.startDate;
     
     HKCellData *cell2 = [HKCellData dataWithCellID:@"Input" tag:@1];
-    cell2.customInfo[@"title"] = @"交强险启保日";
+    cell2.customInfo[@"title"] = @"交强险起保日";
     cell2.customInfo[@"placehold"] = @"请输入交强险日期";
     cell2.customInfo[@"lock"] = @(self.insModel.forceStartDate.length > 0);
     cell2.object = self.insModel.forceStartDate;
@@ -63,10 +63,10 @@
     HKCellData *cell1 = self.datasource[0];
     HKCellData *cell2 = self.datasource[1];
     if ([cell1.object length] == 0) {
-        [gToast showText:@"商业险启保日不能为空"];
+        [gToast showText:@"商业险起保日不能为空"];
     }
     else if ([cell2.object length] == 0) {
-        [gToast showText:@"交强险启保日不能为空"];
+        [gToast showText:@"交强险起保日不能为空"];
     }
     else {
         self.insModel.startDate = cell1.object;
@@ -105,6 +105,7 @@
     UIButton *bgB = [cell viewWithTag:10013];
     
     titleL.text = data.customInfo[@"title"];
+    inputF.subscriptImageName = @"ins_arrow_time";
     inputF.inputField.placeholder = data.customInfo[@"placehold"];
     bgB.userInteractionEnabled = ![data.customInfo[@"lock"] boolValue];
     @weakify(self);
@@ -123,7 +124,10 @@
 - (RACSignal *)rac_pickDateWithNow:(NSString *)nowtext
 {
     NSDate *date = [NSDate dateWithD10Text:nowtext];
-    self.datePicker.minimumDate = [NSDate date];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSWeekdayCalendarUnit | NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:[NSDate date]];
+    [components setDay:components.day+1];
+    self.datePicker.minimumDate = [calendar dateFromComponents:components];
     return [[[self.datePicker rac_presentPickerVCInView:self.navigationController.view withSelectedDate:date] ignoreError] map:^id(NSDate *date) {
         return [date dateFormatForD10];
     }];
