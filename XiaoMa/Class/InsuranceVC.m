@@ -40,6 +40,7 @@
 - (void)awakeFromNib
 {
     self.insModel = [[InsuranceVM alloc] init];
+    self.insModel.originVC = self;
 }
 
 - (void)viewDidLoad {
@@ -183,20 +184,20 @@
                 InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
                 vc.insModel = [self.insModel copy];
                 vc.insModel.simpleCar = car;
-                vc.insModel.originVC = self;
                 [self.navigationController pushViewController:vc animated:YES];
             }
             //有保单
             else if (car.status == 1 || car.status == 4 || car.status == 5) {
                 InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
+                vc.insModel = [self.insModel copy];
                 vc.orderID = car.refid;
                 [self.navigationController pushViewController:vc animated:YES];
             }
             //填写信息
             else {
                 InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
+                infoVC.insModel = [self.insModel copy];
                 infoVC.insModel.simpleCar = car;
-                infoVC.insModel.originVC = self;
                 [self.navigationController pushViewController:infoVC animated:YES];
             }
         }];
@@ -247,9 +248,9 @@
         [sheet dismissAnimated:YES completionHandler:nil];
         
         InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
+        infoVC.insModel = [self.insModel copy];
         infoVC.insModel.realName = vc.nameField.text;
         infoVC.insModel.simpleCar = car;
-        infoVC.insModel.originVC = self;
         [self.navigationController pushViewController:infoVC animated:YES];
     }];
 }
@@ -355,14 +356,13 @@
              InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
              vc.insModel = [self.insModel copy];
              vc.insModel.simpleCar = car;
-             vc.insModel.originVC = self;
              [self.navigationController pushViewController:vc animated:YES];
          }
          //到重新核保页
          else {
              InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
+             infoVC.insModel = [self.insModel copy];
              infoVC.insModel.simpleCar = car;
-             infoVC.insModel.originVC = self;
              [self.navigationController pushViewController:infoVC animated:YES];
          }
     }];

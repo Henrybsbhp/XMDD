@@ -250,6 +250,8 @@
 		18D475E51B7D9F82000FAF1C /* NSString+PhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D475E41B7D9F82000FAF1C /* NSString+PhoneNumber.m */; };
 		18D62B3F1B60EBF800E3FDB2 /* 90_0.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */; };
 		18D811C61C1EDB5300B6AB04 /* CKDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D811C51C1EDB5300B6AB04 /* CKDispatcher.m */; };
+		18E155811C3E3DA600C1CF87 /* InsLicensePopVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E155801C3E3DA600C1CF87 /* InsLicensePopVC.m */; };
+		18E155841C3E5BE000C1CF87 /* GetInsUserInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E155831C3E5BE000C1CF87 /* GetInsUserInfoOp.m */; };
 		18E28A011B8AD71F0070E759 /* HKImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E28A001B8AD71F0070E759 /* HKImagePicker.m */; };
 		18E28A051B8AFBB70070E759 /* HKNavigationHiddenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E28A041B8AFBB70070E759 /* HKNavigationHiddenVC.m */; };
 		18E28A0B1B904FF00070E759 /* LaunchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E28A0A1B904FF00070E759 /* LaunchVC.m */; };
@@ -1090,6 +1092,10 @@
 		18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 90_0.gpx; sourceTree = "<group>"; };
 		18D811C41C1EDB5300B6AB04 /* CKDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKDispatcher.h; path = Class/CKDispatcher.h; sourceTree = "<group>"; };
 		18D811C51C1EDB5300B6AB04 /* CKDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKDispatcher.m; path = Class/CKDispatcher.m; sourceTree = "<group>"; };
+		18E1557F1C3E3DA600C1CF87 /* InsLicensePopVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsLicensePopVC.h; sourceTree = "<group>"; };
+		18E155801C3E3DA600C1CF87 /* InsLicensePopVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsLicensePopVC.m; sourceTree = "<group>"; };
+		18E155821C3E5BE000C1CF87 /* GetInsUserInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetInsUserInfoOp.h; sourceTree = "<group>"; };
+		18E155831C3E5BE000C1CF87 /* GetInsUserInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetInsUserInfoOp.m; sourceTree = "<group>"; };
 		18E289FF1B8AD71F0070E759 /* HKImagePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKImagePicker.h; path = Class/HKImagePicker.h; sourceTree = "<group>"; };
 		18E28A001B8AD71F0070E759 /* HKImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKImagePicker.m; path = Class/HKImagePicker.m; sourceTree = "<group>"; };
 		18E28A031B8AFBB70070E759 /* HKNavigationHiddenVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKNavigationHiddenVC.h; sourceTree = "<group>"; };
@@ -2127,6 +2133,8 @@
 		1833F5701BCD373B000E1DA1 /* netop */ = {
 			isa = PBXGroup;
 			children = (
+				18E155821C3E5BE000C1CF87 /* GetInsUserInfoOp.h */,
+				18E155831C3E5BE000C1CF87 /* GetInsUserInfoOp.m */,
 				182C50D31C27D326004ED5D1 /* InsuranceAppointmentV3Op.h */,
 				182C50D41C27D326004ED5D1 /* InsuranceAppointmentV3Op.m */,
 				181921821C264D54009C80BD /* InsuranceAppointmentV2Op.h */,
@@ -3172,6 +3180,8 @@
 				18A15A551C214C2200D7B5DF /* InsActivityIndicatorVC.m */,
 				182C50D61C27E79D004ED5D1 /* InsAlertVC.h */,
 				182C50D71C27E79D004ED5D1 /* InsAlertVC.m */,
+				18E1557F1C3E3DA600C1CF87 /* InsLicensePopVC.h */,
+				18E155801C3E3DA600C1CF87 /* InsLicensePopVC.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -4449,6 +4459,7 @@
 				18C52C3E1BA6CEB900F6C38B /* HKImageView.m in Sources */,
 				18A9E8C91BDDC0950061D3BC /* GetInsCompanyListOp.m in Sources */,
 				1833F5901BCD373B000E1DA1 /* GetGascardListOp.m in Sources */,
+				18E155811C3E3DA600C1CF87 /* InsLicensePopVC.m in Sources */,
 				6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */,
 				507A4DDF1B74462200E0BF1E /* UnbundlingVC.m in Sources */,
 				6BEC3FC91C1122B40046F11D /* GetCityInfoByNameOp.m in Sources */,
@@ -4610,6 +4621,7 @@
 				18804AA21B25811E00E7E764 /* HKRefreshControl.m in Sources */,
 				2E77A4921C325F2F00264FC9 /* GetRescueHistoryOp.m in Sources */,
 				6BCA5F431B102D5700E1E630 /* GetUserCouponPkgOp.m in Sources */,
+				18E155841C3E5BE000C1CF87 /* GetInsUserInfoOp.m in Sources */,
 				50FA52891C2296CD002B1EAE /* ValuationResultVC.m in Sources */,
 				1833F5391BCB42B8000E1DA1 /* CarStore.m in Sources */,
 				6BBE83BD1C218D2300FEB101 /* GetUserResourcesGaschargeOp.m in Sources */,
