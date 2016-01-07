@@ -630,8 +630,6 @@
 
 - (void)actionCarValuation:(id)sender
 {
-    NSMutableArray * a = [NSMutableArray array];
-    [a removeObjectAtIndex:1];
     /**
      *  二手车估值事件
      */
