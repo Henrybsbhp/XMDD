@@ -107,6 +107,7 @@
     titleL.text = data.customInfo[@"title"];
     inputF.subscriptImageName = @"ins_arrow_time";
     inputF.inputField.placeholder = data.customInfo[@"placehold"];
+    inputF.inputField.text = data.object;
     bgB.userInteractionEnabled = ![data.customInfo[@"lock"] boolValue];
     @weakify(self);
     [[[[bgB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
