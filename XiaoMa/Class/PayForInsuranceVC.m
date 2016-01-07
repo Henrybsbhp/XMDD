@@ -115,14 +115,14 @@
     
     self.licenseData.customInfo[@"range1"] = [NSValue valueWithRange:NSMakeRange(license.length - 8, 8)];
     self.licenseData.customInfo[@"url1"] = [NSURL URLWithString:kInsuranceLicenseUrl];
-    if (self.insOrder.licenseUrl.length > 0) {
-        NSString *license2 = self.insOrder.licenseName;
-        [license appendFormat:@"和%@", license2];
-        self.licenseData.customInfo[@"range2"] = [NSValue valueWithRange:NSMakeRange(license.length-license2.length, license2.length)];
-        NSString *url2 = [NSString stringWithFormat:@"%@?token=%@&carpremiumid=%@",
-                          self.insOrder.licenseUrl,gNetworkMgr.token, self.insOrder.carpremiumid];
-        self.licenseData.customInfo[@"url2"] = [NSURL URLWithString:url2];
-    }
+//    if (self.insOrder.licenseUrl.length > 0) {
+//        NSString *license2 = self.insOrder.licenseName;
+//        [license appendFormat:@"和%@", license2];
+//        self.licenseData.customInfo[@"range2"] = [NSValue valueWithRange:NSMakeRange(license.length-license2.length, license2.length)];
+//        NSString *url2 = [NSString stringWithFormat:@"%@?token=%@&carpremiumid=%@",
+//                          self.insOrder.licenseUrl,gNetworkMgr.token, self.insOrder.carpremiumid];
+//        self.licenseData.customInfo[@"url2"] = [NSURL URLWithString:url2];
+//    }
     
     NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
     ps.lineSpacing = 5;

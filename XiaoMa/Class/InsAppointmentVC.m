@@ -102,6 +102,7 @@
 - (void)reloadData
 {
     self.appointInfo = [InsuranceAppointmentV2Op operation];
+    self.appointInfo.req_inscomp = self.insPremium.inscomp;
     self.appointInfo.req_ownername = self.premiumDetail.rsp_ownername ? self.premiumDetail.rsp_ownername : self.insModel.realName;
     self.appointInfo.req_carpremiumid = self.premiumDetail.req_carpremiumid;
     self.appointInfo.req_startdate = self.premiumDetail.rsp_startdate;

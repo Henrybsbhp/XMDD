@@ -97,6 +97,9 @@ class=GetPremiumDetail op auth path="/insurance/car/premium/detail/get"> {
     <"起保日期">startdate
     <"交强险启保日期 DT10">fstartdate
     <"投保人">ownername
+    <"协议名">license
+    <"协议连接地址">licenseurl
+    <"所在省市">location
     <"保险公司图片">inslogo
     <"保险公司名字">inscompname
     <"提示">tip
@@ -112,6 +115,9 @@ class=PayForPremium op auth path="/insurance/car/premium/pay"> {
     <"交强险启保日期 DT10">forcestartdate
     <"保险公司代码">inscomp
     <"身份证">idno
+    <"车主联系手机">ownerphone
+    <"车主联系地址">owneraddress
+    <"省市信息">location
   }
   <rsp> {
     <"保险订单">order:HKInsuranceOrder
@@ -139,6 +145,7 @@ class=InsuranceAppointmentV2 op auth path="/insurance/appointment/v2"> {
     <"投保人姓名">ownername
     <"商业险起保日">startdate
     <"交强险起保日">forcestartdate
+    <"保险公司代码">inscomp
   }
 }
 
@@ -149,6 +156,19 @@ class=InsuranceAppointmentV3 op auth path="/insurance/appointment/v3"> {
     <"身份证号码">idcard
     <"行驶证正面">driverpic
     <"购买险种列表">inslist:string
+  }
+}
+
+<"获取保险订单保险人的信息"
+class=GetInsUserInfo op auth path="/insurance/userinfo/get"> {
+  <req> {
+    <"订单id">orderid:number
+  }
+  <rsp> {
+    <"被保人名字">name
+    <"被保人手机">phone
+    <"所在省市">location
+    <"具体地址信息">address
   }
 }
 
