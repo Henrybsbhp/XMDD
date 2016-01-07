@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GainedViewController : UIViewController
+@interface GainedViewController : HKViewController
 
 @property (nonatomic)NSInteger leftDay;
 

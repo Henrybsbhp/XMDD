@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "GasBaseVM.h"
 
-@interface GasCardListVC : UIViewController
+@interface GasCardListVC : HKViewController
 @property (nonatomic, strong) GasBaseVM *model;
 @end

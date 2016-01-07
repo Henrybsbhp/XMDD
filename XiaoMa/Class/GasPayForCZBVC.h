@@ -11,7 +11,7 @@
 #import "GasCard.h"
 #import "GasCZBVM.h"
 
-@interface GasPayForCZBVC : UIViewController
+@interface GasPayForCZBVC : HKViewController
 
 @property (nonatomic, strong) HKBankCard *bankCard;
 @property (nonatomic, strong) GasCard *gasCard;

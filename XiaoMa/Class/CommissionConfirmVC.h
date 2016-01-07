@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CommissionConfirmVC : UIViewController
+@interface CommissionConfirmVC : HKViewController
 
 @end

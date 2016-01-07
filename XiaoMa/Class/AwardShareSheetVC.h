@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AwardShareSheetVC : UIViewController
+@interface AwardShareSheetVC : HKViewController
 @property (weak, nonatomic) IBOutlet UIButton *closeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *shareBtn;
 

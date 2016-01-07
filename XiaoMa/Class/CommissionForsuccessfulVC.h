@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CommissionForsuccessfulVC : UIViewController
+@interface CommissionForsuccessfulVC : HKViewController
 @property (nonatomic, strong) NSString *licenceNumber;
 @property (nonatomic, strong) NSDate   *timeValue;
 @end

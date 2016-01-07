@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger, LocateState) {
     LocateStateFailure      //定位失败
 };
 
-@interface AreaTablePickerVC : UIViewController
+@interface AreaTablePickerVC : HKViewController
 
 @property (nonatomic, copy)void(^selectCompleteAction)(HKAreaInfoModel *provinceModel, HKAreaInfoModel *cityModel, HKAreaInfoModel *districtModel);
 

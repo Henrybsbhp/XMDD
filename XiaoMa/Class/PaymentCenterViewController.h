@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PaymentCenterViewController : UIViewController
+@interface PaymentCenterViewController : HKViewController
 
 @property (nonatomic,copy)NSString * tradeNo;
 @property (nonatomic,copy)NSString * tradeType;

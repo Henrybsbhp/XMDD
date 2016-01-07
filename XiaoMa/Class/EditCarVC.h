@@ -10,7 +10,7 @@
 #import "HKMyCar.h"
 #import "MyCarListVModel.h"
 
-@interface EditCarVC : UIViewController
+@interface EditCarVC : HKViewController
 
 @property (nonatomic, strong) HKMyCar *originCar;
 @property (nonatomic, strong) MyCarListVModel *model;

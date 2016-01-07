@@ -10,7 +10,7 @@
 #import <MAMapKit/MAMapKit.h>
 #import <AMapSearchKit/AMapSearchAPI.h>
 
-@interface BaseMapViewController : UIViewController<MAMapViewDelegate,AMapSearchDelegate>
+@interface BaseMapViewController : HKViewController<MAMapViewDelegate,AMapSearchDelegate>
 
 @property (strong, nonatomic) MAMapView *mapView;
 

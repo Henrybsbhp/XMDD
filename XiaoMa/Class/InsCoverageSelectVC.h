@@ -15,7 +15,7 @@ typedef NS_ENUM(NSInteger, InsuranceSelectMode) {
     InsuranceSelectModeAppointment
 };
 
-@interface InsCoverageSelectVC : UIViewController
+@interface InsCoverageSelectVC : HKViewController
 
 @property (nonatomic, strong) InsuranceVM *insModel;
 @property (nonatomic, assign) InsuranceSelectMode selectMode;

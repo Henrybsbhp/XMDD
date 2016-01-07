@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "InsuranceVM.h"
 
-@interface InsCheckFailVC : UIViewController
+@interface InsCheckFailVC : HKViewController
 
 @property (nonatomic, strong) InsuranceVM *insModel;
 @property (nonatomic, strong) NSString *errmsg;

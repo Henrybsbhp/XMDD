@@ -23,8 +23,6 @@
 #import <TencentOpenAPI.framework/Headers/TencentOAuth.h>
 #import "JTLogModel.h"
 #import <UMengAnalytics/MobClick.h>
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
 #import "MainTabBarVC.h"
 #import "HKAdvertisement.h"
 #import "LaunchVC.h"

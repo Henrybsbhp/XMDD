@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HKBankCard.h"
 
-@interface UnbundlingVC : UIViewController
+@interface UnbundlingVC : HKViewController
 @property (nonatomic, strong) HKBankCard *card;
 @property (nonatomic, weak) UIViewController *originVC;
 @end

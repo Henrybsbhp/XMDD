@@ -10,7 +10,7 @@
 #import "HKInsuranceOrder.h"
 #import "InsuranceVM.h"
 
-@interface InsuranceOrderVC : UIViewController
+@interface InsuranceOrderVC : HKViewController
 
 @property (nonatomic, strong) HKInsuranceOrder *order;
 @property (nonatomic, strong) NSNumber *orderID;

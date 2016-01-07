@@ -15,7 +15,7 @@ typedef NS_ENUM(NSInteger, AwardSheetType) {
     AwardSheetTypeCancel       //取消分享
 };
 
-@interface AwardOtherSheetVC : UIViewController
+@interface AwardOtherSheetVC : HKViewController
 
 @property (weak, nonatomic) IBOutlet UIButton *carwashBtn;
 
