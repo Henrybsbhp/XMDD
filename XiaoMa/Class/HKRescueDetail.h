@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface HKRescureDetail : NSObject
+@interface HKRescueDetail : NSObject
 @property (nonatomic, strong) NSNumber  * rescueid;//服务id
 @property (nonatomic, copy) NSString    * serviceobject;//服务对象
 @property (nonatomic, copy) NSString    * feesacle;//收费标准

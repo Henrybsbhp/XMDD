@@ -1,16 +1,16 @@
 //
-//  CommissonOrderVC.m
+//  CommissionOrderVC.m
 //  XiaoMa
 //
 //  Created by baiyulin on 15/12/17.
 //  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "CommissonOrderVC.h"
+#import "CommissionOrderVC.h"
 #import "NSString+RectSize.h"
-#import "GetRescureDetailOp.h"
-#import "CommissonConfirmVC.h"
-#import "RescureHistoryViewController.h"
+#import "GetRescueDetailOp.h"
+#import "CommissionConfirmVC.h"
+#import "RescueHistoryViewController.h"
 #import "LoginViewModel.h"
 #import "GetStartHostCarOp.h"
 #import "MyCarStore.h"
@@ -21,7 +21,7 @@
 #import "WebVC.h"
 #define kWidth [UIScreen mainScreen].bounds.size.width
 #define kHeight [UIScreen mainScreen].bounds.size.height
-@interface CommissonOrderVC ()
+@interface CommissionOrderVC ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) MyCarStore    * carStore;
@@ -33,13 +33,13 @@
 @property (nonatomic, strong) NSMutableArray * dataSourceArray;
 @end
 
-@implementation CommissonOrderVC
+@implementation CommissionOrderVC
 
 - (void)dealloc
 {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
-    DebugLog(@"CommissonOrderVC dealloc!");
+    DebugLog(@"CommissionOrderVC dealloc!");
 }
 
 - (void)viewDidLoad {
@@ -111,7 +111,7 @@
     }] subscribeNext:^(GetStartHostCarOp *rspop) {
         
         self.carNumberArray = self.carStore.allCars;
-        CommissonConfirmVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonConfirmVC"];
+        CommissionConfirmVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonConfirmVC"];
         [self.navigationController pushViewController:vc animated:YES];
         
     }error:^(NSError *error) {
@@ -135,7 +135,7 @@
 
 
 - (void) actionNetwork{
-    GetRescureDetailOp *op = [GetRescureDetailOp operation];
+    GetRescueDetailOp *op = [GetRescueDetailOp operation];
     op.rescueid = 4;
     op.type = [NSNumber numberWithInteger:1];
     [[[[op rac_postRequest] initially:^{
@@ -143,7 +143,7 @@
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] finally:^{
         [self.view stopActivityAnimation];
-    }] subscribeNext:^(GetRescureDetailOp *op) {
+    }] subscribeNext:^(GetRescueDetailOp *op) {
         [self.dataSourceArray removeAllObjects];
         NSString *lastStr;
         for (NSString *testStr in op.rescueDetailArray) {
@@ -169,7 +169,7 @@
 - (void)commissionHistory {
     [MobClick event:@"rp801-1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        RescureHistoryViewController *vc  =[rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureHistoryViewController"];
+        RescueHistoryViewController *vc  =[rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHistoryViewController"];
         vc.type = 2;
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -183,7 +183,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    HKTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RescureDetailsVC" forIndexPath:indexPath];
+    HKTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommissionOrderVC" forIndexPath:indexPath];
     if (indexPath.row != 0) {
         [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsMake(- 1, 0, 0, 0)];
     }

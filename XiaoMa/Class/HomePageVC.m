@@ -22,9 +22,9 @@
 #import "ServiceViewController.h"
 #import "WebVC.h"
 #import "RescureViewController.h"
-#import "RescureHomeViewController.h"
+#import "RescueHomeViewController.h"
 #import "CommissionViewController.h"
-#import "CommissonOrderVC.h"
+#import "CommissionOrderVC.h"
 #import "GainAwardViewController.h"
 #import "GainedViewController.h"
 #import "WelcomeViewController.h"
@@ -34,7 +34,7 @@
 #import "GasVC.h"
 #import "PaymentSuccessVC.h"
 #import "PaymentCenterViewController.h"
-#import "CommissonConfirmVC.h"
+#import "CommissionConfirmVC.h"
 #import "ViolationItemViewController.h"
 #import "ViolationViewController.h"
 #import "ValuationViewController.h"
@@ -589,14 +589,14 @@
 - (void)actionRescue:(id)sender
 {
     [MobClick event:@"rp101-5"];
-    RescureHomeViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureHomeViewController"];
+    RescueHomeViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionCommission:(id)sender
 {
     [MobClick event:@"rp101-6"];
-    CommissonOrderVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonOrderVC"];
+    CommissionOrderVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionOrderVC"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

@@ -1,13 +1,13 @@
 //
-//  RescureHistoryViewController.m
+//  RescueHistoryViewController.m
 //  XiaoMa
 //
 //  Created by baiyulin on 15/12/10.
 //  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "RescureHistoryViewController.h"
-#import "RescurecCommentsVC.h"
+#import "RescueHistoryViewController.h"
+#import "RescueCommentsVC.h"
 #import "GetRescueHistoryOp.h"
 #import "HKRescueHistory.h"
 #import "UIView+DefaultEmptyView.h"
@@ -15,7 +15,7 @@
 #import "RescueCancelHostcarOp.h"
 #import "HKTableViewCell.h"
 #import "HKLoadingModel.h"
-@interface RescureHistoryViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface RescueHistoryViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
 @property (strong, nonatomic) NSMutableArray *dataSourceArray;
@@ -25,13 +25,13 @@
 @property (nonatomic, assign) BOOL isRemain;
 @end
 
-@implementation RescureHistoryViewController
+@implementation RescueHistoryViewController
 
 - (void)dealloc
 {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
-    DebugLog(@"RescureHistoryViewController dealloc");
+    DebugLog(@"RescueHistoryViewController dealloc");
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -45,10 +45,12 @@
     [MobClick endLogPageView:@"rp804"];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
     self.isRemain = YES;
     if (self.type == 1) {
         self.navigationItem.title = @"救援记录";
@@ -65,12 +67,16 @@
     GetRescueHistoryOp *op = [GetRescueHistoryOp operation];
     op.applytime = self.applyTime;
     op.type = self.type;
+    @weakify(self);
     [[[[op rac_postRequest] initially:^{
+        @strongify(self)
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] finally:^{
+        @strongify(self)
         [self.view stopActivityAnimation];
     }] subscribeNext:^(GetRescueHistoryOp *op) {
+        @strongify(self)
         self.dataSourceArray = (NSMutableArray *)op.req_applysecueArray;
         if (self.dataSourceArray.count == 0) {
             if (self.type == 1) {
@@ -88,6 +94,7 @@
         
         [self.tableView reloadData];
     } error:^(NSError *error) {
+        
         [self.tableView.bottomLoadingView stopActivityAnimation];
         [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
             [self historyNetwork];
@@ -103,9 +110,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HKTableViewCell *cell;
     if (self.type == 1 ) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"RescureHistoryViewController1" forIndexPath:indexPath];
+        cell = [tableView dequeueReusableCellWithIdentifier:@"RescueHistoryViewController1" forIndexPath:indexPath];
     }else if (self.type == 2){
-        cell = [tableView dequeueReusableCellWithIdentifier:@"RescureHistoryViewController2" forIndexPath:indexPath];
+        cell = [tableView dequeueReusableCellWithIdentifier:@"RescueHistoryViewController2" forIndexPath:indexPath];
     }
     
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 0, 0, 0)];
@@ -139,7 +146,7 @@
     if (history.commentStatus  == HKCommentStatusNo) {
         
         [evaluationBtn setTitle:@"去评价" forState:UIControlStateNormal];
-        if (history.rescueStatus == HKRescueStateCancel || history.rescueStatus == HKRescueStateprocessing) {
+        if (history.rescueStatus == HKRescueStateCancel || history.rescueStatus == HKRescueStateProcessing) {
             evaluationBtn.hidden = YES;
         }
     }else{
@@ -180,9 +187,6 @@
         image.image = [UIImage imageNamed:@"rescue_tire"];
     }
     
-    
-    
-    
     [RACObserve(history, commentStatus) subscribeNext:^(NSNumber *num) {
         if ([num integerValue] == 1) {
             [evaluationBtn setTitle:@"已评价" forState:UIControlStateNormal];
@@ -212,7 +216,7 @@
             }
             evaluationBtn.enabled = YES;
             if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-                RescurecCommentsVC *vc = [UIStoryboard vcWithId:@"RescurecCommentsVC" inStoryboard:@"Rescue"];
+                RescueCommentsVC *vc = [UIStoryboard vcWithId:@"RescueCommentsVC" inStoryboard:@"Rescue"];
                 vc.history = history;
                 vc.applyType = @(self.type);
                 [self.navigationController pushViewController:vc animated:YES];
