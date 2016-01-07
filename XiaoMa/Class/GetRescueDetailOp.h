@@ -1,5 +1,5 @@
 //
-//  GetRescureDetailOp.h
+//  GetRescueDetailOp.h
 //  XiaoMa
 //
 //  Created by baiyulin on 15/12/11.
@@ -8,7 +8,7 @@
 
 #import "BaseOp.h"
 
-@interface GetRescureDetailOp : BaseOp
+@interface GetRescueDetailOp : BaseOp
 @property (nonatomic, assign) NSInteger   rescueid;
 
 /** type

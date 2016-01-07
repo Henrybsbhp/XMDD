@@ -1,5 +1,5 @@
 //
-//  RescureHistoryViewController.h
+//  RescueHistoryViewController.h
 //  XiaoMa
 //
 //  Created by baiyulin on 15/12/10.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RescureHistoryViewController : UIViewController
+@interface RescueHistoryViewController : UIViewController
 /**
  * 1. 救援评价
  * 2. 协办评价

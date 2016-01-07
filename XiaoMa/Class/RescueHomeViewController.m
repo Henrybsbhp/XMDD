@@ -1,16 +1,16 @@
 //
-//  RescureHomeViewController.m
+//  RescueHomeViewController.m
 //  XiaoMa
 //
 //  Created by baiyulin on 15/12/9.
 //  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "RescureHomeViewController.h"
+#import "RescueHomeViewController.h"
 #import "LoginVC.h"
-#import "RescureHistoryViewController.h"
+#import "RescueHistoryViewController.h"
 #import "GetRescueOp.h"
-#import "RescureDetailsVC.h"
+#import "RescueDetailsVC.h"
 #import "HKRescue.h"
 #import "GetRescueNoLoginOp.h"
 #import "HKRescueNoLogin.h"
@@ -24,20 +24,17 @@
 
 
 #define kWidth [UIScreen mainScreen].bounds.size.width
-@interface RescureHomeViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface RescueHomeViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView    * tableView;
 @property (weak, nonatomic) IBOutlet UIView         * bottomView;
 @property (weak, nonatomic) IBOutlet UILabel        * addressLb;
-@property (nonatomic, strong) UIView        * headerView;
-@property (nonatomic, strong) UIImageView   * backgroundImage;
-@property (nonatomic, strong) UIButton      * phoneHelperBtn;
 @property (nonatomic ,strong) UIButton      * historyBtn;
 @property (nonatomic, strong) ADViewController  * adctrl;
 @property (nonatomic, strong) NSMutableArray    * datasourceArray;
 @property (nonatomic, strong) NSMutableArray    * desArray;
 @end
 
-@implementation RescureHomeViewController
+@implementation RescueHomeViewController
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -55,6 +52,7 @@
     [super viewDidLoad];
     
     [self setupUI];
+    // [self addsubView];
     [self requestGetAddress];
     [self actionFirstEnterNetwork];
 }
@@ -63,18 +61,18 @@
 {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
-    DebugLog(@"RescureHomeViewController dealloc");
+    DebugLog(@"RescueHomeViewController dealloc");
 }
 
 #pragma mark - SetupUI
 - (void)setupUI
 {
+    UIView * headerView = (UIView *)[self.tableView searchViewWithTag:1111];
+    headerView.frame = CGRectMake(0, 0, kWidth, 0.44 * kWidth + 38 + 13);
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.historyBtn];
     
-    self.tableView.tableHeaderView = self.headerView;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 28)];
-    [self.headerView addSubview:self.backgroundImage];
-    [self.headerView addSubview:self.phoneHelperBtn];
+    
 }
 
 
@@ -91,9 +89,8 @@
             gAppMgr.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
         }
         
-        
         CGFloat lbWidth = gAppMgr.deviceInfo.screenSize.width - 57;
-        CGFloat textWidth = [regeo.formattedAddress labelSizeWithWidth:FLT_MAX font:[UIFont systemFontOfSize:13]].width;
+        CGFloat textWidth = [regeo.formattedAddress labelSizeWithWidth:FLT_MAX font:[UIFont systemFontOfSize:12]].width;
         /// 如果超过label大小
         if (textWidth > lbWidth)
         {
@@ -200,8 +197,7 @@
         }] ;
     }
 }
-
-- (void)actionPhoneHelper:(UIButton *)sender {
+- (IBAction)actionAKeyRescue:(UIButton *)sender {
     /**
      *  一键救援事件
      */
@@ -229,20 +225,23 @@
     }
 }
 
+- (void)actionPhoneHelper:(UIButton *)sender {
+    
+}
+
 - (void)actionRescueHistory {
     /**
      *  救援记录事件
      */
     [MobClick event:@"rp701-1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        RescureHistoryViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureHistoryViewController"];
+        RescueHistoryViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHistoryViewController"];
         vc.type = 1;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
 - (IBAction)refreshClick:(UIButton *)sender {
-    
     /**
      *  更新定位事件
      */
@@ -266,7 +265,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RescureHomeViewController" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RescueHomeViewController" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     UIImageView *titleImg    = (UIImageView *)[cell searchViewWithTag:1000];
@@ -360,7 +359,7 @@
                 break;
         }
         HKRescue *rescue = self.datasourceArray[indexPath.row];
-        RescureDetailsVC *vc = [UIStoryboard vcWithId:@"RescureDetailsVC" inStoryboard:@"Rescue"];
+        RescueDetailsVC *vc = [UIStoryboard vcWithId:@"RescueDetailsVC" inStoryboard:@"Rescue"];
         vc.type = rescue.type;
         
         vc.titleStr = rescue.serviceName;
@@ -368,7 +367,7 @@
         
     }else {
         HKRescueNoLogin *noLogin = self.datasourceArray[indexPath.row];
-        RescureDetailsVC *vc = [UIStoryboard vcWithId:@"RescureDetailsVC" inStoryboard:@"Rescue"];
+        RescueDetailsVC *vc = [UIStoryboard vcWithId:@"RescueDetailsVC" inStoryboard:@"Rescue"];
         vc.type = noLogin.type;
         vc.titleStr = noLogin.serviceName;
         [self.navigationController pushViewController:vc animated:YES];
@@ -378,35 +377,6 @@
 
 
 #pragma mark - lazyLoading
-
-- (UIView *)headerView {
-    if (!_headerView) {
-        self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 0.44 * kWidth + 38 + 9)];
-    }
-    return _headerView;
-}
-
-- (UIImageView *)backgroundImage {
-    if (!_backgroundImage) {
-        self.backgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 0.44 * kWidth)];
-        _backgroundImage.image = [UIImage imageNamed:@"banner"];
-    }
-    return _backgroundImage;
-}
-
-- (UIButton *)phoneHelperBtn {
-    if (!_phoneHelperBtn) {
-        self.phoneHelperBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-        _phoneHelperBtn.frame = CGRectMake(28, CGRectGetMaxY(self.backgroundImage.frame) + 4, kWidth - 56, 38);
-        [_phoneHelperBtn addTarget:self action:@selector(actionPhoneHelper:) forControlEvents:UIControlEventTouchUpInside];
-        [_phoneHelperBtn setTitle:@"一键救援" forState:UIControlStateNormal];
-        _phoneHelperBtn.titleLabel.font = [UIFont systemFontOfSize:18];
-        [_phoneHelperBtn setTintColor:[UIColor whiteColor]];
-        _phoneHelperBtn.backgroundColor = [UIColor colorWithHex:@"#fe4a00" alpha:1];
-        _phoneHelperBtn.cornerRadius = 19;
-    }
-    return _phoneHelperBtn;
-}
 - (UIButton *)historyBtn {
     if (!_historyBtn) {
         self.historyBtn = [UIButton buttonWithType:UIButtonTypeSystem];
