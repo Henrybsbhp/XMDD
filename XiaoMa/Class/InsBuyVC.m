@@ -20,7 +20,6 @@
 
 #import "DatePickerVC.h"
 #import "PayForInsuranceVC.h"
-#import "InsLicensePopVC.h"
 
 #import "InsPayResultVC.h"
 @interface InsBuyVC ()<UITableViewDataSource, UITableViewDelegate>
@@ -33,7 +32,6 @@
 @property (nonatomic, strong) DatePickerVC *datePicker;
 @property (nonatomic, strong) PayForPremiumOp *paymentInfo;
 @property (nonatomic, assign) BOOL isOwnernameDifferent;
-@property (nonatomic, assign) BOOL isLicenseChecked;
 
 @end
 
@@ -175,12 +173,7 @@
         [gToast showText:@"详细地址不能为空"];
     }
     else {
-        @weakify(self);
-        [[self rac_openLicenseVCWithUrl:self.premiumDetail.rsp_licenseurl title:self.premiumDetail.rsp_license]
-         subscribeNext:^(id x) {
-            @strongify(self);
-            [self requestPayForPremium];
-        }];
+        [self requestPayForPremium];
     }
 }
 
@@ -487,20 +480,6 @@
     NSDate *date = [NSDate dateWithD10Text:nowtext];
     return [[[self.datePicker rac_presentPickerVCInView:self.navigationController.view withSelectedDate:date] ignoreError] map:^id(NSDate *date) {
         return [date dateFormatForD10];
-    }];
-}
-
-- (RACSignal *)rac_openLicenseVCWithUrl:(NSString *)url title:(NSString *)title
-{
-    if (self.isLicenseChecked || url.length == 0) {
-        return [RACSubject return:@YES];
-    }
-    NSString *fullurl = [NSString stringWithFormat:@"%@?token=%@&carpremiumid=%@",
-                         url,gNetworkMgr.token, self.paymentInfo.req_carpremiumid];
-    @weakify(self);
-    return [[InsLicensePopVC rac_showInView:self.navigationController.view withLicenseUrl:fullurl title:title] doNext:^(id x) {
-        @strongify(self);
-        self.isLicenseChecked = YES;
     }];
 }
 
