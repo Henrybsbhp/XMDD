@@ -405,6 +405,7 @@
 		6B978BFA1B6B643A00A6E7C6 /* HKCoverage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B978BF91B6B643A00A6E7C6 /* HKCoverage.m */; };
 		6B9BF4B91BF96CAC0046FF48 /* PaymentCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B9BF4B81BF96CAC0046FF48 /* PaymentCenterViewController.m */; };
 		6B9BF4BC1BF97BCB0046FF48 /* GetGeneralOrderdetailOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B9BF4BB1BF97BCB0046FF48 /* GetGeneralOrderdetailOp.m */; };
+		6BA48A0A1C3F853F00AED445 /* SupportFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA48A091C3F853F00AED445 /* SupportFileManager.m */; };
 		6BAF30181AE67CC800E35E08 /* GetSystemVersionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF30171AE67CC800E35E08 /* GetSystemVersionOp.m */; };
 		6BAF301D1AE6947F00E35E08 /* ClientInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301A1AE6947F00E35E08 /* ClientInfo.m */; };
 		6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301C1AE6947F00E35E08 /* DeviceInfo.m */; };
@@ -1390,6 +1391,8 @@
 		6B9BF4B81BF96CAC0046FF48 /* PaymentCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentCenterViewController.m; sourceTree = "<group>"; };
 		6B9BF4BA1BF97BCB0046FF48 /* GetGeneralOrderdetailOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetGeneralOrderdetailOp.h; path = Class/GetGeneralOrderdetailOp.h; sourceTree = "<group>"; };
 		6B9BF4BB1BF97BCB0046FF48 /* GetGeneralOrderdetailOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetGeneralOrderdetailOp.m; path = Class/GetGeneralOrderdetailOp.m; sourceTree = "<group>"; };
+		6BA48A081C3F853F00AED445 /* SupportFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SupportFileManager.h; path = Class/SupportFileManager.h; sourceTree = "<group>"; };
+		6BA48A091C3F853F00AED445 /* SupportFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SupportFileManager.m; path = Class/SupportFileManager.m; sourceTree = "<group>"; };
 		6BAF30161AE67CC800E35E08 /* GetSystemVersionOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemVersionOp.h; path = Class/GetSystemVersionOp.h; sourceTree = "<group>"; };
 		6BAF30171AE67CC800E35E08 /* GetSystemVersionOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemVersionOp.m; path = Class/GetSystemVersionOp.m; sourceTree = "<group>"; };
 		6BAF30191AE6947F00E35E08 /* ClientInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClientInfo.h; path = Class/ClientInfo.h; sourceTree = "<group>"; };
@@ -2520,6 +2523,8 @@
 				509D1CC01C086E01003ED860 /* ShareResponeManager.h */,
 				509D1CC11C086E01003ED860 /* ShareResponeManager.m */,
 				6B65DF4F1B1BF99000E54948 /* XiaoMaConstants.h */,
+				6BA48A081C3F853F00AED445 /* SupportFileManager.h */,
+				6BA48A091C3F853F00AED445 /* SupportFileManager.m */,
 			);
 			name = Singleton;
 			sourceTree = "<group>";
@@ -4687,6 +4692,7 @@
 				6BFA93BB1BF098BB00700F27 /* CheckoutServiceOrderV4Op.m in Sources */,
 				18D475E51B7D9F82000FAF1C /* NSString+PhoneNumber.m in Sources */,
 				6BC3B60F1ADF52CB001016A0 /* BaseMapViewController.m in Sources */,
+				6BA48A0A1C3F853F00AED445 /* SupportFileManager.m in Sources */,
 				509D1CC21C086E01003ED860 /* ShareResponeManager.m in Sources */,
 				6BDD6E211B67615C0060CFD0 /* JDDateCountdownFlipView.m in Sources */,
 				18B78F5C1BA989BE0061ECAD /* HKLaunchInfo.m in Sources */,
