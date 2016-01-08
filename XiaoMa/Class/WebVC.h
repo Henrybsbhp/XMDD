@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WebVC : UIViewController<UIWebViewDelegate>
+@interface WebVC : HKViewController<UIWebViewDelegate>
 @property (nonatomic, weak) UIViewController *originVC;
 @property (nonatomic, weak) IBOutlet UIWebView *webView;
 ///(Default is NO)

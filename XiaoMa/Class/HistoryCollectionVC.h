@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HistoryCollectionVC : UIViewController
+@interface HistoryCollectionVC : HKViewController
 
 @property (nonatomic,strong) NSNumber *evaluateTime;
 

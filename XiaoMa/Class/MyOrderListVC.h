@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MyOrderListVC : UIViewController
+@interface MyOrderListVC : HKViewController
 
 @end

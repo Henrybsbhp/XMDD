@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GainAwardViewController : UIViewController
+@interface GainAwardViewController : HKViewController
 
 @property (nonatomic)NSInteger gainedNum;
 

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CollectionChooseVC : UIViewController
+@interface CollectionChooseVC : HKViewController
 
 @property(nonatomic,strong)void(^selectAction)(id);
 

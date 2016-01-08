@@ -8,7 +8,7 @@
 
 #import "MyBankVC.h"
 @class HKMyCar;
-@interface ChooseBankCardVC : UIViewController
+@interface ChooseBankCardVC : HKViewController
 @property (nonatomic, strong) HKMyCar * defaultCar;
 
 @property (nonatomic, strong) JTShop *shop;

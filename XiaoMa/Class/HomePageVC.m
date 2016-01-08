@@ -202,7 +202,7 @@
 
     [self mainButtonWithImageName:@"hp_addgas_2_5" title:@"油卡充值" index:0 action:@selector(actionAddGas:) inContainer:mainView hasBorder:YES];
     [self mainButtonWithImageName:@"hp_violation_2_5" title:@"违章查询" index:1 action:@selector(actionQueryViolation:) inContainer:mainView hasBorder:YES];
-    [self mainButtonWithImageName:@"hp_estimate_2_5" title:@"爱车估值" index:2 action:@selector(actionCarEstimate:) inContainer:mainView hasBorder:YES];
+    [self mainButtonWithImageName:@"hp_estimate_2_5" title:@"爱车估值" index:2 action:@selector(actionCarValuation:) inContainer:mainView hasBorder:YES];
     
  
     //洗车 //按钮大小不同图片不同
@@ -628,7 +628,7 @@
     }
 }
 
-- (void)actionCarEstimate:(id)sender
+- (void)actionCarValuation:(id)sender
 {
     /**
      *  二手车估值事件

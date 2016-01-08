@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BindBankCardVC : UIViewController
+@interface BindBankCardVC : HKViewController
 
 @property (strong, nonatomic)void(^finishAction)(void);
 

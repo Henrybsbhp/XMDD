@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PickInsCompaniesVC : UIViewController
+@interface PickInsCompaniesVC : HKViewController
 @property (nonatomic, copy) void(^pickedBlock)(NSString *pickedName);
 @end

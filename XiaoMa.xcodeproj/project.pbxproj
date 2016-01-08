@@ -389,6 +389,7 @@
 		6B3C67961BAA5ADE002F04C8 /* SystemFastrateGetOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C67951BAA5ADE002F04C8 /* SystemFastrateGetOp.m */; };
 		6B42270A1C1EDCBE0090F802 /* CalculateInsuranceCarPremiumOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4227091C1EDCBE0090F802 /* CalculateInsuranceCarPremiumOp.m */; };
 		6B42270D1C1FDF150090F802 /* PayForGasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B42270C1C1FDF150090F802 /* PayForGasViewController.m */; };
+		6B4BCEE01C3E52AF0006B5EB /* HKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4BCEDF1C3E52AF0006B5EB /* HKViewController.m */; };
 		6B5B78171BA7CC6000295B77 /* ProvinceChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5B78161BA7CC6000295B77 /* ProvinceChooseView.m */; };
 		6B5B78191BA7CC7600295B77 /* ProvinceChooseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B5B78181BA7CC7600295B77 /* ProvinceChooseView.xib */; };
 		6B5E0C1A1BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5E0C191BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.m */; };
@@ -1357,6 +1358,8 @@
 		6B4227091C1EDCBE0090F802 /* CalculateInsuranceCarPremiumOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalculateInsuranceCarPremiumOp.m; path = Class/CalculateInsuranceCarPremiumOp.m; sourceTree = "<group>"; };
 		6B42270B1C1FDF150090F802 /* PayForGasViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayForGasViewController.h; sourceTree = "<group>"; };
 		6B42270C1C1FDF150090F802 /* PayForGasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayForGasViewController.m; sourceTree = "<group>"; };
+		6B4BCEDE1C3E52AF0006B5EB /* HKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKViewController.h; sourceTree = "<group>"; };
+		6B4BCEDF1C3E52AF0006B5EB /* HKViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKViewController.m; sourceTree = "<group>"; };
 		6B5B78151BA7CC6000295B77 /* ProvinceChooseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProvinceChooseView.h; sourceTree = "<group>"; };
 		6B5B78161BA7CC6000295B77 /* ProvinceChooseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProvinceChooseView.m; sourceTree = "<group>"; };
 		6B5B78181BA7CC7600295B77 /* ProvinceChooseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProvinceChooseView.xib; sourceTree = "<group>"; };
@@ -2534,6 +2537,7 @@
 		1883D91A1ACBC2E4002A4D19 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6B4BCEDD1C3E528E0006B5EB /* SuperViewController */,
 				502D09D21C1E9D08001610F0 /* Valuation */,
 				6BFE6A681C03365900EC9766 /* Illegal */,
 				1833F59A1BCD4773000E1DA1 /* Gas */,
@@ -3341,6 +3345,15 @@
 				50E9DD151BE201180070F38D /* Reachability.m */,
 			);
 			name = Reachability;
+			sourceTree = "<group>";
+		};
+		6B4BCEDD1C3E528E0006B5EB /* SuperViewController */ = {
+			isa = PBXGroup;
+			children = (
+				6B4BCEDE1C3E52AF0006B5EB /* HKViewController.h */,
+				6B4BCEDF1C3E52AF0006B5EB /* HKViewController.m */,
+			);
+			name = SuperViewController;
 			sourceTree = "<group>";
 		};
 		6B88C12E1C1E8D5300BB6071 /* Select */ = {
@@ -4489,6 +4502,7 @@
 				5040B37D1C06D50200ADE77F /* ApplyUnionOp.m in Sources */,
 				1853DEBE1AE0E66B00C39175 /* LoginVC.m in Sources */,
 				18AB16AC1C1FAE810000E718 /* GetInsBaseCarListOp.m in Sources */,
+				6B4BCEE01C3E52AF0006B5EB /* HKViewController.m in Sources */,
 				6BBB08501B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m in Sources */,
 				C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */,
 				18C52C411BA80AC700F6C38B /* GetPicHistoryOp.m in Sources */,

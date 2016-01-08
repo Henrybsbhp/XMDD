@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SecondCarValuationVC : UIViewController
+@interface SecondCarValuationVC : HKViewController
 
 @property (nonatomic,strong) NSNumber *sellercityid;
 

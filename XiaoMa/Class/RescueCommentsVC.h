@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 @class HKRescueHistory;
-@interface RescueCommentsVC : UIViewController
+@interface RescueCommentsVC : HKViewController
 
 @property (nonatomic,strong)HKRescueHistory * history;
 @property (nonatomic, strong)   NSNumber    * applyType;//1.救援 2.协办

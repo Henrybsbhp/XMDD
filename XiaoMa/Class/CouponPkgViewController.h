@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CouponPkgViewController : UIViewController
+@interface CouponPkgViewController : HKViewController
 
 @end

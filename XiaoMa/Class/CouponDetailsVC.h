@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HKCoupon.h"
 
-@interface CouponDetailsVC : UIViewController
+@interface CouponDetailsVC : HKViewController
 
 ///优惠劵Id
 @property (nonatomic, strong)NSNumber * couponId;

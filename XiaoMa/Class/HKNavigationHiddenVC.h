@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HKNavigationHiddenVC : UIViewController
+@interface HKNavigationHiddenVC : HKViewController
 
 @end

@@ -15,7 +15,7 @@ typedef enum : NSUInteger {
     ModifyBirthday
 } ModifyType;
 
-@interface EditMyInfoViewController : UIViewController
+@interface EditMyInfoViewController : HKViewController
 
 ///导航条昵称
 @property (nonatomic,copy)NSString * naviTitle;

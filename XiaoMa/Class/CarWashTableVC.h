@@ -11,7 +11,7 @@
 
 @class HKCoupon;
 
-@interface CarWashTableVC : UIViewController<UITableViewDataSource, UITableViewDelegate, HKLoadingModelDelegate>
+@interface CarWashTableVC : HKViewController<UITableViewDataSource, UITableViewDelegate, HKLoadingModelDelegate>
 
 @property (nonatomic)ShopServiceType serviceType;
 @property (strong, nonatomic) IBOutlet JTTableView *carwashTableView;
