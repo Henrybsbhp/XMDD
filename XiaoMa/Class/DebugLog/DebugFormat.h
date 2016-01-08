@@ -14,6 +14,15 @@
 #else
 #define DebugLog(frmt, ...)
 #endif
+
+#ifdef __OBJC__
+#ifdef DEBUG
+#define HKCLSLog(__FORMAT__, ...) CLSNSLog((__FORMAT__),##__VA_ARGS__)
+#else
+#define HKCLSLog(__FORMAT__, ...) CLSLog((@"%s line %d $ " __FORMAT__), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#endif
+#endif
+
 static int ddLogLevel = DDLogLevelVerbose;
 
 @interface DebugFormat : NSObject<DDLogFormatter>

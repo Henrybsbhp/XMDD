@@ -1,24 +1,24 @@
 //
-//  CommissionForsuccessfulVC.m
+//  CommissionSuccessVC.m
 //  XiaoMa
 //
 //  Created by baiyulin on 15/12/17.
 //  Copyright © 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "CommissionForsuccessfulVC.h"
+#import "CommissionSuccessVC.h"
 #import "CommissionOrderVC.h"
-@interface CommissionForsuccessfulVC ()
+@interface CommissionSuccessVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
-@implementation CommissionForsuccessfulVC
+@implementation CommissionSuccessVC
 - (void)dealloc
 {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
-    DebugLog(@"CommissionForsuccessfulVC dealloc");
+    DebugLog(@"CommissionSuccessVC dealloc");
 }
 - (void)viewDidLoad {
     [super viewDidLoad];

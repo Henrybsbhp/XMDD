@@ -19,42 +19,42 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    CLS_LOG(@"%@ viewDidLoad",SuperClassName);
+    HKCLSLog(@"%@ viewDidLoad",SuperClassName);
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    CLS_LOG(@"%@ viewWillAppear",SuperClassName);
+    HKCLSLog(@"%@ viewWillAppear",SuperClassName);
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    CLS_LOG(@"%@ viewDidAppear",SuperClassName);
+    HKCLSLog(@"%@ viewDidAppear",SuperClassName);
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     
-    CLS_LOG(@"%@ viewWillDisappear",SuperClassName);
+    HKCLSLog(@"%@ viewWillDisappear",SuperClassName);
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
     
-    CLS_LOG(@"%@ viewDidDisappear",SuperClassName);
+    HKCLSLog(@"%@ viewDidDisappear",SuperClassName);
 }
 
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
-    CLS_LOG(@"%@ didReceiveMemoryWarning",SuperClassName);
+    HKCLSLog(@"%@ didReceiveMemoryWarning",SuperClassName);
 }
 
 @end

@@ -355,7 +355,6 @@
 {
     self.datasource = [self.curModel datasource];
     [self.curModel.segHelper removeAllItemsForGroupName:@"Pay"];
-    //    self.curModel.rechargeAmount = self.curModel.ma
     [self.tableView reloadData];
     [self refrshLoadingView];
     [self refreshBottomView];
@@ -823,10 +822,13 @@
     
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
     
+    @weakify(self)
     [[[invoiceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        @strongify(self)
         self.curModel.needInvoice = !self.curModel.needInvoice;
     }];
+    
     
     [[RACObserve(self.curModel, needInvoice) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * num) {
         
