@@ -495,8 +495,10 @@
     if (self.isLicenseChecked || url.length == 0) {
         return [RACSubject return:@YES];
     }
+    NSString *fullurl = [NSString stringWithFormat:@"%@?token=%@&carpremiumid=%@",
+                         url,gNetworkMgr.token, self.paymentInfo.req_carpremiumid];
     @weakify(self);
-    return [[InsLicensePopVC rac_showInView:self.navigationController.view withLicenseUrl:url title:title] doNext:^(id x) {
+    return [[InsLicensePopVC rac_showInView:self.navigationController.view withLicenseUrl:fullurl title:title] doNext:^(id x) {
         @strongify(self);
         self.isLicenseChecked = YES;
     }];
