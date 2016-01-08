@@ -11,7 +11,7 @@
 #import "GetRescueApplyHostCarOp.h"
 #import "DatePickerVC.h"
 #import "CarListVC.h"
-#import "CommissionForsuccessfulVC.h"
+#import "CommissionSuccessVC.h"
 #import "MyCarStore.h"
 #import "WebVC.h"
 #import "UIView+Layer.h"
@@ -145,7 +145,7 @@
     }] subscribeNext:^(GetRescueApplyHostCarOp *op) {
         
         [gToast dismissInView:self.view];
-        CommissionForsuccessfulVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionForsuccessfulVC"];
+        CommissionSuccessVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionSuccessVC"];
         vc.licenceNumber = self.defaultCar.licencenumber;
         vc.timeValue = self.appointmentDay;
         [self.navigationController pushViewController:vc animated:YES];
