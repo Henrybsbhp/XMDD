@@ -1,5 +1,5 @@
 //
-//  CommissionForsuccessfulVC.h
+//  CommissionSuccessVC.h
 //  XiaoMa
 //
 //  Created by baiyulin on 15/12/17.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CommissionForsuccessfulVC : UIViewController
+@interface CommissionSuccessVC : HKViewController
 @property (nonatomic, strong) NSString *licenceNumber;
 @property (nonatomic, strong) NSDate   *timeValue;
 @end

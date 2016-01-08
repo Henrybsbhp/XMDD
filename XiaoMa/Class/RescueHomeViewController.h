@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RescueHomeViewController : UIViewController
+@interface RescueHomeViewController : HKViewController
 
 @end

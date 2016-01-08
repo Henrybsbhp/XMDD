@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface InsActivityIndicatorVC : UIViewController
+@interface InsActivityIndicatorVC : HKViewController
 
 - (void)showInViewController:(UIViewController *)vc;
 - (void)dismiss;

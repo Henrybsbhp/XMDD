@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface InsuranceVC : UIViewController
+@interface InsuranceVC : HKViewController
 
 @end

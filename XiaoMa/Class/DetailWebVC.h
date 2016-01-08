@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DetailWebVC : UIViewController
+@interface DetailWebVC : HKViewController
 
 @property (nonatomic, weak) UIViewController *originVC;
 @property (nonatomic,copy)NSString *url;

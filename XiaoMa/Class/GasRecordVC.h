@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GasRecordVC : UIViewController
+@interface GasRecordVC : HKViewController
 
 @end

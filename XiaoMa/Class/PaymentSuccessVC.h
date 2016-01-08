@@ -16,7 +16,7 @@ typedef enum : NSUInteger {
     CommentError
 } CommentStatus;
 
-@interface PaymentSuccessVC : UIViewController
+@interface PaymentSuccessVC : HKViewController
 
 @property (nonatomic, weak) UIViewController *originVC;
 

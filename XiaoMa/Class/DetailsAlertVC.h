@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DetailsAlertVC : UIViewController
+@interface DetailsAlertVC : HKViewController
 
 @property (weak, nonatomic) IBOutlet UIImageView *detailsImageView;
 @property (weak, nonatomic) IBOutlet UIButton *confirmBtn;

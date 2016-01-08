@@ -13,7 +13,7 @@
 #import "CouponModel.h"
 #import "HKCoupon.h"
 
-@interface PayForGasViewController : UIViewController
+@interface PayForGasViewController : HKViewController
 
 @property (nonatomic,copy)NSString * payTitle;
 @property (nonatomic,copy)NSString * paySubTitle;

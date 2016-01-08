@@ -13,7 +13,7 @@
 
 #import "WeiboSDK.h"
 
-@interface SocialShareViewController : UIViewController
+@interface SocialShareViewController : HKViewController
 
 /// 点击分享按钮
 @property (strong, nonatomic)void(^clickAction)(void);

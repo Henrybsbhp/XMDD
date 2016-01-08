@@ -34,7 +34,7 @@ CKNavAnimationStyle;
 @property (nonatomic, copy) void (^didPopToPrevVCBlock)(void);
 @end
 
-@interface CKNavigationController : UIViewController
+@interface CKNavigationController : HKViewController
 @property (nonatomic, strong) NSMutableArray *viewControllers;
 @property (nonatomic, strong, readonly) UIViewController *rootViewController;
 - (id)initWithRootViewController:(UIViewController *)rootViewController;

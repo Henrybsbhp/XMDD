@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HKInsuranceOrder.h"
 
-@interface InsPayFaildVC : UIViewController
+@interface InsPayFaildVC : HKViewController
 
 @property (nonatomic, strong) HKInsuranceOrder *insOrder;
 

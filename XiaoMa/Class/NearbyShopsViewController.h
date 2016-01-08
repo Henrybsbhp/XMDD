@@ -10,7 +10,7 @@
 #import <MAMapKit/MAMapKit.h>
 #import <AMapSearchKit/AMapSearchAPI.h>
 
-@interface NearbyShopsViewController : UIViewController<MAMapViewDelegate,AMapSearchDelegate>
+@interface NearbyShopsViewController : HKViewController<MAMapViewDelegate,AMapSearchDelegate>
 
 @property (nonatomic)NSInteger type;
 

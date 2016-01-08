@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SearchViewController : UIViewController<UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface SearchViewController : HKViewController<UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic)NSInteger searchType;
 

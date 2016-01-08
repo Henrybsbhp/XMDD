@@ -10,7 +10,7 @@
 #import "HKMyCar.h"
 #import "MyCarListVModel.h"
 
-@interface CarListVC : UIViewController
+@interface CarListVC : HKViewController
 
 @property (nonatomic, strong, readonly) MyCarListVModel *model;
 @property (nonatomic, strong) NSNumber *originCarID;

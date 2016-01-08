@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 @class InsuranceVM;
 
-@interface InsBuyVC : UIViewController
+@interface InsBuyVC : HKViewController
 @property (nonatomic, strong) InsuranceVM *insModel;
 @end

@@ -16,7 +16,7 @@ typedef enum : NSUInteger {
     AfterQuery
 } QueryStatus;
 
-@interface ViolationItemViewController : UIViewController
+@interface ViolationItemViewController : HKViewController
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *headView;

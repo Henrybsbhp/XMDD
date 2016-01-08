@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CommissionOrderVC : UIViewController
+@interface CommissionOrderVC : HKViewController
 
 @end

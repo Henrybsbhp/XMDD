@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 @class ADViewController;
-@interface RescueDetailsVC : UIViewController
+@interface RescueDetailsVC : HKViewController
 @property (nonatomic, assign) NSInteger           type;//救援类型
 @property (nonatomic, copy)   NSString          * titleStr;
 @property (nonatomic, strong) ADViewController  * adctrl;

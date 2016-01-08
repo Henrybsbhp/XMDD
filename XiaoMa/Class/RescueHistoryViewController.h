@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RescueHistoryViewController : UIViewController
+@interface RescueHistoryViewController : HKViewController
 /**
  * 1. 救援评价
  * 2. 协办评价

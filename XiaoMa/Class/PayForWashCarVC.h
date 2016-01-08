@@ -13,7 +13,7 @@
 @class HKMyCar;
 @class HKBankCard;
 
-@interface PayForWashCarVC : UIViewController
+@interface PayForWashCarVC : HKViewController
 
 @property (nonatomic, strong) JTShopService *service;
 @property (nonatomic, strong) JTShop *shop;

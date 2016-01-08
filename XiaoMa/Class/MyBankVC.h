@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "GasCZBVM.h"
 
-@interface MyBankVC : UIViewController
+@interface MyBankVC : HKViewController
 
 @property (nonatomic, strong) id selectedCardReveicer;
 
