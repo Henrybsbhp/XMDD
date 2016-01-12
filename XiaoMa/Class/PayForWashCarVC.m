@@ -1299,7 +1299,7 @@
     }
 }
 
-- (BOOL)isContainCoupon:(HKCoupon *)c
+- (HKCoupon *)isContainCoupon:(HKCoupon *)c
 {
     HKCoupon * coupon = [self.getUserResourcesV2Op.validCarwashCouponArray firstObjectByFilteringOperator:^BOOL(HKCoupon * obj) {
         return [c.couponId isEqualToNumber:obj.couponId];
@@ -1413,7 +1413,7 @@
 - (void)alertFreshmanGuide
 {
     /// 新手 && 没领过周周礼券的
-    if (self.getUserResourcesV2Op.rsp_carwashFlag && !self.getUserResourcesV2Op.rsp_weeklyCouponGetFlag)
+    if (!self.getUserResourcesV2Op.rsp_carwashFlag && !self.getUserResourcesV2Op.rsp_weeklyCouponGetFlag)
     {
         CarwashFreshmanGuideVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"CarwashFreshmanGuideVC"];
         CGFloat width = 265 * gAppMgr.deviceInfo.screenSize.width / 320;
@@ -1452,16 +1452,21 @@
             
             c = [self.selectCashCoupouArray safetyObjectAtIndex:0];
         }
-        self.couponType = c.conponType;
         // 可用资源是否包含去使用的券
-        BOOL isContain = [self isContainCoupon:c];
+        HKCoupon * isContain = [self isContainCoupon:c];
+        self.couponType = isContain.conponType;
         if (!isContain)
         {
             [self selectDefaultCoupon];
         }
+        else
+        {
+            [self replaceCoupon:isContain];
+        }
     }
     [self autoSelectBankCard];
     [self setupPaymentArray];
+    [self refreshPriceLb];
     
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
@@ -1496,6 +1501,28 @@
     }
 }
 
+/// 把优惠劵替换到selectArray，新手引导领取周周礼券coupon只有一个id，所以要替换一下
+- (void)replaceCoupon:(HKCoupon *)coupon
+{
+    for (NSInteger index = 0 ; index < self.selectCarwashCoupouArray.count ; index++)
+    {
+        HKCoupon * c = [self.selectCarwashCoupouArray safetyObjectAtIndex:index];
+        if ([c.couponId isEqualToNumber:coupon.couponId])
+        {
+            [self.selectCarwashCoupouArray safetyReplaceObjectAtIndex:index withObject:coupon];
+            return;
+        }
+    }
+    for (NSInteger index = 0 ; index < self.selectCashCoupouArray.count ; index++)
+    {
+        HKCoupon * c = [self.selectCashCoupouArray safetyObjectAtIndex:index];
+        if ([c.couponId isEqualToNumber:coupon.couponId])
+        {
+            [self.selectCashCoupouArray safetyReplaceObjectAtIndex:index withObject:coupon];
+            return;
+        }
+    }
+}
 
 - (void)setPaymentChannel:(PaymentChannelType)channel
 {

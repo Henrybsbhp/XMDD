@@ -21,8 +21,8 @@
     NSDictionary *dict = rspObj;
     self.rsp_tradeid = dict[@"tradeid"];
     self.rsp_orderid = dict[@"orderid"];
-    self.rsp_total = [dict[@"total"] intValue];
-    self.rsp_couponmoney = [dict[@"couponmoney"] intValue];
+    self.rsp_total = [dict floatParamForName:@"total"];
+    self.rsp_couponmoney = [dict floatParamForName:@"couponmoney"];
 	
     return self;
 }

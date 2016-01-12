@@ -53,8 +53,8 @@
         
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneGas;    //页面位置
-        NSString * paidStr = [NSString stringWithFormat:@"%d", self.chargeMoney];
-        NSString * chargeStr = [NSString stringWithFormat:@"%d", self.couponMoney];
+        NSString * paidStr = [NSString stringWithFormat:@"%ld", (long)self.chargeMoney];
+        NSString * chargeStr = [NSString stringWithFormat:@"%@", [NSString formatForPrice:self.couponMoney]];
         NSMutableDictionary * otherDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:paidStr, @"gasCharge", chargeStr, @"spareCharge", nil];
         vc.otherInfo = otherDic;
         vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
@@ -146,8 +146,8 @@
     UILabel *rightpriceL = (UILabel *)[cell viewWithTag:1007];
 
     cardnoL.text = [self.gasCard.gascardno splitByStep:4 replacement:@" "];
-    leftpriceL.text = [NSString stringWithFormat:@"￥%d", self.chargeMoney];
-    rightpriceL.text = [NSString stringWithFormat:@"￥%.2f", (float)self.paidMoney];
+    leftpriceL.text = [NSString stringWithFormat:@"￥%ld", (long)self.chargeMoney];
+    rightpriceL.text = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:self.paidMoney]];
     
     BOOL highlighted = self.drawingStatus != DrawingBoardViewStatusSuccess;
     NSString *iconname = self.gasCard.cardtype == 1 ? @"gas_icon_snpn" : @"gas_icon_cnpc";
