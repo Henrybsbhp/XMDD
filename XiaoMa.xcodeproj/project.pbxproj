@@ -382,6 +382,7 @@
 		6B21A8961BD49399006D0556 /* GetShopByRangeV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A8951BD49399006D0556 /* GetShopByRangeV2Op.m */; };
 		6B21A8991BD493F8006D0556 /* GetShopByDistanceV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A8981BD493F8006D0556 /* GetShopByDistanceV2Op.m */; };
 		6B21A89C1BD495B3006D0556 /* GetUserFavoriteV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A89B1BD495B3006D0556 /* GetUserFavoriteV2Op.m */; };
+		6B2265961C439DD600A121CC /* HKView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2265951C439DD600A121CC /* HKView.m */; };
 		6B328ED01B79AAFA00B9F207 /* ChooseBankCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */; };
 		6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B343C351B0EFFAF0036AED9 /* ShareUserCouponOp.m */; };
 		6B3C67931BA9498F002F04C8 /* HKBigRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C67921BA9498F002F04C8 /* HKBigRatingView.m */; };
@@ -1345,6 +1346,8 @@
 		6B21A8981BD493F8006D0556 /* GetShopByDistanceV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetShopByDistanceV2Op.m; path = Class/GetShopByDistanceV2Op.m; sourceTree = "<group>"; };
 		6B21A89A1BD495B3006D0556 /* GetUserFavoriteV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserFavoriteV2Op.h; path = Class/GetUserFavoriteV2Op.h; sourceTree = "<group>"; };
 		6B21A89B1BD495B3006D0556 /* GetUserFavoriteV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserFavoriteV2Op.m; path = Class/GetUserFavoriteV2Op.m; sourceTree = "<group>"; };
+		6B2265941C439DD600A121CC /* HKView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKView.h; sourceTree = "<group>"; };
+		6B2265951C439DD600A121CC /* HKView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKView.m; sourceTree = "<group>"; };
 		6B328ECE1B79AAFA00B9F207 /* ChooseBankCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseBankCardVC.h; sourceTree = "<group>"; };
 		6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseBankCardVC.m; sourceTree = "<group>"; };
 		6B343C341B0EFFAF0036AED9 /* ShareUserCouponOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareUserCouponOp.h; path = Class/ShareUserCouponOp.h; sourceTree = "<group>"; };
@@ -2532,6 +2535,7 @@
 		1883D91A1ACBC2E4002A4D19 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6B2265931C439DC400A121CC /* SuperView */,
 				6B4BCEDD1C3E528E0006B5EB /* SuperViewController */,
 				502D09D21C1E9D08001610F0 /* Valuation */,
 				6BFE6A681C03365900EC9766 /* Illegal */,
@@ -3340,6 +3344,15 @@
 				50E9DD151BE201180070F38D /* Reachability.m */,
 			);
 			name = Reachability;
+			sourceTree = "<group>";
+		};
+		6B2265931C439DC400A121CC /* SuperView */ = {
+			isa = PBXGroup;
+			children = (
+				6B2265941C439DD600A121CC /* HKView.h */,
+				6B2265951C439DD600A121CC /* HKView.m */,
+			);
+			name = SuperView;
 			sourceTree = "<group>";
 		};
 		6B3DAB9D1C3F512D00C783F8 /* DebugLog */ = {
@@ -4871,6 +4884,7 @@
 				6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */,
 				2E77A4961C325F2F00264FC9 /* GetRescueOp.m in Sources */,
 				6BEE17761C325A0D0004F63A /* IFTTTAnimatedPagingScrollViewController.m in Sources */,
+				6B2265961C439DD600A121CC /* HKView.m in Sources */,
 				18F813691B5F3561005F49B0 /* CKNavigationController.m in Sources */,
 				18804AAB1B27DD3C00E7E764 /* GifActivityIndicatorView.m in Sources */,
 				18900B531C1EA0C2003DA439 /* InsSimpleCar.m in Sources */,
