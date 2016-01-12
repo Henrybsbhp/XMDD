@@ -27,6 +27,7 @@
 #import "GasPaymentResultVC.h"
 #import "WebVC.h"
 #import "PayForGasViewController.h"
+#import "PaymentSuccessVC.h"
 
 
 
@@ -173,6 +174,8 @@
                                     } forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItem = right;
     
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    self.navigationItem.leftBarButtonItem = back;
 }
 
 - (void)setupHeaderView
@@ -548,6 +551,19 @@
         vc.selectedCardReveicer = self.curModel;
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+- (void)actionBack:(id)sender
+{
+    NSArray * viewcontrollers = self.navigationController.viewControllers;
+    UIViewController * vc = [viewcontrollers safetyObjectAtIndex:viewcontrollers.count - 2];
+    if ([vc isKindOfClass:[PaymentSuccessVC class]])
+    {
+        [self.tabBarController setSelectedIndex:0];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        return;
+    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - UITableViewDelegate and datasource

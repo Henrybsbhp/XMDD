@@ -36,6 +36,7 @@
 #import "MultiMediaManager.h"
 #import "PhoneHelper.h"
 #import "AdvertisementManager.h"
+#import "SupportFileManager.h"
 #import <SDWebImageManager.h>
 
 //基类
@@ -65,5 +66,6 @@
 #import "RACSignal+Extension.h"
 #import "UIScrollView+RefreshView.h"
 #import "CKNavigationController+Expansion.h"
+
 
 #endif

@@ -377,6 +377,25 @@
     return 4;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    NSInteger count = 0;
+    if (section == 0) {
+        count = 6;
+    }
+    else if (section == 1) {
+        
+        count = 3 - (self.insOrder.iscontainActivity ? 0 : 1);
+    }
+    else if (section == 2) {
+        count = 4 - (gPhoneHelper.exsitWechat ? 0:1);
+    }
+    else if (section == 3) {
+        return 1;
+    }
+    return count;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     CGFloat height = 44;
@@ -416,25 +435,6 @@
     return  CGFLOAT_MIN;
 }
 
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    NSInteger count = 0;
-    if (section == 0) {
-        count = 6;
-    }
-    else if (section == 1) {
-        
-        count = 3 - (self.insOrder.iscontainActivity ? 0 : 1);
-    }
-    else if (section == 2) {
-        count = 4 - (gPhoneHelper.exsitWechat ? 0:1);
-    }
-    else if (section == 3) {
-        return 1;
-    }
-    return count;
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -507,10 +507,10 @@
         if (indexPath.row == 1)
         {
             [MobClick event:@"rp326-1"];
-            if (!self.insOrder.iscontainActivity)
-            {
-                [self jumpToChooseCouponVC];
-            }
+//            if (!self.insOrder.iscontainActivity)
+//            {
+//                [self jumpToChooseCouponVC];
+//            }
         }
         else if (indexPath.row == 2)
         {
@@ -520,6 +520,30 @@
         
         ///取消支付宝，微信勾选
         [self.tableView reloadData];
+    }
+    else if (indexPath.section == 2)
+    {
+        if (indexPath.row > 0)
+        {
+            NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup];
+            for (NSInteger i = 0 ; i < array.count ; i++)
+            {
+                UIButton * btn = [array safetyObjectAtIndex:i];
+                if ([btn.customObject isKindOfClass:[NSIndexPath class]])
+                {
+                    NSIndexPath * path = (NSIndexPath *)btn.customObject;
+                    if (path.section == indexPath.section && path.row == indexPath.row)
+                    {
+                        btn.selected = YES;
+                    }
+                    else
+                    {
+                        btn.selected = NO;
+                    }
+                }
+            }
+            
+        }
     }
 }
 

@@ -382,6 +382,8 @@
 		6B21A8961BD49399006D0556 /* GetShopByRangeV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A8951BD49399006D0556 /* GetShopByRangeV2Op.m */; };
 		6B21A8991BD493F8006D0556 /* GetShopByDistanceV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A8981BD493F8006D0556 /* GetShopByDistanceV2Op.m */; };
 		6B21A89C1BD495B3006D0556 /* GetUserFavoriteV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A89B1BD495B3006D0556 /* GetUserFavoriteV2Op.m */; };
+		6B2265961C439DD600A121CC /* HKView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2265951C439DD600A121CC /* HKView.m */; };
+		6B2265991C44C7A400A121CC /* CarwashFreshmanGuideVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2265981C44C7A400A121CC /* CarwashFreshmanGuideVC.m */; };
 		6B328ED01B79AAFA00B9F207 /* ChooseBankCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */; };
 		6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B343C351B0EFFAF0036AED9 /* ShareUserCouponOp.m */; };
 		6B3C67931BA9498F002F04C8 /* HKBigRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C67921BA9498F002F04C8 /* HKBigRatingView.m */; };
@@ -405,6 +407,7 @@
 		6B978BFA1B6B643A00A6E7C6 /* HKCoverage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B978BF91B6B643A00A6E7C6 /* HKCoverage.m */; };
 		6B9BF4B91BF96CAC0046FF48 /* PaymentCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B9BF4B81BF96CAC0046FF48 /* PaymentCenterViewController.m */; };
 		6B9BF4BC1BF97BCB0046FF48 /* GetGeneralOrderdetailOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B9BF4BB1BF97BCB0046FF48 /* GetGeneralOrderdetailOp.m */; };
+		6BA48A0A1C3F853F00AED445 /* SupportFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA48A091C3F853F00AED445 /* SupportFileManager.m */; };
 		6BAF30181AE67CC800E35E08 /* GetSystemVersionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF30171AE67CC800E35E08 /* GetSystemVersionOp.m */; };
 		6BAF301D1AE6947F00E35E08 /* ClientInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301A1AE6947F00E35E08 /* ClientInfo.m */; };
 		6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301C1AE6947F00E35E08 /* DeviceInfo.m */; };
@@ -1344,6 +1347,10 @@
 		6B21A8981BD493F8006D0556 /* GetShopByDistanceV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetShopByDistanceV2Op.m; path = Class/GetShopByDistanceV2Op.m; sourceTree = "<group>"; };
 		6B21A89A1BD495B3006D0556 /* GetUserFavoriteV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserFavoriteV2Op.h; path = Class/GetUserFavoriteV2Op.h; sourceTree = "<group>"; };
 		6B21A89B1BD495B3006D0556 /* GetUserFavoriteV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserFavoriteV2Op.m; path = Class/GetUserFavoriteV2Op.m; sourceTree = "<group>"; };
+		6B2265941C439DD600A121CC /* HKView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKView.h; sourceTree = "<group>"; };
+		6B2265951C439DD600A121CC /* HKView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKView.m; sourceTree = "<group>"; };
+		6B2265971C44C7A400A121CC /* CarwashFreshmanGuideVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarwashFreshmanGuideVC.h; sourceTree = "<group>"; };
+		6B2265981C44C7A400A121CC /* CarwashFreshmanGuideVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarwashFreshmanGuideVC.m; sourceTree = "<group>"; };
 		6B328ECE1B79AAFA00B9F207 /* ChooseBankCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseBankCardVC.h; sourceTree = "<group>"; };
 		6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseBankCardVC.m; sourceTree = "<group>"; };
 		6B343C341B0EFFAF0036AED9 /* ShareUserCouponOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareUserCouponOp.h; path = Class/ShareUserCouponOp.h; sourceTree = "<group>"; };
@@ -1390,6 +1397,8 @@
 		6B9BF4B81BF96CAC0046FF48 /* PaymentCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentCenterViewController.m; sourceTree = "<group>"; };
 		6B9BF4BA1BF97BCB0046FF48 /* GetGeneralOrderdetailOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetGeneralOrderdetailOp.h; path = Class/GetGeneralOrderdetailOp.h; sourceTree = "<group>"; };
 		6B9BF4BB1BF97BCB0046FF48 /* GetGeneralOrderdetailOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetGeneralOrderdetailOp.m; path = Class/GetGeneralOrderdetailOp.m; sourceTree = "<group>"; };
+		6BA48A081C3F853F00AED445 /* SupportFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SupportFileManager.h; path = Class/SupportFileManager.h; sourceTree = "<group>"; };
+		6BA48A091C3F853F00AED445 /* SupportFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SupportFileManager.m; path = Class/SupportFileManager.m; sourceTree = "<group>"; };
 		6BAF30161AE67CC800E35E08 /* GetSystemVersionOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemVersionOp.h; path = Class/GetSystemVersionOp.h; sourceTree = "<group>"; };
 		6BAF30171AE67CC800E35E08 /* GetSystemVersionOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemVersionOp.m; path = Class/GetSystemVersionOp.m; sourceTree = "<group>"; };
 		6BAF30191AE6947F00E35E08 /* ClientInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClientInfo.h; path = Class/ClientInfo.h; sourceTree = "<group>"; };
@@ -1959,6 +1968,8 @@
 				6B82588F1AF8B37100D5D800 /* CommentListViewController.m */,
 				6B328ECE1B79AAFA00B9F207 /* ChooseBankCardVC.h */,
 				6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */,
+				6B2265971C44C7A400A121CC /* CarwashFreshmanGuideVC.h */,
+				6B2265981C44C7A400A121CC /* CarwashFreshmanGuideVC.m */,
 			);
 			name = CarWash;
 			sourceTree = "<group>";
@@ -2520,6 +2531,8 @@
 				509D1CC01C086E01003ED860 /* ShareResponeManager.h */,
 				509D1CC11C086E01003ED860 /* ShareResponeManager.m */,
 				6B65DF4F1B1BF99000E54948 /* XiaoMaConstants.h */,
+				6BA48A081C3F853F00AED445 /* SupportFileManager.h */,
+				6BA48A091C3F853F00AED445 /* SupportFileManager.m */,
 			);
 			name = Singleton;
 			sourceTree = "<group>";
@@ -2527,6 +2540,7 @@
 		1883D91A1ACBC2E4002A4D19 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6B2265931C439DC400A121CC /* SuperView */,
 				6B4BCEDD1C3E528E0006B5EB /* SuperViewController */,
 				502D09D21C1E9D08001610F0 /* Valuation */,
 				6BFE6A681C03365900EC9766 /* Illegal */,
@@ -3335,6 +3349,15 @@
 				50E9DD151BE201180070F38D /* Reachability.m */,
 			);
 			name = Reachability;
+			sourceTree = "<group>";
+		};
+		6B2265931C439DC400A121CC /* SuperView */ = {
+			isa = PBXGroup;
+			children = (
+				6B2265941C439DD600A121CC /* HKView.h */,
+				6B2265951C439DD600A121CC /* HKView.m */,
+			);
+			name = SuperView;
 			sourceTree = "<group>";
 		};
 		6B3DAB9D1C3F512D00C783F8 /* DebugLog */ = {
@@ -4683,10 +4706,12 @@
 				6BEE178A1C325A0D0004F63A /* IFTTTScrollViewPageConstraintAnimation.m in Sources */,
 				18A15A6B1C225E3F00D7B5DF /* GetPremiumDetailOp.m in Sources */,
 				18BF420C1BD273C70039F210 /* CKLimitTextField.m in Sources */,
+				6B2265991C44C7A400A121CC /* CarwashFreshmanGuideVC.m in Sources */,
 				18895B361B4CB89000928F62 /* HKPushManager.m in Sources */,
 				6BFA93BB1BF098BB00700F27 /* CheckoutServiceOrderV4Op.m in Sources */,
 				18D475E51B7D9F82000FAF1C /* NSString+PhoneNumber.m in Sources */,
 				6BC3B60F1ADF52CB001016A0 /* BaseMapViewController.m in Sources */,
+				6BA48A0A1C3F853F00AED445 /* SupportFileManager.m in Sources */,
 				509D1CC21C086E01003ED860 /* ShareResponeManager.m in Sources */,
 				6BDD6E211B67615C0060CFD0 /* JDDateCountdownFlipView.m in Sources */,
 				18B78F5C1BA989BE0061ECAD /* HKLaunchInfo.m in Sources */,
@@ -4865,6 +4890,7 @@
 				6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */,
 				2E77A4961C325F2F00264FC9 /* GetRescueOp.m in Sources */,
 				6BEE17761C325A0D0004F63A /* IFTTTAnimatedPagingScrollViewController.m in Sources */,
+				6B2265961C439DD600A121CC /* HKView.m in Sources */,
 				18F813691B5F3561005F49B0 /* CKNavigationController.m in Sources */,
 				18804AAB1B27DD3C00E7E764 /* GifActivityIndicatorView.m in Sources */,
 				18900B531C1EA0C2003DA439 /* InsSimpleCar.m in Sources */,

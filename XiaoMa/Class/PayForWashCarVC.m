@@ -13,6 +13,8 @@
 #import "NSDate+DateForText.h"
 #import "UIView+Layer.h"
 #import "UIView+Shake.h"
+#import "CBAutoScrollLabel.h"
+#import "NSString+Price.h"
 
 #import "HKCoupon.h"
 #import "HKMyCar.h"
@@ -25,12 +27,16 @@
 #import "ChooseBankCardVC.h"
 #import "CarListVC.h"
 #import "EditCarVC.h"
+#import "CarwashFreshmanGuideVC.h"
 
 #import "GetUserCarOp.h"
 #import "GetUserResourcesV2Op.h"
 #import "SystemFastrateGetOp.h"
 #import "CheckoutServiceOrderV4Op.h"
 #import "OrderPaidSuccessOp.h"
+
+#import "GetUserResourcesV2Op.h"
+#import "GainUserAwardOp.h"
 
 
 #define CheckBoxCouponGroup @"CheckBoxCouponGroup"
@@ -41,7 +47,9 @@
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *payBtn;
+@property (weak, nonatomic) IBOutlet CBAutoScrollLabel *bottomScrollLb;
 @property (nonatomic,strong)UIView * drawerView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomViewHeightConstraint;
 
 @property (nonatomic,strong) CKSegmentHelper *checkBoxHelper;
 @property (nonatomic)BOOL isLoadingResourse;
@@ -49,6 +57,7 @@
 @property (nonatomic,strong) MyCarStore *carStore;
 
 @property (nonatomic,strong)CheckoutServiceOrderV4Op *checkoutServiceOrderV4Op;
+@property (nonatomic,strong)GetUserResourcesV2Op * getUserResourcesV2Op;
 
 ///支付数据源
 @property (nonatomic,strong)NSArray * paymentArray;
@@ -70,8 +79,6 @@
     [self setupCheckBoxHelper];
     [self setupBottomView];
     [self setupCarStore];
-    
-    self.isLoadingResourse = YES;
     
     self.selectCarwashCoupouArray = self.selectCarwashCoupouArray ? self.selectCarwashCoupouArray :[NSMutableArray array];
     self.selectCashCoupouArray = self.selectCashCoupouArray ? self.selectCashCoupouArray : [NSMutableArray array];
@@ -146,11 +153,6 @@
 
 - (void)setupBottomView
 {
-    //line
-    [self.bottomView setBorderColor:kDefLineColor];
-    [self.bottomView showBorderLineWithDirectionMask:CKViewBorderDirectionTop];
-    [self.bottomView layoutBorderLineIfNeeded];
-    
     //label
     UILabel *label = (UILabel *)[self.bottomView viewWithTag:1001];
     NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
@@ -163,14 +165,30 @@
                                                                                 NSForegroundColorAttributeName:HEXCOLOR(@"#fb4209")}];
     [str appendAttributedString:attrStr2];
     label.attributedText = str;
+    
+    [self setupBottomLb];
 }
+
+- (void)setupBottomLb
+{
+    self.bottomScrollLb.textColor = [UIColor colorWithHex:@"#FF5A00" alpha:1.0f];
+    self.bottomScrollLb.textAlignment = NSTextAlignmentCenter;
+    self.bottomScrollLb.font = [UIFont systemFontOfSize:12];
+    self.bottomScrollLb.backgroundColor = [UIColor clearColor];
+    self.bottomScrollLb.labelSpacing = 30;
+    self.bottomScrollLb.scrollSpeed = 30;
+    self.bottomScrollLb.fadeLength = 5.f;
+    [self.bottomScrollLb observeApplicationNotifications];
+    self.bottomScrollLb.text = @"0元洗车：支付成功后将获取x元加油代金券";
+}
+
 
 - (void)setupCarStore
 {
     self.carStore = [MyCarStore fetchExistsStore];
     @weakify(self);
     [self.carStore subscribeWithTarget:self domain:@"cars" receiver:^(CKStore *store, CKEvent *evt) {
-
+        
         @strongify(self);
         [[evt signal] subscribeNext:^(id x) {
             @strongify(self);
@@ -370,7 +388,7 @@
             vc.originVC = self.originVC;
             vc.type = CouponTypeCarWash;
             vc.selectedCouponArray = self.selectCarwashCoupouArray;
-            vc.couponArray = self.carwashCoupouArray;
+            vc.couponArray = self.getUserResourcesV2Op.validCarwashCouponArray;
             vc.upperLimit = self.service.origprice;
             [self.navigationController pushViewController:vc animated:YES];
         }
@@ -381,7 +399,7 @@
             vc.originVC = self.originVC;
             vc.type = CouponTypeCash;
             vc.selectedCouponArray = self.selectCashCoupouArray;
-            vc.couponArray = self.cashCoupouArray;
+            vc.couponArray = self.getUserResourcesV2Op.validCashCouponArray;
             vc.upperLimit = self.service.origprice;
             [self.navigationController pushViewController:vc animated:YES];
         }
@@ -399,9 +417,18 @@
             vc.service = self.service;
             vc.shop = self.shop;
             vc.bankCards = gAppMgr.myUser.couponModel.validCZBankCreditCard;
-            vc.carwashCouponArray = self.carwashCoupouArray;
+            vc.carwashCouponArray = self.getUserResourcesV2Op.validCarwashCouponArray;
             [self.navigationController pushViewController:vc animated:YES];
-
+        }
+        else if (payChannel == PaymentChannelAlipay)
+        {
+            self.checkoutServiceOrderV4Op.paychannel = PaymentChannelAlipay;
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
+        }
+        else if (payChannel == PaymentChannelWechat)
+        {
+            self.checkoutServiceOrderV4Op.paychannel = PaymentChannelWechat;
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
         }
     }
 }
@@ -470,12 +497,12 @@
     UILabel *statusLb = (UILabel *)[cell.contentView viewWithTag:1005];
     
     if (indexPath.row == 1) {
-        label.text = [NSString stringWithFormat:@"洗车券：%ld张", (long)self.carwashCoupouArray.count];
+        label.text = [NSString stringWithFormat:@"洗车券：%ld张", (long)self.getUserResourcesV2Op.validCarwashCouponArray.count];
         arrow.hidden = NO;
         
         NSDate * earlierDate;
         NSDate * laterDate;
-        for (HKCoupon * c in self.carwashCoupouArray)
+        for (HKCoupon * c in self.getUserResourcesV2Op.validCarwashCouponArray)
         {
             earlierDate = [c.validsince earlierDate:earlierDate];
             laterDate = [c.validthrough laterDate:laterDate];
@@ -496,12 +523,12 @@
         }
     }
     else if (indexPath.row == 2) {
-        label.text = [NSString stringWithFormat:@"代金券：%ld张", (long) self.cashCoupouArray.count];
+        label.text = [NSString stringWithFormat:@"代金券：%ld张", (long)self.getUserResourcesV2Op.validCashCouponArray.count];
         arrow.hidden = NO;
         
         NSDate * earlierDate;
         NSDate * laterDate;
-        for (HKCoupon * c in self.cashCoupouArray)
+        for (HKCoupon * c in self.getUserResourcesV2Op.validCashCouponArray)
         {
             earlierDate = [c.validsince earlierDate:earlierDate];
             laterDate = [c.validthrough laterDate:laterDate];
@@ -582,7 +609,7 @@
                 vc.originVC = self.originVC;
                 vc.selectedCouponArray = self.selectCarwashCoupouArray;
                 vc.type = CouponTypeCarWash;//@fq
-                vc.couponArray = self.carwashCoupouArray;
+                vc.couponArray = self.getUserResourcesV2Op.validCarwashCouponArray;
                 vc.upperLimit = self.service.origprice;
                 [self.navigationController pushViewController:vc animated:YES];
                 [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
@@ -616,7 +643,7 @@
                 vc.originVC = self.originVC;
                 vc.selectedCouponArray = self.selectCashCoupouArray;
                 vc.type = CouponTypeCash;
-                vc.couponArray = self.cashCoupouArray;
+                vc.couponArray = self.getUserResourcesV2Op.validCashCouponArray;
                 vc.upperLimit = self.service.origprice;
                 [self.navigationController pushViewController:vc animated:YES];
                 [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
@@ -694,7 +721,7 @@
         recommendLB = (UILabel *)[cell.contentView viewWithTag:1005];
         recommendLB.cornerRadius = 3.0f;
         recommendLB.layer.masksToBounds = YES;
-//        boxB.selected = NO;
+        //        boxB.selected = NO;
     }
     
     if (payChannel == PaymentChannelCZBCreditCard) {
@@ -820,8 +847,13 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"DiscountInfoCell"];
     UIActivityIndicatorView * indicator = (UIActivityIndicatorView *)[cell searchViewWithTag:202];
-    indicator.animating = self.isLoadingResourse;
-    indicator.hidden = !self.isLoadingResourse;
+    
+    [[RACObserve(self, isLoadingResourse) distinctUntilChanged] subscribeNext:^(NSNumber * number) {
+        
+        BOOL isloading = [number boolValue];
+        indicator.animating = isloading;
+        indicator.hidden = !isloading;
+    }];
     return cell;
 }
 
@@ -835,40 +867,20 @@
 #pragma mark - 网络请求及处理
 - (void)requestGetUserResource:(BOOL)needAutoSelect
 {
-    [[gAppMgr.myUser.couponModel rac_getVaildResource:self.service.shopServiceType andShopId:self.shop.shopID] subscribeNext:^(GetUserResourcesV2Op * op) {
+    [[[gAppMgr.myUser.couponModel rac_getVaildResource:self.service.shopServiceType andShopId:self.shop.shopID] initially:^{
         
-        self.carwashCoupouArray = op.validCarwashCouponArray;
-        self.cashCoupouArray = op.validCashCouponArray;
+        self.isLoadingResourse = YES;
+    }] subscribeNext:^(GetUserResourcesV2Op * op) {
+        
         self.isLoadingResourse = NO;
+        self.getUserResourcesV2Op = op;
         
-        if (needAutoSelect)
-        {
-            [self selectDefaultCoupon];
-        }
-        else
-        {
-            HKCoupon * c = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
-            if (!c){
-                
-                c = [self.selectCashCoupouArray safetyObjectAtIndex:0];
-            }
-            self.couponType = c.conponType;
-            // 可用资源是否包含去使用的券
-            BOOL isContain = [self isContainCoupon:c];
-            if (!isContain)
-            {
-                [self selectDefaultCoupon];
-            }
-        }
-        [self autoSelectBankCard];
-        [self setupPaymentArray];
-        
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
+        [self actionAfterGetUserResource:needAutoSelect];
+       
+        [self alertFreshmanGuide];
     } error:^(NSError *error) {
         
         self.isLoadingResourse = NO;
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
     }];
 }
 
@@ -914,13 +926,13 @@
             {
                 self.checkoutServiceOrderV4Op.paychannel = PaymentChannelAlipay;
                 bandCard = nil;
-//                self.selectBankCard.cardID = nil;
+                //                self.selectBankCard.cardID = nil;
             }
             else if (paychannel == PaymentChannelWechat)
             {
                 self.checkoutServiceOrderV4Op.paychannel = PaymentChannelWechat;
                 bandCard = nil;
-//                self.selectBankCard.cardID = nil;
+                //                self.selectBankCard.cardID = nil;
             }
         }
     }
@@ -929,7 +941,7 @@
     self.checkoutServiceOrderV4Op.licencenumber = self.defaultCar.licencenumber ? self.defaultCar.licencenumber : @"";
     self.checkoutServiceOrderV4Op.carMake = self.defaultCar.brand;
     self.checkoutServiceOrderV4Op.carModel = self.defaultCar.seriesModel.seriesname;
-//    self.checkoutServiceOrderV4Op.bankCardId = self.selectBankCard.cardID;
+    //    self.checkoutServiceOrderV4Op.bankCardId = self.selectBankCard.cardID;
     self.checkoutServiceOrderV4Op.bankCardId = bandCard.cardID;
     
     //如果不是原价支付，需要提供定位信息
@@ -943,7 +955,7 @@
         signal = [RACSignal return:nil];
     }
     
-
+    
     [[[signal flattenMap:^RACStream *(MAUserLocation *location) {
         
         self.checkoutServiceOrderV4Op.coordinate = location ? location.coordinate : gMapHelper.coordinate;
@@ -964,7 +976,7 @@
                     NSString * submitTime = [[NSDate date] dateFormatForDT8];
                     NSString * info = [NSString stringWithFormat:@"%@-%@",self.service.serviceName,self.shop.shopName];
                     [self requestAliPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
-                         andProductName:info andDescription:info andTime:submitTime];
+                         andProductName:info andDescription:info andTime:submitTime andGasCouponAmout:op.rsp_gasCouponAmount];
                 });
             }
             else if (op.paychannel == PaymentChannelWechat)
@@ -975,7 +987,7 @@
                     NSString * submitTime = [[NSDate date] dateFormatForDT8];
                     NSString * info = [NSString stringWithFormat:@"%@-%@",self.service.serviceName,self.shop.shopName];
                     [self requestWechatPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
-                            andProductName:info andTime:submitTime];
+                            andProductName:info andTime:submitTime andGasCouponAmout:op.rsp_gasCouponAmount];
                 });
             }
             else {
@@ -989,7 +1001,9 @@
                 order.serviceid = self.service.serviceID;
                 order.servicename = self.service.serviceName;
                 order.fee = op.rsp_price;
+                order.gasCouponAmount =  op.rsp_gasCouponAmount;
                 vc.order = order;
+                
                 [self.navigationController pushViewController:vc animated:YES];
             }
         }
@@ -1005,6 +1019,7 @@
             order.serviceid = self.service.serviceID;
             order.servicename = self.service.serviceName;
             order.fee = op.rsp_price;
+            order.gasCouponAmount = op.rsp_gasCouponAmount;
             vc.order = order;
             [self.navigationController pushViewController:vc animated:YES];
         }
@@ -1024,45 +1039,63 @@
         return;
     SystemFastrateGetOp * op = [SystemFastrateGetOp operation];
     [[op rac_postRequest] subscribeNext:^(SystemFastrateGetOp * op) {
-       
+        
         gAppMgr.commentList = op.rsp_commentlist;
     }];
 }
 
-- (void)handerOrderError:(NSError *)error forOp:(CheckoutServiceOrderV4Op *)op
+
+
+- (void)requestGainWeeklyCoupon
 {
-    if (error.code == 615801) {
+    GainUserAwardOp * op = [GainUserAwardOp operation];
+    op.req_province = gMapHelper.addrComponent.province;
+    op.req_city = gMapHelper.addrComponent.city;
+    op.req_district = gMapHelper.addrComponent.district;
+    
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"优惠劵获取中..."];
+    }] subscribeNext:^(GainUserAwardOp * op) {
+        
         [gToast dismiss];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您不在该商户服务范围内，请刷新或者到店后洗完车后再支付或者原价支付。"
-                                                       delegate:nil cancelButtonTitle:@"放弃支付" otherButtonTitles:@"原价支付", nil];
-        [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
-            //放弃支付
-            if ([number integerValue] == 0) {
-                [MobClick event:@"rp108-8"];
-            }
-            else if ([number integerValue] == 1) {
-                [MobClick event:@"rp108-9"];
-                [self requestCheckoutWithCouponType:CouponTypeNone];
+        HKCoupon * coupon = [[HKCoupon alloc] init];
+        coupon.couponId = op.rsp_couponId;
+        
+        [self.selectCarwashCoupouArray removeAllObjects];
+        [self.selectCashCoupouArray removeAllObjects];
+        
+        [self.selectCashCoupouArray safetyAddObject:coupon];
+        
+        [self requestGetUserResource:NO];
+    } error:^(NSError *error) {
+        
+        [gToast dismiss];
+        if (error.code == 6153)
+        {
+            ///用户已领取
+            return ;
+        }
+        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:error.domain delegate:nil cancelButtonTitle:@"算了" otherButtonTitles:@"再试一次", nil];
+        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
+            
+            NSInteger index = [number integerValue];
+            if (index == 1)
+            {
+                [self requestGainWeeklyCoupon];
             }
         }];
-        [alert show];
-    }
-    else if (error.code == 5003 || error.code == 615805)
-    {
-        [self requestGetUserResource:YES];
-        [gToast showError:error.domain];
-    }
-    else {
-        [gToast showError:error.domain];
-    }
+        [av show];
+    }];
 }
 
 #pragma mark - 调用第三方支付
 - (void)requestAliPay:(NSNumber *)orderId andTradeId:(NSString *)tradeId
-             andPrice:(CGFloat)price andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time
+             andPrice:(CGFloat)price andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time andGasCouponAmout:(CGFloat)couponAmt
+
 {
     PaymentHelper *helper = [[PaymentHelper alloc] init];
-
+    
     [helper resetForAlipayWithTradeNumber:tradeId productName:name productDescription:desc price:price];
     
     [[helper rac_startPay] subscribeNext:^(id x) {
@@ -1085,6 +1118,7 @@
         order.servicename = self.service.serviceName;
         order.fee = price;
         order.shop = self.shop;
+        order.gasCouponAmount = couponAmt;
         vc.order = order;
         [self.navigationController pushViewController:vc animated:YES];
         
@@ -1095,13 +1129,13 @@
 
 - (void)requestWechatPay:(NSNumber *)orderId andTradeId:(NSString *)tradeId
                 andPrice:(CGFloat)price andProductName:(NSString *)name
-                 andTime:(NSString *)time
+                 andTime:(NSString *)time andGasCouponAmout:(CGFloat)couponAmt
 {
     PaymentHelper *helper = [[PaymentHelper alloc] init];
     
     [helper resetForWeChatWithTradeNumber:tradeId productName:name price:price];
     [[helper rac_startPay] subscribeNext:^(NSString * info) {
-
+        
         [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
         
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
@@ -1120,6 +1154,7 @@
         order.servicename = self.service.serviceName;
         order.shop = self.shop;
         order.fee = price;
+        order.gasCouponAmount = couponAmt;
         vc.order = order;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
@@ -1134,9 +1169,9 @@
     [self.selectCarwashCoupouArray removeAllObjects];
     [self.selectCashCoupouArray removeAllObjects];
     self.couponType = CouponTypeNone;
-    if (self.carwashCoupouArray.count)
+    if (self.getUserResourcesV2Op.validCarwashCouponArray.count)
     {
-        HKCoupon * coupon = [self.carwashCoupouArray safetyObjectAtIndex:0];
+        HKCoupon * coupon = [self.getUserResourcesV2Op.validCarwashCouponArray safetyObjectAtIndex:0];
         if (coupon.conponType == CouponTypeCZBankCarWash){
             
             self.couponType = CouponTypeCZBankCarWash;
@@ -1161,12 +1196,12 @@
         [self refreshPriceLb];
         return;
     }
-    if (self.cashCoupouArray.count)
+    if (self.getUserResourcesV2Op.validCashCouponArray.count)
     {
         NSInteger amount = 0;
-        for (NSInteger i = 0 ; i < self.cashCoupouArray.count ; i++)
+        for (NSInteger i = 0 ; i < self.getUserResourcesV2Op.validCashCouponArray.count ; i++)
         {
-            HKCoupon * coupon = [self.cashCoupouArray safetyObjectAtIndex:i];
+            HKCoupon * coupon = [self.getUserResourcesV2Op.validCashCouponArray safetyObjectAtIndex:i];
             if (coupon.couponAmount < self.service.origprice)
             {
                 if (amount + coupon.couponAmount < self.service.origprice)
@@ -1233,6 +1268,7 @@
     self.selectBankCard = nil;
     if (self.couponType == CouponTypeCZBankCarWash)
     {
+        // 选中的是浙商券，判断浙商劵是否属于我的浙商卡集下
         HKCoupon * coupon = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
         for (HKBankCard * card in gAppMgr.myUser.couponModel.validCZBankCreditCard)
         {
@@ -1248,6 +1284,7 @@
     }
     else
     {
+        // 判断是否有浙商卡，有的话，优先浙商卡支付
         if (gAppMgr.myUser.couponModel.validCZBankCreditCard.count)
         {
             HKBankCard * card = [gAppMgr.myUser.couponModel.validCZBankCreditCard safetyObjectAtIndex:0];
@@ -1264,12 +1301,12 @@
 
 - (BOOL)isContainCoupon:(HKCoupon *)c
 {
-    HKCoupon * coupon = [self.carwashCoupouArray firstObjectByFilteringOperator:^BOOL(HKCoupon * obj) {
+    HKCoupon * coupon = [self.getUserResourcesV2Op.validCarwashCouponArray firstObjectByFilteringOperator:^BOOL(HKCoupon * obj) {
         return [c.couponId isEqualToNumber:obj.couponId];
     }];
     if (!coupon)
     {
-        coupon = [self.cashCoupouArray firstObjectByFilteringOperator:^BOOL(HKCoupon * obj) {
+        coupon = [self.getUserResourcesV2Op.validCashCouponArray firstObjectByFilteringOperator:^BOOL(HKCoupon * obj) {
             return [c.couponId isEqualToNumber:obj.couponId];
         }];
     }
@@ -1279,29 +1316,48 @@
 
 - (void)refreshPriceLb
 {
-    CGFloat amount = self.service.origprice;
+    CGFloat serviceAmount = self.service.origprice;
+    CGFloat discount = 0.0;
+    CGFloat paymoney = serviceAmount;
+    
+    
     if (self.couponType == CouponTypeCarWash || self.couponType == CouponTypeCZBankCarWash)
     {
         HKCoupon * coupon = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
-        amount = coupon.couponAmount;
+        paymoney = coupon.couponAmount;
+        discount = serviceAmount - paymoney;
     }
     else if (self.couponType == CouponTypeCash)
     {
         for (NSInteger i = 0 ; i < self.selectCashCoupouArray.count ; i++)
         {
             HKCoupon * coupon = [self.selectCashCoupouArray safetyObjectAtIndex:i];
-            amount = amount - coupon.couponAmount;
+            discount = discount + coupon.couponAmount;
         }
+        paymoney = serviceAmount - discount;
+    }
+
+    
+    NSString * btnText = [NSString stringWithFormat:@"您只需支付%.2f元，现在支付",paymoney];
+    [self.payBtn setTitle:btnText forState:UIControlStateNormal];
+    
+    CGFloat gainCoupon = paymoney < 1.0f ? 1.0f : paymoney;
+    NSString * lbText = [NSString stringWithFormat:@"0元洗车:支付成功后将获取%@元加油代金券",[NSString formatForPrice:gainCoupon]];
+    self.bottomScrollLb.text = lbText;
+    
+    if ((self.getUserResourcesV2Op.rsp_activityDayFlag ||
+         !self.getUserResourcesV2Op.rsp_carwashFlag) && paymoney >= 0.01)
+    {
+        self.bottomScrollLb.hidden = NO;
+        self.bottomViewHeightConstraint.constant = 72;
     }
     else
     {
-
-        amount = self.service.origprice;
+        self.bottomScrollLb.hidden = YES;
+        self.bottomViewHeightConstraint.constant = 50;
     }
-    
-    NSString * btnText = [NSString stringWithFormat:@"您只需支付%.2f元，现在支付",amount];
-    [self.payBtn setTitle:btnText forState:UIControlStateNormal];
 }
+
 
 
 - (void)tableViewReloadData
@@ -1343,6 +1399,7 @@
     }
 }
 
+
 - (void)chooseResource
 {
     [self selectDefaultCoupon];
@@ -1352,10 +1409,93 @@
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
 }
 
-- (void)chooseResourceByBankCard:(HKBankCard *)card
+/// 新手提示
+- (void)alertFreshmanGuide
 {
-    
+    /// 新手 && 没领过周周礼券的
+    if (self.getUserResourcesV2Op.rsp_carwashFlag && !self.getUserResourcesV2Op.rsp_weeklyCouponGetFlag)
+    {
+        CarwashFreshmanGuideVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"CarwashFreshmanGuideVC"];
+        CGFloat width = 265 * gAppMgr.deviceInfo.screenSize.width / 320;
+        CGFloat height = 350 * gAppMgr.deviceInfo.screenSize.height / 568;
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(width, height) viewController:vc];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [[vc.gainWeeklyCouponBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+                [self requestGainWeeklyCoupon];
+            }];
+            
+        }];
+        
+        [[vc.whateverBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+            }];
+        }];
+    }
 }
+
+- (void)actionAfterGetUserResource:(BOOL)needAutoSelect
+{
+    if (needAutoSelect)
+    {
+        [self selectDefaultCoupon];
+    }
+    else
+    {
+        //不需要自动选择（去使用进来），先检查一下是否在可用资源里面
+        HKCoupon * c = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
+        if (!c){
+            
+            c = [self.selectCashCoupouArray safetyObjectAtIndex:0];
+        }
+        self.couponType = c.conponType;
+        // 可用资源是否包含去使用的券
+        BOOL isContain = [self isContainCoupon:c];
+        if (!isContain)
+        {
+            [self selectDefaultCoupon];
+        }
+    }
+    [self autoSelectBankCard];
+    [self setupPaymentArray];
+    
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
+}
+
+
+- (void)handerOrderError:(NSError *)error forOp:(CheckoutServiceOrderV4Op *)op
+{
+    if (error.code == 615801) {
+        [gToast dismiss];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您不在该商户服务范围内，请刷新或者到店后洗完车后再支付或者原价支付。"
+                                                       delegate:nil cancelButtonTitle:@"放弃支付" otherButtonTitles:@"原价支付", nil];
+        [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
+            //放弃支付
+            if ([number integerValue] == 0) {
+                [MobClick event:@"rp108-8"];
+            }
+            else if ([number integerValue] == 1) {
+                [MobClick event:@"rp108-9"];
+                [self requestCheckoutWithCouponType:CouponTypeNone];
+            }
+        }];
+        [alert show];
+    }
+    else if (error.code == 5003 || error.code == 615805)
+    {
+        [self requestGetUserResource:YES];
+        [gToast showError:error.domain];
+    }
+    else {
+        [gToast showError:error.domain];
+    }
+}
+
 
 - (void)setPaymentChannel:(PaymentChannelType)channel
 {
