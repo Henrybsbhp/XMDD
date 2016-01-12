@@ -478,6 +478,12 @@
     if (![LoginViewModel loginIfNeededForTargetViewController:self]) {
         return;
     }
+    
+    if (![self.curModel.curGasCard.availablechargeamt integerValue])
+    {
+        [gToast showText:@"您本月加油已达到最大限额！" inView:self.view];
+        return;
+    }
     //浙商支付
     if ([self.curModel isEqual:self.czbModel]) {
         GasCZBVM *model = (GasCZBVM *)self.curModel;
