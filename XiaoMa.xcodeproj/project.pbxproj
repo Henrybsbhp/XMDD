@@ -383,6 +383,7 @@
 		6B21A8991BD493F8006D0556 /* GetShopByDistanceV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A8981BD493F8006D0556 /* GetShopByDistanceV2Op.m */; };
 		6B21A89C1BD495B3006D0556 /* GetUserFavoriteV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A89B1BD495B3006D0556 /* GetUserFavoriteV2Op.m */; };
 		6B2265961C439DD600A121CC /* HKView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2265951C439DD600A121CC /* HKView.m */; };
+		6B2265991C44C7A400A121CC /* CarwashFreshmanGuideVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2265981C44C7A400A121CC /* CarwashFreshmanGuideVC.m */; };
 		6B328ED01B79AAFA00B9F207 /* ChooseBankCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */; };
 		6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B343C351B0EFFAF0036AED9 /* ShareUserCouponOp.m */; };
 		6B3C67931BA9498F002F04C8 /* HKBigRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C67921BA9498F002F04C8 /* HKBigRatingView.m */; };
@@ -1348,6 +1349,8 @@
 		6B21A89B1BD495B3006D0556 /* GetUserFavoriteV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserFavoriteV2Op.m; path = Class/GetUserFavoriteV2Op.m; sourceTree = "<group>"; };
 		6B2265941C439DD600A121CC /* HKView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKView.h; sourceTree = "<group>"; };
 		6B2265951C439DD600A121CC /* HKView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKView.m; sourceTree = "<group>"; };
+		6B2265971C44C7A400A121CC /* CarwashFreshmanGuideVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarwashFreshmanGuideVC.h; sourceTree = "<group>"; };
+		6B2265981C44C7A400A121CC /* CarwashFreshmanGuideVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarwashFreshmanGuideVC.m; sourceTree = "<group>"; };
 		6B328ECE1B79AAFA00B9F207 /* ChooseBankCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseBankCardVC.h; sourceTree = "<group>"; };
 		6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseBankCardVC.m; sourceTree = "<group>"; };
 		6B343C341B0EFFAF0036AED9 /* ShareUserCouponOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareUserCouponOp.h; path = Class/ShareUserCouponOp.h; sourceTree = "<group>"; };
@@ -1965,6 +1968,8 @@
 				6B82588F1AF8B37100D5D800 /* CommentListViewController.m */,
 				6B328ECE1B79AAFA00B9F207 /* ChooseBankCardVC.h */,
 				6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */,
+				6B2265971C44C7A400A121CC /* CarwashFreshmanGuideVC.h */,
+				6B2265981C44C7A400A121CC /* CarwashFreshmanGuideVC.m */,
 			);
 			name = CarWash;
 			sourceTree = "<group>";
@@ -4701,6 +4706,7 @@
 				6BEE178A1C325A0D0004F63A /* IFTTTScrollViewPageConstraintAnimation.m in Sources */,
 				18A15A6B1C225E3F00D7B5DF /* GetPremiumDetailOp.m in Sources */,
 				18BF420C1BD273C70039F210 /* CKLimitTextField.m in Sources */,
+				6B2265991C44C7A400A121CC /* CarwashFreshmanGuideVC.m in Sources */,
 				18895B361B4CB89000928F62 /* HKPushManager.m in Sources */,
 				6BFA93BB1BF098BB00700F27 /* CheckoutServiceOrderV4Op.m in Sources */,
 				18D475E51B7D9F82000FAF1C /* NSString+PhoneNumber.m in Sources */,

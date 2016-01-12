@@ -27,6 +27,7 @@
 #import "ChooseBankCardVC.h"
 #import "CarListVC.h"
 #import "EditCarVC.h"
+#import "CarwashFreshmanGuideVC.h"
 
 #import "GetUserCarOp.h"
 #import "GetUserResourcesV2Op.h"
@@ -1412,18 +1413,28 @@
 - (void)alertFreshmanGuide
 {
     /// 新手 && 没领过周周礼券的
-    if (!self.getUserResourcesV2Op.rsp_carwashFlag && !self.getUserResourcesV2Op.rsp_weeklyCouponGetFlag)
+    if (self.getUserResourcesV2Op.rsp_carwashFlag && !self.getUserResourcesV2Op.rsp_weeklyCouponGetFlag)
     {
-        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"您有一张优惠券未领，\n洗车有它更优惠" message:@"以后领取请到'首页'-'每周礼券'中领取" delegate:nil cancelButtonTitle:@"看看算了" otherButtonTitles:@"立即使用", nil];
-        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
+        CarwashFreshmanGuideVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"CarwashFreshmanGuideVC"];
+        CGFloat width = 265 * gAppMgr.deviceInfo.screenSize.width / 320;
+        CGFloat height = 350 * gAppMgr.deviceInfo.screenSize.height / 568;
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(width, height) viewController:vc];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [[vc.gainWeeklyCouponBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
-            NSInteger index = [number integerValue];
-            if (index == 1)
-            {
+            [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
                 [self requestGainWeeklyCoupon];
-            }
+            }];
+            
         }];
-        [av show];
+        
+        [[vc.whateverBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+            }];
+        }];
     }
 }
 

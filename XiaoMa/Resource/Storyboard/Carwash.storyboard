@@ -3364,12 +3364,65 @@
             </objects>
             <point key="canvasLocation" x="2138" y="359"/>
         </scene>
+        <!--Carwash Freshman GuideVC-->
+        <scene sceneID="tW9-aa-Tnx">
+            <objects>
+                <viewController storyboardIdentifier="CarwashFreshmanGuideVC" id="1bf-9i-m6Z" customClass="CarwashFreshmanGuideVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jYl-AF-Wgj"/>
+                        <viewControllerLayoutGuide type="bottom" id="iRa-79-8lT"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="are-jv-FeC">
+                        <rect key="frame" x="0.0" y="0.0" width="265" height="367"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="carwash_freshmanGuide_bg" translatesAutoresizingMaskIntoConstraints="NO" id="eIx-D7-5p7">
+                                <rect key="frame" x="0.0" y="20" width="265" height="347"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uMC-7d-rKw">
+                                <rect key="frame" x="18" y="286" width="110" height="42"/>
+                                <state key="normal" image="carwash_freshmanGuide_btn1"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YvQ-Ap-DU8">
+                                <rect key="frame" x="139" y="286" width="110" height="42"/>
+                                <state key="normal" image="carwash_freshmanGuide_btn2"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="uMC-7d-rKw" firstAttribute="height" secondItem="are-jv-FeC" secondAttribute="height" multiplier="40/350" id="97g-y3-nfN"/>
+                            <constraint firstItem="YvQ-Ap-DU8" firstAttribute="height" secondItem="uMC-7d-rKw" secondAttribute="height" id="CY9-9s-NHp"/>
+                            <constraint firstItem="uMC-7d-rKw" firstAttribute="centerY" secondItem="are-jv-FeC" secondAttribute="centerY" multiplier="293/175" id="Ljy-Jn-MoD"/>
+                            <constraint firstItem="uMC-7d-rKw" firstAttribute="centerX" secondItem="are-jv-FeC" secondAttribute="centerX" multiplier="72/133" id="Q5O-Ny-aiH"/>
+                            <constraint firstItem="YvQ-Ap-DU8" firstAttribute="centerX" secondItem="are-jv-FeC" secondAttribute="centerX" multiplier="195/133" id="Qnz-ov-Fy5"/>
+                            <constraint firstItem="uMC-7d-rKw" firstAttribute="width" secondItem="are-jv-FeC" secondAttribute="width" multiplier="110/265" id="bFA-Lw-hrY"/>
+                            <constraint firstAttribute="trailing" secondItem="eIx-D7-5p7" secondAttribute="trailing" id="fYM-Ra-ymj"/>
+                            <constraint firstItem="eIx-D7-5p7" firstAttribute="top" secondItem="jYl-AF-Wgj" secondAttribute="bottom" id="i7K-zX-hxb"/>
+                            <constraint firstItem="iRa-79-8lT" firstAttribute="top" secondItem="eIx-D7-5p7" secondAttribute="bottom" id="mQk-cj-9Mx"/>
+                            <constraint firstItem="YvQ-Ap-DU8" firstAttribute="centerY" secondItem="uMC-7d-rKw" secondAttribute="centerY" id="me2-is-9TA"/>
+                            <constraint firstItem="YvQ-Ap-DU8" firstAttribute="width" secondItem="uMC-7d-rKw" secondAttribute="width" id="oP3-ZU-bNC"/>
+                            <constraint firstItem="eIx-D7-5p7" firstAttribute="leading" secondItem="are-jv-FeC" secondAttribute="leading" id="ynk-um-ShW"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="265" height="367"/>
+                    <connections>
+                        <outlet property="gainWeeklyCouponBtn" destination="uMC-7d-rKw" id="koa-tJ-X4m"/>
+                        <outlet property="whateverBtn" destination="YvQ-Ap-DU8" id="xej-rS-blT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e4B-En-glT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
     </scenes>
     <resources>
         <image name="Horizontaline" width="621" height="1"/>
         <image name="Horizontaline2" width="931" height="1"/>
         <image name="Verticalline" width="1" height="82"/>
         <image name="ad_default" width="320" height="92"/>
+        <image name="carwash_freshmanGuide_bg" width="265" height="347"/>
+        <image name="carwash_freshmanGuide_btn1" width="111" height="39"/>
+        <image name="carwash_freshmanGuide_btn2" width="111" height="39"/>
         <image name="cm_arrow_r" width="9" height="15"/>
         <image name="cm_bg" width="17" height="24"/>
         <image name="cm_nav_back" width="19" height="17"/>
