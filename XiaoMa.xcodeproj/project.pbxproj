@@ -384,6 +384,8 @@
 		6B21A89C1BD495B3006D0556 /* GetUserFavoriteV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A89B1BD495B3006D0556 /* GetUserFavoriteV2Op.m */; };
 		6B2265961C439DD600A121CC /* HKView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2265951C439DD600A121CC /* HKView.m */; };
 		6B2265991C44C7A400A121CC /* CarwashFreshmanGuideVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2265981C44C7A400A121CC /* CarwashFreshmanGuideVC.m */; };
+		6B22659C1C45059500A121CC /* GetSystemHomePicOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B22659B1C45059500A121CC /* GetSystemHomePicOp.m */; };
+		6B22659F1C4506BE00A121CC /* HomePicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B22659E1C4506BE00A121CC /* HomePicModel.m */; };
 		6B328ED01B79AAFA00B9F207 /* ChooseBankCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */; };
 		6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B343C351B0EFFAF0036AED9 /* ShareUserCouponOp.m */; };
 		6B3C67931BA9498F002F04C8 /* HKBigRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C67921BA9498F002F04C8 /* HKBigRatingView.m */; };
@@ -1351,6 +1353,10 @@
 		6B2265951C439DD600A121CC /* HKView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKView.m; sourceTree = "<group>"; };
 		6B2265971C44C7A400A121CC /* CarwashFreshmanGuideVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarwashFreshmanGuideVC.h; sourceTree = "<group>"; };
 		6B2265981C44C7A400A121CC /* CarwashFreshmanGuideVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarwashFreshmanGuideVC.m; sourceTree = "<group>"; };
+		6B22659A1C45059500A121CC /* GetSystemHomePicOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemHomePicOp.h; path = Class/GetSystemHomePicOp.h; sourceTree = "<group>"; };
+		6B22659B1C45059500A121CC /* GetSystemHomePicOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemHomePicOp.m; path = Class/GetSystemHomePicOp.m; sourceTree = "<group>"; };
+		6B22659D1C4506BE00A121CC /* HomePicModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomePicModel.h; path = Class/HomePicModel.h; sourceTree = "<group>"; };
+		6B22659E1C4506BE00A121CC /* HomePicModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomePicModel.m; path = Class/HomePicModel.m; sourceTree = "<group>"; };
 		6B328ECE1B79AAFA00B9F207 /* ChooseBankCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseBankCardVC.h; sourceTree = "<group>"; };
 		6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseBankCardVC.m; sourceTree = "<group>"; };
 		6B343C341B0EFFAF0036AED9 /* ShareUserCouponOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareUserCouponOp.h; path = Class/ShareUserCouponOp.h; sourceTree = "<group>"; };
@@ -2683,6 +2689,8 @@
 				6BFE6A721C04036500EC9766 /* ViolationModel.m */,
 				6B1175301C0D78AC00FC1881 /* ViolationCityModel.h */,
 				6B1175311C0D78AC00FC1881 /* ViolationCityModel.m */,
+				6B22659D1C4506BE00A121CC /* HomePicModel.h */,
+				6B22659E1C4506BE00A121CC /* HomePicModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -3808,6 +3816,8 @@
 				50FAC2611C23A77200F8990F /* GetAutomobileSeriesV2Op.m */,
 				50FAC2691C23AB9C00F8990F /* GetAutomobileModelV2Op.h */,
 				50FAC26A1C23AB9C00F8990F /* GetAutomobileModelV2Op.m */,
+				6B22659A1C45059500A121CC /* GetSystemHomePicOp.h */,
+				6B22659B1C45059500A121CC /* GetSystemHomePicOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -4429,6 +4439,7 @@
 				18F93CD71B6F0A4A000325DD /* DashLine.m in Sources */,
 				504FFEA51C05D4C9002D7D6D /* AreaPickerVC.m in Sources */,
 				189C69861B74505E00E56E4A /* HKBankCard.m in Sources */,
+				6B22659F1C4506BE00A121CC /* HomePicModel.m in Sources */,
 				6BDD6E271B67615C0060CFD0 /* JDFlipNumberViewImageFactory.m in Sources */,
 				2E77A4971C325F2F00264FC9 /* GetRescueDetailOp.m in Sources */,
 				181921811C253957009C80BD /* InsAppointmentSuccessVC.m in Sources */,
@@ -4620,6 +4631,7 @@
 				18900B441C1E7503003DA439 /* GetInsCarListOp.m in Sources */,
 				6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */,
 				1816F4B41ACE767200BBCC96 /* UIStoryboard+Expansion.m in Sources */,
+				6B22659C1C45059500A121CC /* GetSystemHomePicOp.m in Sources */,
 				1833F5A31BCDF46B000E1DA1 /* GasTabView.m in Sources */,
 				6BDB47841B78794800C61AB9 /* GetUserResourcesV2Op.m in Sources */,
 				18895B391B4CB93800928F62 /* BindDeviceTokenOp.m in Sources */,
