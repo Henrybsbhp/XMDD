@@ -82,11 +82,11 @@ typedef enum : NSInteger
 ///省名称
 @property (nonatomic,copy)NSString * provinceName;
 ///城市名称
-@property (nonatomic,copy)NSString * cithName;
+@property (nonatomic,copy)NSString * cityName;
 ///省名称
 @property (nonatomic,strong)NSNumber * provinceId;
 ///城市名称
-@property (nonatomic,strong)NSNumber * cithId;
+@property (nonatomic,strong)NSNumber * cityId;
 ///发动机号
 @property (nonatomic,copy)NSString * engineno;
 ///车架号

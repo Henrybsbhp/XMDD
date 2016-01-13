@@ -281,7 +281,7 @@
     
     CGFloat price = op.rsp_total;
 #if DEBUG
-    price = 0.01;
+//    price = 0.01;
 #endif
     
     PaymentHelper *helper = [[PaymentHelper alloc] init];

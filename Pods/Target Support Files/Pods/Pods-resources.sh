@@ -59,7 +59,6 @@ install_resource()
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "AMap2DMap/MAMapKit.framework/Versions/2.4.2.19ad4bb/Resources/AMap.bundle"
-  install_resource "IQKeyboardManager/IQKeyBoardManager/Resources/IQKeyboardManager.bundle"
   install_resource "UI7Kit/Resources/PopoverBackgroundArrowDown.png"
   install_resource "UI7Kit/Resources/PopoverBackgroundArrowDown@2x.png"
   install_resource "UI7Kit/Resources/PopoverBackgroundArrowDownRight.png"
@@ -84,7 +83,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "AMap2DMap/MAMapKit.framework/Versions/2.4.2.19ad4bb/Resources/AMap.bundle"
-  install_resource "IQKeyboardManager/IQKeyBoardManager/Resources/IQKeyboardManager.bundle"
   install_resource "UI7Kit/Resources/PopoverBackgroundArrowDown.png"
   install_resource "UI7Kit/Resources/PopoverBackgroundArrowDown@2x.png"
   install_resource "UI7Kit/Resources/PopoverBackgroundArrowDownRight.png"

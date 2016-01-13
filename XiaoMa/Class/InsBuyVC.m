@@ -17,11 +17,12 @@
 #import "NSString+Format.h"
 #import "NSDate+DateForText.h"
 #import "HKTableViewCell.h"
+#import "IQKeyboardManager.h"
 
 #import "DatePickerVC.h"
 #import "PayForInsuranceVC.h"
-
 #import "InsPayResultVC.h"
+
 @interface InsBuyVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
@@ -64,12 +65,14 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp1005"];
+    [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp1005"];
+    [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = NO;
 }
 //设置日期选择控件（主要是为了事先加载，优化性能）
 - (void)setupDatePicker {

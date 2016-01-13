@@ -13,6 +13,7 @@
 #import "NSString+Format.h"
 #import "UpdateDeliveryInfoOp.h"
 #import "GetInsUserInfoOp.h"
+#import "IQKeyboardManager.h"
 
 #import "CityPickerVC.h"
 #import "InsSubmitResultVC.h"
@@ -50,12 +51,14 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp1007"];
+    [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp1007"];
+    [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = NO;
 }
 
 #pragma mark - Datasource

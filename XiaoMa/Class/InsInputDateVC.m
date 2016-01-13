@@ -53,6 +53,11 @@
     cell2.customInfo[@"lock"] = @(self.insModel.forceStartDate.length > 0);
     cell2.object = self.insModel.forceStartDate;
     
+    HKCellData *cell3 = [HKCellData dataWithCellID:@"Help" tag:nil];
+    [cell3 setHeightBlock:^CGFloat(UITableView *tableView) {
+        return 51;
+    }];
+    
     self.datasource = @[cell1, cell2];
     [self.tableView reloadData];
 }
