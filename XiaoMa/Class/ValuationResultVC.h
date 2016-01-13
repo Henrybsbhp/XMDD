@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CarEvaluateOp.h"
 
-@interface ValuationResultVC : UIViewController
+@interface ValuationResultVC : HKViewController
 
 @property (nonatomic, strong)CarEvaluateOp * evaluateOp;
 

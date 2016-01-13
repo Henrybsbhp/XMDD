@@ -46,4 +46,7 @@
 ///交易id，用于提交给第三方支付平台
 @property (nonatomic)NSString * rsp_tradeId;
 
+///洗车返加油券
+@property (nonatomic, assign) CGFloat rsp_gasCouponAmount;
+
 @end

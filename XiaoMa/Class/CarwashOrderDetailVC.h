@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HKServiceOrder.h"
 
-@interface CarwashOrderDetailVC : UIViewController
+@interface CarwashOrderDetailVC : HKViewController
 @property (nonatomic, strong) HKServiceOrder *order;
 @property (nonatomic, strong) NSNumber *orderID;
 

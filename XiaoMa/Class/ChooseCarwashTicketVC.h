@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HKCoupon.h"
 
-@interface ChooseCarwashTicketVC : UIViewController
+@interface ChooseCarwashTicketVC : HKViewController
 
 @property (nonatomic, weak) UIViewController *originVC;
 

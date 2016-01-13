@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CommitSuccessVC : UIViewController
+@interface CommitSuccessVC : HKViewController
 
 
 @end

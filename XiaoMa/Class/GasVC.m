@@ -27,6 +27,7 @@
 #import "GasPaymentResultVC.h"
 #import "WebVC.h"
 #import "PayForGasViewController.h"
+#import "PaymentSuccessVC.h"
 
 
 
@@ -173,6 +174,8 @@
                                     } forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItem = right;
     
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    self.navigationItem.leftBarButtonItem = back;
 }
 
 - (void)setupHeaderView
@@ -294,70 +297,6 @@
     }
 }
 
-//- (void)setupADView
-//{
-//    self.adctrl = [ADViewController vcWithADType:AdvertisementGas boundsWidth:self.view.bounds.size.width
-//                                        targetVC:self mobBaseEvent:@"rp501-1"];
-//    @weakify(self);
-//    [self.adctrl reloadDataWithForce:NO completed:^(ADViewController *ctrl, NSArray *ads) {
-//        @strongify(self);
-//        if (ads.count > 0) {
-//            GasTabView *headerView = self.headerView;
-//            CGFloat height = floor(self.adctrl.adView.frame.size.height);
-//            headerView.frame = CGRectMake(0, 0, self.view.frame.size.width, height+68);
-//            NSString * note = @"通知：浙商卡充值活动时间2015年12月30日截止";
-//            CGFloat width = self.view.frame.size.width;
-//            NSString * p = [self appendSpace:note andWidth:width];
-//            self.roundLb.text = p;
-//            self.roundLb.textColor=[UIColor grayColor];
-//            UIView *upLine=[UIView new];
-//            upLine.backgroundColor=[UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:0.7];
-//            UIView *downLine=[UIView new];
-//            downLine.backgroundColor=[UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:0.7];
-//            [headerView addSubview:self.adctrl.adView];
-//            [headerView addSubview:self.backgroundView];
-//            [headerView addSubview:self.roundLb];
-//            [headerView addSubview:self.notifyImg];
-//            [headerView addSubview:upLine];
-//            [headerView addSubview:downLine];
-//            [self.adctrl.adView mas_makeConstraints:^(MASConstraintMaker *make) {
-//                make.left.equalTo(headerView);
-//                make.right.equalTo(headerView);
-//                make.top.equalTo(headerView);
-//                make.height.mas_equalTo(height);
-//            }];
-//            [upLine mas_makeConstraints:^(MASConstraintMaker *make) {
-//                make.top.mas_equalTo(self.adctrl.adView.mas_bottom);
-//                make.left.right.mas_equalTo(0);
-//                make.height.mas_equalTo(1);
-//            }];
-//            [self.roundLb mas_makeConstraints:^(MASConstraintMaker *make) {
-//                make.left.mas_equalTo(28);
-//                make.right.mas_equalTo(0);
-//                make.top.mas_equalTo(upLine.mas_bottom);
-//                make.height.mas_equalTo(28);
-//            }];
-//            [self.notifyImg mas_makeConstraints:^(MASConstraintMaker *make) {
-//                make.left.mas_equalTo(0);
-//                make.top.mas_equalTo(upLine.mas_bottom);
-//                make.height.width.mas_equalTo(28);
-//            }];
-//            [self.backgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
-//                make.left.mas_equalTo(self.roundLb.mas_left);
-//                make.right.mas_equalTo(self.roundLb.mas_right);
-//                make.top.mas_equalTo(self.roundLb.mas_top);
-//                make.height.mas_equalTo(self.roundLb.mas_height);
-//            }];
-//            [downLine mas_makeConstraints:^(MASConstraintMaker *make) {
-//                make.top.mas_equalTo(self.backgroundView.mas_bottom);
-//                make.left.right.mas_equalTo(0);
-//                make.height.mas_equalTo(1);
-//            }];
-//            self.tableView.tableHeaderView = self.headerView;
-//        }
-//    }];
-//}
-
 - (void)setupBottomView
 {
     UIImage *bg1 = [[UIImage imageNamed:@"gas_btn_bg1"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
@@ -419,7 +358,6 @@
 {
     self.datasource = [self.curModel datasource];
     [self.curModel.segHelper removeAllItemsForGroupName:@"Pay"];
-    //    self.curModel.rechargeAmount = self.curModel.ma
     [self.tableView reloadData];
     [self refrshLoadingView];
     [self refreshBottomView];
@@ -540,8 +478,10 @@
     if (![LoginViewModel loginIfNeededForTargetViewController:self]) {
         return;
     }
-    if (!self.curModel.curGasCard) {
-        [gToast showText:@"您需要先添加一张油卡！" inView:self.view];
+    
+    if (![self.curModel.curGasCard.availablechargeamt integerValue])
+    {
+        [gToast showText:@"您本月加油已达到最大限额！" inView:self.view];
         return;
     }
     //浙商支付
@@ -549,6 +489,10 @@
         GasCZBVM *model = (GasCZBVM *)self.curModel;
         if (!model.curBankCard) {
             [gToast showText:@"您需要先添加一张浙商汽车卡！" inView:self.view];
+            return;
+        }
+        else if (!self.curModel.curGasCard) {
+            [gToast showText:@"您需要先添加一张油卡！" inView:self.view];
             return;
         }
         else if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
@@ -563,9 +507,14 @@
     }
     //普通支付
     else {
+        if (!self.curModel.curGasCard) {
+            [gToast showText:@"您需要先添加一张油卡！" inView:self.view];
+            return;
+        }
         if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
             
             PayForGasViewController * vc = [gasStoryboard instantiateViewControllerWithIdentifier:@"PayForGasViewController"];
+            vc.originVC = self;
             if ([self.curModel isKindOfClass:[GasNormalVM class]])
             {
                 vc.model = (GasNormalVM *)self.curModel;
@@ -608,6 +557,19 @@
         vc.selectedCardReveicer = self.curModel;
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+- (void)actionBack:(id)sender
+{
+    NSArray * viewcontrollers = self.navigationController.viewControllers;
+    UIViewController * vc = [viewcontrollers safetyObjectAtIndex:viewcontrollers.count - 2];
+    if ([vc isKindOfClass:[PaymentSuccessVC class]])
+    {
+        [self.tabBarController setSelectedIndex:0];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        return;
+    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - UITableViewDelegate and datasource
@@ -882,10 +844,13 @@
     
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
     
+    @weakify(self)
     [[[invoiceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        @strongify(self)
         self.curModel.needInvoice = !self.curModel.needInvoice;
     }];
+    
     
     [[RACObserve(self.curModel, needInvoice) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * num) {
         

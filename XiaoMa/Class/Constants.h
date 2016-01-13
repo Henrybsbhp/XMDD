@@ -128,6 +128,7 @@ typedef enum : NSUInteger {
 #define gMediaMgr  ([[AppManager sharedManager] mediaMgr])
 #define gPhoneHelper  ([PhoneHelper sharedHelper])
 #define gAdMgr [AdvertisementManager sharedManager]
+#define gSupportFileMgr [SupportFileManager sharedManager]
 
 #define mainStoryboard [UIStoryboard storyboardWithName:@"Main" bundle:nil]
 #define carWashStoryboard [UIStoryboard storyboardWithName:@"Carwash" bundle:nil]

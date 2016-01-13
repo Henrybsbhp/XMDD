@@ -32,6 +32,10 @@
 @property (nonatomic, strong) NSDate *ratetime;
 ///订单支付费用
 @property (nonatomic, assign) CGFloat fee;
+///洗车返加油券
+@property (nonatomic, assign) CGFloat gasCouponAmount;
+
+@property (nonatomic, strong) NSString *nickName;
 
 + (instancetype)orderWithJSONResponse:(NSDictionary *)rsp;
 - (JTShopService *)currentService;

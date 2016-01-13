@@ -23,8 +23,6 @@
 #import <TencentOpenAPI.framework/Headers/TencentOAuth.h>
 #import "JTLogModel.h"
 #import <UMengAnalytics/MobClick.h>
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
 #import "MainTabBarVC.h"
 #import "HKAdvertisement.h"
 #import "LaunchVC.h"
@@ -35,7 +33,7 @@
 #define RequestWeatherInfoInterval 60 * 10
 //#define RequestWeatherInfoInterval 5
 
-@interface AppDelegate ()<WXApiDelegate,TencentSessionDelegate>
+@interface AppDelegate ()<WXApiDelegate,TencentSessionDelegate,CrashlyticsDelegate>
 
 @property (nonatomic, strong) DDFileLogger *fileLogger;
 
@@ -49,7 +47,6 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
     
     //设置日志系统
     [self setupLogger];
@@ -62,8 +59,6 @@
     [gMapHelper setupMAMap];
     //设置友盟
     [self setupUmeng];
-    //设置崩溃捕捉
-    [self setupCrashlytics];
     //设置url缓存
     [self setupURLCache];
     //设置推送
@@ -90,6 +85,9 @@
     //设置启动页管理器
     [self setupLaunchManager];
     [self setupRootView];
+    
+    //设置崩溃捕捉(官方建议放在最后面)
+    [self setupCrashlytics];
     
     return YES;
 }
@@ -267,34 +265,31 @@
     [MobClick setAppVersion:version];
     
     [MobClick startSession:nil];
-    
-    //[self getDeviceIDForMob];
 }
 
-///友盟实时监测，设备身份申请码获取
-- (NSString *)getDeviceIDForMob
-{
-    Class cls = NSClassFromString(@"UMANUtil");
-    SEL deviceIDSelector = @selector(openUDIDString);
-    NSString *deviceID = nil;
-    if(cls && [cls respondsToSelector:deviceIDSelector]){
-        deviceID = [cls performSelector:deviceIDSelector];
-    }
-    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:@{@"oid" : deviceID}
-                                                       options:NSJSONWritingPrettyPrinted
-                                                         error:nil];
-    NSString * deviceIDStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", deviceIDStr);
-    return deviceIDStr;
-}
 
 #pragma mark - Crashlytics
 - (void)setupCrashlytics
 {
+    /// 设置delegate必须在前面，（先关闭）
+//    CrashlyticsKit.delegate = self;
     [Fabric with:@[CrashlyticsKit]];
     
-    Crashlytics * crashlytics = [Crashlytics sharedInstance];
+    [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(JTUser *user) {
+       
+        NSString * userIdentifier = user ? user.userID : @"";
+        [CrashlyticsKit setUserIdentifier:userIdentifier];
+    }];
+}
+
+- (void)crashlyticsDidDetectReportForLastExecution:(CLSReport *)report completionHandler:(void (^)(BOOL))completionHandler
+{
+    // 可以在这里做一些操作，操作完必须调用completionHandler，否则无法将report提交到fabric,
     
+    CKAsyncMainQueue(^{
+        
+        completionHandler(YES);
+    });
 }
 
 #pragma mark - Utilities

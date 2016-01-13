@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PickerAutoModelVC : UIViewController
+@interface PickerAutoModelVC : HKViewController
 
 @property (nonatomic, strong) AutoBrandModel *brand;
 @property (nonatomic, strong) AutoSeriesModel * series;

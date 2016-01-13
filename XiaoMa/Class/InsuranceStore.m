@@ -14,7 +14,7 @@
 
 @implementation InsuranceStore
 
-- (void)reloadForUserChanged
+- (void)reloadForUserChanged:(JTUser *)user
 {
     self.simpleCars = nil;
     self.insOrders = nil;

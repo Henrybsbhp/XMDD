@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface InsAlertVC : UIViewController
+@interface InsAlertVC : HKViewController
 
 + (void)showInView:(UIView *)view withMessage:(NSString *)msg;
 

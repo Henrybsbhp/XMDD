@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ListWebVC : UIViewController
+@interface ListWebVC : HKViewController
 
 @end

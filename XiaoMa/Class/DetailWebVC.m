@@ -145,6 +145,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
+
 #pragma mark - NJKWebViewProgressDelegate
 -(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
 {

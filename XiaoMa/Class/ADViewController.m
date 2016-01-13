@@ -33,7 +33,7 @@
         _mobBaseEvent = event;
         _navModel = [[NavigationModel alloc] init];
         _navModel.curNavCtrl = _targetVC.navigationController;
-        CGFloat height = floor(width*180.0/640);
+        CGFloat height = floor(width*184.0/640);
         SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
         adView.delegate = self;
         adView.dataSource = self;
@@ -115,7 +115,7 @@
     }
     UIImageView *imgV = (UIImageView *)[pageView viewWithTag:1001];
     HKAdvertisement * ad = [self.adList safetyObjectAtIndex:pageIndex];
-    [imgV setImageByUrl:ad.adPic withType:ImageURLTypeMedium defImage:@"ad_default" errorImage:@"ad_default"];
+    [imgV setImageByUrl:ad.adPic withType:ImageURLTypeMedium defImage:@"ad_default_2_5" errorImage:@"ad_default_2_5"];
     
     UITapGestureRecognizer *tap = imgV.customObject;
     @weakify(self);

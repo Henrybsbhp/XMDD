@@ -33,6 +33,7 @@
     order.servicename = rsp[@"servicename"];
     order.serviceprice = [rsp[@"serviceprice"] floatValue];
     order.orderPic = [rsp stringParamForName:@"avatar"];
+    order.nickName = [rsp stringParamForName:@"nickname"];
     return order;
 }
 

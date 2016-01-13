@@ -26,6 +26,9 @@
     self.rsp_startdate = dict[@"startdate"];
     self.rsp_fstartdate = dict[@"fstartdate"];
     self.rsp_ownername = dict[@"ownername"];
+    self.rsp_license = dict[@"license"];
+    self.rsp_licenseurl = dict[@"licenseurl"];
+    self.rsp_location = dict[@"location"];
     self.rsp_inslogo = dict[@"inslogo"];
     self.rsp_inscompname = dict[@"inscompname"];
     self.rsp_tip = dict[@"tip"];

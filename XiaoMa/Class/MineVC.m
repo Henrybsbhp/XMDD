@@ -124,7 +124,15 @@
             [[[RACObserve(user, avatarUrl) distinctUntilChanged] flattenMap:^RACStream *(NSString *url) {
                 return [gMediaMgr rac_getImageByUrl:url withType:ImageURLTypeMedium defaultPic:@"cm_avatar" errorPic:@"cm_avatar"];
             }] subscribeNext:^(id x) {
-                avatarView.image = x;
+                
+                [UIView transitionWithView:avatarView
+                                  duration:1.0
+                                   options:UIViewAnimationOptionTransitionCrossDissolve
+                                animations:^{
+                                    [avatarView setImage:x];
+                                    avatarView.alpha = 1.0;
+                                } completion:NULL];
+//                avatarView.image = x;
             }];
             [self reloadUserInfo];
         }

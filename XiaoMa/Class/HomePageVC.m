@@ -13,27 +13,18 @@
 #import "UIImage+Utilities.h"
 #import "UIView+Layer.h"
 #import "GetSystemTipsOp.h"
+#import "GetSystemHomePicOp.h"
 
 #import "HKLoginModel.h"
 #import "MyCarStore.h"
 
 #import "CarWashTableVC.h"
-#import "RescueViewController.h"
-#import "ServiceViewController.h"
 #import "WebVC.h"
-#import "RescureViewController.h"
-#import "RescureHomeViewController.h"
-#import "CommissionViewController.h"
-#import "CommissonOrderVC.h"
 #import "NewGainAwardVC.h"
-#import "WelcomeViewController.h"
+#import "RescueHomeViewController.h"
+#import "CommissionOrderVC.h"
 #import "ADViewController.h"
-#import "CollectionChooseVC.h"
 #import "GasVC.h"
-#import "PaymentSuccessVC.h"
-#import "PaymentCenterViewController.h"
-#import "CommissonConfirmVC.h"
-#import "ViolationItemViewController.h"
 #import "ViolationViewController.h"
 #import "ValuationViewController.h"
 
@@ -52,6 +43,8 @@
 @property (nonatomic, strong)UIView *containerView;
 
 @property (nonatomic, strong) MyCarStore *carStore;
+
+@property (nonatomic, strong)NSArray * homeItemArray;
 @end
 
 @implementation HomePageVC
@@ -77,6 +70,7 @@
     self.view.userInteractionEnabled = NO;
 
     [gAppMgr loadLastLocationAndWeather];
+    [self loadLastHomePicInfo];
     [gAdMgr loadLastAdvertiseInfo:AdvertisementHomePage];
     [gAdMgr loadLastAdvertiseInfo:AdvertisementCarWash];
     
@@ -166,6 +160,7 @@
 
     ///第一栏
     UIView * mainView = [[UIView alloc] init];
+    mainView.tag = 101;
     mainView.backgroundColor = [UIColor whiteColor];
     [container addSubview:mainView];
     [mainView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -183,13 +178,12 @@
     [self addLineToView:mainView withDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
     
     UIView * secondaryView = [[UIView alloc] init];
+    secondaryView.tag = 102;
     secondaryView.backgroundColor = [UIColor whiteColor];
     [container addSubview:secondaryView];
     [secondaryView mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        CGFloat space = 8.0f / 1136.0f * dHeight;
-        if (dHeight > 667)
-            space = space + 5;
+        CGFloat space = 16.0f / 1136.0f * dHeight;
         make.top.equalTo(mainView.mas_bottom).offset(space);
         make.left.equalTo(self.scrollView);
         make.right.equalTo(self.scrollView);
@@ -197,63 +191,32 @@
     
     [self addLineToView:secondaryView withDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
     
+    // 刷新第一栏
+    [self setupFirstView];
 
-    [self mainButtonWithImageName:@"hp_addgas_2_5" title:@"油卡充值" index:0 action:@selector(actionAddGas:) inContainer:mainView hasBorder:YES];
-    [self mainButtonWithImageName:@"hp_violation_2_5" title:@"违章查询" index:1 action:@selector(actionQueryViolation:) inContainer:mainView hasBorder:YES];
-    [self mainButtonWithImageName:@"hp_estimate_2_5" title:@"爱车估值" index:2 action:@selector(actionCarEstimate:) inContainer:mainView hasBorder:YES];
-    
  
-    //洗车 //按钮大小不同图片不同
-    NSString * carwashBtnName;
+    //洗车
+    NSString * carwashBtnName = @"hp_carwash_big_2_5";
     CGFloat height = 226.0f / 1136.0f * dHeight;
-    CGFloat hhh;
-    if (dHeight > 667)
-    {
-        hhh = height + 23;
-        carwashBtnName = @"hp_carwash_big_2_5";
-    }
-    else if (dHeight > 568)
-    {
-        hhh = height + 15;
-        carwashBtnName = @"hp_carwash_mid_2_5";
-    }
-    else
-    {
-        hhh = height;
-        carwashBtnName = @"hp_carwash_2_5";
-    }
     
-    CGFloat width = height * 447 / 226;
-    UIButton *carwashBtn = [self functionalButtonWithImageName:carwashBtnName action:@selector(actionWashCar:) inContainer:secondaryView hasBorder:NO];
+    CGFloat width = 447.0f / 640.0f  * deviceWidth;
+    UIButton *carwashBtn = [self functionalButtonWithImageName:carwashBtnName action:@selector(actionWashCar:) inContainer:secondaryView hasBorder:NO andPicUrl:gAppMgr.homePicModel.yjxcPic];
+    carwashBtn.tag = 20201;
     [carwashBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.equalTo(secondaryView);
         make.width.mas_equalTo(width);
         make.top.equalTo(secondaryView);
-        make.height.mas_equalTo(hhh);
+        make.height.mas_equalTo(height);
     }];
     
     [self addLineToView:carwashBtn withDirection:CKViewBorderDirectionTop withEdge:UIEdgeInsetsZero];
     [self addLineToView:carwashBtn withDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
     
-    //洗车 //按钮大小不同图片不同
-    NSString * couponBtnName;
-    if (dHeight > 667)
-    {
-        hhh = height + 23;
-        couponBtnName = @"hp_coupon_big_2_5";
-    }
-    else if (dHeight > 568)
-    {
-        hhh = height + 15;
-        couponBtnName = @"hp_coupon_mid_2_5";
-    }
-    else
-    {
-        hhh = height;
-        couponBtnName = @"hp_coupon_2_5";
-    }
-    UIButton *couponBtn = [self functionalButtonWithImageName:couponBtnName action:@selector(actionAward:) inContainer:secondaryView hasBorder:NO];
+    //每周礼券
+    NSString * couponBtnName = @"hp_coupon_big_2_5";
+    UIButton *couponBtn = [self functionalButtonWithImageName:couponBtnName action:@selector(actionAward:) inContainer:secondaryView hasBorder:NO andPicUrl:gAppMgr.homePicModel.mzlqpic];
+    couponBtn.tag = 20202;
     [couponBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.equalTo(carwashBtn.mas_right);
@@ -267,34 +230,22 @@
     [self addLineToView:couponBtn withDirection:CKViewBorderDirectionLeft withEdge:UIEdgeInsetsZero];
     
     //保险
-    UIButton *insuranceBtn = [self functionalButtonWithImageName:@"hp_insurance_2_5" action:@selector(actionInsurance:) inContainer:secondaryView hasBorder:NO];
+    UIButton *insuranceBtn = [self functionalButtonWithImageName:@"hp_insurance_2_5" action:@selector(actionInsurance:) inContainer:secondaryView hasBorder:NO andPicUrl:gAppMgr.homePicModel.bxfwpic];
+    insuranceBtn.tag = 20203;
     [insuranceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(secondaryView.mas_left);
         make.top.equalTo(carwashBtn.mas_bottom);
         make.width.equalTo(mainView.mas_width).multipliedBy(0.5);
         
-        CGFloat height = 256.0f / 1136.0f * dHeight;
-        
-        CGFloat hhh;
-        if (dHeight > 667)
-        {
-            hhh = height + 23;
-        }
-        else if (dHeight > 568)
-        {
-            hhh = height + 15;
-        }
-        else
-        {
-            hhh = height;
-        }
+        CGFloat height = 273.0f / 1136.0f * dHeight;
         make.height.mas_equalTo(height);
     }];
     
     [self addLineToView:insuranceBtn withDirection:CKViewBorderDirectionRight withEdge:UIEdgeInsetsZero];
 
     //专业救援
-    UIButton *rescueBtn = [self functionalButtonWithImageName:@"hp_rescue_2_5" action:@selector(actionRescue:) inContainer:secondaryView hasBorder:NO];
+    UIButton *rescueBtn = [self functionalButtonWithImageName:@"hp_rescue_2_5" action:@selector(actionRescue:) inContainer:secondaryView hasBorder:NO andPicUrl:gAppMgr.homePicModel.zyjypic];
+    rescueBtn.tag = 20204;
     [rescueBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(insuranceBtn.mas_right);
         make.top.equalTo(insuranceBtn);
@@ -304,8 +255,9 @@
     
     [self addLineToView:rescueBtn withDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
     
-    //申请协办
-    UIButton *commissionBtn = [self functionalButtonWithImageName:@"hp_commission_2_5" action:@selector(actionCommission:) inContainer:secondaryView hasBorder:NO];
+    //年检协办
+    UIButton *commissionBtn = [self functionalButtonWithImageName:@"hp_commission_2_5" action:@selector(actionCommission:) inContainer:secondaryView hasBorder:NO andPicUrl:gAppMgr.homePicModel.njxbpic];
+    commissionBtn.tag = 20205;
     [commissionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(rescueBtn);
         make.top.equalTo(rescueBtn.mas_bottom);
@@ -447,6 +399,18 @@
     }];
 }
 
+- (void)setupFirstView
+{
+    UIView *firstView = (UIView *)[self.view searchViewWithTag:101];
+//    [firstView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    for (NSInteger i = 0; i < self.homeItemArray.count; i++)
+    {
+        HomeItem *item = [self.homeItemArray safetyObjectAtIndex:i];
+        
+        [self mainButtonWithImageName:item.defaultImageName title:item.homeItemTitle index:i jumpUrl:item.homeItemRedirect inContainer:firstView andPicUrl:item.homeItemPicUrl];
+    }
+}
+
 - (void)reloadDatasource
 {
     @weakify(self);
@@ -467,20 +431,34 @@
         }
     }];
     
-    [[[[sig1 initially:^{
-        @strongify(self);
-        [self.scrollView.refreshView beginRefreshing];
-    }] flattenMap:^RACStream *(AMapReGeocode *regeo) {
+    // 获取天气信息
+    sig1 = [sig1 flattenMap:^RACStream *(AMapReGeocode *regeo) {
         @strongify(self);
         [self.adctrl reloadDataWithForce:YES completed:nil];
         return [self rac_getWeatherInfoWithReGeocode:regeo];
-//        RACSignal *sig2 = [self rac_getWeatherInfoWithReGeocode:regeo];
-//        RACSignal *sig3 = [self rac_getAdListWithReGeocode:regeo];
-//        return [sig2 merge:sig3];
+    }];
+    
+    
+    
+    RACSignal * sig = [sig1 flattenMap:^RACStream *(id value) {
+        
+        GetSystemHomePicOp * op = [[GetSystemHomePicOp alloc] init];
+        return [op rac_postRequest];
+    }];
+    
+    [[[sig initially:^{
+        
+        [self.scrollView.refreshView beginRefreshing];
     }] finally:^{
+        
         @strongify(self);
         [self.scrollView.refreshView endRefreshing];
-    }] subscribeNext:^(id x) {
+    }] subscribeNext:^(GetSystemHomePicOp * op) {
+        
+        gAppMgr.homePicModel = op.homeModel;
+        [gAppMgr saveHomePicInfo];
+        [self refreshFirstView];
+        [self refreshSecondView];
         
     }];
 }
@@ -587,14 +565,14 @@
 - (void)actionRescue:(id)sender
 {
     [MobClick event:@"rp101-5"];
-    RescureHomeViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescureHomeViewController"];
+    RescueHomeViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionCommission:(id)sender
 {
     [MobClick event:@"rp101-6"];
-    CommissonOrderVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonOrderVC"];
+    CommissionOrderVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionOrderVC"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -626,7 +604,7 @@
     }
 }
 
-- (void)actionCarEstimate:(id)sender
+- (void)actionCarValuation:(id)sender
 {
     /**
      *  二手车估值事件
@@ -637,12 +615,10 @@
 }
 
 #pragma mark - Utility
-- (UIButton *)functionalButtonWithImageName:(NSString *)imgName action:(SEL)action inContainer:(UIView *)container hasBorder:(BOOL)border
+- (UIButton *)functionalButtonWithImageName:(NSString *)imgName action:(SEL)action inContainer:(UIView *)container hasBorder:(BOOL)border andPicUrl:(NSString *)picUrl
 {
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
     btn.backgroundColor = [UIColor whiteColor];
-    UIImage *img = [UIImage imageNamed:imgName];
-    [btn setBackgroundImage:img forState:UIControlStateNormal];
     [btn addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
     btn.imageView.contentMode = UIViewContentModeScaleAspectFill;
     if (border)
@@ -653,18 +629,34 @@
         btn.layer.masksToBounds = YES;
     }
     [container addSubview:btn];
+    
+    if (picUrl)
+    {
+        [self requestHomePicWithBtn:btn andUrl:picUrl andDefaultPic:imgName errPic:imgName];
+    }
+    else
+    {
+        UIImage *img = [UIImage imageNamed:imgName];
+        [btn setBackgroundImage:img forState:UIControlStateNormal];
+    }
     return btn;
 }
 
-- (UIButton *)mainButtonWithImageName:(NSString *)imgName title:(NSString *)title index:(NSInteger)index action:(SEL)action inContainer:(UIView *)container hasBorder:(BOOL)border
+- (UIButton *)mainButtonWithImageName:(NSString *)imgName title:(NSString *)title index:(NSInteger)index jumpUrl:(NSString *)url inContainer:(UIView *)container andPicUrl:(NSString *)picUrl
 {
-    UIButton * btn = [self functionalButtonWithImageName:imgName action:action inContainer:container hasBorder:NO];
+    NSInteger tag = 20101;
+    UIButton * btn = [self functionalButtonWithImageName:imgName action:nil inContainer:container hasBorder:NO andPicUrl:picUrl];
+    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        [self jumpToViewControllerByUrl:url];
+    }];
+    btn.tag = tag + index * 2;
     UILabel * lb = [[UILabel alloc] init];
     lb.text = title;
     lb.font = [UIFont systemFontOfSize:12];
     lb.textColor = [UIColor colorWithHex:@"#454545" alpha:1.0f];
     [container addSubview:lb];
-    
+    lb.tag = tag + index * 2 + 1;
     
     
     CGFloat dHeight = gAppMgr.deviceInfo.screenSize.height < 568.0 ? 568.0 : gAppMgr.deviceInfo.screenSize.height;
@@ -796,6 +788,79 @@
     return str;
 }
 
+//刷新第一栏
+- (void)refreshFirstView
+{
+    UIView *firstView = (UIView *)[self.view searchViewWithTag:101];
+    
+    for (NSInteger i = 0; i < self.homeItemArray.count; i++)
+    {
+        HomeItem *item = [self.homeItemArray safetyObjectAtIndex:i];
+        NSInteger btnTag = 20101 + i * 2;
+        NSInteger lbTag = 20101 + i * 2 + 1;
+        UIButton * btn = (UIButton *)[firstView searchViewWithTag:btnTag];
+        UILabel * lb = (UILabel *)[firstView searchViewWithTag:lbTag];
+        
+        lb.text = item.homeItemTitle;
+        [self requestHomePicWithBtn:btn andUrl:item.homeItemPicUrl andDefaultPic:nil errPic:nil];
+    }
+    
+}
+//刷新第二栏
+- (void)refreshSecondView
+{
+    UIView *secondView = (UIView *)[self.view searchViewWithTag:102];
+    UIButton *carwashBtn = (UIButton *)[secondView searchViewWithTag:20201];
+    UIButton *couponBtn = (UIButton *)[secondView searchViewWithTag:20202];
+    UIButton *insuranceBtn = (UIButton *)[secondView searchViewWithTag:20203];
+    UIButton *rescueBtn = (UIButton *)[secondView searchViewWithTag:20204];
+    UIButton *commissionBtn = (UIButton *)[secondView searchViewWithTag:20205];
+    
+    [self requestHomePicWithBtn:carwashBtn andUrl:gAppMgr.homePicModel.yjxcPic andDefaultPic:@"hp_carwash_big_2_5" errPic:@"hp_carwash_big_2_5"];
+    [self requestHomePicWithBtn:couponBtn andUrl:gAppMgr.homePicModel.mzlqpic andDefaultPic:@"hp_coupon_big_2_5" errPic:@"hp_coupon_big_2_5"];
+    [self requestHomePicWithBtn:insuranceBtn andUrl:gAppMgr.homePicModel.bxfwpic andDefaultPic:@"hp_insurance_2_5" errPic:@"hp_insurance_2_5"];
+    [self requestHomePicWithBtn:rescueBtn andUrl:gAppMgr.homePicModel.zyjypic andDefaultPic:@"hp_rescue_2_5" errPic:@"hp_rescue_2_5"];
+    [self requestHomePicWithBtn:commissionBtn andUrl:gAppMgr.homePicModel.njxbpic andDefaultPic:@"hp_commission_2_5" errPic:@"hp_commission_2_5"];
+}
+
+- (void)requestHomePicWithBtn:(UIButton *)btn andUrl:(NSString *)url andDefaultPic:(NSString *)pic1 errPic:(NSString *)pic2
+{
+    [[gMediaMgr rac_getImageByUrl:url withType:ImageURLTypeOrigin defaultPic:pic1 errorPic:pic2] subscribeNext:^(id x) {
+        
+        if (![x isKindOfClass:[UIImage class]])
+            return ;
+        [UIView transitionWithView:btn
+                          duration:1.0
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{
+                            
+                            [btn setBackgroundImage:x forState:UIControlStateNormal];
+                            [btn setBackgroundImage:x forState:UIControlStateHighlighted];
+                            btn.alpha = 1.0;
+                        } completion:nil];
+    }];
+}
+
+- (void)loadLastHomePicInfo
+{
+    [gAppMgr loadLastHomePicInfo];
+    if (!gAppMgr.homePicModel.homeItemArray.count)
+    {
+        HomeItem * item1 = [[HomeItem alloc] initWithTitlt:@"油卡充值" picUrl:nil andUrl:@"xmdd://j=g" imageName:@"hp_addgas_2_5"];
+        HomeItem * item2 = [[HomeItem alloc] initWithTitlt:@"违章查询" picUrl:nil andUrl:@"xmdd://j=vio" imageName:@"hp_violation_2_5"];
+        HomeItem * item3 = [[HomeItem alloc] initWithTitlt:@"爱车估值" picUrl:nil andUrl:@"xmdd://j=val" imageName:@"hp_estimate_2_5"];
+        self.homeItemArray = @[item1,item2,item3];
+    }
+    else
+    {
+        self.homeItemArray = gAppMgr.homePicModel.homeItemArray;
+    }
+}
+
+- (void)jumpToViewControllerByUrl:(NSString *)url
+{
+    [gAppMgr.navModel pushToViewControllerByUrl:url];
+}
 
 
 @end

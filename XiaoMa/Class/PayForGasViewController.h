@@ -13,7 +13,7 @@
 #import "CouponModel.h"
 #import "HKCoupon.h"
 
-@interface PayForGasViewController : UIViewController
+@interface PayForGasViewController : HKViewController
 
 @property (nonatomic,copy)NSString * payTitle;
 @property (nonatomic,copy)NSString * paySubTitle;
@@ -26,5 +26,7 @@
 @property (nonatomic)CouponType couponType;
 /// 选中的优惠劵
 @property (nonatomic,strong)NSMutableArray * selectGasCoupouArray;
+
+@property (nonatomic, weak) UIViewController *originVC;
 
 @end

@@ -115,12 +115,14 @@
     
     self.licenseData.customInfo[@"range1"] = [NSValue valueWithRange:NSMakeRange(license.length - 8, 8)];
     self.licenseData.customInfo[@"url1"] = [NSURL URLWithString:kInsuranceLicenseUrl];
-    if (self.insOrder.licenseUrl.length > 0) {
-        NSString *license2 = self.insOrder.licenseName;
-        [license appendFormat:@"和%@", license2];
-        self.licenseData.customInfo[@"range2"] = [NSValue valueWithRange:NSMakeRange(license.length-license2.length, license2.length)];
-        self.licenseData.customInfo[@"url2"] = [NSURL URLWithString:self.insOrder.licenseUrl];
-    }
+//    if (self.insOrder.licenseUrl.length > 0) {
+//        NSString *license2 = self.insOrder.licenseName;
+//        [license appendFormat:@"和%@", license2];
+//        self.licenseData.customInfo[@"range2"] = [NSValue valueWithRange:NSMakeRange(license.length-license2.length, license2.length)];
+//        NSString *url2 = [NSString stringWithFormat:@"%@?token=%@&carpremiumid=%@",
+//                          self.insOrder.licenseUrl,gNetworkMgr.token, self.insOrder.carpremiumid];
+//        self.licenseData.customInfo[@"url2"] = [NSURL URLWithString:url2];
+//    }
     
     NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
     ps.lineSpacing = 5;
@@ -375,6 +377,25 @@
     return 4;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    NSInteger count = 0;
+    if (section == 0) {
+        count = 6;
+    }
+    else if (section == 1) {
+        
+        count = 3 - (self.insOrder.iscontainActivity ? 0 : 1);
+    }
+    else if (section == 2) {
+        count = 4 - (gPhoneHelper.exsitWechat ? 0:1);
+    }
+    else if (section == 3) {
+        return 1;
+    }
+    return count;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     CGFloat height = 44;
@@ -414,25 +435,6 @@
     return  CGFLOAT_MIN;
 }
 
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    NSInteger count = 0;
-    if (section == 0) {
-        count = 6;
-    }
-    else if (section == 1) {
-        
-        count = 3 - (self.insOrder.iscontainActivity ? 0 : 1);
-    }
-    else if (section == 2) {
-        count = 4 - (gPhoneHelper.exsitWechat ? 0:1);
-    }
-    else if (section == 3) {
-        return 1;
-    }
-    return count;
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -505,10 +507,10 @@
         if (indexPath.row == 1)
         {
             [MobClick event:@"rp326-1"];
-            if (!self.insOrder.iscontainActivity)
-            {
-                [self jumpToChooseCouponVC];
-            }
+//            if (!self.insOrder.iscontainActivity)
+//            {
+//                [self jumpToChooseCouponVC];
+//            }
         }
         else if (indexPath.row == 2)
         {
@@ -518,6 +520,30 @@
         
         ///取消支付宝，微信勾选
         [self.tableView reloadData];
+    }
+    else if (indexPath.section == 2)
+    {
+        if (indexPath.row > 0)
+        {
+            NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup];
+            for (NSInteger i = 0 ; i < array.count ; i++)
+            {
+                UIButton * btn = [array safetyObjectAtIndex:i];
+                if ([btn.customObject isKindOfClass:[NSIndexPath class]])
+                {
+                    NSIndexPath * path = (NSIndexPath *)btn.customObject;
+                    if (path.section == indexPath.section && path.row == indexPath.row)
+                    {
+                        btn.selected = YES;
+                    }
+                    else
+                    {
+                        btn.selected = NO;
+                    }
+                }
+            }
+            
+        }
     }
 }
 
@@ -591,7 +617,7 @@
             [tagBg makeCornerRadius:3.0f];
             tagLb.hidden = !self.insOrder.activityName.length;
             tagBg.hidden = !self.insOrder.activityName.length;
-            arrow.hidden = NO;
+            arrow.hidden = YES;
             
             NSDate * earlierDate;
             NSDate * laterDate;
@@ -609,6 +635,12 @@
                 statusLb.textColor = HEXCOLOR(@"#aaaaaa");
                 statusLb.hidden = YES;
             }
+            
+            [tagLb mas_makeConstraints:^(MASConstraintMaker *make) {
+               
+                make.centerY.equalTo(cell.contentView);
+            }];
+            dateLb.hidden = YES;
         }
         else
         {
@@ -1047,6 +1079,7 @@
     
     tagLb.hidden = YES;
     tagBg.hidden = YES;
+    arrow.hidden = NO;
     
     label.text = [NSString stringWithFormat:@"保险代金券：%ld张", (long)gAppMgr.myUser.couponModel.validInsuranceCouponArray.count];
     arrow.hidden = NO;
@@ -1074,6 +1107,12 @@
         statusLb.hidden = YES;
         boxB.selected = NO;
     }
+    
+    [tagLb mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(cell.contentView).offset(8);
+    }];
+    dateLb.hidden = NO;
     return cell;
 }
 

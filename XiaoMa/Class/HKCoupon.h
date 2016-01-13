@@ -48,7 +48,7 @@ typedef enum : NSUInteger {
 @property (nonatomic)CGFloat couponAmount;
 
 ///优惠折扣
-@property (nonatomic)NSUInteger couponPercent;
+@property (nonatomic)CGFloat couponPercent;
 
 /// 使用门槛
 @property (nonatomic)CGFloat lowerLimit;

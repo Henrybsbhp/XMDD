@@ -13,7 +13,7 @@
 @class HKMyCar;
 @class HKBankCard;
 
-@interface PayForWashCarVC : UIViewController
+@interface PayForWashCarVC : HKViewController
 
 @property (nonatomic, strong) JTShopService *service;
 @property (nonatomic, strong) JTShop *shop;
@@ -26,19 +26,15 @@
 @property (nonatomic,strong)NSMutableArray * selectCarwashCoupouArray;
 @property (nonatomic,strong)NSMutableArray * selectCashCoupouArray;
 
-@property (nonatomic,strong)NSArray * carwashCoupouArray;
-@property (nonatomic,strong)NSArray * cashCoupouArray;
-
 /// 是否自动选择。（优惠劵去使用后进入的页面此值为YES）
 @property (nonatomic)BOOL isAutoCouponSelect;
-
 
 @property (nonatomic)BOOL needChooseResource;
 
 - (void)tableViewReloadData;
 - (void)autoSelectBankCard;
+///添加好银行卡后的自动选择优惠劵方法
 - (void)chooseResource;
-- (void)chooseResourceByBankCard:(HKBankCard *)card;
 - (void)setPaymentChannel:(PaymentChannelType)channel;
 
 - (void)requestGetUserResource:(BOOL)needAutoSelect;

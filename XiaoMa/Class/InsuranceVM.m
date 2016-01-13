@@ -19,6 +19,8 @@
     model.numOfSeat = _numOfSeat;
     model.inscomp = _inscomp;
     model.inscompname = _inscompname;
+    model.startDate = _startDate;
+    model.forceStartDate = _forceStartDate;
     model.originVC = _originVC;
     return model;
 }

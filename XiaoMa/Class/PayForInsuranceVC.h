@@ -11,7 +11,7 @@
 #import "HKCoupon.h"
 #import "InsuranceVM.h"
 
-@interface PayForInsuranceVC : UIViewController
+@interface PayForInsuranceVC : HKViewController
 
 @property (nonatomic, strong) InsuranceVM *insModel;
 @property (nonatomic,strong)HKInsuranceOrder * insOrder;

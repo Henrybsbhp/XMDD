@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RescueCouponViewController : UIViewController
+@interface RescueCouponViewController : HKViewController
 @property (nonatomic, assign) NSInteger type;
 @end

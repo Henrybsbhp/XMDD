@@ -32,7 +32,7 @@
     coupon.logo = [rsp stringParamForName:@"logo"];
     coupon.subname = [rsp stringParamForName:@"subname"];
     coupon.lowerLimit = [rsp integerParamForName:@"minconsumeamt"];
-    coupon.couponPercent = [rsp integerParamForName:@"discount"];
+    coupon.couponPercent = [rsp floatParamForName:@"discount"];
     return coupon;
 }
 

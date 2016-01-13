@@ -205,7 +205,7 @@
         <!--年检协办-->
         <scene sceneID="lmA-kg-YHi">
             <objects>
-                <viewController storyboardIdentifier="CommissonOrderVC" title="年检协办" hidesBottomBarWhenPushed="YES" id="NCp-7Q-SwT" customClass="CommissonOrderVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CommissionOrderVC" title="年检协办" hidesBottomBarWhenPushed="YES" id="NCp-7Q-SwT" customClass="CommissionOrderVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="QB5-tZ-NYM"/>
                         <viewControllerLayoutGuide type="bottom" id="XWV-JC-s3V"/>
@@ -218,7 +218,7 @@
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="RescureDetailsVC" rowHeight="90" id="jmn-8Q-rWs" customClass="HKTableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="CommissionOrderVC" rowHeight="90" id="jmn-8Q-rWs" customClass="HKTableViewCell">
                                         <rect key="frame" x="0.0" y="28" width="600" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jmn-8Q-rWs" id="EWZ-wL-wf3">
@@ -331,7 +331,7 @@
         <!--申请成功-->
         <scene sceneID="Qtj-V0-ZMP">
             <objects>
-                <viewController storyboardIdentifier="CommissionForsuccessfulVC" title="申请成功" id="kVF-eD-vqb" customClass="CommissionForsuccessfulVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CommissionSuccessVC" title="申请成功" id="kVF-eD-vqb" customClass="CommissionSuccessVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hLd-cJ-DGg"/>
                         <viewControllerLayoutGuide type="bottom" id="zwA-NR-dTt"/>
@@ -605,7 +605,7 @@
         <!--协办信息确认-->
         <scene sceneID="oL9-bc-Ctb">
             <objects>
-                <viewController storyboardIdentifier="CommissonConfirmVC" title="协办信息确认" id="Oy4-bu-Pni" customClass="CommissonConfirmVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CommissonConfirmVC" title="协办信息确认" id="Oy4-bu-Pni" customClass="CommissionConfirmVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="RUk-jM-Y0U"/>
                         <viewControllerLayoutGuide type="bottom" id="mOL-1x-sZc"/>

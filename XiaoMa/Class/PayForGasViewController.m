@@ -12,6 +12,7 @@
 #import "HKTableViewCell.h"
 #import "ChooseCarwashTicketVC.h"
 #import "GetUserResourcesGaschargeOp.h"
+#import "NSString+Split.h"
 
 @interface PayForGasViewController ()
 
@@ -26,7 +27,7 @@
 ///支付数据源
 @property (nonatomic,strong)NSArray * paymentArray;
 /// 加油优惠券
-@property (nonatomic,strong)NSArray * gasCoupon;
+@property (nonatomic,strong)NSArray * gasCouponArray;
 ///支付渠道
 @property (nonatomic)PaymentChannelType  paychannel;
 
@@ -84,6 +85,7 @@
 {
     self.payTitle = @"油卡充值";
     self.paySubTitle = @"普通充值";
+    self.payBtn.titleLabel.adjustsFontSizeToFitWidth = YES;
     [[self.payBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         /**
          *  支付确定点击事件
@@ -103,23 +105,24 @@
 {
     NSDictionary * dict0_0 = @{@"cellname":@"PayTitleCell"};
     
-    NSDictionary * dict0_1 = @{@"title":@"充值卡号",@"value":self.model.curGasCard.gascardno,
+    NSDictionary * dict0_1 = @{@"title":@"充值卡号",@"value":
+                                   [self.model.curGasCard.gascardno splitByStep:4 replacement:@" "] ,
                                @"cellname":@"InfoItemCell"};
     
     
     NSDictionary * dict0_2 = @{@"title":@"充值金额",@"value":[NSString stringWithFormat:@"￥ %@",@(self.model.rechargeAmount)],
                                @"cellname":@"InfoItemCell"};
     
-    if (!self.gasCoupon)
+    if (!self.gasCouponArray)
     {
-        self.gasCoupon = [NSArray array];
+        self.gasCouponArray = [NSArray array];
     }
     
     NSDictionary * dict1_0 = @{@"cellname":@"CouponHeadCell"};
     
     NSDictionary * dict1_1 = @{@"title":@"加油优惠劵",
                                @"value":@(self.rechargeAmount),
-                               @"array":self.gasCoupon,
+                               @"array":self.gasCouponArray,
                                @"isSelect":@(self.couponType),
                                @"cellname":@"CouponCell"};
     
@@ -155,7 +158,7 @@
     }] subscribeNext:^(GetUserResourcesGaschargeOp * op) {
         
         self.isLoadingResourse = NO;
-        self.gasCoupon = op.rsp_couponArray;
+        self.gasCouponArray = op.rsp_couponArray;
         
         [self setupDatasource];
         [self.tableView reloadData];
@@ -171,10 +174,10 @@
     HKCoupon * coupon = [self.selectGasCoupouArray safetyObjectAtIndex:0];
     
     NSString *title;
-    NSInteger couponlimit, discount = 0;
     NSUInteger rechargeAmount = self.model.rechargeAmount;
+    CGFloat couponlimit, discount = 0;
     CGFloat systemPercent = 0;
-    NSInteger paymoney = rechargeAmount;
+    CGFloat paymoney = (CGFloat)rechargeAmount;
     
     couponlimit = self.model.configOp ? self.model.configOp.rsp_couponupplimit : 1000;
     systemPercent = self.model.configOp ? self.model.configOp.rsp_discountrate : 2;
@@ -200,18 +203,18 @@
         }
         else
         {
-            /// 选择了优惠券，优惠劵没折扣优惠  = 原先系统额度 + 优惠劵面额 （ps：优惠劵打折力度和优惠劵面额一般只存在一个）
+            /// 选择了优惠券，优惠劵没折扣优惠  = 原先系统额度 + 优惠劵面额 （ps：优惠劵打折力度和优惠劵面额只存在一个）
             discount = discount + coupon.couponAmount;
         }
     }
     
     paymoney = paymoney - discount;
-    
+
     if (discount > 0) {
-        title = [NSString stringWithFormat:@"已优惠%ld元，您只需支付%ld元，现在支付", (long)discount, (long)paymoney];
+        title = [NSString stringWithFormat:@"已优惠%@元，您只需支付%@元，现在支付", [NSString formatForPrice:discount],[NSString formatForPrice:paymoney]];
     }
     else {
-        title = [NSString stringWithFormat:@"您需支付%ld元，现在支付", (long)paymoney];
+        title = [NSString stringWithFormat:@"您需支付%@元，现在支付",[NSString formatForPrice:paymoney]];
     }
     
     [self.payBtn setTitle:title forState:UIControlStateNormal];
@@ -224,7 +227,7 @@
     vc.originVC = self;
     vc.type = CouponTypeGasNormal; /// 加油券类型的用普通代替
     vc.selectedCouponArray = self.selectGasCoupouArray;
-    vc.couponArray = self.gasCoupon;
+    vc.couponArray = self.gasCouponArray;
     vc.payAmount = (CGFloat)self.model.rechargeAmount;
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -249,7 +252,7 @@
         
         @strongify(self);
         GasPaymentResultVC *vc = [UIStoryboard vcWithId:@"GasPaymentResultVC" inStoryboard:@"Gas"];
-        vc.originVC = self;
+        vc.originVC = self.originVC;
         vc.drawingStatus = DrawingBoardViewStatusSuccess;
         vc.gasCard = card;
         vc.paidMoney = paidop.rsp_total;

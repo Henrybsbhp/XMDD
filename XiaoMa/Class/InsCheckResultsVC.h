@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class InsuranceVM;
 
-@interface InsCheckResultsVC : UIViewController
+@interface InsCheckResultsVC : HKViewController
 
 @property (nonatomic, strong) InsuranceVM *insModel;
 @property (nonatomic, strong) NSArray *premiumList;

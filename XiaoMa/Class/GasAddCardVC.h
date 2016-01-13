@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GasAddCardVC : UIViewController
+@interface GasAddCardVC : HKViewController
 
 @end

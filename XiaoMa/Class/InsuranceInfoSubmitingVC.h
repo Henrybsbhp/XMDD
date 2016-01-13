@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "InsuranceVM.h"
 
-@interface InsuranceInfoSubmitingVC : UIViewController
+@interface InsuranceInfoSubmitingVC : HKViewController
 @property (nonatomic, strong) InsuranceVM *insModel;
 
 @end

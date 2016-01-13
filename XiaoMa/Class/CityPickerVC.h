@@ -19,7 +19,7 @@ typedef enum : NSUInteger
     
 }CityPickerOptionsMask;
 
-@interface CityPickerVC : UIViewController
+@interface CityPickerVC : HKViewController
 
 @property (nonatomic, strong) Area *parentArea;
 @property (nonatomic, assign) CityPickerOptionsMask options;

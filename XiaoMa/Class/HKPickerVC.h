@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HKPickerVC : UIViewController<UIPickerViewDelegate,UIPickerViewDataSource>
+@interface HKPickerVC : HKViewController<UIPickerViewDelegate,UIPickerViewDataSource>
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelBtn;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sureBtn;

@@ -21,7 +21,7 @@ typedef enum : NSInteger
     HKRescueStateAlready = 2,//已申请
     HKRescueStateComplete,//已完成
     HKRescueStateCancel,//已取消
-    HKRescueStateprocessing//处理中
+    HKRescueStateProcessing//处理中
 }HKRescueStateNum;
 
 typedef enum : NSInteger
