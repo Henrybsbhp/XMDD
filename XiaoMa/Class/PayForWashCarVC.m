@@ -388,7 +388,6 @@
             vc.type = CouponTypeCarWash;
             vc.selectedCouponArray = self.selectCarwashCoupouArray;
             vc.couponArray = self.getUserResourcesV2Op.validCarwashCouponArray;
-            vc.upperLimit = self.service.origprice;
             [self.navigationController pushViewController:vc animated:YES];
         }
         else if (indexPath.row == 2)
@@ -399,7 +398,6 @@
             vc.type = CouponTypeCash;
             vc.selectedCouponArray = self.selectCashCoupouArray;
             vc.couponArray = self.getUserResourcesV2Op.validCashCouponArray;
-            vc.upperLimit = self.service.origprice;
             [self.navigationController pushViewController:vc animated:YES];
         }
         
@@ -609,7 +607,6 @@
                 vc.selectedCouponArray = self.selectCarwashCoupouArray;
                 vc.type = CouponTypeCarWash;//@fq
                 vc.couponArray = self.getUserResourcesV2Op.validCarwashCouponArray;
-                vc.upperLimit = self.service.origprice;
                 [self.navigationController pushViewController:vc animated:YES];
                 [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
             }
@@ -643,7 +640,6 @@
                 vc.selectedCouponArray = self.selectCashCoupouArray;
                 vc.type = CouponTypeCash;
                 vc.couponArray = self.getUserResourcesV2Op.validCashCouponArray;
-                vc.upperLimit = self.service.origprice;
                 [self.navigationController pushViewController:vc animated:YES];
                 [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
             }
@@ -1334,6 +1330,8 @@
             discount = discount + coupon.couponAmount;
         }
         paymoney = serviceAmount - discount;
+        
+        paymoney = paymoney > 0 ? paymoney : 0.01f;
     }
 
     
