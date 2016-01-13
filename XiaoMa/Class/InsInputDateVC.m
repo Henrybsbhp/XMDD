@@ -17,6 +17,7 @@
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *datasource;
 @property (nonatomic, strong) DatePickerVC *datePicker;
+@property (nonatomic, assign) BOOL isDateDifferent;
 
 @end
 
@@ -41,6 +42,9 @@
 #pragma mark - Datasource
 - (void)reloadData
 {
+    self.isDateDifferent = self.insModel.forceStartDate && self.insModel.startDate &&
+                            ![self.insModel.forceStartDate isEqualToString:self.insModel.startDate];
+    
     HKCellData *cell1 = [HKCellData dataWithCellID:@"Input" tag:@0];
     cell1.customInfo[@"title"] = @"商业险起保日";
     cell1.customInfo[@"placehold"] = @"请输入商业险日期";
@@ -57,8 +61,15 @@
     [cell3 setHeightBlock:^CGFloat(UITableView *tableView) {
         return 51;
     }];
+    @weakify(self);
+    [cell3 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+        @strongify(self);
+        if (self.isDateDifferent) {
+            [self showHelp];
+        }
+    }];
     
-    self.datasource = @[cell1, cell2];
+    self.datasource = @[cell1, cell2, cell3];
     [self.tableView reloadData];
 }
 
@@ -82,10 +93,35 @@
     }
 }
 
+- (void)showHelp
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提醒" message:@"交强险与商业险起保日不一致时，默认按照交强险起保日投保。如需不同起保日期投保，请拨打客服电话。是否立即拨打电话咨询？" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];
+    [alert show];
+    [[alert rac_buttonClickedSignal] subscribeNext:^(id x) {
+        NSInteger index = [x integerValue];
+        //拨打电话
+        if (index == 1) {
+            [gPhoneHelper makePhone:@"4007111111"];
+        }
+    }];
+}
+
 #pragma mark - UITableViewDelegate and datasource
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    HKCellData *data = [self.datasource safetyObjectAtIndex:indexPath.row];
+    if (data.selectedBlock) {
+        data.selectedBlock(tableView, indexPath);
+    }
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    HKCellData *data = [self.datasource safetyObjectAtIndex:indexPath.row];
+    if (data.heightBlock) {
+        return data.heightBlock(tableView);
+    }
     return 60;
 }
 
@@ -98,8 +134,13 @@
 {
     HKCellData *data = [self.datasource safetyObjectAtIndex:indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data.cellID forIndexPath:indexPath];
-    [self resetInputCell:cell data:data];
-    
+    if ([data equalByCellID:@"Input" tag:nil]) {
+        [self resetInputCell:cell data:data];
+    }
+    else if ([data equalByCellID:@"Help" tag:nil]) {
+        [self resetHelpCell:cell data:data];
+    }
+
     return cell;
 }
 
@@ -120,11 +161,29 @@
          @strongify(self);
          return [self rac_pickDateWithNow:data.object];
     }] subscribeNext:^(NSString *datetext) {
+        @strongify(self);
         data.object = datetext;
         inputF.inputField.text = datetext;
+        //判断商业险和交强险日期是否相等
+        HKCellData *data1 = [self.datasource safetyObjectAtIndex:0];
+        HKCellData *data2 = [self.datasource safetyObjectAtIndex:1];
+        self.isDateDifferent = [data1.object length] && [data2.object length] && ![data1.object isEqualToString:data2.object];
     }];
 }
 
+- (void)resetHelpCell:(UITableViewCell *)cell data:(HKCellData *)data
+{
+    UIView *containerV = [cell viewWithTag:1000];
+    UILabel *msgL = [cell viewWithTag:1002];
+    
+    msgL.minimumScaleFactor = 0.8;
+    msgL.adjustsFontSizeToFitWidth = YES;
+    msgL.text = @"交强险起保日与商业险起保日不一致？";
+    
+    [[RACObserve(self, isDateDifferent) takeUntilForCell:cell] subscribeNext:^(id x) {
+        containerV.hidden = ![x boolValue];
+    }];
+}
 
 #pragma mark - Utility
 - (RACSignal *)rac_pickDateWithNow:(NSString *)nowtext
