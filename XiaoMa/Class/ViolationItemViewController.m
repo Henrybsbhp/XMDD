@@ -118,14 +118,14 @@
             if (!self.model.cityInfo.provinceName.length || !self.model.cityInfo.cityName.length)
             {
                 /// 爱车和上次查询都没有地理信息
-                if (!self.car.provinceName.length || !self.car.cithName.length)
+                if (!self.car.provinceName.length || !self.car.cityName.length)
                 {
                     return [self rac_autoLocateCity];
                 }
                 /// 爱车有地理信息
                 else
                 {
-                    return [self rac_requestCityInfoWithProvince:self.car.provinceName andCith:self.car.cithName];
+                    return [self rac_requestCityInfoWithProvince:self.car.provinceName andCith:self.car.cityName];
                 }
             }
             else

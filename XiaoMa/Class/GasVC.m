@@ -500,6 +500,7 @@
             vc.bankCard = model.curBankCard;
             vc.gasCard = model.curGasCard;
             vc.chargeamt = model.rechargeAmount;
+            vc.payTitle = [self.bottomBtn titleForState:UIControlStateNormal];
             vc.originVC = self;
             vc.model = model;
             [self.navigationController pushViewController:vc animated:YES];

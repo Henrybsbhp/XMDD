@@ -93,6 +93,12 @@
     }];
 }
 
+- (void)makePhone:(NSString *)phoneNumber
+{
+    NSString * urlStr = [NSString stringWithFormat:@"tel://%@",phoneNumber];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
+}
+
 - (void)makePhone:(NSString *)phoneNumber andInfo:(NSString *)info
 {
     UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:info delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"拨打", nil];

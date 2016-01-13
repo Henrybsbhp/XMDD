@@ -63,9 +63,9 @@
     car.failreason = [rsp stringParamForName:@"failreason"];
     car.isDefault = [rsp integerParamForName:@"isdefault"] == 1;
     car.provinceId = [rsp numberParamForName:@"pid"];
-    car.cithId = [rsp numberParamForName:@"cid"];
+    car.cityId = [rsp numberParamForName:@"cid"];
     car.provinceName = [rsp stringParamForName:@"pname"];
-    car.cithName = [rsp stringParamForName:@"cname"];
+    car.cityName = [rsp stringParamForName:@"cname"];
     car.classno = [rsp stringParamForName:@"carframenumber"];
     car.engineno = [rsp stringParamForName:@"enginenumber"];
     NSInteger editable = [rsp integerParamForName:@"iseditable"];
@@ -111,9 +111,9 @@
     [dict safetySetObject:[self.insexipiredate dateFormatForDT8] forKey:@"insexipiredate"];
     [dict safetySetObject:self.licenceurl forKey:@"licenceurl"];
     [dict safetySetObject:self.provinceId forKey:@"pid"];
-    [dict safetySetObject:self.cithId forKey:@"cid"];
+    [dict safetySetObject:self.cityId forKey:@"cid"];
     [dict safetySetObject:self.provinceName forKey:@"pname"];
-    [dict safetySetObject:self.cithName forKey:@"cname"];
+    [dict safetySetObject:self.cityName forKey:@"cname"];
     [dict safetySetObject:self.classno forKey:@"carframenumber"];
     [dict safetySetObject:self.engineno forKey:@"enginenumber"];
     return dict;
@@ -143,9 +143,9 @@
     car.licenceSuffix = _licenceSuffix;
     car.tintColorType = _tintColorType;
     car.provinceId = _provinceId;
-    car.cithId = _cithId;
+    car.cityId = _cityId;
     car.provinceName = _provinceName;
-    car.cithName = _cithName;
+    car.cityName = _cityName;
     car.classno = _classno;
     car.engineno = _engineno;
     return car;
