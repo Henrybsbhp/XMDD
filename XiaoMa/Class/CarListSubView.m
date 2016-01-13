@@ -57,7 +57,7 @@
     }];
     
     //内容
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 8; i++) {
         [self createCellAtIndex:i];
     }
     
@@ -67,7 +67,7 @@
     [self addSubview:placeholdV];
     [placeholdV mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
-        UIView *lastCell = [self viewWithTag:106];
+        UIView *lastCell = [self viewWithTag:107];
         make.top.equalTo(lastCell.mas_bottom);
         make.left.equalTo(self);
         make.right.equalTo(self);
@@ -215,7 +215,7 @@
     
     UILabel *titleL = [[UILabel alloc] initWithFrame:CGRectZero];
     titleL.tag = tag*10+1;
-    titleL.font = [UIFont systemFontOfSize:15];
+    titleL.font = [UIFont systemFontOfSize:14];
     titleL.backgroundColor = [UIColor clearColor];
     titleL.textColor = HEXCOLOR(@"#555555");
     //[titleL setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
@@ -223,7 +223,7 @@
     UILabel *valueL = [[UILabel alloc] initWithFrame:CGRectZero];
     valueL.tag = tag*10+2;
     valueL.backgroundColor = [UIColor clearColor];
-    valueL.font = [UIFont systemFontOfSize:15];
+    valueL.font = [UIFont systemFontOfSize:14];
     valueL.textAlignment = NSTextAlignmentRight;
     valueL.textColor = HEXCOLOR(@"#999999");
     [valueL setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
@@ -396,6 +396,12 @@
         UILabel *label2 = (UILabel *)[view2 viewWithTag:3021];
         label2.text = text;
     }
+}
+
+#pragma mark - Layout
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
 }
 
 @end

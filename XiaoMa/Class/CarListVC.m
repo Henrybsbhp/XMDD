@@ -13,6 +13,8 @@
 #import "CarListSubView.h"
 #import "UIView+JTLoadingView.h"
 #import "MyCarStore.h"
+#import "NSString+Format.h"
+
 #import "ValuationViewController.h"
 
 @interface CarListVC ()<UIScrollViewDelegate>
@@ -335,14 +337,17 @@
     BOOL show = car.status == 3 || car.status == 0;
     [subv setShowBottomButton:show withText:text];
     
-    [subv setCellTitle:@"购车时间" withValue:[car.purchasedate dateFormatForYYMM] atIndex:0];
     NSString * brandStr = [NSString stringWithFormat:@"%@ %@", car.brand, car.seriesModel.seriesname];
-    [subv setCellTitle:@"品牌车系" withValue:brandStr atIndex:1];
-    [subv setCellTitle:@"具体车型" withValue:car.detailModel.modelname atIndex:2];
-    [subv setCellTitle:@"整车价格" withValue:[NSString stringWithFormat:@"%.2f万元", car.price] atIndex:3];
-    [subv setCellTitle:@"当前里程" withValue:[NSString stringWithFormat:@"%d公里", (int)car.odo] atIndex:4];
-    [subv setCellTitle:@"年检到期日" withValue:[car.insexipiredate dateFormatForYYMM] atIndex:5];
-    [subv setCellTitle:@"保险公司" withValue:car.inscomp atIndex:6];
+    [subv setCellTitle:@"品牌车系" withValue:brandStr atIndex:0];
+    [subv setCellTitle:@"具体车型" withValue:car.detailModel.modelname atIndex:1];
+    [subv setCellTitle:@"购车时间" withValue:[car.purchasedate dateFormatForYYMM] atIndex:2];
+    [subv setCellTitle:@"行驶城市" withValue:car.cityName atIndex:3];
+    [subv setCellTitle:@"车架号码" withValue:car.classno atIndex:4];
+    [subv setCellTitle:@"发动机号" withValue:car.engineno atIndex:5];
+    NSString *priceStr = [NSString stringWithFormat:@"%@万元", [NSString formatForRoundPrice:car.price]];
+    [subv setCellTitle:@"整车价格" withValue:priceStr atIndex:6];
+    NSString *odoStr = [NSString stringWithFormat:@"%@万公里", [NSString formatForRoundPrice:car.odo/10000.0]];
+    [subv setCellTitle:@"当前里程" withValue:odoStr atIndex:7];
     
     //汽车品牌logo
     [subv.logoView setImageByUrl:nil withType:ImageURLTypeThumbnail defImage:@"cm_logo_def" errorImage:@"cm_logo_def"];

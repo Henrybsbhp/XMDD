@@ -16,6 +16,7 @@
 @property (nonatomic, strong) HKBankCard *bankCard;
 @property (nonatomic, strong) GasCard *gasCard;
 @property (nonatomic, strong) GasCZBVM *model;
+@property (nonatomic, strong) NSString *payTitle;
 @property (nonatomic, assign) NSInteger chargeamt;
 @property (nonatomic, weak) UIViewController *originVC;
 

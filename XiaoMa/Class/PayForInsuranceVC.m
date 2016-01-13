@@ -22,6 +22,7 @@
 #import "NSString+Format.h"
 #import "InsuranceStore.h"
 //#import "InsPayFaildVC.h"
+#import "InsLicensePopVC.h"
 
 #define CheckBoxDiscountGroup @"CheckBoxDiscountGroup"
 #define CheckBoxPlatformGroup @"CheckBoxPlatformGroup"
@@ -34,6 +35,7 @@
 
 @property (nonatomic,strong) CKSegmentHelper *checkBoxHelper;
 @property (nonatomic)BOOL isLoadingResourse;
+@property (nonatomic, assign) BOOL isLicenseChecked;
 @property (nonatomic, strong) HKCellData *licenseData;
 
 /////支付平台，（section == 2）
@@ -173,59 +175,14 @@
 }
 
 - (IBAction)actionPay:(id)sender {
+    
     [MobClick event:@"rp326-6"];
-    InsuranceOrderPayOp * op = [InsuranceOrderPayOp operation];
-    op.req_orderid = self.insOrder.orderid;
-    
-    if (self.isSelectActivity)
-    {
-        op.req_cid = nil;
-        op.req_type = self.isSelectActivity;
-    }
-    else
-    {
-        if (!self.couponType)
-        {
-            op.req_cid = nil;
-        }
-        else
-        {
-            HKCoupon * c = [self.selectInsuranceCoupouArray safetyObjectAtIndex:0];
-            op.req_cid = c.couponId;
-        }
-    }
-    
-    PaymentChannelType channel = [self getCurrentPaymentChannel];
-    if (channel == 0)
-    {
-        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请选择支付方式" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
-        [av show];
-        return;
-    }
-    op.req_paychannel = channel;
-
     @weakify(self);
-    [[[op rac_postRequest] initially:^{
-        
-        [gToast showingWithText:@"订单生成中..."];
-    }] subscribeNext:^(InsuranceOrderPayOp * op) {
-
-        @strongify(self);
-        if (![self callPaymentHelperWithPayOp:op]) {
-            
-            [gToast dismiss];
-            InsuranceStore *store = [InsuranceStore fetchExistsStore];
-            //刷新保险订单
-            [[store getInsOrderByID:self.insOrder.orderid] sendAndIgnoreError];
-            //刷新保险车辆列表
-            [[store getInsSimpleCars] sendAndIgnoreError];
-            
-            [self gotoPaidSuccessVC];
-        }
-    } error:^(NSError *error) {
-        
-        [gToast showError:error.domain];
-    }];
+    [[self rac_openLicenseVCWithUrl:self.insOrder.licenseUrl title:self.insOrder.licenseName]
+     subscribeNext:^(id x) {
+         @strongify(self);
+         [self requestInsOrderPay];
+     }];
 }
 
 - (PaymentChannelType)getCurrentPaymentChannel
@@ -368,6 +325,63 @@
         [self gotoPaidFailVC];
     }];
     return YES;
+}
+
+#pragma mark - Request
+- (void)requestInsOrderPay
+{
+    InsuranceOrderPayOp * op = [InsuranceOrderPayOp operation];
+    op.req_orderid = self.insOrder.orderid;
+    
+    if (self.isSelectActivity)
+    {
+        op.req_cid = nil;
+        op.req_type = self.isSelectActivity;
+    }
+    else
+    {
+        if (!self.couponType)
+        {
+            op.req_cid = nil;
+        }
+        else
+        {
+            HKCoupon * c = [self.selectInsuranceCoupouArray safetyObjectAtIndex:0];
+            op.req_cid = c.couponId;
+        }
+    }
+    
+    PaymentChannelType channel = [self getCurrentPaymentChannel];
+    if (channel == 0)
+    {
+        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请选择支付方式" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
+        [av show];
+        return;
+    }
+    op.req_paychannel = channel;
+    
+    @weakify(self);
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"订单生成中..."];
+    }] subscribeNext:^(InsuranceOrderPayOp * op) {
+        
+        @strongify(self);
+        if (![self callPaymentHelperWithPayOp:op]) {
+            
+            [gToast dismiss];
+            InsuranceStore *store = [InsuranceStore fetchExistsStore];
+            //刷新保险订单
+            [[store getInsOrderByID:self.insOrder.orderid] sendAndIgnoreError];
+            //刷新保险车辆列表
+            [[store getInsSimpleCars] sendAndIgnoreError];
+            
+            [self gotoPaidSuccessVC];
+        }
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain];
+    }];
 }
 
 #pragma mark - Table view data source
@@ -988,6 +1002,19 @@
 }
 
 #pragma mark - Utility
+- (RACSignal *)rac_openLicenseVCWithUrl:(NSString *)url title:(NSString *)title
+{
+    if (self.isLicenseChecked || url.length == 0) {
+        return [RACSubject return:@YES];
+    }
+    @weakify(self);
+    return [[InsLicensePopVC rac_showInView:self.navigationController.view withLicenseUrl:url title:title] doNext:^(id x) {
+        @strongify(self);
+        self.isLicenseChecked = YES;
+    }];
+}
+
+
 - (void)requestGetUserInsCoupon
 {
     [[gAppMgr.myUser.couponModel rac_getVaildInsuranceCoupon:self.insOrder.orderid] subscribeNext:^(GetInscouponOp * op) {

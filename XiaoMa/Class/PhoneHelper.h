@@ -23,4 +23,5 @@
 
 
 - (void)makePhone:(NSString *)phoneNumber andInfo:(NSString *)info;
+- (void)makePhone:(NSString *)phoneNumber;
 @end

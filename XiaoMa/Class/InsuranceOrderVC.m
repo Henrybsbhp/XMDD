@@ -153,8 +153,22 @@
     }];
 }
 #pragma mark - Load
+- (void)reloadNavBarWithOrderStatus:(InsuranceOrderStatus)status
+{
+    if (status == InsuranceOrderStatusUnpaid) {
+        UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithTitle:@"取消订单" style:UIBarButtonItemStylePlain
+                                                                  target:self action:@selector(actionCancelOrder:)];
+        self.navigationItem.rightBarButtonItem = cancel;
+    }
+    else {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+}
+
 - (void)reloadWithOrderStatus:(InsuranceOrderStatus)status
 {
+    [self reloadNavBarWithOrderStatus:status];
+    
     self.order.status = status;
     CGFloat total = self.order.totoalpay+self.order.forcetaxfee;
     id amount;
@@ -228,6 +242,21 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)actionCancelOrder:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"取消订单后，订单将关闭且无法继续支付您确定现在取消订单？" delegate:nil cancelButtonTitle:@"算了吧" otherButtonTitles:@"确定取消", nil];
+    [alert show];
+    @weakify(self);
+    [[alert rac_buttonClickedSignal] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        NSInteger index = [x integerValue];
+        //确定取消订单
+        if (index == 1) {
+            [self requestCancelInsOrder];
+        }
+    }];
+}
+
 - (void)actionMakeCall:(id)sender {
     [MobClick event:@"rp1012-3"];
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
@@ -235,6 +264,24 @@
 
 - (void)actionRefresh {
     [[self.insStore getInsOrderByID:self.orderID] send];
+}
+
+#pragma mark - Request
+- (void)requestCancelInsOrder
+{
+    @weakify(self);
+    [[[[self.insStore cancelInsOrderByID:self.orderID] sendAndIgnoreError] initially:^{
+        
+        [gToast showingWithText:@"正在取消订单"];
+    }] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        [gToast dismiss];
+        [self actionBack:nil];
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain];
+    }];
 }
 
 #pragma mark - UITableViewDelegate
