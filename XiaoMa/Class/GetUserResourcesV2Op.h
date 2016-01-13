@@ -34,6 +34,8 @@
 /// 可用保险代金券
 @property (nonatomic, strong)NSArray * validInsuranceCouponArray;
 
+/// 是否洗过车
+@property (nonatomic)BOOL rsp_neverCarwashFlag;
 /// 是否洗过车(服务器已判断过，当时是否可以参加加油活动)
 @property (nonatomic)BOOL rsp_carwashFlag;
 ///0元活动日标示(0：不是活动日。1：是活动日)

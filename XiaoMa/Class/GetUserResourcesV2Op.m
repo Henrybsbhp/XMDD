@@ -44,6 +44,7 @@
         self.rsp_bankIntegral = [rspObj integerParamForName:@"bankcredits"];
         self.rsp_freewashes = [rspObj integerParamForName:@"freewashes"];
         
+        self.rsp_neverCarwashFlag = [rspObj boolParamForName:@"neverwashcarflag"];
         self.rsp_carwashFlag = [rspObj boolParamForName:@"washcarflag"];
         self.rsp_activityDayFlag = [rspObj boolParamForName:@"activitydayflag"];
         self.rsp_weeklyCouponGetFlag = [rspObj boolParamForName:@"weeklycouponget"];
