@@ -19,10 +19,10 @@
 #import "MyCarStore.h"
 
 #import "CarWashTableVC.h"
+#import "WebVC.h"
+#import "NewGainAwardVC.h"
 #import "RescueHomeViewController.h"
 #import "CommissionOrderVC.h"
-#import "WelcomeViewController.h"
-#import "CheckAwardViewController.h"
 #import "ADViewController.h"
 #import "GasVC.h"
 #import "ViolationViewController.h"
@@ -580,7 +580,7 @@
 {
     [MobClick event:@"rp101-11"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        CheckAwardViewController * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"CheckAwardViewController"];
+        NewGainAwardVC * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"NewGainAwardVC"];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
