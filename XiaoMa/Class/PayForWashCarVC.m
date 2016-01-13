@@ -35,7 +35,6 @@
 #import "CheckoutServiceOrderV4Op.h"
 #import "OrderPaidSuccessOp.h"
 
-#import "GetUserResourcesV2Op.h"
 #import "GainUserAwardOp.h"
 
 
@@ -1345,7 +1344,9 @@
     NSString * lbText = [NSString stringWithFormat:@"0元洗车:支付成功后将获取%@元加油代金券",[NSString formatForPrice:gainCoupon]];
     self.bottomScrollLb.text = lbText;
     
-    if (!self.getUserResourcesV2Op.rsp_carwashFlag && paymoney >= 0.01)
+    /// 如果是活动日 || 新手
+    if ((!self.getUserResourcesV2Op.rsp_carwashFlag || self.getUserResourcesV2Op.rsp_neverCarwashFlag)
+        && paymoney >= 0)
     {
         self.bottomScrollLb.hidden = NO;
         self.bottomViewHeightConstraint.constant = 72;
@@ -1411,8 +1412,8 @@
 /// 新手提示
 - (void)alertFreshmanGuide
 {
-    /// 新手 && 没领过周周礼券的
-    if (!self.getUserResourcesV2Op.rsp_carwashFlag)
+    // 新手 && 没领过周周礼券的
+    if (self.getUserResourcesV2Op.rsp_neverCarwashFlag && !self.getUserResourcesV2Op.rsp_weeklyCouponGetFlag)
     {
         CarwashFreshmanGuideVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"CarwashFreshmanGuideVC"];
         CGFloat width = 265 * gAppMgr.deviceInfo.screenSize.width / 320;
