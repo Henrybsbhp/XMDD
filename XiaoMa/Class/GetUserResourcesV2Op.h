@@ -9,6 +9,7 @@
 #import "BaseOp.h"
 #import "HKCoupon.h"
 
+///查询可用资源V2(获取当前用户所有的银行洗车次数、积分和有效优惠券信息)
 @interface GetUserResourcesV2Op : BaseOp
 
 ///商户id
@@ -32,5 +33,12 @@
 @property (nonatomic, strong)NSArray * validCashCouponArray;
 /// 可用保险代金券
 @property (nonatomic, strong)NSArray * validInsuranceCouponArray;
+
+/// 是否洗过车(服务器已判断过，当时是否可以参加加油活动)
+@property (nonatomic)BOOL rsp_carwashFlag;
+///0元活动日标示(0：不是活动日。1：是活动日)
+@property (nonatomic)BOOL rsp_activityDayFlag;
+///标示是否最近一周领过礼券
+@property (nonatomic)BOOL rsp_weeklyCouponGetFlag;
 
 @end

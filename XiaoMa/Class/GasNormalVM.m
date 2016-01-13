@@ -173,6 +173,7 @@
     }] subscribeNext:^(GascardChargeOp *op) {
         
         @strongify(self);
+        op.rsp_total = 0.01;
         if (![self callPaymentHelperWithPayOp:op gasCard:card targetVC:vc completed:completed]) {
             [gToast dismiss];
             [self cancelOrderWithTradeNumber:op.rsp_tradeid cardID:card.gid];

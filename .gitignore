@@ -1,0 +1,9 @@
+*~
+.DS_Store
+*.xcuserstate
+*.xcbkptlist
+xcuserdata
+UserInterfaceState.xcuserstate
+xcuserdata/
+UserInterface.xcuserstate
+Breakpoints_v2.xcbkptlist

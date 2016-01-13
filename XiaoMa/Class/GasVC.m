@@ -27,6 +27,7 @@
 #import "GasPaymentResultVC.h"
 #import "WebVC.h"
 #import "PayForGasViewController.h"
+#import "PaymentSuccessVC.h"
 
 
 
@@ -173,6 +174,8 @@
                                     } forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItem = right;
     
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    self.navigationItem.leftBarButtonItem = back;
 }
 
 - (void)setupHeaderView
@@ -475,6 +478,12 @@
     if (![LoginViewModel loginIfNeededForTargetViewController:self]) {
         return;
     }
+    
+    if (![self.curModel.curGasCard.availablechargeamt integerValue])
+    {
+        [gToast showText:@"您本月加油已达到最大限额！" inView:self.view];
+        return;
+    }
     //浙商支付
     if ([self.curModel isEqual:self.czbModel]) {
         GasCZBVM *model = (GasCZBVM *)self.curModel;
@@ -549,6 +558,19 @@
         vc.selectedCardReveicer = self.curModel;
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+- (void)actionBack:(id)sender
+{
+    NSArray * viewcontrollers = self.navigationController.viewControllers;
+    UIViewController * vc = [viewcontrollers safetyObjectAtIndex:viewcontrollers.count - 2];
+    if ([vc isKindOfClass:[PaymentSuccessVC class]])
+    {
+        [self.tabBarController setSelectedIndex:0];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        return;
+    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - UITableViewDelegate and datasource
