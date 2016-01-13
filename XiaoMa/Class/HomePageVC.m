@@ -25,10 +25,8 @@
 #import "RescureHomeViewController.h"
 #import "CommissionViewController.h"
 #import "CommissonOrderVC.h"
-#import "GainAwardViewController.h"
-#import "GainedViewController.h"
+#import "NewGainAwardVC.h"
 #import "WelcomeViewController.h"
-#import "CheckAwardViewController.h"
 #import "ADViewController.h"
 #import "CollectionChooseVC.h"
 #import "GasVC.h"
@@ -604,7 +602,7 @@
 {
     [MobClick event:@"rp101-11"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        CheckAwardViewController * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"CheckAwardViewController"];
+        NewGainAwardVC * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"NewGainAwardVC"];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

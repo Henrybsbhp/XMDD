@@ -42,10 +42,10 @@
             JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
             [self.curNavCtrl presentViewController:nav animated:YES completion:nil];
         }
-        //领取礼包
+        //领取礼券
         else if ([@"a" equalByCaseInsensitive:name] && gAppMgr.myUser) {
-            if (![self popToViewControllerIfNeededByIdentify:@"CheckAwardViewController"]) {
-                UIViewController *vc = [UIStoryboard vcWithId:@"CheckAwardViewController" inStoryboard:@"Award"];
+            if (![self popToViewControllerIfNeededByIdentify:@"NewGainAwardVC"]) {
+                UIViewController *vc = [UIStoryboard vcWithId:@"NewGainAwardVC" inStoryboard:@"Award"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
             flag = YES;
