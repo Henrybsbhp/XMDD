@@ -15,6 +15,7 @@
 #import "NSDate+DateForText.h"
 #import "InsuranceStore.h"
 #import "UIView+Shake.h"
+#import "IQKeyboardManager.h"
 #import "CarIDCodeCheckModel.h"
 
 #import <MZFormSheetController.h>
@@ -62,12 +63,14 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp1001"];
+    [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp1001"];
+    [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -134,6 +137,7 @@
     HKCellData *doubleCell = [HKCellData dataWithCellID:@"Double" tag:nil];
     doubleCell.customInfo[@"city"] = self.baseCar.city;
     doubleCell.customInfo[@"date"] = self.baseCar.regdate;
+    doubleCell.customInfo[@"pic"] = @"ins_eg_pic4";
     [datasource addObject:doubleCell];
     
     //车架号
@@ -348,6 +352,7 @@
     UIButton *cityB = [cell viewWithTag:10013];
     HKSubscriptInputField *dateInput = [cell viewWithTag:10022];
     UIButton *dateB = [cell viewWithTag:10023];
+    UIButton *helpB = [cell viewWithTag:10024];
     
     cityInput.inputField.text = data.customInfo[@"city"];
     cityInput.inputField.placeholder = @"请选择城市";
@@ -394,6 +399,14 @@
          
          data.customInfo[@"date"] = datetext;
          dateInput.inputField.text = datetext;
+     }];
+    
+    //显示帮助
+    [[[helpB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+     subscribeNext:^(id x) {
+         
+         @strongify(self);
+         [self showPicture:data.customInfo[@"pic"]];
      }];
 }
 

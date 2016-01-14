@@ -11,6 +11,7 @@
 #import "GetInsProvinceListOp.h"
 #import "GetInsuranceOrderListOp.h"
 #import "GetInsuranceOrderDetailsOp.h"
+#import "CancelInsOrderOp.h"
 
 @implementation InsuranceStore
 
@@ -99,6 +100,21 @@
         return op.rsp_order;
     }] replayLast] eventWithName:kEvtGetInsOrder object:orderID];
     return [self inlineEvent:event forDomainList:@[@"insOrders", @"insOrder"]];
+}
+
+///取消指定的待支付保险订单
+- (CKEvent *)cancelInsOrderByID:(NSNumber *)orderID
+{
+    CancelInsOrderOp *op = [CancelInsOrderOp operation];
+    op.req_insorderid = orderID;
+    @weakify(self);
+    CKEvent *event = [[[[op rac_postRequest] map:^id(CancelInsOrderOp *op) {
+        
+        @strongify(self);
+        [self.insOrders removeObjectForKey:orderID];
+        return @(op.rsp_code);
+    }] replayLast] eventWithName:kEvtCancelInsOrder object:orderID];
+    return [self inlineEvent:event forDomain:@"insOrders"];
 }
 
 

@@ -17,12 +17,12 @@
 #import "NSString+Format.h"
 #import "NSDate+DateForText.h"
 #import "HKTableViewCell.h"
+#import "IQKeyboardManager.h"
 
 #import "DatePickerVC.h"
 #import "PayForInsuranceVC.h"
-#import "InsLicensePopVC.h"
-
 #import "InsPayResultVC.h"
+
 @interface InsBuyVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
@@ -33,7 +33,6 @@
 @property (nonatomic, strong) DatePickerVC *datePicker;
 @property (nonatomic, strong) PayForPremiumOp *paymentInfo;
 @property (nonatomic, assign) BOOL isOwnernameDifferent;
-@property (nonatomic, assign) BOOL isLicenseChecked;
 
 @end
 
@@ -66,12 +65,14 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp1005"];
+    [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp1005"];
+    [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = NO;
 }
 //设置日期选择控件（主要是为了事先加载，优化性能）
 - (void)setupDatePicker {
@@ -175,12 +176,7 @@
         [gToast showText:@"详细地址不能为空"];
     }
     else {
-        @weakify(self);
-        [[self rac_openLicenseVCWithUrl:self.premiumDetail.rsp_licenseurl title:self.premiumDetail.rsp_license]
-         subscribeNext:^(id x) {
-            @strongify(self);
-            [self requestPayForPremium];
-        }];
+        [self requestPayForPremium];
     }
 }
 
@@ -487,20 +483,6 @@
     NSDate *date = [NSDate dateWithD10Text:nowtext];
     return [[[self.datePicker rac_presentPickerVCInView:self.navigationController.view withSelectedDate:date] ignoreError] map:^id(NSDate *date) {
         return [date dateFormatForD10];
-    }];
-}
-
-- (RACSignal *)rac_openLicenseVCWithUrl:(NSString *)url title:(NSString *)title
-{
-    if (self.isLicenseChecked || url.length == 0) {
-        return [RACSubject return:@YES];
-    }
-    NSString *fullurl = [NSString stringWithFormat:@"%@?token=%@&carpremiumid=%@",
-                         url,gNetworkMgr.token, self.paymentInfo.req_carpremiumid];
-    @weakify(self);
-    return [[InsLicensePopVC rac_showInView:self.navigationController.view withLicenseUrl:fullurl title:title] doNext:^(id x) {
-        @strongify(self);
-        self.isLicenseChecked = YES;
     }];
 }
 

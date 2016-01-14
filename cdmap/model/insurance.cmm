@@ -172,6 +172,13 @@ class=GetInsUserInfo op auth path="/insurance/userinfo/get"> {
   }
 }
 
+<"取消保险订单"
+class=CancelInsOrder op auth path="/insurance/order/cancel"> {
+  <req> {
+    <"保险订单记录ID">insorderid:number
+  }
+}
+
 
 <"保险车辆简单信息"
 class=InsSimpleCar data> {

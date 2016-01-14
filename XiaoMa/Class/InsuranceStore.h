@@ -16,6 +16,7 @@
 #define kEvtInsProvinces                                @"ins.provinces"
 #define kEvtGetInsOrders                                @"ins.orders.get"
 #define kEvtGetInsOrder                                 @"ins.order.get"
+#define kEvtCancelInsOrder                              @"ins.order.cancel"
 
 @interface InsuranceStore : UserStore
 @property (nonatomic, strong) JTQueue *simpleCars;
@@ -33,5 +34,7 @@
 - (CKEvent *)getAllInsOrders;
 ///根据id获取指定的保险订单
 - (CKEvent *)getInsOrderByID:(NSNumber *)orderID;
+///取消指定的待支付保险订单
+- (CKEvent *)cancelInsOrderByID:(NSNumber *)orderID;
 
 @end

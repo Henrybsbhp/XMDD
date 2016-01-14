@@ -236,6 +236,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [MobClick event:@"rp109-1"];
     HKCoupon * coupon = [self.couponArray safetyObjectAtIndex:indexPath.row];
     if (self.type == CouponTypeCarWash)
     {
@@ -258,7 +259,6 @@
     
     else if (self.type == CouponTypeCash)
     {
-        CGFloat amount = 0;
         for (HKCoupon * c in self.selectedCouponArray)
         {
             if ([c.couponId isEqualToNumber:coupon.couponId])
@@ -267,18 +267,9 @@
                 [self.tableView reloadData];
                 return;
             }
-            amount = amount + c.couponAmount;
         }
-        if (amount + coupon.couponAmount < self.upperLimit)
-        {
-            [MobClick event:@"rp109-1"];
-            [self.selectedCouponArray addObject:coupon];
-            [self.tableView reloadData];
-        }
-        else
-        {
-            [gToast showError:@"代金券金额大于支付金额，无法使用"];
-        }
+        [self.selectedCouponArray addObject:coupon];
+        [self.tableView reloadData];
     }
     else if (self.type == CouponTypeInsurance)
     {
@@ -286,7 +277,6 @@
         {
             self.type = coupon.conponType;
             
-            [MobClick event:@"rp109-1"];
             [self.selectedCouponArray removeAllObjects];
             [self.selectedCouponArray addObject:coupon];
             
@@ -316,27 +306,6 @@
             [gToast showError:str];
         }
     }
-//    else
-//    {
-//        CGFloat amount = 0;
-//        for (HKCoupon * c in self.selectedCouponArray)
-//        {
-//            if ([c.couponId isEqualToNumber:coupon.couponId])
-//            {
-//                [self.selectedCouponArray safetyRemoveObject:c];
-//                [self.tableView reloadData];
-//                return;
-//            }
-//            amount = amount + c.couponAmount;
-//        }
-//        if (amount + coupon.couponAmount < self.upperLimit &&
-//            self.selectedCouponArray.count < self.numberLimit)
-//        {
-//            [MobClick event:@"rp109-1"];
-//            [self.selectedCouponArray addObject:coupon];
-//            [self.tableView reloadData];
-//        }
-//    }
 }
 
 @end

@@ -298,7 +298,7 @@
     HKCellData *cell2_1 = [HKCellData dataWithCellID:@"Selection" tag:nil];
     cell2_1.customInfo[@"title"] = @"行驶城市";
     cell2_1.customInfo[@"placehold"] = @"请选择行驶城市";
-    cell2_1.object = RACObserve(self.curCar, cithName);
+    cell2_1.object = RACObserve(self.curCar, cityName);
     [cell2_1 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         
         [MobClick event:@"rp312-18"];
@@ -311,10 +311,10 @@
         [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
             
             NSString * cityName = [NSString stringWithFormat:@"%@",cityModel.infoName];
-            self.curCar.cithName = cityName;
+            self.curCar.cityName = cityName;
             self.curCar.provinceName = provinceModel.infoName;
             self.curCar.provinceId = @(provinceModel.infoId);
-            self.curCar.cithId = @(cityModel.infoId);
+            self.curCar.cityId = @(cityModel.infoId);
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }];
