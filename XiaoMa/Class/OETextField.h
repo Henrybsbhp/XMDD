@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CKLimitTextField.h"
 
-@interface OETextField : UITextField
+@interface OETextField : CKLimitTextField
 
 
 /**
