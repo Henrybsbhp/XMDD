@@ -152,9 +152,9 @@
     CGFloat width = CGRectGetWidth(self.bounds);
     CGFloat height = CGRectGetHeight(self.bounds);
     
-    CGPoint topPoint = CGPointMake(width/2, height/5);
+    CGPoint topPoint = CGPointMake(width/2, height/3);
     CGPoint leftPoint = CGPointMake(width/5, height/2);
-    CGPoint bottomPoint = CGPointMake(width/2, height-height/5);
+    CGPoint bottomPoint = CGPointMake(width/2, height-height/3);
     CGPoint rightPoint = CGPointMake(width-width/5, height/2);
     CGPoint centerPoint = CGPointMake(width/2, height/2);
     
