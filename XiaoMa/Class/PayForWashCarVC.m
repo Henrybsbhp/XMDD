@@ -1338,8 +1338,9 @@
     NSString * btnText = [NSString stringWithFormat:@"您只需支付%.2f元，现在支付",paymoney];
     [self.payBtn setTitle:btnText forState:UIControlStateNormal];
     
-    CGFloat gainCoupon = paymoney < 1.0f ? 1.0f : paymoney;
-    NSString * lbText = [NSString stringWithFormat:@"0元洗车:支付成功后将获取%@元加油代金券",[NSString formatForPrice:gainCoupon]];
+    CGFloat gainCouponAmt = MIN(MAX(paymoney, 1.0f), 10.0f);
+    
+    NSString * lbText = [NSString stringWithFormat:@"0元洗车:支付成功后将获取%@元加油代金券",[NSString formatForPrice:gainCouponAmt]];
     self.bottomScrollLb.text = lbText;
     
     /// 如果是活动日 || 新手
