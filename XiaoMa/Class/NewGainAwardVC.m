@@ -27,7 +27,9 @@
 @property (weak, nonatomic) IBOutlet UIView *coverView;
 @property (weak, nonatomic) IBOutlet UIImageView *bgImgView;
 @property (weak, nonatomic) IBOutlet UIView *scratchView;
+@property (weak, nonatomic) IBOutlet UILabel *rmbLabel;
 @property (weak, nonatomic) IBOutlet UILabel *amount;
+@property (weak, nonatomic) IBOutlet UILabel *amountTypeLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *carwashFlagView;
 @property (weak, nonatomic) IBOutlet UILabel *tipLabel;
 @property (weak, nonatomic) IBOutlet UIButton *carwashBtn;
@@ -86,6 +88,9 @@
             self.tipLabel.text = [NSString stringWithFormat:@"您已领取礼券，%ld天后再来领取吧！", (long)op.rsp_leftday];
             if (op.rsp_isused) {
                 self.carwashFlagView.hidden = NO;
+                self.rmbLabel.textColor = [UIColor lightGrayColor];
+                self.amount.textColor = [UIColor lightGrayColor];
+                self.amountTypeLabel.textColor = [UIColor lightGrayColor];
             }
             [[self.carwashBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
