@@ -448,14 +448,7 @@
     }];
     
     
-    
-    RACSignal * sig = [sig1 flattenMap:^RACStream *(id value) {
-        
-        GetSystemHomePicOp * op = [[GetSystemHomePicOp alloc] init];
-        return [op rac_postRequest];
-    }];
-    
-    [[[sig initially:^{
+    [[[sig1 initially:^{
         
         [self.scrollView.refreshView beginRefreshing];
     }] finally:^{
@@ -466,9 +459,13 @@
         
         gAppMgr.homePicModel = op.homeModel;
         [gAppMgr saveHomePicInfo];
+
+    }];
+    
+    GetSystemHomePicOp * op = [[GetSystemHomePicOp alloc] init];
+    [[op rac_postRequest] subscribeNext:^(id x) {
         [self refreshFirstView];
         [self refreshSecondView];
-        
     }];
 }
 
