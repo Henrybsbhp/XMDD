@@ -206,7 +206,7 @@
  
     //洗车
     NSString * carwashBtnName = @"hp_carwash_big_2_5";
-    CGFloat height = 226.0f / 1136.0f * dHeight;
+    CGFloat height = 232.0f / 1136.0f * dHeight;
     
     CGFloat width = 447.0f / 640.0f  * deviceWidth;
     UIButton *carwashBtn = [self functionalButtonWithImageName:carwashBtnName action:@selector(actionWashCar:) inContainer:secondaryView hasBorder:NO andPicUrl:gAppMgr.homePicModel.yjxcPic];
@@ -246,7 +246,7 @@
         make.top.equalTo(carwashBtn.mas_bottom);
         make.width.equalTo(mainView.mas_width).multipliedBy(0.5);
         
-        CGFloat height = 273.0f / 1136.0f * dHeight;
+        CGFloat height = 280.0f / 1136.0f * dHeight;
         make.height.mas_equalTo(height);
     }];
     
