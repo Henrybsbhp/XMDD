@@ -448,22 +448,25 @@
     }];
     
     
-    [[[sig1 initially:^{
-        
+    [[[[sig1 initially:^{
+        @strongify(self);
         [self.scrollView.refreshView beginRefreshing];
+    }] flattenMap:^RACStream *(AMapReGeocode *regeo) {
+        @strongify(self);
+        [self.adctrl reloadDataWithForce:YES completed:nil];
+        return [self rac_getWeatherInfoWithReGeocode:regeo];
     }] finally:^{
-        
         @strongify(self);
         [self.scrollView.refreshView endRefreshing];
-    }] subscribeNext:^(GetSystemHomePicOp * op) {
+    }] subscribeNext:^(id x) {
         
-        gAppMgr.homePicModel = op.homeModel;
-        [gAppMgr saveHomePicInfo];
-
     }];
     
     GetSystemHomePicOp * op = [[GetSystemHomePicOp alloc] init];
-    [[op rac_postRequest] subscribeNext:^(id x) {
+    [[op rac_postRequest] subscribeNext:^(GetSystemHomePicOp * op) {
+        
+        gAppMgr.homePicModel = op.homeModel;
+        [gAppMgr saveHomePicInfo];
         [self refreshFirstView];
         [self refreshSecondView];
     }];
