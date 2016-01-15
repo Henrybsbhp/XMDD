@@ -11,6 +11,7 @@
 #import "JTQueue.h"
 
 @interface MyCarStore : UserStore
+@property (nonatomic, strong) NSString *defaultTip;
 @property (nonatomic, strong) JTQueue *cars;
 
 - (CKEvent *)getAllCarsIfNeeded;

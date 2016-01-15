@@ -122,6 +122,7 @@
     sheet.shouldDismissOnBackgroundViewTap = NO;
     sheet.shouldCenterVertically = YES;
     [MZFormSheetController sharedBackgroundWindow].backgroundBlurEffect = NO;
+    [MZFormSheetController sharedBackgroundWindow].backgroundColor = [UIColor colorWithWhite:0 alpha:0.7];
     [sheet presentAnimated:YES completionHandler:nil];
 
     RACSubject *subject = [RACSubject subject];

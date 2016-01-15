@@ -9,6 +9,7 @@
 #import "MyCarListVModel.h"
 #import "UploadFileOp.h"
 #import "HKImagePicker.h"
+#import "MyCarStore.h"
 
 @implementation MyCarListVModel
 - (NSString *)descForCarStatus:(HKMyCar *)car
@@ -24,9 +25,15 @@
         case 3:
             desc = [NSString stringWithFormat:@"审核未通过，%@", car.failreason.length > 0 ? car.failreason : @"请重新上传行驶证"];
             break;
-        default:
-            desc = @"上传行驶证并通过审核,即可享受价值1000元的大礼包";
-            break;
+        default: {
+            MyCarStore *store = [MyCarStore fetchExistsStore];
+            if (store.defaultTip) {
+                desc = store.defaultTip;
+            }
+            else {
+                desc = @"上传行驶证并通过审核,即可享受价值1000元的大礼包";
+            }
+        } break;
     }
     return desc;
 }
