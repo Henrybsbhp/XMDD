@@ -9,9 +9,10 @@
 #import "MainTabBarVC.h"
 #import "XiaoMa.h"
 #import "UIView+ShowDot.h"
+#import "GuideStore.h"
 
 @interface MainTabBarVC ()<UITabBarControllerDelegate>
-
+@property (nonatomic, strong) GuideStore *guideStore;
 @end
 
 @implementation MainTabBarVC
@@ -22,6 +23,7 @@
     self.delegate = self;
     [self setupTabBar];
     gAppMgr.navModel.curNavCtrl = [self.viewControllers safetyObjectAtIndex:0];
+    [self setupGuideStore];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -37,23 +39,41 @@
         item.selectedImage = [UIImage imageNamed:selectedImages[i]];
     }
     //"我的"
-    [[[RACObserve(gAppMgr, myUser) distinctUntilChanged] flattenMap:^RACStream *(JTUser *user) {
+    RACSignal *signal = [[RACObserve(gAppMgr, myUser) distinctUntilChanged] flattenMap:^RACStream *(JTUser *user) {
         
         if (user) {
             return [RACObserve(user, hasNewMsg) distinctUntilChanged];
         }
         return [RACSignal return:@NO];
-    }] subscribeNext:^(NSNumber *hasmsg) {
+    }];
+    [self reloadMineTabDotWith:signal];
+}
+
+- (void)setupGuideStore
+{
+    self.guideStore = [GuideStore fetchOrCreateStore];
+    @weakify(self);
+    [self.guideStore subscribeWithTarget:self domain:kDomainNewbiewGuide receiver:^(CKStore *store, CKEvent *evt) {
         
-        CGFloat offsetX = 6;
-        CGFloat offsetY = 6;
-        if (!IOSVersionGreaterThanOrEqualTo(@"7.0"))
-        {
-            offsetX = 7;
-            offsetY = 5;
-        }
-        BOOL showDot = [hasmsg boolValue];
-        if (showDot) {
+        @strongify(self);
+        //刷新小圆点
+        [self reloadMineTabDotWith:[evt signal]];
+    }];
+}
+
+#pragma mark - Reload
+- (void)reloadMineTabDotWith:(RACSignal *)signal
+{
+    @weakify(self);
+    [signal subscribeNext:^(id x) {
+        @strongify(self);
+        if (self.guideStore.shouldShowNewbieGuideDot || gAppMgr.myUser.hasNewMsg) {
+            CGFloat offsetX = 6;
+            CGFloat offsetY = 6;
+            if (!IOSVersionGreaterThanOrEqualTo(@"7.0")) {
+                offsetX = 7;
+                offsetY = 5;
+            }
             CGFloat x = ceilf(CGRectGetWidth(self.tabBar.frame)/6*5 + offsetX);
             CGFloat y = offsetY;
             [self.tabBar showDotWithOffset:CGPointMake(x, y)];
@@ -64,6 +84,7 @@
     }];
 }
 
+#pragma mark - Delegate
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
     NSString * str = [NSString stringWithFormat:@"rp101-%ld",(long)viewController.tabBarItem.tag];

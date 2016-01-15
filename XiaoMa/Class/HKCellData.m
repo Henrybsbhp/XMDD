@@ -28,4 +28,18 @@
     return NO;
 }
 
+- (void)setInfoFrom:(NSDictionary *)dict
+{
+    if (dict) {
+        if (!self.info) {
+            _info = [NSMutableDictionary dictionaryWithDictionary:dict];
+        }
+        else {
+            [dict enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+                [self.info setObject:obj forKey:key];
+            }];
+        }
+    }
+}
+
 @end

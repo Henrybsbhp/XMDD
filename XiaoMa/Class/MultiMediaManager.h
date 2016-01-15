@@ -25,6 +25,7 @@ typedef enum : NSInteger
 - (void)saveImageToCache:(UIImage *)image forUrl:(NSString *)strurl;
 - (NSString *)urlWith:(NSString *)url imageType:(ImageURLType)type;
 - (NSString *)urlWith:(NSString *)url croppedSize:(CGSize)size;
+- (NSString *)urlWith:(NSString *)url scaleSize:(CGSize)size;
 - (RACSignal *)rac_getImageByUrl:(NSString *)strurl withType:(ImageURLType)type
                       defaultPic:(NSString *)defName errorPic:(NSString *)errName;
 @end

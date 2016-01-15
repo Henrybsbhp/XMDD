@@ -17,6 +17,7 @@
 
 #import "HKLoginModel.h"
 #import "MyCarStore.h"
+#import "GuideStore.h"
 
 #import "CarWashTableVC.h"
 #import "WebVC.h"
@@ -27,6 +28,7 @@
 #import "GasVC.h"
 #import "ViolationViewController.h"
 #import "ValuationViewController.h"
+#import "HomeNewbieGuideVC.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3.0
@@ -43,8 +45,10 @@
 @property (nonatomic, strong)UIView *containerView;
 
 @property (nonatomic, strong) MyCarStore *carStore;
+@property (nonatomic, strong) GuideStore *guideStore;
 
 @property (nonatomic, strong)NSArray * homeItemArray;
+@property (nonatomic, assign) BOOL isViewAppearing;
 @end
 
 @implementation HomePageVC
@@ -54,6 +58,7 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp101"];
+    self.isViewAppearing = YES;
     [self.scrollView restartRefreshViewAnimatingWhenRefreshing];
 }
 
@@ -61,6 +66,7 @@
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp101"];
+    self.isViewAppearing = NO;
 }
 
 - (void)viewDidLoad
@@ -78,6 +84,8 @@
     [self autoLogin];
     //全局CarStore
     self.carStore = [MyCarStore fetchOrCreateStore];
+    //设置新手引导
+    [self setupGuideStore];
     //设置主页的滚动视图
     [self setupScrollView];
     [self setupWeatherView];
@@ -106,6 +114,7 @@
 //            CGFloat heigth = self.secondaryItemView.frame.size.height + self.secondaryItemView.frame.origin.x;
             self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, 460);
         }
+        [self showNewbieGuideAlertIfNeeded];
     });
 }
 
@@ -530,6 +539,27 @@
             [av show];
             break;
         }
+    }
+}
+
+#pragma mark - Guide
+- (void)setupGuideStore
+{
+    self.guideStore = [GuideStore fetchOrCreateStore];
+    @weakify(self);
+    [self.guideStore subscribeWithTarget:self domain:kDomainNewbiewGuide receiver:^(CKStore *store, CKEvent *evt) {
+        [[evt signal] subscribeNext:^(id x) {
+            @strongify(self);
+            [self showNewbieGuideAlertIfNeeded];
+        }];
+    }];
+}
+
+//刷新是否显示新手引导
+- (void)showNewbieGuideAlertIfNeeded
+{
+    if (self.guideStore.shouldShowNewbieGuideAlert && self.isViewAppearing) {
+        [HomeNewbieGuideVC presentInTargetVC:self];
     }
 }
 

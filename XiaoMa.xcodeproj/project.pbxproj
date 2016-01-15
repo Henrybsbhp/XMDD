@@ -39,6 +39,7 @@
 		181F6DA81B15919900D38555 /* CXAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D9E1B15919900D38555 /* CXAlertViewController.m */; };
 		181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6DA01B15919900D38555 /* LFDisplayBridge.m */; };
 		181F6DAA1B15919900D38555 /* LFGlassView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6DA21B15919900D38555 /* LFGlassView.m */; };
+		1821C34D1C4794D800120AF4 /* HomeNewbieGuideVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1821C34C1C4794D800120AF4 /* HomeNewbieGuideVC.m */; };
 		1826CCF01BAAE80800E2F46D /* ZFCDoubleBounceActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1826CCE91BAAE80800E2F46D /* ZFCDoubleBounceActivityIndicatorView.m */; };
 		1826CCF11BAAE80800E2F46D /* ZFCRotatingPlaneActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1826CCEB1BAAE80800E2F46D /* ZFCRotatingPlaneActivityIndicatorView.m */; };
 		1826CCF21BAAE80800E2F46D /* ZFCWanderingCubesActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1826CCED1BAAE80800E2F46D /* ZFCWanderingCubesActivityIndicatorView.m */; };
@@ -219,6 +220,8 @@
 		18B6E5C41C43A32400697DAB /* IQKeyboardManager.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18B6E5B61C43A32400697DAB /* IQKeyboardManager.bundle */; };
 		18B6E5C81C44D2A000697DAB /* KeyboardHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6E5C71C44D2A000697DAB /* KeyboardHelper.m */; };
 		18B6E5CB1C463D0300697DAB /* CancelInsOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6E5CA1C463D0300697DAB /* CancelInsOrderOp.m */; };
+		18B6E5CE1C47361A00697DAB /* GuideStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6E5CD1C47361A00697DAB /* GuideStore.m */; };
+		18B6E5D11C473CF700697DAB /* GetNewbieInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6E5D01C473CF700697DAB /* GetNewbieInfoOp.m */; };
 		18B78F591BA9893C0061ECAD /* GetLaunchInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B78F581BA9893C0061ECAD /* GetLaunchInfoOp.m */; };
 		18B78F5C1BA989BE0061ECAD /* HKLaunchInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B78F5B1BA989BE0061ECAD /* HKLaunchInfo.m */; };
 		18B78F5F1BA990100061ECAD /* HKLaunchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B78F5E1BA990100061ECAD /* HKLaunchManager.m */; };
@@ -694,6 +697,8 @@
 		181F6DA11B15919900D38555 /* LFGlassView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFGlassView.h; sourceTree = "<group>"; };
 		181F6DA21B15919900D38555 /* LFGlassView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFGlassView.m; sourceTree = "<group>"; };
 		181F6DA31B15919900D38555 /* LiveFrost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveFrost.h; sourceTree = "<group>"; };
+		1821C34B1C4794D800120AF4 /* HomeNewbieGuideVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeNewbieGuideVC.h; sourceTree = "<group>"; };
+		1821C34C1C4794D800120AF4 /* HomeNewbieGuideVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeNewbieGuideVC.m; sourceTree = "<group>"; };
 		1826CCE81BAAE80800E2F46D /* ZFCDoubleBounceActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCDoubleBounceActivityIndicatorView.h; sourceTree = "<group>"; };
 		1826CCE91BAAE80800E2F46D /* ZFCDoubleBounceActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCDoubleBounceActivityIndicatorView.m; sourceTree = "<group>"; };
 		1826CCEA1BAAE80800E2F46D /* ZFCRotatingPlaneActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCRotatingPlaneActivityIndicatorView.h; sourceTree = "<group>"; };
@@ -1057,6 +1062,10 @@
 		18B6E5C71C44D2A000697DAB /* KeyboardHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeyboardHelper.m; path = Class/KeyboardHelper.m; sourceTree = "<group>"; };
 		18B6E5C91C463D0300697DAB /* CancelInsOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelInsOrderOp.h; sourceTree = "<group>"; };
 		18B6E5CA1C463D0300697DAB /* CancelInsOrderOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelInsOrderOp.m; sourceTree = "<group>"; };
+		18B6E5CC1C47361A00697DAB /* GuideStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GuideStore.h; path = Class/GuideStore.h; sourceTree = "<group>"; };
+		18B6E5CD1C47361A00697DAB /* GuideStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GuideStore.m; path = Class/GuideStore.m; sourceTree = "<group>"; };
+		18B6E5CF1C473CF700697DAB /* GetNewbieInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetNewbieInfoOp.h; path = Class/GetNewbieInfoOp.h; sourceTree = "<group>"; };
+		18B6E5D01C473CF700697DAB /* GetNewbieInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetNewbieInfoOp.m; path = Class/GetNewbieInfoOp.m; sourceTree = "<group>"; };
 		18B78F571BA9893C0061ECAD /* GetLaunchInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetLaunchInfoOp.h; path = Class/GetLaunchInfoOp.h; sourceTree = "<group>"; };
 		18B78F581BA9893C0061ECAD /* GetLaunchInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetLaunchInfoOp.m; path = Class/GetLaunchInfoOp.m; sourceTree = "<group>"; };
 		18B78F5A1BA989BE0061ECAD /* HKLaunchInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKLaunchInfo.h; path = Class/HKLaunchInfo.h; sourceTree = "<group>"; };
@@ -2656,6 +2665,8 @@
 				18E28A0A1B904FF00070E759 /* LaunchVC.m */,
 				6BEE17911C325A3C0004F63A /* GuideViewController.h */,
 				6BEE17921C325A3C0004F63A /* GuideViewController.m */,
+				1821C34B1C4794D800120AF4 /* HomeNewbieGuideVC.h */,
+				1821C34C1C4794D800120AF4 /* HomeNewbieGuideVC.m */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -2807,6 +2818,8 @@
 		18988CAC1BC78D71001DECD5 /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				18B6E5CC1C47361A00697DAB /* GuideStore.h */,
+				18B6E5CD1C47361A00697DAB /* GuideStore.m */,
 				18900B451C1E8567003DA439 /* InsuranceStore.h */,
 				18900B461C1E8567003DA439 /* InsuranceStore.m */,
 				18895B281B4A136100928F62 /* HKStore.h */,
@@ -3961,6 +3974,8 @@
 				50FAC26A1C23AB9C00F8990F /* GetAutomobileModelV2Op.m */,
 				6B22659A1C45059500A121CC /* GetSystemHomePicOp.h */,
 				6B22659B1C45059500A121CC /* GetSystemHomePicOp.m */,
+				18B6E5CF1C473CF700697DAB /* GetNewbieInfoOp.h */,
+				18B6E5D01C473CF700697DAB /* GetNewbieInfoOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -4652,6 +4667,7 @@
 				2E77A4A41C325FCC00264FC9 /* HKRescueNoLogin.m in Sources */,
 				6BD7AE681AE9F63900BEF30E /* MapBottomView.m in Sources */,
 				6BBB4C3F1B32790B00C8052E /* WelcomeViewController.m in Sources */,
+				1821C34D1C4794D800120AF4 /* HomeNewbieGuideVC.m in Sources */,
 				6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */,
 				6BF3925F1BD8935600838292 /* CBAutoScrollLabel.m in Sources */,
 				50DD1BC81BFB023800349A70 /* HKOtherOrder.m in Sources */,
@@ -4816,6 +4832,7 @@
 				6BEA56C71AE24DCE000D19C1 /* SBJSON.m in Sources */,
 				1826CCF21BAAE80800E2F46D /* ZFCWanderingCubesActivityIndicatorView.m in Sources */,
 				1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */,
+				18B6E5CE1C47361A00697DAB /* GuideStore.m in Sources */,
 				6BEE177C1C325A0D0004F63A /* IFTTTConstraintMultiplierAnimation.m in Sources */,
 				2E3EEBC31C224DD20010E34F /* CommissionOrderVC.m in Sources */,
 				508BD8D01BD0E3ED00B64199 /* GasRecordVC.m in Sources */,
@@ -4867,6 +4884,7 @@
 				6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */,
 				6BEE178A1C325A0D0004F63A /* IFTTTScrollViewPageConstraintAnimation.m in Sources */,
 				18A15A6B1C225E3F00D7B5DF /* GetPremiumDetailOp.m in Sources */,
+				18B6E5D11C473CF700697DAB /* GetNewbieInfoOp.m in Sources */,
 				18BF420C1BD273C70039F210 /* CKLimitTextField.m in Sources */,
 				6B2265991C44C7A400A121CC /* CarwashFreshmanGuideVC.m in Sources */,
 				18895B361B4CB89000928F62 /* HKPushManager.m in Sources */,
