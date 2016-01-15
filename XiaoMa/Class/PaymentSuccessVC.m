@@ -311,6 +311,7 @@
 {
     [self.shopImageView setImageByUrl:[self.order.shop.picArray safetyObjectAtIndex:0]
                              withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
+    [self.shopImageView makeCornerRadius:3.0f];
     self.shopNameLb.text = self.order.shop.shopName;
     self.serviceLb.text = self.order.servicename;
     self.dateLb.text = [[NSDate date] dateFormatForYYYYMMddHHmm];
