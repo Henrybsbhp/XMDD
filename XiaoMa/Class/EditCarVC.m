@@ -24,6 +24,7 @@
 #import "HKTableViewCell.h"
 #import "AreaTablePickerVC.h"
 #import "CarIDCodeCheckModel.h"
+#import "OETextField.h"
 
 @interface EditCarVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -363,9 +364,10 @@
     cell2_3.customInfo[@"title"] = @"发动机号";
     cell2_3.customInfo[@"placehold"] = @"请填写发动机号";
     cell2_3.customInfo[@"howDisplay"] = @(YES);
-    cell2_3.customInfo[@"block"] = [^(CKLimitTextField *field, RACSignal *stopSig) {
+    cell2_3.customInfo[@"block"] = [^(OETextField *field, RACSignal *stopSig) {
         @strongify(self);
         
+        [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
         field.text = self.curCar.engineno;
         
         [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
