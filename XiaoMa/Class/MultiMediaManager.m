@@ -98,6 +98,12 @@
     return [url append:suffix];
 }
 
+- (NSString *)urlWith:(NSString *)url scaleSize:(CGSize)size
+{
+    NSString *suffix = [NSString stringWithFormat:@"?imageView2/0/w/%d/h/%d", (int)size.width, (int)size.height];
+    return [url append:suffix];
+}
+
 - (NSString *)urlWith:(NSString *)url imageType:(ImageURLType)type
 {
     if (type == ImageURLTypeThumbnail) {

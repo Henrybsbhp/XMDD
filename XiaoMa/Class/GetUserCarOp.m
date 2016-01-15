@@ -20,22 +20,19 @@
 
 - (instancetype)parseResponseObject:(id)rspObj
 {
-    if ([rspObj isKindOfClass:[NSDictionary class]])
+    NSDictionary *dict = rspObj;
+
+    self.rsp_tip = dict[@"tip"];
+    
+    NSArray * cars = dict[@"cars"];
+    NSMutableArray * tArray = [NSMutableArray array];
+    for (NSDictionary * dict in cars)
     {
-        NSArray * cars = (NSArray *)rspObj[@"cars"];
-        NSMutableArray * tArray = [NSMutableArray array];
-        for (NSDictionary * dict in cars)
-        {
-            HKMyCar * car = [HKMyCar carWithJSONResponse:dict];
-            [tArray addObject:car];
-        }
-        self.rsp_carArray = tArray;
+        HKMyCar * car = [HKMyCar carWithJSONResponse:dict];
+        [tArray addObject:car];
     }
-    else
-    {
-        NSString * errorInfo = [NSString stringWithFormat:@"%@ parse error~~",NSStringFromClass([self class])];
-        NSAssert(NO,errorInfo);
-    }
+    self.rsp_carArray = tArray;
+    
     return self;
 }
 

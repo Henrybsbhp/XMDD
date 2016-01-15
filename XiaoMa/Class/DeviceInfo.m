@@ -66,6 +66,24 @@
     return NO;
 }
 
+- (BOOL)checkIfAppearedAtThisVersionForKey:(NSString *)key
+{
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    NSString *name = @"$CheckKeyForThisVersion";
+    NSDictionary *dict = [def persistentDomainForName:name];
+    NSString *version = dict[@"$app_version"];
+    
+    //当前版本大于上次检测到的版本
+    if ([self.appVersion compare:version options:NSCaseInsensitiveSearch] == NSOrderedDescending) {
+        return NO;
+    }
+    //如果还不存在这个key
+    if (![dict objectForKey:key]) {
+        return NO;
+    }
+    return YES;
+}
+
 - (BOOL)firstAppearAfterVersion:(NSString *)version forKey:(NSString *)key
 {
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
@@ -81,6 +99,18 @@
         [def setObject:version forKey:name];
     }
     return NO;
+}
+
+- (BOOL)checkIfAppearedAfterVersion:(NSString *)version forKey:(NSString *)key
+{
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    NSString *name = [NSString stringWithFormat:@"$CheckKeyAfterTheVersion_%@", key];
+    NSString *oldVersion = [def objectForKey:name];
+    //如果还不存在这个key
+    if (!oldVersion) {
+        return NO;
+    }
+    return YES;
 }
 #pragma mark - Private
 - (void)_saveKey:(NSString *)key forDomain:(NSDictionary *)domain withName:(NSString *)name

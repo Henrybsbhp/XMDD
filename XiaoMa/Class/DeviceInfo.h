@@ -22,9 +22,13 @@
 ///设备唯一标识
 @property (nonatomic, strong, readonly) NSString *deviceID;
 
-///检测关键字是否第一次在当前版本出现过
+///检测关键字是否第一次在当前版本出现过(没有出现过则更新)
 - (BOOL)firstAppearAtThisVersionForKey:(NSString *)key;
-///检测关键字是否第一次在某版本之后（包含该版本）出现过
+///检测关键字是否第一次在当前版本出现过
+- (BOOL)checkIfAppearedAtThisVersionForKey:(NSString *)key;
+///检测关键字是否第一次在某版本之后（包含该版本）出现过(没有出现过则更新)
 - (BOOL)firstAppearAfterVersion:(NSString *)version forKey:(NSString *)key;
+///检测关键字是否第一次在某版本之后（包含该版本）出现过
+- (BOOL)checkIfAppearedAfterVersion:(NSString *)version forKey:(NSString *)key;
 
 @end

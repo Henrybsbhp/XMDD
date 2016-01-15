@@ -11,5 +11,6 @@
 @interface GetUserCarOp : BaseOp
 
 @property (nonatomic,strong)NSArray * rsp_carArray;
+@property (nonatomic, strong) NSString *rsp_tip;
 
 @end

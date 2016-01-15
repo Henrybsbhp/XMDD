@@ -20,6 +20,10 @@
 #import "CardDetailVC.h"
 #import "UnbundlingVC.h"
 #import "CarListVC.h"
+#import "HKCellData.h"
+#import "HKTableViewCell.h"
+#import "GuideStore.h"
+#import "DetailWebVC.h"
 
 @interface MineVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -29,6 +33,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *accountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *PlaceholdLabel;
+@property (nonatomic, strong) NSArray *datasource;
+@property (nonatomic, strong) GuideStore *guideStore;
+@property (nonatomic, assign) BOOL shouldShowNewbieDot;
 @end
 
 @implementation MineVC
@@ -37,6 +44,8 @@
     [super viewDidLoad];
     [self setupBgView];
     [self observeUserInfo];
+    [self setupGuideStore];
+    [self reloadData];
 }
 
 
@@ -147,6 +156,168 @@
     }];
 }
 
+#pragma mark - Guide
+- (void)setupGuideStore
+{
+    self.guideStore = [GuideStore fetchOrCreateStore];
+    self.shouldShowNewbieDot = self.guideStore.shouldShowNewbieGuideDot;
+    @weakify(self);
+    [self.guideStore subscribeWithTarget:self domain:kDomainNewbiewGuide receiver:^(CKStore *store, CKEvent *evt) {
+        @strongify(self);
+        [[evt signal] subscribeNext:^(id x) {
+            @strongify(self);
+            self.shouldShowNewbieDot = self.guideStore.shouldShowNewbieGuideDot;
+        }];
+    }];
+}
+
+#pragma mark - Datasource
+- (void)reloadData
+{
+    HKCellData *top = [self topData];
+    
+    HKCellData *car = [self normalDataWith:@{@"img":@"me_car",@"title":@"爱车",@"evt":@"rp301-4"}];
+    [car setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+        CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    HKCellData *bank = [self normalDataWith:@{@"img":@"me_bank",@"title":@"银行卡",@"evt":@"rp301-10"}];
+    [bank setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+        UIViewController *vc = [UIStoryboard vcWithId:@"MyBankVC" inStoryboard:@"Bank"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    HKCellData *order = [self normalDataWith:@{@"img":@"me_order",@"title":@"订单",@"evt":@"rp301-5"}];
+    [order setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+        MyOrderListVC *vc = [UIStoryboard vcWithId:@"MyOrderListVC" inStoryboard:@"Mine"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    HKCellData *pkg = [self normalDataWith:@{@"img":@"me_pkg",@"title":@"礼包",@"evt":@"rp301-6"}];
+    [pkg setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+        CouponPkgViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"CouponPkgViewController"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    HKCellData *collect = [self normalDataWith:@{@"img":@"me_collect",@"title":@"收藏",@"evt":@"rp301-7"}];
+    [collect setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+        MyCollectionViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"MyCollectionViewController"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    HKCellData *active = [self activeData];
+    
+    HKCellData *setting = [self normalDataWith:@{@"img":@"me_setting",@"title":@"关于",@"evt":@"rp301-8",@"nologin":@YES}];
+    [setting setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+        AboutViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+
+    
+    self.datasource = @[@[top], @[car,bank,order,pkg,collect], @[active], @[setting]];
+    [self.tableView reloadData];
+}
+
+- (HKCellData *)topData
+{
+    HKCellData *data = [HKCellData dataWithCellID:@"TopCell" tag:nil];
+    
+    [data setHeightBlock:^CGFloat(UITableView *tableView) {
+        return 64;
+    }];
+    
+    @weakify(self);
+    [data setDequeuedBlock:^(UITableView *tableView, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        HKTableViewCell *hkcell = (HKTableViewCell *)cell;
+        UIButton *leftBtn = [cell.contentView viewWithTag:1002];
+        UILabel *rightTitleL = [cell.contentView viewWithTag:2001];
+        UIButton *rightBtn = [cell.contentView viewWithTag:2002];
+        
+        [[[leftBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+         subscribeNext:^(id x) {
+            @strongify(self);
+            [self actionPushToTickets];
+        }];
+        
+        [[[rightBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+         subscribeNext:^(id x) {
+            @strongify(self);
+            [self actionPushToMessages];
+        }];
+        
+        [[[[RACObserve(gAppMgr, myUser) distinctUntilChanged] flattenMap:^RACStream *(JTUser *user) {
+            
+            if (user) {
+                return [RACObserve(user, hasNewMsg) distinctUntilChanged];
+            }
+            return [RACSignal return:@NO];
+        }] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber *hasmsg) {
+            
+            BOOL showDot = [hasmsg boolValue];
+            if (showDot) {
+                [rightTitleL showDotWithOffset:CGPointMake(36, 0)];
+            }
+            else {
+                [rightTitleL hideDot];
+            }
+        }];
+
+        [hkcell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
+    }];
+    
+    return data;
+}
+
+- (HKCellData *)normalDataWith:(NSDictionary *)info
+{
+    HKCellData *data = [HKCellData dataWithCellID:@"NormalCell" tag:nil];
+    [data setInfoFrom:info];
+    [data setDequeuedBlock:^(UITableView *tableView, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        HKTableViewCell *hkcell = (HKTableViewCell *)cell;
+        UIImageView *iconV = [cell.contentView viewWithTag:1001];
+        UILabel *titleL = [cell.contentView viewWithTag:1002];
+        UILabel *subTitleL = [cell.contentView viewWithTag:1003];
+        
+        iconV.image = [UIImage imageNamed:info[@"img"]];
+        titleL.text = info[@"title"];
+        subTitleL.text = nil;
+        
+        [hkcell prepareCellForTableView:tableView atIndexPath:indexPath];
+    }];
+    return data;
+}
+
+- (HKCellData *)activeData
+{
+    HKCellData *data = [HKCellData dataWithCellID:@"ActiveCell" tag:nil];
+    
+    [data setHeightBlock:^CGFloat(UITableView *tableView) {
+        return 64;
+    }];
+
+    @weakify(self);
+    [data setDequeuedBlock:^(UITableView *tableView, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        @strongify(self);
+        HKTableViewCell *hkcell = (HKTableViewCell *)cell;
+        UIImageView *dotV = [cell viewWithTag:1003];
+        
+        [[RACObserve(self, shouldShowNewbieDot) takeUntilForCell:cell] subscribeNext:^(NSNumber *show) {
+            dotV.hidden = ![show boolValue];
+        }];
+        
+        [hkcell prepareCellForTableView:tableView atIndexPath:indexPath];
+    }];
+    
+    [data setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+        
+        @strongify(self);
+        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+        vc.url = self.guideStore.newbieInfo.rsp_url;
+        [self.navigationController pushViewController:vc animated:YES];
+        [self.guideStore setNewbieGuideAppeared];
+    }];
+    return data;
+}
+
 #pragma mark - Action
 -(void)actionPushToTickets
 {
@@ -175,25 +346,19 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return  4;
+    return  self.datasource.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 1) {
-        return 2;
-    }
-    if (section == 2) {
-        return 3;
-    }
-    return 1;
+    return [[self.datasource safetyObjectAtIndex:section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell;
-    if (indexPath.section == 0) {
-        cell = [self topCellAtIndexPath:indexPath];
+    HKCellData *data = [[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data.cellID forIndexPath:indexPath];
+    if (data.dequeuedBlock) {
+        data.dequeuedBlock(tableView, cell, indexPath);
     }
-    cell = [self normalCellAtIndexPath:indexPath];
     return cell;
 }
 
@@ -206,140 +371,30 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        return 64;
+    HKCellData *data = [[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
+    if (data.heightBlock) {
+        return data.heightBlock(tableView);
     }
     return 44;
 }
-                                                
-- (UITableViewCell *)topCellAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"TopCell" forIndexPath:indexPath];
-//    UILabel *leftTitleL = (UILabel *)[cell.contentView viewWithTag:1001];
-    UIButton *leftBtn = (UIButton *)[cell.contentView viewWithTag:1002];
-    UILabel *rightTitleL = (UILabel *)[cell.contentView viewWithTag:2001];
-    UIButton *rightBtn = (UIButton *)[cell.contentView viewWithTag:2002];
-    
-    @weakify(self);
-    [[[leftBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        @strongify(self);
-        [self actionPushToTickets];
-    }];
-    
-    [[[rightBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        @strongify(self);
-        [self actionPushToMessages];
-    }];
-    
-    [[[[RACObserve(gAppMgr, myUser) distinctUntilChanged] flattenMap:^RACStream *(JTUser *user) {
-        
-        if (user) {
-            return [RACObserve(user, hasNewMsg) distinctUntilChanged];
-        }
-        return [RACSignal return:@NO];
-    }] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber *hasmsg) {
-        
-        BOOL showDot = [hasmsg boolValue];
-        if (showDot) {
-            [rightTitleL showDotWithOffset:CGPointMake(36, 0)];
-        }
-        else {
-            [rightTitleL hideDot];
-        }
-    }];
-    return cell;
-}
 
-- (UITableViewCell *)normalCellAtIndexPath:(NSIndexPath *)indexPath
-{
-    JTTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"NormalCell" forIndexPath:indexPath];
-    UIImageView *iconV = (UIImageView *)[cell.contentView viewWithTag:1001];
-    UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
-    UILabel *subTitleL = (UILabel *)[cell.contentView viewWithTag:1003];
-    subTitleL.text = nil;
-    if (indexPath.section == 1) {
-        if (indexPath.row == 0) {
-            iconV.image = [UIImage imageNamed:@"me_car"];
-            titleL.text = @"爱车";
-        }
-        else if (indexPath.row == 1) {
-            iconV.image = [UIImage imageNamed:@"me_bank"];
-            titleL.text = @"银行卡";
-        }
-    }
-    else if (indexPath.section == 2) {
-        if (indexPath.row == 0) {
-            iconV.image = [UIImage imageNamed:@"me_order"];
-            titleL.text = @"订单";
-        }
-        else if (indexPath.row == 1) {
-            iconV.image = [UIImage imageNamed:@"me_pkg"];
-            titleL.text = @"礼包";
-        }
-        else if (indexPath.row == 2) {
-            iconV.image = [UIImage imageNamed:@"me_collect"];
-            titleL.text = @"收藏";
-        }
-    }
-    else if (indexPath.section == 3) {
-        iconV.image = [UIImage imageNamed:@"me_setting"];
-        titleL.text = @"关于";
-    }
-    cell.customSeparatorInset = UIEdgeInsetsMake(-1, 12, 0, 0);
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if ([cell isKindOfClass:[JTTableViewCell class]]) {
-        [(JTTableViewCell *)cell prepareCellForTableView:tableView atIndexPath:indexPath];
-    }
-}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1 && indexPath.row == 0) {
-        [MobClick event:@"rp301-4"];
-        if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-            CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
-            [self.navigationController pushViewController:vc animated:YES];
-        }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    HKCellData *data = [[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
+    if (data.info[@"evt"]) {
+        [MobClick event:data.info[@"evt"]];
     }
-    else if (indexPath.section == 1 && indexPath.row == 1) {
-        [MobClick event:@"rp301-10"];
-        if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-            UIViewController *vc = [UIStoryboard vcWithId:@"MyBankVC" inStoryboard:@"Bank"];
-            [self.navigationController pushViewController:vc animated:YES];
+    if (data.selectedBlock) {
+        //无需登录
+        if ([data.info[@"nologin"] boolValue]) {
+            data.selectedBlock(tableView, indexPath);
         }
-    }
-    else if (indexPath.section == 2 && indexPath.row == 0) {
-        [MobClick event:@"rp301-5"];
-        if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-            MyOrderListVC *vc = [UIStoryboard vcWithId:@"MyOrderListVC" inStoryboard:@"Mine"];
-            [self.navigationController pushViewController:vc animated:YES];
+        //需要登录
+        else if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+            data.selectedBlock(tableView, indexPath);
         }
-    }
-    else if (indexPath.section == 2 && indexPath.row == 1)
-    {
-        [MobClick event:@"rp301-6"];
-        if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-            CouponPkgViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"CouponPkgViewController"];
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-    }
-    else if (indexPath.section == 2 && indexPath.row == 2)
-    {
-        [MobClick event:@"rp301-7"];
-        if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-            MyCollectionViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"MyCollectionViewController"];
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-    }
-    else if (indexPath.section == 3)
-    {
-        [MobClick event:@"rp301-8"];
-        AboutViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
-        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
