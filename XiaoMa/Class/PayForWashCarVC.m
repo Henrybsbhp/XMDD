@@ -35,7 +35,6 @@
 #import "CheckoutServiceOrderV4Op.h"
 #import "OrderPaidSuccessOp.h"
 
-#import "GetUserResourcesV2Op.h"
 #import "GainUserAwardOp.h"
 
 
@@ -389,7 +388,6 @@
             vc.type = CouponTypeCarWash;
             vc.selectedCouponArray = self.selectCarwashCoupouArray;
             vc.couponArray = self.getUserResourcesV2Op.validCarwashCouponArray;
-            vc.upperLimit = self.service.origprice;
             [self.navigationController pushViewController:vc animated:YES];
         }
         else if (indexPath.row == 2)
@@ -400,7 +398,6 @@
             vc.type = CouponTypeCash;
             vc.selectedCouponArray = self.selectCashCoupouArray;
             vc.couponArray = self.getUserResourcesV2Op.validCashCouponArray;
-            vc.upperLimit = self.service.origprice;
             [self.navigationController pushViewController:vc animated:YES];
         }
         
@@ -610,7 +607,6 @@
                 vc.selectedCouponArray = self.selectCarwashCoupouArray;
                 vc.type = CouponTypeCarWash;//@fq
                 vc.couponArray = self.getUserResourcesV2Op.validCarwashCouponArray;
-                vc.upperLimit = self.service.origprice;
                 [self.navigationController pushViewController:vc animated:YES];
                 [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
             }
@@ -644,7 +640,6 @@
                 vc.selectedCouponArray = self.selectCashCoupouArray;
                 vc.type = CouponTypeCash;
                 vc.couponArray = self.getUserResourcesV2Op.validCashCouponArray;
-                vc.upperLimit = self.service.origprice;
                 [self.navigationController pushViewController:vc animated:YES];
                 [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
             }
@@ -1335,17 +1330,22 @@
             discount = discount + coupon.couponAmount;
         }
         paymoney = serviceAmount - discount;
+        
+        paymoney = paymoney > 0 ? paymoney : 0.01f;
     }
 
     
     NSString * btnText = [NSString stringWithFormat:@"您只需支付%.2f元，现在支付",paymoney];
     [self.payBtn setTitle:btnText forState:UIControlStateNormal];
     
-    CGFloat gainCoupon = paymoney < 1.0f ? 1.0f : paymoney;
-    NSString * lbText = [NSString stringWithFormat:@"0元洗车:支付成功后将获取%@元加油代金券",[NSString formatForPrice:gainCoupon]];
+    CGFloat gainCouponAmt = MIN(MAX(paymoney, 1.0f), 10.0f);
+    
+    NSString * lbText = [NSString stringWithFormat:@"0元洗车:支付成功后将获取%@元加油代金券",[NSString formatForPrice:gainCouponAmt]];
     self.bottomScrollLb.text = lbText;
     
-    if (!self.getUserResourcesV2Op.rsp_carwashFlag && paymoney >= 0.01)
+    /// 如果是活动日 || 新手
+    if ((!self.getUserResourcesV2Op.rsp_carwashFlag || self.getUserResourcesV2Op.rsp_neverCarwashFlag)
+        && paymoney >= 0)
     {
         self.bottomScrollLb.hidden = NO;
         self.bottomViewHeightConstraint.constant = 72;
@@ -1411,8 +1411,8 @@
 /// 新手提示
 - (void)alertFreshmanGuide
 {
-    /// 新手 && 没领过周周礼券的
-    if (!self.getUserResourcesV2Op.rsp_carwashFlag)
+    // 新手 && 没领过周周礼券的
+    if (self.getUserResourcesV2Op.rsp_neverCarwashFlag && !self.getUserResourcesV2Op.rsp_weeklyCouponGetFlag)
     {
         CarwashFreshmanGuideVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"CarwashFreshmanGuideVC"];
         CGFloat width = 265 * gAppMgr.deviceInfo.screenSize.width / 320;

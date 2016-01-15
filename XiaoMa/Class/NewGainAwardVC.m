@@ -18,14 +18,18 @@
 #import "AwardShareSheetVC.h"
 #import "AwardOtherSheetVC.h"
 #import "CarWashTableVC.h"
+#import "DetailWebVC.h"
 
 @interface NewGainAwardVC ()
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *widthConstraint;
 
+@property (weak, nonatomic) IBOutlet UIView *coverView;
 @property (weak, nonatomic) IBOutlet UIImageView *bgImgView;
 @property (weak, nonatomic) IBOutlet UIView *scratchView;
+@property (weak, nonatomic) IBOutlet UILabel *rmbLabel;
 @property (weak, nonatomic) IBOutlet UILabel *amount;
+@property (weak, nonatomic) IBOutlet UILabel *amountTypeLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *carwashFlagView;
 @property (weak, nonatomic) IBOutlet UILabel *tipLabel;
 @property (weak, nonatomic) IBOutlet UIButton *carwashBtn;
@@ -48,28 +52,45 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    
     self.otherActionFlag = YES;
 }
 
 - (void)requestOperation
 {
+    self.coverView.hidden = NO;
+    self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
+    [self.coverView hideDefaultEmptyView];
+    [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     @weakify(self);
     CheckUserAwardOp * op = [CheckUserAwardOp operation];
     [[op rac_postRequest] subscribeNext:^(CheckUserAwardOp * op) {
         
         @strongify(self);
+        self.coverView.hidden = YES;
+        [self.view stopActivityAnimation];
         //从未洗过车或活动日没洗过车
         if (!op.rsp_carwashflag) {
             [self.carwashBtn setTitle:@"0元洗车" forState:UIControlStateNormal];
             self.instructionBtn.hidden = NO;
+            [[self.instructionBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                
+                DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+                vc.url = @"http://www.xiaomadada.com/apphtml/lingyuanxiche.html";
+                [self.navigationController pushViewController:vc animated:YES];
+            }];
         }
         
         if (op.rsp_leftday > 0) {
             self.amount.text = [NSString stringWithFormat:@"%ld", (long)op.rsp_amount];
+            if ([UIScreen mainScreen].bounds.size.height == 480) {
+                self.amount.font = [UIFont systemFontOfSize:42];
+            }
             self.tipLabel.text = [NSString stringWithFormat:@"您已领取礼券，%ld天后再来领取吧！", (long)op.rsp_leftday];
             if (op.rsp_isused) {
                 self.carwashFlagView.hidden = NO;
+                self.rmbLabel.textColor = [UIColor lightGrayColor];
+                self.amount.textColor = [UIColor lightGrayColor];
+                self.amountTypeLabel.textColor = [UIColor lightGrayColor];
             }
             [[self.carwashBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
@@ -104,6 +125,10 @@
         }
     } error:^(NSError *error) {
         
+        [self.view stopActivityAnimation];
+        [self.coverView showDefaultEmptyViewWithText:@"获取礼券信息失败，请点击重试" tapBlock:^{
+            [self requestOperation];
+        }];
     }];
 }
 
@@ -128,12 +153,6 @@
 
 - (void)gainAward
 {
-//    [dsp dispose];
-//    dsp = [[[RACSignal return:@1] delay:1] subscribeNext:^(id x) {
-//        
-//    }];
-//    [[self rac_deallocDisposable] addDisposable:dsp];
-    
     GainUserAwardOp * op = [GainUserAwardOp operation];
     op.req_province = gMapHelper.addrComponent.province;
     op.req_city = gMapHelper.addrComponent.city;
@@ -145,12 +164,11 @@
     }] subscribeNext:^(GainUserAwardOp * op) {
         
         @strongify(self);
+        [gToast dismiss];
+        
         self.isScratched = YES;
         self.amount.text = [NSString stringWithFormat:@"%ld", (long)op.rsp_amount];
         self.tipLabel.text = op.rsp_tip;
-        
-        [gToast dismiss];
-        
         [UIView animateWithDuration:0.5
                          animations:^{
                              self.hyscratchView.alpha = 0;
@@ -159,22 +177,7 @@
         CKAfter(1.5, ^{
             //若弹出分享窗之前用户进行了其他操作，则不弹出
             if (!self.otherActionFlag) {
-                AwardShareSheetVC * sheetVC = [awardStoryboard instantiateViewControllerWithIdentifier:@"AwardShareSheetVC"];
-                MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(285, 365) viewController:sheetVC];
-                sheet.shouldCenterVertically = YES;
-                [sheet presentAnimated:YES completionHandler:nil];
-                
-                [[sheetVC.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-                    
-                    [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-                        [self shareAction];
-                    }];
-                }];
-                
-                [[sheetVC.closeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-                    
-                    [sheet dismissAnimated:YES completionHandler:nil];
-                }];
+                [self showShareSheet];
             }
         });
         
@@ -184,10 +187,25 @@
     }];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+- (void)showShareSheet
+{
+    AwardShareSheetVC * sheetVC = [awardStoryboard instantiateViewControllerWithIdentifier:@"AwardShareSheetVC"];
+    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(285, 365) viewController:sheetVC];
+    sheet.shouldCenterVertically = YES;
+    [sheet presentAnimated:YES completionHandler:nil];
+    
+    [[sheetVC.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+            [self shareAction];
+        }];
+    }];
+    
+    [[sheetVC.closeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        [sheet dismissAnimated:YES completionHandler:nil];
+    }];
 }
-
 
 - (void)shareAction
 {
@@ -299,6 +317,10 @@
         }
         [resultSheet dismissAnimated:YES completionHandler:nil];
     }];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
 }
 
 @end

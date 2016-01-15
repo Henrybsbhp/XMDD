@@ -68,7 +68,7 @@
 
 - (UINavigationItem *)navigationItem
 {
-    if (self.parentViewController) {
+    if (self.parentViewController && ![self.parentViewController isKindOfClass:[UINavigationController class]]) {
         return [self.parentViewController navigationItem];
     }
     return [super navigationItem];

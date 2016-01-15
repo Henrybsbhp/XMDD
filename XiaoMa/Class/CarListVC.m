@@ -346,7 +346,7 @@
     [subv setCellTitle:@"发动机号" withValue:car.engineno atIndex:5];
     NSString *priceStr = [NSString stringWithFormat:@"%@万元", [NSString formatForRoundPrice:car.price]];
     [subv setCellTitle:@"整车价格" withValue:priceStr atIndex:6];
-    NSString *odoStr = [NSString stringWithFormat:@"%@万公里", [NSString formatForRoundPrice:car.odo/10000.0]];
+    NSString *odoStr = [NSString stringWithFormat:@"%@万公里", [NSString formatForRoundPrice:car.odo/10000.00]];
     [subv setCellTitle:@"当前里程" withValue:odoStr atIndex:7];
     
     //汽车品牌logo
