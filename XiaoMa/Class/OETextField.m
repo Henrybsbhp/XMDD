@@ -54,7 +54,7 @@
             leftContraint += equalWidth;
             leftContraint++;
             [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-                self.text = [self.text append:btn.titleLabel.text];
+                [self insertText:btn.titleLabel.text];
             }];
             [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         }
