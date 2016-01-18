@@ -9,6 +9,7 @@
 @property (nonatomic,strong) NSNumber* refid;
 ///核保id
 @property (nonatomic,strong) NSNumber* carpremiumid;
+@property (nonatomic,strong) NSNumber* carid;
 
 
 + (instancetype)createWithJSONDict:(NSDictionary *)dict;
