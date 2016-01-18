@@ -448,13 +448,9 @@
     }];
     
     
-    [[[[sig1 initially:^{
+    [[[sig1 initially:^{
         @strongify(self);
         [self.scrollView.refreshView beginRefreshing];
-    }] flattenMap:^RACStream *(AMapReGeocode *regeo) {
-        @strongify(self);
-        [self.adctrl reloadDataWithForce:YES completed:nil];
-        return [self rac_getWeatherInfoWithReGeocode:regeo];
     }] finally:^{
         @strongify(self);
         [self.scrollView.refreshView endRefreshing];

@@ -221,6 +221,7 @@ class=InsPremium data> {
   <"购买方式（1.预约购买 2.直接购买）">ordertype:int
   <"打折方式名称">couponname
   <"核保失败原因">errmsg
+  <"限制提示" key=restrict>restriction
 }
 
 <"险种价格"
