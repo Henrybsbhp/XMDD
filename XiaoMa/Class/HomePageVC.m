@@ -441,16 +441,13 @@
     }];
     
     // 获取天气信息
-    sig1 = [sig1 flattenMap:^RACStream *(AMapReGeocode *regeo) {
+    [[[[sig1 initially:^{
+        @strongify(self);
+        [self.scrollView.refreshView beginRefreshing];
+    }] flattenMap:^RACStream *(AMapReGeocode *regeo) {
         @strongify(self);
         [self.adctrl reloadDataWithForce:YES completed:nil];
         return [self rac_getWeatherInfoWithReGeocode:regeo];
-    }];
-    
-    
-    [[[sig1 initially:^{
-        @strongify(self);
-        [self.scrollView.refreshView beginRefreshing];
     }] finally:^{
         @strongify(self);
         [self.scrollView.refreshView endRefreshing];
