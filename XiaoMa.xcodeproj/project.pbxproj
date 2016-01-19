@@ -232,6 +232,7 @@
 		18B7A2711C2014BA00865A99 /* CityPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B7A2701C2014BA00865A99 /* CityPickerVC.m */; };
 		18B7A2741C202E6B00865A99 /* GetAreaByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B7A2731C202E6B00865A99 /* GetAreaByNameOp.m */; };
 		18B7A2771C203B5E00865A99 /* GetAreaByIdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B7A2761C203B5E00865A99 /* GetAreaByIdOp.m */; };
+		18BB361B1C4E2D02003E7B86 /* HKMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BB361A1C4E2D02003E7B86 /* HKMapView.m */; };
 		18BF41E11BCE3E880039F210 /* GasCZBVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41E01BCE3E880039F210 /* GasCZBVM.m */; };
 		18BF41E41BCE40540039F210 /* GasBaseVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41E31BCE40540039F210 /* GasBaseVM.m */; };
 		18BF41E71BCF444B0039F210 /* HKTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41E61BCF444B0039F210 /* HKTableViewCell.m */; };
@@ -1084,6 +1085,8 @@
 		18B7A2731C202E6B00865A99 /* GetAreaByNameOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAreaByNameOp.m; path = Class/GetAreaByNameOp.m; sourceTree = "<group>"; };
 		18B7A2751C203B5E00865A99 /* GetAreaByIdOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetAreaByIdOp.h; path = Class/GetAreaByIdOp.h; sourceTree = "<group>"; };
 		18B7A2761C203B5E00865A99 /* GetAreaByIdOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAreaByIdOp.m; path = Class/GetAreaByIdOp.m; sourceTree = "<group>"; };
+		18BB36191C4E2D02003E7B86 /* HKMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKMapView.h; path = Class/HKMapView.h; sourceTree = "<group>"; };
+		18BB361A1C4E2D02003E7B86 /* HKMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKMapView.m; path = Class/HKMapView.m; sourceTree = "<group>"; };
 		18BF41DF1BCE3E880039F210 /* GasCZBVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasCZBVM.h; sourceTree = "<group>"; };
 		18BF41E01BCE3E880039F210 /* GasCZBVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasCZBVM.m; sourceTree = "<group>"; };
 		18BF41E21BCE40540039F210 /* GasBaseVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasBaseVM.h; sourceTree = "<group>"; };
@@ -2082,6 +2085,7 @@
 		1816F4B51AD36D5100BBCC96 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				18BB36181C4E2CED003E7B86 /* MapView */,
 				508EE5D91C2B8B1A00873602 /* TopMenu */,
 				18BF42091BD2732A0039F210 /* TextField */,
 				1833F5A41BCDF5AD000E1DA1 /* Line */,
@@ -3133,6 +3137,15 @@
 				18B6E5C71C44D2A000697DAB /* KeyboardHelper.m */,
 			);
 			name = Keyboard;
+			sourceTree = "<group>";
+		};
+		18BB36181C4E2CED003E7B86 /* MapView */ = {
+			isa = PBXGroup;
+			children = (
+				18BB36191C4E2D02003E7B86 /* HKMapView.h */,
+				18BB361A1C4E2D02003E7B86 /* HKMapView.m */,
+			);
+			name = MapView;
 			sourceTree = "<group>";
 		};
 		18BF41DE1BCE3D3B0039F210 /* HomeView */ = {
@@ -4833,6 +4846,7 @@
 				186985151B02E7DB000A182A /* UIScrollView+RefreshView.m in Sources */,
 				18B78F591BA9893C0061ECAD /* GetLaunchInfoOp.m in Sources */,
 				6BEA56C81AE24DCE000D19C1 /* SBJsonBase.m in Sources */,
+				18BB361B1C4E2D02003E7B86 /* HKMapView.m in Sources */,
 				18988C441BBAB32F001DECD5 /* OrderPaidSuccessOp.m in Sources */,
 				6B3DABA01C3F512D00C783F8 /* DebugFormat.m in Sources */,
 				18804AA21B25811E00E7E764 /* HKRefreshControl.m in Sources */,
@@ -5305,7 +5319,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "19b9e532-9495-4943-a7d9-e1846a3e0cf4";
+				PROVISIONING_PROFILE = "49d4298a-4b37-4e47-990c-a2b9eb8e6baa";
 			};
 			name = Debug;
 		};

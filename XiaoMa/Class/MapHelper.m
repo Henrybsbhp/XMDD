@@ -7,6 +7,7 @@
 //
 
 #import "MapHelper.h"
+#import "HKMapView.h"
 
 @interface MapHelper()
 
@@ -43,7 +44,7 @@
 
 - (void)setupMAMap
 {
-    self.mapView = [[MAMapView alloc] initWithFrame:CGRectZero];
+    self.mapView = [[HKMapView alloc] initWithFrame:CGRectZero];
     self.mapView.delegate = self;
     
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0)
