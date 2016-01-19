@@ -38,5 +38,11 @@
  */
 @property(nullable, nonatomic, strong) NSString *title;
 
+
+@property(nonatomic,strong)UIView * customAccessyView;
+
+- (instancetype)initWithCustomAccessView:(UIView *)caView;
+
+
 @end
 
