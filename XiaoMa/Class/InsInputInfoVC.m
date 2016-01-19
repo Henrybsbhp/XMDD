@@ -92,6 +92,7 @@
         GetInsBaseCarListOp *op = [GetInsBaseCarListOp operation];
         op.req_name = self.insModel.realName;
         op.req_licensenum = self.insModel.simpleCar.licenseno;
+        op.req_carid = self.insModel.simpleCar.carid ? self.insModel.simpleCar.carid : @0;
         signal = [op rac_postRequest];
     }
     else {

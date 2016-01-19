@@ -14,6 +14,7 @@
     self.status = [dict[@"status"] intValue];
     self.refid = dict[@"refid"];
     self.carpremiumid = dict[@"carpremiumid"];
+    self.carid = dict[@"carid"];
 
 }
 
