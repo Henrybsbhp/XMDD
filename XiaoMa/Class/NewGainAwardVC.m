@@ -135,8 +135,7 @@
 - (void)setupScratchView
 {
     if ([[UIScreen mainScreen] bounds].size.height == 480) {
-        self.bgImgView.image = [UIImage imageNamed:@"award_bg_4s"];
-        self.widthConstraint.constant = -30;
+        self.amount.font = [UIFont systemFontOfSize:42];
     }
     CKAsyncMainQueue(^{
         self.hyscratchView = [[HYScratchCardView alloc]initWithFrame:CGRectMake(0, 0, self.scratchView.frame.size.width, self.scratchView.frame.size.height)];
