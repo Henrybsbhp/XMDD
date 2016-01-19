@@ -21,6 +21,8 @@
 @property (nonatomic,strong) NSString* couponname;
 ///核保失败原因
 @property (nonatomic,strong) NSString* errmsg;
+///限制提示
+@property (nonatomic,strong) NSString* restriction;
 
 
 + (instancetype)createWithJSONDict:(NSDictionary *)dict;
