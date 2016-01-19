@@ -43,7 +43,7 @@
 
 - (void)setupMAMap
 {
-    self.mapView = [[MAMapView alloc] init];
+    self.mapView = [[MAMapView alloc] initWithFrame:CGRectZero];
     self.mapView.delegate = self;
     
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0)
