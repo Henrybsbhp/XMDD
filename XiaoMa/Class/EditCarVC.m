@@ -79,6 +79,8 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    
+    self.editing = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated

@@ -176,6 +176,8 @@
             view.frame = frame;
         }
     }
+    
+    [self bringSubviewToFront:self.customAccessyView];
 }
 
 
