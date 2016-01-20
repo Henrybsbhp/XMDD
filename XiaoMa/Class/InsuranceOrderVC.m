@@ -243,6 +243,7 @@
 }
 
 - (void)actionCancelOrder:(id)sender {
+    [MobClick event:@"rp1012-4"];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"取消订单后，订单将关闭且无法继续支付您确定现在取消订单？" delegate:nil cancelButtonTitle:@"算了吧" otherButtonTitles:@"确定取消", nil];
     [alert show];
     @weakify(self);
@@ -252,7 +253,11 @@
         NSInteger index = [x integerValue];
         //确定取消订单
         if (index == 1) {
+            [MobClick event:@"rp1012-6"];
             [self requestCancelInsOrder];
+        }
+        else {
+            [MobClick event:@"rp1012-5"];
         }
     }];
 }

@@ -50,9 +50,18 @@
     [self requestOperation];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [MobClick beginLogPageView:@"rp402"];
+    [super viewWillAppear:animated];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     self.otherActionFlag = YES;
+    
+    [MobClick endLogPageView:@"rp402"];
+    [super viewWillDisappear:animated];
 }
 
 - (void)requestOperation
@@ -75,6 +84,7 @@
             [[self.instructionBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 
                 @strongify(self);
+                
                 DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
                 vc.url = @"http://www.xiaomadada.com/apphtml/lingyuanxiche.html";
                 [self.navigationController pushViewController:vc animated:YES];
@@ -111,6 +121,7 @@
             self.tipLabel.text = [NSString stringWithFormat:@"已有%ld人领取", (long)op.rsp_total];
             [[self.carwashBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 
+                [MobClick event:@"rp402-6"];
                 @strongify(self);
                 if (!self.isScratched) {
                     [gToast showText:@"请先刮卡领取礼券"];
@@ -122,6 +133,7 @@
             }];
             [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 
+                [MobClick event:@"rp402-2"];
                 @strongify(self);
                 if (!self.isScratched) {
                     [gToast showText:@"请先刮卡领取礼券"];
@@ -155,6 +167,7 @@
         
         self.hyscratchView.completion = ^(id userInfo) {
             @strongify(self);
+            [MobClick event:@"rp402-7"];
             [self gainAward];
         };
         [self.scratchView addSubview:self.hyscratchView];

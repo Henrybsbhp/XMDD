@@ -401,6 +401,9 @@
     phoneF.inputField.textLimit = 11;
     phoneF.inputField.text = self.paymentInfo.req_ownerphone;
     phoneF.inputField.keyboardType = UIKeyboardTypeNumberPad;
+    [phoneF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        [MobClick event:@"rp1005-8"];
+    }];
     [phoneF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
         
         @strongify(self);
@@ -437,6 +440,9 @@
     
     addrF.inputField.placeholder = @"请填写详细地址";
     @weakify(self);
+    [addrF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        [MobClick event:@"rp1005-9"];
+    }];
     [addrF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
         @strongify(self);
         self.paymentInfo.req_owneraddress = field.text;
@@ -450,6 +456,7 @@
 
     [[checkB rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(UIButton *btn) {
         @strongify(self);
+        [MobClick event:@"rp1005-10"];
         self.isOwnernameDifferent = !self.isOwnernameDifferent;
     }];
 }
