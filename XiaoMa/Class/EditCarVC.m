@@ -79,6 +79,8 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    
+    self.editing = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -325,8 +327,10 @@
     cell2_2.customInfo[@"title"] = @"车架号码";
     cell2_2.customInfo[@"placehold"] = @"请填写车架号码";
     cell2_2.customInfo[@"howDisplay"] = @(YES);
-    cell2_2.customInfo[@"block"] = [^(CKLimitTextField *field, RACSignal *stopSig) {
+    cell2_2.customInfo[@"block"] = [^(OETextField *field, RACSignal *stopSig) {
         @strongify(self);
+        
+        [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
         
         field.text = self.curCar.classno;
         
@@ -734,7 +738,8 @@
 {
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:1001];
     ProvinceChooseView *chooseV = (ProvinceChooseView *)[cell.contentView viewWithTag:1002];
-    CKLimitTextField *field = (CKLimitTextField *)[cell.contentView viewWithTag:1003];
+    OETextField *field = (OETextField *)[cell.contentView viewWithTag:1003];
+    [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
 
     cell.contentView.userInteractionEnabled  = self.curCar.editMask & HKCarEditableEdit;
 

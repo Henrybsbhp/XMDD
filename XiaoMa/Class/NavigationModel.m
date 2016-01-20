@@ -178,13 +178,17 @@
             flag = YES;
         }
         ///违章查询
-        else if ([@"vio" equalByCaseInsensitive:name] && gAppMgr.myUser)
+        else if ([@"vio" equalByCaseInsensitive:name])
         {
-            ViolationViewController * vc = [violationStoryboard instantiateViewControllerWithIdentifier:@"ViolationViewController"];
-            [self.curNavCtrl pushViewController:vc animated:YES];
+            UIViewController * topVC = self.curNavCtrl.topViewController;
+            if ([LoginViewModel loginIfNeededForTargetViewController:topVC]) {
+                
+                ViolationViewController * vc = [violationStoryboard instantiateViewControllerWithIdentifier:@"ViolationViewController"];
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
         }
         ///估值
-        else if ([@"val" equalByCaseInsensitive:name] && gAppMgr.myUser)
+        else if ([@"val" equalByCaseInsensitive:name])
         {
             ValuationViewController * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"ValuationViewController"];
             [self.curNavCtrl pushViewController:vc animated:YES];

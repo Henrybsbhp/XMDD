@@ -37,7 +37,10 @@
     //Tint Color
     [[self appearance] setTintColor:nil];
 
-    [[self appearance] setBarTintColor:nil];
+    if (IOSVersionGreaterThanOrEqualTo(@"7.0"))
+    {
+        [[self appearance] setBarTintColor:nil];
+    }
     
     //Background image
     [[self appearance] setBackgroundImage:nil forToolbarPosition:UIBarPositionAny           barMetrics:UIBarMetricsDefault];
@@ -83,11 +86,33 @@
     return self;
 }
 
+- (instancetype)initWithCustomAccessView:(UIView *)caView
+{
+    self = [super init];
+    if (self)
+    {
+        if (caView)
+        {
+            self.customAccessyView = caView;
+            [self setupCustomAccessView];
+        }
+        [self initialize];
+    }
+    return self;
+}
+
 -(CGSize)sizeThatFits:(CGSize)size
 {
     CGSize sizeThatFit = [super sizeThatFits:size];
 
-    sizeThatFit.height = 44;
+    if (self.customAccessyView)
+    {
+        sizeThatFit.height = 84;
+    }
+    else
+    {
+        sizeThatFit.height = 44;
+    }
     
     return sizeThatFit;
 }
@@ -127,6 +152,34 @@
         }
     }
 }
+
+- (void)setupCustomAccessView
+{
+    CGRect frame = self.customAccessyView.frame;
+    frame.origin.x = 0;
+    frame.origin.y = 44;
+    self.customAccessyView.frame = frame;
+    [self addSubview:self.customAccessyView];
+}
+
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    for (UIView * view in self.subviews)
+    {
+        CGRect frame = view.frame;
+        if ( frame.size.height > 44)
+        {
+            frame.size.height = 44;
+            view.frame = frame;
+        }
+    }
+    
+    [self bringSubviewToFront:self.customAccessyView];
+}
+
 
 #pragma mark - UIInputViewAudioFeedback delegate
 - (BOOL) enableInputClicksWhenVisible

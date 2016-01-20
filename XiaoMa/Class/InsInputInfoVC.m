@@ -150,6 +150,7 @@
     normalCell1.customInfo[@"limit"] = @17;
     normalCell1.customInfo[@"field.event"] = @"rp1001-4";
     normalCell1.customInfo[@"help.event"] = @"rp1001-3";
+    normalCell1.customInfo[@"textfield.datasource"] = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
     normalCell1.object = self.baseCar.frameno;
     [datasource addObject:normalCell1];
     
@@ -162,6 +163,7 @@
     normalCell2.customInfo[@"limit"] = @50;
     normalCell2.customInfo[@"field.event"] = @"rp1001-6";
     normalCell2.customInfo[@"help.event"] = @"rp1001-5";
+    normalCell2.customInfo[@"textfield.datasource"] = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
     normalCell2.object = self.baseCar.brandname;
     [datasource addObject:normalCell2];
     
@@ -173,6 +175,7 @@
     normalCell3.customInfo[@"limit"] = @50;
     normalCell3.customInfo[@"field.event"] = @"rp1001-8";
     normalCell3.customInfo[@"help.event"] = @"rp1001-7";
+    normalCell3.customInfo[@"textfield.datasource"] = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
     normalCell3.object = self.baseCar.engineno;
     [datasource addObject:normalCell3];
 
@@ -437,6 +440,11 @@
     inputF.inputField.text = data.object;
     inputF.inputField.keyboardType = UIKeyboardTypeASCIICapable;
     inputF.inputField.textLimit = [data.customInfo[@"limit"] integerValue];
+    NSArray * array = data.customInfo[@"textfield.datasource"];
+    if (array.count)
+    {
+        [inputF.inputField setNormalInputAccessoryViewWithDataArr:array];
+    }
     [inputF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
         [MobClick event:data.customInfo[@"field.event"]];
     }];

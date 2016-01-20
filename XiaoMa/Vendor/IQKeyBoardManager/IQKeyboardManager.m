@@ -1585,19 +1585,19 @@ void _IQShowLog(NSString *logString);
         //setInputAccessoryView: check   (Bug ID: #307)
         if ([textField respondsToSelector:@selector(setInputAccessoryView:)] && (![textField inputAccessoryView] || ([[textField inputAccessoryView] tag] == kIQPreviousNextButtonToolbarTag)))
         {
-            static UIView *doneToolbar = nil;
+//            static UIView *doneToolbar = nil;
             
-            if (doneToolbar == nil)
-            {
+//            if (doneToolbar == nil)
+//            {
                 //Now adding textField placeholder text as title of IQToolbar  (Enhancement ID: #27)
                 [textField addDoneOnKeyboardWithTarget:self action:@selector(doneAction:) shouldShowPlaceholder:_shouldShowTextFieldPlaceholder];
-                doneToolbar = textField.inputAccessoryView;
-                doneToolbar.tag = kIQDoneButtonToolbarTag; //  (Bug ID: #78)
-            }
-            else
-            {
-                textField.inputAccessoryView = doneToolbar;
-            }
+//                doneToolbar = textField.inputAccessoryView;
+//                doneToolbar.tag = kIQDoneButtonToolbarTag; //  (Bug ID: #78)
+//            }
+//            else
+//            {
+//                textField.inputAccessoryView = doneToolbar;
+//            }
         }
         
         if ([textField.inputAccessoryView isKindOfClass:[IQToolbar class]] && textField.inputAccessoryView.tag == kIQDoneButtonToolbarTag)

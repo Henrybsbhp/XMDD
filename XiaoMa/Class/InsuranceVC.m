@@ -20,6 +20,7 @@
 #import "InsuranceVM.h"
 #import "MyCarStore.h"
 #import "IQKeyboardManager.h"
+#import "OETextField.h"
 
 #import "InsInputNameVC.h"
 #import "InsInputInfoVC.h"
@@ -374,8 +375,10 @@
 {
     UILabel *provinceL = [cell viewWithTag:10011];
     UIButton *provinceB = [cell viewWithTag:10013];
-    CKLimitTextField *textF = [cell viewWithTag:1002];
+    OETextField *textF = [cell viewWithTag:1002];
     UIButton *addB = [cell viewWithTag:1003];
+    
+    [textF setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
     
     Area *province = data.customInfo[@"province"];
     provinceL.text = province.abbr;
