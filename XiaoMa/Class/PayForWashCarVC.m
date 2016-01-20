@@ -1423,6 +1423,7 @@
         
         [[vc.gainWeeklyCouponBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
+            [MobClick event:@"rp108-13"];
             [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
                 [self requestGainWeeklyCoupon];
             }];
@@ -1431,6 +1432,7 @@
         
         [[vc.whateverBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
+            [MobClick event:@"rp108-14"];
             [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
             }];
         }];

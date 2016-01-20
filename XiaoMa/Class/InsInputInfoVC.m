@@ -410,6 +410,7 @@
      subscribeNext:^(id x) {
          
          @strongify(self);
+         [MobClick event:@"rp1001-14"];
          [self showPicture:data.customInfo[@"pic"]];
      }];
 }

@@ -309,6 +309,7 @@
     
     [data setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         
+        [MobClick event:@"rp301-11"];
         @strongify(self);
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.url = self.guideStore.newbieInfo.rsp_url;
