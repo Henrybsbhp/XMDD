@@ -419,7 +419,8 @@
     NSInteger count = serviceArray.count + 2;
     if ([tableView isKindOfClass:[JTTableView class]])
     {
-        [model loadMoreDataIfNeededWithIndexPath:indexPath nestItemCount:count promptView:self.carwashTableView.bottomLoadingView];
+        JTTableView * jtTableView = (JTTableView *)tableView;
+        [model loadMoreDataIfNeededWithIndexPath:indexPath nestItemCount:count promptView:jtTableView.bottomLoadingView];
     }
 }
 
