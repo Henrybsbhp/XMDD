@@ -74,6 +74,7 @@
             self.instructionBtn.hidden = NO;
             [[self.instructionBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 
+                @strongify(self);
                 DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
                 vc.url = @"http://www.xiaomadada.com/apphtml/lingyuanxiche.html";
                 [self.navigationController pushViewController:vc animated:YES];
@@ -93,10 +94,14 @@
                 self.amountTypeLabel.textColor = [UIColor lightGrayColor];
             }
             [[self.carwashBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                
+                @strongify(self);
                 CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
                 [self.navigationController pushViewController:vc animated:YES];
             }];
             [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                
+                @strongify(self);
                 [self shareAction];
             }];
         }
@@ -105,6 +110,8 @@
             [self setupScratchView];
             self.tipLabel.text = [NSString stringWithFormat:@"已有%ld人领取", (long)op.rsp_total];
             [[self.carwashBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                
+                @strongify(self);
                 if (!self.isScratched) {
                     [gToast showText:@"请先刮卡领取礼券"];
                 }
@@ -114,6 +121,8 @@
                 }
             }];
             [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                
+                @strongify(self);
                 if (!self.isScratched) {
                     [gToast showText:@"请先刮卡领取礼券"];
                 }
@@ -176,6 +185,7 @@
                          }];
         
         CKAfter(1.5, ^{
+            @strongify(self);
             //若弹出分享窗之前用户进行了其他操作，则不弹出
             if (!self.otherActionFlag) {
                 [self showShareSheet];
