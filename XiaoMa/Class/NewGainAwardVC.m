@@ -125,6 +125,7 @@
         }
     } error:^(NSError *error) {
         
+        @strongify(self);
         [self.view stopActivityAnimation];
         [self.coverView showDefaultEmptyViewWithText:@"获取礼券信息失败，请点击重试" tapBlock:^{
             [self requestOperation];
@@ -137,11 +138,12 @@
     if ([[UIScreen mainScreen] bounds].size.height == 480) {
         self.amount.font = [UIFont systemFontOfSize:42];
     }
+    @weakify(self);
     CKAsyncMainQueue(^{
+        @strongify(self);
         self.hyscratchView = [[HYScratchCardView alloc]initWithFrame:CGRectMake(0, 0, self.scratchView.frame.size.width, self.scratchView.frame.size.height)];
         self.hyscratchView.image = [UIImage imageNamed:@"award_mask"];
         
-        @weakify(self);
         self.hyscratchView.completion = ^(id userInfo) {
             @strongify(self);
             [self gainAward];
@@ -194,8 +196,9 @@
     [sheet presentAnimated:YES completionHandler:nil];
     
     [[sheetVC.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
+        @weakify(self);
         [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+            @strongify(self);
             [self shareAction];
         }];
     }];
@@ -291,11 +294,13 @@
     resultSheet.shouldCenterVertically = YES;
     [resultSheet presentAnimated:YES completionHandler:nil];
     
+    @weakify(self);
     [[otherVC.carwashBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         /**
          *  去洗车点击事件
          */
         [MobClick event:@"rp402-3"];
+        @strongify(self);
         [resultSheet dismissAnimated:YES completionHandler:nil];
         CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -320,6 +325,11 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+-(void)dealloc
+{
+    DebugLog(@"NewGainAwardVC dealloc");
 }
 
 @end
