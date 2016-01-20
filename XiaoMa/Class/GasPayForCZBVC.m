@@ -131,7 +131,9 @@
     @weakify(self);
     [[RACObserve(self, vcode) distinctUntilChanged] subscribeNext:^(NSString *vcode) {
         @strongify(self);
-        self.payButton.enabled = vcode.length >= 6 && self.orderInfo && ![self.orderInfo.customInfo[@"Invaild"] boolValue];
+        
+        BOOL enable = vcode.length >= 6 && self.orderInfo && ![self.orderInfo.customInfo[@"Invaild"] boolValue];
+        self.payButton.enabled = enable;
     }];
 }
 
@@ -181,7 +183,7 @@
             @strongify(self);
             if ([index integerValue] == 0) {
                 [self.navigationController popViewControllerAnimated:YES];
-                [self.model cancelOrderWithTradeNumber:self.orderInfo.rsp_tradeid bankCardID:self.orderInfo.req_cardid];
+                [self.model cancelOrderWithTradeNumber:self.orderInfo.rsp_tradeid gasCardID:self.orderInfo.req_gid];
             }
         }];
     }
@@ -391,10 +393,11 @@
         
         [MobClick event:@"rp507-1"];
     }];
-    [vcodeF setDidEndEditingBlock:^(CKLimitTextField *field) {
+    
+    [vcodeF setTextChangingBlock:^(CKLimitTextField *rTextFeild, NSString *text) {
         
         @strongify(self);
-        self.vcode = field.text;
+        self.vcode = rTextFeild.text;
     }];
     
     vcodeF.textLimit = 6;
