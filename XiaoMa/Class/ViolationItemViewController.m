@@ -19,6 +19,7 @@
 #import "CKLimitTextField.h"
 
 #import "MyUIPageControl.h"
+#import "OETextField.h"
 
 
 
@@ -820,7 +821,8 @@
     }
     
     //输入框
-    CKLimitTextField * field = (CKLimitTextField *)[cell searchViewWithTag:103];
+    OETextField * field = (OETextField *)[cell searchViewWithTag:103];
+    [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
     field.text = [dict objectForKey:@"no"];
     [dict safetySetObject:field forKey:@"feild"];
 

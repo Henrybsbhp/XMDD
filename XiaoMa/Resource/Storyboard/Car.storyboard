@@ -281,7 +281,7 @@
                                                     <rect key="frame" x="80" y="19" width="12" height="22"/>
                                                     <state key="normal" image="how_input"/>
                                                 </button>
-                                                <textField opaque="NO" clipsSubviews="YES" tag="1003" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="A12345" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vsb-5u-Y5H" customClass="CKLimitTextField">
+                                                <textField opaque="NO" clipsSubviews="YES" tag="1003" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="A12345" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vsb-5u-Y5H" customClass="OETextField">
                                                     <rect key="frame" x="479" y="8" width="82" height="43"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="82" id="Vwn-x1-HEm"/>

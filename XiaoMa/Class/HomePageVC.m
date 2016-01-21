@@ -112,7 +112,7 @@
         {
             ///只会出现在4，4s的机型上
 //            CGFloat heigth = self.secondaryItemView.frame.size.height + self.secondaryItemView.frame.origin.x;
-            self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, 460);
+            self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, 480);
         }
         [self showNewbieGuideAlertIfNeeded];
     });
@@ -441,16 +441,13 @@
     }];
     
     // 获取天气信息
-    sig1 = [sig1 flattenMap:^RACStream *(AMapReGeocode *regeo) {
+    [[[[sig1 initially:^{
+        @strongify(self);
+        [self.scrollView.refreshView beginRefreshing];
+    }] flattenMap:^RACStream *(AMapReGeocode *regeo) {
         @strongify(self);
         [self.adctrl reloadDataWithForce:YES completed:nil];
         return [self rac_getWeatherInfoWithReGeocode:regeo];
-    }];
-    
-    
-    [[[sig1 initially:^{
-        @strongify(self);
-        [self.scrollView.refreshView beginRefreshing];
     }] finally:^{
         @strongify(self);
         [self.scrollView.refreshView endRefreshing];

@@ -490,7 +490,7 @@
             [gToast showText:@"您需要先添加一张油卡！" inView:self.view];
             return;
         }
-        else if (![self.curModel.curGasCard.availablechargeamt integerValue])
+        else if (self.curModel.curBankCard.gasInfo.rsp_availablechargeamt)
         {
             [gToast showText:@"您本月加油已达到最大限额！" inView:self.view];
             return;
@@ -512,7 +512,7 @@
             [gToast showText:@"您需要先添加一张油卡！" inView:self.view];
             return;
         }
-        else if (![self.curModel.curGasCard.availablechargeamt integerValue])
+        else if (self.curModel.curGasCard.availablechargeamt && ![self.curModel.curGasCard.availablechargeamt integerValue])
         {
             [gToast showText:@"您本月加油已达到最大限额！" inView:self.view];
             return;

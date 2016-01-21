@@ -327,6 +327,7 @@
     @weakify(self)
     [[self.gasCouponBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp110-13"];
         @strongify(self)
         [self jumpToGas];
     }];

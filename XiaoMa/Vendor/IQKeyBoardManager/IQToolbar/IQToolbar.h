@@ -32,5 +32,11 @@
 
 @property(nonatomic, strong) UIFont *titleFont;
 
+
+@property(nonatomic,strong)UIView * customAccessyView;
+
+- (instancetype)initWithCustomAccessView:(UIView *)caView;
+
+
 @end
 

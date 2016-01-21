@@ -297,8 +297,8 @@
     SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
     vc.sceneType = ShareSceneLocalShare;
     vc.btnTypeArr = @[@1, @2, @3, @4];
-    vc.tt = @"小马达达 —— 一分钱洗车";
-    vc.subtitle = @"我正在使用1分钱洗车，洗车超便宜，你也来试试吧！";
+    vc.tt = @"小马达达－洗车1分钱都不要";
+    vc.subtitle = @"我正在使用小马达达，洗车1分钱也不要，你也来试试吧！";
     vc.image = [UIImage imageNamed:@"wechat_share_carwash"];
     vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
     vc.urlStr = kAppShareUrl;
