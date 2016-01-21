@@ -74,7 +74,7 @@
             toLocation.name = shop.shopName;
             
             [MKMapItem openMapsWithItems:@[currentLocation, toLocation]
-                           launchOptions:@{MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,MKLaunchOptionsShowsTrafficKey: [NSNumber numberWithBool:YES]}];
+                           launchOptions:@{MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving}];
         } // 如果点击了百度导航
         else if ([title equalByCaseInsensitive: BaiduNavigationStr])
         {
