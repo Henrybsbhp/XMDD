@@ -41,6 +41,7 @@ class=AddInsCarBaseInfo op auth path="/insurance/car/premium/add"> {
     <"过户时间">transferdate
     <"车牌">licensenum
     <"注册日期">regdate
+    <"核保记录ID">carpremiumid:number
   }
   <rsp> {
     <"核保记录id">carpremiumid:number

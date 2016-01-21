@@ -140,6 +140,7 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
     if (interval < kMaxVcodeInterval) {
         NSString *originTitle = [vbtn titleForState:UIControlStateNormal];
         vbtn.enabled = NO;
+
         @weakify(self);
         [[self rac_timeCountDown:kMaxVcodeInterval - interval] subscribeNext:^(id x) {
             NSString *title = [NSString stringWithFormat:@"剩余%d秒", [x intValue]];
@@ -148,6 +149,7 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
         } completed:^{
             @strongify(self);
             [vbtn setTitle:originTitle forState:UIControlStateNormal];
+            [vbtn setTitle:originTitle forState:UIControlStateDisabled];
             if (self.phoneField) {
                 vbtn.enabled = [self.phoneField.text length] == 11 ? YES : NO;
             }

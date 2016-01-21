@@ -20,6 +20,8 @@
 @property (nonatomic,strong) NSString* req_licensenum;
 ///注册日期
 @property (nonatomic,strong) NSString* req_regdate;
+///核保记录ID
+@property (nonatomic,strong) NSNumber* req_carpremiumid;
 
 ///核保记录id
 @property (nonatomic,strong) NSNumber* rsp_carpremiumid;

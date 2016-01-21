@@ -1,7 +1,7 @@
 //
 //  UIView+IQToolbar.m
 // https://github.com/hackiftekhar/IQKeyboardManager
-// Copyright (c) 2013-15 Iftekhar Qurashi.
+// Copyright (c) 2013-14 Iftekhar Qurashi.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,29 +23,30 @@
 
 
 #import "IQUIView+IQKeyboardToolbar.h"
+#import "IQSegmentedNextPrevious.h"
 #import "IQToolbar.h"
 #import "IQTitleBarButtonItem.h"
 #import "IQKeyboardManagerConstantsInternal.h"
 #import "IQBarButtonItem.h"
-#import "IQKeyboardManager.h"
+
 #import <UIKit/UIImage.h>
 #import <UIKit/UILabel.h>
 #import <objc/runtime.h>
+
 #import "OETextField.h"
+
+IQ_LoadCategory(IQUIViewToolbar)
+
+//NSInteger const kIQRightButtonToolbarTag            =   -1001;
+//NSInteger const kIQRightLeftButtonToolbarTag        =   -1003;
+//NSInteger const kIQCancelDoneButtonToolbarTag       =   -1004;
 
 /*UIKeyboardToolbar Category implementation*/
 @implementation UIView (IQToolbarAddition)
 
 -(void)setShouldHideTitle:(BOOL)shouldHideTitle
 {
-    objc_setAssociatedObject(self, @selector(shouldHideTitle), [NSNumber numberWithBool:shouldHideTitle], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    
-    if ([self respondsToSelector:@selector(placeholder)] && [self.inputAccessoryView respondsToSelector:@selector(setTitle:)])
-    {
-        UITextField *textField = (UITextField*)self;
-        IQToolbar *toolbar = (IQToolbar*)[self inputAccessoryView];
-        toolbar.title = textField.placeholder;
-    }
+    objc_setAssociatedObject(self, @selector(shouldHideTitle), @(shouldHideTitle), OBJC_ASSOCIATION_ASSIGN);
 }
 
 -(BOOL)shouldHideTitle
@@ -54,68 +55,6 @@
     return [shouldHideTitle boolValue];
 }
 
--(void)setCustomPreviousTarget:(id)target action:(SEL)action
-{
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[target methodSignatureForSelector:action]];
-    invocation.target = target;
-    invocation.selector = action;
-    UIView *selfObject = self;
-    [invocation setArgument:&selfObject atIndex:2];
-    self.previousInvocation = invocation;
-}
-
--(void)setCustomNextTarget:(id)target action:(SEL)action
-{
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[target methodSignatureForSelector:action]];
-    invocation.target = target;
-    invocation.selector = action;
-    UIView *selfObject = self;
-    [invocation setArgument:&selfObject atIndex:2];
-    self.nextInvocation = invocation;
-}
-
--(void)setCustomDoneTarget:(id)target action:(SEL)action
-{
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[target methodSignatureForSelector:action]];
-    invocation.target = target;
-    invocation.selector = action;
-    UIView *selfObject = self;
-    [invocation setArgument:&selfObject atIndex:2];
-    self.doneInvocation = invocation;
-}
-
--(void)setPreviousInvocation:(NSInvocation *)previousInvocation
-{
-    objc_setAssociatedObject(self, @selector(previousInvocation), previousInvocation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
--(void)setNextInvocation:(NSInvocation *)nextInvocation
-{
-    objc_setAssociatedObject(self, @selector(nextInvocation), nextInvocation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
--(void)setDoneInvocation:(NSInvocation *)doneInvocation
-{
-    objc_setAssociatedObject(self, @selector(doneInvocation), doneInvocation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
--(NSInvocation *)previousInvocation
-{
-    return objc_getAssociatedObject(self, @selector(previousInvocation));
-}
-
--(NSInvocation *)nextInvocation
-{
-    return objc_getAssociatedObject(self, @selector(nextInvocation));
-}
-
--(NSInvocation *)doneInvocation
-{
-    return objc_getAssociatedObject(self, @selector(doneInvocation));
-}
-
-
-#pragma mark - Toolbar on UIKeyboard
 
 - (void)addRightButtonOnKeyboardWithText:(NSString*)text target:(id)target action:(SEL)action titleText:(NSString*)titleText
 {
@@ -130,75 +69,41 @@
         customAccessView = feildSelf.customAccessoryView;
     }
     IQToolbar *toolbar = [[IQToolbar alloc] initWithCustomAccessView:customAccessView];
-    if ([self respondsToSelector:@selector(keyboardAppearance)])
+    //	toolbar.tag = kIQRightButtonToolbarTag;
+    
+    NSMutableArray *items = [[NSMutableArray alloc] init];
+    
+    if ([titleText length] && self.shouldHideTitle == NO)
     {
-        switch ([(UITextField*)self keyboardAppearance])
+        CGRect buttonFrame;
+        
+        if (IQ_IS_IOS7_OR_GREATER)
         {
-            case UIKeyboardAppearanceAlert: toolbar.barStyle = UIBarStyleBlack;     break;
-            default:                        toolbar.barStyle = UIBarStyleDefault;   break;
+            /*
+             50 done button frame.
+             24 distance maintenance
+             */
+            buttonFrame = CGRectMake(0, 0, toolbar.frame.size.width-50.0-24, 44);
         }
+        else
+        {
+            /*
+             57 done button frame.
+             8 distance maintenance
+             */
+            buttonFrame = CGRectMake(0, 0, toolbar.frame.size.width-57.0-8, 44);
+        }
+        
+        IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithFrame:buttonFrame title:titleText];
+        [items addObject:title];
     }
-    
-	NSMutableArray *items = [[NSMutableArray alloc] init];
-    
-    /*
-     50 done button frame.
-     24 distance maintenance
-     */
-    CGRect buttonFrame = CGRectMake(0, 0, toolbar.frame.size.width-50.0-24, 44);
-    
-    IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithFrame:buttonFrame title:self.shouldHideTitle?nil:titleText];
-    [items addObject:title];
     
     //  Create a fake button to maintain flexibleSpace between doneButton and nilButton. (Actually it moves done button to right side.
     IQBarButtonItem *nilButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     [items addObject:nilButton];
     
-#ifdef __IPHONE_8_0
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0    //Minimum Target iOS 8+
-    
-    // Get the top level "bundle" which may actually be the framework
-    NSBundle *mainBundle = [NSBundle bundleForClass:[IQKeyboardManager class]];
-    
-    // Check to see if the resource bundle exists inside the top level bundle
-    NSBundle *resourcesBundle = [NSBundle bundleWithPath:[mainBundle pathForResource:@"IQKeyboardManager" ofType:@"bundle"]];
-    
-    if (resourcesBundle == nil) {
-        resourcesBundle = mainBundle;
-    }
-    
-    UIImage *imageDone = imageDone = [UIImage imageNamed:@"IQButtonBarDone" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-#else   //Minimum Target iOS7+
-    
-    UIImage *imageDone;
-    
-    if (IQ_IS_IOS8_OR_GREATER)
-    {
-        // Get the top level "bundle" which may actually be the framework
-        NSBundle *mainBundle = [NSBundle bundleForClass:[IQKeyboardManager class]];
-        
-        // Check to see if the resource bundle exists inside the top level bundle
-        NSBundle *resourcesBundle = [NSBundle bundleWithPath:[mainBundle pathForResource:@"IQKeyboardManager" ofType:@"bundle"]];
-        
-        if (resourcesBundle == nil) {
-            resourcesBundle = mainBundle;
-        }
-        imageDone = [UIImage imageNamed:@"IQButtonBarDone" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-    }
-    else
-    {
-        imageDone = [UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarDone"];
-    }
-    
-#endif
-    
-#else   //Maximum target iOS 7
-    UIImage *imageDone = [UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarDone"];
-#endif
-    
-    
     //  Create a done button to show on keyboard to resign it. Adding a selector to resign it.
-    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithImage:imageDone style:UIBarButtonItemStyleDone target:target action:action];
+    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithTitle:text style:UIBarButtonItemStyleDone target:target action:action];
     [items addObject:doneButton];
     
     //  Adding button to toolBar.
@@ -236,75 +141,41 @@
         customAccessView = feildSelf.customAccessoryView;
     }
     IQToolbar *toolbar = [[IQToolbar alloc] initWithCustomAccessView:customAccessView];
-    if ([self respondsToSelector:@selector(keyboardAppearance)])
-    {
-        switch ([(UITextField*)self keyboardAppearance])
-        {
-            case UIKeyboardAppearanceAlert: toolbar.barStyle = UIBarStyleBlack;     break;
-            default:                        toolbar.barStyle = UIBarStyleDefault;   break;
-        }
-    }
- 	
-	NSMutableArray *items = [[NSMutableArray alloc] init];
-
-    /*
-     50 done button frame.
-     8 distance maintenance
-     */
-    CGRect buttonFrame = CGRectMake(0, 0, toolbar.frame.size.width-64.0-12.0, 44);
+    //	toolbar.tag = kIQDoneButtonToolbarTag;
     
-    IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithFrame:buttonFrame title:self.shouldHideTitle?nil:titleText];
-    [items addObject:title];
+    NSMutableArray *items = [[NSMutableArray alloc] init];
+    
+    if ([titleText length] && self.shouldHideTitle == NO)
+    {
+        CGRect buttonFrame;
+        
+        if (IQ_IS_IOS7_OR_GREATER)
+        {
+            /*
+             50 done button frame.
+             8 distance maintenance
+             */
+            buttonFrame = CGRectMake(0, 0, toolbar.frame.size.width-64.0-12.0, 44);
+        }
+        else
+        {
+            /*
+             57 done button frame.
+             8 distance maintenance
+             */
+            buttonFrame = CGRectMake(0, 0, toolbar.frame.size.width-57.0-8, 44);
+        }
+        
+        IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithFrame:buttonFrame title:titleText];
+        [items addObject:title];
+    }
     
     //  Create a fake button to maintain flexibleSpace between doneButton and nilButton. (Actually it moves done button to right side.
     IQBarButtonItem *nilButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     [items addObject:nilButton];
     
-#ifdef __IPHONE_8_0
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0    //Minimum Target iOS 8+
-    
-    // Get the top level "bundle" which may actually be the framework
-    NSBundle *mainBundle = [NSBundle bundleForClass:[IQKeyboardManager class]];
-    
-    // Check to see if the resource bundle exists inside the top level bundle
-    NSBundle *resourcesBundle = [NSBundle bundleWithPath:[mainBundle pathForResource:@"IQKeyboardManager" ofType:@"bundle"]];
-    
-    if (resourcesBundle == nil) {
-        resourcesBundle = mainBundle;
-    }
-    
-    UIImage *imageDone = imageDone = [UIImage imageNamed:@"IQButtonBarDone" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-#else   //Minimum Target iOS7+
-    
-    UIImage *imageDone;
-    
-    if (IQ_IS_IOS8_OR_GREATER)
-    {
-        // Get the top level "bundle" which may actually be the framework
-        NSBundle *mainBundle = [NSBundle bundleForClass:[IQKeyboardManager class]];
-        
-        // Check to see if the resource bundle exists inside the top level bundle
-        NSBundle *resourcesBundle = [NSBundle bundleWithPath:[mainBundle pathForResource:@"IQKeyboardManager" ofType:@"bundle"]];
-        
-        if (resourcesBundle == nil) {
-            resourcesBundle = mainBundle;
-        }
-        imageDone = [UIImage imageNamed:@"IQButtonBarDone" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-    }
-    else
-    {
-        imageDone = [UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarDone"];
-    }
-    
-#endif
-    
-#else   //Maximum target iOS 7
-    UIImage *imageDone = [UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarDone"];
-#endif
-    
-    
     //  Create a done button to show on keyboard to resign it. Adding a selector to resign it.
-    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithImage:imageDone style:UIBarButtonItemStyleDone target:target action:action];
+    IQBarButtonItem *doneButton = [[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:target action:action];
     [items addObject:doneButton];
     
     //  Adding button to toolBar.
@@ -314,6 +185,8 @@
     [(UITextField*)self setInputAccessoryView:toolbar];
 }
 
+
+#pragma mark - Toolbar on UIKeyboard
 -(void)addDoneOnKeyboardWithTarget:(id)target action:(SEL)action shouldShowPlaceholder:(BOOL)showPlaceholder
 {
     NSString *title;
@@ -328,7 +201,7 @@
     [self addDoneOnKeyboardWithTarget:target action:action titleText:nil];
 }
 
-- (void)addLeftRightOnKeyboardWithTarget:(id)target leftButtonTitle:(NSString*)leftTitle rightButtonTitle:(NSString*)rightTitle leftButtonAction:(SEL)leftAction rightButtonAction:(SEL)rightAction titleText:(NSString*)titleText
+- (void)addRightLeftOnKeyboardWithTarget:(id)target leftButtonTitle:(NSString*)leftTitle rightButtonTitle:(NSString*)rightTitle rightButtonAction:(SEL)rightAction leftButtonAction:(SEL)leftAction titleText:(NSString*)titleText
 {
     //  If can't set InputAccessoryView. Then return
     if (![self respondsToSelector:@selector(setInputAccessoryView:)])    return;
@@ -341,14 +214,7 @@
         customAccessView = feildSelf.customAccessoryView;
     }
     IQToolbar *toolbar = [[IQToolbar alloc] initWithCustomAccessView:customAccessView];
-    if ([self respondsToSelector:@selector(keyboardAppearance)])
-    {
-        switch ([(UITextField*)self keyboardAppearance])
-        {
-            case UIKeyboardAppearanceAlert: toolbar.barStyle = UIBarStyleBlack;     break;
-            default:                        toolbar.barStyle = UIBarStyleDefault;   break;
-        }
-    }
+    //	toolbar.tag = kIQRightLeftButtonToolbarTag;
     
     NSMutableArray *items = [[NSMutableArray alloc] init];
     
@@ -356,87 +222,60 @@
     IQBarButtonItem *cancelButton =[[IQBarButtonItem alloc] initWithTitle:leftTitle style:UIBarButtonItemStylePlain target:target action:leftAction];
     [items addObject:cancelButton];
     
-    /*
-     66 Cancel button maximum x.
-     50 done button frame.
-     8+8 distance maintenance
-     */
-    CGRect buttonFrame = CGRectMake(0, 0, toolbar.frame.size.width-66-50.0-16, 44);
-    
-    IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithFrame:buttonFrame title:self.shouldHideTitle?nil:titleText];
-    [items addObject:title];
+    if ([titleText length] && self.shouldHideTitle == NO)
+    {
+        CGRect buttonFrame;
+        
+        if (IQ_IS_IOS7_OR_GREATER)
+        {
+            /*
+             66 Cancel button maximum x.
+             50 done button frame.
+             8+8 distance maintenance
+             */
+            buttonFrame = CGRectMake(0, 0, toolbar.frame.size.width-66-50.0-16, 44);
+        }
+        else
+        {
+            /*
+             66 Cancel button maximum x.
+             57 done button frame.
+             8+8 distance maintenance
+             */
+            buttonFrame = CGRectMake(0, 0, toolbar.frame.size.width-66-57.0-16, 44);
+        }
+        
+        IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithFrame:buttonFrame title:titleText];
+        [items addObject:title];
+    }
     
     //  Create a fake button to maintain flexibleSpace between doneButton and nilButton. (Actually it moves done button to right side.
     IQBarButtonItem *nilButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     [items addObject:nilButton];
     
-#ifdef __IPHONE_8_0
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0    //Minimum Target iOS 8+
-    
-    // Get the top level "bundle" which may actually be the framework
-    NSBundle *mainBundle = [NSBundle bundleForClass:[IQKeyboardManager class]];
-    
-    // Check to see if the resource bundle exists inside the top level bundle
-    NSBundle *resourcesBundle = [NSBundle bundleWithPath:[mainBundle pathForResource:@"IQKeyboardManager" ofType:@"bundle"]];
-    
-    if (resourcesBundle == nil) {
-        resourcesBundle = mainBundle;
-    }
-    
-    UIImage *imageDone = imageDone = [UIImage imageNamed:@"IQButtonBarDone" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-#else   //Minimum Target iOS7+
-    
-    UIImage *imageDone;
-    
-    if (IQ_IS_IOS8_OR_GREATER)
-    {
-        // Get the top level "bundle" which may actually be the framework
-        NSBundle *mainBundle = [NSBundle bundleForClass:[IQKeyboardManager class]];
-        
-        // Check to see if the resource bundle exists inside the top level bundle
-        NSBundle *resourcesBundle = [NSBundle bundleWithPath:[mainBundle pathForResource:@"IQKeyboardManager" ofType:@"bundle"]];
-        
-        if (resourcesBundle == nil) {
-            resourcesBundle = mainBundle;
-        }
-        imageDone = [UIImage imageNamed:@"IQButtonBarDone" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-    }
-    else
-    {
-        imageDone = [UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarDone"];
-    }
-    
-#endif
-    
-#else   //Maximum target iOS 7
-    UIImage *imageDone = [UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarDone"];
-#endif
-    
-    
     //  Create a done button to show on keyboard to resign it. Adding a selector to resign it.
-    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithImage:imageDone style:UIBarButtonItemStyleDone target:target action:rightAction];
+    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithTitle:rightTitle style:UIBarButtonItemStylePlain target:target action:rightAction];
     [items addObject:doneButton];
     
     //  Adding button to toolBar.
     [toolbar setItems:items];
     
-    
     //  Setting toolbar to keyboard.
     [(UITextField*)self setInputAccessoryView:toolbar];
 }
 
-- (void)addLeftRightOnKeyboardWithTarget:(id)target leftButtonTitle:(NSString*)leftTitle rightButtonTitle:(NSString*)rightTitle leftButtonAction:(SEL)leftAction rightButtonAction:(SEL)rightAction shouldShowPlaceholder:(BOOL)showPlaceholder
+- (void)addRightLeftOnKeyboardWithTarget:(id)target leftButtonTitle:(NSString*)leftTitle rightButtonTitle:(NSString*)rightTitle rightButtonAction:(SEL)rightAction leftButtonAction:(SEL)leftAction shouldShowPlaceholder:(BOOL)showPlaceholder
 {
     NSString *title;
     
     if (showPlaceholder && [self respondsToSelector:@selector(placeholder)])    title = [(UITextField*)self placeholder];
     
-    [self addLeftRightOnKeyboardWithTarget:target leftButtonTitle:leftTitle rightButtonTitle:rightTitle leftButtonAction:leftAction rightButtonAction:rightAction titleText:title];
+    [self addRightLeftOnKeyboardWithTarget:target leftButtonTitle:leftTitle rightButtonTitle:rightTitle rightButtonAction:rightAction leftButtonAction:leftAction titleText:title];
 }
 
-- (void)addLeftRightOnKeyboardWithTarget:(id)target leftButtonTitle:(NSString*)leftTitle rightButtonTitle:(NSString*)rightTitle leftButtonAction:(SEL)leftAction rightButtonAction:(SEL)rightAction
+- (void)addRightLeftOnKeyboardWithTarget:(id)target leftButtonTitle:(NSString*)leftTitle rightButtonTitle:(NSString*)rightTitle rightButtonAction:(SEL)rightAction leftButtonAction:(SEL)leftAction
 {
-    [self addLeftRightOnKeyboardWithTarget:target leftButtonTitle:leftTitle rightButtonTitle:rightTitle leftButtonAction:leftAction rightButtonAction:rightAction titleText:nil];
+    [self addRightLeftOnKeyboardWithTarget:target leftButtonTitle:leftTitle rightButtonTitle:rightTitle rightButtonAction:rightAction leftButtonAction:leftAction titleText:nil];
 }
 
 - (void)addCancelDoneOnKeyboardWithTarget:(id)target cancelAction:(SEL)cancelAction doneAction:(SEL)doneAction titleText:(NSString*)titleText
@@ -452,14 +291,7 @@
         customAccessView = feildSelf.customAccessoryView;
     }
     IQToolbar *toolbar = [[IQToolbar alloc] initWithCustomAccessView:customAccessView];
-    if ([self respondsToSelector:@selector(keyboardAppearance)])
-    {
-        switch ([(UITextField*)self keyboardAppearance])
-        {
-            case UIKeyboardAppearanceAlert: toolbar.barStyle = UIBarStyleBlack;     break;
-            default:                        toolbar.barStyle = UIBarStyleDefault;   break;
-        }
-    }
+    //	toolbar.tag = kIQCancelDoneButtonToolbarTag;
     
     NSMutableArray *items = [[NSMutableArray alloc] init];
     
@@ -467,65 +299,39 @@
     IQBarButtonItem *cancelButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:target action:cancelAction];
     [items addObject:cancelButton];
     
-    /*
-     66 Cancel button maximum x.
-     50 done button frame.
-     8+8 distance maintenance
-     */
-    CGRect buttonFrame = CGRectMake(0, 0, toolbar.frame.size.width-66-50.0-16, 44);
-    
-    IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithFrame:buttonFrame title:self.shouldHideTitle?nil:titleText];
-    [items addObject:title];
+    if ([titleText length] && self.shouldHideTitle == NO)
+    {
+        CGRect buttonFrame;
+        
+        if (IQ_IS_IOS7_OR_GREATER)
+        {
+            /*
+             66 Cancel button maximum x.
+             50 done button frame.
+             8+8 distance maintenance
+             */
+            buttonFrame = CGRectMake(0, 0, toolbar.frame.size.width-66-50.0-16, 44);
+        }
+        else
+        {
+            /*
+             66 Cancel button maximum x.
+             57 done button frame.
+             8+8 distance maintenance
+             */
+            buttonFrame = CGRectMake(0, 0, toolbar.frame.size.width-66-57.0-16, 44);
+        }
+        
+        IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithFrame:buttonFrame title:titleText];
+        [items addObject:title];
+    }
     
     //  Create a fake button to maintain flexibleSpace between doneButton and nilButton. (Actually it moves done button to right side.
     IQBarButtonItem *nilButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     [items addObject:nilButton];
     
-#ifdef __IPHONE_8_0
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0    //Minimum Target iOS 8+
-    
-    // Get the top level "bundle" which may actually be the framework
-    NSBundle *mainBundle = [NSBundle bundleForClass:[IQKeyboardManager class]];
-    
-    // Check to see if the resource bundle exists inside the top level bundle
-    NSBundle *resourcesBundle = [NSBundle bundleWithPath:[mainBundle pathForResource:@"IQKeyboardManager" ofType:@"bundle"]];
-    
-    if (resourcesBundle == nil) {
-        resourcesBundle = mainBundle;
-    }
-    
-    UIImage *imageDone = imageDone = [UIImage imageNamed:@"IQButtonBarDone" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-#else   //Minimum Target iOS7+
-    
-    UIImage *imageDone;
-    
-    if (IQ_IS_IOS8_OR_GREATER)
-    {
-        // Get the top level "bundle" which may actually be the framework
-        NSBundle *mainBundle = [NSBundle bundleForClass:[IQKeyboardManager class]];
-        
-        // Check to see if the resource bundle exists inside the top level bundle
-        NSBundle *resourcesBundle = [NSBundle bundleWithPath:[mainBundle pathForResource:@"IQKeyboardManager" ofType:@"bundle"]];
-        
-        if (resourcesBundle == nil) {
-            resourcesBundle = mainBundle;
-        }
-        imageDone = [UIImage imageNamed:@"IQButtonBarDone" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-    }
-    else
-    {
-        imageDone = [UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarDone"];
-    }
-    
-#endif
-    
-#else   //Maximum target iOS 7
-    UIImage *imageDone = [UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarDone"];
-#endif
-    
-    
     //  Create a done button to show on keyboard to resign it. Adding a selector to resign it.
-    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithImage:imageDone style:UIBarButtonItemStyleDone target:target action:doneAction];
+    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:target action:doneAction];
     [items addObject:doneButton];
     
     //  Adding button to toolBar.
@@ -562,105 +368,72 @@
         customAccessView = feildSelf.customAccessoryView;
     }
     IQToolbar *toolbar = [[IQToolbar alloc] initWithCustomAccessView:customAccessView];
-    if ([self respondsToSelector:@selector(keyboardAppearance)])
-    {
-        switch ([(UITextField*)self keyboardAppearance])
-        {
-            case UIKeyboardAppearanceAlert: toolbar.barStyle = UIBarStyleBlack;     break;
-            default:                        toolbar.barStyle = UIBarStyleDefault;   break;
-        }
-    }
- 
-	NSMutableArray *items = [[NSMutableArray alloc] init];
-	
+    //	toolbar.tag = kIQPreviousNextButtonToolbarTag;
     
-    //        UIBarButtonItem *prev = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:105 target:target action:previousAction];
-    //        UIBarButtonItem *next = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:106 target:target action:nextAction];
-    
-#ifdef __IPHONE_8_0
-    #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0    //Minimum Target iOS 8+
-    
-    // Get the top level "bundle" which may actually be the framework
-    NSBundle *mainBundle = [NSBundle bundleForClass:[IQKeyboardManager class]];
-    
-    // Check to see if the resource bundle exists inside the top level bundle
-    NSBundle *resourcesBundle = [NSBundle bundleWithPath:[mainBundle pathForResource:@"IQKeyboardManager" ofType:@"bundle"]];
-    
-    if (resourcesBundle == nil) {
-        resourcesBundle = mainBundle;
-    }
-    
-    UIImage *imageLeftArrow = [UIImage imageNamed:@"IQButtonBarArrowLeft" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-    UIImage *imageRightArrow = [UIImage imageNamed:@"IQButtonBarArrowRight" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-    UIImage *imageDone = imageDone = [UIImage imageNamed:@"IQButtonBarDone" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-    #else   //Minimum Target iOS7+
-
-    UIImage *imageLeftArrow;
-    UIImage *imageRightArrow;
-    UIImage *imageDone;
-
-    if (IQ_IS_IOS8_OR_GREATER)
-    {
-        // Get the top level "bundle" which may actually be the framework
-        NSBundle *mainBundle = [NSBundle bundleForClass:[IQKeyboardManager class]];
-        
-        // Check to see if the resource bundle exists inside the top level bundle
-        NSBundle *resourcesBundle = [NSBundle bundleWithPath:[mainBundle pathForResource:@"IQKeyboardManager" ofType:@"bundle"]];
-        
-        if (resourcesBundle == nil) {
-            resourcesBundle = mainBundle;
-        }
-        
-        imageLeftArrow = [UIImage imageNamed:@"IQButtonBarArrowLeft" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-        imageRightArrow = [UIImage imageNamed:@"IQButtonBarArrowRight" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-        imageDone = [UIImage imageNamed:@"IQButtonBarDone" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-    }
-    else
-    {
-        imageLeftArrow = [UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarArrowLeft"];
-        imageRightArrow = [UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarArrowRight"];
-        imageDone = [UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarDone"];
-    }
-
-    #endif
-    
-#else   //Maximum target iOS 7
-    UIImage *imageLeftArrow = [UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarArrowLeft"];
-    UIImage *imageRightArrow = [UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarArrowRight"];
-    UIImage *imageDone = [UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarDone"];
-#endif
-    
-    IQBarButtonItem *prev = [[IQBarButtonItem alloc] initWithImage:imageLeftArrow style:UIBarButtonItemStylePlain target:target action:previousAction];
-    IQBarButtonItem *fixed =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    [fixed setWidth:23];
-    IQBarButtonItem *next = [[IQBarButtonItem alloc] initWithImage:imageRightArrow style:UIBarButtonItemStylePlain target:target action:nextAction];
-    
-    [items addObject:prev];
-    [items addObject:fixed];
-    [items addObject:next];
-
-    /*
-     72.5 next/previous maximum x.
-     50 done button frame.
-     8+8 distance maintenance
-     */
-    CGRect buttonFrame = CGRectMake(0, 0, toolbar.frame.size.width-72.5-50.0-16, 44);
-    
-    IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithFrame:buttonFrame title:self.shouldHideTitle?nil:titleText];
-    [items addObject:title];
+    NSMutableArray *items = [[NSMutableArray alloc] init];
     
     //  Create a done button to show on keyboard to resign it. Adding a selector to resign it.
-    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithImage:imageDone style:UIBarButtonItemStylePlain target:target action:doneAction];
+    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:target action:doneAction];
+    
+//    if (IQ_IS_IOS7_OR_GREATER)
+    {
+        //        UIBarButtonItem *prev = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:105 target:target action:previousAction];
+        //        UIBarButtonItem *next = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:106 target:target action:nextAction];
+        
+        IQBarButtonItem *prev = [[IQBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarArrowLeft"] style:UIBarButtonItemStylePlain target:target action:previousAction];
+        IQBarButtonItem *fixed =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        [fixed setWidth:23];
+        IQBarButtonItem *next = [[IQBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarArrowRight"] style:UIBarButtonItemStylePlain target:target action:nextAction];
+        [items addObject:prev];
+        [items addObject:fixed];
+        [items addObject:next];
+    }
+    //	else
+    //	{
+    //        #pragma GCC diagnostic push
+    //        #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+    //		//  Create a next/previous button to switch between TextFieldViews.
+    //		IQSegmentedNextPrevious *segControl = [[IQSegmentedNextPrevious alloc] initWithTarget:target previousAction:previousAction nextAction:nextAction];
+    //        #pragma GCC diagnostic pop
+    //		IQBarButtonItem *segButton = [[IQBarButtonItem alloc] initWithCustomView:segControl];
+    //		[items addObject:segButton];
+    //	}
+    
+    if ([titleText length] && self.shouldHideTitle == NO)
+    {
+        CGRect buttonFrame;
+        
+        if (IQ_IS_IOS7_OR_GREATER)
+        {
+            /*
+             72.5 next/previous maximum x.
+             50 done button frame.
+             8+8 distance maintenance
+             */
+            buttonFrame = CGRectMake(0, 0, toolbar.frame.size.width-72.5-50.0-16, 44);
+        }
+        else
+        {
+            /*
+             135 next/previous maximum x.
+             57 done button frame.
+             8+8 distance maintenance
+             */
+            buttonFrame = CGRectMake(0, 0, toolbar.frame.size.width-135-57.0-16, 44);
+        }
+        
+        IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithFrame:buttonFrame title:titleText];
+        [items addObject:title];
+    }
+    
     IQBarButtonItem *nilButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
-	[items addObject:nilButton];
+    [items addObject:nilButton];
     [items addObject:doneButton];
-	
-	
+    
     //  Adding button to toolBar.
     [toolbar setItems:items];
     
-
     //  Setting toolbar to keyboard.
     [(UITextField*)self setInputAccessoryView:toolbar];
 }
@@ -679,171 +452,6 @@
     [self addPreviousNextDoneOnKeyboardWithTarget:target previousAction:previousAction nextAction:nextAction doneAction:doneAction titleText:nil];
 }
 
-- (void)addPreviousNextRightOnKeyboardWithTarget:(id)target rightButtonTitle:(NSString*)rightButtonTitle previousAction:(SEL)previousAction nextAction:(SEL)nextAction rightButtonAction:(SEL)rightButtonAction titleText:(NSString*)titleText
-{
-    //If can't set InputAccessoryView. Then return
-    if (![self respondsToSelector:@selector(setInputAccessoryView:)])    return;
-    
-    //  Creating a toolBar for phoneNumber keyboard
-    UIView * customAccessView;
-    if ([self isKindOfClass:[OETextField class]])
-    {
-        OETextField * feildSelf = (OETextField *)self;
-        customAccessView = feildSelf.customAccessoryView;
-    }
-    IQToolbar *toolbar = [[IQToolbar alloc] initWithCustomAccessView:customAccessView];
-    if ([self respondsToSelector:@selector(keyboardAppearance)])
-    {
-        switch ([(UITextField*)self keyboardAppearance])
-        {
-            case UIKeyboardAppearanceAlert: toolbar.barStyle = UIBarStyleBlack;     break;
-            default:                        toolbar.barStyle = UIBarStyleDefault;   break;
-        }
-    }
-    
-    NSMutableArray *items = [[NSMutableArray alloc] init];
-    
-    
-#ifdef __IPHONE_8_0
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0    //Minimum Target iOS 8+
-    
-    // Get the top level "bundle" which may actually be the framework
-    NSBundle *mainBundle = [NSBundle bundleForClass:[IQKeyboardManager class]];
-    
-    // Check to see if the resource bundle exists inside the top level bundle
-    NSBundle *resourcesBundle = [NSBundle bundleWithPath:[mainBundle pathForResource:@"IQKeyboardManager" ofType:@"bundle"]];
-    
-    if (resourcesBundle == nil) {
-        resourcesBundle = mainBundle;
-    }
-    
-    UIImage *imageDone = imageDone = [UIImage imageNamed:@"IQButtonBarDone" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-#else   //Minimum Target iOS7+
-    
-    UIImage *imageDone;
-    
-    if (IQ_IS_IOS8_OR_GREATER)
-    {
-        // Get the top level "bundle" which may actually be the framework
-        NSBundle *mainBundle = [NSBundle bundleForClass:[IQKeyboardManager class]];
-        
-        // Check to see if the resource bundle exists inside the top level bundle
-        NSBundle *resourcesBundle = [NSBundle bundleWithPath:[mainBundle pathForResource:@"IQKeyboardManager" ofType:@"bundle"]];
-        
-        if (resourcesBundle == nil) {
-            resourcesBundle = mainBundle;
-        }
-        imageDone = [UIImage imageNamed:@"IQButtonBarDone" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-    }
-    else
-    {
-        imageDone = [UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarDone"];
-    }
-    
-#endif
-    
-#else   //Maximum target iOS 7
-    UIImage *imageDone = [UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarDone"];
-#endif
-    
-    
-    //  Create a done button to show on keyboard to resign it. Adding a selector to resign it.
-    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithImage:imageDone style:UIBarButtonItemStyleDone target:target action:rightButtonAction];
-    
-    //        UIBarButtonItem *prev = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:105 target:target action:previousAction];
-    //        UIBarButtonItem *next = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:106 target:target action:nextAction];
-    
-#ifdef __IPHONE_8_0
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0    //Minimum Target iOS 8+
-    
-    // Get the top level "bundle" which may actually be the framework
-    NSBundle *mainBundle = [NSBundle bundleForClass:[IQKeyboardManager class]];
-    
-    // Check to see if the resource bundle exists inside the top level bundle
-    NSBundle *resourcesBundle = [NSBundle bundleWithPath:[mainBundle pathForResource:@"IQKeyboardManager" ofType:@"bundle"]];
-    
-    if (resourcesBundle == nil) {
-        resourcesBundle = mainBundle;
-    }
-    
-    UIImage *imageLeftArrow = [UIImage imageNamed:@"IQButtonBarArrowLeft" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-    UIImage *imageRightArrow = [UIImage imageNamed:@"IQButtonBarArrowRight" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-#else   //Minimum Target iOS7+
-    
-    UIImage *imageLeftArrow;
-    UIImage *imageRightArrow;
-    
-    if (IQ_IS_IOS8_OR_GREATER)
-    {
-        // Get the top level "bundle" which may actually be the framework
-        NSBundle *mainBundle = [NSBundle bundleForClass:[IQKeyboardManager class]];
-        
-        // Check to see if the resource bundle exists inside the top level bundle
-        NSBundle *resourcesBundle = [NSBundle bundleWithPath:[mainBundle pathForResource:@"IQKeyboardManager" ofType:@"bundle"]];
-        
-        if (resourcesBundle == nil) {
-            resourcesBundle = mainBundle;
-        }
-        
-        imageLeftArrow = [UIImage imageNamed:@"IQButtonBarArrowLeft" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-        imageRightArrow = [UIImage imageNamed:@"IQButtonBarArrowRight" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-    }
-    else
-    {
-        imageLeftArrow = [UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarArrowLeft"];
-        imageRightArrow = [UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarArrowRight"];
-    }
-    
-    #endif
-    
-#else   //Maximum target iOS 7
-    UIImage *imageLeftArrow = [UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarArrowLeft"];
-    UIImage *imageRightArrow = [UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarArrowRight"];
-#endif
-    
-    IQBarButtonItem *prev = [[IQBarButtonItem alloc] initWithImage:imageLeftArrow style:UIBarButtonItemStylePlain target:target action:previousAction];
-    IQBarButtonItem *fixed =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    [fixed setWidth:23];
-    IQBarButtonItem *next = [[IQBarButtonItem alloc] initWithImage:imageRightArrow style:UIBarButtonItemStylePlain target:target action:nextAction];
-    [items addObject:prev];
-    [items addObject:fixed];
-    [items addObject:next];
-
-    /*
-     72.5 next/previous maximum x.
-     50 done button frame.
-     8+8 distance maintenance
-     */
-    CGRect buttonFrame = CGRectMake(0, 0, toolbar.frame.size.width-72.5-50.0-16, 44);
-    
-    IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithFrame:buttonFrame title:self.shouldHideTitle?nil:titleText];
-    [items addObject:title];
-    
-    IQBarButtonItem *nilButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    
-    [items addObject:nilButton];
-    [items addObject:doneButton];
-    
-    //  Adding button to toolBar.
-    [toolbar setItems:items];
-    
-    //  Setting toolbar to keyboard.
-    [(UITextField*)self setInputAccessoryView:toolbar];
-}
-
-- (void)addPreviousNextRightOnKeyboardWithTarget:(id)target rightButtonTitle:(NSString*)rightButtonTitle previousAction:(SEL)previousAction nextAction:(SEL)nextAction rightButtonAction:(SEL)rightButtonAction shouldShowPlaceholder:(BOOL)showPlaceholder
-{
-    NSString *title;
-    
-    if (showPlaceholder && [self respondsToSelector:@selector(placeholder)])    title = [(UITextField*)self placeholder];
-    
-    [self addPreviousNextRightOnKeyboardWithTarget:target rightButtonTitle:rightButtonTitle previousAction:previousAction nextAction:nextAction rightButtonAction:rightButtonAction titleText:title];
-}
-
-- (void)addPreviousNextRightOnKeyboardWithTarget:(id)target rightButtonTitle:(NSString*)rightButtonTitle previousAction:(SEL)previousAction nextAction:(SEL)nextAction rightButtonAction:(SEL)rightButtonAction
-{
-    [self addPreviousNextRightOnKeyboardWithTarget:target rightButtonTitle:rightButtonTitle previousAction:previousAction nextAction:nextAction rightButtonAction:rightButtonAction titleText:nil];
-}
 
 -(void)setEnablePrevious:(BOOL)isPreviousEnabled next:(BOOL)isNextEnabled
 {
@@ -853,76 +461,52 @@
     //  If it is IQToolbar and it's items are greater than zero.
     if ([inputAccessoryView isKindOfClass:[IQToolbar class]] && [[inputAccessoryView items] count]>0)
     {
-		if ([[inputAccessoryView items] count]>3)
-		{
-			//  Getting first item from inputAccessoryView.
-			IQBarButtonItem *prevButton = (IQBarButtonItem*)[[inputAccessoryView items] objectAtIndex:0];
-			IQBarButtonItem *nextButton = (IQBarButtonItem*)[[inputAccessoryView items] objectAtIndex:2];
-			
-			//  If it is UIBarButtonItem and it's customView is not nil.
-			if ([prevButton isKindOfClass:[IQBarButtonItem class]] && [nextButton isKindOfClass:[IQBarButtonItem class]])
-			{
+        if (IQ_IS_IOS7_OR_GREATER && [[inputAccessoryView items] count]>3)
+        {
+            //  Getting first item from inputAccessoryView.
+            IQBarButtonItem *prevButton = (IQBarButtonItem*)[inputAccessoryView items][0];
+            IQBarButtonItem *nextButton = (IQBarButtonItem*)[inputAccessoryView items][2];
+            
+            //  If it is UIBarButtonItem and it's customView is not nil.
+            if ([prevButton isKindOfClass:[IQBarButtonItem class]] && [nextButton isKindOfClass:[IQBarButtonItem class]])
+            {
                 if (prevButton.enabled != isPreviousEnabled)
                     [prevButton setEnabled:isPreviousEnabled];
                 if (nextButton.enabled != isNextEnabled)
                     [nextButton setEnabled:isNextEnabled];
-			}
-		}
-    }
-}
-
-- (void)refreshToolBar:(IQToolbar *)toolbar
-{
-    return;
-    ///是否需要显示自定义工具条
-    BOOL flag = NO;
-    if ([self isKindOfClass:[OETextField class]])
-    {
-        OETextField * feildSelf = (OETextField *)self;
-        if (feildSelf.customAccessoryView)
-        {
-            flag = YES;
+            }
         }
-    }
-    
-    /// 是否存在自定义工具条
-    BOOL isExsit = NO;
-    for (UIView * subview in toolbar.subviews)
-    {
-        if ([subview isKindOfClass:[OEView class]] && subview.tag == OEAccessTag)
+        else
         {
-            isExsit = YES;
-        }
-    }
-    
-    if (!isExsit)
-    {
-        [self toolbarAddCustomArray:toolbar];
-    }
-    
-    
-//    [toolbar layoutSubviews:flag];
-}
-
-- (BOOL)toolbarAddCustomArray:(IQToolbar *)toolbar
-{
-    CGRect frame = toolbar.frame;
-    UIView * customAccessoryView;
-    BOOL flag = NO;
-    if ([self isKindOfClass:[OETextField class]])
-    {
-        OETextField * feildSelf = (OETextField *)self;
-        if (feildSelf.customAccessoryView)
-        {
-            customAccessoryView = feildSelf.customAccessoryView;
-            customAccessoryView.frame = CGRectMake(0, 44, frame.size.width, 44);
+            //  Getting first item from inputAccessoryView.
+            IQBarButtonItem *barButtonItem = (IQBarButtonItem*)[inputAccessoryView items][0];
             
-            [toolbar addSubview:customAccessoryView];
-            flag = YES;
+            //  If it is IQBarButtonItem and it's customView is not nil.
+            if ([barButtonItem isKindOfClass:[IQBarButtonItem class]] && [barButtonItem customView] != nil)
+            {
+                //  Getting it's customView.
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+                IQSegmentedNextPrevious *segmentedControl = (IQSegmentedNextPrevious*)[barButtonItem customView];
+                //  If its customView is IQSegmentedNextPrevious and has 2 segments
+                if ([segmentedControl isKindOfClass:[IQSegmentedNextPrevious class]] && [segmentedControl numberOfSegments]==2)
+#pragma GCC diagnostic pop
+                {
+                    if ([segmentedControl isEnabledForSegmentAtIndex:0] != isPreviousEnabled)
+                    {
+                        //  Setting it's first segment enable/disable.
+                        [segmentedControl setEnabled:isPreviousEnabled forSegmentAtIndex:0];
+                    }
+                    
+                    if ([segmentedControl isEnabledForSegmentAtIndex:1] != isNextEnabled)
+                    {
+                        //  Setting it's second segment enable/disable.
+                        [segmentedControl setEnabled:isNextEnabled forSegmentAtIndex:1];
+                    }
+                }
+            }
         }
     }
-    
-    return flag;
 }
 
 @end

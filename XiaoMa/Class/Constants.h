@@ -172,5 +172,7 @@ typedef enum : NSUInteger {
 #define kInsuranceDirectSellingUrl  @"https://www.xiaomadada.com/apphtml/chexianzhixiao.html"
 #define kMoneySavingStrategiesUrl  @"http://xiaomadada.com/apphtml/view/shengqian/index.html?jump=t"
 #define kInsuranceLicenseUrl    @"http://www.xiaomadada.com/apphtml/xmdd-ins-licenese.html"
+//新手引导
+#define kNewbieGuideUrl  @"http://www.xiaomadada.com/apphtml/lingyuanxiche.html"
 
 #endif
