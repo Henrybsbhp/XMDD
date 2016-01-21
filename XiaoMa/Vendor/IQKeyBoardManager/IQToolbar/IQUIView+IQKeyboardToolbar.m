@@ -103,7 +103,7 @@ IQ_LoadCategory(IQUIViewToolbar)
     [items addObject:nilButton];
     
     //  Create a done button to show on keyboard to resign it. Adding a selector to resign it.
-    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithTitle:text style:UIBarButtonItemStyleDone target:target action:action];
+        IQBarButtonItem *doneButton = [[IQBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarDone"] style:UIBarButtonItemStylePlain target:target action:action];
     [items addObject:doneButton];
     
     //  Adding button to toolBar.
@@ -175,7 +175,7 @@ IQ_LoadCategory(IQUIViewToolbar)
     [items addObject:nilButton];
     
     //  Create a done button to show on keyboard to resign it. Adding a selector to resign it.
-    IQBarButtonItem *doneButton = [[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:target action:action];
+    IQBarButtonItem *doneButton = [[IQBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarDone"] style:UIBarButtonItemStylePlain target:target action:action];
     [items addObject:doneButton];
     
     //  Adding button to toolBar.
@@ -255,6 +255,7 @@ IQ_LoadCategory(IQUIViewToolbar)
     
     //  Create a done button to show on keyboard to resign it. Adding a selector to resign it.
     IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithTitle:rightTitle style:UIBarButtonItemStylePlain target:target action:rightAction];
+    
     [items addObject:doneButton];
     
     //  Adding button to toolBar.
@@ -331,7 +332,7 @@ IQ_LoadCategory(IQUIViewToolbar)
     [items addObject:nilButton];
     
     //  Create a done button to show on keyboard to resign it. Adding a selector to resign it.
-    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:target action:doneAction];
+    IQBarButtonItem *doneButton = [[IQBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarDone"] style:UIBarButtonItemStylePlain target:target action:doneAction];
     [items addObject:doneButton];
     
     //  Adding button to toolBar.
@@ -373,7 +374,7 @@ IQ_LoadCategory(IQUIViewToolbar)
     NSMutableArray *items = [[NSMutableArray alloc] init];
     
     //  Create a done button to show on keyboard to resign it. Adding a selector to resign it.
-    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:target action:doneAction];
+    IQBarButtonItem *doneButton = [[IQBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarDone"] style:UIBarButtonItemStylePlain target:target action:doneAction];
     
 //    if (IQ_IS_IOS7_OR_GREATER)
     {
