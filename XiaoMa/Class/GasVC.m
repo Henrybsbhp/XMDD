@@ -490,7 +490,7 @@
             [gToast showText:@"您需要先添加一张油卡！" inView:self.view];
             return;
         }
-        else if (self.curModel.curBankCard.gasInfo.rsp_availablechargeamt)
+        else if (self.curModel.curBankCard.gasInfo.rsp_availablechargeamt == 0)
         {
             [gToast showText:@"您本月加油已达到最大限额！" inView:self.view];
             return;
