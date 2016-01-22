@@ -20,6 +20,7 @@
 #import "CarWashTableVC.h"
 #import "DetailWebVC.h"
 #import "GuideStore.h"
+#import "WebVC.h"
 
 @interface NewGainAwardVC ()
 
