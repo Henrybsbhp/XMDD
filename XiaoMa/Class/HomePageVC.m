@@ -901,9 +901,9 @@
     [gAppMgr loadLastHomePicInfo];
     if (!gAppMgr.homePicModel.homeItemArray.count)
     {
-        HomeItem * item1 = [[HomeItem alloc] initWithTitlt:@"油卡充值" picUrl:nil andUrl:@"xmdd://j=g" imageName:@"hp_addgas_2_5"];
-        HomeItem * item2 = [[HomeItem alloc] initWithTitlt:@"违章查询" picUrl:nil andUrl:@"xmdd://j=vio" imageName:@"hp_violation_2_5"];
-        HomeItem * item3 = [[HomeItem alloc] initWithTitlt:@"爱车估值" picUrl:nil andUrl:@"xmdd://j=val" imageName:@"hp_estimate_2_5"];
+        HomeItem * item1 = [[HomeItem alloc] initWithTitlt:@"油卡充值" picUrl:nil andUrl:@"xmdd://j?t=g" imageName:@"hp_addgas_2_5"];
+        HomeItem * item2 = [[HomeItem alloc] initWithTitlt:@"违章查询" picUrl:nil andUrl:@"xmdd://j?t=vio" imageName:@"hp_violation_2_5"];
+        HomeItem * item3 = [[HomeItem alloc] initWithTitlt:@"爱车估值" picUrl:nil andUrl:@"xmdd://j?t=val" imageName:@"hp_estimate_2_5"];
         self.homeItemArray = @[item1,item2,item3];
     }
     else
