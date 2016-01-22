@@ -13,8 +13,8 @@
 
 int main(int argc, char * argv[]) {
     @autoreleasepool {
-        [UIView patchForCustomXIB];
         [UI7Kit patchIfNeeded];
+        [UIView patchForCustomXIB];
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
     }
 }

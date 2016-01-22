@@ -88,7 +88,7 @@
     [self.formSheetController dismissAnimated:YES completionHandler:nil];
     
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-    vc.url = self.newbieInfo.rsp_url;
+    vc.url = self.newbieInfo.rsp_url ? self.newbieInfo.rsp_url : kNewbieGuideUrl;
     [self.targetVC.navigationController pushViewController:vc animated:YES];
     [[GuideStore fetchOrCreateStore] setNewbieGuideAppeared];
 }

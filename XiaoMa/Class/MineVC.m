@@ -312,7 +312,7 @@
         [MobClick event:@"rp301-11"];
         @strongify(self);
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-        vc.url = self.guideStore.newbieInfo.rsp_url;
+        vc.url = kNewbieGuideUrl;
         [self.navigationController pushViewController:vc animated:YES];
         [self.guideStore setNewbieGuideAppeared];
     }];

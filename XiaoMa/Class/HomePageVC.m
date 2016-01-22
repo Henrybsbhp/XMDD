@@ -112,7 +112,7 @@
         {
             ///只会出现在4，4s的机型上
 //            CGFloat heigth = self.secondaryItemView.frame.size.height + self.secondaryItemView.frame.origin.x;
-            self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, 460);
+            self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, 480);
         }
         [self showNewbieGuideAlertIfNeeded];
     });

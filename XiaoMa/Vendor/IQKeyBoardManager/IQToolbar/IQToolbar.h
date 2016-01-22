@@ -1,7 +1,7 @@
 //
 //  IQToolbar.h
 // https://github.com/hackiftekhar/IQKeyboardManager
-// Copyright (c) 2013-15 Iftekhar Qurashi.
+// Copyright (c) 2013-14 Iftekhar Qurashi.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,20 +23,14 @@
 
 #import <UIKit/UIToolbar.h>
 
-/**
- IQToolbar for IQKeyboardManager.
+/*!
+    @class      IQToolbar
+ 
+	@abstract   IQToolbar for IQKeyboardManager.
  */
 @interface IQToolbar : UIToolbar <UIInputViewAudioFeedback>
 
-/**
- Title font for toolbar.
- */
-@property(nullable, nonatomic, strong) UIFont *titleFont;
-
-/**
- Toolbar title
- */
-@property(nullable, nonatomic, strong) NSString *title;
+@property(nonatomic, strong) UIFont *titleFont;
 
 
 @property(nonatomic,strong)UIView * customAccessyView;

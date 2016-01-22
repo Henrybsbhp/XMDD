@@ -1,7 +1,7 @@
 //
 //  IQToolbar.m
 // https://github.com/hackiftekhar/IQKeyboardManager
-// Copyright (c) 2013-15 Iftekhar Qurashi.
+// Copyright (c) 2013-14 Iftekhar Qurashi.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -30,40 +30,20 @@
 
 @implementation IQToolbar
 @synthesize titleFont = _titleFont;
-@synthesize title = _title;
-
-+(void)load
-{
-    //Tint Color
-    [[self appearance] setTintColor:nil];
-
-    if (IOSVersionGreaterThanOrEqualTo(@"7.0"))
-    {
-        [[self appearance] setBarTintColor:nil];
-    }
-    
-    //Background image
-    [[self appearance] setBackgroundImage:nil forToolbarPosition:UIBarPositionAny           barMetrics:UIBarMetricsDefault];
-    [[self appearance] setBackgroundImage:nil forToolbarPosition:UIBarPositionBottom        barMetrics:UIBarMetricsDefault];
-    [[self appearance] setBackgroundImage:nil forToolbarPosition:UIBarPositionTop           barMetrics:UIBarMetricsDefault];
-    [[self appearance] setBackgroundImage:nil forToolbarPosition:UIBarPositionTopAttached   barMetrics:UIBarMetricsDefault];
-    
-    //Shadow image
-    [[self appearance] setShadowImage:nil forToolbarPosition:UIBarPositionAny];
-    [[self appearance] setShadowImage:nil forToolbarPosition:UIBarPositionBottom];
-    [[self appearance] setShadowImage:nil forToolbarPosition:UIBarPositionTop];
-    [[self appearance] setShadowImage:nil forToolbarPosition:UIBarPositionTopAttached];
-    
-    //Background color
-    [[self appearance] setBackgroundColor:nil];
-}
 
 -(void)initialize
 {
     [self sizeToFit];
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth;// | UIViewAutoresizingFlexibleHeight;
-    self.translucent = YES;
-    [self setTintColor:[UIColor blackColor]];
+    
+     if (IQ_IS_IOS7_OR_GREATER)
+    {
+        [self setTintColor:[UIColor blackColor]];
+    }
+    else
+    {
+        [self setBarStyle:UIBarStyleBlackTranslucent];
+    }
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -140,18 +120,6 @@
     }
 }
 
--(void)setTitle:(NSString *)title
-{
-    _title = title;
-    
-    for (UIBarButtonItem *item in self.items)
-    {
-        if ([item isKindOfClass:[IQTitleBarButtonItem class]])
-        {
-            [(IQTitleBarButtonItem*)item setTitle:title];
-        }
-    }
-}
 
 - (void)setupCustomAccessView
 {

@@ -240,6 +240,7 @@
     op.req_engineno = [(HKCellData *)[self.datasource safetyObjectAtIndex:4] object];
     op.req_transferflag = [[(HKCellData *)[self.datasource safetyObjectAtIndex:5] object] boolValue];
     op.req_transferdate = op.req_transferflag == 1 ? [(HKCellData *)[self.datasource safetyObjectAtIndex:6] object] : nil;
+    op.req_carpremiumid = self.insModel.simpleCar.carpremiumid;
     //错误判断
     if (op.req_city.length == 0) {
         [gToast showText:@"行驶城市不能为空"];

@@ -49,7 +49,6 @@
 {
     [super viewDidLoad];
     //隐藏键盘工具条
-    [[IQKeyboardManager sharedManager] disableToolbarInViewControllerClass:[self class]];
     self.smsModel = [[HKSMSModel alloc] init];
     [self setupBottomView];
     [self reloadData];
@@ -58,6 +57,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp507"];
+    [[IQKeyboardManager sharedManager] setEnableAutoToolbar:NO];
     [IQKeyboardManager sharedManager].keyboardDistanceFromTextField = 70;
 }
 
@@ -65,6 +65,7 @@
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp507"];
+    [[IQKeyboardManager sharedManager] setEnableAutoToolbar:YES];
     [IQKeyboardManager sharedManager].keyboardDistanceFromTextField = 10;
 }
 
