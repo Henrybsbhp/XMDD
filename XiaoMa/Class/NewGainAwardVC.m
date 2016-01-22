@@ -19,6 +19,7 @@
 #import "AwardOtherSheetVC.h"
 #import "CarWashTableVC.h"
 #import "DetailWebVC.h"
+#import "WebVC.h"
 
 @interface NewGainAwardVC ()
 
@@ -63,6 +64,14 @@
     [MobClick endLogPageView:@"rp402"];
     [super viewWillDisappear:animated];
 }
+
+- (IBAction)helpAction:(id)sender {
+    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    vc.title = @"每周礼券";
+    vc.url = kMeizhouliquanUrl;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 
 - (void)requestOperation
 {
