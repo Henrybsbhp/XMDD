@@ -18,7 +18,7 @@
 #import "UIView+DefaultEmptyView.h"
 #import "UIView+JTLoadingView.h"
 #import "HKTableViewCell.h"
-#import "WebVC.h"
+#import "DetailWebVC.h"
 #define kWidth [UIScreen mainScreen].bounds.size.width
 #define kHeight [UIScreen mainScreen].bounds.size.height
 @interface CommissionOrderVC ()
@@ -120,7 +120,7 @@
             [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
                 NSInteger i = [n integerValue];
                 if (i == 1) {
-                    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+                    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
                     vc.title = @"省钱攻略";
                     vc.url = kMoneySavingStrategiesUrl;
                     [self.navigationController pushViewController:vc animated:YES];
