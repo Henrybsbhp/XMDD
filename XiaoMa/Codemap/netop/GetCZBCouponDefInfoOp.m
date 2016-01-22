@@ -13,6 +13,7 @@
 {
     NSDictionary *dict = rspObj;
     self.rsp_desc = dict[@"desc"];
+    self.rsp_chargeupplimit = [dict[@"chargeupplimit"] intValue];
 	
     return self;
 }
