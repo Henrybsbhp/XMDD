@@ -460,6 +460,7 @@
         
         gAppMgr.homePicModel = op.homeModel;
         [gAppMgr saveHomePicInfo];
+        self.homeItemArray = op.homeModel.homeItemArray;
         [self refreshFirstView];
         [self refreshSecondView];
     }];
@@ -826,8 +827,12 @@
         
         lb.text = item.homeItemTitle;
         [self requestHomePicWithBtn:btn andUrl:item.homeItemPicUrl andDefaultPic:nil errPic:nil];
+        
+        [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            [self jumpToViewControllerByUrl:item.homeItemRedirect];
+        }];
     }
-    
 }
 //刷新第二栏
 - (void)refreshSecondView
