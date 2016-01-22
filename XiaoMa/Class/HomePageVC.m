@@ -49,6 +49,8 @@
 
 @property (nonatomic, strong)NSArray * homeItemArray;
 @property (nonatomic, assign) BOOL isViewAppearing;
+
+@property (nonatomic, strong)NSMutableArray * disposableArray;
 @end
 
 @implementation HomePageVC
@@ -75,6 +77,7 @@
     
     self.view.userInteractionEnabled = NO;
 
+    [self setupProp];
     [gAppMgr loadLastLocationAndWeather];
     [self loadLastHomePicInfo];
     [gAdMgr loadLastAdvertiseInfo:AdvertisementHomePage];
@@ -130,6 +133,16 @@
         //开启推送接收队列
         gAppDelegate.pushMgr.notifyQueue.running = YES;
     }];
+}
+
+
+#pragma mark - Setup
+- (void)setupProp
+{
+    if (!self.disposableArray)
+    {
+        self.disposableArray = [NSMutableArray array];
+    }
 }
 
 - (void)setupScrollView
@@ -420,6 +433,112 @@
     }
 }
 
+
+
+#pragma mark - Guide
+- (void)setupGuideStore
+{
+    self.guideStore = [GuideStore fetchOrCreateStore];
+    @weakify(self);
+    [self.guideStore subscribeWithTarget:self domain:kDomainNewbiewGuide receiver:^(CKStore *store, CKEvent *evt) {
+        [[evt signal] subscribeNext:^(id x) {
+            @strongify(self);
+            [self showNewbieGuideAlertIfNeeded];
+        }];
+    }];
+}
+
+//刷新是否显示新手引导
+- (void)showNewbieGuideAlertIfNeeded
+{
+    if (self.guideStore.shouldShowNewbieGuideAlert && self.isViewAppearing) {
+        [HomeNewbieGuideVC presentInTargetVC:self];
+    }
+}
+
+#pragma mark - Action
+- (IBAction)actionCallCenter:(id)sender
+{
+    [MobClick event:@"rp101-2"];
+    NSString * number = @"4007111111";
+    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+}
+
+
+- (IBAction)actionChooseCity:(id)sender
+{
+}
+
+- (void)actionWashCar:(id)sender
+{
+    [MobClick event:@"rp101-3"];
+    CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionInsurance:(id)sender
+{
+    [MobClick event:@"rp101-4"];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        UIViewController *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
+- (void)actionRescue:(id)sender
+{
+    [MobClick event:@"rp101-5"];
+    RescueHomeViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionCommission:(id)sender
+{
+    [MobClick event:@"rp101-6"];
+    CommissionOrderVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionOrderVC"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionAward:(id)sender
+{
+    [MobClick event:@"rp101-11"];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        NewGainAwardVC * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"NewGainAwardVC"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+- (void)actionAddGas:(id)sender
+{
+    [MobClick event:@"rp101-12"];
+    GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionQueryViolation:(id)sender
+{
+    /**
+     *  违章查询事件
+     */
+    [MobClick event:@"rp101-14"];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        
+        ViolationViewController * vc = [violationStoryboard instantiateViewControllerWithIdentifier:@"ViolationViewController"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
+- (void)actionCarValuation:(id)sender
+{
+    /**
+     *  二手车估值事件
+     */
+    [MobClick event:@"rp101-15"];
+    ValuationViewController *vc = [UIStoryboard vcWithId:@"ValuationViewController" inStoryboard:@"Valuation"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark - Utility
+
 - (void)reloadDatasource
 {
     @weakify(self);
@@ -536,109 +655,9 @@
     }
 }
 
-#pragma mark - Guide
-- (void)setupGuideStore
-{
-    self.guideStore = [GuideStore fetchOrCreateStore];
-    @weakify(self);
-    [self.guideStore subscribeWithTarget:self domain:kDomainNewbiewGuide receiver:^(CKStore *store, CKEvent *evt) {
-        [[evt signal] subscribeNext:^(id x) {
-            @strongify(self);
-            [self showNewbieGuideAlertIfNeeded];
-        }];
-    }];
-}
-
-//刷新是否显示新手引导
-- (void)showNewbieGuideAlertIfNeeded
-{
-    if (self.guideStore.shouldShowNewbieGuideAlert && self.isViewAppearing) {
-        [HomeNewbieGuideVC presentInTargetVC:self];
-    }
-}
-
-#pragma mark - Action
-- (IBAction)actionCallCenter:(id)sender
-{
-    [MobClick event:@"rp101-2"];
-    NSString * number = @"4007111111";
-    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
-}
 
 
-- (IBAction)actionChooseCity:(id)sender
-{
-}
 
-- (void)actionWashCar:(id)sender
-{
-    [MobClick event:@"rp101-3"];
-    CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)actionInsurance:(id)sender
-{
-    [MobClick event:@"rp101-4"];
-    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        UIViewController *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-}
-
-- (void)actionRescue:(id)sender
-{
-    [MobClick event:@"rp101-5"];
-    RescueHomeViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)actionCommission:(id)sender
-{
-    [MobClick event:@"rp101-6"];
-    CommissionOrderVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionOrderVC"];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)actionAward:(id)sender
-{
-    [MobClick event:@"rp101-11"];
-    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        NewGainAwardVC * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"NewGainAwardVC"];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-}
-- (void)actionAddGas:(id)sender
-{
-    [MobClick event:@"rp101-12"];
-    GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)actionQueryViolation:(id)sender
-{
-    /**
-     *  违章查询事件
-     */
-    [MobClick event:@"rp101-14"];
-    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        
-        ViolationViewController * vc = [violationStoryboard instantiateViewControllerWithIdentifier:@"ViolationViewController"];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-}
-
-- (void)actionCarValuation:(id)sender
-{
-    /**
-     *  二手车估值事件
-     */
-    [MobClick event:@"rp101-15"];
-    ValuationViewController *vc = [UIStoryboard vcWithId:@"ValuationViewController" inStoryboard:@"Valuation"];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-#pragma mark - Utility
 - (UIButton *)functionalButtonWithImageName:(NSString *)imgName action:(SEL)action inContainer:(UIView *)container hasBorder:(BOOL)border andPicUrl:(NSString *)picUrl
 {
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -670,10 +689,11 @@
 {
     NSInteger tag = 20101;
     UIButton * btn = [self functionalButtonWithImageName:imgName action:nil inContainer:container hasBorder:NO andPicUrl:picUrl];
-    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+    RACDisposable * disposable = [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [self jumpToViewControllerByUrl:url];
     }];
+    [self.disposableArray safetyAddObject:disposable];
     btn.tag = tag + index * 2;
     UILabel * lb = [[UILabel alloc] init];
     lb.text = title;
@@ -817,6 +837,12 @@
 {
     UIView *firstView = (UIView *)[self.view searchViewWithTag:101];
     
+    for (RACDisposable * disposable in self.disposableArray)
+    {
+        [disposable dispose];
+    }
+    [self.disposableArray removeAllObjects];
+    
     for (NSInteger i = 0; i < self.homeItemArray.count; i++)
     {
         HomeItem *item = [self.homeItemArray safetyObjectAtIndex:i];
@@ -828,10 +854,11 @@
         lb.text = item.homeItemTitle;
         [self requestHomePicWithBtn:btn andUrl:item.homeItemPicUrl andDefaultPic:nil errPic:nil];
         
-        [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        RACDisposable * disposable = [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
             [self jumpToViewControllerByUrl:item.homeItemRedirect];
         }];
+        [self.disposableArray safetyAddObject:disposable];
     }
 }
 //刷新第二栏
