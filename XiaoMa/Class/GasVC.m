@@ -811,7 +811,7 @@
     }
     if ([self.curModel isEqual:self.normalModel]) {
         if (!self.curModel.curGasCard) {
-            cell.stepper.maximum = 2000;
+            cell.stepper.maximum = self.normalModel.configOp.rsp_chargeupplimit;
         }
         else {
             cell.stepper.maximum = [self.curModel.curGasCard.availablechargeamt integerValue];
@@ -820,7 +820,7 @@
     else {
         GasCZBVM *model = (GasCZBVM *)self.curModel;
         if (!model.curBankCard.gasInfo) {
-            cell.stepper.maximum = 2000;
+            cell.stepper.maximum = model.defCouponInfo.rsp_chargeupplimit;
         }
         else {
             cell.stepper.maximum = model.curBankCard.gasInfo.rsp_availablechargeamt;
