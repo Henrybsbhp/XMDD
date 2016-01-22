@@ -423,7 +423,11 @@ IQ_LoadCategory(IQUIViewToolbar)
             buttonFrame = CGRectMake(0, 0, toolbar.frame.size.width-135-57.0-16, 44);
         }
         
+        UILabel * titleLb = [[UILabel alloc] initWithFrame:buttonFrame];
+        titleLb.text = titleText;
+        
         IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithFrame:buttonFrame title:titleText];
+//        IQTitleBarButtonItem * title = [[IQTitleBarButtonItem alloc] initWithCustomView:titleLb];
         [items addObject:title];
     }
     

@@ -143,6 +143,12 @@
             frame.size.height = 44;
             view.frame = frame;
         }
+        
+        if ([view isKindOfClass:[UILabel class]] && frame.origin.y == 20)
+        {
+            frame.origin.y = 0;
+            view.frame = frame;
+        }
     }
     
     [self bringSubviewToFront:self.customAccessyView];

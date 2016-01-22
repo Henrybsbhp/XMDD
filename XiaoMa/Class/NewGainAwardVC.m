@@ -19,7 +19,7 @@
 #import "AwardOtherSheetVC.h"
 #import "CarWashTableVC.h"
 #import "DetailWebVC.h"
-#import "WebVC.h"
+#import "GuideStore.h"
 
 @interface NewGainAwardVC ()
 
@@ -97,6 +97,9 @@
                 DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
                 vc.url = @"http://www.xiaomadada.com/apphtml/lingyuanxiche.html";
                 [self.navigationController pushViewController:vc animated:YES];
+                
+                GuideStore * guideStore = [GuideStore fetchExistsStore];
+                [guideStore setNewbieGuideAppeared];
             }];
         }
         
