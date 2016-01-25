@@ -528,6 +528,7 @@
 		6BD293D31B943EF1006482A4 /* Other.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293C61B943EF1006482A4 /* Other.storyboard */; };
 		6BD293D41B943EF1006482A4 /* Rescue.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293C71B943EF1006482A4 /* Rescue.storyboard */; };
 		6BD293D81B946B49006482A4 /* PayForInsuranceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD293D71B946B49006482A4 /* PayForInsuranceVC.m */; };
+		6BD3D0F01C55E62B008F07EE /* GetSystemJSPatchOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD3D0EF1C55E62B008F07EE /* GetSystemJSPatchOp.m */; };
 		6BD6E29A1B9D7F67001D33E6 /* NSString+Safe.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD6E2991B9D7F67001D33E6 /* NSString+Safe.m */; };
 		6BD7AE5B1AE8927C00BEF30E /* WeChatHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */; };
 		6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE5D1AE8A64B00BEF30E /* ApiXml.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -1641,6 +1642,8 @@
 		6BD293C71B943EF1006482A4 /* Rescue.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Rescue.storyboard; sourceTree = "<group>"; };
 		6BD293D61B946B49006482A4 /* PayForInsuranceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayForInsuranceVC.h; sourceTree = "<group>"; };
 		6BD293D71B946B49006482A4 /* PayForInsuranceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayForInsuranceVC.m; sourceTree = "<group>"; };
+		6BD3D0EE1C55E62B008F07EE /* GetSystemJSPatchOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemJSPatchOp.h; path = Class/GetSystemJSPatchOp.h; sourceTree = "<group>"; };
+		6BD3D0EF1C55E62B008F07EE /* GetSystemJSPatchOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemJSPatchOp.m; path = Class/GetSystemJSPatchOp.m; sourceTree = "<group>"; };
 		6BD6E2981B9D7F67001D33E6 /* NSString+Safe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Safe.h"; path = "Class/NSString+Safe.h"; sourceTree = "<group>"; };
 		6BD6E2991B9D7F67001D33E6 /* NSString+Safe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Safe.m"; path = "Class/NSString+Safe.m"; sourceTree = "<group>"; };
 		6BD7AE591AE8927C00BEF30E /* WeChatHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeChatHelper.h; path = Class/WeChatHelper.h; sourceTree = "<group>"; };
@@ -4003,6 +4006,8 @@
 				6B22659B1C45059500A121CC /* GetSystemHomePicOp.m */,
 				18B6E5CF1C473CF700697DAB /* GetNewbieInfoOp.h */,
 				18B6E5D01C473CF700697DAB /* GetNewbieInfoOp.m */,
+				6BD3D0EE1C55E62B008F07EE /* GetSystemJSPatchOp.h */,
+				6BD3D0EF1C55E62B008F07EE /* GetSystemJSPatchOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -4860,6 +4865,7 @@
 				2E77A4A31C325FCC00264FC9 /* HKRescueHistory.m in Sources */,
 				5073810D1BA1672D00B29756 /* GetCouponByTypeNewOp.m in Sources */,
 				6BBB82491AE7401400850D0C /* GetInsuranceByChannel.m in Sources */,
+				6BD3D0F01C55E62B008F07EE /* GetSystemJSPatchOp.m in Sources */,
 				505E5FD31BD73B7D00857819 /* ListWebVC.m in Sources */,
 				6BEA56C71AE24DCE000D19C1 /* SBJSON.m in Sources */,
 				1826CCF21BAAE80800E2F46D /* ZFCWanderingCubesActivityIndicatorView.m in Sources */,

@@ -50,35 +50,45 @@
     NSString * suffix = [separateArray safetyObjectAtIndex:separateArray.count - 1];
     // 名字前缀
     NSString * prefix = [fileName stringByReplacingOccurrencesOfString:suffix withString:@""];
-
+    
+    NSString * containFilePath = [self isContainFile:fileName];
+    
     RACSubject * subject = [RACSubject subject];
-    [[self rac_downloadSupportFileForUrl:strUrl] subscribeNext:^(RACTuple *tuple) {
-        
-        if (![tuple.second isKindOfClass:[NSData class]])
-        {
-            return ;
-        }
-        NSData * data = (NSData *)tuple.second;
-        CKAsyncHighQueue(^{
+    
+    if (containFilePath.length)
+    {
+        subject = [RACSubject return:RACTuplePack(containFilePath)];
+    }
+    else
+    {
+        [[self rac_downloadSupportFileForUrl:strUrl] subscribeNext:^(RACTuple *tuple) {
             
-            [self deleteFileByNamePrefix:prefix];
-            NSString * filePath = [self writeFileByName:fileName andData:data];
+            if (![tuple.second isKindOfClass:[NSData class]])
+            {
+                return ;
+            }
+            NSData * data = (NSData *)tuple.second;
+            CKAsyncHighQueue(^{
+                
+                [self deleteFileByNamePrefix:prefix];
+                NSString * filePath = [self writeFileByName:fileName andData:data];
+                
+                if (filePath.length)
+                {
+                    [subject sendNext:RACTuplePack(filePath)];
+                    [subject sendCompleted];
+                }
+                else
+                {
+                    NSError * error = [NSError errorWithDomain:@"writeFileByName error" code:500 userInfo:nil];
+                    [subject sendError:error];
+                }
+            });
+        } error:^(NSError *error) {
             
-            if (filePath.length)
-            {
-                [subject sendNext:RACTuplePack(filePath)];
-                [subject sendCompleted];
-            }
-            else
-            {
-                NSError * error = [NSError errorWithDomain:@"writeFileByName error" code:500 userInfo:nil];
-                [subject sendError:error];
-            }
-        });
-    } error:^(NSError *error) {
-        
-        [subject sendError:error];
-    }];
+            [subject sendError:error];
+        }];
+    }
     
     return subject;
 }
@@ -136,4 +146,25 @@
     return flag ? filePath :  nil;
 }
 
+- (NSString *)isContainFile:(NSString *)fn
+{
+    NSString * filePath;
+    NSFileManager * fileManager = [NSFileManager defaultManager];
+    NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString * docPath = [paths safetyObjectAtIndex:0];
+    if (!docPath.length)
+    {
+        return nil;
+    }
+    NSArray * files = [fileManager contentsOfDirectoryAtPath:docPath error:nil];
+    for (NSString * fileName in files)
+    {
+        if ([fn isEqualToString:fileName])
+        {
+            filePath = [docPath stringByAppendingPathComponent:fn];
+            return filePath;
+        }
+    }
+    return nil;
+}
 @end

@@ -9,7 +9,6 @@
 #import "HomePageVC.h"
 #import <Masonry.h>
 #import "XiaoMa.h"
-#import "NSString+MD5.h"
 #import "UIImage+Utilities.h"
 #import "UIView+Layer.h"
 #import "GetSystemTipsOp.h"
