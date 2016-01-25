@@ -18,6 +18,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *weiboLabel;
 @property (weak, nonatomic) IBOutlet UILabel *qqLabel;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *wechatBtnlLeading;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *timeLineBtnLeading;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *weiboBtnLeading;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *qqBtnLeading;
+
+@property (nonatomic, strong) NSMutableArray * btnConstraintArr;
+
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 
 @end
@@ -37,31 +44,55 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.wechatBtn.enabled = NO;
-    self.timelineBtn.enabled = NO;
-    self.weiboBtn.enabled = NO;
-    self.qqBtn.enabled = NO;
     self.activityIndicatorView.hidden = YES;
+    
+    self.btnConstraintArr = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < self.btnTypeArr.count; i++) {
         ShareButtonType btnType = [self.btnTypeArr[i] intValue];
-        if (btnType == ShareButtonWechat && [WXApi isWXAppInstalled]) {
-            self.wechatBtn.enabled = YES;
-            self.wechatLabel.textColor = [UIColor colorWithHex:@"#545454" alpha:1.0f];
+        if (btnType == ShareButtonWechat) {
+            
+            [self.btnConstraintArr addObject:self.wechatBtnlLeading];
+            self.wechatBtn.hidden = NO;
+            self.wechatLabel.hidden = NO;
+            if ([WXApi isWXAppInstalled]) {
+                self.wechatBtn.enabled = YES;
+                self.wechatLabel.textColor = [UIColor colorWithHex:@"#545454" alpha:1.0f];
+                
+            }
         }
-        if (btnType == ShareButtonTimeLine && [WXApi isWXAppInstalled]) {
-            self.timelineBtn.enabled = YES;
-            self.timeLineLabel.textColor = [UIColor colorWithHex:@"#545454" alpha:1.0f];
+        if (btnType == ShareButtonTimeLine) {
+            
+            [self.btnConstraintArr addObject:self.timeLineBtnLeading];
+            self.timelineBtn.hidden = NO;
+            self.timeLineLabel.hidden = NO;
+            if ([WXApi isWXAppInstalled]) {
+                self.timelineBtn.enabled = YES;
+                self.timeLineLabel.textColor = [UIColor colorWithHex:@"#545454" alpha:1.0f];
+            }
         }
-        if (btnType == ShareButtonWeibo && WeiboSDK.isWeiboAppInstalled) {
-            self.weiboBtn.enabled = YES;
-            self.weiboLabel.textColor = [UIColor colorWithHex:@"#545454" alpha:1.0f];
+        if (btnType == ShareButtonWeibo) {
+            
+            [self.btnConstraintArr addObject:self.weiboBtnLeading];
+            self.weiboBtn.hidden = NO;
+            self.weiboLabel.hidden = NO;
+            if (WeiboSDK.isWeiboAppInstalled) {
+                self.weiboBtn.enabled = YES;
+                self.weiboLabel.textColor = [UIColor colorWithHex:@"#545454" alpha:1.0f];
+            }
         }
         if (btnType == ShareButtonQQFriend) {
-            self.qqBtn.enabled = YES;
+            
+            [self.btnConstraintArr addObject:self.qqBtnLeading];
+            self.qqBtn.hidden = NO;
+            self.qqLabel.hidden = NO;
             self.qqLabel.textColor = [UIColor colorWithHex:@"#545454" alpha:1.0f];
         }
     }
+    
+    [self autoArrangeWithConstraints:self.btnConstraintArr width:37];
+    
+    [super updateViewConstraints];
     
     [[_wechatBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
@@ -110,6 +141,16 @@
             [self requestDetailsForButtonId:ShareButtonQQFriend];
         }
     }];
+}
+
+#pragma - ConstraintsTool
+- (void)autoArrangeWithConstraints:(NSArray *)constraintArray width:(CGFloat)width
+{
+    CGFloat spacing = (290 - (width * constraintArray.count)) / (constraintArray.count + 1);
+    for (int i = 0; i < constraintArray.count; i ++) {
+        NSLayoutConstraint * constaint = constraintArray[i];
+        constaint.constant = spacing * (i + 1) + width * i;
+    }
 }
 
 - (BOOL)catchLocalShareScene
