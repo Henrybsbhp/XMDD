@@ -811,7 +811,8 @@
     }
     if ([self.curModel isEqual:self.normalModel]) {
         if (!self.curModel.curGasCard) {
-            cell.stepper.maximum = self.normalModel.configOp.rsp_chargeupplimit;
+            // 有说明请求成功
+            cell.stepper.maximum = self.normalModel.configOp.rsp_chargeupplimit ? [self.normalModel.configOp.rsp_chargeupplimit integerValue] : 1000;
         }
         else {
             cell.stepper.maximum = [self.curModel.curGasCard.availablechargeamt integerValue];
@@ -820,7 +821,7 @@
     else {
         GasCZBVM *model = (GasCZBVM *)self.curModel;
         if (!model.curBankCard.gasInfo) {
-            cell.stepper.maximum = model.defCouponInfo.rsp_chargeupplimit;
+            cell.stepper.maximum = model.defCouponInfo.rsp_chargeupplimit ? [model.defCouponInfo.rsp_chargeupplimit integerValue] : 1000;
         }
         else {
             cell.stepper.maximum = model.curBankCard.gasInfo.rsp_availablechargeamt;

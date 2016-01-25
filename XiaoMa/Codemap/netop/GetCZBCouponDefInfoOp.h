@@ -6,7 +6,7 @@
 ///描述
 @property (nonatomic,strong) NSString* rsp_desc;
 ///充值上限
-@property (nonatomic,assign) NSInteger rsp_chargeupplimit;
+@property (nonatomic,strong) NSNumber * rsp_chargeupplimit;
 
 
 @end
