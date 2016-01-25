@@ -176,7 +176,7 @@
 - (void)actionUpload:(id)sender {
     [MobClick event:@"rp1002-8"];
     @weakify(self);
-    [[[self.imageView rac_setUploadingImage:self.currentRecord.image withImageType:UploadFileTypeDrivingLicense]
+    [[[self.imageView rac_setUploadingImage:self.currentRecord.image withImageType:UploadFileTypeDaDaHelp]
       initially:^{
           
           @strongify(self);
