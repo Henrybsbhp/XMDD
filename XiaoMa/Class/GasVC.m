@@ -490,7 +490,7 @@
             [gToast showText:@"您需要先添加一张油卡！" inView:self.view];
             return;
         }
-        else if (self.curModel.curBankCard.gasInfo.rsp_availablechargeamt)
+        else if (self.curModel.curBankCard.gasInfo.rsp_availablechargeamt == 0)
         {
             [gToast showText:@"您本月加油已达到最大限额！" inView:self.view];
             return;
@@ -811,7 +811,7 @@
     }
     if ([self.curModel isEqual:self.normalModel]) {
         if (!self.curModel.curGasCard) {
-            cell.stepper.maximum = 2000;
+            cell.stepper.maximum = self.normalModel.configOp.rsp_chargeupplimit;
         }
         else {
             cell.stepper.maximum = [self.curModel.curGasCard.availablechargeamt integerValue];
@@ -820,7 +820,7 @@
     else {
         GasCZBVM *model = (GasCZBVM *)self.curModel;
         if (!model.curBankCard.gasInfo) {
-            cell.stepper.maximum = 2000;
+            cell.stepper.maximum = model.defCouponInfo.rsp_chargeupplimit;
         }
         else {
             cell.stepper.maximum = model.curBankCard.gasInfo.rsp_availablechargeamt;

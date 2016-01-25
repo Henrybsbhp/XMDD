@@ -36,6 +36,8 @@
 {
     _proxyObject = [[CKLimitTextFieldProxyObject alloc] init];
     _proxyObject.textField = self;
+    [self setAutocorrectionType:UITextAutocorrectionTypeNo];
+    [self setAutocapitalizationType:UITextAutocapitalizationTypeNone];
     self.delegate = _proxyObject;
     [self addTarget:_proxyObject action:@selector(actionTextDidChanged:) forControlEvents:UIControlEventEditingChanged];
 }
