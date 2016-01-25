@@ -79,7 +79,7 @@
             }
         });
         UploadFileOp *op = [UploadFileOp new];
-        op.req_fileType = UploadFileTypeDrivingLicense;
+        op.req_fileType = UploadFileTypeDrivingLicenseAndOther;
 //        img = [EditPictureViewController generateImageByAddingWatermarkWith:img];
         NSData *data = UIImageJPEGRepresentation(img, 0.5);
         op.req_fileDataArray = [NSArray arrayWithObject:data];

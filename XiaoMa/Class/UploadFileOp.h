@@ -10,8 +10,8 @@
 
 typedef enum : NSInteger
 {
-    UploadFileTypeUnknow = 0,
-    UploadFileTypeDrivingLicense
+    UploadFileTypeDrivingLicenseAndOther = 0,
+    UploadFileTypeDaDaHelp = 1,// 达达帮忙
 }UploadFileType;
 
 @interface UploadFileOp : BaseOp
