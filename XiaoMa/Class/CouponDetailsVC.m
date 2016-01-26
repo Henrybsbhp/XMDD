@@ -59,21 +59,22 @@
     
     self.tableView.hidden = YES;
     [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+    
+    //优惠券可分享
     if (self.isShareble) {
         [self.shortUseBtn setCornerRadius:5.0f];
         @weakify(self);
+        //去使用
         [[self.shortUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             [gToast showingWithoutText];
             @strongify(self);
+            //去使用之前判断是否被领取
             GetCouponDetailsOp * op = [GetCouponDetailsOp operation];
             op.req_cid = self.couponId;
             [[op rac_postRequest] subscribeNext:^(id x) {
+                
                 [gToast dismiss];
-                //去洗车
-                CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
-                vc.couponForWashDic = self.couponDic;
-                [self.navigationController pushViewController:vc animated:YES];
-
+                [self goToUse:self.newType];
             } error:^(NSError *error) {
                 [gToast showError:error.domain];
             }];
@@ -81,46 +82,16 @@
         
         self.shareBtn.hidden = !gAppMgr.canShareFlag;
         [self.shareBtn setCornerRadius:5.0f];
+        //分享（转赠）
         [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
             @strongify(self);
-            //转赠
             [self shareAction:self.couponId];
         }];
     }
+    //优惠券不可分享
     else {
-
-        if (self.newType == CouponNewTypeCarWash) {
-            self.shortUseBtn.hidden = YES;
-            self.shareBtn.hidden = YES;
-            self.longUseBtn.hidden = NO;
-            [self.longUseBtn setCornerRadius:5.0f];
-            @weakify(self);
-            [[self.longUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-                
-                @strongify(self);
-                //去洗车
-                CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
-                vc.couponForWashDic = self.couponDic;
-                vc.serviceType = self.oldType == CouponTypeWithHeartCarwash ? ShopServiceCarwashWithHeart : ShopServiceCarWash;
-                [self.navigationController pushViewController:vc animated:YES];
-            }];
-        }
-        else if (self.newType == CouponNewTypeGas){
-            self.shortUseBtn.hidden = YES;
-            self.shareBtn.hidden = YES;
-            self.longUseBtn.hidden = NO;
-            [self.longUseBtn setCornerRadius:5.0f];
-            @weakify(self);
-            [[self.longUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-                
-                @strongify(self);
-                //加油券去使用
-                GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
-                [self.navigationController pushViewController:vc animated:YES];
-            }];
-        }
-        else if (self.newType == CouponNewTypeInsurance){
+        if (self.newType == CouponNewTypeInsurance) {
             self.bottomView.hidden = YES;
             self.bottomConstraint.constant = 56;
         }
@@ -133,17 +104,34 @@
             [[self.longUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 
                 @strongify(self);
-                //其他券去使用
-                if (self.oldType == CouponTypeAgency) {
-                    CommissionOrderVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionOrderVC"];
-                    [self.navigationController pushViewController:vc animated:YES];
-                }
-                else {
-                    
-                    RescueHomeViewController *homeVC = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
-                    [self.navigationController pushViewController:homeVC animated:YES];
-                }
+                //去使用
+                [self goToUse:self.newType];
             }];
+        }
+    }
+}
+
+- (void)goToUse:(CouponNewType)newType
+{
+    if (newType == CouponNewTypeCarWash) {
+        CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
+        vc.couponForWashDic = self.couponDic;
+        vc.serviceType = self.oldType == CouponTypeWithHeartCarwash ? ShopServiceCarwashWithHeart : ShopServiceCarWash;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if (newType == CouponNewTypeGas) {
+        GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if (newType == CouponNewTypeOthers) {
+        //其他券使用老板优惠券类型判断跳转
+        if (self.oldType == CouponTypeAgency) {
+            CommissionOrderVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionOrderVC"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        else if (self.oldType == CouponTypeRescue) {
+            RescueHomeViewController *homeVC = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
+            [self.navigationController pushViewController:homeVC animated:YES];
         }
     }
 }
@@ -233,7 +221,6 @@
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         
-        //单例模式下，不需要处理回调应将单例的block设置为空，否则将执行上次set的block
         [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
             
         }];
