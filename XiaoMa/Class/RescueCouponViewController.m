@@ -12,6 +12,7 @@
 #import "GetUserCouponByTypeOp.h"
 #import "HKLoadingModel.h"
 #import "CouponDetailsVC.h"
+#import "DetailWebVC.h"
 
 @interface RescueCouponViewController ()<HKLoadingModelDelegate>
 

@@ -315,7 +315,6 @@
         [sheet dismissAnimated:YES completionHandler:nil];
     }];
     
-    //单例模式下，不需要处理回调应将单例的block设置为空，否则将执行上次set的block
     [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
         
     }];

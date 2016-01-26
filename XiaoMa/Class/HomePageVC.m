@@ -28,6 +28,8 @@
 #import "ValuationViewController.h"
 #import "HomeNewbieGuideVC.h"
 
+//#import "UDFingerSDK.h"
+
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3.0
 
@@ -91,11 +93,33 @@
     [self setupScrollView];
     [self setupWeatherView];
     
+    //设置有盾
+    //[self setupUDFinger];
     
     [self.scrollView.refreshView addTarget:self action:@selector(reloadDatasource) forControlEvents:UIControlEventValueChanged];
     CKAsyncMainQueue(^{
         [self reloadDatasource];
     });
+}
+
+#pragma - 有盾
+- (void)setupUDFinger
+{
+    //获取设备指纹, 入参为实现了UDFingerCallBack的对象以及对应商户的ID
+    //[[UDFingerSDK sharedInstance] getFingerPrint:self withKey:@"201601119073"];
+}
+
+- (void)generateOnSuccess :(NSString *) fingerPrint andTraceId :(NSString *)traceId
+{
+    UIAlertView * av = [[UIAlertView alloc] initNoticeWithTitle:@"成功" message:[NSString stringWithFormat:@"设备指纹 -> %@", fingerPrint] cancelButtonTitle:@"确定"];
+    [av show];
+    DebugLog(@"%@", fingerPrint);
+}
+
+- (void)generateOnFailed :(NSError *) error
+{
+    UIAlertView * av = [[UIAlertView alloc] initNoticeWithTitle:@"失败" message:[NSString stringWithFormat:@"异常信息 -> %@", [error description]] cancelButtonTitle:@"确定"];
+    [av show];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -458,9 +482,11 @@
 #pragma mark - Action
 - (IBAction)actionCallCenter:(id)sender
 {
-    [MobClick event:@"rp101-2"];
-    NSString * number = @"4007111111";
-    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+//    [MobClick event:@"rp101-2"];
+//    NSString * number = @"4007111111";
+//    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+    
+    [self setupUDFinger];
 }
 
 
