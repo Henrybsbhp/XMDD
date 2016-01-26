@@ -16,5 +16,6 @@
 - (RACSignal *)rac_addFavorite: (JTShop *) shop;
 - (RACSignal *)rac_removeFavorite: (NSArray *) shopArray;
 - (JTShop *) getFavoriteWithID: (NSNumber *) shopid;
+- (RACSignal *)rac_requestData;
 
 @end
