@@ -131,6 +131,7 @@
         [gAppMgr resetWithAccount:account];
         //开启推送接收队列
         gAppDelegate.pushMgr.notifyQueue.running = YES;
+        gAppDelegate.openUrlQueue.running = YES;
     }];
 }
 

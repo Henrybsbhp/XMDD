@@ -72,6 +72,18 @@
 				<string>amap.huika.xmdd</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLIconFile</key>
+			<string></string>
+			<key>CFBundleURLName</key>
+			<string>comhuikaxmdd</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>xmdd</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>2.6.0.0162</string>

@@ -15,6 +15,8 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, strong) HKPushManager *pushMgr;
 @property (nonatomic, weak) VcodeLoginVC *loginVC;
+///handleOpenUrl的队列
+@property (nonatomic, strong) JTQueue *openUrlQueue;
 
 - (void)resetRootViewController:(UIViewController *)vc;
 @end
