@@ -25,7 +25,6 @@
 #import "GasPayForCZBVC.h"
 #import "GasRecordVC.h"
 #import "GasPaymentResultVC.h"
-#import "WebVC.h"
 #import "PayForGasViewController.h"
 #import "PaymentSuccessVC.h"
 
@@ -533,7 +532,7 @@
 - (IBAction)actionAgreement:(id)sender
 {
     [MobClick event:@"rp501-12"];
-    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"油卡充值服务协议";
     vc.url = kGasLicenseUrl;
     [self.navigationController pushViewController:vc animated:YES];

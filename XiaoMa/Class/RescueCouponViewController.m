@@ -13,6 +13,7 @@
 #import "HKLoadingModel.h"
 #import "CouponDetailsVC.h"
 #import "DetailWebVC.h"
+
 @interface RescueCouponViewController ()<HKLoadingModelDelegate>
 
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
@@ -68,7 +69,7 @@
 {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
-    DebugLog(@"RescureViewController dealloc!");
+    DebugLog(@"RescueCouponViewController dealloc!");
 }
 
 #pragma mark - HKLoadingModelDelegate

@@ -7,9 +7,7 @@
 //
 
 #import "ADViewController.h"
-#import "WebVC.h"
 #import "NavigationModel.h"
-#import "DetailWebVC.h"
 
 @interface ADViewController ()<SYPaginatorViewDelegate, SYPaginatorViewDataSource>
 @property (nonatomic, strong) NavigationModel *navModel;
@@ -131,6 +129,7 @@
         }
         else {
             if (_adType != AdvertisementValuation) {
+                
                 DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
                 vc.url = ADDEFINEWEB;
                 [self.targetVC.navigationController pushViewController:vc animated:YES];
