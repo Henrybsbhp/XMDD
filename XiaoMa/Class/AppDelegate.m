@@ -47,7 +47,6 @@
 @interface AppDelegate ()<WXApiDelegate,TencentSessionDelegate,CrashlyticsDelegate>
 
 @property (nonatomic, strong) DDFileLogger *fileLogger;
-
 /// 日志
 @property (nonatomic,strong)JTLogModel * logModel;
 @property (nonatomic, strong) HKCatchErrorModel *errorModel;
@@ -84,6 +83,8 @@
     [self setupRootView];
     
     [self setupJSPatch];
+    
+    [self setupOpenUrlQueue];
     
     //设置崩溃捕捉(官方建议放在最后面)
     [self setupCrashlytics];
@@ -214,6 +215,13 @@
     else if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@", QQ_API_ID]]) {
         return [QQApiInterface handleOpenURL:url delegate:[ShareResponeManagerForQQ init]];
     }
+    else if ([url.absoluteString hasPrefix:@"xmdd://"])
+    {
+        
+        NSString * urlStr = url.absoluteString;
+        NSDictionary * dict = @{@"url":urlStr};
+        [self.openUrlQueue addObject:dict forKey:nil];
+    }
     return YES;
 }
 
@@ -229,7 +237,7 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    NSLog(@"didReceiveRemoteNotification :%@",userInfo);
+    DebugLog(@"didReceiveRemoteNotification :%@",userInfo);
     [self.pushMgr handleNofitication:userInfo forApplication:application];
 }
 
@@ -490,6 +498,18 @@
     {
         DebugLog(@"QQ register Failed");
     }
+}
+
+- (void)setupOpenUrlQueue
+{
+    self.openUrlQueue = [[JTQueue alloc] init];
+    
+    [self.openUrlQueue setConsumeBlock:^RACSignal *(NSDictionary *info, id<NSCopying>key) {
+        
+        DDLogDebug(@"OpenUrlQueue,%@",info[@"url"]);
+        [gAppMgr.navModel pushToViewControllerByUrl:info[@"url"]];
+        return [RACSignal empty];
+    }];
 }
 
 #pragma mark - JSPatch

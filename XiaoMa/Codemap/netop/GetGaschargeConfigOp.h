@@ -10,7 +10,7 @@
 ///有优惠充值上限
 @property (nonatomic,assign) int rsp_couponupplimit;
 ///充值上限
-@property (nonatomic,assign) int rsp_chargeupplimit;
+@property (nonatomic,strong) NSNumber * rsp_chargeupplimit;
 ///公告
 @property (nonatomic,copy) NSString* rsp_announce;
 
