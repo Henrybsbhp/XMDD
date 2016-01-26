@@ -18,6 +18,8 @@
 #import "GetShareButtonOp.h"
 #import "ShareResponeManager.h"
 #import "GasVC.h"
+#import "GuideStore.h"
+
 
 @interface PaymentSuccessVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UITextViewDelegate>
 
@@ -51,6 +53,10 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offsetY3;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offsetY4;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offset5;
+
+
+@property (nonatomic, strong) GuideStore *guideStore;
+
 @end
 
 @implementation PaymentSuccessVC
@@ -64,6 +70,7 @@
     [super viewDidLoad];
     
     [self setupStaticInfo];
+    [self setupGuideStore];
 
     CKAsyncMainQueue(^{
         
@@ -503,6 +510,13 @@
 {
     GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)setupGuideStore
+{
+    // 新手未登录，一键洗车，商户详情，登录，普洗完成，回到首页 不弹出引导。
+    self.guideStore = [GuideStore fetchOrCreateStore];
+    [self.guideStore setNewbieGuideAlertAppeared];
 }
 
 
