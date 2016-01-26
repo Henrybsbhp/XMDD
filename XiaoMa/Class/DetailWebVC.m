@@ -75,7 +75,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     self.webView.scalesPageToFit = YES;
     self.webView.delegate = self;
     self.request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
-//    [self setupBridge];
+    [self setupBridge];
     CKAsyncMainQueue(^{
         self.webView.scrollView.contentInset = UIEdgeInsetsZero;
         self.webView.scrollView.contentSize = self.webView.frame.size;
