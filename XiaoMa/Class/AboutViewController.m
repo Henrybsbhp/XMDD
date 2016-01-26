@@ -9,7 +9,6 @@
 #import "AboutViewController.h"
 #import "JTTableView.h"
 #import "FeedbackVC.h"
-#import "WebVC.h"
 #import "SocialShareViewController.h"
 #import "JoinUsViewController.h"
 #import "GetShareButtonOp.h"
@@ -277,7 +276,7 @@
 - (void)serviceAgreement
 {
     [MobClick event:@"rp322-1"];
-    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"服务协议";
     vc.url = kServiceLicenseUrl;
     [self.navigationController pushViewController:vc animated:YES];
@@ -285,7 +284,7 @@
 
 - (void)gotoInstructions
 {
-    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"使用帮助";
     vc.url = kServiceHelpUrl;
     [self.navigationController pushViewController:vc animated:YES];
@@ -352,7 +351,7 @@
         NSInteger i = [n integerValue];
         if (i == 1)
         {
-            WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+            DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
             vc.url = textField.text;
             [self.navigationController pushViewController:vc animated:YES];
         }

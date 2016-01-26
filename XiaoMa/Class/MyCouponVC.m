@@ -15,7 +15,6 @@
 #import "NSDate+DateForText.h"
 #import "CarWashCouponVModel.h"
 #import "UnusedCouponVModel.h"
-#import "WebVC.h"
 
 @interface MyCouponVC ()
 
@@ -173,13 +172,13 @@
 
 - (IBAction)actionGetMore:(id)sender
 {
-    WebVC *vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.url = kGetMoreCouponUrl;
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)getMoreAction:(id)sender {
     [MobClick event:@"rp304-6"];
-    WebVC *vc = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.url = ADDEFINEWEB;
     [self.navigationController pushViewController:vc animated:YES];
 }

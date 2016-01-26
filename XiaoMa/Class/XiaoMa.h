@@ -49,6 +49,7 @@
 #import "JTNavigationController.h"
 #import "JTTableViewCell.h"
 #import "JTTableView.h"
+#import "DetailWebVC.h"
 
 //引用
 #import "Constants.h"

@@ -12,7 +12,7 @@
 #import "HKCoupon.h"
 #import "PayForWashCarVC.h"
 #import "UIBarButtonItem+CustomStyle.h"
-#import "WebVC.h"
+#import "DetailWebVC.h"
 #import "PayForInsuranceVC.h"
 #import "PayForGasViewController.h"
 
@@ -76,7 +76,7 @@
 }
 
 - (IBAction)getMoreAction:(id)sender {
-    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.url = kGetMoreCouponUrl;
     [self.navigationController pushViewController:vc animated:YES];
 }

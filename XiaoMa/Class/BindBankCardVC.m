@@ -11,7 +11,6 @@
 #import "HKSMSModel.h"
 #import "UIView+Shake.h"
 #import "BindBankcardOp.h"
-#import "WebVC.h"
 #import "ResultVC.h"
 #import "MyCarStore.h"
 #import "CKLimitTextField.h"
@@ -112,7 +111,7 @@
 
 - (IBAction)actionAgreement:(id)sender
 {
-    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"服务协议";
     vc.url = kCZBankLicenseUrl;
     [self.navigationController pushViewController:vc animated:YES];
