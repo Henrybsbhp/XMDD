@@ -20,7 +20,6 @@
 #import "CarWashTableVC.h"
 #import "DetailWebVC.h"
 #import "GuideStore.h"
-#import "WebVC.h"
 
 @interface NewGainAwardVC ()
 
@@ -67,7 +66,7 @@
 }
 
 - (IBAction)helpAction:(id)sender {
-    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"每周礼券";
     vc.url = kMeizhouliquanUrl;
     [self.navigationController pushViewController:vc animated:YES];
