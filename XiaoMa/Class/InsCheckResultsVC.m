@@ -25,7 +25,7 @@
 @property (nonatomic, weak) IBOutlet UIView *containerView;
 @property (strong, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic, strong) NSMutableArray *datasource;
-@property (nonatomic, strong) NSString *headerTip;
+
 
 @end
 

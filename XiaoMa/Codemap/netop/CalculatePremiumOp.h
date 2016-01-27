@@ -15,5 +15,7 @@
 ///各保险公司报价情况
 @property (nonatomic,strong) NSArray* rsp_premiumlist;
 
+@property (nonatomic,copy)NSString *rsp_tip;
+
 
 @end

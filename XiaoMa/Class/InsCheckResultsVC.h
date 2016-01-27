@@ -14,4 +14,6 @@
 @property (nonatomic, strong) InsuranceVM *insModel;
 @property (nonatomic, strong) NSArray *premiumList;
 
+@property (nonatomic, strong) NSString *headerTip;
+
 @end
