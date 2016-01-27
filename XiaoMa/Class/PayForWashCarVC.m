@@ -419,11 +419,21 @@
         }
         else if (payChannel == PaymentChannelAlipay)
         {
+            /// 如果是浙商，无法选择
+            if (self.couponType == CouponTypeCZBankCarWash)
+            {
+                return;
+            }
             self.checkoutServiceOrderV4Op.paychannel = PaymentChannelAlipay;
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
         }
         else if (payChannel == PaymentChannelWechat)
         {
+            /// 如果是浙商，无法选择
+            if (self.couponType == CouponTypeCZBankCarWash)
+            {
+                return;
+            }
             self.checkoutServiceOrderV4Op.paychannel = PaymentChannelWechat;
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
         }
