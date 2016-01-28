@@ -15,5 +15,5 @@
 @property (nonatomic, strong) HKStoreEvent *cachedEvent;
 ///银行卡优惠描述
 - (NSString *)bankFavorableDesc;
-- (void)cancelOrderWithTradeNumber:(NSString *)tdno bankCardID:(NSNumber *)gid;
+- (void)cancelOrderWithTradeNumber:(NSString *)tdno gasCardID:(NSNumber *)gid;
 @end

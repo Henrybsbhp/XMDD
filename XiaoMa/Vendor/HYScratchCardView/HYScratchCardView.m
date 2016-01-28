@@ -136,7 +136,7 @@
         }
     }
     
-    NSLog(@"完成");
+    //NSLog(@"完成");
     self.open = YES;
     self.imageLayer.mask = NULL;
     

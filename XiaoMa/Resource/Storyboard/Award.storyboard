@@ -9,44 +9,44 @@
         <!--每周礼券-->
         <scene sceneID="OWA-An-0CG">
             <objects>
-                <viewController storyboardIdentifier="NewGainAwardVC" hidesBottomBarWhenPushed="YES" id="SvX-dZ-aqd" customClass="NewGainAwardVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewGainAwardVC" title="每周礼券" hidesBottomBarWhenPushed="YES" id="SvX-dZ-aqd" customClass="NewGainAwardVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fX4-M2-YmY"/>
                         <viewControllerLayoutGuide type="bottom" id="heZ-yd-Qp4"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="7Nf-8j-NUE">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="award_bg_6s" translatesAutoresizingMaskIntoConstraints="NO" id="v8S-LH-fW8">
+                            <imageView tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="award_bg_6s" translatesAutoresizingMaskIntoConstraints="NO" id="v8S-LH-fW8">
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                             </imageView>
                             <view tag="1002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ek0-OT-4rh">
-                                <rect key="frame" x="100" y="218" width="400" height="114"/>
+                                <rect key="frame" x="100" y="194" width="400" height="102.5"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="award_mask_clean" translatesAutoresizingMaskIntoConstraints="NO" id="ihn-em-AVO">
-                                        <rect key="frame" x="0.0" y="0.0" width="400" height="114"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="400" height="102.5"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7BL-ad-Ggb">
-                                        <rect key="frame" x="104" y="23.5" width="13.5" height="67"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="56"/>
+                                        <rect key="frame" x="102" y="18" width="16" height="65.5"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="56"/>
                                         <color key="textColor" red="0.87450980389999999" green="0.0" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="洗车代金券" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cey-ba-LaZ">
-                                        <rect key="frame" x="120.5" y="44" width="110" height="26"/>
+                                        <rect key="frame" x="121" y="38" width="110" height="26"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="22"/>
                                         <color key="textColor" red="0.87450980389999999" green="0.0" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hSQ-qN-u5i">
-                                        <rect key="frame" x="83.5" y="38.5" width="20" height="24"/>
+                                        <rect key="frame" x="82" y="33" width="20" height="24"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                         <color key="textColor" red="0.87450980389999999" green="0.0" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="award_used_new" translatesAutoresizingMaskIntoConstraints="NO" id="DGF-YQ-8wM">
-                                        <rect key="frame" x="162" y="39" width="75" height="36"/>
+                                        <rect key="frame" x="162" y="33" width="75" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="5rN-RD-kfr"/>
                                             <constraint firstAttribute="width" constant="75" id="oRg-5Z-cVf"/>
@@ -76,7 +76,7 @@
                                 </variation>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已有2016111人领取" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UyU-P1-Ncm">
-                                <rect key="frame" x="252" y="358" width="97" height="13.5"/>
+                                <rect key="frame" x="252" y="320" width="97" height="13.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="230" id="m7I-lj-g1Q"/>
                                 </constraints>
@@ -85,7 +85,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" tag="1004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g1M-Ri-ldX">
-                                <rect key="frame" x="30" y="399" width="240" height="60"/>
+                                <rect key="frame" x="30" y="356" width="240" height="53.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="Ar7-8w-srr"/>
                                     <constraint firstAttribute="width" constant="142" id="shG-R1-Q30"/>
@@ -100,14 +100,14 @@
                                 </variation>
                             </button>
                             <imageView userInteractionEnabled="NO" tag="1006" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="awrad_text" translatesAutoresizingMaskIntoConstraints="NO" id="PoX-OG-TjK">
-                                <rect key="frame" x="185" y="476" width="230" height="38"/>
+                                <rect key="frame" x="185" y="422" width="230" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="230" id="MOm-1c-Utz"/>
                                     <constraint firstAttribute="height" constant="38" id="c1k-Te-5ky"/>
                                 </constraints>
                             </imageView>
                             <button hidden="YES" opaque="NO" tag="1008" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fCo-g0-7Tj">
-                                <rect key="frame" x="224" y="511" width="151" height="30"/>
+                                <rect key="frame" x="224" y="457" width="151" height="30"/>
                                 <state key="normal">
                                     <attributedString key="attributedTitle">
                                         <fragment content="点击查看">
@@ -126,13 +126,13 @@
                                 </state>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" tag="1009" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="每个账号每7天便可领取洗车券一张，有效期为7天" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VIA-ru-11W">
-                                <rect key="frame" x="178" y="571" width="244" height="13.5"/>
+                                <rect key="frame" x="178" y="510" width="244" height="13.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" red="0.1647058824" green="0.058823529409999999" blue="0.062745098040000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" tag="1005" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BPi-Qc-PTf">
-                                <rect key="frame" x="330" y="399" width="240" height="60"/>
+                                <rect key="frame" x="330" y="356" width="240" height="53.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="4wK-On-EFE"/>
                                     <constraint firstAttribute="width" constant="142" id="tq8-Ul-ecY"/>
@@ -147,7 +147,7 @@
                                 </variation>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="otv-Sw-lGe">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -183,7 +183,15 @@
                             <constraint firstItem="UyU-P1-Ncm" firstAttribute="centerX" secondItem="7Nf-8j-NUE" secondAttribute="centerX" id="zbM-0x-Wn2"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="每周礼券" id="Zhm-Xi-tIM"/>
+                    <navigationItem key="navigationItem" title="每周礼券" id="no9-Rd-L9m">
+                        <barButtonItem key="rightBarButtonItem" image="award_item" id="Vvd-sS-PnB">
+                            <color key="tintColor" red="0.1333333333" green="0.6705882353" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="helpAction:" destination="SvX-dZ-aqd" id="lZi-IZ-Yo1"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="amount" destination="7BL-ad-Ggb" id="CxS-sD-tA8"/>
                         <outlet property="amountTypeLabel" destination="Cey-ba-LaZ" id="w9A-wn-HwP"/>
@@ -239,7 +247,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bGL-YF-fyH">
-                                <rect key="frame" x="27.5" y="290" width="230" height="44"/>
+                                <rect key="frame" x="28" y="290" width="230" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="230" id="AgM-z1-jZf"/>
                                     <constraint firstAttribute="height" constant="44" id="jyS-mY-jsa"/>
@@ -325,13 +333,13 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   快去使用吧！" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SO1-gF-V7P">
-                                        <rect key="frame" x="88" y="169" width="109" height="19.5"/>
+                                        <rect key="frame" x="88" y="169" width="109" height="20"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" red="0.15686274510000001" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="isO-Yw-SwA" userLabel="Carwash Btn">
-                                        <rect key="frame" x="52" y="196.5" width="180" height="40"/>
+                                        <rect key="frame" x="52" y="197" width="180" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="180" id="qkX-IA-fmI"/>
                                             <constraint firstAttribute="height" constant="40" id="xUN-kl-QLW"/>
@@ -372,7 +380,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   快去使用吧！" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3oz-7p-sGx">
-                                        <rect key="frame" x="88" y="196" width="109" height="19.5"/>
+                                        <rect key="frame" x="88" y="196" width="109" height="20"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" red="0.15686274510000001" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -398,13 +406,13 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享已取消" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L05-2u-7Ah">
-                                        <rect key="frame" x="107.5" y="174" width="70" height="17"/>
+                                        <rect key="frame" x="108" y="174" width="70" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="0.15686274510000001" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  据说分享成功后才能拿红包哦！" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c4h-rJ-EXw">
-                                        <rect key="frame" x="26.5" y="196" width="232.5" height="19.5"/>
+                                        <rect key="frame" x="27" y="196" width="232" height="20"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" red="0.15686274510000001" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -471,6 +479,7 @@
         <image name="award_bg_6s" width="375" height="603"/>
         <image name="award_btn_carwash" width="142" height="56"/>
         <image name="award_btn_share" width="142" height="56"/>
+        <image name="award_item" width="17" height="17"/>
         <image name="award_logo_arrival" width="176" height="119"/>
         <image name="award_logo_send" width="176" height="173"/>
         <image name="award_logo_unarrival" width="176" height="128"/>

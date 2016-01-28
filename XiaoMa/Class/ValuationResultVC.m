@@ -8,7 +8,6 @@
 
 #import "ValuationResultVC.h"
 #import "NSDate+DateForText.h"
-#import "WebVC.h"
 #import "GetShareButtonOp.h"
 #import "SocialShareViewController.h"
 #import "ShareResponeManager.h"
@@ -175,7 +174,7 @@
                  */
                 [MobClick event:@"rp602-2"];
                 @strongify(self);
-                WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+                DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
                 vc.url = self.evaluateOp.rsp_url;
                 [self.navigationController pushViewController:vc animated:YES];
             }];

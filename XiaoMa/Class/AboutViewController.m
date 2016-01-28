@@ -9,7 +9,6 @@
 #import "AboutViewController.h"
 #import "JTTableView.h"
 #import "FeedbackVC.h"
-#import "WebVC.h"
 #import "SocialShareViewController.h"
 #import "JoinUsViewController.h"
 #import "GetShareButtonOp.h"
@@ -277,7 +276,7 @@
 - (void)serviceAgreement
 {
     [MobClick event:@"rp322-1"];
-    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"服务协议";
     vc.url = kServiceLicenseUrl;
     [self.navigationController pushViewController:vc animated:YES];
@@ -285,7 +284,7 @@
 
 - (void)gotoInstructions
 {
-    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"使用帮助";
     vc.url = kServiceHelpUrl;
     [self.navigationController pushViewController:vc animated:YES];
@@ -297,8 +296,8 @@
     SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
     vc.sceneType = ShareSceneLocalShare;
     vc.btnTypeArr = @[@1, @2, @3, @4];
-    vc.tt = @"小马达达 —— 一分钱洗车";
-    vc.subtitle = @"我正在使用1分钱洗车，洗车超便宜，你也来试试吧！";
+    vc.tt = @"小马达达－洗车1分钱都不要";
+    vc.subtitle = @"我正在使用小马达达，洗车1分钱也不要，你也来试试吧！";
     vc.image = [UIImage imageNamed:@"wechat_share_carwash"];
     vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
     vc.urlStr = kAppShareUrl;
@@ -316,7 +315,6 @@
         [sheet dismissAnimated:YES completionHandler:nil];
     }];
     
-    //单例模式下，不需要处理回调应将单例的block设置为空，否则将执行上次set的block
     [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
         
     }];
@@ -352,7 +350,7 @@
         NSInteger i = [n integerValue];
         if (i == 1)
         {
-            WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+            DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
             vc.url = textField.text;
             [self.navigationController pushViewController:vc animated:YES];
         }

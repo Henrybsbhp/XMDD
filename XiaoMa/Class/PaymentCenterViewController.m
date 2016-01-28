@@ -80,21 +80,26 @@
             [gToast showingWithText:@"支付信息获取中..."];
         }] subscribeNext:^(GetGeneralActivityLefttimeOp * rop) {
             
-            [gToast dismiss];
             if (rop.rsp_lefttime)
             {
+                [gToast dismiss];
                 @strongify(self)
                 [self actionPay];
             }
             else
             {
-                [gToast showError:@"该活动已结束"];
-                [self dismissViewControllerAnimated:YES completion:nil];
+                [gToast showText:@"该活动已结束"];
+                CKAfter(1.0, ^{
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                });
+                
             }
         } error:^(NSError *error) {
             
             [gToast showError:error.domain];
-            [self dismissViewControllerAnimated:YES completion:nil];
+            CKAfter(1.5, ^{
+                [self dismissViewControllerAnimated:YES completion:nil];
+            });
         }];
     }];
 }

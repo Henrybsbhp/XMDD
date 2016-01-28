@@ -11,7 +11,6 @@
 #import "SecondCarValuationUploadOp.h"
 #import "CommitSuccessVC.h"
 #import "IQKeyboardManager.h"
-#import "WebVC.h"
 #import "OETextField.h"
 @interface SecondCarValuationVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 //底部提交按钮
@@ -377,9 +376,9 @@
      *  使用帮助事件
      */
     [MobClick event:@"rp604-1"];
-    WebVC *webVC=[UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
-    webVC.url=@"http://www.xiaomadada.com/apphtml/second-hand-car-help.html";
-    [self.navigationController pushViewController:webVC animated:YES];
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.url=@"http://www.xiaomadada.com/apphtml/second-hand-car-help.html";
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 

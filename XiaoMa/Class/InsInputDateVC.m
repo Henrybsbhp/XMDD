@@ -30,6 +30,16 @@
     [self reloadData];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"rp1013"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"rp1013"];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -101,7 +111,11 @@
         NSInteger index = [x integerValue];
         //拨打电话
         if (index == 1) {
+            [MobClick event:@"rp1013-4"];
             [gPhoneHelper makePhone:@"4007111111"];
+        }
+        else {
+            [MobClick event:@"rp1013-5"];
         }
     }];
 }
@@ -113,6 +127,17 @@
     HKCellData *data = [self.datasource safetyObjectAtIndex:indexPath.row];
     if (data.selectedBlock) {
         data.selectedBlock(tableView, indexPath);
+    }
+    
+    //友盟 TODO
+    if (indexPath.row == 0) {
+        [MobClick event:@"rp1013-1"];
+    }
+    else if (indexPath.row == 1) {
+        [MobClick event:@"rp1013-2"];
+    }
+    else if (indexPath.row == 2) {
+        [MobClick event:@"rp1013-3"];
     }
 }
 

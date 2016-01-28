@@ -19,6 +19,7 @@
 #import "AwardOtherSheetVC.h"
 #import "CarWashTableVC.h"
 #import "DetailWebVC.h"
+#import "GuideStore.h"
 
 @interface NewGainAwardVC ()
 
@@ -50,10 +51,27 @@
     [self requestOperation];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [MobClick beginLogPageView:@"rp402"];
+    [super viewWillAppear:animated];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     self.otherActionFlag = YES;
+    
+    [MobClick endLogPageView:@"rp402"];
+    [super viewWillDisappear:animated];
 }
+
+- (IBAction)helpAction:(id)sender {
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.title = @"每周礼券";
+    vc.url = kMeizhouliquanUrl;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 
 - (void)requestOperation
 {
@@ -74,9 +92,14 @@
             self.instructionBtn.hidden = NO;
             [[self.instructionBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 
+                @strongify(self);
+                
                 DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
                 vc.url = @"http://www.xiaomadada.com/apphtml/lingyuanxiche.html";
                 [self.navigationController pushViewController:vc animated:YES];
+                
+                GuideStore * guideStore = [GuideStore fetchExistsStore];
+                [guideStore setNewbieGuideAppeared];
             }];
         }
         
@@ -93,10 +116,14 @@
                 self.amountTypeLabel.textColor = [UIColor lightGrayColor];
             }
             [[self.carwashBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                
+                @strongify(self);
                 CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
                 [self.navigationController pushViewController:vc animated:YES];
             }];
             [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                
+                @strongify(self);
                 [self shareAction];
             }];
         }
@@ -105,6 +132,9 @@
             [self setupScratchView];
             self.tipLabel.text = [NSString stringWithFormat:@"已有%ld人领取", (long)op.rsp_total];
             [[self.carwashBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                
+                [MobClick event:@"rp402-6"];
+                @strongify(self);
                 if (!self.isScratched) {
                     [gToast showText:@"请先刮卡领取礼券"];
                 }
@@ -114,6 +144,9 @@
                 }
             }];
             [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+                
+                [MobClick event:@"rp402-2"];
+                @strongify(self);
                 if (!self.isScratched) {
                     [gToast showText:@"请先刮卡领取礼券"];
                 }
@@ -125,6 +158,7 @@
         }
     } error:^(NSError *error) {
         
+        @strongify(self);
         [self.view stopActivityAnimation];
         [self.coverView showDefaultEmptyViewWithText:@"获取礼券信息失败，请点击重试" tapBlock:^{
             [self requestOperation];
@@ -135,16 +169,17 @@
 - (void)setupScratchView
 {
     if ([[UIScreen mainScreen] bounds].size.height == 480) {
-        self.bgImgView.image = [UIImage imageNamed:@"award_bg_4s"];
-        self.widthConstraint.constant = -30;
+        self.amount.font = [UIFont systemFontOfSize:42];
     }
+    @weakify(self);
     CKAsyncMainQueue(^{
+        @strongify(self);
         self.hyscratchView = [[HYScratchCardView alloc]initWithFrame:CGRectMake(0, 0, self.scratchView.frame.size.width, self.scratchView.frame.size.height)];
         self.hyscratchView.image = [UIImage imageNamed:@"award_mask"];
         
-        @weakify(self);
         self.hyscratchView.completion = ^(id userInfo) {
             @strongify(self);
+            [MobClick event:@"rp402-7"];
             [self gainAward];
         };
         [self.scratchView addSubview:self.hyscratchView];
@@ -175,6 +210,7 @@
                          }];
         
         CKAfter(1.5, ^{
+            @strongify(self);
             //若弹出分享窗之前用户进行了其他操作，则不弹出
             if (!self.otherActionFlag) {
                 [self showShareSheet];
@@ -195,8 +231,9 @@
     [sheet presentAnimated:YES completionHandler:nil];
     
     [[sheetVC.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
+        @weakify(self);
         [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+            @strongify(self);
             [self shareAction];
         }];
     }];
@@ -292,11 +329,13 @@
     resultSheet.shouldCenterVertically = YES;
     [resultSheet presentAnimated:YES completionHandler:nil];
     
+    @weakify(self);
     [[otherVC.carwashBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         /**
          *  去洗车点击事件
          */
         [MobClick event:@"rp402-3"];
+        @strongify(self);
         [resultSheet dismissAnimated:YES completionHandler:nil];
         CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -321,6 +360,11 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+-(void)dealloc
+{
+    DebugLog(@"NewGainAwardVC dealloc");
 }
 
 @end

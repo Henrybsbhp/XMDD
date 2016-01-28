@@ -37,6 +37,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)dealloc
 {
+    [[NSURLCache sharedURLCache] removeCachedResponseForRequest:self.request];
     DebugLog(@"DetailWebVC dealloc ~");
 }
 

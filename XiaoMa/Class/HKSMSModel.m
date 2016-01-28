@@ -146,6 +146,7 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
             NSString *title = [NSString stringWithFormat:@"剩余%d秒", [x intValue]];
             [vbtn setTitle:title forState:UIControlStateDisabled];
             [vbtn setTitle:title forState:UIControlStateNormal];
+            vbtn.enabled = NO;
         } completed:^{
             @strongify(self);
             [vbtn setTitle:originTitle forState:UIControlStateNormal];

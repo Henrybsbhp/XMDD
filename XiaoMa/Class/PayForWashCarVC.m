@@ -419,11 +419,21 @@
         }
         else if (payChannel == PaymentChannelAlipay)
         {
+            /// 如果是浙商，无法选择
+            if (self.couponType == CouponTypeCZBankCarWash)
+            {
+                return;
+            }
             self.checkoutServiceOrderV4Op.paychannel = PaymentChannelAlipay;
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
         }
         else if (payChannel == PaymentChannelWechat)
         {
+            /// 如果是浙商，无法选择
+            if (self.couponType == CouponTypeCZBankCarWash)
+            {
+                return;
+            }
             self.checkoutServiceOrderV4Op.paychannel = PaymentChannelWechat;
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
         }
@@ -1345,7 +1355,7 @@
     
     /// 如果是活动日 || 新手
     if ((!self.getUserResourcesV2Op.rsp_carwashFlag || self.getUserResourcesV2Op.rsp_neverCarwashFlag)
-        && paymoney >= 0)
+        && paymoney >= 0 && self.service.shopServiceType == ShopServiceCarWash)
     {
         self.bottomScrollLb.hidden = NO;
         self.bottomViewHeightConstraint.constant = 72;
@@ -1412,7 +1422,7 @@
 - (void)alertFreshmanGuide
 {
     // 新手 && 没领过周周礼券的
-    if (self.getUserResourcesV2Op.rsp_neverCarwashFlag && !self.getUserResourcesV2Op.rsp_weeklyCouponGetFlag)
+    if (self.getUserResourcesV2Op.rsp_neverCarwashFlag && !self.getUserResourcesV2Op.rsp_weeklyCouponGetFlag && self.service.shopServiceType == ShopServiceCarWash)
     {
         CarwashFreshmanGuideVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"CarwashFreshmanGuideVC"];
         CGFloat width = 265 * gAppMgr.deviceInfo.screenSize.width / 320;
@@ -1423,6 +1433,7 @@
         
         [[vc.gainWeeklyCouponBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
+            [MobClick event:@"rp108-13"];
             [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
                 [self requestGainWeeklyCoupon];
             }];
@@ -1431,6 +1442,7 @@
         
         [[vc.whateverBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
+            [MobClick event:@"rp108-14"];
             [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
             }];
         }];

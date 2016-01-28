@@ -42,12 +42,14 @@
 //基类
 #import "BaseOp.h"
 #import "HKViewController.h"
+#import "HKView.h"
 
 //常用vc&View
 #import "CKNavigationController.h"
 #import "JTNavigationController.h"
 #import "JTTableViewCell.h"
 #import "JTTableView.h"
+#import "DetailWebVC.h"
 
 //引用
 #import "Constants.h"

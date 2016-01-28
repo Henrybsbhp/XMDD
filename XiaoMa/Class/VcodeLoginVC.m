@@ -11,7 +11,6 @@
 #import "UIView+Shake.h"
 #import "GetVcodeOp.h"
 #import "VCodeInputField.h"
-#import "WebVC.h"
 #import "NSString+PhoneNumber.h"
 #import "CKLimitTextField.h"
 
@@ -126,7 +125,7 @@
 - (IBAction)actionAgreement:(id)sender
 {
     [MobClick event:@"rp002-5"];
-    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"服务协议";
     vc.url = kServiceLicenseUrl;
     [self.navigationController pushViewController:vc animated:YES];

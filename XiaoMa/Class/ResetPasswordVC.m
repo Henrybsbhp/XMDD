@@ -12,7 +12,7 @@
 #import "GetVcodeOp.h"
 #import "UpdatePwdOp.h"
 #import "GetTokenOp.h"
-#import "WebVC.h"
+
 
 @interface ResetPasswordVC () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *checkBox;
@@ -90,7 +90,7 @@
 - (IBAction)actionAgreement:(id)sender
 {
     [MobClick event:@"rp003-5"];
-    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"服务协议";
     vc.url = kServiceLicenseUrl;
     [self.navigationController pushViewController:vc animated:YES];

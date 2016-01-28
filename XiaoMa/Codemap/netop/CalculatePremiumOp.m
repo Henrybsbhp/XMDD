@@ -22,6 +22,7 @@
         [premiumlist addObject:obj];
     }
     self.rsp_premiumlist = premiumlist;
+    self.rsp_tip = dict[@"tip"];
 	
     return self;
 }

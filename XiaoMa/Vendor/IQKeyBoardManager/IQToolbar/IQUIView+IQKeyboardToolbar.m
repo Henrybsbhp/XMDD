@@ -33,6 +33,8 @@
 #import <UIKit/UILabel.h>
 #import <objc/runtime.h>
 
+#import "OETextField.h"
+
 IQ_LoadCategory(IQUIViewToolbar)
 
 //NSInteger const kIQRightButtonToolbarTag            =   -1001;
@@ -60,10 +62,16 @@ IQ_LoadCategory(IQUIViewToolbar)
     if (![self respondsToSelector:@selector(setInputAccessoryView:)])    return;
     
     //  Creating a toolBar for keyboard
-    IQToolbar *toolbar = [[IQToolbar alloc] init];
-//	toolbar.tag = kIQRightButtonToolbarTag;
+    UIView * customAccessView;
+    if ([self isKindOfClass:[OETextField class]])
+    {
+        OETextField * feildSelf = (OETextField *)self;
+        customAccessView = feildSelf.customAccessoryView;
+    }
+    IQToolbar *toolbar = [[IQToolbar alloc] initWithCustomAccessView:customAccessView];
+    //	toolbar.tag = kIQRightButtonToolbarTag;
     
-	NSMutableArray *items = [[NSMutableArray alloc] init];
+    NSMutableArray *items = [[NSMutableArray alloc] init];
     
     if ([titleText length] && self.shouldHideTitle == NO)
     {
@@ -95,7 +103,7 @@ IQ_LoadCategory(IQUIViewToolbar)
     [items addObject:nilButton];
     
     //  Create a done button to show on keyboard to resign it. Adding a selector to resign it.
-    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithTitle:text style:UIBarButtonItemStyleDone target:target action:action];
+        IQBarButtonItem *doneButton = [[IQBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarDone"] style:UIBarButtonItemStylePlain target:target action:action];
     [items addObject:doneButton];
     
     //  Adding button to toolBar.
@@ -126,10 +134,16 @@ IQ_LoadCategory(IQUIViewToolbar)
     if (![self respondsToSelector:@selector(setInputAccessoryView:)])    return;
     
     //  Creating a toolBar for keyboard
-    IQToolbar *toolbar = [[IQToolbar alloc] init];
-//	toolbar.tag = kIQDoneButtonToolbarTag;
- 	
-	NSMutableArray *items = [[NSMutableArray alloc] init];
+    UIView * customAccessView;
+    if ([self isKindOfClass:[OETextField class]])
+    {
+        OETextField * feildSelf = (OETextField *)self;
+        customAccessView = feildSelf.customAccessoryView;
+    }
+    IQToolbar *toolbar = [[IQToolbar alloc] initWithCustomAccessView:customAccessView];
+    //	toolbar.tag = kIQDoneButtonToolbarTag;
+    
+    NSMutableArray *items = [[NSMutableArray alloc] init];
     
     if ([titleText length] && self.shouldHideTitle == NO)
     {
@@ -161,7 +175,7 @@ IQ_LoadCategory(IQUIViewToolbar)
     [items addObject:nilButton];
     
     //  Create a done button to show on keyboard to resign it. Adding a selector to resign it.
-    IQBarButtonItem *doneButton = [[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:target action:action];
+    IQBarButtonItem *doneButton = [[IQBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarDone"] style:UIBarButtonItemStylePlain target:target action:action];
     [items addObject:doneButton];
     
     //  Adding button to toolBar.
@@ -193,8 +207,14 @@ IQ_LoadCategory(IQUIViewToolbar)
     if (![self respondsToSelector:@selector(setInputAccessoryView:)])    return;
     
     //  Creating a toolBar for keyboard
-    IQToolbar *toolbar = [[IQToolbar alloc] init];
-//	toolbar.tag = kIQRightLeftButtonToolbarTag;
+    UIView * customAccessView;
+    if ([self isKindOfClass:[OETextField class]])
+    {
+        OETextField * feildSelf = (OETextField *)self;
+        customAccessView = feildSelf.customAccessoryView;
+    }
+    IQToolbar *toolbar = [[IQToolbar alloc] initWithCustomAccessView:customAccessView];
+    //	toolbar.tag = kIQRightLeftButtonToolbarTag;
     
     NSMutableArray *items = [[NSMutableArray alloc] init];
     
@@ -235,6 +255,7 @@ IQ_LoadCategory(IQUIViewToolbar)
     
     //  Create a done button to show on keyboard to resign it. Adding a selector to resign it.
     IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithTitle:rightTitle style:UIBarButtonItemStylePlain target:target action:rightAction];
+    
     [items addObject:doneButton];
     
     //  Adding button to toolBar.
@@ -264,8 +285,14 @@ IQ_LoadCategory(IQUIViewToolbar)
     if (![self respondsToSelector:@selector(setInputAccessoryView:)])    return;
     
     //  Creating a toolBar for keyboard
-    IQToolbar *toolbar = [[IQToolbar alloc] init];
-//	toolbar.tag = kIQCancelDoneButtonToolbarTag;
+    UIView * customAccessView;
+    if ([self isKindOfClass:[OETextField class]])
+    {
+        OETextField * feildSelf = (OETextField *)self;
+        customAccessView = feildSelf.customAccessoryView;
+    }
+    IQToolbar *toolbar = [[IQToolbar alloc] initWithCustomAccessView:customAccessView];
+    //	toolbar.tag = kIQCancelDoneButtonToolbarTag;
     
     NSMutableArray *items = [[NSMutableArray alloc] init];
     
@@ -305,7 +332,7 @@ IQ_LoadCategory(IQUIViewToolbar)
     [items addObject:nilButton];
     
     //  Create a done button to show on keyboard to resign it. Adding a selector to resign it.
-    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:target action:doneAction];
+    IQBarButtonItem *doneButton = [[IQBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarDone"] style:UIBarButtonItemStylePlain target:target action:doneAction];
     [items addObject:doneButton];
     
     //  Adding button to toolBar.
@@ -335,38 +362,44 @@ IQ_LoadCategory(IQUIViewToolbar)
     if (![self respondsToSelector:@selector(setInputAccessoryView:)])    return;
     
     //  Creating a toolBar for phoneNumber keyboard
-    IQToolbar *toolbar = [[IQToolbar alloc] init];
-//	toolbar.tag = kIQPreviousNextButtonToolbarTag;
- 
-	NSMutableArray *items = [[NSMutableArray alloc] init];
-	
-	//  Create a done button to show on keyboard to resign it. Adding a selector to resign it.
-    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:target action:doneAction];
-	
-	if (IQ_IS_IOS7_OR_GREATER)
-	{
-//        UIBarButtonItem *prev = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:105 target:target action:previousAction];
-//        UIBarButtonItem *next = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:106 target:target action:nextAction];
-
-		IQBarButtonItem *prev = [[IQBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarArrowLeft"] style:UIBarButtonItemStylePlain target:target action:previousAction];
-		IQBarButtonItem *fixed =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-		[fixed setWidth:23];
-		IQBarButtonItem *next = [[IQBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarArrowRight"] style:UIBarButtonItemStylePlain target:target action:nextAction];
-		[items addObject:prev];
-		[items addObject:fixed];
-		[items addObject:next];
-	}
-//	else
-//	{
-//        #pragma GCC diagnostic push
-//        #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-//		//  Create a next/previous button to switch between TextFieldViews.
-//		IQSegmentedNextPrevious *segControl = [[IQSegmentedNextPrevious alloc] initWithTarget:target previousAction:previousAction nextAction:nextAction];
-//        #pragma GCC diagnostic pop
-//		IQBarButtonItem *segButton = [[IQBarButtonItem alloc] initWithCustomView:segControl];
-//		[items addObject:segButton];
-//	}
-	
+    UIView * customAccessView;
+    if ([self isKindOfClass:[OETextField class]])
+    {
+        OETextField * feildSelf = (OETextField *)self;
+        customAccessView = feildSelf.customAccessoryView;
+    }
+    IQToolbar *toolbar = [[IQToolbar alloc] initWithCustomAccessView:customAccessView];
+    //	toolbar.tag = kIQPreviousNextButtonToolbarTag;
+    
+    NSMutableArray *items = [[NSMutableArray alloc] init];
+    
+    //  Create a done button to show on keyboard to resign it. Adding a selector to resign it.
+    IQBarButtonItem *doneButton = [[IQBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarDone"] style:UIBarButtonItemStylePlain target:target action:doneAction];
+    
+//    if (IQ_IS_IOS7_OR_GREATER)
+    {
+        //        UIBarButtonItem *prev = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:105 target:target action:previousAction];
+        //        UIBarButtonItem *next = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:106 target:target action:nextAction];
+        
+        IQBarButtonItem *prev = [[IQBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarArrowLeft"] style:UIBarButtonItemStylePlain target:target action:previousAction];
+        IQBarButtonItem *fixed =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        [fixed setWidth:23];
+        IQBarButtonItem *next = [[IQBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IQKeyboardManager.bundle/IQButtonBarArrowRight"] style:UIBarButtonItemStylePlain target:target action:nextAction];
+        [items addObject:prev];
+        [items addObject:fixed];
+        [items addObject:next];
+    }
+    //	else
+    //	{
+    //        #pragma GCC diagnostic push
+    //        #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+    //		//  Create a next/previous button to switch between TextFieldViews.
+    //		IQSegmentedNextPrevious *segControl = [[IQSegmentedNextPrevious alloc] initWithTarget:target previousAction:previousAction nextAction:nextAction];
+    //        #pragma GCC diagnostic pop
+    //		IQBarButtonItem *segButton = [[IQBarButtonItem alloc] initWithCustomView:segControl];
+    //		[items addObject:segButton];
+    //	}
+    
     if ([titleText length] && self.shouldHideTitle == NO)
     {
         CGRect buttonFrame;
@@ -390,18 +423,22 @@ IQ_LoadCategory(IQUIViewToolbar)
             buttonFrame = CGRectMake(0, 0, toolbar.frame.size.width-135-57.0-16, 44);
         }
         
+        UILabel * titleLb = [[UILabel alloc] initWithFrame:buttonFrame];
+        titleLb.text = titleText;
+        
         IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithFrame:buttonFrame title:titleText];
+//        IQTitleBarButtonItem * title = [[IQTitleBarButtonItem alloc] initWithCustomView:titleLb];
         [items addObject:title];
     }
     
     IQBarButtonItem *nilButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
-	[items addObject:nilButton];
-	[items addObject:doneButton];
-	
+    [items addObject:nilButton];
+    [items addObject:doneButton];
+    
     //  Adding button to toolBar.
     [toolbar setItems:items];
-	
+    
     //  Setting toolbar to keyboard.
     [(UITextField*)self setInputAccessoryView:toolbar];
 }
@@ -429,37 +466,37 @@ IQ_LoadCategory(IQUIViewToolbar)
     //  If it is IQToolbar and it's items are greater than zero.
     if ([inputAccessoryView isKindOfClass:[IQToolbar class]] && [[inputAccessoryView items] count]>0)
     {
-		if (IQ_IS_IOS7_OR_GREATER && [[inputAccessoryView items] count]>3)
-		{
-			//  Getting first item from inputAccessoryView.
-			IQBarButtonItem *prevButton = (IQBarButtonItem*)[inputAccessoryView items][0];
-			IQBarButtonItem *nextButton = (IQBarButtonItem*)[inputAccessoryView items][2];
-			
-			//  If it is UIBarButtonItem and it's customView is not nil.
-			if ([prevButton isKindOfClass:[IQBarButtonItem class]] && [nextButton isKindOfClass:[IQBarButtonItem class]])
-			{
+        if (IQ_IS_IOS7_OR_GREATER && [[inputAccessoryView items] count]>3)
+        {
+            //  Getting first item from inputAccessoryView.
+            IQBarButtonItem *prevButton = (IQBarButtonItem*)[inputAccessoryView items][0];
+            IQBarButtonItem *nextButton = (IQBarButtonItem*)[inputAccessoryView items][2];
+            
+            //  If it is UIBarButtonItem and it's customView is not nil.
+            if ([prevButton isKindOfClass:[IQBarButtonItem class]] && [nextButton isKindOfClass:[IQBarButtonItem class]])
+            {
                 if (prevButton.enabled != isPreviousEnabled)
                     [prevButton setEnabled:isPreviousEnabled];
                 if (nextButton.enabled != isNextEnabled)
                     [nextButton setEnabled:isNextEnabled];
-			}
-		}
-		else
-		{
-			//  Getting first item from inputAccessoryView.
-			IQBarButtonItem *barButtonItem = (IQBarButtonItem*)[inputAccessoryView items][0];
-			
-			//  If it is IQBarButtonItem and it's customView is not nil.
-			if ([barButtonItem isKindOfClass:[IQBarButtonItem class]] && [barButtonItem customView] != nil)
-			{
-				//  Getting it's customView.
-                #pragma GCC diagnostic push
-                #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-				IQSegmentedNextPrevious *segmentedControl = (IQSegmentedNextPrevious*)[barButtonItem customView];
-				//  If its customView is IQSegmentedNextPrevious and has 2 segments
-				if ([segmentedControl isKindOfClass:[IQSegmentedNextPrevious class]] && [segmentedControl numberOfSegments]==2)
-                #pragma GCC diagnostic pop
-				{
+            }
+        }
+        else
+        {
+            //  Getting first item from inputAccessoryView.
+            IQBarButtonItem *barButtonItem = (IQBarButtonItem*)[inputAccessoryView items][0];
+            
+            //  If it is IQBarButtonItem and it's customView is not nil.
+            if ([barButtonItem isKindOfClass:[IQBarButtonItem class]] && [barButtonItem customView] != nil)
+            {
+                //  Getting it's customView.
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+                IQSegmentedNextPrevious *segmentedControl = (IQSegmentedNextPrevious*)[barButtonItem customView];
+                //  If its customView is IQSegmentedNextPrevious and has 2 segments
+                if ([segmentedControl isKindOfClass:[IQSegmentedNextPrevious class]] && [segmentedControl numberOfSegments]==2)
+#pragma GCC diagnostic pop
+                {
                     if ([segmentedControl isEnabledForSegmentAtIndex:0] != isPreviousEnabled)
                     {
                         //  Setting it's first segment enable/disable.
@@ -471,9 +508,9 @@ IQ_LoadCategory(IQUIViewToolbar)
                         //  Setting it's second segment enable/disable.
                         [segmentedControl setEnabled:isNextEnabled forSegmentAtIndex:1];
                     }
-      			}
-			}
-		}
+                }
+            }
+        }
     }
 }
 

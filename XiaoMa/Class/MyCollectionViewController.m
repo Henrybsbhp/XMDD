@@ -46,7 +46,10 @@
     [self refreshBottomView];
     
     self.selectSet = [[NSMutableIndexSet alloc] init];
-//    [self reloadData];
+    [[gAppMgr.myUser.favorites rac_requestData] subscribeNext:^(id x) {
+      
+        [self.tableView reloadData];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -67,7 +70,6 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [gAppMgr.myUser.favorites updateModelIfNeeded];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

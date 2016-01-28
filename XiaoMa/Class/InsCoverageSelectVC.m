@@ -189,6 +189,7 @@
             InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
             vc.insModel = self.insModel;
             vc.premiumList = op.rsp_premiumlist;
+            vc.headerTip = op.rsp_tip;
             [self.navigationController pushViewController:vc animated:YES];
         }
     } error:^(NSError *error) {

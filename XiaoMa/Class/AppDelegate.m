@@ -8,27 +8,38 @@
 
 #import "AppDelegate.h"
 #import "XiaoMa.h"
-#import "DefaultStyleModel.h"
 #import <AFNetworking.h>
 #import <CocoaLumberjack.h>
+#import <UMengAnalytics/MobClick.h>
+#import <TencentOpenAPI.framework/Headers/TencentOAuth.h>
+#import "WXApi.h"
+#import "WeiboSDK.h"
+#import <JPEngine.h>
+
+#import "DefaultStyleModel.h"
+
+#import "HKLoginModel.h"
 #import "HKCatchErrorModel.h"
 #import "MapHelper.h"
+#import "JTLogModel.h"
+
+#import "HKLaunchManager.h"
+#import "ShareResponeManager.h"
+
 #import "GetSystemTipsOp.h"
 #import "GetSystemVersionOp.h"
 #import "GetsSystemSwitchConfigOp.h"
+#import "GetSystemJSPatchOp.h"
+
 #import "ClientInfo.h"
 #import "DeviceInfo.h"
-#import "WXApi.h"
-#import "WeiboSDK.h"
-#import <TencentOpenAPI.framework/Headers/TencentOAuth.h>
-#import "JTLogModel.h"
-#import <UMengAnalytics/MobClick.h>
-#import "MainTabBarVC.h"
 #import "HKAdvertisement.h"
+
+#import "MainTabBarVC.h"
 #import "LaunchVC.h"
-#import "HKLaunchManager.h"
-#import "ShareResponeManager.h"
 #import "GuideViewController.h"
+
+
 
 #define RequestWeatherInfoInterval 60 * 10
 //#define RequestWeatherInfoInterval 5
@@ -36,7 +47,6 @@
 @interface AppDelegate ()<WXApiDelegate,TencentSessionDelegate,CrashlyticsDelegate>
 
 @property (nonatomic, strong) DDFileLogger *fileLogger;
-
 /// 日志
 @property (nonatomic,strong)JTLogModel * logModel;
 @property (nonatomic, strong) HKCatchErrorModel *errorModel;
@@ -63,28 +73,18 @@
     [self setupURLCache];
     //设置推送
     [self setupPushManagerWithOptions:launchOptions];
-    //微信授权
-    if (![WXApi registerApp:WECHAT_APP_ID])
-    {
-        DebugLog(@"Wechat register Failed");
-    }
-    //微博授权
-    if (![WeiboSDK registerApp:WEIBO_APP_ID])
-    {
-        DebugLog(@"Weibo register Failed");
-    }
-    //QQ接口调用授权
-    if (![[TencentOAuth alloc] initWithAppId:QQ_API_ID
-                                    andDelegate:self])
-    {
-        DebugLog(@"QQ register Failed");
-    }
+    // 第三方授权
+    [self setupThirdPartyAuthorization];
     //检测版本更新
     [self setupVersionUpdating];
     [self setupSwitchConfiguation];
     //设置启动页管理器
     [self setupLaunchManager];
     [self setupRootView];
+    
+    [self setupJSPatch];
+    
+    [self setupOpenUrlQueue];
     
     //设置崩溃捕捉(官方建议放在最后面)
     [self setupCrashlytics];
@@ -215,6 +215,13 @@
     else if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@", QQ_API_ID]]) {
         return [QQApiInterface handleOpenURL:url delegate:[ShareResponeManagerForQQ init]];
     }
+    else if ([url.absoluteString hasPrefix:@"xmdd://"])
+    {
+        
+        NSString * urlStr = url.absoluteString;
+        NSDictionary * dict = @{@"url":urlStr};
+        [self.openUrlQueue addObject:dict forKey:nil];
+    }
     return YES;
 }
 
@@ -230,7 +237,7 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    NSLog(@"didReceiveRemoteNotification :%@",userInfo);
+    DebugLog(@"didReceiveRemoteNotification :%@",userInfo);
     [self.pushMgr handleNofitication:userInfo forApplication:application];
 }
 
@@ -438,7 +445,7 @@
     }];
 }
 
-
+/// 检查更新
 - (void)checkVersionUpdating
 {
     if (gAppMgr.clientInfo.forceUpdateUrl.length)
@@ -455,6 +462,7 @@
     }
 }
 
+/// 分享开关
 - (void)setupSwitchConfiguation
 {
     NSString * version = gAppMgr.clientInfo.clientVersion;
@@ -469,6 +477,77 @@
     } error:^(NSError *error) {
         
         DebugLog(@"GetsSystemSwitchConfigOp失败，%@",error.domain);
+    }];
+}
+
+- (void)setupThirdPartyAuthorization
+{
+    //微信授权
+    if (![WXApi registerApp:WECHAT_APP_ID])
+    {
+        DebugLog(@"Wechat register Failed");
+    }
+    //微博授权
+    if (![WeiboSDK registerApp:WEIBO_APP_ID])
+    {
+        DebugLog(@"Weibo register Failed");
+    }
+    //QQ接口调用授权
+    if (![[TencentOAuth alloc] initWithAppId:QQ_API_ID
+                                 andDelegate:self])
+    {
+        DebugLog(@"QQ register Failed");
+    }
+}
+
+- (void)setupOpenUrlQueue
+{
+    self.openUrlQueue = [[JTQueue alloc] init];
+    
+    [self.openUrlQueue setConsumeBlock:^RACSignal *(NSDictionary *info, id<NSCopying>key) {
+        
+        DDLogDebug(@"OpenUrlQueue,%@",info[@"url"]);
+        [gAppMgr.navModel pushToViewControllerByUrl:info[@"url"]];
+        return [RACSignal empty];
+    }];
+}
+
+#pragma mark - JSPatch
+- (void)setupJSPatch
+{
+    RACSignal * userSignal = [[RACObserve(gAppMgr, myUser) distinctUntilChanged] filter:^BOOL(JTUser * user) {
+        return user.userID.length;
+    }];
+    RACSignal * areaSignal = [[RACObserve(gAppMgr, addrComponent) distinctUntilChanged] filter:^BOOL(HKAddressComponent * ac) {
+        return ac.province.length || ac.city.length || ac.district.length;
+    }];
+    
+    RACSignal * combinedSignal = [[userSignal combineLatestWith:areaSignal] take:1];
+    [combinedSignal subscribeNext:^(RACTuple * tuple) {
+        
+        JTUser * u = tuple.first;
+        HKAddressComponent * ac = tuple.second;
+        NSString * version = gAppMgr.clientInfo.clientVersion;
+        
+        GetSystemJSPatchOp * op = [GetSystemJSPatchOp operation];
+        op.phoneNumber = u.userID;
+        op.version = version;
+        op.province = ac.province;
+        op.city = ac.city;
+        op.district = ac.district;
+        
+        [[[op rac_postRequest] flattenMap:^RACStream *(GetSystemJSPatchOp * rop) {
+            
+            NSString * url = rop.rsp_jspatchUrl;
+            return [gSupportFileMgr rac_handleSupportFile:url];
+        }] subscribeNext:^(RACTuple * tuple) {
+            
+            
+            NSString * filePath = tuple.first;
+            [JPEngine startEngine];
+            NSString *script = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+            [JPEngine evaluateScript:script];
+        }];
     }];
 }
 

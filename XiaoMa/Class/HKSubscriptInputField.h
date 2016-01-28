@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OETextField.h"
 #import "CKLimitTextField.h"
 
 @interface HKSubscriptInputField : UIView
-@property (nonatomic, strong) CKLimitTextField *inputField;
+@property (nonatomic, strong) OETextField *inputField;
 @property (nonatomic, strong) NSString *subscriptImageName;
 
 @end
