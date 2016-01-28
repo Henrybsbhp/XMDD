@@ -454,7 +454,7 @@
         checkB.selected = !self.isOwnernameDifferent;
     }];
 
-    [[checkB rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(UIButton *btn) {
+    [[[checkB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(UIButton *btn) {
         @strongify(self);
         [MobClick event:@"rp1005-10"];
         self.isOwnernameDifferent = !self.isOwnernameDifferent;

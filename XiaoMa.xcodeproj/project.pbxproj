@@ -422,7 +422,6 @@
 		6B71C4221BB959CE0048B79F /* HKPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B71C4211BB959CE0048B79F /* HKPickerVC.m */; };
 		6B747A651AF08C7B00106BFD /* PhoneHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B747A641AF08C7B00106BFD /* PhoneHelper.m */; };
 		6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B82588F1AF8B37100D5D800 /* CommentListViewController.m */; };
-		6B88C12D1C1E86C900BB6071 /* InsuranceSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88C12C1C1E86C900BB6071 /* InsuranceSelectViewController.m */; };
 		6B88C1311C1E8D7000BB6071 /* InsuranceSelectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88C1301C1E8D7000BB6071 /* InsuranceSelectModel.m */; };
 		6B88C1341C1E943E00BB6071 /* GetInsuranceCalculatorOpV3.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88C1331C1E943E00BB6071 /* GetInsuranceCalculatorOpV3.m */; };
 		6B8D47561BEA03C900706989 /* GetCarwashOrderV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8D47551BEA03C900706989 /* GetCarwashOrderV2Op.m */; };
@@ -1447,8 +1446,6 @@
 		6B747A641AF08C7B00106BFD /* PhoneHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhoneHelper.m; path = Class/PhoneHelper.m; sourceTree = "<group>"; };
 		6B82588E1AF8B37100D5D800 /* CommentListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentListViewController.h; sourceTree = "<group>"; };
 		6B82588F1AF8B37100D5D800 /* CommentListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentListViewController.m; sourceTree = "<group>"; };
-		6B88C12B1C1E86C900BB6071 /* InsuranceSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceSelectViewController.h; sourceTree = "<group>"; };
-		6B88C12C1C1E86C900BB6071 /* InsuranceSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceSelectViewController.m; sourceTree = "<group>"; };
 		6B88C12F1C1E8D7000BB6071 /* InsuranceSelectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceSelectModel.h; sourceTree = "<group>"; };
 		6B88C1301C1E8D7000BB6071 /* InsuranceSelectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceSelectModel.m; sourceTree = "<group>"; };
 		6B88C1321C1E943E00BB6071 /* GetInsuranceCalculatorOpV3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetInsuranceCalculatorOpV3.h; path = Class/GetInsuranceCalculatorOpV3.h; sourceTree = "<group>"; };
@@ -3573,8 +3570,6 @@
 		6B88C12E1C1E8D5300BB6071 /* Select */ = {
 			isa = PBXGroup;
 			children = (
-				6B88C12B1C1E86C900BB6071 /* InsuranceSelectViewController.h */,
-				6B88C12C1C1E86C900BB6071 /* InsuranceSelectViewController.m */,
 				6B88C12F1C1E8D7000BB6071 /* InsuranceSelectModel.h */,
 				6B88C1301C1E8D7000BB6071 /* InsuranceSelectModel.m */,
 				18FB68EE1C2A911C00AD7341 /* InsCoverageSelectVC.h */,
@@ -5005,7 +5000,6 @@
 				18C52C4D1BA8FE9E00F6C38B /* DrivingLicenseThumbCell.m in Sources */,
 				181F6DA71B15919900D38555 /* CXAlertView.m in Sources */,
 				1897C2FF1C16C319007E394E /* InsInputInfoVC.m in Sources */,
-				6B88C12D1C1E86C900BB6071 /* InsuranceSelectViewController.m in Sources */,
 				50FAC2591C23A66900F8990F /* GetAutomobileBrandV2Op.m in Sources */,
 				18F41DA91B784CD8000409E1 /* GetBankcardListOp.m in Sources */,
 				18A15A561C214C2200D7B5DF /* InsActivityIndicatorVC.m in Sources */,
