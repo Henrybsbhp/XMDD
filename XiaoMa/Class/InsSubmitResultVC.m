@@ -95,6 +95,7 @@
     [MobClick event:@"rp1009-3"];
     InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
     vc.orderID = self.insOrderID;
+    vc.originVC = self.insModel.originVC;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

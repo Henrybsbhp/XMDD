@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "HKInsuranceOrder.h"
 #import "InsSimpleCar.h"
+#import "HKInsuranceOrder.h"
 
 @interface InsuranceVM : NSObject<NSCopying>
 @property (nonatomic, strong) InsSimpleCar *simpleCar;
@@ -25,8 +26,10 @@
 ///交强险起保日期
 @property (nonatomic, strong) NSString *forceStartDate;
 @property (nonatomic, weak) UIViewController *originVC;
+@property (nonatomic, weak) UIViewController *orderVC;
 
 - (NSArray *)createCoveragesList;
 - (NSString *)simpleCarStatusDesc:(NSInteger)status;
+- (void)popToOrderVCForNav:(UINavigationController *)nav withInsOrderID:(NSNumber *)orderid;
 
 @end

@@ -132,12 +132,7 @@
 - (void)actionBack:(id)sender
 {
     [MobClick event:@"rp1007-1"];
-    if (self.insModel.originVC) {
-        [self.navigationController popToViewController:self.insModel.originVC animated:YES];
-    }
-    else {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    [self.insModel popToOrderVCForNav:self.navigationController withInsOrderID:self.insOrder.orderid];
 }
 - (IBAction)actionSubmit:(id)sender
 {

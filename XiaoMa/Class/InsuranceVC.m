@@ -194,6 +194,7 @@
                 InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
                 vc.insModel = [self.insModel copy];
                 vc.orderID = car.refid;
+                vc.originVC = self;
                 [self.navigationController pushViewController:vc animated:YES];
             }
             //填写信息

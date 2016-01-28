@@ -145,7 +145,7 @@
 - (void)actionBack:(id)sender
 {
     [MobClick event:@"rp1006-1"];
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.insModel popToOrderVCForNav:self.navigationController withInsOrderID:self.insOrder.orderid];
 }
 
 - (IBAction)actionCallCenter:(id)sender
@@ -306,8 +306,11 @@
     [[helper rac_startPay] subscribeNext:^(id x) {
         
         @strongify(self);
+        InsuranceStore *store = [InsuranceStore fetchExistsStore];
         //刷新保险订单
-        [[[InsuranceStore fetchExistsStore] getInsOrderByID:self.insOrder.orderid] sendAndIgnoreError];
+        [[store getInsOrderByID:self.insOrder.orderid] sendAndIgnoreError];
+        //刷新保险车辆列表
+        [[store getInsSimpleCars] sendAndIgnoreError];
         
         [self gotoPaidSuccessVC];
 
