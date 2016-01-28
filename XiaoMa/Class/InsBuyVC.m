@@ -18,6 +18,7 @@
 #import "NSDate+DateForText.h"
 #import "HKTableViewCell.h"
 #import "IQKeyboardManager.h"
+#import "InsuranceStore.h"
 
 #import "DatePickerVC.h"
 #import "PayForInsuranceVC.h"
@@ -237,6 +238,8 @@
         vc.insModel = [self.insModel copy];
         vc.insOrder = op.rsp_order;
         [self.navigationController pushViewController:vc animated:YES];
+        //刷新保险列表
+        [[[InsuranceStore fetchExistsStore] getInsSimpleCars] sendAndIgnoreError];
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];

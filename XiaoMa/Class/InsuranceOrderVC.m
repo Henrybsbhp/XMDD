@@ -10,9 +10,11 @@
 #import "UIView+Layer.h"
 #import "BorderLineLabel.h"
 #import "InsuranceOrderPayOp.h"
-#import "PayForInsuranceVC.h"
+#import "UIBarButtonItem+CustomStyle.h"
 #import "InsuranceStore.h"
 #import "InsuranceVM.h"
+
+#import "PayForInsuranceVC.h"
 
 @interface InsuranceOrderVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -43,7 +45,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.insModel.orderVC = self;
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
     if (self.order) {
         self.orderID = self.order.orderid;
         [self setupRefreshView];
@@ -231,7 +234,12 @@
 - (void)actionBack:(id)sender
 {
     [MobClick event:@"rp1012-1"];
-    [self.navigationController popViewControllerAnimated:YES];
+    if (self.originVC) {
+        [self.navigationController popToViewController:self.originVC animated:YES];
+    }
+    else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)actionPay:(id)sender {
