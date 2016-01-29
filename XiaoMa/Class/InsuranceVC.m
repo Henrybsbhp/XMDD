@@ -244,10 +244,6 @@
     [[vc.ensureButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         @strongify(vc);
-        if (vc.nameField.text.length == 0) {
-            [vc.nameField shake];
-            return ;
-        }
         [vc.nameField endEditing:YES];
         [sheet dismissAnimated:YES completionHandler:nil];
         
@@ -426,6 +422,15 @@
         data.customInfo[@"licenseno"] = licenseno;
         if (![MyCarStore verifiedLicenseNumberFrom:licenseno]) {
             [gToast showText:@"请输入正确的车牌号码"];
+            return ;
+        }
+        
+        InsSimpleCar *car = [[self.insStore.simpleCars allObjects] firstObjectByFilteringOperator:^BOOL(InsSimpleCar *acar) {
+            return [acar.licenseno isEqualToString:licenseno];
+        }];
+        if (car) {
+            [gToast showText:@"该车牌已经存在，不能重复输入"];
+            return;
         }
         else {
             InsSimpleCar *car = [[InsSimpleCar alloc] init];

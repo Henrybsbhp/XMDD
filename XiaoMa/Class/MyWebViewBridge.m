@@ -271,10 +271,10 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         vc.tt = [shareDic stringParamForName:@"title"];
         vc.subtitle = [shareDic stringParamForName:@"desc"];
         
-        [[gMediaMgr rac_getImageByUrl:shareDic[@"imgUrl"] withType:ImageURLTypeMedium defaultPic:@"wechat_share_carwash" errorPic:@"wechat_share_carwash"] subscribeNext:^(id x) {
+        [[gMediaMgr rac_getImageByUrl:shareDic[@"imgUrl"] withType:ImageURLTypeMedium defaultPic:@"wechat_share_carwash2" errorPic:@"wechat_share_carwash2"] subscribeNext:^(id x) {
             vc.image = x;
         }];
-        [[gMediaMgr rac_getImageByUrl:shareDic[@"imgUrlWb"] withType:ImageURLTypeMedium defaultPic:@"wechat_share_carwash" errorPic:@"wechat_share_carwash"] subscribeNext:^(id x) {
+        [[gMediaMgr rac_getImageByUrl:shareDic[@"imgUrlWb"] withType:ImageURLTypeMedium defaultPic:@"wechat_share_carwash2" errorPic:@"wechat_share_carwash2"] subscribeNext:^(id x) {
             vc.webimage = x;
         }];
         vc.urlStr = shareDic[@"linkUrl"];

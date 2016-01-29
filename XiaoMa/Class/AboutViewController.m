@@ -298,8 +298,8 @@
     vc.btnTypeArr = @[@1, @2, @3, @4];
     vc.tt = @"小马达达－洗车1分钱都不要";
     vc.subtitle = @"我正在使用小马达达，洗车1分钱也不要，你也来试试吧！";
-    vc.image = [UIImage imageNamed:@"wechat_share_carwash"];
-    vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
+    vc.image = [UIImage imageNamed:@"wechat_share_carwash2"];
+    vc.webimage = [UIImage imageNamed:@"weibo_share_carwash2"];
     vc.urlStr = kAppShareUrl;
     
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];

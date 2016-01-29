@@ -51,7 +51,7 @@
             //如果以前没有点过弹框，则需要显示弹框
             NSString *alertKey = [NSString stringWithFormat:@"NewbiewGuide_%@.Alert", gAppMgr.myUser.userID];
             if (![gAppMgr.deviceInfo checkIfAppearedAfterVersion:@"2.6" forKey:alertKey]) {
-                self.shouldShowNewbieGuideDot = op.rsp_washcarflag == 0;
+                self.shouldShowNewbieGuideDot = op.rsp_jumpwinflag == 1;
                 //下载弹框图片
                 [self downloadNewbieGuidePicIfNeeded:op];
             }
@@ -60,7 +60,7 @@
                 self.shouldShowNewbieGuideDot = NO;
             }
             else {
-                self.shouldShowNewbieGuideDot = op.rsp_washcarflag == 0;
+                self.shouldShowNewbieGuideDot = op.rsp_washcarflag == 1;
                 self.shouldShowNewbieGuideAlert = NO;
             }
         }] replayLast];
