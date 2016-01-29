@@ -290,6 +290,7 @@
         
         @strongify(self);
         [gToast dismiss];
+        [[self.insStore getInsSimpleCars] sendAndIgnoreError];
         [self actionBack:nil];
     } error:^(NSError *error) {
         

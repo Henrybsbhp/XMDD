@@ -187,7 +187,7 @@
         self.tt = op.rsp_title;
         self.subtitle = op.rsp_desc;
         self.urlStr = op.rsp_linkurl;
-        [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"wechat_share_carwash" errorPic:@"wechat_share_carwash"] subscribeNext:^(UIImage * x) {
+        [[gMediaMgr rac_getImageByUrl:op.rsp_imgurl withType:ImageURLTypeMedium defaultPic:@"wechat_share_carwash2" errorPic:@"wechat_share_carwash2"] subscribeNext:^(UIImage * x) {
             self.image = x;
         } completed:^{
             [self.activityIndicatorView stopAnimating];

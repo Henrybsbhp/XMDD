@@ -64,7 +64,7 @@
     vc.tt = op.rsp_title;
     vc.subtitle = op.rsp_content;
     vc.image = [UIImage imageNamed:@"wechat_share_coupon"];
-    vc.webimage = [UIImage imageNamed:@"weibo_share_carwash"];
+    vc.webimage = [UIImage imageNamed:@"weibo_share_carwash2"];
     vc.urlStr = op.rsp_linkUrl;
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
     sheet.shouldCenterVertically = YES;

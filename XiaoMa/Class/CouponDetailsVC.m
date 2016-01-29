@@ -203,7 +203,7 @@
         [[gMediaMgr rac_getImageByUrl:op.rsp_wechatUrl withType:ImageURLTypeMedium defaultPic:@"wechat_share_coupon" errorPic:@"wechat_share_coupon"] subscribeNext:^(UIImage * x) {
             vc.image = x;
         }];
-        [[gMediaMgr rac_getImageByUrl:op.rsp_weiboUrl withType:ImageURLTypeMedium defaultPic:@"weibo_share_carwash" errorPic:@"weibo_share_carwash"] subscribeNext:^(UIImage * x) {
+        [[gMediaMgr rac_getImageByUrl:op.rsp_weiboUrl withType:ImageURLTypeMedium defaultPic:@"weibo_share_carwash2" errorPic:@"weibo_share_carwash2"] subscribeNext:^(UIImage * x) {
             vc.webimage = x;
         }];
         
