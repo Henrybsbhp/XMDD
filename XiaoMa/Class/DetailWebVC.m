@@ -48,14 +48,12 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [MobClick beginLogPageView:@"rp203"];
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar addSubview:_progressView];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-    [MobClick endLogPageView:@"rp203"];
     [super viewWillDisappear:animated];
     [_progressView removeFromSuperview];
 }

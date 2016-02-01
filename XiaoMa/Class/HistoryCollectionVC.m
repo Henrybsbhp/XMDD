@@ -38,19 +38,6 @@
     DebugLog(@"HistoryCollectionVC dealloc");
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp603"];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp603"];
-}
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     /**

@@ -40,16 +40,6 @@
 
 @implementation CarWashTableVC
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp102"];
-}
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp102"];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

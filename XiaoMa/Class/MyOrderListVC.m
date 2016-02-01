@@ -10,7 +10,6 @@
 #import "XiaoMa.h"
 #import "GetCarwashOrderListV3Op.h"
 #import "CarwashOrderDetailVC.h"
-#import "CarwashOrderCommentVC.h"
 #import "CarwashOrderViewModel.h"
 #import "InsranceOrderViewModel.h"
 #import "OthersOrderViewModel.h"
@@ -95,16 +94,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp318"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    [MobClick endLogPageView:@"rp318"];
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

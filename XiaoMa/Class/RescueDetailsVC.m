@@ -36,41 +36,7 @@
     DebugLog(@"RescueDetailsVC dealloc");
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    switch (self.type) {
-        case 1:
-            [MobClick beginLogPageView:@"rp702"];
-            break;
-        case 2:
-            [MobClick beginLogPageView:@"rp703"];
-            break;
-        case 3:
-            [MobClick beginLogPageView:@"rp704"];
-            break;
-        default:
-            break;
-    }
-}
 
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    switch (self.type) {
-        case 1:
-            [MobClick endLogPageView:@"rp702"];
-            break;
-        case 2:
-            [MobClick endLogPageView:@"rp703"];
-            break;
-        case 3:
-            [MobClick endLogPageView:@"rp704"];
-            break;
-        default:
-            break;
-    }
-}
 
 - (void)viewDidLoad {
     

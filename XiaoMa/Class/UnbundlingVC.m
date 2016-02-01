@@ -42,15 +42,6 @@ static NSString *s_sendedPhone;
     self.smsModel = [[HKSMSModel alloc] init];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [MobClick beginLogPageView:@"rp329"];
-    [super viewWillAppear:animated];
-}
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [MobClick endLogPageView:@"rp329"];
-    [super viewWillDisappear:animated];
-}
 
 #pragma mark - Action
 - (void)actionGetVcode:(id)sender

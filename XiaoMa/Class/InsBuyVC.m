@@ -65,14 +65,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp1005"];
     [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp1005"];
     [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = NO;
 }
 //设置日期选择控件（主要是为了事先加载，优化性能）

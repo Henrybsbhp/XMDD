@@ -7,7 +7,6 @@
 //
 
 #import "RescueHomeViewController.h"
-#import "LoginVC.h"
 #import "RescueHistoryViewController.h"
 #import "GetRescueOp.h"
 #import "RescueDetailsVC.h"
@@ -36,17 +35,6 @@
 
 @implementation RescueHomeViewController
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp701"];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp701"];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

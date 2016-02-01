@@ -105,7 +105,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp108"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     if (self.needChooseResource)
     {
@@ -114,11 +113,6 @@
     }
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp108"];
-}
 
 
 #pragma mark - Setup

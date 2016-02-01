@@ -81,16 +81,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [MobClick beginLogPageView:@"rp104"];
     self.mapView.delegate = self;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
-    [MobClick endLogPageView:@"rp104"];
     self.mapView.delegate = nil;
 }
 

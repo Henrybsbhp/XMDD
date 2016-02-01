@@ -48,7 +48,6 @@
     [IQKeyboardManager sharedManager].enable=NO;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(openKeyboard:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(closeKeyboard:) name:UIKeyboardWillHideNotification object:nil];
-    [MobClick beginLogPageView:@"rp604"];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -57,7 +56,6 @@
     [IQKeyboardManager sharedManager].enable=YES;
     [[NSNotificationCenter defaultCenter]removeObserver:UIKeyboardWillShowNotification];
     [[NSNotificationCenter defaultCenter]removeObserver:UIKeyboardWillHideNotification];
-    [MobClick endLogPageView:@"rp604"];
 }
 
 - (void)viewDidLoad {

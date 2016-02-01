@@ -55,17 +55,6 @@
     [self requestGetGasResource];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp508"];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp508"];
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

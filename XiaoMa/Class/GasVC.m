@@ -128,15 +128,9 @@
         [self.tableView reloadData];
     }
     
-    [MobClick beginLogPageView:@"rp501"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp501"];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
