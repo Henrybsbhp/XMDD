@@ -34,7 +34,7 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
 + (void)patchForViewController
 {
     Method ori_viewDidLoad= class_getInstanceMethod([UIViewController class], @selector(viewDidLoad));
-    Method my_viewDidLoad = class_getInstanceMethod([UIViewController class], @selector(sw_viewDidAppear:));
+    Method my_viewDidLoad = class_getInstanceMethod([UIViewController class], @selector(sw_viewDidLoad));
     swizzleMethod([self class], method_getName(ori_viewDidLoad), method_getName(my_viewDidLoad));
     
     Method ori_viewDidAppear = class_getInstanceMethod([UIViewController class], @selector(viewDidAppear:));
@@ -54,7 +54,11 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
     
     NSString * className = SelfClassName;
     
-    HKCLSLog(@"%@ viewDidLoad",className);
+    NSDictionary * dict = [[UMLogHelper getPagesUMLogInfo] objectForKey:className];
+    if (dict)
+    {
+        HKCLSLog(@"%@ viewDidLoad",className);
+    }
 }
 
 - (void)sw_viewDidAppear:(BOOL)animated
@@ -63,17 +67,16 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
     
     NSString * className = SelfClassName;
     
-    //crashlytics日志信息
-    HKCLSLog(@"%@ viewDidAppear",className);
-    
     //友盟，aop打点方式
     NSDictionary * dict = [[UMLogHelper getPagesUMLogInfo] objectForKey:className];
     if (dict)
     {
+        //crashlytics日志信息
+        HKCLSLog(@"%@ viewDidAppear",className);
+        
         NSString * pageTag = [dict objectForKey:@"pagetag"];
         NSAssert([pageTag isKindOfClass:[NSString class]] && pageTag.length, @"UIViewController+Swizzling : pageTag is not NSString class or length is zero");
         [MobClick beginLogPageView:pageTag];
-        NSLog(@"umeng viewDidAppear:%@ == %@",className,pageTag);
     }
 }
 
@@ -83,17 +86,16 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
     
     NSString * className = SelfClassName;
     
-    //crashlytics日志信息
-    HKCLSLog(@"%@ viewDidDisappear",className);
-    
     //友盟，aop打点方式
     NSDictionary * dict = [[UMLogHelper getPagesUMLogInfo] objectForKey:className];
     if (dict)
     {
+        //crashlytics日志信息
+        HKCLSLog(@"%@ viewDidDisappear",className);
+        
         NSString * pageTag = [dict objectForKey:@"pagetag"];
         NSAssert([pageTag isKindOfClass:[NSString class]] && pageTag.length, @"UIViewController+Swizzling : pageTag is not NSString class or length is zero");
         [MobClick endLogPageView:pageTag];
-        NSLog(@"umeng viewDidDisappear:%@ == %@",className,pageTag);
     }
 }
 
