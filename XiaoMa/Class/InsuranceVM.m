@@ -8,6 +8,7 @@
 
 #import "InsuranceVM.h"
 #import "HKCoverage.h"
+#import "InsuranceOrderVC.h"
 
 @implementation InsuranceVM
 
@@ -19,7 +20,10 @@
     model.numOfSeat = _numOfSeat;
     model.inscomp = _inscomp;
     model.inscompname = _inscompname;
+    model.startDate = _startDate;
+    model.forceStartDate = _forceStartDate;
     model.originVC = _originVC;
+    model.orderVC = _orderVC;
     return model;
 }
 
@@ -60,4 +64,24 @@
     }
     return nil;
 }
+
+- (void)popToOrderVCForNav:(UINavigationController *)nav withInsOrderID:(NSNumber *)orderid
+{
+    if (self.orderVC) {
+        [nav popToViewController:self.orderVC animated:YES];
+    }
+    else {
+        InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
+        vc.insModel = self;
+        vc.originVC = self.originVC;
+        vc.orderID = orderid;
+        NSMutableArray *vcs = [NSMutableArray arrayWithArray:nav.viewControllers];
+        [vcs safetyInsertObject:vc atIndex:vcs.count-2];
+        nav.viewControllers = vcs;
+        self.orderVC = vc;
+        
+        [nav popToViewController:vc animated:YES];
+    }
+}
+
 @end

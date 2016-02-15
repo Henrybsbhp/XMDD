@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CommissionCouponViewController : UIViewController
+@interface CommissionCouponViewController : HKViewController
 
 @end

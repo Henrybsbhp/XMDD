@@ -7,9 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CKLimitTextField.h"
 
-@interface OETextField : UITextField
+#define OEHeight 40
+#define OEAccessTag 4444
 
+
+/// 可以在顶部增加数字的textfeild
+
+@interface OEView : HKView
+
+@end
+
+@interface OETextField : CKLimitTextField
+
+@property (nonatomic,strong)UIView * customAccessoryView;
 
 /**
  *  初始化普通的InputAccessoryView
@@ -25,5 +37,6 @@
  *  @param size 滚动范围
  */
 -(void)setScrollInputAccessoryViewWithContentSize:(CGSize)size DataArr:(NSArray *)dataArr;
+
 
 @end

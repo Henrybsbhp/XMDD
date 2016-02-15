@@ -97,7 +97,7 @@
 - (void)setupBottomView
 {
     UIButton *button = [self.bottomView viewWithTag:1001];
-    [button setTitle:self.selectMode == InsuranceSelectModeBuy ? @"保险核保" : @"预约核保" forState:UIControlStateNormal];
+    [button setTitle:self.selectMode == InsuranceSelectModeBuy ? @"立即核保" : @"预约核保" forState:UIControlStateNormal];
 }
 
 #pragma mark - Reload
@@ -162,6 +162,8 @@
     CalculatePremiumOp * op = [CalculatePremiumOp operation];
     op.req_carpremiumid = self.insModel.simpleCar.carpremiumid;
     op.req_inslist = [inslist componentsJoinedByString:@"|"];
+    op.req_fstartdate = self.insModel.forceStartDate;
+    op.req_mstartdate = self.insModel.startDate;
     
     InsActivityIndicatorVC *indicator = [[InsActivityIndicatorVC alloc] init];
     
@@ -187,6 +189,7 @@
             InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
             vc.insModel = self.insModel;
             vc.premiumList = op.rsp_premiumlist;
+            vc.headerTip = op.rsp_tip;
             [self.navigationController pushViewController:vc animated:YES];
         }
     } error:^(NSError *error) {

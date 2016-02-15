@@ -21,6 +21,7 @@ class=GetInsBaseCarList op auth path="/insurance/car/detailinfo/get"> {
   <req> {
     name
     licensenum
+    carid:number
   }                        
   <rsp> {
     basecar:InsBaseCar
@@ -40,10 +41,13 @@ class=AddInsCarBaseInfo op auth path="/insurance/car/premium/add"> {
     <"过户时间">transferdate
     <"车牌">licensenum
     <"注册日期">regdate
+    <"核保记录ID">carpremiumid:number
   }
   <rsp> {
     <"核保记录id">carpremiumid:number
     <"车辆座位数量">seatcount:number
+    <"商业险启保日期">mstartdate
+    <"交强险启保日期">fstartdate
   }                        
 }
 
@@ -62,6 +66,8 @@ class=CalculatePremium op auth path="/insurance/car/premium/calculate"> {
   <req> {
     <"记录id">carpremiumid:number
     <"选中的保险列表">inslist
+    <"商业险起保日期">mstartdate
+    <"交强险起保日期">fstartdate
   }
   <rsp> {
     <"各保险公司报价情况">premiumlist:[InsPremium]
@@ -93,6 +99,9 @@ class=GetPremiumDetail op auth path="/insurance/car/premium/detail/get"> {
     <"起保日期">startdate
     <"交强险启保日期 DT10">fstartdate
     <"投保人">ownername
+    <"协议名">license
+    <"协议连接地址">licenseurl
+    <"所在省市">location
     <"保险公司图片">inslogo
     <"保险公司名字">inscompname
     <"提示">tip
@@ -108,6 +117,9 @@ class=PayForPremium op auth path="/insurance/car/premium/pay"> {
     <"交强险启保日期 DT10">forcestartdate
     <"保险公司代码">inscomp
     <"身份证">idno
+    <"车主联系手机">ownerphone
+    <"车主联系地址">owneraddress
+    <"省市信息">location
   }
   <rsp> {
     <"保险订单">order:HKInsuranceOrder
@@ -135,6 +147,7 @@ class=InsuranceAppointmentV2 op auth path="/insurance/appointment/v2"> {
     <"投保人姓名">ownername
     <"商业险起保日">startdate
     <"交强险起保日">forcestartdate
+    <"保险公司代码">inscomp
   }
 }
 
@@ -148,6 +161,26 @@ class=InsuranceAppointmentV3 op auth path="/insurance/appointment/v3"> {
   }
 }
 
+<"获取保险订单保险人的信息"
+class=GetInsUserInfo op auth path="/insurance/userinfo/get"> {
+  <req> {
+    <"订单id">orderid:number
+  }
+  <rsp> {
+    <"被保人名字">name
+    <"被保人手机">phone
+    <"所在省市">location
+    <"具体地址信息">address
+  }
+}
+
+<"取消保险订单"
+class=CancelInsOrder op auth path="/insurance/order/cancel"> {
+  <req> {
+    <"保险订单记录ID">insorderid:number
+  }
+}
+
 
 <"保险车辆简单信息"
 class=InsSimpleCar data> {
@@ -155,6 +188,7 @@ class=InsSimpleCar data> {
   <"车辆相关状态:  0.未关联任何信息; 1.订单待支付; 2.关联了核保记录; 3.有了核保车辆信息但是无核保记录; 4.保单已出; 5.保单已支付">status:int
   <"关联记录ID">refid:number
   <"核保id">carpremiumid:number
+  carid:number
 }
 
 <"保险车辆基本信息"
@@ -190,6 +224,7 @@ class=InsPremium data> {
   <"购买方式（1.预约购买 2.直接购买）">ordertype:int
   <"打折方式名称">couponname
   <"核保失败原因">errmsg
+  <"限制提示" key=restrict>restriction
 }
 
 <"险种价格"

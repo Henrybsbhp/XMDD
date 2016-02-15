@@ -20,6 +20,12 @@
 @property (nonatomic,strong) NSString* rsp_fstartdate;
 ///投保人
 @property (nonatomic,strong) NSString* rsp_ownername;
+///协议名
+@property (nonatomic,strong) NSString* rsp_license;
+///协议连接地址
+@property (nonatomic,strong) NSString* rsp_licenseurl;
+///所在省市
+@property (nonatomic,strong) NSString* rsp_location;
 ///保险公司图片
 @property (nonatomic,strong) NSString* rsp_inslogo;
 ///保险公司名字

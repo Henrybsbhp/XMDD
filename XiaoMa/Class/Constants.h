@@ -128,6 +128,7 @@ typedef enum : NSUInteger {
 #define gMediaMgr  ([[AppManager sharedManager] mediaMgr])
 #define gPhoneHelper  ([PhoneHelper sharedHelper])
 #define gAdMgr [AdvertisementManager sharedManager]
+#define gSupportFileMgr [SupportFileManager sharedManager]
 
 #define mainStoryboard [UIStoryboard storyboardWithName:@"Main" bundle:nil]
 #define carWashStoryboard [UIStoryboard storyboardWithName:@"Carwash" bundle:nil]
@@ -171,5 +172,7 @@ typedef enum : NSUInteger {
 #define kInsuranceDirectSellingUrl  @"https://www.xiaomadada.com/apphtml/chexianzhixiao.html"
 #define kMoneySavingStrategiesUrl  @"http://xiaomadada.com/apphtml/view/shengqian/index.html?jump=t"
 #define kInsuranceLicenseUrl    @"http://www.xiaomadada.com/apphtml/xmdd-ins-licenese.html"
+//新手引导
+#define kNewbieGuideUrl  @"http://www.xiaomadada.com/apphtml/lingyuanxiche.html"
 
 #endif

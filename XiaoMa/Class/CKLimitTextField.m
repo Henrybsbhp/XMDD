@@ -36,6 +36,8 @@
 {
     _proxyObject = [[CKLimitTextFieldProxyObject alloc] init];
     _proxyObject.textField = self;
+    [self setAutocorrectionType:UITextAutocorrectionTypeNo];
+    [self setAutocapitalizationType:UITextAutocapitalizationTypeNone];
     self.delegate = _proxyObject;
     [self addTarget:_proxyObject action:@selector(actionTextDidChanged:) forControlEvents:UIControlEventEditingChanged];
 }
@@ -53,6 +55,32 @@
     }
 }
 
+///在当前光标位置插入text
+- (void)insertText:(NSString *)text
+{
+    text = text ? text : @"";
+    UITextPosition *pos = self.selectedTextRange.start;
+    BOOL isAtEnd = YES;
+    if (self.isEditing && pos) {
+        isAtEnd = [self comparePosition:pos toPosition:self.endOfDocument] == NSOrderedSame;
+    }
+    if (!isAtEnd) {
+        NSInteger offset = [self offsetFromPosition:self.beginningOfDocument toPosition:pos];
+        [super setText:[self.text stringByReplacingCharactersInRange:NSMakeRange(offset , 0) withString:text]];
+        pos = [self positionFromPosition:pos offset:[text length]];
+        self.selectedTextRange = [self textRangeFromPosition:pos toPosition:pos];
+    }
+    else if (self.text) {
+        [super setText:[self.text stringByAppendingString:text]];
+    }
+    else {
+        [super setText:text];
+    }
+    if (!_proxyObject.isTextChanging) {
+        [_proxyObject actionTextDidChanged:self];
+    }
+}
+
 @end
 
 @interface CKLimitTextFieldProxyObject ()
@@ -64,6 +92,7 @@
 
 - (void)actionTextDidChanged:(CKLimitTextField *)textField
 {
+    _isTextChanging = YES;
     _textField.curCursorPosition = textField.selectedTextRange.start;
     UITextRange *markedRange = textField.markedTextRange;
     BOOL isAtEnd = [textField comparePosition:_textField.curCursorPosition toPosition:textField.endOfDocument] == NSOrderedSame;
@@ -104,6 +133,7 @@
             _textField.textDidChangedBlock(textField);
         }
     }
+    _isTextChanging = NO;
 }
 
 - (void)_callEditingChangedActions:(CKLimitTextField *)textfield

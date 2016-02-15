@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MessageListVC : UIViewController
+@interface MessageListVC : HKViewController
 
 @end

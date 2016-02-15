@@ -8,6 +8,15 @@
 
 #import "OETextField.h"
 #import "NSString+CKExpansion.h"
+#import "HKView.h"
+
+
+
+@implementation OEView
+
+
+@end
+
 @implementation OETextField
 
 -(instancetype)initWithCoder:(NSCoder *)aDecoder
@@ -19,16 +28,18 @@
     return self;
 }
 
+
+
 -(void)setNormalInputAccessoryViewWithDataArr:(NSArray *)dataArr
 {
     if (dataArr.count > 0)
     {
         CGFloat screenWidth = [[UIScreen mainScreen]bounds].size.width;
-        CGFloat equalWidth = screenWidth / dataArr.count;
+        CGFloat equalWidth = (screenWidth - dataArr.count + 1) / dataArr.count;
         CGFloat leftContraint = 0;
         
-        UIView *inputAccessoryView = [UIView new];
-        inputAccessoryView.frame = CGRectMake(0, 0, screenWidth, 40);
+        OEView *inputAccessoryView = [[OEView alloc] init];
+        inputAccessoryView.frame = CGRectMake(0, 0, screenWidth, OEHeight);
         inputAccessoryView.backgroundColor = [UIColor colorWithRed:210/255.0 green:210/255.0 blue:210/255.0 alpha:1.0];
         
         for (id obj in dataArr)
@@ -48,18 +59,21 @@
                 make.top.mas_equalTo(0);
                 make.left.mas_equalTo(leftContraint);
                 make.width.mas_equalTo(equalWidth);
-                make.height.mas_equalTo(40);
+                make.height.mas_equalTo(OEHeight);
             }];
             btn.backgroundColor = [UIColor colorWithRed:187/255.0 green:194/255.0 blue:201/255.0 alpha:1.0];
             leftContraint += equalWidth;
             leftContraint++;
             [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-                self.text = [self.text append:[NSString stringWithFormat:@"%@",btn.titleLabel.text]];
+                [self insertText:btn.titleLabel.text];
             }];
             [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         }
-        self.inputAccessoryView = inputAccessoryView;
+        
+        self.customAccessoryView = inputAccessoryView;
+        self.customAccessoryView.tag = OEAccessTag;
     }
+    
 }
 
 -(void)setScrollInputAccessoryViewWithContentSize:(CGSize)size DataArr:(NSArray *)dataArr;

@@ -7,7 +7,7 @@
 ///优惠劵
 @property (nonatomic,strong) NSNumber* req_cid;
 ///充值金额
-@property (nonatomic,assign) int req_amount;
+@property (nonatomic,assign) NSInteger req_amount;
 ///支付方式
 @property (nonatomic,assign) int req_paychannel;
 ///支付验证码
@@ -22,9 +22,9 @@
 ///记录ID
 @property (nonatomic,strong) NSNumber* rsp_orderid;
 ///支付金额
-@property (nonatomic,assign) int rsp_total;
+@property (nonatomic,assign) CGFloat rsp_total;
 ///优惠金额
-@property (nonatomic,assign) int rsp_couponmoney;
+@property (nonatomic,assign) CGFloat rsp_couponmoney;
 
 
 @end

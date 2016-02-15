@@ -16,6 +16,7 @@
 #import "NavigationModel.h"
 #import "HKTokenPool.h"
 #import "HKAddressComponent.h"
+#import "HomePicModel.h"
 
 #define Province @"Province"
 #define City @"City"
@@ -28,41 +29,35 @@
 #define LastWeatherTime @"LastWeatherTime"
 #define SearchHistory   @"SearchHistory"
 #define AddrComonpent   @"AddrComonpent"
+#define HomePicKey   @"HomePic"
 
 @interface AppManager : NSObject
 
 @property (nonatomic,strong)JTUser *myUser;
-///当前用户的coredata数据管理对象
-@property (nonatomic, strong) CoreDataManager *myDataMgr;
 ///默认的coredata数据管理对象
 @property (nonatomic, strong) CoreDataManager *defDataMgr;
 @property (nonatomic, strong) NavigationModel *navModel;
 @property (nonatomic,strong, readonly)DeviceInfo * deviceInfo;
 @property (nonatomic, strong,readonly) HKTokenPool *tokenPool;
-@property(nonatomic,strong)ClientInfo * clientInfo;
+@property (nonatomic,strong)ClientInfo * clientInfo;
+///首页图片数据结构
+@property (nonatomic,strong)HomePicModel * homePicModel;
 ///常用数据缓存（可手动清除）
 @property (nonatomic, strong, readonly) TMCache *dataCache;
 
 @property (nonatomic, strong) MultiMediaManager *mediaMgr;
 
-/**
- *  评价小标，从1-5星排序
- */
+///评价小标，从1-5星排序
 @property (nonatomic,strong)NSArray * commentList;
 
 // 是否需要切换到测试环境，用于Debug模式的正式测试环境切换
 @property (nonatomic)BOOL isSwitchToFormalSurrounding;
 
-
-+ (AppManager *)sharedManager;
-
-- (void)resetWithAccount:(NSString *)account;
-
 ///全局开放缓存，存有上次的
 ///省<Province>市<City>区<District> 上次获取地址成功的时间<LastLocationTime>
-///限行信息<Restriction> 	 温度范围<Temperature>   提示语<Temperaturetip>   图片名称<Temperaturepic> 上次获取天气成功的时间<LastWeatherTime>
-///首页广告<HomepageAdvertise>
-@property (nonatomic, strong, readonly) TMCache *promptionCache;
+///限行信息<Restriction> 	 温度范围<Temperature>   提示语<Temperaturetip>   图片名称<Temperaturepic> 上次获取天气成功的时间<LastWeatherTime>@fq TODO 集成到一个model
+///首页广告<HomepageAdvertise>,首页图片等
+@property (nonatomic, strong, readonly) TMCache *globalInfoCache;
 
 @property (nonatomic)BOOL needRefreshWeather;
 
@@ -76,29 +71,36 @@
 @property (nonatomic,copy)NSString *temperaturetip;
 @property (nonatomic,copy)NSString *temperaturepic;
 
+/// 搜索历史
 @property (nonatomic,strong)NSArray * searchHistoryArray;
-
-@property (nonatomic,strong)NSDictionary * discountRateDict;
-@property (nonatomic,strong)NSDictionary * carwashRateDict;
 
 ///是否显示分享按钮的标示
 @property (nonatomic)BOOL canShareFlag;
 
 
++ (AppManager *)sharedManager;
+
+- (void)resetWithAccount:(NSString *)account;
+
 ///获取上次的定位地址和天气信息
 - (void)loadLastLocationAndWeather;
 ///获取搜索历史
 - (NSArray *)loadSearchHistory;
+///清除搜索历史
 - (void)cleanSearchHistory;
-
-
-- (void)saveInfo:(id <NSCoding>)value forKey:(NSString *)key;
-- (NSString *)getInfo:(NSString *)key;
+///获取省数组
 - (NSArray *)getProvinceArray;
-
-
 ///版本升级
 - (void)startUpdatingWithURLString:(NSString *)strurl;
 ///相关开关设置
 - (void)getSwitchConfiguration;
+///获取上次首页图片信息
+- (HomePicModel *)loadLastHomePicInfo;
+///获取上次首页图片信息
+- (BOOL)saveHomePicInfo;
+
+
+- (void)saveInfo:(id <NSCoding>)value forKey:(NSString *)key;
+- (NSString *)getInfo:(NSString *)key;
+
 @end

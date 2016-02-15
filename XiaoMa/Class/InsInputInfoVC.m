@@ -15,13 +15,14 @@
 #import "NSDate+DateForText.h"
 #import "InsuranceStore.h"
 #import "UIView+Shake.h"
+#import "IQKeyboardManager.h"
 #import "CarIDCodeCheckModel.h"
 
 #import <MZFormSheetController.h>
 #import "DatePickerVC.h"
 #import "InsuranceInfoSubmitingVC.h"
 #import "CityPickerVC.h"
-#import "InsCoverageSelectVC.h"
+#import "InsInputDateVC.h"
 
 @interface InsInputInfoVC ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
@@ -62,12 +63,14 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp1001"];
+    [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp1001"];
+    [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -89,6 +92,7 @@
         GetInsBaseCarListOp *op = [GetInsBaseCarListOp operation];
         op.req_name = self.insModel.realName;
         op.req_licensenum = self.insModel.simpleCar.licenseno;
+        op.req_carid = self.insModel.simpleCar.carid ? self.insModel.simpleCar.carid : @0;
         signal = [op rac_postRequest];
     }
     else {
@@ -134,6 +138,7 @@
     HKCellData *doubleCell = [HKCellData dataWithCellID:@"Double" tag:nil];
     doubleCell.customInfo[@"city"] = self.baseCar.city;
     doubleCell.customInfo[@"date"] = self.baseCar.regdate;
+    doubleCell.customInfo[@"pic"] = @"ins_eg_pic4";
     [datasource addObject:doubleCell];
     
     //车架号
@@ -145,6 +150,7 @@
     normalCell1.customInfo[@"limit"] = @17;
     normalCell1.customInfo[@"field.event"] = @"rp1001-4";
     normalCell1.customInfo[@"help.event"] = @"rp1001-3";
+    normalCell1.customInfo[@"textfield.datasource"] = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
     normalCell1.object = self.baseCar.frameno;
     [datasource addObject:normalCell1];
     
@@ -157,6 +163,7 @@
     normalCell2.customInfo[@"limit"] = @50;
     normalCell2.customInfo[@"field.event"] = @"rp1001-6";
     normalCell2.customInfo[@"help.event"] = @"rp1001-5";
+    normalCell2.customInfo[@"textfield.datasource"] = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
     normalCell2.object = self.baseCar.brandname;
     [datasource addObject:normalCell2];
     
@@ -168,6 +175,7 @@
     normalCell3.customInfo[@"limit"] = @50;
     normalCell3.customInfo[@"field.event"] = @"rp1001-8";
     normalCell3.customInfo[@"help.event"] = @"rp1001-7";
+    normalCell3.customInfo[@"textfield.datasource"] = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
     normalCell3.object = self.baseCar.engineno;
     [datasource addObject:normalCell3];
 
@@ -232,6 +240,7 @@
     op.req_engineno = [(HKCellData *)[self.datasource safetyObjectAtIndex:4] object];
     op.req_transferflag = [[(HKCellData *)[self.datasource safetyObjectAtIndex:5] object] boolValue];
     op.req_transferdate = op.req_transferflag == 1 ? [(HKCellData *)[self.datasource safetyObjectAtIndex:6] object] : nil;
+    op.req_carpremiumid = self.insModel.simpleCar.carpremiumid;
     //错误判断
     if (op.req_city.length == 0) {
         [gToast showText:@"行驶城市不能为空"];
@@ -275,9 +284,11 @@
             [[[InsuranceStore fetchExistsStore] getInsSimpleCars] sendAndIgnoreError];
             
             //跳转到险种选择页面
-            InsCoverageSelectVC *vc = [UIStoryboard vcWithId:@"InsCoverageSelectVC" inStoryboard:@"Insurance"];
+            InsInputDateVC *vc = [UIStoryboard vcWithId:@"InsInputDateVC" inStoryboard:@"Insurance"];
             vc.insModel = self.insModel;
             vc.insModel.numOfSeat = op.rsp_seatcount;
+            vc.insModel.startDate = op.rsp_mstartdate;
+            vc.insModel.forceStartDate = op.rsp_fstartdate;
             [self.navigationController pushViewController:vc animated:YES];
         } error:^(NSError *error) {
             
@@ -346,6 +357,7 @@
     UIButton *cityB = [cell viewWithTag:10013];
     HKSubscriptInputField *dateInput = [cell viewWithTag:10022];
     UIButton *dateB = [cell viewWithTag:10023];
+    UIButton *helpB = [cell viewWithTag:10024];
     
     cityInput.inputField.text = data.customInfo[@"city"];
     cityInput.inputField.placeholder = @"请选择城市";
@@ -393,6 +405,15 @@
          data.customInfo[@"date"] = datetext;
          dateInput.inputField.text = datetext;
      }];
+    
+    //显示帮助
+    [[[helpB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+     subscribeNext:^(id x) {
+         
+         @strongify(self);
+         [MobClick event:@"rp1001-14"];
+         [self showPicture:data.customInfo[@"pic"]];
+     }];
 }
 
 - (void)resetNormalCell:(UITableViewCell *)cell forData:(HKCellData *)data
@@ -421,6 +442,11 @@
     inputF.inputField.text = data.object;
     inputF.inputField.keyboardType = UIKeyboardTypeASCIICapable;
     inputF.inputField.textLimit = [data.customInfo[@"limit"] integerValue];
+    NSArray * array = data.customInfo[@"textfield.datasource"];
+    if (array.count)
+    {
+        [inputF.inputField setNormalInputAccessoryViewWithDataArr:array];
+    }
     [inputF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
         [MobClick event:data.customInfo[@"field.event"]];
     }];

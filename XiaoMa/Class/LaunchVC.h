@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HKLaunchInfo.h"
 
-@interface LaunchVC : UIViewController
+@interface LaunchVC : HKViewController
 
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) HKLaunchInfo *info;

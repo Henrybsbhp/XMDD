@@ -19,7 +19,8 @@
 #import "UIView+Shake.h"
 #import "InsuranceVM.h"
 #import "MyCarStore.h"
-#import <IQKeyboardManager.h>
+#import "IQKeyboardManager.h"
+#import "OETextField.h"
 
 #import "InsInputNameVC.h"
 #import "InsInputInfoVC.h"
@@ -40,6 +41,7 @@
 - (void)awakeFromNib
 {
     self.insModel = [[InsuranceVM alloc] init];
+    self.insModel.originVC = self;
 }
 
 - (void)viewDidLoad {
@@ -65,6 +67,7 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp1000"];
+    [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = YES;
     [IQKeyboardManager sharedManager].keyboardDistanceFromTextField = 50;
 }
 
@@ -72,6 +75,7 @@
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp1000"];
+    [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = NO;
     [IQKeyboardManager sharedManager].keyboardDistanceFromTextField = 10;
 }
 
@@ -183,20 +187,21 @@
                 InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
                 vc.insModel = [self.insModel copy];
                 vc.insModel.simpleCar = car;
-                vc.insModel.originVC = self;
                 [self.navigationController pushViewController:vc animated:YES];
             }
             //有保单
             else if (car.status == 1 || car.status == 4 || car.status == 5) {
                 InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
+                vc.insModel = [self.insModel copy];
                 vc.orderID = car.refid;
+                vc.originVC = self;
                 [self.navigationController pushViewController:vc animated:YES];
             }
             //填写信息
             else {
                 InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
+                infoVC.insModel = [self.insModel copy];
                 infoVC.insModel.simpleCar = car;
-                infoVC.insModel.originVC = self;
                 [self.navigationController pushViewController:infoVC animated:YES];
             }
         }];
@@ -239,17 +244,13 @@
     [[vc.ensureButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         @strongify(vc);
-        if (vc.nameField.text.length == 0) {
-            [vc.nameField shake];
-            return ;
-        }
         [vc.nameField endEditing:YES];
         [sheet dismissAnimated:YES completionHandler:nil];
         
         InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
+        infoVC.insModel = [self.insModel copy];
         infoVC.insModel.realName = vc.nameField.text;
         infoVC.insModel.simpleCar = car;
-        infoVC.insModel.originVC = self;
         [self.navigationController pushViewController:infoVC animated:YES];
     }];
 }
@@ -355,14 +356,13 @@
              InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
              vc.insModel = [self.insModel copy];
              vc.insModel.simpleCar = car;
-             vc.insModel.originVC = self;
              [self.navigationController pushViewController:vc animated:YES];
          }
          //到重新核保页
          else {
              InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
+             infoVC.insModel = [self.insModel copy];
              infoVC.insModel.simpleCar = car;
-             infoVC.insModel.originVC = self;
              [self.navigationController pushViewController:infoVC animated:YES];
          }
     }];
@@ -372,8 +372,10 @@
 {
     UILabel *provinceL = [cell viewWithTag:10011];
     UIButton *provinceB = [cell viewWithTag:10013];
-    CKLimitTextField *textF = [cell viewWithTag:1002];
+    OETextField *textF = [cell viewWithTag:1002];
     UIButton *addB = [cell viewWithTag:1003];
+    
+    [textF setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
     
     Area *province = data.customInfo[@"province"];
     provinceL.text = province.abbr;
@@ -420,6 +422,15 @@
         data.customInfo[@"licenseno"] = licenseno;
         if (![MyCarStore verifiedLicenseNumberFrom:licenseno]) {
             [gToast showText:@"请输入正确的车牌号码"];
+            return ;
+        }
+        
+        InsSimpleCar *car = [[self.insStore.simpleCars allObjects] firstObjectByFilteringOperator:^BOOL(InsSimpleCar *acar) {
+            return [acar.licenseno isEqualToString:licenseno];
+        }];
+        if (car) {
+            [gToast showText:@"该车牌已经存在，不能重复输入"];
+            return;
         }
         else {
             InsSimpleCar *car = [[InsSimpleCar alloc] init];

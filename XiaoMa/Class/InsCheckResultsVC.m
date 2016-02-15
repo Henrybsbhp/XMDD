@@ -25,7 +25,7 @@
 @property (nonatomic, weak) IBOutlet UIView *containerView;
 @property (strong, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic, strong) NSMutableArray *datasource;
-@property (nonatomic, strong) NSString *headerTip;
+
 
 @end
 
@@ -272,6 +272,7 @@
     UILabel *priceL = [cell viewWithTag:1003];
     UIButton *buyB = [cell viewWithTag:1004];
     UIButton *arrowB = [cell viewWithTag:1005];
+    UILabel *restrictL = [cell viewWithTag:1006];
     UIButton *bgB = [cell viewWithTag:2001];
     
     InsPremium *premium = data.object;
@@ -289,14 +290,27 @@
     line6.lineAlignment = CKLineAlignmentHorizontalBottom;
     line6.hidden = expand;
     
+    NSMutableAttributedString *text;
+    NSDictionary *attr1, *attr2;
+    
     [arrowB setTransform:CGAffineTransformRotate(CGAffineTransformIdentity, expand ? M_PI : 0)];
     [logoV setImageByUrl:premium.inslogo withType:ImageURLTypeOrigin defImage:@"ins_comp_def" errorImage:@"ins_comp_def"];
     titleL.text = premium.couponname;
+    
+    text = [NSMutableAttributedString attributedString];
+    attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:HEXCOLOR(@"#FFB20C")};
+    [text appendAttributedString:[[NSAttributedString alloc] initWithString:@"达达报价" attributes:attr1]];
+    if (premium.restriction.length > 0) {
+        attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:12], NSForegroundColorAttributeName:HEXCOLOR(@"#888888")};
+        NSString *str = [NSString stringWithFormat:@"(%@)", premium.restriction];
+        [text appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:attr2]];
+    }
+    restrictL.attributedText = text;
 
     //price
-    NSMutableAttributedString *text = [NSMutableAttributedString attributedString];
-    NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:28], NSForegroundColorAttributeName:HEXCOLOR(@"#ffb20c")};
-    NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:HEXCOLOR(@"#e1e1e1"),
+    text = [NSMutableAttributedString attributedString];
+    attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:28], NSForegroundColorAttributeName:HEXCOLOR(@"#ffb20c")};
+    attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:HEXCOLOR(@"#e1e1e1"),
                             NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle)};
     NSString *strPrice = [NSString stringWithFormat:@"%@ ", [NSString formatForRoundPrice:premium.price]];
     [text appendAttributedString:[[NSAttributedString alloc] initWithString:strPrice attributes:attr1]];

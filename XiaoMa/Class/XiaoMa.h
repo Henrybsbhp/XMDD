@@ -18,8 +18,9 @@
 #import <MZFormSheetController.h>
 #import "DebugFormat.h"
 #import <Masonry.h>
-#import "CKNavigationController.h"
-#import "CKNavigationController+Expansion.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 
 //友盟
 #import <UMengAnalytics/MobClick.h>
@@ -35,26 +36,38 @@
 #import "MultiMediaManager.h"
 #import "PhoneHelper.h"
 #import "AdvertisementManager.h"
+#import "SupportFileManager.h"
 #import <SDWebImageManager.h>
 
+//基类
+#import "BaseOp.h"
+#import "HKViewController.h"
+#import "HKView.h"
+
+//常用vc&View
+#import "CKNavigationController.h"
 #import "JTNavigationController.h"
 #import "JTTableViewCell.h"
-#import "RACSignal+Extension.h"
-#import "UIScrollView+RefreshView.h"
 #import "JTTableView.h"
+#import "DetailWebVC.h"
 
+//引用
 #import "Constants.h"
 #import "XiaoMaConstants.h"
 
-#import "BaseOp.h"
+//常用model
 #import "LoginViewModel.h"
 
+//扩展类
 #import "UIView+Base.h"
 #import "UIView+DefaultEmptyView.h"
 #import "NSDate+DateForText.h"
 #import "UIImageView+WebImage.h"
 #import "NSString+Price.h"
 #import "UIView+Layer.h"
+#import "RACSignal+Extension.h"
+#import "UIScrollView+RefreshView.h"
+#import "CKNavigationController+Expansion.h"
 
 
 #endif

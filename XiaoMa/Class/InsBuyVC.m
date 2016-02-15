@@ -16,19 +16,25 @@
 #import "PayForPremiumOp.h"
 #import "NSString+Format.h"
 #import "NSDate+DateForText.h"
+#import "HKTableViewCell.h"
+#import "IQKeyboardManager.h"
+#import "InsuranceStore.h"
 
 #import "DatePickerVC.h"
 #import "PayForInsuranceVC.h"
-
 #import "InsPayResultVC.h"
+
 @interface InsBuyVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UIView *containerView;
+@property (weak, nonatomic) IBOutlet UIButton *bottomButton;
 @property (nonatomic, strong) NSArray *datasource;
 @property (nonatomic, strong) GetPremiumDetailOp *premiumDetail;
 @property (nonatomic, strong) DatePickerVC *datePicker;
 @property (nonatomic, strong) PayForPremiumOp *paymentInfo;
+@property (nonatomic, assign) BOOL isOwnernameDifferent;
+
 @end
 
 @implementation InsBuyVC
@@ -45,6 +51,7 @@
     // Do any additional setup after loading the view.
     self.navigationItem.title = self.insModel.inscompname;
     [self setupDatePicker];
+    [self setupBottomView];
     CKAsyncMainQueue(^{
         [self requestDetailPremium];
     });
@@ -59,50 +66,29 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp1005"];
+    [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp1005"];
+    [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = NO;
 }
 //设置日期选择控件（主要是为了事先加载，优化性能）
 - (void)setupDatePicker {
     self.datePicker = [DatePickerVC datePickerVCWithMaximumDate:nil];
 }
 
-
-#pragma Datasource
-- (void)requestDetailPremium
-{
-    GetPremiumDetailOp *op = [GetPremiumDetailOp operation];
-    op.req_carpremiumid = self.insModel.simpleCar.carpremiumid;
-    op.req_inscomp = self.insModel.inscomp;
+- (void)setupBottomView {
     @weakify(self);
-    [[[op rac_postRequest] initially:^{
-
+    [[RACObserve(self, isOwnernameDifferent) distinctUntilChanged] subscribeNext:^(id x) {
         @strongify(self);
-        self.containerView.hidden = YES;
-        [self.view hideDefaultEmptyView];
-        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-    }] subscribeNext:^(id x) {
-
-        @strongify(self);
-        [self.view stopActivityAnimation];
-        self.containerView.hidden = NO;
-        self.premiumDetail = x;
-        [self reloadData];
-    } error:^(NSError *error) {
-        
-        @strongify(self);
-        [self.view stopActivityAnimation];
-        [self.view showDefaultEmptyViewWithText:@"获取详情失败，点击重试" tapBlock:^{
-            @strongify(self);
-            [self requestDetailPremium];
-        }];
+        self.bottomButton.enabled = ![x boolValue];
     }];
 }
 
+#pragma Datasource
 - (void)reloadData
 {
     [self reloadHeaderView];
@@ -112,16 +98,23 @@
     self.paymentInfo.req_startdate = self.premiumDetail.rsp_startdate;
     self.paymentInfo.req_forcestartdate = self.premiumDetail.rsp_fstartdate;
     self.paymentInfo.req_inscomp = self.premiumDetail.req_inscomp;
+    self.paymentInfo.req_location = self.premiumDetail.rsp_location;
+    self.paymentInfo.req_ownerphone = gAppMgr.myUser.userID;
 
     NSMutableArray *datasource = [NSMutableArray array];
-    HKCellData *infoCell = [HKCellData dataWithCellID:@"Info" tag:nil];
-    if (self.premiumDetail.rsp_fstartdate.length > 0) {
-        infoCell.customInfo[@"lockfdate"] = @YES;
-    }
-    [infoCell setHeightBlock:^CGFloat(UITableView *tableView) {
-        return 320;
+    HKCellData *info = [HKCellData dataWithCellID:@"Info" tag:nil];
+    [info setHeightBlock:^CGFloat(UITableView *tableView) {
+        return 120;
     }];
-    [datasource addObject:[NSArray arrayWithObject:infoCell]];
+    
+    HKCellData *date = [HKCellData dataWithCellID:@"Date" tag:nil];
+    HKCellData *name = [HKCellData dataWithCellID:@"Field2" tag:nil];
+    HKCellData *idcard = [HKCellData dataWithCellID:@"Field" tag:nil];
+    HKCellData *addr = [HKCellData dataWithCellID:@"Address" tag:nil];
+    [addr setHeightBlock:^CGFloat(UITableView *tableView) {
+        return 142;
+    }];
+    [datasource addObject:@[info,date,name,idcard,addr]];
 
     HKCellData *sectionCell = [HKCellData dataWithCellID:@"Section" tag:nil];
     [sectionCell setHeightBlock:^CGFloat(UITableView *tableView) {
@@ -131,12 +124,15 @@
     NSMutableArray *section1 = [NSMutableArray array];
     [section1 addObject:sectionCell];
     for (InsCoveragePrice *cp in self.premiumDetail.rsp_inslist) {
-        HKCellData *coverageCell = [HKCellData dataWithCellID:@"Coverage" tag:nil];
-        coverageCell.object = cp;
-        [section1 addObject:coverageCell];
+        HKCellData *coverage = [HKCellData dataWithCellID:@"Coverage" tag:nil];
+        [coverage setHeightBlock:^CGFloat(UITableView *tableView) {
+            return 40;
+        }];
+        coverage.object = cp;
+        [section1 addObject:coverage];
     }
-    
     [datasource addObject:section1];
+    
     self.datasource = datasource;
     [self.tableView reloadData];
 }
@@ -153,7 +149,7 @@
     CGFloat height = 0;
     if (self.premiumDetail.rsp_tip.length > 0) {
         CGSize size = [self.premiumDetail.rsp_tip labelSizeWithWidth:CGRectGetWidth(self.view.frame)-48
-                                                                font:[UIFont systemFontOfSize:14]];
+                                                                font:[UIFont systemFontOfSize:13]];
         height = ceil(size.height + 16);
     }
 
@@ -167,35 +163,21 @@
 - (IBAction)actionBuy:(id)sender
 {
     [MobClick event:@"rp1005-7"];
-    if (self.paymentInfo.req_startdate.length == 0) {
-        [gToast showText:@"商业险启保日不能为空"];
+
+    if (self.paymentInfo.req_ownername.length  == 0) {
+        [gToast showText:@"车主姓名不能为空"];
     }
-    else if (self.paymentInfo.req_forcestartdate.length == 0) {
-        [gToast showText:@"交强险启保日不能为空"];
-    }
-    else if (self.paymentInfo.req_ownername.length  == 0) {
-        [gToast showText:@"投保人姓名不能为空"];
+    else if (self.paymentInfo.req_ownerphone.length == 0) {
+        [gToast showText:@"联系方式不能为空"];
     }
     else if (self.paymentInfo.req_idno.length == 0) {
         [gToast showText:@"身份证位数必须为18位"];
     }
+    else if (self.paymentInfo.req_owneraddress.length == 0) {
+        [gToast showText:@"详细地址不能为空"];
+    }
     else {
-        @weakify(self);
-        [[[self.paymentInfo rac_postRequest] initially:^{
-            
-            [gToast showingWithText:@"正在生成保险订单"];
-        }] subscribeNext:^(PayForPremiumOp *op) {
-            
-            @strongify(self);
-            [gToast dismiss];
-            PayForInsuranceVC *vc = [UIStoryboard vcWithId:@"PayForInsuranceVC" inStoryboard:@"Insurance"];
-            vc.insModel = [self.insModel copy];
-            vc.insOrder = op.rsp_order;
-            [self.navigationController pushViewController:vc animated:YES];
-        } error:^(NSError *error) {
-            
-            [gToast showError:error.domain];
-        }];
+        [self requestPayForPremium];
     }
 }
 
@@ -210,6 +192,59 @@
     [MobClick event:@"rp1005-1"];
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+#pragma mark - Request
+- (void)requestDetailPremium
+{
+    GetPremiumDetailOp *op = [GetPremiumDetailOp operation];
+    op.req_carpremiumid = self.insModel.simpleCar.carpremiumid;
+    op.req_inscomp = self.insModel.inscomp;
+    @weakify(self);
+    [[[op rac_postRequest] initially:^{
+        
+        @strongify(self);
+        self.containerView.hidden = YES;
+        [self.view hideDefaultEmptyView];
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+    }] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        [self.view stopActivityAnimation];
+        self.containerView.hidden = NO;
+        self.premiumDetail = x;
+        [self reloadData];
+    } error:^(NSError *error) {
+        
+        @strongify(self);
+        [self.view stopActivityAnimation];
+        [self.view showDefaultEmptyViewWithText:@"获取详情失败，点击重试" tapBlock:^{
+            @strongify(self);
+            [self requestDetailPremium];
+        }];
+    }];
+}
+
+- (void)requestPayForPremium
+{
+    @weakify(self);
+    [[[self.paymentInfo rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"正在生成保险订单"];
+    }] subscribeNext:^(PayForPremiumOp *op) {
+        
+        @strongify(self);
+        [gToast dismiss];
+        PayForInsuranceVC *vc = [UIStoryboard vcWithId:@"PayForInsuranceVC" inStoryboard:@"Insurance"];
+        vc.insModel = [self.insModel copy];
+        vc.insOrder = op.rsp_order;
+        [self.navigationController pushViewController:vc animated:YES];
+        //刷新保险列表
+        [[[InsuranceStore fetchExistsStore] getInsSimpleCars] sendAndIgnoreError];
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain];
+    }];
+}
 #pragma mark - UITableViewDelegate and datasource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -222,7 +257,7 @@
     if (data.heightBlock) {
         return data.heightBlock(tableView);
     }
-    return 40;
+    return 60;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -251,37 +286,42 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HKCellData *data = [[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
-    JTTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data.cellID forIndexPath:indexPath];
+    HKTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data.cellID forIndexPath:indexPath];
     if ([data equalByCellID:@"Info" tag:nil]) {
         [self resetBaseInfoCell:cell forData:data];
+    }
+    else if ([data equalByCellID:@"Date" tag:nil]) {
+        [self resetDateCell:cell forData:data];
+    }
+    else if ([data equalByCellID:@"Field2" tag:nil]) {
+        [self resetField2Cell:cell forData:data];
+    }
+    else if ([data equalByCellID:@"Field" tag:nil]) {
+        [self resetFieldCell:cell forData:data];
+    }
+    else if ([data equalByCellID:@"Address" tag:nil]) {
+        [self resetAddressCell:cell forData:data];
     }
     else if ([data equalByCellID:@"Coverage" tag:nil]){
         [self resetCoverageCell:cell forData:data];
     }
-    cell.customSeparatorInset = UIEdgeInsetsZero;
-    [cell prepareCellForTableView:tableView atIndexPath:indexPath];
+    if ([cell isKindOfClass:[HKTableViewCell class]]) {
+        cell.customSeparatorInset = UIEdgeInsetsZero;
+        [cell prepareCellForTableView:tableView atIndexPath:indexPath];
+    }
     return cell;
 }
 
-- (void)resetBaseInfoCell:(JTTableViewCell *)cell forData:(HKCellData *)data
+- (void)resetBaseInfoCell:(HKTableViewCell *)cell forData:(HKCellData *)data
 {
     UIImageView *logoV = [cell viewWithTag:1001];
     UILabel *titleL = [cell viewWithTag:1002];
     UILabel *priceL = [cell viewWithTag:1003];
-    //商业启保日
-    HKSubscriptInputField *dateLF = [cell viewWithTag:1004];
-    UIButton *dateLB = [cell viewWithTag:10041];
-    //交强险起保日
-    HKSubscriptInputField *dateRF = [cell viewWithTag:1005];
-    UIButton *dateRB = [cell viewWithTag:10051];
-    HKSubscriptInputField *nameF = [cell viewWithTag:1006];
-    HKSubscriptInputField *idF = [cell viewWithTag:1007];
     
     [logoV setImageByUrl:self.premiumDetail.rsp_inslogo withType:ImageURLTypeOrigin
                 defImage:@"ins_comp_def" errorImage:@"ins_comp_def"];
     titleL.text = self.premiumDetail.rsp_inscompname;
     
-    //price
     NSMutableAttributedString *text = [NSMutableAttributedString attributedString];
     NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:33], NSForegroundColorAttributeName:HEXCOLOR(@"#ffb20c")};
     NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:15], NSForegroundColorAttributeName:HEXCOLOR(@"#e1e1e1"),
@@ -293,25 +333,22 @@
         [text appendAttributedString:[[NSAttributedString alloc] initWithString:orgPrice attributes:attr2]];
     }
     priceL.attributedText = text;
-    
-    //inputField
-    nameF.inputField.placeholder = @"输入姓名";
-    nameF.inputField.textLimit = 20;
-    nameF.inputField.text = self.paymentInfo.req_ownername;
-    [nameF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        [MobClick event:@"rp1005-5"];
-    }];
-    @weakify(self);
-    [nameF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
-        
-        @strongify(self);
-        self.paymentInfo.req_ownername = field.text;
-    }];
-    
+}
+
+- (void)resetDateCell:(UITableViewCell *)cell forData:(HKCellData *)data
+{
+    //商业启保日
+    HKSubscriptInputField *dateLF = [cell viewWithTag:10012];
+    UIButton *dateLB = [cell viewWithTag:10013];
+    //交强险起保日
+    HKSubscriptInputField *dateRF = [cell viewWithTag:10022];
+    UIButton *dateRB = [cell viewWithTag:10023];
+
     dateLF.inputField.placeholder = @"商业险日期";
     dateLF.inputField.text = self.paymentInfo.req_startdate;
     dateLF.subscriptImageName = @"ins_arrow_time";
-
+    dateLB.userInteractionEnabled = NO;
+    @weakify(self);
     [[[[dateLB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
       flattenMap:^RACStream *(id value) {
           
@@ -329,8 +366,7 @@
     dateRF.inputField.placeholder = @"交强险日期";
     dateRF.inputField.text = self.paymentInfo.req_forcestartdate;
     dateRF.subscriptImageName = @"ins_arrow_time";
-    
-    dateRB.userInteractionEnabled = ![data.customInfo[@"lockfdate"] boolValue];
+    dateRB.userInteractionEnabled = NO;
     [[[[dateRB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
       flattenMap:^RACStream *(id value) {
           
@@ -344,6 +380,43 @@
           self.paymentInfo.req_forcestartdate = datetext;
           dateRF.inputField.text = datetext;
       }];
+}
+
+- (void)resetField2Cell:(UITableViewCell *)cell forData:(HKCellData *)data
+{
+    HKSubscriptInputField *nameF = [cell viewWithTag:1002];
+    HKSubscriptInputField *phoneF = [cell viewWithTag:1004];
+    
+    nameF.inputField.placeholder = @"输入姓名";
+    nameF.inputField.textLimit = 20;
+    nameF.inputField.text = self.paymentInfo.req_ownername;
+    [nameF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        [MobClick event:@"rp1005-5"];
+    }];
+    @weakify(self);
+    [nameF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
+        
+        @strongify(self);
+        self.paymentInfo.req_ownername = field.text;
+    }];
+    
+    phoneF.inputField.placeholder = @"输入手机号码";
+    phoneF.inputField.textLimit = 11;
+    phoneF.inputField.text = self.paymentInfo.req_ownerphone;
+    phoneF.inputField.keyboardType = UIKeyboardTypeNumberPad;
+    [phoneF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        [MobClick event:@"rp1005-8"];
+    }];
+    [phoneF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
+        
+        @strongify(self);
+        self.paymentInfo.req_ownerphone = field.text;
+    }];
+}
+
+- (void)resetFieldCell:(UITableViewCell *)cell forData:(HKCellData *)data
+{
+    HKSubscriptInputField *idF = [cell viewWithTag:1002];
     
     idF.inputField.placeholder = @"输入身份证号码";
     idF.inputField.textLimit = 18;
@@ -352,15 +425,46 @@
     [idF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
         [MobClick event:@"rp1005-5"];
     }];
+    @weakify(self);
     [idF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
         
         @strongify(self);
         self.paymentInfo.req_idno = field.text;
     }];
-    
 }
 
-- (void)resetCoverageCell:(JTTableViewCell *)cell forData:(HKCellData *)data
+- (void)resetAddressCell:(UITableViewCell *)cell forData:(HKCellData *)data
+{
+    UITextField *textF = [cell viewWithTag:10011];
+    HKSubscriptInputField *addrF = [cell viewWithTag:1002];
+    UIButton *checkB = [cell viewWithTag:10031];
+    
+    textF.text = self.paymentInfo.req_location;
+    
+    addrF.inputField.placeholder = @"请填写详细地址";
+    @weakify(self);
+    [addrF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        [MobClick event:@"rp1005-9"];
+    }];
+    [addrF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
+        @strongify(self);
+        self.paymentInfo.req_owneraddress = field.text;
+    }];
+    
+    self.paymentInfo.customObject = data;
+    [[RACObserve(self, isOwnernameDifferent) takeUntilForCell:cell] subscribeNext:^(id x) {
+        @strongify(self);
+        checkB.selected = !self.isOwnernameDifferent;
+    }];
+
+    [[[checkB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(UIButton *btn) {
+        @strongify(self);
+        [MobClick event:@"rp1005-10"];
+        self.isOwnernameDifferent = !self.isOwnernameDifferent;
+    }];
+}
+
+- (void)resetCoverageCell:(UITableViewCell *)cell forData:(HKCellData *)data
 {
     UILabel *titleL = [cell viewWithTag:1001];
     UILabel *detailL = [cell viewWithTag:1002];
@@ -381,7 +485,6 @@
     }
     
     priceL.text = [NSString formatForRoundPrice:cp.fee];
-    
 }
 
 #pragma mark - Utility

@@ -34,7 +34,6 @@
 - (void)stopLocation;
 
 - (RACSignal *)rac_getUserLocation;
-
 - (RACSignal *)rac_getInvertGeoInfo;
 
 @end

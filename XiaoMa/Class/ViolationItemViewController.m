@@ -19,6 +19,7 @@
 #import "CKLimitTextField.h"
 
 #import "MyUIPageControl.h"
+#import "OETextField.h"
 
 
 
@@ -118,14 +119,14 @@
             if (!self.model.cityInfo.provinceName.length || !self.model.cityInfo.cityName.length)
             {
                 /// 爱车和上次查询都没有地理信息
-                if (!self.car.provinceName.length || !self.car.cithName.length)
+                if (!self.car.provinceName.length || !self.car.cityName.length)
                 {
                     return [self rac_autoLocateCity];
                 }
                 /// 爱车有地理信息
                 else
                 {
-                    return [self rac_requestCityInfoWithProvince:self.car.provinceName andCith:self.car.cithName];
+                    return [self rac_requestCityInfoWithProvince:self.car.provinceName andCith:self.car.cityName];
                 }
             }
             else
@@ -820,7 +821,8 @@
     }
     
     //输入框
-    CKLimitTextField * field = (CKLimitTextField *)[cell searchViewWithTag:103];
+    OETextField * field = (OETextField *)[cell searchViewWithTag:103];
+    [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
     field.text = [dict objectForKey:@"no"];
     [dict safetySetObject:field forKey:@"feild"];
 

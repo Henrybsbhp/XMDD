@@ -10,9 +10,11 @@
 #import "UIView+Layer.h"
 #import "BorderLineLabel.h"
 #import "InsuranceOrderPayOp.h"
-#import "PayForInsuranceVC.h"
+#import "UIBarButtonItem+CustomStyle.h"
 #import "InsuranceStore.h"
 #import "InsuranceVM.h"
+
+#import "PayForInsuranceVC.h"
 
 @interface InsuranceOrderVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -43,7 +45,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.insModel.orderVC = self;
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
     if (self.order) {
         self.orderID = self.order.orderid;
         [self setupRefreshView];
@@ -153,8 +156,22 @@
     }];
 }
 #pragma mark - Load
+- (void)reloadNavBarWithOrderStatus:(InsuranceOrderStatus)status
+{
+    if (status == InsuranceOrderStatusUnpaid) {
+        UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithTitle:@"取消订单" style:UIBarButtonItemStylePlain
+                                                                  target:self action:@selector(actionCancelOrder:)];
+        self.navigationItem.rightBarButtonItem = cancel;
+    }
+    else {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+}
+
 - (void)reloadWithOrderStatus:(InsuranceOrderStatus)status
 {
+    [self reloadNavBarWithOrderStatus:status];
+    
     self.order.status = status;
     CGFloat total = self.order.totoalpay+self.order.forcetaxfee;
     id amount;
@@ -217,7 +234,12 @@
 - (void)actionBack:(id)sender
 {
     [MobClick event:@"rp1012-1"];
-    [self.navigationController popViewControllerAnimated:YES];
+    if (self.originVC) {
+        [self.navigationController popToViewController:self.originVC animated:YES];
+    }
+    else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)actionPay:(id)sender {
@@ -228,6 +250,26 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)actionCancelOrder:(id)sender {
+    [MobClick event:@"rp1012-4"];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"取消订单后，订单将关闭且无法继续支付您确定现在取消订单？" delegate:nil cancelButtonTitle:@"算了吧" otherButtonTitles:@"确定取消", nil];
+    [alert show];
+    @weakify(self);
+    [[alert rac_buttonClickedSignal] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        NSInteger index = [x integerValue];
+        //确定取消订单
+        if (index == 1) {
+            [MobClick event:@"rp1012-6"];
+            [self requestCancelInsOrder];
+        }
+        else {
+            [MobClick event:@"rp1012-5"];
+        }
+    }];
+}
+
 - (void)actionMakeCall:(id)sender {
     [MobClick event:@"rp1012-3"];
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
@@ -235,6 +277,25 @@
 
 - (void)actionRefresh {
     [[self.insStore getInsOrderByID:self.orderID] send];
+}
+
+#pragma mark - Request
+- (void)requestCancelInsOrder
+{
+    @weakify(self);
+    [[[[self.insStore cancelInsOrderByID:self.orderID] sendAndIgnoreError] initially:^{
+        
+        [gToast showingWithText:@"正在取消订单"];
+    }] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        [gToast dismiss];
+        [[self.insStore getInsSimpleCars] sendAndIgnoreError];
+        [self actionBack:nil];
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain];
+    }];
 }
 
 #pragma mark - UITableViewDelegate

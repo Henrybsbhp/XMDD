@@ -46,7 +46,10 @@
     [self refreshBottomView];
     
     self.selectSet = [[NSMutableIndexSet alloc] init];
-//    [self reloadData];
+    [[gAppMgr.myUser.favorites rac_requestData] subscribeNext:^(id x) {
+      
+        [self.tableView reloadData];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -67,7 +70,6 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [gAppMgr.myUser.favorites updateModelIfNeeded];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -98,20 +100,6 @@
 - (void)initUI
 {
     self.isEditing = NO;
-    
-    [gAppMgr.myUser.favorites.dataSignal subscribeNext:^(id x) {
-        if (gAppMgr.myUser.favorites.favoritesArray.count == 0)
-        {
-            
-        }
-        else
-        {
-            
-        }
-    } error:^(NSError *error) {
-        
-        
-    }];
 }
 
 - (void)setupNavigationBar
@@ -258,7 +246,6 @@
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
-//        [gToast showError:@"移除失败！"];
     }];
 }
 
@@ -569,8 +556,10 @@
     UIButton *guideB = (UIButton *)[cell.contentView viewWithTag:3001];
     UIButton *phoneB = (UIButton *)[cell.contentView viewWithTag:3002];
     
+    @weakify(self);
     [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        @strongify(self)
         [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:gMapHelper.coordinate andView:self.tabBarController.view];
     }];
     

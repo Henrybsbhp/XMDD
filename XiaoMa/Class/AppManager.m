@@ -41,7 +41,7 @@
         
         cache = [[TMCache alloc] initWithName:@"PromptionCache"];
         cache.diskCache.byteLimit = 200 * 1024 * 1024; // 200M
-        _promptionCache = cache;
+        _globalInfoCache = cache;
         
         _deviceInfo = [[DeviceInfo alloc] init];
         _clientInfo = [[ClientInfo alloc] init];
@@ -67,13 +67,13 @@
 - (void)setAddrComponent:(HKAddressComponent *)addrComponent
 {
     _addrComponent = addrComponent;
-    [self.promptionCache setObject:addrComponent forKey:@"addrComponent"];
+    [self.globalInfoCache setObject:addrComponent forKey:@"addrComponent"];
 }
 
 - (HKAddressComponent *)addrComponent
 {
     if (!_addrComponent) {
-        _addrComponent = [self.promptionCache objectForKey:@"addrComponent"];
+        _addrComponent = [self.globalInfoCache objectForKey:@"addrComponent"];
     }
     return _addrComponent;
 }
@@ -91,26 +91,27 @@
 
 - (NSArray *)loadSearchHistory
 {
-    self.searchHistoryArray = [self.promptionCache objectForKey:SearchHistory];
+    self.searchHistoryArray = [self.globalInfoCache objectForKey:SearchHistory];
     return self.searchHistoryArray;
+}
+
+- (HomePicModel *)loadLastHomePicInfo
+{
+    self.homePicModel = [self.globalInfoCache objectForKey:HomePicKey];
+    return self.homePicModel;
+}
+
+- (BOOL)saveHomePicInfo
+{
+    [self saveInfo:self.homePicModel forKey:HomePicKey];
+    return YES;
 }
 
 - (void)cleanSearchHistory
 {
-    [self.promptionCache removeObjectForKey:SearchHistory];
+    [self.globalInfoCache removeObjectForKey:SearchHistory];
 }
 
-- (void)saveInfo:(id <NSCoding>)value forKey:(NSString *)key
-{
-    CKAsyncHighQueue(^{
-        [self.promptionCache setObject:value forKey:key];
-    });
-}
-
-- (id)getInfo:(NSString *)key
-{
-    return [self.promptionCache objectForKey:key];
-}
 
 - (NSArray *)getProvinceArray
 {
@@ -127,6 +128,18 @@
                         @{@"吉":@"(吉林)"},@{@"闽":@"(福建)"},@{@"琼":@"(海南)"},
                         @{@"使":@"(大使馆)"}];
     return array;
+}
+
+- (void)saveInfo:(id <NSCoding>)value forKey:(NSString *)key
+{
+    CKAsyncHighQueue(^{
+        [self.globalInfoCache setObject:value forKey:key];
+    });
+}
+
+- (id)getInfo:(NSString *)key
+{
+    return [self.globalInfoCache objectForKey:key];
 }
 
 #pragma mark - 升级相关

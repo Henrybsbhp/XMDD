@@ -24,6 +24,7 @@
 #import "HKTableViewCell.h"
 #import "AreaTablePickerVC.h"
 #import "CarIDCodeCheckModel.h"
+#import "OETextField.h"
 
 @interface EditCarVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -78,6 +79,8 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    
+    self.editing = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -298,7 +301,7 @@
     HKCellData *cell2_1 = [HKCellData dataWithCellID:@"Selection" tag:nil];
     cell2_1.customInfo[@"title"] = @"行驶城市";
     cell2_1.customInfo[@"placehold"] = @"请选择行驶城市";
-    cell2_1.object = RACObserve(self.curCar, cithName);
+    cell2_1.object = RACObserve(self.curCar, cityName);
     [cell2_1 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         
         [MobClick event:@"rp312-18"];
@@ -311,10 +314,10 @@
         [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
             
             NSString * cityName = [NSString stringWithFormat:@"%@",cityModel.infoName];
-            self.curCar.cithName = cityName;
+            self.curCar.cityName = cityName;
             self.curCar.provinceName = provinceModel.infoName;
             self.curCar.provinceId = @(provinceModel.infoId);
-            self.curCar.cithId = @(cityModel.infoId);
+            self.curCar.cityId = @(cityModel.infoId);
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }];
@@ -324,8 +327,10 @@
     cell2_2.customInfo[@"title"] = @"车架号码";
     cell2_2.customInfo[@"placehold"] = @"请填写车架号码";
     cell2_2.customInfo[@"howDisplay"] = @(YES);
-    cell2_2.customInfo[@"block"] = [^(CKLimitTextField *field, RACSignal *stopSig) {
+    cell2_2.customInfo[@"block"] = [^(OETextField *field, RACSignal *stopSig) {
         @strongify(self);
+        
+        [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
         
         field.text = self.curCar.classno;
         
@@ -336,12 +341,12 @@
             [MobClick event:@"rp312-19"];
         }];
         
-        [[[field rac_newTextChannel] takeUntil:stopSig] subscribeNext:^(id x) {
+        [field setTextDidChangedBlock:^(CKLimitTextField *rFiled) {
             @strongify(self);
             
-            NSString *temp = [field.text stringByReplacingOccurrencesOfString:@" " withString:@""];
-            field.text = [temp uppercaseString];
-            self.curCar.classno = field.text;
+            NSString *temp = [rFiled.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+            rFiled.text = [temp uppercaseString];
+            self.curCar.classno = rFiled.text;
         }];
     } copy];
     cell2_2.customInfo[@"inspector"] = [^BOOL(NSIndexPath *indexPath) {
@@ -363,9 +368,10 @@
     cell2_3.customInfo[@"title"] = @"发动机号";
     cell2_3.customInfo[@"placehold"] = @"请填写发动机号";
     cell2_3.customInfo[@"howDisplay"] = @(YES);
-    cell2_3.customInfo[@"block"] = [^(CKLimitTextField *field, RACSignal *stopSig) {
+    cell2_3.customInfo[@"block"] = [^(OETextField *field, RACSignal *stopSig) {
         @strongify(self);
         
+        [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
         field.text = self.curCar.engineno;
         
         [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
@@ -375,12 +381,12 @@
             [MobClick event:@"rp312-20"];
         }];
         
-        [[[field rac_newTextChannel] takeUntil:stopSig] subscribeNext:^(id x) {
+        [field setTextDidChangedBlock:^(CKLimitTextField *rFiled) {
             @strongify(self);
             
-            NSString *temp = [field.text stringByReplacingOccurrencesOfString:@" " withString:@""];
-            field.text = [temp uppercaseString];
-            self.curCar.engineno = field.text;            
+            NSString *temp = [rFiled.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+            rFiled.text = [temp uppercaseString];
+            self.curCar.engineno = rFiled.text;
         }];
 
     } copy];
@@ -402,10 +408,10 @@
             [MobClick event:@"rp312-6"];
         }];
         
-        [[[field rac_newTextChannel] takeUntil:stopSig] subscribeNext:^(id x) {
+        [field setTextDidChangedBlock:^(CKLimitTextField *rFiled) {
             @strongify(self);
-            if (field.text.length > 0) {
-                self.curCar.price = [field.text floatValue];
+            if (rFiled.text.length > 0) {
+                self.curCar.price = [rFiled.text floatValue];
             }
         }];
         
@@ -417,11 +423,11 @@
     
     HKCellData *cell2_5 = [HKCellData dataWithCellID:@"Field" tag:nil];
     cell2_5.customInfo[@"title"] = @"行驶里程";
-    cell2_5.customInfo[@"suffix"] = @"公里";
+    cell2_5.customInfo[@"suffix"] = @"万公里";
     cell2_5.customInfo[@"block"] = [^(CKLimitTextField *field, RACSignal *stopSig) {
         @strongify(self);
-        field.text = [NSString stringWithFormat:@"%d", (int)self.curCar.odo];
-        field.keyboardType = UIKeyboardTypeNumberPad;
+        field.text = [NSString stringWithFormat:@"%@", [NSString formatForPrice:self.curCar.odo / 10000.00]];
+        field.keyboardType = UIKeyboardTypeDecimalPad;
         field.clearsOnBeginEditing = YES;
         field.textLimit = 12;
 //        field.regexpPattern = @"[1-9]\\d*|^0(?=$|0+$)";
@@ -429,16 +435,16 @@
             [MobClick event:@"rp312-7"];
         }];
         
-        [[[field rac_newTextChannel] takeUntil:stopSig] subscribeNext:^(id x) {
+        [field setTextDidChangedBlock:^(CKLimitTextField *rFiled) {
             @strongify(self);
-            if (field.text.length > 0) {
-                self.curCar.odo = [field.text integerValue];
+            if (rFiled.text.length > 0) {
+                self.curCar.odo = [rFiled.text floatValue] * 10000;
             }
         }];
         
         [field setDidEndEditingBlock:^(CKLimitTextField *field) {
             @strongify(self);
-            field.text = [NSString stringWithFormat:@"%d", (int)self.curCar.odo];
+            field.text = [NSString stringWithFormat:@"%.2f", self.curCar.odo / 10000.00];
         }];
     } copy];
     
@@ -732,7 +738,8 @@
 {
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:1001];
     ProvinceChooseView *chooseV = (ProvinceChooseView *)[cell.contentView viewWithTag:1002];
-    CKLimitTextField *field = (CKLimitTextField *)[cell.contentView viewWithTag:1003];
+    OETextField *field = (OETextField *)[cell.contentView viewWithTag:1003];
+    [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
 
     cell.contentView.userInteractionEnabled  = self.curCar.editMask & HKCarEditableEdit;
 
@@ -771,7 +778,8 @@
     
     [field setTextDidChangedBlock:^(CKLimitTextField *field) {
         @strongify(self);
-        field.text = [field.text uppercaseString];
+        NSString *newtext = [field.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+        field.text = [newtext uppercaseString];
         self.curCar.licenceSuffix = field.text;
     }];
 }

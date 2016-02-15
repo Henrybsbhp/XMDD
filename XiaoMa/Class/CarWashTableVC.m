@@ -20,7 +20,6 @@
 #import "GetShopByDistanceV2Op.h"
 #import "NearbyShopsViewController.h"
 #import "SearchViewController.h"
-#import "WebVC.h"
 #import "UIView+DefaultEmptyView.h"
 #import "NSDate+DateForText.h"
 #import "ADViewController.h"
@@ -419,7 +418,8 @@
     NSInteger count = serviceArray.count + 2;
     if ([tableView isKindOfClass:[JTTableView class]])
     {
-        [model loadMoreDataIfNeededWithIndexPath:indexPath nestItemCount:count promptView:self.carwashTableView.bottomLoadingView];
+        JTTableView * jtTableView = (JTTableView *)tableView;
+        [model loadMoreDataIfNeededWithIndexPath:indexPath nestItemCount:count promptView:jtTableView.bottomLoadingView];
     }
 }
 

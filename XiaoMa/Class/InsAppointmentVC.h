@@ -10,7 +10,7 @@
 #import "InsuranceVM.h"
 #import "InsPremium.h"
 
-@interface InsAppointmentVC : UIViewController
+@interface InsAppointmentVC : HKViewController
 
 @property (nonatomic, strong) InsuranceVM *insModel;
 @property (nonatomic, strong) InsPremium *insPremium;

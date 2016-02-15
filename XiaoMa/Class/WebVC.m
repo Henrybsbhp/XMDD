@@ -16,6 +16,8 @@
 @property (nonatomic, strong)NJKWebViewProgress * progressProxy;
 @property (nonatomic, strong)NJKWebViewProgressView *progressView;
 @property (nonatomic, strong) NavigationModel *navModel;
+@property (nonatomic, strong) UIBarButtonItem *originBackButton;
+@property (nonatomic, strong) UIBarButtonItem *webBackButton;
 @end
 
 @implementation WebVC
@@ -33,6 +35,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.originBackButton = self.navigationItem.leftBarButtonItem;
+    self.webBackButton = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionWebBack:)];
     self.navModel.curNavCtrl = self.navigationController;
     [self setupProcessView];
     [self.webView.scrollView setDecelerationRate:UIScrollViewDecelerationRateNormal];
@@ -62,6 +66,24 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (UINavigationItem *)navigationItem
+{
+    if (self.parentViewController && ![self.parentViewController isKindOfClass:[UINavigationController class]]) {
+        return [self.parentViewController navigationItem];
+    }
+    return [super navigationItem];
+}
+
+- (void)resetBackButton
+{
+    if (self.autoShowBackButton && [self.webView canGoBack]) {
+        self.navigationItem.leftBarButtonItem = self.webBackButton;
+    }
+    else if (self.navigationItem.leftBarButtonItem != self.originBackButton) {
+        self.navigationItem.leftBarButtonItem = self.originBackButton;
+    }
+}
+
 - (void)setupProcessView
 {
     _progressProxy = [[NJKWebViewProgress alloc] init];
@@ -88,6 +110,13 @@
     }
 }
 
+- (void)actionWebBack:(id)sender
+{
+    if (self.webView.canGoBack) {
+        [self.webView goBack];
+        [self resetBackButton];
+    }
+}
 #pragma mark - NJKWebViewProgressDelegate
 -(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
 {
@@ -128,5 +157,6 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     DebugLog(@"%@ WebViewFinishLoad:%@", kRspPrefix, webView.request.URL);
+    [self resetBackButton];
 }
 @end

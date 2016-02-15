@@ -8,22 +8,22 @@
 
 #import "PaymentSuccessVC.h"
 #import "XiaoMa.h"
-#import "CarwashOrderCommentVC.h"
 #import "HKServiceOrder.h"
 #import "SocialShareViewController.h"
 #import "JTRatingView.h"
-#import "DrawingBoardView.h"
 #import "SystemFastrateGetOp.h"
 #import "SubmitCommentOp.h"
 #import "ShopDetailVC.h"
 #import "NSDate+DateForText.h"
 #import "GetShareButtonOp.h"
 #import "ShareResponeManager.h"
+#import "GasVC.h"
+#import "GuideStore.h"
+
 
 @interface PaymentSuccessVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet DrawingBoardView *drawingView;
 @property (weak, nonatomic) IBOutlet UILabel *subLabel;
 @property (weak, nonatomic) IBOutlet UIButton *commentBtn;
 @property (weak, nonatomic) IBOutlet UIButton *recommendBtn;
@@ -38,33 +38,42 @@
 @property (weak, nonatomic) IBOutlet UILabel *dateLb;
 @property (weak, nonatomic) IBOutlet UILabel *priceLb;
 @property (weak, nonatomic) IBOutlet UIView *infoView;
+@property (weak, nonatomic) IBOutlet UIButton *gasCouponBtn;
+@property (weak, nonatomic) IBOutlet UILabel *gasCouponLb;
+@property (weak, nonatomic) IBOutlet UIView *topView;
 
 
 @property (nonatomic,strong)NSArray * currentRateTemplate;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *heightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topViewConstraint;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offsetY1;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offsetY2;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offsetY3;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offsetY4;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offset5;
+
+
+@property (nonatomic, strong) GuideStore *guideStore;
+
 @end
 
 @implementation PaymentSuccessVC
 
+- (void)dealloc
+{
+    DebugLog(@"PaymentSuccessVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.shopImageView setImageByUrl:[self.order.shop.picArray safetyObjectAtIndex:0]
-                withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
-    self.shopNameLb.text = self.order.shop.shopName;
-    self.serviceLb.text = self.order.servicename;
-    self.dateLb.text = [[NSDate date] dateFormatForYYYYMMddHHmm];
-    self.priceLb.attributedText = [self priceStringWithPrice:@(self.order.fee)];
+    [self setupStaticInfo];
+    [self setupGuideStore];
 
     CKAsyncMainQueue(^{
-//        [self.drawingView drawSuccessByFrame];
+        
         [self changeCollectionHeight];
         [self changeOffset];
         [self setupRateView];
@@ -101,10 +110,7 @@
     [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
 }
 
-- (void)dealloc
-{
-    DebugLog(@"PaymentSuccessVC dealloc");
-}
+
 
 - (void)actionBack:(id)sender
 {
@@ -308,6 +314,32 @@
     self.navigationItem.rightBarButtonItem = right;
 }
 
+- (void)setupStaticInfo
+{
+    [self.shopImageView setImageByUrl:[self.order.shop.picArray safetyObjectAtIndex:0]
+                             withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
+    [self.shopImageView makeCornerRadius:3.0f];
+    self.shopNameLb.text = self.order.shop.shopName;
+    self.serviceLb.text = self.order.servicename;
+    self.dateLb.text = [[NSDate date] dateFormatForYYYYMMddHHmm];
+    self.priceLb.attributedText = [self priceStringWithPrice:@(self.order.fee)];
+    
+    self.topViewConstraint.constant = self.order.gasCouponAmount > 0 ? 70 : 0;
+    self.topView.hidden = !self.order.gasCouponAmount;
+    
+    self.gasCouponLb.text = [NSString stringWithFormat:@"加油券%@元",[NSString formatForPrice:self.order.gasCouponAmount]];
+    self.gasCouponBtn.layer.borderColor = [UIColor colorWithHex:@"#35cb26" alpha:1.0f].CGColor;
+    self.gasCouponBtn.layer.borderWidth = 0.5;
+    [self.gasCouponBtn makeCornerRadius:2.0f];
+    @weakify(self)
+    [[self.gasCouponBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        [MobClick event:@"rp110-13"];
+        @strongify(self)
+        [self jumpToGas];
+    }];
+}
+
 #pragma mark - collectionView
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -472,6 +504,19 @@
 {
     [self.tabBarController setSelectedIndex:0];
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void)jumpToGas
+{
+    GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)setupGuideStore
+{
+    // 新手未登录，一键洗车，商户详情，登录，普洗完成，回到首页 不弹出引导。
+    self.guideStore = [GuideStore fetchOrCreateStore];
+    [self.guideStore setNewbieGuideAlertAppeared];
 }
 
 

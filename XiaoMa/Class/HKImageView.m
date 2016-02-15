@@ -168,7 +168,7 @@
     return [[[[[self rac_startOverlayViewAnimation] flattenMap:^RACStream *(id value) {
         
         UploadFileOp *op = [[UploadFileOp alloc] init];
-        op.req_fileType = UploadFileTypeDrivingLicense;
+        op.req_fileType = type;
         op.req_fileExtType = @"jpg";
         [op setFileArray:[NSArray arrayWithObject:img] withGetDataBlock:^NSData *(UIImage *img) {
             return UIImageJPEGRepresentation(img, 0.5);

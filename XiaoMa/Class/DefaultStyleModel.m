@@ -9,7 +9,7 @@
 #import "DefaultStyleModel.h"
 #import <UIKit/UIKit.h>
 #import "XiaoMa.h"
-#import <IQKeyboardManager.h>
+#import "IQKeyboardManager.h"
 
 @implementation DefaultStyleModel
 
@@ -23,6 +23,10 @@
     [[UINavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(1, 1)]
                                        forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setShadowImage:[UIImage imageNamed:@"cm_nav_shadow"]];
+    //导航按钮文字
+    [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:15]}
+                                                forState:UIControlStateNormal];
+
     //TableCell
     [JTTableViewCell appearance].customSeparatorInset = UIEdgeInsetsMake(-1, 12, 0, 12);
     
@@ -30,7 +34,6 @@
     if (!IOSVersionGreaterThanOrEqualTo(@"7.0")) {
         [IQKeyboardManager sharedManager].shouldShowTextFieldPlaceholder = NO;
     }
-    
 }
 
 ///弹出视图（默认样式是从底部弹出）

@@ -15,7 +15,7 @@
     self.rsp_desc = dict[@"desc"];
     self.rsp_discountrate = [dict[@"discountrate"] intValue];
     self.rsp_couponupplimit = [dict[@"couponupplimit"] intValue];
-    self.rsp_chargeupplimit = [dict[@"chargeupplimit"] intValue];
+    self.rsp_chargeupplimit = dict[@"chargeupplimit"];
     self.rsp_announce = dict[@"tip"];
     return self;
 }

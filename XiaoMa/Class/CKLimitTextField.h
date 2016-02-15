@@ -18,10 +18,14 @@
 @property (nonatomic, copy) void (^textChangingBlock)(CKLimitTextField *textField, NSString *replacement);
 @property (nonatomic, copy) void (^textDidChangedBlock)(CKLimitTextField *textField);
 @property (nonatomic, copy) BOOL (^shouldChangeBlock)(CKLimitTextField *field, NSRange range, NSString *replaceStr);
+
+///在当前光标位置插入text
+- (void)insertText:(NSString *)text;
 @end
 
 @interface CKLimitTextFieldProxyObject : NSObject<UITextFieldDelegate>
 @property (nonatomic, weak) CKLimitTextField *textField;
+@property (nonatomic, assign, readonly) BOOL isTextChanging;
 
 - (void)actionTextDidChanged:(CKLimitTextField *)textField;
 @end

@@ -10,7 +10,7 @@
 #import "GasNormalVM.h"
 #import "GasCZBVM.h"
 
-@interface GasVC : UIViewController
+@interface GasVC : HKViewController
 
 ///(Default is 0)
 @property (nonatomic, assign) NSInteger tabViewSelectedIndex;

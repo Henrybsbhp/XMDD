@@ -22,6 +22,7 @@
 #import "NSString+Format.h"
 #import "InsuranceStore.h"
 //#import "InsPayFaildVC.h"
+#import "InsLicensePopVC.h"
 
 #define CheckBoxDiscountGroup @"CheckBoxDiscountGroup"
 #define CheckBoxPlatformGroup @"CheckBoxPlatformGroup"
@@ -34,6 +35,7 @@
 
 @property (nonatomic,strong) CKSegmentHelper *checkBoxHelper;
 @property (nonatomic)BOOL isLoadingResourse;
+@property (nonatomic, assign) BOOL isLicenseChecked;
 @property (nonatomic, strong) HKCellData *licenseData;
 
 /////支付平台，（section == 2）
@@ -117,11 +119,9 @@
     self.licenseData.customInfo[@"url1"] = [NSURL URLWithString:kInsuranceLicenseUrl];
     if (self.insOrder.licenseUrl.length > 0) {
         NSString *license2 = self.insOrder.licenseName;
-        [license appendFormat:@"和%@", license2];
-        self.licenseData.customInfo[@"range2"] = [NSValue valueWithRange:NSMakeRange(license.length-license2.length, license2.length)];
-        NSString *url2 = [NSString stringWithFormat:@"%@?token=%@&carpremiumid=%@",
-                          self.insOrder.licenseUrl,gNetworkMgr.token, self.insOrder.carpremiumid];
-        self.licenseData.customInfo[@"url2"] = [NSURL URLWithString:url2];
+        [license appendFormat:@"和《%@》", license2];
+        self.licenseData.customInfo[@"range2"] = [NSValue valueWithRange:NSMakeRange(license.length-license2.length-2, license2.length+2)];
+        self.licenseData.customInfo[@"url2"] = [NSURL URLWithString:self.insOrder.licenseUrl];
     }
     
     NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
@@ -145,7 +145,7 @@
 - (void)actionBack:(id)sender
 {
     [MobClick event:@"rp1006-1"];
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.insModel popToOrderVCForNav:self.navigationController withInsOrderID:self.insOrder.orderid];
 }
 
 - (IBAction)actionCallCenter:(id)sender
@@ -173,59 +173,14 @@
 }
 
 - (IBAction)actionPay:(id)sender {
+    
     [MobClick event:@"rp326-6"];
-    InsuranceOrderPayOp * op = [InsuranceOrderPayOp operation];
-    op.req_orderid = self.insOrder.orderid;
-    
-    if (self.isSelectActivity)
-    {
-        op.req_cid = nil;
-        op.req_type = self.isSelectActivity;
-    }
-    else
-    {
-        if (!self.couponType)
-        {
-            op.req_cid = nil;
-        }
-        else
-        {
-            HKCoupon * c = [self.selectInsuranceCoupouArray safetyObjectAtIndex:0];
-            op.req_cid = c.couponId;
-        }
-    }
-    
-    PaymentChannelType channel = [self getCurrentPaymentChannel];
-    if (channel == 0)
-    {
-        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请选择支付方式" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
-        [av show];
-        return;
-    }
-    op.req_paychannel = channel;
-
     @weakify(self);
-    [[[op rac_postRequest] initially:^{
-        
-        [gToast showingWithText:@"订单生成中..."];
-    }] subscribeNext:^(InsuranceOrderPayOp * op) {
-
-        @strongify(self);
-        if (![self callPaymentHelperWithPayOp:op]) {
-            
-            [gToast dismiss];
-            InsuranceStore *store = [InsuranceStore fetchExistsStore];
-            //刷新保险订单
-            [[store getInsOrderByID:self.insOrder.orderid] sendAndIgnoreError];
-            //刷新保险车辆列表
-            [[store getInsSimpleCars] sendAndIgnoreError];
-            
-            [self gotoPaidSuccessVC];
-        }
-    } error:^(NSError *error) {
-        
-        [gToast showError:error.domain];
-    }];
+    [[self rac_openLicenseVCWithUrl:self.insOrder.licenseUrl title:self.insOrder.licenseName]
+     subscribeNext:^(id x) {
+         @strongify(self);
+         [self requestInsOrderPay];
+     }];
 }
 
 - (PaymentChannelType)getCurrentPaymentChannel
@@ -351,8 +306,11 @@
     [[helper rac_startPay] subscribeNext:^(id x) {
         
         @strongify(self);
+        InsuranceStore *store = [InsuranceStore fetchExistsStore];
         //刷新保险订单
-        [[[InsuranceStore fetchExistsStore] getInsOrderByID:self.insOrder.orderid] sendAndIgnoreError];
+        [[store getInsOrderByID:self.insOrder.orderid] sendAndIgnoreError];
+        //刷新保险车辆列表
+        [[store getInsSimpleCars] sendAndIgnoreError];
         
         [self gotoPaidSuccessVC];
 
@@ -370,11 +328,87 @@
     return YES;
 }
 
+#pragma mark - Request
+- (void)requestInsOrderPay
+{
+    InsuranceOrderPayOp * op = [InsuranceOrderPayOp operation];
+    op.req_orderid = self.insOrder.orderid;
+    
+    if (self.isSelectActivity)
+    {
+        op.req_cid = nil;
+        op.req_type = self.isSelectActivity;
+    }
+    else
+    {
+        if (!self.couponType)
+        {
+            op.req_cid = nil;
+        }
+        else
+        {
+            HKCoupon * c = [self.selectInsuranceCoupouArray safetyObjectAtIndex:0];
+            op.req_cid = c.couponId;
+        }
+    }
+    
+    PaymentChannelType channel = [self getCurrentPaymentChannel];
+    if (channel == 0)
+    {
+        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请选择支付方式" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
+        [av show];
+        return;
+    }
+    op.req_paychannel = channel;
+    
+    @weakify(self);
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"订单生成中..."];
+    }] subscribeNext:^(InsuranceOrderPayOp * op) {
+        
+        @strongify(self);
+        if (![self callPaymentHelperWithPayOp:op]) {
+            
+            [gToast dismiss];
+            InsuranceStore *store = [InsuranceStore fetchExistsStore];
+            //刷新保险订单
+            [[store getInsOrderByID:self.insOrder.orderid] sendAndIgnoreError];
+            //刷新保险车辆列表
+            [[store getInsSimpleCars] sendAndIgnoreError];
+            
+            [self gotoPaidSuccessVC];
+        }
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain];
+    }];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
     return 4;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    NSInteger count = 0;
+    if (section == 0) {
+        count = 6;
+    }
+    else if (section == 1) {
+        
+        count = 3 - (self.insOrder.iscontainActivity ? 0 : 1);
+    }
+    else if (section == 2) {
+        count = 4 - (gPhoneHelper.exsitWechat ? 0:1);
+    }
+    else if (section == 3) {
+        return 1;
+    }
+    return count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -416,25 +450,6 @@
     return  CGFLOAT_MIN;
 }
 
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    NSInteger count = 0;
-    if (section == 0) {
-        count = 6;
-    }
-    else if (section == 1) {
-        
-        count = 3 - (self.insOrder.iscontainActivity ? 0 : 1);
-    }
-    else if (section == 2) {
-        count = 4 - (gPhoneHelper.exsitWechat ? 0:1);
-    }
-    else if (section == 3) {
-        return 1;
-    }
-    return count;
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -507,10 +522,10 @@
         if (indexPath.row == 1)
         {
             [MobClick event:@"rp326-1"];
-            if (!self.insOrder.iscontainActivity)
-            {
-                [self jumpToChooseCouponVC];
-            }
+//            if (!self.insOrder.iscontainActivity)
+//            {
+//                [self jumpToChooseCouponVC];
+//            }
         }
         else if (indexPath.row == 2)
         {
@@ -520,6 +535,30 @@
         
         ///取消支付宝，微信勾选
         [self.tableView reloadData];
+    }
+    else if (indexPath.section == 2)
+    {
+        if (indexPath.row > 0)
+        {
+            NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup];
+            for (NSInteger i = 0 ; i < array.count ; i++)
+            {
+                UIButton * btn = [array safetyObjectAtIndex:i];
+                if ([btn.customObject isKindOfClass:[NSIndexPath class]])
+                {
+                    NSIndexPath * path = (NSIndexPath *)btn.customObject;
+                    if (path.section == indexPath.section && path.row == indexPath.row)
+                    {
+                        btn.selected = YES;
+                    }
+                    else
+                    {
+                        btn.selected = NO;
+                    }
+                }
+            }
+            
+        }
     }
 }
 
@@ -593,7 +632,7 @@
             [tagBg makeCornerRadius:3.0f];
             tagLb.hidden = !self.insOrder.activityName.length;
             tagBg.hidden = !self.insOrder.activityName.length;
-            arrow.hidden = NO;
+            arrow.hidden = YES;
             
             NSDate * earlierDate;
             NSDate * laterDate;
@@ -611,6 +650,12 @@
                 statusLb.textColor = HEXCOLOR(@"#aaaaaa");
                 statusLb.hidden = YES;
             }
+            
+            [tagLb mas_makeConstraints:^(MASConstraintMaker *make) {
+               
+                make.centerY.equalTo(cell.contentView);
+            }];
+            dateLb.hidden = YES;
         }
         else
         {
@@ -958,6 +1003,19 @@
 }
 
 #pragma mark - Utility
+- (RACSignal *)rac_openLicenseVCWithUrl:(NSString *)url title:(NSString *)title
+{
+    if (self.isLicenseChecked || url.length == 0) {
+        return [RACSubject return:@YES];
+    }
+    @weakify(self);
+    return [[InsLicensePopVC rac_showInView:self.navigationController.view withLicenseUrl:url title:title] doNext:^(id x) {
+        @strongify(self);
+        self.isLicenseChecked = YES;
+    }];
+}
+
+
 - (void)requestGetUserInsCoupon
 {
     [[gAppMgr.myUser.couponModel rac_getVaildInsuranceCoupon:self.insOrder.orderid] subscribeNext:^(GetInscouponOp * op) {
@@ -1049,6 +1107,7 @@
     
     tagLb.hidden = YES;
     tagBg.hidden = YES;
+    arrow.hidden = NO;
     
     label.text = [NSString stringWithFormat:@"保险代金券：%ld张", (long)gAppMgr.myUser.couponModel.validInsuranceCouponArray.count];
     arrow.hidden = NO;
@@ -1076,6 +1135,12 @@
         statusLb.hidden = YES;
         boxB.selected = NO;
     }
+    
+    [tagLb mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(cell.contentView).offset(8);
+    }];
+    dateLb.hidden = NO;
     return cell;
 }
 

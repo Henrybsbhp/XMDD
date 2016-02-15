@@ -80,21 +80,26 @@
             [gToast showingWithText:@"支付信息获取中..."];
         }] subscribeNext:^(GetGeneralActivityLefttimeOp * rop) {
             
-            [gToast dismiss];
             if (rop.rsp_lefttime)
             {
+                [gToast dismiss];
                 @strongify(self)
                 [self actionPay];
             }
             else
             {
-                [gToast showError:@"该活动已结束"];
-                [self dismissViewControllerAnimated:YES completion:nil];
+                [gToast showText:@"该活动已结束"];
+                CKAfter(1.0, ^{
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                });
+                
             }
         } error:^(NSError *error) {
             
             [gToast showError:error.domain];
-            [self dismissViewControllerAnimated:YES completion:nil];
+            CKAfter(1.5, ^{
+                [self dismissViewControllerAnimated:YES completion:nil];
+            });
         }];
     }];
 }
@@ -222,7 +227,7 @@
         }
         else
         {
-            height = 44;
+            height = 50;
         }
     }
     return height;
@@ -277,7 +282,38 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 0)
+    {
+        return;
+    }
+    else
+    {
+        if (indexPath.row == 0)
+        {
+            return;
+        }
+        
+        for (NSDictionary * dict  in self.paymentArray)
+        {
+            NSObject * obj = [dict objectForKey:@"btn"];
+            if (obj && [obj isKindOfClass:[UIButton class]] && [obj.customObject isKindOfClass:[NSIndexPath class]])
+            {
+                UIButton * btn = (UIButton *)obj;
+                NSIndexPath * path = (NSIndexPath *)obj.customObject;
+                
+                if (indexPath.section == path.section &&
+                    indexPath.row == path.row)
+                {
+                    btn.selected = YES;
+                }
+                else
+                {
+                    btn.selected = NO;
+                }
+            }
+        }
+    }
 }
 
 
@@ -328,7 +364,7 @@
     UILabel *titleLb,*noteLb,*recommendLB;
     UIButton *boxB;
     
-    NSMutableDictionary * dict = [self.paymentArray safetyObjectAtIndex:indexPath.row -1];
+    NSMutableDictionary * dict = [self.paymentArray safetyObjectAtIndex:indexPath.row - 1];
     cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatformCellA"];
     iconV = (UIImageView *)[cell.contentView viewWithTag:1001];
     titleLb = (UILabel *)[cell.contentView viewWithTag:1002];
@@ -346,8 +382,7 @@
     
     PaymentChannelType paychannel = [dict[@"paymentType"] integerValue];
     recommendLB.hidden = paychannel != PaymentChannelAlipay;
-    recommendLB.cornerRadius = 3.0f;
-    recommendLB.layer.masksToBounds = YES;
+    [recommendLB makeCornerRadius:3.0f];
     
     
     UIButton * btn = [dict objectForKey:@"btn"];

@@ -16,7 +16,7 @@
 #import "HKLoadingModel.h"
 #import "GetCarwashOrderV2Op.h"
 #import "ShopDetailVC.h"
-#import "PaymentSuccessVC.h"
+#import "PaymentSuccessVC.h"    
 
 @interface CarwashOrderDetailVC ()<UITableViewDelegate, UITableViewDataSource, HKLoadingModelDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -249,7 +249,7 @@
     avatarV.cornerRadius = 17.5f;
     avatarV.layer.masksToBounds = YES;
     
-    nameL.text = self.order.licencenumber;
+    nameL.text = self.order.nickName;
     timeL.text = [self.order.ratetime dateFormatForYYMMdd2];
     ratingV.ratingValue = self.order.rating;
     contentL.text = self.order.comment;

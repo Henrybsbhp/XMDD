@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HKServiceOrder.h"
 
-@interface CarwashOrderCommentVC : UIViewController
+@interface CarwashOrderCommentVC : HKViewController
 @property (nonatomic, strong) HKServiceOrder *order;
 @property (nonatomic, weak) UIViewController *originVC;
 @property (nonatomic, copy) void (^commentSuccess)(void);

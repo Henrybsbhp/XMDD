@@ -25,4 +25,7 @@
 ///红包是否使用
 @property (nonatomic)BOOL rsp_isused;
 
+///洗车标识
+@property (nonatomic)BOOL rsp_carwashflag;
+
 @end

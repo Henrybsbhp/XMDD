@@ -10,7 +10,6 @@
 #import "GetUserCouponPkgOp.h"
 #import "HKCouponPkg.h"
 #import "GainCouponPkgOp.h"
-#import "WebVC.h"
 
 @interface CouponPkgViewController ()
 
@@ -51,7 +50,7 @@
 }
 
 - (IBAction)helpAction:(id)sender {
-    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"关于礼包";
     vc.url = kAboutCouponPkgUrl;
     [self.navigationController pushViewController:vc animated:YES];

@@ -16,6 +16,8 @@
 
 ///礼券金额
 @property (nonatomic)NSInteger rsp_amount;
+///礼券id
+@property (nonatomic,strong)NSNumber * rsp_couponId;
 
 ///提示语
 @property (nonatomic,copy)NSString * rsp_tip;

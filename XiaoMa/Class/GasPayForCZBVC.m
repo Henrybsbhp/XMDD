@@ -15,17 +15,26 @@
 #import "HKSMSModel.h"
 #import "BankCardStore.h"
 #import "PaymentHelper.h"
+#import "HKCellData.h"
+#import "HKTableViewCell.h"
+#import "NSString+Split.h"
+#import "CKLimitTextField.h"
+#import "KeyboardHelper.h"
+#import "IQKeyboardManager.h"
 
 #import "GasPaymentResultVC.h"
 
-@interface GasPayForCZBVC ()<UITableViewDataSource, UITableViewDelegate>
+@interface GasPayForCZBVC ()<UITableViewDataSource, UITableViewDelegate, KeyboardHelperDelegate>
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
-@property (nonatomic, strong) CKLimitTextField *vcodeField;
+@property (nonatomic, strong) UIView *bottomView;
+@property (nonatomic, strong) UIButton *payButton;
+
+@property (nonatomic, strong) KeyboardHelper *kbHelper;
 @property (nonatomic, strong) NSString *vcode;
-@property (nonatomic, strong) UIButton *vcodeButton;
 @property (nonatomic, strong) HKSMSModel *smsModel;
 @property (nonatomic, strong) GetCzbpayVcodeOp *orderInfo;
+@property (nonatomic, strong) NSArray *datasource;
+
 @end
 
 @implementation GasPayForCZBVC
@@ -39,28 +48,128 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //隐藏键盘工具条
     self.smsModel = [[HKSMSModel alloc] init];
     [self setupBottomView];
+    [self reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp507"];
+    [[IQKeyboardManager sharedManager] setEnableAutoToolbar:NO];
+    [IQKeyboardManager sharedManager].keyboardDistanceFromTextField = 70;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp507"];
+    [[IQKeyboardManager sharedManager] setEnableAutoToolbar:YES];
+    [IQKeyboardManager sharedManager].keyboardDistanceFromTextField = 10;
 }
 
 - (void)setupBottomView
 {
+    self.kbHelper = [[KeyboardHelper alloc] init];
+    self.kbHelper.delegate = self;
+
+    UIView *container = [[UIView alloc] initWithFrame:CGRectZero];
+    container.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:container];
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:16];
+    [button setTitle:self.payTitle forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button setBackgroundImage:[[UIImage imageNamed:@"gas_btn_bg1"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)] forState:UIControlStateNormal];
+    [button setBackgroundImage:[[UIImage imageNamed:@"gas_btn_bg2"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)] forState:UIControlStateDisabled];
+    [button addTarget:self action:@selector(actionPay:) forControlEvents:UIControlEventTouchUpInside];
+    [container addSubview:button];
+    
+    CKLine *topLine = [[CKLine alloc] initWithFrame:CGRectZero];
+    topLine.lineAlignment = CKLineAlignmentHorizontalTop;
+    [container addSubview:topLine];
+    
+    CKLine *bottomLine = [[CKLine alloc] initWithFrame:CGRectZero];
+    bottomLine.lineAlignment = CKLineAlignmentHorizontalBottom;
+    bottomLine.lineColor = [UIColor grayColor];
+    [container addSubview:bottomLine];
+
+    UIView *view = self.view;
+    [container mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(view);
+        make.left.equalTo(view);
+        make.right.equalTo(view);
+        make.height.mas_equalTo(50);
+    }];
+    
+    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(container);
+        make.height.mas_equalTo(37);
+        make.left.equalTo(container).offset(12);
+        make.right.equalTo(container).offset(-12);
+    }];
+    
+    [topLine mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(1);
+        make.left.equalTo(container);
+        make.right.equalTo(container);
+        make.top.equalTo(container);
+    }];
+    
+    [bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(1);
+        make.left.equalTo(container);
+        make.right.equalTo(container);
+        make.bottom.equalTo(container);
+    }];
+    
+    self.bottomView = container;
+    self.payButton = button;
+
+    
     @weakify(self);
     [[RACObserve(self, vcode) distinctUntilChanged] subscribeNext:^(NSString *vcode) {
         @strongify(self);
-        self.bottomBtn.enabled = vcode.length >= 6 && self.orderInfo && ![self.orderInfo.customInfo[@"Invaild"] boolValue];
+        
+        BOOL enable = vcode.length >= 6 && self.orderInfo && ![self.orderInfo.customInfo[@"Invaild"] boolValue];
+        self.payButton.enabled = enable;
     }];
+}
+
+#pragma mark - Datasource
+- (void)reloadData
+{
+    HKCellData *info = [HKCellData dataWithCellID:@"Info" tag:nil];
+    [info setHeightBlock:^CGFloat(UITableView *tableView) {
+        return 112;
+    }];
+    
+    HKCellData *prompt = [HKCellData dataWithCellID:@"Prompt" tag:nil];
+    NSString *cardno = [self.bankCard.cardNumber substringFromIndex:self.bankCard.cardNumber.length-4 length:4];
+    NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
+    ps.lineSpacing = 5;
+    NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:13], NSForegroundColorAttributeName:HEXCOLOR(@"#454545"), NSParagraphStyleAttributeName: ps};
+    NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:13], NSForegroundColorAttributeName:HEXCOLOR(@"#f9430a"),NSParagraphStyleAttributeName: ps};
+    NSMutableAttributedString *attstr = [NSMutableAttributedString attributedString];
+    [attstr appendAttributedString:[[NSAttributedString alloc] initWithString:@"您正在使用浙商银行汽车卡尾号" attributes:attr1]];
+    [attstr appendAttributedString:[[NSAttributedString alloc] initWithString:cardno attributes:attr2]];
+    [attstr appendAttributedString:[[NSAttributedString alloc] initWithString:@"的卡号充值油卡，点击“获取验证码”" attributes:attr1]];
+    
+    prompt.object = attstr;
+    [prompt setHeightBlock:^CGFloat(UITableView *tableView) {
+        CGRect rect = [attstr boundingRectWithSize:CGSizeMake(tableView.frame.size.width-28,10000) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
+        return ceil(rect.size.height+24);
+    }];
+    
+    HKCellData *vcode = [HKCellData dataWithCellID:@"Vcode" tag:nil];
+    [vcode setHeightBlock:^CGFloat(UITableView *tableView) {
+        return 140;
+    }];
+    
+    self.datasource = @[@[info], @[prompt, vcode]];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Action
@@ -75,7 +184,7 @@
             @strongify(self);
             if ([index integerValue] == 0) {
                 [self.navigationController popViewControllerAnimated:YES];
-                [self.model cancelOrderWithTradeNumber:self.orderInfo.rsp_tradeid bankCardID:self.orderInfo.req_cardid];
+                [self.model cancelOrderWithTradeNumber:self.orderInfo.rsp_tradeid gasCardID:self.orderInfo.req_gid];
             }
         }];
     }
@@ -108,13 +217,13 @@
     [field becomeFirstResponder];
 }
 
-- (IBAction)actionPay:(id)sender
+- (void)actionPay:(id)sender
 {
     [MobClick event:@"rp507-3"];
     GascardChargeOp *op = [GascardChargeOp operation];
     op.req_amount = self.orderInfo.req_chargeamt;
     op.req_gid = self.orderInfo.req_gid;
-    op.req_vcode = self.vcodeField.text;
+    op.req_vcode = self.vcode;
     op.req_paychannel = [PaymentHelper paymentChannelForPlatformType:PaymentPlatformTypeCreditCard];
     op.req_orderid = self.orderInfo.rsp_orderid;
     @weakify(self);
@@ -153,7 +262,7 @@
         if (error.code == 616201) {
             [gToast showError:error.domain];
             self.orderInfo.customInfo[@"Invaild"] = @YES;
-            self.bottomBtn.enabled = NO;
+//            self.bottomBtn.enabled = NO;
             return ;
         }
         //验证码错误
@@ -179,12 +288,31 @@
         [self.navigationController pushViewController:vc animated:YES];
     }];
 }
+
+#pragma mark - KeboyardHelperDelegate
+- (void)keyboardChangeWithHeight:(CGFloat)height duration:(CGFloat)dur curve:(UIViewAnimationOptions)curve forHiden:(BOOL)hiden
+{
+    [UIView animateWithDuration:dur delay:0 options:curve animations:^{
+        @weakify(self);
+        [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+            @strongify(self);
+            make.bottom.equalTo(self.view).offset(hiden ? 0 : -height);
+        }];
+        [self.view layoutIfNeeded];
+    } completion:nil];
+}
+
 #pragma mark - UITableViewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.view endEditing:YES];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        CGSize lbsize = [[self paymentTitle] labelSizeWithWidth:tableView.frame.size.width-28 font:[UIFont systemFontOfSize:13]];
-        return lbsize.height + 13;
+    HKCellData *data = [[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
+    if (data.heightBlock) {
+        return data.heightBlock(tableView);
     }
     return 44;
 }
@@ -196,99 +324,88 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 12;
+    return 10;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return self.datasource.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return [[self.datasource safetyObjectAtIndex:section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell;
-    if (indexPath.section == 0) {
-        cell = [self titleCellAtIndexPath:indexPath];
+    HKCellData *data = [[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data.cellID forIndexPath:indexPath];
+
+    if ([data equalByCellID:@"Info" tag:nil]) {
+        [self resetInfoCell:(HKTableViewCell *)cell forData:data];
     }
-    else if (indexPath.section == 1) {
-        cell = [self vcodeCellAtIndexPath:indexPath];
+    else if ([data equalByCellID:@"Prompt" tag:nil]) {
+        [self resetPromptCell:(HKTableViewCell *)cell forData:data];
     }
-    else if (indexPath.section == 2) {
-        cell = [self orderCellAtIndexPath:indexPath];
+    else if ([data equalByCellID:@"Vcode" tag:nil]) {
+        [self resetVcodeCell:(HKTableViewCell *)cell forData:data];
     }
+
     return cell;
 }
 
-- (UITableViewCell *)titleCellAtIndexPath:(NSIndexPath *)indexPath
+- (void)resetInfoCell:(HKTableViewCell *)cell forData:(HKCellData *)data
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"TitleCell"];
-    UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
-    NSString *tialno = [self.bankCard.cardNumber substringFromIndex:self.bankCard.cardNumber.length-4 length:4];
-    titleL.text = [NSString stringWithFormat:@"您正在用浙商银行汽车卡尾号为%@的卡号充值油卡，点击“获取验证码”，验证码将发至您的银行预留手机号中，请及时输入验证码进行支付。", tialno];
-    return cell;
-}
-
-- (UITableViewCell *)vcodeCellAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"VCodeCell" forIndexPath:indexPath];
-    CKLimitTextField *field = (CKLimitTextField *)[cell.contentView viewWithTag:1001];
-    UIButton *vcodeBtn = (UIButton *)[cell.contentView viewWithTag:1002];
+    UIImageView *logoV = [cell viewWithTag:1001];
+    UILabel *cardnoL = [cell viewWithTag:1002];
+    UILabel *priceL = [cell viewWithTag:1007];
     
-    if (!self.vcodeField) {
-        self.vcodeField = field;
-        field.textLimit = 6;
-        @weakify(self);
-        [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
-            
-            [MobClick event:@"rp507-1"];
-        }];
-        [[field rac_newTextChannel] subscribeNext:^(NSString *text) {
-            
-            @strongify(self);
-            self.vcode = text;
-        }];
-    }
-    if (!self.vcodeButton) {
-        self.vcodeButton = vcodeBtn;
-        self.smsModel.getVcodeButton = vcodeBtn;
-        [vcodeBtn addTarget:self action:@selector(actionGetVCode:) forControlEvents:UIControlEventTouchUpInside];
+    logoV.image = [UIImage imageNamed:self.model.curGasCard.cardtype == 2 ? @"gas_icon_cnpc" : @"gas_icon_snpn"];
+    cardnoL.text = [self.model.curGasCard.gascardno splitByStep:4 replacement:@" "];
+    priceL.text = [NSString stringWithFormat:@"￥%.2f", (float)self.chargeamt];
+    
+    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsZero];
+    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
+}
+
+- (void)resetPromptCell:(HKTableViewCell *)cell forData:(HKCellData *)data
+{
+    UILabel *promptL = [cell viewWithTag:1001];
+    promptL.attributedText = data.object;
+    
+    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsZero];
+}
+
+- (void)resetVcodeCell:(HKTableViewCell *)cell forData:(HKCellData *)data
+{
+    UIButton *vcodeB = [cell viewWithTag:1001];
+    CKLimitTextField *vcodeF = [cell viewWithTag:1002];
+    
+    if (!data.customInfo[@"inited"]) {
+        data.customInfo[@"inited"] = @YES;
+        self.smsModel.getVcodeButton = vcodeB;
+        [vcodeB addTarget:self action:@selector(actionGetVCode:) forControlEvents:UIControlEventTouchUpInside];
         [self.smsModel countDownIfNeededWithVcodeType:HKVcodeTypeCZBGasCharge];
     }
     
-    return cell;
-}
-
-- (UITableViewCell *)orderCellAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"OrderCell" forIndexPath:indexPath];
-    UIView *containerV = [cell.contentView viewWithTag:100];
-    UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
-    
-    [[RACObserve(self, orderInfo) takeUntilForCell:cell] subscribeNext:^(GetCzbpayVcodeOp *info) {
-        NSString *tradeno = info.rsp_tradeid;
-        containerV.hidden = tradeno.length == 0;
+    @weakify(self);
+    [vcodeF setDidBeginEditingBlock:^(CKLimitTextField *field) {
         
-        if (tradeno.length > 6) {
-            tradeno = [tradeno substringFromIndex:tradeno.length - 6 length:6];
-        }
-        titleL.text = [NSString stringWithFormat:@"您本次加油的订单尾号为：%@", tradeno];
+        [MobClick event:@"rp507-1"];
     }];
+    
+    [vcodeF setTextChangingBlock:^(CKLimitTextField *rTextFeild, NSString *text) {
+        
+        @strongify(self);
+        self.vcode = rTextFeild.text;
+    }];
+    
+    vcodeF.textLimit = 6;
 
-    
-    
-    return cell;
+    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
 }
 
-- (NSString *)paymentTitle
-{
-    NSString *tialno = [self.bankCard.cardNumber substringFromIndex:self.bankCard.cardNumber.length-4 length:4];
-    return [NSString stringWithFormat:@"您正在用浙商银行汽车卡尾号为%@的卡号充值油卡，点击“获取验证码”，验证码将发至年的银行预留手机号中，请及时输入验证码进行支付。", tialno];
-}
 
 @end
 

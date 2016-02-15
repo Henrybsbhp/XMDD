@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface JoinResultViewController : UIViewController
+@interface JoinResultViewController : HKViewController
 
 @property (nonatomic, strong) NSString * phone;
 

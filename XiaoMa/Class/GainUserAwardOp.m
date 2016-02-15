@@ -25,6 +25,7 @@
     if ([rspObj isKindOfClass:[NSDictionary class]])
     {
         self.rsp_amount = [rspObj integerParamForName:@"amount"];
+        self.rsp_couponId = rspObj[@"cid"];
         self.rsp_tip = rspObj[@"tip"];
     }
     else

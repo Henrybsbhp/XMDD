@@ -37,6 +37,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)dealloc
 {
+    [[NSURLCache sharedURLCache] removeCachedResponseForRequest:self.request];
     DebugLog(@"DetailWebVC dealloc ~");
 }
 
@@ -144,6 +145,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         responseCallback(nil);
     }];
 }
+
 
 #pragma mark - NJKWebViewProgressDelegate
 -(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress

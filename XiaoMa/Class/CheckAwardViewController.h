@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CheckAwardViewController : UIViewController
+@interface CheckAwardViewController : HKViewController
 
 @end

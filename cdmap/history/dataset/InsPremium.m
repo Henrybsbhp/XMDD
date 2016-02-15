@@ -20,6 +20,7 @@
     self.ordertype = [dict[@"ordertype"] intValue];
     self.couponname = dict[@"couponname"];
     self.errmsg = dict[@"errmsg"];
+    self.restriction = dict[@"restrict"];
 
 }
 

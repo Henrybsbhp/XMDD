@@ -7,6 +7,8 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params safetySetObject:self.req_carpremiumid forKey:@"carpremiumid"];
     [params safetySetObject:self.req_inslist forKey:@"inslist"];
+    [params safetySetObject:self.req_mstartdate forKey:@"mstartdate"];
+    [params safetySetObject:self.req_fstartdate forKey:@"fstartdate"];
 
     return [self rac_invokeWithRPCClient:gNetworkMgr.longtimeManager params:params security:YES];
 }
@@ -20,6 +22,7 @@
         [premiumlist addObject:obj];
     }
     self.rsp_premiumlist = premiumlist;
+    self.rsp_tip = dict[@"tip"];
 	
     return self;
 }

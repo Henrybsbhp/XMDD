@@ -12,7 +12,8 @@
 #import "GetUserCouponByTypeOp.h"
 #import "HKLoadingModel.h"
 #import "CouponDetailsVC.h"
-#import "WebVC.h"
+#import "DetailWebVC.h"
+
 @interface RescueCouponViewController ()<HKLoadingModelDelegate>
 
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
@@ -54,7 +55,7 @@
      *  省钱攻略点击事件
      */
     [MobClick event:@"rp708-1"];
-    WebVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"WebVC"];
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"省钱攻略";
     vc.url = kMoneySavingStrategiesUrl;
     [self.navigationController pushViewController:vc animated:YES];
@@ -68,7 +69,7 @@
 {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
-    DebugLog(@"RescureViewController dealloc!");
+    DebugLog(@"RescueCouponViewController dealloc!");
 }
 
 #pragma mark - HKLoadingModelDelegate

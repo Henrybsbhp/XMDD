@@ -7,9 +7,7 @@
 //
 
 #import "ADViewController.h"
-#import "WebVC.h"
 #import "NavigationModel.h"
-#import "DetailWebVC.h"
 
 @interface ADViewController ()<SYPaginatorViewDelegate, SYPaginatorViewDataSource>
 @property (nonatomic, strong) NavigationModel *navModel;
@@ -33,7 +31,7 @@
         _mobBaseEvent = event;
         _navModel = [[NavigationModel alloc] init];
         _navModel.curNavCtrl = _targetVC.navigationController;
-        CGFloat height = floor(width*180.0/640);
+        CGFloat height = floor(width*184.0/640);
         SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
         adView.delegate = self;
         adView.dataSource = self;
@@ -131,6 +129,7 @@
         }
         else {
             if (_adType != AdvertisementValuation) {
+                
                 DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
                 vc.url = ADDEFINEWEB;
                 [self.targetVC.navigationController pushViewController:vc animated:YES];

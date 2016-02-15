@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HomePageVC : UIViewController
+@interface HomePageVC : HKViewController
 
 @end

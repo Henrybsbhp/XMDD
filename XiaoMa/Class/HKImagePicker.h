@@ -24,7 +24,7 @@
 
 @end
 
-@interface HKImageShowingViewController : UIViewController
+@interface HKImageShowingViewController : HKViewController
 @property (nonatomic, strong) UIImage *image;
 - (id)initWithSubject:(RACSubject *)subject;
 @end

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CKLimitTextField.h"
 
-@interface InsInputNameVC : UIViewController
+@interface InsInputNameVC : HKViewController
 
 @property (weak, nonatomic) IBOutlet CKLimitTextField *nameField;
 @property (weak, nonatomic) IBOutlet UIButton *ensureButton;

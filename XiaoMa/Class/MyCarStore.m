@@ -32,6 +32,7 @@
             [cache addObject:car forKey:car.carId];
         }
         self.cars = cache;
+        self.defaultTip = op.rsp_tip;
         [self updateTimetagForKey:nil];
         return op.rsp_carArray;
     }] replayLast] eventWithName:@"getAllCars"];

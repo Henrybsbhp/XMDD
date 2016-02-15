@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SRMonthPicker.h"
 
-@interface MonthPickerVC : UIViewController
+@interface MonthPickerVC : HKViewController
 @property (weak, nonatomic) IBOutlet SRMonthPicker *pickerView;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelItem;

@@ -13,7 +13,7 @@ typedef NS_ENUM (NSInteger, AreaPickerStyle){
     AreaPickerWithStateAndCityAndDistrict
 } ;
 
-@interface AreaPickerVC : UIViewController <UIPickerViewDelegate,UIPickerViewDataSource>
+@interface AreaPickerVC : HKViewController <UIPickerViewDelegate,UIPickerViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelBtn;

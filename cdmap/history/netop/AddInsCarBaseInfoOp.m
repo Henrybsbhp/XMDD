@@ -15,6 +15,7 @@
     [params safetySetObject:self.req_transferdate forKey:@"transferdate"];
     [params safetySetObject:self.req_licensenum forKey:@"licensenum"];
     [params safetySetObject:self.req_regdate forKey:@"regdate"];
+    [params safetySetObject:self.req_carpremiumid forKey:@"carpremiumid"];
 
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
@@ -24,6 +25,8 @@
     NSDictionary *dict = rspObj;
     self.rsp_carpremiumid = dict[@"carpremiumid"];
     self.rsp_seatcount = dict[@"seatcount"];
+    self.rsp_mstartdate = dict[@"mstartdate"];
+    self.rsp_fstartdate = dict[@"fstartdate"];
 	
     return self;
 }

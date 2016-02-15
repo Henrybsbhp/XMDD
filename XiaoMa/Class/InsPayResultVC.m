@@ -12,12 +12,15 @@
 #import "InsuranceVM.h"
 #import "NSString+Format.h"
 #import "UpdateDeliveryInfoOp.h"
+#import "GetInsUserInfoOp.h"
+#import "IQKeyboardManager.h"
 
 #import "CityPickerVC.h"
 #import "InsSubmitResultVC.h"
 
 @interface InsPayResultVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) IBOutlet UIView *containerView;
 @property (nonatomic, strong) NSArray *datasource;
 @property (nonatomic, strong) UpdateDeliveryInfoOp *deliveryInfo;
 @end
@@ -34,7 +37,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self reloadData];
+    CKAsyncMainQueue(^{
+        [self requestGetInsUserInfo];
+    });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,18 +51,22 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"rp1007"];
+    [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"rp1007"];
+    [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = NO;
 }
 
 #pragma mark - Datasource
-- (void)reloadData
+- (void)reloadDataWithUserInfo:(GetInsUserInfoOp *)userInfo
 {
     self.deliveryInfo = [UpdateDeliveryInfoOp operation];
+    self.deliveryInfo.req_contatorphone = userInfo.rsp_phone;
+    self.deliveryInfo.req_contatorname = userInfo.rsp_name ? userInfo.rsp_name : self.insOrder.policyholder;
     
     HKCellData *headerCell = [HKCellData dataWithCellID:@"Header" tag:nil];
     [headerCell setHeightBlock:^CGFloat(UITableView *tableView) {
@@ -67,34 +76,63 @@
     [baseCell setHeightBlock:^CGFloat(UITableView *tableView) {
         return 115;
     }];
-    HKCellData *contactCell = [HKCellData dataWithCellID:@"Contact" tag:nil];
-    self.deliveryInfo.req_contatorname = self.insOrder.policyholder;
-    [contactCell setHeightBlock:^CGFloat(UITableView *tableView) {
-        return 88;
+    HKCellData *promptCell = [HKCellData dataWithCellID:@"Prompt" tag:nil];
+    [promptCell setHeightBlock:^CGFloat(UITableView *tableView) {
+        return 33;
     }];
+    
+    HKCellData *contactCell = [HKCellData dataWithCellID:@"Contact" tag:nil];
+    [contactCell setHeightBlock:^CGFloat(UITableView *tableView) {
+        return 60;
+    }];
+    
     HKCellData *addrCell = [HKCellData dataWithCellID:@"Address" tag:nil];
+    addrCell.customInfo[@"base"] = userInfo.rsp_location;
+    addrCell.customInfo[@"detail"] = userInfo.rsp_address;
     [addrCell setHeightBlock:^CGFloat(UITableView *tableView) {
         return 105;
     }];
+    
     HKCellData *bottomCell = [HKCellData dataWithCellID:@"Bottom" tag:nil];
     [bottomCell setHeightBlock:^CGFloat(UITableView *tableView) {
         return 33;
     }];
-    
-    self.datasource = @[headerCell, baseCell, contactCell, addrCell, bottomCell];
+    self.datasource = @[headerCell, baseCell, promptCell, contactCell, addrCell, bottomCell];
     [self.tableView reloadData];
+}
+
+#pragma mark - Request
+- (void)requestGetInsUserInfo
+{
+    GetInsUserInfoOp *op = [GetInsUserInfoOp operation];
+    op.req_orderid = self.insOrder.orderid;
+    @weakify(self);
+    [[[[op rac_postRequest] initially:^{
+        
+        @strongify(self);
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+        self.containerView.hidden = YES;
+    }] finally:^{
+        
+        @strongify(self);
+        [self.view stopActivityAnimation];
+        self.containerView.hidden = NO;
+    }] subscribeNext:^(GetInsUserInfoOp *op) {
+        
+        @strongify(self);
+        [self reloadDataWithUserInfo:op];
+    } error:^(NSError *error) {
+        
+        @strongify(self);
+        [self reloadDataWithUserInfo:nil];
+    }];
 }
 
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
     [MobClick event:@"rp1007-1"];
-    if (self.insModel.originVC) {
-        [self.navigationController popToViewController:self.insModel.originVC animated:YES];
-    }
-    else {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    [self.insModel popToOrderVCForNav:self.navigationController withInsOrderID:self.insOrder.orderid];
 }
 - (IBAction)actionSubmit:(id)sender
 {
@@ -106,8 +144,8 @@
         [gToast showText:@"联系人手机号不能为空"];
     }
     else {
-        NSString *baseAddr = [(HKCellData *)self.datasource[3] customInfo][@"base"];
-        NSString *detailAddr = [(HKCellData *)self.datasource[3] customInfo][@"detail"];
+        NSString *baseAddr = [(HKCellData *)self.datasource[4] customInfo][@"base"];
+        NSString *detailAddr = [(HKCellData *)self.datasource[4] customInfo][@"detail"];
         if (baseAddr.length == 0) {
             [gToast showText:@"省市区不能为空"];
         }
@@ -134,6 +172,7 @@
         @strongify(self);
         [gToast dismiss];
         InsSubmitResultVC *vc = [UIStoryboard vcWithId:@"InsSubmitResultVC" inStoryboard:@"Insurance"];
+        vc.insModel = self.insModel;
         vc.couponList = op.rsp_couponlist;
         vc.insOrderID = self.insOrder.orderid;
         [self.navigationController pushViewController:vc animated:YES];
@@ -194,8 +233,8 @@
 
 - (void)resetContactCell:(UITableViewCell *)cell forData:(HKCellData *)data
 {
-    HKSubscriptInputField *nameF = [cell viewWithTag:1001];
-    HKSubscriptInputField *phoneF = [cell viewWithTag:1002];
+    HKSubscriptInputField *nameF = [cell viewWithTag:10012];
+    HKSubscriptInputField *phoneF = [cell viewWithTag:10022];
     
     nameF.inputField.textLimit = 20;
     nameF.inputField.placeholder = @"请输入姓名";

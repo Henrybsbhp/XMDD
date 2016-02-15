@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -62,7 +63,7 @@
         <!--救援历史-->
         <scene sceneID="C2K-KE-Vq6">
             <objects>
-                <viewController storyboardIdentifier="RescureHistoryViewController" title="救援历史" id="sZd-Bo-gIw" customClass="RescureHistoryViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RescueHistoryViewController" title="救援历史" id="sZd-Bo-gIw" customClass="RescueHistoryViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JLj-iG-0LZ"/>
                         <viewControllerLayoutGuide type="bottom" id="krN-TM-TJA"/>
@@ -76,7 +77,7 @@
                                 <animations/>
                                 <color key="backgroundColor" red="0.95686274509803915" green="0.95686274509803915" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="RescureHistoryViewController1" rowHeight="115" id="lVq-os-dqs" customClass="HKTableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="RescueHistoryViewController1" rowHeight="115" id="lVq-os-dqs" customClass="HKTableViewCell">
                                         <rect key="frame" x="0.0" y="28" width="600" height="115"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lVq-os-dqs" id="pFa-Ee-aag">
@@ -202,7 +203,7 @@
                                         </tableViewCellContentView>
                                         <animations/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="RescureHistoryViewController2" rowHeight="130" id="0eJ-UO-zWK" customClass="HKTableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="RescueHistoryViewController2" rowHeight="130" id="0eJ-UO-zWK" customClass="HKTableViewCell">
                                         <rect key="frame" x="0.0" y="143" width="600" height="130"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0eJ-UO-zWK" id="54R-4V-982">
@@ -370,7 +371,7 @@
         <!--协办详情-->
         <scene sceneID="JIj-4u-gQM">
             <objects>
-                <viewController storyboardIdentifier="RescureDetailsVC" title="协办详情" id="7Zn-pg-ErO" customClass="RescureDetailsVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RescueDetailsVC" title="协办详情" id="7Zn-pg-ErO" customClass="RescueDetailsVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9tI-vw-t4S"/>
                         <viewControllerLayoutGuide type="bottom" id="boc-DC-Kf1"/>
@@ -384,7 +385,7 @@
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RescureDetailsVC" rowHeight="90" id="dMx-Jn-SaP" customClass="HKTableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RescueDetailsVC" rowHeight="90" id="dMx-Jn-SaP" customClass="HKTableViewCell">
                                         <rect key="frame" x="0.0" y="28" width="600" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dMx-Jn-SaP" id="qcv-NM-RwR">
@@ -504,7 +505,7 @@
         <!--救援完成-->
         <scene sceneID="C7g-kf-ttO">
             <objects>
-                <viewController storyboardIdentifier="RescurecCommentsVC" title="救援完成" id="Nn1-JL-NVl" customClass="RescurecCommentsVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RescueCommentsVC" title="救援完成" id="Nn1-JL-NVl" customClass="RescueCommentsVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dxb-cr-din"/>
                         <viewControllerLayoutGuide type="bottom" id="K2I-8X-hSW"/>
@@ -717,7 +718,7 @@
         <!--专业救援-->
         <scene sceneID="wU3-p6-TrP">
             <objects>
-                <viewController storyboardIdentifier="RescureHomeViewController" title="专业救援" hidesBottomBarWhenPushed="YES" id="tBu-5C-YGk" customClass="RescureHomeViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RescueHomeViewController" title="专业救援" hidesBottomBarWhenPushed="YES" id="tBu-5C-YGk" customClass="RescueHomeViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="F9g-cE-Dgj"/>
                         <viewControllerLayoutGuide type="bottom" id="bN0-72-0gt"/>
@@ -730,9 +731,58 @@
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableHeaderView" tag="1111" contentMode="scaleToFill" id="v3i-NL-BrT">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="315"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="banner" translatesAutoresizingMaskIntoConstraints="NO" id="DT4-CF-1w7">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="266"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="DT4-CF-1w7" secondAttribute="height" multiplier="960:425" id="QIt-uA-Ryw"/>
+                                            </constraints>
+                                        </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6bA-zr-aNw">
+                                            <rect key="frame" x="30" y="271" width="540" height="38"/>
+                                            <animations/>
+                                            <color key="backgroundColor" red="0.99607843137254903" green="0.29019607843137252" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="38" id="38x-xw-0rx"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <state key="normal" title="一键救援">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <integer key="value" value="19"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="actionAKeyRescue:" destination="tBu-5C-YGk" eventType="touchUpInside" id="yrD-dD-jgT"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <animations/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="DT4-CF-1w7" secondAttribute="trailing" id="8X3-Mk-RvR"/>
+                                        <constraint firstItem="DT4-CF-1w7" firstAttribute="leading" secondItem="v3i-NL-BrT" secondAttribute="leading" id="JgR-Q6-cVV"/>
+                                        <constraint firstItem="6bA-zr-aNw" firstAttribute="leading" secondItem="v3i-NL-BrT" secondAttribute="leading" constant="30" id="K5f-N7-OD0"/>
+                                        <constraint firstItem="6bA-zr-aNw" firstAttribute="top" secondItem="DT4-CF-1w7" secondAttribute="bottom" constant="5" id="VRt-lf-mxN"/>
+                                        <constraint firstItem="DT4-CF-1w7" firstAttribute="top" secondItem="v3i-NL-BrT" secondAttribute="top" id="hSe-Om-HEG"/>
+                                        <constraint firstAttribute="trailing" secondItem="6bA-zr-aNw" secondAttribute="trailing" constant="30" id="ikC-jU-v5U"/>
+                                        <constraint firstAttribute="bottom" secondItem="6bA-zr-aNw" secondAttribute="bottom" id="xIw-Zv-uhT"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="xIw-Zv-uhT"/>
+                                        </mask>
+                                    </variation>
+                                </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RescureHomeViewController" rowHeight="95" id="uVo-ix-nio">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="95"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RescueHomeViewController" rowHeight="95" id="uVo-ix-nio">
+                                        <rect key="frame" x="0.0" y="343" width="600" height="95"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uVo-ix-nio" id="kJF-jB-Nst">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="95"/>
@@ -1128,6 +1178,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="banner" width="960" height="425"/>
         <image name="coupon_background" width="297" height="73"/>
         <image name="coupon_shadow" width="297" height="20"/>
         <image name="cw_coupon_selected" width="27" height="22"/>

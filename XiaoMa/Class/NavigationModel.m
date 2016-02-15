@@ -7,7 +7,6 @@
 //
 
 #import "NavigationModel.h"
-#import "WebVC.h"
 #import "CarwashOrderDetailVC.h"
 #import "InsuranceOrderVC.h"
 #import "MyCouponVC.h"
@@ -43,10 +42,10 @@
             JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
             [self.curNavCtrl presentViewController:nav animated:YES completion:nil];
         }
-        //领取礼包
+        //领取礼券
         else if ([@"a" equalByCaseInsensitive:name] && gAppMgr.myUser) {
-            if (![self popToViewControllerIfNeededByIdentify:@"CheckAwardViewController"]) {
-                UIViewController *vc = [UIStoryboard vcWithId:@"CheckAwardViewController" inStoryboard:@"Award"];
+            if (![self popToViewControllerIfNeededByIdentify:@"NewGainAwardVC"]) {
+                UIViewController *vc = [UIStoryboard vcWithId:@"NewGainAwardVC" inStoryboard:@"Award"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
             flag = YES;
@@ -178,13 +177,17 @@
             flag = YES;
         }
         ///违章查询
-        else if ([@"vio" equalByCaseInsensitive:name] && gAppMgr.myUser)
+        else if ([@"vio" equalByCaseInsensitive:name])
         {
-            ViolationViewController * vc = [violationStoryboard instantiateViewControllerWithIdentifier:@"ViolationViewController"];
-            [self.curNavCtrl pushViewController:vc animated:YES];
+            UIViewController * topVC = self.curNavCtrl.topViewController;
+            if ([LoginViewModel loginIfNeededForTargetViewController:topVC]) {
+                
+                ViolationViewController * vc = [violationStoryboard instantiateViewControllerWithIdentifier:@"ViolationViewController"];
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
         }
         ///估值
-        else if ([@"val" equalByCaseInsensitive:name] && gAppMgr.myUser)
+        else if ([@"val" equalByCaseInsensitive:name])
         {
             ValuationViewController * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"ValuationViewController"];
             [self.curNavCtrl pushViewController:vc animated:YES];

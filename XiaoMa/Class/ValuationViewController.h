@@ -10,7 +10,7 @@
 #import "HKMyCar.h"
 #import "MyCarListVModel.h"
 
-@interface ValuationViewController : UIViewController
+@interface ValuationViewController : HKViewController
 
 @property (nonatomic, assign) NSInteger carIndex;
 

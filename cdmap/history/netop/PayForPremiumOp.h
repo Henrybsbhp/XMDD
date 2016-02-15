@@ -15,6 +15,12 @@
 @property (nonatomic,strong) NSString* req_inscomp;
 ///身份证
 @property (nonatomic,strong) NSString* req_idno;
+///车主联系手机
+@property (nonatomic,strong) NSString* req_ownerphone;
+///车主联系地址
+@property (nonatomic,strong) NSString* req_owneraddress;
+///省市信息
+@property (nonatomic,strong) NSString* req_location;
 
 ///保险订单
 @property (nonatomic,strong) HKInsuranceOrder* rsp_order;

@@ -12,7 +12,7 @@
 
 #import "UI7TableView.h"
 
-CGFloat UI7TableViewGroupedTableSectionSeperatorHeight = 0;
+CGFloat UI7TableViewGroupedTableSectionSeperatorHeight = 0.0f;
 
 @interface UITableViewCell (Accessor)
 
