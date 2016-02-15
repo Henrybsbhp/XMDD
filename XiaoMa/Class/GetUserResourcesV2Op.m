@@ -48,6 +48,7 @@
         self.rsp_carwashFlag = [rspObj boolParamForName:@"washcarflag"];
         self.rsp_activityDayFlag = [rspObj boolParamForName:@"activitydayflag"];
         self.rsp_weeklyCouponGetFlag = [rspObj boolParamForName:@"weeklycouponget"];
+        self.rsp_maxGasCouponAmt = [rspObj intParamForName:@"maxgascouponamt"];
     }
     else
     {

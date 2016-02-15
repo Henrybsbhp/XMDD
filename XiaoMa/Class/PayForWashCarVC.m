@@ -1342,7 +1342,8 @@
     NSString * btnText = [NSString stringWithFormat:@"您只需支付%.2f元，现在支付",paymoney];
     [self.payBtn setTitle:btnText forState:UIControlStateNormal];
     
-    CGFloat gainCouponAmt = MIN(MAX(paymoney, 1.0f), 10.0f);
+    CGFloat maxAmt = self.getUserResourcesV2Op.rsp_maxGasCouponAmt ? self.getUserResourcesV2Op.rsp_maxGasCouponAmt : 10.0f;
+    CGFloat gainCouponAmt = MIN(MAX(paymoney, 1.0f), maxAmt);
     
     NSString * lbText = [NSString stringWithFormat:@"0元洗车:支付成功后将获取%@元加油代金券",[NSString formatForPrice:gainCouponAmt]];
     self.bottomScrollLb.text = lbText;
