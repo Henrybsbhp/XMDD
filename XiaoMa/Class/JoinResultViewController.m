@@ -21,14 +21,12 @@
 {
     [super viewWillAppear:animated];
     [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
-    [MobClick beginLogPageView:@"rp334"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
-    [MobClick endLogPageView:@"rp334"];
 }
 
 - (void)viewDidLoad {

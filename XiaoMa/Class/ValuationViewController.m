@@ -60,7 +60,6 @@
     [super viewWillAppear:animated];
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;
     [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
-    [MobClick beginLogPageView:@"rp601"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -68,7 +67,6 @@
     [super viewWillDisappear:animated];
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = NO;
     [IQKeyboardManager sharedManager].enableAutoToolbar = YES;
-    [MobClick endLogPageView:@"rp601"];
 }
 
 - (void)viewDidLoad {

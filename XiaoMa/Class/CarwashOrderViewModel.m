@@ -10,7 +10,6 @@
 #import "XiaoMa.h"
 #import "GetCarwashOrderListV3Op.h"
 #import "CarwashOrderDetailVC.h"
-#import "CarwashOrderCommentVC.h"
 #import "PaymentSuccessVC.h"
 
 @interface CarwashOrderViewModel ()<HKLoadingModelDelegate>

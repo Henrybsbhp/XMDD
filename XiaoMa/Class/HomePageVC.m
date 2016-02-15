@@ -57,7 +57,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp101"];
     self.isViewAppearing = YES;
     [self.scrollView restartRefreshViewAnimatingWhenRefreshing];
 }
@@ -65,7 +64,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp101"];
     self.isViewAppearing = NO;
 }
 

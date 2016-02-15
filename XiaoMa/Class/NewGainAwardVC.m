@@ -51,18 +51,12 @@
     [self requestOperation];
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [MobClick beginLogPageView:@"rp402"];
-    [super viewWillAppear:animated];
-}
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    self.otherActionFlag = YES;
-    
-    [MobClick endLogPageView:@"rp402"];
     [super viewWillDisappear:animated];
+    
+    self.otherActionFlag = YES;
 }
 
 - (IBAction)helpAction:(id)sender {

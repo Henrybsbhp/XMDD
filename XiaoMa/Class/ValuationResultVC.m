@@ -24,17 +24,16 @@
 
 @implementation ValuationResultVC
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp602"];
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp602"];
+- (void)dealloc {
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"ValuationResultVC dealloc~~~");
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -44,7 +43,6 @@
         self.tableView.rowHeight = UITableViewAutomaticDimension;
         self.tableView.estimatedRowHeight = 50;
     }
-    // Do any additional setup after loading the view.
 }
 
 - (void)actionBack:(id)sender
@@ -303,15 +301,5 @@
     
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)dealloc {
-    self.tableView.delegate = nil;
-    self.tableView.dataSource = nil;
-    DebugLog(@"ValuationResultVC dealloc~~~");
-}
 
 @end

@@ -43,16 +43,6 @@
     self.smsModel = [[HKSMSModel alloc] init];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [MobClick beginLogPageView:@"rp313"];
-    [super viewWillAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [MobClick endLogPageView:@"rp313"];
-    [super viewWillDisappear:animated];
-}
 
 #pragma mark - Action
 - (void)actionGetVCode:(id)sender

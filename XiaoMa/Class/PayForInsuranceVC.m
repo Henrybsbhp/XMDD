@@ -57,15 +57,6 @@
     [self requestGetUserInsCoupon];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [MobClick beginLogPageView:@"rp1006"];
-    [super viewWillAppear:animated];
-}
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [MobClick endLogPageView:@"rp1006"];
-    [super viewWillDisappear:animated];
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

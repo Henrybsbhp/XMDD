@@ -8,6 +8,8 @@
 
 #import "CommissionSuccessVC.h"
 #import "CommissionOrderVC.h"
+
+
 @interface CommissionSuccessVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -26,17 +28,6 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"cm_nav_back"] style:UIBarButtonItemStyleDone target:self action:@selector(popOrderVC)];
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp803"];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp803"];
-}
 
 - (void)popOrderVC {
     for(UIViewController *controller in self.navigationController.viewControllers) {

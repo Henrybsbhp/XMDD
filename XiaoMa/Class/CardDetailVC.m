@@ -36,16 +36,10 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [MobClick beginLogPageView:@"rp315"];
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [MobClick endLogPageView:@"rp315"];
-    [super viewWillDisappear:animated];
-}
 
 #pragma mark - collectionView
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView

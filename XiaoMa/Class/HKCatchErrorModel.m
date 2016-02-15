@@ -10,7 +10,6 @@
 #import "XiaoMa.h"
 #import "HKLoginModel.h"
 #import "CXAlertView.h"
-#import "LoginVC.h"
 
 @interface HKCatchErrorModel ()
 @property (nonatomic, weak) UIAlertView *alertView;

@@ -37,19 +37,6 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    [MobClick beginLogPageView:@"rp109"];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    [MobClick endLogPageView:@"rp109"];
-}
 
 - (void)dealloc
 {
