@@ -131,7 +131,9 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)setupRightItems
 {
+    @weakify(self);
     [self.bridge.myBridge registerHandler:@"setOptionMenu" handler:^(id data, WVJBResponseCallback responseCallback) {
+        @strongify(self);
         DebugLog(@"%@", data);
         NSArray * menuArr = data;
         if (menuArr.count == 1) {
