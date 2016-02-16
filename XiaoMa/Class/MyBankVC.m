@@ -33,14 +33,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [MobClick beginLogPageView:@"rp314"];
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-}
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [MobClick endLogPageView:@"rp314"];
-    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidLoad

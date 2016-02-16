@@ -60,14 +60,12 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [MobClick endLogPageView:@"rp504"];
     [super viewWillDisappear:animated];
     [IQKeyboardManager sharedManager].shouldShowTextFieldPlaceholder = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp504"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 

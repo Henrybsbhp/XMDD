@@ -27,21 +27,6 @@
     [self setupUI];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    [MobClick beginLogPageView:@"rp305"];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    [MobClick endLogPageView:@"rp305"];
-    //未找到取消按钮的点击事件
-    //[MobClick event:@"rp305-1"];
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

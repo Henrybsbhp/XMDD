@@ -30,15 +30,6 @@
     [self reloadData];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp1013"];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp1013"];
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

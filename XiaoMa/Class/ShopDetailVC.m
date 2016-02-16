@@ -82,7 +82,6 @@
     
     [self.roundLb refreshLabels];
     
-    [MobClick beginLogPageView:@"rp105"];
     if([gAppMgr.myUser.favorites getFavoriteWithID:self.shop.shopID] == nil){
         self.favorite = NO;
         [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star"] forState:UIControlStateNormal];
@@ -101,11 +100,6 @@
     }
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp105"];
-}
 - (void)dealloc
 {
     self.tableView.delegate = nil;

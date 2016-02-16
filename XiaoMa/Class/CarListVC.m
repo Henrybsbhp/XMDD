@@ -49,14 +49,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp309"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp309"];
     [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
 }
 

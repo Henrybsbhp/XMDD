@@ -56,7 +56,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp507"];
     [[IQKeyboardManager sharedManager] setEnableAutoToolbar:NO];
     [IQKeyboardManager sharedManager].keyboardDistanceFromTextField = 70;
 }
@@ -64,7 +63,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp507"];
     [[IQKeyboardManager sharedManager] setEnableAutoToolbar:YES];
     [IQKeyboardManager sharedManager].keyboardDistanceFromTextField = 10;
 }

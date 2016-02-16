@@ -10,7 +10,6 @@
 #import "XiaoMa.h"
 #import "UIView+Layer.h"
 #import "ShopDetailVC.h"
-#import "CarwashOrderCommentVC.h"
 #import "NSString+RectSize.h"
 #import "JTRatingView.h"
 #import "HKLoadingModel.h"
@@ -44,17 +43,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp320"];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp320"];
-}
 
 - (void)dealloc
 {

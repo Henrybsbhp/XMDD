@@ -34,19 +34,31 @@
     DebugLog(@"RescueHistoryViewController dealloc");
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp804"];
-}
 
--(void)viewWillDisappear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp804"];
+    [super viewDidAppear:animated];
+    if (self.type == 1)
+    {
+        [MobClick beginLogPageView:@"rp705"];
+    }
+    else
+    {
+        [MobClick beginLogPageView:@"rp804"];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
+    
+    if (self.type == 1)
+    {
+        [MobClick endLogPageView:@"rp705"];
+    }
+    else
+    {
+        [MobClick endLogPageView:@"rp804"];
+    }
     
 }
 - (void)viewDidLoad {

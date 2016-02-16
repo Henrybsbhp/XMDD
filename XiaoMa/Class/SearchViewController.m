@@ -64,7 +64,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp103"];
     
     UIView * view = self.navigationController.navigationBar;
     [view addSubview:self.searchBarBackgroundView];
@@ -83,7 +82,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp103"];
     
     [self.searchBarBackgroundView removeFromSuperview];
 }
