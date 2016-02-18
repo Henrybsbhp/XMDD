@@ -126,6 +126,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 {
     NSMutableDictionary * imgDic = [[NSMutableDictionary alloc] init];
     NSMutableDictionary * imguploadDic = [[NSMutableDictionary alloc] init];
+    @weakify(superVC);
     [self.myBridge registerHandler:@"selectSingleImage" handler:^(id data, WVJBResponseCallback responseCallback) {
         //存图片ID
         [imgDic addParam:[data stringParamForName:@"imgId"] forName:@"imgId"];
@@ -134,9 +135,11 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         HKImagePicker *picker = [HKImagePicker imagePicker];
         picker.allowsEditing = YES;
         picker.shouldShowBigImage = NO;
+        @strongify(superVC);
         @weakify(self);
         [[[picker rac_pickImageInTargetVC:superVC inView:superVC.navigationController.view] flattenMap:^RACStream *(UIImage *image) {
             
+            @strongify(self);
             NSData *data = UIImageJPEGRepresentation(image, 0.8f);
             NSString *encodedImageStr = [NSString stringWithFormat:@"data:image/jpeg;base64,%@", [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength]];
             
@@ -166,6 +169,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             [self.myBridge callHandler:@"singleImageBack" data:dataStr responseCallback:^(id response) {
             }];
         } error:^(NSError *error) {
+            @strongify(self);
             //断网传空
             [imgDic addParam:@"" forName:@"imageUrl"];
             [imgDic addParam:@"" forName:@"imageCodeStr"];
