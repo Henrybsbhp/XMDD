@@ -13,6 +13,7 @@
 #import "JoinUsViewController.h"
 #import "GetShareButtonOp.h"
 #import "ShareResponeManager.h"
+#import "ReactTestViewController.h"
 
 @interface AboutViewController ()
 
@@ -78,7 +79,13 @@
                             
                             @strongify(self)
                             [self switchSurrounding];
+                        }},
+                        @{@"title":@"RCT",@"action":^(void){
+                            
+                            @strongify(self)
+                            [self actionRCT];
                         }}];
+        
     }
     else
     {
@@ -121,6 +128,11 @@
                                 
                                 @strongify(self)
                                 [self switchSurrounding];
+                            }},
+                            @{@"title":@"RCT",@"action":^(void){
+                                
+                                @strongify(self)
+                                [self actionRCT];
                             }}];
     }
 #else
@@ -363,6 +375,12 @@
      */
     [MobClick event:@"rp322-4"];
     JoinUsViewController * vc = [UIStoryboard vcWithId:@"JoinUsViewController" inStoryboard:@"About"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionRCT
+{
+    ReactTestViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"ReactTestViewController"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 @end
