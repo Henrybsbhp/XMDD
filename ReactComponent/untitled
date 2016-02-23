@@ -15,8 +15,7 @@ var {
   AlertIOS,
   TouchableOpacity,
   ActivityIndicatorIOS,
-  DatePickerIOS,
-  MapView,
+  DatePickerIOS
 } = React;
 
 var MOCKED_MOVIES_DATA = [
@@ -42,10 +41,6 @@ var AwesomeProject11 = React.createClass({
       }),
       loaded: false,
       date: this.props.date,
-      isFirstLoad: true,
-      mapRegion: undefined,
-      mapRegionInput: undefined,
-      annotations: [],
     };
   },
 
@@ -92,33 +87,27 @@ var AwesomeProject11 = React.createClass({
   },
 
   render: function() {
-    if (!this.state.loaded) {
-      return this.renderLoadingView();
-    }
+    // if (!this.state.loaded) {
+    //   return this.renderLoadingView();
+    // }
 
     return (
-      // <ListView
-      //   dataSource={this.state.dataSource}
-      //   renderRow={this.renderMovie}
-      //   style={styles.listView}
-      //   // initialListSize={5}
-      //   onChangeVisibleRows={this.onChangeVisibleRows}
-      //   onEndReached={this.reachedEnd}
-      //   onEndReachedThreshold={50}
+      <ListView
+        dataSource={this.state.dataSource}
+        renderRow={this.renderMovie}
+        style={styles.listView}
+        // initialListSize={5}
+        onChangeVisibleRows={this.onChangeVisibleRows}
+        onEndReached={this.reachedEnd}
+        onEndReachedThreshold={50}
+      />
+      // <DatePickerIOS
+      // date={this.state.date}
+      // mode="date"
+      // onDateChange={this.onDateChange}
       // />
-        <MapView
-          style={styles.map}
-          onRegionChange={this._onRegionChange}
-          onRegionChangeComplete={this._onRegionChangeComplete}
-          region={this.state.mapRegion}
-          annotations={this.state.annotations}
-          followUserLocation={true}
-          showsUserLocation={true}
-        />
     );
   },
-
-
 
   renderLoadingView: function() {
     return (
@@ -168,12 +157,6 @@ var AwesomeProject11 = React.createClass({
 });
 
 var styles = StyleSheet.create({
-   map: {
-    height: 400,
-    margin: 5,
-    borderWidth: 1,
-    // borderColor: '#F5FCFF',
-  },
   container: {
     flex: 1,
     flexDirection: 'row',

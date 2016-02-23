@@ -27,11 +27,9 @@
     
     CKAsyncMainQueue(^{
         
-        NSString * strUrl = @"http://localhost:8081/index.ios.bundle?platform=ios&dev=true";
+        NSString * strUrl = @"http://192.168.1.77:8081/index.ios.bundle?platform=ios&dev=true";
         [self.rctView rct_requestWithUrlStr:strUrl];
     });
-    
-    
 }
 
 - (void)setupNavi
