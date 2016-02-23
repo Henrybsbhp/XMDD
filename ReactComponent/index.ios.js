@@ -97,24 +97,24 @@ var AwesomeProject11 = React.createClass({
     }
 
     return (
-      // <ListView
-      //   dataSource={this.state.dataSource}
-      //   renderRow={this.renderMovie}
-      //   style={styles.listView}
-      //   // initialListSize={5}
-      //   onChangeVisibleRows={this.onChangeVisibleRows}
-      //   onEndReached={this.reachedEnd}
-      //   onEndReachedThreshold={50}
-      // />
-        <MapView
-          style={styles.map}
-          onRegionChange={this._onRegionChange}
-          onRegionChangeComplete={this._onRegionChangeComplete}
-          region={this.state.mapRegion}
-          annotations={this.state.annotations}
-          followUserLocation={true}
-          showsUserLocation={true}
-        />
+      <ListView
+        dataSource={this.state.dataSource}
+        renderRow={this.renderMovie}
+        style={styles.listView}
+        // initialListSize={5}
+        // onChangeVisibleRows={this.onChangeVisibleRows}
+        // onEndReached={this.reachedEnd}
+        // onEndReachedThreshold={50}
+      />
+        // <MapView
+        //   style={styles.map}
+        //   onRegionChange={this._onRegionChange}
+        //   onRegionChangeComplete={this._onRegionChangeComplete}
+        //   region={this.state.mapRegion}
+        //   annotations={this.state.annotations}
+        //   followUserLocation={true}
+        //   showsUserLocation={true}
+        // />
     );
   },
 
@@ -139,10 +139,10 @@ var AwesomeProject11 = React.createClass({
         />
         <View style={styles.rightContainer}>
           <Text style={styles.title}>{shop.name}</Text>
-
           <Text style={styles.year}>{shop.address}</Text>
-          <Text style={styles.year}>----------------------------</Text>
         </View>
+        <View style={styles.line}
+        />
       </View>
     );
   },
@@ -168,12 +168,6 @@ var AwesomeProject11 = React.createClass({
 });
 
 var styles = StyleSheet.create({
-   map: {
-    height: 400,
-    margin: 5,
-    borderWidth: 1,
-    // borderColor: '#F5FCFF',
-  },
   container: {
     flex: 1,
     flexDirection: 'row',
