@@ -452,14 +452,13 @@
 - (void)showNewbieGuideAlertIfNeeded
 {
     if (self.guideStore.shouldShowNewbieGuideAlert && self.isViewAppearing) {
-        self.isShowSuspendedAd = YES;
         [HomeNewbieGuideVC presentInTargetVC:self];
     }
 }
 
 - (void)showSuspendedAdIfNeeded
 {
-    if (!self.guideStore.shouldShowNewbieGuideAlert && self.isViewAppearing && [self.guideStore isNewbieGuideAlertAppeared] && !self.isShowSuspendedAd) {
+    if (self.guideStore.allowPopupAd && !self.isShowSuspendedAd) {
         
         self.isShowSuspendedAd = YES;
         
