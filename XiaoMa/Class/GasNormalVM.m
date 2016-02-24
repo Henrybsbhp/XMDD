@@ -12,6 +12,7 @@
 #import "OrderPaidSuccessOp.h"
 #import "CancelGaschargeOp.h"
 #import "PaymentHelper.h"
+#import "CKDatasource.h"
 
 @interface GasNormalVM ()
 @property (nonatomic, strong) RACSignal *getGaschargeConfigSignal;
@@ -137,6 +138,7 @@
 
 - (NSArray *)datasource
 {
+    //如果加载失败或者正在加载
     if (!self.isLoadSuccess || self.isLoading) {
         return @[@[@"1"]];
     }

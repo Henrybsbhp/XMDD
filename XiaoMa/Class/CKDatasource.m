@@ -8,138 +8,110 @@
 
 #import "CKDatasource.h"
 
-@interface CKDatasource ()
-@property (nonatomic, strong) NSMutableDictionary *subDataDict;
-@property (nonatomic, strong) NSMutableArray *subDataArray;
-@end
+@implementation CKItem
 
-@implementation CKDatasource
-
-- (instancetype)initWithKey:(NSString *)dkey
+#pragma mark - 数据元素
++ (instancetype)itemWithInfo:(NSDictionary *)info
 {
-    self = [super init];
-    if (self) {
-        _dataKey = dkey;
-        _info = [NSMutableDictionary dictionary];
+    CKItem *item = [[self alloc] init];
+    if (info) {
+        item->_info = [NSMutableDictionary dictionaryWithDictionary:info];
     }
-    return self;
-}
-
-+ (instancetype)dataWithKey:(NSString *)dkey
-{
-    CKDatasource *data = [[self alloc] initWithKey:dkey];
-    return data;
-}
-
-+ (instancetype)dataWithKey:(NSString *)dkey subDatas:(NSArray *)subDatas
-{
-    CKDatasource *data = [[self alloc] initWithKey:dkey];
-    [data.subDataArray addObjectsFromArray:subDatas];
-    return data;
-}
-
-+ (instancetype)dataWithKey:(NSString *)dkey info:(NSDictionary *)info
-{
-    CKDatasource *data = [[self alloc] initWithKey:dkey];
-    [data.info setDictionary:info];
-    return data;
-}
-
-- (instancetype)subDataByID:(NSString *)did
-{
-    return self.subDataDict[did];
-}
-
-- (void)addSubData:(CKDatasource *)subdata
-{
-    [self.subDataArray addObject:subdata];
-    [self.subDataDict setObject:subdata forKey:subdata.dataKey];
-}
-
-- (void)addSubDatasFromArray:(NSArray *)subs
-{
-    for (CKDatasource *subdata in subs) {
-        [self addSubData:subdata];
+    else {
+        item->_info = [NSMutableDictionary dictionary];
     }
+    return item;
 }
 
-- (void)removeSubDataForKey:(NSString *)subkey
+- (void)setItemKey:(id<NSCopying>)key
 {
-    if (subkey) {
-        CKDatasource *subdata = _subDataDict[subkey];
-        [self.subDataArray safetyRemoveObject:subdata];
-    }
+    self.info[kCKItemKey] = key;
 }
 
-- (void)removeSubDataAtIndex:(NSInteger)index
+- (id)itemKey
 {
-    CKDatasource *subdata = [self.subDataArray safetyObjectAtIndex:index];
-    if (subdata) {
-        [self.subDataDict removeObjectForKey:subdata.dataKey];
-    }
-}
-
-- (void)insertSubData:(CKDatasource *)subdata atIndex:(NSInteger)index
-{
-    if (subdata) {
-        [self.subDataArray safetyInsertObject:subdata atIndex:index];
-        [self.subDataDict safetySetObject:subdata forKey:subdata.dataKey];
-    }
-}
-
-- (CKDatasource *)subDataAtIndex:(NSInteger)index
-{
-    return [self.subDataArray safetyObjectAtIndex:index];
-}
-
-- (CKDatasource *)subDataForKey:(NSString *)subkey
-{
-    if (subkey) {
-        return [self.subDataDict objectForKey:subkey];
-    }
-    return nil;
-}
-
-- (NSArray *)allSubDatas
-{
-    return [NSArray arrayWithArray:self.subDataArray];
-}
-
-- (NSUInteger)countOfSubDatas
-{
-    return [self.subDataArray count];
-}
-#pragma mark - Utility
-- (NSMutableDictionary *)subDataDict
-{
-    if (!_subDataDict) {
-        _subDataDict = [NSMutableDictionary dictionary];
-    }
-    return _subDataDict;
-}
-
-- (NSMutableArray *)subDataArray
-{
-    if (!_subDataArray) {
-        _subDataArray = [NSMutableArray array];
-    }
-    return _subDataArray;
+    return self.info[kCKItemKey];
 }
 
 @end
+
+
+#pragma mark - CKQueue扩展
+@implementation CKQueue (Datasource)
+static char s_itemKey;
+
+- (void)setItemKey:(id<NSCopying>)key
+{
+    objc_setAssociatedObject(self, &s_itemKey, key, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (id)itemKey
+{
+    return objc_getAssociatedObject(self, &s_itemKey);
+}
+
+- (void)addSubQueue:(CKQueue *)subq
+{
+    [self addObject:subq forKey:subq.itemKey];
+    [self setDictionary:subq.dictionary];
+}
+
+- (void)addSubQueueList:(NSArray *)subqs
+{
+    for (CKQueue *subq in subqs) {
+        [self addSubQueue:subq];
+    }
+}
+
 
 #pragma mark - C语言扩展
-CKDataBlock2 CKDataGetCellHeight(CKDataBlock2 block)
+CKCellSelectedBlock CKCellSelected(CKCellSelectedBlock block)
 {
     return [block copy];
 }
 
-CKDataBlock3 CKDataPrepareCell(CKDataBlock3 block)
+CKCellGetHeightBlock CKCellGetHeight(CKCellGetHeightBlock block)
 {
     return [block copy];
 }
 
-CKDataBlock1 CKDataSelectCell(CKDataBlock1 block)
+CKCellPrepareBlock CKCellPrepare(CKCellPrepareBlock block)
 {
     return [block copy];
 }
+
+CKItem *CKGenItem(NSDictionary *info)
+{
+    return [CKItem itemWithInfo:info];
+}
+
+CKQueue *CKGenQueue(id<CKQueueItemDelegate> firstObject, ...)
+{
+    CKQueue *queue = [CKQueue queue];
+    va_list ap;
+    va_start(ap, firstObject);
+    id<CKQueueItemDelegate> obj = firstObject;
+    while (obj) {
+        [queue addObject:obj forKey:[obj itemKey]];
+        obj = va_arg(ap, id);
+    }
+    va_end(ap);
+    return queue;
+}
+
+CKQueue *CKPackQueue(CKQueue *firstQueue, ...)
+{
+    CKQueue *queue = [CKQueue queue];
+    va_list ap;
+    va_start(ap, firstQueue);
+    CKQueue *subq = firstQueue;
+    while (subq) {
+        [queue addObject:subq forKey:nil];
+        [queue setDictionary:subq.dictionary];
+        subq = va_arg(ap, CKQueue *);
+    }
+    va_end(ap);
+    return queue;
+}
+
+@end

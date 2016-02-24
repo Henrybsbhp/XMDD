@@ -79,6 +79,7 @@
 		184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C91AD3B6DC00EFC3A6 /* JTTableViewCell.m */; };
 		184E40CE1AD3BBB600EFC3A6 /* ShopDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40CD1AD3BBB600EFC3A6 /* ShopDetailVC.m */; };
 		184E40D21AD3D01B00EFC3A6 /* JTShop.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40D11AD3D01B00EFC3A6 /* JTShop.m */; };
+		184F09FB1C7B036A00DD6B54 /* CKQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 184F09FA1C7B036A00DD6B54 /* CKQueue.m */; };
 		1851F4181B0C1E5400241A01 /* PickAutomobileBrandVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F4171B0C1E5400241A01 /* PickAutomobileBrandVC.m */; };
 		1851F41B1B0C210D00241A01 /* GetAutomobileBrandOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F41A1B0C210D00241A01 /* GetAutomobileBrandOp.m */; };
 		1851F41E1B0C223A00241A01 /* HKAutoBrand.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F41D1B0C223A00241A01 /* HKAutoBrand.m */; };
@@ -774,6 +775,8 @@
 		184E40CD1AD3BBB600EFC3A6 /* ShopDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailVC.m; sourceTree = "<group>"; };
 		184E40D01AD3D01B00EFC3A6 /* JTShop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTShop.h; path = Class/JTShop.h; sourceTree = "<group>"; };
 		184E40D11AD3D01B00EFC3A6 /* JTShop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTShop.m; path = Class/JTShop.m; sourceTree = "<group>"; };
+		184F09F91C7B036A00DD6B54 /* CKQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKQueue.h; path = Class/CKQueue.h; sourceTree = "<group>"; };
+		184F09FA1C7B036A00DD6B54 /* CKQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKQueue.m; path = Class/CKQueue.m; sourceTree = "<group>"; };
 		1851F4161B0C1E5400241A01 /* PickAutomobileBrandVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickAutomobileBrandVC.h; sourceTree = "<group>"; };
 		1851F4171B0C1E5400241A01 /* PickAutomobileBrandVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickAutomobileBrandVC.m; sourceTree = "<group>"; };
 		1851F4191B0C210D00241A01 /* GetAutomobileBrandOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetAutomobileBrandOp.h; path = Class/GetAutomobileBrandOp.h; sourceTree = "<group>"; };
@@ -2165,6 +2168,8 @@
 				18D811C51C1EDB5300B6AB04 /* CKDispatcher.m */,
 				1821C3551C4DD36C00120AF4 /* CKDatasource.h */,
 				1821C3561C4DD36C00120AF4 /* CKDatasource.m */,
+				184F09F91C7B036A00DD6B54 /* CKQueue.h */,
+				184F09FA1C7B036A00DD6B54 /* CKQueue.m */,
 			);
 			name = Base;
 			sourceTree = "<group>";
@@ -4651,6 +4656,7 @@
 				2E77A4A51C325FCC00264FC9 /* HKRescueDetail.m in Sources */,
 				1853DECE1AE100CA00C39175 /* HKSMSModel.m in Sources */,
 				1853DEC41AE0EC1600C39175 /* LoginViewModel.m in Sources */,
+				184F09FB1C7B036A00DD6B54 /* CKQueue.m in Sources */,
 				6BCF62471B1737980064AE32 /* GetUserCouponByTypeOp.m in Sources */,
 				6B8D47561BEA03C900706989 /* GetCarwashOrderV2Op.m in Sources */,
 				6B50127E1C59F5F000267DCB /* UIViewController+Swizzling.m in Sources */,
