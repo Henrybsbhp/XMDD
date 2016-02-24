@@ -48,6 +48,7 @@
 
 @property (nonatomic, strong)NSArray * homeItemArray;
 @property (nonatomic, assign) BOOL isViewAppearing;
+@property (nonatomic, assign) BOOL isShowSuspendedAd;
 
 @property (nonatomic, strong)NSMutableArray * disposableArray;
 @end
@@ -114,6 +115,7 @@
             self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, 480);
         }
         [self showNewbieGuideAlertIfNeeded];
+        [self showSuspendedAdIfNeeded];
     });
 }
 
@@ -441,6 +443,7 @@
         [[evt signal] subscribeNext:^(id x) {
             @strongify(self);
             [self showNewbieGuideAlertIfNeeded];
+            [self showSuspendedAdIfNeeded];
         }];
     }];
 }
@@ -449,7 +452,26 @@
 - (void)showNewbieGuideAlertIfNeeded
 {
     if (self.guideStore.shouldShowNewbieGuideAlert && self.isViewAppearing) {
+        self.isShowSuspendedAd = YES;
         [HomeNewbieGuideVC presentInTargetVC:self];
+    }
+}
+
+- (void)showSuspendedAdIfNeeded
+{
+    if (!self.guideStore.shouldShowNewbieGuideAlert && self.isViewAppearing && [self.guideStore isNewbieGuideAlertAppeared] && !self.isShowSuspendedAd) {
+        
+        self.isShowSuspendedAd = YES;
+        
+        @weakify(self);
+        RACSignal *signal = [gAdMgr rac_getAdvertisement:AdvertisementAlert];
+        [[signal deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
+            
+            @strongify(self);
+            if (ads.count > 0) {
+                [HomeSuspendedAdVC presentInTargetVC:self];
+            }
+        }];
     }
 }
 
