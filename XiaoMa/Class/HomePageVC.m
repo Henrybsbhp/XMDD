@@ -27,6 +27,7 @@
 #import "ViolationViewController.h"
 #import "ValuationViewController.h"
 #import "HomeNewbieGuideVC.h"
+#import "HomeSuspendedAdVC.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3.0
