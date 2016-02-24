@@ -25,5 +25,6 @@
 - (void)setNewbieGuideAlertAppeared;
 - (void)setNewbieGuideAppeared;
 - (CGSize)newbieGuideAlertImageSize;
+- (BOOL)isNewbieGuideAlertAppeared;
 
 @end
