@@ -94,6 +94,12 @@
     [self triggerEvent:[[RACSignal return:nil] eventWithName:kDomainNewbiewGuide]];
 }
 
+- (BOOL)isNewbieGuideAlertAppeared
+{
+    NSString *alertKey = [NSString stringWithFormat:@"NewbiewGuide_%@.Alert", gAppMgr.myUser.userID];
+    return [gAppMgr.deviceInfo checkIfAppearedAfterVersion:@"2.6" forKey:alertKey];
+}
+
 #pragma mark - Utility
 - (void)downloadNewbieGuidePicIfNeeded:(GetNewbieInfoOp *)op
 {
