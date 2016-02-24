@@ -370,6 +370,8 @@
 		50A1E0711C1EA3A300176572 /* ValuationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A1E0701C1EA3A300176572 /* ValuationViewController.m */; };
 		50ACC6A51C20FC79006E984E /* CarScrollTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ACC6A41C20FC79006E984E /* CarScrollTableViewCell.m */; };
 		50ACC6A81C2138F9006E984E /* CarEvaluateOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ACC6A71C2138F9006E984E /* CarEvaluateOp.m */; };
+		50B508871C7C075800B6151E /* UIView+Genie.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B508861C7C075800B6151E /* UIView+Genie.m */; };
+		50B5088D1C7C469800B6151E /* HomeSuspendedAdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B5088C1C7C469800B6151E /* HomeSuspendedAdVC.m */; };
 		50B5A2961BD8CC51004E00ED /* MyWebViewBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */; };
 		50BA11641C27F42F00EA1E4A /* CarIDCodeCheckModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BA11631C27F42F00EA1E4A /* CarIDCodeCheckModel.m */; };
 		50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE7C911B6716B500675887 /* SelectScrollView.m */; };
@@ -1340,6 +1342,10 @@
 		50ACC6A41C20FC79006E984E /* CarScrollTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarScrollTableViewCell.m; sourceTree = "<group>"; };
 		50ACC6A61C2138F9006E984E /* CarEvaluateOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CarEvaluateOp.h; path = Class/CarEvaluateOp.h; sourceTree = "<group>"; };
 		50ACC6A71C2138F9006E984E /* CarEvaluateOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CarEvaluateOp.m; path = Class/CarEvaluateOp.m; sourceTree = "<group>"; };
+		50B508851C7C075800B6151E /* UIView+Genie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Genie.h"; path = "Class/UIView+Genie.h"; sourceTree = "<group>"; };
+		50B508861C7C075800B6151E /* UIView+Genie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Genie.m"; path = "Class/UIView+Genie.m"; sourceTree = "<group>"; };
+		50B5088B1C7C469800B6151E /* HomeSuspendedAdVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeSuspendedAdVC.h; sourceTree = "<group>"; };
+		50B5088C1C7C469800B6151E /* HomeSuspendedAdVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeSuspendedAdVC.m; sourceTree = "<group>"; };
 		50B5A2941BD8CC51004E00ED /* MyWebViewBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyWebViewBridge.h; sourceTree = "<group>"; };
 		50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWebViewBridge.m; sourceTree = "<group>"; };
 		50BA11621C27F42F00EA1E4A /* CarIDCodeCheckModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CarIDCodeCheckModel.h; path = Class/CarIDCodeCheckModel.h; sourceTree = "<group>"; };
@@ -2072,6 +2078,7 @@
 		1816F4B51AD36D5100BBCC96 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				50B5087E1C7BF07C00B6151E /* GenieView */,
 				18BB36181C4E2CED003E7B86 /* MapView */,
 				508EE5D91C2B8B1A00873602 /* TopMenu */,
 				18BF42091BD2732A0039F210 /* TextField */,
@@ -2676,6 +2683,8 @@
 				6BEE17921C325A3C0004F63A /* GuideViewController.m */,
 				1821C34B1C4794D800120AF4 /* HomeNewbieGuideVC.h */,
 				1821C34C1C4794D800120AF4 /* HomeNewbieGuideVC.m */,
+				50B5088B1C7C469800B6151E /* HomeSuspendedAdVC.h */,
+				50B5088C1C7C469800B6151E /* HomeSuspendedAdVC.m */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -3503,6 +3512,15 @@
 				508EE5DB1C2BA09800873602 /* TopMenuScrollView.m */,
 			);
 			name = TopMenu;
+			sourceTree = "<group>";
+		};
+		50B5087E1C7BF07C00B6151E /* GenieView */ = {
+			isa = PBXGroup;
+			children = (
+				50B508851C7C075800B6151E /* UIView+Genie.h */,
+				50B508861C7C075800B6151E /* UIView+Genie.m */,
+			);
+			name = GenieView;
 			sourceTree = "<group>";
 		};
 		50BE7C8F1B6715B400675887 /* SelectScrollView */ = {
@@ -4802,6 +4820,7 @@
 				189B30BA1AD51EF2001D7288 /* JTUser.m in Sources */,
 				18B78F6A1BAAA2100061ECAD /* GetInsuranceCalculatorOpV2.m in Sources */,
 				50E800411C44D7B100AFC7B9 /* HYScratchCardView.m in Sources */,
+				50B5088D1C7C469800B6151E /* HomeSuspendedAdVC.m in Sources */,
 				18FC01DF1C4E6C6F00FD61BF /* IQKeyboardReturnKeyHandler.m in Sources */,
 				506008D41B74631800B8761D /* DrawingBoardView.m in Sources */,
 				18E592381C1A5CEE006010D9 /* InsPayResultVC.m in Sources */,
@@ -4845,6 +4864,7 @@
 				2E77A4A31C325FCC00264FC9 /* HKRescueHistory.m in Sources */,
 				5073810D1BA1672D00B29756 /* GetCouponByTypeNewOp.m in Sources */,
 				6BBB82491AE7401400850D0C /* GetInsuranceByChannel.m in Sources */,
+				50B508871C7C075800B6151E /* UIView+Genie.m in Sources */,
 				6BD3D0F01C55E62B008F07EE /* GetSystemJSPatchOp.m in Sources */,
 				505E5FD31BD73B7D00857819 /* ListWebVC.m in Sources */,
 				6BEA56C71AE24DCE000D19C1 /* SBJSON.m in Sources */,
