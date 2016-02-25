@@ -258,8 +258,8 @@
         [self.navigationController pushViewController:vc animated:YES];
         
     }else if (indexPath.row == 4){
-        DatePickerVC *vc = [DatePickerVC datePickerVCWithMaximumDate:[self getPriousorLaterDateFromDate:[NSDate date] withMonth:12]];
-        vc.minimumDate = [NSDate date];
+        DatePickerVC *vc = [DatePickerVC datePickerVCWithMaximumDate:[self getPriousorLaterDateFromDate:[NSDate date] withDays:30]];
+        vc.minimumDate = [self getPriousorLaterDateFromDate:[NSDate date] withDays:3];
         [[vc rac_presentPickerVCInView:self.navigationController.view withSelectedDate:[NSDate date]]
          subscribeNext:^(NSDate *date) {
              self.appointmentDay = date;
@@ -269,17 +269,16 @@
 }
 
 #pragma mark - month
--(NSDate *)getPriousorLaterDateFromDate:(NSDate *)date withMonth:(int)month
+-(NSDate *)getPriousorLaterDateFromDate:(NSDate *)date withDays:(int)days
 
 {
     NSDateComponents *comps = [[NSDateComponents alloc] init];
     
-    [comps setMonth:month];
-    
+    [comps setDay:days];
     NSCalendar *calender = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     
     NSDate *mDate = [calender dateByAddingComponents:comps toDate:date options:0];
-    
+
     return mDate;
     
 }
