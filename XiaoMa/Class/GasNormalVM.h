@@ -15,6 +15,7 @@
 @property (nonatomic, strong) GetGaschargeConfigOp *configOp;
 @property (nonatomic, strong) HKStoreEvent *cachedEvent;
 
+- (NSArray *)datasource;
 ///充值优惠描述
 - (NSString *)rechargeFavorableDesc;
 - (void)startPayInTargetVC:(UIViewController *)vc completed:(void(^)(GasCard *card, GascardChargeOp *paidop))completed;

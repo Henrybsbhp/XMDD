@@ -21,6 +21,9 @@
 ///是否显示新手引导的弹框
 @property (nonatomic, assign) BOOL shouldShowNewbieGuideAlert;
 
+///是否允许弹出广告功能
+@property (nonatomic, assign) BOOL allowPopupAd;
+
 - (CKEvent *)checkNewbieGuide;
 - (void)setNewbieGuideAlertAppeared;
 - (void)setNewbieGuideAppeared;

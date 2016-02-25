@@ -7,49 +7,61 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CKQueue.h"
 
 ///info的默认Key
 #define kCKCellID           @"__cellid"
-#define kCKGetCellHeight    @"__getcellheight"
-#define kCKPrepareCell      @"__preparecell"
-#define kCKSelectCell       @"__selectcell"
+#define kCKCellGetHeight    @"__getcellheight"
+#define kCKCellPrepare      @"__preparecell"
+#define kCKCellSelected     @"__selectcell"
 
-@interface CKDatasource : NSObject
-@property (nonatomic, strong, readonly) NSString *dataKey;
-@property (nonatomic, strong, readonly) NSMutableDictionary *info;
-///用于触发KVO的刷新。(用法：在页面上先用KVO监听该属性，在info发生改变时，设置 forceRerend = !forceRerend，即可通知页面刷新)
-@property (nonatomic, assign) BOOL forceRerend;
+#define CKNULL     [NSNull null]
+#define kCKItemKey      @"__itemkey"
 
-+ (instancetype)dataWithKey:(NSString *)dkey subDatas:(NSArray *)subDatas;
-+ (instancetype)dataWithKey:(NSString *)dkey info:(NSDictionary *)info;
-+ (instancetype)dataWithKey:(NSString *)dkey;
-
-- (void)addSubData:(CKDatasource *)subdata;
-- (void)addSubDatasFromArray:(NSArray *)subs;
-- (void)removeSubDataForKey:(NSString *)subkey;
-- (void)removeSubDataAtIndex:(NSInteger)index;
-- (void)insertSubData:(CKDatasource *)subdata atIndex:(NSInteger)index;
-- (CKDatasource *)subDataAtIndex:(NSInteger)index;
-- (CKDatasource *)subDataForKey:(NSString *)subkey;
-- (NSArray *)allSubDatas;
-- (NSUInteger)countOfSubDatas;
+@protocol CKQueueItemDelegate <NSObject>
+- (void)setItemKey:(id<NSCopying>)key;
+- (id)itemKey;
 
 @end
 
-#pragma mark - C语言扩展(主要为了自动补全block)
+///数据源元素
+@interface CKItem : NSObject<CKQueueItemDelegate>
+@property (nonatomic, strong, readonly) NSMutableDictionary *info;
+@property (nonatomic, assign) BOOL forceRerend;
++ (instancetype)itemWithInfo:(NSDictionary *)info;
+
+@end
+
+///数据源结构
+@interface CKQueue (Datasource)<CKQueueItemDelegate>
+- (void)addSubQueue:(CKQueue *)subq;
+- (void)addSubQueueList:(NSArray *)subqs;
+
+@end
+
+
+
+#pragma mark - C语言扩展(主要为了自动补全block以及简化方法调用)
 #if defined __cplusplus
 extern "C"
 {
 #endif
-    typedef void (^CKDataBlock1)(CKDatasource *data);
-    typedef CGFloat (^CKDataBlock2)(CKDatasource *data);
-    typedef UITableViewCell *(^CKDataBlock3)(CKDatasource *data, UITableViewCell *cell);
+    typedef void (^CKCellSelectedBlock)(CKItem *data, NSIndexPath *indexPath);
+    typedef CGFloat (^CKCellGetHeightBlock)(CKItem *data, NSIndexPath *indexPath);
+    typedef void(^CKCellPrepareBlock)(CKItem *data, UITableViewCell *cell, NSIndexPath *indexPath);
     
-    CKDataBlock2 CKDataGetCellHeight(CKDataBlock2 block);
-    CKDataBlock3 CKDataPrepareCell(CKDataBlock3 block);
-    CKDataBlock1 CKDataSelectCell(CKDataBlock1 block);
+    CKCellSelectedBlock CKCellSelected(CKCellSelectedBlock block);
+    CKCellGetHeightBlock CKCellGetHeight(CKCellGetHeightBlock block);
+    CKCellPrepareBlock CKCellPrepare(CKCellPrepareBlock block);
+    
+    CKItem *CKGenItem(NSDictionary *info);
+    CKQueue *CKGenQueue(id<CKQueueItemDelegate> firstObject, ...) NS_REQUIRES_NIL_TERMINATION;
+    CKQueue *CKPackQueue(CKQueue *firstQueue, ...) NS_REQUIRES_NIL_TERMINATION;
+    
 #if defined __cplusplus
 };
 #endif
+
+
 
 
