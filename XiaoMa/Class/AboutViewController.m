@@ -13,7 +13,6 @@
 #import "JoinUsViewController.h"
 #import "GetShareButtonOp.h"
 #import "ShareResponeManager.h"
-#import "ReactTestViewController.h"
 
 @interface AboutViewController ()
 

@@ -414,8 +414,6 @@
 		6B4BCEE01C3E52AF0006B5EB /* HKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4BCEDF1C3E52AF0006B5EB /* HKViewController.m */; };
 		6B50127E1C59F5F000267DCB /* UIViewController+Swizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B50127D1C59F5F000267DCB /* UIViewController+Swizzling.m */; };
 		6B5012811C59FC6500267DCB /* UMLogHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5012801C59FC6500267DCB /* UMLogHelper.m */; };
-		6B53B2F41C742610008501AE /* ReactView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B53B2F31C742610008501AE /* ReactView.m */; };
-		6B53B3021C743AFB008501AE /* ReactTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B53B3011C743AFB008501AE /* ReactTestViewController.m */; };
 		6B59E1E41C575AE100DBD1C5 /* WebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B59E1E31C575AE100DBD1C5 /* WebVC.m */; };
 		6B5B78171BA7CC6000295B77 /* ProvinceChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5B78161BA7CC6000295B77 /* ProvinceChooseView.m */; };
 		6B5B78191BA7CC7600295B77 /* ProvinceChooseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B5B78181BA7CC7600295B77 /* ProvinceChooseView.xib */; };
@@ -1434,10 +1432,6 @@
 		6B50127D1C59F5F000267DCB /* UIViewController+Swizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Swizzling.m"; path = "Class/UIViewController+Swizzling.m"; sourceTree = "<group>"; };
 		6B50127F1C59FC6500267DCB /* UMLogHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UMLogHelper.h; path = Class/UMLogHelper.h; sourceTree = "<group>"; };
 		6B5012801C59FC6500267DCB /* UMLogHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UMLogHelper.m; path = Class/UMLogHelper.m; sourceTree = "<group>"; };
-		6B53B2F21C742610008501AE /* ReactView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReactView.h; sourceTree = "<group>"; };
-		6B53B2F31C742610008501AE /* ReactView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReactView.m; sourceTree = "<group>"; };
-		6B53B3001C743AFB008501AE /* ReactTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReactTestViewController.h; sourceTree = "<group>"; };
-		6B53B3011C743AFB008501AE /* ReactTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReactTestViewController.m; sourceTree = "<group>"; };
 		6B59E1E21C575AE100DBD1C5 /* WebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebVC.h; sourceTree = "<group>"; };
 		6B59E1E31C575AE100DBD1C5 /* WebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebVC.m; sourceTree = "<group>"; };
 		6B5B78151BA7CC6000295B77 /* ProvinceChooseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProvinceChooseView.h; sourceTree = "<group>"; };
@@ -2991,8 +2985,6 @@
 				6BCA5F481B104AB300E1E630 /* CouponPkgViewController.m */,
 				6BCA5F4A1B104B5100E1E630 /* MyCollectionViewController.h */,
 				6BCA5F4B1B104B5100E1E630 /* MyCollectionViewController.m */,
-				6B53B3001C743AFB008501AE /* ReactTestViewController.h */,
-				6B53B3011C743AFB008501AE /* ReactTestViewController.m */,
 			);
 			name = Mine;
 			sourceTree = "<group>";
@@ -3566,8 +3558,6 @@
 			children = (
 				6B2265941C439DD600A121CC /* HKView.h */,
 				6B2265951C439DD600A121CC /* HKView.m */,
-				6B53B2F21C742610008501AE /* ReactView.h */,
-				6B53B2F31C742610008501AE /* ReactView.m */,
 			);
 			name = SuperView;
 			sourceTree = "<group>";
@@ -4896,7 +4886,6 @@
 				18CECC301C314CAC0075B7F9 /* MyCarStore.m in Sources */,
 				189428B81C1ABA3500E492CA /* InsAppointmentVC.m in Sources */,
 				6BBAB8BF1ADBC21600EC342F /* ConverUtil.m in Sources */,
-				6B53B3021C743AFB008501AE /* ReactTestViewController.m in Sources */,
 				503B20581C08028C00F396DD /* AwardShareSheetVC.m in Sources */,
 				1885F0C61B1C50C80056D3BD /* JTImageBadge.m in Sources */,
 				185A529D1B1C0DEC003515CC /* CarbonTabSwipeNavigation.m in Sources */,
@@ -5027,7 +5016,6 @@
 				18F8135F1B5F308D005F49B0 /* HKVersionManager.m in Sources */,
 				6BBBF5531B295CE400E1B809 /* CheckUserAwardOp.m in Sources */,
 				18C52C4D1BA8FE9E00F6C38B /* DrivingLicenseThumbCell.m in Sources */,
-				6B53B2F41C742610008501AE /* ReactView.m in Sources */,
 				181F6DA71B15919900D38555 /* CXAlertView.m in Sources */,
 				1897C2FF1C16C319007E394E /* InsInputInfoVC.m in Sources */,
 				50FAC2591C23A66900F8990F /* GetAutomobileBrandV2Op.m in Sources */,
