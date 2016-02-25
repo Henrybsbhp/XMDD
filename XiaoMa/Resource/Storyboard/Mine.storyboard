@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -3197,38 +3197,6 @@
                 </imageView>
             </objects>
             <point key="canvasLocation" x="-231" y="1610"/>
-        </scene>
-        <!--React Test View Controller-->
-        <scene sceneID="2c1-eW-yEs">
-            <objects>
-                <viewController storyboardIdentifier="ReactTestViewController" id="a3H-zr-1Jj" customClass="ReactTestViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="zU7-q7-C2L"/>
-                        <viewControllerLayoutGuide type="bottom" id="Ll4-Uh-kb3"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="EuS-DH-zqG">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bvp-aP-ovK" customClass="ReactView">
-                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="bvp-aP-ovK" secondAttribute="trailing" id="BWq-4S-nPy"/>
-                            <constraint firstItem="bvp-aP-ovK" firstAttribute="leading" secondItem="EuS-DH-zqG" secondAttribute="leading" id="MIg-lh-ays"/>
-                            <constraint firstItem="Ll4-Uh-kb3" firstAttribute="top" secondItem="bvp-aP-ovK" secondAttribute="bottom" id="Y8J-Tk-YUs"/>
-                            <constraint firstItem="bvp-aP-ovK" firstAttribute="top" secondItem="zU7-q7-C2L" secondAttribute="bottom" id="w8U-0X-E3X"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="rctView" destination="bvp-aP-ovK" id="2gv-mN-GKk"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6rF-DR-o1m" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
         </scene>
     </scenes>
     <resources>
