@@ -78,13 +78,7 @@
                             
                             @strongify(self)
                             [self switchSurrounding];
-                        }},
-                        @{@"title":@"RCT",@"action":^(void){
-                            
-                            @strongify(self)
-                            [self actionRCT];
                         }}];
-        
     }
     else
     {

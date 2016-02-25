@@ -38,7 +38,6 @@
 #import "MainTabBarVC.h"
 #import "LaunchVC.h"
 #import "GuideViewController.h"
-#import "ReactTestViewController.h"
 
 
 
@@ -559,8 +558,6 @@
 {
 #ifdef DEBUG
     if (motion != UIEventSubtypeMotionShake)
-        return;
-    if ([gAppMgr.navModel.curNavCtrl.topViewController isKindOfClass:[ReactTestViewController class]])
         return;
     if (!self.logModel)
     {
