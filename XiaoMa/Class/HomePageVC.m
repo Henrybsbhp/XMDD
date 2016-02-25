@@ -458,7 +458,7 @@
 
 - (void)showSuspendedAdIfNeeded
 {
-    if (self.guideStore.allowPopupAd && !self.isShowSuspendedAd) {
+    if (self.guideStore.allowPopupAd && self.isViewAppearing && !self.isShowSuspendedAd) {
         
         self.isShowSuspendedAd = YES;
         
