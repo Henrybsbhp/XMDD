@@ -383,12 +383,7 @@
 
 - (void)getUserLocation
 {
-    [[[[gMapHelper rac_getUserLocation] take:1] initially:^{
-        
-    }] subscribeNext:^(MAUserLocation *userLocation) {
-        
-        self.coordinate = userLocation.location.coordinate;
-    }];
+    self.coordinate = gMapHelper.coordinate;
 }
 
 -(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
@@ -601,7 +596,7 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!self.isRemain) {
+    if ((!self.isRemain) || (!self.isSearching)) {
         return;
     }
     JTShop * shop = [self.resultArray safetyObjectAtIndex:indexPath.section];
