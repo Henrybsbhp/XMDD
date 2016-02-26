@@ -17,19 +17,18 @@
 
 @implementation SuspendedAdVC
 
-+ (instancetype)vcWithADType:(AdvertisementType)type boundsWidth:(CGFloat)width targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
++ (instancetype)adVCWithBoundsWidth:(CGFloat)width targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
 {
-    SuspendedAdVC *adctrl = [[SuspendedAdVC alloc] initWithADType:type boundsWidth:width targetVC:vc mobBaseEvent:event];
+    SuspendedAdVC *adctrl = [[SuspendedAdVC alloc] initWithBoundsWidth:width targetVC:vc mobBaseEvent:event];
     return adctrl;
 }
 
-- (instancetype)initWithADType:(AdvertisementType)type boundsWidth:(CGFloat)width
+- (instancetype)initWithBoundsWidth:(CGFloat)width
                       targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
 {
     self = [super init];
     if (self) {
         _targetVC = vc;
-        _adType = type;
         _mobBaseEvent = event;
         _navModel = [[NavigationModel alloc] init];
         _navModel.curNavCtrl = _targetVC.navigationController;
@@ -57,25 +56,6 @@
         [[self rac_deallocDisposable] addDisposable:dis];
     }
     return self;
-}
-
-#pragma mark - Reload
-- (void)reloadDataWithForce:(BOOL)force completed:(void(^)(SuspendedAdVC *ctrl, NSArray *ads))completed
-{
-    
-    @weakify(self);
-    RACSignal *signal = force ? [gAdMgr rac_getAdvertisement:self.adType] : [gAdMgr rac_fetchAdListByType:self.adType];
-    [[signal deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
-        
-        @strongify(self);
-        _adList = ads;
-        [self.adView reloadDataRemovingCurrentPage:YES];
-        self.adView.currentPageIndex = 0;
-        self.adView.pageControl.hidden = self.adList.count <= 1;
-        if (completed) {
-            completed(self, ads);
-        }
-    }];
 }
 
 #pragma mark - SYPaginatorViewDelegate
@@ -134,12 +114,9 @@
                 [self.navModel pushToViewControllerByUrl:ad.adLink];
             }
             else {
-                if (_adType != AdvertisementValuation) {
-                    
-                    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-                    vc.url = ADDEFINEWEB;
-                    [self.targetVC.navigationController pushViewController:vc animated:YES];
-                }
+                DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+                vc.url = ADDEFINEWEB;
+                [self.targetVC.navigationController pushViewController:vc animated:YES];
             }
         }
     }];

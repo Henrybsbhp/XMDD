@@ -59,7 +59,7 @@
             //如果以前没有点过弹框，则需要显示弹框
             if (![self isNewbieGuideAlertAppeared]) {
                 //禁用弹出广告功能
-                self.shouldDisablePopupAd = YES;
+                self.shouldDisablePopupAd = op.rsp_jumpwinflag == 1;
                 self.shouldShowNewbieGuideDot = op.rsp_jumpwinflag == 1;
                 //下载弹框图片
                 [self downloadNewbieGuidePicIfNeeded:op];

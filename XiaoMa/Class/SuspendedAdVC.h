@@ -21,16 +21,14 @@
 @interface SuspendedAdVC : NSObject
 
 @property (nonatomic, strong, readonly) SYPaginatorView *adView;
-@property (nonatomic, assign, readonly) AdvertisementType adType;
-@property (nonatomic, strong, readonly) NSArray *adList;
 @property (nonatomic, strong, readonly) NSString *mobBaseEvent;
 @property (nonatomic, weak, readonly)   UIViewController *targetVC;
 
+@property (nonatomic, strong) NSArray *adList;
+
 @property (nonatomic, weak) id <SuspendedAdClickDelegate> clickDelegate;
 
-+ (instancetype)vcWithADType:(AdvertisementType)type boundsWidth:(CGFloat)width
++ (instancetype)adVCWithBoundsWidth:(CGFloat)width
                     targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event;
-
-- (void)reloadDataWithForce:(BOOL)force completed:(void(^)(SuspendedAdVC *ctrl, NSArray *ads))completed;
 
 @end

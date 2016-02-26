@@ -19,6 +19,7 @@
 @property (nonatomic, strong) SuspendedAdVC * adCtrl;
 @property (nonatomic, strong) UIImageView * closeView;
 
+@property (nonatomic, strong) NSArray * adListArr;
 
 @end
 
@@ -33,12 +34,14 @@
     containerView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:containerView];
     
-    self.adCtrl = [SuspendedAdVC vcWithADType:AdvertisementHomePage boundsWidth:self.targetVC.view.frame.size.width * 0.84 targetVC:self.targetVC mobBaseEvent:@""];
+    self.adCtrl = [SuspendedAdVC adVCWithBoundsWidth:self.targetVC.view.frame.size.width * 0.84 targetVC:self.targetVC mobBaseEvent:@""];
     self.adCtrl.clickDelegate = self;
-    [self.adCtrl reloadDataWithForce:YES completed:^(SuspendedAdVC *ctrl, NSArray *ads) {
-        
-        [self.sheet presentAnimated:YES completionHandler:nil];
-    }];
+    
+    self.adCtrl.adList = self.adListArr;
+    [self.adCtrl.adView reloadDataRemovingCurrentPage:YES];
+    self.adCtrl.adView.currentPageIndex = 0;
+    self.adCtrl.adView.pageControl.hidden = self.adCtrl.adList.count <= 1;
+    
     [containerView addSubview:self.adCtrl.adView];
     
     UIImageView *closeView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -116,10 +119,11 @@
      }];
 }
 
-+ (instancetype)presentInTargetVC:(UIViewController *)targetVC
++ (instancetype)presentInTargetVC:(UIViewController *)targetVC withAdList:(NSArray *)adArr
 {
     HomeSuspendedAdVC *vc = [[HomeSuspendedAdVC alloc] init];
     vc.targetVC = targetVC;
+    vc.adListArr = adArr;
     
     CGFloat width = ceil(targetVC.view.frame.size.width * 0.84);
     CGFloat height = ceil(targetVC.view.frame.size.height);
@@ -134,6 +138,8 @@
     [MZFormSheetController sharedBackgroundWindow].backgroundBlurEffect = NO;
     
     vc.sheet = sheet;
+    
+    [sheet presentAnimated:YES completionHandler:nil];
     
     return vc;
 }
