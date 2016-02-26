@@ -328,6 +328,7 @@
 		5014B65A1C07043900DFAB18 /* GetShareDetailOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5014B6591C07043900DFAB18 /* GetShareDetailOp.m */; };
 		5027568F1BA6A3C50065592A /* GetCouponDetailsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5027568E1BA6A3C50065592A /* GetCouponDetailsOp.m */; };
 		502756921BA6AC5B0065592A /* CouponDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 502756911BA6AC5B0065592A /* CouponDetailsVC.m */; };
+		502B4CF71C7D60B40009F1D4 /* SuspendedAdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 502B4CF61C7D60B40009F1D4 /* SuspendedAdVC.m */; };
 		5037DC741C43855E005AF932 /* NewGainAwardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5037DC731C43855E005AF932 /* NewGainAwardVC.m */; };
 		503B20581C08028C00F396DD /* AwardShareSheetVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 503B20571C08028C00F396DD /* AwardShareSheetVC.m */; };
 		503B205B1C08337200F396DD /* AwardOtherSheetVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 503B205A1C08337200F396DD /* AwardOtherSheetVC.m */; };
@@ -1265,6 +1266,8 @@
 		5027568E1BA6A3C50065592A /* GetCouponDetailsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetCouponDetailsOp.m; path = Class/GetCouponDetailsOp.m; sourceTree = "<group>"; };
 		502756901BA6AC5B0065592A /* CouponDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponDetailsVC.h; sourceTree = "<group>"; };
 		502756911BA6AC5B0065592A /* CouponDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponDetailsVC.m; sourceTree = "<group>"; };
+		502B4CF51C7D60B40009F1D4 /* SuspendedAdVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuspendedAdVC.h; sourceTree = "<group>"; };
+		502B4CF61C7D60B40009F1D4 /* SuspendedAdVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuspendedAdVC.m; sourceTree = "<group>"; };
 		5037DC721C43855E005AF932 /* NewGainAwardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGainAwardVC.h; sourceTree = "<group>"; };
 		5037DC731C43855E005AF932 /* NewGainAwardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGainAwardVC.m; sourceTree = "<group>"; };
 		503B20561C08028C00F396DD /* AwardShareSheetVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwardShareSheetVC.h; sourceTree = "<group>"; };
@@ -2991,6 +2994,8 @@
 			children = (
 				189C69801B734EDD00E56E4A /* ADViewController.h */,
 				189C69811B734EDD00E56E4A /* ADViewController.m */,
+				502B4CF51C7D60B40009F1D4 /* SuspendedAdVC.h */,
+				502B4CF61C7D60B40009F1D4 /* SuspendedAdVC.m */,
 			);
 			name = ADView;
 			sourceTree = "<group>";
@@ -4714,6 +4719,7 @@
 				189B394C1AF71C3900B83F1B /* MineVC.m in Sources */,
 				189371361B0F592F0030FDE1 /* JTQueue.m in Sources */,
 				5027568F1BA6A3C50065592A /* GetCouponDetailsOp.m in Sources */,
+				502B4CF71C7D60B40009F1D4 /* SuspendedAdVC.m in Sources */,
 				189C69821B734EDD00E56E4A /* ADViewController.m in Sources */,
 				2E77A4951C325F2F00264FC9 /* GetRescueNoLoginOp.m in Sources */,
 				6BBB084B1B021EA90002C349 /* ComOpenThreadOTScreenshotHelperSwizzleHelper.m in Sources */,
