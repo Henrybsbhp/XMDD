@@ -16,6 +16,14 @@
     self.rsp_discountrate = [dict[@"discountrate"] intValue];
     self.rsp_couponupplimit = [dict[@"couponupplimit"] intValue];
     self.rsp_chargeupplimit = [dict[@"chargeupplimit"] intValue];
+    self.rsp_tip = dict[@"tip"];
+    self.rsp_supportamt = dict[@"supportamt"];
+    NSMutableArray *packages = [NSMutableArray array];
+    for (NSDictionary *curDict in dict[@"packages"]) {
+        GasChargePackage *obj = [GasChargePackage createWithJSONDict:curDict];
+        [packages addObject:obj];
+    }
+    self.rsp_packages = packages;
 	
     return self;
 }

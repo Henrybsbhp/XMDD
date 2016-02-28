@@ -16,7 +16,7 @@
     self.req_method = @"/user/resources/gascharge/get";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    
+    [params addParam:@(self.req_fqjyflag) forName:@"fqjyflag"];
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 

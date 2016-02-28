@@ -8,61 +8,93 @@
 
 #import "CKDatasource.h"
 
-@implementation CKItem
+#pragma mark - CKList
 
-#pragma mark - 数据元素
-+ (instancetype)itemWithInfo:(NSDictionary *)info
+@interface CKList ()
 {
-    CKItem *item = [[self alloc] init];
-    if (info) {
-        item->_info = [NSMutableDictionary dictionaryWithDictionary:info];
+    id _key;
+}
+@end
+
+@implementation CKList
+
++ (instancetype)list {
+    return [self queue];
+}
+
+- (id<NSCopying>)key {
+    if (_key) {
+        return _key;
+    }
+    return self.queueid;
+}
+
+- (instancetype)setKey:(id<NSCopying>)key {
+    _key = key;
+    return self;
+}
+
+- (void)addObject:(id)object forKey:(id<NSCopying>)key {
+    if (!key && [self respondsToSelector:@selector(key)]) {
+        [super addObject:object forKey:[object key]];
     }
     else {
-        item->_info = [NSMutableDictionary dictionary];
+        [super addObject:object forKey:key];
     }
-    return item;
-}
-
-- (void)setItemKey:(id<NSCopying>)key
-{
-    self.info[kCKItemKey] = key;
-}
-
-- (id)itemKey
-{
-    return self.info[kCKItemKey];
 }
 
 @end
 
+#pragma mark - CKDict
 
-#pragma mark - CKQueue扩展
-@implementation CKQueue (Datasource)
-static char s_itemKey;
-
-- (void)setItemKey:(id<NSCopying>)key
+@interface CKDict ()
 {
-    objc_setAssociatedObject(self, &s_itemKey, key, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    NSMutableDictionary *_dict;
 }
 
-- (id)itemKey
-{
-    return objc_getAssociatedObject(self, &s_itemKey);
-}
+@end
 
-- (void)addSubQueue:(CKQueue *)subq
-{
-    [self addObject:subq forKey:subq.itemKey];
-    [self setDictionary:subq.dictionary];
-}
+@implementation CKDict
 
-- (void)addSubQueueList:(NSArray *)subqs
-{
-    for (CKQueue *subq in subqs) {
-        [self addSubQueue:subq];
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _dict = [NSMutableDictionary dictionary];
     }
+    return self;
 }
 
++ (CKDict *)dictWith:(NSDictionary *)dict {
+    return [[CKDict alloc] initWithDict:dict];
+}
+
+- (instancetype)initWithDict:(NSDictionary *)dict {
+    self = [super init];
+    if (self) {
+        _dict = [NSMutableDictionary dictionaryWithDictionary:dict];
+    }
+    return self;
+}
+
+
+- (id<NSCopying>)key {
+    return _dict[kCKItemKey];
+}
+
+- (instancetype)setKey:(id<NSCopying>)key {
+    _dict[kCKItemKey] = key;
+    return self;
+}
+
+- (void)setObject:(id)object forKeyedSubscript:(id < NSCopying >)aKey {
+    [_dict setObject:object forKey:aKey];
+}
+
+- (id)objectForKeyedSubscript:(id)key {
+    return [_dict objectForKey:key];
+}
+
+@end
 
 #pragma mark - C语言扩展
 CKCellSelectedBlock CKCellSelected(CKCellSelectedBlock block)
@@ -80,38 +112,21 @@ CKCellPrepareBlock CKCellPrepare(CKCellPrepareBlock block)
     return [block copy];
 }
 
-CKItem *CKGenItem(NSDictionary *info)
+CKList *CKGenList(id firstObject, ...)
 {
-    return [CKItem itemWithInfo:info];
-}
-
-CKQueue *CKGenQueue(id<CKQueueItemDelegate> firstObject, ...)
-{
-    CKQueue *queue = [CKQueue queue];
+    CKList *list = [CKList queue];
+    
     va_list ap;
     va_start(ap, firstObject);
-    id<CKQueueItemDelegate> obj = firstObject;
+    id obj = firstObject;
     while (obj) {
-        [queue addObject:obj forKey:[obj itemKey]];
+        if ([obj isKindOfClass:[NSDictionary class]]) {
+            obj = [[CKDict alloc] initWithDict:obj];
+        }
+        [list addObject:obj forKey:nil];
         obj = va_arg(ap, id);
     }
     va_end(ap);
-    return queue;
+    
+    return list;
 }
-
-CKQueue *CKPackQueue(CKQueue *firstQueue, ...)
-{
-    CKQueue *queue = [CKQueue queue];
-    va_list ap;
-    va_start(ap, firstQueue);
-    CKQueue *subq = firstQueue;
-    while (subq) {
-        [queue addObject:subq forKey:nil];
-        [queue setDictionary:subq.dictionary];
-        subq = va_arg(ap, CKQueue *);
-    }
-    va_end(ap);
-    return queue;
-}
-
-@end

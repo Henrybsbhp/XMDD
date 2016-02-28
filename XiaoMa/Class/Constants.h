@@ -157,6 +157,8 @@ typedef enum : NSUInteger {
 
 
 /// 相关网页地址
+#define kDevGasOrderPaidUrl @"http://dev.xiaomadada.com/paaweb/general/order/paynotify"
+#define kGasOrderPaidUrl @"http://www.xiaomadada.com/paaweb/general/order/paynotify"
 #define kInsuranceOlineUrl  @"https://www.xiaomadada.com/apphtml/aichebao.html"
 #define kServiceLicenseUrl @"https://www.xiaomadada.com/apphtml/license.html"
 #define kServiceHelpUrl     @"https://www.xiaomadada.com/apphtml/shiyongbangzhu.html"

@@ -10,6 +10,7 @@
 
 @interface GetUserResourcesGaschargeOp : BaseOp
 
+@property (nonatomic,assign) int req_fqjyflag;
 @property (nonatomic,strong)NSArray * rsp_couponArray;
 
 @end

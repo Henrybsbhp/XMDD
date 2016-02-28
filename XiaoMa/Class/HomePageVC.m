@@ -51,7 +51,9 @@
 @property (nonatomic, assign) BOOL isShowSuspendedAd;
 
 @property (nonatomic, strong)NSMutableArray * disposableArray;
+
 @end
+
 
 @implementation HomePageVC
 

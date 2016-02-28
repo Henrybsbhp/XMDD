@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+@class CKQueueNode;
+
 @interface CKQueue : NSObject
+@property (nonatomic, strong, readonly) NSNumber *queueid;
+@property (nonatomic, strong) NSMutableDictionary *cache;
 
 + (instancetype)queue;
-+ (instancetype)queueWithObjectsAndKeys:(id)firstObject, ... NS_REQUIRES_NIL_TERMINATION;
-
-- (void)setDictionary:(NSDictionary *)dict;
-- (NSDictionary *)dictionary;
++ (instancetype)queueWithCache:(NSMutableDictionary *)cache;
 
 - (void)addObject:(id)object forKey:(id<NSCopying>)key;
 - (void)addObjectsFromQueue:(CKQueue *)queue;
@@ -22,7 +23,7 @@
 
 - (void)removeObjectForKey:(id<NSCopying>)key;
 - (void)removeObjectAtIndex:(NSUInteger)index;
-
+- (void)replaceObject:(id)object forKey:(id<NSCopying>)key;
 - (void)insertObject:(id)object forKey:(id<NSCopying>)key atIndex:(NSInteger)index;
 
 - (id)keyForObjectAtIndex:(NSUInteger)index;
@@ -33,4 +34,20 @@
 - (NSUInteger)count;
 - (NSArray *)allObjects;
 
+//Override
+- (void)setObject:(id)object forKeyedSubscript:(id < NSCopying >)aKey;
+- (id)objectForKeyedSubscript:(id)key;
+- (void)setObject:(id)anObject atIndexedSubscript:(NSUInteger)index;
+- (id)objectAtIndexedSubscript:(NSUInteger)index;
+- (CKQueueNode *)createQueueNode;
+
 @end
+
+@interface CKQueueNode : NSObject
+
+@property (nonatomic, strong) id object;
+@property (nonatomic, strong) NSNumber *queueid;
+@property (nonatomic, strong) id key;
+
+@end
+

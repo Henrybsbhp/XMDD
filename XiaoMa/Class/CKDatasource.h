@@ -18,46 +18,53 @@
 #define CKNULL     [NSNull null]
 #define kCKItemKey      @"__itemkey"
 
-@protocol CKQueueItemDelegate <NSObject>
-- (void)setItemKey:(id<NSCopying>)key;
-- (id)itemKey;
+@protocol CKItemDelegate <NSObject>
+
+- (id<NSCopying>)key;
+- (instancetype)setKey:(id<NSCopying>)key;
 
 @end
 
-///数据源元素
-@interface CKItem : NSObject<CKQueueItemDelegate>
-@property (nonatomic, strong, readonly) NSMutableDictionary *info;
-@property (nonatomic, assign) BOOL forceRerend;
-+ (instancetype)itemWithInfo:(NSDictionary *)info;
+
+
+@interface CKList : CKQueue<CKItemDelegate>
+
++ (instancetype)list;
 
 @end
 
-///数据源结构
-@interface CKQueue (Datasource)<CKQueueItemDelegate>
-- (void)addSubQueue:(CKQueue *)subq;
-- (void)addSubQueueList:(NSArray *)subqs;
+
+
+@interface CKDict : NSObject<CKItemDelegate>
+
+@property (nonatomic, assign) BOOL forceReload;
+
+- (instancetype)initWithDict:(NSDictionary *)dict;
++ (CKDict *)dictWith:(NSDictionary *)dict;
+- (void)setObject:(id)object forKeyedSubscript:(id < NSCopying >)aKey;
+- (id)objectForKeyedSubscript:(id)key;
 
 @end
 
 
 
 #pragma mark - C语言扩展(主要为了自动补全block以及简化方法调用)
+
 #if defined __cplusplus
 extern "C"
 {
 #endif
-    typedef void (^CKCellSelectedBlock)(CKItem *data, NSIndexPath *indexPath);
-    typedef CGFloat (^CKCellGetHeightBlock)(CKItem *data, NSIndexPath *indexPath);
-    typedef void(^CKCellPrepareBlock)(CKItem *data, UITableViewCell *cell, NSIndexPath *indexPath);
-    
+    typedef void (^CKCellSelectedBlock)(CKDict *data, NSIndexPath *indexPath);
+    typedef CGFloat (^CKCellGetHeightBlock)(CKDict *data, NSIndexPath *indexPath);
+    typedef void(^CKCellPrepareBlock)(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath);
+
     CKCellSelectedBlock CKCellSelected(CKCellSelectedBlock block);
     CKCellGetHeightBlock CKCellGetHeight(CKCellGetHeightBlock block);
     CKCellPrepareBlock CKCellPrepare(CKCellPrepareBlock block);
     
-    CKItem *CKGenItem(NSDictionary *info);
-    CKQueue *CKGenQueue(id<CKQueueItemDelegate> firstObject, ...) NS_REQUIRES_NIL_TERMINATION;
-    CKQueue *CKPackQueue(CKQueue *firstQueue, ...) NS_REQUIRES_NIL_TERMINATION;
-    
+    CKList *CKGenList(id firstObject, ...) NS_REQUIRES_NIL_TERMINATION;
+
+#define $(...) CKGenList(__VA_ARGS__,nil)
 #if defined __cplusplus
 };
 #endif

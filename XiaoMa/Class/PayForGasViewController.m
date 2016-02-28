@@ -12,6 +12,7 @@
 #import "HKTableViewCell.h"
 #import "ChooseCarwashTicketVC.h"
 #import "GetUserResourcesGaschargeOp.h"
+#import "NSString+Format.h"
 #import "NSString+Split.h"
 
 @interface PayForGasViewController ()
@@ -72,13 +73,19 @@
 
 - (void)setupUI
 {
-    self.payTitle = @"油卡充值";
-    self.paySubTitle = @"普通充值";
+    //分期加油
+    if (self.model.curChargePackage.pkgid) {
+        self.payTitle = [NSString stringWithFormat:@"%@折分期加油", self.model.curChargePackage.discount];
+        self.paySubTitle = [NSString stringWithFormat:@"分%d个月充，每月充值%d元",
+                            self.model.curChargePackage.month, (int)self.model.rechargeAmount];
+    }
+    else {
+        self.payTitle = @"油卡充值";
+        self.paySubTitle = @"普通充值";
+    }
     self.payBtn.titleLabel.adjustsFontSizeToFitWidth = YES;
     [[self.payBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        /**
-         *  支付确定点击事件
-         */
+        //支付确定点击事件
         [MobClick event:@"rp508-6"];
         [self actionPay:nil];
     }];
@@ -98,8 +105,12 @@
                                    [self.model.curGasCard.gascardno splitByStep:4 replacement:@" "] ,
                                @"cellname":@"InfoItemCell"};
     
-    
-    NSDictionary * dict0_2 = @{@"title":@"充值金额",@"value":[NSString stringWithFormat:@"￥ %@",@(self.model.rechargeAmount)],
+
+    int amount = (int)self.model.rechargeAmount;
+    if (self.model.curChargePackage.pkgid) {
+        amount = (int)(self.model.rechargeAmount * self.model.curChargePackage.month);
+    }
+    NSDictionary * dict0_2 = @{@"title":@"充值金额",@"value":[NSString stringWithFormat:@"￥ %d",amount],
                                @"cellname":@"InfoItemCell"};
     
     if (!self.gasCouponArray)
@@ -140,6 +151,7 @@
 - (void)requestGetGasResource
 {
     GetUserResourcesGaschargeOp * op = [GetUserResourcesGaschargeOp operation];
+    op.req_fqjyflag = self.model.curChargePackage.pkgid ? 1 : 0;
     
     [[[op rac_postRequest] initially:^{
         
@@ -171,8 +183,13 @@
     couponlimit = self.model.configOp ? self.model.configOp.rsp_couponupplimit : 1000;
     systemPercent = self.model.configOp ? self.model.configOp.rsp_discountrate : 2;
     
+    ///分期付款
+    if (self.model.curChargePackage.pkgid) {
+        paymoney = rechargeAmount * self.model.curChargePackage.month;
+        discount = paymoney * (1-[self.model.curChargePackage.discount floatValue]/100.0);
+    }
     /// 系统额度
-    if (self.model.curGasCard)
+    else if (self.model.curGasCard)
     {
         discount = MIN([self.model.curGasCard.couponedmoney integerValue], rechargeAmount * systemPercent / 100.0);
     }
@@ -188,7 +205,7 @@
         if (coupon.couponPercent < 100)
         {
             // 优惠劵有折扣优惠，直接乘
-            discount = rechargeAmount - rechargeAmount * coupon.couponPercent / 100;
+            discount = paymoney - paymoney * coupon.couponPercent / 100;
         }
         else
         {
@@ -200,10 +217,10 @@
     paymoney = paymoney - discount;
 
     if (discount > 0) {
-        title = [NSString stringWithFormat:@"已优惠%@元，您只需支付%@元，现在支付", [NSString formatForPrice:discount],[NSString formatForPrice:paymoney]];
+        title = [NSString stringWithFormat:@"已优惠%@元，您只需支付%@元，现在支付", [NSString formatForRoundPrice:discount],[NSString formatForRoundPrice:paymoney]];
     }
     else {
-        title = [NSString stringWithFormat:@"您需支付%@元，现在支付",[NSString formatForPrice:paymoney]];
+        title = [NSString stringWithFormat:@"您需支付%@元，现在支付",[NSString formatForRoundPrice:paymoney]];
     }
     
     [self.payBtn setTitle:title forState:UIControlStateNormal];
@@ -237,27 +254,52 @@
     
     self.model.paymentPlatform = self.paychannel;
     @weakify(self)
-    [self.model startPayInTargetVC:self completed:^(GasCard *card, GascardChargeOp *paidop) {
+    [self.model startPayInTargetVC:self success:^(GasCard *card, GascardChargeOp *paidop) {
         
         @strongify(self);
-        GasPaymentResultVC *vc = [UIStoryboard vcWithId:@"GasPaymentResultVC" inStoryboard:@"Gas"];
-        vc.originVC = self.originVC;
-        vc.drawingStatus = DrawingBoardViewStatusSuccess;
-        vc.gasCard = card;
-        vc.paidMoney = paidop.rsp_total;
-        vc.couponMoney = paidop.rsp_couponmoney;
-        vc.chargeMoney = paidop.req_amount;
-        [vc setDismissBlock:^(DrawingBoardViewStatus status) {
-            @strongify(self);
-            //更新信息，充值默认500
-            self.model.rechargeAmount = 500;
-            [self.model.cardStore sendEvent:[self.model.cardStore updateCardInfoByGID:card.gid]];
-        }];
-        [self.navigationController pushViewController:vc animated:YES];
+        //分期加油
+        if (self.model.curChargePackage.pkgid) {
+            [self pushToPaidByStagesResult:paidop];
+        }
+        //普通加油
+        else {
+            GasPaymentResultVC *vc = [UIStoryboard vcWithId:@"GasPaymentResultVC" inStoryboard:@"Gas"];
+            vc.originVC = self.originVC;
+            vc.drawingStatus = DrawingBoardViewStatusSuccess;
+            vc.gasCard = card;
+            vc.paidMoney = paidop.rsp_total;
+            vc.couponMoney = paidop.rsp_couponmoney;
+            vc.chargeMoney = paidop.req_amount;
+            [vc setDismissBlock:^(DrawingBoardViewStatus status) {
+                @strongify(self);
+                //更新信息，充值默认500
+                self.model.rechargeAmount = 500;
+                [self.model.cardStore sendEvent:[self.model.cardStore updateCardInfoByGID:card.gid]];
+            }];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    } failed:^(NSError *error, GascardChargeOp *op) {
+        
+        @strongify(self);
+        [self pushToPaidByStagesResult:op];
     }];
 }
 
-#pragma mark - Network
+#pragma mark - Route
+//跳转到分期加油结果页
+- (void)pushToPaidByStagesResult:(GascardChargeOp *)paidop
+{
+    NSString *url = kGasOrderPaidUrl;
+#if DEBUG
+    url = kDevGasOrderPaidUrl;
+#endif
+    NSString *status = paidop.rsp_code == 0 ? @"S" : @"F";
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.originVC = self.originVC;
+    vc.url = [NSString stringWithFormat:@"%@?fr=APP&token=%@&tradeno=%@&tradetype=%@&status=%@",
+              url, gNetworkMgr.token, paidop.rsp_tradeid, @(paidop.req_paychannel), status];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 
 #pragma mark - Tableview data source
