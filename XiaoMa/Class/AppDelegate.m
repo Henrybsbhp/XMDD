@@ -21,6 +21,7 @@
 #import "HKLoginModel.h"
 #import "MapHelper.h"
 #import "JTLogModel.h"
+#import "RRFPSBar.h"
 
 #import "HKLaunchManager.h"
 #import "ShareResponeManager.h"
@@ -37,6 +38,10 @@
 #import "MainTabBarVC.h"
 #import "LaunchVC.h"
 #import "GuideViewController.h"
+
+#ifndef __OPTIMIZE__
+#import "RRFPSBar.h"
+#endif
 
 
 
@@ -84,6 +89,8 @@
     [self setupJSPatch];
     
     [self setupOpenUrlQueue];
+    
+    [self setupFPSObserver];
     
     //设置崩溃捕捉(官方建议放在最后面)
     [self setupCrashlytics];
@@ -548,6 +555,15 @@
             [JPEngine evaluateScript:script];
         }];
     }];
+}
+
+#pragma mark - FPS
+- (void)setupFPSObserver
+{
+#ifndef __OPTIMIZE__
+    [[RRFPSBar sharedInstance] setShowsAverage:YES];
+    [[RRFPSBar sharedInstance] setHidden:YES];
+#endif
 }
 
 

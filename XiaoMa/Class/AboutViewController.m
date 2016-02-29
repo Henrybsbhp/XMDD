@@ -13,6 +13,7 @@
 #import "JoinUsViewController.h"
 #import "GetShareButtonOp.h"
 #import "ShareResponeManager.h"
+#import "RRFPSBar.h"
 
 @interface AboutViewController ()
 
@@ -78,6 +79,11 @@
                             
                             @strongify(self)
                             [self switchSurrounding];
+                        }},
+                        @{@"title":@"FPS开关",@"action":^(void){
+                            
+                            @strongify(self)
+                            [self setupFPSObserver];
                         }}];
     }
     else
@@ -121,6 +127,11 @@
                                 
                                 @strongify(self)
                                 [self switchSurrounding];
+                            }},
+                            @{@"title":@"FPS开关",@"action":^(void){
+                                
+                                @strongify(self)
+                                [self setupFPSObserver];
                             }}];
     }
 #else
@@ -364,5 +375,12 @@
     [MobClick event:@"rp322-4"];
     JoinUsViewController * vc = [UIStoryboard vcWithId:@"JoinUsViewController" inStoryboard:@"About"];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+
+#pragma mark - FPS
+- (void)setupFPSObserver
+{
+    [[RRFPSBar sharedInstance] setHidden:![RRFPSBar sharedInstance].hidden];
 }
 @end
