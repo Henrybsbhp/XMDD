@@ -27,6 +27,7 @@
         self.rsp_total = [rspObj integerParamForName:@"total"];
         self.rsp_isused = [rspObj boolParamForName:@"isused"];
         self.rsp_carwashflag = [rspObj boolParamForName:@"washcarflag"];
+        self.zeroWashLink = [rspObj stringParamForName:@"zerowashlink"];
     }
     else
     {

@@ -116,6 +116,8 @@
      ^{
          //若设置为NO，快速点击两次会出现黑色蒙版不消失的bug
          [self.formSheetController dismissAnimated:YES completionHandler:nil];
+         //设置动画后，4s和5s等设备会有弹跳
+         self.formSheetController.view.hidden = YES;
      }];
 }
 

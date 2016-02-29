@@ -28,4 +28,7 @@
 ///洗车标识
 @property (nonatomic)BOOL rsp_carwashflag;
 
+///0元洗车链接
+@property (nonatomic, copy)NSString * zeroWashLink;
+
 @end

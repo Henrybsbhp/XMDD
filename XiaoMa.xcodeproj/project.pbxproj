@@ -409,6 +409,7 @@
 		6B2265991C44C7A400A121CC /* CarwashFreshmanGuideVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2265981C44C7A400A121CC /* CarwashFreshmanGuideVC.m */; };
 		6B22659C1C45059500A121CC /* GetSystemHomePicOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B22659B1C45059500A121CC /* GetSystemHomePicOp.m */; };
 		6B22659F1C4506BE00A121CC /* HomePicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B22659E1C4506BE00A121CC /* HomePicModel.m */; };
+		6B2F28F61C8414D80096FD45 /* RRFPSBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F28F51C8414D80096FD45 /* RRFPSBar.m */; };
 		6B328ED01B79AAFA00B9F207 /* ChooseBankCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */; };
 		6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B343C351B0EFFAF0036AED9 /* ShareUserCouponOp.m */; };
 		6B3C67931BA9498F002F04C8 /* HKBigRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C67921BA9498F002F04C8 /* HKBigRatingView.m */; };
@@ -1426,6 +1427,8 @@
 		6B22659B1C45059500A121CC /* GetSystemHomePicOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemHomePicOp.m; path = Class/GetSystemHomePicOp.m; sourceTree = "<group>"; };
 		6B22659D1C4506BE00A121CC /* HomePicModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomePicModel.h; path = Class/HomePicModel.h; sourceTree = "<group>"; };
 		6B22659E1C4506BE00A121CC /* HomePicModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomePicModel.m; path = Class/HomePicModel.m; sourceTree = "<group>"; };
+		6B2F28F41C8414D80096FD45 /* RRFPSBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRFPSBar.h; sourceTree = "<group>"; };
+		6B2F28F51C8414D80096FD45 /* RRFPSBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RRFPSBar.m; sourceTree = "<group>"; };
 		6B328ECE1B79AAFA00B9F207 /* ChooseBankCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseBankCardVC.h; sourceTree = "<group>"; };
 		6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseBankCardVC.m; sourceTree = "<group>"; };
 		6B343C341B0EFFAF0036AED9 /* ShareUserCouponOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareUserCouponOp.h; path = Class/ShareUserCouponOp.h; sourceTree = "<group>"; };
@@ -1967,6 +1970,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				6B2F28F31C8414D80096FD45 /* RRFPSBar */,
 				18FC01BA1C4E6C6F00FD61BF /* IQKeyBoardManager */,
 				50E8003E1C44D7B100AFC7B9 /* HYScratchCardView */,
 				18CECC221C30F8890075B7F9 /* JT3DScrollView */,
@@ -3584,6 +3588,15 @@
 			name = SuperView;
 			sourceTree = "<group>";
 		};
+		6B2F28F31C8414D80096FD45 /* RRFPSBar */ = {
+			isa = PBXGroup;
+			children = (
+				6B2F28F41C8414D80096FD45 /* RRFPSBar.h */,
+				6B2F28F51C8414D80096FD45 /* RRFPSBar.m */,
+			);
+			path = RRFPSBar;
+			sourceTree = "<group>";
+		};
 		6B3DAB9D1C3F512D00C783F8 /* DebugLog */ = {
 			isa = PBXGroup;
 			children = (
@@ -4933,6 +4946,7 @@
 				1833F5871BCD373B000E1DA1 /* GasCard.m in Sources */,
 				1821C35E1C4E1E6600120AF4 /* GasStore.m in Sources */,
 				6BBF7DA31B008B1000E45967 /* EditMyInfoViewController.m in Sources */,
+				6B2F28F61C8414D80096FD45 /* RRFPSBar.m in Sources */,
 				6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */,
 				503B205B1C08337200F396DD /* AwardOtherSheetVC.m in Sources */,
 				6BCF62501B184AEF0064AE32 /* NJKWebViewProgress.m in Sources */,
