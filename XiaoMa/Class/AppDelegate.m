@@ -19,9 +19,9 @@
 #import "DefaultStyleModel.h"
 
 #import "HKLoginModel.h"
-#import "HKCatchErrorModel.h"
 #import "MapHelper.h"
 #import "JTLogModel.h"
+#import "RRFPSBar.h"
 
 #import "HKLaunchManager.h"
 #import "ShareResponeManager.h"
@@ -39,6 +39,10 @@
 #import "LaunchVC.h"
 #import "GuideViewController.h"
 
+#ifndef __OPTIMIZE__
+#import "RRFPSBar.h"
+#endif
+
 
 
 #define RequestWeatherInfoInterval 60 * 10
@@ -49,7 +53,7 @@
 @property (nonatomic, strong) DDFileLogger *fileLogger;
 /// 日志
 @property (nonatomic,strong)JTLogModel * logModel;
-@property (nonatomic, strong) HKCatchErrorModel *errorModel;
+
 @property (nonatomic, strong) HKLaunchManager *launchMgr;
 
 @end
@@ -85,6 +89,8 @@
     [self setupJSPatch];
     
     [self setupOpenUrlQueue];
+    
+    [self setupFPSObserver];
     
     //设置崩溃捕捉(官方建议放在最后面)
     [self setupCrashlytics];
@@ -549,6 +555,15 @@
             [JPEngine evaluateScript:script];
         }];
     }];
+}
+
+#pragma mark - FPS
+- (void)setupFPSObserver
+{
+#ifndef __OPTIMIZE__
+    [[RRFPSBar sharedInstance] setShowsAverage:YES];
+    [[RRFPSBar sharedInstance] setHidden:YES];
+#endif
 }
 
 

@@ -72,6 +72,10 @@
         {
             [self requestGainPkg];
         }
+        else
+        {
+            [gToast showText:@"请输入礼包兑换码"];
+        }
     }];
 }
 

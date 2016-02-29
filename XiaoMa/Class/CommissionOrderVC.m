@@ -105,7 +105,7 @@
         
     }error:^(NSError *error) {
         if (error.code == 611139001) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有协办券哦!\n点击省钱攻略,此等优惠岂能错过" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"亲,暂时只支持协办券办理哦!\n点击省钱攻略免费获取协办券" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
             [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
                 NSInteger i = [n integerValue];
                 if (i == 1) {

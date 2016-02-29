@@ -12,7 +12,7 @@
 #import "CXAlertView.h"
 
 @interface HKCatchErrorModel ()
-@property (nonatomic, weak) UIAlertView *alertView;
+
 @end
 @implementation HKCatchErrorModel
 
@@ -93,6 +93,7 @@
                 UIViewController *orginVC = [gAppMgr.navModel.curNavCtrl.viewControllers safetyObjectAtIndex:0];
                 [LoginViewModel loginIfNeededForTargetViewController:gAppMgr.navModel.curNavCtrl originVC:orginVC];
             });
+            self.alertView = nil;
         }
     }];
     self.alertView = alert;

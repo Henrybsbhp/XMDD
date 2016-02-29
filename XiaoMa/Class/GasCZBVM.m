@@ -180,7 +180,7 @@
     }
     NSString *row1 = self.curBankCard ? @"10005" : @"10006";
     NSString *row2 = self.curGasCard ? @"10001" : @"10002";
-    return @[@[row1,row2,@"10003",@"20001",@"30001"]];
+    return @[@[row1,row2,@"10003",@"10004"],@[@"20001",@"30001"]];
 }
 
 - (NSString *)bankFavorableDesc
