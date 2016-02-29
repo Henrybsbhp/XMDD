@@ -224,6 +224,7 @@
     op.req_vcode = self.vcode;
     op.req_paychannel = [PaymentHelper paymentChannelForPlatformType:PaymentPlatformTypeCreditCard];
     op.req_orderid = self.orderInfo.rsp_orderid;
+    op.req_bill = self.model.needInvoice ? 1 : 0;
     @weakify(self);
     [[[op rac_postRequest] initially:^{
         [gToast showingWithText:@"正在支付..."];
