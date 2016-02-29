@@ -14,6 +14,7 @@
 #define kCKCellGetHeight    @"__getcellheight"
 #define kCKCellPrepare      @"__preparecell"
 #define kCKCellSelected     @"__selectcell"
+#define kCKCellWillDisplay   @"__willdisplaycell"
 
 #define CKNULL     [NSNull null]
 #define kCKItemKey      @"__itemkey"
@@ -57,10 +58,12 @@ extern "C"
     typedef void (^CKCellSelectedBlock)(CKDict *data, NSIndexPath *indexPath);
     typedef CGFloat (^CKCellGetHeightBlock)(CKDict *data, NSIndexPath *indexPath);
     typedef void(^CKCellPrepareBlock)(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath);
+    typedef void(^CKCellWillDisplayBlock)(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath);
 
     CKCellSelectedBlock CKCellSelected(CKCellSelectedBlock block);
     CKCellGetHeightBlock CKCellGetHeight(CKCellGetHeightBlock block);
     CKCellPrepareBlock CKCellPrepare(CKCellPrepareBlock block);
+    CKCellWillDisplayBlock CKCellWillDisplay(CKCellWillDisplayBlock block);
     
     CKList *CKGenList(id firstObject, ...) NS_REQUIRES_NIL_TERMINATION;
 

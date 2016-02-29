@@ -69,7 +69,7 @@
         
         GetGaschargeConfigOp *op = [GetGaschargeConfigOp operation];
         @weakify(self);
-        RACSignal *sig = [[[[op rac_postRequest] catch:^RACSignal *(NSError *error) {
+        cfgSig = [[[[op rac_postRequest] catch:^RACSignal *(NSError *error) {
             @strongify(self);
             self.getGaschargeConfigSignal = nil;
             return [RACSignal return:nil];
@@ -80,7 +80,7 @@
             self.chargePackages = [rspOp generateAllChargePackages];
         }] replayLast];
         
-        self.getGaschargeConfigSignal = sig;
+        self.getGaschargeConfigSignal = cfgSig;
     }
     
     CKEvent *event = [[RACSignal combineLatest:@[signal, cfgSig]] eventWithName:@"getChargeConfig"];

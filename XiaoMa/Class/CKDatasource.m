@@ -112,6 +112,11 @@ CKCellPrepareBlock CKCellPrepare(CKCellPrepareBlock block)
     return [block copy];
 }
 
+CKCellWillDisplayBlock CKCellWillDisplay(CKCellWillDisplayBlock block)
+{
+    return [block copy];
+}
+
 CKList *CKGenList(id firstObject, ...)
 {
     CKList *list = [CKList queue];

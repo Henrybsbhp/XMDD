@@ -16,10 +16,12 @@
 #import "NSString+Split.h"
 #import "CBAutoScrollLabel.h"
 #import "NSString+Format.h"
+#import "GasStore.h"
 
 #import "GasPickAmountCell.h"
 #import "GasReminderCell.h"
 
+#import "GasNormalVC.h"
 #import "MyBankVC.h"
 #import "GasCardListVC.h"
 #import "GasAddCardVC.h"
@@ -47,6 +49,7 @@
 @property (nonatomic,strong) CBAutoScrollLabel *roundLb;
 @property (nonatomic,strong) UIView *backgroundView;
 @property (nonatomic,strong) UIImageView *notifyImg;
+@property (nonatomic, strong) GasNormalVC *normalVC;
 @end
 
 @implementation GasVC
@@ -139,6 +142,9 @@
     [self setupHeaderView];
     [self setupADView];
     [self setupBottomView];
+    [self setupSubVC];
+    [[[GasStore fetchOrCreateStore] getAllGasCards] send];
+    return;
     [self setupStore];
     [self setupSignals];
     [self refreshViews];
@@ -153,11 +159,20 @@
     // Dispose of any resources that can be recreated.
 }
 
-
 - (void)setTabViewSelectedIndex:(NSInteger)tabViewSelectedIndex
 {
     _tabViewSelectedIndex = tabViewSelectedIndex;
     self.headerView.selectedIndex = tabViewSelectedIndex;
+}
+
+- (void)setupSubVC
+{
+    self.normalVC = [[GasNormalVC alloc] initWithTargetVC:self tableView:self.tableView bottomButton:self.bottomBtn];
+    CKAsyncMainQueue(^{
+        if (self.tabViewSelectedIndex == 0) {
+            [self.normalVC reloadData];
+        }
+    });
 }
 
 - (void)setupHeaderView
@@ -171,15 +186,16 @@
         @strongify(self);
         if (index ==0) {
             [MobClick event:@"rp501-2"];
+            [self.normalVC reloadData];
         }
         else {
             [MobClick event:@"rp501-3"];
         }
         
-        self.curModel = index == 0 ? self.normalModel : self.czbModel;
-        if (![self.curModel reloadWithForce:NO]) {
-            [self refreshViews];
-        }
+//        self.curModel = index == 0 ? self.normalModel : self.czbModel;
+//        if (![self.curModel reloadWithForce:NO]) {
+//            [self refreshViews];
+//        }
     }];
     
     

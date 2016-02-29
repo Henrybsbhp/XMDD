@@ -44,6 +44,7 @@
     if (self) {
         _tableView = table;
         _bottomBtn = btn;
+        _targetVC = vc;
         _model = [[GasNormalVM alloc] init];
         [self setupDatasource];
         [self setupGasStore];
@@ -115,13 +116,14 @@
 ///空白刷新（包括刷新失败）
 - (CKDict *)blankItem
 {
-    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"BlankItem"}];
+    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Blank"}];
     @weakify(self);
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        return CGRectGetHeight(self.tableView.frame);
+        return self.tableView.frame.size.height - self.tableView.tableHeaderView.frame.size.height;
     });
-    item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+    
+    item[kCKCellWillDisplay] = CKCellWillDisplay(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
 
         if ([data[@"loading"] boolValue]) {
             [cell.contentView hideDefaultEmptyView];
@@ -130,7 +132,7 @@
         if ([data[@"error"] boolValue]) {
             [cell.contentView stopActivityAnimation];
             [cell.contentView showDefaultEmptyViewWithText:@"刷新失败，点击重试" tapBlock:^{
-                
+                [[[GasStore fetchExistsStore] getAllGasCards] send];
             }];
         }
     });
@@ -421,6 +423,14 @@
         ((CKCellPrepareBlock)item[kCKCellPrepare])(item, cell, indexPath);
     }
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CKDict *item = self.datasource[indexPath.section][indexPath.row];
+    if (item[kCKCellWillDisplay]) {
+        ((CKCellWillDisplayBlock)item[kCKCellWillDisplay])(item, cell, indexPath);
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
