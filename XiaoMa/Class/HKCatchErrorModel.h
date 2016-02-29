@@ -10,6 +10,8 @@
 
 @interface HKCatchErrorModel : NSObject
 
+@property (nonatomic, weak) UIAlertView *alertView;
+
 - (void)catchNetworkingError;
 
 @end

@@ -10,6 +10,6 @@
 
 @interface HomeSuspendedAdVC : UIViewController
 
-+ (instancetype)presentInTargetVC:(UIViewController *)targetVC;
++ (instancetype)presentInTargetVC:(UIViewController *)targetVC withAdList:(NSArray *)adArr;
 
 @end

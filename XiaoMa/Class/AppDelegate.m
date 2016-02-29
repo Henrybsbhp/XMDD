@@ -19,7 +19,6 @@
 #import "DefaultStyleModel.h"
 
 #import "HKLoginModel.h"
-#import "HKCatchErrorModel.h"
 #import "MapHelper.h"
 #import "JTLogModel.h"
 
@@ -49,7 +48,7 @@
 @property (nonatomic, strong) DDFileLogger *fileLogger;
 /// 日志
 @property (nonatomic,strong)JTLogModel * logModel;
-@property (nonatomic, strong) HKCatchErrorModel *errorModel;
+
 @property (nonatomic, strong) HKLaunchManager *launchMgr;
 
 @end

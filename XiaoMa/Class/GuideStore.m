@@ -20,12 +20,14 @@
     self.newbieInfo = nil;
     self.shouldShowNewbieGuideAlert = NO;
     self.shouldShowNewbieGuideDot = NO;
-    self.allowPopupAd = NO;
+    
     if (user) {
+        self.shouldDisablePopupAd = YES;
         //重新检测新手引导
         [[self checkNewbieGuide] send];
     }
     else {
+        self.shouldDisablePopupAd = NO;
         //触发新手引导发生改变
         [self triggerEvent:[[RACSignal return:nil] eventWithName:kDomainNewbiewGuide]];
     }
@@ -39,7 +41,7 @@
     if (!gAppMgr.myUser || [gAppMgr.deviceInfo checkIfAppearedAfterVersion:@"2.6" forKey:key]) {
         self.shouldShowNewbieGuideAlert = NO;
         self.shouldShowNewbieGuideDot = NO;
-        self.allowPopupAd = YES;
+        self.shouldDisablePopupAd = NO;
         signal = [RACSignal return:nil];
     }
     else {
@@ -57,7 +59,7 @@
             //如果以前没有点过弹框，则需要显示弹框
             if (![self isNewbieGuideAlertAppeared]) {
                 //禁用弹出广告功能
-                self.allowPopupAd = NO;
+                self.shouldDisablePopupAd = op.rsp_jumpwinflag == 1;
                 self.shouldShowNewbieGuideDot = op.rsp_jumpwinflag == 1;
                 //下载弹框图片
                 [self downloadNewbieGuidePicIfNeeded:op];
@@ -67,13 +69,13 @@
                 self.shouldShowNewbieGuideAlert = NO;
                 self.shouldShowNewbieGuideDot = NO;
                 //允许首页弹出广告功能
-                self.allowPopupAd = YES;
+                self.shouldDisablePopupAd = NO;
             }
             else {
                 self.shouldShowNewbieGuideDot = op.rsp_washcarflag == 1;
                 self.shouldShowNewbieGuideAlert = NO;
                 //允许首页弹出广告功能
-                self.allowPopupAd = YES;
+                self.shouldDisablePopupAd = NO;
             }
         }] replayLast];
     }

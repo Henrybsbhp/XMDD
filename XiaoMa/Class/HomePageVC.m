@@ -460,7 +460,7 @@
 
 - (void)showSuspendedAdIfNeeded
 {
-    if (self.guideStore.allowPopupAd && self.isViewAppearing && !self.isShowSuspendedAd) {
+    if (!self.guideStore.shouldDisablePopupAd && self.isViewAppearing && !self.isShowSuspendedAd) {
         
         self.isShowSuspendedAd = YES;
         
@@ -469,8 +469,10 @@
         [[signal deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
             
             @strongify(self);
-            if (ads.count > 0) {
-                [HomeSuspendedAdVC presentInTargetVC:self];
+            //若弹出抢登登录框，则不弹出广告
+            if (!gAppDelegate.errorModel.alertView && ads.count > 0) {
+                
+                [HomeSuspendedAdVC presentInTargetVC:self withAdList:ads];
             }
         }];
     }
