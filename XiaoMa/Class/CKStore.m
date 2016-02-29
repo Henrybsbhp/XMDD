@@ -108,6 +108,16 @@
     return event;
 }
 
+- (CKEvent *)inlineEvent:(CKEvent *)event handler:(void(^)(CKEvent *))handler {
+    
+    if (![self.eventDict objectForKey:event.name]) {
+        [self.eventDict setObject:@YES forKey:event.name];
+        [self observeEventForName:event.name handler:handler];
+    }
+    return event;
+}
+
+
 #pragma mark - Trigger
 - (void)triggerEvent:(CKEvent *)event
 {
@@ -132,7 +142,7 @@
 }
 
 #pragma mark - Subscribe
-- (void)subscribeWithTarget:(id)target domainList:(NSArray *)domains receiver:(void(^)(CKStore *store, CKEvent*evt))block
+- (void)subscribeWithTarget:(id)target domainList:(NSArray *)domains receiver:(void(^)(id store, CKEvent*evt))block
 {
     NSMutableDictionary *dict = [self.weakTable objectForKey:target];
     if (!dict) {
@@ -151,15 +161,14 @@
         [dict setObject:block forKey:domain];
     }
 }
-- (void)subscribeWithTarget:(id)target domain:(NSString *)domain receiver:(void(^)(CKStore *store, CKEvent*evt))block
+- (void)subscribeWithTarget:(id)target domain:(NSString *)domain receiver:(void(^)(id store, CKEvent*evt))block
 {
     [self subscribeWithTarget:target domainList:@[domain] receiver:block];
 }
-
 - (RACSignal *)rac_subscribeWithTarget:(id)target domainList:(NSArray *)domains
 {
     RACSubject *subject;
-    [self subscribeWithTarget:target domainList:domains receiver:^(CKStore *store, CKEvent *evt) {
+    [self subscribeWithTarget:target domainList:domains receiver:^(id store, CKEvent *evt) {
         [subject sendNext:evt];
     }];
     return [subject takeUntil:[[self rac_willDeallocSignal] merge:[target rac_willDeallocSignal]]];

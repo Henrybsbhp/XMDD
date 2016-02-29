@@ -15,6 +15,8 @@
 #import "NSString+RectSize.h"
 #import "NSString+Split.h"
 #import "CBAutoScrollLabel.h"
+#import "NSString+Format.h"
+#import "GasNormalVC.h"
 
 #import "GasPickAmountCell.h"
 #import "GasReminderCell.h"
@@ -29,7 +31,6 @@
 #import "PaymentSuccessVC.h"
 
 
-
 @interface GasVC ()<UITableViewDataSource, UITableViewDelegate, RTLabelDelegate>
 @property (nonatomic, strong) ADViewController *adctrl;
 @property (nonatomic, strong) GasTabView *headerView;
@@ -40,6 +41,7 @@
 @property (nonatomic, strong) GasCZBVM *czbModel;
 @property (nonatomic, weak) GasBaseVM *curModel;
 @property (nonatomic, strong) NSArray *datasource;
+@property (nonatomic, strong) CKSegmentHelper *chargePkgHelper;
 ///是否同意协议(Default is YES)
 @property (nonatomic, assign) BOOL isAcceptedAgreement;
 
@@ -135,7 +137,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupNavigationBar];
     [self setupHeaderView];
     [self setupADView];
     [self setupBottomView];
@@ -143,7 +144,9 @@
     [self setupSignals];
     [self refreshViews];
     [self requestGasAnnnounce];
-    [self.curModel reloadWithForce:YES];
+    CKAsyncMainQueue(^{
+        [self.curModel reloadWithForce:YES];        
+    });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -156,19 +159,6 @@
 {
     _tabViewSelectedIndex = tabViewSelectedIndex;
     self.headerView.selectedIndex = tabViewSelectedIndex;
-}
-
-- (void)setupNavigationBar
-{
-    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"加油记录" style:UIBarButtonItemStylePlain
-                                                             target:self action:@selector(actionGotoRechargeRecords:)];
-    [right setTitleTextAttributes:@{
-                                    NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:14.0]
-                                    } forState:UIControlStateNormal];
-    self.navigationItem.rightBarButtonItem = right;
-    
-    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
-    self.navigationItem.leftBarButtonItem = back;
 }
 
 - (void)setupHeaderView
@@ -342,7 +332,7 @@
         
     }] subscribeNext:^(GetGaschargeConfigOp * op) {
         
-        [self setupRoundLbView:op.rsp_announce];
+        [self setupRoundLbView:op.rsp_tip];
     }];
 }
 
@@ -351,6 +341,7 @@
 {
     self.datasource = [self.curModel datasource];
     [self.curModel.segHelper removeAllItemsForGroupName:@"Pay"];
+    [self.curModel.segHelper removeAllItemsForGroupName:@"ChargePkg"];
     [self.tableView reloadData];
     [self refrshLoadingView];
     [self refreshBottomView];
@@ -359,26 +350,34 @@
 - (void)refreshBottomView
 {
     NSString *title;
-    NSInteger couponlimit, discount = 0;
-    CGFloat percent = 0;
-    NSInteger paymoney = self.curModel.rechargeAmount;
+    NSInteger couponlimit;
+    CGFloat percent = 0, discount = 0, paymoney = self.curModel.rechargeAmount;
     
     if ([self.curModel isEqual:self.normalModel]) {
         GasNormalVM *model = (GasNormalVM *)self.curModel;
-        couponlimit = model.configOp ? model.configOp.rsp_couponupplimit : 1000;
-        percent = model.configOp ? model.configOp.rsp_discountrate : 2;
-        if (model.curGasCard) {
-            discount = MIN([model.curGasCard.couponedmoney integerValue], paymoney * percent / 100.0);
+        //分期加油
+        if (model.curChargePackage.pkgid) {
+            paymoney = paymoney * model.curChargePackage.month;
+            discount = paymoney * (1 - [model.curChargePackage.discount floatValue]/100.0);
         }
         else {
-            discount = MIN(couponlimit, paymoney) * percent / 100.0;
+            couponlimit = model.configOp ? model.configOp.rsp_couponupplimit : 1000;
+            percent = model.configOp ? model.configOp.rsp_discountrate : 2;
+            if (model.curGasCard) {
+                discount = MIN([model.curGasCard.couponedmoney integerValue], paymoney * percent / 100.0);
+            }
+            else {
+                discount = MIN(couponlimit, paymoney) * percent / 100.0;
+            }
         }
+
         paymoney = paymoney - discount;
         if (discount > 0) {
-            title = [NSString stringWithFormat:@"已优惠%d元，您只需支付%d元，现在支付", (int)discount, (int)paymoney];
+            title = [NSString stringWithFormat:@"已优惠%@元，您只需支付%@元，现在支付",
+                     [NSString formatForRoundPrice:discount], [NSString formatForRoundPrice:paymoney]];
         }
         else {
-            title = [NSString stringWithFormat:@"您需支付%d元，现在支付", (int)paymoney];
+            title = [NSString stringWithFormat:@"您需支付%@元，现在支付", [NSString formatForRoundPrice:paymoney]];
         }
     }
     else {
@@ -390,10 +389,12 @@
         }
         discount = MIN(couponlimit, paymoney * percent / 100.0);
         if (discount > 0) {
-            title = [NSString stringWithFormat:@"充值%d元，只需支付%d元，现在支付", (int)(paymoney + discount), (int)paymoney];
+            title = [NSString stringWithFormat:@"充值%@元，只需支付%@元，现在支付",
+                     [NSString formatForRoundPrice:(paymoney + discount)],
+                     [NSString formatForRoundPrice:paymoney]];
         }
         else {
-            title = [NSString stringWithFormat:@"您需支付%d元，现在支付", (int)paymoney];
+            title = [NSString stringWithFormat:@"您需支付%@元，现在支付", [NSString formatForRoundPrice:paymoney]];
         }
     }
     
@@ -612,11 +613,14 @@
     if (tag == 1) {
         return self.view.frame.size.height;
     }
-    else if (tag == 10001) {    //添加加油卡
+    else if (tag == 10001) {    //选择加油卡
         height = 74;
     }
-    else if (tag == 10002) {    //选择加油卡
+    else if (tag == 10002) {    //添加加油卡
         height = 68;
+    }
+    else if (tag == 100031) {   //分期选择
+        height = 75;
     }
     else if (tag == 10003) {    //充值金额
         GasPickAmountCell *cell = [self pickGasAmountCellAtIndexPath:indexPath];
@@ -655,6 +659,9 @@
     }
     else if (tag == 10002) {
         cell = [self addGasCardCellAtIndexPath:indexPath];
+    }
+    else if (tag == 100031) {
+        cell = [self chargePkgsCellAtIndexPath:indexPath];
     }
     else if (tag == 10003) {
         cell = [self pickGasAmountCellAtIndexPath:indexPath];
@@ -776,33 +783,104 @@
     return cell;
 }
 
+///选择分期月份
+- (UITableViewCell *)chargePkgsCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ChargePkgs"];
+
+    for (NSInteger i = 0; i < self.normalModel.chargePackages.count; i++) {
+
+        GasChargePackage *pkg = self.normalModel.chargePackages[i];
+        NSInteger tag = i + 2001;
+        UIView *itemView = [cell.contentView viewWithTag:tag];
+        UILabel *titleL = [cell.contentView viewWithTag:tag*10+1];
+        UILabel *discountL = [cell.contentView viewWithTag:tag*10+2];
+
+        titleL.text = pkg.month == 1 ? @"快速充值" : [NSString stringWithFormat:@"分%d个月充值", pkg.month];
+        discountL.text = [NSString stringWithFormat:@"%@折", pkg.discount];
+        
+        if ([self.normalModel.curChargePackage isEqual:pkg]) {
+            itemView.layer.borderWidth = 2;
+            itemView.layer.borderColor = [HEXCOLOR(@"#20ab2a") CGColor];
+            discountL.backgroundColor = HEXCOLOR(@"#20ab2a");
+            discountL.textColor = [UIColor whiteColor];
+        }
+        else {
+            itemView.layer.borderWidth = 0.5;
+            itemView.layer.borderColor = [HEXCOLOR(@"#d7d7d7") CGColor];
+            discountL.backgroundColor = HEXCOLOR(@"#d7d7d7");
+            discountL.textColor = HEXCOLOR(@"#888888");
+        }
+    }
+    
+    @weakify(self);
+    for (int i = 0; i < self.normalModel.chargePackages.count; i++) {
+        GasChargePackage *pkg = self.normalModel.chargePackages[i];
+        UIButton *bgBtn = [cell.contentView viewWithTag:(i+2001)*10+3];
+        [[[bgBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+         subscribeNext:^(id x) {
+             @strongify(self);
+             self.normalModel.curChargePackage = pkg;
+             if (pkg.pkgid) {
+                 self.normalModel.rechargeAmount = [PKYStepper fitValueForValue:self.normalModel.rechargeAmount
+                                                                    inValueList:self.normalModel.configOp.rsp_supportamt];
+             }
+             [self.tableView reloadData];
+        }];
+    }
+    
+    return cell;
+}
+
 - (GasPickAmountCell *)pickGasAmountCellAtIndexPath:(NSIndexPath *)indexPath
 {
     GasPickAmountCell *cell = (GasPickAmountCell *)[self.tableView dequeueReusableCellWithIdentifier:@"PickGasAmount"];
     cell.richLabel.text = [self.curModel rechargeFavorableDesc];
-    
+
+    cell.stepper.value = self.curModel.rechargeAmount;
     if (!cell.stepper.valueChangedCallback) {
         @weakify(self);
         cell.stepper.valueChangedCallback = ^(PKYStepper *stepper, float newValue) {
             @strongify(self);
-            stepper.countLabel.text = [NSString stringWithFormat:@"%d", (int)newValue];
+            stepper.countLabel.text = [NSString stringWithFormat:@"%d元", (int)newValue];
             self.curModel.rechargeAmount = (int)newValue;
             [self refreshBottomView];
         };
-        cell.stepper.incrementCallback = ^(PKYStepper *stepper, float newValue) {
+        cell.stepper.incrementCallback = ^float(PKYStepper *stepper, float newValue) {
             [MobClick event:@"rp501-7"];
-            if (newValue > stepper.maximum) {
+            if (stepper.allowValueList && stepper.valueList.count > 0) {
+                float maxValue = [[stepper.valueList lastObject] floatValue];
+                if (newValue >= maxValue && stepper.value >= maxValue) {
+                    [gToast showText:@"充值金额已达本月最大限制，无法增加啦"];
+                    return [[stepper.valueList lastObject] floatValue];
+                }
+            }
+            else if (newValue > stepper.maximum) {
                 [gToast showText:@"充值金额已达本月最大限制，无法增加啦"];
+                return stepper.maximum;
             }
+            return newValue;
         };
-        cell.stepper.decrementCallback = ^(PKYStepper *stepper, float newValue) {
+        cell.stepper.decrementCallback = ^float(PKYStepper *stepper, float newValue) {
             [MobClick event:@"rp501-5"];
-            if (newValue < stepper.minimum) {
-                [gToast showText:@"充值金额不能小于100哦～"];
+            if (stepper.allowValueList && stepper.valueList.count > 0) {
+                float minValue = [stepper.valueList[0] floatValue];
+                if (newValue <= minValue && stepper.value <= minValue) {
+                    [gToast showText:[NSString stringWithFormat:@"充值金额不能小于%d哦～", (int)minValue]];
+                    return [stepper.valueList[0] floatValue];
+                }
             }
+            else if (newValue < stepper.minimum) {
+                [gToast showText:@"充值金额不能小于100哦～"];
+                return stepper.minimum;
+            }
+            return newValue;
         };
     }
+    
     if ([self.curModel isEqual:self.normalModel]) {
+
+        cell.stepper.valueList = self.normalModel.configOp.rsp_supportamt;
         if (!self.curModel.curGasCard) {
             // 有说明请求成功
             cell.stepper.maximum = self.normalModel.configOp.rsp_chargeupplimit ? [self.normalModel.configOp.rsp_chargeupplimit integerValue] : 1000;
@@ -810,6 +888,8 @@
         else {
             cell.stepper.maximum = [self.curModel.curGasCard.availablechargeamt integerValue];
         }
+
+        cell.stepper.allowValueList = self.normalModel.curChargePackage.pkgid;
     }
     else {
         GasCZBVM *model = (GasCZBVM *)self.curModel;
@@ -820,7 +900,7 @@
             cell.stepper.maximum = model.curBankCard.gasInfo.rsp_availablechargeamt;
         }
     }
-    cell.stepper.value = self.curModel.rechargeAmount;
+//    cell.stepper.value = self.curModel.rechargeAmount;
     [cell.stepper setup];
     
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];

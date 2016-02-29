@@ -9,10 +9,12 @@
 #import "GasNormalVM.h"
 #import "GetGaschargeConfigOp.h"
 #import "GetGaschargeInfoOp.h"
+#import "GascardChargeByStagesOp.h"
 #import "OrderPaidSuccessOp.h"
 #import "CancelGaschargeOp.h"
 #import "PaymentHelper.h"
 #import "CKDatasource.h"
+#import "NSString+Format.h"
 
 @interface GasNormalVM ()
 @property (nonatomic, strong) RACSignal *getGaschargeConfigSignal;
@@ -21,7 +23,6 @@
 
 - (void)dealloc
 {
-    
 }
 
 - (void)setupCardStore
@@ -118,7 +119,10 @@
         
         @strongify(self);
         self.configOp = rspOp;
+        self.chargePackages = [rspOp generateAllChargePackages];
+        self.curChargePackage = [self.chargePackages safetyObjectAtIndex:0];
     }] replayLast];
+    
     self.getGaschargeConfigSignal = sig;
     
     return sig;
@@ -145,12 +149,21 @@
     NSString *row1 = self.curGasCard ? @"10001" : @"10002";
 //    NSArray *section2 = gPhoneHelper.exsitWechat ? @[@"20001",@"20002",@"20003",@"30001"] : @[@"20001",@"20003",@"30001"];
     NSArray *section2 = @[@"20001",@"30001"];
-    return @[@[row1,@"10003",@"10004"],section2];
+    return @[@[row1,@"100031",@"10003",@"10004"],section2];
 }
 
 - (NSString *)rechargeFavorableDesc
 {
-    if (self.curGasCard && self.curGasCard) {
+    //分期加油
+    if (self.curChargePackage.pkgid) {
+        GasChargePackage *pkg = self.curChargePackage;
+        int amount = [[self.configOp.rsp_supportamt lastObject] intValue];
+        float coupon = amount * pkg.month * (1-[pkg.discount floatValue]/100.0);
+        return [NSString stringWithFormat:@"<font size=13 color='#888888'>充值即享<font color='#ff0000'>%@折</font>，每月充值%d元，能省%@元</font>",
+                pkg.discount, amount, [NSString formatForFloorPrice:coupon]];
+    }
+    //普通加油
+    else if (self.curGasCard && self.curGasCard) {
         return self.curGasCard.desc;
     }
     if (self.configOp.rsp_desc) {
@@ -159,36 +172,54 @@
     return @"<font size=13 color='#888888'>充值即享<font color='#ff0000'>98折</font>，每月优惠限额1000元，超出部分不予奖励。每月最多充值2000元。</font>";
 }
 
-- (void)startPayInTargetVC:(UIViewController *)vc completed:(void(^)(GasCard *card, GascardChargeOp *paidop))completed
+- (void)startPayInTargetVC:(UIViewController *)vc
+                   success:(void(^)(GasCard *card, GascardChargeOp *paidop))success
+                    failed:(void(^)(NSError *error, GascardChargeOp *op))fail
 {
     GasCard *card = self.curGasCard;
-    GascardChargeOp *op = [GascardChargeOp operation];
+    GascardChargeOp *op;
+
+    //分期支付
+    if (self.curChargePackage.pkgid) {
+        GascardChargeByStagesOp *fqop = [GascardChargeByStagesOp operation];
+        fqop.req_cardid = card.gid;
+        fqop.req_pkgid = self.curChargePackage.pkgid;
+        fqop.req_permonthamt = (int)self.rechargeAmount;
+        op = fqop;
+    }
+    else {
+        op = [GascardChargeOp operation];
+        op.req_gid = card.gid;
+        op.req_amount = (int)self.rechargeAmount;
+    }
     op.req_gid = card.gid;
-    op.req_amount = (int)self.rechargeAmount;
     op.req_paychannel = self.paymentPlatform;
-    op.req_needinvoice = self.needInvoice;
-    op.req_cid = self.coupon.couponId;
-    @weakify(self);
+    op.req_bill = self.needInvoice;
+    op.req_cid = self.coupon.couponId ? self.coupon.couponId : @0;
+    @weakify(self, op);
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"订单生成中..."];
     }] subscribeNext:^(GascardChargeOp *op) {
         
         @strongify(self);
-        if (![self callPaymentHelperWithPayOp:op gasCard:card targetVC:vc completed:completed]) {
+        if (![self callPaymentHelperWithPayOp:op gasCard:card targetVC:vc completed:success]) {
             [gToast dismiss];
             [self cancelOrderWithTradeNumber:op.rsp_tradeid cardID:card.gid];
-            if (completed) {
-                completed(card, op);
+            if (success) {
+                success(card, op);
             }
         }
     } error:^(NSError *error) {
         
-        @strongify(self);
+        @strongify(self, op);
         [gToast showError:error.domain];
         //加油到达上限（如果遇到该错误，客户端提醒用户后，需再调用一次查询卡的充值信息）
         if (error.code == 618602) {
             [self.cardStore sendEvent:[self.cardStore updateCardInfoByGID:card.gid]];
+        }
+        if (fail) {
+            fail(error, op);
         }
     }];
 }
@@ -200,7 +231,9 @@
         return NO;
     }
     PaymentHelper *helper = [[PaymentHelper alloc] init];
-    NSString * info = [NSString stringWithFormat:@"普通充值－%@油卡充值", card.cardtype == 2 ? @"中石油" : @"中石化"];
+    NSString * info = [NSString stringWithFormat:@"%@充值－%@油卡充值",
+                       self.curChargePackage.pkgid ? @"分期" : @"普通",
+                       card.cardtype == 2 ? @"中石油" : @"中石化"];
     NSString *text;
     switch (paidop.req_paychannel) {
         case PaymentChannelAlipay: {

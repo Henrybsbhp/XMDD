@@ -45,6 +45,7 @@ static const float kButtonWidth = 44.0f;
     _stepInterval = 1.0f;
     _minimum = 0.0f;
     _maximum = 100.0f;
+    _curValueIndex = NSNotFound;
     _hidesDecrementWhenMinimum = NO;
     _hidesIncrementWhenMaximum = NO;
     _buttonWidth = kButtonWidth;
@@ -96,7 +97,7 @@ static const float kButtonWidth = 44.0f;
 {
     if (self.valueChangedCallback)
     {
-        self.valueChangedCallback(self, self.value);
+        self.valueChangedCallback(self, _value);
     }
 }
 
@@ -156,49 +157,94 @@ static const float kButtonWidth = 44.0f;
 #pragma mark setter
 - (void)setValue:(float)value
 {
-    _value = MAX(MIN(value, self.maximum), self.minimum);
-    if (self.hidesDecrementWhenMinimum)
-    {
-        self.decrementButton.hidden = [self isMinimum];
+    if (self.allowValueList && self.valueList.count > 0) {
+        _value = value;
     }
-    
-    if (self.hidesIncrementWhenMaximum)
-    {
-        self.incrementButton.hidden = [self isMaximum];
-    }
-    
-    if (self.valueChangedCallback)
-    {
-        self.valueChangedCallback(self, _value);
+    else {
+        _value = MAX(MIN(value, self.maximum), self.minimum);
+        if (self.hidesDecrementWhenMinimum)
+        {
+            self.decrementButton.hidden = [self isMinimum];
+        }
+        
+        if (self.hidesIncrementWhenMaximum)
+        {
+            self.incrementButton.hidden = [self isMaximum];
+        }
     }
 }
 
+- (void)setAllowValueList:(BOOL)allowValueList
+{
+    _allowValueList = allowValueList;
+    if (allowValueList && self.valueList.count > 0) {
 
+        float fitValue = [self.valueList[0] floatValue];
+        NSInteger index = 0;
+        
+        for (NSInteger i = 1; i < self.valueList.count; i++) {
+            float curValue = [self.valueList[i] floatValue];
+            if (fabs(curValue - self.value) < fabs(fitValue - self.value)) {
+                fitValue = curValue;
+                index = i;
+            }
+        }
+        self.curValueIndex = index;
+        self.value = fitValue;
+    }
+}
+
++ (float)fitValueForValue:(float)value inValueList:(NSArray *)valueList
+{
+    float fitValue = [valueList[0] floatValue];
+    
+    for (NSInteger i = 1; i < valueList.count; i++) {
+        float curValue = [valueList[i] floatValue];
+        if (fabs(curValue - value) < fabs(fitValue - value)) {
+            fitValue = curValue;
+        }
+    }
+    return fitValue;
+}
 
 #pragma mark event handler
 - (void)incrementButtonTapped:(id)sender
 {
-    CGFloat newValue = self.value + self.stepInterval;
-    if (newValue <= self.maximum)
-    {
-        self.value = newValue;
+    float newValue = self.value;
+    if (self.allowValueList && self.valueList.count > 0) {
+        if (self.curValueIndex+1 < self.valueList.count) {
+            self.curValueIndex = self.curValueIndex + 1;
+            newValue = [self.valueList[self.curValueIndex] floatValue];
+        }
     }
-    if (self.incrementCallback)
-    {
-        self.incrementCallback(self, newValue);
+    else {
+        newValue = self.value + self.stepInterval;
     }
+    if (self.incrementCallback) {
+        newValue = self.incrementCallback(self, newValue);
+    }
+    self.value = newValue;
+    [self setup];
 }
 
 - (void)decrementButtonTapped:(id)sender
 {
-    CGFloat newValue = self.value - self.stepInterval;
-    if (newValue >= self.minimum) {
-        self.value = newValue;
+    float newValue = self.value;
+    if (self.allowValueList && self.valueList.count > 0) {
+        if (self.curValueIndex-1 >= 0) {
+            self.curValueIndex = self.curValueIndex - 1;
+            newValue = [self.valueList[self.curValueIndex] floatValue];
+        }
     }
-    if (self.decrementCallback)
-    {
-        self.decrementCallback(self, newValue);
+    else {
+        newValue = self.value - self.stepInterval;
     }
+    
+    if (self.decrementCallback) {
+        newValue = self.decrementCallback(self, newValue);
+    }
+    self.value = newValue;
+    [self setup];
 }
 
 

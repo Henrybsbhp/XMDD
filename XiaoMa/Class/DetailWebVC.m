@@ -218,7 +218,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         [self.bridge.myBridge callHandler:@"returnBackHandler" data:nil responseCallback:^(id response) {
             NSDictionary * dic = response;
             if ([dic boolParamForName:@"isFirstPage"]) {
-                [self.navigationController popViewControllerAnimated:YES];
+                [self popViewController];
             }
             else {
                 [self setupLeftBtns];
@@ -231,8 +231,18 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             [self.webView goBack];
         }
         else {
-            [self.navigationController popViewControllerAnimated:YES];
+            [self popViewController];
         }
+    }
+}
+
+- (void)popViewController
+{
+    if (self.originVC) {
+        [self.navigationController popToViewController:self.originVC animated:YES];
+    }
+    else {
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 

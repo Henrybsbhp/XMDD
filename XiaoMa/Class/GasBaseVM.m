@@ -16,7 +16,7 @@
     if (self) {
         _isLoadSuccess = YES;
         _segHelper = [[CKSegmentHelper alloc] init];
-        _paymentPlatform = PaymentPlatformTypeAlipay;
+        _paymentPlatform = (NSInteger)PaymentPlatformTypeAlipay;
         _cardStore = [GasCardStore fetchOrCreateStore];
         _rechargeAmount = 500;
         [self setupCardStore];
