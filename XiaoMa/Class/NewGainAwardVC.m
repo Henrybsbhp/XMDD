@@ -89,7 +89,7 @@
                 @strongify(self);
                 
                 DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-                vc.url = @"http://www.xiaomadada.com/apphtml/lingyuanxiche.html";
+                vc.url = op.zeroWashLink;
                 [self.navigationController pushViewController:vc animated:YES];
                 
                 GuideStore * guideStore = [GuideStore fetchExistsStore];
