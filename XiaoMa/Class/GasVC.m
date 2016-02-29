@@ -16,6 +16,7 @@
 #import "NSString+Split.h"
 #import "CBAutoScrollLabel.h"
 #import "NSString+Format.h"
+#import "GasNormalVC.h"
 
 #import "GasPickAmountCell.h"
 #import "GasReminderCell.h"
