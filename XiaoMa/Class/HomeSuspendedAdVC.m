@@ -8,15 +8,18 @@
 
 #import "HomeSuspendedAdVC.h"
 #import "UIView+Genie.h"
-#import "ADViewController.h"
+#import "SuspendedAdVC.h"
 
-@interface HomeSuspendedAdVC ()
+@interface HomeSuspendedAdVC () <SuspendedAdClickDelegate>
 
 @property (nonatomic, weak) UIViewController *targetVC;
 
-@property (nonatomic, strong)ADViewController * adCtrl;
-@property (nonatomic, strong)UIImageView * closeView;
+@property (nonatomic, strong) MZFormSheetController * sheet;
 
+@property (nonatomic, strong) SuspendedAdVC * adCtrl;
+@property (nonatomic, strong) UIImageView * closeView;
+
+@property (nonatomic, strong) NSArray * adListArr;
 
 @end
 
@@ -31,7 +34,14 @@
     containerView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:containerView];
     
-    self.adCtrl = [ADViewController vcWithADType:AdvertisementAlert boundsWidth:self.targetVC.view.frame.size.width * 0.84 targetVC:self.targetVC mobBaseEvent:@""];
+    self.adCtrl = [SuspendedAdVC adVCWithBoundsWidth:self.targetVC.view.frame.size.width * 0.84 targetVC:self.targetVC mobBaseEvent:@""];
+    self.adCtrl.clickDelegate = self;
+    
+    self.adCtrl.adList = self.adListArr;
+    [self.adCtrl.adView reloadDataRemovingCurrentPage:YES];
+    self.adCtrl.adView.currentPageIndex = 0;
+    self.adCtrl.adView.pageControl.hidden = self.adCtrl.adList.count <= 1;
+    
     [containerView addSubview:self.adCtrl.adView];
     
     UIImageView *closeView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -70,6 +80,14 @@
         make.centerX.equalTo(closeView.mas_centerX);
         make.top.equalTo(closeView.mas_top).offset(-7);
     }];
+    
+    @weakify(self);
+    [[[RACObserve(gAppDelegate.errorModel, alertView) distinctUntilChanged] skip:1] subscribeNext:^(id x) {
+        @strongify(self);
+        if (!x) {
+            [self actionClose:nil];
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -78,21 +96,34 @@
 }
 
 #pragma mark - Action
+- (void)adClick {
+    [self.formSheetController dismissAnimated:YES completionHandler:nil];
+}
+
 - (void)actionClose:(id)sender
 {
     self.closeView.hidden = YES;
-    CGRect endRect = CGRectMake(self.targetVC.view.frame.size.width * 0.84 / 2 - 4, self.targetVC.view.frame.size.height - 37, 8, 8);
+    int space;
+    if ([UIScreen mainScreen].bounds.size.height == 480) {
+        space = 40;
+    }
+    else {
+        space = 0;
+    }
+    CGRect endRect = CGRectMake(self.targetVC.view.frame.size.width * 0.84 / 2 - 4, self.targetVC.view.frame.size.height + space, 8, 8);
     
     [self.adCtrl.adView genieInTransitionWithDuration:0.4 destinationRect:endRect destinationEdge:BCRectEdgeTop completion:
      ^{
-         [self.formSheetController dismissAnimated:NO completionHandler:nil];
+         //若设置为NO，快速点击两次会出现黑色蒙版不消失的bug
+         [self.formSheetController dismissAnimated:YES completionHandler:nil];
      }];
 }
 
-+ (instancetype)presentInTargetVC:(UIViewController *)targetVC
++ (instancetype)presentInTargetVC:(UIViewController *)targetVC withAdList:(NSArray *)adArr
 {
     HomeSuspendedAdVC *vc = [[HomeSuspendedAdVC alloc] init];
     vc.targetVC = targetVC;
+    vc.adListArr = adArr;
     
     CGFloat width = ceil(targetVC.view.frame.size.width * 0.84);
     CGFloat height = ceil(targetVC.view.frame.size.height);
@@ -105,6 +136,9 @@
     sheet.shouldDismissOnBackgroundViewTap = NO;
     sheet.shouldCenterVertically = YES;
     [MZFormSheetController sharedBackgroundWindow].backgroundBlurEffect = NO;
+    
+    vc.sheet = sheet;
+    
     [sheet presentAnimated:YES completionHandler:nil];
     
     return vc;
