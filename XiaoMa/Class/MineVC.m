@@ -33,9 +33,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *accountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *PlaceholdLabel;
-@property (nonatomic, strong) CKQueue *datasource;
+@property (nonatomic, strong) CKList *datasource;
 @property (nonatomic, strong) GuideStore *guideStore;
 @property (nonatomic, assign) BOOL shouldShowNewbieDot;
+
 @end
 
 @implementation MineVC
@@ -164,63 +165,63 @@
 #pragma mark - Datasource
 - (void)reloadData
 {
-    CKItem *top = [self topData];
-    CKItem *car = [self normalDataWithInfo:@{kCKItemKey:@"car", @"img":@"me_car", @"title":@"爱车", @"evt":@"rp301-4"}];
-    car.info[kCKCellSelected] = CKCellSelected(^(CKItem *data, NSIndexPath *indexPath) {
+    CKDict *top = [self topData];
+    CKDict *car = [self normalDataWithInfo:@{kCKItemKey:@"car", @"img":@"me_car", @"title":@"爱车", @"evt":@"rp301-4"}];
+    car[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
         [self.navigationController pushViewController:vc animated:YES];
     });
 
-    CKItem *bank = [self normalDataWithInfo:@{kCKItemKey:@"bank", @"img":@"me_bank", @"title":@"银行卡", @"evt":@"rp301-10"}];
-    bank.info[kCKCellSelected] = CKCellSelected(^(CKItem *data, NSIndexPath *indexPath) {
+    CKDict *bank = [self normalDataWithInfo:@{kCKItemKey:@"bank", @"img":@"me_bank", @"title":@"银行卡", @"evt":@"rp301-10"}];
+    bank[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         UIViewController *vc = [UIStoryboard vcWithId:@"MyBankVC" inStoryboard:@"Bank"];
         [self.navigationController pushViewController:vc animated:YES];
     });
     
-    CKItem *order = [self normalDataWithInfo:@{kCKItemKey:@"order", @"img":@"me_order", @"title":@"订单", @"evt":@"rp301-5"}];
-    order.info[kCKCellSelected] = CKCellSelected(^(CKItem *data, NSIndexPath *indexPath) {
+    CKDict *order = [self normalDataWithInfo:@{kCKItemKey:@"order", @"img":@"me_order", @"title":@"订单", @"evt":@"rp301-5"}];
+    order[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         MyOrderListVC *vc = [UIStoryboard vcWithId:@"MyOrderListVC" inStoryboard:@"Mine"];
         [self.navigationController pushViewController:vc animated:YES];
     });
     
-    CKItem *pkg = [self normalDataWithInfo:@{kCKItemKey:@"pkg", @"img":@"me_pkg", @"title":@"礼包", @"evt":@"rp301-6"}];
-    pkg.info[kCKCellSelected] = CKCellSelected(^(CKItem *data, NSIndexPath *indexPath) {
+    CKDict *pkg = [self normalDataWithInfo:@{kCKItemKey:@"pkg", @"img":@"me_pkg", @"title":@"礼包", @"evt":@"rp301-6"}];
+    pkg[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         CouponPkgViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"CouponPkgViewController"];
         [self.navigationController pushViewController:vc animated:YES];
     });
     
-    CKItem *collect = [self normalDataWithInfo:@{kCKItemKey:@"collect", @"img":@"me_collect", @"title":@"收藏", @"evt":@"rp301-7"}];
-    collect.info[kCKCellSelected] = CKCellSelected(^(CKItem *data, NSIndexPath *indexPath) {
+    CKDict *collect = [self normalDataWithInfo:@{kCKItemKey:@"collect", @"img":@"me_collect", @"title":@"收藏", @"evt":@"rp301-7"}];
+    collect[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         MyCollectionViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"MyCollectionViewController"];
         [self.navigationController pushViewController:vc animated:YES];
     });
     
-    CKItem *active = [self activeData];
+    CKDict *active = [self activeData];
     
-    CKItem *setting = [self normalDataWithInfo:@{kCKItemKey:@"setting", @"img":@"me_setting", @"title":@"关于", @"evt":@"rp301-8", @"nologin":@YES}];
-    setting.info[kCKCellSelected] = CKCellSelected(^(CKItem *data, NSIndexPath *indexPath) {
+    CKDict *setting = [self normalDataWithInfo:@{kCKItemKey:@"setting", @"img":@"me_setting", @"title":@"关于", @"evt":@"rp301-8", @"nologin":@YES}];
+    setting[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         AboutViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
         [self.navigationController pushViewController:vc animated:YES];
     });
 
-    self.datasource = CKPackQueue(CKGenQueue(top, nil),
-                                  CKGenQueue(car, bank, order, pkg, collect, nil),
-                                  CKGenQueue(active, nil),
-                                  CKGenQueue(setting, nil), nil);
+    self.datasource = $($(top),
+                        $(car,bank,order,pkg,collect),
+                        $(active),
+                        $(setting));
     [self.tableView reloadData];
 }
 
-- (CKItem *)topData
+- (CKDict *)topData
 {
-    CKItem *data = CKGenItem(@{kCKItemKey:@"top", kCKCellID:@"TopCell"});
+    CKDict *data = [CKDict dictWith:@{kCKItemKey:@"top", kCKCellID:@"TopCell"}];
     //cell行高
-    data.info[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKItem *data, NSIndexPath *indexPath) {
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         
         return 64;
     });
     //cell准备重绘
     @weakify(self);
-    data.info[kCKCellPrepare] = CKCellPrepare(^(CKItem *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         HKTableViewCell *hkcell = (HKTableViewCell *)cell;
         UIButton *leftBtn = [cell.contentView viewWithTag:1002];
         UILabel *rightTitleL = [cell.contentView viewWithTag:2001];
@@ -260,12 +261,12 @@
     return data;
 }
 
-- (CKItem *)normalDataWithInfo:(NSDictionary *)info
+- (CKDict *)normalDataWithInfo:(NSDictionary *)info
 {
-    CKItem *data = [CKItem itemWithInfo:info];
-    [data.info setObject:@"NormalCell" forKey:kCKCellID];
+    CKDict *data = [CKDict dictWith:info];
+    data[kCKCellID] = @"NormalCell";
     @weakify(self);
-    data.info[kCKCellPrepare] = CKCellPrepare(^(CKItem *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
         @strongify(self);
         HKTableViewCell *hkcell = (HKTableViewCell *)cell;
@@ -273,8 +274,8 @@
         UILabel *titleL = [cell.contentView viewWithTag:1002];
         UILabel *subTitleL = [cell.contentView viewWithTag:1003];
         
-        iconV.image = [UIImage imageNamed:data.info[@"img"]];
-        titleL.text = data.info[@"title"];
+        iconV.image = [UIImage imageNamed:data[@"img"]];
+        titleL.text = data[@"title"];
         subTitleL.text = nil;
         
         [hkcell prepareCellForTableView:self.tableView atIndexPath:indexPath];
@@ -283,16 +284,16 @@
     return data;
 }
 
-- (CKItem *)activeData
+- (CKDict *)activeData
 {
-    CKItem *data = [CKItem itemWithInfo:@{kCKCellID:@"ActiveCell"}];
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"ActiveCell"}];
 
-    data.info[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKItem *data, NSIndexPath *indexPath) {
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 64;
     });
 
     @weakify(self);
-    data.info[kCKCellPrepare] = CKCellPrepare(^(CKItem *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         @strongify(self);
         HKTableViewCell *hkcell = (HKTableViewCell *)cell;
         UIImageView *dotV = [cell viewWithTag:1003];
@@ -304,7 +305,7 @@
         [hkcell prepareCellForTableView:self.tableView atIndexPath:indexPath];
     });
     
-    data.info[kCKCellSelected] = CKCellSelected(^(CKItem *data, NSIndexPath *indexPath) {
+    data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         [MobClick event:@"rp301-11"];
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
@@ -352,9 +353,9 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CKItem *data = [[self.datasource objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data.info[kCKCellID] forIndexPath:indexPath];
-    CKCellPrepareBlock block = data.info[kCKCellPrepare];
+    CKDict *data = self.datasource[indexPath.section][indexPath.row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data[kCKCellID] forIndexPath:indexPath];
+    CKCellPrepareBlock block = data[kCKCellPrepare];
     if (block) {
         block(data, cell, indexPath);
     }
@@ -370,8 +371,8 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CKItem *data = [[self.datasource objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    CKCellGetHeightBlock block = data.info[kCKCellGetHeight];
+    CKDict *data = self.datasource[indexPath.section][indexPath.row];
+    CKCellGetHeightBlock block = data[kCKCellGetHeight];
     if (block) {
         return block(data,indexPath);
     }
@@ -382,14 +383,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    CKItem *data = [[self.datasource objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    if (data.info[@"evt"]) {
-        [MobClick event:data.info[@"evt"]];
+    CKDict *data = self.datasource[indexPath.section][indexPath.row];
+    if (data[@"evt"]) {
+        [MobClick event:data[@"evt"]];
     }
-    CKCellSelectedBlock block = data.info[kCKCellSelected];
+    CKCellSelectedBlock block = data[kCKCellSelected];
     if (block) {
         //无需登录
-        if ([data.info[@"nologin"] boolValue]) {
+        if ([data[@"nologin"] boolValue]) {
             block(data, indexPath);
         }
         //需要登录
