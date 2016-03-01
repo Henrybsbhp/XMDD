@@ -837,7 +837,7 @@
     GasPickAmountCell *cell = (GasPickAmountCell *)[self.tableView dequeueReusableCellWithIdentifier:@"PickGasAmount"];
     cell.richLabel.text = [self.curModel rechargeFavorableDesc];
 
-    cell.stepper.value = self.curModel.rechargeAmount;
+//    cell.stepper.value = self.curModel.rechargeAmount;
     if (!cell.stepper.valueChangedCallback) {
         @weakify(self);
         cell.stepper.valueChangedCallback = ^(PKYStepper *stepper, float newValue) {
@@ -900,7 +900,7 @@
             cell.stepper.maximum = model.curBankCard.gasInfo.rsp_availablechargeamt;
         }
     }
-//    cell.stepper.value = self.curModel.rechargeAmount;
+    cell.stepper.value = self.curModel.rechargeAmount;
     [cell.stepper setup];
     
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
@@ -912,6 +912,7 @@
     GasReminderCell *cell = (GasReminderCell *)[self.tableView dequeueReusableCellWithIdentifier:@"GasReminder"];
     cell.richLabel.delegate = self;
     cell.richLabel.text = [self.curModel gasRemainder];
+    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsZero];
     [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
     return cell;
 }

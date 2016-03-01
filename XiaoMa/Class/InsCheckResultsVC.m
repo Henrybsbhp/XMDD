@@ -240,7 +240,7 @@
         [self resetUpponCell:cell forData:data atIndexPath:indexPath];
     }
     else if ([data equalByCellID:@"Down" tag:nil]){
-        [self resetDownCell:cell forData:data];
+        [self resetDownCell:cell forData:data atIndexPath:indexPath];
     }
     else if ([data equalByCellID:@"Fail" tag:nil]) {
         [self resetFailCell:cell forData:data];
@@ -368,13 +368,14 @@
     }];
 }
 
-- (void)resetDownCell:(UITableViewCell *)cell forData:(HKCellData *)data
+- (void)resetDownCell:(UITableViewCell *)cell forData:(HKCellData *)data atIndexPath:(NSIndexPath *)indexPath
 {
     CKLine *line1 = [cell viewWithTag:10001];
     CKLine *line2 = [cell viewWithTag:10002];
     CKLine *line3 = [cell viewWithTag:10003];
     InsCouponView *couponV = [cell viewWithTag:1001];
 
+    data = [[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
     InsPremium *premium = data.object;
     
     line1.lineAlignment = CKLineAlignmentVerticalLeft;
@@ -393,6 +394,9 @@
         @strongify(self);
         [InsAlertVC showInView:self.navigationController.view withMessage:name.customObject];
     }];
+    
+    //必须重新布局，否则页面不会刷新
+    [couponV setNeedsLayout];
 }
 
 - (void)resetFailCell:(UITableViewCell *)cell forData:(HKCellData *)data
