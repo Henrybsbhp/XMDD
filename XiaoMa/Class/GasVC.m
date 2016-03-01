@@ -171,7 +171,7 @@
     self.normalVC = [[GasNormalVC alloc] initWithTargetVC:self tableView:self.tableView bottomButton:self.bottomBtn];
     CKAsyncMainQueue(^{
         if (self.tabViewSelectedIndex == 0) {
-            [self.normalVC reloadData];
+            [self.normalVC reloadDataIfNeeded];
         }
     });
 }
@@ -187,7 +187,7 @@
         @strongify(self);
         if (index ==0) {
             [MobClick event:@"rp501-2"];
-            [self.normalVC reloadData];
+            [self.normalVC reloadDataIfNeeded];
         }
         else {
             [MobClick event:@"rp501-3"];

@@ -24,7 +24,9 @@
 
 @interface GasNormalVC ()<RTLabelDelegate>
 @property (nonatomic, strong) CKList *datasource;
-@property (nonatomic, strong) CKList *tempDatasource;
+@property (nonatomic, strong) CKList *normalDatasource;
+@property (nonatomic, strong) CKList *loadingDatasource;
+
 @property (nonatomic, strong) GasCard *curGasCard;
 @property (nonatomic, strong) GetGaschargeConfigOp *configOp;
 @property (nonatomic, strong) NSArray *chargePackages;
@@ -55,9 +57,12 @@
 - (void)setupDatasource
 {
     CKDict *row1 = self.curGasCard ? [self pickGasCardItem] : [self addGasCardItem];
-    self.datasource = $($(row1,[self chargePackagesItem],[self pickGasAmountItem],[self wantInvoiceItem]),
-                        $([self gasReminderItem],[self serviceAgreementItem]));
-    self.tempDatasource = self.datasource;
+    self.normalDatasource = $($(row1,[self chargePackagesItem],[self pickGasAmountItem],[self wantInvoiceItem]),
+                              $([self gasReminderItem],[self serviceAgreementItem]));
+    
+    self.loadingDatasource = $($([self loadingItem]));
+    
+    self.datasource = self.normalDatasource;
 }
 
 - (void)setupGasStore
@@ -65,7 +70,7 @@
     self.gasStore = [GasStore fetchOrCreateStore];
     [self.gasStore subscribeWithTarget:self domain:kDomainReloadNormalGas receiver:^(GasStore *store, CKEvent *evt) {
         if (!evt.signal) {
-            [self reloadData];
+            [self reloadDataIfNeeded];
         }
         else {
             [self requestEvent:evt];
@@ -76,34 +81,52 @@
 #pragma mark - Reload
 - (void)requestEvent:(CKEvent *)event
 {
-    CKDict *blankItem = [self blankItem];
+    CKDict *blankItem = self.loadingDatasource[0][@"Loading"];
     @weakify(self);
     [[[event signal] initially:^{
 
         @strongify(self);
-        blankItem[@"loading"] = @YES;
-        self.datasource = $($(blankItem));
-        [self.tableView reloadData];
+        //如果没在刷新
+        if (![blankItem[@"loading"] boolValue]) {
+            blankItem[@"loading"] = @YES;
+            self.datasource = self.loadingDatasource;
+            [self.tableView reloadData];
+            self.bottomBtn.superview.hidden = YES;
+        }
     }] subscribeNext:^(id x) {
 
         @strongify(self);
-        [self reloadData];
+        if ([self reloadDataIfNeeded]) {
+            //如果需要重新加载，停止刷新
+            blankItem[@"loading"] = @NO;
+            blankItem[@"error"] = @NO;
+            blankItem.forceReload = !blankItem.forceReload;
+            self.bottomBtn.superview.hidden = NO;
+        }
+        [self reloadDataIfNeeded];
     } error:^(NSError *error) {
         
         blankItem[@"event"] = event;
         blankItem[@"loading"] = @NO;
         blankItem[@"error"] = @YES;
         blankItem.forceReload = !blankItem.forceReload;
+        self.bottomBtn.superview.hidden = NO;
     }];
 }
 
-- (void)reloadData
+- (BOOL)reloadDataIfNeeded
 {
     if (![self isEqual:self.tableView.delegate]) {
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
     }
+    if (self.gasStore) {
+        return NO;
+    }
+    self.datasource = self.normalDatasource;
     [self.tableView reloadData];
+    self.bottomBtn.superview.hidden = NO;
+    return YES;
 }
 
 - (void)reloadBottomButton
@@ -114,13 +137,13 @@
 
 #pragma mark - Cell
 ///空白刷新（包括刷新失败）
-- (CKDict *)blankItem
+- (CKDict *)loadingItem
 {
-    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Blank"}];
+    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Loading"}];
     @weakify(self);
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        return self.tableView.frame.size.height - self.tableView.tableHeaderView.frame.size.height;
+        return self.tableView.frame.size.height - self.tableView.tableHeaderView.frame.size.height + self.bottomBtn.superview.frame.size.height;
     });
     
     item[kCKCellWillDisplay] = CKCellWillDisplay(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {

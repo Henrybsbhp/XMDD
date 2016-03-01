@@ -8,15 +8,19 @@
 
 #import "UserStore.h"
 #import "CKQueue.h"
+#import "GasCard.h"
 #import "GetGaschargeConfigOp.h"
 
 #define kDomainGasCards           @"gasCards"
-#define kDomainReloadNormalGas    @"normalReload"
-#define kDomainReloadCZBGas       @"czbReload"
+#define kDomainUpadteGasCardInfo  @"updateGasCardInfo"
+#define kDomainChargeConfig       @"chargeConfig"
 
 @interface GasStore : UserStore
 
 @property (nonatomic, strong) CKQueue *gasCards;
+///当前普通加油选中的油卡(如果油卡不为空，则表示该油卡一定还有普通充值信息)
+@property (nonatomic, strong) GasCard *curNormalGasCard;
+
 ///普通充值配置信息
 @property (nonatomic, strong) GetGaschargeConfigOp *config;
 ///充值套餐(包括普通充值)
@@ -24,5 +28,8 @@
 
 ///获取当前用户所有油卡
 - (CKEvent *)getAllGasCards;
-
+///更新油卡信息
+- (CKEvent *)updateCardInfoByGID:(NSNumber *)gid;
+///获取油卡配置信息
+- (CKEvent *)getChargeConfig;
 @end

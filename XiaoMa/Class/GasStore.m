@@ -8,6 +8,7 @@
 
 #import "GasStore.h"
 #import "GetGascardListOp.h"
+#import "GetGaschargeInfoOp.h"
 
 #define kGasCardTimetagKey  @"GasCardTimetag"
 
@@ -20,14 +21,34 @@
 - (void)reloadForUserChanged:(JTUser *)user
 {
     self.gasCards = nil;
+    self.curNormalGasCard = nil;
 }
 
 #pragma mark - Event
 ///获取当前用户所有油卡信息
 - (CKEvent *)getAllGasCards {
+    CKEvent *event = [[[self rac_getAllGasCards] replayLast] eventWithName:@"getAllGasCards"];
+    return [self inlineEvent:event forDomain:kDomainGasCards];
+}
+
+- (CKEvent *)updateCardInfoByGID:(NSNumber *)gid
+{
+    CKEvent *event = [[[self rac_getGasCardNormalInfoByGID:gid] replayLast] eventWithName:@"updateCardInfoByGID"];
+    return [self inlineEvent:event forDomain:kDomainUpadteGasCardInfo];
+}
+
+- (CKEvent *)getChargeConfig
+{
+    CKEvent *event = [[[self rac_getChargeConfig] replayLast] eventWithName:@"getChargeConfig"];
+    return [self inlineEvent:event forDomain:kDomainChargeConfig];
+}
+#pragma mark - Signal
+- (RACSignal *)rac_getAllGasCards
+{
     GetGascardListOp *op = [GetGascardListOp operation];
     @weakify(self);
-    CKEvent *event = [[[[op rac_postRequest] map:^id(GetGascardListOp *rsp) {
+    RACSignal *sig = [[op rac_postRequest] map:^id(GetGascardListOp *rsp) {
+        
         @strongify(self);
         if (!self.gasCards) {
             self.gasCards = [CKQueue queue];
@@ -47,29 +68,20 @@
             }
         }
         [self updateTimetagForKey:kGasCardTimetagKey];
-        return rsp.rsp_gascards;
-    }] replayLast] eventWithName:@"getAllGasCards"];
-
-    [self inlineEvent:event handler:^(CKEvent *event) {
-        @strongify(self);
-        //触发油卡刷新
-        [self triggerEvent:event forDomain:kDomainGasCards];
-        //获取普通加油配置信息
-        [[self getChargeConfigFrom:event.signal] send];
+        return self.gasCards;
     }];
     
-    return event;
+    return sig;
 }
 
-///获取普通加油配置信息
-- (CKEvent *)getChargeConfigFrom:(RACSignal *)signal {
-    
+- (RACSignal *)rac_getChargeConfig
+{
     RACSignal *cfgSig = self.getGaschargeConfigSignal;
     if (!cfgSig) {
         
         GetGaschargeConfigOp *op = [GetGaschargeConfigOp operation];
         @weakify(self);
-        cfgSig = [[[[op rac_postRequest] catch:^RACSignal *(NSError *error) {
+        cfgSig = [[[op rac_postRequest] catch:^RACSignal *(NSError *error) {
             @strongify(self);
             self.getGaschargeConfigSignal = nil;
             return [RACSignal return:nil];
@@ -78,13 +90,34 @@
             @strongify(self);
             self.config = rspOp;
             self.chargePackages = [rspOp generateAllChargePackages];
-        }] replayLast];
+        }];
         
         self.getGaschargeConfigSignal = cfgSig;
     }
-    
-    CKEvent *event = [[RACSignal combineLatest:@[signal, cfgSig]] eventWithName:@"getChargeConfig"];
-    return [self inlineEvent:event forDomainList:@[kDomainReloadNormalGas]];
+    return cfgSig;
 }
+
+- (RACSignal *)rac_getGasCardNormalInfoByGID:(NSNumber *)gid
+{
+    GetGaschargeInfoOp *op = [GetGaschargeInfoOp operation];
+    op.req_gid = gid;
+    @weakify(self);
+    RACSignal *sig = [[op rac_postRequest] map:^id(GetGaschargeInfoOp *op) {
+        @strongify(self);
+        GasCard *card = [self.gasCards objectForKey:op.req_gid];
+        if (!card) {
+            card = [[GasCard alloc] init];
+            card.gid = op.req_gid;
+            [self.gasCards addObject:card forKey:op.req_gid];
+        }
+        card.availablechargeamt = op.rsp_availablechargeamt;
+        card.couponedmoney = op.rsp_couponedmoney;
+        card.desc = op.rsp_desc;
+        self.curNormalGasCard = card;
+        return card;
+    }];
+    return sig;
+}
+
 
 @end

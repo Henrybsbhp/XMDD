@@ -16,6 +16,6 @@
 @property (nonatomic, weak, readonly) UIButton *bottomBtn;
 
 - (instancetype)initWithTargetVC:(UIViewController *)vc tableView:(UITableView *)table bottomButton:(UIButton *)btn;
-- (void)reloadData;
+- (BOOL)reloadDataIfNeeded;
 
 @end
