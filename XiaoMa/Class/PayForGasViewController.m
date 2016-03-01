@@ -198,9 +198,7 @@
         discount = MIN(couponlimit, rechargeAmount) * systemPercent / 100.0;
     }
     
-    if (self.couponType == CouponTypeGasNormal ||
-        self.couponType == CouponTypeGasReduceWithThreshold ||
-        self.couponType == CouponTypeGasDiscount)
+    if ([self isGasCouponType:self.couponType])
     {
         if (coupon.couponPercent < 100)
         {
@@ -241,9 +239,7 @@
 #pragma mark - Action
 - (IBAction)actionPay:(id)sender
 {
-    if (self.couponType == CouponTypeGasNormal ||
-        self.couponType == CouponTypeGasReduceWithThreshold ||
-        self.couponType == CouponTypeGasDiscount)
+    if ([self isGasCouponType:self.couponType])
     {
         self.model.coupon = [self.selectGasCoupouArray safetyObjectAtIndex:0];
     }
@@ -285,7 +281,7 @@
     }];
 }
 
-#pragma mark - Route
+#pragma mark - Util
 //跳转到分期加油结果页
 - (void)pushToPaidByStagesResult:(GascardChargeOp *)paidop
 {
@@ -296,11 +292,22 @@
     NSString *status = paidop.rsp_code == 0 ? @"S" : @"F";
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.originVC = self.originVC;
-    vc.url = [NSString stringWithFormat:@"%@?fr=APP&token=%@&tradeno=%@&tradetype=%@&status=%@",
-              url, gNetworkMgr.token, paidop.rsp_tradeid, @(paidop.req_paychannel), status];
+    vc.url = [NSString stringWithFormat:@"%@?fr=APP&token=%@&tradeno=%@&tradetype=FQJY&status=%@",
+              url, gNetworkMgr.token, paidop.rsp_tradeid, status];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (BOOL)isGasCouponType:(CouponType)coupon
+{
+    if (coupon == CouponTypeGasNormal ||
+        coupon == CouponTypeGasReduceWithThreshold ||
+        coupon == CouponTypeGasDiscount ||
+        coupon == CouponTypeGasFqjy1 ||
+        coupon == CouponTypeGasFqjy2) {
+        return YES;
+    }
+    return NO;
+}
 
 #pragma mark - Tableview data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -514,9 +521,7 @@
         }
         else
         {
-            if (self.couponType == CouponTypeGasNormal ||
-                    self.couponType == CouponTypeGasReduceWithThreshold ||
-                    self.couponType == CouponTypeGasDiscount)
+            if ([self isGasCouponType:self.couponType])
             {
                 self.couponType = 0;
             }
@@ -531,15 +536,7 @@
     
     [[RACObserve(self, couponType) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * num) {
         
-        BOOL flag = NO;
-        CouponType coupon = (CouponType)[num integerValue];
-        if (coupon == CouponTypeGasNormal ||
-            coupon == CouponTypeGasReduceWithThreshold ||
-            coupon == CouponTypeGasDiscount)
-        {
-            flag = YES;
-        }
-        
+        BOOL flag = [self isGasCouponType:[num integerValue]];
         if (flag)
         {
             statusLb.text = @"已选中";
