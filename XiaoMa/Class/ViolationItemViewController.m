@@ -905,7 +905,7 @@
     UILabel * subtitleLb = (UILabel *)[cell searchViewWithTag:102];
     if (self.model.queryDate)
     {
-        NSString * str = [NSString stringWithFormat:@"您于%@更新了%ld条信息",[self.model.queryDate dateFormatForYYYYMMddHHmm2],(unsigned long)self.model.violationArray.count];
+        NSString * str = [NSString stringWithFormat:@"您于%@更新了%ld条信息",[self.model.queryDate dateFormatForYYYYMMddHHmmss],(unsigned long)self.model.violationArray.count];
         subtitleLb.text = str;
     }
     else
