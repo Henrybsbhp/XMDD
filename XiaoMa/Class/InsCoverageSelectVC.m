@@ -217,13 +217,13 @@
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rp1003-1"];
+    [MobClick event:@"rp1003_1"];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)actionNext:(id)sender
 {
-    [MobClick event:@"rp1003-6"];
+    [MobClick event:@"rp1003_6"];
     NSArray *inslist = [self generateInsList];
     if (inslist.count < 3) {
         [gToast showError:@"请至少选择一个商业险种"];
@@ -238,7 +238,7 @@
 
 - (void)actionSegmentChanged:(id)sender
 {
-    [MobClick event:[NSString stringWithFormat:@"rp1003-%ld", self.segctrl.selectedSegmentIndex+2]];
+    [MobClick event:[NSString stringWithFormat:@"rp1003_%ld", self.segctrl.selectedSegmentIndex+2]];
     [self reloadTableDataWithCurPlan:[self.planList safetyObjectAtIndex:self.segctrl.selectedSegmentIndex]];
 }
 

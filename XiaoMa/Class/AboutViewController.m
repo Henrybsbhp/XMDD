@@ -280,7 +280,7 @@
 
 - (void)serviceAgreement
 {
-    [MobClick event:@"rp322-1"];
+    [MobClick event:@"rp322_1"];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"服务协议";
     vc.url = kServiceLicenseUrl;
@@ -297,7 +297,7 @@
 
 - (void) shareApp
 {
-    [MobClick event:@"rp110-1"];
+    [MobClick event:@"rp110_1"];
     [gToast showingWithText:@"分享信息拉取中..."];
     GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneInsurance;
@@ -327,7 +327,7 @@
 
 - (void)callCustomerService
 {
-    [MobClick event:@"rp322-3"];
+    [MobClick event:@"rp322_3"];
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
 }
 
@@ -368,7 +368,7 @@
     /**
      *  商户加盟点击事件
      */
-    [MobClick event:@"rp322-4"];
+    [MobClick event:@"rp322_4"];
     JoinUsViewController * vc = [UIStoryboard vcWithId:@"JoinUsViewController" inStoryboard:@"About"];
     [self.navigationController pushViewController:vc animated:YES];
 }

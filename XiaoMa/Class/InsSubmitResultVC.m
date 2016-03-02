@@ -71,7 +71,7 @@
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rp1009-1"];
+    [MobClick event:@"rp1009_1"];
     if (self.insModel.originVC) {
         [self.navigationController popToViewController:self.insModel.originVC animated:YES];
     }
@@ -82,7 +82,7 @@
 
 - (IBAction)actionOrder:(id)sender {
     
-    [MobClick event:@"rp1009-3"];
+    [MobClick event:@"rp1009_3"];
     InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
     vc.orderID = self.insOrderID;
     vc.originVC = self.insModel.originVC;
@@ -91,7 +91,7 @@
 
 - (IBAction)actionShare:(id)sender {
     
-    [MobClick event:@"rp1009-2"];
+    [MobClick event:@"rp1009_2"];
     GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneInsurance;
     [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {

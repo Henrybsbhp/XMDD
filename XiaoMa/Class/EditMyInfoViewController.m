@@ -66,7 +66,7 @@
 #pragma mark - Action
 - (void)requestModifyUserInfo
 {
-    [MobClick event:@"rp305-2"];
+    [MobClick event:@"rp305_2"];
     UpdateUserInfoOp * op = [UpdateUserInfoOp operation];
     if (self.type == ModifyNickname)
     {
@@ -104,7 +104,7 @@
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [MobClick event:@"rp305-3"];
+    [MobClick event:@"rp305_3"];
 }
 
 @end

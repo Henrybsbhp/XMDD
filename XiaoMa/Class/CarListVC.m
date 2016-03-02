@@ -281,7 +281,7 @@
                 }
             }
             else {
-                [MobClick event:@"rp104-9"];
+                [MobClick event:@"rp104_9"];
                 EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
                 vc.originCar = self.model.selectedCar;
                 vc.model = self.model;
@@ -304,7 +304,7 @@
 
 - (IBAction)actionAddCar:(id)sender
 {
-    [MobClick event:@"rp309-1"];
+    [MobClick event:@"rp309_1"];
     EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -353,7 +353,7 @@
     //爱车估值
     @weakify(self);
     [subv setValuationClickBlock:^(void) {
-        [MobClick event:@"rp309-4"];
+        [MobClick event:@"rp309_4"];
         @strongify(self);
         ValuationViewController *vc = [UIStoryboard vcWithId:@"ValuationViewController" inStoryboard:@"Valuation"];
         vc.carIndex = index;

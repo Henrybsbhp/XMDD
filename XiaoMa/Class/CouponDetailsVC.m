@@ -182,7 +182,7 @@
 
 - (void)shareAction:(NSNumber *)cid
 {
-    [MobClick event:@"rp304-3"];
+    [MobClick event:@"rp304_3"];
     
     [self requestShareCoupon:cid];
 }
@@ -215,7 +215,7 @@
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            [MobClick event:@"rp110-7"];
+            [MobClick event:@"rp110_7"];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         

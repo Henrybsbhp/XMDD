@@ -113,7 +113,7 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     //暂时只在底层这里找到可以发送到友盟的事件
-    [MobClick event:@"rp110-8"];
+    [MobClick event:@"rp110_8"];
     [self touchesMoved:touches withEvent:event];
 }
 

@@ -36,7 +36,7 @@
 #pragma mark - Action
 - (IBAction)actionShare:(id)sender
 {
-    [MobClick event:@"rp506-1"];
+    [MobClick event:@"rp506_1"];
     GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneGas;
     [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
@@ -54,7 +54,7 @@
         [sheet presentAnimated:YES completionHandler:nil];
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            [MobClick event:@"rp110-7"];
+            [MobClick event:@"rp110_7"];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [vc setClickAction:^{

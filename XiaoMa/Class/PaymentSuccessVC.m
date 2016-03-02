@@ -141,7 +141,7 @@
         [sheet presentAnimated:YES completionHandler:nil];
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            [MobClick event:@"rp110-7"];
+            [MobClick event:@"rp110_7"];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [vc setClickAction:^{
@@ -159,7 +159,7 @@
     }];
 }
 - (IBAction)commentAction:(id)sender {
-    [MobClick event:@"rp110-12"];
+    [MobClick event:@"rp110_12"];
     
     SubmitCommentOp * op = [SubmitCommentOp operation];
     NSString * withoutSpace= [self.textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -243,7 +243,7 @@
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     if (!self.isTextViewEdit) {
-        [MobClick event:@"rp110-11"];
+        [MobClick event:@"rp110_11"];
         self.isTextViewEdit = !self.isTextViewEdit;
     }
 }
@@ -332,7 +332,7 @@
     @weakify(self)
     [[self.gasCouponBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp110-13"];
+        [MobClick event:@"rp110_13"];
         @strongify(self)
         [self jumpToGas];
     }];
@@ -406,7 +406,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"rp110-10"];
+    [MobClick event:@"rp110_10"];
     NSDictionary * d = [self.currentRateTemplate safetyObjectAtIndex:indexPath.section * 2 + indexPath.row];
 //    NSString * s = d[[d.allKeys safetyObjectAtIndex:0]];
     d.customTag =  !d.customTag;

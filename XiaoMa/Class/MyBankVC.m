@@ -50,7 +50,7 @@
 {
     CKAsyncMainQueue(^{
         self.advc  =[ADViewController vcWithADType:AdvertisementBankCardBinding boundsWidth:self.view.bounds.size.width
-                                          targetVC:self mobBaseEvent:@"rp314-1"];
+                                          targetVC:self mobBaseEvent:@"rp314_1"];
         [self.advc reloadDataForTableView:self.tableView];
     });
 }
@@ -101,13 +101,13 @@
 {
     //点击“添加银行卡”
     if (indexPath.row > self.bankCards.count) {
-        [MobClick event:@"rp314-3"];
+        [MobClick event:@"rp314_3"];
         BindBankCardVC *vc = [UIStoryboard vcWithId:@"BindBankCardVC" inStoryboard:@"Bank"];
         [self.navigationController pushViewController:vc animated:YES];
     }
     //点击某张银行卡
     else if (indexPath.row > 0) {
-        [MobClick event:@"rp314-2"];
+        [MobClick event:@"rp314_2"];
         HKBankCard *card = [self.bankCards safetyObjectAtIndex:indexPath.row - 1];
         if (self.selectedCardReveicer) {
             HKStoreEvent *evt = [HKStoreEvent eventWithSignal:[RACSignal return:card] code:kHKStoreEventSelect

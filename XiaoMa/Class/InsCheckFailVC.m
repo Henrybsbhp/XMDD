@@ -42,13 +42,13 @@
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rp1004-1"];
+    [MobClick event:@"rp1004_1"];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)actionMakeCall:(id)sender
 {
-    [MobClick event:@"rp1004-7"];
+    [MobClick event:@"rp1004_7"];
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"客服电话: 4007-111-111"];
 }
 

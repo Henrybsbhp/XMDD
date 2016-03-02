@@ -93,7 +93,7 @@
     /**
      *  开始协办点击事件
      */
-    [MobClick event:@"rp802-2"];
+    [MobClick event:@"rp802_2"];
     self.tableView.backgroundColor = [UIColor colorWithRed:153 green:153 blue:153 alpha:1.0];
     if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] < 3600 * 24 * 1 - 1) {
         [self.underlyingView addSubview:self.alertV];

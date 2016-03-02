@@ -43,7 +43,7 @@
     /**
      *  省钱攻略点击事件
      */
-    [MobClick event:@"rp708-1"];
+    [MobClick event:@"rp708_1"];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"省钱攻略";
     vc.url = kMoneySavingStrategiesUrl;

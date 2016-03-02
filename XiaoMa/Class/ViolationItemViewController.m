@@ -438,10 +438,10 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     if (textField.customTag == 1031) {
-        [MobClick event:@"rp901-4"];
+        [MobClick event:@"rp901_4"];
     }
     else {
-        [MobClick event:@"rp901-5"];
+        [MobClick event:@"rp901_5"];
     }
 }
 
@@ -718,13 +718,13 @@
         /**
          *  添加车辆点击事件
          */
-        [MobClick event:@"rp901-1"];
+        [MobClick event:@"rp901_1"];
         EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if ([cell.reuseIdentifier  isEqualToString:@"SeparatorCell"])
     {
-        [MobClick event:@"rp901-7"];
+        [MobClick event:@"rp901_7"];
         UIImageView * statusImgV = (UIImageView *)[cell searchViewWithTag:101];
         if (self.isSpread)
         {
@@ -778,7 +778,7 @@
     @weakify(self)
     [[[cityBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp901-3"];
+        [MobClick event:@"rp901_3"];
         @strongify(self)
         [self selectCityAction];
     }];
@@ -816,7 +816,7 @@
     [dict safetySetObject:field forKey:@"feild"];
 
     [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        [MobClick event:@"rp901-4"];
+        [MobClick event:@"rp901_4"];
     }];
 
     @weakify(self);
@@ -883,10 +883,10 @@
     @weakify(self)
     [[[queryBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         if (!self.model.queryDate) {
-            [MobClick event:@"rp901-2"];
+            [MobClick event:@"rp901_2"];
         }
         else {
-            [MobClick event:@"rp901-6"];
+            [MobClick event:@"rp901_6"];
         }
         @strongify(self)
         if (!self.isQuerying)
@@ -905,7 +905,7 @@
     UILabel * subtitleLb = (UILabel *)[cell searchViewWithTag:102];
     if (self.model.queryDate)
     {
-        NSString * str = [NSString stringWithFormat:@"您于%@更新了%ld条信息",[self.model.queryDate dateFormatForYYYYMMddHHmm2],(unsigned long)self.model.violationArray.count];
+        NSString * str = [NSString stringWithFormat:@"您于%@更新了%ld条信息",[self.model.queryDate dateFormatForYYYYMMddHHmmss],(unsigned long)self.model.violationArray.count];
         subtitleLb.text = str;
     }
     else

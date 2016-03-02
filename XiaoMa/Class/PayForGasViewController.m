@@ -86,7 +86,7 @@
     self.payBtn.titleLabel.adjustsFontSizeToFitWidth = YES;
     [[self.payBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         //支付确定点击事件
-        [MobClick event:@"rp508-6"];
+        [MobClick event:@"rp508_6"];
         [self actionPay:nil];
     }];
 }
@@ -417,7 +417,7 @@
     NSString * cellName = dict[@"cellname"];
     if ([cellName isEqualToString:@"CouponCell"])
     {
-        [MobClick event:@"rp508-2"];
+        [MobClick event:@"rp508_2"];
         [self jumpToChooseCouponVC];
     }
 }
@@ -513,7 +513,7 @@
     @weakify(self)
     [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp508-1"];
+        [MobClick event:@"rp508_1"];
         @strongify(self)
         if (!self.selectGasCoupouArray.count)
         {
@@ -601,13 +601,13 @@
     @weakify(self)
     [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         if (tt == PaymentChannelAlipay) {
-            [MobClick event:@"rp508-3"];
+            [MobClick event:@"rp508_3"];
         }
         else if (tt == PaymentChannelWechat) {
-            [MobClick event:@"rp508-4"];
+            [MobClick event:@"rp508_4"];
         }
         else {
-            [MobClick event:@"rp508-5"];
+            [MobClick event:@"rp508_5"];
         }
         @strongify(self)
         self.paychannel = tt;

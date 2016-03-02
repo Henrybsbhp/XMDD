@@ -96,7 +96,7 @@
     
     [[_wechatBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp110-3"];
+        [MobClick event:@"rp110_3"];
         
         if ([self catchLocalShareScene]) {
             [self shareWechat];
@@ -108,7 +108,7 @@
     
     [[_timelineBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp110-4"];
+        [MobClick event:@"rp110_4"];
         
         if ([self catchLocalShareScene]) {
             [self shareTimeline];
@@ -120,7 +120,7 @@
     
     [[_weiboBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp110-5"];
+        [MobClick event:@"rp110_5"];
         
         if ([self catchLocalShareScene]) {
             [self shareWeibo];
@@ -132,7 +132,7 @@
     
     [[_qqBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp110-6"];
+        [MobClick event:@"rp110_6"];
         
         if ([self catchLocalShareScene]) {
             [self shareQQ];

@@ -146,8 +146,8 @@
     normalCell1.customInfo[@"placehold"] = @"请输入车架号码";
     normalCell1.customInfo[@"pic"] = @"ins_eg_pic1";
     normalCell1.customInfo[@"limit"] = @17;
-    normalCell1.customInfo[@"field.event"] = @"rp1001-4";
-    normalCell1.customInfo[@"help.event"] = @"rp1001-3";
+    normalCell1.customInfo[@"field.event"] = @"rp1001_4";
+    normalCell1.customInfo[@"help.event"] = @"rp1001_3";
     normalCell1.customInfo[@"textfield.datasource"] = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
     normalCell1.object = self.baseCar.frameno;
     [datasource addObject:normalCell1];
@@ -159,8 +159,8 @@
     normalCell2.customInfo[@"placehold"] = @"请输入车辆型号";
     normalCell2.customInfo[@"pic"] = @"ins_eg_pic2";
     normalCell2.customInfo[@"limit"] = @50;
-    normalCell2.customInfo[@"field.event"] = @"rp1001-6";
-    normalCell2.customInfo[@"help.event"] = @"rp1001-5";
+    normalCell2.customInfo[@"field.event"] = @"rp1001_6";
+    normalCell2.customInfo[@"help.event"] = @"rp1001_5";
     normalCell2.customInfo[@"textfield.datasource"] = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
     normalCell2.object = self.baseCar.brandname;
     [datasource addObject:normalCell2];
@@ -171,8 +171,8 @@
     normalCell3.customInfo[@"placehold"] = @"请输入发动机号";
     normalCell3.customInfo[@"pic"] = @"ins_eg_pic3";
     normalCell3.customInfo[@"limit"] = @50;
-    normalCell3.customInfo[@"field.event"] = @"rp1001-8";
-    normalCell3.customInfo[@"help.event"] = @"rp1001-7";
+    normalCell3.customInfo[@"field.event"] = @"rp1001_8";
+    normalCell3.customInfo[@"help.event"] = @"rp1001_7";
     normalCell3.customInfo[@"textfield.datasource"] = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
     normalCell3.object = self.baseCar.engineno;
     [datasource addObject:normalCell3];
@@ -204,7 +204,7 @@
     [helpCell setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         
         @strongify(self);
-        [MobClick event:@"rp1001-11"];
+        [MobClick event:@"rp1001_11"];
         InsuranceInfoSubmitingVC *vc = [UIStoryboard vcWithId:@"InsuranceInfoSubmitingVC" inStoryboard:@"Insurance"];
         vc.insModel = self.insModel;
         [self.navigationController pushViewController:vc animated:YES];
@@ -218,7 +218,7 @@
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rp1001-13"];
+    [MobClick event:@"rp1001_13"];
     if (self.insModel.originVC) {
         [self.navigationController popToViewController:self.insModel.originVC animated:YES];
     }
@@ -229,7 +229,7 @@
 
 - (IBAction)actionNext:(id)sender
 {
-    [MobClick event:@"rp1001-12"];
+    [MobClick event:@"rp1001_12"];
     AddInsCarBaseInfoOp *op = [AddInsCarBaseInfoOp operation];
     op.req_city = [[self.datasource safetyObjectAtIndex:1] customInfo][@"city"];
     op.req_regdate = [[self.datasource safetyObjectAtIndex:1] customInfo][@"date"];
@@ -370,7 +370,7 @@
      subscribeNext:^(id x) {
          
          @strongify(self);
-         [MobClick event:@"rp1001-2"];
+         [MobClick event:@"rp1001_2"];
          [self.view endEditing:YES];
          CityPickerVC *vc = [CityPickerVC cityPickerVCWithOriginVC:self];
          vc.options = CityPickerOptionCity;
@@ -395,7 +395,7 @@
      flattenMap:^RACStream *(id value) {
          
          @strongify(self);
-         [MobClick event:@"rp1001-1"];
+         [MobClick event:@"rp1001_1"];
          [self.view endEditing:YES];
          return [self rac_pickDateWithNow:data.customInfo[@"date"]];
      }] subscribeNext:^(NSString *datetext) {
@@ -409,7 +409,7 @@
      subscribeNext:^(id x) {
          
          @strongify(self);
-         [MobClick event:@"rp1001-14"];
+         [MobClick event:@"rp1001_14"];
          [self showPicture:data.customInfo[@"pic"]];
      }];
 }
@@ -476,7 +476,7 @@
      subscribeNext:^(NSNumber *x) {
          
          @strongify(self);
-         [MobClick event:@"rp1001-9"];
+         [MobClick event:@"rp1001_9"];
          @strongify(switchV);
          BOOL on = switchV.on;
          data.object = @(on);
@@ -509,7 +509,7 @@
       flattenMap:^RACStream *(id value) {
           
         @strongify(self);
-        [MobClick event:@"rp1001-10"];
+        [MobClick event:@"rp1001_10"];
         return [self rac_pickDateWithNow:data.object];
     }] subscribeNext:^(NSString *datetext) {
         

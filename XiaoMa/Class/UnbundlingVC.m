@@ -46,7 +46,7 @@ static NSString *s_sendedPhone;
 #pragma mark - Action
 - (void)actionGetVcode:(id)sender
 {
-    [MobClick event:@"rp329-2"];
+    [MobClick event:@"rp329_2"];
     @weakify(self);
     RACSignal *signal = [self.smsModel rac_getUnbindCZBVcode];
     [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:signal] subscribeNext:^(id x) {
@@ -64,7 +64,7 @@ static NSString *s_sendedPhone;
 
 - (IBAction)actionUnbind:(id)sender
 {
-    [MobClick event:@"rp329-3"];
+    [MobClick event:@"rp329_3"];
     if ([self sharkCellIfErrorAtIndex:0]) {
         return;
     }
@@ -78,7 +78,7 @@ static NSString *s_sendedPhone;
         @strongify(self);
         [gToast dismiss];
         [ResultVC showInTargetVC:self withSuccessText:@"解绑成功!" ensureBlock:^{
-            [MobClick event:@"rp329-4"];
+            [MobClick event:@"rp329_4"];
             [self.navigationController popToViewController:self.originVC animated:YES];
             [self postCustomNotificationName:kNotifyRefreshMyBankcardList object:nil];
         }];
@@ -146,7 +146,7 @@ static NSString *s_sendedPhone;
     UIButton *vcodeBtn = (UIButton *)[cell.contentView viewWithTag:1002];
     
     [[[textfield rac_signalForControlEvents:UIControlEventEditingDidBegin] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        [MobClick event:@"rp329-1"];
+        [MobClick event:@"rp329_1"];
     }];
     
     if (!self.vcodeButton) {

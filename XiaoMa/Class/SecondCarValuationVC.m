@@ -386,7 +386,7 @@
     /**
      *  提交卖车意向事件
      */
-    [MobClick event:@"rp604-2"];
+    [MobClick event:@"rp604_2"];
     if (self.uploadArr.count == 0)
     {
         [gToast showError:@"所选平台不能为空"];

@@ -73,17 +73,17 @@
 - (IBAction)actionSwitch:(UIButton *)sender
 {
     if (sender.tag == 1001) {
-        [MobClick event:@"rp504-1"];
+        [MobClick event:@"rp504_1"];
     }
     else {
-        [MobClick event:@"rp504-2"];
+        [MobClick event:@"rp504_2"];
     }
     self.curCard = sender.tag == 1001 ? self.snpnCard : self.cnpcCard;
 }
 
 - (IBAction)actionAddCard:(id)sender
 {
-    [MobClick event:@"rp504-5"];
+    [MobClick event:@"rp504_5"];
     if (self.curCard.gascardno.length != [self.curCard maxCardNumberLength]) {
         [self shakeTextFieldCellAtRow:1];
         return;
@@ -179,9 +179,9 @@
         }
         [field setDidBeginEditingBlock:^(CKLimitTextField *textField) {
             if (indexPath.row == 1) {
-                [MobClick event:@"rp504-3"];
+                [MobClick event:@"rp504_3"];
             } else {
-                [MobClick event:@"rp504-4"];
+                [MobClick event:@"rp504_4"];
             }
             
         }];

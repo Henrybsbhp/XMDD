@@ -220,11 +220,11 @@
         if (history.rescueStatus == HKRescueStateComplete) {
             if (history.commentStatus == HKCommentStatusNo)
             {
-                [MobClick event:@"rp804-2"];
+                [MobClick event:@"rp804_2"];
             }
             else
             {
-                [MobClick event:@"rp804-3"];
+                [MobClick event:@"rp804_3"];
             }
             evaluationBtn.enabled = YES;
             if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
@@ -234,7 +234,7 @@
                 [self.navigationController pushViewController:vc animated:YES];
             }
         }else if (history.rescueStatus == HKRescueStateAlready && self.type == 2){
-            [MobClick event:@"rp804-1"];
+            [MobClick event:@"rp804_1"];
             evaluationBtn.enabled = YES;
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您确定要取消本次协办服务吗？" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             
