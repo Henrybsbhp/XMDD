@@ -258,9 +258,9 @@
         [self.navigationController pushViewController:vc animated:YES];
         
     }else if (indexPath.row == 4){
-        DatePickerVC *vc = [DatePickerVC datePickerVCWithMaximumDate:[self getPriousorLaterDateFromDate:[NSDate date] withDays:30]];
+        DatePickerVC *vc = [DatePickerVC datePickerVCWithMaximumDate:[self getPriousorLaterDateFromDate:[NSDate date] withDays:29]];
         vc.minimumDate = [self getPriousorLaterDateFromDate:[NSDate date] withDays:3];
-        [[vc rac_presentPickerVCInView:self.navigationController.view withSelectedDate:[NSDate date]]
+        [[vc rac_presentPickerVCInView:self.navigationController.view withSelectedDate:[self getPriousorLaterDateFromDate:[NSDate date] withDays:3]]
          subscribeNext:^(NSDate *date) {
              self.appointmentDay = date;
              [self.tableView reloadData];
@@ -286,7 +286,7 @@
 
 - (NSDate *)appointmentDay {
     if (!_appointmentDay) {
-        self.appointmentDay = [[NSDate alloc] init];
+        _appointmentDay = [self getPriousorLaterDateFromDate:[NSDate date] withDays:3];
     }
     return _appointmentDay;
 }
