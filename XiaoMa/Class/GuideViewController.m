@@ -143,7 +143,7 @@
     self.xiaomdaView1.center = centerPoint;
     self.xiaomdaView1.alpha = 0.0f;
     
-    NSString * titleView1Name = [NSString stringWithFormat:@"26_guide_title1_%ld_%ld",(long)DeviceWidth,(long)DeviceHeight];
+    NSString * titleView1Name = [NSString stringWithFormat:@"27_guide_title1_%ld_%ld",(long)DeviceWidth,(long)DeviceHeight];
     self.titleView1 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:titleView1Name]];
     [self.scrollView addSubview:self.titleView1];
     self.titleView1.center =  CGPointMake(- DeviceHeight / 2, DeviceHeight / 2);
