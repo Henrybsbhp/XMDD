@@ -158,7 +158,7 @@
     @weakify(self);
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"rp501-15"];
+        [MobClick event:@"rp501_15"];
         if ([LoginViewModel loginIfNeededForTargetViewController:self.targetVC]) {
             GasCardListVC *vc = [UIStoryboard vcWithId:@"GasCardListVC" inStoryboard:@"Gas"];
             [self.targetVC.navigationController pushViewController:vc animated:YES];
@@ -181,7 +181,7 @@
     @weakify(self);
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"rp501-15"];
+        [MobClick event:@"rp501_15"];
         if ([LoginViewModel loginIfNeededForTargetViewController:self.targetVC]) {
             GasAddCardVC *vc = [UIStoryboard vcWithId:@"GasAddCardVC" inStoryboard:@"Gas"];
             [self.targetVC.navigationController pushViewController:vc animated:YES];
@@ -364,7 +364,7 @@
         [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
          subscribeNext:^(id x) {
              @strongify(item);
-             [MobClick event:@"rp501-13"];
+             [MobClick event:@"rp501_13"];
              item[@"agree"] = @(![item[@"agree"] boolValue]);
              item.forceReload = !item.forceReload;
              [self reloadBottomButton];
@@ -376,7 +376,7 @@
 #pragma mark - RTLabelDelegate
 - (void)rtLabel:(id)rtLabel didSelectLinkWithURL:(NSURL *)url
 {
-    [MobClick event:@"rp501-8"];
+    [MobClick event:@"rp501_8"];
     [gAppMgr.navModel pushToViewControllerByUrl:[url absoluteString]];
 }
 

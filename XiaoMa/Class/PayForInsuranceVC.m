@@ -135,13 +135,13 @@
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rp1006-1"];
+    [MobClick event:@"rp1006_1"];
     [self.insModel popToOrderVCForNav:self.navigationController withInsOrderID:self.insOrder.orderid];
 }
 
 - (IBAction)actionCallCenter:(id)sender
 {
-    [MobClick event:@"1006-2"];
+    [MobClick event:@"1006_2"];
     NSString * number = @"4007111111";
     [gPhoneHelper makePhone:number andInfo:@"咨询电话: 4007-111-111"];
 }
@@ -165,7 +165,7 @@
 
 - (IBAction)actionPay:(id)sender {
     
-    [MobClick event:@"rp326-6"];
+    [MobClick event:@"rp326_6"];
     @weakify(self);
     [[self rac_openLicenseVCWithUrl:self.insOrder.licenseUrl title:self.insOrder.licenseName]
      subscribeNext:^(id x) {
@@ -512,7 +512,7 @@
     if (indexPath.section == 1) {
         if (indexPath.row == 1)
         {
-            [MobClick event:@"rp326-1"];
+            [MobClick event:@"rp326_1"];
 //            if (!self.insOrder.iscontainActivity)
 //            {
 //                [self jumpToChooseCouponVC];
@@ -520,7 +520,7 @@
         }
         else if (indexPath.row == 2)
         {
-            [MobClick event:@"rp326-2"];
+            [MobClick event:@"rp326_2"];
             [self jumpToChooseCouponVC];
         }
         
@@ -710,7 +710,7 @@
                 
                 if (self.isSelectActivity)
                 {
-                    [MobClick event:@"rp1006-3"];
+                    [MobClick event:@"rp1006_3"];
                     statusLb.text = @"已选中";
                     statusLb.textColor = HEXCOLOR(@"#fb4209");
                     statusLb.hidden = NO;
@@ -726,7 +726,7 @@
             {
                 if (self.couponType == CouponTypeInsurance)
                 {
-                    [MobClick event:@"rp1006-4"];
+                    [MobClick event:@"rp1006_4"];
                     statusLb.text = @"已选中";
                     statusLb.textColor = HEXCOLOR(@"#fb4209");
                     statusLb.hidden = NO;
@@ -911,18 +911,18 @@
         @strongify(boxB)
         boxB.selected = YES;
         if (indexPath.row == 1){
-            [MobClick event:@"rp1006-5"];
+            [MobClick event:@"rp1006_5"];
         }
         else if (indexPath.row == 2){
             if (gPhoneHelper.exsitWechat) {
-                [MobClick event:@"rp1006-6"];
+                [MobClick event:@"rp1006_6"];
             }
             else {
-                [MobClick event:@"rp1006-7"];
+                [MobClick event:@"rp1006_7"];
             }
         }
         else{
-            [MobClick event:@"rp1006-7"];
+            [MobClick event:@"rp1006_7"];
         }
     }];
 

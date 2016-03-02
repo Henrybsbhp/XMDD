@@ -80,7 +80,7 @@
 #pragma mark - Action
 - (IBAction)actionComment:(id)sender
 {
-    [MobClick event:@"rp320-1"];
+    [MobClick event:@"rp320_1"];
     
     PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
     vc.order = self.order;
@@ -99,7 +99,7 @@
         vc.shop = self.order.shop;
         [self.navigationController pushViewController:vc animated:YES];
     }
-    [MobClick event:@"rp320-2"];
+    [MobClick event:@"rp320_2"];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

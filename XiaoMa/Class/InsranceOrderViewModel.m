@@ -144,7 +144,7 @@
          
         @strongify(self);
          if (unpaid) {
-             [MobClick event:@"rp318-6"];
+             [MobClick event:@"rp318_6"];
              PayForInsuranceVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"PayForInsuranceVC"];
              vc.insOrder = order;
              vc.insModel = [[InsuranceVM alloc] init];
@@ -152,7 +152,7 @@
              [self.targetVC.navigationController pushViewController:vc animated:YES];
          }
          else {
-             [MobClick event:@"rp318-5"];
+             [MobClick event:@"rp318_5"];
              [self actionMakeCall:x];
          }
     }];

@@ -81,7 +81,7 @@
 {
     CKAsyncMainQueue(^{
         self.advc = [ADViewController vcWithADType:AdvertisementInsurance boundsWidth:self.view.frame.size.width
-                                          targetVC:self mobBaseEvent:@"rp114-3"];
+                                          targetVC:self mobBaseEvent:@"rp114_3"];
         [self.advc reloadDataForTableView:self.tableView];
     });
 }
@@ -175,7 +175,7 @@
         [cell setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
             
             @strongify(self);
-            [MobClick event:@"rp1002-2"];
+            [MobClick event:@"rp1002_2"];
             InsSimpleCar *car = obj;
             if (car.status == 0 || [car.carpremiumid integerValue] == 0) {
                 [self actionInputOwnerNameForSimpleCar:car];
@@ -348,7 +348,7 @@
      subscribeNext:^(id x) {
 
          @strongify(self);
-         [MobClick event:@"rp1001-1"];
+         [MobClick event:@"rp1001_1"];
          //到核保结果页
          if (car.status == 1) {
              InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
@@ -382,7 +382,7 @@
     [[[provinceB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
          @strongify(self);
-         [MobClick event:@"rp1000-3"];
+         [MobClick event:@"rp1000_3"];
          if (self.insStore.insProvinces.count == 1) {
              Area *province = [self.insStore.insProvinces objectAtIndex:0];
              [gToast showText:[NSString stringWithFormat:@"当前只支持%@", province.name]];

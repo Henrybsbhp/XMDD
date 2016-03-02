@@ -112,7 +112,7 @@
     @weakify(self)
     [[searchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp103-1"];
+        [MobClick event:@"rp103_1"];
         @strongify(self)
         [self search];
     }];
@@ -568,7 +568,7 @@
     
     if (self.isSearching)
     {
-        [MobClick event:@"rp201-3"];
+        [MobClick event:@"rp201_3"];
         JTShop * shop = [self.resultArray safetyObjectAtIndex:indexPath.section];
         ShopDetailVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ShopDetailVC"];
         vc.shop = shop;
@@ -583,11 +583,11 @@
         }
         if (indexPath.row == self.historyArray.count + 1)
         {
-            [MobClick event:@"rp103-2"];
+            [MobClick event:@"rp103_2"];
             [self cleanHistory];
             return;
         }
-        [MobClick event:@"rp103-3"];
+        [MobClick event:@"rp103_3"];
         NSString * content = [self.historyArray safetyObjectAtIndex:indexPath.row - 1];
         self.searchBar.text = content;
         [self search];
@@ -626,7 +626,7 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    [MobClick event:@"rp103-4"];
+    [MobClick event:@"rp103_4"];
     [self search];
 }
 

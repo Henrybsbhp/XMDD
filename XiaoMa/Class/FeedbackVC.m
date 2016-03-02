@@ -44,11 +44,11 @@
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
     //首次编辑会执行两次？  LYW
-    [MobClick event:@"rp323-1"];
+    [MobClick event:@"rp323_1"];
 }
 
 - (IBAction)actionFeedback:(id)sender {
-    [MobClick event:@"rp323-2"];
+    [MobClick event:@"rp323_2"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         FeedbackOp *op = [FeedbackOp new];
         op.req_contactinfo = gAppMgr.myUser.userID;

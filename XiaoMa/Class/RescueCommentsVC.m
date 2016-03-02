@@ -74,11 +74,11 @@
      */
     if(self.applyType.integerValue == 1)
     {
-        [MobClick event:@"rp706-2"];
+        [MobClick event:@"rp706_2"];
     }
     else
     {
-        [MobClick event:@"rp805-2"];
+        [MobClick event:@"rp805_2"];
     }
 }
 
@@ -215,11 +215,11 @@
      */
     if(self.applyType.integerValue == 1)
     {
-        [MobClick event:@"rp706-1"];
+        [MobClick event:@"rp706_1"];
     }
     else
     {
-        [MobClick event:@"rp805-1"];
+        [MobClick event:@"rp805_1"];
     }
     GetRescueCommentRescueOp *op = [GetRescueCommentRescueOp operation];
     if ([self.starNum1 integerValue]> 0 && [self.starNum2 integerValue] > 0 && [self.starNum3 integerValue] > 0) {

@@ -127,7 +127,7 @@
             self.tipLabel.text = [NSString stringWithFormat:@"已有%ld人领取", (long)op.rsp_total];
             [[self.carwashBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 
-                [MobClick event:@"rp402-6"];
+                [MobClick event:@"rp402_6"];
                 @strongify(self);
                 if (!self.isScratched) {
                     [gToast showText:@"请先刮卡领取礼券"];
@@ -139,7 +139,7 @@
             }];
             [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 
-                [MobClick event:@"rp402-2"];
+                [MobClick event:@"rp402_2"];
                 @strongify(self);
                 if (!self.isScratched) {
                     [gToast showText:@"请先刮卡领取礼券"];
@@ -173,7 +173,7 @@
         
         self.hyscratchView.completion = ^(id userInfo) {
             @strongify(self);
-            [MobClick event:@"rp402-7"];
+            [MobClick event:@"rp402_7"];
             [self gainAward];
         };
         [self.scratchView addSubview:self.hyscratchView];
@@ -256,7 +256,7 @@
         [sheet presentAnimated:YES completionHandler:nil];
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            [MobClick event:@"rp110-7"];
+            [MobClick event:@"rp110_7"];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [vc setClickAction:^{
@@ -328,7 +328,7 @@
         /**
          *  去洗车点击事件
          */
-        [MobClick event:@"rp402-3"];
+        [MobClick event:@"rp402_3"];
         @strongify(self);
         [resultSheet dismissAnimated:YES completionHandler:nil];
         CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
@@ -341,12 +341,12 @@
          */
         if(otherVC.sheetType == AwardSheetTypeSuccess)
         {
-            [MobClick event:@"rp402-4"];
+            [MobClick event:@"rp402_4"];
             
         }
         else if(otherVC.sheetType == AwardSheetTypeCancel)
         {
-            [MobClick event:@"rp402-5"];
+            [MobClick event:@"rp402_5"];
         }
         [resultSheet dismissAnimated:YES completionHandler:nil];
     }];

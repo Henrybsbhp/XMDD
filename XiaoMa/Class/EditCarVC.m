@@ -202,7 +202,7 @@
     }];
     [cell1_2 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"rp312-3"];
+        [MobClick event:@"rp312_3"];
         [self.view endEditing:YES];
         self.datePicker.maximumDate = [NSDate date];
         NSDate *selectedDate = self.curCar.purchasedate ? self.curCar.purchasedate : [NSDate date];
@@ -233,7 +233,7 @@
     } copy];
     [cell1_3 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"rp312-4"];
+        [MobClick event:@"rp312_4"];
         [self.view endEditing:YES];
         PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Car"];
         vc.originVC = self;
@@ -261,7 +261,7 @@
     } copy];
     [cell1_4 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"rp312-5"];
+        [MobClick event:@"rp312_5"];
         [self.view endEditing:YES];
         if ([self.curCar.seriesModel.seriesid integerValue] != 0) {
             PickerAutoModelVC *vc = [UIStoryboard vcWithId:@"PickerAutoModelVC" inStoryboard:@"Car"];
@@ -302,7 +302,7 @@
     cell2_1.object = RACObserve(self.curCar, cityName);
     [cell2_1 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         
-        [MobClick event:@"rp312-18"];
+        [MobClick event:@"rp312_18"];
         
         @strongify(self);
         [self.view endEditing:YES];
@@ -336,7 +336,7 @@
             /**
              *  车架号码点击事件
              */
-            [MobClick event:@"rp312-19"];
+            [MobClick event:@"rp312_19"];
         }];
         
         [field setTextDidChangedBlock:^(CKLimitTextField *rFiled) {
@@ -376,7 +376,7 @@
             /**
              *  发动机号
              */
-            [MobClick event:@"rp312-20"];
+            [MobClick event:@"rp312_20"];
         }];
         
         [field setTextDidChangedBlock:^(CKLimitTextField *rFiled) {
@@ -403,7 +403,7 @@
         field.clearsOnBeginEditing = YES;
         field.textLimit = 12;
         [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
-            [MobClick event:@"rp312-6"];
+            [MobClick event:@"rp312_6"];
         }];
         
         [field setTextDidChangedBlock:^(CKLimitTextField *rFiled) {
@@ -430,7 +430,7 @@
         field.textLimit = 12;
 //        field.regexpPattern = @"[1-9]\\d*|^0(?=$|0+$)";
         [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
-            [MobClick event:@"rp312-7"];
+            [MobClick event:@"rp312_7"];
         }];
         
         [field setTextDidChangedBlock:^(CKLimitTextField *rFiled) {
@@ -454,7 +454,7 @@
     }];
     [cell2_6 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"rp312-8"];
+        [MobClick event:@"rp312_8"];
         [self.view endEditing:YES];
         self.datePicker.maximumDate = nil;
         NSDate *date = self.curCar.insexipiredate ? self.curCar.insexipiredate : [NSDate date];
@@ -472,7 +472,7 @@
     cell2_7.object = RACObserve(self.curCar, inscomp);
     [cell2_7 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"rp312-9"];
+        [MobClick event:@"rp312_9"];
         [self.view endEditing:YES];
         PickInsCompaniesVC *vc = [UIStoryboard vcWithId:@"PickInsCompaniesVC" inStoryboard:@"Car"];
         [vc setPickedBlock:^(NSString *name) {
@@ -487,7 +487,7 @@
 #pragma mark - Action
 - (void)actionSave:(id)sender
 {
-    [MobClick event:@"rp312-12"];
+    [MobClick event:@"rp312_12"];
     for (NSInteger section = 0; section < self.datasource.count; section++) {
         NSArray *group = self.datasource[section];
         for (NSInteger row = 0; row < group.count; row++) {
@@ -536,7 +536,7 @@
 
 - (void)actionCancel:(id)sender
 {
-    [MobClick event:@"312-13"];
+    [MobClick event:@"312_13"];
     
     if (self.isEditingModel && ![self.curCar isDifferentFromAnother:self.originCar]) {
         if (self.model.originVC) {
@@ -563,14 +563,14 @@
         [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
             //算了
             if ([number integerValue] == 0) {
-                [MobClick event:@"rp312-14"];
+                [MobClick event:@"rp312_14"];
                 CKAfter(0.1, ^{
                     [self.navigationController popViewControllerAnimated:YES];
                 });
             }
             //保存
             else {
-                [MobClick event:@"rp312-15"];
+                [MobClick event:@"rp312_15"];
                 [self actionSave:nil];
             }
         }];
@@ -583,14 +583,14 @@
         [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
             //放弃
             if ([number integerValue] == 0) {
-                [MobClick event:@"rp312-16"];
+                [MobClick event:@"rp312_16"];
                 CKAfter(0.1, ^{
                     [self.navigationController popViewControllerAnimated:YES];
                 });
             }
             //继续
             else {
-                [MobClick event:@"rp312-17"];
+                [MobClick event:@"rp312_17"];
             }
         }];
         [alert show];
@@ -599,7 +599,7 @@
 
 - (IBAction)actionDelete:(id)sender
 {
-    [MobClick event:@"rp312-11"];
+    [MobClick event:@"rp312_11"];
     //添加模式,点击删除直接返回上一页
     if (!self.isEditingModel) {
         [self.navigationController popViewControllerAnimated:YES];
@@ -622,7 +622,7 @@
 
 - (IBAction)actionUpload:(id)sender
 {
-    [MobClick event:@"rp312-1"];
+    [MobClick event:@"rp312_1"];
     @weakify(self);
     [[self.model rac_uploadDrivingLicenseWithTargetVC:self initially:^{
         [gToast showingWithText:@"正在上传..."];
@@ -830,7 +830,7 @@
     @weakify(self);
     [[switchV rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(UISwitch *sw) {
         @strongify(self);
-        [MobClick event:@"rp312-10"];
+        [MobClick event:@"rp312_10"];
         BOOL on = sw.on;
         self.curCar.isDefault = on;
     }];

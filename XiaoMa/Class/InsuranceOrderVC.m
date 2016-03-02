@@ -224,7 +224,7 @@
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rp1012-1"];
+    [MobClick event:@"rp1012_1"];
     if (self.originVC) {
         [self.navigationController popToViewController:self.originVC animated:YES];
     }
@@ -234,7 +234,7 @@
 }
 
 - (void)actionPay:(id)sender {
-    [MobClick event:@"rp1012-2"];
+    [MobClick event:@"rp1012_2"];
     PayForInsuranceVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"PayForInsuranceVC"];
     vc.insModel = self.insModel;
     vc.insOrder = self.order;
@@ -242,7 +242,7 @@
 }
 
 - (void)actionCancelOrder:(id)sender {
-    [MobClick event:@"rp1012-4"];
+    [MobClick event:@"rp1012_4"];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"取消订单后，订单将关闭且无法继续支付您确定现在取消订单？" delegate:nil cancelButtonTitle:@"算了吧" otherButtonTitles:@"确定取消", nil];
     [alert show];
     @weakify(self);
@@ -252,17 +252,17 @@
         NSInteger index = [x integerValue];
         //确定取消订单
         if (index == 1) {
-            [MobClick event:@"rp1012-6"];
+            [MobClick event:@"rp1012_6"];
             [self requestCancelInsOrder];
         }
         else {
-            [MobClick event:@"rp1012-5"];
+            [MobClick event:@"rp1012_5"];
         }
     }];
 }
 
 - (void)actionMakeCall:(id)sender {
-    [MobClick event:@"rp1012-3"];
+    [MobClick event:@"rp1012_3"];
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
 }
 

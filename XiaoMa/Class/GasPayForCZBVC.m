@@ -193,7 +193,7 @@
 
 - (void)actionGetVCode:(id)sender
 {
-    [MobClick event:@"rp507-2"];
+    [MobClick event:@"rp507_2"];
     @weakify(self);
     GetCzbpayVcodeOp *op = [GetCzbpayVcodeOp operation];
     op.req_cardid = self.bankCard.cardID;
@@ -217,7 +217,7 @@
 
 - (void)actionPay:(id)sender
 {
-    [MobClick event:@"rp507-3"];
+    [MobClick event:@"rp507_3"];
     GascardChargeOp *op = [GascardChargeOp operation];
     op.req_amount = self.orderInfo.req_chargeamt;
     op.req_gid = self.orderInfo.req_gid;
@@ -391,7 +391,7 @@
     @weakify(self);
     [vcodeF setDidBeginEditingBlock:^(CKLimitTextField *field) {
         
-        [MobClick event:@"rp507-1"];
+        [MobClick event:@"rp507_1"];
     }];
     
     [vcodeF setTextChangingBlock:^(CKLimitTextField *rTextFeild, NSString *text) {

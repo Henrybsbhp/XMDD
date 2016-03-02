@@ -102,11 +102,11 @@
         NSInteger index = [x integerValue];
         //拨打电话
         if (index == 1) {
-            [MobClick event:@"rp1013-4"];
+            [MobClick event:@"rp1013_4"];
             [gPhoneHelper makePhone:@"4007111111"];
         }
         else {
-            [MobClick event:@"rp1013-5"];
+            [MobClick event:@"rp1013_5"];
         }
     }];
 }
@@ -122,13 +122,13 @@
     
     //友盟 TODO
     if (indexPath.row == 0) {
-        [MobClick event:@"rp1013-1"];
+        [MobClick event:@"rp1013_1"];
     }
     else if (indexPath.row == 1) {
-        [MobClick event:@"rp1013-2"];
+        [MobClick event:@"rp1013_2"];
     }
     else if (indexPath.row == 2) {
-        [MobClick event:@"rp1013-3"];
+        [MobClick event:@"rp1013_3"];
     }
 }
 

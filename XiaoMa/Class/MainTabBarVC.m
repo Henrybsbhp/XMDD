@@ -87,7 +87,7 @@
 #pragma mark - Delegate
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
-    NSString * str = [NSString stringWithFormat:@"rp101-%ld",(long)viewController.tabBarItem.tag];
+    NSString * str = [NSString stringWithFormat:@"rp101_%ld",(long)viewController.tabBarItem.tag];
     [MobClick event:str];
     NSLog(@"%@",str);
     if ([viewController isKindOfClass:[UINavigationController class]]) {

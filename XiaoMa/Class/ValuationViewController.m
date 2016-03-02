@@ -117,7 +117,7 @@
          *  点击广告事件（只需传入底层事件，具体点了哪个广告在底层实现）
          */
         self.advc  =[ADViewController vcWithADType:AdvertisementValuation boundsWidth:self.view.bounds.size.width
-                                          targetVC:self mobBaseEvent:@"rp601-5"];
+                                          targetVC:self mobBaseEvent:@"rp601_5"];
         [self.advc reloadDataForTableView:self.tableView];
     });
 }
@@ -304,7 +304,7 @@
         modelField.inputField.userInteractionEnabled = NO;
         @weakify(self);
         [view setSelectTypeClickBlock:^{
-            [MobClick event:@"rp601-7"];
+            [MobClick event:@"rp601_7"];
             @strongify(self);
             PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Car"];
             vc.originVC = self;
@@ -325,7 +325,7 @@
         HKSubscriptInputField * dateField = [view viewWithTag:203];
         dateField.inputField.userInteractionEnabled = NO;
         [view setSelectDateClickBlock:^{
-            [MobClick event:@"rp601-8"];
+            [MobClick event:@"rp601_8"];
             @strongify(self);
             HKMyCar * myCar = [self.dataSource safetyObjectAtIndex:i];
             self.datePicker.maximumDate = [NSDate date];
@@ -344,7 +344,7 @@
             /**
              *  添加评估车辆
              */
-            [MobClick event:@"rp601-3"];
+            [MobClick event:@"rp601_3"];
             if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
                 self.carIndex = self.dataSource.count;
                 EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
@@ -367,7 +367,7 @@
         /**
          *  定位事件
          */
-        [MobClick event:@"rp601-2"];
+        [MobClick event:@"rp601_2"];
         AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCity fromVC:self];
         @weakify(self);
         [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * districtModel) {
@@ -402,7 +402,7 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
-    [MobClick event:@"rp601-6"];
+    [MobClick event:@"rp601_6"];
     if (self.advc.adList.count != 0) {
         self.tableView.contentSize=CGSizeMake(CGRectGetWidth(self.tableView.contentFrame), CGRectGetHeight(self.tableView.contentFrame) + 170);
         
@@ -439,7 +439,7 @@
     /**
      *  估值事件
      */
-    [MobClick event:@"rp601-4"];
+    [MobClick event:@"rp601_4"];
     [self.view endEditing:YES];
     
     if (![self.selectCar isKindOfClass:[HKMyCar class]]) {
@@ -507,7 +507,7 @@
     /**
      *  历史记录事件
      */
-    [MobClick event:@"rp601-1"];
+    [MobClick event:@"rp601_1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         HistoryCollectionVC *historyVC=[UIStoryboard vcWithId:@"HistoryCollectionVC" inStoryboard:@"Valuation"];
         [self.navigationController pushViewController:historyVC animated:YES];

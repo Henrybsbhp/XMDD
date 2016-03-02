@@ -53,7 +53,7 @@
 
 - (void)shareAction:(NSNumber *)cid
 {
-    [MobClick event:@"rp304-3"];
+    [MobClick event:@"rp304_3"];
     
     [self requestShareCoupon:cid];
 }
@@ -75,7 +75,7 @@
     }];
     
     [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        [MobClick event:@"rp110-7"];
+        [MobClick event:@"rp110_7"];
         [sheet dismissAnimated:YES completionHandler:nil];
     }];
 }
@@ -233,7 +233,7 @@
         }
         if ([statusText equalByCaseInsensitive:@"有效"]) {
             [[[statusB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-                [MobClick event:@"rp304-4"];
+                [MobClick event:@"rp304_4"];
             }];
         }
         [statusB setTitle:statusText forState:UIControlStateNormal];
@@ -261,7 +261,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"rp304-5"];
+    [MobClick event:@"rp304_5"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

@@ -60,13 +60,13 @@
          */
         switch (self.type) {
             case 1:
-                [MobClick event:@"rp702-1"];
+                [MobClick event:@"rp702_1"];
                 break;
             case 2:
-                [MobClick event:@"rp703-1"];
+                [MobClick event:@"rp703_1"];
                 break;
             case 3:
-                [MobClick event:@"rp704-1"];
+                [MobClick event:@"rp704_1"];
                 break;
             default:
                 break;
@@ -111,13 +111,13 @@
 - (IBAction)actionResource:(UIButton *)sender {
     switch (self.type) {
         case 1:
-            [MobClick event:@"rp702-2"];
+            [MobClick event:@"rp702_2"];
             break;
         case 2:
-            [MobClick event:@"rp703-2"];
+            [MobClick event:@"rp703_2"];
             break;
         case 3:
-            [MobClick event:@"rp704-2"];
+            [MobClick event:@"rp704_2"];
             break;
         default:
             break;
@@ -155,13 +155,13 @@
 - (void)setupADView
 {
     if (self.type == 1) {
-        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailer boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp702-3"];
+        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailer boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp702_3"];
         [self.adctrl reloadDataForTableView:self.tableView];
     }else if (self.type == 2){
-        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailerPumpPower boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp703-3"];
+        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailerPumpPower boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp703_3"];
         [self.adctrl reloadDataForTableView:self.tableView];
     }else if (self.type == 3){
-        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailerPumpPowerChangeTheTire boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp704-3"];
+        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailerPumpPowerChangeTheTire boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp704_3"];
         [self.adctrl reloadDataForTableView:self.tableView];
     }
 }

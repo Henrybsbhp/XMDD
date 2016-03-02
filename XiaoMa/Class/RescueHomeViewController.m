@@ -189,7 +189,7 @@
     /**
      *  一键救援事件
      */
-    [MobClick event:@"rp701-2"];
+    [MobClick event:@"rp701_2"];
     if (gAppMgr.myUser != nil) {
         RescueApplyOp *op = [RescueApplyOp operation];
         op.address = self.addressLb.text;
@@ -221,7 +221,7 @@
     /**
      *  救援记录事件
      */
-    [MobClick event:@"rp701-1"];
+    [MobClick event:@"rp701_1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         RescueHistoryViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHistoryViewController"];
         vc.type = 1;
@@ -233,7 +233,7 @@
     /**
      *  更新定位事件
      */
-    [MobClick event:@"rp701-6"];
+    [MobClick event:@"rp701_6"];
     [self requestGetAddress];
 }
 
@@ -337,13 +337,13 @@
         switch (indexPath.row)
         {
             case 0:
-                [MobClick event:@"rp701-3"];
+                [MobClick event:@"rp701_3"];
                 break;
             case 1:
-                [MobClick event:@"rp701-4"];
+                [MobClick event:@"rp701_4"];
                 break;
             default:
-                [MobClick event:@"rp701-5"];
+                [MobClick event:@"rp701_5"];
                 break;
         }
         HKRescue *rescue = self.datasourceArray[indexPath.row];

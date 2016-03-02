@@ -301,7 +301,7 @@
 - (void)setupADViewInContainer:(UIView *)container
 {
     self.adctrl = [ADViewController vcWithADType:AdvertisementHomePage boundsWidth:self.view.frame.size.width
-                                        targetVC:self mobBaseEvent:@"rp101-10"];
+                                        targetVC:self mobBaseEvent:@"rp101_10"];
     
     CGFloat height = floor(self.adctrl.adView.frame.size.height);
     [container addSubview:self.adctrl.adView];
@@ -355,7 +355,7 @@
 
 - (void)umeng
 {
-    [MobClick event:@"rp101-1"];
+    [MobClick event:@"rp101_1"];
 }
 
 - (void)setupNavigationRightBar
@@ -481,7 +481,7 @@
 #pragma mark - Action
 - (IBAction)actionCallCenter:(id)sender
 {
-    [MobClick event:@"rp101-2"];
+    [MobClick event:@"rp101_2"];
     NSString * number = @"4007111111";
     [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
 }
@@ -493,14 +493,14 @@
 
 - (void)actionWashCar:(id)sender
 {
-    [MobClick event:@"rp101-3"];
+    [MobClick event:@"rp101_3"];
     CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionInsurance:(id)sender
 {
-    [MobClick event:@"rp101-4"];
+    [MobClick event:@"rp101_4"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         UIViewController *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -509,21 +509,21 @@
 
 - (void)actionRescue:(id)sender
 {
-    [MobClick event:@"rp101-5"];
+    [MobClick event:@"rp101_5"];
     RescueHomeViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionCommission:(id)sender
 {
-    [MobClick event:@"rp101-6"];
+    [MobClick event:@"rp101_6"];
     CommissionOrderVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionOrderVC"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionAward:(id)sender
 {
-    [MobClick event:@"rp101-11"];
+    [MobClick event:@"rp101_11"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         NewGainAwardVC * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"NewGainAwardVC"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -531,7 +531,7 @@
 }
 - (void)actionAddGas:(id)sender
 {
-    [MobClick event:@"rp101-12"];
+    [MobClick event:@"rp101_12"];
     GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -541,7 +541,7 @@
     /**
      *  违章查询事件
      */
-    [MobClick event:@"rp101-14"];
+    [MobClick event:@"rp101_14"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         
         ViolationViewController * vc = [violationStoryboard instantiateViewControllerWithIdentifier:@"ViolationViewController"];
@@ -554,7 +554,7 @@
     /**
      *  二手车估值事件
      */
-    [MobClick event:@"rp101-15"];
+    [MobClick event:@"rp101_15"];
     ValuationViewController *vc = [UIStoryboard vcWithId:@"ValuationViewController" inStoryboard:@"Valuation"];
     [self.navigationController pushViewController:vc animated:YES];
 }

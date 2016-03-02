@@ -359,7 +359,7 @@
     if (indexPath.section == 0){
         if (indexPath.row == 3) {
             
-            [MobClick event:@"rp108-10"];//车牌
+            [MobClick event:@"rp108_10"];//车牌
             CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
             vc.title = @"选择爱车";
             vc.model.allowAutoChangeSelectedCar = YES;
@@ -376,7 +376,7 @@
         if (indexPath.row == 1)
         {
             //点击查看洗车券
-            [MobClick event:@"rp108-2"];
+            [MobClick event:@"rp108_2"];
             ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
             vc.originVC = self.originVC;
             vc.type = CouponTypeCarWash;
@@ -386,7 +386,7 @@
         }
         else if (indexPath.row == 2)
         {
-            [MobClick event:@"rp108-4"];
+            [MobClick event:@"rp108_4"];
             ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
             vc.originVC = self.originVC;
             vc.type = CouponTypeCash;
@@ -403,7 +403,7 @@
         PaymentChannelType payChannel = [[self.paymentArray safetyObjectAtIndex:indexPath.row - 1] integerValue];
         
         if (payChannel == PaymentChannelCZBCreditCard) {
-            [MobClick event:@"rp108-12"];
+            [MobClick event:@"rp108_12"];
             ChooseBankCardVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseBankCardVC"];
             vc.service = self.service;
             vc.shop = self.shop;
@@ -603,7 +603,7 @@
         @strongify(self);
         if (indexPath.row == 1)
         {
-            [MobClick event:@"rp108-1"];
+            [MobClick event:@"rp108_1"];
             if (!self.selectCarwashCoupouArray.count)
             {
                 ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
@@ -636,7 +636,7 @@
         else if (indexPath.row == 2)
         {
             NSLog(@"click checkbox2");
-            [MobClick event:@"rp108-3"];
+            [MobClick event:@"rp108_3"];
             if (!self.selectCashCoupouArray.count)
             {
                 ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
@@ -799,19 +799,19 @@
         boxB.selected = YES;
         if (payChannel == PaymentChannelCZBCreditCard)
         {
-            [MobClick event:@"rp108-11"];
+            [MobClick event:@"rp108_11"];
             [self popBankCardNumberAnimation:YES];
             self.checkoutServiceOrderV4Op.paychannel = PaymentChannelCZBCreditCard;
         }
         else if (payChannel == PaymentChannelAlipay)
         {
-            [MobClick event:@"rp108-5"];
+            [MobClick event:@"rp108_5"];
             [self popBankCardNumberAnimation:NO];
             self.checkoutServiceOrderV4Op.paychannel = PaymentChannelAlipay;
         }
         else if (payChannel == PaymentChannelWechat)
         {
-            [MobClick event:@"rp108-6"];
+            [MobClick event:@"rp108_6"];
             [self popBankCardNumberAnimation:NO];
             self.checkoutServiceOrderV4Op.paychannel = PaymentChannelWechat;
         }
@@ -1428,7 +1428,7 @@
         
         [[vc.gainWeeklyCouponBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
-            [MobClick event:@"rp108-13"];
+            [MobClick event:@"rp108_13"];
             [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
                 [self requestGainWeeklyCoupon];
             }];
@@ -1437,7 +1437,7 @@
         
         [[vc.whateverBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
-            [MobClick event:@"rp108-14"];
+            [MobClick event:@"rp108_14"];
             [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
             }];
         }];
@@ -1488,10 +1488,10 @@
         [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
             //放弃支付
             if ([number integerValue] == 0) {
-                [MobClick event:@"rp108-8"];
+                [MobClick event:@"rp108_8"];
             }
             else if ([number integerValue] == 1) {
-                [MobClick event:@"rp108-9"];
+                [MobClick event:@"rp108_9"];
                 [self requestCheckoutWithCouponType:CouponTypeNone];
             }
         }];

@@ -280,7 +280,7 @@
 
 - (void)serviceAgreement
 {
-    [MobClick event:@"rp322-1"];
+    [MobClick event:@"rp322_1"];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"服务协议";
     vc.url = kServiceLicenseUrl;
@@ -297,7 +297,7 @@
 
 - (void) shareApp
 {
-    [MobClick event:@"rp110-1"];
+    [MobClick event:@"rp110_1"];
     SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
     vc.sceneType = ShareSceneLocalShare;
     vc.btnTypeArr = @[@1, @2, @3, @4];
@@ -312,7 +312,7 @@
     [sheet presentAnimated:YES completionHandler:nil];
     
     [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        [MobClick event:@"rp110-7"];
+        [MobClick event:@"rp110_7"];
         [sheet dismissAnimated:YES completionHandler:nil];
     }];
     
@@ -331,7 +331,7 @@
 
 - (void)callCustomerService
 {
-    [MobClick event:@"rp322-3"];
+    [MobClick event:@"rp322_3"];
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
 }
 
@@ -372,7 +372,7 @@
     /**
      *  商户加盟点击事件
      */
-    [MobClick event:@"rp322-4"];
+    [MobClick event:@"rp322_4"];
     JoinUsViewController * vc = [UIStoryboard vcWithId:@"JoinUsViewController" inStoryboard:@"About"];
     [self.navigationController pushViewController:vc animated:YES];
 }

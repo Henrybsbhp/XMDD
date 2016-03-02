@@ -62,7 +62,7 @@
     /**
      *  返回估值首页事件
      */
-    [MobClick event:@"rp605-1"];
+    [MobClick event:@"rp605_1"];
     NSArray *viewControllers = self.navigationController.viewControllers;
     [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
 }
@@ -77,7 +77,7 @@
     /**
      *  分享事件
      */
-    [MobClick event:@"rp605-2"];
+    [MobClick event:@"rp605_2"];
     [self shareApp];
 }
 
@@ -97,7 +97,7 @@
         [sheet presentAnimated:YES completionHandler:nil];
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            [MobClick event:@"rp110-7"];
+            [MobClick event:@"rp110_7"];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [vc setClickAction:^{
