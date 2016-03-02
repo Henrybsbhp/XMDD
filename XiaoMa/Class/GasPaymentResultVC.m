@@ -36,13 +36,8 @@
 #pragma mark - Action
 - (IBAction)actionShare:(id)sender
 {
-<<<<<<< HEAD
     [MobClick event:@"rp506_1"];
-    GetShareButtonOp * op = [GetShareButtonOp operation];
-=======
-    [MobClick event:@"rp506-1"];
     GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
->>>>>>> dev
     op.pagePosition = ShareSceneGas;
     [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
         

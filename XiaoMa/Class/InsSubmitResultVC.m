@@ -91,13 +91,8 @@
 
 - (IBAction)actionShare:(id)sender {
     
-<<<<<<< HEAD
     [MobClick event:@"rp1009_2"];
-    GetShareButtonOp * op = [GetShareButtonOp operation];
-=======
-    [MobClick event:@"rp1009-2"];
     GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
->>>>>>> dev
     op.pagePosition = ShareSceneInsurance;
     [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
         
