@@ -14,7 +14,7 @@
 #import "InsuranceVC.h"
 #import "UIView+DefaultEmptyView.h"
 #import "RescueDetailsVC.h"
-#import "GetShareButtonOp.h"
+#import "GetShareButtonOpV2.h"
 #import "ShareResponeManager.h"
 #import "CommissionOrderVC.h"
 #import "RescueHomeViewController.h"
@@ -189,9 +189,9 @@
 
 - (void)shareAction:(ShareUserCouponOp *)op andImage:(UIImage *)image
 {
-    GetShareButtonOp * getBtnOp = [GetShareButtonOp operation];
+    GetShareButtonOpV2 * getBtnOp = [GetShareButtonOpV2 operation];
     getBtnOp.pagePosition = ShareSceneCoupon;
-    [[getBtnOp rac_postRequest] subscribeNext:^(GetShareButtonOp * getBtnOp) {
+    [[getBtnOp rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * getBtnOp) {
         
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneCoupon;

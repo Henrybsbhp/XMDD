@@ -11,7 +11,7 @@
 #import "ShareResponeManager.h"
 #import "HomePageVC.h"
 #import "UIView+Layer.h"
-#import "GetShareButtonOp.h"
+#import "GetShareButtonOpV2.h"
 
 
 @interface CommitSuccessVC ()
@@ -84,12 +84,12 @@
 - (void)shareApp
 {
     [gToast showingWithText:@"分享信息拉取中..."];
-    GetShareButtonOp * op = [GetShareButtonOp operation];
-    op.pagePosition = ShareSceneApp;
-    [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
+    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
+    op.pagePosition = ShareSceneAppCarSell;
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
         [gToast dismiss];
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-        vc.sceneType = ShareSceneApp;    //页面位置
+        vc.sceneType = ShareSceneAppCarSell;    //页面位置
         vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
         
         MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];

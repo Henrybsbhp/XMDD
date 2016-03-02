@@ -15,7 +15,7 @@
 #import "SubmitCommentOp.h"
 #import "ShopDetailVC.h"
 #import "NSDate+DateForText.h"
-#import "GetShareButtonOp.h"
+#import "GetShareButtonOpV2.h"
 #import "ShareResponeManager.h"
 #import "GasVC.h"
 #import "GuideStore.h"
@@ -128,9 +128,9 @@
 }
 - (IBAction)shareAction:(id)sender {
     
-    GetShareButtonOp * op = [GetShareButtonOp operation];
+    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneCarwash;
-    [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
         
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneCarwash;    //页面位置

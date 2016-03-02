@@ -67,7 +67,10 @@ typedef enum : NSUInteger {
 //4-保险支付完成分享
 //5-油卡充值完成分享
 //6-优惠券分享（转赠）
-//7-其他分享（jsbridge中的分享和App分享）
+//7-爱车估值结果分享
+//8-提交卖车app分享
+//9-app分享
+//100-其他分享（jsbridge中的分享）
 typedef enum : NSUInteger {
     ShareSceneCarwash = 2,
     ShareSceneGain = 3,
@@ -75,7 +78,8 @@ typedef enum : NSUInteger {
     ShareSceneGas = 5,
     ShareSceneCoupon = 6,
     ShareSceneValuation = 7,
-    ShareSceneApp = 8,
+    ShareSceneAppCarSell = 8,
+    ShareSceneAppAbout = 9,
     ShareSceneLocalShare = 100
 } ShareSceneType;
 
