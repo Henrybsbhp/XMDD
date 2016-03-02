@@ -24,6 +24,8 @@
 #import "InsCheckResultsVC.h"
 #import "ValuationViewController.h"
 
+#import "AppDelegate.h"
+
 @implementation NavigationModel
 
 - (BOOL)pushToViewControllerByUrl:(NSString *)url
@@ -336,7 +338,10 @@
 
         }
         //加油记录
-        else if ([@"gl" equalByCaseInsensitive:name] && gAppMgr.myUser) {
+        else if ([@"gl" equalByCaseInsensitive:name]) {
+            if (![LoginViewModel loginIfNeededForTargetViewController:topVC])
+                return YES;
+            
             if (![self popToViewControllerIfNeededByIdentify:@"GasRecordVC"]) {
                 UIViewController *vc = [UIStoryboard vcWithId:@"GasRecordVC" inStoryboard:@"Gas"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
