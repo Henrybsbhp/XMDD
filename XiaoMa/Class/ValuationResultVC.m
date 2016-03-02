@@ -8,7 +8,7 @@
 
 #import "ValuationResultVC.h"
 #import "NSDate+DateForText.h"
-#import "GetShareButtonOp.h"
+#import "GetShareButtonOpV2.h"
 #import "SocialShareViewController.h"
 #import "ShareResponeManager.h"
 #import "SecondCarValuationVC.h"
@@ -232,10 +232,10 @@
      */
     [MobClick event:@"rp602-3"];
     [gToast showingWithText:@"分享信息拉取中..."];
-    GetShareButtonOp * op = [GetShareButtonOp operation];
+    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneValuation;
     @weakify(self);
-    [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
         @strongify(self);
         [gToast dismiss];
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];

@@ -10,7 +10,7 @@
 #import "NSString+RectSize.h"
 #import "NSString+Split.h"
 #import "SocialShareViewController.h"
-#import "GetShareButtonOp.h"
+#import "GetShareButtonOpV2.h"
 #import "ShareResponeManager.h"
 
 @interface GasPaymentResultVC ()
@@ -37,9 +37,9 @@
 - (IBAction)actionShare:(id)sender
 {
     [MobClick event:@"rp506-1"];
-    GetShareButtonOp * op = [GetShareButtonOp operation];
+    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneGas;
-    [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
         
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneGas;    //页面位置
