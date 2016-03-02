@@ -10,7 +10,7 @@
 #import <TencentOpenAPI.framework/Headers/QQApiInterface.h>
 #import <TencentOpenAPI.framework/Headers/QQApiInterfaceObject.h>
 #import "GetShareDetailOp.h"
-
+#import "GetShareDetailOpV2.h"
 
 @interface SocialShareViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *wechatLabel;
@@ -170,7 +170,13 @@
 {
     self.activityIndicatorView.hidden = NO;
     [self.activityIndicatorView startAnimating];
-    GetShareDetailOp * op = [GetShareDetailOp operation];
+    GetShareDetailOp * op;
+    if (self.sceneType == ShareSceneGain) {
+        op = [GetShareDetailOp operation];
+    }
+    else {
+        op = [GetShareDetailOpV2 operation];
+    }
     op.pagePosition = self.sceneType;
     op.buttonId = btnType;
     if (self.sceneType == ShareSceneGas) {

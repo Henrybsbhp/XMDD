@@ -386,6 +386,8 @@
 		50DD1BCB1BFB093500349A70 /* OthersOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BCA1BFB093500349A70 /* OthersOrderViewModel.m */; };
 		50E800411C44D7B100AFC7B9 /* HYScratchCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E800401C44D7B100AFC7B9 /* HYScratchCardView.m */; };
 		50E9DD161BE201180070F38D /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E9DD151BE201180070F38D /* Reachability.m */; };
+		50F7F0781C86C49700138947 /* GetShareButtonOpV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F7F0771C86C49700138947 /* GetShareButtonOpV2.m */; };
+		50F7F07B1C86C4E200138947 /* GetShareDetailOpV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F7F07A1C86C4E200138947 /* GetShareDetailOpV2.m */; };
 		50FA52891C2296CD002B1EAE /* ValuationResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FA52881C2296CD002B1EAE /* ValuationResultVC.m */; };
 		50FAC2591C23A66900F8990F /* GetAutomobileBrandV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FAC2581C23A66900F8990F /* GetAutomobileBrandV2Op.m */; };
 		50FAC2621C23A77200F8990F /* GetAutomobileSeriesV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FAC2611C23A77200F8990F /* GetAutomobileSeriesV2Op.m */; };
@@ -1380,6 +1382,10 @@
 		50E800401C44D7B100AFC7B9 /* HYScratchCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYScratchCardView.m; sourceTree = "<group>"; };
 		50E9DD141BE201180070F38D /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		50E9DD151BE201180070F38D /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		50F7F0761C86C49700138947 /* GetShareButtonOpV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShareButtonOpV2.h; path = Class/GetShareButtonOpV2.h; sourceTree = "<group>"; };
+		50F7F0771C86C49700138947 /* GetShareButtonOpV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetShareButtonOpV2.m; path = Class/GetShareButtonOpV2.m; sourceTree = "<group>"; };
+		50F7F0791C86C4E200138947 /* GetShareDetailOpV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShareDetailOpV2.h; path = Class/GetShareDetailOpV2.h; sourceTree = "<group>"; };
+		50F7F07A1C86C4E200138947 /* GetShareDetailOpV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetShareDetailOpV2.m; path = Class/GetShareDetailOpV2.m; sourceTree = "<group>"; };
 		50FA52871C2296CD002B1EAE /* ValuationResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuationResultVC.h; sourceTree = "<group>"; };
 		50FA52881C2296CD002B1EAE /* ValuationResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuationResultVC.m; sourceTree = "<group>"; };
 		50FAC2571C23A66900F8990F /* GetAutomobileBrandV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetAutomobileBrandV2Op.h; path = Class/GetAutomobileBrandV2Op.h; sourceTree = "<group>"; };
@@ -4010,8 +4016,12 @@
 				5040B37C1C06D50200ADE77F /* ApplyUnionOp.m */,
 				5014B6551C07041B00DFAB18 /* GetShareButtonOp.h */,
 				5014B6561C07041B00DFAB18 /* GetShareButtonOp.m */,
+				50F7F0761C86C49700138947 /* GetShareButtonOpV2.h */,
+				50F7F0771C86C49700138947 /* GetShareButtonOpV2.m */,
 				5014B6581C07043900DFAB18 /* GetShareDetailOp.h */,
 				5014B6591C07043900DFAB18 /* GetShareDetailOp.m */,
+				50F7F0791C86C4E200138947 /* GetShareDetailOpV2.h */,
+				50F7F07A1C86C4E200138947 /* GetShareDetailOpV2.m */,
 				505358F21C0D79640029B5BA /* SharedNotifyOp.h */,
 				505358F31C0D79640029B5BA /* SharedNotifyOp.m */,
 				6BEC3FC71C1122B40046F11D /* GetCityInfoByNameOp.h */,
@@ -4741,6 +4751,7 @@
 				2E77A4A41C325FCC00264FC9 /* HKRescueNoLogin.m in Sources */,
 				6BD7AE681AE9F63900BEF30E /* MapBottomView.m in Sources */,
 				6BBB4C3F1B32790B00C8052E /* WelcomeViewController.m in Sources */,
+				50F7F07B1C86C4E200138947 /* GetShareDetailOpV2.m in Sources */,
 				1821C34D1C4794D800120AF4 /* HomeNewbieGuideVC.m in Sources */,
 				6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */,
 				6BF3925F1BD8935600838292 /* CBAutoScrollLabel.m in Sources */,
@@ -5121,6 +5132,7 @@
 				181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */,
 				18A9E8CF1BDF15430061D3BC /* EditCarVC.m in Sources */,
 				18C52C3A1BA6CE9400F6C38B /* DAProgressOverlayView.m in Sources */,
+				50F7F0781C86C49700138947 /* GetShareButtonOpV2.m in Sources */,
 				18B6E5CB1C463D0300697DAB /* CancelInsOrderOp.m in Sources */,
 				6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */,
 				18F93CD41B6F044D000325DD /* BorderLineLabel.m in Sources */,

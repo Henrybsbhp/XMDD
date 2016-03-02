@@ -11,7 +11,7 @@
 #import "FeedbackVC.h"
 #import "SocialShareViewController.h"
 #import "JoinUsViewController.h"
-#import "GetShareButtonOp.h"
+#import "GetShareButtonOpV2.h"
 #import "ShareResponeManager.h"
 #import "RRFPSBar.h"
 
@@ -298,35 +298,31 @@
 - (void) shareApp
 {
     [MobClick event:@"rp110_1"];
-    SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-    vc.sceneType = ShareSceneLocalShare;
-    vc.btnTypeArr = @[@1, @2, @3, @4];
-    vc.tt = @"小马达达－洗车1分钱都不要";
-    vc.subtitle = @"我正在使用小马达达，洗车1分钱也不要，你也来试试吧！";
-    vc.image = [UIImage imageNamed:@"wechat_share_carwash2"];
-    vc.webimage = [UIImage imageNamed:@"weibo_share_carwash2"];
-    vc.urlStr = kAppShareUrl;
-    
-    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
-    sheet.shouldCenterVertically = YES;
-    [sheet presentAnimated:YES completionHandler:nil];
-    
-    [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        [MobClick event:@"rp110_7"];
-        [sheet dismissAnimated:YES completionHandler:nil];
-    }];
-    
-    [vc setClickAction:^{
-        [sheet dismissAnimated:YES completionHandler:nil];
-    }];
-    
-    [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
+    [gToast showingWithText:@"分享信息拉取中..."];
+    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
+    op.pagePosition = ShareSceneInsurance;
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
         
-    }];
-    [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
+        [gToast dismiss];
+        SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+        vc.sceneType = ShareSceneAppAbout;    //页面位置
+        vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
         
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            [MobClick event:@"rp110-7"];
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        [vc setClickAction:^{
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
+    } error:^(NSError *error) {
+        [gToast showError:@"分享信息拉取失败，请重试"];
     }];
-
 }
 
 - (void)callCustomerService

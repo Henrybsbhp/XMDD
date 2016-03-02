@@ -10,7 +10,7 @@
 #import "HKCellData.h"
 #import "CKLine.h"
 #import "InsCouponView.h"
-#import "GetShareButtonOp.h"
+#import "GetShareButtonOpV2.h"
 
 #import "InsuranceOrderVC.h"
 #import "SocialShareViewController.h"
@@ -91,10 +91,15 @@
 
 - (IBAction)actionShare:(id)sender {
     
+<<<<<<< HEAD
     [MobClick event:@"rp1009_2"];
     GetShareButtonOp * op = [GetShareButtonOp operation];
+=======
+    [MobClick event:@"rp1009-2"];
+    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
+>>>>>>> dev
     op.pagePosition = ShareSceneInsurance;
-    [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
         
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneInsurance;    //页面位置

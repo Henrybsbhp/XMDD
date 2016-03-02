@@ -10,7 +10,7 @@
 #import "HYScratchCardView.h"
 #import "CheckUserAwardOp.h"
 #import "GainUserAwardOp.h"
-#import "GetShareButtonOp.h"
+#import "GetShareButtonOpV2.h"
 #import "GetShareDetailOp.h"
 #import "SocialShareViewController.h"
 #import "ShareResponeManager.h"
@@ -241,10 +241,10 @@
 - (void)shareAction
 {
     [gToast showingWithText:@"分享信息拉取中..."];
-    GetShareButtonOp * op = [GetShareButtonOp operation];
+    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneGain;
     @weakify(self);
-    [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
         
         [gToast dismiss];
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
