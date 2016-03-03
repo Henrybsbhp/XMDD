@@ -1992,10 +1992,6 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="KLc-Zl-QEW" id="Vst-Vq-anv"/>
-                                    <outlet property="delegate" destination="KLc-Zl-QEW" id="hnW-vx-1Lb"/>
-                                </connections>
                             </tableView>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zRx-sa-3NR">
                                 <rect key="frame" x="0.0" y="488" width="600" height="48"/>

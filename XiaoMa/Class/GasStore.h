@@ -11,6 +11,7 @@
 #import "GasCard.h"
 #import "GetGaschargeConfigOp.h"
 
+#define kReloadNormalGas          @"normalGas"
 #define kDomainGasCards           @"gasCards"
 #define kDomainUpadteGasCardInfo  @"updateGasCardInfo"
 #define kDomainChargeConfig       @"chargeConfig"
@@ -24,7 +25,7 @@
 ///普通充值配置信息
 @property (nonatomic, strong) GetGaschargeConfigOp *config;
 ///充值套餐(包括普通充值)
-@property (nonatomic, strong) NSArray *chargePackages;
+@property (nonatomic, strong) CKQueue *chargePackages;
 
 ///获取当前用户所有油卡
 - (CKEvent *)getAllGasCards;

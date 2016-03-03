@@ -28,10 +28,9 @@
 @property (nonatomic, strong) CKList *loadingDatasource;
 
 @property (nonatomic, strong) GasCard *curGasCard;
-@property (nonatomic, strong) GetGaschargeConfigOp *configOp;
-@property (nonatomic, strong) NSArray *chargePackages;
 @property (nonatomic, strong) GasChargePackage *curChargePkg;
 @property (nonatomic, strong) GasStore *gasStore;
+@property (nonatomic, assign) float rechargeAmount;
 
 ///是否同意协议(Default is YES)
 @property (nonatomic, strong) GasNormalVM *model;
@@ -39,6 +38,11 @@
 @end
 
 @implementation GasNormalVC
+
+- (void)dealloc
+{
+    
+}
 
 - (instancetype)initWithTargetVC:(UIViewController *)vc tableView:(UITableView *)table bottomButton:(UIButton *)btn
 {
@@ -56,6 +60,8 @@
 
 - (void)setupDatasource
 {
+    self.rechargeAmount = 500;
+    
     CKDict *row1 = self.curGasCard ? [self pickGasCardItem] : [self addGasCardItem];
     self.normalDatasource = $($(row1,[self chargePackagesItem],[self pickGasAmountItem],[self wantInvoiceItem]),
                               $([self gasReminderItem],[self serviceAgreementItem]));
@@ -68,34 +74,44 @@
 - (void)setupGasStore
 {
     self.gasStore = [GasStore fetchOrCreateStore];
-    [self.gasStore subscribeWithTarget:self domain:kDomainReloadNormalGas receiver:^(GasStore *store, CKEvent *evt) {
-        if (!evt.signal) {
-            [self reloadDataIfNeeded];
-        }
-        else {
-            [self requestEvent:evt];
-        }
+    NSArray *domains = @[kDomainGasCards, kDomainChargeConfig];
+    @weakify(self);
+    [self.gasStore subscribeWithTarget:self domainList:domains receiver:^(GasStore *store, CKEvent *evt) {
+        @strongify(self);
+        [self reloadFromSignal:evt.signal];
+    }];
+    
+    //获取当前油卡普通加油信息
+    [self.gasStore subscribeWithTarget:self domain:kDomainUpadteGasCardInfo receiver:^(id store, CKEvent *evt) {
+        @strongify(self);
+        RACSignal *signal = [evt.signal doNext:^(id x) {
+            @strongify(self);
+            self.curGasCard = x;
+        }];
+        [self reloadFromSignal:signal];
     }];
 }
 
 #pragma mark - Reload
-- (void)requestEvent:(CKEvent *)event
+- (void)reloadFromSignal:(RACSignal *)signal
 {
     CKDict *blankItem = self.loadingDatasource[0][@"Loading"];
+    __block BOOL triggered = NO;
     @weakify(self);
-    [[[event signal] initially:^{
+    [[signal initially:^{
 
         @strongify(self);
         //如果没在刷新
         if (![blankItem[@"loading"] boolValue]) {
             blankItem[@"loading"] = @YES;
             self.datasource = self.loadingDatasource;
-            [self.tableView reloadData];
+            [self reloadTableView];
             self.bottomBtn.superview.hidden = YES;
         }
     }] subscribeNext:^(id x) {
 
         @strongify(self);
+        triggered = YES;
         if ([self reloadDataIfNeeded]) {
             //如果需要重新加载，停止刷新
             blankItem[@"loading"] = @NO;
@@ -103,14 +119,25 @@
             blankItem.forceReload = !blankItem.forceReload;
             self.bottomBtn.superview.hidden = NO;
         }
-        [self reloadDataIfNeeded];
     } error:^(NSError *error) {
-        
-        blankItem[@"event"] = event;
+
+        @strongify(self);
+        triggered = YES;
         blankItem[@"loading"] = @NO;
         blankItem[@"error"] = @YES;
         blankItem.forceReload = !blankItem.forceReload;
         self.bottomBtn.superview.hidden = NO;
+    } completed:^{
+
+        @strongify(self);
+        //如果没有触发任何事件，表示该信号需要被忽略
+        if (!triggered && [self reloadDataIfNeeded]) {
+            //如果需要重新加载，停止刷新
+            blankItem[@"loading"] = @NO;
+            blankItem[@"error"] = @NO;
+            blankItem.forceReload = !blankItem.forceReload;
+            self.bottomBtn.superview.hidden = NO;
+        }
     }];
 }
 
@@ -120,13 +147,38 @@
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
     }
-    if (self.gasStore) {
+    //如果当前没有加油
+    if (!self.curGasCard || ![self.gasStore.gasCards objectForKey:self.curGasCard.gid]) {
+        [[self.gasStore updateCardInfoByGID:[[self.gasStore.gasCards objectAtIndex:0] gid]] send];
         return NO;
     }
+    if (!self.gasStore.config) {
+        [[self.gasStore getChargeConfig] send];
+        return NO;
+    }
+    if (!self.curChargePkg) {
+        self.curChargePkg = [self.gasStore.chargePackages objectAtIndex:0];
+    }
+
+    CKDict *row1 = self.normalDatasource[0][0];
+    if (self.curGasCard && ![row1[kCKItemKey] isEqualToString:@"GasCard"]) {
+        [self.normalDatasource[0] replaceObject:[self pickGasCardItem] withKey:nil atIndex:0];
+    }
+    else if (!self.curGasCard && ![row1[kCKItemKey] isEqualToString:@"AddGasCard"]) {
+        [self.normalDatasource[0] replaceObject:[self addGasCardItem] withKey:nil atIndex:0];
+    }
     self.datasource = self.normalDatasource;
-    [self.tableView reloadData];
-    self.bottomBtn.superview.hidden = NO;
+    [self reloadTableView];
     return YES;
+}
+
+- (void)reloadTableView
+{
+    if ([self isEqual:self.tableView.delegate]) {
+        CKAsyncMainQueue(^{
+            [self.tableView reloadData];
+        });
+    }
 }
 
 - (void)reloadBottomButton
@@ -169,7 +221,9 @@
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 74;
     });
+    @weakify(self);
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
         UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
         UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
         UILabel *cardnoL = (UILabel *)[cell.contentView viewWithTag:1003];
@@ -180,7 +234,7 @@
         [(HKTableViewCell *)cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom
                                                              insets:UIEdgeInsetsMake(0, 12, 0, 0)];
     });
-    @weakify(self);
+
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         [MobClick event:@"rp501-15"];
@@ -227,8 +281,8 @@
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
 
         @strongify(self);
-        for (NSInteger i = 0; i < self.chargePackages.count; i++) {
-            GasChargePackage *pkg = self.chargePackages[i];
+        for (NSInteger i = 0; i < self.gasStore.chargePackages.count; i++) {
+            GasChargePackage *pkg = [self.gasStore.chargePackages objectAtIndex:i];
             NSInteger tag = i + 2001;
             UIView *itemView = [cell.contentView viewWithTag:tag];
             UILabel *titleL = [cell.contentView viewWithTag:tag*10+1];
@@ -237,7 +291,7 @@
             titleL.text = pkg.month == 1 ? @"快速充值" : [NSString stringWithFormat:@"分%d个月充值", pkg.month];
             discountL.text = [NSString stringWithFormat:@"%@折", pkg.discount];
             
-            if ([self.curChargePkg isEqual:pkg]) {
+            if ([self.curChargePkg.pkgid isEqual:pkg.pkgid]) {
                 itemView.layer.borderWidth = 2;
                 itemView.layer.borderColor = [HEXCOLOR(@"#20ab2a") CGColor];
                 discountL.backgroundColor = HEXCOLOR(@"#20ab2a");
@@ -250,17 +304,16 @@
                 discountL.textColor = HEXCOLOR(@"#888888");
             }
         }
-        
 
-        for (int i = 0; i < self.chargePackages.count; i++) {
+        for (int i = 0; i < self.gasStore.chargePackages.count; i++) {
             
-            GasChargePackage *pkg = self.chargePackages[i];
+            GasChargePackage *pkg = self.gasStore.chargePackages[i];
             UIButton *bgBtn = [cell.contentView viewWithTag:(i+2001)*10+3];
             [[[bgBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
              subscribeNext:^(id x) {
                  @strongify(self);
                  self.curChargePkg = pkg;
-                 [self.tableView reloadData];
+                 [self reloadTableView];
              }];
         }
     });
@@ -283,37 +336,63 @@
     });
     
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        GasPickAmountCell *cell1 = (GasPickAmountCell *)cell;
+        cell1.richLabel.text = [self.model rechargeFavorableDesc];
         
+        if (!cell1.stepper.valueChangedCallback) {
+            @weakify(self);
+            cell1.stepper.valueChangedCallback = ^(PKYStepper *stepper, float newValue) {
+                @strongify(self);
+                stepper.countLabel.text = [NSString stringWithFormat:@"%d元", (int)newValue];
+                self.model.rechargeAmount = (int)newValue;
+                [self reloadBottomButton];
+            };
+            cell1.stepper.incrementCallback = ^float(PKYStepper *stepper, float newValue) {
+                [MobClick event:@"rp501-7"];
+                if (stepper.allowValueList && stepper.valueList.count > 0) {
+                    float maxValue = [[stepper.valueList lastObject] floatValue];
+                    if (newValue >= maxValue && stepper.value >= maxValue) {
+                        [gToast showText:@"充值金额已达本月最大限制，无法增加啦"];
+                        return [[stepper.valueList lastObject] floatValue];
+                    }
+                }
+                else if (newValue > stepper.maximum) {
+                    [gToast showText:@"充值金额已达本月最大限制，无法增加啦"];
+                    return stepper.maximum;
+                }
+                return newValue;
+            };
+            cell1.stepper.decrementCallback = ^float(PKYStepper *stepper, float newValue) {
+                [MobClick event:@"rp501-5"];
+                if (stepper.allowValueList && stepper.valueList.count > 0) {
+                    float minValue = [stepper.valueList[0] floatValue];
+                    if (newValue <= minValue && stepper.value <= minValue) {
+                        [gToast showText:[NSString stringWithFormat:@"充值金额不能小于%d哦～", (int)minValue]];
+                        return [stepper.valueList[0] floatValue];
+                    }
+                }
+                else if (newValue < stepper.minimum) {
+                    [gToast showText:@"充值金额不能小于100哦～"];
+                    return stepper.minimum;
+                }
+                return newValue;
+            };
+        }
+        cell1.stepper.valueList = self.gasStore.config.rsp_supportamt;
+        if (!self.curGasCard) {
+            // 有说明请求成功
+            cell1.stepper.maximum = self.gasStore.config.rsp_chargeupplimit ?
+            [self.gasStore.config.rsp_chargeupplimit integerValue] : 1000;
+        }
+        else {
+            cell1.stepper.maximum = [self.curGasCard.availablechargeamt integerValue];
+        }
+        
+        cell1.stepper.allowValueList = [self.curChargePkg.pkgid integerValue] > 0;
+        cell1.stepper.value = self.rechargeAmount;
+        [cell1.stepper setup];
+        [cell1 addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
     });
-    
-//    item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-//        GasPickAmountCell *cell1 = (GasPickAmountCell *)cell;
-//        cell1.richLabel.text = [self.model rechargeFavorableDesc];
-//        
-//        if (!cell1.stepper.valueChangedCallback) {
-//            @weakify(self);
-//            cell1.stepper.valueChangedCallback = ^(PKYStepper *stepper, float newValue) {
-//                @strongify(self);
-//                stepper.countLabel.text = [NSString stringWithFormat:@"%d元", (int)newValue];
-//                self.model.rechargeAmount = (int)newValue;
-//                [self refreshBottomView];
-//            };
-//            cell.stepper.incrementCallback = ^float(PKYStepper *stepper, float newValue) {
-//                [MobClick event:@"rp501-7"];
-//                if (stepper.allowValueList && stepper.valueList.count > 0) {
-//                    float maxValue = [[stepper.valueList lastObject] floatValue];
-//                    if (newValue >= maxValue && stepper.value >= maxValue) {
-//                        [gToast showText:@"充值金额已达本月最大限制，无法增加啦"];
-//                        return [[stepper.valueList lastObject] floatValue];
-//                    }
-//                }
-//                else if (newValue > stepper.maximum) {
-//                    [gToast showText:@"充值金额已达本月最大限制，无法增加啦"];
-//                    return stepper.maximum;
-//                }
-//                return newValue;
-//            };
-//    });
     
     return item;
 }
@@ -375,20 +454,21 @@
 {
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Agreement", @"agree":@YES}];
     
+    @weakify(item, self);
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
+        @strongify(item, self);
         UIButton *checkBox = [cell.contentView viewWithTag:1001];
         UIButton *btn = [cell.contentView viewWithTag:1002];
         
         [[RACObserve(item, forceReload) takeUntilForCell:cell] subscribeNext:^(id x) {
-            
+            @strongify(item);
             checkBox.selected = [item[@"agree"] boolValue];
         }];
         
-        @weakify(item);
         [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
          subscribeNext:^(id x) {
-             @strongify(item);
+             @strongify(item, self);
              [MobClick event:@"rp501-13"];
              item[@"agree"] = @(![item[@"agree"] boolValue]);
              item.forceReload = !item.forceReload;
@@ -413,7 +493,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[self.datasource objectAtIndex:section] count];
+    return [self.datasource[section] count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

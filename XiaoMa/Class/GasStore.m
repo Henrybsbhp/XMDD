@@ -39,7 +39,7 @@
 
 - (CKEvent *)getChargeConfig
 {
-    CKEvent *event = [[[self rac_getChargeConfig] replayLast] eventWithName:@"getChargeConfig"];
+    CKEvent *event = [[self rac_getChargeConfig] eventWithName:@"getChargeConfig"];
     return [self inlineEvent:event forDomain:kDomainChargeConfig];
 }
 #pragma mark - Signal
@@ -81,7 +81,7 @@
         
         GetGaschargeConfigOp *op = [GetGaschargeConfigOp operation];
         @weakify(self);
-        cfgSig = [[[op rac_postRequest] catch:^RACSignal *(NSError *error) {
+        cfgSig = [[[[op rac_postRequest] catch:^RACSignal *(NSError *error) {
             @strongify(self);
             self.getGaschargeConfigSignal = nil;
             return [RACSignal return:nil];
@@ -89,8 +89,12 @@
             
             @strongify(self);
             self.config = rspOp;
-            self.chargePackages = [rspOp generateAllChargePackages];
-        }];
+            CKQueue *chargePackages = [CKQueue queue];
+            for (GasChargePackage *pkg in [rspOp generateAllChargePackages]) {
+                [chargePackages addObject:pkg forKey:pkg.pkgid];
+            }
+            self.chargePackages = chargePackages;
+        }] replayLast];
         
         self.getGaschargeConfigSignal = cfgSig;
     }

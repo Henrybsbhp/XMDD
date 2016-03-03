@@ -35,7 +35,7 @@
     GasChargePackage *normalPkg = [[GasChargePackage alloc] init];
     normalPkg.discount = [[NSString alloc] initWithInteger:(100 - self.rsp_discountrate)];
     normalPkg.month = 1;
-    normalPkg.pkgid = nil;
+    normalPkg.pkgid = @0;
     [pkgs safetyInsertObject:normalPkg atIndex:0];
     
     return pkgs;

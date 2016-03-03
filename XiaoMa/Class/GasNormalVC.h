@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface GasNormalVC : NSObject<UITableViewDataSource, UITableViewDelegate>
+@interface GasNormalVC : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, weak, readonly) UIViewController *targetVC;
 @property (nonatomic, weak, readonly) UITableView *tableView;
