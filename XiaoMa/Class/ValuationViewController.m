@@ -55,6 +55,15 @@
 
 @implementation ValuationViewController
 
+- (void)dealloc {
+    DebugLog(@"ValuationViewController dealloc~~~");
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -90,6 +99,7 @@
     }];
 }
 
+#pragma mark - Setup
 - (void)setSpacingByScreen
 {
     if (ScreenHeight == 480) {
@@ -235,6 +245,27 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 0)
+    {
+        /**
+         *  定位事件
+         */
+        [MobClick event:@"rp601_2"];
+        AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCity fromVC:self];
+        @weakify(self);
+        [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * districtModel) {
+            @strongify(self);
+            self.locationData.province = provinceModel.infoName;
+            self.locationData.city = cityModel.infoName;
+            self.locationLabel.text = [NSString stringWithFormat:@"%@/%@", provinceModel.infoName, cityModel.infoName];
+            self.cityId = [NSNumber numberWithInteger:cityModel.infoId];
+        }];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
 - (UITableViewCell *)locationCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"LocationCell" forIndexPath:indexPath];
@@ -360,32 +391,7 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row == 0)
-    {
-        /**
-         *  定位事件
-         */
-        [MobClick event:@"rp601_2"];
-        AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCity fromVC:self];
-        @weakify(self);
-        [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * districtModel) {
-            @strongify(self);
-            self.locationData.province = provinceModel.infoName;
-            self.locationData.city = cityModel.infoName;
-            self.locationLabel.text = [NSString stringWithFormat:@"%@/%@", provinceModel.infoName, cityModel.infoName];
-            self.cityId = [NSNumber numberWithInteger:cityModel.infoId];
-        }];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-}
-
-- (void)finishInputAction
-{
-    [self.view endEditing:YES];
-}
-
+#pragma mark - UIScrollViewDelegate
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     [scrollView endEditing:YES];
@@ -395,6 +401,7 @@
 {
     JT3DScrollView * jt3Dscroll = (JT3DScrollView *)scrollView;
     self.selectCar = [self.dataSource safetyObjectAtIndex:jt3Dscroll.currentPage];
+    self.carIndex = jt3Dscroll.currentPage;
     NSString * milesStr = [NSString formatForPrice:self.selectCar.odo / 10000.00];
     self.miles = [milesStr floatValue];
     self.modelId = self.selectCar.detailModel.modelid;
@@ -412,6 +419,8 @@
                          }];
     }
 }
+
+#pragma mark - UITextFieldDelegate
 
 - (void)textFieldDidEndEditing:(UITextField *)textField{
     if (textField.text.length > 7) {
@@ -434,6 +443,14 @@
         }];
     }
 }
+
+
+#pragma mark - Utility
+- (void)finishInputAction
+{
+    [self.view endEditing:YES];
+}
+
 
 - (IBAction)evaluationAction:(id)sender {
     /**
@@ -495,14 +512,7 @@
     }];
 }
 
-- (void)dealloc {
-    DebugLog(@"ValuationViewController dealloc~~~");
-}
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 - (IBAction)goToHistoryVC:(id)sender {
     /**
      *  历史记录事件
