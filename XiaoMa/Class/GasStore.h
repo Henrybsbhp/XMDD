@@ -33,4 +33,11 @@
 - (CKEvent *)updateCardInfoByGID:(NSNumber *)gid;
 ///获取油卡配置信息
 - (CKEvent *)getChargeConfig;
+
+///分期加油充值说明
+- (NSString *)rechargeDescriptionForFqjy:(GasChargePackage *)pkg;
+///普通加油充值说明
+- (NSString *)rechargeDescriptionForNormal:(GasCard *)card;
+
+   
 @end

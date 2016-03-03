@@ -1950,11 +1950,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1803E01E1C87CF2200C8A69C /* ViewModel */ = {
+		1803E01E1C87CF2200C8A69C /* Model */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			name = ViewModel;
+			name = Model;
 			sourceTree = "<group>";
 		};
 		18088D881B1DC8AA007438FC /* Coupon */ = {
@@ -2320,7 +2320,7 @@
 		1833F59A1BCD4773000E1DA1 /* Gas */ = {
 			isa = PBXGroup;
 			children = (
-				1803E01E1C87CF2200C8A69C /* ViewModel */,
+				1803E01E1C87CF2200C8A69C /* Model */,
 				18A30E421BD493C400521411 /* Pay */,
 				18A30E411BD48C4700521411 /* GasRecord */,
 				18A30E3D1BD4726B00521411 /* CZBGetVCode */,

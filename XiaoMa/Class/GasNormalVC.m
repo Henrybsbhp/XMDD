@@ -326,7 +326,9 @@
 {
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"PickGasAmount"}];
     @weakify(self);
+    //cell高度
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
         @strongify(self);
         GasPickAmountCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PickGasAmount"];
         CKCellPrepareBlock prepare = data[kCKCellPrepare];
@@ -334,19 +336,26 @@
         cell.frame = CGRectMake(0, 0, self.tableView.frame.size.width, 52);
         return [cell cellHeight];
     });
-    
+
+    //cell初始化
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+
+        @strongify(self);
         GasPickAmountCell *cell1 = (GasPickAmountCell *)cell;
-        cell1.richLabel.text = [self.model rechargeFavorableDesc];
-        
+        BOOL fqjy = [self.curChargePkg.pkgid integerValue] > 0;
+        //充值描述
+        cell1.richLabel.text = fqjy ? [self.gasStore rechargeDescriptionForFqjy:self.curChargePkg] :
+            [self.gasStore rechargeDescriptionForNormal:self.curGasCard];
+
         if (!cell1.stepper.valueChangedCallback) {
-            @weakify(self);
+            //值发生改变
             cell1.stepper.valueChangedCallback = ^(PKYStepper *stepper, float newValue) {
                 @strongify(self);
                 stepper.countLabel.text = [NSString stringWithFormat:@"%d元", (int)newValue];
                 self.model.rechargeAmount = (int)newValue;
                 [self reloadBottomButton];
             };
+            //递增
             cell1.stepper.incrementCallback = ^float(PKYStepper *stepper, float newValue) {
                 [MobClick event:@"rp501-7"];
                 if (stepper.allowValueList && stepper.valueList.count > 0) {
@@ -362,6 +371,7 @@
                 }
                 return newValue;
             };
+            //递减
             cell1.stepper.decrementCallback = ^float(PKYStepper *stepper, float newValue) {
                 [MobClick event:@"rp501-5"];
                 if (stepper.allowValueList && stepper.valueList.count > 0) {
@@ -378,7 +388,6 @@
                 return newValue;
             };
         }
-        cell1.stepper.valueList = self.gasStore.config.rsp_supportamt;
         if (!self.curGasCard) {
             // 有说明请求成功
             cell1.stepper.maximum = self.gasStore.config.rsp_chargeupplimit ?
@@ -387,10 +396,11 @@
         else {
             cell1.stepper.maximum = [self.curGasCard.availablechargeamt integerValue];
         }
-        
+        cell1.stepper.valueList = self.gasStore.config.rsp_supportamt;
         cell1.stepper.allowValueList = [self.curChargePkg.pkgid integerValue] > 0;
         cell1.stepper.value = self.rechargeAmount;
         [cell1.stepper setup];
+        
         [cell1 addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
     });
     
@@ -409,6 +419,7 @@
         [[[invoiceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
          subscribeNext:^(id x) {
              data[@"bill"] = @(![data[@"bill"] boolValue]);
+             data.forceReload = !data.forceReload;
         }];
 
         @weakify(data);
@@ -422,7 +433,7 @@
         
         [(HKTableViewCell *)cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
     });
-    return nil;
+    return item;
 }
 
 ///加油充值说明

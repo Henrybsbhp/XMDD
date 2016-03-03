@@ -9,6 +9,7 @@
 #import "GasStore.h"
 #import "GetGascardListOp.h"
 #import "GetGaschargeInfoOp.h"
+#import "NSString+Format.h"
 
 #define kGasCardTimetagKey  @"GasCardTimetag"
 
@@ -42,6 +43,7 @@
     CKEvent *event = [[self rac_getChargeConfig] eventWithName:@"getChargeConfig"];
     return [self inlineEvent:event forDomain:kDomainChargeConfig];
 }
+
 #pragma mark - Signal
 - (RACSignal *)rac_getAllGasCards
 {
@@ -123,5 +125,25 @@
     return sig;
 }
 
+#pragma mark - Other
+///分期加油充值说明
+- (NSString *)rechargeDescriptionForFqjy:(GasChargePackage *)pkg
+{
+    int amount = [[self.config.rsp_supportamt lastObject] intValue];
+    float coupon = amount * pkg.month * (1-[pkg.discount floatValue]/100.0);
+    return [NSString stringWithFormat:
+            @"<font size=13 color='#888888'>充值即享<font color='#ff0000'>%@折</font>，每月充值%d元，能省%@元</font>",
+            pkg.discount, amount, [NSString formatForFloorPrice:coupon]];
+}
+
+///普通加油充值说明
+- (NSString *)rechargeDescriptionForNormal:(GasCard *)card
+{
+    if (card && card.desc) {
+        return card.desc;
+    }
+    return @"<font size=13 color='#888888'>充值即享<font color='#ff0000'>98折</font>，\
+        每月优惠限额1000元，超出部分不予奖励。每月最多充值2000元。</font>";
+}
 
 @end

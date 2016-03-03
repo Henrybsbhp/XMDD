@@ -163,7 +163,7 @@
                 pkg.discount, amount, [NSString formatForFloorPrice:coupon]];
     }
     //普通加油
-    else if (self.curGasCard && self.curGasCard) {
+    else if (self.curGasCard && self.curGasCard.desc) {
         return self.curGasCard.desc;
     }
     if (self.configOp.rsp_desc) {
