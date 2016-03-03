@@ -566,7 +566,11 @@
     if ([vc isKindOfClass:[PaymentSuccessVC class]])
     {
         [self.tabBarController setSelectedIndex:0];
+        UIViewController * firstTabVC = [self.tabBarController.viewControllers safetyObjectAtIndex:0];
+        [self.tabBarController.delegate tabBarController:self.tabBarController didSelectViewController:firstTabVC];
+        
         [self.navigationController popToRootViewControllerAnimated:YES];
+
         return;
     }
     [self.navigationController popViewControllerAnimated:YES];

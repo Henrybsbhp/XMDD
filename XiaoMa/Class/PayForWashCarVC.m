@@ -1197,20 +1197,16 @@
     }
     if (self.getUserResourcesV2Op.validCashCouponArray.count)
     {
-        NSInteger amount = 0;
+        CGFloat amount = 0;
         for (NSInteger i = 0 ; i < self.getUserResourcesV2Op.validCashCouponArray.count ; i++)
         {
             HKCoupon * coupon = [self.getUserResourcesV2Op.validCashCouponArray safetyObjectAtIndex:i];
-            if (coupon.couponAmount < self.service.origprice)
-            {
-                if (amount + coupon.couponAmount < self.service.origprice)
-                {
-                    amount = amount + coupon.couponAmount;
-                    [self.selectCashCoupouArray addObject:coupon];
-                    self.couponType = CouponTypeCash;
-                }
-            }
+            amount = amount + coupon.couponAmount;
+            [self.selectCashCoupouArray addObject:coupon];
+            if (amount >= self.service.origprice)
+                break;
         }
+        self.couponType = CouponTypeCash;
         [self.tableView reloadData];
         [self refreshPriceLb];
         return;
