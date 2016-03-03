@@ -1,0 +1,73 @@
+//
+//  HKLabel.m
+//  test
+//
+//  Created by RockyYe on 16/3/2.
+//  Copyright © 2016年 RockyYe. All rights reserved.
+//
+
+#import "HKInclinedLabel.h"
+
+@interface HKInclinedLabel ()
+
+@property (strong, nonatomic) UILabel *label;
+@property (nonatomic) CGRect rect;
+
+@end
+
+@implementation HKInclinedLabel
+
+- (void)drawRect:(CGRect)rect {
+    self.rect = rect;
+    [self drawTrapeziumWithRect:rect];
+    
+}
+
+-(void)drawTrapeziumWithRect:(CGRect)rect
+{
+    self.backgroundColor = [UIColor clearColor];
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextMoveToPoint(context, 0, 0);
+    CGContextAddLineToPoint(context, rect.size.width * 0.5 , 0);
+    CGContextAddLineToPoint(context, rect.size.width, rect.size.height * 0.5);
+    CGContextAddLineToPoint(context, rect.size.width, rect.size.height);
+    CGContextAddLineToPoint(context, 0 , 0);
+    CGContextSetFillColorWithColor(context, [self.trapeziumColor CGColor]);
+    CGContextFillPath(context);
+    [self addSubview:self.label];
+}
+
+-(UILabel *)label
+{
+    if (!_label)
+    {
+        _label = [[UILabel alloc]initWithFrame:CGRectMake(self.rect.size.width * 0.5, 0, self.rect.size.width / 1.414 ,  0.5 / 1.414 * self.rect.size.width)];
+        [self configLabelTransition];
+        [self configLabelProperty];
+    }
+    return _label;
+}
+
+-(void)configLabelTransition
+{
+    CGPoint oldOrigin = _label.frame.origin;
+    _label.layer.anchorPoint = CGPointMake(0, 0);
+    CGPoint newOrigin = _label.frame.origin;
+    CGPoint transition;
+    transition.x = newOrigin.x - oldOrigin.x;
+    transition.y = newOrigin.y - oldOrigin.y;
+    _label.center = CGPointMake (_label.center.x - transition.x, _label.center.y - transition.y);
+    _label.transform = CGAffineTransformRotate(self.label.transform, M_PI_4);
+}
+
+-(void)configLabelProperty
+{
+    _label.text = self.text;
+    _label.textAlignment = NSTextAlignmentCenter;
+    _label.backgroundColor = self.trapeziumColor;
+    _label.textColor = self.textColor;
+    [_label setAdjustsFontSizeToFitWidth:YES];
+}
+
+
+@end
