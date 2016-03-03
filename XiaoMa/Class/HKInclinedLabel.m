@@ -64,7 +64,6 @@
 {
     _label.text = self.text;
     _label.textAlignment = NSTextAlignmentCenter;
-    _label.backgroundColor = self.trapeziumColor;
     _label.textColor = self.textColor;
     [_label setAdjustsFontSizeToFitWidth:YES];
 }

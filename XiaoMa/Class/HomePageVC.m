@@ -6,6 +6,10 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
+//@叶志成 删除
+#import "ClaimsHistoryVC.h"
+
+
 #import "HomePageVC.h"
 #import <Masonry.h>
 #import "XiaoMa.h"
@@ -481,9 +485,14 @@
 #pragma mark - Action
 - (IBAction)actionCallCenter:(id)sender
 {
-    [MobClick event:@"rp101_2"];
-    NSString * number = @"4007111111";
-    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+//    [MobClick event:@"rp101_2"];
+//    NSString * number = @"4007111111";
+//    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+//    @叶志成
+    
+    ClaimsHistoryVC *testVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"ClaimsHistoryVC"];
+    [self.navigationController pushViewController:testVC animated:YES];
+    
 }
 
 
