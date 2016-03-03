@@ -401,6 +401,7 @@
 {
     JT3DScrollView * jt3Dscroll = (JT3DScrollView *)scrollView;
     self.selectCar = [self.dataSource safetyObjectAtIndex:jt3Dscroll.currentPage];
+    self.carIndex = jt3Dscroll.currentPage;
     NSString * milesStr = [NSString formatForPrice:self.selectCar.odo / 10000.00];
     self.miles = [milesStr floatValue];
     self.modelId = self.selectCar.detailModel.modelid;
