@@ -500,18 +500,9 @@
 
 - (void)popToHomePage
 {
-    NSArray * viewcontrollers = self.tabBarController.viewControllers;
-    UIViewController * firstTabVC = [viewcontrollers safetyObjectAtIndex:0];
-    self.tabBarController.selectedViewController = firstTabVC;
     [self.tabBarController setSelectedIndex:0];
-    
-    if ([firstTabVC isKindOfClass:[UINavigationController class]]) {
-        gAppMgr.navModel.curNavCtrl = (UINavigationController *)firstTabVC;
-    }
-    else {
-        gAppMgr.navModel.curNavCtrl = firstTabVC.navigationController;
-    }
-    [self.customNavCtrl setNeedsStatusBarAppearanceUpdate];
+    UIViewController * firstTabVC = [self.tabBarController.viewControllers safetyObjectAtIndex:0];
+    [self.tabBarController.delegate tabBarController:self.tabBarController didSelectViewController:firstTabVC];
     
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
