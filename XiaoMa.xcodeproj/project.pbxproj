@@ -344,6 +344,8 @@
 		504FFEA21C05D48E002D7D6D /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = 504FFEA11C05D48E002D7D6D /* city.plist */; };
 		504FFEA51C05D4C9002D7D6D /* AreaPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 504FFEA41C05D4C9002D7D6D /* AreaPickerVC.m */; };
 		505358F41C0D79640029B5BA /* SharedNotifyOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 505358F31C0D79640029B5BA /* SharedNotifyOp.m */; };
+		505BC1C21C87D4FA00253F6D /* MutualInsHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 505BC1C11C87D4FA00253F6D /* MutualInsHomeVC.m */; };
+		505BC1C51C87D6ED00253F6D /* MutualInsJoin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505BC1C41C87D6ED00253F6D /* MutualInsJoin.storyboard */; };
 		505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */; };
 		505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */; };
 		505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC71BD7356A00857819 /* WebViewJavascriptBridgeBase.m */; };
@@ -1303,6 +1305,9 @@
 		504FFEA41C05D4C9002D7D6D /* AreaPickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreaPickerVC.m; sourceTree = "<group>"; };
 		505358F21C0D79640029B5BA /* SharedNotifyOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SharedNotifyOp.h; path = Class/SharedNotifyOp.h; sourceTree = "<group>"; };
 		505358F31C0D79640029B5BA /* SharedNotifyOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SharedNotifyOp.m; path = Class/SharedNotifyOp.m; sourceTree = "<group>"; };
+		505BC1C01C87D4FA00253F6D /* MutualInsHomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsHomeVC.h; sourceTree = "<group>"; };
+		505BC1C11C87D4FA00253F6D /* MutualInsHomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsHomeVC.m; sourceTree = "<group>"; };
+		505BC1C41C87D6ED00253F6D /* MutualInsJoin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsJoin.storyboard; sourceTree = "<group>"; };
 		505E5FC31BD7356A00857819 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
 		505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
@@ -2653,6 +2658,7 @@
 			children = (
 				6B2265931C439DC400A121CC /* SuperView */,
 				6B4BCEDD1C3E528E0006B5EB /* SuperViewController */,
+				505BC1BC1C87D42C00253F6D /* MutualIns */,
 				502D09D21C1E9D08001610F0 /* Valuation */,
 				6BFE6A681C03365900EC9766 /* Illegal */,
 				1833F59A1BCD4773000E1DA1 /* Gas */,
@@ -3513,6 +3519,15 @@
 			name = Valuation;
 			sourceTree = "<group>";
 		};
+		505BC1BC1C87D42C00253F6D /* MutualIns */ = {
+			isa = PBXGroup;
+			children = (
+				505BC1C01C87D4FA00253F6D /* MutualInsHomeVC.h */,
+				505BC1C11C87D4FA00253F6D /* MutualInsHomeVC.m */,
+			);
+			name = MutualIns;
+			sourceTree = "<group>";
+		};
 		505E5FC21BD7356A00857819 /* WebViewJavascriptBridge */ = {
 			isa = PBXGroup;
 			children = (
@@ -4106,6 +4121,7 @@
 				1833F59E1BCD47EB000E1DA1 /* Gas.storyboard */,
 				6BFE6A661C03364600EC9766 /* Violation.storyboard */,
 				50A1E06D1C1EA12800176572 /* Valuation.storyboard */,
+				505BC1C41C87D6ED00253F6D /* MutualInsJoin.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -4541,6 +4557,7 @@
 				18B78F611BAA8CF60061ECAD /* Launch.storyboard in Resources */,
 				6BD293CA1B943EF1006482A4 /* Bank.storyboard in Resources */,
 				18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */,
+				505BC1C51C87D6ED00253F6D /* MutualInsJoin.storyboard in Resources */,
 				18FC01E61C4E6C6F00FD61BF /* IQKeyboardManager.bundle in Resources */,
 				6B5B78191BA7CC7600295B77 /* ProvinceChooseView.xib in Resources */,
 				18CECC291C30F8890075B7F9 /* LICENSE in Resources */,
@@ -5142,6 +5159,7 @@
 				18804AAE1B280E3C00E7E764 /* HKLoadingModel.m in Sources */,
 				182C50D21C27C263004ED5D1 /* InsCheckFailVC.m in Sources */,
 				504FFE951C0588EB002D7D6D /* JoinResultViewController.m in Sources */,
+				505BC1C21C87D4FA00253F6D /* MutualInsHomeVC.m in Sources */,
 				189428B21C1AAD6300E492CA /* GridLabel.m in Sources */,
 				18B78F5F1BA990100061ECAD /* HKLaunchManager.m in Sources */,
 				18E5922E1C183B66006010D9 /* InsCheckResultsVC.m in Sources */,
