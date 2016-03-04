@@ -396,6 +396,7 @@
 		50FAC2681C23AA8200F8990F /* PickerAutoModelVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FAC2671C23AA8200F8990F /* PickerAutoModelVC.m */; };
 		50FAC26B1C23AB9C00F8990F /* GetAutomobileModelV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FAC26A1C23AB9C00F8990F /* GetAutomobileModelV2Op.m */; };
 		50FAC2711C23B8C000F8990F /* AutoSeriesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FAC2701C23B8C000F8990F /* AutoSeriesModel.m */; };
+		50FEF76B1C8827C900B85F19 /* AutoGroupInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FEF76A1C8827C900B85F19 /* AutoGroupInfoVC.m */; };
 		6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */; };
 		6B086BA71AE4F03800659DB7 /* UIView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA61AE4F03800659DB7 /* UIView+Base.m */; };
 		6B0DB8221BEB277A007BE693 /* GetCarwashOrderListV3Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0DB8211BEB277A007BE693 /* GetCarwashOrderListV3Op.m */; };
@@ -1403,6 +1404,8 @@
 		50FAC26A1C23AB9C00F8990F /* GetAutomobileModelV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAutomobileModelV2Op.m; path = Class/GetAutomobileModelV2Op.m; sourceTree = "<group>"; };
 		50FAC26F1C23B8C000F8990F /* AutoSeriesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AutoSeriesModel.h; path = Class/AutoSeriesModel.h; sourceTree = "<group>"; };
 		50FAC2701C23B8C000F8990F /* AutoSeriesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutoSeriesModel.m; path = Class/AutoSeriesModel.m; sourceTree = "<group>"; };
+		50FEF7691C8827C900B85F19 /* AutoGroupInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoGroupInfoVC.h; sourceTree = "<group>"; };
+		50FEF76A1C8827C900B85F19 /* AutoGroupInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoGroupInfoVC.m; sourceTree = "<group>"; };
 		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6B086BA21AE4E19000659DB7 /* GetSystemTipsOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemTipsOp.h; path = Class/GetSystemTipsOp.h; sourceTree = "<group>"; };
 		6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemTipsOp.m; path = Class/GetSystemTipsOp.m; sourceTree = "<group>"; };
@@ -3524,6 +3527,8 @@
 			children = (
 				505BC1C01C87D4FA00253F6D /* MutualInsHomeVC.h */,
 				505BC1C11C87D4FA00253F6D /* MutualInsHomeVC.m */,
+				50FEF7691C8827C900B85F19 /* AutoGroupInfoVC.h */,
+				50FEF76A1C8827C900B85F19 /* AutoGroupInfoVC.m */,
 			);
 			name = MutualIns;
 			sourceTree = "<group>";
@@ -4687,6 +4692,7 @@
 				18E592351C193C6D006010D9 /* InsBuyVC.m in Sources */,
 				1851F4281B0C2A4E00241A01 /* AutoBrand.m in Sources */,
 				18FC01E31C4E6C6F00FD61BF /* IQTitleBarButtonItem.m in Sources */,
+				50FEF76B1C8827C900B85F19 /* AutoGroupInfoVC.m in Sources */,
 				6B978BFA1B6B643A00A6E7C6 /* HKCoverage.m in Sources */,
 				2E3EEBCF1C22AAD50010E34F /* CommissionSuccessVC.m in Sources */,
 				1833F5891BCD373B000E1DA1 /* AddGascardOp.m in Sources */,
