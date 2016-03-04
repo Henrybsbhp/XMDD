@@ -15,7 +15,7 @@
 
 @property (nonatomic, assign) BOOL isNeedLogin;
 
-@property (nonatomic, strong) UIViewController * targetVC;
+@property (nonatomic, weak) UIViewController * targetVC;
 
 - (instancetype)initBridgeWithWebView:(WVJB_WEBVIEW_TYPE *)webView andDelegate:(WVJB_WEBVIEW_DELEGATE_TYPE *) delegate withTargetVC:(UIViewController *)targetVC;
 
