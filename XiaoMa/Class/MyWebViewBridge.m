@@ -125,11 +125,11 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 }
 
 ///上传图片
-- (void)uploadImage:(UIViewController *)superVC
+- (void)uploadImage
 {
     NSMutableDictionary * imgDic = [[NSMutableDictionary alloc] init];
     NSMutableDictionary * imguploadDic = [[NSMutableDictionary alloc] init];
-    @weakify(superVC);
+    @weakify(self);
     [self.myBridge registerHandler:@"selectSingleImage" handler:^(id data, WVJBResponseCallback responseCallback) {
         //存图片ID
         [imgDic addParam:[data stringParamForName:@"imgId"] forName:@"imgId"];
@@ -138,9 +138,9 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         HKImagePicker *picker = [HKImagePicker imagePicker];
         picker.allowsEditing = YES;
         picker.shouldShowBigImage = NO;
-        @strongify(superVC);
+        @strongify(self);
         @weakify(self);
-        [[[picker rac_pickImageInTargetVC:superVC inView:superVC.navigationController.view] flattenMap:^RACStream *(UIImage *image) {
+        [[[picker rac_pickImageInTargetVC:self.targetVC inView:self.targetVC.navigationController.view] flattenMap:^RACStream *(UIImage *image) {
             
             @strongify(self);
             NSData *data = UIImageJPEGRepresentation(image, 0.8f);
@@ -187,9 +187,12 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 ///点击查看大图
 - (void)registerShowImage
 {
+    @weakify(self);
     [self.myBridge registerHandler:@"callShowImage" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSDictionary * dic = data;
         NSString * imageUrl = [dic stringParamForName:@"imgUrl"];
+        
+        @strongify(self);
         [self showImages:imageUrl];
         
         responseCallback(nil);
@@ -373,6 +376,11 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         
         [resultSheet dismissAnimated:YES completionHandler:nil];
     }];
+}
+
+-(void)dealloc
+{
+    DebugLog(@"MyWebViewBridge dealloc~~~");
 }
 
 @end

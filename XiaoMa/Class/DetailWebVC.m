@@ -126,7 +126,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [self.bridge registerCallPhone];
     
     //上传单张图片
-    [self.bridge uploadImage:self];
+    [self.bridge uploadImage];
 }
 
 - (void)setupRightItems
