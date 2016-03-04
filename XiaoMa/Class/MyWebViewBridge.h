@@ -31,7 +31,7 @@
 
 - (void)registerShowImage;
 
-- (void)uploadImage:(UIViewController *)superVC;
+- (void)uploadImage;
 
 - (UIBarButtonItem *)setSingleMenu:(NSString *)singleBtn;
 
