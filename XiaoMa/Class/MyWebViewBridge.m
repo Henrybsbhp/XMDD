@@ -12,6 +12,8 @@
 #import "UploadFileOp.h"
 #import "Reachability.h"
 #import "ShareResponeManager.h"
+#import "SharedNotifyOp.h"
+#import "AwardOtherSheetVC.h"
 
 typedef NS_ENUM(NSInteger, MenuItemsType) {
     menuItemsTypeShare                  = 1,
@@ -20,7 +22,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 @implementation MyWebViewBridge
 
-- (instancetype)initBridgeWithWebView:(WVJB_WEBVIEW_TYPE *)webView andDelegate:(WVJB_WEBVIEW_DELEGATE_TYPE *) delegate
+- (instancetype)initBridgeWithWebView:(WVJB_WEBVIEW_TYPE *)webView andDelegate:(WVJB_WEBVIEW_DELEGATE_TYPE *) delegate withTargetVC:(UIViewController *)targetVC
 {
     self = [super init];
     if (self)
@@ -30,6 +32,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             //        NSLog(@"ObjC received message from JS: %@", data);
             //        responseCallback(@"Response for message from ObjC");
         }];
+        self.targetVC = targetVC; //用于分享按钮需要登录时的情况
     }
     return self;
 
@@ -257,16 +260,32 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     for (NSString * btnStr in btnArray) {
         MenuItemsType type = [btnStr integerValue];
         if (type == menuItemsTypeShare) {
-            right = [[UIBarButtonItem alloc] initWithTitle:@"分享" style:UIBarButtonItemStylePlain target:self action:@selector(shareAction)];
+            right = [[UIBarButtonItem alloc] initWithTitle:@"分享" style:UIBarButtonItemStylePlain target:self action:@selector(loginIfNeededShare)];
             [right setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:16.0]} forState:UIControlStateNormal];
+        }
+        if ([btnStr integerValue] == 10) {
+            self.isNeedLogin = YES;
         }
     }
     return right;
 }
 
-- (void)shareAction
+- (void)loginIfNeededShare
 {
     [MobClick event:@"rp203_1"];
+    if (self.isNeedLogin == YES) {
+        if ([LoginViewModel loginIfNeededForTargetViewController:self.targetVC]) {
+            [self shareAction];
+        }
+    }
+    else {
+        [self shareAction];
+    }
+}
+
+- (void)shareAction
+{
+    @weakify(self);
     [self.myBridge callHandler:@"getShareParamHandler" data:nil responseCallback:^(id response) {
         NSDictionary *shareDic = response;
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
@@ -294,13 +313,65 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         
-        //单例模式下，不需要处理回调应将单例的block设置为空，否则将执行上次set的block
-        [[ShareResponeManager init] setFinishAction:^ (NSInteger code, ShareResponseType type){
+        [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
             
+            @strongify(self)
+            [self handleResultCode:code from:type forSheet:sheet andAlertInfo:shareDic];
         }];
-        [[ShareResponeManagerForQQ init] setFinishAction:^ (NSString * code, ShareResponseType type){
+        [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
             
+            @strongify(self)
+            [self handleResultCode:[code integerValue] from:type forSheet:sheet andAlertInfo:shareDic];
         }];
+    }];
+}
+
+- (void)handleResultCode:(NSInteger)code from:(ShareResponseType)type forSheet:(MZFormSheetController *)sheet andAlertInfo:(NSDictionary *)shareDic
+{
+    @weakify(self);
+    [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+        //分享成功
+        if (code == 0) {
+            NSString * channelStr = [shareDic stringParamForName:@"channel"];
+            if (channelStr.length > 0) {
+                SharedNotifyOp * op = [SharedNotifyOp operation];
+                op.req_channel = channelStr;
+                [gToast showingWithoutText];
+                [[op rac_postRequest] subscribeNext:^(id x) {
+                    @strongify(self);
+                    [gToast dismiss];
+                    if ([shareDic boolParamForName:@"jumpflag"]) {
+                        [self presentSheet:AwardSheetTypeCommon forInfo:shareDic andStatus:YES];
+                    }
+                } error:^(NSError *error) {
+                    [gToast dismiss];
+                    if ([shareDic boolParamForName:@"jumpflag"]) {
+                        [self presentSheet:AwardSheetTypeCommon forInfo:shareDic andStatus:NO];
+                    }
+                }];
+            }
+        }
+        else {
+            if ([shareDic boolParamForName:@"jumpflag"]) {
+                [self presentSheet:AwardSheetTypeCommon forInfo:shareDic andStatus:NO];
+            }
+        }
+    }];
+}
+
+- (void)presentSheet:(AwardSheetType)type forInfo:(NSDictionary *)shareDic andStatus:(BOOL)isSuccess
+{
+    AwardOtherSheetVC * otherVC = [awardStoryboard instantiateViewControllerWithIdentifier:@"AwardOtherSheetVC"];
+    otherVC.sheetType = type;
+    otherVC.isSuccess = isSuccess;
+    otherVC.infoDic = shareDic;
+    MZFormSheetController *resultSheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(285, 260) viewController:otherVC];
+    resultSheet.shouldCenterVertically = YES;
+    [resultSheet presentAnimated:YES completionHandler:nil];
+    
+    [[otherVC.closeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        [resultSheet dismissAnimated:YES completionHandler:nil];
     }];
 }
 

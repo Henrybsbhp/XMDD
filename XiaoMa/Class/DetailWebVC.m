@@ -105,7 +105,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)setupBridge
 {
-    self.bridge = [[MyWebViewBridge alloc] initBridgeWithWebView:self.webView andDelegate:self.progressProxy];
+    self.bridge = [[MyWebViewBridge alloc] initBridgeWithWebView:self.webView andDelegate:self.progressProxy withTargetVC:self];
     
     //右上角菜单按钮设置
     [self setupRightItems];
