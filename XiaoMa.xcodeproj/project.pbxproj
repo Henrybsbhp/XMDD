@@ -412,6 +412,9 @@
 		6B22659C1C45059500A121CC /* GetSystemHomePicOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B22659B1C45059500A121CC /* GetSystemHomePicOp.m */; };
 		6B22659F1C4506BE00A121CC /* HomePicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B22659E1C4506BE00A121CC /* HomePicModel.m */; };
 		6B2F28F61C8414D80096FD45 /* RRFPSBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F28F51C8414D80096FD45 /* RRFPSBar.m */; };
+		6B2F28FF1C8920830096FD45 /* HKProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F28FE1C8920830096FD45 /* HKProgressView.m */; };
+		6B2F29011C8976080096FD45 /* MutualInsPay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B2F29001C8976080096FD45 /* MutualInsPay.storyboard */; };
+		6B2F29081C89771C0096FD45 /* MutualInsOrderInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F29071C89771C0096FD45 /* MutualInsOrderInfoVC.m */; };
 		6B328ED01B79AAFA00B9F207 /* ChooseBankCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */; };
 		6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B343C351B0EFFAF0036AED9 /* ShareUserCouponOp.m */; };
 		6B3C67931BA9498F002F04C8 /* HKBigRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C67921BA9498F002F04C8 /* HKBigRatingView.m */; };
@@ -1435,6 +1438,11 @@
 		6B22659E1C4506BE00A121CC /* HomePicModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomePicModel.m; path = Class/HomePicModel.m; sourceTree = "<group>"; };
 		6B2F28F41C8414D80096FD45 /* RRFPSBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRFPSBar.h; sourceTree = "<group>"; };
 		6B2F28F51C8414D80096FD45 /* RRFPSBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RRFPSBar.m; sourceTree = "<group>"; };
+		6B2F28FD1C8920830096FD45 /* HKProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKProgressView.h; path = Class/HKProgressView.h; sourceTree = "<group>"; };
+		6B2F28FE1C8920830096FD45 /* HKProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKProgressView.m; path = Class/HKProgressView.m; sourceTree = "<group>"; };
+		6B2F29001C8976080096FD45 /* MutualInsPay.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsPay.storyboard; sourceTree = "<group>"; };
+		6B2F29061C89771C0096FD45 /* MutualInsOrderInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsOrderInfoVC.h; sourceTree = "<group>"; };
+		6B2F29071C89771C0096FD45 /* MutualInsOrderInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsOrderInfoVC.m; sourceTree = "<group>"; };
 		6B328ECE1B79AAFA00B9F207 /* ChooseBankCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseBankCardVC.h; sourceTree = "<group>"; };
 		6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseBankCardVC.m; sourceTree = "<group>"; };
 		6B343C341B0EFFAF0036AED9 /* ShareUserCouponOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareUserCouponOp.h; path = Class/ShareUserCouponOp.h; sourceTree = "<group>"; };
@@ -2103,6 +2111,7 @@
 		1816F4B51AD36D5100BBCC96 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				6B2F28FC1C891FC60096FD45 /* View */,
 				50B5087E1C7BF07C00B6151E /* GenieView */,
 				18BB36181C4E2CED003E7B86 /* MapView */,
 				508EE5D91C2B8B1A00873602 /* TopMenu */,
@@ -2574,7 +2583,7 @@
 				1883D9161ACBBE7A002A4D19 /* Singleton */,
 				1883D9301ACCDA7A002A4D19 /* Model */,
 				1883D91E1ACBC2F5002A4D19 /* Network */,
-				1883D91A1ACBC2E4002A4D19 /* View */,
+				1883D91A1ACBC2E4002A4D19 /* ViewController */,
 				1883D9121ACBBE5E002A4D19 /* Resource */,
 				1883D8E21ACB99AC002A4D19 /* Supporting Files */,
 			);
@@ -2648,9 +2657,10 @@
 			name = Singleton;
 			sourceTree = "<group>";
 		};
-		1883D91A1ACBC2E4002A4D19 /* View */ = {
+		1883D91A1ACBC2E4002A4D19 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				6B2F29021C8976C30096FD45 /* MutualInsPay */,
 				6B2265931C439DC400A121CC /* SuperView */,
 				6B4BCEDD1C3E528E0006B5EB /* SuperViewController */,
 				502D09D21C1E9D08001610F0 /* Valuation */,
@@ -2672,7 +2682,7 @@
 				18804AA31B2679BB00E7E764 /* TestVC.h */,
 				18804AA41B2679BB00E7E764 /* TestVC.m */,
 			);
-			name = View;
+			name = ViewController;
 			path = Class;
 			sourceTree = "<group>";
 		};
@@ -3603,6 +3613,24 @@
 			path = RRFPSBar;
 			sourceTree = "<group>";
 		};
+		6B2F28FC1C891FC60096FD45 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6B2F28FD1C8920830096FD45 /* HKProgressView.h */,
+				6B2F28FE1C8920830096FD45 /* HKProgressView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		6B2F29021C8976C30096FD45 /* MutualInsPay */ = {
+			isa = PBXGroup;
+			children = (
+				6B2F29061C89771C0096FD45 /* MutualInsOrderInfoVC.h */,
+				6B2F29071C89771C0096FD45 /* MutualInsOrderInfoVC.m */,
+			);
+			name = MutualInsPay;
+			sourceTree = "<group>";
+		};
 		6B3DAB9D1C3F512D00C783F8 /* DebugLog */ = {
 			isa = PBXGroup;
 			children = (
@@ -4106,6 +4134,7 @@
 				1833F59E1BCD47EB000E1DA1 /* Gas.storyboard */,
 				6BFE6A661C03364600EC9766 /* Violation.storyboard */,
 				50A1E06D1C1EA12800176572 /* Valuation.storyboard */,
+				6B2F29001C8976080096FD45 /* MutualInsPay.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -4532,6 +4561,7 @@
 				6BFE6A671C03364600EC9766 /* Violation.storyboard in Resources */,
 				18F8136A1B5F3561005F49B0 /* vertical_shadow.png in Resources */,
 				6BB884D11AE0BC6A00EBD8F4 /* .gitkeep in Resources */,
+				6B2F29011C8976080096FD45 /* MutualInsPay.storyboard in Resources */,
 				18B78F671BAAA0470061ECAD /* Mine.storyboard in Resources */,
 				1816F4A51ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist in Resources */,
 				6BB884D31AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.bundle in Resources */,
@@ -4936,6 +4966,7 @@
 				189428B81C1ABA3500E492CA /* InsAppointmentVC.m in Sources */,
 				6BBAB8BF1ADBC21600EC342F /* ConverUtil.m in Sources */,
 				503B20581C08028C00F396DD /* AwardShareSheetVC.m in Sources */,
+				6B2F29081C89771C0096FD45 /* MutualInsOrderInfoVC.m in Sources */,
 				1885F0C61B1C50C80056D3BD /* JTImageBadge.m in Sources */,
 				185A529D1B1C0DEC003515CC /* CarbonTabSwipeNavigation.m in Sources */,
 				181F6DA51B15919900D38555 /* CXAlertButtonContainerView.m in Sources */,
@@ -5023,6 +5054,7 @@
 				18AB16A61C1FAE6B0000E718 /* InsBaseCar.m in Sources */,
 				184E40C61AD3B58F00EFC3A6 /* UIView+Layer.m in Sources */,
 				6BFE6A731C04036500EC9766 /* ViolationModel.m in Sources */,
+				6B2F28FF1C8920830096FD45 /* HKProgressView.m in Sources */,
 				18D811C61C1EDB5300B6AB04 /* CKDispatcher.m in Sources */,
 				6BBB824F1AE7757100850D0C /* NearbyShopsViewController.m in Sources */,
 				18E28A0E1B93E47E0070E759 /* PaymentHelper.m in Sources */,
