@@ -10,6 +10,9 @@
 
 @interface SharedNotifyOp : BaseOp
 
+//分享通知渠道
+@property (nonatomic, copy)NSString * req_channel;
+
 //该分享是否有领券
 @property (nonatomic, assign)NSInteger rsp_flag;
 
