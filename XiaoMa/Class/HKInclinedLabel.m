@@ -65,7 +65,17 @@
     _label.text = self.text;
     _label.textAlignment = NSTextAlignmentCenter;
     _label.textColor = self.textColor;
-    [_label setAdjustsFontSizeToFitWidth:YES];
+    if (self.fontSize == 0)
+    {
+        [_label setAdjustsFontSizeToFitWidth:YES];
+    }
+    else
+    {
+        [_label setAdjustsFontSizeToFitWidth:NO];
+        _label.font = [UIFont systemFontOfSize:self.fontSize];
+    }
+    
+    
 }
 
 

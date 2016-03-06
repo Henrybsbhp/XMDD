@@ -45,8 +45,7 @@
     HKInclinedLabel *hkLabel = [cell viewWithTag:101];
     hkLabel.text = @"理赔中";
     hkLabel.backgroundColor = [UIColor clearColor];
-    hkLabel.trapeziumColor = [UIColor orangeColor];
-    hkLabel.trapeziumColor = [UIColor colorWithRed:255/255.0 green:116/255.0 blue:40/255.0 alpha:1];
+    hkLabel.trapeziumColor = [UIColor colorWithHex:@"#ff7428" alpha:1];
     hkLabel.textColor = [UIColor whiteColor];
     UIView *backView = [cell viewWithTag:1000];
     backView.layer.cornerRadius = 5;

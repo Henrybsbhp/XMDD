@@ -1,0 +1,134 @@
+//
+//  askClaimsVC.m
+//  XiaoMa
+//
+//  Created by RockyYe on 16/3/4.
+//  Copyright © 2016年 huika. All rights reserved.
+//
+
+#import "AskClaimsVC.h"
+#import "HKInclinedLabel.h"
+#import "ClaimsHistoryVC.h"
+
+@interface AskClaimsVC ()<UITableViewDelegate,UITableViewDataSource>
+
+@end
+
+@implementation AskClaimsVC
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 4;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    cell.layer.cornerRadius = 5;
+    cell.layer.masksToBounds = YES;
+    
+    UIView *backView = [cell viewWithTag:100];
+    backView.layer.cornerRadius = 5;
+    backView.layer.masksToBounds = YES;
+    
+    UIImageView *imageView = [cell viewWithTag:1000];
+    HKInclinedLabel *hkLabel = [cell viewWithTag:1001];
+    UILabel *titleLabel = [cell viewWithTag:1002];
+    UILabel *detailLabel = [cell viewWithTag:1003];
+    switch (indexPath.section)
+    {
+        case 0:
+            
+            imageView.image = [UIImage imageNamed:@"mutualIns_guiding"];
+            
+            hkLabel.fontSize = 14;
+            hkLabel.hidden = NO;
+            hkLabel.text = @"必读";
+            hkLabel.backgroundColor = [UIColor clearColor];
+            hkLabel.trapeziumColor = [UIColor colorWithHex:@"#18d06a" alpha:1];
+            hkLabel.textColor = [UIColor whiteColor];
+            
+            titleLabel.text = @"新手引导";
+            detailLabel.text = @"不知道怎么用请点击这里";
+            
+            break;
+        case 1:
+            
+            imageView.image = [UIImage imageNamed:@"mutualIns_crimesReport"];
+            
+            titleLabel.text = @"我要报案";
+            detailLabel.text = @"遭受严重事故请狂戳这里";
+            
+            hkLabel.hidden = YES;
+            break;
+        case 2:
+            
+            imageView.image = [UIImage imageNamed:@"mutualIns_scenePhoto"];
+            
+            titleLabel.text = @"现场拍照";
+            detailLabel.text = @"用拍照记录事故第一现场";
+            
+            hkLabel.hidden = YES;
+            break;
+        default:
+            
+            imageView.image = [UIImage imageNamed:@"mutualIns_claimsHistory"];
+            
+            titleLabel.text = @"理赔记录";
+            detailLabel.text = @"小马伴您走过的点点滴滴";
+            
+            hkLabel.hidden = YES;
+            break;
+    }
+    
+    
+    
+    
+    return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 3)
+    {
+        ClaimsHistoryVC *testVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"ClaimsHistoryVC"];
+        [self.navigationController pushViewController:testVC animated:YES];
+    }
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 0)
+    {
+        return 15;
+    }
+    return 5;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 5;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 95;
+}
+
+@end

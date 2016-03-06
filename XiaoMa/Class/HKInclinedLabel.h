@@ -13,5 +13,8 @@
 @property (strong, nonatomic) NSString *text;
 @property (strong, nonatomic) UIColor *textColor;
 @property (strong, nonatomic) UIColor *trapeziumColor;
+@property (nonatomic) CGFloat fontSize;
+//@property (strong, nonatomic) 
+
 
 @end
