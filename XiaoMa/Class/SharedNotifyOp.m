@@ -16,6 +16,10 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
+    if (self.req_channel) {
+        [params addParam:self.req_channel forName:@"channel"];
+    }
+    
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 

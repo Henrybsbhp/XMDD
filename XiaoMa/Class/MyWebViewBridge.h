@@ -13,7 +13,11 @@
 
 @property (nonatomic, strong) WebViewJavascriptBridge* myBridge;
 
-- (instancetype)initBridgeWithWebView:(WVJB_WEBVIEW_TYPE *)webView andDelegate:(WVJB_WEBVIEW_DELEGATE_TYPE *) delegate;
+@property (nonatomic, assign) BOOL isNeedLogin;
+
+@property (nonatomic, weak) UIViewController * targetVC;
+
+- (instancetype)initBridgeWithWebView:(WVJB_WEBVIEW_TYPE *)webView andDelegate:(WVJB_WEBVIEW_DELEGATE_TYPE *) delegate withTargetVC:(UIViewController *)targetVC;
 
 - (void)registerGetToken;
 
@@ -27,7 +31,7 @@
 
 - (void)registerShowImage;
 
-- (void)uploadImage:(UIViewController *)superVC;
+- (void)uploadImage;
 
 - (UIBarButtonItem *)setSingleMenu:(NSString *)singleBtn;
 
