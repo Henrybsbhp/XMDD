@@ -7,7 +7,10 @@
 //
 
 #import "HKViewController.h"
+#import "MutualInsOrderInfoModel.h"
 
-@interface MutualInsOrderInfoVC : UIViewController
+@interface MutualInsOrderInfoVC : HKViewController
+
+@property (nonatomic,strong)MutualInsOrderInfoModel * orderInfoModel;
 
 @end

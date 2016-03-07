@@ -56,6 +56,7 @@ static CGFloat arrowWidth;
     }
 }
 
+///绘制各自的箭头
 - (void)drawArrow:(NSInteger)i
 {
     CGContextRef ctx = UIGraphicsGetCurrentContext();
@@ -77,7 +78,7 @@ static CGFloat arrowWidth;
     CGContextFillPath(ctx);
 }
 
-
+///绘制各自的文字
 - (void)drawText:(NSInteger)i
 {
     NSString * title = [_titleArray safetyObjectAtIndex:i];
