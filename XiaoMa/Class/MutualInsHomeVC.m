@@ -7,6 +7,7 @@
 //
 
 #import "MutualInsHomeVC.h"
+#import "AutoGroupInfoVC.h"
 
 @interface MutualInsHomeVC ()
 
@@ -35,7 +36,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 20;
+    return 21;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -46,7 +47,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 2) {
-        return 56;
+        return 60;
     }
     else if (indexPath.row == 3) {
         return 50;
@@ -103,7 +104,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    AutoGroupInfoVC * vc = [UIStoryboard vcWithId:@"AutoGroupInfoVC" inStoryboard:@"MutualInsJoin"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

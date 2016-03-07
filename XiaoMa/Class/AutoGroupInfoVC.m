@@ -7,8 +7,11 @@
 //
 
 #import "AutoGroupInfoVC.h"
+#import "EditInsInfoVC.h"
 
 @interface AutoGroupInfoVC ()
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -24,14 +27,84 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - UITableViewDelegate and datasource
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 3;
 }
-*/
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 5;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return 15;
+    }
+    return CGFLOAT_MIN;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 10;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 0) {
+        return 42;
+    }
+    else if (indexPath.row == 4) {
+        return 50;
+    }
+    return 23;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell;
+    if (indexPath.row == 0) {
+        cell = [self headerCellAtIndexPath:indexPath];
+    }
+    else if (indexPath.row == 4) {
+        cell = [self footerCellAtIndexPath:indexPath];
+    }
+    else {
+        cell = [self infoCellAtIndexPath:indexPath];
+    }
+    return cell;
+}
+
+- (UITableViewCell *)headerCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"HeaderCell" forIndexPath:indexPath];
+    UIImageView *backgroundView = (UIImageView *)[cell.contentView viewWithTag:1001];
+    return cell;
+}
+
+- (UITableViewCell *)infoCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"InfoCell" forIndexPath:indexPath];
+    return cell;
+}
+
+- (UITableViewCell *)footerCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"FooterCell" forIndexPath:indexPath];
+    UILabel *tagLabel = (UILabel *)[cell.contentView viewWithTag:101];
+    [tagLabel setCornerRadius:12];
+    [tagLabel setBorderColor:HEXCOLOR(@"#ff7428")];
+    [tagLabel setBorderWidth:0.5];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    EditInsInfoVC * vc = [UIStoryboard vcWithId:@"EditInsInfoVC" inStoryboard:@"MutualInsJoin"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 @end
