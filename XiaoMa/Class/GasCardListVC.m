@@ -7,7 +7,7 @@
 //
 
 #import "GasCardListVC.h"
-#import "GasCardStore.h"
+#import "GasStore.h"
 #import "HKTableViewCell.h"
 #import "GasCard.h"
 #import "NSString+Split.h"
@@ -16,7 +16,7 @@
 
 @interface GasCardListVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) GasCardStore *cardStore;
+@property (nonatomic, strong) GasStore *gasStore;
 
 @end
 
@@ -26,27 +26,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
-    [self setupCardStore];
-    [self.cardStore sendEvent:[self.cardStore getAllCardsIfNeeded]];
+    self.gasStore = [GasStore fetchOrCreateStore];
+    [self reloadData];
 }
 
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)setupCardStore
-{
-    self.cardStore = [GasCardStore fetchOrCreateStore];
-    @weakify(self);
-    [self.cardStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
-        @strongify(self);
-        [evt callIfNeededForCode:kHKStoreEventGet object:nil target:self selector:@selector(reloadWithEvent:)];
-        [evt callIfNeededForCode:kHKStoreEventAdd object:nil target:self selector:@selector(reloadWithEvent:)];
-        [evt callIfNeededForCode:kHKStoreEventDelete object:nil target:self selector:@selector(deleteWithEvent:)];
-        [evt callIfNeededForCode:kHKStoreEventNone object:nil target:self selector:@selector(reloadWithEvent:)];
-    }];
 }
 
 - (void)dealloc
@@ -58,23 +45,23 @@
  }
 
 #pragma mark - relaodData
-- (void)deleteWithEvent:(HKStoreEvent *)evt
+- (void)deleteWithSignal:(RACSignal *)signal
 {
     [MobClick event:@"rp505-2"];
     @weakify(self);
-    [[[evt signal] initially:^{
+    [[signal initially:^{
         
         @strongify(self);
         self.navigationItem.leftBarButtonItem.enabled = NO;
         [gToast showingWithText:@"正在删除..." inView:self.view];
-    }] subscribeNext:^(RACTuple *tuple) {
+    }] subscribeNext:^(GasCard *card) {
 
         @strongify(self);
         self.navigationItem.leftBarButtonItem.enabled = YES;
         [gToast dismissInView:self.view];
-        NSNumber *index = [tuple second];
-        if (index) {
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[index integerValue] inSection:0];
+        NSInteger index = [self.gasStore.gasCards indexOfObjectForKey:card.gid];
+        if (index != NSNotFound) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
     } error:^(NSError *error) {
@@ -84,16 +71,13 @@
         [gToast showError:error.domain inView:self.view];
     }];
 }
-- (void)reloadWithEvent:(HKStoreEvent *)evt
+- (void)reloadWithSignal:(RACSignal *)signal
 {
     @weakify(self);
-    HKStoreEvent *event = evt;
-    [[[[event signal] initially:^{
+    [[[signal initially:^{
         
         @strongify(self);
-        if (evt.code != kHKStoreEventNone) {
-            [self.tableView.refreshView beginRefreshing];
-        }
+        [self.tableView.refreshView beginRefreshing];
     }] finally:^{
         
         @strongify(self);
@@ -110,7 +94,8 @@
 
 - (void)reloadData
 {
-    [self.cardStore sendEvent:[self.cardStore getAllCards]];
+    RACSignal *signal = [[self.gasStore getAllGasCards] sendAndIgnoreError];
+    [self reloadWithSignal:signal];
 }
 
 #pragma mark - UITableViewDelegate
@@ -118,7 +103,7 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     //点击添加
-    if (indexPath.row >= self.cardStore.cache.count) {
+    if (indexPath.row >= self.gasStore.gasCards.count) {
         [MobClick event:@"rp505-4"];
         GasAddCardVC *vc = [UIStoryboard vcWithId:@"GasAddCardVC" inStoryboard:@"Gas"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -126,10 +111,9 @@
     //选择银行卡
     else {
         [MobClick event:@"rp505-3"];
-        GasCard *card = [self.cardStore.cache objectAtIndex:indexPath.row];
-        if (![card.gid isEqual:self.model.curGasCard.gid]) {
-            HKStoreEvent *evt = [HKStoreEvent eventWithSignal:[RACSignal return:card] code:kHKStoreEventSelect object:self.model];
-            [self.cardStore sendEvent:evt];
+        GasCard *card = [self.gasStore.gasCards objectAtIndex:indexPath.row];
+        if (card && self.selectedBlock) {
+            self.selectedBlock(card);
         }
         [self.navigationController popViewControllerAnimated:YES];
     }
@@ -137,7 +121,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.cardStore.cache.count + 1;
+    return self.gasStore.gasCards.count + 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -152,7 +136,7 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row >= self.cardStore.cache.count) {
+    if (indexPath.row >= self.gasStore.gasCards.count) {
         return NO;
     }
     return YES;
@@ -160,14 +144,15 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GasCard *card = [self.cardStore.cache objectAtIndex:indexPath.row];
-    [self.cardStore sendEvent:[self.cardStore deleteCardByGID:card.gid]];
+    GasCard *card = [self.gasStore.gasCards objectAtIndex:indexPath.row];
+    RACSignal *signal = [[self.gasStore deleteGasCard:card] sendAndIgnoreError];
+    [self deleteWithSignal:signal];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-    if (indexPath.row >= self.cardStore.cache.count) {
+    if (indexPath.row >= self.gasStore.gasCards.count) {
         cell = [self addGasCardCellAtIndexPath:indexPath];
     }
     else {
@@ -197,7 +182,7 @@
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *cardnoL = (UILabel *)[cell.contentView viewWithTag:1003];
     
-    GasCard *card = [self.cardStore.cache objectAtIndex:indexPath.row];
+    GasCard *card = [self.gasStore.gasCards objectAtIndex:indexPath.row];
     logoV.image = [UIImage imageNamed:card.cardtype == 2 ? @"gas_icon_cnpc" : @"gas_icon_snpn"];
     titleL.text = card.cardtype == 2 ? @"中石油" : @"中石化";
     cardnoL.text = [card.gascardno splitByStep:4 replacement:@" "];

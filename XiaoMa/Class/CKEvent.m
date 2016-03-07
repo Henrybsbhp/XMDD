@@ -61,6 +61,16 @@
     return signal;
 }
 
+- (CKEvent *)setObject:(id)object
+{
+    return [CKEvent eventWithName:self.name object:object userInfo:self.userInfo signal:self.signal];
+}
+
+- (CKEvent *)setUserInfo:(NSDictionary *)userInfo
+{
+    return [CKEvent eventWithName:self.name object:self.object userInfo:userInfo signal:self.signal];
+}
+
 - (BOOL)isEqualForAnyoneOfNames:(NSArray *)names
 {
     return [names firstObjectByFilteringOperator:^BOOL(NSString *name) {

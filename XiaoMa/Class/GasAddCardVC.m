@@ -7,7 +7,8 @@
 //
 
 #import "GasAddCardVC.h"
-#import "GasCardStore.h"
+#import "GasCard.h"
+#import "GasStore.h"
 #import "HKTableViewCell.h"
 #import "NSString+Split.h"
 #import "CKLimitTextField.h"
@@ -92,9 +93,11 @@
         [self shakeTextFieldCellAtRow:2];
         return;
     }
-    GasCardStore *store = [GasCardStore fetchOrCreateStore];
+    
+    GasStore *store = [GasStore fetchOrCreateStore];
+
     @weakify(self);
-    [[[[store sendEvent:[store addCard:self.curCard]] signal] initially:^{
+    [[[[store addGasCard:self.curCard] sendAndIgnoreError] initially:^{
         
         [gToast showingWithText:@"正在添加..."];
     }] subscribeNext:^(id x) {

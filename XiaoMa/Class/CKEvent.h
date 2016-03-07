@@ -18,8 +18,13 @@
 + (CKEvent *)eventWithName:(NSString *)aName object:(id)object signal:(RACSignal *)signal;
 + (CKEvent *)eventWithName:(NSString *)aName object:(id)object userInfo:(NSDictionary *)userInfo signal:(RACSignal *)signal;
 - (CKEvent *)mapSignal:(RACSignal *(^)(RACSignal *signal))block;
+
 - (RACSignal *)send;
 - (RACSignal *)sendAndIgnoreError;
+
+- (CKEvent *)setObject:(id)object;
+- (CKEvent *)setUserInfo:(NSDictionary *)userInfo;
+
 - (BOOL)isEqualForName:(NSString *)name;
 - (BOOL)isEqualForAnyoneOfNames:(NSArray *)names;
 

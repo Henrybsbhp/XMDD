@@ -78,6 +78,7 @@
 		1837A7601B72130F0006E6C5 /* SDPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1837A75B1B72130F0006E6C5 /* SDPhotoBrowser.m */; };
 		1837A7611B72130F0006E6C5 /* SDWaitingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1837A75E1B72130F0006E6C5 /* SDWaitingView.m */; };
 		18401EAB1C7DA22A002B265C /* GasChargePackage.m in Sources */ = {isa = PBXBuildFile; fileRef = 18401EAA1C7DA22A002B265C /* GasChargePackage.m */; };
+		184452EC1C893F5B007B895D /* BankStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 184452EB1C893F5B007B895D /* BankStore.m */; };
 		184E40C31AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C21AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m */; };
 		184E40C61AD3B58F00EFC3A6 /* UIView+Layer.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C51AD3B58F00EFC3A6 /* UIView+Layer.m */; };
 		184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C91AD3B6DC00EFC3A6 /* JTTableViewCell.m */; };
@@ -707,8 +708,8 @@
 		1821C3561C4DD36C00120AF4 /* CKDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKDatasource.m; path = Class/CKDatasource.m; sourceTree = "<group>"; };
 		1821C3581C4DFD6500120AF4 /* SMSModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMSModel.h; path = Class/SMSModel.h; sourceTree = "<group>"; };
 		1821C3591C4DFD6500120AF4 /* SMSModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMSModel.m; path = Class/SMSModel.m; sourceTree = "<group>"; };
-		1821C35C1C4E1E6600120AF4 /* GasStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GasStore.h; path = Class/GasStore.h; sourceTree = "<group>"; };
-		1821C35D1C4E1E6600120AF4 /* GasStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GasStore.m; path = Class/GasStore.m; sourceTree = "<group>"; };
+		1821C35C1C4E1E6600120AF4 /* GasStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasStore.h; sourceTree = "<group>"; };
+		1821C35D1C4E1E6600120AF4 /* GasStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasStore.m; sourceTree = "<group>"; };
 		1826CCE81BAAE80800E2F46D /* ZFCDoubleBounceActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCDoubleBounceActivityIndicatorView.h; sourceTree = "<group>"; };
 		1826CCE91BAAE80800E2F46D /* ZFCDoubleBounceActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCDoubleBounceActivityIndicatorView.m; sourceTree = "<group>"; };
 		1826CCEA1BAAE80800E2F46D /* ZFCRotatingPlaneActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCRotatingPlaneActivityIndicatorView.h; sourceTree = "<group>"; };
@@ -779,6 +780,8 @@
 		1837A75E1B72130F0006E6C5 /* SDWaitingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWaitingView.m; sourceTree = "<group>"; };
 		18401EA91C7DA22A002B265C /* GasChargePackage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasChargePackage.h; sourceTree = "<group>"; };
 		18401EAA1C7DA22A002B265C /* GasChargePackage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasChargePackage.m; sourceTree = "<group>"; };
+		184452EA1C893F5B007B895D /* BankStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BankStore.h; path = Class/BankStore.h; sourceTree = "<group>"; };
+		184452EB1C893F5B007B895D /* BankStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BankStore.m; path = Class/BankStore.m; sourceTree = "<group>"; };
 		184E40C11AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIBarButtonItem+CustomStyle.h"; path = "Class/UIBarButtonItem+CustomStyle.h"; sourceTree = "<group>"; };
 		184E40C21AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIBarButtonItem+CustomStyle.m"; path = "Class/UIBarButtonItem+CustomStyle.m"; sourceTree = "<group>"; };
 		184E40C41AD3B58F00EFC3A6 /* UIView+Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Layer.h"; path = "Class/UIView+Layer.h"; sourceTree = "<group>"; };
@@ -1953,6 +1956,8 @@
 		1803E01E1C87CF2200C8A69C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1821C35C1C4E1E6600120AF4 /* GasStore.h */,
+				1821C35D1C4E1E6600120AF4 /* GasStore.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -2877,10 +2882,10 @@
 				18CECC2F1C314CAC0075B7F9 /* MyCarStore.m */,
 				1833F5941BCD37EB000E1DA1 /* GasCardStore.h */,
 				1833F5951BCD37EB000E1DA1 /* GasCardStore.m */,
-				1821C35C1C4E1E6600120AF4 /* GasStore.h */,
-				1821C35D1C4E1E6600120AF4 /* GasStore.m */,
 				180AD8331BD88CB700E608F9 /* BankCardStore.h */,
 				180AD8341BD88CB700E608F9 /* BankCardStore.m */,
+				184452EA1C893F5B007B895D /* BankStore.h */,
+				184452EB1C893F5B007B895D /* BankStore.m */,
 				18900B481C1E8634003DA439 /* UserStore.h */,
 				18900B491C1E8634003DA439 /* UserStore.m */,
 			);
@@ -4628,6 +4633,7 @@
 				1816F4A71ACD3B0900BBCC96 /* SYPaginatorView.m in Sources */,
 				1833F5911BCD373B000E1DA1 /* GetGaschargeConfigOp.m in Sources */,
 				186984FB1B00CC50000A182A /* CarwashOrderDetailVC.m in Sources */,
+				184452EC1C893F5B007B895D /* BankStore.m in Sources */,
 				6B11752C1C0C73D900FC1881 /* ViolationCityInfo.m in Sources */,
 				6BEA56C41AE24DCE000D19C1 /* APAuthV2Info.m in Sources */,
 				6B59E1E41C575AE100DBD1C5 /* WebVC.m in Sources */,

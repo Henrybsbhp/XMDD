@@ -1358,7 +1358,7 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="75t-k2-vuz">
+                            <tableView contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="75t-k2-vuz">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="488"/>
                                 <color key="backgroundColor" white="0.95908411609999999" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -1540,7 +1540,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000 2324 2332 2433" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8p4-ct-o0a">
-                                                    <rect key="frame" x="59" y="42" width="512" height="22"/>
+                                                    <rect key="frame" x="59" y="41" width="512" height="21.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1639,7 +1639,7 @@
                                                         <view tag="2002" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Y7-Ig-vAw">
                                                             <rect key="frame" x="193" y="0.0" width="186" height="55"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="20021" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="分7个月充值" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q1O-2n-Xyq">
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="20021" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分7个月充值" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q1O-2n-Xyq">
                                                                     <rect key="frame" x="0.0" y="0.0" width="187" height="32"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="32" id="Qyl-lZ-LMd"/>
@@ -1648,7 +1648,7 @@
                                                                     <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="20022" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="95折" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aAh-xh-zEO">
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="20022" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="95折" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aAh-xh-zEO">
                                                                     <rect key="frame" x="0.0" y="32" width="187" height="23"/>
                                                                     <color key="backgroundColor" red="0.84313725490000002" green="0.84313725490000002" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <constraints>
@@ -1663,7 +1663,7 @@
                                                                         </mask>
                                                                     </variation>
                                                                 </label>
-                                                                <button opaque="NO" tag="20023" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IzG-OI-X2r">
+                                                                <button opaque="NO" tag="20023" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IzG-OI-X2r">
                                                                     <rect key="frame" x="0.0" y="0.0" width="187" height="55"/>
                                                                 </button>
                                                             </subviews>
@@ -1686,7 +1686,7 @@
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
                                                         <view tag="2003" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qgS-fQ-Qtg">
-                                                            <rect key="frame" x="389.5" y="0.0" width="186.5" height="55"/>
+                                                            <rect key="frame" x="389" y="0.0" width="186.5" height="55"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="20031" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分13个月充值" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zSq-Iw-TmW">
                                                                     <rect key="frame" x="0.0" y="0.0" width="186.5" height="32"/>
@@ -1712,8 +1712,8 @@
                                                                         </mask>
                                                                     </variation>
                                                                 </label>
-                                                                <button opaque="NO" tag="20033" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qOs-sT-zx1">
-                                                                    <rect key="frame" x="0.0" y="-0.5" width="186.5" height="55"/>
+                                                                <button opaque="NO" tag="20033" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qOs-sT-zx1">
+                                                                    <rect key="frame" x="0.0" y="-1" width="187" height="55"/>
                                                                 </button>
                                                             </subviews>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1818,7 +1818,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1005" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="推荐" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pgf-ga-HLv">
-                                                    <rect key="frame" x="87" y="9" width="30" height="16"/>
+                                                    <rect key="frame" x="86" y="9" width="30" height="16"/>
                                                     <color key="backgroundColor" red="0.90588235289999997" green="0.2784313725" blue="0.24313725489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="16" id="Mo5-aQ-HUa"/>
@@ -1993,7 +1993,7 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zRx-sa-3NR">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zRx-sa-3NR">
                                 <rect key="frame" x="0.0" y="488" width="600" height="48"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="zgl-7l-Xbd">
@@ -2056,14 +2056,16 @@
                             <constraint firstAttribute="trailing" secondItem="zRx-sa-3NR" secondAttribute="trailing" id="BnY-WA-0MN"/>
                             <constraint firstItem="75t-k2-vuz" firstAttribute="top" secondItem="sVg-fH-egt" secondAttribute="top" id="eLs-5k-60i"/>
                             <constraint firstAttribute="trailing" secondItem="75t-k2-vuz" secondAttribute="trailing" id="gbm-Iu-GBa"/>
+                            <constraint firstItem="k95-iO-s1T" firstAttribute="top" relation="greaterThanOrEqual" secondItem="75t-k2-vuz" secondAttribute="bottom" priority="900" id="ghK-KS-fM0"/>
                             <constraint firstItem="zRx-sa-3NR" firstAttribute="leading" secondItem="sVg-fH-egt" secondAttribute="leading" id="l9g-1V-MFs"/>
-                            <constraint firstItem="k95-iO-s1T" firstAttribute="top" secondItem="zRx-sa-3NR" secondAttribute="bottom" id="pOB-nO-xAh"/>
+                            <constraint firstItem="zRx-sa-3NR" firstAttribute="bottom" secondItem="k95-iO-s1T" secondAttribute="top" id="pOB-nO-xAh"/>
                             <constraint firstItem="zRx-sa-3NR" firstAttribute="top" secondItem="75t-k2-vuz" secondAttribute="bottom" id="qtu-be-CMQ"/>
                             <constraint firstItem="k95-iO-s1T" firstAttribute="bottom" secondItem="75t-k2-vuz" secondAttribute="bottom" id="zXf-CW-IQx"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="1d2-7v-M3m"/>
+                                <exclude reference="ghK-KS-fM0"/>
                                 <exclude reference="zXf-CW-IQx"/>
                             </mask>
                         </variation>
@@ -2085,7 +2087,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="bottomBtn" destination="kf3-Di-l55" id="lGp-ZK-1ug"/>
                         <outlet property="bottomView" destination="zRx-sa-3NR" id="fPa-Kn-rDp"/>

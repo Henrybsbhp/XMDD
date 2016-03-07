@@ -10,5 +10,7 @@
 #import "GasBaseVM.h"
 
 @interface GasCardListVC : HKViewController
-@property (nonatomic, strong) GasBaseVM *model;
+
+@property (nonatomic, copy) void(^selectedBlock)(GasCard *selectedCard);
+
 @end

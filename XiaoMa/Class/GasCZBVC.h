@@ -8,6 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GasCZBVC : NSObject
+@interface GasCZBVC : NSObject<UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, weak, readonly) UIViewController *targetVC;
+@property (nonatomic, weak, readonly) UITableView *tableView;
+@property (nonatomic, weak, readonly) UIButton *bottomBtn;
+@property (nonatomic, weak, readonly) UIView *bottomView;
+
+- (instancetype)initWithTargetVC:(UIViewController *)vc tableView:(UITableView *)table
+                    bottomButton:(UIButton *)btn bottomView:(UIView *)bottomView;
+- (BOOL)reloadDataIfNeeded;
+- (void)reloadView:(BOOL)force;
+- (void)actionPay;
 
 @end
