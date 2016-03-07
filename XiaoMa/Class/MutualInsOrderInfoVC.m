@@ -8,9 +8,10 @@
 
 #import "MutualInsOrderInfoVC.h"
 #import "HKProgressView.h"
+#import "HKArrowView.h"
 #import "CKLine.h"
 #import "NSString+RectSize.h"
-#import "HKTableViewCell.h"
+
 
 @interface MutualInsOrderInfoVC ()
 
@@ -34,7 +35,7 @@
     
     self.datasource = @[@{@"id":@"ProgressCell"},
   @{@"id":@"InfoCell",@"title":@"协议受益人",@"content":@"傅琦"},
-  @{@"id":@"InfoCell",@"title":@"投保车辆",@"content":@"浙AY617V"},
+  @{@"id":@"InfoCell",@"title":@"投保车辆",@"content":@"浙AY617V",@"tag":@"原价$1000,优惠￥100"},
   @{@"id":@"ItemHeaderCell",@"title":@"服务项目",@"content":@"保险金额"},
   @{@"id":@"ItemCell",@"title":@"机动车损失险",@"content":@"1230,000.00"},
   @{@"id":@"ItemCell",@"title":@"车上人员座位险(机动车交通强制保险第第三者)",@"content":@"5000,000.00/每座"},
@@ -166,12 +167,19 @@
     NSDictionary * dict = [self.datasource safetyObjectAtIndex:indexPath.row];
     NSString * title = [dict objectForKey:@"title"];
     NSString * content = [dict objectForKey:@"content"];
+    NSString * tag = [dict objectForKey:@"tag"];
     
     UILabel * lb1 = (UILabel *)[cell searchViewWithTag:101];
     UILabel * lb2 = (UILabel *)[cell searchViewWithTag:102];
+    HKArrowView * arrowView = (HKArrowView *)[cell searchViewWithTag:103];
+    UILabel * tagLb = (UILabel *)[cell searchViewWithTag:20301];
     
     lb1.text = title;
     lb2.text = content;
+    arrowView.hidden = !tag.length;
+    arrowView.bgColor = HEXCOLOR(@"#ff7428");
+    arrowView.cornerRadius = 2.0f;
+    tagLb.text = tag;
     return cell;
 }
 

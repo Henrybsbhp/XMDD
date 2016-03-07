@@ -62,11 +62,32 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <view tag="103" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jXn-V9-rym" customClass="HKArrowView">
+                                                    <rect key="frame" x="381" y="6" width="120" height="14"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="20301" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="原价￥5000 优惠￥500" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ltZ-ox-sdI">
+                                                            <rect key="frame" x="2" y="1" width="108" height="12"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstItem="ltZ-ox-sdI" firstAttribute="centerY" secondItem="jXn-V9-rym" secondAttribute="centerY" id="0be-gW-x5x"/>
+                                                        <constraint firstItem="ltZ-ox-sdI" firstAttribute="width" secondItem="jXn-V9-rym" secondAttribute="width" constant="-12" id="GY5-aU-JCi"/>
+                                                        <constraint firstItem="ltZ-ox-sdI" firstAttribute="height" secondItem="jXn-V9-rym" secondAttribute="height" constant="-2" id="M5O-he-2Gr"/>
+                                                        <constraint firstItem="ltZ-ox-sdI" firstAttribute="leading" secondItem="jXn-V9-rym" secondAttribute="leading" constant="2" id="i63-LJ-cLg"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="jXn-V9-rym" firstAttribute="centerY" secondItem="N0S-Gb-vJ2" secondAttribute="centerY" id="Huw-k4-GOC"/>
                                                 <constraint firstItem="EZh-9E-Wbi" firstAttribute="leading" secondItem="QQl-Zc-1qx" secondAttribute="leading" constant="10" id="OhW-lv-kPk"/>
                                                 <constraint firstItem="N0S-Gb-vJ2" firstAttribute="centerY" secondItem="QQl-Zc-1qx" secondAttribute="centerY" id="dn7-CP-rIq"/>
                                                 <constraint firstItem="EZh-9E-Wbi" firstAttribute="centerY" secondItem="QQl-Zc-1qx" secondAttribute="centerY" id="e5w-YA-hMT"/>
+                                                <constraint firstItem="N0S-Gb-vJ2" firstAttribute="leading" secondItem="jXn-V9-rym" secondAttribute="trailing" constant="10" id="eBg-Me-zUm"/>
                                                 <constraint firstAttribute="trailing" secondItem="N0S-Gb-vJ2" secondAttribute="trailing" constant="10" id="w6H-hb-cX0"/>
                                             </constraints>
                                         </tableViewCellContentView>
