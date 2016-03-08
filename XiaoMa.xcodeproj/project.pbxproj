@@ -412,6 +412,7 @@
 		6B2265991C44C7A400A121CC /* CarwashFreshmanGuideVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2265981C44C7A400A121CC /* CarwashFreshmanGuideVC.m */; };
 		6B22659C1C45059500A121CC /* GetSystemHomePicOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B22659B1C45059500A121CC /* GetSystemHomePicOp.m */; };
 		6B22659F1C4506BE00A121CC /* HomePicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B22659E1C4506BE00A121CC /* HomePicModel.m */; };
+		6B26EE971C8EB60D00428EC4 /* MutualInsPayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B26EE961C8EB60D00428EC4 /* MutualInsPayViewController.m */; };
 		6B2F28F61C8414D80096FD45 /* RRFPSBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F28F51C8414D80096FD45 /* RRFPSBar.m */; };
 		6B2F28FF1C8920830096FD45 /* HKProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F28FE1C8920830096FD45 /* HKProgressView.m */; };
 		6B2F29011C8976080096FD45 /* MutualInsPay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B2F29001C8976080096FD45 /* MutualInsPay.storyboard */; };
@@ -1440,6 +1441,8 @@
 		6B22659B1C45059500A121CC /* GetSystemHomePicOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemHomePicOp.m; path = Class/GetSystemHomePicOp.m; sourceTree = "<group>"; };
 		6B22659D1C4506BE00A121CC /* HomePicModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomePicModel.h; path = Class/HomePicModel.h; sourceTree = "<group>"; };
 		6B22659E1C4506BE00A121CC /* HomePicModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomePicModel.m; path = Class/HomePicModel.m; sourceTree = "<group>"; };
+		6B26EE951C8EB60D00428EC4 /* MutualInsPayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsPayViewController.h; sourceTree = "<group>"; };
+		6B26EE961C8EB60D00428EC4 /* MutualInsPayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsPayViewController.m; sourceTree = "<group>"; };
 		6B2F28F41C8414D80096FD45 /* RRFPSBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRFPSBar.h; sourceTree = "<group>"; };
 		6B2F28F51C8414D80096FD45 /* RRFPSBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RRFPSBar.m; sourceTree = "<group>"; };
 		6B2F28FD1C8920830096FD45 /* HKProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKProgressView.h; path = Class/HKProgressView.h; sourceTree = "<group>"; };
@@ -3637,6 +3640,8 @@
 			children = (
 				6B2F29061C89771C0096FD45 /* MutualInsOrderInfoVC.h */,
 				6B2F29071C89771C0096FD45 /* MutualInsOrderInfoVC.m */,
+				6B26EE951C8EB60D00428EC4 /* MutualInsPayViewController.h */,
+				6B26EE961C8EB60D00428EC4 /* MutualInsPayViewController.m */,
 			);
 			name = MutualInsPay;
 			sourceTree = "<group>";
@@ -4996,6 +5001,7 @@
 				6B0DB8221BEB277A007BE693 /* GetCarwashOrderListV3Op.m in Sources */,
 				6BDD6E241B67615C0060CFD0 /* JDFlipNumberDigitView.m in Sources */,
 				18804A9F1B2548AC00E7E764 /* NavigationModel.m in Sources */,
+				6B26EE971C8EB60D00428EC4 /* MutualInsPayViewController.m in Sources */,
 				1833F5871BCD373B000E1DA1 /* GasCard.m in Sources */,
 				1821C35E1C4E1E6600120AF4 /* GasStore.m in Sources */,
 				6BBF7DA31B008B1000E45967 /* EditMyInfoViewController.m in Sources */,
