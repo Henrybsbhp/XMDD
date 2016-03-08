@@ -37,7 +37,6 @@
 
 #import "MainTabBarVC.h"
 #import "LaunchVC.h"
-#import "GuideViewController.h"
 
 #ifndef __OPTIMIZE__
 #import "RRFPSBar.h"
