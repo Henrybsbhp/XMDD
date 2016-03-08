@@ -69,6 +69,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
+    if (section == 3) {
+        return 15;
+    }
     return CGFLOAT_MIN;
 }
 
