@@ -38,7 +38,7 @@
 /**
  *  高亮的元素索引
  */
-@property (nonatomic)NSInteger selectedIndex;
+@property (nonatomic)NSIndexSet * selectedIndexSet;
 
 
 @end

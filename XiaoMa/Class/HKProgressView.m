@@ -61,7 +61,7 @@ static CGFloat arrowWidth;
 {
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     
-    UIColor * color = i == _selectedIndex ? _highlightColor : _normalColor;
+    UIColor * color = [_selectedIndexSet containsIndex:i] ? _highlightColor : _normalColor;
     CGContextSetFillColorWithColor(ctx, color.CGColor);
     
     CGMutablePathRef path = CGPathCreateMutable();
@@ -82,7 +82,7 @@ static CGFloat arrowWidth;
 - (void)drawText:(NSInteger)i
 {
     NSString * title = [_titleArray safetyObjectAtIndex:i];
-    UIColor * color = i == _selectedIndex ? _highlightTextColor : _normalTextColor;
+    UIColor * color = [_selectedIndexSet containsIndex:i] ? _highlightTextColor : _normalTextColor;
     //文字样式
     UIFont *font = [UIFont systemFontOfSize:13];
     NSDictionary *dict = @{NSFontAttributeName:font,
@@ -137,10 +137,11 @@ static CGFloat arrowWidth;
     [self setNeedsDisplay];
 }
 
-- (void)setSelectedIndex:(NSInteger)selectedIndex
+- (void)setSelectedIndexSet:(NSIndexSet *)selectedIndexSet
 {
-    _selectedIndex = selectedIndex;
+    _selectedIndexSet = selectedIndexSet;
     [self setNeedsDisplay];
 }
+
 
 @end

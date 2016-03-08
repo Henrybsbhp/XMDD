@@ -157,7 +157,8 @@
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ProgressCell"];
     HKProgressView * progressView = (HKProgressView *)[cell searchViewWithTag:101];
     progressView.titleArray = @[@"待支付",@"已支付",@"保单已出"];
-    progressView.selectedIndex = 0;
+    NSIndexSet *set = [NSIndexSet indexSetWithIndex:1];
+    progressView.selectedIndexSet = set;
     return cell;
 }
 
