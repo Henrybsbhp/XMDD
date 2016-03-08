@@ -403,6 +403,7 @@
 		6B11752F1C0D768500FC1881 /* GetCitysOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B11752E1C0D768500FC1881 /* GetCitysOp.m */; };
 		6B1175321C0D78AC00FC1881 /* ViolationCityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1175311C0D78AC00FC1881 /* ViolationCityModel.m */; };
 		6B1175351C0F0FF800FC1881 /* HKPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1175341C0F0FF800FC1881 /* HKPageControl.m */; };
+		6B18F3091C8DA3C4006C7913 /* HKArrowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B18F3081C8DA3C4006C7913 /* HKArrowView.m */; };
 		6B1D93D31B8573A000740628 /* PayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1D93D21B8573A000740628 /* PayModel.m */; };
 		6B21A8961BD49399006D0556 /* GetShopByRangeV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A8951BD49399006D0556 /* GetShopByRangeV2Op.m */; };
 		6B21A8991BD493F8006D0556 /* GetShopByDistanceV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A8981BD493F8006D0556 /* GetShopByDistanceV2Op.m */; };
@@ -412,6 +413,9 @@
 		6B22659C1C45059500A121CC /* GetSystemHomePicOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B22659B1C45059500A121CC /* GetSystemHomePicOp.m */; };
 		6B22659F1C4506BE00A121CC /* HomePicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B22659E1C4506BE00A121CC /* HomePicModel.m */; };
 		6B2F28F61C8414D80096FD45 /* RRFPSBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F28F51C8414D80096FD45 /* RRFPSBar.m */; };
+		6B2F28FF1C8920830096FD45 /* HKProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F28FE1C8920830096FD45 /* HKProgressView.m */; };
+		6B2F29011C8976080096FD45 /* MutualInsPay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B2F29001C8976080096FD45 /* MutualInsPay.storyboard */; };
+		6B2F29081C89771C0096FD45 /* MutualInsOrderInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F29071C89771C0096FD45 /* MutualInsOrderInfoVC.m */; };
 		6B328ED01B79AAFA00B9F207 /* ChooseBankCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */; };
 		6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B343C351B0EFFAF0036AED9 /* ShareUserCouponOp.m */; };
 		6B3C67931BA9498F002F04C8 /* HKBigRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C67921BA9498F002F04C8 /* HKBigRatingView.m */; };
@@ -511,6 +515,7 @@
 		6BC3B6151ADF69B5001016A0 /* CarWashNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B6141ADF69B5001016A0 /* CarWashNavigationViewController.m */; };
 		6BC3B6191ADF92E7001016A0 /* CommonUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B6181ADF92E7001016A0 /* CommonUtility.m */; };
 		6BC3B61C1ADF9334001016A0 /* LineDashPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B61B1ADF9334001016A0 /* LineDashPolyline.m */; };
+		6BC9288A1C8D2980007ED942 /* MutualInsOrderInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC928891C8D2980007ED942 /* MutualInsOrderInfoModel.m */; };
 		6BCA5F401B102A3700E1E630 /* HKCouponPkg.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F3F1B102A3700E1E630 /* HKCouponPkg.m */; };
 		6BCA5F431B102D5700E1E630 /* GetUserCouponPkgOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F421B102D5700E1E630 /* GetUserCouponPkgOp.m */; };
 		6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F451B1031EC00E1E630 /* GainCouponPkgOp.m */; };
@@ -1417,6 +1422,8 @@
 		6B1175311C0D78AC00FC1881 /* ViolationCityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViolationCityModel.m; path = Class/ViolationCityModel.m; sourceTree = "<group>"; };
 		6B1175331C0F0FF800FC1881 /* HKPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKPageControl.h; path = Class/HKPageControl.h; sourceTree = "<group>"; };
 		6B1175341C0F0FF800FC1881 /* HKPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKPageControl.m; path = Class/HKPageControl.m; sourceTree = "<group>"; };
+		6B18F3071C8DA3C4006C7913 /* HKArrowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKArrowView.h; path = Class/HKArrowView.h; sourceTree = "<group>"; };
+		6B18F3081C8DA3C4006C7913 /* HKArrowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKArrowView.m; path = Class/HKArrowView.m; sourceTree = "<group>"; };
 		6B1D93D11B8573A000740628 /* PayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PayModel.h; path = Class/PayModel.h; sourceTree = "<group>"; };
 		6B1D93D21B8573A000740628 /* PayModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PayModel.m; path = Class/PayModel.m; sourceTree = "<group>"; };
 		6B21A8941BD49399006D0556 /* GetShopByRangeV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShopByRangeV2Op.h; path = Class/GetShopByRangeV2Op.h; sourceTree = "<group>"; };
@@ -1435,6 +1442,11 @@
 		6B22659E1C4506BE00A121CC /* HomePicModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomePicModel.m; path = Class/HomePicModel.m; sourceTree = "<group>"; };
 		6B2F28F41C8414D80096FD45 /* RRFPSBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRFPSBar.h; sourceTree = "<group>"; };
 		6B2F28F51C8414D80096FD45 /* RRFPSBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RRFPSBar.m; sourceTree = "<group>"; };
+		6B2F28FD1C8920830096FD45 /* HKProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKProgressView.h; path = Class/HKProgressView.h; sourceTree = "<group>"; };
+		6B2F28FE1C8920830096FD45 /* HKProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKProgressView.m; path = Class/HKProgressView.m; sourceTree = "<group>"; };
+		6B2F29001C8976080096FD45 /* MutualInsPay.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsPay.storyboard; sourceTree = "<group>"; };
+		6B2F29061C89771C0096FD45 /* MutualInsOrderInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsOrderInfoVC.h; sourceTree = "<group>"; };
+		6B2F29071C89771C0096FD45 /* MutualInsOrderInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsOrderInfoVC.m; sourceTree = "<group>"; };
 		6B328ECE1B79AAFA00B9F207 /* ChooseBankCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseBankCardVC.h; sourceTree = "<group>"; };
 		6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseBankCardVC.m; sourceTree = "<group>"; };
 		6B343C341B0EFFAF0036AED9 /* ShareUserCouponOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareUserCouponOp.h; path = Class/ShareUserCouponOp.h; sourceTree = "<group>"; };
@@ -1625,6 +1637,8 @@
 		6BC3B6181ADF92E7001016A0 /* CommonUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommonUtility.m; path = Class/CommonUtility.m; sourceTree = "<group>"; };
 		6BC3B61A1ADF9334001016A0 /* LineDashPolyline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LineDashPolyline.h; path = Class/LineDashPolyline.h; sourceTree = "<group>"; };
 		6BC3B61B1ADF9334001016A0 /* LineDashPolyline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LineDashPolyline.m; path = Class/LineDashPolyline.m; sourceTree = "<group>"; };
+		6BC928881C8D2980007ED942 /* MutualInsOrderInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MutualInsOrderInfoModel.h; path = Class/MutualInsOrderInfoModel.h; sourceTree = "<group>"; };
+		6BC928891C8D2980007ED942 /* MutualInsOrderInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MutualInsOrderInfoModel.m; path = Class/MutualInsOrderInfoModel.m; sourceTree = "<group>"; };
 		6BCA5F3E1B102A3700E1E630 /* HKCouponPkg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKCouponPkg.h; path = Class/HKCouponPkg.h; sourceTree = "<group>"; };
 		6BCA5F3F1B102A3700E1E630 /* HKCouponPkg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKCouponPkg.m; path = Class/HKCouponPkg.m; sourceTree = "<group>"; };
 		6BCA5F411B102D5700E1E630 /* GetUserCouponPkgOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserCouponPkgOp.h; path = Class/GetUserCouponPkgOp.h; sourceTree = "<group>"; };
@@ -2103,6 +2117,7 @@
 		1816F4B51AD36D5100BBCC96 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				6B2F28FC1C891FC60096FD45 /* View */,
 				50B5087E1C7BF07C00B6151E /* GenieView */,
 				18BB36181C4E2CED003E7B86 /* MapView */,
 				508EE5D91C2B8B1A00873602 /* TopMenu */,
@@ -2574,7 +2589,7 @@
 				1883D9161ACBBE7A002A4D19 /* Singleton */,
 				1883D9301ACCDA7A002A4D19 /* Model */,
 				1883D91E1ACBC2F5002A4D19 /* Network */,
-				1883D91A1ACBC2E4002A4D19 /* View */,
+				1883D91A1ACBC2E4002A4D19 /* ViewController */,
 				1883D9121ACBBE5E002A4D19 /* Resource */,
 				1883D8E21ACB99AC002A4D19 /* Supporting Files */,
 			);
@@ -2648,9 +2663,10 @@
 			name = Singleton;
 			sourceTree = "<group>";
 		};
-		1883D91A1ACBC2E4002A4D19 /* View */ = {
+		1883D91A1ACBC2E4002A4D19 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				6B2F29021C8976C30096FD45 /* MutualInsPay */,
 				6B2265931C439DC400A121CC /* SuperView */,
 				6B4BCEDD1C3E528E0006B5EB /* SuperViewController */,
 				502D09D21C1E9D08001610F0 /* Valuation */,
@@ -2672,7 +2688,7 @@
 				18804AA31B2679BB00E7E764 /* TestVC.h */,
 				18804AA41B2679BB00E7E764 /* TestVC.m */,
 			);
-			name = View;
+			name = ViewController;
 			path = Class;
 			sourceTree = "<group>";
 		};
@@ -2798,6 +2814,8 @@
 				6B1175311C0D78AC00FC1881 /* ViolationCityModel.m */,
 				6B22659D1C4506BE00A121CC /* HomePicModel.h */,
 				6B22659E1C4506BE00A121CC /* HomePicModel.m */,
+				6BC928881C8D2980007ED942 /* MutualInsOrderInfoModel.h */,
+				6BC928891C8D2980007ED942 /* MutualInsOrderInfoModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -3603,6 +3621,26 @@
 			path = RRFPSBar;
 			sourceTree = "<group>";
 		};
+		6B2F28FC1C891FC60096FD45 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6B2F28FD1C8920830096FD45 /* HKProgressView.h */,
+				6B2F28FE1C8920830096FD45 /* HKProgressView.m */,
+				6B18F3071C8DA3C4006C7913 /* HKArrowView.h */,
+				6B18F3081C8DA3C4006C7913 /* HKArrowView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		6B2F29021C8976C30096FD45 /* MutualInsPay */ = {
+			isa = PBXGroup;
+			children = (
+				6B2F29061C89771C0096FD45 /* MutualInsOrderInfoVC.h */,
+				6B2F29071C89771C0096FD45 /* MutualInsOrderInfoVC.m */,
+			);
+			name = MutualInsPay;
+			sourceTree = "<group>";
+		};
 		6B3DAB9D1C3F512D00C783F8 /* DebugLog */ = {
 			isa = PBXGroup;
 			children = (
@@ -4106,6 +4144,7 @@
 				1833F59E1BCD47EB000E1DA1 /* Gas.storyboard */,
 				6BFE6A661C03364600EC9766 /* Violation.storyboard */,
 				50A1E06D1C1EA12800176572 /* Valuation.storyboard */,
+				6B2F29001C8976080096FD45 /* MutualInsPay.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -4532,6 +4571,7 @@
 				6BFE6A671C03364600EC9766 /* Violation.storyboard in Resources */,
 				18F8136A1B5F3561005F49B0 /* vertical_shadow.png in Resources */,
 				6BB884D11AE0BC6A00EBD8F4 /* .gitkeep in Resources */,
+				6B2F29011C8976080096FD45 /* MutualInsPay.storyboard in Resources */,
 				18B78F671BAAA0470061ECAD /* Mine.storyboard in Resources */,
 				1816F4A51ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist in Resources */,
 				6BB884D31AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.bundle in Resources */,
@@ -4635,6 +4675,7 @@
 				6B59E1E41C575AE100DBD1C5 /* WebVC.m in Sources */,
 				18401EAB1C7DA22A002B265C /* GasChargePackage.m in Sources */,
 				6BBAB8D41ADE3CBC00EC342F /* NSDate+DateForText.m in Sources */,
+				6BC9288A1C8D2980007ED942 /* MutualInsOrderInfoModel.m in Sources */,
 				6BC220991AD7804800A4310E /* NSMutableDictionary+AddParams.m in Sources */,
 				18746B181AEA1BB300D93696 /* UpdateInsuranceOrderOp.m in Sources */,
 				1818D8FB1C22FB670078C329 /* UpdateDeliveryInfoOp.m in Sources */,
@@ -4936,6 +4977,7 @@
 				189428B81C1ABA3500E492CA /* InsAppointmentVC.m in Sources */,
 				6BBAB8BF1ADBC21600EC342F /* ConverUtil.m in Sources */,
 				503B20581C08028C00F396DD /* AwardShareSheetVC.m in Sources */,
+				6B2F29081C89771C0096FD45 /* MutualInsOrderInfoVC.m in Sources */,
 				1885F0C61B1C50C80056D3BD /* JTImageBadge.m in Sources */,
 				185A529D1B1C0DEC003515CC /* CarbonTabSwipeNavigation.m in Sources */,
 				181F6DA51B15919900D38555 /* CXAlertButtonContainerView.m in Sources */,
@@ -5023,6 +5065,7 @@
 				18AB16A61C1FAE6B0000E718 /* InsBaseCar.m in Sources */,
 				184E40C61AD3B58F00EFC3A6 /* UIView+Layer.m in Sources */,
 				6BFE6A731C04036500EC9766 /* ViolationModel.m in Sources */,
+				6B2F28FF1C8920830096FD45 /* HKProgressView.m in Sources */,
 				18D811C61C1EDB5300B6AB04 /* CKDispatcher.m in Sources */,
 				6BBB824F1AE7757100850D0C /* NearbyShopsViewController.m in Sources */,
 				18E28A0E1B93E47E0070E759 /* PaymentHelper.m in Sources */,
@@ -5133,6 +5176,7 @@
 				18A9E8CF1BDF15430061D3BC /* EditCarVC.m in Sources */,
 				18C52C3A1BA6CE9400F6C38B /* DAProgressOverlayView.m in Sources */,
 				50F7F0781C86C49700138947 /* GetShareButtonOpV2.m in Sources */,
+				6B18F3091C8DA3C4006C7913 /* HKArrowView.m in Sources */,
 				18B6E5CB1C463D0300697DAB /* CancelInsOrderOp.m in Sources */,
 				6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */,
 				18F93CD41B6F044D000325DD /* BorderLineLabel.m in Sources */,
