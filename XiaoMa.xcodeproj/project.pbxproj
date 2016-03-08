@@ -78,6 +78,12 @@
 		1837A7601B72130F0006E6C5 /* SDPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1837A75B1B72130F0006E6C5 /* SDPhotoBrowser.m */; };
 		1837A7611B72130F0006E6C5 /* SDWaitingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1837A75E1B72130F0006E6C5 /* SDWaitingView.m */; };
 		18401EAB1C7DA22A002B265C /* GasChargePackage.m in Sources */ = {isa = PBXBuildFile; fileRef = 18401EAA1C7DA22A002B265C /* GasChargePackage.m */; };
+		184452F21C8D18F4007B895D /* MutualInsGroupon.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 184452F11C8D18F4007B895D /* MutualInsGroupon.storyboard */; };
+		184452F51C8D19A5007B895D /* MutualInsGrouponVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 184452F41C8D19A5007B895D /* MutualInsGrouponVC.m */; };
+		184452F81C8D1DCC007B895D /* MutualInsGrouponSubVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 184452F71C8D1DCC007B895D /* MutualInsGrouponSubVC.m */; };
+		184452FC1C8D4ADA007B895D /* AddCloseAnimationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 184452FB1C8D4ADA007B895D /* AddCloseAnimationButton.m */; };
+		184453021C8D6249007B895D /* PullDownAnimationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 184453011C8D6249007B895D /* PullDownAnimationButton.m */; };
+		184453181C8DA458007B895D /* HKPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184453171C8DA458007B895D /* HKPopoverView.m */; };
 		184E40C31AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C21AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m */; };
 		184E40C61AD3B58F00EFC3A6 /* UIView+Layer.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C51AD3B58F00EFC3A6 /* UIView+Layer.m */; };
 		184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C91AD3B6DC00EFC3A6 /* JTTableViewCell.m */; };
@@ -786,6 +792,18 @@
 		1837A75E1B72130F0006E6C5 /* SDWaitingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWaitingView.m; sourceTree = "<group>"; };
 		18401EA91C7DA22A002B265C /* GasChargePackage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasChargePackage.h; sourceTree = "<group>"; };
 		18401EAA1C7DA22A002B265C /* GasChargePackage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasChargePackage.m; sourceTree = "<group>"; };
+		184452F11C8D18F4007B895D /* MutualInsGroupon.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsGroupon.storyboard; sourceTree = "<group>"; };
+		184452F31C8D19A5007B895D /* MutualInsGrouponVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGrouponVC.h; sourceTree = "<group>"; };
+		184452F41C8D19A5007B895D /* MutualInsGrouponVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGrouponVC.m; sourceTree = "<group>"; };
+		184452F61C8D1DCC007B895D /* MutualInsGrouponSubVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGrouponSubVC.h; sourceTree = "<group>"; };
+		184452F71C8D1DCC007B895D /* MutualInsGrouponSubVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGrouponSubVC.m; sourceTree = "<group>"; };
+		184452FA1C8D4ADA007B895D /* AddCloseAnimationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCloseAnimationButton.h; sourceTree = "<group>"; };
+		184452FB1C8D4ADA007B895D /* AddCloseAnimationButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCloseAnimationButton.m; sourceTree = "<group>"; };
+		184452FE1C8D552D007B895D /* MutualInsConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MutualInsConstants.h; sourceTree = "<group>"; };
+		184453001C8D6249007B895D /* PullDownAnimationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullDownAnimationButton.h; sourceTree = "<group>"; };
+		184453011C8D6249007B895D /* PullDownAnimationButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullDownAnimationButton.m; sourceTree = "<group>"; };
+		184453161C8DA458007B895D /* HKPopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKPopoverView.h; sourceTree = "<group>"; };
+		184453171C8DA458007B895D /* HKPopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKPopoverView.m; sourceTree = "<group>"; };
 		184E40C11AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIBarButtonItem+CustomStyle.h"; path = "Class/UIBarButtonItem+CustomStyle.h"; sourceTree = "<group>"; };
 		184E40C21AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIBarButtonItem+CustomStyle.m"; path = "Class/UIBarButtonItem+CustomStyle.m"; sourceTree = "<group>"; };
 		184E40C41AD3B58F00EFC3A6 /* UIView+Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Layer.h"; path = "Class/UIView+Layer.h"; sourceTree = "<group>"; };
@@ -2382,6 +2400,57 @@
 			path = SDPhotoBrowser;
 			sourceTree = "<group>";
 		};
+		184452ED1C8D169A007B895D /* MutualInsGroupon */ = {
+			isa = PBXGroup;
+			children = (
+				184453121C8DA110007B895D /* Controller */,
+				184452FF1C8D6211007B895D /* View */,
+				184452FD1C8D54E9007B895D /* Model */,
+			);
+			name = MutualInsGroupon;
+			sourceTree = "<group>";
+		};
+		184452FD1C8D54E9007B895D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				184452FE1C8D552D007B895D /* MutualInsConstants.h */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		184452FF1C8D6211007B895D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				184452FA1C8D4ADA007B895D /* AddCloseAnimationButton.h */,
+				184452FB1C8D4ADA007B895D /* AddCloseAnimationButton.m */,
+				184453001C8D6249007B895D /* PullDownAnimationButton.h */,
+				184453011C8D6249007B895D /* PullDownAnimationButton.m */,
+				184453161C8DA458007B895D /* HKPopoverView.h */,
+				184453171C8DA458007B895D /* HKPopoverView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		184453121C8DA110007B895D /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				184452F31C8D19A5007B895D /* MutualInsGrouponVC.h */,
+				184452F41C8D19A5007B895D /* MutualInsGrouponVC.m */,
+				184452F61C8D1DCC007B895D /* MutualInsGrouponSubVC.h */,
+				184452F71C8D1DCC007B895D /* MutualInsGrouponSubVC.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		184453191C8E70D9007B895D /* MutualIns */ = {
+			isa = PBXGroup;
+			children = (
+				6B2F29021C8976C30096FD45 /* MutualInsPay */,
+				184452ED1C8D169A007B895D /* MutualInsGroupon */,
+			);
+			name = MutualIns;
+			sourceTree = "<group>";
+		};
 		184E40C71AD3B6C700EFC3A6 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -2666,7 +2735,7 @@
 		1883D91A1ACBC2E4002A4D19 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				6B2F29021C8976C30096FD45 /* MutualInsPay */,
+				184453191C8E70D9007B895D /* MutualIns */,
 				6B2265931C439DC400A121CC /* SuperView */,
 				6B4BCEDD1C3E528E0006B5EB /* SuperViewController */,
 				502D09D21C1E9D08001610F0 /* Valuation */,
@@ -4145,6 +4214,7 @@
 				6BFE6A661C03364600EC9766 /* Violation.storyboard */,
 				50A1E06D1C1EA12800176572 /* Valuation.storyboard */,
 				6B2F29001C8976080096FD45 /* MutualInsPay.storyboard */,
+				184452F11C8D18F4007B895D /* MutualInsGroupon.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -4567,6 +4637,7 @@
 				6BB884B11AE0B3FE00EBD8F4 /* hz.gpx in Resources */,
 				504FFE991C05B56D002D7D6D /* area.plist in Resources */,
 				6BD293D11B943EF1006482A4 /* Message.storyboard in Resources */,
+				184452F21C8D18F4007B895D /* MutualInsGroupon.storyboard in Resources */,
 				6BD293C91B943EF1006482A4 /* Award.storyboard in Resources */,
 				6BFE6A671C03364600EC9766 /* Violation.storyboard in Resources */,
 				18F8136A1B5F3561005F49B0 /* vertical_shadow.png in Resources */,
@@ -4668,6 +4739,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1816F4A71ACD3B0900BBCC96 /* SYPaginatorView.m in Sources */,
+				184453021C8D6249007B895D /* PullDownAnimationButton.m in Sources */,
 				1833F5911BCD373B000E1DA1 /* GetGaschargeConfigOp.m in Sources */,
 				186984FB1B00CC50000A182A /* CarwashOrderDetailVC.m in Sources */,
 				6B11752C1C0C73D900FC1881 /* ViolationCityInfo.m in Sources */,
@@ -4746,6 +4818,7 @@
 				2E77A4A51C325FCC00264FC9 /* HKRescueDetail.m in Sources */,
 				1853DECE1AE100CA00C39175 /* HKSMSModel.m in Sources */,
 				1853DEC41AE0EC1600C39175 /* LoginViewModel.m in Sources */,
+				184453181C8DA458007B895D /* HKPopoverView.m in Sources */,
 				184F09FB1C7B036A00DD6B54 /* CKQueue.m in Sources */,
 				6BCF62471B1737980064AE32 /* GetUserCouponByTypeOp.m in Sources */,
 				6B8D47561BEA03C900706989 /* GetCarwashOrderV2Op.m in Sources */,
@@ -4845,6 +4918,7 @@
 				181F6DA81B15919900D38555 /* CXAlertViewController.m in Sources */,
 				186985041B01CC2C000A182A /* SubmitCommentOp.m in Sources */,
 				1826CCF01BAAE80800E2F46D /* ZFCDoubleBounceActivityIndicatorView.m in Sources */,
+				184452FC1C8D4ADA007B895D /* AddCloseAnimationButton.m in Sources */,
 				184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */,
 				18273F2B1C7FEE88004192B3 /* GasCZBVC.m in Sources */,
 				6BEE177F1C325A0D0004F63A /* IFTTTFilmstrip.m in Sources */,
@@ -5008,6 +5082,7 @@
 				1853DED41AE2A0BD00C39175 /* VcodeLoginVC.m in Sources */,
 				5073810A1BA12A6800B29756 /* CarWashCouponVModel.m in Sources */,
 				6BDD6E261B67615C0060CFD0 /* JDFlipNumberView.m in Sources */,
+				184452F51C8D19A5007B895D /* MutualInsGrouponVC.m in Sources */,
 				18FC01DB1C4E6C6F00FD61BF /* IQNSArray+Sort.m in Sources */,
 				6BBC4A281B0C8236003F3081 /* SocialShareView.m in Sources */,
 				1833F59D1BCD47AD000E1DA1 /* GasVC.m in Sources */,
@@ -5217,6 +5292,7 @@
 				18BF42081BD0E2470039F210 /* NSString+Split.m in Sources */,
 				189B30C71AD664D7001D7288 /* InsuranceVC.m in Sources */,
 				6B21A89C1BD495B3006D0556 /* GetUserFavoriteV2Op.m in Sources */,
+				184452F81C8D1DCC007B895D /* MutualInsGrouponSubVC.m in Sources */,
 				18088D8B1B1DC921007438FC /* UsedCouponVModel.m in Sources */,
 				2E77A48F1C325F2F00264FC9 /* GetRescueApplyHostCarOp.m in Sources */,
 				1833F58F1BCD373B000E1DA1 /* GetCzbpayVcodeOp.m in Sources */,
