@@ -421,7 +421,7 @@
 		6B26EF111C8EFBBB00428EC4 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EEFE1C8EF56500428EC4 /* libRCTText.a */; };
 		6B26EF121C8EFBBB00428EC4 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EF041C8EF57500428EC4 /* libRCTWebSocket.a */; };
 		6B26EF131C8EFBC300428EC4 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EEE01C8EF4D400428EC4 /* libReact.a */; };
-		6B26EF1A1C8FF80300428EC4 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 6B26EF191C8FF80300428EC4 /* main.jsbundle */; };
+		6B26EF4A1C9026BD00428EC4 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 6B26EF491C9026BD00428EC4 /* main.jsbundle */; };
 		6B2F28F61C8414D80096FD45 /* RRFPSBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F28F51C8414D80096FD45 /* RRFPSBar.m */; };
 		6B2F28FF1C8920830096FD45 /* HKProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F28FE1C8920830096FD45 /* HKProgressView.m */; };
 		6B2F29011C8976080096FD45 /* MutualInsPay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B2F29001C8976080096FD45 /* MutualInsPay.storyboard */; };
@@ -1470,7 +1470,7 @@
 		6B26EF081C8EF97E00428EC4 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		6B26EF0A1C8EFA7600428EC4 /* ReactView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReactView.h; sourceTree = "<group>"; };
 		6B26EF0B1C8EFA7600428EC4 /* ReactView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReactView.m; sourceTree = "<group>"; };
-		6B26EF191C8FF80300428EC4 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
+		6B26EF491C9026BD00428EC4 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ReactComponent/main.jsbundle; sourceTree = SOURCE_ROOT; };
 		6B2F28F41C8414D80096FD45 /* RRFPSBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRFPSBar.h; sourceTree = "<group>"; };
 		6B2F28F51C8414D80096FD45 /* RRFPSBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RRFPSBar.m; sourceTree = "<group>"; };
 		6B2F28FD1C8920830096FD45 /* HKProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKProgressView.h; path = Class/HKProgressView.h; sourceTree = "<group>"; };
@@ -3807,7 +3807,7 @@
 		6BBAB9581ADE724300EC342F /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				6B26EF191C8FF80300428EC4 /* main.jsbundle */,
+				6B26EF491C9026BD00428EC4 /* main.jsbundle */,
 				6BB884B01AE0B3FE00EBD8F4 /* hz.gpx */,
 				18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */,
 				6BBAB9591ADE724300EC342F /* AlipayConfig.h */,
@@ -4577,7 +4577,6 @@
 				6BD293D01B943EF1006482A4 /* Main.storyboard in Resources */,
 				505E5FD01BD73AB600857819 /* Discover.storyboard in Resources */,
 				6BD293CF1B943EF1006482A4 /* Login.storyboard in Resources */,
-				6B26EF1A1C8FF80300428EC4 /* main.jsbundle in Resources */,
 				6BD293CB1B943EF1006482A4 /* Carwash.storyboard in Resources */,
 				189B311D1ADBEFDF001D7288 /* policy.json in Resources */,
 				6BB884B11AE0B3FE00EBD8F4 /* hz.gpx in Resources */,
@@ -4597,6 +4596,7 @@
 				18B78F611BAA8CF60061ECAD /* Launch.storyboard in Resources */,
 				6BD293CA1B943EF1006482A4 /* Bank.storyboard in Resources */,
 				18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */,
+				6B26EF4A1C9026BD00428EC4 /* main.jsbundle in Resources */,
 				18FC01E61C4E6C6F00FD61BF /* IQKeyboardManager.bundle in Resources */,
 				6B5B78191BA7CC7600295B77 /* ProvinceChooseView.xib in Resources */,
 				18CECC291C30F8890075B7F9 /* LICENSE in Resources */,
