@@ -9,7 +9,7 @@
 #import "ScencePhotoVC.h"
 #import "HKProgressView.h"
 
-@interface ScencePhotoVC ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationBarDelegate>
+@interface ScencePhotoVC ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (strong, nonatomic) IBOutlet UIButton *nextStepBtn;
 @property (strong, nonatomic) IBOutlet HKProgressView *progressView;
 @property (nonatomic) BOOL hasPhoto;
@@ -85,7 +85,6 @@
 {
     if (indexPath.section == 2)
     {
-        
         if ([UIImagePickerController isCameraAvailable])
         {
             UIImagePickerController *controller = [[UIImagePickerController alloc] init];
@@ -121,7 +120,6 @@
 {
     self.progressView.titleArray = @[@"现场接触",@"车辆损失",@"车辆信息",@"证件照"];
     self.progressView.selectedIndexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 3)];
-    //    self.progressView.selectedIndexSet = [NSIndexSet indexSetWithIndex:1];
     self.progressView.normalColor = [UIColor colorWithHex:@"#f7f7f8" alpha:1];
 }
 
