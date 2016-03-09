@@ -513,10 +513,10 @@
         if (indexPath.row == 1)
         {
             [MobClick event:@"rp326_1"];
-//            if (!self.insOrder.iscontainActivity)
-//            {
-//                [self jumpToChooseCouponVC];
-//            }
+            if (!self.insOrder.iscontainActivity)
+            {
+                [self jumpToChooseCouponVC];
+            }
         }
         else if (indexPath.row == 2)
         {
@@ -642,7 +642,7 @@
                 statusLb.hidden = YES;
             }
             
-            [tagLb mas_makeConstraints:^(MASConstraintMaker *make) {
+            [tagLb mas_remakeConstraints:^(MASConstraintMaker *make) {
                
                 make.centerY.equalTo(cell.contentView);
             }];
@@ -1088,6 +1088,7 @@
 
 - (UITableViewCell *)setupInsuranceCouponForCell:(UITableViewCell * )cell
 {
+//    cell = [self.tableView dequeueReusableCellWithIdentifier:@"DiscountCellB"];
     UIButton *boxB = (UIButton *)[cell.contentView viewWithTag:1001];
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:1002];
     UIImageView *arrow = (UIImageView *)[cell.contentView viewWithTag:1003];
@@ -1127,7 +1128,7 @@
         boxB.selected = NO;
     }
     
-    [tagLb mas_makeConstraints:^(MASConstraintMaker *make) {
+    [tagLb mas_remakeConstraints:^(MASConstraintMaker *make) {
         
         make.top.equalTo(cell.contentView).offset(8);
     }];

@@ -72,7 +72,7 @@
         [self.webView loadRequest:self.request];
     });
     
-    self.myBridge = [[MyWebViewBridge alloc] initBridgeWithWebView:self.webView andDelegate:self.progressProxy];
+    self.myBridge = [[MyWebViewBridge alloc] initBridgeWithWebView:self.webView andDelegate:self.progressProxy withTargetVC:self];
     
     [self.myBridge registerGetToken];
     [self.myBridge registerToastMsg];
