@@ -32,6 +32,7 @@
 #import "ValuationViewController.h"
 #import "HomeNewbieGuideVC.h"
 #import "HomeSuspendedAdVC.h"
+#import "MutualInsOrderInfoVC.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3.0
@@ -492,7 +493,6 @@
     
     ClaimsHistoryVC *testVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"ClaimsHistoryVC"];
     [self.navigationController pushViewController:testVC animated:YES];
-    
 }
 
 
