@@ -149,6 +149,7 @@ typedef enum : NSUInteger {
 #define valuationStoryboard [UIStoryboard storyboardWithName:@"Valuation" bundle:nil]
 #define gasStoryboard [UIStoryboard storyboardWithName:@"Gas" bundle:nil]
 #define mutualInsPay [UIStoryboard storyboardWithName:@"MutualInsPay" bundle:nil]
+#define aboutStoryboard [UIStoryboard storyboardWithName:@"About" bundle:nil]
 
 #define LocationFail 7001
 #define WechatPayFail 7002

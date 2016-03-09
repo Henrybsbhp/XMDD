@@ -13,6 +13,7 @@
 #import "JoinUsViewController.h"
 #import "GetShareButtonOpV2.h"
 #import "ShareResponeManager.h"
+#import "ReactTestViewController.h"
 #import "RRFPSBar.h"
 
 @interface AboutViewController ()
@@ -84,6 +85,14 @@
                             
                             @strongify(self)
                             [self setupFPSObserver];
+                        }},@{@"title":@"RCT",@"action":^(void){
+                            
+                            @strongify(self)
+                            [self actionRCT];
+                        }},@{@"title":@"RCT2",@"action":^(void){
+                            
+                            @strongify(self)
+                            [self actionRCT2];
                         }}];
     }
     else
@@ -132,6 +141,14 @@
                                 
                                 @strongify(self)
                                 [self setupFPSObserver];
+                            }},@{@"title":@"RCT",@"action":^(void){
+                                
+                                @strongify(self)
+                                [self actionRCT];
+                            }},@{@"title":@"RCT2",@"action":^(void){
+                                
+                                @strongify(self)
+                                [self actionRCT2];
                             }}];
     }
 #else
@@ -378,5 +395,20 @@
 - (void)setupFPSObserver
 {
     [[RRFPSBar sharedInstance] setHidden:![RRFPSBar sharedInstance].hidden];
+}
+
+#pragma mark - RN
+- (void)actionRCT
+{
+    ReactTestViewController * vc = [aboutStoryboard instantiateViewControllerWithIdentifier:@"ReactTestViewController"];
+    vc.modulName = @"AwesomeProject";
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionRCT2
+{
+    ReactTestViewController * vc = [aboutStoryboard instantiateViewControllerWithIdentifier:@"ReactTestViewController"];
+    vc.modulName = @"helloworld";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end
