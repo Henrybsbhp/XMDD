@@ -9,6 +9,7 @@
 #import "AskClaimsVC.h"
 #import "HKInclinedLabel.h"
 #import "ClaimsHistoryVC.h"
+#import "ScencePhotoVC.h"
 
 @interface AskClaimsVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -137,43 +138,14 @@
 
 -(void)scenePhotoSectionAction
 {
-    UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"选取照片" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"从相册选择", nil];
-    [sheet showInView:self.view];
-    
-//    [[sheet rac_buttonClickedSignal]subscribeNext:^(id x) {
-//        
-//    }];
-    
-//    [sheet bk_setHandler:^{
-//        if ([UIImagePickerController isCameraAvailable])
-//        {
-//            self.imgPickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-//            [self presentViewController:self.imgPickerController animated:YES completion:nil];
-//        }
-//        else
-//        {
-//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"该设备不支持拍照" message:nil delegate:nil cancelButtonTitle:@"确定"otherButtonTitles:nil];
-//            [alert show];
-//        }
-//    } forButtonAtIndex:0];
-//    [sheet bk_setHandler:^{
-//        MLSelectPhotoPickerViewController *pickerVC = [[MLSelectPhotoPickerViewController alloc] init];
-//        // 默认显示相册里面的内容SavePhotos
-//        pickerVC.status = PickerViewShowStatusCameraRoll;
-//        [pickerVC showPickerVc:self];
-//        pickerVC.maxCount = 6 - self.mArr.count;
-//        __weak typeof(self) weakSelf = self;
-//        pickerVC.callBack = ^(NSArray *assets){
-//            [weakSelf assetsToImgs:assets];
-//            [weakSelf reloadButtons];
-//        };
-//    } forButtonAtIndex:1];
+    ScencePhotoVC *scencePhotoVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"ScencePhotoVC"];
+    [self.navigationController pushViewController:scencePhotoVC animated:YES];
 }
 
 -(void)historySectionAction
 {
-    ClaimsHistoryVC *testVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"ClaimsHistoryVC"];
-    [self.navigationController pushViewController:testVC animated:YES];
+    ClaimsHistoryVC *claimsHistoryVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"ClaimsHistoryVC"];
+    [self.navigationController pushViewController:claimsHistoryVC animated:YES];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

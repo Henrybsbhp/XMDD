@@ -116,7 +116,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DqO-mh-KTh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1924" y="321"/>
+            <point key="canvasLocation" x="1238" y="295"/>
         </scene>
         <!--理赔记录-->
         <scene sceneID="sga-gA-TvG">
@@ -271,7 +271,40 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LX4-HZ-tdh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2545" y="321"/>
+            <point key="canvasLocation" x="1859" y="295"/>
+        </scene>
+        <!--现场拍照-->
+        <scene sceneID="KLe-Nm-aZh">
+            <objects>
+                <viewController storyboardIdentifier="ScencePhotoVC" id="LYv-JQ-lbJ" customClass="ScencePhotoVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aSW-3e-FSA"/>
+                        <viewControllerLayoutGuide type="bottom" id="sVp-xh-KgK"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="d60-09-sWt">
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="KG4-wa-fDK">
+                                <rect key="frame" x="0.0" y="44" width="600" height="1"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="RtT-fy-DAd"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="KG4-wa-fDK" secondAttribute="trailing" id="AbT-Ny-YCR"/>
+                            <constraint firstItem="KG4-wa-fDK" firstAttribute="leading" secondItem="d60-09-sWt" secondAttribute="leading" id="BYz-FJ-VlE"/>
+                            <constraint firstItem="KG4-wa-fDK" firstAttribute="top" secondItem="aSW-3e-FSA" secondAttribute="bottom" constant="44" id="f2u-hZ-Jy3"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="现场拍照" id="GUU-W8-xW8"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ewf-Dl-ANe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2491" y="295"/>
         </scene>
     </scenes>
     <resources>

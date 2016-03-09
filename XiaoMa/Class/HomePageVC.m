@@ -7,7 +7,7 @@
 //
 
 //@叶志成 删除
-#import "ClaimsHistoryVC.h"
+#import "AskClaimsVC.h"
 
 
 #import "HomePageVC.h"
@@ -491,7 +491,7 @@
 //    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
 //    @叶志成
     
-    ClaimsHistoryVC *testVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"ClaimsHistoryVC"];
+    AskClaimsVC *testVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"AskClaimsVC"];
     [self.navigationController pushViewController:testVC animated:YES];
 }
 
