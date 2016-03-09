@@ -6,13 +6,13 @@
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "勾(1).png"
+      "filename" : "勾(1).png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x",
-      "filename" : "勾@3x(1).png"
+      "filename" : "勾@3x(1).png",
+      "scale" : "3x"
     }
   ],
   "info" : {
