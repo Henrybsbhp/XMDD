@@ -8,11 +8,17 @@
 
 #import "ScencePhotoVC.h"
 #import "HKProgressView.h"
+#import "HKImagePicker.h"
+#import "UploadFileOp.h"
+#import "PhotoBrowserVC.h"
 
 @interface ScencePhotoVC ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (strong, nonatomic) IBOutlet UIButton *nextStepBtn;
 @property (strong, nonatomic) IBOutlet HKProgressView *progressView;
 @property (nonatomic) BOOL hasPhoto;
+@property (strong, nonatomic) NSMutableArray *imgArr;
+@property (strong, nonatomic) NSMutableArray *urlArr;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -29,35 +35,24 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark UITableViewDelegate,UITableViewDataSource
+#pragma mark UITableViewDelegate
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    if (self.imgArr.count == 0)
+    {
+        return 3;
+    }
+    else
+    {
+        NSInteger count = self.imgArr.count + 3;
+        return count;
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 1;
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell;
-    if (indexPath.section == 0 )
-    {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"photoSampleCell"];
-    }
-    else if (indexPath.section == 1)
-    {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"noticeCell"];
-    }
-    else
-    {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"takePhotoCell"];
-    }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -70,11 +65,20 @@
     {
         return UITableViewAutomaticDimension;
     }
+    else if (self.imgArr.count != 0 && indexPath.section == (2 + self.imgArr.count))
+    {
+        return 60;
+    }
+    else if (self.imgArr.count == 0 && indexPath.section == 2)
+    {
+        return 200;
+    }
     else
     {
-        return 220;
+        return 165;
     }
 }
+
 
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -83,28 +87,133 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 2)
+    if (indexPath.section == 2 && self.imgArr.count == 0)
     {
-        if ([UIImagePickerController isCameraAvailable])
-        {
-            UIImagePickerController *controller = [[UIImagePickerController alloc] init];
-            controller.customInfo[@"target"] = self;
-            controller.delegate = self;
-            controller.allowsEditing = NO;
-            controller.sourceType = UIImagePickerControllerSourceTypeCamera;
-            controller.cameraDevice = UIImagePickerControllerCameraDeviceRear;
-            NSMutableArray *mediaTypes = [[NSMutableArray alloc] init];
-            [mediaTypes addObject:(__bridge NSString *)kUTTypeImage];
-            controller.mediaTypes = mediaTypes;
-            [self presentViewController:controller animated:YES completion:nil];
-        }
-        else
-        {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"该设备不支持拍照" message:nil delegate:nil
-                                                  cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [alert show];
-        }
+        [self takePhoto];
     }
+    else if (self.imgArr.count != 0 && indexPath.section == (self.imgArr.count + 2))
+    {
+        [self takePhoto];
+    }
+    else if (self.imgArr.count != 0)
+    {
+        PhotoBrowserVC *photeBrowserVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"PhotoBrowserVC"];
+        photeBrowserVC.img = [self.imgArr safetyObjectAtIndex:(indexPath.section - 2)];
+        [self.navigationController pushViewController:photeBrowserVC animated:YES];
+    }
+    
+}
+
+#pragma mark UITableViewDataSource
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell;
+    if (indexPath.section == 0 )
+    {
+        cell = [self photoSampleCellForRowAtIndexPath:indexPath];
+    }
+    else if (indexPath.section == 1)
+    {
+        cell = [self noticeCellForRowAtIndexPath:indexPath];
+    }
+    else if (self.imgArr.count == 0 && indexPath.section == 2)
+    {
+        cell = [self takePhotoCellForRowAtIndexPath:indexPath];
+    }
+    else if (self.imgArr.count != 0 && indexPath.section == (2 + self.imgArr.count))
+    {
+        cell =[self addPhotoCellForRowAtIndexPath:indexPath];
+    }
+    else if (self.imgArr.count != 0)
+    {
+        cell = [self photoCellForRowAtIndexPath:indexPath];
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return cell;
+}
+
+
+-(UITableViewCell *)photoSampleCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [self.tableView dequeueReusableCellWithIdentifier:@"photoSampleCell"];
+}
+
+-(UITableViewCell *)noticeCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [self.tableView dequeueReusableCellWithIdentifier:@"noticeCell"];
+}
+
+-(UITableViewCell *)takePhotoCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"takePhotoCell"];
+    UIView *backgroundView = [cell viewWithTag:100];
+    backgroundView.layer.borderWidth = 1;
+    backgroundView.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
+    return cell;
+}
+
+-(UITableViewCell *)addPhotoCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"addPhotoCell"];
+    UIView *view = [cell viewWithTag:100];
+    view.layer.borderWidth = 1;
+    view.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
+    return cell;
+}
+
+-(UITableViewCell *)photoCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"photoCell"];
+    UIImageView *imgView = [cell viewWithTag:100];
+    imgView.image = [self.imgArr safetyObjectAtIndex:(indexPath.section - 2)];
+    UIButton *deleteBtn = [cell viewWithTag:101];
+    [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        [self deletePhoto:indexPath];
+    }];
+    return cell;
+}
+
+
+
+#pragma mark Utility
+
+-(void)deletePhoto:(NSIndexPath *)indexPath
+{
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"删除照片" message:@"请确认是否删除照片?" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [alertView show];
+    [[alertView rac_buttonClickedSignal]subscribeNext:^(id x) {
+        [self.imgArr safetyRemoveObjectAtIndex:(indexPath.section - 2)];
+        [self.tableView reloadData];
+    }];
+}
+
+-(void)takePhoto
+{
+    //@ 叶志成 改op
+    HKImagePicker *picker = [HKImagePicker imagePicker];
+    picker.compressedSize = CGSizeMake(1024, 1024);
+    [[[picker rac_pickImageInTargetVC:self inView:self.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
+        CKAsyncMainQueue(^{
+            [gToast showingWithText:@"正在上传"];
+            [self.imgArr safetyAddObject:img];
+            self.hasPhoto = YES;
+        });
+        UploadFileOp *op = [UploadFileOp new];
+        op.req_fileType = UploadFileTypeDrivingLicenseAndOther;
+        NSData *data = UIImageJPEGRepresentation(img, 0.5);
+        op.req_fileDataArray = [NSArray arrayWithObject:data];
+        op.req_fileExtType = @"jpg";
+        return [[op rac_postRequest] map:^id(UploadFileOp *rspOp) {
+            return [rspOp.rsp_urlArray safetyObjectAtIndex:0];
+        }];
+    }] subscribeNext:^(NSString *url) {
+        [gToast showSuccess:@"上传成功!"];
+        [self.urlArr safetyAddObject:url];
+        [self.tableView reloadData];
+    }error:^(NSError *error) {
+        [gToast showError:error.domain];
+    }];
 }
 
 
@@ -126,7 +235,27 @@
 #pragma mark Action
 
 - (IBAction)nextStepAction:(id)sender {
+//    @叶志成 下一步操作
 }
 
+#pragma mark LazyLoad
+
+-(NSMutableArray *)urlArr
+{
+    if (!_urlArr)
+    {
+        _urlArr = [[NSMutableArray alloc]init];
+    }
+    return _urlArr;
+}
+
+-(NSMutableArray *)imgArr
+{
+    if (!_imgArr)
+    {
+        _imgArr = [[NSMutableArray alloc]init];
+    }
+    return _imgArr;
+}
 
 @end
