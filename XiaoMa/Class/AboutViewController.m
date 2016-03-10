@@ -189,6 +189,14 @@
                             
                             @strongify(self)
                             [self callCustomerService];
+                        }},@{@"title":@"RCT",@"action":^(void){
+                            
+                            @strongify(self)
+                            [self actionRCT];
+                        }},@{@"title":@"RCT2",@"action":^(void){
+                            
+                            @strongify(self)
+                            [self actionRCT2];
                         }}];
     }
     else
@@ -220,6 +228,14 @@
                                 
                                 @strongify(self)
                                 [self callCustomerService];
+                            }},@{@"title":@"RCT",@"action":^(void){
+                                
+                                @strongify(self)
+                                [self actionRCT];
+                            }},@{@"title":@"RCT2",@"action":^(void){
+                                
+                                @strongify(self)
+                                [self actionRCT2];
                             }}];
     }
 #endif

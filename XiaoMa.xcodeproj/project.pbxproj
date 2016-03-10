@@ -431,6 +431,7 @@
 		6B26EF121C8EFBBB00428EC4 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EF041C8EF57500428EC4 /* libRCTWebSocket.a */; };
 		6B26EF131C8EFBC300428EC4 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EEE01C8EF4D400428EC4 /* libReact.a */; };
 		6B26EF4A1C9026BD00428EC4 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 6B26EF491C9026BD00428EC4 /* main.jsbundle */; };
+		6B26EF931C91599400428EC4 /* PhotoBrowserVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B26EF921C91599400428EC4 /* PhotoBrowserVC.m */; };
 		6B2F28F61C8414D80096FD45 /* RRFPSBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F28F51C8414D80096FD45 /* RRFPSBar.m */; };
 		6B2F28FF1C8920830096FD45 /* HKProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F28FE1C8920830096FD45 /* HKProgressView.m */; };
 		6B2F29011C8976080096FD45 /* MutualInsPay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B2F29001C8976080096FD45 /* MutualInsPay.storyboard */; };
@@ -464,6 +465,7 @@
 		6BAF30181AE67CC800E35E08 /* GetSystemVersionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF30171AE67CC800E35E08 /* GetSystemVersionOp.m */; };
 		6BAF301D1AE6947F00E35E08 /* ClientInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301A1AE6947F00E35E08 /* ClientInfo.m */; };
 		6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301C1AE6947F00E35E08 /* DeviceInfo.m */; };
+		6BB0E0A41C916EA600137CD8 /* Carwash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BB0E0A31C916EA600137CD8 /* Carwash.storyboard */; };
 		6BB61B981AEE85E8004F39AA /* AddUserFavoriteOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB61B971AEE85E8004F39AA /* AddUserFavoriteOp.m */; };
 		6BB61B9A1AEF5350004F39AA /* MapBottomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BB61B991AEF5350004F39AA /* MapBottomView.xib */; };
 		6BB61BA01AEF6969004F39AA /* RescueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB61B9F1AEF6969004F39AA /* RescueViewController.m */; };
@@ -549,7 +551,6 @@
 		6BD293C81B943EF1006482A4 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293BB1B943EF1006482A4 /* About.storyboard */; };
 		6BD293C91B943EF1006482A4 /* Award.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293BC1B943EF1006482A4 /* Award.storyboard */; };
 		6BD293CA1B943EF1006482A4 /* Bank.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293BD1B943EF1006482A4 /* Bank.storyboard */; };
-		6BD293CB1B943EF1006482A4 /* Carwash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293BE1B943EF1006482A4 /* Carwash.storyboard */; };
 		6BD293CC1B943EF1006482A4 /* Commission.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293BF1B943EF1006482A4 /* Commission.storyboard */; };
 		6BD293CD1B943EF1006482A4 /* Common.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293C01B943EF1006482A4 /* Common.storyboard */; };
 		6BD293CF1B943EF1006482A4 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293C21B943EF1006482A4 /* Login.storyboard */; };
@@ -1496,6 +1497,8 @@
 		6B26EF0A1C8EFA7600428EC4 /* ReactView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReactView.h; sourceTree = "<group>"; };
 		6B26EF0B1C8EFA7600428EC4 /* ReactView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReactView.m; sourceTree = "<group>"; };
 		6B26EF491C9026BD00428EC4 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ReactComponent/main.jsbundle; sourceTree = SOURCE_ROOT; };
+		6B26EF911C91599400428EC4 /* PhotoBrowserVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoBrowserVC.h; sourceTree = "<group>"; };
+		6B26EF921C91599400428EC4 /* PhotoBrowserVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoBrowserVC.m; sourceTree = "<group>"; };
 		6B2F28F41C8414D80096FD45 /* RRFPSBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRFPSBar.h; sourceTree = "<group>"; };
 		6B2F28F51C8414D80096FD45 /* RRFPSBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RRFPSBar.m; sourceTree = "<group>"; };
 		6B2F28FD1C8920830096FD45 /* HKProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKProgressView.h; path = Class/HKProgressView.h; sourceTree = "<group>"; };
@@ -1561,6 +1564,7 @@
 		6BAF301A1AE6947F00E35E08 /* ClientInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClientInfo.m; path = Class/ClientInfo.m; sourceTree = "<group>"; };
 		6BAF301B1AE6947F00E35E08 /* DeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceInfo.h; path = Class/DeviceInfo.h; sourceTree = "<group>"; };
 		6BAF301C1AE6947F00E35E08 /* DeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceInfo.m; path = Class/DeviceInfo.m; sourceTree = "<group>"; };
+		6BB0E0A31C916EA600137CD8 /* Carwash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Carwash.storyboard; sourceTree = "<group>"; };
 		6BB61B961AEE85E8004F39AA /* AddUserFavoriteOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddUserFavoriteOp.h; path = Class/AddUserFavoriteOp.h; sourceTree = "<group>"; };
 		6BB61B971AEE85E8004F39AA /* AddUserFavoriteOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddUserFavoriteOp.m; path = Class/AddUserFavoriteOp.m; sourceTree = "<group>"; };
 		6BB61B991AEF5350004F39AA /* MapBottomView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MapBottomView.xib; path = Class/MapBottomView.xib; sourceTree = "<group>"; };
@@ -1720,7 +1724,6 @@
 		6BD293BB1B943EF1006482A4 /* About.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = About.storyboard; sourceTree = "<group>"; };
 		6BD293BC1B943EF1006482A4 /* Award.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Award.storyboard; sourceTree = "<group>"; };
 		6BD293BD1B943EF1006482A4 /* Bank.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Bank.storyboard; sourceTree = "<group>"; };
-		6BD293BE1B943EF1006482A4 /* Carwash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Carwash.storyboard; sourceTree = "<group>"; };
 		6BD293BF1B943EF1006482A4 /* Commission.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Commission.storyboard; sourceTree = "<group>"; };
 		6BD293C01B943EF1006482A4 /* Common.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Common.storyboard; sourceTree = "<group>"; };
 		6BD293C21B943EF1006482A4 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
@@ -3474,6 +3477,8 @@
 		4E97D7121C9000FC00FC418F /* MutualInsClaims */ = {
 			isa = PBXGroup;
 			children = (
+				6B26EF911C91599400428EC4 /* PhotoBrowserVC.h */,
+				6B26EF921C91599400428EC4 /* PhotoBrowserVC.m */,
 				4E97D70F1C9000E500FC418F /* AskClaimsVC.h */,
 				4E97D7101C9000E500FC418F /* AskClaimsVC.m */,
 				4E97D70C1C9000DB00FC418F /* ClaimsHistoryVC.h */,
@@ -4202,6 +4207,7 @@
 		6BD293BA1B943EF1006482A4 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
+				6BB0E0A31C916EA600137CD8 /* Carwash.storyboard */,
 				4E97D7131C90011200FC418F /* MutualInsClaims.storyboard */,
 				18B78F661BAAA0470061ECAD /* Mine.storyboard */,
 				505E5FCF1BD73AB600857819 /* Discover.storyboard */,
@@ -4210,7 +4216,6 @@
 				6BD293BB1B943EF1006482A4 /* About.storyboard */,
 				6BD293BC1B943EF1006482A4 /* Award.storyboard */,
 				6BD293BD1B943EF1006482A4 /* Bank.storyboard */,
-				6BD293BE1B943EF1006482A4 /* Carwash.storyboard */,
 				6BD293BF1B943EF1006482A4 /* Commission.storyboard */,
 				6BD293C01B943EF1006482A4 /* Common.storyboard */,
 				6BD293C21B943EF1006482A4 /* Login.storyboard */,
@@ -4635,7 +4640,6 @@
 				6BD293D01B943EF1006482A4 /* Main.storyboard in Resources */,
 				505E5FD01BD73AB600857819 /* Discover.storyboard in Resources */,
 				6BD293CF1B943EF1006482A4 /* Login.storyboard in Resources */,
-				6BD293CB1B943EF1006482A4 /* Carwash.storyboard in Resources */,
 				189B311D1ADBEFDF001D7288 /* policy.json in Resources */,
 				6BB884B11AE0B3FE00EBD8F4 /* hz.gpx in Resources */,
 				504FFE991C05B56D002D7D6D /* area.plist in Resources */,
@@ -4651,6 +4655,7 @@
 				6BD293CD1B943EF1006482A4 /* Common.storyboard in Resources */,
 				1833F59F1BCD47EB000E1DA1 /* Gas.storyboard in Resources */,
 				50A1E06E1C1EA12800176572 /* Valuation.storyboard in Resources */,
+				6BB0E0A41C916EA600137CD8 /* Carwash.storyboard in Resources */,
 				18B78F611BAA8CF60061ECAD /* Launch.storyboard in Resources */,
 				6BD293CA1B943EF1006482A4 /* Bank.storyboard in Resources */,
 				18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */,
@@ -5216,6 +5221,7 @@
 				18C52C501BA905E600F6C38B /* DrivingLicenseViewLayout.m in Sources */,
 				189B30C31AD64310001D7288 /* ChooseCarwashTicketVC.m in Sources */,
 				6BBF7DA61B00A78900E45967 /* UpdateUserInfoOp.m in Sources */,
+				6B26EF931C91599400428EC4 /* PhotoBrowserVC.m in Sources */,
 				18804AA51B2679BB00E7E764 /* TestVC.m in Sources */,
 				50FAC2681C23AA8200F8990F /* PickerAutoModelVC.m in Sources */,
 				181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */,
