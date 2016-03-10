@@ -8,6 +8,7 @@
 
 #import "MutualInsHomeVC.h"
 #import "AutoGroupInfoVC.h"
+#import "AskClaimsVC.h"
 
 @interface MutualInsHomeVC ()
 
@@ -87,6 +88,7 @@
 - (UITableViewCell *)btnCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"BtnCell" forIndexPath:indexPath];
+    
     return cell;
 }
 
@@ -104,6 +106,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.row == 2)
+    {
+        AskClaimsVC *test = [UIStoryboard vcWithId:@"AskClaimsVC" inStoryboard:@"MutualInsClaims"];
+        [self.navigationController pushViewController:test animated:YES];
+        return;
+    }
+    
     AutoGroupInfoVC * vc = [UIStoryboard vcWithId:@"AutoGroupInfoVC" inStoryboard:@"MutualInsJoin"];
     [self.navigationController pushViewController:vc animated:YES];
 }

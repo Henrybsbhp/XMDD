@@ -93,6 +93,34 @@
     return [subject deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
+- (RACSignal *)rac_pickPhotoTargetVC:(UIViewController *)targetVC inView:(UIView *)view
+{
+    RACSubject *subject = [RACSubject subject];
+    //拍照
+    if ([UIImagePickerController isCameraAvailable])
+    {
+        UIImagePickerController *controller = [[UIImagePickerController alloc] init];
+        controller.customObject = subject;
+        controller.customInfo[@"target"] = self;
+        controller.delegate = self;
+        controller.allowsEditing = self.allowsEditing;
+        controller.sourceType = UIImagePickerControllerSourceTypeCamera;
+        controller.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+        NSMutableArray *mediaTypes = [[NSMutableArray alloc] init];
+        [mediaTypes addObject:(__bridge NSString *)kUTTypeImage];
+        controller.mediaTypes = mediaTypes;
+        [targetVC presentViewController:controller animated:YES completion:nil];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"该设备不支持拍照" message:nil delegate:nil
+                                              cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        [subject sendCompleted];
+    }
+    return [subject deliverOn:[RACScheduler mainThreadScheduler]];
+}
+
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
@@ -107,7 +135,7 @@
         vc = [[HKImageShowingViewController alloc] initWithSubject:subject];
         [self.imgPickerNavCtrl pushViewController:vc animated:YES];
     }
-
+    
     UIImage *img = [info objectForKey:picker.allowsEditing ? UIImagePickerControllerEditedImage : UIImagePickerControllerOriginalImage];
     DebugLog(@"picked image:%@", img);
     if (self.shouldCompress && self.compressedSize.width > 0 && self.compressedSize.height > 0) {
