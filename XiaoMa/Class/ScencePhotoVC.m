@@ -11,8 +11,9 @@
 #import "HKImagePicker.h"
 #import "UploadFileOp.h"
 #import "PhotoBrowserVC.h"
+#import "SDPhotoBrowser.h"
 
-@interface ScencePhotoVC ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface ScencePhotoVC ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate,SDPhotoBrowserDelegate>
 @property (strong, nonatomic) IBOutlet UIButton *nextStepBtn;
 @property (strong, nonatomic) IBOutlet HKProgressView *progressView;
 @property (nonatomic) BOOL hasPhoto;
@@ -97,11 +98,30 @@
     }
     else if (self.imgArr.count != 0)
     {
-        PhotoBrowserVC *photeBrowserVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"PhotoBrowserVC"];
-        photeBrowserVC.img = [self.imgArr safetyObjectAtIndex:(indexPath.section - 2)];
-        [self.navigationController pushViewController:photeBrowserVC animated:YES];
+        UITableViewCell *cell = [self photoCellForRowAtIndexPath:indexPath];
+        UIImageView *imgView = [cell viewWithTag:100];
+        SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
+        UIView *sourceImgV1 = imgView;
+        imgView.frame = CGRectMake(200, 200, imgView.frame.size.width, imgView.frame.size.height);
+        browser.sourceImagesContainerView = sourceImgV1;
+        browser.imageCount = 1; // 图片总数
+        browser.currentImageIndex = 0 ;
+        browser.delegate = self;
+        [browser show];
+        //        SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
+        //        UIView *sourceImgV1 = self.headImgView;
+        //        browser.sourceImageViews = @[sourceImgV1]; // 原图的容器
+        //        browser.imageCount = self.shop.picArray.count; // 图片总数
+        //        browser.currentImageIndex = 0;
+        //        browser.delegate = self;
+        //        [browser show];
     }
-    
+}
+
+-(UIImage *)photoBrowser:(SDPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index
+{
+    NSLog(@"%ld",index);
+    return [self.imgArr safetyObjectAtIndex:index];
 }
 
 #pragma mark UITableViewDataSource
@@ -235,7 +255,7 @@
 #pragma mark Action
 
 - (IBAction)nextStepAction:(id)sender {
-//    @叶志成 下一步操作
+    //    @叶志成 下一步操作
 }
 
 #pragma mark LazyLoad

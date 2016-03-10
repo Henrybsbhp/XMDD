@@ -282,18 +282,18 @@
                         <viewControllerLayoutGuide type="bottom" id="sVp-xh-KgK"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="d60-09-sWt">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KG4-wa-fDK">
-                                <rect key="frame" x="0.0" y="45" width="600" height="1"/>
+                                <rect key="frame" x="0.0" y="65" width="600" height="1"/>
                                 <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="RtT-fy-DAd"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KKA-kg-b3S">
-                                <rect key="frame" x="0.0" y="471" width="600" height="65"/>
+                                <rect key="frame" x="0.0" y="535" width="600" height="65"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z0b-82-V63">
                                         <rect key="frame" x="15" y="10" width="570" height="45"/>
@@ -315,14 +315,14 @@
                                 </constraints>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Pn5-Us-1uk">
-                                <rect key="frame" x="0.0" y="470" width="600" height="1"/>
+                                <rect key="frame" x="0.0" y="534" width="600" height="1"/>
                                 <color key="backgroundColor" red="0.85882352939999995" green="0.85882352939999995" blue="0.85882352939999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="6Tm-QY-71w"/>
                                 </constraints>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="165" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xad-cq-z1Q">
-                                <rect key="frame" x="0.0" y="46" width="600" height="424"/>
+                                <rect key="frame" x="0.0" y="66" width="600" height="468"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="photoSampleCell" rowHeight="79" id="niE-uC-C42">
@@ -517,7 +517,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nrJ-Xm-TUj" customClass="HKProgressView">
-                                <rect key="frame" x="25" y="9" width="575" height="27"/>
+                                <rect key="frame" x="25" y="29" width="575" height="27"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -551,7 +551,6 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="现场拍照" id="GUU-W8-xW8"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="nextStepBtn" destination="z0b-82-V63" id="wHF-Ja-g94"/>
                         <outlet property="progressView" destination="nrJ-Xm-TUj" id="C19-ys-HmO"/>
@@ -595,6 +594,26 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x1V-ll-KRM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3123" y="295"/>
+        </scene>
+        <!--现场拍照-->
+        <scene sceneID="fQv-jp-svL">
+            <objects>
+                <viewController id="qm4-0v-KaB" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Eir-0j-BjX"/>
+                        <viewControllerLayoutGuide type="bottom" id="R0s-1I-Udf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="vXo-hC-eZJ">
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="现场拍照" id="bYz-a6-AcK"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sDh-PM-4fn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3756" y="295"/>
         </scene>
     </scenes>
     <resources>
