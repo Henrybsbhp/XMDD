@@ -128,7 +128,7 @@
                     
                     return [obj.couponId isEqualToNumber:[card.couponIds safetyObjectAtIndex:0]];
                 }];
-                if (array.count)
+                if (array.count && self.needRechooseCarwashCoupon)
                 {
                     payVc.selectCarwashCoupouArray = [NSMutableArray arrayWithObject:[array safetyObjectAtIndex:0]];
                     payVc.couponType = CouponTypeCZBankCarWash;
