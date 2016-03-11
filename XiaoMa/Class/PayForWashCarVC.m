@@ -244,7 +244,7 @@
     CGFloat height = 44;
     if (indexPath.section == 0){
         if (indexPath.row == 0){
-            height = 76;
+            height = 70;
         }
         else if (indexPath.row == 3){
             height = 36;
