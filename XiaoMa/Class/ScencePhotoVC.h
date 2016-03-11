@@ -10,4 +10,6 @@
 
 @interface ScencePhotoVC : UIViewController
 
+@property (nonatomic) NSInteger index;
+
 @end
