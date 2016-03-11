@@ -10,6 +10,7 @@
 #import "AutoGroupInfoVC.h"
 #import "GroupIntroductionVC.h"
 #import "InviteByCodeVC.h"
+#import "AskClaimsVC.h"
 
 @interface MutualInsHomeVC ()
 
@@ -114,7 +115,9 @@
     }];
     //我要理赔
     [[[payBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
+        AskClaimsVC *test = [UIStoryboard vcWithId:@"AskClaimsVC" inStoryboard:@"MutualInsClaims"];
+        [self.navigationController pushViewController:test animated:YES];
+        return;
     }];
     
     return cell;
