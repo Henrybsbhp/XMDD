@@ -11,24 +11,28 @@
 #import "HKImagePicker.h"
 #import "UploadFileOp.h"
 #import "PhotoBrowserVC.h"
-#import "SDPhotoBrowser.h"
+#import "ScencePhotoVM.h"
 
-@interface ScencePhotoVC ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate,SDPhotoBrowserDelegate>
-@property (strong, nonatomic) IBOutlet UIButton *nextStepBtn;
-@property (strong, nonatomic) IBOutlet HKProgressView *progressView;
-@property (nonatomic) BOOL hasPhoto;
+@interface ScencePhotoVC ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (strong, nonatomic) NSMutableArray *imgArr;
 @property (strong, nonatomic) NSMutableArray *urlArr;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) UIImage *img;
+
+@property (strong, nonatomic) ScencePhotoVM *scencePhotoVM;
 
 @end
 
 @implementation ScencePhotoVC
 
+- (void)dealloc
+{
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupUI];
-    [self configProgressView];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -98,31 +102,12 @@
     }
     else if (self.imgArr.count != 0)
     {
-        UITableViewCell *cell = [self photoCellForRowAtIndexPath:indexPath];
-        UIImageView *imgView = [cell viewWithTag:100];
-        SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
-        UIView *sourceImgV1 = imgView;
-        imgView.frame = CGRectMake(200, 200, imgView.frame.size.width, imgView.frame.size.height);
-        browser.sourceImagesContainerView = sourceImgV1;
-        browser.imageCount = 1; // 图片总数
-        browser.currentImageIndex = 0 ;
-        browser.delegate = self;
-        [browser show];
-        //        SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
-        //        UIView *sourceImgV1 = self.headImgView;
-        //        browser.sourceImageViews = @[sourceImgV1]; // 原图的容器
-        //        browser.imageCount = self.shop.picArray.count; // 图片总数
-        //        browser.currentImageIndex = 0;
-        //        browser.delegate = self;
-        //        [browser show];
+        PhotoBrowserVC *photoBrowserVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"PhotoBrowserVC"];
+        photoBrowserVC.img = [self.imgArr safetyObjectAtIndex:indexPath.section - 2];
+        [self.navigationController pushViewController:photoBrowserVC animated:YES];
     }
 }
 
--(UIImage *)photoBrowser:(SDPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index
-{
-    NSLog(@"%ld",index);
-    return [self.imgArr safetyObjectAtIndex:index];
-}
 
 #pragma mark UITableViewDataSource
 
@@ -156,12 +141,19 @@
 
 -(UITableViewCell *)photoSampleCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [self.tableView dequeueReusableCellWithIdentifier:@"photoSampleCell"];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"photoSampleCell"];
+    UIImageView *imgView = [cell viewWithTag:100];
+    imgView.image = [self.scencePhotoVM sampleImgForIndex:self.index];
+    return cell;
 }
 
 -(UITableViewCell *)noticeCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [self.tableView dequeueReusableCellWithIdentifier:@"noticeCell"];
+    
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"noticeCell"];
+    UILabel *label = [cell viewWithTag:100];
+    label.text = [self.scencePhotoVM noticeForIndex:self.index];
+    return cell;
 }
 
 -(UITableViewCell *)takePhotoCellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -194,31 +186,39 @@
     return cell;
 }
 
-
-
 #pragma mark Utility
 
+/**
+ *  删除照片
+ *
+ *  @param indexPath 索引
+ */
 -(void)deletePhoto:(NSIndexPath *)indexPath
 {
     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"删除照片" message:@"请确认是否删除照片?" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alertView show];
     [[alertView rac_buttonClickedSignal]subscribeNext:^(id x) {
         [self.imgArr safetyRemoveObjectAtIndex:(indexPath.section - 2)];
+        [self.urlArr safetyRemoveObjectAtIndex:(indexPath.section - 2)];
         [self.tableView reloadData];
     }];
 }
-
+/**
+ *  拍照
+ */
 -(void)takePhoto
 {
-    //@ 叶志成 改op
     HKImagePicker *picker = [HKImagePicker imagePicker];
     picker.compressedSize = CGSizeMake(1024, 1024);
-    [[[picker rac_pickImageInTargetVC:self inView:self.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
+    [[[[picker rac_pickImageInTargetVC:self inView:self.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
         CKAsyncMainQueue(^{
             [gToast showingWithText:@"正在上传"];
-            [self.imgArr safetyAddObject:img];
-            self.hasPhoto = YES;
         });
+        //        @ 叶志成 写op获得时间
+        return [self addPrinting:@"2016-3-11 15:33" InPhoto:img];
+    }] flattenMap:^RACStream *(UIImage *img) {
+        //@ 叶志成 改op
+        self.img = img;
         UploadFileOp *op = [UploadFileOp new];
         op.req_fileType = UploadFileTypeDrivingLicenseAndOther;
         NSData *data = UIImageJPEGRepresentation(img, 0.5);
@@ -229,6 +229,7 @@
         }];
     }] subscribeNext:^(NSString *url) {
         [gToast showSuccess:@"上传成功!"];
+        [self.imgArr safetyAddObject:self.img];
         [self.urlArr safetyAddObject:url];
         [self.tableView reloadData];
     }error:^(NSError *error) {
@@ -236,26 +237,42 @@
     }];
 }
 
-
-#pragma mark Init
-
--(void)setupUI
+/**
+ *  给照片打水印
+ *
+ *  @param time 打印水印
+ *  @param img  照片
+ *
+ *  @return 打印完的照片
+ */
+-(RACSignal *)addPrinting:(NSString *)time InPhoto:(UIImage *)img
 {
-    self.nextStepBtn.layer.cornerRadius = 5;
-    self.nextStepBtn.layer.masksToBounds = YES;
-}
-
--(void)configProgressView
-{
-    self.progressView.titleArray = @[@"现场接触",@"车辆损失",@"车辆信息",@"证件照"];
-    self.progressView.selectedIndexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 3)];
-    self.progressView.normalColor = [UIColor colorWithHex:@"#f7f7f8" alpha:1];
-}
-
-#pragma mark Action
-
-- (IBAction)nextStepAction:(id)sender {
-    //    @叶志成 下一步操作
+    RACSubject *subject = [RACSubject subject];
+    CKAsyncHighQueue(^{
+        
+        UIGraphicsBeginImageContext(img.size);
+        
+        [img drawInRect:CGRectMake(0, 0, img.size.width, img.size.height)];
+        NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+        attributes[NSFontAttributeName] = [UIFont systemFontOfSize:60];
+        attributes[NSForegroundColorAttributeName] = [UIColor colorWithRed:100 green:100 blue:100 alpha:0.8];
+        NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
+        paragraph.alignment = NSTextAlignmentRight;
+        attributes[NSParagraphStyleAttributeName] = paragraph;
+        CGSize textSize = [time boundingRectWithSize:CGSizeMake(img.size.width, img.size.height * 0.5) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
+        CGFloat x = img.size.width - textSize.width;
+        CGFloat y = img.size.height - textSize.height;
+        [time drawInRect:CGRectMake(x, y, textSize.width, textSize.height) withAttributes:attributes];
+        UIImage *newImg = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
+        
+        CKAsyncMainQueue(^{
+            [subject sendNext:newImg];
+            [subject sendCompleted];
+        });
+    });
+    return subject;
 }
 
 #pragma mark LazyLoad
@@ -264,7 +281,7 @@
 {
     if (!_urlArr)
     {
-        _urlArr = [[NSMutableArray alloc]init];
+        _urlArr = [self.scencePhotoVM urlArrForIndex:self.index];
     }
     return _urlArr;
 }
@@ -273,9 +290,18 @@
 {
     if (!_imgArr)
     {
-        _imgArr = [[NSMutableArray alloc]init];
+        _imgArr = [self.scencePhotoVM imgArrForIndex:self.index];
     }
     return _imgArr;
+}
+
+-(ScencePhotoVM *)scencePhotoVM
+{
+    if (!_scencePhotoVM)
+    {
+        _scencePhotoVM = [ScencePhotoVM sharedManager];
+    }
+    return _scencePhotoVM;
 }
 
 @end
