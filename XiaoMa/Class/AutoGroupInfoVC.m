@@ -7,7 +7,7 @@
 //
 
 #import "AutoGroupInfoVC.h"
-#import "EditInsInfoVC.h"
+#import "CarListVC.h"
 
 @interface AutoGroupInfoVC ()
 
@@ -103,7 +103,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EditInsInfoVC * vc = [UIStoryboard vcWithId:@"EditInsInfoVC" inStoryboard:@"MutualInsJoin"];
+    CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+    vc.title = @"选择爱车";
+    vc.model.allowAutoChangeSelectedCar = YES;
+    vc.model.disableEditingCar = YES; //不可修改
+    vc.model.originVC = self;
+    
     [self.navigationController pushViewController:vc animated:YES];
 }
 
