@@ -36,6 +36,12 @@ static ScencePhotoVM *scencePhotoVM;
     return scencePhotoVM;
 }
 
+-(void)deleteAllInfo
+{
+    [self.imgArr makeObjectsPerformSelector:@selector(removeAllObjects)];
+    [self.urlArr makeObjectsPerformSelector:@selector(removeAllObjects)];
+}
+
 #pragma mark ViewData
 
 -(UIImage *)sampleImgForIndex:(NSInteger)index
@@ -43,7 +49,6 @@ static ScencePhotoVM *scencePhotoVM;
     UIImage *img = [UIImage imageNamed:[NSString stringWithFormat:@"%@",[self.sampleImgArr safetyObjectAtIndex:index]]];
     return img;
 }
-
 
 -(NSInteger)maxPhotoNumForIndex:(NSInteger)index
 {

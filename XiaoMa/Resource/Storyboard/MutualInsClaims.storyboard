@@ -558,8 +558,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bB9-TM-r0S">
                                 <rect key="frame" x="0.0" y="471" width="600" height="65"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mtf-GI-Elc">
-                                        <rect key="frame" x="15" y="10" width="570" height="45"/>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mtf-GI-Elc">
+                                        <rect key="frame" x="307.5" y="10" width="277.5" height="45"/>
                                         <color key="backgroundColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="下一步">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -568,14 +568,47 @@
                                             <action selector="nextStepAction:" destination="qm4-0v-KaB" eventType="touchUpInside" id="egW-Bd-ga5"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ijo-GW-det">
+                                        <rect key="frame" x="15" y="10" width="277.5" height="45"/>
+                                        <state key="normal" title="上一步">
+                                            <color key="titleColor" red="0.094117647058823528" green="0.81568627450980391" blue="0.41568627450980389" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="lastStepAction:" destination="qm4-0v-KaB" eventType="touchUpInside" id="DDE-SV-dSR"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="Mtf-GI-Elc" secondAttribute="trailing" constant="15" id="1NR-qY-RnE"/>
+                                    <constraint firstAttribute="bottom" secondItem="Mtf-GI-Elc" secondAttribute="bottom" constant="10" id="5b0-Os-pYI"/>
+                                    <constraint firstAttribute="trailing" secondItem="Mtf-GI-Elc" secondAttribute="trailing" constant="15" id="GCH-dw-5bP"/>
                                     <constraint firstAttribute="bottom" secondItem="Mtf-GI-Elc" secondAttribute="bottom" constant="10" id="KZZ-xi-GV4"/>
                                     <constraint firstItem="Mtf-GI-Elc" firstAttribute="top" secondItem="bB9-TM-r0S" secondAttribute="top" constant="10" id="Kpp-fi-t8E"/>
+                                    <constraint firstItem="Mtf-GI-Elc" firstAttribute="top" secondItem="bB9-TM-r0S" secondAttribute="top" constant="10" id="LJi-GF-H5k"/>
+                                    <constraint firstAttribute="bottom" secondItem="ijo-GW-det" secondAttribute="bottom" constant="10" id="P6K-Me-SW3"/>
+                                    <constraint firstItem="ijo-GW-det" firstAttribute="leading" secondItem="bB9-TM-r0S" secondAttribute="leading" constant="15" id="PhV-eE-jy2"/>
                                     <constraint firstItem="Mtf-GI-Elc" firstAttribute="leading" secondItem="bB9-TM-r0S" secondAttribute="leading" constant="15" id="QGu-1B-Qk1"/>
+                                    <constraint firstItem="Mtf-GI-Elc" firstAttribute="width" secondItem="ijo-GW-det" secondAttribute="width" id="ac9-4D-fr0"/>
+                                    <constraint firstItem="ijo-GW-det" firstAttribute="top" secondItem="bB9-TM-r0S" secondAttribute="top" constant="10" id="gOT-0t-TNc"/>
+                                    <constraint firstItem="Mtf-GI-Elc" firstAttribute="leading" secondItem="ijo-GW-det" secondAttribute="trailing" constant="15" id="r0N-kc-gg4"/>
                                     <constraint firstAttribute="height" constant="65" id="xAl-w9-dYJ"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="P6K-Me-SW3"/>
+                                        <exclude reference="PhV-eE-jy2"/>
+                                        <exclude reference="gOT-0t-TNc"/>
+                                        <exclude reference="1NR-qY-RnE"/>
+                                        <exclude reference="5b0-Os-pYI"/>
+                                        <exclude reference="GCH-dw-5bP"/>
+                                        <exclude reference="KZZ-xi-GV4"/>
+                                        <exclude reference="Kpp-fi-t8E"/>
+                                        <exclude reference="LJi-GF-H5k"/>
+                                        <exclude reference="QGu-1B-Qk1"/>
+                                        <exclude reference="ac9-4D-fr0"/>
+                                        <exclude reference="r0N-kc-gg4"/>
+                                    </mask>
+                                </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zv9-Ws-mKW">
                                 <rect key="frame" x="0.0" y="46" width="600" height="424"/>
@@ -619,6 +652,7 @@
                     <navigationItem key="navigationItem" title="现场拍照" id="bYz-a6-AcK"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
+                        <outlet property="lastStepBtn" destination="ijo-GW-det" id="g6n-8q-Kf9"/>
                         <outlet property="nextStepBtn" destination="Mtf-GI-Elc" id="m40-4e-4li"/>
                         <outlet property="pageView" destination="Zv9-Ws-mKW" id="jXE-gD-PGg"/>
                         <outlet property="progressView" destination="BZZ-jq-0Ob" id="rtY-qx-9fD"/>
