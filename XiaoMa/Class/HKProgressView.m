@@ -9,15 +9,17 @@
 #import "HKProgressView.h"
 #import "NSString+RectSize.h"
 
-#define ArrowSpace 5
-
-static CGFloat width;
-static CGFloat height,arrowHeight;
-static NSInteger count;
-static CGFloat bondWidth;
-static CGFloat arrowWidth;
+#define kArrowSpace      5
+#define kArrowPeakHeight     9
 
 @implementation HKProgressView
+{
+    CGFloat width;
+    CGFloat height,arrowHeight;
+    NSInteger count;
+    CGFloat bondWidth;
+    CGFloat arrowWidth;
+}
 
 - (void)dealloc
 {
@@ -46,8 +48,8 @@ static CGFloat arrowWidth;
     arrowHeight = self.bounds.size.height;
     count = _titleArray.count;
     
-    bondWidth = (width - (count - 1) * ArrowSpace) / (count * (1 + 0.1));
-    arrowWidth = bondWidth  * (1 + 0.1);
+    bondWidth = (width - MAX(0,(count-1))*kArrowSpace - kArrowPeakHeight) / count;
+    arrowWidth = bondWidth + kArrowPeakHeight;
     
     for (NSInteger i = 0; i < _titleArray.count; i++)
     {
@@ -66,12 +68,12 @@ static CGFloat arrowWidth;
     
     CGMutablePathRef path = CGPathCreateMutable();
     
-    CGPathMoveToPoint(path, &CGAffineTransformIdentity, (bondWidth + ArrowSpace) * i , 0);
-    CGPathAddLineToPoint(path, &CGAffineTransformIdentity, (bondWidth + ArrowSpace) * i + bondWidth  , 0);
-    CGPathAddLineToPoint(path, &CGAffineTransformIdentity, (bondWidth + ArrowSpace) * i +arrowWidth, arrowHeight / 2);
-    CGPathAddLineToPoint(path, &CGAffineTransformIdentity, (bondWidth + ArrowSpace) * i +bondWidth, arrowHeight);
-    CGPathAddLineToPoint(path, &CGAffineTransformIdentity, (bondWidth + ArrowSpace) * i, arrowHeight);
-    CGPathAddLineToPoint(path, &CGAffineTransformIdentity, (bondWidth + ArrowSpace) * i + bondWidth / 10, arrowHeight / 2);
+    CGPathMoveToPoint(path, &CGAffineTransformIdentity, (bondWidth + kArrowSpace) * i, 0);
+    CGPathAddLineToPoint(path, &CGAffineTransformIdentity, (bondWidth + kArrowSpace) * i + bondWidth, 0);
+    CGPathAddLineToPoint(path, &CGAffineTransformIdentity, (bondWidth + kArrowSpace) * i + arrowWidth, arrowHeight/2);
+    CGPathAddLineToPoint(path, &CGAffineTransformIdentity, (bondWidth + kArrowSpace) * i + bondWidth, arrowHeight);
+    CGPathAddLineToPoint(path, &CGAffineTransformIdentity, (bondWidth + kArrowSpace) * i, arrowHeight);
+    CGPathAddLineToPoint(path, &CGAffineTransformIdentity, (bondWidth + kArrowSpace) * i + kArrowPeakHeight, arrowHeight/2);
     CGPathCloseSubpath(path);
     CGContextAddPath(ctx, path);
     
@@ -90,7 +92,8 @@ static CGFloat arrowWidth;
     
     CGSize size = [title labelSizeWithWidth:0.9*bondWidth font:[UIFont systemFontOfSize:13]];
     
-    CGRect frame = CGRectMake((bondWidth + ArrowSpace) * i + 0.1 * bondWidth + ( 0.9 * bondWidth - size.width) / 2  , (arrowHeight - size.height) / 2 , size.width, size.height);
+    CGRect frame = CGRectMake((bondWidth+kArrowSpace)*i + (bondWidth+kArrowPeakHeight-size.width)/2,
+                              (arrowHeight-size.height)/2 , size.width, size.height);
     [title drawInRect:frame withAttributes:dict];
 }
 
