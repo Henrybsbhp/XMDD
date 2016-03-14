@@ -12,4 +12,6 @@
 
 @property (nonatomic) NSInteger index;
 
+-(BOOL)canPush;
+
 @end
