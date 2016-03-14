@@ -48,7 +48,18 @@
     }
     else {
         [self showText:error];
-//        [SVProgressHUD showErrorWithStatus:error];
+        //        [SVProgressHUD showErrorWithStatus:error];
+    }
+}
+
+- (void)showMistake:(NSString *)mistake
+{
+    if (mistake.length == 0) {
+        [self dismiss];
+    }
+    else {
+        //        [self showText:error];
+        [SVProgressHUD showErrorWithStatus:mistake];
     }
 }
 

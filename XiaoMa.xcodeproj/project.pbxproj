@@ -16,6 +16,9 @@
 		181355961C928AA900894CA1 /* MutualInsAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181355951C928AA900894CA1 /* MutualInsAlertVC.m */; };
 		181355991C92B4F300894CA1 /* MutualInsGrouponSubMsgVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181355981C92B4F300894CA1 /* MutualInsGrouponSubMsgVC.m */; };
 		1813559C1C92B6AE00894CA1 /* MutualInsGrouponMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813559B1C92B6AE00894CA1 /* MutualInsGrouponMsgCell.m */; };
+		181355B61C9691D700894CA1 /* ScencePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181355B31C9691D700894CA1 /* ScencePageVC.m */; };
+		181355B71C9691D700894CA1 /* ScencePhotoVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 181355B51C9691D700894CA1 /* ScencePhotoVM.m */; };
+		181355C11C96935300894CA1 /* HKProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181355C01C96935300894CA1 /* HKProgressView.m */; };
 		1814F6581B96D56E001F2D76 /* CarListSubView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1814F6571B96D56E001F2D76 /* CarListSubView.m */; };
 		1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4951ACD3B0900BBCC96 /* NSBundle+SYPaginator.m */; };
 		1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4971ACD3B0900BBCC96 /* SYPageControl.m */; };
@@ -47,10 +50,6 @@
 		1821C3571C4DD36C00120AF4 /* CKDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1821C3561C4DD36C00120AF4 /* CKDatasource.m */; };
 		1821C35A1C4DFD6500120AF4 /* SMSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1821C3591C4DFD6500120AF4 /* SMSModel.m */; };
 		1821C35E1C4E1E6600120AF4 /* GasStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1821C35D1C4E1E6600120AF4 /* GasStore.m */; };
-		1826CCF01BAAE80800E2F46D /* ZFCDoubleBounceActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1826CCE91BAAE80800E2F46D /* ZFCDoubleBounceActivityIndicatorView.m */; };
-		1826CCF11BAAE80800E2F46D /* ZFCRotatingPlaneActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1826CCEB1BAAE80800E2F46D /* ZFCRotatingPlaneActivityIndicatorView.m */; };
-		1826CCF21BAAE80800E2F46D /* ZFCWanderingCubesActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1826CCED1BAAE80800E2F46D /* ZFCWanderingCubesActivityIndicatorView.m */; };
-		1826CCF31BAAE80800E2F46D /* ZFCWaveActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1826CCEF1BAAE80800E2F46D /* ZFCWaveActivityIndicatorView.m */; };
 		18273F251C7ED1F8004192B3 /* GascardChargeByStagesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18273F241C7ED1F8004192B3 /* GascardChargeByStagesOp.m */; };
 		18273F281C7FEE70004192B3 /* GasNormalVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18273F271C7FEE70004192B3 /* GasNormalVC.m */; };
 		18273F2B1C7FEE88004192B3 /* GasCZBVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18273F2A1C7FEE88004192B3 /* GasCZBVC.m */; };
@@ -116,8 +115,6 @@
 		1853DEC81AE0EFD200C39175 /* HKToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853DEC71AE0EFD200C39175 /* HKToast.m */; };
 		1853DECE1AE100CA00C39175 /* HKSMSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853DECD1AE100CA00C39175 /* HKSMSModel.m */; };
 		1853DED41AE2A0BD00C39175 /* VcodeLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853DED31AE2A0BD00C39175 /* VcodeLoginVC.m */; };
-		185A529C1B1C0DEC003515CC /* CarbonSwipeRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 185A52991B1C0DEC003515CC /* CarbonSwipeRefresh.m */; };
-		185A529D1B1C0DEC003515CC /* CarbonTabSwipeNavigation.m in Sources */ = {isa = PBXBuildFile; fileRef = 185A529B1B1C0DEC003515CC /* CarbonTabSwipeNavigation.m */; };
 		186984E51B0057A4000A182A /* MyOrderListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 186984E41B0057A4000A182A /* MyOrderListVC.m */; };
 		186984E81B005A86000A182A /* CarwashOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186984E71B005A86000A182A /* CarwashOrderViewModel.m */; };
 		186984EB1B005A94000A182A /* InsranceOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186984EA1B005A94000A182A /* InsranceOrderViewModel.m */; };
@@ -302,7 +299,6 @@
 		18F93CD41B6F044D000325DD /* BorderLineLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F93CD31B6F044D000325DD /* BorderLineLabel.m */; };
 		18F93CD71B6F0A4A000325DD /* DashLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F93CD61B6F0A4A000325DD /* DashLine.m */; };
 		18FB68F01C2A911C00AD7341 /* InsCoverageSelectVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FB68EF1C2A911C00AD7341 /* InsCoverageSelectVC.m */; };
-		18FC01DB1C4E6C6F00FD61BF /* IQNSArray+Sort.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01BD1C4E6C6F00FD61BF /* IQNSArray+Sort.m */; };
 		18FC01DC1C4E6C6F00FD61BF /* IQUIView+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01BF1C4E6C6F00FD61BF /* IQUIView+Hierarchy.m */; };
 		18FC01DD1C4E6C6F00FD61BF /* IQUIWindow+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01C11C4E6C6F00FD61BF /* IQUIWindow+Hierarchy.m */; };
 		18FC01DE1C4E6C6F00FD61BF /* IQKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01C61C4E6C6F00FD61BF /* IQKeyboardManager.m */; };
@@ -337,6 +333,11 @@
 		2E77A4A91C32603800264FC9 /* GetStartHostCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E77A4A81C32603800264FC9 /* GetStartHostCarOp.m */; };
 		2EB0DA5C1C325CA900D9A5B2 /* RescueCancelHostcarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB0DA5B1C325CA900D9A5B2 /* RescueCancelHostcarOp.m */; };
 		4E5995681C201C5300686565 /* CommitSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5995671C201C5300686565 /* CommitSuccessVC.m */; };
+		4E97D70E1C9000DB00FC418F /* ClaimsHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E97D70D1C9000DB00FC418F /* ClaimsHistoryVC.m */; };
+		4E97D7111C9000E500FC418F /* AskClaimsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E97D7101C9000E500FC418F /* AskClaimsVC.m */; };
+		4E97D7141C90011200FC418F /* MutualInsClaims.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E97D7131C90011200FC418F /* MutualInsClaims.storyboard */; };
+		4E97D7171C9001C700FC418F /* HKInclinedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E97D7161C9001C700FC418F /* HKInclinedLabel.m */; };
+		4E97D71A1C9003A500FC418F /* ScencePhotoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E97D7191C9003A500FC418F /* ScencePhotoVC.m */; };
 		4EC6EA801C22A5480092BF6E /* HistoryCollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC6EA7F1C22A5480092BF6E /* HistoryCollectionVC.m */; };
 		4EF12DED1C1EBC900098B8C6 /* SecondCarValuationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */; };
 		4EF94AF21C321D020092CB55 /* RescueCommentsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF01C321D020092CB55 /* RescueCommentsVC.m */; };
@@ -348,6 +349,7 @@
 		5014B65A1C07043900DFAB18 /* GetShareDetailOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5014B6591C07043900DFAB18 /* GetShareDetailOp.m */; };
 		5027568F1BA6A3C50065592A /* GetCouponDetailsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5027568E1BA6A3C50065592A /* GetCouponDetailsOp.m */; };
 		502756921BA6AC5B0065592A /* CouponDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 502756911BA6AC5B0065592A /* CouponDetailsVC.m */; };
+		5029A84F1C9121C2006B3438 /* GroupIntroductionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5029A84E1C9121C2006B3438 /* GroupIntroductionVC.m */; };
 		502B4CF71C7D60B40009F1D4 /* SuspendedAdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 502B4CF61C7D60B40009F1D4 /* SuspendedAdVC.m */; };
 		5037DC741C43855E005AF932 /* NewGainAwardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5037DC731C43855E005AF932 /* NewGainAwardVC.m */; };
 		503B20581C08028C00F396DD /* AwardShareSheetVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 503B20571C08028C00F396DD /* AwardShareSheetVC.m */; };
@@ -360,6 +362,8 @@
 		504FFEA21C05D48E002D7D6D /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = 504FFEA11C05D48E002D7D6D /* city.plist */; };
 		504FFEA51C05D4C9002D7D6D /* AreaPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 504FFEA41C05D4C9002D7D6D /* AreaPickerVC.m */; };
 		505358F41C0D79640029B5BA /* SharedNotifyOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 505358F31C0D79640029B5BA /* SharedNotifyOp.m */; };
+		505BC1C21C87D4FA00253F6D /* MutualInsHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 505BC1C11C87D4FA00253F6D /* MutualInsHomeVC.m */; };
+		505BC1C51C87D6ED00253F6D /* MutualInsJoin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505BC1C41C87D6ED00253F6D /* MutualInsJoin.storyboard */; };
 		505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */; };
 		505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */; };
 		505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC71BD7356A00857819 /* WebViewJavascriptBridgeBase.m */; };
@@ -386,9 +390,11 @@
 		508C718F1BA808B600FA2F05 /* Insurance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 508C718E1BA808B600FA2F05 /* Insurance.storyboard */; };
 		508D06801B900CF800B835BB /* InsuranceOrderPayOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 508D067F1B900CF800B835BB /* InsuranceOrderPayOp.m */; };
 		508EE5DC1C2BA09800873602 /* TopMenuScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 508EE5DB1C2BA09800873602 /* TopMenuScrollView.m */; };
+		5093C9FE1C92A68A006B2258 /* InviteByCodeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5093C9FD1C92A68A006B2258 /* InviteByCodeVC.m */; };
 		509D1CC21C086E01003ED860 /* ShareResponeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 509D1CC11C086E01003ED860 /* ShareResponeManager.m */; };
 		50A1E06E1C1EA12800176572 /* Valuation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50A1E06D1C1EA12800176572 /* Valuation.storyboard */; };
 		50A1E0711C1EA3A300176572 /* ValuationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A1E0701C1EA3A300176572 /* ValuationViewController.m */; };
+		50AC2B501C8D737400620551 /* EditInsInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AC2B4F1C8D737300620551 /* EditInsInfoVC.m */; };
 		50ACC6A51C20FC79006E984E /* CarScrollTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ACC6A41C20FC79006E984E /* CarScrollTableViewCell.m */; };
 		50ACC6A81C2138F9006E984E /* CarEvaluateOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ACC6A71C2138F9006E984E /* CarEvaluateOp.m */; };
 		50B508871C7C075800B6151E /* UIView+Genie.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B508861C7C075800B6151E /* UIView+Genie.m */; };
@@ -401,7 +407,6 @@
 		50DD1BC81BFB023800349A70 /* HKOtherOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BC71BFB023800349A70 /* HKOtherOrder.m */; };
 		50DD1BCB1BFB093500349A70 /* OthersOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BCA1BFB093500349A70 /* OthersOrderViewModel.m */; };
 		50E800411C44D7B100AFC7B9 /* HYScratchCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E800401C44D7B100AFC7B9 /* HYScratchCardView.m */; };
-		50E9DD161BE201180070F38D /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E9DD151BE201180070F38D /* Reachability.m */; };
 		50F7F0781C86C49700138947 /* GetShareButtonOpV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F7F0771C86C49700138947 /* GetShareButtonOpV2.m */; };
 		50F7F07B1C86C4E200138947 /* GetShareDetailOpV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F7F07A1C86C4E200138947 /* GetShareDetailOpV2.m */; };
 		50FA52891C2296CD002B1EAE /* ValuationResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FA52881C2296CD002B1EAE /* ValuationResultVC.m */; };
@@ -410,6 +415,7 @@
 		50FAC2681C23AA8200F8990F /* PickerAutoModelVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FAC2671C23AA8200F8990F /* PickerAutoModelVC.m */; };
 		50FAC26B1C23AB9C00F8990F /* GetAutomobileModelV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FAC26A1C23AB9C00F8990F /* GetAutomobileModelV2Op.m */; };
 		50FAC2711C23B8C000F8990F /* AutoSeriesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FAC2701C23B8C000F8990F /* AutoSeriesModel.m */; };
+		50FEF76B1C8827C900B85F19 /* AutoGroupInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FEF76A1C8827C900B85F19 /* AutoGroupInfoVC.m */; };
 		6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */; };
 		6B086BA71AE4F03800659DB7 /* UIView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA61AE4F03800659DB7 /* UIView+Base.m */; };
 		6B0DB8221BEB277A007BE693 /* GetCarwashOrderListV3Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0DB8211BEB277A007BE693 /* GetCarwashOrderListV3Op.m */; };
@@ -427,6 +433,24 @@
 		6B2265991C44C7A400A121CC /* CarwashFreshmanGuideVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2265981C44C7A400A121CC /* CarwashFreshmanGuideVC.m */; };
 		6B22659C1C45059500A121CC /* GetSystemHomePicOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B22659B1C45059500A121CC /* GetSystemHomePicOp.m */; };
 		6B22659F1C4506BE00A121CC /* HomePicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B22659E1C4506BE00A121CC /* HomePicModel.m */; };
+		6B26EE971C8EB60D00428EC4 /* MutualInsPayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B26EE961C8EB60D00428EC4 /* MutualInsPayViewController.m */; };
+		6B26EE9B1C8EC12B00428EC4 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B26EE9A1C8EC12B00428EC4 /* Reachability.m */; };
+		6B26EEB21C8EC23200428EC4 /* ZFCDoubleBounceActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B26EEAB1C8EC23200428EC4 /* ZFCDoubleBounceActivityIndicatorView.m */; };
+		6B26EEB31C8EC23200428EC4 /* ZFCRotatingPlaneActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B26EEAD1C8EC23200428EC4 /* ZFCRotatingPlaneActivityIndicatorView.m */; };
+		6B26EEB41C8EC23200428EC4 /* ZFCWanderingCubesActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B26EEAF1C8EC23200428EC4 /* ZFCWanderingCubesActivityIndicatorView.m */; };
+		6B26EEB51C8EC23200428EC4 /* ZFCWaveActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B26EEB11C8EC23200428EC4 /* ZFCWaveActivityIndicatorView.m */; };
+		6B26EF071C8EF89B00428EC4 /* ReactTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B26EF061C8EF89B00428EC4 /* ReactTestViewController.m */; };
+		6B26EF091C8EF97E00428EC4 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EF081C8EF97E00428EC4 /* JavaScriptCore.framework */; };
+		6B26EF0C1C8EFA7600428EC4 /* ReactView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B26EF0B1C8EFA7600428EC4 /* ReactView.m */; };
+		6B26EF0D1C8EFBBB00428EC4 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EEE61C8EF4E900428EC4 /* libRCTActionSheet.a */; };
+		6B26EF0E1C8EFBBB00428EC4 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EEF21C8EF51D00428EC4 /* libRCTImage.a */; };
+		6B26EF0F1C8EFBBB00428EC4 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EEEC1C8EF4FF00428EC4 /* libRCTLinking.a */; };
+		6B26EF101C8EFBBB00428EC4 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EEF81C8EF55100428EC4 /* libRCTNetwork.a */; };
+		6B26EF111C8EFBBB00428EC4 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EEFE1C8EF56500428EC4 /* libRCTText.a */; };
+		6B26EF121C8EFBBB00428EC4 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EF041C8EF57500428EC4 /* libRCTWebSocket.a */; };
+		6B26EF131C8EFBC300428EC4 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EEE01C8EF4D400428EC4 /* libReact.a */; };
+		6B26EF4A1C9026BD00428EC4 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 6B26EF491C9026BD00428EC4 /* main.jsbundle */; };
+		6B26EF931C91599400428EC4 /* PhotoBrowserVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B26EF921C91599400428EC4 /* PhotoBrowserVC.m */; };
 		6B2F28F61C8414D80096FD45 /* RRFPSBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F28F51C8414D80096FD45 /* RRFPSBar.m */; };
 		6B328ED01B79AAFA00B9F207 /* ChooseBankCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */; };
 		6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B343C351B0EFFAF0036AED9 /* ShareUserCouponOp.m */; };
@@ -457,6 +481,7 @@
 		6BAF30181AE67CC800E35E08 /* GetSystemVersionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF30171AE67CC800E35E08 /* GetSystemVersionOp.m */; };
 		6BAF301D1AE6947F00E35E08 /* ClientInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301A1AE6947F00E35E08 /* ClientInfo.m */; };
 		6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF301C1AE6947F00E35E08 /* DeviceInfo.m */; };
+		6BB0E0A41C916EA600137CD8 /* Carwash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BB0E0A31C916EA600137CD8 /* Carwash.storyboard */; };
 		6BB61B981AEE85E8004F39AA /* AddUserFavoriteOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB61B971AEE85E8004F39AA /* AddUserFavoriteOp.m */; };
 		6BB61B9A1AEF5350004F39AA /* MapBottomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BB61B991AEF5350004F39AA /* MapBottomView.xib */; };
 		6BB61BA01AEF6969004F39AA /* RescueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB61B9F1AEF6969004F39AA /* RescueViewController.m */; };
@@ -541,7 +566,6 @@
 		6BD293C81B943EF1006482A4 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293BB1B943EF1006482A4 /* About.storyboard */; };
 		6BD293C91B943EF1006482A4 /* Award.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293BC1B943EF1006482A4 /* Award.storyboard */; };
 		6BD293CA1B943EF1006482A4 /* Bank.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293BD1B943EF1006482A4 /* Bank.storyboard */; };
-		6BD293CB1B943EF1006482A4 /* Carwash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293BE1B943EF1006482A4 /* Carwash.storyboard */; };
 		6BD293CC1B943EF1006482A4 /* Commission.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293BF1B943EF1006482A4 /* Commission.storyboard */; };
 		6BD293CD1B943EF1006482A4 /* Common.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293C01B943EF1006482A4 /* Common.storyboard */; };
 		6BD293CF1B943EF1006482A4 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BD293C21B943EF1006482A4 /* Login.storyboard */; };
@@ -558,15 +582,6 @@
 		6BD7AE641AE8A64B00BEF30E /* WXUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE611AE8A64B00BEF30E /* WXUtil.mm */; };
 		6BD7AE681AE9F63900BEF30E /* MapBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AE671AE9F63900BEF30E /* MapBottomView.m */; };
 		6BDB47841B78794800C61AB9 /* GetUserResourcesV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDB47831B78794800C61AB9 /* GetUserResourcesV2Op.m */; };
-		6BDD6E211B67615C0060CFD0 /* JDDateCountdownFlipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E131B67615C0060CFD0 /* JDDateCountdownFlipView.m */; };
-		6BDD6E221B67615C0060CFD0 /* JDFlipClockView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E151B67615C0060CFD0 /* JDFlipClockView.m */; };
-		6BDD6E231B67615C0060CFD0 /* JDFlipImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E171B67615C0060CFD0 /* JDFlipImageView.m */; };
-		6BDD6E241B67615C0060CFD0 /* JDFlipNumberDigitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E191B67615C0060CFD0 /* JDFlipNumberDigitView.m */; };
-		6BDD6E251B67615C0060CFD0 /* JDFlipNumberView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6BDD6E1A1B67615C0060CFD0 /* JDFlipNumberView.bundle */; };
-		6BDD6E261B67615C0060CFD0 /* JDFlipNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E1C1B67615C0060CFD0 /* JDFlipNumberView.m */; };
-		6BDD6E271B67615C0060CFD0 /* JDFlipNumberViewImageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E1E1B67615C0060CFD0 /* JDFlipNumberViewImageFactory.m */; };
-		6BDD6E281B67615C0060CFD0 /* UIView+JDFlipImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E201B67615C0060CFD0 /* UIView+JDFlipImageView.m */; };
-		6BDD6E2E1B68B9AE0060CFD0 /* HKFlipDecimalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDD6E2D1B68B9AE0060CFD0 /* HKFlipDecimalView.m */; };
 		6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD4E1AE6232C00A69875 /* HKAdvertisement.m */; };
 		6BE2BD581AE62CDF00A69875 /* HKInsurance.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD571AE62CDF00A69875 /* HKInsurance.m */; };
 		6BE2BD5B1AE6305600A69875 /* GetSystemPromotionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE2BD5A1AE6305600A69875 /* GetSystemPromotionOp.m */; };
@@ -602,35 +617,6 @@
 		6BEC3FC91C1122B40046F11D /* GetCityInfoByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEC3FC81C1122B40046F11D /* GetCityInfoByNameOp.m */; };
 		6BEC3FCC1C16F1A50046F11D /* MyUIPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEC3FCB1C16F1A50046F11D /* MyUIPageControl.m */; };
 		6BEDB0461BA666D4009A8C3F /* CCSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDB0451BA666D4009A8C3F /* CCSegmentedControl.m */; };
-		6BEE17751C325A0D0004F63A /* IFTTTAlphaAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE173C1C325A0D0004F63A /* IFTTTAlphaAnimation.m */; };
-		6BEE17761C325A0D0004F63A /* IFTTTAnimatedPagingScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE173F1C325A0D0004F63A /* IFTTTAnimatedPagingScrollViewController.m */; };
-		6BEE17771C325A0D0004F63A /* IFTTTAnimatedScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17411C325A0D0004F63A /* IFTTTAnimatedScrollViewController.m */; };
-		6BEE17781C325A0D0004F63A /* IFTTTAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17431C325A0D0004F63A /* IFTTTAnimation.m */; };
-		6BEE17791C325A0D0004F63A /* IFTTTAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17451C325A0D0004F63A /* IFTTTAnimator.m */; };
-		6BEE177A1C325A0D0004F63A /* IFTTTBackgroundColorAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17471C325A0D0004F63A /* IFTTTBackgroundColorAnimation.m */; };
-		6BEE177B1C325A0D0004F63A /* IFTTTConstraintConstantAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17491C325A0D0004F63A /* IFTTTConstraintConstantAnimation.m */; };
-		6BEE177C1C325A0D0004F63A /* IFTTTConstraintMultiplierAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE174B1C325A0D0004F63A /* IFTTTConstraintMultiplierAnimation.m */; };
-		6BEE177D1C325A0D0004F63A /* IFTTTCornerRadiusAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE174D1C325A0D0004F63A /* IFTTTCornerRadiusAnimation.m */; };
-		6BEE177E1C325A0D0004F63A /* IFTTTEasingFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE174F1C325A0D0004F63A /* IFTTTEasingFunction.m */; };
-		6BEE177F1C325A0D0004F63A /* IFTTTFilmstrip.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17511C325A0D0004F63A /* IFTTTFilmstrip.m */; };
-		6BEE17801C325A0D0004F63A /* IFTTTFrameAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17531C325A0D0004F63A /* IFTTTFrameAnimation.m */; };
-		6BEE17811C325A0D0004F63A /* IFTTTHideAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17551C325A0D0004F63A /* IFTTTHideAnimation.m */; };
-		6BEE17821C325A0D0004F63A /* IFTTTInterpolatable.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17571C325A0D0004F63A /* IFTTTInterpolatable.m */; };
-		6BEE17831C325A0D0004F63A /* IFTTTLayerFillColorAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE175A1C325A0D0004F63A /* IFTTTLayerFillColorAnimation.m */; };
-		6BEE17841C325A0D0004F63A /* IFTTTLayerStrokeEndAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE175C1C325A0D0004F63A /* IFTTTLayerStrokeEndAnimation.m */; };
-		6BEE17851C325A0D0004F63A /* IFTTTLayerStrokeStartAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE175E1C325A0D0004F63A /* IFTTTLayerStrokeStartAnimation.m */; };
-		6BEE17861C325A0D0004F63A /* IFTTTMaskAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17601C325A0D0004F63A /* IFTTTMaskAnimation.m */; };
-		6BEE17871C325A0D0004F63A /* IFTTTPathPositionAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17621C325A0D0004F63A /* IFTTTPathPositionAnimation.m */; };
-		6BEE17881C325A0D0004F63A /* IFTTTRotationAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17641C325A0D0004F63A /* IFTTTRotationAnimation.m */; };
-		6BEE17891C325A0D0004F63A /* IFTTTScaleAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17661C325A0D0004F63A /* IFTTTScaleAnimation.m */; };
-		6BEE178A1C325A0D0004F63A /* IFTTTScrollViewPageConstraintAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17681C325A0D0004F63A /* IFTTTScrollViewPageConstraintAnimation.m */; };
-		6BEE178B1C325A0D0004F63A /* IFTTTShapeLayerAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE176A1C325A0D0004F63A /* IFTTTShapeLayerAnimation.m */; };
-		6BEE178C1C325A0D0004F63A /* IFTTTTextColorAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE176C1C325A0D0004F63A /* IFTTTTextColorAnimation.m */; };
-		6BEE178D1C325A0D0004F63A /* IFTTTTransform3DAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE176E1C325A0D0004F63A /* IFTTTTransform3DAnimation.m */; };
-		6BEE178E1C325A0D0004F63A /* IFTTTTranslationAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17701C325A0D0004F63A /* IFTTTTranslationAnimation.m */; };
-		6BEE178F1C325A0D0004F63A /* IFTTTViewAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17721C325A0D0004F63A /* IFTTTViewAnimation.m */; };
-		6BEE17901C325A0D0004F63A /* UIView+IFTTTJazzHands.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17741C325A0D0004F63A /* UIView+IFTTTJazzHands.m */; };
-		6BEE17931C325A3C0004F63A /* GuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE17921C325A3C0004F63A /* GuideViewController.m */; };
 		6BEF74891BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEF74881BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.m */; };
 		6BF392441BD627A900838292 /* GetShopByNameV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF392431BD627A900838292 /* GetShopByNameV2Op.m */; };
 		6BF3925F1BD8935600838292 /* CBAutoScrollLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF3925E1BD8935600838292 /* CBAutoScrollLabel.m */; };
@@ -653,6 +639,55 @@
 			remoteGlobalIDString = 1883D8DE1ACB99AC002A4D19;
 			remoteInfo = XiaoMa;
 		};
+		6B26EEDF1C8EF4D400428EC4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B26EEDB1C8EF4D400428EC4 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
+			remoteInfo = React;
+		};
+		6B26EEE51C8EF4E900428EC4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B26EEE11C8EF4E900428EC4 /* RCTActionSheet.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTActionSheet;
+		};
+		6B26EEEB1C8EF4FF00428EC4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B26EEE71C8EF4FF00428EC4 /* RCTLinking.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTLinking;
+		};
+		6B26EEF11C8EF51D00428EC4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B26EEED1C8EF51D00428EC4 /* RCTImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 58B5115D1A9E6B3D00147676;
+			remoteInfo = RCTImage;
+		};
+		6B26EEF71C8EF55100428EC4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B26EEF31C8EF55100428EC4 /* RCTNetwork.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 58B511DB1A9E6C8500147676;
+			remoteInfo = RCTNetwork;
+		};
+		6B26EEFD1C8EF56500428EC4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B26EEF91C8EF56500428EC4 /* RCTText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
+			remoteInfo = RCTText;
+		};
+		6B26EF031C8EF57500428EC4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B26EEFF1C8EF57500428EC4 /* RCTWebSocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3C86DF461ADF2C930047B81A;
+			remoteInfo = RCTWebSocket;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -672,6 +707,12 @@
 		181355981C92B4F300894CA1 /* MutualInsGrouponSubMsgVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGrouponSubMsgVC.m; sourceTree = "<group>"; };
 		1813559A1C92B6AE00894CA1 /* MutualInsGrouponMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGrouponMsgCell.h; sourceTree = "<group>"; };
 		1813559B1C92B6AE00894CA1 /* MutualInsGrouponMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGrouponMsgCell.m; sourceTree = "<group>"; };
+		181355B21C9691D700894CA1 /* ScencePageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScencePageVC.h; sourceTree = "<group>"; };
+		181355B31C9691D700894CA1 /* ScencePageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScencePageVC.m; sourceTree = "<group>"; };
+		181355B41C9691D700894CA1 /* ScencePhotoVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScencePhotoVM.h; sourceTree = "<group>"; };
+		181355B51C9691D700894CA1 /* ScencePhotoVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScencePhotoVM.m; sourceTree = "<group>"; };
+		181355BF1C96935300894CA1 /* HKProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKProgressView.h; sourceTree = "<group>"; };
+		181355C01C96935300894CA1 /* HKProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKProgressView.m; sourceTree = "<group>"; };
 		1814F6561B96D56E001F2D76 /* CarListSubView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarListSubView.h; sourceTree = "<group>"; };
 		1814F6571B96D56E001F2D76 /* CarListSubView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarListSubView.m; sourceTree = "<group>"; };
 		1816F4941ACD3B0900BBCC96 /* NSBundle+SYPaginator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+SYPaginator.h"; sourceTree = "<group>"; };
@@ -735,14 +776,6 @@
 		1821C3591C4DFD6500120AF4 /* SMSModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMSModel.m; path = Class/SMSModel.m; sourceTree = "<group>"; };
 		1821C35C1C4E1E6600120AF4 /* GasStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GasStore.h; path = Class/GasStore.h; sourceTree = "<group>"; };
 		1821C35D1C4E1E6600120AF4 /* GasStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GasStore.m; path = Class/GasStore.m; sourceTree = "<group>"; };
-		1826CCE81BAAE80800E2F46D /* ZFCDoubleBounceActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCDoubleBounceActivityIndicatorView.h; sourceTree = "<group>"; };
-		1826CCE91BAAE80800E2F46D /* ZFCDoubleBounceActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCDoubleBounceActivityIndicatorView.m; sourceTree = "<group>"; };
-		1826CCEA1BAAE80800E2F46D /* ZFCRotatingPlaneActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCRotatingPlaneActivityIndicatorView.h; sourceTree = "<group>"; };
-		1826CCEB1BAAE80800E2F46D /* ZFCRotatingPlaneActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCRotatingPlaneActivityIndicatorView.m; sourceTree = "<group>"; };
-		1826CCEC1BAAE80800E2F46D /* ZFCWanderingCubesActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCWanderingCubesActivityIndicatorView.h; sourceTree = "<group>"; };
-		1826CCED1BAAE80800E2F46D /* ZFCWanderingCubesActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCWanderingCubesActivityIndicatorView.m; sourceTree = "<group>"; };
-		1826CCEE1BAAE80800E2F46D /* ZFCWaveActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCWaveActivityIndicatorView.h; sourceTree = "<group>"; };
-		1826CCEF1BAAE80800E2F46D /* ZFCWaveActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCWaveActivityIndicatorView.m; sourceTree = "<group>"; };
 		18273F231C7ED1F8004192B3 /* GascardChargeByStagesOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GascardChargeByStagesOp.h; sourceTree = "<group>"; };
 		18273F241C7ED1F8004192B3 /* GascardChargeByStagesOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GascardChargeByStagesOp.m; sourceTree = "<group>"; };
 		18273F261C7FEE70004192B3 /* GasNormalVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasNormalVC.h; sourceTree = "<group>"; };
@@ -873,11 +906,6 @@
 		1853DED21AE2A0BD00C39175 /* VcodeLoginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VcodeLoginVC.h; sourceTree = "<group>"; };
 		1853DED31AE2A0BD00C39175 /* VcodeLoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VcodeLoginVC.m; sourceTree = "<group>"; };
 		185A527E1B187EFA003515CC /* DownloadOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadOp.h; path = Class/DownloadOp.h; sourceTree = "<group>"; };
-		185A52971B1C0DEC003515CC /* CarbonKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarbonKit.h; sourceTree = "<group>"; };
-		185A52981B1C0DEC003515CC /* CarbonSwipeRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarbonSwipeRefresh.h; sourceTree = "<group>"; };
-		185A52991B1C0DEC003515CC /* CarbonSwipeRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarbonSwipeRefresh.m; sourceTree = "<group>"; };
-		185A529A1B1C0DEC003515CC /* CarbonTabSwipeNavigation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarbonTabSwipeNavigation.h; sourceTree = "<group>"; };
-		185A529B1B1C0DEC003515CC /* CarbonTabSwipeNavigation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarbonTabSwipeNavigation.m; sourceTree = "<group>"; };
 		186984E31B0057A4000A182A /* MyOrderListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderListVC.h; sourceTree = "<group>"; };
 		186984E41B0057A4000A182A /* MyOrderListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderListVC.m; sourceTree = "<group>"; };
 		186984E61B005A86000A182A /* CarwashOrderViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarwashOrderViewModel.h; sourceTree = "<group>"; };
@@ -1308,6 +1336,15 @@
 		2EB0DA5B1C325CA900D9A5B2 /* RescueCancelHostcarOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RescueCancelHostcarOp.m; path = Class/RescueCancelHostcarOp.m; sourceTree = "<group>"; };
 		4E5995661C201C5300686565 /* CommitSuccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommitSuccessVC.h; sourceTree = "<group>"; };
 		4E5995671C201C5300686565 /* CommitSuccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommitSuccessVC.m; sourceTree = "<group>"; };
+		4E97D70C1C9000DB00FC418F /* ClaimsHistoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClaimsHistoryVC.h; sourceTree = "<group>"; };
+		4E97D70D1C9000DB00FC418F /* ClaimsHistoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClaimsHistoryVC.m; sourceTree = "<group>"; };
+		4E97D70F1C9000E500FC418F /* AskClaimsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AskClaimsVC.h; sourceTree = "<group>"; };
+		4E97D7101C9000E500FC418F /* AskClaimsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AskClaimsVC.m; sourceTree = "<group>"; };
+		4E97D7131C90011200FC418F /* MutualInsClaims.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsClaims.storyboard; sourceTree = "<group>"; };
+		4E97D7151C9001C700FC418F /* HKInclinedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKInclinedLabel.h; path = Class/HKInclinedLabel.h; sourceTree = "<group>"; };
+		4E97D7161C9001C700FC418F /* HKInclinedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKInclinedLabel.m; path = Class/HKInclinedLabel.m; sourceTree = "<group>"; };
+		4E97D7181C9003A500FC418F /* ScencePhotoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScencePhotoVC.h; sourceTree = "<group>"; };
+		4E97D7191C9003A500FC418F /* ScencePhotoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScencePhotoVC.m; sourceTree = "<group>"; };
 		4EC6EA7E1C22A5480092BF6E /* HistoryCollectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryCollectionVC.h; sourceTree = "<group>"; };
 		4EC6EA7F1C22A5480092BF6E /* HistoryCollectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryCollectionVC.m; sourceTree = "<group>"; };
 		4EF12DEB1C1EBC900098B8C6 /* SecondCarValuationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondCarValuationVC.h; sourceTree = "<group>"; };
@@ -1329,6 +1366,8 @@
 		5027568E1BA6A3C50065592A /* GetCouponDetailsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetCouponDetailsOp.m; path = Class/GetCouponDetailsOp.m; sourceTree = "<group>"; };
 		502756901BA6AC5B0065592A /* CouponDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponDetailsVC.h; sourceTree = "<group>"; };
 		502756911BA6AC5B0065592A /* CouponDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponDetailsVC.m; sourceTree = "<group>"; };
+		5029A84D1C9121C2006B3438 /* GroupIntroductionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupIntroductionVC.h; sourceTree = "<group>"; };
+		5029A84E1C9121C2006B3438 /* GroupIntroductionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupIntroductionVC.m; sourceTree = "<group>"; };
 		502B4CF51C7D60B40009F1D4 /* SuspendedAdVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuspendedAdVC.h; sourceTree = "<group>"; };
 		502B4CF61C7D60B40009F1D4 /* SuspendedAdVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuspendedAdVC.m; sourceTree = "<group>"; };
 		5037DC721C43855E005AF932 /* NewGainAwardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGainAwardVC.h; sourceTree = "<group>"; };
@@ -1351,6 +1390,9 @@
 		504FFEA41C05D4C9002D7D6D /* AreaPickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreaPickerVC.m; sourceTree = "<group>"; };
 		505358F21C0D79640029B5BA /* SharedNotifyOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SharedNotifyOp.h; path = Class/SharedNotifyOp.h; sourceTree = "<group>"; };
 		505358F31C0D79640029B5BA /* SharedNotifyOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SharedNotifyOp.m; path = Class/SharedNotifyOp.m; sourceTree = "<group>"; };
+		505BC1C01C87D4FA00253F6D /* MutualInsHomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsHomeVC.h; sourceTree = "<group>"; };
+		505BC1C11C87D4FA00253F6D /* MutualInsHomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsHomeVC.m; sourceTree = "<group>"; };
+		505BC1C41C87D6ED00253F6D /* MutualInsJoin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsJoin.storyboard; sourceTree = "<group>"; };
 		505E5FC31BD7356A00857819 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
 		505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
@@ -1399,11 +1441,15 @@
 		508D067F1B900CF800B835BB /* InsuranceOrderPayOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsuranceOrderPayOp.m; path = Class/InsuranceOrderPayOp.m; sourceTree = "<group>"; };
 		508EE5DA1C2BA09800873602 /* TopMenuScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TopMenuScrollView.h; path = Class/TopMenuScrollView.h; sourceTree = "<group>"; };
 		508EE5DB1C2BA09800873602 /* TopMenuScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TopMenuScrollView.m; path = Class/TopMenuScrollView.m; sourceTree = "<group>"; };
+		5093C9FC1C92A68A006B2258 /* InviteByCodeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteByCodeVC.h; sourceTree = "<group>"; };
+		5093C9FD1C92A68A006B2258 /* InviteByCodeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteByCodeVC.m; sourceTree = "<group>"; };
 		509D1CC01C086E01003ED860 /* ShareResponeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareResponeManager.h; path = Class/ShareResponeManager.h; sourceTree = "<group>"; };
 		509D1CC11C086E01003ED860 /* ShareResponeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShareResponeManager.m; path = Class/ShareResponeManager.m; sourceTree = "<group>"; };
 		50A1E06D1C1EA12800176572 /* Valuation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Valuation.storyboard; sourceTree = "<group>"; };
 		50A1E06F1C1EA3A300176572 /* ValuationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuationViewController.h; sourceTree = "<group>"; };
 		50A1E0701C1EA3A300176572 /* ValuationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuationViewController.m; sourceTree = "<group>"; };
+		50AC2B4E1C8D737300620551 /* EditInsInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditInsInfoVC.h; sourceTree = "<group>"; };
+		50AC2B4F1C8D737300620551 /* EditInsInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditInsInfoVC.m; sourceTree = "<group>"; };
 		50ACC6A31C20FC79006E984E /* CarScrollTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarScrollTableViewCell.h; sourceTree = "<group>"; };
 		50ACC6A41C20FC79006E984E /* CarScrollTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarScrollTableViewCell.m; sourceTree = "<group>"; };
 		50ACC6A61C2138F9006E984E /* CarEvaluateOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CarEvaluateOp.h; path = Class/CarEvaluateOp.h; sourceTree = "<group>"; };
@@ -1428,8 +1474,6 @@
 		50DD1BCA1BFB093500349A70 /* OthersOrderViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OthersOrderViewModel.m; sourceTree = "<group>"; };
 		50E8003F1C44D7B100AFC7B9 /* HYScratchCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYScratchCardView.h; sourceTree = "<group>"; };
 		50E800401C44D7B100AFC7B9 /* HYScratchCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYScratchCardView.m; sourceTree = "<group>"; };
-		50E9DD141BE201180070F38D /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		50E9DD151BE201180070F38D /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		50F7F0761C86C49700138947 /* GetShareButtonOpV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShareButtonOpV2.h; path = Class/GetShareButtonOpV2.h; sourceTree = "<group>"; };
 		50F7F0771C86C49700138947 /* GetShareButtonOpV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetShareButtonOpV2.m; path = Class/GetShareButtonOpV2.m; sourceTree = "<group>"; };
 		50F7F0791C86C4E200138947 /* GetShareDetailOpV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShareDetailOpV2.h; path = Class/GetShareDetailOpV2.h; sourceTree = "<group>"; };
@@ -1446,6 +1490,8 @@
 		50FAC26A1C23AB9C00F8990F /* GetAutomobileModelV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAutomobileModelV2Op.m; path = Class/GetAutomobileModelV2Op.m; sourceTree = "<group>"; };
 		50FAC26F1C23B8C000F8990F /* AutoSeriesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AutoSeriesModel.h; path = Class/AutoSeriesModel.h; sourceTree = "<group>"; };
 		50FAC2701C23B8C000F8990F /* AutoSeriesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutoSeriesModel.m; path = Class/AutoSeriesModel.m; sourceTree = "<group>"; };
+		50FEF7691C8827C900B85F19 /* AutoGroupInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoGroupInfoVC.h; sourceTree = "<group>"; };
+		50FEF76A1C8827C900B85F19 /* AutoGroupInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoGroupInfoVC.m; sourceTree = "<group>"; };
 		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6B086BA21AE4E19000659DB7 /* GetSystemTipsOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemTipsOp.h; path = Class/GetSystemTipsOp.h; sourceTree = "<group>"; };
 		6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemTipsOp.m; path = Class/GetSystemTipsOp.m; sourceTree = "<group>"; };
@@ -1481,6 +1527,33 @@
 		6B22659B1C45059500A121CC /* GetSystemHomePicOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemHomePicOp.m; path = Class/GetSystemHomePicOp.m; sourceTree = "<group>"; };
 		6B22659D1C4506BE00A121CC /* HomePicModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomePicModel.h; path = Class/HomePicModel.h; sourceTree = "<group>"; };
 		6B22659E1C4506BE00A121CC /* HomePicModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomePicModel.m; path = Class/HomePicModel.m; sourceTree = "<group>"; };
+		6B26EE951C8EB60D00428EC4 /* MutualInsPayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsPayViewController.h; sourceTree = "<group>"; };
+		6B26EE961C8EB60D00428EC4 /* MutualInsPayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsPayViewController.m; sourceTree = "<group>"; };
+		6B26EE991C8EC12B00428EC4 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		6B26EE9A1C8EC12B00428EC4 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		6B26EEAA1C8EC23200428EC4 /* ZFCDoubleBounceActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCDoubleBounceActivityIndicatorView.h; sourceTree = "<group>"; };
+		6B26EEAB1C8EC23200428EC4 /* ZFCDoubleBounceActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCDoubleBounceActivityIndicatorView.m; sourceTree = "<group>"; };
+		6B26EEAC1C8EC23200428EC4 /* ZFCRotatingPlaneActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCRotatingPlaneActivityIndicatorView.h; sourceTree = "<group>"; };
+		6B26EEAD1C8EC23200428EC4 /* ZFCRotatingPlaneActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCRotatingPlaneActivityIndicatorView.m; sourceTree = "<group>"; };
+		6B26EEAE1C8EC23200428EC4 /* ZFCWanderingCubesActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCWanderingCubesActivityIndicatorView.h; sourceTree = "<group>"; };
+		6B26EEAF1C8EC23200428EC4 /* ZFCWanderingCubesActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCWanderingCubesActivityIndicatorView.m; sourceTree = "<group>"; };
+		6B26EEB01C8EC23200428EC4 /* ZFCWaveActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCWaveActivityIndicatorView.h; sourceTree = "<group>"; };
+		6B26EEB11C8EC23200428EC4 /* ZFCWaveActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCWaveActivityIndicatorView.m; sourceTree = "<group>"; };
+		6B26EEDB1C8EF4D400428EC4 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "react-native/React/React.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		6B26EEE11C8EF4E900428EC4 /* RCTActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTActionSheet.xcodeproj; path = "react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		6B26EEE71C8EF4FF00428EC4 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		6B26EEED1C8EF51D00428EC4 /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		6B26EEF31C8EF55100428EC4 /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		6B26EEF91C8EF56500428EC4 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		6B26EEFF1C8EF57500428EC4 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		6B26EF051C8EF89B00428EC4 /* ReactTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReactTestViewController.h; sourceTree = "<group>"; };
+		6B26EF061C8EF89B00428EC4 /* ReactTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReactTestViewController.m; sourceTree = "<group>"; };
+		6B26EF081C8EF97E00428EC4 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		6B26EF0A1C8EFA7600428EC4 /* ReactView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReactView.h; sourceTree = "<group>"; };
+		6B26EF0B1C8EFA7600428EC4 /* ReactView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReactView.m; sourceTree = "<group>"; };
+		6B26EF491C9026BD00428EC4 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ReactComponent/main.jsbundle; sourceTree = SOURCE_ROOT; };
+		6B26EF911C91599400428EC4 /* PhotoBrowserVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoBrowserVC.h; sourceTree = "<group>"; };
+		6B26EF921C91599400428EC4 /* PhotoBrowserVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoBrowserVC.m; sourceTree = "<group>"; };
 		6B2F28F41C8414D80096FD45 /* RRFPSBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRFPSBar.h; sourceTree = "<group>"; };
 		6B2F28F51C8414D80096FD45 /* RRFPSBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RRFPSBar.m; sourceTree = "<group>"; };
 		6B328ECE1B79AAFA00B9F207 /* ChooseBankCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseBankCardVC.h; sourceTree = "<group>"; };
@@ -1541,6 +1614,7 @@
 		6BAF301A1AE6947F00E35E08 /* ClientInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClientInfo.m; path = Class/ClientInfo.m; sourceTree = "<group>"; };
 		6BAF301B1AE6947F00E35E08 /* DeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceInfo.h; path = Class/DeviceInfo.h; sourceTree = "<group>"; };
 		6BAF301C1AE6947F00E35E08 /* DeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceInfo.m; path = Class/DeviceInfo.m; sourceTree = "<group>"; };
+		6BB0E0A31C916EA600137CD8 /* Carwash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Carwash.storyboard; sourceTree = "<group>"; };
 		6BB61B961AEE85E8004F39AA /* AddUserFavoriteOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddUserFavoriteOp.h; path = Class/AddUserFavoriteOp.h; sourceTree = "<group>"; };
 		6BB61B971AEE85E8004F39AA /* AddUserFavoriteOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddUserFavoriteOp.m; path = Class/AddUserFavoriteOp.m; sourceTree = "<group>"; };
 		6BB61B991AEF5350004F39AA /* MapBottomView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MapBottomView.xib; path = Class/MapBottomView.xib; sourceTree = "<group>"; };
@@ -1698,7 +1772,6 @@
 		6BD293BB1B943EF1006482A4 /* About.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = About.storyboard; sourceTree = "<group>"; };
 		6BD293BC1B943EF1006482A4 /* Award.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Award.storyboard; sourceTree = "<group>"; };
 		6BD293BD1B943EF1006482A4 /* Bank.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Bank.storyboard; sourceTree = "<group>"; };
-		6BD293BE1B943EF1006482A4 /* Carwash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Carwash.storyboard; sourceTree = "<group>"; };
 		6BD293BF1B943EF1006482A4 /* Commission.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Commission.storyboard; sourceTree = "<group>"; };
 		6BD293C01B943EF1006482A4 /* Common.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Common.storyboard; sourceTree = "<group>"; };
 		6BD293C21B943EF1006482A4 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
@@ -1724,23 +1797,6 @@
 		6BD7AE671AE9F63900BEF30E /* MapBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapBottomView.m; path = Class/MapBottomView.m; sourceTree = "<group>"; };
 		6BDB47821B78794800C61AB9 /* GetUserResourcesV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserResourcesV2Op.h; path = Class/GetUserResourcesV2Op.h; sourceTree = "<group>"; };
 		6BDB47831B78794800C61AB9 /* GetUserResourcesV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUserResourcesV2Op.m; path = Class/GetUserResourcesV2Op.m; sourceTree = "<group>"; };
-		6BDD6E121B67615C0060CFD0 /* JDDateCountdownFlipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDDateCountdownFlipView.h; sourceTree = "<group>"; };
-		6BDD6E131B67615C0060CFD0 /* JDDateCountdownFlipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDDateCountdownFlipView.m; sourceTree = "<group>"; };
-		6BDD6E141B67615C0060CFD0 /* JDFlipClockView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDFlipClockView.h; sourceTree = "<group>"; };
-		6BDD6E151B67615C0060CFD0 /* JDFlipClockView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDFlipClockView.m; sourceTree = "<group>"; };
-		6BDD6E161B67615C0060CFD0 /* JDFlipImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDFlipImageView.h; sourceTree = "<group>"; };
-		6BDD6E171B67615C0060CFD0 /* JDFlipImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDFlipImageView.m; sourceTree = "<group>"; };
-		6BDD6E181B67615C0060CFD0 /* JDFlipNumberDigitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDFlipNumberDigitView.h; sourceTree = "<group>"; };
-		6BDD6E191B67615C0060CFD0 /* JDFlipNumberDigitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDFlipNumberDigitView.m; sourceTree = "<group>"; };
-		6BDD6E1A1B67615C0060CFD0 /* JDFlipNumberView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JDFlipNumberView.bundle; sourceTree = "<group>"; };
-		6BDD6E1B1B67615C0060CFD0 /* JDFlipNumberView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDFlipNumberView.h; sourceTree = "<group>"; };
-		6BDD6E1C1B67615C0060CFD0 /* JDFlipNumberView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDFlipNumberView.m; sourceTree = "<group>"; };
-		6BDD6E1D1B67615C0060CFD0 /* JDFlipNumberViewImageFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDFlipNumberViewImageFactory.h; sourceTree = "<group>"; };
-		6BDD6E1E1B67615C0060CFD0 /* JDFlipNumberViewImageFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDFlipNumberViewImageFactory.m; sourceTree = "<group>"; };
-		6BDD6E1F1B67615C0060CFD0 /* UIView+JDFlipImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+JDFlipImageView.h"; sourceTree = "<group>"; };
-		6BDD6E201B67615C0060CFD0 /* UIView+JDFlipImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+JDFlipImageView.m"; sourceTree = "<group>"; };
-		6BDD6E2C1B68B9AE0060CFD0 /* HKFlipDecimalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKFlipDecimalView.h; sourceTree = "<group>"; };
-		6BDD6E2D1B68B9AE0060CFD0 /* HKFlipDecimalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKFlipDecimalView.m; sourceTree = "<group>"; };
 		6BE2BD4D1AE6232C00A69875 /* HKAdvertisement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKAdvertisement.h; path = Class/HKAdvertisement.h; sourceTree = "<group>"; };
 		6BE2BD4E1AE6232C00A69875 /* HKAdvertisement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKAdvertisement.m; path = Class/HKAdvertisement.m; sourceTree = "<group>"; };
 		6BE2BD561AE62CDF00A69875 /* HKInsurance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKInsurance.h; path = Class/HKInsurance.h; sourceTree = "<group>"; };
@@ -1883,66 +1939,6 @@
 		6BEC3FCB1C16F1A50046F11D /* MyUIPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyUIPageControl.m; path = Class/MyUIPageControl.m; sourceTree = "<group>"; };
 		6BEDB0441BA666D4009A8C3F /* CCSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSegmentedControl.h; sourceTree = "<group>"; };
 		6BEDB0451BA666D4009A8C3F /* CCSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCSegmentedControl.m; sourceTree = "<group>"; };
-		6BEE173B1C325A0D0004F63A /* IFTTTAlphaAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTAlphaAnimation.h; sourceTree = "<group>"; };
-		6BEE173C1C325A0D0004F63A /* IFTTTAlphaAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTAlphaAnimation.m; sourceTree = "<group>"; };
-		6BEE173D1C325A0D0004F63A /* IFTTTAnimatable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTAnimatable.h; sourceTree = "<group>"; };
-		6BEE173E1C325A0D0004F63A /* IFTTTAnimatedPagingScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTAnimatedPagingScrollViewController.h; sourceTree = "<group>"; };
-		6BEE173F1C325A0D0004F63A /* IFTTTAnimatedPagingScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTAnimatedPagingScrollViewController.m; sourceTree = "<group>"; };
-		6BEE17401C325A0D0004F63A /* IFTTTAnimatedScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTAnimatedScrollViewController.h; sourceTree = "<group>"; };
-		6BEE17411C325A0D0004F63A /* IFTTTAnimatedScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTAnimatedScrollViewController.m; sourceTree = "<group>"; };
-		6BEE17421C325A0D0004F63A /* IFTTTAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTAnimation.h; sourceTree = "<group>"; };
-		6BEE17431C325A0D0004F63A /* IFTTTAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTAnimation.m; sourceTree = "<group>"; };
-		6BEE17441C325A0D0004F63A /* IFTTTAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTAnimator.h; sourceTree = "<group>"; };
-		6BEE17451C325A0D0004F63A /* IFTTTAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTAnimator.m; sourceTree = "<group>"; };
-		6BEE17461C325A0D0004F63A /* IFTTTBackgroundColorAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTBackgroundColorAnimation.h; sourceTree = "<group>"; };
-		6BEE17471C325A0D0004F63A /* IFTTTBackgroundColorAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTBackgroundColorAnimation.m; sourceTree = "<group>"; };
-		6BEE17481C325A0D0004F63A /* IFTTTConstraintConstantAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTConstraintConstantAnimation.h; sourceTree = "<group>"; };
-		6BEE17491C325A0D0004F63A /* IFTTTConstraintConstantAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTConstraintConstantAnimation.m; sourceTree = "<group>"; };
-		6BEE174A1C325A0D0004F63A /* IFTTTConstraintMultiplierAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTConstraintMultiplierAnimation.h; sourceTree = "<group>"; };
-		6BEE174B1C325A0D0004F63A /* IFTTTConstraintMultiplierAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTConstraintMultiplierAnimation.m; sourceTree = "<group>"; };
-		6BEE174C1C325A0D0004F63A /* IFTTTCornerRadiusAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTCornerRadiusAnimation.h; sourceTree = "<group>"; };
-		6BEE174D1C325A0D0004F63A /* IFTTTCornerRadiusAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTCornerRadiusAnimation.m; sourceTree = "<group>"; };
-		6BEE174E1C325A0D0004F63A /* IFTTTEasingFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTEasingFunction.h; sourceTree = "<group>"; };
-		6BEE174F1C325A0D0004F63A /* IFTTTEasingFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTEasingFunction.m; sourceTree = "<group>"; };
-		6BEE17501C325A0D0004F63A /* IFTTTFilmstrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTFilmstrip.h; sourceTree = "<group>"; };
-		6BEE17511C325A0D0004F63A /* IFTTTFilmstrip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTFilmstrip.m; sourceTree = "<group>"; };
-		6BEE17521C325A0D0004F63A /* IFTTTFrameAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTFrameAnimation.h; sourceTree = "<group>"; };
-		6BEE17531C325A0D0004F63A /* IFTTTFrameAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTFrameAnimation.m; sourceTree = "<group>"; };
-		6BEE17541C325A0D0004F63A /* IFTTTHideAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTHideAnimation.h; sourceTree = "<group>"; };
-		6BEE17551C325A0D0004F63A /* IFTTTHideAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTHideAnimation.m; sourceTree = "<group>"; };
-		6BEE17561C325A0D0004F63A /* IFTTTInterpolatable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTInterpolatable.h; sourceTree = "<group>"; };
-		6BEE17571C325A0D0004F63A /* IFTTTInterpolatable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTInterpolatable.m; sourceTree = "<group>"; };
-		6BEE17581C325A0D0004F63A /* IFTTTJazzHands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTJazzHands.h; sourceTree = "<group>"; };
-		6BEE17591C325A0D0004F63A /* IFTTTLayerFillColorAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTLayerFillColorAnimation.h; sourceTree = "<group>"; };
-		6BEE175A1C325A0D0004F63A /* IFTTTLayerFillColorAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTLayerFillColorAnimation.m; sourceTree = "<group>"; };
-		6BEE175B1C325A0D0004F63A /* IFTTTLayerStrokeEndAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTLayerStrokeEndAnimation.h; sourceTree = "<group>"; };
-		6BEE175C1C325A0D0004F63A /* IFTTTLayerStrokeEndAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTLayerStrokeEndAnimation.m; sourceTree = "<group>"; };
-		6BEE175D1C325A0D0004F63A /* IFTTTLayerStrokeStartAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTLayerStrokeStartAnimation.h; sourceTree = "<group>"; };
-		6BEE175E1C325A0D0004F63A /* IFTTTLayerStrokeStartAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTLayerStrokeStartAnimation.m; sourceTree = "<group>"; };
-		6BEE175F1C325A0D0004F63A /* IFTTTMaskAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTMaskAnimation.h; sourceTree = "<group>"; };
-		6BEE17601C325A0D0004F63A /* IFTTTMaskAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTMaskAnimation.m; sourceTree = "<group>"; };
-		6BEE17611C325A0D0004F63A /* IFTTTPathPositionAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTPathPositionAnimation.h; sourceTree = "<group>"; };
-		6BEE17621C325A0D0004F63A /* IFTTTPathPositionAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTPathPositionAnimation.m; sourceTree = "<group>"; };
-		6BEE17631C325A0D0004F63A /* IFTTTRotationAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTRotationAnimation.h; sourceTree = "<group>"; };
-		6BEE17641C325A0D0004F63A /* IFTTTRotationAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTRotationAnimation.m; sourceTree = "<group>"; };
-		6BEE17651C325A0D0004F63A /* IFTTTScaleAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTScaleAnimation.h; sourceTree = "<group>"; };
-		6BEE17661C325A0D0004F63A /* IFTTTScaleAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTScaleAnimation.m; sourceTree = "<group>"; };
-		6BEE17671C325A0D0004F63A /* IFTTTScrollViewPageConstraintAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTScrollViewPageConstraintAnimation.h; sourceTree = "<group>"; };
-		6BEE17681C325A0D0004F63A /* IFTTTScrollViewPageConstraintAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTScrollViewPageConstraintAnimation.m; sourceTree = "<group>"; };
-		6BEE17691C325A0D0004F63A /* IFTTTShapeLayerAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTShapeLayerAnimation.h; sourceTree = "<group>"; };
-		6BEE176A1C325A0D0004F63A /* IFTTTShapeLayerAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTShapeLayerAnimation.m; sourceTree = "<group>"; };
-		6BEE176B1C325A0D0004F63A /* IFTTTTextColorAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTTextColorAnimation.h; sourceTree = "<group>"; };
-		6BEE176C1C325A0D0004F63A /* IFTTTTextColorAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTTextColorAnimation.m; sourceTree = "<group>"; };
-		6BEE176D1C325A0D0004F63A /* IFTTTTransform3DAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTTransform3DAnimation.h; sourceTree = "<group>"; };
-		6BEE176E1C325A0D0004F63A /* IFTTTTransform3DAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTTransform3DAnimation.m; sourceTree = "<group>"; };
-		6BEE176F1C325A0D0004F63A /* IFTTTTranslationAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTTranslationAnimation.h; sourceTree = "<group>"; };
-		6BEE17701C325A0D0004F63A /* IFTTTTranslationAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTTranslationAnimation.m; sourceTree = "<group>"; };
-		6BEE17711C325A0D0004F63A /* IFTTTViewAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTTTViewAnimation.h; sourceTree = "<group>"; };
-		6BEE17721C325A0D0004F63A /* IFTTTViewAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTTTViewAnimation.m; sourceTree = "<group>"; };
-		6BEE17731C325A0D0004F63A /* UIView+IFTTTJazzHands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+IFTTTJazzHands.h"; sourceTree = "<group>"; };
-		6BEE17741C325A0D0004F63A /* UIView+IFTTTJazzHands.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+IFTTTJazzHands.m"; sourceTree = "<group>"; };
-		6BEE17911C325A3C0004F63A /* GuideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuideViewController.h; sourceTree = "<group>"; };
-		6BEE17921C325A3C0004F63A /* GuideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuideViewController.m; sourceTree = "<group>"; };
 		6BEF74871BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetsSystemSwitchConfigOp.h; path = Class/GetsSystemSwitchConfigOp.h; sourceTree = "<group>"; };
 		6BEF74881BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetsSystemSwitchConfigOp.m; path = Class/GetsSystemSwitchConfigOp.m; sourceTree = "<group>"; };
 		6BF392421BD627A900838292 /* GetShopByNameV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShopByNameV2Op.h; path = Class/GetShopByNameV2Op.h; sourceTree = "<group>"; };
@@ -1973,6 +1969,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B26EF131C8EFBC300428EC4 /* libReact.a in Frameworks */,
+				6B26EF0D1C8EFBBB00428EC4 /* libRCTActionSheet.a in Frameworks */,
+				6B26EF0E1C8EFBBB00428EC4 /* libRCTImage.a in Frameworks */,
+				6B26EF0F1C8EFBBB00428EC4 /* libRCTLinking.a in Frameworks */,
+				6B26EF101C8EFBBB00428EC4 /* libRCTNetwork.a in Frameworks */,
+				6B26EF111C8EFBBB00428EC4 /* libRCTText.a in Frameworks */,
+				6B26EF121C8EFBBB00428EC4 /* libRCTWebSocket.a in Frameworks */,
+				6B26EF091C8EF97E00428EC4 /* JavaScriptCore.framework in Frameworks */,
 				506160BE1BFD76D3003E7F80 /* libresolv.9.tbd in Frameworks */,
 				18E28A171B93E5AF0070E759 /* Security.framework in Frameworks */,
 				18E28A151B93E5A20070E759 /* QuartzCore.framework in Frameworks */,
@@ -2026,24 +2030,21 @@
 			children = (
 				184453281C8FEE81007B895D /* JMRoundedCorner */,
 				1844531A1C8EA30F007B895D /* AhaWaterWaveView */,
+				6B26EEA91C8EC23200428EC4 /* ZFCActivityIndicatorView */,
+				6B26EE981C8EC12B00428EC4 /* Reachability */,
 				6B2F28F31C8414D80096FD45 /* RRFPSBar */,
 				18FC01BA1C4E6C6F00FD61BF /* IQKeyBoardManager */,
 				50E8003E1C44D7B100AFC7B9 /* HYScratchCardView */,
 				18CECC221C30F8890075B7F9 /* JT3DScrollView */,
-				6BEE173A1C325A0D0004F63A /* JazzHands */,
-				50E9DD131BE201090070F38D /* Reachability */,
 				6BF3925C1BD8935600838292 /* CBAutoScrollLabel */,
 				18BF41F61BCF75DA0039F210 /* RTLabel */,
 				18BF41F21BCF6D890039F210 /* PKYStepper */,
-				1826CCE71BAAE80800E2F46D /* ZFCActivityIndicatorView */,
 				18C52C371BA6CE9400F6C38B /* DAProgressOverlayView */,
 				6BEDB0431BA666D4009A8C3F /* CCSegmentedControl */,
 				18E28A0F1B93E5880070E759 /* UPPaySDK */,
 				1837A7571B72130F0006E6C5 /* SDPhotoBrowser */,
-				6BDD6E111B67615C0060CFD0 /* JDFlipNumberView */,
 				18F813611B5F3561005F49B0 /* CKNavigationController */,
 				18D17F741B53B21E00F66F04 /* MBProgressHUD */,
-				185A52961B1C0DEC003515CC /* CarbonKit */,
 				6BCF624B1B184AEF0064AE32 /* NJKWebViewProgress */,
 				181F6D941B15919900D38555 /* CXAlertView */,
 				189DD3FD1B10722700BA0A7F /* SRMonthPicker */,
@@ -2258,21 +2259,6 @@
 			name = Temp;
 			sourceTree = "<group>";
 		};
-		1826CCE71BAAE80800E2F46D /* ZFCActivityIndicatorView */ = {
-			isa = PBXGroup;
-			children = (
-				1826CCE81BAAE80800E2F46D /* ZFCDoubleBounceActivityIndicatorView.h */,
-				1826CCE91BAAE80800E2F46D /* ZFCDoubleBounceActivityIndicatorView.m */,
-				1826CCEA1BAAE80800E2F46D /* ZFCRotatingPlaneActivityIndicatorView.h */,
-				1826CCEB1BAAE80800E2F46D /* ZFCRotatingPlaneActivityIndicatorView.m */,
-				1826CCEC1BAAE80800E2F46D /* ZFCWanderingCubesActivityIndicatorView.h */,
-				1826CCED1BAAE80800E2F46D /* ZFCWanderingCubesActivityIndicatorView.m */,
-				1826CCEE1BAAE80800E2F46D /* ZFCWaveActivityIndicatorView.h */,
-				1826CCEF1BAAE80800E2F46D /* ZFCWaveActivityIndicatorView.m */,
-			);
-			path = ZFCActivityIndicatorView;
-			sourceTree = "<group>";
-		};
 		1833F56A1BCD373B000E1DA1 /* Codemap */ = {
 			isa = PBXGroup;
 			children = (
@@ -2464,7 +2450,6 @@
 		184453191C8E70D9007B895D /* MutualIns */ = {
 			isa = PBXGroup;
 			children = (
-				6B2F29021C8976C30096FD45 /* MutualInsPay */,
 				184452ED1C8D169A007B895D /* MutualInsGroupon */,
 			);
 			name = MutualIns;
@@ -2613,19 +2598,6 @@
 			name = ProgressHUD;
 			sourceTree = "<group>";
 		};
-		185A52961B1C0DEC003515CC /* CarbonKit */ = {
-			isa = PBXGroup;
-			children = (
-				185A52971B1C0DEC003515CC /* CarbonKit.h */,
-				185A52981B1C0DEC003515CC /* CarbonSwipeRefresh.h */,
-				185A52991B1C0DEC003515CC /* CarbonSwipeRefresh.m */,
-				185A529A1B1C0DEC003515CC /* CarbonTabSwipeNavigation.h */,
-				185A529B1B1C0DEC003515CC /* CarbonTabSwipeNavigation.m */,
-			);
-			name = CarbonKit;
-			path = CarbonKit/CarbonKit;
-			sourceTree = "<group>";
-		};
 		186984E21B00571C000A182A /* Order */ = {
 			isa = PBXGroup;
 			children = (
@@ -2689,6 +2661,7 @@
 		1883D8E11ACB99AC002A4D19 /* XiaoMa */ = {
 			isa = PBXGroup;
 			children = (
+				6B26EEDA1C8EF4B000428EC4 /* ReactNative */,
 				1833F56A1BCD373B000E1DA1 /* Codemap */,
 				6BBAB8C81ADD351800EC342F /* Helper */,
 				1816F4B51AD36D5100BBCC96 /* Component */,
@@ -2775,8 +2748,11 @@
 			isa = PBXGroup;
 			children = (
 				184453191C8E70D9007B895D /* MutualIns */,
+				6B2F29021C8976C30096FD45 /* MutualInsPay */,
+				4E97D7121C9000FC00FC418F /* MutualInsClaims */,
 				6B2265931C439DC400A121CC /* SuperView */,
 				6B4BCEDD1C3E528E0006B5EB /* SuperViewController */,
+				505BC1BC1C87D42C00253F6D /* MutualIns */,
 				502D09D21C1E9D08001610F0 /* Valuation */,
 				6BFE6A681C03365900EC9766 /* Illegal */,
 				1833F59A1BCD4773000E1DA1 /* Gas */,
@@ -2832,8 +2808,6 @@
 				18D17F821B57A3D000F66F04 /* HomePageVModel.m */,
 				18E28A091B904FF00070E759 /* LaunchVC.h */,
 				18E28A0A1B904FF00070E759 /* LaunchVC.m */,
-				6BEE17911C325A3C0004F63A /* GuideViewController.h */,
-				6BEE17921C325A3C0004F63A /* GuideViewController.m */,
 				1821C34B1C4794D800120AF4 /* HomeNewbieGuideVC.h */,
 				1821C34C1C4794D800120AF4 /* HomeNewbieGuideVC.m */,
 				50B5088B1C7C469800B6151E /* HomeSuspendedAdVC.h */,
@@ -3119,6 +3093,8 @@
 		189B39491AF71C2200B83F1B /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				6B26EF051C8EF89B00428EC4 /* ReactTestViewController.h */,
+				6B26EF061C8EF89B00428EC4 /* ReactTestViewController.m */,
 				18E756A11B73334600874601 /* Bank */,
 				18088D881B1DC8AA007438FC /* Coupon */,
 				18C81CB81B17FE5800B0C292 /* About */,
@@ -3529,6 +3505,8 @@
 		18F93CD11B6F043C000325DD /* Label */ = {
 			isa = PBXGroup;
 			children = (
+				4E97D7151C9001C700FC418F /* HKInclinedLabel.h */,
+				4E97D7161C9001C700FC418F /* HKInclinedLabel.m */,
 				189428B01C1AAD6300E492CA /* GridLabel.h */,
 				189428B11C1AAD6300E492CA /* GridLabel.m */,
 				18F93CD21B6F044D000325DD /* BorderLineLabel.h */,
@@ -3618,6 +3596,25 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		4E97D7121C9000FC00FC418F /* MutualInsClaims */ = {
+			isa = PBXGroup;
+			children = (
+				181355B21C9691D700894CA1 /* ScencePageVC.h */,
+				181355B31C9691D700894CA1 /* ScencePageVC.m */,
+				181355B41C9691D700894CA1 /* ScencePhotoVM.h */,
+				181355B51C9691D700894CA1 /* ScencePhotoVM.m */,
+				6B26EF911C91599400428EC4 /* PhotoBrowserVC.h */,
+				6B26EF921C91599400428EC4 /* PhotoBrowserVC.m */,
+				4E97D70F1C9000E500FC418F /* AskClaimsVC.h */,
+				4E97D7101C9000E500FC418F /* AskClaimsVC.m */,
+				4E97D70C1C9000DB00FC418F /* ClaimsHistoryVC.h */,
+				4E97D70D1C9000DB00FC418F /* ClaimsHistoryVC.m */,
+				4E97D7181C9003A500FC418F /* ScencePhotoVC.h */,
+				4E97D7191C9003A500FC418F /* ScencePhotoVC.m */,
+			);
+			name = MutualInsClaims;
+			sourceTree = "<group>";
+		};
 		502D09D21C1E9D08001610F0 /* Valuation */ = {
 			isa = PBXGroup;
 			children = (
@@ -3637,6 +3634,23 @@
 				50FA52881C2296CD002B1EAE /* ValuationResultVC.m */,
 			);
 			name = Valuation;
+			sourceTree = "<group>";
+		};
+		505BC1BC1C87D42C00253F6D /* MutualIns */ = {
+			isa = PBXGroup;
+			children = (
+				505BC1C01C87D4FA00253F6D /* MutualInsHomeVC.h */,
+				505BC1C11C87D4FA00253F6D /* MutualInsHomeVC.m */,
+				5029A84D1C9121C2006B3438 /* GroupIntroductionVC.h */,
+				5029A84E1C9121C2006B3438 /* GroupIntroductionVC.m */,
+				50FEF7691C8827C900B85F19 /* AutoGroupInfoVC.h */,
+				50FEF76A1C8827C900B85F19 /* AutoGroupInfoVC.m */,
+				50AC2B4E1C8D737300620551 /* EditInsInfoVC.h */,
+				50AC2B4F1C8D737300620551 /* EditInsInfoVC.m */,
+				5093C9FC1C92A68A006B2258 /* InviteByCodeVC.h */,
+				5093C9FD1C92A68A006B2258 /* InviteByCodeVC.m */,
+			);
+			name = MutualIns;
 			sourceTree = "<group>";
 		};
 		505E5FC21BD7356A00857819 /* WebViewJavascriptBridge */ = {
@@ -3702,22 +3716,111 @@
 			path = HYScratchCardView;
 			sourceTree = "<group>";
 		};
-		50E9DD131BE201090070F38D /* Reachability */ = {
-			isa = PBXGroup;
-			children = (
-				50E9DD141BE201180070F38D /* Reachability.h */,
-				50E9DD151BE201180070F38D /* Reachability.m */,
-			);
-			name = Reachability;
-			sourceTree = "<group>";
-		};
 		6B2265931C439DC400A121CC /* SuperView */ = {
 			isa = PBXGroup;
 			children = (
+				6B26EF0A1C8EFA7600428EC4 /* ReactView.h */,
+				6B26EF0B1C8EFA7600428EC4 /* ReactView.m */,
 				6B2265941C439DD600A121CC /* HKView.h */,
 				6B2265951C439DD600A121CC /* HKView.m */,
+				181355BF1C96935300894CA1 /* HKProgressView.h */,
+				181355C01C96935300894CA1 /* HKProgressView.m */,
 			);
 			name = SuperView;
+			sourceTree = "<group>";
+		};
+		6B26EE981C8EC12B00428EC4 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				6B26EE991C8EC12B00428EC4 /* Reachability.h */,
+				6B26EE9A1C8EC12B00428EC4 /* Reachability.m */,
+			);
+			path = Reachability;
+			sourceTree = "<group>";
+		};
+		6B26EEA91C8EC23200428EC4 /* ZFCActivityIndicatorView */ = {
+			isa = PBXGroup;
+			children = (
+				6B26EEAA1C8EC23200428EC4 /* ZFCDoubleBounceActivityIndicatorView.h */,
+				6B26EEAB1C8EC23200428EC4 /* ZFCDoubleBounceActivityIndicatorView.m */,
+				6B26EEAC1C8EC23200428EC4 /* ZFCRotatingPlaneActivityIndicatorView.h */,
+				6B26EEAD1C8EC23200428EC4 /* ZFCRotatingPlaneActivityIndicatorView.m */,
+				6B26EEAE1C8EC23200428EC4 /* ZFCWanderingCubesActivityIndicatorView.h */,
+				6B26EEAF1C8EC23200428EC4 /* ZFCWanderingCubesActivityIndicatorView.m */,
+				6B26EEB01C8EC23200428EC4 /* ZFCWaveActivityIndicatorView.h */,
+				6B26EEB11C8EC23200428EC4 /* ZFCWaveActivityIndicatorView.m */,
+			);
+			path = ZFCActivityIndicatorView;
+			sourceTree = "<group>";
+		};
+		6B26EEDA1C8EF4B000428EC4 /* ReactNative */ = {
+			isa = PBXGroup;
+			children = (
+				6B26EEFF1C8EF57500428EC4 /* RCTWebSocket.xcodeproj */,
+				6B26EEF91C8EF56500428EC4 /* RCTText.xcodeproj */,
+				6B26EEF31C8EF55100428EC4 /* RCTNetwork.xcodeproj */,
+				6B26EEED1C8EF51D00428EC4 /* RCTImage.xcodeproj */,
+				6B26EEE71C8EF4FF00428EC4 /* RCTLinking.xcodeproj */,
+				6B26EEE11C8EF4E900428EC4 /* RCTActionSheet.xcodeproj */,
+				6B26EEDB1C8EF4D400428EC4 /* React.xcodeproj */,
+			);
+			name = ReactNative;
+			sourceTree = "<group>";
+		};
+		6B26EEDC1C8EF4D400428EC4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B26EEE01C8EF4D400428EC4 /* libReact.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6B26EEE21C8EF4E900428EC4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B26EEE61C8EF4E900428EC4 /* libRCTActionSheet.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6B26EEE81C8EF4FF00428EC4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B26EEEC1C8EF4FF00428EC4 /* libRCTLinking.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6B26EEEE1C8EF51D00428EC4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B26EEF21C8EF51D00428EC4 /* libRCTImage.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6B26EEF41C8EF55100428EC4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B26EEF81C8EF55100428EC4 /* libRCTNetwork.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6B26EEFA1C8EF56500428EC4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B26EEFE1C8EF56500428EC4 /* libRCTText.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6B26EF001C8EF57500428EC4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B26EF041C8EF57500428EC4 /* libRCTWebSocket.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		6B2F28F31C8414D80096FD45 /* RRFPSBar */ = {
@@ -3727,6 +3830,15 @@
 				6B2F28F51C8414D80096FD45 /* RRFPSBar.m */,
 			);
 			path = RRFPSBar;
+			sourceTree = "<group>";
+		};
+		6B2F29021C8976C30096FD45 /* MutualInsPay */ = {
+			isa = PBXGroup;
+			children = (
+				6B26EE951C8EB60D00428EC4 /* MutualInsPayViewController.h */,
+				6B26EE961C8EB60D00428EC4 /* MutualInsPayViewController.m */,
+			);
+			name = MutualInsPay;
 			sourceTree = "<group>";
 		};
 		6B3DAB9D1C3F512D00C783F8 /* DebugLog */ = {
@@ -3876,6 +3988,7 @@
 		6BBAB9581ADE724300EC342F /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				6B26EF491C9026BD00428EC4 /* main.jsbundle */,
 				6BB884B01AE0B3FE00EBD8F4 /* hz.gpx */,
 				18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */,
 				6BBAB9591ADE724300EC342F /* AlipayConfig.h */,
@@ -4215,6 +4328,8 @@
 		6BD293BA1B943EF1006482A4 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
+				6BB0E0A31C916EA600137CD8 /* Carwash.storyboard */,
+				4E97D7131C90011200FC418F /* MutualInsClaims.storyboard */,
 				18B78F661BAAA0470061ECAD /* Mine.storyboard */,
 				505E5FCF1BD73AB600857819 /* Discover.storyboard */,
 				508C718E1BA808B600FA2F05 /* Insurance.storyboard */,
@@ -4222,7 +4337,6 @@
 				6BD293BB1B943EF1006482A4 /* About.storyboard */,
 				6BD293BC1B943EF1006482A4 /* Award.storyboard */,
 				6BD293BD1B943EF1006482A4 /* Bank.storyboard */,
-				6BD293BE1B943EF1006482A4 /* Carwash.storyboard */,
 				6BD293BF1B943EF1006482A4 /* Commission.storyboard */,
 				6BD293C01B943EF1006482A4 /* Common.storyboard */,
 				6BD293C21B943EF1006482A4 /* Login.storyboard */,
@@ -4234,7 +4348,7 @@
 				1833F59E1BCD47EB000E1DA1 /* Gas.storyboard */,
 				6BFE6A661C03364600EC9766 /* Violation.storyboard */,
 				50A1E06D1C1EA12800176572 /* Valuation.storyboard */,
-				6B2F29001C8976080096FD45 /* MutualInsPay.storyboard */,
+				505BC1C41C87D6ED00253F6D /* MutualInsJoin.storyboard */,
 				184452F11C8D18F4007B895D /* MutualInsGroupon.storyboard */,
 			);
 			path = Storyboard;
@@ -4251,30 +4365,6 @@
 				6BBC4A271B0C8236003F3081 /* SocialShareView.m */,
 			);
 			name = Map;
-			sourceTree = "<group>";
-		};
-		6BDD6E111B67615C0060CFD0 /* JDFlipNumberView */ = {
-			isa = PBXGroup;
-			children = (
-				6BDD6E121B67615C0060CFD0 /* JDDateCountdownFlipView.h */,
-				6BDD6E131B67615C0060CFD0 /* JDDateCountdownFlipView.m */,
-				6BDD6E141B67615C0060CFD0 /* JDFlipClockView.h */,
-				6BDD6E151B67615C0060CFD0 /* JDFlipClockView.m */,
-				6BDD6E161B67615C0060CFD0 /* JDFlipImageView.h */,
-				6BDD6E171B67615C0060CFD0 /* JDFlipImageView.m */,
-				6BDD6E181B67615C0060CFD0 /* JDFlipNumberDigitView.h */,
-				6BDD6E191B67615C0060CFD0 /* JDFlipNumberDigitView.m */,
-				6BDD6E1A1B67615C0060CFD0 /* JDFlipNumberView.bundle */,
-				6BDD6E1B1B67615C0060CFD0 /* JDFlipNumberView.h */,
-				6BDD6E1C1B67615C0060CFD0 /* JDFlipNumberView.m */,
-				6BDD6E1D1B67615C0060CFD0 /* JDFlipNumberViewImageFactory.h */,
-				6BDD6E1E1B67615C0060CFD0 /* JDFlipNumberViewImageFactory.m */,
-				6BDD6E1F1B67615C0060CFD0 /* UIView+JDFlipImageView.h */,
-				6BDD6E201B67615C0060CFD0 /* UIView+JDFlipImageView.m */,
-				6BDD6E2C1B68B9AE0060CFD0 /* HKFlipDecimalView.h */,
-				6BDD6E2D1B68B9AE0060CFD0 /* HKFlipDecimalView.m */,
-			);
-			path = JDFlipNumberView;
 			sourceTree = "<group>";
 		};
 		6BEA56491AE24DCD000D19C1 /* AlipaySDK */ = {
@@ -4432,71 +4522,6 @@
 			path = CCSegmentedControl;
 			sourceTree = "<group>";
 		};
-		6BEE173A1C325A0D0004F63A /* JazzHands */ = {
-			isa = PBXGroup;
-			children = (
-				6BEE173B1C325A0D0004F63A /* IFTTTAlphaAnimation.h */,
-				6BEE173C1C325A0D0004F63A /* IFTTTAlphaAnimation.m */,
-				6BEE173D1C325A0D0004F63A /* IFTTTAnimatable.h */,
-				6BEE173E1C325A0D0004F63A /* IFTTTAnimatedPagingScrollViewController.h */,
-				6BEE173F1C325A0D0004F63A /* IFTTTAnimatedPagingScrollViewController.m */,
-				6BEE17401C325A0D0004F63A /* IFTTTAnimatedScrollViewController.h */,
-				6BEE17411C325A0D0004F63A /* IFTTTAnimatedScrollViewController.m */,
-				6BEE17421C325A0D0004F63A /* IFTTTAnimation.h */,
-				6BEE17431C325A0D0004F63A /* IFTTTAnimation.m */,
-				6BEE17441C325A0D0004F63A /* IFTTTAnimator.h */,
-				6BEE17451C325A0D0004F63A /* IFTTTAnimator.m */,
-				6BEE17461C325A0D0004F63A /* IFTTTBackgroundColorAnimation.h */,
-				6BEE17471C325A0D0004F63A /* IFTTTBackgroundColorAnimation.m */,
-				6BEE17481C325A0D0004F63A /* IFTTTConstraintConstantAnimation.h */,
-				6BEE17491C325A0D0004F63A /* IFTTTConstraintConstantAnimation.m */,
-				6BEE174A1C325A0D0004F63A /* IFTTTConstraintMultiplierAnimation.h */,
-				6BEE174B1C325A0D0004F63A /* IFTTTConstraintMultiplierAnimation.m */,
-				6BEE174C1C325A0D0004F63A /* IFTTTCornerRadiusAnimation.h */,
-				6BEE174D1C325A0D0004F63A /* IFTTTCornerRadiusAnimation.m */,
-				6BEE174E1C325A0D0004F63A /* IFTTTEasingFunction.h */,
-				6BEE174F1C325A0D0004F63A /* IFTTTEasingFunction.m */,
-				6BEE17501C325A0D0004F63A /* IFTTTFilmstrip.h */,
-				6BEE17511C325A0D0004F63A /* IFTTTFilmstrip.m */,
-				6BEE17521C325A0D0004F63A /* IFTTTFrameAnimation.h */,
-				6BEE17531C325A0D0004F63A /* IFTTTFrameAnimation.m */,
-				6BEE17541C325A0D0004F63A /* IFTTTHideAnimation.h */,
-				6BEE17551C325A0D0004F63A /* IFTTTHideAnimation.m */,
-				6BEE17561C325A0D0004F63A /* IFTTTInterpolatable.h */,
-				6BEE17571C325A0D0004F63A /* IFTTTInterpolatable.m */,
-				6BEE17581C325A0D0004F63A /* IFTTTJazzHands.h */,
-				6BEE17591C325A0D0004F63A /* IFTTTLayerFillColorAnimation.h */,
-				6BEE175A1C325A0D0004F63A /* IFTTTLayerFillColorAnimation.m */,
-				6BEE175B1C325A0D0004F63A /* IFTTTLayerStrokeEndAnimation.h */,
-				6BEE175C1C325A0D0004F63A /* IFTTTLayerStrokeEndAnimation.m */,
-				6BEE175D1C325A0D0004F63A /* IFTTTLayerStrokeStartAnimation.h */,
-				6BEE175E1C325A0D0004F63A /* IFTTTLayerStrokeStartAnimation.m */,
-				6BEE175F1C325A0D0004F63A /* IFTTTMaskAnimation.h */,
-				6BEE17601C325A0D0004F63A /* IFTTTMaskAnimation.m */,
-				6BEE17611C325A0D0004F63A /* IFTTTPathPositionAnimation.h */,
-				6BEE17621C325A0D0004F63A /* IFTTTPathPositionAnimation.m */,
-				6BEE17631C325A0D0004F63A /* IFTTTRotationAnimation.h */,
-				6BEE17641C325A0D0004F63A /* IFTTTRotationAnimation.m */,
-				6BEE17651C325A0D0004F63A /* IFTTTScaleAnimation.h */,
-				6BEE17661C325A0D0004F63A /* IFTTTScaleAnimation.m */,
-				6BEE17671C325A0D0004F63A /* IFTTTScrollViewPageConstraintAnimation.h */,
-				6BEE17681C325A0D0004F63A /* IFTTTScrollViewPageConstraintAnimation.m */,
-				6BEE17691C325A0D0004F63A /* IFTTTShapeLayerAnimation.h */,
-				6BEE176A1C325A0D0004F63A /* IFTTTShapeLayerAnimation.m */,
-				6BEE176B1C325A0D0004F63A /* IFTTTTextColorAnimation.h */,
-				6BEE176C1C325A0D0004F63A /* IFTTTTextColorAnimation.m */,
-				6BEE176D1C325A0D0004F63A /* IFTTTTransform3DAnimation.h */,
-				6BEE176E1C325A0D0004F63A /* IFTTTTransform3DAnimation.m */,
-				6BEE176F1C325A0D0004F63A /* IFTTTTranslationAnimation.h */,
-				6BEE17701C325A0D0004F63A /* IFTTTTranslationAnimation.m */,
-				6BEE17711C325A0D0004F63A /* IFTTTViewAnimation.h */,
-				6BEE17721C325A0D0004F63A /* IFTTTViewAnimation.m */,
-				6BEE17731C325A0D0004F63A /* UIView+IFTTTJazzHands.h */,
-				6BEE17741C325A0D0004F63A /* UIView+IFTTTJazzHands.m */,
-			);
-			path = JazzHands;
-			sourceTree = "<group>";
-		};
 		6BF3925C1BD8935600838292 /* CBAutoScrollLabel */ = {
 			isa = PBXGroup;
 			children = (
@@ -4538,6 +4563,7 @@
 		C8447CD201C36C94165168FF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6B26EF081C8EF97E00428EC4 /* JavaScriptCore.framework */,
 				506160BD1BFD76D3003E7F80 /* libresolv.9.tbd */,
 				18E28A161B93E5AF0070E759 /* Security.framework */,
 				18E28A141B93E5A20070E759 /* QuartzCore.framework */,
@@ -4625,6 +4651,36 @@
 			mainGroup = 1883D8D61ACB99AC002A4D19;
 			productRefGroup = 1883D8E01ACB99AC002A4D19 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 6B26EEE21C8EF4E900428EC4 /* Products */;
+					ProjectRef = 6B26EEE11C8EF4E900428EC4 /* RCTActionSheet.xcodeproj */;
+				},
+				{
+					ProductGroup = 6B26EEEE1C8EF51D00428EC4 /* Products */;
+					ProjectRef = 6B26EEED1C8EF51D00428EC4 /* RCTImage.xcodeproj */;
+				},
+				{
+					ProductGroup = 6B26EEE81C8EF4FF00428EC4 /* Products */;
+					ProjectRef = 6B26EEE71C8EF4FF00428EC4 /* RCTLinking.xcodeproj */;
+				},
+				{
+					ProductGroup = 6B26EEF41C8EF55100428EC4 /* Products */;
+					ProjectRef = 6B26EEF31C8EF55100428EC4 /* RCTNetwork.xcodeproj */;
+				},
+				{
+					ProductGroup = 6B26EEFA1C8EF56500428EC4 /* Products */;
+					ProjectRef = 6B26EEF91C8EF56500428EC4 /* RCTText.xcodeproj */;
+				},
+				{
+					ProductGroup = 6B26EF001C8EF57500428EC4 /* Products */;
+					ProjectRef = 6B26EEFF1C8EF57500428EC4 /* RCTWebSocket.xcodeproj */;
+				},
+				{
+					ProductGroup = 6B26EEDC1C8EF4D400428EC4 /* Products */;
+					ProjectRef = 6B26EEDB1C8EF4D400428EC4 /* React.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				1883D8DE1ACB99AC002A4D19 /* XiaoMa */,
@@ -4632,6 +4688,58 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		6B26EEE01C8EF4D400428EC4 /* libReact.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReact.a;
+			remoteRef = 6B26EEDF1C8EF4D400428EC4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6B26EEE61C8EF4E900428EC4 /* libRCTActionSheet.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTActionSheet.a;
+			remoteRef = 6B26EEE51C8EF4E900428EC4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6B26EEEC1C8EF4FF00428EC4 /* libRCTLinking.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTLinking.a;
+			remoteRef = 6B26EEEB1C8EF4FF00428EC4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6B26EEF21C8EF51D00428EC4 /* libRCTImage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTImage.a;
+			remoteRef = 6B26EEF11C8EF51D00428EC4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6B26EEF81C8EF55100428EC4 /* libRCTNetwork.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTNetwork.a;
+			remoteRef = 6B26EEF71C8EF55100428EC4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6B26EEFE1C8EF56500428EC4 /* libRCTText.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTText.a;
+			remoteRef = 6B26EEFD1C8EF56500428EC4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6B26EF041C8EF57500428EC4 /* libRCTWebSocket.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTWebSocket.a;
+			remoteRef = 6B26EF031C8EF57500428EC4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1883D8DD1ACB99AC002A4D19 /* Resources */ = {
@@ -4642,6 +4750,7 @@
 				504FFEA21C05D48E002D7D6D /* city.plist in Resources */,
 				6BEA56C01AE24DCE000D19C1 /* AlipaySDK.bundle in Resources */,
 				505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */,
+				4E97D7141C90011200FC418F /* MutualInsClaims.storyboard in Resources */,
 				6BBB825D1AE79FE100850D0C /* read_me.txt in Resources */,
 				6BD293CC1B943EF1006482A4 /* Commission.storyboard in Resources */,
 				6BD293D31B943EF1006482A4 /* Other.storyboard in Resources */,
@@ -4650,10 +4759,8 @@
 				508C718F1BA808B600FA2F05 /* Insurance.storyboard in Resources */,
 				18F8136B1B5F3561005F49B0 /* vertical_shadow@2x.png in Resources */,
 				6BD293D01B943EF1006482A4 /* Main.storyboard in Resources */,
-				6BDD6E251B67615C0060CFD0 /* JDFlipNumberView.bundle in Resources */,
 				505E5FD01BD73AB600857819 /* Discover.storyboard in Resources */,
 				6BD293CF1B943EF1006482A4 /* Login.storyboard in Resources */,
-				6BD293CB1B943EF1006482A4 /* Carwash.storyboard in Resources */,
 				189B311D1ADBEFDF001D7288 /* policy.json in Resources */,
 				6BB884B11AE0B3FE00EBD8F4 /* hz.gpx in Resources */,
 				504FFE991C05B56D002D7D6D /* area.plist in Resources */,
@@ -4669,9 +4776,12 @@
 				6BD293CD1B943EF1006482A4 /* Common.storyboard in Resources */,
 				1833F59F1BCD47EB000E1DA1 /* Gas.storyboard in Resources */,
 				50A1E06E1C1EA12800176572 /* Valuation.storyboard in Resources */,
+				6BB0E0A41C916EA600137CD8 /* Carwash.storyboard in Resources */,
 				18B78F611BAA8CF60061ECAD /* Launch.storyboard in Resources */,
 				6BD293CA1B943EF1006482A4 /* Bank.storyboard in Resources */,
 				18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */,
+				505BC1C51C87D6ED00253F6D /* MutualInsJoin.storyboard in Resources */,
+				6B26EF4A1C9026BD00428EC4 /* main.jsbundle in Resources */,
 				18FC01E61C4E6C6F00FD61BF /* IQKeyboardManager.bundle in Resources */,
 				6B5B78191BA7CC7600295B77 /* ProvinceChooseView.xib in Resources */,
 				18CECC291C30F8890075B7F9 /* LICENSE in Resources */,
@@ -4771,7 +4881,6 @@
 				18746B181AEA1BB300D93696 /* UpdateInsuranceOrderOp.m in Sources */,
 				181355961C928AA900894CA1 /* MutualInsAlertVC.m in Sources */,
 				1818D8FB1C22FB670078C329 /* UpdateDeliveryInfoOp.m in Sources */,
-				6BEE177E1C325A0D0004F63A /* IFTTTEasingFunction.m in Sources */,
 				1833F5961BCD37EB000E1DA1 /* GasCardStore.m in Sources */,
 				2E52F24D1C2032BB00D94F68 /* RescueHomeViewController.m in Sources */,
 				18FC01DC1C4E6C6F00FD61BF /* IQUIView+Hierarchy.m in Sources */,
@@ -4780,7 +4889,6 @@
 				6BFE6A6E1C03FD8900EC9766 /* ViolationItemViewController.m in Sources */,
 				6BB884DD1AE0FE7500EBD8F4 /* GetUserCarOp.m in Sources */,
 				18E28A051B8AFBB70070E759 /* HKNavigationHiddenVC.m in Sources */,
-				6BEE178C1C325A0D0004F63A /* IFTTTTextColorAnimation.m in Sources */,
 				18C52C441BA8118400F6C38B /* DeletePicHistoryOp.m in Sources */,
 				6BEA56CE1AE24DCE000D19C1 /* DataSigner.m in Sources */,
 				1893711C1B0DAC8D0030FDE1 /* GetMessageOp.m in Sources */,
@@ -4793,28 +4901,28 @@
 				18A9E8CC1BDDC1C00061D3BC /* PickInsCompaniesVC.m in Sources */,
 				6BF392441BD627A900838292 /* GetShopByNameV2Op.m in Sources */,
 				1816F4B01ACE75FB00BBCC96 /* CarWashTableVC.m in Sources */,
-				6BEE17931C325A3C0004F63A /* GuideViewController.m in Sources */,
 				1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */,
 				1818D8F51C22845A0078C329 /* PayForPremiumOp.m in Sources */,
+				181355C11C96935300894CA1 /* HKProgressView.m in Sources */,
 				50B5A2961BD8CC51004E00ED /* MyWebViewBridge.m in Sources */,
 				6B42270D1C1FDF150090F802 /* PayForGasViewController.m in Sources */,
+				5093C9FE1C92A68A006B2258 /* InviteByCodeVC.m in Sources */,
+				5029A84F1C9121C2006B3438 /* GroupIntroductionVC.m in Sources */,
 				18FC01DE1C4E6C6F00FD61BF /* IQKeyboardManager.m in Sources */,
 				18C81CBC1B17FE7B00B0C292 /* FeedbackVC.m in Sources */,
 				18E592351C193C6D006010D9 /* InsBuyVC.m in Sources */,
 				1851F4281B0C2A4E00241A01 /* AutoBrand.m in Sources */,
 				18FC01E31C4E6C6F00FD61BF /* IQTitleBarButtonItem.m in Sources */,
+				50FEF76B1C8827C900B85F19 /* AutoGroupInfoVC.m in Sources */,
 				6B978BFA1B6B643A00A6E7C6 /* HKCoverage.m in Sources */,
 				2E3EEBCF1C22AAD50010E34F /* CommissionSuccessVC.m in Sources */,
 				1833F5891BCD373B000E1DA1 /* AddGascardOp.m in Sources */,
 				2E3EEBC61C227CC90010E34F /* CommissionConfirmVC.m in Sources */,
 				6BE2BD5B1AE6305600A69875 /* GetSystemPromotionOp.m in Sources */,
-				6BDD6E221B67615C0060CFD0 /* JDFlipClockView.m in Sources */,
-				6BEE17781C325A0D0004F63A /* IFTTTAnimation.m in Sources */,
 				18F93CD71B6F0A4A000325DD /* DashLine.m in Sources */,
 				504FFEA51C05D4C9002D7D6D /* AreaPickerVC.m in Sources */,
 				189C69861B74505E00E56E4A /* HKBankCard.m in Sources */,
 				6B22659F1C4506BE00A121CC /* HomePicModel.m in Sources */,
-				6BDD6E271B67615C0060CFD0 /* JDFlipNumberViewImageFactory.m in Sources */,
 				2E77A4971C325F2F00264FC9 /* GetRescueDetailOp.m in Sources */,
 				181921811C253957009C80BD /* InsAppointmentSuccessVC.m in Sources */,
 				6BE47F9B1C27F50000DBD969 /* HistoryCollectionOp.m in Sources */,
@@ -4823,10 +4931,9 @@
 				189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */,
 				5071D7C41C1EE756003D397C /* CarValuationSubView.m in Sources */,
 				50FAC26B1C23AB9C00F8990F /* GetAutomobileModelV2Op.m in Sources */,
-				6BDD6E2E1B68B9AE0060CFD0 /* HKFlipDecimalView.m in Sources */,
+				6B26EE9B1C8EC12B00428EC4 /* Reachability.m in Sources */,
 				186984F51B0098A2000A182A /* GetInsuranceOrderListOp.m in Sources */,
 				6B9BF4BC1BF97BCB0046FF48 /* GetGeneralOrderdetailOp.m in Sources */,
-				6BEE17801C325A0D0004F63A /* IFTTTFrameAnimation.m in Sources */,
 				6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */,
 				50DD1BCB1BFB093500349A70 /* OthersOrderViewModel.m in Sources */,
 				6B11752F1C0D768500FC1881 /* GetCitysOp.m in Sources */,
@@ -4842,6 +4949,7 @@
 				184F09FB1C7B036A00DD6B54 /* CKQueue.m in Sources */,
 				6BCF62471B1737980064AE32 /* GetUserCouponByTypeOp.m in Sources */,
 				6B8D47561BEA03C900706989 /* GetCarwashOrderV2Op.m in Sources */,
+				50AC2B501C8D737400620551 /* EditInsInfoVC.m in Sources */,
 				6B50127E1C59F5F000267DCB /* UIViewController+Swizzling.m in Sources */,
 				1821C35A1C4DFD6500120AF4 /* SMSModel.m in Sources */,
 				1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */,
@@ -4850,7 +4958,6 @@
 				18A30E401BD472E800521411 /* GasPayForCZBVC.m in Sources */,
 				18895B2A1B4A136100928F62 /* HKStore.m in Sources */,
 				18B7A2771C203B5E00865A99 /* GetAreaByIdOp.m in Sources */,
-				6BEE178D1C325A0D0004F63A /* IFTTTTransform3DAnimation.m in Sources */,
 				189B30BD1AD524EC001D7288 /* AppManager.m in Sources */,
 				6BB9D7711AF7054B00F7F3F8 /* SearchViewController.m in Sources */,
 				5078E4CF1B93F04000E3B198 /* GetInsuranceDiscountOp.m in Sources */,
@@ -4860,15 +4967,11 @@
 				181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */,
 				181355991C92B4F300894CA1 /* MutualInsGrouponSubMsgVC.m in Sources */,
 				18BF41E41BCE40540039F210 /* GasBaseVM.m in Sources */,
-				6BEE17831C325A0D0004F63A /* IFTTTLayerFillColorAnimation.m in Sources */,
-				6BEE177B1C325A0D0004F63A /* IFTTTConstraintConstantAnimation.m in Sources */,
 				6BB884BB1AE0BB9600EBD8F4 /* JTTableView.m in Sources */,
-				6BEE178B1C325A0D0004F63A /* IFTTTShapeLayerAnimation.m in Sources */,
 				180AD8351BD88CB700E608F9 /* BankCardStore.m in Sources */,
 				4EF12DED1C1EBC900098B8C6 /* SecondCarValuationVC.m in Sources */,
 				18E28A0B1B904FF00070E759 /* LaunchVC.m in Sources */,
 				18E28A2B1B9578240070E759 /* CarListVC.m in Sources */,
-				6BDD6E281B67615C0060CFD0 /* UIView+JDFlipImageView.m in Sources */,
 				18C52C3E1BA6CEB900F6C38B /* HKImageView.m in Sources */,
 				18A9E8C91BDDC0950061D3BC /* GetInsCompanyListOp.m in Sources */,
 				1833F5901BCD373B000E1DA1 /* GetGascardListOp.m in Sources */,
@@ -4896,6 +4999,7 @@
 				189B395E1AF9D9F700B83F1B /* UpdateCarOp.m in Sources */,
 				1851F42B1B0C2C3500241A01 /* CoreDataManager.m in Sources */,
 				18BF41F91BCF75DA0039F210 /* RTLabel.m in Sources */,
+				4E97D70E1C9000DB00FC418F /* ClaimsHistoryVC.m in Sources */,
 				189B394C1AF71C3900B83F1B /* MineVC.m in Sources */,
 				181355931C925FC600894CA1 /* HKAlertVC.m in Sources */,
 				18273F281C7FEE70004192B3 /* GasNormalVC.m in Sources */,
@@ -4914,10 +5018,11 @@
 				1833F5881BCD373B000E1DA1 /* GasChargeRecord.m in Sources */,
 				6BBB08531B021F440002C349 /* LogAlertView.m in Sources */,
 				1853DEB71AE0B92400C39175 /* AuthByPwdOp.m in Sources */,
-				6BEE177D1C325A0D0004F63A /* IFTTTCornerRadiusAnimation.m in Sources */,
+				6B26EF071C8EF89B00428EC4 /* ReactTestViewController.m in Sources */,
 				6BE47F951C27F4E600DBD969 /* SecondCarValuationOp.m in Sources */,
 				4EF94AF31C321D020092CB55 /* RescueHistoryViewController.m in Sources */,
 				5040B37D1C06D50200ADE77F /* ApplyUnionOp.m in Sources */,
+				6B26EF0C1C8EFA7600428EC4 /* ReactView.m in Sources */,
 				18AB16AC1C1FAE810000E718 /* GetInsBaseCarListOp.m in Sources */,
 				6B4BCEE01C3E52AF0006B5EB /* HKViewController.m in Sources */,
 				6BBB08501B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m in Sources */,
@@ -4941,11 +5046,9 @@
 				1813559C1C92B6AE00894CA1 /* MutualInsGrouponMsgCell.m in Sources */,
 				181F6DA81B15919900D38555 /* CXAlertViewController.m in Sources */,
 				186985041B01CC2C000A182A /* SubmitCommentOp.m in Sources */,
-				1826CCF01BAAE80800E2F46D /* ZFCDoubleBounceActivityIndicatorView.m in Sources */,
 				184452FC1C8D4ADA007B895D /* AddCloseAnimationButton.m in Sources */,
 				184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */,
 				18273F2B1C7FEE88004192B3 /* GasCZBVC.m in Sources */,
-				6BEE177F1C325A0D0004F63A /* IFTTTFilmstrip.m in Sources */,
 				6B88C1311C1E8D7000BB6071 /* InsuranceSelectModel.m in Sources */,
 				189B39611AF9DD3B00B83F1B /* AddCarOp.m in Sources */,
 				18FC01E01C4E6C6F00FD61BF /* IQSegmentedNextPrevious.m in Sources */,
@@ -4964,7 +5067,6 @@
 				1885F0C01B1C4DB40056D3BD /* UIView+ShowDot.m in Sources */,
 				1897C3051C16CF02007E394E /* HKSubscriptInputField.m in Sources */,
 				6B21A8991BD493F8006D0556 /* GetShopByDistanceV2Op.m in Sources */,
-				6BEE17901C325A0D0004F63A /* UIView+IFTTTJazzHands.m in Sources */,
 				508150CE1B84703200B16633 /* DetailsAlertVC.m in Sources */,
 				18895B3C1B4CF1D300928F62 /* LogoutOp.m in Sources */,
 				6BEA56CD1AE24DCE000D19C1 /* base64.m in Sources */,
@@ -4985,7 +5087,6 @@
 				1833F5921BCD373B000E1DA1 /* GetGaschargeInfoOp.m in Sources */,
 				6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */,
 				18BF42011BD0D5A20039F210 /* GasAddCardVC.m in Sources */,
-				6BEE17861C325A0D0004F63A /* IFTTTMaskAnimation.m in Sources */,
 				6BBB084D1B021EA90002C349 /* JTLogModel.m in Sources */,
 				2E77A4A91C32603800264FC9 /* GetStartHostCarOp.m in Sources */,
 				4E5995681C201C5300686565 /* CommitSuccessVC.m in Sources */,
@@ -4999,7 +5100,6 @@
 				1833F58C1BCD373B000E1DA1 /* GascardChargeOp.m in Sources */,
 				6BEA56C91AE24DCE000D19C1 /* SBJsonParser.m in Sources */,
 				1818D8FE1C23B0800078C329 /* InsPayFaildVC.m in Sources */,
-				6BEE17851C325A0D0004F63A /* IFTTTLayerStrokeStartAnimation.m in Sources */,
 				6BB89CD41B04C23900F3F61F /* UploadLogOp.m in Sources */,
 				18895B321B4CB52A00928F62 /* PushManager.m in Sources */,
 				189C698F1B75BD4B00E56E4A /* BindBankcardOp.m in Sources */,
@@ -5018,6 +5118,7 @@
 				506008D41B74631800B8761D /* DrawingBoardView.m in Sources */,
 				18E592381C1A5CEE006010D9 /* InsPayResultVC.m in Sources */,
 				18D17F701B5390F400F66F04 /* VCodeInputField.m in Sources */,
+				6B26EEB31C8EC23200428EC4 /* ZFCRotatingPlaneActivityIndicatorView.m in Sources */,
 				505E5FCD1BD7356B00857819 /* WKWebViewJavascriptBridge.m in Sources */,
 				6BCF624A1B1739E70064AE32 /* CommissionCouponViewController.m in Sources */,
 				18900B441C1E7503003DA439 /* GetInsCarListOp.m in Sources */,
@@ -5029,6 +5130,7 @@
 				18895B391B4CB93800928F62 /* BindDeviceTokenOp.m in Sources */,
 				1851F4211B0C268F00241A01 /* AutoInfoModel.m in Sources */,
 				186984F21B007FAB000A182A /* HKServiceOrder.m in Sources */,
+				6B26EEB41C8EC23200428EC4 /* ZFCWanderingCubesActivityIndicatorView.m in Sources */,
 				18AA24741C213244002EF4F7 /* AddInsCarBaseInfoOp.m in Sources */,
 				18D17F801B57782800F66F04 /* HKAddressComponent.m in Sources */,
 				18BF41FC1BD08F860039F210 /* GasReminderCell.m in Sources */,
@@ -5061,10 +5163,8 @@
 				6BD3D0F01C55E62B008F07EE /* GetSystemJSPatchOp.m in Sources */,
 				505E5FD31BD73B7D00857819 /* ListWebVC.m in Sources */,
 				6BEA56C71AE24DCE000D19C1 /* SBJSON.m in Sources */,
-				1826CCF21BAAE80800E2F46D /* ZFCWanderingCubesActivityIndicatorView.m in Sources */,
 				1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */,
 				18B6E5CE1C47361A00697DAB /* GuideStore.m in Sources */,
-				6BEE177C1C325A0D0004F63A /* IFTTTConstraintMultiplierAnimation.m in Sources */,
 				2E3EEBC31C224DD20010E34F /* CommissionOrderVC.m in Sources */,
 				508BD8D01BD0E3ED00B64199 /* GasRecordVC.m in Sources */,
 				6BB61B981AEE85E8004F39AA /* AddUserFavoriteOp.m in Sources */,
@@ -5077,9 +5177,9 @@
 				6BBAB8BF1ADBC21600EC342F /* ConverUtil.m in Sources */,
 				503B20581C08028C00F396DD /* AwardShareSheetVC.m in Sources */,
 				1885F0C61B1C50C80056D3BD /* JTImageBadge.m in Sources */,
-				185A529D1B1C0DEC003515CC /* CarbonTabSwipeNavigation.m in Sources */,
 				181F6DA51B15919900D38555 /* CXAlertButtonContainerView.m in Sources */,
 				6BEDB0461BA666D4009A8C3F /* CCSegmentedControl.m in Sources */,
+				6B26EEB51C8EC23200428EC4 /* ZFCWaveActivityIndicatorView.m in Sources */,
 				1833F5A71BCDF5D0000E1DA1 /* CKLine.m in Sources */,
 				1816F4B81AD36D9E00BBCC96 /* JTRatingView.m in Sources */,
 				181F6DAA1B15919900D38555 /* LFGlassView.m in Sources */,
@@ -5087,13 +5187,11 @@
 				187532D31ACCDEEF004CB777 /* HomePageVC.m in Sources */,
 				1833F5991BCD3BF7000E1DA1 /* CancelGaschargeOp.m in Sources */,
 				6BC2209F1AD7AC9D00A4310E /* NSString+MD5.m in Sources */,
-				6BEE17771C325A0D0004F63A /* IFTTTAnimatedScrollViewController.m in Sources */,
-				6BEE17841C325A0D0004F63A /* IFTTTLayerStrokeEndAnimation.m in Sources */,
 				1883D9101ACBBE30002A4D19 /* main.m in Sources */,
 				18F813681B5F3561005F49B0 /* CKNavigationController+Expansion.m in Sources */,
 				6B0DB8221BEB277A007BE693 /* GetCarwashOrderListV3Op.m in Sources */,
-				6BDD6E241B67615C0060CFD0 /* JDFlipNumberDigitView.m in Sources */,
 				18804A9F1B2548AC00E7E764 /* NavigationModel.m in Sources */,
+				6B26EE971C8EB60D00428EC4 /* MutualInsPayViewController.m in Sources */,
 				1833F5871BCD373B000E1DA1 /* GasCard.m in Sources */,
 				1821C35E1C4E1E6600120AF4 /* GasStore.m in Sources */,
 				6BBF7DA31B008B1000E45967 /* EditMyInfoViewController.m in Sources */,
@@ -5105,16 +5203,13 @@
 				6BBAB8B61ADBC12D00EC342F /* UpdatePwdOp.m in Sources */,
 				1853DED41AE2A0BD00C39175 /* VcodeLoginVC.m in Sources */,
 				5073810A1BA12A6800B29756 /* CarWashCouponVModel.m in Sources */,
-				6BDD6E261B67615C0060CFD0 /* JDFlipNumberView.m in Sources */,
 				184452F51C8D19A5007B895D /* MutualInsGrouponVC.m in Sources */,
-				18FC01DB1C4E6C6F00FD61BF /* IQNSArray+Sort.m in Sources */,
 				6BBC4A281B0C8236003F3081 /* SocialShareView.m in Sources */,
 				1833F59D1BCD47AD000E1DA1 /* GasVC.m in Sources */,
 				1844531D1C8EA30F007B895D /* AhaWaterWaveView.m in Sources */,
 				18E28A1C1B93F1FF0070E759 /* UPPayHelper.m in Sources */,
 				6BBF7DA91B00C9C200E45967 /* UIImage+Utilities.mm in Sources */,
 				6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */,
-				6BEE178A1C325A0D0004F63A /* IFTTTScrollViewPageConstraintAnimation.m in Sources */,
 				18A15A6B1C225E3F00D7B5DF /* GetPremiumDetailOp.m in Sources */,
 				18B6E5D11C473CF700697DAB /* GetNewbieInfoOp.m in Sources */,
 				18BF420C1BD273C70039F210 /* CKLimitTextField.m in Sources */,
@@ -5123,9 +5218,9 @@
 				6BFA93BB1BF098BB00700F27 /* CheckoutServiceOrderV4Op.m in Sources */,
 				18D475E51B7D9F82000FAF1C /* NSString+PhoneNumber.m in Sources */,
 				6BC3B60F1ADF52CB001016A0 /* BaseMapViewController.m in Sources */,
+				4E97D7171C9001C700FC418F /* HKInclinedLabel.m in Sources */,
 				6BA48A0A1C3F853F00AED445 /* SupportFileManager.m in Sources */,
 				509D1CC21C086E01003ED860 /* ShareResponeManager.m in Sources */,
-				6BDD6E211B67615C0060CFD0 /* JDDateCountdownFlipView.m in Sources */,
 				18B78F5C1BA989BE0061ECAD /* HKLaunchInfo.m in Sources */,
 				50094B461C117CE80069683C /* AreaTablePickerVC.m in Sources */,
 				18BF41E11BCE3E880039F210 /* GasCZBVM.m in Sources */,
@@ -5137,31 +5232,29 @@
 				50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */,
 				18900B4A1C1E8634003DA439 /* UserStore.m in Sources */,
 				6B1D93D31B8573A000740628 /* PayModel.m in Sources */,
+				181355B61C9691D700894CA1 /* ScencePageVC.m in Sources */,
 				6BEF74891BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.m in Sources */,
 				182C50D81C27E79D004ED5D1 /* InsAlertVC.m in Sources */,
-				1826CCF31BAAE80800E2F46D /* ZFCWaveActivityIndicatorView.m in Sources */,
 				1837A7611B72130F0006E6C5 /* SDWaitingView.m in Sources */,
 				6BBAB8CE1ADE059300EC342F /* DistanceCalcHelper.m in Sources */,
 				18E28A011B8AD71F0070E759 /* HKImagePicker.m in Sources */,
 				18FB68F01C2A911C00AD7341 /* InsCoverageSelectVC.m in Sources */,
+				6B26EEB21C8EC23200428EC4 /* ZFCDoubleBounceActivityIndicatorView.m in Sources */,
 				1833F5931BCD373B000E1DA1 /* GetGaschargeRecordListOp.m in Sources */,
-				6BEE17871C325A0D0004F63A /* IFTTTPathPositionAnimation.m in Sources */,
 				6BEA56C21AE24DCE000D19C1 /* AlixPayOrder.m in Sources */,
 				184453201C8EA35A007B895D /* WaterWaveProgressView.m in Sources */,
 				18FC01E11C4E6C6F00FD61BF /* IQTextView.m in Sources */,
 				6BC220961AD7801C00A4310E /* BaseOp.m in Sources */,
 				1853DEAD1AE0A0B700C39175 /* HKCatchErrorModel.m in Sources */,
 				18D475E21B7C3954000FAF1C /* GetUserCouponV2Op.m in Sources */,
-				6BEE17821C325A0D0004F63A /* IFTTTInterpolatable.m in Sources */,
 				18A4DD531C3CC16F00003F70 /* InsInputDateVC.m in Sources */,
 				18F41DAF1B788022000409E1 /* GetUnbindBankcardVcodeOp.m in Sources */,
-				6BEE17791C325A0D0004F63A /* IFTTTAnimator.m in Sources */,
 				18FC01DD1C4E6C6F00FD61BF /* IQUIWindow+Hierarchy.m in Sources */,
-				6BEE178F1C325A0D0004F63A /* IFTTTViewAnimation.m in Sources */,
 				6BC2209C1AD7AAF300A4310E /* NetworkManager.m in Sources */,
 				18039AF51B0C5BCE00264059 /* GetAutomobileModelOp.m in Sources */,
 				2E77A4A21C325FCC00264FC9 /* HKRescue.m in Sources */,
 				189371221B0E046E0030FDE1 /* JTAttributedLabel.m in Sources */,
+				4E97D71A1C9003A500FC418F /* ScencePhotoVC.m in Sources */,
 				18900B4D1C1EA05E003DA439 /* GetInsProvinceListOp.m in Sources */,
 				18AB16A61C1FAE6B0000E718 /* InsBaseCar.m in Sources */,
 				184E40C61AD3B58F00EFC3A6 /* UIView+Layer.m in Sources */,
@@ -5169,15 +5262,13 @@
 				18D811C61C1EDB5300B6AB04 /* CKDispatcher.m in Sources */,
 				6BBB824F1AE7757100850D0C /* NearbyShopsViewController.m in Sources */,
 				18E28A0E1B93E47E0070E759 /* PaymentHelper.m in Sources */,
-				1826CCF11BAAE80800E2F46D /* ZFCRotatingPlaneActivityIndicatorView.m in Sources */,
 				18A15A591C21AF2000D7B5DF /* InsuranceVM.m in Sources */,
 				6BEA56C31AE24DCE000D19C1 /* AlixPayResult.m in Sources */,
 				1851F41B1B0C210D00241A01 /* GetAutomobileBrandOp.m in Sources */,
+				181355B71C9691D700894CA1 /* ScencePhotoVM.m in Sources */,
 				1851F4321B0C596600241A01 /* PickerAutoSeriesVC.m in Sources */,
 				18088D8E1B1DC938007438FC /* UnusedCouponVModel.m in Sources */,
-				185A529C1B1C0DEC003515CC /* CarbonSwipeRefresh.m in Sources */,
 				18900B521C1EA0C2003DA439 /* Area.m in Sources */,
-				6BDD6E231B67615C0060CFD0 /* JDFlipImageView.m in Sources */,
 				6BCA5F4C1B104B5100E1E630 /* MyCollectionViewController.m in Sources */,
 				6BEA56CF1AE24DCE000D19C1 /* DataVerifier.m in Sources */,
 				6BB884BC1AE0BB9600EBD8F4 /* UIView+JTLoadingView.m in Sources */,
@@ -5200,7 +5291,6 @@
 				189B30AF1AD4D661001D7288 /* JTLabel.m in Sources */,
 				6BC3B61C1ADF9334001016A0 /* LineDashPolyline.m in Sources */,
 				6BAF30181AE67CC800E35E08 /* GetSystemVersionOp.m in Sources */,
-				50E9DD161BE201180070F38D /* Reachability.m in Sources */,
 				181F6D931B15773600D38555 /* BeInterestedInInsuranceOp.m in Sources */,
 				6B65A76C1B856C9E00439228 /* CouponModel.m in Sources */,
 				184453311C90465F007B895D /* HKTableViewController.m in Sources */,
@@ -5217,7 +5307,6 @@
 				18F41DA91B784CD8000409E1 /* GetBankcardListOp.m in Sources */,
 				18A15A561C214C2200D7B5DF /* InsActivityIndicatorVC.m in Sources */,
 				187CC95C1AEF2023004D1F28 /* UploadFileOp.m in Sources */,
-				6BEE17881C325A0D0004F63A /* IFTTTRotationAnimation.m in Sources */,
 				18BF41F11BCF6A540039F210 /* GasPickAmountCell.m in Sources */,
 				1833F58D1BCD373B000E1DA1 /* GetCZBCouponDefInfoOp.m in Sources */,
 				187CC9551AEDD0D1004D1F28 /* MonthPickerVC.m in Sources */,
@@ -5232,9 +5321,7 @@
 				6BB61BA01AEF6969004F39AA /* RescueViewController.m in Sources */,
 				6B1175261C0C408A00FC1881 /* UserViolationQueryOp.m in Sources */,
 				18A15A531C2149B100D7B5DF /* InsPremium.m in Sources */,
-				6BEE17811C325A0D0004F63A /* IFTTTHideAnimation.m in Sources */,
 				6BBB083D1B01F8A30002C349 /* AboutViewController.m in Sources */,
-				6BEE177A1C325A0D0004F63A /* IFTTTBackgroundColorAnimation.m in Sources */,
 				50094B431C1144640069683C /* GetAreaInfoOp.m in Sources */,
 				6B42270A1C1EDCBE0090F802 /* CalculateInsuranceCarPremiumOp.m in Sources */,
 				1816F4A81ACD3B0900BBCC96 /* SYPaginatorViewController.m in Sources */,
@@ -5247,7 +5334,6 @@
 				189C69891B74ADC700E56E4A /* BindBankCardVC.m in Sources */,
 				18E756A41B73335C00874601 /* MyBankVC.m in Sources */,
 				6BEA56D01AE24DCE000D19C1 /* MD5DataSigner.m in Sources */,
-				6BEE17751C325A0D0004F63A /* IFTTTAlphaAnimation.m in Sources */,
 				18B7A2741C202E6B00865A99 /* GetAreaByNameOp.m in Sources */,
 				184E40D21AD3D01B00EFC3A6 /* JTShop.m in Sources */,
 				6BBF75F41B05CA0800E11EBB /* BaseModel.m in Sources */,
@@ -5258,7 +5344,6 @@
 				184E40C31AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m in Sources */,
 				1885F0C31B1C50970056D3BD /* UIView+AddBadgeView.m in Sources */,
 				18FC01E51C4E6C6F00FD61BF /* IQUIView+IQKeyboardToolbar.m in Sources */,
-				6BEE178E1C325A0D0004F63A /* IFTTTTranslationAnimation.m in Sources */,
 				50A1E0711C1EA3A300176572 /* ValuationViewController.m in Sources */,
 				505358F41C0D79640029B5BA /* SharedNotifyOp.m in Sources */,
 				18B7A2711C2014BA00865A99 /* CityPickerVC.m in Sources */,
@@ -5272,6 +5357,7 @@
 				18C52C501BA905E600F6C38B /* DrivingLicenseViewLayout.m in Sources */,
 				189B30C31AD64310001D7288 /* ChooseCarwashTicketVC.m in Sources */,
 				6BBF7DA61B00A78900E45967 /* UpdateUserInfoOp.m in Sources */,
+				6B26EF931C91599400428EC4 /* PhotoBrowserVC.m in Sources */,
 				18804AA51B2679BB00E7E764 /* TestVC.m in Sources */,
 				50FAC2681C23AA8200F8990F /* PickerAutoModelVC.m in Sources */,
 				181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */,
@@ -5287,6 +5373,7 @@
 				18804AAE1B280E3C00E7E764 /* HKLoadingModel.m in Sources */,
 				182C50D21C27C263004ED5D1 /* InsCheckFailVC.m in Sources */,
 				504FFE951C0588EB002D7D6D /* JoinResultViewController.m in Sources */,
+				505BC1C21C87D4FA00253F6D /* MutualInsHomeVC.m in Sources */,
 				189428B21C1AAD6300E492CA /* GridLabel.m in Sources */,
 				18B78F5F1BA990100061ECAD /* HKLaunchManager.m in Sources */,
 				18E5922E1C183B66006010D9 /* InsCheckResultsVC.m in Sources */,
@@ -5302,12 +5389,10 @@
 				6BD6E29A1B9D7F67001D33E6 /* NSString+Safe.m in Sources */,
 				6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */,
 				6BB884D41AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.m in Sources */,
-				6BEE17891C325A0D0004F63A /* IFTTTScaleAnimation.m in Sources */,
 				6BE47F9C1C27F50000DBD969 /* HistoryDeleteOp.m in Sources */,
 				189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */,
 				6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */,
 				2E77A4961C325F2F00264FC9 /* GetRescueOp.m in Sources */,
-				6BEE17761C325A0D0004F63A /* IFTTTAnimatedPagingScrollViewController.m in Sources */,
 				6B2265961C439DD600A121CC /* HKView.m in Sources */,
 				18F813691B5F3561005F49B0 /* CKNavigationController.m in Sources */,
 				18804AAB1B27DD3C00E7E764 /* GifActivityIndicatorView.m in Sources */,
@@ -5323,6 +5408,7 @@
 				2E77A48F1C325F2F00264FC9 /* GetRescueApplyHostCarOp.m in Sources */,
 				1833F58F1BCD373B000E1DA1 /* GetCzbpayVcodeOp.m in Sources */,
 				18D17F831B57A3D000F66F04 /* HomePageVModel.m in Sources */,
+				4E97D7111C9000E500FC418F /* AskClaimsVC.m in Sources */,
 				1833F58E1BCD373B000E1DA1 /* GetCZBGaschargeInfoOp.m in Sources */,
 				6BEA56C51AE24DCE000D19C1 /* NSObject+SBJSON.m in Sources */,
 				18A30E451BD493DB00521411 /* GasPaymentResultVC.m in Sources */,
@@ -5453,6 +5539,7 @@
 					"XMDDENT=0",
 				);
 				HEADER_SEARCH_PATHS = (
+					"${SRCROOT}/react-native/React/**",
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
 					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
@@ -5545,6 +5632,7 @@
 					"XMDDENT=0",
 				);
 				HEADER_SEARCH_PATHS = (
+					"${SRCROOT}/react-native/React/**",
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
 					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
