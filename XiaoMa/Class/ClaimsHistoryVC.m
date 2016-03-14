@@ -7,16 +7,18 @@
 //
 #import "HKInclinedLabel.h"
 #import "ClaimsHistoryVC.h"
+#import "GetCooperationClaimsListOpOp.h"
 
 @interface ClaimsHistoryVC () <UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-
+@property (strong, nonatomic) NSMutableArray *dataArr;
 @end
 
 @implementation ClaimsHistoryVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self loadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -76,11 +78,32 @@
     return 150;
 }
 
+#pragma mark Utility
+
+-(void)loadData
+{
+    GetCooperationClaimsListOpOp *op = [GetCooperationClaimsListOpOp new];
+    [[op rac_postRequest]initially:^{
+        [self.dataArr addObject:op.rsp_claimlist];
+    }];
+}
+
+
 #pragma mark Action
 
 - (IBAction)callAction:(id)sender {
     NSString * number = @"4007111111";
     [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+}
+
+#pragma mark LazyLoad
+-(NSMutableArray *)dataArr
+{
+    if (!_dataArr)
+    {
+        _dataArr = [[NSMutableArray alloc]init];
+    }
+    return _dataArr;
 }
 
 @end

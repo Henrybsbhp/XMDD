@@ -331,6 +331,7 @@
 		2E77A4A91C32603800264FC9 /* GetStartHostCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E77A4A81C32603800264FC9 /* GetStartHostCarOp.m */; };
 		2EB0DA5C1C325CA900D9A5B2 /* RescueCancelHostcarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB0DA5B1C325CA900D9A5B2 /* RescueCancelHostcarOp.m */; };
 		4E34529D1C96A9BF00E2AFE2 /* ScencePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E34529C1C96A9BF00E2AFE2 /* ScencePageVC.m */; };
+		4E3452D11C96B90500E2AFE2 /* ClaimDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3452D01C96B90500E2AFE2 /* ClaimDetailVC.m */; };
 		4E5995681C201C5300686565 /* CommitSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5995671C201C5300686565 /* CommitSuccessVC.m */; };
 		4E97D70E1C9000DB00FC418F /* ClaimsHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E97D70D1C9000DB00FC418F /* ClaimsHistoryVC.m */; };
 		4E97D7111C9000E500FC418F /* AskClaimsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E97D7101C9000E500FC418F /* AskClaimsVC.m */; };
@@ -1353,6 +1354,8 @@
 		2EB0DA5B1C325CA900D9A5B2 /* RescueCancelHostcarOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RescueCancelHostcarOp.m; path = Class/RescueCancelHostcarOp.m; sourceTree = "<group>"; };
 		4E34529B1C96A9BF00E2AFE2 /* ScencePageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScencePageVC.h; sourceTree = "<group>"; };
 		4E34529C1C96A9BF00E2AFE2 /* ScencePageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScencePageVC.m; sourceTree = "<group>"; };
+		4E3452CF1C96B90500E2AFE2 /* ClaimDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClaimDetailVC.h; sourceTree = "<group>"; };
+		4E3452D01C96B90500E2AFE2 /* ClaimDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClaimDetailVC.m; sourceTree = "<group>"; };
 		4E5995661C201C5300686565 /* CommitSuccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommitSuccessVC.h; sourceTree = "<group>"; };
 		4E5995671C201C5300686565 /* CommitSuccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommitSuccessVC.m; sourceTree = "<group>"; };
 		4E97D70C1C9000DB00FC418F /* ClaimsHistoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClaimsHistoryVC.h; sourceTree = "<group>"; };
@@ -3708,6 +3711,8 @@
 				4E97D70D1C9000DB00FC418F /* ClaimsHistoryVC.m */,
 				4E97D7181C9003A500FC418F /* ScencePhotoVC.h */,
 				4E97D7191C9003A500FC418F /* ScencePhotoVC.m */,
+				4E3452CF1C96B90500E2AFE2 /* ClaimDetailVC.h */,
+				4E3452D01C96B90500E2AFE2 /* ClaimDetailVC.m */,
 			);
 			name = MutualInsClaims;
 			sourceTree = "<group>";
@@ -5131,6 +5136,7 @@
 				4EF94AF31C321D020092CB55 /* RescueHistoryViewController.m in Sources */,
 				5040B37D1C06D50200ADE77F /* ApplyUnionOp.m in Sources */,
 				6B26EF0C1C8EFA7600428EC4 /* ReactView.m in Sources */,
+				4E3452D11C96B90500E2AFE2 /* ClaimDetailVC.m in Sources */,
 				18AB16AC1C1FAE810000E718 /* GetInsBaseCarListOp.m in Sources */,
 				6B4BCEE01C3E52AF0006B5EB /* HKViewController.m in Sources */,
 				6BBB08501B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m in Sources */,
