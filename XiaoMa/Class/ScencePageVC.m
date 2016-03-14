@@ -158,10 +158,13 @@
     {
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"请确认是否返回?" message:@"并放弃当前所拍摄的照片" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         [alertView show];
-        [[alertView rac_buttonClickedSignal]subscribeNext:^(id x) {
-            [[ScencePhotoVM sharedManager]deleteAllInfo];
-            NSArray *viewControllers = self.navigationController.viewControllers;
-            [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
+        [[alertView rac_buttonClickedSignal]subscribeNext:^(NSNumber *x) {
+            if (x.integerValue == 1)
+            {
+                [[ScencePhotoVM sharedManager]deleteAllInfo];
+                NSArray *viewControllers = self.navigationController.viewControllers;
+                [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
+            }
         }];
     }
     else

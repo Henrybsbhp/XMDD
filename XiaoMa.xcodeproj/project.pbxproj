@@ -321,6 +321,8 @@
 		4E97D7171C9001C700FC418F /* HKInclinedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E97D7161C9001C700FC418F /* HKInclinedLabel.m */; };
 		4E97D71A1C9003A500FC418F /* ScencePhotoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E97D7191C9003A500FC418F /* ScencePhotoVC.m */; };
 		4EA1CB161C96961A006CCBEA /* MutualInsPayResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1CB151C96961A006CCBEA /* MutualInsPayResultVC.m */; };
+		4EA1CB221C969830006CCBEA /* ScencePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1CB1F1C969830006CCBEA /* ScencePageVC.m */; };
+		4EA1CB231C969830006CCBEA /* ScencePhotoVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1CB211C969830006CCBEA /* ScencePhotoVM.m */; };
 		4EC6EA801C22A5480092BF6E /* HistoryCollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC6EA7F1C22A5480092BF6E /* HistoryCollectionVC.m */; };
 		4EF12DED1C1EBC900098B8C6 /* SecondCarValuationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */; };
 		4EF94AF21C321D020092CB55 /* RescueCommentsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF01C321D020092CB55 /* RescueCommentsVC.m */; };
@@ -1297,6 +1299,10 @@
 		4E97D7191C9003A500FC418F /* ScencePhotoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScencePhotoVC.m; sourceTree = "<group>"; };
 		4EA1CB141C96961A006CCBEA /* MutualInsPayResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsPayResultVC.h; sourceTree = "<group>"; };
 		4EA1CB151C96961A006CCBEA /* MutualInsPayResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsPayResultVC.m; sourceTree = "<group>"; };
+		4EA1CB1E1C969830006CCBEA /* ScencePageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScencePageVC.h; sourceTree = "<group>"; };
+		4EA1CB1F1C969830006CCBEA /* ScencePageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScencePageVC.m; sourceTree = "<group>"; };
+		4EA1CB201C969830006CCBEA /* ScencePhotoVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScencePhotoVM.h; sourceTree = "<group>"; };
+		4EA1CB211C969830006CCBEA /* ScencePhotoVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScencePhotoVM.m; sourceTree = "<group>"; };
 		4EC6EA7E1C22A5480092BF6E /* HistoryCollectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryCollectionVC.h; sourceTree = "<group>"; };
 		4EC6EA7F1C22A5480092BF6E /* HistoryCollectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryCollectionVC.m; sourceTree = "<group>"; };
 		4EF12DEB1C1EBC900098B8C6 /* SecondCarValuationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondCarValuationVC.h; sourceTree = "<group>"; };
@@ -3486,6 +3492,10 @@
 		4E97D7121C9000FC00FC418F /* MutualInsClaims */ = {
 			isa = PBXGroup;
 			children = (
+				4EA1CB1E1C969830006CCBEA /* ScencePageVC.h */,
+				4EA1CB1F1C969830006CCBEA /* ScencePageVC.m */,
+				4EA1CB201C969830006CCBEA /* ScencePhotoVM.h */,
+				4EA1CB211C969830006CCBEA /* ScencePhotoVM.m */,
 				6B26EF911C91599400428EC4 /* PhotoBrowserVC.h */,
 				6B26EF921C91599400428EC4 /* PhotoBrowserVC.m */,
 				4E97D70F1C9000E500FC418F /* AskClaimsVC.h */,
@@ -4846,6 +4856,7 @@
 				1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */,
 				6BBF75F51B05CA0800E11EBB /* FavoriteModel.m in Sources */,
 				6B3C67931BA9498F002F04C8 /* HKBigRatingView.m in Sources */,
+				4EA1CB221C969830006CCBEA /* ScencePageVC.m in Sources */,
 				18A30E401BD472E800521411 /* GasPayForCZBVC.m in Sources */,
 				18895B2A1B4A136100928F62 /* HKStore.m in Sources */,
 				18B7A2771C203B5E00865A99 /* GetAreaByIdOp.m in Sources */,
@@ -5145,6 +5156,7 @@
 				6BFE6A731C04036500EC9766 /* ViolationModel.m in Sources */,
 				6B2F28FF1C8920830096FD45 /* HKProgressView.m in Sources */,
 				18D811C61C1EDB5300B6AB04 /* CKDispatcher.m in Sources */,
+				4EA1CB231C969830006CCBEA /* ScencePhotoVM.m in Sources */,
 				6BBB824F1AE7757100850D0C /* NearbyShopsViewController.m in Sources */,
 				18E28A0E1B93E47E0070E759 /* PaymentHelper.m in Sources */,
 				18A15A591C21AF2000D7B5DF /* InsuranceVM.m in Sources */,
