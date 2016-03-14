@@ -11,6 +11,7 @@
 #import "GroupIntroductionVC.h"
 #import "InviteByCodeVC.h"
 #import "AskClaimsVC.h"
+#import "HKTimer.h"
 
 @interface MutualInsHomeVC ()
 
@@ -23,6 +24,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
+    [[HKTimer rac_timeCountDownWithOrigin:3600000 * 24 andTimeTag:[[NSDate date] timeIntervalSince1970]] subscribeNext:^(NSString * timeStr) {
+        DebugLog(@"%@", timeStr);
+    }];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
