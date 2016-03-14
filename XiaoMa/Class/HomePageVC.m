@@ -28,7 +28,6 @@
 #import "ValuationViewController.h"
 #import "HomeNewbieGuideVC.h"
 #import "HomeSuspendedAdVC.h"
-#import "MutualInsOrderInfoVC.h"
 #import "MutualInsGrouponVC.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
