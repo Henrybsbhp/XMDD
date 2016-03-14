@@ -12,7 +12,12 @@
 - (instancetype)parseResponseObject:(id)rspObj
 {
     NSDictionary *dict = rspObj;
-    self.rsp_claimlist = [MutualInsClaimInfo createWithJSONDict:dict];
+    NSMutableArray *claimlist = [NSMutableArray array];
+    for (NSDictionary *curDict in dict[@"claimlist"]) {
+        MutualInsClaimInfo *obj = [MutualInsClaimInfo createWithJSONDict:curDict];
+        [claimlist addObject:obj];
+    }
+    self.rsp_claimlist = claimlist;
 	
     return self;
 }

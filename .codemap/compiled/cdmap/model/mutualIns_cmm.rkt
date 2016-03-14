@@ -10,7 +10,7 @@
     (node
      (attr
       (*def* "团申请")
-      (class ApplyCooperationGroupOp)
+      (class ApplyCooperationGroup)
       (op)
       (auth)
       (path "/cooperation/group/apply"))
@@ -18,10 +18,10 @@
     (node
      (attr
       (*def* "创建团")
-      (class AddCooperationGroupJoinOp)
+      (class AddCooperationGroupJoin)
       (op)
       (auth)
-      (path "/cooperation/group/join/apply"))
+      (path "/cooperation/group/join/add"))
      (node (attr (req)) (node (id name) (type #f) (value #f)))
      (node
       (attr (rsp))
@@ -30,7 +30,7 @@
     (node
      (attr
       (*def* "通过暗号查询团")
-      (class ApplyCooperationGroupJoinOp)
+      (class SearchCooperationGroup)
       (op)
       (auth)
       (path "/cooperation/group/search"))
@@ -45,7 +45,7 @@
     (node
      (attr
       (*def* "申请加入一个团")
-      (class ApplyCooperationGroupJoinOp)
+      (class ApplyCooperationGroupJoin)
       (op)
       (auth)
       (path "/cooperation/group/join/apply"))
@@ -71,7 +71,7 @@
     (node
      (attr
       (*def* "照片信息完善页面信息获取")
-      (class GetCooperationIdlicenseInfoOp)
+      (class GetCooperationIdlicenseInfo)
       (op)
       (auth)
       (path "/cooperation/idlicense/info/get"))
@@ -91,7 +91,7 @@
     (node
      (attr
       (*def* "团详情查看")
-      (class GetCooperationMygroupDetailOp)
+      (class GetCooperationMygroupDetail)
       (op)
       (auth)
       (path "/cooperation/mygroup/detail/get"))
@@ -115,7 +115,7 @@
     (node
      (attr
       (*def* "互助协议查看")
-      (class GetCooperationContractDetailOp)
+      (class GetCooperationContractDetail)
       (op)
       (auth)
       (path "/cooperation/contract/detail/get"))
@@ -132,7 +132,7 @@
     (node
      (attr
       (*def* "更新地址信息")
-      (class UpdateCooperationContractDeliveryinfoOp)
+      (class UpdateCooperationContractDeliveryinfo)
       (op)
       (auth)
       (path "/cooperation/contract/deliveryinfo/update"))
@@ -145,7 +145,7 @@
     (node
      (attr
       (*def* "理赔记录列表")
-      (class GetCooperationClaimsListOp)
+      (class GetCooperationClaimsList)
       (op)
       (auth)
       (path "/cooperation/claims/list"))
@@ -154,12 +154,12 @@
       (node
        (attr (*def* "理赔详情"))
        (id claimlist)
-       (type MutualInsClaimInfo)
+       (type (array-type MutualInsClaimInfo))
        (value #f))))
     (node
      (attr
       (*def* "查看成员互助池信息")
-      (class GetCooperationMemberDetailOp)
+      (class GetCooperationMemberDetail)
       (op)
       (auth)
       (path "/cooperation/member/detail/get"))
@@ -177,7 +177,7 @@
     (node
      (attr
       (*def* "退出团")
-      (class ExitCooperationOp)
+      (class ExitCooperation)
       (op)
       (auth)
       (path "/cooperation/member/exit"))
@@ -187,7 +187,7 @@
     (node
      (attr
       (*def* "团长报价")
-      (class ApplyCooperationPremiumCalculateOp)
+      (class ApplyCooperationPremiumCalculate)
       (op)
       (auth)
       (path "/cooperation/premium/calculate/apply"))
@@ -197,7 +197,7 @@
     (node
      (attr
       (*def* "协议订单支付")
-      (class PayCooperationContractOrderOp)
+      (class PayCooperationContractOrder)
       (op)
       (auth)
       (path "/cooperation/contract/order/pay"))
@@ -211,6 +211,114 @@
       (attr (rsp))
       (node (attr (*def* "实付金额")) (id total) (type float) (value #f))
       (node (attr (*def* "交易号")) (id tradeno) (type #f) (value #f))))
+    (node
+     (attr
+      (*def* "获取互助首页文案信息")
+      (class GetCooperationConfi)
+      (op)
+      (path "/cooperation/config/get"))
+     (node
+      (attr (rsp))
+      (node (attr (*def* "匹配团的名字")) (id autogroupname) (type #f) (value #f))
+      (node (attr (*def* "自组团的名字")) (id selfgroupname) (type #f) (value #f))
+      (node (attr (*def* "匹配团描述")) (id autogroupdesc) (type #f) (value #f))
+      (node (attr (*def* "自组团描述")) (id selfgroupdesc) (type #f) (value #f))))
+    (node
+     (attr
+      (*def* "理赔申请")
+      (class ApplyCooperationClaim)
+      (op)
+      (auth)
+      (path "/cooperation/claim/apply"))
+     (node
+      (attr (req))
+      (node (attr (*def* "协议记录ID")) (id licensenumber) (type #f) (value #f))
+      (node (attr (*def* "现场图片")) (id scene) (type array) (value #f))
+      (node (attr (*def* "车辆损失图片")) (id cardamage) (type array) (value #f))
+      (node (attr (*def* "车辆信息图片")) (id carinfo) (type array) (value #f))
+      (node (attr (*def* "Id信息图片")) (id idinfo) (type array) (value #f)))
+     (node
+      (attr (rsp))
+      (node (attr (*def* "实付金额")) (id total) (type float) (value #f))
+      (node (attr (*def* "交易号")) (id tradeno) (type #f) (value #f))))
+    (node
+     (attr
+      (*def* "获取可以理赔的车辆列表,获取车列表，在快速理赔的时候需要选择一辆车")
+      (class GetCooperationMyCar)
+      (op)
+      (auth)
+      (path "/cooperation/mycar/get"))
+     (node
+      (attr (rsp))
+      (node
+       (attr (*def* "车牌,字符串数组"))
+       (id licensenumbers)
+       (type array)
+       (value #f))))
+    (node
+     (attr
+      (*def* "获取理赔页面配置信息")
+      (class GetCoorperationClaimConfig)
+      (op)
+      (path "/cooperation/claim/config/get"))
+     (node
+      (attr (rsp))
+      (node (attr (*def* "现场照片注意事项描述")) (id scenedesc) (type #f) (value #f))
+      (node
+       (attr (*def* "车损信息注意事项描述"))
+       (id cardamagedesc)
+       (type #f)
+       (value #f))
+      (node (attr (*def* "车辆信息注意事项描述")) (id carinfodesc) (type #f) (value #f))
+      (node
+       (attr (*def* "身份证信息注意事项描述"))
+       (id idinfodesc)
+       (type #f)
+       (value #f))))
+    (node
+     (attr
+      (*def* "理赔详情")
+      (class GetCooperationClaimDetail)
+      (op)
+      (auth)
+      (path "/cooperation/claim/detail"))
+     (node
+      (attr (req))
+      (node (attr (*def* "理赔记录ID")) (id claimid) (type number) (value #f)))
+     (node
+      (attr (rsp))
+      (node (attr (*def* "statusdesc")) (id statusdesc) (type #f) (value #f))
+      (node (attr (*def* "status")) (id status) (type #f) (value #f))
+      (node
+       (attr (*def* "事故时间") (date DT10))
+       (id accidenttime)
+       (type #f)
+       (value #f))
+      (node (attr (*def* "事故地点")) (id accidentaddress) (type #f) (value #f))
+      (node (attr (*def* "事故责任方")) (id chargepart) (type #f) (value #f))
+      (node (attr (*def* "车损概况")) (id cardmgdesc) (type #f) (value #f))))
+    (node
+     (attr
+      (*def* "添加一张理赔银行卡")
+      (class AddCooperationClaimBankcard)
+      (op)
+      (auth)
+      (path "/cooperation/claim/bankcard/add"))
+     (node
+      (attr (req))
+      (node (attr (*def* "理赔记录ID")) (id cardno) (type #f) (value #f))
+      (node (attr (*def* "发卡行")) (id issuebank) (type #f) (value #f)))
+     (node
+      (attr (rsp))
+      (node (attr (*def* "银行卡记录ID")) (id cardid) (type #f) (value #f))))
+    (node
+     (attr
+      (*def* "获取理赔银行卡列表")
+      (class GetCooperationClaimBankcard)
+      (op)
+      (auth)
+      (path "/cooperation/claim/bankcard/get"))
+     (node (attr (rsp)) (node (id cardlist) (type array) (value #f))))
     (node
      (attr (*def* "团员信息") (class MutualInsMemberInfo) (data))
      (node (attr (*def* "车牌")) (id licensenumber) (type #f) (value #f))

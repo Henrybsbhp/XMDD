@@ -433,19 +433,7 @@
 		6B16D6461C9664F400322B70 /* MutualInsClaimInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D6411C9664F400322B70 /* MutualInsClaimInfo.m */; };
 		6B16D6471C9664F400322B70 /* MutualInsContract.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D6431C9664F400322B70 /* MutualInsContract.m */; };
 		6B16D6481C9664F400322B70 /* MutualInsMemberInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D6451C9664F400322B70 /* MutualInsMemberInfo.m */; };
-		6B16D6651C96651100322B70 /* AddCooperationGroupJoinOpOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D64A1C96651100322B70 /* AddCooperationGroupJoinOpOp.m */; };
 		6B16D6661C96651100322B70 /* ApplyCooperationGroupJoinOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D64C1C96651100322B70 /* ApplyCooperationGroupJoinOp.m */; };
-		6B16D6671C96651100322B70 /* ApplyCooperationGroupJoinOpOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D64E1C96651100322B70 /* ApplyCooperationGroupJoinOpOp.m */; };
-		6B16D6681C96651100322B70 /* ApplyCooperationGroupOpOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D6501C96651100322B70 /* ApplyCooperationGroupOpOp.m */; };
-		6B16D6691C96651100322B70 /* ApplyCooperationPremiumCalculateOpOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D6521C96651100322B70 /* ApplyCooperationPremiumCalculateOpOp.m */; };
-		6B16D66A1C96651100322B70 /* ExitCooperationOpOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D6541C96651100322B70 /* ExitCooperationOpOp.m */; };
-		6B16D66B1C96651100322B70 /* GetCooperationClaimsListOpOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D6561C96651100322B70 /* GetCooperationClaimsListOpOp.m */; };
-		6B16D66C1C96651100322B70 /* GetCooperationContractDetailOpOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D6581C96651100322B70 /* GetCooperationContractDetailOpOp.m */; };
-		6B16D66D1C96651100322B70 /* GetCooperationIdlicenseInfoOpOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D65A1C96651100322B70 /* GetCooperationIdlicenseInfoOpOp.m */; };
-		6B16D66E1C96651100322B70 /* GetCooperationMemberDetailOpOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D65C1C96651100322B70 /* GetCooperationMemberDetailOpOp.m */; };
-		6B16D66F1C96651100322B70 /* GetCooperationMygroupDetailOpOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D65E1C96651100322B70 /* GetCooperationMygroupDetailOpOp.m */; };
-		6B16D6701C96651100322B70 /* PayCooperationContractOrderOpOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D6601C96651100322B70 /* PayCooperationContractOrderOpOp.m */; };
-		6B16D6711C96651100322B70 /* UpdateCooperationContractDeliveryinfoOpOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D6621C96651100322B70 /* UpdateCooperationContractDeliveryinfoOpOp.m */; };
 		6B16D6721C96651100322B70 /* UpdateCooperationIdlicenseInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D6641C96651100322B70 /* UpdateCooperationIdlicenseInfoOp.m */; };
 		6B1D93D31B8573A000740628 /* PayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1D93D21B8573A000740628 /* PayModel.m */; };
 		6B21A8961BD49399006D0556 /* GetShopByRangeV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A8951BD49399006D0556 /* GetShopByRangeV2Op.m */; };
@@ -574,6 +562,25 @@
 		6BC3B6151ADF69B5001016A0 /* CarWashNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B6141ADF69B5001016A0 /* CarWashNavigationViewController.m */; };
 		6BC3B6191ADF92E7001016A0 /* CommonUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B6181ADF92E7001016A0 /* CommonUtility.m */; };
 		6BC3B61C1ADF9334001016A0 /* LineDashPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B61B1ADF9334001016A0 /* LineDashPolyline.m */; };
+		6BC80C831C96BD6800C7BA3D /* AddCooperationClaimBankcardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C5E1C96BD6800C7BA3D /* AddCooperationClaimBankcardOp.m */; };
+		6BC80C841C96BD6800C7BA3D /* AddCooperationGroupJoinOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C601C96BD6800C7BA3D /* AddCooperationGroupJoinOp.m */; };
+		6BC80C851C96BD6800C7BA3D /* ApplyCooperationClaimOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C621C96BD6800C7BA3D /* ApplyCooperationClaimOp.m */; };
+		6BC80C861C96BD6800C7BA3D /* ApplyCooperationGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C641C96BD6800C7BA3D /* ApplyCooperationGroupOp.m */; };
+		6BC80C871C96BD6800C7BA3D /* ApplyCooperationPremiumCalculateOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C661C96BD6800C7BA3D /* ApplyCooperationPremiumCalculateOp.m */; };
+		6BC80C881C96BD6800C7BA3D /* ExitCooperationOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C681C96BD6800C7BA3D /* ExitCooperationOp.m */; };
+		6BC80C891C96BD6800C7BA3D /* GetCooperationClaimBankcardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C6A1C96BD6800C7BA3D /* GetCooperationClaimBankcardOp.m */; };
+		6BC80C8A1C96BD6800C7BA3D /* GetCooperationClaimDetailOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C6C1C96BD6800C7BA3D /* GetCooperationClaimDetailOp.m */; };
+		6BC80C8B1C96BD6800C7BA3D /* GetCooperationClaimsListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C6E1C96BD6800C7BA3D /* GetCooperationClaimsListOp.m */; };
+		6BC80C8C1C96BD6800C7BA3D /* GetCooperationConfiOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C701C96BD6800C7BA3D /* GetCooperationConfiOp.m */; };
+		6BC80C8D1C96BD6800C7BA3D /* GetCooperationContractDetailOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C721C96BD6800C7BA3D /* GetCooperationContractDetailOp.m */; };
+		6BC80C8E1C96BD6800C7BA3D /* GetCooperationIdlicenseInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C741C96BD6800C7BA3D /* GetCooperationIdlicenseInfoOp.m */; };
+		6BC80C8F1C96BD6800C7BA3D /* GetCooperationMemberDetailOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C761C96BD6800C7BA3D /* GetCooperationMemberDetailOp.m */; };
+		6BC80C901C96BD6800C7BA3D /* GetCooperationMyCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C781C96BD6800C7BA3D /* GetCooperationMyCarOp.m */; };
+		6BC80C911C96BD6800C7BA3D /* GetCooperationMygroupDetailOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C7A1C96BD6800C7BA3D /* GetCooperationMygroupDetailOp.m */; };
+		6BC80C921C96BD6800C7BA3D /* GetCoorperationClaimConfigOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C7C1C96BD6800C7BA3D /* GetCoorperationClaimConfigOp.m */; };
+		6BC80C931C96BD6800C7BA3D /* PayCooperationContractOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C7E1C96BD6800C7BA3D /* PayCooperationContractOrderOp.m */; };
+		6BC80C941C96BD6800C7BA3D /* SearchCooperationGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C801C96BD6800C7BA3D /* SearchCooperationGroupOp.m */; };
+		6BC80C951C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C821C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.m */; };
 		6BCA5F401B102A3700E1E630 /* HKCouponPkg.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F3F1B102A3700E1E630 /* HKCouponPkg.m */; };
 		6BCA5F431B102D5700E1E630 /* GetUserCouponPkgOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F421B102D5700E1E630 /* GetUserCouponPkgOp.m */; };
 		6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F451B1031EC00E1E630 /* GainCouponPkgOp.m */; };
@@ -1548,32 +1555,8 @@
 		6B16D6431C9664F400322B70 /* MutualInsContract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsContract.m; sourceTree = "<group>"; };
 		6B16D6441C9664F400322B70 /* MutualInsMemberInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsMemberInfo.h; sourceTree = "<group>"; };
 		6B16D6451C9664F400322B70 /* MutualInsMemberInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsMemberInfo.m; sourceTree = "<group>"; };
-		6B16D6491C96651100322B70 /* AddCooperationGroupJoinOpOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCooperationGroupJoinOpOp.h; sourceTree = "<group>"; };
-		6B16D64A1C96651100322B70 /* AddCooperationGroupJoinOpOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCooperationGroupJoinOpOp.m; sourceTree = "<group>"; };
 		6B16D64B1C96651100322B70 /* ApplyCooperationGroupJoinOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyCooperationGroupJoinOp.h; sourceTree = "<group>"; };
 		6B16D64C1C96651100322B70 /* ApplyCooperationGroupJoinOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyCooperationGroupJoinOp.m; sourceTree = "<group>"; };
-		6B16D64D1C96651100322B70 /* ApplyCooperationGroupJoinOpOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyCooperationGroupJoinOpOp.h; sourceTree = "<group>"; };
-		6B16D64E1C96651100322B70 /* ApplyCooperationGroupJoinOpOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyCooperationGroupJoinOpOp.m; sourceTree = "<group>"; };
-		6B16D64F1C96651100322B70 /* ApplyCooperationGroupOpOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyCooperationGroupOpOp.h; sourceTree = "<group>"; };
-		6B16D6501C96651100322B70 /* ApplyCooperationGroupOpOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyCooperationGroupOpOp.m; sourceTree = "<group>"; };
-		6B16D6511C96651100322B70 /* ApplyCooperationPremiumCalculateOpOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyCooperationPremiumCalculateOpOp.h; sourceTree = "<group>"; };
-		6B16D6521C96651100322B70 /* ApplyCooperationPremiumCalculateOpOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyCooperationPremiumCalculateOpOp.m; sourceTree = "<group>"; };
-		6B16D6531C96651100322B70 /* ExitCooperationOpOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExitCooperationOpOp.h; sourceTree = "<group>"; };
-		6B16D6541C96651100322B70 /* ExitCooperationOpOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExitCooperationOpOp.m; sourceTree = "<group>"; };
-		6B16D6551C96651100322B70 /* GetCooperationClaimsListOpOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCooperationClaimsListOpOp.h; sourceTree = "<group>"; };
-		6B16D6561C96651100322B70 /* GetCooperationClaimsListOpOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCooperationClaimsListOpOp.m; sourceTree = "<group>"; };
-		6B16D6571C96651100322B70 /* GetCooperationContractDetailOpOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCooperationContractDetailOpOp.h; sourceTree = "<group>"; };
-		6B16D6581C96651100322B70 /* GetCooperationContractDetailOpOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCooperationContractDetailOpOp.m; sourceTree = "<group>"; };
-		6B16D6591C96651100322B70 /* GetCooperationIdlicenseInfoOpOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCooperationIdlicenseInfoOpOp.h; sourceTree = "<group>"; };
-		6B16D65A1C96651100322B70 /* GetCooperationIdlicenseInfoOpOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCooperationIdlicenseInfoOpOp.m; sourceTree = "<group>"; };
-		6B16D65B1C96651100322B70 /* GetCooperationMemberDetailOpOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCooperationMemberDetailOpOp.h; sourceTree = "<group>"; };
-		6B16D65C1C96651100322B70 /* GetCooperationMemberDetailOpOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCooperationMemberDetailOpOp.m; sourceTree = "<group>"; };
-		6B16D65D1C96651100322B70 /* GetCooperationMygroupDetailOpOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCooperationMygroupDetailOpOp.h; sourceTree = "<group>"; };
-		6B16D65E1C96651100322B70 /* GetCooperationMygroupDetailOpOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCooperationMygroupDetailOpOp.m; sourceTree = "<group>"; };
-		6B16D65F1C96651100322B70 /* PayCooperationContractOrderOpOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayCooperationContractOrderOpOp.h; sourceTree = "<group>"; };
-		6B16D6601C96651100322B70 /* PayCooperationContractOrderOpOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayCooperationContractOrderOpOp.m; sourceTree = "<group>"; };
-		6B16D6611C96651100322B70 /* UpdateCooperationContractDeliveryinfoOpOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateCooperationContractDeliveryinfoOpOp.h; sourceTree = "<group>"; };
-		6B16D6621C96651100322B70 /* UpdateCooperationContractDeliveryinfoOpOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateCooperationContractDeliveryinfoOpOp.m; sourceTree = "<group>"; };
 		6B16D6631C96651100322B70 /* UpdateCooperationIdlicenseInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateCooperationIdlicenseInfoOp.h; sourceTree = "<group>"; };
 		6B16D6641C96651100322B70 /* UpdateCooperationIdlicenseInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateCooperationIdlicenseInfoOp.m; sourceTree = "<group>"; };
 		6B1D93D11B8573A000740628 /* PayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PayModel.h; path = Class/PayModel.h; sourceTree = "<group>"; };
@@ -1812,6 +1795,44 @@
 		6BC3B6181ADF92E7001016A0 /* CommonUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommonUtility.m; path = Class/CommonUtility.m; sourceTree = "<group>"; };
 		6BC3B61A1ADF9334001016A0 /* LineDashPolyline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LineDashPolyline.h; path = Class/LineDashPolyline.h; sourceTree = "<group>"; };
 		6BC3B61B1ADF9334001016A0 /* LineDashPolyline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LineDashPolyline.m; path = Class/LineDashPolyline.m; sourceTree = "<group>"; };
+		6BC80C5D1C96BD6800C7BA3D /* AddCooperationClaimBankcardOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCooperationClaimBankcardOp.h; sourceTree = "<group>"; };
+		6BC80C5E1C96BD6800C7BA3D /* AddCooperationClaimBankcardOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCooperationClaimBankcardOp.m; sourceTree = "<group>"; };
+		6BC80C5F1C96BD6800C7BA3D /* AddCooperationGroupJoinOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCooperationGroupJoinOp.h; sourceTree = "<group>"; };
+		6BC80C601C96BD6800C7BA3D /* AddCooperationGroupJoinOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCooperationGroupJoinOp.m; sourceTree = "<group>"; };
+		6BC80C611C96BD6800C7BA3D /* ApplyCooperationClaimOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyCooperationClaimOp.h; sourceTree = "<group>"; };
+		6BC80C621C96BD6800C7BA3D /* ApplyCooperationClaimOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyCooperationClaimOp.m; sourceTree = "<group>"; };
+		6BC80C631C96BD6800C7BA3D /* ApplyCooperationGroupOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyCooperationGroupOp.h; sourceTree = "<group>"; };
+		6BC80C641C96BD6800C7BA3D /* ApplyCooperationGroupOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyCooperationGroupOp.m; sourceTree = "<group>"; };
+		6BC80C651C96BD6800C7BA3D /* ApplyCooperationPremiumCalculateOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyCooperationPremiumCalculateOp.h; sourceTree = "<group>"; };
+		6BC80C661C96BD6800C7BA3D /* ApplyCooperationPremiumCalculateOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyCooperationPremiumCalculateOp.m; sourceTree = "<group>"; };
+		6BC80C671C96BD6800C7BA3D /* ExitCooperationOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExitCooperationOp.h; sourceTree = "<group>"; };
+		6BC80C681C96BD6800C7BA3D /* ExitCooperationOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExitCooperationOp.m; sourceTree = "<group>"; };
+		6BC80C691C96BD6800C7BA3D /* GetCooperationClaimBankcardOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCooperationClaimBankcardOp.h; sourceTree = "<group>"; };
+		6BC80C6A1C96BD6800C7BA3D /* GetCooperationClaimBankcardOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCooperationClaimBankcardOp.m; sourceTree = "<group>"; };
+		6BC80C6B1C96BD6800C7BA3D /* GetCooperationClaimDetailOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCooperationClaimDetailOp.h; sourceTree = "<group>"; };
+		6BC80C6C1C96BD6800C7BA3D /* GetCooperationClaimDetailOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCooperationClaimDetailOp.m; sourceTree = "<group>"; };
+		6BC80C6D1C96BD6800C7BA3D /* GetCooperationClaimsListOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCooperationClaimsListOp.h; sourceTree = "<group>"; };
+		6BC80C6E1C96BD6800C7BA3D /* GetCooperationClaimsListOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCooperationClaimsListOp.m; sourceTree = "<group>"; };
+		6BC80C6F1C96BD6800C7BA3D /* GetCooperationConfiOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCooperationConfiOp.h; sourceTree = "<group>"; };
+		6BC80C701C96BD6800C7BA3D /* GetCooperationConfiOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCooperationConfiOp.m; sourceTree = "<group>"; };
+		6BC80C711C96BD6800C7BA3D /* GetCooperationContractDetailOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCooperationContractDetailOp.h; sourceTree = "<group>"; };
+		6BC80C721C96BD6800C7BA3D /* GetCooperationContractDetailOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCooperationContractDetailOp.m; sourceTree = "<group>"; };
+		6BC80C731C96BD6800C7BA3D /* GetCooperationIdlicenseInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCooperationIdlicenseInfoOp.h; sourceTree = "<group>"; };
+		6BC80C741C96BD6800C7BA3D /* GetCooperationIdlicenseInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCooperationIdlicenseInfoOp.m; sourceTree = "<group>"; };
+		6BC80C751C96BD6800C7BA3D /* GetCooperationMemberDetailOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCooperationMemberDetailOp.h; sourceTree = "<group>"; };
+		6BC80C761C96BD6800C7BA3D /* GetCooperationMemberDetailOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCooperationMemberDetailOp.m; sourceTree = "<group>"; };
+		6BC80C771C96BD6800C7BA3D /* GetCooperationMyCarOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCooperationMyCarOp.h; sourceTree = "<group>"; };
+		6BC80C781C96BD6800C7BA3D /* GetCooperationMyCarOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCooperationMyCarOp.m; sourceTree = "<group>"; };
+		6BC80C791C96BD6800C7BA3D /* GetCooperationMygroupDetailOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCooperationMygroupDetailOp.h; sourceTree = "<group>"; };
+		6BC80C7A1C96BD6800C7BA3D /* GetCooperationMygroupDetailOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCooperationMygroupDetailOp.m; sourceTree = "<group>"; };
+		6BC80C7B1C96BD6800C7BA3D /* GetCoorperationClaimConfigOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCoorperationClaimConfigOp.h; sourceTree = "<group>"; };
+		6BC80C7C1C96BD6800C7BA3D /* GetCoorperationClaimConfigOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCoorperationClaimConfigOp.m; sourceTree = "<group>"; };
+		6BC80C7D1C96BD6800C7BA3D /* PayCooperationContractOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayCooperationContractOrderOp.h; sourceTree = "<group>"; };
+		6BC80C7E1C96BD6800C7BA3D /* PayCooperationContractOrderOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayCooperationContractOrderOp.m; sourceTree = "<group>"; };
+		6BC80C7F1C96BD6800C7BA3D /* SearchCooperationGroupOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchCooperationGroupOp.h; sourceTree = "<group>"; };
+		6BC80C801C96BD6800C7BA3D /* SearchCooperationGroupOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchCooperationGroupOp.m; sourceTree = "<group>"; };
+		6BC80C811C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateCooperationContractDeliveryinfoOp.h; sourceTree = "<group>"; };
+		6BC80C821C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateCooperationContractDeliveryinfoOp.m; sourceTree = "<group>"; };
 		6BCA5F3E1B102A3700E1E630 /* HKCouponPkg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKCouponPkg.h; path = Class/HKCouponPkg.h; sourceTree = "<group>"; };
 		6BCA5F3F1B102A3700E1E630 /* HKCouponPkg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKCouponPkg.m; path = Class/HKCouponPkg.m; sourceTree = "<group>"; };
 		6BCA5F411B102D5700E1E630 /* GetUserCouponPkgOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserCouponPkgOp.h; path = Class/GetUserCouponPkgOp.h; sourceTree = "<group>"; };
@@ -2365,32 +2386,46 @@
 		1833F5701BCD373B000E1DA1 /* netop */ = {
 			isa = PBXGroup;
 			children = (
-				6B16D6491C96651100322B70 /* AddCooperationGroupJoinOpOp.h */,
-				6B16D64A1C96651100322B70 /* AddCooperationGroupJoinOpOp.m */,
+				6BC80C5D1C96BD6800C7BA3D /* AddCooperationClaimBankcardOp.h */,
+				6BC80C5E1C96BD6800C7BA3D /* AddCooperationClaimBankcardOp.m */,
+				6BC80C5F1C96BD6800C7BA3D /* AddCooperationGroupJoinOp.h */,
+				6BC80C601C96BD6800C7BA3D /* AddCooperationGroupJoinOp.m */,
+				6BC80C611C96BD6800C7BA3D /* ApplyCooperationClaimOp.h */,
+				6BC80C621C96BD6800C7BA3D /* ApplyCooperationClaimOp.m */,
+				6BC80C631C96BD6800C7BA3D /* ApplyCooperationGroupOp.h */,
+				6BC80C641C96BD6800C7BA3D /* ApplyCooperationGroupOp.m */,
+				6BC80C651C96BD6800C7BA3D /* ApplyCooperationPremiumCalculateOp.h */,
+				6BC80C661C96BD6800C7BA3D /* ApplyCooperationPremiumCalculateOp.m */,
+				6BC80C671C96BD6800C7BA3D /* ExitCooperationOp.h */,
+				6BC80C681C96BD6800C7BA3D /* ExitCooperationOp.m */,
+				6BC80C691C96BD6800C7BA3D /* GetCooperationClaimBankcardOp.h */,
+				6BC80C6A1C96BD6800C7BA3D /* GetCooperationClaimBankcardOp.m */,
+				6BC80C6B1C96BD6800C7BA3D /* GetCooperationClaimDetailOp.h */,
+				6BC80C6C1C96BD6800C7BA3D /* GetCooperationClaimDetailOp.m */,
+				6BC80C6D1C96BD6800C7BA3D /* GetCooperationClaimsListOp.h */,
+				6BC80C6E1C96BD6800C7BA3D /* GetCooperationClaimsListOp.m */,
+				6BC80C6F1C96BD6800C7BA3D /* GetCooperationConfiOp.h */,
+				6BC80C701C96BD6800C7BA3D /* GetCooperationConfiOp.m */,
+				6BC80C711C96BD6800C7BA3D /* GetCooperationContractDetailOp.h */,
+				6BC80C721C96BD6800C7BA3D /* GetCooperationContractDetailOp.m */,
+				6BC80C731C96BD6800C7BA3D /* GetCooperationIdlicenseInfoOp.h */,
+				6BC80C741C96BD6800C7BA3D /* GetCooperationIdlicenseInfoOp.m */,
+				6BC80C751C96BD6800C7BA3D /* GetCooperationMemberDetailOp.h */,
+				6BC80C761C96BD6800C7BA3D /* GetCooperationMemberDetailOp.m */,
+				6BC80C771C96BD6800C7BA3D /* GetCooperationMyCarOp.h */,
+				6BC80C781C96BD6800C7BA3D /* GetCooperationMyCarOp.m */,
+				6BC80C791C96BD6800C7BA3D /* GetCooperationMygroupDetailOp.h */,
+				6BC80C7A1C96BD6800C7BA3D /* GetCooperationMygroupDetailOp.m */,
+				6BC80C7B1C96BD6800C7BA3D /* GetCoorperationClaimConfigOp.h */,
+				6BC80C7C1C96BD6800C7BA3D /* GetCoorperationClaimConfigOp.m */,
+				6BC80C7D1C96BD6800C7BA3D /* PayCooperationContractOrderOp.h */,
+				6BC80C7E1C96BD6800C7BA3D /* PayCooperationContractOrderOp.m */,
+				6BC80C7F1C96BD6800C7BA3D /* SearchCooperationGroupOp.h */,
+				6BC80C801C96BD6800C7BA3D /* SearchCooperationGroupOp.m */,
+				6BC80C811C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.h */,
+				6BC80C821C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.m */,
 				6B16D64B1C96651100322B70 /* ApplyCooperationGroupJoinOp.h */,
 				6B16D64C1C96651100322B70 /* ApplyCooperationGroupJoinOp.m */,
-				6B16D64D1C96651100322B70 /* ApplyCooperationGroupJoinOpOp.h */,
-				6B16D64E1C96651100322B70 /* ApplyCooperationGroupJoinOpOp.m */,
-				6B16D64F1C96651100322B70 /* ApplyCooperationGroupOpOp.h */,
-				6B16D6501C96651100322B70 /* ApplyCooperationGroupOpOp.m */,
-				6B16D6511C96651100322B70 /* ApplyCooperationPremiumCalculateOpOp.h */,
-				6B16D6521C96651100322B70 /* ApplyCooperationPremiumCalculateOpOp.m */,
-				6B16D6531C96651100322B70 /* ExitCooperationOpOp.h */,
-				6B16D6541C96651100322B70 /* ExitCooperationOpOp.m */,
-				6B16D6551C96651100322B70 /* GetCooperationClaimsListOpOp.h */,
-				6B16D6561C96651100322B70 /* GetCooperationClaimsListOpOp.m */,
-				6B16D6571C96651100322B70 /* GetCooperationContractDetailOpOp.h */,
-				6B16D6581C96651100322B70 /* GetCooperationContractDetailOpOp.m */,
-				6B16D6591C96651100322B70 /* GetCooperationIdlicenseInfoOpOp.h */,
-				6B16D65A1C96651100322B70 /* GetCooperationIdlicenseInfoOpOp.m */,
-				6B16D65B1C96651100322B70 /* GetCooperationMemberDetailOpOp.h */,
-				6B16D65C1C96651100322B70 /* GetCooperationMemberDetailOpOp.m */,
-				6B16D65D1C96651100322B70 /* GetCooperationMygroupDetailOpOp.h */,
-				6B16D65E1C96651100322B70 /* GetCooperationMygroupDetailOpOp.m */,
-				6B16D65F1C96651100322B70 /* PayCooperationContractOrderOpOp.h */,
-				6B16D6601C96651100322B70 /* PayCooperationContractOrderOpOp.m */,
-				6B16D6611C96651100322B70 /* UpdateCooperationContractDeliveryinfoOpOp.h */,
-				6B16D6621C96651100322B70 /* UpdateCooperationContractDeliveryinfoOpOp.m */,
 				6B16D6631C96651100322B70 /* UpdateCooperationIdlicenseInfoOp.h */,
 				6B16D6641C96651100322B70 /* UpdateCooperationIdlicenseInfoOp.m */,
 				18273F231C7ED1F8004192B3 /* GascardChargeByStagesOp.h */,
@@ -4994,6 +5029,7 @@
 				18FC01DC1C4E6C6F00FD61BF /* IQUIView+Hierarchy.m in Sources */,
 				6BB884D21AE0BC6A00EBD8F4 /* MONActivityIndicatorView.m in Sources */,
 				186984F81B0098FB000A182A /* HKInsuranceOrder.m in Sources */,
+				6BC80C8F1C96BD6800C7BA3D /* GetCooperationMemberDetailOp.m in Sources */,
 				6BFE6A6E1C03FD8900EC9766 /* ViolationItemViewController.m in Sources */,
 				6BB884DD1AE0FE7500EBD8F4 /* GetUserCarOp.m in Sources */,
 				18E28A051B8AFBB70070E759 /* HKNavigationHiddenVC.m in Sources */,
@@ -5006,9 +5042,12 @@
 				18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */,
 				18CECC281C30F8890075B7F9 /* JT3DScrollView.m in Sources */,
 				1816F4BD1AD3A8AD00BBCC96 /* JTNavigationController.m in Sources */,
+				6BC80C8D1C96BD6800C7BA3D /* GetCooperationContractDetailOp.m in Sources */,
 				18A9E8CC1BDDC1C00061D3BC /* PickInsCompaniesVC.m in Sources */,
 				6BF392441BD627A900838292 /* GetShopByNameV2Op.m in Sources */,
 				1816F4B01ACE75FB00BBCC96 /* CarWashTableVC.m in Sources */,
+				6BC80C881C96BD6800C7BA3D /* ExitCooperationOp.m in Sources */,
+				6BC80C831C96BD6800C7BA3D /* AddCooperationClaimBankcardOp.m in Sources */,
 				1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */,
 				1818D8F51C22845A0078C329 /* PayForPremiumOp.m in Sources */,
 				181355C11C96935300894CA1 /* HKProgressView.m in Sources */,
@@ -5027,7 +5066,6 @@
 				1833F5891BCD373B000E1DA1 /* AddGascardOp.m in Sources */,
 				2E3EEBC61C227CC90010E34F /* CommissionConfirmVC.m in Sources */,
 				6BE2BD5B1AE6305600A69875 /* GetSystemPromotionOp.m in Sources */,
-				6B16D66C1C96651100322B70 /* GetCooperationContractDetailOpOp.m in Sources */,
 				18F93CD71B6F0A4A000325DD /* DashLine.m in Sources */,
 				504FFEA51C05D4C9002D7D6D /* AreaPickerVC.m in Sources */,
 				189C69861B74505E00E56E4A /* HKBankCard.m in Sources */,
@@ -5037,9 +5075,8 @@
 				6BE47F9B1C27F50000DBD969 /* HistoryCollectionOp.m in Sources */,
 				505E5FD61BD73B9300857819 /* DetailWebVC.m in Sources */,
 				18988CB21BC79A76001DECD5 /* HKUserStore.m in Sources */,
-				6B16D6651C96651100322B70 /* AddCooperationGroupJoinOpOp.m in Sources */,
-				6B16D6691C96651100322B70 /* ApplyCooperationPremiumCalculateOpOp.m in Sources */,
 				189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */,
+				6BC80C921C96BD6800C7BA3D /* GetCoorperationClaimConfigOp.m in Sources */,
 				5071D7C41C1EE756003D397C /* CarValuationSubView.m in Sources */,
 				50FAC26B1C23AB9C00F8990F /* GetAutomobileModelV2Op.m in Sources */,
 				6B26EE9B1C8EC12B00428EC4 /* Reachability.m in Sources */,
@@ -5085,6 +5122,7 @@
 				6B16D6461C9664F400322B70 /* MutualInsClaimInfo.m in Sources */,
 				18E28A2B1B9578240070E759 /* CarListVC.m in Sources */,
 				18C52C3E1BA6CEB900F6C38B /* HKImageView.m in Sources */,
+				6BC80C911C96BD6800C7BA3D /* GetCooperationMygroupDetailOp.m in Sources */,
 				18A9E8C91BDDC0950061D3BC /* GetInsCompanyListOp.m in Sources */,
 				1833F5901BCD373B000E1DA1 /* GetGascardListOp.m in Sources */,
 				18E155811C3E3DA600C1CF87 /* InsLicensePopVC.m in Sources */,
@@ -5105,7 +5143,6 @@
 				1821C34D1C4794D800120AF4 /* HomeNewbieGuideVC.m in Sources */,
 				6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */,
 				6BF3925F1BD8935600838292 /* CBAutoScrollLabel.m in Sources */,
-				6B16D6671C96651100322B70 /* ApplyCooperationGroupJoinOpOp.m in Sources */,
 				50DD1BC81BFB023800349A70 /* HKOtherOrder.m in Sources */,
 				6BC3B6191ADF92E7001016A0 /* CommonUtility.m in Sources */,
 				181F6DA61B15919900D38555 /* CXAlertButtonItem.m in Sources */,
@@ -5169,6 +5206,7 @@
 				2E77A4A61C325FCC00264FC9 /* RescueApplyOp.m in Sources */,
 				189371191B0DA6C00030FDE1 /* MessageListVC.m in Sources */,
 				18C81CBF1B18403000B0C292 /* FeedbackOp.m in Sources */,
+				6BC80C8B1C96BD6800C7BA3D /* GetCooperationClaimsListOp.m in Sources */,
 				1853DEBA1AE0BAA400C39175 /* HKConvertModel.m in Sources */,
 				507A0EB41B6F39D1004F6EC1 /* AnimationBoardView.m in Sources */,
 				50FAC2711C23B8C000F8990F /* AutoSeriesModel.m in Sources */,
@@ -5177,7 +5215,6 @@
 				4EA1CB161C96961A006CCBEA /* MutualInsPayResultVC.m in Sources */,
 				50FAC2621C23A77200F8990F /* GetAutomobileSeriesV2Op.m in Sources */,
 				18BF41E71BCF444B0039F210 /* HKTableViewCell.m in Sources */,
-				6B16D6701C96651100322B70 /* PayCooperationContractOrderOpOp.m in Sources */,
 				6BB61BA61AEF8B34004F39AA /* ServiceViewController.m in Sources */,
 				6BBAB8B31ADB777500EC342F /* GetVcodeOp.m in Sources */,
 				1885F0C01B1C4DB40056D3BD /* UIView+ShowDot.m in Sources */,
@@ -5207,7 +5244,6 @@
 				2E77A4A91C32603800264FC9 /* GetStartHostCarOp.m in Sources */,
 				4E5995681C201C5300686565 /* CommitSuccessVC.m in Sources */,
 				6BB9D76E1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m in Sources */,
-				6B16D6711C96651100322B70 /* UpdateCooperationContractDeliveryinfoOpOp.m in Sources */,
 				18AB16AB1C1FAE810000E718 /* GetInsBaseCarListByIDOp.m in Sources */,
 				18F41DAC1B787F5D000409E1 /* UnbindBankcardOp.m in Sources */,
 				1873710C1B0AD1D900B8CDCC /* MyCarListVModel.m in Sources */,
@@ -5223,6 +5259,7 @@
 				6BCA5F401B102A3700E1E630 /* HKCouponPkg.m in Sources */,
 				189B30B01AD4D661001D7288 /* JTTableViewController.m in Sources */,
 				6BF7F7311BB39A4100A24A32 /* NSString+Price.m in Sources */,
+				6BC80C861C96BD6800C7BA3D /* ApplyCooperationGroupOp.m in Sources */,
 				1883D9331ACCDA8B002A4D19 /* DefaultStyleModel.m in Sources */,
 				507EFACC1C15AEB60081FECB /* GetAreaByPcdOp.m in Sources */,
 				6B5012811C59FC6500267DCB /* UMLogHelper.m in Sources */,
@@ -5231,6 +5268,7 @@
 				18B78F6A1BAAA2100061ECAD /* GetInsuranceCalculatorOpV2.m in Sources */,
 				50E800411C44D7B100AFC7B9 /* HYScratchCardView.m in Sources */,
 				50B5088D1C7C469800B6151E /* HomeSuspendedAdVC.m in Sources */,
+				6BC80C941C96BD6800C7BA3D /* SearchCooperationGroupOp.m in Sources */,
 				18FC01DF1C4E6C6F00FD61BF /* IQKeyboardReturnKeyHandler.m in Sources */,
 				506008D41B74631800B8761D /* DrawingBoardView.m in Sources */,
 				18E592381C1A5CEE006010D9 /* InsPayResultVC.m in Sources */,
@@ -5248,6 +5286,7 @@
 				1851F4211B0C268F00241A01 /* AutoInfoModel.m in Sources */,
 				186984F21B007FAB000A182A /* HKServiceOrder.m in Sources */,
 				6B26EEB41C8EC23200428EC4 /* ZFCWanderingCubesActivityIndicatorView.m in Sources */,
+				6BC80C8C1C96BD6800C7BA3D /* GetCooperationConfiOp.m in Sources */,
 				18AA24741C213244002EF4F7 /* AddInsCarBaseInfoOp.m in Sources */,
 				18D17F801B57782800F66F04 /* HKAddressComponent.m in Sources */,
 				18BF41FC1BD08F860039F210 /* GasReminderCell.m in Sources */,
@@ -5260,6 +5299,7 @@
 				18E5923B1C1A7C27006010D9 /* InsSubmitResultVC.m in Sources */,
 				6BEA56D11AE24DCE000D19C1 /* NSDataEx.m in Sources */,
 				189B30B31AD4F7AC001D7288 /* UIView+CustomForXIB.m in Sources */,
+				6BC80C8A1C96BD6800C7BA3D /* GetCooperationClaimDetailOp.m in Sources */,
 				186985151B02E7DB000A182A /* UIScrollView+RefreshView.m in Sources */,
 				18B78F591BA9893C0061ECAD /* GetLaunchInfoOp.m in Sources */,
 				6BEA56C81AE24DCE000D19C1 /* SBJsonBase.m in Sources */,
@@ -5273,7 +5313,6 @@
 				18E155841C3E5BE000C1CF87 /* GetInsUserInfoOp.m in Sources */,
 				50FA52891C2296CD002B1EAE /* ValuationResultVC.m in Sources */,
 				6BBE83BD1C218D2300FEB101 /* GetUserResourcesGaschargeOp.m in Sources */,
-				6B16D6681C96651100322B70 /* ApplyCooperationGroupOpOp.m in Sources */,
 				2E77A4A31C325FCC00264FC9 /* HKRescueHistory.m in Sources */,
 				5073810D1BA1672D00B29756 /* GetCouponByTypeNewOp.m in Sources */,
 				6BBB82491AE7401400850D0C /* GetInsuranceByChannel.m in Sources */,
@@ -5304,7 +5343,6 @@
 				186F2FB51C155FA5005CF051 /* CKStore.m in Sources */,
 				187532D31ACCDEEF004CB777 /* HomePageVC.m in Sources */,
 				1833F5991BCD3BF7000E1DA1 /* CancelGaschargeOp.m in Sources */,
-				6B16D66A1C96651100322B70 /* ExitCooperationOpOp.m in Sources */,
 				6BC2209F1AD7AC9D00A4310E /* NSString+MD5.m in Sources */,
 				1883D9101ACBBE30002A4D19 /* main.m in Sources */,
 				18F813681B5F3561005F49B0 /* CKNavigationController+Expansion.m in Sources */,
@@ -5317,6 +5355,7 @@
 				6B2F28F61C8414D80096FD45 /* RRFPSBar.m in Sources */,
 				6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */,
 				503B205B1C08337200F396DD /* AwardOtherSheetVC.m in Sources */,
+				6BC80C841C96BD6800C7BA3D /* AddCooperationGroupJoinOp.m in Sources */,
 				6BCF62501B184AEF0064AE32 /* NJKWebViewProgress.m in Sources */,
 				189B30B71AD50627001D7288 /* PayForWashCarVC.m in Sources */,
 				6BBAB8B61ADBC12D00EC342F /* UpdatePwdOp.m in Sources */,
@@ -5336,6 +5375,7 @@
 				6B2265991C44C7A400A121CC /* CarwashFreshmanGuideVC.m in Sources */,
 				18895B361B4CB89000928F62 /* HKPushManager.m in Sources */,
 				6BFA93BB1BF098BB00700F27 /* CheckoutServiceOrderV4Op.m in Sources */,
+				6BC80C851C96BD6800C7BA3D /* ApplyCooperationClaimOp.m in Sources */,
 				18D475E51B7D9F82000FAF1C /* NSString+PhoneNumber.m in Sources */,
 				6BC3B60F1ADF52CB001016A0 /* BaseMapViewController.m in Sources */,
 				4E97D7171C9001C700FC418F /* HKInclinedLabel.m in Sources */,
@@ -5357,6 +5397,7 @@
 				182C50D81C27E79D004ED5D1 /* InsAlertVC.m in Sources */,
 				1837A7611B72130F0006E6C5 /* SDWaitingView.m in Sources */,
 				6BBAB8CE1ADE059300EC342F /* DistanceCalcHelper.m in Sources */,
+				6BC80C901C96BD6800C7BA3D /* GetCooperationMyCarOp.m in Sources */,
 				18E28A011B8AD71F0070E759 /* HKImagePicker.m in Sources */,
 				18FB68F01C2A911C00AD7341 /* InsCoverageSelectVC.m in Sources */,
 				6B26EEB21C8EC23200428EC4 /* ZFCDoubleBounceActivityIndicatorView.m in Sources */,
@@ -5374,7 +5415,6 @@
 				18FC01DD1C4E6C6F00FD61BF /* IQUIWindow+Hierarchy.m in Sources */,
 				6BC2209C1AD7AAF300A4310E /* NetworkManager.m in Sources */,
 				18039AF51B0C5BCE00264059 /* GetAutomobileModelOp.m in Sources */,
-				6B16D66E1C96651100322B70 /* GetCooperationMemberDetailOpOp.m in Sources */,
 				2E77A4A21C325FCC00264FC9 /* HKRescue.m in Sources */,
 				189371221B0E046E0030FDE1 /* JTAttributedLabel.m in Sources */,
 				4E97D71A1C9003A500FC418F /* ScencePhotoVC.m in Sources */,
@@ -5385,6 +5425,7 @@
 				18D811C61C1EDB5300B6AB04 /* CKDispatcher.m in Sources */,
 				4EA1CB231C969830006CCBEA /* ScencePhotoVM.m in Sources */,
 				6BBB824F1AE7757100850D0C /* NearbyShopsViewController.m in Sources */,
+				6BC80C8E1C96BD6800C7BA3D /* GetCooperationIdlicenseInfoOp.m in Sources */,
 				18E28A0E1B93E47E0070E759 /* PaymentHelper.m in Sources */,
 				18A15A591C21AF2000D7B5DF /* InsuranceVM.m in Sources */,
 				6BEA56C31AE24DCE000D19C1 /* AlixPayResult.m in Sources */,
@@ -5395,13 +5436,13 @@
 				6BCA5F4C1B104B5100E1E630 /* MyCollectionViewController.m in Sources */,
 				6B16D63F1C95517000322B70 /* GetCooperationAutoGroupOp.m in Sources */,
 				6BEA56CF1AE24DCE000D19C1 /* DataVerifier.m in Sources */,
+				6BC80C951C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.m in Sources */,
 				6BB884BC1AE0BB9600EBD8F4 /* UIView+JTLoadingView.m in Sources */,
 				18273F251C7ED1F8004192B3 /* GascardChargeByStagesOp.m in Sources */,
 				1893712B1B0E0D460030FDE1 /* TTTAttributedLabel.m in Sources */,
 				6B16D6481C9664F400322B70 /* MutualInsMemberInfo.m in Sources */,
 				6BB884D71AE0F31700EBD8F4 /* HKCoupon.m in Sources */,
 				6BFE6A6B1C03417200EC9766 /* ViolationViewController.m in Sources */,
-				6B16D66F1C96651100322B70 /* GetCooperationMygroupDetailOpOp.m in Sources */,
 				4EF94AFA1C3256330092CB55 /* OETextField.m in Sources */,
 				6B1175321C0D78AC00FC1881 /* ViolationCityModel.m in Sources */,
 				1851F41E1B0C223A00241A01 /* HKAutoBrand.m in Sources */,
@@ -5438,7 +5479,6 @@
 				187CC9551AEDD0D1004D1F28 /* MonthPickerVC.m in Sources */,
 				6BD7AE5B1AE8927C00BEF30E /* WeChatHelper.m in Sources */,
 				6B1175351C0F0FF800FC1881 /* HKPageControl.m in Sources */,
-				6B16D66B1C96651100322B70 /* GetCooperationClaimsListOpOp.m in Sources */,
 				18D17F771B53B21E00F66F04 /* MBProgressHUD.m in Sources */,
 				6B88C1341C1E943E00BB6071 /* GetInsuranceCalculatorOpV3.m in Sources */,
 				6BD25E8B1B7C41C6008C0080 /* CollectionChooseVC.m in Sources */,
@@ -5449,6 +5489,7 @@
 				6BB61BA01AEF6969004F39AA /* RescueViewController.m in Sources */,
 				6B1175261C0C408A00FC1881 /* UserViolationQueryOp.m in Sources */,
 				18A15A531C2149B100D7B5DF /* InsPremium.m in Sources */,
+				6BC80C871C96BD6800C7BA3D /* ApplyCooperationPremiumCalculateOp.m in Sources */,
 				6BBB083D1B01F8A30002C349 /* AboutViewController.m in Sources */,
 				50094B431C1144640069683C /* GetAreaInfoOp.m in Sources */,
 				6B42270A1C1EDCBE0090F802 /* CalculateInsuranceCarPremiumOp.m in Sources */,
@@ -5467,6 +5508,7 @@
 				6BBF75F41B05CA0800E11EBB /* BaseModel.m in Sources */,
 				50BA11641C27F42F00EA1E4A /* CarIDCodeCheckModel.m in Sources */,
 				6BB89CD11B043BFA00F3F61F /* AdvertisementManager.m in Sources */,
+				6BC80C891C96BD6800C7BA3D /* GetCooperationClaimBankcardOp.m in Sources */,
 				1816F4A61ACD3B0900BBCC96 /* SYPaginatorScrollView.m in Sources */,
 				1853DEC81AE0EFD200C39175 /* HKToast.m in Sources */,
 				184E40C31AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m in Sources */,
@@ -5517,6 +5559,7 @@
 				18C52C361BA6783500F6C38B /* PictureRecord.m in Sources */,
 				6BD6E29A1B9D7F67001D33E6 /* NSString+Safe.m in Sources */,
 				6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */,
+				6BC80C931C96BD6800C7BA3D /* PayCooperationContractOrderOp.m in Sources */,
 				6BB884D41AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.m in Sources */,
 				6BE47F9C1C27F50000DBD969 /* HistoryDeleteOp.m in Sources */,
 				189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */,
@@ -5538,7 +5581,6 @@
 				1833F58F1BCD373B000E1DA1 /* GetCzbpayVcodeOp.m in Sources */,
 				18D17F831B57A3D000F66F04 /* HomePageVModel.m in Sources */,
 				4E97D7111C9000E500FC418F /* AskClaimsVC.m in Sources */,
-				6B16D66D1C96651100322B70 /* GetCooperationIdlicenseInfoOpOp.m in Sources */,
 				1833F58E1BCD373B000E1DA1 /* GetCZBGaschargeInfoOp.m in Sources */,
 				6BEA56C51AE24DCE000D19C1 /* NSObject+SBJSON.m in Sources */,
 				18A30E451BD493DB00521411 /* GasPaymentResultVC.m in Sources */,

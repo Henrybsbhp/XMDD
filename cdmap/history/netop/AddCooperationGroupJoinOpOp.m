@@ -3,7 +3,7 @@
 @implementation AddCooperationGroupJoinOpOp
 
 - (RACSignal *)rac_postRequest {
-    self.req_method = @"/cooperation/group/join/apply";
+    self.req_method = @"/cooperation/group/join/add";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params safetySetObject:self.req_name forKey:@"name"];
 
