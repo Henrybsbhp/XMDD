@@ -34,6 +34,7 @@
         group.contractperiod = groupDict[@"tip"];
         group.memberId = [groupDict stringParamForName:@"memberid"];
         group.statusDesc  = [groupDict stringParamForName:@"statusdesc"];
+        [array safetyAddObject:group];
     }
     self.rsp_groupArray = array;
     return self;

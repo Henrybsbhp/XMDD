@@ -112,6 +112,8 @@
     }
     else if (indexPath.row > 3) {
         //我的团详情页面
+        MutualInsGrouponVC *vc = [MutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
@@ -185,11 +187,11 @@
     {
         timeLabel.text = [NSString stringWithFormat:@"%@ %@",group.tip,group.contractperiod];
     }
-    else if (indexPath.row > 3) {
-        //我的团详情页面
-        MutualInsGrouponVC *vc = [MutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
-        [self.navigationController pushViewController:vc animated:YES];
+    else
+    {
+        timeLabel.text = [NSString stringWithFormat:@"%@ %@",group.tip,group.lefetime];
     }
+
     
     if (group.btnStatus)
     {

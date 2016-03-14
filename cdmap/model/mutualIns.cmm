@@ -2,7 +2,7 @@ $(import "cdmap/template/netop.cmt")
 $(import "cdmap/template/dataset.cmt")
 
 <"团申请"
-class=ApplyCooperationGroupOp op auth path="/cooperation/group/apply"> {
+class=ApplyCooperationGroup op auth path="/cooperation/group/apply"> {
 	
   <rsp> {
   	name
@@ -10,7 +10,7 @@ class=ApplyCooperationGroupOp op auth path="/cooperation/group/apply"> {
 }
 
 <"创建团"
-class=AddCooperationGroupJoinOp op auth path="/cooperation/group/join/apply"> {
+class=AddCooperationGroupJoin op auth path="/cooperation/group/join/add"> {
   
    <req> {
     name
@@ -22,7 +22,7 @@ class=AddCooperationGroupJoinOp op auth path="/cooperation/group/join/apply"> {
 }
 
 <"通过暗号查询团"
-class=ApplyCooperationGroupJoinOp op auth path="/cooperation/group/search"> {
+class=SearchCooperationGroup op auth path="/cooperation/group/search"> {
   
    <req> {
     <"暗号">cipher
@@ -35,7 +35,7 @@ class=ApplyCooperationGroupJoinOp op auth path="/cooperation/group/search"> {
 }
 
 <"申请加入一个团"
-class=ApplyCooperationGroupJoinOp op auth path="/cooperation/group/join/apply"> {
+class=ApplyCooperationGroupJoin op auth path="/cooperation/group/join/apply"> {
   
    <req> {
     <"团ID">groupid:number
@@ -57,7 +57,7 @@ class=UpdateCooperationIdlicenseInfo op auth path="/cooperation/idlicense/info/u
 }
 
 <"照片信息完善页面信息获取"
-class=GetCooperationIdlicenseInfoOp op auth path="/cooperation/idlicense/info/get"> {
+class=GetCooperationIdlicenseInfo op auth path="/cooperation/idlicense/info/get"> {
   
    <req> {
     <"团ID">groupid:number
@@ -72,7 +72,7 @@ class=GetCooperationIdlicenseInfoOp op auth path="/cooperation/idlicense/info/ge
 
 
 <"团详情查看"
-class=GetCooperationMygroupDetailOp op auth path="/cooperation/mygroup/detail/get"> {
+class=GetCooperationMygroupDetail op auth path="/cooperation/mygroup/detail/get"> {
   
    <req> {
     <"团员记录ID">memberid:number
@@ -86,7 +86,7 @@ class=GetCooperationMygroupDetailOp op auth path="/cooperation/mygroup/detail/ge
 }
 
 <"互助协议查看"
-class=GetCooperationContractDetailOp op auth path="/cooperation/contract/detail/get"> {
+class=GetCooperationContractDetail op auth path="/cooperation/contract/detail/get"> {
   
    <req> {
     <"协议记录ID">contractid:number
@@ -97,7 +97,7 @@ class=GetCooperationContractDetailOp op auth path="/cooperation/contract/detail/
 }
 
 <"更新地址信息"
-class=UpdateCooperationContractDeliveryinfoOp op auth path="/cooperation/contract/deliveryinfo/update"> {
+class=UpdateCooperationContractDeliveryinfo op auth path="/cooperation/contract/deliveryinfo/update"> {
   
    <req> {
     <"协议记录ID">contractid:number
@@ -108,15 +108,15 @@ class=UpdateCooperationContractDeliveryinfoOp op auth path="/cooperation/contrac
 }
 
 <"理赔记录列表"
-class=GetCooperationClaimsListOp op auth path="/cooperation/claims/list"> {
+class=GetCooperationClaimsList op auth path="/cooperation/claims/list"> {
    
   <rsp> {
-    <"理赔详情">claimlist:MutualInsClaimInfo
+    <"理赔详情">claimlist:[MutualInsClaimInfo]
   }
 }
 
 <"查看成员互助池信息"
-class=GetCooperationMemberDetailOp op auth path="/cooperation/member/detail/get"> {
+class=GetCooperationMemberDetail op auth path="/cooperation/member/detail/get"> {
    
    <req>{
     <"团员记录ID">memberid:number
@@ -132,7 +132,7 @@ class=GetCooperationMemberDetailOp op auth path="/cooperation/member/detail/get"
 }
 
 <"退出团"
-class=ExitCooperationOp op auth path="/cooperation/member/exit"> {
+class=ExitCooperation op auth path="/cooperation/member/exit"> {
    
    <req>{
     <"团员记录ID">memberid:number
@@ -140,7 +140,7 @@ class=ExitCooperationOp op auth path="/cooperation/member/exit"> {
 }
 
 <"团长报价"
-class=ApplyCooperationPremiumCalculateOp op auth path="/cooperation/premium/calculate/apply"> {
+class=ApplyCooperationPremiumCalculate op auth path="/cooperation/premium/calculate/apply"> {
    
    <req>{
     <"团记录ID">groupid:number
@@ -148,7 +148,7 @@ class=ApplyCooperationPremiumCalculateOp op auth path="/cooperation/premium/calc
 }
 
 <"协议订单支付"
-class=PayCooperationContractOrderOp op auth path="/cooperation/contract/order/pay"> {
+class=PayCooperationContractOrder op auth path="/cooperation/contract/order/pay"> {
    
    <req>{
     <"协议记录ID">contractid:number
@@ -162,6 +162,88 @@ class=PayCooperationContractOrderOp op auth path="/cooperation/contract/order/pa
   }
 }
 
+<"获取互助首页文案信息"
+class=GetCooperationConfi op path="/cooperation/config/get"> {
+   
+   <rsp>{
+    <"匹配团的名字">autogroupname
+    <"自组团的名字">selfgroupname
+    <"匹配团描述">autogroupdesc
+    <"自组团描述">selfgroupdesc
+   }
+}
+
+<"理赔申请"
+class=ApplyCooperationClaim op auth path="/cooperation/claim/apply"> {
+   
+   <req>{
+    <"协议记录ID">licensenumber
+    <"现场图片">scene:array
+    <"车辆损失图片">cardamage:array
+    <"车辆信息图片">carinfo:array
+     <"Id信息图片">idinfo:array
+   }
+   <rsp> {
+     <"实付金额">total:float
+     <"交易号">tradeno
+  }
+}
+
+
+<"获取可以理赔的车辆列表,获取车列表，在快速理赔的时候需要选择一辆车"
+class=GetCooperationMyCar op auth path="/cooperation/mycar/get"> {
+   
+   <rsp> {
+     <"车牌,字符串数组">licensenumbers:array
+  }
+}
+
+<"获取理赔页面配置信息"
+class=GetCoorperationClaimConfig op path="/cooperation/claim/config/get"> {
+   
+   <rsp> {
+     <"现场照片注意事项描述">scenedesc
+     <"车损信息注意事项描述">cardamagedesc
+     <"车辆信息注意事项描述">carinfodesc
+     <"身份证信息注意事项描述">idinfodesc
+  }
+}
+
+<"理赔详情"
+class=GetCooperationClaimDetail op auth path="/cooperation/claim/detail"> {
+   
+   <req>{
+    <"理赔记录ID">claimid:number
+   }
+   <rsp> {
+     <"statusdesc">statusdesc
+     <"status">status
+     <"事故时间" date=DT10>accidenttime
+     <"事故地点">accidentaddress
+     <"事故责任方">chargepart
+     <"车损概况">cardmgdesc
+  }
+}
+
+<"添加一张理赔银行卡"
+class=AddCooperationClaimBankcard op auth path="/cooperation/claim/bankcard/add"> {
+   
+   <req>{
+    <"理赔记录ID">cardno
+    <"发卡行">issuebank
+   }
+   <rsp> {
+     <"银行卡记录ID">cardid
+  }
+}
+
+<"获取理赔银行卡列表"
+class=GetCooperationClaimBankcard op auth path="/cooperation/claim/bankcard/get"> {
+   
+   <rsp> {
+     cardlist:array
+  }
+}
 
 
 <"团员信息"
