@@ -15,7 +15,7 @@
 {
     self.req_method = @"/cooperation/mygroup/get";
     
-    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:nil security:NO];
+    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:nil security:YES];
 }
 
 - (instancetype)parseResponseObject:(id)rspObj
@@ -28,7 +28,10 @@
         group.groupName = [groupDict stringParamForName:@"groupname"];
         group.btnStatus = [groupDict integerParamForName:@"status"];
         group.licenseNumber = [groupDict stringParamForName:@"licensenumber"];
-        group.groupId = [groupDict stringParamForName:@"groupid"];
+        group.groupId = [groupDict numberParamForName:@"groupid"];
+        group.tip = groupDict[@"tip"];
+        group.lefetime = [groupDict numberParamForName:@"lefetime"];
+        group.contractperiod = groupDict[@"tip"];
         group.memberId = [groupDict stringParamForName:@"memberid"];
         group.statusDesc  = [groupDict stringParamForName:@"statusdesc"];
     }

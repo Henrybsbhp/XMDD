@@ -23,7 +23,13 @@ typedef enum : NSUInteger {
 /// 车牌号
 @property (nonatomic,copy)NSString * licenseNumber;
 /// 团id
-@property (nonatomic,copy)NSString * groupId;
+@property (nonatomic,strong)NSNumber * groupId;
+/// 不同阶段提示语
+@property (nonatomic,copy)NSString * tip;
+/// 倒计时
+@property (nonatomic,strong)NSNumber * lefetime;
+/// 协议有效时段
+@property (nonatomic,copy)NSString * contractperiod;
 /// 自己在团中的团员id
 @property (nonatomic,copy)NSString * memberId;
 /// 状态描述

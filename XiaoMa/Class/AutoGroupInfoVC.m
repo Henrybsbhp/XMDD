@@ -11,6 +11,8 @@
 #import "GetCooperationAutoGroupOp.h"
 #import "NSMutableDictionary+AddParams.h"
 #import "UIView+JTLoadingView.h"
+#import "EditInsInfoVC.h"
+#import "ApplyCooperationGroupJoinOp.h"
 
 @interface AutoGroupInfoVC ()
 
@@ -65,6 +67,41 @@
             @strongify(self);
             [self requestAutoGroupArray];
         }];
+    }];
+}
+
+
+- (void)joinSystemGroup:(NSNumber *)groupid
+{
+    CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+    vc.title = @"选择爱车";
+    vc.model.allowAutoChangeSelectedCar = YES;
+    vc.model.disableEditingCar = YES; //不可修改
+    vc.model.originVC = self;
+    [vc setFinishPickActionForMutualIns:^(HKMyCar *car,UIView * loadingView) {
+        
+        [self requestApplyJoinGroup:groupid andCarId:car.carId andLoadingView:loadingView];
+    }];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)requestApplyJoinGroup:(NSNumber *)groupId andCarId:(NSNumber *)carId andLoadingView:(UIView *)view
+{
+    ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
+    op.req_groupid = groupId;
+    op.req_carid = carId;
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"申请加入中..." inView:view];
+    }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
+        
+        [gToast dismissInView:view];
+        
+        EditInsInfoVC * vc = [UIStoryboard vcWithId:@"EditInsInfoVC" inStoryboard:@"MutualInsJoin"];
+        [self.navigationController pushViewController:vc animated:YES];
+    } error:^(NSError *error) {
+        
+        [gToast showError:@"申请失败，再试一次" inView:view];
     }];
 }
 
@@ -164,21 +201,22 @@
     [tagLabel setBorderColor:HEXCOLOR(@"#ff7428")];
     [tagLabel setBorderWidth:0.5];
     
-    NSDictionary * groupInfo = [self.autoGroupArray safetyObjectAtIndex:indexPath.section];
+    UIButton * btn = [cell.contentView viewWithTag:102];
     
+    NSDictionary * groupInfo = [self.autoGroupArray safetyObjectAtIndex:indexPath.section];
+    NSNumber * groupid = groupInfo[@"groupid"];
     tagLabel.text = groupInfo[@"grouptag"];
+    
+    [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        [self joinSystemGroup:groupid];
+    }];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
-    vc.title = @"选择爱车";
-    vc.model.allowAutoChangeSelectedCar = YES;
-    vc.model.disableEditingCar = YES; //不可修改
-    vc.model.originVC = self;
     
-    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end
