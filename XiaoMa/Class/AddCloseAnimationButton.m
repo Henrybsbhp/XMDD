@@ -30,17 +30,17 @@
 
 - (void)commonInit
 {
-    _closed = NO;
+    _closing = NO;
     UIImage *addImg = [UIImage imageNamed:@"mins_add"];
     [self setImage:addImg forState:UIControlStateNormal];
     [self setImage:addImg forState:UIControlStateHighlighted];
 }
 
-- (void)setClosed:(BOOL)closed WithAnimation:(BOOL)animate
+- (void)setClosing:(BOOL)closing WithAnimation:(BOOL)animate
 {
-    _closed = closed;
+    _closing = closing;
     
-    CGAffineTransform transform = CGAffineTransformMakeRotation(closed ? M_PI_2/2 : 0);
+    CGAffineTransform transform = CGAffineTransformMakeRotation(closing ? M_PI_2/2 : 0);
     if (animate) {
         [UIView animateWithDuration:0.24 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             self.transform = transform;

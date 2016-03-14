@@ -6,8 +6,8 @@
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "HKViewController.h"
 
-@interface MutualInsGrouponSubVC : UIViewController
+@interface MutualInsGrouponSubVC : HKViewController
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @end

@@ -13,9 +13,10 @@
 @interface HKPopoverView : UIView
 @property (nonatomic, readonly) NSArray *items;
 @property (nonatomic, copy) void(^didSelectedBlock)(NSUInteger index);
+@property (nonatomic, copy) void(^didDismissedBlock)(BOOL animated);
 
 - (instancetype)initWithMaxWithContentSize:(CGSize)size items:(NSArray *)items;
-- (void)showAtAnchorPoint:(CGPoint)point inView:(UIView *)view animated:(BOOL)animated;
+- (void)showAtAnchorPoint:(CGPoint)point inView:(UIView *)view dismissTargetView:(UIView *)view2 animated:(BOOL)animated;
 - (void)dismissWithAnimated:(BOOL)animated;
 
 @end

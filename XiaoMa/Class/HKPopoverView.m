@@ -16,7 +16,7 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIImageView *bgView;
-
+@property (nonatomic, strong) UIButton *dismissButton;
 @end
 
 @implementation HKPopoverView
@@ -26,6 +26,9 @@
     self = [super initWithFrame:CGRectZero];
     if (self) {
         _items = items;
+        _dismissButton = [[UIButton alloc] initWithFrame:CGRectZero];
+        _dismissButton.backgroundColor = [UIColor clearColor];
+        [_dismissButton addTarget:self action:@selector(actionDismiss:) forControlEvents:UIControlEventTouchUpInside];
         
         self.alpha = 0;
         self.backgroundColor = [UIColor clearColor];
@@ -53,15 +56,19 @@
     return self;
 }
 
-- (void)showAtAnchorPoint:(CGPoint)point inView:(UIView *)view animated:(BOOL)animated
+- (void)showAtAnchorPoint:(CGPoint)point inView:(UIView *)view dismissTargetView:(UIView *)view2 animated:(BOOL)animated
 {
     CGRect rect = self.frame;
     rect.origin.x = point.x - rect.size.width + 15;
     rect.origin.y = point.y;
     self.frame = rect;
     [view addSubview:self];
+    if (view2) {
+        self.dismissButton.frame = view2.bounds;
+        [view2 addSubview:self.dismissButton];
+    }
     if (animated) {
-        [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
             self.alpha = 1;
         } completion:^(BOOL finished) {
         }];
@@ -76,17 +83,27 @@
 {
     if (animated) {
         self.tableView.userInteractionEnabled = NO;
-        [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.alpha = 0;
         } completion:^(BOOL finished) {
+            [self.dismissButton removeFromSuperview];
             [self removeFromSuperview];
             self.tableView.userInteractionEnabled = YES;
         }];
     }
     else {
         self.alpha = 0;
+        [self.dismissButton removeFromSuperview];
         [self removeFromSuperview];
     }
+    if (self.didDismissedBlock) {
+        self.didDismissedBlock(animated);
+    }
+}
+
+- (void)actionDismiss:(id)sender
+{
+    [self dismissWithAnimated:YES];
 }
 
 #pragma mark - UITableViewDelegate and datasource

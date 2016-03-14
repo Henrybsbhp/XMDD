@@ -276,8 +276,8 @@
         }
     } failed:^(NSError *error, GascardChargeOp *op) {
         
-        @strongify(self);
-        [self pushToPaidByStagesResult:op];
+//        @strongify(self);
+//        [self pushToPaidByStagesResult:op];
     }];
 }
 

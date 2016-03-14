@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface AddCloseAnimationButton : UIButton
-@property (nonatomic, readonly) BOOL closed;
+@property (nonatomic, readonly) BOOL closing;
 
-- (void)setClosed:(BOOL)closed WithAnimation:(BOOL)animate;
+- (void)setClosing:(BOOL)closing WithAnimation:(BOOL)animate;
 
 
 
