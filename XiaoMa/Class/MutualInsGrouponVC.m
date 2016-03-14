@@ -71,6 +71,19 @@
         HKPopoverViewItem *item1 = [HKPopoverViewItem itemWithTitle:@"邀请入团" imageName:@"mins_person"];
         HKPopoverViewItem *item2 = [HKPopoverViewItem itemWithTitle:@"退出该团" imageName:@"mins_exit"];
         HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 160) items:@[item1,item2]];
+        
+        [popover setDidSelectedBlock:^(NSUInteger index) {
+            
+            if (index == 0)
+            {
+                
+            }
+            else
+            {
+                
+            }
+                
+        }];
         @weakify(self);
         [popover setDidDismissedBlock:^(BOOL animated) {
             @strongify(self);

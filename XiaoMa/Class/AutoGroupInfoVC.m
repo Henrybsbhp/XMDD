@@ -101,7 +101,7 @@
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
-        [gToast showError:@"申请失败，再试一次" inView:view];
+        [gToast showError:error.domain inView:view];
     }];
 }
 
