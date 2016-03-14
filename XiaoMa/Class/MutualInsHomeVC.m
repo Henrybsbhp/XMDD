@@ -82,9 +82,15 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0 || indexPath.row == 1) {
+    if (indexPath.row == 0) {
         GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
-        vc.titleStr = @"匹配团介绍";
+        vc.titleStr = @"自主团介绍";
+        vc.groupType = MutualGroupTypeSelf;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if (indexPath.row == 1)
+    {
+        AutoGroupInfoVC * vc = [UIStoryboard vcWithId:@"AutoGroupInfoVC" inStoryboard:@"MutualInsJoin"];
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (indexPath.row > 3) {
