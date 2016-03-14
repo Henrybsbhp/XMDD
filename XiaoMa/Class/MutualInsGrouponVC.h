@@ -7,7 +7,10 @@
 //
 
 #import "HKViewController.h"
+#import "HKMutualGroup.h"
 
 @interface MutualInsGrouponVC : HKViewController
+
+@property (nonatomic,strong)HKMutualGroup * group;
 
 @end
