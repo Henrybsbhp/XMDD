@@ -20,5 +20,7 @@
 
 -(NSMutableArray *)urlArrForIndex:(NSInteger)index;
 
+-(void)deleteAllInfo;
+
 + (instancetype)sharedManager;
 @end

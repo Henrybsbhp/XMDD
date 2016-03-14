@@ -188,6 +188,11 @@
 
 #pragma mark Utility
 
+-(BOOL)canPush
+{
+    return self.imgArr.count == 0 ? NO : YES;
+}
+
 /**
  *  删除照片
  *
@@ -197,10 +202,13 @@
 {
     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"删除照片" message:@"请确认是否删除照片?" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alertView show];
-    [[alertView rac_buttonClickedSignal]subscribeNext:^(id x) {
-        [self.imgArr safetyRemoveObjectAtIndex:(indexPath.section - 2)];
-        [self.urlArr safetyRemoveObjectAtIndex:(indexPath.section - 2)];
-        [self.tableView reloadData];
+    [[alertView rac_buttonClickedSignal]subscribeNext:^(NSNumber *x) {
+        if (x.integerValue == 1)
+        {
+            [self.imgArr safetyRemoveObjectAtIndex:(indexPath.section - 2)];
+            [self.urlArr safetyRemoveObjectAtIndex:(indexPath.section - 2)];
+            [self.tableView reloadData];
+        }
     }];
 }
 /**
