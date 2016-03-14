@@ -30,7 +30,7 @@ typedef enum : NSUInteger
 @property (nonatomic, assign) CGFloat linePixelWidth;
 ///(线的点宽度 default is 1)
 @property (nonatomic, assign) CGFloat linePointWidth;
-///(default is CKLineOptionNone)
+///(default is CKLineOptionPixel)
 @property (nonatomic, assign) CKLineOptionMask lineOptions;
 ///(default is CKLineAlignmentHorizontalTop)
 @property (nonatomic, assign) CKLineAlignment lineAlignment;

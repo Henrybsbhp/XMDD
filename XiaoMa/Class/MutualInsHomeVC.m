@@ -9,6 +9,7 @@
 #import "MutualInsHomeVC.h"
 #import "AutoGroupInfoVC.h"
 #import "GroupIntroductionVC.h"
+#import "MutualInsGrouponVC.h"
 #import "InviteByCodeVC.h"
 #import "AskClaimsVC.h"
 
@@ -159,6 +160,8 @@
     }
     else if (indexPath.row > 3) {
         //我的团详情页面
+        MutualInsGrouponVC *vc = [MutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
