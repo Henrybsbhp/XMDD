@@ -14,8 +14,13 @@
 @interface GroupIntroductionVC () <UIWebViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (weak, nonatomic) IBOutlet UIView *sysGroupView;
+@property (weak, nonatomic) IBOutlet UIView *selfGroupView;
 
 - (IBAction)joinAction:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *selfGroupTourBtn;
+@property (weak, nonatomic) IBOutlet UIButton *selfGroupJoinBtn;
+
 
 @end
 
@@ -23,9 +28,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
-    self.navigationItem.title = self.titleStr;
+    [self setupUI];
     
     self.webView.delegate = self;
     CKAsyncMainQueue(^{
@@ -33,6 +37,31 @@
         self.webView.scrollView.contentSize = self.webView.frame.size;
         [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:IntroUrl]]];
     });
+}
+
+#pragma mark - SetupUI
+- (void)setupUI
+{
+    self.navigationItem.title = self.titleStr;
+    
+    if (self.groupType == MutualGroupTypeSystem)
+    {
+        [self.selfGroupView removeFromSuperview];
+    }
+    else
+    {
+        [self.sysGroupView removeFromSuperview];
+        
+        [[self.selfGroupJoinBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            [self sysGroupJoin];
+        }];
+        
+        [[self.selfGroupTourBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            [self sysGroupTour];
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -64,5 +93,15 @@
 - (IBAction)joinAction:(id)sender {
     AutoGroupInfoVC * vc = [UIStoryboard vcWithId:@"AutoGroupInfoVC" inStoryboard:@"MutualInsJoin"];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)sysGroupTour
+{
+    
+}
+
+- (void)sysGroupJoin
+{
+    
 }
 @end

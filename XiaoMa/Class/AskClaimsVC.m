@@ -10,6 +10,7 @@
 #import "HKInclinedLabel.h"
 #import "ClaimsHistoryVC.h"
 #import "ScencePhotoVC.h"
+#import "ScencePageVC.h"
 
 @interface AskClaimsVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -26,6 +27,8 @@
     [super didReceiveMemoryWarning];
     
 }
+
+#pragma mark UITableViewDataSource
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -96,12 +99,10 @@
             hkLabel.hidden = YES;
             break;
     }
-    
-    
-    
-    
     return cell;
 }
+
+#pragma mark UITableViewDataSource
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -116,7 +117,7 @@
     }
     else if (indexPath.section == 2)
     {
-        [self scenePhotoSectionAction];
+        [self scenePageSectionAction];
     }
     else
     {
@@ -136,10 +137,10 @@
     [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
 }
 
--(void)scenePhotoSectionAction
+-(void)scenePageSectionAction
 {
-    ScencePhotoVC *scencePhotoVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"ScencePhotoVC"];
-    [self.navigationController pushViewController:scencePhotoVC animated:YES];
+    ScencePageVC *scencePageVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"ScencePageVC"];
+    [self.navigationController pushViewController:scencePageVC animated:YES];
 }
 
 -(void)historySectionAction

@@ -20,10 +20,16 @@
 - (void)showingWithText:(NSString *)text inView:(UIView *)view;
 ///带打钩标示的提示
 - (void)showSuccess:(NSString *)success;
-///带叉叉的提示
+///不带叉叉的提示
 - (void)showError:(NSString *)error;
-///带叉叉的提示（有效作用域view）
+///不带叉叉的提示（有效作用域view）
 - (void)showError:(NSString *)error inView:(UIView *)view;
+/**
+ *  带叉叉的提示
+ *
+ *  @param mistake 文本
+ */
+- (void)showMistake:(NSString *)mistake;
 ///弱提示
 - (void)showText:(NSString *)text;
 ///弱提示（有效作用域view）

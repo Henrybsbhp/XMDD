@@ -103,9 +103,9 @@
 - (void)setupNavigationBar
 {
     
-    UIButton * searchBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 45, 30)];
+    UIButton * searchBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 52, 35)];
     searchBtn.cornerRadius = 5.0f;
-    [searchBtn setBackgroundColor:[UIColor colorWithHex:@"#15ac1f" alpha:1.0f]];
+    [searchBtn setBackgroundColor:[UIColor colorWithHex:@"#18d06a" alpha:1.0f]];
     [searchBtn setTitle:@"搜索" forState:UIControlStateNormal];
     [searchBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     searchBtn.titleLabel.font = [UIFont systemFontOfSize:12];
@@ -124,7 +124,6 @@
 {
     CGFloat width = CGRectGetWidth(self.view.frame);
     self.searchBarBackgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(45, 4, width - 120, 36)];
-//    self.searchBarBackgroundView.image = [UIImage imageNamed:@"Navi_Search2"];
     self.searchBarBackgroundView.borderWidth = 0.5f;
     self.searchBarBackgroundView.borderColor = [UIColor colorWithHex:@"#dadada" alpha:1.0f];
     self.searchBarBackgroundView.layer.cornerRadius = 4.0f;
@@ -145,13 +144,8 @@
         }
     }
     
-    if ([self.searchBar respondsToSelector:@selector(setBackgroundImage:forBarPosition:barMetrics:)])
+    if (![self.searchBar respondsToSelector:@selector(setBackgroundImage:forBarPosition:barMetrics:)])
     {
-//        [self.searchBar setBackgroundImage:[UIImage imageNamed:@"Navi_Search2"] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-    }
-    else
-    {
-//        [self.searchBar setBackgroundImage:[UIImage imageNamed:@"Navi_Search_iOS6"]];
         [self.searchBar setTranslucent:YES];
         for (UIView * subview in self.searchBar.subviews)
         {
@@ -164,15 +158,6 @@
         }
     }
     
-//    UIImage *image = [UIImage imageNamed:@"Search"];
-//    UIImageView * imageView = [[UIImageView alloc] initWithImage:image];
-//    UITextField * searchField = [self.searchBar valueForKey:@"_searchField"];
-//    searchField.textColor = [UIColor clearColor];
-//    searchField.backgroundColor = [UIColor clearColor];
-//    searchField.clearButtonaaaMode = UITextFieldViewModeNever;
-    //修改placeholder文字颜色
-//    [searchField setValue:[UIColor lightTextColor] forKeyPath:@"_placeholderLabel.textColor"];
-//    searchField.leftView = imageView;
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(defaultViewTap)];
     self.searchBarBackgroundView.userInteractionEnabled = YES;
@@ -467,14 +452,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (self.isSearching)
-    {
-        return 8.0f;
-    }
-    else
-    {
-        return CGFLOAT_MIN;
-    }
+    return CGFLOAT_MIN;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
