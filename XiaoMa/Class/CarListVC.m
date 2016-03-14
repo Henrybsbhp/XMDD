@@ -16,8 +16,6 @@
 #import "NSString+Format.h"
 
 #import "ValuationViewController.h"
-#import "AutoGroupInfoVC.h"
-#import "EditInsInfoVC.h"
 
 @interface CarListVC ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet JT3DScrollView *scrollView;
@@ -116,7 +114,7 @@
 
 - (void)setupBottomView
 {
-    if ([self.model.originVC isKindOfClass:[AutoGroupInfoVC class]]) {
+    if ([self.model.originVC isKindOfClass:NSClassFromString(@"AutoGroupInfoVC")]) {
         self.bottomView.hidden = YES;
         self.bottomView2.hidden = NO;
     }
@@ -321,6 +319,15 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (IBAction)bottomJoinAction:(id)sender {
+    
+    if (self.finishPickActionForMutualIns)
+    {
+        HKMyCar * car = self.model.selectedCar;
+        self.finishPickActionForMutualIns(car,self.view);
+    }
+}
+
 #pragma mark - Reload
 - (void)reloadSubView:(CarListSubView *)subv withCar:(HKMyCar *)car atIndex:(NSInteger)index
 {
@@ -437,8 +444,5 @@
     }
 }
 
-- (IBAction)bottomJoinAction:(id)sender {
-    EditInsInfoVC * vc = [UIStoryboard vcWithId:@"EditInsInfoVC" inStoryboard:@"MutualInsJoin"];
-    [self.navigationController pushViewController:vc animated:YES];
-}
+
 @end

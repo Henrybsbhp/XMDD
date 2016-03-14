@@ -73,7 +73,7 @@
 //    联调
 //    #define ApiBaseUrl @"http://192.168.1.117:8081/paa/rest/api" //华良联调
 //    #define ApiBaseUrl @"http://192.168.1.43:80/paa/rest/api" //智能联调
-    #define ApiBaseUrl @"https://dev.xiaomadada.com/paa/rest/api"
+    #define ApiBaseUrl @"http://dev01.xiaomadada.com/paa/rest/api"
     #define ApiFormalUrl @"https://www.xiaomadada.com/paa/rest/api" //正式
     #define DiscoverUrl @"https://dev.xiaomadada.com/paaweb/general/discoveryload"//发现地址
     #define PayCenterNotifyUrl @"https://dev.xiaomadada.com/paaweb/general/order/paynotify"

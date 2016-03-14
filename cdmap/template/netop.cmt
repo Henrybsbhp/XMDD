@@ -68,6 +68,8 @@ $>
 					   (cond
 						[(eq? 'DT14 date-type)
 						 (format "[NSDate dateWithD14Text:~a]" dv)]
+						 [(eq? 'DT10 date-type)
+						  (format "[NSDate dateWithD10Text:~a]" dv)]
 						[else (format "[NSDate dateWithUTS:~a]" dv)]))]))
 		  (outln (format "self.rsp_~a = ~a;" name fmt))))
 	
