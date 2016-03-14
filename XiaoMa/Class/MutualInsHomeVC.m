@@ -79,6 +79,20 @@
     return cell;
 }
 
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 0 || indexPath.row == 1) {
+        GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
+        vc.titleStr = @"匹配团介绍";
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if (indexPath.row > 3) {
+        //我的团详情页面
+    }
+}
+
+#pragma mark - About Cell
 - (UITableViewCell *)groupCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"GroupTypeCell" forIndexPath:indexPath];
@@ -150,16 +164,5 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row == 0 || indexPath.row == 1) {
-        GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
-        vc.titleStr = @"匹配团介绍";
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-    else if (indexPath.row > 3) {
-        //我的团详情页面
-    }
-}
 
 @end

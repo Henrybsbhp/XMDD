@@ -492,8 +492,6 @@
 //    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
 //    @叶志成
     MutualInsHomeVC * vc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
-
-//    AskClaimsVC *test = [UIStoryboard vcWithId:@"AskClaimsVC" inStoryboard:@"MutualInsClaims"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
