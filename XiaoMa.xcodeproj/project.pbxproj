@@ -378,6 +378,7 @@
 		506160BE1BFD76D3003E7F80 /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 506160BD1BFD76D3003E7F80 /* libresolv.9.tbd */; };
 		506A30991B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 506A30981B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.m */; };
 		506A309F1B8F08FC002F1F14 /* InsuranceAppointmentOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 506A309E1B8F08FC002F1F14 /* InsuranceAppointmentOp.m */; };
+		506F03F61C9658C500B262D7 /* HKTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 506F03F51C9658C500B262D7 /* HKTimer.m */; };
 		5071D7C41C1EE756003D397C /* CarValuationSubView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5071D7C31C1EE756003D397C /* CarValuationSubView.m */; };
 		5073810A1BA12A6800B29756 /* CarWashCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 507381091BA12A6800B29756 /* CarWashCouponVModel.m */; };
 		5073810D1BA1672D00B29756 /* GetCouponByTypeNewOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5073810C1BA1672D00B29756 /* GetCouponByTypeNewOp.m */; };
@@ -1446,6 +1447,8 @@
 		506A30981B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetInsuranceOrderDetailsOp.m; path = Class/GetInsuranceOrderDetailsOp.m; sourceTree = "<group>"; };
 		506A309D1B8F08FC002F1F14 /* InsuranceAppointmentOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InsuranceAppointmentOp.h; path = Class/InsuranceAppointmentOp.h; sourceTree = "<group>"; };
 		506A309E1B8F08FC002F1F14 /* InsuranceAppointmentOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsuranceAppointmentOp.m; path = Class/InsuranceAppointmentOp.m; sourceTree = "<group>"; };
+		506F03F41C9658C500B262D7 /* HKTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKTimer.h; path = Class/HKTimer.h; sourceTree = "<group>"; };
+		506F03F51C9658C500B262D7 /* HKTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKTimer.m; path = Class/HKTimer.m; sourceTree = "<group>"; };
 		5071D7C21C1EE756003D397C /* CarValuationSubView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarValuationSubView.h; sourceTree = "<group>"; };
 		5071D7C31C1EE756003D397C /* CarValuationSubView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarValuationSubView.m; sourceTree = "<group>"; };
 		507381081BA12A6800B29756 /* CarWashCouponVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarWashCouponVModel.h; sourceTree = "<group>"; };
@@ -2240,6 +2243,8 @@
 		1816F4B51AD36D5100BBCC96 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				506F03F31C96578100B262D7 /* Timer */,
+				6B2F28FC1C891FC60096FD45 /* View */,
 				50B5087E1C7BF07C00B6151E /* GenieView */,
 				18BB36181C4E2CED003E7B86 /* MapView */,
 				508EE5D91C2B8B1A00873602 /* TopMenu */,
@@ -2886,9 +2891,9 @@
 				184453191C8E70D9007B895D /* MutualIns */,
 				6B2F29021C8976C30096FD45 /* MutualInsPay */,
 				4E97D7121C9000FC00FC418F /* MutualInsClaims */,
+				505BC1BC1C87D42C00253F6D /* MutualInsJoin */,
 				6B2265931C439DC400A121CC /* SuperView */,
 				6B4BCEDD1C3E528E0006B5EB /* SuperViewController */,
-				505BC1BC1C87D42C00253F6D /* MutualIns */,
 				502D09D21C1E9D08001610F0 /* Valuation */,
 				6BFE6A681C03365900EC9766 /* Illegal */,
 				1833F59A1BCD4773000E1DA1 /* Gas */,
@@ -3773,7 +3778,7 @@
 			name = Valuation;
 			sourceTree = "<group>";
 		};
-		505BC1BC1C87D42C00253F6D /* MutualIns */ = {
+		505BC1BC1C87D42C00253F6D /* MutualInsJoin */ = {
 			isa = PBXGroup;
 			children = (
 				505BC1C01C87D4FA00253F6D /* MutualInsHomeVC.h */,
@@ -3787,7 +3792,7 @@
 				5093C9FC1C92A68A006B2258 /* InviteByCodeVC.h */,
 				5093C9FD1C92A68A006B2258 /* InviteByCodeVC.m */,
 			);
-			name = MutualIns;
+			name = MutualInsJoin;
 			sourceTree = "<group>";
 		};
 		505E5FC21BD7356A00857819 /* WebViewJavascriptBridge */ = {
@@ -3815,6 +3820,15 @@
 				50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */,
 			);
 			name = Discover;
+			sourceTree = "<group>";
+		};
+		506F03F31C96578100B262D7 /* Timer */ = {
+			isa = PBXGroup;
+			children = (
+				506F03F41C9658C500B262D7 /* HKTimer.h */,
+				506F03F51C9658C500B262D7 /* HKTimer.m */,
+			);
+			name = Timer;
 			sourceTree = "<group>";
 		};
 		508EE5D91C2B8B1A00873602 /* TopMenu */ = {
@@ -5026,6 +5040,7 @@
 				1818D8FB1C22FB670078C329 /* UpdateDeliveryInfoOp.m in Sources */,
 				1833F5961BCD37EB000E1DA1 /* GasCardStore.m in Sources */,
 				2E52F24D1C2032BB00D94F68 /* RescueHomeViewController.m in Sources */,
+				506F03F61C9658C500B262D7 /* HKTimer.m in Sources */,
 				18FC01DC1C4E6C6F00FD61BF /* IQUIView+Hierarchy.m in Sources */,
 				6BB884D21AE0BC6A00EBD8F4 /* MONActivityIndicatorView.m in Sources */,
 				186984F81B0098FB000A182A /* HKInsuranceOrder.m in Sources */,

@@ -14,6 +14,7 @@
 #import "AskClaimsVC.h"
 #import "GetCooperationMyGroupOp.h"
 #import "HKMutualGroup.h"
+#import "HKTimer.h"
 
 @interface MutualInsHomeVC ()
 
@@ -27,6 +28,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    RACDisposable * disp = [[HKTimer rac_timeCountDownWithOrigin:3600000 * 24 andTimeTag:[[NSDate date] timeIntervalSince1970]] subscribeNext:^(NSString * timeStr) {
+        DebugLog(@"%@", timeStr);
+    }];
+    [[self rac_deallocDisposable] addDisposable:disp];
+    
     
     [self requestMyGourpInfo];
 }
@@ -39,8 +47,10 @@
 - (void)requestMyGourpInfo
 {
     GetCooperationMyGroupOp * op = [[GetCooperationMyGroupOp alloc] init];
+    @weakify(self);
     [[op rac_postRequest] subscribeNext:^(GetCooperationMyGroupOp * rop) {
         
+        @strongify(self);
         self.myGroupArray = rop.rsp_groupArray;
         [self.tableView reloadData];
     }];
@@ -153,7 +163,9 @@
         
     }];
     //我要理赔
+    @weakify(self);
     [[[payBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
         AskClaimsVC *test = [UIStoryboard vcWithId:@"AskClaimsVC" inStoryboard:@"MutualInsClaims"];
         [self.navigationController pushViewController:test animated:YES];
         return;
@@ -196,8 +208,10 @@
     if (group.btnStatus)
     {
         opeBtn.hidden = NO;
+        @weakify(self);
         [[[opeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
+            @strongify(self);
             InviteByCodeVC * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
             [self.navigationController pushViewController:vc animated:YES];
         }];
@@ -209,5 +223,9 @@
     return cell;
 }
 
+-(void)dealloc
+{
+    DebugLog(@"MutualInsHomeVC dealloc");
+}
 
 @end
