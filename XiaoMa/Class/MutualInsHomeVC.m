@@ -12,10 +12,14 @@
 #import "MutualInsGrouponVC.h"
 #import "InviteByCodeVC.h"
 #import "AskClaimsVC.h"
+#import "GetCooperationMyGroupOp.h"
+#import "HKMutualGroup.h"
 
 @interface MutualInsHomeVC ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property (nonatomic,strong)NSArray * myGroupArray;
 
 @end
 
@@ -23,19 +27,30 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self requestMyGourpInfo];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Utilitly
+- (void)requestMyGourpInfo
+{
+    GetCooperationMyGroupOp * op = [[GetCooperationMyGroupOp alloc] init];
+    [[op rac_postRequest] subscribeNext:^(GetCooperationMyGroupOp * rop) {
+        
+        self.myGroupArray = rop.rsp_groupArray;
+        [self.tableView reloadData];
+    }];
 }
 
 #pragma mark - UITableViewDelegate and datasource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3 + 1 + 1;
+    return 3 + (self.myGroupArray.count ? (self.myGroupArray.count + 1) : 0);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -65,21 +80,42 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-    if (indexPath.row == 2) {
+    if (indexPath.row == 0 || indexPath.row == 1)
+    {
+        cell = [self groupCellAtIndexPath:indexPath];
+    }
+    else if (indexPath.row == 2) {
         cell = [self btnCellAtIndexPath:indexPath];
     }
     else if (indexPath.row == 3) {
         cell = [self sectionCellAtIndexPath:indexPath];
     }
-    else if (indexPath.row == 4) {
+    else{
         cell = [self myGroupCellCellAtIndexPath:indexPath];
-    }
-    else {
-        cell = [self groupCellAtIndexPath:indexPath];
     }
     return cell;
 }
 
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 0) {
+        GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
+        vc.titleStr = @"自主团介绍";
+        vc.groupType = MutualGroupTypeSelf;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if (indexPath.row == 1)
+    {
+        AutoGroupInfoVC * vc = [UIStoryboard vcWithId:@"AutoGroupInfoVC" inStoryboard:@"MutualInsJoin"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if (indexPath.row > 3) {
+        //我的团详情页面
+    }
+}
+
+#pragma mark - About Cell
 - (UITableViewCell *)groupCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"GroupTypeCell" forIndexPath:indexPath];
@@ -139,30 +175,37 @@
     UILabel *timeLabel = (UILabel *)[cell.contentView viewWithTag:1004];
     UIButton *opeBtn = (UIButton *)[cell.contentView viewWithTag:1005];
     
-    nameLabel.text = @"史上最强大脑团";
-    carIdLabel.text = @"浙A66666";
-    statusLabel.text = @"组团中，资料审核不通过，无法加入该团";
-    timeLabel.text = @"有效期：\n 2016.03.10-2016.03.22";
-    [[[opeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
-        InviteByCodeVC * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
-        [self.navigationController pushViewController:vc animated:YES];
-    }];
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row == 0 || indexPath.row == 1) {
-        GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
-        vc.titleStr = @"匹配团介绍";
-        [self.navigationController pushViewController:vc animated:YES];
+    HKMutualGroup * group = [self.myGroupArray safetyObjectAtIndex:indexPath.row - 4];
+    
+    nameLabel.text = group.groupName;
+    carIdLabel.text = group.licenseNumber;
+    statusLabel.text = group.statusDesc;
+    
+    if (group.contractperiod.length)
+    {
+        timeLabel.text = [NSString stringWithFormat:@"%@ %@",group.tip,group.contractperiod];
     }
     else if (indexPath.row > 3) {
         //我的团详情页面
         MutualInsGrouponVC *vc = [MutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
         [self.navigationController pushViewController:vc animated:YES];
     }
+    
+    if (group.btnStatus)
+    {
+        opeBtn.hidden = NO;
+        [[[opeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            
+            InviteByCodeVC * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
+    }
+    else
+    {
+        opeBtn.hidden = YES;
+    }
+    return cell;
 }
+
 
 @end

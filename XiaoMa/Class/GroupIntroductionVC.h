@@ -8,8 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum : NSUInteger {
+    MutualGroupTypeSystem,
+    MutualGroupTypeSelf,
+} MutualGroupType;
+
 @interface GroupIntroductionVC : UIViewController
 
 @property (nonatomic, strong)NSString * titleStr;
+@property (nonatomic)MutualGroupType groupType;
 
 @end
