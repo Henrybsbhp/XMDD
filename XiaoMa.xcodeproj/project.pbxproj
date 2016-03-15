@@ -341,6 +341,7 @@
 		4EA1CB161C96961A006CCBEA /* MutualInsPayResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1CB151C96961A006CCBEA /* MutualInsPayResultVC.m */; };
 		4EA1CB231C969830006CCBEA /* ScencePhotoVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1CB211C969830006CCBEA /* ScencePhotoVM.m */; };
 		4EC6EA801C22A5480092BF6E /* HistoryCollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC6EA7F1C22A5480092BF6E /* HistoryCollectionVC.m */; };
+		4EED3ED71C97D65900EB081E /* ClaimAccountVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EED3ED61C97D65900EB081E /* ClaimAccountVC.m */; };
 		4EF12DED1C1EBC900098B8C6 /* SecondCarValuationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */; };
 		4EF94AF21C321D020092CB55 /* RescueCommentsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF01C321D020092CB55 /* RescueCommentsVC.m */; };
 		4EF94AF31C321D020092CB55 /* RescueHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF11C321D020092CB55 /* RescueHistoryViewController.m */; };
@@ -1380,6 +1381,9 @@
 		4EA1CB211C969830006CCBEA /* ScencePhotoVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScencePhotoVM.m; sourceTree = "<group>"; };
 		4EC6EA7E1C22A5480092BF6E /* HistoryCollectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryCollectionVC.h; sourceTree = "<group>"; };
 		4EC6EA7F1C22A5480092BF6E /* HistoryCollectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryCollectionVC.m; sourceTree = "<group>"; };
+		4EED3ED51C97D65900EB081E /* ClaimAccountVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClaimAccountVC.h; sourceTree = "<group>"; };
+		4EED3ED61C97D65900EB081E /* ClaimAccountVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClaimAccountVC.m; sourceTree = "<group>"; };
+		4EED3EDF1C982F5900EB081E /* ScencePhotoVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScencePhotoVM.h; sourceTree = "<group>"; };
 		4EF12DEB1C1EBC900098B8C6 /* SecondCarValuationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondCarValuationVC.h; sourceTree = "<group>"; };
 		4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondCarValuationVC.m; sourceTree = "<group>"; };
 		4EF94AF01C321D020092CB55 /* RescueCommentsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescueCommentsVC.m; sourceTree = "<group>"; };
@@ -2244,7 +2248,6 @@
 			isa = PBXGroup;
 			children = (
 				506F03F31C96578100B262D7 /* Timer */,
-				6B2F28FC1C891FC60096FD45 /* View */,
 				50B5087E1C7BF07C00B6151E /* GenieView */,
 				18BB36181C4E2CED003E7B86 /* MapView */,
 				508EE5D91C2B8B1A00873602 /* TopMenu */,
@@ -3742,6 +3745,7 @@
 			children = (
 				4E34529B1C96A9BF00E2AFE2 /* ScencePageVC.h */,
 				4E34529C1C96A9BF00E2AFE2 /* ScencePageVC.m */,
+				4EED3EDF1C982F5900EB081E /* ScencePhotoVM.h */,
 				4EA1CB211C969830006CCBEA /* ScencePhotoVM.m */,
 				6B26EF911C91599400428EC4 /* PhotoBrowserVC.h */,
 				6B26EF921C91599400428EC4 /* PhotoBrowserVC.m */,
@@ -3753,6 +3757,8 @@
 				4E97D7191C9003A500FC418F /* ScencePhotoVC.m */,
 				4E3452CF1C96B90500E2AFE2 /* ClaimDetailVC.h */,
 				4E3452D01C96B90500E2AFE2 /* ClaimDetailVC.m */,
+				4EED3ED51C97D65900EB081E /* ClaimAccountVC.h */,
+				4EED3ED61C97D65900EB081E /* ClaimAccountVC.m */,
 			);
 			name = MutualInsClaims;
 			sourceTree = "<group>";
@@ -5342,6 +5348,7 @@
 				6BB61B981AEE85E8004F39AA /* AddUserFavoriteOp.m in Sources */,
 				18A15A691C225E3F00D7B5DF /* CalculatePremiumOp.m in Sources */,
 				6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */,
+				4EED3ED71C97D65900EB081E /* ClaimAccountVC.m in Sources */,
 				2E77A4941C325F2F00264FC9 /* GetRescueHostCountsOp.m in Sources */,
 				2E52F24A1C2032BB00D94F68 /* (null) in Sources */,
 				18CECC301C314CAC0075B7F9 /* MyCarStore.m in Sources */,

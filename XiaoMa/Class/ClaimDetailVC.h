@@ -10,4 +10,6 @@
 
 @interface ClaimDetailVC : UIViewController
 
+@property (nonatomic,strong) NSNumber *claimid;
+
 @end

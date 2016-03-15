@@ -35,4 +35,14 @@
  *  11111.13 digit == 6 return 11111.13
  */
 + (NSString *)formatForPrice:(CGFloat)price maxPrice:(NSInteger)digit;
+
+/**
+ *  将浮点型转化成格式化的字符串
+ *
+ *  @param price price
+ *
+ *  @return 格式化后的字符串
+ */
++ (NSString *)formatForPriceWithFloat:(CGFloat)price;
+
 @end

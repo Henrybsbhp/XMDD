@@ -19,7 +19,10 @@
     self.rsp_accidentaddress = dict[@"accidentaddress"];
     self.rsp_chargepart = dict[@"chargepart"];
     self.rsp_cardmgdesc = dict[@"cardmgdesc"];
-	
+    self.rsp_reason = dict[@"reason"];
+    self.rsp_claimfee = [dict[@"claimfee"] floatValue];
+    self.rsp_cardid = dict[@"cardid"];
+    self.rsp_cardname = dict[@"cardname"];
     return self;
 }
 

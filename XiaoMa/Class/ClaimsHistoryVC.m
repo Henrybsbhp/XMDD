@@ -7,11 +7,15 @@
 //
 #import "HKInclinedLabel.h"
 #import "ClaimsHistoryVC.h"
-#import "GetCooperationClaimsListOpOp.h"
+#import "GetCooperationClaimsListOp.h"
+#import "MutualInsClaimInfo.h"
+#import "ClaimDetailVC.h"
+#import "NSString+Price.h"
+#import "NSDate+DateForText.h"
 
 @interface ClaimsHistoryVC () <UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) NSMutableArray *dataArr;
+@property (strong, nonatomic) NSArray *dataArr;
 @end
 
 @implementation ClaimsHistoryVC
@@ -26,11 +30,11 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark UITableViewDelegate,UITableViewDataSource
+#pragma mark UITableViewDataSource
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 10;
+    return self.dataArr.count;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -40,12 +44,13 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    MutualInsClaimInfo *model = [self.dataArr safetyObjectAtIndex:indexPath.section];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     cell.layer.cornerRadius = 5;
     cell.layer.masksToBounds = YES;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     HKInclinedLabel *hkLabel = [cell viewWithTag:101];
-    hkLabel.text = @"理赔中";
+    hkLabel.text = model.statusdesc;
     hkLabel.backgroundColor = [UIColor clearColor];
     hkLabel.trapeziumColor = [UIColor colorWithHex:@"#ff7428" alpha:1];
     hkLabel.textColor = [UIColor whiteColor];
@@ -55,8 +60,30 @@
     
     UILabel *detaiLabel = [cell viewWithTag:1002];
     detaiLabel.preferredMaxLayoutWidth = cell.bounds.size.width - 35;
+    detaiLabel.text = [NSString stringWithFormat:@"事故概述：%@",model.accidentdesc];
+    
+    UILabel *priceLabel = [cell viewWithTag:1003];
+    priceLabel.text = [NSString formatForPriceWithFloat:model.claimfee];
+    
+    UILabel *statusLabel = [cell viewWithTag:1004];
+    statusLabel.text = model.detailstatusdesc;
+    
+    UILabel *timeLabel = [cell viewWithTag:1005];
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    timeLabel.text = [NSString stringWithFormat:@"%@",[format dateFromString:model.lstupdatetime]];
     
     return cell;
+}
+
+#pragma mark UITableViewDelegate
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MutualInsClaimInfo *model = [self.dataArr safetyObjectAtIndex:indexPath.section];
+    ClaimDetailVC *detailVC = [[UIStoryboard storyboardWithName:@"" bundle:nil]instantiateViewControllerWithIdentifier:@"ClaimDetailVC"];
+    detailVC.claimid = model.claimid;
+    [self.navigationController pushViewController:detailVC animated:YES];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -82,9 +109,18 @@
 
 -(void)loadData
 {
-    GetCooperationClaimsListOpOp *op = [GetCooperationClaimsListOpOp new];
-    [[op rac_postRequest]initially:^{
-        [self.dataArr addObject:op.rsp_claimlist];
+    GetCooperationClaimsListOp *op = [GetCooperationClaimsListOp new];
+    [[[op rac_postRequest]initially:^{
+        [self.tableView startActivityAnimationWithType:GifActivityIndicatorType];
+    }]subscribeNext:^(id x) {
+        [self.tableView stopActivityAnimation];
+        self.dataArr = op.rsp_claimlist;
+        if (self.dataArr.count == 0)
+        {
+            [self.tableView showDefaultEmptyViewWithText:@"暂无理赔记录"];
+        }
+    }error:^(NSError *error) {
+        [self.tableView stopActivityAnimation];
     }];
 }
 
@@ -97,11 +133,11 @@
 }
 
 #pragma mark LazyLoad
--(NSMutableArray *)dataArr
+-(NSArray *)dataArr
 {
     if (!_dataArr)
     {
-        _dataArr = [[NSMutableArray alloc]init];
+        _dataArr = [[NSArray alloc]init];
     }
     return _dataArr;
 }
