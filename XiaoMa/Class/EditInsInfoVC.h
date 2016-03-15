@@ -10,4 +10,6 @@
 
 @interface EditInsInfoVC : UIViewController
 
+@property (nonatomic,strong)NSNumber * memberId;
+
 @end

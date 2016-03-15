@@ -436,7 +436,6 @@
 		6B16D6471C9664F400322B70 /* MutualInsContract.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D6431C9664F400322B70 /* MutualInsContract.m */; };
 		6B16D6481C9664F400322B70 /* MutualInsMemberInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D6451C9664F400322B70 /* MutualInsMemberInfo.m */; };
 		6B16D6661C96651100322B70 /* ApplyCooperationGroupJoinOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D64C1C96651100322B70 /* ApplyCooperationGroupJoinOp.m */; };
-		6B16D6721C96651100322B70 /* UpdateCooperationIdlicenseInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D6641C96651100322B70 /* UpdateCooperationIdlicenseInfoOp.m */; };
 		6B1D93D31B8573A000740628 /* PayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1D93D21B8573A000740628 /* PayModel.m */; };
 		6B21A8961BD49399006D0556 /* GetShopByRangeV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A8951BD49399006D0556 /* GetShopByRangeV2Op.m */; };
 		6B21A8991BD493F8006D0556 /* GetShopByDistanceV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A8981BD493F8006D0556 /* GetShopByDistanceV2Op.m */; };
@@ -583,6 +582,9 @@
 		6BC80C931C96BD6800C7BA3D /* PayCooperationContractOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C7E1C96BD6800C7BA3D /* PayCooperationContractOrderOp.m */; };
 		6BC80C941C96BD6800C7BA3D /* SearchCooperationGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C801C96BD6800C7BA3D /* SearchCooperationGroupOp.m */; };
 		6BC80C951C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C821C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.m */; };
+		6BC80CB41C96EAA800C7BA3D /* UpdateCooperationInsInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80CB31C96EAA800C7BA3D /* UpdateCooperationInsInfoOp.m */; };
+		6BC80CBE1C96EB1900C7BA3D /* UpdateCooperationIdlicenseInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80CBD1C96EB1900C7BA3D /* UpdateCooperationIdlicenseInfoOp.m */; };
+		6BC80CC11C96ECA700C7BA3D /* MutualInsChooseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80CC01C96ECA700C7BA3D /* MutualInsChooseViewController.m */; };
 		6BCA5F401B102A3700E1E630 /* HKCouponPkg.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F3F1B102A3700E1E630 /* HKCouponPkg.m */; };
 		6BCA5F431B102D5700E1E630 /* GetUserCouponPkgOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F421B102D5700E1E630 /* GetUserCouponPkgOp.m */; };
 		6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F451B1031EC00E1E630 /* GainCouponPkgOp.m */; };
@@ -1564,8 +1566,6 @@
 		6B16D6451C9664F400322B70 /* MutualInsMemberInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsMemberInfo.m; sourceTree = "<group>"; };
 		6B16D64B1C96651100322B70 /* ApplyCooperationGroupJoinOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyCooperationGroupJoinOp.h; sourceTree = "<group>"; };
 		6B16D64C1C96651100322B70 /* ApplyCooperationGroupJoinOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyCooperationGroupJoinOp.m; sourceTree = "<group>"; };
-		6B16D6631C96651100322B70 /* UpdateCooperationIdlicenseInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateCooperationIdlicenseInfoOp.h; sourceTree = "<group>"; };
-		6B16D6641C96651100322B70 /* UpdateCooperationIdlicenseInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateCooperationIdlicenseInfoOp.m; sourceTree = "<group>"; };
 		6B1D93D11B8573A000740628 /* PayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PayModel.h; path = Class/PayModel.h; sourceTree = "<group>"; };
 		6B1D93D21B8573A000740628 /* PayModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PayModel.m; path = Class/PayModel.m; sourceTree = "<group>"; };
 		6B21A8941BD49399006D0556 /* GetShopByRangeV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShopByRangeV2Op.h; path = Class/GetShopByRangeV2Op.h; sourceTree = "<group>"; };
@@ -1840,6 +1840,12 @@
 		6BC80C801C96BD6800C7BA3D /* SearchCooperationGroupOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchCooperationGroupOp.m; sourceTree = "<group>"; };
 		6BC80C811C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateCooperationContractDeliveryinfoOp.h; sourceTree = "<group>"; };
 		6BC80C821C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateCooperationContractDeliveryinfoOp.m; sourceTree = "<group>"; };
+		6BC80CB21C96EAA800C7BA3D /* UpdateCooperationInsInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateCooperationInsInfoOp.h; sourceTree = "<group>"; };
+		6BC80CB31C96EAA800C7BA3D /* UpdateCooperationInsInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateCooperationInsInfoOp.m; sourceTree = "<group>"; };
+		6BC80CBC1C96EB1900C7BA3D /* UpdateCooperationIdlicenseInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateCooperationIdlicenseInfoOp.h; sourceTree = "<group>"; };
+		6BC80CBD1C96EB1900C7BA3D /* UpdateCooperationIdlicenseInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateCooperationIdlicenseInfoOp.m; sourceTree = "<group>"; };
+		6BC80CBF1C96ECA700C7BA3D /* MutualInsChooseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsChooseViewController.h; sourceTree = "<group>"; };
+		6BC80CC01C96ECA700C7BA3D /* MutualInsChooseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsChooseViewController.m; sourceTree = "<group>"; };
 		6BCA5F3E1B102A3700E1E630 /* HKCouponPkg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKCouponPkg.h; path = Class/HKCouponPkg.h; sourceTree = "<group>"; };
 		6BCA5F3F1B102A3700E1E630 /* HKCouponPkg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKCouponPkg.m; path = Class/HKCouponPkg.m; sourceTree = "<group>"; };
 		6BCA5F411B102D5700E1E630 /* GetUserCouponPkgOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserCouponPkgOp.h; path = Class/GetUserCouponPkgOp.h; sourceTree = "<group>"; };
@@ -2394,6 +2400,10 @@
 		1833F5701BCD373B000E1DA1 /* netop */ = {
 			isa = PBXGroup;
 			children = (
+				6BC80CBC1C96EB1900C7BA3D /* UpdateCooperationIdlicenseInfoOp.h */,
+				6BC80CBD1C96EB1900C7BA3D /* UpdateCooperationIdlicenseInfoOp.m */,
+				6BC80CB21C96EAA800C7BA3D /* UpdateCooperationInsInfoOp.h */,
+				6BC80CB31C96EAA800C7BA3D /* UpdateCooperationInsInfoOp.m */,
 				6BC80C5D1C96BD6800C7BA3D /* AddCooperationClaimBankcardOp.h */,
 				6BC80C5E1C96BD6800C7BA3D /* AddCooperationClaimBankcardOp.m */,
 				6BC80C5F1C96BD6800C7BA3D /* AddCooperationGroupJoinOp.h */,
@@ -2434,8 +2444,6 @@
 				6BC80C821C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.m */,
 				6B16D64B1C96651100322B70 /* ApplyCooperationGroupJoinOp.h */,
 				6B16D64C1C96651100322B70 /* ApplyCooperationGroupJoinOp.m */,
-				6B16D6631C96651100322B70 /* UpdateCooperationIdlicenseInfoOp.h */,
-				6B16D6641C96651100322B70 /* UpdateCooperationIdlicenseInfoOp.m */,
 				18273F231C7ED1F8004192B3 /* GascardChargeByStagesOp.h */,
 				18273F241C7ED1F8004192B3 /* GascardChargeByStagesOp.m */,
 				18B6E5C91C463D0300697DAB /* CancelInsOrderOp.h */,
@@ -3797,6 +3805,8 @@
 				50AC2B4F1C8D737300620551 /* EditInsInfoVC.m */,
 				5093C9FC1C92A68A006B2258 /* InviteByCodeVC.h */,
 				5093C9FD1C92A68A006B2258 /* InviteByCodeVC.m */,
+				6BC80CBF1C96ECA700C7BA3D /* MutualInsChooseViewController.h */,
+				6BC80CC01C96ECA700C7BA3D /* MutualInsChooseViewController.m */,
 			);
 			name = MutualInsJoin;
 			sourceTree = "<group>";
@@ -5061,6 +5071,7 @@
 				18C52C331BA670DA00F6C38B /* DrivingLicenseHistoryView.m in Sources */,
 				507404D91BDF6B8000DAC6BA /* GetCouponByTypeNewV2Op.m in Sources */,
 				18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */,
+				6BC80CB41C96EAA800C7BA3D /* UpdateCooperationInsInfoOp.m in Sources */,
 				18CECC281C30F8890075B7F9 /* JT3DScrollView.m in Sources */,
 				1816F4BD1AD3A8AD00BBCC96 /* JTNavigationController.m in Sources */,
 				6BC80C8D1C96BD6800C7BA3D /* GetCooperationContractDetailOp.m in Sources */,
@@ -5197,6 +5208,7 @@
 				4E3452D11C96B90500E2AFE2 /* ClaimDetailVC.m in Sources */,
 				18AB16AC1C1FAE810000E718 /* GetInsBaseCarListOp.m in Sources */,
 				6B4BCEE01C3E52AF0006B5EB /* HKViewController.m in Sources */,
+				6BC80CC11C96ECA700C7BA3D /* MutualInsChooseViewController.m in Sources */,
 				6BBB08501B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m in Sources */,
 				C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */,
 				18C52C411BA80AC700F6C38B /* GetPicHistoryOp.m in Sources */,
@@ -5246,6 +5258,7 @@
 				6BEA56CD1AE24DCE000D19C1 /* base64.m in Sources */,
 				1893711F1B0DAD290030FDE1 /* HKMessage.m in Sources */,
 				18D17F731B53AFAC00F66F04 /* GetVoiceVCodeOp.m in Sources */,
+				6BC80CBE1C96EB1900C7BA3D /* UpdateCooperationIdlicenseInfoOp.m in Sources */,
 				6B1175291C0C436D00FC1881 /* HKViolation.m in Sources */,
 				5014B6571C07041B00DFAB18 /* GetShareButtonOp.m in Sources */,
 				1833F5AA1BCE2C0C000E1DA1 /* GasNormalVM.m in Sources */,
@@ -5424,7 +5437,6 @@
 				18FB68F01C2A911C00AD7341 /* InsCoverageSelectVC.m in Sources */,
 				6B26EEB21C8EC23200428EC4 /* ZFCDoubleBounceActivityIndicatorView.m in Sources */,
 				1833F5931BCD373B000E1DA1 /* GetGaschargeRecordListOp.m in Sources */,
-				6B16D6721C96651100322B70 /* UpdateCooperationIdlicenseInfoOp.m in Sources */,
 				6BEA56C21AE24DCE000D19C1 /* AlixPayOrder.m in Sources */,
 				184453201C8EA35A007B895D /* WaterWaveProgressView.m in Sources */,
 				4E34529D1C96A9BF00E2AFE2 /* ScencePageVC.m in Sources */,

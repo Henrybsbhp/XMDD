@@ -32,7 +32,7 @@
         group.tip = groupDict[@"tip"];
         group.lefetime = [groupDict numberParamForName:@"lefetime"];
         group.contractperiod = groupDict[@"tip"];
-        group.memberId = [groupDict stringParamForName:@"memberid"];
+        group.memberId = groupDict[@"memberid"];
         group.statusDesc  = [groupDict stringParamForName:@"statusdesc"];
         [array safetyAddObject:group];
     }
