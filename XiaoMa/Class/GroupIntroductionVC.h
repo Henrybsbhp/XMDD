@@ -13,9 +13,17 @@ typedef enum : NSUInteger {
     MutualGroupTypeSelf,
 } MutualGroupType;
 
+typedef enum : NSUInteger {
+    BtnTypeJoinNow,
+    BtnTypeAlready,
+    BtnTypeEnded
+} DetailBtnType;
+
 @interface GroupIntroductionVC : UIViewController
 
-@property (nonatomic, strong)NSString * titleStr;
-@property (nonatomic)MutualGroupType groupType;
+@property (nonatomic, strong) NSString * titleStr;
+@property (nonatomic, assign) MutualGroupType groupType;
+@property (nonatomic, assign) DetailBtnType btnType;
+@property (nonatomic, strong) NSNumber * groupId;
 
 @end
