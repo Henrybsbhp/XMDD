@@ -6,6 +6,10 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
+//@叶志成 删除
+#import "AskClaimsVC.h"
+
+
 #import "HomePageVC.h"
 #import <Masonry.h>
 #import "XiaoMa.h"
@@ -28,6 +32,8 @@
 #import "ValuationViewController.h"
 #import "HomeNewbieGuideVC.h"
 #import "HomeSuspendedAdVC.h"
+#import "MutualInsGrouponVC.h"
+#import "MutualInsHomeVC.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3.0
@@ -481,9 +487,11 @@
 #pragma mark - Action
 - (IBAction)actionCallCenter:(id)sender
 {
-    [MobClick event:@"rp101_2"];
-    NSString * number = @"4007111111";
-    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+//    [MobClick event:@"rp101_2"];
+//    NSString * number = @"4007111111";
+//    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+    MutualInsHomeVC * vc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 

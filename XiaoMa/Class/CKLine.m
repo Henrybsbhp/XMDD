@@ -31,14 +31,14 @@
     self.linePixelWidth = 1;
     self.linePointWidth = 1;
     self.lineAlignment = CKLineAlignmentHorizontalTop;
-    self.lineOptions = CKLineOptionNone;
+    self.lineOptions = CKLineOptionPixel;
     self.dashLengths = @[@8, @2];
 }
 
 - (void)drawRect:(CGRect)rect
 {
     // Drawing code
-    CGFloat lineWidth = self.lineOptions & CKLineOptionPixel ? self.linePixelWidth/[UIScreen mainScreen].scale : self.linePointWidth;
+    CGFloat lineWidth = self.lineOptions & CKLineOptionPixel ? self.linePixelWidth : self.linePointWidth * [UIScreen mainScreen].scale;
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     //关闭抗锯齿
     CGContextSetAllowsAntialiasing(ctx,NO);

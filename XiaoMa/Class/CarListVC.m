@@ -20,9 +20,11 @@
 @interface CarListVC ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet JT3DScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
+@property (weak, nonatomic) IBOutlet UIView *bottomView2;
 @property (weak, nonatomic) IBOutlet UILabel *bottomTitlelabel;
 @property (nonatomic, strong) MyCarStore *carStore;
 @property (nonatomic, strong) NSArray *datasource;
+- (IBAction)bottomJoinAction:(id)sender;
 @end
 
 @implementation CarListVC
@@ -112,6 +114,14 @@
 
 - (void)setupBottomView
 {
+    if ([self.model.originVC isKindOfClass:NSClassFromString(@"AutoGroupInfoVC")]) {
+        self.bottomView.hidden = YES;
+        self.bottomView2.hidden = NO;
+    }
+    else {
+        self.bottomView2.hidden = YES;
+        self.bottomView.hidden = NO;
+    }
     @weakify(self);
     [[RACObserve(self.model, selectedCar) distinctUntilChanged] subscribeNext:^(HKMyCar *car) {
         
@@ -120,7 +130,7 @@
         
         NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] init];
         
-        NSString *str = self.model.allowAutoChangeSelectedCar ? @"您已选择的爱车：" : @"默认车辆：";
+        NSString *str = self.model.allowAutoChangeSelectedCar ? @"已选择的爱车：" : @"默认车辆：";
         NSDictionary *attr = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
                                NSForegroundColorAttributeName:HEXCOLOR(@"#555555")};
         NSAttributedString *prefix = [[NSAttributedString alloc] initWithString:str attributes:attr];
@@ -309,6 +319,15 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (IBAction)bottomJoinAction:(id)sender {
+    
+    if (self.finishPickActionForMutualIns)
+    {
+        HKMyCar * car = self.model.selectedCar;
+        self.finishPickActionForMutualIns(car,self.view);
+    }
+}
+
 #pragma mark - Reload
 - (void)reloadSubView:(CarListSubView *)subv withCar:(HKMyCar *)car atIndex:(NSInteger)index
 {
@@ -424,5 +443,6 @@
         self.model.selectedCar = car;
     }
 }
+
 
 @end

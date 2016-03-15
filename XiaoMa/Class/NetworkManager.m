@@ -40,8 +40,8 @@ static NetworkManager *g_networkManager;
         AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
         securityPolicy.allowInvalidCertificates = YES;
         
-        _apiManager.securityPolicy = securityPolicy;
-        _longtimeManager.securityPolicy = securityPolicy;
+//        _apiManager.securityPolicy = securityPolicy;
+//        _longtimeManager.securityPolicy = securityPolicy;
         
         _mediaClient = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
         

@@ -87,7 +87,6 @@
         return [[op rac_postRequest] map:^id(UploadFileOp *rspOp) {
             return [rspOp.rsp_urlArray safetyObjectAtIndex:0];
         }];
-
     }];
     return signal;
 }

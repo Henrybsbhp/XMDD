@@ -21,7 +21,7 @@
 
 + (instancetype)imagePicker;
 - (RACSignal *)rac_pickImageInTargetVC:(UIViewController *)targetVC inView:(UIView *)view;
-
+- (RACSignal *)rac_pickPhotoTargetVC:(UIViewController *)targetVC inView:(UIView *)view;
 @end
 
 @interface HKImageShowingViewController : HKViewController

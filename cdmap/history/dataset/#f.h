@@ -1,7 +1,9 @@
 #import <Foundation/Foundation.h>
 
 @interface #f : NSObject
-@property (nonatomic,strong) NSArray* carinfolist;
+@property (nonatomic,strong) NSNumber* groupid;
+@property (nonatomic,strong) NSNumber* carid;
+@property (nonatomic,strong) NSNumber* memberid;
 
 
 + (instancetype)createWithJSONDict:(NSDictionary *)dict;
