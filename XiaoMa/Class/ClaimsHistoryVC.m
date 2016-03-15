@@ -34,7 +34,8 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.dataArr.count;
+//    return self.dataArr.count;
+    return 10;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -81,7 +82,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MutualInsClaimInfo *model = [self.dataArr safetyObjectAtIndex:indexPath.section];
-    ClaimDetailVC *detailVC = [[UIStoryboard storyboardWithName:@"" bundle:nil]instantiateViewControllerWithIdentifier:@"ClaimDetailVC"];
+    ClaimDetailVC *detailVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"ClaimDetailVC"];
     detailVC.claimid = model.claimid;
     [self.navigationController pushViewController:detailVC animated:YES];
 }

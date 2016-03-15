@@ -108,11 +108,12 @@
             UILabel *dutyLb = [cell viewWithTag:102];
             UILabel *conditionLb = [cell viewWithTag:103];
             UILabel *reasonLb = [cell viewWithTag:104];
-            timeLb.text = [NSString stringWithFormat:@"%@",[format dateFromString:self.accidenttime]];
-            locationLb.text = self.accidentaddress;
-            dutyLb.text = self.chargepart;
-            conditionLb.text = self.cardmgdesc;
-            reasonLb.text = self.reason;
+            
+            timeLb.text = self.accidenttime.length ? [NSString stringWithFormat:@"%@",[format dateFromString:self.accidenttime]] : @" ";
+            locationLb.text = self.accidentaddress.length ? self.accidentaddress : @" ";
+            dutyLb.text = self.chargepart.length ? self.chargepart : @" ";
+            conditionLb.text = self.cardmgdesc.length ? self.cardmgdesc : @" ";
+            reasonLb.text = self.reason.length ? self.reason : @" ";
         }
         else
         {
@@ -219,6 +220,8 @@
     self.disagreeBtn.layer.borderColor = [[UIColor colorWithHex:@"#18D06A" alpha:1]CGColor];
     self.disagreeBtn.layer.borderWidth = 1;
     self.tableView.tableFooterView = [UIView new];
+    
+    self.bottomView.hidden = YES;
 }
 
 @end

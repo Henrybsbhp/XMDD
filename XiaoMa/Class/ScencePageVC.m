@@ -246,7 +246,7 @@
             [self.view stopActivityAnimation];
             [gToast showSuccess:@"提交成功"];
         }error:^(NSError *error) {
-            [gToast showSuccess:@"提交失败"];
+            [gToast showMistake:@"提交失败"];
             [self.view stopActivityAnimation];
         }];
         
