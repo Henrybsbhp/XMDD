@@ -98,6 +98,7 @@
         [gToast dismissInView:view];
         
         EditInsInfoVC * vc = [UIStoryboard vcWithId:@"EditInsInfoVC" inStoryboard:@"MutualInsJoin"];
+        vc.memberId = rop.rsp_memberid;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         

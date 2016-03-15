@@ -15,6 +15,7 @@
 #import "GetCooperationMyGroupOp.h"
 #import "HKMutualGroup.h"
 #import "HKTimer.h"
+#import "EditInsInfoVC.h"
 
 @interface MutualInsHomeVC ()
 
@@ -31,7 +32,7 @@
     // Do any additional setup after loading the view.
     
     RACDisposable * disp = [[HKTimer rac_timeCountDownWithOrigin:3600000 * 24 andTimeTag:[[NSDate date] timeIntervalSince1970]] subscribeNext:^(NSString * timeStr) {
-        DebugLog(@"%@", timeStr);
+//        DebugLog(@"%@", timeStr);
     }];
     [[self rac_deallocDisposable] addDisposable:disp];
     
@@ -122,7 +123,11 @@
     }
     else if (indexPath.row > 3) {
         //我的团详情页面
-        MutualInsGrouponVC *vc = [MutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
+//        MutualInsGrouponVC *vc = [MutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
+        HKMutualGroup * group = [self.myGroupArray safetyObjectAtIndex:indexPath.row - 4];
+//        vc.group = group;
+        EditInsInfoVC * vc = [UIStoryboard vcWithId:@"EditInsInfoVC" inStoryboard:@"MutualInsJoin"];
+        vc.memberId = group.memberId;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

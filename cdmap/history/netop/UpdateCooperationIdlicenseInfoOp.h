@@ -2,12 +2,18 @@
 
 @interface UpdateCooperationIdlicenseInfoOp : BaseOp
 
-///投保保险信息列表
-@property (nonatomic,strong) NSString* req_inslist;
+///身份证地址
+@property (nonatomic,strong) NSString* req_idurl;
+///行驶证地址
+@property (nonatomic,strong) NSString* req_licenseurl;
+///最近一次保险公司名字
+@property (nonatomic,strong) NSString* req_firstinscomp;
+///再上一次保险公司名字
+@property (nonatomic,strong) NSString* req_secinscomp;
 ///团员记录ID
 @property (nonatomic,strong) NSString* req_memberid;
-///是否愿意代买
-@property (nonatomic,strong) NSString* req_proxybuy;
+///商业险到期日
+@property (nonatomic,strong) NSString* req_insenddate;
 
 
 
