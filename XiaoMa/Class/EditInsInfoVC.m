@@ -69,6 +69,7 @@
     @weakify(self);
     [[self.nextBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        @strongify(self)
         if (self.idPictureRecord.isUploading || self.drivingLicensePictureRecord.isUploading)
         {
             [gToast showMistake:@"待图片上传成功"];
@@ -84,7 +85,7 @@
             [gToast showMistake:@"请上传行驶证照片"];
             return ;
         }
-        @strongify(self)
+        
         [self requestUpdateImageInfo];
     }];
 }
@@ -150,7 +151,20 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0 || indexPath.section == 1) {
-        return 166;
+        
+        PictureRecord * record = indexPath.section == 0 ? self.idPictureRecord : self.drivingLicensePictureRecord;
+        CGFloat width = gAppMgr.deviceInfo.screenSize.width - 60;
+        CGFloat height;
+        if (record.image)
+        {
+            CGFloat imgRatio = record.image.size.height / record.image.size.width;
+            height = imgRatio * width;
+        }
+        else
+        {
+            height = 666.0 / 1024 * width;
+        }
+        return height;
     }
     return 58;
 }
@@ -221,6 +235,7 @@
     
     camView.hidden = record.image;
     
+    
     [[RACObserve(record, image) takeUntilForCell:cell] subscribeNext:^(UIImage * img) {
         
         selectImgView.hidden = !img;
@@ -228,8 +243,10 @@
         camView.hidden = img;
     }];
     
+    @weakify(self)
     [[RACObserve(record, url) takeUntilForCell:cell] subscribeNext:^(NSString * url) {
         
+        @strongify(self)
         if (url.length && !record.image)
         {
             camView.hidden = YES;
@@ -239,6 +256,7 @@
     
     [[RACObserve(selectImgView, image) takeUntilForCell:cell] subscribeNext:^(UIImage *img) {
        
+        @strongify(self)
         if (!img || [[self defImage] isEqual:img] || [[self errorImage] isEqual:img]) {
             maskView.hidden = YES;
             selectImgView.hidden = YES;
@@ -269,12 +287,12 @@
                 make.center.equalTo(selectImgView);
             }];
         }
-        maskView.hidden = NO;
     }];
 
     
     [[[selectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        @strongify(self)
         self.currentRecord = indexPath.section == 0 ? self.idPictureRecord : self.drivingLicensePictureRecord;
         [self pickImageWithIndex:indexPath];
     }];
@@ -347,10 +365,12 @@
     op.req_memberId = self.memberId;
     [[[op rac_postRequest] initially:^{
         
-        [self.tableView startActivityAnimationWithType:GifActivityIndicatorType];
+        self.tableView.hidden = YES;
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] subscribeNext:^(GetCooperationIdlicenseInfoOp * rop) {
         
-        [self.tableView stopActivityAnimation];
+        self.tableView.hidden = NO;
+        [self.view stopActivityAnimation];
         self.idPictureRecord.url = rop.rsp_idnourl;
         self.drivingLicensePictureRecord.url = rop.rsp_licenseurl;
         self.insCompany = rop.rsp_lstinscomp;
@@ -359,7 +379,8 @@
     } error:^(NSError *error) {
         
         @weakify(self)
-        [self.tableView showIndicatorTextWith:error.domain clickBlock:^(UIButton *sender) {
+        self.tableView.hidden = YES;
+        [self.view showIndicatorTextWith:error.domain clickBlock:^(UIButton *sender) {
             
             @strongify(self)
             [self requesLastIdLicenseInfo];
@@ -409,10 +430,10 @@
     [sheet addSubview:exampleView];
     [exampleView setHidden:NO animated:YES];
     
-    [sheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *sheetIndexPath) {
+    [sheet setButtonPressedBlock:^(JGActionSheet *rsheet, NSIndexPath *sheetIndexPath) {
         
         [exampleView setHidden:YES animated:YES];
-        [sheet dismissAnimated:YES];
+        [rsheet dismissAnimated:YES];
         if (sheetIndexPath.section != 0) {
             [MobClick event:@"rp124_6"];
             return ;
