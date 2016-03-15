@@ -58,11 +58,26 @@
       (node (attr (*def* "团员记录ID")) (id memberid) (type number) (value #f))))
     (node
      (attr
-      (*def* "保险信息完善")
+      (*def* "照片信息完善")
       (class UpdateCooperationIdlicenseInfo)
       (op)
       (auth)
       (path "/cooperation/idlicense/info/update"))
+     (node
+      (attr (req))
+      (node (attr (*def* "身份证地址")) (id idurl) (type #f) (value #f))
+      (node (attr (*def* "行驶证地址")) (id licenseurl) (type #f) (value #f))
+      (node (attr (*def* "最近一次保险公司名字")) (id firstinscomp) (type #f) (value #f))
+      (node (attr (*def* "再上一次保险公司名字")) (id secinscomp) (type #f) (value #f))
+      (node (attr (*def* "团员记录ID")) (id memberid) (type #f) (value #f))
+      (node (attr (*def* "商业险到期日")) (id insenddate) (type #f) (value #f))))
+    (node
+     (attr
+      (*def* "保险信息完善")
+      (class UpdateCooperationInsInfo)
+      (op)
+      (auth)
+      (path "/cooperation/insurance/info/update"))
      (node
       (attr (req))
       (node (attr (*def* "投保保险信息列表")) (id inslist) (type #f) (value #f))
