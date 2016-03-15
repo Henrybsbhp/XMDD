@@ -46,8 +46,21 @@ class=ApplyCooperationGroupJoin op auth path="/cooperation/group/join/apply"> {
   }
 }
 
-<"保险信息完善"
+<"照片信息完善"
 class=UpdateCooperationIdlicenseInfo op auth path="/cooperation/idlicense/info/update"> {
+  
+   <req> {
+    <"身份证地址">idurl
+    <"行驶证地址">licenseurl
+    <"最近一次保险公司名字">firstinscomp
+    <"再上一次保险公司名字">secinscomp
+    <"团员记录ID">memberid
+    <"商业险到期日">insenddate
+  } 
+}
+
+<"保险信息完善"
+class=UpdateCooperationInsInfo op auth path="/cooperation/insurance/info/update"> {
   
    <req> {
     <"投保保险信息列表">inslist

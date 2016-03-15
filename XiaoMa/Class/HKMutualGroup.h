@@ -33,7 +33,7 @@ typedef enum : NSUInteger {
 /// 协议有效时段
 @property (nonatomic,copy)NSString * contractperiod;
 /// 自己在团中的团员id
-@property (nonatomic,copy)NSString * memberId;
+@property (nonatomic,strong)NSNumber * memberId;
 /// 状态描述
 @property (nonatomic,copy)NSString * statusDesc;
 

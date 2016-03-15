@@ -828,7 +828,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Wwh-UP-edh">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Wwh-UP-edh" customClass="JTTableView">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="530"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -842,19 +842,28 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fbm-2i-FWc">
                                                     <rect key="frame" x="30" y="10" width="540" height="155"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ppk-j3-8N0">
+                                                        <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ppk-j3-8N0" customClass="HKImageView">
                                                             <rect key="frame" x="1" y="1" width="538" height="153"/>
                                                             <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#BW_1#BC_RGB(238,238,238)"/>
                                                             </userDefinedRuntimeAttributes>
                                                         </imageView>
-                                                        <imageView userInteractionEnabled="NO" tag="1002" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mutualInsjoin_cam" translatesAutoresizingMaskIntoConstraints="NO" id="23J-w3-HZx">
-                                                            <rect key="frame" x="240" y="51" width="60" height="53"/>
+                                                        <imageView userInteractionEnabled="NO" tag="1002" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mutualInsjoin_cam" translatesAutoresizingMaskIntoConstraints="NO" id="23J-w3-HZx">
+                                                            <rect key="frame" x="1" y="1" width="538" height="153"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="53" id="pWV-rI-5XT"/>
                                                                 <constraint firstAttribute="width" constant="60" id="wCn-C7-sKC"/>
                                                             </constraints>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#BW_1#BC_RGB(238,238,238)"/>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <variation key="default">
+                                                                <mask key="constraints">
+                                                                    <exclude reference="pWV-rI-5XT"/>
+                                                                    <exclude reference="wCn-C7-sKC"/>
+                                                                </mask>
+                                                            </variation>
                                                         </imageView>
                                                         <button opaque="NO" tag="1003" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1FF-kH-fGp">
                                                             <rect key="frame" x="0.0" y="0.0" width="540" height="155"/>
@@ -863,12 +872,14 @@
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="bottom" secondItem="1FF-kH-fGp" secondAttribute="bottom" id="9z7-eI-9fo"/>
+                                                        <constraint firstItem="23J-w3-HZx" firstAttribute="width" secondItem="ppk-j3-8N0" secondAttribute="width" id="Asg-DI-nzm"/>
                                                         <constraint firstItem="23J-w3-HZx" firstAttribute="centerY" secondItem="Fbm-2i-FWc" secondAttribute="centerY" id="J7L-ag-Gxi"/>
                                                         <constraint firstAttribute="trailing" secondItem="ppk-j3-8N0" secondAttribute="trailing" constant="1" id="M5m-bF-3gY"/>
                                                         <constraint firstItem="ppk-j3-8N0" firstAttribute="top" secondItem="Fbm-2i-FWc" secondAttribute="top" constant="1" id="U9z-We-ZrZ"/>
                                                         <constraint firstItem="23J-w3-HZx" firstAttribute="centerX" secondItem="Fbm-2i-FWc" secondAttribute="centerX" id="VW7-ux-5Il"/>
                                                         <constraint firstItem="1FF-kH-fGp" firstAttribute="leading" secondItem="Fbm-2i-FWc" secondAttribute="leading" id="Vje-VE-RvP"/>
                                                         <constraint firstAttribute="trailing" secondItem="1FF-kH-fGp" secondAttribute="trailing" id="VkH-8z-SBz"/>
+                                                        <constraint firstItem="23J-w3-HZx" firstAttribute="height" secondItem="ppk-j3-8N0" secondAttribute="height" id="aKx-S1-WPD"/>
                                                         <constraint firstItem="1FF-kH-fGp" firstAttribute="top" secondItem="Fbm-2i-FWc" secondAttribute="top" id="daL-nj-LXI"/>
                                                         <constraint firstAttribute="bottom" secondItem="ppk-j3-8N0" secondAttribute="bottom" constant="1" id="hHS-UU-Q0E"/>
                                                         <constraint firstItem="ppk-j3-8N0" firstAttribute="leading" secondItem="Fbm-2i-FWc" secondAttribute="leading" constant="1" id="kby-wk-jKb"/>
@@ -890,16 +901,16 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="58"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oo8-oQ-vtl">
+                                                <view tag="101" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oo8-oQ-vtl">
                                                     <rect key="frame" x="30" y="8" width="540" height="49"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请选择现保险公司" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fQx-zz-99e">
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="20101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请选择现保险公司" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fQx-zz-99e">
                                                             <rect key="frame" x="206" y="15" width="128" height="20"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <color key="textColor" red="0.85882352941176465" green="0.85882352941176465" blue="0.85882352941176465" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mutualInsjoin_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="pqM-Qz-nrX">
+                                                        <imageView userInteractionEnabled="NO" tag="20102" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mutualInsjoin_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="pqM-Qz-nrX">
                                                             <rect key="frame" x="515" y="16" width="10" height="18"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="18" id="UPF-Yk-he6"/>
@@ -982,12 +993,30 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="nextBtn" destination="tXp-7Z-ibJ" id="byH-a8-tHO"/>
                         <outlet property="tableView" destination="Wwh-UP-edh" id="GSe-IN-UWH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Ko-l7-fpu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2179" y="409"/>
+        </scene>
+        <!--Mutual Ins Choose View Controller-->
+        <scene sceneID="TmR-3E-lVv">
+            <objects>
+                <viewController storyboardIdentifier="MutualInsChooseViewController" id="UfL-PI-9LC" customClass="MutualInsChooseViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="d6R-ET-Daq"/>
+                        <viewControllerLayoutGuide type="bottom" id="Cc9-kw-DGw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="UE5-cy-mOn">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="95P-me-Upb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
     <resources>

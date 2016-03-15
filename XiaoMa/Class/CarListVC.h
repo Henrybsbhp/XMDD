@@ -19,6 +19,6 @@
 
 @property (nonatomic, strong) UIViewController * originVC;
 
-@property (strong, nonatomic)void(^finishPickActionForMutualIns)(HKMyCar * car,UIView * loadingView);
+@property (nonatomic, copy)void(^finishPickActionForMutualIns)(HKMyCar * car,UIView * loadingView);
 
 @end

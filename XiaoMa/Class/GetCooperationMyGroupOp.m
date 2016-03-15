@@ -32,7 +32,7 @@
         group.tip = groupDict[@"tip"];
         group.leftTime = [groupDict numberParamForName:@"lefttime"];
         group.contractperiod = groupDict[@"contractperiod"];
-        group.memberId = [groupDict stringParamForName:@"memberid"];
+        group.memberId = groupDict[@"memberid"];
         group.statusDesc  = [groupDict stringParamForName:@"statusdesc"];
         group.leftTimeTag = [[NSDate date] timeIntervalSince1970]; //数据初始化时记录时间戳
         [array safetyAddObject:group];
