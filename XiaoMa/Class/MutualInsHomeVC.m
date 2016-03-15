@@ -20,7 +20,9 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property (nonatomic,strong)NSArray * myGroupArray;
+@property (nonatomic, strong)NSArray * myGroupArray;
+
+@property (nonatomic, assign)NSTimeInterval leftTime;
 
 @end
 
@@ -29,31 +31,54 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    RACDisposable * disp = [[HKTimer rac_timeCountDownWithOrigin:3600000 * 24 andTimeTag:[[NSDate date] timeIntervalSince1970]] subscribeNext:^(NSString * timeStr) {
-        DebugLog(@"%@", timeStr);
-    }];
-    [[self rac_deallocDisposable] addDisposable:disp];
-    
-    
-    [self requestMyGourpInfo];
+    [self setupTableView];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
+- (void)setupTableView
+{
+    self.tableView.hidden = YES;
+    [self.tableView.refreshView addTarget:self action:@selector(requestMyGourpInfo) forControlEvents:UIControlEventValueChanged];
+    
+    //加载动画
+    self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
+    [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+    
+    [self requestMyGourpInfo];
+}
+
 #pragma mark - Utilitly
 - (void)requestMyGourpInfo
 {
-    GetCooperationMyGroupOp * op = [[GetCooperationMyGroupOp alloc] init];
-    @weakify(self);
-    [[op rac_postRequest] subscribeNext:^(GetCooperationMyGroupOp * rop) {
+    if (gAppMgr.myUser) {
         
-        @strongify(self);
-        self.myGroupArray = rop.rsp_groupArray;
-        [self.tableView reloadData];
-    }];
+        GetCooperationMyGroupOp * op = [[GetCooperationMyGroupOp alloc] init];
+        @weakify(self);
+        [[op rac_postRequest] subscribeNext:^(GetCooperationMyGroupOp * rop) {
+            
+            @strongify(self);
+            self.tableView.hidden = NO;
+            [self.view stopActivityAnimation];
+            [self.tableView.refreshView endRefreshing];
+            
+            self.myGroupArray = rop.rsp_groupArray;
+            [self.tableView reloadData];
+        }error:^(NSError *error) {
+            
+            self.tableView.hidden = NO;
+            [self.view stopActivityAnimation];
+            [self.tableView.refreshView endRefreshing];
+            [gToast showError:error.domain];
+        }];
+    }
+    else {
+        self.tableView.hidden = NO;
+        [self.view stopActivityAnimation];
+        [self.tableView.refreshView endRefreshing];
+    }
 }
 
 #pragma mark - UITableViewDelegate and datasource
@@ -82,7 +107,7 @@
         return 50;
     }
     else if (indexPath.row > 3) {
-        return 150;
+        return 161;
     }
     return 110;
 }
@@ -195,15 +220,20 @@
     carIdLabel.text = group.licenseNumber;
     statusLabel.text = group.statusDesc;
     
-    if (group.contractperiod.length)
+    if (group.leftTime != 0)
     {
-        timeLabel.text = [NSString stringWithFormat:@"%@ %@",group.tip,group.contractperiod];
+        RACDisposable * disp = [[[HKTimer rac_timeCountDownWithOrigin:[group.leftTime integerValue] / 1000 andTimeTag:group.leftTimeTag] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString * timeStr) {
+            timeLabel.text = [NSString stringWithFormat:@"%@ %@", group.tip, timeStr];
+        }];
+        [[self rac_deallocDisposable] addDisposable:disp];
     }
-    else
+    else if (group.contractperiod.length != 0)
     {
-        timeLabel.text = [NSString stringWithFormat:@"%@ %@",group.tip,group.lefetime];
+        timeLabel.text = [NSString stringWithFormat:@"%@ \n%@", group.tip, group.contractperiod];
     }
-
+    else {
+        timeLabel.text = @"";
+    }
     
     if (group.btnStatus)
     {
@@ -212,8 +242,15 @@
         [[[opeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
             @strongify(self);
-            InviteByCodeVC * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
-            [self.navigationController pushViewController:vc animated:YES];
+            if (group.btnStatus == GroupBtnStatusInvite) {
+                [opeBtn setBackgroundColor:HEXCOLOR(@"#18D06A")];
+                InviteByCodeVC * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+            else {
+                [opeBtn setBackgroundColor:HEXCOLOR(@"#FF4E70")];
+                //删除我的团操作 团长和团员调用新接口，入参不同
+            }
         }];
     }
     else
