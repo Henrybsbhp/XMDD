@@ -10,6 +10,8 @@
 
 @interface HKTimer : NSObject
 
+//*重要*入参originTime为接口获取的剩余时间；入参timeTag应为通过接口获取到数据时的时间戳
+
 + (RACSignal *)rac_timeCountDownWithOrigin:(NSTimeInterval)originTime andTimeTag:(NSTimeInterval)timeTag;
 
 @end
