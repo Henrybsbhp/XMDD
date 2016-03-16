@@ -8,16 +8,23 @@
 
 #import "MutualInsGrouponVC.h"
 #import "AddCloseAnimationButton.h"
-#import "PullDownAnimationButton.h"
 #import "HKPopoverView.h"
-#import "MutualInsGrouponSubVC.h"
 
-@interface MutualInsGrouponVC ()
+#import "MutualInsGrouponSubVC.h"
+#import "MutualInsGrouponSubMsgVC.h"
+
+
+@interface MutualInsGrouponVC ()<UIScrollViewDelegate>
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIView *topView;
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
+
 @property (nonatomic, weak) HKPopoverView *popoverMenu;
 @property (nonatomic, strong) AddCloseAnimationButton *menuButton;
-@property (weak, nonatomic) IBOutlet UIView *topSubView;
-@property (nonatomic, weak) MutualInsGrouponSubVC *topSubVC;
+@property (nonatomic, strong) MutualInsGrouponSubVC *topSubVC;
+@property (nonatomic, strong) MutualInsGrouponSubMsgVC *bottomSubVC;
 
+@property (nonatomic, assign) BOOL isExpandingOrClosing;
 @end
 
 @implementation MutualInsGrouponVC
@@ -28,6 +35,10 @@
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"史上最强团";
     [self setupNavigationBar];
+    [self setupTopSubVC];
+    CKAsyncMainQueue(^{
+        [self reloadData];
+    });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -35,18 +46,25 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if (segue.identifier && [segue.identifier isEqualToString:@"MutualInsGrouponSubVC"]) {
-        self.topSubVC = (MutualInsGrouponSubVC *)segue.destinationViewController;
-    }
-}
-
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [self.popoverMenu dismissWithAnimated:YES];
 }
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if (!segue.identifier) {
+        return;
+    }
+    if ([segue.identifier isEqualToString:@"MutualInsGrouponSubVC"]) {
+        self.topSubVC = (MutualInsGrouponSubVC *)segue.destinationViewController;
+    }
+    else if ([segue.identifier isEqualToString:@"MutualInsGrouponSubMsgVC"]) {
+        self.bottomSubVC = (MutualInsGrouponSubMsgVC *)segue.destinationViewController;
+    }
+}
+
 #pragma mark - Setup
 - (void)setupNavigationBar
 {
@@ -59,6 +77,14 @@
     [self.navigationItem setRightBarButtonItem:rightItem];
 }
 
+- (void)setupTopSubVC
+{
+    @weakify(self);
+    [self.topSubVC setShouldExpandedOrClosed:^(BOOL expanded) {
+        @strongify(self);
+        [self setExpanded:expanded animated:YES];
+    }];
+}
 #pragma mark - Action
 - (void)actionShowOrHideMenu:(id)sender
 {
@@ -92,6 +118,77 @@
         [popover showAtAnchorPoint:CGPointMake(self.navigationController.view.frame.size.width-33, 60)
                             inView:self.navigationController.view dismissTargetView:self.view animated:YES];
         self.popoverMenu = popover;
+    }
+}
+
+#pragma mark - Reload
+- (void)reloadData
+{
+    [self.topSubVC reloadDataWithStatus:MutInsStatusToBePaid];
+    [self.bottomSubVC reloadData];
+    @weakify(self);
+    [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.height.mas_equalTo(self.topSubVC.expandedHeight);
+    }];
+    
+    [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.height.mas_equalTo(self.scrollView.frame.size.height - self.topSubVC.closedHeight);
+    }];
+}
+
+- (void)setExpanded:(BOOL)expanded animated:(BOOL)animated
+{
+    self.isExpandingOrClosing = YES;
+    self.topSubVC.isExpanded = expanded;
+    CGFloat dvalue = (self.topSubVC.expandedHeight - self.topSubVC.closedHeight);
+    if (animated) {
+        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            self.scrollView.contentOffset = CGPointMake(0, expanded ? 0 : dvalue);
+        } completion:^(BOOL finished) {
+            self.isExpandingOrClosing = NO;
+            self.topSubVC.shouldStopWaveView = !expanded;
+        }];
+    }
+    else {
+        self.scrollView.contentOffset = CGPointMake(0, expanded ? 0 : dvalue);
+        self.isExpandingOrClosing = NO;
+        self.topSubVC.shouldStopWaveView = !expanded;
+    }
+}
+
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat dvalue = (self.topSubVC.expandedHeight - self.topSubVC.closedHeight);
+    if (self.scrollView.contentOffset.y < dvalue/2 && !self.topSubVC.isExpanded) {
+        [self setExpanded:YES animated:YES];
+    }
+    else if (self.scrollView.contentOffset.y > dvalue/2 && self.topSubVC.isExpanded) {
+        [self setExpanded:NO animated:YES];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    CGFloat dvalue = (self.topSubVC.expandedHeight - self.topSubVC.closedHeight);
+    if (!decelerate && self.scrollView.contentOffset.y < dvalue/2 && self.scrollView.contentOffset.y > 0) {
+        [self setExpanded:YES animated:YES];
+    }
+    else if (!decelerate && self.scrollView.contentOffset.y > dvalue/2 && self.scrollView.contentOffset.y < dvalue) {
+        [self setExpanded:NO animated:YES];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    CGFloat dvalue = (self.topSubVC.expandedHeight - self.topSubVC.closedHeight);
+    if (!self.isExpandingOrClosing && self.scrollView.contentOffset.y < dvalue/2 && self.scrollView.contentOffset.y > 0) {
+        [self setExpanded:YES animated:YES];
+    }
+    else if (!self.isExpandingOrClosing && self.scrollView.contentOffset.y > dvalue/2 && self.scrollView.contentOffset.y < dvalue) {
+        [self setExpanded:NO animated:YES];
     }
 }
 

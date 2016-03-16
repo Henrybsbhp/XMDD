@@ -8,7 +8,7 @@
 
 #import "MutualInsGrouponSubVC.h"
 #import "CKDatasource.h"
-#import "MutualInsConstants.h"
+#import "NSString+RectSize.h"
 
 #import "MutualInsGrouponCarsCell.h"
 #import "HKProgressView.h"
@@ -21,17 +21,16 @@
 @property (nonatomic, strong) CKList *datasource;
 
 @property (nonatomic, assign) MutInsStatus *status;
-@property (nonatomic, assign) BOOL isExpanded;
 @end
 
 @implementation MutualInsGrouponSubVC
 
+#pragma mark - System
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self setupItems];
     self.isExpanded = YES;
-    [self reloadDataWithStatus:MutInsStatusToBePaid];
+    [self setupItems];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,6 +38,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Setup
 - (void)setupItems
 {
     self.allItems = $([self carsItem], [self splitLine1Item], [self splitLine2Item], [self arrowItem],
@@ -69,20 +69,24 @@
     else {
         datasource = $(items[@"Cars"],items[@"Line2"],items[@"Wave"],items[@"Desc"],items[@"Bottom"]);
     }
-    
-    if (!self.isExpanded) {
-        NSInteger i = [datasource indexOfObjectForKey:@"Desc"];
-        CKList *trimedDatasource = [CKList list];
-        for (; i < [datasource count]; i++) {
-            [trimedDatasource addObject:datasource[i] forKey:nil];
-        }
-        self.datasource = trimedDatasource;
-    }
-    else {
-        self.datasource = datasource;
-    }
-
+    self.datasource = datasource;
     [self.tableView reloadData];
+
+    //计算tableView总的打开时的高度和关闭时的高度
+    NSInteger j = [datasource indexOfObjectForKey:@"Desc"];
+    CGFloat height1 = 0, height2 = 0;
+    for (NSInteger i = 0; i < j; i++) {
+        CKDict *curitem = datasource[i];
+        CKCellGetHeightBlock getHeight = curitem[kCKCellGetHeight];
+        height1 += getHeight(curitem, [NSIndexPath indexPathForRow:i inSection:0]);
+    }
+    for (NSInteger i = j; i < [datasource count]; i++) {
+        CKDict *curitem = datasource[i];
+        CKCellGetHeightBlock getHeight = curitem[kCKCellGetHeight];
+        height2 += getHeight(curitem, [NSIndexPath indexPathForRow:i inSection:0]);
+    }
+    self.expandedHeight = height1 + height2;
+    self.closedHeight = height2;
 }
 
 #pragma mark - CellItem
@@ -196,6 +200,19 @@
         [[cell rac_prepareForReuseSignal] subscribeNext:^(id x) {
             [waveV stopWave];
         }];
+        
+        [[RACObserve(self, shouldStopWaveView) takeUntilForCell:cell] subscribeNext:^(NSNumber *stop) {
+            if ([stop boolValue]) {
+                [waveV setProgress:0 withAnimation:NO];
+            }
+        }];
+        
+        [[RACObserve(self, isExpanded) takeUntilForCell:cell] subscribeNext:^(NSNumber *expanded) {
+            if ([expanded boolValue]) {
+                [waveV showArcLightOnce];
+                [waveV setProgress:0.8 withAnimation:YES];
+            }
+        }];
     });
     return item;
 }
@@ -203,8 +220,12 @@
 - (CKDict *)descItem
 {
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Desc",@"text":@"全部团员支付成功，组团结束。\n协议将于2016年3月1日生效"}];
+    @weakify(self);
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return UITableViewAutomaticDimension;
+        @strongify(self);
+        CGFloat width = self.tableView.frame.size.width - 40;
+        CGSize size = [data[@"text"] labelSizeWithWidth:width font:[UIFont systemFontOfSize:15]];
+        return MAX(25, ceil(size.height+10));
     });
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UILabel *label = [cell viewWithTag:1001];
@@ -249,10 +270,31 @@
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 35;
     });
+    @weakify(self);
     item[kCKCellPrepare]= CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
         PullDownAnimationButton *arrowV = [cell viewWithTag:1001];
         UIImageView *edgeV = [cell viewWithTag:1002];
-        [arrowV setPulled:YES withAnimation:YES];
+        
+        [arrowV setPulled:self.isExpanded withAnimation:NO];
+        
+        [[[RACObserve(self, isExpanded) takeUntilForCell:cell] skip:1] subscribeNext:^(id x) {
+            @strongify(self);
+            CKAfter(0.2, ^{
+                [arrowV setPulled:self.isExpanded withAnimation:YES];
+            });
+        }];
+
+        [[[arrowV rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+         subscribeNext:^(PullDownAnimationButton *btn) {
+             @strongify(self);
+             BOOL expanded = !self.isExpanded;
+             self.isExpanded = expanded;
+             if (self.shouldExpandedOrClosed) {
+                 self.shouldExpandedOrClosed(expanded);
+             }
+        }];
+
         if (!edgeV.image) {
             edgeV.image = [[UIImage imageNamed:@"mins_edge"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 1, 8, 1)];
         }

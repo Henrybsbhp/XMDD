@@ -10,4 +10,6 @@
 
 @interface MutualInsGrouponSubMsgVC : HKViewController
 
+- (void)reloadData;
+
 @end
