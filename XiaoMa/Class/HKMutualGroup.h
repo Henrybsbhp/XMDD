@@ -27,11 +27,13 @@ typedef enum : NSUInteger {
 /// 不同阶段提示语
 @property (nonatomic,copy)NSString * tip;
 /// 倒计时
-@property (nonatomic,strong)NSNumber * lefetime;
+@property (nonatomic,strong)NSNumber * leftTime;
+/// 倒计时获取到时的时间戳
+@property (nonatomic, assign)NSTimeInterval leftTimeTag;
 /// 协议有效时段
 @property (nonatomic,copy)NSString * contractperiod;
 /// 自己在团中的团员id
-@property (nonatomic,copy)NSString * memberId;
+@property (nonatomic,strong)NSNumber * memberId;
 /// 状态描述
 @property (nonatomic,copy)NSString * statusDesc;
 
