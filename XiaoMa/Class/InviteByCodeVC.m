@@ -120,6 +120,10 @@
     [copyBtn setBorderColor:HEXCOLOR(@"#18d05a")];
     [copyBtn setBorderWidth:1];
     
+    [[[copyBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+        pasteboard.string = @"这里是团队暗号";
+    }];
     
     return cell;
 }

@@ -16,12 +16,13 @@
 #import "HKMutualGroup.h"
 #import "HKTimer.h"
 #import "EditInsInfoVC.h"
+#import "DeleteMyGroupOp.h"
 
 @interface MutualInsHomeVC ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property (nonatomic, strong)NSArray * myGroupArray;
+@property (nonatomic, strong)NSMutableArray * myGroupArray;
 
 @property (nonatomic, assign)NSTimeInterval leftTime;
 
@@ -65,7 +66,7 @@
             [self.view stopActivityAnimation];
             [self.tableView.refreshView endRefreshing];
             
-            self.myGroupArray = rop.rsp_groupArray;
+            self.myGroupArray = [[NSMutableArray alloc] initWithArray:rop.rsp_groupArray];
             [self.tableView reloadData];
         }error:^(NSError *error) {
             
@@ -212,6 +213,7 @@
 
 - (UITableViewCell *)myGroupCellCellAtIndexPath:(NSIndexPath *)indexPath
 {
+    DebugLog(@"!!!!!%ld", (long)indexPath.row);
     UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"MyGroupCell" forIndexPath:indexPath];
     UILabel *nameLabel = (UILabel *)[cell.contentView viewWithTag:1001];
     UILabel *carIdLabel = (UILabel *)[cell.contentView viewWithTag:1002];
@@ -255,6 +257,24 @@
             else {
                 [opeBtn setBackgroundColor:HEXCOLOR(@"#FF4E70")];
                 //删除我的团操作 团长和团员调用新接口，入参不同
+                DeleteMyGroupOp * op = [DeleteMyGroupOp operation];
+                op.memberId = group.memberId;
+                op.groupId = group.groupId;
+                [[[op rac_postRequest] initially:^{
+                    [gToast showingWithText:@"删除中..."];
+                }] subscribeNext:^(id x) {
+                    [gToast showText:@"移除成功！"];
+                    [self.myGroupArray safetyRemoveObjectAtIndex:(indexPath.row - 4)];
+                    if (self.myGroupArray.count == 0) {
+                        [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row - 1 inSection:indexPath.section], indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                    }
+                    else {
+                        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                    }
+                    [self.tableView reloadData];
+                } error:^(NSError *error) {
+                    [gToast showError:error.domain];
+                }];
             }
         }];
     }
