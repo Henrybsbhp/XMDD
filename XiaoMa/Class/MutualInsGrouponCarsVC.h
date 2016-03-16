@@ -10,6 +10,4 @@
 
 @interface MutualInsGrouponCarsVC : UIViewController
 
-@property (nonatomic, strong) NSArray 
-
 @end

@@ -113,7 +113,8 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
-                        <outlet property="bottomTitlelabel" destination="48X-Kh-hEL" id="wUi-De-9V9"/>
+                        <outlet property="bottomTitleLabel" destination="MI5-Vr-LCx" id="BhJ-pk-pFt"/>
+                        <outlet property="bottomTitleLabel2" destination="48X-Kh-hEL" id="7h3-9e-X5l"/>
                         <outlet property="bottomView" destination="2x0-tf-Byt" id="hMN-VW-mjD"/>
                         <outlet property="bottomView2" destination="LFs-Ud-rrr" id="aBd-s7-IrD"/>
                         <outlet property="scrollView" destination="GuI-jf-ZZh" id="hND-uz-Aup"/>

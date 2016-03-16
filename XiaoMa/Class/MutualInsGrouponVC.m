@@ -13,8 +13,11 @@
 #import "MutualInsGrouponSubVC.h"
 #import "MutualInsGrouponSubMsgVC.h"
 
+#import "ExitCooperationOp.h"
+#import "MutualInsHomeVC.h"
 
 @interface MutualInsGrouponVC ()<UIScrollViewDelegate>
+
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *topView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
@@ -25,6 +28,7 @@
 @property (nonatomic, strong) MutualInsGrouponSubMsgVC *bottomSubVC;
 
 @property (nonatomic, assign) BOOL isExpandingOrClosing;
+
 @end
 
 @implementation MutualInsGrouponVC
@@ -106,9 +110,8 @@
             }
             else
             {
-                
+                [self requestExitGroup];
             }
-                
         }];
         @weakify(self);
         [popover setDidDismissedBlock:^(BOOL animated) {
@@ -191,5 +194,33 @@
         [self setExpanded:NO animated:YES];
     }
 }
+#pragma mark - Utility
+- (void)requestExitGroup
+{
+    ExitCooperationOp * op = [[ExitCooperationOp alloc] init];
+    op.req_memberid = self.group.memberId;
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"退团中..."];
+    }] subscribeNext:^(ExitCooperationOp * rop) {
+        
+        [gToast dismiss];
+        for (UIViewController * vc in self.navigationController.viewControllers)
+        {
+            if ([vc isKindOfClass:NSClassFromString(@"MutualInsHomeVC")])
+            {
+                
+                [self.navigationController popToViewController:vc animated:YES];
+                [((MutualInsHomeVC *)vc) requestMyGourpInfo];
+                return ;
+            }
+        }
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain];
+    }];
+}
 
 @end
+

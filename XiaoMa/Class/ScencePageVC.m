@@ -11,6 +11,9 @@
 #import "PhotoBrowserVC.h"
 #import "HKProgressView.h"
 #import "ScencePhotoVM.h"
+#import "GetCooperationMyCarOp.h"
+#import "ApplyCooperationClaimOp.h"
+
 
 #define kOneBtnWidth self.view.bounds.size.width - 30
 #define kTwoBtnWidth (self.view.bounds.size.width - 45) / 2
@@ -21,9 +24,16 @@
 @property (strong, nonatomic) IBOutlet UIButton *nextStepBtn;
 @property (strong, nonatomic) IBOutlet UIButton *lastStepBtn;
 @property (strong, nonatomic) IBOutlet HKProgressView *progressView;
+@property (strong, nonatomic) ScencePhotoVM *scencePhotoVM;
 
 @property (nonatomic,strong) UIPageViewController *pageVC;
 @property (nonatomic,strong) NSArray *viewArr;
+
+@property (nonatomic, strong) NSNumber *licensenumber;
+@property (nonatomic, strong) NSString *scene;
+@property (nonatomic, strong) NSString *cardamage;
+@property (nonatomic, strong) NSString *carinfo;
+@property (nonatomic, strong) NSString *idinfo;
 
 @end
 
@@ -52,6 +62,7 @@
     [self setupUI];
     [self setSelectedIndex];
     [self configProgressView];
+    [self getCarData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -148,6 +159,29 @@
     }
 }
 
+-(void)getCarData
+{
+    GetCooperationMyCarOp *op = [[GetCooperationMyCarOp alloc]init];
+    [[[op rac_postRequest]initially:^{
+        [self.view startActivityAnimationWithType:MONActivityIndicatorType];
+    }]subscribeNext:^(GetCooperationMyCarOp *op) {
+        if (op.rsp_licensenumbers.count == 1)
+        {
+            self.licensenumber = op.rsp_licensenumbers.firstObject;
+        }
+        else if (op.rsp_licensenumbers.count > 1)
+        {
+//            @叶志成 添加选车页面
+        }
+        else
+        {
+            [gToast showMistake:@"获取您的爱车失败"];
+        }
+        [self.view stopActivityAnimation];
+    }error:^(NSError *error) {
+        [self.view stopActivityAnimation];
+    }];
+}
 
 #pragma mark Action
 
@@ -158,10 +192,13 @@
     {
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"请确认是否返回?" message:@"并放弃当前所拍摄的照片" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         [alertView show];
-        [[alertView rac_buttonClickedSignal]subscribeNext:^(id x) {
-            [[ScencePhotoVM sharedManager]deleteAllInfo];
-            NSArray *viewControllers = self.navigationController.viewControllers;
-            [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
+        [[alertView rac_buttonClickedSignal]subscribeNext:^(NSNumber *x) {
+            if (x.integerValue == 1)
+            {
+                [[ScencePhotoVM sharedManager]deleteAllInfo];
+                NSArray *viewControllers = self.navigationController.viewControllers;
+                [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
+            }
         }];
     }
     else
@@ -169,7 +206,6 @@
         NSArray *viewControllers = self.navigationController.viewControllers;
         [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
     }
-    
 }
 
 - (IBAction)lastStepAction:(id)sender {
@@ -194,7 +230,26 @@
     }
     else
     {
-        //    @叶志成 提交操作
+        self.scene = [[self.scencePhotoVM urlArrForIndex:0]componentsJoinedByString:@","];
+        self.cardamage = [[self.scencePhotoVM urlArrForIndex:1]componentsJoinedByString:@","];
+        self.carinfo = [[self.scencePhotoVM urlArrForIndex:2]componentsJoinedByString:@","];
+        self.idinfo = [[self.scencePhotoVM urlArrForIndex:3]componentsJoinedByString:@","];
+        ApplyCooperationClaimOp *op = [[ApplyCooperationClaimOp alloc]init];
+        op.req_licensenumber = self.licensenumber.stringValue;
+        op.req_scene = self.scene;
+        op.req_cardamage = self.cardamage;
+        op.req_carinfo = self.carinfo;
+        op.req_idinfo = self.idinfo;
+        [[[op rac_postRequest]initially:^{
+            [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+        }]subscribeNext:^(id x) {
+            [self.view stopActivityAnimation];
+            [gToast showSuccess:@"提交成功"];
+        }error:^(NSError *error) {
+            [gToast showSuccess:@"提交失败"];
+            [self.view stopActivityAnimation];
+        }];
+        
     }
     
 }
@@ -229,6 +284,15 @@
         _viewArr = @[contactVC,carLoseVC,carInfoVC,licenceVC];
     }
     return _viewArr;
+}
+
+-(ScencePhotoVM *)scencePhotoVM
+{
+    if (!_scencePhotoVM)
+    {
+        _scencePhotoVM = [ScencePhotoVM sharedManager];
+    }
+    return _scencePhotoVM;
 }
 
 @end

@@ -9,7 +9,7 @@
 @property (nonatomic,strong) NSNumber* req_groupid;
 
 ///团员其他人的信息
-@property (nonatomic,strong) MutualInsMemberInfo* rsp_members;
+@property (nonatomic,strong) NSArray* rsp_members;
 ///各阶段有效时间
 @property (nonatomic,strong) NSString* rsp_timeperiod;
 ///自己记录状态描述
