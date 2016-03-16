@@ -40,7 +40,7 @@
     {
         displayStr = [originStr substringToIndex:originStr.length - 3];
     }
-
+    
     return displayStr;
 }
 
@@ -63,4 +63,12 @@
         return displayStr;
     }
 }
+
++ (NSString *)formatForPriceWithFloat:(CGFloat)price
+{
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+    formatter.numberStyle = kCFNumberFormatterDecimalStyle;
+    return [[formatter stringFromNumber:[NSNumber numberWithFloat:price]]append:@".00"];
+}
+
 @end

@@ -30,10 +30,11 @@
         group.licenseNumber = [groupDict stringParamForName:@"licensenumber"];
         group.groupId = [groupDict numberParamForName:@"groupid"];
         group.tip = groupDict[@"tip"];
-        group.lefetime = [groupDict numberParamForName:@"lefetime"];
-        group.contractperiod = groupDict[@"tip"];
+        group.leftTime = [groupDict numberParamForName:@"lefttime"];
+        group.contractperiod = groupDict[@"contractperiod"];
         group.memberId = groupDict[@"memberid"];
         group.statusDesc  = [groupDict stringParamForName:@"statusdesc"];
+        group.leftTimeTag = [[NSDate date] timeIntervalSince1970]; //数据初始化时记录时间戳
         [array safetyAddObject:group];
     }
     self.rsp_groupArray = array;

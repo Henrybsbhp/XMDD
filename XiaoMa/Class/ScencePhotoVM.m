@@ -7,6 +7,7 @@
 //
 
 #import "ScencePhotoVM.h"
+#import "GetCoorperationClaimConfigOp.h"
 
 @interface ScencePhotoVM ()
 
@@ -25,6 +26,18 @@
 @implementation ScencePhotoVM
 
 static ScencePhotoVM *scencePhotoVM;
+
+-(instancetype)init
+{
+    if (self = [super init])
+    {
+        GetCoorperationClaimConfigOp *op = [[GetCoorperationClaimConfigOp alloc]init];
+        [[op rac_postRequest]subscribeNext:^(GetCoorperationClaimConfigOp *op) {
+            self.noticeArr = @[op.rsp_scenedesc,op.rsp_cardamagedesc,op.rsp_carinfodesc,op.rsp_idinfodesc];
+        }];
+    }
+    return self;
+}
 
 + (instancetype)sharedManager
 {
@@ -95,6 +108,7 @@ static ScencePhotoVM *scencePhotoVM;
 {
     if (!_noticeArr)
     {
+        _noticeArr = [[NSMutableArray alloc]init];
         NSString *sceneContractStr = @"注：车牌号码要清晰，车辆接触状态要清晰可见，可从车头火车尾进行多角度拍摄，拍摄照片越多越清晰，核定损失越准确(最多可拍摄5张)";
         NSString *carLoseStr = @"注：车辆受损区域照片要清晰可见，可从正面、侧面等进行多角度拍摄，拍摄照片越多越清晰，核定损失越准确(最多可拍摄5张)";
         NSString *carInfoStr = @"注：车辆车架号码照片要清晰可见，车架号数字与字母均可轻易识别，可近距离拍摄，请拍摄驾驶侧前挡风玻璃处车架号(最多可拍摄一张)";
