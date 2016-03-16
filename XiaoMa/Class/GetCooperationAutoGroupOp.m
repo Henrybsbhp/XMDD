@@ -10,7 +10,6 @@
 
 @implementation GetCooperationAutoGroupOp
 
-
 - (RACSignal *)rac_postRequest
 {
     //根绝接口状态调整接口参数
@@ -32,6 +31,5 @@
     self.rsp_autoGroupArray = grouplist;
     return self;
 }
-
 
 @end

@@ -12,6 +12,7 @@
 #import "MutualInsGrouponVC.h"
 #import "InviteByCodeVC.h"
 #import "AskClaimsVC.h"
+#import "GetCooperationConfiOp.h"
 #import "GetCooperationMyGroupOp.h"
 #import "HKMutualGroup.h"
 #import "HKTimer.h"
@@ -21,6 +22,11 @@
 @interface MutualInsHomeVC ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property (nonatomic, strong)NSString * autoGroupName;
+@property (nonatomic, strong)NSString * autoGroupdesc;
+@property (nonatomic, strong)NSString * selfGroupName;
+@property (nonatomic, strong)NSString * selfGroupdesc;
 
 @property (nonatomic, strong)NSMutableArray * myGroupArray;
 
@@ -45,14 +51,41 @@
     self.tableView.hidden = YES;
     [self.tableView.refreshView addTarget:self action:@selector(requestMyGourpInfo) forControlEvents:UIControlEventValueChanged];
     
-    //加载动画
-    self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
-    [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-    
+    [self requestConfigInfo];
     [self requestMyGourpInfo];
 }
 
 #pragma mark - Utilitly
+- (void)requestConfigInfo
+{
+    GetCooperationConfiOp * op = [GetCooperationConfiOp operation];
+    [[[op rac_postRequest] initially:^{
+        self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+    }] subscribeNext:^(GetCooperationConfiOp * op)  {
+        
+        self.autoGroupName = op.rsp_autogroupname;
+        self.autoGroupdesc = op.rsp_autogroupdesc;
+        self.selfGroupName = op.rsp_selfgroupname;
+        self.selfGroupdesc = op.rsp_selfgroupdesc;
+        
+        [self.tableView reloadData];
+        
+        [self requestMyGourpInfo];
+    } error:^(NSError *error) {
+        
+        self.tableView.hidden = YES;
+        [self.view stopActivityAnimation];
+        @weakify(self);
+        [self.view showDefaultEmptyViewWithText:@"小马互助首页获取失败，点击重试" tapBlock:^{
+            
+            @strongify(self);
+            [self.view hideDefaultEmptyView];
+            [self requestConfigInfo];
+        }];
+    }];
+}
+
 - (void)requestMyGourpInfo
 {
     if (gAppMgr.myUser) {
@@ -170,14 +203,14 @@
     if (indexPath.row == 0) {
         leftView.backgroundColor = HEXCOLOR(@"#FFBA36");
         logoImgV.image = [UIImage imageNamed:@"mutualIns_home_self"];
-        titleLabel.text = @"自组互助团";
-        detailLabel.text = @"熟人组团，省钱有保障";
+        titleLabel.text = self.selfGroupName;
+        detailLabel.text = self.selfGroupdesc;
     }
     else {
         leftView.backgroundColor = HEXCOLOR(@"#38B3FF");
         logoImgV.image = [UIImage imageNamed:@"mutualIns_home_match"];
-        titleLabel.text = @"平台互助团";
-        detailLabel.text = @"好司机参团，方便又省心";
+        titleLabel.text = self.autoGroupName;
+        detailLabel.text = self.autoGroupdesc;
     }
     
     return cell;
@@ -213,7 +246,6 @@
 
 - (UITableViewCell *)myGroupCellCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    DebugLog(@"!!!!!%ld", (long)indexPath.row);
     UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"MyGroupCell" forIndexPath:indexPath];
     UILabel *nameLabel = (UILabel *)[cell.contentView viewWithTag:1001];
     UILabel *carIdLabel = (UILabel *)[cell.contentView viewWithTag:1002];
@@ -245,11 +277,21 @@
     if (group.btnStatus)
     {
         opeBtn.hidden = NO;
+        if (group.btnStatus == GroupBtnStatusInvite) {
+            [opeBtn setTitle:@"邀请好友" forState:UIControlStateNormal];
+        }
+        else if (group.btnStatus == GroupBtnStatusDelete){
+            [opeBtn setTitle:@"删除" forState:UIControlStateNormal];
+        }
+        else {
+            opeBtn.hidden = YES;
+        }
         @weakify(self);
         [[[opeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
             @strongify(self);
             if (group.btnStatus == GroupBtnStatusInvite) {
+                
                 [opeBtn setBackgroundColor:HEXCOLOR(@"#18D06A")];
                 InviteByCodeVC * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
                 [self.navigationController pushViewController:vc animated:YES];

@@ -348,6 +348,12 @@
             }
             flag = YES;
         }
+        //加入小马互助团
+        else if ([@"jg" equalByCaseInsensitive:name]) {
+            //待修改
+            UIViewController *vc = [UIStoryboard vcWithId:@"MessageListVC" inStoryboard:@"Message"];
+            [self.curNavCtrl pushViewController:vc animated:YES];
+        }
     }
     else if ([url hasPrefix:@"http://"] || [url hasPrefix:@"https://"]) {
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];

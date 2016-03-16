@@ -471,7 +471,7 @@
         self.isShowSuspendedAd = YES;
         
         @weakify(self);
-        RACSignal *signal = [gAdMgr rac_getAdvertisement:AdvertisementAlert];
+        RACSignal *signal = [gAdMgr rac_getAdvertisement:AdvertisementHomePage];
         [[signal deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
             
             @strongify(self);

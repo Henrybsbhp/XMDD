@@ -388,6 +388,8 @@
 		507EFACC1C15AEB60081FECB /* GetAreaByPcdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 507EFACB1C15AEB60081FECB /* GetAreaByPcdOp.m */; };
 		508150CE1B84703200B16633 /* DetailsAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508150CD1B84703200B16633 /* DetailsAlertVC.m */; };
 		50819CC01C98F66800A6B8B2 /* DeleteMyGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50819CBF1C98F66800A6B8B2 /* DeleteMyGroupOp.m */; };
+		50819CDF1C99306E00A6B8B2 /* GetGroupPasswordOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50819CDE1C99306E00A6B8B2 /* GetGroupPasswordOp.m */; };
+		50819CE91C99438E00A6B8B2 /* InviteAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50819CE81C99438E00A6B8B2 /* InviteAlertVC.m */; };
 		508BD8D01BD0E3ED00B64199 /* GasRecordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508BD8CF1BD0E3ED00B64199 /* GasRecordVC.m */; };
 		508C718F1BA808B600FA2F05 /* Insurance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 508C718E1BA808B600FA2F05 /* Insurance.storyboard */; };
 		508D06801B900CF800B835BB /* InsuranceOrderPayOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 508D067F1B900CF800B835BB /* InsuranceOrderPayOp.m */; };
@@ -1469,6 +1471,10 @@
 		508150CD1B84703200B16633 /* DetailsAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsAlertVC.m; sourceTree = "<group>"; };
 		50819CBE1C98F66800A6B8B2 /* DeleteMyGroupOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteMyGroupOp.h; path = Class/DeleteMyGroupOp.h; sourceTree = "<group>"; };
 		50819CBF1C98F66800A6B8B2 /* DeleteMyGroupOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteMyGroupOp.m; path = Class/DeleteMyGroupOp.m; sourceTree = "<group>"; };
+		50819CDD1C99306E00A6B8B2 /* GetGroupPasswordOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetGroupPasswordOp.h; path = Class/GetGroupPasswordOp.h; sourceTree = "<group>"; };
+		50819CDE1C99306E00A6B8B2 /* GetGroupPasswordOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetGroupPasswordOp.m; path = Class/GetGroupPasswordOp.m; sourceTree = "<group>"; };
+		50819CE71C99438E00A6B8B2 /* InviteAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteAlertVC.h; sourceTree = "<group>"; };
+		50819CE81C99438E00A6B8B2 /* InviteAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteAlertVC.m; sourceTree = "<group>"; };
 		508BD8CE1BD0E3ED00B64199 /* GasRecordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasRecordVC.h; sourceTree = "<group>"; };
 		508BD8CF1BD0E3ED00B64199 /* GasRecordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasRecordVC.m; sourceTree = "<group>"; };
 		508C718E1BA808B600FA2F05 /* Insurance.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Insurance.storyboard; sourceTree = "<group>"; };
@@ -3797,6 +3803,8 @@
 				5093C9FD1C92A68A006B2258 /* InviteByCodeVC.m */,
 				6BC80CBF1C96ECA700C7BA3D /* MutualInsChooseViewController.h */,
 				6BC80CC01C96ECA700C7BA3D /* MutualInsChooseViewController.m */,
+				50819CE71C99438E00A6B8B2 /* InviteAlertVC.h */,
+				50819CE81C99438E00A6B8B2 /* InviteAlertVC.m */,
 			);
 			name = MutualInsJoin;
 			sourceTree = "<group>";
@@ -4458,6 +4466,8 @@
 				6B16D63E1C95517000322B70 /* GetCooperationAutoGroupOp.m */,
 				50819CBE1C98F66800A6B8B2 /* DeleteMyGroupOp.h */,
 				50819CBF1C98F66800A6B8B2 /* DeleteMyGroupOp.m */,
+				50819CDD1C99306E00A6B8B2 /* GetGroupPasswordOp.h */,
+				50819CDE1C99306E00A6B8B2 /* GetGroupPasswordOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -5317,6 +5327,7 @@
 				186984E51B0057A4000A182A /* MyOrderListVC.m in Sources */,
 				6BE2BD581AE62CDF00A69875 /* HKInsurance.m in Sources */,
 				5040B37A1C06AC1A00ADE77F /* HKLocationDataModel.m in Sources */,
+				50819CDF1C99306E00A6B8B2 /* GetGroupPasswordOp.m in Sources */,
 				6B086BA71AE4F03800659DB7 /* UIView+Base.m in Sources */,
 				18E5923B1C1A7C27006010D9 /* InsSubmitResultVC.m in Sources */,
 				6BEA56D11AE24DCE000D19C1 /* NSDataEx.m in Sources */,
@@ -5456,6 +5467,7 @@
 				18900B521C1EA0C2003DA439 /* Area.m in Sources */,
 				6BCA5F4C1B104B5100E1E630 /* MyCollectionViewController.m in Sources */,
 				6B16D63F1C95517000322B70 /* GetCooperationAutoGroupOp.m in Sources */,
+				50819CE91C99438E00A6B8B2 /* InviteAlertVC.m in Sources */,
 				6BEA56CF1AE24DCE000D19C1 /* DataVerifier.m in Sources */,
 				6BC80C951C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.m in Sources */,
 				50819CC01C98F66800A6B8B2 /* DeleteMyGroupOp.m in Sources */,

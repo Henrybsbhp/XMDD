@@ -37,6 +37,7 @@
 
 #import "MainTabBarVC.h"
 #import "LaunchVC.h"
+#import "InviteAlertVC.h"
 
 #ifndef __OPTIMIZE__
 #import "RRFPSBar.h"
@@ -188,8 +189,38 @@
             });
         }
     });
-
-    [self checkVersionUpdating];
+    //正则判断粘贴板内容是否为口令
+    if ([UIPasteboard generalPasteboard].string) {
+        [UIPasteboard generalPasteboard].string = @"";
+        if (!gAppMgr.myUser) {
+            InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
+            alertVC.alertType = InviteAlertTypeCopy;
+            alertVC.actionTitles = @[@"取消", @"确定加入"];
+            [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
+                [alertView dismiss];
+                if (index == 1) {
+                    //页面跳转
+                    [gAppMgr.navModel pushToViewControllerByUrl:@"xmdd://j?t=jg"];
+                }
+            }];
+        }
+        else {
+            InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
+            alertVC.alertType = InviteAlertTypeCopy;
+            alertVC.actionTitles = @[@"取消", @"确定加入"];
+            [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
+                [alertView dismiss];
+                if (index == 1) {
+                    //页面跳转
+                    [gAppMgr.navModel pushToViewControllerByUrl:@"xmdd://j?t=jg"];
+                }
+            }];
+        }
+    }
+    else {
+        [self checkVersionUpdating];
+    }
+    
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
