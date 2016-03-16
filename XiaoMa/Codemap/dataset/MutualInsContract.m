@@ -1,6 +1,8 @@
 #import "MutualInsContract.h"
   
 @implementation MutualInsContract
+
+
 + (instancetype)createWithJSONDict:(NSDictionary *)dict
 {
     MutualInsContract *obj = [[self alloc] init];
@@ -13,6 +15,7 @@
     self.contractid = dict[@"contractid"];
     self.status = [dict[@"status"] intValue];
     self.insurancedname = dict[@"insurancedname"];
+    self.contractperiod = dict[@"contractperiod"];
     self.licencenumber = dict[@"licencenumber"];
     self.idno = dict[@"idno"];
     self.total = [dict[@"total"] floatValue];
@@ -23,7 +26,7 @@
     self.taxshipfee = [dict[@"taxshipfee"] floatValue];
     self.inscomp = dict[@"inscomp"];
     self.totalmonth = dict[@"totalmonth"];
-
+    self.xmddlogo = dict[@"xmddlogo"];
 }
 
 @end

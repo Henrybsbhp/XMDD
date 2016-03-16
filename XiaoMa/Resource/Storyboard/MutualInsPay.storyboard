@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -30,13 +31,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view tag="101" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oxH-Fq-o4v" customClass="HKProgressView">
-                                                    <rect key="frame" x="10" y="10" width="560" height="24"/>
+                                                    <rect key="frame" x="10" y="10" width="540" height="24"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="oxH-Fq-o4v" firstAttribute="leading" secondItem="AVG-ZD-FCR" secondAttribute="leading" constant="10" id="Mrt-cg-FWq"/>
-                                                <constraint firstAttribute="trailing" secondItem="oxH-Fq-o4v" secondAttribute="trailing" constant="-10" id="U3P-MY-rbF"/>
+                                                <constraint firstItem="oxH-Fq-o4v" firstAttribute="trailing" secondItem="AVG-ZD-FCR" secondAttribute="trailing" constant="-10" id="U3P-MY-rbF"/>
                                                 <constraint firstAttribute="bottom" secondItem="oxH-Fq-o4v" secondAttribute="bottom" constant="10" id="t4g-uY-1Hm"/>
                                                 <constraint firstItem="oxH-Fq-o4v" firstAttribute="top" secondItem="AVG-ZD-FCR" secondAttribute="top" constant="10" id="wzS-2b-PSW"/>
                                             </constraints>
@@ -50,7 +51,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="协议享受人" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EZh-9E-Wbi">
-                                                    <rect key="frame" x="10" y="5" width="70" height="17"/>
+                                                    <rect key="frame" x="10" y="6" width="65" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.53333333333333333" green="0.53333333333333333" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -62,10 +63,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view tag="103" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jXn-V9-rym" customClass="HKArrowView">
-                                                    <rect key="frame" x="381" y="6" width="120" height="14"/>
+                                                    <rect key="frame" x="379" y="5" width="122" height="16"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="20301" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="原价￥5000 优惠￥500" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ltZ-ox-sdI">
-                                                            <rect key="frame" x="2" y="1" width="108" height="12"/>
+                                                            <rect key="frame" x="3" y="2" width="108" height="12"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -75,9 +76,9 @@
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="ltZ-ox-sdI" firstAttribute="centerY" secondItem="jXn-V9-rym" secondAttribute="centerY" id="0be-gW-x5x"/>
-                                                        <constraint firstItem="ltZ-ox-sdI" firstAttribute="width" secondItem="jXn-V9-rym" secondAttribute="width" constant="-12" id="GY5-aU-JCi"/>
-                                                        <constraint firstItem="ltZ-ox-sdI" firstAttribute="height" secondItem="jXn-V9-rym" secondAttribute="height" constant="-2" id="M5O-he-2Gr"/>
-                                                        <constraint firstItem="ltZ-ox-sdI" firstAttribute="leading" secondItem="jXn-V9-rym" secondAttribute="leading" constant="2" id="i63-LJ-cLg"/>
+                                                        <constraint firstItem="ltZ-ox-sdI" firstAttribute="width" secondItem="jXn-V9-rym" secondAttribute="width" constant="-14" id="GY5-aU-JCi"/>
+                                                        <constraint firstItem="ltZ-ox-sdI" firstAttribute="height" secondItem="jXn-V9-rym" secondAttribute="height" constant="-4" id="M5O-he-2Gr"/>
+                                                        <constraint firstItem="ltZ-ox-sdI" firstAttribute="leading" secondItem="jXn-V9-rym" secondAttribute="leading" constant="3" id="i63-LJ-cLg"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -311,6 +312,7 @@
                     </view>
                     <connections>
                         <outlet property="bottomLine" destination="rb6-NR-o9v" id="B6O-AV-U5S"/>
+                        <outlet property="bottomView" destination="6Eu-rc-vop" id="2fI-rI-Htl"/>
                         <outlet property="sureBtn" destination="fTq-g8-Rqo" id="aWd-s5-yaE"/>
                         <outlet property="tableView" destination="81Y-GO-GnL" id="byj-AB-je5"/>
                     </connections>

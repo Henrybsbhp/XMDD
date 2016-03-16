@@ -11,15 +11,20 @@
 #import "HKArrowView.h"
 #import "CKLine.h"
 #import "NSString+RectSize.h"
+#import "GetCooperationContractDetailOp.h"
+#import "MutualInsContract.h"
 
 
 @interface MutualInsOrderInfoVC ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *sureBtn;
 @property (weak, nonatomic) IBOutlet CKLine *bottomLine;
 
 @property (nonatomic,strong)NSArray * datasource;
+
+@property (nonatomic,strong)MutualInsContract * contract;
 
 @end
 
@@ -33,20 +38,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.datasource = @[@{@"id":@"ProgressCell"},
-  @{@"id":@"InfoCell",@"title":@"协议受益人",@"content":@"傅琦"},
-  @{@"id":@"InfoCell",@"title":@"投保车辆",@"content":@"浙AY617V",@"tag":@"原价$1000,优惠￥100"},
-  @{@"id":@"ItemHeaderCell",@"title":@"服务项目",@"content":@"保险金额"},
-  @{@"id":@"ItemCell",@"title":@"机动车损失险",@"content":@"1230,000.00"},
-  @{@"id":@"ItemCell",@"title":@"车上人员座位险(机动车交通强制保险第第三者)",@"content":@"5000,000.00/每座"},
-  @{@"id":@"ItemCell",@"title":@"第三者责任险",@"content":@"5000,000.00"},
-  @{@"id":@"SwitchCell",@"insSelected":@(1),@"content":@"保险公司代购"},
-  @{@"id":@"ItemHeaderCell",@"title":@"保险内容",@"content":@"保险金额"},
-  @{@"id":@"ItemCell",@"title":@"交强险",@"content":@"950.00"},
-  @{@"id":@"ItemCell",@"title":@"车船税",@"content":@"550.00"}];
-    
     [self setupNavigationBar];
     [self setupUI];
+    
+    [self requestContractDetail];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -56,7 +51,9 @@
 
 #pragma mark - setup
 - (void)setupNavigationBar
-{}
+{
+    self.navigationItem.title = @"订单详情";
+}
 
 - (void)setupUI
 {
@@ -72,6 +69,90 @@
 - (void)nextAction
 {
     
+}
+
+- (void)requestContractDetail
+{
+    GetCooperationContractDetailOp * op = [[GetCooperationContractDetailOp alloc] init];
+    op.req_contractid = self.contractId;
+    [[[op rac_postRequest] initially:^{
+        
+        self.tableView.hidden = YES;
+        self.bottomView.hidden = YES;
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+    }] subscribeNext:^(GetCooperationContractDetailOp * rop) {
+        
+        self.tableView.hidden = NO;
+        self.bottomView.hidden = NO;
+        [self.view stopActivityAnimation];
+        
+        self.contract = rop.rsp_contractorder;
+        [self setupDateSource];
+        [self.tableView reloadData];
+        
+    } error:^(NSError *error) {
+        
+        @weakify(self)
+        self.tableView.hidden = YES;
+        self.bottomView.hidden = YES;
+        [self.view stopActivityAnimation];
+        [self.view showDefaultEmptyViewWithText:[NSString stringWithFormat:@"%@ \n点击再试一次",error.domain] tapBlock:^{
+            
+            @strongify(self)
+            [self requestContractDetail];
+        }];
+    }];
+}
+
+- (void)setupDateSource
+{
+    NSMutableArray * array = [NSMutableArray array];
+    
+    [array safetyAddObject:@{@"id":@"ProgressCell"}];
+    
+    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"互助团员",@"content":self.contract.insurancedname ?: @""}];
+    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"互助期限",@"content":self.contract.contractperiod ?: @""}];
+    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"证件号码",@"content":self.contract.idno ?: @""}];
+    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"互助车辆",@"content":self.contract.licencenumber ?: @""}];
+    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"共计费用",@"content":[NSString formatForPrice:self.contract.total],@"tag":self.contract.couponmoney ? [NSString stringWithFormat:@"优惠￥%@",[NSString formatForPrice:self.contract.couponmoney]] : @""}];
+    [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"服务项目",@"content":@"保险金额"}];
+    
+    for (NSDictionary * subIns in self.contract.inslist)
+    {
+        NSString * insName = subIns[@"insname"] ?: @"";
+        NSString * sum = subIns[@"sum"] ?: @"";
+        [array safetyAddObject:@{@"id":@"ItemCell",@"title":insName,@"content":sum}];
+    }
+    
+    if (self.contract.insperiod)
+    {
+        [array safetyAddObject:@{@"id":@"SwitchCell",@"insSelected":@(1),@"content":@"保险公司代购"}];
+        
+        [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"保险公司",@"content":self.contract.inscomp.firstObject ?: @""}];
+        [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"保险期限",@"content":self.contract.insperiod ?: @""}];
+        
+        [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"服务项目",@"content":@"保险金额"}];
+        
+        [array safetyAddObject:@{@"id":@"ItemCell",@"title":@"交强险",@"content":[NSString formatForPrice:self.contract.forcefee]}];
+        [array safetyAddObject:@{@"id":@"ItemCell",@"title":@"车船税",@"content":[NSString formatForPrice:self.contract.taxshipfee]}];
+    }
+    
+    self.datasource = [NSArray arrayWithArray:array];
+//    self.datasource = @[@{@"id":@"ProgressCell"},
+//                        @{@"id":@"InfoCell",@"title":@"互助团员",@"content":self.contract.insurancedname ?: @""},
+//                        @{@"id":@"InfoCell",@"title":@"互助期限",@"content":self.contract.contractperiod ?: @""},
+//                        @{@"id":@"InfoCell",@"title":@"证件号码",@"content":self.contract.idno ?: @""},
+//                        @{@"id":@"InfoCell",@"title":@"互助车辆",@"content":self.contract.licencenumber ?: @""},
+//                        @{@"id":@"InfoCell",@"title":@"共计费用",@"content":[NSString formatForPrice:self.contract.total],@"tag":self.contract.couponmoney ? [NSString stringWithFormat:@"优惠￥%@",[NSString formatForPrice:self.contract.couponmoney]] : @""},
+//                        @{@"id":@"ItemHeaderCell",@"title":@"服务项目",@"content":@"保险金额"},
+//                        @{@"id":@"ItemCell",@"title":@"机动车损失险",@"content":@"1230,000.00"},
+//                        @{@"id":@"ItemCell",@"title":@"车上人员座位险(机动车交通强制保险第第三者)",@"content":@"5000,000.00/每座"},
+//                        @{@"id":@"ItemCell",@"title":@"第三者责任险",@"content":@"5000,000.00"},
+//                        @{@"id":@"SwitchCell",@"insSelected":@(1),@"content":@"保险公司代购"},
+//                        @{@"id":@"ItemHeaderCell",@"title":@"保险内容",@"content":@"保险金额"},
+//                        @{@"id":@"ItemCell",@"title":@"交强险",@"content":@"950.00"},
+//                        @{@"id":@"ItemCell",@"title":@"车船税",@"content":@"550.00"}];
+
 }
 
 #pragma mark - Table view data source
@@ -98,7 +179,7 @@
     }
     else if ([cellId isEqualToString:@"InfoCell"])
     {
-        height = 27;
+        height = 25;
     }
     else if ([cellId isEqualToString:@"ItemHeaderCell"])
     {
@@ -241,8 +322,21 @@
     checkBtn.selected = [insSelected boolValue];
     lb.text = content;
     
+    @weakify(checkBtn)
     [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        @strongify(checkBtn)
+        checkBtn.selected = !checkBtn.selected;
+    }];
+    
+    [[RACObserve(checkBtn, selected) takeUntilForCell:cell] subscribeNext:^(NSNumber * number) {
+        
+        if ([number integerValue])
+        {
+        }
+        else
+        {
+        }
     }];
     
     return cell;

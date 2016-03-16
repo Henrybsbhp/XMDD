@@ -7,6 +7,8 @@
 @property (nonatomic,assign) int status;
 ///受益人
 @property (nonatomic,strong) NSString* insurancedname;
+///协议期限
+@property (nonatomic,strong) NSString* contractperiod;
 ///车牌
 @property (nonatomic,strong) NSString* licencenumber;
 ///证件号
@@ -27,6 +29,8 @@
 @property (nonatomic,strong) NSArray* inscomp;
 ///投保月份数
 @property (nonatomic,strong) NSString* totalmonth;
+///小马达达互助logo
+@property (nonatomic,strong) NSString* xmddlogo;
 
 
 + (instancetype)createWithJSONDict:(NSDictionary *)dict;
