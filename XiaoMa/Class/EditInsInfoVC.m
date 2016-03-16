@@ -24,6 +24,7 @@
 }
 
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *nextBtn;
 @property (nonatomic, strong) PictureRecord * idPictureRecord;
 @property (nonatomic, strong) PictureRecord * drivingLicensePictureRecord;
@@ -366,10 +367,12 @@
     [[[op rac_postRequest] initially:^{
         
         self.tableView.hidden = YES;
+        self.bottomView.hidden = YES;
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] subscribeNext:^(GetCooperationIdlicenseInfoOp * rop) {
         
         self.tableView.hidden = NO;
+        self.bottomView.hidden = NO;
         [self.view stopActivityAnimation];
         self.idPictureRecord.url = rop.rsp_idnourl;
         self.drivingLicensePictureRecord.url = rop.rsp_licenseurl;
@@ -380,7 +383,9 @@
         
         @weakify(self)
         self.tableView.hidden = YES;
-        [self.view showIndicatorTextWith:error.domain clickBlock:^(UIButton *sender) {
+        self.bottomView.hidden = YES;
+        [self.view stopActivityAnimation];
+        [self.view showDefaultEmptyViewWithText:[NSString stringWithFormat:@"%@ \n点击再试一次",error.domain] tapBlock:^{
             
             @strongify(self)
             [self requesLastIdLicenseInfo];
