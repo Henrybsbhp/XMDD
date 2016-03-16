@@ -12,6 +12,7 @@
 #import "UploadFileOp.h"
 #import "PhotoBrowserVC.h"
 #import "ScencePhotoVM.h"
+#import "GetSystemTimeOp.h"
 
 @interface ScencePhotoVC ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (strong, nonatomic) NSMutableArray *imgArr;
@@ -39,7 +40,24 @@
     {
         self.tableView.estimatedRowHeight = UITableViewAutomaticDimension;
     }
+    
+    [self test];
+    
 }
+
+-(void)test
+{
+    GetSystemTimeOp *op = [[GetSystemTimeOp alloc]init];
+    [[[op rac_postRequest]initially:^{
+        
+    }]subscribeNext:^(GetSystemTimeOp *op) {
+        NSLog(@"%@",op.rsp_systime.stringValue);
+    }error:^(NSError *error) {
+        NSLog(@"%@",error.domain);
+    }];
+}
+
+ 
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -75,7 +93,7 @@
 {
     if (indexPath.section == 0)
     {
-        return 180;
+        return 200;
     }
     else if (indexPath.section == 1)
     {
@@ -171,8 +189,7 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"takePhotoCell"];
     UIView *backgroundView = [cell viewWithTag:100];
-    backgroundView.layer.borderWidth = 1;
-    backgroundView.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
+    [self addBorder:backgroundView];
     return cell;
 }
 
@@ -180,8 +197,7 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"addPhotoCell"];
     UIView *view = [cell viewWithTag:100];
-    view.layer.borderWidth = 1;
-    view.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
+    [self addBorder:view];
     return cell;
 }
 
@@ -198,6 +214,13 @@
 }
 
 #pragma mark Utility
+
+
+-(void)addBorder:(UIView *)view
+{
+    view.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
+    view.layer.borderWidth = 1;
+}
 
 -(BOOL)canPush
 {
@@ -234,12 +257,18 @@
             [gToast showingWithText:@"正在上传"];
         });
         //        @ 叶志成 写op获得时间
-        return [self addPrinting:@"2016-3-11 15:33" InPhoto:img];
+        GetSystemTimeOp *op = [[GetSystemTimeOp alloc]init];
+        return [[op rac_postRequest] map:^id(GetSystemTimeOp *op) {
+            NSDateFormatter *format = [[NSDateFormatter alloc] init];
+            [format setDateFormat:@"yyyy.MM.dd HH:mm:ss"];
+            return [self addPrinting:[format stringFromDate:[NSDate dateWithUTS:op.rsp_systime]] InPhoto:img];
+        }];
+//        return [self addPrinting:@"2016-3-11 15:33" InPhoto:img];
     }] flattenMap:^RACStream *(UIImage *img) {
         //@ 叶志成 改op
         self.img = img;
         UploadFileOp *op = [UploadFileOp new];
-        op.req_fileType = UploadFileTypeDrivingLicenseAndOther;
+        op.req_fileType = UploadFileTypeMutualIns;
         NSData *data = UIImageJPEGRepresentation(img, 0.5);
         op.req_fileDataArray = [NSArray arrayWithObject:data];
         op.req_fileExtType = @"jpg";

@@ -342,6 +342,7 @@
 		4EA1CB231C969830006CCBEA /* ScencePhotoVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1CB211C969830006CCBEA /* ScencePhotoVM.m */; };
 		4EC6EA801C22A5480092BF6E /* HistoryCollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC6EA7F1C22A5480092BF6E /* HistoryCollectionVC.m */; };
 		4EED3ED71C97D65900EB081E /* ClaimAccountVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EED3ED61C97D65900EB081E /* ClaimAccountVC.m */; };
+		4EED3F211C98F90300EB081E /* GetSystemTimeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EED3F201C98F90300EB081E /* GetSystemTimeOp.m */; };
 		4EF12DED1C1EBC900098B8C6 /* SecondCarValuationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */; };
 		4EF94AF21C321D020092CB55 /* RescueCommentsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF01C321D020092CB55 /* RescueCommentsVC.m */; };
 		4EF94AF31C321D020092CB55 /* RescueHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF11C321D020092CB55 /* RescueHistoryViewController.m */; };
@@ -1386,6 +1387,8 @@
 		4EED3ED51C97D65900EB081E /* ClaimAccountVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClaimAccountVC.h; sourceTree = "<group>"; };
 		4EED3ED61C97D65900EB081E /* ClaimAccountVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClaimAccountVC.m; sourceTree = "<group>"; };
 		4EED3EDF1C982F5900EB081E /* ScencePhotoVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScencePhotoVM.h; sourceTree = "<group>"; };
+		4EED3F1F1C98F90300EB081E /* GetSystemTimeOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetSystemTimeOp.h; sourceTree = "<group>"; };
+		4EED3F201C98F90300EB081E /* GetSystemTimeOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetSystemTimeOp.m; sourceTree = "<group>"; };
 		4EF12DEB1C1EBC900098B8C6 /* SecondCarValuationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondCarValuationVC.h; sourceTree = "<group>"; };
 		4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondCarValuationVC.m; sourceTree = "<group>"; };
 		4EF94AF01C321D020092CB55 /* RescueCommentsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescueCommentsVC.m; sourceTree = "<group>"; };
@@ -4468,6 +4471,8 @@
 				6B16D6381C92CBD600322B70 /* GetCooperationMyGroupOp.m */,
 				6B16D63D1C95517000322B70 /* GetCooperationAutoGroupOp.h */,
 				6B16D63E1C95517000322B70 /* GetCooperationAutoGroupOp.m */,
+				4EED3F1F1C98F90300EB081E /* GetSystemTimeOp.h */,
+				4EED3F201C98F90300EB081E /* GetSystemTimeOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -5195,6 +5200,7 @@
 				1814F6581B96D56E001F2D76 /* CarListSubView.m in Sources */,
 				6BEA56C61AE24DCE000D19C1 /* NSString+SBJSON.m in Sources */,
 				189B30D41AD799AF001D7288 /* RACSignal+Extension.m in Sources */,
+				4EED3F211C98F90300EB081E /* GetSystemTimeOp.m in Sources */,
 				6BCF62511B184AEF0064AE32 /* NJKWebViewProgressView.m in Sources */,
 				6B5E0C1D1BFC8582002869D7 /* GetGeneralActivityLefttimeOp.m in Sources */,
 				1833F5881BCD373B000E1DA1 /* GasChargeRecord.m in Sources */,

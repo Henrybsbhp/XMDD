@@ -9,7 +9,7 @@
 #import "ClaimAccountVC.h"
 
 @interface ClaimAccountVC ()<UITableViewDelegate,UITableViewDataSource>
-@property (strong, nonatomic) IBOutlet UIButton *addBtn;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -17,86 +17,142 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupUI];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
--(void)setupUI
-{
-    self.addBtn.layer.cornerRadius = 5;
-    self.addBtn.layer.masksToBounds = YES;
-}
-
 #pragma mark UITableViewDataSource
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 7;
+    return 2;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    if (section == 0)
+    {
+        return 2;
+    }
+    else
+    {
+        return 5;
+    }
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-    if (indexPath.section == 0 || indexPath.section == 3)
+    if (indexPath.row == 0)
     {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"titleCell"];
-        UILabel *titleLb = [cell viewWithTag:100];
-        titleLb.text = indexPath.section == 0 ? @"已有账户" : @"添加其他理赔账户";
+        cell = [self titleCellForRowAtIndexPath:indexPath];
     }
-    else if(indexPath.section == 1 || indexPath.section == 2)
+    else if(indexPath.section == 0 && indexPath.row == 1)
     {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"selectCell"];
-        UIImageView *img = [cell viewWithTag:100];
-        UILabel *cardNumLb = [cell viewWithTag:101];
-        cardNumLb.layer.cornerRadius = 3;
-        cardNumLb.layer.masksToBounds = YES;
-        cardNumLb.backgroundColor = [UIColor colorWithHex:@"#f7f7f8" alpha:1];
+        cell = [self cardCellForRowAtIndexPath:indexPath];
     }
-    else if (indexPath.section == 4 || indexPath.section ==5)
+    else if ((indexPath.row == 1 && indexPath.section == 1) || indexPath.row == 2 )
     {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"inputCell"];
-        UITextField *textField = [cell viewWithTag:100];
-        textField.placeholder = indexPath.section == 4 ? @"请输入银行卡号":@"请再次输入银行卡号";
-        textField.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
-        textField.layer.borderWidth = 1;
+        cell = [self inputCellForRowAtIndexPath:indexPath];
     }
-    else
+    else if (indexPath.row == 3)
     {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"chooseCell"];
-        UIView *backgroundView = [cell viewWithTag:100];
-        backgroundView.layer.borderWidth = 1;
-        backgroundView.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
+        cell = [self chooseCellForRowAtIndexPath:indexPath];
     }
+    else if (indexPath.row == 4)
+    {
+        cell = [self commitCellForRowAtIndexPath:indexPath];
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
+-(UITableViewCell *)titleCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"titleCell"];
+    UILabel *titleLb = [cell viewWithTag:100];
+    titleLb.text = indexPath.section == 0 ? @"已有账户" : @"添加其他理赔账户";
+    return cell;
+}
+
+-(UITableViewCell *)cardCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [self.tableView dequeueReusableCellWithIdentifier:@"cardCell"];
+}
+
+-(UITableViewCell *)inputCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"inputCell"];
+    UITextField *textField = [cell viewWithTag:100];
+    textField.placeholder = indexPath.row == 1 ? @"请输入银行卡号":@"请再次输入银行卡号";
+    [self addBorder:textField];
+    return cell;
+}
+
+-(UITableViewCell *)chooseCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"chooseCell"];
+    UIView *backgroundView = [cell viewWithTag:100];
+    [self addBorder:backgroundView];
+    return cell;
+}
+
+-(UITableViewCell *)commitCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"commitCell"];
+    UIButton *btn = [cell viewWithTag:100];
+    btn.layer.cornerRadius = 5;
+    btn.layer.masksToBounds = YES;
+    return cell;
+}
+
+#pragma mark UITableViewDelegate
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0)
+    if (indexPath.row == 0)
     {
-        return 44;
-    }
-    else if (indexPath.section == 1 || indexPath.section == 2)
-    {
-        return 55;
-    }
-    else if (indexPath.section == 4 || indexPath.section == 5 || indexPath.section == 6)
-    {
-        return 60;
+        return 48;
     }
     else
     {
-        return 50;
+        return 60;
     }
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (section == 0)
+    {
+        return 5;
+    }
+    return CGFLOAT_MIN;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 1)
+    {
+        return 5;
+    }
+    return CGFLOAT_MIN;
+}
+
+#pragma mark Action
+
+- (IBAction)callAction:(id)sender {
+    NSString * number = @"4007111111";
+    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+}
+
+#pragma mark Utility
+
+-(void)addBorder:(UIView *)view
+{
+    view.layer.borderWidth = 1;
+    view.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
 }
 
 @end

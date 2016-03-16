@@ -6,6 +6,8 @@
 //  Copyright © 2016年 RockyYe. All rights reserved.
 //
 
+#define kWidth self.rect.size.width / 1.414
+
 #import "HKInclinedLabel.h"
 
 @interface HKInclinedLabel ()
@@ -41,7 +43,7 @@
 {
     if (!_label)
     {
-        _label = [[UILabel alloc]initWithFrame:CGRectMake(self.rect.size.width * 0.5, 0, self.rect.size.width / 1.414 ,  0.5 / 1.414 * self.rect.size.width)];
+        _label = [[UILabel alloc]initWithFrame:CGRectMake(self.rect.size.width * 0.5, 0, kWidth ,  0.5 * kWidth)];
         [self configLabelTransition];
         [self configLabelProperty];
     }
@@ -56,14 +58,14 @@
     CGPoint transition;
     transition.x = newOrigin.x - oldOrigin.x;
     transition.y = newOrigin.y - oldOrigin.y;
-    _label.center = CGPointMake (_label.center.x - transition.x, _label.center.y - transition.y);
+    _label.center = CGPointMake (_label.center.x - transition.x + kWidth * 0.01 , _label.center.y - transition.y - kWidth * 0.01);
+    
     _label.transform = CGAffineTransformRotate(self.label.transform, M_PI_4);
 }
 
 -(void)configLabelProperty
 {
     _label.text = self.text;
-    _label.textAlignment = NSTextAlignmentCenter;
     _label.textColor = self.textColor;
     if (self.fontSize == 0)
     {
@@ -74,7 +76,7 @@
         [_label setAdjustsFontSizeToFitWidth:NO];
         _label.font = [UIFont systemFontOfSize:self.fontSize];
     }
-    
+    _label.textAlignment = NSTextAlignmentCenter;
     
 }
 

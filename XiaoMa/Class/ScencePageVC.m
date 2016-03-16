@@ -107,13 +107,10 @@
  */
 -(void)setupUI
 {
-    self.nextStepBtn.layer.cornerRadius = 5;
-    self.nextStepBtn.layer.masksToBounds = YES;
-    self.lastStepBtn.layer.cornerRadius = 5;
-    self.lastStepBtn.layer.masksToBounds = YES;
-    self.lastStepBtn.layer.borderColor = [[UIColor colorWithHex:@"#18D06A" alpha:1]CGColor];
-    self.lastStepBtn.borderWidth = 1;
-    
+    [self addCorner:self.nextStepBtn];
+    [self addCorner:self.lastStepBtn];
+    [self addBorder:self.lastStepBtn];
+
     UIBarButtonItem *backBtnItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cm_nav_back"] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
     self.navigationItem.leftBarButtonItem = backBtnItem;
 }
@@ -181,6 +178,19 @@
     }error:^(NSError *error) {
         [self.view stopActivityAnimation];
     }];
+}
+
+#pragma mark Utility
+-(void)addCorner:(UIView *)view
+{
+    view.layer.cornerRadius = 5;
+    view.layer.masksToBounds = YES;
+}
+
+-(void)addBorder:(UIView *)view
+{
+    view.layer.borderColor = [[UIColor colorWithHex:@"#18D06A" alpha:1]CGColor];
+    view.layer.borderWidth = 1;
 }
 
 #pragma mark Action
