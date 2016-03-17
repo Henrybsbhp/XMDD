@@ -21,6 +21,8 @@
 
 @property (strong, nonatomic) ScencePhotoVM *scencePhotoVM;
 
+@property (nonatomic) NSInteger maxCount;
+
 @end
 
 @implementation ScencePhotoVC
@@ -32,7 +34,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.maxCount = [self.scencePhotoVM maxPhotoNumForIndex:self.index];
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        self.tableView.estimatedRowHeight = UITableViewAutomaticDimension;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -47,6 +53,11 @@
     if (self.imgArr.count == 0)
     {
         return 3;
+    }
+    else if (self.imgArr.count == self.maxCount)
+    {
+        NSInteger count = self.imgArr.count + 2;
+        return count;
     }
     else
     {
@@ -84,11 +95,11 @@
     }
 }
 
-
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return UITableViewAutomaticDimension;
 }
+
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -100,7 +111,7 @@
     {
         [self takePhoto];
     }
-    else if (self.imgArr.count != 0)
+    else if (self.imgArr.count != 0 && indexPath.section > 1)
     {
         PhotoBrowserVC *photoBrowserVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"PhotoBrowserVC"];
         photoBrowserVC.img = [self.imgArr safetyObjectAtIndex:indexPath.section - 2];
