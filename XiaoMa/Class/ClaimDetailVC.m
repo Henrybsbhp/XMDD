@@ -133,14 +133,22 @@
         UILabel *conditionLb = [cell viewWithTag:103];
         UILabel *reasonLb = [cell viewWithTag:104];
         
-        timeLb.text = self.accidenttime.length ? [NSString stringWithFormat:@"%@",[format dateFromString:self.accidenttime]] : @" ";
+        timeLb.text = self.accidenttime.length ? self.accidenttime : @" ";
         locationLb.text = self.accidentaddress.length ? self.accidentaddress : @" ";
         dutyLb.text = self.chargepart.length ? self.chargepart : @" ";
         conditionLb.text = self.cardmgdesc.length ? self.cardmgdesc : @" ";
         reasonLb.text = self.reason.length ? self.reason : @" ";
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+//    @叶志成 写银行卡选择页面
+    
+}
+
 
 #pragma mark UITableViewDelegate
 
@@ -208,6 +216,7 @@
         {
             self.bottomView.hidden = YES;
         }
+        [self.tableView reloadData];
     }error:^(NSError *error) {
         [self.view stopActivityAnimation];
     }];

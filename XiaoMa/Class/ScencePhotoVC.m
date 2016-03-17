@@ -40,21 +40,7 @@
     {
         self.tableView.estimatedRowHeight = UITableViewAutomaticDimension;
     }
-    
-    [self test];
-    
-}
-
--(void)test
-{
-    GetSystemTimeOp *op = [[GetSystemTimeOp alloc]init];
-    [[[op rac_postRequest]initially:^{
         
-    }]subscribeNext:^(GetSystemTimeOp *op) {
-        NSLog(@"%@",op.rsp_systime.stringValue);
-    }error:^(NSError *error) {
-        NSLog(@"%@",error.domain);
-    }];
 }
 
  
@@ -258,12 +244,9 @@
         });
         //        @ 叶志成 写op获得时间
         GetSystemTimeOp *op = [[GetSystemTimeOp alloc]init];
-        return [[op rac_postRequest] map:^id(GetSystemTimeOp *op) {
-            NSDateFormatter *format = [[NSDateFormatter alloc] init];
-            [format setDateFormat:@"yyyy.MM.dd HH:mm:ss"];
-            return [self addPrinting:[format stringFromDate:[NSDate dateWithUTS:op.rsp_systime]] InPhoto:img];
+        return [[op rac_postRequest] flattenMap:^id(GetSystemTimeOp *op) {
+            return [self addPrinting:op.rsp_systime InPhoto:img];
         }];
-//        return [self addPrinting:@"2016-3-11 15:33" InPhoto:img];
     }] flattenMap:^RACStream *(UIImage *img) {
         //@ 叶志成 改op
         self.img = img;

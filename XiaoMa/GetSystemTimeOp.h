@@ -10,6 +10,6 @@
 
 @interface GetSystemTimeOp : BaseOp
 
-@property (nonatomic,strong) NSNumber *rsp_systime;
+@property (nonatomic,strong) NSString *rsp_systime;
 
 @end

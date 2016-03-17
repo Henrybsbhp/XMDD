@@ -6,7 +6,7 @@
 //  Copyright © 2016年 RockyYe. All rights reserved.
 //
 
-#define kWidth self.rect.size.width / 1.414
+#define kWidth (self.rect.size.width / 2)
 
 #import "HKInclinedLabel.h"
 
@@ -22,7 +22,6 @@
 - (void)drawRect:(CGRect)rect {
     self.rect = rect;
     [self drawTrapeziumWithRect:rect];
-    
 }
 
 -(void)drawTrapeziumWithRect:(CGRect)rect
@@ -43,9 +42,12 @@
 {
     if (!_label)
     {
-        _label = [[UILabel alloc]initWithFrame:CGRectMake(self.rect.size.width * 0.5, 0, kWidth ,  0.5 * kWidth)];
+        CGFloat width = (double)kWidth * sqrt(2.0);
+        CGFloat height = (double)kWidth / sqrt(2.0);
+        _label = [[UILabel alloc]initWithFrame:CGRectMake(self.rect.size.width * 0.5, 0, width , height)];
         [self configLabelTransition];
         [self configLabelProperty];
+        _label.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
     }
     return _label;
 }
@@ -58,7 +60,7 @@
     CGPoint transition;
     transition.x = newOrigin.x - oldOrigin.x;
     transition.y = newOrigin.y - oldOrigin.y;
-    _label.center = CGPointMake (_label.center.x - transition.x + kWidth * 0.01 , _label.center.y - transition.y - kWidth * 0.01);
+    _label.center = CGPointMake (_label.center.x - transition.x, _label.center.y - transition.y);
     
     _label.transform = CGAffineTransformRotate(self.label.transform, M_PI_4);
 }

@@ -49,7 +49,8 @@
     [self addCorner:cell];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     HKInclinedLabel *hkLabel = [cell viewWithTag:101];
-    hkLabel.text = model.statusdesc;
+    hkLabel.text = @"理赔技术";
+    NSLog(@"%lf",hkLabel.frame.size.width);
     hkLabel.backgroundColor = [UIColor clearColor];
     if (model.detailstatus < 3)
     {
@@ -75,7 +76,7 @@
     
     UILabel *timeLabel = [cell viewWithTag:1005];
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [format setDateFormat:@"yyyy.MM.dd HH:mm:ss"];
     timeLabel.text = [format stringFromDate:[NSDate dateWithUTS:model.lstupdatetime]];
     return cell;
 }
