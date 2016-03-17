@@ -48,9 +48,9 @@
 //    self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
 //    [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     
-//    self.cipherForCopy = @"123456";
-//    self.wordForShare = @"这里是分享口令，暗号：123456";
-    [self requestInviteInfo];
+    self.cipherForCopy = @"123456";
+    self.wordForShare = @"这里是分享口令，暗号：123456";
+//    [self requestInviteInfo];
 }
 
 - (void)requestInviteInfo
