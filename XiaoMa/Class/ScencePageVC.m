@@ -174,7 +174,7 @@
 -(void)back
 {
     ScencePhotoVC *scencePhotoVC = self.viewArr.firstObject;
-    if ([scencePhotoVC canPush])
+    if (![[scencePhotoVC canPush] isEqualToString:@"请先拍照"])
     {
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"请确认是否返回?" message:@"并放弃当前所拍摄的照片" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         [alertView show];
@@ -205,14 +205,14 @@
     
     ScencePhotoVC *scencePhotoVC = self.pageVC.viewControllers.firstObject;
     NSInteger index = [self.viewArr indexOfObject:scencePhotoVC];
-    if ([scencePhotoVC canPush] && index != self.viewArr.count - 1)
+    if ([scencePhotoVC canPush].length == 0 && index != self.viewArr.count - 1)
     {
         [self.pageVC setViewControllers:@[[self.viewArr safetyObjectAtIndex:index + 1] ] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
         [self setSelectedIndex];
     }
     else if([scencePhotoVC canPush].length != 0)
     {
-        [gToast showMistake:@"请先拍照"];
+        [gToast showMistake:[scencePhotoVC canPush]];
     }
     else
     {

@@ -413,6 +413,10 @@
                                                         <constraint firstAttribute="height" constant="10" id="NGS-G3-5bQ"/>
                                                     </constraints>
                                                 </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cgs-Iq-4fa">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="165"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                </view>
                                                 <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EnA-Ui-Cvr">
                                                     <rect key="frame" x="540" y="10" width="20" height="20"/>
                                                     <constraints>
@@ -423,6 +427,7 @@
                                                 </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="EnA-Ui-Cvr" firstAttribute="leading" secondItem="cgs-Iq-4fa" secondAttribute="trailing" id="3pX-bg-VbS"/>
                                                 <constraint firstItem="EnA-Ui-Cvr" firstAttribute="top" secondItem="lUo-qE-ZIN" secondAttribute="top" constant="10" id="6Wj-9n-oDM"/>
                                                 <constraint firstAttribute="trailing" secondItem="SaL-xL-jke" secondAttribute="trailing" constant="30" id="IW9-bE-aYc"/>
                                                 <constraint firstAttribute="trailing" secondItem="EnA-Ui-Cvr" secondAttribute="trailing" constant="40" id="KCG-Oa-UUb"/>
@@ -430,9 +435,20 @@
                                                 <constraint firstAttribute="trailing" secondItem="BiD-Xy-dto" secondAttribute="trailing" id="OaC-9W-GcA"/>
                                                 <constraint firstAttribute="bottom" secondItem="SaL-xL-jke" secondAttribute="bottom" id="SjC-Xf-I1a"/>
                                                 <constraint firstItem="BiD-Xy-dto" firstAttribute="leading" secondItem="lUo-qE-ZIN" secondAttribute="leading" id="YY8-bW-7wY"/>
+                                                <constraint firstAttribute="trailing" secondItem="cgs-Iq-4fa" secondAttribute="trailing" id="ZvG-L6-dNy"/>
                                                 <constraint firstItem="SaL-xL-jke" firstAttribute="leading" secondItem="lUo-qE-ZIN" secondAttribute="leading" constant="30" id="esZ-a2-0Rx"/>
+                                                <constraint firstAttribute="bottom" secondItem="cgs-Iq-4fa" secondAttribute="bottom" id="fax-Gt-iBz"/>
+                                                <constraint firstItem="cgs-Iq-4fa" firstAttribute="top" secondItem="lUo-qE-ZIN" secondAttribute="top" id="hwS-Jo-6nb"/>
+                                                <constraint firstItem="cgs-Iq-4fa" firstAttribute="leading" secondItem="lUo-qE-ZIN" secondAttribute="leading" id="pbl-RR-Qbp"/>
+                                                <constraint firstItem="BiD-Xy-dto" firstAttribute="top" secondItem="cgs-Iq-4fa" secondAttribute="bottom" id="sZX-OX-VBi"/>
                                                 <constraint firstItem="SaL-xL-jke" firstAttribute="top" secondItem="lUo-qE-ZIN" secondAttribute="top" id="zB9-Mi-lMd"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="sZX-OX-VBi"/>
+                                                    <exclude reference="3pX-bg-VbS"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>

@@ -13,6 +13,7 @@
 #import "ScencePageVC.h"
 #import "GetCooperationMyCarOp.h"
 #import "ChooseCarVC.h"
+#import "ScencePhotoVM.h"
 
 @interface AskClaimsVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -163,6 +164,7 @@
 -(void)scenePageSectionAction
 {
     [self getCarListData];
+    [[ScencePhotoVM sharedManager]getNoticeArr];
     
 }
 

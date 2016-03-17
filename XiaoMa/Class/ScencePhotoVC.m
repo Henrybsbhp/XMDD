@@ -19,7 +19,7 @@
 @interface ScencePhotoVC ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 @property (nonatomic,strong)NSMutableArray * recordArray;
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
+
 
 @property (strong, nonatomic) ScencePhotoVM *scencePhotoVM;
 
@@ -41,10 +41,9 @@
     {
         self.tableView.estimatedRowHeight = UITableViewAutomaticDimension;
     }
-        
+    
 }
 
- 
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -95,12 +94,6 @@
         return 165;
     }
 }
-
--(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return UITableViewAutomaticDimension;
-}
-
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -199,7 +192,7 @@
         hkimageview.tag = 10101;
         [view addSubview:hkimageview];
     }
-
+    
     PictureRecord * record = [self.recordArray safetyObjectAtIndex:indexPath.section - 2];
     [[[hkimageview.reuploadButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntilForCell:cell] subscribeNext:^(id x) {
         
@@ -237,7 +230,7 @@
         record.url = [op.rsp_urlArray safetyObjectAtIndex:0];
     } error:^(NSError *error) {
         @strongify(imageView)
-         [imageView showMaskView];
+        [imageView showMaskView];
         record.isUploading = NO;
         record.needReupload = NO;
     }];
@@ -254,12 +247,19 @@
 
 -(NSString *)canPush
 {
-    for (PictureRecord * rc in self.recordArray)
+    if (self.recordArray.count != 0)
     {
-        if (rc.isUploading)
+        for (PictureRecord * rc in self.recordArray)
         {
-            return @"图片正在上传，请稍后";
+            if (rc.isUploading)
+            {
+                return @"图片正在上传，请稍后";
+            }
         }
+    }
+    else if (self.recordArray.count == 0)
+    {
+        return @"请先拍照";
     }
     return @"";
 }
@@ -289,7 +289,7 @@
     HKImagePicker *picker = [HKImagePicker imagePicker];
     picker.compressedSize = CGSizeMake(1024, 1024);
     [[[picker rac_pickImageInTargetVC:self inView:self.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
-
+        
         GetSystemTimeOp *op = [[GetSystemTimeOp alloc]init];
         return [[op rac_postRequest] flattenMap:^id(GetSystemTimeOp *op) {
             return [self addPrinting:op.rsp_systime InPhoto:img];

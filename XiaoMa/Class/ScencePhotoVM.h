@@ -23,4 +23,7 @@
 -(void)deleteAllInfo;
 
 + (instancetype)sharedManager;
+
+-(void)getNoticeArr;
+
 @end
