@@ -49,7 +49,7 @@
     [self addCorner:cell];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     HKInclinedLabel *hkLabel = [cell viewWithTag:101];
-    hkLabel.text = @"理赔技术";
+    hkLabel.text = model.statusdesc;
     NSLog(@"%lf",hkLabel.frame.size.width);
     hkLabel.backgroundColor = [UIColor clearColor];
     if (model.detailstatus < 3)
@@ -70,7 +70,6 @@
     detaiLabel.text = [NSString stringWithFormat:@"事故概述：%@",model.accidentdesc];
     UILabel *priceLabel = [cell viewWithTag:1003];
     priceLabel.text = [NSString formatForPriceWithFloat:model.claimfee];
-    
     UILabel *statusLabel = [cell viewWithTag:1004];
     statusLabel.text = model.detailstatusdesc;
     

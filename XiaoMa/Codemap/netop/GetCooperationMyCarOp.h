@@ -4,7 +4,7 @@
 
 
 ///车牌,字符串数组
-@property (nonatomic,strong) NSArray* rsp_licensenumbers;
+@property (strong, nonatomic) NSArray *rsp_reports;
 
 
 @end

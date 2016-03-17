@@ -13,6 +13,7 @@
 #import "ScencePhotoVM.h"
 #import "GetCooperationMyCarOp.h"
 #import "ApplyCooperationClaimOp.h"
+#import "ChooseCarVC.h"
 
 
 #define kOneBtnWidth self.view.bounds.size.width - 30
@@ -29,7 +30,7 @@
 @property (nonatomic,strong) UIPageViewController *pageVC;
 @property (nonatomic,strong) NSArray *viewArr;
 
-@property (nonatomic, strong) NSNumber *licensenumber;
+
 @property (nonatomic, strong) NSString *scene;
 @property (nonatomic, strong) NSString *cardamage;
 @property (nonatomic, strong) NSString *carinfo;
@@ -62,7 +63,6 @@
     [self setupUI];
     [self setSelectedIndex];
     [self configProgressView];
-    [self getCarData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -127,7 +127,6 @@
     {
         [self.nextStepBtn setTitle:@"下一步" forState:UIControlStateNormal];
     }
-    
     if (index == 0)
     {
         self.lastStepBtn.hidden = YES;
@@ -156,29 +155,6 @@
     }
 }
 
--(void)getCarData
-{
-    GetCooperationMyCarOp *op = [[GetCooperationMyCarOp alloc]init];
-    [[[op rac_postRequest]initially:^{
-        [self.view startActivityAnimationWithType:MONActivityIndicatorType];
-    }]subscribeNext:^(GetCooperationMyCarOp *op) {
-        if (op.rsp_licensenumbers.count == 1)
-        {
-            self.licensenumber = op.rsp_licensenumbers.firstObject;
-        }
-        else if (op.rsp_licensenumbers.count > 1)
-        {
-//            @叶志成 添加选车页面
-        }
-        else
-        {
-            [gToast showMistake:@"获取您的爱车失败"];
-        }
-        [self.view stopActivityAnimation];
-    }error:^(NSError *error) {
-        [self.view stopActivityAnimation];
-    }];
-}
 
 #pragma mark Utility
 -(void)addCorner:(UIView *)view
@@ -234,7 +210,7 @@
         [self.pageVC setViewControllers:@[[self.viewArr safetyObjectAtIndex:index + 1] ] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
         [self setSelectedIndex];
     }
-    else if(![scencePhotoVC canPush])
+    else if([scencePhotoVC canPush].length != 0)
     {
         [gToast showMistake:@"请先拍照"];
     }
@@ -245,7 +221,7 @@
         self.carinfo = [[self.scencePhotoVM urlArrForIndex:2]componentsJoinedByString:@","];
         self.idinfo = [[self.scencePhotoVM urlArrForIndex:3]componentsJoinedByString:@","];
         ApplyCooperationClaimOp *op = [[ApplyCooperationClaimOp alloc]init];
-        op.req_licensenumber = self.licensenumber.stringValue;
+        op.req_claimid = self.claimid;
         op.req_scene = self.scene;
         op.req_cardamage = self.cardamage;
         op.req_carinfo = self.carinfo;
