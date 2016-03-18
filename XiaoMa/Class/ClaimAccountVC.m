@@ -8,7 +8,7 @@
 
 #import "ClaimAccountVC.h"
 #import "GetCooperationClaimBankcardOp.h"
-
+#import "ChooseBankVC.h"
 @interface ClaimAccountVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *dataArr;
@@ -29,18 +29,32 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    if (self.dataArr.count == 0)
+    {
+        return 1;
+    }
+    else
+    {
+        return 2;
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0)
+    if (self.dataArr.count == 0)
     {
-        return 1 + self.dataArr.count;
+        return 5;
     }
     else
     {
-        return 5;
+        if (section == 0)
+        {
+            return 1 + self.dataArr.count;
+        }
+        else
+        {
+            return 5;
+        }
     }
 }
 
@@ -51,11 +65,11 @@
     {
         cell = [self titleCellForRowAtIndexPath:indexPath];
     }
-    else if(indexPath.section == 0 && indexPath.row == 1 && self.dataArr.count != 0)
+    else if(indexPath.section == 0 && indexPath.row == 1 && self.dataArr.count != 0 )
     {
         cell = [self cardCellForRowAtIndexPath:indexPath];
     }
-    else if ((indexPath.row == 1 && indexPath.section == 1) || indexPath.row == 2 )
+    else if ((indexPath.row == 1 && self.dataArr.count == 0 && indexPath.section == 0) || indexPath.row == 2 )
     {
         cell = [self inputCellForRowAtIndexPath:indexPath];
     }
@@ -117,6 +131,15 @@
 }
 
 #pragma mark UITableViewDelegate
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 3)
+    {
+        ChooseBankVC *chooseBankVC = [UIStoryboard vcWithId:@"ChooseBankVC" inStoryboard:@"MutualInsClaims"];
+        [self.navigationController pushViewController:chooseBankVC animated:YES];
+    }
+}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

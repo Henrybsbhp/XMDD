@@ -80,7 +80,8 @@
     }
     else if (indexPath.section == 1 )
     {
-        if (IOSVersionGreaterThanOrEqualTo(@"8.0")) {
+        if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+        {
             return UITableViewAutomaticDimension;
         }
         else
