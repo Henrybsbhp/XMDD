@@ -7,12 +7,12 @@
 //
 
 #import "HKTableViewCell.h"
+#import "MutualInsMemberInfo.h"
 
 @interface MutualInsGrouponCarsCell : HKTableViewCell
 
-///每个cars元素都为NSDictionary，@{@"title":@"浙A12345",@"img":@"http://xxxx.png"}
 @property (nonatomic, strong, readonly) NSArray *cars;
-@property (nonatomic, copy) void(^carDidSelectedBlock)(NSDictionary *selectCar);
+@property (nonatomic, copy) void(^carDidSelectedBlock)(MutualInsMemberInfo *selectCar);
 
 - (void)setupWithCellBounds:(CGRect)bounds;
 - (void)setCars:(NSArray *)cars;
