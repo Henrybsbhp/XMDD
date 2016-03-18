@@ -12,7 +12,7 @@
 
 - (instancetype)parseResponseObject:(id)rspObj
 {
-    NSDictionary *dict = rspObj;
+    NSDictionary *dict = rspObj[@"contractorder"];
     self.rsp_contractorder = [MutualInsContract createWithJSONDict:dict];
 	
     return self;

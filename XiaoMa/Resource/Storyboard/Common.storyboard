@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -1052,13 +1052,173 @@
             </objects>
             <point key="canvasLocation" x="1617" y="-497"/>
         </scene>
+        <!--选择优惠券-->
+        <scene sceneID="1BU-MU-rmB">
+            <objects>
+                <viewController storyboardIdentifier="ChooseCouponVC" title="选择优惠券" id="tbh-h7-m7z" customClass="ChooseCouponVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gNC-Cl-Gmz"/>
+                        <viewControllerLayoutGuide type="bottom" id="Hqy-MD-3m4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="npK-bE-ZUx">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="90" sectionHeaderHeight="5" sectionFooterHeight="5" translatesAutoresizingMaskIntoConstraints="NO" id="mx3-2L-GUd">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="0.95908411609999999" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="sectionIndexBackgroundColor" white="0.95908411609999999" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="72f-qz-hal">
+                                    <rect key="frame" x="0.0" y="209" width="600" height="15"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TicketCell" rowHeight="90" id="Pic-dk-qF9" customClass="JTTableViewCell">
+                                        <rect key="frame" x="0.0" y="114" width="600" height="90"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Pic-dk-qF9" id="HYR-FM-uyX">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="90"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coupon_background" translatesAutoresizingMaskIntoConstraints="NO" id="DVh-u3-cln">
+                                                    <rect key="frame" x="10" y="0.0" width="580" height="80"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="80" id="qdE-ac-QzT"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CI_0,10,0,10"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" text="一分钱洗车券" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jXD-Nl-iqz">
+                                                    <rect key="frame" x="20" y="10" width="102" height="21"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="（小马达达新用户专享）" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Dk-Y7-8Rh">
+                                                    <rect key="frame" x="20" y="33" width="121" height="14"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="有效期：2014.05.01 - 2014.12.31" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ur-Mb-nwJ">
+                                                    <rect key="frame" x="20" y="61" width="171" height="14"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coupon_shadow" translatesAutoresizingMaskIntoConstraints="NO" id="zub-ec-GTT">
+                                                    <rect key="frame" x="10" y="56" width="580" height="24"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="24" id="GgF-im-OG8"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <imageView userInteractionEnabled="NO" tag="1005" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="G9W-hj-3Nd">
+                                                    <rect key="frame" x="528" y="6" width="44" height="44"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="44" id="Ovv-2h-4zn"/>
+                                                        <constraint firstAttribute="height" constant="44" id="RFe-9c-IfY"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" tag="1006" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="coupon_background" translatesAutoresizingMaskIntoConstraints="NO" id="WnR-jq-ku6" userLabel="coupon_bg2">
+                                                    <rect key="frame" x="10" y="1" width="580" height="80"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="80" id="hOM-ic-RpP"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CI_0,10,0,10"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </imageView>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" tag="1007" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cw_coupon_selected" translatesAutoresizingMaskIntoConstraints="NO" id="2dr-rW-Eov">
+                                                    <rect key="frame" x="287" y="29" width="27" height="22"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="27" id="37r-aA-9No"/>
+                                                        <constraint firstAttribute="height" constant="22" id="cbQ-Cm-dW1"/>
+                                                        <constraint firstAttribute="height" constant="74" id="grM-df-lfK"/>
+                                                    </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="grM-df-lfK"/>
+                                                        </mask>
+                                                    </variation>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="2Dk-Y7-8Rh" firstAttribute="top" secondItem="jXD-Nl-iqz" secondAttribute="bottom" constant="2" id="22L-j8-ybo"/>
+                                                <constraint firstAttribute="trailing" secondItem="zub-ec-GTT" secondAttribute="trailing" constant="10" id="4Mj-Tm-FtF"/>
+                                                <constraint firstItem="DVh-u3-cln" firstAttribute="leading" secondItem="HYR-FM-uyX" secondAttribute="leading" constant="10" id="8aZ-Z7-pba"/>
+                                                <constraint firstItem="jXD-Nl-iqz" firstAttribute="top" secondItem="HYR-FM-uyX" secondAttribute="top" constant="10" id="Ati-gT-twS"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="G9W-hj-3Nd" secondAttribute="trailing" constant="20" id="Dtq-es-uOK"/>
+                                                <constraint firstItem="3ur-Mb-nwJ" firstAttribute="top" secondItem="2Dk-Y7-8Rh" secondAttribute="bottom" id="GtQ-BX-t2q"/>
+                                                <constraint firstAttribute="centerX" secondItem="2dr-rW-Eov" secondAttribute="centerX" constant="-0.5" id="JtB-Hz-nQ3"/>
+                                                <constraint firstItem="WnR-jq-ku6" firstAttribute="top" secondItem="HYR-FM-uyX" secondAttribute="top" id="KNu-QS-gh0"/>
+                                                <constraint firstItem="3ur-Mb-nwJ" firstAttribute="bottom" secondItem="DVh-u3-cln" secondAttribute="bottom" constant="-5" id="OK3-Wg-4tq"/>
+                                                <constraint firstItem="G9W-hj-3Nd" firstAttribute="top" secondItem="HYR-FM-uyX" secondAttribute="top" constant="6" id="OOQ-PU-MmN"/>
+                                                <constraint firstAttribute="trailing" secondItem="WnR-jq-ku6" secondAttribute="trailing" constant="10" id="Tb5-Ax-RdR"/>
+                                                <constraint firstItem="zub-ec-GTT" firstAttribute="leading" secondItem="HYR-FM-uyX" secondAttribute="leading" constant="10" id="U7G-Do-2jv"/>
+                                                <constraint firstAttribute="centerY" secondItem="2dr-rW-Eov" secondAttribute="centerY" constant="4.75" id="Z8G-HF-Dvj"/>
+                                                <constraint firstItem="jXD-Nl-iqz" firstAttribute="leading" secondItem="DVh-u3-cln" secondAttribute="leading" constant="10" id="ZZJ-As-Qd4"/>
+                                                <constraint firstItem="WnR-jq-ku6" firstAttribute="leading" secondItem="HYR-FM-uyX" secondAttribute="leading" constant="10" id="fBC-Gc-eWA"/>
+                                                <constraint firstAttribute="bottom" secondItem="zub-ec-GTT" secondAttribute="bottom" constant="10" id="ffU-C2-I5I"/>
+                                                <constraint firstItem="3ur-Mb-nwJ" firstAttribute="leading" secondItem="DVh-u3-cln" secondAttribute="leading" constant="10" id="giJ-GP-GFd"/>
+                                                <constraint firstItem="3ur-Mb-nwJ" firstAttribute="leading" secondItem="2Dk-Y7-8Rh" secondAttribute="leading" id="mha-0Z-v9b"/>
+                                                <constraint firstAttribute="trailing" secondItem="DVh-u3-cln" secondAttribute="trailing" constant="10" id="qz0-q5-srv"/>
+                                                <constraint firstItem="DVh-u3-cln" firstAttribute="top" secondItem="HYR-FM-uyX" secondAttribute="top" id="s2n-ct-HKs"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="GtQ-BX-t2q"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="tbh-h7-m7z" id="gkD-T3-gTj"/>
+                                    <outlet property="delegate" destination="tbh-h7-m7z" id="Q8T-Rt-58j"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="mx3-2L-GUd" secondAttribute="trailing" id="dVR-nO-PC1"/>
+                            <constraint firstItem="mx3-2L-GUd" firstAttribute="leading" secondItem="npK-bE-ZUx" secondAttribute="leading" id="goM-G7-IgG"/>
+                            <constraint firstAttribute="bottom" secondItem="mx3-2L-GUd" secondAttribute="bottom" id="wDZ-Wg-Ane"/>
+                            <constraint firstItem="mx3-2L-GUd" firstAttribute="top" secondItem="npK-bE-ZUx" secondAttribute="top" id="zIA-fL-GIq"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="选择优惠券" id="41A-85-RfL">
+                        <barButtonItem key="rightBarButtonItem" image="coupon_more" id="3MV-aJ-QXJ">
+                            <color key="tintColor" red="0.1344757674" green="0.671875" blue="0.1314050806" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="getMoreAction:" destination="tbh-h7-m7z" id="EtG-AY-VZD"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="tableView" destination="mx3-2L-GUd" id="KQf-hM-fnz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tbk-51-0rW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1498" y="923"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Horizontaline" width="621" height="1"/>
         <image name="Horizontaline2" width="931" height="1"/>
         <image name="cancel_social" width="35" height="35"/>
+        <image name="coupon_background" width="297" height="73"/>
+        <image name="coupon_more" width="17" height="17"/>
+        <image name="coupon_shadow" width="297" height="20"/>
         <image name="cw_box2" width="17" height="17"/>
         <image name="cw_box3" width="17" height="17"/>
+        <image name="cw_coupon_selected" width="27" height="22"/>
         <image name="qq_logo" width="37" height="37"/>
         <image name="timeline_logo" width="37" height="37"/>
         <image name="wechat_logo" width="37" height="37"/>

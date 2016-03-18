@@ -13,12 +13,21 @@
 #import "MutualInsGrouponSubVC.h"
 #import "ExitCooperationOp.h"
 #import "MutualInsHomeVC.h"
+#import "GetCooperationMygroupDetailOp.h"
+#import "MutualInsOrderInfoVC.h"
+
 
 @interface MutualInsGrouponVC ()
+
 @property (nonatomic, weak) HKPopoverView *popoverMenu;
 @property (nonatomic, strong) AddCloseAnimationButton *menuButton;
 @property (weak, nonatomic) IBOutlet UIView *topSubView;
 @property (nonatomic, weak) MutualInsGrouponSubVC *topSubVC;
+
+/**
+ *  协议记录ID
+ */
+@property (nonatomic,strong)NSNumber * contractid;
 
 @end
 
@@ -30,6 +39,8 @@
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"史上最强团";
     [self setupNavigationBar];
+    
+    [self requestMyGroupDetail];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -97,6 +108,28 @@
 }
 
 #pragma mark - Utility
+- (void)requestMyGroupDetail
+{
+    GetCooperationMygroupDetailOp * op = [[GetCooperationMygroupDetailOp alloc] init];
+    op.req_groupid = self.group.groupId;
+    op.req_memberid = self.group.memberId;
+    
+    [[[op rac_postRequest] initially:^{
+        
+    }] subscribeNext:^(GetCooperationMygroupDetailOp * rop) {
+        
+        self.contractid = rop.rsp_contractid;
+        
+        MutualInsOrderInfoVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
+        vc.contractId = self.contractid;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    } error:^(NSError *error) {
+        
+    }];
+}
+
+
 - (void)requestExitGroup
 {
     ExitCooperationOp * op = [[ExitCooperationOp alloc] init];

@@ -4,7 +4,7 @@
 ///车牌
 @property (nonatomic,strong) NSString* licensenumber;
 ///车的品牌logo地址
-@property (nonatomic,strong) NSString* 车的品牌logo地址;
+@property (nonatomic,strong) NSString* brandurl;
 ///团员记录ID
 @property (nonatomic,strong) NSNumber* memberid;
 ///其他人的状态描述

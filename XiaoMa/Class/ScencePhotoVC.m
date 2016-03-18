@@ -78,9 +78,20 @@
     {
         return 200;
     }
-    else if (indexPath.section == 1)
+    else if (indexPath.section == 1 )
     {
-        return UITableViewAutomaticDimension;
+        if (IOSVersionGreaterThanOrEqualTo(@"8.0")) {
+            return UITableViewAutomaticDimension;
+        }
+        else
+        {
+            UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+            [cell layoutIfNeeded];
+            [cell setNeedsUpdateConstraints];
+            [cell updateConstraintsIfNeeded];
+            CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+            return ceil(size.height + 1);
+        }
     }
     else if (self.recordArray.count != 0 && indexPath.section == (2 + self.recordArray.count))
     {
@@ -96,10 +107,6 @@
     }
 }
 
--(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return UITableViewAutomaticDimension;
-}
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

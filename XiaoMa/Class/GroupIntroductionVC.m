@@ -10,7 +10,7 @@
 #import "AutoGroupInfoVC.h"
 #import "CarListVC.h"
 #import "ApplyCooperationGroupJoinOp.h"
-#import "EditInsInfoVC.h"
+#import "MutualInsPicUpdateVC.h"
 
 #define IntroUrl @"http://www.baidu.com"
 
@@ -136,7 +136,7 @@
         
         [gToast dismissInView:view];
         
-        EditInsInfoVC * vc = [UIStoryboard vcWithId:@"EditInsInfoVC" inStoryboard:@"MutualInsJoin"];
+        MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         

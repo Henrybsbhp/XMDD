@@ -168,14 +168,20 @@
         {
             return 43;
         }
+        
     }
-    return UITableViewAutomaticDimension;
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        return UITableViewAutomaticDimension;
+    }
+    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+    [cell layoutIfNeeded];
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
+    CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+    return ceil(size.height);
 }
 
--(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return UITableViewAutomaticDimension;
-}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -207,6 +213,7 @@
         self.reason = op.rsp_reason;
         self.claimfee = op.rsp_claimfee;
         self.cardid = op.rsp_cardid;
+        self.hasCard = op.rsp_cardid.integerValue == 0 ? NO : YES;
         self.cardname = op.rsp_cardname;
         if (self.status.integerValue == 2)
         {
@@ -239,6 +246,10 @@
     [self addBorder:self.disagreeBtn];
     self.tableView.tableFooterView = [UIView new];
     self.bottomView.hidden = YES;
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        self.tableView.estimatedRowHeight = UITableViewAutomaticDimension;
+    }
 }
 
 #pragma mark Utility
