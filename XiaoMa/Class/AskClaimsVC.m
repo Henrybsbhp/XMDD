@@ -11,6 +11,9 @@
 #import "ClaimsHistoryVC.h"
 #import "ScencePhotoVC.h"
 #import "ScencePageVC.h"
+#import "GetCooperationMyCarOp.h"
+#import "ChooseCarVC.h"
+#import "ScencePhotoVM.h"
 
 @interface AskClaimsVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -102,7 +105,26 @@
     return cell;
 }
 
-#pragma mark UITableViewDataSource
+#pragma mark UITableViewDelegate
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 0)
+    {
+        return 15;
+    }
+    return 5;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 5;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 95;
+}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -125,6 +147,8 @@
     }
 }
 
+#pragma mark Action
+
 -(void)guideSectionAction
 {
     
@@ -139,8 +163,9 @@
 
 -(void)scenePageSectionAction
 {
-    ScencePageVC *scencePageVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"ScencePageVC"];
-    [self.navigationController pushViewController:scencePageVC animated:YES];
+    [self getCarListData];
+    [[ScencePhotoVM sharedManager]getNoticeArr];
+    
 }
 
 -(void)historySectionAction
@@ -149,23 +174,36 @@
     [self.navigationController pushViewController:claimsHistoryVC animated:YES];
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+#pragma mark Utility
+
+-(void)getCarListData
 {
-    if (section == 0)
-    {
-        return 15;
-    }
-    return 5;
+    GetCooperationMyCarOp *op = [[GetCooperationMyCarOp alloc]init];
+    [[[op rac_postRequest]initially:^{
+        [self.view startActivityAnimationWithType:MONActivityIndicatorType];
+    }]subscribeNext:^(GetCooperationMyCarOp *op) {
+        if (op.rsp_reports.count == 1)
+        {
+            NSDictionary *report = op.rsp_reports.firstObject;
+            ScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"ScencePageVC" inStoryboard:@"MutualInsClaims"];
+            scencePageVC.claimid = report[@"claimid"];
+            [self.navigationController pushViewController:scencePageVC animated:YES];
+        }
+        else if (op.rsp_reports.count > 1)
+        {
+            ChooseCarVC *chooseVC = [UIStoryboard vcWithId:@"ChooseCarVC" inStoryboard:@"MutualInsClaims"];
+            chooseVC.reports = op.rsp_reports;
+            [self.navigationController pushViewController:chooseVC animated:YES];
+        }
+        else
+        {
+            [gToast showMistake:@"请先报案"];
+        }
+        [self.view stopActivityAnimation];
+    }error:^(NSError *error) {
+        [self.view stopActivityAnimation];
+    }];
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 5;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 95;
-}
 
 @end

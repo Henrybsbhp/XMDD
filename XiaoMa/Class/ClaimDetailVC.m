@@ -26,11 +26,18 @@
 @property (nonatomic) CGFloat claimfee;
 @property (nonatomic,strong) NSNumber *cardid;
 @property (nonatomic,strong) NSString *cardname;
+@property (nonatomic,strong) NSString *cardno;
 
+@property (nonatomic) BOOL hasCard;
 
 @end
 
 @implementation ClaimDetailVC
+
+-(void)dealloc
+{
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -45,25 +52,25 @@
 #pragma mark UITableViewDataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    if (self.status.integerValue == 0 || self.status.integerValue == 20)
+    {
+        return 2;
+    }
+    else
+    {
+        return 3;
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0)
+    if ((self.status.integerValue != 0 && self.status.integerValue != 20) && section == 1)
     {
-        return 1;
+        return 2;
     }
     else
     {
-        if (self.status.integerValue == 0 || self.status.integerValue == 20)
-        {
-            return 1;
-        }
-        else
-        {
-            return 2;
-        }
+        return 1;
     }
 }
 
@@ -96,36 +103,53 @@
                 break;
         }
     }
-    else
+    else if (indexPath.section == 1 && self.status.integerValue != 0 && self.status.integerValue != 20)
     {
         if (indexPath.row == 0)
         {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"detailCell"];
-            UILabel *timeLb = [cell viewWithTag:100];
-            NSDateFormatter *format = [[NSDateFormatter alloc] init];
-            [format setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-            UILabel *locationLb = [cell viewWithTag:101];
-            UILabel *dutyLb = [cell viewWithTag:102];
-            UILabel *conditionLb = [cell viewWithTag:103];
-            UILabel *reasonLb = [cell viewWithTag:104];
-            timeLb.text = [NSString stringWithFormat:@"%@",[format dateFromString:self.accidenttime]];
-            locationLb.text = self.accidentaddress;
-            dutyLb.text = self.chargepart;
-            conditionLb.text = self.cardmgdesc;
-            reasonLb.text = self.reason;
-        }
-        else
-        {
             cell = [tableView dequeueReusableCellWithIdentifier:@"feeCell"];
             UILabel *feeLb = [cell viewWithTag:100];
-            feeLb.text = [[NSString formatForPriceWithFloat:self.claimfee]append:@"元"];
-            UIView *view = [cell viewWithTag:101];
-            view.layer.borderWidth = 1;
-            view.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
+            feeLb.text = [NSString formatForPriceWithFloat:self.claimfee];
+        }
+        if (self.hasCard && indexPath.row ==1)
+        {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"cardCell"];
+            UILabel *cardNumLb = [cell viewWithTag:100];
+            UILabel *bankLb = [cell viewWithTag:101];
+            cardNumLb.text = self.cardno;
+            bankLb.text = self.cardname;
+        }
+        else if(!self.hasCard && indexPath.row ==1)
+        {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"selectCardCell"];
         }
     }
+    else
+    {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"detailCell"];
+        UILabel *timeLb = [cell viewWithTag:100];
+        UILabel *locationLb = [cell viewWithTag:101];
+        UILabel *dutyLb = [cell viewWithTag:102];
+        UILabel *conditionLb = [cell viewWithTag:103];
+        UILabel *reasonLb = [cell viewWithTag:104];
+        
+        timeLb.text = self.accidenttime.length ? self.accidenttime : @" ";
+        locationLb.text = self.accidentaddress.length ? self.accidentaddress : @" ";
+        dutyLb.text = self.chargepart.length ? self.chargepart : @" ";
+        conditionLb.text = self.cardmgdesc.length ? self.cardmgdesc : @" ";
+        reasonLb.text = self.reason.length ? self.reason : @" ";
+
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+//    @叶志成 写银行卡选择页面
+    
+}
+
 
 #pragma mark UITableViewDelegate
 
@@ -135,24 +159,26 @@
     {
         return 50;
     }
-    else if (indexPath.section == 1)
+    else if (indexPath.section == 1 && self.status.integerValue != 0 && self.status.integerValue != 20)
     {
         if (indexPath.row == 0)
         {
-            return UITableViewAutomaticDimension;
+            return 68;
         }
         else
         {
-            return 140;
+            return 43;
         }
+        
     }
-    return 44;
+    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+    [cell layoutIfNeeded];
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
+    CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+    return ceil(size.height);
 }
 
--(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return UITableViewAutomaticDimension;
-}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -184,7 +210,9 @@
         self.reason = op.rsp_reason;
         self.claimfee = op.rsp_claimfee;
         self.cardid = op.rsp_cardid;
+        self.hasCard = op.rsp_cardid.integerValue == 0 ? NO : YES;
         self.cardname = op.rsp_cardname;
+        self.cardno = op.rsp_cardno;
         if (self.status.integerValue == 2)
         {
             self.bottomView.hidden = NO;
@@ -193,6 +221,7 @@
         {
             self.bottomView.hidden = YES;
         }
+        [self.tableView reloadData];
     }error:^(NSError *error) {
         [self.view stopActivityAnimation];
     }];
@@ -206,19 +235,29 @@
     [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
 }
 
-
-
 #pragma mark Init
 
 -(void)setupUI
 {
-    self.agreeBtn.layer.cornerRadius = 5;
-    self.agreeBtn.layer.masksToBounds = YES;
-    self.disagreeBtn.layer.cornerRadius = 5;
-    self.disagreeBtn.layer.masksToBounds = YES;
-    self.disagreeBtn.layer.borderColor = [[UIColor colorWithHex:@"#18D06A" alpha:1]CGColor];
-    self.disagreeBtn.layer.borderWidth = 1;
+    [self addCorner:self.agreeBtn];
+    [self addCorner:self.disagreeBtn];
+    [self addBorder:self.disagreeBtn];
     self.tableView.tableFooterView = [UIView new];
+    self.bottomView.hidden = YES;
+}
+
+#pragma mark Utility
+
+-(void)addCorner:(UIView *)view
+{
+    view.layer.cornerRadius = 5;
+    view.layer.masksToBounds = YES;
+}
+
+-(void)addBorder:(UIView *)view
+{
+    view.layer.borderColor = [[UIColor colorWithHex:@"#18D06A" alpha:1]CGColor];
+    view.layer.borderWidth = 1;
 }
 
 @end

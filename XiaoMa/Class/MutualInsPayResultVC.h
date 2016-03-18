@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MutualInsContract.h"
 
 @interface MutualInsPayResultVC : UIViewController
+
+@property (nonatomic,strong)MutualInsContract * contract;
 
 @end
