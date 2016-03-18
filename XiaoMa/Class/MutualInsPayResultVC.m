@@ -106,8 +106,15 @@
     backgoundView.layer.borderWidth = 1;
     backgoundView.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
     
+    UIImageView * imageView = (UIImageView *)[cell searchViewWithTag:101];
+    UILabel * lb1 = (UILabel *)[cell searchViewWithTag:102];
+    UILabel * lb2 = (UILabel *)[cell searchViewWithTag:103];
     
-    
+    [imageView setImageByUrl:self.contract.xmddlogo
+                    withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
+    lb1.text = self.contract.licencenumber;
+    lb2.text = [NSString formatForPrice:self.contract.total];
+
     return cell;
 }
 
