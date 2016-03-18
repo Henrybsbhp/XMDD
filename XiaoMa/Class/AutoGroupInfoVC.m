@@ -11,7 +11,7 @@
 #import "GetCooperationAutoGroupOp.h"
 #import "NSMutableDictionary+AddParams.h"
 #import "UIView+JTLoadingView.h"
-#import "EditInsInfoVC.h"
+#import "MutualInsPicUpdateVC.h"
 #import "ApplyCooperationGroupJoinOp.h"
 #import "HKTimer.h"
 #import "GroupIntroductionVC.h"
@@ -50,13 +50,15 @@
     self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
     [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     
-    [self requestAutoGroupArray];
+    [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(id x) {
+        [self requestAutoGroupArray];
+    }];
 }
 
 #pragma mark - Utilitly
 - (void)requestAutoGroupArray
 {
-    //有两个接口，未登录应调另外一个
+    //有两个接口，根据登录状态调整接口参数
     GetCooperationAutoGroupOp * op = [[GetCooperationAutoGroupOp alloc] init];
     op.city = gMapHelper.addrComponent.city;
     op.province = gMapHelper.addrComponent.province;
@@ -82,11 +84,11 @@
         }
     } error:^(NSError *error) {
         
-        self.view.hidden = NO;
-        [self.tableView stopActivityAnimation];
+        self.tableView.hidden = NO;
+        [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
         @weakify(self);
-        [self.tableView showDefaultEmptyViewWithText:@"请求失败，点击重试" tapBlock:^{
+        [self.tableView showDefaultEmptyViewWithText:@"列表请求失败，点击重试" tapBlock:^{
             
             @strongify(self);
             [self requestAutoGroupArray];
@@ -300,7 +302,7 @@
         
         [gToast dismissInView:view];
         
-        EditInsInfoVC * vc = [UIStoryboard vcWithId:@"EditInsInfoVC" inStoryboard:@"MutualInsJoin"];
+        MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
         vc.memberId = rop.rsp_memberid;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {

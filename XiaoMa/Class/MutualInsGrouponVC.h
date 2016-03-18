@@ -11,6 +11,8 @@
 
 @interface MutualInsGrouponVC : HKViewController
 
-@property (nonatomic,strong)HKMutualGroup * group;
+@property (nonatomic, strong)HKMutualGroup * group;
+
+- (void)requestGroupDetailInfo;
 
 @end

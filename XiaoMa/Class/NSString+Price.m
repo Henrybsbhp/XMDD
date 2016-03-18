@@ -30,6 +30,18 @@
     return [scan scanInt:&val] && [scan isAtEnd];
 }
 
++ (NSString *)formatForDiscount:(CGFloat)discount
+{
+    NSString * originStr = [NSString stringWithFormat:@"%.1f",discount];
+    NSString * decimal = [originStr substringFromIndex:originStr.length - 1];
+    NSString * displayStr = originStr;
+    if ([decimal isEqualToString:@"0"])
+    {
+        displayStr = [originStr substringToIndex:originStr.length - 2];
+    }
+    
+    return displayStr;
+}
 
 + (NSString *)formatForPrice:(CGFloat)price
 {

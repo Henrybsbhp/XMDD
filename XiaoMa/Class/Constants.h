@@ -80,6 +80,7 @@ typedef enum : NSUInteger {
     ShareSceneValuation = 7,
     ShareSceneAppCarSell = 8,
     ShareSceneAppAbout = 9,
+    ShareSceneCipher = 10,
     ShareSceneLocalShare = 100
 } ShareSceneType;
 
@@ -148,9 +149,10 @@ typedef enum : NSUInteger {
 #define violationStoryboard [UIStoryboard storyboardWithName:@"Violation" bundle:nil]
 #define valuationStoryboard [UIStoryboard storyboardWithName:@"Valuation" bundle:nil]
 #define gasStoryboard [UIStoryboard storyboardWithName:@"Gas" bundle:nil]
-#define mutualInsPay [UIStoryboard storyboardWithName:@"MutualInsPay" bundle:nil]
+#define mutualInsPayStoryboard [UIStoryboard storyboardWithName:@"MutualInsPay" bundle:nil]
 #define MutInsGrouponStoryboard [UIStoryboard storyboardWithName:@"MutualInsGroupon" bundle:nil]
 #define aboutStoryboard [UIStoryboard storyboardWithName:@"About" bundle:nil]
+
 
 #define LocationFail 7001
 #define WechatPayFail 7002

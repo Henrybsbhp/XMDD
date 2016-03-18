@@ -40,7 +40,7 @@
         
         UIViewController * topVC = self.curNavCtrl.topViewController;
         
-        //登录 (针对根据网页中url跳转登录)
+        //登录 (针对根据网页中url跳转登录//口令入团也用到了)
         if ([@"login" equalByCaseInsensitive:name] && !gAppMgr.myUser) {
             VcodeLoginVC *vc = [UIStoryboard vcWithId:@"VcodeLoginVC" inStoryboard:@"Login"];
             JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
@@ -347,6 +347,12 @@
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
             flag = YES;
+        }
+        //加入小马互助团
+        else if ([@"jg" equalByCaseInsensitive:name]) {
+            //待修改
+            UIViewController *vc = [UIStoryboard vcWithId:@"MessageListVC" inStoryboard:@"Message"];
+            [self.curNavCtrl pushViewController:vc animated:YES];
         }
     }
     else if ([url hasPrefix:@"http://"] || [url hasPrefix:@"https://"]) {
