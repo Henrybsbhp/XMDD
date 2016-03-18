@@ -13,6 +13,7 @@
 #import "NSString+Format.h"
 #import "ApplyCooperationGroupJoinOp.h"
 #import "ApplyCooperationPremiumCalculateOp.h"
+#import "HKTimer.h"
 
 #import "MutualInsGrouponCarsCell.h"
 #import "HKProgressView.h"
@@ -367,20 +368,33 @@
 
 - (CKDict *)timeItem
 {
-    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Time",@"text":self.groupDetail.rsp_timetip}];
+    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Time"}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 26;
     });
+    @weakify(self);
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
         UIButton *timeB = [cell viewWithTag:1001];
         CKLine *leftL = [cell viewWithTag:1002];
         CKLine *rightL = [cell viewWithTag:1003];
         
         leftL.lineColor = MutInsGreenColor;
         rightL.lineColor = MutInsGreenColor;
-        NSString *text = data[@"text"];
-        [timeB setTitle:[@" " append:text] forState:UIControlStateNormal];
-    });
+        if (self.groupDetail.rsp_lefttime <= 0) {
+            NSString *text = [HKTimer ddhhmmFormatWithTimeInterval:0];
+            text = [NSString stringWithFormat:@" %@%@", self.groupDetail.rsp_timetip, text];
+            [timeB setTitle:text forState:UIControlStateNormal];
+        }
+        else {
+            [[[HKTimer rac_startWithOrigin:self.groupDetail.rsp_lefttime/1000 andTimeTag:self.groupDetail.tempTimetag]
+              takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber *interval) {
+                NSString *text = [HKTimer ddhhmmFormatWithTimeInterval:[interval doubleValue]];
+                text = [NSString stringWithFormat:@" %@%@", self.groupDetail.rsp_timetip, text];
+                [timeB setTitle:text forState:UIControlStateNormal];
+            }];
+         }
+     });
     return item;
 }
 
