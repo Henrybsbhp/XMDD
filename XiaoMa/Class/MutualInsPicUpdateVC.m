@@ -13,7 +13,7 @@
 #import "PictureRecord.h"
 #import "HKImageView.h"
 #import "UpdateCooperationIdlicenseInfoOp.h"
-#import "MutualInsChooseViewController.h"
+#import "MutualInsChooseVC.h"
 #import "MutualInsHomeVC.h"
 #import "GetCooperationIdlicenseInfoOp.h"
 
@@ -319,7 +319,7 @@
         {
             [[RACObserve(self, lastYearInsCompany) takeUntilForCell:cell] subscribeNext:^(NSString * str) {
                 
-                lb.text = str.length ? str : @"请选择现保险公司";
+                lb.text = str.length ? str : @"请选择上一年保险公司";
                 lb.textColor = str.length ? HEXCOLOR(@"#454545") : HEXCOLOR(@"#888888");
             }];
         }
@@ -352,7 +352,8 @@
     }] subscribeNext:^(id x) {
         
         [gToast dismiss];
-        MutualInsChooseViewController * vc = [UIStoryboard vcWithId:@"MutualInsChooseViewController" inStoryboard:@"MutualInsJoin"];
+        MutualInsChooseVC * vc = [UIStoryboard vcWithId:@"MutualInsChooseVC" inStoryboard:@"MutualInsJoin"];
+        vc.memberId = self.memberId;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
