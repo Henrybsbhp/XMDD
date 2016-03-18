@@ -18,12 +18,22 @@
 #import "MutualInsHomeVC.h"
 #import "InviteByCodeVC.h"
 #import "MutualInsOrderInfoVC.h"
+#import "InviteByCodeVC.h"
+
+typedef enum : NSInteger
+{
+    MutualInsScrollDirectionUnknow = 0,
+    MutualInsScrollDirectionDown = 1,
+    MutualInsScrollDirectionUp = 2
+}MutualInsScrollDirection;
 
 @interface MutualInsGrouponVC ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *topView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
+
+@property (nonatomic, assign) MutualInsScrollDirection scrollDirection;
 
 @end
 
@@ -84,13 +94,6 @@
     [self.topSubVC setShouldExpandedOrClosed:^(BOOL expanded) {
         @strongify(self);
         [self setExpanded:expanded animated:YES];
-    }];
-}
-
-- (void)setupBottomSubVC {
-    @weakify(self);
-    [self.bottomSubVC setDidScrollBlock:^(UIScrollView *scrollView) {
-        @strongify(self);
     }];
 }
 
@@ -241,7 +244,7 @@
 - (CKDict *)menuItemInvite {
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Invite",@"title":@"邀请入团",@"img":@"mins_person"}];
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        
+        InviteByCodeVC *vc = [
     });
     return dict;
 }
@@ -285,12 +288,14 @@
         } completion:^(BOOL finished) {
             self.isExpandingOrClosing = NO;
             self.topSubVC.shouldStopWaveView = !expanded;
+            self.scrollDirection = MutualInsScrollDirectionUnknow;
         }];
     }
     else {
         self.scrollView.contentOffset = CGPointMake(0, expanded ? 0 : dvalue);
         self.isExpandingOrClosing = NO;
         self.topSubVC.shouldStopWaveView = !expanded;
+        self.scrollDirection = MutualInsScrollDirectionUnknow;
     }
 }
 
