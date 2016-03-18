@@ -184,6 +184,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 0 || indexPath.section == 1)
+    {
+        self.currentRecord = indexPath.section == 0 ? self.idPictureRecord : self.drivingLicensePictureRecord;
+        [self pickImageWithIndex:indexPath];
+    }
     if (indexPath.section == 2)
     {
         PickInsCompaniesVC *vc = [UIStoryboard vcWithId:@"PickInsCompaniesVC" inStoryboard:@"Car"];
@@ -197,7 +202,7 @@
         
         [self.navigationController pushViewController:vc animated:YES];
     }
-    else
+    if (indexPath.section == 3)
     {
         self.datePicker.maximumDate = [NSDate date];
         NSDate *selectedDate = self.insuranceExpirationDate ? self.insuranceExpirationDate : [NSDate date];
@@ -220,7 +225,6 @@
     
     HKImageView * selectImgView = (HKImageView *)[cell.contentView viewWithTag:1001];
     UIImageView * camView = (UIImageView *)[cell.contentView viewWithTag:1002];
-    UIButton *selectBtn = (UIButton *)[cell.contentView viewWithTag:1003];
     
     record.customArray = [NSMutableArray arrayWithArray:@[selectImgView,camView]];
     
@@ -233,6 +237,22 @@
         [selectImgView insertSubview:maskView atIndex:0];
         selectImgView.customObject = maskView;
     }
+    @weakify(self)
+    @weakify(selectImgView)
+    [[[selectImgView.reuploadButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntilForCell:cell] subscribeNext:^(id x) {
+        
+        @strongify(selectImgView)
+        @strongify(self)
+        self.currentRecord = indexPath.section == 0 ? self.idPictureRecord : self.drivingLicensePictureRecord;
+        [self actionUpload:self.currentRecord withImageView:selectImgView];
+    }];
+    
+    [[[selectImgView.pickImageButton rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntilForCell:cell] subscribeNext:^(id x) {
+        
+        @strongify(self)
+        self.currentRecord = indexPath.section == 0 ? self.idPictureRecord : self.drivingLicensePictureRecord;
+        [self pickImageWithIndex:indexPath];
+    }];
     
     camView.hidden = record.image;
     
@@ -244,7 +264,7 @@
         camView.hidden = img;
     }];
     
-    @weakify(self)
+    
     [[RACObserve(record, url) takeUntilForCell:cell] subscribeNext:^(NSString * url) {
         
         @strongify(self)
@@ -255,6 +275,8 @@
         }
     }];
     
+
+    /// 图片适应
     [[RACObserve(selectImgView, image) takeUntilForCell:cell] subscribeNext:^(UIImage *img) {
        
         @strongify(self)
@@ -290,13 +312,6 @@
         }
     }];
 
-    
-    [[[selectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
-        @strongify(self)
-        self.currentRecord = indexPath.section == 0 ? self.idPictureRecord : self.drivingLicensePictureRecord;
-        [self pickImageWithIndex:indexPath];
-    }];
     
     return cell;
 }
@@ -341,9 +356,9 @@
     UpdateCooperationIdlicenseInfoOp * op = [[UpdateCooperationIdlicenseInfoOp alloc] init];
     op.req_idurl = self.idPictureRecord.url;
     op.req_licenseurl = self.drivingLicensePictureRecord.url;
-    op.req_firstinscomp = self.insCompany;
-    op.req_secinscomp = self.lastYearInsCompany;
-    op.req_insenddate = [self.insuranceExpirationDate dateFormatForD10];
+    op.req_firstinscomp = self.insCompany ?: @"";
+    op.req_secinscomp = self.lastYearInsCompany ?: @"";
+    op.req_insenddate = [self.insuranceExpirationDate dateFormatForD10] ?: @"";
     op.req_memberid = self.memberId;
     
     [[[op rac_postRequest] initially:^{
@@ -497,6 +512,9 @@
          record.picID = [op.rsp_idArray safetyObjectAtIndex:0];
          
          record.isUploading = NO;
+         imageView.tapGesture.enabled = NO;
+     } error:^(NSError *error) {
+         
      }];
 }
 
