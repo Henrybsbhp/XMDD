@@ -1,5 +1,5 @@
 //
-//  MutualInsChooseViewController.h
+//  MutualInsChooseVC.h
 //  XiaoMa
 //
 //  Created by jt on 16/3/14.
@@ -8,5 +8,8 @@
 
 #import "HKViewController.h"
 
-@interface MutualInsChooseViewController : HKViewController
+@interface MutualInsChooseVC : HKViewController
+
+@property (nonatomic,strong)NSNumber * memberId;
+
 @end

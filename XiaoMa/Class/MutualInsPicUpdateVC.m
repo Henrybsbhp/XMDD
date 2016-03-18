@@ -13,7 +13,7 @@
 #import "PictureRecord.h"
 #import "HKImageView.h"
 #import "UpdateCooperationIdlicenseInfoOp.h"
-#import "MutualInsChooseViewController.h"
+#import "MutualInsChooseVC.h"
 #import "MutualInsHomeVC.h"
 #import "GetCooperationIdlicenseInfoOp.h"
 
@@ -352,7 +352,8 @@
     }] subscribeNext:^(id x) {
         
         [gToast dismiss];
-        MutualInsChooseViewController * vc = [UIStoryboard vcWithId:@"MutualInsChooseViewController" inStoryboard:@"MutualInsJoin"];
+        MutualInsChooseVC * vc = [UIStoryboard vcWithId:@"MutualInsChooseVC" inStoryboard:@"MutualInsJoin"];
+        vc.memberId = self.memberId;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
