@@ -20,6 +20,7 @@
 
 @property (nonatomic,strong)NSMutableArray * recordArray;
 
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) ScencePhotoVM *scencePhotoVM;
 
@@ -99,11 +100,11 @@
 {
     if (indexPath.section == 2 && self.recordArray.count == 0)
     {
-        [self takePhotoWithIndexPath:indexPath];
+        [self takePhoto:indexPath];
     }
     else if (self.recordArray.count != 0 && indexPath.section == (self.recordArray.count + 2))
     {
-        [self takePhotoWithIndexPath:indexPath];
+        [self takePhoto:indexPath];
     }
     else if (self.recordArray.count != 0 && indexPath.section > 1)
     {
@@ -140,7 +141,7 @@
     {
         cell = [self photoCellForRowAtIndexPath:indexPath];
     }
-//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    //    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
@@ -182,54 +183,68 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"photoCell"];
     UIView *view = [cell viewWithTag:1000];
+    //放弃子视图约束
     [view setTranslatesAutoresizingMaskIntoConstraints:NO];
     
+    //初始化hkimageview。如果为nil则手动创建一个。
     HKImageView * hkimageview  = [view viewWithTag:10101];
     if (!hkimageview)
     {
         hkimageview = [[HKImageView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 60, 165)];
+        hkimageview = [[HKImageView alloc]init];
         hkimageview.contentMode = UIViewContentModeScaleAspectFill;
         hkimageview.tag = 10101;
         [view addSubview:hkimageview];
     }
-    
+    //取出图片记录
     PictureRecord * record = [self.recordArray safetyObjectAtIndex:indexPath.section - 2];
+    //重新上传事件
     [[[hkimageview.reuploadButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntilForCell:cell] subscribeNext:^(id x) {
-        
         record.needReupload = YES;
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
     }];
-    
+    //重新拍照事件
+    [[[hkimageview.pickImageButton rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntilForCell:cell]subscribeNext:^(id x) {
+        [self takePhoto:indexPath];
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    }];
     if ((!record.url.length && !record.isUploading && !record.needReupload)
         || record.needReupload)
     {
-        [self uploadImage:hkimageview andRecord:record andCell:cell];
+        [self uploadImage:hkimageview andRecord:record];
     }
     else
     {
         hkimageview.image = record.image;
     }
     
+    //删除照片动作
     UIButton *deleteBtn = [cell viewWithTag:101];
     [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         [self deletePhoto:indexPath];
     }];
     return cell;
 }
-
-- (void)uploadImage:(HKImageView *)imageView andRecord:(PictureRecord *)record andCell:(UITableViewCell * )cell
+/**
+ *  上传图片到服务器
+ *
+ *  @param imageView 触发方法的对象
+ *  @param record    上传的对象
+ */
+- (void)uploadImage:(HKImageView *)imageView andRecord:(PictureRecord *)record
 {
     @weakify(imageView)
     [[[imageView rac_setUploadingImage:record.image withImageType:UploadFileTypeMutualIns] initially:^{
-        
+        //初始化上传状态为［上传中］
         record.isUploading = YES;
     }] subscribeNext:^(UploadFileOp *op) {
-        
+        //上传成功后将上传状态改为［不在上传中］, 并且［不需要重新上传］
         record.isUploading = NO;
         record.needReupload = NO;
         record.url = [op.rsp_urlArray safetyObjectAtIndex:0];
     } error:^(NSError *error) {
         @strongify(imageView)
+        //上传失败后限时遮罩层,并且修改上传状态。
         [imageView showMaskView];
         record.isUploading = NO;
         record.needReupload = NO;
@@ -245,6 +260,11 @@
     view.layer.borderWidth = 1;
 }
 
+/**
+ *  判断是否能退出或进入下一个页面
+ *
+ *  @return 如果可以返回空字符。如果不可以上传提示文案
+ */
 -(NSString *)canPush
 {
     if (self.recordArray.count != 0)
@@ -282,9 +302,9 @@
     }];
 }
 /**
- *  拍照
+ *  获得照片水印并且给照片打水印
  */
--(void)takePhotoWithIndexPath:(NSIndexPath *)indexpath
+-(void)takePhoto:(NSIndexPath *)indexPath
 {
     HKImagePicker *picker = [HKImagePicker imagePicker];
     picker.compressedSize = CGSizeMake(1024, 1024);
@@ -295,11 +315,12 @@
             return [self addPrinting:op.rsp_systime InPhoto:img];
         }];
     }] subscribeNext:^(UIImage *img) {
-        
+        //打水印成功后在self.recordArray占一个位置。但是record只有image没有URL
         PictureRecord * record = [[PictureRecord alloc] init];
         record.image = img;
-        record.customObject = indexpath;
-        [self.recordArray safetyAddObject:record];
+        [self.recordArray insertObject:record atIndex:(indexPath.section - 2)];
+//        [self.recordArray safetyAddObject:record];
+        //不能进行单cell刷新。因为每次选择照片会多一个cell
         [self.tableView reloadData];
     }];
 }
@@ -343,6 +364,7 @@
 }
 
 #pragma mark LazyLoad
+
 -(ScencePhotoVM *)scencePhotoVM
 {
     if (!_scencePhotoVM)
