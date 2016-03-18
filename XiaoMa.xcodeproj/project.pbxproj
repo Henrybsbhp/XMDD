@@ -664,6 +664,8 @@
 		C23FCAB81AF8B8C900E04BEB /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C23FCAB71AF8B8C900E04BEB /* TencentOpenAPI.framework */; };
 		C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */; };
 		C26489B41AF8A70A00F1E318 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C26489B31AF8A70A00F1E318 /* libiconv.dylib */; };
+		FA93A7B41C9961ED00CBD565 /* CreateGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA93A7B31C9961ED00CBD565 /* CreateGroupOp.m */; };
+		FA93A7BE1C9978AB00CBD565 /* CreateGroupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA93A7BD1C9978AB00CBD565 /* CreateGroupVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2067,6 +2069,10 @@
 		C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCouponVC.m; sourceTree = "<group>"; };
 		C26489B31AF8A70A00F1E318 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		CA94042FD235B5154105FE58 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		FA93A7B21C9961ED00CBD565 /* CreateGroupOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateGroupOp.h; path = Class/CreateGroupOp.h; sourceTree = "<group>"; };
+		FA93A7B31C9961ED00CBD565 /* CreateGroupOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CreateGroupOp.m; path = Class/CreateGroupOp.m; sourceTree = "<group>"; };
+		FA93A7BC1C9978AB00CBD565 /* CreateGroupVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateGroupVC.h; sourceTree = "<group>"; };
+		FA93A7BD1C9978AB00CBD565 /* CreateGroupVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateGroupVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3803,6 +3809,8 @@
 				5029A84E1C9121C2006B3438 /* GroupIntroductionVC.m */,
 				50FEF7691C8827C900B85F19 /* AutoGroupInfoVC.h */,
 				50FEF76A1C8827C900B85F19 /* AutoGroupInfoVC.m */,
+				FA93A7BC1C9978AB00CBD565 /* CreateGroupVC.h */,
+				FA93A7BD1C9978AB00CBD565 /* CreateGroupVC.m */,
 				50AC2B4E1C8D737300620551 /* EditInsInfoVC.h */,
 				50AC2B4F1C8D737300620551 /* EditInsInfoVC.m */,
 				5093C9FC1C92A68A006B2258 /* InviteByCodeVC.h */,
@@ -4278,6 +4286,8 @@
 				18F41DAE1B788022000409E1 /* GetUnbindBankcardVcodeOp.m */,
 				18F41DA71B784CD8000409E1 /* GetBankcardListOp.h */,
 				18F41DA81B784CD8000409E1 /* GetBankcardListOp.m */,
+				FA93A7B21C9961ED00CBD565 /* CreateGroupOp.h */,
+				FA93A7B31C9961ED00CBD565 /* CreateGroupOp.m */,
 				181F6D911B15773600D38555 /* BeInterestedInInsuranceOp.h */,
 				181F6D921B15773600D38555 /* BeInterestedInInsuranceOp.m */,
 				6BBAB8CF1ADE30F900EC342F /* GetShopRatesOp.h */,
@@ -5345,6 +5355,7 @@
 				18804AA21B25811E00E7E764 /* HKRefreshControl.m in Sources */,
 				18FC01E41C4E6C6F00FD61BF /* IQToolbar.m in Sources */,
 				2E77A4921C325F2F00264FC9 /* GetRescueHistoryOp.m in Sources */,
+				FA93A7BE1C9978AB00CBD565 /* CreateGroupVC.m in Sources */,
 				6BCA5F431B102D5700E1E630 /* GetUserCouponPkgOp.m in Sources */,
 				18E155841C3E5BE000C1CF87 /* GetInsUserInfoOp.m in Sources */,
 				50FA52891C2296CD002B1EAE /* ValuationResultVC.m in Sources */,
@@ -5471,6 +5482,7 @@
 				18088D8E1B1DC938007438FC /* UnusedCouponVModel.m in Sources */,
 				18900B521C1EA0C2003DA439 /* Area.m in Sources */,
 				6BCA5F4C1B104B5100E1E630 /* MyCollectionViewController.m in Sources */,
+				FA93A7B41C9961ED00CBD565 /* CreateGroupOp.m in Sources */,
 				6B16D63F1C95517000322B70 /* GetCooperationAutoGroupOp.m in Sources */,
 				6BEA56CF1AE24DCE000D19C1 /* DataVerifier.m in Sources */,
 				6BC80C951C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.m in Sources */,
