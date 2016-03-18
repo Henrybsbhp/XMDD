@@ -10,6 +10,7 @@
 		06380E56572F1DCE6105BE83 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B54A6CD3F3426144CC6768CC /* libPods.a */; };
 		18039AF51B0C5BCE00264059 /* GetAutomobileModelOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18039AF41B0C5BCE00264059 /* GetAutomobileModelOp.m */; };
 		180538B51C9AA61D00D896A1 /* MutualInsGrouponButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 180538B41C9AA61D00D896A1 /* MutualInsGrouponButtonCell.m */; };
+		180538E61C9BFB6000D896A1 /* HKFoldingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 180538E51C9BFB6000D896A1 /* HKFoldingTableView.m */; };
 		18088D8B1B1DC921007438FC /* UsedCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18088D8A1B1DC921007438FC /* UsedCouponVModel.m */; };
 		18088D8E1B1DC938007438FC /* UnusedCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18088D8D1B1DC938007438FC /* UnusedCouponVModel.m */; };
 		180AD8351BD88CB700E608F9 /* BankCardStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 180AD8341BD88CB700E608F9 /* BankCardStore.m */; };
@@ -373,7 +374,6 @@
 		504FFEA51C05D4C9002D7D6D /* AreaPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 504FFEA41C05D4C9002D7D6D /* AreaPickerVC.m */; };
 		505358F41C0D79640029B5BA /* SharedNotifyOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 505358F31C0D79640029B5BA /* SharedNotifyOp.m */; };
 		505BC1C21C87D4FA00253F6D /* MutualInsHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 505BC1C11C87D4FA00253F6D /* MutualInsHomeVC.m */; };
-		505BC1C51C87D6ED00253F6D /* MutualInsJoin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505BC1C41C87D6ED00253F6D /* MutualInsJoin.storyboard */; };
 		505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */; };
 		505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */; };
 		505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC71BD7356A00857819 /* WebViewJavascriptBridgeBase.m */; };
@@ -683,6 +683,8 @@
 		FA93A7BE1C9978AB00CBD565 /* CreateGroupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA93A7BD1C9978AB00CBD565 /* CreateGroupVC.m */; };
 		FA958E1B1C9BA1A900E89180 /* RequestJoinGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA958E1A1C9BA1A900E89180 /* RequestJoinGroupOp.m */; };
 		FA958E251C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA958E241C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.m */; };
+		FA958E281C9BFE6E00E89180 /* MutualInsGroupInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA958E271C9BFE6E00E89180 /* MutualInsGroupInfoVC.m */; };
+		FA959CED1C9C343C00E89180 /* MutualInsJoin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA959CEC1C9C343C00E89180 /* MutualInsJoin.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -749,6 +751,8 @@
 		18039AF41B0C5BCE00264059 /* GetAutomobileModelOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAutomobileModelOp.m; path = Class/GetAutomobileModelOp.m; sourceTree = "<group>"; };
 		180538B31C9AA61D00D896A1 /* MutualInsGrouponButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGrouponButtonCell.h; sourceTree = "<group>"; };
 		180538B41C9AA61D00D896A1 /* MutualInsGrouponButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGrouponButtonCell.m; sourceTree = "<group>"; };
+		180538E41C9BFB6000D896A1 /* HKFoldingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKFoldingTableView.h; path = Class/HKFoldingTableView.h; sourceTree = "<group>"; };
+		180538E51C9BFB6000D896A1 /* HKFoldingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKFoldingTableView.m; path = Class/HKFoldingTableView.m; sourceTree = "<group>"; };
 		18088D891B1DC921007438FC /* UsedCouponVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsedCouponVModel.h; sourceTree = "<group>"; };
 		18088D8A1B1DC921007438FC /* UsedCouponVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsedCouponVModel.m; sourceTree = "<group>"; };
 		18088D8C1B1DC938007438FC /* UnusedCouponVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnusedCouponVModel.h; sourceTree = "<group>"; };
@@ -1466,7 +1470,6 @@
 		505358F31C0D79640029B5BA /* SharedNotifyOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SharedNotifyOp.m; path = Class/SharedNotifyOp.m; sourceTree = "<group>"; };
 		505BC1C01C87D4FA00253F6D /* MutualInsHomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsHomeVC.h; sourceTree = "<group>"; };
 		505BC1C11C87D4FA00253F6D /* MutualInsHomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsHomeVC.m; sourceTree = "<group>"; };
-		505BC1C41C87D6ED00253F6D /* MutualInsJoin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsJoin.storyboard; sourceTree = "<group>"; };
 		505E5FC31BD7356A00857819 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
 		505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
@@ -2123,6 +2126,9 @@
 		FA958E1A1C9BA1A900E89180 /* RequestJoinGroupOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RequestJoinGroupOp.m; path = Class/RequestJoinGroupOp.m; sourceTree = "<group>"; };
 		FA958E231C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsRequestJoinGroupVC.h; sourceTree = "<group>"; };
 		FA958E241C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsRequestJoinGroupVC.m; sourceTree = "<group>"; };
+		FA958E261C9BFE6E00E89180 /* MutualInsGroupInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGroupInfoVC.h; sourceTree = "<group>"; };
+		FA958E271C9BFE6E00E89180 /* MutualInsGroupInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGroupInfoVC.m; sourceTree = "<group>"; };
+		FA959CEC1C9C343C00E89180 /* MutualInsJoin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsJoin.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2169,6 +2175,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		180538D91C9BFA2600D896A1 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				180538E41C9BFB6000D896A1 /* HKFoldingTableView.h */,
+				180538E51C9BFB6000D896A1 /* HKFoldingTableView.m */,
+			);
+			name = TableView;
+			sourceTree = "<group>";
+		};
 		18088D881B1DC8AA007438FC /* Coupon */ = {
 			isa = PBXGroup;
 			children = (
@@ -2315,6 +2330,7 @@
 		1816F4B51AD36D5100BBCC96 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				180538D91C9BFA2600D896A1 /* TableView */,
 				6BC80D031C9946B000C7BA3D /* View */,
 				506F03F31C96578100B262D7 /* Timer */,
 				50B5087E1C7BF07C00B6151E /* GenieView */,
@@ -3875,6 +3891,8 @@
 				FA93A7BD1C9978AB00CBD565 /* CreateGroupVC.m */,
 				FA958E231C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.h */,
 				FA958E241C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.m */,
+				FA958E261C9BFE6E00E89180 /* MutualInsGroupInfoVC.h */,
+				FA958E271C9BFE6E00E89180 /* MutualInsGroupInfoVC.m */,
 				50AC2B4E1C8D737300620551 /* MutualInsPicUpdateVC.h */,
 				50AC2B4F1C8D737300620551 /* MutualInsPicUpdateVC.m */,
 				5093C9FC1C92A68A006B2258 /* InviteByCodeVC.h */,
@@ -4611,6 +4629,7 @@
 		6BD293BA1B943EF1006482A4 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
+				FA959CEC1C9C343C00E89180 /* MutualInsJoin.storyboard */,
 				6BC80CF71C99453B00C7BA3D /* MutualInsPay.storyboard */,
 				6BB0E0A31C916EA600137CD8 /* Carwash.storyboard */,
 				4E97D7131C90011200FC418F /* MutualInsClaims.storyboard */,
@@ -4632,7 +4651,6 @@
 				1833F59E1BCD47EB000E1DA1 /* Gas.storyboard */,
 				6BFE6A661C03364600EC9766 /* Violation.storyboard */,
 				50A1E06D1C1EA12800176572 /* Valuation.storyboard */,
-				505BC1C41C87D6ED00253F6D /* MutualInsJoin.storyboard */,
 				184452F11C8D18F4007B895D /* MutualInsGroupon.storyboard */,
 			);
 			path = Storyboard;
@@ -5063,9 +5081,9 @@
 				50A1E06E1C1EA12800176572 /* Valuation.storyboard in Resources */,
 				6BB0E0A41C916EA600137CD8 /* Carwash.storyboard in Resources */,
 				18B78F611BAA8CF60061ECAD /* Launch.storyboard in Resources */,
+				FA959CED1C9C343C00E89180 /* MutualInsJoin.storyboard in Resources */,
 				6BD293CA1B943EF1006482A4 /* Bank.storyboard in Resources */,
 				18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */,
-				505BC1C51C87D6ED00253F6D /* MutualInsJoin.storyboard in Resources */,
 				6B26EF4A1C9026BD00428EC4 /* main.jsbundle in Resources */,
 				18FC01E61C4E6C6F00FD61BF /* IQKeyboardManager.bundle in Resources */,
 				6B5B78191BA7CC7600295B77 /* ProvinceChooseView.xib in Resources */,
@@ -5295,6 +5313,8 @@
 				189B395E1AF9D9F700B83F1B /* UpdateCarOp.m in Sources */,
 				1851F42B1B0C2C3500241A01 /* CoreDataManager.m in Sources */,
 				18BF41F91BCF75DA0039F210 /* RTLabel.m in Sources */,
+				FA958E281C9BFE6E00E89180 /* MutualInsGroupInfoVC.m in Sources */,
+				4E97D70E1C9000DB00FC418F /* MutualInsClaimsHistoryVC.m in Sources */,
 				4E97D70E1C9000DB00FC418F /* MutualInsClaimsHistoryVC.m in Sources */,
 				189B394C1AF71C3900B83F1B /* MineVC.m in Sources */,
 				181355931C925FC600894CA1 /* HKAlertVC.m in Sources */,
@@ -5729,6 +5749,7 @@
 				189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */,
 				6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */,
 				2E77A4961C325F2F00264FC9 /* GetRescueOp.m in Sources */,
+				180538E61C9BFB6000D896A1 /* HKFoldingTableView.m in Sources */,
 				6B2265961C439DD600A121CC /* HKView.m in Sources */,
 				18F813691B5F3561005F49B0 /* CKNavigationController.m in Sources */,
 				18804AAB1B27DD3C00E7E764 /* GifActivityIndicatorView.m in Sources */,

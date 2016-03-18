@@ -1467,9 +1467,9 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="SNF-AG-KNC"/>
                                                     <exclude reference="9JK-2D-peG"/>
                                                     <exclude reference="Q2H-Mh-Wwy"/>
+                                                    <exclude reference="SNF-AG-KNC"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -1627,12 +1627,12 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="JiM-yN-PR9"/>
-                                                    <exclude reference="Aeo-CD-OxT"/>
                                                     <exclude reference="4g3-4M-7qH"/>
-                                                    <exclude reference="uEL-vA-8wh"/>
-                                                    <exclude reference="OBO-LW-EEH"/>
+                                                    <exclude reference="Aeo-CD-OxT"/>
+                                                    <exclude reference="JiM-yN-PR9"/>
                                                     <exclude reference="K4Y-Qu-jAN"/>
+                                                    <exclude reference="OBO-LW-EEH"/>
+                                                    <exclude reference="uEL-vA-8wh"/>
                                                     <exclude reference="Ayv-Ic-qYf"/>
                                                     <exclude reference="mYH-im-Q3z"/>
                                                 </mask>
@@ -1663,9 +1663,9 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="IBU-Ot-VYx"/>
                                 <exclude reference="inZ-5Q-rLi"/>
                                 <exclude reference="yxf-DQ-6wr"/>
-                                <exclude reference="IBU-Ot-VYx"/>
                                 <exclude reference="mbB-Ui-3xW"/>
                                 <exclude reference="2KT-t1-Bqs"/>
                             </mask>
@@ -1726,8 +1726,8 @@
                                                     <textInputTraits key="textInputTraits"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
-                                                            <exclude reference="iqt-La-MS0"/>
                                                             <exclude reference="PXi-pg-5YH"/>
+                                                            <exclude reference="iqt-La-MS0"/>
                                                         </mask>
                                                     </variation>
                                                 </textField>
@@ -1861,10 +1861,10 @@
                                             <variation key="default">
                                                 <mask key="constraints">
                                                     <exclude reference="zxJ-M6-KSv"/>
-                                                    <exclude reference="eeO-jE-kzT"/>
-                                                    <exclude reference="eDs-oJ-x9H"/>
-                                                    <exclude reference="zkb-yL-b2r"/>
                                                     <exclude reference="acQ-h5-94Z"/>
+                                                    <exclude reference="eDs-oJ-x9H"/>
+                                                    <exclude reference="eeO-jE-kzT"/>
+                                                    <exclude reference="zkb-yL-b2r"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -1981,9 +1981,9 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
+                                                    <exclude reference="6K1-He-gMO"/>
                                                     <exclude reference="X1D-qa-raq"/>
                                                     <exclude reference="oFQ-Fx-TOE"/>
-                                                    <exclude reference="6K1-He-gMO"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -2029,10 +2029,10 @@
         <image name="min_inspricecorner" width="11" height="5"/>
         <image name="min_insselect" width="18" height="17"/>
         <image name="min_insunselect" width="18" height="17"/>
-        <image name="mutualIns_groupInfo_docs" width="58" height="58"/>
-        <image name="mutualIns_requestJoinGroup_car" width="58" height="58"/>
-        <image name="mutualIns_requestJoinGroup_drafts" width="58" height="58"/>
-        <image name="mutualIns_requestJoinGroup_lock" width="58" height="58"/>
+        <image name="mutualIns_groupInfo_docs" width="70" height="64"/>
+        <image name="mutualIns_requestJoinGroup_car" width="30" height="30"/>
+        <image name="mutualIns_requestJoinGroup_drafts" width="30" height="30"/>
+        <image name="mutualIns_requestJoinGroup_lock" width="30" height="30"/>
         <image name="mutualInsjoin_arrow" width="9" height="17"/>
         <image name="mutualInsjoin_cam" width="59" height="53"/>
         <image name="mutuallns_createGroup_click" width="30" height="30"/>

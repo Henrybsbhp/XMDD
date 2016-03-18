@@ -53,5 +53,6 @@
 @property (nonatomic,assign) BOOL rsp_ifgroupowner;
 ///团记录ID
 @property (nonatomic,strong) NSNumber* rsp_groupid;
-
+///用于暂存接口返回时的时间戳
+@property (nonatomic, assign) NSTimeInterval tempTimetag;
 @end
