@@ -128,8 +128,6 @@
     {
         cell = [tableView dequeueReusableCellWithIdentifier:@"detailCell"];
         UILabel *timeLb = [cell viewWithTag:100];
-        NSDateFormatter *format = [[NSDateFormatter alloc] init];
-        [format setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         UILabel *locationLb = [cell viewWithTag:101];
         UILabel *dutyLb = [cell viewWithTag:102];
         UILabel *conditionLb = [cell viewWithTag:103];
@@ -140,6 +138,7 @@
         dutyLb.text = self.chargepart.length ? self.chargepart : @" ";
         conditionLb.text = self.cardmgdesc.length ? self.cardmgdesc : @" ";
         reasonLb.text = self.reason.length ? self.reason : @" ";
+
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
@@ -171,10 +170,6 @@
             return 43;
         }
         
-    }
-    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
-    {
-        return UITableViewAutomaticDimension;
     }
     UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
     [cell layoutIfNeeded];
@@ -249,10 +244,6 @@
     [self addBorder:self.disagreeBtn];
     self.tableView.tableFooterView = [UIView new];
     self.bottomView.hidden = YES;
-    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
-    {
-        self.tableView.estimatedRowHeight = UITableViewAutomaticDimension;
-    }
 }
 
 #pragma mark Utility
