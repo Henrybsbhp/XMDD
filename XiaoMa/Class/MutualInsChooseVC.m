@@ -48,7 +48,7 @@
 {
     GetMutualInsListOp *op = [GetMutualInsListOp operation];
     op.req_version = gAppMgr.deviceInfo.appVersion;
-    op.req_memberId = @120; //self.memberId;
+    op.req_memberId = self.memberId;
     [[op rac_postRequest] subscribeNext:^(GetMutualInsListOp *rop) {
         
         //初始默认选择
