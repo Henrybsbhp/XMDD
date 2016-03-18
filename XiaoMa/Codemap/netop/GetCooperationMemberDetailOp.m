@@ -17,8 +17,10 @@
     self.rsp_phone = dict[@"phone"];
     self.rsp_carbrand = dict[@"carbrand"];
     self.rsp_sharemoney = [dict[@"sharemoney"] floatValue];
-    self.rsp_rate = [dict[@"rate"] intValue];
+    self.rsp_rate = dict[@"rate"];
+    self.rsp_claimcount = [dict[@"claimcount"] intValue];
     self.rsp_returnmoney = [dict[@"returnmoney"] floatValue];
+    self.rsp_claimamount = [dict[@"claimamount"] floatValue];
 	
     return self;
 }

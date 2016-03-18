@@ -13,11 +13,15 @@
 #import "PayCooperationContractOrderOp.h"
 #import "GetCooperationResourcesOp.h"
 #import "ChooseCouponVC.h"
+#import "PaymentHelper.h"
+#import "OrderPaidSuccessOp.h"
+#import "MutualInsPayResultVC.h"
 
 @interface MutualInsPayViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
+@property (weak, nonatomic) IBOutlet UILabel *priceLb;
 @property (weak, nonatomic) IBOutlet UIButton *payBtn;
 
 @property (nonatomic,strong)PayCooperationContractOrderOp * payOp;
@@ -40,6 +44,7 @@
     [super viewDidLoad];
     
     [self setupNavigationBar];
+    [self setupUI];
     [self setupDateSource];
     [self.tableView reloadData];
     
@@ -60,7 +65,12 @@
 
 - (void)setupUI
 {
-    
+    @weakify(self)
+    [[self.payBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        @strongify(self)
+        [self requestPay];
+    }];
 }
 
 
@@ -95,6 +105,8 @@
         self.isLoadingResourse = NO;
         self.cashCoupouArray = rop.rsp_couponArray;
         self.maxCouponAmt = rop.rsp_maxcouponamt;
+        [self selectDefaultCoupon];
+        [self.tableView reloadData];
     } error:^(NSError *error) {
         
         self.isLoadingResourse = NO;
@@ -141,6 +153,127 @@
     NSString * string = [NSString stringWithFormat:@"有效期：%@ - %@",earlierDate ? [earlierDate dateFormatForYYMMdd2] : @"",laterDate ? [laterDate dateFormatForYYMMdd2] : @""];
     
     return string;
+}
+
+- (void)refreshPriceLb
+{
+    CGFloat totalCoupon = 0.0;
+    for (HKCoupon * c in self.selectCashCoupouArray)
+    {
+        totalCoupon = totalCoupon + c.couponAmount;
+    }
+    CGFloat couponAmt = MIN(self.maxCouponAmt, totalCoupon) ;
+    CGFloat payfee = self.contract.total - couponAmt;
+    NSString * str = [NSString stringWithFormat:@"￥%@",[NSString formatForPrice:payfee]];
+    self.priceLb.text = str;
+}
+
+- (void)selectDefaultCoupon
+{
+    [self.selectCashCoupouArray removeAllObjects];
+    
+    CGFloat amount = 0;
+    for (NSInteger i = 0 ; i < self.cashCoupouArray.count ; i++)
+    {
+        HKCoupon * coupon = [self.cashCoupouArray safetyObjectAtIndex:i];
+        amount = amount + coupon.couponAmount;
+        [self.selectCashCoupouArray addObject:coupon];
+        if (amount >= self.maxCouponAmt)
+            break;
+    }
+    [self refreshPriceLb];
+    [self.tableView reloadData];
+}
+
+- (void)requestPay
+{
+    NSMutableArray *coupons = [NSMutableArray array];
+    for (HKCoupon * c in self.selectCashCoupouArray) {
+        [coupons addObject:c.couponId];
+    }
+    NSString * cids =  coupons.count ? [coupons componentsJoinedByString:@","] : @"";
+    self.payOp.req_contractid = self.contract.contractid;
+    self.payOp.req_proxybuy = self.proxybuy;
+    self.payOp.req_cids = cids;
+    @weakify(self);
+    [[[self.payOp rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"订单生成中..."];
+    }] subscribeNext:^(PayCooperationContractOrderOp * rop) {
+        
+        @strongify(self);
+        [self callPaymentHelperWithPayOp:rop];
+
+    } error:^(NSError *error) {
+        
+        [self requestMutualResources];
+        [gToast showError:error.domain];
+    }];
+}
+
+- (BOOL)callPaymentHelperWithPayOp:(PayCooperationContractOrderOp *)op
+{
+    if (op.rsp_total == 0) {
+        return YES;
+    }
+    
+    CGFloat price = op.rsp_total;
+#if DEBUG
+    price = 0.01;
+#endif
+    
+    PaymentHelper *helper = [[PaymentHelper alloc] init];
+    NSString * info = [NSString stringWithFormat:@"%@的小马互助订单支付",self.contract.licencenumber];
+    NSString *text;
+    switch (op.req_paychannel) {
+        case PaymentChannelAlipay: {
+            text = @"订单生成成功,正在跳转到支付宝平台进行支付";
+            [helper resetForAlipayWithTradeNumber:op.rsp_tradeno productName:info productDescription:info price:price];
+        } break;
+        case PaymentChannelWechat: {
+            text = @"订单生成成功,正在跳转到微信平台进行支付";
+            [helper resetForWeChatWithTradeNumber:op.rsp_tradeno productName:info price:price];
+        } break;
+        case PaymentChannelUPpay: {
+            text = @"订单生成成功,正在跳转到银联平台进行支付";
+            [helper resetForUPPayWithTradeNumber:op.rsp_tradeno targetVC:self];
+        } break;
+        default:
+            return NO;
+    }
+    [gToast showText:text];
+    @weakify(self);
+    [[helper rac_startPay] subscribeNext:^(id x) {
+        
+        @strongify(self);        
+        [self gotoPaidSuccessVC];
+        
+        OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
+        iop.req_notifytype = 5;
+        iop.req_tradeno = op.rsp_tradeno;
+        [[iop rac_postRequest] subscribeNext:^(id x) {
+            DebugLog(@"已通知服务器支付成功!");
+        }];
+    } error:^(NSError *error) {
+        
+    }];
+    return YES;
+}
+
+- (void)gotoPaidSuccessVC
+{
+    MutualInsPayResultVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPayResultVC"];
+    vc.contract = self.contract;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+
+#pragma mark - TTTAttributedLabelDelegate
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url
+{
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.url = [url absoluteString];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - TableView data source
@@ -223,9 +356,15 @@
     else if ([data equalByCellID:@"CouponCell" tag:nil])
     {
         ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
-        vc.type = CouponTypeCarWash;
+        vc.type = CouponTypeXMHZ;
         vc.selectedCouponArray = self.selectCashCoupouArray;
         vc.couponArray = self.cashCoupouArray;
+        vc.couponLimit = self.maxCouponAmt;
+        [vc setFinishAction:^{
+            
+            [self.tableView reloadData];
+            [self refreshPriceLb];
+        }];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -237,7 +376,7 @@
     UILabel *descL = (UILabel *)[cell.contentView viewWithTag:102];
     
     [imageView setImageByUrl:data.tag
-                withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
+                    withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
     descL.text = data.object;
 }
 
@@ -266,7 +405,7 @@
 {
     UILabel *couponLb = (UILabel *)[cell.contentView viewWithTag:102];
     UILabel *dateLb = (UILabel *)[cell.contentView viewWithTag:103];
-
+    
     if (self.selectCashCoupouArray.count)
     {
         couponLb.hidden = NO;
@@ -314,6 +453,9 @@
 {
     UIButton *checkB = [cell viewWithTag:101];
     TTTAttributedLabel *richL = [cell viewWithTag:102];
+    
+    BOOL selected = [data.customInfo[@"check"] boolValue];
+    checkB.selected = selected;
     
     //选择框
     @weakify(checkB);
@@ -415,7 +557,7 @@
     HKCellData *celldata = [HKCellData dataWithCellID:@"CouponCell" tag:nil];
     celldata.object = self.selectCashCoupouArray;
     [celldata setHeightBlock:^CGFloat(UITableView *tableView) {
-        return 42;
+        return 44;
     }];
     return celldata;
 }
@@ -426,7 +568,7 @@
     celldata.object = self.contract.couponlist;
     celldata.tag = self.contract.couponname;
     [celldata setHeightBlock:^CGFloat(UITableView *tableView) {
-        return 42;
+        return 44;
     }];
     return celldata;
 }

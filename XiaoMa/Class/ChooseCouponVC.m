@@ -247,8 +247,10 @@
     
     else if (self.type == CouponTypeCash)
     {
+        CGFloat totalCoupon = 0.0;
         for (HKCoupon * c in self.selectedCouponArray)
         {
+            totalCoupon = totalCoupon + c.couponAmount;
             if ([c.couponId isEqualToNumber:coupon.couponId])
             {
                 [self.selectedCouponArray safetyRemoveObject:c];
@@ -256,6 +258,14 @@
                 return;
             }
         }
+        
+        if (totalCoupon >= self.couponLimit && self.couponLimit > 0)
+        {
+            NSString * str = [NSString stringWithFormat:@"您选择的优惠券已满最大优惠额度：%@元",[NSString formatForPrice:self.couponLimit]];
+            [gToast showError:str];
+            return;
+        }
+        
         [self.selectedCouponArray addObject:coupon];
         [self.tableView reloadData];
     }
@@ -293,6 +303,29 @@
             NSString * str = [NSString stringWithFormat:@"该加油券需充值满%.0f元方可使用",coupon.lowerLimit];
             [gToast showError:str];
         }
+    }
+    else if (self.type == CouponTypeXMHZ)
+    {
+        CGFloat totalCoupon = 0.0;
+        for (HKCoupon * c in self.selectedCouponArray)
+        {
+            totalCoupon = totalCoupon + c.couponAmount;
+            if ([c.couponId isEqualToNumber:coupon.couponId])
+            {
+                [self.selectedCouponArray safetyRemoveObject:c];
+                [self.tableView reloadData];
+                return;
+            }
+        }
+
+        if (totalCoupon >= self.couponLimit)
+        {
+            NSString * str = [NSString stringWithFormat:@"您选择的优惠券已满最大优惠额度：%@元",[NSString formatForPrice:self.couponLimit]];
+            [gToast showError:str];
+            return;
+        }
+        [self.selectedCouponArray addObject:coupon];
+        [self.tableView reloadData];
     }
 }
 

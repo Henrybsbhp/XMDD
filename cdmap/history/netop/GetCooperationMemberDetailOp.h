@@ -14,9 +14,13 @@
 ///互助资金
 @property (nonatomic,assign) float rsp_sharemoney;
 ///所占比例
-@property (nonatomic,assign) int rsp_rate;
+@property (nonatomic,strong) NSString* rsp_rate;
+///理赔次数
+@property (nonatomic,assign) int rsp_claimcount;
 ///可返金额
 @property (nonatomic,assign) float rsp_returnmoney;
+///理赔金额
+@property (nonatomic,assign) float rsp_claimamount;
 
 
 @end

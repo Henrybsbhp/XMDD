@@ -8,6 +8,7 @@
 
 #import "MutualInsGrouponSubMsgVC.h"
 #import "CKDatasource.h"
+#import "MutualInsMemberInfo.h"
 
 #import "MutualInsGrouponMsgCell.h"
 
@@ -32,15 +33,19 @@
 #pragma mark - Reload
 - (void)reloadData
 {
-    self.datasource = $([self messageItem], [self messageItem], [self messageItem], [self messageItem]);
+    @weakify(self);
+    NSArray *items = [self.groupMembers arrayByMappingOperator:^id(MutualInsMemberInfo *info) {
+        @strongify(self);
+        return [self messageItemWithInfo:info];
+    }];
+    self.datasource = [CKList listWithArray:items];
     [self.tableView reloadData];
 }
+
 #pragma mark - CellItem
-- (CKDict *)messageItem
-{
-    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Message", @"left":@(YES),
-                                      @"img":@"http://7xjclc.com2.z0.glb.qiniucdn.com/S117.png", @"title":@"浙A12345",
-                                      @"msg":@"安顺丹丹国际标准舞艺术学校是一所专业的国际标准舞培训中心"}];
+- (CKDict *)messageItemWithInfo:(MutualInsMemberInfo *)info {
+    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Message", @"left":@(![info.memberid isEqual:self.group.memberId]),
+                                      @"img":info.brandurl, @"title":info.licensenumber, @"msg":info.statusdesc}];
     @weakify(self);
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
@@ -95,6 +100,13 @@
     CKDict *item = [self.datasource objectAtIndex:indexPath.row];
     if (item[kCKCellSelected]) {
         ((CKCellSelectedBlock)item[kCKCellSelected])(item, indexPath);
+    }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (self.didScrollBlock) {
+        self.didScrollBlock(scrollView);
     }
 }
 

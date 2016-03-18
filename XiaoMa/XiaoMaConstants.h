@@ -90,14 +90,16 @@
 
 //微信通知web
 #ifdef DEBUG
-#define WECHAT_NOTIFY_URL      @"https://dev.xiaomadada.com/paa/weichatpaynotify"
+#define WECHAT_NOTIFY_URL      @"http://dev01.xiaomadada.com/paa/weichatpaynotify"
+//#define WECHAT_NOTIFY_URL      @"https://dev.xiaomadada.com/paa/weichatpaynotify"
 #else
 #define WECHAT_NOTIFY_URL      @"https://www.xiaomadada.com/paa/weichatpaynotify"
 #endif
 
 //支付宝通知web
 #ifdef DEBUG
-#define ALIPAY_NOTIFY_URL   @"https://dev.xiaomadada.com/paa/alipaynotify"
+#define ALIPAY_NOTIFY_URL   @"http://dev01.xiaomadada.com/paa/alipaynotify"
+//#define ALIPAY_NOTIFY_URL   @"https://dev.xiaomadada.com/paa/alipaynotify"
 #else
 #define ALIPAY_NOTIFY_URL   @"https://www.xiaomadada.com/paa/alipaynotify"
 #endif
