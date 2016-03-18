@@ -5,11 +5,11 @@
 ///协议记录ID
 @property (nonatomic,strong) NSNumber* req_contractid;
 ///是否代买交强险
-@property (nonatomic,strong) NSNumber* req_proxybuy;
+@property (nonatomic) BOOL req_proxybuy;
 ///优惠券ID
-@property (nonatomic,strong) NSNumber* req_cid;
+@property (nonatomic,strong) NSString* req_cids;
 ///支付渠道
-@property (nonatomic,strong) NSString* req_paychannel;
+@property (nonatomic)PaymentChannelType req_paychannel;
 
 ///实付金额
 @property (nonatomic,assign) float rsp_total;

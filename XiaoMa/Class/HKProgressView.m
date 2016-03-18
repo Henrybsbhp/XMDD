@@ -32,9 +32,9 @@
     if (self)
     {
         _highlightColor = [UIColor colorWithHex:@"#18d06a" alpha:1.0f];
-        _normalColor = [UIColor colorWithHex:@"#dbdbdb" alpha:1.0f];
+        _normalColor = [UIColor colorWithHex:@"#f7f7f8" alpha:1.0f];
         _highlightTextColor = [UIColor colorWithHex:@"#ffffff" alpha:1.0f];
-        _normalTextColor = [UIColor colorWithHex:@"#888888" alpha:1.0f];
+        _normalTextColor = [UIColor colorWithHex:@"#dbdbdb" alpha:1.0f];
         self.backgroundColor = [UIColor clearColor];
     }
     return self;

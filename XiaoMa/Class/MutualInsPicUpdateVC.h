@@ -1,5 +1,5 @@
 //
-//  EditInsInfoVC.h
+//  MutualInsPicUpdateVC.h
 //  XiaoMa
 //
 //  Created by 刘亚威 on 16/3/7.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EditInsInfoVC : UIViewController
+@interface MutualInsPicUpdateVC : UIViewController
 
 @property (nonatomic,strong)NSNumber * memberId;
 

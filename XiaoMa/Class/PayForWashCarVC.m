@@ -23,7 +23,7 @@
 #import "PaymentHelper.h"
 
 #import "PaymentSuccessVC.h"
-#import "ChooseCarwashTicketVC.h"
+#import "ChooseCouponVC.h"
 #import "ChooseBankCardVC.h"
 #import "CarListVC.h"
 #import "EditCarVC.h"
@@ -378,7 +378,7 @@
         {
             //点击查看洗车券
             [MobClick event:@"rp108_2"];
-            ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
+            ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
             vc.originVC = self.originVC;
             vc.type = CouponTypeCarWash;
             vc.selectedCouponArray = self.selectCarwashCoupouArray;
@@ -388,7 +388,7 @@
         else if (indexPath.row == 2)
         {
             [MobClick event:@"rp108_4"];
-            ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
+            ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
             vc.originVC = self.originVC;
             vc.type = CouponTypeCash;
             vc.selectedCouponArray = self.selectCashCoupouArray;
@@ -1297,7 +1297,7 @@
     }
     else
     {
-        CGFloat totalAmount;
+        CGFloat totalAmount = 0.0;
         for (HKCoupon * c in couponArray)
         {
             totalAmount = totalAmount + c.couponAmount;
