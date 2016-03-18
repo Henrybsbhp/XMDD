@@ -10,4 +10,6 @@
 
 @interface ScencePageVC : UIViewController
 
+@property (nonatomic, strong) NSString *claimid;
+
 @end

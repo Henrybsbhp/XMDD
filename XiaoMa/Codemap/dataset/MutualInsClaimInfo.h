@@ -14,7 +14,7 @@
 ///理赔费用
 @property (nonatomic,assign) float claimfee;
 ///记录最近更新时间
-@property (nonatomic,strong) NSString* lstupdatetime;
+@property (nonatomic,strong) NSNumber* lstupdatetime;
 
 
 + (instancetype)createWithJSONDict:(NSDictionary *)dict;
