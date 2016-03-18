@@ -1864,8 +1864,6 @@
     </scenes>
     <resources>
         <image name="Horizontaline" width="621" height="1"/>
-        <image name="MutualIns_lostImg" width="50" height="50"/>
-        <image name="MutualIns_paySuccessed" width="19" height="19"/>
         <image name="cm_arrow_r" width="9" height="15"/>
         <image name="cm_avatar" width="59" height="59"/>
         <image name="mutualIns_addPhoto" width="27" height="27"/>

@@ -116,13 +116,13 @@
             cell = [tableView dequeueReusableCellWithIdentifier:@"cardCell"];
             UILabel *cardNumLb = [cell viewWithTag:100];
             UILabel *bankLb = [cell viewWithTag:101];
-            cardNumLb.text = self.;
+            cardNumLb.text = self.cardno;
+            bankLb.text = self.cardname;
         }
         else if(!self.hasCard && indexPath.row ==1)
         {
             cell = [tableView dequeueReusableCellWithIdentifier:@"selectCardCell"];
         }
-        
     }
     else
     {

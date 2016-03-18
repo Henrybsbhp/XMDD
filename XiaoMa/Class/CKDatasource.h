@@ -30,6 +30,7 @@
 @interface CKList : CKQueue<CKItemDelegate>
 
 + (instancetype)list;
++ (instancetype)listWithArray:(NSArray *)array;
 
 @end
 

@@ -503,6 +503,10 @@
 
 - (void)actionBack:(id)sender {
     
+    if (self.originVC) {
+        [self.navigationController popToViewController:self.originVC animated:YES];
+        return;
+    }
     for (UIViewController * vc in self.navigationController.viewControllers)
     {
         if ([vc isKindOfClass:NSClassFromString(@"MutualInsHomeVC")] || [vc isKindOfClass:NSClassFromString(@"MutualInsHomeVC")])
@@ -517,7 +521,6 @@
             return ;
         }
     }
-
 }
 
 #pragma mark - UIImagePickerControllerDelegate

@@ -9,5 +9,4 @@
 #import "HKViewController.h"
 
 @interface MutualInsChooseViewController : HKViewController
-
 @end

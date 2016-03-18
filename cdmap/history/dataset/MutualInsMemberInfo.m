@@ -11,7 +11,7 @@
 - (void)resetWithJSONDict:(NSDictionary *)dict
 {
     self.licensenumber = dict[@"licensenumber"];
-    self.车的品牌logo地址 = dict[@"车的品牌logo地址"];
+    self.brandurl = dict[@"brandurl"];
     self.memberid = dict[@"memberid"];
     self.statusdesc = dict[@"statusdesc"];
 
