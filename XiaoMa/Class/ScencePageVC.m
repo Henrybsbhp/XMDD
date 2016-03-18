@@ -231,6 +231,8 @@
         }]subscribeNext:^(id x) {
             [self.view stopActivityAnimation];
             [gToast showSuccess:@"提交成功"];
+            NSArray *viewControllers = self.navigationController.viewControllers;
+            [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
         }error:^(NSError *error) {
             [gToast showMistake:@"提交失败"];
             [self.view stopActivityAnimation];
