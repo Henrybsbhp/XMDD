@@ -6,6 +6,8 @@
 //  Copyright © 2016年 RockyYe. All rights reserved.
 //
 
+#define kWidth (self.rect.size.width / 2)
+
 #import "HKInclinedLabel.h"
 
 @interface HKInclinedLabel ()
@@ -20,7 +22,6 @@
 - (void)drawRect:(CGRect)rect {
     self.rect = rect;
     [self drawTrapeziumWithRect:rect];
-    
 }
 
 -(void)drawTrapeziumWithRect:(CGRect)rect
@@ -41,9 +42,12 @@
 {
     if (!_label)
     {
-        _label = [[UILabel alloc]initWithFrame:CGRectMake(self.rect.size.width * 0.5, 0, self.rect.size.width / 1.414 ,  0.5 / 1.414 * self.rect.size.width)];
+        CGFloat width = (double)kWidth * sqrt(2.0);
+        CGFloat height = (double)kWidth / sqrt(2.0);
+        _label = [[UILabel alloc]initWithFrame:CGRectMake(self.rect.size.width * 0.5, 0, width , height)];
         [self configLabelTransition];
         [self configLabelProperty];
+        _label.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
     }
     return _label;
 }
@@ -57,13 +61,13 @@
     transition.x = newOrigin.x - oldOrigin.x;
     transition.y = newOrigin.y - oldOrigin.y;
     _label.center = CGPointMake (_label.center.x - transition.x, _label.center.y - transition.y);
+    
     _label.transform = CGAffineTransformRotate(self.label.transform, M_PI_4);
 }
 
 -(void)configLabelProperty
 {
     _label.text = self.text;
-    _label.textAlignment = NSTextAlignmentCenter;
     _label.textColor = self.textColor;
     if (self.fontSize == 0)
     {
@@ -74,7 +78,7 @@
         [_label setAdjustsFontSizeToFitWidth:NO];
         _label.font = [UIFont systemFontOfSize:self.fontSize];
     }
-    
+    _label.textAlignment = NSTextAlignmentCenter;
     
 }
 

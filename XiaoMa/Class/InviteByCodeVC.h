@@ -10,4 +10,6 @@
 
 @interface InviteByCodeVC : UIViewController
 
+@property (nonatomic, strong) NSNumber * groupId;
+
 @end

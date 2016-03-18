@@ -6,7 +6,7 @@
     self.req_method = @"/cooperation/contract/order/pay";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params safetySetObject:self.req_contractid forKey:@"contractid"];
-    [params safetySetObject:@(self.req_proxybuy) forKey:@"proxybuy"];
+    [params safetySetObject:self.req_proxybuy ? @(1):@(0) forKey:@"proxybuy"];
     [params safetySetObject:self.req_cids forKey:@"cid"];
     [params safetySetObject:@(self.req_paychannel) forKey:@"paychannel"];
 

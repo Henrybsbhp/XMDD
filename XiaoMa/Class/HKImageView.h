@@ -18,5 +18,7 @@
 - (RACSignal *)rac_setUploadingImage:(UIImage *)img withImageType:(UploadFileType)type;
 - (void)setImageByUrl:(NSString *)url withType:(ImageURLType)type defImageObj:(UIImage *)defimg errorImageObj:(UIImage *)errimg;
 - (void)setImage:(UIImage *)image;
+- (void)hideMaskView;
+- (void)showMaskView;
 
 @end

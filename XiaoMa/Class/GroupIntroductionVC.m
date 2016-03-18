@@ -11,6 +11,7 @@
 #import "CarListVC.h"
 #import "ApplyCooperationGroupJoinOp.h"
 #import "MutualInsPicUpdateVC.h"
+#import "CreateGroupVC.h"
 
 #define IntroUrl @"http://www.baidu.com"
 
@@ -70,12 +71,12 @@
         
         [[self.selfGroupJoinBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
-            [self sysGroupJoin];
+            [self selfGroupJoin];
         }];
         
         [[self.selfGroupTourBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
-            [self sysGroupTour];
+            [self selfGroupTour];
         }];
     }
 }
@@ -137,6 +138,7 @@
         [gToast dismissInView:view];
         
         MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
+        vc.memberId = rop.rsp_memberid;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
@@ -144,13 +146,14 @@
     }];
 }
 
-- (void)sysGroupTour
+- (void)selfGroupTour
 {
-    
+    CreateGroupVC * vc = [UIStoryboard vcWithId:@"CreateGroupVC" inStoryboard:@"MutualInsJoin"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)sysGroupJoin
+- (void)selfGroupJoin
 {
-    
+
 }
 @end

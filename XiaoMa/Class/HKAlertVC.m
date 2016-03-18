@@ -68,7 +68,13 @@
         UIButton *btn = [[UIButton alloc] initWithFrame:rect];
         btn.titleLabel.font = [UIFont systemFontOfSize:15];
         [btn setTitle:title forState:UIControlStateNormal];
-        [btn setTitleColor:HEXCOLOR(@"#18d06a") forState:UIControlStateNormal];
+        //第一个按钮为灰色，其余为绿色
+        if (i == 0) {
+            [btn setTitleColor:HEXCOLOR(@"#888888") forState:UIControlStateNormal];
+        }
+        else {
+            [btn setTitleColor:HEXCOLOR(@"#18d06a") forState:UIControlStateNormal];
+        }
         btn.tag = i;
         [btn addTarget:self action:@selector(actionClick:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:btn];
@@ -78,7 +84,7 @@
                                                                     1, kBottomViewHeight-2*kBottomViewLinePadding)];
             line.lineAlignment = CKLineAlignmentVerticalLeft;
             line.lineColor = HEXCOLOR(@"#dedfe0");
-            [view addSubview:view];
+            [view addSubview:line];
         }
     }
     CKLine *line = [[CKLine alloc] initWithFrame:CGRectMake(0, 0, bounds.size.width, 1)];

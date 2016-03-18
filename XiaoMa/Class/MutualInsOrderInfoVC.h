@@ -13,5 +13,7 @@
 
 @property (nonatomic,strong)NSNumber * contractId;
 
+- (void)requestContractDetail;
+
 @end
 

@@ -25,6 +25,15 @@
 + (NSString *)formatForPrice:(CGFloat)price;
 
 /**
+ *  折扣小数为零的截断
+ *
+ *  @param price price
+ *
+ *  @return nsstring
+ */
++ (NSString *)formatForDiscount:(CGFloat)discount;
+
+/**
  *  忽略小数的金额
  *
  *  @param price price
