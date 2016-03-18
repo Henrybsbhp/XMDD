@@ -12,5 +12,7 @@
 @interface MutualInsPayViewController : HKViewController
 
 @property (nonatomic,strong)MutualInsContract * contract;
+///是否代买交强险
+@property (nonatomic)BOOL proxybuy;
 
 @end
