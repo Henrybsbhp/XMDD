@@ -23,6 +23,7 @@
     self.rsp_claimfee = [dict[@"claimfee"] floatValue];
     self.rsp_cardid = dict[@"cardid"];
     self.rsp_cardname = dict[@"cardname"];
+    self.rsp_cardno = dict[@"cardno"];
     return self;
 }
 

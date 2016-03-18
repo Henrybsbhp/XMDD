@@ -46,33 +46,37 @@
 {
     MutualInsClaimInfo *model = [self.dataArr safetyObjectAtIndex:indexPath.section];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    cell.layer.cornerRadius = 5;
-    cell.layer.masksToBounds = YES;
+    [self addCorner:cell];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     HKInclinedLabel *hkLabel = [cell viewWithTag:101];
     hkLabel.text = model.statusdesc;
+    NSLog(@"%lf",hkLabel.frame.size.width);
     hkLabel.backgroundColor = [UIColor clearColor];
-    hkLabel.trapeziumColor = [UIColor colorWithHex:@"#ff7428" alpha:1];
+    if (model.detailstatus < 3)
+    {
+        hkLabel.trapeziumColor = [UIColor colorWithHex:@"#ff7428" alpha:1];
+    }
+    else
+    {
+        hkLabel.trapeziumColor = [UIColor colorWithHex:@"#18D06A" alpha:1];
+    }
     hkLabel.textColor = [UIColor whiteColor];
+
     UIView *backView = [cell viewWithTag:1000];
-    backView.layer.cornerRadius = 5;
-    backView.layer.masksToBounds = YES;
+    [self addCorner:backView];
     
     UILabel *detaiLabel = [cell viewWithTag:1002];
     detaiLabel.preferredMaxLayoutWidth = cell.bounds.size.width - 35;
     detaiLabel.text = [NSString stringWithFormat:@"事故概述：%@",model.accidentdesc];
-    
     UILabel *priceLabel = [cell viewWithTag:1003];
     priceLabel.text = [NSString formatForPriceWithFloat:model.claimfee];
-    
     UILabel *statusLabel = [cell viewWithTag:1004];
     statusLabel.text = model.detailstatusdesc;
     
     UILabel *timeLabel = [cell viewWithTag:1005];
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    timeLabel.text = [NSString stringWithFormat:@"%@",[format dateFromString:model.lstupdatetime]];
-    
+    [format setDateFormat:@"yyyy.MM.dd HH:mm:ss"];
+    timeLabel.text = [format stringFromDate:[NSDate dateWithUTS:model.lstupdatetime]];
     return cell;
 }
 
@@ -81,7 +85,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MutualInsClaimInfo *model = [self.dataArr safetyObjectAtIndex:indexPath.section];
-    ClaimDetailVC *detailVC = [[UIStoryboard storyboardWithName:@"" bundle:nil]instantiateViewControllerWithIdentifier:@"ClaimDetailVC"];
+    ClaimDetailVC *detailVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"ClaimDetailVC"];
     detailVC.claimid = model.claimid;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
@@ -107,20 +111,27 @@
 
 #pragma mark Utility
 
+-(void)addCorner:(UIView *)view
+{
+    view.layer.cornerRadius = 5;
+    view.layer.masksToBounds = YES;
+}
+
 -(void)loadData
 {
     GetCooperationClaimsListOp *op = [GetCooperationClaimsListOp new];
     [[[op rac_postRequest]initially:^{
-        [self.tableView startActivityAnimationWithType:GifActivityIndicatorType];
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }]subscribeNext:^(id x) {
-        [self.tableView stopActivityAnimation];
+        [self.view stopActivityAnimation];
         self.dataArr = op.rsp_claimlist;
+        [self.tableView reloadData];
         if (self.dataArr.count == 0)
         {
             [self.tableView showDefaultEmptyViewWithText:@"暂无理赔记录"];
         }
     }error:^(NSError *error) {
-        [self.tableView stopActivityAnimation];
+        [self.view stopActivityAnimation];
     }];
 }
 

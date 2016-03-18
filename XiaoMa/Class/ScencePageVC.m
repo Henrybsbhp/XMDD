@@ -13,6 +13,7 @@
 #import "ScencePhotoVM.h"
 #import "GetCooperationMyCarOp.h"
 #import "ApplyCooperationClaimOp.h"
+#import "ChooseCarVC.h"
 
 
 #define kOneBtnWidth self.view.bounds.size.width - 30
@@ -29,7 +30,7 @@
 @property (nonatomic,strong) UIPageViewController *pageVC;
 @property (nonatomic,strong) NSArray *viewArr;
 
-@property (nonatomic, strong) NSNumber *licensenumber;
+
 @property (nonatomic, strong) NSString *scene;
 @property (nonatomic, strong) NSString *cardamage;
 @property (nonatomic, strong) NSString *carinfo;
@@ -62,7 +63,6 @@
     [self setupUI];
     [self setSelectedIndex];
     [self configProgressView];
-    [self getCarData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -107,13 +107,10 @@
  */
 -(void)setupUI
 {
-    self.nextStepBtn.layer.cornerRadius = 5;
-    self.nextStepBtn.layer.masksToBounds = YES;
-    self.lastStepBtn.layer.cornerRadius = 5;
-    self.lastStepBtn.layer.masksToBounds = YES;
-    self.lastStepBtn.layer.borderColor = [[UIColor colorWithHex:@"#18D06A" alpha:1]CGColor];
-    self.lastStepBtn.borderWidth = 1;
-    
+    [self addCorner:self.nextStepBtn];
+    [self addCorner:self.lastStepBtn];
+    [self addBorder:self.lastStepBtn];
+
     UIBarButtonItem *backBtnItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cm_nav_back"] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
     self.navigationItem.leftBarButtonItem = backBtnItem;
 }
@@ -130,7 +127,6 @@
     {
         [self.nextStepBtn setTitle:@"下一步" forState:UIControlStateNormal];
     }
-    
     if (index == 0)
     {
         self.lastStepBtn.hidden = YES;
@@ -159,28 +155,18 @@
     }
 }
 
--(void)getCarData
+
+#pragma mark Utility
+-(void)addCorner:(UIView *)view
 {
-    GetCooperationMyCarOp *op = [[GetCooperationMyCarOp alloc]init];
-    [[[op rac_postRequest]initially:^{
-        [self.view startActivityAnimationWithType:MONActivityIndicatorType];
-    }]subscribeNext:^(GetCooperationMyCarOp *op) {
-        if (op.rsp_licensenumbers.count == 1)
-        {
-            self.licensenumber = op.rsp_licensenumbers.firstObject;
-        }
-        else if (op.rsp_licensenumbers.count > 1)
-        {
-//            @叶志成 添加选车页面
-        }
-        else
-        {
-            [gToast showMistake:@"获取您的爱车失败"];
-        }
-        [self.view stopActivityAnimation];
-    }error:^(NSError *error) {
-        [self.view stopActivityAnimation];
-    }];
+    view.layer.cornerRadius = 5;
+    view.layer.masksToBounds = YES;
+}
+
+-(void)addBorder:(UIView *)view
+{
+    view.layer.borderColor = [[UIColor colorWithHex:@"#18D06A" alpha:1]CGColor];
+    view.layer.borderWidth = 1;
 }
 
 #pragma mark Action
@@ -188,7 +174,7 @@
 -(void)back
 {
     ScencePhotoVC *scencePhotoVC = self.viewArr.firstObject;
-    if ([scencePhotoVC canPush])
+    if (![[scencePhotoVC canPush] isEqualToString:@"请先拍照"])
     {
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"请确认是否返回?" message:@"并放弃当前所拍摄的照片" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         [alertView show];
@@ -219,23 +205,23 @@
     
     ScencePhotoVC *scencePhotoVC = self.pageVC.viewControllers.firstObject;
     NSInteger index = [self.viewArr indexOfObject:scencePhotoVC];
-    if ([scencePhotoVC canPush] && index != self.viewArr.count - 1)
+    if ([scencePhotoVC canPush].length == 0 && index != self.viewArr.count - 1)
     {
         [self.pageVC setViewControllers:@[[self.viewArr safetyObjectAtIndex:index + 1] ] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
         [self setSelectedIndex];
     }
-    else if(![scencePhotoVC canPush])
+    else if([scencePhotoVC canPush].length != 0)
     {
-        [gToast showMistake:@"请先拍照"];
+        [gToast showMistake:[scencePhotoVC canPush]];
     }
     else
     {
-        self.scene = [[self.scencePhotoVM urlArrForIndex:0]componentsJoinedByString:@","];
-        self.cardamage = [[self.scencePhotoVM urlArrForIndex:1]componentsJoinedByString:@","];
-        self.carinfo = [[self.scencePhotoVM urlArrForIndex:2]componentsJoinedByString:@","];
-        self.idinfo = [[self.scencePhotoVM urlArrForIndex:3]componentsJoinedByString:@","];
+        self.scene = [self.scencePhotoVM URLStringForIndex:0];
+        self.cardamage = [self.scencePhotoVM URLStringForIndex:1];
+        self.carinfo = [self.scencePhotoVM URLStringForIndex:2];
+        self.idinfo = [self.scencePhotoVM URLStringForIndex:3];
         ApplyCooperationClaimOp *op = [[ApplyCooperationClaimOp alloc]init];
-        op.req_licensenumber = self.licensenumber.stringValue;
+        op.req_claimid = self.claimid;
         op.req_scene = self.scene;
         op.req_cardamage = self.cardamage;
         op.req_carinfo = self.carinfo;
@@ -246,7 +232,7 @@
             [self.view stopActivityAnimation];
             [gToast showSuccess:@"提交成功"];
         }error:^(NSError *error) {
-            [gToast showSuccess:@"提交失败"];
+            [gToast showMistake:@"提交失败"];
             [self.view stopActivityAnimation];
         }];
         
