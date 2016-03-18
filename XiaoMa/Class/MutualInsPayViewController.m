@@ -16,6 +16,7 @@
 #import "PaymentHelper.h"
 #import "OrderPaidSuccessOp.h"
 #import "MutualInsPayResultVC.h"
+#import "MutualInsActivityVC.h"
 
 @interface MutualInsPayViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 
@@ -364,7 +365,9 @@
     HKCellData * data = [[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
     if ([data equalByCellID:@"ActiveCell" tag:nil])
     {
-        
+        MutualInsActivityVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsActivityVC"];
+        vc.dataArr = self.contract.couponlist;
+        [self.navigationController pushViewController:vc animated:YES];
     }
     else if ([data equalByCellID:@"PayPlatformCell" tag:nil])
     {

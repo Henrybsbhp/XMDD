@@ -346,7 +346,7 @@
 		4EA1CB231C969830006CCBEA /* MutualInsScencePhotoVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1CB211C969830006CCBEA /* MutualInsScencePhotoVM.m */; };
 		4EB2D9021C9BD60500D74EC0 /* MutualInsChooseBankVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB2D9011C9BD60500D74EC0 /* MutualInsChooseBankVC.m */; };
 		4EC6EA801C22A5480092BF6E /* HistoryCollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC6EA7F1C22A5480092BF6E /* HistoryCollectionVC.m */; };
-		4ECF21951C9C0BE5004E76DD /* MutualInsDiscountVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECF21941C9C0BE5004E76DD /* MutualInsDiscountVC.m */; };
+		4ECF21951C9C0BE5004E76DD /* MutualInsActivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECF21941C9C0BE5004E76DD /* MutualInsActivityVC.m */; };
 		4EED3ED71C97D65900EB081E /* MutualInsClaimAccountVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EED3ED61C97D65900EB081E /* MutualInsClaimAccountVC.m */; };
 		4EF12DED1C1EBC900098B8C6 /* SecondCarValuationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */; };
 		4EF4949C1C9A7D8D008A8E4D /* GetSystemTimeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF4949B1C9A7D8D008A8E4D /* GetSystemTimeOp.m */; };
@@ -597,7 +597,6 @@
 		6BC80C951C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C821C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.m */; };
 		6BC80CB41C96EAA800C7BA3D /* UpdateCooperationInsInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80CB31C96EAA800C7BA3D /* UpdateCooperationInsInfoOp.m */; };
 		6BC80CBE1C96EB1900C7BA3D /* UpdateCooperationIdlicenseInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80CBD1C96EB1900C7BA3D /* UpdateCooperationIdlicenseInfoOp.m */; };
-		6BC80CC11C96ECA700C7BA3D /* MutualInsChooseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80CC01C96ECA700C7BA3D /* MutualInsChooseViewController.m */; };
 		6BC80CF81C99453B00C7BA3D /* MutualInsPay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BC80CF71C99453B00C7BA3D /* MutualInsPay.storyboard */; };
 		6BC80D011C99456100C7BA3D /* MutualInsOrderInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80D001C99456100C7BA3D /* MutualInsOrderInfoVC.m */; };
 		6BC80D061C9946CD00C7BA3D /* HKArrowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80D051C9946CD00C7BA3D /* HKArrowView.m */; };
@@ -1415,8 +1414,8 @@
 		4EB2D9011C9BD60500D74EC0 /* MutualInsChooseBankVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsChooseBankVC.m; sourceTree = "<group>"; };
 		4EC6EA7E1C22A5480092BF6E /* HistoryCollectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryCollectionVC.h; sourceTree = "<group>"; };
 		4EC6EA7F1C22A5480092BF6E /* HistoryCollectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryCollectionVC.m; sourceTree = "<group>"; };
-		4ECF21931C9C0BE5004E76DD /* MutualInsDiscountVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsDiscountVC.h; sourceTree = "<group>"; };
-		4ECF21941C9C0BE5004E76DD /* MutualInsDiscountVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsDiscountVC.m; sourceTree = "<group>"; };
+		4ECF21931C9C0BE5004E76DD /* MutualInsActivityVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsActivityVC.h; sourceTree = "<group>"; };
+		4ECF21941C9C0BE5004E76DD /* MutualInsActivityVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsActivityVC.m; sourceTree = "<group>"; };
 		4EED3ED51C97D65900EB081E /* MutualInsClaimAccountVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsClaimAccountVC.h; sourceTree = "<group>"; };
 		4EED3ED61C97D65900EB081E /* MutualInsClaimAccountVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsClaimAccountVC.m; sourceTree = "<group>"; };
 		4EED3EDF1C982F5900EB081E /* MutualInsScencePhotoVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsScencePhotoVM.h; sourceTree = "<group>"; };
@@ -1892,8 +1891,6 @@
 		6BC80CB31C96EAA800C7BA3D /* UpdateCooperationInsInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateCooperationInsInfoOp.m; sourceTree = "<group>"; };
 		6BC80CBC1C96EB1900C7BA3D /* UpdateCooperationIdlicenseInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateCooperationIdlicenseInfoOp.h; sourceTree = "<group>"; };
 		6BC80CBD1C96EB1900C7BA3D /* UpdateCooperationIdlicenseInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateCooperationIdlicenseInfoOp.m; sourceTree = "<group>"; };
-		6BC80CBF1C96ECA700C7BA3D /* MutualInsChooseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsChooseViewController.h; sourceTree = "<group>"; };
-		6BC80CC01C96ECA700C7BA3D /* MutualInsChooseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsChooseViewController.m; sourceTree = "<group>"; };
 		6BC80CF71C99453B00C7BA3D /* MutualInsPay.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsPay.storyboard; sourceTree = "<group>"; };
 		6BC80D001C99456100C7BA3D /* MutualInsOrderInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsOrderInfoVC.m; sourceTree = "<group>"; };
 		6BC80D021C99458E00C7BA3D /* MutualInsOrderInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsOrderInfoVC.h; sourceTree = "<group>"; };
@@ -3838,8 +3835,8 @@
 				4E043B191C9A511200742268 /* MutualInsChooseCarVC.m */,
 				4EB2D9001C9BD60500D74EC0 /* MutualInsChooseBankVC.h */,
 				4EB2D9011C9BD60500D74EC0 /* MutualInsChooseBankVC.m */,
-				4ECF21931C9C0BE5004E76DD /* MutualInsDiscountVC.h */,
-				4ECF21941C9C0BE5004E76DD /* MutualInsDiscountVC.m */,
+				4ECF21931C9C0BE5004E76DD /* MutualInsActivityVC.h */,
+				4ECF21941C9C0BE5004E76DD /* MutualInsActivityVC.m */,
 			);
 			name = MutualInsClaims;
 			sourceTree = "<group>";
@@ -5343,7 +5340,7 @@
 				18D17F7A1B56557200F66F04 /* HKTokenPool.m in Sources */,
 				184E40CE1AD3BBB600EFC3A6 /* ShopDetailVC.m in Sources */,
 				508D06801B900CF800B835BB /* InsuranceOrderPayOp.m in Sources */,
-				4ECF21951C9C0BE5004E76DD /* MutualInsDiscountVC.m in Sources */,
+				4ECF21951C9C0BE5004E76DD /* MutualInsActivityVC.m in Sources */,
 				6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */,
 				1813559C1C92B6AE00894CA1 /* MutualInsGrouponMsgCell.m in Sources */,
 				181F6DA81B15919900D38555 /* CXAlertViewController.m in Sources */,

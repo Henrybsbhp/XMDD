@@ -6,14 +6,14 @@
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "MutualInsDiscountVC.h"
+#import "MutualInsActivityVC.h"
 
-@interface MutualInsDiscountVC ()<UITableViewDelegate,UITableViewDataSource>
+@interface MutualInsActivityVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
-@implementation MutualInsDiscountVC
+@implementation MutualInsActivityVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -33,15 +33,16 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//    return self.dataArr.count;
-    return 5;
+    return self.dataArr.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    UILabel *label = [cell viewWithTag:100];
+    UILabel *label = [cell viewWithTag:101];
     
+    NSString * str = [self.dataArr safetyObjectAtIndex:indexPath.row];
+    label.text = str;
     return cell;
 }
 
