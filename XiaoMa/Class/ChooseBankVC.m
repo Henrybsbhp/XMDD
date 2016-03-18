@@ -25,7 +25,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self.collectionView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
-    [self loadDefData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -35,28 +34,11 @@
 
 
 
-- (void)loadDefData
-{
-    CKAsyncMainQueue(^{
-        UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
-        layout.itemSize = CGSizeMake(floor((self.view.frame.size.width - 12*3)/2.0), 44);
-        
-        if (!self.collectionView.dataSource) {
-            self.collectionView.dataSource = self;
-            self.collectionView.delegate = self;
-        }
-//        self.datasource = [[NSUserDefaults standardUserDefaults] arrayForKey:kInsCompanyListKey];
-        [self.collectionView reloadData];
-    });
-}
-
-
 
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.navigationController popViewControllerAnimated:YES];
-        NSString *name = [self.datasource safetyObjectAtIndex:indexPath.item];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
