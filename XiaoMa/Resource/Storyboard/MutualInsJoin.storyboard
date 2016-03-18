@@ -1431,14 +1431,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="36"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2jV-lG-Qjf">
-                                                    <rect key="frame" x="16" y="12" width="14" height="14"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MutualIns_warming" translatesAutoresizingMaskIntoConstraints="NO" id="2jV-lG-Qjf">
+                                                    <rect key="frame" x="16" y="13" width="14" height="14"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="14" id="3KQ-MV-Gcu"/>
                                                         <constraint firstAttribute="height" constant="14" id="DVe-65-Up6"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9M5-qe-1tx">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9M5-qe-1tx">
                                                     <rect key="frame" x="35" y="12" width="550" height="11.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.99607843137254903" green="0.76078431372549016" blue="0.19607843137254902" alpha="1" colorSpace="calibratedRGB"/>
@@ -1446,11 +1446,11 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="2jV-lG-Qjf" firstAttribute="top" secondItem="9M5-qe-1tx" secondAttribute="top" constant="1" id="9dy-wI-Z9w"/>
                                                 <constraint firstItem="9M5-qe-1tx" firstAttribute="leading" secondItem="2jV-lG-Qjf" secondAttribute="trailing" constant="5" id="PG2-qc-UPn"/>
                                                 <constraint firstItem="2jV-lG-Qjf" firstAttribute="leading" secondItem="g0h-oj-BJI" secondAttribute="leading" constant="16" id="TYD-js-JRH"/>
                                                 <constraint firstAttribute="trailing" secondItem="9M5-qe-1tx" secondAttribute="trailing" constant="15" id="XFB-L0-BV6"/>
                                                 <constraint firstAttribute="bottom" secondItem="9M5-qe-1tx" secondAttribute="bottom" constant="12" id="h5d-BP-6cg"/>
-                                                <constraint firstItem="2jV-lG-Qjf" firstAttribute="top" secondItem="g0h-oj-BJI" secondAttribute="top" constant="12" id="iQL-Av-l3E"/>
                                                 <constraint firstItem="9M5-qe-1tx" firstAttribute="top" secondItem="g0h-oj-BJI" secondAttribute="top" constant="12" id="o18-wv-fDT"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -1806,6 +1806,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="MutualIns_warming" width="13" height="13"/>
         <image name="cm_logo_def" width="58" height="58"/>
         <image name="min_inshelp" width="15" height="15"/>
         <image name="min_inspricebg" width="14" height="43"/>
