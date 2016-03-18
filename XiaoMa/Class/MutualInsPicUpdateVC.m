@@ -6,7 +6,7 @@
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "EditInsInfoVC.h"
+#import "MutualInsPicUpdateVC.h"
 #import "JGActionSheet.h"
 #import "PickInsCompaniesVC.h"
 #import "DatePickerVC.h"
@@ -17,7 +17,7 @@
 #import "MutualInsHomeVC.h"
 #import "GetCooperationIdlicenseInfoOp.h"
 
-@interface EditInsInfoVC () <UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface MutualInsPicUpdateVC () <UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
     UIImage *_defImage;
     UIImage *_errorImage;
@@ -37,11 +37,11 @@
 
 @end
 
-@implementation EditInsInfoVC
+@implementation MutualInsPicUpdateVC
 
 - (void)dealloc
 {
-    DebugLog(@"EditInsInfoVC dealloc");
+    DebugLog(@"MutualInsPicUpdateVC dealloc");
 }
 
 - (void)viewDidLoad {
@@ -503,6 +503,10 @@
 
 - (void)actionBack:(id)sender {
     
+    if (self.originVC) {
+        [self.navigationController popToViewController:self.originVC animated:YES];
+        return;
+    }
     for (UIViewController * vc in self.navigationController.viewControllers)
     {
         if ([vc isKindOfClass:NSClassFromString(@"MutualInsHomeVC")] || [vc isKindOfClass:NSClassFromString(@"MutualInsHomeVC")])
@@ -517,7 +521,6 @@
             return ;
         }
     }
-
 }
 
 #pragma mark - UIImagePickerControllerDelegate

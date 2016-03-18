@@ -92,9 +92,20 @@ class=GetCooperationMygroupDetail op auth path="/cooperation/mygroup/detail/get"
     <"团ID">groupid:number
   } 
   <rsp> {
-    <"团员其他人的信息">members:MutualInsMemberInfo
+    <"团员其他人的信息">members:[MutualInsMemberInfo]
     <"各阶段有效时间">timeperiod
     <"自己记录状态描述">selfstatusdesc
+    <"控制状态栏显示">barstatus:int
+    status:int
+    <"协议记录ID">contractid:number
+    <"剩余时间倒计时提示语">timetip
+    <"池子最大金额">totalpoolamt
+    <"池子当前金额">presentpoolamt
+    <"各种状态倒计时剩余时间">lefttime:longlong
+    <"没有车直接报价按钮是否显示">pricebuttonflag:int
+    <"按钮名字">buttonname
+    <"是否当前人是团长本人">ifgroupowner:bool
+    <"团记录ID">groupid:number
   }
 }
 
@@ -139,8 +150,10 @@ class=GetCooperationMemberDetail op auth path="/cooperation/member/detail/get"> 
      <"车主手机">phone
      <"品牌车系信息">carbrand
      <"互助资金">sharemoney:float
-     <"所占比例">rate:int
+     <"所占比例">rate
+     <"理赔次数">claimcount:int
      <"可返金额">returnmoney:float
+     <"理赔金额">claimamount:float
   }
 }
 
@@ -262,7 +275,7 @@ class=GetCooperationClaimBankcard op auth path="/cooperation/claim/bankcard/get"
 <"团员信息"
 class=MutualInsMemberInfo data> {
   <"车牌">licensenumber
-  <"车的品牌logo地址">车的品牌logo地址
+  <"车的品牌logo地址">brandurl
   <"团员记录ID">memberid:number    
   <"其他人的状态描述">statusdesc             
 }

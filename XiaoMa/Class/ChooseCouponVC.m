@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "ChooseCarwashTicketVC.h"
+#import "ChooseCouponVC.h"
 #import "XiaoMa.h"
 #import "PaymentSuccessVC.h"
 #import "HKCoupon.h"
@@ -16,14 +16,21 @@
 #import "PayForInsuranceVC.h"
 #import "PayForGasViewController.h"
 
-@interface ChooseCarwashTicketVC ()<UITableViewDataSource, UITableViewDelegate>
+@interface ChooseCouponVC ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 - (IBAction)getMoreAction:(id)sender;
 
 @end
 
-@implementation ChooseCarwashTicketVC
+@implementation ChooseCouponVC
+
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"ChooseCarwashTicketVC dealloc");
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,20 +44,14 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-- (void)dealloc
-{
-    self.tableView.delegate = nil;
-    self.tableView.dataSource = nil;
-    DebugLog(@"ChooseCarwashTicketVC dealloc");
-}
-
+#pragma mark - SetupUI
 - (void)setupNavigationBar
 {
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
     self.navigationItem.leftBarButtonItem = back;
 }
 
+#pragma mark - Utilitly
 - (void)reloadData
 {
     [self.tableView reloadData];
@@ -246,8 +247,10 @@
     
     else if (self.type == CouponTypeCash)
     {
+        CGFloat totalCoupon = 0.0;
         for (HKCoupon * c in self.selectedCouponArray)
         {
+            totalCoupon = totalCoupon + c.couponAmount;
             if ([c.couponId isEqualToNumber:coupon.couponId])
             {
                 [self.selectedCouponArray safetyRemoveObject:c];
@@ -255,6 +258,14 @@
                 return;
             }
         }
+        
+        if (totalCoupon >= self.couponLimit && self.couponLimit > 0)
+        {
+            NSString * str = [NSString stringWithFormat:@"您选择的优惠券已满最大优惠额度：%@元",[NSString formatForPrice:self.couponLimit]];
+            [gToast showError:str];
+            return;
+        }
+        
         [self.selectedCouponArray addObject:coupon];
         [self.tableView reloadData];
     }
@@ -292,6 +303,29 @@
             NSString * str = [NSString stringWithFormat:@"该加油券需充值满%.0f元方可使用",coupon.lowerLimit];
             [gToast showError:str];
         }
+    }
+    else if (self.type == CouponTypeXMHZ)
+    {
+        CGFloat totalCoupon = 0.0;
+        for (HKCoupon * c in self.selectedCouponArray)
+        {
+            totalCoupon = totalCoupon + c.couponAmount;
+            if ([c.couponId isEqualToNumber:coupon.couponId])
+            {
+                [self.selectedCouponArray safetyRemoveObject:c];
+                [self.tableView reloadData];
+                return;
+            }
+        }
+
+        if (totalCoupon >= self.couponLimit)
+        {
+            NSString * str = [NSString stringWithFormat:@"您选择的优惠券已满最大优惠额度：%@元",[NSString formatForPrice:self.couponLimit]];
+            [gToast showError:str];
+            return;
+        }
+        [self.selectedCouponArray addObject:coupon];
+        [self.tableView reloadData];
     }
 }
 

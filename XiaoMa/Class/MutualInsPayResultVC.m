@@ -8,10 +8,23 @@
 
 #import "MutualInsPayResultVC.h"
 #import "AreaTablePickerVC.h"
+#import "UIView+Shake.h"
+#import "UpdateCooperationContractDeliveryinfoOp.h"
+#import "MutualInsOrderInfoVC.h"
 
 @interface MutualInsPayResultVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UIButton *commitBtn;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
+
+@property (nonatomic,copy)NSString * contactname;
+@property (nonatomic,copy)NSString * contactphone;
+@property (nonatomic,copy)NSString * area;
+@property (nonatomic,copy)NSString * address;
+
+@property (nonatomic,strong)UIView * view1;
+@property (nonatomic,strong)UIView * view2;
+@property (nonatomic,strong)UIView * view3;
+@property (nonatomic,strong)UIView * view4;
 
 @end
 
@@ -19,11 +32,27 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self setupUI];
+    [self setupNavigationBar];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+#pragma mark - SetupUI
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
+}
+
+- (void)setupUI
+{
+    self.tableView.tableFooterView = [UIView new];
+    self.commitBtn.layer.cornerRadius = 5;
+    self.commitBtn.layer.masksToBounds = YES;
 }
 
 #pragma mark UITableViewDataSource
@@ -76,6 +105,9 @@
     UIView *backgoundView = [cell viewWithTag:100];
     backgoundView.layer.borderWidth = 1;
     backgoundView.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
+    
+    
+    
     return cell;
 }
 
@@ -90,15 +122,32 @@
     {
         case 2:
             title.text = @"联系人姓名";
+            textField.text = self.contactname;
+            self.view1 = textField;
             break;
         case 3:
             title.text = @"联系人手机";
+            textField.text = self.contactphone;
+            self.view2 = textField;
             break;
         default:
             title.text = @"协议寄送地址";
             textField.hidden = YES;
             break;
     }
+    
+    [[[textField rac_textSignal] takeUntilForCell:cell] subscribeNext:^(NSString * x) {
+        
+        switch (indexPath.section)
+        {
+            case 2:
+                self.contactname = x;
+                break;
+            case 3:
+                self.contactphone = x;
+                break;
+        }
+    }];
     return cell;
 }
 
@@ -108,6 +157,9 @@
     UITextField *textField = [cell viewWithTag:101];
     textField.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
     textField.layer.borderWidth = 1;
+    
+    textField.text = self.area;
+    self.view3 = textField;
     return cell;
 }
 
@@ -118,7 +170,10 @@
     textView.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
     textView.layer.borderWidth = 1;
     UILabel *placeHolder = [cell viewWithTag:101];
-    [[textView rac_textSignal]subscribeNext:^(NSString *x) {
+    
+    textView.text = self.address;
+    self.view4 = textView;
+    [[[textView rac_textSignal] takeUntilForCell:cell] subscribeNext:^(NSString *x) {
         if (x.length != 0)
         {
             placeHolder.text = @"";
@@ -127,6 +182,8 @@
         {
             placeHolder.text = @"请填写详细地址";
         }
+        
+        self.address = x;
     }];
     return cell;
 }
@@ -164,7 +221,8 @@
         
         [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
             
-            textField.text = [NSString stringWithFormat:@"%@%@%@",provinceModel.infoName,cityModel.infoName,disctrictModel.infoName];
+            textField.text = [NSString stringWithFormat:@"%@%@%@",provinceModel.infoName ?: @"",cityModel.infoName ?: @"",disctrictModel.infoName ?: @""];
+            self.area = textField.text;
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -173,15 +231,82 @@
 #pragma mark Action
 - (IBAction)commitAction:(id)sender {
     
+    if (!self.contactname.length)
+    {
+        [self.view1 shake];
+        return;
+    }
+    if (!self.contactphone.length)
+    {
+         [self.view2 shake];
+        return;
+    }
+    if (!self.area.length)
+    {
+         [self.view3 shake];
+        return;
+    }
+    if (!self.address.length)
+    {
+         [self.view4 shake];
+        return;
+    }
+    
+    [self requestUpdateDeliveryInfo];
+}
+
+- (void)requestUpdateDeliveryInfo
+{
+    NSString * areaAddress = [NSString stringWithFormat:@"%@ %@",self.area,self.address];
+    UpdateCooperationContractDeliveryinfoOp * op = [UpdateCooperationContractDeliveryinfoOp operation];
+    op.req_contractid = self.contract.contractid;
+    op.req_contactname = self.contactname;
+    op.req_contactphone = self.contactphone;
+    op.req_address = areaAddress;
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"信息上传中..."];
+    }] subscribeNext:^(id x) {
+        
+        [gToast dismiss];
+        for (UIViewController * vc in self.navigationController.viewControllers)
+        {
+            if ([vc isKindOfClass:[MutualInsOrderInfoVC class]])
+            {
+                [((MutualInsOrderInfoVC *)vc) requestContractDetail];
+                [self.navigationController popToViewController:vc animated:YES];
+                return;
+            }
+        }
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain];
+    }];
 }
 
 
-#pragma mark Init
--(void)setupUI
+- (void)actionBack
 {
-    self.tableView.tableFooterView = [UIView new];
-    self.commitBtn.layer.cornerRadius = 5;
-    self.commitBtn.layer.masksToBounds = YES;
+    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您暂未提交寄送地址" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
+        
+        if ([number integerValue])
+        {
+            for (UIViewController * vc in self.navigationController.viewControllers)
+            {
+                if ([vc isKindOfClass:[MutualInsOrderInfoVC class]])
+                {
+                    [((MutualInsOrderInfoVC *)vc) requestContractDetail];
+                    [self.navigationController popToViewController:vc animated:YES];
+                    return;
+                }
+            }
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+    }];
+    
+    [av show];
 }
 
 @end

@@ -11,7 +11,7 @@
 #import "GetCooperationAutoGroupOp.h"
 #import "NSMutableDictionary+AddParams.h"
 #import "UIView+JTLoadingView.h"
-#import "EditInsInfoVC.h"
+#import "MutualInsPicUpdateVC.h"
 #import "ApplyCooperationGroupJoinOp.h"
 #import "HKTimer.h"
 #import "GroupIntroductionVC.h"
@@ -300,7 +300,7 @@
         
         [gToast dismissInView:view];
         
-        EditInsInfoVC * vc = [UIStoryboard vcWithId:@"EditInsInfoVC" inStoryboard:@"MutualInsJoin"];
+        MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
         vc.memberId = rop.rsp_memberid;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {

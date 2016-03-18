@@ -11,6 +11,8 @@
 #import "NSString+RectSize.h"
 #import <Masonry.h>
 
+#define kCellMargin      3
+
 @interface MutualInsGrouponMsgCell ()
 @property (nonatomic, strong) UIView *msgContainerView;
 @property (nonatomic, strong) UIImageView *msgBgView;
@@ -52,6 +54,8 @@
     _atRightSide = atRightSide;
     NSString *strimg = atRightSide ? @"mins_bubble_right" : @"mins_bubble_left";
     self.msgBgView.image = [[UIImage imageNamed:strimg] resizableImageWithCapInsets:UIEdgeInsetsMake(22, 8, 5, 8)];
+    self.titleLabel.textAlignment = atRightSide ? NSTextAlignmentRight : NSTextAlignmentLeft;
+    self.msgLabel.textColor = atRightSide ? [UIColor whiteColor] : MutInsTextDarkGrayColor;
 }
 
 - (void)setMessage:(NSString *)message
@@ -63,32 +67,32 @@
 - (void)updateConstraints
 {
     @weakify(self);
-    [self.logoView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.logoView mas_remakeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.size.mas_equalTo(CGSizeMake(45, 45));
         make.top.equalTo(self.contentView).offset(10);
         if (self.atRightSide) {
-            make.right.equalTo(self.contentView).offset(-14);
+            make.right.equalTo(self.contentView).offset(-kCellMargin);
         }
         else {
-            make.left.equalTo(self.contentView).offset(14);
+            make.left.equalTo(self.contentView).offset(kCellMargin);
         }
     }];
     
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.top.equalTo(self.logoView.mas_top);
         make.height.mas_equalTo(16);
         if (self.atRightSide) {
-            make.left.equalTo(self.contentView).offset(14);
+            make.left.equalTo(self.contentView).offset(kCellMargin);
             make.right.equalTo(self.logoView.mas_left).offset(-8);
         }
         else {
             make.left.equalTo(self.logoView.mas_right).offset(8);
-            make.right.equalTo(self.contentView).offset(-14);
+            make.right.equalTo(self.contentView).offset(-kCellMargin);
         }
     }];
-    [self.msgContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.msgContainerView mas_remakeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.top.equalTo(self.titleLabel.mas_bottom).offset(3);
         if (self.atRightSide) {
@@ -101,12 +105,12 @@
         }
     }];
     
-    [self.msgBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.msgBgView mas_remakeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.edges.equalTo(self.msgContainerView);
     }];
  
-    [self.msgLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.msgLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.top.equalTo(self.msgContainerView).offset(8);
         make.bottom.equalTo(self.msgContainerView).offset(-8);
@@ -124,7 +128,7 @@
 
 + (CGFloat)heightWithBoundsWidth:(CGFloat)width message:(NSString *)msg
 {
-    width = width - 45 - 14 - 5 - 70 - 10 - 15;
+    width = width - 45 - kCellMargin - 5 - 70 - 10 - 15;
     CGSize size = [msg labelSizeWithWidth:width font:[UIFont systemFontOfSize:14]];
     return MAX(10+45+10, ceil(size.height+10+16+3+8+8+10));
 }

@@ -9,7 +9,7 @@
 #import "MutualInsGrouponCarsCell.h"
 #import "MutualInsConstants.h"
 
-#define kItemWidth      44
+#define kItemWidth      47
 #define kMarginTop      16
 #define kMarginBottom   5
 #define kLabelHeight    16
@@ -25,7 +25,7 @@
     _cars = cars;
     BOOL overflow = self.items.count < self.cars.count;
     for (NSInteger i=0; i < self.items.count; i++) {
-        NSDictionary *info = [self.cars safetyObjectAtIndex:i];
+        MutualInsMemberInfo *info = [self.cars safetyObjectAtIndex:i];
         UIView *view = self.items[i];
         UIImageView *imgV = [view viewWithTag:1001];
         UILabel *label = [view viewWithTag:1002];
@@ -38,8 +38,8 @@
         else if (info) {
             label.hidden = NO;
             imgV.hidden = NO;
-            label.text = info[@"title"];
-            [imgV setImageByUrl:info[@"img"] withType:ImageURLTypeOrigin defImage:@"mins_def" errorImage:@"mins_def"];
+            label.text = info.licensenumber;
+            [imgV setImageByUrl:info.brandurl withType:ImageURLTypeOrigin defImage:@"mins_def" errorImage:@"mins_def"];
         }
         else {
             label.hidden = YES;
@@ -68,7 +68,7 @@
 {
     NSInteger index = sender.tag;
     if (self.carDidSelectedBlock) {
-        NSDictionary *info = [self.cars safetyObjectAtIndex:index];
+        MutualInsMemberInfo *info = [self.cars safetyObjectAtIndex:index];
         if (info) {
             self.carDidSelectedBlock(index+1 < self.items.count ? info : nil);
         }
@@ -97,11 +97,9 @@
 
     rect = CGRectMake(0, view.frame.size.height - kLabelHeight, kItemWidth, kLabelHeight);
     UILabel *label = [[UILabel alloc] initWithFrame:rect];
-    label.font = [UIFont systemFontOfSize:12];
+    label.font = [UIFont systemFontOfSize:9];
     label.textColor = MutInsTextGrayColor;
     label.textAlignment = NSTextAlignmentCenter;
-    label.minimumScaleFactor = 0.7;
-    label.adjustsFontSizeToFitWidth = YES;
     label.tag = 1002;
     
     [view addSubview:imgView];
