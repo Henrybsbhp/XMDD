@@ -319,7 +319,7 @@
         {
             [[RACObserve(self, lastYearInsCompany) takeUntilForCell:cell] subscribeNext:^(NSString * str) {
                 
-                lb.text = str.length ? str : @"请选择现保险公司";
+                lb.text = str.length ? str : @"请选择上一年保险公司";
                 lb.textColor = str.length ? HEXCOLOR(@"#454545") : HEXCOLOR(@"#888888");
             }];
         }

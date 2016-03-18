@@ -28,7 +28,7 @@
 ///协议期限
 @property (nonatomic,strong) NSArray* inscomp;
 ///投保月份数
-@property (nonatomic,strong) NSString* totalmonth;
+@property (nonatomic,strong) NSNumber* totalmonth;
 ///小马达达互助logo
 @property (nonatomic,strong) NSString* xmddlogo;
 ///互助名字

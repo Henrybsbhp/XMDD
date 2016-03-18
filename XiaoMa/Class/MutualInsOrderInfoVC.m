@@ -312,10 +312,12 @@
     
     lb1.text = title;
     lb2.text = content;
+    lb2.textColor = tag.length ? HEXCOLOR(@"#ff7428") : HEXCOLOR(@"#454545");
     arrowView.hidden = !tag.length;
     arrowView.bgColor = HEXCOLOR(@"#ff7428");
     arrowView.cornerRadius = 2.0f;
     tagLb.text = tag;
+    
     return cell;
 }
 
