@@ -13,11 +13,15 @@
 #import "NSString+RectSize.h"
 #import "GetCooperationContractDetailOp.h"
 #import "MutualInsContract.h"
+#import "MutualInsPayViewController.h"
 
 
-@interface MutualInsOrderInfoVC ()
+@interface MutualInsOrderInfoVC ()<UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property (weak, nonatomic) IBOutlet UIView *topView;
+@property (weak, nonatomic) IBOutlet UILabel *topLabel;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *sureBtn;
 @property (weak, nonatomic) IBOutlet CKLine *bottomLine;
@@ -25,6 +29,11 @@
 @property (nonatomic,strong)NSArray * datasource;
 
 @property (nonatomic,strong)MutualInsContract * contract;
+
+/**
+ *  是否保险公司代购
+ */
+@property (nonatomic)BOOL isInsProxy;
 
 @end
 
@@ -65,10 +74,58 @@
     }];
 }
 
+- (void)refreshUI
+{
+    if (self.contract.status == 1)
+    {
+        [self.sureBtn setTitle:@"立即支付" forState:UIControlStateNormal & UIControlStateHighlighted];
+    }
+    else
+    {
+        [self.sureBtn setTitle:@"联系客服" forState:UIControlStateNormal & UIControlStateHighlighted];
+    }
+    
+    NSString * topTip = self.contract.remindtip;
+    if (topTip.length)
+    {
+        self.topView.hidden = NO;
+        self.topLabel.text = topTip;
+        self.tableView.contentInset = UIEdgeInsetsMake(40, 0, 0, 0);
+        @weakify(self)
+        [[RACObserve(self.tableView,contentOffset) distinctUntilChanged] subscribeNext:^(NSValue * obj) {
+            
+            @strongify(self)
+            @weakify(self)
+            CGPoint point = [obj CGPointValue];
+            [self.topView mas_updateConstraints:^(MASConstraintMaker *make) {
+                
+                @strongify(self)
+                CGFloat offset = MIN(-point.y / 3.0, 0);
+                make.top.equalTo(self.view).offset(offset);
+            }];
+        }];
+    }
+    else
+    {
+        self.topView.hidden = YES;
+        self.tableView.contentInset = UIEdgeInsetsZero;
+    }
+}
+
 #pragma mark - Utilitly
 - (void)nextAction
 {
-    
+    if (self.contract.status == 1)
+    {
+        MutualInsPayViewController * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPayViewController"];
+        vc.contract = self.contract;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else
+    {
+        NSString * number = @"4007111111";
+        [gPhoneHelper makePhone:number andInfo:@"订单查询,小马互助咨询等\n请拨打客服电话: 4007-111-111"];
+    }
 }
 
 - (void)requestContractDetail
@@ -79,6 +136,7 @@
         
         self.tableView.hidden = YES;
         self.bottomView.hidden = YES;
+        self.topView.hidden = YES;
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] subscribeNext:^(GetCooperationContractDetailOp * rop) {
         
@@ -87,7 +145,10 @@
         [self.view stopActivityAnimation];
         
         self.contract = rop.rsp_contractorder;
+        self.isInsProxy = self.contract.insperiod;
         [self setupDateSource];
+        
+        [self refreshUI];
         [self.tableView reloadData];
         
     } error:^(NSError *error) {
@@ -95,6 +156,7 @@
         @weakify(self)
         self.tableView.hidden = YES;
         self.bottomView.hidden = YES;
+        self.topView.hidden = YES;
         [self.view stopActivityAnimation];
         [self.view showDefaultEmptyViewWithText:[NSString stringWithFormat:@"%@ \n点击再试一次",error.domain] tapBlock:^{
             
@@ -120,39 +182,28 @@
     for (NSDictionary * subIns in self.contract.inslist)
     {
         NSString * insName = subIns[@"insname"] ?: @"";
-        NSString * sum = subIns[@"sum"] ?: @"";
-        [array safetyAddObject:@{@"id":@"ItemCell",@"title":insName,@"content":sum}];
+        NSNumber * sum = subIns[@"sum"] ?: @"";
+        [array safetyAddObject:@{@"id":@"ItemCell",@"title":insName,@"content":[NSString formatForPrice:[sum floatValue]]}];
     }
     
     if (self.contract.insperiod)
     {
-        [array safetyAddObject:@{@"id":@"SwitchCell",@"insSelected":@(1),@"content":@"保险公司代购"}];
+        [array safetyAddObject:@{@"id":@"SwitchCell",@"insSelected":@(self.isInsProxy),@"content":@"保险公司代购"}];
         
-        [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"保险公司",@"content":self.contract.inscomp.firstObject ?: @""}];
-        [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"保险期限",@"content":self.contract.insperiod ?: @""}];
-        
-        [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"服务项目",@"content":@"保险金额"}];
-        
-        [array safetyAddObject:@{@"id":@"ItemCell",@"title":@"交强险",@"content":[NSString formatForPrice:self.contract.forcefee]}];
-        [array safetyAddObject:@{@"id":@"ItemCell",@"title":@"车船税",@"content":[NSString formatForPrice:self.contract.taxshipfee]}];
+        if (self.isInsProxy)
+        {
+            [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"保险公司",@"content":self.contract.inscomp.firstObject ?: @""}];
+            [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"保险期限",@"content":self.contract.insperiod ?: @""}];
+            
+            [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"服务项目",@"content":@"保险金额"}];
+            
+            [array safetyAddObject:@{@"id":@"ItemCell",@"title":@"交强险",@"content":[NSString formatForPrice:self.contract.forcefee]}];
+            [array safetyAddObject:@{@"id":@"ItemCell",@"title":@"车船税",@"content":[NSString formatForPrice:self.contract.taxshipfee]}];
+        }
     }
     
+    
     self.datasource = [NSArray arrayWithArray:array];
-//    self.datasource = @[@{@"id":@"ProgressCell"},
-//                        @{@"id":@"InfoCell",@"title":@"互助团员",@"content":self.contract.insurancedname ?: @""},
-//                        @{@"id":@"InfoCell",@"title":@"互助期限",@"content":self.contract.contractperiod ?: @""},
-//                        @{@"id":@"InfoCell",@"title":@"证件号码",@"content":self.contract.idno ?: @""},
-//                        @{@"id":@"InfoCell",@"title":@"互助车辆",@"content":self.contract.licencenumber ?: @""},
-//                        @{@"id":@"InfoCell",@"title":@"共计费用",@"content":[NSString formatForPrice:self.contract.total],@"tag":self.contract.couponmoney ? [NSString stringWithFormat:@"优惠￥%@",[NSString formatForPrice:self.contract.couponmoney]] : @""},
-//                        @{@"id":@"ItemHeaderCell",@"title":@"服务项目",@"content":@"保险金额"},
-//                        @{@"id":@"ItemCell",@"title":@"机动车损失险",@"content":@"1230,000.00"},
-//                        @{@"id":@"ItemCell",@"title":@"车上人员座位险(机动车交通强制保险第第三者)",@"content":@"5000,000.00/每座"},
-//                        @{@"id":@"ItemCell",@"title":@"第三者责任险",@"content":@"5000,000.00"},
-//                        @{@"id":@"SwitchCell",@"insSelected":@(1),@"content":@"保险公司代购"},
-//                        @{@"id":@"ItemHeaderCell",@"title":@"保险内容",@"content":@"保险金额"},
-//                        @{@"id":@"ItemCell",@"title":@"交强险",@"content":@"950.00"},
-//                        @{@"id":@"ItemCell",@"title":@"车船税",@"content":@"550.00"}];
-
 }
 
 #pragma mark - Table view data source
@@ -175,7 +226,7 @@
     NSString * cellId = [dict objectForKey:@"id"];
     if ([cellId isEqualToString:@"ProgressCell"])
     {
-        height = 45;
+        height = 54;
     }
     else if ([cellId isEqualToString:@"InfoCell"])
     {
@@ -183,7 +234,7 @@
     }
     else if ([cellId isEqualToString:@"ItemHeaderCell"])
     {
-        height = 30;
+        height = 34;
     }
     else if ([cellId isEqualToString:@"ItemCell"])
     {
@@ -233,12 +284,14 @@
     return cell;
 }
 
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView progressCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ProgressCell"];
     HKProgressView * progressView = (HKProgressView *)[cell searchViewWithTag:101];
-    progressView.titleArray = @[@"待支付",@"已支付",@"保单已出"];
-    NSIndexSet *set = [NSIndexSet indexSetWithIndex:1];
+    progressView.titleArray = @[@"待支付",@"已支付",@"协议待出",@"协议已出"];
+    NSIndexSet *set = [NSIndexSet indexSetWithIndex:self.contract.status - 1];
     progressView.selectedIndexSet = set;
     return cell;
 }
@@ -288,7 +341,7 @@
     CKLine * middleLine = (CKLine *)[cell searchViewWithTag:20102];
     CKLine * rightLine = (CKLine *)[cell searchViewWithTag:20103];
     CKLine * bottomLine = (CKLine *)[cell searchViewWithTag:20104];
-    leftLine.lineColor = middleLine.lineColor = rightLine.lineColor = bottomLine.lineColor  = HEXCOLOR(@"#18d06a");
+    leftLine.lineColor = middleLine.lineColor = rightLine.lineColor = bottomLine.lineColor  = HEXCOLOR(@"#d3f0e0");
     leftLine.lineAlignment = CKLineAlignmentVerticalLeft;
     middleLine.lineAlignment = CKLineAlignmentVerticalLeft;
     rightLine.lineAlignment = CKLineAlignmentVerticalRight;
@@ -322,23 +375,20 @@
     checkBtn.selected = [insSelected boolValue];
     lb.text = content;
     
-    @weakify(checkBtn)
+    @weakify(self)
     [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
-        @strongify(checkBtn)
-        checkBtn.selected = !checkBtn.selected;
+        @strongify(self)
+        self.isInsProxy = !self.isInsProxy;
+        [self setupDateSource];
+        [self.tableView reloadData];
     }];
     
-    [[RACObserve(checkBtn, selected) takeUntilForCell:cell] subscribeNext:^(NSNumber * number) {
-        
-        if ([number integerValue])
-        {
-        }
-        else
-        {
-        }
+    [[[RACObserve(self, isInsProxy) distinctUntilChanged] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * number) {
+       
+        checkBtn.selected = [number integerValue];
     }];
-    
+
     return cell;
 }
 

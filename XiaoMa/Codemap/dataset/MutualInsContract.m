@@ -27,6 +27,10 @@
     self.inscomp = dict[@"inscomp"];
     self.totalmonth = dict[@"totalmonth"];
     self.xmddlogo = dict[@"xmddlogo"];
+    self.xmddname = dict[@"xmddname"];
+    self.remindtip = dict[@"remindtip"];
+    self.couponname = dict[@"couponname"];
+    self.couponlist = dict[@"couponlist"];
 }
 
 @end

@@ -31,6 +31,15 @@
 @property (nonatomic,strong) NSString* totalmonth;
 ///小马达达互助logo
 @property (nonatomic,strong) NSString* xmddlogo;
+///互助名字
+@property (nonatomic,strong) NSString* xmddname;
+///提醒文案
+@property (nonatomic,strong) NSString* remindtip;
+///优惠活动文案
+@property (nonatomic,strong) NSString* couponname;
+///优惠活动详细列表
+@property (nonatomic,strong) NSArray* couponlist;
+
 
 
 + (instancetype)createWithJSONDict:(NSDictionary *)dict;

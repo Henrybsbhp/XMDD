@@ -7,7 +7,10 @@
 //
 
 #import "HKViewController.h"
+#import "MutualInsContract.h"
 
 @interface MutualInsPayViewController : HKViewController
+
+@property (nonatomic,strong)MutualInsContract * contract;
 
 @end
