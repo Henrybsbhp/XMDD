@@ -26,6 +26,7 @@
 @property (nonatomic) CGFloat claimfee;
 @property (nonatomic,strong) NSNumber *cardid;
 @property (nonatomic,strong) NSString *cardname;
+@property (nonatomic,strong) NSString *cardno;
 
 @property (nonatomic) BOOL hasCard;
 
@@ -115,6 +116,7 @@
             cell = [tableView dequeueReusableCellWithIdentifier:@"cardCell"];
             UILabel *cardNumLb = [cell viewWithTag:100];
             UILabel *bankLb = [cell viewWithTag:101];
+            cardNumLb.text = self.;
         }
         else if(!self.hasCard && indexPath.row ==1)
         {
@@ -215,6 +217,7 @@
         self.cardid = op.rsp_cardid;
         self.hasCard = op.rsp_cardid.integerValue == 0 ? NO : YES;
         self.cardname = op.rsp_cardname;
+        self.cardno = op.rsp_cardno;
         if (self.status.integerValue == 2)
         {
             self.bottomView.hidden = NO;

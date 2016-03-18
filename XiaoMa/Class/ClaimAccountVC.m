@@ -7,16 +7,18 @@
 //
 
 #import "ClaimAccountVC.h"
+#import "GetCooperationClaimBankcardOp.h"
 
 @interface ClaimAccountVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-
+@property (strong, nonatomic) NSArray *dataArr;
 @end
 
 @implementation ClaimAccountVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self getData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -34,7 +36,7 @@
 {
     if (section == 0)
     {
-        return 2;
+        return 1 + self.dataArr.count;
     }
     else
     {
@@ -49,7 +51,7 @@
     {
         cell = [self titleCellForRowAtIndexPath:indexPath];
     }
-    else if(indexPath.section == 0 && indexPath.row == 1)
+    else if(indexPath.section == 0 && indexPath.row == 1 && self.dataArr.count != 0)
     {
         cell = [self cardCellForRowAtIndexPath:indexPath];
     }
@@ -79,7 +81,13 @@
 
 -(UITableViewCell *)cardCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [self.tableView dequeueReusableCellWithIdentifier:@"cardCell"];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"cardCell"];
+    NSDictionary *dic = [self.dataArr safetyObjectAtIndex:indexPath.row - 1];
+    UILabel *carNum = [cell viewWithTag:100];
+    UILabel *bankName = [cell viewWithTag:101];
+    carNum.text = dic[@"cardno"];
+    bankName.text = dic[@"issuebank"];
+    return cell;
 }
 
 -(UITableViewCell *)inputCellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -153,6 +161,30 @@
 {
     view.layer.borderWidth = 1;
     view.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
+}
+
+-(void)getData
+{
+    GetCooperationClaimBankcardOp *op = [GetCooperationClaimBankcardOp new];
+    [[[op rac_postRequest]initially:^{
+        [self.tableView startActivityAnimationWithType:GifActivityIndicatorType];
+    }]subscribeNext:^(GetCooperationClaimBankcardOp *op) {
+        [self.tableView stopActivityAnimation];
+        self.dataArr = op.rsp_cardlist;
+        [self.tableView reloadData];
+    }error:^(NSError *error) {
+        [self.tableView stopActivityAnimation];
+        [gToast showMistake:error.domain];
+    }];
+}
+
+-(NSArray *)dataArr
+{
+    if (!_dataArr)
+    {
+        _dataArr = [[NSArray alloc]init];
+    }
+    return _dataArr;
 }
 
 @end
