@@ -396,6 +396,9 @@
 		507A4DDF1B74462200E0BF1E /* UnbundlingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 507A4DDE1B74462200E0BF1E /* UnbundlingVC.m */; };
 		507EFACC1C15AEB60081FECB /* GetAreaByPcdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 507EFACB1C15AEB60081FECB /* GetAreaByPcdOp.m */; };
 		508150CE1B84703200B16633 /* DetailsAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508150CD1B84703200B16633 /* DetailsAlertVC.m */; };
+		50819CC01C98F66800A6B8B2 /* DeleteMyGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50819CBF1C98F66800A6B8B2 /* DeleteMyGroupOp.m */; };
+		50819CDF1C99306E00A6B8B2 /* GetGroupPasswordOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50819CDE1C99306E00A6B8B2 /* GetGroupPasswordOp.m */; };
+		50819CE91C99438E00A6B8B2 /* InviteAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50819CE81C99438E00A6B8B2 /* InviteAlertVC.m */; };
 		508BD8D01BD0E3ED00B64199 /* GasRecordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508BD8CF1BD0E3ED00B64199 /* GasRecordVC.m */; };
 		508C718F1BA808B600FA2F05 /* Insurance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 508C718E1BA808B600FA2F05 /* Insurance.storyboard */; };
 		508D06801B900CF800B835BB /* InsuranceOrderPayOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 508D067F1B900CF800B835BB /* InsuranceOrderPayOp.m */; };
@@ -417,6 +420,9 @@
 		50DD1BC81BFB023800349A70 /* HKOtherOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BC71BFB023800349A70 /* HKOtherOrder.m */; };
 		50DD1BCB1BFB093500349A70 /* OthersOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BCA1BFB093500349A70 /* OthersOrderViewModel.m */; };
 		50E800411C44D7B100AFC7B9 /* HYScratchCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E800401C44D7B100AFC7B9 /* HYScratchCardView.m */; };
+		50F0FF641C9A96B7009A94A3 /* GetMutualInsListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F0FF631C9A96B7009A94A3 /* GetMutualInsListOp.m */; };
+		50F0FF6E1C9A9780009A94A3 /* HKMutualInsList.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F0FF6D1C9A9780009A94A3 /* HKMutualInsList.m */; };
+		50F0FF711C9AA446009A94A3 /* MutualInsChooseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F0FF701C9AA446009A94A3 /* MutualInsChooseVC.m */; };
 		50F7F0781C86C49700138947 /* GetShareButtonOpV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F7F0771C86C49700138947 /* GetShareButtonOpV2.m */; };
 		50F7F07B1C86C4E200138947 /* GetShareDetailOpV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F7F07A1C86C4E200138947 /* GetShareDetailOpV2.m */; };
 		50FA52891C2296CD002B1EAE /* ValuationResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FA52881C2296CD002B1EAE /* ValuationResultVC.m */; };
@@ -1502,6 +1508,12 @@
 		507EFACB1C15AEB60081FECB /* GetAreaByPcdOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAreaByPcdOp.m; path = Class/GetAreaByPcdOp.m; sourceTree = "<group>"; };
 		508150CC1B84703200B16633 /* DetailsAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsAlertVC.h; sourceTree = "<group>"; };
 		508150CD1B84703200B16633 /* DetailsAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsAlertVC.m; sourceTree = "<group>"; };
+		50819CBE1C98F66800A6B8B2 /* DeleteMyGroupOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteMyGroupOp.h; path = Class/DeleteMyGroupOp.h; sourceTree = "<group>"; };
+		50819CBF1C98F66800A6B8B2 /* DeleteMyGroupOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteMyGroupOp.m; path = Class/DeleteMyGroupOp.m; sourceTree = "<group>"; };
+		50819CDD1C99306E00A6B8B2 /* GetGroupPasswordOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetGroupPasswordOp.h; path = Class/GetGroupPasswordOp.h; sourceTree = "<group>"; };
+		50819CDE1C99306E00A6B8B2 /* GetGroupPasswordOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetGroupPasswordOp.m; path = Class/GetGroupPasswordOp.m; sourceTree = "<group>"; };
+		50819CE71C99438E00A6B8B2 /* InviteAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteAlertVC.h; sourceTree = "<group>"; };
+		50819CE81C99438E00A6B8B2 /* InviteAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteAlertVC.m; sourceTree = "<group>"; };
 		508BD8CE1BD0E3ED00B64199 /* GasRecordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasRecordVC.h; sourceTree = "<group>"; };
 		508BD8CF1BD0E3ED00B64199 /* GasRecordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasRecordVC.m; sourceTree = "<group>"; };
 		508C718E1BA808B600FA2F05 /* Insurance.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Insurance.storyboard; sourceTree = "<group>"; };
@@ -1542,6 +1554,12 @@
 		50DD1BCA1BFB093500349A70 /* OthersOrderViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OthersOrderViewModel.m; sourceTree = "<group>"; };
 		50E8003F1C44D7B100AFC7B9 /* HYScratchCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYScratchCardView.h; sourceTree = "<group>"; };
 		50E800401C44D7B100AFC7B9 /* HYScratchCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYScratchCardView.m; sourceTree = "<group>"; };
+		50F0FF621C9A96B7009A94A3 /* GetMutualInsListOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetMutualInsListOp.h; path = Class/GetMutualInsListOp.h; sourceTree = "<group>"; };
+		50F0FF631C9A96B7009A94A3 /* GetMutualInsListOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetMutualInsListOp.m; path = Class/GetMutualInsListOp.m; sourceTree = "<group>"; };
+		50F0FF6C1C9A9780009A94A3 /* HKMutualInsList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKMutualInsList.h; path = Class/HKMutualInsList.h; sourceTree = "<group>"; };
+		50F0FF6D1C9A9780009A94A3 /* HKMutualInsList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKMutualInsList.m; path = Class/HKMutualInsList.m; sourceTree = "<group>"; };
+		50F0FF6F1C9AA446009A94A3 /* MutualInsChooseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsChooseVC.h; sourceTree = "<group>"; };
+		50F0FF701C9AA446009A94A3 /* MutualInsChooseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsChooseVC.m; sourceTree = "<group>"; };
 		50F7F0761C86C49700138947 /* GetShareButtonOpV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShareButtonOpV2.h; path = Class/GetShareButtonOpV2.h; sourceTree = "<group>"; };
 		50F7F0771C86C49700138947 /* GetShareButtonOpV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetShareButtonOpV2.m; path = Class/GetShareButtonOpV2.m; sourceTree = "<group>"; };
 		50F7F0791C86C4E200138947 /* GetShareDetailOpV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShareDetailOpV2.h; path = Class/GetShareDetailOpV2.h; sourceTree = "<group>"; };
@@ -2750,6 +2768,8 @@
 				50FAC2701C23B8C000F8990F /* AutoSeriesModel.m */,
 				6B16D63A1C92CD1A00322B70 /* HKMutualGroup.h */,
 				6B16D63B1C92CD1A00322B70 /* HKMutualGroup.m */,
+				50F0FF6C1C9A9780009A94A3 /* HKMutualInsList.h */,
+				50F0FF6D1C9A9780009A94A3 /* HKMutualInsList.m */,
 			);
 			name = Dataset;
 			sourceTree = "<group>";
@@ -3859,8 +3879,10 @@
 				50AC2B4F1C8D737300620551 /* EditInsInfoVC.m */,
 				5093C9FC1C92A68A006B2258 /* InviteByCodeVC.h */,
 				5093C9FD1C92A68A006B2258 /* InviteByCodeVC.m */,
-				6BC80CBF1C96ECA700C7BA3D /* MutualInsChooseViewController.h */,
-				6BC80CC01C96ECA700C7BA3D /* MutualInsChooseViewController.m */,
+				50F0FF6F1C9AA446009A94A3 /* MutualInsChooseVC.h */,
+				50F0FF701C9AA446009A94A3 /* MutualInsChooseVC.m */,
+				50819CE71C99438E00A6B8B2 /* InviteAlertVC.h */,
+				50819CE81C99438E00A6B8B2 /* InviteAlertVC.m */,
 			);
 			name = MutualInsJoin;
 			sourceTree = "<group>";
@@ -4530,6 +4552,12 @@
 				6B16D6381C92CBD600322B70 /* GetCooperationMyGroupOp.m */,
 				6B16D63D1C95517000322B70 /* GetCooperationAutoGroupOp.h */,
 				6B16D63E1C95517000322B70 /* GetCooperationAutoGroupOp.m */,
+				50819CBE1C98F66800A6B8B2 /* DeleteMyGroupOp.h */,
+				50819CBF1C98F66800A6B8B2 /* DeleteMyGroupOp.m */,
+				50819CDD1C99306E00A6B8B2 /* GetGroupPasswordOp.h */,
+				50819CDE1C99306E00A6B8B2 /* GetGroupPasswordOp.m */,
+				50F0FF621C9A96B7009A94A3 /* GetMutualInsListOp.h */,
+				50F0FF631C9A96B7009A94A3 /* GetMutualInsListOp.m */,
 				6BC80D291C9AA52300C7BA3D /* GetCooperationResourcesOp.h */,
 				6BC80D2A1C9AA52300C7BA3D /* GetCooperationResourcesOp.m */,
 			);
@@ -5142,6 +5170,7 @@
 				2E52F24D1C2032BB00D94F68 /* RescueHomeViewController.m in Sources */,
 				506F03F61C9658C500B262D7 /* HKTimer.m in Sources */,
 				18FC01DC1C4E6C6F00FD61BF /* IQUIView+Hierarchy.m in Sources */,
+				50F0FF6E1C9A9780009A94A3 /* HKMutualInsList.m in Sources */,
 				6BB884D21AE0BC6A00EBD8F4 /* MONActivityIndicatorView.m in Sources */,
 				186984F81B0098FB000A182A /* HKInsuranceOrder.m in Sources */,
 				6BC80C8F1C96BD6800C7BA3D /* GetCooperationMemberDetailOp.m in Sources */,
@@ -5293,8 +5322,8 @@
 				4E3452D11C96B90500E2AFE2 /* ClaimDetailVC.m in Sources */,
 				18AB16AC1C1FAE810000E718 /* GetInsBaseCarListOp.m in Sources */,
 				6B4BCEE01C3E52AF0006B5EB /* HKViewController.m in Sources */,
-				6BC80CC11C96ECA700C7BA3D /* MutualInsChooseViewController.m in Sources */,
 				6BBB08501B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m in Sources */,
+				50F0FF711C9AA446009A94A3 /* MutualInsChooseVC.m in Sources */,
 				C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */,
 				18C52C411BA80AC700F6C38B /* GetPicHistoryOp.m in Sources */,
 				18A9E8D21BDF18EA0061D3BC /* HKCellData.m in Sources */,
@@ -5418,6 +5447,7 @@
 				186984E51B0057A4000A182A /* MyOrderListVC.m in Sources */,
 				6BE2BD581AE62CDF00A69875 /* HKInsurance.m in Sources */,
 				5040B37A1C06AC1A00ADE77F /* HKLocationDataModel.m in Sources */,
+				50819CDF1C99306E00A6B8B2 /* GetGroupPasswordOp.m in Sources */,
 				6B086BA71AE4F03800659DB7 /* UIView+Base.m in Sources */,
 				18E5923B1C1A7C27006010D9 /* InsSubmitResultVC.m in Sources */,
 				6BEA56D11AE24DCE000D19C1 /* NSDataEx.m in Sources */,
@@ -5563,8 +5593,10 @@
 				6BCA5F4C1B104B5100E1E630 /* MyCollectionViewController.m in Sources */,
 				FA93A7B41C9961ED00CBD565 /* CreateGroupOp.m in Sources */,
 				6B16D63F1C95517000322B70 /* GetCooperationAutoGroupOp.m in Sources */,
+				50819CE91C99438E00A6B8B2 /* InviteAlertVC.m in Sources */,
 				6BEA56CF1AE24DCE000D19C1 /* DataVerifier.m in Sources */,
 				6BC80C951C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.m in Sources */,
+				50819CC01C98F66800A6B8B2 /* DeleteMyGroupOp.m in Sources */,
 				6BB884BC1AE0BB9600EBD8F4 /* UIView+JTLoadingView.m in Sources */,
 				18273F251C7ED1F8004192B3 /* GascardChargeByStagesOp.m in Sources */,
 				1893712B1B0E0D460030FDE1 /* TTTAttributedLabel.m in Sources */,
@@ -5720,6 +5752,7 @@
 				6BE2BD5E1AE63F9F00A69875 /* MultiMediaManager.m in Sources */,
 				6BEA56D21AE24DCE000D19C1 /* openssl_wrapper.m in Sources */,
 				6BD293D81B946B49006482A4 /* PayForInsuranceVC.m in Sources */,
+				50F0FF641C9A96B7009A94A3 /* GetMutualInsListOp.m in Sources */,
 				2EB0DA5C1C325CA900D9A5B2 /* RescueCancelHostcarOp.m in Sources */,
 				1883D9271ACCD6C0002A4D19 /* MainTabBarVC.m in Sources */,
 				50C6BF4D1B7341B800A5E021 /* CardDetailVC.m in Sources */,
