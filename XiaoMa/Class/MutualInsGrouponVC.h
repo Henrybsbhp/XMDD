@@ -13,4 +13,6 @@
 
 @property (nonatomic, strong)HKMutualGroup * group;
 
+- (void)requestGroupDetailInfo;
+
 @end

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MutualInsDiscountVC : UIViewController
+@interface MutualInsActivityVC : UIViewController
 
 @property (nonatomic, strong) NSArray *dataArr;
 

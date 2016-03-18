@@ -13,6 +13,8 @@
 #import "UIView+RoundedCorner.h"
 #import "NSString+Price.h"
 #import "UpdateCooperationInsInfoOp.h"
+#import "MutualInsGrouponVC.h"
+#import "MutualInsHomeVC.h"
 
 @interface MutualInsChooseVC ()
 
@@ -379,9 +381,31 @@
     [[[op rac_postRequest] initially:^{
         [gToast showingWithText:@"正在提交..."];
     }] subscribeNext:^(id x) {
-        [gToast showText:@"提交成功"];
+        [gToast dismiss];
+        [self submitSuccessful];
     } error:^(NSError *error) {
         [gToast showText:error.domain];
     }];
+}
+
+- (void)submitSuccessful
+{
+    for (NSInteger i = self.navigationController.viewControllers.count - 1 ; i >= 0; i--)
+    {
+        UIViewController * vc = [self.navigationController.viewControllers safetyObjectAtIndex:i];
+        if ([vc isKindOfClass:[MutualInsGrouponVC class]])
+        {
+            [((MutualInsGrouponVC *)vc) requestGroupDetailInfo];
+            [self.navigationController popToViewController:vc animated:YES];
+            return;
+        }
+        if ([vc isKindOfClass:[MutualInsHomeVC class]])
+        {
+            [((MutualInsHomeVC *)vc) requestMyGourpInfo];
+            [self.navigationController popToViewController:vc animated:YES];
+            return;
+        }
+    }
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 @end
