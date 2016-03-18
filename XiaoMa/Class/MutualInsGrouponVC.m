@@ -244,7 +244,9 @@ typedef enum : NSInteger
 - (CKDict *)menuItemInvite {
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Invite",@"title":@"邀请入团",@"img":@"mins_person"}];
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        InviteByCodeVC *vc = [
+        InviteByCodeVC * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
+        vc.groupId = self.groupDetail.rsp_groupid;
+        [self.navigationController pushViewController:vc animated:YES];
     });
     return dict;
 }
