@@ -12,12 +12,14 @@
 #import "UploadFileOp.h"
 #import "PhotoBrowserVC.h"
 #import "ScencePhotoVM.h"
+#import "GetSystemTimeOp.h"
+#import "HKImageView.h"
+#import "PictureRecord.h"
 
 @interface ScencePhotoVC ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
-@property (strong, nonatomic) NSMutableArray *imgArr;
-@property (strong, nonatomic) NSMutableArray *urlArr;
+
+@property (nonatomic,strong)NSMutableArray * recordArray;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) UIImage *img;
 
 @property (strong, nonatomic) ScencePhotoVM *scencePhotoVM;
 
@@ -39,7 +41,10 @@
     {
         self.tableView.estimatedRowHeight = UITableViewAutomaticDimension;
     }
+    
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -50,18 +55,14 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (self.imgArr.count == 0)
+    if (self.recordArray.count == self.maxCount)
     {
-        return 3;
-    }
-    else if (self.imgArr.count == self.maxCount)
-    {
-        NSInteger count = self.imgArr.count + 2;
+        NSInteger count = self.recordArray.count + 2;
         return count;
     }
     else
     {
-        NSInteger count = self.imgArr.count + 3;
+        NSInteger count = self.recordArray.count + 3;
         return count;
     }
 }
@@ -75,17 +76,28 @@
 {
     if (indexPath.section == 0)
     {
-        return 180;
+        return 200;
     }
-    else if (indexPath.section == 1)
+    else if (indexPath.section == 1 )
     {
-        return UITableViewAutomaticDimension;
+        if (IOSVersionGreaterThanOrEqualTo(@"8.0")) {
+            return UITableViewAutomaticDimension;
+        }
+        else
+        {
+            UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+            [cell layoutIfNeeded];
+            [cell setNeedsUpdateConstraints];
+            [cell updateConstraintsIfNeeded];
+            CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+            return ceil(size.height + 1);
+        }
     }
-    else if (self.imgArr.count != 0 && indexPath.section == (2 + self.imgArr.count))
+    else if (self.recordArray.count != 0 && indexPath.section == (2 + self.recordArray.count))
     {
         return 60;
     }
-    else if (self.imgArr.count == 0 && indexPath.section == 2)
+    else if (self.recordArray.count == 0 && indexPath.section == 2)
     {
         return 200;
     }
@@ -95,26 +107,23 @@
     }
 }
 
--(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return UITableViewAutomaticDimension;
-}
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 2 && self.imgArr.count == 0)
+    if (indexPath.section == 2 && self.recordArray.count == 0)
     {
-        [self takePhoto];
+        [self takePhotoWithIndexPath:indexPath];
     }
-    else if (self.imgArr.count != 0 && indexPath.section == (self.imgArr.count + 2))
+    else if (self.recordArray.count != 0 && indexPath.section == (self.recordArray.count + 2))
     {
-        [self takePhoto];
+        [self takePhotoWithIndexPath:indexPath];
     }
-    else if (self.imgArr.count != 0 && indexPath.section > 1)
+    else if (self.recordArray.count != 0 && indexPath.section > 1)
     {
         PhotoBrowserVC *photoBrowserVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"PhotoBrowserVC"];
-        photoBrowserVC.img = [self.imgArr safetyObjectAtIndex:indexPath.section - 2];
+        PictureRecord * record = [self.recordArray safetyObjectAtIndex:indexPath.section - 2];
+        photoBrowserVC.img = record.image;
         [self.navigationController pushViewController:photoBrowserVC animated:YES];
     }
 }
@@ -133,15 +142,15 @@
     {
         cell = [self noticeCellForRowAtIndexPath:indexPath];
     }
-    else if (self.imgArr.count == 0 && indexPath.section == 2)
+    else if (self.recordArray.count == 0 && indexPath.section == 2)
     {
         cell = [self takePhotoCellForRowAtIndexPath:indexPath];
     }
-    else if (self.imgArr.count != 0 && indexPath.section == (2 + self.imgArr.count))
+    else if (self.recordArray.count != 0 && indexPath.section == (2 + self.recordArray.count))
     {
         cell =[self addPhotoCellForRowAtIndexPath:indexPath];
     }
-    else if (self.imgArr.count != 0)
+    else if (self.recordArray.count != 0)
     {
         cell = [self photoCellForRowAtIndexPath:indexPath];
     }
@@ -171,8 +180,7 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"takePhotoCell"];
     UIView *backgroundView = [cell viewWithTag:100];
-    backgroundView.layer.borderWidth = 1;
-    backgroundView.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
+    [self addBorder:backgroundView];
     return cell;
 }
 
@@ -180,16 +188,48 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"addPhotoCell"];
     UIView *view = [cell viewWithTag:100];
-    view.layer.borderWidth = 1;
-    view.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
+    [self addBorder:view];
     return cell;
 }
 
 -(UITableViewCell *)photoCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"photoCell"];
-    UIImageView *imgView = [cell viewWithTag:100];
-    imgView.image = [self.imgArr safetyObjectAtIndex:(indexPath.section - 2)];
+    UIView *view = [cell viewWithTag:1000];
+    //放弃子视图约束
+    [view setTranslatesAutoresizingMaskIntoConstraints:NO];
+    PictureRecord * record = [self.recordArray safetyObjectAtIndex:indexPath.section - 2];
+    //初始化hkimageview。如果为nil则手动创建一个。
+    HKImageView * hkimageview  = [view viewWithTag:10101];
+    if (!hkimageview)
+    {
+        hkimageview = [[HKImageView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 60, 165)];
+        hkimageview.contentMode = UIViewContentModeScaleAspectFill;
+        hkimageview.tag = 10101;
+        [view addSubview:hkimageview];
+        
+        //重新上传照片
+        [[[hkimageview.reuploadButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntilForCell:cell] subscribeNext:^(id x) {
+            record.needReupload = YES;
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        }];
+        //重新拍照
+        [[[hkimageview.pickImageButton rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntilForCell:cell]subscribeNext:^(id x) {
+            [self takePhotoWithIndexPath:indexPath];
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        }];
+    }
+    //判断是否需要重新上传照片
+    if ((!record.url.length && !record.isUploading && !record.needReupload)
+        || record.needReupload)
+    {
+        [self uploadImage:hkimageview andRecord:record];
+    }
+    else
+    {
+        hkimageview.image = record.image;
+    }
+    //删除事件
     UIButton *deleteBtn = [cell viewWithTag:101];
     [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         [self deletePhoto:indexPath];
@@ -197,11 +237,66 @@
     return cell;
 }
 
+/**
+ *  上传图片到服务器
+ *
+ *  @param imageView 触发方法的对象
+ *  @param record    上传的对象
+ */
+- (void)uploadImage:(HKImageView *)imageView andRecord:(PictureRecord *)record
+{
+    @weakify(imageView)
+    [[[imageView rac_setUploadingImage:record.image withImageType:UploadFileTypeMutualIns] initially:^{
+        //初始化上传状态为［上传中］
+        record.isUploading = YES;
+    }] subscribeNext:^(UploadFileOp *op) {
+        //上传成功后将上传状态改为［不在上传中］, 并且［不需要重新上传］
+        @strongify(imageView)
+        record.isUploading = NO;
+        record.needReupload = NO;
+        imageView.tapGesture.enabled = NO;
+        record.url = [op.rsp_urlArray safetyObjectAtIndex:0];
+    } error:^(NSError *error) {
+        //上传失败后限时遮罩层,并且修改上传状态。
+        @strongify(imageView)
+        [imageView showMaskView];
+        record.isUploading = NO;
+        record.needReupload = NO;
+    }];
+}
+
 #pragma mark Utility
 
--(BOOL)canPush
+
+-(void)addBorder:(UIView *)view
 {
-    return self.imgArr.count == 0 ? NO : YES;
+    view.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
+    view.layer.borderWidth = 1;
+}
+
+/**
+ *  判断是否能退出或进入下一个页面
+ *
+ *  @return 如果可以返回空字符。如果不可以上传提示文案
+ */
+
+-(NSString *)canPush
+{
+    if (self.recordArray.count != 0)
+    {
+        for (PictureRecord * rc in self.recordArray)
+        {
+            if (rc.isUploading)
+            {
+                return @"图片正在上传，请稍后";
+            }
+        }
+    }
+    else if (self.recordArray.count == 0)
+    {
+        return @"请先拍照";
+    }
+    return @"";
 }
 
 /**
@@ -216,43 +311,36 @@
     [[alertView rac_buttonClickedSignal]subscribeNext:^(NSNumber *x) {
         if (x.integerValue == 1)
         {
-            [self.imgArr safetyRemoveObjectAtIndex:(indexPath.section - 2)];
-            [self.urlArr safetyRemoveObjectAtIndex:(indexPath.section - 2)];
+            [self.recordArray safetyRemoveObjectAtIndex:indexPath.section - 2];
             [self.tableView reloadData];
         }
     }];
 }
 /**
- *  拍照
+ *  给照片打水印
+ *
+ *  @param indexpath 照片的indexpath
  */
--(void)takePhoto
+-(void)takePhotoWithIndexPath:(NSIndexPath *)indexpath
 {
     HKImagePicker *picker = [HKImagePicker imagePicker];
     picker.compressedSize = CGSizeMake(1024, 1024);
-    [[[[picker rac_pickImageInTargetVC:self inView:self.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
-        CKAsyncMainQueue(^{
-            [gToast showingWithText:@"正在上传"];
-        });
-        //        @ 叶志成 写op获得时间
-        return [self addPrinting:@"2016-3-11 15:33" InPhoto:img];
-    }] flattenMap:^RACStream *(UIImage *img) {
-        //@ 叶志成 改op
-        self.img = img;
-        UploadFileOp *op = [UploadFileOp new];
-        op.req_fileType = UploadFileTypeDrivingLicenseAndOther;
-        NSData *data = UIImageJPEGRepresentation(img, 0.5);
-        op.req_fileDataArray = [NSArray arrayWithObject:data];
-        op.req_fileExtType = @"jpg";
-        return [[op rac_postRequest] map:^id(UploadFileOp *rspOp) {
-            return [rspOp.rsp_urlArray safetyObjectAtIndex:0];
+    [[[picker rac_pickImageInTargetVC:self inView:self.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
+        
+        GetSystemTimeOp *op = [[GetSystemTimeOp alloc]init];
+        return [[op rac_postRequest] flattenMap:^id(GetSystemTimeOp *op) {
+            return [self addPrinting:op.rsp_systime InPhoto:img];
         }];
-    }] subscribeNext:^(NSString *url) {
-        [gToast showSuccess:@"上传成功!"];
-        [self.imgArr safetyAddObject:self.img];
-        [self.urlArr safetyAddObject:url];
+    }] subscribeNext:^(UIImage *img) {
+        
+        PictureRecord * record = [[PictureRecord alloc] init];
+        //打水印成功后在self.recordArray占一个位置。但是record只有image没有URL
+        record.image = img;
+        //保证拍照选择不会造成顺序错乱
+        [self.recordArray safetyRemoveObjectAtIndex:(indexpath.section - 2)];
+        [self.recordArray insertObject:record atIndex:(indexpath.section - 2)];
+        //不能进行单cell刷新。因为每次选择照片会多一个cell
         [self.tableView reloadData];
-    }error:^(NSError *error) {
-        [gToast showError:error.domain];
     }];
 }
 
@@ -295,25 +383,6 @@
 }
 
 #pragma mark LazyLoad
-
--(NSMutableArray *)urlArr
-{
-    if (!_urlArr)
-    {
-        _urlArr = [self.scencePhotoVM urlArrForIndex:self.index];
-    }
-    return _urlArr;
-}
-
--(NSMutableArray *)imgArr
-{
-    if (!_imgArr)
-    {
-        _imgArr = [self.scencePhotoVM imgArrForIndex:self.index];
-    }
-    return _imgArr;
-}
-
 -(ScencePhotoVM *)scencePhotoVM
 {
     if (!_scencePhotoVM)
@@ -321,6 +390,13 @@
         _scencePhotoVM = [ScencePhotoVM sharedManager];
     }
     return _scencePhotoVM;
+}
+
+- (NSMutableArray *)recordArray
+{
+    if (!_recordArray)
+        _recordArray = [self.scencePhotoVM recordArrayForIndex:self.index];
+    return _recordArray;
 }
 
 @end

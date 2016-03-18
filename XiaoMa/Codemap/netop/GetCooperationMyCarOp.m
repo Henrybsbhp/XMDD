@@ -11,9 +11,7 @@
 
 - (instancetype)parseResponseObject:(id)rspObj
 {
-    NSDictionary *dict = rspObj;
-    self.rsp_licensenumbers = dict[@"licensenumbers"];
-	
+    self.rsp_reports = rspObj[@"reports"];
     return self;
 }
 
