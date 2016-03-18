@@ -6,14 +6,14 @@
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "ChooseBankVC.h"
+#import "MutualInsChooseBankVC.h"
 
-@interface ChooseBankVC ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface MutualInsChooseBankVC ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (nonatomic, strong) NSArray *datasource;
 @end
 
-@implementation ChooseBankVC
+@implementation MutualInsChooseBankVC
 
 - (void)dealloc
 {

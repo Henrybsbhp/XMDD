@@ -1,5 +1,5 @@
 //
-//  ClaimDetailVC.h
+//  MutualInsClaimDetailVC.h
 //  XiaoMa
 //
 //  Created by RockyYe on 16/3/14.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ClaimDetailVC : UIViewController
+@interface MutualInsClaimDetailVC : UIViewController
 
 @property (nonatomic,strong) NSNumber *claimid;
 

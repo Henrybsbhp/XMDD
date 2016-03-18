@@ -1,5 +1,5 @@
 //
-//  ChooseBankVC.h
+//  MutualInsDiscountVC.h
 //  XiaoMa
 //
 //  Created by RockyYe on 16/3/18.
@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ChooseBankVC : UIViewController
+@interface MutualInsDiscountVC : UIViewController
+
+@property (nonatomic, strong) NSArray *dataArr;
 
 @end

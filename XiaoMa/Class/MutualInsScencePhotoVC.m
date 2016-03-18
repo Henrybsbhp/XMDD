@@ -1,33 +1,33 @@
 //
-//  ScencePhotoVC.m
+//  MutualInsScencePhotoVC.m
 //  XiaoMa
 //
 //  Created by RockyYe on 16/3/9.
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "ScencePhotoVC.h"
+#import "MutualInsScencePhotoVC.h"
 #import "HKProgressView.h"
 #import "HKImagePicker.h"
 #import "UploadFileOp.h"
-#import "PhotoBrowserVC.h"
-#import "ScencePhotoVM.h"
+#import "MutualInsPhotoBrowserVC.h"
+#import "MutualInsScencePhotoVM.h"
 #import "GetSystemTimeOp.h"
 #import "HKImageView.h"
 #import "PictureRecord.h"
 
-@interface ScencePhotoVC ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface MutualInsScencePhotoVC ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 @property (nonatomic,strong)NSMutableArray * recordArray;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
-@property (strong, nonatomic) ScencePhotoVM *scencePhotoVM;
+@property (strong, nonatomic) MutualInsScencePhotoVM *scencePhotoVM;
 
 @property (nonatomic) NSInteger maxCount;
 
 @end
 
-@implementation ScencePhotoVC
+@implementation MutualInsScencePhotoVC
 
 - (void)dealloc
 {
@@ -122,7 +122,7 @@
     }
     else if (self.recordArray.count != 0 && indexPath.section > 1)
     {
-        PhotoBrowserVC *photoBrowserVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"PhotoBrowserVC"];
+        MutualInsPhotoBrowserVC *photoBrowserVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsPhotoBrowserVC"];
         PictureRecord * record = [self.recordArray safetyObjectAtIndex:indexPath.section - 2];
         photoBrowserVC.img = record.image;
         [self.navigationController pushViewController:photoBrowserVC animated:YES];
@@ -384,11 +384,11 @@
 }
 
 #pragma mark LazyLoad
--(ScencePhotoVM *)scencePhotoVM
+-(MutualInsScencePhotoVM *)scencePhotoVM
 {
     if (!_scencePhotoVM)
     {
-        _scencePhotoVM = [ScencePhotoVM sharedManager];
+        _scencePhotoVM = [MutualInsScencePhotoVM sharedManager];
     }
     return _scencePhotoVM;
 }

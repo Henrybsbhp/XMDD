@@ -1,31 +1,31 @@
 //
-//  ScencePageVC.m
+//  MutualInsScencePageVC.m
 //  XiaoMa
 //
 //  Created by RockyYe on 16/3/10.
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "ScencePageVC.h"
-#import "ScencePhotoVC.h"
-#import "PhotoBrowserVC.h"
+#import "MutualInsScencePageVC.h"
+#import "MutualInsScencePhotoVC.h"
+#import "MutualInsPhotoBrowserVC.h"
 #import "HKProgressView.h"
-#import "ScencePhotoVM.h"
+#import "MutualInsScencePhotoVM.h"
 #import "GetCooperationMyCarOp.h"
 #import "ApplyCooperationClaimOp.h"
-#import "ChooseCarVC.h"
+#import "MutualInsChooseCarVC.h"
 
 
 #define kOneBtnWidth self.view.bounds.size.width - 30
 #define kTwoBtnWidth (self.view.bounds.size.width - 45) / 2
 
 
-@interface ScencePageVC ()<UIPageViewControllerDelegate,UIPageViewControllerDataSource>
+@interface MutualInsScencePageVC ()<UIPageViewControllerDelegate,UIPageViewControllerDataSource>
 @property (strong, nonatomic) IBOutlet UIView *pageView;
 @property (strong, nonatomic) IBOutlet UIButton *nextStepBtn;
 @property (strong, nonatomic) IBOutlet UIButton *lastStepBtn;
 @property (strong, nonatomic) IBOutlet HKProgressView *progressView;
-@property (strong, nonatomic) ScencePhotoVM *scencePhotoVM;
+@property (strong, nonatomic) MutualInsScencePhotoVM *scencePhotoVM;
 
 @property (nonatomic,strong) UIPageViewController *pageVC;
 @property (nonatomic,strong) NSArray *viewArr;
@@ -38,7 +38,7 @@
 
 @end
 
-@implementation ScencePageVC
+@implementation MutualInsScencePageVC
 
 -(void)dealloc
 {
@@ -173,7 +173,7 @@
 
 -(void)back
 {
-    ScencePhotoVC *scencePhotoVC = self.viewArr.firstObject;
+    MutualInsScencePhotoVC *scencePhotoVC = self.viewArr.firstObject;
     if (![[scencePhotoVC canPush] isEqualToString:@"请先拍照"])
     {
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"请确认是否返回?" message:@"并放弃当前所拍摄的照片" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
@@ -181,7 +181,7 @@
         [[alertView rac_buttonClickedSignal]subscribeNext:^(NSNumber *x) {
             if (x.integerValue == 1)
             {
-                [[ScencePhotoVM sharedManager]deleteAllInfo];
+                [[MutualInsScencePhotoVM sharedManager]deleteAllInfo];
                 NSArray *viewControllers = self.navigationController.viewControllers;
                 [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
             }
@@ -195,7 +195,7 @@
 }
 
 - (IBAction)lastStepAction:(id)sender {
-    ScencePhotoVC *scencePhotoVC = self.pageVC.viewControllers.firstObject;
+    MutualInsScencePhotoVC *scencePhotoVC = self.pageVC.viewControllers.firstObject;
     NSInteger index = [self.viewArr indexOfObject:scencePhotoVC];
     [self.pageVC setViewControllers:@[[self.viewArr safetyObjectAtIndex:index - 1] ] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
     [self setSelectedIndex];
@@ -203,7 +203,7 @@
 
 - (IBAction)nextStepAction:(id)sender {
     
-    ScencePhotoVC *scencePhotoVC = self.pageVC.viewControllers.firstObject;
+    MutualInsScencePhotoVC *scencePhotoVC = self.pageVC.viewControllers.firstObject;
     NSInteger index = [self.viewArr indexOfObject:scencePhotoVC];
     if ([scencePhotoVC canPush].length == 0 && index != self.viewArr.count - 1)
     {
@@ -261,24 +261,24 @@
 {
     if (!_viewArr)
     {
-        ScencePhotoVC *contactVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"ScencePhotoVC"];
+        MutualInsScencePhotoVC *contactVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsScencePhotoVC"];
         contactVC.index = 0;
-        ScencePhotoVC *carLoseVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"ScencePhotoVC"];
+        MutualInsScencePhotoVC *carLoseVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsScencePhotoVC"];
         carLoseVC.index = 1;
-        ScencePhotoVC *carInfoVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"ScencePhotoVC"];
+        MutualInsScencePhotoVC *carInfoVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsScencePhotoVC"];
         carInfoVC.index = 2;
-        ScencePhotoVC *licenceVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"ScencePhotoVC"];
+        MutualInsScencePhotoVC *licenceVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsScencePhotoVC"];
         licenceVC.index = 3;
         _viewArr = @[contactVC,carLoseVC,carInfoVC,licenceVC];
     }
     return _viewArr;
 }
 
--(ScencePhotoVM *)scencePhotoVM
+-(MutualInsScencePhotoVM *)scencePhotoVM
 {
     if (!_scencePhotoVM)
     {
-        _scencePhotoVM = [ScencePhotoVM sharedManager];
+        _scencePhotoVM = [MutualInsScencePhotoVM sharedManager];
     }
     return _scencePhotoVM;
 }
