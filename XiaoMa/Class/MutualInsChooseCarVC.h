@@ -1,5 +1,5 @@
 //
-//  ChooseCarVC.h
+//  MutualInsChooseCarVC.h
 //  XiaoMa
 //
 //  Created by RockyYe on 16/3/17.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ChooseCarVC : UIViewController
+@interface MutualInsChooseCarVC : UIViewController
 
 @property (nonatomic,strong) NSArray *reports;
 

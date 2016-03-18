@@ -1,19 +1,19 @@
 //
-//  PhotoBrowserVC.m
+//  MutualInsPhotoBrowserVC.m
 //  XiaoMa
 //
 //  Created by RockyYe on 16/3/10.
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "PhotoBrowserVC.h"
+#import "MutualInsPhotoBrowserVC.h"
 
-@interface PhotoBrowserVC ()
+@interface MutualInsPhotoBrowserVC ()
 @property (strong, nonatomic) IBOutlet UIImageView *imgView;
 
 @end
 
-@implementation PhotoBrowserVC
+@implementation MutualInsPhotoBrowserVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];

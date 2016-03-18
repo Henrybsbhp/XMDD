@@ -1,25 +1,25 @@
 //
-//  askClaimsVC.m
+//  MutualInsAskClaimsVC.m
 //  XiaoMa
 //
 //  Created by RockyYe on 16/3/4.
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "AskClaimsVC.h"
+#import "MutualInsAskClaimsVC.h"
 #import "HKInclinedLabel.h"
-#import "ClaimsHistoryVC.h"
-#import "ScencePhotoVC.h"
-#import "ScencePageVC.h"
+#import "MutualInsClaimsHistoryVC.h"
+#import "MutualInsScencePhotoVC.h"
+#import "MutualInsScencePageVC.h"
 #import "GetCooperationMyCarOp.h"
-#import "ChooseCarVC.h"
-#import "ScencePhotoVM.h"
+#import "MutualInsChooseCarVC.h"
+#import "MutualInsScencePhotoVM.h"
 
-@interface AskClaimsVC ()<UITableViewDelegate,UITableViewDataSource>
+@interface MutualInsAskClaimsVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @end
 
-@implementation AskClaimsVC
+@implementation MutualInsAskClaimsVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -164,13 +164,13 @@
 -(void)scenePageSectionAction
 {
     [self getCarListData];
-    [[ScencePhotoVM sharedManager]getNoticeArr];
+    [[MutualInsScencePhotoVM sharedManager]getNoticeArr];
     
 }
 
 -(void)historySectionAction
 {
-    ClaimsHistoryVC *claimsHistoryVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"ClaimsHistoryVC"];
+    MutualInsClaimsHistoryVC *claimsHistoryVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsClaimsHistoryVC"];
     [self.navigationController pushViewController:claimsHistoryVC animated:YES];
 }
 
@@ -185,13 +185,13 @@
         if (op.rsp_reports.count == 1)
         {
             NSDictionary *report = op.rsp_reports.firstObject;
-            ScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"ScencePageVC" inStoryboard:@"MutualInsClaims"];
+            MutualInsScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"MutualInsScencePageVC" inStoryboard:@"MutualInsClaims"];
             scencePageVC.claimid = report[@"claimid"];
             [self.navigationController pushViewController:scencePageVC animated:YES];
         }
         else if (op.rsp_reports.count > 1)
         {
-            ChooseCarVC *chooseVC = [UIStoryboard vcWithId:@"ChooseCarVC" inStoryboard:@"MutualInsClaims"];
+            MutualInsChooseCarVC *chooseVC = [UIStoryboard vcWithId:@"MutualInsChooseCarVC" inStoryboard:@"MutualInsClaims"];
             chooseVC.reports = op.rsp_reports;
             [self.navigationController pushViewController:chooseVC animated:YES];
         }

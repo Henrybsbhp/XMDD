@@ -1,5 +1,5 @@
 //
-//  ClaimsHistoryVC.h
+//  MutualInsClaimsHistoryVC.h
 //  XiaoMa
 //
 //  Created by RockyYe on 16/3/3.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ClaimsHistoryVC : UIViewController
+@interface MutualInsClaimsHistoryVC : UIViewController
 
 @end
