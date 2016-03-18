@@ -11,7 +11,7 @@
 #import "GroupIntroductionVC.h"
 #import "MutualInsGrouponVC.h"
 #import "InviteByCodeVC.h"
-#import "AskClaimsVC.h"
+#import "MutualInsClaimAccountVC.h"
 #import "GetCooperationMyGroupOp.h"
 #import "HKMutualGroup.h"
 #import "HKTimer.h"
@@ -196,7 +196,7 @@
     @weakify(self);
     [[[payBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
-        AskClaimsVC *test = [UIStoryboard vcWithId:@"AskClaimsVC" inStoryboard:@"MutualInsClaims"];
+        MutualInsClaimAccountVC *test = [UIStoryboard vcWithId:@"MutualInsClaimAccountVC" inStoryboard:@"MutualInsClaims"];
         [self.navigationController pushViewController:test animated:YES];
         return;
     }];

@@ -1,16 +1,16 @@
 //
-//  ChooseCarVC.m
+//  MutualInsChooseCarVC.m
 //  XiaoMa
 //
 //  Created by RockyYe on 16/3/17.
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "ChooseCarVC.h"
-#import "ScencePageVC.h"
+#import "MutualInsChooseCarVC.h"
+#import "MutualInsScencePageVC.h"
 
 
-@interface ChooseCarVC () <UITableViewDelegate,UITableViewDataSource>
+@interface MutualInsChooseCarVC () <UITableViewDelegate,UITableViewDataSource>
 
 @property (strong, nonatomic) NSArray *dataArr;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation ChooseCarVC
+@implementation MutualInsChooseCarVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -63,7 +63,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *report = [self.reports safetyObjectAtIndex:indexPath.row];
-    ScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"ScencePageVC" inStoryboard:@"MutualInsClaims"];
+    MutualInsScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"MutualInsScencePageVC" inStoryboard:@"MutualInsClaims"];
     scencePageVC.claimid = report[@"claimid"];
     [self.navigationController pushViewController:scencePageVC animated:YES];
 }
