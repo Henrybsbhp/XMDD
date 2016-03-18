@@ -125,7 +125,7 @@
       (node (attr (*def* "自己记录状态描述")) (id selfstatusdesc) (type #f) (value #f))
       (node (attr (*def* "控制状态栏显示")) (id barstatus) (type int) (value #f))
       (node (id status) (type int) (value #f))
-      (node (attr (*def* "协议记录ID")) (id contractid) (type #f) (value #f))
+      (node (attr (*def* "协议记录ID")) (id contractid) (type number) (value #f))
       (node (attr (*def* "剩余时间倒计时提示语")) (id timetip) (type #f) (value #f))
       (node (attr (*def* "池子最大金额")) (id totalpoolamt) (type #f) (value #f))
       (node (attr (*def* "池子当前金额")) (id presentpoolamt) (type #f) (value #f))

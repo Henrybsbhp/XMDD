@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "ChooseCarwashTicketVC.h"
+#import "ChooseCouponVC.h"
 #import "XiaoMa.h"
 #import "PaymentSuccessVC.h"
 #import "HKCoupon.h"
@@ -16,14 +16,21 @@
 #import "PayForInsuranceVC.h"
 #import "PayForGasViewController.h"
 
-@interface ChooseCarwashTicketVC ()<UITableViewDataSource, UITableViewDelegate>
+@interface ChooseCouponVC ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 - (IBAction)getMoreAction:(id)sender;
 
 @end
 
-@implementation ChooseCarwashTicketVC
+@implementation ChooseCouponVC
+
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"ChooseCarwashTicketVC dealloc");
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,20 +44,14 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-- (void)dealloc
-{
-    self.tableView.delegate = nil;
-    self.tableView.dataSource = nil;
-    DebugLog(@"ChooseCarwashTicketVC dealloc");
-}
-
+#pragma mark - SetupUI
 - (void)setupNavigationBar
 {
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
     self.navigationItem.leftBarButtonItem = back;
 }
 
+#pragma mark - Utilitly
 - (void)reloadData
 {
     [self.tableView reloadData];

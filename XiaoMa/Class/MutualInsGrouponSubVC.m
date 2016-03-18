@@ -22,9 +22,8 @@
 #import "CarListVC.h"
 #import "MutualInsAlertVC.h"
 #import "MutualInsGrouponMembersVC.h"
-#import "EditInsInfoVC.h"
-#import "MutualInsChooseViewController.h"
-#import "MutualInsPayViewController.h"
+#import "MutualInsPicUpdateVC.h"
+#import "MutualInsOrderInfoVC.h"
 
 
 @interface MutualInsGrouponSubVC ()
@@ -51,6 +50,7 @@
 #pragma mark - Reload
 - (void)reloadDataWithStatus:(MutInsStatus)status
 {
+    self.status = status;
     CKList *datasource;
     if (status == MutInsStatusNeedDriveLicense || status == MutInsStatusNeedInsList) {
         datasource = $([self carsItem],[self splitLine1Item], [self arrowItem], [self descItem], [self timeItem],
@@ -154,16 +154,18 @@
     vc.model.allowAutoChangeSelectedCar = YES;
     vc.model.disableEditingCar = YES; //不可修改
     vc.canJoin = YES; //用于控制爱车页面底部view
-    vc.model.originVC = self;
+    vc.model.originVC = self.parentViewController;
+    @weakify(self);
     [vc setFinishPickActionForMutualIns:^(HKMyCar *car,UIView * loadingView) {
-        //爱车页面入团按钮委托实现
-        [self requestSubmitCarInfo:car];
+        @strongify(self);
+        [self requestApplyJoinGroup:self.groupDetail.rsp_groupid andCarId:car.carId andLoadingView:loadingView];
     }];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionImproveDrivingLicenseInfo {
-    EditInsInfoVC * vc = [UIStoryboard vcWithId:@"EditInsInfoVC" inStoryboard:@"MutualInsJoin"];
+    MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
+    vc.originVC = self.parentViewController;
     vc.memberId = self.groupDetail.req_memberid;
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -185,7 +187,9 @@
 }
 
 - (void)actionPay {
-    
+    MutualInsOrderInfoVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
+    vc.contractId = self.groupDetail.rsp_contractid;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 #pragma mark - Request
 - (void)requestDetailInfoForMember:(NSNumber *)memberid
@@ -204,8 +208,25 @@
     }];
 }
 
-- (void)requestSubmitCarInfo:(HKMyCar *)car
+- (void)requestApplyJoinGroup:(NSNumber *)groupId andCarId:(NSNumber *)carId andLoadingView:(UIView *)view
 {
+    ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
+    op.req_groupid = groupId;
+    op.req_carid = carId;
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"申请加入中..." inView:view];
+    }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
+        
+        [gToast dismissInView:view];
+        
+        MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
+        vc.memberId = rop.rsp_memberid;
+        [self.parentViewController.navigationController pushViewController:vc animated:YES];
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain inView:view];
+    }];
 }
 
 #pragma mark - CellItem

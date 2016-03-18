@@ -18,7 +18,7 @@
 @property (nonatomic,assign) int rsp_barstatus;
 @property (nonatomic,assign) int rsp_status;
 ///协议记录ID
-@property (nonatomic,strong) NSString* rsp_contractid;
+@property (nonatomic,strong) NSNumber* rsp_contractid;
 ///剩余时间倒计时提示语
 @property (nonatomic,strong) NSString* rsp_timetip;
 ///池子最大金额

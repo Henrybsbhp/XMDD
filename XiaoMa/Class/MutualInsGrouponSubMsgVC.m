@@ -103,5 +103,11 @@
     }
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (self.didScrollBlock) {
+        self.didScrollBlock(scrollView);
+    }
+}
 
 @end

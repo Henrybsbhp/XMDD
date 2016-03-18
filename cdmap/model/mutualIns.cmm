@@ -97,7 +97,7 @@ class=GetCooperationMygroupDetail op auth path="/cooperation/mygroup/detail/get"
     <"自己记录状态描述">selfstatusdesc
     <"控制状态栏显示">barstatus:int
     status:int
-    <"协议记录ID">contractid
+    <"协议记录ID">contractid:number
     <"剩余时间倒计时提示语">timetip
     <"池子最大金额">totalpoolamt
     <"池子当前金额">presentpoolamt

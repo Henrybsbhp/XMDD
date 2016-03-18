@@ -15,7 +15,7 @@
 #import "GetCooperationMyGroupOp.h"
 #import "HKMutualGroup.h"
 #import "HKTimer.h"
-#import "EditInsInfoVC.h"
+#import "MutualInsPicUpdateVC.h"
 
 @interface MutualInsHomeVC ()
 

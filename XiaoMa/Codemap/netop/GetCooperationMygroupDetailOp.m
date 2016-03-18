@@ -33,7 +33,7 @@
     self.rsp_buttonname = dict[@"buttonname"];
     self.rsp_ifgroupowner = [dict[@"ifgroupowner"] boolValue];
     self.rsp_groupid = dict[@"groupid"];
-	
+
     return self;
 }
 

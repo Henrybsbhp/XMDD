@@ -819,7 +819,7 @@
         <!--完善入团信息-->
         <scene sceneID="oyf-1W-kLf">
             <objects>
-                <viewController storyboardIdentifier="EditInsInfoVC" title="完善入团信息" id="uCa-Di-p06" customClass="EditInsInfoVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MutualInsPicUpdateVC" title="完善入团信息" id="uCa-Di-p06" customClass="MutualInsPicUpdateVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lLl-4B-H3W"/>
                         <viewControllerLayoutGuide type="bottom" id="VBu-rT-f9Z"/>

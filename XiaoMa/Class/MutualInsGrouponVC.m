@@ -17,13 +17,17 @@
 #import "MutualInsGrouponSubMsgVC.h"
 #import "MutualInsHomeVC.h"
 #import "InviteByCodeVC.h"
+#import "MutualInsOrderInfoVC.h"
 
 @interface MutualInsGrouponVC ()<UIScrollViewDelegate>
-
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *topView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
+
+@end
+
+@interface MutualInsGrouponVC ()
 
 @property (nonatomic, weak) HKPopoverView *popoverMenu;
 @property (nonatomic, strong) AddCloseAnimationButton *menuButton;
@@ -80,6 +84,13 @@
     [self.topSubVC setShouldExpandedOrClosed:^(BOOL expanded) {
         @strongify(self);
         [self setExpanded:expanded animated:YES];
+    }];
+}
+
+- (void)setupBottomSubVC {
+    @weakify(self);
+    [self.bottomSubVC setDidScrollBlock:^(UIScrollView *scrollView) {
+        @strongify(self);
     }];
 }
 
@@ -140,7 +151,7 @@
     [self.bottomSubVC reloadData];
     [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
-        make.height.mas_equalTo(self.scrollView.frame.size.height - self.topSubVC.closedHeight);
+        make.height.mas_equalTo(self.scrollView.frame.size.height - self.topSubVC.closedHeight + 5);
     }];
     //刷新菜单按钮
     [self reloadMenuItems];
@@ -230,6 +241,7 @@
 - (CKDict *)menuItemInvite {
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Invite",@"title":@"邀请入团",@"img":@"mins_person"}];
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
     });
     return dict;
 }
@@ -255,10 +267,13 @@
 - (CKDict *)menuItemMyOrder {
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Order",@"title":@"我的订单",@"img":@"mins_order"}];
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        
+        MutualInsOrderInfoVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
+        vc.contractId = self.groupDetail.rsp_contractid;
+        [self.navigationController pushViewController:vc animated:YES];
     });
     return dict;
 }
+
 #pragma mark - Animate
 - (void)setExpanded:(BOOL)expanded animated:(BOOL)animated {
     self.isExpandingOrClosing = YES;
