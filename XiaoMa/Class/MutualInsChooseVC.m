@@ -68,7 +68,7 @@
     //小提示
     if (dataModel.remindTip.length != 0) {
         CKDict *topTip = [self setTopCell:dataModel.remindTip];
-        [self.datasource addObject:topTip forKey:@"topSection"];
+        [self.datasource addObject:$(topTip) forKey:@"topSection"];
     }
     
     //选择保险
@@ -92,7 +92,7 @@
     //cell行高
     CGFloat height = [tip labelSizeWithWidth:(self.tableView.frame.size.width - 50) font:[UIFont systemFontOfSize:13]].height;
     topTip[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return height + 24; //上下约束为12+12
+        return height + 25;
     });
     //cell准备重绘
     topTip[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -375,7 +375,7 @@
     
     op.req_memberid = self.memberId;
     op.req_inslist = insListStr;
-    op.req_proxybuy = @(self.isAgent);
+    op.req_proxybuy = [NSNumber numberWithInteger:self.isAgent];
     [[[op rac_postRequest] initially:^{
         [gToast showingWithText:@"正在提交..."];
     }] subscribeNext:^(id x) {
