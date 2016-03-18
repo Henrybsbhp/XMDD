@@ -517,7 +517,6 @@
             return ;
         }
     }
-
 }
 
 #pragma mark - UIImagePickerControllerDelegate

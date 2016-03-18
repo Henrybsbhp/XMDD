@@ -122,11 +122,30 @@
        (type (array-type MutualInsMemberInfo))
        (value #f))
       (node (attr (*def* "各阶段有效时间")) (id timeperiod) (type #f) (value #f))
+      (node (attr (*def* "自己记录状态描述")) (id selfstatusdesc) (type #f) (value #f))
+      (node (attr (*def* "控制状态栏显示")) (id barstatus) (type int) (value #f))
+      (node (id status) (type int) (value #f))
+      (node (attr (*def* "协议记录ID")) (id contractid) (type #f) (value #f))
+      (node (attr (*def* "剩余时间倒计时提示语")) (id timetip) (type #f) (value #f))
+      (node (attr (*def* "池子最大金额")) (id totalpoolamt) (type #f) (value #f))
+      (node (attr (*def* "池子当前金额")) (id presentpoolamt) (type #f) (value #f))
       (node
-       (attr (*def* "自己记录状态描述"))
-       (id selfstatusdesc)
-       (type #f)
-       (value #f))))
+       (attr (*def* "各种状态倒计时剩余时间"))
+       (id lefttime)
+       (type longlong)
+       (value #f))
+      (node
+       (attr (*def* "没有车直接报价按钮是否显示"))
+       (id pricebuttonflag)
+       (type int)
+       (value #f))
+      (node (attr (*def* "按钮名字")) (id buttonname) (type #f) (value #f))
+      (node
+       (attr (*def* "是否当前人是团长本人"))
+       (id ifgroupowner)
+       (type bool)
+       (value #f))
+      (node (attr (*def* "团记录ID")) (id groupid) (type number) (value #f))))
     (node
      (attr
       (*def* "互助协议查看")
@@ -187,8 +206,10 @@
       (node (attr (*def* "车主手机")) (id phone) (type #f) (value #f))
       (node (attr (*def* "品牌车系信息")) (id carbrand) (type #f) (value #f))
       (node (attr (*def* "互助资金")) (id sharemoney) (type float) (value #f))
-      (node (attr (*def* "所占比例")) (id rate) (type int) (value #f))
-      (node (attr (*def* "可返金额")) (id returnmoney) (type float) (value #f))))
+      (node (attr (*def* "所占比例")) (id rate) (type #f) (value #f))
+      (node (attr (*def* "理赔次数")) (id claimcount) (type int) (value #f))
+      (node (attr (*def* "可返金额")) (id returnmoney) (type float) (value #f))
+      (node (attr (*def* "理赔金额")) (id claimamount) (type float) (value #f))))
     (node
      (attr
       (*def* "退出团")
@@ -337,7 +358,7 @@
     (node
      (attr (*def* "团员信息") (class MutualInsMemberInfo) (data))
      (node (attr (*def* "车牌")) (id licensenumber) (type #f) (value #f))
-     (node (attr (*def* "车的品牌logo地址")) (id 车的品牌logo地址) (type #f) (value #f))
+     (node (attr (*def* "车的品牌logo地址")) (id brandurl) (type #f) (value #f))
      (node (attr (*def* "团员记录ID")) (id memberid) (type number) (value #f))
      (node (attr (*def* "其他人的状态描述")) (id statusdesc) (type #f) (value #f)))
     (node

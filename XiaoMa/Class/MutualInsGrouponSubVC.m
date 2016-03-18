@@ -9,18 +9,29 @@
 #import "MutualInsGrouponSubVC.h"
 #import "CKDatasource.h"
 #import "NSString+RectSize.h"
+#import "GetCooperationMemberDetailOp.h"
+#import "NSString+Format.h"
+#import "ApplyCooperationGroupJoinOp.h"
+#import "ApplyCooperationPremiumCalculateOp.h"
 
 #import "MutualInsGrouponCarsCell.h"
 #import "HKProgressView.h"
 #import "PullDownAnimationButton.h"
 #import "WaterWaveProgressView.h"
+
+#import "CarListVC.h"
 #import "MutualInsAlertVC.h"
+#import "MutualInsGrouponMembersVC.h"
+#import "EditInsInfoVC.h"
+#import "MutualInsChooseViewController.h"
+#import "MutualInsPayViewController.h"
+
 
 @interface MutualInsGrouponSubVC ()
 @property (nonatomic, strong) CKList *allItems;
 @property (nonatomic, strong) CKList *datasource;
 
-@property (nonatomic, assign) MutInsStatus *status;
+@property (nonatomic, assign) MutInsStatus status;
 @end
 
 @implementation MutualInsGrouponSubVC
@@ -30,7 +41,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.isExpanded = YES;
-    [self setupItems];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,36 +48,32 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Setup
-- (void)setupItems
-{
-    self.allItems = $([self carsItem], [self splitLine1Item], [self splitLine2Item], [self arrowItem],
-                      [self waterWaveItem], [self descItem], [self timeItem], [self ButtonItem], [self bottomItem]);
-}
-
 #pragma mark - Reload
 - (void)reloadDataWithStatus:(MutInsStatus)status
 {
-    CKList *items = self.allItems;
     CKList *datasource;
     if (status == MutInsStatusNeedDriveLicense || status == MutInsStatusNeedInsList) {
-        datasource = $(items[@"Cars"],items[@"Line1"],items[@"Arrow"],items[@"Desc"],items[@"Time"],items[@"Button"],items[@"Bottom"]);
+        datasource = $([self carsItem],[self splitLine1Item], [self arrowItem], [self descItem], [self timeItem],
+                       [self buttonItem], [self bottomItem]);
     }
     else if (status == MutInsStatusUnderReview || status == MutInsStatusReviewFailed || status == MutInsStatusNeedQuote) {
-        datasource = $(items[@"Cars"],items[@"Line1"],items[@"Arrow"],items[@"Desc"],items[@"Time"],items[@"Bottom"]);
+        datasource = $([self carsItem],[self splitLine1Item], [self arrowItem], [self descItem], [self timeItem], [self bottomItem]);
     }
-    else if (status == MutInsStatusNeedReviewAgain || status == MutInsStatusAccountingPrice) {
-        datasource = $(items[@"Cars"],items[@"Line1"],items[@"Arrow"],items[@"Desc"],items[@"Time"],items[@"Button"],items[@"Bottom"]);
+    else if (status == MutInsStatusNeedReviewAgain || status == MutInsStatusAccountingPrice || status == MutInsStatusPeopleNumberUment) {
+        datasource = $([self carsItem],[self splitLine1Item], [self arrowItem], [self descItem], [self timeItem],
+                       [self buttonItem], [self bottomItem]);
     }
     else if (status == MutInsStatusToBePaid) {
-        datasource = $(items[@"Cars"],items[@"Line2"],items[@"Arrow"],items[@"Wave"],
-                       items[@"Desc"],items[@"Time"],items[@"Button"],items[@"Bottom"]);
+        
+        datasource = $([self carsItem], [self splitLine2Item], [self arrowItem], [self waterWaveItem], [self descItem],
+                       [self timeItem], [self buttonItem], [self bottomItem]);
     }
     else if (status == MutInsStatusPaidForSelf) {
-        datasource = $(items[@"Cars"],items[@"Line2"],items[@"Wave"],items[@"Desc"],items[@"Time"],items[@"Bottom"]);
+        datasource = $([self carsItem], [self splitLine2Item], [self waterWaveItem], [self descItem], [self timeItem],
+                       [self bottomItem]);
     }
     else {
-        datasource = $(items[@"Cars"],items[@"Line2"],items[@"Wave"],items[@"Desc"],items[@"Bottom"]);
+        datasource = $([self carsItem], [self splitLine2Item], [self waterWaveItem], [self descItem], [self bottomItem]);
     }
     self.datasource = datasource;
     [self.tableView reloadData];
@@ -89,18 +95,125 @@
     self.closedHeight = height2;
 }
 
+#pragma mark - Action
+- (void)actionGotoMembersVC
+{
+    MutualInsGrouponMembersVC *vc = [MutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponMembersVC"];
+    vc.members = self.groupDetail.rsp_members;
+    vc.title = self.title;
+    [self.parentViewController.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionShowMemberAlertView:(GetCooperationMemberDetailOp *)op
+{
+    MutualInsAlertVC *alert = [[MutualInsAlertVC alloc] init];
+    alert.topTitle = op.rsp_licensenumber;
+    alert.actionTitles = @[@"确定"];
+    NSArray *items;
+    if (op.rsp_sharemoney > 0) {
+        items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_licensenumber
+                                          detailColor:MutInsTextDarkGrayColor],
+                  [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:op.rsp_carbrand
+                                          detailColor:MutInsTextDarkGrayColor],
+                  [MutualInsAlertVCItem itemWithTitle:@"互助资金" detailTitle:[NSString formatForRoundPrice2:op.rsp_sharemoney]
+                                          detailColor:MutInsOrangeColor],
+                  [MutualInsAlertVCItem itemWithTitle:@"所占比例" detailTitle:op.rsp_rate
+                                          detailColor:MutInsTextDarkGrayColor],
+                  [MutualInsAlertVCItem itemWithTitle:@"目前可返" detailTitle:[NSString formatForRoundPrice2:op.rsp_returnmoney]
+                                          detailColor:MutInsOrangeColor],
+                  [MutualInsAlertVCItem itemWithTitle:@"出现次数" detailTitle:[NSString stringWithFormat:@"%d次", op.rsp_claimcount]
+                                          detailColor:MutInsTextDarkGrayColor],
+                  [MutualInsAlertVCItem itemWithTitle:@"理赔金额" detailTitle:[NSString formatForRoundPrice2:op.rsp_claimamount]
+                                          detailColor:MutInsOrangeColor]];
+    }
+    else {
+        items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_licensenumber
+                                          detailColor:MutInsTextDarkGrayColor],
+                  [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:op.rsp_carbrand
+                                          detailColor:MutInsTextDarkGrayColor],
+                  [MutualInsAlertVCItem itemWithTitle:@"互助资金" detailTitle:@"暂无"
+                                          detailColor:MutInsTextDarkGrayColor],
+                  [MutualInsAlertVCItem itemWithTitle:@"所占比例" detailTitle:@"暂无"
+                                          detailColor:MutInsTextDarkGrayColor],
+                  [MutualInsAlertVCItem itemWithTitle:@"目前可返" detailTitle:@"暂无"
+                                          detailColor:MutInsTextDarkGrayColor],
+                  [MutualInsAlertVCItem itemWithTitle:@"出现次数" detailTitle:@"暂无"
+                                          detailColor:MutInsTextDarkGrayColor],
+                  [MutualInsAlertVCItem itemWithTitle:@"理赔金额" detailTitle:@"暂无"
+                                          detailColor:MutInsTextDarkGrayColor]];
+    }
+    alert.items = items;
+    [alert showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
+        [alertView dismiss];
+    }];
+}
+
+- (void)actionImproveCarInfo {
+    CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+    vc.title = @"选择爱车";
+    vc.model.allowAutoChangeSelectedCar = YES;
+    vc.model.disableEditingCar = YES; //不可修改
+    vc.canJoin = YES; //用于控制爱车页面底部view
+    vc.model.originVC = self;
+    [vc setFinishPickActionForMutualIns:^(HKMyCar *car,UIView * loadingView) {
+        //爱车页面入团按钮委托实现
+        [self requestSubmitCarInfo:car];
+    }];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionImproveDrivingLicenseInfo {
+    EditInsInfoVC * vc = [UIStoryboard vcWithId:@"EditInsInfoVC" inStoryboard:@"MutualInsJoin"];
+    vc.memberId = self.groupDetail.req_memberid;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionImproveCoverageInfo {
+    
+}
+
+- (void)actionCheckPrice {
+    ApplyCooperationPremiumCalculateOp *op = [ApplyCooperationPremiumCalculateOp operation];
+    op.req_groupid = self.groupDetail.rsp_groupid;
+    [[[op rac_postRequest] initially:^{
+        [gToast showingWithText:@"正在核价..."];
+    }] subscribeNext:^(id x) {
+        [gToast showSuccess:@"核价成功"];
+    } error:^(NSError *error) {
+        [gToast showError:error.domain];
+    }];
+}
+
+- (void)actionPay {
+    
+}
+#pragma mark - Request
+- (void)requestDetailInfoForMember:(NSNumber *)memberid
+{
+    GetCooperationMemberDetailOp *op = [GetCooperationMemberDetailOp operation];
+    op.req_memberid = memberid;
+    @weakify(self);
+    [[[op rac_postRequest] initially:^{
+        [gToast showingWithText:@"获取信息..."];
+    }] subscribeNext:^(GetCooperationMemberDetailOp *op) {
+        @strongify(self);
+        [gToast dismiss];
+        [self actionShowMemberAlertView:op];
+    } error:^(NSError *error) {
+        [gToast showError:error.domain];
+    }];
+}
+
+- (void)requestSubmitCarInfo:(HKMyCar *)car
+{
+}
+
 #pragma mark - CellItem
 - (CKDict *)carsItem
 {
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Cars"}];
     @weakify(self);
-    item[@"cars"] = @[@{@"title":@"浙A12345",@"img":@"http://7xjclc.com2.z0.glb.qiniucdn.com/S117.png"},
-                      @{@"title":@"浙A54892",@"img":@"http://7xjclc.com2.z0.glb.qiniucdn.com/S119.png"},
-                      @{@"title":@"浙A54892",@"img":@"http://7xjclc.com2.z0.glb.qiniucdn.com/S119.png"},
-                      @{@"title":@"浙A54892",@"img":@"http://7xjclc.com2.z0.glb.qiniucdn.com/S119.png"},
-                      @{@"title":@"浙A54892",@"img":@"http://7xjclc.com2.z0.glb.qiniucdn.com/S119.png"},
-                      @{@"title":@"浙A54892",@"img":@"http://7xjclc.com2.z0.glb.qiniucdn.com/S119.png"},
-                      @{@"title":@"浙A54892",@"img":@"http://7xjclc.com2.z0.glb.qiniucdn.com/S119.png"}];
+    item[@"members"] = self.groupDetail.rsp_members;
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 72;
     });
@@ -108,22 +221,15 @@
         @strongify(self);
         MutualInsGrouponCarsCell *cardsCell = (MutualInsGrouponCarsCell *)cell;
         [cardsCell setupWithCellBounds:CGRectMake(0, 0, self.tableView.frame.size.width, 72)];
-        [cardsCell setCars:data[@"cars"]];
-        [cardsCell setCarDidSelectedBlock:^(NSDictionary *info) {
-            MutualInsAlertVC *alert = [[MutualInsAlertVC alloc] init];
-            alert.topTitle = info[@"title"];
-            alert.actionTitles = @[@"确定"];
-            alert.items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:@"150****2977" detailColor:MutInsTextDarkGrayColor],
-                            [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:@"奥迪A4L" detailColor:MutInsTextDarkGrayColor],
-                            [MutualInsAlertVCItem itemWithTitle:@"互助资金" detailTitle:@"6800.00" detailColor:MutInsOrangeColor],
-                            [MutualInsAlertVCItem itemWithTitle:@"所占比例" detailTitle:@"7.59%" detailColor:MutInsTextDarkGrayColor],
-                            [MutualInsAlertVCItem itemWithTitle:@"目前可返" detailTitle:@"5688.00" detailColor:MutInsOrangeColor],
-                            [MutualInsAlertVCItem itemWithTitle:@"出现次数" detailTitle:@"2次" detailColor:MutInsTextDarkGrayColor],
-                            [MutualInsAlertVCItem itemWithTitle:@"理赔金额" detailTitle:@"2255.55" detailColor:MutInsOrangeColor]];
-            [alert showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
-                [alertView dismiss];
-            }];
-            
+        [cardsCell setCars:data[@"members"]];
+        [cardsCell setCarDidSelectedBlock:^(MutualInsMemberInfo *info) {
+            @strongify(self);
+            if (!info) {
+                [self actionGotoMembersVC];
+            }
+            else {
+                [self requestDetailInfoForMember:info.memberid];
+            }
         }];
     });
     return item;
@@ -131,7 +237,8 @@
 
 - (CKDict *)splitLine1Item
 {
-    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Line1",@"amount":@"共25车"}];
+    NSString *amount = [NSString stringWithFormat:@"共%d车", (int)[self.groupDetail.rsp_members count]];
+    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Line1", @"amount":amount}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 28;
     });
@@ -147,7 +254,8 @@
 
 - (CKDict *)splitLine2Item
 {
-    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Line2",@"time":@"2015.02.03-2016.07.03",@"amount":@"共25车"}];
+    NSString *amount = [NSString stringWithFormat:@"共%d车", (int)[self.groupDetail.rsp_members count]];
+    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Line2", @"time":self.groupDetail.rsp_timeperiod, @"amount":amount}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 36;
     });
@@ -176,7 +284,7 @@
         arrowV.normalTextColor = MutInsTextLightGrayColor;
         arrowV.normalColor = MutInsBgColor;
         arrowV.titleArray = @[@"上传",@"审核",@"报价",@"支付"];
-        arrowV.selectedIndexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)];
+        arrowV.selectedIndexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, self.groupDetail.rsp_barstatus)];
     });
     return item;
 }
@@ -192,10 +300,12 @@
         WaterWaveProgressView *waveV = [cell viewWithTag:1001];
         
         waveV.titleLable.text = @"资金池";
-        waveV.subTitleLabel.text = @"7865.85/12500.45";
+        waveV.subTitleLabel.text = [NSString stringWithFormat:@"%@/%@",
+                                    self.groupDetail.rsp_presentpoolamt, self.groupDetail.rsp_totalpoolamt];
         [waveV startWave];
         [waveV showArcLightOnce];
-        [waveV setProgress:0.8 withAnimation:YES];
+        CGFloat progress = [self.groupDetail.rsp_presentpoolamt floatValue] / MAX(0.01, [self.groupDetail.rsp_totalpoolamt floatValue]);
+        [waveV setProgress:progress withAnimation:YES];
         //cell被重用的时候停止动画
         [[cell rac_prepareForReuseSignal] subscribeNext:^(id x) {
             [waveV stopWave];
@@ -210,7 +320,7 @@
         [[RACObserve(self, isExpanded) takeUntilForCell:cell] subscribeNext:^(NSNumber *expanded) {
             if ([expanded boolValue]) {
                 [waveV showArcLightOnce];
-                [waveV setProgress:0.8 withAnimation:YES];
+                [waveV setProgress:progress withAnimation:YES];
             }
         }];
     });
@@ -219,7 +329,7 @@
 
 - (CKDict *)descItem
 {
-    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Desc",@"text":@"全部团员支付成功，组团结束。\n协议将于2016年3月1日生效"}];
+    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Desc",@"text":self.groupDetail.rsp_selfstatusdesc}];
     @weakify(self);
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
@@ -236,7 +346,7 @@
 
 - (CKDict *)timeItem
 {
-    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Time",@"text":@" 组团剩余时间：21小时15分"}];
+    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Time",@"text":self.groupDetail.rsp_timetip}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 26;
     });
@@ -247,19 +357,55 @@
         
         leftL.lineColor = MutInsGreenColor;
         rightL.lineColor = MutInsGreenColor;
-        [timeB setTitle:data[@"text"] forState:UIControlStateNormal];
+        NSString *text = data[@"text"];
+        [timeB setTitle:[@" " append:text] forState:UIControlStateNormal];
     });
     return item;
 }
 
-- (CKDict *)ButtonItem
+- (CKDict *)buttonItem
 {
-    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Button"}];
+    NSString *key = @"Button1";
+    if (self.groupDetail.rsp_pricebuttonflag > 0) {
+        key = @"Button2";
+    }
+    CKDict *item = [CKDict dictWith:@{kCKItemKey:key}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 48;
     });
+    @weakify(self);
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
+        UIButton *button1 = [cell viewWithTag:1001];
+        UIButton *button2 = [cell viewWithTag:1002];
         
+        [button1 setTitle:self.groupDetail.rsp_buttonname forState:UIControlStateNormal];
+        [[[button1 rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+         subscribeNext:^(id x) {
+             @strongify(self);
+             MutInsStatus status = self.status;
+             if (status == MutInsStatusNeedCar) {
+                 [self actionImproveCarInfo];
+             }
+             else if (status == MutInsStatusNeedDriveLicense) {
+                 [self actionImproveDrivingLicenseInfo];
+             }
+             else if (status == MutInsStatusNeedInsList) {
+                 [self actionImproveCoverageInfo];
+             }
+             else if (status == MutInsStatusAccountingPrice) {
+                 [self actionCheckPrice];
+             }
+             else if (status == MutInsStatusToBePaid) {
+                 [self actionPay];
+             }
+        }];
+        
+        [[[button2 rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+         subscribeNext:^(id x) {
+             @strongify(self);
+             [self actionCheckPrice];
+        }];
     });
     return item;
 }
@@ -338,4 +484,6 @@
         ((CKCellSelectedBlock)item[kCKCellSelected])(item, indexPath);
     }
 }
+
+
 @end

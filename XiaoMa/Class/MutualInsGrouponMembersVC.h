@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MutualInsGrouponCarsVC : UIViewController
+@interface MutualInsGrouponMembersVC : UICollectionViewController
+
+@property (nonatomic, strong) NSArray *members;
 
 @end

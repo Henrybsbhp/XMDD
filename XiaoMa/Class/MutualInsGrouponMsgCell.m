@@ -54,6 +54,8 @@
     _atRightSide = atRightSide;
     NSString *strimg = atRightSide ? @"mins_bubble_right" : @"mins_bubble_left";
     self.msgBgView.image = [[UIImage imageNamed:strimg] resizableImageWithCapInsets:UIEdgeInsetsMake(22, 8, 5, 8)];
+    self.titleLabel.textAlignment = atRightSide ? NSTextAlignmentRight : NSTextAlignmentLeft;
+    self.msgLabel.textColor = atRightSide ? [UIColor whiteColor] : MutInsTextDarkGrayColor;
 }
 
 - (void)setMessage:(NSString *)message
@@ -65,7 +67,7 @@
 - (void)updateConstraints
 {
     @weakify(self);
-    [self.logoView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.logoView mas_remakeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.size.mas_equalTo(CGSizeMake(45, 45));
         make.top.equalTo(self.contentView).offset(10);
@@ -77,7 +79,7 @@
         }
     }];
     
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.top.equalTo(self.logoView.mas_top);
         make.height.mas_equalTo(16);
@@ -90,7 +92,7 @@
             make.right.equalTo(self.contentView).offset(-kCellMargin);
         }
     }];
-    [self.msgContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.msgContainerView mas_remakeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.top.equalTo(self.titleLabel.mas_bottom).offset(3);
         if (self.atRightSide) {
@@ -103,12 +105,12 @@
         }
     }];
     
-    [self.msgBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.msgBgView mas_remakeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.edges.equalTo(self.msgContainerView);
     }];
  
-    [self.msgLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.msgLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.top.equalTo(self.msgContainerView).offset(8);
         make.bottom.equalTo(self.msgContainerView).offset(-8);

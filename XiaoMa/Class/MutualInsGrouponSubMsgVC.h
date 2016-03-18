@@ -7,8 +7,11 @@
 //
 
 #import "HKViewController.h"
+#import "HKMutualGroup.h"
 
 @interface MutualInsGrouponSubMsgVC : HKViewController
+@property (nonatomic, strong)HKMutualGroup * group;
+@property (nonatomic, strong) NSArray *groupMembers;
 
 - (void)reloadData;
 

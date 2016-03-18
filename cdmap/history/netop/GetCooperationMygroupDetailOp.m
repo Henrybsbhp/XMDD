@@ -22,6 +22,17 @@
     self.rsp_members = members;
     self.rsp_timeperiod = dict[@"timeperiod"];
     self.rsp_selfstatusdesc = dict[@"selfstatusdesc"];
+    self.rsp_barstatus = [dict[@"barstatus"] intValue];
+    self.rsp_status = [dict[@"status"] intValue];
+    self.rsp_contractid = dict[@"contractid"];
+    self.rsp_timetip = dict[@"timetip"];
+    self.rsp_totalpoolamt = dict[@"totalpoolamt"];
+    self.rsp_presentpoolamt = dict[@"presentpoolamt"];
+    self.rsp_lefttime = [dict[@"lefttime"] longLongValue];
+    self.rsp_pricebuttonflag = [dict[@"pricebuttonflag"] intValue];
+    self.rsp_buttonname = dict[@"buttonname"];
+    self.rsp_ifgroupowner = [dict[@"ifgroupowner"] boolValue];
+    self.rsp_groupid = dict[@"groupid"];
 	
     return self;
 }
