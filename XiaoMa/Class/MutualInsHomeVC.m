@@ -262,7 +262,7 @@
     if (group.leftTime != 0)
     {
         RACDisposable * disp = [[[HKTimer rac_timeCountDownWithOrigin:[group.leftTime integerValue] / 1000 andTimeTag:group.leftTimeTag] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString * timeStr) {
-            timeLabel.text = [NSString stringWithFormat:@"%@ %@", group.tip, timeStr];
+            timeLabel.text = [NSString stringWithFormat:@"%@ \n%@", group.tip, timeStr];
         }];
         [[self rac_deallocDisposable] addDisposable:disp];
     }
