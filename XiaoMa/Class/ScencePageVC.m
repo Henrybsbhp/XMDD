@@ -216,10 +216,10 @@
     }
     else
     {
-        self.scene = [[self.scencePhotoVM urlArrForIndex:0]componentsJoinedByString:@","];
-        self.cardamage = [[self.scencePhotoVM urlArrForIndex:1]componentsJoinedByString:@","];
-        self.carinfo = [[self.scencePhotoVM urlArrForIndex:2]componentsJoinedByString:@","];
-        self.idinfo = [[self.scencePhotoVM urlArrForIndex:3]componentsJoinedByString:@","];
+        self.scene = [self.scencePhotoVM URLStringForIndex:0];
+        self.cardamage = [self.scencePhotoVM URLStringForIndex:1];
+        self.carinfo = [self.scencePhotoVM URLStringForIndex:2];
+        self.idinfo = [self.scencePhotoVM URLStringForIndex:3];
         ApplyCooperationClaimOp *op = [[ApplyCooperationClaimOp alloc]init];
         op.req_claimid = self.claimid;
         op.req_scene = self.scene;

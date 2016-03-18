@@ -8,6 +8,7 @@
 
 #import "ScencePhotoVM.h"
 #import "GetCoorperationClaimConfigOp.h"
+#import "PictureRecord.h"
 
 @interface ScencePhotoVM ()
 
@@ -17,9 +18,7 @@
 
 @property (nonatomic, strong) NSArray *noticeArr;
 
-@property (nonatomic, strong) NSArray *imgArr;
-
-@property (nonatomic, strong) NSArray *urlArr;
+@property (nonatomic, strong) NSArray *recordArray;
 
 @end
 
@@ -47,8 +46,7 @@ static ScencePhotoVM *scencePhotoVM;
 
 -(void)deleteAllInfo
 {
-    [self.imgArr makeObjectsPerformSelector:@selector(removeAllObjects)];
-    [self.urlArr makeObjectsPerformSelector:@selector(removeAllObjects)];
+    [self.recordArray makeObjectsPerformSelector:@selector(removeAllObjects)];
 }
 
 #pragma mark ViewData
@@ -70,14 +68,9 @@ static ScencePhotoVM *scencePhotoVM;
     return [self.noticeArr safetyObjectAtIndex:index];
 }
 
--(NSMutableArray *)imgArrForIndex:(NSInteger)index
+-(NSMutableArray *)recordArrayForIndex:(NSInteger)index
 {
-    return self.imgArr[index];
-}
-
--(NSMutableArray *)urlArrForIndex:(NSInteger)index
-{
-    return self.urlArr[index];
+    return self.recordArray[index];
 }
 
 #pragma mark LazyLoad
@@ -114,30 +107,29 @@ static ScencePhotoVM *scencePhotoVM;
     return _noticeArr;
 }
 
--(NSArray *)imgArr
+
+-(NSString *)URLStringForIndex:(NSInteger)index
 {
-    if (!_imgArr)
+    NSMutableArray *records = [self recordArrayForIndex:index];
+    NSMutableArray *URLStr = [[NSMutableArray alloc]init];
+    for (PictureRecord * rc in records)
     {
-        NSMutableArray *arr1 = [[NSMutableArray alloc]init];
-        NSMutableArray *arr2 = [[NSMutableArray alloc]init];
-        NSMutableArray *arr3 = [[NSMutableArray alloc]init];
-        NSMutableArray *arr4 = [[NSMutableArray alloc]init];
-        _imgArr = @[arr1,arr2,arr3,arr4];
+        [URLStr safetyAddObject:rc.url];
     }
-    return _imgArr;
+    return [URLStr componentsJoinedByString:@","];
 }
 
--(NSArray *)urlArr
+-(NSArray *)recordArray
 {
-    if (!_urlArr)
+    if (!_recordArray)
     {
         NSMutableArray *arr1 = [[NSMutableArray alloc]init];
         NSMutableArray *arr2 = [[NSMutableArray alloc]init];
         NSMutableArray *arr3 = [[NSMutableArray alloc]init];
         NSMutableArray *arr4 = [[NSMutableArray alloc]init];
-        _urlArr = @[arr1,arr2,arr3,arr4];
+        _recordArray = @[arr1,arr2,arr3,arr4];
     }
-    return _urlArr;
+    return _recordArray;
 }
 
 @end

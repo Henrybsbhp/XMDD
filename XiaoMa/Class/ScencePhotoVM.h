@@ -16,9 +16,9 @@
 
 -(NSString *)noticeForIndex:(NSInteger)index;
 
--(NSMutableArray *)imgArrForIndex:(NSInteger)index;
+-(NSMutableArray *)recordArrayForIndex:(NSInteger)index;
 
--(NSMutableArray *)urlArrForIndex:(NSInteger)index;
+-(NSString *)URLStringForIndex:(NSInteger)index;
 
 -(void)deleteAllInfo;
 

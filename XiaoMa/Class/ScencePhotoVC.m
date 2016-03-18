@@ -19,7 +19,6 @@
 @interface ScencePhotoVC ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 @property (nonatomic,strong)NSMutableArray * recordArray;
-
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) ScencePhotoVM *scencePhotoVM;
@@ -44,6 +43,7 @@
     }
     
 }
+
 
 
 - (void)didReceiveMemoryWarning {
@@ -96,15 +96,21 @@
     }
 }
 
+-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewAutomaticDimension;
+}
+
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 2 && self.recordArray.count == 0)
     {
-        [self takePhoto:indexPath];
+        [self takePhotoWithIndexPath:indexPath];
     }
     else if (self.recordArray.count != 0 && indexPath.section == (self.recordArray.count + 2))
     {
-        [self takePhoto:indexPath];
+        [self takePhotoWithIndexPath:indexPath];
     }
     else if (self.recordArray.count != 0 && indexPath.section > 1)
     {
@@ -141,7 +147,7 @@
     {
         cell = [self photoCellForRowAtIndexPath:indexPath];
     }
-    //    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
@@ -185,29 +191,28 @@
     UIView *view = [cell viewWithTag:1000];
     //放弃子视图约束
     [view setTranslatesAutoresizingMaskIntoConstraints:NO];
-    
+    PictureRecord * record = [self.recordArray safetyObjectAtIndex:indexPath.section - 2];
     //初始化hkimageview。如果为nil则手动创建一个。
     HKImageView * hkimageview  = [view viewWithTag:10101];
     if (!hkimageview)
     {
         hkimageview = [[HKImageView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 60, 165)];
-        hkimageview = [[HKImageView alloc]init];
         hkimageview.contentMode = UIViewContentModeScaleAspectFill;
         hkimageview.tag = 10101;
         [view addSubview:hkimageview];
+        
+        //重新上传照片
+        [[[hkimageview.reuploadButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntilForCell:cell] subscribeNext:^(id x) {
+            record.needReupload = YES;
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        }];
+        //重新拍照
+        [[[hkimageview.pickImageButton rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntilForCell:cell]subscribeNext:^(id x) {
+            [self takePhotoWithIndexPath:indexPath];
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        }];
     }
-    //取出图片记录
-    PictureRecord * record = [self.recordArray safetyObjectAtIndex:indexPath.section - 2];
-    //重新上传事件
-    [[[hkimageview.reuploadButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntilForCell:cell] subscribeNext:^(id x) {
-        record.needReupload = YES;
-        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    }];
-    //重新拍照事件
-    [[[hkimageview.pickImageButton rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntilForCell:cell]subscribeNext:^(id x) {
-        [self takePhoto:indexPath];
-        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    }];
+    //判断是否需要重新上传照片
     if ((!record.url.length && !record.isUploading && !record.needReupload)
         || record.needReupload)
     {
@@ -217,14 +222,14 @@
     {
         hkimageview.image = record.image;
     }
-    
-    //删除照片动作
+    //删除事件
     UIButton *deleteBtn = [cell viewWithTag:101];
     [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         [self deletePhoto:indexPath];
     }];
     return cell;
 }
+
 /**
  *  上传图片到服务器
  *
@@ -239,12 +244,14 @@
         record.isUploading = YES;
     }] subscribeNext:^(UploadFileOp *op) {
         //上传成功后将上传状态改为［不在上传中］, 并且［不需要重新上传］
+        @strongify(imageView)
         record.isUploading = NO;
         record.needReupload = NO;
+        imageView.tapGesture.enabled = NO;
         record.url = [op.rsp_urlArray safetyObjectAtIndex:0];
     } error:^(NSError *error) {
-        @strongify(imageView)
         //上传失败后限时遮罩层,并且修改上传状态。
+        @strongify(imageView)
         [imageView showMaskView];
         record.isUploading = NO;
         record.needReupload = NO;
@@ -265,6 +272,7 @@
  *
  *  @return 如果可以返回空字符。如果不可以上传提示文案
  */
+
 -(NSString *)canPush
 {
     if (self.recordArray.count != 0)
@@ -302,9 +310,11 @@
     }];
 }
 /**
- *  获得照片水印并且给照片打水印
+ *  给照片打水印
+ *
+ *  @param indexpath 照片的indexpath
  */
--(void)takePhoto:(NSIndexPath *)indexPath
+-(void)takePhotoWithIndexPath:(NSIndexPath *)indexpath
 {
     HKImagePicker *picker = [HKImagePicker imagePicker];
     picker.compressedSize = CGSizeMake(1024, 1024);
@@ -315,11 +325,13 @@
             return [self addPrinting:op.rsp_systime InPhoto:img];
         }];
     }] subscribeNext:^(UIImage *img) {
-        //打水印成功后在self.recordArray占一个位置。但是record只有image没有URL
+        
         PictureRecord * record = [[PictureRecord alloc] init];
+        //打水印成功后在self.recordArray占一个位置。但是record只有image没有URL
         record.image = img;
-        [self.recordArray insertObject:record atIndex:(indexPath.section - 2)];
-//        [self.recordArray safetyAddObject:record];
+        //保证拍照选择不会造成顺序错乱
+        [self.recordArray safetyRemoveObjectAtIndex:(indexpath.section - 2)];
+        [self.recordArray insertObject:record atIndex:(indexpath.section - 2)];
         //不能进行单cell刷新。因为每次选择照片会多一个cell
         [self.tableView reloadData];
     }];
@@ -364,7 +376,6 @@
 }
 
 #pragma mark LazyLoad
-
 -(ScencePhotoVM *)scencePhotoVM
 {
     if (!_scencePhotoVM)
@@ -377,7 +388,7 @@
 - (NSMutableArray *)recordArray
 {
     if (!_recordArray)
-        _recordArray = [NSMutableArray array];
+        _recordArray = [self.scencePhotoVM recordArrayForIndex:self.index];
     return _recordArray;
 }
 
