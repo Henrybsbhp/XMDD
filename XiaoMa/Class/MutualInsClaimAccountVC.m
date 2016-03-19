@@ -6,15 +6,15 @@
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "ClaimAccountVC.h"
+#import "MutualInsClaimAccountVC.h"
 #import "GetCooperationClaimBankcardOp.h"
-#import "ChooseBankVC.h"
-@interface ClaimAccountVC ()<UITableViewDelegate,UITableViewDataSource>
+#import "MutualInsChooseBankVC.h"
+@interface MutualInsClaimAccountVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *dataArr;
 @end
 
-@implementation ClaimAccountVC
+@implementation MutualInsClaimAccountVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -136,7 +136,7 @@
 {
     if (indexPath.row == 3)
     {
-        ChooseBankVC *chooseBankVC = [UIStoryboard vcWithId:@"ChooseBankVC" inStoryboard:@"MutualInsClaims"];
+        MutualInsChooseBankVC *chooseBankVC = [UIStoryboard vcWithId:@"MutualInsChooseBankVC" inStoryboard:@"MutualInsClaims"];
         [self.navigationController pushViewController:chooseBankVC animated:YES];
     }
 }

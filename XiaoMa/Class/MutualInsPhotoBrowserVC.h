@@ -1,5 +1,5 @@
 //
-//  ScencePageVC.h
+//  MutualInsPhotoBrowserVC.h
 //  XiaoMa
 //
 //  Created by RockyYe on 16/3/10.
@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ScencePageVC : UIViewController
+@interface MutualInsPhotoBrowserVC : UIViewController
 
-@property (nonatomic, strong) NSString *claimid;
+@property (nonatomic, strong) UIImage *img;
 
 @end

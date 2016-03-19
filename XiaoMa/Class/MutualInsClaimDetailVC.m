@@ -6,11 +6,11 @@
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "ClaimDetailVC.h"
+#import "MutualInsClaimDetailVC.h"
 #import "GetCooperationClaimDetailOp.h"
 #import "NSString+Price.h"
 
-@interface ClaimDetailVC ()<UITableViewDelegate,UITableViewDataSource>
+@interface MutualInsClaimDetailVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UIButton *agreeBtn;
 @property (strong, nonatomic) IBOutlet UIButton *disagreeBtn;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -32,7 +32,7 @@
 
 @end
 
-@implementation ClaimDetailVC
+@implementation MutualInsClaimDetailVC
 
 -(void)dealloc
 {

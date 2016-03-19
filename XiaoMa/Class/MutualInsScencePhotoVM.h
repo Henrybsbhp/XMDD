@@ -1,5 +1,5 @@
 //
-//  ScencePhotoVM.h
+//  MutualInsScencePhotoVM.h
 //  XiaoMa
 //
 //  Created by RockyYe on 16/3/10.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ScencePhotoVM : NSObject
+@interface MutualInsScencePhotoVM : NSObject
 
 -(UIImage *)sampleImgForIndex:(NSInteger)index;
 

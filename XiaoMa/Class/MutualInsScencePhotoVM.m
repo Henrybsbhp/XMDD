@@ -1,16 +1,16 @@
 //
-//  ScencePhotoVM.m
+//  MutualInsScencePhotoVM.m
 //  XiaoMa
 //
 //  Created by RockyYe on 16/3/10.
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "ScencePhotoVM.h"
+#import "MutualInsScencePhotoVM.h"
 #import "GetCoorperationClaimConfigOp.h"
 #import "PictureRecord.h"
 
-@interface ScencePhotoVM ()
+@interface MutualInsScencePhotoVM ()
 
 @property (nonatomic, strong) NSArray *sampleImgArr;
 
@@ -22,9 +22,9 @@
 
 @end
 
-@implementation ScencePhotoVM
+@implementation MutualInsScencePhotoVM
 
-static ScencePhotoVM *scencePhotoVM;
+static MutualInsScencePhotoVM *scencePhotoVM;
 
 -(void)getNoticeArr
 {
@@ -39,7 +39,7 @@ static ScencePhotoVM *scencePhotoVM;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^ {
-        scencePhotoVM = [[ScencePhotoVM alloc] init];
+        scencePhotoVM = [[MutualInsScencePhotoVM alloc] init];
     });
     return scencePhotoVM;
 }

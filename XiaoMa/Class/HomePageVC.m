@@ -7,10 +7,6 @@
 //
 
 //@叶志成 删除
-#import "AskClaimsVC.h"
-#import "ClaimDetailVC.h"
-#import "ClaimAccountVC.h"
-
 #import "HomePageVC.h"
 #import <Masonry.h>
 #import "XiaoMa.h"

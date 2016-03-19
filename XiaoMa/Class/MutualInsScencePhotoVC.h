@@ -1,5 +1,5 @@
 //
-//  ScencePhotoVC.h
+//  MutualInsScencePhotoVC.h
 //  XiaoMa
 //
 //  Created by RockyYe on 16/3/9.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ScencePhotoVC : UIViewController
+@interface MutualInsScencePhotoVC : UIViewController
 
 @property (nonatomic) NSInteger index;
 

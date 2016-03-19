@@ -1,5 +1,5 @@
 //
-//  askClaimsVC.h
+//  MutualInsAskClaimsVC.h
 //  XiaoMa
 //
 //  Created by RockyYe on 16/3/4.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AskClaimsVC : UIViewController
+@interface MutualInsAskClaimsVC : UIViewController
 
 @end

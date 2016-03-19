@@ -1,24 +1,24 @@
 //
-//  ClaimsHistoryVC.m
+//  MutualInsClaimsHistoryVC.m
 //  XiaoMa
 //
 //  Created by RockyYe on 16/3/3.
 //  Copyright © 2016年 huika. All rights reserved.
 //
 #import "HKInclinedLabel.h"
-#import "ClaimsHistoryVC.h"
+#import "MutualInsClaimsHistoryVC.h"
 #import "GetCooperationClaimsListOp.h"
 #import "MutualInsClaimInfo.h"
-#import "ClaimDetailVC.h"
+#import "MutualInsClaimDetailVC.h"
 #import "NSString+Price.h"
 #import "NSDate+DateForText.h"
 
-@interface ClaimsHistoryVC () <UITableViewDelegate,UITableViewDataSource>
+@interface MutualInsClaimsHistoryVC () <UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *dataArr;
 @end
 
-@implementation ClaimsHistoryVC
+@implementation MutualInsClaimsHistoryVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -85,7 +85,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MutualInsClaimInfo *model = [self.dataArr safetyObjectAtIndex:indexPath.section];
-    ClaimDetailVC *detailVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"ClaimDetailVC"];
+    MutualInsClaimDetailVC *detailVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsClaimDetailVC"];
     detailVC.claimid = model.claimid;
     [self.navigationController pushViewController:detailVC animated:YES];
 }

@@ -16,6 +16,7 @@
 #import "PaymentHelper.h"
 #import "OrderPaidSuccessOp.h"
 #import "MutualInsPayResultVC.h"
+#import "MutualInsActivityVC.h"
 
 @interface MutualInsPayViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 
@@ -267,6 +268,23 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (NSAttributedString *)stringWithContent:(NSString *)c1 andContent:(NSString *)c2
+{
+    NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
+    if (c1.length) {
+        NSDictionary *attr1 = @{NSForegroundColorAttributeName:HEXCOLOR(@"#454545")};
+        NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:c1 attributes:attr1];
+        [str appendAttributedString:attrStr1];
+    }
+    
+    if (c2.length) {
+        NSDictionary *attr2 = @{NSForegroundColorAttributeName:HEXCOLOR(@"#ff7428")};
+        NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:c2 attributes:attr2];
+        [str appendAttributedString:attrStr2];
+    }
+    return str;
+}
+
 
 #pragma mark - TTTAttributedLabelDelegate
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url
@@ -347,7 +365,9 @@
     HKCellData * data = [[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
     if ([data equalByCellID:@"ActiveCell" tag:nil])
     {
-        
+        MutualInsActivityVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsActivityVC"];
+        vc.dataArr = self.contract.couponlist;
+        [self.navigationController pushViewController:vc animated:YES];
     }
     else if ([data equalByCellID:@"PayPlatformCell" tag:nil])
     {
@@ -387,6 +407,8 @@
     
     titleLb.text = data.object;
     contentLb.text = data.tag;
+    
+    contentLb.attributedText = [self stringWithContent:data.tag andContent:data.customObject];
 }
 
 - (void)discountInfoCell:(UITableViewCell *)cell withCellDate:(HKCellData *)data
@@ -526,6 +548,7 @@
     HKCellData *celldata = [HKCellData dataWithCellID:@"InfoItemCell" tag:nil];
     celldata.object = @"互助期限";
     celldata.tag = self.contract.contractperiod;
+    celldata.customObject = [NSString stringWithFormat:@"(共%@个月)",self.contract.totalmonth];
     [celldata setHeightBlock:^CGFloat(UITableView *tableView) {
         return 27;
     }];
@@ -536,7 +559,7 @@
 {
     HKCellData *celldata = [HKCellData dataWithCellID:@"InfoItemCell" tag:nil];
     celldata.object = @"共计费用";
-    celldata.tag = [NSString formatForPrice:self.contract.total];
+    celldata.customObject = [NSString formatForPrice:self.contract.total];
     [celldata setHeightBlock:^CGFloat(UITableView *tableView) {
         return 27;
     }];
