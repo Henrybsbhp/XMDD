@@ -24,5 +24,7 @@
 @property (nonatomic, assign) CGFloat purchasePrice;
 //提醒文案
 @property (nonatomic, copy) NSString * remindTip;
+//小马达达折扣
+@property (nonatomic, assign) NSInteger xmddDiscount;
 
 @end
