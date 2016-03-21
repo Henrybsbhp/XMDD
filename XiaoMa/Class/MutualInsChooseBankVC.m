@@ -23,21 +23,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     [self.collectionView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
+    [self reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-
-
 
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.bankName)
+    {
+        self.bankName([self.datasource safetyObjectAtIndex:indexPath.row]);
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -52,6 +52,32 @@
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:1001];
     label.text = [self.datasource safetyObjectAtIndex:indexPath.row];
     return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat width = (self.view.bounds.size.width - 45 ) / 2;
+    CGFloat height = 60;
+    return CGSizeMake(width, height);
+}
+
+#pragma mark Network
+
+-(void)reloadData
+{
+    //    @写op 请求数据
+}
+
+#pragma mark LazyLoad
+
+-(NSArray *)datasource
+{
+    if (!_datasource)
+    {
+//        _datasource = [[NSArray alloc]init];
+        _datasource = @[@"中国建设银行",@"中国工商银行",@"中国银行",@"中国农业银行",@"中信实业银行",@"交通银行",@"杭州银行",@"华夏银行",@"中国民生银行",@"民泰银行"];
+    }
+    return _datasource;
 }
 
 @end

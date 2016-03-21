@@ -12,6 +12,7 @@
 #import "HKPopoverView.h"
 #import "GetCooperationMygroupDetailOp.h"
 #import "ExitCooperationOp.h"
+#import "MutualInsStore.h"
 
 #import "MutualInsGrouponSubVC.h"
 #import "MutualInsGrouponSubMsgVC.h"
@@ -44,6 +45,7 @@ typedef enum : NSInteger
 @property (nonatomic, strong) MutualInsGrouponSubVC *topSubVC;
 @property (nonatomic, strong) MutualInsGrouponSubMsgVC *bottomSubVC;
 
+@property (nonatomic, strong) MutualInsStore *minsStore;
 @property (nonatomic, strong) GetCooperationMygroupDetailOp *groupDetail;
 @property (nonatomic, assign) BOOL isExpandingOrClosing;
 @property (nonatomic, strong) NSArray *menuItems;
@@ -64,7 +66,8 @@ typedef enum : NSInteger
     
     [self setupNavigationBar];
     [self setupSubVC];
-    [self requestGroupDetailInfo];
+    [self setupMutualInsStore];
+    [[self.minsStore reloadDetailGroupByMemberID:self.group.memberId andGroupID:self.group.groupId] send];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -104,6 +107,19 @@ typedef enum : NSInteger
     [self.topSubVC setShouldExpandedOrClosed:^(BOOL expanded) {
         @strongify(self);
         [self setExpanded:expanded animated:YES];
+    }];
+}
+
+- (void)setupMutualInsStore {
+    self.minsStore = [MutualInsStore fetchOrCreateStore];
+    @weakify(self);
+    [self.minsStore subscribeWithTarget:self domain:kDomainMutualInsDetailGroups receiver:^(id store, CKEvent *evt) {
+        
+        @strongify(self);
+        GetCooperationMygroupDetailOp *op = evt.object;
+        if ([self.group.groupId isEqual:op.req_groupid] && [self.group.memberId isEqual:op.req_memberid]) {
+            [self reloadFromSignal:evt.signal];
+        }
     }];
 }
 
@@ -161,6 +177,35 @@ typedef enum : NSInteger
 
 
 #pragma mark - Reload
+- (void)reloadFromSignal:(RACSignal *)signal {
+    @weakify(self);
+    [[signal initially:^{
+        
+        @strongify(self);
+        self.containerView.hidden = YES;
+        [self.view hideDefaultEmptyView];
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+    }] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        [self.view stopActivityAnimation];
+        self.containerView.hidden = NO;
+        self.groupDetail = x;
+        [self setupNavigationRightItem];
+        [self reloadData];
+    } error:^(NSError *error) {
+        
+        @strongify(self);
+        [gToast showError:error.domain];
+        [self.view stopActivityAnimation];
+        [self.view showDefaultEmptyViewWithText:@"获取团详情失败，点击重试" tapBlock:^{
+            
+            @strongify(self);
+            [[self.minsStore reloadDetailGroupByMemberID:self.group.memberId andGroupID:self.group.groupId] send];
+        }];
+    }];
+}
+
 - (void)reloadData {
     //刷新上层子视图
     self.topSubVC.groupDetail = self.groupDetail;
