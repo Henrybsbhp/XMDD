@@ -199,6 +199,8 @@
     {
         // 不需要更新的情况下去查询小马互助
         [self.pasteboardoModel checkPasteboard];
+        
+        //此处实现方案要用cklist替换
         if ([[UIPasteboard generalPasteboard].string hasPrefix:XMINSPrefix] && [MZFormSheetController formSheetControllersStack]) {
             MZFormSheetController * mzVC = [[MZFormSheetController formSheetControllersStack] safetyObjectAtIndex:0];
             [mzVC dismissAnimated:NO completionHandler:nil];
