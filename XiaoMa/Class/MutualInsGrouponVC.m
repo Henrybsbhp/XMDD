@@ -27,7 +27,7 @@ typedef enum : NSInteger
     MutualInsScrollDirectionUp = 2
 }MutualInsScrollDirection;
 
-@interface MutualInsGrouponVC ()<UIScrollViewDelegate, UIGestureRecognizerDelegate>
+@interface MutualInsGrouponVC ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *topView;
@@ -95,8 +95,6 @@ typedef enum : NSInteger
         @strongify(self);
         [self setExpanded:expanded animated:YES];
     }];
-    
-    self.bottomSubVC.tableView.panGestureRecognizer.delegate = self;
 }
 
 - (void)setupNavigationRightItem {
@@ -160,6 +158,8 @@ typedef enum : NSInteger
     }];
     //刷新菜单按钮
     [self reloadMenuItems];
+    
+    [self setExpanded:self.topSubVC.isExpanded animated:NO];
 }
 
 - (void)reloadMenuItems {
@@ -286,9 +286,11 @@ typedef enum : NSInteger
     self.isExpandingOrClosing = YES;
     self.topSubVC.isExpanded = expanded;
     CGFloat dvalue = (self.topSubVC.expandedHeight - self.topSubVC.closedHeight);
+    CGFloat bottom = expanded ? dvalue : 0;
     if (animated) {
         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             self.scrollView.contentOffset = CGPointMake(0, expanded ? 0 : dvalue);
+            self.bottomSubVC.tableView.contentInset = UIEdgeInsetsMake(0, 0, bottom, 0);
         } completion:^(BOOL finished) {
             self.isExpandingOrClosing = NO;
             self.topSubVC.shouldStopWaveView = !expanded;
@@ -300,6 +302,7 @@ typedef enum : NSInteger
         self.isExpandingOrClosing = NO;
         self.topSubVC.shouldStopWaveView = !expanded;
         self.scrollDirection = MutualInsScrollDirectionUnknow;
+        self.bottomSubVC.tableView.contentInset = UIEdgeInsetsMake(0, 0, bottom, 0);
     }
 }
 
@@ -332,15 +335,6 @@ typedef enum : NSInteger
     else if (!self.isExpandingOrClosing && self.scrollView.contentOffset.y > dvalue/2 && self.scrollView.contentOffset.y < dvalue) {
         [self setExpanded:NO animated:YES];
     }
-}
-
-#pragma mark - UIGestureRecognizerDelegate
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
-{
-    if ([otherGestureRecognizer isEqual:self.topSubVC.tableView.panGestureRecognizer]) {
-        return YES;
-    }
-    return NO;
 }
 
 @end
