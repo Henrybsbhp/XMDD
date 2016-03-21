@@ -11,4 +11,6 @@
 /// UIViewController的基类,不可直接调用。
 @interface HKViewController : UIViewController
 
+@property (nonatomic, weak) UIViewController *prevVC;
+
 @end

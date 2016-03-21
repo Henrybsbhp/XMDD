@@ -25,6 +25,7 @@
 #import "MutualInsGrouponMembersVC.h"
 #import "MutualInsPicUpdateVC.h"
 #import "MutualInsOrderInfoVC.h"
+#import "MutualInsChooseVC.h"
 
 
 @interface MutualInsGrouponSubVC ()
@@ -109,7 +110,7 @@
 {
     MutualInsAlertVC *alert = [[MutualInsAlertVC alloc] init];
     alert.topTitle = op.rsp_licensenumber;
-    alert.actionTitles = @[@"确定"];
+    alert.actionItems = @[[HKAlertActionItem itemWithTitle:@"确定"]];
     NSArray *items;
     if (op.rsp_sharemoney > 0) {
         items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_licensenumber
@@ -155,7 +156,6 @@
     vc.model.allowAutoChangeSelectedCar = YES;
     vc.model.disableEditingCar = YES; //不可修改
     vc.canJoin = YES; //用于控制爱车页面底部view
-    vc.model.originVC = self.parentViewController;
     @weakify(self);
     [vc setFinishPickActionForMutualIns:^(HKMyCar *car,UIView * loadingView) {
         @strongify(self);
@@ -172,7 +172,10 @@
 }
 
 - (void)actionImproveCoverageInfo {
-    
+    MutualInsChooseVC * vc = [UIStoryboard vcWithId:@"MutualInsChooseVC" inStoryboard:@"MutualInsJoin"];
+    vc.memberId = self.groupDetail.req_memberid;
+    vc.originVC = self.parentViewController;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionCheckPrice {
@@ -231,11 +234,26 @@
 }
 
 #pragma mark - CellItem
-- (CKDict *)carsItem
+- (id)carsItem
 {
+    //如果没有成员，忽略
+    if (self.groupDetail.rsp_members.count == 0) {
+        return CKNULL;
+    }
+    NSArray *members = [self.groupDetail.rsp_members sortedArrayUsingComparator:^NSComparisonResult(MutualInsMemberInfo *obj1, MutualInsMemberInfo *obj2) {
+        if ([obj1.memberid isEqual:self.groupDetail.req_memberid]) {
+            return NSOrderedAscending;
+        }
+        else if ([obj2.memberid isEqual:self.groupDetail.req_memberid]) {
+            return NSOrderedDescending;
+        }
+        else {
+            return [obj1.memberid compare:obj2.memberid];
+        }
+    }];
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Cars"}];
     @weakify(self);
-    item[@"members"] = self.groupDetail.rsp_members;
+    item[@"members"] = members;
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 72;
     });
