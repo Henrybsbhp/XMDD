@@ -11,6 +11,7 @@
 		18039AF51B0C5BCE00264059 /* GetAutomobileModelOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18039AF41B0C5BCE00264059 /* GetAutomobileModelOp.m */; };
 		180538B51C9AA61D00D896A1 /* MutualInsGrouponButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 180538B41C9AA61D00D896A1 /* MutualInsGrouponButtonCell.m */; };
 		180538E61C9BFB6000D896A1 /* HKFoldingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 180538E51C9BFB6000D896A1 /* HKFoldingTableView.m */; };
+		180539421C9FC0CE00D896A1 /* HKImageAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 180539411C9FC0CE00D896A1 /* HKImageAlertVC.m */; };
 		18088D8B1B1DC921007438FC /* UsedCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18088D8A1B1DC921007438FC /* UsedCouponVModel.m */; };
 		18088D8E1B1DC938007438FC /* UnusedCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18088D8D1B1DC938007438FC /* UnusedCouponVModel.m */; };
 		180AD8351BD88CB700E608F9 /* BankCardStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 180AD8341BD88CB700E608F9 /* BankCardStore.m */; };
@@ -752,14 +753,16 @@
 		180538B41C9AA61D00D896A1 /* MutualInsGrouponButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGrouponButtonCell.m; sourceTree = "<group>"; };
 		180538E41C9BFB6000D896A1 /* HKFoldingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKFoldingTableView.h; path = Class/HKFoldingTableView.h; sourceTree = "<group>"; };
 		180538E51C9BFB6000D896A1 /* HKFoldingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKFoldingTableView.m; path = Class/HKFoldingTableView.m; sourceTree = "<group>"; };
+		180539401C9FC0CE00D896A1 /* HKImageAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKImageAlertVC.h; path = Class/HKImageAlertVC.h; sourceTree = "<group>"; };
+		180539411C9FC0CE00D896A1 /* HKImageAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKImageAlertVC.m; path = Class/HKImageAlertVC.m; sourceTree = "<group>"; };
 		18088D891B1DC921007438FC /* UsedCouponVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsedCouponVModel.h; sourceTree = "<group>"; };
 		18088D8A1B1DC921007438FC /* UsedCouponVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsedCouponVModel.m; sourceTree = "<group>"; };
 		18088D8C1B1DC938007438FC /* UnusedCouponVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnusedCouponVModel.h; sourceTree = "<group>"; };
 		18088D8D1B1DC938007438FC /* UnusedCouponVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnusedCouponVModel.m; sourceTree = "<group>"; };
 		180AD8331BD88CB700E608F9 /* BankCardStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BankCardStore.h; path = Class/BankCardStore.h; sourceTree = "<group>"; };
 		180AD8341BD88CB700E608F9 /* BankCardStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BankCardStore.m; path = Class/BankCardStore.m; sourceTree = "<group>"; };
-		181355911C925FC600894CA1 /* HKAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKAlertVC.h; sourceTree = "<group>"; };
-		181355921C925FC600894CA1 /* HKAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKAlertVC.m; sourceTree = "<group>"; };
+		181355911C925FC600894CA1 /* HKAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKAlertVC.h; path = Class/HKAlertVC.h; sourceTree = "<group>"; };
+		181355921C925FC600894CA1 /* HKAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKAlertVC.m; path = Class/HKAlertVC.m; sourceTree = "<group>"; };
 		181355941C928AA900894CA1 /* MutualInsAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsAlertVC.h; sourceTree = "<group>"; };
 		181355951C928AA900894CA1 /* MutualInsAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsAlertVC.m; sourceTree = "<group>"; };
 		181355971C92B4F300894CA1 /* MutualInsGrouponSubMsgVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGrouponSubMsgVC.h; sourceTree = "<group>"; };
@@ -2183,6 +2186,24 @@
 			name = TableView;
 			sourceTree = "<group>";
 		};
+		1805393F1C9FC08B00D896A1 /* AlertView */ = {
+			isa = PBXGroup;
+			children = (
+				181355911C925FC600894CA1 /* HKAlertVC.h */,
+				181355921C925FC600894CA1 /* HKAlertVC.m */,
+				180539401C9FC0CE00D896A1 /* HKImageAlertVC.h */,
+				180539411C9FC0CE00D896A1 /* HKImageAlertVC.m */,
+			);
+			name = AlertView;
+			sourceTree = "<group>";
+		};
+		180539431C9FC88000D896A1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		18088D881B1DC8AA007438FC /* Coupon */ = {
 			isa = PBXGroup;
 			children = (
@@ -2329,6 +2350,7 @@
 		1816F4B51AD36D5100BBCC96 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				1805393F1C9FC08B00D896A1 /* AlertView */,
 				180538D91C9BFA2600D896A1 /* TableView */,
 				6BC80D031C9946B000C7BA3D /* View */,
 				506F03F31C96578100B262D7 /* Timer */,
@@ -2676,6 +2698,7 @@
 			isa = PBXGroup;
 			children = (
 				184452FE1C8D552D007B895D /* MutualInsConstants.h */,
+				180539431C9FC88000D896A1 /* Model */,
 				184452ED1C8D169A007B895D /* MutualInsGroupon */,
 			);
 			name = MutualIns;
@@ -3296,8 +3319,6 @@
 				18AB16A21C1F18AE0000E718 /* PickerVC.m */,
 				18B7A26F1C2014BA00865A99 /* CityPickerVC.h */,
 				18B7A2701C2014BA00865A99 /* CityPickerVC.m */,
-				181355911C925FC600894CA1 /* HKAlertVC.h */,
-				181355921C925FC600894CA1 /* HKAlertVC.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -5588,6 +5609,7 @@
 				18A4DD531C3CC16F00003F70 /* InsInputDateVC.m in Sources */,
 				18F41DAF1B788022000409E1 /* GetUnbindBankcardVcodeOp.m in Sources */,
 				18FC01DD1C4E6C6F00FD61BF /* IQUIWindow+Hierarchy.m in Sources */,
+				180539421C9FC0CE00D896A1 /* HKImageAlertVC.m in Sources */,
 				6BC2209C1AD7AAF300A4310E /* NetworkManager.m in Sources */,
 				18039AF51B0C5BCE00264059 /* GetAutomobileModelOp.m in Sources */,
 				2E77A4A21C325FCC00264FC9 /* HKRescue.m in Sources */,

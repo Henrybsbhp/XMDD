@@ -110,7 +110,7 @@
 {
     MutualInsAlertVC *alert = [[MutualInsAlertVC alloc] init];
     alert.topTitle = op.rsp_licensenumber;
-    alert.actionTitles = @[@"确定"];
+    alert.actionItems = @[[HKAlertActionItem itemWithTitle:@"确定"]];
     NSArray *items;
     if (op.rsp_sharemoney > 0) {
         items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_licensenumber
@@ -156,7 +156,6 @@
     vc.model.allowAutoChangeSelectedCar = YES;
     vc.model.disableEditingCar = YES; //不可修改
     vc.canJoin = YES; //用于控制爱车页面底部view
-    vc.model.originVC = self.parentViewController;
     @weakify(self);
     [vc setFinishPickActionForMutualIns:^(HKMyCar *car,UIView * loadingView) {
         @strongify(self);
@@ -175,6 +174,7 @@
 - (void)actionImproveCoverageInfo {
     MutualInsChooseVC * vc = [UIStoryboard vcWithId:@"MutualInsChooseVC" inStoryboard:@"MutualInsJoin"];
     vc.memberId = self.groupDetail.req_memberid;
+    vc.originVC = self.parentViewController;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

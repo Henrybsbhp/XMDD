@@ -6,8 +6,10 @@
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "HKViewController.h"
 
-@interface AutoGroupInfoVC : UIViewController
+@interface AutoGroupInfoVC : HKViewController
+
+@property (nonatomic, weak) UIViewController *originVC;
 
 @end

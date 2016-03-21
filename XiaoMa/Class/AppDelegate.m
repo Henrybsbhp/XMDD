@@ -462,12 +462,15 @@
                 SearchCooperationGroupOp * op = [SearchCooperationGroupOp operation];
                 op.req_cipher = [UIPasteboard generalPasteboard].string;
                 [[op rac_postRequest] subscribeNext:^(SearchCooperationGroupOp * rop) {
-                    
+                
+                    [self showInviteAlertWith:rop];
                     InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
                     alertVC.alertType = InviteAlertTypeJoin;
                     alertVC.groupName = rop.rsp_name;
                     alertVC.leaderName = rop.rsp_creatorname;
-                    alertVC.actionTitles = @[@"取消", @"确定加入"];
+                    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+                    HKAlertActionItem *join = [HKAlertActionItem itemWithTitle:@"确定加入" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
+                    alertVC.actionItems = @[cancel, join];
                     [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
                         [alertView dismiss];
                         if (index == 1) {
@@ -482,7 +485,9 @@
             else {
                 InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
                 alertVC.alertType = InviteAlertTypeNologin;
-                alertVC.actionTitles = @[@"取消", @"去登录"];
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+                HKAlertActionItem *login = [HKAlertActionItem itemWithTitle:@"去登录" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
+                alertVC.actionItems = @[cancel, login];
                 [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
                     [alertView dismiss];
                     if (index == 1) {
@@ -562,6 +567,11 @@
         [gAppMgr.navModel pushToViewControllerByUrl:info[@"url"]];
         return [RACSignal empty];
     }];
+}
+
+#pragma mark - Action
+- (void)showInviteAlertWith:(SearchCooperationGroupOp *)op {
+    
 }
 
 #pragma mark - JSPatch
