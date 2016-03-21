@@ -13,6 +13,7 @@
 @interface CreateGroupVC () <UITextFieldDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) IBOutlet UIView *bottomView;
 
 @property (nonatomic, copy) NSString *textFieldString;
 
@@ -28,7 +29,18 @@
         self.tableView.estimatedRowHeight = 26;
         self.tableView.rowHeight = UITableViewAutomaticDimension;
     }
+    
+    // 设置底部含有「确认」按钮的 UIView
+    [self setupButtomView];
 }
+
+- (void)setupButtomView
+{
+    UIButton *confirmButton = (UIButton *)[self.bottomView viewWithTag:112];
+    confirmButton.layer.cornerRadius = 5.0f;
+    confirmButton.clipsToBounds = YES;
+}
+
 - (IBAction)confirmButtonDidClick:(id)sender
 {
     [self requestCreateGroup:self.textFieldString];
@@ -63,7 +75,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -72,17 +84,13 @@
         return 2;
     } else if (section == 1) {
         return 1;
-    } else if (section == 2) {
-        return 1;
     }
+    
     return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return 20;
-    }
     return CGFLOAT_MIN;
 }
 
@@ -91,7 +99,7 @@
     if (section == 0) {
         return 10;
     } else if (section == 1) {
-        return 148;
+        return CGFLOAT_MIN;
     }
     
     return 20;
@@ -113,13 +121,8 @@
             return 192;
         }
         
-    } else if (indexPath.section == 2) {
-        
-        if (indexPath.row == 0) {
-            return 69;
-        }
-        
     }
+    
     return 81;
 }
 
@@ -142,10 +145,6 @@
     } else if (indexPath.section == 1) {
         
         cell = [self loadTipsCellAtIndexPath:indexPath];
-        
-    } else if (indexPath.section == 2) {
-        
-        cell = [self loadConfirmButtonCellAtIndexPath:indexPath];
         
     }
     
@@ -214,17 +213,6 @@
     tipsLabel2.text = @"分享暗号可以邀请好友加入。";
     tipsLabel3.attributedText = [self generateAttributedStringWithLineSpacing:@"建团后，您也可以选择完善信息选择购买的小马互助种类后，再去邀请好友入团。"];
     
-    
-    return cell;
-}
-
-- (UITableViewCell *)loadConfirmButtonCellAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ConfirmButtonCell" forIndexPath:indexPath];
-    UIButton *confirmButton = (UIButton *)[cell.contentView viewWithTag:112];
-    
-    confirmButton.layer.cornerRadius = 5.0f;
-    confirmButton.clipsToBounds = YES;
     
     return cell;
 }
