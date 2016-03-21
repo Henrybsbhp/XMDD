@@ -525,6 +525,11 @@
     }];
 }
 
+#pragma mark - Action
+- (void)showInviteAlertWith:(SearchCooperationGroupOp *)op {
+    
+}
+
 #pragma mark - JSPatch
 - (void)setupJSPatch
 {

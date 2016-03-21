@@ -61,7 +61,7 @@ typedef enum : NSInteger
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = self.group.groupName;
-    [self setupTopSubVC];
+    [self setupSubVC];
     [self requestGroupDetailInfo];
 }
 
@@ -88,7 +88,7 @@ typedef enum : NSInteger
 }
 
 #pragma mark - Setup
-- (void)setupTopSubVC {
+- (void)setupSubVC {
     @weakify(self);
     self.topSubVC.title = self.navigationItem.title;
     [self.topSubVC setShouldExpandedOrClosed:^(BOOL expanded) {
@@ -158,6 +158,8 @@ typedef enum : NSInteger
     }];
     //刷新菜单按钮
     [self reloadMenuItems];
+    
+    [self setExpanded:self.topSubVC.isExpanded animated:NO];
 }
 
 - (void)reloadMenuItems {
@@ -284,9 +286,11 @@ typedef enum : NSInteger
     self.isExpandingOrClosing = YES;
     self.topSubVC.isExpanded = expanded;
     CGFloat dvalue = (self.topSubVC.expandedHeight - self.topSubVC.closedHeight);
+    CGFloat bottom = expanded ? dvalue : 0;
     if (animated) {
         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             self.scrollView.contentOffset = CGPointMake(0, expanded ? 0 : dvalue);
+            self.bottomSubVC.tableView.contentInset = UIEdgeInsetsMake(0, 0, bottom, 0);
         } completion:^(BOOL finished) {
             self.isExpandingOrClosing = NO;
             self.topSubVC.shouldStopWaveView = !expanded;
@@ -298,6 +302,7 @@ typedef enum : NSInteger
         self.isExpandingOrClosing = NO;
         self.topSubVC.shouldStopWaveView = !expanded;
         self.scrollDirection = MutualInsScrollDirectionUnknow;
+        self.bottomSubVC.tableView.contentInset = UIEdgeInsetsMake(0, 0, bottom, 0);
     }
 }
 

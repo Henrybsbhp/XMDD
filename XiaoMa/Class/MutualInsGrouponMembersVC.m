@@ -38,7 +38,7 @@
 {
     MutualInsAlertVC *alert = [[MutualInsAlertVC alloc] init];
     alert.topTitle = op.rsp_licensenumber;
-    alert.actionTitles = @[@"确定"];
+    alert.actionItems = @[[HKAlertActionItem itemWithTitle:@"确定"]];
     NSArray *items;
     if (op.rsp_sharemoney > 0) {
         items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_licensenumber

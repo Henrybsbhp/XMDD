@@ -9,7 +9,7 @@
 #import "HKViewController.h"
 
 @interface MutualInsChooseVC : HKViewController
-
+@property (nonatomic, weak) UIViewController *originVC;
 @property (nonatomic,strong)NSNumber * memberId;
 
 @end
