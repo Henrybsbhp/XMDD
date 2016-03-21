@@ -607,6 +607,7 @@
 		6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F451B1031EC00E1E630 /* GainCouponPkgOp.m */; };
 		6BCA5F491B104AB300E1E630 /* CouponPkgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F481B104AB300E1E630 /* CouponPkgViewController.m */; };
 		6BCA5F4C1B104B5100E1E630 /* MyCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F4B1B104B5100E1E630 /* MyCollectionViewController.m */; };
+		6BCD94FC1C9FA5CA00BE3E8C /* PasteboardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCD94FB1C9FA5CA00BE3E8C /* PasteboardModel.m */; };
 		6BCF62441B15AF3E0064AE32 /* RescueCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF62431B15AF3E0064AE32 /* RescueCouponViewController.m */; };
 		6BCF62471B1737980064AE32 /* GetUserCouponByTypeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF62461B1737980064AE32 /* GetUserCouponByTypeOp.m */; };
 		6BCF624A1B1739E70064AE32 /* CommissionCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF62491B1739E70064AE32 /* CommissionCouponViewController.m */; };
@@ -1915,6 +1916,8 @@
 		6BCA5F481B104AB300E1E630 /* CouponPkgViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponPkgViewController.m; sourceTree = "<group>"; };
 		6BCA5F4A1B104B5100E1E630 /* MyCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectionViewController.h; sourceTree = "<group>"; };
 		6BCA5F4B1B104B5100E1E630 /* MyCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionViewController.m; sourceTree = "<group>"; };
+		6BCD94FA1C9FA5CA00BE3E8C /* PasteboardModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PasteboardModel.h; path = Class/PasteboardModel.h; sourceTree = "<group>"; };
+		6BCD94FB1C9FA5CA00BE3E8C /* PasteboardModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PasteboardModel.m; path = Class/PasteboardModel.m; sourceTree = "<group>"; };
 		6BCF62421B15AF3E0064AE32 /* RescueCouponViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescueCouponViewController.h; sourceTree = "<group>"; };
 		6BCF62431B15AF3E0064AE32 /* RescueCouponViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescueCouponViewController.m; sourceTree = "<group>"; };
 		6BCF62451B1737980064AE32 /* GetUserCouponByTypeOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserCouponByTypeOp.h; path = Class/GetUserCouponByTypeOp.h; sourceTree = "<group>"; };
@@ -3150,6 +3153,8 @@
 				6B1175311C0D78AC00FC1881 /* ViolationCityModel.m */,
 				6B22659D1C4506BE00A121CC /* HomePicModel.h */,
 				6B22659E1C4506BE00A121CC /* HomePicModel.m */,
+				6BCD94FA1C9FA5CA00BE3E8C /* PasteboardModel.h */,
+				6BCD94FB1C9FA5CA00BE3E8C /* PasteboardModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -5587,6 +5592,7 @@
 				6BBAB8C11ADBC21600EC342F /* GTMBase64.m in Sources */,
 				50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */,
 				18900B4A1C1E8634003DA439 /* UserStore.m in Sources */,
+				6BCD94FC1C9FA5CA00BE3E8C /* PasteboardModel.m in Sources */,
 				6B16D6661C96651100322B70 /* ApplyCooperationGroupJoinOp.m in Sources */,
 				6B1D93D31B8573A000740628 /* PayModel.m in Sources */,
 				6BEF74891BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.m in Sources */,
@@ -5901,8 +5907,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co., Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5984,7 +5990,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d80498c3-937b-401e-98aa-3e66f4699d8f";
+				PROVISIONING_PROFILE = "19b9e532-9495-4943-a7d9-e1846a3e0cf4";
 			};
 			name = Debug;
 		};
