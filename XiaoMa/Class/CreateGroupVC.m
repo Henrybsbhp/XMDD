@@ -86,7 +86,7 @@
     }] subscribeNext:^(CreateGroupOp *rop) {
         
         [gToast dismiss];
-        MutualInsGrouponVC *vc = [MutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
+        MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
 //        vc.group = group;
         [self.navigationController pushViewController:vc animated:YES];
         

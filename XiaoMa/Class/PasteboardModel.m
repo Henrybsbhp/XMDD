@@ -9,6 +9,7 @@
 #import "PasteboardModel.h"
 #import "InviteAlertVC.h"
 #import "SearchCooperationGroupOp.h"
+#import "MutualInsGroupInfoVC.h"
 
 @implementation PasteboardModel
 
@@ -71,7 +72,13 @@
             [UIPasteboard generalPasteboard].string = @"";
             [alertView dismiss];
             if (index == 1) {
-                [gAppMgr.navModel pushToViewControllerByUrl:@"xmdd://j?t=jg"];
+                
+                MutualInsGroupInfoVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGroupInfoVC"];
+                vc.groupId = rop.rsp_groupid;
+                vc.groupCreateName = rop.rsp_creatorname;
+                vc.groupName = rop.rsp_name;
+                vc.cipher = rop.rsp_cipher;
+                [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
             }
         }];
     } error:^(NSError *error) {

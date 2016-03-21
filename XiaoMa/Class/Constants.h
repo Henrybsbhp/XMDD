@@ -152,7 +152,8 @@ typedef enum : NSUInteger {
 #define valuationStoryboard [UIStoryboard storyboardWithName:@"Valuation" bundle:nil]
 #define gasStoryboard [UIStoryboard storyboardWithName:@"Gas" bundle:nil]
 #define mutualInsPayStoryboard [UIStoryboard storyboardWithName:@"MutualInsPay" bundle:nil]
-#define MutInsGrouponStoryboard [UIStoryboard storyboardWithName:@"MutualInsGroupon" bundle:nil]
+#define mutInsGrouponStoryboard [UIStoryboard storyboardWithName:@"MutualInsGroupon" bundle:nil]
+#define mutualInsJoinStoryboard [UIStoryboard storyboardWithName:@"MutualInsJoin" bundle:nil]
 #define aboutStoryboard [UIStoryboard storyboardWithName:@"About" bundle:nil]
 
 
