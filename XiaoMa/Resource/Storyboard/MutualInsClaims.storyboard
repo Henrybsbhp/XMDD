@@ -697,6 +697,9 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="2AE-xG-Tzm">
                                 <rect key="frame" x="0.0" y="80" width="600" height="456"/>
                                 <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="600" id="TfH-cO-vtT"/>
+                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="titleCell" rowHeight="86" id="nNj-Rj-lyB">
                                         <rect key="frame" x="0.0" y="49.5" width="600" height="86"/>
@@ -810,14 +813,14 @@
                                                 <view tag="100" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N4t-bl-wJZ">
                                                     <rect key="frame" x="30" y="0.0" width="555" height="69"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请选择银行" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eel-gB-awg">
-                                                            <rect key="frame" x="235" y="25" width="85" height="20"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1010" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请选择银行" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eel-gB-awg">
+                                                            <rect key="frame" x="235" y="25" width="85" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" red="0.85882352939999995" green="0.85882352939999995" blue="0.85882352939999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="textColor" red="0.85882352941176465" green="0.85882352941176465" blue="0.85882352941176465" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cm_arrow_r" translatesAutoresizingMaskIntoConstraints="NO" id="4Ro-X5-f9S">
-                                                            <rect key="frame" x="513" y="25" width="12" height="20"/>
+                                                            <rect key="frame" x="528" y="25" width="12" height="20"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="12" id="7Pu-0L-0KU"/>
                                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="12" id="E9r-RK-7em"/>
@@ -836,7 +839,7 @@
                                                     <constraints>
                                                         <constraint firstItem="eel-gB-awg" firstAttribute="leading" secondItem="4Ro-X5-f9S" secondAttribute="trailing" constant="30" id="PIg-vj-GTA"/>
                                                         <constraint firstItem="eel-gB-awg" firstAttribute="centerX" secondItem="N4t-bl-wJZ" secondAttribute="centerX" id="be9-pm-hw3"/>
-                                                        <constraint firstAttribute="trailing" secondItem="4Ro-X5-f9S" secondAttribute="trailing" constant="30" id="m5r-6y-1lN"/>
+                                                        <constraint firstAttribute="trailing" secondItem="4Ro-X5-f9S" secondAttribute="trailing" constant="15" id="m5r-6y-1lN"/>
                                                         <constraint firstItem="4Ro-X5-f9S" firstAttribute="centerY" secondItem="N4t-bl-wJZ" secondAttribute="centerY" id="nOR-BD-Omt"/>
                                                         <constraint firstItem="eel-gB-awg" firstAttribute="centerY" secondItem="N4t-bl-wJZ" secondAttribute="centerY" id="r5T-kr-0BD"/>
                                                     </constraints>
@@ -881,6 +884,11 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="TfH-cO-vtT"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="oNQ-4D-YcX" id="nF7-wN-o4o"/>
                                     <outlet property="delegate" destination="oNQ-4D-YcX" id="BPl-9e-lVW"/>
@@ -892,8 +900,10 @@
                             <constraint firstItem="2AE-xG-Tzm" firstAttribute="leading" secondItem="awl-ae-7pZ" secondAttribute="leading" id="Aiq-yT-feJ"/>
                             <constraint firstAttribute="trailing" secondItem="Ize-Ve-UdM" secondAttribute="trailing" id="ODp-3s-r7y"/>
                             <constraint firstItem="Ize-Ve-UdM" firstAttribute="leading" secondItem="awl-ae-7pZ" secondAttribute="leading" id="PJr-3f-odO"/>
+                            <constraint firstItem="2AE-xG-Tzm" firstAttribute="top" secondItem="Ize-Ve-UdM" secondAttribute="bottom" id="RPW-Li-7LH"/>
                             <constraint firstItem="Ize-Ve-UdM" firstAttribute="top" secondItem="Seg-hV-qCa" secondAttribute="bottom" id="WAt-gP-Ohv"/>
                             <constraint firstItem="2AE-xG-Tzm" firstAttribute="top" secondItem="Ize-Ve-UdM" secondAttribute="bottom" id="ayW-IX-agP"/>
+                            <constraint firstItem="2AE-xG-Tzm" firstAttribute="top" secondItem="Ize-Ve-UdM" secondAttribute="bottom" id="jBu-Os-Ppe"/>
                             <constraint firstItem="Ize-Ve-UdM" firstAttribute="top" secondItem="awl-ae-7pZ" secondAttribute="top" id="lFw-wX-Q45"/>
                             <constraint firstItem="YHf-Oo-Reg" firstAttribute="top" secondItem="2AE-xG-Tzm" secondAttribute="bottom" id="t25-sc-4ta"/>
                             <constraint firstItem="Ize-Ve-UdM" firstAttribute="leading" secondItem="awl-ae-7pZ" secondAttribute="leading" id="uAJ-iS-iMh"/>
@@ -907,7 +917,9 @@
                                 <exclude reference="lFw-wX-Q45"/>
                                 <exclude reference="uAJ-iS-iMh"/>
                                 <exclude reference="yP8-Xv-ynD"/>
+                                <exclude reference="RPW-Li-7LH"/>
                                 <exclude reference="ayW-IX-agP"/>
+                                <exclude reference="jBu-Os-Ppe"/>
                             </mask>
                         </variation>
                     </view>
@@ -1805,15 +1817,15 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="g8t-ac-a1L">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" white="0.95908411609999999" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="12" minimumInteritemSpacing="11" id="FAW-tq-QSC">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="15" minimumInteritemSpacing="15" id="FAW-tq-QSC">
                                     <size key="itemSize" width="237" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="12" minY="12" maxX="12" maxY="12"/>
+                                    <inset key="sectionInset" minX="15" minY="15" maxX="15" maxY="15"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="LabelCell" id="zST-SP-I9S">
-                                        <rect key="frame" x="12" y="12" width="237" height="50"/>
+                                        <rect key="frame" x="15" y="15" width="237" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="237" height="50"/>
@@ -1841,6 +1853,10 @@
                                         </constraints>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="jKq-NM-jGX" id="DWB-Wm-JYP"/>
+                                    <outlet property="delegate" destination="jKq-NM-jGX" id="Uth-qS-pQB"/>
+                                </connections>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
