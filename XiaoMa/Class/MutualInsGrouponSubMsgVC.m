@@ -13,7 +13,6 @@
 #import "MutualInsGrouponMsgCell.h"
 
 @interface MutualInsGrouponSubMsgVC ()<UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) CKList *datasource;
 @end
 

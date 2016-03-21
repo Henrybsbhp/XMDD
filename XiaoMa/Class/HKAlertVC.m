@@ -8,13 +8,14 @@
 
 #import "HKAlertVC.h"
 #import "CKLine.h"
-#import <MZFormSheetController.h>
+#import <JCAlertView.h>
 
 #define kBottomViewHeight       49
 #define kBottomViewLinePadding  5
 
 @interface HKAlertVC ()
-
+@property (nonatomic, copy) void(^actionHandler)(NSInteger index, id alertView);
+@property (nonatomic, weak) JCAlertView *alertView;
 @end
 
 @implementation HKAlertVC
@@ -30,51 +31,65 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)showWithActionHandler:(void(^)(NSInteger index, HKAlertVC *alert))handler
+- (void)show
 {
+    [self showWithActionHandler:nil];
+}
+
+- (void)showWithActionHandler:(void(^)(NSInteger index, id alertView))actionHandler
+{
+    _actionHandler = actionHandler;
     CGRect frame = self.contentView.bounds;
     
-    self.actionHandler = handler;
     [self.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self.view addSubview:self.contentView];
     
-    if (self.actionTitles.count > 0) {
+    if (self.actionItems.count > 0) {
         frame.size.height = frame.size.height + kBottomViewHeight;
         [self.view addSubview:[self bottomViewWithBounds:frame]];
     }
     self.view.frame = frame;
-    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:frame.size viewController:self];
-    sheet.cornerRadius = 3;
-    sheet.shadowRadius = 0;
-    sheet.shadowOpacity = 0;
-    sheet.transitionStyle = MZFormSheetTransitionStyleDropDown;
-    sheet.shouldDismissOnBackgroundViewTap = NO;
-    sheet.shouldCenterVertically = YES;
-    [MZFormSheetController sharedBackgroundWindow].backgroundBlurEffect = NO;
-    [sheet presentAnimated:YES completionHandler:nil];
+    self.view.layer.cornerRadius = 3;
+    self.view.layer.masksToBounds = YES;
+    JCAlertView *alert = [[JCAlertView alloc] initWithCustomView:self.view dismissWhenTouchedBackground:NO];
+    alert.customObject = self;
+    self.alertView = alert;
+    [alert show];
 }
 
+- (void)dismiss
+{
+    [self.alertView dismissWithCompletion:nil];
+}
+
+#pragma mark - Action
+- (void)actionClick:(UIButton *)sender
+{
+    HKAlertActionItem *item = self.actionItems[sender.tag];
+    if (item.clickBlock) {
+        item.clickBlock(item);
+    }
+    if (self.actionHandler) {
+        self.actionHandler(sender.tag, self);
+    }
+}
+
+#pragma mark - Private
 - (UIView *)bottomViewWithBounds:(CGRect)bounds
 {
-    if (self.actionTitles.count == 0) {
+    if (self.actionItems.count == 0) {
         return nil;
     }
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, bounds.size.height-kBottomViewHeight, bounds.size.width, kBottomViewHeight)];
-    CGRect rect = CGRectMake(0, 0, floor(bounds.size.width/self.actionTitles.count), kBottomViewHeight);
+    CGRect rect = CGRectMake(0, 0, floor(bounds.size.width/self.actionItems.count), kBottomViewHeight);
     
-    for (NSInteger i=0; i<self.actionTitles.count; i++) {
-        NSString *title = self.actionTitles[i];
+    for (NSInteger i=0; i<self.actionItems.count; i++) {
+        HKAlertActionItem *item = self.actionItems[i];
         rect.origin.x = i * rect.size.width;
         UIButton *btn = [[UIButton alloc] initWithFrame:rect];
         btn.titleLabel.font = [UIFont systemFontOfSize:15];
-        [btn setTitle:title forState:UIControlStateNormal];
-        //第一个按钮为灰色，其余为绿色
-        if (i == 0) {
-            [btn setTitleColor:HEXCOLOR(@"#888888") forState:UIControlStateNormal];
-        }
-        else {
-            [btn setTitleColor:HEXCOLOR(@"#18d06a") forState:UIControlStateNormal];
-        }
+        [btn setTitle:item.title forState:UIControlStateNormal];
+        [btn setTitleColor:item.color forState:UIControlStateNormal];
         btn.tag = i;
         [btn addTarget:self action:@selector(actionClick:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:btn];
@@ -95,17 +110,26 @@
     return view;
 }
 
-- (void)dismiss
-{
-    [self.formSheetController dismissAnimated:YES completionHandler:nil];
+@end
+
+@implementation HKAlertActionItem
+
++ (instancetype)item {
+    return [[self alloc] init];
 }
 
-#pragma mark - Action
-- (void)actionClick:(UIButton *)sender
++ (instancetype)itemWithTitle:(NSString *)title
 {
-    if (self.actionHandler) {
-        self.actionHandler(sender.tag, self);
-    }
+    return [self itemWithTitle:title color:HEXCOLOR(@"#18d06a") clickBlock:nil];
 }
+
++ (instancetype)itemWithTitle:(NSString *)title color:(UIColor *)color clickBlock:(void(^)(id curItem))block {
+    HKAlertActionItem *item = [[self alloc] init];
+    item.title = title;
+    item.color  =color;
+    item.clickBlock = block;
+    return item;
+}
+
 
 @end

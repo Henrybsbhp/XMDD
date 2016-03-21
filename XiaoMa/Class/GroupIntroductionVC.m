@@ -12,6 +12,7 @@
 #import "ApplyCooperationGroupJoinOp.h"
 #import "MutualInsPicUpdateVC.h"
 #import "CreateGroupVC.h"
+#import "MutualInsRequestJoinGroupVC.h"
 
 #define IntroUrl @"http://www.baidu.com"
 
@@ -154,6 +155,7 @@
 
 - (void)selfGroupJoin
 {
-
+    MutualInsRequestJoinGroupVC * vc = [UIStoryboard vcWithId:@"MutualInsRequestJoinGroupVC" inStoryboard:@"MutualInsJoin"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end

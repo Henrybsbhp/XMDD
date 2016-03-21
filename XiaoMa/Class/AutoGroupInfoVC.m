@@ -55,6 +55,16 @@
     }];
 }
 
+- (void)actionBack:(id)sender
+{
+    if (self.originVC) {
+        [self.navigationController popToViewController:self.originVC animated:YES];
+    }
+    else {
+        [super actionBack:sender];
+    }
+}
+
 #pragma mark - Utilitly
 - (void)requestAutoGroupArray
 {
