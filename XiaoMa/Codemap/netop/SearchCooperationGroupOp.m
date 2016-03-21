@@ -16,7 +16,7 @@
     self.rsp_name = dict[@"name"];
     self.rsp_creatorname = dict[@"creatorname"];
     self.rsp_groupid = dict[@"groupid"];
-	
+    self.rsp_cipher = dict[@"cipher"];
     return self;
 }
 

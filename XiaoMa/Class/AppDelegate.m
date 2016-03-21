@@ -38,8 +38,6 @@
 
 #import "MainTabBarVC.h"
 #import "LaunchVC.h"
-#import "InviteAlertVC.h"
-#import "SearchCooperationGroupOp.h"
 
 
 #ifndef __OPTIMIZE__
@@ -531,10 +529,6 @@
     }];
 }
 
-#pragma mark - Action
-- (void)showInviteAlertWith:(SearchCooperationGroupOp *)op {
-    
-}
 
 #pragma mark - JSPatch
 - (void)setupJSPatch

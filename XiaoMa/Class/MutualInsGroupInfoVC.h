@@ -10,4 +10,12 @@
 
 @interface MutualInsGroupInfoVC : UIViewController
 
+@property (nonatomic,strong)NSNumber * groupId;
+
+@property (nonatomic,strong)NSString * groupName;
+
+@property (nonatomic,strong)NSString * groupCreateName;
+
+@property (nonatomic,strong)NSString * cipher;
+
 @end

@@ -54,7 +54,7 @@
 {
     self.status = status;
     CKList *datasource;
-    if (status == MutInsStatusNeedDriveLicense || status == MutInsStatusNeedInsList) {
+    if (status == MutInsStatusNeedCar || status == MutInsStatusNeedDriveLicense || status == MutInsStatusNeedInsList) {
         datasource = $([self carsItem],[self splitLine1Item], [self arrowItem], [self descItem], [self timeItem],
                        [self buttonItem], [self bottomItem]);
     }
@@ -100,7 +100,7 @@
 #pragma mark - Action
 - (void)actionGotoMembersVC
 {
-    MutualInsGrouponMembersVC *vc = [MutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponMembersVC"];
+    MutualInsGrouponMembersVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponMembersVC"];
     vc.members = self.groupDetail.rsp_members;
     vc.title = self.title;
     [self.parentViewController.navigationController pushViewController:vc animated:YES];

@@ -219,7 +219,7 @@
     }
     else if (indexPath.row > 3) {
         //我的团详情页面
-        MutualInsGrouponVC *vc = [MutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
+        MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
         HKMutualGroup * group = [self.myGroupArray safetyObjectAtIndex:indexPath.row - 4];
         vc.group = group;
         [self.navigationController pushViewController:vc animated:YES];
