@@ -25,6 +25,7 @@
 
 #import "HKLaunchManager.h"
 #import "ShareResponeManager.h"
+#import "PasteboardModel.h"
 
 #import "GetSystemTipsOp.h"
 #import "GetSystemVersionOp.h"
@@ -39,6 +40,7 @@
 #import "LaunchVC.h"
 #import "InviteAlertVC.h"
 #import "SearchCooperationGroupOp.h"
+
 
 #ifndef __OPTIMIZE__
 #import "RRFPSBar.h"
@@ -90,6 +92,8 @@
     [self setupJSPatch];
     
     [self setupOpenUrlQueue];
+    
+    [self setupPasteboard];
     
     [self setupFPSObserver];
     
@@ -190,14 +194,16 @@
             });
         }
     });
-    ///粘贴板监测
-    if ([[UIPasteboard generalPasteboard].string hasPrefix:@"#小马互助"]) {
-        [self checkPasteboard];
-    }
-    else {
-        [self checkVersionUpdating];
-    }
     
+    if (![self checkVersionUpdating])
+    {
+        // 不需要更新的情况下去查询小马互助
+        [self.pasteboardoModel checkPasteboard];
+        if ([[UIPasteboard generalPasteboard].string hasPrefix:XMINSPrefix] && [MZFormSheetController formSheetControllersStack]) {
+            MZFormSheetController * mzVC = [[MZFormSheetController formSheetControllersStack] safetyObjectAtIndex:0];
+            [mzVC dismissAnimated:NO completionHandler:nil];
+        }
+    }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -224,7 +230,7 @@
     }
     else if ([url.absoluteString hasPrefix:@"xmdd://"])
     {
-        [MobClick endEvent:@"rp000"];
+        [MobClick event:@"rp000"];
         NSString * urlStr = url.absoluteString;
         NSDictionary * dict = @{@"url":urlStr};
         [self.openUrlQueue addObject:dict forKey:nil];
@@ -452,53 +458,9 @@
     }];
 }
 
-///粘贴板口令监测
-- (void)checkPasteboard {
-    [[RACObserve(gAppMgr, myUser.userID) distinctUntilChanged] subscribeNext:^(id x) {
-        if ([[UIPasteboard generalPasteboard].string hasPrefix:@"#小马互助"]) {
-            if (gAppMgr.myUser) {
-                
-                [UIPasteboard generalPasteboard].string = @"";
-                SearchCooperationGroupOp * op = [SearchCooperationGroupOp operation];
-                op.req_cipher = [UIPasteboard generalPasteboard].string;
-                [[op rac_postRequest] subscribeNext:^(SearchCooperationGroupOp * rop) {
-                    
-                    InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
-                    alertVC.alertType = InviteAlertTypeJoin;
-                    alertVC.groupName = rop.rsp_name;
-                    alertVC.leaderName = rop.rsp_creatorname;
-                    alertVC.actionTitles = @[@"取消", @"确定加入"];
-                    [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
-                        [alertView dismiss];
-                        if (index == 1) {
-                            [gAppMgr.navModel pushToViewControllerByUrl:@"xmdd://j?t=jg"];
-                        }
-                    }];
-                } error:^(NSError *error) {
-                    [gToast showError:@" 获取团信息失败 "];
-                }];
-                
-            }
-            else {
-                InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
-                alertVC.alertType = InviteAlertTypeNologin;
-                alertVC.actionTitles = @[@"取消", @"去登录"];
-                [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
-                    [alertView dismiss];
-                    if (index == 1) {
-                        [gAppMgr.navModel pushToViewControllerByUrl:@"xmdd://j?t=login"];
-                    }
-                    else {
-                        [UIPasteboard generalPasteboard].string = @"";
-                    }
-                }];
-            }
-        }
-    }];
-}
 
 /// 检查更新
-- (void)checkVersionUpdating
+- (BOOL)checkVersionUpdating
 {
     if (gAppMgr.clientInfo.forceUpdateUrl.length)
     {
@@ -511,7 +473,10 @@
             [gAppMgr startUpdatingWithURLString:gAppMgr.clientInfo.forceUpdateUrl];
         }];
         [av show];
+        
+        return YES;
     }
+    return NO;
 }
 
 /// 分享开关
@@ -564,6 +529,11 @@
     }];
 }
 
+#pragma mark - Action
+- (void)showInviteAlertWith:(SearchCooperationGroupOp *)op {
+    
+}
+
 #pragma mark - JSPatch
 - (void)setupJSPatch
 {
@@ -601,6 +571,12 @@
             [JPEngine evaluateScript:script];
         }];
     }];
+}
+
+///剪切板设置
+- (void)setupPasteboard
+{
+    _pasteboardoModel = [[PasteboardModel alloc] init];
 }
 
 #pragma mark - FPS

@@ -36,9 +36,13 @@
 
 @implementation MutualInsHomeVC
 
+-(void)dealloc
+{
+    DebugLog(@"MutualInsHomeVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     [self setupTableView];
 }
 
@@ -116,6 +120,39 @@
     }
 }
 
+
+- (void)operationBtnAction:(id)opeBtn withGroup:(HKMutualGroup * )group withIndexPath:(NSIndexPath *)indexPath
+{
+    if (group.btnStatus == GroupBtnStatusInvite) {
+        
+        InviteByCodeVC * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
+        vc.groupId = group.groupId;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if (group.btnStatus == GroupBtnStatusDelete){
+        
+        //删除我的团操作 团长和团员调用新接口，入参不同
+        DeleteMyGroupOp * op = [DeleteMyGroupOp operation];
+        op.memberId = group.memberId;
+        op.groupId = group.groupId;
+        [[[op rac_postRequest] initially:^{
+            [gToast showingWithText:@"删除中..."];
+        }] subscribeNext:^(id x) {
+            [gToast dismiss];
+            [self.myGroupArray safetyRemoveObjectAtIndex:(indexPath.row - 4)];
+            if (self.myGroupArray.count == 0) {
+                [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row - 1 inSection:indexPath.section], indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            }
+            else {
+                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            }
+//            [self.tableView reloadData];
+        } error:^(NSError *error) {
+            [gToast showError:error.domain];
+        }];
+    }
+}
+
 #pragma mark - UITableViewDelegate and datasource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -185,8 +222,6 @@
         MutualInsGrouponVC *vc = [MutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
         HKMutualGroup * group = [self.myGroupArray safetyObjectAtIndex:indexPath.row - 4];
         vc.group = group;
-//        EditInsInfoVC * vc = [UIStoryboard vcWithId:@"EditInsInfoVC" inStoryboard:@"MutualInsJoin"];
-//        vc.memberId = group.memberId;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -274,63 +309,28 @@
         timeLabel.text = @"";
     }
     
+    opeBtn.hidden = !(group.btnStatus == GroupBtnStatusInvite || group.btnStatus == GroupBtnStatusDelete);
+    
     if (group.btnStatus)
     {
-        opeBtn.hidden = NO;
         if (group.btnStatus == GroupBtnStatusInvite) {
             [opeBtn setTitle:@"邀请好友" forState:UIControlStateNormal];
+            [opeBtn setBackgroundColor:HEXCOLOR(@"#18D06A")];
         }
         else if (group.btnStatus == GroupBtnStatusDelete){
             [opeBtn setTitle:@"删除" forState:UIControlStateNormal];
-        }
-        else {
-            opeBtn.hidden = YES;
+            [opeBtn setBackgroundColor:HEXCOLOR(@"#FF4E70")];
         }
         @weakify(self);
         [[[opeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
             @strongify(self);
-            if (group.btnStatus == GroupBtnStatusInvite) {
-                
-                [opeBtn setBackgroundColor:HEXCOLOR(@"#18D06A")];
-                InviteByCodeVC * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
-                vc.groupId = group.groupId;
-                [self.navigationController pushViewController:vc animated:YES];
-            }
-            else {
-                [opeBtn setBackgroundColor:HEXCOLOR(@"#FF4E70")];
-                //删除我的团操作 团长和团员调用新接口，入参不同
-                DeleteMyGroupOp * op = [DeleteMyGroupOp operation];
-                op.memberId = group.memberId;
-                op.groupId = group.groupId;
-                [[[op rac_postRequest] initially:^{
-                    [gToast showingWithText:@"删除中..."];
-                }] subscribeNext:^(id x) {
-                    [gToast showText:@"移除成功！"];
-                    [self.myGroupArray safetyRemoveObjectAtIndex:(indexPath.row - 4)];
-                    if (self.myGroupArray.count == 0) {
-                        [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row - 1 inSection:indexPath.section], indexPath] withRowAnimation:UITableViewRowAnimationFade];
-                    }
-                    else {
-                        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-                    }
-                    [self.tableView reloadData];
-                } error:^(NSError *error) {
-                    [gToast showError:error.domain];
-                }];
-            }
+            [self operationBtnAction:x withGroup:group withIndexPath:indexPath];
         }];
-    }
-    else
-    {
-        opeBtn.hidden = YES;
     }
     return cell;
 }
 
--(void)dealloc
-{
-    DebugLog(@"MutualInsHomeVC dealloc");
-}
+
 
 @end

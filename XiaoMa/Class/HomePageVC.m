@@ -6,7 +6,8 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
-//@叶志成 删除
+
+
 #import "HomePageVC.h"
 #import <Masonry.h>
 #import "XiaoMa.h"
@@ -18,6 +19,7 @@
 #import "HKLoginModel.h"
 #import "MyCarStore.h"
 #import "GuideStore.h"
+#import "PasteboardModel.h"
 
 #import "CarWashTableVC.h"
 #import "NewGainAwardVC.h"
@@ -68,6 +70,8 @@
     [super viewWillAppear:animated];
     self.isViewAppearing = YES;
     [self.scrollView restartRefreshViewAnimatingWhenRefreshing];
+    
+    [self showSuspendedAdIfNeeded];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -102,55 +106,6 @@
     CKAsyncMainQueue(^{
         [self reloadDatasource];
     });
-    
-    if ([[UIPasteboard generalPasteboard].string hasPrefix:@"#小马互助"]) {
-        [self checkPasteboard];
-    }
-}
-
-///粘贴板口令监测
-- (void)checkPasteboard {
-    [[RACObserve(gAppMgr, myUser.userID) distinctUntilChanged] subscribeNext:^(id x) {
-        if ([[UIPasteboard generalPasteboard].string hasPrefix:@"#小马互助"]) {
-            if (gAppMgr.myUser) {
-                
-                [UIPasteboard generalPasteboard].string = @"";
-                SearchCooperationGroupOp * op = [SearchCooperationGroupOp operation];
-                op.req_cipher = [UIPasteboard generalPasteboard].string;
-                [[op rac_postRequest] subscribeNext:^(SearchCooperationGroupOp * rop) {
-                    
-                    InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
-                    alertVC.alertType = InviteAlertTypeJoin;
-                    alertVC.groupName = rop.rsp_name;
-                    alertVC.leaderName = rop.rsp_creatorname;
-                    alertVC.actionTitles = @[@"取消", @"确定加入"];
-                    [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
-                        [alertView dismiss];
-                        if (index == 1) {
-                            [gAppMgr.navModel pushToViewControllerByUrl:@"xmdd://j?t=jg"];
-                        }
-                    }];
-                } error:^(NSError *error) {
-                    [gToast showError:@" 获取团信息失败 "];
-                }];
-                
-            }
-            else {
-                InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
-                alertVC.alertType = InviteAlertTypeNologin;
-                alertVC.actionTitles = @[@"取消", @"去登录"];
-                [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
-                    [alertView dismiss];
-                    if (index == 1) {
-                        [gAppMgr.navModel pushToViewControllerByUrl:@"xmdd://j?t=login"];
-                    }
-                    else {
-                        [UIPasteboard generalPasteboard].string = @"";
-                    }
-                }];
-            }
-        }
-    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -171,7 +126,6 @@
             self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, 480);
         }
         [self showNewbieGuideAlertIfNeeded];
-        [self showSuspendedAdIfNeeded];
     });
 }
 
@@ -187,9 +141,22 @@
         //开启推送接收队列
         gAppDelegate.pushMgr.notifyQueue.running = YES;
         gAppDelegate.openUrlQueue.running = YES;
+        [self checkPasteboardModel];
+    } error:^(NSError *error) {
+        //未登录
+        [self checkPasteboardModel];
     }];
 }
 
+- (void)checkPasteboardModel
+{
+    //设置口令弹框取消按钮的block
+    [gAppDelegate.pasteboardoModel setCancelClickBlock:^(id x) {
+        [UIPasteboard generalPasteboard].string = @"";
+        [self showSuspendedAdIfNeeded];
+    }];
+    [gAppDelegate.pasteboardoModel checkPasteboard];
+}
 
 #pragma mark - Setup
 - (void)setupProp
@@ -514,7 +481,8 @@
 
 - (void)showSuspendedAdIfNeeded
 {
-    if (!self.guideStore.shouldDisablePopupAd && self.isViewAppearing && !self.isShowSuspendedAd) {
+    NSString * pasteboardStr = [UIPasteboard generalPasteboard].string;
+    if (!self.guideStore.shouldDisablePopupAd && self.isViewAppearing && !self.isShowSuspendedAd && ![pasteboardStr hasPrefix:XMINSPrefix]) {
         
         self.isShowSuspendedAd = YES;
         
@@ -994,9 +962,5 @@
 {
     [gAppMgr.navModel pushToViewControllerByUrl:url];
 }
-
-/**
- *  fq git conflict test ..
- */
 
 @end

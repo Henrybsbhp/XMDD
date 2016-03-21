@@ -10,4 +10,6 @@
 
 @interface MutualInsChooseBankVC : UIViewController
 
+@property (nonatomic, copy) void (^bankName)(NSString *str);
+
 @end

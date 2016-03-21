@@ -13,6 +13,7 @@
 #import "UIView+RoundedCorner.h"
 #import "NSString+Price.h"
 #import "UpdateCooperationInsInfoOp.h"
+#import "MutualInsStore.h"
 #import "MutualInsGrouponVC.h"
 #import "MutualInsHomeVC.h"
 
@@ -432,6 +433,17 @@
     return estPrice;
 }
 
+#pragma mark - Action
+- (void)actionBack:(id)sender
+{
+    if (self.originVC) {
+        [self.navigationController popToViewController:self.originVC animated:YES];
+    }
+    else {
+        [super actionBack:sender];
+    }
+}
+
 #pragma mark - Calculated
 - (void)calculatePrice:(HKMutualInsList *)dataModel forIndex:(NSInteger)insIndex
 {
@@ -558,7 +570,7 @@
         UIViewController * vc = [self.navigationController.viewControllers safetyObjectAtIndex:i];
         if ([vc isKindOfClass:[MutualInsGrouponVC class]])
         {
-            [((MutualInsGrouponVC *)vc) requestGroupDetailInfo];
+            [[[MutualInsStore fetchExistsStore] reloadDetailGroupIfNeededByMemberID:self.memberId] send];
             [self.navigationController popToViewController:vc animated:YES];
             return;
         }

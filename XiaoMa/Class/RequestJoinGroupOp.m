@@ -15,7 +15,7 @@
     self.req_method = @"/cooperation/group/search";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params addParam:self.cipher forName:@"name"];
+    [params addParam:self.cipher forName:@"cipher"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
@@ -23,14 +23,7 @@
 - (instancetype)parseResponseObject:(id)rspObj
 {
     NSDictionary *dict = rspObj;
-    NSString *groupName = dict[@"name"];
-    NSString *groupLeaderNM = dict[@"creatorname"];
-    NSString *groupID = dict[@"groupid"];
-    
-    self.groupDict = @{@"name" : groupName,
-                @"creatorname" : groupLeaderNM,
-                    @"groupid" : groupID
-                       };
+    self.groupDict = dict;
     
     return self;
 }
