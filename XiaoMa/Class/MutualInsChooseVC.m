@@ -13,6 +13,7 @@
 #import "UIView+RoundedCorner.h"
 #import "NSString+Price.h"
 #import "UpdateCooperationInsInfoOp.h"
+#import "MutualInsStore.h"
 #import "MutualInsGrouponVC.h"
 #import "MutualInsHomeVC.h"
 
@@ -524,7 +525,7 @@
         UIViewController * vc = [self.navigationController.viewControllers safetyObjectAtIndex:i];
         if ([vc isKindOfClass:[MutualInsGrouponVC class]])
         {
-            [((MutualInsGrouponVC *)vc) requestGroupDetailInfo];
+            [[[MutualInsStore fetchExistsStore] reloadDetailGroupIfNeededByMemberID:self.memberId] send];
             [self.navigationController popToViewController:vc animated:YES];
             return;
         }

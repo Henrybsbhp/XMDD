@@ -8,13 +8,14 @@
 
 #import "HKAlertVC.h"
 #import "CKLine.h"
-#import <MZFormSheetController.h>
+#import <JCAlertView.h>
 
 #define kBottomViewHeight       49
 #define kBottomViewLinePadding  5
 
 @interface HKAlertVC ()
 @property (nonatomic, copy) void(^actionHandler)(NSInteger index, id alertView);
+@property (nonatomic, weak) JCAlertView *alertView;
 @end
 
 @implementation HKAlertVC
@@ -48,20 +49,17 @@
         [self.view addSubview:[self bottomViewWithBounds:frame]];
     }
     self.view.frame = frame;
-    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:frame.size viewController:self];
-    sheet.cornerRadius = 3;
-    sheet.shadowRadius = 0;
-    sheet.shadowOpacity = 0;
-    sheet.transitionStyle = MZFormSheetTransitionStyleDropDown;
-    sheet.shouldDismissOnBackgroundViewTap = NO;
-    sheet.shouldCenterVertically = YES;
-    [MZFormSheetController sharedBackgroundWindow].backgroundBlurEffect = NO;
-    [sheet presentAnimated:YES completionHandler:nil];
+    self.view.layer.cornerRadius = 3;
+    self.view.layer.masksToBounds = YES;
+    JCAlertView *alert = [[JCAlertView alloc] initWithCustomView:self.view dismissWhenTouchedBackground:NO];
+    alert.customObject = self;
+    self.alertView = alert;
+    [alert show];
 }
 
 - (void)dismiss
 {
-    [self.formSheetController dismissAnimated:YES completionHandler:nil];
+    [self.alertView dismissWithCompletion:nil];
 }
 
 #pragma mark - Action
