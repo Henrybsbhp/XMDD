@@ -9,6 +9,8 @@
 #import "MutualInsClaimDetailVC.h"
 #import "GetCooperationClaimDetailOp.h"
 #import "NSString+Price.h"
+#import "MutualInsChooseBankVC.h"
+#import "MutualInsClaimAccountVC.h"
 
 @interface MutualInsClaimDetailVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UIButton *agreeBtn;
@@ -144,12 +146,6 @@
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-//    @叶志成 写银行卡选择页面
-    
-}
-
 
 #pragma mark UITableViewDelegate
 
@@ -189,6 +185,15 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 10;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (!self.hasCard && indexPath.row ==1 && indexPath.section == 1 && self.status.integerValue != 0 && self.status.integerValue != 20)
+    {
+        MutualInsClaimAccountVC *accountVC = [UIStoryboard vcWithId:@"MutualInsClaimAccountVC" inStoryboard:@"MutualInsClaims"];
+        [self.navigationController pushViewController:accountVC animated:YES];
+    }
 }
 
 #pragma mark Utility
