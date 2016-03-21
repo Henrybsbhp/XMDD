@@ -161,7 +161,7 @@
     [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
 }
 
--(void)scenePageSectionAction
+- (void)scenePageSectionAction
 {
     [self getCarListData];
     [[MutualInsScencePhotoVM sharedManager]getNoticeArr];

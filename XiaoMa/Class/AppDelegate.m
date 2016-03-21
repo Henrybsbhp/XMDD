@@ -38,8 +38,6 @@
 
 #import "MainTabBarVC.h"
 #import "LaunchVC.h"
-#import "InviteAlertVC.h"
-#import "SearchCooperationGroupOp.h"
 
 
 #ifndef __OPTIMIZE__

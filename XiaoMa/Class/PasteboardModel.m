@@ -68,14 +68,14 @@
         alertVC.actionItems = @[cancel, join];
         [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
             
-//            [UIPasteboard generalPasteboard].string = @"";
+            [UIPasteboard generalPasteboard].string = @"";
             [alertView dismiss];
             if (index == 1) {
                 [gAppMgr.navModel pushToViewControllerByUrl:@"xmdd://j?t=jg"];
             }
         }];
     } error:^(NSError *error) {
-//        [gToast showError:@" 获取团信息失败 "];
+        
     }];
 
 }

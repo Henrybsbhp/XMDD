@@ -55,12 +55,14 @@ typedef enum : NSInteger
 #pragma mark - System
 - (void)dealloc {
     
+    DebugLog(@"MutualInsGrouponVC dealloc");
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationItem.title = self.group.groupName;
+    
+    [self setupNavigationBar];
     [self setupSubVC];
     [self requestGroupDetailInfo];
 }
@@ -88,6 +90,14 @@ typedef enum : NSInteger
 }
 
 #pragma mark - Setup
+- (void)setupNavigationBar
+{
+    self.navigationItem.title = self.group.groupName;
+    
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    self.navigationItem.leftBarButtonItem = back;
+}
+
 - (void)setupSubVC {
     @weakify(self);
     self.topSubVC.title = self.navigationItem.title;
@@ -136,6 +146,19 @@ typedef enum : NSInteger
         self.popoverMenu = popover;
     }
 }
+
+- (void)actionBack:(id)sender {
+    
+    if (self.originVC) {
+        [self.navigationController popToViewController:self.originVC animated:YES];
+        return;
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 
 #pragma mark - Reload
 - (void)reloadData {
