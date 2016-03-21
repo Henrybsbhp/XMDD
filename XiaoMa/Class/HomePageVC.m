@@ -948,7 +948,6 @@
     [gAppMgr.navModel pushToViewControllerByUrl:url];
 }
 
-
 - (void)checkPasteboardModel
 {
     [gAppDelegate.pasteboardoModel checkPasteboard];
