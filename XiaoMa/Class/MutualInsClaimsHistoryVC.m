@@ -13,8 +13,10 @@
 #import "NSString+Price.h"
 #import "NSDate+DateForText.h"
 
-@interface MutualInsClaimsHistoryVC () <UITableViewDelegate,UITableViewDataSource>
+@interface MutualInsClaimsHistoryVC ()<UITableViewDelegate,UITableViewDataSource>
+
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
+
 @property (strong, nonatomic) NSArray *dataArr;
 @end
 
