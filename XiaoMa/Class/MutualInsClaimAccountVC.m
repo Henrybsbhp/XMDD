@@ -129,7 +129,7 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"commitCell"];
     UIButton *btn = [cell viewWithTag:100];
-    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
+    [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntilForCell:cell] subscribeNext:^(id x) {
 //        @叶志成 提交操作
     }];
     btn.layer.cornerRadius = 5;
@@ -144,7 +144,9 @@
     if (indexPath.row == 3)
     {
         MutualInsChooseBankVC *chooseBankVC = [UIStoryboard vcWithId:@"MutualInsChooseBankVC" inStoryboard:@"MutualInsClaims"];
+        @weakify(self)
         [chooseBankVC setBankName:^(NSString *str) {
+            @strongify(self)
             self.bankName = str;
             [self.tableView reloadData];
         }];
