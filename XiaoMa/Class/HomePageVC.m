@@ -945,7 +945,7 @@
 }
 
 /**
- *  fq git conflict test ..
+ *  fq git conflict test ..,
  */
 
 @end
