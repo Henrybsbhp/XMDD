@@ -49,6 +49,8 @@
         [self.view addSubview:[self bottomViewWithBounds:frame]];
     }
     self.view.frame = frame;
+    self.view.layer.cornerRadius = 3;
+    self.view.layer.masksToBounds = YES;
     JCAlertView *alert = [[JCAlertView alloc] initWithCustomView:self.view dismissWhenTouchedBackground:NO];
     alert.customObject = self;
     self.alertView = alert;

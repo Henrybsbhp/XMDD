@@ -54,7 +54,7 @@
 {
     self.status = status;
     CKList *datasource;
-    if (status == MutInsStatusNeedDriveLicense || status == MutInsStatusNeedInsList) {
+    if (status == MutInsStatusNeedCar || status == MutInsStatusNeedDriveLicense || status == MutInsStatusNeedInsList) {
         datasource = $([self carsItem],[self splitLine1Item], [self arrowItem], [self descItem], [self timeItem],
                        [self buttonItem], [self bottomItem]);
     }
