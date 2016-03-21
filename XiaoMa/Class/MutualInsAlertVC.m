@@ -78,6 +78,7 @@
         UILabel *rightL = [[UILabel alloc] initWithFrame:CGRectZero];
         rightL.textColor = item.detailTitleColor;
         rightL.font = [UIFont systemFontOfSize:13];
+        rightL.textAlignment = NSTextAlignmentRight;
         rightL.text = item.detailTitle;
         [containerV addSubview:rightL];
         

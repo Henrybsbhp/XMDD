@@ -65,7 +65,7 @@ typedef enum : NSInteger
     self.navigationItem.title = self.group.groupName;
     [self setupSubVC];
     [self setupMutualInsStore];
-    [self requestGroupDetailInfo];
+    [[self.minsStore reloadDetailGroupByMemberID:self.group.memberId andGroupID:self.group.groupId] send];
 }
 
 - (void)didReceiveMemoryWarning {
