@@ -294,6 +294,7 @@
                 
                 [opeBtn setBackgroundColor:HEXCOLOR(@"#18D06A")];
                 InviteByCodeVC * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
+                vc.groupId = group.groupId;
                 [self.navigationController pushViewController:vc animated:YES];
             }
             else {
