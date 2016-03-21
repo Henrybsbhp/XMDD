@@ -27,7 +27,7 @@ typedef enum : NSInteger
     MutualInsScrollDirectionUp = 2
 }MutualInsScrollDirection;
 
-@interface MutualInsGrouponVC ()<UIScrollViewDelegate>
+@interface MutualInsGrouponVC ()<UIScrollViewDelegate, UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *topView;
@@ -61,7 +61,7 @@ typedef enum : NSInteger
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = self.group.groupName;
-    [self setupTopSubVC];
+    [self setupSubVC];
     [self requestGroupDetailInfo];
 }
 
@@ -88,13 +88,15 @@ typedef enum : NSInteger
 }
 
 #pragma mark - Setup
-- (void)setupTopSubVC {
+- (void)setupSubVC {
     @weakify(self);
     self.topSubVC.title = self.navigationItem.title;
     [self.topSubVC setShouldExpandedOrClosed:^(BOOL expanded) {
         @strongify(self);
         [self setExpanded:expanded animated:YES];
     }];
+    
+    self.bottomSubVC.tableView.panGestureRecognizer.delegate = self;
 }
 
 - (void)setupNavigationRightItem {
@@ -330,6 +332,15 @@ typedef enum : NSInteger
     else if (!self.isExpandingOrClosing && self.scrollView.contentOffset.y > dvalue/2 && self.scrollView.contentOffset.y < dvalue) {
         [self setExpanded:NO animated:YES];
     }
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    if ([otherGestureRecognizer isEqual:self.topSubVC.tableView.panGestureRecognizer]) {
+        return YES;
+    }
+    return NO;
 }
 
 @end
