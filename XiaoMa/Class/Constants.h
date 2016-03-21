@@ -126,6 +126,8 @@ typedef enum : NSUInteger {
 #define BaiduNavigationStr @"百度地图"
 #define AMapNavigationStr @"高德地图"
 
+#define XMINSPrefix @"#小马互助"
+
 //单例别名
 #define gAppDelegate       ((AppDelegate *)[UIApplication sharedApplication].delegate)
 #define gAppMgr     [AppManager sharedManager]

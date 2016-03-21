@@ -18,6 +18,7 @@
 #import "HKLoginModel.h"
 #import "MyCarStore.h"
 #import "GuideStore.h"
+#import "PasteboardModel.h"
 
 #import "CarWashTableVC.h"
 #import "NewGainAwardVC.h"
@@ -136,6 +137,8 @@
         //开启推送接收队列
         gAppDelegate.pushMgr.notifyQueue.running = YES;
         gAppDelegate.openUrlQueue.running = YES;
+        
+        [self checkPasteboardModel];
     }];
 }
 
@@ -944,8 +947,10 @@
     [gAppMgr.navModel pushToViewControllerByUrl:url];
 }
 
-/**
- *  fq git conflict test ..
- */
+
+- (void)checkPasteboardModel
+{
+    [gAppDelegate.pasteboardoModel checkPasteboard];
+}
 
 @end

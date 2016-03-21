@@ -12,7 +12,7 @@
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/cooperation/grouoinfo/get/by-id";
+    self.req_method = @"/cooperation/groupinfo/get/by-id";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:self.req_groupId forName:@"groupid"];
