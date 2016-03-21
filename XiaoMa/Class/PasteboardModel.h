@@ -12,4 +12,6 @@
 
 - (BOOL)checkPasteboard;
 
+@property (nonatomic, copy) void(^cancelClickBlock)(id);
+
 @end

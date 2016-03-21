@@ -38,7 +38,7 @@
 {
     InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
     alertVC.alertType = InviteAlertTypeNologin;
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:self.cancelClickBlock];
     HKAlertActionItem *login = [HKAlertActionItem itemWithTitle:@"去登录" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
     alertVC.actionItems = @[cancel, login];
     [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
@@ -64,7 +64,7 @@
         alertVC.alertType = InviteAlertTypeJoin;
         alertVC.groupName = rop.rsp_name;
         alertVC.leaderName = rop.rsp_creatorname;
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:self.cancelClickBlock];
         HKAlertActionItem *join = [HKAlertActionItem itemWithTitle:@"确定加入" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
         alertVC.actionItems = @[cancel, join];
         [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
@@ -82,7 +82,7 @@
             }
         }];
     } error:^(NSError *error) {
-        
+        [gToast showError:error.domain];
     }];
 
 }
