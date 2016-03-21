@@ -22,7 +22,7 @@
     // Do any additional setup after loading the view.
 }
 
-- (void)showWithActionHandler:(void (^)(NSInteger, HKAlertVC*))handler {
+- (void)showWithActionHandler:(void (^)(NSInteger, id))handler {
     if (self.alertType == InviteAlertTypeNologin) {
         UIView * contentV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kContentViewWidth, 133)];
         UILabel * wordLabel = [[UILabel alloc] initWithFrame:CGRectMake(17, 0, kContentViewWidth - 34, 133)];

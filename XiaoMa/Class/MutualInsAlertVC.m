@@ -32,7 +32,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)showWithActionHandler:(void (^)(NSInteger, HKAlertVC*))handler
+- (void)showWithActionHandler:(void (^)(NSInteger, id alertVC))handler
 {
     UIView *contentV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kContentViewWidth, kTitleViewHeight)];
     
