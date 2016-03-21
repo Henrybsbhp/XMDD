@@ -31,6 +31,8 @@
 #import "HomeSuspendedAdVC.h"
 #import "MutualInsGrouponVC.h"
 #import "MutualInsHomeVC.h"
+#import "SearchCooperationGroupOp.h"
+#import "InviteAlertVC.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3.0
@@ -100,6 +102,55 @@
     CKAsyncMainQueue(^{
         [self reloadDatasource];
     });
+    
+    if ([[UIPasteboard generalPasteboard].string hasPrefix:@"#小马互助"]) {
+        [self checkPasteboard];
+    }
+}
+
+///粘贴板口令监测
+- (void)checkPasteboard {
+    [[RACObserve(gAppMgr, myUser.userID) distinctUntilChanged] subscribeNext:^(id x) {
+        if ([[UIPasteboard generalPasteboard].string hasPrefix:@"#小马互助"]) {
+            if (gAppMgr.myUser) {
+                
+                [UIPasteboard generalPasteboard].string = @"";
+                SearchCooperationGroupOp * op = [SearchCooperationGroupOp operation];
+                op.req_cipher = [UIPasteboard generalPasteboard].string;
+                [[op rac_postRequest] subscribeNext:^(SearchCooperationGroupOp * rop) {
+                    
+                    InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
+                    alertVC.alertType = InviteAlertTypeJoin;
+                    alertVC.groupName = rop.rsp_name;
+                    alertVC.leaderName = rop.rsp_creatorname;
+                    alertVC.actionTitles = @[@"取消", @"确定加入"];
+                    [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
+                        [alertView dismiss];
+                        if (index == 1) {
+                            [gAppMgr.navModel pushToViewControllerByUrl:@"xmdd://j?t=jg"];
+                        }
+                    }];
+                } error:^(NSError *error) {
+                    [gToast showError:@" 获取团信息失败 "];
+                }];
+                
+            }
+            else {
+                InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
+                alertVC.alertType = InviteAlertTypeNologin;
+                alertVC.actionTitles = @[@"取消", @"去登录"];
+                [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
+                    [alertView dismiss];
+                    if (index == 1) {
+                        [gAppMgr.navModel pushToViewControllerByUrl:@"xmdd://j?t=login"];
+                    }
+                    else {
+                        [UIPasteboard generalPasteboard].string = @"";
+                    }
+                }];
+            }
+        }
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -468,7 +519,7 @@
         self.isShowSuspendedAd = YES;
         
         @weakify(self);
-        RACSignal *signal = [gAdMgr rac_getAdvertisement:AdvertisementAlert];
+        RACSignal *signal = [gAdMgr rac_getAdvertisement:AdvertisementHomePage];
         [[signal deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
             
             @strongify(self);

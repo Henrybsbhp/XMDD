@@ -133,6 +133,7 @@
     CGSize size = CGSizeMake(width+20, height + 48 + 20);
     
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:size viewController:vc];
+    MZFormSheetWindow * sheetWindow = [[MZFormSheetWindow alloc] init];
     sheet.shadowRadius = 0;
     sheet.shadowOpacity = 0;
     sheet.transitionStyle = MZFormSheetTransitionStyleBounce;
