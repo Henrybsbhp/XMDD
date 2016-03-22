@@ -207,6 +207,7 @@
 
 -(void)getData
 {
+//    @叶志成 可能要删除这个接口
     GetCooperationClaimBankcardOp *op = [GetCooperationClaimBankcardOp new];
     [[[op rac_postRequest]initially:^{
         [self.tableView startActivityAnimationWithType:GifActivityIndicatorType];

@@ -11,6 +11,7 @@
 #import "NSString+Price.h"
 #import "MutualInsChooseBankVC.h"
 #import "MutualInsClaimAccountVC.h"
+#import "ConfirmClaimOp.h"
 
 @interface MutualInsClaimDetailVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UIButton *agreeBtn;
@@ -31,7 +32,6 @@
 @property (nonatomic,strong) NSString *cardno;
 
 @property (nonatomic) BOOL hasCard;
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -119,7 +119,7 @@
         {
             cell = [tableView dequeueReusableCellWithIdentifier:@"cardCell"];
             UILabel *cardNumLb = [cell viewWithTag:100];
-            UILabel *bankLb = [cell viewWithTag:101];
+            UILabel *bankLb = [cell viewWithTag:1010];
             cardNumLb.text = self.cardno;
             bankLb.text = self.cardname;
         }
@@ -220,7 +220,7 @@
         self.hasCard = op.rsp_cardid.integerValue == 0 ? NO : YES;
         self.cardname = op.rsp_cardname;
         self.cardno = op.rsp_cardno;
-        if (self.status.integerValue == 2)
+        if (self.status.integerValue == 1)
         {
             self.bottomView.hidden = NO;
         }
@@ -251,6 +251,33 @@
     [self addBorder:self.disagreeBtn];
     self.tableView.tableFooterView = [UIView new];
     self.bottomView.hidden = YES;
+    
+    [[self.agreeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
+        [self confirmClaimWithAgreement:@2];
+    }];
+    
+    [[self.disagreeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
+        [self confirmClaimWithAgreement:@1];
+    }];
+    
+}
+
+-(void)confirmClaimWithAgreement:(NSNumber *)agreement
+{
+    if (self.cardid.integerValue != 0)
+    {
+        ConfirmClaimOp *op = [[ConfirmClaimOp alloc]init];
+        [[[op rac_postRequest]initially:^{
+            [gToast showingWithText:@"提交中"];
+        }]subscribeNext:^(id x) {
+            [gToast showSuccess:@"提交成功"];
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+    }
+    else
+    {
+        [gToast showMistake:@"请添加银行卡"];
+    }
 }
 
 #pragma mark Utility
