@@ -32,7 +32,15 @@ typedef enum : NSInteger {
     MutInsStatusPaidForSelf = 6,            //自己支付成功
     MutInsStatusPaidForAll  = 101,          //全部人支付成功
     MutInsStatusGettedAgreement = 7,        //协议已出
-    MutInsStatusAgreementTakingEffect = 8   //协议生效中
+    MutInsStatusAgreementTakingEffect = 8,  //协议生效中
+    MutInsStatusGroupDissolved = 9,         //团解散
+    MutInsStatusGroupExpired = 10,          //团过期
+    MutInsStatusJoinFailed = 11             //入团失败
 }MutInsStatus;
+
+//key定义
+#define kMutInsGroupID      @"groupID"
+#define kMutInsMemberID     @"memberID"
+#define kMutInsGroup        @"simpleGroup"
 
 #endif /* MutualInsConstants_h */

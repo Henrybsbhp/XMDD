@@ -140,6 +140,7 @@
         
         MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
         vc.memberId = rop.rsp_memberid;
+        vc.groupId = rop.req_groupid;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
