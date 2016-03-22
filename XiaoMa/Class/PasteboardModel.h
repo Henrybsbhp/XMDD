@@ -14,4 +14,6 @@
 
 @property (nonatomic, copy) void(^cancelClickBlock)(id);
 
+@property (nonatomic, copy) void(^nextClickBlock)(id);
+
 @end
