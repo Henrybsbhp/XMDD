@@ -220,7 +220,7 @@
         return [WeiboSDK handleOpenURL:url delegate:[ShareResponeManager init]];
     }
     else if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@", QQ_API_ID]]) {
-        return [QQApiInterface handleOpenURL:url delegate:[ShareResponeManagerForQQ init]];
+        return [QQApiInterface handleOpenURL:url delegate:[ShareResponeManager init]];
     }
     else if ([url.absoluteString hasPrefix:@"xmdd://"])
     {
