@@ -21,6 +21,12 @@
 
 @implementation MutualInsChooseCarVC
 
+-(void)dealloc
+{
+    
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     

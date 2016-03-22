@@ -17,6 +17,12 @@
 
 @implementation MutualInsClaimAccountVC
 
+-(void)dealloc
+{
+    
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self getData];

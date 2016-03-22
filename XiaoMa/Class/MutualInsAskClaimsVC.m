@@ -18,10 +18,17 @@
 @interface MutualInsAskClaimsVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) NSArray *tempArr;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
 @implementation MutualInsAskClaimsVC
+
+-(void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

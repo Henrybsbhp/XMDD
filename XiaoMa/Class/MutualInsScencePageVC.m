@@ -42,7 +42,8 @@
 
 -(void)dealloc
 {
-    
+    self.pageVC.delegate = nil;
+    self.pageVC.dataSource = nil;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -283,7 +284,10 @@
     if (!_scencePhotoVM)
     {
         _scencePhotoVM = [[MutualInsScencePhotoVM alloc]init];
-        _scencePhotoVM.noticeArr = self.noticeArr;
+        if (self.noticeArr)
+        {
+            _scencePhotoVM.noticeArr = self.noticeArr;
+        }
     }
     return _scencePhotoVM;
 }

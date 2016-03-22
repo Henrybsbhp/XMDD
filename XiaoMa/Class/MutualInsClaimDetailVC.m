@@ -31,6 +31,7 @@
 @property (nonatomic,strong) NSString *cardno;
 
 @property (nonatomic) BOOL hasCard;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -38,7 +39,8 @@
 
 -(void)dealloc
 {
-    
+    self.tableView.dataSource = nil;
+    self.tableView.delegate = nil;
 }
 
 - (void)viewDidLoad {

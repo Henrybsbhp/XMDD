@@ -114,6 +114,9 @@
                     </view>
                     <navigationItem key="navigationItem" title="我要理赔" id="gfa-NF-Icg"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="tableView" destination="1Y5-NA-xkK" id="bFn-0N-ENp"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DqO-mh-KTh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1353,7 +1356,7 @@
                         <outlet property="agreeBtn" destination="jzi-gz-q1Z" id="q5J-ev-h9Y"/>
                         <outlet property="bottomView" destination="cpL-le-zoo" id="odT-1Q-Qki"/>
                         <outlet property="disagreeBtn" destination="1dW-My-VFZ" id="2hm-So-7Hn"/>
-                        <outlet property="tableView" destination="OIZ-QW-zkV" id="zsE-h2-jz4"/>
+                        <outlet property="tableView" destination="OIZ-QW-zkV" id="8z9-kD-5Z3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m7F-55-W3m" userLabel="First Responder" sceneMemberID="firstResponder"/>
