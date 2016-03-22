@@ -12,6 +12,7 @@
 #import "WXApiObject.h"
 #import "GetShareButtonOpV2.h"
 #import "SocialShareViewController.h"
+#import "InviteAlertVC.h"
 
 @interface InviteByCodeVC ()
 
@@ -165,7 +166,14 @@
     [[[copyBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
         pasteboard.string = self.cipherForCopy;
-        [gToast showText:@"已成功复制到粘贴板"];
+        
+        InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
+        alertVC.alertType = InviteAlertTypeCopyCode;
+        HKAlertActionItem *ok = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
+        alertVC.actionItems = @[ok];
+        [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
+            [alertView dismiss];
+        }];
     }];
     
     return cell;

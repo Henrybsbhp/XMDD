@@ -82,6 +82,9 @@
             }
         }];
     } error:^(NSError *error) {
+        if (error.code == 6115702) {
+            
+        }
         [gToast showError:error.domain];
     }];
 

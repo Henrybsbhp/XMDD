@@ -33,7 +33,6 @@
 #import "HomeSuspendedAdVC.h"
 #import "MutualInsGrouponVC.h"
 #import "MutualInsHomeVC.h"
-#import "SearchCooperationGroupOp.h"
 #import "InviteAlertVC.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
@@ -92,7 +91,7 @@
     [gAdMgr loadLastAdvertiseInfo:AdvertisementHomePage];
     [gAdMgr loadLastAdvertiseInfo:AdvertisementCarWash];
     
-    //自动登录
+    //自动登录(含粘贴板监测)
     [self autoLogin];
     //全局CarStore
     self.carStore = [MyCarStore fetchOrCreateStore];
