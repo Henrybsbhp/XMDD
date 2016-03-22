@@ -53,6 +53,16 @@
     [self requestCreateGroup:self.textFieldString];
 }
 
+- (void)actionBack:(id)sender
+{
+    if (self.originVC) {
+        [self.navigationController popToViewController:self.originVC animated:YES];
+    }
+    else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
