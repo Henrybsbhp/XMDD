@@ -50,7 +50,7 @@
        
         make.width.height.mas_equalTo(23);
         make.right.equalTo(contentV).offset(-6);
-        make.top.equalTo(contentV).offset(6);
+        make.centerY.equalTo(titleLb);
     }];
     [[closeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
