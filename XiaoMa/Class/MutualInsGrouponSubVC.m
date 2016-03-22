@@ -522,7 +522,7 @@
              if (status == MutInsStatusNeedCar) {
                  [self actionImproveCarInfo];
              }
-             else if (status == MutInsStatusNeedDriveLicense) {
+             else if (status == MutInsStatusNeedDriveLicense || status == MutInsStatusNeedReviewAgain) {
                  [self actionImproveDrivingLicenseInfo];
              }
              else if (status == MutInsStatusNeedInsList) {
