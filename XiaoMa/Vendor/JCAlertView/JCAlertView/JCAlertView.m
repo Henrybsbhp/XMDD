@@ -101,6 +101,10 @@ NSString *const JCAlertViewWillShowNotification = @"JCAlertViewWillShowNotificat
 
 @implementation JCViewController
 
+- (void)dealloc {
+    
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
     
@@ -503,9 +507,8 @@ buttonType ButtonTitle:(NSString *)buttonTitle Click:(clickHandle)click ButtonTy
 }
 
 - (void)toggleKeyWindow{
+    [jCSingleTon shareSingleTon].backgroundWindow = nil;
     [[jCSingleTon shareSingleTon].oldKeyWindow makeKeyAndVisible];
-    [jCSingleTon shareSingleTon].backgroundWindow.rootViewController = nil;
-    [jCSingleTon shareSingleTon].backgroundWindow.frame = CGRectZero;
 }
 
 - (void)setup{

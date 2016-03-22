@@ -17,6 +17,7 @@
 #import "CarListVC.h"
 #import "ApplyCooperationGroupJoinOp.h"
 #import "MutualInsHomeVC.h"
+#import "MutualInsStore.h"
 
 @interface CreateGroupVC () <UITextFieldDelegate>
 
@@ -174,13 +175,12 @@
 
 - (void)jumpToHomePage
 {
+    [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
     for (UIViewController * vc in self.navigationController.viewControllers)
     {
         if ([vc isKindOfClass:NSClassFromString(@"MutualInsHomeVC")])
         {
-            
             [self.navigationController popToViewController:vc animated:YES];
-            [((MutualInsHomeVC *)vc) requestMyGourpInfo];
             return ;
         }
     }
