@@ -104,7 +104,7 @@
 #pragma mark - Action
 - (void)actionGotoMembersVC
 {
-    MutualInsGrouponMembersVC *vc = [MutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponMembersVC"];
+    MutualInsGrouponMembersVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponMembersVC"];
     vc.members = self.groupDetail.rsp_members;
     vc.title = self.title;
     [self.parentViewController.navigationController pushViewController:vc animated:YES];

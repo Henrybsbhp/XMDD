@@ -341,6 +341,7 @@
 		4E34529D1C96A9BF00E2AFE2 /* MutualInsScencePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E34529C1C96A9BF00E2AFE2 /* MutualInsScencePageVC.m */; };
 		4E3452D11C96B90500E2AFE2 /* MutualInsClaimDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3452D01C96B90500E2AFE2 /* MutualInsClaimDetailVC.m */; };
 		4E5995681C201C5300686565 /* CommitSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5995671C201C5300686565 /* CommitSuccessVC.m */; };
+		4E7927991CA011470099CB70 /* MutualInsClaimsHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E7927981CA011470099CB70 /* MutualInsClaimsHistoryVC.m */; };
 		4E97D7111C9000E500FC418F /* MutualInsAskClaimsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E97D7101C9000E500FC418F /* MutualInsAskClaimsVC.m */; };
 		4E97D7141C90011200FC418F /* MutualInsClaims.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E97D7131C90011200FC418F /* MutualInsClaims.storyboard */; };
 		4E97D7171C9001C700FC418F /* HKInclinedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E97D7161C9001C700FC418F /* HKInclinedLabel.m */; };
@@ -609,6 +610,8 @@
 		6BCA5F461B1031EC00E1E630 /* GainCouponPkgOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F451B1031EC00E1E630 /* GainCouponPkgOp.m */; };
 		6BCA5F491B104AB300E1E630 /* CouponPkgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F481B104AB300E1E630 /* CouponPkgViewController.m */; };
 		6BCA5F4C1B104B5100E1E630 /* MyCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA5F4B1B104B5100E1E630 /* MyCollectionViewController.m */; };
+		6BCD94FC1C9FA5CA00BE3E8C /* PasteboardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCD94FB1C9FA5CA00BE3E8C /* PasteboardModel.m */; };
+		6BCD951B1C9FEA0E00BE3E8C /* InviteCompleteVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCD951A1C9FEA0E00BE3E8C /* InviteCompleteVC.m */; };
 		6BCF62441B15AF3E0064AE32 /* RescueCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF62431B15AF3E0064AE32 /* RescueCouponViewController.m */; };
 		6BCF62471B1737980064AE32 /* GetUserCouponByTypeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF62461B1737980064AE32 /* GetUserCouponByTypeOp.m */; };
 		6BCF624A1B1739E70064AE32 /* CommissionCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCF62491B1739E70064AE32 /* CommissionCouponViewController.m */; };
@@ -683,7 +686,6 @@
 		C26489B41AF8A70A00F1E318 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C26489B31AF8A70A00F1E318 /* libiconv.dylib */; };
 		FA93A7B41C9961ED00CBD565 /* CreateGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA93A7B31C9961ED00CBD565 /* CreateGroupOp.m */; };
 		FA93A7BE1C9978AB00CBD565 /* CreateGroupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA93A7BD1C9978AB00CBD565 /* CreateGroupVC.m */; };
-		FA958E1B1C9BA1A900E89180 /* RequestJoinGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA958E1A1C9BA1A900E89180 /* RequestJoinGroupOp.m */; };
 		FA958E251C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA958E241C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.m */; };
 		FA958E281C9BFE6E00E89180 /* MutualInsGroupInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA958E271C9BFE6E00E89180 /* MutualInsGroupInfoVC.m */; };
 		FA959CED1C9C343C00E89180 /* MutualInsJoin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA959CEC1C9C343C00E89180 /* MutualInsJoin.storyboard */; };
@@ -1410,8 +1412,8 @@
 		4E3452D01C96B90500E2AFE2 /* MutualInsClaimDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsClaimDetailVC.m; sourceTree = "<group>"; };
 		4E5995661C201C5300686565 /* CommitSuccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommitSuccessVC.h; sourceTree = "<group>"; };
 		4E5995671C201C5300686565 /* CommitSuccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommitSuccessVC.m; sourceTree = "<group>"; };
-		4E97D70C1C9000DB00FC418F /* MutualInsClaimsHistoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsClaimsHistoryVC.h; sourceTree = "<group>"; };
-		4E97D70D1C9000DB00FC418F /* MutualInsClaimsHistoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsClaimsHistoryVC.m; sourceTree = "<group>"; };
+		4E7927971CA011470099CB70 /* MutualInsClaimsHistoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsClaimsHistoryVC.h; sourceTree = "<group>"; };
+		4E7927981CA011470099CB70 /* MutualInsClaimsHistoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsClaimsHistoryVC.m; sourceTree = "<group>"; };
 		4E97D70F1C9000E500FC418F /* MutualInsAskClaimsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsAskClaimsVC.h; sourceTree = "<group>"; };
 		4E97D7101C9000E500FC418F /* MutualInsAskClaimsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsAskClaimsVC.m; sourceTree = "<group>"; };
 		4E97D7131C90011200FC418F /* MutualInsClaims.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsClaims.storyboard; sourceTree = "<group>"; };
@@ -1921,6 +1923,10 @@
 		6BCA5F481B104AB300E1E630 /* CouponPkgViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponPkgViewController.m; sourceTree = "<group>"; };
 		6BCA5F4A1B104B5100E1E630 /* MyCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectionViewController.h; sourceTree = "<group>"; };
 		6BCA5F4B1B104B5100E1E630 /* MyCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionViewController.m; sourceTree = "<group>"; };
+		6BCD94FA1C9FA5CA00BE3E8C /* PasteboardModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PasteboardModel.h; path = Class/PasteboardModel.h; sourceTree = "<group>"; };
+		6BCD94FB1C9FA5CA00BE3E8C /* PasteboardModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PasteboardModel.m; path = Class/PasteboardModel.m; sourceTree = "<group>"; };
+		6BCD95191C9FEA0E00BE3E8C /* InviteCompleteVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteCompleteVC.h; sourceTree = "<group>"; };
+		6BCD951A1C9FEA0E00BE3E8C /* InviteCompleteVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteCompleteVC.m; sourceTree = "<group>"; };
 		6BCF62421B15AF3E0064AE32 /* RescueCouponViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescueCouponViewController.h; sourceTree = "<group>"; };
 		6BCF62431B15AF3E0064AE32 /* RescueCouponViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescueCouponViewController.m; sourceTree = "<group>"; };
 		6BCF62451B1737980064AE32 /* GetUserCouponByTypeOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetUserCouponByTypeOp.h; path = Class/GetUserCouponByTypeOp.h; sourceTree = "<group>"; };
@@ -2130,8 +2136,6 @@
 		FA93A7B31C9961ED00CBD565 /* CreateGroupOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CreateGroupOp.m; path = Class/CreateGroupOp.m; sourceTree = "<group>"; };
 		FA93A7BC1C9978AB00CBD565 /* CreateGroupVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateGroupVC.h; sourceTree = "<group>"; };
 		FA93A7BD1C9978AB00CBD565 /* CreateGroupVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateGroupVC.m; sourceTree = "<group>"; };
-		FA958E191C9BA1A900E89180 /* RequestJoinGroupOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RequestJoinGroupOp.h; path = Class/RequestJoinGroupOp.h; sourceTree = "<group>"; };
-		FA958E1A1C9BA1A900E89180 /* RequestJoinGroupOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RequestJoinGroupOp.m; path = Class/RequestJoinGroupOp.m; sourceTree = "<group>"; };
 		FA958E231C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsRequestJoinGroupVC.h; sourceTree = "<group>"; };
 		FA958E241C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsRequestJoinGroupVC.m; sourceTree = "<group>"; };
 		FA958E261C9BFE6E00E89180 /* MutualInsGroupInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGroupInfoVC.h; sourceTree = "<group>"; };
@@ -3160,6 +3164,8 @@
 				6B1175311C0D78AC00FC1881 /* ViolationCityModel.m */,
 				6B22659D1C4506BE00A121CC /* HomePicModel.h */,
 				6B22659E1C4506BE00A121CC /* HomePicModel.m */,
+				6BCD94FA1C9FA5CA00BE3E8C /* PasteboardModel.h */,
+				6BCD94FB1C9FA5CA00BE3E8C /* PasteboardModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -3869,8 +3875,8 @@
 				6B26EF921C91599400428EC4 /* MutualInsPhotoBrowserVC.m */,
 				4E97D70F1C9000E500FC418F /* MutualInsAskClaimsVC.h */,
 				4E97D7101C9000E500FC418F /* MutualInsAskClaimsVC.m */,
-				4E97D70C1C9000DB00FC418F /* MutualInsClaimsHistoryVC.h */,
-				4E97D70D1C9000DB00FC418F /* MutualInsClaimsHistoryVC.m */,
+				4E7927971CA011470099CB70 /* MutualInsClaimsHistoryVC.h */,
+				4E7927981CA011470099CB70 /* MutualInsClaimsHistoryVC.m */,
 				4E97D7181C9003A500FC418F /* MutualInsScencePhotoVC.h */,
 				4E97D7191C9003A500FC418F /* MutualInsScencePhotoVC.m */,
 				4E3452CF1C96B90500E2AFE2 /* MutualInsClaimDetailVC.h */,
@@ -3931,6 +3937,8 @@
 				50F0FF701C9AA446009A94A3 /* MutualInsChooseVC.m */,
 				50819CE71C99438E00A6B8B2 /* InviteAlertVC.h */,
 				50819CE81C99438E00A6B8B2 /* InviteAlertVC.m */,
+				6BCD95191C9FEA0E00BE3E8C /* InviteCompleteVC.h */,
+				6BCD951A1C9FEA0E00BE3E8C /* InviteCompleteVC.m */,
 			);
 			name = MutualInsJoin;
 			sourceTree = "<group>";
@@ -4406,8 +4414,6 @@
 				18F41DA81B784CD8000409E1 /* GetBankcardListOp.m */,
 				FA93A7B21C9961ED00CBD565 /* CreateGroupOp.h */,
 				FA93A7B31C9961ED00CBD565 /* CreateGroupOp.m */,
-				FA958E191C9BA1A900E89180 /* RequestJoinGroupOp.h */,
-				FA958E1A1C9BA1A900E89180 /* RequestJoinGroupOp.m */,
 				181F6D911B15773600D38555 /* BeInterestedInInsuranceOp.h */,
 				181F6D921B15773600D38555 /* BeInterestedInInsuranceOp.m */,
 				6BBAB8CF1ADE30F900EC342F /* GetShopRatesOp.h */,
@@ -4964,7 +4970,7 @@
 				TargetAttributes = {
 					1883D8DE1ACB99AC002A4D19 = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = SV52XJG93H;
+						DevelopmentTeam = MACWR28F35;
 					};
 					1883D8F71ACB99AC002A4D19 = {
 						CreatedOnToolsVersion = 6.2;
@@ -5247,6 +5253,7 @@
 				50B5A2961BD8CC51004E00ED /* MyWebViewBridge.m in Sources */,
 				6B42270D1C1FDF150090F802 /* PayForGasViewController.m in Sources */,
 				5093C9FE1C92A68A006B2258 /* InviteByCodeVC.m in Sources */,
+				6BCD951B1C9FEA0E00BE3E8C /* InviteCompleteVC.m in Sources */,
 				5029A84F1C9121C2006B3438 /* GroupIntroductionVC.m in Sources */,
 				18FC01DE1C4E6C6F00FD61BF /* IQKeyboardManager.m in Sources */,
 				18C81CBC1B17FE7B00B0C292 /* FeedbackVC.m in Sources */,
@@ -5424,7 +5431,6 @@
 				18D17F731B53AFAC00F66F04 /* GetVoiceVCodeOp.m in Sources */,
 				4E043B1A1C9A511200742268 /* MutualInsChooseCarVC.m in Sources */,
 				6BC80CBE1C96EB1900C7BA3D /* UpdateCooperationIdlicenseInfoOp.m in Sources */,
-				FA958E1B1C9BA1A900E89180 /* RequestJoinGroupOp.m in Sources */,
 				6B1175291C0C436D00FC1881 /* HKViolation.m in Sources */,
 				5014B6571C07041B00DFAB18 /* GetShareButtonOp.m in Sources */,
 				1833F5AA1BCE2C0C000E1DA1 /* GasNormalVM.m in Sources */,
@@ -5518,6 +5524,7 @@
 				18E155841C3E5BE000C1CF87 /* GetInsUserInfoOp.m in Sources */,
 				50FA52891C2296CD002B1EAE /* ValuationResultVC.m in Sources */,
 				6BBE83BD1C218D2300FEB101 /* GetUserResourcesGaschargeOp.m in Sources */,
+				4E7927991CA011470099CB70 /* MutualInsClaimsHistoryVC.m in Sources */,
 				2E77A4A31C325FCC00264FC9 /* HKRescueHistory.m in Sources */,
 				5073810D1BA1672D00B29756 /* GetCouponByTypeNewOp.m in Sources */,
 				6BBB82491AE7401400850D0C /* GetInsuranceByChannel.m in Sources */,
@@ -5599,6 +5606,7 @@
 				6BBAB8C11ADBC21600EC342F /* GTMBase64.m in Sources */,
 				50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */,
 				18900B4A1C1E8634003DA439 /* UserStore.m in Sources */,
+				6BCD94FC1C9FA5CA00BE3E8C /* PasteboardModel.m in Sources */,
 				6B16D6661C96651100322B70 /* ApplyCooperationGroupJoinOp.m in Sources */,
 				6B1D93D31B8573A000740628 /* PayModel.m in Sources */,
 				6BEF74891BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.m in Sources */,
@@ -5913,8 +5921,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co., Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5996,7 +6004,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d80498c3-937b-401e-98aa-3e66f4699d8f";
+				PROVISIONING_PROFILE = "19b9e532-9495-4943-a7d9-e1846a3e0cf4";
 			};
 			name = Debug;
 		};
@@ -6006,8 +6014,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6089,7 +6097,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0b097263-ee87-4d3e-a27d-1c4766c784b5";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

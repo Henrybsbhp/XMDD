@@ -126,6 +126,8 @@ typedef enum : NSUInteger {
 #define BaiduNavigationStr @"百度地图"
 #define AMapNavigationStr @"高德地图"
 
+#define XMINSPrefix @"#小马互助"
+
 //单例别名
 #define gAppDelegate       ((AppDelegate *)[UIApplication sharedApplication].delegate)
 #define gAppMgr     [AppManager sharedManager]
@@ -150,7 +152,8 @@ typedef enum : NSUInteger {
 #define valuationStoryboard [UIStoryboard storyboardWithName:@"Valuation" bundle:nil]
 #define gasStoryboard [UIStoryboard storyboardWithName:@"Gas" bundle:nil]
 #define mutualInsPayStoryboard [UIStoryboard storyboardWithName:@"MutualInsPay" bundle:nil]
-#define MutInsGrouponStoryboard [UIStoryboard storyboardWithName:@"MutualInsGroupon" bundle:nil]
+#define mutInsGrouponStoryboard [UIStoryboard storyboardWithName:@"MutualInsGroupon" bundle:nil]
+#define mutualInsJoinStoryboard [UIStoryboard storyboardWithName:@"MutualInsJoin" bundle:nil]
 #define aboutStoryboard [UIStoryboard storyboardWithName:@"About" bundle:nil]
 
 

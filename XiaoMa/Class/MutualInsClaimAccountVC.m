@@ -12,6 +12,7 @@
 @interface MutualInsClaimAccountVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *dataArr;
+@property (strong, nonatomic) NSString *bankName;
 @end
 
 @implementation MutualInsClaimAccountVC
@@ -117,6 +118,9 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"chooseCell"];
     UIView *backgroundView = [cell viewWithTag:100];
+    UILabel *label = [cell viewWithTag:1010];
+    label.text = self.bankName.length ? self.bankName : @"请选择银行";
+    label.textColor = self.bankName.length ? [UIColor colorWithHex:@"#000000" alpha:1] : [UIColor colorWithHex:@"#DBDBDB" alpha:1];
     [self addBorder:backgroundView];
     return cell;
 }
@@ -125,6 +129,9 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"commitCell"];
     UIButton *btn = [cell viewWithTag:100];
+    [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntilForCell:cell] subscribeNext:^(id x) {
+//        @叶志成 提交操作
+    }];
     btn.layer.cornerRadius = 5;
     btn.layer.masksToBounds = YES;
     return cell;
@@ -137,6 +144,12 @@
     if (indexPath.row == 3)
     {
         MutualInsChooseBankVC *chooseBankVC = [UIStoryboard vcWithId:@"MutualInsChooseBankVC" inStoryboard:@"MutualInsClaims"];
+        @weakify(self)
+        [chooseBankVC setBankName:^(NSString *str) {
+            @strongify(self)
+            self.bankName = str;
+            [self.tableView reloadData];
+        }];
         [self.navigationController pushViewController:chooseBankVC animated:YES];
     }
 }

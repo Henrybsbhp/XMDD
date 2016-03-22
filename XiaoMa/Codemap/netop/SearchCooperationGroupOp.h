@@ -11,6 +11,7 @@
 @property (nonatomic,strong) NSString* rsp_creatorname;
 ///团ID
 @property (nonatomic,strong) NSNumber* rsp_groupid;
-
+///团暗号
+@property (nonatomic,strong) NSString* rsp_cipher;
 
 @end

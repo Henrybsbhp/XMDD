@@ -8,6 +8,8 @@
 
 #import "CreateGroupVC.h"
 #import "CreateGroupOp.h"
+#import "MutualInsGrouponVC.h"
+#import "ApplyCooperationGroupOp.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface CreateGroupVC () <UITextFieldDelegate>
@@ -16,6 +18,9 @@
 @property (nonatomic, weak) IBOutlet UIView *bottomView;
 
 @property (nonatomic, copy) NSString *textFieldString;
+@property (nonatomic, copy) NSString *groupNameString;
+
+@property (nonatomic)BOOL isLoadingGroupName;
 
 @end
 
@@ -32,6 +37,8 @@
     
     // 设置底部含有「确认」按钮的 UIView
     [self setupButtomView];
+    
+    [self requestGetGroupName];
 }
 
 - (void)setupButtomView
@@ -51,6 +58,22 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)requestGetGroupName
+{
+    ApplyCooperationGroupOp * op = [[ApplyCooperationGroupOp alloc] init];
+    [[[op rac_postRequest] initially:^{
+        
+        self.isLoadingGroupName = YES;
+    }] subscribeNext:^(ApplyCooperationGroupOp * rop) {
+        
+        self.isLoadingGroupName = NO;
+        self.groupNameString = rop.rsp_name;
+    } error:^(NSError *error) {
+        
+        self.isLoadingGroupName = NO;
+    }];
+}
+
 - (void)requestCreateGroup:(NSString *)groupNameToCreate
 {
     CreateGroupOp *op = [[CreateGroupOp alloc] init];
@@ -63,6 +86,9 @@
     }] subscribeNext:^(CreateGroupOp *rop) {
         
         [gToast dismiss];
+        MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
+//        vc.group = group;
+        [self.navigationController pushViewController:vc animated:YES];
         
     } error:^(NSError *error) {
         
@@ -170,8 +196,9 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"GroupNameInputCell" forIndexPath:indexPath];
     
-    UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:103];
-    UITextField *groupTextField = (UITextField *)[cell.contentView viewWithTag:104];
+    UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:101];
+    UITextField *groupTextField = (UITextField *)[cell.contentView viewWithTag:102];
+    UIActivityIndicatorView * indicatorView = (UIActivityIndicatorView *)[cell.contentView viewWithTag:103];
     
     titleLabel.text = @"团队名称";
     
@@ -184,8 +211,28 @@
     groupTextField.layer.cornerRadius = 1;
     groupTextField.layer.borderWidth = 1;
     groupTextField.layer.masksToBounds = YES;
+    groupTextField.text = self.textFieldString;
     [groupTextField.rac_textSignal subscribeNext:^(id x) {
         self.textFieldString = x;
+    }];
+    
+    
+    [[[RACObserve(self, groupNameString) distinctUntilChanged] filter:^BOOL(NSString * value) {
+      
+        return value.length;
+    }] subscribeNext:^(id x) {
+       
+        if (!self.textFieldString.length)
+        {
+            groupTextField.text = x;
+        }
+    }];
+    
+    [[RACObserve(self, isLoadingGroupName) distinctUntilChanged] subscribeNext:^(NSNumber * number) {
+        
+        BOOL isloading = [number boolValue];
+        indicatorView.animating = isloading;
+        indicatorView.hidden = !isloading;
     }];
     
     return cell;

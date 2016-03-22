@@ -7,7 +7,8 @@
 //
 
 #import "MutualInsRequestJoinGroupVC.h"
-#import "RequestJoinGroupOp.h"
+#import "MutualInsGroupInfoVC.h"
+#import "SearchCooperationGroupOp.h"
 
 @interface MutualInsRequestJoinGroupVC ()
 
@@ -21,7 +22,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     if (IOSVersionGreaterThanOrEqualTo(@"8.0")) {
         self.tableView.estimatedRowHeight = 26;
@@ -49,25 +49,28 @@
     [self requestJoinGroup:self.textFieldString];
 }
 
-- (void)requestJoinGroup:(NSString *)groupNameToJoin
+- (void)requestJoinGroup:(NSString *)cipher
 {
-    RequestJoinGroupOp *op = [RequestJoinGroupOp new];
-    op.cipher = groupNameToJoin;
-    
+    SearchCooperationGroupOp * op = [SearchCooperationGroupOp operation];
+    op.req_cipher = cipher;
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithoutText];
         
-    }] subscribeNext:^(RequestJoinGroupOp *rop) {
+    }] subscribeNext:^(SearchCooperationGroupOp * rop) {
         
         [gToast dismiss];
-        NSLog(@"THE GROUPNAME IS: %@", op.groupDict[@"name"]);
-        
+        MutualInsGroupInfoVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGroupInfoVC"];
+        vc.groupId = rop.rsp_groupid;
+        vc.groupCreateName = rop.rsp_creatorname;
+        vc.groupName = rop.rsp_name;
+        vc.cipher = rop.rsp_cipher;
+        [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
-        
     }];
+
 }
 
 #pragma mark - UITableViewDelegate and datasource
@@ -94,25 +97,24 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
+    if (indexPath.section == 2) {
         
-        if (indexPath.row == 0) {
-            
-            return 105;
-            
-        }
-        
-    } else if (indexPath.section == 1) {
-        
-        if (indexPath.row == 0) {
-            
-            return 241;
-            
-        }
+        return 67;
         
     }
     
-    return 90;
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0")) {
+        
+        return UITableViewAutomaticDimension;
+        
+    }
+    
+    UITableViewCell *cell = [self tableView:self.tableView cellForRowAtIndexPath:indexPath];
+    [cell layoutIfNeeded];
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
+    CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+    return ceil(size.height + 1);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -191,8 +193,12 @@
     UILabel *tipsLabel3 = (UILabel *)[cell.contentView viewWithTag:109];
     UILabel *tipsLabel4 = (UILabel *)[cell.contentView viewWithTag:110];
     
-    tipsLabel1.text = @"1、您需要输入正确暗号，并确认团队信息。";
-    tipsLabel2.text = @"2、确认本团信息后，选择车辆后即可入团。";
+    [tipsLabel1 setPreferredMaxLayoutWidth:200];
+    [tipsLabel2 setPreferredMaxLayoutWidth:200];
+    [tipsLabel3 setPreferredMaxLayoutWidth:200];
+    [tipsLabel4 setPreferredMaxLayoutWidth:200];
+    tipsLabel1.attributedText = [self generateAttributedStringWithLineSpacing:@"1、您需要输入正确暗号，并确认团队信息。"];
+    tipsLabel2.attributedText = [self generateAttributedStringWithLineSpacing:@"2、确认本团信息后，选择车辆后即可入团。"];
     tipsLabel3.attributedText = [self generateAttributedStringWithLineSpacing:@"3、完善资料，填写信息后我们将对您的信息进行审核。"];
     tipsLabel4.attributedText = [self generateAttributedStringWithLineSpacing:@"4、选择购买的服务种类，方便我们为您精准报价。"];
     
