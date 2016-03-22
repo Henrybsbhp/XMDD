@@ -181,7 +181,7 @@
         [[alertView rac_buttonClickedSignal]subscribeNext:^(NSNumber *x) {
             if (x.integerValue == 1)
             {
-                [[MutualInsScencePhotoVM sharedManager]deleteAllInfo];
+                [self.scencePhotoVM deleteAllInfo];
                 NSArray *viewControllers = self.navigationController.viewControllers;
                 [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
             }
@@ -263,12 +263,16 @@
     {
         MutualInsScencePhotoVC *contactVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsScencePhotoVC"];
         contactVC.index = 0;
+        contactVC.scencePhotoVM = self.scencePhotoVM;
         MutualInsScencePhotoVC *carLoseVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsScencePhotoVC"];
         carLoseVC.index = 1;
+        carLoseVC.scencePhotoVM = self.scencePhotoVM;
         MutualInsScencePhotoVC *carInfoVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsScencePhotoVC"];
         carInfoVC.index = 2;
+        carInfoVC.scencePhotoVM = self.scencePhotoVM;
         MutualInsScencePhotoVC *licenceVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsScencePhotoVC"];
         licenceVC.index = 3;
+        licenceVC.scencePhotoVM = self.scencePhotoVM;
         _viewArr = @[contactVC,carLoseVC,carInfoVC,licenceVC];
     }
     return _viewArr;
@@ -278,7 +282,8 @@
 {
     if (!_scencePhotoVM)
     {
-        _scencePhotoVM = [MutualInsScencePhotoVM sharedManager];
+        _scencePhotoVM = [[MutualInsScencePhotoVM alloc]init];
+        _scencePhotoVM.noticeArr = self.noticeArr;
     }
     return _scencePhotoVM;
 }

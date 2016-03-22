@@ -22,8 +22,8 @@
 
 -(void)deleteAllInfo;
 
-+ (instancetype)sharedManager;
-
 -(void)getNoticeArr;
+
+@property (nonatomic, strong) NSArray *noticeArr;
 
 @end
