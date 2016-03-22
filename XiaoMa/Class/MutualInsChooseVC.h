@@ -10,6 +10,7 @@
 
 @interface MutualInsChooseVC : HKViewController
 @property (nonatomic, weak) UIViewController *originVC;
-@property (nonatomic,strong)NSNumber * memberId;
+@property (nonatomic, strong) NSNumber *memberId;
+@property (nonatomic, strong) NSNumber *groupId;
 
 @end

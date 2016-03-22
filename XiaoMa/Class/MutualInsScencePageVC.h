@@ -12,4 +12,6 @@
 
 @property (nonatomic, strong) NSString *claimid;
 
+@property (nonatomic, strong) NSArray *noticeArr;
+
 @end

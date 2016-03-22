@@ -41,6 +41,7 @@
 @property (nonatomic, assign) BOOL forceReload;
 
 - (instancetype)initWithDict:(NSDictionary *)dict;
++ (CKDict *)dictWithCKDict:(CKDict *)dict;
 + (CKDict *)dictWith:(NSDictionary *)dict;
 - (void)setObject:(id)object forKeyedSubscript:(id < NSCopying >)aKey;
 - (id)objectForKeyedSubscript:(id)key;

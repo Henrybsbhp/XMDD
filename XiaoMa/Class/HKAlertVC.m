@@ -8,7 +8,7 @@
 
 #import "HKAlertVC.h"
 #import "CKLine.h"
-#import <JCAlertView.h>
+#import "JCAlertView.h"
 
 #define kBottomViewHeight       49
 #define kBottomViewLinePadding  0
@@ -87,7 +87,7 @@
         HKAlertActionItem *item = self.actionItems[i];
         rect.origin.x = i * rect.size.width;
         UIButton *btn = [[UIButton alloc] initWithFrame:rect];
-        btn.titleLabel.font = [UIFont systemFontOfSize:15];
+        btn.titleLabel.font = [UIFont systemFontOfSize:16];
         [btn setTitle:item.title forState:UIControlStateNormal];
         [btn setTitleColor:item.color forState:UIControlStateNormal];
         btn.tag = i;

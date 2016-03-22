@@ -30,6 +30,7 @@
 #import "MutualInsPicUpdateVC.h"
 #import "MutualInsOrderInfoVC.h"
 #import "MutualInsChooseVC.h"
+#import "EditCarVC.h"
 
 
 @interface MutualInsGrouponSubVC ()
@@ -161,9 +162,9 @@
     vc.model.disableEditingCar = YES; //不可修改
     vc.canJoin = YES; //用于控制爱车页面底部view
     @weakify(self);
-    [vc setFinishPickActionForMutualIns:^(HKMyCar *car,UIView * loadingView) {
+    [vc setFinishPickActionForMutualIns:^(MyCarListVModel *carModel, UIView * loadingView) {
         @strongify(self);
-        [self requestApplyJoinGroup:self.groupDetail.rsp_groupid andCarId:car.carId andLoadingView:loadingView];
+        [self requestApplyJoinGroup:self.groupDetail.rsp_groupid andCarModel:carModel andLoadingView:loadingView];
     }];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -172,6 +173,7 @@
     MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
     vc.originVC = self.parentViewController;
     vc.memberId = self.groupDetail.req_memberid;
+    vc.groupId = self.groupDetail.req_groupid;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -225,11 +227,11 @@
     alert.topTitle = @"温馨提示";
     alert.imageName = @"mins_bulb";
     alert.message = msg;
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:MutInsTextGrayColor clickBlock:^(id alertVC) {
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"再等一下" color:MutInsTextGrayColor clickBlock:^(id alertVC) {
         [alertVC dismiss];
     }];
     @weakify(self);
-    HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"去完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+    HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"直接报价" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         @strongify(self);
         [alertVC dismiss];
         [self requestPremiumCalculate];
@@ -254,11 +256,11 @@
     }];
 }
 
-- (void)requestApplyJoinGroup:(NSNumber *)groupId andCarId:(NSNumber *)carId andLoadingView:(UIView *)view
+- (void)requestApplyJoinGroup:(NSNumber *)groupId andCarModel:(MyCarListVModel *)carModel andLoadingView:(UIView *)view
 {
     ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
     op.req_groupid = groupId;
-    op.req_carid = carId;
+    op.req_carid = carModel.selectedCar.carId;
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"申请加入中..." inView:view];
@@ -268,10 +270,35 @@
         
         MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
         vc.memberId = rop.rsp_memberid;
+        vc.groupId = rop.req_groupid;
         [self.parentViewController.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
-        [gToast showError:error.domain inView:view];
+        if (error.code == 6115804) {
+            [gToast dismissInView:view];
+            HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+            alert.topTitle = @"温馨提示";
+            alert.imageName = @"mins_bulb";
+            alert.message = error.domain;
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+                [alertVC dismiss];
+            }];
+            @weakify(self);
+            HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+                @strongify(self);
+                [alertVC dismiss];
+                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+                carModel.originVC = nil;  //设置为nil，返回爱车列表；或者用[UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+                vc.originCar = carModel.selectedCar;
+                vc.model = carModel;
+                [self.navigationController pushViewController:vc animated:YES];
+            }];
+            alert.actionItems = @[cancel, improve];
+            [alert show];
+        }
+        else {
+            [gToast showError:error.domain inView:view];
+        }
     }];
 }
 

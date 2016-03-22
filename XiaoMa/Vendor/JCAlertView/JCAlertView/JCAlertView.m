@@ -101,6 +101,10 @@ NSString *const JCAlertViewWillShowNotification = @"JCAlertViewWillShowNotificat
 
 @implementation JCViewController
 
+- (void)dealloc {
+    
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
     
@@ -229,7 +233,7 @@ NSString *const JCAlertViewWillShowNotification = @"JCAlertViewWillShowNotificat
 
 - (void)addCoverView{
     self.coverView = [[UIButton alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.coverView.backgroundColor = JCColor(5, 0, 10);
+    self.coverView.backgroundColor = [UIColor blackColor];
     [self.coverView addTarget:self action:@selector(coverViewClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.coverView];
 }
@@ -259,7 +263,7 @@ NSString *const JCAlertViewWillShowNotification = @"JCAlertViewWillShowNotificat
     self.alertView.alpha = 0;
     [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
         self.screenShotView.alpha = 1;
-        self.coverView.alpha = 0.65;
+        self.coverView.alpha = 0.5;
         self.alertView.alpha = 1.0;
     } completion:^(BOOL finished) {
         for (UIButton *btn in self.alertView.subviews) {
@@ -503,9 +507,8 @@ buttonType ButtonTitle:(NSString *)buttonTitle Click:(clickHandle)click ButtonTy
 }
 
 - (void)toggleKeyWindow{
+    [jCSingleTon shareSingleTon].backgroundWindow = nil;
     [[jCSingleTon shareSingleTon].oldKeyWindow makeKeyAndVisible];
-    [jCSingleTon shareSingleTon].backgroundWindow.rootViewController = nil;
-    [jCSingleTon shareSingleTon].backgroundWindow.frame = CGRectZero;
 }
 
 - (void)setup{

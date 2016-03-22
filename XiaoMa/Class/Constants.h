@@ -166,7 +166,9 @@ typedef enum : NSUInteger {
 #define kNotifyRefreshMyBankcardList        @"com.huika.xmdd.RefreshMyBankcardList"
 #define kNotifyRefreshMyCouponList          @"com.huika.xmdd.RefreshMyCouponList"
 
-
+//key定义
+#define kOriginVC       @"originVC"
+#define kNextVC         @"nextVC"
 
 /// 相关网页地址
 #define kDevGasOrderPaidUrl @"http://dev.xiaomadada.com/paaweb/general/order/paynotify"
