@@ -271,6 +271,15 @@ class=GetCooperationClaimBankcard op auth path="/cooperation/claim/bankcard/get"
   }
 }
 
+<"查看团里是否有正在审核中的成员"
+class=CheckCooperationPremium op auth path="/cooperation/premium/check"> {
+  <req> {
+    groupid:number
+  }
+  <rsp> {
+    licensenumbers:array
+  }
+}
 
 <"团员信息"
 class=MutualInsMemberInfo data> {

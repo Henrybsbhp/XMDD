@@ -356,6 +356,15 @@
       (path "/cooperation/claim/bankcard/get"))
      (node (attr (rsp)) (node (id cardlist) (type array) (value #f))))
     (node
+     (attr
+      (*def* "查看团里是否有正在审核中的成员")
+      (class CheckCooperationPremium)
+      (op)
+      (auth)
+      (path "/cooperation/premium/check"))
+     (node (attr (req)) (node (id groupid) (type number) (value #f)))
+     (node (attr (rsp)) (node (id licensenumbers) (type array) (value #f))))
+    (node
      (attr (*def* "团员信息") (class MutualInsMemberInfo) (data))
      (node (attr (*def* "车牌")) (id licensenumber) (type #f) (value #f))
      (node (attr (*def* "车的品牌logo地址")) (id brandurl) (type #f) (value #f))
