@@ -20,9 +20,6 @@
 
 @property (nonatomic,strong)NSMutableArray * recordArray;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-
-@property (strong, nonatomic) MutualInsScencePhotoVM *scencePhotoVM;
-
 @property (nonatomic) NSInteger maxCount;
 
 @end
@@ -85,7 +82,7 @@
         [cell setNeedsUpdateConstraints];
         [cell updateConstraintsIfNeeded];
         CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
-        return ceil(size.height + 1);
+        return ceil(size.height);
     }
     else if (self.recordArray.count != 0 && indexPath.section == (2 + self.recordArray.count))
     {
@@ -378,14 +375,6 @@
 }
 
 #pragma mark LazyLoad
--(MutualInsScencePhotoVM *)scencePhotoVM
-{
-    if (!_scencePhotoVM)
-    {
-        _scencePhotoVM = [MutualInsScencePhotoVM sharedManager];
-    }
-    return _scencePhotoVM;
-}
 
 - (NSMutableArray *)recordArray
 {
