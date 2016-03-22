@@ -10,6 +10,7 @@
 #import "InviteAlertVC.h"
 #import "SearchCooperationGroupOp.h"
 #import "MutualInsGroupInfoVC.h"
+#import "HKImageAlertVC.h"
 
 @implementation PasteboardModel
 
@@ -83,9 +84,20 @@
         }];
     } error:^(NSError *error) {
         if (error.code == 6115702) {
-            
+            HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+            alert.topTitle = @"温馨提示";
+            alert.imageName = @"mins_bulb";
+            alert.message = error.domain;
+            HKAlertActionItem *ok = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+                [alertVC dismiss];
+                [UIPasteboard generalPasteboard].string = @"";
+            }];
+            alert.actionItems = @[ok];
+            [alert show];
         }
-        [gToast showError:error.domain];
+        else {
+            [gToast showError:error.domain];
+        }
     }];
 
 }
