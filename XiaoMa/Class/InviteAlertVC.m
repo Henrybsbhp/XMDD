@@ -23,29 +23,19 @@
 }
 
 - (void)showWithActionHandler:(void (^)(NSInteger, id))handler {
+    
+    UIView * contentV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kContentViewWidth, 133)];
     if (self.alertType == InviteAlertTypeNologin) {
-        UIView * contentV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kContentViewWidth, 133)];
-        UILabel * wordLabel = [[UILabel alloc] initWithFrame:CGRectMake(17, 0, kContentViewWidth - 34, 133)];
-        wordLabel.font = [UIFont systemFontOfSize:14];
-        wordLabel.textColor = HEXCOLOR(@"#888888");
-        wordLabel.numberOfLines = 0;
-        NSString * labelText = @"您还未登录小马达达，若想加入小马互助团，请先登录。是否现在登录";
-        wordLabel.attributedText = [self setLineSpacing:labelText];
         
+        NSString * labelText = @"您还未登录小马达达，若想加入小马互助团，请先登录。是否现在登录";
+        UILabel * wordLabel = [self creatLabelWithFrame:CGRectMake(17, 0, kContentViewWidth - 34, 133) andText:labelText];
         [contentV addSubview:wordLabel];
         self.contentView = contentV;
     }
-    if (self.alertType == InviteAlertTypeJoin) {
-        UIView * contentV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kContentViewWidth, 133)];
+    else if (self.alertType == InviteAlertTypeJoin) {
         
-        UILabel * wordLabel = [[UILabel alloc] initWithFrame:CGRectMake(17, 23, kContentViewWidth - 34, 50)];
-        wordLabel.font = [UIFont systemFontOfSize:14];
-        wordLabel.textColor = HEXCOLOR(@"#888888");
-        wordLabel.numberOfLines = 0;
         NSString * labelText = @"您已复制某团长建立的互助团口令，请确认是否要加入该互助团：";
-        
-        wordLabel.attributedText = [self setLineSpacing:labelText];
-        
+        UILabel * wordLabel = [self creatLabelWithFrame:CGRectMake(17, 0, kContentViewWidth - 34, 133) andText:labelText];
         [contentV addSubview:wordLabel];
         
         UILabel * groupL = [[UILabel alloc] initWithFrame:CGRectMake(17, 75, 60, 25)];
@@ -76,7 +66,27 @@
         
         self.contentView = contentV;
     }
+    else if (self.alertType == InviteAlertTypeCopyCode) {
+        
+        NSString * labelText = @"暗号已复制到您的粘贴板，您可以长按粘贴给好友，或者直接在申请页面粘贴暗号选择其他车辆入团";
+        UILabel * wordLabel = [self creatLabelWithFrame:CGRectMake(17, 0, kContentViewWidth - 34, 133) andText:labelText];
+        [contentV addSubview:wordLabel];
+        self.contentView = contentV;
+    }
+    else {
+        return;
+    }
     [super showWithActionHandler:handler];
+}
+
+- (UILabel *)creatLabelWithFrame:(CGRect)rect andText:(NSString *)text
+{
+    UILabel * label = [[UILabel alloc] initWithFrame:rect];
+    label.font = [UIFont systemFontOfSize:14];
+    label.textColor = HEXCOLOR(@"#888888");
+    label.numberOfLines = 0;
+    label.attributedText = [self setLineSpacing:text];
+    return label;
 }
 
 - (NSAttributedString *)setLineSpacing:(NSString *)text

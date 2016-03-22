@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "MutualInsScencePhotoVM.h"
 @interface MutualInsScencePhotoVC : UIViewController
 
 @property (nonatomic) NSInteger index;
+
+@property (nonatomic,strong) MutualInsScencePhotoVM *scencePhotoVM;
+
+@property (nonatomic,strong) NSArray *noticeArr;
 
 -(NSString *)canPush;
 
