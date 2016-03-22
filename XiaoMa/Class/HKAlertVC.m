@@ -11,7 +11,7 @@
 #import <JCAlertView.h>
 
 #define kBottomViewHeight       49
-#define kBottomViewLinePadding  5
+#define kBottomViewLinePadding  0
 
 @interface HKAlertVC ()
 @property (nonatomic, copy) void(^actionHandler)(NSInteger index, id alertView);
@@ -36,7 +36,7 @@
     [self showWithActionHandler:nil];
 }
 
-- (void)showWithActionHandler:(void(^)(NSInteger index, id alertView))actionHandler
+- (void)showWithActionHandler:(void(^)(NSInteger index, id alertVC))actionHandler
 {
     _actionHandler = actionHandler;
     CGRect frame = self.contentView.bounds;
@@ -67,7 +67,7 @@
 {
     HKAlertActionItem *item = self.actionItems[sender.tag];
     if (item.clickBlock) {
-        item.clickBlock(item);
+        item.clickBlock(self);
     }
     if (self.actionHandler) {
         self.actionHandler(sender.tag, self);
@@ -123,7 +123,7 @@
     return [self itemWithTitle:title color:HEXCOLOR(@"#18d06a") clickBlock:nil];
 }
 
-+ (instancetype)itemWithTitle:(NSString *)title color:(UIColor *)color clickBlock:(void(^)(id curItem))block {
++ (instancetype)itemWithTitle:(NSString *)title color:(UIColor *)color clickBlock:(void(^)(id alertVC))block {
     HKAlertActionItem *item = [[self alloc] init];
     item.title = title;
     item.color  =color;

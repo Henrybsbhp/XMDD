@@ -107,7 +107,7 @@
             [self.tableView reloadData];
         }error:^(NSError *error) {
             
-            self.tableView.hidden = NO;
+            self.tableView.hidden = YES;
             [self.view stopActivityAnimation];
             [self.tableView.refreshView endRefreshing];
             [gToast showError:error.domain];
@@ -219,7 +219,7 @@
     }
     else if (indexPath.row > 3) {
         //我的团详情页面
-        MutualInsGrouponVC *vc = [MutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
+        MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
         HKMutualGroup * group = [self.myGroupArray safetyObjectAtIndex:indexPath.row - 4];
         vc.group = group;
         [self.navigationController pushViewController:vc animated:YES];
@@ -294,7 +294,7 @@
     carIdLabel.text = group.licenseNumber;
     statusLabel.text = group.statusDesc;
     
-    if (group.leftTime != 0)
+    if ([group.leftTime integerValue] != 0)
     {
         RACDisposable * disp = [[[HKTimer rac_timeCountDownWithOrigin:[group.leftTime integerValue] / 1000 andTimeTag:group.leftTimeTag] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString * timeStr) {
             timeLabel.text = [NSString stringWithFormat:@"%@ \n%@", group.tip, timeStr];

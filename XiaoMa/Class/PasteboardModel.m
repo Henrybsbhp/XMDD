@@ -9,6 +9,7 @@
 #import "PasteboardModel.h"
 #import "InviteAlertVC.h"
 #import "SearchCooperationGroupOp.h"
+#import "MutualInsGroupInfoVC.h"
 
 @implementation PasteboardModel
 
@@ -37,7 +38,7 @@
 {
     InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
     alertVC.alertType = InviteAlertTypeNologin;
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:self.cancelClickBlock];
     HKAlertActionItem *login = [HKAlertActionItem itemWithTitle:@"去登录" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
     alertVC.actionItems = @[cancel, login];
     [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
@@ -63,19 +64,25 @@
         alertVC.alertType = InviteAlertTypeJoin;
         alertVC.groupName = rop.rsp_name;
         alertVC.leaderName = rop.rsp_creatorname;
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:self.cancelClickBlock];
         HKAlertActionItem *join = [HKAlertActionItem itemWithTitle:@"确定加入" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
         alertVC.actionItems = @[cancel, join];
         [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
             
-//            [UIPasteboard generalPasteboard].string = @"";
+            [UIPasteboard generalPasteboard].string = @"";
             [alertView dismiss];
             if (index == 1) {
-                [gAppMgr.navModel pushToViewControllerByUrl:@"xmdd://j?t=jg"];
+                
+                MutualInsGroupInfoVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGroupInfoVC"];
+                vc.groupId = rop.rsp_groupid;
+                vc.groupCreateName = rop.rsp_creatorname;
+                vc.groupName = rop.rsp_name;
+                vc.cipher = rop.rsp_cipher;
+                [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
             }
         }];
     } error:^(NSError *error) {
-//        [gToast showError:@" 获取团信息失败 "];
+        [gToast showError:error.domain];
     }];
 
 }

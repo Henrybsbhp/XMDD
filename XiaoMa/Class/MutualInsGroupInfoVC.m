@@ -7,6 +7,9 @@
 //
 
 #import "MutualInsGroupInfoVC.h"
+#import "ApplyCooperationGroupJoinOp.h"
+#import "CarListVC.h"
+#import "MutualInsPicUpdateVC.h"
 
 @interface MutualInsGroupInfoVC ()
 
@@ -44,8 +47,42 @@
 
 - (IBAction)confirmButtonClicked:(id)sender
 {
-    
+    CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+    vc.title = @"选择爱车";
+    vc.model.allowAutoChangeSelectedCar = YES;
+    vc.model.disableEditingCar = YES; //不可修改
+    vc.canJoin = YES; //用于控制爱车页面底部view
+    vc.model.originVC = self;
+    [vc setFinishPickActionForMutualIns:^(HKMyCar *car,UIView * loadingView) {
+        
+        //爱车页面入团按钮委托实现
+        [self requestApplyJoinGroup:self.groupId andCarId:car.carId andLoadingView:loadingView];
+    }];
+    [self.navigationController pushViewController:vc animated:YES];
 }
+
+- (void)requestApplyJoinGroup:(NSNumber *)groupId andCarId:(NSNumber *)carId andLoadingView:(UIView *)view
+{
+    ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
+    op.req_groupid = groupId;
+    op.req_carid = carId;
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"申请加入中..." inView:view];
+    }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
+        
+        [gToast dismissInView:view];
+        
+        MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
+        vc.memberId = rop.rsp_memberid;
+        [self.navigationController pushViewController:vc animated:YES];
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain inView:view];
+    }];
+}
+
+
 
 #pragma mark - UITableViewDelegate and datasource
 
@@ -149,6 +186,9 @@
     UILabel *nicknameLabel = (UILabel *)[cell.contentView viewWithTag:101];
     UILabel *cipherLabel = (UILabel *)[cell.contentView viewWithTag:102];
     
+    groupNameLabel.text = self.groupName;
+    nicknameLabel.text = self.groupCreateName;
+    cipherLabel.text = self.cipher;
     return cell;
 }
 

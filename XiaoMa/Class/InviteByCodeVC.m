@@ -12,7 +12,6 @@
 #import "WXApiObject.h"
 #import "GetShareButtonOpV2.h"
 #import "SocialShareViewController.h"
-#import "InviteAlertVC.h"
 
 @interface InviteByCodeVC ()
 
@@ -38,19 +37,11 @@
 
 - (void)setupUI;
 {
-//    self.tableView.hidden = YES;
     if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
     {
         self.tableView.estimatedRowHeight = 26; //估算高度
         self.tableView.rowHeight = UITableViewAutomaticDimension;
     }
-//
-//    //加载动画
-//    self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
-//    [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-    
-//    self.cipherForCopy = @"123456";
-//    self.wordForShare = @"这里是分享口令，暗号：123456";
 }
 
 - (void)requestInviteInfo
@@ -164,7 +155,7 @@
     UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"CodeCell" forIndexPath:indexPath];
     UILabel *codeLabel = (UILabel *)[cell.contentView viewWithTag:1001];
     UIButton *copyBtn = (UIButton *)[cell.contentView viewWithTag:1002];
-    codeLabel.text = [NSString stringWithFormat:@"团队暗号：%@", self.cipherForCopy];
+    codeLabel.text = [NSString stringWithFormat:@"团队暗号：%@", self.cipherForCopy ?: @""];
     
     [copyBtn setTitle:@"复制暗号" forState:UIControlStateNormal];
     [copyBtn setCornerRadius:5];
@@ -201,16 +192,6 @@
         [btn setTitle:@"分享入团口令" forState:UIControlStateNormal];
         [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
-//            InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
-//            alertVC.alertType = InviteAlertTypeCopy;
-//            alertVC.actionTitles = @[@"取消", @"去微信粘贴"];
-//            [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
-//                [alertView dismiss];
-//                if (index == 1) {
-//                    
-//                    
-//                }
-//            }];
             SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
             req.text = self.wordForShare;
             req.bText = YES;

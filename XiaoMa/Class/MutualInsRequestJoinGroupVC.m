@@ -7,7 +7,8 @@
 //
 
 #import "MutualInsRequestJoinGroupVC.h"
-#import "RequestJoinGroupOp.h"
+#import "MutualInsGroupInfoVC.h"
+#import "SearchCooperationGroupOp.h"
 
 @interface MutualInsRequestJoinGroupVC ()
 
@@ -48,25 +49,28 @@
     [self requestJoinGroup:self.textFieldString];
 }
 
-- (void)requestJoinGroup:(NSString *)groupNameToJoin
+- (void)requestJoinGroup:(NSString *)cipher
 {
-    RequestJoinGroupOp *op = [RequestJoinGroupOp new];
-    op.cipher = groupNameToJoin;
-    
+    SearchCooperationGroupOp * op = [SearchCooperationGroupOp operation];
+    op.req_cipher = cipher;
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithoutText];
         
-    }] subscribeNext:^(RequestJoinGroupOp *rop) {
+    }] subscribeNext:^(SearchCooperationGroupOp * rop) {
         
         [gToast dismiss];
-        NSLog(@"THE GROUPNAME IS: %@", op.groupDict[@"name"]);
-        
+        MutualInsGroupInfoVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGroupInfoVC"];
+        vc.groupId = rop.rsp_groupid;
+        vc.groupCreateName = rop.rsp_creatorname;
+        vc.groupName = rop.rsp_name;
+        vc.cipher = rop.rsp_cipher;
+        [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
-        
     }];
+
 }
 
 #pragma mark - UITableViewDelegate and datasource

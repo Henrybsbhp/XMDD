@@ -33,6 +33,8 @@
 #import "HomeSuspendedAdVC.h"
 #import "MutualInsGrouponVC.h"
 #import "MutualInsHomeVC.h"
+#import "SearchCooperationGroupOp.h"
+#import "InviteAlertVC.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3.0
@@ -68,6 +70,8 @@
     [super viewWillAppear:animated];
     self.isViewAppearing = YES;
     [self.scrollView restartRefreshViewAnimatingWhenRefreshing];
+    
+    [self showSuspendedAdIfNeeded];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -122,7 +126,6 @@
             self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, 480);
         }
         [self showNewbieGuideAlertIfNeeded];
-        [self showSuspendedAdIfNeeded];
     });
 }
 
@@ -138,11 +141,22 @@
         //开启推送接收队列
         gAppDelegate.pushMgr.notifyQueue.running = YES;
         gAppDelegate.openUrlQueue.running = YES;
-        
+        [self checkPasteboardModel];
+    } error:^(NSError *error) {
+        //未登录
         [self checkPasteboardModel];
     }];
 }
 
+- (void)checkPasteboardModel
+{
+    //设置口令弹框取消按钮的block
+    [gAppDelegate.pasteboardoModel setCancelClickBlock:^(id x) {
+        [UIPasteboard generalPasteboard].string = @"";
+        [self showSuspendedAdIfNeeded];
+    }];
+    [gAppDelegate.pasteboardoModel checkPasteboard];
+}
 
 #pragma mark - Setup
 - (void)setupProp
@@ -467,7 +481,8 @@
 
 - (void)showSuspendedAdIfNeeded
 {
-    if (!self.guideStore.shouldDisablePopupAd && self.isViewAppearing && !self.isShowSuspendedAd) {
+    NSString * pasteboardStr = [UIPasteboard generalPasteboard].string;
+    if (!self.guideStore.shouldDisablePopupAd && self.isViewAppearing && !self.isShowSuspendedAd && ![pasteboardStr hasPrefix:XMINSPrefix]) {
         
         self.isShowSuspendedAd = YES;
         
@@ -946,11 +961,6 @@
 - (void)jumpToViewControllerByUrl:(NSString *)url
 {
     [gAppMgr.navModel pushToViewControllerByUrl:url];
-}
-
-- (void)checkPasteboardModel
-{
-    [gAppDelegate.pasteboardoModel checkPasteboard];
 }
 
 @end

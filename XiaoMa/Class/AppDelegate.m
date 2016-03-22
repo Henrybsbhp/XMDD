@@ -38,8 +38,6 @@
 
 #import "MainTabBarVC.h"
 #import "LaunchVC.h"
-#import "InviteAlertVC.h"
-#import "SearchCooperationGroupOp.h"
 
 
 #ifndef __OPTIMIZE__
@@ -199,6 +197,12 @@
     {
         // 不需要更新的情况下去查询小马互助
         [self.pasteboardoModel checkPasteboard];
+        
+        //此处实现方案要用cklist替换
+        if ([[UIPasteboard generalPasteboard].string hasPrefix:XMINSPrefix] && [MZFormSheetController formSheetControllersStack]) {
+            MZFormSheetController * mzVC = [[MZFormSheetController formSheetControllersStack] safetyObjectAtIndex:0];
+            [mzVC dismissAnimated:NO completionHandler:nil];
+        }
     }
 }
 
@@ -525,10 +529,6 @@
     }];
 }
 
-#pragma mark - Action
-- (void)showInviteAlertWith:(SearchCooperationGroupOp *)op {
-    
-}
 
 #pragma mark - JSPatch
 - (void)setupJSPatch
