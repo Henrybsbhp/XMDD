@@ -232,7 +232,7 @@
 {
     if (indexPath.row == 0) {
         GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
-        vc.titleStr = @"自主团介绍";
+        vc.titleStr = @"自组团介绍";
         vc.groupType = MutualGroupTypeSelf;
         [self.navigationController pushViewController:vc animated:YES];
     }

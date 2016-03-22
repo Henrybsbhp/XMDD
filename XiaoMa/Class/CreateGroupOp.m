@@ -20,4 +20,13 @@
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
+- (instancetype)parseResponseObject:(id)rspObj
+{
+    self.rsp_cipher = rspObj[@"cipher"];
+    self.rsp_groupid = rspObj[@"groupid"];
+    
+    return self;
+}
+
+
 @end
