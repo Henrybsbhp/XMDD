@@ -7,18 +7,16 @@
 //
 
 #import "UserStore.h"
-#import "CKDatasource.h"
 
 #define kDomainMutualInsSimpleGroups    @"mutualIns.simpleGroups"
 #define kDomainMutualInsDetailGroups    @"mutualIns.detailGroups"
 
 @interface MutualInsStore : UserStore
 
-@property (nonatomic, strong) CKList *simpleGroups;
-@property (nonatomic, strong) CKList *detailGroups;
+@property (nonatomic, strong) JTQueue *simpleGroups;
+@property (nonatomic, strong) JTQueue *detailGroups;
 
 - (CKEvent *)reloadDetailGroupByMemberID:(NSNumber *)memberid andGroupID:(NSNumber *)groupid;
 - (CKEvent *)reloadSimpleGroups;
-- (CKEvent *)reloadDetailGroupIfNeededByMemberID:(NSNumber *)memberid;
 
 @end

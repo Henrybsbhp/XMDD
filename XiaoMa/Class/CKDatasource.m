@@ -73,6 +73,10 @@
     return self;
 }
 
++ (CKDict *)dictWithCKDict:(CKDict *)dict {
+    return [[CKDict alloc] initWithDict:dict->_dict];
+}
+
 + (CKDict *)dictWith:(NSDictionary *)dict {
     return [[CKDict alloc] initWithDict:dict];
 }
