@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CreateGroupVC : UIViewController
+@interface CreateGroupVC : HKViewController
+
+@property (nonatomic, weak) UIViewController *originVC;
 
 @end

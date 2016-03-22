@@ -20,9 +20,6 @@
 
 @property (nonatomic,strong)NSMutableArray * recordArray;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-
-@property (strong, nonatomic) MutualInsScencePhotoVM *scencePhotoVM;
-
 @property (nonatomic) NSInteger maxCount;
 
 @end
@@ -85,7 +82,7 @@
         [cell setNeedsUpdateConstraints];
         [cell updateConstraintsIfNeeded];
         CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
-        return ceil(size.height + 1);
+        return ceil(size.height);
     }
     else if (self.recordArray.count != 0 && indexPath.section == (2 + self.recordArray.count))
     {
@@ -191,6 +188,7 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"photoCell"];
     UIView *view = [cell viewWithTag:1000];
+    [self addBorder:view];
     //放弃子视图约束
     [view setTranslatesAutoresizingMaskIntoConstraints:NO];
     PictureRecord * record = [self.recordArray safetyObjectAtIndex:indexPath.section - 2];
@@ -378,14 +376,6 @@
 }
 
 #pragma mark LazyLoad
--(MutualInsScencePhotoVM *)scencePhotoVM
-{
-    if (!_scencePhotoVM)
-    {
-        _scencePhotoVM = [MutualInsScencePhotoVM sharedManager];
-    }
-    return _scencePhotoVM;
-}
 
 - (NSMutableArray *)recordArray
 {

@@ -56,6 +56,9 @@
 		18273F281C7FEE70004192B3 /* GasNormalVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18273F271C7FEE70004192B3 /* GasNormalVC.m */; };
 		18273F2B1C7FEE88004192B3 /* GasCZBVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18273F2A1C7FEE88004192B3 /* GasCZBVC.m */; };
 		182BEEEE1CA0DAE900D67C18 /* CheckCooperationPremiumOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 182BEEED1CA0DAE900D67C18 /* CheckCooperationPremiumOp.m */; };
+		182BEEFF1CA0EFB000D67C18 /* DeleteCooperationGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 182BEEFE1CA0EFB000D67C18 /* DeleteCooperationGroupOp.m */; };
+		182BEF0B1CA0F65200D67C18 /* JCAlertView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 182BEF081CA0F65200D67C18 /* JCAlertView.bundle */; };
+		182BEF0C1CA0F65200D67C18 /* JCAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 182BEF0A1CA0F65200D67C18 /* JCAlertView.m */; };
 		182C50D21C27C263004ED5D1 /* InsCheckFailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 182C50D11C27C263004ED5D1 /* InsCheckFailVC.m */; };
 		182C50D51C27D326004ED5D1 /* InsuranceAppointmentV3Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 182C50D41C27D326004ED5D1 /* InsuranceAppointmentV3Op.m */; };
 		182C50D81C27E79D004ED5D1 /* InsAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 182C50D71C27E79D004ED5D1 /* InsAlertVC.m */; };
@@ -849,6 +852,11 @@
 		18273F2A1C7FEE88004192B3 /* GasCZBVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasCZBVC.m; sourceTree = "<group>"; };
 		182BEEEC1CA0DAE900D67C18 /* CheckCooperationPremiumOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckCooperationPremiumOp.h; sourceTree = "<group>"; };
 		182BEEED1CA0DAE900D67C18 /* CheckCooperationPremiumOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckCooperationPremiumOp.m; sourceTree = "<group>"; };
+		182BEEFD1CA0EFB000D67C18 /* DeleteCooperationGroupOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteCooperationGroupOp.h; sourceTree = "<group>"; };
+		182BEEFE1CA0EFB000D67C18 /* DeleteCooperationGroupOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteCooperationGroupOp.m; sourceTree = "<group>"; };
+		182BEF081CA0F65200D67C18 /* JCAlertView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JCAlertView.bundle; sourceTree = "<group>"; };
+		182BEF091CA0F65200D67C18 /* JCAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCAlertView.h; sourceTree = "<group>"; };
+		182BEF0A1CA0F65200D67C18 /* JCAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCAlertView.m; sourceTree = "<group>"; };
 		182C50D01C27C263004ED5D1 /* InsCheckFailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsCheckFailVC.h; sourceTree = "<group>"; };
 		182C50D11C27C263004ED5D1 /* InsCheckFailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsCheckFailVC.m; sourceTree = "<group>"; };
 		182C50D31C27D326004ED5D1 /* InsuranceAppointmentV3Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceAppointmentV3Op.h; sourceTree = "<group>"; };
@@ -2239,6 +2247,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				182BEF071CA0F65200D67C18 /* JCAlertView */,
 				184453281C8FEE81007B895D /* JMRoundedCorner */,
 				1844531A1C8EA30F007B895D /* AhaWaterWaveView */,
 				6B26EEA91C8EC23200428EC4 /* ZFCActivityIndicatorView */,
@@ -2474,6 +2483,17 @@
 			name = Temp;
 			sourceTree = "<group>";
 		};
+		182BEF071CA0F65200D67C18 /* JCAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				182BEF081CA0F65200D67C18 /* JCAlertView.bundle */,
+				182BEF091CA0F65200D67C18 /* JCAlertView.h */,
+				182BEF0A1CA0F65200D67C18 /* JCAlertView.m */,
+			);
+			name = JCAlertView;
+			path = JCAlertView/JCAlertView;
+			sourceTree = "<group>";
+		};
 		1833F56A1BCD373B000E1DA1 /* Codemap */ = {
 			isa = PBXGroup;
 			children = (
@@ -2515,6 +2535,8 @@
 		1833F5701BCD373B000E1DA1 /* netop */ = {
 			isa = PBXGroup;
 			children = (
+				182BEEFD1CA0EFB000D67C18 /* DeleteCooperationGroupOp.h */,
+				182BEEFE1CA0EFB000D67C18 /* DeleteCooperationGroupOp.m */,
 				182BEEEC1CA0DAE900D67C18 /* CheckCooperationPremiumOp.h */,
 				182BEEED1CA0DAE900D67C18 /* CheckCooperationPremiumOp.m */,
 				6BC80CBC1C96EB1900C7BA3D /* UpdateCooperationIdlicenseInfoOp.h */,
@@ -5089,6 +5111,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				182BEF0B1CA0F65200D67C18 /* JCAlertView.bundle in Resources */,
 				6BB61B9A1AEF5350004F39AA /* MapBottomView.xib in Resources */,
 				504FFEA21C05D48E002D7D6D /* city.plist in Resources */,
 				6BEA56C01AE24DCE000D19C1 /* AlipaySDK.bundle in Resources */,
@@ -5372,6 +5395,7 @@
 				6BCF62511B184AEF0064AE32 /* NJKWebViewProgressView.m in Sources */,
 				6B5E0C1D1BFC8582002869D7 /* GetGeneralActivityLefttimeOp.m in Sources */,
 				1833F5881BCD373B000E1DA1 /* GasChargeRecord.m in Sources */,
+				182BEF0C1CA0F65200D67C18 /* JCAlertView.m in Sources */,
 				6BBB08531B021F440002C349 /* LogAlertView.m in Sources */,
 				1853DEB71AE0B92400C39175 /* AuthByPwdOp.m in Sources */,
 				6B26EF071C8EF89B00428EC4 /* ReactTestViewController.m in Sources */,
@@ -5429,6 +5453,7 @@
 				1885F0C01B1C4DB40056D3BD /* UIView+ShowDot.m in Sources */,
 				1897C3051C16CF02007E394E /* HKSubscriptInputField.m in Sources */,
 				6B21A8991BD493F8006D0556 /* GetShopByDistanceV2Op.m in Sources */,
+				182BEEFF1CA0EFB000D67C18 /* DeleteCooperationGroupOp.m in Sources */,
 				508150CE1B84703200B16633 /* DetailsAlertVC.m in Sources */,
 				18895B3C1B4CF1D300928F62 /* LogoutOp.m in Sources */,
 				6BEA56CD1AE24DCE000D19C1 /* base64.m in Sources */,

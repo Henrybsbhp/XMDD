@@ -199,11 +199,15 @@
     if (indexPath.section == 1) {
         [btn setTitle:@"分享入团口令" forState:UIControlStateNormal];
         [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            
-            SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
-            req.text = self.wordForShare;
-            req.bText = YES;
-            [WXApi sendReq:req];
+            if ([WXApi isWXAppInstalled]) {
+                SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
+                req.text = self.wordForShare;
+                req.bText = YES;
+                [WXApi sendReq:req];
+            }
+            else {
+                [gToast showText:@"您未安装微信，无法分享口令"];
+            }
         }];
     }
     else {
