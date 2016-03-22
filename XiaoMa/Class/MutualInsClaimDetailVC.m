@@ -12,6 +12,7 @@
 #import "MutualInsChooseBankVC.h"
 #import "MutualInsClaimAccountVC.h"
 #import "ConfirmClaimOp.h"
+#import "NSString+Split.h"
 
 @interface MutualInsClaimDetailVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UIButton *agreeBtn;
@@ -56,26 +57,23 @@
 #pragma mark UITableViewDataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (self.status.integerValue == 0 || self.status.integerValue == 20)
+    if (self.status.integerValue == 20)
     {
         return 2;
     }
-    else
+    else if (self.status.integerValue == 10 || self.status.integerValue == 0)
     {
         return 3;
+    }
+    else
+    {
+        return 4;
     }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ((self.status.integerValue != 0 && self.status.integerValue != 20) && section == 1)
-    {
-        return 2;
-    }
-    else
-    {
-        return 1;
-    }
+    return 1;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -107,28 +105,7 @@
                 break;
         }
     }
-    else if (indexPath.section == 1 && self.status.integerValue != 0 && self.status.integerValue != 20)
-    {
-        if (indexPath.row == 0)
-        {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"feeCell"];
-            UILabel *feeLb = [cell viewWithTag:100];
-            feeLb.text = [NSString formatForPriceWithFloat:self.claimfee];
-        }
-        if (self.hasCard && indexPath.row ==1)
-        {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"cardCell"];
-            UILabel *cardNumLb = [cell viewWithTag:100];
-            UILabel *bankLb = [cell viewWithTag:1010];
-            cardNumLb.text = self.cardno;
-            bankLb.text = self.cardname;
-        }
-        else if(!self.hasCard && indexPath.row ==1)
-        {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"selectCardCell"];
-        }
-    }
-    else
+    else if ((indexPath.section == 1 && self.status.integerValue == 20)||indexPath.section == 2)
     {
         cell = [tableView dequeueReusableCellWithIdentifier:@"detailCell"];
         UILabel *timeLb = [cell viewWithTag:100];
@@ -142,7 +119,35 @@
         dutyLb.text = self.chargepart.length ? self.chargepart : @" ";
         conditionLb.text = self.cardmgdesc.length ? self.cardmgdesc : @" ";
         reasonLb.text = self.reason.length ? self.reason : @" ";
-
+    }
+    else if (indexPath.section == 1 && self.status.integerValue != 20)
+    {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"feeCell"];
+        UILabel *feeLb = [cell viewWithTag:100];
+        feeLb.text = self.claimfee != 0 ? [NSString formatForPriceWithFloat:self.claimfee] : @" ";
+    }
+    else
+    {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"cardCell"];
+        UITextField *nameTF = [cell viewWithTag:100];
+        UITextField *numTF = [cell viewWithTag:101];
+        [self addBorder:nameTF WithColor:@"#dedfe0"];
+        [self addBorder:numTF WithColor:@"#dedfe0"];
+        @weakify(numTF)
+        [[[numTF rac_textSignal]takeUntilForCell:cell] subscribeNext:^(NSString *x) {
+            @strongify(numTF)
+            if (x.length < 24)
+            {
+                x = [x stringByReplacingOccurrencesOfString:@" " withString:@""];
+                numTF.text = [x splitByStep:4 replacement:@" "];
+            }
+            else
+            {
+                numTF.text = [numTF.text substringToIndex:23];
+            }
+        }];
+        numTF.text = self.cardno;
+        nameTF.text = self.cardname;
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
@@ -153,28 +158,23 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0)
+    if (indexPath.section == 0 ||( indexPath.section == 1 && self.status.integerValue != 0 && self.status.integerValue != 20))
     {
         return 50;
     }
-    else if (indexPath.section == 1 && self.status.integerValue != 0 && self.status.integerValue != 20)
+    else if ((indexPath.section == 1 && self.status.integerValue == 20)||indexPath.section == 2)
     {
-        if (indexPath.row == 0)
-        {
-            return 68;
-        }
-        else
-        {
-            return 43;
-        }
-        
+        UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+        [cell layoutIfNeeded];
+        [cell setNeedsUpdateConstraints];
+        [cell updateConstraintsIfNeeded];
+        CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+        return ceil(size.height);
     }
-    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
-    [cell layoutIfNeeded];
-    [cell setNeedsUpdateConstraints];
-    [cell updateConstraintsIfNeeded];
-    CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
-    return ceil(size.height);
+    else
+    {
+        return 195;
+    }
 }
 
 
@@ -248,7 +248,7 @@
 {
     [self addCorner:self.agreeBtn];
     [self addCorner:self.disagreeBtn];
-    [self addBorder:self.disagreeBtn];
+    [self addBorder:self.disagreeBtn WithColor:@"#18D06A"];
     self.tableView.tableFooterView = [UIView new];
     self.bottomView.hidden = YES;
     
@@ -288,9 +288,9 @@
     view.layer.masksToBounds = YES;
 }
 
--(void)addBorder:(UIView *)view
+-(void)addBorder:(UIView *)view WithColor:(NSString *)color
 {
-    view.layer.borderColor = [[UIColor colorWithHex:@"#18D06A" alpha:1]CGColor];
+    view.layer.borderColor = [[UIColor colorWithHex:color alpha:1]CGColor];
     view.layer.borderWidth = 1;
 }
 
