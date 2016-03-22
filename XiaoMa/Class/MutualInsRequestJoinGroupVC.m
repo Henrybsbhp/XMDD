@@ -160,7 +160,7 @@
 
 - (UITableViewCell *)loadCipherBannerCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CipherBannerCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CipherBannerCell"];
     
     UITextField *cipherTextField = (UITextField *)[cell.contentView viewWithTag:101];
     
@@ -182,7 +182,7 @@
 
 - (UITableViewCell *)loadTipsCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"TipsCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"TipsCell"];
     
     UILabel *tipsLabel1 = (UILabel *)[cell.contentView viewWithTag:107];
     UILabel *tipsLabel2 = (UILabel *)[cell.contentView viewWithTag:108];
