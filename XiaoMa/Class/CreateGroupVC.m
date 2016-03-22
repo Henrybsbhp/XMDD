@@ -321,6 +321,7 @@
         if (!self.textFieldString.length)
         {
             groupTextField.text = x;
+            self.textFieldString = x;
         }
     }];
     
