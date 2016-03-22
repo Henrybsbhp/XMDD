@@ -10,4 +10,10 @@
 
 @interface HKImageAlertVC : HKAlertVC
 
+@property (nonatomic, strong) NSString *imageName;
+@property (nonatomic, strong) NSString *topTitle;
+@property (nonatomic, strong) NSString *message;
+///(default is top:35,left:25,right:25,bottom:35)
+@property (nonatomic, assign) UIEdgeInsets contentInsets;
+
 @end

@@ -55,6 +55,7 @@
 		18273F251C7ED1F8004192B3 /* GascardChargeByStagesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18273F241C7ED1F8004192B3 /* GascardChargeByStagesOp.m */; };
 		18273F281C7FEE70004192B3 /* GasNormalVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18273F271C7FEE70004192B3 /* GasNormalVC.m */; };
 		18273F2B1C7FEE88004192B3 /* GasCZBVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18273F2A1C7FEE88004192B3 /* GasCZBVC.m */; };
+		182BEEEE1CA0DAE900D67C18 /* CheckCooperationPremiumOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 182BEEED1CA0DAE900D67C18 /* CheckCooperationPremiumOp.m */; };
 		182C50D21C27C263004ED5D1 /* InsCheckFailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 182C50D11C27C263004ED5D1 /* InsCheckFailVC.m */; };
 		182C50D51C27D326004ED5D1 /* InsuranceAppointmentV3Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 182C50D41C27D326004ED5D1 /* InsuranceAppointmentV3Op.m */; };
 		182C50D81C27E79D004ED5D1 /* InsAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 182C50D71C27E79D004ED5D1 /* InsAlertVC.m */; };
@@ -846,6 +847,8 @@
 		18273F271C7FEE70004192B3 /* GasNormalVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasNormalVC.m; sourceTree = "<group>"; };
 		18273F291C7FEE88004192B3 /* GasCZBVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasCZBVC.h; sourceTree = "<group>"; };
 		18273F2A1C7FEE88004192B3 /* GasCZBVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasCZBVC.m; sourceTree = "<group>"; };
+		182BEEEC1CA0DAE900D67C18 /* CheckCooperationPremiumOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckCooperationPremiumOp.h; sourceTree = "<group>"; };
+		182BEEED1CA0DAE900D67C18 /* CheckCooperationPremiumOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckCooperationPremiumOp.m; sourceTree = "<group>"; };
 		182C50D01C27C263004ED5D1 /* InsCheckFailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsCheckFailVC.h; sourceTree = "<group>"; };
 		182C50D11C27C263004ED5D1 /* InsCheckFailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsCheckFailVC.m; sourceTree = "<group>"; };
 		182C50D31C27D326004ED5D1 /* InsuranceAppointmentV3Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceAppointmentV3Op.h; sourceTree = "<group>"; };
@@ -2512,6 +2515,8 @@
 		1833F5701BCD373B000E1DA1 /* netop */ = {
 			isa = PBXGroup;
 			children = (
+				182BEEEC1CA0DAE900D67C18 /* CheckCooperationPremiumOp.h */,
+				182BEEED1CA0DAE900D67C18 /* CheckCooperationPremiumOp.m */,
 				6BC80CBC1C96EB1900C7BA3D /* UpdateCooperationIdlicenseInfoOp.h */,
 				6BC80CBD1C96EB1900C7BA3D /* UpdateCooperationIdlicenseInfoOp.m */,
 				6BC80CB21C96EAA800C7BA3D /* UpdateCooperationInsInfoOp.h */,
@@ -5517,6 +5522,7 @@
 				18988C441BBAB32F001DECD5 /* OrderPaidSuccessOp.m in Sources */,
 				6B3DABA01C3F512D00C783F8 /* DebugFormat.m in Sources */,
 				18804AA21B25811E00E7E764 /* HKRefreshControl.m in Sources */,
+				182BEEEE1CA0DAE900D67C18 /* CheckCooperationPremiumOp.m in Sources */,
 				18FC01E41C4E6C6F00FD61BF /* IQToolbar.m in Sources */,
 				2E77A4921C325F2F00264FC9 /* GetRescueHistoryOp.m in Sources */,
 				FA93A7BE1C9978AB00CBD565 /* CreateGroupVC.m in Sources */,

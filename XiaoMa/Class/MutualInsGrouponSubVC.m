@@ -9,17 +9,21 @@
 #import "MutualInsGrouponSubVC.h"
 #import "CKDatasource.h"
 #import "NSString+RectSize.h"
-#import "GetCooperationMemberDetailOp.h"
+#import "HKTimer.h"
 #import "NSString+Format.h"
+
+#import "GetCooperationMemberDetailOp.h"
 #import "ApplyCooperationGroupJoinOp.h"
 #import "ApplyCooperationPremiumCalculateOp.h"
-#import "HKTimer.h"
+#import "CheckCooperationPremiumOp.h"
+
 
 #import "MutualInsGrouponCarsCell.h"
 #import "HKProgressView.h"
 #import "PullDownAnimationButton.h"
 #import "WaterWaveProgressView.h"
 
+#import "HKImageAlertVC.h"
 #import "CarListVC.h"
 #import "MutualInsAlertVC.h"
 #import "MutualInsGrouponMembersVC.h"
@@ -179,12 +183,22 @@
 }
 
 - (void)actionCheckPrice {
-    ApplyCooperationPremiumCalculateOp *op = [ApplyCooperationPremiumCalculateOp operation];
-    op.req_groupid = self.groupDetail.rsp_groupid;
+    CheckCooperationPremiumOp *op = [CheckCooperationPremiumOp operation];
+    op.req_groupid = self.groupDetail.req_groupid;
+    @weakify(self);
     [[[op rac_postRequest] initially:^{
+        
         [gToast showingWithText:@"正在核价..."];
-    }] subscribeNext:^(id x) {
-        [gToast showSuccess:@"核价成功"];
+    }] subscribeNext:^(CheckCooperationPremiumOp *op) {
+        
+        @strongify(self);
+        if (op.rsp_licensenumbers.count == 0) {
+            [self requestPremiumCalculate];
+        }
+        else {
+            [gToast dismiss];
+            [self showAlertWithUncheckedLicensenumbers:op.rsp_licensenumbers];
+        }
     } error:^(NSError *error) {
         [gToast showError:error.domain];
     }];
@@ -194,6 +208,34 @@
     MutualInsOrderInfoVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
     vc.contractId = self.groupDetail.rsp_contractid;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)showAlertWithUncheckedLicensenumbers:(NSArray *)licensenumbers {
+    NSArray *subNumbers = [licensenumbers subarrayToIndex:MIN(2, licensenumbers.count-1)];
+    NSString *strNumbers = [subNumbers componentsJoinedByString:@"、"];
+    NSString *msg;
+    if (subNumbers.count < 3) {
+        msg = [NSString stringWithFormat:@"您的团中，%@的车还在审核中，若您执意报价，审核中的车辆将无法加入本团，是否继续报价？", strNumbers];
+    }
+    else {
+        msg = [NSString stringWithFormat:@"您的团中，%@等%d辆车还在审核中，若您执意报价，审核中的车辆将无法加入本团，是否继续报价？",
+               strNumbers, (int)licensenumbers.count];
+    }
+    HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+    alert.topTitle = @"温馨提示";
+    alert.imageName = @"mins_bulb";
+    alert.message = msg;
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:MutInsTextGrayColor clickBlock:^(id alertVC) {
+        [alertVC dismiss];
+    }];
+    @weakify(self);
+    HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"去完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+        @strongify(self);
+        [alertVC dismiss];
+        [self requestPremiumCalculate];
+    }];
+    alert.actionItems = @[cancel, improve];
+    [alert show];
 }
 #pragma mark - Request
 - (void)requestDetailInfoForMember:(NSNumber *)memberid
@@ -230,6 +272,19 @@
     } error:^(NSError *error) {
         
         [gToast showError:error.domain inView:view];
+    }];
+}
+
+- (void)requestPremiumCalculate
+{
+    ApplyCooperationPremiumCalculateOp *op = [ApplyCooperationPremiumCalculateOp operation];
+    op.req_groupid = self.groupDetail.rsp_groupid;
+    [[[op rac_postRequest] initially:^{
+        [gToast showingWithText:@"正在核价..."];
+    }] subscribeNext:^(id x) {
+        [gToast showSuccess:@"核价成功"];
+    } error:^(NSError *error) {
+        [gToast showError:error.domain];
     }];
 }
 
