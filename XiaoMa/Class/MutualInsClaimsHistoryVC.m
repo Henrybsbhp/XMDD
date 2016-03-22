@@ -142,7 +142,7 @@
 
 - (IBAction)callAction:(id)sender {
     NSString * number = @"4007111111";
-    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+    [gPhoneHelper makePhone:number andInfo:@"如有任何疑问，可拨打客服电话：4007-111-111"];
 }
 
 #pragma mark LazyLoad
