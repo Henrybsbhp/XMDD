@@ -17,6 +17,7 @@
         return nil;
     }
     HKAdvertisement * advertisement = [[HKAdvertisement alloc] init];
+    advertisement.adId = [rsp numberParamForName:@"pid"];
     advertisement.adPic = rsp[@"pic"];
     advertisement.adDescription = rsp[@"desc"];
     advertisement.adLink = rsp[@"link"];
@@ -33,6 +34,7 @@
     self = [super init];
     if (self)
     {
+        self.adId = [aDecoder decodeObjectForKey:@"pid"];
         self.adPic = [aDecoder decodeObjectForKey:@"pic"];
         self.adDescription = [aDecoder decodeObjectForKey:@"desc"];
         self.adLink = [aDecoder decodeObjectForKey:@"link"];
@@ -45,6 +47,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
+    [aCoder encodeObject:self.adId forKey:@"pid"];
     [aCoder encodeObject:self.adPic forKey:@"pic"];
     [aCoder encodeObject:self.adDescription forKey:@"desc"];
     [aCoder encodeObject:self.adLink forKey:@"link"];

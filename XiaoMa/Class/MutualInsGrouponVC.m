@@ -50,7 +50,7 @@ typedef enum : NSInteger
 @property (nonatomic, strong) MutualInsStore *minsStore;
 @property (nonatomic, strong) GetCooperationMygroupDetailOp *groupDetail;
 @property (nonatomic, assign) BOOL isExpandingOrClosing;
-@property (nonatomic, strong) NSArray *menuItems;
+@property (nonatomic, strong) CKList *menuItems;
 
 @end
 
@@ -142,14 +142,14 @@ typedef enum : NSInteger
         [self.popoverMenu dismissWithAnimated:YES];
     }
     else if (!closing && !self.popoverMenu) {
-        NSArray *items = [self.menuItems arrayByMappingOperator:^id(CKDict *obj) {
+        NSArray *items = [self.menuItems.allObjects arrayByMappingOperator:^id(CKDict *obj) {
             return [HKPopoverViewItem itemWithTitle:obj[@"title"] imageName:obj[@"img"]];
         }];
         HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 160) items:items];
         @weakify(self);
         [popover setDidSelectedBlock:^(NSUInteger index) {
             @strongify(self);
-            CKDict *dict = [self.menuItems safetyObjectAtIndex:index];
+            CKDict *dict = self.menuItems[index];
             CKCellSelectedBlock block = dict[kCKCellSelected];
             if (block) {
                 block(dict, [NSIndexPath indexPathForRow:index inSection:0]);
@@ -236,17 +236,17 @@ typedef enum : NSInteger
     
     MutInsStatus status = self.groupDetail.rsp_status;
     if (status == MutInsStatusToBePaid || status == MutInsStatusPaidForAll || status == MutInsStatusPaidForSelf) {
-        self.menuItems = @[[self menuItemMyOrder], [self menuItemMakeCall]];
+        self.menuItems = $([self menuItemMyOrder], [self menuItemMakeCall]);
     }
     else if (status == MutInsStatusAgreementTakingEffect) {
-        self.menuItems = @[[self menuItemMyOrder], [self menuItemInvite], [self menuItemMakeCall]];
+        self.menuItems = $([self menuItemMyOrder], [self menuItemInvite], [self menuItemMakeCall]);
     }
     else if (status == MutInsStatusReviewFailed || status == MutInsStatusGroupDissolved ||
              status == MutInsStatusGroupExpired || status == MutInsStatusJoinFailed) {
-        self.menuItems = @[[self menuItemRegroup], [self menuItemDeleteGroup], [self menuItemMakeCall]];
+        self.menuItems = $([self menuItemRegroup], [self menuItemDeleteGroup], [self menuItemMakeCall]);
     }
     else {
-        self.menuItems = @[[self menuItemInvite], [self menuItemQuit], [self menuItemMakeCall]];
+        self.menuItems = $([self menuItemInvite], [self menuItemQuit], [self menuItemMakeCall]);
     }
 }
 
@@ -309,7 +309,10 @@ typedef enum : NSInteger
     return dict;
 }
 
-- (CKDict *)menuItemQuit {
+- (id)menuItemQuit {
+    if (self.groupDetail.rsp_ifgroupowner) {
+        return CKNULL;
+    }
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Quit",@"title":@"退出该团",@"img":@"mins_exit"}];
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
