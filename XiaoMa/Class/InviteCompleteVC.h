@@ -10,6 +10,10 @@
 
 @interface InviteCompleteVC : HKAlertVC
 
-@property (nonatomic,strong)NSArray * datasource;
+@property (nonatomic,strong)NSArray<NSDictionary *> * datasource;
+
+@property (nonatomic,strong)NSArray<NSString *> * datasource2;
+
+@property (nonatomic,copy)void(^closeAction)(void);
 
 @end

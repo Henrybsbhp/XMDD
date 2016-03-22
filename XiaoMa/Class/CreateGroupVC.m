@@ -11,6 +11,12 @@
 #import "MutualInsGrouponVC.h"
 #import "ApplyCooperationGroupOp.h"
 #import <QuartzCore/QuartzCore.h>
+#import "InviteCompleteVC.h"
+#import "InviteByCodeVC.h"
+#import "MutualInsPicUpdateVC.h"
+#import "CarListVC.h"
+#import "ApplyCooperationGroupJoinOp.h"
+#import "MutualInsHomeVC.h"
 
 @interface CreateGroupVC () <UITextFieldDelegate>
 
@@ -50,7 +56,8 @@
 
 - (IBAction)confirmButtonDidClick:(id)sender
 {
-    [self requestCreateGroup:self.textFieldString];
+    if (self.textFieldString.length)
+        [self requestCreateGroup:self.textFieldString];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -81,19 +88,113 @@
     
     [[[op rac_postRequest] initially:^{
         
-        [gToast showingWithoutText];
-        
+        [gToast showingWithText:@"建团中..."];
     }] subscribeNext:^(CreateGroupOp *rop) {
         
         [gToast dismiss];
-        MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
-//        vc.group = group;
-        [self.navigationController pushViewController:vc animated:YES];
-        
+        [self showAlertView:groupNameToCreate andCipher:rop.rsp_cipher andGroupId:rop.rsp_groupid];
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
+    }];
+}
+
+#pragma mark - Utilitly
+- (void)showAlertView:(NSString *)groupName andCipher:(NSString *)cipher andGroupId:(NSNumber *)groupId
+{
+    InviteCompleteVC * alertVC = [[InviteCompleteVC alloc] init];
+    alertVC.datasource = @[@{@"title":@"本团名称",@"content":groupName},@{@"title":@"本团暗号",@"content":cipher,@"color":@"#ff7428"}];
+    alertVC.datasource2 = @[@"您可以继续完善自己的资料，或者邀请好友参团"];
+    @weakify(alertVC);
+    [alertVC setCloseAction:^{
         
+        @strongify(alertVC);
+       [alertVC dismiss];
+        [self jumpToHomePage];
+    }];
+    HKAlertActionItem *invite = [HKAlertActionItem itemWithTitle:@"邀请好友" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
+    HKAlertActionItem *complete = [HKAlertActionItem itemWithTitle:@"完善资料" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
+    alertVC.actionItems = @[invite, complete];
+    [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
+        
+        [alertView dismiss];
+        if (index) {
+            
+            [self jumpToCarListVC:groupId];
+        }
+        else {
+            
+            [self jumpToInviteByCodeVC:groupId];
+        }
+
+    }];
+}
+
+- (void)jumpToCarListVC:(NSNumber *)groupId
+{
+    CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+    vc.title = @"选择爱车";
+    vc.model.allowAutoChangeSelectedCar = YES;
+    vc.model.disableEditingCar = YES; //不可修改
+    vc.canJoin = YES; //用于控制爱车页面底部view
+    vc.model.originVC = self;
+    [vc setFinishPickActionForMutualIns:^(HKMyCar *car,UIView * loadingView) {
+        
+        //爱车页面入团按钮委托实现
+        [self requestApplyJoinGroup:groupId andCarId:car.carId andLoadingView:loadingView];
+    }];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)jumpToInviteByCodeVC:(NSNumber *)groupId
+{
+    InviteByCodeVC * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
+    vc.groupId = groupId;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)jumpToGroupOnVC:(NSNumber *)groupId
+{
+    MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
+    HKMutualGroup * group = [[HKMutualGroup alloc] init];
+    group.groupId = groupId;
+    vc.group = group;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)jumpToHomePage
+{
+    for (UIViewController * vc in self.navigationController.viewControllers)
+    {
+        if ([vc isKindOfClass:NSClassFromString(@"MutualInsHomeVC")])
+        {
+            
+            [self.navigationController popToViewController:vc animated:YES];
+            [((MutualInsHomeVC *)vc) requestMyGourpInfo];
+            return ;
+        }
+    }
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void)requestApplyJoinGroup:(NSNumber *)groupId andCarId:(NSNumber *)carId andLoadingView:(UIView *)view
+{
+    ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
+    op.req_groupid = groupId;
+    op.req_carid = carId;
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"团队加入中..." inView:view];
+    }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
+        
+        [gToast dismissInView:view];
+        
+        MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
+        vc.memberId = rop.rsp_memberid;
+        [self.navigationController pushViewController:vc animated:YES];
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain inView:view];
     }];
 }
 
