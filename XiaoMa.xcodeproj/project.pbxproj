@@ -403,7 +403,7 @@
 		50819CC01C98F66800A6B8B2 /* DeleteMyGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50819CBF1C98F66800A6B8B2 /* DeleteMyGroupOp.m */; };
 		50819CDF1C99306E00A6B8B2 /* GetGroupPasswordOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50819CDE1C99306E00A6B8B2 /* GetGroupPasswordOp.m */; };
 		50819CE91C99438E00A6B8B2 /* InviteAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50819CE81C99438E00A6B8B2 /* InviteAlertVC.m */; };
-		5088F0F31CA0D8CA006DA415 /* HKAlertViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5088F0F21CA0D8CA006DA415 /* HKAlertViewManager.m */; };
+		5088F1431CA13381006DA415 /* AdListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5088F1421CA13381006DA415 /* AdListData.m */; };
 		508BD8D01BD0E3ED00B64199 /* GasRecordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508BD8CF1BD0E3ED00B64199 /* GasRecordVC.m */; };
 		508C718F1BA808B600FA2F05 /* Insurance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 508C718E1BA808B600FA2F05 /* Insurance.storyboard */; };
 		508D06801B900CF800B835BB /* InsuranceOrderPayOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 508D067F1B900CF800B835BB /* InsuranceOrderPayOp.m */; };
@@ -1530,8 +1530,8 @@
 		50819CDE1C99306E00A6B8B2 /* GetGroupPasswordOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetGroupPasswordOp.m; path = Class/GetGroupPasswordOp.m; sourceTree = "<group>"; };
 		50819CE71C99438E00A6B8B2 /* InviteAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteAlertVC.h; sourceTree = "<group>"; };
 		50819CE81C99438E00A6B8B2 /* InviteAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteAlertVC.m; sourceTree = "<group>"; };
-		5088F0F11CA0D8CA006DA415 /* HKAlertViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKAlertViewManager.h; path = Class/HKAlertViewManager.h; sourceTree = "<group>"; };
-		5088F0F21CA0D8CA006DA415 /* HKAlertViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKAlertViewManager.m; path = Class/HKAlertViewManager.m; sourceTree = "<group>"; };
+		5088F1411CA13381006DA415 /* AdListData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdListData.h; path = Class/AdListData.h; sourceTree = "<group>"; };
+		5088F1421CA13381006DA415 /* AdListData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdListData.m; path = Class/AdListData.m; sourceTree = "<group>"; };
 		508BD8CE1BD0E3ED00B64199 /* GasRecordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasRecordVC.h; sourceTree = "<group>"; };
 		508BD8CF1BD0E3ED00B64199 /* GasRecordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasRecordVC.m; sourceTree = "<group>"; };
 		508C718E1BA808B600FA2F05 /* Insurance.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Insurance.storyboard; sourceTree = "<group>"; };
@@ -2825,6 +2825,8 @@
 				6B16D63B1C92CD1A00322B70 /* HKMutualGroup.m */,
 				50F0FF6C1C9A9780009A94A3 /* HKMutualInsList.h */,
 				50F0FF6D1C9A9780009A94A3 /* HKMutualInsList.m */,
+				5088F1411CA13381006DA415 /* AdListData.h */,
+				5088F1421CA13381006DA415 /* AdListData.m */,
 			);
 			name = Dataset;
 			sourceTree = "<group>";
@@ -3148,8 +3150,6 @@
 				18B78F5E1BA990100061ECAD /* HKLaunchManager.m */,
 				50BA11621C27F42F00EA1E4A /* CarIDCodeCheckModel.h */,
 				50BA11631C27F42F00EA1E4A /* CarIDCodeCheckModel.m */,
-				5088F0F11CA0D8CA006DA415 /* HKAlertViewManager.h */,
-				5088F0F21CA0D8CA006DA415 /* HKAlertViewManager.m */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -5354,7 +5354,6 @@
 				181F6DA61B15919900D38555 /* CXAlertButtonItem.m in Sources */,
 				189B395E1AF9D9F700B83F1B /* UpdateCarOp.m in Sources */,
 				1851F42B1B0C2C3500241A01 /* CoreDataManager.m in Sources */,
-				5088F0F31CA0D8CA006DA415 /* HKAlertViewManager.m in Sources */,
 				18BF41F91BCF75DA0039F210 /* RTLabel.m in Sources */,
 				FA958E281C9BFE6E00E89180 /* MutualInsGroupInfoVC.m in Sources */,
 				189B394C1AF71C3900B83F1B /* MineVC.m in Sources */,
@@ -5710,6 +5709,7 @@
 				6BD25E8B1B7C41C6008C0080 /* CollectionChooseVC.m in Sources */,
 				505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */,
 				189B31061AD7B7F5001D7288 /* UIView+Shake.m in Sources */,
+				5088F1431CA13381006DA415 /* AdListData.m in Sources */,
 				6B16D63C1C92CD1A00322B70 /* HKMutualGroup.m in Sources */,
 				18E5922A1C1709A4006010D9 /* InsInputNameVC.m in Sources */,
 				6BB61BA01AEF6969004F39AA /* RescueViewController.m in Sources */,
