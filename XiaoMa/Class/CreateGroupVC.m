@@ -133,23 +133,18 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0")) {
         
-        if (indexPath.row == 0) {
-            return 81;
-        } else if (indexPath.row == 1) {
-            return 103;
-        }
-        
-    } else if (indexPath.section == 1) {
-        
-        if (indexPath.row == 0) {
-            return 192;
-        }
+        return UITableViewAutomaticDimension;
         
     }
     
-    return 81;
+    UITableViewCell *cell = [self tableView:self.tableView cellForRowAtIndexPath:indexPath];
+    [cell layoutIfNeeded];
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
+    CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+    return ceil(size.height + 1);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -179,7 +174,7 @@
 
 - (UITableViewCell *)loadBannerCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"BannerCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"BannerCell"];
     
     UILabel *infoLabel = (UILabel *)[cell.contentView viewWithTag:101];
     UIImageView *notesImageView = (UIImageView *)[cell.contentView viewWithTag:102];
@@ -194,7 +189,7 @@
 
 - (UITableViewCell *)loadGroupNameInputCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"GroupNameInputCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"GroupNameInputCell"];
     
     UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:101];
     UITextField *groupTextField = (UITextField *)[cell.contentView viewWithTag:102];
@@ -240,7 +235,7 @@
 
 - (UITableViewCell *)loadTipsCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"TipsCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"TipsCell"];
     
     UILabel *tipsTitleLabel = (UILabel *)[cell.contentView viewWithTag:105];
     UIImageView *tipsImageView1 = (UIImageView *)[cell.contentView viewWithTag:106];
@@ -256,8 +251,11 @@
     tipsImageView3.image = [UIImage imageNamed:@"mutuallns_createGroup_rectangle"];
     
     tipsTitleLabel.text = @"组团提示";
+    [tipsLabel1 setPreferredMaxLayoutWidth:200];
+    [tipsLabel2 setPreferredMaxLayoutWidth:200];
+    [tipsLabel3 setPreferredMaxLayoutWidth:200];
     tipsLabel1.attributedText = [self generateAttributedStringWithLineSpacing:@"输入团队名称后，点击下方 “确定” 即可发起组团并获得入团暗号。"];
-    tipsLabel2.text = @"分享暗号可以邀请好友加入。";
+    tipsLabel2.attributedText = [self generateAttributedStringWithLineSpacing:@"分享暗号可以邀请好友加入。"];
     tipsLabel3.attributedText = [self generateAttributedStringWithLineSpacing:@"建团后，您也可以选择完善信息选择购买的小马互助种类后，再去邀请好友入团。"];
     
     
