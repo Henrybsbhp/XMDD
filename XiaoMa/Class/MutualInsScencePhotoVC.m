@@ -188,6 +188,7 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"photoCell"];
     UIView *view = [cell viewWithTag:1000];
+    [self addBorder:view];
     //放弃子视图约束
     [view setTranslatesAutoresizingMaskIntoConstraints:NO];
     PictureRecord * record = [self.recordArray safetyObjectAtIndex:indexPath.section - 2];
