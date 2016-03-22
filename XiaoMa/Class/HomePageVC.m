@@ -155,6 +155,14 @@
         [UIPasteboard generalPasteboard].string = @"";
         [self showSuspendedAdIfNeeded];
     }];
+    //设置口令弹框下一页
+    [gAppDelegate.pasteboardoModel setNextClickBlock:^(id x) {
+        if ([[UIPasteboard generalPasteboard].string hasPrefix:XMINSPrefix] && [MZFormSheetController formSheetControllersStack]) {
+            MZFormSheetController * mzVC = [[MZFormSheetController formSheetControllersStack] safetyObjectAtIndex:0];
+            [mzVC dismissAnimated:NO completionHandler:nil];
+        }
+        self.isShowSuspendedAd = NO;
+    }];
     [gAppDelegate.pasteboardoModel checkPasteboard];
 }
 
@@ -487,7 +495,7 @@
         self.isShowSuspendedAd = YES;
         
         @weakify(self);
-        RACSignal *signal = [gAdMgr rac_getAdvertisement:AdvertisementAlert];
+        RACSignal *signal = [gAdMgr rac_getAdvertisement:AdvertisementHomePage];
         [[signal deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
             
             @strongify(self);
