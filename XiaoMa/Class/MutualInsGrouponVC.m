@@ -338,7 +338,9 @@ typedef enum : NSInteger
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
         @strongify(self);
-        [self requestDeleteGroup];
+        MutualInsOrderInfoVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
+        vc.contractId = self.groupDetail.rsp_contractid;
+        [self.navigationController pushViewController:vc animated:YES];
     });
     return dict;
 }
@@ -363,9 +365,7 @@ typedef enum : NSInteger
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
         @strongify(self);
-        MutualInsOrderInfoVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
-        vc.contractId = self.groupDetail.rsp_contractid;
-        [self.navigationController pushViewController:vc animated:YES];
+        [self requestDeleteGroup];
     });
     return dict;
 }
