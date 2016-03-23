@@ -71,13 +71,13 @@ derivedData="/Users/"$user"/Library/Developer/Xcode/DerivedData"
 cd $derivedData && rm -rf *
 
 
-echo "**************switch script Inhouse - 测试环境**************"
+echo "**************switch script Inhouse - 正式环境**************"
 cd $script_path
 
 sh $project_path"/Script/project_replace.sh" "$inhouse_code_sign_id" "$inhouse_provisioning_id" "$project_pbxproj_path"
 sed -i  '' "s/XMDDENT=0/XMDDENT=1/" $project_pbxproj_path
 #切换到测试环境
-sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=1/" $project_pbxproj_path
+sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=2/" $project_pbxproj_path
 
 echo "**************change to ent**************"
 sh $project_path"/Script/change_to_ent.sh" $project_path"/XiaoMa/Misc/Info.plist"
@@ -90,8 +90,8 @@ xcodebuild -project XiaoMa.xcodeproj clean
 xcworkspace_name="XiaoMa.xcworkspace"
 scheme_name="XiaoMa"
 configuration_type="Release"
-build_dir=$root_path"/build/ios-xmdd-inhouse-d-"$bundleVersion
-release_ipa_name="ios-xmdd-inhouse-d-"$bundleVersion".ipa"
+build_dir=$root_path"/build/ios-xmdd-inhouse-"$bundleVersion
+release_ipa_name="ios-xmdd-inhouse-"$bundleVersion".ipa"
 
 aaa="xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $configuration_type CONFIGURATION_BUILD_DIR=$build_dir ONLY_ACTIVE_ARCH=NO"
 xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $configuration_type CONFIGURATION_BUILD_DIR=$build_dir ONLY_ACTIVE_ARCH=NO
@@ -101,7 +101,7 @@ archieve_dir=$root_path"/ipa"
 
 xcrun -sdk iphoneos PackageApplication -v $build_dir"/XiaoMa.app" -o $archieve_dir"/"$release_ipa_name
 
-echo "**************finish building inhouse-测试环境**************"
+echo "**************finish building inhouse-正式环境**************"
 
 
 
@@ -113,14 +113,14 @@ security unlock-keychain -p ${1} ~/Library/Keychains/login.keychain
 xcodebuild -project XiaoMa.xcodeproj clean 
 
 #切换到生产环境
-sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=2/" $project_pbxproj_path
+sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=1/" $project_pbxproj_path
 
 # build
 xcworkspace_name="XiaoMa.xcworkspace"
 scheme_name="XiaoMa"
 configuration_type="Release"
-build_dir=$root_path"/build/ios-xmdd-inhouse-"$bundleVersion
-debug_ipa_name="ios-xmdd-inhouse-"$bundleVersion".ipa"
+build_dir=$root_path"/build/ios-xmdd-inhouse-d-"$bundleVersion
+debug_ipa_name="ios-xmdd-inhouse-d-"$bundleVersion".ipa"
 
 aaa="xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $configuration_type CONFIGURATION_BUILD_DIR=$build_dir ONLY_ACTIVE_ARCH=NO"
 xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $configuration_type CONFIGURATION_BUILD_DIR=$build_dir ONLY_ACTIVE_ARCH=NO
@@ -130,7 +130,7 @@ archieve_dir=$root_path"/ipa"
 
 xcrun -sdk iphoneos PackageApplication -v $build_dir"/XiaoMa.app" -o $archieve_dir"/"$debug_ipa_name
 
-echo "**************finish building inhouse-正式环境**************"
+echo "**************finish building inhouse-测试环境**************"
 
 
 
