@@ -1,3 +1,4 @@
+###切换到企业证书com.huika.xmdd.ent
 plist_path=${1}
 
 /usr/libexec/plistbuddy -c 'Set CFBundleDisplayName XMDD' "$plist_path"

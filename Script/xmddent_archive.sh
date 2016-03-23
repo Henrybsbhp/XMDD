@@ -1,13 +1,15 @@
 ##################################################################################
 
 # adhoc－xmdd对应的信息
-#adhoc_provisioning_id='b17331be-33bd-4493-9294-cc5e4384c2ee'
-adhoc_provisioning_id='f026ccd8-f1a5-417d-b0fc-c05c2fa7e0b5'
+adhoc_provisioning_id='2e1ee95d-0c71-455c-a3b9-613059936363'
 adhoc_code_sign_id='iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)'
 
+# inhouse－xmdd对应的信息
+inhouse_provisioning_id='d80498c3-937b-401e-98aa-3e66f4699d8f'
+inhouse_code_sign_id='iPhone Distribution: Hangzhou Huika Technology Co., Ltd.'
+
 # appstore－xmdd对应的信息
-#appstore_provisioning_id='a2a738ce-17bb-4752-882d-96c2857f9244'
-appstore_provisioning_id='5cd20223-a14a-4639-bc86-0b0dd85e1adf'
+appstore_provisioning_id='0b097263-ee87-4d3e-a27d-1c4766c784b5'
 appstore_code_sign_id='iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)'
 
 #############################################################í#####################
@@ -69,18 +71,17 @@ derivedData="/Users/"$user"/Library/Developer/Xcode/DerivedData"
 cd $derivedData && rm -rf *
 
 
-# build adhoc-release
-# 切换到脚本目录
-echo "**************switch script adhoc-release**************"
+echo "**************switch script Inhouse - 正式环境**************"
 cd $script_path
-echo "**************replace pbxproj file**************"
-sh project_replace.sh "$adhoc_code_sign_id" "$adhoc_provisioning_id" "$project_pbxproj_path"
-echo "**************finish replace pbxproj file**************"
 
-echo "**************begin building1**************"
-echo $project_path
-cd $project_path
-security unlock-keychain -p ${1} ~/Library/Keychains/login.keychain
+sh $project_path"/Script/project_replace.sh" "$inhouse_code_sign_id" "$inhouse_provisioning_id" "$project_pbxproj_path"
+sed -i  '' "s/XMDDENT=0/XMDDENT=1/" $project_pbxproj_path
+#切换到测试环境
+sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=2/" $project_pbxproj_path
+
+echo "**************change to ent**************"
+sh $project_path"/Script/change_to_ent.sh" $project_path"/XiaoMa/Misc/Info.plist"
+
 
 # 先clean
 xcodebuild -project XiaoMa.xcodeproj clean 
@@ -89,8 +90,8 @@ xcodebuild -project XiaoMa.xcodeproj clean
 xcworkspace_name="XiaoMa.xcworkspace"
 scheme_name="XiaoMa"
 configuration_type="Release"
-build_dir=$root_path"/build/ios-xmdd-adhoc-"$bundleVersion
-release_ipa_name="ios-xmdd-adhoc-"$bundleVersion".ipa"
+build_dir=$root_path"/build/ios-xmdd-inhouse-"$bundleVersion
+release_ipa_name="ios-xmdd-inhouse-"$bundleVersion".ipa"
 
 aaa="xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $configuration_type CONFIGURATION_BUILD_DIR=$build_dir ONLY_ACTIVE_ARCH=NO"
 xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $configuration_type CONFIGURATION_BUILD_DIR=$build_dir ONLY_ACTIVE_ARCH=NO
@@ -100,32 +101,26 @@ archieve_dir=$root_path"/ipa"
 
 xcrun -sdk iphoneos PackageApplication -v $build_dir"/XiaoMa.app" -o $archieve_dir"/"$release_ipa_name
 
-echo "**************finish building adhoc-release**************"
+echo "**************finish building inhouse-正式环境**************"
 
 
 
-# build adhoc-debug
-# 切换到脚本目录
-echo "**************switch script**************"
-cd $script_path
-echo "**************replace pbxproj file**************"
-sh project_replace.sh "$adhoc_code_sign_id" "$adhoc_provisioning_id" "$project_pbxproj_path"
-echo "**************finish replace pbxproj file**************"
-
-echo "**************begin building adhoc-debug**************"
-echo $project_path
+# build inhouse-debug
 cd $project_path
 security unlock-keychain -p ${1} ~/Library/Keychains/login.keychain
 
 # 先clean
 xcodebuild -project XiaoMa.xcodeproj clean 
 
+#切换到生产环境
+sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=1/" $project_pbxproj_path
+
 # build
 xcworkspace_name="XiaoMa.xcworkspace"
 scheme_name="XiaoMa"
-configuration_type="Debug"
-build_dir=$root_path"/build/ios-xmdd-adhoc-d-"$bundleVersion
-debug_ipa_name="ios-xmdd-adhoc-d-"$bundleVersion".ipa"
+configuration_type="Release"
+build_dir=$root_path"/build/ios-xmdd-inhouse-d-"$bundleVersion
+debug_ipa_name="ios-xmdd-inhouse-d-"$bundleVersion".ipa"
 
 aaa="xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $configuration_type CONFIGURATION_BUILD_DIR=$build_dir ONLY_ACTIVE_ARCH=NO"
 xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $configuration_type CONFIGURATION_BUILD_DIR=$build_dir ONLY_ACTIVE_ARCH=NO
@@ -135,7 +130,7 @@ archieve_dir=$root_path"/ipa"
 
 xcrun -sdk iphoneos PackageApplication -v $build_dir"/XiaoMa.app" -o $archieve_dir"/"$debug_ipa_name
 
-echo "**************finish building adhoc-debug**************"
+echo "**************finish building inhouse-测试环境**************"
 
 
 
@@ -144,3 +139,5 @@ echo "**************finish building adhoc-debug**************"
 python $project_path"/Script/pugongying4Release.py" $archieve_dir"/"$release_ipa_name $bundleVersion
 
 python $project_path"/Script/pugongying4Debug.py" $archieve_dir"/"$debug_ipa_name $bundleVersion
+
+

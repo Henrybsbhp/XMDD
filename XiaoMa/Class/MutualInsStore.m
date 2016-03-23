@@ -32,7 +32,7 @@
     RACSignal *signal = [[[[GetCooperationMyGroupOp operation] rac_postRequest] doNext:^(GetCooperationMyGroupOp *op) {
         JTQueue *groupList = [[JTQueue alloc] init];
         for (HKMutualGroup *group in op.rsp_groupArray) {
-            [groupList addObject:group forKey:group.groupId];
+            [groupList addObject:group forKey:[group identify]];
         }
         self.simpleGroups = groupList;
     }] replayLast];

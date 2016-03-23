@@ -1,6 +1,5 @@
+#签名证书替换
 #!/bin/sh
-
-
 
 project_path=${3}
 
