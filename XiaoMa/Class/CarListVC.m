@@ -124,15 +124,15 @@
         
         NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] init];
         
-        NSString *str = self.model.allowAutoChangeSelectedCar ? @"已选择的爱车：" : @"默认车辆：";
-        NSDictionary *attr = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
+        NSString *str = self.model.allowAutoChangeSelectedCar ? @"已选择车辆：" : @"默认车辆：";
+        NSDictionary *attr = @{NSFontAttributeName:[UIFont systemFontOfSize:12],
                                NSForegroundColorAttributeName:HEXCOLOR(@"#555555")};
         NSAttributedString *prefix = [[NSAttributedString alloc] initWithString:str attributes:attr];
         [attrStr appendAttributedString:prefix];
         
         if (car.licencenumber.length > 0) {
             NSMutableDictionary *attr2 = [NSMutableDictionary dictionary];
-            [attr2 safetySetObject:[UIFont systemFontOfSize:21] forKey:NSFontAttributeName];
+            [attr2 safetySetObject:[UIFont systemFontOfSize:18] forKey:NSFontAttributeName];
             [attr2 safetySetObject:[HKMyCar tintColorForColorType:car.tintColorType] forKey:NSForegroundColorAttributeName];
             NSAttributedString *suffix = [[NSAttributedString alloc] initWithString:car.licencenumber attributes:attr2];
             [attrStr appendAttributedString:suffix];

@@ -32,6 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setRightBtnItem];
     [self setupTableView];
     [self loadFirstTime];
 }
@@ -42,6 +43,13 @@
 }
 
 #pragma mark - Setup
+
+- (void)setRightBtnItem {
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"新手必点" style:UIBarButtonItemStylePlain
+                                                             target:self action:@selector(actionHelp)];
+    self.navigationItem.rightBarButtonItem = right;
+}
+
 - (void)setupTableView {
     self.tableView.hidden = YES;
     [self.tableView.refreshView addTarget:self action:@selector(requestAutoGroupArray) forControlEvents:UIControlEventValueChanged];
@@ -55,6 +63,13 @@
     [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(id x) {
         [self requestAutoGroupArray];
     }];
+}
+
+- (void)actionHelp
+{
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.url = @"http://www.baidu.com";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionBack:(id)sender
