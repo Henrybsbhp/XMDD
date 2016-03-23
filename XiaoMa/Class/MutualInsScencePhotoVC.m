@@ -385,14 +385,7 @@
 }
 
 #pragma mark LazyLoad
--(MutualInsScencePhotoVM *)scencePhotoVM
-{
-    if (!_scencePhotoVM)
-    {
-        _scencePhotoVM = [MutualInsScencePhotoVM sharedManager];
-    }
-    return _scencePhotoVM;
-}
+
 
 - (NSMutableArray *)recordArray
 {

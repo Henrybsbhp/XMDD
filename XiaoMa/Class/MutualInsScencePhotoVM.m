@@ -16,8 +16,6 @@
 
 @property (nonatomic, strong) NSArray *maxPhotoNumArr;
 
-@property (nonatomic, strong) NSArray *noticeArr;
-
 @property (nonatomic, strong) NSArray *recordArray;
 
 @end
