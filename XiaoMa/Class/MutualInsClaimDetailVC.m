@@ -14,6 +14,7 @@
 #import "ConfirmClaimOp.h"
 #import "NSString+Split.h"
 #import "HKImageAlertVC.h"
+#import "NSString+BankNumber.h"
 
 @interface MutualInsClaimDetailVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UIButton *agreeBtn;
@@ -210,14 +211,14 @@
         self.claimfee = op.rsp_claimfee;
         self.insurancename = op.rsp_insurancename;
         self.cardno = op.rsp_cardno;
-        if (self.status.integerValue == 1)
-        {
+//        if (self.status.integerValue == 1)
+//        {
             self.bottomView.hidden = NO;
-        }
-        else
-        {
-            self.bottomView.hidden = YES;
-        }
+//        }
+//        else
+//        {
+//            self.bottomView.hidden = YES;
+//        }
         [self.tableView reloadData];
     }error:^(NSError *error) {
         [self.view stopActivityAnimation];
@@ -265,14 +266,21 @@
         [alertVC dismiss];
     }];
     alert.actionItems = @[cancel];
-    ConfirmClaimOp *op = [[ConfirmClaimOp alloc]init];
-    op.req_claimid = self.claimid;
-    op.req_agreement = agreement;
-    op.req_bankcardno = [NSNumber numberWithInteger:self.bankcardno.integerValue];
-    [[[op rac_postRequest]initially:^{
-    }]subscribeNext:^(id x) {
-        [alert show];
-    }];
+    if(![self.bankcardno isValidCreditCardNumber] && agreement.integerValue == 2)
+    {
+        [gToast showMistake:@"请输入正确银行卡号"];
+    }
+    else
+    {
+        ConfirmClaimOp *op = [[ConfirmClaimOp alloc]init];
+        op.req_claimid = self.claimid;
+        op.req_agreement = agreement;
+        op.req_bankcardno = [NSNumber numberWithInteger:self.bankcardno.integerValue];
+        [[[op rac_postRequest]initially:^{
+        }]subscribeNext:^(id x) {
+            [alert show];
+        }];
+    }
 }
 
 #pragma mark Utility
