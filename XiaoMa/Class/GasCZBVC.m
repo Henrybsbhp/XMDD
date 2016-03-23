@@ -53,8 +53,8 @@
         _bottomBtn = btn;
         _targetVC = vc;
         _bottomView = bottomView;
-        [self setupDatasource];
-        [self setupStore];
+//        [self setupDatasource];
+//        [self setupStore];
     }
     return self;
 }

@@ -103,7 +103,7 @@
         if (![blankItem[@"loading"] boolValue]) {
             blankItem[@"loading"] = @YES;
             self.datasource = self.loadingDatasource;
-            [self reloadView:NO];
+            [self reloadView:YES];
         }
     }] subscribeNext:^(id x) {
 
@@ -179,11 +179,8 @@
     CKDict *blankItem = self.loadingDatasource[0][@"Loading"];
 
     if (force || [self.datasource isEqual:self.normalDatasource]) {
-        CKAsyncMainQueue(^{
-            [self.tableView reloadData];
-        });
+        [self.tableView reloadData];
     }
-    
     BOOL loading = [blankItem[@"loading"] boolValue];
     if (loading) {
         [self.tableView setContentOffset:CGPointZero];
