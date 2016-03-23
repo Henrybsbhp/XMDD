@@ -92,7 +92,7 @@ xcodebuild -project XiaoMa.xcodeproj clean
 # build
 xcworkspace_name="XiaoMa.xcworkspace"
 scheme_name="XiaoMa"
-configuration_type="Release"
+configuration_type="Debug"
 build_dir=$root_path"/build/ios-xmdd-adhoc-"$bundleVersion
 release_ipa_name="ios-xmdd-adhoc-"$bundleVersion".ipa"
 
@@ -129,7 +129,7 @@ xcodebuild -project XiaoMa.xcodeproj clean
 # build
 xcworkspace_name="XiaoMa.xcworkspace"
 scheme_name="XiaoMa"
-configuration_type="Release"
+configuration_type="Debug"
 build_dir=$root_path"/build/ios-xmdd-adhoc-d-"$bundleVersion
 debug_ipa_name="ios-xmdd-adhoc-d-"$bundleVersion".ipa"
 

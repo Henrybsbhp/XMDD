@@ -115,7 +115,7 @@
         headerLabel.text = @"请上传车主身份证照片";
     }
     else if (section == 1) {
-        headerLabel.text = @"请上传车主行驶证照片";
+        headerLabel.text = @"请上传车辆行驶证照片";
     }
     else if (section == 2) {
         headerLabel.text = @"请选择保险公司";

@@ -42,7 +42,8 @@
 
 -(void)dealloc
 {
-    
+    self.pageVC.delegate = nil;
+    self.pageVC.dataSource = nil;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -176,12 +177,12 @@
     MutualInsScencePhotoVC *scencePhotoVC = self.viewArr.firstObject;
     if (![[scencePhotoVC canPush] isEqualToString:@"请先拍照"])
     {
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"请确认是否返回?" message:@"并放弃当前所拍摄的照片" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"您还未保存照片，现在返回将导致照片无法保存，是否现在返回？" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         [alertView show];
         [[alertView rac_buttonClickedSignal]subscribeNext:^(NSNumber *x) {
             if (x.integerValue == 1)
             {
-                [[MutualInsScencePhotoVM sharedManager]deleteAllInfo];
+                [self.scencePhotoVM deleteAllInfo];
                 NSArray *viewControllers = self.navigationController.viewControllers;
                 [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
             }
@@ -278,7 +279,11 @@
 {
     if (!_scencePhotoVM)
     {
-        _scencePhotoVM = [MutualInsScencePhotoVM sharedManager];
+        _scencePhotoVM = [[MutualInsScencePhotoVM alloc]init];
+        if (self.noticeArr)
+        {
+            _scencePhotoVM.noticeArr = self.noticeArr;
+        }
     }
     return _scencePhotoVM;
 }
