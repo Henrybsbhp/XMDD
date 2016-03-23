@@ -261,7 +261,7 @@
         
         if (totalCoupon >= self.couponLimit && self.couponLimit > 0)
         {
-            NSString * str = [NSString stringWithFormat:@"您选择的优惠券已满最大优惠额度：%@元",[NSString formatForPrice:self.couponLimit]];
+            NSString * str = [NSString stringWithFormat:@"选中的代金券总额已达最高优惠上限：%@元",[NSString formatForPrice:self.couponLimit]];
             [gToast showError:str];
             return;
         }

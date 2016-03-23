@@ -10,4 +10,9 @@
 
 @implementation HKMutualGroup
 
+- (NSString *)identify
+{
+    return [NSString stringWithFormat:@"%@_%@", self.groupId, self.memberId];
+}
+
 @end
