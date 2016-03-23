@@ -39,6 +39,8 @@
 @property (nonatomic,strong) NSString* couponname;
 ///优惠活动详细列表
 @property (nonatomic,strong) NSArray* couponlist;
+///是否填写了寄送地址
+@property (nonatomic)BOOL finishaddress;
 
 
 

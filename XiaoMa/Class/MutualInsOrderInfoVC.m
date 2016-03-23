@@ -14,6 +14,7 @@
 #import "GetCooperationContractDetailOp.h"
 #import "MutualInsContract.h"
 #import "MutualInsPayViewController.h"
+#import "MutualInsPayResultVC.h"
 
 
 @interface MutualInsOrderInfoVC ()<UIScrollViewDelegate>
@@ -47,9 +48,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupNavigationBar];
+    self.navigationItem.title = @"订单详情";
     [self setupUI];
-    
     [self requestContractDetail];
 }
 
@@ -62,6 +62,17 @@
 - (void)setupNavigationBar
 {
     self.navigationItem.title = @"订单详情";
+    
+    if (self.contract.status == 2 && !self.contract.finishaddress)
+    {
+        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"分享" style:UIBarButtonItemStylePlain target:self action:@selector(jumoToFinishAddressVC)];
+        [right setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:16.0]} forState:UIControlStateNormal];
+        self.navigationItem.rightBarButtonItem = right;
+    }
+    else
+    {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
 }
 
 - (void)setupUI
@@ -129,6 +140,13 @@
     }
 }
 
+- (void)jumoToFinishAddressVC
+{
+    MutualInsPayResultVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPayResultVC"];
+    vc.contract = self.contract;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 - (void)requestContractDetail
 {
     GetCooperationContractDetailOp * op = [[GetCooperationContractDetailOp alloc] init];
@@ -150,6 +168,7 @@
         [self setupDateSource];
         
         [self refreshUI];
+        [self setupNavigationBar];
         [self.tableView reloadData];
         
     } error:^(NSError *error) {
