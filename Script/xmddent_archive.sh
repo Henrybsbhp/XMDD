@@ -80,7 +80,7 @@ sed -i  '' "s/XMDDENT=0/XMDDENT=1/" $project_pbxproj_path
 sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=2/" $project_pbxproj_path
 
 echo "**************change to ent**************"
-sh $project_path"/Script/change_to_ent.sh" $project_path"/XiaoMa/Misc/Info.plist"
+sh $project_path"/Script/change_to_xmddent.sh" $project_path"/XiaoMa/Misc/Info.plist"
 
 
 # 先clean
