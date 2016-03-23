@@ -16,7 +16,6 @@
 #import "MutualInsChooseVC.h"
 #import "MutualInsHomeVC.h"
 #import "GetCooperationIdlicenseInfoOp.h"
-#import "MutualInsStore.h"
 
 @interface MutualInsPicUpdateVC () <UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
@@ -368,11 +367,8 @@
     }] subscribeNext:^(id x) {
         
         [gToast dismiss];
-        [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] send];
         MutualInsChooseVC * vc = [UIStoryboard vcWithId:@"MutualInsChooseVC" inStoryboard:@"MutualInsJoin"];
         vc.memberId = self.memberId;
-        vc.groupId = self.groupId;
-        vc.originVC = self.originVC;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
@@ -526,7 +522,6 @@
 
 - (void)actionBack:(id)sender {
     
-    [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
     if (self.originVC) {
         [self.navigationController popToViewController:self.originVC animated:YES];
         return;
@@ -535,6 +530,7 @@
     {
         if ([vc isKindOfClass:NSClassFromString(@"MutualInsHomeVC")] || [vc isKindOfClass:NSClassFromString(@"MutualInsHomeVC")])
         {
+            [((MutualInsHomeVC *)vc) requestMyGourpInfo];
             [self.navigationController popToViewController:vc animated:YES];
             return ;
         }

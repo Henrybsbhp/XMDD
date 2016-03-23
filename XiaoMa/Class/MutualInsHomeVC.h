@@ -10,4 +10,7 @@
 
 @interface MutualInsHomeVC : UIViewController
 
+// 刷新页面
+- (void)requestMyGourpInfo;
+
 @end

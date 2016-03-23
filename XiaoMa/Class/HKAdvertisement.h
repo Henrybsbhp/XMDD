@@ -10,9 +10,6 @@
 
 @interface HKAdvertisement : NSObject<NSCoding>
 
-///广告id
-@property (nonatomic,strong)NSNumber * adId;
-
 ///广告图片
 @property (nonatomic,copy)NSString * adPic;
 

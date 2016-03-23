@@ -14,20 +14,15 @@
 #define TopSpace 20
 #define ItemSpace 6
 #define HalfContentWidth 190
-#define ContentWidth 256
+#define ContentWidth 260
 
 @implementation InviteCompleteVC
-
-- (void)dealloc
-{
-    DebugLog(@"InviteCompleteVC dealloc");
-}
 
 - (void)showWithActionHandler:(void (^)(NSInteger, id))handler
 {
     CGFloat height = 0.0f;
     
-    UIView * contentV = [[UIView alloc] initWithFrame:CGRectZero];
+    UIView * contentV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kContentViewWidth, 133)];
     
     UILabel * titleLb= [[UILabel alloc] init];
     titleLb.font = [UIFont systemFontOfSize:17];
@@ -50,14 +45,7 @@
        
         make.width.height.mas_equalTo(23);
         make.right.equalTo(contentV).offset(-6);
-        make.centerY.equalTo(titleLb);
-    }];
-    [[closeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
-        if (self.closeAction){
-            
-            self.closeAction();
-        }
+        make.top.equalTo(contentV).offset(6);
     }];
     
     
@@ -71,68 +59,28 @@
     }];
     
     height = 45.0;
-    
-    height += TopSpace;
     for (NSDictionary * dict in self.datasource)
     {
         NSString * title = dict[@"title"];
         NSString * content = dict[@"content"];
-        NSString * color = dict[@"color"];
         
-        CGSize size = [content labelSizeWithWidth:HalfContentWidth font:[UIFont systemFontOfSize:14]];
+        [content labelSizeWithWidth:HalfContentWidth font:[UIFont systemFontOfSize:14]];
         
-        UILabel * titleLb = [[UILabel alloc] init];
-        titleLb.font = [UIFont systemFontOfSize:14];
-        titleLb.textColor = HEXCOLOR(@"#888888");
-        titleLb.text = title;
-        [contentV addSubview:titleLb];
-        [titleLb mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            make.leading.equalTo(contentV).offset(15);
-            make.top.equalTo(contentV).offset(height);
-        }];
-        
-        UILabel * contentLb = [[UILabel alloc] init];
-        contentLb.font = [UIFont systemFontOfSize:14];
-        contentLb.textColor = color.length ? HEXCOLOR(color) : HEXCOLOR(@"#888888");
-        contentLb.text = content;
-        [contentV addSubview:contentLb];
-        
-        [contentLb mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            make.trailing.equalTo(contentV).offset(-15);
-            make.top.equalTo(contentV).offset(height);
-        }];
-        
-        height = height + size.height + ItemSpace;
     }
     
-    for (NSString * item in self.datasource2)
-    {
-        CGSize size = [item labelSizeWithWidth:ContentWidth font:[UIFont systemFontOfSize:14]];
-        UILabel * contentLb = [[UILabel alloc] init];
-        contentLb.font = [UIFont systemFontOfSize:14];
-        contentLb.textColor = HEXCOLOR(@"#888888");
-        contentLb.text = item;
-        contentLb.numberOfLines = 0;
-        [contentV addSubview:contentLb];
-        
-        [contentLb mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            make.leading.equalTo(contentV).offset(15);
-            make.width.mas_equalTo(ContentWidth);
-            make.top.equalTo(contentV).offset(height);
-        }];
-        
-        height = height + size.height + ItemSpace;
-    }
-    height += 14;
-    
-    contentV.frame = CGRectMake(0, 0, kContentViewWidth, height);
-    
-    self.contentView = contentV;
-    [super showWithActionHandler:handler];
 }
 
+- (void)caleContentViewHeight
+{
+    CGFloat topHeight = 46;
+    CGFloat height = 0.0f;
+    for (NSDictionary * dict in self.datasource)
+    {
+        NSString * title = dict[@"title"];
+        NSString * content = dict[@"content"];
+        
+        [content labelSizeWithWidth:HalfContentWidth font:[UIFont systemFontOfSize:14]];
+    }
+}
 
 @end

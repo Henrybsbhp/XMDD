@@ -12,6 +12,5 @@
 
 - (void)stopAnimating;
 - (void)startAnimating;
-- (BOOL)isAnimating;
 
 @end

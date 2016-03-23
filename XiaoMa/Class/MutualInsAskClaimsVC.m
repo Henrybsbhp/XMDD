@@ -14,14 +14,23 @@
 #import "GetCooperationMyCarOp.h"
 #import "MutualInsChooseCarVC.h"
 #import "MutualInsScencePhotoVM.h"
-#import "GetCoorperationClaimConfigOp.h"
+
+
 @interface MutualInsAskClaimsVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) NSArray *tempArr;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+
 
 @end
 
 @implementation MutualInsAskClaimsVC
+
+-(void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -158,17 +167,13 @@
 
 -(void)crimeReportSectionAction
 {
-//   @叶志成 改号码
     NSString * number = @"4007111111";
-    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+    [gPhoneHelper makePhone:number andInfo:@"快速报案可拨打客服电话：4007-111-111，是否立即拨打？"];
 }
 
 - (void)scenePageSectionAction
 {
-    [self getNoticeArr];
     [self getCarListData];
-
-    
 }
 
 -(void)historySectionAction
@@ -178,14 +183,6 @@
 }
 
 #pragma mark Utility
-
--(void)getNoticeArr
-{
-    GetCoorperationClaimConfigOp *op = [[GetCoorperationClaimConfigOp alloc]init];
-    [[op rac_postRequest]subscribeNext:^(GetCoorperationClaimConfigOp *op) {
-        self.tempArr = @[op.rsp_scenedesc,op.rsp_cardamagedesc,op.rsp_carinfodesc,op.rsp_idinfodesc];
-    }];
-}
 
 -(void)getCarListData
 {
@@ -197,20 +194,18 @@
         {
             NSDictionary *report = op.rsp_reports.firstObject;
             MutualInsScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"MutualInsScencePageVC" inStoryboard:@"MutualInsClaims"];
-            scencePageVC.noticeArr = self.tempArr;
             scencePageVC.claimid = report[@"claimid"];
             [self.navigationController pushViewController:scencePageVC animated:YES];
         }
         else if (op.rsp_reports.count > 1)
         {
             MutualInsChooseCarVC *chooseVC = [UIStoryboard vcWithId:@"MutualInsChooseCarVC" inStoryboard:@"MutualInsClaims"];
-            chooseVC.noticeArr = self.tempArr;
             chooseVC.reports = op.rsp_reports;
             [self.navigationController pushViewController:chooseVC animated:YES];
         }
         else
         {
-            [gToast showMistake:@"请先报案"];
+            [gToast showMistake:@"未检测到您的爱车有车险报案记录，快速理赔需要先报案后才能进行现场拍照。请先报案，谢谢～"];
         }
         [self.view stopActivityAnimation];
     }error:^(NSError *error) {

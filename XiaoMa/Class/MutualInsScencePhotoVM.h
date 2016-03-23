@@ -22,8 +22,6 @@
 
 -(void)deleteAllInfo;
 
--(void)getNoticeArr;
-
 @property (nonatomic, strong) NSArray *noticeArr;
 
 @end

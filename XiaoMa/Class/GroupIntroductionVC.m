@@ -13,8 +13,6 @@
 #import "MutualInsPicUpdateVC.h"
 #import "CreateGroupVC.h"
 #import "MutualInsRequestJoinGroupVC.h"
-#import "HKImageAlertVC.h"
-#import "EditCarVC.h"
 
 #define IntroUrl @"http://www.baidu.com"
 
@@ -119,20 +117,20 @@
         vc.model.disableEditingCar = YES; //不可修改
         vc.canJoin = YES; //用于控制爱车页面底部view
         vc.model.originVC = self;
-        [vc setFinishPickActionForMutualIns:^(MyCarListVModel * carModel, UIView * loadingView) {
+        [vc setFinishPickActionForMutualIns:^(HKMyCar *car,UIView * loadingView) {
             
             //爱车页面入团按钮委托实现
-            [self requestApplyJoinGroup:self.groupId andCarModel:carModel andLoadingView:loadingView];
+            [self requestApplyJoinGroup:self.groupId andCarId:car.carId andLoadingView:loadingView];
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
-- (void)requestApplyJoinGroup:(NSNumber *)groupId andCarModel:(MyCarListVModel *)carModel andLoadingView:(UIView *)view
+- (void)requestApplyJoinGroup:(NSNumber *)groupId andCarId:(NSNumber *)carId andLoadingView:(UIView *)view
 {
     ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
     op.req_groupid = groupId;
-    op.req_carid = carModel.selectedCar.carId;
+    op.req_carid = carId;
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"申请加入中..." inView:view];
@@ -142,35 +140,10 @@
         
         MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
         vc.memberId = rop.rsp_memberid;
-        vc.groupId = rop.req_groupid;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
-        if (error.code == 6115804) {
-            [gToast dismissInView:view];
-            HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
-            alert.topTitle = @"温馨提示";
-            alert.imageName = @"mins_bulb";
-            alert.message = error.domain;
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
-                [alertVC dismiss];
-            }];
-            @weakify(self);
-            HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-                @strongify(self);
-                [alertVC dismiss];
-                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                carModel.originVC = nil;  //设置为nil，返回爱车列表；或者用[UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
-                vc.originCar = carModel.selectedCar;
-                vc.model = carModel;
-                [self.navigationController pushViewController:vc animated:YES];
-            }];
-            alert.actionItems = @[cancel, improve];
-            [alert show];
-        }
-        else {
-            [gToast showError:error.domain inView:view];
-        }
+        [gToast showError:error.domain inView:view];
     }];
 }
 

@@ -277,7 +277,7 @@
         [gToast showingWithText:@"信息上传中..."];
     }] subscribeNext:^(id x) {
         
-        [gToast showSuccess:@"联系人信息已提交，请等待车险专员为您服务"];
+        [gToast dismiss];
         for (UIViewController * vc in self.navigationController.viewControllers)
         {
             if ([vc isKindOfClass:[MutualInsOrderInfoVC class]])
@@ -297,7 +297,7 @@
 
 - (void)actionBack
 {
-    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您未提交联系人信息，为保证协议的正常送达，请先完善信息。是否继续完善信息？" delegate:nil cancelButtonTitle:@"执意退出" otherButtonTitles:@"继续完善", nil];
+    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您暂未提交寄送地址" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
         
         if ([number integerValue])

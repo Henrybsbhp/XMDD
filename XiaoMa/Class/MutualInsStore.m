@@ -7,11 +7,19 @@
 //
 
 #import "MutualInsStore.h"
-#import "HKMutualGroup.h"
 #import "GetCooperationMygroupDetailOp.h"
 #import "GetCooperationMyGroupOp.h"
 
 @implementation MutualInsStore
+
+- (CKEvent *)reloadDetailGroupIfNeededByMemberID:(NSNumber *)memberid
+{
+    GetCooperationMygroupDetailOp *op = [self.detailGroups objectForKey:memberid];
+    if (op) {
+        return [self reloadDetailGroupByMemberID:memberid andGroupID:op.req_groupid];
+    }
+    return nil;
+}
 
 - (CKEvent *)reloadDetailGroupByMemberID:(NSNumber *)memberid andGroupID:(NSNumber *)groupid
 {
@@ -20,32 +28,35 @@
     op.req_memberid = memberid;
     
     RACSignal *signal = [[[op rac_postRequest] doNext:^(GetCooperationMygroupDetailOp *op) {
-        [[self getOrCreateDetailGroups] addObject:op forKey:groupid];
+        [[self detailGroups] addObject:op forKey:memberid];
     }] replayLast];
     
     CKEvent *event = [signal eventWithName:@"getDetailGroupByMemberID" object:op];
     return [self inlineEvent:event forDomain:kDomainMutualInsDetailGroups];
 }
 
-- (CKEvent *)reloadSimpleGroups
+- (CKEvent *)getSimpleGroups
 {
-    RACSignal *signal = [[[[GetCooperationMyGroupOp operation] rac_postRequest] doNext:^(GetCooperationMyGroupOp *op) {
-        JTQueue *groupList = [[JTQueue alloc] init];
-        for (HKMutualGroup *group in op.rsp_groupArray) {
-            [groupList addObject:group forKey:[group identify]];
-        }
-        self.simpleGroups = groupList;
-    }] replayLast];
+    RACSignal *signal = [[GetCooperationMyGroupOp operation] rac_postRequest];
     CKEvent *event = [signal eventWithName:@"getSimpleGroups" object:nil];
     return [self inlineEvent:event forDomain:kDomainMutualInsSimpleGroups];
 }
 
 #pragma mark - Getter
-- (JTQueue *)getOrCreateDetailGroups
+- (CKList *)detailGroups
 {
     if (!_detailGroups) {
-        _detailGroups = [[JTQueue alloc] init];
+        _detailGroups = [CKList list];
     }
     return _detailGroups;
 }
+
+- (CKList *)simpleGroups
+{
+    if (!_simpleGroups) {
+        _simpleGroups = [CKList list];
+    }
+    return _simpleGroups;
+}
+
 @end
