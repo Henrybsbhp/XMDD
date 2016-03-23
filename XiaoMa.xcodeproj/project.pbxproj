@@ -5966,7 +5966,7 @@
 					"$(inherited)",
 					"COCOAPODS=1",
 					"XMDDENT=0",
-					"XMDDEnvironment=1",
+					"XMDDEnvironment=0",
 				);
 				HEADER_SEARCH_PATHS = (
 					"${SRCROOT}/react-native/React/**",
@@ -6060,7 +6060,7 @@
 					"$(inherited)",
 					"COCOAPODS=1",
 					"XMDDENT=0",
-					"XMDDEnvironment=1",
+					"XMDDEnvironment=0",
 				);
 				HEADER_SEARCH_PATHS = (
 					"${SRCROOT}/react-native/React/**",
