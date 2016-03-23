@@ -13,15 +13,4 @@
 // 团名字
 @property (nonatomic, copy) NSString *req_name;
 
-/**
- *  暗号
- */
-@property (nonatomic, copy) NSString *rsp_cipher;
-
-/**
- *  团ID
- */
-@property (nonatomic, strong) NSNumber *rsp_groupid;
-
-
 @end

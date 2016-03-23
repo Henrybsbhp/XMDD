@@ -321,6 +321,11 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             @strongify(self)
             [self handleResultCode:code from:type forSheet:sheet andAlertInfo:shareDic];
         }];
+        [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
+            
+            @strongify(self)
+            [self handleResultCode:[code integerValue] from:type forSheet:sheet andAlertInfo:shareDic];
+        }];
     }];
 }
 

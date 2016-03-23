@@ -12,7 +12,6 @@
 #import "WXApiObject.h"
 #import "GetShareButtonOpV2.h"
 #import "SocialShareViewController.h"
-#import "InviteAlertVC.h"
 
 @interface InviteByCodeVC ()
 
@@ -166,14 +165,7 @@
     [[[copyBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
         pasteboard.string = self.cipherForCopy;
-        
-        InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
-        alertVC.alertType = InviteAlertTypeCopyCode;
-        HKAlertActionItem *ok = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
-        alertVC.actionItems = @[ok];
-        [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
-            [alertView dismiss];
-        }];
+        [gToast showText:@"已成功复制到粘贴板"];
     }];
     
     return cell;
@@ -199,15 +191,11 @@
     if (indexPath.section == 1) {
         [btn setTitle:@"分享入团口令" forState:UIControlStateNormal];
         [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            if ([WXApi isWXAppInstalled]) {
-                SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
-                req.text = self.wordForShare;
-                req.bText = YES;
-                [WXApi sendReq:req];
-            }
-            else {
-                [gToast showText:@"您未安装微信，无法分享口令"];
-            }
+            
+            SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
+            req.text = self.wordForShare;
+            req.bText = YES;
+            [WXApi sendReq:req];
         }];
     }
     else {

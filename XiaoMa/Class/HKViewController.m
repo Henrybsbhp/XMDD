@@ -40,6 +40,16 @@
     [super viewDidDisappear:animated];
 }
 
+- (void)actionBack:(id)sender
+{
+    if (self.prevVC) {
+        [self.navigationController popToViewController:self.prevVC animated:YES];
+    }
+    else {
+        [super actionBack:sender];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }

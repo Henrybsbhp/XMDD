@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CKDatasource.h"
 
 /// UIViewController的基类,不可直接调用。
 @interface HKViewController : UIViewController
 
-@property (nonatomic, strong) CKDict *routeInfo;
+@property (nonatomic, weak) UIViewController *prevVC;
 
 @end

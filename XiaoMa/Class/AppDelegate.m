@@ -197,6 +197,12 @@
     {
         // 不需要更新的情况下去查询小马互助
         [self.pasteboardoModel checkPasteboard];
+        
+        //此处实现方案要用cklist替换
+        if ([[UIPasteboard generalPasteboard].string hasPrefix:XMINSPrefix] && [MZFormSheetController formSheetControllersStack]) {
+            MZFormSheetController * mzVC = [[MZFormSheetController formSheetControllersStack] safetyObjectAtIndex:0];
+            [mzVC dismissAnimated:NO completionHandler:nil];
+        }
     }
 }
 
@@ -220,7 +226,7 @@
         return [WeiboSDK handleOpenURL:url delegate:[ShareResponeManager init]];
     }
     else if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@", QQ_API_ID]]) {
-        return [QQApiInterface handleOpenURL:url delegate:[ShareResponeManager init]];
+        return [QQApiInterface handleOpenURL:url delegate:[ShareResponeManagerForQQ init]];
     }
     else if ([url.absoluteString hasPrefix:@"xmdd://"])
     {

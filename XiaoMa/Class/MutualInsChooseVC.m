@@ -565,18 +565,18 @@
 
 - (void)submitSuccessful
 {
-    //刷新团详情
-    [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] send];
-    [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
     for (NSInteger i = self.navigationController.viewControllers.count - 1 ; i >= 0; i--)
     {
         UIViewController * vc = [self.navigationController.viewControllers safetyObjectAtIndex:i];
-        if ([vc isKindOfClass:[MutualInsGrouponVC class]]) {
+        if ([vc isKindOfClass:[MutualInsGrouponVC class]])
+        {
+            [[[MutualInsStore fetchExistsStore] reloadDetailGroupIfNeededByMemberID:self.memberId] send];
             [self.navigationController popToViewController:vc animated:YES];
             return;
         }
         if ([vc isKindOfClass:[MutualInsHomeVC class]])
         {
+            [((MutualInsHomeVC *)vc) requestMyGourpInfo];
             [self.navigationController popToViewController:vc animated:YES];
             return;
         }

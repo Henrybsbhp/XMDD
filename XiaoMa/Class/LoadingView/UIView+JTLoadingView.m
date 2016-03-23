@@ -199,9 +199,6 @@ static char sActivityIndicatorView;
     {
         isAnimating = [(MONActivityIndicatorView *)self.activityIndicatorView isAnimating];
     }
-    else if ([self.activityIndicatorView isKindOfClass:[GifActivityIndicatorView class]]) {
-        isAnimating = [(GifActivityIndicatorView *)self.activityIndicatorView isAnimating];
-    }
     else {
         isAnimating = [(UIActivityIndicatorView *)self.activityIndicatorView isAnimating];
     }

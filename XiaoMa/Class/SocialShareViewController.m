@@ -31,6 +31,16 @@
 
 @implementation SocialShareViewController
 
+- (instancetype)init
+{
+    self  = [super init];
+    if (self)
+    {
+        _rac_dismissSignal = [RACSubject subject];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -219,6 +229,16 @@
     }];
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc
+{
+    DebugLog(@"SocialShareViewController dealloc ~~~");
+}
+
 - (void)shareWechat
 {
     [self shareToWeChat:WXSceneSession withTitle:self.tt
@@ -317,16 +337,6 @@
             break;
         }
     }
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)dealloc
-{
-    DebugLog(@"SocialShareViewController dealloc ~~~");
 }
 
 @end

@@ -16,17 +16,18 @@
 #import "GetCooperationMyGroupOp.h"
 #import "HKMutualGroup.h"
 #import "HKTimer.h"
-#import "MutualInsStore.h"
 #import "DeleteMyGroupOp.h"
 #import "MutualInsPicUpdateVC.h"
-#import "UIView+JTLoadingView.h"
 
 @interface MutualInsHomeVC ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property (nonatomic, strong) GetCooperationConfiOp *config;
-@property (nonatomic, strong) MutualInsStore *minsStore;
+@property (nonatomic, strong)NSString * autoGroupName;
+@property (nonatomic, strong)NSString * autoGroupdesc;
+@property (nonatomic, strong)NSString * selfGroupName;
+@property (nonatomic, strong)NSString * selfGroupdesc;
+
 @property (nonatomic, strong)NSMutableArray * myGroupArray;
 
 @property (nonatomic, assign)NSTimeInterval leftTime;
@@ -42,109 +43,84 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupMutualInsStore];
-    self.tableView.hidden = YES;
-    CKAsyncMainQueue(^{
-        [self reloadIfNeeded];
-    });
+    [self setupTableView];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
-- (void)setupMutualInsStore
+- (void)setupTableView
 {
-    self.minsStore = [MutualInsStore fetchOrCreateStore];
-    @weakify(self);
-    [self.minsStore subscribeWithTarget:self domain:kDomainMutualInsSimpleGroups receiver:^(id store, CKEvent *evt) {
-        @strongify(self);
-        [self reloadFormSignal:evt.signal];
-    }];
-}
-
-- (void)resetTableView
-{
-    if (![self.tableView isRefreshViewExists]) {
-        @weakify(self);
-        [[self.tableView.refreshView rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
-            @strongify(self);
-            [[self.minsStore reloadSimpleGroups] send];
-        }];
-    }
-    self.tableView.hidden = NO;
-}
-
-#pragma mark - Reload
-- (void)reloadFormSignal:(RACSignal *)signal
-{
-    @weakify(self);
-    [[signal initially:^{
-        
-        @strongify(self);
-        if ([self.tableView isRefreshViewExists]) {
-            [self.tableView.refreshView beginRefreshing];
-        }
-        else if (![self.view isActivityAnimating]) {
-            self.tableView.hidden = YES;
-            self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
-            [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-        }
-    }] subscribeNext:^(id x) {
-
-        @strongify(self);
-        if (self.minsStore.simpleGroups) {
-            self.myGroupArray = [NSMutableArray arrayWithArray:self.minsStore.simpleGroups.allObjects];
-        }
-        if ([self reloadIfNeeded]) {
-            if ([self.tableView isRefreshViewExists]) {
-                [self.tableView.refreshView endRefreshing];
-            }
-            else {
-                [self.view stopActivityAnimation];
-                [self resetTableView];
-            }
-        }
-    } error:^(NSError *error) {
-        
-        @strongify(self);
-        [gToast showError:error.domain];
-        if ([self.tableView isRefreshViewExists]) {
-            [self.tableView.refreshView endRefreshing];
-        }
-        else {
-            [self.view stopActivityAnimation];
-            [self.view showDefaultEmptyViewWithText:@"获取信息失败，点击重试" tapBlock:^{
-                @strongify(self);
-                [self.view hideDefaultEmptyView];
-                [self reloadIfNeeded];
-            }];
-        }
-    }];
-}
-
-- (BOOL)reloadIfNeeded
-{
-    @weakify(self);
-    if (!self.config) {
-        RACSignal *signal = [[[GetCooperationConfiOp operation] rac_postRequest] doNext:^(id x) {
-            @strongify(self);
-            self.config = x;
-        }];
-        [self reloadFormSignal:signal];
-        return NO;
-    }
+    self.tableView.hidden = YES;
+    [self.tableView.refreshView addTarget:self action:@selector(requestMyGourpInfo) forControlEvents:UIControlEventValueChanged];
     
-    if (!self.myGroupArray) {
-        [[self.minsStore reloadSimpleGroups] send];
-        return NO;
-    }
-
-    [self.tableView reloadData];
-    return YES;
+    [self requestConfigInfo];
+    [self requestMyGourpInfo];
 }
 
 #pragma mark - Utilitly
+- (void)requestConfigInfo
+{
+    GetCooperationConfiOp * op = [GetCooperationConfiOp operation];
+    [[[op rac_postRequest] initially:^{
+        self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+    }] subscribeNext:^(GetCooperationConfiOp * op)  {
+        
+        self.autoGroupName = op.rsp_autogroupname;
+        self.autoGroupdesc = op.rsp_autogroupdesc;
+        self.selfGroupName = op.rsp_selfgroupname;
+        self.selfGroupdesc = op.rsp_selfgroupdesc;
+        
+        [self.tableView reloadData];
+        
+        [self requestMyGourpInfo];
+    } error:^(NSError *error) {
+        
+        self.tableView.hidden = YES;
+        [self.view stopActivityAnimation];
+        @weakify(self);
+        [self.view showDefaultEmptyViewWithText:@"小马互助首页获取失败，点击重试" tapBlock:^{
+            
+            @strongify(self);
+            [self.view hideDefaultEmptyView];
+            [self requestConfigInfo];
+        }];
+    }];
+}
+
+- (void)requestMyGourpInfo
+{
+    if (gAppMgr.myUser) {
+        
+        GetCooperationMyGroupOp * op = [[GetCooperationMyGroupOp alloc] init];
+        @weakify(self);
+        [[op rac_postRequest] subscribeNext:^(GetCooperationMyGroupOp * rop) {
+            
+            @strongify(self);
+            self.tableView.hidden = NO;
+            [self.view stopActivityAnimation];
+            [self.tableView.refreshView endRefreshing];
+            
+            self.myGroupArray = [[NSMutableArray alloc] initWithArray:rop.rsp_groupArray];
+            [self.tableView reloadData];
+        }error:^(NSError *error) {
+            
+            self.tableView.hidden = YES;
+            [self.view stopActivityAnimation];
+            [self.tableView.refreshView endRefreshing];
+            [gToast showError:error.domain];
+        }];
+    }
+    else {
+        self.tableView.hidden = NO;
+        [self.view stopActivityAnimation];
+        [self.tableView.refreshView endRefreshing];
+    }
+}
+
+
 - (void)operationBtnAction:(id)opeBtn withGroup:(HKMutualGroup * )group withIndexPath:(NSIndexPath *)indexPath
 {
     if (group.btnStatus == GroupBtnStatusInvite) {
@@ -232,7 +208,7 @@
 {
     if (indexPath.row == 0) {
         GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
-        vc.titleStr = @"自组团介绍";
+        vc.titleStr = @"自主团介绍";
         vc.groupType = MutualGroupTypeSelf;
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -244,8 +220,8 @@
     else if (indexPath.row > 3) {
         //我的团详情页面
         MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
-        vc.group = [self.myGroupArray safetyObjectAtIndex:indexPath.row - 4];
-        vc.originVC = self;
+        HKMutualGroup * group = [self.myGroupArray safetyObjectAtIndex:indexPath.row - 4];
+        vc.group = group;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -262,14 +238,14 @@
     if (indexPath.row == 0) {
         leftView.backgroundColor = HEXCOLOR(@"#FFBA36");
         logoImgV.image = [UIImage imageNamed:@"mutualIns_home_self"];
-        titleLabel.text = self.config.rsp_selfgroupname;
-        detailLabel.text = self.config.rsp_selfgroupdesc;
+        titleLabel.text = self.selfGroupName;
+        detailLabel.text = self.selfGroupdesc;
     }
     else {
         leftView.backgroundColor = HEXCOLOR(@"#38B3FF");
         logoImgV.image = [UIImage imageNamed:@"mutualIns_home_match"];
-        titleLabel.text = self.config.rsp_autogroupname;
-        detailLabel.text = self.config.rsp_autogroupdesc;
+        titleLabel.text = self.autoGroupName;
+        detailLabel.text = self.autoGroupdesc;
     }
     
     return cell;

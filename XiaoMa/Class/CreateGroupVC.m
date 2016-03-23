@@ -11,15 +11,6 @@
 #import "MutualInsGrouponVC.h"
 #import "ApplyCooperationGroupOp.h"
 #import <QuartzCore/QuartzCore.h>
-#import "InviteCompleteVC.h"
-#import "InviteByCodeVC.h"
-#import "MutualInsPicUpdateVC.h"
-#import "CarListVC.h"
-#import "ApplyCooperationGroupJoinOp.h"
-#import "MutualInsHomeVC.h"
-#import "EditCarVC.h"
-#import "HKImageAlertVC.h"
-#import "MutualInsStore.h"
 
 @interface CreateGroupVC () <UITextFieldDelegate>
 
@@ -59,18 +50,7 @@
 
 - (IBAction)confirmButtonDidClick:(id)sender
 {
-    if (self.textFieldString.length)
-        [self requestCreateGroup:self.textFieldString];
-}
-
-- (void)actionBack:(id)sender
-{
-    if (self.originVC) {
-        [self.navigationController popToViewController:self.originVC animated:YES];
-    }
-    else {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    [self requestCreateGroup:self.textFieldString];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -101,136 +81,19 @@
     
     [[[op rac_postRequest] initially:^{
         
-        [gToast showingWithText:@"建团中..."];
+        [gToast showingWithoutText];
+        
     }] subscribeNext:^(CreateGroupOp *rop) {
         
         [gToast dismiss];
-        [self showAlertView:groupNameToCreate andCipher:rop.rsp_cipher andGroupId:rop.rsp_groupid];
+        MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
+//        vc.group = group;
+        [self.navigationController pushViewController:vc animated:YES];
+        
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
-    }];
-}
-
-#pragma mark - Utilitly
-- (void)showAlertView:(NSString *)groupName andCipher:(NSString *)cipher andGroupId:(NSNumber *)groupId
-{
-    InviteCompleteVC * alertVC = [[InviteCompleteVC alloc] init];
-    alertVC.datasource = @[@{@"title":@"本团名称",@"content":groupName},@{@"title":@"本团暗号",@"content":cipher,@"color":@"#ff7428"}];
-    alertVC.datasource2 = @[@"您可以继续完善自己的资料，或者邀请好友参团"];
-    @weakify(alertVC);
-    [alertVC setCloseAction:^{
         
-        @strongify(alertVC);
-       [alertVC dismiss];
-        [self jumpToHomePage];
-    }];
-    HKAlertActionItem *invite = [HKAlertActionItem itemWithTitle:@"邀请好友" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
-    HKAlertActionItem *complete = [HKAlertActionItem itemWithTitle:@"完善资料" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
-    alertVC.actionItems = @[invite, complete];
-    [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
-        
-        [alertView dismiss];
-        if (index) {
-            
-            [self jumpToCarListVC:groupId];
-        }
-        else {
-            
-            [self jumpToInviteByCodeVC:groupId];
-        }
-
-    }];
-}
-
-- (void)jumpToCarListVC:(NSNumber *)groupId
-{
-    CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
-    vc.title = @"选择爱车";
-    vc.model.allowAutoChangeSelectedCar = YES;
-    vc.model.disableEditingCar = YES; //不可修改
-    vc.canJoin = YES; //用于控制爱车页面底部view
-    vc.model.originVC = self;
-    [vc setFinishPickActionForMutualIns:^(MyCarListVModel *carModel, UIView * loadingView) {
-        
-        //爱车页面入团按钮委托实现
-        [self requestApplyJoinGroup:groupId andCarModel:carModel andLoadingView:loadingView];
-    }];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)jumpToInviteByCodeVC:(NSNumber *)groupId
-{
-    InviteByCodeVC * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
-    vc.groupId = groupId;
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)jumpToGroupOnVC:(NSNumber *)groupId
-{
-    MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
-    HKMutualGroup * group = [[HKMutualGroup alloc] init];
-    group.groupId = groupId;
-    vc.group = group;
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)jumpToHomePage
-{
-    [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
-    for (UIViewController * vc in self.navigationController.viewControllers)
-    {
-        if ([vc isKindOfClass:NSClassFromString(@"MutualInsHomeVC")])
-        {
-            [self.navigationController popToViewController:vc animated:YES];
-            return ;
-        }
-    }
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
-- (void)requestApplyJoinGroup:(NSNumber *)groupId andCarModel:(MyCarListVModel *)carModel andLoadingView:(UIView *)view
-{
-    ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
-    op.req_groupid = groupId;
-    op.req_carid = carModel.selectedCar.carId;
-    [[[op rac_postRequest] initially:^{
-        
-        [gToast showingWithText:@"团队加入中..." inView:view];
-    }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
-        
-        [gToast dismissInView:view];
-        
-        MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
-        vc.memberId = rop.rsp_memberid;
-        [self.navigationController pushViewController:vc animated:YES];
-    } error:^(NSError *error) {
-        
-        if (error.code == 6115804) {
-            [gToast dismissInView:view];
-            HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
-            alert.topTitle = @"温馨提示";
-            alert.imageName = @"mins_bulb";
-            alert.message = error.domain;
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
-                [alertVC dismiss];
-            }];
-            @weakify(self);
-            HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-                @strongify(self);
-                [alertVC dismiss];
-                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                carModel.originVC = nil;  //设置为nil，返回爱车列表；或者用[UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
-                vc.originCar = carModel.selectedCar;
-                vc.model = carModel;
-                [self.navigationController pushViewController:vc animated:YES];
-            }];
-            alert.actionItems = @[cancel, improve];
-            [alert show];
-        }
-        else {
-            [gToast showError:error.domain inView:view];
-        }
     }];
 }
 
@@ -357,7 +220,6 @@
         if (!self.textFieldString.length)
         {
             groupTextField.text = x;
-            self.textFieldString = x;
         }
     }];
     
@@ -389,9 +251,9 @@
     tipsImageView3.image = [UIImage imageNamed:@"mutuallns_createGroup_rectangle"];
     
     tipsTitleLabel.text = @"组团提示";
-    [tipsLabel1 setPreferredMaxLayoutWidth:200];
-    [tipsLabel2 setPreferredMaxLayoutWidth:200];
-    [tipsLabel3 setPreferredMaxLayoutWidth:200];
+    [tipsLabel1 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 106];
+    [tipsLabel2 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 106];
+    [tipsLabel3 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 106];
     tipsLabel1.attributedText = [self generateAttributedStringWithLineSpacing:@"输入团队名称后，点击下方 “确定” 即可发起组团并获得入团暗号。"];
     tipsLabel2.attributedText = [self generateAttributedStringWithLineSpacing:@"分享暗号可以邀请好友加入。"];
     tipsLabel3.attributedText = [self generateAttributedStringWithLineSpacing:@"建团后，您也可以选择完善信息选择购买的小马互助种类后，再去邀请好友入团。"];

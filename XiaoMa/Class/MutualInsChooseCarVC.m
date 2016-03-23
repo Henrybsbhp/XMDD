@@ -71,7 +71,6 @@
     NSDictionary *report = [self.reports safetyObjectAtIndex:indexPath.row];
     MutualInsScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"MutualInsScencePageVC" inStoryboard:@"MutualInsClaims"];
     scencePageVC.claimid = report[@"claimid"];
-    scencePageVC.noticeArr = self.noticeArr;
     [self.navigationController pushViewController:scencePageVC animated:YES];
 }
 

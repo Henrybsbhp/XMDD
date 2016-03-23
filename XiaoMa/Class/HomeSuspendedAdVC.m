@@ -9,7 +9,6 @@
 #import "HomeSuspendedAdVC.h"
 #import "UIView+Genie.h"
 #import "SuspendedAdVC.h"
-#import "AdListData.h"
 
 @interface HomeSuspendedAdVC () <SuspendedAdClickDelegate>
 
@@ -144,9 +143,6 @@
     vc.sheet = sheet;
     
     [sheet presentAnimated:YES completionHandler:nil];
-    
-    //存广告
-    [AdListData recordAdArray:adArr];
     
     return vc;
 }
