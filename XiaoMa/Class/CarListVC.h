@@ -17,6 +17,6 @@
 @property (nonatomic, strong) NSNumber *originCarID;
 @property (nonatomic, assign) BOOL canJoin;
 
-@property (nonatomic, copy)void(^finishPickActionForMutualIns)(MyCarListVModel * model, UIView * loadingView);
+@property (nonatomic, copy)void(^finishPickActionForMutualIns)(HKMyCar * car,UIView * loadingView);
 
 @end

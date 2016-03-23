@@ -9,9 +9,8 @@
 #import "HKAlertVC.h"
 
 typedef enum : NSUInteger {
-    InviteAlertTypeNologin  = 0,  
-    InviteAlertTypeJoin     = 1,
-    InviteAlertTypeCopyCode = 2
+    InviteAlertTypeNologin  = 0,
+    InviteAlertTypeJoin     = 1
 } InviteAlertType;
 
 @interface InviteAlertVC : HKAlertVC

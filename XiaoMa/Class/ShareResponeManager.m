@@ -20,50 +20,49 @@
     return _shareManager;
 }
 
-#pragma mark - WeiXin And QQ Delegate
+#pragma mark - WeiXin Delegate
 
 - (void)onResp:(BaseResp *)resp
 {
-    if([resp isKindOfClass:[SendMessageToWXResp class]]) {
-        if(self.finishAction) {
-            self.finishAction(resp.errCode, ShareResponseWechat);
-            self.finishAction = nil;
-        }
-        
-        //微信分享的回调结果
-//        NSString * msg = @"";
+    if(self.finishAction) {
+        self.finishAction(resp.errCode, ShareResponseWechat);
+        self.finishAction = nil;
+    }
+//    NSString * msg = @"";
+//    if([resp isKindOfClass:[SendMessageToWXResp class]])
+//    {
 //        if (resp.errCode == WXSuccess)
 //        {
 //            msg = @"分享成功";
 //            [gToast showSuccess:msg];
 //        }
-    }
-    
-    if ([resp isKindOfClass:[SendMessageToQQResp class]]) {
-        QQBaseResp * qqResp = (QQBaseResp *)resp;
-        
-        if(self.finishAction) {
-            self.finishAction([qqResp.result integerValue], ShareResponseQQ);
-            self.finishAction = nil;
-        }
-        
-        //QQ分享的回调结果
-//        NSString * msg = @"";
-//        if ([qqResp.result isEqualToString:@"0"]) {
-//            msg = @"分享成功";
+//        else if(resp.errCode == WXErrCodeCommon)
+//        {
+//            msg = @"分享失败，请重试";
 //            [gToast showSuccess:msg];
 //        }
-    }
-}
-
-- (void)onReq:(QQBaseReq *)req
-{
-    
-}
-
--(void)isOnlineResponse:(NSDictionary *)response
-{
-    
+//        else if(resp.errCode == WXErrCodeUserCancel)
+//        {
+//            msg = @"您取消了分享";
+//            [gToast showError:msg];
+//            return;
+//        }
+//        else if(resp.errCode == WXErrCodeSentFail)
+//        {
+//            msg = @"分享失败，请重试";
+//            [gToast showError:msg];
+//        }
+//        else if(resp.errCode == WXErrCodeAuthDeny)
+//        {
+//            msg = @"授权失败，请重试";
+//            [gToast showError:msg];
+//        }
+//        else if(resp.errCode == WXErrCodeUnsupport)
+//        {
+//            msg = @"内容微信不支持";
+//            [gToast showError:msg];
+//        }
+//    }
 }
 
 #pragma mark - Weibo Delegate
@@ -74,7 +73,6 @@
         self.finishAction(response.statusCode, ShareResponseWeibo);
         self.finishAction = nil;
     }
-    //微博分享的回调结果
 //    NSString * msg = @"";
 //    if([response isKindOfClass:[WBSendMessageToWeiboResponse class]])
 //    {
@@ -83,10 +81,83 @@
 //            msg = @"分享成功";
 //            [gToast showSuccess:msg];
 //        }
+//        else if(response.statusCode == WeiboSDKResponseStatusCodeUserCancel)
+//        {
+//            msg = @"用户取消分享";
+//            [gToast showError:msg];
+//        }
+//        else if(response.statusCode == WeiboSDKResponseStatusCodeSentFail)
+//        {
+//            msg = @"分享失败，请重试";
+//            [gToast showError:msg];
+//        }
+//        else if(response.statusCode == WeiboSDKResponseStatusCodeAuthDeny)
+//        {
+//            msg = @"授权失败，请重试";
+//            [gToast showError:msg];
+//        }
+//        else if(response.statusCode == WeiboSDKResponseStatusCodeUnsupport)
+//        {
+//            msg = @"内容微博不支持";
+//            [gToast showError:msg];
+//        }
+//        else if(response.statusCode == WeiboSDKResponseStatusCodeUnknown)
+//        {
+//            msg = @"分享失败，请重试";
+//            [gToast showError:msg];
+//        }
 //    }
 }
 
 - (void)didReceiveWeiboRequest:(WBBaseRequest *)request
+{
+    
+}
+
+@end
+
+
+@implementation ShareResponeManagerForQQ
+
++ (instancetype)init
+{
+    static ShareResponeManagerForQQ * _shareManager = nil;
+    static dispatch_once_t once_token;
+    dispatch_once(&once_token, ^{
+        _shareManager = [[ShareResponeManagerForQQ alloc] init];
+    });
+    return _shareManager;
+}
+
+- (void)onReq:(QQBaseReq *)req
+{
+    
+}
+
+- (void)onResp:(QQBaseResp *)resp
+{
+    if(self.finishAction) {
+        self.finishAction(resp.result, ShareResponseQQ);
+        self.finishAction = nil;
+    }
+//    NSString * msg = @"";
+//    if ([resp isKindOfClass:[SendMessageToQQResp class]]) {
+//        if ([resp.result isEqualToString:@"-4"]) {
+//            msg = @"用户取消";
+//            [gToast showError:msg];
+//        }
+//        else if ([resp.result isEqualToString:@"0"]) {
+//            msg = @"分享成功";
+//            [gToast showSuccess:msg];
+//        }
+//        else {
+//            msg = @"分享失败";
+//            [gToast showError:msg];
+//        }
+//    }
+}
+
+-(void)isOnlineResponse:(NSDictionary *)response
 {
     
 }

@@ -22,6 +22,26 @@
 
 @implementation MutualInsScencePhotoVM
 
+static MutualInsScencePhotoVM *scencePhotoVM;
+
+-(void)getNoticeArr
+{
+    GetCoorperationClaimConfigOp *op = [[GetCoorperationClaimConfigOp alloc]init];
+    [[op rac_postRequest]subscribeNext:^(GetCoorperationClaimConfigOp *op) {
+        self.noticeArr = @[op.rsp_scenedesc,op.rsp_cardamagedesc,op.rsp_carinfodesc,op.rsp_idinfodesc];
+    }];
+}
+
+
++ (instancetype)sharedManager
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^ {
+        scencePhotoVM = [[MutualInsScencePhotoVM alloc] init];
+    });
+    return scencePhotoVM;
+}
+
 -(void)deleteAllInfo
 {
     [self.recordArray makeObjectsPerformSelector:@selector(removeAllObjects)];

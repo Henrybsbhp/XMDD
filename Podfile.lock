@@ -50,6 +50,7 @@ PODS:
     - cdebug (~> 0.1)
     - FoundationExtension/FoundationExtension
   - GIKPopoverBackgroundView/Core (0.0.1)
+  - JCAlertView (1.1.5)
   - JSPatch (0.1.5):
     - JSPatch/Core (= 0.1.5)
   - JSPatch/Core (0.1.5)
@@ -89,6 +90,7 @@ DEPENDENCIES:
   - CKKit (from `ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git`)
   - CocoaLumberjack (= 2.0.0)
   - FoundationExtension (= 0.60)
+  - JCAlertView (= 1.1.5)
   - JSPatch (= 0.1.5)
   - Masonry (= 0.6.1)
   - MZFormSheetController (= 2.4.1)
@@ -119,6 +121,7 @@ SPEC CHECKSUMS:
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   FoundationExtension: 76157113e6486ad95ea2be32a06f0d3f48172d56
   GIKPopoverBackgroundView: 9cde2752e608df4d1e35ebca12af762b9a7dca3e
+  JCAlertView: c65a7b298b8b497b3db783d82f719b88f4914869
   JSPatch: 405b5f5990643e6717dd6715ac60d6a2b582a6ba
   Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
   MZAppearance: 0c06d3fa9cc55142f1da14bc8631fbe8fd6e19d5

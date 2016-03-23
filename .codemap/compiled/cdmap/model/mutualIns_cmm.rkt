@@ -357,17 +357,6 @@
      (node (attr (rsp)) (node (id cardlist) (type array) (value #f))))
     (node
      (attr
-      (*def* "删除团信息")
-      (class DeleteCooperationGroup)
-      (op)
-      (auth)
-      (path "/cooperation/groupinfo/delete"))
-     (node
-      (attr (req))
-      (node (id memberid) (type number) (value #f))
-      (node (id groupid) (type number) (value #f))))
-    (node
-     (attr
       (*def* "查看团里是否有正在审核中的成员")
       (class CheckCooperationPremium)
       (op)

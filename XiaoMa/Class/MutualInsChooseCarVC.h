@@ -12,6 +12,4 @@
 
 @property (nonatomic,strong) NSArray *reports;
 
-@property (nonatomic,strong) NSArray *noticeArr;
-
 @end

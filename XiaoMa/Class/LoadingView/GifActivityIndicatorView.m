@@ -47,10 +47,5 @@
     [self.imgView startAnimating];
 }
 
-- (BOOL)isAnimating
-{
-    return [self.imgView isAnimating];
-}
-
 
 @end

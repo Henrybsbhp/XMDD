@@ -37,6 +37,4 @@ typedef enum : NSUInteger {
 /// 状态描述
 @property (nonatomic,copy)NSString * statusDesc;
 
-- (NSString *)identify;
-
 @end

@@ -44,16 +44,6 @@
 			<key>orderHint</key>
 			<integer>30</integer>
 		</dict>
-		<key>JCAlertView.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>49</integer>
-		</dict>
-		<key>JSPatch.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>48</integer>
-		</dict>
 		<key>MZAppearance.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -282,11 +272,6 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2BB99E1B247E3B23CF961466FDB8D646</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>2ECD22BB0EA631BCC640B9B2</key>
 		<dict>
 			<key>primary</key>
@@ -298,11 +283,6 @@
 			<true/>
 		</dict>
 		<key>333DD50BDAB6A87CF793A93C</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>45959FA60A23563BF2B00E21040C6C4A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -323,11 +303,6 @@
 			<true/>
 		</dict>
 		<key>5D35E262A292DE3ED0BBC338E12B393A</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>5DAFB33C5A66F403C4785D6CBA64B335</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -382,22 +357,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>85DB3602497CAE29F9F5827CB5FA3F02</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>87F3AEF592ECB51D9385E7E3</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>8E13411F1A527C74876AF264AD903A4A</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>8E16F23C3941DDC72C45FC1B5C8EE8CD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -443,16 +403,6 @@
 			<true/>
 		</dict>
 		<key>E0F24104F47AF9BA109A0BBCE4BB0F8E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E8CF4692F62094CD7D3B959CDD9EF920</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E94351E62451B5C948E083D2A292968A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
