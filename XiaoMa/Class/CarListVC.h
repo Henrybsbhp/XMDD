@@ -10,9 +10,13 @@
 #import "HKMyCar.h"
 #import "MyCarListVModel.h"
 
+
 @interface CarListVC : HKViewController
 
 @property (nonatomic, strong, readonly) MyCarListVModel *model;
 @property (nonatomic, strong) NSNumber *originCarID;
+@property (nonatomic, assign) BOOL canJoin;
+
+@property (nonatomic, copy)void(^finishPickActionForMutualIns)(MyCarListVModel * model, UIView * loadingView);
 
 @end

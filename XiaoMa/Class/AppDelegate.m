@@ -25,6 +25,7 @@
 
 #import "HKLaunchManager.h"
 #import "ShareResponeManager.h"
+#import "PasteboardModel.h"
 
 #import "GetSystemTipsOp.h"
 #import "GetSystemVersionOp.h"
@@ -37,7 +38,7 @@
 
 #import "MainTabBarVC.h"
 #import "LaunchVC.h"
-#import "GuideViewController.h"
+
 
 #ifndef __OPTIMIZE__
 #import "RRFPSBar.h"
@@ -90,6 +91,8 @@
     
     [self setupOpenUrlQueue];
     
+    [self setupPasteboard];
+    
     [self setupFPSObserver];
     
     //设置崩溃捕捉(官方建议放在最后面)
@@ -109,23 +112,17 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     UIViewController *vc;
-    if ([gAppMgr.deviceInfo firstAppearAtThisVersionForKey:@"$GuideView"]) {
-        vc = [[GuideViewController alloc] init];
+    //如果本地没有启动页的相关信息，则直接进入主页，否则进入启动页
+    HKLaunchInfo *info = [self.launchMgr fetchLatestLaunchInfo];
+    NSString *url = [info croppedPicUrl];
+    if (!info || ![gMediaMgr cachedImageExistsForUrl:url]) {
+        vc = [UIStoryboard vcWithId:@"MainTabBarVC" inStoryboard:@"Main"];
     }
-    else
-    {
-        //如果本地没有启动页的相关信息，则直接进入主页，否则进入启动页
-        HKLaunchInfo *info = [self.launchMgr fetchLatestLaunchInfo];
-        NSString *url = [info croppedPicUrl];
-        if (!info || ![gMediaMgr cachedImageExistsForUrl:url]) {
-            vc = [UIStoryboard vcWithId:@"MainTabBarVC" inStoryboard:@"Main"];
-        }
-        else {
-            LaunchVC *lvc = [UIStoryboard vcWithId:@"LaunchVC" inStoryboard:@"Launch"];
-            [lvc setImage:[gMediaMgr imageFromDiskCacheForUrl:url]];
-            [lvc setInfo:info];
-            vc = lvc;
-        }
+    else {
+        LaunchVC *lvc = [UIStoryboard vcWithId:@"LaunchVC" inStoryboard:@"Launch"];
+        [lvc setImage:[gMediaMgr imageFromDiskCacheForUrl:url]];
+        [lvc setInfo:info];
+        vc = lvc;
     }
     [self resetRootViewController:vc];
 }
@@ -195,8 +192,12 @@
             });
         }
     });
-
-    [self checkVersionUpdating];
+    
+    if (![self checkVersionUpdating])
+    {
+        // 不需要更新的情况下去查询小马互助
+        [self.pasteboardoModel checkPasteboard];
+    }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -219,11 +220,11 @@
         return [WeiboSDK handleOpenURL:url delegate:[ShareResponeManager init]];
     }
     else if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@", QQ_API_ID]]) {
-        return [QQApiInterface handleOpenURL:url delegate:[ShareResponeManagerForQQ init]];
+        return [QQApiInterface handleOpenURL:url delegate:[ShareResponeManager init]];
     }
     else if ([url.absoluteString hasPrefix:@"xmdd://"])
     {
-        [MobClick endEvent:@"rp000"];
+        [MobClick event:@"rp000"];
         NSString * urlStr = url.absoluteString;
         NSDictionary * dict = @{@"url":urlStr};
         [self.openUrlQueue addObject:dict forKey:nil];
@@ -451,8 +452,9 @@
     }];
 }
 
+
 /// 检查更新
-- (void)checkVersionUpdating
+- (BOOL)checkVersionUpdating
 {
     if (gAppMgr.clientInfo.forceUpdateUrl.length)
     {
@@ -465,7 +467,10 @@
             [gAppMgr startUpdatingWithURLString:gAppMgr.clientInfo.forceUpdateUrl];
         }];
         [av show];
+        
+        return YES;
     }
+    return NO;
 }
 
 /// 分享开关
@@ -518,6 +523,7 @@
     }];
 }
 
+
 #pragma mark - JSPatch
 - (void)setupJSPatch
 {
@@ -555,6 +561,12 @@
             [JPEngine evaluateScript:script];
         }];
     }];
+}
+
+///剪切板设置
+- (void)setupPasteboard
+{
+    _pasteboardoModel = [[PasteboardModel alloc] init];
 }
 
 #pragma mark - FPS

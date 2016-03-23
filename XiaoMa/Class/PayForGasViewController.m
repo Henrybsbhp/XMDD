@@ -10,7 +10,7 @@
 #import "UIView+Layer.h"
 #import "GasPaymentResultVC.h"
 #import "HKTableViewCell.h"
-#import "ChooseCarwashTicketVC.h"
+#import "ChooseCouponVC.h"
 #import "GetUserResourcesGaschargeOp.h"
 #import "NSString+Format.h"
 #import "NSString+Split.h"
@@ -227,7 +227,7 @@
 
 - (void)jumpToChooseCouponVC
 {
-    ChooseCarwashTicketVC *vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseCarwashTicketVC"];
+     ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
     vc.originVC = self;
     vc.type = CouponTypeGasNormal; /// 加油券类型的用普通代替
     vc.selectedCouponArray = self.selectGasCoupouArray;
@@ -276,8 +276,8 @@
         }
     } failed:^(NSError *error, GascardChargeOp *op) {
         
-        @strongify(self);
-        [self pushToPaidByStagesResult:op];
+//        @strongify(self);
+//        [self pushToPaidByStagesResult:op];
     }];
 }
 

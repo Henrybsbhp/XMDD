@@ -55,7 +55,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-
 - (void)dealloc
 {
     self.tableView.delegate = nil;
@@ -203,7 +202,6 @@
         AboutViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
         [self.navigationController pushViewController:vc animated:YES];
     });
-
     self.datasource = $($(top),
                         $(car,bank,order,pkg,collect),
                         $(active),

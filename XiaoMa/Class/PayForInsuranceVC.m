@@ -7,22 +7,27 @@
 //
 
 #import "PayForInsuranceVC.h"
+
+#import "PaymentHelper.h"
+#import "HKCellData.h"
+#import "TTTAttributedLabel.h"
+#import "NSString+Format.h"
+#import "InsuranceStore.h"
 #import "UIView+Layer.h"
 #import "HKCoupon.h"
 #import "XiaoMa.h"
+
 #import "GetInscouponOp.h"
-#import "ChooseCarwashTicketVC.h"
 #import "InsuranceOrderPayOp.h"
-#import "PaymentHelper.h"
 #import "OrderPaidSuccessOp.h"
-#import "HKCellData.h"
-#import "TTTAttributedLabel.h"
+
+#import "ChooseCouponVC.h"
 #import "InsPayResultVC.h"
-#import "DetailWebVC.h"
-#import "NSString+Format.h"
-#import "InsuranceStore.h"
-//#import "InsPayFaildVC.h"
 #import "InsLicensePopVC.h"
+#import "DetailWebVC.h"
+
+
+
 
 #define CheckBoxDiscountGroup @"CheckBoxDiscountGroup"
 #define CheckBoxPlatformGroup @"CheckBoxPlatformGroup"
@@ -1138,7 +1143,7 @@
 
 - (void)jumpToChooseCouponVC
 {
-    ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
+    ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
     vc.type = CouponTypeInsurance;
     vc.selectedCouponArray = self.selectInsuranceCoupouArray;
     vc.couponArray = gAppMgr.myUser.couponModel.validInsuranceCouponArray;

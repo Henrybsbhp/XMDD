@@ -80,6 +80,7 @@ typedef enum : NSUInteger {
     ShareSceneValuation = 7,
     ShareSceneAppCarSell = 8,
     ShareSceneAppAbout = 9,
+    ShareSceneCipher = 10,
     ShareSceneLocalShare = 100
 } ShareSceneType;
 
@@ -125,6 +126,8 @@ typedef enum : NSUInteger {
 #define BaiduNavigationStr @"百度地图"
 #define AMapNavigationStr @"高德地图"
 
+#define XMINSPrefix @"#小马互助"
+
 //单例别名
 #define gAppDelegate       ((AppDelegate *)[UIApplication sharedApplication].delegate)
 #define gAppMgr     [AppManager sharedManager]
@@ -148,6 +151,11 @@ typedef enum : NSUInteger {
 #define violationStoryboard [UIStoryboard storyboardWithName:@"Violation" bundle:nil]
 #define valuationStoryboard [UIStoryboard storyboardWithName:@"Valuation" bundle:nil]
 #define gasStoryboard [UIStoryboard storyboardWithName:@"Gas" bundle:nil]
+#define mutualInsPayStoryboard [UIStoryboard storyboardWithName:@"MutualInsPay" bundle:nil]
+#define mutInsGrouponStoryboard [UIStoryboard storyboardWithName:@"MutualInsGroupon" bundle:nil]
+#define mutualInsJoinStoryboard [UIStoryboard storyboardWithName:@"MutualInsJoin" bundle:nil]
+#define aboutStoryboard [UIStoryboard storyboardWithName:@"About" bundle:nil]
+
 
 #define LocationFail 7001
 #define WechatPayFail 7002
@@ -158,7 +166,9 @@ typedef enum : NSUInteger {
 #define kNotifyRefreshMyBankcardList        @"com.huika.xmdd.RefreshMyBankcardList"
 #define kNotifyRefreshMyCouponList          @"com.huika.xmdd.RefreshMyCouponList"
 
-
+//key定义
+#define kOriginVC       @"originVC"
+#define kNextVC         @"nextVC"
 
 /// 相关网页地址
 #define kDevGasOrderPaidUrl @"http://dev.xiaomadada.com/paaweb/general/order/paynotify"

@@ -1,3 +1,5 @@
+######修改版本号
+
 plist_path=${1}
 #取版本号
 bundleShortVersion=$(/usr/libexec/PlistBuddy -c "print CFBundleVersion" $plist_path)
