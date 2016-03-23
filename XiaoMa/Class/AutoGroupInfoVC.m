@@ -68,6 +68,7 @@
 - (void)actionHelp
 {
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.title = @"新手必点";
     vc.url = @"http://www.baidu.com";
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -245,14 +246,14 @@
     tagLabel.text = [NSString stringWithFormat:@"  %@  ", [groupInfo stringParamForName:@"grouptag"]];
     
     if ([groupInfo stringParamForName:@"tip"].length == 0) {
-        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#888888") borderWidth:0.5];
+        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#888888") borderWidth:0.8];
         tagLabel.textColor = HEXCOLOR(@"#888888");
-        [btn setBackgroundColor:HEXCOLOR(@"#dedfe0")];
+        [btn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#dedfe0")];
         [btn setTitle:@"已结束" forState:UIControlStateNormal];
     }
     else {
-        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#ff7428") borderWidth:0.5];
-        [btn setBackgroundColor:HEXCOLOR(@"#18D06A")];
+        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#ff7428") borderWidth:0.8];
+        [btn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
         if ([groupInfo boolParamForName:@"ingroup"]) {
             [btn setTitle:@"已加入" forState:UIControlStateNormal];
         }

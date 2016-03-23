@@ -217,7 +217,7 @@
         }
         else {
             UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"添加" style:UIBarButtonItemStylePlain target:self action:@selector(actionAddCar:)];
-            [self.navigationItem setRightBarButtonItem:right animated:NO];
+            [self.navigationItem setRightBarButtonItem:right animated:YES]; //解决添加按钮的抖动
         }
         if (self.datasource.count == 0) {
             [self.view showDefaultEmptyViewWithText:@"暂无爱车，快去添加一辆吧" tapBlock:^{
