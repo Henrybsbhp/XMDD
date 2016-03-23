@@ -200,9 +200,9 @@
     UILabel *tips2Label = (UILabel *)[cell.contentView viewWithTag:104];
     UILabel *tips3Label = (UILabel *)[cell.contentView viewWithTag:105];
     
-    [tips1Label setPreferredMaxLayoutWidth:200];
-    [tips2Label setPreferredMaxLayoutWidth:200];
-    [tips3Label setPreferredMaxLayoutWidth:200];
+    [tips1Label setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 99];
+    [tips2Label setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 99];
+    [tips3Label setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 99];
     tips1Label.attributedText = [self generateAttributedStringWithLineSpacing:@"1、确认本团信息，选择车辆后即可入团。"];
     tips2Label.attributedText = [self generateAttributedStringWithLineSpacing:@"2、完善资料，填写信息后我们将对您的信息进行审核。"];
     tips3Label.attributedText = [self generateAttributedStringWithLineSpacing:@"3、选择购买的服务种类，方便我们为您精准报价。"];

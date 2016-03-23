@@ -251,9 +251,9 @@
     tipsImageView3.image = [UIImage imageNamed:@"mutuallns_createGroup_rectangle"];
     
     tipsTitleLabel.text = @"组团提示";
-    [tipsLabel1 setPreferredMaxLayoutWidth:200];
-    [tipsLabel2 setPreferredMaxLayoutWidth:200];
-    [tipsLabel3 setPreferredMaxLayoutWidth:200];
+    [tipsLabel1 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 106];
+    [tipsLabel2 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 106];
+    [tipsLabel3 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 106];
     tipsLabel1.attributedText = [self generateAttributedStringWithLineSpacing:@"输入团队名称后，点击下方 “确定” 即可发起组团并获得入团暗号。"];
     tipsLabel2.attributedText = [self generateAttributedStringWithLineSpacing:@"分享暗号可以邀请好友加入。"];
     tipsLabel3.attributedText = [self generateAttributedStringWithLineSpacing:@"建团后，您也可以选择完善信息选择购买的小马互助种类后，再去邀请好友入团。"];
