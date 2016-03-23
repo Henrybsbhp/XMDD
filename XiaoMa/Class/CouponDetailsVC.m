@@ -219,13 +219,6 @@
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         
-        [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
-            
-        }];
-        [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
-            
-        }];
-        
     } error:^(NSError *error) {
         [gToast showError:error.domain];
     }];

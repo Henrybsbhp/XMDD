@@ -268,11 +268,7 @@
             @strongify(self)
             [self handleResultCode:code from:type forSheet:sheet];
         }];
-        [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
-            
-            @strongify(self)
-            [self handleResultCode:[code integerValue] from:type forSheet:sheet];
-        }];
+        
     } error:^(NSError *error) {
         [gToast showError:@"分享信息拉取失败，请重试"];
     }];
