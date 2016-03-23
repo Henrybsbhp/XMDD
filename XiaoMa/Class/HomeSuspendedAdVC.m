@@ -9,6 +9,7 @@
 #import "HomeSuspendedAdVC.h"
 #import "UIView+Genie.h"
 #import "SuspendedAdVC.h"
+#import "AdListData.h"
 
 @interface HomeSuspendedAdVC () <SuspendedAdClickDelegate>
 
@@ -34,7 +35,7 @@
     containerView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:containerView];
     
-    self.adCtrl = [SuspendedAdVC adVCWithBoundsWidth:self.targetVC.view.frame.size.width * 0.84 targetVC:self.targetVC mobBaseEvent:@""];
+    self.adCtrl = [SuspendedAdVC adVCWithBoundsWidth:self.targetVC.view.frame.size.width * 0.84 targetVC:self.targetVC mobBaseEvent:@"rp101_17"];
     self.adCtrl.clickDelegate = self;
     
     self.adCtrl.adList = self.adListArr;
@@ -102,6 +103,7 @@
 
 - (void)actionClose:(id)sender
 {
+    [MobClick event:@"rp101_17_x"];
     self.closeView.hidden = YES;
     int space;
     if ([UIScreen mainScreen].bounds.size.height == 480) {
@@ -142,6 +144,9 @@
     vc.sheet = sheet;
     
     [sheet presentAnimated:YES completionHandler:nil];
+    
+    //存广告
+    [AdListData recordAdArray:adArr];
     
     return vc;
 }

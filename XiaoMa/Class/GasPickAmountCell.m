@@ -15,6 +15,20 @@
 @implementation GasPickAmountCell
 - (void)awakeFromNib
 {
+    [self __commonInit];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self __commonInit];
+        self.frame = frame;
+    }
+    return self;
+}
+
+- (void)__commonInit {
     if (!_richLabel) {
         RTLabel *label = [[RTLabel alloc] initWithFrame:CGRectZero];
         [label setParagraphReplacement:@""];

@@ -128,13 +128,13 @@
 
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rp1010-1"];
+    [MobClick event:@"rp1010_1"];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)actionAppoint:(id)sender
 {
-    [MobClick event:@"rp1010-6"];
+    [MobClick event:@"rp1010_6"];
     if (self.appointInfo.req_startdate.length == 0) {
         [gToast showText:@"商业险起保日不能为空"];
     }
@@ -223,7 +223,7 @@
      flattenMap:^RACStream *(id value) {
         
          @strongify(self);
-         [MobClick event:@"rp1010-2"];
+         [MobClick event:@"rp1010_2"];
          [self.view endEditing:YES];
          return [self rac_pickDateWithNow:self.appointInfo.req_startdate];
     }] subscribeNext:^(NSString *datetext) {
@@ -242,7 +242,7 @@
      flattenMap:^RACStream *(id value) {
          
         @strongify(self);
-         [MobClick event:@"rp1010-3"];
+         [MobClick event:@"rp1010_3"];
         [self.view endEditing:YES];
         return [self rac_pickDateWithNow:self.appointInfo.req_forcestartdate];
     }] subscribeNext:^(NSString *datetext) {
@@ -256,7 +256,7 @@
     nameF.inputField.text = self.appointInfo.req_ownername;
     nameF.inputField.textLimit = 20;
     [nameF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        [MobClick event:@"rp1010-4"];
+        [MobClick event:@"rp1010_4"];
     }];
     [nameF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
         
@@ -269,7 +269,7 @@
     idF.inputField.textLimit = 18;
     idF.inputField.keyboardType = UIKeyboardTypeASCIICapable;
     [idF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        [MobClick event:@"rp1010-5"];
+        [MobClick event:@"rp1010_5"];
     }];
     [idF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
         

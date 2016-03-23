@@ -151,7 +151,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"rp324-1"];
+    [MobClick event:@"rp324_1"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     HKMessage *msg = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     if (msg.url.length > 0) {

@@ -150,7 +150,7 @@
     @weakify(self)
     [[self.locationMeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
        
-        [MobClick event:@"rp104-6"];
+        [MobClick event:@"rp104_6"];
         @strongify(self)
         [self.mapView setCenterCoordinate:self.mapView.userLocation.coordinate animated:YES];
     }];
@@ -302,7 +302,7 @@
 
 - (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view
 {
-    [MobClick event:@"rp104-1"];
+    [MobClick event:@"rp104_1"];
     if ([view.annotation isKindOfClass:[MAPointAnnotation class]])
     {
         MAPointAnnotation * annotation = (MAPointAnnotation *)view.annotation;
@@ -342,7 +342,7 @@
     if (!self.isAutoRegionChanging)
     {
         //包括放大操作
-        [MobClick event:@"rp104-7"];
+        [MobClick event:@"rp104_7"];
         [self.requestSignal sendNext:mapView];
     }
     self.isAutoRegionChanging = NO;
@@ -412,7 +412,7 @@
     @weakify(self)
     [[[mapBottomView.detailBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp104-2"];
+        [MobClick event:@"rp104_2"];
         ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
         vc.shop = shop;
         
@@ -422,7 +422,7 @@
     
     [[[mapBottomView.phoneBtm rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp104-4"];
+        [MobClick event:@"rp104_4"];
         if (shop.shopPhone.length == 0)
         {
             UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
@@ -436,7 +436,7 @@
     
     [[[mapBottomView.collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp104-3"];
+        [MobClick event:@"rp104_3"];
         @strongify(self)
         if ([LoginViewModel loginIfNeededForTargetViewController:self])
         {
@@ -491,7 +491,7 @@
     [[[mapBottomView.navigationBtn rac_signalForControlEvents:UIControlEventTouchUpInside]  takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
         @strongify(self)
-        [MobClick event:@"rp104-5"];
+        [MobClick event:@"rp104_5"];
         [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.view];
     }];
 
@@ -500,7 +500,7 @@
 
 - (void)paginatorView:(SYPaginatorView *)paginatorView didScrollToPageAtIndex:(NSInteger)pageIndex
 {
-    [MobClick event:@"rp104-8"];
+    [MobClick event:@"rp104_8"];
     self.bottomIndex = pageIndex;
     self.isAutoRegionChanging = YES;
     [self highlightMapViewWithIndex:pageIndex];

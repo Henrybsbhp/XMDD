@@ -139,7 +139,7 @@
     @weakify(self)
     [[self.allSelectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp316-8"];
+        [MobClick event:@"rp316_8"];
         @strongify(self)
         if (self.selectSet.count == gAppMgr.myUser.favorites.favoritesArray.count)
         {
@@ -160,7 +160,7 @@
     
     [[self.deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp316-9"];
+        [MobClick event:@"rp316_9"];
         @strongify(self)
         if (self.selectSet.count)
         {
@@ -178,9 +178,9 @@
 - (void)editActions:(id)sender
 {
     if (self.isEditing && sender)
-        [MobClick event:@"rp316-5"];
+        [MobClick event:@"rp316_5"];
     if (!self.isEditing)
-        [MobClick event:@"rp316-1"];
+        [MobClick event:@"rp316_1"];
     self.isEditing = !self.isEditing;
     
     [self refreshBottomView];
@@ -325,7 +325,7 @@
     
     if (!self.isEditing)
     {
-        [MobClick event:@"rp316-2"];
+        [MobClick event:@"rp316_2"];
         JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.section];
         ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
         vc.hidesBottomBarWhenPushed = YES;
@@ -495,7 +495,7 @@
     @weakify(checkBtn)
     [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp316-7"];
+        [MobClick event:@"rp316_7"];
         @strongify(checkBtn)
         if ([self.selectSet containsIndex:indexPath.section])
         {

@@ -221,7 +221,7 @@
 
 
 - (IBAction)collectionAction:(id)sender {
-    [MobClick event:@"rp105-1"];
+    [MobClick event:@"rp105_1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self])
     {
         if (self.favorite)
@@ -327,7 +327,7 @@
 
 - (IBAction)actionMap:(id)sender
 {
-    [MobClick event:@"rp105-4"];
+    [MobClick event:@"rp105_4"];
     CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
     vc.shop = self.shop;
     [self.navigationController pushViewController:vc animated:YES];
@@ -335,7 +335,7 @@
 
 - (void)actionShowPhotos:(UITapGestureRecognizer *)tap
 {
-    [MobClick event:@"rp105-2"];
+    [MobClick event:@"rp105_2"];
     if (self.shop.picArray.count > 0)
     {
         SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
@@ -352,10 +352,11 @@
 - (void)gotoPaymentVCWithService:(JTShopService *)service
 {
     if (service.shopServiceType == ShopServiceCarWash) {
-        [MobClick event:@"rp105-6_1"];
+        
+        [MobClick event:@"rp105_6_1"];
     }
     else {
-        [MobClick event:@"rp105-6_2"];
+        [MobClick event:@"rp105_6_2"];
     }
     [[[[[MyCarStore fetchExistsStore] getDefaultCar] send] catch:^RACSignal *(NSError *error) {
         
@@ -530,13 +531,13 @@
     {
         if (indexPath.row == 0)
         {
-            [MobClick event:@"rp105-9"];
+            [MobClick event:@"rp105_9"];
         }
         if (indexPath.row == 1)
         {
 //            [gPhoneHelper navigationRedirectThirdMap:self.shop andUserLocation:gMapHelper.coordinate andView:self.view];
             
-            [MobClick event:@"rp105-3"];
+            [MobClick event:@"rp105_3"];
             CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
             vc.shop = self.shop;
             vc.favorite = self.favorite;
@@ -544,7 +545,7 @@
         }
         else if (indexPath.row == 2)
         {
-            [MobClick event:@"rp105-5"];
+            [MobClick event:@"rp105_5"];
             if (self.shop.shopPhone.length == 0)
             {
                 UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
@@ -560,7 +561,7 @@
     {
         if (self.shop.shopCommentArray.count)
         {
-            [MobClick event:@"rp105-8"];
+            [MobClick event:@"rp105_8"];
             CommentListViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"CommentListViewController"];
             vc.shopid = self.shop.shopID;
             vc.commentArray = self.shop.shopCommentArray;
@@ -634,7 +635,7 @@
     @weakify(self)
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp105-4"];
+        [MobClick event:@"rp105_4"];
         @strongify(self)
         CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
         vc.shop = self.shop;
@@ -717,7 +718,7 @@
     UIButton *btn = (UIButton *)[cell.contentView viewWithTag:1001];
     @weakify(self);
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        [MobClick event:@"rp105-7"];
+        [MobClick event:@"rp105_7"];
         @strongify(self);
         
         self.serviceExpanded = YES;
@@ -876,7 +877,7 @@
     
     if (price2) {
         NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18],
-                                NSForegroundColorAttributeName:HEXCOLOR(@"#f93a00")};
+                                NSForegroundColorAttributeName:HEXCOLOR(@"#ff7428")};
         NSString * p = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:[price2 floatValue]]];
         NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:p attributes:attr2];
         [str appendAttributedString:attrStr2];

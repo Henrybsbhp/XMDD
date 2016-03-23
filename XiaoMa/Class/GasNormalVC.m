@@ -11,7 +11,6 @@
 #import "GasCard.h"
 #import "NSString+Split.h"
 #import "GetGaschargeConfigOp.h"
-#import "GasNormalVM.h"
 #import "GasStore.h"
 #import "NSString+Format.h"
 
@@ -285,9 +284,8 @@
         @strongify(self);
         return self.tableView.frame.size.height - self.tableView.tableHeaderView.frame.size.height + self.bottomBtn.superview.frame.size.height;
     });
-    
-    item[kCKCellWillDisplay] = CKCellWillDisplay(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
 
+    item[kCKCellWillDisplay] = CKCellWillDisplay(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         if ([data[@"loading"] boolValue]) {
             [cell.contentView hideDefaultEmptyView];
             [cell.contentView startActivityAnimationWithType:GifActivityIndicatorType];
@@ -325,7 +323,7 @@
 
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"rp501-15"];
+        [MobClick event:@"rp501_15"];
         [self actionPickGasCard];
     });
     return item;
@@ -345,7 +343,7 @@
     @weakify(self);
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"rp501-4"];
+        [MobClick event:@"rp501_4"];
         [self actionAddGasCard];
     });
     return item;
@@ -412,10 +410,13 @@
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         
         @strongify(self);
-        GasPickAmountCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PickGasAmount"];
+        GasPickAmountCell *cell = data[@"cell"];
+        if (!cell) {
+            cell = [[GasPickAmountCell alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 52)];
+            data[@"cell"] = cell;
+        }
         CKCellPrepareBlock prepare = data[kCKCellPrepare];
         prepare(data, cell, indexPath);
-        cell.frame = CGRectMake(0, 0, self.tableView.frame.size.width, 52);
         return [cell cellHeight];
     });
 
@@ -529,10 +530,13 @@
         @strongify(self);
         CGFloat height = [data[@"height"] integerValue];
         if (height == 0) {
+            GasReminderCell *cell = data[@"cell"];
+            if (!cell) {
+                cell = [[GasReminderCell alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 45)];
+                data[@"cell"] = cell;
+            }
             CKCellPrepareBlock prepare = data[kCKCellPrepare];
-            GasReminderCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"GasReminder"];
             prepare(data, cell, indexPath);
-            cell.frame = CGRectMake(0, 0, self.tableView.frame.size.width, 45);
             height = [cell cellHeight];
             data[@"height"] = @(height);
         }
@@ -572,7 +576,7 @@
         [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
          subscribeNext:^(id x) {
              @strongify(item, self);
-             [MobClick event:@"rp501-13"];
+             [MobClick event:@"rp501_13"];
              item[@"agree"] = @(![item[@"agree"] boolValue]);
              item.forceReload = !item.forceReload;
              [self reloadBottomButton];
@@ -584,7 +588,7 @@
 #pragma mark - RTLabelDelegate
 - (void)rtLabel:(id)rtLabel didSelectLinkWithURL:(NSURL *)url
 {
-    [MobClick event:@"rp501-8"];
+    [MobClick event:@"rp501_8"];
     [gAppMgr.navModel pushToViewControllerByUrl:[url absoluteString]];
 }
 
@@ -624,7 +628,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CKDict *item = [[self.datasource objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:item[kCKItemKey]];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:item[kCKItemKey] forIndexPath:indexPath];
     if (item[kCKCellPrepare]) {
         ((CKCellPrepareBlock)item[kCKCellPrepare])(item, cell, indexPath);
     }

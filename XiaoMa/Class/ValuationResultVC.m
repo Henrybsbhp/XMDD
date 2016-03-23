@@ -8,7 +8,7 @@
 
 #import "ValuationResultVC.h"
 #import "NSDate+DateForText.h"
-#import "GetShareButtonOp.h"
+#import "GetShareButtonOpV2.h"
 #import "SocialShareViewController.h"
 #import "ShareResponeManager.h"
 #import "SecondCarValuationVC.h"
@@ -47,7 +47,7 @@
 
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rp602-1"];
+    [MobClick event:@"rp602_1"];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -170,7 +170,7 @@
                 /**
                  *  查看更多事件
                  */
-                [MobClick event:@"rp602-2"];
+                [MobClick event:@"rp602_2"];
                 @strongify(self);
                 DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
                 vc.url = self.evaluateOp.rsp_url;
@@ -230,12 +230,12 @@
     /**
      *  炫耀一下事件
      */
-    [MobClick event:@"rp602-3"];
+    [MobClick event:@"rp602_3"];
     [gToast showingWithText:@"分享信息拉取中..."];
-    GetShareButtonOp * op = [GetShareButtonOp operation];
+    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneValuation;
     @weakify(self);
-    [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
         @strongify(self);
         [gToast dismiss];
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
@@ -254,7 +254,7 @@
         }
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            [MobClick event:@"rp110-7"];
+            [MobClick event:@"rp110_7"];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [vc setClickAction:^{
@@ -276,7 +276,7 @@
     /**
      *  一键卖车事件
      */
-    [MobClick event:@"rp602-4"];
+    [MobClick event:@"rp602_4"];
     GetCityInfoByNameOp * op = [GetCityInfoByNameOp operation];
     op.province = self.provinceName;
     op.city = self.cityName;

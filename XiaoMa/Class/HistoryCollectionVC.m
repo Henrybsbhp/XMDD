@@ -222,7 +222,7 @@
     /**
      *  编辑事件
      */
-    [MobClick event:@"rp603-1"];
+    [MobClick event:@"rp603_1"];
     self.isEditing = !self.isEditing;
 
     if (self.dataArr.count == 0)
@@ -452,7 +452,7 @@
     /**
      *  删除事件
      */
-    [MobClick event:@"rp603-3"];
+    [MobClick event:@"rp603_3"];
     if (self.deleteArr.count)
     {
         NSMutableArray *deleteStrArr = [NSMutableArray new];
@@ -474,7 +474,7 @@
     /**
      *  清空事件
      */
-    [MobClick event:@"rp603-2"];
+    [MobClick event:@"rp603_2"];
 
     UIAlertView *alerView = [[UIAlertView alloc]initWithTitle:nil message:@"请确认是否清空估值记录" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alerView show];

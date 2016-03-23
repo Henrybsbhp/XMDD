@@ -23,7 +23,7 @@
 #import "PaymentHelper.h"
 
 #import "PaymentSuccessVC.h"
-#import "ChooseCarwashTicketVC.h"
+#import "ChooseCouponVC.h"
 #import "ChooseBankCardVC.h"
 #import "CarListVC.h"
 #import "EditCarVC.h"
@@ -244,7 +244,7 @@
     CGFloat height = 44;
     if (indexPath.section == 0){
         if (indexPath.row == 0){
-            height = 76;
+            height = 70;
         }
         else if (indexPath.row == 3){
             height = 36;
@@ -313,7 +313,7 @@
         }
         else
         {
-            cell = [self paymentTypeCellAtIndexPath:indexPath];
+            cell = [self couponCellAtIndexPath:indexPath];
         }
     }
     else if (indexPath.section == 2) {
@@ -359,7 +359,8 @@
     if (indexPath.section == 0){
         if (indexPath.row == 3) {
             
-            [MobClick event:@"rp108-10"];//车牌
+            // 选择爱车
+            [MobClick event:@"rp108_10"];
             CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
             vc.title = @"选择爱车";
             vc.model.allowAutoChangeSelectedCar = YES;
@@ -376,8 +377,8 @@
         if (indexPath.row == 1)
         {
             //点击查看洗车券
-            [MobClick event:@"rp108-2"];
-            ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
+            [MobClick event:@"rp108_2"];
+            ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
             vc.originVC = self.originVC;
             vc.type = CouponTypeCarWash;
             vc.selectedCouponArray = self.selectCarwashCoupouArray;
@@ -386,8 +387,8 @@
         }
         else if (indexPath.row == 2)
         {
-            [MobClick event:@"rp108-4"];
-            ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
+            [MobClick event:@"rp108_4"];
+            ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
             vc.originVC = self.originVC;
             vc.type = CouponTypeCash;
             vc.selectedCouponArray = self.selectCashCoupouArray;
@@ -403,32 +404,25 @@
         PaymentChannelType payChannel = [[self.paymentArray safetyObjectAtIndex:indexPath.row - 1] integerValue];
         
         if (payChannel == PaymentChannelCZBCreditCard) {
-            [MobClick event:@"rp108-12"];
+            [MobClick event:@"rp108_12"];
             ChooseBankCardVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseBankCardVC"];
             vc.service = self.service;
             vc.shop = self.shop;
             vc.bankCards = gAppMgr.myUser.couponModel.validCZBankCreditCard;
             vc.carwashCouponArray = self.getUserResourcesV2Op.validCarwashCouponArray;
+            vc.needRechooseCarwashCoupon = (!self.selectCarwashCoupouArray.count && !self.selectCashCoupouArray.count);
             [self.navigationController pushViewController:vc animated:YES];
         }
-        else if (payChannel == PaymentChannelAlipay)
+        else
         {
             /// 如果是浙商，无法选择
             if (self.couponType == CouponTypeCZBankCarWash)
             {
                 return;
             }
-            self.checkoutServiceOrderV4Op.paychannel = PaymentChannelAlipay;
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
-        }
-        else if (payChannel == PaymentChannelWechat)
-        {
-            /// 如果是浙商，无法选择
-            if (self.couponType == CouponTypeCZBankCarWash)
-            {
-                return;
-            }
-            self.checkoutServiceOrderV4Op.paychannel = PaymentChannelWechat;
+            
+            self.checkoutServiceOrderV4Op.paychannel = payChannel;
+            // 刷新支付平台section
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
         }
     }
@@ -441,8 +435,6 @@
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1003];
-    logoV.cornerRadius = 5.0f;
-    logoV.layer.masksToBounds = YES;
     
     [logoV setImageByUrl:[self.shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
     titleL.text = self.shop.shopName;
@@ -459,12 +451,12 @@
     
     if (indexPath.row == 1) {
         titleL.text = [NSString stringWithFormat:@"服务项目"];
-        infoL.textColor = HEXCOLOR(@"#505050");
+        infoL.textColor = HEXCOLOR(@"#454545");
         infoL.text = self.service.serviceName;
     }
     else if (indexPath.row == 2) {
         titleL.text = [NSString stringWithFormat:@"项目价格"];
-        infoL.textColor = HEXCOLOR(@"#fb4209");
+        infoL.textColor = HEXCOLOR(@"#ff7428");
         infoL.text = [NSString stringWithFormat:@"￥%.2f",self.service.origprice];
     }
     
@@ -479,7 +471,7 @@
     
     [[RACObserve(self, defaultCar) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(HKMyCar *car) {
         titleL.text = [NSString stringWithFormat:@"我的车辆"];
-        infoL.textColor = HEXCOLOR(@"#505050");
+        infoL.textColor = HEXCOLOR(@"#454545");
         infoL.text = car.licencenumber ? car.licencenumber : @"";
     }];
     
@@ -487,187 +479,46 @@
 }
 
 
-- (UITableViewCell *)paymentTypeCellAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)couponCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentTypeCell"];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CouponCell"];
     
-    UIButton *boxB = (UIButton *)[cell.contentView viewWithTag:1001];
-    UILabel *label = (UILabel *)[cell.contentView viewWithTag:1002];
-    UIImageView *arrow = (UIImageView *)[cell.contentView viewWithTag:1003];
-    UILabel *dateLb = (UILabel *)[cell.contentView viewWithTag:1004];
-    UILabel *statusLb = (UILabel *)[cell.contentView viewWithTag:1005];
+    UILabel *nameLb = (UILabel *)[cell.contentView viewWithTag:101];
+    UILabel *couponLb = (UILabel *)[cell.contentView viewWithTag:102];
+    UILabel *dateLb = (UILabel *)[cell.contentView viewWithTag:103];
     
     if (indexPath.row == 1) {
-        label.text = [NSString stringWithFormat:@"洗车券：%ld张", (long)self.getUserResourcesV2Op.validCarwashCouponArray.count];
-        arrow.hidden = NO;
-        
-        NSDate * earlierDate;
-        NSDate * laterDate;
-        for (HKCoupon * c in self.getUserResourcesV2Op.validCarwashCouponArray)
-        {
-            earlierDate = [c.validsince earlierDate:earlierDate];
-            laterDate = [c.validthrough laterDate:laterDate];
-        }
-        dateLb.text = [NSString stringWithFormat:@"有效期：%@ - %@",earlierDate ? [earlierDate dateFormatForYYMMdd2] : @"",laterDate ? [laterDate dateFormatForYYMMdd2] : @""];
-        
+        nameLb.text = @"洗车券";
+
         if (self.couponType == CouponTypeCarWash || self.couponType == CouponTypeCZBankCarWash)
         {
-            statusLb.text = @"已选中";
-            statusLb.textColor = HEXCOLOR(@"#fb4209");
-            statusLb.hidden = NO;
+            couponLb.hidden = NO;
+            dateLb.hidden = NO;
+            couponLb.text = [self calcCouponTitle:self.selectCarwashCoupouArray];
+            dateLb.text = [self calcCouponValidDateString:self.selectCarwashCoupouArray];
         }
         else
         {
-            statusLb.text = @"未使用";
-            statusLb.textColor = HEXCOLOR(@"#aaaaaa");
-            statusLb.hidden = YES;
+            couponLb.hidden = YES;
+            dateLb.hidden = YES;
         }
     }
     else if (indexPath.row == 2) {
-        label.text = [NSString stringWithFormat:@"代金券：%ld张", (long)self.getUserResourcesV2Op.validCashCouponArray.count];
-        arrow.hidden = NO;
-        
-        NSDate * earlierDate;
-        NSDate * laterDate;
-        for (HKCoupon * c in self.getUserResourcesV2Op.validCashCouponArray)
-        {
-            earlierDate = [c.validsince earlierDate:earlierDate];
-            laterDate = [c.validthrough laterDate:laterDate];
-        }
-        dateLb.text = [NSString stringWithFormat:@"有效期：%@ - %@",earlierDate ? [earlierDate dateFormatForYYMMdd2] : @"",laterDate ? [laterDate dateFormatForYYMMdd2] : @""];
+        nameLb.text = @"代金券";
         
         if (self.couponType == CouponTypeCash)
         {
-            statusLb.text = @"已选中";
-            statusLb.textColor = HEXCOLOR(@"#fb4209");
-            statusLb.hidden = NO;
+            couponLb.hidden = NO;
+            dateLb.hidden = NO;
+            couponLb.text = [self calcCouponTitle:self.selectCashCoupouArray];
+            dateLb.text = [self calcCouponValidDateString:self.selectCashCoupouArray];
         }
         else
         {
-            statusLb.text = @"未使用";
-            statusLb.textColor = HEXCOLOR(@"#aaaaaa");
-            statusLb.hidden = YES;
+            couponLb.hidden = YES;
+            dateLb.hidden = YES;
         }
     }
-    
-    if ((self.couponType == CouponTypeCarWash && indexPath.row == 1) ||
-        (self.couponType == CouponTypeCZBankCarWash && indexPath.row == 1) ||
-        (self.couponType == CouponTypeCash && indexPath.row == 2))
-    {
-        [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
-        boxB.selected = YES;
-    }
-    else
-    {
-        boxB.selected = NO;
-    }
-    
-    // checkBox 点击处理
-    NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxCouponGroup];
-    for (NSInteger i = 0 ; i < array.count ; i++)
-    {
-        UIButton * btn = [array safetyObjectAtIndex:i];
-        if ([btn.customObject isKindOfClass:[NSIndexPath class]])
-        {
-            NSIndexPath * path = (NSIndexPath *)btn.customObject;
-            if (path.section == indexPath.section && path.row == indexPath.row)
-            {
-                [self.checkBoxHelper removeItem:btn forGroupName:CheckBoxCouponGroup];
-                break;
-            }
-        }
-    }
-    @weakify(self);
-    boxB.customObject = indexPath;
-    [self.checkBoxHelper addItem:boxB forGroupName:CheckBoxCouponGroup withChangedBlock:^(id item, BOOL selected) {
-        
-        @strongify(self);
-        boxB.selected = selected;
-        if ((self.couponType == CouponTypeCarWash && indexPath.row == 1) ||
-            (self.couponType == CouponTypeCZBankCarWash && indexPath.row == 1) ||
-            (self.couponType == CouponTypeCash && indexPath.row == 2))
-        {
-            statusLb.text = @"已选中";
-            statusLb.textColor = HEXCOLOR(@"#fb4209");
-            statusLb.hidden = NO;
-        }
-        else
-        {
-            statusLb.text = @"未使用";
-            statusLb.textColor = HEXCOLOR(@"#aaaaaa");
-            statusLb.hidden = YES;
-        }
-    }];
-    [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
-        @strongify(self);
-        if (indexPath.row == 1)
-        {
-            [MobClick event:@"rp108-1"];
-            if (!self.selectCarwashCoupouArray.count)
-            {
-                ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
-                vc.originVC = self.originVC;
-                vc.selectedCouponArray = self.selectCarwashCoupouArray;
-                vc.type = CouponTypeCarWash;//@fq
-                vc.couponArray = self.getUserResourcesV2Op.validCarwashCouponArray;
-                [self.navigationController pushViewController:vc animated:YES];
-                [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
-            }
-            else
-            {
-                if (self.couponType == CouponTypeCarWash || self.couponType == CouponTypeCZBankCarWash)
-                {
-                    self.couponType = 0;
-                    [self.checkBoxHelper cancelSelectedForGroupName:CheckBoxCouponGroup];
-                }
-                else
-                {
-                    HKCoupon * c = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
-                    self.couponType = c.conponType;
-                    if (self.couponType == CouponTypeCZBankCarWash){
-                        self.checkoutServiceOrderV4Op.paychannel = PaymentChannelCZBCreditCard;
-                    }
-                    [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
-                }
-            }
-            
-        }
-        else if (indexPath.row == 2)
-        {
-            NSLog(@"click checkbox2");
-            [MobClick event:@"rp108-3"];
-            if (!self.selectCashCoupouArray.count)
-            {
-                ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
-                vc.originVC = self.originVC;
-                vc.selectedCouponArray = self.selectCashCoupouArray;
-                vc.type = CouponTypeCash;
-                vc.couponArray = self.getUserResourcesV2Op.validCashCouponArray;
-                [self.navigationController pushViewController:vc animated:YES];
-                [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
-            }
-            else
-            {
-                if (self.couponType == CouponTypeCash)
-                {
-                    self.couponType = 0;
-                    [self.checkBoxHelper cancelSelectedForGroupName:CheckBoxCouponGroup];
-                }
-                else
-                {
-                    self.couponType = CouponTypeCash;
-                    [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxCouponGroup];
-                }
-                
-            }
-        }
-        
-        
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
-        [self refreshPriceLb];
-    }];
     
     return cell;
 }
@@ -675,168 +526,70 @@
 - (UITableViewCell *)paymentPlatformACellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-    UIImageView *iconV,*drawerIV;
-    UILabel *titleLb,*noteLb,*numberLb,*recommendLB;
-    UIButton *boxB;
-    UIView * drawerV;
+    UIImageView *iconImgV,*drawerImgV,*tickImgV;
+    UILabel *titleLb,*numberLb,*recommendLB;
+    UIView * drawerV;// 抽屉视图用户浙商信用卡支付;
     
     
     PaymentChannelType payChannel = [[self.paymentArray safetyObjectAtIndex:indexPath.row - 1] integerValue];
     if (payChannel == PaymentChannelCZBCreditCard)
     {
-        cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatformCellB"];
-        iconV = (UIImageView *)[cell searchViewWithTag:1001];
-        titleLb = (UILabel *)[cell searchViewWithTag:1002];
-        noteLb = (UILabel *)[cell searchViewWithTag:1004];
-        drawerV = (UIView *)[cell searchViewWithTag:104];
-        boxB = (UIButton *)[cell searchViewWithTag:20401];
-        drawerIV = (UIImageView *)[cell  searchViewWithTag:20402];
-        numberLb = (UILabel *)[cell searchViewWithTag:20403];
+        cell = [self.tableView dequeueReusableCellWithIdentifier:@"PayPlatformCellB"];
+        iconImgV = (UIImageView *)[cell searchViewWithTag:101];
+        titleLb = (UILabel *)[cell searchViewWithTag:102];
+        drawerV = (UIView *)[cell searchViewWithTag:103];
         self.drawerView = drawerV;
-        drawerIV.image = [UIImage imageNamed:@"mini_card"];
+        tickImgV = (UIImageView *)[cell searchViewWithTag:20301];
+        drawerImgV = (UIImageView *)[cell  searchViewWithTag:20302];
+        numberLb = (UILabel *)[cell searchViewWithTag:20303];
+        drawerImgV.image = [UIImage imageNamed:@"mini_card"];
+        
+        iconImgV.image = [UIImage imageNamed:@"cw_creditcard"];
+        titleLb.text = @"信用卡支付";
         numberLb.text = [self.selectBankCard.cardNumber substringFromIndex:self.selectBankCard.cardNumber.length - 4];
-        if (!gAppMgr.myUser.couponModel.validCZBankCreditCard.count)
-        {
-            [boxB setImage:[UIImage imageNamed:@"cw_box2"] forState:UIControlStateNormal];
-            [boxB setImage:[UIImage imageNamed:@"cw_box3"] forState:UIControlStateSelected];
-            [boxB setImage:[UIImage imageNamed:@"cw_box3"] forState:UIControlStateHighlighted];
-            drawerIV.hidden = YES;
-        }
-        else
-        {
-            [boxB setImage:[UIImage imageNamed:@"cw_box4"] forState:UIControlStateNormal];
-            [boxB setImage:[UIImage imageNamed:@"cw_box5"] forState:UIControlStateSelected];
-            [boxB setImage:[UIImage imageNamed:@"cw_box5"] forState:UIControlStateHighlighted];
-            drawerIV.hidden = NO;
-        }
+        drawerImgV.hidden = !gAppMgr.myUser.couponModel.validCZBankCreditCard.count;
+        tickImgV.hidden = self.checkoutServiceOrderV4Op.paychannel != PaymentChannelCZBCreditCard;
     }
     else
     {
-        cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatformCellA"];
-        iconV = (UIImageView *)[cell.contentView viewWithTag:1001];
-        titleLb = (UILabel *)[cell.contentView viewWithTag:1002];
-        noteLb = (UILabel *)[cell.contentView viewWithTag:1004];
-        boxB = (UIButton *)[cell.contentView viewWithTag:1003];
-        recommendLB = (UILabel *)[cell.contentView viewWithTag:1005];
+        cell = [self.tableView dequeueReusableCellWithIdentifier:@"PayPlatformCell"];
+        iconImgV = (UIImageView *)[cell searchViewWithTag:101];
+        titleLb = (UILabel *)[cell searchViewWithTag:102];
+        tickImgV = (UIImageView *)[cell searchViewWithTag:103];
+        recommendLB = (UILabel *)[cell searchViewWithTag:104];
         recommendLB.cornerRadius = 3.0f;
         recommendLB.layer.masksToBounds = YES;
-        //        boxB.selected = NO;
-    }
-    
-    if (payChannel == PaymentChannelCZBCreditCard) {
-        iconV.image = [UIImage imageNamed:@"cw_creditcard"];
-        titleLb.text = @"信用卡支付";
-        noteLb.text = @"推荐浙商银行汽车卡用户使用";
-        recommendLB.hidden = YES;
-        titleLb.textColor = [UIColor colorWithHex:@"#323232" alpha:1.0f];
-        boxB.enabled = gAppMgr.myUser.couponModel.validCZBankCreditCard.count;
-    }
-    else if (payChannel == PaymentChannelAlipay) {
-        iconV.image = [UIImage imageNamed:@"cw_alipay"];
-        titleLb.text = @"支付宝支付";
-        noteLb.text = @"推荐支付宝用户使用";
-        recommendLB.hidden = NO;
-        if (self.couponType == CouponTypeCZBankCarWash)
-        {
-            titleLb.textColor = [UIColor lightGrayColor];
-            boxB.enabled = NO;
-        }
-        else
-        {
-            titleLb.textColor = [UIColor colorWithHex:@"#323232" alpha:1.0f];
-            boxB.enabled = YES;
-        }
-    }
-    else if (payChannel == PaymentChannelWechat) {
-        iconV.image = [UIImage imageNamed:@"cw_wechat"];
-        titleLb.text = @"微信支付";
-        noteLb.text = @"推荐微信用户使用";
-        recommendLB.hidden = YES;
-        if (self.couponType == CouponTypeCZBankCarWash)
-        {
-            titleLb.textColor = [UIColor lightGrayColor];
-            boxB.enabled = NO;
-        }
-        else
-        {
-            titleLb.textColor = [UIColor colorWithHex:@"#323232" alpha:1.0f];
-            boxB.enabled = YES;
-        }
-    }
-    NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup];
-    for (NSInteger i = 0 ; i < array.count ; i++)
-    {
-        UIButton * btn = [array safetyObjectAtIndex:i];
-        if ([btn.customObject isKindOfClass:[NSIndexPath class]])
-        {
-            NSIndexPath * path = (NSIndexPath *)btn.customObject;
-            if (path.section == indexPath.section && path.row == indexPath.row)
+        
+        if (payChannel == PaymentChannelAlipay) {
+            iconImgV.image = [UIImage imageNamed:@"cw_alipay"];
+            titleLb.text = @"支付宝支付";
+            recommendLB.hidden = NO;
+            tickImgV.hidden = self.checkoutServiceOrderV4Op.paychannel != PaymentChannelAlipay;
+            if (self.couponType == CouponTypeCZBankCarWash)
             {
-                [self.checkBoxHelper removeItem:btn forGroupName:CheckBoxPlatformGroup];
-                break;
+                titleLb.textColor = HEXCOLOR(@"#8888888");
+            }
+            else
+            {
+                titleLb.textColor = HEXCOLOR(@"#454545");
+            }
+        }
+        else if (payChannel == PaymentChannelWechat) {
+            iconImgV.image = [UIImage imageNamed:@"cw_wechat"];
+            titleLb.text = @"微信支付";
+            recommendLB.hidden = YES;
+            tickImgV.hidden = self.checkoutServiceOrderV4Op.paychannel != PaymentChannelWechat;
+            if (self.couponType == CouponTypeCZBankCarWash)
+            {
+                titleLb.textColor = HEXCOLOR(@"#8888888");
+            }
+            else
+            {
+                titleLb.textColor = HEXCOLOR(@"#454545");
             }
         }
     }
-    @weakify(self);
-    boxB.customObject = indexPath;
-    [self.checkBoxHelper addItem:boxB forGroupName:CheckBoxPlatformGroup withChangedBlock:^(id item, BOOL selected) {
-        
-        boxB.selected = selected;
-    }];
-    
-    @weakify(boxB)
-    [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        @strongify(self);
-        
-        [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxPlatformGroup];
-        NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup];
-        [array enumerateObjectsUsingBlock:^(UIButton * obj, NSUInteger idx, BOOL *stop) {
-            
-            obj.selected = NO;
-        }];
-        
-        @strongify(boxB)
-        boxB.selected = YES;
-        if (payChannel == PaymentChannelCZBCreditCard)
-        {
-            [MobClick event:@"rp108-11"];
-            [self popBankCardNumberAnimation:YES];
-            self.checkoutServiceOrderV4Op.paychannel = PaymentChannelCZBCreditCard;
-        }
-        else if (payChannel == PaymentChannelAlipay)
-        {
-            [MobClick event:@"rp108-5"];
-            [self popBankCardNumberAnimation:NO];
-            self.checkoutServiceOrderV4Op.paychannel = PaymentChannelAlipay;
-        }
-        else if (payChannel == PaymentChannelWechat)
-        {
-            [MobClick event:@"rp108-6"];
-            [self popBankCardNumberAnimation:NO];
-            self.checkoutServiceOrderV4Op.paychannel = PaymentChannelWechat;
-        }
-    }];
-    
-    if ((payChannel == PaymentChannelCZBCreditCard && self.checkoutServiceOrderV4Op.paychannel == PaymentChannelCZBCreditCard) ||
-        (payChannel == PaymentChannelAlipay && self.checkoutServiceOrderV4Op.paychannel == PaymentChannelAlipay)||
-        (payChannel == PaymentChannelWechat && self.checkoutServiceOrderV4Op.paychannel == PaymentChannelWechat))
-    {
-        if (payChannel == PaymentChannelCZBCreditCard){
-            
-            [self popBankCardNumberAnimation:YES];
-        }
-        else{
-            
-            [self popBankCardNumberAnimation:NO];
-        }
-        
-        [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxPlatformGroup];
-        boxB.selected = YES;
-    }
-    else
-    {
-        boxB.selected = NO;
-    }
+
     return cell;
 }
 
@@ -1197,20 +950,16 @@
     }
     if (self.getUserResourcesV2Op.validCashCouponArray.count)
     {
-        NSInteger amount = 0;
+        CGFloat amount = 0;
         for (NSInteger i = 0 ; i < self.getUserResourcesV2Op.validCashCouponArray.count ; i++)
         {
             HKCoupon * coupon = [self.getUserResourcesV2Op.validCashCouponArray safetyObjectAtIndex:i];
-            if (coupon.couponAmount < self.service.origprice)
-            {
-                if (amount + coupon.couponAmount < self.service.origprice)
-                {
-                    amount = amount + coupon.couponAmount;
-                    [self.selectCashCoupouArray addObject:coupon];
-                    self.couponType = CouponTypeCash;
-                }
-            }
+            amount = amount + coupon.couponAmount;
+            [self.selectCashCoupouArray addObject:coupon];
+            if (amount >= self.service.origprice)
+                break;
         }
+        self.couponType = CouponTypeCash;
         [self.tableView reloadData];
         [self refreshPriceLb];
         return;
@@ -1428,7 +1177,7 @@
         
         [[vc.gainWeeklyCouponBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
-            [MobClick event:@"rp108-13"];
+            [MobClick event:@"rp108_13"];
             [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
                 [self requestGainWeeklyCoupon];
             }];
@@ -1437,7 +1186,7 @@
         
         [[vc.whateverBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
-            [MobClick event:@"rp108-14"];
+            [MobClick event:@"rp108_14"];
             [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
             }];
         }];
@@ -1488,10 +1237,10 @@
         [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
             //放弃支付
             if ([number integerValue] == 0) {
-                [MobClick event:@"rp108-8"];
+                [MobClick event:@"rp108_8"];
             }
             else if ([number integerValue] == 1) {
-                [MobClick event:@"rp108-9"];
+                [MobClick event:@"rp108_9"];
                 [self requestCheckoutWithCouponType:CouponTypeNone];
             }
         }];
@@ -1533,6 +1282,45 @@
 - (void)setPaymentChannel:(PaymentChannelType)channel
 {
     self.checkoutServiceOrderV4Op.paychannel = channel;
+}
+///获取优惠劵title（12元代金劵）
+- (NSString *)calcCouponTitle:(NSArray *)couponArray
+{
+    if (couponArray.count == 0)
+    {
+        return @"";
+    }
+    else if (couponArray.count == 1)
+    {
+        HKCoupon * coupon = [couponArray safetyObjectAtIndex:0];
+        return coupon.couponName;
+    }
+    else
+    {
+        CGFloat totalAmount = 0.0;
+        for (HKCoupon * c in couponArray)
+        {
+            totalAmount = totalAmount + c.couponAmount;
+        }
+        NSString * string =  [NSString stringWithFormat:@"%lu代金劵(共%@元)",(unsigned long)couponArray.count,[NSString formatForPrice:totalAmount]];
+        return string;
+    }
+}
+
+
+///获取优惠劵的两头时间
+- (NSString *)calcCouponValidDateString:(NSArray *)couponArray
+{
+    NSDate * earlierDate;
+    NSDate * laterDate;
+    for (HKCoupon * c in couponArray)
+    {
+        earlierDate = [c.validsince earlierDate:earlierDate];
+        laterDate = [c.validthrough laterDate:laterDate];
+    }
+    NSString * string = [NSString stringWithFormat:@"有效期：%@ - %@",earlierDate ? [earlierDate dateFormatForYYMMdd2] : @"",laterDate ? [laterDate dateFormatForYYMMdd2] : @""];
+    
+    return string;
 }
 
 @end

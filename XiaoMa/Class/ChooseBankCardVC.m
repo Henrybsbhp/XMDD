@@ -109,12 +109,12 @@
         
     }
     else if (indexPath.row > self.bankCards.count) {
-        [MobClick event:@"rp314-3"];
+        [MobClick event:@"rp314_3"];
         BindBankCardVC *vc = [UIStoryboard vcWithId:@"BindBankCardVC" inStoryboard:@"Bank"];
         [self.navigationController pushViewController:vc animated:YES];
     }
     else {
-        [MobClick event:@"rp314-4"];
+        [MobClick event:@"rp314_4"];
         NSArray * viewcontroller = self.navigationController.viewControllers;
         UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 2];
         if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
@@ -128,7 +128,7 @@
                     
                     return [obj.couponId isEqualToNumber:[card.couponIds safetyObjectAtIndex:0]];
                 }];
-                if (array.count)
+                if (array.count && self.needRechooseCarwashCoupon)
                 {
                     payVc.selectCarwashCoupouArray = [NSMutableArray arrayWithObject:[array safetyObjectAtIndex:0]];
                     payVc.couponType = CouponTypeCZBankCarWash;

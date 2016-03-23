@@ -38,7 +38,7 @@
     
     self.smsModel = [[HKSMSModel alloc] init];
 
-    NSArray *mobEvents = @[@"rp002-7",@"rp002-8",@"rp002-9"];
+    NSArray *mobEvents = @[@"rp002_7",@"rp002_8",@"rp002_9"];
     self.smsModel.getVcodeButton = self.vcodeBtn;
     self.smsModel.inputVcodeField = self.code;
     self.smsModel.phoneField = self.num;
@@ -67,7 +67,7 @@
 {
     self.num.textLimit = 11;
     [self.num setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        [MobClick event:@"rp002-1"];
+        [MobClick event:@"rp002_1"];
     }];
     @weakify(self);
     [self.num setTextDidChangedBlock:^(CKLimitTextField *field) {
@@ -83,7 +83,7 @@
     
     self.code.textLimit = 8;
     [self.code setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        [MobClick event:@"rp002-3"];
+        [MobClick event:@"rp002_3"];
     }];
 }
 #pragma mark - Action
@@ -93,7 +93,7 @@
 
 - (IBAction)actionGetVCode:(id)sender
 {
-    [MobClick event:@"rp002-2"];
+    [MobClick event:@"rp002_2"];
     if ([self sharkCellIfErrorAtIndex:0]) {
         return;
     }
@@ -111,14 +111,14 @@
 
 - (IBAction)actionCheck:(id)sender
 {
-    [MobClick event:@"rp002-4"];
+    [MobClick event:@"rp002_4"];
     self.checkBox.selected = !self.checkBox.selected;
     self.bottomBtn.enabled = self.checkBox.selected;
 }
 
 - (IBAction)actionAgreement:(id)sender
 {
-    [MobClick event:@"rp002-5"];
+    [MobClick event:@"rp002_5"];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"服务协议";
     vc.url = kServiceLicenseUrl;
@@ -127,7 +127,7 @@
 
 - (IBAction)actionLogin:(id)sender
 {
-    [MobClick event:@"rp002-6"];
+    [MobClick event:@"rp002_6"];
     if (![self.num.text isPhoneNumber]) {
         [self shakeCellAtIndex:0];
         return;

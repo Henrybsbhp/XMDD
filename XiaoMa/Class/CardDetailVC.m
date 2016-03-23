@@ -100,7 +100,7 @@
 }
 
 - (IBAction)cancelBinding:(id)sender {
-    [MobClick event:@"rp315-1"];
+    [MobClick event:@"rp315_1"];
     UIActionSheet * sheet = [[UIActionSheet alloc] init];
     NSInteger cancelIndex = 1;
     [sheet addButtonWithTitle:@"解除绑定"];
@@ -111,7 +111,7 @@
     
     [[sheet rac_buttonClickedSignal] subscribeNext:^(NSNumber * index) {
         if ([index integerValue] == 0) {
-            [MobClick event:@"rp315-2"];
+            [MobClick event:@"rp315_2"];
             UnbundlingVC *vc = [UIStoryboard vcWithId:@"UnbundlingVC" inStoryboard:@"Bank"];
             vc.originVC = self.originVC;
             vc.card = self.card;
@@ -119,7 +119,7 @@
             
         }
         else {
-            [MobClick event:@"rp315-3"];
+            [MobClick event:@"rp315_3"];
         }
     }];
 }

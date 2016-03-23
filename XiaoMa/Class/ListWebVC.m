@@ -72,7 +72,7 @@
         [self.webView loadRequest:self.request];
     });
     
-    self.myBridge = [[MyWebViewBridge alloc] initBridgeWithWebView:self.webView andDelegate:self.progressProxy];
+    self.myBridge = [[MyWebViewBridge alloc] initBridgeWithWebView:self.webView andDelegate:self.progressProxy withTargetVC:self];
     
     [self.myBridge registerGetToken];
     [self.myBridge registerToastMsg];
@@ -104,9 +104,9 @@
 
 - (void)reloadwebView
 {
-    //reload方法在第一次读取失败的时候会reload失败
+    //reload方法在第一次读取失败的时候会reload失败,所以重新调用loadRequest
     CKAsyncMainQueue(^{
-        self.webView.scrollView.contentSize = self.webView.frame.size;//避免横条滚动  //加上刷新的时候会闪一下
+        self.webView.scrollView.contentSize = CGSizeMake(self.webView.frame.size.width, self.webView.scrollView.contentSize.height);//避免横条滚动  //加上刷新的时候会闪一下(已解决)
         [self.webView loadRequest:self.request];
     });
 }
@@ -122,8 +122,8 @@
     [self.webView.scrollView.refreshView endRefreshing];
     
     DebugLog(@"%@ WebViewLoadError:%@\n,error=%@", kErrPrefix, webView.request.URL, error);
-    self.webView.scrollView.contentInset = UIEdgeInsetsZero;
-    self.webView.scrollView.contentSize = self.webView.frame.size;
+    //self.webView.scrollView.contentInset = UIEdgeInsetsZero; //刷新失败，下拉动画瞬间消失
+    self.webView.scrollView.contentSize = CGSizeMake(self.webView.frame.size.width, self.webView.scrollView.contentSize.height);
     NSString * domain = [NSString stringWithFormat:@"%@[%ld]",kDefErrorPormpt,(long)error.code];
     [gToast showError:domain];
 }

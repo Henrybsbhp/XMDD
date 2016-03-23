@@ -78,9 +78,9 @@
 - (void)setupADView
 {
     self.adctrl = [ADViewController vcWithADType:AdvertisementCarWash boundsWidth:self.view.bounds.size.width
-                                        targetVC:self mobBaseEvent:@"rp102-6"];
+                                        targetVC:self mobBaseEvent:@"rp102_6"];
     self.adctrl2 = [ADViewController vcWithADType:AdvertisementCarWash boundsWidth:self.view.bounds.size.width
-                                        targetVC:self mobBaseEvent:@"rp102-6"];
+                                        targetVC:self mobBaseEvent:@"rp102_6"];
 }
 
 - (void)reloadAdList
@@ -182,7 +182,7 @@
 
 - (IBAction)actionMap:(id)sender
 {
-    [MobClick event:@"rp102-1"];
+    [MobClick event:@"rp102_1"];
     NearbyShopsViewController * nearbyShopView = [carWashStoryboard instantiateViewControllerWithIdentifier:@"NearbyShopsViewController"];
     nearbyShopView.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:nearbyShopView animated:YES];
@@ -415,7 +415,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"rp102-3"];
+    [MobClick event:@"rp102_3"];
     HKLoadingModel * model = [self modelForTableView:tableView];
     ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
     vc.couponFordetailsDic = self.couponForWashDic;
@@ -530,14 +530,14 @@
     [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
-        [MobClick event:@"rp102-4"];
+        [MobClick event:@"rp102_4"];
         
         [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userLocation.coordinate andView:self.tabBarController.view];
     }];
     
     [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp102-5"];
+        [MobClick event:@"rp102_5"];
         if (shop.shopPhone.length == 0)
         {
             UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
@@ -584,7 +584,7 @@
     
     if (price2) {
         NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18],
-                                NSForegroundColorAttributeName:HEXCOLOR(@"#f93a00")};
+                                NSForegroundColorAttributeName:HEXCOLOR(@"#ff7428")};
         NSString * p = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:[price2 floatValue]]];
         NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:p attributes:attr2];
         [str appendAttributedString:attrStr2];

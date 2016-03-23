@@ -7,22 +7,27 @@
 //
 
 #import "PayForInsuranceVC.h"
+
+#import "PaymentHelper.h"
+#import "HKCellData.h"
+#import "TTTAttributedLabel.h"
+#import "NSString+Format.h"
+#import "InsuranceStore.h"
 #import "UIView+Layer.h"
 #import "HKCoupon.h"
 #import "XiaoMa.h"
+
 #import "GetInscouponOp.h"
-#import "ChooseCarwashTicketVC.h"
 #import "InsuranceOrderPayOp.h"
-#import "PaymentHelper.h"
 #import "OrderPaidSuccessOp.h"
-#import "HKCellData.h"
-#import "TTTAttributedLabel.h"
+
+#import "ChooseCouponVC.h"
 #import "InsPayResultVC.h"
-#import "DetailWebVC.h"
-#import "NSString+Format.h"
-#import "InsuranceStore.h"
-//#import "InsPayFaildVC.h"
 #import "InsLicensePopVC.h"
+#import "DetailWebVC.h"
+
+
+
 
 #define CheckBoxDiscountGroup @"CheckBoxDiscountGroup"
 #define CheckBoxPlatformGroup @"CheckBoxPlatformGroup"
@@ -135,13 +140,13 @@
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rp1006-1"];
+    [MobClick event:@"rp1006_1"];
     [self.insModel popToOrderVCForNav:self.navigationController withInsOrderID:self.insOrder.orderid];
 }
 
 - (IBAction)actionCallCenter:(id)sender
 {
-    [MobClick event:@"1006-2"];
+    [MobClick event:@"1006_2"];
     NSString * number = @"4007111111";
     [gPhoneHelper makePhone:number andInfo:@"咨询电话: 4007-111-111"];
 }
@@ -165,7 +170,7 @@
 
 - (IBAction)actionPay:(id)sender {
     
-    [MobClick event:@"rp326-6"];
+    [MobClick event:@"rp326_6"];
     @weakify(self);
     [[self rac_openLicenseVCWithUrl:self.insOrder.licenseUrl title:self.insOrder.licenseName]
      subscribeNext:^(id x) {
@@ -512,15 +517,15 @@
     if (indexPath.section == 1) {
         if (indexPath.row == 1)
         {
-            [MobClick event:@"rp326-1"];
-//            if (!self.insOrder.iscontainActivity)
-//            {
-//                [self jumpToChooseCouponVC];
-//            }
+            [MobClick event:@"rp326_1"];
+            if (!self.insOrder.iscontainActivity)
+            {
+                [self jumpToChooseCouponVC];
+            }
         }
         else if (indexPath.row == 2)
         {
-            [MobClick event:@"rp326-2"];
+            [MobClick event:@"rp326_2"];
             [self jumpToChooseCouponVC];
         }
         
@@ -642,7 +647,7 @@
                 statusLb.hidden = YES;
             }
             
-            [tagLb mas_makeConstraints:^(MASConstraintMaker *make) {
+            [tagLb mas_remakeConstraints:^(MASConstraintMaker *make) {
                
                 make.centerY.equalTo(cell.contentView);
             }];
@@ -710,7 +715,7 @@
                 
                 if (self.isSelectActivity)
                 {
-                    [MobClick event:@"rp1006-3"];
+                    [MobClick event:@"rp1006_3"];
                     statusLb.text = @"已选中";
                     statusLb.textColor = HEXCOLOR(@"#fb4209");
                     statusLb.hidden = NO;
@@ -726,7 +731,7 @@
             {
                 if (self.couponType == CouponTypeInsurance)
                 {
-                    [MobClick event:@"rp1006-4"];
+                    [MobClick event:@"rp1006_4"];
                     statusLb.text = @"已选中";
                     statusLb.textColor = HEXCOLOR(@"#fb4209");
                     statusLb.hidden = NO;
@@ -911,18 +916,18 @@
         @strongify(boxB)
         boxB.selected = YES;
         if (indexPath.row == 1){
-            [MobClick event:@"rp1006-5"];
+            [MobClick event:@"rp1006_5"];
         }
         else if (indexPath.row == 2){
             if (gPhoneHelper.exsitWechat) {
-                [MobClick event:@"rp1006-6"];
+                [MobClick event:@"rp1006_6"];
             }
             else {
-                [MobClick event:@"rp1006-7"];
+                [MobClick event:@"rp1006_7"];
             }
         }
         else{
-            [MobClick event:@"rp1006-7"];
+            [MobClick event:@"rp1006_7"];
         }
     }];
 
@@ -1088,6 +1093,7 @@
 
 - (UITableViewCell *)setupInsuranceCouponForCell:(UITableViewCell * )cell
 {
+//    cell = [self.tableView dequeueReusableCellWithIdentifier:@"DiscountCellB"];
     UIButton *boxB = (UIButton *)[cell.contentView viewWithTag:1001];
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:1002];
     UIImageView *arrow = (UIImageView *)[cell.contentView viewWithTag:1003];
@@ -1127,7 +1133,7 @@
         boxB.selected = NO;
     }
     
-    [tagLb mas_makeConstraints:^(MASConstraintMaker *make) {
+    [tagLb mas_remakeConstraints:^(MASConstraintMaker *make) {
         
         make.top.equalTo(cell.contentView).offset(8);
     }];
@@ -1137,7 +1143,7 @@
 
 - (void)jumpToChooseCouponVC
 {
-    ChooseCarwashTicketVC *vc = [UIStoryboard vcWithId:@"ChooseCarwashTicketVC" inStoryboard:@"Carwash"];
+    ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
     vc.type = CouponTypeInsurance;
     vc.selectedCouponArray = self.selectInsuranceCoupouArray;
     vc.couponArray = gAppMgr.myUser.couponModel.validInsuranceCouponArray;

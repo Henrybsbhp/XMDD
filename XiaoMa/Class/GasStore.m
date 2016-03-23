@@ -32,10 +32,10 @@
 }
 
 #pragma mark - Util
-- (CKQueue *)createGasCardsIfNeeded
+- (JTQueue *)createGasCardsIfNeeded
 {
     if (!self.gasCards) {
-        self.gasCards = [CKQueue queue];
+        self.gasCards = [[JTQueue alloc] init];
     }
     return self.gasCards;
 }
@@ -97,7 +97,7 @@
     RACSignal *sig = [[[op rac_postRequest] map:^id(GetGascardListOp *rsp) {
         
         @strongify(self);
-        CKQueue *gasCards = [self createGasCardsIfNeeded];
+        JTQueue *gasCards = [self createGasCardsIfNeeded];
         for (GasCard *card in rsp.rsp_gascards) {
             GasCard *oldCard = [gasCards objectForKey:card.gid];
             if (oldCard) {
@@ -134,9 +134,13 @@
     DeleteGascardOp *op = [DeleteGascardOp operation];
     op.req_gid = gid;
     return [[[op rac_postRequest] map:^id(DeleteGascardOp *op) {
-        GasCard *card = [self.gasCards objectForKey:gid];
-        [self.gasCards removeObjectForKey:gid];
-        return card;
+        NSInteger index = [self.gasCards indexOfObjectForKey:gid];
+        GasCard *card = [self.gasCards objectAtIndex:index];
+        if (card) {
+            [self.gasCards removeObjectAtIndex:index];
+            return [RACTuple tupleWithObjects:card, @(index), nil];
+        }
+        return nil;
     }] replayLast];
 }
 

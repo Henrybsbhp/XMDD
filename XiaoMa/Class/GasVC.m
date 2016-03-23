@@ -34,7 +34,7 @@
 #import "PaymentSuccessVC.h"
 
 
-@interface GasVC ()<UITableViewDataSource, UITableViewDelegate, RTLabelDelegate>
+@interface GasVC ()
 @property (nonatomic, strong) ADViewController *adctrl;
 @property (nonatomic, strong) GasTabView *headerView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
@@ -114,13 +114,13 @@
     [self.headerView setTabBlock:^(NSInteger index) {
         @strongify(self);
         if (index ==0) {
-            [MobClick event:@"rp501-2"];
+            [MobClick event:@"rp501_2"];
             self.tableView.delegate = self.normalVC;
             self.tableView.dataSource = self.normalVC;
             [self.normalVC reloadView:YES];
         }
         else {
-            [MobClick event:@"rp501-3"];
+            [MobClick event:@"rp501_3"];
             self.tableView.delegate = self.czbVC;
             self.tableView.dataSource = self.czbVC;
             [self.czbVC reloadView:YES];
@@ -131,7 +131,7 @@
 - (void)setupADView
 {
     self.adctrl = [ADViewController vcWithADType:AdvertisementGas boundsWidth:self.view.bounds.size.width
-                                        targetVC:self mobBaseEvent:@"rp501-1"];
+                                        targetVC:self mobBaseEvent:@"rp501_1"];
     @weakify(self);
     [self.adctrl reloadDataWithForce:NO completed:^(ADViewController *ctrl, NSArray *ads) {
         @strongify(self);
@@ -249,7 +249,7 @@
 #pragma mark - Action
 - (IBAction)actionGotoRechargeRecords:(id)sender
 {
-    [MobClick event:@"rp501-16"];
+    [MobClick event:@"rp501_16"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         GasRecordVC *vc = [UIStoryboard vcWithId:@"GasRecordVC" inStoryboard:@"Gas"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -268,7 +268,7 @@
 
 - (IBAction)actionAgreement:(id)sender
 {
-    [MobClick event:@"rp501-12"];
+    [MobClick event:@"rp501_12"];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"油卡充值服务协议";
     vc.url = kGasLicenseUrl;
@@ -283,7 +283,11 @@
     if ([vc isKindOfClass:[PaymentSuccessVC class]])
     {
         [self.tabBarController setSelectedIndex:0];
+        UIViewController * firstTabVC = [self.tabBarController.viewControllers safetyObjectAtIndex:0];
+        [self.tabBarController.delegate tabBarController:self.tabBarController didSelectViewController:firstTabVC];
+        
         [self.navigationController popToRootViewControllerAnimated:YES];
+
         return;
     }
     [self.navigationController popViewControllerAnimated:YES];
@@ -314,7 +318,6 @@
     {
         _backgroundView=[[UIView alloc]init];
         _backgroundView.backgroundColor=[UIColor whiteColor];
-        
     }
     return _backgroundView;
 }
@@ -338,8 +341,7 @@
 - (NSString *)appendSpace:(NSString *)note andWidth:(CGFloat)w
 {
     NSString * spaceNote = note;
-    for (;;)
-    {
+    while (1) {
         CGSize size = [spaceNote sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(FLT_MAX,FLT_MAX)];
         if (size.width > w)
             return spaceNote;

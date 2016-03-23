@@ -10,7 +10,7 @@
 #import <TencentOpenAPI.framework/Headers/QQApiInterface.h>
 #import <TencentOpenAPI.framework/Headers/QQApiInterfaceObject.h>
 #import "GetShareDetailOp.h"
-
+#import "GetShareDetailOpV2.h"
 
 @interface SocialShareViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *wechatLabel;
@@ -96,7 +96,7 @@
     
     [[_wechatBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp110-3"];
+        [MobClick event:@"rp110_3"];
         
         if ([self catchLocalShareScene]) {
             [self shareWechat];
@@ -108,7 +108,7 @@
     
     [[_timelineBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp110-4"];
+        [MobClick event:@"rp110_4"];
         
         if ([self catchLocalShareScene]) {
             [self shareTimeline];
@@ -120,7 +120,7 @@
     
     [[_weiboBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp110-5"];
+        [MobClick event:@"rp110_5"];
         
         if ([self catchLocalShareScene]) {
             [self shareWeibo];
@@ -132,7 +132,7 @@
     
     [[_qqBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp110-6"];
+        [MobClick event:@"rp110_6"];
         
         if ([self catchLocalShareScene]) {
             [self shareQQ];
@@ -170,7 +170,13 @@
 {
     self.activityIndicatorView.hidden = NO;
     [self.activityIndicatorView startAnimating];
-    GetShareDetailOp * op = [GetShareDetailOp operation];
+    GetShareDetailOp * op;
+    if (self.sceneType == ShareSceneGain) {
+        op = [GetShareDetailOp operation];
+    }
+    else {
+        op = [GetShareDetailOpV2 operation];
+    }
     op.pagePosition = self.sceneType;
     op.buttonId = btnType;
     if (self.sceneType == ShareSceneGas) {

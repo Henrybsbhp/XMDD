@@ -17,12 +17,17 @@
 
 #import "ValuationViewController.h"
 
+#import "HKImageAlertVC.h"
+
 @interface CarListVC ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet JT3DScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
-@property (weak, nonatomic) IBOutlet UILabel *bottomTitlelabel;
+@property (weak, nonatomic) IBOutlet UILabel *bottomTitleLabel;
+@property (weak, nonatomic) IBOutlet UIView *bottomView2;
+@property (weak, nonatomic) IBOutlet UILabel *bottomTitleLabel2;
 @property (nonatomic, strong) MyCarStore *carStore;
 @property (nonatomic, strong) NSArray *datasource;
+- (IBAction)bottomJoinAction:(id)sender;
 @end
 
 @implementation CarListVC
@@ -116,11 +121,10 @@
     [[RACObserve(self.model, selectedCar) distinctUntilChanged] subscribeNext:^(HKMyCar *car) {
         
         @strongify(self);
-        self.bottomView.hidden = !car;
         
         NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] init];
         
-        NSString *str = self.model.allowAutoChangeSelectedCar ? @"您已选择的爱车：" : @"默认车辆：";
+        NSString *str = self.model.allowAutoChangeSelectedCar ? @"已选择的爱车：" : @"默认车辆：";
         NSDictionary *attr = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
                                NSForegroundColorAttributeName:HEXCOLOR(@"#555555")};
         NSAttributedString *prefix = [[NSAttributedString alloc] initWithString:str attributes:attr];
@@ -133,8 +137,18 @@
             NSAttributedString *suffix = [[NSAttributedString alloc] initWithString:car.licencenumber attributes:attr2];
             [attrStr appendAttributedString:suffix];
         }
+        //根据是否有加入按钮刷新底部view
+        if (self.canJoin) {
+            self.bottomView.hidden = YES;
+            self.bottomView2.hidden = self.carStore.allCars.count != 0 ? NO : YES;
+            self.bottomTitleLabel2.attributedText = attrStr;
+        }
+        else {
+            self.bottomView2.hidden = YES;
+            self.bottomView.hidden = !car;
+            self.bottomTitleLabel.attributedText = attrStr;
+        }
         
-        self.bottomTitlelabel.attributedText  =attrStr;
     }];
 }
 
@@ -265,29 +279,32 @@
 {
     //如果爱车信息不完整
     if (self.model.allowAutoChangeSelectedCar && self.model.selectedCar && ![self.model.selectedCar isCarInfoCompleted]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您的爱车信息不完整，是否现在完善？"
-                                                       delegate:nil cancelButtonTitle:@"放弃" otherButtonTitles:@"去完善", nil];
-        [alert show];
-        @weakify(self);
-        [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *x) {
-            @strongify(self);
-            //放弃
-            if ([x integerValue] == 0) {
-                if (self.model.originVC) {
-                    [self.navigationController popToViewController:self.model.originVC animated:YES];
-                }
-                else {
-                    [self.navigationController popViewControllerAnimated:YES];
-                }
+        
+        HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+        alert.topTitle = @"温馨提示";
+        alert.imageName = @"mins_bulb";
+        alert.message = @"您的爱车信息不完整，是否现在完善？";
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+            [alertVC dismiss];
+            if (self.model.originVC) {
+                [self.navigationController popToViewController:self.model.originVC animated:YES];
             }
             else {
-                [MobClick event:@"rp104-9"];
-                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                vc.originCar = self.model.selectedCar;
-                vc.model = self.model;
-                [self.navigationController pushViewController:vc animated:YES];
+                [self.navigationController popViewControllerAnimated:YES];
             }
         }];
+        @weakify(self);
+        HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"去完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            @strongify(self);
+            [alertVC dismiss];
+            [MobClick event:@"rp104_9"];
+            EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+            vc.originCar = self.model.selectedCar;
+            vc.model = self.model;
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
+        alert.actionItems = @[cancel, improve];
+        [alert show];
     }
     else {
         if (self.model.originVC) {
@@ -304,9 +321,17 @@
 
 - (IBAction)actionAddCar:(id)sender
 {
-    [MobClick event:@"rp309-1"];
+    [MobClick event:@"rp309_1"];
     EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (IBAction)bottomJoinAction:(id)sender {
+    
+    if (self.finishPickActionForMutualIns)
+    {
+        self.finishPickActionForMutualIns(self.model,self.view);
+    }
 }
 
 #pragma mark - Reload
@@ -353,7 +378,7 @@
     //爱车估值
     @weakify(self);
     [subv setValuationClickBlock:^(void) {
-        [MobClick event:@"rp309-4"];
+        [MobClick event:@"rp309_4"];
         @strongify(self);
         ValuationViewController *vc = [UIStoryboard vcWithId:@"ValuationViewController" inStoryboard:@"Valuation"];
         vc.carIndex = index;
@@ -424,5 +449,6 @@
         self.model.selectedCar = car;
     }
 }
+
 
 @end

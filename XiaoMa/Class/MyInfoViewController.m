@@ -85,7 +85,7 @@
     @weakify(self);
     [[logoutBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp302-6"];
+        [MobClick event:@"rp302_6"];
 #pragma mark- warming
         @strongify(self)
         [self logoutAction];
@@ -227,7 +227,7 @@
 {
     if (indexPath.row == 0)
     {
-        [MobClick event:@"rp302-1"];
+        [MobClick event:@"rp302_1"];
         HKImagePicker *picker = [HKImagePicker imagePicker];
         picker.allowsEditing = YES;
         picker.shouldShowBigImage = NO;
@@ -240,7 +240,7 @@
     }
     else if (indexPath.row == 1)
     {
-        [MobClick event:@"rp302-2"];
+        [MobClick event:@"rp302_2"];
         EditMyInfoViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"EditMyInfoViewController"];
         vc.naviTitle = @"修改昵称";
         vc.type = ModifyNickname;
@@ -251,7 +251,7 @@
     }
     else if (indexPath.row == 2)
     {
-        [MobClick event:@"rp302-3"];
+        [MobClick event:@"rp302_3"];
         UIActionSheet * sexSheet = [[UIActionSheet alloc]initWithTitle:@"请选择性别" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"男", @"女", nil];
         [sexSheet showInView:self.view];
         [[sexSheet rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
@@ -271,7 +271,7 @@
     }
     else if (indexPath.row == 3)
     {
-        [MobClick event:@"rp302-4"];
+        [MobClick event:@"rp302_4"];
         [[DatePickerVC rac_presentPickerVCInView:self.navigationController.view withSelectedDate:self.birthday]
          subscribeNext:^(NSDate *date) {
              self.birthday = date;
@@ -280,7 +280,7 @@
     }
     else if (indexPath.row == 4)
     {
-        [MobClick event:@"rp302-5"];
+        [MobClick event:@"rp302_5"];
         if (!gAppMgr.myUser.phoneNumber.length)
         {
             //            EditMyInfoViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"EditMyInfoViewController"];

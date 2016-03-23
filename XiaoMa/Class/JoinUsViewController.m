@@ -127,7 +127,7 @@
     /**
      *  申请加盟点击事件
      */
-    [MobClick event:@"rp333-1"];
+    [MobClick event:@"rp333_1"];
     if (self.phoneField.text.length != 11) {
         [self shakeCellAtIndex:0];
         return;

@@ -118,7 +118,7 @@
         self.carwashline.hidden = !selected;
         self.carwashTableView.hidden = !selected;
         if (selected) {
-            [MobClick event:@"rp304-1"];
+            [MobClick event:@"rp304_1"];
         }
     }];
     
@@ -129,7 +129,7 @@
         self.gasLine.hidden = !selected;
         self.gasTableView.hidden = !selected;
         if (selected) {
-            [MobClick event:@"rp304-1"];
+            [MobClick event:@"rp304_1"];
         }
     }];
     
@@ -140,7 +140,7 @@
         self.insuranceline.hidden = !selected;
         self.insuranceTableView.hidden = !selected;
         if (selected) {
-            [MobClick event:@"rp304-2"];
+            [MobClick event:@"rp304_2"];
         }
     }];
     
@@ -151,7 +151,7 @@
         self.othersline.hidden = !selected;
         self.othersTableView.hidden = !selected;
         if (selected) {
-            [MobClick event:@"rp304-3"];
+            [MobClick event:@"rp304_3"];
         }
     }];
     
@@ -171,7 +171,7 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)getMoreAction:(id)sender {
-    [MobClick event:@"rp304-6"];
+    [MobClick event:@"rp304_6"];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.url = ADDEFINEWEB;
     [self.navigationController pushViewController:vc animated:YES];

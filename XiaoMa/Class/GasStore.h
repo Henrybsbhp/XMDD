@@ -7,7 +7,6 @@
 //
 
 #import "UserStore.h"
-#import "CKQueue.h"
 #import "GasCard.h"
 #import "HKBankCard.h"
 #import "GetGaschargeConfigOp.h"
@@ -22,7 +21,7 @@
 
 @interface GasStore : UserStore
 
-@property (nonatomic, strong) CKQueue *gasCards;
+@property (nonatomic, strong) JTQueue *gasCards;
 ///普通充值配置信息
 @property (nonatomic, strong) GetGaschargeConfigOp *config;
 ///充值套餐(包括普通充值)

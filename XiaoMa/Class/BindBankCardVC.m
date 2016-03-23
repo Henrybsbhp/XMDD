@@ -47,7 +47,7 @@
 #pragma mark - Action
 - (void)actionGetVCode:(id)sender
 {
-    [MobClick event:@"rp313-3"];
+    [MobClick event:@"rp313_3"];
     if (self.cardField.text.length < 15 || self.cardField.text.length > 20) {
         [self shakeCellAtIndex:0];
         return;
@@ -94,7 +94,7 @@
 
 - (IBAction)actionCheck:(id)sender
 {
-    [MobClick event:@"rp003-7"];
+    [MobClick event:@"rp003_7"];
     self.checkButton.selected = !self.checkButton.selected;
     self.bindButton.enabled = self.checkButton.selected;
 }
@@ -109,7 +109,7 @@
 
 
 - (IBAction)actionBind:(id)sender {
-    [MobClick event:@"rp313-5"];
+    [MobClick event:@"rp313_5"];
     if (self.cardField.text.length < 15 || self.cardField.text.length > 20) {
         [self shakeCellAtIndex:0];
         return;
@@ -135,7 +135,7 @@
         @strongify(self);
         [gToast dismiss];
         [ResultVC showInTargetVC:self withSuccessText:@"恭喜，绑定成功!" ensureBlock:^{
-            [MobClick event:@"rp313-6"];
+            [MobClick event:@"rp313_6"];
             [self.navigationController popViewControllerAnimated:YES];
             BankCardStore *store = [BankCardStore fetchExistsStore];
             [store sendEvent:[store getAllBankCards]];
@@ -191,7 +191,7 @@
         field.textLimit = 20;
         
         [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
-            [MobClick event:@"rp313-1"];
+            [MobClick event:@"rp313_1"];
         }];
     }
     return cell;
@@ -218,7 +218,7 @@
         phoneField.textLimit = 11;
         
         [phoneField setDidBeginEditingBlock:^(CKLimitTextField *field) {
-            [MobClick event:@"rp313-2"];
+            [MobClick event:@"rp313_2"];
         }];
         
         @weakify(self);
@@ -246,7 +246,7 @@
         self.vcodeField = field;
         field.textLimit = 8;
         [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
-            [MobClick event:@"rp313-4"];
+            [MobClick event:@"rp313_4"];
         }];
     }
     return cell;

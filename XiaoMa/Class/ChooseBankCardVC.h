@@ -15,6 +15,10 @@
 @property (nonatomic, strong) JTShopService *service;
 @property (nonatomic, strong) NSArray *bankCards;
 @property (nonatomic, strong) NSArray *carwashCouponArray;
+/**
+ *  是否需要重新选择优惠券。（如果原先有选的券，则为NO）
+ */
+@property (nonatomic)BOOL needRechooseCarwashCoupon;
 
 
 @end

@@ -25,8 +25,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self setupGasStore];
     [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
-    self.gasStore = [GasStore fetchOrCreateStore];
     [self reloadData];
 }
 
@@ -42,26 +42,38 @@
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
     DebugLog(@"GasCardListVC dealloc ~");
- }
+}
+
+- (void)setupGasStore
+{
+    self.gasStore = [GasStore fetchOrCreateStore];
+    @weakify(self);
+    [self.gasStore subscribeWithTarget:self domain:kDomainGasCards receiver:^(id store, CKEvent *evt) {
+        @strongify(self);
+        if (evt.object && [self isEqual:evt.object]) {
+            return ;
+        }
+        [self reloadWithSignal:evt.signal];
+    }];
+}
 
 #pragma mark - relaodData
 - (void)deleteWithSignal:(RACSignal *)signal
 {
-    [MobClick event:@"rp505-2"];
+    [MobClick event:@"rp505_2"];
     @weakify(self);
     [[signal initially:^{
         
         @strongify(self);
         self.navigationItem.leftBarButtonItem.enabled = NO;
         [gToast showingWithText:@"正在删除..." inView:self.view];
-    }] subscribeNext:^(GasCard *card) {
+    }] subscribeNext:^(RACTuple *tuple) {
 
         @strongify(self);
         self.navigationItem.leftBarButtonItem.enabled = YES;
         [gToast dismissInView:self.view];
-        NSInteger index = [self.gasStore.gasCards indexOfObjectForKey:card.gid];
-        if (index != NSNotFound) {
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+        if (tuple) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[tuple.second integerValue] inSection:0];
             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
     } error:^(NSError *error) {
@@ -74,27 +86,26 @@
 - (void)reloadWithSignal:(RACSignal *)signal
 {
     @weakify(self);
-    [[[signal initially:^{
+    [[signal initially:^{
         
         @strongify(self);
         [self.tableView.refreshView beginRefreshing];
-    }] finally:^{
-        
-        @strongify(self);
-        [self.tableView.refreshView endRefreshing];
     }] subscribeNext:^(id x) {
         
         @strongify(self);
+        [self.tableView.refreshView endRefreshing];
         [self.tableView reloadData];
     } error:^(NSError *error) {
         
+        @strongify(self);
         [gToast showError:error.domain];
+        [self.tableView.refreshView endRefreshing];
     }];
 }
 
 - (void)reloadData
 {
-    RACSignal *signal = [[self.gasStore getAllGasCards] sendAndIgnoreError];
+    RACSignal *signal = [[[self.gasStore getAllGasCards] setObject:self] sendAndIgnoreError];
     [self reloadWithSignal:signal];
 }
 
@@ -104,13 +115,13 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     //点击添加
     if (indexPath.row >= self.gasStore.gasCards.count) {
-        [MobClick event:@"rp505-4"];
+        [MobClick event:@"rp505_4"];
         GasAddCardVC *vc = [UIStoryboard vcWithId:@"GasAddCardVC" inStoryboard:@"Gas"];
         [self.navigationController pushViewController:vc animated:YES];
     }
     //选择银行卡
     else {
-        [MobClick event:@"rp505-3"];
+        [MobClick event:@"rp505_3"];
         GasCard *card = [self.gasStore.gasCards objectAtIndex:indexPath.row];
         if (card && self.selectedBlock) {
             self.selectedBlock(card);
@@ -145,7 +156,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     GasCard *card = [self.gasStore.gasCards objectAtIndex:indexPath.row];
-    RACSignal *signal = [[self.gasStore deleteGasCard:card] sendAndIgnoreError];
+    RACSignal *signal = [[[self.gasStore deleteGasCard:card] setObject:self] sendAndIgnoreError];
     [self deleteWithSignal:signal];
 }
 

@@ -22,6 +22,15 @@
     return [self queue];
 }
 
++ (instancetype)listWithArray:(NSArray *)array
+{
+    CKList *list = [self queue];
+    for (id obj in array) {
+        [list addObject:obj forKey:nil];
+    }
+    return list;
+}
+
 - (id<NSCopying>)key {
     if (_key) {
         return _key;
@@ -62,6 +71,10 @@
         _dict = [NSMutableDictionary dictionary];
     }
     return self;
+}
+
++ (CKDict *)dictWithCKDict:(CKDict *)dict {
+    return [[CKDict alloc] initWithDict:dict->_dict];
 }
 
 + (CKDict *)dictWith:(NSDictionary *)dict {
@@ -128,7 +141,10 @@ CKList *CKGenList(id firstObject, ...)
         if ([obj isKindOfClass:[NSDictionary class]]) {
             obj = [[CKDict alloc] initWithDict:obj];
         }
-        [list addObject:obj forKey:nil];
+        //如果为CKNULL直接忽略
+        if (![CKNULL isEqual:obj]) {
+            [list addObject:obj forKey:nil];            
+        }
         obj = va_arg(ap, id);
     }
     va_end(ap);

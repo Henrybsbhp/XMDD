@@ -141,13 +141,13 @@
 
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rp1002-1"];
+    [MobClick event:@"rp1002_1"];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)actionNext:(id)sender
 {
-    [MobClick event:@"rp1002-7"];
+    [MobClick event:@"rp1002_7"];
     if ([self checkInfomation]) {
         InsuranceAppointmentV3Op *op = [InsuranceAppointmentV3Op operation];
         op.req_idcard = [(HKCellData *)self.datasource[1] object];
@@ -163,7 +163,7 @@
 }
 
 - (void)actionUpload:(id)sender {
-    [MobClick event:@"rp1002-8"];
+    [MobClick event:@"rp1002_8"];
     @weakify(self);
     [[[self.imageView rac_setUploadingImage:self.currentRecord.image withImageType:UploadFileTypeDaDaHelp]
       initially:^{
@@ -185,12 +185,12 @@
 }
 
 - (void)actionRepickImage:(id)sender {
-    [MobClick event:@"rp1002-8"];
+    [MobClick event:@"rp1002_8"];
     [self _pickImage];
 }
 
 - (IBAction)actionPickImage:(id)sender {
-    [MobClick event:@"rp1002-6"];
+    [MobClick event:@"rp1002_6"];
     [self _pickImage];
 }
 
@@ -242,14 +242,14 @@
         [exampleView setHidden:YES animated:YES];
         [sheet dismissAnimated:YES];
         if (sheetIndexPath.section != 0) {
-            [MobClick event:@"rp124-6"];
+            [MobClick event:@"rp124_6"];
             return ;
         }
         
         //拍照
         if (sheetIndexPath.section == 0 && sheetIndexPath.row == 0)
         {
-            [MobClick event:@"rp124-4"];
+            [MobClick event:@"rp124_4"];
             if ([UIImagePickerController isCameraAvailable])
             {
                 UIImagePickerController *controller = [[UIImagePickerController alloc] init];
@@ -272,7 +272,7 @@
         // 从相册中选取
         else if (sheetIndexPath.section == 0 && sheetIndexPath.row == 1)
         {
-            [MobClick event:@"rp124-5"];
+            [MobClick event:@"rp124_5"];
             if ([UIImagePickerController isPhotoLibraryAvailable])
             {
                 UIImagePickerController *controller = [[UIImagePickerController alloc] init];
@@ -341,7 +341,7 @@
     field.inputField.textLimit = 18;
     field.inputField.keyboardType = UIKeyboardTypeASCIICapable;
     [field.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        [MobClick event:@"rp1002-2"];
+        [MobClick event:@"rp1002_2"];
     }];
     [field.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
 

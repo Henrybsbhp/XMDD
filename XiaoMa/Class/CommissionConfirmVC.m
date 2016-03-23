@@ -93,7 +93,7 @@
     /**
      *  开始协办点击事件
      */
-    [MobClick event:@"rp802-2"];
+    [MobClick event:@"rp802_2"];
     self.tableView.backgroundColor = [UIColor colorWithRed:153 green:153 blue:153 alpha:1.0];
     if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] < 3600 * 24 * 1 - 1) {
         [self.underlyingView addSubview:self.alertV];
@@ -258,9 +258,9 @@
         [self.navigationController pushViewController:vc animated:YES];
         
     }else if (indexPath.row == 4){
-        DatePickerVC *vc = [DatePickerVC datePickerVCWithMaximumDate:[self getPriousorLaterDateFromDate:[NSDate date] withDays:30]];
+        DatePickerVC *vc = [DatePickerVC datePickerVCWithMaximumDate:[self getPriousorLaterDateFromDate:[NSDate date] withDays:29]];
         vc.minimumDate = [self getPriousorLaterDateFromDate:[NSDate date] withDays:3];
-        [[vc rac_presentPickerVCInView:self.navigationController.view withSelectedDate:[NSDate date]]
+        [[vc rac_presentPickerVCInView:self.navigationController.view withSelectedDate:[self getPriousorLaterDateFromDate:[NSDate date] withDays:3]]
          subscribeNext:^(NSDate *date) {
              self.appointmentDay = date;
              [self.tableView reloadData];
@@ -286,7 +286,7 @@
 
 - (NSDate *)appointmentDay {
     if (!_appointmentDay) {
-        self.appointmentDay = [[NSDate alloc] init];
+        _appointmentDay = [self getPriousorLaterDateFromDate:[NSDate date] withDays:3];
     }
     return _appointmentDay;
 }

@@ -51,7 +51,7 @@
 
 #pragma mark - Action
 - (IBAction)actionCommissionClick:(UIButton *)sender {
-    [MobClick event:@"rp801-2"];
+    [MobClick event:@"rp801_2"];
     if (gAppMgr.myUser != nil) {
         self.carStore = [MyCarStore fetchOrCreateStore];
         @weakify(self);
@@ -156,7 +156,7 @@
 }
 
 - (void)commissionHistory {
-    [MobClick event:@"rp801-1"];
+    [MobClick event:@"rp801_1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         RescueHistoryViewController *vc  =[rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHistoryViewController"];
         vc.type = 2;

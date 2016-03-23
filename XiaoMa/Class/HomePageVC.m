@@ -6,6 +6,8 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
+
+
 #import "HomePageVC.h"
 #import <Masonry.h>
 #import "XiaoMa.h"
@@ -17,6 +19,7 @@
 #import "HKLoginModel.h"
 #import "MyCarStore.h"
 #import "GuideStore.h"
+#import "PasteboardModel.h"
 
 #import "CarWashTableVC.h"
 #import "NewGainAwardVC.h"
@@ -28,6 +31,10 @@
 #import "ValuationViewController.h"
 #import "HomeNewbieGuideVC.h"
 #import "HomeSuspendedAdVC.h"
+#import "MutualInsGrouponVC.h"
+#import "MutualInsHomeVC.h"
+#import "InviteAlertVC.h"
+#import "AdListData.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3.0
@@ -63,6 +70,8 @@
     [super viewWillAppear:animated];
     self.isViewAppearing = YES;
     [self.scrollView restartRefreshViewAnimatingWhenRefreshing];
+    
+    [self showSuspendedAdIfNeeded];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -83,7 +92,7 @@
     [gAdMgr loadLastAdvertiseInfo:AdvertisementHomePage];
     [gAdMgr loadLastAdvertiseInfo:AdvertisementCarWash];
     
-    //自动登录
+    //自动登录(含粘贴板监测)
     [self autoLogin];
     //全局CarStore
     self.carStore = [MyCarStore fetchOrCreateStore];
@@ -117,7 +126,6 @@
             self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, 480);
         }
         [self showNewbieGuideAlertIfNeeded];
-        [self showSuspendedAdIfNeeded];
     });
 }
 
@@ -133,9 +141,30 @@
         //开启推送接收队列
         gAppDelegate.pushMgr.notifyQueue.running = YES;
         gAppDelegate.openUrlQueue.running = YES;
+        [self checkPasteboardModel];
+    } error:^(NSError *error) {
+        //未登录
+        [self checkPasteboardModel];
     }];
 }
 
+- (void)checkPasteboardModel
+{
+    //设置口令弹框取消按钮的block
+    [gAppDelegate.pasteboardoModel setCancelClickBlock:^(id x) {
+        [UIPasteboard generalPasteboard].string = @"";
+        [self showSuspendedAdIfNeeded];
+    }];
+    //设置口令弹框下一页
+    [gAppDelegate.pasteboardoModel setNextClickBlock:^(id x) {
+        if ([[UIPasteboard generalPasteboard].string hasPrefix:XMINSPrefix] && [MZFormSheetController formSheetControllersStack]) {
+            MZFormSheetController * mzVC = [[MZFormSheetController formSheetControllersStack] safetyObjectAtIndex:0];
+            [mzVC dismissAnimated:NO completionHandler:nil];
+        }
+        self.isShowSuspendedAd = NO;
+    }];
+    [gAppDelegate.pasteboardoModel checkPasteboard];
+}
 
 #pragma mark - Setup
 - (void)setupProp
@@ -301,7 +330,7 @@
 - (void)setupADViewInContainer:(UIView *)container
 {
     self.adctrl = [ADViewController vcWithADType:AdvertisementHomePage boundsWidth:self.view.frame.size.width
-                                        targetVC:self mobBaseEvent:@"rp101-10"];
+                                        targetVC:self mobBaseEvent:@"rp101_10"];
     
     CGFloat height = floor(self.adctrl.adView.frame.size.height);
     [container addSubview:self.adctrl.adView];
@@ -355,7 +384,7 @@
 
 - (void)umeng
 {
-    [MobClick event:@"rp101-1"];
+    [MobClick event:@"rp101_1"];
 }
 
 - (void)setupNavigationRightBar
@@ -460,7 +489,8 @@
 
 - (void)showSuspendedAdIfNeeded
 {
-    if (!self.guideStore.shouldDisablePopupAd && self.isViewAppearing && !self.isShowSuspendedAd) {
+    
+    if (!self.guideStore.shouldDisablePopupAd && self.isViewAppearing && !self.isShowSuspendedAd && ![[UIPasteboard generalPasteboard].string hasPrefix:XMINSPrefix]) {
         
         self.isShowSuspendedAd = YES;
         
@@ -469,8 +499,16 @@
         [[signal deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
             
             @strongify(self);
+            NSMutableArray * mutableArr = [[NSMutableArray alloc] init];
+            for (int i = 0; i < ads.count; i ++) {
+                HKAdvertisement * adDic = ads[i];
+                //广告是否已经看过
+                if (![AdListData checkAdAlreadyAppeard:adDic]) {
+                    [mutableArr addObject:adDic];
+                }
+            }
             //若弹出抢登登录框，则不弹出广告
-            if (!gAppDelegate.errorModel.alertView && ads.count > 0) {
+            if (!gAppDelegate.errorModel.alertView && mutableArr.count > 0) {
                 
                 [HomeSuspendedAdVC presentInTargetVC:self withAdList:ads];
             }
@@ -481,9 +519,11 @@
 #pragma mark - Action
 - (IBAction)actionCallCenter:(id)sender
 {
-    [MobClick event:@"rp101-2"];
-    NSString * number = @"4007111111";
-    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+//    [MobClick event:@"rp101_2"];
+//    NSString * number = @"4007111111";
+//    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+    MutualInsHomeVC * vc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 
@@ -493,14 +533,14 @@
 
 - (void)actionWashCar:(id)sender
 {
-    [MobClick event:@"rp101-3"];
+    [MobClick event:@"rp101_3"];
     CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionInsurance:(id)sender
 {
-    [MobClick event:@"rp101-4"];
+    [MobClick event:@"rp101_4"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         UIViewController *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -509,21 +549,21 @@
 
 - (void)actionRescue:(id)sender
 {
-    [MobClick event:@"rp101-5"];
+    [MobClick event:@"rp101_5"];
     RescueHomeViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionCommission:(id)sender
 {
-    [MobClick event:@"rp101-6"];
+    [MobClick event:@"rp101_6"];
     CommissionOrderVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionOrderVC"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionAward:(id)sender
 {
-    [MobClick event:@"rp101-11"];
+    [MobClick event:@"rp101_11"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         NewGainAwardVC * vc = [awardStoryboard instantiateViewControllerWithIdentifier:@"NewGainAwardVC"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -531,7 +571,7 @@
 }
 - (void)actionAddGas:(id)sender
 {
-    [MobClick event:@"rp101-12"];
+    [MobClick event:@"rp101_12"];
     GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -541,7 +581,7 @@
     /**
      *  违章查询事件
      */
-    [MobClick event:@"rp101-14"];
+    [MobClick event:@"rp101_14"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         
         ViolationViewController * vc = [violationStoryboard instantiateViewControllerWithIdentifier:@"ViolationViewController"];
@@ -554,7 +594,7 @@
     /**
      *  二手车估值事件
      */
-    [MobClick event:@"rp101-15"];
+    [MobClick event:@"rp101_15"];
     ValuationViewController *vc = [UIStoryboard vcWithId:@"ValuationViewController" inStoryboard:@"Valuation"];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -938,6 +978,5 @@
 {
     [gAppMgr.navModel pushToViewControllerByUrl:url];
 }
-
 
 @end
