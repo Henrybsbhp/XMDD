@@ -111,12 +111,6 @@
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         
-        [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
-            
-        }];
-        [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
-            
-        }];
     } error:^(NSError *error) {
         [gToast showError:@"分享信息拉取失败，请重试"];
     }];

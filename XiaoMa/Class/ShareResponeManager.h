@@ -17,7 +17,7 @@ typedef NS_ENUM(NSInteger, ShareResponseType) {
     ShareResponseQQ
 };
 
-@interface ShareResponeManager : NSObject<WXApiDelegate, WeiboSDKDelegate>
+@interface ShareResponeManager : NSObject<WXApiDelegate, WeiboSDKDelegate, QQApiInterfaceDelegate>
 
 + (instancetype)init;
 
@@ -25,11 +25,11 @@ typedef NS_ENUM(NSInteger, ShareResponseType) {
 
 @end
 
-//微信和QQ回调函数onResp函数名相同，所以区分响应
-@interface ShareResponeManagerForQQ : NSObject<QQApiInterfaceDelegate>
-
-+ (instancetype)init;
-
-@property (strong, nonatomic)void(^finishAction)(NSString * resultStr, ShareResponseType responseType);
-
-@end
+//微信和QQ回调函数onResp函数名相同，所以区分响应  已解决：在onResp方法中判断resp的类型即可
+//@interface ShareResponeManagerForQQ : NSObject<QQApiInterfaceDelegate>
+//
+//+ (instancetype)init;
+//
+//@property (strong, nonatomic)void(^finishAction)(NSString * resultStr, ShareResponseType responseType);
+//
+//@end
