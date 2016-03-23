@@ -15,7 +15,7 @@
     self.req_method = @"/cooperation/claim/confirm";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params addParam:self.req_cardid forName:@"cardid"];
+    [params addParam:self.req_bankcardno forName:@"bankcardno"];
     [params addParam:self.req_claimid forName:@"claimid"];
     [params addParam:self.req_agreement forName:@"agreement"];
     

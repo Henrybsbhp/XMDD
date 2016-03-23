@@ -21,8 +21,7 @@
     self.rsp_cardmgdesc = dict[@"cardmgdesc"];
     self.rsp_reason = dict[@"reason"];
     self.rsp_claimfee = [dict[@"claimfee"] floatValue];
-    self.rsp_cardid = dict[@"cardid"];
-    self.rsp_cardname = dict[@"cardname"];
+    self.rsp_insurancename = dict[@"insurancename"];
     self.rsp_cardno = dict[@"cardno"];
     return self;
 }

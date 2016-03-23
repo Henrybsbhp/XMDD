@@ -12,7 +12,7 @@
 
 @property (nonatomic, strong) NSNumber *req_claimid;
 @property (nonatomic, strong) NSNumber *req_agreement;
-@property (nonatomic, strong) NSNumber *req_cardid;
+@property (nonatomic, strong) NSNumber *req_bankcardno;
 
 
 @end

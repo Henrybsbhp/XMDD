@@ -13,6 +13,7 @@
 #import "MutualInsClaimAccountVC.h"
 #import "ConfirmClaimOp.h"
 #import "NSString+Split.h"
+#import "HKImageAlertVC.h"
 
 @interface MutualInsClaimDetailVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UIButton *agreeBtn;
@@ -29,10 +30,9 @@
 @property (nonatomic,strong) NSString *reason;
 @property (nonatomic) CGFloat claimfee;
 @property (nonatomic,strong) NSNumber *cardid;
-@property (nonatomic,strong) NSString *cardname;
 @property (nonatomic,strong) NSString *cardno;
-
-@property (nonatomic) BOOL hasCard;
+@property (nonatomic,strong) NSString *bankcardno;
+@property (nonatomic,strong) NSString *insurancename;
 
 @end
 
@@ -131,28 +131,21 @@
         cell = [tableView dequeueReusableCellWithIdentifier:@"cardCell"];
         UITextField *nameTF = [cell viewWithTag:100];
         UITextField *numTF = [cell viewWithTag:101];
+        UILabel *label = [cell viewWithTag:102];
+        label.hidden = self.status.integerValue == 1 ? NO : YES;
         [self addBorder:nameTF WithColor:@"#dedfe0"];
         [self addBorder:numTF WithColor:@"#dedfe0"];
-        @weakify(numTF)
-        [[[numTF rac_textSignal]takeUntilForCell:cell] subscribeNext:^(NSString *x) {
-            @strongify(numTF)
-            if (x.length < 24)
-            {
-                x = [x stringByReplacingOccurrencesOfString:@" " withString:@""];
-                numTF.text = [x splitByStep:4 replacement:@" "];
-            }
-            else
-            {
-                numTF.text = [numTF.text substringToIndex:23];
-            }
+        @weakify(self);
+        [[[[numTF rac_textSignal] takeUntilForCell:cell]skip:1] subscribeNext:^(NSString *x) {
+            @strongify(self);
+            numTF.text = [self splitCardNumString:x];
         }];
-        numTF.text = self.cardno;
-        nameTF.text = self.cardname;
+        numTF.text = [self splitCardNumString:self.cardno];
+        nameTF.text = self.insurancename;
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
-
 
 #pragma mark UITableViewDelegate
 
@@ -162,7 +155,7 @@
     {
         return 50;
     }
-    else if ((indexPath.section == 1 && self.status.integerValue == 20)||indexPath.section == 2)
+    else if ((indexPath.section == 1 && self.status.integerValue == 20)||indexPath.section == 2 || self.status.integerValue == 1)
     {
         UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
         [cell layoutIfNeeded];
@@ -173,10 +166,9 @@
     }
     else
     {
-        return 195;
+        return 180;
     }
 }
-
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -191,7 +183,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!self.hasCard && indexPath.row ==1 && indexPath.section == 1 && self.status.integerValue != 0 && self.status.integerValue != 20)
+    if (indexPath.row ==1 && indexPath.section == 1 && self.status.integerValue != 0 && self.status.integerValue != 20)
     {
         MutualInsClaimAccountVC *accountVC = [UIStoryboard vcWithId:@"MutualInsClaimAccountVC" inStoryboard:@"MutualInsClaims"];
         [self.navigationController pushViewController:accountVC animated:YES];
@@ -216,9 +208,7 @@
         self.cardmgdesc = op.rsp_cardmgdesc;
         self.reason = op.rsp_reason;
         self.claimfee = op.rsp_claimfee;
-        self.cardid = op.rsp_cardid;
-        self.hasCard = op.rsp_cardid.integerValue == 0 ? NO : YES;
-        self.cardname = op.rsp_cardname;
+        self.insurancename = op.rsp_insurancename;
         self.cardno = op.rsp_cardno;
         if (self.status.integerValue == 1)
         {
@@ -232,14 +222,13 @@
     }error:^(NSError *error) {
         [self.view stopActivityAnimation];
     }];
-    
 }
 
 #pragma mark Action
 
 - (IBAction)call:(id)sender {
     NSString * number = @"4007111111";
-    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+    [gPhoneHelper makePhone:number andInfo:@"如有任何疑问，可拨打客服电话：4007-111-111"];
 }
 
 #pragma mark Init
@@ -264,20 +253,26 @@
 
 -(void)confirmClaimWithAgreement:(NSNumber *)agreement
 {
-    if (self.cardid.integerValue != 0)
-    {
-        ConfirmClaimOp *op = [[ConfirmClaimOp alloc]init];
-        [[[op rac_postRequest]initially:^{
-            [gToast showingWithText:@"提交中"];
-        }]subscribeNext:^(id x) {
-            [gToast showSuccess:@"提交成功"];
-            [self.navigationController popViewControllerAnimated:YES];
-        }];
-    }
-    else
-    {
-        [gToast showMistake:@"请添加银行卡"];
-    }
+    HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+    alert.topTitle = @"提交成功";
+    alert.imageName = @"mins_ok";
+    alert.message = agreement.integerValue == 1 ?  @"客服人员将很快与您取得联系，请留意号码为4007-111-111点来电请耐心等待" : @"系统将在1个工作日内（周末及节假日顺延）内打款至您预留的银行卡，请耐心等待，如有问题请致电4007-111-111";
+    @weakify(self)
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        @strongify(self)
+        NSArray *viewControllers = self.navigationController.viewControllers;
+        [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
+        [alertVC dismiss];
+    }];
+    alert.actionItems = @[cancel];
+    ConfirmClaimOp *op = [[ConfirmClaimOp alloc]init];
+    op.req_claimid = self.claimid;
+    op.req_agreement = agreement;
+    op.req_bankcardno = [NSNumber numberWithInteger:self.bankcardno.integerValue];
+    [[[op rac_postRequest]initially:^{
+    }]subscribeNext:^(id x) {
+        [alert show];
+    }];
 }
 
 #pragma mark Utility
@@ -292,6 +287,19 @@
 {
     view.layer.borderColor = [[UIColor colorWithHex:color alpha:1]CGColor];
     view.layer.borderWidth = 1;
+}
+
+-(NSString *)splitCardNumString:(NSString *)str
+{
+    if (str.length < 24)
+    {
+        self.bankcardno = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
+        return [self.bankcardno splitByStep:4 replacement:@" "];
+    }
+    else
+    {
+        return [str substringToIndex:23];
+    }
 }
 
 @end
