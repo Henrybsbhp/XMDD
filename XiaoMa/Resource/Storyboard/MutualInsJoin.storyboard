@@ -1481,8 +1481,22 @@
                                                 <activityIndicatorView opaque="NO" tag="103" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="bjK-Q9-tlJ">
                                                     <rect key="frame" x="542" y="55" width="20" height="20"/>
                                                 </activityIndicatorView>
+                                                <button opaque="NO" tag="112" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cWh-Wn-C0g">
+                                                    <rect key="frame" x="523" y="40" width="49" height="49"/>
+                                                    <color key="backgroundColor" red="0.094117647058823528" green="0.81568627450980391" blue="0.41568627450980389" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="49" id="9HZ-sx-K8z"/>
+                                                        <constraint firstAttribute="width" constant="49" id="vc9-tP-hhS"/>
+                                                    </constraints>
+                                                    <state key="normal" image="mutualInsJoin_createGroup_diceBtn"/>
+                                                    <connections>
+                                                        <action selector="diceButtonDidClick:" destination="5g4-Ib-nId" eventType="touchUpInside" id="2dg-uP-Hv0"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="cWh-Wn-C0g" firstAttribute="trailing" secondItem="FBL-26-bPw" secondAttribute="trailing" id="1rO-gM-9MA"/>
+                                                <constraint firstAttribute="trailing" secondItem="cWh-Wn-C0g" secondAttribute="trailing" constant="34" id="3hj-qO-LHr"/>
                                                 <constraint firstItem="FBL-26-bPw" firstAttribute="leading" secondItem="LKZ-a4-qc8" secondAttribute="leading" constant="29" id="8CO-Dd-eVr"/>
                                                 <constraint firstItem="bjK-Q9-tlJ" firstAttribute="centerY" secondItem="LKZ-a4-qc8" secondAttribute="centerY" id="Cu6-v4-13i"/>
                                                 <constraint firstItem="FBL-26-bPw" firstAttribute="top" secondItem="Ufy-CR-yvO" secondAttribute="bottom" constant="7" id="DMe-39-flq"/>
@@ -1493,7 +1507,11 @@
                                                 <constraint firstItem="bjK-Q9-tlJ" firstAttribute="centerY" secondItem="FBL-26-bPw" secondAttribute="centerY" id="TKs-J1-aDJ"/>
                                                 <constraint firstItem="Ufy-CR-yvO" firstAttribute="leading" secondItem="LKZ-a4-qc8" secondAttribute="leading" constant="29" id="bLy-0i-CHN"/>
                                                 <constraint firstAttribute="bottom" secondItem="FBL-26-bPw" secondAttribute="bottom" constant="14" id="etf-ty-zdO"/>
+                                                <constraint firstItem="cWh-Wn-C0g" firstAttribute="leading" secondItem="LKZ-a4-qc8" secondAttribute="leading" constant="538" id="fUO-gc-pXM"/>
                                                 <constraint firstItem="Ufy-CR-yvO" firstAttribute="leading" secondItem="LKZ-a4-qc8" secondAttribute="leadingMargin" constant="21" id="ghd-5n-fHD"/>
+                                                <constraint firstItem="cWh-Wn-C0g" firstAttribute="centerY" secondItem="FBL-26-bPw" secondAttribute="centerY" id="gyP-Rt-8kj"/>
+                                                <constraint firstItem="cWh-Wn-C0g" firstAttribute="centerY" secondItem="FBL-26-bPw" secondAttribute="centerY" id="iwO-RU-2f5"/>
+                                                <constraint firstItem="cWh-Wn-C0g" firstAttribute="trailing" secondItem="FBL-26-bPw" secondAttribute="trailing" id="lUb-DE-vB3"/>
                                                 <constraint firstItem="bjK-Q9-tlJ" firstAttribute="trailing" secondItem="FBL-26-bPw" secondAttribute="trailing" constant="-10" id="oWW-ZP-SFv"/>
                                                 <constraint firstAttribute="trailing" secondItem="FBL-26-bPw" secondAttribute="trailing" constant="28" id="v2o-iZ-8ih"/>
                                                 <constraint firstItem="FBL-26-bPw" firstAttribute="top" secondItem="Ufy-CR-yvO" secondAttribute="bottom" constant="7" id="zIV-6s-7wj"/>
@@ -1504,6 +1522,10 @@
                                                     <exclude reference="R9c-l4-mGz"/>
                                                     <exclude reference="ghd-5n-fHD"/>
                                                     <exclude reference="zIV-6s-7wj"/>
+                                                    <exclude reference="3hj-qO-LHr"/>
+                                                    <exclude reference="fUO-gc-pXM"/>
+                                                    <exclude reference="iwO-RU-2f5"/>
+                                                    <exclude reference="lUb-DE-vB3"/>
                                                     <exclude reference="Cu6-v4-13i"/>
                                                     <exclude reference="MiC-Zw-w8y"/>
                                                 </mask>
@@ -2628,6 +2650,7 @@
         <image name="min_inspricecorner" width="11" height="5"/>
         <image name="min_insselect" width="18" height="17"/>
         <image name="min_insunselect" width="18" height="17"/>
+        <image name="mutualInsJoin_createGroup_diceBtn" width="21" height="24"/>
         <image name="mutualIns_groupInfo_docs" width="70" height="64"/>
         <image name="mutualIns_requestJoinGroup_car" width="30" height="30"/>
         <image name="mutualIns_requestJoinGroup_drafts" width="30" height="30"/>

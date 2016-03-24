@@ -63,6 +63,13 @@
         [self requestCreateGroup:self.textFieldString];
 }
 
+// 骰子 Button 触发事件，来随机获取 Group 名，获取到以后将 Button 隐藏。
+- (IBAction)diceButtonDidClick:(UIButton *)sender
+{
+    [self requestGetGroupName];
+    sender.hidden = YES;
+}
+
 - (void)actionBack:(id)sender
 {
     if (self.originVC) {
@@ -331,6 +338,8 @@
     UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:101];
     UITextField *groupTextField = (UITextField *)[cell.contentView viewWithTag:102];
     UIActivityIndicatorView * indicatorView = (UIActivityIndicatorView *)[cell.contentView viewWithTag:103];
+    UIButton *diceButton = (UIButton *)[cell.contentView viewWithTag:112];
+
     
     titleLabel.text = @"团队名称";
     
@@ -366,6 +375,11 @@
         BOOL isloading = [number boolValue];
         indicatorView.animating = isloading;
         indicatorView.hidden = !isloading;
+        
+        // 如果刷新停止后，则让骰子 Button 显现。
+        if (!isloading) {
+            diceButton.hidden = NO;
+        }
     }];
     
     return cell;
