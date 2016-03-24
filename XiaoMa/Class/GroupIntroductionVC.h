@@ -30,6 +30,4 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSString *memberId;
 @property (nonatomic, strong) NSString *groupName;
 
-@property (nonatomic, weak) UIViewController *originVC;
-
 @end
