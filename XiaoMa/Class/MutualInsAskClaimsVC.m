@@ -18,10 +18,17 @@
 @interface MutualInsAskClaimsVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) NSArray *tempArr;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
 @implementation MutualInsAskClaimsVC
+
+-(void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -158,17 +165,14 @@
 
 -(void)crimeReportSectionAction
 {
-//   @叶志成 改号码
     NSString * number = @"4007111111";
-    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+    [gPhoneHelper makePhone:number andInfo:@"快速报案可拨打客服电话：4007-111-111，是否立即拨打？"];
 }
 
 - (void)scenePageSectionAction
 {
     [self getNoticeArr];
     [self getCarListData];
-
-    
 }
 
 -(void)historySectionAction
@@ -210,7 +214,7 @@
         }
         else
         {
-            [gToast showMistake:@"请先报案"];
+            [gToast showMistake:@"未检测到您的爱车有车险报案记录，快速理赔需要先报案后才能进行现场拍照。请先报案，谢谢～"];
         }
         [self.view stopActivityAnimation];
     }error:^(NSError *error) {

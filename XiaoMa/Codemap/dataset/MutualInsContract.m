@@ -31,6 +31,7 @@
     self.remindtip = dict[@"remindtip"];
     self.couponname = dict[@"couponname"];
     self.couponlist = dict[@"couponlist"];
+    self.finishaddress = [dict boolParamForName:@"finishaddress"];
 }
 
 @end

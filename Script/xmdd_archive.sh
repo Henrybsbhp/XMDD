@@ -71,14 +71,14 @@ derivedData="/Users/"$user"/Library/Developer/Xcode/DerivedData"
 cd $derivedData && rm -rf *
 
 
-# build adhoc-测试环境
+# build adhoc-开发环境
 # 切换到脚本目录
 echo "**************switch script adhoc-release**************"
 cd $script_path
 echo "**************replace pbxproj file**************"
 sh project_replace.sh "$adhoc_code_sign_id" "$adhoc_provisioning_id" "$project_pbxproj_path"
-#切换到测试环境
-sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=1/" $project_pbxproj_path
+#切换到开发环境
+sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=2/" $project_pbxproj_path
 echo "**************finish replace pbxproj file**************"
 
 echo "**************begin building1**************"
@@ -92,7 +92,7 @@ xcodebuild -project XiaoMa.xcodeproj clean
 # build
 xcworkspace_name="XiaoMa.xcworkspace"
 scheme_name="XiaoMa"
-configuration_type="Release"
+configuration_type="Debug"
 build_dir=$root_path"/build/ios-xmdd-adhoc-"$bundleVersion
 release_ipa_name="ios-xmdd-adhoc-"$bundleVersion".ipa"
 
@@ -104,18 +104,18 @@ archieve_dir=$root_path"/ipa"
 
 xcrun -sdk iphoneos PackageApplication -v $build_dir"/XiaoMa.app" -o $archieve_dir"/"$release_ipa_name
 
-echo "**************finish building adhoc-release**************"
+echo "**************finish building adhoc-开发环境**************"
 
 
 
-# build adhoc-正式环境
+# build adhoc-测试环境
 # 切换到脚本目录
 echo "**************switch script**************"
 cd $script_path
 echo "**************replace pbxproj file**************"
 sh project_replace.sh "$adhoc_code_sign_id" "$adhoc_provisioning_id" "$project_pbxproj_path"
-#切换到生产环境
-sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=2/" $project_pbxproj_path
+#切换到测试环境
+sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=1/" $project_pbxproj_path
 echo "**************finish replace pbxproj file**************"
 
 echo "**************begin building adhoc-debug**************"
@@ -129,7 +129,7 @@ xcodebuild -project XiaoMa.xcodeproj clean
 # build
 xcworkspace_name="XiaoMa.xcworkspace"
 scheme_name="XiaoMa"
-configuration_type="Release"
+configuration_type="Debug"
 build_dir=$root_path"/build/ios-xmdd-adhoc-d-"$bundleVersion
 debug_ipa_name="ios-xmdd-adhoc-d-"$bundleVersion".ipa"
 
@@ -141,7 +141,7 @@ archieve_dir=$root_path"/ipa"
 
 xcrun -sdk iphoneos PackageApplication -v $build_dir"/XiaoMa.app" -o $archieve_dir"/"$debug_ipa_name
 
-echo "**************finish building adhoc-debug**************"
+echo "**************finish building adhoc-测试环境**************"
 
 
 

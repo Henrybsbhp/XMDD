@@ -129,11 +129,13 @@
     {
         case 2:
             title.text = @"联系人姓名";
+            textField.placeholder = @"请输入联系人姓名";
             textField.text = self.contactname;
             self.view1 = textField;
             break;
         case 3:
             title.text = @"联系人手机";
+            textField.placeholder = @"请输入联系人手机";
             textField.text = self.contactphone;
             self.view2 = textField;
             break;
