@@ -106,6 +106,7 @@ class=GetCooperationMygroupDetail op auth path="/cooperation/mygroup/detail/get"
     <"按钮名字">buttonname
     <"是否当前人是团长本人">ifgroupowner:bool
     <"团记录ID">groupid:number
+    <"团名">groupname
   }
 }
 

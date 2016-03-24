@@ -35,6 +35,8 @@
 @property (nonatomic,assign) BOOL rsp_ifgroupowner;
 ///团记录ID
 @property (nonatomic,strong) NSNumber* rsp_groupid;
+///团名
+@property (nonatomic,strong) NSString* rsp_groupname;
 
 
 @end

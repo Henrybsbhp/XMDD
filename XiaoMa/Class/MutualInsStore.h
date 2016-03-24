@@ -16,6 +16,9 @@
 @property (nonatomic, strong) JTQueue *simpleGroups;
 @property (nonatomic, strong) JTQueue *detailGroups;
 
+///最新的操作id
+@property (nonatomic, strong)NSNumber * lastGroupId;
+
 - (CKEvent *)reloadDetailGroupByMemberID:(NSNumber *)memberid andGroupID:(NSNumber *)groupid;
 - (CKEvent *)reloadSimpleGroups;
 

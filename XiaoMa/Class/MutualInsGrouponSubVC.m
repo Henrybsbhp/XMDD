@@ -180,7 +180,9 @@
 - (void)actionImproveCoverageInfo {
     MutualInsChooseVC * vc = [UIStoryboard vcWithId:@"MutualInsChooseVC" inStoryboard:@"MutualInsJoin"];
     vc.memberId = self.groupDetail.req_memberid;
-    vc.originVC = self.parentViewController;
+    vc.groupId = self.groupDetail.req_groupid;
+    vc.groupName = self.groupDetail.rsp_groupname;
+    vc.originVC = self.originVC;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

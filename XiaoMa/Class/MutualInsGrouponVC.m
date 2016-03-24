@@ -65,7 +65,6 @@ typedef enum : NSInteger
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     [self setupNavigationBar];
     [self setupSubVC];
     [self setupMutualInsStore];
@@ -95,17 +94,15 @@ typedef enum : NSInteger
 }
 
 #pragma mark - Setup
-- (void)setupNavigationBar
-{
-    self.navigationItem.title = self.group.groupName;
-    
-    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
-    self.navigationItem.leftBarButtonItem = back;
+- (void)setupNavigationBar {
+    self.navigationItem.title = self.group.groupName.length > 0 ? self.group.groupName : @"团详情";
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
 }
 
 - (void)setupSubVC {
     @weakify(self);
     self.topSubVC.title = self.navigationItem.title;
+    self.topSubVC.originVC = self;
     [self.topSubVC setShouldExpandedOrClosed:^(BOOL expanded) {
         @strongify(self);
         [self setExpanded:expanded animated:YES];
@@ -125,7 +122,12 @@ typedef enum : NSInteger
     }];
 }
 
-- (void)setupNavigationRightItem {
+- (void)resetNavigationItemWithTitle:(NSString *)title {
+
+    if (title.length > 0) {
+        self.navigationItem.title  = title;
+    }
+    
     UIView *container = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 35, 40)];
     AddCloseAnimationButton *button = [[AddCloseAnimationButton alloc] initWithFrame:CGRectMake(0, 0, 35, 40)];
     [button addTarget:self action:@selector(actionShowOrHideMenu:) forControlEvents:UIControlEventTouchUpInside];
@@ -191,7 +193,8 @@ typedef enum : NSInteger
         [self.view stopActivityAnimation];
         self.containerView.hidden = NO;
         self.groupDetail = x;
-        [self setupNavigationRightItem];
+
+        [self resetNavigationItemWithTitle:self.groupDetail.rsp_groupname];
         [self reloadData];
     } error:^(NSError *error) {
         

@@ -10,4 +10,6 @@
 
 @interface MutualInsRequestJoinGroupVC : UIViewController
 
+@property (nonatomic, weak) UIViewController *originVC;
+
 @end

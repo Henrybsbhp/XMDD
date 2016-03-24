@@ -32,10 +32,18 @@
         [contentV addSubview:wordLabel];
         self.contentView = contentV;
     }
+    else if (self.alertType == InviteAlertTypeGotoWechat) {
+        NSString * codeText = self.contentStr;
+        UILabel * codeLabel = [self creatLabelWithFrame:CGRectMake(17, 0, kContentViewWidth - 34, 133) andText:codeText];
+        codeLabel.numberOfLines = 5;
+        codeLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        [contentV addSubview:codeLabel];
+        self.contentView = contentV;
+    }
     else if (self.alertType == InviteAlertTypeJoin) {
         
         NSString * labelText = @"您已复制某团长建立的互助团口令，请确认是否要加入该互助团：";
-        UILabel * wordLabel = [self creatLabelWithFrame:CGRectMake(17, 0, kContentViewWidth - 34, 133) andText:labelText];
+        UILabel * wordLabel = [self creatLabelWithFrame:CGRectMake(17, 15, kContentViewWidth - 34, 50) andText:labelText];
         [contentV addSubview:wordLabel];
         
         UILabel * groupL = [[UILabel alloc] initWithFrame:CGRectMake(17, 75, 60, 25)];
@@ -61,7 +69,7 @@
         leaderNameLabel.font = [UIFont systemFontOfSize:14];
         leaderNameLabel.textColor = HEXCOLOR(@"#454545");
         leaderNameLabel.text = self.leaderName;
-        groupNameLabel.textAlignment = NSTextAlignmentRight;
+        leaderNameLabel.textAlignment = NSTextAlignmentRight;
         [contentV addSubview:leaderNameLabel];
         
         self.contentView = contentV;

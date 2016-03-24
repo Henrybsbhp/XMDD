@@ -122,13 +122,14 @@
         [vc setFinishPickActionForMutualIns:^(MyCarListVModel * carModel, UIView * loadingView) {
             
             //爱车页面入团按钮委托实现
-            [self requestApplyJoinGroup:self.groupId andCarModel:carModel andLoadingView:loadingView];
+            [self requestApplyJoinGroupWithID:self.groupId groupName:self.groupName carModel:carModel loadingView:loadingView];
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
-- (void)requestApplyJoinGroup:(NSNumber *)groupId andCarModel:(MyCarListVModel *)carModel andLoadingView:(UIView *)view
+- (void)requestApplyJoinGroupWithID:(NSNumber *)groupId groupName:(NSString *)groupName
+                           carModel:(MyCarListVModel *)carModel loadingView:(UIView *)view
 {
     ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
     op.req_groupid = groupId;
@@ -143,6 +144,7 @@
         MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
         vc.memberId = rop.rsp_memberid;
         vc.groupId = rop.req_groupid;
+        vc.groupName = groupName;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
@@ -174,12 +176,16 @@
     }];
 }
 
+
+// 创建团
 - (void)selfGroupTour
 {
     CreateGroupVC * vc = [UIStoryboard vcWithId:@"CreateGroupVC" inStoryboard:@"MutualInsJoin"];
+    vc.originVC = self.originVC;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+// 加入团
 - (void)selfGroupJoin
 {
     MutualInsRequestJoinGroupVC * vc = [UIStoryboard vcWithId:@"MutualInsRequestJoinGroupVC" inStoryboard:@"MutualInsJoin"];

@@ -43,6 +43,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
     [self setupMutualInsStore];
     self.tableView.hidden = YES;
     CKAsyncMainQueue(^{
@@ -76,6 +77,11 @@
     self.tableView.hidden = NO;
 }
 
+#pragma mark - Action
+- (void)actionBack:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - Reload
 - (void)reloadFormSignal:(RACSignal *)signal
 {
@@ -104,6 +110,20 @@
             else {
                 [self.view stopActivityAnimation];
                 [self resetTableView];
+            }
+        }
+        if (self.minsStore.lastGroupId)
+        {
+            for (NSInteger i = 0 ; i < self.myGroupArray.count; i++)
+            {
+                HKMutualGroup * group = [self.myGroupArray safetyObjectAtIndex:i];
+                if ([group.groupId isEqualToNumber:self.minsStore.lastGroupId])
+                {
+                    NSIndexPath * scrollPath = [NSIndexPath indexPathForRow:i+3+1 inSection:0];
+                    [self.tableView scrollToRowAtIndexPath:scrollPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                    self.minsStore.lastGroupId = nil;
+                    return ;
+                }
             }
         }
     } error:^(NSError *error) {
@@ -233,18 +253,22 @@
 {
     if (indexPath.row == 0) {
         GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
+        vc.originVC = self;
         vc.titleStr = @"自组团介绍";
         vc.groupType = MutualGroupTypeSelf;
+        vc.originVC = self;
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (indexPath.row == 1)
     {
         AutoGroupInfoVC * vc = [UIStoryboard vcWithId:@"AutoGroupInfoVC" inStoryboard:@"MutualInsJoin"];
+        vc.originVC = self;
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (indexPath.row > 3) {
         //我的团详情页面
         MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
+        vc.routeInfo = [CKDict dictWith:@{}];
         vc.group = [self.myGroupArray safetyObjectAtIndex:indexPath.row - 4];
         vc.originVC = self;
         [self.navigationController pushViewController:vc animated:YES];
