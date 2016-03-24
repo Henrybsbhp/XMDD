@@ -61,6 +61,7 @@
         
         [gToast dismiss];
         MutualInsGroupInfoVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGroupInfoVC"];
+        vc.originVC = self.originVC;
         vc.groupId = rop.rsp_groupid;
         vc.groupCreateName = rop.rsp_creatorname;
         vc.groupName = rop.rsp_name;

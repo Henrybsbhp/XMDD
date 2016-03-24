@@ -243,6 +243,7 @@
     NSDictionary * groupInfo = [self.autoGroupArray safetyObjectAtIndex:indexPath.section];
     
     NSNumber * groupid = groupInfo[@"groupid"];
+    NSString *groupname = groupInfo[@"name"];
     tagLabel.text = [NSString stringWithFormat:@"  %@  ", [groupInfo stringParamForName:@"grouptag"]];
     
     if ([groupInfo stringParamForName:@"tip"].length == 0) {
@@ -267,7 +268,7 @@
             [self jumpToGroupDetail:indexPath];
         }
         else {
-            [self joinSystemGroup:groupid];
+            [self joinSystemGroupWithGroupID:groupid groupName:groupname];
         }
     }];
     return cell;
@@ -283,6 +284,7 @@
 {
     //单个团介绍
     GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
+    vc.originVC = self.originVC;
     vc.titleStr = @"平台团介绍";
     vc.groupType = MutualGroupTypeSystem;
     NSDictionary * dic = [self.autoGroupArray safetyObjectAtIndex:indexPath.section];
@@ -297,10 +299,11 @@
         vc.btnType = BtnTypeJoinNow;
     }
     vc.groupId = [dic numberParamForName:@"groupid"];
+    vc.groupName = dic[@"name"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)joinSystemGroup:(NSNumber *)groupid
+- (void)joinSystemGroupWithGroupID:(NSNumber *)groupid groupName:(NSString *)groupname
 {
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
@@ -312,13 +315,14 @@
         [vc setFinishPickActionForMutualIns:^(MyCarListVModel * carModel, UIView * loadingView) {
             
             //爱车页面入团按钮委托实现
-            [self requestApplyJoinGroup:groupid andCarModel:carModel andLoadingView:loadingView];
+            [self requestApplyJoinGroupWithID:groupid groupName:groupname carModel:carModel loadingView:loadingView];
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
-- (void)requestApplyJoinGroup:(NSNumber *)groupId andCarModel:(MyCarListVModel *)carModel andLoadingView:(UIView *)view
+- (void)requestApplyJoinGroupWithID:(NSNumber *)groupId groupName:(NSString *)groupName
+                           carModel:(MyCarListVModel *)carModel loadingView:(UIView *)view
 {
     ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
     op.req_groupid = groupId;
@@ -333,6 +337,8 @@
         MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
         vc.memberId = rop.rsp_memberid;
         vc.groupId = rop.req_groupid;
+        vc.groupName = groupName;
+        vc.originVC = self.originVC;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         if (error.code == 6115804) {

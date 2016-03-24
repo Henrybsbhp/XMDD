@@ -145,7 +145,8 @@
        (id ifgroupowner)
        (type bool)
        (value #f))
-      (node (attr (*def* "团记录ID")) (id groupid) (type number) (value #f))))
+      (node (attr (*def* "团记录ID")) (id groupid) (type number) (value #f))
+      (node (attr (*def* "团名")) (id groupname) (type #f) (value #f))))
     (node
      (attr
       (*def* "互助协议查看")

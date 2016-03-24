@@ -133,7 +133,7 @@
         [alertView dismiss];
         if (index) {
             
-            [self jumpToCarListVC:groupId];
+            [self jumpToCarListVCWithGroupID:groupId groupName:groupName];
         }
         else {
             
@@ -143,7 +143,7 @@
     }];
 }
 
-- (void)jumpToCarListVC:(NSNumber *)groupId
+- (void)jumpToCarListVCWithGroupID:(NSNumber *)groupId groupName:(NSString *)groupname
 {
     CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
     vc.title = @"选择爱车";
@@ -154,7 +154,7 @@
     [vc setFinishPickActionForMutualIns:^(MyCarListVModel *carModel, UIView * loadingView) {
         
         //爱车页面入团按钮委托实现
-        [self requestApplyJoinGroup:groupId andCarModel:carModel andLoadingView:loadingView];
+        [self requestApplyJoinGroupWithID:groupId groupName:groupname carModel:carModel loadingView:loadingView];
     }];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -189,7 +189,8 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-- (void)requestApplyJoinGroup:(NSNumber *)groupId andCarModel:(MyCarListVModel *)carModel andLoadingView:(UIView *)view
+- (void)requestApplyJoinGroupWithID:(NSNumber *)groupId groupName:(NSString *)groupName
+                           carModel:(MyCarListVModel *)carModel loadingView:(UIView *)view
 {
     ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
     op.req_groupid = groupId;
@@ -202,7 +203,10 @@
         [gToast dismissInView:view];
         
         MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
+        vc.originVC = self.originVC;
         vc.memberId = rop.rsp_memberid;
+        vc.groupId = groupId;
+        vc.groupName = groupName;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         

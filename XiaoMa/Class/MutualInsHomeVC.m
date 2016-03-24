@@ -43,6 +43,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
     [self setupMutualInsStore];
     self.tableView.hidden = YES;
     CKAsyncMainQueue(^{
@@ -74,6 +75,11 @@
         }];
     }
     self.tableView.hidden = NO;
+}
+
+#pragma mark - Action
+- (void)actionBack:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Reload
@@ -233,6 +239,7 @@
 {
     if (indexPath.row == 0) {
         GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
+        vc.originVC = self;
         vc.titleStr = @"自组团介绍";
         vc.groupType = MutualGroupTypeSelf;
         [self.navigationController pushViewController:vc animated:YES];
@@ -240,11 +247,13 @@
     else if (indexPath.row == 1)
     {
         AutoGroupInfoVC * vc = [UIStoryboard vcWithId:@"AutoGroupInfoVC" inStoryboard:@"MutualInsJoin"];
+        vc.originVC = self;
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (indexPath.row > 3) {
         //我的团详情页面
         MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
+        vc.routeInfo = [CKDict dictWith:@{}];
         vc.group = [self.myGroupArray safetyObjectAtIndex:indexPath.row - 4];
         vc.originVC = self;
         [self.navigationController pushViewController:vc animated:YES];
