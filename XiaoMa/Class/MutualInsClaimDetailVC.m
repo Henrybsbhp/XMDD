@@ -34,6 +34,7 @@
 @property (nonatomic,strong) NSString *cardno;
 @property (nonatomic,strong) NSString *bankcardno;
 @property (nonatomic,strong) NSString *insurancename;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *bottomViewHeight;
 
 @end
 
@@ -133,6 +134,7 @@
         UITextField *nameTF = [cell viewWithTag:100];
         UITextField *numTF = [cell viewWithTag:101];
         UILabel *label = [cell viewWithTag:102];
+        label.preferredMaxLayoutWidth = self.view.bounds.size.width - 30;
         label.hidden = self.status.integerValue == 1 ? NO : YES;
         [self addBorder:nameTF WithColor:@"#dedfe0"];
         [self addBorder:numTF WithColor:@"#dedfe0"];
@@ -211,14 +213,17 @@
         self.claimfee = op.rsp_claimfee;
         self.insurancename = op.rsp_insurancename;
         self.cardno = op.rsp_cardno;
-//        if (self.status.integerValue == 1)
-//        {
+        if (self.status.integerValue == 1)
+        {
             self.bottomView.hidden = NO;
-//        }
-//        else
-//        {
-//            self.bottomView.hidden = YES;
-//        }
+            self.bottomViewHeight.constant = 65;
+        }
+        else
+        {
+            self.bottomView.hidden = YES;
+            self.bottomViewHeight.constant = 0;
+        }
+        [self.tableView layoutIfNeeded];
         [self.tableView reloadData];
     }error:^(NSError *error) {
         [self.view stopActivityAnimation];
