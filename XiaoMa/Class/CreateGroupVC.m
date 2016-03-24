@@ -63,6 +63,13 @@
         [self requestCreateGroup:self.textFieldString];
 }
 
+// 骰子 Button 触发事件，来随机获取 Group 名，获取到以后将 Button 隐藏。
+- (IBAction)diceButtonDidClick:(UIButton *)sender
+{
+    [self requestGetGroupName];
+    sender.hidden = YES;
+}
+
 - (void)actionBack:(id)sender
 {
     if (self.originVC) {
@@ -331,6 +338,8 @@
     UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:101];
     UITextField *groupTextField = (UITextField *)[cell.contentView viewWithTag:102];
     UIActivityIndicatorView * indicatorView = (UIActivityIndicatorView *)[cell.contentView viewWithTag:103];
+    UIButton *diceButton = (UIButton *)[cell.contentView viewWithTag:112];
+
     
     titleLabel.text = @"团队名称";
     
@@ -366,6 +375,11 @@
         BOOL isloading = [number boolValue];
         indicatorView.animating = isloading;
         indicatorView.hidden = !isloading;
+        
+        // 如果刷新停止后，则让骰子 Button 显现。
+        if (!isloading) {
+            diceButton.hidden = NO;
+        }
     }];
     
     return cell;
@@ -389,9 +403,9 @@
     tipsImageView3.image = [UIImage imageNamed:@"mutuallns_createGroup_rectangle"];
     
     tipsTitleLabel.text = @"组团提示";
-    [tipsLabel1 setPreferredMaxLayoutWidth:200];
-    [tipsLabel2 setPreferredMaxLayoutWidth:200];
-    [tipsLabel3 setPreferredMaxLayoutWidth:200];
+    [tipsLabel1 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 106];
+    [tipsLabel2 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 106];
+    [tipsLabel3 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 106];
     tipsLabel1.attributedText = [self generateAttributedStringWithLineSpacing:@"输入团队名称后，点击下方 “确定” 即可发起组团并获得入团暗号。"];
     tipsLabel2.attributedText = [self generateAttributedStringWithLineSpacing:@"分享暗号可以邀请好友加入。"];
     tipsLabel3.attributedText = [self generateAttributedStringWithLineSpacing:@"建团后，您也可以选择完善信息选择购买的小马互助种类后，再去邀请好友入团。"];
