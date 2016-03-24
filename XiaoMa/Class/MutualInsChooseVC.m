@@ -79,11 +79,8 @@
         @strongify(self);
         self.tableView.hidden = NO;
         [self.view stopActivityAnimation];
-        //初始默认选择
-        self.thirdInsSelectIndex = 1;  //100万
-        self.seatInsSelect = 1;        //1万/座
-        self.numberOfSeat = [NumOfSeatArr[1] integerValue];  //5座
-        self.insListArray = rop.rsp_insModel.insList;
+        //设置初始选择
+        [self setOriginSelectData:rop.rsp_insModel];
         [self setDataSource:rop.rsp_insModel];
         
     } error:^(NSError *error) {
@@ -99,6 +96,26 @@
             [self requestData];
         }];
     }];
+}
+
+- (void)setOriginSelectData:(HKMutualInsList *)dataModel {
+    //初始默认选择
+    self.thirdInsSelectIndex = 1;  //100万
+    self.seatInsSelect = 1;        //1万/座
+    self.numberOfSeat = [NumOfSeatArr[1] integerValue];  //5座
+    
+    self.insListArray = dataModel.insList;
+    
+    [self calculateCarPrice:dataModel];
+    //计算三者宝和座位宝
+    [self calculateThirdPrice:dataModel];
+}
+
+- (void)calculateCarPrice:(HKMutualInsList *)dataModel {
+    //车损宝价格（定值）
+    CGFloat discountFloat = [[[dataModel.insList safetyObjectAtIndex:0] objectForKey:@"discount"] floatValue] / 10;
+    self.carPrice = dataModel.purchasePrice * (discountFloat / 10) * (dataModel.xmddDiscount / 100) ;
+    
 }
 
 - (void)setDataSource:(HKMutualInsList *)dataModel
@@ -144,8 +161,8 @@
 }
 
 - (CKDict *)setInsCellWithIndex:(NSInteger)insIndex andModel:(HKMutualInsList *)dataModel {
-    //初始化身份标识、是否选中
-    CKDict * ins = [CKDict dictWith:@{@"isSelected":@0, kCKCellID:@"InsContentCell"}];
+    //初始化身份标识、是否选中（默认选中）
+    CKDict * ins = [CKDict dictWith:@{@"isSelected":@1, kCKCellID:@"InsContentCell"}];
     //cell行高
     ins[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         //是否显示优惠信息
@@ -196,36 +213,31 @@
             itemL.hidden = YES;
             connerImgV.hidden = YES;
             itemBtn.hidden = YES;
-            //车损宝价格（定值）
-            self.carPrice = dataModel.purchasePrice * (discountFloat / 10) * (dataModel.xmddDiscount / 100) ;
+            
         }
-        //三者险、座位险
         else {
-            selectBtn.selected = [ins[@"isSelected"] boolValue];
-            [[[selectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            if (insIndex == 1) {
+                selectBtn.selected = YES;
+                ins[@"isSelected"] = @YES;
+                insNameL.textColor = HEXCOLOR(@"#454545");
+            }
+            else {
+                selectBtn.selected = [ins[@"isSelected"] boolValue];
+                insNameL.textColor = [ins[@"isSelected"] boolValue] ? HEXCOLOR(@"#454545") : HEXCOLOR(@"#dbdbdb");
                 
-                @strongify(self);
-                //改状态
-                if (insIndex == 1) {
-                    ins[@"isSelected"] = [NSString stringWithFormat:@"%d", ![ins[@"isSelected"] boolValue]];
-                    selectBtn.selected = !selectBtn.selected;
-                    insNameL.textColor = selectBtn.selected ? HEXCOLOR(@"#454545") : HEXCOLOR(@"#dbdbdb");
-                    //更改座位险状态
-                    CKDict *seatInsDic = self.datasource[@"insSection"][2];
-                    seatInsDic[@"isSelected"] = ins[@"isSelected"];
-                }
-                else {
-                    CKDict *thirdInsDic = self.datasource[@"insSection"][1];
-                    if (![thirdInsDic[@"isSelected"] boolValue]) {
+                [[[selectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                    
+                    @strongify(self);
+                    if ([[ThirdInsArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue] < [dataModel.minthirdSum integerValue]) {
                         ins[@"isSelected"] = [NSString stringWithFormat:@"%d", ![ins[@"isSelected"] boolValue]];
                         selectBtn.selected = !selectBtn.selected;
-                        insNameL.textColor = selectBtn.selected ? HEXCOLOR(@"#454545") : HEXCOLOR(@"#dbdbdb");
+                        //计算价格刷新列表
+                        [self calculateSeatPrice:dataModel];
+                        [self.tableView reloadData];
                     }
-                }
-                //计算并刷新价格
-                [self calculatePrice:dataModel forIndex:insIndex];
-            }];
-            insNameL.textColor = [ins[@"isSelected"] boolValue] ? HEXCOLOR(@"#454545") : HEXCOLOR(@"#dbdbdb");
+                }];
+            }
+            
             tipL.text = insIndex == 1 ? dataModel.thirdsumTip : dataModel.seatsumTip;
             itemL.text = insIndex == 1 ? [NSString stringWithFormat:@"%ld万", [[ThirdInsArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue]] : [NSString stringWithFormat:@"%ld万/座", (long)self.seatInsSelect];
             NSArray * sheetArr = insIndex == 1 ? ThirdInsArr : SeatInsArr;
@@ -256,7 +268,7 @@
                         self.seatInsSelect = [sheetArr[btnIndex] integerValue];
                     }
                     
-                    //根据选择刷新当前行
+                    //根据选择刷新当前行高
                     ins[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
                         @strongify(self);
                         //三者险所选金额大于下发金额
@@ -270,17 +282,9 @@
                         return 48;
                     });
                     
-                    //采用在calculate中reloadtableview的方案
-//                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:insIndex inSection:[self.datasource indexOfObjectForKey:@"insSection"]];
-//                    if (insIndex == 1) {
-//                        [self.tableView reloadRowsAtIndexPaths:@[indexPath, [NSIndexPath indexPathForRow:insIndex + 1 inSection:[self.datasource indexOfObjectForKey:@"insSection"]]] withRowAnimation:UITableViewRowAnimationAutomatic];
-//                    }
-//                    else {
-//                        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-//                    }
-                    
-                    //计算并刷新价格
-                    [self calculatePrice:dataModel forIndex:insIndex];
+                    //计算价格并刷新
+                    [self calculateThirdPrice:dataModel];
+                    [self.tableView reloadData];
                 }];
             }];
             
@@ -288,25 +292,15 @@
             ins[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
                 
                 @strongify(self);
-                //改状态
-                if (insIndex == 1) {
+                //只有所选三者险小于最小优惠选择时才能取消座位险
+                if ([[ThirdInsArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue] < [dataModel.minthirdSum integerValue]) {
                     ins[@"isSelected"] = [NSString stringWithFormat:@"%d", ![ins[@"isSelected"] boolValue]];
                     selectBtn.selected = !selectBtn.selected;
                     insNameL.textColor = selectBtn.selected ? HEXCOLOR(@"#454545") : HEXCOLOR(@"#dbdbdb");
-                    //更改座位险状态
-                    CKDict *seatInsDic = self.datasource[@"insSection"][2];
-                    seatInsDic[@"isSelected"] = ins[@"isSelected"];
                 }
-                else {
-                    CKDict *thirdInsDic = self.datasource[@"insSection"][1];
-                    if (![thirdInsDic[@"isSelected"] boolValue]) {
-                        ins[@"isSelected"] = [NSString stringWithFormat:@"%d", ![ins[@"isSelected"] boolValue]];
-                        selectBtn.selected = !selectBtn.selected;
-                        insNameL.textColor = selectBtn.selected ? HEXCOLOR(@"#454545") : HEXCOLOR(@"#dbdbdb");
-                    }
-                }
-                //计算并刷新价格
-                [self calculatePrice:dataModel forIndex:insIndex];
+                //计算价格并刷新
+                [self calculateSeatPrice:dataModel];
+                [self.tableView reloadData];
             });
         }
     });
@@ -395,12 +389,13 @@
                 //刷新座位选择
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:[self.datasource indexOfObjectForKey:@"priceSection"]];
                 [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                
                 //是否选择了座位险
                 CKDict *thirdInsDic = self.datasource[@"insSection"][2];
                 BOOL isThirdSelected = [[thirdInsDic objectForKeyedSubscript:@"isSelected"] boolValue];
                 if (isThirdSelected) {
-                    //计算并刷新价格
-                    [self calculatePrice:dataModel forIndex:2];
+                    //计算价格并刷新
+                    [self calculateSeatPrice:dataModel];
                 }
                 
             }];
@@ -445,40 +440,30 @@
 }
 
 #pragma mark - Calculated
-- (void)calculatePrice:(HKMutualInsList *)dataModel forIndex:(NSInteger)insIndex
+- (void)calculateThirdPrice:(HKMutualInsList *)dataModel
 {
-    CGFloat thirdDiscountFloat = [[dataModel.insList[1] objectForKey:@"discount"] floatValue] / 100;
-    CGFloat seatDiscountFloat = [[dataModel.insList[2] objectForKey:@"discount"] floatValue] / 100;
     CGFloat xmDiscount = dataModel.xmddDiscount * 0.01;
-    //三者险是否被选择
-    CKDict *thirdInsDic = self.datasource[@"insSection"][1];
-    BOOL isThirdSelected = [[thirdInsDic objectForKeyedSubscript:@"isSelected"] boolValue];
+    CGFloat thirdDiscountFloat = [[dataModel.insList[1] objectForKey:@"discount"] floatValue] / 100;
+    
+    //三者险价格（标准报价*险种折扣*小马折扣）
+    self.thirdPrice = [[ThirdPiceArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue] * thirdDiscountFloat * xmDiscount;
+    [self calculateSeatPrice:dataModel];
+}
+
+- (void)calculateSeatPrice:(HKMutualInsList *)dataModel{
+    
+    CGFloat xmDiscount = dataModel.xmddDiscount * 0.01;
+    CGFloat seatDiscountFloat = [[dataModel.insList[2] objectForKey:@"discount"] floatValue] / 100;
     //座位险是否被选择
     CKDict *seatInsDic = self.datasource[@"insSection"][2];
     BOOL isSeatSelected = [[seatInsDic objectForKeyedSubscript:@"isSelected"] boolValue];
-    if (insIndex == 1) {
-        //三者险价格（标准报价*险种折扣*小马折扣）
-        self.thirdPrice = isThirdSelected ? [[ThirdPiceArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue] * thirdDiscountFloat * xmDiscount : 0;
-        //重新计算座位险
-        NSInteger realSeat = self.seatInsSelect;
-        if ([[ThirdInsArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue] >= [dataModel.minthirdSum integerValue] && isThirdSelected) {
-            realSeat = self.seatInsSelect - 1;
-        }
-        self.seatPrice = isSeatSelected ? (realSeat * 10000 * DriverDiscount + realSeat * 10000 * (self.numberOfSeat - 1) * PassengerDiscount) * seatDiscountFloat * xmDiscount : 0;
+    //座位险价格（（司机保费+乘客保费）* 险种折扣*小马折扣）
+    NSInteger realSeat = self.seatInsSelect;
+    if ([[ThirdInsArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue] >= [dataModel.minthirdSum integerValue]) {
+        realSeat = self.seatInsSelect - 1;
     }
-    else {
-        //座位险价格（（司机保费+乘客保费）* 险种折扣*小马折扣）
-        NSInteger realSeat = self.seatInsSelect;
-        if ([[ThirdInsArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue] >= [dataModel.minthirdSum integerValue] && isThirdSelected) {
-            realSeat = self.seatInsSelect - 1;
-        }
-        self.seatPrice = isSeatSelected ? (realSeat * 10000 * DriverDiscount + realSeat * 10000 * (self.numberOfSeat - 1) * PassengerDiscount) * seatDiscountFloat * xmDiscount : 0;
-        //重新计算三者险
-        self.thirdPrice = isThirdSelected ? [[ThirdPiceArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue] * thirdDiscountFloat * xmDiscount : 0;
-    }
+    self.seatPrice = isSeatSelected ? (realSeat * 10000 * DriverDiscount + realSeat * 10000 * (self.numberOfSeat - 1) * PassengerDiscount) * seatDiscountFloat * xmDiscount : 0;
     self.totalPrice = self.carPrice + self.thirdPrice + self.seatPrice;
-    //刷新价格
-    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {

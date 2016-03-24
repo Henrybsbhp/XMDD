@@ -273,7 +273,7 @@
 //        [rightBtn setTitleTextAttributes:@{
 //                                           NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
 //                                           } forState:UIControlStateNormal];
-        self.navigationItem.rightBarButtonItem = rightBtn;
+        [self.navigationItem setRightBarButtonItem:rightBtn animated:YES]; //防抖动
     }
 }
 
