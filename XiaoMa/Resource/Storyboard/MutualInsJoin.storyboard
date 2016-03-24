@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -1050,9 +1050,6 @@
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i1p-ac-JRD">
                                                     <rect key="frame" x="42" y="14.5" width="39.5" height="19.5"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="125" id="83l-2d-oLW"/>
-                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1128,6 +1125,7 @@
                                                 <constraint firstItem="mBb-pc-k7O" firstAttribute="centerY" secondItem="o8z-4l-Qfr" secondAttribute="centerY" id="hjy-rV-Tkk"/>
                                                 <constraint firstItem="cdO-UB-atk" firstAttribute="centerY" secondItem="4ls-DE-bmr" secondAttribute="centerY" id="mg1-rZ-9jh"/>
                                                 <constraint firstItem="ZFc-fw-14H" firstAttribute="leading" secondItem="i1p-ac-JRD" secondAttribute="leading" id="ox4-fl-sfl"/>
+                                                <constraint firstItem="rIp-qi-UuE" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="q2c-T9-Am7" secondAttribute="trailing" constant="5" id="rV2-ng-VVt"/>
                                                 <constraint firstItem="i1p-ac-JRD" firstAttribute="leading" secondItem="4ls-DE-bmr" secondAttribute="trailing" constant="8" symbolic="YES" id="wqU-K3-tqA"/>
                                             </constraints>
                                         </tableViewCellContentView>
