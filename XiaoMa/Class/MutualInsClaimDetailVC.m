@@ -53,6 +53,7 @@
     [super viewDidLoad];
     [self setupUI];
     [self loadData];
+    [self convertAccount:@"6222021202046522380"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -134,7 +135,7 @@
         {
             numTF.enabled = NO;
         }
-        numTF.text = [self splitCardNumString:self.cardno];
+        numTF.text = [self splitCardNumString:[self convertAccount:self.cardno]];
         nameTF.text = self.insurancename;
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -305,6 +306,22 @@
     {
         return [str substringToIndex:23];
     }
+}
+
+-(NSString *)convertAccount:(NSString *)account
+{
+    if (account.length > 3)
+    {
+        NSString *temp = [account substringWithRange:NSMakeRange(account.length - 4, 4)];
+        NSString *ciphertext = [[NSMutableString alloc]init];
+        for (NSInteger i = 0 ; i < account.length - 4 ; i ++ )
+        {
+            ciphertext = [ciphertext append:@"*"];
+        }
+        ciphertext = [ciphertext append:temp];
+        return ciphertext;
+    }
+    return nil;
 }
 
 -(HKImageAlertVC *)alertWithTopTitle:(NSString *)topTitle ImageName:(NSString *)imageName Message:(NSString *)message ActionItems:(NSArray *)actionItems
