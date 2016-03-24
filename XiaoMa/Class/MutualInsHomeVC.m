@@ -106,6 +106,20 @@
                 [self resetTableView];
             }
         }
+        if (self.minsStore.lastGroupId)
+        {
+            for (NSInteger i = 0 ; i < self.myGroupArray.count; i++)
+            {
+                HKMutualGroup * group = [self.myGroupArray safetyObjectAtIndex:i];
+                if ([group.groupId isEqualToNumber:self.minsStore.lastGroupId])
+                {
+                    NSIndexPath * scrollPath = [NSIndexPath indexPathForRow:i+3+1 inSection:0];
+                    [self.tableView scrollToRowAtIndexPath:scrollPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                    self.minsStore.lastGroupId = nil;
+                    return ;
+                }
+            }
+        }
     } error:^(NSError *error) {
         
         @strongify(self);
@@ -235,6 +249,7 @@
         GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
         vc.titleStr = @"自组团介绍";
         vc.groupType = MutualGroupTypeSelf;
+        vc.originVC = self;
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (indexPath.row == 1)

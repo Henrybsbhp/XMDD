@@ -26,4 +26,6 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) DetailBtnType btnType;
 @property (nonatomic, strong) NSNumber * groupId;
 
+@property (nonatomic, weak) UIViewController *originVC;
+
 @end

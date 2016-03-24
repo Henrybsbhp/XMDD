@@ -67,7 +67,6 @@
 - (IBAction)diceButtonDidClick:(UIButton *)sender
 {
     [self requestGetGroupName];
-    sender.hidden = YES;
 }
 
 - (void)actionBack:(id)sender
@@ -113,6 +112,9 @@
         
         [gToast dismiss];
         [self showAlertView:groupNameToCreate andCipher:rop.rsp_cipher andGroupId:rop.rsp_groupid];
+        
+        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
+        [MutualInsStore fetchExistsStore].lastGroupId = rop.rsp_groupid;
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
@@ -157,7 +159,7 @@
     vc.model.allowAutoChangeSelectedCar = YES;
     vc.model.disableEditingCar = YES; //不可修改
     vc.canJoin = YES; //用于控制爱车页面底部view
-    vc.model.originVC = self;
+    vc.model.originVC = self.originVC;
     [vc setFinishPickActionForMutualIns:^(MyCarListVModel *carModel, UIView * loadingView) {
         
         //爱车页面入团按钮委托实现
@@ -170,6 +172,7 @@
 {
     InviteByCodeVC * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
     vc.groupId = groupId;
+    vc.originVC = self.originVC;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -363,11 +366,8 @@
         return value.length;
     }] subscribeNext:^(id x) {
        
-        if (!self.textFieldString.length)
-        {
-            groupTextField.text = x;
-            self.textFieldString = x;
-        }
+        groupTextField.text = x;
+        self.textFieldString = x;
     }];
     
     [[RACObserve(self, isLoadingGroupName) distinctUntilChanged] subscribeNext:^(NSNumber * number) {
@@ -377,9 +377,7 @@
         indicatorView.hidden = !isloading;
         
         // 如果刷新停止后，则让骰子 Button 显现。
-        if (!isloading) {
-            diceButton.hidden = NO;
-        }
+        diceButton.hidden = isloading;
     }];
     
     return cell;
