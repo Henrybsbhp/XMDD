@@ -14,6 +14,7 @@
 #import "GetCooperationMyCarOp.h"
 #import "ApplyCooperationClaimOp.h"
 #import "MutualInsChooseCarVC.h"
+#import "HKImageAlertVC.h"
 
 
 #define kOneBtnWidth self.view.bounds.size.width - 30
@@ -26,7 +27,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *lastStepBtn;
 @property (strong, nonatomic) IBOutlet HKProgressView *progressView;
 @property (strong, nonatomic) MutualInsScencePhotoVM *scencePhotoVM;
-
+@property (nonatomic, strong) HKImageAlertVC *alert;
 @property (nonatomic,strong) UIPageViewController *pageVC;
 @property (nonatomic,strong) NSArray *viewArr;
 
@@ -111,7 +112,7 @@
     [self addCorner:self.nextStepBtn];
     [self addCorner:self.lastStepBtn];
     [self addBorder:self.lastStepBtn];
-
+    
     UIBarButtonItem *backBtnItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cm_nav_back"] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
     self.navigationItem.leftBarButtonItem = backBtnItem;
 }
@@ -177,16 +178,16 @@
     MutualInsScencePhotoVC *scencePhotoVC = self.viewArr.firstObject;
     if (![[scencePhotoVC canPush] isEqualToString:@"请先拍照"])
     {
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"您还未保存照片，现在返回将导致照片无法保存，是否现在返回？" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        [alertView show];
-        [[alertView rac_buttonClickedSignal]subscribeNext:^(NSNumber *x) {
-            if (x.integerValue == 1)
-            {
-                [self.scencePhotoVM deleteAllInfo];
-                NSArray *viewControllers = self.navigationController.viewControllers;
-                [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
-            }
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+            [self.scencePhotoVM deleteAllInfo];
+            [alertVC dismiss];
+            [self.navigationController popViewControllerAnimated:YES];
         }];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续上传" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+            [alertVC dismiss];
+        }];
+        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您还未保存照片，现在返回将导致照片无法保存，是否现在返回？" ActionItems:@[confirm,cancel]];
+        [alert show];
     }
     else
     {
@@ -231,11 +232,21 @@
             [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         }]subscribeNext:^(id x) {
             [self.view stopActivityAnimation];
-            [gToast showSuccess:@"提交成功"];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                [self.scencePhotoVM deleteAllInfo];
+                NSArray *viewControllers = self.navigationController.viewControllers;
+                [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:2] animated:YES];
+            }];
+            HKAlertVC *alert = [self alertWithTopTitle:@"提交成功" ImageName:@"mins_ok" Message:@"恭喜，照片提交成功，理赔记录已生成，请等待车险专员为您服务，谢谢～" ActionItems:@[cancel]];
+            [alert show];
             NSArray *viewControllers = self.navigationController.viewControllers;
             [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
         }error:^(NSError *error) {
-            [gToast showMistake:@"提交失败"];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                [alertVC dismiss];
+            }];
+            HKAlertVC *alert = [self alertWithTopTitle:@"温馨提醒" ImageName:@"mins_ok" Message:error.domain ActionItems:@[cancel]];
+            [alert show];
             [self.view stopActivityAnimation];
         }];
         
@@ -290,6 +301,19 @@
         }
     }
     return _scencePhotoVM;
+}
+
+-(HKImageAlertVC *)alertWithTopTitle:(NSString *)topTitle ImageName:(NSString *)imageName Message:(NSString *)message ActionItems:(NSArray *)actionItems
+{
+    if (!_alert)
+    {
+        _alert = [[HKImageAlertVC alloc]init];
+    }
+    _alert.topTitle = topTitle;
+    _alert.imageName = imageName;
+    _alert.message = message;
+    _alert.actionItems = actionItems;
+    return _alert;
 }
 
 @end

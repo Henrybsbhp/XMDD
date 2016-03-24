@@ -143,6 +143,14 @@
             @strongify(self);
             numTF.text = [self splitCardNumString:x];
         }];
+        if (self.status.integerValue == 1)
+        {
+            numTF.enabled = YES;
+        }
+        else
+        {
+            numTF.enabled = NO;
+        }
         numTF.text = [self splitCardNumString:self.cardno];
         nameTF.text = self.insurancename;
     }
@@ -154,7 +162,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0 ||( indexPath.section == 1 && self.status.integerValue != 0 && self.status.integerValue != 20))
+    if (indexPath.section == 0 ||( indexPath.section == 1 && self.status.integerValue != 20))
     {
         return 50;
     }
@@ -223,7 +231,7 @@
             self.bottomView.hidden = YES;
             self.bottomViewHeight.constant = 0;
         }
-        [self.tableView layoutIfNeeded];
+        [self.view layoutIfNeeded];
         [self.tableView reloadData];
     }error:^(NSError *error) {
         [self.view stopActivityAnimation];

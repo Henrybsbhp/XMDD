@@ -32,6 +32,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self loadData];
+    @weakify(self)
+    [[self.tableView.refreshView rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
+        @strongify(self);
+        [self loadData];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -130,17 +135,17 @@
 {
     GetCooperationClaimsListOp *op = [GetCooperationClaimsListOp new];
     [[[op rac_postRequest]initially:^{
-        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+        [self.tableView.refreshView beginRefreshing];
     }]subscribeNext:^(id x) {
-        [self.view stopActivityAnimation];
         self.dataArr = op.rsp_claimlist;
         [self.tableView reloadData];
         if (self.dataArr.count == 0)
         {
             [self.tableView showDefaultEmptyViewWithText:@"暂无理赔记录"];
         }
+        [self.tableView.refreshView endRefreshing];
     }error:^(NSError *error) {
-        [self.view stopActivityAnimation];
+        [self.tableView.refreshView stopActivityAnimation];
     }];
 }
 
