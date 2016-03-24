@@ -211,14 +211,14 @@
         self.claimfee = op.rsp_claimfee;
         self.insurancename = op.rsp_insurancename;
         self.cardno = op.rsp_cardno;
-//        if (self.status.integerValue == 1)
-//        {
+        if (self.status.integerValue == 1)
+        {
             self.bottomView.hidden = NO;
-//        }
-//        else
-//        {
-//            self.bottomView.hidden = YES;
-//        }
+        }
+        else
+        {
+            self.bottomView.hidden = YES;
+        }
         [self.tableView reloadData];
     }error:^(NSError *error) {
         [self.view stopActivityAnimation];
