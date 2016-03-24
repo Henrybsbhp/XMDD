@@ -13,6 +13,9 @@
 #import "GetShareButtonOpV2.h"
 #import "SocialShareViewController.h"
 #import "InviteAlertVC.h"
+#import "CreateGroupVC.h"
+#import "MutualInsHomeVC.h"
+#import "MutualInsStore.h"
 
 @interface InviteByCodeVC ()
 
@@ -42,6 +45,25 @@
     {
         self.tableView.estimatedRowHeight = 26; //估算高度
         self.tableView.rowHeight = UITableViewAutomaticDimension;
+    }
+}
+
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    self.navigationItem.leftBarButtonItem = back;
+}
+
+#pragma mark - Utilitly
+- (void)actionBack:(id)sender
+{
+    if (self.originVC)
+    {
+        [self.navigationController popToViewController:self.originVC animated:YES];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 

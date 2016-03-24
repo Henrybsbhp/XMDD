@@ -12,4 +12,6 @@
 
 @property (nonatomic, strong) NSNumber * groupId;
 
+@property (nonatomic, weak) UIViewController *originVC;
+
 @end
