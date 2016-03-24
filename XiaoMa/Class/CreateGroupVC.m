@@ -67,7 +67,6 @@
 - (IBAction)diceButtonDidClick:(UIButton *)sender
 {
     [self requestGetGroupName];
-    sender.hidden = YES;
 }
 
 - (void)actionBack:(id)sender
@@ -363,11 +362,8 @@
         return value.length;
     }] subscribeNext:^(id x) {
        
-        if (!self.textFieldString.length)
-        {
-            groupTextField.text = x;
-            self.textFieldString = x;
-        }
+        groupTextField.text = x;
+        self.textFieldString = x;
     }];
     
     [[RACObserve(self, isLoadingGroupName) distinctUntilChanged] subscribeNext:^(NSNumber * number) {
@@ -377,9 +373,7 @@
         indicatorView.hidden = !isloading;
         
         // 如果刷新停止后，则让骰子 Button 显现。
-        if (!isloading) {
-            diceButton.hidden = NO;
-        }
+        diceButton.hidden = isloading;
     }];
     
     return cell;
