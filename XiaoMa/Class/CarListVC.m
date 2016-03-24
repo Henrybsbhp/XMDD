@@ -17,6 +17,8 @@
 
 #import "ValuationViewController.h"
 
+#import "HKImageAlertVC.h"
+
 @interface CarListVC ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet JT3DScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
@@ -277,29 +279,32 @@
 {
     //如果爱车信息不完整
     if (self.model.allowAutoChangeSelectedCar && self.model.selectedCar && ![self.model.selectedCar isCarInfoCompleted]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您的爱车信息不完整，是否现在完善？"
-                                                       delegate:nil cancelButtonTitle:@"放弃" otherButtonTitles:@"去完善", nil];
-        [alert show];
-        @weakify(self);
-        [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *x) {
-            @strongify(self);
-            //放弃
-            if ([x integerValue] == 0) {
-                if (self.model.originVC) {
-                    [self.navigationController popToViewController:self.model.originVC animated:YES];
-                }
-                else {
-                    [self.navigationController popViewControllerAnimated:YES];
-                }
+        
+        HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+        alert.topTitle = @"温馨提示";
+        alert.imageName = @"mins_bulb";
+        alert.message = @"您的爱车信息不完整，是否现在完善？";
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+            [alertVC dismiss];
+            if (self.model.originVC) {
+                [self.navigationController popToViewController:self.model.originVC animated:YES];
             }
             else {
-                [MobClick event:@"rp104_9"];
-                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                vc.originCar = self.model.selectedCar;
-                vc.model = self.model;
-                [self.navigationController pushViewController:vc animated:YES];
+                [self.navigationController popViewControllerAnimated:YES];
             }
         }];
+        @weakify(self);
+        HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"去完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            @strongify(self);
+            [alertVC dismiss];
+            [MobClick event:@"rp104_9"];
+            EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+            vc.originCar = self.model.selectedCar;
+            vc.model = self.model;
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
+        alert.actionItems = @[cancel, improve];
+        [alert show];
     }
     else {
         if (self.model.originVC) {
@@ -325,8 +330,7 @@
     
     if (self.finishPickActionForMutualIns)
     {
-        HKMyCar * car = self.model.selectedCar;
-        self.finishPickActionForMutualIns(car,self.view);
+        self.finishPickActionForMutualIns(self.model,self.view);
     }
 }
 

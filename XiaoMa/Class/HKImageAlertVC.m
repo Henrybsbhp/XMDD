@@ -49,18 +49,18 @@
     rect.size.height = kTopTitleheight;
     UILabel *titleL = [[UILabel alloc] initWithFrame:rect];
     titleL.textAlignment = NSTextAlignmentCenter;
-    titleL.font = [UIFont systemFontOfSize:15];
+    titleL.font = [UIFont systemFontOfSize:16];
     titleL.textColor = [UIColor darkTextColor];
     titleL.text = self.topTitle;
 
     rect.origin = CGPointMake(self.contentInsets.left, rect.origin.y = rect.origin.y + rect.size.height + kInnerSpacing);
     rect.size.width = kAlertWidth - self.contentInsets.left - self.contentInsets.right;
     CGSize size = [self.message labelSizeWithWidth:rect.size.width
-                                              font:[UIFont systemFontOfSize:13]];
+                                              font:[UIFont systemFontOfSize:14]];
     rect.size.height = ceil(size.height);
 
     UILabel *messageL = [[UILabel alloc] initWithFrame:rect];
-    messageL.font = [UIFont systemFontOfSize:13];
+    messageL.font = [UIFont systemFontOfSize:14];
     messageL.textAlignment = NSTextAlignmentCenter;
     messageL.textColor = HEXCOLOR(@"#888888");
     messageL.numberOfLines = 0;

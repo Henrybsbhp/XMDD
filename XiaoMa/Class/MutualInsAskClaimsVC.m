@@ -14,13 +14,11 @@
 #import "GetCooperationMyCarOp.h"
 #import "MutualInsChooseCarVC.h"
 #import "MutualInsScencePhotoVM.h"
-
-
+#import "GetCoorperationClaimConfigOp.h"
 @interface MutualInsAskClaimsVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) NSArray *tempArr;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-
 
 @end
 
@@ -173,6 +171,7 @@
 
 - (void)scenePageSectionAction
 {
+    [self getNoticeArr];
     [self getCarListData];
 }
 
@@ -184,6 +183,14 @@
 
 #pragma mark Utility
 
+-(void)getNoticeArr
+{
+    GetCoorperationClaimConfigOp *op = [[GetCoorperationClaimConfigOp alloc]init];
+    [[op rac_postRequest]subscribeNext:^(GetCoorperationClaimConfigOp *op) {
+        self.tempArr = @[op.rsp_scenedesc,op.rsp_cardamagedesc,op.rsp_carinfodesc,op.rsp_idinfodesc];
+    }];
+}
+
 -(void)getCarListData
 {
     GetCooperationMyCarOp *op = [[GetCooperationMyCarOp alloc]init];
@@ -194,12 +201,14 @@
         {
             NSDictionary *report = op.rsp_reports.firstObject;
             MutualInsScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"MutualInsScencePageVC" inStoryboard:@"MutualInsClaims"];
+            scencePageVC.noticeArr = self.tempArr;
             scencePageVC.claimid = report[@"claimid"];
             [self.navigationController pushViewController:scencePageVC animated:YES];
         }
         else if (op.rsp_reports.count > 1)
         {
             MutualInsChooseCarVC *chooseVC = [UIStoryboard vcWithId:@"MutualInsChooseCarVC" inStoryboard:@"MutualInsClaims"];
+            chooseVC.noticeArr = self.tempArr;
             chooseVC.reports = op.rsp_reports;
             [self.navigationController pushViewController:chooseVC animated:YES];
         }

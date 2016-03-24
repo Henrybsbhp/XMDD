@@ -33,6 +33,7 @@
 #import "HomeSuspendedAdVC.h"
 #import "MutualInsHomeVC.h"
 #import "InviteAlertVC.h"
+#import "AdListData.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3.0
@@ -90,7 +91,7 @@
     [gAdMgr loadLastAdvertiseInfo:AdvertisementHomePage];
     [gAdMgr loadLastAdvertiseInfo:AdvertisementCarWash];
     
-    //自动登录
+    //自动登录(含粘贴板监测)
     [self autoLogin];
     //全局CarStore
     self.carStore = [MyCarStore fetchOrCreateStore];
@@ -152,6 +153,14 @@
     [gAppDelegate.pasteboardoModel setCancelClickBlock:^(id x) {
         [UIPasteboard generalPasteboard].string = @"";
         [self showSuspendedAdIfNeeded];
+    }];
+    //设置口令弹框下一页
+    [gAppDelegate.pasteboardoModel setNextClickBlock:^(id x) {
+        if ([[UIPasteboard generalPasteboard].string hasPrefix:XMINSPrefix] && [MZFormSheetController formSheetControllersStack]) {
+            MZFormSheetController * mzVC = [[MZFormSheetController formSheetControllersStack] safetyObjectAtIndex:0];
+            [mzVC dismissAnimated:NO completionHandler:nil];
+        }
+        self.isShowSuspendedAd = NO;
     }];
     [gAppDelegate.pasteboardoModel checkPasteboard];
 }
@@ -479,8 +488,8 @@
 
 - (void)showSuspendedAdIfNeeded
 {
-    NSString * pasteboardStr = [UIPasteboard generalPasteboard].string;
-    if (!self.guideStore.shouldDisablePopupAd && self.isViewAppearing && !self.isShowSuspendedAd && ![pasteboardStr hasPrefix:XMINSPrefix]) {
+    
+    if (!self.guideStore.shouldDisablePopupAd && self.isViewAppearing && !self.isShowSuspendedAd && ![[UIPasteboard generalPasteboard].string hasPrefix:XMINSPrefix]) {
         
         self.isShowSuspendedAd = YES;
         
@@ -489,8 +498,16 @@
         [[signal deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
             
             @strongify(self);
+            NSMutableArray * mutableArr = [[NSMutableArray alloc] init];
+            for (int i = 0; i < ads.count; i ++) {
+                HKAdvertisement * adDic = ads[i];
+                //广告是否已经看过
+                if (![AdListData checkAdAlreadyAppeard:adDic]) {
+                    [mutableArr addObject:adDic];
+                }
+            }
             //若弹出抢登登录框，则不弹出广告
-            if (!gAppDelegate.errorModel.alertView && ads.count > 0) {
+            if (!gAppDelegate.errorModel.alertView && mutableArr.count > 0) {
                 
                 [HomeSuspendedAdVC presentInTargetVC:self withAdList:ads];
             }

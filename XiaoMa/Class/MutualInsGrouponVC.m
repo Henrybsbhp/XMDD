@@ -12,6 +12,7 @@
 #import "HKPopoverView.h"
 #import "GetCooperationMygroupDetailOp.h"
 #import "ExitCooperationOp.h"
+#import "DeleteCooperationGroupOp.h"
 #import "MutualInsStore.h"
 
 #import "MutualInsGrouponSubVC.h"
@@ -20,6 +21,7 @@
 #import "InviteByCodeVC.h"
 #import "MutualInsOrderInfoVC.h"
 #import "InviteByCodeVC.h"
+#import "CreateGroupVC.h"
 
 typedef enum : NSInteger
 {
@@ -48,7 +50,7 @@ typedef enum : NSInteger
 @property (nonatomic, strong) MutualInsStore *minsStore;
 @property (nonatomic, strong) GetCooperationMygroupDetailOp *groupDetail;
 @property (nonatomic, assign) BOOL isExpandingOrClosing;
-@property (nonatomic, strong) NSArray *menuItems;
+@property (nonatomic, strong) CKList *menuItems;
 
 @end
 
@@ -117,7 +119,7 @@ typedef enum : NSInteger
         
         @strongify(self);
         GetCooperationMygroupDetailOp *op = evt.object;
-        if ([self.group.groupId isEqual:op.req_groupid] && [self.group.memberId isEqual:op.req_memberid]) {
+        if ([self.group.groupId isEqual:op.req_groupid]) {
             [self reloadFromSignal:evt.signal];
         }
     }];
@@ -131,6 +133,7 @@ typedef enum : NSInteger
     self.menuButton = button;
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:container]];
 }
+
 #pragma mark - Action
 - (void)actionShowOrHideMenu:(id)sender {
     BOOL closing = self.menuButton.closing;
@@ -139,14 +142,14 @@ typedef enum : NSInteger
         [self.popoverMenu dismissWithAnimated:YES];
     }
     else if (!closing && !self.popoverMenu) {
-        NSArray *items = [self.menuItems arrayByMappingOperator:^id(CKDict *obj) {
+        NSArray *items = [self.menuItems.allObjects arrayByMappingOperator:^id(CKDict *obj) {
             return [HKPopoverViewItem itemWithTitle:obj[@"title"] imageName:obj[@"img"]];
         }];
         HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 160) items:items];
         @weakify(self);
         [popover setDidSelectedBlock:^(NSUInteger index) {
             @strongify(self);
-            CKDict *dict = [self.menuItems safetyObjectAtIndex:index];
+            CKDict *dict = self.menuItems[index];
             CKCellSelectedBlock block = dict[kCKCellSelected];
             if (block) {
                 block(dict, [NSIndexPath indexPathForRow:index inSection:0]);
@@ -164,13 +167,10 @@ typedef enum : NSInteger
 }
 
 - (void)actionBack:(id)sender {
-    
     if (self.originVC) {
         [self.navigationController popToViewController:self.originVC animated:YES];
-        return;
     }
-    else
-    {
+    else {
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
@@ -207,11 +207,12 @@ typedef enum : NSInteger
 }
 
 - (void)reloadData {
+
     //刷新上层子视图
     self.topSubVC.groupDetail = self.groupDetail;
     [self.topSubVC reloadDataWithStatus:self.groupDetail.rsp_status];
     @weakify(self);
-    [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.topView mas_remakeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.height.mas_equalTo(self.topSubVC.expandedHeight);
     }];
@@ -220,7 +221,7 @@ typedef enum : NSInteger
     self.bottomSubVC.groupMembers = self.groupDetail.rsp_members;
     self.bottomSubVC.group = self.group;
     [self.bottomSubVC reloadData];
-    [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.bottomView mas_remakeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.height.mas_equalTo(self.scrollView.frame.size.height - self.topSubVC.closedHeight + 5);
     }];
@@ -234,56 +235,22 @@ typedef enum : NSInteger
     [self.popoverMenu dismissWithAnimated:YES];
     
     MutInsStatus status = self.groupDetail.rsp_status;
-    if (status == MutInsStatusToBePaid || status == MutInsStatusPaidForAll || status == MutInsStatusGettedAgreement) {
-        self.menuItems = @[[self menuItemMyOrder], [self menuItemMakeCall]];
+    if (status == MutInsStatusToBePaid || status == MutInsStatusPaidForAll || status == MutInsStatusPaidForSelf) {
+        self.menuItems = $([self menuItemMyOrder], [self menuItemMakeCall]);
     }
     else if (status == MutInsStatusAgreementTakingEffect) {
-        self.menuItems = @[[self menuItemInvite], [self menuItemQuit], [self menuItemMakeCall]];
+        self.menuItems = $([self menuItemMyOrder], [self menuItemInvite], [self menuItemMakeCall]);
     }
-    else if (status == MutInsStatusAgreementTakingEffect) {
-        self.menuItems = @[[self menuItemMyOrder], [self menuItemInvite], [self menuItemMakeCall]];
-    }
-    else if (status == MutInsStatusAgreementTakingEffect) {
-        self.menuItems = @[[self menuItemInvite], [self menuItemMakeCall]];
+    else if (status == MutInsStatusReviewFailed || status == MutInsStatusGroupDissolved ||
+             status == MutInsStatusGroupExpired || status == MutInsStatusJoinFailed) {
+        self.menuItems = $([self menuItemRegroup], [self menuItemDeleteGroup], [self menuItemMakeCall]);
     }
     else {
-        self.menuItems = @[[self menuItemInvite], [self menuItemQuit], [self menuItemMakeCall]];
+        self.menuItems = $([self menuItemInvite], [self menuItemQuit], [self menuItemMakeCall]);
     }
 }
 
 #pragma mark - Request
-- (void)requestGroupDetailInfo {
-    GetCooperationMygroupDetailOp *op = [GetCooperationMygroupDetailOp operation];
-    op.req_groupid = self.group.groupId;
-    op.req_memberid = self.group.memberId;
-    @weakify(self);
-    [[[op rac_postRequest] initially:^{
-        
-        @strongify(self);
-        self.containerView.hidden = YES;
-        [self.view hideDefaultEmptyView];
-        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-    }] subscribeNext:^(id x) {
-        
-        @strongify(self);
-        [self.view stopActivityAnimation];
-        self.containerView.hidden = NO;
-        self.groupDetail = x;
-        [self setupNavigationRightItem];
-        [self reloadData];
-    } error:^(NSError *error) {
-        
-        @strongify(self);
-        [gToast showError:error.domain];
-        [self.view stopActivityAnimation];
-        [self.view showDefaultEmptyViewWithText:@"获取团详情失败，点击重试" tapBlock:^{
-            
-            @strongify(self);
-            [self requestGroupDetailInfo];
-        }];
-    }];
-}
-
 - (void)requestExitGroup {
     ExitCooperationOp * op = [[ExitCooperationOp alloc] init];
     op.req_memberid = self.group.memberId;
@@ -293,13 +260,12 @@ typedef enum : NSInteger
     }] subscribeNext:^(ExitCooperationOp * rop) {
         @strongify(self);
         [gToast dismiss];
+        [[self.minsStore reloadSimpleGroups] sendAndIgnoreError];
         for (UIViewController * vc in self.navigationController.viewControllers)
         {
             if ([vc isKindOfClass:NSClassFromString(@"MutualInsHomeVC")])
             {
-                
                 [self.navigationController popToViewController:vc animated:YES];
-                [((MutualInsHomeVC *)vc) requestMyGourpInfo];
                 return ;
             }
         }
@@ -310,10 +276,32 @@ typedef enum : NSInteger
     }];
 }
 
+- (void)requestDeleteGroup {
+    DeleteCooperationGroupOp *op = [DeleteCooperationGroupOp operation];
+    op.req_groupid = self.group.groupId;
+    op.req_memberid = self.group.memberId;
+    @weakify(self);
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"正在删除团..."];
+    }] subscribeNext:^(id x) {
+
+        @strongify(self);
+        [gToast showSuccess:@"删除成功！"];
+        [self actionBack:nil];
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain];
+    }];
+}
+
 #pragma mark - MenuItems
 - (CKDict *)menuItemInvite {
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Invite",@"title":@"邀请入团",@"img":@"mins_person"}];
+    @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
+        @strongify(self);
         InviteByCodeVC * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
         vc.groupId = self.groupDetail.rsp_groupid;
         [self.navigationController pushViewController:vc animated:YES];
@@ -321,10 +309,14 @@ typedef enum : NSInteger
     return dict;
 }
 
-- (CKDict *)menuItemQuit {
+- (id)menuItemQuit {
+    if (self.groupDetail.rsp_ifgroupowner) {
+        return CKNULL;
+    }
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Quit",@"title":@"退出该团",@"img":@"mins_exit"}];
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
         @strongify(self);
         [self requestExitGroup];
     });
@@ -334,6 +326,7 @@ typedef enum : NSInteger
 - (CKDict *)menuItemMakeCall {
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Call",@"title":@"联系客服",@"img":@"mins_phone"}];
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
         [gPhoneHelper makePhone:@"4007111111" andInfo:@"客服电话: 4007-111-111"];
     });
     return dict;
@@ -341,10 +334,38 @@ typedef enum : NSInteger
 
 - (CKDict *)menuItemMyOrder {
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Order",@"title":@"我的订单",@"img":@"mins_order"}];
+    @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
+        @strongify(self);
         MutualInsOrderInfoVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
         vc.contractId = self.groupDetail.rsp_contractid;
         [self.navigationController pushViewController:vc animated:YES];
+    });
+    return dict;
+}
+
+///重新组团
+- (CKDict *)menuItemRegroup {
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Regroup",@"title":@"重新组团",@"img":@"mins_regroup"}];
+    @weakify(self);
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        CreateGroupVC * vc = [UIStoryboard vcWithId:@"CreateGroupVC" inStoryboard:@"MutualInsJoin"];
+        vc.originVC = self.originVC;
+        [self.navigationController pushViewController:vc animated:YES];
+    });
+    return dict;
+}
+
+///删除该团
+- (CKDict *)menuItemDeleteGroup {
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Delete",@"title":@"删除该团",@"img":@"mins_close"}];
+    @weakify(self);
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
+        @strongify(self);
+        [self requestDeleteGroup];
     });
     return dict;
 }

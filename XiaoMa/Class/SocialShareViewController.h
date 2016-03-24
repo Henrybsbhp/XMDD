@@ -35,7 +35,4 @@
 @property (nonatomic,strong)UIImage * image;
 @property (nonatomic,strong)UIImage * webimage;
 
-@property (nonatomic,strong)RACSubject * rac_dismissSignal;
-
-
 @end

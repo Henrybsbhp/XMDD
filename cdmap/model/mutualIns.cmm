@@ -271,6 +271,14 @@ class=GetCooperationClaimBankcard op auth path="/cooperation/claim/bankcard/get"
   }
 }
 
+<"删除团信息"
+class=DeleteCooperationGroup op auth path="/cooperation/groupinfo/delete"> {
+  <req> {
+    memberid:number
+    groupid:number
+  }
+}
+
 <"查看团里是否有正在审核中的成员"
 class=CheckCooperationPremium op auth path="/cooperation/premium/check"> {
   <req> {
