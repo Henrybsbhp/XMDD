@@ -319,6 +319,9 @@
 {
     HKImagePicker *picker = [HKImagePicker imagePicker];
     picker.compressedSize = CGSizeMake(1024, 1024);
+    
+#if !TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+    
     [[[picker rac_pickImageInTargetVC:self inView:self.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
         
         GetSystemTimeOp *op = [[GetSystemTimeOp alloc]init];
@@ -336,6 +339,25 @@
         //不能进行单cell刷新。因为每次选择照片会多一个cell
         [self.tableView reloadData];
     }];
+#else
+    
+    [[[picker rac_pickPhotoTargetVC:self inView:self.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
+        GetSystemTimeOp *op = [[GetSystemTimeOp alloc]init];
+        return [[op rac_postRequest] flattenMap:^id(GetSystemTimeOp *op) {
+            return [self addPrinting:op.rsp_systime InPhoto:img];
+        }];
+    }] subscribeNext:^(UIImage *img) {
+        
+        PictureRecord * record = [[PictureRecord alloc] init];
+        //打水印成功后在self.recordArray占一个位置。但是record只有image没有URL
+        record.image = img;
+        //保证拍照选择不会造成顺序错乱
+        [self.recordArray safetyRemoveObjectAtIndex:(indexpath.section - 2)];
+        [self.recordArray insertObject:record atIndex:(indexpath.section - 2)];
+        //不能进行单cell刷新。因为每次选择照片会多一个cell
+        [self.tableView reloadData];
+    }];
+#endif
 }
 
 /**
