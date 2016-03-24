@@ -222,10 +222,7 @@
         [btn setTitle:@"分享入团口令" forState:UIControlStateNormal];
         [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
-            UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-            pasteboard.string = self.wordForShare;
-            NSUserDefaults * def = [NSUserDefaults standardUserDefaults];
-            [def setObject:self.wordForShare forKey:@"CodeForShare"];
+            [gAppDelegate.pasteboardoModel prepareForShareWhisper:self.wordForShare];
             
             InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
             alertVC.alertType = InviteAlertTypeGotoWechat;
