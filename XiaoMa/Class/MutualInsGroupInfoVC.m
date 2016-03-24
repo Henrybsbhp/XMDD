@@ -76,6 +76,7 @@
         [gToast dismissInView:view];
         
         MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
+        vc.originVC = self;
         vc.memberId = rop.rsp_memberid;
         vc.groupId = rop.req_groupid;
         [self.navigationController pushViewController:vc animated:YES];

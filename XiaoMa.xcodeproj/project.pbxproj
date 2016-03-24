@@ -39,6 +39,7 @@
 		1818D8FE1C23B0800078C329 /* InsPayFaildVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1818D8FD1C23B0800078C329 /* InsPayFaildVC.m */; };
 		181921811C253957009C80BD /* InsAppointmentSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181921801C253957009C80BD /* InsAppointmentSuccessVC.m */; };
 		181921841C264D54009C80BD /* InsuranceAppointmentV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 181921831C264D54009C80BD /* InsuranceAppointmentV2Op.m */; };
+		181AA43E1CA3BC7600ADD50C /* MutualInsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 181AA43D1CA3BC7600ADD50C /* MutualInsModel.m */; };
 		181F6D901B1436CA00D38555 /* UIView+DefaultEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D8F1B1436CA00D38555 /* UIView+DefaultEmptyView.m */; };
 		181F6D931B15773600D38555 /* BeInterestedInInsuranceOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D921B15773600D38555 /* BeInterestedInInsuranceOp.m */; };
 		181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D961B15919900D38555 /* CXAlertBackgroundWindow.m */; };
@@ -819,6 +820,8 @@
 		181921801C253957009C80BD /* InsAppointmentSuccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsAppointmentSuccessVC.m; sourceTree = "<group>"; };
 		181921821C264D54009C80BD /* InsuranceAppointmentV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceAppointmentV2Op.h; sourceTree = "<group>"; };
 		181921831C264D54009C80BD /* InsuranceAppointmentV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceAppointmentV2Op.m; sourceTree = "<group>"; };
+		181AA43C1CA3BC7600ADD50C /* MutualInsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsModel.h; sourceTree = "<group>"; };
+		181AA43D1CA3BC7600ADD50C /* MutualInsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsModel.m; sourceTree = "<group>"; };
 		181F6D8E1B1436CA00D38555 /* UIView+DefaultEmptyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+DefaultEmptyView.h"; path = "Class/UIView+DefaultEmptyView.h"; sourceTree = "<group>"; };
 		181F6D8F1B1436CA00D38555 /* UIView+DefaultEmptyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+DefaultEmptyView.m"; path = "Class/UIView+DefaultEmptyView.m"; sourceTree = "<group>"; };
 		181F6D911B15773600D38555 /* BeInterestedInInsuranceOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BeInterestedInInsuranceOp.h; path = Class/BeInterestedInInsuranceOp.h; sourceTree = "<group>"; };
@@ -2229,6 +2232,8 @@
 			children = (
 				180539441C9FCDE600D896A1 /* MutualInsStore.h */,
 				180539451C9FCDE600D896A1 /* MutualInsStore.m */,
+				181AA43C1CA3BC7600ADD50C /* MutualInsModel.h */,
+				181AA43D1CA3BC7600ADD50C /* MutualInsModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -5779,6 +5784,7 @@
 				18FC01E51C4E6C6F00FD61BF /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				50A1E0711C1EA3A300176572 /* ValuationViewController.m in Sources */,
 				505358F41C0D79640029B5BA /* SharedNotifyOp.m in Sources */,
+				181AA43E1CA3BC7600ADD50C /* MutualInsModel.m in Sources */,
 				18B7A2711C2014BA00865A99 /* CityPickerVC.m in Sources */,
 				506A309F1B8F08FC002F1F14 /* InsuranceAppointmentOp.m in Sources */,
 				1844532D1C8FEE81007B895D /* UIImage+RoundedCorner.m in Sources */,

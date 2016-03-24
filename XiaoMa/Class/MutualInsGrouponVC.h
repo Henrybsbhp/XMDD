@@ -14,5 +14,4 @@
 @property (nonatomic, weak) UIViewController *originVC;
 @property (nonatomic, strong) HKMutualGroup *group;
 
-
 @end

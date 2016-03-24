@@ -41,6 +41,6 @@ typedef enum : NSInteger {
 //key定义
 #define kMutInsGroupID      @"groupID"
 #define kMutInsMemberID     @"memberID"
-#define kMutInsGroup        @"simpleGroup"
+#define kMutInsGroupName    @"groupName"
 
 #endif /* MutualInsConstants_h */

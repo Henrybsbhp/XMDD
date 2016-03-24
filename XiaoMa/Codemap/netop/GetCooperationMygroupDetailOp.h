@@ -55,4 +55,6 @@
 @property (nonatomic,strong) NSNumber* rsp_groupid;
 ///用于暂存接口返回时的时间戳
 @property (nonatomic, assign) NSTimeInterval tempTimetag;
+///团名
+@property (nonatomic,strong) NSString* rsp_groupname;
 @end
