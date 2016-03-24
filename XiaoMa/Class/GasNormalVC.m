@@ -102,8 +102,7 @@
         //如果没在刷新
         if (![blankItem[@"loading"] boolValue]) {
             blankItem[@"loading"] = @YES;
-            self.datasource = self.loadingDatasource;
-            [self reloadView:YES];
+            [self reloadView:NO];
         }
     }] subscribeNext:^(id x) {
 
