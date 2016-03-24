@@ -18,6 +18,8 @@
 #import "HKTimer.h"
 #import "DeleteMyGroupOp.h"
 #import "MutualInsPicUpdateVC.h"
+#import "UIView+JTLoadingView.h"
+#import "UIView+RoundedCorner.h"
 
 @interface MutualInsHomeVC ()
 
@@ -257,6 +259,8 @@
     UIButton *checkBtn = (UIButton *)[cell.contentView viewWithTag:1001];
     UIButton *payBtn = (UIButton *)[cell.contentView viewWithTag:1002];
     
+    [checkBtn setCornerRadius:5 withBackgroundColor:HEXCOLOR(@"#FF4E70")];
+    [payBtn setCornerRadius:5 withBackgroundColor:HEXCOLOR(@"#18D06A")];
     //我要核价
     [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
@@ -315,11 +319,11 @@
     {
         if (group.btnStatus == GroupBtnStatusInvite) {
             [opeBtn setTitle:@"邀请好友" forState:UIControlStateNormal];
-            [opeBtn setBackgroundColor:HEXCOLOR(@"#18D06A")];
+            [opeBtn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
         }
         else if (group.btnStatus == GroupBtnStatusDelete){
             [opeBtn setTitle:@"删除" forState:UIControlStateNormal];
-            [opeBtn setBackgroundColor:HEXCOLOR(@"#FF4E70")];
+            [opeBtn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#FF4E70")];
         }
         @weakify(self);
         [[[opeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {

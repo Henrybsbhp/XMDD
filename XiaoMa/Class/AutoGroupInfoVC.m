@@ -30,6 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setRightBtnItem];
     [self setupTableView];
     [self loadFirstTime];
 }
@@ -40,6 +41,13 @@
 }
 
 #pragma mark - Setup
+
+- (void)setRightBtnItem {
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"新手必点" style:UIBarButtonItemStylePlain
+                                                             target:self action:@selector(actionHelp)];
+    self.navigationItem.rightBarButtonItem = right;
+}
+
 - (void)setupTableView {
     self.tableView.hidden = YES;
     [self.tableView.refreshView addTarget:self action:@selector(requestAutoGroupArray) forControlEvents:UIControlEventValueChanged];
@@ -53,6 +61,14 @@
     [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(id x) {
         [self requestAutoGroupArray];
     }];
+}
+
+- (void)actionHelp
+{
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.title = @"新手必点";
+    vc.url = @"http://www.baidu.com";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionBack:(id)sender
@@ -228,14 +244,14 @@
     tagLabel.text = [NSString stringWithFormat:@"  %@  ", [groupInfo stringParamForName:@"grouptag"]];
     
     if ([groupInfo stringParamForName:@"tip"].length == 0) {
-        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#888888") borderWidth:0.5];
+        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#888888") borderWidth:0.8];
         tagLabel.textColor = HEXCOLOR(@"#888888");
-        [btn setBackgroundColor:HEXCOLOR(@"#dedfe0")];
+        [btn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#dedfe0")];
         [btn setTitle:@"已结束" forState:UIControlStateNormal];
     }
     else {
-        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#ff7428") borderWidth:0.5];
-        [btn setBackgroundColor:HEXCOLOR(@"#18D06A")];
+        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#ff7428") borderWidth:0.8];
+        [btn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
         if ([groupInfo boolParamForName:@"ingroup"]) {
             [btn setTitle:@"已加入" forState:UIControlStateNormal];
         }

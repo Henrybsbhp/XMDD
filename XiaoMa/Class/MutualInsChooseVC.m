@@ -23,6 +23,7 @@
 #define NumOfSeatArr       @[@2, @5, @7]
 #define DriverDiscount     0.0041
 #define PassengerDiscount  0.0026
+#define InsHelpWebURL      @[@"http://www.baidu.com", @"http://www.baidu.com", @"http://www.baidu.com"]
 
 @interface MutualInsChooseVC ()
 
@@ -175,14 +176,15 @@
             discountL.hidden = YES;
         }
         else {
+            discountL.hidden = NO;
             discountL.text = [NSString stringWithFormat:@"  %@折  ", [NSString formatForDiscount:discountFloat]];
             [discountL setCornerRadius:2 withBorderColor:HEXCOLOR(@"#ff7428") borderWidth:0.5];
         }
         //帮助按钮
         [[[helpBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            if (insIndex == 0) {
-                //车损宝帮助
-            }
+            DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+            vc.url = [InsHelpWebURL safetyObjectAtIndex:insIndex];
+            [self.navigationController pushViewController:vc animated:YES];
         }];
         
         //车损险
@@ -241,19 +243,17 @@
                 [[actionSheet rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
                     
                     NSInteger btnIndex = [number integerValue];
-                    if (insIndex == 1 && btnIndex == 3) {
-                        return;
-                    }
-                    else if (insIndex == 2 && btnIndex == 5) {
-                        return;
-                    }
-                    
                     if (insIndex == 1) {
+                        if (btnIndex == 3) {
+                            return;
+                        }
                         self.thirdInsSelectIndex = btnIndex;
                     }
                     else {
+                        if (btnIndex == 5) {
+                            return;
+                        }
                         self.seatInsSelect = [sheetArr[btnIndex] integerValue];
-                        DebugLog(@"%ld", (long)self.seatInsSelect);
                     }
                     
                     //根据选择刷新当前行
