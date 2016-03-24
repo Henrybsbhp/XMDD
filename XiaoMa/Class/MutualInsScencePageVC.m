@@ -191,8 +191,7 @@
     }
     else
     {
-        NSArray *viewControllers = self.navigationController.viewControllers;
-        [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 

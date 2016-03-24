@@ -15,13 +15,14 @@
 #import "NSString+Split.h"
 #import "HKImageAlertVC.h"
 #import "NSString+BankNumber.h"
+#import "HKImageAlertVC.h"
 
 @interface MutualInsClaimDetailVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UIButton *agreeBtn;
 @property (strong, nonatomic) IBOutlet UIButton *disagreeBtn;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIView *bottomView;
-
+@property (strong, nonatomic) HKImageAlertVC *alert;
 @property (nonatomic,strong) NSString *statusdesc;
 @property (nonatomic,strong) NSNumber *status;
 @property (nonatomic,strong) NSString *accidenttime;
@@ -35,6 +36,8 @@
 @property (nonatomic,strong) NSString *bankcardno;
 @property (nonatomic,strong) NSString *insurancename;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *bottomViewHeight;
+
+
 
 @end
 
@@ -85,27 +88,7 @@
     {
         cell = [tableView dequeueReusableCellWithIdentifier:@"noticeCell"];
         UILabel *label = [cell viewWithTag:100];
-        switch (self.status.integerValue)
-        {
-            case 0:
-                label.text = @"理赔记录审核中，待估价";
-                break;
-            case 1:
-                label.text = @"审核通过，待用户确认金额";
-                break;
-            case 2:
-                label.text = @"用户确认金额，理赔待打款";
-                break;
-            case 3:
-                label.text = @"理赔完成打款，已结束";
-                break;
-            case 10:
-                label.text = @"用户拒绝确认理赔金额";
-                break;
-            default:
-                label.text = @"超过快速理赔金额，无法快速理赔";
-                break;
-        }
+        label.text = self.statusdesc;
     }
     else if ((indexPath.section == 1 && self.status.integerValue == 20)||indexPath.section == 2)
     {
@@ -241,8 +224,15 @@
 #pragma mark Action
 
 - (IBAction)call:(id)sender {
-    NSString * number = @"4007111111";
-    [gPhoneHelper makePhone:number andInfo:@"如有任何疑问，可拨打客服电话：4007-111-111"];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        [alertVC dismiss];
+    }];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        [alertVC dismiss];
+        [gPhoneHelper makePhone:@"4007111111"];
+    }];
+    HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"如有任何疑问，可拨打客服电话：4007-111-111" ActionItems:@[confirm,cancel]];
+    [alert show];
 }
 
 #pragma mark Init
@@ -279,21 +269,15 @@
         [alertVC dismiss];
     }];
     alert.actionItems = @[cancel];
-    if(![self.bankcardno isValidCreditCardNumber] && agreement.integerValue == 2)
-    {
-        [gToast showMistake:@"请输入正确银行卡号"];
-    }
-    else
-    {
-        ConfirmClaimOp *op = [[ConfirmClaimOp alloc]init];
-        op.req_claimid = self.claimid;
-        op.req_agreement = agreement;
-        op.req_bankcardno = [NSNumber numberWithInteger:self.bankcardno.integerValue];
-        [[[op rac_postRequest]initially:^{
-        }]subscribeNext:^(id x) {
-            [alert show];
-        }];
-    }
+    ConfirmClaimOp *op = [[ConfirmClaimOp alloc]init];
+    op.req_claimid = self.claimid;
+    op.req_agreement = agreement;
+    op.req_bankcardno = [NSNumber numberWithInteger:self.bankcardno.integerValue];
+    [[[op rac_postRequest]initially:^{
+    }]subscribeNext:^(id x) {
+        [alert show];
+        [self loadData];
+    }];
 }
 
 #pragma mark Utility
@@ -321,6 +305,19 @@
     {
         return [str substringToIndex:23];
     }
+}
+
+-(HKImageAlertVC *)alertWithTopTitle:(NSString *)topTitle ImageName:(NSString *)imageName Message:(NSString *)message ActionItems:(NSArray *)actionItems
+{
+    if (!_alert)
+    {
+        _alert = [[HKImageAlertVC alloc]init];
+    }
+    _alert.topTitle = topTitle;
+    _alert.imageName = imageName;
+    _alert.message = message;
+    _alert.actionItems = actionItems;
+    return _alert;
 }
 
 @end
