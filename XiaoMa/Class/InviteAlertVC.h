@@ -9,9 +9,10 @@
 #import "HKAlertVC.h"
 
 typedef enum : NSUInteger {
-    InviteAlertTypeNologin  = 0,  
-    InviteAlertTypeJoin     = 1,
-    InviteAlertTypeCopyCode = 2
+    InviteAlertTypeNologin     = 0,
+    InviteAlertTypeJoin        = 1,
+    InviteAlertTypeCopyCode    = 2,
+    InviteAlertTypeGotoWechat  = 3
 } InviteAlertType;
 
 @interface InviteAlertVC : HKAlertVC
@@ -21,5 +22,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong)NSString * groupName;
 
 @property (nonatomic, strong)NSString * leaderName;
+
+//分享口令到微信类型（InviteAlertTypeGotoWechat）必填
+@property (nonatomic, strong)NSString * contentStr;
 
 @end

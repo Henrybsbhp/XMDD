@@ -221,15 +221,29 @@
     if (indexPath.section == 1) {
         [btn setTitle:@"分享入团口令" forState:UIControlStateNormal];
         [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            if ([WXApi isWXAppInstalled]) {
-                SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
-                req.text = self.wordForShare;
-                req.bText = YES;
-                [WXApi sendReq:req];
-            }
-            else {
-                [gToast showText:@"您未安装微信，无法分享口令"];
-            }
+            
+            UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+            pasteboard.string = self.wordForShare;
+            NSUserDefaults * def = [NSUserDefaults standardUserDefaults];
+            [def setObject:self.wordForShare forKey:@"CodeForShare"];
+            
+            InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
+            alertVC.alertType = InviteAlertTypeGotoWechat;
+            alertVC.contentStr = self.wordForShare;
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+            HKAlertActionItem *goWechat = [HKAlertActionItem itemWithTitle:@"去微信粘贴" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
+            alertVC.actionItems = @[cancel, goWechat];
+            [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
+                [alertView dismiss];
+                if (index == 1) {
+                    if ([WXApi isWXAppInstalled]) {
+                        [WXApi openWXApp];
+                    }
+                    else {
+                        [gToast showText:@"您未安装微信，无法分享口令"];
+                    }
+                }
+            }];
         }];
     }
     else {
