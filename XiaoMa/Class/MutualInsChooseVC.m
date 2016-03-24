@@ -103,6 +103,7 @@
     self.thirdInsSelectIndex = 1;  //100万
     self.seatInsSelect = 1;        //1万/座
     self.numberOfSeat = [NumOfSeatArr[1] integerValue];  //5座
+    self.isAgent = NO;
     
     self.insListArray = dataModel.insList;
     
@@ -220,6 +221,12 @@
                 selectBtn.selected = YES;
                 ins[@"isSelected"] = @YES;
                 insNameL.textColor = HEXCOLOR(@"#454545");
+                if ([[ThirdInsArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue] < [dataModel.minthirdSum integerValue]) {
+                    tipL.hidden = YES;
+                }
+                else {
+                    tipL.hidden = NO;
+                }
             }
             else {
                 selectBtn.selected = [ins[@"isSelected"] boolValue];
@@ -236,6 +243,12 @@
                         [self.tableView reloadData];
                     }
                 }];
+                if ([[ThirdInsArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue] >= [dataModel.minthirdSum integerValue] && self.seatInsSelect >= [dataModel.minseatSum integerValue]) {
+                    tipL.hidden = NO;
+                }
+                else {
+                    tipL.hidden = YES;
+                }
             }
             
             tipL.text = insIndex == 1 ? dataModel.thirdsumTip : dataModel.seatsumTip;
@@ -260,6 +273,11 @@
                             return;
                         }
                         self.thirdInsSelectIndex = btnIndex;
+                        if ([[ThirdInsArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue] >= [dataModel.minthirdSum integerValue]) {
+                            //更改座位险状态
+                            CKDict *seatInsDic = self.datasource[@"insSection"][2];
+                            seatInsDic[@"isSelected"] = @YES;
+                        }
                     }
                     else {
                         if (btnIndex == 5) {
@@ -323,9 +341,8 @@
         UIButton * selectBtn = [cell.contentView viewWithTag:1001];
         UILabel * nameL = [cell.contentView viewWithTag:1002];
         
-        self.isAgent = NO;
         nameL.text = @"交强险/车船税";
-        nameL.textColor = HEXCOLOR(@"#dbdbdb");
+        nameL.textColor = self.isAgent ? HEXCOLOR(@"#454545") : HEXCOLOR(@"#dbdbdb");
         
         [[[selectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             

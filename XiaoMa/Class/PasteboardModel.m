@@ -19,7 +19,12 @@
     [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(JTUser * user) {
        
         NSString * pasteboardStr = [UIPasteboard generalPasteboard].string;
-        if ([pasteboardStr hasPrefix:XMINSPrefix])
+        NSString * defStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"CodeForShare"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"CodeForShare"];
+        if ([pasteboardStr isEqualToString:defStr]) {
+            [UIPasteboard generalPasteboard].string = @"";
+        }
+        else if ([pasteboardStr hasPrefix:XMINSPrefix])
         {
             if (user)
             {
