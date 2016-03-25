@@ -37,6 +37,8 @@
 @property (nonatomic, strong)DatePickerVC *datePicker;
 @property (nonatomic, strong)PictureRecord * currentRecord;
 
+@property (nonatomic,strong)PickInsCompaniesVC * pickInsCompanysVC;
+
 
 @end
 
@@ -194,16 +196,17 @@
     }
     if (indexPath.section == 2)
     {
-        PickInsCompaniesVC *vc = [UIStoryboard vcWithId:@"PickInsCompaniesVC" inStoryboard:@"Car"];
-        [vc setPickedBlock:^(NSString *name) {
+        @weakify(self)
+        [self.pickInsCompanysVC setPickedBlock:^(NSString *name) {
             
+            @strongify(self)
             if (indexPath.row == 0)
                 self.insCompany = name;
             else
                 self.lastYearInsCompany = name;
         }];
         
-        [self.navigationController pushViewController:vc animated:YES];
+        [self.navigationController pushViewController:self.pickInsCompanysVC animated:YES];
     }
     if (indexPath.section == 3)
     {
@@ -610,6 +613,14 @@
     if (!_drivingLicensePictureRecord)
         _drivingLicensePictureRecord = [[PictureRecord alloc] init];
     return _drivingLicensePictureRecord;
+}
+
+- (PickInsCompaniesVC *)pickInsCompanysVC
+{
+    if (_pickInsCompanysVC)
+        _pickInsCompanysVC = [UIStoryboard vcWithId:@"PickInsCompaniesVC" inStoryboard:@"Car"];
+    return _pickInsCompanysVC;
+        
 }
 
 #pragma mark - Getter

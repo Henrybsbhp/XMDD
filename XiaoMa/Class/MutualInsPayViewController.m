@@ -17,6 +17,7 @@
 #import "OrderPaidSuccessOp.h"
 #import "MutualInsPayResultVC.h"
 #import "MutualInsActivityVC.h"
+#import "MutualInsStore.h"
 
 @interface MutualInsPayViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 
@@ -249,6 +250,7 @@
         @strongify(self);        
         [self gotoPaidSuccessVC];
         
+        [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.group.memberId andGroupID:self.group.groupId] sendAndIgnoreError];
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 5;
         iop.req_tradeno = op.rsp_tradeno;

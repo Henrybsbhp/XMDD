@@ -24,6 +24,8 @@
 
 @property (nonatomic, strong) GetCooperationMygroupDetailOp *groupDetail;
 
+@property (nonatomic, strong) HKMutualGroup *group;
+
 - (void)reloadDataWithStatus:(MutInsStatus)status;
 
 @end

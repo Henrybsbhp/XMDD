@@ -164,7 +164,7 @@
         [self.view stopActivityAnimation];
         
         self.contract = rop.rsp_contractorder;
-        self.isInsProxy = self.contract.insperiod;
+        self.isInsProxy = self.contract.insperiod.length;
         [self setupDateSource];
         
         [self refreshUI];
@@ -196,7 +196,10 @@
     [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"互助期限",@"content":self.contract.contractperiod ?: @""}];
     [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"证件号码",@"content":self.contract.idno ?: @""}];
     [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"互助车辆",@"content":self.contract.licencenumber ?: @""}];
-    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"共计费用",@"content":[NSString formatForPrice:self.contract.total],@"tag":self.contract.couponmoney ? [NSString stringWithFormat:@"优惠￥%@",[NSString formatForPrice:self.contract.couponmoney]] : @""}];
+    
+    CGFloat price = self.contract.total - self.contract.couponmoney;
+    NSString * tag = self.contract.couponmoney ? [NSString stringWithFormat:@"原价￥%@ 优惠￥%@",[NSString formatForPrice:self.contract.total],[NSString formatForPrice:self.contract.couponmoney]] : @"";
+    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"共计费用",@"content":[NSString formatForPrice:price],@"tag":tag}];
     [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"服务项目",@"content":@"保险金额"}];
     
     for (NSDictionary * subIns in self.contract.inslist)
@@ -206,7 +209,7 @@
         [array safetyAddObject:@{@"id":@"ItemCell",@"title":insName,@"content":[NSString formatForPrice:[sum floatValue]]}];
     }
     
-    if (self.contract.insperiod)
+    if (self.contract.insperiod.length)
     {
         [array safetyAddObject:@{@"id":@"SwitchCell",@"insSelected":@(self.isInsProxy),@"content":@"保险公司代购"}];
         
