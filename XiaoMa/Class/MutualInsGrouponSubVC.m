@@ -492,7 +492,7 @@
         else {
             [[[HKTimer rac_startWithOrigin:self.groupDetail.rsp_lefttime/1000 andTimeTag:self.groupDetail.tempTimetag]
               takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber *interval) {
-                NSString *text = [HKTimer ddhhmmFormatWithTimeInterval:[interval doubleValue]];
+                NSString *text = [HKTimer ddhhmmssFormatWithTimeInterval:[interval doubleValue]];
                 text = [NSString stringWithFormat:@" %@%@", self.groupDetail.rsp_timetip, text];
                 [timeB setTitle:text forState:UIControlStateNormal];
             }];

@@ -66,7 +66,7 @@
         msgcell.titleLabel.text = data[@"title"];
         [msgcell.logoView setImageByUrl:data[@"img"] withType:ImageURLTypeOrigin defImage:@"mins_def" errorImage:@"mins_def"];
         msgcell.message = data[@"msg"];
-        [[msgcell.logoViewTapGesture rac_gestureSignal] subscribeNext:^(id x) {
+        [[[msgcell.logoViewTapGesture rac_gestureSignal] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             @strongify(self);
             if (self.didMessageAvatarTaped) {
                 self.didMessageAvatarTaped(data[@"memberID"]);

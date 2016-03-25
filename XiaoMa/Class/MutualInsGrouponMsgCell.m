@@ -10,8 +10,10 @@
 #import "MutualInsConstants.h"
 #import "NSString+RectSize.h"
 #import <Masonry.h>
+#import "UIView+RoundedCorner.h"
 
 #define kCellMargin      3
+#define kLogoViewLength     45
 
 @interface MutualInsGrouponMsgCell ()
 @property (nonatomic, strong) UIView *msgContainerView;
