@@ -14,6 +14,7 @@
 #import "ExitCooperationOp.h"
 #import "DeleteCooperationGroupOp.h"
 #import "MutualInsStore.h"
+#import "HKMessageAlertVC.h"
 
 #import "MutualInsGrouponSubVC.h"
 #import "MutualInsGrouponSubMsgVC.h"
@@ -272,15 +273,7 @@ typedef enum : NSInteger
         @strongify(self);
         [gToast dismiss];
         [[self.minsStore reloadSimpleGroups] sendAndIgnoreError];
-        for (UIViewController * vc in self.navigationController.viewControllers)
-        {
-            if ([vc isKindOfClass:NSClassFromString(@"MutualInsHomeVC")])
-            {
-                [self.navigationController popToViewController:vc animated:YES];
-                return ;
-            }
-        }
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self actionBack:nil];
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
@@ -311,7 +304,6 @@ typedef enum : NSInteger
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Invite",@"title":@"邀请入团",@"img":@"mins_person"}];
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        
         @strongify(self);
         InviteByCodeVC * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
         vc.groupId = self.groupDetail.rsp_groupid;
@@ -329,7 +321,18 @@ typedef enum : NSInteger
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
         @strongify(self);
-        [self requestExitGroup];
+        HKMessageAlertVC *alert = [[HKMessageAlertVC alloc] init];
+        alert.messageLabel.text = @"您确认退出该团？退出后将无法查看团内信息。";
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:MutInsTextGrayColor clickBlock:^(id alertVC) {
+            [alertVC dismiss];
+        }];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:MutInsGreenColor clickBlock:^(id alertVC) {
+            @strongify(self);
+            [alertVC dismiss];
+            [self requestExitGroup];
+        }];
+        alert.actionItems = @[cancel, confirm];
+        [alert show];
     });
     return dict;
 }
@@ -338,7 +341,7 @@ typedef enum : NSInteger
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Call",@"title":@"联系客服",@"img":@"mins_phone"}];
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
-        [gPhoneHelper makePhone:@"4007111111" andInfo:@"客服电话: 4007-111-111"];
+        [gPhoneHelper makePhone:@"4007111111" andInfo:@"如有任何疑问，可拨打客服电话：4007-111-111"];
     });
     return dict;
 }

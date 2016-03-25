@@ -196,6 +196,16 @@
             [gToast showError:error.domain];
         }];
     }
+    else if (group.btnStatus == GroupBtnStatusUpdate) {
+        
+        //完善资料
+        MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
+        vc.memberId = group.memberId;
+        vc.groupId = group.groupId;
+        vc.groupName = group.groupName;
+        vc.originVC = self;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 #pragma mark - UITableViewDelegate and datasource
@@ -360,7 +370,7 @@
         timeLabel.text = @"";
     }
     
-    opeBtn.hidden = !(group.btnStatus == GroupBtnStatusInvite || group.btnStatus == GroupBtnStatusDelete);
+    opeBtn.hidden = !(group.btnStatus == GroupBtnStatusInvite || group.btnStatus == GroupBtnStatusDelete || group.btnStatus == GroupBtnStatusUpdate);
     
     if (group.btnStatus)
     {
@@ -371,6 +381,10 @@
         else if (group.btnStatus == GroupBtnStatusDelete){
             [opeBtn setTitle:@"删除" forState:UIControlStateNormal];
             [opeBtn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#FF4E70")];
+        }
+        else if (group.btnStatus == GroupBtnStatusUpdate) {
+            [opeBtn setTitle:@"完善资料" forState:UIControlStateNormal];
+            [opeBtn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
         }
         @weakify(self);
         [[[opeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
