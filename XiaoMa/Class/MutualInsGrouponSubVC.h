@@ -25,5 +25,6 @@
 @property (nonatomic, strong) GetCooperationMygroupDetailOp *groupDetail;
 
 - (void)reloadDataWithStatus:(MutInsStatus)status;
+- (void)requestDetailInfoForMember:(NSNumber *)memberid;
 
 @end
