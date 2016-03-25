@@ -16,11 +16,13 @@
 #import "CreateGroupVC.h"
 #import "MutualInsHomeVC.h"
 #import "MutualInsStore.h"
+#import "NSString+RectSize.h"
 
 @interface InviteByCodeVC ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+@property (nonatomic, strong) CKList *datasource;
 //暗号
 @property (nonatomic, copy) NSString * cipherForCopy;
 //口令
@@ -39,18 +41,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self setupUI];
     [self requestInviteInfo];
     
-}
-
-- (void)setupUI;
-{
-    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
-    {
-        self.tableView.estimatedRowHeight = 26; //估算高度
-        self.tableView.rowHeight = UITableViewAutomaticDimension;
-    }
 }
 
 - (void)setupNavigationBar
@@ -85,7 +77,8 @@
         
         self.cipherForCopy = rspOp.rsp_groupCipher;
         self.wordForShare = rspOp.rsp_wordForShare;
-        [self.tableView reloadData];
+        [self setDataSource];
+        
     } error:^(NSError *error) {
         
         @strongify(self);
@@ -100,6 +93,218 @@
     }];
 }
 
+- (void)setDataSource
+{
+    self.datasource = [CKList list];
+    
+    CKDict *cipherForCopy = [self setCipherCell];
+    [self.datasource addObject:$(cipherForCopy) forKey:@"copyCipherSection"];
+    
+    //已下载
+    NSString * tipOneShareString = @"1，您需要通过微信分享入团口令邀请您的好友加入";
+    NSString * tipTwoShareString = @"2，您的好友复制口令后，打开App即可成功加入您创建的团";
+    
+    CKDict *titleForAlreadyDownLoad = [self setTitleCellForSectionIndex:1];
+    CKDict *contentTipOne = [self setNormalContentCell:tipOneShareString];
+    CKDict *contentTipTwo = [self setNormalContentCell:tipTwoShareString];
+    CKDict *shareButton = [self setButtonCellForSectionIndex:1];
+    CKDict *contentTipFooter = [self setAttributedContentCell];
+    
+    [self.datasource addObject:$(titleForAlreadyDownLoad, contentTipOne, contentTipTwo, shareButton, contentTipFooter) forKey:@"shareCodeSection"];
+    
+    //未下载
+    NSString * tipOneInviteString = @"1，您需要先邀请您的好友下载小马达达App";
+    NSString * tipTwoInviteString = @"2，受邀好友下载成功后，告知受邀好友入团暗号或分享入团口令邀请对方加入";
+    
+    CKDict *titleForNoDownLoad = [self setTitleCellForSectionIndex:2];
+    CKDict *inviteContentTipOne = [self setNormalContentCell:tipOneInviteString];
+    CKDict *inviteContentTipTwo = [self setNormalContentCell:tipTwoInviteString];
+    CKDict *inviteButton = [self setButtonCellForSectionIndex:2];
+    [self.datasource addObject:$(titleForNoDownLoad, inviteContentTipOne, inviteContentTipTwo, inviteButton) forKey:@"inviteSection"];
+    
+    [self.tableView reloadData];
+}
+
+- (CKDict *)setCipherCell {
+    //初始化身份标识
+    CKDict * cipherDict = [CKDict dictWith:@{kCKCellID:@"CodeCell"}];
+    //cell行高
+    cipherDict[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 44;
+    });
+    //cell准备重绘
+    cipherDict[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        UILabel *codeLabel = (UILabel *)[cell.contentView viewWithTag:1001];
+        UIButton *copyBtn = (UIButton *)[cell.contentView viewWithTag:1002];
+        codeLabel.text = [NSString stringWithFormat:@"团队暗号：%@", self.cipherForCopy ?: @""];
+        
+        [copyBtn setTitle:@"复制暗号" forState:UIControlStateNormal];
+        [copyBtn setCornerRadius:5];
+        [copyBtn setBorderColor:HEXCOLOR(@"#18d05a")];
+        [copyBtn setBorderWidth:1];
+        
+        @weakify(self);
+        [[[copyBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            
+            @strongify(self);
+            UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+            pasteboard.string = self.cipherForCopy;
+            
+            InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
+            alertVC.alertType = InviteAlertTypeCopyCode;
+            HKAlertActionItem *ok = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
+            alertVC.actionItems = @[ok];
+            [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
+                [alertView dismiss];
+            }];
+        }];
+    });
+    return cipherDict;
+}
+
+- (CKDict *)setTitleCellForSectionIndex:(NSInteger)sectionIndex {
+    //初始化身份标识
+    CKDict * titleDict = [CKDict dictWith:@{kCKCellID:@"HeaderCell"}];
+    //cell行高
+    titleDict[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 40;
+    });
+    //cell准备重绘
+    titleDict[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:1001];
+        if (sectionIndex == 1) {
+            titleLabel.text = @"如果您的好友已下载小马达达App";
+        }
+        else {
+            titleLabel.text = @"如果您的好友未下载小马达达App";
+        }
+    });
+    return titleDict;
+}
+
+- (CKDict *)setNormalContentCell:(NSString *)contentString {
+    //初始化身份标识
+    CKDict * titleDict = [CKDict dictWith:@{kCKCellID:@"ContentCell"}];
+    //cell行高
+    @weakify(self);
+    titleDict[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        CGFloat height = [contentString labelSizeWithWidth:(self.tableView.frame.size.width - 30) font:[UIFont systemFontOfSize:14]].height;
+        return height + 8;
+    });
+    //cell准备重绘
+    titleDict[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        UILabel *contentLabel = (UILabel *)[cell.contentView viewWithTag:1001];
+        contentLabel.text = contentString;
+    });
+    return titleDict;
+}
+
+- (CKDict *)setButtonCellForSectionIndex:(NSInteger)sectionIndex {
+    //初始化身份标识
+    CKDict * buttonDict = [CKDict dictWith:@{kCKCellID:@"BtnCell"}];
+    //cell行高
+    buttonDict[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 68;
+    });
+    //cell准备重绘
+    buttonDict[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        UIButton *btn = (UIButton *)[cell.contentView viewWithTag:1001];
+        if (sectionIndex == 1) {
+            [btn setTitle:@"分享入团口令" forState:UIControlStateNormal];
+            @weakify(self);
+            [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                
+                @strongify(self);
+                [gAppDelegate.pasteboardoModel prepareForShareWhisper:self.wordForShare];
+                [self shareCodeAction];
+            }];
+        }
+        else {
+            [btn setTitle:@"邀请好友下载小马达达" forState:UIControlStateNormal];
+            @weakify(self);
+            [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                
+                @strongify(self);
+                [gToast showingWithText:@"分享信息拉取中..."];
+                [self inviteAction];
+            }];
+        }
+    });
+    return buttonDict;
+}
+
+- (void)shareCodeAction {
+    InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
+    alertVC.alertType = InviteAlertTypeGotoWechat;
+    alertVC.contentStr = self.wordForShare;
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+    HKAlertActionItem *goWechat = [HKAlertActionItem itemWithTitle:@"去微信粘贴" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
+    alertVC.actionItems = @[cancel, goWechat];
+    [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
+        [alertView dismiss];
+        if (index == 1) {
+            if ([WXApi isWXAppInstalled]) {
+                [WXApi openWXApp];
+            }
+            else {
+                [gToast showText:@"您未安装微信，无法分享口令"];
+            }
+        }
+    }];
+}
+
+- (void)inviteAction {
+    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
+    op.pagePosition = ShareSceneCipher;
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
+        
+        [gToast dismiss];
+        SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+        vc.sceneType = ShareSceneCipher;    //页面位置
+        vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            [MobClick event:@"rp110-7"];
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        [vc setClickAction:^{
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
+    } error:^(NSError *error) {
+        [gToast showError:@"分享信息拉取失败，请重试"];
+    }];
+}
+
+- (CKDict *)setAttributedContentCell {
+    //初始化身份标识
+    CKDict * attributedContentDict = [CKDict dictWith:@{kCKCellID:@"ContentCell"}];
+    NSString * attributedFooterString = @"如果您的好友无法长按复制暗号，可打开小马达达后，通过“首页→小马互助→自组互助团→申请加入”后录入您互助团的暗号同样可成功加入您的互助团 \n ";
+    //cell行高
+    attributedContentDict[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        CGFloat height = [attributedFooterString labelSizeWithWidth:(self.tableView.frame.size.width - 30) font:[UIFont systemFontOfSize:13]].height;
+        return height + 8;
+    });
+    //cell准备重绘
+    @weakify(self);
+    attributedContentDict[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        @strongify(self);
+        UILabel *contentLabel = (UILabel *)[cell.contentView viewWithTag:1001];
+        contentLabel.attributedText = [self attributedStringWithParticularHighlightString:@"首页→小马互助→自组互助团→申请加入" fromSourceString:attributedFooterString withPositionTag:2];
+    });
+    return attributedContentDict;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -109,18 +314,12 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return self.datasource.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return 1;
-    }
-    else if (section == 1) {
-        return 5;
-    }
-    return 4;
+    return [[self.datasource objectAtIndex:section] count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -135,161 +334,26 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        if (indexPath.section == 0) {
-            return 44;
-        }
-        else {
-            return 40;
-        }
+    CKDict *data = self.datasource[indexPath.section][indexPath.row];
+    CKCellGetHeightBlock block = data[kCKCellGetHeight];
+    if (block) {
+        return block(data,indexPath);
     }
-    else if (indexPath.row == 3) {
-        return 68;
-    }
-    else {
-        if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
-        {
-            return UITableViewAutomaticDimension;
-        }
-        
-        UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
-        [cell layoutIfNeeded];
-        [cell setNeedsUpdateConstraints];
-        [cell updateConstraintsIfNeeded];
-        CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
-        return ceil(size.height + 9);
-    }
+    return CGFLOAT_MIN;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell;
-    if (indexPath.row == 0) {
-        if (indexPath.section == 0) {
-            cell = [self codeCellAtIndexPath:indexPath];
-        }
-        else {
-            cell = [self headerCellAtIndexPath:indexPath];
-        }
-    }
-    else if (indexPath.row == 3) {
-        cell = [self btnCellAtIndexPath:indexPath];
-    }
-    else {
-        cell = [self contentCellAtIndexPath:indexPath];
+    CKDict *data = self.datasource[indexPath.section][indexPath.row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data[kCKCellID] forIndexPath:indexPath];
+    CKCellPrepareBlock block = data[kCKCellPrepare];
+    if (block) {
+        block(data, cell, indexPath);
     }
     return cell;
 }
 
-- (UITableViewCell *)codeCellAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"CodeCell" forIndexPath:indexPath];
-    UILabel *codeLabel = (UILabel *)[cell.contentView viewWithTag:1001];
-    UIButton *copyBtn = (UIButton *)[cell.contentView viewWithTag:1002];
-    codeLabel.text = [NSString stringWithFormat:@"团队暗号：%@", self.cipherForCopy ?: @""];
-    
-    [copyBtn setTitle:@"复制暗号" forState:UIControlStateNormal];
-    [copyBtn setCornerRadius:5];
-    [copyBtn setBorderColor:HEXCOLOR(@"#18d05a")];
-    [copyBtn setBorderWidth:1];
-    
-    @weakify(self);
-    [[[copyBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
-        @strongify(self);
-        UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-        pasteboard.string = self.cipherForCopy;
-        
-        InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
-        alertVC.alertType = InviteAlertTypeCopyCode;
-        HKAlertActionItem *ok = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
-        alertVC.actionItems = @[ok];
-        [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
-            [alertView dismiss];
-        }];
-    }];
-    
-    return cell;
-}
-
-- (UITableViewCell *)headerCellAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"HeaderCell" forIndexPath:indexPath];
-    UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:1001];
-    if (indexPath.section == 1) {
-        titleLabel.text = @"如果您的好友已下载小马达达App";
-    }
-    else {
-        titleLabel.text = @"如果您的好友未下载小马达达App";
-    }
-    return cell;
-}
-
-- (UITableViewCell *)btnCellAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"BtnCell" forIndexPath:indexPath];
-    UIButton *btn = (UIButton *)[cell.contentView viewWithTag:1001];
-    if (indexPath.section == 1) {
-        [btn setTitle:@"分享入团口令" forState:UIControlStateNormal];
-        @weakify(self);
-        [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            
-            @strongify(self);
-            [gAppDelegate.pasteboardoModel prepareForShareWhisper:self.wordForShare];
-            
-            InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
-            alertVC.alertType = InviteAlertTypeGotoWechat;
-            alertVC.contentStr = self.wordForShare;
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
-            HKAlertActionItem *goWechat = [HKAlertActionItem itemWithTitle:@"去微信粘贴" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
-            alertVC.actionItems = @[cancel, goWechat];
-            [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
-                [alertView dismiss];
-                if (index == 1) {
-                    if ([WXApi isWXAppInstalled]) {
-                        [WXApi openWXApp];
-                    }
-                    else {
-                        [gToast showText:@"您未安装微信，无法分享口令"];
-                    }
-                }
-            }];
-        }];
-    }
-    else {
-        [btn setTitle:@"邀请好友下载小马达达" forState:UIControlStateNormal];
-        [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            [gToast showingWithText:@"分享信息拉取中..."];
-            GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
-            op.pagePosition = ShareSceneCipher;
-            [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
-                
-                [gToast dismiss];
-                SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-                vc.sceneType = ShareSceneCipher;    //页面位置
-                vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
-                
-                MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
-                sheet.shouldCenterVertically = YES;
-                [sheet presentAnimated:YES completionHandler:nil];
-                
-                [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-                    [MobClick event:@"rp110-7"];
-                    [sheet dismissAnimated:YES completionHandler:nil];
-                }];
-                [vc setClickAction:^{
-                    [sheet dismissAnimated:YES completionHandler:nil];
-                }];
-                
-            } error:^(NSError *error) {
-                [gToast showError:@"分享信息拉取失败，请重试"];
-            }];
-        }];
-    }
-    return cell;
-}
-
-/** 
+/**
  使字符串内容局部高亮
  
  @param string 需要高亮的文本
@@ -433,4 +497,5 @@
 {
     
 }
+
 @end
