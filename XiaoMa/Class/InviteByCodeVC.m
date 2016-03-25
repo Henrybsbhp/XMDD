@@ -184,10 +184,10 @@
     UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"HeaderCell" forIndexPath:indexPath];
     UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:1001];
     if (indexPath.section == 1) {
-        titleLabel.text = @"已下载小马达达";
+        titleLabel.text = @"如果您的好友已下载小马达达App";
     }
     else {
-        titleLabel.text = @"未下载小马达达";
+        titleLabel.text = @"如果您的好友未下载小马达达App";
     }
     return cell;
 }
@@ -243,6 +243,7 @@
     return cell;
 }
 
+
 - (UITableViewCell *)contentCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"ContentCell" forIndexPath:indexPath];
@@ -255,7 +256,18 @@
             contentLabel.text = @"2，您的好友复制口令后，打开App即可成功加入您创建的团";
         }
         else {
-            contentLabel.text = @"如果您的好友无法长按复制暗号，可打开小马达达后，通过“首页→小马互助→自组互助团→申请加入”后录入您互助团的暗号同样可成功加入您的互助团 \n ";
+            
+            // 设置文本局部高亮并拼接
+            UIColor *color = [UIColor colorWithHTMLExpression:@"#18D06A"];
+            NSDictionary *attrs = @{ NSForegroundColorAttributeName : color };
+            NSAttributedString *hightlightedString = [[NSAttributedString alloc] initWithString:@"首页→小马互助→自组互助团→申请加入" attributes:attrs];
+            
+            NSMutableAttributedString *string = [[NSMutableAttributedString alloc] init];
+            [string appendAttributedString:[[NSAttributedString alloc] initWithString:@"如果您的好友无法长按复制暗号，可打开小马达达后，通过“"]];
+            [string appendAttributedString:hightlightedString];
+            [string appendAttributedString:[[NSAttributedString alloc] initWithString:@"”后录入您互助团的暗号同样可成功加入您的互助团 \n "]];
+            
+            contentLabel.attributedText = string;
         }
     }
     if (indexPath.section == 2) {

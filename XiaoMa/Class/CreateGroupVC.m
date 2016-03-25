@@ -129,7 +129,7 @@
     [alertVC setCloseAction:^{
         
         @strongify(alertVC);
-       [alertVC dismiss];
+        [alertVC dismiss];
         [self jumpToHomePage];
     }];
     HKAlertActionItem *invite = [HKAlertActionItem itemWithTitle:@"邀请好友" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
