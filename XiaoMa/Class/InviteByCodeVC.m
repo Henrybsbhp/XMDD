@@ -333,10 +333,4 @@
 {
     
 }
-
--(void)dealloc
-{
-    DebugLog(@"InviteByCode dealloc");
-}
-
 @end

@@ -8,7 +8,7 @@
 
 #import "MutualInsClaimAccountVC.h"
 #import "GetCooperationClaimBankcardOp.h"
-#import "MutualInsChooseBankVC.h"
+
 @interface MutualInsClaimAccountVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *dataArr;
@@ -144,22 +144,6 @@
 }
 
 #pragma mark UITableViewDelegate
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row == 3)
-    {
-        MutualInsChooseBankVC *chooseBankVC = [UIStoryboard vcWithId:@"MutualInsChooseBankVC" inStoryboard:@"MutualInsClaims"];
-        @weakify(self)
-        [chooseBankVC setBankName:^(NSString *str) {
-            @strongify(self)
-            self.bankName = str;
-            [self.tableView reloadData];
-        }];
-        [self.navigationController pushViewController:chooseBankVC animated:YES];
-    }
-}
-
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0)

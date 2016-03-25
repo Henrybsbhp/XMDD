@@ -9,7 +9,6 @@
 #import "MutualInsClaimDetailVC.h"
 #import "GetCooperationClaimDetailOp.h"
 #import "NSString+Price.h"
-#import "MutualInsChooseBankVC.h"
 #import "MutualInsClaimAccountVC.h"
 #import "ConfirmClaimOp.h"
 #import "NSString+Split.h"
