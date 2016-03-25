@@ -315,7 +315,7 @@
     NSString *footerString;
     
     // 以下是分割源字符串为 NSArray 来和高亮文本重新拼接的步骤。
-    if ([sourceString containsString:string]) {
+    if ([sourceString rangeOfString:string].location != NSNotFound) {
         
         NSArray *stringArray = [sourceString componentsSeparatedByString:string];
         
@@ -403,7 +403,7 @@
 
 - (UITableViewCell *)contentCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"ContentCell" forIndexPath:indexPath];
+    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"ContentCell"];
     UILabel *contentLabel = (UILabel *)[cell.contentView viewWithTag:1001];
     if (indexPath.section == 1) {
         if (indexPath.row == 1) {
