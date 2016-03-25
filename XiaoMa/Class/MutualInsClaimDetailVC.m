@@ -191,9 +191,12 @@
 {
     GetCooperationClaimDetailOp *op = [[GetCooperationClaimDetailOp alloc]init];
     op.req_claimid = self.claimid;
+    @weakify(self)
     [[[op rac_postRequest]initially:^{
+        @strongify(self)
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }]subscribeNext:^(GetCooperationClaimDetailOp *op) {
+        @strongify(self)
         [self.view stopActivityAnimation];
         self.statusdesc = op.rsp_statusdesc;
         self.status = op.rsp_status;
@@ -218,6 +221,7 @@
         [self.view layoutIfNeeded];
         [self.tableView reloadData];
     }error:^(NSError *error) {
+        @strongify(self)
         [self.view stopActivityAnimation];
     }];
 }
@@ -245,12 +249,13 @@
     [self addBorder:self.disagreeBtn WithColor:@"#18D06A"];
     self.tableView.tableFooterView = [UIView new];
     self.bottomView.hidden = YES;
-    
+    @weakify(self)
     [[self.agreeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
+        @strongify(self)
         [self confirmClaimWithAgreement:@2];
     }];
-    
     [[self.disagreeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
+        @strongify(self)
         [self confirmClaimWithAgreement:@1];
     }];
     
@@ -276,6 +281,7 @@
     op.req_bankcardno = [NSNumber numberWithInteger:self.bankcardno.integerValue];
     [[[op rac_postRequest]initially:^{
     }]subscribeNext:^(id x) {
+        @strongify(self)
         [alert show];
         [self loadData];
     }];

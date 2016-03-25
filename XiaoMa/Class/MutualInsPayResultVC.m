@@ -175,23 +175,13 @@
 -(UITableViewCell *)detailCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"detailCell"];
-    UITextView *textView = [cell viewWithTag:100];
-    textView.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
-    textView.layer.borderWidth = 1;
-    UILabel *placeHolder = [cell viewWithTag:101];
+    UITextField *textField = [cell viewWithTag:100];
+    textField.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
+    textField.layer.borderWidth = 1;
     
-    textView.text = self.address;
-    self.view4 = textView;
-    [[[textView rac_textSignal] takeUntilForCell:cell] subscribeNext:^(NSString *x) {
-        if (x.length != 0)
-        {
-            placeHolder.text = @"";
-        }
-        else
-        {
-            placeHolder.text = @"请填写详细地址";
-        }
-        
+    textField.text = self.address;
+    self.view4 = textField;
+    [[[textField rac_textSignal] takeUntilForCell:cell] subscribeNext:^(NSString *x) {
         self.address = x;
     }];
     return cell;

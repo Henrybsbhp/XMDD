@@ -15,6 +15,11 @@
 
 @implementation MutualInsPhotoBrowserVC
 
+-(void)dealloc
+{
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.imgView.image = self.img;
