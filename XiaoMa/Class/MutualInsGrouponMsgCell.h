@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSString *message;
 @property (nonatomic, strong) UIImageView *logoView;
 @property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UITapGestureRecognizer *logoViewTapGesture;
 
 + (CGFloat)heightWithBoundsWidth:(CGFloat)width message:(NSString *)msg;
 

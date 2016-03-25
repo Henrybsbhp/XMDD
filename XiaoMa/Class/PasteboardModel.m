@@ -14,13 +14,21 @@
 
 @implementation PasteboardModel
 
+- (void)prepareForShareWhisper:(NSString *)whisper
+{
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.string = whisper;
+    NSUserDefaults * def = [NSUserDefaults standardUserDefaults];
+    [def setObject:whisper forKey:@"Mutaul_InviteCodeForShare"];
+}
+
 - (BOOL)checkPasteboard
 {
     [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(JTUser * user) {
        
         NSString * pasteboardStr = [UIPasteboard generalPasteboard].string;
-        NSString * defStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"CodeForShare"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"CodeForShare"];
+        NSString * defStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"Mutaul_InviteCodeForShare"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Mutaul_InviteCodeForShare"];
         if ([pasteboardStr isEqualToString:defStr]) {
             [UIPasteboard generalPasteboard].string = @"";
         }

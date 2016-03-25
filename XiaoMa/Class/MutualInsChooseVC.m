@@ -188,6 +188,7 @@
         
         //保险名称
         insNameL.text = [dataModel.insList[insIndex] objectForKey:@"name"];
+        insNameL.adjustsFontSizeToFitWidth = YES;
         //保险折扣
         CGFloat discountFloat = [[dataModel.insList[insIndex] objectForKey:@"discount"] floatValue] / 10;
         if (discountFloat == 10) {
@@ -413,6 +414,7 @@
                 if (isThirdSelected) {
                     //计算价格并刷新
                     [self calculateSeatPrice:dataModel];
+                    [self.tableView reloadData];
                 }
                 
             }];

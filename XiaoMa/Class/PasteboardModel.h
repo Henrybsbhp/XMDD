@@ -10,6 +10,8 @@
 
 @interface PasteboardModel : NSObject
 
+- (void)prepareForShareWhisper:(NSString *)whisper;
+
 - (BOOL)checkPasteboard;
 
 @property (nonatomic, copy) void(^cancelClickBlock)(id);
