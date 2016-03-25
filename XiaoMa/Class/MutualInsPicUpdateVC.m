@@ -33,8 +33,11 @@
 @property (nonatomic, copy)NSString * insCompany;
 @property (nonatomic, copy)NSString * lastYearInsCompany;
 @property (nonatomic, strong)NSDate *insuranceExpirationDate;
+@property (nonatomic, strong)NSDate *minInsuranceExpirationDate;
 @property (nonatomic, strong)DatePickerVC *datePicker;
 @property (nonatomic, strong)PictureRecord * currentRecord;
+
+@property (nonatomic,strong)PickInsCompaniesVC * pickInsCompanysVC;
 
 
 @end
@@ -64,7 +67,7 @@
 #pragma mark - Setup UI
 - (void)setupDatePicker
 {
-    self.datePicker = [DatePickerVC datePickerVCWithMaximumDate:[NSDate date]];
+    self.datePicker = [DatePickerVC datePickerVCWithMaximumDate:nil];
 }
 
 - (void)setupNextBtn
@@ -193,20 +196,24 @@
     }
     if (indexPath.section == 2)
     {
-        PickInsCompaniesVC *vc = [UIStoryboard vcWithId:@"PickInsCompaniesVC" inStoryboard:@"Car"];
-        [vc setPickedBlock:^(NSString *name) {
+        @weakify(self)
+        [self.pickInsCompanysVC setPickedBlock:^(NSString *name) {
             
+            @strongify(self)
             if (indexPath.row == 0)
                 self.insCompany = name;
             else
                 self.lastYearInsCompany = name;
         }];
         
-        [self.navigationController pushViewController:vc animated:YES];
+        [self.navigationController pushViewController:self.pickInsCompanysVC animated:YES];
     }
     if (indexPath.section == 3)
     {
-        self.datePicker.maximumDate = [NSDate date];
+        if (self.minInsuranceExpirationDate)
+        {
+            self.datePicker.minimumDate = self.minInsuranceExpirationDate;
+        }
         NSDate *selectedDate = self.insuranceExpirationDate ? self.insuranceExpirationDate : [NSDate date];
         
         @weakify(self)
@@ -401,6 +408,7 @@
         self.insCompany = rop.rsp_lstinscomp;
         self.lastYearInsCompany = rop.rsp_secinscomp;
         self.insuranceExpirationDate = rop.rsp_insenddate;
+        self.minInsuranceExpirationDate = rop.rsp_mininsenddate;
     } error:^(NSError *error) {
         
         @weakify(self)
@@ -605,6 +613,14 @@
     if (!_drivingLicensePictureRecord)
         _drivingLicensePictureRecord = [[PictureRecord alloc] init];
     return _drivingLicensePictureRecord;
+}
+
+- (PickInsCompaniesVC *)pickInsCompanysVC
+{
+    if (!_pickInsCompanysVC)
+        _pickInsCompanysVC = [UIStoryboard vcWithId:@"PickInsCompaniesVC" inStoryboard:@"Car"];
+    return _pickInsCompanysVC;
+        
 }
 
 #pragma mark - Getter

@@ -17,10 +17,10 @@
 #import "HKMutualGroup.h"
 #import "HKTimer.h"
 #import "MutualInsStore.h"
-#import "DeleteMyGroupOp.h"
 #import "MutualInsPicUpdateVC.h"
 #import "UIView+JTLoadingView.h"
 #import "UIView+RoundedCorner.h"
+#import "DeleteCooperationGroupOp.h"
 
 @interface MutualInsHomeVC ()
 
@@ -177,9 +177,10 @@
     else if (group.btnStatus == GroupBtnStatusDelete){
         
         //删除我的团操作 团长和团员调用新接口，入参不同
-        DeleteMyGroupOp * op = [DeleteMyGroupOp operation];
-        op.memberId = group.memberId;
-        op.groupId = group.groupId;
+        
+        DeleteCooperationGroupOp * op = [DeleteCooperationGroupOp operation];
+        op.req_memberid = group.memberId;
+        op.req_groupid = group.groupId;
         [[[op rac_postRequest] initially:^{
             [gToast showingWithText:@"删除中..."];
         }] subscribeNext:^(id x) {

@@ -8,10 +8,13 @@
 
 #import "HKViewController.h"
 #import "MutualInsContract.h"
-
+#import "HKMutualGroup.h"
 @interface MutualInsPayViewController : HKViewController
 
 @property (nonatomic,strong)MutualInsContract * contract;
+
+
+@property (nonatomic, strong) HKMutualGroup *group;
 ///是否代买交强险
 @property (nonatomic)BOOL proxybuy;
 

@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HKViewController.h"
+#import "HKMutualGroup.h"
 
 @interface MutualInsOrderInfoVC : HKViewController
 
 @property (nonatomic,strong)NSNumber * contractId;
+
+@property (nonatomic, strong) HKMutualGroup *group;
 
 - (void)requestContractDetail;
 

@@ -31,7 +31,7 @@
     insModel.seatsumTip = [rspObj stringParamForName:@"seatsumtip"];
     insModel.purchasePrice = [rspObj floatParamForName:@"purchaseprice"];
     insModel.remindTip = [rspObj stringParamForName:@"remindtip"];
-    insModel.xmddDiscount = [rspObj integerParamForName:@"xmdddiscount"];
+    insModel.xmddDiscount = [rspObj floatParamForName:@"xmdddiscount"];
     
     self.rsp_insModel = insModel;
     return self;

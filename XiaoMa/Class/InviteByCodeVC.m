@@ -30,6 +30,11 @@
 
 @implementation InviteByCodeVC
 
+- (void)dealloc
+{
+    DebugLog(@"InviteByCodeVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -71,8 +76,10 @@
 {
     GetGroupPasswordOp * op = [GetGroupPasswordOp operation];
     op.req_groupId = self.groupId;
+    @weakify(self);
     [[op rac_postRequest] subscribeNext:^(GetGroupPasswordOp * rspOp) {
         
+        @strongify(self);
         self.tableView.hidden = NO;
         [self.view stopActivityAnimation];
         
@@ -81,6 +88,7 @@
         [self.tableView reloadData];
     } error:^(NSError *error) {
         
+        @strongify(self);
         self.tableView.hidden = YES;
         [self.view stopActivityAnimation];
         @weakify(self);
@@ -185,7 +193,10 @@
     [copyBtn setBorderColor:HEXCOLOR(@"#18d05a")];
     [copyBtn setBorderWidth:1];
     
+    @weakify(self);
     [[[copyBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        @strongify(self);
         UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
         pasteboard.string = self.cipherForCopy;
         
@@ -220,8 +231,10 @@
     UIButton *btn = (UIButton *)[cell.contentView viewWithTag:1001];
     if (indexPath.section == 1) {
         [btn setTitle:@"分享入团口令" forState:UIControlStateNormal];
+        @weakify(self);
         [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
+            @strongify(self);
             [gAppDelegate.pasteboardoModel prepareForShareWhisper:self.wordForShare];
             
             InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
@@ -276,6 +289,117 @@
     return cell;
 }
 
+/** 
+ 使字符串内容局部高亮
+ 
+ @param string 需要高亮的文本
+ @param
+ @param sourceString 完整的源字符串文本
+ @param
+ @param withPositionTag 1 表示需要高亮的文本在源字符串文本的开头
+ @param                 2 表示需要高亮的文本在源字符串文本的中间
+ @param                 3 表示需要高亮的文本在源字符串文本的末端
+*/
+- (NSAttributedString *)attributedStringWithParticularHighlightString:(NSString *)string fromSourceString:(NSString*)sourceString withPositionTag:(NSInteger)integer
+{
+    
+    // 给需要高亮的字符串添加高亮属性。
+    UIColor *color = [UIColor colorWithHTMLExpression:@"#18D06A"];
+    NSDictionary *attributes = @{ NSForegroundColorAttributeName : color };
+    NSAttributedString *hightlightedString = [[NSAttributedString alloc] initWithString:string attributes:attributes];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] init];
+
+    // 需要用来拼接的字符串。
+    NSString *headerString;
+    NSString *middleString;
+    NSString *footerString;
+    
+    // 以下是分割源字符串为 NSArray 来和高亮文本重新拼接的步骤。
+    if ([sourceString containsString:string]) {
+        
+        NSArray *stringArray = [sourceString componentsSeparatedByString:string];
+        
+        if (stringArray.count == 0) {
+            
+            [attributedString appendAttributedString:hightlightedString];
+            
+            return attributedString;
+            
+        }
+        
+        if (stringArray.count == 1) {
+            
+            // 判断高亮文本在源字符串文本中的位置。
+            if (integer == 3) {
+                
+                headerString = stringArray[0];
+                
+                [attributedString appendAttributedString:[[NSAttributedString alloc] initWithString:headerString]];
+                [attributedString appendAttributedString:hightlightedString];
+                
+                return attributedString;
+                
+            }
+            
+            // 判断高亮文本在源字符串文本中的位置。
+            if (integer == 1) {
+                
+                footerString = stringArray[0];
+                
+                [attributedString appendAttributedString:hightlightedString];
+                [attributedString appendAttributedString:[[NSAttributedString alloc] initWithString:footerString]];
+                
+                return attributedString;
+                
+            }
+        }
+
+        if (stringArray.count == 2) {
+            
+            // 判断高亮文本在源字符串文本中的位置。
+            if (integer == 1) {
+                
+                footerString = stringArray[1];
+                
+                [attributedString appendAttributedString:hightlightedString];
+                [attributedString appendAttributedString:[[NSAttributedString alloc] initWithString:footerString]];
+                
+                return attributedString;
+                
+            }
+            
+            // 判断高亮文本在源字符串文本中的位置。
+            if (integer == 2) {
+                
+                headerString = stringArray[0];
+                footerString = stringArray[1];
+                
+                [attributedString appendAttributedString:[[NSAttributedString alloc] initWithString:headerString]];
+                [attributedString appendAttributedString:hightlightedString];
+                [attributedString appendAttributedString:[[NSAttributedString alloc] initWithString:footerString]];
+                
+                return attributedString;
+                
+            }
+            
+            // 判断高亮文本在源字符串文本中的位置。
+            if (integer == 3) {
+                
+                headerString = stringArray[0];
+                middleString = stringArray[1];
+                
+                [attributedString appendAttributedString:[[NSAttributedString alloc] initWithString:headerString]];
+                [attributedString appendAttributedString:[[NSAttributedString alloc] initWithString:middleString]];
+                [attributedString appendAttributedString:hightlightedString];
+                
+                return attributedString;
+                
+            }
+        }
+    }
+    
+    return attributedString;
+}
 
 - (UITableViewCell *)contentCellAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -289,23 +413,12 @@
             contentLabel.text = @"2，您的好友复制口令后，打开App即可成功加入您创建的团";
         }
         else {
-            
-            // 设置文本局部高亮并拼接
-            UIColor *color = [UIColor colorWithHTMLExpression:@"#18D06A"];
-            NSDictionary *attrs = @{ NSForegroundColorAttributeName : color };
-            NSAttributedString *hightlightedString = [[NSAttributedString alloc] initWithString:@"首页→小马互助→自组互助团→申请加入" attributes:attrs];
-            
-            NSMutableAttributedString *string = [[NSMutableAttributedString alloc] init];
-            [string appendAttributedString:[[NSAttributedString alloc] initWithString:@"如果您的好友无法长按复制暗号，可打开小马达达后，通过“"]];
-            [string appendAttributedString:hightlightedString];
-            [string appendAttributedString:[[NSAttributedString alloc] initWithString:@"”后录入您互助团的暗号同样可成功加入您的互助团 \n "]];
-            
-            contentLabel.attributedText = string;
+            contentLabel.attributedText = [self attributedStringWithParticularHighlightString:@"首页→小马互助→自组互助团→申请加入" fromSourceString:@"如果您的好友无法长按复制暗号，可打开小马达达后，通过“首页→小马互助→自组互助团→申请加入”后录入您互助团的暗号同样可成功加入您的互助团 \n " withPositionTag:2];
         }
     }
     if (indexPath.section == 2) {
         if (indexPath.row == 1) {
-            contentLabel.text = @"1，您需要先邀请您的好友下载小马达达";
+            contentLabel.text = @"1，您需要先邀请您的好友下载小马达达App";
         }
         else {
             contentLabel.text = @"2，受邀好友下载成功后，告知受邀好友入团暗号或分享入团口令邀请对方加入";
@@ -320,5 +433,4 @@
 {
     
 }
-
 @end

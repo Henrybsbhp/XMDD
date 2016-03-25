@@ -35,6 +35,13 @@
 
 @implementation CreateGroupVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"CreateGroupVC deallocated");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -427,6 +434,7 @@
     
     return attrText;
 }
+
 
 
 @end

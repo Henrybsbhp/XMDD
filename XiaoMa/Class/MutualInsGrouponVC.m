@@ -88,6 +88,7 @@ typedef enum : NSInteger
     }
     if ([segue.identifier isEqualToString:@"MutualInsGrouponSubVC"]) {
         self.topSubVC = (MutualInsGrouponSubVC *)segue.destinationViewController;
+        self.topSubVC.group = self.group;
     }
     else if ([segue.identifier isEqualToString:@"MutualInsGrouponSubMsgVC"]) {
         self.bottomSubVC = (MutualInsGrouponSubMsgVC *)segue.destinationViewController;
@@ -354,6 +355,7 @@ typedef enum : NSInteger
         @strongify(self);
         MutualInsOrderInfoVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
         vc.contractId = self.groupDetail.rsp_contractid;
+        vc.group = self.group;
         [self.navigationController pushViewController:vc animated:YES];
     });
     return dict;

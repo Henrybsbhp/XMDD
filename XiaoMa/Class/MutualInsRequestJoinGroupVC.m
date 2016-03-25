@@ -20,6 +20,14 @@
 
 @implementation MutualInsRequestJoinGroupVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"MutualInsRequestJoinGroupVC deallocated");
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
