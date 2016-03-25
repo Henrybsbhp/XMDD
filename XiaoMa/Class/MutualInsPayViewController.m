@@ -165,7 +165,7 @@
         totalCoupon = totalCoupon + c.couponAmount;
     }
     CGFloat couponAmt = MIN(self.maxCouponAmt, totalCoupon) ;
-    CGFloat payfee = self.contract.total - couponAmt;
+    CGFloat payfee = self.contract.total - self.contract.couponmoney - couponAmt;
     NSString * str = [NSString stringWithFormat:@"￥%@",[NSString formatForPrice:payfee]];
     self.priceLb.text = str;
 }
