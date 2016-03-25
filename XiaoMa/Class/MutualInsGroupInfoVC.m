@@ -22,6 +22,11 @@
 
 @implementation MutualInsGroupInfoVC
 
+- (void)dealloc
+{
+    DebugLog(@"MutualInsGroupInfoVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

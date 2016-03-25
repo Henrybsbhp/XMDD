@@ -34,6 +34,11 @@
 
 @implementation GroupIntroductionVC
 
+- (void)dealloc
+{
+    DebugLog(@"GroupIntroductionVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     

@@ -406,7 +406,6 @@
 		507A4DDF1B74462200E0BF1E /* UnbundlingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 507A4DDE1B74462200E0BF1E /* UnbundlingVC.m */; };
 		507EFACC1C15AEB60081FECB /* GetAreaByPcdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 507EFACB1C15AEB60081FECB /* GetAreaByPcdOp.m */; };
 		508150CE1B84703200B16633 /* DetailsAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508150CD1B84703200B16633 /* DetailsAlertVC.m */; };
-		50819CC01C98F66800A6B8B2 /* DeleteMyGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50819CBF1C98F66800A6B8B2 /* DeleteMyGroupOp.m */; };
 		50819CDF1C99306E00A6B8B2 /* GetGroupPasswordOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50819CDE1C99306E00A6B8B2 /* GetGroupPasswordOp.m */; };
 		50819CE91C99438E00A6B8B2 /* InviteAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50819CE81C99438E00A6B8B2 /* InviteAlertVC.m */; };
 		5088F1431CA13381006DA415 /* AdListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5088F1421CA13381006DA415 /* AdListData.m */; };
@@ -1541,8 +1540,6 @@
 		507EFACB1C15AEB60081FECB /* GetAreaByPcdOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAreaByPcdOp.m; path = Class/GetAreaByPcdOp.m; sourceTree = "<group>"; };
 		508150CC1B84703200B16633 /* DetailsAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsAlertVC.h; sourceTree = "<group>"; };
 		508150CD1B84703200B16633 /* DetailsAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsAlertVC.m; sourceTree = "<group>"; };
-		50819CBE1C98F66800A6B8B2 /* DeleteMyGroupOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteMyGroupOp.h; path = Class/DeleteMyGroupOp.h; sourceTree = "<group>"; };
-		50819CBF1C98F66800A6B8B2 /* DeleteMyGroupOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteMyGroupOp.m; path = Class/DeleteMyGroupOp.m; sourceTree = "<group>"; };
 		50819CDD1C99306E00A6B8B2 /* GetGroupPasswordOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetGroupPasswordOp.h; path = Class/GetGroupPasswordOp.h; sourceTree = "<group>"; };
 		50819CDE1C99306E00A6B8B2 /* GetGroupPasswordOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetGroupPasswordOp.m; path = Class/GetGroupPasswordOp.m; sourceTree = "<group>"; };
 		50819CE71C99438E00A6B8B2 /* InviteAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteAlertVC.h; sourceTree = "<group>"; };
@@ -4646,8 +4643,6 @@
 				6B16D6381C92CBD600322B70 /* GetCooperationMyGroupOp.m */,
 				6B16D63D1C95517000322B70 /* GetCooperationAutoGroupOp.h */,
 				6B16D63E1C95517000322B70 /* GetCooperationAutoGroupOp.m */,
-				50819CBE1C98F66800A6B8B2 /* DeleteMyGroupOp.h */,
-				50819CBF1C98F66800A6B8B2 /* DeleteMyGroupOp.m */,
 				50819CDD1C99306E00A6B8B2 /* GetGroupPasswordOp.h */,
 				50819CDE1C99306E00A6B8B2 /* GetGroupPasswordOp.m */,
 				50F0FF621C9A96B7009A94A3 /* GetMutualInsListOp.h */,
@@ -5701,7 +5696,6 @@
 				50819CE91C99438E00A6B8B2 /* InviteAlertVC.m in Sources */,
 				6BEA56CF1AE24DCE000D19C1 /* DataVerifier.m in Sources */,
 				6BC80C951C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.m in Sources */,
-				50819CC01C98F66800A6B8B2 /* DeleteMyGroupOp.m in Sources */,
 				6BB884BC1AE0BB9600EBD8F4 /* UIView+JTLoadingView.m in Sources */,
 				18273F251C7ED1F8004192B3 /* GascardChargeByStagesOp.m in Sources */,
 				1893712B1B0E0D460030FDE1 /* TTTAttributedLabel.m in Sources */,

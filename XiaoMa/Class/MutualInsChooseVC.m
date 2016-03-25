@@ -55,6 +55,11 @@
 
 @implementation MutualInsChooseVC
 
+- (void)dealloc
+{
+    DebugLog(@"MutualInsChooseVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -615,12 +620,6 @@
     } error:^(NSError *error) {
         [gToast showText:error.domain];
     }];
-}
-
-
--(void)dealloc
-{
-    DebugLog(@"MutualInsChooseVC dealloc");
 }
 
 @end
