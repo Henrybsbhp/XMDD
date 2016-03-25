@@ -305,7 +305,7 @@
     }
     if (indexPath.section == 2) {
         if (indexPath.row == 1) {
-            contentLabel.text = @"1，您需要先邀请您的好友下载小马达达";
+            contentLabel.text = @"1，您需要先邀请您的好友下载小马达达App";
         }
         else {
             contentLabel.text = @"2，受邀好友下载成功后，告知受邀好友入团暗号或分享入团口令邀请对方加入";
