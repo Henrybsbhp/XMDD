@@ -30,6 +30,11 @@
 
 @implementation InviteByCodeVC
 
+- (void)dealloc
+{
+    DebugLog(@"InviteByCodeVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

@@ -22,6 +22,7 @@
 
 @implementation MutualInsScencePhotoVM
 
+
 -(void)deleteAllInfo
 {
     [self.recordArray makeObjectsPerformSelector:@selector(removeAllObjects)];

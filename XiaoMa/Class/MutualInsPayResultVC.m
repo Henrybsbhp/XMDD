@@ -30,6 +30,11 @@
 
 @implementation MutualInsPayResultVC
 
+- (void)dealloc
+{
+    DebugLog(@"MutualInsPayResultVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     

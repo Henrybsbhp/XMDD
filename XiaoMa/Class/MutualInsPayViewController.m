@@ -42,6 +42,11 @@
 
 @implementation MutualInsPayViewController
 
+- (void)dealloc
+{
+    DebugLog(@"MutualInsPayViewController dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     

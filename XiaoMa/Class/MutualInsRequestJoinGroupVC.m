@@ -20,6 +20,12 @@
 
 @implementation MutualInsRequestJoinGroupVC
 
+- (void)dealloc
+{
+    DebugLog(@"MutualInsRequestJoinGroupVC dealloc");
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
