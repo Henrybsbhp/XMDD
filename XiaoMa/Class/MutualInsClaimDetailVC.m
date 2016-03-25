@@ -9,7 +9,6 @@
 #import "MutualInsClaimDetailVC.h"
 #import "GetCooperationClaimDetailOp.h"
 #import "NSString+Price.h"
-#import "MutualInsClaimAccountVC.h"
 #import "ConfirmClaimOp.h"
 #import "NSString+Split.h"
 #import "HKImageAlertVC.h"
@@ -173,15 +172,6 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 10;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row ==1 && indexPath.section == 1 && self.status.integerValue != 0 && self.status.integerValue != 20)
-    {
-        MutualInsClaimAccountVC *accountVC = [UIStoryboard vcWithId:@"MutualInsClaimAccountVC" inStoryboard:@"MutualInsClaims"];
-        [self.navigationController pushViewController:accountVC animated:YES];
-    }
 }
 
 #pragma mark Utility
