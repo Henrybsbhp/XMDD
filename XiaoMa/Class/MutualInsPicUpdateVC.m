@@ -617,7 +617,7 @@
 
 - (PickInsCompaniesVC *)pickInsCompanysVC
 {
-    if (_pickInsCompanysVC)
+    if (!_pickInsCompanysVC)
         _pickInsCompanysVC = [UIStoryboard vcWithId:@"PickInsCompaniesVC" inStoryboard:@"Car"];
     return _pickInsCompanysVC;
         

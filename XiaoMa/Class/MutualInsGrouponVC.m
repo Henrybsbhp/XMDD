@@ -108,6 +108,11 @@ typedef enum : NSInteger
         @strongify(self);
         [self setExpanded:expanded animated:YES];
     }];
+    
+    [self.bottomSubVC setDidMessageAvatarTaped:^(NSNumber *memberID) {
+        @strongify(self);
+        [self.topSubVC requestDetailInfoForMember:memberID];
+    }];
 }
 
 - (void)setupMutualInsStore {
@@ -239,7 +244,10 @@ typedef enum : NSInteger
     [self.popoverMenu dismissWithAnimated:YES];
     
     MutInsStatus status = self.groupDetail.rsp_status;
-    if (status == MutInsStatusToBePaid || status == MutInsStatusPaidForAll || status == MutInsStatusPaidForSelf) {
+    if (status == MutInsStatusUnderReview) {
+        self.menuItems = $([self menuItemInvite], [self menuItemMakeCall]);
+    }
+    else if (status == MutInsStatusToBePaid || status == MutInsStatusPaidForAll || status == MutInsStatusPaidForSelf) {
         self.menuItems = $([self menuItemMyOrder], [self menuItemMakeCall]);
     }
     else if (status == MutInsStatusAgreementTakingEffect) {

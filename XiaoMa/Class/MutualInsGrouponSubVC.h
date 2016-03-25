@@ -27,5 +27,6 @@
 @property (nonatomic, strong) HKMutualGroup *group;
 
 - (void)reloadDataWithStatus:(MutInsStatus)status;
+- (void)requestDetailInfoForMember:(NSNumber *)memberid;
 
 @end
