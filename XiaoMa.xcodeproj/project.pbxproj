@@ -355,7 +355,6 @@
 		4E97D71A1C9003A500FC418F /* MutualInsScencePhotoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E97D7191C9003A500FC418F /* MutualInsScencePhotoVC.m */; };
 		4EA1CB161C96961A006CCBEA /* MutualInsPayResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1CB151C96961A006CCBEA /* MutualInsPayResultVC.m */; };
 		4EA1CB231C969830006CCBEA /* MutualInsScencePhotoVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1CB211C969830006CCBEA /* MutualInsScencePhotoVM.m */; };
-		4EB2D9021C9BD60500D74EC0 /* MutualInsChooseBankVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB2D9011C9BD60500D74EC0 /* MutualInsChooseBankVC.m */; };
 		4EC6EA801C22A5480092BF6E /* HistoryCollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC6EA7F1C22A5480092BF6E /* HistoryCollectionVC.m */; };
 		4ECF21951C9C0BE5004E76DD /* MutualInsActivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECF21941C9C0BE5004E76DD /* MutualInsActivityVC.m */; };
 		4EED3ED71C97D65900EB081E /* MutualInsClaimAccountVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EED3ED61C97D65900EB081E /* MutualInsClaimAccountVC.m */; };
@@ -1444,8 +1443,6 @@
 		4EA1CB141C96961A006CCBEA /* MutualInsPayResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsPayResultVC.h; sourceTree = "<group>"; };
 		4EA1CB151C96961A006CCBEA /* MutualInsPayResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsPayResultVC.m; sourceTree = "<group>"; };
 		4EA1CB211C969830006CCBEA /* MutualInsScencePhotoVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsScencePhotoVM.m; sourceTree = "<group>"; };
-		4EB2D9001C9BD60500D74EC0 /* MutualInsChooseBankVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsChooseBankVC.h; sourceTree = "<group>"; };
-		4EB2D9011C9BD60500D74EC0 /* MutualInsChooseBankVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsChooseBankVC.m; sourceTree = "<group>"; };
 		4EC6EA7E1C22A5480092BF6E /* HistoryCollectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryCollectionVC.h; sourceTree = "<group>"; };
 		4EC6EA7F1C22A5480092BF6E /* HistoryCollectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryCollectionVC.m; sourceTree = "<group>"; };
 		4ECF21931C9C0BE5004E76DD /* MutualInsActivityVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsActivityVC.h; sourceTree = "<group>"; };
@@ -3927,8 +3924,6 @@
 				4EED3ED61C97D65900EB081E /* MutualInsClaimAccountVC.m */,
 				4E043B181C9A511200742268 /* MutualInsChooseCarVC.h */,
 				4E043B191C9A511200742268 /* MutualInsChooseCarVC.m */,
-				4EB2D9001C9BD60500D74EC0 /* MutualInsChooseBankVC.h */,
-				4EB2D9011C9BD60500D74EC0 /* MutualInsChooseBankVC.m */,
 				4ECF21931C9C0BE5004E76DD /* MutualInsActivityVC.h */,
 				4ECF21941C9C0BE5004E76DD /* MutualInsActivityVC.m */,
 			);
@@ -5525,7 +5520,6 @@
 				506008D41B74631800B8761D /* DrawingBoardView.m in Sources */,
 				18E592381C1A5CEE006010D9 /* InsPayResultVC.m in Sources */,
 				18D17F701B5390F400F66F04 /* VCodeInputField.m in Sources */,
-				4EB2D9021C9BD60500D74EC0 /* MutualInsChooseBankVC.m in Sources */,
 				6B26EEB31C8EC23200428EC4 /* ZFCRotatingPlaneActivityIndicatorView.m in Sources */,
 				505E5FCD1BD7356B00857819 /* WKWebViewJavascriptBridge.m in Sources */,
 				6BCF624A1B1739E70064AE32 /* CommissionCouponViewController.m in Sources */,

@@ -45,6 +45,7 @@
 {
     self.pageVC.delegate = nil;
     self.pageVC.dataSource = nil;
+    DebugLog(@"MutualInsScencePageVC dealloc");
 }
 
 -(void)viewWillAppear:(BOOL)animated

@@ -19,7 +19,7 @@
 
 -(void)dealloc
 {
-    
+    DebugLog(@"MutualInsClaimAccountVC dealloc");
 }
 
 

@@ -22,6 +22,10 @@
 
 @implementation MutualInsScencePhotoVM
 
+-(void)dealloc
+{
+    DebugLog(@"MutualInsScencePhotoVM dealloc");
+}
 
 -(void)deleteAllInfo
 {
