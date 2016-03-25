@@ -76,7 +76,7 @@ cd $script_path
 
 sh $project_path"/Script/project_replace.sh" "$inhouse_code_sign_id" "$inhouse_provisioning_id" "$project_pbxproj_path"
 sed -i  '' "s/XMDDENT=0/XMDDENT=1/" $project_pbxproj_path
-#切换到测试环境
+#切换到正式环境
 sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=2/" $project_pbxproj_path
 
 echo "**************change to ent**************"
@@ -94,7 +94,7 @@ xcodebuild -project XiaoMa.xcodeproj clean
 # build
 xcworkspace_name="XiaoMa.xcworkspace"
 scheme_name="XiaoMa"
-configuration_type="Release"
+configuration_type="Debug"
 build_dir=$root_path"/build/ios-xmdd-inhouse-"$bundleVersion
 release_ipa_name="ios-xmdd-inhouse-"$bundleVersion".ipa"
 
@@ -109,21 +109,28 @@ xcrun -sdk iphoneos PackageApplication -v $build_dir"/XiaoMa.app" -o $archieve_d
 echo "**************finish building inhouse-正式环境**************"
 
 
-
 # build inhouse-debug
+echo "**************switch script Inhouse - 测试环境**************"
+cd $script_path
+
+sh $project_path"/Script/project_replace.sh" "$inhouse_code_sign_id" "$inhouse_provisioning_id" "$project_pbxproj_path"
+sed -i  '' "s/XMDDENT=0/XMDDENT=1/" $project_pbxproj_path
+#切换到测试环境
+sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=1/" $project_pbxproj_path
+sh $project_path"/Script/change_to_xmddent.sh" $project_path"/XiaoMa/Misc/Info.plist"
+
+echo "**************begin building1**************"
+
 cd $project_path
 security unlock-keychain -p ${1} ~/Library/Keychains/login.keychain
 
 # 先clean
 xcodebuild -project XiaoMa.xcodeproj clean 
 
-#切换到生产环境
-sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=1/" $project_pbxproj_path
-
 # build
 xcworkspace_name="XiaoMa.xcworkspace"
 scheme_name="XiaoMa"
-configuration_type="Release"
+configuration_type="Debug"
 build_dir=$root_path"/build/ios-xmdd-inhouse-d-"$bundleVersion
 debug_ipa_name="ios-xmdd-inhouse-d-"$bundleVersion".ipa"
 
