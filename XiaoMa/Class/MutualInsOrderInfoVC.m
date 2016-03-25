@@ -131,6 +131,7 @@
         MutualInsPayViewController * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPayViewController"];
         vc.contract = self.contract;
         vc.proxybuy = self.isInsProxy;
+        vc.group = self.group;
         [self.navigationController pushViewController:vc animated:YES];
     }
     else
