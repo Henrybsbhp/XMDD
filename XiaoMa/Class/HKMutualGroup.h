@@ -12,6 +12,7 @@ typedef enum : NSUInteger {
     GroupBtnStatusNone,
     GroupBtnStatusInvite,
     GroupBtnStatusDelete,
+    GroupBtnStatusUpdate
 } GroupBtnStatus;
 
 @interface HKMutualGroup : NSObject
