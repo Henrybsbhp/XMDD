@@ -44,7 +44,8 @@
 #pragma mark - CellItem
 - (CKDict *)messageItemWithInfo:(MutualInsMemberInfo *)info {
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Message", @"left":@(![info.memberid isEqual:self.group.memberId]),
-                                      @"img":info.brandurl, @"title":info.licensenumber, @"msg":info.statusdesc}];
+                                      @"img":info.brandurl, @"title":info.licensenumber, @"msg":info.statusdesc,
+                                      @"memberID":self.group.memberId}];
     @weakify(self);
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
@@ -59,13 +60,22 @@
         return height;
     });
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
         MutualInsGrouponMsgCell *msgcell = (MutualInsGrouponMsgCell *)cell;
         msgcell.atRightSide = ![data[@"left"] boolValue];
         msgcell.titleLabel.text = data[@"title"];
         [msgcell.logoView setImageByUrl:data[@"img"] withType:ImageURLTypeOrigin defImage:@"mins_def" errorImage:@"mins_def"];
         msgcell.message = data[@"msg"];
+        [[msgcell.logoViewTapGesture rac_gestureSignal] subscribeNext:^(id x) {
+            @strongify(self);
+            if (self.didMessageAvatarTaped) {
+                self.didMessageAvatarTaped(data[@"memberID"]);
+            }
+        }];
+        
         [msgcell setNeedsUpdateConstraints];
     });
+    
     return item;
 }
 

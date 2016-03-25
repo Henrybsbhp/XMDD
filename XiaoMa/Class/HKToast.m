@@ -83,7 +83,7 @@
         if (!hud) {
             hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
         }
-        hud.labelText = text;
+        hud.detailsLabelText = text;
         hud.margin = 10;
         hud.mode = MBProgressHUDModeText;
         [hud hide:YES afterDelay:[self displayDurationForString:text]];
