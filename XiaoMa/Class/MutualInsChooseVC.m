@@ -170,7 +170,10 @@
     //初始化身份标识、是否选中（默认选中）
     CKDict * ins = [CKDict dictWith:@{@"isSelected":@1, kCKCellID:@"InsContentCell"}];
     //cell行高
+    @weakify(self);
     ins[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        @strongify(self);
         CGFloat height = 66;
         if (insIndex == 1) {
             NSString * tipStr = [NSString stringWithFormat:@"含不计免赔。%@", dataModel.thirdsumTip];
@@ -179,7 +182,6 @@
         return height;
     });
     //cell准备重绘
-    @weakify(self);
     ins[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
         @strongify(self);
@@ -206,7 +208,9 @@
             [discountL setCornerRadius:2 withBorderColor:HEXCOLOR(@"#ff7428") borderWidth:0.5];
         }
         //帮助按钮
+        @weakify(self);
         [[[helpBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            @strongify(self);
             DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
             vc.url = [InsHelpWebURL safetyObjectAtIndex:insIndex];
             [self.navigationController pushViewController:vc animated:YES];

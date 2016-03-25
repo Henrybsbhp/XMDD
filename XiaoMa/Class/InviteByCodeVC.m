@@ -76,8 +76,10 @@
 {
     GetGroupPasswordOp * op = [GetGroupPasswordOp operation];
     op.req_groupId = self.groupId;
+    @weakify(self);
     [[op rac_postRequest] subscribeNext:^(GetGroupPasswordOp * rspOp) {
         
+        @strongify(self);
         self.tableView.hidden = NO;
         [self.view stopActivityAnimation];
         
@@ -86,6 +88,7 @@
         [self.tableView reloadData];
     } error:^(NSError *error) {
         
+        @strongify(self);
         self.tableView.hidden = YES;
         [self.view stopActivityAnimation];
         @weakify(self);
@@ -190,7 +193,10 @@
     [copyBtn setBorderColor:HEXCOLOR(@"#18d05a")];
     [copyBtn setBorderWidth:1];
     
+    @weakify(self);
     [[[copyBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        @strongify(self);
         UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
         pasteboard.string = self.cipherForCopy;
         
@@ -225,8 +231,10 @@
     UIButton *btn = (UIButton *)[cell.contentView viewWithTag:1001];
     if (indexPath.section == 1) {
         [btn setTitle:@"分享入团口令" forState:UIControlStateNormal];
+        @weakify(self);
         [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
+            @strongify(self);
             [gAppDelegate.pasteboardoModel prepareForShareWhisper:self.wordForShare];
             
             InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
@@ -324,6 +332,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
+}
+
+-(void)dealloc
+{
+    DebugLog(@"InviteByCode dealloc");
 }
 
 @end
