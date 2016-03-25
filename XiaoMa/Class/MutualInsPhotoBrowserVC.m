@@ -17,7 +17,7 @@
 
 -(void)dealloc
 {
-    
+    DebugLog(@"MutualInsPhotoBrowserVC dealloc");
 }
 
 - (void)viewDidLoad {

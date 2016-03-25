@@ -47,13 +47,13 @@
 {
     self.tableView.dataSource = nil;
     self.tableView.delegate = nil;
+    DebugLog(@"MutualInsClaimDetailVC dealloc");
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
     [self loadData];
-    [self convertAccount:@"6222021202046522380"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -279,8 +279,7 @@
     op.req_claimid = self.claimid;
     op.req_agreement = agreement;
     op.req_bankcardno = [NSNumber numberWithInteger:self.bankcardno.integerValue];
-    [[[op rac_postRequest]initially:^{
-    }]subscribeNext:^(id x) {
+    [[op rac_postRequest]subscribeNext:^(id x) {
         @strongify(self)
         [alert show];
         [self loadData];

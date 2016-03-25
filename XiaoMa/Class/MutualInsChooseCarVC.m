@@ -23,7 +23,7 @@
 
 -(void)dealloc
 {
-    
+    DebugLog(@"MutualInsChooseCarVC dealloc");
 }
 
 

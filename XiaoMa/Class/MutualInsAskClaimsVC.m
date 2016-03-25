@@ -30,6 +30,7 @@
 {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
+    DebugLog(@"MutualInsAskClaimsVC dealloc");
 }
 
 - (void)viewDidLoad {
