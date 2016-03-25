@@ -24,7 +24,9 @@
 
 - (void)dealloc
 {
-    DebugLog(@"MutualInsGroupInfoVC dealloc");
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"MutualInsGroupInfoVC deallocated");
 }
 
 - (void)viewDidLoad {
@@ -254,11 +256,6 @@
     return attrText;
 }
 
-- (void)dealloc
-{
-    self.tableView.delegate = nil;
-    self.tableView.dataSource = nil;
-    DebugLog(@"MutualInsGroupInfoVC deallocated");
-}
+
 
 @end

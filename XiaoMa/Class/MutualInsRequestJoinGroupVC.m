@@ -22,7 +22,9 @@
 
 - (void)dealloc
 {
-    DebugLog(@"MutualInsRequestJoinGroupVC dealloc");
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"MutualInsRequestJoinGroupVC deallocated");
 }
 
 
@@ -223,13 +225,6 @@
     NSAttributedString *attrText = [[NSAttributedString alloc] initWithString:string attributes:@{ NSParagraphStyleAttributeName : style}];
     
     return attrText;
-}
-
-- (void)dealloc
-{
-    self.tableView.delegate = nil;
-    self.tableView.dataSource = nil;
-    DebugLog(@"MutualInsRequestJoinGroupVC deallocated");
 }
 
 
