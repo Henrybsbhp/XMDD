@@ -93,22 +93,27 @@
 
 - (void)requestGetGroupName
 {
+    @weakify(self);
     ApplyCooperationGroupOp * op = [[ApplyCooperationGroupOp alloc] init];
     [[[op rac_postRequest] initially:^{
         
+        @strongify(self)
         self.isLoadingGroupName = YES;
     }] subscribeNext:^(ApplyCooperationGroupOp * rop) {
         
+        @strongify(self)
         self.isLoadingGroupName = NO;
         self.groupNameString = rop.rsp_name;
     } error:^(NSError *error) {
         
+        @strongify(self)
         self.isLoadingGroupName = NO;
     }];
 }
 
 - (void)requestCreateGroup:(NSString *)groupNameToCreate
 {
+    @weakify(self);
     CreateGroupOp *op = [[CreateGroupOp alloc] init];
     op.req_name = groupNameToCreate;
     
@@ -117,6 +122,7 @@
         [gToast showingWithText:@"建团中..."];
     }] subscribeNext:^(CreateGroupOp *rop) {
         
+        @strongify(self)
         [gToast dismiss];
         [self showAlertView:groupNameToCreate andCipher:rop.rsp_cipher andGroupId:rop.rsp_groupid];
         
@@ -144,6 +150,7 @@
     HKAlertActionItem *invite = [HKAlertActionItem itemWithTitle:@"邀请好友" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
     HKAlertActionItem *complete = [HKAlertActionItem itemWithTitle:@"完善资料" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
     alertVC.actionItems = @[invite, complete];
+    
     [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
         
         [alertView dismiss];
@@ -367,7 +374,11 @@
     groupTextField.layer.borderWidth = 1;
     groupTextField.layer.masksToBounds = YES;
     groupTextField.text = self.textFieldString;
+    
+    @weakify(self)
     [groupTextField.rac_textSignal subscribeNext:^(id x) {
+        
+        @strongify(self)
         self.textFieldString = x;
     }];
     
@@ -377,10 +388,11 @@
         return value.length;
     }] subscribeNext:^(id x) {
        
+        @strongify(self)
         groupTextField.text = x;
         self.textFieldString = x;
     }];
-    
+
     [[RACObserve(self, isLoadingGroupName) distinctUntilChanged] subscribeNext:^(NSNumber * number) {
         
         BOOL isloading = [number boolValue];
