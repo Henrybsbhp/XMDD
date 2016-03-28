@@ -11,6 +11,7 @@
 #import "SearchCooperationGroupOp.h"
 #import "MutualInsGroupInfoVC.h"
 #import "HKImageAlertVC.h"
+#import "GroupIntroductionVC.h"
 
 @implementation PasteboardModel
 
@@ -77,6 +78,7 @@
         InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
         alertVC.alertType = InviteAlertTypeJoin;
         alertVC.groupName = rop.rsp_name;
+        alertVC.groupType = rop.rsp_groupType;
         alertVC.leaderName = rop.rsp_creatorname;
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:self.cancelClickBlock];
         HKAlertActionItem *join = [HKAlertActionItem itemWithTitle:@"确定加入" color:HEXCOLOR(@"#18d06a") clickBlock:self.nextClickBlock];
@@ -86,13 +88,23 @@
             [UIPasteboard generalPasteboard].string = @"";
             [alertView dismiss];
             if (index == 1) {
-                
-                MutualInsGroupInfoVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGroupInfoVC"];
-                vc.groupId = rop.rsp_groupid;
-                vc.groupCreateName = rop.rsp_creatorname;
-                vc.groupName = rop.rsp_name;
-                vc.cipher = rop.rsp_cipher;
-                [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
+                if (rop.rsp_groupType == GroupTypeByself) {
+                    MutualInsGroupInfoVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGroupInfoVC"];
+                    vc.groupId = rop.rsp_groupid;
+                    vc.groupCreateName = rop.rsp_creatorname;
+                    vc.groupName = rop.rsp_name;
+                    vc.cipher = rop.rsp_cipher;
+                    [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
+                }
+                else {
+                    GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
+                    vc.titleStr = @"平台团介绍";
+                    vc.groupType = MutualGroupTypeSystem;
+                    vc.btnType = BtnTypeJoinNow;
+                    vc.groupId = rop.rsp_groupid;
+                    vc.groupName = rop.rsp_name;
+                    [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
+                }
             }
         }];
     } error:^(NSError *error) {

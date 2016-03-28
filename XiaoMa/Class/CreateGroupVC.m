@@ -94,7 +94,6 @@
 - (void)requestGetGroupName
 {
     ApplyCooperationGroupOp * op = [[ApplyCooperationGroupOp alloc] init];
-    @weakify(self)
     [[[op rac_postRequest] initially:^{
         
         @strongify(self)
@@ -116,7 +115,6 @@
     CreateGroupOp *op = [[CreateGroupOp alloc] init];
     op.req_name = groupNameToCreate;
     
-    @weakify(self)
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"建团中..."];
@@ -150,7 +148,6 @@
     HKAlertActionItem *invite = [HKAlertActionItem itemWithTitle:@"邀请好友" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
     HKAlertActionItem *complete = [HKAlertActionItem itemWithTitle:@"完善资料" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
     alertVC.actionItems = @[invite, complete];
-    
     [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
         
         [alertView dismiss];
