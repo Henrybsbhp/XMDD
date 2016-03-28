@@ -6059,8 +6059,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6144,7 +6144,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0b097263-ee87-4d3e-a27d-1c4766c784b5";
+				PROVISIONING_PROFILE = "2e1ee95d-0c71-455c-a3b9-613059936363";
 			};
 			name = Release;
 		};
