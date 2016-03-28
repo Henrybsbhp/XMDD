@@ -93,7 +93,6 @@
 
 - (void)requestGetGroupName
 {
-    @weakify(self);
     ApplyCooperationGroupOp * op = [[ApplyCooperationGroupOp alloc] init];
     @weakify(self)
     [[[op rac_postRequest] initially:^{
@@ -114,7 +113,6 @@
 
 - (void)requestCreateGroup:(NSString *)groupNameToCreate
 {
-    @weakify(self);
     CreateGroupOp *op = [[CreateGroupOp alloc] init];
     op.req_name = groupNameToCreate;
     
