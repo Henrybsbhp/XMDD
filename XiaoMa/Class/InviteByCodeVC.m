@@ -379,7 +379,7 @@
     NSString *footerString;
     
     // 以下是分割源字符串为 NSArray 来和高亮文本重新拼接的步骤。
-    if ([sourceString containsString:string]) {
+    if ([sourceString rangeOfString:string].location != NSNotFound) {
         
         NSArray *stringArray = [sourceString componentsSeparatedByString:string];
         
@@ -464,4 +464,38 @@
     
     return attributedString;
 }
+
+- (UITableViewCell *)contentCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"ContentCell"];
+    UILabel *contentLabel = (UILabel *)[cell.contentView viewWithTag:1001];
+    if (indexPath.section == 1) {
+        if (indexPath.row == 1) {
+            contentLabel.text = @"1，您需要通过微信分享入团口令邀请您的好友加入";
+        }
+        else if (indexPath.row == 2) {
+            contentLabel.text = @"2，您的好友复制口令后，打开App即可成功加入您创建的团";
+        }
+        else {
+            contentLabel.attributedText = [self attributedStringWithParticularHighlightString:@"首页→小马互助→自组互助团→申请加入" fromSourceString:@"如果您的好友无法长按复制暗号，可打开小马达达后，通过“首页→小马互助→自组互助团→申请加入”后录入您互助团的暗号同样可成功加入您的互助团 \n " withPositionTag:2];
+        }
+    }
+    if (indexPath.section == 2) {
+        if (indexPath.row == 1) {
+            contentLabel.text = @"1，您需要先邀请您的好友下载小马达达App";
+        }
+        else {
+            contentLabel.text = @"2，受邀好友下载成功后，告知受邀好友入团暗号或分享入团口令邀请对方加入";
+        }
+    }
+    
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
 @end
