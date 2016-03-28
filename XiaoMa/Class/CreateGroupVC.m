@@ -96,16 +96,13 @@
     ApplyCooperationGroupOp * op = [[ApplyCooperationGroupOp alloc] init];
     [[[op rac_postRequest] initially:^{
         
-        @strongify(self)
         self.isLoadingGroupName = YES;
     }] subscribeNext:^(ApplyCooperationGroupOp * rop) {
         
-        @strongify(self)
         self.isLoadingGroupName = NO;
         self.groupNameString = rop.rsp_name;
     } error:^(NSError *error) {
         
-        @strongify(self)
         self.isLoadingGroupName = NO;
     }];
 }
@@ -120,7 +117,6 @@
         [gToast showingWithText:@"建团中..."];
     }] subscribeNext:^(CreateGroupOp *rop) {
         
-        @strongify(self)
         [gToast dismiss];
         [self showAlertView:groupNameToCreate andCipher:rop.rsp_cipher andGroupId:rop.rsp_groupid];
         
