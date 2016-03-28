@@ -175,7 +175,7 @@
         [alertVC dismiss];
         [gPhoneHelper makePhone:@"4007111111"];
     }];
-    HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"快速报案可拨打客服电话：4007-111-111，是否立即拨打？" ActionItems:@[confirm,cancel]];
+    HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"快速报案可拨打客服电话：4007-111-111，是否立即拨打？" ActionItems:@[cancel,confirm]];
     [alert show];
 }
 
