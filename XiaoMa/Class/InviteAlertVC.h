@@ -15,11 +15,18 @@ typedef enum : NSUInteger {
     InviteAlertTypeGotoWechat  = 3
 } InviteAlertType;
 
+typedef enum : NSUInteger {
+    GroupTypeByself        = 1,
+    GroupTypeAutoGroup     = 2
+} GroupType;
+
 @interface InviteAlertVC : HKAlertVC
 
 @property (nonatomic, assign)InviteAlertType alertType;
 
 @property (nonatomic, strong)NSString * groupName;
+
+@property (nonatomic, assign)GroupType groupType;
 
 @property (nonatomic, strong)NSString * leaderName;
 

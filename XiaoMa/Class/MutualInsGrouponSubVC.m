@@ -209,6 +209,7 @@
 - (void)actionPay {
     MutualInsOrderInfoVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
     vc.contractId = self.groupDetail.rsp_contractid;
+    vc.group = self.group;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

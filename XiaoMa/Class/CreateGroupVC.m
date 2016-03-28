@@ -35,6 +35,13 @@
 
 @implementation CreateGroupVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"CreateGroupVC deallocated");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -131,7 +138,7 @@
     [alertVC setCloseAction:^{
         
         @strongify(alertVC);
-       [alertVC dismiss];
+        [alertVC dismiss];
         [self jumpToHomePage];
     }];
     HKAlertActionItem *invite = [HKAlertActionItem itemWithTitle:@"邀请好友" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
@@ -160,8 +167,11 @@
     vc.model.disableEditingCar = YES; //不可修改
     vc.canJoin = YES; //用于控制爱车页面底部view
     vc.model.originVC = self.originVC;
+    
+    @weakify(self)
     [vc setFinishPickActionForMutualIns:^(MyCarListVModel *carModel, UIView * loadingView) {
         
+        @strongify(self)
         //爱车页面入团按钮委托实现
         [self requestApplyJoinGroupWithID:groupId groupName:groupname carModel:carModel loadingView:loadingView];
     }];
@@ -205,11 +215,14 @@
     ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
     op.req_groupid = groupId;
     op.req_carid = carModel.selectedCar.carId;
+    
+    @weakify(self)
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"团队加入中..." inView:view];
     }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
         
+        @strongify(self)
         [gToast dismissInView:view];
         
         MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
@@ -220,6 +233,7 @@
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
+        @strongify(self)
         if (error.code == 6115804) {
             [gToast dismissInView:view];
             HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
@@ -360,20 +374,24 @@
     groupTextField.layer.borderWidth = 1;
     groupTextField.layer.masksToBounds = YES;
     groupTextField.text = self.textFieldString;
+    
+    @weakify(self)
     [groupTextField.rac_textSignal subscribeNext:^(id x) {
+        
+        @strongify(self)
         self.textFieldString = x;
     }];
-    
     
     [[[RACObserve(self, groupNameString) distinctUntilChanged] filter:^BOOL(NSString * value) {
       
         return value.length;
     }] subscribeNext:^(id x) {
        
+        @strongify(self)
         groupTextField.text = x;
         self.textFieldString = x;
     }];
-    
+
     [[RACObserve(self, isLoadingGroupName) distinctUntilChanged] subscribeNext:^(NSNumber * number) {
         
         BOOL isloading = [number boolValue];
@@ -427,6 +445,7 @@
     
     return attrText;
 }
+
 
 
 @end

@@ -55,6 +55,11 @@
 
 @implementation MutualInsChooseVC
 
+- (void)dealloc
+{
+    DebugLog(@"MutualInsChooseVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -165,15 +170,18 @@
     //初始化身份标识、是否选中（默认选中）
     CKDict * ins = [CKDict dictWith:@{@"isSelected":@1, kCKCellID:@"InsContentCell"}];
     //cell行高
+    @weakify(self);
     ins[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        //是否显示优惠信息
-        if (insIndex == 2) {
-            return 48;
+        
+        @strongify(self);
+        CGFloat height = 66;
+        if (insIndex == 1) {
+            NSString * tipStr = [NSString stringWithFormat:@"含不计免赔。%@", dataModel.thirdsumTip];
+            height = [tipStr labelSizeWithWidth:(self.tableView.frame.size.width - 118) font:[UIFont systemFontOfSize:12]].height + 51;
         }
-        return 66;
+        return height;
     });
     //cell准备重绘
-    @weakify(self);
     ins[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
         @strongify(self);
@@ -200,7 +208,9 @@
             [discountL setCornerRadius:2 withBorderColor:HEXCOLOR(@"#ff7428") borderWidth:0.5];
         }
         //帮助按钮
+        @weakify(self);
         [[[helpBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            @strongify(self);
             DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
             vc.url = [InsHelpWebURL safetyObjectAtIndex:insIndex];
             [self.navigationController pushViewController:vc animated:YES];
@@ -215,18 +225,23 @@
             itemL.hidden = YES;
             connerImgV.hidden = YES;
             itemBtn.hidden = YES;
-            
+            [tipL mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(insNameL.mas_bottom).offset(6);
+                make.height.mas_equalTo(16);
+                make.left.equalTo(insNameL);
+                make.right.equalTo(itemBtn.mas_right);
+            }];
         }
         else {
             if (insIndex == 1) {
                 selectBtn.selected = YES;
                 ins[@"isSelected"] = @YES;
                 insNameL.textColor = HEXCOLOR(@"#454545");
-                if ([[ThirdInsArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue] < [dataModel.minthirdSum integerValue]) {
-                    tipL.hidden = YES;
+                if ([[ThirdInsArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue] >= [dataModel.minthirdSum integerValue]) {
+                    tipL.text = [NSString stringWithFormat:@"含不计免赔。%@", dataModel.thirdsumTip];
                 }
                 else {
-                    tipL.hidden = NO;
+                    tipL.text = @"含不计免赔。";
                 }
             }
             else {
@@ -245,14 +260,13 @@
                     }
                 }];
                 if ([[ThirdInsArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue] >= [dataModel.minthirdSum integerValue] && self.seatInsSelect >= [dataModel.minseatSum integerValue]) {
-                    tipL.hidden = NO;
+                    tipL.text = [NSString stringWithFormat:@"含不计免赔。%@", dataModel.seatsumTip];
                 }
                 else {
-                    tipL.hidden = YES;
+                    tipL.text = @"含不计免赔。";
                 }
             }
             
-            tipL.text = insIndex == 1 ? dataModel.thirdsumTip : dataModel.seatsumTip;
             itemL.text = insIndex == 1 ? [NSString stringWithFormat:@"%ld万", [[ThirdInsArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue]] : [NSString stringWithFormat:@"%ld万/座", (long)self.seatInsSelect];
             NSArray * sheetArr = insIndex == 1 ? ThirdInsArr : SeatInsArr;
             [[[itemBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -279,6 +293,11 @@
                             CKDict *seatInsDic = self.datasource[@"insSection"][2];
                             seatInsDic[@"isSelected"] = @YES;
                         }
+                        else {
+                            //更改座位险状态
+                            CKDict *seatInsDic = self.datasource[@"insSection"][2];
+                            seatInsDic[@"isSelected"] = @NO;
+                        }
                     }
                     else {
                         if (btnIndex == 5) {
@@ -289,16 +308,18 @@
                     
                     //根据选择刷新当前行高
                     ins[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-                        @strongify(self);
+                        CGFloat height = 66;
                         //三者险所选金额大于下发金额
                         if (insIndex == 1 && [sheetArr[btnIndex] integerValue] >= [dataModel.minthirdSum integerValue]) {
-                            return 66;
+                            NSString * tipStr = [NSString stringWithFormat:@"含不计免赔。%@", dataModel.thirdsumTip];
+                            height = [tipStr labelSizeWithWidth:(self.tableView.frame.size.width - 118) font:[UIFont systemFontOfSize:12]].height + 51;
                         }
                         //三者险和座位险金额都大于下发金额
                         if (insIndex == 2 && [[ThirdInsArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue] >= [dataModel.minthirdSum integerValue] && [sheetArr[btnIndex] integerValue] >= [dataModel.minseatSum integerValue]) {
-                            return 66;
+                            NSString * tipStr = [NSString stringWithFormat:@"含不计免赔。%@", dataModel.seatsumTip];
+                            height = [tipStr labelSizeWithWidth:(self.tableView.frame.size.width - 118) font:[UIFont systemFontOfSize:12]].height + 51;
                         }
-                        return 48;
+                        return height;
                     });
                     
                     //计算价格并刷新
@@ -374,7 +395,7 @@
     CKDict * estTitle = [CKDict dictWith:@{kCKCellID:@"EstimateTitleCell"}];
     //cell行高
     estTitle[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 45;
+        return 60;
     });
     //cell准备重绘
     @weakify(self);
@@ -416,7 +437,6 @@
                     [self calculateSeatPrice:dataModel];
                     [self.tableView reloadData];
                 }
-                
             }];
         }];
     });
@@ -439,9 +459,9 @@
         UILabel *tipL = [cell.contentView viewWithTag:1002];
         
         priceL.text = [NSString formatForPrice:self.totalPrice];
-        NSString * tipStr = [NSString stringWithFormat:@"若未出险，还可返还%@", [NSString formatForPrice:self.carPrice]];
+        NSString * tipStr = [NSString stringWithFormat:@"若未出险，车损宝可全额返还%@元", [NSString formatForPrice:self.carPrice]];
         NSMutableAttributedString * attributeStr = [[NSMutableAttributedString alloc] initWithString:tipStr];
-        [attributeStr addAttributeForegroundColor:HEXCOLOR(@"#FF7428") range:NSMakeRange(9, tipStr.length - 9)];
+        [attributeStr addAttributeForegroundColor:HEXCOLOR(@"#FF7428") range:NSMakeRange(13, tipStr.length - 14)];
         tipL.attributedText = attributeStr;
     });
     return estPrice;
@@ -605,12 +625,6 @@
     } error:^(NSError *error) {
         [gToast showText:error.domain];
     }];
-}
-
-
--(void)dealloc
-{
-    DebugLog(@"MutualInsChooseVC dealloc");
 }
 
 @end

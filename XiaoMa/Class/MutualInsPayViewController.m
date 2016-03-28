@@ -17,6 +17,7 @@
 #import "OrderPaidSuccessOp.h"
 #import "MutualInsPayResultVC.h"
 #import "MutualInsActivityVC.h"
+#import "MutualInsStore.h"
 
 @interface MutualInsPayViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 
@@ -40,6 +41,11 @@
 @end
 
 @implementation MutualInsPayViewController
+
+- (void)dealloc
+{
+    DebugLog(@"MutualInsPayViewController dealloc");
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -164,7 +170,7 @@
         totalCoupon = totalCoupon + c.couponAmount;
     }
     CGFloat couponAmt = MIN(self.maxCouponAmt, totalCoupon) ;
-    CGFloat payfee = self.contract.total - couponAmt;
+    CGFloat payfee = self.contract.total - self.contract.couponmoney - couponAmt;
     NSString * str = [NSString stringWithFormat:@"￥%@",[NSString formatForPrice:payfee]];
     self.priceLb.text = str;
 }
@@ -249,6 +255,7 @@
         @strongify(self);        
         [self gotoPaidSuccessVC];
         
+        [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.group.memberId andGroupID:self.group.groupId] sendAndIgnoreError];
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 5;
         iop.req_tradeno = op.rsp_tradeno;

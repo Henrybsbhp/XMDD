@@ -18,7 +18,7 @@
     self.rsp_lstinscomp = dict[@"lstinscomp"];
     self.rsp_secinscomp = dict[@"secinscomp"];
     self.rsp_insenddate = [NSDate dateWithD10Text:dict[@"insenddate"]];
-	
+	self.rsp_mininsenddate = [NSDate dateWithD10Text:dict[@"mininsenddate"]];
     return self;
 }
 

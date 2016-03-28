@@ -355,7 +355,6 @@
 		4E97D71A1C9003A500FC418F /* MutualInsScencePhotoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E97D7191C9003A500FC418F /* MutualInsScencePhotoVC.m */; };
 		4EA1CB161C96961A006CCBEA /* MutualInsPayResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1CB151C96961A006CCBEA /* MutualInsPayResultVC.m */; };
 		4EA1CB231C969830006CCBEA /* MutualInsScencePhotoVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1CB211C969830006CCBEA /* MutualInsScencePhotoVM.m */; };
-		4EB2D9021C9BD60500D74EC0 /* MutualInsChooseBankVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB2D9011C9BD60500D74EC0 /* MutualInsChooseBankVC.m */; };
 		4EC6EA801C22A5480092BF6E /* HistoryCollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC6EA7F1C22A5480092BF6E /* HistoryCollectionVC.m */; };
 		4ECF21951C9C0BE5004E76DD /* MutualInsActivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECF21941C9C0BE5004E76DD /* MutualInsActivityVC.m */; };
 		4EED3ED71C97D65900EB081E /* MutualInsClaimAccountVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EED3ED61C97D65900EB081E /* MutualInsClaimAccountVC.m */; };
@@ -407,7 +406,6 @@
 		507A4DDF1B74462200E0BF1E /* UnbundlingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 507A4DDE1B74462200E0BF1E /* UnbundlingVC.m */; };
 		507EFACC1C15AEB60081FECB /* GetAreaByPcdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 507EFACB1C15AEB60081FECB /* GetAreaByPcdOp.m */; };
 		508150CE1B84703200B16633 /* DetailsAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508150CD1B84703200B16633 /* DetailsAlertVC.m */; };
-		50819CC01C98F66800A6B8B2 /* DeleteMyGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50819CBF1C98F66800A6B8B2 /* DeleteMyGroupOp.m */; };
 		50819CDF1C99306E00A6B8B2 /* GetGroupPasswordOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50819CDE1C99306E00A6B8B2 /* GetGroupPasswordOp.m */; };
 		50819CE91C99438E00A6B8B2 /* InviteAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50819CE81C99438E00A6B8B2 /* InviteAlertVC.m */; };
 		5088F1431CA13381006DA415 /* AdListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5088F1421CA13381006DA415 /* AdListData.m */; };
@@ -1445,8 +1443,6 @@
 		4EA1CB141C96961A006CCBEA /* MutualInsPayResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsPayResultVC.h; sourceTree = "<group>"; };
 		4EA1CB151C96961A006CCBEA /* MutualInsPayResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsPayResultVC.m; sourceTree = "<group>"; };
 		4EA1CB211C969830006CCBEA /* MutualInsScencePhotoVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsScencePhotoVM.m; sourceTree = "<group>"; };
-		4EB2D9001C9BD60500D74EC0 /* MutualInsChooseBankVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsChooseBankVC.h; sourceTree = "<group>"; };
-		4EB2D9011C9BD60500D74EC0 /* MutualInsChooseBankVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsChooseBankVC.m; sourceTree = "<group>"; };
 		4EC6EA7E1C22A5480092BF6E /* HistoryCollectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryCollectionVC.h; sourceTree = "<group>"; };
 		4EC6EA7F1C22A5480092BF6E /* HistoryCollectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryCollectionVC.m; sourceTree = "<group>"; };
 		4ECF21931C9C0BE5004E76DD /* MutualInsActivityVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsActivityVC.h; sourceTree = "<group>"; };
@@ -1544,8 +1540,6 @@
 		507EFACB1C15AEB60081FECB /* GetAreaByPcdOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAreaByPcdOp.m; path = Class/GetAreaByPcdOp.m; sourceTree = "<group>"; };
 		508150CC1B84703200B16633 /* DetailsAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsAlertVC.h; sourceTree = "<group>"; };
 		508150CD1B84703200B16633 /* DetailsAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsAlertVC.m; sourceTree = "<group>"; };
-		50819CBE1C98F66800A6B8B2 /* DeleteMyGroupOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteMyGroupOp.h; path = Class/DeleteMyGroupOp.h; sourceTree = "<group>"; };
-		50819CBF1C98F66800A6B8B2 /* DeleteMyGroupOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteMyGroupOp.m; path = Class/DeleteMyGroupOp.m; sourceTree = "<group>"; };
 		50819CDD1C99306E00A6B8B2 /* GetGroupPasswordOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetGroupPasswordOp.h; path = Class/GetGroupPasswordOp.h; sourceTree = "<group>"; };
 		50819CDE1C99306E00A6B8B2 /* GetGroupPasswordOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetGroupPasswordOp.m; path = Class/GetGroupPasswordOp.m; sourceTree = "<group>"; };
 		50819CE71C99438E00A6B8B2 /* InviteAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteAlertVC.h; sourceTree = "<group>"; };
@@ -3930,8 +3924,6 @@
 				4EED3ED61C97D65900EB081E /* MutualInsClaimAccountVC.m */,
 				4E043B181C9A511200742268 /* MutualInsChooseCarVC.h */,
 				4E043B191C9A511200742268 /* MutualInsChooseCarVC.m */,
-				4EB2D9001C9BD60500D74EC0 /* MutualInsChooseBankVC.h */,
-				4EB2D9011C9BD60500D74EC0 /* MutualInsChooseBankVC.m */,
 				4ECF21931C9C0BE5004E76DD /* MutualInsActivityVC.h */,
 				4ECF21941C9C0BE5004E76DD /* MutualInsActivityVC.m */,
 			);
@@ -4651,8 +4643,6 @@
 				6B16D6381C92CBD600322B70 /* GetCooperationMyGroupOp.m */,
 				6B16D63D1C95517000322B70 /* GetCooperationAutoGroupOp.h */,
 				6B16D63E1C95517000322B70 /* GetCooperationAutoGroupOp.m */,
-				50819CBE1C98F66800A6B8B2 /* DeleteMyGroupOp.h */,
-				50819CBF1C98F66800A6B8B2 /* DeleteMyGroupOp.m */,
 				50819CDD1C99306E00A6B8B2 /* GetGroupPasswordOp.h */,
 				50819CDE1C99306E00A6B8B2 /* GetGroupPasswordOp.m */,
 				50F0FF621C9A96B7009A94A3 /* GetMutualInsListOp.h */,
@@ -5530,7 +5520,6 @@
 				506008D41B74631800B8761D /* DrawingBoardView.m in Sources */,
 				18E592381C1A5CEE006010D9 /* InsPayResultVC.m in Sources */,
 				18D17F701B5390F400F66F04 /* VCodeInputField.m in Sources */,
-				4EB2D9021C9BD60500D74EC0 /* MutualInsChooseBankVC.m in Sources */,
 				6B26EEB31C8EC23200428EC4 /* ZFCRotatingPlaneActivityIndicatorView.m in Sources */,
 				505E5FCD1BD7356B00857819 /* WKWebViewJavascriptBridge.m in Sources */,
 				6BCF624A1B1739E70064AE32 /* CommissionCouponViewController.m in Sources */,
@@ -5707,7 +5696,6 @@
 				50819CE91C99438E00A6B8B2 /* InviteAlertVC.m in Sources */,
 				6BEA56CF1AE24DCE000D19C1 /* DataVerifier.m in Sources */,
 				6BC80C951C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.m in Sources */,
-				50819CC01C98F66800A6B8B2 /* DeleteMyGroupOp.m in Sources */,
 				6BB884BC1AE0BB9600EBD8F4 /* UIView+JTLoadingView.m in Sources */,
 				18273F251C7ED1F8004192B3 /* GascardChargeByStagesOp.m in Sources */,
 				1893712B1B0E0D460030FDE1 /* TTTAttributedLabel.m in Sources */,
@@ -6071,8 +6059,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6156,7 +6144,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0b097263-ee87-4d3e-a27d-1c4766c784b5";
+				PROVISIONING_PROFILE = "2e1ee95d-0c71-455c-a3b9-613059936363";
 			};
 			name = Release;
 		};

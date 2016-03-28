@@ -16,6 +16,8 @@
 @property (nonatomic,strong) NSString* rsp_secinscomp;
 ///商业险到期日
 @property (nonatomic,strong) NSDate* rsp_insenddate;
+///商业险到期日(系统设置的最小值)
+@property (nonatomic,strong) NSDate* rsp_mininsenddate;
 
 
 @end
