@@ -95,6 +95,7 @@
 {
     @weakify(self);
     ApplyCooperationGroupOp * op = [[ApplyCooperationGroupOp alloc] init];
+    @weakify(self)
     [[[op rac_postRequest] initially:^{
         
         @strongify(self)
@@ -117,6 +118,7 @@
     CreateGroupOp *op = [[CreateGroupOp alloc] init];
     op.req_name = groupNameToCreate;
     
+    @weakify(self)
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"建团中..."];
@@ -153,6 +155,7 @@
     
     [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
         
+        @strongify(self)
         [alertView dismiss];
         if (index) {
             
@@ -174,8 +177,11 @@
     vc.model.disableEditingCar = YES; //不可修改
     vc.canJoin = YES; //用于控制爱车页面底部view
     vc.model.originVC = self.originVC;
+    
+    @weakify(self)
     [vc setFinishPickActionForMutualIns:^(MyCarListVModel *carModel, UIView * loadingView) {
         
+        @strongify(self)
         //爱车页面入团按钮委托实现
         [self requestApplyJoinGroupWithID:groupId groupName:groupname carModel:carModel loadingView:loadingView];
     }];
@@ -219,11 +225,14 @@
     ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
     op.req_groupid = groupId;
     op.req_carid = carModel.selectedCar.carId;
+    
+    @weakify(self)
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"团队加入中..." inView:view];
     }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
         
+        @strongify(self)
         [gToast dismissInView:view];
         
         MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
@@ -234,6 +243,7 @@
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
+        @strongify(self)
         if (error.code == 6115804) {
             [gToast dismissInView:view];
             HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
@@ -381,7 +391,6 @@
         @strongify(self)
         self.textFieldString = x;
     }];
-    
     
     [[[RACObserve(self, groupNameString) distinctUntilChanged] filter:^BOOL(NSString * value) {
       
