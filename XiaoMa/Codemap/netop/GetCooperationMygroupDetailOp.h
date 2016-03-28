@@ -40,9 +40,9 @@
 ///剩余时间倒计时提示语
 @property (nonatomic,strong) NSString* rsp_timetip;
 ///池子最大金额
-@property (nonatomic,strong) NSString* rsp_totalpoolamt;
+@property (nonatomic,assign) float rsp_totalpoolamt;
 ///池子当前金额
-@property (nonatomic,strong) NSString* rsp_presentpoolamt;
+@property (nonatomic,assign) float rsp_presentpoolamt;
 ///各种状态倒计时剩余时间
 @property (nonatomic,assign) long long rsp_lefttime;
 ///没有车直接报价按钮是否显示
@@ -51,6 +51,8 @@
 @property (nonatomic,strong) NSString* rsp_buttonname;
 ///是否当前人是团长本人
 @property (nonatomic,assign) BOOL rsp_ifgroupowner;
+///团长是否有车
+@property (nonatomic,assign) BOOL rsp_ifownerhascar;
 ///团记录ID
 @property (nonatomic,strong) NSNumber* rsp_groupid;
 ///用于暂存接口返回时的时间戳
