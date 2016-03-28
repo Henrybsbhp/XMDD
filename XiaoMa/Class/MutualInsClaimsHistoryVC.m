@@ -78,7 +78,7 @@
         hkLabel.trapeziumColor = [UIColor colorWithHex:@"#18D06A" alpha:1];
     }
     hkLabel.textColor = [UIColor whiteColor];
-    
+
     UIView *backView = [cell viewWithTag:1000];
     [self addCorner:backView];
     
@@ -138,23 +138,17 @@
 {
     GetCooperationClaimsListOp *op = [GetCooperationClaimsListOp new];
     [[[op rac_postRequest]initially:^{
-        [self.tableView hideDefaultEmptyView];
         [self.tableView.refreshView beginRefreshing];
     }]subscribeNext:^(id x) {
         self.dataArr = op.rsp_claimlist;
         [self.tableView reloadData];
-        [self.tableView.refreshView endRefreshing];
         if (self.dataArr.count == 0)
         {
             [self.tableView showDefaultEmptyViewWithText:@"暂无理赔记录"];
         }
-        else
-        {
-            [self.tableView hideDefaultEmptyView];
-        }
-    }error:^(NSError *error) {
-        [self.tableView showDefaultEmptyViewWithText:@"暂无理赔记录"];
         [self.tableView.refreshView endRefreshing];
+    }error:^(NSError *error) {
+        [self.tableView.refreshView stopActivityAnimation];
     }];
 }
 

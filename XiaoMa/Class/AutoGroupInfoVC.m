@@ -29,10 +29,6 @@
 
 @implementation AutoGroupInfoVC
 
--(void)dealloc {
-    DebugLog(@"AutoGroupInfoVC dealloc");
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -64,10 +60,7 @@
     self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
     [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     
-    @weakify(self);
     [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(id x) {
-
-        @strongify(self);
         [self requestAutoGroupArray];
     }];
 }
@@ -98,11 +91,9 @@
     op.city = gMapHelper.addrComponent.city;
     op.province = gMapHelper.addrComponent.province;
     op.district = gMapHelper.addrComponent.district;
-    @weakify(self);
     [[[op rac_postRequest] deliverOn:[RACScheduler mainThreadScheduler]]
      subscribeNext:^(GetCooperationAutoGroupOp * rop) {
         
-        @strongify(self);
         self.tableView.hidden = NO;
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
@@ -121,7 +112,6 @@
         }
     } error:^(NSError *error) {
         
-        @strongify(self);
         self.tableView.hidden = NO;
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
@@ -211,7 +201,7 @@
     NSDictionary * groupInfo = [self.autoGroupArray safetyObjectAtIndex:indexPath.section];
     
     titleLb.text = [groupInfo stringParamForName:@"name"];
-    tagLb.text = [NSString stringWithFormat:@"已有%ld入团", (long)[groupInfo integerParamForName:@"membercnt"]];
+    tagLb.text = [NSString stringWithFormat:@"已有%ld入团",[groupInfo integerParamForName:@"membercnt"]];
     
     tagLb.textColor = [groupInfo stringParamForName:@"tip"].length == 0 ? HEXCOLOR(@"#454545") : HEXCOLOR(@"#18D06A");
     return cell;
@@ -273,10 +263,7 @@
         }
     }
     
-    @weakify(self);
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
-        @strongify(self);
         if ([groupInfo boolParamForName:@"ingroup"] || [groupInfo stringParamForName:@"tip"].length == 0) {
             [self jumpToGroupDetail:indexPath];
         }
@@ -325,10 +312,8 @@
         vc.model.disableEditingCar = YES; //不可修改
         vc.canJoin = YES; //用于控制爱车页面底部view
         vc.model.originVC = self;
-        @weakify(self);
         [vc setFinishPickActionForMutualIns:^(MyCarListVModel * carModel, UIView * loadingView) {
             
-            @strongify(self);
             //爱车页面入团按钮委托实现
             [self requestApplyJoinGroupWithID:groupid groupName:groupname carModel:carModel loadingView:loadingView];
         }];
@@ -342,13 +327,10 @@
     ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
     op.req_groupid = groupId;
     op.req_carid = carModel.selectedCar.carId;
-    @weakify(self);
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"申请加入中..." inView:view];
     }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
-        
-        @strongify(self);
         
         [gToast dismissInView:view];
         
