@@ -247,11 +247,12 @@ typedef enum : NSInteger
     if (status == MutInsStatusUnderReview) {
         self.menuItems = $([self menuItemInvite], [self menuItemMakeCall]);
     }
-    else if (status == MutInsStatusToBePaid || status == MutInsStatusPaidForAll || status == MutInsStatusPaidForSelf) {
-        self.menuItems = $([self menuItemMyOrder], [self menuItemMakeCall]);
-    }
     else if (status == MutInsStatusAgreementTakingEffect) {
         self.menuItems = $([self menuItemMyOrder], [self menuItemInvite], [self menuItemMakeCall]);
+    }
+    else if (status == MutInsStatusToBePaid || status == MutInsStatusPaidForAll ||
+             status == MutInsStatusPaidForSelf || status == MutInsStatusGettedAgreement) {
+        self.menuItems = $([self menuItemMyOrder], [self menuItemMakeCall]);
     }
     else if (status == MutInsStatusReviewFailed || status == MutInsStatusGroupDissolved ||
              status == MutInsStatusGroupExpired || status == MutInsStatusJoinFailed) {
@@ -313,9 +314,11 @@ typedef enum : NSInteger
 }
 
 - (id)menuItemQuit {
-    if (self.groupDetail.rsp_ifgroupowner) {
+    //如果是团长且团长没有车，应该隐藏掉退团按钮
+    if (self.groupDetail.rsp_ifgroupowner && !self.groupDetail.rsp_ifownerhascar) {
         return CKNULL;
     }
+    
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Quit",@"title":@"退出该团",@"img":@"mins_exit"}];
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {

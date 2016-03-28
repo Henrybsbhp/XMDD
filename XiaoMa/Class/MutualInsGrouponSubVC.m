@@ -59,28 +59,26 @@
 {
     self.status = status;
     CKList *datasource;
-    if (status == MutInsStatusNeedCar || status == MutInsStatusNeedDriveLicense || status == MutInsStatusNeedInsList) {
-        datasource = $([self carsItem],[self splitLine1Item], [self arrowItem], [self descItem], [self timeItem],
-                       [self buttonItem], [self bottomItem]);
-    }
-    else if (status == MutInsStatusUnderReview || status == MutInsStatusReviewFailed || status == MutInsStatusNeedQuote) {
-        datasource = $([self carsItem],[self splitLine1Item], [self arrowItem], [self descItem], [self timeItem], [self bottomItem]);
-    }
-    else if (status == MutInsStatusNeedReviewAgain || status == MutInsStatusAccountingPrice || status == MutInsStatusPeopleNumberUment) {
-        datasource = $([self carsItem],[self splitLine1Item], [self arrowItem], [self descItem], [self timeItem],
+    if (status == MutInsStatusNeedCar || status == MutInsStatusNeedDriveLicense || status == MutInsStatusNeedInsList ||
+        status == MutInsStatusUnderReview || status == MutInsStatusNeedReviewAgain || status == MutInsStatusReviewFailed ||
+        status == MutInsStatusNeedQuote || status == MutInsStatusAccountingPrice || status == MutInsStatusPeopleNumberUment) {
+        
+        datasource = $([self carsItem],[self splitLineItem], [self arrowItem], [self descItem], [self timeItem],
                        [self buttonItem], [self bottomItem]);
     }
     else if (status == MutInsStatusToBePaid) {
         
-        datasource = $([self carsItem], [self splitLine2Item], [self arrowItem], [self waterWaveItem], [self descItem],
+        datasource = $([self carsItem], [self splitLineItem], [self arrowItem], [self waterWaveItem], [self descItem],
                        [self timeItem], [self buttonItem], [self bottomItem]);
     }
-    else if (status == MutInsStatusPaidForSelf) {
-        datasource = $([self carsItem], [self splitLine2Item], [self waterWaveItem], [self descItem], [self timeItem],
-                       [self bottomItem]);
+    else if (status == MutInsStatusPaidForSelf || status == MutInsStatusPaidForAll ||
+             status == MutInsStatusGettedAgreement || status == MutInsStatusAgreementTakingEffect) {
+        datasource = $([self carsItem], [self splitLineItem], [self waterWaveItem], [self descItem], [self timeItem],
+                       [self buttonItem], [self bottomItem]);
     }
     else {
-        datasource = $([self carsItem], [self splitLine2Item], [self waterWaveItem], [self descItem], [self bottomItem]);
+        datasource = $([self carsItem], [self splitLineItem], [self descItem], [self timeItem], [self buttonItem],
+                       [self bottomItem]);
     }
     self.datasource = datasource;
     [self.tableView reloadData];
@@ -120,7 +118,7 @@
     if (op.rsp_sharemoney > 0) {
         items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_licensenumber
                                           detailColor:MutInsTextDarkGrayColor],
-                  [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:op.rsp_carbrand
+                  [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:op.rsp_carbrand ? op.rsp_carbrand : @"暂无"
                                           detailColor:MutInsTextDarkGrayColor],
                   [MutualInsAlertVCItem itemWithTitle:@"互助资金" detailTitle:[NSString formatForRoundPrice2:op.rsp_sharemoney]
                                           detailColor:MutInsOrangeColor],
@@ -136,7 +134,7 @@
     else {
         items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_licensenumber
                                           detailColor:MutInsTextDarkGrayColor],
-                  [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:op.rsp_carbrand
+                  [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:op.rsp_carbrand ? op.rsp_carbrand : @"暂无"
                                           detailColor:MutInsTextDarkGrayColor],
                   [MutualInsAlertVCItem itemWithTitle:@"互助资金" detailTitle:@"暂无"
                                           detailColor:MutInsTextDarkGrayColor],
@@ -359,6 +357,14 @@
     return item;
 }
 
+- (CKDict *)splitLineItem
+{
+    if (self.groupDetail.rsp_timeperiod.length == 0) {
+        return [self splitLine1Item];
+    }
+    return [self splitLine2Item];
+}
+
 - (CKDict *)splitLine1Item
 {
     NSString *amount = [NSString stringWithFormat:@"共%d车", (int)[self.groupDetail.rsp_members count]];
@@ -425,10 +431,11 @@
         
         waveV.titleLable.text = @"资金池";
         waveV.subTitleLabel.text = [NSString stringWithFormat:@"%@/%@",
-                                    self.groupDetail.rsp_presentpoolamt, self.groupDetail.rsp_totalpoolamt];
+                                    [NSString formatForRoundPrice2:self.groupDetail.rsp_presentpoolamt],
+                                    [NSString formatForRoundPrice2:self.groupDetail.rsp_totalpoolamt]];
         [waveV startWave];
         [waveV showArcLightOnce];
-        CGFloat progress = [self.groupDetail.rsp_presentpoolamt floatValue] / MAX(0.01, [self.groupDetail.rsp_totalpoolamt floatValue]);
+        CGFloat progress = self.groupDetail.rsp_presentpoolamt / MAX(0.01, self.groupDetail.rsp_totalpoolamt);
         [waveV setProgress:progress withAnimation:YES];
         //cell被重用的时候停止动画
         [[cell rac_prepareForReuseSignal] subscribeNext:^(id x) {
@@ -468,8 +475,11 @@
     return item;
 }
 
-- (CKDict *)timeItem
+- (id)timeItem
 {
+    if (self.groupDetail.rsp_lefttime == 0) {
+        return CKNULL;
+    }
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Time"}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 26;
@@ -500,8 +510,12 @@
     return item;
 }
 
-- (CKDict *)buttonItem
+- (id)buttonItem
 {
+    if (self.groupDetail.rsp_buttonname.length == 0) {
+        return CKNULL;
+    }
+    
     NSString *key = @"Button1";
     if (self.groupDetail.rsp_pricebuttonflag > 0) {
         key = @"Button2";
@@ -524,7 +538,8 @@
              if (status == MutInsStatusNeedCar) {
                  [self actionImproveCarInfo];
              }
-             else if (status == MutInsStatusNeedDriveLicense || status == MutInsStatusNeedReviewAgain) {
+             else if (status == MutInsStatusNeedDriveLicense || status == MutInsStatusNeedReviewAgain ||
+                      status == MutInsStatusGroupExpired) {
                  [self actionImproveDrivingLicenseInfo];
              }
              else if (status == MutInsStatusNeedInsList) {
@@ -538,6 +553,12 @@
              }
         }];
         
+        if (self.status == MutInsStatusNeedCar) {
+            [button2 setTitle:@"没有车直接报价" forState:UIControlStateNormal];
+        }
+        else if (self.status == MutInsStatusNeedReviewAgain){
+            [button2 setTitle:@"不完善直接报价" forState:UIControlStateNormal];
+        }
         [[[button2 rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
          subscribeNext:^(id x) {
              @strongify(self);
