@@ -93,6 +93,7 @@
 
 - (void)requestGetGroupName
 {
+    @weakify(self);
     ApplyCooperationGroupOp * op = [[ApplyCooperationGroupOp alloc] init];
     @weakify(self)
     [[[op rac_postRequest] initially:^{
@@ -113,6 +114,7 @@
 
 - (void)requestCreateGroup:(NSString *)groupNameToCreate
 {
+    @weakify(self);
     CreateGroupOp *op = [[CreateGroupOp alloc] init];
     op.req_name = groupNameToCreate;
     
@@ -151,7 +153,6 @@
     HKAlertActionItem *complete = [HKAlertActionItem itemWithTitle:@"完善资料" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
     alertVC.actionItems = @[invite, complete];
     
-    @weakify(self)
     [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
         
         @strongify(self)
@@ -400,7 +401,7 @@
         groupTextField.text = x;
         self.textFieldString = x;
     }];
-    
+
     [[RACObserve(self, isLoadingGroupName) distinctUntilChanged] subscribeNext:^(NSNumber * number) {
         
         BOOL isloading = [number boolValue];
