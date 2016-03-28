@@ -38,10 +38,7 @@
 @property (nonatomic, strong) CarWashCouponVModel *gasModel;
 @property (nonatomic, strong) CarWashCouponVModel *insuranceModel;
 @property (nonatomic, strong) CarWashCouponVModel *othersModel;
-@property (weak, nonatomic) IBOutlet UIView *getMoreView;
 
-
-- (IBAction)getMoreAction:(id)sender;
 
 @end
 

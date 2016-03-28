@@ -99,7 +99,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 152;
+    return 178;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -121,7 +121,10 @@
     UILabel *timeL = (UILabel *)[cell.contentView viewWithTag:2003];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:3002];
     UIButton *bottomB = (UIButton *)[cell.contentView viewWithTag:4001];
+    UIImageView *imgView = (UIImageView *)[cell viewWithTag:4000];
     
+    imgView.layer.borderWidth = 0.5;
+    imgView.layer.borderColor = HEXCOLOR(@"#888888").CGColor;
     HKInsuranceOrder *order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     nameL.text = order.inscomp;
 //    nameL.text = [order descForCurrentInstype];
@@ -129,14 +132,15 @@
 //    contentL.text = [order generateContent];
     
     stateL.text = [order descForCurrentStatus]; //老方式，已经用新字段替换
-    timeL.text = [order.lstupdatetime dateFormatForYYYYMMddHHmm];
-    priceL.text = [NSString stringWithFormat:@"￥%d", (int)(order.fee)];
+    timeL.text = [order.lstupdatetime dateFormatForYYYYMMddHHmm2];
+    priceL.text = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:order.fee]];
     
     BOOL unpaid = order.status == InsuranceOrderStatusUnpaid;
     [bottomB setTitle:unpaid ? @"买了" : @"联系客服" forState:UIControlStateNormal];
-    [bottomB setTitleColor:unpaid ? RGBCOLOR(251, 88, 15) : RGBCOLOR(21, 172, 31) forState:UIControlStateNormal];
     
-    bottomB.layer.borderColor = unpaid ? [RGBCOLOR(251, 88, 15) CGColor] : [RGBCOLOR(21, 172, 31) CGColor];
+    bottomB.layer.borderColor = HEXCOLOR(@"#18d06a").CGColor;
+    bottomB.layer.borderWidth = 0.5;
+    
     
      @weakify(self);
     [[[bottomB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
