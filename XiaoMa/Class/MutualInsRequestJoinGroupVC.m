@@ -61,12 +61,15 @@
 {
     SearchCooperationGroupOp * op = [SearchCooperationGroupOp operation];
     op.req_cipher = cipher;
+    
+    @weakify(self)
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithoutText];
         
     }] subscribeNext:^(SearchCooperationGroupOp * rop) {
         
+        @strongify(self)
         [gToast dismiss];
         MutualInsGroupInfoVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGroupInfoVC"];
         vc.originVC = self.originVC;
@@ -186,7 +189,11 @@
     [cipherTextField setBorderWidth:1];
     [cipherTextField setCornerRadius:1];
     cipherTextField.layer.masksToBounds = YES;
+    
+    @weakify(self)
     [cipherTextField.rac_textSignal subscribeNext:^(id x) {
+        
+        @strongify(self)
         self.textFieldString = x;
     }];
     

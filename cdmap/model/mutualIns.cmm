@@ -99,12 +99,13 @@ class=GetCooperationMygroupDetail op auth path="/cooperation/mygroup/detail/get"
     status:int
     <"协议记录ID">contractid:number
     <"剩余时间倒计时提示语">timetip
-    <"池子最大金额">totalpoolamt
-    <"池子当前金额">presentpoolamt
+    <"池子最大金额">totalpoolamt:float
+    <"池子当前金额">presentpoolamt:float
     <"各种状态倒计时剩余时间">lefttime:longlong
     <"没有车直接报价按钮是否显示">pricebuttonflag:int
     <"按钮名字">buttonname
     <"是否当前人是团长本人">ifgroupowner:bool
+    <"团长是否有车">ifownerhascar:bool
     <"团记录ID">groupid:number
     <"团名">groupname
   }

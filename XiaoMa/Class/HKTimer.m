@@ -47,7 +47,6 @@
     int leftDay = (int)leftTime / 3600 / 24; //取日
     int leftHour = (int)(leftTime - leftDay * 24 * 3600) / 3600; //取时
     int leftMinute = (int)(leftTime - leftDay * 24 *3600 - leftHour * 3600) / 60; //取分
-    int leftSecond = (int)(leftTime - leftDay * 24 *3600 - leftHour * 3600 - leftMinute * 60); //取分
     NSString * dayStr = [NSString stringWithFormat:@"%d天", leftDay];
     NSString * hourStr = [NSString stringWithFormat:@"%d小时", leftHour];
     NSString * minuteStr = [NSString stringWithFormat:@"%d分", leftMinute];

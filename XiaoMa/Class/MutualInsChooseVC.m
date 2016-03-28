@@ -293,6 +293,11 @@
                             CKDict *seatInsDic = self.datasource[@"insSection"][2];
                             seatInsDic[@"isSelected"] = @YES;
                         }
+                        else {
+                            //更改座位险状态
+                            CKDict *seatInsDic = self.datasource[@"insSection"][2];
+                            seatInsDic[@"isSelected"] = @NO;
+                        }
                     }
                     else {
                         if (btnIndex == 5) {
@@ -390,7 +395,7 @@
     CKDict * estTitle = [CKDict dictWith:@{kCKCellID:@"EstimateTitleCell"}];
     //cell行高
     estTitle[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 45;
+        return 60;
     });
     //cell准备重绘
     @weakify(self);
