@@ -155,7 +155,6 @@
     
     [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
         
-        @strongify(self)
         [alertView dismiss];
         if (index) {
             
