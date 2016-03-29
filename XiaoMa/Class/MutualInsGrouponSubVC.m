@@ -347,10 +347,13 @@
 - (id)carsItem
 {
     //如果没有成员，忽略
-    if (self.groupDetail.rsp_members.count == 0) {
+    NSArray *members = [self.groupDetail.rsp_members arrayByFilteringOperator:^BOOL(MutualInsMemberInfo *info) {
+        return info.showflag ? info : nil;
+    }];
+    if (members.count == 0) {
         return CKNULL;
     }
-    NSArray *members = [self.groupDetail.rsp_members sortedArrayUsingComparator:^NSComparisonResult(MutualInsMemberInfo *obj1, MutualInsMemberInfo *obj2) {
+    members = [members sortedArrayUsingComparator:^NSComparisonResult(MutualInsMemberInfo *obj1, MutualInsMemberInfo *obj2) {
         if ([obj1.memberid isEqual:self.groupDetail.req_memberid]) {
             return NSOrderedAscending;
         }
