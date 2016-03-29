@@ -709,20 +709,4 @@
     [gAppMgr.navModel pushToViewControllerByUrl:url];
 }
 
-    
-#pragma mark - Lazy
-
--(NSMutableArray *)disposableArray
-{
-    if (!_disposableArray)
-        _disposableArray = [NSMutableArray array];
-    return _disposableArray;
-}
-
-- (NSMutableArray *)linesArray
-{
-    if (!_linesArray)
-        _linesArray = [NSMutableArray array];
-    return _linesArray;
-}
 @end
