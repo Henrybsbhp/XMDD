@@ -389,6 +389,12 @@
      (node (attr (*def* "车牌")) (id licensenumber) (type #f) (value #f))
      (node (attr (*def* "车的品牌logo地址")) (id brandurl) (type #f) (value #f))
      (node (attr (*def* "团员记录ID")) (id memberid) (type number) (value #f))
+     (node (attr (*def* "是否在团详情上面显示")) (id showflag) (type bool) (value #f))
+     (node
+      (attr (*def* "最后更新的时间戳"))
+      (id lstupdatetime)
+      (type longlong)
+      (value #f))
      (node (attr (*def* "其他人的状态描述")) (id statusdesc) (type #f) (value #f)))
     (node
      (attr (*def* "协议详情") (class MutualInsContract) (data))

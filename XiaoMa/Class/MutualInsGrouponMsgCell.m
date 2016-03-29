@@ -10,7 +10,6 @@
 #import "MutualInsConstants.h"
 #import "NSString+RectSize.h"
 #import <Masonry.h>
-#import "UIView+RoundedCorner.h"
 
 #define kCellMargin      3
 #define kLogoViewLength     45
@@ -19,12 +18,27 @@
 @property (nonatomic, strong) UIView *msgContainerView;
 @property (nonatomic, strong) UIImageView *msgBgView;
 @property (nonatomic, strong) UILabel *msgLabel;
+@property (nonatomic, strong) UIView *timeContainerView;
+@property (nonatomic, strong) UIImageView *timeContainerBgView;
 @end
 @implementation MutualInsGrouponMsgCell
 
 - (void)awakeFromNib {
     // Initialization code
     [self.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
+    self.timeContainerView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.timeContainerView.backgroundColor = [UIColor clearColor];
+    [self.contentView addSubview:self.timeContainerView];
+
+    self.timeContainerBgView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    self.timeContainerBgView.image = [[UIImage imageNamed:@"mins_bg_gary"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
+    [self.timeContainerView addSubview:self.timeContainerBgView];
+    
+    self.timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.timeLabel.textColor = [UIColor whiteColor];
+    self.timeLabel.font = [UIFont systemFontOfSize:12];
+    [self.timeContainerView addSubview:self.timeLabel];
     
     self.logoView = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.logoView.userInteractionEnabled = YES;
@@ -73,10 +87,27 @@
 - (void)updateConstraints
 {
     @weakify(self);
+    [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.edges.equalTo(self.timeContainerView).insets(UIEdgeInsetsMake(0, 5, 0, 5));
+    }];
+    
+    [self.timeContainerBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.edges.equalTo(self.timeContainerView);
+    }];
+    
+    [self.timeContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.height.mas_equalTo(16);
+        make.centerY.equalTo(self.contentView.mas_top).offset(20);
+        make.centerX.equalTo(self.contentView);
+    }];
+    
     [self.logoView mas_remakeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.size.mas_equalTo(CGSizeMake(45, 45));
-        make.top.equalTo(self.contentView).offset(10);
+        make.top.equalTo(self.contentView).offset(35);
         if (self.atRightSide) {
             make.right.equalTo(self.contentView).offset(-kCellMargin);
         }
@@ -136,7 +167,7 @@
 {
     width = width - 45 - kCellMargin - 5 - 70 - 10 - 15;
     CGSize size = [msg labelSizeWithWidth:width font:[UIFont systemFontOfSize:14]];
-    return MAX(10+45+10, ceil(size.height+10+16+3+8+8+10));
+    return MAX(35+45+15, ceil(size.height+35+16+3+8+8+15));
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
