@@ -288,6 +288,7 @@ class=CheckCooperationPremium op auth path="/cooperation/premium/check"> {
   }
   <rsp> {
     licensenumbers:array
+    inprocesslisnums:array
   }
 }
 

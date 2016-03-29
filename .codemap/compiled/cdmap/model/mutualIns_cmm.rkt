@@ -380,7 +380,10 @@
       (auth)
       (path "/cooperation/premium/check"))
      (node (attr (req)) (node (id groupid) (type number) (value #f)))
-     (node (attr (rsp)) (node (id licensenumbers) (type array) (value #f))))
+     (node
+      (attr (rsp))
+      (node (id licensenumbers) (type array) (value #f))
+      (node (id inprocesslisnums) (type array) (value #f))))
     (node
      (attr (*def* "团员信息") (class MutualInsMemberInfo) (data))
      (node (attr (*def* "车牌")) (id licensenumber) (type #f) (value #f))
