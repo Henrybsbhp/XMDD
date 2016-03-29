@@ -9,6 +9,7 @@
 #import "MutualInsGrouponSubMsgVC.h"
 #import "CKDatasource.h"
 #import "MutualInsMemberInfo.h"
+#import "NSDate+PrettyFormat.h"
 
 #import "MutualInsGrouponMsgCell.h"
 
@@ -33,7 +34,10 @@
 - (void)reloadData
 {
     @weakify(self);
-    NSArray *items = [self.groupMembers arrayByMappingOperator:^id(MutualInsMemberInfo *info) {
+    NSArray *sortedMembers = [self.groupMembers sortedArrayUsingComparator:^NSComparisonResult(MutualInsMemberInfo *obj1, MutualInsMemberInfo *obj2) {
+        return obj1.lstupdatetime >= obj2.lstupdatetime ? NSOrderedAscending : NSOrderedDescending;
+    }];
+    NSArray *items = [sortedMembers arrayByMappingOperator:^id(MutualInsMemberInfo *info) {
         @strongify(self);
         return [self messageItemWithInfo:info];
     }];
@@ -45,7 +49,8 @@
 - (CKDict *)messageItemWithInfo:(MutualInsMemberInfo *)info {
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Message", @"left":@(![info.memberid isEqual:self.group.memberId]),
                                       @"img":info.brandurl, @"title":info.licensenumber, @"msg":info.statusdesc,
-                                      @"memberID":self.group.memberId}];
+                                      @"memberID":self.group.memberId,
+                                      @"time":[NSDate dateWithTimeIntervalSince1970:info.lstupdatetime/1000.0]}];
     @weakify(self);
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
@@ -62,6 +67,7 @@
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         @strongify(self);
         MutualInsGrouponMsgCell *msgcell = (MutualInsGrouponMsgCell *)cell;
+        msgcell.timeLabel.text = [data[@"time"] prettyDateFormat];
         msgcell.atRightSide = ![data[@"left"] boolValue];
         msgcell.titleLabel.text = data[@"title"];
         [msgcell.logoView setImageByUrl:data[@"img"] withType:ImageURLTypeOrigin defImage:@"mins_def" errorImage:@"mins_def"];
