@@ -94,19 +94,15 @@
 - (void)requestGetGroupName
 {
     ApplyCooperationGroupOp * op = [[ApplyCooperationGroupOp alloc] init];
-    @weakify(self)
     [[[op rac_postRequest] initially:^{
         
-        @strongify(self)
         self.isLoadingGroupName = YES;
     }] subscribeNext:^(ApplyCooperationGroupOp * rop) {
         
-        @strongify(self)
         self.isLoadingGroupName = NO;
         self.groupNameString = rop.rsp_name;
     } error:^(NSError *error) {
         
-        @strongify(self)
         self.isLoadingGroupName = NO;
     }];
 }
@@ -116,13 +112,11 @@
     CreateGroupOp *op = [[CreateGroupOp alloc] init];
     op.req_name = groupNameToCreate;
     
-    @weakify(self)
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"建团中..."];
     }] subscribeNext:^(CreateGroupOp *rop) {
         
-        @strongify(self)
         [gToast dismiss];
         [self showAlertView:groupNameToCreate andCipher:rop.rsp_cipher andGroupId:rop.rsp_groupid];
         
@@ -150,11 +144,8 @@
     HKAlertActionItem *invite = [HKAlertActionItem itemWithTitle:@"邀请好友" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
     HKAlertActionItem *complete = [HKAlertActionItem itemWithTitle:@"完善资料" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
     alertVC.actionItems = @[invite, complete];
-    
-    @weakify(self)
     [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
         
-        @strongify(self)
         [alertView dismiss];
         if (index) {
             
@@ -400,7 +391,7 @@
         groupTextField.text = x;
         self.textFieldString = x;
     }];
-    
+
     [[RACObserve(self, isLoadingGroupName) distinctUntilChanged] subscribeNext:^(NSNumber * number) {
         
         BOOL isloading = [number boolValue];

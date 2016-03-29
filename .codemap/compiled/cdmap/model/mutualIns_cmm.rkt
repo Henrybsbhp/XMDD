@@ -127,8 +127,12 @@
       (node (id status) (type int) (value #f))
       (node (attr (*def* "协议记录ID")) (id contractid) (type number) (value #f))
       (node (attr (*def* "剩余时间倒计时提示语")) (id timetip) (type #f) (value #f))
-      (node (attr (*def* "池子最大金额")) (id totalpoolamt) (type #f) (value #f))
-      (node (attr (*def* "池子当前金额")) (id presentpoolamt) (type #f) (value #f))
+      (node (attr (*def* "池子最大金额")) (id totalpoolamt) (type float) (value #f))
+      (node
+       (attr (*def* "池子当前金额"))
+       (id presentpoolamt)
+       (type float)
+       (value #f))
       (node
        (attr (*def* "各种状态倒计时剩余时间"))
        (id lefttime)
@@ -145,6 +149,7 @@
        (id ifgroupowner)
        (type bool)
        (value #f))
+      (node (attr (*def* "团长是否有车")) (id ifownerhascar) (type bool) (value #f))
       (node (attr (*def* "团记录ID")) (id groupid) (type number) (value #f))
       (node (attr (*def* "团名")) (id groupname) (type #f) (value #f))))
     (node

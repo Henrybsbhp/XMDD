@@ -30,9 +30,13 @@
 @property (weak, nonatomic) IBOutlet UIButton *nextBtn;
 @property (nonatomic, strong) PictureRecord * idPictureRecord;
 @property (nonatomic, strong) PictureRecord * drivingLicensePictureRecord;
+//先保险公司
 @property (nonatomic, copy)NSString * insCompany;
+//上一年度保险公司
 @property (nonatomic, copy)NSString * lastYearInsCompany;
+// 保险到期日
 @property (nonatomic, strong)NSDate *insuranceExpirationDate;
+// 服务器下发的最小保险到期日
 @property (nonatomic, strong)NSDate *minInsuranceExpirationDate;
 @property (nonatomic, strong)DatePickerVC *datePicker;
 @property (nonatomic, strong)PictureRecord * currentRecord;
@@ -89,6 +93,16 @@
         if (!self.drivingLicensePictureRecord.url.length)
         {
             [gToast showMistake:@"请上传行驶证照片"];
+            return ;
+        }
+        if (!self.insCompany.length)
+        {
+            [gToast showMistake:@"请选择现保险公司"];
+            return ;
+        }
+        if (!self.insuranceExpirationDate)
+        {
+            [gToast showMistake:@"请选择保险到期日"];
             return ;
         }
         
@@ -214,7 +228,7 @@
         {
             self.datePicker.minimumDate = self.minInsuranceExpirationDate;
         }
-        NSDate *selectedDate = self.insuranceExpirationDate ? self.insuranceExpirationDate : [NSDate date];
+        NSDate *selectedDate = self.insuranceExpirationDate ? self.insuranceExpirationDate : nil;
         
         @weakify(self)
         [[self.datePicker rac_presentPickerVCInView:self.navigationController.view withSelectedDate:selectedDate]

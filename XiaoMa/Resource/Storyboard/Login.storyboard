@@ -138,16 +138,16 @@
                                                     </variation>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KOj-7p-Ilg">
-                                                    <rect key="frame" x="559" y="17" width="17" height="17"/>
+                                                    <rect key="frame" x="542" y="0.0" width="53" height="41"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="30" id="6U5-tt-t3T"/>
                                                         <constraint firstAttribute="height" constant="30" id="Fdd-sw-Oeb"/>
-                                                        <constraint firstAttribute="width" constant="17" id="X6e-Ft-Bke"/>
+                                                        <constraint firstAttribute="width" constant="53" id="X6e-Ft-Bke"/>
                                                         <constraint firstAttribute="width" constant="30" id="eLH-J5-5gg"/>
                                                         <constraint firstAttribute="height" constant="30" id="ejn-vz-fq3"/>
                                                         <constraint firstAttribute="width" constant="30" id="fcd-8t-YRI"/>
                                                         <constraint firstAttribute="height" constant="30" id="hTZ-gn-MZe"/>
-                                                        <constraint firstAttribute="height" constant="17" id="m9y-xv-YE8"/>
+                                                        <constraint firstAttribute="height" constant="41" id="m9y-xv-YE8"/>
                                                     </constraints>
                                                     <state key="normal" image="Login_close_clousebutton"/>
                                                     <variation key="default">
@@ -166,9 +166,9 @@
                                                 </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="KOj-7p-Ilg" firstAttribute="top" secondItem="K88-8w-HLk" secondAttribute="top" id="Hlm-Ub-PKh"/>
                                                 <constraint firstItem="alL-3e-R5c" firstAttribute="centerX" secondItem="K88-8w-HLk" secondAttribute="centerX" id="Krl-Zz-fLX"/>
-                                                <constraint firstItem="KOj-7p-Ilg" firstAttribute="top" secondItem="K88-8w-HLk" secondAttribute="top" constant="17" id="we3-gQ-eFD"/>
-                                                <constraint firstAttribute="trailing" secondItem="KOj-7p-Ilg" secondAttribute="trailing" constant="24" id="z8X-sI-UDe"/>
+                                                <constraint firstAttribute="trailing" secondItem="KOj-7p-Ilg" secondAttribute="trailing" constant="5" id="lKa-Xx-ZYR"/>
                                                 <constraint firstAttribute="bottom" secondItem="alL-3e-R5c" secondAttribute="bottom" constant="40" id="zBb-6e-Zzd"/>
                                             </constraints>
                                         </tableViewCellContentView>

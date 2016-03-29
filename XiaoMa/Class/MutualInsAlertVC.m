@@ -90,7 +90,7 @@
         
         [rightL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(containerV).offset(-14);
-            make.left.equalTo(leftL.mas_right).offset(8).priority(MASLayoutPriorityDefaultMedium);
+            make.left.equalTo(leftL.mas_right).offset(8);
             make.height.mas_equalTo(kContentTitleHeight);
             make.baseline.equalTo(leftL.mas_baseline);
         }];
