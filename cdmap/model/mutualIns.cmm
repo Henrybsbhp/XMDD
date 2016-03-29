@@ -288,6 +288,7 @@ class=CheckCooperationPremium op auth path="/cooperation/premium/check"> {
   }
   <rsp> {
     licensenumbers:array
+    inprocesslisnums:array
   }
 }
 
@@ -296,6 +297,8 @@ class=MutualInsMemberInfo data> {
   <"车牌">licensenumber
   <"车的品牌logo地址">brandurl
   <"团员记录ID">memberid:number    
+  <"是否在团详情上面显示">showflag:bool
+  <"最后更新的时间戳">lstupdatetime:longlong
   <"其他人的状态描述">statusdesc             
 }
 

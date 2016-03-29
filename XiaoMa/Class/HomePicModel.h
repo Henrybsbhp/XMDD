@@ -26,16 +26,9 @@
 ///homepage上面一排按钮配置信息
 @property (nonatomic,strong)NSArray * homeItemArray;
 
-///一键洗车图片
-@property (nonatomic,strong)NSString * yjxcPic;
-///每周礼券图片
-@property (nonatomic,strong)NSString * mzlqpic;
-///保险服务图片
-@property (nonatomic,strong)NSString * bxfwpic;
-///专业救援图片
-@property (nonatomic,strong)NSString * zyjypic;
-///年检协办图片
-@property (nonatomic,strong)NSString * njxbpic;
+///底部图片
+@property (nonatomic,strong)HomeItem * bottomItem;
+
 
 + (instancetype)homeWithJSONResponse:(NSDictionary *)rsp;
 
