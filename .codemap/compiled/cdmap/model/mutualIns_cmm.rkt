@@ -127,8 +127,12 @@
       (node (id status) (type int) (value #f))
       (node (attr (*def* "协议记录ID")) (id contractid) (type number) (value #f))
       (node (attr (*def* "剩余时间倒计时提示语")) (id timetip) (type #f) (value #f))
-      (node (attr (*def* "池子最大金额")) (id totalpoolamt) (type #f) (value #f))
-      (node (attr (*def* "池子当前金额")) (id presentpoolamt) (type #f) (value #f))
+      (node (attr (*def* "池子最大金额")) (id totalpoolamt) (type float) (value #f))
+      (node
+       (attr (*def* "池子当前金额"))
+       (id presentpoolamt)
+       (type float)
+       (value #f))
       (node
        (attr (*def* "各种状态倒计时剩余时间"))
        (id lefttime)
@@ -145,7 +149,9 @@
        (id ifgroupowner)
        (type bool)
        (value #f))
-      (node (attr (*def* "团记录ID")) (id groupid) (type number) (value #f))))
+      (node (attr (*def* "团长是否有车")) (id ifownerhascar) (type bool) (value #f))
+      (node (attr (*def* "团记录ID")) (id groupid) (type number) (value #f))
+      (node (attr (*def* "团名")) (id groupname) (type #f) (value #f))))
     (node
      (attr
       (*def* "互助协议查看")
@@ -374,7 +380,10 @@
       (auth)
       (path "/cooperation/premium/check"))
      (node (attr (req)) (node (id groupid) (type number) (value #f)))
-     (node (attr (rsp)) (node (id licensenumbers) (type array) (value #f))))
+     (node
+      (attr (rsp))
+      (node (id licensenumbers) (type array) (value #f))
+      (node (id inprocesslisnums) (type array) (value #f))))
     (node
      (attr (*def* "团员信息") (class MutualInsMemberInfo) (data))
      (node (attr (*def* "车牌")) (id licensenumber) (type #f) (value #f))

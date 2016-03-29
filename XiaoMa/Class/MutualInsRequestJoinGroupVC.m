@@ -20,6 +20,14 @@
 
 @implementation MutualInsRequestJoinGroupVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"MutualInsRequestJoinGroupVC deallocated");
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -53,14 +61,18 @@
 {
     SearchCooperationGroupOp * op = [SearchCooperationGroupOp operation];
     op.req_cipher = cipher;
+    
+    @weakify(self)
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithoutText];
         
     }] subscribeNext:^(SearchCooperationGroupOp * rop) {
         
+        @strongify(self)
         [gToast dismiss];
         MutualInsGroupInfoVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGroupInfoVC"];
+        vc.originVC = self.originVC;
         vc.groupId = rop.rsp_groupid;
         vc.groupCreateName = rop.rsp_creatorname;
         vc.groupName = rop.rsp_name;
@@ -177,7 +189,11 @@
     [cipherTextField setBorderWidth:1];
     [cipherTextField setCornerRadius:1];
     cipherTextField.layer.masksToBounds = YES;
+    
+    @weakify(self)
     [cipherTextField.rac_textSignal subscribeNext:^(id x) {
+        
+        @strongify(self)
         self.textFieldString = x;
     }];
     
@@ -193,10 +209,10 @@
     UILabel *tipsLabel3 = (UILabel *)[cell.contentView viewWithTag:109];
     UILabel *tipsLabel4 = (UILabel *)[cell.contentView viewWithTag:110];
     
-    [tipsLabel1 setPreferredMaxLayoutWidth:200];
-    [tipsLabel2 setPreferredMaxLayoutWidth:200];
-    [tipsLabel3 setPreferredMaxLayoutWidth:200];
-    [tipsLabel4 setPreferredMaxLayoutWidth:200];
+    [tipsLabel1 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 100];
+    [tipsLabel2 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 100];
+    [tipsLabel3 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 100];
+    [tipsLabel4 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 100];
     tipsLabel1.attributedText = [self generateAttributedStringWithLineSpacing:@"1、您需要输入正确暗号，并确认团队信息。"];
     tipsLabel2.attributedText = [self generateAttributedStringWithLineSpacing:@"2、确认本团信息后，选择车辆后即可入团。"];
     tipsLabel3.attributedText = [self generateAttributedStringWithLineSpacing:@"3、完善资料，填写信息后我们将对您的信息进行审核。"];

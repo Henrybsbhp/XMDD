@@ -17,6 +17,11 @@
 
 @implementation InviteAlertVC
 
+- (void)dealloc
+{
+    DebugLog(@"InviteAlertVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -32,10 +37,18 @@
         [contentV addSubview:wordLabel];
         self.contentView = contentV;
     }
+    else if (self.alertType == InviteAlertTypeGotoWechat) {
+        NSString * codeText = self.contentStr;
+        UILabel * codeLabel = [self creatLabelWithFrame:CGRectMake(17, 0, kContentViewWidth - 34, 133) andText:codeText];
+        codeLabel.numberOfLines = 5;
+        codeLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        [contentV addSubview:codeLabel];
+        self.contentView = contentV;
+    }
     else if (self.alertType == InviteAlertTypeJoin) {
         
-        NSString * labelText = @"您已复制某团长建立的互助团口令，请确认是否要加入该互助团：";
-        UILabel * wordLabel = [self creatLabelWithFrame:CGRectMake(17, 0, kContentViewWidth - 34, 133) andText:labelText];
+        NSString * labelText = self.groupType == 1 ? @"您已复制自组互助团口令，请确认是否要加入该互助团：" : @"您已复制平台互助团口令，请确认是否要加入该互助团：";
+        UILabel * wordLabel = [self creatLabelWithFrame:CGRectMake(17, 15, kContentViewWidth - 34, 50) andText:labelText];
         [contentV addSubview:wordLabel];
         
         UILabel * groupL = [[UILabel alloc] initWithFrame:CGRectMake(17, 75, 60, 25)];
@@ -44,11 +57,21 @@
         groupL.text = @"团队名称";
         [contentV addSubview:groupL];
         
-        UILabel * leaderL = [[UILabel alloc] initWithFrame:CGRectMake(17, 100, 60, 25)];
-        leaderL.font = [UIFont systemFontOfSize:14];
-        leaderL.textColor = HEXCOLOR(@"#888888");
-        leaderL.text = @"团长名称";
-        [contentV addSubview:leaderL];
+        
+        if (self.groupType == GroupTypeByself) {
+            UILabel * leaderL = [[UILabel alloc] initWithFrame:CGRectMake(17, 100, 60, 25)];
+            leaderL.font = [UIFont systemFontOfSize:14];
+            leaderL.textColor = HEXCOLOR(@"#888888");
+            leaderL.text = @"团长名称";
+            [contentV addSubview:leaderL];
+            
+            UILabel * leaderNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 100, kContentViewWidth - 100, 25)];
+            leaderNameLabel.font = [UIFont systemFontOfSize:14];
+            leaderNameLabel.textColor = HEXCOLOR(@"#454545");
+            leaderNameLabel.text = self.leaderName;
+            leaderNameLabel.textAlignment = NSTextAlignmentRight;
+            [contentV addSubview:leaderNameLabel];
+        }
         
         UILabel * groupNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 75, kContentViewWidth - 100, 25)];
         groupNameLabel.font = [UIFont systemFontOfSize:14];
@@ -56,13 +79,6 @@
         groupNameLabel.text = self.groupName;
         groupNameLabel.textAlignment = NSTextAlignmentRight;
         [contentV addSubview:groupNameLabel];
-        
-        UILabel * leaderNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 100, kContentViewWidth - 100, 25)];
-        leaderNameLabel.font = [UIFont systemFontOfSize:14];
-        leaderNameLabel.textColor = HEXCOLOR(@"#454545");
-        leaderNameLabel.text = self.leaderName;
-        groupNameLabel.textAlignment = NSTextAlignmentRight;
-        [contentV addSubview:leaderNameLabel];
         
         self.contentView = contentV;
     }

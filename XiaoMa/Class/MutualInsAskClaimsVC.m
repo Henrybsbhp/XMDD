@@ -15,13 +15,23 @@
 #import "MutualInsChooseCarVC.h"
 #import "MutualInsScencePhotoVM.h"
 #import "GetCoorperationClaimConfigOp.h"
+#import "HKImageAlertVC.h"
 @interface MutualInsAskClaimsVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) NSArray *tempArr;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) HKImageAlertVC *alert;
 
 @end
 
 @implementation MutualInsAskClaimsVC
+
+-(void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"MutualInsAskClaimsVC dealloc");
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -81,7 +91,7 @@
             imageView.image = [UIImage imageNamed:@"mutualIns_crimesReport"];
             
             titleLabel.text = @"我要报案";
-            detailLabel.text = @"遭受严重事故请狂戳这里";
+            detailLabel.text = @"遭受交通事故请狂戳这里";
             
             hkLabel.hidden = YES;
             break;
@@ -158,17 +168,21 @@
 
 -(void)crimeReportSectionAction
 {
-//   @叶志成 改号码
-    NSString * number = @"4007111111";
-    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        [alertVC dismiss];
+    }];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        [alertVC dismiss];
+        [gPhoneHelper makePhone:@"4007111111"];
+    }];
+    HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"快速报案可拨打客服电话：4007-111-111，是否立即拨打？" ActionItems:@[confirm,cancel]];
+    [alert show];
 }
 
 - (void)scenePageSectionAction
 {
     [self getNoticeArr];
     [self getCarListData];
-
-    
 }
 
 -(void)historySectionAction
@@ -210,7 +224,11 @@
         }
         else
         {
-            [gToast showMistake:@"请先报案"];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                [alertVC dismiss];
+            }];
+            HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"未检测到您的爱车有车险报案记录，快速理赔需要先报案后才能进行现场拍照。请先报案，谢谢～" ActionItems:@[cancel]];
+            [alert show];
         }
         [self.view stopActivityAnimation];
     }error:^(NSError *error) {
@@ -218,5 +236,17 @@
     }];
 }
 
+-(HKImageAlertVC *)alertWithTopTitle:(NSString *)topTitle ImageName:(NSString *)imageName Message:(NSString *)message ActionItems:(NSArray *)actionItems
+{
+    if (!_alert)
+    {
+        _alert = [[HKImageAlertVC alloc]init];
+    }
+    _alert.topTitle = topTitle;
+    _alert.imageName = imageName;
+    _alert.message = message;
+    _alert.actionItems = actionItems;
+    return _alert;
+}
 
 @end

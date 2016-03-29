@@ -69,7 +69,6 @@
                            $([self gasReminderItem],[self serviceAgreementItem]));
 
     self.loadingDatasource = $($([self loadingItem]));
-
     self.datasource = self.czbDatasource;
 }
 
@@ -148,7 +147,6 @@
     else if (!self.curGasCard && ![row2[kCKItemKey] isEqualToString:@"AddGasCard"]) {
         [self.czbDatasource[0] replaceObject:[self addGasCardItem] withKey:nil atIndex:1];
     }
-    self.datasource = self.czbDatasource;
     [self reloadView:NO];
     return YES;
 }
@@ -164,7 +162,6 @@
         //如果没在刷新
         if (![blankItem[@"loading"] boolValue]) {
             blankItem[@"loading"] = @YES;
-            self.datasource = self.loadingDatasource;
             [self reloadView:NO];
         }
     }] subscribeNext:^(id x) {
@@ -205,13 +202,17 @@
     if (![self isEqual:self.tableView.delegate]) {
         return;
     }
-    if (force || [self.datasource isEqual:self.czbDatasource]) {
-        CKAsyncMainQueue(^{
-            [self.tableView reloadData];
-        });
-    }
-    
     CKDict *blankItem = self.loadingDatasource[0][@"Loading"];
+    CKList *oldDatasource = self.datasource;
+    if ([blankItem[@"loading"] boolValue] || [blankItem[@"error"] boolValue]) {
+        self.datasource = self.loadingDatasource;
+    }
+    else {
+        self.datasource = self.czbDatasource;
+    }
+    if (force || ![oldDatasource isEqual:self.datasource]) {
+        [self.tableView reloadData];
+    }
     BOOL loading = [blankItem[@"loading"] boolValue];
     if (loading) {
         [self.tableView setContentOffset:CGPointZero];
@@ -219,6 +220,7 @@
     self.tableView.scrollEnabled = !loading;
     self.bottomView.hidden = loading;
 }
+
 
 - (void)reloadBottomButton
 {
@@ -313,14 +315,16 @@
     @weakify(self);
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        return self.tableView.frame.size.height - self.tableView.tableHeaderView.frame.size.height + self.bottomBtn.superview.frame.size.height;
+        return [self heightForLoadingCell];
     });
     
     item[kCKCellWillDisplay] = CKCellWillDisplay(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-        
+
+        @strongify(self);
         if ([data[@"loading"] boolValue]) {
             [cell.contentView hideDefaultEmptyView];
-            [cell.contentView startActivityAnimationWithType:GifActivityIndicatorType];
+            CGPoint position = CGPointMake(self.tableView.frame.size.width/2, [self heightForLoadingCell]/2);
+            [cell.contentView startActivityAnimationWithType:GifActivityIndicatorType atPositon:position];
         }
         if ([data[@"error"] boolValue]) {
             [cell.contentView stopActivityAnimation];
@@ -331,6 +335,11 @@
         }
     });
     return item;
+}
+
+- (CGFloat)heightForLoadingCell
+{
+    return self.tableView.frame.size.height - self.tableView.tableHeaderView.frame.size.height + self.bottomBtn.superview.frame.size.height;
 }
 
 ///选择银行卡

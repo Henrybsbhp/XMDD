@@ -14,6 +14,7 @@
 #import "ExitCooperationOp.h"
 #import "DeleteCooperationGroupOp.h"
 #import "MutualInsStore.h"
+#import "HKMessageAlertVC.h"
 
 #import "MutualInsGrouponSubVC.h"
 #import "MutualInsGrouponSubMsgVC.h"
@@ -65,7 +66,6 @@ typedef enum : NSInteger
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     [self setupNavigationBar];
     [self setupSubVC];
     [self setupMutualInsStore];
@@ -88,6 +88,7 @@ typedef enum : NSInteger
     }
     if ([segue.identifier isEqualToString:@"MutualInsGrouponSubVC"]) {
         self.topSubVC = (MutualInsGrouponSubVC *)segue.destinationViewController;
+        self.topSubVC.group = self.group;
     }
     else if ([segue.identifier isEqualToString:@"MutualInsGrouponSubMsgVC"]) {
         self.bottomSubVC = (MutualInsGrouponSubMsgVC *)segue.destinationViewController;
@@ -95,20 +96,23 @@ typedef enum : NSInteger
 }
 
 #pragma mark - Setup
-- (void)setupNavigationBar
-{
-    self.navigationItem.title = self.group.groupName;
-    
-    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
-    self.navigationItem.leftBarButtonItem = back;
+- (void)setupNavigationBar {
+    self.navigationItem.title = self.group.groupName.length > 0 ? self.group.groupName : @"团详情";
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
 }
 
 - (void)setupSubVC {
     @weakify(self);
     self.topSubVC.title = self.navigationItem.title;
+    self.topSubVC.originVC = self;
     [self.topSubVC setShouldExpandedOrClosed:^(BOOL expanded) {
         @strongify(self);
         [self setExpanded:expanded animated:YES];
+    }];
+    
+    [self.bottomSubVC setDidMessageAvatarTaped:^(NSNumber *memberID) {
+        @strongify(self);
+        [self.topSubVC requestDetailInfoForMember:memberID];
     }];
 }
 
@@ -125,7 +129,12 @@ typedef enum : NSInteger
     }];
 }
 
-- (void)setupNavigationRightItem {
+- (void)resetNavigationItemWithTitle:(NSString *)title {
+
+    if (title.length > 0) {
+        self.navigationItem.title  = title;
+    }
+    
     UIView *container = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 35, 40)];
     AddCloseAnimationButton *button = [[AddCloseAnimationButton alloc] initWithFrame:CGRectMake(0, 0, 35, 40)];
     [button addTarget:self action:@selector(actionShowOrHideMenu:) forControlEvents:UIControlEventTouchUpInside];
@@ -191,7 +200,8 @@ typedef enum : NSInteger
         [self.view stopActivityAnimation];
         self.containerView.hidden = NO;
         self.groupDetail = x;
-        [self setupNavigationRightItem];
+
+        [self resetNavigationItemWithTitle:self.groupDetail.rsp_groupname];
         [self reloadData];
     } error:^(NSError *error) {
         
@@ -235,11 +245,15 @@ typedef enum : NSInteger
     [self.popoverMenu dismissWithAnimated:YES];
     
     MutInsStatus status = self.groupDetail.rsp_status;
-    if (status == MutInsStatusToBePaid || status == MutInsStatusPaidForAll || status == MutInsStatusPaidForSelf) {
-        self.menuItems = $([self menuItemMyOrder], [self menuItemMakeCall]);
+    if (status == MutInsStatusUnderReview) {
+        self.menuItems = $([self menuItemInvite], [self menuItemMakeCall]);
     }
     else if (status == MutInsStatusAgreementTakingEffect) {
         self.menuItems = $([self menuItemMyOrder], [self menuItemInvite], [self menuItemMakeCall]);
+    }
+    else if (status == MutInsStatusToBePaid || status == MutInsStatusPaidForAll ||
+             status == MutInsStatusPaidForSelf || status == MutInsStatusGettedAgreement) {
+        self.menuItems = $([self menuItemMyOrder], [self menuItemMakeCall]);
     }
     else if (status == MutInsStatusReviewFailed || status == MutInsStatusGroupDissolved ||
              status == MutInsStatusGroupExpired || status == MutInsStatusJoinFailed) {
@@ -261,15 +275,7 @@ typedef enum : NSInteger
         @strongify(self);
         [gToast dismiss];
         [[self.minsStore reloadSimpleGroups] sendAndIgnoreError];
-        for (UIViewController * vc in self.navigationController.viewControllers)
-        {
-            if ([vc isKindOfClass:NSClassFromString(@"MutualInsHomeVC")])
-            {
-                [self.navigationController popToViewController:vc animated:YES];
-                return ;
-            }
-        }
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self actionBack:nil];
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
@@ -300,7 +306,6 @@ typedef enum : NSInteger
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Invite",@"title":@"邀请入团",@"img":@"mins_person"}];
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        
         @strongify(self);
         InviteByCodeVC * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
         vc.groupId = self.groupDetail.rsp_groupid;
@@ -310,15 +315,28 @@ typedef enum : NSInteger
 }
 
 - (id)menuItemQuit {
-    if (self.groupDetail.rsp_ifgroupowner) {
+    //如果是团长且团长没有车，应该隐藏掉退团按钮
+    if (self.groupDetail.rsp_ifgroupowner && !self.groupDetail.rsp_ifownerhascar) {
         return CKNULL;
     }
+    
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Quit",@"title":@"退出该团",@"img":@"mins_exit"}];
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
         @strongify(self);
-        [self requestExitGroup];
+        HKMessageAlertVC *alert = [[HKMessageAlertVC alloc] init];
+        alert.messageLabel.text = @"您确认退出该团？退出后将无法查看团内信息。";
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:MutInsTextGrayColor clickBlock:^(id alertVC) {
+            [alertVC dismiss];
+        }];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:MutInsGreenColor clickBlock:^(id alertVC) {
+            @strongify(self);
+            [alertVC dismiss];
+            [self requestExitGroup];
+        }];
+        alert.actionItems = @[cancel, confirm];
+        [alert show];
     });
     return dict;
 }
@@ -327,7 +345,7 @@ typedef enum : NSInteger
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Call",@"title":@"联系客服",@"img":@"mins_phone"}];
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
-        [gPhoneHelper makePhone:@"4007111111" andInfo:@"客服电话: 4007-111-111"];
+        [gPhoneHelper makePhone:@"4007111111" andInfo:@"如有任何疑问，可拨打客服电话：4007-111-111"];
     });
     return dict;
 }
@@ -340,6 +358,7 @@ typedef enum : NSInteger
         @strongify(self);
         MutualInsOrderInfoVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
         vc.contractId = self.groupDetail.rsp_contractid;
+        vc.group = self.group;
         [self.navigationController pushViewController:vc animated:YES];
     });
     return dict;

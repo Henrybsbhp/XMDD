@@ -8,7 +8,7 @@
 
 #import "MutualInsClaimAccountVC.h"
 #import "GetCooperationClaimBankcardOp.h"
-#import "MutualInsChooseBankVC.h"
+
 @interface MutualInsClaimAccountVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *dataArr;
@@ -16,6 +16,12 @@
 @end
 
 @implementation MutualInsClaimAccountVC
+
+-(void)dealloc
+{
+    DebugLog(@"MutualInsClaimAccountVC dealloc");
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -138,22 +144,6 @@
 }
 
 #pragma mark UITableViewDelegate
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row == 3)
-    {
-        MutualInsChooseBankVC *chooseBankVC = [UIStoryboard vcWithId:@"MutualInsChooseBankVC" inStoryboard:@"MutualInsClaims"];
-        @weakify(self)
-        [chooseBankVC setBankName:^(NSString *str) {
-            @strongify(self)
-            self.bankName = str;
-            [self.tableView reloadData];
-        }];
-        [self.navigationController pushViewController:chooseBankVC animated:YES];
-    }
-}
-
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0)
@@ -201,6 +191,7 @@
 
 -(void)getData
 {
+//    @叶志成 可能要删除这个接口
     GetCooperationClaimBankcardOp *op = [GetCooperationClaimBankcardOp new];
     [[[op rac_postRequest]initially:^{
         [self.tableView startActivityAnimationWithType:GifActivityIndicatorType];

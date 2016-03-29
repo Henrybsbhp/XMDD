@@ -165,7 +165,7 @@
     else if (!self.curGasCard && ![row1[kCKItemKey] isEqualToString:@"AddGasCard"]) {
         [self.normalDatasource[0] replaceObject:[self addGasCardItem] withKey:nil atIndex:0];
     }
-    self.datasource = self.normalDatasource;
+
     [self reloadView:NO];
     return YES;
 }
@@ -176,8 +176,14 @@
         return;
     }
     CKDict *blankItem = self.loadingDatasource[0][@"Loading"];
-
-    if (force || [self.datasource isEqual:self.normalDatasource]) {
+    CKList *oldDatasource = self.datasource;
+    if ([blankItem[@"loading"] boolValue] || [blankItem[@"error"] boolValue]) {
+        self.datasource = self.loadingDatasource;
+    }
+    else {
+        self.datasource = self.normalDatasource;
+    }
+    if (force || ![oldDatasource isEqual:self.datasource]) {
         [self.tableView reloadData];
     }
     BOOL loading = [blankItem[@"loading"] boolValue];
@@ -257,8 +263,7 @@
         [gToast showText:@"您需要先添加一张油卡！" inView:self.targetVC.view];
         return;
     }
-    else if (self.curGasCard.availablechargeamt && ![self.curGasCard.availablechargeamt integerValue])
-    {
+    else if (!self.curChargePkg.pkgid && self.curGasCard.availablechargeamt && ![self.curGasCard.availablechargeamt integerValue]) {
         [gToast showText:@"您本月加油已达到最大限额！" inView:self.targetVC.view];
         return;
     }
@@ -278,13 +283,15 @@
     @weakify(self);
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        return self.tableView.frame.size.height - self.tableView.tableHeaderView.frame.size.height + self.bottomBtn.superview.frame.size.height;
+        return [self heightForLoadingCell];
     });
 
     item[kCKCellWillDisplay] = CKCellWillDisplay(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
         if ([data[@"loading"] boolValue]) {
             [cell.contentView hideDefaultEmptyView];
-            [cell.contentView startActivityAnimationWithType:GifActivityIndicatorType];
+            CGPoint position = CGPointMake(self.tableView.frame.size.width/2, [self heightForLoadingCell]/2);
+            [cell.contentView startActivityAnimationWithType:GifActivityIndicatorType atPositon:position];
         }
         if ([data[@"error"] boolValue]) {
             [cell.contentView stopActivityAnimation];
@@ -294,6 +301,11 @@
         }
     });
     return item;
+}
+
+- (CGFloat)heightForLoadingCell
+{
+    return self.tableView.frame.size.height - self.tableView.tableHeaderView.frame.size.height + self.bottomBtn.superview.frame.size.height;
 }
 
 ///选择油卡

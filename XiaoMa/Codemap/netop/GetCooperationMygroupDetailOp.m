@@ -26,14 +26,16 @@
     self.rsp_status = [dict[@"status"] intValue];
     self.rsp_contractid = dict[@"contractid"];
     self.rsp_timetip = dict[@"timetip"];
-    self.rsp_totalpoolamt = dict[@"totalpoolamt"];
-    self.rsp_presentpoolamt = dict[@"presentpoolamt"];
+    self.rsp_totalpoolamt = [dict[@"totalpoolamt"] floatValue];
+    self.rsp_presentpoolamt = [dict[@"presentpoolamt"] floatValue];
     self.rsp_lefttime = [dict[@"lefttime"] longLongValue];
     self.rsp_pricebuttonflag = [dict[@"pricebuttonflag"] intValue];
     self.rsp_buttonname = dict[@"buttonname"];
     self.rsp_ifgroupowner = [dict[@"ifgroupowner"] boolValue];
+    self.rsp_ifownerhascar = [dict[@"ifownerhascar"] boolValue];
     self.rsp_groupid = dict[@"groupid"];
     self.tempTimetag = [[NSDate date] timeIntervalSince1970];
+    self.rsp_groupname = dict[@"groupname"];
 
     return self;
 }

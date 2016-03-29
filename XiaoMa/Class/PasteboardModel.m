@@ -11,15 +11,29 @@
 #import "SearchCooperationGroupOp.h"
 #import "MutualInsGroupInfoVC.h"
 #import "HKImageAlertVC.h"
+#import "GroupIntroductionVC.h"
 
 @implementation PasteboardModel
+
+- (void)prepareForShareWhisper:(NSString *)whisper
+{
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.string = whisper;
+    NSUserDefaults * def = [NSUserDefaults standardUserDefaults];
+    [def setObject:whisper forKey:@"Mutaul_InviteCodeForShare"];
+}
 
 - (BOOL)checkPasteboard
 {
     [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(JTUser * user) {
        
         NSString * pasteboardStr = [UIPasteboard generalPasteboard].string;
-        if ([pasteboardStr hasPrefix:XMINSPrefix])
+        NSString * defStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"Mutaul_InviteCodeForShare"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Mutaul_InviteCodeForShare"];
+        if ([pasteboardStr isEqualToString:defStr]) {
+            [UIPasteboard generalPasteboard].string = @"";
+        }
+        else if ([pasteboardStr hasPrefix:XMINSPrefix])
         {
             if (user)
             {
@@ -64,6 +78,7 @@
         InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
         alertVC.alertType = InviteAlertTypeJoin;
         alertVC.groupName = rop.rsp_name;
+        alertVC.groupType = rop.rsp_groupType;
         alertVC.leaderName = rop.rsp_creatorname;
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:self.cancelClickBlock];
         HKAlertActionItem *join = [HKAlertActionItem itemWithTitle:@"确定加入" color:HEXCOLOR(@"#18d06a") clickBlock:self.nextClickBlock];
@@ -73,13 +88,23 @@
             [UIPasteboard generalPasteboard].string = @"";
             [alertView dismiss];
             if (index == 1) {
-                
-                MutualInsGroupInfoVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGroupInfoVC"];
-                vc.groupId = rop.rsp_groupid;
-                vc.groupCreateName = rop.rsp_creatorname;
-                vc.groupName = rop.rsp_name;
-                vc.cipher = rop.rsp_cipher;
-                [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
+                if (rop.rsp_groupType == GroupTypeByself) {
+                    MutualInsGroupInfoVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGroupInfoVC"];
+                    vc.groupId = rop.rsp_groupid;
+                    vc.groupCreateName = rop.rsp_creatorname;
+                    vc.groupName = rop.rsp_name;
+                    vc.cipher = rop.rsp_cipher;
+                    [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
+                }
+                else {
+                    GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
+                    vc.titleStr = @"平台团介绍";
+                    vc.groupType = MutualGroupTypeSystem;
+                    vc.btnType = BtnTypeJoinNow;
+                    vc.groupId = rop.rsp_groupid;
+                    vc.groupName = rop.rsp_name;
+                    [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
+                }
             }
         }];
     } error:^(NSError *error) {

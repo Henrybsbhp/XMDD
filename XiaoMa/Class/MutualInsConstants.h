@@ -27,7 +27,7 @@ typedef enum : NSInteger {
     MutInsStatusReviewFailed = 21,          //资料审核失败，无法入团
     MutInsStatusNeedQuote = 4,              //审核通过，等待团长报价
     MutInsStatusAccountingPrice = 100,      //审核通过，可精准核价(团长特有)
-    MutInsStatusPeopleNumberUment = 200,    //审核通过未达5人，继续邀请好友
+    MutInsStatusPeopleNumberUment = 200,    //审核通过未达5人，继续邀请好友(团长特有)
     MutInsStatusToBePaid = 5,               //待支付
     MutInsStatusPaidForSelf = 6,            //自己支付成功
     MutInsStatusPaidForAll  = 101,          //全部人支付成功
@@ -41,6 +41,6 @@ typedef enum : NSInteger {
 //key定义
 #define kMutInsGroupID      @"groupID"
 #define kMutInsMemberID     @"memberID"
-#define kMutInsGroup        @"simpleGroup"
+#define kMutInsGroupName    @"groupName"
 
 #endif /* MutualInsConstants_h */

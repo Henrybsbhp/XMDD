@@ -21,6 +21,12 @@
 
 @implementation MutualInsChooseCarVC
 
+-(void)dealloc
+{
+    DebugLog(@"MutualInsChooseCarVC dealloc");
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     

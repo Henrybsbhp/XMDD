@@ -19,11 +19,15 @@ typedef enum : NSUInteger {
     BtnTypeEnded
 } DetailBtnType;
 
-@interface GroupIntroductionVC : UIViewController
+@interface GroupIntroductionVC : HKViewController
+
+@property (nonatomic, weak) UIViewController *originVC;
 
 @property (nonatomic, strong) NSString * titleStr;
 @property (nonatomic, assign) MutualGroupType groupType;
 @property (nonatomic, assign) DetailBtnType btnType;
 @property (nonatomic, strong) NSNumber * groupId;
+@property (nonatomic, strong) NSString *memberId;
+@property (nonatomic, strong) NSString *groupName;
 
 @end

@@ -12,19 +12,34 @@
 #import "MutualInsClaimDetailVC.h"
 #import "NSString+Price.h"
 #import "NSDate+DateForText.h"
+#import "HKImageAlertVC.h"
 
 @interface MutualInsClaimsHistoryVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) NSArray *dataArr;
+@property (strong, nonatomic) HKImageAlertVC *alert;
 @end
 
 @implementation MutualInsClaimsHistoryVC
 
+-(void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"MutualInsClaimsHistoryVC dealloc");
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self loadData];
+    @weakify(self)
+    [[self.tableView.refreshView rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
+        @strongify(self);
+        [self loadData];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -123,17 +138,17 @@
 {
     GetCooperationClaimsListOp *op = [GetCooperationClaimsListOp new];
     [[[op rac_postRequest]initially:^{
-        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+        [self.tableView.refreshView beginRefreshing];
     }]subscribeNext:^(id x) {
-        [self.view stopActivityAnimation];
         self.dataArr = op.rsp_claimlist;
         [self.tableView reloadData];
         if (self.dataArr.count == 0)
         {
             [self.tableView showDefaultEmptyViewWithText:@"暂无理赔记录"];
         }
+        [self.tableView.refreshView endRefreshing];
     }error:^(NSError *error) {
-        [self.view stopActivityAnimation];
+        [self.tableView.refreshView stopActivityAnimation];
     }];
 }
 
@@ -141,8 +156,15 @@
 #pragma mark Action
 
 - (IBAction)callAction:(id)sender {
-    NSString * number = @"4007111111";
-    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        [alertVC dismiss];
+    }];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        [alertVC dismiss];
+        [gPhoneHelper makePhone:@"4007111111"];
+    }];
+    HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"如有任何疑问，可拨打客服电话：4007-111-111" ActionItems:@[confirm,cancel]];
+    [alert show];
 }
 
 #pragma mark LazyLoad
@@ -153,6 +175,19 @@
         _dataArr = [[NSArray alloc]init];
     }
     return _dataArr;
+}
+
+-(HKImageAlertVC *)alertWithTopTitle:(NSString *)topTitle ImageName:(NSString *)imageName Message:(NSString *)message ActionItems:(NSArray *)actionItems
+{
+    if (!_alert)
+    {
+        _alert = [[HKImageAlertVC alloc]init];
+    }
+    _alert.topTitle = topTitle;
+    _alert.imageName = imageName;
+    _alert.message = message;
+    _alert.actionItems = actionItems;
+    return _alert;
 }
 
 @end

@@ -27,7 +27,9 @@
     // Do any additional setup after loading the view.
     [self setupGasStore];
     [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
-    [self reloadData];
+    CKAfter(0.35, ^{
+        [self reloadData];
+    });
 }
 
 

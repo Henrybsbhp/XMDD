@@ -77,31 +77,34 @@
     
     [self.roundLb refreshLabels];
     //IOS 8.1.3下面有RTLabel消失的bug，需要重新刷一下页面
-//    if (IOSVersionGreaterThanOrEqualTo(@"8.1.3") && !IOSVersionGreaterThanOrEqualTo(@"8.4")) {
-//        [self.tableView reloadData];
-//    }
+    if (IOSVersionGreaterThanOrEqualTo(@"8.1.3") && !IOSVersionGreaterThanOrEqualTo(@"8.4")) {
+        [self.tableView reloadData];
+    }
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 
 - (void)setupSubVC
 {
+
     self.normalVC = [[GasNormalVC alloc] initWithTargetVC:self tableView:self.tableView
                                              bottomButton:self.bottomBtn bottomView:self.bottomView];
     self.czbVC = [[GasCZBVC alloc] initWithTargetVC:self tableView:self.tableView
                                        bottomButton:self.bottomBtn bottomView:self.bottomView];
-    CKAsyncMainQueue(^{
-        if (self.tabViewSelectedIndex == 0) {
-            self.tableView.delegate = self.normalVC;
-            self.tableView.dataSource = self.normalVC;
+    if (self.tabViewSelectedIndex == 0) {
+        self.tableView.delegate = self.normalVC;
+        self.tableView.dataSource = self.normalVC;
+        CKAsyncMainQueue(^{
             [self.normalVC reloadView:YES];
-        }
-        else {
-            self.tableView.delegate = self.czbVC;
-            self.tableView.dataSource = self.czbVC;
+        });
+    }
+    else {
+        self.tableView.delegate = self.czbVC;
+        self.tableView.dataSource = self.czbVC;
+        CKAsyncMainQueue(^{
             [self.czbVC reloadView:YES];
-        }
-    });
+        });
+    }
 }
 
 - (void)setupHeaderView

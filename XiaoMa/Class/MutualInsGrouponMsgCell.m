@@ -10,8 +10,10 @@
 #import "MutualInsConstants.h"
 #import "NSString+RectSize.h"
 #import <Masonry.h>
+#import "UIView+RoundedCorner.h"
 
 #define kCellMargin      3
+#define kLogoViewLength     45
 
 @interface MutualInsGrouponMsgCell ()
 @property (nonatomic, strong) UIView *msgContainerView;
@@ -25,7 +27,11 @@
     [self.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     self.logoView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    self.logoView.userInteractionEnabled = YES;
     [self.contentView addSubview:self.logoView];
+    
+    self.logoViewTapGesture = [[UITapGestureRecognizer alloc] init];
+    [self.logoView addGestureRecognizer:self.logoViewTapGesture];
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.titleLabel.textColor = MutInsTextGrayColor;

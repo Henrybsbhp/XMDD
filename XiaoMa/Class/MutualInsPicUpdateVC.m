@@ -17,6 +17,7 @@
 #import "MutualInsHomeVC.h"
 #import "GetCooperationIdlicenseInfoOp.h"
 #import "MutualInsStore.h"
+#import "MutualInsGrouponVC.h"
 
 @interface MutualInsPicUpdateVC () <UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
@@ -29,11 +30,18 @@
 @property (weak, nonatomic) IBOutlet UIButton *nextBtn;
 @property (nonatomic, strong) PictureRecord * idPictureRecord;
 @property (nonatomic, strong) PictureRecord * drivingLicensePictureRecord;
+//先保险公司
 @property (nonatomic, copy)NSString * insCompany;
+//上一年度保险公司
 @property (nonatomic, copy)NSString * lastYearInsCompany;
+// 保险到期日
 @property (nonatomic, strong)NSDate *insuranceExpirationDate;
+// 服务器下发的最小保险到期日
+@property (nonatomic, strong)NSDate *minInsuranceExpirationDate;
 @property (nonatomic, strong)DatePickerVC *datePicker;
 @property (nonatomic, strong)PictureRecord * currentRecord;
+
+@property (nonatomic,strong)PickInsCompaniesVC * pickInsCompanysVC;
 
 
 @end
@@ -63,7 +71,7 @@
 #pragma mark - Setup UI
 - (void)setupDatePicker
 {
-    self.datePicker = [DatePickerVC datePickerVCWithMaximumDate:[NSDate date]];
+    self.datePicker = [DatePickerVC datePickerVCWithMaximumDate:nil];
 }
 
 - (void)setupNextBtn
@@ -85,6 +93,16 @@
         if (!self.drivingLicensePictureRecord.url.length)
         {
             [gToast showMistake:@"请上传行驶证照片"];
+            return ;
+        }
+        if (!self.insCompany.length)
+        {
+            [gToast showMistake:@"请选择现保险公司"];
+            return ;
+        }
+        if (!self.insuranceExpirationDate)
+        {
+            [gToast showMistake:@"请选择保险到期日"];
             return ;
         }
         
@@ -116,7 +134,7 @@
         headerLabel.text = @"请上传车主身份证照片";
     }
     else if (section == 1) {
-        headerLabel.text = @"请上传车主行驶证照片";
+        headerLabel.text = @"请上传车辆行驶证照片";
     }
     else if (section == 2) {
         headerLabel.text = @"请选择保险公司";
@@ -192,21 +210,25 @@
     }
     if (indexPath.section == 2)
     {
-        PickInsCompaniesVC *vc = [UIStoryboard vcWithId:@"PickInsCompaniesVC" inStoryboard:@"Car"];
-        [vc setPickedBlock:^(NSString *name) {
+        @weakify(self)
+        [self.pickInsCompanysVC setPickedBlock:^(NSString *name) {
             
+            @strongify(self)
             if (indexPath.row == 0)
                 self.insCompany = name;
             else
                 self.lastYearInsCompany = name;
         }];
         
-        [self.navigationController pushViewController:vc animated:YES];
+        [self.navigationController pushViewController:self.pickInsCompanysVC animated:YES];
     }
     if (indexPath.section == 3)
     {
-        self.datePicker.maximumDate = [NSDate date];
-        NSDate *selectedDate = self.insuranceExpirationDate ? self.insuranceExpirationDate : [NSDate date];
+        if (self.minInsuranceExpirationDate)
+        {
+            self.datePicker.minimumDate = self.minInsuranceExpirationDate;
+        }
+        NSDate *selectedDate = self.insuranceExpirationDate ? self.insuranceExpirationDate : nil;
         
         @weakify(self)
         [[self.datePicker rac_presentPickerVCInView:self.navigationController.view withSelectedDate:selectedDate]
@@ -368,11 +390,12 @@
     }] subscribeNext:^(id x) {
         
         [gToast dismiss];
-        [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] send];
+
         MutualInsChooseVC * vc = [UIStoryboard vcWithId:@"MutualInsChooseVC" inStoryboard:@"MutualInsJoin"];
         vc.memberId = self.memberId;
         vc.groupId = self.groupId;
         vc.originVC = self.originVC;
+        vc.groupName = self.groupName;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
@@ -399,6 +422,7 @@
         self.insCompany = rop.rsp_lstinscomp;
         self.lastYearInsCompany = rop.rsp_secinscomp;
         self.insuranceExpirationDate = rop.rsp_insenddate;
+        self.minInsuranceExpirationDate = rop.rsp_mininsenddate;
     } error:^(NSError *error) {
         
         @weakify(self)
@@ -523,27 +547,53 @@
 }
 
 
-
 - (void)actionBack:(id)sender {
     
+    //刷新团列表信息
     [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
-    if (self.originVC) {
-        [self.navigationController popToViewController:self.originVC animated:YES];
+    [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] sendAndIgnoreError];
+    
+    MutualInsGrouponVC *grouponvc;
+    MutualInsHomeVC *homevc;
+    NSInteger homevcIndex = NSNotFound;
+    for (NSInteger i=0; i<self.navigationController.viewControllers.count; i++) {
+        UIViewController *vc = self.navigationController.viewControllers[i];
+        if ([vc isKindOfClass:[MutualInsGrouponVC class]]) {
+            grouponvc = (MutualInsGrouponVC *)vc;
+            break;
+        }
+        if ([vc isKindOfClass:[MutualInsHomeVC class]]) {
+            homevc = (MutualInsHomeVC *)vc;
+            homevcIndex = i;
+        }
+    }
+    if (grouponvc) {
+        [self.navigationController popToViewController:grouponvc animated:YES];
         return;
     }
-    for (UIViewController * vc in self.navigationController.viewControllers)
-    {
-        if ([vc isKindOfClass:NSClassFromString(@"MutualInsHomeVC")] || [vc isKindOfClass:NSClassFromString(@"MutualInsHomeVC")])
-        {
-            [self.navigationController popToViewController:vc animated:YES];
-            return ;
-        }
-        if ([vc isKindOfClass:NSClassFromString(@"MutualInsGrouponVC")])
-        {
-            [self.navigationController popToViewController:vc animated:YES];
-            return ;
-        }
+    //创建团详情视图
+    grouponvc  = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
+    HKMutualGroup * group = [[HKMutualGroup alloc] init];
+    group.groupId = self.groupId;
+    group.groupName = self.groupName;
+    group.memberId = self.memberId;
+    grouponvc.group = group;
+
+    NSMutableArray *vcs = [NSMutableArray array];
+    if (homevcIndex != NSNotFound) {
+        NSArray *subvcs = [self.navigationController.viewControllers subarrayToIndex:homevcIndex+1];
+        [vcs addObjectsFromArray:subvcs];
     }
+    else {
+        //创建团root视图
+        homevc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
+        [vcs addObject:self.navigationController.viewControllers[0]];
+        [vcs addObject:homevc];
+    }
+    [vcs addObject:grouponvc];
+    [vcs addObject:self];
+    self.navigationController.viewControllers = vcs;
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -577,6 +627,14 @@
     if (!_drivingLicensePictureRecord)
         _drivingLicensePictureRecord = [[PictureRecord alloc] init];
     return _drivingLicensePictureRecord;
+}
+
+- (PickInsCompaniesVC *)pickInsCompanysVC
+{
+    if (!_pickInsCompanysVC)
+        _pickInsCompanysVC = [UIStoryboard vcWithId:@"PickInsCompaniesVC" inStoryboard:@"Car"];
+    return _pickInsCompanysVC;
+        
 }
 
 #pragma mark - Getter

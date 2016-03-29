@@ -8,9 +8,13 @@
 
 #import "HKViewController.h"
 #import "MutualInsConstants.h"
+#import "MutualInsGrouponVC.h"
 #import "GetCooperationMygroupDetailOp.h"
 
 @interface MutualInsGrouponSubVC : HKViewController
+
+@property (nonatomic, weak) UIViewController *originVC;
+
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, assign) BOOL isExpanded;
 @property (nonatomic, assign) CGFloat expandedHeight;
@@ -20,6 +24,9 @@
 
 @property (nonatomic, strong) GetCooperationMygroupDetailOp *groupDetail;
 
+@property (nonatomic, strong) HKMutualGroup *group;
+
 - (void)reloadDataWithStatus:(MutInsStatus)status;
+- (void)requestDetailInfoForMember:(NSNumber *)memberid;
 
 @end

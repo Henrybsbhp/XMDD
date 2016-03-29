@@ -15,6 +15,11 @@
 
 @implementation MutualInsPhotoBrowserVC
 
+-(void)dealloc
+{
+    DebugLog(@"MutualInsPhotoBrowserVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.imgView.image = self.img;
@@ -22,7 +27,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 

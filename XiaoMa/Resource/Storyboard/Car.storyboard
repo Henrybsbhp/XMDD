@@ -53,7 +53,7 @@
                                 <rect key="frame" x="0.0" y="461" width="600" height="75"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="48X-Kh-hEL">
-                                        <rect key="frame" x="15" y="8" width="425" height="59"/>
+                                        <rect key="frame" x="15" y="8" width="440" height="59"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -79,7 +79,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="48X-Kh-hEL" secondAttribute="trailing" constant="160" id="9Ou-jP-MRL"/>
+                                    <constraint firstAttribute="trailing" secondItem="48X-Kh-hEL" secondAttribute="trailing" constant="145" id="9Ou-jP-MRL"/>
                                     <constraint firstItem="48X-Kh-hEL" firstAttribute="top" secondItem="LFs-Ud-rrr" secondAttribute="top" constant="8" id="ATI-vm-R42"/>
                                     <constraint firstAttribute="trailing" secondItem="GsZ-Sm-w6e" secondAttribute="trailing" constant="15" id="D3H-Ul-Lve"/>
                                     <constraint firstItem="GsZ-Sm-w6e" firstAttribute="top" secondItem="LFs-Ud-rrr" secondAttribute="top" constant="13" id="VKB-Fw-6Mb"/>

@@ -3,7 +3,7 @@
 (provide node-tree)
 (import "cdmap/model/mutualIns.cmm")
 (define node-list
-  '(file (id 85c6b24d-d266-3b0e-b995-948eded8f2a1) (name "main.cmm")))
+  '(file (id 348da84b-3694-3b75-8fbc-cb65996c30bf) (name "main.cmm")))
 (when (pair? (current-templates))
   (for-each
    (lambda (temp)

@@ -30,6 +30,11 @@
 
 @implementation MutualInsPayResultVC
 
+- (void)dealloc
+{
+    DebugLog(@"MutualInsPayResultVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -129,16 +134,21 @@
     {
         case 2:
             title.text = @"联系人姓名";
+            textField.placeholder = @"请输入联系人姓名";
+            textField.keyboardType = UIKeyboardTypeDefault;
             textField.text = self.contactname;
             self.view1 = textField;
             break;
         case 3:
             title.text = @"联系人手机";
+            textField.placeholder = @"请输入联系人手机";
+            textField.keyboardType = UIKeyboardTypePhonePad;
             textField.text = self.contactphone;
             self.view2 = textField;
             break;
         default:
             title.text = @"协议寄送地址";
+            textField.keyboardType = UIKeyboardTypeDefault;
             textField.hidden = YES;
             break;
     }
@@ -173,23 +183,13 @@
 -(UITableViewCell *)detailCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"detailCell"];
-    UITextView *textView = [cell viewWithTag:100];
-    textView.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
-    textView.layer.borderWidth = 1;
-    UILabel *placeHolder = [cell viewWithTag:101];
+    UITextField *textField = [cell viewWithTag:100];
+    textField.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
+    textField.layer.borderWidth = 1;
     
-    textView.text = self.address;
-    self.view4 = textView;
-    [[[textView rac_textSignal] takeUntilForCell:cell] subscribeNext:^(NSString *x) {
-        if (x.length != 0)
-        {
-            placeHolder.text = @"";
-        }
-        else
-        {
-            placeHolder.text = @"请填写详细地址";
-        }
-        
+    textField.text = self.address;
+    self.view4 = textField;
+    [[[textField rac_textSignal] takeUntilForCell:cell] subscribeNext:^(NSString *x) {
         self.address = x;
     }];
     return cell;
@@ -298,7 +298,7 @@
     UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您未提交联系人信息，为保证协议的正常送达，请先完善信息。是否继续完善信息？" delegate:nil cancelButtonTitle:@"执意退出" otherButtonTitles:@"继续完善", nil];
     [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
         
-        if ([number integerValue])
+        if (![number integerValue])
         {
             for (UIViewController * vc in self.navigationController.viewControllers)
             {

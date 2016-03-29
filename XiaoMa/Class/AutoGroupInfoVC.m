@@ -32,6 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setRightBtnItem];
     [self setupTableView];
     [self loadFirstTime];
 }
@@ -42,6 +43,13 @@
 }
 
 #pragma mark - Setup
+
+- (void)setRightBtnItem {
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"新手必点" style:UIBarButtonItemStylePlain
+                                                             target:self action:@selector(actionHelp)];
+    self.navigationItem.rightBarButtonItem = right;
+}
+
 - (void)setupTableView {
     self.tableView.hidden = YES;
     [self.tableView.refreshView addTarget:self action:@selector(requestAutoGroupArray) forControlEvents:UIControlEventValueChanged];
@@ -55,6 +63,14 @@
     [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(id x) {
         [self requestAutoGroupArray];
     }];
+}
+
+- (void)actionHelp
+{
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.title = @"新手必点";
+    vc.url = @"http://www.baidu.com";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionBack:(id)sender
@@ -227,17 +243,18 @@
     NSDictionary * groupInfo = [self.autoGroupArray safetyObjectAtIndex:indexPath.section];
     
     NSNumber * groupid = groupInfo[@"groupid"];
+    NSString *groupname = groupInfo[@"name"];
     tagLabel.text = [NSString stringWithFormat:@"  %@  ", [groupInfo stringParamForName:@"grouptag"]];
     
     if ([groupInfo stringParamForName:@"tip"].length == 0) {
-        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#888888") borderWidth:0.5];
+        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#888888") borderWidth:0.8];
         tagLabel.textColor = HEXCOLOR(@"#888888");
-        [btn setBackgroundColor:HEXCOLOR(@"#dedfe0")];
+        [btn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#dedfe0")];
         [btn setTitle:@"已结束" forState:UIControlStateNormal];
     }
     else {
-        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#ff7428") borderWidth:0.5];
-        [btn setBackgroundColor:HEXCOLOR(@"#18D06A")];
+        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#ff7428") borderWidth:0.8];
+        [btn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
         if ([groupInfo boolParamForName:@"ingroup"]) {
             [btn setTitle:@"已加入" forState:UIControlStateNormal];
         }
@@ -251,7 +268,7 @@
             [self jumpToGroupDetail:indexPath];
         }
         else {
-            [self joinSystemGroup:groupid];
+            [self joinSystemGroupWithGroupID:groupid groupName:groupname];
         }
     }];
     return cell;
@@ -267,6 +284,7 @@
 {
     //单个团介绍
     GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
+    vc.originVC = self.originVC;
     vc.titleStr = @"平台团介绍";
     vc.groupType = MutualGroupTypeSystem;
     NSDictionary * dic = [self.autoGroupArray safetyObjectAtIndex:indexPath.section];
@@ -281,10 +299,11 @@
         vc.btnType = BtnTypeJoinNow;
     }
     vc.groupId = [dic numberParamForName:@"groupid"];
+    vc.groupName = dic[@"name"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)joinSystemGroup:(NSNumber *)groupid
+- (void)joinSystemGroupWithGroupID:(NSNumber *)groupid groupName:(NSString *)groupname
 {
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
@@ -296,13 +315,14 @@
         [vc setFinishPickActionForMutualIns:^(MyCarListVModel * carModel, UIView * loadingView) {
             
             //爱车页面入团按钮委托实现
-            [self requestApplyJoinGroup:groupid andCarModel:carModel andLoadingView:loadingView];
+            [self requestApplyJoinGroupWithID:groupid groupName:groupname carModel:carModel loadingView:loadingView];
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
-- (void)requestApplyJoinGroup:(NSNumber *)groupId andCarModel:(MyCarListVModel *)carModel andLoadingView:(UIView *)view
+- (void)requestApplyJoinGroupWithID:(NSNumber *)groupId groupName:(NSString *)groupName
+                           carModel:(MyCarListVModel *)carModel loadingView:(UIView *)view
 {
     ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
     op.req_groupid = groupId;
@@ -317,6 +337,8 @@
         MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
         vc.memberId = rop.rsp_memberid;
         vc.groupId = rop.req_groupid;
+        vc.groupName = groupName;
+        vc.originVC = self.originVC;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         if (error.code == 6115804) {

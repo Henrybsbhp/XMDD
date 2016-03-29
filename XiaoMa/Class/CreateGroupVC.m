@@ -35,6 +35,13 @@
 
 @implementation CreateGroupVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"CreateGroupVC deallocated");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -61,6 +68,12 @@
 {
     if (self.textFieldString.length)
         [self requestCreateGroup:self.textFieldString];
+}
+
+// 骰子 Button 触发事件，来随机获取 Group 名，获取到以后将 Button 隐藏。
+- (IBAction)diceButtonDidClick:(UIButton *)sender
+{
+    [self requestGetGroupName];
 }
 
 - (void)actionBack:(id)sender
@@ -106,6 +119,9 @@
         
         [gToast dismiss];
         [self showAlertView:groupNameToCreate andCipher:rop.rsp_cipher andGroupId:rop.rsp_groupid];
+        
+        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
+        [MutualInsStore fetchExistsStore].lastGroupId = rop.rsp_groupid;
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
@@ -122,7 +138,7 @@
     [alertVC setCloseAction:^{
         
         @strongify(alertVC);
-       [alertVC dismiss];
+        [alertVC dismiss];
         [self jumpToHomePage];
     }];
     HKAlertActionItem *invite = [HKAlertActionItem itemWithTitle:@"邀请好友" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
@@ -133,7 +149,7 @@
         [alertView dismiss];
         if (index) {
             
-            [self jumpToCarListVC:groupId];
+            [self jumpToCarListVCWithGroupID:groupId groupName:groupName];
         }
         else {
             
@@ -143,18 +159,21 @@
     }];
 }
 
-- (void)jumpToCarListVC:(NSNumber *)groupId
+- (void)jumpToCarListVCWithGroupID:(NSNumber *)groupId groupName:(NSString *)groupname
 {
     CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
     vc.title = @"选择爱车";
     vc.model.allowAutoChangeSelectedCar = YES;
     vc.model.disableEditingCar = YES; //不可修改
     vc.canJoin = YES; //用于控制爱车页面底部view
-    vc.model.originVC = self;
+    vc.model.originVC = self.originVC;
+    
+    @weakify(self)
     [vc setFinishPickActionForMutualIns:^(MyCarListVModel *carModel, UIView * loadingView) {
         
+        @strongify(self)
         //爱车页面入团按钮委托实现
-        [self requestApplyJoinGroup:groupId andCarModel:carModel andLoadingView:loadingView];
+        [self requestApplyJoinGroupWithID:groupId groupName:groupname carModel:carModel loadingView:loadingView];
     }];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -163,6 +182,7 @@
 {
     InviteByCodeVC * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
     vc.groupId = groupId;
+    vc.originVC = self.originVC;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -189,23 +209,31 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-- (void)requestApplyJoinGroup:(NSNumber *)groupId andCarModel:(MyCarListVModel *)carModel andLoadingView:(UIView *)view
+- (void)requestApplyJoinGroupWithID:(NSNumber *)groupId groupName:(NSString *)groupName
+                           carModel:(MyCarListVModel *)carModel loadingView:(UIView *)view
 {
     ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
     op.req_groupid = groupId;
     op.req_carid = carModel.selectedCar.carId;
+    
+    @weakify(self)
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"团队加入中..." inView:view];
     }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
         
+        @strongify(self)
         [gToast dismissInView:view];
         
         MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
+        vc.originVC = self.originVC;
         vc.memberId = rop.rsp_memberid;
+        vc.groupId = groupId;
+        vc.groupName = groupName;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
+        @strongify(self)
         if (error.code == 6115804) {
             [gToast dismissInView:view];
             HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
@@ -331,6 +359,8 @@
     UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:101];
     UITextField *groupTextField = (UITextField *)[cell.contentView viewWithTag:102];
     UIActivityIndicatorView * indicatorView = (UIActivityIndicatorView *)[cell.contentView viewWithTag:103];
+    UIButton *diceButton = (UIButton *)[cell.contentView viewWithTag:112];
+
     
     titleLabel.text = @"团队名称";
     
@@ -344,28 +374,32 @@
     groupTextField.layer.borderWidth = 1;
     groupTextField.layer.masksToBounds = YES;
     groupTextField.text = self.textFieldString;
+    
+    @weakify(self)
     [groupTextField.rac_textSignal subscribeNext:^(id x) {
+        
+        @strongify(self)
         self.textFieldString = x;
     }];
-    
     
     [[[RACObserve(self, groupNameString) distinctUntilChanged] filter:^BOOL(NSString * value) {
       
         return value.length;
     }] subscribeNext:^(id x) {
        
-        if (!self.textFieldString.length)
-        {
-            groupTextField.text = x;
-            self.textFieldString = x;
-        }
+        @strongify(self)
+        groupTextField.text = x;
+        self.textFieldString = x;
     }];
-    
+
     [[RACObserve(self, isLoadingGroupName) distinctUntilChanged] subscribeNext:^(NSNumber * number) {
         
         BOOL isloading = [number boolValue];
         indicatorView.animating = isloading;
         indicatorView.hidden = !isloading;
+        
+        // 如果刷新停止后，则让骰子 Button 显现。
+        diceButton.hidden = isloading;
     }];
     
     return cell;
@@ -389,9 +423,9 @@
     tipsImageView3.image = [UIImage imageNamed:@"mutuallns_createGroup_rectangle"];
     
     tipsTitleLabel.text = @"组团提示";
-    [tipsLabel1 setPreferredMaxLayoutWidth:200];
-    [tipsLabel2 setPreferredMaxLayoutWidth:200];
-    [tipsLabel3 setPreferredMaxLayoutWidth:200];
+    [tipsLabel1 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 106];
+    [tipsLabel2 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 106];
+    [tipsLabel3 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 106];
     tipsLabel1.attributedText = [self generateAttributedStringWithLineSpacing:@"输入团队名称后，点击下方 “确定” 即可发起组团并获得入团暗号。"];
     tipsLabel2.attributedText = [self generateAttributedStringWithLineSpacing:@"分享暗号可以邀请好友加入。"];
     tipsLabel3.attributedText = [self generateAttributedStringWithLineSpacing:@"建团后，您也可以选择完善信息选择购买的小马互助种类后，再去邀请好友入团。"];
@@ -411,6 +445,7 @@
     
     return attrText;
 }
+
 
 
 @end

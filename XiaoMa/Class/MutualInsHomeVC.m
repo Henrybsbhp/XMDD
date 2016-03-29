@@ -17,9 +17,10 @@
 #import "HKMutualGroup.h"
 #import "HKTimer.h"
 #import "MutualInsStore.h"
-#import "DeleteMyGroupOp.h"
 #import "MutualInsPicUpdateVC.h"
 #import "UIView+JTLoadingView.h"
+#import "UIView+RoundedCorner.h"
+#import "DeleteCooperationGroupOp.h"
 
 @interface MutualInsHomeVC ()
 
@@ -42,6 +43,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
     [self setupMutualInsStore];
     self.tableView.hidden = YES;
     CKAsyncMainQueue(^{
@@ -75,6 +77,11 @@
     self.tableView.hidden = NO;
 }
 
+#pragma mark - Action
+- (void)actionBack:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - Reload
 - (void)reloadFormSignal:(RACSignal *)signal
 {
@@ -103,6 +110,20 @@
             else {
                 [self.view stopActivityAnimation];
                 [self resetTableView];
+            }
+        }
+        if (self.minsStore.lastGroupId)
+        {
+            for (NSInteger i = 0 ; i < self.myGroupArray.count; i++)
+            {
+                HKMutualGroup * group = [self.myGroupArray safetyObjectAtIndex:i];
+                if ([group.groupId isEqualToNumber:self.minsStore.lastGroupId])
+                {
+                    NSIndexPath * scrollPath = [NSIndexPath indexPathForRow:i+3+1 inSection:0];
+                    [self.tableView scrollToRowAtIndexPath:scrollPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                    self.minsStore.lastGroupId = nil;
+                    return ;
+                }
             }
         }
     } error:^(NSError *error) {
@@ -156,9 +177,10 @@
     else if (group.btnStatus == GroupBtnStatusDelete){
         
         //删除我的团操作 团长和团员调用新接口，入参不同
-        DeleteMyGroupOp * op = [DeleteMyGroupOp operation];
-        op.memberId = group.memberId;
-        op.groupId = group.groupId;
+        
+        DeleteCooperationGroupOp * op = [DeleteCooperationGroupOp operation];
+        op.req_memberid = group.memberId;
+        op.req_groupid = group.groupId;
         [[[op rac_postRequest] initially:^{
             [gToast showingWithText:@"删除中..."];
         }] subscribeNext:^(id x) {
@@ -174,6 +196,16 @@
         } error:^(NSError *error) {
             [gToast showError:error.domain];
         }];
+    }
+    else if (group.btnStatus == GroupBtnStatusUpdate) {
+        
+        //完善资料
+        MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
+        vc.memberId = group.memberId;
+        vc.groupId = group.groupId;
+        vc.groupName = group.groupName;
+        vc.originVC = self;
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
@@ -232,18 +264,22 @@
 {
     if (indexPath.row == 0) {
         GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
+        vc.originVC = self;
         vc.titleStr = @"自组团介绍";
         vc.groupType = MutualGroupTypeSelf;
+        vc.originVC = self;
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (indexPath.row == 1)
     {
         AutoGroupInfoVC * vc = [UIStoryboard vcWithId:@"AutoGroupInfoVC" inStoryboard:@"MutualInsJoin"];
+        vc.originVC = self;
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (indexPath.row > 3) {
         //我的团详情页面
         MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
+        vc.routeInfo = [CKDict dictWith:@{}];
         vc.group = [self.myGroupArray safetyObjectAtIndex:indexPath.row - 4];
         vc.originVC = self;
         [self.navigationController pushViewController:vc animated:YES];
@@ -281,6 +317,8 @@
     UIButton *checkBtn = (UIButton *)[cell.contentView viewWithTag:1001];
     UIButton *payBtn = (UIButton *)[cell.contentView viewWithTag:1002];
     
+    [checkBtn setCornerRadius:5 withBackgroundColor:HEXCOLOR(@"#FF4E70")];
+    [payBtn setCornerRadius:5 withBackgroundColor:HEXCOLOR(@"#18D06A")];
     //我要核价
     [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
@@ -333,17 +371,21 @@
         timeLabel.text = @"";
     }
     
-    opeBtn.hidden = !(group.btnStatus == GroupBtnStatusInvite || group.btnStatus == GroupBtnStatusDelete);
+    opeBtn.hidden = !(group.btnStatus == GroupBtnStatusInvite || group.btnStatus == GroupBtnStatusDelete || group.btnStatus == GroupBtnStatusUpdate);
     
     if (group.btnStatus)
     {
         if (group.btnStatus == GroupBtnStatusInvite) {
             [opeBtn setTitle:@"邀请好友" forState:UIControlStateNormal];
-            [opeBtn setBackgroundColor:HEXCOLOR(@"#18D06A")];
+            [opeBtn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
         }
         else if (group.btnStatus == GroupBtnStatusDelete){
             [opeBtn setTitle:@"删除" forState:UIControlStateNormal];
-            [opeBtn setBackgroundColor:HEXCOLOR(@"#FF4E70")];
+            [opeBtn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#FF4E70")];
+        }
+        else if (group.btnStatus == GroupBtnStatusUpdate) {
+            [opeBtn setTitle:@"完善资料" forState:UIControlStateNormal];
+            [opeBtn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
         }
         @weakify(self);
         [[[opeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {

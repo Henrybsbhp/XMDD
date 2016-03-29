@@ -14,6 +14,7 @@
 #import "GetCooperationContractDetailOp.h"
 #import "MutualInsContract.h"
 #import "MutualInsPayViewController.h"
+#import "MutualInsPayResultVC.h"
 
 
 @interface MutualInsOrderInfoVC ()<UIScrollViewDelegate>
@@ -47,9 +48,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupNavigationBar];
+    self.navigationItem.title = @"订单详情";
     [self setupUI];
-    
     [self requestContractDetail];
 }
 
@@ -62,6 +62,17 @@
 - (void)setupNavigationBar
 {
     self.navigationItem.title = @"订单详情";
+    
+    if (self.contract.status == 2 && !self.contract.finishaddress)
+    {
+        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"分享" style:UIBarButtonItemStylePlain target:self action:@selector(jumoToFinishAddressVC)];
+        [right setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:16.0]} forState:UIControlStateNormal];
+        self.navigationItem.rightBarButtonItem = right;
+    }
+    else
+    {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
 }
 
 - (void)setupUI
@@ -120,6 +131,7 @@
         MutualInsPayViewController * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPayViewController"];
         vc.contract = self.contract;
         vc.proxybuy = self.isInsProxy;
+        vc.group = self.group;
         [self.navigationController pushViewController:vc animated:YES];
     }
     else
@@ -127,6 +139,13 @@
         NSString * number = @"4007111111";
         [gPhoneHelper makePhone:number andInfo:@"订单查询,小马互助咨询等\n请拨打客服电话: 4007-111-111"];
     }
+}
+
+- (void)jumoToFinishAddressVC
+{
+    MutualInsPayResultVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPayResultVC"];
+    vc.contract = self.contract;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)requestContractDetail
@@ -146,10 +165,11 @@
         [self.view stopActivityAnimation];
         
         self.contract = rop.rsp_contractorder;
-        self.isInsProxy = self.contract.insperiod;
+        self.isInsProxy = self.contract.insperiod.length;
         [self setupDateSource];
         
         [self refreshUI];
+        [self setupNavigationBar];
         [self.tableView reloadData];
         
     } error:^(NSError *error) {
@@ -177,7 +197,10 @@
     [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"互助期限",@"content":self.contract.contractperiod ?: @""}];
     [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"证件号码",@"content":self.contract.idno ?: @""}];
     [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"互助车辆",@"content":self.contract.licencenumber ?: @""}];
-    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"共计费用",@"content":[NSString formatForPrice:self.contract.total],@"tag":self.contract.couponmoney ? [NSString stringWithFormat:@"优惠￥%@",[NSString formatForPrice:self.contract.couponmoney]] : @""}];
+    
+    CGFloat price = self.contract.total - self.contract.couponmoney;
+    NSString * tag = self.contract.couponmoney ? [NSString stringWithFormat:@"原价￥%@ 优惠￥%@",[NSString formatForPrice:self.contract.total],[NSString formatForPrice:self.contract.couponmoney]] : @"";
+    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"共计费用",@"content":[NSString formatForPrice:price],@"tag":tag}];
     [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"服务项目",@"content":@"保险金额"}];
     
     for (NSDictionary * subIns in self.contract.inslist)
@@ -187,7 +210,7 @@
         [array safetyAddObject:@{@"id":@"ItemCell",@"title":insName,@"content":[NSString formatForPrice:[sum floatValue]]}];
     }
     
-    if (self.contract.insperiod)
+    if (self.contract.insperiod.length)
     {
         [array safetyAddObject:@{@"id":@"SwitchCell",@"insSelected":@(self.isInsProxy),@"content":@"保险公司代购"}];
         
