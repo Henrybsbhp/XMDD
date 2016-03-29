@@ -13,6 +13,8 @@
     self.licensenumber = dict[@"licensenumber"];
     self.brandurl = dict[@"brandurl"];
     self.memberid = dict[@"memberid"];
+    self.showflag = [dict[@"showflag"] boolValue];
+    self.lstupdatetime = [dict[@"lstupdatetime"] longLongValue];
     self.statusdesc = dict[@"statusdesc"];
 
 }

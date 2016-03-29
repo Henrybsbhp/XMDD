@@ -182,7 +182,7 @@
         blankItem[@"loading"] = @NO;
         blankItem[@"error"] = @YES;
         blankItem.forceReload = !blankItem.forceReload;
-        [self reloadView:NO];
+        [self reloadView:YES];
     } completed:^{
         
         @strongify(self);
