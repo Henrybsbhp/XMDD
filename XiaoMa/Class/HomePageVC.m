@@ -14,6 +14,7 @@
 #import "UIImage+Utilities.h"
 #import "UIView+Layer.h"
 #import "UIView+HKLine.h"
+#import "NSString+RectSize.h"
 #import "GetSystemTipsOp.h"
 #import "GetSystemHomePicOp.h"
 
@@ -27,6 +28,10 @@
 #import "HomeSuspendedAdVC.h"
 #import "InviteAlertVC.h"
 #import "AdListData.h"
+#import "HKPopoverView.h"
+
+#import "MyCouponVC.h"
+#import "CouponPkgViewController.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3
@@ -34,9 +39,11 @@
 @interface HomePageVC ()<UIScrollViewDelegate>
 @property (nonatomic, weak) IBOutlet UIView *bgView;
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, weak) IBOutlet UIView *weatherView;
+@property (nonatomic, weak) HKPopoverView *popoverMenu;
 
 @property (nonatomic, strong) ADViewController *adctrl;
-@property (nonatomic, weak) IBOutlet UIView *weatherView;
+
 @property (nonatomic, strong)UIView *mainItemView;
 @property (nonatomic, strong)UIView *secondaryItemView;
 @property (nonatomic, strong)UIView *containerView;
@@ -49,9 +56,10 @@
 @property (nonatomic, assign) BOOL isViewAppearing;
 /// 是否展示广告
 @property (nonatomic, assign) BOOL isShowSuspendedAd;
-
+// 九宫格按钮的dispoable数据，控制点击事件释放
 @property (nonatomic, strong)NSMutableArray * disposableArray;
-
+// 右上角菜单栏是否打开
+@property (nonatomic, assign) BOOL isMenuViewOpen;
 @end
 
 
@@ -101,6 +109,9 @@
 {
     [super viewWillDisappear:animated];
     self.isViewAppearing = NO;
+    
+    /// 移除右上角菜单栏
+    [self.popoverMenu dismissWithAnimated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -276,8 +287,19 @@
 {
     if (city.length)
     {
-        UIBarButtonItem *cityBtn = [[UIBarButtonItem alloc] initWithTitle:city style:UIBarButtonItemStyleDone
-                                                                   target:self action:nil];
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        //设置图片
+        UIImage *imageForButton = [UIImage imageNamed:@"hp_location_300"];
+        [button setImage:imageForButton forState:UIControlStateNormal];
+        
+        CGSize size = [city labelSizeWithWidth:9999 font:[UIFont boldSystemFontOfSize:15]];
+        [button setTitle:city forState:UIControlStateNormal];
+        [button setTitleColor:kDefTintColor forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont boldSystemFontOfSize:15];
+        button.frame = CGRectMake(0, 0 , size.width + 20, 20);
+        button.imageEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0);
+        UIBarButtonItem *cityBtn = [[UIBarButtonItem alloc] initWithCustomView:button];
+        cityBtn.tintColor = kDefTintColor;
         self.navigationItem.leftBarButtonItem = cityBtn;
     }
     else
@@ -365,7 +387,6 @@
 
 - (void)showSuspendedAdIfNeeded
 {
-    
     if (!self.guideStore.shouldDisablePopupAd && self.isViewAppearing && !self.isShowSuspendedAd && ![[UIPasteboard generalPasteboard].string hasPrefix:XMINSPrefix]) {
         
         self.isShowSuspendedAd = YES;
@@ -393,11 +414,44 @@
 }
 
 #pragma mark - Action
-- (IBAction)actionCallCenter:(id)sender
+- (IBAction)actionShowOrHideMenu:(id)sender
 {
-    [MobClick event:@"rp101_2"];
-    NSString * number = @"4007111111";
-    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+    if (self.isMenuViewOpen) {
+        [self.popoverMenu dismissWithAnimated:YES];
+        self.isMenuViewOpen = NO;
+    }
+    else if (!self.isMenuViewOpen) {
+        
+        CKList * menuList = $([self menuItemCoupon], [self menuItemCouponPkg], [self menuItemCallService]);
+        NSArray *items = [menuList.allObjects arrayByMappingOperator:^id(CKDict *obj) {
+            return [HKPopoverViewItem itemWithTitle:obj[@"title"] imageName:obj[@"img"]];
+        }];
+        
+        
+        HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 160) items:items];
+        @weakify(self)
+        [popover setDidSelectedBlock:^(NSUInteger index) {
+            
+            @strongify(self)
+            CKDict *dict = menuList[index];
+            CKCellSelectedBlock block = dict[kCKCellSelected];
+            if (block) {
+                block(dict, [NSIndexPath indexPathForRow:index inSection:0]);
+            }
+            
+            self.isMenuViewOpen = NO;
+        }];
+        
+        [popover setDidDismissedBlock:^(BOOL animated) {
+            @strongify(self);
+            self.isMenuViewOpen = NO;
+        }];
+        
+        [popover showAtAnchorPoint:CGPointMake(self.navigationController.view.frame.size.width-33, 60)
+                            inView:self.navigationController.view dismissTargetView:self.view animated:YES];
+        self.isMenuViewOpen = YES;
+        self.popoverMenu = popover;
+    }
 }
 
 
@@ -708,5 +762,40 @@
 {
     [gAppMgr.navModel pushToViewControllerByUrl:url];
 }
+
+#pragma mark - MenuItems
+- (CKDict *)menuItemCoupon {
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Invite",@"title":@"优惠券",@"img":@"hp_coupon_300"}];
+    @weakify(self);
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        MyCouponVC *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
+        vc.jumpType = CouponNewTypeCarWash;
+        [self.navigationController pushViewController:vc animated:YES];
+    });
+    return dict;
+}
+
+- (CKDict *)menuItemCouponPkg {
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Invite",@"title":@"兑换礼包",@"img":@"hp_pkg_300"}];
+    @weakify(self);
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        CouponPkgViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"CouponPkgViewController"];
+        [self.navigationController pushViewController:vc animated:YES];
+    });
+    return dict;
+}
+
+- (CKDict *)menuItemCallService {
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Invite",@"title":@"咨询客服",@"img":@"hp_service_300"}];
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        [MobClick event:@"rp101_2"];
+        NSString * number = @"4007111111";
+        [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+    });
+    return dict;
+}
+
 
 @end
