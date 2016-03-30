@@ -36,6 +36,7 @@
 #import "OrderPaidSuccessOp.h"
 
 #import "GainUserAwardOp.h"
+#import "FMDeviceManager.h"
 
 
 #define CheckBoxCouponGroup @"CheckBoxCouponGroup"
@@ -942,6 +943,10 @@
     self.checkoutServiceOrderV4Op.carModel = self.defaultCar.seriesModel.seriesname;
     //    self.checkoutServiceOrderV4Op.bankCardId = self.selectBankCard.cardID;
     self.checkoutServiceOrderV4Op.bankCardId = bandCard.cardID;
+    
+    FMDeviceManager_t *manager = [FMDeviceManager sharedManager];
+    NSString *blackBox = manager->getDeviceInfo();
+    self.checkoutServiceOrderV4Op.blackbox = blackBox;
     
     //如果不是原价支付，需要提供定位信息
     RACSignal *signal;

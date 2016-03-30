@@ -15,6 +15,7 @@
 #import "PaymentHelper.h"
 #import "CKDatasource.h"
 #import "NSString+Format.h"
+#import "FMDeviceManager.h"
 
 @interface GasNormalVM ()
 @property (nonatomic, strong) RACSignal *getGaschargeConfigSignal;
@@ -196,6 +197,11 @@
     op.req_paychannel = self.paymentPlatform;
     op.req_bill = self.needInvoice;
     op.req_cid = self.coupon.couponId ? self.coupon.couponId : @0;
+    
+    FMDeviceManager_t *manager = [FMDeviceManager sharedManager];
+    NSString *blackBox = manager->getDeviceInfo();
+    op.req_blackbox = blackBox;
+    
     @weakify(self, op);
     [[[op rac_postRequest] initially:^{
         

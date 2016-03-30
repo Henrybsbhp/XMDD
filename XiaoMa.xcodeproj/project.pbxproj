@@ -381,6 +381,7 @@
 		50BA11641C27F42F00EA1E4A /* CarIDCodeCheckModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BA11631C27F42F00EA1E4A /* CarIDCodeCheckModel.m */; };
 		50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE7C911B6716B500675887 /* SelectScrollView.m */; };
 		50BF30161CABEE0100D0FC07 /* AdListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BF30151CABEE0100D0FC07 /* AdListData.m */; };
+		50BF301A1CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50BF30191CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a */; };
 		50C6BF4D1B7341B800A5E021 /* CardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */; };
 		50DD1BC51BFB019300349A70 /* GetOtherOrderListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BC41BFB019300349A70 /* GetOtherOrderListOp.m */; };
 		50DD1BC81BFB023800349A70 /* HKOtherOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BC71BFB023800349A70 /* HKOtherOrder.m */; };
@@ -1373,6 +1374,8 @@
 		50BE7C911B6716B500675887 /* SelectScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectScrollView.m; path = Class/SelectScrollView.m; sourceTree = "<group>"; };
 		50BF30141CABEE0100D0FC07 /* AdListData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdListData.h; path = Class/AdListData.h; sourceTree = "<group>"; };
 		50BF30151CABEE0100D0FC07 /* AdListData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdListData.m; path = Class/AdListData.m; sourceTree = "<group>"; };
+		50BF30181CABF0E600D0FC07 /* FMDeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDeviceManager.h; sourceTree = "<group>"; };
+		50BF30191CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFMDeviceManager_without_IDFA.a; sourceTree = "<group>"; };
 		50C6BF4B1B7341B800A5E021 /* CardDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardDetailVC.h; sourceTree = "<group>"; };
 		50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardDetailVC.m; sourceTree = "<group>"; };
 		50DD1BC31BFB019300349A70 /* GetOtherOrderListOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetOtherOrderListOp.h; path = Class/GetOtherOrderListOp.h; sourceTree = "<group>"; };
@@ -1941,6 +1944,7 @@
 				18E28A131B93E5880070E759 /* libUPPayPlugin.a in Frameworks */,
 				189B31161ADBDF07001D7288 /* MobileCoreServices.framework in Frameworks */,
 				6BBFBC411B0D8E57000D3CA3 /* libWeiboSDK.a in Frameworks */,
+				50BF301A1CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a in Frameworks */,
 				6BBBF54D1B291CCA00E1B809 /* Fabric.framework in Frameworks */,
 				6BBB825C1AE79FE100850D0C /* libWeChatSDK.a in Frameworks */,
 				06380E56572F1DCE6105BE83 /* libPods.a in Frameworks */,
@@ -1979,6 +1983,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				50BF30171CABF0D600D0FC07 /* Tongdun */,
 				6B2F28F31C8414D80096FD45 /* RRFPSBar */,
 				18FC01BA1C4E6C6F00FD61BF /* IQKeyBoardManager */,
 				50E8003E1C44D7B100AFC7B9 /* HYScratchCardView */,
@@ -3570,6 +3575,15 @@
 				50BE7C911B6716B500675887 /* SelectScrollView.m */,
 			);
 			name = SelectScrollView;
+			sourceTree = "<group>";
+		};
+		50BF30171CABF0D600D0FC07 /* Tongdun */ = {
+			isa = PBXGroup;
+			children = (
+				50BF30181CABF0E600D0FC07 /* FMDeviceManager.h */,
+				50BF30191CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a */,
+			);
+			name = Tongdun;
 			sourceTree = "<group>";
 		};
 		50E8003E1C44D7B100AFC7B9 /* HYScratchCardView */ = {
