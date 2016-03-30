@@ -158,7 +158,7 @@ static const float kButtonWidth = 44.0f;
 - (void)setValue:(float)value
 {
     if (self.allowValueList && self.valueList.count > 0) {
-        _value = value;
+        _value = [PKYStepper fitValueForValue:value inValueList:self.valueList];
     }
     else {
         _value = MAX(MIN(value, self.maximum), self.minimum);
@@ -207,9 +207,51 @@ static const float kButtonWidth = 44.0f;
     return fitValue;
 }
 
++ (float)incrementValue:(float)value inValueList:(NSArray *)valueList
+{
+    float newValue = value;
+    NSInteger count = valueList.count;
+    for (NSInteger i = 0; i < count; i++) {
+        newValue = [valueList[i] floatValue];
+        if (value < newValue) {
+            break;
+        }
+        else if ([self isEqualForValue1:value andValue2:newValue]) {
+            newValue = [valueList[MIN(count-1, i+1)] floatValue];
+            break;
+        }
+    }
+    return newValue;
+}
+
++ (float)decrementValue:(float)value inValueList:(NSArray *)valueList
+{
+    float newValue = value;
+    NSInteger count = valueList.count;
+    for (NSInteger i = count-1; i >= 0; i--) {
+        newValue = [valueList[i] floatValue];
+        if (value > newValue) {
+            break;
+        }
+        else if ([self isEqualForValue1:value andValue2:newValue]) {
+            newValue = [valueList[MAX(0, i-1)] floatValue];
+            break;
+        }
+    }
+    return newValue;
+}
+
++ (BOOL)isEqualForValue1:(float)value1 andValue2:(float)value2
+{
+    if (fabs(value1 - value2) < 0.01) {
+        return YES;
+    }
+    return NO;
+}
 #pragma mark event handler
 - (void)incrementButtonTapped:(id)sender
 {
+    return;
     float newValue = self.value;
     if (self.allowValueList && self.valueList.count > 0) {
         if (self.curValueIndex+1 < self.valueList.count) {
@@ -229,6 +271,7 @@ static const float kButtonWidth = 44.0f;
 
 - (void)decrementButtonTapped:(id)sender
 {
+    return;
     float newValue = self.value;
     if (self.allowValueList && self.valueList.count > 0) {
         if (self.curValueIndex-1 >= 0) {

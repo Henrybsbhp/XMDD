@@ -275,9 +275,6 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
     } failed:^(NSError *error, GascardChargeOp *op) {
-        
-        @strongify(self);
-        [self pushToPaidByStagesResult:op];
     }];
 }
 
