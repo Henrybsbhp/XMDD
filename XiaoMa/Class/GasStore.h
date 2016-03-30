@@ -32,6 +32,8 @@
 
 ///获取当前用户所有油卡
 - (CKEvent *)getAllGasCards;
+///获取当前用户所有油卡(如果上次更新时间已经过期)
+- (CKEvent *)getAllGasCardsIfNeeded;
 ///添加油卡
 - (CKEvent *)addGasCard:(GasCard *)card;
 ///删除油卡

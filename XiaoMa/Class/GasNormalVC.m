@@ -192,6 +192,7 @@
     }
     self.tableView.scrollEnabled = !loading;
     self.bottomView.hidden = loading;
+    [self reloadBottomButton];
 }
 
 - (void)reloadBottomButton

@@ -27,9 +27,7 @@
     // Do any additional setup after loading the view.
     [self setupGasStore];
     [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
-    CKAfter(0.35, ^{
-        [self reloadData];
-    });
+    [self reloadDataIfNeeded];
 }
 
 
@@ -103,6 +101,12 @@
         [gToast showError:error.domain];
         [self.tableView.refreshView endRefreshing];
     }];
+}
+
+- (void)reloadDataIfNeeded
+{
+    RACSignal *signal = [[[self.gasStore getAllGasCardsIfNeeded] setObject:self] sendAndIgnoreError];
+    [self reloadWithSignal:signal];
 }
 
 - (void)reloadData

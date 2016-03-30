@@ -48,6 +48,14 @@
     return [self inlineEvent:event forDomain:kDomainGasCards];
 }
 
+- (CKEvent *)getAllGasCardsIfNeeded
+{
+    if ([self needUpdateTimetagForKey:kGasCardTimetagKey]) {
+        return [self getAllGasCards];
+    }
+    return [CKEvent eventWithName:@"getAllGasCards" signal:nil];
+}
+
 ///添加油卡
 - (CKEvent *)addGasCard:(GasCard *)card
 {
