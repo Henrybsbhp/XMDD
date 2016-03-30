@@ -148,11 +148,13 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="小马达达" id="LNP-uS-6P0">
-                        <barButtonItem key="leftBarButtonItem" title="杭州" id="mwN-Zb-TOb"/>
-                        <barButtonItem key="rightBarButtonItem" image="hp_callcenter" id="nVV-z5-Xsk">
-                            <color key="tintColor" white="0.14819597124636591" alpha="1" colorSpace="calibratedWhite"/>
+                        <barButtonItem key="leftBarButtonItem" title="杭州" id="mwN-Zb-TOb">
+                            <color key="tintColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="hp_menu_300" id="nVV-z5-Xsk">
+                            <color key="tintColor" red="0.094117647058823528" green="0.81568627450980391" blue="0.41568627450980389" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="actionCallCenter:" destination="o8e-Uo-uaL" id="kZq-Dd-NgM"/>
+                                <action selector="actionShowOrHideMenu:" destination="o8e-Uo-uaL" id="hsO-zn-J7Q"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -588,7 +590,7 @@
         <image name="cm_arrow_r2" width="9" height="15"/>
         <image name="cm_avatar" width="59" height="59"/>
         <image name="cm_dot" width="9" height="9"/>
-        <image name="hp_callcenter" width="26" height="34"/>
+        <image name="hp_menu_300" width="25" height="25"/>
         <image name="hp_weather" width="28" height="22"/>
         <image name="me_active_icon" width="116" height="55"/>
         <image name="me_active_text" width="144" height="32"/>
