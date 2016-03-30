@@ -349,9 +349,19 @@
             flag = YES;
         }
         //加入小马互助团
-        else if ([@"jg" equalByCaseInsensitive:name]) {
-            //待修改
-            UIViewController *vc = [UIStoryboard vcWithId:@"MessageListVC" inStoryboard:@"Message"];
+        else if ([@"coins" equalByCaseInsensitive:name]) {
+            
+            UIViewController *vc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
+            [self.curNavCtrl pushViewController:vc animated:YES];
+        }
+        //协办
+        else if ([@"ast" equalByCaseInsensitive:name]) {
+            UIViewController *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionOrderVC"];
+            [self.curNavCtrl pushViewController:vc animated:YES];
+        }
+        //救援
+        else if ([@"rescue" equalByCaseInsensitive:name]) {
+            UIViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
     }

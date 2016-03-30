@@ -104,7 +104,7 @@ typedef enum : NSUInteger {
 #define XIAMMAWEB @"http://www.xiaomadada.com"
 #define ADDEFINEWEB @"http://www.xiaomadada.com/apphtml/couponpkg.html?jump=t"
 
-#define kDefTintColor   HEXCOLOR(@"#15ac1f")
+#define kDefTintColor   HEXCOLOR(@"#18d06a")
 #define kDefLineColor   HEXCOLOR(@"#ebebeb")
 #define kDarkLineColor  HEXCOLOR(@"#e0e0e0")
 
