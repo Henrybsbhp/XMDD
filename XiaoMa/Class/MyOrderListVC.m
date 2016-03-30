@@ -47,14 +47,14 @@
     [self.carwashModel.loadingModel loadDataForTheFirstTime];
     [self.insuranceModel.loadingModel loadDataForTheFirstTime];
     [self.otherModel.loadingModel loadDataForTheFirstTime];
-    
+    self.washBtn.selected = YES;
     @weakify(self);
     [[self.washBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         [MobClick event:@"rp318_3"];
-        [self.washBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateNormal];
-        [self.insranceBtn setTitleColor:[UIColor colorWithHex:@"#4f5051" alpha:1.0f] forState:UIControlStateNormal];
-        [self.otherBtn setTitleColor:[UIColor colorWithHex:@"#4f5051" alpha:1.0f] forState:UIControlStateNormal];
+        self.washBtn.selected = YES;
+        self.insranceBtn.selected = NO;
+        self.otherBtn.selected = NO;
         self.carwashTableView.hidden = NO;
         self.insranceTableView.hidden = YES;
         self.otherTableView.hidden = YES;
@@ -65,10 +65,10 @@
 
     [[self.insranceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
+        self.washBtn.selected = NO;
+        self.insranceBtn.selected = YES;
+        self.otherBtn.selected = NO;
         [MobClick event:@"rp318_4"];
-        [self.washBtn setTitleColor:[UIColor colorWithHex:@"#4f5051" alpha:1.0f] forState:UIControlStateNormal];
-        [self.insranceBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateNormal];
-        [self.otherBtn setTitleColor:[UIColor colorWithHex:@"#4f5051" alpha:1.0f] forState:UIControlStateNormal];
         self.carwashTableView.hidden = YES;
         self.insranceTableView.hidden = NO;
         self.otherTableView.hidden = YES;
@@ -79,10 +79,9 @@
     
     [[self.otherBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [self.washBtn setTitleColor:[UIColor colorWithHex:@"#4f5051" alpha:1.0f] forState:UIControlStateNormal];
-        [self.insranceBtn setTitleColor:[UIColor colorWithHex:@"#4f5051" alpha:1.0f] forState:UIControlStateNormal];
-        [self.otherBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateNormal];
-        
+        self.washBtn.selected = NO;
+        self.insranceBtn.selected = NO;
+        self.otherBtn.selected = YES;
         self.carwashTableView.hidden = YES;
         self.insranceTableView.hidden = YES;
         self.otherTableView.hidden = NO;

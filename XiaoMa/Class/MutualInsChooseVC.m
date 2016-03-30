@@ -467,57 +467,6 @@
     return estPrice;
 }
 
-#pragma mark - Action
-- (void)actionBack:(id)sender {
-    
-    //刷新团列表信息
-    [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
-    [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] send];
-    
-    MutualInsGrouponVC *grouponvc;
-    MutualInsHomeVC *homevc;
-    NSInteger homevcIndex = NSNotFound;
-    for (NSInteger i=0; i<self.navigationController.viewControllers.count; i++) {
-        UIViewController *vc = self.navigationController.viewControllers[i];
-        if ([vc isKindOfClass:[MutualInsGrouponVC class]]) {
-            grouponvc = (MutualInsGrouponVC *)vc;
-            break;
-        }
-        if ([vc isKindOfClass:[MutualInsHomeVC class]]) {
-            homevc = (MutualInsHomeVC *)vc;
-            homevcIndex = i;
-        }
-    }
-    if (grouponvc) {
-        [self.navigationController popToViewController:grouponvc animated:YES];
-        return;
-    }
-    //创建团详情视图
-    grouponvc  = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
-    HKMutualGroup * group = [[HKMutualGroup alloc] init];
-    group.groupId = self.groupId;
-    group.groupName = self.groupName;
-    group.memberId = self.memberId;
-    grouponvc.group = group;
-    
-    NSMutableArray *vcs = [NSMutableArray array];
-    if (homevcIndex != NSNotFound) {
-        NSArray *subvcs = [self.navigationController.viewControllers subarrayToIndex:homevcIndex+1];
-        [vcs addObjectsFromArray:subvcs];
-    }
-    else {
-        //创建团root视图
-        homevc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
-        [vcs addObject:self.navigationController.viewControllers[0]];
-        [vcs addObject:homevc];
-    }
-    [vcs addObject:grouponvc];
-    [vcs addObject:self];
-    self.navigationController.viewControllers = vcs;
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-
 #pragma mark - Calculated
 - (void)calculateThirdPrice:(HKMutualInsList *)dataModel
 {
@@ -621,6 +570,9 @@
     }] subscribeNext:^(id x) {
         @strongify(self);
         [gToast dismiss];
+        //刷新团列表信息
+        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
+        [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] send];
         [self actionBack:nil];
     } error:^(NSError *error) {
         [gToast showText:error.domain];

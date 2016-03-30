@@ -14,6 +14,7 @@
 {
     NSDictionary *dict = rspObj;
     self.rsp_licensenumbers = dict[@"licensenumbers"];
+    self.rsp_inprocesslisnums = dict[@"inprocesslisnums"];
 	
     return self;
 }

@@ -107,7 +107,7 @@
     modelName.preferredMaxLayoutWidth = self.view.bounds.size.width - 50;
     mile.text = [NSString stringWithFormat:@"%@万公里",[NSString formatForPrice:[model floatParamForName:@"mile"]]];
     price.text=[NSString stringWithFormat:@"%@万元",[NSString formatForPrice:[model floatParamForName:@"price"]]];
-    evaluateTime.text = [NSString stringWithFormat:@"%@",[[NSDate dateWithUTS:model[@"evaluatetime"]]dateFormatForYYYYMMddHHmm]];
+    evaluateTime.text = [NSString stringWithFormat:@"%@",[[NSDate dateWithUTS:model[@"evaluatetime"]]dateFormatForYYYYMMddHHmm2]];
     evaluateZone.text = model[@"evaluatezone"];
     [imgView setImageByUrl:model[@"logo"] withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
     return cell;
@@ -132,7 +132,7 @@
     modelName.preferredMaxLayoutWidth = self.view.bounds.size.width - 50;
     mile.text = [NSString stringWithFormat:@"%@万公里",[NSString formatForPrice:[model floatParamForName:@"mile"]]];
     price.text=[NSString stringWithFormat:@"%@万元",[NSString formatForPrice:[model floatParamForName:@"price"]]];
-    evaluateTime.text = [NSString stringWithFormat:@"%@",[[NSDate dateWithUTS:model[@"evaluatetime"]]dateFormatForYYYYMMddHHmm]];
+    evaluateTime.text = [NSString stringWithFormat:@"%@",[[NSDate dateWithUTS:model[@"evaluatetime"]]dateFormatForYYYYMMddHHmm2]];
     evaluateZone.text = model[@"evaluatezone"];
     
     
@@ -282,7 +282,7 @@
     CGFloat offsetY = 0;
     if (self.isEditing)
     {
-        offsetY = -50;
+        offsetY = -60;
         
     }
     else
@@ -294,7 +294,7 @@
         [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
             
             make.top.mas_equalTo(self.view.mas_bottom).offset(offsetY);
-            make.height.mas_equalTo(50);
+            make.height.mas_equalTo(60);
         }];
     }];
     /**

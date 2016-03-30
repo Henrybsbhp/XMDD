@@ -92,7 +92,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 162;
+    return 172;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -122,13 +122,16 @@
     nameL.text = order.shop.shopName;
     stateL.text = @"交易成功";
     [iconV setImageByUrl:[order.shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
-    
+    bottomB.layer.borderWidth = 0.5;
     serviceL.text = order.servicename;
-    timeL.text = [order.txtime dateFormatForYYYYMMddHHmm];
+    timeL.text = [order.txtime dateFormatForYYYYMMddHHmm2];
     priceL.text = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:order.fee]];
     paymentL.text = order.paydesc;
     [[RACObserve(order, ratetime) takeUntilForCell:cell] subscribeNext:^(id x) {
         [bottomB setTitle:order.ratetime ? @"已评价" : @"去评价" forState:UIControlStateNormal];
+        bottomB.layer.borderColor = order.ratetime ? HEXCOLOR(@"#888888").CGColor : HEXCOLOR(@"18d06a").CGColor;
+        UIColor *textColor = order.ratetime ? HEXCOLOR(@"#888888") : HEXCOLOR(@"18d06a");
+        [bottomB setTitleColor:textColor forState:UIControlStateNormal];
         bottomB.userInteractionEnabled = !order.ratetime;
     }];
     @weakify(self);
