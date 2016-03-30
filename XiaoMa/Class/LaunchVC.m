@@ -109,7 +109,8 @@
         
         if (gAppMgr.navModel.curNavCtrl && url.length)
         {
-            [gAppMgr.navModel pushToViewControllerByUrl:url];
+            NSDictionary * dict = @{@"url":url};
+            [gAppDelegate.openUrlQueue addObject:dict forKey:nil];
         }
         
         [UIView animateWithDuration:0.35 animations:^{
