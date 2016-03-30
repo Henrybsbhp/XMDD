@@ -28,6 +28,7 @@
 #import "ValuationViewController.h"
 #import "HomeNewbieGuideVC.h"
 #import "HomeSuspendedAdVC.h"
+#import "AdListData.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3.0
@@ -465,12 +466,20 @@
         self.isShowSuspendedAd = YES;
         
         @weakify(self);
-        RACSignal *signal = [gAdMgr rac_getAdvertisement:AdvertisementAlert];
+        RACSignal *signal = [gAdMgr rac_getAdvertisement:AdvertisementHomePage];
         [[signal deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
             
             @strongify(self);
+            NSMutableArray * mutableArr = [[NSMutableArray alloc] init];
+            for (int i = 0; i < ads.count; i ++) {
+                HKAdvertisement * adDic = ads[i];
+                //广告是否已经看过
+                if (![AdListData checkAdAlreadyAppeard:adDic]) {
+                    [mutableArr addObject:adDic];
+                }
+            }
             //若弹出抢登登录框，则不弹出广告
-            if (!gAppDelegate.errorModel.alertView && ads.count > 0) {
+            if (!gAppDelegate.errorModel.alertView && mutableArr.count > 0) {
                 
                 [HomeSuspendedAdVC presentInTargetVC:self withAdList:ads];
             }
