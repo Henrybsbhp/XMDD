@@ -109,6 +109,7 @@
         
         if (gAppMgr.navModel.curNavCtrl && url.length)
         {
+            //  使用队列模式
             NSDictionary * dict = @{@"url":url};
             [gAppDelegate.openUrlQueue addObject:dict forKey:nil];
         }
