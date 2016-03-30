@@ -29,7 +29,7 @@
 #define LastWeatherTime @"LastWeatherTime"
 #define SearchHistory   @"SearchHistory"
 #define AddrComonpent   @"AddrComonpent"
-#define HomePicKey   @"HomePic"
+#define HomePicKey   @"HomePic_3.0.0"
 
 @interface AppManager : NSObject
 

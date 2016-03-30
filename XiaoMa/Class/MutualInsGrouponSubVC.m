@@ -180,7 +180,6 @@
     vc.memberId = self.groupDetail.req_memberid;
     vc.groupId = self.groupDetail.req_groupid;
     vc.groupName = self.groupDetail.rsp_groupname;
-    vc.originVC = self.originVC;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

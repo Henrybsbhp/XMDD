@@ -65,12 +65,18 @@
         if (self.btnType == BtnTypeJoinNow) {
             [self.sysJoinBtn setTitle:@"立即加入" forState:UIControlStateNormal];
         }
-        else if (self.btnType == BtnTypeAlready){
+        else if (self.btnType == BtnTypeAlready) {
             [self.sysJoinBtn setTitle:@"再加一辆车" forState:UIControlStateNormal];
+        }
+        else if (self.btnType == BtnTypeNotStart) {
+            self.sysJoinBtn.enabled = NO;
+            [self.sysJoinBtn setTitle:@"未开始" forState:UIControlStateNormal];
+            [self.sysJoinBtn setBackgroundColor:HEXCOLOR(@"#dedfe0")];
         }
         else {
             self.sysJoinBtn.enabled = NO;
             [self.sysJoinBtn setTitle:@"已结束" forState:UIControlStateNormal];
+            [self.sysJoinBtn setBackgroundColor:HEXCOLOR(@"#dedfe0")];
         }
     }
     else
