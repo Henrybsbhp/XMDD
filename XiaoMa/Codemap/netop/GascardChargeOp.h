@@ -17,6 +17,10 @@
 ///是否开发票(1:开发票，0:不开)
 @property (nonatomic,assign) int req_bill;
 
+///同盾设备指纹
+@property (nonatomic,copy)NSString * req_blackbox;
+
+
 ///交易流水
 @property (nonatomic,strong) NSString* rsp_tradeid;
 ///记录ID
