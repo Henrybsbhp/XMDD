@@ -157,7 +157,7 @@
     //分期加油
     if (self.curChargePackage.pkgid) {
         GasChargePackage *pkg = self.curChargePackage;
-        int amount = [[self.configOp.rsp_supportamt lastObject] intValue];
+        int amount = (int)self.rechargeAmount;
         float coupon = amount * pkg.month * (1-[pkg.discount floatValue]/100.0);
         return [NSString stringWithFormat:@"<font size=13 color='#888888'>充值即享<font color='#ff0000'>%@折</font>，每月充值%d元，能省%@元</font>",
                 pkg.discount, amount, [NSString formatForFloorPrice:coupon]];
