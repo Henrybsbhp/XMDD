@@ -73,7 +73,7 @@
                          RACTuplePack(@"项目价格：", strpirce),
                          RACTuplePack(@"我的车辆：", self.order.licencenumber),
                          RACTuplePack(@"支付方式：", self.order.paydesc),
-                         RACTuplePack(@"支付时间：", [self.order.txtime dateFormatForYYYYMMddHHmm])];
+                         RACTuplePack(@"支付时间：", [self.order.txtime dateFormatForYYYYMMddHHmm2])];
     [self.tableView reloadData];
 }
 

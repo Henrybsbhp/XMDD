@@ -394,7 +394,6 @@
         MutualInsChooseVC * vc = [UIStoryboard vcWithId:@"MutualInsChooseVC" inStoryboard:@"MutualInsJoin"];
         vc.memberId = self.memberId;
         vc.groupId = self.groupId;
-        vc.originVC = self.originVC;
         vc.groupName = self.groupName;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {

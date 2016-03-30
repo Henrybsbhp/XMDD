@@ -38,10 +38,7 @@
 @property (nonatomic, strong) CarWashCouponVModel *gasModel;
 @property (nonatomic, strong) CarWashCouponVModel *insuranceModel;
 @property (nonatomic, strong) CarWashCouponVModel *othersModel;
-@property (weak, nonatomic) IBOutlet UIView *getMoreView;
 
-
-- (IBAction)getMoreAction:(id)sender;
 
 @end
 
@@ -105,10 +102,6 @@
 
 - (void)setSegmentView
 {
-    [self.carwashBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateSelected];
-    [self.gasBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateSelected];
-    [self.insuranceBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateSelected];
-    [self.othersBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateSelected];
     self.segHelper = [[CKSegmentHelper alloc] init];
     @weakify(self)
     [self.segHelper addItem:self.carwashBtn forGroupName:@"TabBar" withChangedBlock:^(id item, BOOL selected) {
