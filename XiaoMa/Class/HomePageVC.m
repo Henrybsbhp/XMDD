@@ -71,8 +71,6 @@
     
     self.view.userInteractionEnabled = NO;
     
-    //读取上次地理位置和天气
-    [gAppMgr loadLastLocationAndWeather];
     //读取上次首页元素信息
     [gAppMgr loadLastHomePicInfo];
     //读取上次首页广告和洗车广告

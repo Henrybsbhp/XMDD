@@ -164,7 +164,7 @@
 
 - (void)setupBottomLb
 {
-    self.bottomScrollLb.textColor = [UIColor colorWithHex:@"#FF5A00" alpha:1.0f];
+    self.bottomScrollLb.textColor = [UIColor colorWithHex:@"#ff7428" alpha:1.0f];
     self.bottomScrollLb.textAlignment = NSTextAlignmentCenter;
     self.bottomScrollLb.font = [UIFont systemFontOfSize:12];
     self.bottomScrollLb.backgroundColor = [UIColor clearColor];
@@ -242,25 +242,21 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     CGFloat height = 44;
-    if (indexPath.section == 0){
-        if (indexPath.row == 0){
+    if (indexPath.section == 0)
+    {
+        if (indexPath.row == 0)
             height = 70;
-        }
-        else if (indexPath.row == 3){
-            height = 36;
-        }
+        else if (indexPath.row == 3)
+            height = 32;
         else
-        {
-            height = 26;
-        }
+            height = 24;
     }
-    if (indexPath.section != 0){
-        if (indexPath.row == 0){
-            height = 30;
-        }
-        else{
+    else
+    {
+        if (indexPath.row == 0)
+            height = 40;
+        else
             height = 50;
-        }
     }
     return height;
 }
@@ -272,7 +268,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
-    return  CGFLOAT_MIN;
+    if (section == 0)
+        return  CGFLOAT_MIN;
+    return 10;
 }
 
 
@@ -280,15 +278,12 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     NSInteger count = 0;
-    if (section == 0) {
+    if (section == 0)
         count = 4;
-    }
-    else if (section == 1) {
+    else if (section == 1)
         count = 3;
-    }
-    else if (section == 2) {
+    else if (section == 2)
         count = self.paymentArray.count + 1;
-    }
     return count;
 }
 
@@ -296,63 +291,52 @@
     
     UITableViewCell *cell;
     if (indexPath.section == 0) {
-        if (indexPath.row == 0) {
+        if (indexPath.row == 0)
             cell = [self shopTitleCellAtIndexPath:indexPath];
-        }
-        else if (indexPath.row == 3) {
+        else if (indexPath.row == 3)
             cell = [self carCellAtIndexPath:indexPath];
-        }
-        else {
+        else
             cell = [self shopItemCellAtIndexPath:indexPath];
-        }
     }
     else if (indexPath.section == 1) {
         if (indexPath.row == 0)
-        {
             cell = [self DiscountInfoCellAtIndexPath:indexPath];
-        }
         else
-        {
             cell = [self couponCellAtIndexPath:indexPath];
-        }
     }
     else if (indexPath.section == 2) {
         if (indexPath.row == 0)
-        {
             cell = [self OtherInfoCellAtIndexPath:indexPath];
-        }
         else
-        {
             cell = [self paymentPlatformACellAtIndexPath:indexPath];
-        }
     }
     
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    JTTableViewCell *jtcell = (JTTableViewCell *)cell;
-    
-    if ((indexPath.section == 1 && indexPath.row == 0) || (indexPath.section == 2 && indexPath.row == 0))
-    {
-        [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(-1, 0, 0, 0) forDirectionMask:CKViewBorderDirectionBottom] ;
-        [cell.contentView showBorderLineWithDirectionMask:CKViewBorderDirectionBottom];
-        [cell.contentView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:CKViewBorderDirectionBottom];
-    }
-    else
-    {
-        if (indexPath.section == 0)
-        {
-            if (indexPath.row != 3 || indexPath != 0)
-            {
-                return;
-            }
-        }
-        jtcell.customSeparatorInset = UIEdgeInsetsMake(-1, 8, 0, 8);
-        [jtcell prepareCellForTableView:tableView atIndexPath:indexPath];
-    }
-}
+//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    JTTableViewCell *jtcell = (JTTableViewCell *)cell;
+//    
+//    if ((indexPath.section == 1 && indexPath.row == 0) || (indexPath.section == 2 && indexPath.row == 0))
+//    {
+//        [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(-1, 0, 0, 0) forDirectionMask:CKViewBorderDirectionBottom] ;
+//        [cell.contentView showBorderLineWithDirectionMask:CKViewBorderDirectionBottom];
+//        [cell.contentView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:CKViewBorderDirectionBottom];
+//    }
+//    else
+//    {
+//        if (indexPath.section == 0)
+//        {
+//            if (indexPath.row != 3 || indexPath != 0)
+//            {
+//                return;
+//            }
+//        }
+//        jtcell.customSeparatorInset = UIEdgeInsetsMake(-1, 8, 0, 8);
+//        [jtcell prepareCellForTableView:tableView atIndexPath:indexPath];
+//    }
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -678,13 +662,11 @@
             {
                 self.checkoutServiceOrderV4Op.paychannel = PaymentChannelAlipay;
                 bandCard = nil;
-                //                self.selectBankCard.cardID = nil;
             }
             else if (paychannel == PaymentChannelWechat)
             {
                 self.checkoutServiceOrderV4Op.paychannel = PaymentChannelWechat;
                 bandCard = nil;
-                //                self.selectBankCard.cardID = nil;
             }
         }
     }
@@ -693,7 +675,6 @@
     self.checkoutServiceOrderV4Op.licencenumber = self.defaultCar.licencenumber ? self.defaultCar.licencenumber : @"";
     self.checkoutServiceOrderV4Op.carMake = self.defaultCar.brand;
     self.checkoutServiceOrderV4Op.carModel = self.defaultCar.seriesModel.seriesname;
-    //    self.checkoutServiceOrderV4Op.bankCardId = self.selectBankCard.cardID;
     self.checkoutServiceOrderV4Op.bankCardId = bandCard.cardID;
     
     //如果不是原价支付，需要提供定位信息
@@ -718,49 +699,40 @@
     }] subscribeNext:^(CheckoutServiceOrderV4Op * op) {
         
         [self requestCommentlist];
-        if (op.rsp_price)
+        [self paySuccess:op];
+    } error:^(NSError *error) {
+        
+        [self handerOrderError:error forOp:self.checkoutServiceOrderV4Op];
+    }];
+}
+
+- (void)paySuccess:(CheckoutServiceOrderV4Op *)op
+{
+    if (op.rsp_price)
+    {
+        if (op.paychannel == PaymentChannelAlipay)
         {
-            if (op.paychannel == PaymentChannelAlipay)
-            {
-                [gToast showText:@"订单生成成功,正在跳转到支付宝平台进行支付"];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    
-                    NSString * submitTime = [[NSDate date] dateFormatForDT8];
-                    NSString * info = [NSString stringWithFormat:@"%@-%@",self.service.serviceName,self.shop.shopName];
-                    [self requestAliPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
-                         andProductName:info andDescription:info andTime:submitTime andGasCouponAmout:op.rsp_gasCouponAmount];
-                });
-            }
-            else if (op.paychannel == PaymentChannelWechat)
-            {
-                [gToast showText:@"订单生成成功,正在跳转到微信平台进行支付"];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    
-                    NSString * submitTime = [[NSDate date] dateFormatForDT8];
-                    NSString * info = [NSString stringWithFormat:@"%@-%@",self.service.serviceName,self.shop.shopName];
-                    [self requestWechatPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
-                            andProductName:info andTime:submitTime andGasCouponAmout:op.rsp_gasCouponAmount];
-                });
-            }
-            else {
-                [gToast dismiss];
-                [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
-                PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
-                vc.originVC = self.originVC;
-                HKServiceOrder * order = [[HKServiceOrder alloc] init];
-                order.orderid = op.rsp_orderid;
-                order.shop = self.shop;
-                order.serviceid = self.service.serviceID;
-                order.servicename = self.service.serviceName;
-                order.fee = op.rsp_price;
-                order.gasCouponAmount =  op.rsp_gasCouponAmount;
-                vc.order = order;
+            [gToast showText:@"订单生成成功,正在跳转到支付宝平台进行支付"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
-                [self.navigationController pushViewController:vc animated:YES];
-            }
+                NSString * submitTime = [[NSDate date] dateFormatForDT8];
+                NSString * info = [NSString stringWithFormat:@"%@-%@",self.service.serviceName,self.shop.shopName];
+                [self requestAliPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
+                     andProductName:info andDescription:info andTime:submitTime andGasCouponAmout:op.rsp_gasCouponAmount];
+            });
         }
-        else
+        else if (op.paychannel == PaymentChannelWechat)
         {
+            [gToast showText:@"订单生成成功,正在跳转到微信平台进行支付"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                NSString * submitTime = [[NSDate date] dateFormatForDT8];
+                NSString * info = [NSString stringWithFormat:@"%@-%@",self.service.serviceName,self.shop.shopName];
+                [self requestWechatPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
+                        andProductName:info andTime:submitTime andGasCouponAmout:op.rsp_gasCouponAmount];
+            });
+        }
+        else {
             [gToast dismiss];
             [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
             PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
@@ -771,16 +743,28 @@
             order.serviceid = self.service.serviceID;
             order.servicename = self.service.serviceName;
             order.fee = op.rsp_price;
-            order.gasCouponAmount = op.rsp_gasCouponAmount;
+            order.gasCouponAmount =  op.rsp_gasCouponAmount;
             vc.order = order;
+            
             [self.navigationController pushViewController:vc animated:YES];
         }
-        
-        
-    } error:^(NSError *error) {
-        
-        [self handerOrderError:error forOp:self.checkoutServiceOrderV4Op];
-    }];
+    }
+    else
+    {
+        [gToast dismiss];
+        [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
+        PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
+        vc.originVC = self.originVC;
+        HKServiceOrder * order = [[HKServiceOrder alloc] init];
+        order.orderid = op.rsp_orderid;
+        order.shop = self.shop;
+        order.serviceid = self.service.serviceID;
+        order.servicename = self.service.serviceName;
+        order.fee = op.rsp_price;
+        order.gasCouponAmount = op.rsp_gasCouponAmount;
+        vc.order = order;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 
@@ -1102,12 +1086,12 @@
         && paymoney >= 0 && self.service.shopServiceType == ShopServiceCarWash)
     {
         self.bottomScrollLb.hidden = NO;
-        self.bottomViewHeightConstraint.constant = 72;
+        self.bottomViewHeightConstraint.constant = 84;
     }
     else
     {
         self.bottomScrollLb.hidden = YES;
-        self.bottomViewHeightConstraint.constant = 50;
+        self.bottomViewHeightConstraint.constant = 62;
     }
 }
 

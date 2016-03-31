@@ -82,8 +82,6 @@
 
 - (void)resetWithAccount:(NSString *)account;
 
-///获取上次的定位地址和天气信息
-- (void)loadLastLocationAndWeather;
 ///获取搜索历史
 - (NSArray *)loadSearchHistory;
 ///清除搜索历史
