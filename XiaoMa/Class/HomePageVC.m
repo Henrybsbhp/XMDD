@@ -485,7 +485,7 @@
             //若弹出抢登登录框，则不弹出广告
             if (!gAppDelegate.errorModel.alertView && mutableArr.count > 0) {
                 
-                [HomeSuspendedAdVC presentInTargetVC:self withAdList:ads];
+                [HomeSuspendedAdVC presentInTargetVC:self withAdList:mutableArr];
             }
         }];
     }
