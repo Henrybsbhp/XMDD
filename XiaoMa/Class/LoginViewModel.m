@@ -25,7 +25,10 @@
 - (void)dismissForTargetVC:(UIViewController *)targetVC forSucces:(BOOL)success
 {
     if (self.originVC) {
+        NSLog(@"[self.navigationController %@",targetVC.navigationController);
+        
         [targetVC.navigationController popToViewController:self.originVC animated:YES];
+        NSLog(@"[self.navigationController %@",targetVC.navigationController);
         if (success) {
             [self.rac_loginSuccess sendNext:@YES];
             [self.rac_loginSuccess sendCompleted];

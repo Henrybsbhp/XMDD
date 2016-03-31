@@ -33,9 +33,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
-    self.navigationItem.leftBarButtonItem = back;
-    
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login_backgroundImage.png"]];
     [backgroundImageView setFrame:self.tableView.frame];
     
@@ -59,6 +56,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
     [self.navigationController setNavigationBarHidden:YES animated:animated];
 }
 
@@ -104,12 +102,9 @@
     }];
 }
 #pragma mark - Action
-- (void)actionBack:(id)sender {
-    [self.model dismissForTargetVC:self forSucces:NO];
-}
-
 - (IBAction)actionCloseButton:(id)sender
 {
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
     [self.model dismissForTargetVC:self forSucces:NO];
 }
 
@@ -173,6 +168,7 @@
     }] subscribeNext:^(id x) {
         @strongify(self);
         [gToast dismiss];
+        [self.navigationController setNavigationBarHidden:NO animated:NO];
         [self.model dismissForTargetVC:self forSucces:YES];
     } error:^(NSError *error) {
         [gToast showError:error.domain];

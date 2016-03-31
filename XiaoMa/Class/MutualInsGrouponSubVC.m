@@ -180,7 +180,6 @@
     vc.memberId = self.groupDetail.req_memberid;
     vc.groupId = self.groupDetail.req_groupid;
     vc.groupName = self.groupDetail.rsp_groupname;
-    vc.originVC = self.originVC;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -194,12 +193,21 @@
     }] subscribeNext:^(CheckCooperationPremiumOp *op) {
         
         @strongify(self);
-        if (op.rsp_licensenumbers.count == 0) {
-            [self requestPremiumCalculate];
-        }
-        else {
+        //存在审核中的车辆,需要提示弹框
+        if (op.rsp_licensenumbers.count > 0) {
             [gToast dismiss];
-            [self showAlertWithUncheckedLicensenumbers:op.rsp_licensenumbers];
+            NSString *msg = [self messageForUnderReviewLicenseNumbers:op.rsp_licensenumbers];
+            [self showAlertForRequestPremiumCalculateWithMessage:msg];
+        }
+        //存在未审核的车辆,需要提示弹框
+        else if (op.rsp_inprocesslisnums.count > 0) {
+            [gToast dismiss];
+            NSString *msg = [self messageForNotBeginReviewLicenseNumbers:op.rsp_inprocesslisnums];
+            [self showAlertForRequestPremiumCalculateWithMessage:msg];
+        }
+        //否则就直接报价
+        else {
+            [self requestPremiumCalculate];
         }
     } error:^(NSError *error) {
         [gToast showError:error.domain];
@@ -213,17 +221,35 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)showAlertWithUncheckedLicensenumbers:(NSArray *)licensenumbers {
-    NSArray *subNumbers = [licensenumbers subarrayToIndex:MIN(2, licensenumbers.count-1)];
+#pragma mark - Alert
+- (NSString *)messageForUnderReviewLicenseNumbers:(NSArray *)licenseNumbers
+{
+    NSArray *subNumbers = [licenseNumbers subarrayToIndex:MIN(2, licenseNumbers.count-1)];
     NSString *strNumbers = [subNumbers componentsJoinedByString:@"、"];
-    NSString *msg;
     if (subNumbers.count < 3) {
-        msg = [NSString stringWithFormat:@"您的团中，%@的车还在审核中，若您执意报价，审核中的车辆将无法加入本团，是否继续报价？", strNumbers];
+        return [NSString stringWithFormat:@"您的团中，%@的车还在审核中，若您执意报价，审核中的车辆将无法加入本团，是否继续报价？", strNumbers];
     }
     else {
-        msg = [NSString stringWithFormat:@"您的团中，%@等%d辆车还在审核中，若您执意报价，审核中的车辆将无法加入本团，是否继续报价？",
-               strNumbers, (int)licensenumbers.count];
+        return [NSString stringWithFormat:@"您的团中，%@等%d辆车还在审核中，若您执意报价，审核中的车辆将无法加入本团，是否继续报价？",
+                strNumbers, (int)licenseNumbers.count];
     }
+}
+
+- (NSString *)messageForNotBeginReviewLicenseNumbers:(NSArray *)licenseNumbers
+{
+    NSArray *subNumbers = [licenseNumbers subarrayToIndex:MIN(2, licenseNumbers.count-1)];
+    NSString *strNumbers = [subNumbers componentsJoinedByString:@"、"];
+    if (subNumbers.count < 3) {
+        return [NSString stringWithFormat:@"您的团中，%@的车还未提交审核，若您执意报价，未审核的车辆将无法加入本团，是否继续报价？", strNumbers];
+    }
+    else {
+        return [NSString stringWithFormat:@"您的团中，%@等%d辆车还未提交审核，若您执意报价，未审核的车辆将无法加入本团，是否继续报价？",
+                strNumbers, (int)licenseNumbers.count];
+    }
+}
+
+- (void)showAlertForRequestPremiumCalculateWithMessage:(NSString *)msg
+{
     HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
     alert.topTitle = @"温馨提示";
     alert.imageName = @"mins_bulb";
@@ -320,10 +346,13 @@
 - (id)carsItem
 {
     //如果没有成员，忽略
-    if (self.groupDetail.rsp_members.count == 0) {
+    NSArray *members = [self.groupDetail.rsp_members arrayByFilteringOperator:^BOOL(MutualInsMemberInfo *info) {
+        return info.showflag ? info : nil;
+    }];
+    if (members.count == 0) {
         return CKNULL;
     }
-    NSArray *members = [self.groupDetail.rsp_members sortedArrayUsingComparator:^NSComparisonResult(MutualInsMemberInfo *obj1, MutualInsMemberInfo *obj2) {
+    members = [members sortedArrayUsingComparator:^NSComparisonResult(MutualInsMemberInfo *obj1, MutualInsMemberInfo *obj2) {
         if ([obj1.memberid isEqual:self.groupDetail.req_memberid]) {
             return NSOrderedAscending;
         }

@@ -33,7 +33,7 @@
 
 - (void)setupTabBar
 {
-    static NSString *selectedImages[] = {@"tab_newhome1", @"tab_discover1", @"tab_newmine1"};
+    static NSString *selectedImages[] = {@"tab_home_highlighted_300", @"tab_discover_highlighted_300", @"tab_mine_highlighted_300"};
     for (int i = 0; i < self.tabBar.items.count; i++) {
         UITabBarItem *item = self.tabBar.items[i];
         item.selectedImage = [UIImage imageNamed:selectedImages[i]];
@@ -68,8 +68,8 @@
     [signal subscribeNext:^(id x) {
         @strongify(self);
         if (self.guideStore.shouldShowNewbieGuideDot || gAppMgr.myUser.hasNewMsg) {
-            CGFloat offsetX = 6;
-            CGFloat offsetY = 6;
+            CGFloat offsetX = 3;
+            CGFloat offsetY = 5;
             if (!IOSVersionGreaterThanOrEqualTo(@"7.0")) {
                 offsetX = 7;
                 offsetY = 5;
@@ -99,14 +99,5 @@
     [self.customNavCtrl setNeedsStatusBarAppearanceUpdate];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
