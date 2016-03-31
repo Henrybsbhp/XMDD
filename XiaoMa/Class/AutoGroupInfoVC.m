@@ -252,19 +252,29 @@
         [btn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#dedfe0")];
         [btn setTitle:@"已结束" forState:UIControlStateNormal];
     }
+    
     else {
-        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#ff7428") borderWidth:0.8];
-        [btn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
-        if ([groupInfo boolParamForName:@"ingroup"]) {
-            [btn setTitle:@"已加入" forState:UIControlStateNormal];
+        if ([groupInfo boolParamForName:@"isgroupcanenroll"]){
+            [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#ff7428") borderWidth:0.8];
+            [btn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
+            if ([groupInfo boolParamForName:@"ingroup"]) {
+                [btn setTitle:@"已加入" forState:UIControlStateNormal];
+            }
+            else {
+                [btn setTitle:@"申请加入" forState:UIControlStateNormal];
+            }
         }
+        
         else {
-            [btn setTitle:@"申请加入" forState:UIControlStateNormal];
+            [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#888888") borderWidth:0.8];
+            tagLabel.textColor = HEXCOLOR(@"#888888");
+            [btn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#dedfe0")];
+            [btn setTitle:@"未开始" forState:UIControlStateNormal];
         }
     }
     
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        if ([groupInfo boolParamForName:@"ingroup"] || [groupInfo stringParamForName:@"tip"].length == 0) {
+        if ([groupInfo boolParamForName:@"ingroup"] || [groupInfo stringParamForName:@"tip"].length == 0 || ![groupInfo boolParamForName:@"isgroupcanenroll"]) {
             [self jumpToGroupDetail:indexPath];
         }
         else {
@@ -292,11 +302,19 @@
     if ([dic stringParamForName:@"tip"].length == 0) {
         vc.btnType = BtnTypeEnded;
     }
-    else if ([dic boolParamForName:@"ingroup"]) {
-        vc.btnType = BtnTypeAlready;
-    }
     else {
-        vc.btnType = BtnTypeJoinNow;
+        if (![dic boolParamForName:@"isgroupcanenroll"])  {
+            vc.btnType = BtnTypeNotStart;
+        }
+        else {
+            if ([dic boolParamForName:@"ingroup"]) {
+                vc.btnType = BtnTypeAlready;
+            }
+            
+            else {
+                vc.btnType = BtnTypeJoinNow;
+            }
+        }
     }
     vc.groupId = [dic numberParamForName:@"groupid"];
     vc.groupName = dic[@"name"];

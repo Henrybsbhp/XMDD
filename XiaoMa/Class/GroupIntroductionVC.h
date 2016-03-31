@@ -14,6 +14,7 @@ typedef enum : NSUInteger {
 } MutualGroupType;
 
 typedef enum : NSUInteger {
+    BtnTypeNotStart,
     BtnTypeJoinNow,
     BtnTypeAlready,
     BtnTypeEnded

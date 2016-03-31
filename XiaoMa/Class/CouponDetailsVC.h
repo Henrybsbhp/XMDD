@@ -17,9 +17,6 @@
 ///是否可分享
 @property (nonatomic, assign)BOOL isShareble;
 
-///优惠券颜色
-@property (nonatomic, strong)NSString * rgbStr;
-
 ///优惠券类型（旧）
 @property (nonatomic, assign)CouponType oldType;
 
