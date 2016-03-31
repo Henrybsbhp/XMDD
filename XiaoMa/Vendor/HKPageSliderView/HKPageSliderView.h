@@ -1,9 +1,9 @@
 //
-//  HKSliderTabView.h
-//  XiaoMa
+//  HKPageSliderView.h
+//  HKPageSliderView
 //
-//  Created by 刘亚威 on 16/3/30.
-//  Copyright © 2016年 huika. All rights reserved.
+//  Created by 刘亚威 on 16/3/28.
+//  Copyright © 2016年 lyw. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger, HKTabBarStyle) {
 
 @end
 
-@interface HKSliderTabView : UIView
+@interface HKPageSliderView : UIView
 
 @property (nonatomic, weak) id <PageSliderDelegate> delegate;
 

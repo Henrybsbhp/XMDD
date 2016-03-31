@@ -412,6 +412,9 @@
 		508C718F1BA808B600FA2F05 /* Insurance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 508C718E1BA808B600FA2F05 /* Insurance.storyboard */; };
 		508D06801B900CF800B835BB /* InsuranceOrderPayOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 508D067F1B900CF800B835BB /* InsuranceOrderPayOp.m */; };
 		508EE5DC1C2BA09800873602 /* TopMenuScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 508EE5DB1C2BA09800873602 /* TopMenuScrollView.m */; };
+		508F65321CACC8AE00F88744 /* HKPageSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 508F65311CACC8AE00F88744 /* HKPageSliderView.m */; };
+		508F65351CACDD0F00F88744 /* CarsListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508F65341CACDD0F00F88744 /* CarsListVC.m */; };
+		508F65381CAD072800F88744 /* CarListSubVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508F65371CAD072800F88744 /* CarListSubVC.m */; };
 		5093C9FE1C92A68A006B2258 /* InviteByCodeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5093C9FD1C92A68A006B2258 /* InviteByCodeVC.m */; };
 		509D1CC21C086E01003ED860 /* ShareResponeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 509D1CC11C086E01003ED860 /* ShareResponeManager.m */; };
 		50A1E06E1C1EA12800176572 /* Valuation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50A1E06D1C1EA12800176572 /* Valuation.storyboard */; };
@@ -1551,6 +1554,12 @@
 		508D067F1B900CF800B835BB /* InsuranceOrderPayOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsuranceOrderPayOp.m; path = Class/InsuranceOrderPayOp.m; sourceTree = "<group>"; };
 		508EE5DA1C2BA09800873602 /* TopMenuScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TopMenuScrollView.h; path = Class/TopMenuScrollView.h; sourceTree = "<group>"; };
 		508EE5DB1C2BA09800873602 /* TopMenuScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TopMenuScrollView.m; path = Class/TopMenuScrollView.m; sourceTree = "<group>"; };
+		508F65301CACC8AE00F88744 /* HKPageSliderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKPageSliderView.h; sourceTree = "<group>"; };
+		508F65311CACC8AE00F88744 /* HKPageSliderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKPageSliderView.m; sourceTree = "<group>"; };
+		508F65331CACDD0F00F88744 /* CarsListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarsListVC.h; sourceTree = "<group>"; };
+		508F65341CACDD0F00F88744 /* CarsListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarsListVC.m; sourceTree = "<group>"; };
+		508F65361CAD072800F88744 /* CarListSubVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarListSubVC.h; sourceTree = "<group>"; };
+		508F65371CAD072800F88744 /* CarListSubVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarListSubVC.m; sourceTree = "<group>"; };
 		5093C9FC1C92A68A006B2258 /* InviteByCodeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteByCodeVC.h; sourceTree = "<group>"; };
 		5093C9FD1C92A68A006B2258 /* InviteByCodeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteByCodeVC.m; sourceTree = "<group>"; };
 		509D1CC01C086E01003ED860 /* ShareResponeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareResponeManager.h; path = Class/ShareResponeManager.h; sourceTree = "<group>"; };
@@ -2257,6 +2266,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				508F652F1CACC8AE00F88744 /* HKPageSliderView */,
 				182BEF071CA0F65200D67C18 /* JCAlertView */,
 				184453281C8FEE81007B895D /* JMRoundedCorner */,
 				1844531A1C8EA30F007B895D /* AhaWaterWaveView */,
@@ -2945,6 +2955,10 @@
 				1814F6571B96D56E001F2D76 /* CarListSubView.m */,
 				18A9E8CA1BDDC1C00061D3BC /* PickInsCompaniesVC.h */,
 				18A9E8CB1BDDC1C00061D3BC /* PickInsCompaniesVC.m */,
+				508F65331CACDD0F00F88744 /* CarsListVC.h */,
+				508F65341CACDD0F00F88744 /* CarsListVC.m */,
+				508F65361CAD072800F88744 /* CarListSubVC.h */,
+				508F65371CAD072800F88744 /* CarListSubVC.m */,
 			);
 			name = MyCar;
 			sourceTree = "<group>";
@@ -4023,6 +4037,15 @@
 				508EE5DB1C2BA09800873602 /* TopMenuScrollView.m */,
 			);
 			name = TopMenu;
+			sourceTree = "<group>";
+		};
+		508F652F1CACC8AE00F88744 /* HKPageSliderView */ = {
+			isa = PBXGroup;
+			children = (
+				508F65301CACC8AE00F88744 /* HKPageSliderView.h */,
+				508F65311CACC8AE00F88744 /* HKPageSliderView.m */,
+			);
+			path = HKPageSliderView;
 			sourceTree = "<group>";
 		};
 		50B5087E1C7BF07C00B6151E /* GenieView */ = {
@@ -5248,6 +5271,7 @@
 				1816F4A71ACD3B0900BBCC96 /* SYPaginatorView.m in Sources */,
 				184453021C8D6249007B895D /* PullDownAnimationButton.m in Sources */,
 				1833F5911BCD373B000E1DA1 /* GetGaschargeConfigOp.m in Sources */,
+				508F65321CACC8AE00F88744 /* HKPageSliderView.m in Sources */,
 				186984FB1B00CC50000A182A /* CarwashOrderDetailVC.m in Sources */,
 				6B11752C1C0C73D900FC1881 /* ViolationCityInfo.m in Sources */,
 				6BEA56C41AE24DCE000D19C1 /* APAuthV2Info.m in Sources */,
@@ -5350,6 +5374,7 @@
 				5078E4CF1B93F04000E3B198 /* GetInsuranceDiscountOp.m in Sources */,
 				6BAF301D1AE6947F00E35E08 /* ClientInfo.m in Sources */,
 				1818D8F81C2293600078C329 /* NSString+Format.m in Sources */,
+				508F65351CACDD0F00F88744 /* CarsListVC.m in Sources */,
 				50ACC6A81C2138F9006E984E /* CarEvaluateOp.m in Sources */,
 				181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */,
 				181355991C92B4F300894CA1 /* MutualInsGrouponSubMsgVC.m in Sources */,
@@ -5853,6 +5878,7 @@
 				6BEA56C51AE24DCE000D19C1 /* NSObject+SBJSON.m in Sources */,
 				18A30E451BD493DB00521411 /* GasPaymentResultVC.m in Sources */,
 				6BCF62441B15AF3E0064AE32 /* RescueCouponViewController.m in Sources */,
+				508F65381CAD072800F88744 /* CarListSubVC.m in Sources */,
 				6BE2BD5E1AE63F9F00A69875 /* MultiMediaManager.m in Sources */,
 				6BEA56D21AE24DCE000D19C1 /* openssl_wrapper.m in Sources */,
 				6BD293D81B946B49006482A4 /* PayForInsuranceVC.m in Sources */,

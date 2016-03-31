@@ -1,14 +1,14 @@
 //
-//  HKSliderTabView.m
-//  XiaoMa
+//  YWTabBarView.m
+//  YWPageSliderControl
 //
-//  Created by 刘亚威 on 16/3/30.
-//  Copyright © 2016年 huika. All rights reserved.
+//  Created by 刘亚威 on 16/3/28.
+//  Copyright © 2016年 lyw. All rights reserved.
 //
 
-#import "HKSliderTabView.h"
+#import "HKPageSliderView.h"
 
-@interface HKSliderTabView()
+@interface HKPageSliderView()
 
 @property (nonatomic, assign) HKTabBarStyle style;
 @property (nonatomic, strong) TabBarMenuStyleModel *styleModel;
@@ -22,7 +22,7 @@
 
 @end
 
-@implementation HKSliderTabView
+@implementation HKPageSliderView
 
 - (instancetype)initWithFrame:(CGRect)frame andTitleArray:(NSArray *)titles andStyle:(HKTabBarStyle)style;
 {
@@ -223,10 +223,10 @@
     //光标移动动画
     [UIView animateWithDuration:0.3 animations:^{
         self.cursorView.frame = CGRectMake(
-                                           clickButton.center.x - (clickButton.bounds.size.width / 2 + self.styleModel.buttonSpacing),
-                                           0,
-                                           clickButton.bounds.size.width + 2 * self.styleModel.buttonSpacing,
-                                           self.styleModel.menuHeight);
+                    clickButton.center.x - (clickButton.bounds.size.width / 2 + self.styleModel.buttonSpacing),
+                    0,
+                    clickButton.bounds.size.width + 2 * self.styleModel.buttonSpacing,
+                    self.styleModel.menuHeight);
     } completion:^(BOOL finished) {
         self.currentIndex = index;
         self.isAnimation = NO;
