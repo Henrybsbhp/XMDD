@@ -1,4 +1,4 @@
- //
+//
 //  HistoryCollectionVC.m
 //  XiaoMa
 //
@@ -104,7 +104,7 @@
     UILabel *evaluateZone = (UILabel *)[cell searchViewWithTag:1006];
     licenseNo.text = model[@"licenseNo"];
     modelName.text = model[@"modelname"];
-    modelName.preferredMaxLayoutWidth = self.view.bounds.size.width - 50;
+    modelName.preferredMaxLayoutWidth = self.view.bounds.size.width - 100;
     mile.text = [NSString stringWithFormat:@"%@万公里",[NSString formatForPrice:[model floatParamForName:@"mile"]]];
     price.text=[NSString stringWithFormat:@"%@万元",[NSString formatForPrice:[model floatParamForName:@"price"]]];
     evaluateTime.text = [NSString stringWithFormat:@"%@",[[NSDate dateWithUTS:model[@"evaluatetime"]]dateFormatForYYYYMMddHHmm2]];
@@ -129,7 +129,7 @@
     
     licenseNo.text = model[@"licenseNo"];
     modelName.text = model[@"modelname"];
-    modelName.preferredMaxLayoutWidth = self.view.bounds.size.width - 50;
+    modelName.preferredMaxLayoutWidth = self.view.bounds.size.width - 100;
     mile.text = [NSString stringWithFormat:@"%@万公里",[NSString formatForPrice:[model floatParamForName:@"mile"]]];
     price.text=[NSString stringWithFormat:@"%@万元",[NSString formatForPrice:[model floatParamForName:@"price"]]];
     evaluateTime.text = [NSString stringWithFormat:@"%@",[[NSDate dateWithUTS:model[@"evaluatetime"]]dateFormatForYYYYMMddHHmm2]];
@@ -224,7 +224,7 @@
      */
     [MobClick event:@"rp603_1"];
     self.isEditing = !self.isEditing;
-
+    
     if (self.dataArr.count == 0)
     {
         self.navigationItem.rightBarButtonItem = nil;
@@ -270,9 +270,9 @@
     {
         UIBarButtonItem * rightBtn = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(edit:)];
         
-//        [rightBtn setTitleTextAttributes:@{
-//                                           NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
-//                                           } forState:UIControlStateNormal];
+        //        [rightBtn setTitleTextAttributes:@{
+        //                                           NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
+        //                                           } forState:UIControlStateNormal];
         [self.navigationItem setRightBarButtonItem:rightBtn animated:YES]; //防抖动
     }
 }
@@ -344,14 +344,14 @@
 {
     HistoryCollectionOp *op = [HistoryCollectionOp new];
     op.req_evaluateTime = @(0);
-
+    
     [[[op rac_postRequest] initially:^{
-
+        
         self.isLoading = YES;
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }]  subscribeNext:^(HistoryCollectionOp *op) {
-
+        
         self.isLoading = NO;
         [self.view stopActivityAnimation];
         
@@ -379,7 +379,7 @@
         }
         [self.tableView reloadData];
         [self setupNavi];
-    
+        
     } error:^(NSError *error) {
         
         self.isLoading = NO;
@@ -474,14 +474,19 @@
     /**
      *  清空事件
      */
+    self.selectedAllBtn.selected = YES;
     [MobClick event:@"rp603_2"];
-
+    
     UIAlertView *alerView = [[UIAlertView alloc]initWithTitle:nil message:@"请确认是否清空估值记录" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alerView show];
     [[alerView rac_buttonClickedSignal] subscribeNext:^(NSNumber *index) {
         if (index.integerValue == 1)
         {
             [self uploadDeletaArr:@"all"];
+        }
+        else
+        {
+            self.selectedAllBtn.selected = NO;
         }
     }];
 }
