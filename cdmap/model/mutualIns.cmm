@@ -108,6 +108,7 @@ class=GetCooperationMygroupDetail op auth path="/cooperation/mygroup/detail/get"
     <"团长是否有车">ifownerhascar:bool
     <"团记录ID">groupid:number
     <"团名">groupname
+    <"团类型(1：自助，2：匹配)">type:int
   }
 }
 
