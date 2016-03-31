@@ -37,7 +37,7 @@ typedef enum : NSInteger
 @property (weak, nonatomic) IBOutlet UIView *topView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 
-@property (nonatomic, assign) MutualInsScrollDirection scrollDirection;
+@property (nonatomic, assign) CGFloat bottomScrollViewOffsetY;
 
 @end
 
@@ -113,6 +113,15 @@ typedef enum : NSInteger
     [self.bottomSubVC setDidMessageAvatarTaped:^(NSNumber *memberID) {
         @strongify(self);
         [self.topSubVC requestDetailInfoForMember:memberID];
+    }];
+
+    [self.bottomSubVC setDidScrollBlock:^(UIScrollView *scrollView, CGPoint newOffset, CGPoint oldOffset) {
+        @strongify(self);
+        CGFloat dvalue = newOffset.y - oldOffset.y;
+        self.bottomScrollViewOffsetY = dvalue >= 0 ? self.bottomScrollViewOffsetY + dvalue : 0;
+        if (self.bottomScrollViewOffsetY > 20 && !self.isExpandingOrClosing) {
+            [self setExpanded:NO animated:YES];
+        }
     }];
 }
 
@@ -315,7 +324,7 @@ typedef enum : NSInteger
 }
 
 - (id)menuItemQuit {
-    //如果是团长且团长没有车，应该隐藏掉退团按钮
+    //如果是自助团团长且团长没有车，应该隐藏掉退团按钮
     if (self.groupDetail.rsp_ifgroupowner && !self.groupDetail.rsp_ifownerhascar) {
         return CKNULL;
     }
@@ -365,7 +374,10 @@ typedef enum : NSInteger
 }
 
 ///重新组团
-- (CKDict *)menuItemRegroup {
+- (id)menuItemRegroup {
+    if (self.groupDetail.rsp_type == 2) {
+        return CKNULL;
+    }
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Regroup",@"title":@"重新组团",@"img":@"mins_regroup"}];
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
@@ -402,14 +414,14 @@ typedef enum : NSInteger
         } completion:^(BOOL finished) {
             self.isExpandingOrClosing = NO;
             self.topSubVC.shouldStopWaveView = !expanded;
-            self.scrollDirection = MutualInsScrollDirectionUnknow;
+            self.bottomScrollViewOffsetY = 0;
         }];
     }
     else {
         self.scrollView.contentOffset = CGPointMake(0, expanded ? 0 : dvalue);
         self.isExpandingOrClosing = NO;
         self.topSubVC.shouldStopWaveView = !expanded;
-        self.scrollDirection = MutualInsScrollDirectionUnknow;
+        self.bottomScrollViewOffsetY = 0;
         self.bottomSubVC.tableView.contentInset = UIEdgeInsetsMake(0, 0, bottom, 0);
     }
 }
