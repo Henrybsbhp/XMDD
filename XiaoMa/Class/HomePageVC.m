@@ -134,6 +134,10 @@
         //开启推送接收队列
         gAppDelegate.pushMgr.notifyQueue.running = YES;
         gAppDelegate.openUrlQueue.running = YES;
+    } error:^(NSError *error) {
+        
+        gAppDelegate.pushMgr.notifyQueue.running = YES;
+        gAppDelegate.openUrlQueue.running = YES;
     }];
 }
 
@@ -466,7 +470,7 @@
         self.isShowSuspendedAd = YES;
         
         @weakify(self);
-        RACSignal *signal = [gAdMgr rac_getAdvertisement:AdvertisementHomePage];
+        RACSignal *signal = [gAdMgr rac_getAdvertisement:AdvertisementAlert];
         [[signal deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
             
             @strongify(self);
