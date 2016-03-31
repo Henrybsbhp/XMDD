@@ -122,6 +122,7 @@
         self.configOp = rspOp;
         self.chargePackages = [rspOp generateAllChargePackages];
         self.curChargePackage = [self.chargePackages safetyObjectAtIndex:0];
+        self.instalmentRechargeAmount = [[self.curChargePackage.valueList safetyObjectAtIndex:0] integerValue];
     }] replayLast];
     
     self.getGaschargeConfigSignal = sig;
@@ -158,7 +159,7 @@
     //分期加油
     if (self.curChargePackage.pkgid) {
         GasChargePackage *pkg = self.curChargePackage;
-        int amount = (int)self.rechargeAmount;
+        int amount = (int)self.instalmentRechargeAmount;
         float coupon = amount * pkg.month * (1-[pkg.discount floatValue]/100.0);
         return [NSString stringWithFormat:@"<font size=13 color='#888888'>充值即享<font color='#ff0000'>%@折</font>，每月充值%d元，能省%@元</font>",
                 pkg.discount, amount, [NSString formatForFloorPrice:coupon]];
@@ -171,6 +172,21 @@
         return self.configOp.rsp_desc;
     }
     return @"<font size=13 color='#888888'>充值即享<font color='#ff0000'>98折</font>，每月优惠限额1000元，超出部分不予奖励。每月最多充值2000元。</font>";
+}
+
+///充值提醒
+- (NSString *)gasRemainder
+{
+    //分期加油
+    if (self.curChargePackage.pkgid) {
+        NSString *text = @"<font size=12 color='#888888'>充值成功后，须至相应加油站圈存后方能使用。</font>";
+        NSString *link = kInstalmentGasNoticeUrl;
+        NSString *agreement = @"《充值服务说明》";
+        text = [NSString stringWithFormat:@"%@<font size=12 color='#888888'>更多充值说明，点击查看<font color='#20ab2a'><a href='%@'>%@</a></font></font>",
+                text, link, agreement];
+        return text;
+    }
+    return [super gasRemainder];
 }
 
 - (void)startPayInTargetVC:(UIViewController *)vc
