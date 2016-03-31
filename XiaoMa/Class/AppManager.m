@@ -109,11 +109,11 @@
         HomeItem * item2 = [[HomeItem alloc] initWithTitlt:nil picUrl:nil andUrl:@"xmdd://j?t=sl" imageName:@"hp_carwash_300"];
         HomeItem * item3 = [[HomeItem alloc] initWithTitlt:nil picUrl:nil andUrl:@"xmdd://j?t=coins" imageName:@"hp_mutualIns_300"];
         HomeItem * item4 = [[HomeItem alloc] initWithTitlt:nil picUrl:nil andUrl:@"xmdd://j?t=ins" imageName:@"hp_insurance_300"];
-        HomeItem * item5 = [[HomeItem alloc] initWithTitlt:nil picUrl:nil andUrl:@"xmdd://j?t=vio" imageName:@"hp_ peccancy_300"];
-        HomeItem * item6 = [[HomeItem alloc] initWithTitlt:nil picUrl:nil andUrl:@"xmdd://j?t=val" imageName:@"hp_valuation_300"];
-        HomeItem * item7 = [[HomeItem alloc] initWithTitlt:nil picUrl:nil andUrl:@"xmdd://j?t=rescue" imageName:@"hp_rescue_300"];
-        HomeItem * item8 = [[HomeItem alloc] initWithTitlt:nil picUrl:nil andUrl:@"xmdd://j?t=ast" imageName:@"hp_assist_300"];
-        HomeItem * item9 = [[HomeItem alloc] initWithTitlt:nil picUrl:nil andUrl:@"xmdd://j?t=more" imageName:@"hp_more_300"];
+        HomeItem * item5 = [[HomeItem alloc] initWithTitlt:nil picUrl:nil andUrl:@"xmdd://j?t=a" imageName:@"hp_mutualIns_300"];
+        HomeItem * item6 = [[HomeItem alloc] initWithTitlt:nil picUrl:nil andUrl:@"xmdd://j?t=vio" imageName:@"hp_ peccancy_300"];
+        HomeItem * item7 = [[HomeItem alloc] initWithTitlt:nil picUrl:nil andUrl:@"xmdd://j?t=val" imageName:@"hp_valuation_300"];
+        HomeItem * item8 = [[HomeItem alloc] initWithTitlt:nil picUrl:nil andUrl:@"xmdd://j?t=rescue" imageName:@"hp_rescue_300"];
+        HomeItem * item9 = [[HomeItem alloc] initWithTitlt:nil picUrl:nil andUrl:@"xmdd://j?t=ast" imageName:@"hp_assist_300"];
         self.homePicModel.homeItemArray = @[item1,item2,item3,item4,item5,item6,item7,item8,item9];
     }
     
