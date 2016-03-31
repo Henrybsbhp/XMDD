@@ -827,10 +827,10 @@
          subscribeNext:^(id x) {
              @strongify(self);
              self.normalModel.curChargePackage = pkg;
-             if (pkg.pkgid) {
-                 self.normalModel.rechargeAmount = [PKYStepper fitValueForValue:self.normalModel.rechargeAmount
-                                                                    inValueList:self.normalModel.configOp.rsp_supportamt];
-             }
+//             if (pkg.pkgid) {
+//                 self.normalModel.rechargeAmount = [PKYStepper fitValueForValue:self.normalModel.rechargeAmount
+//                                                                    inValueList:self.normalModel.configOp.rsp_supportamt];
+//             }
              [self.tableView reloadData];
              if (i == 1)
              {
