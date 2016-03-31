@@ -19,9 +19,14 @@
 
 @implementation MutualInsGrouponSubMsgVC
 
+- (void)dealloc {
+    [self.tableView removeObserver:self forKeyPath:@"contentOffset"];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self setupScrollView];
     [self reloadData];
 }
 
@@ -30,6 +35,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)setupScrollView {
+    NSInteger options = NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld;
+    [self.tableView addObserver:self forKeyPath:@"contentOffset" options:options context:nil];
+}
+
+#pragma mark - Observer
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    CGPoint newOffset = [change[@"new"] CGPointValue];
+    CGPoint oldOffset = [change[@"old"] CGPointValue];
+    if (self.didScrollBlock) {
+        self.didScrollBlock(self.tableView, newOffset, oldOffset);
+    }
+}
 #pragma mark - Reload
 - (void)reloadData
 {
@@ -115,13 +133,6 @@
     CKDict *item = [self.datasource objectAtIndex:indexPath.row];
     if (item[kCKCellSelected]) {
         ((CKCellSelectedBlock)item[kCKCellSelected])(item, indexPath);
-    }
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if (self.didScrollBlock) {
-        self.didScrollBlock(scrollView);
     }
 }
 
