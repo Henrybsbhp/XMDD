@@ -227,7 +227,6 @@
     }
     else if ([url.absoluteString hasPrefix:@"xmdd://"])
     {
-        [MobClick event:@"rp000"];
         NSString * urlStr = url.absoluteString;
         NSDictionary * dict = @{@"url":urlStr};
         [self.openUrlQueue addObject:dict forKey:nil];
@@ -248,6 +247,7 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     DebugLog(@"didReceiveRemoteNotification :%@",userInfo);
+    [MobClick event:@"rp000"];
     [self.pushMgr handleNofitication:userInfo forApplication:application];
 }
 
