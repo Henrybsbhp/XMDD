@@ -123,52 +123,24 @@
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="86" id="052-ef-BGb"/>
                                                         <constraint firstAttribute="height" constant="86" id="7NS-Ix-z2v"/>
-                                                        <constraint firstAttribute="height" constant="80" id="HOI-ed-daK"/>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="86" id="lH4-17-DQA"/>
-                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="86" id="lrN-qu-Beo"/>
-                                                        <constraint firstAttribute="width" constant="80" id="xU0-Gp-lwD"/>
                                                     </constraints>
-                                                    <variation key="default">
-                                                        <mask key="constraints">
-                                                            <exclude reference="HOI-ed-daK"/>
-                                                            <exclude reference="lH4-17-DQA"/>
-                                                            <exclude reference="lrN-qu-Beo"/>
-                                                            <exclude reference="xU0-Gp-lwD"/>
-                                                        </mask>
-                                                    </variation>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KOj-7p-Ilg">
-                                                    <rect key="frame" x="542" y="0.0" width="53" height="41"/>
+                                                    <rect key="frame" x="534" y="2" width="66" height="45"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="30" id="6U5-tt-t3T"/>
-                                                        <constraint firstAttribute="height" constant="30" id="Fdd-sw-Oeb"/>
-                                                        <constraint firstAttribute="width" constant="53" id="X6e-Ft-Bke"/>
-                                                        <constraint firstAttribute="width" constant="30" id="eLH-J5-5gg"/>
-                                                        <constraint firstAttribute="height" constant="30" id="ejn-vz-fq3"/>
-                                                        <constraint firstAttribute="width" constant="30" id="fcd-8t-YRI"/>
-                                                        <constraint firstAttribute="height" constant="30" id="hTZ-gn-MZe"/>
-                                                        <constraint firstAttribute="height" constant="41" id="m9y-xv-YE8"/>
+                                                        <constraint firstAttribute="width" constant="66" id="8KQ-dj-PIu"/>
+                                                        <constraint firstAttribute="height" constant="45" id="V5A-x5-yb4"/>
                                                     </constraints>
                                                     <state key="normal" image="Login_close_clousebutton"/>
-                                                    <variation key="default">
-                                                        <mask key="constraints">
-                                                            <exclude reference="6U5-tt-t3T"/>
-                                                            <exclude reference="Fdd-sw-Oeb"/>
-                                                            <exclude reference="eLH-J5-5gg"/>
-                                                            <exclude reference="ejn-vz-fq3"/>
-                                                            <exclude reference="fcd-8t-YRI"/>
-                                                            <exclude reference="hTZ-gn-MZe"/>
-                                                        </mask>
-                                                    </variation>
                                                     <connections>
                                                         <action selector="actionCloseButton:" destination="xCV-qz-Sg2" eventType="touchUpInside" id="8z9-zV-ZP5"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="KOj-7p-Ilg" firstAttribute="top" secondItem="K88-8w-HLk" secondAttribute="top" id="Hlm-Ub-PKh"/>
+                                                <constraint firstAttribute="trailing" secondItem="KOj-7p-Ilg" secondAttribute="trailing" id="4Tr-wD-GMd"/>
                                                 <constraint firstItem="alL-3e-R5c" firstAttribute="centerX" secondItem="K88-8w-HLk" secondAttribute="centerX" id="Krl-Zz-fLX"/>
-                                                <constraint firstAttribute="trailing" secondItem="KOj-7p-Ilg" secondAttribute="trailing" constant="5" id="lKa-Xx-ZYR"/>
+                                                <constraint firstItem="KOj-7p-Ilg" firstAttribute="top" secondItem="K88-8w-HLk" secondAttribute="top" constant="2" id="Syg-dH-FNY"/>
                                                 <constraint firstAttribute="bottom" secondItem="alL-3e-R5c" secondAttribute="bottom" constant="40" id="zBb-6e-Zzd"/>
                                             </constraints>
                                         </tableViewCellContentView>

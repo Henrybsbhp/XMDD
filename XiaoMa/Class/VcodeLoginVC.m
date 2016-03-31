@@ -62,6 +62,12 @@
     [self.navigationController setNavigationBarHidden:YES animated:animated];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
 
 - (void)dealloc
 {
@@ -75,7 +81,11 @@
         [MobClick event:@"rp002_1"];
     }];
     
+
+    [self.vcodeBtn setTitleColor:HEXCOLOR(@"#18D06A") forState:UIControlStateNormal];
+    
     [self.vcodeBtn setTitleColor:HEXCOLOR(@"#CFDBD3") forState:UIControlStateDisabled];
+    
     @weakify(self);
     [self.num setTextDidChangedBlock:^(CKLimitTextField *field) {
         @strongify(self);
@@ -84,12 +94,6 @@
             BOOL enable = field.text.length == 11;
             if (enable != self.vcodeBtn.enabled) {
                 self.vcodeBtn.enabled = enable;
-                
-                if (self.vcodeBtn.enabled == YES) {
-                    [self.vcodeBtn setTitleColor:HEXCOLOR(@"#18D06A") forState:UIControlStateNormal];
-                } else {
-                    [self.vcodeBtn setTitleColor:HEXCOLOR(@"#CFDBD3") forState:UIControlStateDisabled];
-                }
             }
         }
     }];
@@ -122,7 +126,7 @@
     }];
     
     //激活输入验证码的输入框
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
     [field becomeFirstResponder];
 }

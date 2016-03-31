@@ -175,7 +175,6 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
         [btn setTitle:@"正在获取..." forState:UIControlStateDisabled];
         [btn setTitle:@"正在获取..." forState:UIControlStateNormal];
         btn.enabled = NO;
-        [btn setTitleColor:HEXCOLOR(@"#CFDBD3") forState:UIControlStateDisabled];
     }] flattenMap:^RACStream *(id value) {
         [subject sendNext:value];
         [subject sendCompleted];
@@ -198,7 +197,6 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
         [btn setTitle:originTitle forState:UIControlStateNormal];
     } completed:^{
         [btn setTitle:originTitle forState:UIControlStateNormal];
-        [btn setTitleColor:HEXCOLOR(@"#18D06A") forState:UIControlStateNormal];
     }];
     
     return subject;
