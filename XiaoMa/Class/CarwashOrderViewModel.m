@@ -148,10 +148,6 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([cell isKindOfClass:[JTTableViewCell class]]) {
-        [(JTTableViewCell *)cell prepareCellForTableView:tableView atIndexPath:indexPath];        
-    }
-    
     [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nestItemCount:1 promptView:self.tableView.bottomLoadingView];
 }
 

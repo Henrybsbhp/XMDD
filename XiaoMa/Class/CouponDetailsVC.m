@@ -20,7 +20,7 @@
 #import "RescueHomeViewController.h"
 #import "GasVC.h"
 
-@interface CouponDetailsVC ()
+@interface CouponDetailsVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong ,nonatomic) HKCoupon * couponDic;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
@@ -241,9 +241,17 @@
     return height;
 }
 
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return CGFLOAT_MIN;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, 10)];
+    view.backgroundColor = HEXCOLOR(@"#f7f7f8");
+    return view;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
