@@ -23,11 +23,6 @@
 @interface CouponDetailsVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong ,nonatomic) HKCoupon * couponDic;
-@property (weak, nonatomic) IBOutlet UIView *bottomView;
-@property (weak, nonatomic) IBOutlet UIButton *longUseBtn;
-@property (weak, nonatomic) IBOutlet UIButton *shareBtn;
-@property (weak, nonatomic) IBOutlet UIButton *shortUseBtn;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraint;
 
 @end
 
@@ -43,70 +38,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setUI];
-    
     if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
     {
         self.tableView.rowHeight = UITableViewAutomaticDimension;
         self.tableView.estimatedRowHeight = 44;
     }
     [self requestDate];
-}
-
-- (void)setUI{
-    
-    self.tableView.hidden = YES;
-    [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-    
-    //优惠券可分享
-    if (self.isShareble) {
-        [self.shortUseBtn setCornerRadius:5.0f];
-        @weakify(self);
-        //去使用
-        [[self.shortUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            [gToast showingWithoutText];
-            @strongify(self);
-            //去使用之前判断是否被领取
-            GetCouponDetailsOp * op = [GetCouponDetailsOp operation];
-            op.req_cid = self.couponId;
-            [[op rac_postRequest] subscribeNext:^(id x) {
-                
-                [gToast dismiss];
-                [self goToUse:self.newType];
-            } error:^(NSError *error) {
-                [gToast showError:error.domain];
-            }];
-        }];
-        
-        self.shareBtn.hidden = !gAppMgr.canShareFlag;
-        [self.shareBtn setCornerRadius:5.0f];
-        //分享（转赠）
-        [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            
-            @strongify(self);
-            [self shareAction:self.couponId];
-        }];
-    }
-    //优惠券不可分享
-    else {
-        if (self.newType == CouponNewTypeInsurance) {
-            self.bottomView.hidden = YES;
-            self.bottomConstraint.constant = 56;
-        }
-        else {
-            self.shortUseBtn.hidden = YES;
-            self.shareBtn.hidden = YES;
-            self.longUseBtn.hidden = NO;
-            [self.longUseBtn setCornerRadius:5.0f];
-            @weakify(self);
-            [[self.longUseBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-                
-                @strongify(self);
-                //去使用
-                [self goToUse:self.newType];
-            }];
-        }
-    }
 }
 
 - (void)goToUse:(CouponNewType)newType
@@ -139,22 +76,21 @@
     op.req_cid = self.couponId;
     @weakify(self);
     [[[op rac_postRequest] initially:^{
-        
+        self.tableView.hidden = YES;
+        [self.tableView startActivityAnimationWithType:GifActivityIndicatorType];
     }] subscribeNext:^(GetCouponDetailsOp * op) {
         
         @strongify(self);
-        [self.view stopActivityAnimation];
+        [self.tableView stopActivityAnimation];
         self.tableView.hidden = NO;
         self.couponDic = op.rsp_couponDetails;
         [self.tableView reloadData];
     } error:^(NSError *error) {
-        
         @strongify(self);
-        [self.view stopActivityAnimation];
+        [self.tableView stopActivityAnimation];
         [gToast showError:error.domain];
         self.tableView.hidden = YES;
-        self.bottomView.hidden = YES;
-        [self.view showDefaultEmptyViewWithText:@"优惠券详情获取失败"];
+        [self.tableView showDefaultEmptyViewWithText:@"优惠券详情获取失败"];
     }];
 }
 
@@ -163,6 +99,13 @@
 }
 
 #pragma mark - Share
+
+-(void)share
+{
+    [self goToUse:self.newType];
+            NSLog(@"18857719999");
+}
+
 - (void)requestShareCoupon:(NSNumber *)cid
 {
     ShareUserCouponOp * op = [ShareUserCouponOp operation];
@@ -225,33 +168,13 @@
     
 }
 
-#pragma mark - Table view data source
+#pragma mark - TableView Datasource
+
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // 优惠券与使用流程还有按钮。所以分了3个section
-    return 3;
-}
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    CGFloat height = CGFLOAT_MIN;
-    if (section == 1) {
-        height = 10;
-    }
-    return height;
-}
-
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return CGFLOAT_MIN;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, 10)];
-    view.backgroundColor = HEXCOLOR(@"#f7f7f8");
-    return view;
+    return self.newType == CouponNewTypeInsurance ? 2 : 3;
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -264,31 +187,6 @@
     {
         return 1;
     }
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == 0) {
-        return 120;
-    }
-    else if(indexPath.section == 1 && indexPath.row == 0)
-    {
-        return 50;
-    }
-    else if (indexPath.section == 2)
-    {
-        return 65;
-    }
-    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
-    {
-        return UITableViewAutomaticDimension;
-    }
-    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
-    [cell layoutIfNeeded];
-    [cell setNeedsUpdateConstraints];
-    [cell updateConstraintsIfNeeded];
-    CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
-    return ceil(size.height+1);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -311,8 +209,71 @@
     }
     else
     {
-        cell = [self buttonCellForRowAtIndexPath:indexPath];
+        if (self.isShareble)
+        {
+            cell = [self buttonTwoCellForRowAtIndexPath:indexPath];
+        }
+        else
+        {
+            cell = [self buttonOneCellForRowAtIndexPath:indexPath];
+        }
     }
+    return cell;
+}
+
+- (UITableViewCell *)buttonOneCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"buttonOneCell"];
+    UIButton *btn = [cell viewWithTag:100];
+    [self setButton:btn];
+    
+    @weakify(self)
+    [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
+        @strongify(self)
+        [self goToUse:self.newType];
+    }];
+    
+    return cell;
+}
+
+- (UITableViewCell *)buttonTwoCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"buttonTwoCell"];
+    
+    UIButton *shareBtn = [cell viewWithTag:100];
+    UIButton *userBtn = [cell viewWithTag:200];
+    [self setButton:shareBtn];
+    [self setButton:userBtn];
+    
+    if (self.newType == CouponNewTypeInsurance)
+    {
+        shareBtn.hidden = YES;
+    }
+    else
+    {
+        shareBtn.hidden = NO;
+    }
+    
+    @weakify(self)
+    [[[shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
+        @strongify(self);
+        [self shareAction:self.couponId];
+    }];
+    
+    [[[userBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
+        @strongify(self)
+        [gToast showingWithoutText];
+        //去使用之前判断是否被领取
+        GetCouponDetailsOp * op = [GetCouponDetailsOp operation];
+        op.req_cid = self.couponId;
+        [[op rac_postRequest] subscribeNext:^(id x) {
+            
+            [gToast dismiss];
+            [self goToUse:self.newType];
+        } error:^(NSError *error) {
+            [gToast showError:error.domain];
+        }];
+    }];
     return cell;
 }
 
@@ -324,7 +285,6 @@
     logo.layer.cornerRadius = 22;
     logo.layer.masksToBounds = YES;
     logo.image = [UIImage imageNamed:@"coupon_logo"];
-    UIView *backgroundView = (UIView *)[cell viewWithTag:100];
     UILabel * nameLabel = (UILabel *)[cell.contentView viewWithTag:1001];
     UILabel * subnameLabel = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel * describeLabel = (UILabel *)[cell.contentView viewWithTag:1003];
@@ -361,31 +321,61 @@
     return cell;
 }
 
-- (UITableViewCell *)buttonCellForRowAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark TableViewDelegate
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"buttonCell"];
-    UIButton *button = [cell viewWithTag:100];
+    if (indexPath.section == 0) {
+        return 120;
+    }
+    else if(indexPath.section == 1 && indexPath.row == 0)
+    {
+        return 50;
+    }
+    else if (indexPath.section == 2)
+    {
+        return 65;
+    }
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        return UITableViewAutomaticDimension;
+    }
+    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+    [cell layoutIfNeeded];
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
+    CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+    return ceil(size.height+1);
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    CGFloat height = CGFLOAT_MIN;
+    if (section == 1)
+    {
+        height = 10;
+    }
+    return height;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return CGFLOAT_MIN;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, 10)];
+    view.backgroundColor = HEXCOLOR(@"#f7f7f8");
+    return view;
+}
+
+#pragma mark Utility
+
+-(void)setButton:(UIButton *)button
+{
     button.layer.cornerRadius = 5;
     button.layer.masksToBounds = YES;
-    button.backgroundColor = [UIColor colorWithHex:@"#18d06a" alpha:1.0f];
-    return cell;
 }
-
-- (NSMutableAttributedString *)setLabelContent:(NSString *) contentStr
-{
-    //设置行间距、居中等
-    NSMutableAttributedString * attributedStr = [[NSMutableAttributedString alloc] initWithString:contentStr];
-    NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.lineSpacing = 8.0f;
-    paragraphStyle.alignment = NSTextAlignmentLeft;
-    [attributedStr addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, contentStr.length)];
-    return attributedStr;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-}
-
 
 @end
