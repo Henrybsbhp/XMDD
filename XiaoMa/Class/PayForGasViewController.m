@@ -77,7 +77,7 @@
     if (self.model.curChargePackage.pkgid) {
         self.payTitle = [NSString stringWithFormat:@"%@折分期加油", self.model.curChargePackage.discount];
         self.paySubTitle = [NSString stringWithFormat:@"分%d个月充，每月充值%d元",
-                            self.model.curChargePackage.month, (int)self.model.rechargeAmount];
+                            self.model.curChargePackage.month, (int)self.model.instalmentRechargeAmount];
     }
     else {
         self.payTitle = @"油卡充值";
@@ -105,10 +105,9 @@
                                    [self.model.curGasCard.gascardno splitByStep:4 replacement:@" "] ,
                                @"cellname":@"InfoItemCell"};
     
-
     int amount = (int)self.model.rechargeAmount;
     if (self.model.curChargePackage.pkgid) {
-        amount = (int)(self.model.rechargeAmount * self.model.curChargePackage.month);
+        amount = (int)(amount * self.model.curChargePackage.month);
     }
     NSDictionary * dict0_2 = @{@"title":@"充值金额",@"value":[NSString stringWithFormat:@"￥ %d",amount],
                                @"cellname":@"InfoItemCell"};
@@ -121,7 +120,7 @@
     NSDictionary * dict1_0 = @{@"cellname":@"CouponHeadCell"};
     
     NSDictionary * dict1_1 = @{@"title":@"加油优惠劵",
-                               @"value":@(self.rechargeAmount),
+                               @"value":@(self.model.rechargeAmount),
                                @"array":self.gasCouponArray,
                                @"isSelect":@(self.couponType),
                                @"cellname":@"CouponCell"};
@@ -269,7 +268,7 @@
             [vc setDismissBlock:^(DrawingBoardViewStatus status) {
                 @strongify(self);
                 //更新信息，充值默认500
-                self.model.rechargeAmount = 500;
+                self.model.normalRechargeAmount = 500;
                 [self.model.cardStore sendEvent:[self.model.cardStore updateCardInfoByGID:card.gid]];
             }];
             [self.navigationController pushViewController:vc animated:YES];

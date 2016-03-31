@@ -18,6 +18,7 @@
 @property (nonatomic, strong) GasChargePackage *curChargePackage;
 ///分期加油充值金额
 @property (nonatomic, assign) NSInteger instalmentRechargeAmount;
+@property (nonatomic, assign) NSInteger normalRechargeAmount;
 @property (nonatomic, strong) HKStoreEvent *cachedEvent;
 
 - (NSArray *)datasource;

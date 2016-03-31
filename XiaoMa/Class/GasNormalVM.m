@@ -26,6 +26,15 @@
 {
 }
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.normalRechargeAmount = 500;
+    }
+    return self;
+}
+
 - (void)setupCardStore
 {
     @weakify(self);
@@ -45,6 +54,12 @@
     }];
 }
 
+- (NSUInteger)rechargeAmount {
+    if (self.curChargePackage.pkgid) {
+        return self.instalmentRechargeAmount;
+    }
+    return self.normalRechargeAmount;
+}
 #pragma mark - Reload
 - (BOOL)reloadWithForce:(BOOL)force
 {
@@ -201,13 +216,13 @@
         GascardChargeByStagesOp *fqop = [GascardChargeByStagesOp operation];
         fqop.req_cardid = card.gid;
         fqop.req_pkgid = self.curChargePackage.pkgid;
-        fqop.req_permonthamt = (int)self.rechargeAmount;
+        fqop.req_permonthamt = (int)self.instalmentRechargeAmount;
         op = fqop;
     }
     else {
         op = [GascardChargeOp operation];
         op.req_gid = card.gid;
-        op.req_amount = (int)self.rechargeAmount;
+        op.req_amount = (int)self.normalRechargeAmount;
     }
     op.req_gid = card.gid;
     op.req_paychannel = self.paymentPlatform;

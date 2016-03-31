@@ -827,10 +827,6 @@
          subscribeNext:^(id x) {
              @strongify(self);
              self.normalModel.curChargePackage = pkg;
-//             if (pkg.pkgid) {
-//                 self.normalModel.rechargeAmount = [PKYStepper fitValueForValue:self.normalModel.rechargeAmount
-//                                                                    inValueList:self.normalModel.configOp.rsp_supportamt];
-//             }
              [self.tableView reloadData];
              if (i == 1)
              {
@@ -936,6 +932,9 @@
             if (stepper.allowValueList) {
                 self.normalModel.instalmentRechargeAmount = (int)newValue;
             }
+            else if ([self.curModel isKindOfClass:[GasNormalVM class]]) {
+                self.normalModel.normalRechargeAmount = (int)newValue;
+            }
             else {
                 self.curModel.rechargeAmount = (int)newValue;
             }
@@ -944,7 +943,7 @@
         };
     }
     
-    cell.stepper.value = stepper.allowValueList ? self.normalModel.instalmentRechargeAmount : self.curModel.rechargeAmount;
+    cell.stepper.value = self.curModel.rechargeAmount;
     [cell.stepper setup];
 }
 
