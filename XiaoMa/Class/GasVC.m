@@ -848,11 +848,11 @@
     cell.richLabel.text = [self.curModel rechargeFavorableDesc];
     
     [self setupStepper:cell.stepper forPickGasAmountCell:cell];
-    @weakify(cell);
+    @weakify(cell, self);
     //递增
     [[[cell.stepper.incrementButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        @strongify(cell);
-        float oldValue = cell.stepper.value;
+        @strongify(cell, self);
+        float oldValue = self.curModel.rechargeAmount;
         float newValue = oldValue;
         if (cell.stepper.valueList.count > 0) {
             newValue = [PKYStepper incrementValue:oldValue inValueList:cell.stepper.valueList];
@@ -874,8 +874,8 @@
     
     //递减
     [[[cell.stepper.decrementButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        @strongify(cell);
-        float oldValue = cell.stepper.value;
+        @strongify(cell, self);
+        float oldValue = self.curModel.rechargeAmount;
         float newValue = oldValue;
         if (cell.stepper.valueList.count > 0) {
             newValue = [PKYStepper decrementValue:oldValue inValueList:cell.stepper.valueList];
@@ -929,11 +929,14 @@
         stepper.valueChangedCallback = ^(PKYStepper *stepper, float newValue) {
             @strongify(self);
             stepper.countLabel.text = [NSString stringWithFormat:@"%d元", (int)newValue];
-            if (stepper.allowValueList) {
-                self.normalModel.instalmentRechargeAmount = (int)newValue;
-            }
-            else if ([self.curModel isKindOfClass:[GasNormalVM class]]) {
-                self.normalModel.normalRechargeAmount = (int)newValue;
+            if ([self.curModel isKindOfClass:[GasNormalVM class]]) {
+                //分期加油
+                if (self.normalModel.curChargePackage.pkgid) {
+                    self.normalModel.instalmentRechargeAmount = (int)newValue;
+                }
+                else {
+                    self.normalModel.normalRechargeAmount = (int)newValue;
+                }
             }
             else {
                 self.curModel.rechargeAmount = (int)newValue;
