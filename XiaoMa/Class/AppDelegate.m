@@ -536,9 +536,9 @@
      [options setValue:@"allowd" forKey:@"allowd"];
     
     // 指定对接同盾的测试环境，正式上线时，请删除或者注释掉此行代码，切换到同盾生产环境
-#ifdef DEBUG
-    [options setValue:@"sandbox" forKey:@"env"];
-#endif
+//#ifdef DEBUG
+//    [options setValue:@"sandbox" forKey:@"env"];
+//#endif
     // 指定合作方标识
     [options setValue:@"xiaomadada" forKey:@"partner"];
     
