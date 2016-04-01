@@ -37,10 +37,8 @@
 
 #import "GainUserAwardOp.h"
 
-
 #define CheckBoxCouponGroup @"CheckBoxCouponGroup"
 #define CheckBoxPlatformGroup @"CheckBoxPlatformGroup"
-
 
 @interface PayForWashCarVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
@@ -118,7 +116,8 @@
 #pragma mark - Setup
 - (void)setupPaymentArray
 {
-    if (gAppMgr.myUser.couponModel.validCZBankCreditCard.count)
+    
+    if (self.getUserResourcesV2Op.rsp_czBankCreditCard.count)
     {
         if (gPhoneHelper.exsitWechat){
             self.paymentArray = @[@(PaymentChannelCZBCreditCard),@(PaymentChannelAlipay),@(PaymentChannelWechat)];
@@ -300,13 +299,13 @@
     }
     else if (indexPath.section == 1) {
         if (indexPath.row == 0)
-            cell = [self DiscountInfoCellAtIndexPath:indexPath];
+            cell = [self discountInfoCellAtIndexPath:indexPath];
         else
             cell = [self couponCellAtIndexPath:indexPath];
     }
     else if (indexPath.section == 2) {
         if (indexPath.row == 0)
-            cell = [self OtherInfoCellAtIndexPath:indexPath];
+            cell = [self otherInfoCellAtIndexPath:indexPath];
         else
             cell = [self paymentPlatformACellAtIndexPath:indexPath];
     }
@@ -392,7 +391,7 @@
             ChooseBankCardVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseBankCardVC"];
             vc.service = self.service;
             vc.shop = self.shop;
-            vc.bankCards = gAppMgr.myUser.couponModel.validCZBankCreditCard;
+            vc.bankCards = self.getUserResourcesV2Op.rsp_czBankCreditCard;
             vc.carwashCouponArray = self.getUserResourcesV2Op.validCarwashCouponArray;
             vc.needRechooseCarwashCoupon = (!self.selectCarwashCoupouArray.count && !self.selectCashCoupouArray.count);
             [self.navigationController pushViewController:vc animated:YES];
@@ -531,7 +530,7 @@
         iconImgV.image = [UIImage imageNamed:@"cw_creditcard"];
         titleLb.text = @"信用卡支付";
         numberLb.text = [self.selectBankCard.cardNumber substringFromIndex:self.selectBankCard.cardNumber.length - 4];
-        drawerImgV.hidden = !gAppMgr.myUser.couponModel.validCZBankCreditCard.count;
+        drawerImgV.hidden = !self.getUserResourcesV2Op.rsp_czBankCreditCard.count;
         tickImgV.hidden = self.checkoutServiceOrderV4Op.paychannel != PaymentChannelCZBCreditCard;
     }
     else
@@ -579,7 +578,7 @@
 
 
 
-- (UITableViewCell *)DiscountInfoCellAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)discountInfoCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"DiscountInfoCell"];
     UIActivityIndicatorView * indicator = (UIActivityIndicatorView *)[cell searchViewWithTag:202];
@@ -593,7 +592,7 @@
     return cell;
 }
 
-- (UITableViewCell *)OtherInfoCellAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)otherInfoCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"OtherInfoCell"];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -603,7 +602,8 @@
 #pragma mark - 网络请求及处理
 - (void)requestGetUserResource:(BOOL)needAutoSelect
 {
-    [[[gAppMgr.myUser.couponModel rac_getVaildResource:self.service.shopServiceType andShopId:self.shop.shopID] initially:^{
+    CouponModel * couponModel = [[CouponModel alloc] init];
+    [[[couponModel rac_getVaildResource:self.service.shopServiceType andShopId:self.shop.shopID] initially:^{
         
         self.isLoadingResourse = YES;
     }] subscribeNext:^(GetUserResourcesV2Op * op) {
@@ -919,7 +919,7 @@
         }
         [self.selectCarwashCoupouArray addObject:coupon];
         
-        if (gAppMgr.myUser.couponModel.validCZBankCreditCard.count){
+        if (self.getUserResourcesV2Op.rsp_czBankCreditCard.count){
             
             self.checkoutServiceOrderV4Op.paychannel = PaymentChannelCZBCreditCard;
         }
@@ -958,7 +958,7 @@
     {
         HKCoupon * coupon = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
         self.couponType = coupon.conponType;
-        if (gAppMgr.myUser.couponModel.validCZBankCreditCard.count){
+        if (self.getUserResourcesV2Op.rsp_czBankCreditCard.count){
             
             self.checkoutServiceOrderV4Op.paychannel = PaymentChannelCZBCreditCard;
         }
@@ -980,7 +980,7 @@
         }
         else
         {
-            if (gAppMgr.myUser.couponModel.validCZBankCreditCard.count){
+            if (self.getUserResourcesV2Op.rsp_czBankCreditCard.count){
                 
                 self.checkoutServiceOrderV4Op.paychannel = PaymentChannelCZBCreditCard;
             }
@@ -1002,7 +1002,7 @@
     {
         // 选中的是浙商券，判断浙商劵是否属于我的浙商卡集下
         HKCoupon * coupon = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
-        for (HKBankCard * card in gAppMgr.myUser.couponModel.validCZBankCreditCard)
+        for (HKBankCard * card in self.getUserResourcesV2Op.rsp_czBankCreditCard)
         {
             for (NSNumber * cid in card.couponIds)
             {
@@ -1017,9 +1017,9 @@
     else
     {
         // 判断是否有浙商卡，有的话，优先浙商卡支付
-        if (gAppMgr.myUser.couponModel.validCZBankCreditCard.count)
+        if (self.getUserResourcesV2Op.rsp_czBankCreditCard.count)
         {
-            HKBankCard * card = [gAppMgr.myUser.couponModel.validCZBankCreditCard safetyObjectAtIndex:0];
+            HKBankCard * card = [self.getUserResourcesV2Op.rsp_czBankCreditCard safetyObjectAtIndex:0];
             self.selectBankCard = card;
             self.checkoutServiceOrderV4Op.paychannel = PaymentChannelCZBCreditCard;
         }
@@ -1306,5 +1306,6 @@
     
     return string;
 }
+
 
 @end
