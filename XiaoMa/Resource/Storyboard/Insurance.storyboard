@@ -4571,7 +4571,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="ecc-fl-1p2" firstAttribute="top" secondItem="PEY-do-Ize" secondAttribute="top" id="Q5q-xC-3WM"/>
                                     <constraint firstItem="ecc-fl-1p2" firstAttribute="leading" secondItem="PEY-do-Ize" secondAttribute="leading" id="WN5-P4-Wyz"/>
@@ -4583,7 +4583,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="efI-8h-tQf">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="475"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="474"/>
                                 <color key="backgroundColor" white="0.95908411609999999" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="sectionIndexBackgroundColor" white="0.95908411609999999" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -4706,7 +4706,7 @@
                                                     </constraints>
                                                 </view>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="iaO-LD-MQE">
-                                                    <rect key="frame" x="16" y="8" width="584" height="1"/>
+                                                    <rect key="frame" x="16" y="0.0" width="584" height="1"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="1" id="eLx-Jm-1cE"/>
                                                     </constraints>
@@ -4721,7 +4721,7 @@
                                                 <constraint firstItem="whb-5i-IiU" firstAttribute="leading" secondItem="4Fs-AO-tDy" secondAttribute="leading" constant="16" id="Nan-dU-FkC"/>
                                                 <constraint firstItem="jJV-7J-1m2" firstAttribute="leading" secondItem="whb-5i-IiU" secondAttribute="trailing" constant="10" id="TbI-Ko-UhC"/>
                                                 <constraint firstItem="Gu6-wc-PUj" firstAttribute="centerY" secondItem="4Fs-AO-tDy" secondAttribute="centerY" id="Zbr-hh-fjj"/>
-                                                <constraint firstItem="iaO-LD-MQE" firstAttribute="top" secondItem="4Fs-AO-tDy" secondAttribute="topMargin" id="xmy-K9-NUg"/>
+                                                <constraint firstItem="iaO-LD-MQE" firstAttribute="top" secondItem="4Fs-AO-tDy" secondAttribute="top" id="xmy-K9-NUg"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -4914,10 +4914,11 @@
                                                                 <constraint firstAttribute="width" constant="30" id="pFN-xa-50z"/>
                                                             </constraints>
                                                             <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                            <state key="normal" image="square_tick">
+                                                            <state key="normal" image="square_untick">
                                                                 <attributedString key="attributedTitle"/>
                                                             </state>
-                                                            <state key="selected" image="square_untick"/>
+                                                            <state key="disabled" image="square_untick"/>
+                                                            <state key="selected" image="square_tick"/>
                                                         </button>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qhb-gc-qnZ" customClass="TTTAttributedLabel">
                                                             <rect key="frame" x="45" y="2" width="540" height="32"/>
@@ -4955,7 +4956,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="PEY-do-Ize" firstAttribute="top" secondItem="efI-8h-tQf" secondAttribute="bottom" constant="-1" id="CGx-nP-k9M"/>
+                            <constraint firstItem="PEY-do-Ize" firstAttribute="top" secondItem="efI-8h-tQf" secondAttribute="bottom" id="CGx-nP-k9M"/>
                             <constraint firstItem="efI-8h-tQf" firstAttribute="top" secondItem="WO1-wg-eQ5" secondAttribute="bottom" id="G2t-Xc-eqv"/>
                             <constraint firstItem="Y2a-nO-oBD" firstAttribute="top" secondItem="PEY-do-Ize" secondAttribute="bottom" id="IdT-zY-1vi"/>
                             <constraint firstItem="efI-8h-tQf" firstAttribute="top" secondItem="cZH-A8-2KG" secondAttribute="top" id="Q8b-pD-jwu"/>
@@ -4971,8 +4972,8 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="保单支付" id="M6U-Om-KE1">
-                        <barButtonItem key="rightBarButtonItem" image="ins_nav_phone" id="QRU-Uh-u3O">
-                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <barButtonItem key="rightBarButtonItem" title="咨询客服" id="QRU-Uh-u3O">
+                            <color key="tintColor" red="0.094117647058823528" green="0.81568627450980391" blue="0.41568627450980389" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="actionCallCenter:" destination="JMf-hi-LXY" id="Tdf-PB-Qfb"/>
                             </connections>

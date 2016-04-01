@@ -388,6 +388,19 @@
             {
                 [self jumpToChooseCouponVC];
             }
+            else
+            {
+                if (self.isSelectActivity)
+                {
+                    self.isSelectActivity = NO;
+                }
+                else
+                {
+                    self.isSelectActivity = YES;
+                    [self.selectInsuranceCoupouArray removeAllObjects];
+                    self.couponType = 0;
+                }
+            }
         }
         else if (indexPath.row == 2)
         {
@@ -489,7 +502,10 @@
             tagLb.hidden = !self.insOrder.activityName.length;
             tagBg.hidden = !self.insOrder.activityName.length;
             
-            squareView.hidden = !self.isSelectActivity;
+            [[RACObserve(self, isSelectActivity) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * number) {
+                
+                squareView.hidden = ![number integerValue];
+            }];
             
             [tagLb mas_remakeConstraints:^(MASConstraintMaker *make) {
                
@@ -578,7 +594,9 @@
     TTTAttributedLabel *richL = [cell viewWithTag:1002];
     
     HKCellData *data = self.licenseData;
-
+    
+    BOOL checked = [data.customInfo[@"check"] boolValue];
+    checkB.selected = checked;
     //选择框
     @weakify(checkB);
     [[[checkB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
@@ -589,6 +607,10 @@
          data.customInfo[@"check"] = @(checked);
          checkB.selected = checked;
          self.payBtn.enabled = checked;
+         if (checked)
+             [self.payBtn setBackgroundColor:HEXCOLOR(@"#ff7428")];
+         else
+             [self.payBtn setBackgroundColor:HEXCOLOR(@"#dbdbdb")];
     }];
 
     //文字和协议链接
@@ -791,4 +813,10 @@
 
 
 #pragma mark - Lazy 
+- (NSMutableArray *)selectInsuranceCoupouArray
+{
+    if (!_selectInsuranceCoupouArray)
+        _selectInsuranceCoupouArray = [NSMutableArray array];
+    return _selectInsuranceCoupouArray;
+}
 @end
