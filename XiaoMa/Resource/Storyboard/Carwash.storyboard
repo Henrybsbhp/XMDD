@@ -1783,7 +1783,7 @@
                                                         <constraint firstAttribute="height" constant="33" id="SZT-8u-E7T"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aup-bH-Evu" userLabel="Label1">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aup-bH-Evu" userLabel="Label1">
                                                     <rect key="frame" x="61" y="16" width="41" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -1796,7 +1796,7 @@
                                                         <constraint firstAttribute="width" constant="23" id="sjl-hw-07L"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="104" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="推荐" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="esg-Oh-Nm1">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="104" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="推荐" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="esg-Oh-Nm1">
                                                     <rect key="frame" x="107" y="17" width="30" height="16"/>
                                                     <color key="backgroundColor" red="1" green="0.45490196078431372" blue="0.15686274509803921" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
@@ -1829,6 +1829,11 @@
                                                 <constraint firstAttribute="trailing" secondItem="7sp-aw-OFj" secondAttribute="trailing" id="rK6-s7-mPI"/>
                                                 <constraint firstItem="esg-Oh-Nm1" firstAttribute="leading" secondItem="aup-bH-Evu" secondAttribute="trailing" constant="5" id="tRQ-NN-lQZ"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="Izs-xj-T0B"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="HV3-IR-OD6" secondAttribute="trailing" constant="15" id="8W9-pe-Qjt"/>
