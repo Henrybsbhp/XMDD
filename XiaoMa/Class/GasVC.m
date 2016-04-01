@@ -846,8 +846,8 @@
 {
     GasPickAmountCell *cell = (GasPickAmountCell *)[self.tableView dequeueReusableCellWithIdentifier:@"PickGasAmount"];
     cell.richLabel.text = [self.curModel rechargeFavorableDesc];
-    
     [self setupStepper:cell.stepper forPickGasAmountCell:cell];
+
     @weakify(cell, self);
     //递增
     [[[cell.stepper.incrementButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -902,10 +902,8 @@
 - (void)setupStepper:(PKYStepper *)stepper forPickGasAmountCell:(GasPickAmountCell *)cell
 {
     stepper.valueList = nil;
-    stepper.allowValueList = NO;
     if ([self.curModel isEqual:self.normalModel]) {
         stepper.valueList = self.normalModel.curChargePackage.pkgid ? self.normalModel.configOp.rsp_supportamt : nil;
-        stepper.allowValueList = self.normalModel.curChargePackage.pkgid;
         if (!self.curModel.curGasCard) {
             // 有说明请求成功
             stepper.maximum = self.normalModel.configOp.rsp_chargeupplimit ? [self.normalModel.configOp.rsp_chargeupplimit integerValue] : 1000;
@@ -924,10 +922,10 @@
         }
     }
     
-    @weakify(self);
+    @weakify(self, cell);
     if (!stepper.valueChangedCallback) {
         stepper.valueChangedCallback = ^(PKYStepper *stepper, float newValue) {
-            @strongify(self);
+            @strongify(self, cell);
             stepper.countLabel.text = [NSString stringWithFormat:@"%d元", (int)newValue];
             if ([self.curModel isKindOfClass:[GasNormalVM class]]) {
                 //分期加油
@@ -946,8 +944,8 @@
         };
     }
     
-    cell.stepper.value = self.curModel.rechargeAmount;
-    [cell.stepper setup];
+    stepper.value = self.curModel.rechargeAmount;
+    [stepper setup];
 }
 
 - (GasReminderCell *)gasReminderCellAtIndexPath:(NSIndexPath *)indexPath

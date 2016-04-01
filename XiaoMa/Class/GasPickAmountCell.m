@@ -13,6 +13,11 @@
 @property (nonatomic, strong) CKSegmentHelper *radioHelper;
 @end
 @implementation GasPickAmountCell
+- (void)dealloc
+{
+    
+}
+
 - (void)awakeFromNib
 {
     if (!_richLabel) {

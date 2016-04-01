@@ -21,6 +21,11 @@ static const float kButtonWidth = 44.0f;
 @implementation PKYStepper
 
 #pragma mark initialization
+- (void)dealloc
+{
+    
+}
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame])
@@ -157,7 +162,7 @@ static const float kButtonWidth = 44.0f;
 #pragma mark setter
 - (void)setValue:(float)value
 {
-    if (self.allowValueList && self.valueList.count > 0) {
+    if (self.valueList.count > 0) {
         _value = [PKYStepper fitValueForValue:value inValueList:self.valueList];
     }
     else {
@@ -294,12 +299,12 @@ static const float kButtonWidth = 44.0f;
 #pragma mark private helpers
 - (BOOL)isMinimum
 {
-    return self.value == self.minimum;
+    return _value == self.minimum;
 }
 
 - (BOOL)isMaximum
 {
-    return self.value == self.maximum;
+    return _value == self.maximum;
 }
 
 @end
