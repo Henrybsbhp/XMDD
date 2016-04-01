@@ -25,6 +25,8 @@
 #import "GuideStore.h"
 #import "DetailWebVC.h"
 #import "CKDatasource.h"
+#import "MyCarStore.h"
+#import "HKMyCar.h"
 
 #import "ShopDetailVC.h"
 
@@ -36,8 +38,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *accountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *PlaceholdLabel;
+@property (weak, nonatomic) IBOutlet UIButton *messagesButton;
 @property (nonatomic, strong) CKList *datasource;
 @property (nonatomic, strong) GuideStore *guideStore;
+@property (nonatomic, strong) MyCarStore *carStore;
+@property (nonatomic, strong) HKMyCar *myCar;
 @property (nonatomic, assign) BOOL shouldShowNewbieDot;
 
 @property (nonatomic, assign) BOOL isViewAppearing;
@@ -53,6 +58,7 @@
     [self observeUserInfo];
     [self setupGuideStore];
     [self reloadData];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,6 +75,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self reloadData];
     self.isViewAppearing = YES;
     self.isCarVC = NO;
     [self.navigationController setNavigationBarHidden:YES animated:animated];
@@ -132,11 +139,11 @@
 {
     if (gAppMgr.myUser.avatarUrl.length)
     {
-        [self.avatarView setImageByUrl:gAppMgr.myUser.avatarUrl withType:ImageURLTypeMedium defImage:@"cm_avatar" errorImage:@"cm_avatar"];
+        [self.avatarView setImageByUrl:gAppMgr.myUser.avatarUrl withType:ImageURLTypeMedium defImage:@"Common_Avatar_imageView" errorImage:@"Common_Avatar_imageView"];
     }
     else
     {
-        self.avatarView.image = [UIImage imageNamed:@"cm_avatar"];
+        self.avatarView.image = [UIImage imageNamed:@"Common_Avatar_imageView"];
     }
 }
 
@@ -147,10 +154,12 @@
         
         @strongify(self);
         if (!user) {
-            self.avatarView.image = [UIImage imageNamed:@"cm_avatar"];
-            self.nameLabel.hidden = YES;
-            self.accountLabel.hidden = YES;
-            self.PlaceholdLabel.hidden = NO;
+            self.avatarView.image = [UIImage imageNamed:@"Common_Avatar_imageView"];
+            self.nameLabel.hidden = NO;
+            self.accountLabel.hidden = NO;
+            self.PlaceholdLabel.hidden = YES;
+            self.nameLabel.text = @"未登录";
+            self.accountLabel.text = @"点击登录";
             [self.tableView reloadData];
         }
         else {
@@ -161,7 +170,7 @@
             RAC(self.accountLabel, text) = RACObserve(user, userID);
             UIImageView *avatarView = self.avatarView;
             [[[RACObserve(user, avatarUrl) distinctUntilChanged] flattenMap:^RACStream *(NSString *url) {
-                return [gMediaMgr rac_getImageByUrl:url withType:ImageURLTypeMedium defaultPic:@"cm_avatar" errorPic:@"cm_avatar"];
+                return [gMediaMgr rac_getImageByUrl:url withType:ImageURLTypeMedium defaultPic:@"Common_Avatar_imageView" errorPic:@"Common_Avatar_imageView"];
             }] subscribeNext:^(id x) {
                 
                 [UIView transitionWithView:avatarView
@@ -186,6 +195,11 @@
     }];
 }
 
+- (IBAction)messagesButton:(UIButton *)sender
+{
+    [self actionPushToMessages];
+}
+
 #pragma mark - Guide
 - (void)setupGuideStore
 {
@@ -204,33 +218,37 @@
 #pragma mark - Datasource
 - (void)reloadData
 {
+    self.carStore = [MyCarStore fetchOrCreateStore];
+//    self.myCar = [self.carStore defalutCar];
+    
     CKDict *top = [self topData];
-    CKDict *car = [self normalDataWithInfo:@{kCKItemKey:@"car", @"img":@"me_car", @"title":@"爱车", @"evt":@"rp301_4"}];
+    
+    CKDict *car = [self normalDataWithInfo:@{kCKItemKey:@"car", @"img":@"Mine_myCar_imageView", @"title":@"爱车", @"evt":@"rp301_4",@"isContainLicense":@(YES)}];
     car[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         CarsListVC *vc = [UIStoryboard vcWithId:@"CarsListVC" inStoryboard:@"Car"];
         self.isCarVC = YES;
         [self.navigationController pushViewController:vc animated:YES];
     });
 
-    CKDict *bank = [self normalDataWithInfo:@{kCKItemKey:@"bank", @"img":@"me_bank", @"title":@"银行卡", @"evt":@"rp301_10"}];
+    CKDict *bank = [self normalDataWithInfo:@{kCKItemKey:@"bank", @"img":@"Mine_bankCard_imageView", @"title":@"银行卡", @"evt":@"rp301_10"}];
     bank[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         UIViewController *vc = [UIStoryboard vcWithId:@"MyBankVC" inStoryboard:@"Bank"];
         [self.navigationController pushViewController:vc animated:YES];
     });
     
-    CKDict *order = [self normalDataWithInfo:@{kCKItemKey:@"order", @"img":@"me_order", @"title":@"订单", @"evt":@"rp301_5"}];
+    CKDict *order = [self normalDataWithInfo:@{kCKItemKey:@"order", @"img":@"Mine_order_imageView", @"title":@"订单", @"evt":@"rp301_5"}];
     order[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         MyOrderListVC *vc = [UIStoryboard vcWithId:@"MyOrderListVC" inStoryboard:@"Mine"];
         [self.navigationController pushViewController:vc animated:YES];
     });
     
-    CKDict *pkg = [self normalDataWithInfo:@{kCKItemKey:@"pkg", @"img":@"me_pkg", @"title":@"礼包", @"evt":@"rp301_6"}];
-    pkg[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        CouponPkgViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"CouponPkgViewController"];
-        [self.navigationController pushViewController:vc animated:YES];
-    });
+//    CKDict *pkg = [self normalDataWithInfo:@{kCKItemKey:@"pkg", @"img":@"me_pkg", @"title":@"礼包", @"evt":@"rp301_6"}];
+//    pkg[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+//        CouponPkgViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"CouponPkgViewController"];
+//        [self.navigationController pushViewController:vc animated:YES];
+//    });
     
-    CKDict *collect = [self normalDataWithInfo:@{kCKItemKey:@"collect", @"img":@"me_collect", @"title":@"收藏", @"evt":@"rp301_7"}];
+    CKDict *collect = [self normalDataWithInfo:@{kCKItemKey:@"collect", @"img":@"Mine_collectStar_imageView", @"title":@"收藏", @"evt":@"rp301_7"}];
     collect[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         MyCollectionViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"MyCollectionViewController"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -238,13 +256,14 @@
     
     CKDict *active = [self activeData];
     
-    CKDict *setting = [self normalDataWithInfo:@{kCKItemKey:@"setting", @"img":@"me_setting", @"title":@"关于", @"evt":@"rp301_8", @"nologin":@YES}];
+    CKDict *setting = [self normalDataWithInfo:@{kCKItemKey:@"setting", @"img":@"Mine_about_imageView", @"title":@"关于", @"evt":@"rp301_8", @"nologin":@YES}];
     setting[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         AboutViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
         [self.navigationController pushViewController:vc animated:YES];
     });
     self.datasource = $($(top),
-                        $(car,bank,order,pkg,collect),
+                        $(car,bank),
+                        $(order, collect),
                         $(active),
                         $(setting));
     [self.tableView reloadData];
@@ -256,7 +275,7 @@
     //cell行高
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         
-        return 64;
+        return 69;
     });
     //cell准备重绘
     @weakify(self);
@@ -275,7 +294,7 @@
         [[[rightBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
          subscribeNext:^(id x) {
              @strongify(self);
-             [self actionPushToMessages];
+             [self actionPushToCouponPkgViewController];
          }];
         
         [[[[RACObserve(gAppMgr, myUser) distinctUntilChanged] flattenMap:^RACStream *(JTUser *user) {
@@ -288,14 +307,16 @@
             
             BOOL showDot = [hasmsg boolValue];
             if (showDot) {
-                [rightTitleL showDotWithOffset:CGPointMake(36, 0)];
+//                [rightTitleL showDotWithOffset:CGPointMake(36, 0)];
+                [self.messagesButton setHighlighted:YES];
             }
             else {
-                [rightTitleL hideDot];
+//                [rightTitleL hideDot];
+                [self.messagesButton setHighlighted:NO];
             }
         }];
         
-        [hkcell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
+//        [hkcell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
     });
     return data;
 }
@@ -311,16 +332,48 @@
         HKTableViewCell *hkcell = (HKTableViewCell *)cell;
         UIImageView *iconV = [cell.contentView viewWithTag:1001];
         UILabel *titleL = [cell.contentView viewWithTag:1002];
-        UILabel *subTitleL = [cell.contentView viewWithTag:1003];
+        UILabel *licenseLabel = (UILabel *)[cell.contentView viewWithTag:1003];
+        hkcell.customSeparatorInset = UIEdgeInsetsMake(0, 48, 0, 0);
         
         iconV.image = [UIImage imageNamed:data[@"img"]];
         titleL.text = data[@"title"];
-        subTitleL.text = nil;
+
+        BOOL isContainlicenseLb = [data[@"isContainLicense"] boolValue];
+        licenseLabel.hidden = !isContainlicenseLb;
+        
+        [[RACObserve(self.carStore, defalutCar) takeUntilForCell:cell] subscribeNext:^(HKMyCar *defaultCar) {
+            
+            licenseLabel.text = defaultCar.licencenumber;
+        }];
         
         [hkcell prepareCellForTableView:self.tableView atIndexPath:indexPath];
+        
+        [self removeSectionSeparatorInHKTableViewCell:hkcell];
     });
 
     return data;
+}
+
+// 移除 Section 的分割线
+- (void)removeSectionSeparatorInHKTableViewCell:(HKTableViewCell *)cell;
+{
+    if (!cell.currentIndexPath ||
+        [cell.targetTableView numberOfRowsInSection:cell.currentIndexPath.section] > cell.currentIndexPath.row+1) {
+        
+    } else {
+        
+        [cell removeBorderLineWithAlignment:CKLineAlignmentHorizontalBottom];
+        
+    }
+    
+    if (cell.currentIndexPath.row == 0) {
+        
+        [cell removeBorderLineWithAlignment:CKLineAlignmentHorizontalTop];
+        
+    }
+    else {
+        [cell removeBorderLineWithAlignment:CKLineAlignmentHorizontalTop];
+    }
 }
 
 - (CKDict *)activeData
@@ -328,7 +381,7 @@
     CKDict *data = [CKDict dictWith:@{kCKCellID:@"ActiveCell"}];
 
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 64;
+        return 73;
     });
 
     @weakify(self);
@@ -342,6 +395,8 @@
         }];
         
         [hkcell prepareCellForTableView:self.tableView atIndexPath:indexPath];
+        
+        [self removeSectionSeparatorInHKTableViewCell:hkcell];
     });
     
     data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
@@ -374,6 +429,18 @@
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         MessageListVC *vc = [UIStoryboard vcWithId:@"MessageListVC" inStoryboard:@"Message"];
         [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
+- (void)actionPushToCouponPkgViewController
+{
+    [MobClick event:@"rp301_6"];
+    
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        
+        CouponPkgViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"CouponPkgViewController"];
+        [self.navigationController pushViewController:vc animated:YES];
+        
     }
 }
 
@@ -415,7 +482,7 @@
     if (block) {
         return block(data,indexPath);
     }
-    return 44;
+    return 48;
 }
 
 

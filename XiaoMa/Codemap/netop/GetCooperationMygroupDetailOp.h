@@ -7,7 +7,6 @@
 @property (nonatomic,strong) NSNumber* req_memberid;
 ///团ID
 @property (nonatomic,strong) NSNumber* req_groupid;
-
 ///团员其他人的信息
 @property (nonatomic,strong) NSArray* rsp_members;
 ///各阶段有效时间
@@ -59,4 +58,7 @@
 @property (nonatomic, assign) NSTimeInterval tempTimetag;
 ///团名
 @property (nonatomic,strong) NSString* rsp_groupname;
+///团类型(1：自助，2：匹配)
+@property (nonatomic,assign) int rsp_type;
+
 @end
