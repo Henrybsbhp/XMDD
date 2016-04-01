@@ -24,12 +24,13 @@
 
 @implementation HKPageSliderView
 
-- (instancetype)initWithFrame:(CGRect)frame andTitleArray:(NSArray *)titles andStyle:(HKTabBarStyle)style;
+- (instancetype)initWithFrame:(CGRect)frame andTitleArray:(NSArray *)titles andStyle:(HKTabBarStyle)style atIndex:(NSInteger)index;
 {
     if (self = [super init]) {
         self.frame = frame;
         self.titles = titles;
         self.style = style;
+        self.currentIndex = index;
         [self setupStyleModel];
         [self setupMenu];
         [self setupContent];
@@ -48,10 +49,10 @@
     }
     else if (self.style == HKTabBarStyleUnderCorner) {
         self.styleModel.menuHeight = 38;
-        self.styleModel.buttonSpacing = 10;
-        self.styleModel.menuNormalColor = [UIColor colorWithRed:255 green:255 blue:255 alpha:0.8];
-        self.styleModel.menuSelectedColor = [UIColor whiteColor]; //todo
-        self.styleModel.menuBackgroundColor = [UIColor colorWithRed:0 green:200 blue:25 alpha:1];
+        self.styleModel.buttonSpacing = 8;
+        self.styleModel.menuNormalColor = RGBACOLOR(255, 255, 255, 0.8);
+        self.styleModel.menuSelectedColor = [UIColor whiteColor];
+        self.styleModel.menuBackgroundColor = HEXCOLOR(@"#12c461");
     }
 }
 
@@ -69,9 +70,18 @@
         [button setTitle:self.titles[i] forState:UIControlStateNormal];
         //当前所选按钮设置为选择色
         [button setTitleColor:self.currentIndex == i ? self.styleModel.menuSelectedColor  : self.styleModel.menuNormalColor forState:UIControlStateNormal];
+        
+        //先按照最大的字体设置大小
         button.titleLabel.font = [UIFont systemFontOfSize:15];
-        button.backgroundColor = [UIColor clearColor];
         [button sizeToFit];
+        
+        if (self.style == HKTabBarStyleUnderline) {
+            button.titleLabel.font = [UIFont systemFontOfSize:15];
+        }
+        else if (self.style == HKTabBarStyleUnderCorner) {
+            button.titleLabel.font = self.currentIndex == i ? [UIFont systemFontOfSize:15] : [UIFont systemFontOfSize:12];
+        }
+        button.backgroundColor = [UIColor clearColor];
         [button addTarget:self action:@selector(buttonEvent:) forControlEvents:UIControlEventTouchUpInside];
         [self.menuScrollView addSubview:button];
         [self.buttons addObject:button];
@@ -88,6 +98,7 @@
     self.contentScrollView.showsVerticalScrollIndicator = NO;
     self.contentScrollView.pagingEnabled = YES;
     [self.contentScrollView setContentSize:CGSizeMake(self.bounds.size.width * self.buttons.count, self.bounds.size.height - self.styleModel.menuHeight)];
+    [self.contentScrollView setContentOffset:CGPointMake(self.currentIndex * self.contentScrollView.bounds.size.width, 0)];
     [self addSubview:self.contentScrollView];
 }
 
@@ -118,7 +129,7 @@
     else if (self.style == HKTabBarStyleUnderCorner) {
         self.menuScrollView.backgroundColor = self.styleModel.menuBackgroundColor;
         UIImageView *underTriangle = [[UIImageView alloc] init];
-        underTriangle.image = [UIImage imageNamed:@"cursor"];
+        underTriangle.image = [UIImage imageNamed:@"mec_cursor"];
         underTriangle.translatesAutoresizingMaskIntoConstraints = NO;
         [self.cursorView addSubview:underTriangle];
         
@@ -180,7 +191,6 @@
         }
     }
     else {
-        self.styleModel.buttonSpacing = 10;
         CGFloat left = 2 * self.styleModel.buttonSpacing;
         for (UIButton *button in self.buttons) {
             button.frame = CGRectMake(left, 0, button.bounds.size.width, self.menuScrollView.bounds.size.height);
@@ -190,14 +200,20 @@
         
         if (!self.isAnimation) {
             UIButton * selectButton = [self.buttons objectAtIndex:self.currentIndex];
-            self.cursorView.frame = CGRectMake(self.styleModel.buttonSpacing, 0, selectButton.bounds.size.width + self.styleModel.buttonSpacing * 2, self.styleModel.menuHeight);
+            self.cursorView.frame = CGRectMake(selectButton.frame.origin.x - self.styleModel.buttonSpacing, 0, selectButton.bounds.size.width + self.styleModel.buttonSpacing * 2, self.styleModel.menuHeight);
+            [self makeButtonCenter:selectButton];
         }
     }
 }
 
 - (void)buttonEvent:(UIButton *)sender {
+    if (self.isAnimation) {
+        return;
+    }
     NSInteger index = sender.tag;
     [self selectAtIndex:index];
+    //设置滚动
+    [self.contentScrollView setContentOffset:CGPointMake(index * self.contentScrollView.bounds.size.width, 0) animated:YES];
 }
 
 - (void)selectAtIndex:(NSInteger)index {
@@ -206,6 +222,7 @@
     }
     
     self.isAnimation = YES;
+    self.contentScrollView.scrollEnabled = NO;
     
     //上一个按钮的恢复
     UIButton *lastButton = [self.buttons objectAtIndex:self.currentIndex];
@@ -215,10 +232,14 @@
     UIButton *clickButton = [self.buttons objectAtIndex:index];
     [clickButton setTitleColor:self.styleModel.menuSelectedColor forState:UIControlStateNormal];
     
-    //字体放大动画
+    //字体放大缩小
     if (self.style == HKTabBarStyleUnderCorner) {
-        
+        lastButton.titleLabel.font = [UIFont systemFontOfSize:12];
+        clickButton.titleLabel.font = [UIFont systemFontOfSize:15];
     }
+    
+    //动画完成前，设置上一个按钮后设置新的index
+    self.currentIndex = index;
     
     //光标移动动画
     [UIView animateWithDuration:0.3 animations:^{
@@ -228,8 +249,8 @@
                     clickButton.bounds.size.width + 2 * self.styleModel.buttonSpacing,
                     self.styleModel.menuHeight);
     } completion:^(BOOL finished) {
-        self.currentIndex = index;
         self.isAnimation = NO;
+        self.contentScrollView.scrollEnabled = YES;
     }];
     
     //当选中按钮的位置>中心点时，自动居中
@@ -237,13 +258,14 @@
         [self makeButtonCenter:clickButton];
     }
     
-    if ([self.delegate respondsToSelector:@selector(addContentVCAtIndex:)]) {
-        [self.delegate addContentVCAtIndex:index];
-        [self.contentScrollView setContentOffset:CGPointMake(index * self.contentScrollView.bounds.size.width, 0) animated:YES]; //此处动画应可选是否需要
-    }
-    else {
-        NSAssert(0, @"添加子视图的委托未实现");
-    }
+    //以下委托用于动态添加子内容视图
+//    if ([self.delegate respondsToSelector:@selector(addContentVCAtIndex:)]) {
+//        [self.delegate addContentVCAtIndex:index];
+//        [self.contentScrollView setContentOffset:CGPointMake(index * self.contentScrollView.bounds.size.width, 0) animated:YES]; //此处动画应可选是否需要
+//    }
+//    else {
+//        NSAssert(0, @"添加子视图的委托未实现");
+//    }
 }
 
 - (void)makeButtonCenter:(UIButton *)clickButton

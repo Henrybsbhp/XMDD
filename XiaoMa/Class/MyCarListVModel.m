@@ -17,21 +17,22 @@
     NSString *desc;
     switch (car.status) {
         case 1:
-            desc = @"行驶证已提交审核 \n一般一个工作日内审核完毕";
+            desc = @"认证审核中";
             break;
         case 2:
-            desc = @"车辆已通过认证";
+            desc = @"已认证";
             break;
         case 3:
-            desc = [NSString stringWithFormat:@"审核未通过，%@", car.failreason.length > 0 ? car.failreason : @"请重新上传行驶证"];
+            desc = [NSString stringWithFormat:@"认证未通过，%@", car.failreason.length > 0 ? car.failreason : @"请重新上传行驶证"];
             break;
         default: {
             MyCarStore *store = [MyCarStore fetchExistsStore];
             if (store.defaultTip) {
-                desc = store.defaultTip;
+                //desc = store.defaultTip;
+                desc = @"未认证";
             }
             else {
-                desc = @"上传行驶证并通过审核,即可享受价值1000元的大礼包";
+                desc = @"未认证";
             }
         } break;
     }

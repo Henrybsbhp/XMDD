@@ -16,16 +16,29 @@
 #import "HKImageAlertVC.h"
 #import "HKPageSliderView.h"
 #import "CarListSubVC.h"
+#import "AddCloseAnimationButton.h"
+#import "HKPopoverView.h"
 
 #import "ValuationViewController.h"
 
-@interface CarsListVC ()<UIScrollViewDelegate, PageSliderDelegate>
+@interface CarsListVC () <UIScrollViewDelegate>
+
+@property (nonatomic, assign) BOOL isViewAppearing;
+@property (nonatomic, assign) BOOL isBackToMine;
 
 @property (nonatomic, strong) MyCarStore *carStore;
 @property (nonatomic, strong) NSArray *datasource;
 @property (nonatomic, strong) HKPageSliderView * sliderView;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *headerBgView;
+@property (weak, nonatomic) IBOutlet UILabel *carNumberLabel;
+@property (weak, nonatomic) IBOutlet UILabel *carStateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *defaultLabel;
+
+@property (nonatomic, weak) HKPopoverView *popoverMenu;
+
+- (IBAction)editAction:(id)sender;
 
 - (IBAction)backAction:(id)sender;
 
@@ -38,9 +51,49 @@
     DebugLog(@"CarListVC dealloc");
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)awakeFromNib
 {
     _model = [[MyCarListVModel alloc] init];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.isViewAppearing = YES;
+    self.isBackToMine = NO;
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.isViewAppearing = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    //    //如果当前视图的导航条没有发生跳转，则不做处理
+    if (![self.navigationController.topViewController isEqual:self]) {
+        //如果当前视图的viewWillAppear和viewWillDisappear的间隔太短会导致navigationBar隐藏显示不正常
+        //所以此时应该禁止navigationBar的动画,并在主线程中进行
+        if (self.isViewAppearing) {
+            CKAsyncMainQueue(^{
+                if (!self.isBackToMine) {
+                    [self.navigationController setNavigationBarHidden:NO animated:NO];
+                }
+            });
+        }
+        else {
+            if (!self.isBackToMine) {
+                [self.navigationController setNavigationBarHidden:NO animated:animated];
+            }
+            
+        }
+    }
 }
 
 - (void)viewDidLoad {
@@ -49,18 +102,6 @@
     
     [self setupCarStore];
     [[self.carStore getAllCars] send];
-}
-
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -139,17 +180,11 @@
                 self.model.currentCar = self.model.selectedCar;
             }
         }
-        if (self.datasource.count >= 5) {
-            [self.navigationItem setRightBarButtonItem:nil animated:NO];
-        }
-        else {
-            UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"添加" style:UIBarButtonItemStylePlain target:self action:@selector(actionAddCar:)];
-            [self.navigationItem setRightBarButtonItem:right animated:YES]; //解决添加按钮的抖动
-        }
         if (self.datasource.count == 0) {
             [self.view showDefaultEmptyViewWithText:@"暂无爱车，快去添加一辆吧" tapBlock:^{
                 @strongify(self);
-                [self actionAddCar:nil];
+                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+                [self.navigationController pushViewController:vc animated:YES];
             }];
         }
         else {
@@ -173,10 +208,17 @@
     [self.view hideIndicatorText];
     self.tableView.hidden = NO;
     
-    for (NSInteger i=0; i<self.datasource.count; i++) {
-        HKMyCar *car = self.datasource[i];
-        [self createCardWithCar:car atIndex:i];
-    }
+    @weakify(self);
+    [self.headerBgView mas_updateConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.top.equalTo(self.view.mas_top).offset(0);
+    }];
+    
+    [[RACObserve(self.model, currentCar) distinctUntilChanged] subscribeNext:^(HKMyCar * car) {
+        self.carNumberLabel.text = car.licencenumber;
+        self.defaultLabel.hidden = !car.isDefault;
+        self.carStateLabel.text= [self.model descForCarStatus:car];
+    }];
     
     NSInteger index = NSNotFound;
     
@@ -186,24 +228,30 @@
     if (index == NSNotFound) {
         index = 0;
     }
-    [self.scrollView loadPageIndex:index animated:NO];
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - TableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return 2;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        return 150;
-    }
-    else if (indexPath.row == 1) {
         return 390;
     }
     return 120;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return CGFLOAT_MIN;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return CGFLOAT_MIN ;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -211,13 +259,10 @@
     UITableViewCell *cell;
     if (indexPath.row == 0)
     {
-        cell = [self headerCellAtIndexPath:indexPath];
-    }
-    else if (indexPath.row == 1) {
         cell = [self carCellAtIndexPath:indexPath];
     }
     else {
-        cell = [self sectionCellAtIndexPath:indexPath];
+        cell = [self bottomCellAtIndexPath:indexPath];
     }
     return cell;
 }
@@ -229,21 +274,11 @@
 }
 
 #pragma mark - About Cell
-- (UITableViewCell *)headerCellAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"HeaderLabel"];
-    
-    UILabel *stateLabel = (UILabel *)[cell.contentView viewWithTag:1001];
-    UILabel *caridLabel = (UILabel *)[cell.contentView viewWithTag:1002];
-    UILabel *defaultLabel = (UILabel *)[cell.contentView viewWithTag:1003];
-    
-    return cell;
-}
 
 - (UITableViewCell *)carCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"CarCell" forIndexPath:indexPath];
-    HKPageSliderView *sliderView= [cell.contentView viewWithTag:1001];
+    UIView *view= [cell.contentView viewWithTag:1001];
     
     NSMutableArray *carNumArray = [[NSMutableArray alloc] init];
     for (NSInteger i = 0; i < self.datasource.count; i++) {
@@ -252,52 +287,88 @@
     }
     
     if (carNumArray.count > 0) {
-        HKPageSliderView *pageSliderView = [[HKPageSliderView alloc] initWithFrame:sliderView.bounds andTitleArray:carNumArray andStyle:2];
-        pageSliderView.delegate = self;
+        HKPageSliderView *pageSliderView = [[HKPageSliderView alloc] initWithFrame:view.bounds andTitleArray:carNumArray andStyle:1 atIndex:[self.datasource indexOfObject:self.model.currentCar]];
         pageSliderView.contentScrollView.delegate = self;
-        self.sliderView = pageSliderView;
-        for (NSInteger i = 0; i < self.datasource.count; i ++) {
-            [self addContentAction:i];
-        }
+        
+        [view addSubview:pageSliderView];
+        self.sliderView = pageSliderView;//赋值全局
+        [self addContentView];
     }
     return cell;
 }
 
-- (UITableViewCell *)sectionCellAtIndexPath:(NSIndexPath *)indexPath
+-(void)addContentView
 {
-    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"SectionCell" forIndexPath:indexPath];
+    for (int i = 0; i < self.datasource.count; i ++) {
+        HKMyCar *car = self.datasource[i];
+        
+        CarListSubVC * contentVC = [[CarListSubVC alloc] init];
+        [self addChildViewController:contentVC];
+        contentVC.car = car;
+        contentVC.view.frame = CGRectMake(i * self.view.bounds.size.width, 0, self.view.bounds.size.width, 300);
+        
+        [self.sliderView.contentScrollView addSubview:contentVC.view];
+    }
+}
+
+- (UITableViewCell *)bottomCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"BottomCell" forIndexPath:indexPath];
+    UIButton * uploadButton = [cell.contentView viewWithTag:1001];
+    UIButton * valuationButton = [cell.contentView viewWithTag:1002];
+    
+    @weakify(self);
+    [[[uploadButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
+        [self uploadDrivingLicenceWithCar:self.model.currentCar];
+    }];
+    
+    [[[valuationButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        [MobClick event:@"rp309_4"];
+        @strongify(self);
+        ValuationViewController *vc = [UIStoryboard vcWithId:@"ValuationViewController" inStoryboard:@"Valuation"];
+        vc.carIndex = self.sliderView.currentIndex;
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    
     return cell;
 }
 
-
-
-
-
-- (void)createCardWithCar:(HKMyCar *)car atIndex:(NSInteger)index
-{
-    CGFloat w = CGRectGetWidth(self.scrollView.frame);
-    CGFloat h = CGRectGetHeight(self.scrollView.frame);
-    CGFloat x = self.scrollView.subviews.count * w;
-    
-    CarListSubView *view = [[CarListSubView alloc] initWithFrame:CGRectMake(x, 0, w, h)];
-    [self.scrollView addSubview:view];
-    self.scrollView.contentSize = CGSizeMake(x + w, h);
-    
-    [self reloadSubView:view withCar:car atIndex:index];
-}
-
 #pragma mark - Action
--(void)addContentAction:(NSInteger)index
-{
-    HKMyCar *car = self.datasource[index];
-    
-    CarListSubVC * contentVC = [[CarListSubVC alloc] init];
-    [self addChildViewController:contentVC];
-    contentVC.car = car;
-    contentVC.view.frame = CGRectMake(index * self.view.bounds.size.width, 0, self.view.bounds.size.width, 300);
-    [self.sliderView.contentScrollView addSubview:contentVC.view];
-}
 
+- (IBAction)editAction:(id)sender {
+    AddCloseAnimationButton * closeButton = sender;
+    BOOL closing = closeButton.closing;
+    [closeButton setClosing:!closing WithAnimation:YES];
+    if (closing && self.popoverMenu) {
+        [self.popoverMenu dismissWithAnimated:YES];
+    }
+    else if (!closing && !self.popoverMenu) {
+        NSArray * itemsArray = @[[HKPopoverViewItem itemWithTitle:@"添加爱车" imageName:@"mec_addcar"], [HKPopoverViewItem itemWithTitle:@"编辑爱车" imageName:@"mec_edit"]];
+        
+        HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 160) items:itemsArray];
+        @weakify(self);
+        [popover setDidSelectedBlock:^(NSUInteger index) {
+            @strongify(self);
+            if (index == 0) {
+                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+            else {
+                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+                vc.originCar = self.model.currentCar;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        }];
+        
+        [popover setDidDismissedBlock:^(BOOL animated) {
+            [closeButton setClosing:NO WithAnimation:animated];
+        }];
+        [popover showAtAnchorPoint:CGPointMake(self.navigationController.view.frame.size.width-33, 60)
+                            inView:self.navigationController.view dismissTargetView:self.view animated:YES];
+        self.popoverMenu = popover;
+    }
+}
 
 - (IBAction)backAction:(id)sender {
     //如果爱车信息不完整
@@ -313,6 +384,7 @@
                 [self.navigationController popToViewController:self.model.originVC animated:YES];
             }
             else {
+                self.isBackToMine = YES;
                 [self.navigationController popViewControllerAnimated:YES];
             }
         }];
@@ -334,6 +406,7 @@
             [self.navigationController popToViewController:self.model.originVC animated:YES];
         }
         else {
+            self.isBackToMine = YES;
             [self.navigationController popViewControllerAnimated:YES];
         }
         if (self.model.finishBlock) {
@@ -342,85 +415,8 @@
     }
 }
 
-- (IBAction)actionAddCar:(id)sender
+- (void)uploadDrivingLicenceWithCar:(HKMyCar *)car
 {
-    [MobClick event:@"rp309_1"];
-    EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-#pragma mark - Reload
-- (void)reloadSubView:(CarListSubView *)subv withCar:(HKMyCar *)car atIndex:(NSInteger)index
-{
-    [subv setCarTintColorType:car.tintColorType];
-    
-    subv.licenceNumberLabel.text = car.licencenumber;
-    subv.markView.hidden = !car.isDefault;
-    
-    if (!car.isDefault) {
-        [subv.barView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(subv);
-            make.height.mas_equalTo(2.5);
-            make.left.equalTo(subv).offset(20);
-            make.right.equalTo(subv.licenceNumberLabel.mas_right);
-        }];
-        [subv.licenceNumberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(subv.barView.mas_left);
-            make.height.mas_equalTo(30);
-            make.top.equalTo(subv.barView.mas_bottom).offset(2);
-        }];
-    }
-    
-    NSString *text = [self.model descForCarStatus:car];
-    BOOL show = car.status == 3 || car.status == 0;
-    [subv setShowBottomButton:show withText:text];
-    
-    NSString * brandStr = [NSString stringWithFormat:@"%@ %@", car.brand, car.seriesModel.seriesname];
-    [subv setCellTitle:@"品牌车系" withValue:brandStr atIndex:0];
-    [subv setCellTitle:@"具体车型" withValue:car.detailModel.modelname atIndex:1];
-    [subv setCellTitle:@"购车时间" withValue:[car.purchasedate dateFormatForYYMM] atIndex:2];
-    [subv setCellTitle:@"行驶城市" withValue:car.cityName atIndex:3];
-    [subv setCellTitle:@"车架号码" withValue:car.classno atIndex:4];
-    [subv setCellTitle:@"发动机号" withValue:car.engineno atIndex:5];
-    NSString *priceStr = [NSString stringWithFormat:@"%@万元", [NSString formatForRoundPrice:car.price]];
-    [subv setCellTitle:@"整车价格" withValue:priceStr atIndex:6];
-    NSString *odoStr = [NSString stringWithFormat:@"%@万公里", [NSString formatForRoundPrice:car.odo/10000.00]];
-    [subv setCellTitle:@"当前里程" withValue:odoStr atIndex:7];
-    
-    //汽车品牌logo
-    [subv.logoView setImageByUrl:nil withType:ImageURLTypeThumbnail defImage:@"cm_logo_def" errorImage:@"cm_logo_def"];
-    
-    //爱车估值
-    @weakify(self);
-    [subv setValuationClickBlock:^(void) {
-        [MobClick event:@"rp309_4"];
-        @strongify(self);
-        ValuationViewController *vc = [UIStoryboard vcWithId:@"ValuationViewController" inStoryboard:@"Valuation"];
-        vc.carIndex = index;
-        [self.navigationController pushViewController:vc animated:YES];
-    }];
-    
-    //上传行驶证
-    [subv setBottomButtonClickBlock:^(UIButton *btn, CarListSubView *view) {
-        @strongify(self);
-        [self uploadDrivingLicenceWithCar:car subView:view];
-    }];
-    
-    //编辑爱车信息
-    [subv setBackgroundClickBlock:^(CarListSubView *view) {
-        @strongify(self);
-        if (self.model.disableEditingCar) {
-            return ;
-        }
-        EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-        vc.originCar = car;
-        [self.navigationController pushViewController:vc animated:YES];
-    }];
-}
-
-- (void)uploadDrivingLicenceWithCar:(HKMyCar *)car subView:(CarListSubView *)subView
-{
-    @weakify(self);
     [[[self.model rac_uploadDrivingLicenseWithTargetVC:self initially:^{
         
         [gToast showingWithText:@"正在上传..."];
@@ -436,9 +432,7 @@
         }];
     }] subscribeNext:^(id x) {
         
-        @strongify(self);
         car.status = 1;
-        [subView setShowBottomButton:NO withText:[self.model descForCarStatus:car]];
         [gToast showSuccess:@"上传行驶证成功!"];
     } error:^(NSError *error) {
         
@@ -446,36 +440,34 @@
     }];
 }
 
-#pragma - mark  PageSliderDelegate
-
-- (void)addContentVCAtIndex:(NSInteger)index
-{
-    [self addContentAction:index];
-}
-
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    NSInteger pageIndex = (NSInteger)(scrollView.contentOffset.x / scrollView.bounds.size.width + 0.5); //过半取整
-    
-    [self.sliderView selectAtIndex:pageIndex];
+    if (scrollView == self.sliderView.contentScrollView) {
+        NSInteger pageIndex = (NSInteger)(scrollView.contentOffset.x / scrollView.bounds.size.width + 0.5); //过半取整
+        [self.sliderView selectAtIndex:pageIndex];
+    }
 }
 
-//- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
-//{
-//    HKMyCar *car = [self.datasource safetyObjectAtIndex:[self.scrollView currentPage]];
-//    self.model.currentCar = car;
-//    if (self.model.allowAutoChangeSelectedCar) {
-//        self.model.selectedCar = car;
-//    }
-//}
-//
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-//{
-//    HKMyCar *car = [self.datasource safetyObjectAtIndex:[self.scrollView currentPage]];
-//    self.model.currentCar = car;
-//    if (self.model.allowAutoChangeSelectedCar) {
-//        self.model.selectedCar = car;
-//    }
-//}
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+{
+    if (scrollView == self.sliderView.contentScrollView) {
+        HKMyCar *car = [self.datasource safetyObjectAtIndex:self.sliderView.currentIndex];
+        self.model.currentCar = car;
+        if (self.model.allowAutoChangeSelectedCar) {
+            self.model.selectedCar = car;
+        }
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if (scrollView == self.sliderView.contentScrollView) {
+        HKMyCar *car = [self.datasource safetyObjectAtIndex:self.sliderView.currentIndex];
+        self.model.currentCar = car;
+        if (self.model.allowAutoChangeSelectedCar) {
+            self.model.selectedCar = car;
+        }
+    }
+}
 
 @end

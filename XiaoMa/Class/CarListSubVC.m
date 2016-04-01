@@ -31,7 +31,7 @@
     self.titleArray = @[@"品牌车系", @"具体车型", @"购车时间",
                         @"行驶城市", @"车架号码", @"发动机号",
                         @"整车价格", @"当前里程"];
-    NSString *brandAndSeries = [NSString stringWithFormat:@"%@ %@", self.car.brand, self.car.seriesModel];
+    NSString *brandAndSeries = [NSString stringWithFormat:@"%@ %@", self.car.brand, self.car.seriesModel.seriesname];
     NSString *priceStr = [NSString stringWithFormat:@"%@万元", [NSString formatForRoundPrice:self.car.price]];
     NSString *odoStr = [NSString stringWithFormat:@"%@万公里", [NSString formatForRoundPrice:self.car.odo/10000.00]];
     
@@ -57,16 +57,17 @@
         [self.view addSubview:contentLabel];
         
         
-        CGFloat top = 23 * (i + 1);
+        CGFloat top = 20 * (2 * i + 1);
         
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.view).offset(top);
             make.left.equalTo(self.view).offset(20);
+            make.width.mas_equalTo(66);
         }];
         [contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(titleLabel);
-            make.left.equalTo(titleLabel.mas_right).offset(5);
-            make.right.equalTo(self.view).offset(20);
+            make.left.equalTo(titleLabel.mas_right);
+            make.right.equalTo(self.view).offset(-20);
         }];
     }
 }

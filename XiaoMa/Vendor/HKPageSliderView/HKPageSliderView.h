@@ -15,7 +15,7 @@ typedef NS_ENUM(NSInteger, HKTabBarStyle) {
 
 @protocol PageSliderDelegate <NSObject>
 
-@required
+@optional
 
 - (void)addContentVCAtIndex:(NSInteger)index;
 
@@ -25,7 +25,7 @@ typedef NS_ENUM(NSInteger, HKTabBarStyle) {
 
 @property (nonatomic, weak) id <PageSliderDelegate> delegate;
 
-- (instancetype)initWithFrame:(CGRect)frame andTitleArray:(NSArray *)titleArray andStyle:(HKTabBarStyle)style;
+- (instancetype)initWithFrame:(CGRect)frame andTitleArray:(NSArray *)titleArray andStyle:(HKTabBarStyle)style atIndex:(NSInteger)index;
 
 @property (nonatomic, assign) NSInteger currentIndex;
 

@@ -20,10 +20,13 @@
 #import "CardDetailVC.h"
 #import "UnbundlingVC.h"
 #import "CarListVC.h"
+#import "CarsListVC.h"
 #import "HKTableViewCell.h"
 #import "GuideStore.h"
 #import "DetailWebVC.h"
 #import "CKDatasource.h"
+
+#import "ShopDetailVC.h"
 
 @interface MineVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -37,6 +40,9 @@
 @property (nonatomic, strong) GuideStore *guideStore;
 @property (nonatomic, assign) BOOL shouldShowNewbieDot;
 
+@property (nonatomic, assign) BOOL isViewAppearing;
+@property (nonatomic, assign) BOOL isCarVC;
+
 @end
 
 @implementation MineVC
@@ -49,7 +55,6 @@
     [self reloadData];
 }
 
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -60,6 +65,41 @@
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
     DebugLog(@"MineVC dealloc");
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.isViewAppearing = YES;
+    self.isCarVC = NO;
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.isViewAppearing = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    //    //如果当前视图的导航条没有发生跳转，则不做处理
+    if (![self.navigationController.topViewController isEqual:self]) {
+        //如果当前视图的viewWillAppear和viewWillDisappear的间隔太短会导致navigationBar隐藏显示不正常
+        //所以此时应该禁止navigationBar的动画,并在主线程中进行
+        if (self.isViewAppearing) {
+            CKAsyncMainQueue(^{
+                if (!self.isCarVC) {
+                    [self.navigationController setNavigationBarHidden:NO animated:NO];
+                }
+            });
+        }
+        else {
+            if (!self.isCarVC) {
+                [self.navigationController setNavigationBarHidden:NO animated:animated];
+            }
+            
+        }
+    }
 }
 
 - (void)setupBgView
@@ -167,7 +207,8 @@
     CKDict *top = [self topData];
     CKDict *car = [self normalDataWithInfo:@{kCKItemKey:@"car", @"img":@"me_car", @"title":@"爱车", @"evt":@"rp301_4"}];
     car[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+        CarsListVC *vc = [UIStoryboard vcWithId:@"CarsListVC" inStoryboard:@"Car"];
+        self.isCarVC = YES;
         [self.navigationController pushViewController:vc animated:YES];
     });
 
