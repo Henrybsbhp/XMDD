@@ -97,7 +97,7 @@
 #pragma mark - UITableViewDelegate and UITableViewDatasource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0)
+    if (indexPath.section == 0 && indexPath.row == 0 )
     {
         ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
         vc.shop = self.order.shop;
@@ -112,7 +112,6 @@
      *  YES 已评价 NO 未评价
      */
     return self.order.ratetime ? 2 : 1;
-    //    return self.order.ratetime ? 1 : 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -152,9 +151,12 @@
         {
             return 90;
         }
+        else
+        {
         CGFloat width = CGRectGetWidth(self.tableView.frame) - 70;
         CGSize size = [self.order.comment labelSizeWithWidth:width font:[UIFont systemFontOfSize:14]];
         return ceil(size.height+90);
+        }
     }
     return 40;
 }
@@ -205,6 +207,7 @@
             cell = [self commentCellAtIndexPath:indexPath];
         }
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
@@ -287,6 +290,7 @@
     avatarV.layer.masksToBounds = YES;
     
     nameL.text = self.order.nickName;
+    nameL.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 100;
     timeL.text = [self.order.ratetime dateFormatForYYMMdd2];
     ratingV.ratingValue = self.order.rating;
     contentL.text = self.order.comment;

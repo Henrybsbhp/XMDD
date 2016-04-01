@@ -103,7 +103,6 @@
 -(void)share
 {
     [self goToUse:self.newType];
-            NSLog(@"18857719999");
 }
 
 - (void)requestShareCoupon:(NSNumber *)cid
@@ -218,6 +217,7 @@
             cell = [self buttonOneCellForRowAtIndexPath:indexPath];
         }
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
