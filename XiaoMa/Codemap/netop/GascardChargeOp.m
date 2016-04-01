@@ -13,6 +13,7 @@
     [params safetySetObject:self.req_orderid forKey:@"orderid"];
     [params safetySetObject:@(self.req_bill) forKey:@"bill"];
     [params addParam:self.req_blackbox forName:@"blackbox"];
+    [params addParam:@(IOSAPPID) forName:@"os"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
