@@ -99,7 +99,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 178;
+    return 180;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -125,11 +125,14 @@
     
     imgView.layer.borderWidth = 0.5;
     imgView.layer.borderColor = HEXCOLOR(@"#888888").CGColor;
+    
     HKInsuranceOrder *order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+    NSLog(@"%@",order.picUrl);
+    [imgView setImageByUrl:order.picUrl withType:ImageURLTypeOrigin defImage:@"cm_shop" errorImage:@"cm_shop"];
     nameL.text = order.inscomp;
-//    nameL.text = [order descForCurrentInstype];
+    
+    contentL.adjustsFontSizeToFitWidth = YES;
     contentL.text = order.serviceName;
-//    contentL.text = [order generateContent];
     
     stateL.text = [order descForCurrentStatus]; //老方式，已经用新字段替换
     timeL.text = [order.lstupdatetime dateFormatForYYYYMMddHHmm2];
@@ -160,13 +163,11 @@
              [self actionMakeCall:x];
          }
     }];
-    cell.customSeparatorInset = UIEdgeInsetsMake(-1, 0, 0, 0);
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [(JTTableViewCell *)cell prepareCellForTableView:tableView atIndexPath:indexPath];
     [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nest:NO promptView:self.tableView.bottomLoadingView];
 }
 
