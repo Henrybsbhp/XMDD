@@ -15,6 +15,7 @@
 #import "PaymentHelper.h"
 #import "CKDatasource.h"
 #import "NSString+Format.h"
+#import "FMDeviceManager.h"
 
 @interface GasNormalVM ()
 @property (nonatomic, strong) RACSignal *getGaschargeConfigSignal;
@@ -23,6 +24,15 @@
 
 - (void)dealloc
 {
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.normalRechargeAmount = 500;
+    }
+    return self;
 }
 
 - (void)setupCardStore
@@ -44,6 +54,12 @@
     }];
 }
 
+- (NSUInteger)rechargeAmount {
+    if (self.curChargePackage.pkgid) {
+        return self.instalmentRechargeAmount;
+    }
+    return self.normalRechargeAmount;
+}
 #pragma mark - Reload
 - (BOOL)reloadWithForce:(BOOL)force
 {
@@ -121,6 +137,7 @@
         self.configOp = rspOp;
         self.chargePackages = [rspOp generateAllChargePackages];
         self.curChargePackage = [self.chargePackages safetyObjectAtIndex:0];
+        self.instalmentRechargeAmount = [[self.curChargePackage.valueList safetyObjectAtIndex:0] integerValue];
     }] replayLast];
     
     self.getGaschargeConfigSignal = sig;
@@ -157,7 +174,7 @@
     //分期加油
     if (self.curChargePackage.pkgid) {
         GasChargePackage *pkg = self.curChargePackage;
-        int amount = [[self.configOp.rsp_supportamt lastObject] intValue];
+        int amount = (int)self.instalmentRechargeAmount;
         float coupon = amount * pkg.month * (1-[pkg.discount floatValue]/100.0);
         return [NSString stringWithFormat:@"<font size=13 color='#888888'>充值即享<font color='#ff0000'>%@折</font>，每月充值%d元，能省%@元</font>",
                 pkg.discount, amount, [NSString formatForFloorPrice:coupon]];
@@ -172,6 +189,21 @@
     return @"<font size=13 color='#888888'>充值即享<font color='#ff0000'>98折</font>，每月优惠限额1000元，超出部分不予奖励。每月最多充值2000元。</font>";
 }
 
+///充值提醒
+- (NSString *)gasRemainder
+{
+    //分期加油
+    if (self.curChargePackage.pkgid) {
+        NSString *text = @"<font size=12 color='#888888'>充值成功后，须至相应加油站圈存后方能使用。</font>";
+        NSString *link = kInstalmentGasNoticeUrl;
+        NSString *agreement = @"《充值服务说明》";
+        text = [NSString stringWithFormat:@"%@<font size=12 color='#888888'>更多充值说明，点击查看<font color='#20ab2a'><a href='%@'>%@</a></font></font>",
+                text, link, agreement];
+        return text;
+    }
+    return [super gasRemainder];
+}
+
 - (void)startPayInTargetVC:(UIViewController *)vc
                    success:(void(^)(GasCard *card, GascardChargeOp *paidop))success
                     failed:(void(^)(NSError *error, GascardChargeOp *op))fail
@@ -184,18 +216,23 @@
         GascardChargeByStagesOp *fqop = [GascardChargeByStagesOp operation];
         fqop.req_cardid = card.gid;
         fqop.req_pkgid = self.curChargePackage.pkgid;
-        fqop.req_permonthamt = (int)self.rechargeAmount;
+        fqop.req_permonthamt = (int)self.instalmentRechargeAmount;
         op = fqop;
     }
     else {
         op = [GascardChargeOp operation];
         op.req_gid = card.gid;
-        op.req_amount = (int)self.rechargeAmount;
+        op.req_amount = (int)self.normalRechargeAmount;
     }
     op.req_gid = card.gid;
     op.req_paychannel = self.paymentPlatform;
     op.req_bill = self.needInvoice;
     op.req_cid = self.coupon.couponId ? self.coupon.couponId : @0;
+    
+    FMDeviceManager_t *manager = [FMDeviceManager sharedManager];
+    NSString *blackBox = manager->getDeviceInfo();
+    op.req_blackbox = blackBox;
+    
     @weakify(self, op);
     [[[op rac_postRequest] initially:^{
         
