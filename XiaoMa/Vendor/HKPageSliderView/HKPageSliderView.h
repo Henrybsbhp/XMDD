@@ -9,11 +9,14 @@
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSInteger, HKTabBarStyle) {
-    HKTabBarStyleUnderline     = 0,     //订单优惠券等下划线风格
-    HKTabBarStyleUnderCorner   = 1      //我的爱车白色三角光标风格
+    HKTabBarStyleUnderline       = 0,   //订单优惠券等下划线风格
+    HKTabBarStyleUnderCorner     = 1,   //我的爱车白色三角光标风格
+    HKTabBarStyleCleanMenu       = 2    //
 };
 
 @protocol PageSliderDelegate <NSObject>
+
+- (void)pageClickAtIndex:(NSInteger)index;
 
 @optional
 

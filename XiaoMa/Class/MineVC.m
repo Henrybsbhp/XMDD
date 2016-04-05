@@ -27,6 +27,7 @@
 #import "CKDatasource.h"
 #import "MyCarStore.h"
 #import "HKMyCar.h"
+#import "CarsListVC.h"
 
 #import "ShopDetailVC.h"
 
@@ -477,7 +478,8 @@
     
     CKDict *car = [self normalDataWithInfo:@{kCKItemKey:@"car", @"img":@"Mine_myCar_imageView", @"title":@"爱车", @"evt":@"rp301_4",@"isContainLicense":@(YES)}];
     car[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+        CarsListVC *vc = [UIStoryboard vcWithId:@"CarsListVC" inStoryboard:@"Car"];
+        vc.model.allowAutoChangeSelectedCar = YES;
         [self.navigationController pushViewController:vc animated:YES];
     });
     
