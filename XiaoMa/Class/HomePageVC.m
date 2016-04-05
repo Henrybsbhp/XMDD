@@ -32,6 +32,7 @@
 
 #import "MyCouponVC.h"
 #import "CouponPkgViewController.h"
+#import "AdListData.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3
@@ -407,7 +408,7 @@
             //若弹出抢登登录框，则不弹出广告
             if (!gAppDelegate.errorModel.alertView && mutableArr.count > 0) {
                 
-                [HomeSuspendedAdVC presentInTargetVC:self withAdList:ads];
+                [HomeSuspendedAdVC presentInTargetVC:self withAdList:mutableArr];
             }
         }];
     }
@@ -470,6 +471,8 @@
         gAppDelegate.openUrlQueue.running = YES;
         [self checkPasteboardModel];
     } error:^(NSError *error) {
+        gAppDelegate.pushMgr.notifyQueue.running = YES;
+        gAppDelegate.openUrlQueue.running = YES;
         //未登录
         [self checkPasteboardModel];
     }];
@@ -797,6 +800,5 @@
     return dict;
 }
 
-///.
 
 @end

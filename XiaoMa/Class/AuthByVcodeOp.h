@@ -12,4 +12,5 @@
 @property (nonatomic, strong) NSString *req_deviceID;
 @property (nonatomic, strong) NSString *req_deviceModel;
 @property (nonatomic, strong) NSString *req_appVersion;
+@property (nonatomic, strong) NSString *req_blackBox;
 @end

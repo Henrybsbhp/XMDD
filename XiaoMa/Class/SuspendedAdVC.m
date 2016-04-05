@@ -113,11 +113,6 @@
             if (ad.adLink.length > 0) {
                 [self.navModel pushToViewControllerByUrl:ad.adLink];
             }
-            else {
-                DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-                vc.url = ADDEFINEWEB;
-                [self.targetVC.navigationController pushViewController:vc animated:YES];
-            }
         }
     }];
     
