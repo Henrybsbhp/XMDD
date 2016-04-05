@@ -408,7 +408,6 @@
 		508150CE1B84703200B16633 /* DetailsAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508150CD1B84703200B16633 /* DetailsAlertVC.m */; };
 		50819CDF1C99306E00A6B8B2 /* GetGroupPasswordOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50819CDE1C99306E00A6B8B2 /* GetGroupPasswordOp.m */; };
 		50819CE91C99438E00A6B8B2 /* InviteAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50819CE81C99438E00A6B8B2 /* InviteAlertVC.m */; };
-		5088F1431CA13381006DA415 /* AdListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5088F1421CA13381006DA415 /* AdListData.m */; };
 		508BD8D01BD0E3ED00B64199 /* GasRecordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508BD8CF1BD0E3ED00B64199 /* GasRecordVC.m */; };
 		508C718F1BA808B600FA2F05 /* Insurance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 508C718E1BA808B600FA2F05 /* Insurance.storyboard */; };
 		508D06801B900CF800B835BB /* InsuranceOrderPayOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 508D067F1B900CF800B835BB /* InsuranceOrderPayOp.m */; };
@@ -425,6 +424,8 @@
 		50B5A2961BD8CC51004E00ED /* MyWebViewBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */; };
 		50BA11641C27F42F00EA1E4A /* CarIDCodeCheckModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BA11631C27F42F00EA1E4A /* CarIDCodeCheckModel.m */; };
 		50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE7C911B6716B500675887 /* SelectScrollView.m */; };
+		50BF30161CABEE0100D0FC07 /* AdListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BF30151CABEE0100D0FC07 /* AdListData.m */; };
+		50BF301A1CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50BF30191CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a */; };
 		50C6BF4D1B7341B800A5E021 /* CardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */; };
 		50DD1BC51BFB019300349A70 /* GetOtherOrderListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BC41BFB019300349A70 /* GetOtherOrderListOp.m */; };
 		50DD1BC81BFB023800349A70 /* HKOtherOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BC71BFB023800349A70 /* HKOtherOrder.m */; };
@@ -1545,8 +1546,6 @@
 		50819CDE1C99306E00A6B8B2 /* GetGroupPasswordOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetGroupPasswordOp.m; path = Class/GetGroupPasswordOp.m; sourceTree = "<group>"; };
 		50819CE71C99438E00A6B8B2 /* InviteAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteAlertVC.h; sourceTree = "<group>"; };
 		50819CE81C99438E00A6B8B2 /* InviteAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteAlertVC.m; sourceTree = "<group>"; };
-		5088F1411CA13381006DA415 /* AdListData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdListData.h; path = Class/AdListData.h; sourceTree = "<group>"; };
-		5088F1421CA13381006DA415 /* AdListData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdListData.m; path = Class/AdListData.m; sourceTree = "<group>"; };
 		508BD8CE1BD0E3ED00B64199 /* GasRecordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasRecordVC.h; sourceTree = "<group>"; };
 		508BD8CF1BD0E3ED00B64199 /* GasRecordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasRecordVC.m; sourceTree = "<group>"; };
 		508C718E1BA808B600FA2F05 /* Insurance.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Insurance.storyboard; sourceTree = "<group>"; };
@@ -1577,6 +1576,10 @@
 		50BA11631C27F42F00EA1E4A /* CarIDCodeCheckModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CarIDCodeCheckModel.m; path = Class/CarIDCodeCheckModel.m; sourceTree = "<group>"; };
 		50BE7C901B6716B500675887 /* SelectScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectScrollView.h; path = Class/SelectScrollView.h; sourceTree = "<group>"; };
 		50BE7C911B6716B500675887 /* SelectScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectScrollView.m; path = Class/SelectScrollView.m; sourceTree = "<group>"; };
+		50BF30141CABEE0100D0FC07 /* AdListData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdListData.h; path = Class/AdListData.h; sourceTree = "<group>"; };
+		50BF30151CABEE0100D0FC07 /* AdListData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdListData.m; path = Class/AdListData.m; sourceTree = "<group>"; };
+		50BF30181CABF0E600D0FC07 /* FMDeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDeviceManager.h; sourceTree = "<group>"; };
+		50BF30191CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFMDeviceManager_without_IDFA.a; sourceTree = "<group>"; };
 		50C6BF4B1B7341B800A5E021 /* CardDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardDetailVC.h; sourceTree = "<group>"; };
 		50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardDetailVC.m; sourceTree = "<group>"; };
 		50DD1BC31BFB019300349A70 /* GetOtherOrderListOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetOtherOrderListOp.h; path = Class/GetOtherOrderListOp.h; sourceTree = "<group>"; };
@@ -2189,6 +2192,7 @@
 				18E28A131B93E5880070E759 /* libUPPayPlugin.a in Frameworks */,
 				189B31161ADBDF07001D7288 /* MobileCoreServices.framework in Frameworks */,
 				6BBFBC411B0D8E57000D3CA3 /* libWeiboSDK.a in Frameworks */,
+				50BF301A1CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a in Frameworks */,
 				6BBBF54D1B291CCA00E1B809 /* Fabric.framework in Frameworks */,
 				6BBB825C1AE79FE100850D0C /* libWeChatSDK.a in Frameworks */,
 				06380E56572F1DCE6105BE83 /* libPods.a in Frameworks */,
@@ -2265,6 +2269,7 @@
 				1844531A1C8EA30F007B895D /* AhaWaterWaveView */,
 				6B26EEA91C8EC23200428EC4 /* ZFCActivityIndicatorView */,
 				6B26EE981C8EC12B00428EC4 /* Reachability */,
+				50BF30171CABF0D600D0FC07 /* Tongdun */,
 				6B2F28F31C8414D80096FD45 /* RRFPSBar */,
 				18FC01BA1C4E6C6F00FD61BF /* IQKeyBoardManager */,
 				50E8003E1C44D7B100AFC7B9 /* HYScratchCardView */,
@@ -2866,8 +2871,8 @@
 				6B16D63B1C92CD1A00322B70 /* HKMutualGroup.m */,
 				50F0FF6C1C9A9780009A94A3 /* HKMutualInsList.h */,
 				50F0FF6D1C9A9780009A94A3 /* HKMutualInsList.m */,
-				5088F1411CA13381006DA415 /* AdListData.h */,
-				5088F1421CA13381006DA415 /* AdListData.m */,
+				50BF30141CABEE0100D0FC07 /* AdListData.h */,
+				50BF30151CABEE0100D0FC07 /* AdListData.m */,
 			);
 			name = Dataset;
 			sourceTree = "<group>";
@@ -4046,6 +4051,15 @@
 				50BE7C911B6716B500675887 /* SelectScrollView.m */,
 			);
 			name = SelectScrollView;
+			sourceTree = "<group>";
+		};
+		50BF30171CABF0D600D0FC07 /* Tongdun */ = {
+			isa = PBXGroup;
+			children = (
+				50BF30181CABF0E600D0FC07 /* FMDeviceManager.h */,
+				50BF30191CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a */,
+			);
+			name = Tongdun;
 			sourceTree = "<group>";
 		};
 		50E8003E1C44D7B100AFC7B9 /* HYScratchCardView */ = {
@@ -5520,6 +5534,7 @@
 				189B30BA1AD51EF2001D7288 /* JTUser.m in Sources */,
 				18B78F6A1BAAA2100061ECAD /* GetInsuranceCalculatorOpV2.m in Sources */,
 				50E800411C44D7B100AFC7B9 /* HYScratchCardView.m in Sources */,
+				50BF30161CABEE0100D0FC07 /* AdListData.m in Sources */,
 				50B5088D1C7C469800B6151E /* HomeSuspendedAdVC.m in Sources */,
 				6BC80C941C96BD6800C7BA3D /* SearchCooperationGroupOp.m in Sources */,
 				18FC01DF1C4E6C6F00FD61BF /* IQKeyboardReturnKeyHandler.m in Sources */,
@@ -5751,7 +5766,6 @@
 				6BD25E8B1B7C41C6008C0080 /* CollectionChooseVC.m in Sources */,
 				505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */,
 				189B31061AD7B7F5001D7288 /* UIView+Shake.m in Sources */,
-				5088F1431CA13381006DA415 /* AdListData.m in Sources */,
 				6B16D63C1C92CD1A00322B70 /* HKMutualGroup.m in Sources */,
 				18E5922A1C1709A4006010D9 /* InsInputNameVC.m in Sources */,
 				6BB61BA01AEF6969004F39AA /* RescueViewController.m in Sources */,
@@ -6065,7 +6079,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
