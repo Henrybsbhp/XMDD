@@ -227,6 +227,7 @@
     car[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         CarsListVC *vc = [UIStoryboard vcWithId:@"CarsListVC" inStoryboard:@"Car"];
         self.isCarVC = YES;
+        vc.model.allowAutoChangeSelectedCar = YES;
         [self.navigationController pushViewController:vc animated:YES];
     });
 

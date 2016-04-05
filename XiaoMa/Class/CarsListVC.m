@@ -18,6 +18,7 @@
 #import "CarListSubVC.h"
 #import "AddCloseAnimationButton.h"
 #import "HKPopoverView.h"
+#import "UpdateCarOp.h"
 
 #import "ValuationViewController.h"
 
@@ -30,6 +31,7 @@
 @property (nonatomic, strong) NSArray *datasource;
 @property (nonatomic, strong) HKPageSliderView * sliderView;
 
+@property (weak, nonatomic) IBOutlet UIView *navigationView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *headerBgView;
 @property (weak, nonatomic) IBOutlet UILabel *carNumberLabel;
@@ -66,6 +68,7 @@
     self.isViewAppearing = YES;
     self.isBackToMine = NO;
     [self.navigationController setNavigationBarHidden:YES animated:animated];
+    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -94,6 +97,7 @@
             
         }
     }
+    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
 }
 
 - (void)viewDidLoad {
@@ -134,18 +138,27 @@
         
         @strongify(self);
         self.tableView.hidden = YES;
-        self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
+        self.navigationView.hidden = NO;
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] finally:^{
         
         @strongify(self);
+        if (![self.view isShowDefaultEmptyView]) {
+            self.tableView.hidden = NO;
+            self.navigationView.hidden = YES;
+        }
+        else {
+            self.tableView.hidden = YES;
+            self.navigationView.hidden = NO;
+        }
         [self.view stopActivityAnimation];
     }] subscribeNext:^(id x) {
         
         @strongify(self);
         self.datasource = [self.carStore.cars allObjects];
         HKMyCar *defCar = [self.carStore defalutCar];
+
         if (self.model.allowAutoChangeSelectedCar) {
             HKMyCar *car = nil;
             if (_originCarID) {
@@ -180,6 +193,7 @@
                 self.model.currentCar = self.model.selectedCar;
             }
         }
+
         if (self.datasource.count == 0) {
             [self.view showDefaultEmptyViewWithText:@"暂无爱车，快去添加一辆吧" tapBlock:^{
                 @strongify(self);
@@ -207,6 +221,7 @@
     [self.view hideDefaultEmptyView];
     [self.view hideIndicatorText];
     self.tableView.hidden = NO;
+    self.navigationView.hidden = YES;
     
     @weakify(self);
     [self.headerBgView mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -214,7 +229,7 @@
         make.top.equalTo(self.view.mas_top).offset(0);
     }];
     
-    [[RACObserve(self.model, currentCar) distinctUntilChanged] subscribeNext:^(HKMyCar * car) {
+    [[RACObserve(self.model, selectedCar) distinctUntilChanged] subscribeNext:^(HKMyCar *car) {
         self.carNumberLabel.text = car.licencenumber;
         self.defaultLabel.hidden = !car.isDefault;
         self.carStateLabel.text= [self.model descForCarStatus:car];
@@ -287,9 +302,12 @@
     }
     
     if (carNumArray.count > 0) {
-        HKPageSliderView *pageSliderView = [[HKPageSliderView alloc] initWithFrame:view.bounds andTitleArray:carNumArray andStyle:1 atIndex:[self.datasource indexOfObject:self.model.currentCar]];
+        HKPageSliderView *pageSliderView = [[HKPageSliderView alloc] initWithFrame:view.bounds andTitleArray:carNumArray andStyle:0 atIndex:[self.datasource indexOfObject:self.model.currentCar]];
         pageSliderView.contentScrollView.delegate = self;
         
+        if (view.subviews.count != 0) {
+            [view removeSubviews];
+        }
         [view addSubview:pageSliderView];
         self.sliderView = pageSliderView;//赋值全局
         [self addContentView];

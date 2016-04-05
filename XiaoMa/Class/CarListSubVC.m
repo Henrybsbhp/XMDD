@@ -32,11 +32,16 @@
                         @"行驶城市", @"车架号码", @"发动机号",
                         @"整车价格", @"当前里程"];
     NSString *brandAndSeries = [NSString stringWithFormat:@"%@ %@", self.car.brand, self.car.seriesModel.seriesname];
+    NSString *modelName = [NSString stringWithFormat:@"%@", self.car.detailModel.modelname];
+    NSString *purchaseDate = [NSString stringWithFormat:@"%@", [self.car.purchasedate dateFormatForYYMM]];
+    NSString *cityName = self.car.cityName ? self.car.cityName : @"";
+    NSString *classNo = self.car.classno ? self.car.classno : @"";
+    NSString *engineNo = self.car.engineno ? self.car.engineno : @"";
     NSString *priceStr = [NSString stringWithFormat:@"%@万元", [NSString formatForRoundPrice:self.car.price]];
     NSString *odoStr = [NSString stringWithFormat:@"%@万公里", [NSString formatForRoundPrice:self.car.odo/10000.00]];
     
-    self.contentArray = @[brandAndSeries, self.car.detailModel.modelname, [self.car.purchasedate dateFormatForYYMM],
-                          self.car.cityName, self.car.classno, self.car.engineno,
+    self.contentArray = @[brandAndSeries, modelName, purchaseDate,
+                          cityName, classNo, engineNo,
                           priceStr, odoStr];
 }
 
