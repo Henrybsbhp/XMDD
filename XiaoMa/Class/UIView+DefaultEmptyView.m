@@ -96,6 +96,15 @@
     view.hidden = YES;
 }
 
+- (BOOL)isShowDefaultEmptyView
+{
+    UIView *view = self.customInfo[kEmptyView];
+    if (view && !view.hidden) {
+        return YES;
+    }
+    return NO;
+}
+
 - (void)actionDefaultEmptyViewTaped:(UITapGestureRecognizer *)tap
 {
     void (^block)(void) = [tap associatedObjectForKey:kTapGesture];
