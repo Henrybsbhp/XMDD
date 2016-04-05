@@ -32,6 +32,7 @@
 
 #import "MyCouponVC.h"
 #import "CouponPkgViewController.h"
+#import "GetSystemHomeModuleOp.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3
@@ -43,6 +44,7 @@
 @property (nonatomic, weak) HKPopoverView *popoverMenu;
 
 @property (nonatomic, strong) ADViewController *adctrl;
+@property (nonatomic, strong) ADViewController *secondAdCtrl;
 
 @property (nonatomic, strong)UIView *mainItemView;
 @property (nonatomic, strong)UIView *secondaryItemView;
@@ -155,8 +157,9 @@
     // 九宫格区域
     UIView * squaresView = [self setupSquaresViewInContainer:container];
     
-    // 九宫格下边的区域
-    [self setupSecondViewInContainer:container withSquaresView:squaresView];
+    // 九宫格下边的广告
+    [self setupSecondADViewInContainer:container withSquaresView:squaresView];
+//    [self setupSecondViewInContainer:container withSquaresView:squaresView];
 }
 
 - (void)setupWeatherViewInContainer:(UIView *)containerView
@@ -226,44 +229,44 @@
 }
 
 
-- (void)setupSecondViewInContainer:(UIView *)container withSquaresView:(UIView *)squaresView
-{
-    UIView * secondaryView = [[UIView alloc] init];
-    secondaryView.tag = 102;
-    secondaryView.backgroundColor = [UIColor whiteColor];
-    [container addSubview:secondaryView];
-    
-    CGFloat height = 152.0f / 750.0f * gAppMgr.deviceInfo.screenSize.width;
-    [secondaryView mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        CGFloat space = 12;
-        make.top.equalTo(squaresView.mas_bottom).offset(space);
-        make.left.equalTo(self.scrollView);
-        make.right.equalTo(self.scrollView);
-        make.height.mas_equalTo(@(height)).priorityHigh();
-    }];
-    
-    HomeItem * bottomItem = gAppMgr.homePicModel.bottomItem;
-    UIButton * btn = [self functionalButtonWithImageName:bottomItem.defaultImageName action:nil inContainer:secondaryView andPicUrl:bottomItem.homeItemPicUrl];
-    btn.tag = 20201;
-    [secondaryView addSubview:btn];
-    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-       
-        make.left.right.top.bottom.equalTo(secondaryView);
-    }];
-    RACDisposable * disposable = [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
-        [self jumpToViewControllerByUrl:bottomItem.homeItemRedirect];
-    }];
-    [self.disposableArray safetyAddObject:disposable];
-    
-    [squaresView drawLineWithDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
-    [squaresView drawLineWithDirection:CKViewBorderDirectionTop withEdge:UIEdgeInsetsZero];
-    
-    [container mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(secondaryView);
-    }];
-}
+//- (void)setupSecondViewInContainer:(UIView *)container withSquaresView:(UIView *)squaresView
+//{
+//    UIView * secondaryView = [[UIView alloc] init];
+//    secondaryView.tag = 102;
+//    secondaryView.backgroundColor = [UIColor whiteColor];
+//    [container addSubview:secondaryView];
+//    
+//    CGFloat height = 152.0f / 750.0f * gAppMgr.deviceInfo.screenSize.width;
+//    [secondaryView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        
+//        CGFloat space = 12;
+//        make.top.equalTo(squaresView.mas_bottom).offset(space);
+//        make.left.equalTo(self.scrollView);
+//        make.right.equalTo(self.scrollView);
+//        make.height.mas_equalTo(@(height)).priorityHigh();
+//    }];
+//    
+//    HomeItem * bottomItem = gAppMgr.homePicModel.bottomItem;
+//    UIButton * btn = [self functionalButtonWithImageName:bottomItem.defaultImageName action:nil inContainer:secondaryView andPicUrl:bottomItem.homeItemPicUrl];
+//    btn.tag = 20201;
+//    [secondaryView addSubview:btn];
+//    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+//       
+//        make.left.right.top.bottom.equalTo(secondaryView);
+//    }];
+//    RACDisposable * disposable = [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+//        
+//        [self jumpToViewControllerByUrl:bottomItem.homeItemRedirect];
+//    }];
+//    [self.disposableArray safetyAddObject:disposable];
+//    
+//    [squaresView drawLineWithDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
+//    [squaresView drawLineWithDirection:CKViewBorderDirectionTop withEdge:UIEdgeInsetsZero];
+//    
+//    [container mas_updateConstraints:^(MASConstraintMaker *make) {
+//        make.bottom.equalTo(secondaryView);
+//    }];
+//}
 
 - (void)setupADViewInContainer:(UIView *)container
 {
@@ -277,6 +280,28 @@
         make.right.equalTo(container);
         make.top.equalTo(container);
         make.height.mas_equalTo(height);
+    }];
+}
+
+- (void)setupSecondADViewInContainer:(UIView *)container  withSquaresView:(UIView *)squaresView
+{
+    //@fq TODO
+    self.secondAdCtrl = [ADViewController vcWithADType:AdvertisementHomePage boundsWidth:self.view.frame.size.width
+                                        targetVC:self mobBaseEvent:@""];
+    
+    CGFloat height = floor(self.secondAdCtrl.adView.frame.size.height);
+    [container addSubview:self.secondAdCtrl.adView];
+    [self.secondAdCtrl.adView mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        CGFloat space = 12;
+        make.left.equalTo(container);
+        make.right.equalTo(container);
+        make.top.equalTo(squaresView.mas_bottom).offset(space);
+        make.height.mas_equalTo(height);
+    }];
+    
+    [container mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.secondAdCtrl.adView);
     }];
 }
 
@@ -533,12 +558,14 @@
         
     }];
     
-//    GetSystemHomePicOp * op = [[GetSystemHomePicOp alloc] init];
-//    [[op rac_postRequest] subscribeNext:^(GetSystemHomePicOp * op) {
+//    GetSystemHomeModuleOp * op = [[GetSystemHomeModuleOp alloc] init];
+//    [[op rac_postRequest] subscribeNext:^(GetSystemHomeModuleOp * rop) {
 //        
-//        gAppMgr.homePicModel = op.homeModel;
+//        gAppMgr.homePicModel = [gAppMgr.homePicModel analyzeHomePicModel:op.homeModel];
 //        [gAppMgr saveHomePicInfo];
-//         [self refreshSquareAndSecond];
+//        [self refreshSquareView];
+//    } error:^(NSError *error) {
+//        
 //    }];
 }
 
@@ -700,8 +727,8 @@
     return str;
 }
 
-//刷新九宫格&下面的区域
-- (void)refreshSquareAndSecond
+//刷新九宫格
+- (void)refreshSquareView
 {
     UIView *firstView = (UIView *)[self.view searchViewWithTag:101];
     
@@ -722,18 +749,15 @@
         RACDisposable * disposable = [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
             [self jumpToViewControllerByUrl:item.homeItemRedirect];
+            // 把new标签设置回去
+            if (item.isNewFlag)
+            {
+                item.isNewFlag = NO;
+            }
+            [gAppMgr saveHomePicInfo];
         }];
         [self.disposableArray safetyAddObject:disposable];
     }
-    
-    UIView *secondView = (UIView *)[self.view searchViewWithTag:102];
-    UIButton * secondBtn = (UIButton *)[secondView searchViewWithTag:20201];
-    [self requestHomePicWithBtn:secondBtn andUrl:gAppMgr.homePicModel.bottomItem.homeItemPicUrl andDefaultPic:nil errPic:nil];
-    RACDisposable * disposable = [[secondBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
-        [self jumpToViewControllerByUrl:gAppMgr.homePicModel.bottomItem.homeItemRedirect];
-    }];
-    [self.disposableArray safetyAddObject:disposable];
 }
 
 
