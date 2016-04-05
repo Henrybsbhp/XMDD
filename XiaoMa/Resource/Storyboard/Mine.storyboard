@@ -2176,8 +2176,8 @@
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1005" contentMode="left" horizontalHuggingPriority="251" misplaced="YES" text="第一次过来洗车" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BXA-bF-IfE">
-                                                    <rect key="frame" x="62" y="88.5" width="526" height="101.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1005" contentMode="left" horizontalHuggingPriority="251" text="第一次过来洗车" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BXA-bF-IfE">
+                                                    <rect key="frame" x="62" y="85" width="526" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.53333333333333333" green="0.53333333333333333" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -2198,7 +2198,7 @@
                                                         <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CR_17.5"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="神州洗车" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uMQ-wO-kJI">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="神州洗车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uMQ-wO-kJI">
                                                     <rect key="frame" x="62" y="14" width="523" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="16" id="YXf-Zv-9HA"/>
@@ -2233,6 +2233,7 @@
                                                     <exclude reference="9cX-B8-jht"/>
                                                     <exclude reference="AK7-Cn-sKB"/>
                                                     <exclude reference="Pqe-Jm-vfC"/>
+                                                    <exclude reference="oCe-Mu-KyT"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>

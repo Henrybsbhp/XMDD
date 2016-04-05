@@ -142,13 +142,15 @@
     }]subscribeNext:^(id x) {
         self.dataArr = op.rsp_claimlist;
         [self.tableView reloadData];
+        [self.tableView.refreshView endRefreshing];
         if (self.dataArr.count == 0)
         {
-            [self.tableView showDefaultEmptyViewWithText:@"暂无理赔记录"];
+            self.tableView.hidden = YES;
+            [self.view showDefaultEmptyViewWithText:@"暂无理赔记录"];
         }
-        [self.tableView.refreshView endRefreshing];
+        
     }error:^(NSError *error) {
-        [self.tableView.refreshView stopActivityAnimation];
+        [self.tableView.refreshView endRefreshing];
     }];
 }
 
