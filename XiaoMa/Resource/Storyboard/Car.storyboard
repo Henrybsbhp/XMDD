@@ -315,6 +315,10 @@
                                     <outlet property="delegate" destination="yVb-hm-IaO" id="Nv3-il-bLd"/>
                                 </connections>
                             </tableView>
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e1w-xK-vDv" userLabel="NavigationView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
+                                <color key="backgroundColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gCf-sr-mzy" userLabel="backButton">
                                 <rect key="frame" x="0.0" y="20" width="45" height="35"/>
                                 <constraints>
@@ -356,6 +360,7 @@
                         <outlet property="carStateLabel" destination="QYd-Gv-C3T" id="t8j-9V-Bu1"/>
                         <outlet property="defaultLabel" destination="ucX-bp-aCK" id="bJX-hN-dwz"/>
                         <outlet property="headerBgView" destination="Wbo-8B-eDC" id="hTE-ue-4Xh"/>
+                        <outlet property="navigationView" destination="e1w-xK-vDv" id="MMx-Yb-KlE"/>
                         <outlet property="tableView" destination="ebe-bp-xEf" id="zSd-K0-Qmc"/>
                     </connections>
                 </viewController>
