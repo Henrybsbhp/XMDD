@@ -10,6 +10,11 @@
 
 @implementation GasReminderCell
 
+- (void)dealloc
+{
+    
+}
+
 - (void)awakeFromNib {
     if (!_titleLb) {
         _titleLb = [[UILabel alloc] initWithFrame:CGRectZero];

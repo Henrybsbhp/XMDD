@@ -151,7 +151,8 @@
        (value #f))
       (node (attr (*def* "团长是否有车")) (id ifownerhascar) (type bool) (value #f))
       (node (attr (*def* "团记录ID")) (id groupid) (type number) (value #f))
-      (node (attr (*def* "团名")) (id groupname) (type #f) (value #f))))
+      (node (attr (*def* "团名")) (id groupname) (type #f) (value #f))
+      (node (attr (*def* "团类型(1：自助，2：匹配)")) (id type) (type int) (value #f))))
     (node
      (attr
       (*def* "互助协议查看")

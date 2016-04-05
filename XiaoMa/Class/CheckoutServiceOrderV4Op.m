@@ -30,6 +30,7 @@
     [params addParam:[NSString stringWithFormat:@"%f", self.coordinate.latitude] forName:@"latitude"];
     [params addParam:self.bankCardId ? self.bankCardId : @0 forName:@"cardid"];
     [params addParam:self.blackbox forName:@"blackbox"];
+    [params addParam:@(IOSAPPID) forName:@"os"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }

@@ -827,10 +827,6 @@
          subscribeNext:^(id x) {
              @strongify(self);
              self.normalModel.curChargePackage = pkg;
-             if (pkg.pkgid) {
-                 self.normalModel.rechargeAmount = [PKYStepper fitValueForValue:self.normalModel.rechargeAmount
-                                                                    inValueList:self.normalModel.configOp.rsp_supportamt];
-             }
              [self.tableView reloadData];
              if (i == 1)
              {
@@ -850,75 +846,106 @@
 {
     GasPickAmountCell *cell = (GasPickAmountCell *)[self.tableView dequeueReusableCellWithIdentifier:@"PickGasAmount"];
     cell.richLabel.text = [self.curModel rechargeFavorableDesc];
+    [self setupStepper:cell.stepper forPickGasAmountCell:cell];
 
-//    cell.stepper.value = self.curModel.rechargeAmount;
-    if (!cell.stepper.valueChangedCallback) {
-        @weakify(self);
-        cell.stepper.valueChangedCallback = ^(PKYStepper *stepper, float newValue) {
-            @strongify(self);
-            stepper.countLabel.text = [NSString stringWithFormat:@"%d元", (int)newValue];
-            self.curModel.rechargeAmount = (int)newValue;
-            [self refreshBottomView];
-        };
-        cell.stepper.incrementCallback = ^float(PKYStepper *stepper, float newValue) {
-            [MobClick event:@"rp501_7"];
-            if (stepper.allowValueList && stepper.valueList.count > 0) {
-                float maxValue = [[stepper.valueList lastObject] floatValue];
-                if (newValue >= maxValue && stepper.value >= maxValue) {
-                    [gToast showText:@"充值金额已达本月最大限制，无法增加啦"];
-                    return [[stepper.valueList lastObject] floatValue];
-                }
+    @weakify(cell, self);
+    //递增
+    [[[cell.stepper.incrementButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(cell, self);
+        float oldValue = self.curModel.rechargeAmount;
+        float newValue = oldValue;
+        if (cell.stepper.valueList.count > 0) {
+            newValue = [PKYStepper incrementValue:oldValue inValueList:cell.stepper.valueList];
+            //提示已经达到最大限额
+            if ([PKYStepper isEqualForValue1:oldValue andValue2:newValue]) {
+                [gToast showText:@"充值金额已达每月最大限制，无法增加啦"];
             }
-            else if (newValue > stepper.maximum) {
-                [gToast showText:@"充值金额已达本月最大限制，无法增加啦"];
-                return stepper.maximum;
-            }
-            return newValue;
-        };
-        cell.stepper.decrementCallback = ^float(PKYStepper *stepper, float newValue) {
-            [MobClick event:@"rp501_5"];
-            if (stepper.allowValueList && stepper.valueList.count > 0) {
-                float minValue = [stepper.valueList[0] floatValue];
-                if (newValue <= minValue && stepper.value <= minValue) {
-                    [gToast showText:[NSString stringWithFormat:@"充值金额不能小于%d哦～", (int)minValue]];
-                    return [stepper.valueList[0] floatValue];
-                }
-            }
-            else if (newValue < stepper.minimum) {
-                [gToast showText:@"充值金额不能小于100哦～"];
-                return stepper.minimum;
-            }
-            return newValue;
-        };
-    }
-    
-    if ([self.curModel isEqual:self.normalModel]) {
-
-        cell.stepper.valueList = self.normalModel.configOp.rsp_supportamt;
-        if (!self.curModel.curGasCard) {
-            // 有说明请求成功
-            cell.stepper.maximum = self.normalModel.configOp.rsp_chargeupplimit ? [self.normalModel.configOp.rsp_chargeupplimit integerValue] : 1000;
         }
         else {
-            cell.stepper.maximum = [self.curModel.curGasCard.availablechargeamt integerValue];
+            newValue = MIN(cell.stepper.maximum, oldValue + cell.stepper.stepInterval);
+            //提示已经达到最大限额
+            if (oldValue > newValue || [PKYStepper isEqualForValue1:oldValue andValue2:newValue]) {
+                [gToast showText:@"充值金额已达本月最大限制，无法增加啦"];
+            }
         }
+        cell.stepper.value = newValue;
+        [cell.stepper setup];
+    }];
+    
+    //递减
+    [[[cell.stepper.decrementButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(cell, self);
+        float oldValue = self.curModel.rechargeAmount;
+        float newValue = oldValue;
+        if (cell.stepper.valueList.count > 0) {
+            newValue = [PKYStepper decrementValue:oldValue inValueList:cell.stepper.valueList];
+            //提示已经达到最小限额
+            if ([PKYStepper isEqualForValue1:oldValue andValue2:newValue]) {
+                [gToast showText:[NSString stringWithFormat:@"充值金额不能小于%d哦～", (int)newValue]];
+            }
+        }
+        else {
+            newValue = MAX(cell.stepper.minimum, oldValue - cell.stepper.stepInterval);
+            //提示已经达到最大限额
+            if ([PKYStepper isEqualForValue1:oldValue andValue2:newValue]) {
+                [gToast showText:[NSString stringWithFormat:@"充值金额不能小于%d哦～", (int)newValue]];
+            }
+        }
+        cell.stepper.value = newValue;
+        [cell.stepper setup];
+    }];
 
-        cell.stepper.allowValueList = self.normalModel.curChargePackage.pkgid;
+    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
+    return cell;
+}
+
+- (void)setupStepper:(PKYStepper *)stepper forPickGasAmountCell:(GasPickAmountCell *)cell
+{
+    stepper.valueList = nil;
+    if ([self.curModel isEqual:self.normalModel]) {
+        stepper.valueList = self.normalModel.curChargePackage.pkgid ? self.normalModel.configOp.rsp_supportamt : nil;
+        if (!self.curModel.curGasCard) {
+            // 有说明请求成功
+            stepper.maximum = self.normalModel.configOp.rsp_chargeupplimit ? [self.normalModel.configOp.rsp_chargeupplimit integerValue] : 1000;
+        }
+        else {
+            stepper.maximum = [self.curModel.curGasCard.availablechargeamt integerValue];
+        }
     }
     else {
         GasCZBVM *model = (GasCZBVM *)self.curModel;
         if (!model.curBankCard.gasInfo) {
-            cell.stepper.maximum = model.defCouponInfo.rsp_chargeupplimit ? [model.defCouponInfo.rsp_chargeupplimit integerValue] : 1000;
+            stepper.maximum = model.defCouponInfo.rsp_chargeupplimit ? [model.defCouponInfo.rsp_chargeupplimit integerValue] : 1000;
         }
         else {
-            cell.stepper.maximum = model.curBankCard.gasInfo.rsp_availablechargeamt;
+            stepper.maximum = model.curBankCard.gasInfo.rsp_availablechargeamt;
         }
     }
-    cell.stepper.value = self.curModel.rechargeAmount;
-    [cell.stepper setup];
     
-    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
-    return cell;
+    @weakify(self, cell);
+    if (!stepper.valueChangedCallback) {
+        stepper.valueChangedCallback = ^(PKYStepper *stepper, float newValue) {
+            @strongify(self, cell);
+            stepper.countLabel.text = [NSString stringWithFormat:@"%d元", (int)newValue];
+            if ([self.curModel isKindOfClass:[GasNormalVM class]]) {
+                //分期加油
+                if (self.normalModel.curChargePackage.pkgid) {
+                    self.normalModel.instalmentRechargeAmount = (int)newValue;
+                }
+                else {
+                    self.normalModel.normalRechargeAmount = (int)newValue;
+                }
+            }
+            else {
+                self.curModel.rechargeAmount = (int)newValue;
+            }
+            cell.richLabel.text = [self.curModel rechargeFavorableDesc];
+            [self refreshBottomView];
+        };
+    }
+    
+    stepper.value = self.curModel.rechargeAmount;
+    [stepper setup];
 }
 
 - (GasReminderCell *)gasReminderCellAtIndexPath:(NSIndexPath *)indexPath

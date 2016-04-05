@@ -17,4 +17,6 @@
                              centerOffset:(CGFloat)offset tapBlock:(void(^)(void))tapBlock;
 - (void)hideDefaultEmptyView;
 
+- (BOOL)isShowDefaultEmptyView;
+
 @end

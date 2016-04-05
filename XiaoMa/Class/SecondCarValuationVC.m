@@ -150,9 +150,8 @@
     UILabel *characterLabel = (UILabel *)[cell.contentView viewWithTag:1003];
     UILabel *userCNTInfoLabel = (UILabel *)[cell.contentView viewWithTag:1004];
     
-//    @叶志成 按钮
-//    UIButton *checkBtn = (UIButton *)[cell searchViewWithTag:1005];
-//    checkBtn.userInteractionEnabled = NO;
+    UIButton *checkBtn = (UIButton *)[cell searchViewWithTag:1005];
+    checkBtn.userInteractionEnabled = NO;
     couponMoneyLabel.layer.cornerRadius = 3;
     couponMoneyLabel.layer.masksToBounds = YES;
     NSDictionary *dataModel = [self.dataArr safetyObjectAtIndex:(indexPath.row - 1)];
@@ -232,7 +231,22 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if (indexPath.section == 2)
+    {
+        NSDictionary *dataModel = [self.dataArr safetyObjectAtIndex:(indexPath.row - 1)];
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        UIButton *btn = (UIButton *)[cell searchViewWithTag:1005];
+        if ([self.uploadArr containsObject:dataModel])
+        {
+            [self.uploadArr safetyRemoveObject:dataModel];
+            btn.selected = NO;
+        }
+        else
+        {
+            [self.uploadArr safetyAddObject:dataModel];
+            btn.selected = YES;
+        }
+    }
 }
 
 #pragma mark Network

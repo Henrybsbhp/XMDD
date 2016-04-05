@@ -35,6 +35,7 @@
     self.rsp_ifownerhascar = [dict[@"ifownerhascar"] boolValue];
     self.rsp_groupid = dict[@"groupid"];
     self.rsp_groupname = dict[@"groupname"];
+    self.rsp_type = [dict[@"type"] intValue];
 	
     return self;
 }

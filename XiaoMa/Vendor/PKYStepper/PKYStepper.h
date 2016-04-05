@@ -48,6 +48,9 @@ IB_DESIGNABLE
 // This method will call callback
 - (void)setup;
 + (float)fitValueForValue:(float)value inValueList:(NSArray *)valueList;
++ (float)incrementValue:(float)value inValueList:(NSArray *)valueList;
++ (float)decrementValue:(float)value inValueList:(NSArray *)valueList;
++ (BOOL)isEqualForValue1:(float)value1 andValue2:(float)value2;
 // view customization
 - (void)setBorderColor:(UIColor *)color;
 - (void)setBorderWidth:(CGFloat)width;

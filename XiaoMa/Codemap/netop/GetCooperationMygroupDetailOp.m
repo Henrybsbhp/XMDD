@@ -36,6 +36,7 @@
     self.rsp_groupid = dict[@"groupid"];
     self.tempTimetag = [[NSDate date] timeIntervalSince1970];
     self.rsp_groupname = dict[@"groupname"];
+    self.rsp_type = [dict[@"type"] intValue];
 
     return self;
 }
