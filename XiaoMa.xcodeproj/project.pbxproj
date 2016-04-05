@@ -143,7 +143,6 @@
 		187CC95F1AEF6A89004D1F28 /* UpdateInsuranceCalculateOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 187CC95E1AEF6A89004D1F28 /* UpdateInsuranceCalculateOp.m */; };
 		18804A9F1B2548AC00E7E764 /* NavigationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18804A9E1B2548AC00E7E764 /* NavigationModel.m */; };
 		18804AA21B25811E00E7E764 /* HKRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 18804AA11B25811E00E7E764 /* HKRefreshControl.m */; };
-		18804AA51B2679BB00E7E764 /* TestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18804AA41B2679BB00E7E764 /* TestVC.m */; };
 		18804AAB1B27DD3C00E7E764 /* GifActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18804AAA1B27DD3C00E7E764 /* GifActivityIndicatorView.m */; };
 		18804AAE1B280E3C00E7E764 /* HKLoadingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18804AAD1B280E3C00E7E764 /* HKLoadingModel.m */; };
 		1883D8FF1ACB99AC002A4D19 /* XiaoMaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D8FE1ACB99AC002A4D19 /* XiaoMaTests.m */; };
@@ -408,11 +407,13 @@
 		508150CE1B84703200B16633 /* DetailsAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508150CD1B84703200B16633 /* DetailsAlertVC.m */; };
 		50819CDF1C99306E00A6B8B2 /* GetGroupPasswordOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50819CDE1C99306E00A6B8B2 /* GetGroupPasswordOp.m */; };
 		50819CE91C99438E00A6B8B2 /* InviteAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50819CE81C99438E00A6B8B2 /* InviteAlertVC.m */; };
-		5088F1431CA13381006DA415 /* AdListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5088F1421CA13381006DA415 /* AdListData.m */; };
 		508BD8D01BD0E3ED00B64199 /* GasRecordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508BD8CF1BD0E3ED00B64199 /* GasRecordVC.m */; };
 		508C718F1BA808B600FA2F05 /* Insurance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 508C718E1BA808B600FA2F05 /* Insurance.storyboard */; };
 		508D06801B900CF800B835BB /* InsuranceOrderPayOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 508D067F1B900CF800B835BB /* InsuranceOrderPayOp.m */; };
 		508EE5DC1C2BA09800873602 /* TopMenuScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 508EE5DB1C2BA09800873602 /* TopMenuScrollView.m */; };
+		508F65321CACC8AE00F88744 /* HKPageSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 508F65311CACC8AE00F88744 /* HKPageSliderView.m */; };
+		508F65351CACDD0F00F88744 /* CarsListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508F65341CACDD0F00F88744 /* CarsListVC.m */; };
+		508F65381CAD072800F88744 /* CarListSubVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 508F65371CAD072800F88744 /* CarListSubVC.m */; };
 		5093C9FE1C92A68A006B2258 /* InviteByCodeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5093C9FD1C92A68A006B2258 /* InviteByCodeVC.m */; };
 		509D1CC21C086E01003ED860 /* ShareResponeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 509D1CC11C086E01003ED860 /* ShareResponeManager.m */; };
 		50A1E06E1C1EA12800176572 /* Valuation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50A1E06D1C1EA12800176572 /* Valuation.storyboard */; };
@@ -425,6 +426,8 @@
 		50B5A2961BD8CC51004E00ED /* MyWebViewBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */; };
 		50BA11641C27F42F00EA1E4A /* CarIDCodeCheckModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BA11631C27F42F00EA1E4A /* CarIDCodeCheckModel.m */; };
 		50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE7C911B6716B500675887 /* SelectScrollView.m */; };
+		50BF30161CABEE0100D0FC07 /* AdListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BF30151CABEE0100D0FC07 /* AdListData.m */; };
+		50BF301A1CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50BF30191CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a */; };
 		50C6BF4D1B7341B800A5E021 /* CardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */; };
 		50DD1BC51BFB019300349A70 /* GetOtherOrderListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BC41BFB019300349A70 /* GetOtherOrderListOp.m */; };
 		50DD1BC81BFB023800349A70 /* HKOtherOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BC71BFB023800349A70 /* HKOtherOrder.m */; };
@@ -1030,8 +1033,6 @@
 		18804A9E1B2548AC00E7E764 /* NavigationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NavigationModel.m; path = Class/NavigationModel.m; sourceTree = "<group>"; };
 		18804AA01B25811E00E7E764 /* HKRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKRefreshControl.h; sourceTree = "<group>"; };
 		18804AA11B25811E00E7E764 /* HKRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKRefreshControl.m; sourceTree = "<group>"; };
-		18804AA31B2679BB00E7E764 /* TestVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestVC.h; sourceTree = "<group>"; };
-		18804AA41B2679BB00E7E764 /* TestVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestVC.m; sourceTree = "<group>"; };
 		18804AA91B27DD3C00E7E764 /* GifActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifActivityIndicatorView.h; sourceTree = "<group>"; };
 		18804AAA1B27DD3C00E7E764 /* GifActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GifActivityIndicatorView.m; sourceTree = "<group>"; };
 		18804AAC1B280E3C00E7E764 /* HKLoadingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKLoadingModel.h; path = Class/HKLoadingModel.h; sourceTree = "<group>"; };
@@ -1546,8 +1547,6 @@
 		50819CDE1C99306E00A6B8B2 /* GetGroupPasswordOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetGroupPasswordOp.m; path = Class/GetGroupPasswordOp.m; sourceTree = "<group>"; };
 		50819CE71C99438E00A6B8B2 /* InviteAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteAlertVC.h; sourceTree = "<group>"; };
 		50819CE81C99438E00A6B8B2 /* InviteAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteAlertVC.m; sourceTree = "<group>"; };
-		5088F1411CA13381006DA415 /* AdListData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdListData.h; path = Class/AdListData.h; sourceTree = "<group>"; };
-		5088F1421CA13381006DA415 /* AdListData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdListData.m; path = Class/AdListData.m; sourceTree = "<group>"; };
 		508BD8CE1BD0E3ED00B64199 /* GasRecordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasRecordVC.h; sourceTree = "<group>"; };
 		508BD8CF1BD0E3ED00B64199 /* GasRecordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasRecordVC.m; sourceTree = "<group>"; };
 		508C718E1BA808B600FA2F05 /* Insurance.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Insurance.storyboard; sourceTree = "<group>"; };
@@ -1555,6 +1554,12 @@
 		508D067F1B900CF800B835BB /* InsuranceOrderPayOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsuranceOrderPayOp.m; path = Class/InsuranceOrderPayOp.m; sourceTree = "<group>"; };
 		508EE5DA1C2BA09800873602 /* TopMenuScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TopMenuScrollView.h; path = Class/TopMenuScrollView.h; sourceTree = "<group>"; };
 		508EE5DB1C2BA09800873602 /* TopMenuScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TopMenuScrollView.m; path = Class/TopMenuScrollView.m; sourceTree = "<group>"; };
+		508F65301CACC8AE00F88744 /* HKPageSliderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKPageSliderView.h; sourceTree = "<group>"; };
+		508F65311CACC8AE00F88744 /* HKPageSliderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKPageSliderView.m; sourceTree = "<group>"; };
+		508F65331CACDD0F00F88744 /* CarsListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarsListVC.h; sourceTree = "<group>"; };
+		508F65341CACDD0F00F88744 /* CarsListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarsListVC.m; sourceTree = "<group>"; };
+		508F65361CAD072800F88744 /* CarListSubVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarListSubVC.h; sourceTree = "<group>"; };
+		508F65371CAD072800F88744 /* CarListSubVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarListSubVC.m; sourceTree = "<group>"; };
 		5093C9FC1C92A68A006B2258 /* InviteByCodeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteByCodeVC.h; sourceTree = "<group>"; };
 		5093C9FD1C92A68A006B2258 /* InviteByCodeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteByCodeVC.m; sourceTree = "<group>"; };
 		509D1CC01C086E01003ED860 /* ShareResponeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareResponeManager.h; path = Class/ShareResponeManager.h; sourceTree = "<group>"; };
@@ -1578,6 +1583,10 @@
 		50BA11631C27F42F00EA1E4A /* CarIDCodeCheckModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CarIDCodeCheckModel.m; path = Class/CarIDCodeCheckModel.m; sourceTree = "<group>"; };
 		50BE7C901B6716B500675887 /* SelectScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectScrollView.h; path = Class/SelectScrollView.h; sourceTree = "<group>"; };
 		50BE7C911B6716B500675887 /* SelectScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectScrollView.m; path = Class/SelectScrollView.m; sourceTree = "<group>"; };
+		50BF30141CABEE0100D0FC07 /* AdListData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdListData.h; path = Class/AdListData.h; sourceTree = "<group>"; };
+		50BF30151CABEE0100D0FC07 /* AdListData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdListData.m; path = Class/AdListData.m; sourceTree = "<group>"; };
+		50BF30181CABF0E600D0FC07 /* FMDeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDeviceManager.h; sourceTree = "<group>"; };
+		50BF30191CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFMDeviceManager_without_IDFA.a; sourceTree = "<group>"; };
 		50C6BF4B1B7341B800A5E021 /* CardDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardDetailVC.h; sourceTree = "<group>"; };
 		50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardDetailVC.m; sourceTree = "<group>"; };
 		50DD1BC31BFB019300349A70 /* GetOtherOrderListOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetOtherOrderListOp.h; path = Class/GetOtherOrderListOp.h; sourceTree = "<group>"; };
@@ -2192,6 +2201,7 @@
 				18E28A131B93E5880070E759 /* libUPPayPlugin.a in Frameworks */,
 				189B31161ADBDF07001D7288 /* MobileCoreServices.framework in Frameworks */,
 				6BBFBC411B0D8E57000D3CA3 /* libWeiboSDK.a in Frameworks */,
+				50BF301A1CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a in Frameworks */,
 				6BBBF54D1B291CCA00E1B809 /* Fabric.framework in Frameworks */,
 				6BBB825C1AE79FE100850D0C /* libWeChatSDK.a in Frameworks */,
 				06380E56572F1DCE6105BE83 /* libPods.a in Frameworks */,
@@ -2263,11 +2273,13 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				508F652F1CACC8AE00F88744 /* HKPageSliderView */,
 				182BEF071CA0F65200D67C18 /* JCAlertView */,
 				184453281C8FEE81007B895D /* JMRoundedCorner */,
 				1844531A1C8EA30F007B895D /* AhaWaterWaveView */,
 				6B26EEA91C8EC23200428EC4 /* ZFCActivityIndicatorView */,
 				6B26EE981C8EC12B00428EC4 /* Reachability */,
+				50BF30171CABF0D600D0FC07 /* Tongdun */,
 				6B2F28F31C8414D80096FD45 /* RRFPSBar */,
 				18FC01BA1C4E6C6F00FD61BF /* IQKeyBoardManager */,
 				50E8003E1C44D7B100AFC7B9 /* HYScratchCardView */,
@@ -2869,8 +2881,8 @@
 				6B16D63B1C92CD1A00322B70 /* HKMutualGroup.m */,
 				50F0FF6C1C9A9780009A94A3 /* HKMutualInsList.h */,
 				50F0FF6D1C9A9780009A94A3 /* HKMutualInsList.m */,
-				5088F1411CA13381006DA415 /* AdListData.h */,
-				5088F1421CA13381006DA415 /* AdListData.m */,
+				50BF30141CABEE0100D0FC07 /* AdListData.h */,
+				50BF30151CABEE0100D0FC07 /* AdListData.m */,
 			);
 			name = Dataset;
 			sourceTree = "<group>";
@@ -2951,6 +2963,10 @@
 				1814F6571B96D56E001F2D76 /* CarListSubView.m */,
 				18A9E8CA1BDDC1C00061D3BC /* PickInsCompaniesVC.h */,
 				18A9E8CB1BDDC1C00061D3BC /* PickInsCompaniesVC.m */,
+				508F65331CACDD0F00F88744 /* CarsListVC.h */,
+				508F65341CACDD0F00F88744 /* CarsListVC.m */,
+				508F65361CAD072800F88744 /* CarListSubVC.h */,
+				508F65371CAD072800F88744 /* CarListSubVC.m */,
 			);
 			name = MyCar;
 			sourceTree = "<group>";
@@ -3086,8 +3102,6 @@
 				1816F4AD1ACE75C900BBCC96 /* CarWash */,
 				1883D9281ACCD80F002A4D19 /* Home */,
 				1883D9241ACCD689002A4D19 /* MainTab */,
-				18804AA31B2679BB00E7E764 /* TestVC.h */,
-				18804AA41B2679BB00E7E764 /* TestVC.m */,
 			);
 			name = View;
 			path = Class;
@@ -4033,6 +4047,15 @@
 			name = TopMenu;
 			sourceTree = "<group>";
 		};
+		508F652F1CACC8AE00F88744 /* HKPageSliderView */ = {
+			isa = PBXGroup;
+			children = (
+				508F65301CACC8AE00F88744 /* HKPageSliderView.h */,
+				508F65311CACC8AE00F88744 /* HKPageSliderView.m */,
+			);
+			path = HKPageSliderView;
+			sourceTree = "<group>";
+		};
 		50B5087E1C7BF07C00B6151E /* GenieView */ = {
 			isa = PBXGroup;
 			children = (
@@ -4049,6 +4072,15 @@
 				50BE7C911B6716B500675887 /* SelectScrollView.m */,
 			);
 			name = SelectScrollView;
+			sourceTree = "<group>";
+		};
+		50BF30171CABF0D600D0FC07 /* Tongdun */ = {
+			isa = PBXGroup;
+			children = (
+				50BF30181CABF0E600D0FC07 /* FMDeviceManager.h */,
+				50BF30191CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a */,
+			);
+			name = Tongdun;
 			sourceTree = "<group>";
 		};
 		50E8003E1C44D7B100AFC7B9 /* HYScratchCardView */ = {
@@ -5017,7 +5049,7 @@
 				TargetAttributes = {
 					1883D8DE1ACB99AC002A4D19 = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = MACWR28F35;
+						DevelopmentTeam = EN3DUNUW7P;
 					};
 					1883D8F71ACB99AC002A4D19 = {
 						CreatedOnToolsVersion = 6.2;
@@ -5258,6 +5290,7 @@
 				1816F4A71ACD3B0900BBCC96 /* SYPaginatorView.m in Sources */,
 				184453021C8D6249007B895D /* PullDownAnimationButton.m in Sources */,
 				1833F5911BCD373B000E1DA1 /* GetGaschargeConfigOp.m in Sources */,
+				508F65321CACC8AE00F88744 /* HKPageSliderView.m in Sources */,
 				186984FB1B00CC50000A182A /* CarwashOrderDetailVC.m in Sources */,
 				6B11752C1C0C73D900FC1881 /* ViolationCityInfo.m in Sources */,
 				6BEA56C41AE24DCE000D19C1 /* APAuthV2Info.m in Sources */,
@@ -5360,6 +5393,7 @@
 				5078E4CF1B93F04000E3B198 /* GetInsuranceDiscountOp.m in Sources */,
 				6BAF301D1AE6947F00E35E08 /* ClientInfo.m in Sources */,
 				1818D8F81C2293600078C329 /* NSString+Format.m in Sources */,
+				508F65351CACDD0F00F88744 /* CarsListVC.m in Sources */,
 				50ACC6A81C2138F9006E984E /* CarEvaluateOp.m in Sources */,
 				181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */,
 				181355991C92B4F300894CA1 /* MutualInsGrouponSubMsgVC.m in Sources */,
@@ -5525,6 +5559,7 @@
 				189B30BA1AD51EF2001D7288 /* JTUser.m in Sources */,
 				18B78F6A1BAAA2100061ECAD /* GetInsuranceCalculatorOpV2.m in Sources */,
 				50E800411C44D7B100AFC7B9 /* HYScratchCardView.m in Sources */,
+				50BF30161CABEE0100D0FC07 /* AdListData.m in Sources */,
 				50B5088D1C7C469800B6151E /* HomeSuspendedAdVC.m in Sources */,
 				6BC80C941C96BD6800C7BA3D /* SearchCooperationGroupOp.m in Sources */,
 				18FC01DF1C4E6C6F00FD61BF /* IQKeyboardReturnKeyHandler.m in Sources */,
@@ -5757,7 +5792,6 @@
 				6BD25E8B1B7C41C6008C0080 /* CollectionChooseVC.m in Sources */,
 				505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */,
 				189B31061AD7B7F5001D7288 /* UIView+Shake.m in Sources */,
-				5088F1431CA13381006DA415 /* AdListData.m in Sources */,
 				6B16D63C1C92CD1A00322B70 /* HKMutualGroup.m in Sources */,
 				18E5922A1C1709A4006010D9 /* InsInputNameVC.m in Sources */,
 				6BB61BA01AEF6969004F39AA /* RescueViewController.m in Sources */,
@@ -5805,7 +5839,6 @@
 				6BBF7DA61B00A78900E45967 /* UpdateUserInfoOp.m in Sources */,
 				6B26EF931C91599400428EC4 /* MutualInsPhotoBrowserVC.m in Sources */,
 				180538B51C9AA61D00D896A1 /* MutualInsGrouponButtonCell.m in Sources */,
-				18804AA51B2679BB00E7E764 /* TestVC.m in Sources */,
 				50FAC2681C23AA8200F8990F /* PickerAutoModelVC.m in Sources */,
 				181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */,
 				18A9E8CF1BDF15430061D3BC /* EditCarVC.m in Sources */,
@@ -5865,6 +5898,7 @@
 				6BEA56C51AE24DCE000D19C1 /* NSObject+SBJSON.m in Sources */,
 				18A30E451BD493DB00521411 /* GasPaymentResultVC.m in Sources */,
 				6BCF62441B15AF3E0064AE32 /* RescueCouponViewController.m in Sources */,
+				508F65381CAD072800F88744 /* CarListSubVC.m in Sources */,
 				6BE2BD5E1AE63F9F00A69875 /* MultiMediaManager.m in Sources */,
 				6BEA56D21AE24DCE000D19C1 /* openssl_wrapper.m in Sources */,
 				6BD293D81B946B49006482A4 /* PayForInsuranceVC.m in Sources */,
@@ -6071,7 +6105,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -6156,7 +6190,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2e1ee95d-0c71-455c-a3b9-613059936363";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

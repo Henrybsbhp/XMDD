@@ -109,7 +109,9 @@
         
         if (gAppMgr.navModel.curNavCtrl && url.length)
         {
-            [gAppMgr.navModel pushToViewControllerByUrl:url];
+            //  使用队列模式
+            NSDictionary * dict = @{@"url":url};
+            [gAppDelegate.openUrlQueue addObject:dict forKey:nil];
         }
         
         [UIView animateWithDuration:0.35 animations:^{

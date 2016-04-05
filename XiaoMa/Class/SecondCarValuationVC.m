@@ -150,7 +150,6 @@
     UILabel *characterLabel = (UILabel *)[cell.contentView viewWithTag:1003];
     UILabel *userCNTInfoLabel = (UILabel *)[cell.contentView viewWithTag:1004];
     
-//    @叶志成 按钮
     UIButton *checkBtn = (UIButton *)[cell searchViewWithTag:1005];
     checkBtn.userInteractionEnabled = NO;
     couponMoneyLabel.layer.cornerRadius = 3;

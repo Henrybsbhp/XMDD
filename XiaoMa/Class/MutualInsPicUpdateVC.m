@@ -532,7 +532,7 @@
 - (void)actionUpload:(PictureRecord *)record withImageView:(HKImageView *)imageView {
     
     record.isUploading = YES;
-    [[imageView rac_setUploadingImage:self.currentRecord.image withImageType:UploadFileTypeDaDaHelp]
+    [[imageView rac_setUploadingImage:self.currentRecord.image withImageType:UploadFileTypeMutualIns]
      subscribeNext:^(UploadFileOp *op) {
          
          record.url = [op.rsp_urlArray safetyObjectAtIndex:0];
