@@ -31,7 +31,9 @@
 @property (nonatomic, strong) NSArray *datasource;
 @property (nonatomic, strong) HKPageSliderView * sliderView;
 
-@property (weak, nonatomic) IBOutlet UIView *navigationView;
+@property (weak, nonatomic) IBOutlet UIView *emptyView;
+@property (weak, nonatomic) IBOutlet UIView *emptyContentView;
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *headerBgView;
 @property (weak, nonatomic) IBOutlet UILabel *carNumberLabel;
@@ -55,7 +57,7 @@
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
-    return UIStatusBarStyleLightContent;
+    return self.emptyView.hidden ? UIStatusBarStyleLightContent : UIStatusBarStyleDefault;
 }
 
 - (void)awakeFromNib
@@ -79,10 +81,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    //    //如果当前视图的导航条没有发生跳转，则不做处理
     if (![self.navigationController.topViewController isEqual:self]) {
-        //如果当前视图的viewWillAppear和viewWillDisappear的间隔太短会导致navigationBar隐藏显示不正常
-        //所以此时应该禁止navigationBar的动画,并在主线程中进行
         if (self.isViewAppearing) {
             CKAsyncMainQueue(^{
                 if (!self.isBackToMine) {
@@ -94,7 +93,6 @@
             if (!self.isBackToMine) {
                 [self.navigationController setNavigationBarHidden:NO animated:animated];
             }
-            
         }
     }
     [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
@@ -104,6 +102,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [self setEmptyContentView];
     [self setupCarStore];
     [[self.carStore getAllCars] send];
 }
@@ -111,6 +110,15 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setEmptyContentView
+{
+    UIButton *addCarButton = [self.emptyContentView viewWithTag:1002];
+    [[addCarButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
 }
 
 - (void)setupCarStore
@@ -138,19 +146,23 @@
         
         @strongify(self);
         self.tableView.hidden = YES;
-        self.navigationView.hidden = NO;
+        self.emptyView.hidden = NO;
+        self.emptyContentView.hidden = YES;
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] finally:^{
         
         @strongify(self);
-        if (![self.view isShowDefaultEmptyView]) {
+        if (![self.view isShowDefaultEmptyView] && self.datasource.count > 0) {
             self.tableView.hidden = NO;
-            self.navigationView.hidden = YES;
+            self.emptyView.hidden = YES;
         }
         else {
             self.tableView.hidden = YES;
-            self.navigationView.hidden = NO;
+            self.emptyView.hidden = NO;
+        }
+        if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+            [self setNeedsStatusBarAppearanceUpdate];
         }
         [self.view stopActivityAnimation];
     }] subscribeNext:^(id x) {
@@ -195,11 +207,7 @@
         }
 
         if (self.datasource.count == 0) {
-            [self.view showDefaultEmptyViewWithText:@"暂无爱车，快去添加一辆吧" tapBlock:^{
-                @strongify(self);
-                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                [self.navigationController pushViewController:vc animated:YES];
-            }];
+            self.emptyContentView.hidden = NO;
         }
         else {
             [self refreshTableView];
@@ -221,7 +229,7 @@
     [self.view hideDefaultEmptyView];
     [self.view hideIndicatorText];
     self.tableView.hidden = NO;
-    self.navigationView.hidden = YES;
+    self.emptyView.hidden = YES;
     
     @weakify(self);
     [self.headerBgView mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -302,7 +310,7 @@
     }
     
     if (carNumArray.count > 0) {
-        HKPageSliderView *pageSliderView = [[HKPageSliderView alloc] initWithFrame:view.bounds andTitleArray:carNumArray andStyle:0 atIndex:[self.datasource indexOfObject:self.model.currentCar]];
+        HKPageSliderView *pageSliderView = [[HKPageSliderView alloc] initWithFrame:view.bounds andTitleArray:carNumArray andStyle:HKTabBarStyleUnderCorner atIndex:[self.datasource indexOfObject:self.model.currentCar]];
         pageSliderView.contentScrollView.delegate = self;
         
         if (view.subviews.count != 0) {
@@ -323,7 +331,7 @@
         CarListSubVC * contentVC = [[CarListSubVC alloc] init];
         [self addChildViewController:contentVC];
         contentVC.car = car;
-        contentVC.view.frame = CGRectMake(i * self.view.bounds.size.width, 0, self.view.bounds.size.width, 300);
+        contentVC.view.frame = CGRectMake(i * self.view.bounds.size.width, 0, self.view.bounds.size.width, 600);
         
         [self.sliderView.contentScrollView addSubview:contentVC.view];
     }

@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) NSArray *actionItems;
 @property (nonatomic, strong) UIView *contentView;
+@property (nonatomic) BOOL isShowing;
 
 - (void)show;
 - (void)showWithActionHandler:(void(^)(NSInteger index, id alertVC))actionHandler;
