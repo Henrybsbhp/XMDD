@@ -18,7 +18,6 @@
     if (self)
     {
         _favorites = [[FavoriteModel alloc] init];
-        _couponModel = [[CouponModel alloc] init];
     }
     return self;
 }

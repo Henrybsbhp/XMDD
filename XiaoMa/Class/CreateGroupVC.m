@@ -47,7 +47,7 @@
     // Do any additional setup after loading the view.
     
     if (IOSVersionGreaterThanOrEqualTo(@"8.0")) {
-        self.tableView.estimatedRowHeight = 26;
+        self.tableView.estimatedRowHeight = 136;
         self.tableView.rowHeight = UITableViewAutomaticDimension;
     }
     

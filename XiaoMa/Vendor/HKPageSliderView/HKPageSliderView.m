@@ -221,6 +221,11 @@
     }
     NSInteger index = sender.tag;
     [self selectAtIndex:index];
+    
+    if ([self.delegate respondsToSelector:@selector(pageClickAtIndex:)])
+    {
+        [self.delegate pageClickAtIndex:index];
+    }
     //设置滚动
     [self.contentScrollView setContentOffset:CGPointMake(index * self.contentScrollView.bounds.size.width, 0) animated:YES];
 }
@@ -243,12 +248,24 @@
     
     //字体放大缩小
     if (self.style == HKTabBarStyleUnderCorner) {
-        lastButton.titleLabel.font = [UIFont systemFontOfSize:12];
-        clickButton.titleLabel.font = [UIFont systemFontOfSize:15];
+        [UIView animateWithDuration:0.3 animations:^{
+            lastButton.titleLabel.font = [UIFont systemFontOfSize:12];
+            clickButton.titleLabel.font = [UIFont systemFontOfSize:15];
+        } completion:^(BOOL finished) {
+            
+        }];
+//        lastButton.titleLabel.font = [UIFont systemFontOfSize:12];
+//        clickButton.titleLabel.font = [UIFont systemFontOfSize:15];
     }
     else if (self.style == HKTabBarStyleCleanMenu) {
-        lastButton.titleLabel.font = [UIFont systemFontOfSize:12];
-        clickButton.titleLabel.font = [UIFont systemFontOfSize:21];
+        [UIView animateWithDuration:0.3 animations:^{
+            lastButton.titleLabel.font = [UIFont systemFontOfSize:12];
+            clickButton.titleLabel.font = [UIFont systemFontOfSize:21];
+        } completion:^(BOOL finished) {
+            
+        }];
+//        lastButton.titleLabel.font = [UIFont systemFontOfSize:12];
+//        clickButton.titleLabel.font = [UIFont systemFontOfSize:21];
     }
     
     //动画完成前，设置上一个按钮后设置新的index

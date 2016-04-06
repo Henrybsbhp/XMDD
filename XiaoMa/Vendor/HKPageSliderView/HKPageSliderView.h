@@ -16,6 +16,8 @@ typedef NS_ENUM(NSInteger, HKTabBarStyle) {
 
 @protocol PageSliderDelegate <NSObject>
 
+- (void)pageClickAtIndex:(NSInteger)index;
+
 @optional
 
 - (void)addContentVCAtIndex:(NSInteger)index;

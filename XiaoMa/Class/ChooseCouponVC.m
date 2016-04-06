@@ -273,10 +273,18 @@
     {
         if (coupon.couponAmount < self.upperLimit)
         {
-            self.type = coupon.conponType;
-            
-            [self.selectedCouponArray removeAllObjects];
-            [self.selectedCouponArray addObject:coupon];
+            HKCoupon * originCoupon = [self.selectedCouponArray safetyObjectAtIndex:0];
+            if (originCoupon && [coupon.couponId isEqualToNumber:originCoupon.couponId])
+            {
+                [self.selectedCouponArray removeAllObjects];
+            }
+            else
+            {
+                self.type = coupon.conponType;
+                
+                [self.selectedCouponArray removeAllObjects];
+                [self.selectedCouponArray addObject:coupon];
+            }
             
             [self actionBack];
         }

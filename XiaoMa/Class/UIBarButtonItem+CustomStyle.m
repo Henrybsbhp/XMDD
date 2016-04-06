@@ -14,10 +14,10 @@
 
 + (instancetype)backBarButtonItemWithTarget:(id)target action:(SEL)action
 {
-    UIImage *img = [UIImage imageNamed:@"cm_nav_back"];
+    UIImage *img = [UIImage imageNamed:@"nav_back_300"];
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain
                                                             target:target action:action];
-    item.tintColor = HEXCOLOR(@"#1bb745");
+    item.tintColor = HEXCOLOR(@"#18d06a");
     return item;
 }
 
@@ -26,7 +26,7 @@
     UIImage *img = [UIImage imageNamed:@"cm_nav_webback"];
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain
                                                             target:target action:action];
-    item.tintColor = HEXCOLOR(@"#1bb745");
+    item.tintColor = HEXCOLOR(@"#18d06a");
     return item;
 }
 
