@@ -41,10 +41,11 @@
 
 - (void)setupUploadBtn:(UIButton *)btn andDescLabel:(UILabel *)label forCar:(HKMyCar *)car
 {
-    btn.userInteractionEnabled = NO;
+    //TODO
+//    btn.userInteractionEnabled = NO;
     NSString *title;
     NSString *desc = [self descForCarStatus:car];
-    BOOL enable = NO;
+//    BOOL enable = NO;
     switch (car.status) {
         case 1:
             title = @"审核中";
@@ -54,18 +55,18 @@
             break;
         case 3:
             title = @"重新上传";
-            btn.userInteractionEnabled = YES;
-            enable = YES;
+//            btn.userInteractionEnabled = YES;
+//            enable = YES;
             break;
         default:
             title = @"一键上传";
-            btn.userInteractionEnabled = YES;
-            enable = YES;
+//            btn.userInteractionEnabled = YES;
+//            enable = YES;
             break;
     }
     [btn setTitle:title forState:UIControlStateNormal];
     [btn setTitle:title forState:UIControlStateDisabled];
-    btn.enabled = enable;
+//    btn.enabled = enable;
     label.text = desc;
 }
 
