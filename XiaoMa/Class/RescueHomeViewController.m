@@ -103,30 +103,35 @@
             {
                 if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
                 {
-                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"请允许小马达达访问您的位置，进入系统-[设置]-[小马达达]-[位置]-使用期间" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往设置", nil];
-                    
-                    [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
-                        
-                        if ([x integerValue] == 1)
-                        {
-                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-                        }
+                    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                        [alertVC dismiss];
                     }];
-                    [av show];
+                    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"前往设置" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                        [alertVC dismiss];
+                    }];
+                    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"请允许小马达达访问您的位置，进入系统-[设置]-[小马达达]-[位置]-使用期间" ActionItems:@[cancel,confirm]];
+                    [alert show];
+                    
                 }
                 else
                 {
-                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"请允许小马达达访问您的位置" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
+                    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                        [alertVC dismiss];
+                    }];
+                    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"请允许小马达达访问您的位置" ActionItems:@[cancel]];
+                    [alert show];
                     
-                    [av show];
                 }
                 break;
             }
             case LocationFail:
             {
-                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"城市定位失败,请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                
-                [av show];
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                    [alertVC dismiss];
+                }];
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"城市定位失败,请重试" ActionItems:@[cancel]];
+                [alert show];
             }
             default:
             {

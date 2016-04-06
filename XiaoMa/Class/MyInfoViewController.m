@@ -18,6 +18,7 @@
 #import "HKImagePicker.h"
 #import "HKTableViewCell.h"
 
+
 @interface MyInfoViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
 @property (nonatomic)NSInteger sex;
@@ -83,13 +84,20 @@
     [logoutBtn.layer setMasksToBounds:YES];
     logoutBtn.layer.cornerRadius = 5.0f;
     
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        [alertVC dismiss];
+    }];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        [alertVC dismiss];
+        [self logoutAction];
+    }];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您确定要退出登录？" ActionItems:@[cancel,confirm]];
+    
     @weakify(self);
     [[logoutBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp302_6"];
-#pragma mark- warming
-        @strongify(self)
-        [self logoutAction];
+        [alert show];
+        
     }];
     
     [self.tableView reloadData];
@@ -133,7 +141,7 @@
         gAppMgr.myUser.sex = self.sex != 0 ? self.sex : gAppMgr.myUser.sex;
         gAppMgr.myUser.birthday = self.birthday ? self.birthday:gAppMgr.myUser.birthday;
         [self.tableView reloadData];
-
+        
     } error:^(NSError *error) {
         [gToast showError:error.domain];
         [self.tableView reloadData];
@@ -194,14 +202,14 @@
     UITableViewCell *cell;
     
     if (indexPath.section == 0) {
-    
+        
         if (indexPath.row == 0) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"AvaterCell" forIndexPath:indexPath];
             HKTableViewCell *hkCell = (HKTableViewCell *)cell;
             UIImageView *avaterImage = (UIImageView*)[cell viewWithTag:1];
             avaterImage.layer.cornerRadius = 32.0F;
             [avaterImage.layer setMasksToBounds:YES];
-
+            
             [[RACObserve(self, avatar) takeUntilForCell:hkCell] subscribeNext:^(id x) {
                 avaterImage.image = x;
             }];
@@ -298,15 +306,17 @@
             picker.shouldShowBigImage = NO;
             @weakify(self);
             [[picker rac_pickImageInTargetVC:self inView:self.navigationController.view] subscribeNext:^(id x) {
-            
+                
                 @strongify(self);
                 [self pickerAvatar:x];
             }];
         }
         
-    } else if (indexPath.section == 1) {
-        
-        if (indexPath.row == 0) {
+    }
+    else if (indexPath.section == 1)
+    {
+        if (indexPath.row == 0)
+        {
             
             [MobClick event:@"rp302_2"];
             EditMyInfoViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"EditMyInfoViewController"];
@@ -315,26 +325,29 @@
             vc.content = gAppMgr.myUser.userName;
             vc.placeholder = @"请输入昵称";
             [self.navigationController pushViewController:vc animated:YES];
-        
-        } else if (indexPath.row == 1) {
             
+        }
+        else if (indexPath.row == 1)
+        {
             [MobClick event:@"rp302_3"];
             UIActionSheet * sexSheet = [[UIActionSheet alloc]initWithTitle:@"请选择性别" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"男", @"女", nil];
             [sexSheet showInView:self.view];
             [[sexSheet rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
-            
+                
                 NSInteger btnIndex = [number integerValue];
                 if (btnIndex == 2) {
                     return ;
                 }
                 if (self.sex == btnIndex + 1)
                     return; // 如果性别不变，则直接返回
-            
+                
                 self.sex = MAX(MIN(2, (btnIndex + 1)), 1); // 控制一下性别的范围。
                 [self requestModifyUserInfo:ModifySex];
             }];
-        
-        } else if (indexPath.row == 2) {
+            
+        }
+        else if (indexPath.row == 2)
+        {
             
             [MobClick event:@"rp302_4"];
             [[DatePickerVC rac_presentPickerVCInView:self.navigationController.view withSelectedDate:self.birthday]
@@ -343,7 +356,9 @@
                  [self requestModifyUserInfo:ModifyBirthday];
              }];
             
-        } else if (indexPath.row == 3) {
+        }
+        else if (indexPath.row == 3)
+        {
             
             [MobClick event:@"rp302_5"];
             if (!gAppMgr.myUser.phoneNumber.length) {
@@ -353,7 +368,6 @@
                 //            vc.content = gAppMgr.myUser.userName;
                 //            [self.navigationController pushViewController:vc animated:YES];        }
             }
-        
         }
     }
 }
@@ -377,7 +391,7 @@
         }
         
     }
-
+    
     return 48;
 }
 

@@ -295,25 +295,26 @@
 
 - (void)actionBack
 {
-    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您未提交联系人信息，为保证协议的正常送达，请先完善信息。是否继续完善信息？" delegate:nil cancelButtonTitle:@"执意退出" otherButtonTitles:@"继续完善", nil];
-    [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
-        
-        if (![number integerValue])
-        {
-            for (UIViewController * vc in self.navigationController.viewControllers)
-            {
-                if ([vc isKindOfClass:[MutualInsOrderInfoVC class]])
-                {
-                    [((MutualInsOrderInfoVC *)vc) requestContractDetail];
-                    [self.navigationController popToViewController:vc animated:YES];
-                    return;
-                }
-            }
-            [self.navigationController popToRootViewControllerAnimated:YES];
-        }
-    }];
     
-    [av show];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"执意退出" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        [alertVC dismiss];
+    }];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续完善" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        for (UIViewController * vc in self.navigationController.viewControllers)
+        {
+            if ([vc isKindOfClass:[MutualInsOrderInfoVC class]])
+            {
+                [((MutualInsOrderInfoVC *)vc) requestContractDetail];
+                [self.navigationController popToViewController:vc animated:YES];
+                return;
+            }
+        }
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        [alertVC dismiss];
+    }];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您未提交联系人信息，为保证协议的正常送达，请先完善信息。是否继续完善信息？" ActionItems:@[cancel,confirm]];
+    [alert show];
+    
 }
 
 @end

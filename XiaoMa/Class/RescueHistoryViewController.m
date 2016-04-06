@@ -236,30 +236,30 @@
         }else if (history.rescueStatus == HKRescueStateAlready && self.type == 2){
             [MobClick event:@"rp804_1"];
             evaluationBtn.enabled = YES;
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您确定要取消本次协办服务吗？" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             
-            [alert show];
-            [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
-                NSInteger i = [n integerValue];
-                if (i == 1)
-                {
-                    RescueCancelHostcarOp *op = [RescueCancelHostcarOp operation];
-                    op.applyId = history.applyId;
-                    [[[[op rac_postRequest] initially:^{
-                        [gToast showText:@"取消中..."];
-                    }] finally:^{
-                        [gToast dismiss];
-                    }] subscribeNext:^(RescueCancelHostcarOp *op) {
-                        if (op.rsp_code == 0) {
-                            [gToast showText:@"取消成功"];
-                            history.rescueStatus = HKRescueStateCancel;
-                        }
-                        
-                    } error:^(NSError *error) {
-                        [gToast showText:@"取消失败, 请重试"];
-                    }] ;
-                }
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                [alertVC dismiss];
             }];
+            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                RescueCancelHostcarOp *op = [RescueCancelHostcarOp operation];
+                op.applyId = history.applyId;
+                [[[[op rac_postRequest] initially:^{
+                    [gToast showText:@"取消中..."];
+                }] finally:^{
+                    [gToast dismiss];
+                }] subscribeNext:^(RescueCancelHostcarOp *op) {
+                    if (op.rsp_code == 0) {
+                        [gToast showText:@"取消成功"];
+                        history.rescueStatus = HKRescueStateCancel;
+                    }
+                    
+                } error:^(NSError *error) {
+                    [gToast showText:@"取消失败, 请重试"];
+                }] ;
+                [alertVC dismiss];
+            }];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"您确定要取消本次协办服务吗？" ActionItems:@[cancel,confirm]];
+            [alert show];
         }
     }];
     return cell;
