@@ -1758,7 +1758,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="66"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view tag="1003" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T5a-UE-3XI" customClass="PKYStepper">
+                                                <view tag="1003" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T5a-UE-3XI" customClass="GasStepper">
                                                     <rect key="frame" x="14" y="10" width="574" height="44"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -1880,11 +1880,11 @@
                                                                 <constraint firstAttribute="width" constant="30" id="jVw-EM-Z0z"/>
                                                             </constraints>
                                                             <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                            <state key="normal" image="gas_box1">
+                                                            <state key="normal" image="checkbox_normal">
                                                                 <attributedString key="attributedTitle"/>
                                                             </state>
-                                                            <state key="selected" image="gas_box2"/>
-                                                            <state key="highlighted" image="gas_box1"/>
+                                                            <state key="selected" image="checkbox_selected"/>
+                                                            <state key="highlighted" image="checkbox_normal"/>
                                                         </button>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我已阅读并同意小马达达" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VRO-gm-o4c">
                                                             <rect key="frame" x="40" y="2" width="132" height="30"/>
@@ -1903,7 +1903,8 @@
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <state key="normal" title="《油卡充值服务协议》">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <color key="titleColor" red="0.0" green="0.61176470588235299" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             </state>
                                                             <connections>
                                                                 <action selector="actionAgreement:" destination="KLc-Zl-QEW" eventType="touchUpInside" id="bh7-S7-rIB"/>
@@ -1940,7 +1941,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="WantInvoiceCell" rowHeight="46" id="cBt-Rm-Ax9" customClass="HKTableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="WantInvoiceCell" rowHeight="46" id="cBt-Rm-Ax9">
                                         <rect key="frame" x="0.0" y="664.5" width="600" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cBt-Rm-Ax9" id="hql-lx-UiJ">
@@ -1953,11 +1954,11 @@
                                                         <constraint firstAttribute="width" constant="40" id="hMi-00-kYC"/>
                                                         <constraint firstAttribute="height" constant="40" id="rMg-ju-zUW"/>
                                                     </constraints>
-                                                    <state key="normal" image="cw_box">
+                                                    <state key="normal" image="checkbox_normal">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
-                                                    <state key="selected" image="cw_box1"/>
-                                                    <state key="highlighted" image="cw_box1"/>
+                                                    <state key="selected" image="checkbox_selected"/>
+                                                    <state key="highlighted" image="checkbox_normal"/>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我要开发票" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CKV-dL-JMq">
                                                     <rect key="frame" x="45" y="15" width="70" height="17"/>
@@ -1984,7 +1985,7 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zRx-sa-3NR">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zRx-sa-3NR">
                                 <rect key="frame" x="0.0" y="488" width="600" height="48"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="zgl-7l-Xbd">
@@ -2069,7 +2070,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" red="0.12549019610000001" green="0.6705882353" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="加油记录">
-                                    <color key="titleColor" red="0.12549019610000001" green="0.6705882353" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="actionGotoRechargeRecords:" destination="KLc-Zl-QEW" eventType="touchUpInside" id="KnG-tV-mjl"/>
@@ -2093,6 +2094,8 @@
     <resources>
         <image name="A2078B9C-FF93-47FF-9F17-692392ED881F" width="14" height="14"/>
         <image name="Horizontaline" width="621" height="1"/>
+        <image name="checkbox_normal" width="18" height="17"/>
+        <image name="checkbox_selected" width="18" height="17"/>
         <image name="cm_arrow_r" width="9" height="15"/>
         <image name="cw_box" width="16" height="16"/>
         <image name="cw_box1" width="16" height="16"/>
@@ -2101,7 +2104,6 @@
         <image name="gas_add_green" width="14" height="14"/>
         <image name="gas_add_green_300" width="11" height="11"/>
         <image name="gas_bg_rect_green" width="13" height="14"/>
-        <image name="gas_box1" width="13" height="13"/>
         <image name="gas_box2" width="13" height="13"/>
         <image name="gas_btn_bg1" width="15" height="37"/>
         <image name="gas_btn_bg2" width="15" height="37"/>

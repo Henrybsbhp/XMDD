@@ -136,6 +136,7 @@
 		186985151B02E7DB000A182A /* UIScrollView+RefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186985141B02E7DB000A182A /* UIScrollView+RefreshView.m */; };
 		186A09621CB3598400FFB3F8 /* GasSubVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 186A09611CB3598400FFB3F8 /* GasSubVC.m */; };
 		186A096D1CB39CC000FFB3F8 /* HorizontalScrollTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186A096C1CB39CC000FFB3F8 /* HorizontalScrollTabView.m */; };
+		186A09801CB4BBA500FFB3F8 /* GasStepper.m in Sources */ = {isa = PBXBuildFile; fileRef = 186A097F1CB4BBA500FFB3F8 /* GasStepper.m */; };
 		186F2FB51C155FA5005CF051 /* CKStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 186F2FB41C155FA5005CF051 /* CKStore.m */; };
 		186F2FB81C156FF6005CF051 /* CKEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 186F2FB71C156FF6005CF051 /* CKEvent.m */; };
 		1873710C1B0AD1D900B8CDCC /* MyCarListVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873710B1B0AD1D900B8CDCC /* MyCarListVModel.m */; };
@@ -1022,6 +1023,8 @@
 		186A096C1CB39CC000FFB3F8 /* HorizontalScrollTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalScrollTabView.m; sourceTree = "<group>"; };
 		186A096E1CB3B6EE00FFB3F8 /* XiaoMaConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XiaoMaConstants.h; path = Class/XiaoMaConstants.h; sourceTree = "<group>"; };
 		186A096F1CB3B73400FFB3F8 /* UIConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UIConstants.h; path = Class/UIConstants.h; sourceTree = "<group>"; };
+		186A097E1CB4BBA500FFB3F8 /* GasStepper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasStepper.h; sourceTree = "<group>"; };
+		186A097F1CB4BBA500FFB3F8 /* GasStepper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasStepper.m; sourceTree = "<group>"; };
 		186F2FB31C155FA5005CF051 /* CKStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKStore.h; path = Class/CKStore.h; sourceTree = "<group>"; };
 		186F2FB41C155FA5005CF051 /* CKStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKStore.m; path = Class/CKStore.m; sourceTree = "<group>"; };
 		186F2FB61C156FF6005CF051 /* CKEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKEvent.h; path = Class/CKEvent.h; sourceTree = "<group>"; };
@@ -2706,7 +2709,7 @@
 			name = Gas;
 			sourceTree = "<group>";
 		};
-		1833F5A01BCDF450000E1DA1 /* SubView */ = {
+		1833F5A01BCDF450000E1DA1 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				1833F5A11BCDF46B000E1DA1 /* GasTabView.h */,
@@ -2716,7 +2719,7 @@
 				18BF41FA1BD08F860039F210 /* GasReminderCell.h */,
 				18BF41FB1BD08F860039F210 /* GasReminderCell.m */,
 			);
-			name = SubView;
+			name = View;
 			sourceTree = "<group>";
 		};
 		1833F5A41BCDF5AD000E1DA1 /* Line */ = {
@@ -2992,6 +2995,8 @@
 		186A096A1CB39C4100FFB3F8 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				186A097E1CB4BBA500FFB3F8 /* GasStepper.h */,
+				186A097F1CB4BBA500FFB3F8 /* GasStepper.m */,
 				186A096B1CB39CC000FFB3F8 /* HorizontalScrollTabView.h */,
 				186A096C1CB39CC000FFB3F8 /* HorizontalScrollTabView.m */,
 			);
@@ -3556,7 +3561,7 @@
 		18BF41DE1BCE3D3B0039F210 /* GasVC */ = {
 			isa = PBXGroup;
 			children = (
-				1833F5A01BCDF450000E1DA1 /* SubView */,
+				1833F5A01BCDF450000E1DA1 /* View */,
 				18BF41FD1BD0AA090039F210 /* ViewModel */,
 				1833F59B1BCD47AD000E1DA1 /* GasVC.h */,
 				1833F59C1BCD47AD000E1DA1 /* GasVC.m */,
@@ -5872,6 +5877,7 @@
 				50FAC2681C23AA8200F8990F /* PickerAutoModelVC.m in Sources */,
 				181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */,
 				18A9E8CF1BDF15430061D3BC /* EditCarVC.m in Sources */,
+				186A09801CB4BBA500FFB3F8 /* GasStepper.m in Sources */,
 				18C52C3A1BA6CE9400F6C38B /* DAProgressOverlayView.m in Sources */,
 				50F7F0781C86C49700138947 /* GetShareButtonOpV2.m in Sources */,
 				18B6E5CB1C463D0300697DAB /* CancelInsOrderOp.m in Sources */,

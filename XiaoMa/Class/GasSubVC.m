@@ -55,7 +55,8 @@
     CKList *oldDatasource = self.curDatasource;
     CKDict *loadingItem = self.loadingDatasource[0][@"Loading"];
     BOOL loading = [loadingItem[@"loading"] boolValue];
-    if (loading || [loadingItem[@"error"] boolValue]) {
+    BOOL hasError = [loadingItem[@"error"] boolValue];
+    if (loading || hasError) {
         self.curDatasource = self.loadingDatasource;
     }
     else {
@@ -69,7 +70,7 @@
         [self.tableView setContentOffset:CGPointZero];
     }
     self.tableView.scrollEnabled = !loading;
-    self.bottomView.hidden = loading;
+    self.bottomView.hidden = loading || hasError;
     [self reloadBottomButton];
 }
 

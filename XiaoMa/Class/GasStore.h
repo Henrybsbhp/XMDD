@@ -40,6 +40,7 @@
 - (CKEvent *)deleteGasCard:(GasCard *)card;
 ///更新油卡信息
 - (CKEvent *)updateCardInfoByGID:(NSNumber *)gid;
+- (RACSignal *)rac_getGasCardNormalInfoByGID:(NSNumber *)gid;
 ///获取油卡配置信息
 - (CKEvent *)getChargeConfig;
 
@@ -48,14 +49,5 @@
 ///获取浙商充值配置信息
 - (CKEvent *)getCZBChargeConfig;
 
-///分期加油充值说明
-- (NSString *)rechargeDescriptionForFqjy:(GasChargePackage *)pkg;
-///普通加油充值说明
-- (NSString *)rechargeDescriptionForNormal:(GasCard *)card;
-///浙商卡加油充值说明
-- (NSString *)rechargeDescriptionForCZB:(HKBankCard *)bank;
-///充值提醒
-- (NSString *)gasRemainder;
 
-   
 @end

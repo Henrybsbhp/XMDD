@@ -7,7 +7,14 @@
 //
 
 #import "GasSubVC.h"
+#import "GasChargePackage.h"
 
 @interface GasNormalVC :GasSubVC
+@property (nonatomic, strong) GasChargePackage *curChargePkg;
+@property (nonatomic, assign) float normalRechargeAmount;
+@property (nonatomic, assign) float instalmentRechargeAmount;
+
+- (BOOL)isRechargeForInstalment;
+- (BOOL)needInvoice;
 
 @end

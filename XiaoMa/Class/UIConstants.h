@@ -15,10 +15,11 @@
 #define kLightLineColor             HEXCOLOR(@"#dedfe0")
 #define kBlackTextColor             HEXCOLOR(@"#000000")
 #define kDarkTextColor              HEXCOLOR(@"#454545")
-#define kHightlightTextColor        HEXCOLOR(@"#009cff")
+#define kBlueTextColor              HEXCOLOR(@"#009cff")
 #define kGrayTextColor              HEXCOLOR(@"#888888")
 #define kLightTextColor             HEXCOLOR(@"#dbdbdb")
 #define kDefBackgroundColor         HEXCOLOR(@"#f7f7f8")
+#define kOrangeColor                HEXCOLOR(@"#ff7428")
 
 
 #endif /* UIConstants_h */

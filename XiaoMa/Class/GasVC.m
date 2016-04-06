@@ -134,7 +134,7 @@
         }
         self.tableView.delegate = self.curSubVC;
         self.tableView.dataSource = self.curSubVC;
-        [self.normalVC refreshViewWithForce:YES];
+        [self.curSubVC refreshViewWithForce:YES];
     }];
     
     [self.tabView reloadDataWithBoundsSize:CGSizeMake(ScreenWidth, 44) andSelectedIndex:self.tabViewSelectedIndex];
@@ -340,5 +340,6 @@
         spaceNote = [spaceNote append:@" "];
     }
 }
+
 
 @end

@@ -90,6 +90,10 @@
 }
 
 #pragma mark - Reload
+- (void)reloadData {
+    [[self.bankStore getAllBankCards] send];
+}
+
 - (BOOL)reloadDataIfNeeded
 {
     //浙商加油默认配置信息
@@ -231,8 +235,8 @@
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         CGFloat width = self.tableView.frame.size.width - 82 - 10;
-        NSString *text = [self.gasStore rechargeDescriptionForCZB:self.curBankCard];
-        CGSize size = [text labelSizeWithWidth:width font:[UIFont systemFontOfSize:13]];
+        NSString *text = [self rechargeDescriptionForCZBCard:self.curBankCard];
+        CGSize size = [text labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
         CGFloat height = 70+10;
         return MAX(height+14, height+size.height);
     });
@@ -248,7 +252,7 @@
             cardno = [cardno substringFromIndex:cardno.length - 4 length:4];
         }
         cardnoL.text = [NSString stringWithFormat:@"尾号%@", cardno];
-        descL.text = [self.gasStore rechargeDescriptionForCZB:self.curBankCard];
+        descL.text = [self rechargeDescriptionForCZBCard:self.curBankCard];
         
         [(HKTableViewCell *)cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 12, 0, 0)];
     });
@@ -272,8 +276,8 @@
             return [data[@"height"] integerValue];
         }
         CGFloat width = self.tableView.frame.size.width - 34 - 10;
-        NSString *text = [self.gasStore rechargeDescriptionForCZB:nil];
-        CGSize size = [text labelSizeWithWidth:width font:[UIFont systemFontOfSize:13]];
+        NSString *text = [self rechargeDescriptionForCZBCard:nil];
+        CGSize size = [text labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
         CGFloat height = 18+36+14+10;
         height = MAX(height+14, height+size.height);
         data[@"height"] = @(height);
@@ -283,7 +287,7 @@
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         @strongify(self);
         UILabel *label = (UILabel *)[cell.contentView viewWithTag:1003];
-        label.text = [self.gasStore rechargeDescriptionForCZB:nil];
+        label.text = [self rechargeDescriptionForCZBCard:nil];
         [(HKTableViewCell *)cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 12, 0, 0)];
     });
     
@@ -301,7 +305,7 @@
 {
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"GasCard"}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 74;
+        return 60;
     });
     @weakify(self);
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -328,7 +332,7 @@
 {
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"AddGasCard"}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 68;
+        return 60;
     });
     @weakify(self);
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
@@ -347,18 +351,15 @@
     //cell高度
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         
-        @strongify(self);
-        CGFloat height = [data[@"height"] integerValue];
-        if (height > 0) {
-            return height;
+        GasPickAmountCell *cell = data[@"cell"];
+        if (!cell) {
+            CGFloat width = [UIScreen mainScreen].bounds.size.width;
+            cell = [[GasPickAmountCell alloc] initWithFrame:CGRectMake(0, 0, width, 52)];
+            data[@"cell"] = cell;
         }
-        GasPickAmountCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PickGasAmount"];
         CKCellPrepareBlock prepare = data[kCKCellPrepare];
         prepare(data, cell, indexPath);
-        cell.frame = CGRectMake(0, 0, self.tableView.frame.size.width, 52);
-        height = [cell cellHeight];
-        data[@"height"] = @(height);
-        return height;
+        return [cell cellHeight];
     });
 
     //cell初始化
@@ -366,46 +367,33 @@
         
         @strongify(self);
         GasPickAmountCell *cell1 = (GasPickAmountCell *)cell;
-
         //没有充值描述
         cell1.richLabel.text = nil;
-        
-        if (!cell1.stepper.valueChangedCallback) {
-            //值发生改变
-            cell1.stepper.valueChangedCallback = ^(PKYStepper *stepper, float newValue) {
-                @strongify(self);
-                stepper.countLabel.text = [NSString stringWithFormat:@"%d元", (int)newValue];
-                self.rechargeAmount = (int)newValue;
-                [self reloadBottomButton];
-            };
-            //递增
-            cell1.stepper.incrementCallback = ^float(PKYStepper *stepper, float newValue) {
-                [MobClick event:@"rp501-7"];
-                if (newValue > stepper.maximum) {
-                    [gToast showText:@"充值金额已达本月最大限制，无法增加啦"];
-                    return stepper.maximum;
-                }
-                return newValue;
-            };
-            //递减
-            cell1.stepper.decrementCallback = ^float(PKYStepper *stepper, float newValue) {
-                [MobClick event:@"rp501-5"];
-                if (newValue < stepper.minimum) {
-                    [gToast showText:@"充值金额不能小于100哦～"];
-                    return stepper.minimum;
-                }
-                return newValue;
-            };
-        }
-        if (!self.curBankCard.gasInfo) {
-            cell1.stepper.maximum = self.gasStore.czbConfig.rsp_chargeupplimit ?
-                [self.gasStore.czbConfig.rsp_chargeupplimit integerValue] : 1000;
-        }
-        else {
-            cell1.stepper.maximum = self.curBankCard.gasInfo.rsp_availablechargeamt;
-        }
-        cell1.stepper.value = [PKYStepper fitValueForValue:self.rechargeAmount inValueList:cell1.stepper.valueList];
-        [cell1.stepper setup];
+
+        cell1.stepper.titleLabel.text = [self stepperTitleWithValue:[self fitRechargeAmountWithValue:self.rechargeAmount]];
+        @weakify(cell1);
+        //递减
+        [[[cell1.stepper.leftButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+         subscribeNext:^(id x) {
+             @strongify(cell1);
+             [MobClick event:@"rp501_5"];
+             float oldValue = self.rechargeAmount;
+             float value = oldValue - 100;
+             cell1.stepper.titleLabel.text = [self stepperTitleWithValue:[self fitRechargeAmountWithValue:value]];
+             [self showToastIfNeededWithOldRechargeAmount:oldValue andNewRechargeAmount:value];
+             [self reloadBottomButton];
+         }];
+        //递增
+        [[[cell1.stepper.rightButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+         subscribeNext:^(id x) {
+             @strongify(cell1);
+             [MobClick event:@"rp501_7"];
+             float oldValue = self.rechargeAmount;
+             float value = oldValue + 100;
+             cell1.stepper.titleLabel.text = [self stepperTitleWithValue:[self fitRechargeAmountWithValue:value]];
+             [self showToastIfNeededWithOldRechargeAmount:oldValue andNewRechargeAmount:value];
+             [self reloadBottomButton];
+         }];
         
         [cell1 addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
     });
@@ -433,11 +421,9 @@
         [[RACObserve(item, forceReload) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             BOOL bill = [data[@"bill"] boolValue];
             tagLb.hidden = !bill;
-            UIImage * image = bill ? [UIImage imageNamed:@"cw_box1"] : [UIImage imageNamed:@"cw_box"];
+            UIImage * image = bill ? [UIImage imageNamed:@"checkbox_selected"] : [UIImage imageNamed:@"checkbox_normal"];
             [invoiceBtn setImage:image forState:UIControlStateNormal];
         }];
-        
-        [(HKTableViewCell *)cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
     });
     return item;
 }
@@ -468,10 +454,7 @@
         @strongify(self);
         GasReminderCell *cell1 = (GasReminderCell *)cell;
         cell1.richLabel.delegate = self;
-        cell1.richLabel.text = [self.gasStore gasRemainder];
-        
-        [cell1 addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsZero];
-        [cell1 addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
+        cell1.richLabel.text = [self gasRemainder];
     });
     return item;
 }
@@ -505,6 +488,65 @@
     return item;
 }
 
+#pragma mark - Abount Recharge Amount
+- (NSString *)stepperTitleWithValue:(float)value {
+    return [NSString stringWithFormat:@"%d元", (int)value];
+}
+
+
+///浙商卡加油充值说明
+- (NSString *)rechargeDescriptionForCZBCard:(HKBankCard *)bank
+{
+    if (bank && bank.gasInfo.rsp_desc) {
+        return bank.gasInfo.rsp_desc;
+    }
+    if (self.gasStore.czbConfig.rsp_desc) {
+        return self.gasStore.czbConfig.rsp_desc;
+    }
+    return @"添加浙商银行汽车卡后，既可享受金卡返利8%，每月最高返50元；白金卡返利15%，每月最高返100元。";
+}
+
+
+- (float)fitRechargeAmountWithValue:(float)value {
+    float minimum = 100;
+    float maximum = [self maxRechargeAmount];
+    self.rechargeAmount = MAX(minimum, MIN(maximum, value));
+    return self.rechargeAmount;
+}
+
+
+- (float)maxRechargeAmount {
+    float maximum = 2000;
+    if (!self.curBankCard.gasInfo && self.gasStore.czbConfig.rsp_chargeupplimit) {
+        maximum = [self.gasStore.czbConfig.rsp_chargeupplimit floatValue];
+    }
+    else if (self.curBankCard.gasInfo) {
+        maximum = self.curBankCard.gasInfo.rsp_availablechargeamt;
+    }
+    return maximum;
+}
+
+
+- (void)showToastIfNeededWithOldRechargeAmount:(float)amount1 andNewRechargeAmount:(float)amount2 {
+    if (amount2 > [self maxRechargeAmount]) {
+        [gToast showText:@"充值金额已达本月最大限制，无法增加啦"];
+    }
+    else if (amount2 < 100) {
+        [gToast showText:[NSString stringWithFormat:@"充值金额不能小于%d哦～", 100]];
+    }
+}
+
+#pragma mark - Abount Gas Remainder
+///充值提醒
+- (NSString *)gasRemainder {
+    NSString *text = @"<font size=12 color='#888888'>充值成功后，须至相应加油站圈存后方能使用。</font>";
+    NSString *link = kAddGasNoticeUrl;
+    NSString *agreement = @"《充值服务说明》";
+    text = [NSString stringWithFormat:@"%@<font size=12 color='#888888'>更多充值说明，\
+            点击查看<font color='#009cff'><a href='%@'>%@</a></font></font>",
+            text, link, agreement];
+    return text;
+}
 
 
 @end

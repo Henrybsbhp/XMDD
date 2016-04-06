@@ -21,6 +21,7 @@
 
 - (RACSignal *)send;
 - (RACSignal *)sendAndIgnoreError;
+- (RACSignal *)sendWithIgnoreError:(BOOL)ignore andDelay:(NSTimeInterval)delay;
 
 - (CKEvent *)setObject:(id)object;
 - (CKEvent *)setUserInfo:(NSDictionary *)userInfo;

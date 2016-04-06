@@ -235,48 +235,6 @@
     self.getCZBChargeConfigSignal = sig;
     return sig;
 }
-#pragma mark - Other
-///分期加油充值说明
-- (NSString *)rechargeDescriptionForFqjy:(GasChargePackage *)pkg
-{
-    int amount = [[self.config.rsp_supportamt lastObject] intValue];
-    float coupon = amount * pkg.month * (1-[pkg.discount floatValue]/100.0);
-    return [NSString stringWithFormat:
-            @"<font size=13 color='#888888'>充值即享<font color='#ff0000'>%@折</font>，每月充值%d元，能省%@元</font>",
-            pkg.discount, amount, [NSString formatForFloorPrice:coupon]];
-}
 
-///普通加油充值说明
-- (NSString *)rechargeDescriptionForNormal:(GasCard *)card
-{
-    if (card && card.desc) {
-        return card.desc;
-    }
-    return @"<font size=13 color='#888888'>充值即享<font color='#ff0000'>98折</font>，每月优惠限额1000元，超出部分不予奖励。每月最多充值2000元。</font>";
-}
-
-///浙商卡加油充值说明
-- (NSString *)rechargeDescriptionForCZB:(HKBankCard *)bank
-{
-    if (bank && bank.gasInfo.rsp_desc) {
-        return bank.gasInfo.rsp_desc;
-    }
-    if (self.czbConfig.rsp_desc) {
-        return self.czbConfig.rsp_desc;
-    }
-    return @"添加浙商银行汽车卡后，既可享受金卡返利8%，每月最高返50元；白金卡返利15%，每月最高返100元。";
-}
-
-///充值提醒
-- (NSString *)gasRemainder
-{
-    NSString *text = @"<font size=12 color='#888888'>充值成功后，须至相应加油站圈存后方能使用。</font>";
-    NSString *link = kAddGasNoticeUrl;
-    NSString *agreement = @"《充值服务说明》";
-    text = [NSString stringWithFormat:@"%@<font size=12 color='#888888'>更多充值说明，\
-            点击查看<font color='#20ab2a'><a href='%@'>%@</a></font></font>",
-            text, link, agreement];
-    return text;
-}
 
 @end

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CKDatasource.h"
 #import "RTLabel.h"
+#import "GasCard.h"
 
 @interface GasSubVC : NSObject <UITableViewDataSource, UITableViewDelegate, RTLabelDelegate>
 @property (nonatomic, weak, readonly) UIViewController *targetVC;
@@ -18,6 +19,7 @@
 
 @property (nonatomic, strong) CKList *datasource;
 @property (nonatomic, assign) float rechargeAmount;
+@property (nonatomic, strong) GasCard *curGasCard;
 
 #pragma mark - Override
 - (instancetype)initWithTargetVC:(UIViewController *)vc tableView:(UITableView *)table

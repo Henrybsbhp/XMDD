@@ -22,11 +22,8 @@
 #import "PayForGasViewController.h"
 
 @interface GasNormalVC ()
-@property (nonatomic, strong) GasChargePackage *curChargePkg;
-@property (nonatomic, strong) GasCard *curGasCard;
+
 @property (nonatomic, strong) GasStore *gasStore;
-@property (nonatomic, assign) float normalRechargeAmount;
-@property (nonatomic, assign) float instalmentRechargeAmount;
 
 @end
 
@@ -75,7 +72,7 @@
 
 #pragma Getter
 - (float)rechargeAmount {
-    return [self.curChargePkg.pkgid integerValue] > 0 ? self.instalmentRechargeAmount : self.normalRechargeAmount;
+    return [self isRechargeForInstalment] ? self.instalmentRechargeAmount : self.normalRechargeAmount;
 }
 
 #pragma mark - Reload
@@ -123,7 +120,7 @@
     NSString *title;
     float paymoney = 0, discount = 0;
     //分期加油
-    if ([self.curChargePkg.pkgid integerValue] > 0) {
+    if ([self isRechargeForInstalment]) {
         float total = self.rechargeAmount * self.curChargePkg.month;
         discount = total * (1 - [self.curChargePkg.discount floatValue]/100.0);
         paymoney = total - discount;
@@ -184,18 +181,29 @@
         [gToast showText:@"您需要先添加一张油卡！" inView:self.targetVC.view];
         return;
     }
-    else if (!self.curChargePkg.pkgid && self.curGasCard.availablechargeamt && ![self.curGasCard.availablechargeamt integerValue]) {
+    else if ([self.curChargePkg.pkgid isEqual:@0] &&
+             self.curGasCard.availablechargeamt &&
+             ![self.curGasCard.availablechargeamt integerValue]) {
         [gToast showText:@"您本月加油已达到最大限额！" inView:self.targetVC.view];
         return;
-    }
-    if (self.curChargePkg.pkgid) {
     }
     if ([LoginViewModel loginIfNeededForTargetViewController:self.targetVC]) {
         
         PayForGasViewController * vc = [gasStoryboard instantiateViewControllerWithIdentifier:@"PayForGasViewController"];
         vc.originVC = self.targetVC;
+        vc.gasNormalVC = self;
         [self.targetVC.navigationController pushViewController:vc animated:YES];
     }
+}
+
+#pragma mark - Public
+- (BOOL)isRechargeForInstalment {
+    return [self isRechargeForInstalment];
+}
+
+
+- (BOOL)needInvoice {
+    return self.datasource[0][@"WantInvoiceCell"][@"bill"];
 }
 
 #pragma mark - Cell
@@ -266,15 +274,17 @@
             
             if ([self.curChargePkg.pkgid isEqual:pkg.pkgid]) {
                 itemView.layer.borderWidth = 2;
-                itemView.layer.borderColor = [HEXCOLOR(@"#20ab2a") CGColor];
-                discountL.backgroundColor = HEXCOLOR(@"#20ab2a");
+                itemView.layer.borderColor = [kDefTintColor CGColor];
+                discountL.backgroundColor = kDefTintColor;
                 discountL.textColor = [UIColor whiteColor];
+                titleL.textColor = kDefTintColor;
             }
             else {
-                itemView.layer.borderWidth = 0.5;
-                itemView.layer.borderColor = [HEXCOLOR(@"#d7d7d7") CGColor];
-                discountL.backgroundColor = HEXCOLOR(@"#d7d7d7");
-                discountL.textColor = HEXCOLOR(@"#888888");
+                itemView.layer.borderWidth = 1;
+                itemView.layer.borderColor = [kLightLineColor CGColor];
+                discountL.backgroundColor = kLightLineColor;
+                discountL.textColor = kGrayTextColor;
+                titleL.textColor = kGrayTextColor;
             }
         }
 
@@ -318,65 +328,37 @@
 
         @strongify(self);
         GasPickAmountCell *cell1 = (GasPickAmountCell *)cell;
-        BOOL fqjy = [self.curChargePkg.pkgid integerValue] > 0;
-        //充值描述
-        cell1.richLabel.text = fqjy ? [self.gasStore rechargeDescriptionForFqjy:self.curChargePkg] :
-            [self.gasStore rechargeDescriptionForNormal:self.curGasCard];
 
-        if (!cell1.stepper.valueChangedCallback) {
-            //值发生改变
-            cell1.stepper.valueChangedCallback = ^(PKYStepper *stepper, float newValue) {
-                @strongify(self);
-                stepper.countLabel.text = [NSString stringWithFormat:@"%d元", (int)newValue];
-                self.rechargeAmount = (int)newValue;
-                [self reloadBottomButton];
-            };
-            //递增
-            cell1.stepper.incrementCallback = ^float(PKYStepper *stepper, float newValue) {
-                [MobClick event:@"rp501_7"];
-                if (stepper.allowValueList && stepper.valueList.count > 0) {
-                    float maxValue = [[stepper.valueList lastObject] floatValue];
-                    if (newValue >= maxValue && stepper.value >= maxValue) {
-                        [gToast showText:@"充值金额已达本月最大限制，无法增加啦"];
-                        return [[stepper.valueList lastObject] floatValue];
-                    }
-                }
-                else if (newValue > stepper.maximum) {
-                    [gToast showText:@"充值金额已达本月最大限制，无法增加啦"];
-                    return stepper.maximum;
-                }
-                return newValue;
-            };
-            //递减
-            cell1.stepper.decrementCallback = ^float(PKYStepper *stepper, float newValue) {
-                [MobClick event:@"rp501_5"];
-                if (stepper.allowValueList && stepper.valueList.count > 0) {
-                    float minValue = [stepper.valueList[0] floatValue];
-                    if (newValue <= minValue && stepper.value <= minValue) {
-                        [gToast showText:[NSString stringWithFormat:@"充值金额不能小于%d哦～", (int)minValue]];
-                        return [stepper.valueList[0] floatValue];
-                    }
-                }
-                else if (newValue < stepper.minimum) {
-                    [gToast showText:@"充值金额不能小于100哦～"];
-                    return stepper.minimum;
-                }
-                return newValue;
-            };
-        }
-        if (!self.curGasCard) {
-            // 有说明请求成功
-            cell1.stepper.maximum = self.gasStore.config.rsp_chargeupplimit ?
-            [self.gasStore.config.rsp_chargeupplimit integerValue] : 1000;
-        }
-        else {
-            cell1.stepper.maximum = [self.curGasCard.availablechargeamt integerValue];
-        }
-        cell1.stepper.valueList = self.gasStore.config.rsp_supportamt;
-        cell1.stepper.allowValueList = [self.curChargePkg.pkgid integerValue] > 0;
-        cell1.stepper.value = [PKYStepper fitValueForValue:self.rechargeAmount inValueList:cell1.stepper.valueList];
-        [cell1.stepper setup];
+        cell1.stepper.titleLabel.text = [self stepperTitleWithValue:[self fitRechargeAmountWithValue:self.rechargeAmount]];
+        @weakify(cell1);
+        //递减
+        [[[cell1.stepper.leftButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+         subscribeNext:^(id x) {
+             @strongify(cell1, self);
+             [MobClick event:@"rp501_5"];
+             float oldValue = self.rechargeAmount;
+             float value = [self decrementRechargeAmountWithValue:oldValue];
+             cell1.stepper.titleLabel.text = [self stepperTitleWithValue:[self fitRechargeAmountWithValue:value]];
+             cell1.richLabel.text = [self rechargeDescription];
+             [self showToastIfNeededWithOldRechargeAmount:oldValue andNewRechargeAmount:value];
+             [self reloadBottomButton];
+        }];
+        //递增
+        [[[cell1.stepper.rightButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+         subscribeNext:^(id x) {
+             @strongify(cell1, self);
+             [MobClick event:@"rp501_7"];
+             float oldValue = self.rechargeAmount;
+             float value = [self incrementRechargeAmountWithValue:oldValue];
+             cell1.stepper.titleLabel.text = [self stepperTitleWithValue:[self fitRechargeAmountWithValue:value]];
+             cell1.richLabel.text = [self rechargeDescription];
+             [self showToastIfNeededWithOldRechargeAmount:oldValue andNewRechargeAmount:value];
+             [self reloadBottomButton];
+         }];
         
+        //充值提示
+        cell1.richLabel.text = [self rechargeDescription];
+
         [cell1 addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
     });
     
@@ -403,11 +385,9 @@
 
             BOOL bill = [data[@"bill"] boolValue];
             tagLb.hidden = !bill;
-            UIImage * image = bill ? [UIImage imageNamed:@"cw_box1"] : [UIImage imageNamed:@"cw_box"];
+            UIImage * image = bill ? [UIImage imageNamed:@"checkbox_selected"] : [UIImage imageNamed:@"checkbox_normal"];
             [invoiceBtn setImage:image forState:UIControlStateNormal];
         }];
-        
-        [(HKTableViewCell *)cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
     });
     return item;
 }
@@ -441,10 +421,7 @@
         @strongify(self);
         GasReminderCell *cell1 = (GasReminderCell *)cell;
         cell1.richLabel.delegate = self;
-        cell1.richLabel.text = [self.gasStore gasRemainder];
-        
-        [cell1 addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsZero];
-        [cell1 addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
+        cell1.richLabel.text = [self gasRemainder];
     });
     return item;
 }
@@ -478,7 +455,165 @@
     return item;
 }
 
+#pragma mark - Abount Recharge Amount
+- (NSString *)rechargeDescription {
+    if ([self isRechargeForInstalment]) {
+        return [self rechargeDescriptionForFqjy:self.curChargePkg];
+    }
+    return [self rechargeDescriptionForNormal:self.curGasCard];
+}
+
+///分期加油充值说明
+- (NSString *)rechargeDescriptionForFqjy:(GasChargePackage *)pkg
+{
+    int amount = self.instalmentRechargeAmount;
+    float coupon = amount * pkg.month * (1-[pkg.discount floatValue]/100.0);
+    return [NSString stringWithFormat:
+            @"<font size=12 color='#888888'>充值即享<font color='#ff0000'>%@折</font>，每月充值%d元，能省%@元</font>",
+            pkg.discount, amount, [NSString formatForFloorPrice:coupon]];
+}
 
 
+///普通加油充值说明
+- (NSString *)rechargeDescriptionForNormal:(GasCard *)card
+{
+    if (card && card.desc) {
+        return card.desc;
+    }
+    return @"<font size=12 color='#888888'>充值即享<font color='#ff0000'>98折</font>，每月优惠限额1000元，超出部分不予奖励。每月最多充值2000元。</font>";
+}
 
+
+- (NSString *)stepperTitleWithValue:(float)value {
+    return [NSString stringWithFormat:@"%d元", (int)value];
+}
+
+- (void)showToastIfNeededWithOldRechargeAmount:(float)amount1 andNewRechargeAmount:(float)amount2 {
+    //分期
+    if ([self isRechargeForInstalment]) {
+        NSArray *valueList = self.gasStore.config.rsp_supportamt;
+        if (![self isEqualForValue1:amount1 andValue2:amount2]) {
+            return;
+        }
+        if ([self isEqualForValue1:amount1 andValue2:[[valueList lastObject] floatValue]]) {
+            [gToast showText:@"充值金额已达每月最大限制，无法增加啦"];
+        }
+        else if ([self isEqualForValue1:amount1 andValue2:[[valueList safetyObjectAtIndex:0] floatValue]]) {
+            [gToast showText:[NSString stringWithFormat:@"充值金额不能小于%d哦～", (int)[[valueList safetyObjectAtIndex:0] floatValue]]];
+        }
+    }
+    //普通
+    else {
+        if (amount2 > [self maxRechargeAmount]) {
+            [gToast showText:@"充值金额已达本月最大限制，无法增加啦"];
+        }
+        else if (amount2 < 100) {
+            [gToast showText:[NSString stringWithFormat:@"充值金额不能小于%d哦～", 100]];
+        }
+    }
+}
+
+- (float)maxRechargeAmount {
+    float maximum = 1000;
+    if (!self.curGasCard && self.gasStore.config.rsp_chargeupplimit) {
+        maximum = [self.gasStore.config.rsp_chargeupplimit floatValue];
+    }
+    else if (self.curGasCard.availablechargeamt) {
+        maximum = [self.curGasCard.availablechargeamt integerValue];
+    }
+    return maximum;
+}
+
+- (float)fitRechargeAmountWithValue:(float)value {
+    if ([self isRechargeForInstalment]) {
+        self.instalmentRechargeAmount = [self fitRechargeAmountWithValue:value inValueList:self.gasStore.config.rsp_supportamt];
+        return self.instalmentRechargeAmount;
+    }
+    float minimum = 100;
+    float maximum = [self maxRechargeAmount];
+    self.normalRechargeAmount = MAX(minimum, MIN(maximum, value));
+    return self.normalRechargeAmount;
+}
+
+
+- (float)fitRechargeAmountWithValue:(float)value inValueList:(NSArray *)valueList {
+    float fitValue = [valueList[0] floatValue];
+    for (NSInteger i = 1; i < valueList.count; i++) {
+        float curValue = [valueList[i] floatValue];
+        if (fabs(curValue - value) < fabs(fitValue - value)) {
+            fitValue = curValue;
+        }
+    }
+    return fitValue;
+}
+
+
+- (float)incrementRechargeAmountWithValue:(float)value {
+    if ([self isRechargeForInstalment]) {
+        return [self incrementRechargeAmountWithValue:value inValueList:self.gasStore.config.rsp_supportamt];
+    }
+    return value + 100;
+}
+
+
+- (float)incrementRechargeAmountWithValue:(float)value inValueList:(NSArray *)valueList {
+    float newValue = value;
+    NSInteger count = valueList.count;
+    for (NSInteger i = 0; i < count; i++) {
+        newValue = [valueList[i] floatValue];
+        if (value < newValue) {
+            break;
+        }
+        else if ([self isEqualForValue1:value andValue2:newValue]) {
+            newValue = [valueList[MIN(count-1, i+1)] floatValue];
+            break;
+        }
+    }
+    return newValue;
+}
+
+
+- (float)decrementRechargeAmountWithValue:(float)value {
+    if ([self isRechargeForInstalment]) {
+        return [self decrementRechargeAmountWithValue:value inValueList:self.gasStore.config.rsp_supportamt];
+    }
+    return value - 100;
+}
+
+
+- (float)decrementRechargeAmountWithValue:(float)value inValueList:(NSArray *)valueList {
+    float newValue = value;
+    NSInteger count = valueList.count;
+    for (NSInteger i = count-1; i >= 0; i--) {
+        newValue = [valueList[i] floatValue];
+        if (value > newValue) {
+            break;
+        }
+        else if ([self isEqualForValue1:value andValue2:newValue]) {
+            newValue = [valueList[MAX(0, i-1)] floatValue];
+            break;
+        }
+    }
+    return newValue;
+}
+
+
+- (BOOL)isEqualForValue1:(float)value1 andValue2:(float)value2
+{
+    if (fabs(value1 - value2) < 0.01) {
+        return YES;
+    }
+    return NO;
+}
+#pragma mark - Abount Gas Remainder
+///充值提醒
+- (NSString *)gasRemainder {
+    NSString *text = @"<font size=12 color='#888888'>充值成功后，须至相应加油站圈存后方能使用。</font>";
+    NSString *link = [self isRechargeForInstalment] ? kInstalmentGasNoticeUrl : kAddGasNoticeUrl;
+    NSString *agreement = @"《充值服务说明》";
+    text = [NSString stringWithFormat:@"%@<font size=12 color='#888888'>更多充值说明，\
+            点击查看<font color='#009cff'><a href='%@'>%@</a></font></font>",
+            text, link, agreement];
+    return text;
+}
 @end
