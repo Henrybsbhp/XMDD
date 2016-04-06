@@ -165,8 +165,8 @@
     couponMoneyLabel.text=[NSString stringWithFormat:@" %@ ",dataModel[@"couponmoney"]];
     characterLabel.text=[NSString stringWithFormat:@"平台特点：%@",dataModel[@"character"]];
     userCNTInfoLabel.text=[NSString stringWithFormat:@"用户数量：%@",dataModel[@"usercntinfo"]];
-    characterLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 65;
-    userCNTInfoLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 65;
+    characterLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 100;
+    userCNTInfoLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 100;
     
     [cell layoutIfNeeded];
     return cell;
