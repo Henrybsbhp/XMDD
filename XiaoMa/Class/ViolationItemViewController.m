@@ -401,7 +401,7 @@
     
     if (!self.car)
     {
-        return 200;
+        return 250;
     }
     
     if (indexPath.section == 0)
@@ -420,7 +420,7 @@
         {
             if (self.model.violationArray.count)
             {
-                height = 44;
+                height = 50;
             }
             else
             {
@@ -805,19 +805,11 @@
     
     if ([violation.ishandled isEqualToString:@"1"])
     {
-        moneyImgV.image = [UIImage imageNamed:@"penalty_money_green_icon"];
-        fenImgV.image = [UIImage imageNamed:@"penalty_fraction_green_icon"];
-        handleIcon.image = [UIImage imageNamed:@"handle_icon"];
-        moneyLb.textColor = [UIColor colorWithHex:@"#20ab2a" alpha:1.0f];
-        fenLb.textColor = [UIColor colorWithHex:@"#20ab2a" alpha:1.0f];
+        handleIcon.image = [UIImage imageNamed:@"handle_icon_300"];
     }
     else
     {
-        moneyImgV.image = [UIImage imageNamed:@"penalty_money_icon"];
-        fenImgV.image = [UIImage imageNamed:@"penalty_fraction_icon"];
-        handleIcon.image = [UIImage imageNamed:@"unhandle_icon"];
-        moneyLb.textColor = [UIColor colorWithHex:@"#ffa800" alpha:1.0f];
-        fenLb.textColor = [UIColor colorWithHex:@"#ffa800" alpha:1.0f];
+        handleIcon.image = [UIImage imageNamed:@"unhandle_icon_300"];
     }
     
     
