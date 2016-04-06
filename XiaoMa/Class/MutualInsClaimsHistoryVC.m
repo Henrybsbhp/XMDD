@@ -162,8 +162,7 @@
         [self.tableView reloadData];
     }error:^(NSError *error) {
         @weakify(self)
-        [self.view showIndicatorTextWith:error.domain clickBlock:^(UIButton *sender) {
-            
+        [self.view showDefaultEmptyViewWithText:@"暂无理赔记录,点击重新获取" tapBlock:^{
             @strongify(self)
             [self loadData];
         }];

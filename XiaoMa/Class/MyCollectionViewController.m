@@ -46,10 +46,11 @@
     [self refreshBottomView];
     
     self.selectSet = [[NSMutableIndexSet alloc] init];
-    [[gAppMgr.myUser.favorites rac_requestData] subscribeNext:^(id x) {
-      
-        [self.tableView reloadData];
+    
+    [[self.tableView.refreshView rac_signalForControlEvents:UIControlEventValueChanged]subscribeNext:^(id x) {
+        [self getData];
     }];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -83,12 +84,21 @@
 {
     [self.tableView reloadData];
     if (gAppMgr.myUser.favorites.favoritesArray.count == 0) {
-        [self.tableView showDefaultEmptyViewWithText:@"您暂未收藏商户"];
+        [self.view showDefaultEmptyViewWithText:@"您暂未收藏商户"];
     }
     else {
-        [self.tableView hideDefaultEmptyView];
+        [self.view hideDefaultEmptyView];
     }
 }
+
+-(void)getData
+{
+    [[gAppMgr.myUser.favorites rac_requestData]subscribeNext:^(id x) {
+        [self.tableView reloadData];
+        [self.tableView.refreshView endRefreshing];
+    }];
+}
+
 #pragma mark - SetupUI
 - (void)initUI
 {
@@ -227,11 +237,12 @@
         [array addObject:shop.shopID];
     }];
     
+    @weakify(self)
     [[[gAppMgr.myUser.favorites rac_removeFavorite:array] initially:^{
         
         [gToast showingWithText:@"移除中..."];
     }] subscribeNext:^(id x) {
-        
+        @strongify(self)
         [gToast showText:@"移除成功！"];
         
         [self.selectSet removeAllIndexes];
